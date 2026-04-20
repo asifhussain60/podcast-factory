@@ -1257,15 +1257,6 @@
       return '(item)';
     }
 
-    // Source-filter matcher — 'photo' pill matches both firmed photos and
-    // unsorted-image rows (pre-classify). Every other source is a literal
-    // kind match. Mirrors server-side predicate in routes/log.js.
-    function matchesLogSource(entry, source) {
-      if (!source || source === 'all') return true;
-      if (source === 'photo') return entry.kind === 'photo' || entry.kind === 'unsorted-image';
-      return entry.kind === source;
-    }
-
     function matchesLogTab(entry, tab) {
       switch (tab) {
         case 'inbox':
@@ -2973,17 +2964,6 @@
       useEffect(() => {
         try { localStorage.setItem('log_review_view', reviewView); } catch {}
       }, [reviewView]);
-      const [sourceFilter, setSourceFilter] = useState('all');
-      // Density mode: Compact (4-col scan) / Comfortable (3-col balanced) / Detail (3-col full).
-      // Persisted in localStorage; Compact is the first-load default so a heavy day of captures
-      // (30-50 entries) is immediately scannable without scrolling. Applies only to Log Bank.
-      const [densityMode, setDensityMode] = useState(() => {
-        try { return localStorage.getItem('log_density_mode') || 'compact'; }
-        catch { return 'compact'; }
-      });
-      useEffect(() => {
-        try { localStorage.setItem('log_density_mode', densityMode); } catch {}
-      }, [densityMode]);
       // Day chip filter UI removed in this iteration; the day filter chain in
       // baseVisible short-circuits with this constant.
       const dayFilter = 'all';
@@ -3537,10 +3517,9 @@
       }, [compose, composeKey]);
 
       // Single canonical filter pipeline — source of truth is `entries`.
-      // Order: tab (inbox only) → source → review-lane split.
+      // Order: tab (inbox only) → review-lane split.
       const baseVisible = entries
-        .filter(e => matchesLogTab(e, tab))
-        .filter(e => matchesLogSource(e, sourceFilter));
+        .filter(e => matchesLogTab(e, tab));
 
       // Phase 11b: review lifecycle applies to ALL kinds in the Inbox tab.
       // Unreviewed lane shows entries with reviewStatus ∈ {unreviewed, in_review}.
@@ -3558,10 +3537,8 @@
       // Phase 11b: dummy preview cards (one per kind) at the top of Unreviewed
       // so every card variant is visible at a glance for layout review. Their
       // ids are prefixed `dummy_` and ReviewCard short-circuits Refine/Approve
-      // for any such entry — they never hit the server. Dummies respect the
-      // active Source filter so the filter behaves consistently across both
-      // real and preview entries.
-      const filteredDummies = DUMMY_ENTRIES.filter(e => matchesLogSource(e, sourceFilter));
+      // for any such entry — they never hit the server.
+      const filteredDummies = DUMMY_ENTRIES;
 
       // Drag-and-drop ordering on the Reviewed lane only. The order array
       // is per-trip and lives in localStorage; entries not in the array
@@ -4127,14 +4104,6 @@
         }
       }
 
-      const SOURCES = [
-        { id: 'all',     label: 'All' },
-        { id: 'photo',   label: 'Photo',   icon: 'fa-camera' },
-        { id: 'video',   label: 'Video',   icon: 'fa-video' },
-        { id: 'receipt', label: 'Receipt', icon: 'fa-receipt' },
-        { id: 'note',    label: 'Note',    icon: 'fa-note-sticky' },
-      ];
-
       // Shared JSX fragments reused between the two review lanes.
       const captureActionsNode = (
         <div className="log-capture-actions">
@@ -4178,6 +4147,26 @@
             <Icon name="fa-note-sticky" />
             <span className="btn-label">Note</span>
           </button>
+        </div>
+      );
+
+      // Unreviewed-lane toolbar: capture actions + reset, wrapped in a
+      // bordered pill that sits inline with the first date-header.
+      const unreviewedToolbarNode = (
+        <div className="log-toolbar" role="toolbar" aria-label="Log Bank actions">
+          {captureActionsNode}
+          {reviewUnreviewedCount > 0 && (
+            <button
+              className="log-subtab-reset-btn"
+              onClick={() => setResetOpen(true)}
+              disabled={resetting}
+              title="Clear all entries from Log Bank"
+              aria-label={resetting ? 'Resetting…' : 'Reset Log Bank'}
+            >
+              <Icon name={resetting ? 'fa-circle-notch fa-spin' : 'fa-rotate-left'} />
+              <span className="btn-label"> Reset</span>
+            </button>
+          )}
         </div>
       );
 
@@ -4362,70 +4351,12 @@
             onChange={e => captureReceipt(e.target.files?.[0])}
           />
 
-          {/* ── Log panel — bordered container: source filter + entry grid ── */}
+          {/* ── Log panel — bordered container: capture toolbar + tab strip + entry grid ── */}
           <section className="log-panel">
-            <div className="log-panel-control">
-              <div className="log-filter-bar">
-                <div className="log-chip-row">
-                  <span className="log-chip-row-label">Source</span>
-                  {SOURCES.map(s => (
-                    <button
-                      key={s.id}
-                      className={`log-chip ${sourceFilter === s.id ? 'active' : ''}`}
-                      onClick={() => setSourceFilter(s.id)}
-                      aria-label={s.label}
-                      title={s.label}
-                    >
-                      {s.icon && <Icon name={s.icon} />}
-                      <span className="btn-label">{s.icon ? ' ' : ''}{s.label}</span>
-                    </button>
-                  ))}
-                  {tab === 'inbox' && reviewView === 'reviewed' && (
-                    <label className="log-date-picker" title="Journal date for the DayOne entry">
-                      <Icon name="fa-calendar-day" />
-                      <span className="log-date-picker-label">Date</span>
-                      <input
-                        type="date"
-                        className="log-date-picker-input"
-                        value={compose.date || todayIso()}
-                        onChange={e => setCompose(c => ({ ...c, date: e.target.value || todayIso() }))}
-                        aria-label="Journal date"
-                      />
-                    </label>
-                  )}
-                  {/* Density toggle — both lanes (Compact / Comfortable / Detail) */}
-                  {tab === 'inbox' && (
-                    <div className="log-density-toggle" role="group" aria-label="Card density">
-                      <span className="log-density-toggle-label">Density</span>
-                      <div className="log-density-toggle-group">
-                        {[
-                          { id: 'compact',     label: 'Compact',     icon: 'fa-grip' },
-                          { id: 'comfortable', label: 'Comfortable', icon: 'fa-table-cells-large' },
-                          { id: 'detail',      label: 'Detail',      icon: 'fa-rectangle-list' },
-                        ].map(m => (
-                          <button
-                            key={m.id}
-                            type="button"
-                            className="log-density-btn"
-                            aria-pressed={densityMode === m.id}
-                            onClick={() => setDensityMode(m.id)}
-                            title={`${m.label} density`}
-                          >
-                            <Icon name={m.icon} />
-                            <span className="log-density-btn-label">{m.label}</span>
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Review frame — folder-tab strip + composer (Reviewed) or raw card list (Unreviewed).
-                Capture-action buttons get injected via captureActionsNode — into the subtab-row
-                in Unreviewed, into the composer header in Reviewed (never duplicated). */}
             <div className={`log-review-frame ${tab === 'inbox' ? 'has-tabs' : ''}`}>
+              {tab === 'inbox' && reviewView === 'unreviewed' && (
+                <div className="log-toolbar-row">{unreviewedToolbarNode}</div>
+              )}
               {tab === 'inbox' && (
                 <div className="log-subtab-row">
                   <div className="log-subtab-bar" role="tablist" aria-label="Photo review">
@@ -4453,25 +4384,20 @@
                     </button>
                   </div>
 
-                  <div className="log-subtab-right">
-                    {reviewView === 'unreviewed' && captureActionsNode}
-                    {(() => {
-                      const activeCount = reviewView === 'reviewed' ? reviewReviewedCount : reviewUnreviewedCount;
-                      const tabLabel = reviewView === 'reviewed' ? 'DayOne Workspace' : 'Log Bank';
-                      return activeCount > 0 ? (
-                        <button
-                          className="log-subtab-reset-btn"
-                          onClick={() => setResetOpen(true)}
-                          disabled={resetting}
-                          title={`Clear all entries from ${tabLabel}`}
-                          aria-label={resetting ? 'Resetting…' : `Reset ${tabLabel}`}
-                        >
-                          <Icon name={resetting ? 'fa-circle-notch fa-spin' : 'fa-rotate-left'} />
-                          <span className="btn-label"> Reset</span>
-                        </button>
-                      ) : null;
-                    })()}
-                  </div>
+                  {reviewView === 'reviewed' && reviewReviewedCount > 0 && (
+                    <div className="log-subtab-right">
+                      <button
+                        className="log-subtab-reset-btn"
+                        onClick={() => setResetOpen(true)}
+                        disabled={resetting}
+                        title="Clear all entries from DayOne Workspace"
+                        aria-label={resetting ? 'Resetting…' : 'Reset DayOne Workspace'}
+                      >
+                        <Icon name={resetting ? 'fa-circle-notch fa-spin' : 'fa-rotate-left'} />
+                        <span className="btn-label"> Reset</span>
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -4524,7 +4450,7 @@
                   />
                 );
               })() : (
-                <div className={`log-entries log-entries--${densityMode}`}>
+                <div className="log-entries log-entries--compact">
                 {/* Inline note composer — opens when [+ Note] is clicked. */}
                 {tab === 'inbox' && reviewView === 'unreviewed' && noteComposerOpen && (
                   <article className="review-card review-card--composer">
@@ -4604,10 +4530,6 @@
                         </div>
                       );
                     }
-                    // Phase 11b: every entry renders as a unified ReviewCard.
-                    // Lane is per-entry by reviewStatus — approved entries
-                    // get the 'reviewed' shape (Save instead of Approve,
-                    // textarea pre-filled with draft.prose).
                     const entry = item.entry;
                     const lane = entry.reviewStatus === 'approved' ? 'reviewed' : 'unreviewed';
                     const isDummyEntry = typeof entry.id === 'string' && entry.id.startsWith('dummy_');
