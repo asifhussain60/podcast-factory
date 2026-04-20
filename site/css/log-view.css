@@ -1614,31 +1614,7 @@
   color: var(--text-muted);
   font-style: italic;
 }
-.dayone-reflection-refine {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 1px solid color-mix(in srgb, var(--accent) 32%, var(--border-default));
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
-  color: var(--accent);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.78rem;
-  transition: background 140ms ease, border-color 140ms ease, transform 140ms ease;
-}
-.dayone-reflection-refine:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--accent) 22%, transparent);
-  border-color: var(--accent);
-  transform: scale(1.08);
-}
-.dayone-reflection-refine:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-/* ─── Reflection action group (quick refine + Refine All) ─── */
+/* ─── Reflection action group (Refine All + Reset) ─── */
 .dayone-reflection-actions {
   display: inline-flex;
   align-items: center;
