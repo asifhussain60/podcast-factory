@@ -1230,7 +1230,7 @@
         id: 'dummy_video', kind: 'video', tripSlug: '_dummy', source: 'app',
         capturedAt: new Date(Date.now() - 1000 * 60 * 180).toISOString(),
         reviewStatus: 'unreviewed',
-        payload: {},
+        payload: { videoPath: 'https://images.unsplash.com/photo-1536240478700-b869070f9279?w=800', posterUrl: 'https://images.unsplash.com/photo-1536240478700-b869070f9279?w=800' },
         notes: '',
       },
     ];
@@ -1431,11 +1431,13 @@
       }
       if (kind === 'video') {
         const vp = entry.payload?.videoPath || entry.videoPath;
+        const poster = entry.payload?.posterUrl;
         if (vp) {
-          const src = /^https?:\/\//.test(vp) ? vp : `${LOG_API_BASE}/${vp.replace(/^\//, '')}`;
+          const raw = /^https?:\/\//.test(vp) ? vp : `${LOG_API_BASE}/${vp.replace(/^\//, '')}`;
+          const src = `${raw}#t=0.001`;
           return (
             <div className="log-entry-thumb log-entry-thumb--video-preview">
-              <video src={src} muted playsInline preload="metadata" />
+              <video src={src} poster={poster || undefined} muted playsInline preload="metadata" />
               <span className="log-entry-thumb-play" aria-hidden="true"><Icon name="fa-play" /></span>
               {rel && <span className="log-entry-thumb-time">{rel}</span>}
             </div>
@@ -1634,14 +1636,16 @@
       }
       if (kind === 'video') {
         const videoPath = entry.payload?.videoPath || entry.videoPath;
+        const poster = entry.payload?.posterUrl;
         if (!videoPath) return <div className="review-card-artifact review-card-artifact--empty">No video attached</div>;
         return (
           <video
             controls
             playsInline
             preload="metadata"
+            poster={poster || undefined}
             className="review-card-artifact review-card-artifact--video"
-            src={toApiUrl(videoPath)}
+            src={`${toApiUrl(videoPath)}#t=0.001`}
           />
         );
       }
