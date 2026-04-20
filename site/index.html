@@ -2814,8 +2814,7 @@
       const [noteComposerOpen, setNoteComposerOpen] = useState(false);
       const [receiptProcessing, setReceiptProcessing] = useState(false);
       const [rejectTarget, setRejectTarget] = useState(null);
-      const [dayoneJournals, setDayoneJournals] = useState([]);
-      const [dayoneJournal, setDayoneJournal] = useState('');
+      const dayoneJournal = 'ishrat-trips';
       const [dayonePushing, setDayonePushing] = useState(false);
       // Preview mode swaps the Story cards for a faithful render of the
       // clipboard payload. previewComposed is the structured bundle from
@@ -3463,19 +3462,7 @@
       }
       function handleReject(entry) { setRejectTarget(entry); }
 
-      // Fetch DayOne journals on mount; default selection to the first.
-      useEffect(() => {
-        fetch(`${LOG_API_BASE}/api/dayone/journals`, { credentials: 'include' })
-          .then(r => r.json())
-          .then(d => {
-            if (!d?.ok || !Array.isArray(d.journals)) return;
-            setDayoneJournals(d.journals);
-            if (d.journals.length && !dayoneJournal) setDayoneJournal(d.journals[0].id);
-          })
-          .catch(() => { /* silent — DayOne push is optional */ });
-      }, []);
-
-      // Returns the entry IDs eligible for a DayOne bundle (visible Reviewed
+// Returns the entry IDs eligible for a DayOne bundle (visible Reviewed
       // rows minus dummy entries). Empty array if there's nothing to copy.
       function collectReviewedEntryIds() {
         const reviewedRows = applyOrder(visible.filter(isReviewed));
@@ -4035,38 +4022,24 @@
         ? (<div className="log-empty"><Icon name="fa-spinner" /> <p>Loading your log…</p></div>)
         : (<div className="log-empty"><Icon name="fa-inbox" /><p>Nothing approved yet — review some from Log Bank to see them here.</p></div>);
 
-      // Reviewed-lane footer: Journal select + Copy-to-DayOne + Delete. Lives
+      // Reviewed-lane footer: Copy-to-DayOne + Delete. Lives
       // inside the composer so all post-composition controls sit together.
       const reviewedActionsNode = (
         <>
-          <div className="log-dayone-push-controls">
-            <select
-              className="log-dayone-journal-select"
-              value={dayoneJournal}
-              onChange={e => setDayoneJournal(e.target.value)}
-              disabled={dayonePushing || !dayoneJournals.length}
-              aria-label="Target DayOne journal"
-            >
-              {dayoneJournals.length === 0 && <option value="">No journals available</option>}
-              {dayoneJournals.map(j => (
-                <option key={j.id} value={j.id}>{j.label}</option>
-              ))}
-            </select>
-            <button
-              className="log-dayone-push-btn"
-              onClick={handleDayoneCopy}
-              disabled={dayonePushing || previewLoading || !dayoneJournals.length}
-              title="Click to preview the DayOne entry · ⌘/Ctrl-click to skip preview and copy directly"
-              aria-label={dayonePushing ? 'Copying to DayOne' : previewLoading ? 'Opening preview' : 'Preview and copy DayOne entry'}
-            >
-              <Icon name={(dayonePushing || previewLoading) ? 'fa-circle-notch fa-spin' : 'fa-eye'} />
-              <span className="btn-label">
-                {dayonePushing ? 'Copying…'
-                  : previewLoading ? 'Opening preview…'
-                  : 'Preview & Copy'}
-              </span>
-            </button>
-          </div>
+          <button
+            className="log-dayone-push-btn"
+            onClick={handleDayoneCopy}
+            disabled={dayonePushing || previewLoading}
+            title="Click to preview the DayOne entry · ⌘/Ctrl-click to skip preview and copy directly"
+            aria-label={dayonePushing ? 'Copying to DayOne' : previewLoading ? 'Opening preview' : 'Preview and copy DayOne entry'}
+          >
+            <Icon name={(dayonePushing || previewLoading) ? 'fa-circle-notch fa-spin' : 'fa-eye'} />
+            <span className="btn-label">
+              {dayonePushing ? 'Copying…'
+                : previewLoading ? 'Opening preview…'
+                : 'Preview & Copy'}
+            </span>
+          </button>
           {entries.some(isReviewed) && (
             <button
               className="log-reviewed-delete-btn"
