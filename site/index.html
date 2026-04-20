@@ -1557,6 +1557,35 @@
       );
     }
 
+    // Image artifact with async-load shimmer + error fallback. Uses loading="lazy"
+    // so offscreen cards don't block the main network queue.
+    function ImageArtifact({ src }) {
+      const [status, setStatus] = useState('loading');
+      return (
+        <div className={`review-card-artifact review-card-artifact--image is-${status}`}>
+          <img
+            src={src}
+            alt="Captured"
+            className="review-card-artifact-img"
+            onLoad={() => setStatus('loaded')}
+            onError={() => setStatus('error')}
+            loading="lazy"
+            decoding="async"
+          />
+          {status === 'loading' && (
+            <span className="review-card-artifact-loading" aria-hidden="true">
+              <Icon name="fa-circle-notch fa-spin" />
+            </span>
+          )}
+          {status === 'error' && (
+            <span className="review-card-artifact-error">
+              <Icon name="fa-triangle-exclamation" /> Failed to load
+            </span>
+          )}
+        </div>
+      );
+    }
+
     // ─── Phase 11b: artifact pane (Zone 1) — read-only, kind-aware.
     // Image / audio paths are repo-relative (e.g. trips/{slug}/photos/{id}.jpg).
     // Static blobs are mounted by the API server, so URL must prefix LOG_API_BASE.
@@ -1566,7 +1595,7 @@
       if (isImage) {
         const ip = entry.payload?.imagePath || entry.imagePath;
         if (!ip) return <div className="review-card-artifact review-card-artifact--empty">No image attached</div>;
-        return <img src={toApiUrl(ip)} alt="Captured" className="review-card-artifact review-card-artifact--image" />;
+        return <ImageArtifact src={toApiUrl(ip)} />;
       }
       if (kind === 'voice') {
         const audioPath = entry.payload?.audioPath;
