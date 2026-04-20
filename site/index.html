@@ -1652,6 +1652,143 @@
       return <div className="review-card-artifact review-card-artifact--empty">Unsupported kind: {kind}</div>;
     }
 
+    // ─── RefineModal — full-screen editing surface opened by the purple Refine button.
+    // Shows the artifact preview for reference alongside a large textarea.
+    // Has its own AI Refine button (does NOT persist until Save). Cancel restores
+    // the card to its pre-modal state.
+    function RefineModal({ entry, kind, initialText, structuredData, kindOverride, isReviewed, isDummy, onSave, onCancel }) {
+      const [text, setText] = useState(initialText || '');
+      const [refining, setRefining] = useState(false);
+      const [refineError, setRefineError] = useState('');
+      const [structured, setStructured] = useState(structuredData || null);
+      const panelRef = useRef(null);
+
+      // Close on Escape
+      useEffect(() => {
+        function onKey(e) { if (e.key === 'Escape') onCancel(); }
+        window.addEventListener('keydown', onKey);
+        return () => window.removeEventListener('keydown', onKey);
+      }, [onCancel]);
+
+      // Focus textarea on mount
+      useEffect(() => {
+        const ta = panelRef.current?.querySelector('.refine-modal-textarea');
+        if (ta) { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }
+      }, []);
+
+      async function handleRefine() {
+        if (refining) return;
+        if (isDummy) {
+          window.notify?.info?.('Demo card', { description: 'Refine is disabled on preview cards.' });
+          return;
+        }
+        setRefining(true);
+        setRefineError('');
+        try {
+          // Photo kind requires a non-empty note (server invariant).
+          // If the user hasn't typed anything, send a sensible default so
+          // the AI still refines using the photo as context.
+          const noteText = text.trim() || (kind === 'photo' || kind === 'unsorted-image'
+            ? 'Describe this moment in my voice'
+            : '');
+          const body = { note: noteText };
+          if (kindOverride) body.kindOverride = kindOverride;
+          const r = await window.BabuAI.logRefine(entry.id, body);
+          if (r?.refined) {
+            setText(r.refined);
+            if (r.structured) setStructured(r.structured);
+          } else {
+            setRefineError('No refined text returned');
+          }
+        } catch (err) {
+          setRefineError(typeof err === 'object' && err?.message ? err.message : String(err));
+        } finally {
+          setRefining(false);
+        }
+      }
+
+      const badge = KIND_BADGE[kind] || { icon: 'fa-file', label: kind };
+
+      return ReactDOM.createPortal(
+        <div className="refine-modal" role="dialog" aria-modal="true" aria-label="Refine entry">
+          <div className="refine-modal-backdrop" onClick={onCancel} />
+          <div className="refine-modal-panel" ref={panelRef}>
+
+            <header className="refine-modal-header">
+              <div className="refine-modal-title">
+                <Icon name="fa-wand-magic-sparkles" />
+                <span>Refine Entry</span>
+              </div>
+              <button type="button" className="refine-modal-close" onClick={onCancel} title="Close (Esc)" aria-label="Close">
+                <Icon name="fa-xmark" />
+              </button>
+            </header>
+
+            <div className="refine-modal-body">
+              <div className="refine-modal-preview">
+                <div className="refine-modal-preview-label">
+                  <Icon name={badge.icon} />
+                  <span>{badge.label}</span>
+                </div>
+                <div className="refine-modal-artifact-wrap">
+                  <ReviewArtifact entry={entry} kind={kind} />
+                </div>
+              </div>
+
+              <div className="refine-modal-editor">
+                <label className="refine-modal-editor-label" htmlFor="refine-modal-textarea">
+                  Your note / prompt
+                </label>
+                <textarea
+                  id="refine-modal-textarea"
+                  className="refine-modal-textarea"
+                  value={text}
+                  onChange={e => setText(e.target.value)}
+                  placeholder="Add a note or prompt for this entry…"
+                  rows={10}
+                  disabled={refining}
+                  spellCheck
+                />
+                {refineError && (
+                  <div className="refine-modal-error" role="alert">
+                    <Icon name="fa-triangle-exclamation" />
+                    <span>{refineError}</span>
+                    <button type="button" className="refine-modal-error-dismiss" onClick={() => setRefineError('')} aria-label="Dismiss">
+                      <Icon name="fa-xmark" />
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <footer className="refine-modal-footer">
+              <button
+                type="button"
+                className="refine-modal-btn refine-modal-btn--refine"
+                onClick={handleRefine}
+                disabled={refining}
+                title="Refine with AI"
+              >
+                <Icon name={refining ? 'fa-circle-notch fa-spin' : 'fa-wand-magic-sparkles'} />
+                <span>{refining ? 'Refining…' : 'Refine'}</span>
+              </button>
+              <div className="refine-modal-footer-right">
+                <button type="button" className="refine-modal-btn refine-modal-btn--cancel" onClick={onCancel}>
+                  Cancel
+                </button>
+                <button type="button" className="refine-modal-btn refine-modal-btn--save" onClick={() => onSave(text, structured)}>
+                  <Icon name="fa-check" />
+                  <span>Save</span>
+                </button>
+              </div>
+            </footer>
+
+          </div>
+        </div>,
+        document.body
+      );
+    }
+
     // ─── Phase 11b: unified review card (3 zones).
     // Zone 1 — read-only artifact (image / transcript / captured text)
     // Zone 2 — editable prompt textarea (curatorial intent, not persisted)
@@ -1670,6 +1807,8 @@
       const [refineError, setRefineError] = useState('');
       const [approving, setApproving] = useState(false);
       const [flippingKind, setFlippingKind] = useState(false);
+      // RefineModal: open state for the full-screen editing surface.
+      const [refineModalOpen, setRefineModalOpen] = useState(false);
       // Picks one of three visual treatments for the refining animation
       // ('shimmer' | 'pulse' | 'overlay'). Rotated at each refine start so
       // the card "mixes it up" rather than using a single static treatment.
@@ -1898,6 +2037,31 @@
         }
       }
 
+      // Modal Save: push refined/edited text back to the card's draft,
+      // mark as refined so auto-refine-on-blur won't re-fire, and
+      // auto-persist for reviewed entries.
+      async function handleModalSave(text, structured) {
+        draft.setPrompt(text);
+        if (structured) draft.setStructured(structured);
+        setRefineModalOpen(false);
+        // Mark as refined
+        autoRefinedOnceRef.current = true;
+        baselinePromptRef.current = (text || '').trim();
+        try { window.localStorage?.setItem(autoRefineStorageKey, '1'); } catch (_) {}
+        // Auto-persist for reviewed lane
+        if (isReviewed && !isDummy) {
+          try {
+            const patch = { draftProse: (text || '').trim() };
+            if (draft.kindOverride) patch.kindOverride = draft.kindOverride;
+            if (structured) patch.structured = structured;
+            await onSaveDraft?.(entry.id, patch, { silent: true });
+            setLastSaved(text);
+          } catch (err) {
+            window.notify?.error?.('Save failed', { description: err.message || String(err) });
+          }
+        }
+      }
+
       // Drag-and-drop handlers — only active on Reviewed lane real entries.
       const [isDragOver, setIsDragOver] = useState(false);
       const dragProps = draggable ? {
@@ -1995,13 +2159,13 @@
             {effectiveKind !== 'video' && (
               <button
                 className="log-action-btn log-action-btn--refine"
-                onClick={handleRefine}
+                onClick={() => setRefineModalOpen(true)}
                 disabled={approving || refining || unapproving}
-                title={refineTitle}
-                aria-label={typeof refineLabel === 'string' ? refineLabel : 'Refine'}
+                title="Open refine editor"
+                aria-label="Edit &amp; Refine"
               >
-                <Icon name={refineIcon} />
-                <span className="btn-label">{refineLabel}</span>
+                <Icon name="fa-pen-to-square" />
+                <span className="btn-label">Edit</span>
               </button>
             )}
             {!isReviewed && (
@@ -2017,6 +2181,20 @@
               </button>
             )}
           </footer>
+
+          {refineModalOpen && (
+            <RefineModal
+              entry={entry}
+              kind={effectiveKind}
+              initialText={draft.prompt}
+              structuredData={draft.structured}
+              kindOverride={draft.kindOverride}
+              isReviewed={isReviewed}
+              isDummy={isDummy}
+              onSave={handleModalSave}
+              onCancel={() => setRefineModalOpen(false)}
+            />
+          )}
         </article>
       );
     }
