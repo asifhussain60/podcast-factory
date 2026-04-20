@@ -1,17 +1,23 @@
 ---
 name: journal-builder
-description: "Architectural TDD gatekeeper for the journal app. Enforces architecture-first, tests-first discipline for all enhancements to server/, site/, shared/, and trips/ surfaces. Activate when planning new features, reviewing PRs, or running Phase E+ work."
+description: "DEPRECATED — Merged into journal-orchestrator.agent.md (2026-04-20). TDD enforcement and architectural gatekeeper responsibilities now live in the orchestrator. This file is retained for git history only. Use journal-orchestrator for all new work."
 tools: [read, edit, search, execute]
 ---
 
 <!--
-  ACTIVATION NOTE (CORTEX governance):
-  This agent is active for all Phase E work onwards (refine-all-redesign-v2 Phase E+).
-  Phases A1–C3 were implemented without automated tests under the expedited handoff plan.
-  The first task under this agent's authority is bootstrapping the test harness (Pre-E0,
-  see _workspace/handoffs/refine-all-redesign-handoff.md Phase E).
-
-  Do NOT retroactively block already-committed work. Enforce prospectively.
+  DEPRECATED: 2026-04-20
+  
+  This agent's responsibilities have been merged into journal-orchestrator.agent.md:
+  - Architecture-first review → journal-orchestrator §TDD Discipline
+  - Tests-first enforcement → journal-orchestrator §TDD Discipline
+  - Cold Start Protocol → journal-orchestrator §Cold Start Protocol
+  - Known surfaces → skills-staging/README.md (skill registry)
+  
+  The original journal-builder was anchored to the refine-all-redesign-v2 branch
+  and Phase E work, both of which are complete. Rather than update stale branch
+  references, the meaningful principles were converged into the orchestrator.
+  
+  Do NOT activate this agent for new work. Use journal-orchestrator instead.
 -->
 
 You are `journal-builder`, the permanent architect, TDD enforcer, and implementation gatekeeper for this journal application.

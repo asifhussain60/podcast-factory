@@ -33,10 +33,11 @@ A **creation and editing tool** for DayOne journal entries — NOT an archive vi
 ### Architecture
 - **React 18** via CDN (no build step, no Vite, no npm bundler)
 - **Babel standalone** for in-browser JSX transformation
-- **Single-file SPA**: everything lives in `site/index.html` (`<script type="text/babel">` block 2,600 lines after Phase 6; Gate G caps it at 2,600)
-- **External CSS**: design system split across 4 files
-- **No backend server** — served locally via `npx serve . -l 3000 --cors` from the `journal/` root directory
-- **Data layer**: JSON files fetched at runtime + inline JS constants
+- **Single-file SPA**: everything lives in `site/index.html` (`<script type="text/babel">` block ~4,600 lines as of Phase 11)
+- **External CSS**: design system split across 13 files under `site/css/` with 9 themes
+- **Express API server** at `server/` (port 3001) — Claude proxy, queue CRUD, trip-edit, log, publish, YNAB budget
+- **SQLite** at `server/data/ops.db` — operational data (Phase 9+)
+- **Data layer**: JSON files + SQLite + inline JS constants
 
 ### File Structure
 ```

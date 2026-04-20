@@ -27,6 +27,7 @@ import refineReceiptPrompt from "./refine-receipt.js";
 import synthesizeTripNarrativePrompt from "./synthesize-trip-narrative.js";
 import suggestTagsPrompt from "./suggest-tags.js";
 import refineReflectionPrompt from "./refine-reflection.js";
+import refineGeneralPrompt from "./refine-general.js";
 
 /**
  * Registry of all prompts known at startup time. Extend by importing the new
@@ -34,6 +35,7 @@ import refineReflectionPrompt from "./refine-reflection.js";
  * @type {Record<string, { name: string; system: string; [k: string]: unknown }>}
  */
 const REGISTRY = Object.freeze({
+  [refineGeneralPrompt.name]: refineGeneralPrompt,
   [tripQaPrompt.name]: tripQaPrompt,
   [tripAssistantPrompt.name]: tripAssistantPrompt,
   [extractReceiptPrompt.name]: extractReceiptPrompt,
