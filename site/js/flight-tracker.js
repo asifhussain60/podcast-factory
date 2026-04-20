@@ -140,6 +140,37 @@
     return (f.flight || '').replace(/\s+/g, '');
   }
 
+  /** Is the flight currently airborne based on status string? */
+  function isInFlight(status) {
+    if (!status) return false;
+    var st = (status.status || '').toLowerCase();
+    return st.includes('active') || st.includes('en route') || st.includes('enroute') ||
+           st.includes('airborne') || st.includes('departed');
+  }
+
+  /** Compute ms remaining until arrival. Returns null if unknown. */
+  function msToArrival(status) {
+    if (!status || !status.arrival) return null;
+    var arr = status.arrival;
+    var arrIso = arr.actual || arr.scheduled;
+    if (!arrIso) return null;
+    var arrTime = new Date(arrIso).getTime();
+    if (isNaN(arrTime)) return null;
+    var remaining = arrTime - Date.now();
+    return remaining > 0 ? remaining : 0;
+  }
+
+  /** Format ms into human-readable ETA: "5h 23m", "47m", "< 1m" */
+  function formatETA(ms) {
+    if (ms === null || ms === undefined) return '';
+    var totalMin = Math.ceil(ms / 60000);
+    if (totalMin < 1) return '< 1m';
+    var hours = Math.floor(totalMin / 60);
+    var mins = totalMin % 60;
+    if (hours > 0) return hours + 'h ' + (mins > 0 ? mins + 'm' : '');
+    return mins + 'm';
+  }
+
   // ── StatusBadge ──
 
   function StatusBadge(props) {
@@ -148,6 +179,199 @@
     return h('div', { className: 'ft-status ft-status--' + severity },
       h('span', { className: 'ft-status-dot' }),
       ' ' + label
+    );
+  }
+
+  // ── ETABadge (replaces StatusBadge when airborne) ──
+
+  function ETABadge(props) {
+    var remaining = props.remaining; // ms
+    var severity = props.severity || 'on-time';
+    if (remaining === null || remaining === undefined) return null;
+    var label = formatETA(remaining);
+    var isUrgent = remaining < 30 * 60000; // < 30 min
+    return h('div', { className: 'ft-eta ft-eta--' + severity + (isUrgent ? ' ft-eta--urgent' : '') },
+      h('i', { className: 'fa-solid fa-clock' }),
+      h('span', { className: 'ft-eta-value' }, label),
+      h('span', { className: 'ft-eta-label' }, ' remaining')
+    );
+  }
+
+  // ── WhenToLeave (estimated pickup/departure time from airport) ──
+  // Based on real-world airport data:
+  //   International: deplaning ~20min + immigration/customs ~30-45min + baggage ~20min = ~75min
+  //   Domestic:      deplaning ~10min + baggage ~15min = ~25min
+  // Sources: TSA, CBP averages, airline industry data
+  var AIRPORT_BUFFER_MIN = {
+    international: 75,  // deplaning(20) + immigration/customs(35) + baggage(20)
+    domestic: 25        // deplaning(10) + baggage(15)
+  };
+
+  // Breakdown for display
+  var BUFFER_BREAKDOWN = {
+    international: { deplane: 20, customs: 35, baggage: 20 },
+    domestic:      { deplane: 10, customs: 0,  baggage: 15 }
+  };
+
+  function isInternational(routeStr) {
+    var route = parseRoute(routeStr);
+    var depA = AIRPORTS[route.dep];
+    var arrA = AIRPORTS[route.arr];
+    if (!depA || !arrA) return true; // default to international
+    // Check if departure and arrival are in different countries via timezone
+    // Timezones starting with the same region (America, Europe, Asia) in different zones = international
+    return depA.tz !== arrA.tz;
+  }
+
+  /**
+   * Compute "ready to leave airport" and "arrive at hotel" times.
+   * Returns breakdown with deboard, customs, baggage, drive info.
+   */
+  function computeWhenToLeave(status, flight) {
+    if (!status || !status.arrival) return null;
+    var arrIso = status.arrival.actual || status.arrival.scheduled;
+    if (!arrIso) return null;
+    var arrMs = new Date(arrIso).getTime();
+    if (isNaN(arrMs)) return null;
+
+    var intl = isInternational(flight.route);
+    var bufferMin = intl ? AIRPORT_BUFFER_MIN.international : AIRPORT_BUFFER_MIN.domestic;
+    var breakdown = intl ? BUFFER_BREAKDOWN.international : BUFFER_BREAKDOWN.domestic;
+    // Drive time + buffer override from trip manifest
+    var trip = window.__tripData;
+    var driveMin = null;
+    var destination = '';
+    var bufferOverridden = false;
+    if (trip) {
+      destination = trip.base || trip.hotel || '';
+      if (trip.groundTransit) {
+        if (trip.groundTransit.fromAirport) driveMin = trip.groundTransit.fromAirport;
+        // Manifest airportBuffer overrides defaults (e.g. Global Entry / MPC holders)
+        if (trip.groundTransit.airportBuffer != null) {
+          bufferMin = trip.groundTransit.airportBuffer;
+          bufferOverridden = true;
+        }
+      }
+    }
+    var readyMs = arrMs + bufferMin * 60000;
+
+    // Format times in arrival airport's local tz
+    var route = parseRoute(flight.route);
+    var arrTz = tzFor(route.arr);
+    var fmtOpts = { hour: 'numeric', minute: '2-digit', timeZoneName: 'short' };
+    var fmtOptsTz = arrTz ? Object.assign({ timeZone: arrTz }, fmtOpts) : fmtOpts;
+
+    var readyLabel = '';
+    try { readyLabel = new Date(readyMs).toLocaleTimeString('en-US', fmtOptsTz); }
+    catch (e) { readyLabel = new Date(readyMs).toLocaleTimeString('en-US', fmtOpts); }
+
+    var arriveByLabel = '';
+    if (driveMin) {
+      var arriveByMs = readyMs + driveMin * 60000;
+      try { arriveByLabel = new Date(arriveByMs).toLocaleTimeString('en-US', fmtOptsTz); }
+      catch (e) { arriveByLabel = new Date(arriveByMs).toLocaleTimeString('en-US', fmtOpts); }
+    }
+
+    return {
+      readyLabel: readyLabel,
+      bufferMin: bufferMin,
+      breakdown: breakdown,
+      bufferOverridden: bufferOverridden,
+      isInternational: intl,
+      driveMin: driveMin,
+      destination: destination,
+      arriveByLabel: arriveByLabel
+    };
+  }
+
+  function WhenToLeave(props) {
+    var status = props.status;
+    var flight = props.flight;
+    var info = computeWhenToLeave(status, flight);
+    if (!info) return null;
+
+    // Build buffer breakdown text
+    var breakdownText;
+    if (info.bufferOverridden) {
+      breakdownText = info.bufferMin + 'min airport buffer';
+    } else {
+      var parts = [];
+      if (info.breakdown.deplane) parts.push(info.breakdown.deplane + 'min deplane');
+      if (info.breakdown.customs) parts.push(info.breakdown.customs + 'min customs');
+      if (info.breakdown.baggage) parts.push(info.breakdown.baggage + 'min bags');
+      breakdownText = parts.join(' + ') + ' (' + info.bufferMin + 'min total)';
+    }
+
+    return h('div', { className: 'ft-when-to-leave' },
+      h('div', { className: 'ft-wtl-header' },
+        h('i', { className: 'fa-solid fa-car-side ft-wtl-icon' }),
+        h('span', { className: 'ft-wtl-label' }, 'Leave airport by'),
+        h('span', { className: 'ft-wtl-time' }, info.readyLabel)
+      ),
+      h('div', { className: 'ft-wtl-details' },
+        h('span', { className: 'ft-wtl-breakdown' },
+          h('i', { className: 'fa-solid fa-clock-rotate-left' }),
+          ' ' + breakdownText
+        ),
+        info.driveMin ?
+          h('span', { className: 'ft-wtl-drive' },
+            h('i', { className: 'fa-solid fa-route' }),
+            ' ~' + info.driveMin + ' min drive'
+          ) : null,
+        info.arriveByLabel && info.destination ?
+          h('span', { className: 'ft-wtl-dest' },
+            h('i', { className: 'fa-solid fa-location-dot' }),
+            ' Arrive ' + info.destination + ' ~' + info.arriveByLabel
+          ) : null
+      )
+    );
+  }
+
+  // ── Live Indicator ──
+  // Shows real-time data freshness: "Live · Just now" → "Live · 3m ago" → "Stale · 8m ago"
+
+  function LiveIndicator(props) {
+    var lastFetched = props.lastFetched;
+    if (!lastFetched) return null;
+    var ageMs = Date.now() - lastFetched;
+    var ageMin = Math.floor(ageMs / 60000);
+    var isStale = ageMin >= 5;
+    var label;
+    if (ageMs < 60000) label = 'Just now';
+    else if (ageMin < 60) label = ageMin + 'm ago';
+    else label = Math.floor(ageMin / 60) + 'h ago';
+    return h('div', { className: 'ft-live-ind' + (isStale ? ' ft-live-ind--stale' : '') },
+      h('span', { className: 'ft-live-dot' }),
+      h('span', { className: 'ft-live-text' }, (isStale ? 'Stale' : 'Live') + ' \u00B7 ' + label)
+    );
+  }
+
+  // ── Skeleton loading component ──
+  // Shows shimmer placeholders while waiting for first API response
+
+  function SkeletonCard() {
+    return h('div', { className: 'ft-card ft-skeleton' },
+      h('div', { className: 'ft-full' },
+        // Departure skeleton
+        h('div', null,
+          h('div', { className: 'ft-skel-line ft-skel-lg' }),
+          h('div', { className: 'ft-skel-line ft-skel-md' }),
+          h('div', { className: 'ft-skel-line ft-skel-sm' })
+        ),
+        // Centre skeleton
+        h('div', { className: 'ft-route-col' },
+          h('div', { className: 'ft-skel-line ft-skel-sm ft-skel-center' }),
+          h('div', { className: 'ft-skel-bar' }),
+          h('div', { className: 'ft-skel-line ft-skel-md ft-skel-center' }),
+          h('div', { className: 'ft-skel-pill' })
+        ),
+        // Arrival skeleton
+        h('div', { className: 'ft-right' },
+          h('div', { className: 'ft-skel-line ft-skel-lg' }),
+          h('div', { className: 'ft-skel-line ft-skel-md' }),
+          h('div', { className: 'ft-skel-line ft-skel-sm' })
+        )
+      )
     );
   }
 
@@ -180,11 +404,11 @@
       var st = (status.status || '').toLowerCase();
       if (st.includes('landed') || st.includes('arrived')) {
         pct = 100;
-      } else if (st.includes('active') || st.includes('en route') || st.includes('airborne')) {
+      } else if (st.includes('active') || st.includes('en route') || st.includes('enroute') || st.includes('airborne') || st.includes('departed')) {
         var dep = status.departure;
         var arr = status.arrival;
         var depTime = dep && (dep.actual || dep.scheduled) ? new Date(dep.actual || dep.scheduled).getTime() : 0;
-        var arrTime = arr && arr.scheduled ? new Date(arr.scheduled).getTime() : 0;
+        var arrTime = arr && (arr.actual || arr.scheduled) ? new Date(arr.actual || arr.scheduled).getTime() : 0;
         var now = Date.now();
         if (depTime && arrTime && arrTime > depTime) {
           pct = Math.min(95, Math.max(5, Math.round((now - depTime) / (arrTime - depTime) * 100)));
@@ -196,7 +420,7 @@
       }
     }
 
-    return h('div', { className: 'ft-card' },
+    return h('div', { className: 'ft-card' + (status ? ' ft-card--loaded' : '') },
       h('div', { className: 'ft-full' },
         // Departure column
         h('div', null,
@@ -233,8 +457,13 @@
           ),
           status && status.aircraft ?
             h('div', { className: 'ft-aircraft' }, h('i', { className: 'fa-solid fa-plane-up' }), ' ' + status.aircraft) : null,
-          status ? h(StatusBadge, { severity: status.severity, label: status.label }) :
-            h(StatusBadge, { severity: 'loading', label: 'Checking\u2026' }),
+          status && isInFlight(status) && msToArrival(status) !== null ?
+            h(ETABadge, { remaining: msToArrival(status), severity: status.severity }) :
+            (status ? h(StatusBadge, { severity: status.severity, label: status.label }) :
+              h(StatusBadge, { severity: 'loading', label: 'Checking\u2026' })),
+          // "When to leave" — shown under ETA when airborne
+          status && isInFlight(status) ?
+            h(WhenToLeave, { status: status, flight: f }) : null,
           liveUnavailable ?
             h('div', { className: 'ft-live-unavailable' }, h('i', { className: 'fa-solid fa-wifi-weak' }), ' Live status unavailable') : null
         ),
@@ -388,9 +617,14 @@
         h('span', { className: 'ft-sticky-chip' }, 'T' + status.arrival.terminal) : null,
       status && status.arrival && status.arrival.gate ?
         h('span', { className: 'ft-sticky-chip' }, 'Gate ' + status.arrival.gate) : null,
-      status ? h('span', {
-        className: 'ft-sticky-status ft-sticky-status--' + (status.severity || 'unknown')
-      }, status.label || '') : null
+      status && isInFlight(status) && msToArrival(status) !== null ?
+        h('span', { className: 'ft-sticky-eta' },
+          h('i', { className: 'fa-solid fa-clock' }),
+          ' ' + formatETA(msToArrival(status))
+        ) :
+        (status ? h('span', {
+          className: 'ft-sticky-status ft-sticky-status--' + (status.severity || 'unknown')
+        }, status.label || '') : null)
     );
   }
 
@@ -401,6 +635,7 @@
     var pollCountRef = useRef(0);
     var errorCountRef = useRef(0);
     var pollTimerRef = useRef(null);
+    var activeFlightRef = useRef(null);
 
     var _fs = useState([]);
     var flights = _fs[0];
@@ -421,6 +656,16 @@
     var _sv = useState(false);
     var stickyVisible = _sv[0];
     var setStickyVisible = _sv[1];
+
+    // Track when each flight's data was last successfully fetched
+    var _lf = useState({});
+    var lastFetchedMap = _lf[0];
+    var setLastFetchedMap = _lf[1];
+
+    // Whether the first fetch has completed (for skeleton vs real data)
+    var _ff = useState(false);
+    var firstFetchDone = _ff[0];
+    var setFirstFetchDone = _ff[1];
 
     var rootRef = useRef(null);
 
@@ -472,6 +717,15 @@
     var widgetState = stateResult.state;
     var activeFlight = stateResult.flight;
     var nextFlight = stateResult.nextFlight;
+    activeFlightRef.current = activeFlight;
+
+    // Real-time tick: re-render every 10s during active flight
+    // Drives smooth ETA countdown, progress bar, and live indicator updates
+    useEffect(function () {
+      if (widgetState !== STATES.ACTIVE_FLIGHT) return;
+      var interval = setInterval(function () { setTick(function (n) { return n + 1; }); }, 10000);
+      return function () { clearInterval(interval); };
+    }, [widgetState]);
 
     // Fetch live status for a single flight
     var fetchStatus = useCallback(function (f) {
@@ -552,6 +806,13 @@
             });
             return next;
           });
+          // Record fetch timestamp for stale detection
+          setLastFetchedMap(function (prev) {
+            var next = Object.assign({}, prev);
+            next[id] = Date.now();
+            return next;
+          });
+          if (!firstFetchDone) setFirstFetchDone(true);
         })
         .catch(function () {
           errorCountRef.current++;
@@ -561,18 +822,26 @@
         });
     }, []);
 
-    // Adaptive polling
+    // Adaptive polling with Page Visibility API
     useEffect(function () {
       if (widgetState === STATES.HIDDEN || widgetState === STATES.POST_TRIP) return;
       if (liveUnavailable) return;
 
       function poll() {
         if (pollCountRef.current >= MAX_POLLS_PER_SESSION) return;
-        pollCountRef.current++;
+        // Skip polling when tab is hidden to conserve API budget
+        if (document.hidden) {
+          pollTimerRef.current = setTimeout(poll, 30000);
+          return;
+        }
 
+        pollCountRef.current++;
         var currentFlights = flightsRef.current;
-        // Fetch status for all non-completed flights
-        var promises = currentFlights.map(function (f) {
+        // Only fetch active flight to conserve API quota (halves calls for multi-leg trips)
+        var active = activeFlightRef.current;
+        var toFetch = active ? [active] : currentFlights.slice(0, 1);
+
+        var promises = toFetch.map(function (f) {
           return fetchStatus(f);
         });
 
@@ -588,11 +857,22 @@
       // Initial fetch
       poll();
 
+      // Poll immediately when tab becomes visible (data may be stale)
+      function onVisChange() {
+        if (!document.hidden && pollTimerRef.current) {
+          clearTimeout(pollTimerRef.current);
+          pollTimerRef.current = null;
+          poll();
+        }
+      }
+      document.addEventListener('visibilitychange', onVisChange);
+
       return function () {
         if (pollTimerRef.current) {
           clearTimeout(pollTimerRef.current);
           pollTimerRef.current = null;
         }
+        document.removeEventListener('visibilitychange', onVisChange);
       };
     }, [widgetState, liveUnavailable, fetchStatus]);
 
@@ -628,12 +908,20 @@
     var widgetContent;
     switch (widgetState) {
       case STATES.ACTIVE_FLIGHT:
-        widgetContent = h(FullTracker, {
-          flight: activeFlight,
-          status: activeStatus,
-          liveUnavailable: liveUnavailable,
-          arrivalChanges: arrivalChanges[activeId] || {}
-        });
+        // Show skeleton while waiting for first API response
+        if (!firstFetchDone && !activeStatus) {
+          widgetContent = h(SkeletonCard);
+        } else {
+          widgetContent = h(React.Fragment, null,
+            h(LiveIndicator, { lastFetched: lastFetchedMap[activeId] || null }),
+            h(FullTracker, {
+              flight: activeFlight,
+              status: activeStatus,
+              liveUnavailable: liveUnavailable,
+              arrivalChanges: arrivalChanges[activeId] || {}
+            })
+          );
+        }
         break;
       case STATES.PRE_TRIP:
         widgetContent = h(CompactBar, { flight: activeFlight, state: widgetState });

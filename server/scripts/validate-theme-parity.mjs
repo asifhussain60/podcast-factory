@@ -39,7 +39,8 @@ const PATHS = {
 // floating-chat: deliberately scoped --fc-* palette, independent of site theme.
 // toast:         deliberately scoped --toast-* palette (Sonner mapping layer).
 // base:          architectural defaults (:root fallbacks overridden by theme files).
-const SCOPED_EXEMPT = new Set(['floating-chat.css', 'toast.css', 'base.css']);
+// flight-tracker: deliberately scoped --ft-sev-* severity palette (status-driven, not theme-driven).
+const SCOPED_EXEMPT = new Set(['floating-chat.css', 'toast.css', 'base.css', 'flight-tracker.css']);
 
 const READER_THEME_SELECTORS = [
   '[data-reading-theme="sepia"]',

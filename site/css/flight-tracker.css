@@ -80,7 +80,31 @@
   border-color: color-mix(in srgb, var(--rose-2, #ef4444) 55%, transparent);
 }
 
-/* ── Text contrast on colored severity backgrounds ── */
+/* ── Text contrast on colored severity backgrounds ──
+   Each severity defines 3 contrast shades via --ft-sev-1 / 2 / 3
+   for strong readability on tinted backgrounds.
+   ──────────────────────────────────────────────── */
+.ft-root[data-severity="on-time"] {
+  --ft-sev-1: #062e15;  /* darkest — primary text */
+  --ft-sev-2: #0a3d1f;  /* mid — secondary text */
+  --ft-sev-3: #0e4d27;  /* lightest — tertiary text */
+  --ft-sev-alert: #5a0e0e;  /* delay red on green bg */
+}
+.ft-root[data-severity="delayed"] {
+  --ft-sev-1: #2d1800;
+  --ft-sev-2: #3d2200;
+  --ft-sev-3: #4a2800;
+  --ft-sev-alert: #5a0e0e;
+}
+.ft-root[data-severity="late"],
+.ft-root[data-severity="cancelled"] {
+  --ft-sev-1: #320808;
+  --ft-sev-2: #4a0e0e;
+  --ft-sev-3: #5a1515;
+  --ft-sev-alert: #320808;
+}
+
+/* — Severity text overrides (all palettes share the same var structure) — */
 .ft-root[data-severity="on-time"] .ft-airport,
 .ft-root[data-severity="on-time"] .ft-time,
 .ft-root[data-severity="on-time"] .ft-time-scheduled,
@@ -97,13 +121,11 @@
 .ft-root[data-severity="cancelled"] .ft-time,
 .ft-root[data-severity="cancelled"] .ft-time-scheduled,
 .ft-root[data-severity="cancelled"] .ft-compact-primary {
-  color: var(--contrast-dark);
+  color: var(--ft-sev-1);
 }
 .ft-root[data-severity="on-time"] .ft-city,
 .ft-root[data-severity="on-time"] .ft-flight-num,
 .ft-root[data-severity="on-time"] .ft-meta-row,
-.ft-root[data-severity="on-time"] .ft-aircraft,
-.ft-root[data-severity="on-time"] .ft-chip,
 .ft-root[data-severity="on-time"] .ft-compact-secondary,
 .ft-root[data-severity="on-time"] .ft-tz-label,
 .ft-root[data-severity="on-time"] .ft-tz-inline,
@@ -111,8 +133,6 @@
 .ft-root[data-severity="delayed"] .ft-city,
 .ft-root[data-severity="delayed"] .ft-flight-num,
 .ft-root[data-severity="delayed"] .ft-meta-row,
-.ft-root[data-severity="delayed"] .ft-aircraft,
-.ft-root[data-severity="delayed"] .ft-chip,
 .ft-root[data-severity="delayed"] .ft-compact-secondary,
 .ft-root[data-severity="delayed"] .ft-tz-label,
 .ft-root[data-severity="delayed"] .ft-tz-inline,
@@ -120,8 +140,6 @@
 .ft-root[data-severity="late"] .ft-city,
 .ft-root[data-severity="late"] .ft-flight-num,
 .ft-root[data-severity="late"] .ft-meta-row,
-.ft-root[data-severity="late"] .ft-aircraft,
-.ft-root[data-severity="late"] .ft-chip,
 .ft-root[data-severity="late"] .ft-compact-secondary,
 .ft-root[data-severity="late"] .ft-tz-label,
 .ft-root[data-severity="late"] .ft-tz-inline,
@@ -129,48 +147,54 @@
 .ft-root[data-severity="cancelled"] .ft-city,
 .ft-root[data-severity="cancelled"] .ft-flight-num,
 .ft-root[data-severity="cancelled"] .ft-meta-row,
-.ft-root[data-severity="cancelled"] .ft-aircraft,
-.ft-root[data-severity="cancelled"] .ft-chip,
 .ft-root[data-severity="cancelled"] .ft-compact-secondary,
 .ft-root[data-severity="cancelled"] .ft-tz-label,
 .ft-root[data-severity="cancelled"] .ft-tz-inline,
 .ft-root[data-severity="cancelled"] .ft-tz-alt {
-  color: color-mix(in srgb, var(--contrast-dark) 75%, transparent);
+  color: var(--ft-sev-2);
+}
+.ft-root[data-severity="on-time"] .ft-aircraft,
+.ft-root[data-severity="delayed"] .ft-aircraft,
+.ft-root[data-severity="late"] .ft-aircraft,
+.ft-root[data-severity="cancelled"] .ft-aircraft {
+  color: var(--ft-sev-3);
 }
 .ft-root[data-severity="on-time"] .ft-route-col,
 .ft-root[data-severity="delayed"] .ft-route-col,
 .ft-root[data-severity="late"] .ft-route-col,
 .ft-root[data-severity="cancelled"] .ft-route-col {
-  color: var(--contrast-dark);
+  color: var(--ft-sev-1);
 }
-/* Delay actual time stays high-contrast red */
-.ft-root[data-severity="delayed"] .ft-time-actual,
-.ft-root[data-severity="late"] .ft-time-actual,
-.ft-root[data-severity="cancelled"] .ft-time-actual {
-  color: var(--rose-2);
-}
-/* Strikethrough on changed time: muted dark */
-.ft-root[data-severity="on-time"] .ft-time--changed .ft-time-scheduled,
-.ft-root[data-severity="delayed"] .ft-time--changed .ft-time-scheduled,
-.ft-root[data-severity="late"] .ft-time--changed .ft-time-scheduled,
-.ft-root[data-severity="cancelled"] .ft-time--changed .ft-time-scheduled {
-  color: color-mix(in srgb, var(--contrast-dark) 55%, transparent);
-}
-/* Chip bg on colored backgrounds */
 .ft-root[data-severity="on-time"] .ft-chip,
 .ft-root[data-severity="delayed"] .ft-chip,
 .ft-root[data-severity="late"] .ft-chip,
 .ft-root[data-severity="cancelled"] .ft-chip {
-  background: color-mix(in srgb, var(--contrast-dark) 15%, transparent);
-  border: 1px solid color-mix(in srgb, var(--contrast-dark) 20%, transparent);
+  background: color-mix(in srgb, var(--ft-sev-1) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ft-sev-1) 28%, transparent);
+  color: var(--ft-sev-2);
 }
 .ft-root[data-severity="on-time"] .ft-terminal-tile,
 .ft-root[data-severity="delayed"] .ft-terminal-tile,
 .ft-root[data-severity="late"] .ft-terminal-tile,
 .ft-root[data-severity="cancelled"] .ft-terminal-tile {
-  color: var(--contrast-dark);
-  border-color: color-mix(in srgb, var(--contrast-dark) 35%, transparent);
-  background: color-mix(in srgb, var(--contrast-dark) 10%, transparent);
+  color: var(--ft-sev-1);
+  border-color: color-mix(in srgb, var(--ft-sev-1) 40%, transparent);
+  background: color-mix(in srgb, var(--ft-sev-1) 10%, transparent);
+}
+
+/* Delay actual time: alert red for contrast on colored backgrounds */
+.ft-root[data-severity="on-time"] .ft-time-actual,
+.ft-root[data-severity="delayed"] .ft-time-actual,
+.ft-root[data-severity="late"] .ft-time-actual,
+.ft-root[data-severity="cancelled"] .ft-time-actual {
+  color: var(--ft-sev-alert);
+}
+/* Strikethrough on changed time */
+.ft-root[data-severity="on-time"] .ft-time--changed .ft-time-scheduled,
+.ft-root[data-severity="delayed"] .ft-time--changed .ft-time-scheduled,
+.ft-root[data-severity="late"] .ft-time--changed .ft-time-scheduled,
+.ft-root[data-severity="cancelled"] .ft-time--changed .ft-time-scheduled {
+  color: color-mix(in srgb, var(--ft-sev-1) 62%, transparent);
 }
 .ft-card::after {
   content: "";
@@ -414,13 +438,13 @@
 .ft-root[data-severity="cancelled"] .ft-route-line::after {
   background: var(--rose-2, #ef4444);
 }
-/* Contrast: dark plane icon on colored backgrounds */
+/* Contrast: palette-matched dark plane icon on colored backgrounds */
 .ft-root[data-severity="on-time"] .ft-plane-icon,
 .ft-root[data-severity="delayed"] .ft-plane-icon,
 .ft-root[data-severity="late"] .ft-plane-icon,
 .ft-root[data-severity="cancelled"] .ft-plane-icon {
-  color: var(--contrast-dark);
-  filter: drop-shadow(0 1px 3px color-mix(in srgb, var(--contrast-dark) 30%, transparent));
+  color: var(--ft-sev-1);
+  filter: drop-shadow(0 1px 3px color-mix(in srgb, var(--ft-sev-1) 35%, transparent));
 }
 
 /* Meta row: seat, aircraft */
@@ -515,6 +539,349 @@
   color: var(--text-secondary);
   background: var(--white-05);
   border: 1px solid var(--white-08);
+}
+
+/* ── ETA Countdown Badge (replaces status pill when airborne) ── */
+.ft-eta {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  padding: .45rem 1rem;
+  border-radius: 999px;
+  font-weight: 700;
+  letter-spacing: .03em;
+  white-space: nowrap;
+  margin-top: .55rem;
+  backdrop-filter: blur(4px);
+  transition: all .4s ease;
+  color: var(--text);
+  background: color-mix(in srgb, var(--accent, #22c55e) 35%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent, #22c55e) 55%, transparent);
+}
+.ft-eta i {
+  font-size: .8rem;
+  opacity: .85;
+}
+.ft-eta-value {
+  font-size: 1.1rem;
+  font-variant-numeric: tabular-nums;
+}
+.ft-eta-label {
+  font-size: .72rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  opacity: .7;
+}
+/* Severity variants */
+.ft-eta--delayed {
+  background: color-mix(in srgb, var(--state-warning, #f59e0b) 38%, transparent);
+  border-color: color-mix(in srgb, var(--state-warning, #f59e0b) 55%, transparent);
+}
+.ft-eta--late,
+.ft-eta--cancelled {
+  background: color-mix(in srgb, var(--rose-2, #ef4444) 40%, transparent);
+  border-color: color-mix(in srgb, var(--rose-2, #ef4444) 60%, transparent);
+}
+/* Urgent: < 30min remaining — gentle pulse to draw attention */
+.ft-eta--urgent {
+  animation: ft-eta-pulse 2s ease-in-out infinite;
+}
+@keyframes ft-eta-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent, #22c55e) 30%, transparent); }
+  50% { box-shadow: 0 0 12px 4px color-mix(in srgb, var(--accent, #22c55e) 20%, transparent); }
+}
+.ft-eta--delayed.ft-eta--urgent {
+  animation-name: ft-eta-pulse-warn;
+}
+@keyframes ft-eta-pulse-warn {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--state-warning, #f59e0b) 30%, transparent); }
+  50% { box-shadow: 0 0 12px 4px color-mix(in srgb, var(--state-warning, #f59e0b) 20%, transparent); }
+}
+/* Palette-matched dark text for ETA on colored severity backgrounds */
+.ft-root[data-severity="on-time"] .ft-eta,
+.ft-root[data-severity="delayed"] .ft-eta,
+.ft-root[data-severity="late"] .ft-eta,
+.ft-root[data-severity="cancelled"] .ft-eta {
+  color: var(--ft-sev-1);
+  background: color-mix(in srgb, var(--ft-sev-1) 18%, transparent);
+  border-color: color-mix(in srgb, var(--ft-sev-1) 35%, transparent);
+}
+
+/* ── Sticky bar ETA ── */
+.ft-sticky-eta {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  font-size: .72rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  padding: .15rem .55rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent, #22c55e) 35%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent, #22c55e) 50%, transparent);
+  color: var(--text);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.ft-sticky-eta i {
+  font-size: .6rem;
+  opacity: .75;
+}
+
+/* ── When to Leave (ground transit estimate) ── */
+.ft-when-to-leave {
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+  margin-top: .55rem;
+  padding: .5rem .75rem;
+  border-radius: 10px;
+  background: var(--white-05);
+  border: 1px solid var(--white-08);
+  backdrop-filter: blur(4px);
+  animation: ft-fadeSlideIn .4s ease both;
+}
+.ft-wtl-header {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+}
+.ft-wtl-icon {
+  font-size: .85rem;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.ft-wtl-label {
+  font-size: .68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--text-muted);
+}
+.ft-wtl-time {
+  font-size: 1rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  margin-left: auto;
+}
+.ft-wtl-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .25rem .7rem;
+  padding-left: 1.3rem;
+}
+.ft-wtl-breakdown,
+.ft-wtl-drive,
+.ft-wtl-dest {
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+  font-size: .68rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.ft-wtl-breakdown i,
+.ft-wtl-drive i,
+.ft-wtl-dest i {
+  font-size: .55rem;
+  opacity: .75;
+}
+/* Palette-matched when-to-leave on colored backgrounds */
+.ft-root[data-severity="on-time"] .ft-when-to-leave,
+.ft-root[data-severity="delayed"] .ft-when-to-leave,
+.ft-root[data-severity="late"] .ft-when-to-leave,
+.ft-root[data-severity="cancelled"] .ft-when-to-leave {
+  background: color-mix(in srgb, var(--ft-sev-1) 10%, transparent);
+  border-color: color-mix(in srgb, var(--ft-sev-1) 22%, transparent);
+}
+.ft-root[data-severity="on-time"] .ft-wtl-icon,
+.ft-root[data-severity="delayed"] .ft-wtl-icon,
+.ft-root[data-severity="late"] .ft-wtl-icon,
+.ft-root[data-severity="cancelled"] .ft-wtl-icon { color: var(--ft-sev-2); }
+.ft-root[data-severity="on-time"] .ft-wtl-label,
+.ft-root[data-severity="delayed"] .ft-wtl-label,
+.ft-root[data-severity="late"] .ft-wtl-label,
+.ft-root[data-severity="cancelled"] .ft-wtl-label { color: var(--ft-sev-3); }
+.ft-root[data-severity="on-time"] .ft-wtl-time,
+.ft-root[data-severity="delayed"] .ft-wtl-time,
+.ft-root[data-severity="late"] .ft-wtl-time,
+.ft-root[data-severity="cancelled"] .ft-wtl-time { color: var(--ft-sev-1); }
+.ft-root[data-severity="on-time"] .ft-wtl-breakdown,
+.ft-root[data-severity="on-time"] .ft-wtl-drive,
+.ft-root[data-severity="on-time"] .ft-wtl-dest,
+.ft-root[data-severity="delayed"] .ft-wtl-breakdown,
+.ft-root[data-severity="delayed"] .ft-wtl-drive,
+.ft-root[data-severity="delayed"] .ft-wtl-dest,
+.ft-root[data-severity="late"] .ft-wtl-breakdown,
+.ft-root[data-severity="late"] .ft-wtl-drive,
+.ft-root[data-severity="late"] .ft-wtl-dest,
+.ft-root[data-severity="cancelled"] .ft-wtl-breakdown,
+.ft-root[data-severity="cancelled"] .ft-wtl-drive,
+.ft-root[data-severity="cancelled"] .ft-wtl-dest { color: var(--ft-sev-2); }
+
+/* ── Stale Data Banner ── */
+.ft-stale-banner {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .3rem .65rem;
+  margin-bottom: .5rem;
+  border-radius: 8px;
+  font-size: .72rem;
+  font-weight: 600;
+  color: var(--state-warning, #f59e0b);
+  background: color-mix(in srgb, var(--state-warning, #f59e0b) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--state-warning, #f59e0b) 25%, transparent);
+  animation: ft-fadeSlideIn .3s ease both;
+}
+.ft-stale-banner i {
+  font-size: .6rem;
+}
+.ft-stale-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--state-warning, #f59e0b);
+  animation: ft-pulse 1.5s infinite;
+  margin-left: auto;
+}
+/* Stale banner on colored severity backgrounds */
+.ft-root[data-severity="on-time"] .ft-stale-banner,
+.ft-root[data-severity="delayed"] .ft-stale-banner,
+.ft-root[data-severity="late"] .ft-stale-banner,
+.ft-root[data-severity="cancelled"] .ft-stale-banner {
+  color: var(--ft-sev-1);
+  background: color-mix(in srgb, var(--ft-sev-1) 12%, transparent);
+  border-color: color-mix(in srgb, var(--ft-sev-1) 25%, transparent);
+}
+.ft-root[data-severity="on-time"] .ft-stale-dot,
+.ft-root[data-severity="delayed"] .ft-stale-dot,
+.ft-root[data-severity="late"] .ft-stale-dot,
+.ft-root[data-severity="cancelled"] .ft-stale-dot { background: var(--ft-sev-1); }
+
+/* ── Live Indicator ── */
+.ft-live-ind {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  padding: .15rem .55rem;
+  border-radius: 999px;
+  font-size: .65rem;
+  font-weight: 600;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  color: var(--accent, #22c55e);
+  background: color-mix(in srgb, var(--accent, #22c55e) 8%, transparent);
+  margin-bottom: .35rem;
+  transition: all .4s ease;
+}
+.ft-live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: ft-pulse 2s infinite;
+  flex-shrink: 0;
+}
+.ft-live-text {
+  white-space: nowrap;
+}
+.ft-live-ind--stale {
+  color: var(--state-warning, #f59e0b);
+  background: color-mix(in srgb, var(--state-warning, #f59e0b) 10%, transparent);
+}
+.ft-live-ind--stale .ft-live-dot {
+  animation-duration: 1.5s;
+}
+/* Palette-matched live indicator */
+.ft-root[data-severity="on-time"] .ft-live-ind,
+.ft-root[data-severity="delayed"] .ft-live-ind,
+.ft-root[data-severity="late"] .ft-live-ind,
+.ft-root[data-severity="cancelled"] .ft-live-ind {
+  color: var(--ft-sev-2);
+  background: color-mix(in srgb, var(--ft-sev-1) 8%, transparent);
+}
+.ft-root[data-severity="on-time"] .ft-live-ind--stale,
+.ft-root[data-severity="delayed"] .ft-live-ind--stale,
+.ft-root[data-severity="late"] .ft-live-ind--stale,
+.ft-root[data-severity="cancelled"] .ft-live-ind--stale {
+  color: var(--ft-sev-1);
+  background: color-mix(in srgb, var(--ft-sev-1) 12%, transparent);
+}
+
+/* ── Skeleton Loading ── */
+.ft-skeleton {
+  pointer-events: none;
+}
+.ft-skel-line {
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--white-05) 25%, var(--white-08) 50%, var(--white-05) 75%);
+  background-size: 200% 100%;
+  animation: ft-shimmer 1.5s ease infinite;
+  margin-bottom: .55rem;
+}
+.ft-skel-lg {
+  width: 80px;
+  height: 2rem;
+}
+.ft-skel-md {
+  width: 100px;
+  height: .9rem;
+}
+.ft-skel-sm {
+  width: 70px;
+  height: .75rem;
+}
+.ft-skel-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+.ft-skel-bar {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--white-05) 25%, var(--white-08) 50%, var(--white-05) 75%);
+  background-size: 200% 100%;
+  animation: ft-shimmer 1.5s ease infinite;
+  margin-bottom: .55rem;
+}
+.ft-skel-pill {
+  width: 120px;
+  height: 1.8rem;
+  border-radius: 999px;
+  margin: 0 auto;
+  background: linear-gradient(90deg, var(--white-05) 25%, var(--white-08) 50%, var(--white-05) 75%);
+  background-size: 200% 100%;
+  animation: ft-shimmer 1.5s ease infinite;
+}
+@keyframes ft-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Card loaded transition ── */
+.ft-card--loaded .ft-airport,
+.ft-card--loaded .ft-city,
+.ft-card--loaded .ft-time,
+.ft-card--loaded .ft-status,
+.ft-card--loaded .ft-eta,
+.ft-card--loaded .ft-chips,
+.ft-card--loaded .ft-meta-row,
+.ft-card--loaded .ft-aircraft,
+.ft-card--loaded .ft-when-to-leave {
+  animation: ft-dataReveal .4s ease both;
+}
+.ft-card--loaded .ft-progress {
+  transition: width .8s cubic-bezier(.25, .46, .45, .94);
+}
+.ft-card--loaded .ft-plane-icon {
+  transition: left .8s cubic-bezier(.25, .46, .45, .94);
+}
+@keyframes ft-dataReveal {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .ft-live-unavailable {

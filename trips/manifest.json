@@ -6,6 +6,12 @@
     "vibe": "Packed & purposeful — couple time, mid-range budget, halal dining",
     "occasion": "Engagement party in Fresh Meadows, Queens",
     "base": "Home2 Suites, New Brunswick, NJ",
+    "groundTransit": {
+      "fromAirport": 45,
+      "toAirport": 50,
+      "airportBuffer": 40,
+      "note": "EWR → New Brunswick via NJ Turnpike, ~45 min. Buffer: deplane(15) + customs-MPC(15) + bags(10)"
+    },
     "dates": {
       "start": "2026-04-20",
       "end": "2026-04-28",

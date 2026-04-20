@@ -15,7 +15,8 @@ import express from "express";
 import { loadRapidApiKey } from "../lib/keychain.js";
 
 const CACHE = new Map();
-const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
+const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes (pre-flight / post-flight)
+const CACHE_TTL_ACTIVE_MS = 2 * 60 * 1000; // 2 minutes (in-flight — terminal/gate change faster)
 
 const AERODATABOX_HOST = "aerodatabox.p.rapidapi.com";
 
@@ -39,6 +40,14 @@ function normalise(flights, flightStr) {
   const f = flights[0];
   const dep = f.departure || {};
   const arr = f.arrival || {};
+
+  // AeroDataBox returns terminal at arr.terminal OR arr.airport.terminal
+  // depending on endpoint version — check both.
+  const depTerminal = dep.terminal || dep.airport?.terminal || null;
+  const depGate = dep.gate || null;
+  const arrTerminal = arr.terminal || arr.airport?.terminal || null;
+  const arrGate = arr.gate || null;
+  const arrBaggageBelt = arr.baggageBelt || null;
 
   const scheduledDep = dep.scheduledTime?.local || dep.scheduledTimeLocal || null;
   const actualDep = dep.actualTime?.local || dep.actualTimeLocal || dep.revisedTime?.local || dep.revisedTimeLocal || null;
@@ -86,9 +95,12 @@ function normalise(flights, flightStr) {
   } else if (rawStatus.includes("landed") || rawStatus.includes("arrived")) {
     severity = "on-time";
     label = "Landed";
-  } else if (rawStatus.includes("active") || rawStatus.includes("en route") || rawStatus.includes("airborne")) {
+  } else if (rawStatus.includes("active") || rawStatus.includes("en route") || rawStatus.includes("enroute") || rawStatus.includes("airborne")) {
     severity = "on-time";
     label = "In Flight";
+  } else if (rawStatus.includes("departed")) {
+    severity = "on-time";
+    label = "Departed";
   } else {
     severity = "on-time";
     label = "On Time";
@@ -103,16 +115,16 @@ function normalise(flights, flightStr) {
       airport: dep.airport?.iata || null,
       scheduled: scheduledDep,
       actual: actualDep,
-      terminal: dep.terminal || null,
-      gate: dep.gate || null,
+      terminal: depTerminal,
+      gate: depGate,
     },
     arrival: {
       airport: arr.airport?.iata || null,
       scheduled: scheduledArr,
       actual: actualArr,
-      terminal: arr.terminal || null,
-      gate: arr.gate || null,
-      baggageBelt: arr.baggageBelt || null,
+      terminal: arrTerminal,
+      gate: arrGate,
+      baggageBelt: arrBaggageBelt,
     },
     delayMinutes,
     arrivalDelayMinutes,
@@ -144,7 +156,10 @@ export function createFlightStatusRouter() {
       // Check cache.
       const ck = cacheKey(flightCode, dateStr);
       const cached = CACHE.get(ck);
-      if (cached && Date.now() - cached.at < CACHE_TTL_MS) {
+      // Use shorter TTL when flight is active (terminal/gate changes need fast propagation)
+      const isActive = cached?.data?.status && /active|enroute|en.route|airborne|departed/i.test(cached.data.status);
+      const ttl = isActive ? CACHE_TTL_ACTIVE_MS : CACHE_TTL_MS;
+      if (cached && Date.now() - cached.at < ttl) {
         return res.json({ ok: true, cached: true, ...cached.data });
       }
 
