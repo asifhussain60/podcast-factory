@@ -1,0 +1,1197 @@
+/* ═══ FLIGHT TRACKER WIDGET ═══
+   Glassmorphism cards that match the itinerary design system.
+   Theme-aware: uses CSS custom properties from the active theme.
+   ────────────────────────────────────────────────────────── */
+
+/* ── Container ── */
+.ft-root {
+  position: relative;
+  z-index: 10;
+  padding: 1.5rem 1.5rem;
+  margin: 1.25rem auto 1.75rem;
+  max-width: 780px;
+  border-radius: var(--radius-lg, 12px);
+  border: 1px solid var(--white-08);
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, .25),
+    0 1px 4px rgba(0, 0, 0, .15),
+    inset 0 1px 0 var(--white-05);
+  transition: background .5s ease, border-color .5s ease, box-shadow .5s ease;
+  animation: ft-fadeSlideIn .6s ease both;
+}
+
+/* ── Status-driven backgrounds ── */
+.ft-root[data-severity="on-time"] {
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--accent, #22c55e) 45%, var(--bg, #0d0d0d)),
+    color-mix(in srgb, var(--accent, #22c55e) 25%, var(--bg, #0d0d0d))) !important;
+  border-color: color-mix(in srgb, var(--accent, #22c55e) 55%, transparent) !important;
+  box-shadow:
+    0 4px 30px color-mix(in srgb, var(--accent, #22c55e) 30%, transparent),
+    0 1px 4px rgba(0, 0, 0, .15),
+    inset 0 1px 0 color-mix(in srgb, var(--accent, #22c55e) 22%, transparent) !important;
+}
+.ft-root[data-severity="delayed"] {
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--state-warning, #f59e0b) 45%, var(--bg, #0d0d0d)),
+    color-mix(in srgb, var(--state-warning, #f59e0b) 25%, var(--bg, #0d0d0d))) !important;
+  border-color: color-mix(in srgb, var(--state-warning, #f59e0b) 55%, transparent) !important;
+  box-shadow:
+    0 4px 30px color-mix(in srgb, var(--state-warning, #f59e0b) 30%, transparent),
+    0 1px 4px rgba(0, 0, 0, .15),
+    inset 0 1px 0 color-mix(in srgb, var(--state-warning, #f59e0b) 22%, transparent) !important;
+}
+.ft-root[data-severity="late"],
+.ft-root[data-severity="cancelled"] {
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--rose-2, #ef4444) 48%, var(--bg, #0d0d0d)),
+    color-mix(in srgb, var(--rose-2, #ef4444) 28%, var(--bg, #0d0d0d))) !important;
+  border-color: color-mix(in srgb, var(--rose-2, #ef4444) 60%, transparent) !important;
+  box-shadow:
+    0 4px 30px color-mix(in srgb, var(--rose-2, #ef4444) 35%, transparent),
+    0 1px 4px rgba(0, 0, 0, .15),
+    inset 0 1px 0 color-mix(in srgb, var(--rose-2, #ef4444) 20%, transparent) !important;
+}
+.ft-root[data-severity="loading"],
+.ft-root[data-severity="unknown"],
+.ft-root[data-severity="pre-trip"] {
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--accent, #22c55e) 10%, var(--bg, #0d0d0d)),
+    color-mix(in srgb, var(--accent, #22c55e) 4%, var(--bg, #0d0d0d))) !important;
+  border-color: var(--white-08);
+}
+
+/* ── Shared card glass ── */
+.ft-card {
+  position: relative;
+  border-radius: var(--radius-lg);
+  background: transparent;
+  overflow: hidden;
+  border: 4px solid color-mix(in srgb, var(--text) 25%, transparent);
+}
+.ft-root[data-severity="on-time"] .ft-card {
+  border-color: color-mix(in srgb, var(--accent, #22c55e) 50%, transparent);
+}
+.ft-root[data-severity="delayed"] .ft-card {
+  border-color: color-mix(in srgb, var(--state-warning, #f59e0b) 55%, transparent);
+}
+.ft-root[data-severity="late"] .ft-card,
+.ft-root[data-severity="cancelled"] .ft-card {
+  border-color: color-mix(in srgb, var(--rose-2, #ef4444) 55%, transparent);
+}
+
+/* ── Text contrast on colored severity backgrounds ──
+   Each severity defines 3 contrast shades via --ft-sev-1 / 2 / 3
+   for strong readability on tinted backgrounds.
+   ──────────────────────────────────────────────── */
+.ft-root[data-severity="on-time"] {
+  --ft-sev-1: #062e15;  /* darkest — primary text */
+  --ft-sev-2: #0a3d1f;  /* mid — secondary text */
+  --ft-sev-3: #0e4d27;  /* lightest — tertiary text */
+  --ft-sev-alert: #5a0e0e;  /* delay red on green bg */
+}
+.ft-root[data-severity="delayed"] {
+  --ft-sev-1: #2d1800;
+  --ft-sev-2: #3d2200;
+  --ft-sev-3: #4a2800;
+  --ft-sev-alert: #5a0e0e;
+}
+.ft-root[data-severity="late"],
+.ft-root[data-severity="cancelled"] {
+  --ft-sev-1: #320808;
+  --ft-sev-2: #4a0e0e;
+  --ft-sev-3: #5a1515;
+  --ft-sev-alert: #320808;
+}
+
+/* — Severity text overrides (all palettes share the same var structure) — */
+.ft-root[data-severity="on-time"] .ft-airport,
+.ft-root[data-severity="on-time"] .ft-time,
+.ft-root[data-severity="on-time"] .ft-time-scheduled,
+.ft-root[data-severity="on-time"] .ft-compact-primary,
+.ft-root[data-severity="delayed"] .ft-airport,
+.ft-root[data-severity="delayed"] .ft-time,
+.ft-root[data-severity="delayed"] .ft-time-scheduled,
+.ft-root[data-severity="delayed"] .ft-compact-primary,
+.ft-root[data-severity="late"] .ft-airport,
+.ft-root[data-severity="late"] .ft-time,
+.ft-root[data-severity="late"] .ft-time-scheduled,
+.ft-root[data-severity="late"] .ft-compact-primary,
+.ft-root[data-severity="cancelled"] .ft-airport,
+.ft-root[data-severity="cancelled"] .ft-time,
+.ft-root[data-severity="cancelled"] .ft-time-scheduled,
+.ft-root[data-severity="cancelled"] .ft-compact-primary {
+  color: var(--ft-sev-1);
+}
+.ft-root[data-severity="on-time"] .ft-city,
+.ft-root[data-severity="on-time"] .ft-flight-num,
+.ft-root[data-severity="on-time"] .ft-meta-row,
+.ft-root[data-severity="on-time"] .ft-compact-secondary,
+.ft-root[data-severity="on-time"] .ft-tz-label,
+.ft-root[data-severity="on-time"] .ft-tz-inline,
+.ft-root[data-severity="on-time"] .ft-tz-alt,
+.ft-root[data-severity="delayed"] .ft-city,
+.ft-root[data-severity="delayed"] .ft-flight-num,
+.ft-root[data-severity="delayed"] .ft-meta-row,
+.ft-root[data-severity="delayed"] .ft-compact-secondary,
+.ft-root[data-severity="delayed"] .ft-tz-label,
+.ft-root[data-severity="delayed"] .ft-tz-inline,
+.ft-root[data-severity="delayed"] .ft-tz-alt,
+.ft-root[data-severity="late"] .ft-city,
+.ft-root[data-severity="late"] .ft-flight-num,
+.ft-root[data-severity="late"] .ft-meta-row,
+.ft-root[data-severity="late"] .ft-compact-secondary,
+.ft-root[data-severity="late"] .ft-tz-label,
+.ft-root[data-severity="late"] .ft-tz-inline,
+.ft-root[data-severity="late"] .ft-tz-alt,
+.ft-root[data-severity="cancelled"] .ft-city,
+.ft-root[data-severity="cancelled"] .ft-flight-num,
+.ft-root[data-severity="cancelled"] .ft-meta-row,
+.ft-root[data-severity="cancelled"] .ft-compact-secondary,
+.ft-root[data-severity="cancelled"] .ft-tz-label,
+.ft-root[data-severity="cancelled"] .ft-tz-inline,
+.ft-root[data-severity="cancelled"] .ft-tz-alt {
+  color: var(--ft-sev-2);
+}
+.ft-root[data-severity="on-time"] .ft-aircraft,
+.ft-root[data-severity="delayed"] .ft-aircraft,
+.ft-root[data-severity="late"] .ft-aircraft,
+.ft-root[data-severity="cancelled"] .ft-aircraft {
+  color: var(--ft-sev-3);
+}
+.ft-root[data-severity="on-time"] .ft-route-col,
+.ft-root[data-severity="delayed"] .ft-route-col,
+.ft-root[data-severity="late"] .ft-route-col,
+.ft-root[data-severity="cancelled"] .ft-route-col {
+  color: var(--ft-sev-1);
+}
+.ft-root[data-severity="on-time"] .ft-chip,
+.ft-root[data-severity="delayed"] .ft-chip,
+.ft-root[data-severity="late"] .ft-chip,
+.ft-root[data-severity="cancelled"] .ft-chip {
+  background: color-mix(in srgb, var(--ft-sev-1) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ft-sev-1) 28%, transparent);
+  color: var(--ft-sev-2);
+}
+.ft-root[data-severity="on-time"] .ft-terminal-tile,
+.ft-root[data-severity="delayed"] .ft-terminal-tile,
+.ft-root[data-severity="late"] .ft-terminal-tile,
+.ft-root[data-severity="cancelled"] .ft-terminal-tile {
+  color: var(--ft-sev-1);
+  border-color: color-mix(in srgb, var(--ft-sev-1) 40%, transparent);
+  background: color-mix(in srgb, var(--ft-sev-1) 10%, transparent);
+}
+
+/* Delay actual time: alert red for contrast on colored backgrounds */
+.ft-root[data-severity="on-time"] .ft-time-actual,
+.ft-root[data-severity="delayed"] .ft-time-actual,
+.ft-root[data-severity="late"] .ft-time-actual,
+.ft-root[data-severity="cancelled"] .ft-time-actual {
+  color: var(--ft-sev-alert);
+}
+/* Strikethrough on changed time */
+.ft-root[data-severity="on-time"] .ft-time--changed .ft-time-scheduled,
+.ft-root[data-severity="delayed"] .ft-time--changed .ft-time-scheduled,
+.ft-root[data-severity="late"] .ft-time--changed .ft-time-scheduled,
+.ft-root[data-severity="cancelled"] .ft-time--changed .ft-time-scheduled {
+  color: color-mix(in srgb, var(--ft-sev-1) 62%, transparent);
+}
+.ft-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 15%, var(--white-05) 48%, transparent 80%);
+  transform: translateX(-100%);
+  animation: glowSweep 10s linear infinite;
+  opacity: .30;
+  pointer-events: none;
+}
+
+/* ── Full Tracker (ACTIVE_FLIGHT state) ── */
+.ft-full {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1.5rem;
+  align-items: start;
+  padding: .75rem 1rem .5rem;
+}
+
+/* Airport codes */
+.ft-airport {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 2.5rem;
+  letter-spacing: .06em;
+  line-height: 1.1;
+  color: var(--text);
+}
+.ft-city {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  margin-top: .2rem;
+}
+
+/* Scheduled / actual time */
+.ft-time {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-top: .5rem;
+  line-height: 1.2;
+}
+.ft-time-scheduled {
+  color: var(--text);
+}
+.ft-time--changed .ft-time-scheduled {
+  text-decoration: line-through;
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  font-weight: 400;
+}
+.ft-time-actual {
+  color: var(--accent);
+  font-weight: 700;
+}
+.ft-time--late .ft-time-actual {
+  color: var(--rose-2);
+}
+.ft-tz-label {
+  font-size: .8rem;
+  color: var(--text-muted);
+  margin-top: .15rem;
+  letter-spacing: .02em;
+}
+.ft-tz-inline {
+  font-size: .78rem;
+  font-weight: 500;
+  opacity: .6;
+  margin-left: .15rem;
+  letter-spacing: .02em;
+}
+.ft-tz-alt {
+  display: block;
+  font-size: .72rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  margin-top: .1rem;
+  letter-spacing: .01em;
+}
+
+/* Terminal / Gate / Seat chips */
+.ft-chips {
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+  margin-top: .55rem;
+  align-items: center;
+}
+
+/* Modern terminal tile */
+.ft-terminal-tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 10px;
+  border: 2px solid color-mix(in srgb, var(--text) 25%, transparent);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0;
+  text-transform: uppercase;
+  background: color-mix(in srgb, var(--text) 6%, transparent);
+  backdrop-filter: blur(6px);
+  transition: border-color .4s ease, background .4s ease, color .4s ease, box-shadow .4s ease;
+}
+.ft-terminal-tile--changed {
+  border-color: color-mix(in srgb, var(--state-warning, #f59e0b) 60%, transparent);
+  background: color-mix(in srgb, var(--state-warning, #f59e0b) 18%, transparent);
+  animation: ft-chip-flash 1.5s ease 3;
+}
+
+.ft-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  padding: .3rem .65rem;
+  border-radius: 6px;
+  font-size: .85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  background: var(--white-08);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  transition: background .4s ease, border-color .4s ease, color .4s ease, box-shadow .4s ease;
+}
+
+/* Gate / Terminal change highlight */
+.ft-chip--changed {
+  background: color-mix(in srgb, var(--state-warning, #f59e0b) 25%, transparent);
+  border: 1px solid color-mix(in srgb, var(--state-warning, #f59e0b) 50%, transparent);
+  color: var(--text);
+  animation: ft-chip-flash 1.5s ease 3;
+}
+@keyframes ft-chip-flash {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--state-warning, #f59e0b) 40%, transparent); }
+  50% { box-shadow: 0 0 8px 3px color-mix(in srgb, var(--state-warning, #f59e0b) 50%, transparent); }
+}
+.ft-chip i {
+  font-size: .75rem;
+}
+.ft-chip--baggage {
+  background: color-mix(in srgb, var(--accent) 15%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  color: var(--text);
+}
+
+/* Centre column: route + status */
+.ft-route-col {
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .35rem;
+  color: var(--text);
+  padding-top: .25rem;
+}
+.ft-flight-num {
+  color: var(--text-secondary);
+  font-size: .95rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Route progress bar (large flight tracker style) */
+.ft-route-line {
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--text) 12%, transparent);
+  position: relative;
+  margin: .5rem 0;
+  overflow: visible;
+}
+/* Track dots (departure + arrival endpoints) */
+.ft-route-line::before,
+.ft-route-line::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+.ft-route-line::before {
+  left: -2px;
+  background: var(--text-secondary);
+  border: 2px solid color-mix(in srgb, var(--text) 30%, transparent);
+}
+.ft-route-line::after {
+  right: -2px;
+  background: var(--accent);
+  border: 2px solid color-mix(in srgb, var(--accent) 50%, transparent);
+}
+.ft-progress {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 70%, var(--text)));
+  transition: width 1.2s ease;
+  box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 40%, transparent);
+}
+.ft-plane-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: left 1.2s ease;
+  color: var(--text);
+  font-size: 1.5rem;
+  z-index: 2;
+  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--accent) 60%, transparent));
+}
+/* Severity-colored progress bars */
+.ft-root[data-severity="on-time"] .ft-progress {
+  background: linear-gradient(90deg, var(--accent, #22c55e), color-mix(in srgb, var(--accent, #22c55e) 70%, var(--text)));
+  box-shadow: 0 0 10px color-mix(in srgb, var(--accent, #22c55e) 45%, transparent);
+}
+.ft-root[data-severity="on-time"] .ft-route-line::after {
+  background: var(--accent, #22c55e);
+}
+.ft-root[data-severity="delayed"] .ft-progress {
+  background: linear-gradient(90deg, var(--state-warning, #f59e0b), color-mix(in srgb, var(--state-warning, #f59e0b) 70%, var(--text)));
+  box-shadow: 0 0 10px color-mix(in srgb, var(--state-warning, #f59e0b) 45%, transparent);
+}
+.ft-root[data-severity="delayed"] .ft-route-line::after {
+  background: var(--state-warning, #f59e0b);
+}
+.ft-root[data-severity="late"] .ft-progress,
+.ft-root[data-severity="cancelled"] .ft-progress {
+  background: linear-gradient(90deg, var(--rose-2, #ef4444), color-mix(in srgb, var(--rose-2, #ef4444) 70%, var(--text)));
+  box-shadow: 0 0 10px color-mix(in srgb, var(--rose-2, #ef4444) 45%, transparent);
+}
+.ft-root[data-severity="late"] .ft-route-line::after,
+.ft-root[data-severity="cancelled"] .ft-route-line::after {
+  background: var(--rose-2, #ef4444);
+}
+/* Contrast: palette-matched dark plane icon on colored backgrounds */
+.ft-root[data-severity="on-time"] .ft-plane-icon,
+.ft-root[data-severity="delayed"] .ft-plane-icon,
+.ft-root[data-severity="late"] .ft-plane-icon,
+.ft-root[data-severity="cancelled"] .ft-plane-icon {
+  color: var(--ft-sev-1);
+  filter: drop-shadow(0 1px 3px color-mix(in srgb, var(--ft-sev-1) 35%, transparent));
+}
+
+/* Meta row: seat, aircraft */
+.ft-meta-row {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  color: var(--text-secondary);
+  font-size: .92rem;
+}
+.ft-meta-row i {
+  font-size: .82rem;
+}
+.ft-aircraft {
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+  font-size: .85rem;
+  color: var(--text-muted);
+  margin-top: .15rem;
+}
+
+/* Right column alignment */
+.ft-right {
+  text-align: right;
+}
+.ft-right .ft-chips {
+  justify-content: flex-end;
+}
+
+/* ── Status badge ── */
+.ft-status {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .4rem .9rem;
+  border-radius: 999px;
+  font-size: .92rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  margin-top: .55rem;
+  backdrop-filter: blur(4px);
+  transition: all .4s ease;
+}
+.ft-status-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.ft-status--loading {
+  color: var(--text-secondary);
+  background: var(--white-05);
+  border: 1px solid var(--white-08);
+}
+.ft-status--on-time {
+  color: var(--text);
+  background: color-mix(in srgb, var(--accent, #22c55e) 40%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent, #22c55e) 60%, transparent);
+}
+.ft-status--on-time .ft-status-dot {
+  color: var(--accent, #22c55e);
+  animation: ft-pulse 2s infinite;
+}
+.ft-status--delayed {
+  color: var(--text);
+  background: color-mix(in srgb, var(--state-warning, #f59e0b) 42%, transparent);
+  border: 1px solid color-mix(in srgb, var(--state-warning, #f59e0b) 60%, transparent);
+}
+.ft-status--delayed .ft-status-dot {
+  color: var(--state-warning, #f59e0b);
+  animation: ft-pulse 1.5s infinite;
+}
+.ft-status--late {
+  color: var(--text);
+  background: color-mix(in srgb, var(--rose-2, #ef4444) 45%, transparent);
+  border: 1px solid color-mix(in srgb, var(--rose-2, #ef4444) 65%, transparent);
+}
+.ft-status--late .ft-status-dot {
+  color: var(--rose-2, #ef4444);
+  animation: ft-pulse 1s infinite;
+}
+.ft-status--cancelled {
+  color: var(--text);
+  background: color-mix(in srgb, var(--rose-2, #ef4444) 48%, transparent);
+  border: 1px solid color-mix(in srgb, var(--rose-2, #ef4444) 65%, transparent);
+}
+.ft-status--unknown {
+  color: var(--text-secondary);
+  background: var(--white-05);
+  border: 1px solid var(--white-08);
+}
+
+/* ── ETA Countdown Badge (replaces status pill when airborne) ── */
+.ft-eta {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  padding: .45rem 1rem;
+  border-radius: 999px;
+  font-weight: 700;
+  letter-spacing: .03em;
+  white-space: nowrap;
+  margin-top: .55rem;
+  backdrop-filter: blur(4px);
+  transition: all .4s ease;
+  color: var(--text);
+  background: color-mix(in srgb, var(--accent, #22c55e) 35%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent, #22c55e) 55%, transparent);
+}
+.ft-eta i {
+  font-size: .8rem;
+  opacity: .85;
+}
+.ft-eta-value {
+  font-size: 1.1rem;
+  font-variant-numeric: tabular-nums;
+}
+.ft-eta-label {
+  font-size: .72rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  opacity: .7;
+}
+/* Severity variants */
+.ft-eta--delayed {
+  background: color-mix(in srgb, var(--state-warning, #f59e0b) 38%, transparent);
+  border-color: color-mix(in srgb, var(--state-warning, #f59e0b) 55%, transparent);
+}
+.ft-eta--late,
+.ft-eta--cancelled {
+  background: color-mix(in srgb, var(--rose-2, #ef4444) 40%, transparent);
+  border-color: color-mix(in srgb, var(--rose-2, #ef4444) 60%, transparent);
+}
+/* Urgent: < 30min remaining — gentle pulse to draw attention */
+.ft-eta--urgent {
+  animation: ft-eta-pulse 2s ease-in-out infinite;
+}
+@keyframes ft-eta-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent, #22c55e) 30%, transparent); }
+  50% { box-shadow: 0 0 12px 4px color-mix(in srgb, var(--accent, #22c55e) 20%, transparent); }
+}
+.ft-eta--delayed.ft-eta--urgent {
+  animation-name: ft-eta-pulse-warn;
+}
+@keyframes ft-eta-pulse-warn {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--state-warning, #f59e0b) 30%, transparent); }
+  50% { box-shadow: 0 0 12px 4px color-mix(in srgb, var(--state-warning, #f59e0b) 20%, transparent); }
+}
+/* Palette-matched dark text for ETA on colored severity backgrounds */
+.ft-root[data-severity="on-time"] .ft-eta,
+.ft-root[data-severity="delayed"] .ft-eta,
+.ft-root[data-severity="late"] .ft-eta,
+.ft-root[data-severity="cancelled"] .ft-eta {
+  color: var(--ft-sev-1);
+  background: color-mix(in srgb, var(--ft-sev-1) 18%, transparent);
+  border-color: color-mix(in srgb, var(--ft-sev-1) 35%, transparent);
+}
+
+/* ── Sticky bar ETA ── */
+.ft-sticky-eta {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  font-size: .72rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  padding: .15rem .55rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent, #22c55e) 35%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent, #22c55e) 50%, transparent);
+  color: var(--text);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.ft-sticky-eta i {
+  font-size: .6rem;
+  opacity: .75;
+}
+
+/* ── When to Leave (ground transit estimate) ── */
+.ft-when-to-leave {
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+  margin-top: .55rem;
+  padding: .5rem .75rem;
+  border-radius: 10px;
+  background: var(--white-05);
+  border: 1px solid var(--white-08);
+  backdrop-filter: blur(4px);
+  animation: ft-fadeSlideIn .4s ease both;
+}
+.ft-wtl-header {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+}
+.ft-wtl-icon {
+  font-size: .85rem;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.ft-wtl-label {
+  font-size: .68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--text-muted);
+}
+.ft-wtl-time {
+  font-size: 1rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  margin-left: auto;
+}
+.ft-wtl-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .25rem .7rem;
+  padding-left: 1.3rem;
+}
+.ft-wtl-breakdown,
+.ft-wtl-drive,
+.ft-wtl-dest {
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+  font-size: .68rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.ft-wtl-breakdown i,
+.ft-wtl-drive i,
+.ft-wtl-dest i {
+  font-size: .55rem;
+  opacity: .75;
+}
+/* Palette-matched when-to-leave on colored backgrounds */
+.ft-root[data-severity="on-time"] .ft-when-to-leave,
+.ft-root[data-severity="delayed"] .ft-when-to-leave,
+.ft-root[data-severity="late"] .ft-when-to-leave,
+.ft-root[data-severity="cancelled"] .ft-when-to-leave {
+  background: color-mix(in srgb, var(--ft-sev-1) 10%, transparent);
+  border-color: color-mix(in srgb, var(--ft-sev-1) 22%, transparent);
+}
+.ft-root[data-severity="on-time"] .ft-wtl-icon,
+.ft-root[data-severity="delayed"] .ft-wtl-icon,
+.ft-root[data-severity="late"] .ft-wtl-icon,
+.ft-root[data-severity="cancelled"] .ft-wtl-icon { color: var(--ft-sev-2); }
+.ft-root[data-severity="on-time"] .ft-wtl-label,
+.ft-root[data-severity="delayed"] .ft-wtl-label,
+.ft-root[data-severity="late"] .ft-wtl-label,
+.ft-root[data-severity="cancelled"] .ft-wtl-label { color: var(--ft-sev-3); }
+.ft-root[data-severity="on-time"] .ft-wtl-time,
+.ft-root[data-severity="delayed"] .ft-wtl-time,
+.ft-root[data-severity="late"] .ft-wtl-time,
+.ft-root[data-severity="cancelled"] .ft-wtl-time { color: var(--ft-sev-1); }
+.ft-root[data-severity="on-time"] .ft-wtl-breakdown,
+.ft-root[data-severity="on-time"] .ft-wtl-drive,
+.ft-root[data-severity="on-time"] .ft-wtl-dest,
+.ft-root[data-severity="delayed"] .ft-wtl-breakdown,
+.ft-root[data-severity="delayed"] .ft-wtl-drive,
+.ft-root[data-severity="delayed"] .ft-wtl-dest,
+.ft-root[data-severity="late"] .ft-wtl-breakdown,
+.ft-root[data-severity="late"] .ft-wtl-drive,
+.ft-root[data-severity="late"] .ft-wtl-dest,
+.ft-root[data-severity="cancelled"] .ft-wtl-breakdown,
+.ft-root[data-severity="cancelled"] .ft-wtl-drive,
+.ft-root[data-severity="cancelled"] .ft-wtl-dest { color: var(--ft-sev-2); }
+
+/* ── Stale Data Banner ── */
+.ft-stale-banner {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .3rem .65rem;
+  margin-bottom: .5rem;
+  border-radius: 8px;
+  font-size: .72rem;
+  font-weight: 600;
+  color: var(--state-warning, #f59e0b);
+  background: color-mix(in srgb, var(--state-warning, #f59e0b) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--state-warning, #f59e0b) 25%, transparent);
+  animation: ft-fadeSlideIn .3s ease both;
+}
+.ft-stale-banner i {
+  font-size: .6rem;
+}
+.ft-stale-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--state-warning, #f59e0b);
+  animation: ft-pulse 1.5s infinite;
+  margin-left: auto;
+}
+/* Stale banner on colored severity backgrounds */
+.ft-root[data-severity="on-time"] .ft-stale-banner,
+.ft-root[data-severity="delayed"] .ft-stale-banner,
+.ft-root[data-severity="late"] .ft-stale-banner,
+.ft-root[data-severity="cancelled"] .ft-stale-banner {
+  color: var(--ft-sev-1);
+  background: color-mix(in srgb, var(--ft-sev-1) 12%, transparent);
+  border-color: color-mix(in srgb, var(--ft-sev-1) 25%, transparent);
+}
+.ft-root[data-severity="on-time"] .ft-stale-dot,
+.ft-root[data-severity="delayed"] .ft-stale-dot,
+.ft-root[data-severity="late"] .ft-stale-dot,
+.ft-root[data-severity="cancelled"] .ft-stale-dot { background: var(--ft-sev-1); }
+
+/* ── Live Indicator ── */
+.ft-live-ind {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  padding: .15rem .55rem;
+  border-radius: 999px;
+  font-size: .65rem;
+  font-weight: 600;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  color: var(--accent, #22c55e);
+  background: color-mix(in srgb, var(--accent, #22c55e) 8%, transparent);
+  margin-bottom: .35rem;
+  transition: all .4s ease;
+}
+.ft-live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: ft-pulse 2s infinite;
+  flex-shrink: 0;
+}
+.ft-live-text {
+  white-space: nowrap;
+}
+.ft-live-ind--stale {
+  color: var(--state-warning, #f59e0b);
+  background: color-mix(in srgb, var(--state-warning, #f59e0b) 10%, transparent);
+}
+.ft-live-ind--stale .ft-live-dot {
+  animation-duration: 1.5s;
+}
+/* Palette-matched live indicator */
+.ft-root[data-severity="on-time"] .ft-live-ind,
+.ft-root[data-severity="delayed"] .ft-live-ind,
+.ft-root[data-severity="late"] .ft-live-ind,
+.ft-root[data-severity="cancelled"] .ft-live-ind {
+  color: var(--ft-sev-2);
+  background: color-mix(in srgb, var(--ft-sev-1) 8%, transparent);
+}
+.ft-root[data-severity="on-time"] .ft-live-ind--stale,
+.ft-root[data-severity="delayed"] .ft-live-ind--stale,
+.ft-root[data-severity="late"] .ft-live-ind--stale,
+.ft-root[data-severity="cancelled"] .ft-live-ind--stale {
+  color: var(--ft-sev-1);
+  background: color-mix(in srgb, var(--ft-sev-1) 12%, transparent);
+}
+
+/* ── Skeleton Loading ── */
+.ft-skeleton {
+  pointer-events: none;
+}
+.ft-skel-line {
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--white-05) 25%, var(--white-08) 50%, var(--white-05) 75%);
+  background-size: 200% 100%;
+  animation: ft-shimmer 1.5s ease infinite;
+  margin-bottom: .55rem;
+}
+.ft-skel-lg {
+  width: 80px;
+  height: 2rem;
+}
+.ft-skel-md {
+  width: 100px;
+  height: .9rem;
+}
+.ft-skel-sm {
+  width: 70px;
+  height: .75rem;
+}
+.ft-skel-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+.ft-skel-bar {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--white-05) 25%, var(--white-08) 50%, var(--white-05) 75%);
+  background-size: 200% 100%;
+  animation: ft-shimmer 1.5s ease infinite;
+  margin-bottom: .55rem;
+}
+.ft-skel-pill {
+  width: 120px;
+  height: 1.8rem;
+  border-radius: 999px;
+  margin: 0 auto;
+  background: linear-gradient(90deg, var(--white-05) 25%, var(--white-08) 50%, var(--white-05) 75%);
+  background-size: 200% 100%;
+  animation: ft-shimmer 1.5s ease infinite;
+}
+@keyframes ft-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Card loaded transition ── */
+.ft-card--loaded .ft-airport,
+.ft-card--loaded .ft-city,
+.ft-card--loaded .ft-time,
+.ft-card--loaded .ft-status,
+.ft-card--loaded .ft-eta,
+.ft-card--loaded .ft-chips,
+.ft-card--loaded .ft-meta-row,
+.ft-card--loaded .ft-aircraft,
+.ft-card--loaded .ft-when-to-leave {
+  animation: ft-dataReveal .4s ease both;
+}
+.ft-card--loaded .ft-progress {
+  transition: width .8s cubic-bezier(.25, .46, .45, .94);
+}
+.ft-card--loaded .ft-plane-icon {
+  transition: left .8s cubic-bezier(.25, .46, .45, .94);
+}
+@keyframes ft-dataReveal {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.ft-live-unavailable {
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  font-size: .85rem;
+  color: var(--text-muted);
+  margin-top: .35rem;
+}
+.ft-live-unavailable i {
+  font-size: .65rem;
+}
+
+@keyframes ft-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 color-mix(in srgb, currentColor 40%, transparent); }
+  50% { opacity: .7; box-shadow: 0 0 0 5px transparent; }
+}
+
+@keyframes ft-fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Compact card (PRE_TRIP, BETWEEN_FLIGHTS, COLLAPSED) ── */
+.ft-compact {
+  display: flex;
+  align-items: center;
+  gap: .95rem;
+  padding: .5rem .75rem;
+}
+.ft-compact-icon {
+  font-size: 1.1rem;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.ft-compact-main {
+  flex: 1;
+  min-width: 0;
+}
+.ft-compact-primary {
+  font-size: .95rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ft-compact-secondary {
+  font-size: .78rem;
+  color: var(--text-secondary);
+  margin-top: .15rem;
+}
+.ft-compact-badge {
+  flex-shrink: 0;
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--accent);
+  padding: .25rem .65rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  white-space: nowrap;
+}
+
+/* ── Check-in Reminder (amber glass) ── */
+.ft-checkin {
+  display: flex;
+  align-items: center;
+  gap: .95rem;
+  padding: .75rem 1rem;
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--state-warning) 10%, transparent),
+    color-mix(in srgb, var(--state-warning) 5%, transparent));
+  border-color: color-mix(in srgb, var(--state-warning) 25%, transparent);
+}
+.ft-checkin-icon {
+  font-size: 1.25rem;
+  color: var(--state-warning);
+  flex-shrink: 0;
+}
+.ft-checkin-main {
+  flex: 1;
+  min-width: 0;
+}
+.ft-checkin-label {
+  font-size: .82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--state-warning);
+}
+.ft-checkin-flight {
+  font-size: .95rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-top: .15rem;
+}
+.ft-checkin-details {
+  font-size: .78rem;
+  color: var(--text-secondary);
+  margin-top: .1rem;
+}
+.ft-checkin-link {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .4rem .85rem;
+  border-radius: 8px;
+  font-size: .78rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--contrast-dark);
+  background: var(--state-warning);
+  transition: background .2s ease, transform .1s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.ft-checkin-link:hover {
+  background: var(--warning);
+  transform: translateY(-1px);
+}
+.ft-checkin-link i {
+  font-size: .7rem;
+}
+
+/* ── Post-trip (collapsed record) ── */
+.ft-post {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: .65rem .85rem;
+  opacity: .65;
+  transition: opacity .5s ease;
+}
+.ft-post:hover {
+  opacity: .9;
+}
+.ft-post-icon {
+  font-size: 1.1rem;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.ft-post-main {
+  flex: 1;
+  min-width: 0;
+}
+.ft-post-primary {
+  font-size: .88rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ft-post-flight {
+  color: var(--text-secondary);
+}
+.ft-post-secondary {
+  font-size: .75rem;
+  color: var(--text-muted);
+  margin-top: .15rem;
+}
+.ft-post-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  font-size: .72rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.ft-post-badge i {
+  font-size: .7rem;
+}
+.ft-post-text {
+  font-size: .82rem;
+  color: var(--text-secondary);
+}
+
+/* ── Sticky Bar (scroll-triggered collapse) ── */
+.ft-sticky-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  height: 40px;
+  padding: 0 1.5rem;
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--bg, #0d0d0d) 92%, transparent),
+    color-mix(in srgb, var(--bg, #0d0d0d) 85%, transparent));
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--white-08);
+  transform: translateY(-100%);
+  transition: transform .3s ease;
+  cursor: pointer;
+}
+.ft-sticky-bar.ft-sticky-visible {
+  transform: translateY(0);
+}
+.ft-sticky-icon {
+  font-size: .85rem;
+  color: var(--accent);
+}
+.ft-sticky-text {
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--text);
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ft-sticky-status {
+  font-size: .72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: .15rem .5rem;
+  border-radius: 999px;
+}
+.ft-sticky-chip {
+  font-size: .68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  padding: .1rem .45rem;
+  border-radius: 4px;
+  background: var(--white-08);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.ft-sticky-status--on-time {
+  color: var(--text);
+  background: color-mix(in srgb, var(--accent, #22c55e) 40%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent, #22c55e) 55%, transparent);
+}
+.ft-sticky-status--delayed {
+  color: var(--text);
+  background: color-mix(in srgb, var(--state-warning, #f59e0b) 40%, transparent);
+  border: 1px solid color-mix(in srgb, var(--state-warning, #f59e0b) 55%, transparent);
+}
+.ft-sticky-status--late,
+.ft-sticky-status--cancelled {
+  color: var(--text);
+  background: color-mix(in srgb, var(--rose-2, #ef4444) 40%, transparent);
+  border: 1px solid color-mix(in srgb, var(--rose-2, #ef4444) 55%, transparent);
+}
+
+/* ═══ RESPONSIVE ═══ */
+
+@media (max-width: 640px) {
+  .ft-root {
+    padding: 1rem .75rem;
+    margin: .75rem .5rem 1.25rem;
+  }
+  .ft-full {
+    padding: .5rem .5rem;
+    gap: .85rem;
+  }
+  .ft-airport {
+    font-size: 1.6rem;
+  }
+  .ft-route-col {
+    min-width: 120px;
+  }
+  .ft-compact {
+    padding: .5rem .75rem;
+  }
+  .ft-checkin {
+    flex-wrap: wrap;
+    padding: .65rem .75rem;
+  }
+  .ft-checkin-link {
+    margin-top: .5rem;
+    width: 100%;
+    justify-content: center;
+  }
+  .ft-sticky-bar {
+    height: 36px;
+    padding: 0 1rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .ft-full {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .ft-right {
+    text-align: center;
+  }
+  .ft-right .ft-chips {
+    justify-content: center;
+  }
+  .ft-chips {
+    justify-content: center;
+  }
+}

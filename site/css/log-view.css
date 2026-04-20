@@ -32,7 +32,7 @@
 
   position: relative;
   min-height: 100%;
-  padding-top: 15px;
+  padding-top: 28px;
   padding-bottom: 48px;
   font-family: 'Inter', var(--font-sans);
   font-size: 1.1rem;
@@ -62,22 +62,15 @@
    The drawer stays mounted; per-row Refine actions will open it. */
 .ai-drawer-toggle { display: none !important; }
 
-/* Icon standardization inside Log — all row chips share one size */
-.log-module .log-chip i,
+/* Icon standardization inside Log action rows */
 .log-module .log-action-btn i { font-size: var(--row-icon); line-height: 1; }
 
-/* ─── Reviewed-lane footer controls — three standard buttons in a row:
-   journal select (secondary), Preview & Copy (primary), Delete (destructive).
-   Decoupled (no fused pill); shared height + radius + padding for visual
-   parity. Hosted inside the composer's .dayone-actions row. */
-.log-dayone-push-controls {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-3);
-}
+/* ─── Reviewed-lane footer controls — two standard buttons in a row:
+   Preview & Copy (primary), Delete (destructive). Decoupled; shared height +
+   radius + padding for visual parity. Hosted inside the composer's
+   .dayone-actions row. */
 
-/* Shared button shape so all three controls measure the same. */
-.log-dayone-journal-select,
+/* Shared button shape so both controls measure the same. */
 .log-dayone-push-btn,
 .log-reviewed-delete-btn {
   display: inline-flex;
@@ -92,29 +85,6 @@
   letter-spacing: 0.01em;
   cursor: pointer;
   transition: background 160ms ease, border-color 160ms ease, color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
-}
-
-/* Secondary — target journal selector. */
-.log-dayone-journal-select {
-  appearance: none;
-  -webkit-appearance: none;
-  background: var(--panel);
-  color: var(--text-primary);
-  border: 1px solid var(--border-default);
-  padding-right: 36px;
-  background-image: linear-gradient(45deg, transparent 50%, var(--text-muted) 50%),
-                    linear-gradient(135deg, var(--text-muted) 50%, transparent 50%);
-  background-position: calc(100% - 18px) center, calc(100% - 13px) center;
-  background-size: 5px 5px, 5px 5px;
-  background-repeat: no-repeat;
-}
-.log-dayone-journal-select:hover:not(:disabled) {
-  border-color: var(--border-accent);
-  background-color: var(--accent-a06);
-}
-.log-dayone-journal-select:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
 }
 
 /* Primary — Preview & Copy. Solid accent so it reads as the main action. */
@@ -152,7 +122,7 @@
 }
 
 /* ═══════════════════════════════════════════════════
-   3. Entries Panel — bordered container with control bar
+   3. Entries Panel — bordered container
    ═══════════════════════════════════════════════════ */
 
 .log-panel {
@@ -165,136 +135,24 @@
   box-shadow: var(--log-shadow-card);
 }
 
-/* Control bar — tabs + source filters grouped in a framed row */
-.log-panel-control {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 14px 16px;
-  margin-bottom: 24px;
-  border-radius: var(--radius-lg);
-  background: var(--bg-tertiary);
-  border: var(--log-border);
-  box-shadow:
-    inset 0 1px 0 var(--white-08),
-    var(--shadow-sm);
-}
-
-/* ─── Source Filter Chips (scoped inside .log-panel-control) ─── */
-
-/* .log-filter-bar: was second row in the panel; with the tab bar removed it
-   sits alone. Rule kept for selector targeting; no properties needed. */
-.log-chip-row {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-/* Journal-date picker — rides inside the Source filter row, right-justified
-   via margin-left:auto so it hugs the right edge even as chips reflow. Shown
-   only on the Reviewed subtab (gated in JSX). */
-.log-date-picker {
-  margin-left: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
-  border-radius: var(--radius-full);
-  border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--border-default));
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
+/* Panel title — serif italic, top-left, memoir-reader aesthetic.
+   Specificity must beat .log-module h2 (0,1,1) so we scope with
+   .log-module to get (0,2,0) and win back the font-family. */
+.log-module .log-panel-title {
+  margin: 0 0 18px;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 2rem;
+  line-height: 1;
+  letter-spacing: 0.02em;
   color: var(--accent);
-  font-size: 0.92rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 140ms ease, border-color 140ms ease;
-}
-.log-date-picker:hover {
-  background: color-mix(in srgb, var(--accent) 18%, transparent);
-  border-color: var(--accent);
-}
-.log-date-picker i { font-size: 1rem; }
-.log-date-picker-label {
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-.log-date-picker-input {
-  appearance: none;
-  -webkit-appearance: none;
-  border: none;
-  background: transparent;
-  color: var(--text-primary);
-  font-family: inherit;
-  font-size: 0.95rem;
-  font-weight: 600;
-  padding: 0;
-  cursor: pointer;
-  min-width: 128px;
-}
-.log-date-picker-input:focus {
-  outline: none;
-  color: var(--accent);
-}
-.log-date-picker-input::-webkit-calendar-picker-indicator {
-  filter: invert(85%) sepia(12%) saturate(260%) hue-rotate(210deg);
-  cursor: pointer;
-}
-@media (max-width: 600px) {
-  .log-date-picker {
-    margin-left: 0;
-    flex-basis: 100%;
-    justify-content: center;
-  }
-}
-.log-chip-row-label {
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-right: 8px;
-}
-.log-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  border-radius: var(--radius-full);
-  border: var(--log-border);
-  background: var(--bg-secondary);
-  color: var(--text-muted);
-  font-size: 1.1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 200ms ease;
-  box-shadow: var(--shadow-sm);
-}
-.log-chip:hover {
-  background: var(--bg-card-hover);
-  color: var(--text-secondary);
-  border-color: var(--border-accent);
-}
-.log-chip.active {
-  background: linear-gradient(135deg,
-    rgba(var(--accent-rgb), 0.18) 0%,
-    rgba(var(--accent-rgb), 0.06) 100%);
-  border-color: var(--border-accent);
-  color: var(--accent);
-  font-weight: 600;
-  box-shadow:
-    0 0 8px rgba(var(--accent-rgb), 0.10),
-    var(--shadow-sm);
 }
 
 /* ═══════════════════════════════════════════════════
-   4. Entry Feed — density-aware grid
-   Default matches legacy 3-col; density modifier classes
-   (--compact, --comfortable, --detail) override columns
-   and card sizing. ReviewCard uses container queries so
-   narrower columns auto-shrink internal zones.
+   4. Entry Feed — 4-column grid
+   ReviewCard uses container queries so narrower columns
+   auto-shrink internal zones.
    ═══════════════════════════════════════════════════ */
 
 .log-entries {
@@ -353,6 +211,8 @@
 .log-entries--compact .review-card-artifact--video {
   height: 120px;
   max-height: 120px;
+}
+.log-entries--compact .review-card-artifact-img {
   object-fit: cover;
 }
 .log-entries--compact .review-card-artifact--text,
@@ -413,78 +273,19 @@
   display: none;             /* icons only in compact to keep buttons short */
 }
 
-/* ─── Density: Comfortable (3-up, balanced) ─── */
-.log-entries--comfortable {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-}
-@media (max-width: 1100px) {
-  .log-entries--comfortable { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@media (max-width: 720px) {
-  .log-entries--comfortable { grid-template-columns: minmax(0, 1fr); }
-}
-.log-entries--comfortable .review-card-zone--artifact {
-  max-height: 180px;
-}
-.log-entries--comfortable .review-card-prompt-input {
-  min-height: 56px;
-}
-
-/* ─── Density: Detail — explicit alias of current default ─── */
-.log-entries--detail {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-/* ═══════════════════════════════════════════════════
-   4b. Time-bucket headers
-   Render between groups of cards. Spans all columns of
-   the grid so the header visually breaks the flow.
-   ═══════════════════════════════════════════════════ */
-
-.log-bucket-header {
-  grid-column: 1 / -1;
-  display: flex;
-  align-items: baseline;
-  gap: 14px;
-  margin: 18px 0 4px;
-  padding: 0 4px;
-}
-.log-bucket-header:first-child { margin-top: 4px; }
-.log-bucket-header .log-bucket-label {
-  font-family: var(--font-serif);
-  font-size: 1.35rem;
-  letter-spacing: 0.3px;
-  color: var(--mauve, var(--accent));
-  font-weight: 500;
-}
-.log-bucket-header .log-bucket-meta {
-  font-size: 0.72rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  font-weight: 600;
-}
-.log-bucket-header .log-bucket-rule {
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg,
-    color-mix(in srgb, var(--accent) 18%, transparent) 0%,
-    transparent 100%);
-}
-
-/* Date header — shown only when multiple dates exist in the lane */
+/* Date header — one per date section; hosts the capture toolbar on its
+   first instance, right-justified via the toolbar's margin-left:auto. */
 .log-date-header {
   grid-column: 1 / -1;
-  margin: 22px 0 6px;
-  padding: 10px 0 4px;
+  margin: 22px 0 14px;
+  padding: 10px 0 8px;
   border-bottom: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
   font-family: var(--font-serif);
   font-size: 1.1rem;
   color: var(--accent);
   letter-spacing: 0.3px;
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 10px;
 }
 .log-date-header:first-child { margin-top: 0; }
@@ -495,66 +296,6 @@
   text-transform: uppercase;
   color: var(--text-muted);
   font-weight: 600;
-}
-
-/* ═══════════════════════════════════════════════════
-   4c. Density toggle pill
-   Matches Source chip-row aesthetic, right-aligned.
-   ═══════════════════════════════════════════════════ */
-
-.log-density-toggle {
-  margin-left: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-}
-.log-density-toggle-label {
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-.log-density-toggle-group {
-  display: inline-flex;
-  padding: 3px;
-  gap: 2px;
-  background: var(--bg-secondary);
-  border: var(--log-border);
-  border-radius: var(--radius-full);
-  box-shadow: var(--shadow-sm);
-}
-.log-density-btn {
-  padding: 6px 14px;
-  border: none;
-  background: transparent;
-  color: var(--text-muted);
-  font-family: inherit;
-  font-size: 0.88rem;
-  font-weight: 500;
-  border-radius: var(--radius-full);
-  cursor: pointer;
-  transition: all 160ms ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-.log-density-btn:hover {
-  color: var(--text-secondary);
-}
-.log-density-btn[aria-pressed="true"] {
-  background: linear-gradient(135deg,
-    rgba(var(--accent-rgb), 0.22) 0%,
-    rgba(var(--accent-rgb), 0.08) 100%);
-  color: var(--accent);
-  font-weight: 600;
-  box-shadow: 0 0 6px rgba(var(--accent-rgb), 0.15);
-}
-.log-density-btn i { font-size: 0.85rem; }
-@media (max-width: 720px) {
-  .log-density-toggle-label { display: none; }
-  .log-density-btn .log-density-btn-label { display: none; }
-  .log-density-btn { padding: 6px 10px; }
 }
 
 .log-empty {
@@ -1115,15 +856,16 @@
   box-shadow: none;
 }
 
-/* Subtab row — folder-tab strip on the left, capture actions on the right.
+/* Subtab row — folder-tab strip on the left, optional reset button on the right.
    The bar overlaps the frame's top border by 1px so the active tab merges
-   into the panel. Capture actions float on the right with their own z-index
-   so dropdowns escape the .log-review-frame stacking context. */
+   into the panel. Capture actions live inside the first date-header below. */
 .log-subtab-row {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
   gap: 12px;
+  flex-wrap: wrap;
+  border-bottom: var(--log-border);
 }
 
 .log-subtab-bar {
@@ -1133,6 +875,7 @@
   padding: 0;
   position: relative;
   z-index: 1;
+  flex-shrink: 0;
 }
 
 /* While a file drag is active over the composer, give the whole module
@@ -1324,6 +1067,8 @@
   transition: background 180ms ease, color 180ms ease, border-color 180ms ease;
   position: relative;
   top: 2px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 .log-subtab:hover {
   color: var(--text-primary);
@@ -1360,11 +1105,13 @@
   border-color: var(--border-accent);
 }
 
-/* Right-side wrapper in the subtab row — capture actions + reset button */
+/* Right-side wrapper in the subtab row — reset button only (reviewed lane).
+   margin-left: auto keeps it pinned to the right edge of the flex row. */
 .log-subtab-right {
   display: flex;
   align-items: flex-end;
   gap: 8px;
+  margin-left: auto;
 }
 
 .log-subtab-reset-btn {
@@ -1391,6 +1138,35 @@
 .log-subtab-reset-btn:disabled {
   opacity: 0.45;
   cursor: not-allowed;
+}
+
+/* Capture-action toolbar — bordered pill injected into the first date-header
+   row, right-aligned via margin-left:auto. Single row, nowrap. */
+.log-toolbar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px;
+  margin-left: auto;
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--bg-tertiary) 55%, transparent);
+  box-shadow: inset 0 1px 0 0 var(--white-04);
+  flex-shrink: 0;
+  flex-wrap: nowrap;
+  align-self: center;
+}
+.log-toolbar .log-capture-actions { margin: 0; flex-wrap: nowrap; }
+.log-toolbar .log-subtab-reset-btn { margin: 0; }
+
+/* Fallback wrapper — used only when there's no date-header to host the
+   toolbar (empty-state path). Spans the full grid width so justify-content
+   can right-align the toolbar inside the 4-col .log-entries grid. */
+.log-toolbar-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+  grid-column: 1 / -1;
 }
 
 /* ═══════════════════════════════════════════════════
@@ -1494,8 +1270,49 @@
   overflow: hidden;
 }
 .review-card-artifact--image {
+  position: relative;
   display: block;
+}
+.review-card-artifact-img {
+  display: block;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  transition: opacity 180ms ease;
+}
+.review-card-artifact--image.is-loading > .review-card-artifact-img { opacity: 0; }
+.review-card-artifact--image.is-error > .review-card-artifact-img { display: none; }
+
+.review-card-artifact-loading,
+.review-card-artifact-error {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  pointer-events: none;
+}
+.review-card-artifact-loading::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, var(--white-08) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: review-card-artifact-shimmer 1.2s linear infinite;
+  pointer-events: none;
+}
+.review-card-artifact-loading i {
+  position: relative;
+  z-index: 1;
+  font-size: 1.2rem;
+  color: var(--accent);
+}
+@keyframes review-card-artifact-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 .review-card-artifact--video {
   display: block;
@@ -1790,34 +1607,6 @@
   font-size: 0.75rem;
   color: color-mix(in srgb, var(--text-muted) 80%, transparent);
 }
-.dayone-field-restore {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 3px 10px;
-  border-radius: var(--radius-full);
-  border: none;
-  background: color-mix(in srgb, var(--accent) 18%, transparent);
-  color: var(--accent);
-  font-family: inherit;
-  font-size: 0.72rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 140ms ease;
-}
-.dayone-field-restore:hover {
-  background: color-mix(in srgb, var(--accent) 32%, transparent);
-}
-
-/* ─── Title + Context — 1×2 grid, matched hero styling ─── */
-.dayone-title-context {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
-}
-@media (max-width: 780px) {
-  .dayone-title-context { grid-template-columns: 1fr; }
-}
 .dayone-hero-input {
   width: 100%;
   padding: 10px 14px;
@@ -1868,31 +1657,7 @@
   color: var(--text-muted);
   font-style: italic;
 }
-.dayone-reflection-refine {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 1px solid color-mix(in srgb, var(--accent) 32%, var(--border-default));
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
-  color: var(--accent);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.78rem;
-  transition: background 140ms ease, border-color 140ms ease, transform 140ms ease;
-}
-.dayone-reflection-refine:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--accent) 22%, transparent);
-  border-color: var(--accent);
-  transform: scale(1.08);
-}
-.dayone-reflection-refine:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-/* ─── Reflection action group (quick refine + Refine All) ─── */
+/* ─── Reflection action group (Refine All + Reset) ─── */
 .dayone-reflection-actions {
   display: inline-flex;
   align-items: center;
@@ -2076,6 +1841,8 @@
 .dayone-story-body .review-card-artifact--video {
   height: 120px;
   max-height: 120px;
+}
+.dayone-story-body .review-card-artifact-img {
   object-fit: cover;
 }
 .dayone-story-body .review-card-artifact--text,
@@ -2131,7 +1898,7 @@
   white-space: nowrap;
 }
 
-/* ─── Footer action row — Journal select + Copy + Delete ─── */
+/* ─── Footer action row — Copy + Delete ─── */
 .dayone-actions {
   margin-top: 4px;
   padding-top: 16px;
@@ -2142,8 +1909,6 @@
   justify-content: flex-end;
   align-items: center;
 }
-.dayone-actions .log-dayone-push-controls { margin: 0; }
-
 /* ═══════════════════════════════════════════════════
    Responsive button labels
    Any icon+text button can wrap its text in
@@ -2522,5 +2287,359 @@
       0 0 0 1px rgba(var(--accent-rgb), 0.35),
       var(--log-shadow-card);
   }
+}
+
+/* ═══════════════════════════════════════════════════
+   RefineModal — full-screen editing surface for
+   the purple Edit/Refine button. Two-column layout:
+   artifact preview (left) + large textarea (right).
+   ═══════════════════════════════════════════════════ */
+
+.refine-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: refine-modal-fade 180ms ease;
+}
+@keyframes refine-modal-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.refine-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--bg) 78%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.refine-modal-panel {
+  position: relative;
+  width: min(780px, calc(100vw - 2rem));
+  max-height: calc(100vh - 3rem);
+  display: flex;
+  flex-direction: column;
+  background:
+    radial-gradient(ellipse at top,
+      color-mix(in srgb, var(--accent) 8%, transparent) 0%,
+      transparent 55%),
+    linear-gradient(180deg, var(--bg-tertiary) 0%, var(--bg) 100%);
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--white-10));
+  border-radius: 20px;
+  box-shadow:
+    0 48px 100px rgba(0, 0, 0, 0.65),
+    0 16px 36px var(--shadow-a35),
+    inset 0 1px 0 0 var(--white-05);
+  animation: refine-modal-rise 300ms cubic-bezier(.34, 1.4, .64, 1);
+  overflow: hidden;
+}
+@keyframes refine-modal-rise {
+  from { opacity: 0; transform: translateY(18px) scale(.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ─── Header ─── */
+.refine-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px 14px;
+  border-bottom: 1px solid var(--white-08);
+}
+.refine-modal-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.01em;
+}
+.refine-modal-title i {
+  font-size: 1.1rem;
+}
+.refine-modal-close {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--white-10);
+  background: var(--white-05);
+  color: var(--text-secondary);
+  font-size: 1rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 140ms ease, color 140ms ease, border-color 140ms ease;
+}
+.refine-modal-close:hover {
+  background: var(--white-10);
+  color: var(--text);
+  border-color: var(--white-18);
+}
+
+/* ─── Body: two-column grid ─── */
+.refine-modal-body {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: 20px;
+  padding: 20px 22px;
+  overflow-y: auto;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* Preview column */
+.refine-modal-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 0;
+}
+.refine-modal-preview-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.refine-modal-preview-label i {
+  color: var(--accent);
+  font-size: 0.9rem;
+}
+.refine-modal-artifact-wrap {
+  flex: 1 1 auto;
+  min-height: 180px;
+  max-height: 400px;
+  border-radius: var(--radius-md);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-default);
+  overflow: hidden;
+}
+.refine-modal-artifact-wrap .review-card-artifact {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 0;
+}
+.refine-modal-artifact-wrap .review-card-artifact--image {
+  width: 100%;
+  height: 100%;
+  background: var(--bg-tertiary);
+}
+.refine-modal-artifact-wrap .review-card-artifact-img {
+  object-fit: contain;
+}
+.refine-modal-artifact-wrap .review-card-artifact--text,
+.refine-modal-artifact-wrap .review-card-artifact--voice {
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+/* Editor column */
+.refine-modal-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+}
+.refine-modal-editor-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.refine-modal-textarea {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 220px;
+  resize: vertical;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--border-default));
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.15);
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+.refine-modal-textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow:
+    inset 0 2px 4px rgba(0,0,0,0.15),
+    0 0 0 3px rgba(var(--accent-rgb), 0.18);
+}
+.refine-modal-textarea::placeholder {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.refine-modal-textarea:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Error banner inside modal */
+.refine-modal-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--error) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--error) 40%, transparent);
+  color: var(--error);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+.refine-modal-error > i { padding-top: 2px; flex-shrink: 0; }
+.refine-modal-error > span { flex: 1; min-width: 0; word-break: break-word; }
+.refine-modal-error-dismiss {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--error);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  transition: background 140ms ease;
+}
+.refine-modal-error-dismiss:hover {
+  background: color-mix(in srgb, var(--error) 22%, transparent);
+}
+
+/* ─── Footer ─── */
+.refine-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 22px 18px;
+  border-top: 1px solid var(--white-08);
+}
+.refine-modal-footer-right {
+  display: flex;
+  gap: 10px;
+}
+
+.refine-modal-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: all 180ms ease;
+  box-shadow: var(--shadow-md);
+}
+.refine-modal-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Refine button — accent gradient */
+.refine-modal-btn--refine {
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--accent) 32%, transparent) 0%,
+    color-mix(in srgb, var(--accent) 16%, transparent) 100%);
+  border: 1px solid color-mix(in srgb, var(--accent) 50%, transparent);
+  color: var(--accent);
+}
+.refine-modal-btn--refine:hover:not(:disabled) {
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--accent) 40%, transparent) 0%,
+    color-mix(in srgb, var(--accent) 22%, transparent) 100%);
+  border-color: var(--accent);
+  box-shadow: 0 0 16px rgba(var(--accent-rgb), 0.3);
+  transform: translateY(-1px);
+}
+.refine-modal-btn--refine:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Cancel button — ghost */
+.refine-modal-btn--cancel {
+  background: var(--white-05);
+  border: 1px solid var(--white-12);
+  color: var(--text-secondary);
+}
+.refine-modal-btn--cancel:hover {
+  background: var(--white-10);
+  border-color: var(--white-18);
+  color: var(--text);
+}
+
+/* Save button — green success */
+.refine-modal-btn--save {
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--success) 32%, transparent) 0%,
+    color-mix(in srgb, var(--success) 16%, transparent) 100%);
+  border: 1px solid color-mix(in srgb, var(--success) 50%, transparent);
+  color: var(--success);
+}
+.refine-modal-btn--save:hover {
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--success) 40%, transparent) 0%,
+    color-mix(in srgb, var(--success) 22%, transparent) 100%);
+  border-color: var(--success);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--success) 30%, transparent);
+  transform: translateY(-1px);
+}
+
+/* ─── Responsive: stack vertically on narrow screens ─── */
+@media (max-width: 640px) {
+  .refine-modal-panel {
+    width: calc(100vw - 1rem);
+    max-height: calc(100vh - 1.5rem);
+    border-radius: 14px;
+  }
+  .refine-modal-body {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 14px 16px;
+  }
+  .refine-modal-artifact-wrap {
+    max-height: 200px;
+  }
+  .refine-modal-textarea {
+    min-height: 160px;
+  }
+  .refine-modal-footer {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px 16px 14px;
+  }
+  .refine-modal-btn {
+    padding: 8px 14px;
+    font-size: 0.92rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .refine-modal { animation: none; }
+  .refine-modal-panel { animation: none; }
 }
 

@@ -31,6 +31,9 @@
   <!-- Insert-event mode (gap rails, Add-event header button, modal) -->
   <link rel="stylesheet" href="../css/insert-event.css">
 
+  <!-- Flight Tracker Widget -->
+  <link rel="stylesheet" href="../css/flight-tracker.css">
+
   <!-- Font Awesome for nav icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
 
@@ -100,12 +103,12 @@
     </div>
   </section>
 
+  <!-- FLIGHT TRACKER — React widget, state-machine-driven -->
+  <div id="flight-tracker-root"></div>
+
   <div class="page-wrapper">
   <div class="main-content">
   <div class="itn-container">
-
-    <!-- FLIGHTS — rendered dynamically from trip.flights by renderFlights() -->
-    <section class="itn-section" id="flightsSection"></section>
 
     <!-- TIMELINE — rendered dynamically from trip.days by renderItinerary() -->
     <section class="itn-section" id="timeline">
@@ -121,7 +124,7 @@
     </section>
 
     <!-- NOTES — rendered from trip metadata -->
-    <section class="itn-section" id="notesSection" hidden></section>
+
 
   </div> <!-- /itn-container -->
   </div> <!-- /main-content -->
@@ -1416,60 +1419,10 @@
         return 'Completed';
       }
 
-      var PLANE_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21.5 4c0 0-2 .5-3.5 2L14.5 9.5l-8.2-1.8c-.8-.2-1.6.3-1.8 1.1-.1.4 0 .9.3 1.2l4.6 4.6-2.8 2.8-2.6-.6c-.4-.1-.8 0-1.1.3L1.5 18c-.2.2-.2.6 0 .8l4.4 1.4 1.4 4.4c.2.2.6.2.8 0l1.3-1.3c.3-.3.4-.7.3-1.1l-.6-2.6 2.8-2.8 4.6 4.6c.3.3.7.4 1.2.3.8-.2 1.3-1 1.1-1.8z"/></svg>';
-
-      function renderFlightCard(f, isReturn) {
-        if (!f) return '';
-        var route = (f.route || '').split(/\s*[\u2192→]\s*/);
-        var depCode = route[0] || '';
-        var arrCode = route[1] || '';
-        // Parse city from code (simple mapping for common airports)
-        var airports = { LHR:'London, UK', EWR:'Newark, NJ', JFK:'New York, NY', IST:'Istanbul', LHE:'Lahore' };
-        var depCity = airports[depCode] || '';
-        var arrCity = airports[arrCode] || '';
-        var flipClass = isReturn ? ' class="flip-x"' : '';
-        var meta1 = escHtml(f.flight || '');
-        var meta2 = '';
-        if (f.seat) meta2 = 'Seat ' + escHtml(f.seat);
-        return '<div class="flight-card">' +
-          '<div><div class="fc-airport">' + escHtml(depCode) + '</div><div class="fc-city">' + escHtml(depCity) + '</div><div class="fc-time">' + escHtml(f.depart || '') + '</div></div>' +
-          '<div class="fc-route"><div class="fc-meta">' + meta1 + '</div>' + PLANE_SVG.replace('<svg', '<svg' + flipClass) + '<div class="fc-route-line"></div><div class="fc-meta">' + escHtml(meta2) + '</div></div>' +
-          '<div class="fc-right"><div class="fc-airport">' + escHtml(arrCode) + '</div><div class="fc-city">' + escHtml(arrCity) + '</div><div class="fc-time">' + escHtml(f.arrive || '') + '</div></div>' +
-          '</div>';
-      }
-
-      function renderFlights(trip) {
-        var sec = document.getElementById('flightsSection');
-        if (!sec) return;
-        if (!trip.flights || (!trip.flights.inbound && !trip.flights.outbound)) {
-          sec.hidden = true;
-          return;
-        }
-        var html = '<div class="section-header"><div class="overline">Travel Details</div><h2>The Journey</h2><div class="divider"><span class="divider-heart">&hearts;</span></div></div>';
-        if (trip.flights.inbound) html += renderFlightCard(trip.flights.inbound, false);
-        if (trip.flights.outbound) html += renderFlightCard(trip.flights.outbound, true);
-        sec.innerHTML = html;
-        sec.hidden = false;
-      }
-
       function renderNotes(trip) {
+        // Notes section removed — practical details no longer displayed.
         var sec = document.getElementById('notesSection');
-        if (!sec) return;
-        var notes = [];
-        if (trip.base) notes.push('<strong>Accommodation</strong> \u2014 ' + escHtml(trip.base));
-        if (trip.vibe) notes.push('<strong>Vibe</strong> \u2014 ' + escHtml(trip.vibe));
-        if (trip.regions && trip.regions.length) notes.push('<strong>Regions</strong> \u2014 ' + escHtml(trip.regions.join(', ')));
-        // Add day-level notes
-        (trip.days || []).forEach(function(day) {
-          if (day.notes) notes.push('<strong>Day ' + day.day + '</strong> \u2014 ' + escHtml(day.notes));
-        });
-        if (!notes.length) { sec.hidden = true; return; }
-        var html = '<div class="section-header"><div class="overline">Practical Details</div><h2>Notes</h2><div class="divider"><span class="divider-heart">&hearts;</span></div></div>';
-        html += '<div class="notes-box">';
-        notes.forEach(function(n) { html += '<div class="note">' + n + '</div>'; });
-        html += '</div>';
-        sec.innerHTML = html;
-        sec.hidden = false;
+        if (sec) sec.hidden = true;
       }
 
       function renderJournalDays(trip) {
@@ -1550,13 +1503,13 @@
               if (typeof window.buildDayStopsFromTrip === 'function') window.buildDayStopsFromTrip(data.trip);
               renderTripContext(data.trip);
               renderHero(data.trip);
-              renderFlights(data.trip);
               renderItinerary(data.trip, { preserveState: preserve });
               renderNotes(data.trip);
               renderJournalDays(data.trip);
               renderFooter(data.trip);
               renderTimelineOverline(data.trip);
               window.__tripData = data.trip;
+              if (typeof window.__onTripRefresh === 'function') window.__onTripRefresh(data.trip);
               return data.trip;
             }
             console.log('[ITIN:ERR]', 'API returned', data.error || 'no trip data');
@@ -2362,14 +2315,14 @@
       if (!window.notify) return;
       if (count === 0) {
         // Was non-zero before, now resolved — quiet success.
-        window.notify.success('All timing conflicts resolved');
+        if (typeof window.notify.success === 'function') window.notify.success('All timing conflicts resolved');
         return;
       }
       // Build a terse description: up to 3 event names, then "+N more".
       var names = conflicts.slice(0, 3).map(function(c) { return c.name; });
       var desc = names.join(', ');
       if (conflicts.length > 3) desc += ' +' + (conflicts.length - 3) + ' more';
-      window.notify.warning(
+      if (typeof window.notify.warning === 'function') window.notify.warning(
         count + ' timing ' + (count === 1 ? 'conflict' : 'conflicts') + ' on today\u2019s schedule',
         { description: desc, duration: 8000 }
       );
@@ -2790,6 +2743,11 @@
       });
     })();
   </script>
+
+  <!-- Flight Tracker Widget (depends on React via tweaker-loader) -->
+  <script src="../js/normalize-flights.js"></script>
+  <script src="../js/flight-state-machine.js"></script>
+  <script src="../js/flight-tracker.js"></script>
 
 </body>
 </html>
