@@ -204,15 +204,15 @@
           depCity ? h('div', { className: 'ft-city' }, depCity) : null,
           h('div', { className: 'ft-time' + (depTimeChanged ? ' ft-time--changed' + (isLate ? ' ft-time--late' : '') : '') },
             h('span', { className: 'ft-time-scheduled' }, f.depart || ''),
+            depTzAbbr ? h('span', { className: 'ft-tz-inline' }, ' ' + depTzAbbr) : null,
             depTimeChanged ? h('span', { className: 'ft-time-actual' }, ' ' + formatLocalTime(status.departure.actual)) : null
           ),
-          depTzAbbr ? h('div', { className: 'ft-tz-label' }, depTzAbbr) : null,
-          // Show departure time in arrival timezone
+          // Show departure time in arrival timezone (small)
           depTz && arrTz && depTz !== arrTz && status && status.departure && (status.departure.actual || status.departure.scheduled) ?
             h('div', { className: 'ft-tz-alt' }, convertTimeToTz(status.departure.actual || status.departure.scheduled, arrTz)) : null,
           h('div', { className: 'ft-chips' },
             status && status.departure && status.departure.terminal ?
-              h('span', { className: 'ft-chip' }, h('i', { className: 'fa-solid fa-building' }), ' T' + status.departure.terminal) : null,
+              h('span', { className: 'ft-terminal-tile' }, status.departure.terminal) : null,
             status && status.departure && status.departure.gate ?
               h('span', { className: 'ft-chip' }, h('i', { className: 'fa-solid fa-door-open' }), ' Gate ' + status.departure.gate) : null
           )
@@ -245,16 +245,16 @@
           arrCity ? h('div', { className: 'ft-city' }, arrCity) : null,
           h('div', { className: 'ft-time' + (arrTimeChanged ? ' ft-time--changed' + (isLate ? ' ft-time--late' : '') : '') },
             h('span', { className: 'ft-time-scheduled' }, f.arrive || ''),
+            arrTzAbbr ? h('span', { className: 'ft-tz-inline' }, ' ' + arrTzAbbr) : null,
             arrTimeChanged ? h('span', { className: 'ft-time-actual' }, ' ' + formatLocalTime(status.arrival.actual)) : null
           ),
-          arrTzAbbr ? h('div', { className: 'ft-tz-label' }, arrTzAbbr) : null,
-          // Show arrival time in departure timezone
+          // Show arrival time in departure timezone (small)
           depTz && arrTz && depTz !== arrTz && status && status.arrival && (status.arrival.actual || status.arrival.scheduled) ?
             h('div', { className: 'ft-tz-alt' }, convertTimeToTz(status.arrival.actual || status.arrival.scheduled, depTz)) : null,
           h('div', { className: 'ft-chips' },
             status && status.arrival && status.arrival.terminal ?
-              h('span', { className: 'ft-chip' + (arrivalChanges.terminal ? ' ft-chip--changed' : '') },
-                h('i', { className: 'fa-solid fa-building' }), ' T' + status.arrival.terminal) : null,
+              h('span', { className: 'ft-terminal-tile' + (arrivalChanges.terminal ? ' ft-terminal-tile--changed' : '') },
+                status.arrival.terminal) : null,
             status && status.arrival && status.arrival.gate ?
               h('span', { className: 'ft-chip' + (arrivalChanges.gate ? ' ft-chip--changed' : '') },
                 h('i', { className: 'fa-solid fa-door-open' }), ' Gate ' + status.arrival.gate) : null,

@@ -106,6 +106,8 @@
 .ft-root[data-severity="on-time"] .ft-chip,
 .ft-root[data-severity="on-time"] .ft-compact-secondary,
 .ft-root[data-severity="on-time"] .ft-tz-label,
+.ft-root[data-severity="on-time"] .ft-tz-inline,
+.ft-root[data-severity="on-time"] .ft-tz-alt,
 .ft-root[data-severity="delayed"] .ft-city,
 .ft-root[data-severity="delayed"] .ft-flight-num,
 .ft-root[data-severity="delayed"] .ft-meta-row,
@@ -113,6 +115,8 @@
 .ft-root[data-severity="delayed"] .ft-chip,
 .ft-root[data-severity="delayed"] .ft-compact-secondary,
 .ft-root[data-severity="delayed"] .ft-tz-label,
+.ft-root[data-severity="delayed"] .ft-tz-inline,
+.ft-root[data-severity="delayed"] .ft-tz-alt,
 .ft-root[data-severity="late"] .ft-city,
 .ft-root[data-severity="late"] .ft-flight-num,
 .ft-root[data-severity="late"] .ft-meta-row,
@@ -120,13 +124,17 @@
 .ft-root[data-severity="late"] .ft-chip,
 .ft-root[data-severity="late"] .ft-compact-secondary,
 .ft-root[data-severity="late"] .ft-tz-label,
+.ft-root[data-severity="late"] .ft-tz-inline,
+.ft-root[data-severity="late"] .ft-tz-alt,
 .ft-root[data-severity="cancelled"] .ft-city,
 .ft-root[data-severity="cancelled"] .ft-flight-num,
 .ft-root[data-severity="cancelled"] .ft-meta-row,
 .ft-root[data-severity="cancelled"] .ft-aircraft,
 .ft-root[data-severity="cancelled"] .ft-chip,
 .ft-root[data-severity="cancelled"] .ft-compact-secondary,
-.ft-root[data-severity="cancelled"] .ft-tz-label {
+.ft-root[data-severity="cancelled"] .ft-tz-label,
+.ft-root[data-severity="cancelled"] .ft-tz-inline,
+.ft-root[data-severity="cancelled"] .ft-tz-alt {
   color: color-mix(in srgb, var(--contrast-dark) 75%, transparent);
 }
 .ft-root[data-severity="on-time"] .ft-route-col,
@@ -155,6 +163,14 @@
 .ft-root[data-severity="cancelled"] .ft-chip {
   background: color-mix(in srgb, var(--contrast-dark) 15%, transparent);
   border: 1px solid color-mix(in srgb, var(--contrast-dark) 20%, transparent);
+}
+.ft-root[data-severity="on-time"] .ft-terminal-tile,
+.ft-root[data-severity="delayed"] .ft-terminal-tile,
+.ft-root[data-severity="late"] .ft-terminal-tile,
+.ft-root[data-severity="cancelled"] .ft-terminal-tile {
+  color: var(--contrast-dark);
+  border-color: color-mix(in srgb, var(--contrast-dark) 35%, transparent);
+  background: color-mix(in srgb, var(--contrast-dark) 10%, transparent);
 }
 .ft-card::after {
   content: "";
@@ -220,21 +236,55 @@
   margin-top: .15rem;
   letter-spacing: .02em;
 }
+.ft-tz-inline {
+  font-size: .78rem;
+  font-weight: 500;
+  opacity: .6;
+  margin-left: .15rem;
+  letter-spacing: .02em;
+}
 .ft-tz-alt {
   display: block;
-  font-size: .92rem;
-  color: var(--text-secondary);
-  font-weight: 500;
+  font-size: .72rem;
+  color: var(--text-muted);
+  font-weight: 400;
   margin-top: .1rem;
+  letter-spacing: .01em;
 }
 
 /* Terminal / Gate / Seat chips */
 .ft-chips {
   display: flex;
-  gap: .4rem;
+  gap: .5rem;
   flex-wrap: wrap;
-  margin-top: .45rem;
+  margin-top: .55rem;
+  align-items: center;
 }
+
+/* Modern terminal tile */
+.ft-terminal-tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 10px;
+  border: 2px solid color-mix(in srgb, var(--text) 25%, transparent);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0;
+  text-transform: uppercase;
+  background: color-mix(in srgb, var(--text) 6%, transparent);
+  backdrop-filter: blur(6px);
+  transition: border-color .4s ease, background .4s ease, color .4s ease, box-shadow .4s ease;
+}
+.ft-terminal-tile--changed {
+  border-color: color-mix(in srgb, var(--state-warning, #f59e0b) 60%, transparent);
+  background: color-mix(in srgb, var(--state-warning, #f59e0b) 18%, transparent);
+  animation: ft-chip-flash 1.5s ease 3;
+}
+
 .ft-chip {
   display: inline-flex;
   align-items: center;
