@@ -45,6 +45,16 @@ The whitelist auto-expands, so new inline-injected tokens don't false-positive c
 
 When the validator reports violations and the skill is asked to auto-fix, use these tables. **Never invent a mapping; if a value isn't in the table, flag it for human review.**
 
+### Spacing review (manual — not automated)
+
+When reviewing any CSS edit, also verify **breathing room** compliance. The following minimums are enforced by convention (see `ui-modernizer` skill for full table):
+- Section containers: padding ≥ 2rem, gap between sections ≥ 2rem
+- Cards: internal padding ≥ .85rem
+- Grid/list gaps: ≥ 1.25rem
+- Widget roots: padding ≥ 1.25rem, margin ≥ 1rem from siblings
+- No `padding: 0` on visible containers; no `margin: 0` collapsing section boundaries below 1rem
+- New components must be tested at 1440px, 860px, 680px, 420px
+
 ### Hex → Token (component CSS context)
 
 | Hex (raw) | When used as `background` / `background-color` | When used as `color` |
