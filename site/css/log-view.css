@@ -1790,34 +1790,6 @@
   font-size: 0.75rem;
   color: color-mix(in srgb, var(--text-muted) 80%, transparent);
 }
-.dayone-field-restore {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 3px 10px;
-  border-radius: var(--radius-full);
-  border: none;
-  background: color-mix(in srgb, var(--accent) 18%, transparent);
-  color: var(--accent);
-  font-family: inherit;
-  font-size: 0.72rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 140ms ease;
-}
-.dayone-field-restore:hover {
-  background: color-mix(in srgb, var(--accent) 32%, transparent);
-}
-
-/* ─── Title + Context — 1×2 grid, matched hero styling ─── */
-.dayone-title-context {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
-}
-@media (max-width: 780px) {
-  .dayone-title-context { grid-template-columns: 1fr; }
-}
 .dayone-hero-input {
   width: 100%;
   padding: 10px 14px;
