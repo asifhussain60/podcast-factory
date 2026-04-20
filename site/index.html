@@ -2417,7 +2417,6 @@
       previewBody = null,
       previewActions = null,
     }) {
-      const [reflectionRefining, setReflectionRefining] = useState(false);
       const refineAllBtnRef = useRef(null);
 
       // Return focus to Refine All button after a refine cycle completes (E1 a11y)
@@ -2483,52 +2482,6 @@
 
       function update(patch) { onChange({ ...value, ...patch }); }
 
-      // AI-powered reflection: sends approved entry prose + optional user draft
-      // to /api/refine-reflection which uses the voice DNA fingerprint.
-      // Blank textarea → AI generates from entries. Has text → AI enhances it.
-      async function refineReflection() {
-        if (reflectionRefining) return;
-        const rows = reviewedRows || [];
-        if (!rows.length) {
-          window.notify?.info?.('Nothing to refine', { description: 'Approve a few entries first.' });
-          return;
-        }
-        // Gather prose from all approved entries
-        const entries = rows
-          .map(row => row?.draft?.prose || row?.payload?.text || '')
-          .filter(Boolean);
-        if (!entries.length) {
-          window.notify?.info?.('No prose found', { description: 'Entries need refined text first.' });
-          return;
-        }
-        setReflectionRefining(true);
-        try {
-          const body = {
-            entries,
-            title: value.title || '',
-            context: value.context || '',
-            date: value.date || '',
-          };
-          const currentDraft = (value.reflection || '').trim();
-          if (currentDraft) body.draft = currentDraft;
-
-          const d = await window.BabuAI.request('/api/refine-reflection', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body),
-            timeoutMs: 60000,
-          });
-          if (d?.refined) {
-            update({ reflection: d.refined });
-            window.notify?.success?.(currentDraft ? 'Reflection enhanced' : 'Reflection generated');
-          }
-        } catch (err) {
-          window.notify?.error?.('Reflection refine failed', { description: err.message || String(err) });
-        } finally {
-          setReflectionRefining(false);
-        }
-      }
-
       const hasAny = !!(value.title?.trim() || (value.reflection || '').trim() || dayoneTags.length > 0);
       const storyCount = (reviewedRows || []).length;
 
@@ -2582,16 +2535,6 @@
                     <span className="btn-label"> Refine All</span>
                   </button>
                 )}
-                <button
-                  type="button"
-                  className="dayone-reflection-refine"
-                  onClick={refineReflection}
-                  disabled={reflectionRefining || !storyCount}
-                  title="Quick AI enhance of reflection (voice DNA)"
-                  aria-label="Refine reflection"
-                >
-                  <Icon name={reflectionRefining ? 'fa-circle-notch fa-spin' : 'fa-wand-magic-sparkles'} />
-                </button>
                 {hasAny && (
                   <button
                     type="button"
