@@ -112,6 +112,7 @@ function normalise(flights, flightStr) {
       actual: actualArr,
       terminal: arr.terminal || null,
       gate: arr.gate || null,
+      baggageBelt: arr.baggageBelt || null,
     },
     delayMinutes,
     arrivalDelayMinutes,
