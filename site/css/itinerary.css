@@ -416,6 +416,75 @@ html{scroll-behavior:smooth}
 .fc-right{text-align:right}
 .flip-x{transform:scaleX(-1)}
 
+/* ═══ FLIGHT STATUS BADGES ═══ */
+
+.fc-status{
+  display:inline-flex;
+  align-items:center;
+  gap:.35rem;
+  padding:.25rem .65rem;
+  border-radius:999px;
+  font-size:.75rem;
+  font-weight:600;
+  letter-spacing:.03em;
+  text-transform:uppercase;
+  white-space:nowrap;
+  margin-top:.4rem;
+  backdrop-filter:blur(4px);
+  transition:opacity .3s;
+}
+.fc-status--loading{
+  color:var(--text-secondary);
+  background:var(--white-05);
+  border:1px solid var(--white-08);
+}
+.fc-status--on-time{
+  color:var(--contrast-dark);
+  background:color-mix(in srgb, var(--accent) 12%, transparent);
+  border:1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+}
+.fc-status--delayed{
+  color:var(--text);
+  background:color-mix(in srgb, var(--rose-2) 12%, transparent);
+  border:1px solid color-mix(in srgb, var(--rose-2) 25%, transparent);
+}
+.fc-status--late{
+  color:var(--text);
+  background:color-mix(in srgb, var(--rose-2) 18%, transparent);
+  border:1px solid color-mix(in srgb, var(--rose-2) 35%, transparent);
+}
+.fc-status--cancelled{
+  color:var(--text);
+  background:color-mix(in srgb, var(--rose-2) 20%, transparent);
+  border:1px solid color-mix(in srgb, var(--rose-2) 40%, transparent);
+}
+.fc-status--unknown{
+  color:var(--text-secondary);
+  background:var(--white-05);
+  border:1px solid var(--white-08);
+}
+.fc-status-dot{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:currentColor;
+}
+.fc-status--on-time .fc-status-dot{ animation:pulse-status 2s infinite; }
+.fc-status--delayed .fc-status-dot{ animation:pulse-status 1.5s infinite; }
+.fc-status--late .fc-status-dot{ animation:pulse-status 1s infinite; }
+
+@keyframes pulse-status{
+  0%,100%{ opacity:1; box-shadow:0 0 0 0 color-mix(in srgb, currentColor 40%, transparent); }
+  50%{ opacity:.7; box-shadow:0 0 0 4px transparent; }
+}
+
+/* Flight detail sub-line (gate, terminal, actual time) */
+.fc-detail{
+  font-size:.78rem;
+  color:var(--text-muted);
+  margin-top:.2rem;
+}
+
 /* ═══ TIMELINE ═══ */
 
 .timeline{

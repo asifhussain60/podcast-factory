@@ -78,42 +78,48 @@
       </div>
 
       <!-- Inbound -->
-      <div class="flight-card">
+      <div class="flight-card" data-flight="UA147" data-date="2026-04-20">
         <div>
           <div class="fc-airport">LHR</div>
           <div class="fc-city">London, UK</div>
-          <div class="fc-time">12:00 PM BST</div>
+          <div class="fc-time" id="dep-time-UA147">12:00 PM BST</div>
+          <div class="fc-detail" id="dep-detail-UA147"></div>
         </div>
         <div class="fc-route">
           <div class="fc-meta">UA 147 &bull; Boeing 767</div>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21.5 4c0 0-2 .5-3.5 2L14.5 9.5l-8.2-1.8c-.8-.2-1.6.3-1.8 1.1-.1.4 0 .9.3 1.2l4.6 4.6-2.8 2.8-2.6-.6c-.4-.1-.8 0-1.1.3L1.5 18c-.2.2-.2.6 0 .8l4.4 1.4 1.4 4.4c.2.2.6.2.8 0l1.3-1.3c.3-.3.4-.7.3-1.1l-.6-2.6 2.8-2.8 4.6 4.6c.3.3.7.4 1.2.3.8-.2 1.3-1 1.1-1.8z"/></svg>
           <div class="fc-route-line"></div>
           <div class="fc-meta">7h 55m &bull; Seat 34D</div>
+          <div class="fc-status fc-status--loading" id="status-UA147"><span class="fc-status-dot"></span> Checking&hellip;</div>
         </div>
         <div class="fc-right">
           <div class="fc-airport">EWR</div>
           <div class="fc-city">Newark, NJ</div>
-          <div class="fc-time">2:55 PM ET</div>
+          <div class="fc-time" id="arr-time-UA147">2:55 PM ET</div>
+          <div class="fc-detail" id="arr-detail-UA147"></div>
         </div>
       </div>
 
       <!-- Outbound -->
-      <div class="flight-card">
+      <div class="flight-card" data-flight="UA16" data-date="2026-04-28">
         <div>
           <div class="fc-airport">EWR</div>
           <div class="fc-city">Newark, NJ</div>
-          <div class="fc-time">5:25 PM ET</div>
+          <div class="fc-time" id="dep-time-UA16">5:25 PM ET</div>
+          <div class="fc-detail" id="dep-detail-UA16"></div>
         </div>
         <div class="fc-route">
           <div class="fc-meta">UA 16 &bull; Boeing 767</div>
           <svg class="flip-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21.5 4c0 0-2 .5-3.5 2L14.5 9.5l-8.2-1.8c-.8-.2-1.6.3-1.8 1.1-.1.4 0 .9.3 1.2l4.6 4.6-2.8 2.8-2.6-.6c-.4-.1-.8 0-1.1.3L1.5 18c-.2.2-.2.6 0 .8l4.4 1.4 1.4 4.4c.2.2.6.2.8 0l1.3-1.3c.3-.3.4-.7.3-1.1l-.6-2.6 2.8-2.8 4.6 4.6c.3.3.7.4 1.2.3.8-.2 1.3-1 1.1-1.8z"/></svg>
           <div class="fc-route-line"></div>
           <div class="fc-meta">7h 30m &bull; Seat 33D</div>
+          <div class="fc-status fc-status--loading" id="status-UA16"><span class="fc-status-dot"></span> Checking&hellip;</div>
         </div>
         <div class="fc-right">
           <div class="fc-airport">LHR</div>
           <div class="fc-city">London, UK</div>
-          <div class="fc-time">5:55 AM +1</div>
+          <div class="fc-time" id="arr-time-UA16">5:55 AM +1</div>
+          <div class="fc-detail" id="arr-detail-UA16"></div>
         </div>
       </div>
     </section>
@@ -1144,6 +1150,69 @@
       var panel = document.getElementById('budgetPanel');
       panel.classList.toggle('mobile-open');
     }
+
+    // ─── Live Flight Status ───────────────────────────────────────
+    (function() {
+      var API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+        ? 'http://localhost:3001'
+        : '';
+      var cards = document.querySelectorAll('.flight-card[data-flight]');
+      cards.forEach(function(card) {
+        var flight = card.getAttribute('data-flight');
+        var date = card.getAttribute('data-date') || '';
+        if (!flight) return;
+        var url = API_BASE + '/api/flight-status?flight=' + encodeURIComponent(flight);
+        if (date) url += '&date=' + encodeURIComponent(date);
+        fetch(url, { credentials: 'include' })
+          .then(function(r) { return r.json(); })
+          .then(function(d) { applyStatus(flight, d); })
+          .catch(function() { setBadge(flight, 'unknown', 'Unavailable'); });
+      });
+
+      function applyStatus(id, data) {
+        if (!data.ok) { setBadge(id, 'unknown', 'Unavailable'); return; }
+        if (data.configured === false) {
+          var el = document.getElementById('status-' + id);
+          if (el) el.style.display = 'none';
+          return;
+        }
+        setBadge(id, data.severity || 'unknown', data.label || 'Unknown');
+        if (data.departure) {
+          var depEl = document.getElementById('dep-detail-' + id);
+          if (depEl) {
+            var p = [];
+            if (data.departure.terminal) p.push('T' + data.departure.terminal);
+            if (data.departure.gate) p.push('Gate ' + data.departure.gate);
+            if (data.departure.actual && data.departure.actual !== data.departure.scheduled)
+              p.push('Act: ' + fmtTime(data.departure.actual));
+            depEl.textContent = p.join(' \u2022 ');
+          }
+        }
+        if (data.arrival) {
+          var arrEl = document.getElementById('arr-detail-' + id);
+          if (arrEl) {
+            var p = [];
+            if (data.arrival.terminal) p.push('T' + data.arrival.terminal);
+            if (data.arrival.gate) p.push('Gate ' + data.arrival.gate);
+            if (data.arrival.actual && data.arrival.actual !== data.arrival.scheduled)
+              p.push('Act: ' + fmtTime(data.arrival.actual));
+            arrEl.textContent = p.join(' \u2022 ');
+          }
+        }
+      }
+
+      function setBadge(id, severity, label) {
+        var el = document.getElementById('status-' + id);
+        if (!el) return;
+        el.className = 'fc-status fc-status--' + severity;
+        el.innerHTML = '<span class="fc-status-dot"></span> ' + label;
+      }
+
+      function fmtTime(iso) {
+        try { return new Date(iso).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}); }
+        catch(e) { return iso; }
+      }
+    })();
   </script>
 
 </body>

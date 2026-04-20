@@ -6,6 +6,7 @@ import { execFileSync } from "node:child_process";
 
 const ANTHROPIC_SERVICE = "anthropic-api-key";
 const GEMINI_SERVICE    = "gemini_api_key";
+const RAPIDAPI_SERVICE  = "rapidapi-key";
 
 function readKeychain(service) {
   try {
@@ -44,6 +45,20 @@ export function loadGeminiKey() {
     return { key: keychainKey, source: "keychain" };
   }
   const envKey = process.env.GEMINI_API_KEY;
+  if (envKey && envKey.length > 10) {
+    return { key: envKey, source: "env" };
+  }
+  return { key: null, source: null };
+}
+
+// Soft loader for RapidAPI (AeroDataBox flight status). Returns null key if
+// unavailable — callers degrade gracefully.
+export function loadRapidApiKey() {
+  const keychainKey = readKeychain(RAPIDAPI_SERVICE);
+  if (keychainKey && keychainKey.length > 10) {
+    return { key: keychainKey, source: "keychain" };
+  }
+  const envKey = process.env.RAPIDAPI_KEY;
   if (envKey && envKey.length > 10) {
     return { key: envKey, source: "env" };
   }
