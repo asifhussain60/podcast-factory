@@ -1315,7 +1315,7 @@
       return { bucketKey, dateKey };
     }
     // Group entries by date (if multiple) + time bucket. Returns a flat list
-    // of render items: { type: 'date-header' | 'bucket-header' | 'entry' }.
+    // of render items: { type: 'date-header' | 'entry' }.
     // Preserves the input order within each bucket, so upstream sort (newest
     // first from displayEntries) is honored.
     function groupEntriesForDensity(entries) {
@@ -1336,7 +1336,6 @@
         const d = new Date(); d.setDate(d.getDate() - 1);
         return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
       })();
-      const showDateHeaders = byDate.size > 1;
       // Sort dates newest-first; 'unknown' sinks to the bottom.
       const dateKeys = [...byDate.keys()].sort((a, b) => {
         if (a === 'unknown') return 1;
@@ -1345,25 +1344,16 @@
       });
       const items = [];
       for (const dateKey of dateKeys) {
-        if (showDateHeaders) {
-          let label;
-          if (dateKey === todayKey) label = 'Today';
-          else if (dateKey === yesterdayKey) label = 'Yesterday';
-          else if (dateKey === 'unknown') label = 'Untimed';
-          else label = new Date(dateKey + 'T12:00:00').toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' });
-          items.push({ type: 'date-header', dateKey, label });
-        }
+        let label;
+        if (dateKey === todayKey) label = 'Today';
+        else if (dateKey === yesterdayKey) label = 'Yesterday';
+        else if (dateKey === 'unknown') label = 'Untimed';
+        else label = new Date(dateKey + 'T12:00:00').toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' });
+        items.push({ type: 'date-header', dateKey, label });
         const bucketMap = byDate.get(dateKey);
         for (const def of LOG_BUCKET_DEFS) {
           const list = bucketMap.get(def.key);
           if (!list || !list.length) continue;
-          items.push({
-            type: 'bucket-header',
-            key: `${dateKey}-${def.key}`,
-            label: def.label,
-            range: def.range,
-            count: list.length,
-          });
           for (const entry of list) items.push({ type: 'entry', entry });
         }
       }
@@ -4351,12 +4341,10 @@
             onChange={e => captureReceipt(e.target.files?.[0])}
           />
 
-          {/* ── Log panel — bordered container: capture toolbar + tab strip + entry grid ── */}
+          {/* ── Log panel — bordered container: title + tab strip + entry grid ── */}
           <section className="log-panel">
+            <h2 className="log-panel-title">Daybook</h2>
             <div className={`log-review-frame ${tab === 'inbox' ? 'has-tabs' : ''}`}>
-              {tab === 'inbox' && reviewView === 'unreviewed' && (
-                <div className="log-toolbar-row">{unreviewedToolbarNode}</div>
-              )}
               {tab === 'inbox' && (
                 <div className="log-subtab-row">
                   <div className="log-subtab-bar" role="tablist" aria-label="Photo review">
@@ -4498,35 +4486,38 @@
                 {loading ? (
                   <div className="log-empty"><Icon name="fa-spinner" /> <p>Loading your log…</p></div>
                 ) : displayEntries.length === 0 ? (
-                  <div className="log-empty">
-                    <Icon name="fa-inbox" />
-                    <p>{
-                      tab === 'inbox'
-                        ? (reviewView === 'reviewed'
-                            ? 'Nothing approved yet — review some from Log Bank to see them here.'
-                            : 'Nothing needs attention — everything is up to date.')
-                        : `No ${tab} items match these filters.`
-                    }</p>
-                  </div>
-                ) : (
-                  (reviewView === 'unreviewed'
+                  <>
+                    {tab === 'inbox' && reviewView === 'unreviewed' && (
+                      <div className="log-toolbar-row">{unreviewedToolbarNode}</div>
+                    )}
+                    <div className="log-empty">
+                      <Icon name="fa-inbox" />
+                      <p>{
+                        tab === 'inbox'
+                          ? (reviewView === 'reviewed'
+                              ? 'Nothing approved yet — review some from Log Bank to see them here.'
+                              : 'Nothing needs attention — everything is up to date.')
+                          : `No ${tab} items match these filters.`
+                      }</p>
+                    </div>
+                  </>
+                ) : (() => {
+                  // Inject the unreviewed toolbar into the first date-header row,
+                  // right-justified. Bucket headers (Morning/Midday/…) are dropped
+                  // so every date section is one flat 4-col grid of cards.
+                  let toolbarInjected = false;
+                  return (reviewView === 'unreviewed'
                     ? groupEntriesForDensity(displayEntries)
                     : displayEntries.map(e => ({ type: 'entry', entry: e }))
                   ).map(item => {
                     if (item.type === 'date-header') {
+                      const showToolbar = tab === 'inbox' && reviewView === 'unreviewed' && !toolbarInjected;
+                      if (showToolbar) toolbarInjected = true;
                       return (
                         <div className="log-date-header" key={`d-${item.dateKey}`}>
                           <span>{item.label}</span>
                           <span className="log-date-meta">{item.dateKey}</span>
-                        </div>
-                      );
-                    }
-                    if (item.type === 'bucket-header') {
-                      return (
-                        <div className="log-bucket-header" key={`b-${item.key}`}>
-                          <span className="log-bucket-label">{item.label}</span>
-                          <span className="log-bucket-meta">{item.count} {item.count === 1 ? 'entry' : 'entries'}{item.range ? ` · ${item.range}` : ''}</span>
-                          <span className="log-bucket-rule"></span>
+                          {showToolbar && unreviewedToolbarNode}
                         </div>
                       );
                     }
@@ -4546,8 +4537,8 @@
                         onKindFlipped={handleKindFlipped}
                       />
                     );
-                  })
-                )}
+                  });
+                })()}
               </div>
               )}
             </div>
