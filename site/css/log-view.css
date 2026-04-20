@@ -211,6 +211,8 @@
 .log-entries--compact .review-card-artifact--video {
   height: 120px;
   max-height: 120px;
+}
+.log-entries--compact .review-card-artifact-img {
   object-fit: cover;
 }
 .log-entries--compact .review-card-artifact--text,
@@ -1268,8 +1270,49 @@
   overflow: hidden;
 }
 .review-card-artifact--image {
+  position: relative;
   display: block;
+}
+.review-card-artifact-img {
+  display: block;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  transition: opacity 180ms ease;
+}
+.review-card-artifact--image.is-loading > .review-card-artifact-img { opacity: 0; }
+.review-card-artifact--image.is-error > .review-card-artifact-img { display: none; }
+
+.review-card-artifact-loading,
+.review-card-artifact-error {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  pointer-events: none;
+}
+.review-card-artifact-loading::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, var(--white-08) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: review-card-artifact-shimmer 1.2s linear infinite;
+  pointer-events: none;
+}
+.review-card-artifact-loading i {
+  position: relative;
+  z-index: 1;
+  font-size: 1.2rem;
+  color: var(--accent);
+}
+@keyframes review-card-artifact-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 .review-card-artifact--video {
   display: block;
@@ -1798,6 +1841,8 @@
 .dayone-story-body .review-card-artifact--video {
   height: 120px;
   max-height: 120px;
+}
+.dayone-story-body .review-card-artifact-img {
   object-fit: cover;
 }
 .dayone-story-body .review-card-artifact--text,
@@ -2388,8 +2433,10 @@
 .refine-modal-artifact-wrap .review-card-artifact--image {
   width: 100%;
   height: 100%;
-  object-fit: contain;
   background: var(--bg-tertiary);
+}
+.refine-modal-artifact-wrap .review-card-artifact-img {
+  object-fit: contain;
 }
 .refine-modal-artifact-wrap .review-card-artifact--text,
 .refine-modal-artifact-wrap .review-card-artifact--voice {
