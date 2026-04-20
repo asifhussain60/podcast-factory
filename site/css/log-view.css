@@ -66,18 +66,12 @@
 .log-module .log-chip i,
 .log-module .log-action-btn i { font-size: var(--row-icon); line-height: 1; }
 
-/* ─── Reviewed-lane footer controls — three standard buttons in a row:
-   journal select (secondary), Preview & Copy (primary), Delete (destructive).
-   Decoupled (no fused pill); shared height + radius + padding for visual
-   parity. Hosted inside the composer's .dayone-actions row. */
-.log-dayone-push-controls {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-3);
-}
+/* ─── Reviewed-lane footer controls — two standard buttons in a row:
+   Preview & Copy (primary), Delete (destructive). Decoupled; shared height +
+   radius + padding for visual parity. Hosted inside the composer's
+   .dayone-actions row. */
 
-/* Shared button shape so all three controls measure the same. */
-.log-dayone-journal-select,
+/* Shared button shape so both controls measure the same. */
 .log-dayone-push-btn,
 .log-reviewed-delete-btn {
   display: inline-flex;
@@ -92,29 +86,6 @@
   letter-spacing: 0.01em;
   cursor: pointer;
   transition: background 160ms ease, border-color 160ms ease, color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
-}
-
-/* Secondary — target journal selector. */
-.log-dayone-journal-select {
-  appearance: none;
-  -webkit-appearance: none;
-  background: var(--panel);
-  color: var(--text-primary);
-  border: 1px solid var(--border-default);
-  padding-right: 36px;
-  background-image: linear-gradient(45deg, transparent 50%, var(--text-muted) 50%),
-                    linear-gradient(135deg, var(--text-muted) 50%, transparent 50%);
-  background-position: calc(100% - 18px) center, calc(100% - 13px) center;
-  background-size: 5px 5px, 5px 5px;
-  background-repeat: no-repeat;
-}
-.log-dayone-journal-select:hover:not(:disabled) {
-  border-color: var(--border-accent);
-  background-color: var(--accent-a06);
-}
-.log-dayone-journal-select:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
 }
 
 /* Primary — Preview & Copy. Solid accent so it reads as the main action. */
@@ -2103,7 +2074,7 @@
   white-space: nowrap;
 }
 
-/* ─── Footer action row — Journal select + Copy + Delete ─── */
+/* ─── Footer action row — Copy + Delete ─── */
 .dayone-actions {
   margin-top: 4px;
   padding-top: 16px;
@@ -2114,8 +2085,6 @@
   justify-content: flex-end;
   align-items: center;
 }
-.dayone-actions .log-dayone-push-controls { margin: 0; }
-
 /* ═══════════════════════════════════════════════════
    Responsive button labels
    Any icon+text button can wrap its text in
