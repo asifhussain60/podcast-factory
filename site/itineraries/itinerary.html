@@ -1431,10 +1431,13 @@
         var meta1 = escHtml(f.flight || '');
         var meta2 = '';
         if (f.seat) meta2 = 'Seat ' + escHtml(f.seat);
-        return '<div class="flight-card">' +
-          '<div><div class="fc-airport">' + escHtml(depCode) + '</div><div class="fc-city">' + escHtml(depCity) + '</div><div class="fc-time">' + escHtml(f.depart || '') + '</div></div>' +
-          '<div class="fc-route"><div class="fc-meta">' + meta1 + '</div>' + PLANE_SVG.replace('<svg', '<svg' + flipClass) + '<div class="fc-route-line"></div><div class="fc-meta">' + escHtml(meta2) + '</div></div>' +
-          '<div class="fc-right"><div class="fc-airport">' + escHtml(arrCode) + '</div><div class="fc-city">' + escHtml(arrCity) + '</div><div class="fc-time">' + escHtml(f.arrive || '') + '</div></div>' +
+        // Unique ID for live-status injection
+        var flightId = (f.flight || '').replace(/\s+/g, '');
+        return '<div class="flight-card" data-flight="' + escHtml(flightId) + '" data-date="' + escHtml(f.date || '') + '">' +
+          '<div><div class="fc-airport">' + escHtml(depCode) + '</div><div class="fc-city">' + escHtml(depCity) + '</div><div class="fc-time" id="dep-time-' + escHtml(flightId) + '">' + escHtml(f.depart || '') + '</div><div class="fc-detail" id="dep-detail-' + escHtml(flightId) + '"></div></div>' +
+          '<div class="fc-route"><div class="fc-meta">' + meta1 + '</div>' + PLANE_SVG.replace('<svg', '<svg' + flipClass) + '<div class="fc-route-line"></div><div class="fc-meta">' + escHtml(meta2) + '</div>' +
+          '<div class="fc-status fc-status--loading" id="status-' + escHtml(flightId) + '"><span class="fc-status-dot"></span> Checking&hellip;</div></div>' +
+          '<div class="fc-right"><div class="fc-airport">' + escHtml(arrCode) + '</div><div class="fc-city">' + escHtml(arrCity) + '</div><div class="fc-time" id="arr-time-' + escHtml(flightId) + '">' + escHtml(f.arrive || '') + '</div><div class="fc-detail" id="arr-detail-' + escHtml(flightId) + '"></div></div>' +
           '</div>';
       }
 
@@ -1450,6 +1453,81 @@
         if (trip.flights.outbound) html += renderFlightCard(trip.flights.outbound, true);
         sec.innerHTML = html;
         sec.hidden = false;
+        // Fetch live status for each flight card
+        fetchFlightStatuses();
+      }
+
+      // ─── Live Flight Status ─────────────────────────────────────────
+      function fetchFlightStatuses() {
+        var cards = document.querySelectorAll('.flight-card[data-flight]');
+        cards.forEach(function(card) {
+          var flight = card.getAttribute('data-flight');
+          var date = card.getAttribute('data-date') || '';
+          if (!flight) return;
+          var url = API_BASE + '/api/flight-status?flight=' + encodeURIComponent(flight);
+          if (date) url += '&date=' + encodeURIComponent(date);
+          fetch(url, { credentials: 'include' })
+            .then(function(r) { return r.json(); })
+            .then(function(d) { applyFlightStatus(flight, d); })
+            .catch(function() { setFlightBadge(flight, 'unknown', 'Unavailable'); });
+        });
+      }
+
+      function applyFlightStatus(flightId, data) {
+        if (!data.ok) {
+          setFlightBadge(flightId, 'unknown', 'Unavailable');
+          return;
+        }
+        if (data.configured === false) {
+          // API key not set up — hide the badge silently
+          var badge = document.getElementById('status-' + flightId);
+          if (badge) badge.style.display = 'none';
+          return;
+        }
+        var severity = data.severity || 'unknown';
+        var label = data.label || 'Unknown';
+        setFlightBadge(flightId, severity, label);
+
+        // Update gate/terminal details
+        if (data.departure) {
+          var depDetail = document.getElementById('dep-detail-' + flightId);
+          if (depDetail) {
+            var parts = [];
+            if (data.departure.terminal) parts.push('T' + data.departure.terminal);
+            if (data.departure.gate) parts.push('Gate ' + data.departure.gate);
+            if (data.departure.actual && data.departure.actual !== data.departure.scheduled) {
+              parts.push('Act: ' + formatLocalTime(data.departure.actual));
+            }
+            depDetail.textContent = parts.join(' \u2022 ');
+          }
+        }
+        if (data.arrival) {
+          var arrDetail = document.getElementById('arr-detail-' + flightId);
+          if (arrDetail) {
+            var parts = [];
+            if (data.arrival.terminal) parts.push('T' + data.arrival.terminal);
+            if (data.arrival.gate) parts.push('Gate ' + data.arrival.gate);
+            if (data.arrival.actual && data.arrival.actual !== data.arrival.scheduled) {
+              parts.push('Act: ' + formatLocalTime(data.arrival.actual));
+            }
+            arrDetail.textContent = parts.join(' \u2022 ');
+          }
+        }
+      }
+
+      function setFlightBadge(flightId, severity, label) {
+        var el = document.getElementById('status-' + flightId);
+        if (!el) return;
+        el.className = 'fc-status fc-status--' + severity;
+        el.innerHTML = '<span class="fc-status-dot"></span> ' + escHtml(label);
+      }
+
+      function formatLocalTime(isoStr) {
+        if (!isoStr) return '';
+        try {
+          var d = new Date(isoStr);
+          return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        } catch(e) { return isoStr; }
       }
 
       function renderNotes(trip) {
