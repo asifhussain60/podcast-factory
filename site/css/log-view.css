@@ -135,6 +135,20 @@
   box-shadow: var(--log-shadow-card);
 }
 
+/* Panel title — serif italic, top-left, memoir-reader aesthetic.
+   Specificity must beat .log-module h2 (0,1,1) so we scope with
+   .log-module to get (0,2,0) and win back the font-family. */
+.log-module .log-panel-title {
+  margin: 0 0 18px;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 2rem;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: var(--accent);
+}
+
 /* ═══════════════════════════════════════════════════
    4. Entry Feed — 4-column grid
    ReviewCard uses container queries so narrower columns
@@ -257,55 +271,19 @@
   display: none;             /* icons only in compact to keep buttons short */
 }
 
-/* ═══════════════════════════════════════════════════
-   4b. Time-bucket headers
-   Render between groups of cards. Spans all columns of
-   the grid so the header visually breaks the flow.
-   ═══════════════════════════════════════════════════ */
-
-.log-bucket-header {
-  grid-column: 1 / -1;
-  display: flex;
-  align-items: baseline;
-  gap: 14px;
-  margin: 18px 0 4px;
-  padding: 0 4px;
-}
-.log-bucket-header:first-child { margin-top: 4px; }
-.log-bucket-header .log-bucket-label {
-  font-family: var(--font-serif);
-  font-size: 1.35rem;
-  letter-spacing: 0.3px;
-  color: var(--mauve, var(--accent));
-  font-weight: 500;
-}
-.log-bucket-header .log-bucket-meta {
-  font-size: 0.72rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  font-weight: 600;
-}
-.log-bucket-header .log-bucket-rule {
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg,
-    color-mix(in srgb, var(--accent) 18%, transparent) 0%,
-    transparent 100%);
-}
-
-/* Date header — shown only when multiple dates exist in the lane */
+/* Date header — one per date section; hosts the capture toolbar on its
+   first instance, right-justified via the toolbar's margin-left:auto. */
 .log-date-header {
   grid-column: 1 / -1;
-  margin: 22px 0 6px;
-  padding: 10px 0 4px;
+  margin: 22px 0 14px;
+  padding: 10px 0 8px;
   border-bottom: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
   font-family: var(--font-serif);
   font-size: 1.1rem;
   color: var(--accent);
   letter-spacing: 0.3px;
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 10px;
 }
 .log-date-header:first-child { margin-top: 0; }
@@ -878,7 +856,7 @@
 
 /* Subtab row — folder-tab strip on the left, optional reset button on the right.
    The bar overlaps the frame's top border by 1px so the active tab merges
-   into the panel. Capture actions now live in .log-toolbar-row above this row. */
+   into the panel. Capture actions live inside the first date-header below. */
 .log-subtab-row {
   display: flex;
   align-items: flex-end;
@@ -1159,24 +1137,27 @@
   cursor: not-allowed;
 }
 
-/* Capture-action toolbar — bordered pill that sits above the tab strip,
-   right-aligned, containing Media/Receipt/Note/Reset in a single row. */
+/* Capture-action toolbar — bordered pill injected into the first date-header
+   row, right-aligned via margin-left:auto. Single row, nowrap. */
 .log-toolbar {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 5px;
+  margin-left: auto;
   border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
   border-radius: var(--radius-lg);
   background: color-mix(in srgb, var(--bg-tertiary) 55%, transparent);
   box-shadow: inset 0 1px 0 0 var(--white-04);
   flex-shrink: 0;
   flex-wrap: nowrap;
+  align-self: center;
 }
 .log-toolbar .log-capture-actions { margin: 0; flex-wrap: nowrap; }
 .log-toolbar .log-subtab-reset-btn { margin: 0; }
 
-/* Row wrapper — pins the toolbar to the right edge above the tab strip. */
+/* Fallback wrapper — used only when there's no date-header to host the
+   toolbar (empty-state path). */
 .log-toolbar-row {
   display: flex;
   justify-content: flex-end;
