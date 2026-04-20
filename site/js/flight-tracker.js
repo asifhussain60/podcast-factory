@@ -223,10 +223,10 @@
           h('div', { className: 'ft-flight-num' }, f.flight || ''),
           h('div', { className: 'ft-route-line' },
             h('div', { className: 'ft-progress', style: { width: pct + '%' } }),
-            pct > 0 ? h('i', {
+            h('i', {
               className: 'fa-solid fa-plane ft-plane-icon',
-              style: { left: 'calc(' + pct + '% - 8px)' }
-            }) : null
+              style: { left: 'calc(' + Math.max(pct, 0) + '% - 12px)' }
+            })
           ),
           h('div', { className: 'ft-meta-row' },
             f.seat ? h(React.Fragment, null, h('i', { className: 'fa-solid fa-chair' }), ' Seat ' + f.seat) : null
