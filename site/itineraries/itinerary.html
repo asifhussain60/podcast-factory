@@ -2315,14 +2315,14 @@
       if (!window.notify) return;
       if (count === 0) {
         // Was non-zero before, now resolved — quiet success.
-        window.notify.success('All timing conflicts resolved');
+        if (typeof window.notify.success === 'function') window.notify.success('All timing conflicts resolved');
         return;
       }
       // Build a terse description: up to 3 event names, then "+N more".
       var names = conflicts.slice(0, 3).map(function(c) { return c.name; });
       var desc = names.join(', ');
       if (conflicts.length > 3) desc += ' +' + (conflicts.length - 3) + ' more';
-      window.notify.warning(
+      if (typeof window.notify.warning === 'function') window.notify.warning(
         count + ' timing ' + (count === 1 ? 'conflict' : 'conflicts') + ' on today\u2019s schedule',
         { description: desc, duration: 8000 }
       );
