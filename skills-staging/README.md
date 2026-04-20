@@ -27,6 +27,7 @@ Central index of all skills in the journal ecosystem. The `journal-orchestrator`
 | [`food-photo`](food-photo/skill.md) | Pair receipts with memoir | Cross-link suggestions | Memoir edits | "pair food photos", "food receipts" |
 | [`usage-auditor`](usage-auditor/skill.md) | Audit spend + forecast | Spend report | Budget enforcement (middleware does that) | "audit usage", "spend report" |
 | [`ui-modernizer`](ui-modernizer/skill.md) | Execute UI modernization phases | CSS + component changes | Theme definitions (css-theme-sync) | "modernize ui", "run ui phases" |
+| [`repo-surgeon`](repo-surgeon/skill.md) | Holistic repo audit + repair | Structural integrity, orphan cleanup, registry alignment, `surgeon-log.jsonl` | CSS/theme detail (defers to ui-reviewer), content quality, spend | "repo review", "architectural audit", "cleanup sweep", "root clutter" |
 
 ### Hybrid Skills
 

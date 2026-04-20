@@ -29,6 +29,8 @@ When performing vacuum or cleanup, respect the skill structure:
 - `server/src/prompts/*.js` are named prompts in a registry. Do not orphan them.
 - Agent files in `.github/agents/` and `.claude/agents/` are governed. Check deprecation status before cleanup.
 
+For deep structural audits, delegate to `repo-surgeon` (`.github/agents/repo-surgeon.agent.md`). CORTEX owns policy; repo-surgeon is the enforcement arm that runs four-pass audits: Structure → Code → Architecture → Brittleness.
+
 ## Operating Principles
 - **Vacuum Execution:** When instructed to run vacuum, always run in preview mode first as destructive changes may occur if rules drift. 
 - **Recency Guards:** Respect `VACUUM_RECENCY_GUARD_HOURS` but ensure explicit recency exemptions flow for files like `*.prompt.md` at root.
