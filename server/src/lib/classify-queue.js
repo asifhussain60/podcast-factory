@@ -15,7 +15,7 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { loadPrompt } from "../prompts/index.js";
-import { atomicWriteJSON, readQueue, sniffImageExt, extToMediaType, REPO_ROOT, TRIPS_DIR } from "./receipts.js";
+import { atomicWriteJSON, readQueue, sniffImageExt, extToMediaType, REPO_ROOT, TRIPS_DIR, withFileLock } from "./receipts.js";
 
 const MAX_BYTES = 4 * 1024 * 1024;
 
@@ -78,21 +78,23 @@ export function createClassifyQueue({ anthropic }) {
     try { parsed = JSON.parse(raw); } catch { return; }
     if (parsed.kind !== "photo" && parsed.kind !== "receipt") return;
 
-    const items = await readQueue(slug, "pending");
-    const idx = items.findIndex(r => r?.id === id);
-    if (idx === -1) return;
-    const row = items[idx];
-    // Only firm an unsorted-image. If a reviewer already flipped via PATCH,
-    // honor their choice over the classifier.
-    if (row.kind !== "unsorted-image") return;
-    row.kind = parsed.kind;
-    if (typeof parsed.confidence === "number") {
-      row.classifyConfidence = parsed.confidence;
-    }
-    row.updatedAt = new Date().toISOString();
-    items[idx] = row;
     const filePath = path.join(TRIPS_DIR, slug, "pending.json");
-    await atomicWriteJSON(filePath, items);
+    await withFileLock(filePath, async () => {
+      const items = await readQueue(slug, "pending");
+      const idx = items.findIndex(r => r?.id === id);
+      if (idx === -1) return;
+      const row = items[idx];
+      // Only firm an unsorted-image. If a reviewer already flipped via PATCH,
+      // honor their choice over the classifier.
+      if (row.kind !== "unsorted-image") return;
+      row.kind = parsed.kind;
+      if (typeof parsed.confidence === "number") {
+        row.classifyConfidence = parsed.confidence;
+      }
+      row.updatedAt = new Date().toISOString();
+      items[idx] = row;
+      await atomicWriteJSON(filePath, items);
+    });
   }
 
   return { enqueue };

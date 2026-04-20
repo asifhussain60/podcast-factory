@@ -237,7 +237,19 @@ export function createLogRouter({ queueValidators, anthropic, DEFAULT_MODEL, cla
   // note:   application/json    { kind: "note", text: "..." }
   // media:  multipart/form-data field "photo" = image or video file
   //         (field name kept as "photo" for backward-compat; routing is by mime)
-  router.post("/api/log/capture", mediaUpload.single("photo"), async (req, res) => {
+  //
+  // Multer runs as middleware and can throw MulterError (e.g. LIMIT_FILE_SIZE)
+  // BEFORE the route handler. Wrap it so errors return JSON, not Express's default HTML 500.
+  function multerCapture(req, res, next) {
+    mediaUpload.single("photo")(req, res, (err) => {
+      if (err) {
+        const status = err.code === "LIMIT_FILE_SIZE" ? 413 : 400;
+        return res.status(status).json({ ok: false, error: err.message || String(err) });
+      }
+      next();
+    });
+  }
+  router.post("/api/log/capture", multerCapture, async (req, res) => {
     try {
       const slug = req.query.slug || (await getActiveTripSlug());
       const now = new Date().toISOString();
