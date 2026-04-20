@@ -72,6 +72,15 @@
       return fd && (nowMs - fd.getTime()) > MS_PER_DAY;
     }
 
+    // Check if flight landed recently (within collapse delay)
+    var COLLAPSE_DELAY = MS_PER_HOUR; // 1 hour after landing
+    function landedRecently(f) {
+      var id = (f.flight || '').replace(/\s+/g, '');
+      var live = liveStatuses[id];
+      if (!live || !live.landed || !live.landedAt) return false;
+      return (nowMs - live.landedAt) < COLLAPSE_DELAY;
+    }
+
     function isSameDay(d1, d2) {
       return d1.getFullYear() === d2.getFullYear() &&
              d1.getMonth() === d2.getMonth() &&
@@ -101,6 +110,15 @@
     // ACTIVE_FLIGHT: same calendar day as flight, or flight in-air (date passed <24h ago)
     if (sameDay || (msToNext <= 0 && msToNext > -MS_PER_DAY)) {
       var afterFlight = nextFlightIdx + 1 < sorted.length ? sorted[nextFlightIdx + 1] : null;
+      // If just landed and still within collapse delay, keep as ACTIVE_FLIGHT
+      // Once collapse delay expires, treat as landed → fall through to COLLAPSED/BETWEEN
+      if (hasLanded(nextFlight) && !landedRecently(nextFlight)) {
+        // Landed >1hr ago on same day — collapse it
+        if (afterFlight) {
+          return { state: STATES.COLLAPSED, flight: nextFlight, nextFlight: afterFlight, flights: sorted };
+        }
+        return { state: STATES.POST_TRIP, flight: nextFlight, nextFlight: null, flights: sorted };
+      }
       return { state: STATES.ACTIVE_FLIGHT, flight: nextFlight, nextFlight: afterFlight, flights: sorted };
     }
 

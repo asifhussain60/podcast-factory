@@ -338,13 +338,31 @@
 
   function PostTrip(props) {
     var f = props.flight;
+    var status = props.status;
     if (!f) return null;
     var route = parseRoute(f.route);
+    var arrCity = cityFor(route.arr);
+    var arrTime = '';
+    if (status && status.arrival) {
+      arrTime = status.arrival.actual ? formatLocalTime(status.arrival.actual) :
+                status.arrival.scheduled ? formatLocalTime(status.arrival.scheduled) : '';
+    }
+    if (!arrTime && f.arrive) arrTime = f.arrive;
 
     return h('div', { className: 'ft-card ft-post' },
       h('i', { className: 'fa-solid fa-plane-arrival ft-post-icon' }),
-      h('span', { className: 'ft-post-text' },
-        '\u2708 Trip complete \u00B7 Arrived ' + route.arr + (f.arrive ? ' ' + f.arrive : ''))
+      h('div', { className: 'ft-post-main' },
+        h('div', { className: 'ft-post-primary' },
+          h('span', { className: 'ft-post-flight' }, f.flight || ''),
+          ' \u00B7 ',
+          h('span', null, route.dep + ' \u2192 ' + route.arr)
+        ),
+        h('div', { className: 'ft-post-secondary' },
+          'Arrived' + (arrCity ? ' ' + arrCity : '') + (arrTime ? ' at ' + arrTime : '') +
+          (status && status.arrival && status.arrival.terminal ? ' \u00B7 Terminal ' + status.arrival.terminal : '')
+        )
+      ),
+      h('span', { className: 'ft-post-badge' }, h('i', { className: 'fa-solid fa-circle-check' }), ' Complete')
     );
   }
 
@@ -428,6 +446,29 @@
 
     // Compute current state
     var stateResult = SM.computeFlightState(flights, liveStatuses);
+
+    // Force tick counter — incremented by a timer to trigger re-render for collapse
+    var _tick = useState(0);
+    var setTick = _tick[1];
+
+    // Auto-collapse timer: when a flight has landed, schedule a re-render
+    // at the 1-hour mark so the state machine transitions to COLLAPSED
+    useEffect(function () {
+      var COLLAPSE_DELAY = 3600000; // 1 hour
+      var timers = [];
+      Object.keys(liveStatuses).forEach(function (id) {
+        var s = liveStatuses[id];
+        if (s && s.landed && s.landedAt) {
+          var elapsed = Date.now() - s.landedAt;
+          var remaining = COLLAPSE_DELAY - elapsed;
+          if (remaining > 0 && remaining < COLLAPSE_DELAY) {
+            var t = setTimeout(function () { setTick(function (n) { return n + 1; }); }, remaining + 500);
+            timers.push(t);
+          }
+        }
+      });
+      return function () { timers.forEach(clearTimeout); };
+    }, [liveStatuses]);
     var widgetState = stateResult.state;
     var activeFlight = stateResult.flight;
     var nextFlight = stateResult.nextFlight;
@@ -500,8 +541,14 @@
           setLiveStatuses(function (prev) {
             var next = Object.assign({}, prev);
             var landed = (data.status || '').toLowerCase();
+            var isLanded = landed.includes('landed') || landed.includes('arrived');
+            var prevEntry = prev[id];
+            // Preserve original landedAt timestamp once set
+            var landedAt = (prevEntry && prevEntry.landedAt) ? prevEntry.landedAt :
+                           (isLanded ? Date.now() : null);
             next[id] = Object.assign({}, data, {
-              landed: landed.includes('landed') || landed.includes('arrived')
+              landed: isLanded,
+              landedAt: landedAt
             });
             return next;
           });
@@ -601,7 +648,7 @@
         widgetContent = h(CheckInReminder, { flight: activeFlight });
         break;
       case STATES.POST_TRIP:
-        widgetContent = h(PostTrip, { flight: activeFlight });
+        widgetContent = h(PostTrip, { flight: activeFlight, status: activeStatus });
         break;
       default:
         widgetContent = null;
