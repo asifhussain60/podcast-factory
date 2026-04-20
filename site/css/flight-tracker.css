@@ -68,6 +68,83 @@
   background: transparent;
   overflow: hidden;
 }
+
+/* ── Text contrast on colored severity backgrounds ── */
+.ft-root[data-severity="on-time"] .ft-airport,
+.ft-root[data-severity="on-time"] .ft-time,
+.ft-root[data-severity="on-time"] .ft-time-scheduled,
+.ft-root[data-severity="on-time"] .ft-compact-primary,
+.ft-root[data-severity="delayed"] .ft-airport,
+.ft-root[data-severity="delayed"] .ft-time,
+.ft-root[data-severity="delayed"] .ft-time-scheduled,
+.ft-root[data-severity="delayed"] .ft-compact-primary,
+.ft-root[data-severity="late"] .ft-airport,
+.ft-root[data-severity="late"] .ft-time,
+.ft-root[data-severity="late"] .ft-time-scheduled,
+.ft-root[data-severity="late"] .ft-compact-primary,
+.ft-root[data-severity="cancelled"] .ft-airport,
+.ft-root[data-severity="cancelled"] .ft-time,
+.ft-root[data-severity="cancelled"] .ft-time-scheduled,
+.ft-root[data-severity="cancelled"] .ft-compact-primary {
+  color: var(--contrast-dark);
+}
+.ft-root[data-severity="on-time"] .ft-city,
+.ft-root[data-severity="on-time"] .ft-flight-num,
+.ft-root[data-severity="on-time"] .ft-meta-row,
+.ft-root[data-severity="on-time"] .ft-aircraft,
+.ft-root[data-severity="on-time"] .ft-chip,
+.ft-root[data-severity="on-time"] .ft-compact-secondary,
+.ft-root[data-severity="on-time"] .ft-tz-label,
+.ft-root[data-severity="delayed"] .ft-city,
+.ft-root[data-severity="delayed"] .ft-flight-num,
+.ft-root[data-severity="delayed"] .ft-meta-row,
+.ft-root[data-severity="delayed"] .ft-aircraft,
+.ft-root[data-severity="delayed"] .ft-chip,
+.ft-root[data-severity="delayed"] .ft-compact-secondary,
+.ft-root[data-severity="delayed"] .ft-tz-label,
+.ft-root[data-severity="late"] .ft-city,
+.ft-root[data-severity="late"] .ft-flight-num,
+.ft-root[data-severity="late"] .ft-meta-row,
+.ft-root[data-severity="late"] .ft-aircraft,
+.ft-root[data-severity="late"] .ft-chip,
+.ft-root[data-severity="late"] .ft-compact-secondary,
+.ft-root[data-severity="late"] .ft-tz-label,
+.ft-root[data-severity="cancelled"] .ft-city,
+.ft-root[data-severity="cancelled"] .ft-flight-num,
+.ft-root[data-severity="cancelled"] .ft-meta-row,
+.ft-root[data-severity="cancelled"] .ft-aircraft,
+.ft-root[data-severity="cancelled"] .ft-chip,
+.ft-root[data-severity="cancelled"] .ft-compact-secondary,
+.ft-root[data-severity="cancelled"] .ft-tz-label {
+  color: color-mix(in srgb, var(--contrast-dark) 75%, transparent);
+}
+.ft-root[data-severity="on-time"] .ft-route-col,
+.ft-root[data-severity="delayed"] .ft-route-col,
+.ft-root[data-severity="late"] .ft-route-col,
+.ft-root[data-severity="cancelled"] .ft-route-col {
+  color: var(--contrast-dark);
+}
+/* Delay actual time stays high-contrast red */
+.ft-root[data-severity="delayed"] .ft-time-actual,
+.ft-root[data-severity="late"] .ft-time-actual,
+.ft-root[data-severity="cancelled"] .ft-time-actual {
+  color: var(--rose-2);
+}
+/* Strikethrough on changed time: muted dark */
+.ft-root[data-severity="on-time"] .ft-time--changed .ft-time-scheduled,
+.ft-root[data-severity="delayed"] .ft-time--changed .ft-time-scheduled,
+.ft-root[data-severity="late"] .ft-time--changed .ft-time-scheduled,
+.ft-root[data-severity="cancelled"] .ft-time--changed .ft-time-scheduled {
+  color: color-mix(in srgb, var(--contrast-dark) 55%, transparent);
+}
+/* Chip bg on colored backgrounds */
+.ft-root[data-severity="on-time"] .ft-chip,
+.ft-root[data-severity="delayed"] .ft-chip,
+.ft-root[data-severity="late"] .ft-chip,
+.ft-root[data-severity="cancelled"] .ft-chip {
+  background: color-mix(in srgb, var(--contrast-dark) 15%, transparent);
+  border: 1px solid color-mix(in srgb, var(--contrast-dark) 20%, transparent);
+}
 .ft-card::after {
   content: "";
   position: absolute;
@@ -126,6 +203,19 @@
 .ft-time--late .ft-time-actual {
   color: var(--rose-2);
 }
+.ft-tz-label {
+  font-size: .68rem;
+  color: var(--text-muted);
+  margin-top: .15rem;
+  letter-spacing: .02em;
+}
+.ft-tz-alt {
+  display: block;
+  font-size: .78rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-top: .1rem;
+}
 
 /* Terminal / Gate / Seat chips */
 .ft-chips {
@@ -163,6 +253,11 @@
 }
 .ft-chip i {
   font-size: .65rem;
+}
+.ft-chip--baggage {
+  background: color-mix(in srgb, var(--accent) 15%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  color: var(--text);
 }
 
 /* Centre column: route + status */

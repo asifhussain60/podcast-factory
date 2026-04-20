@@ -54,8 +54,8 @@
   var MAX_POLLS_PER_SESSION = 200;
   var CIRCUIT_BREAKER_THRESHOLD = 3;
 
-  // Track previous gate/terminal values for change detection
-  var _prevArrivalInfo = {};  // keyed by flight id → { terminal, gate }
+  // Track previous gate/terminal/baggage values for change detection
+  var _prevArrivalInfo = {};  // keyed by flight id → { terminal, gate, baggageBelt }
 
   // ── Helpers ──
 
@@ -68,6 +68,36 @@
   function cityFor(code) {
     var a = AIRPORTS[code];
     return a ? a.city : '';
+  }
+
+  function tzFor(code) {
+    var a = AIRPORTS[code];
+    return a ? a.tz : null;
+  }
+
+  function tzAbbr(tz) {
+    if (!tz) return '';
+    try {
+      var parts = new Intl.DateTimeFormat('en-US', { timeZone: tz, timeZoneName: 'short' })
+        .formatToParts(new Date());
+      var tzPart = parts.find(function(p) { return p.type === 'timeZoneName'; });
+      return tzPart ? tzPart.value : '';
+    } catch (e) { return ''; }
+  }
+
+  /** Format a time string (e.g. "2:55 PM ET") into a specific timezone */
+  function convertTimeToTz(isoStr, tz) {
+    if (!isoStr || !tz) return '';
+    try {
+      var d = new Date(isoStr);
+      if (isNaN(d.getTime())) return '';
+      return d.toLocaleTimeString('en-US', {
+        timeZone: tz,
+        hour: 'numeric',
+        minute: '2-digit',
+        timeZoneName: 'short'
+      });
+    } catch (e) { return ''; }
   }
 
   function carrierCode(flightStr) {
@@ -133,6 +163,10 @@
     var route = parseRoute(f.route);
     var depCity = cityFor(route.dep);
     var arrCity = cityFor(route.arr);
+    var depTz = tzFor(route.dep);
+    var arrTz = tzFor(route.arr);
+    var depTzAbbr = tzAbbr(depTz);
+    var arrTzAbbr = tzAbbr(arrTz);
 
     var depTimeChanged = status && status.departure && status.departure.actual &&
       status.departure.actual !== status.departure.scheduled;
@@ -172,6 +206,10 @@
             h('span', { className: 'ft-time-scheduled' }, f.depart || ''),
             depTimeChanged ? h('span', { className: 'ft-time-actual' }, ' ' + formatLocalTime(status.departure.actual)) : null
           ),
+          depTzAbbr ? h('div', { className: 'ft-tz-label' }, depTzAbbr) : null,
+          // Show departure time in arrival timezone
+          depTz && arrTz && depTz !== arrTz && status && status.departure && (status.departure.actual || status.departure.scheduled) ?
+            h('div', { className: 'ft-tz-alt' }, convertTimeToTz(status.departure.actual || status.departure.scheduled, arrTz)) : null,
           h('div', { className: 'ft-chips' },
             status && status.departure && status.departure.terminal ?
               h('span', { className: 'ft-chip' }, h('i', { className: 'fa-solid fa-building' }), ' T' + status.departure.terminal) : null,
@@ -209,13 +247,20 @@
             h('span', { className: 'ft-time-scheduled' }, f.arrive || ''),
             arrTimeChanged ? h('span', { className: 'ft-time-actual' }, ' ' + formatLocalTime(status.arrival.actual)) : null
           ),
+          arrTzAbbr ? h('div', { className: 'ft-tz-label' }, arrTzAbbr) : null,
+          // Show arrival time in departure timezone
+          depTz && arrTz && depTz !== arrTz && status && status.arrival && (status.arrival.actual || status.arrival.scheduled) ?
+            h('div', { className: 'ft-tz-alt' }, convertTimeToTz(status.arrival.actual || status.arrival.scheduled, depTz)) : null,
           h('div', { className: 'ft-chips' },
             status && status.arrival && status.arrival.terminal ?
               h('span', { className: 'ft-chip' + (arrivalChanges.terminal ? ' ft-chip--changed' : '') },
                 h('i', { className: 'fa-solid fa-building' }), ' T' + status.arrival.terminal) : null,
             status && status.arrival && status.arrival.gate ?
               h('span', { className: 'ft-chip' + (arrivalChanges.gate ? ' ft-chip--changed' : '') },
-                h('i', { className: 'fa-solid fa-door-open' }), ' Gate ' + status.arrival.gate) : null
+                h('i', { className: 'fa-solid fa-door-open' }), ' Gate ' + status.arrival.gate) : null,
+            status && status.arrival && status.arrival.baggageBelt ?
+              h('span', { className: 'ft-chip ft-chip--baggage' },
+                h('i', { className: 'fa-solid fa-suitcase-rolling' }), ' Carousel ' + status.arrival.baggageBelt) : null
           )
         )
       )
@@ -415,11 +460,13 @@
           var arrData = data.arrival || {};
           var newTerminal = arrData.terminal || null;
           var newGate = arrData.gate || null;
+          var newBaggage = arrData.baggageBelt || null;
 
           if (prev) {
             var termChanged = prev.terminal && newTerminal && prev.terminal !== newTerminal;
             var gateChanged = prev.gate && newGate && prev.gate !== newGate;
-            if (termChanged || gateChanged) {
+            var baggageChanged = prev.baggageBelt && newBaggage && prev.baggageBelt !== newBaggage;
+            if (termChanged || gateChanged || baggageChanged) {
               var changes = {};
               var alertParts = [];
               if (termChanged) {
@@ -429,6 +476,10 @@
               if (gateChanged) {
                 changes.gate = true;
                 alertParts.push('Gate changed: ' + prev.gate + ' \u2192 ' + newGate);
+              }
+              if (baggageChanged) {
+                changes.baggageBelt = true;
+                alertParts.push('Baggage carousel changed: ' + prev.baggageBelt + ' \u2192 ' + newBaggage);
               }
               setArrivalChanges(function (ac) {
                 var next = Object.assign({}, ac);
@@ -444,7 +495,7 @@
               }
             }
           }
-          _prevArrivalInfo[fid] = { terminal: newTerminal, gate: newGate };
+          _prevArrivalInfo[fid] = { terminal: newTerminal, gate: newGate, baggageBelt: newBaggage };
 
           setLiveStatuses(function (prev) {
             var next = Object.assign({}, prev);
