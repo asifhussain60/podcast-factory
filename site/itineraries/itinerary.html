@@ -121,7 +121,7 @@
     </section>
 
     <!-- NOTES — rendered from trip metadata -->
-    <section class="itn-section" id="notesSection" hidden></section>
+
 
   </div> <!-- /itn-container -->
   </div> <!-- /main-content -->
@@ -1453,23 +1453,9 @@
       }
 
       function renderNotes(trip) {
+        // Notes section removed — practical details no longer displayed.
         var sec = document.getElementById('notesSection');
-        if (!sec) return;
-        var notes = [];
-        if (trip.base) notes.push('<strong>Accommodation</strong> \u2014 ' + escHtml(trip.base));
-        if (trip.vibe) notes.push('<strong>Vibe</strong> \u2014 ' + escHtml(trip.vibe));
-        if (trip.regions && trip.regions.length) notes.push('<strong>Regions</strong> \u2014 ' + escHtml(trip.regions.join(', ')));
-        // Add day-level notes
-        (trip.days || []).forEach(function(day) {
-          if (day.notes) notes.push('<strong>Day ' + day.day + '</strong> \u2014 ' + escHtml(day.notes));
-        });
-        if (!notes.length) { sec.hidden = true; return; }
-        var html = '<div class="section-header"><div class="overline">Practical Details</div><h2>Notes</h2><div class="divider"><span class="divider-heart">&hearts;</span></div></div>';
-        html += '<div class="notes-box">';
-        notes.forEach(function(n) { html += '<div class="note">' + n + '</div>'; });
-        html += '</div>';
-        sec.innerHTML = html;
-        sec.hidden = false;
+        if (sec) sec.hidden = true;
       }
 
       function renderJournalDays(trip) {
