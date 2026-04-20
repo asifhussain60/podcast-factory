@@ -2420,47 +2420,20 @@
             </div>
           </header>
 
-          <div className="dayone-title-context">
-            <div className="dayone-field dayone-field--title">
-              <div className="dayone-field-label-row">
-                <label htmlFor="dayone-title" className="dayone-field-label">Title</label>
-                <span className="dayone-field-meta">{(value.title || '').length}/90</span>
-              </div>
-              <input
-                id="dayone-title"
-                className="dayone-hero-input"
-                type="text"
-                maxLength={90}
-                value={value.title || ''}
-                onChange={e => update({ title: e.target.value })}
-                placeholder="A short, specific line — the soul of the entry"
-              />
+          <div className="dayone-field dayone-field--title">
+            <div className="dayone-field-label-row">
+              <label htmlFor="dayone-title" className="dayone-field-label">Title</label>
+              <span className="dayone-field-meta">{(value.title || '').length}/90</span>
             </div>
-
-            <div className="dayone-field dayone-field--context">
-              <div className="dayone-field-label-row">
-                <label htmlFor="dayone-context" className="dayone-field-label">Context</label>
-                {autoContext && value.context !== autoContext && (
-                  <button
-                    type="button"
-                    className="dayone-field-restore"
-                    onClick={() => update({ context: autoContext })}
-                    title="Restore auto-derived context"
-                    aria-label="Restore auto-derived context"
-                  >
-                    <Icon name="fa-wand-magic-sparkles" /> Use trip
-                  </button>
-                )}
-              </div>
-              <input
-                id="dayone-context"
-                className="dayone-hero-input"
-                type="text"
-                value={value.context || ''}
-                onChange={e => update({ context: e.target.value })}
-                placeholder="Where, when, who"
-              />
-            </div>
+            <input
+              id="dayone-title"
+              className="dayone-hero-input"
+              type="text"
+              maxLength={90}
+              value={value.title || ''}
+              onChange={e => update({ title: e.target.value })}
+              placeholder="A short, specific line — the soul of the entry"
+            />
           </div>
 
           <div className="dayone-field dayone-field--reflection">
