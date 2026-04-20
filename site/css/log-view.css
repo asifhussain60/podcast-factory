@@ -863,6 +863,7 @@
   justify-content: space-between;
   gap: 12px;
   flex-wrap: wrap;
+  border-bottom: var(--log-border);
 }
 
 .log-subtab-bar {
@@ -1157,11 +1158,13 @@
 .log-toolbar .log-subtab-reset-btn { margin: 0; }
 
 /* Fallback wrapper — used only when there's no date-header to host the
-   toolbar (empty-state path). */
+   toolbar (empty-state path). Spans the full grid width so justify-content
+   can right-align the toolbar inside the 4-col .log-entries grid. */
 .log-toolbar-row {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 10px;
+  grid-column: 1 / -1;
 }
 
 /* ═══════════════════════════════════════════════════
