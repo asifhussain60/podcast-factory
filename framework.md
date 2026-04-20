@@ -1,9 +1,25 @@
 # Journal Ecosystem Framework
 
-**Version:** 1.0
-**Last updated:** 2026-04-15
+**Version:** 2.0
+**Last updated:** 2026-04-20
 
-This document governs the three skills that operate on this repository: **journal**, **trip-log**, and **trip-planner**. It defines their boundaries, shared resources, data flow, and rules of engagement.
+This document governs the journal repo's skill ecosystem, App vs Cowork authority split, and operating rules.
+
+## Skill Ecosystem
+
+The repo has 14 skills organized into tiers. The full registry with triggers, ownership, and named-prompt mappings lives in [`skills-staging/README.md`](skills-staging/README.md).
+
+### Agents
+
+| Agent | Location | Role |
+|---|---|---|
+| `CORTEX` | `.github/agents/CORTEX.agent.md` | Governance, vacuum, structure enforcement |
+| `journal-orchestrator` | `.github/agents/journal-orchestrator.agent.md` | Master skill router, drain pipeline, TDD enforcement |
+| `ui-reviewer` | `.claude/agents/ui-reviewer.md` | CSS/theme review |
+
+### Core Content Skills (Cowork Tier 3, defined below)
+
+Three content skills operate on the memoir and trip content:
 
 ---
 

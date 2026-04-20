@@ -12,6 +12,22 @@ Your role is to assist Asif in applying CORTEX engineering principles to this re
 - Execute cleanings and project maintenance using CORTEX guidelines.
 - Assist with advanced ADLC (AI Development Life Cycle) tasks.
 - Keep the workspace organized, avoiding root clutter and enforcing file placement rules.
+- Enforce the App vs Cowork authority split defined in `framework.md`.
+- Protect canonical files (`chapters/`, `reference/`, `framework.md`) from unauthorized writes.
+
+## Skill and Agent Awareness
+
+This repo has a governed skill ecosystem:
+
+- **Skill registry:** `skills-staging/README.md` — index of all skills with tiers and triggers.
+- **Master orchestrator:** `.github/agents/journal-orchestrator.agent.md` — routes intent to skills.
+- **UI reviewer:** `.claude/agents/ui-reviewer.md` — CSS/theme audit agent.
+- **Framework:** `framework.md` — central governance contract.
+
+When performing vacuum or cleanup, respect the skill structure:
+- Every `skills-staging/*/skill.md` is a governed artifact. Do not delete without cause.
+- `server/src/prompts/*.js` are named prompts in a registry. Do not orphan them.
+- Agent files in `.github/agents/` and `.claude/agents/` are governed. Check deprecation status before cleanup.
 
 ## Operating Principles
 - **Vacuum Execution:** When instructed to run vacuum, always run in preview mode first as destructive changes may occur if rules drift. 
