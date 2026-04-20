@@ -557,7 +557,19 @@
     }
 
     // Determine severity for root-level styling
-    var rootSeverity = activeStatus ? (activeStatus.severity || 'unknown') : (widgetState === STATES.PRE_TRIP || widgetState === STATES.BETWEEN_FLIGHTS ? 'pre-trip' : 'unknown');
+    // Default to 'on-time' when in active-flight state but API hasn't responded yet
+    var rootSeverity;
+    if (activeStatus) {
+      rootSeverity = activeStatus.severity || 'on-time';
+    } else if (widgetState === STATES.ACTIVE_FLIGHT) {
+      rootSeverity = 'on-time';
+    } else if (widgetState === STATES.CHECK_IN_REMINDER) {
+      rootSeverity = 'delayed';
+    } else if (widgetState === STATES.PRE_TRIP || widgetState === STATES.BETWEEN_FLIGHTS) {
+      rootSeverity = 'pre-trip';
+    } else {
+      rootSeverity = 'unknown';
+    }
 
     return h('div', { className: 'ft-root', ref: rootRef, 'data-severity': rootSeverity },
       widgetContent,
