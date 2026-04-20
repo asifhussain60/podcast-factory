@@ -1200,41 +1200,6 @@
       'unsorted-image': { icon: 'fa-camera',        label: 'Photo' },
     };
 
-    // Phase 11b: dummy preview entries — one per kind. Always rendered at the
-    // top of the Unreviewed lane so all card variants are visible for layout
-    // review. ReviewCard short-circuits API actions for any id starting with
-    // `dummy_` so these never hit the server.
-    const DUMMY_ENTRIES = [
-      {
-        id: 'dummy_photo', kind: 'photo', tripSlug: '_dummy', source: 'app',
-        capturedAt: new Date(Date.now() - 1000 * 60 * 60).toISOString(),
-        reviewStatus: 'unreviewed',
-        payload: { imagePath: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800' },
-        notes: '',
-      },
-      {
-        id: 'dummy_receipt', kind: 'receipt', tripSlug: '_dummy', source: 'app',
-        capturedAt: new Date(Date.now() - 1000 * 60 * 90).toISOString(),
-        reviewStatus: 'unreviewed',
-        payload: { imagePath: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800' },
-        notes: '',
-      },
-      {
-        id: 'dummy_note', kind: 'note', tripSlug: '_dummy', source: 'app',
-        capturedAt: new Date(Date.now() - 1000 * 60 * 150).toISOString(),
-        reviewStatus: 'unreviewed',
-        payload: { text: 'Reminder: ask the innkeeper about the ferry timetable to Inishbofin. The coastal road past Letterfrack is supposedly worth the detour even if we skip the island.' },
-        notes: '',
-      },
-      {
-        id: 'dummy_video', kind: 'video', tripSlug: '_dummy', source: 'app',
-        capturedAt: new Date(Date.now() - 1000 * 60 * 180).toISOString(),
-        reviewStatus: 'unreviewed',
-        payload: { videoPath: 'https://images.unsplash.com/photo-1536240478700-b869070f9279?w=800', posterUrl: 'https://images.unsplash.com/photo-1536240478700-b869070f9279?w=800' },
-        notes: '',
-      },
-    ];
-
     function entryPreview(entry) {
       if (entry.kind === 'note') return entry.payload?.text || '(empty note)';
       if (entry.kind === 'voice') return entry.draft?.prose || entry.payload?.transcript || '(voice note)';
@@ -3524,12 +3489,6 @@
         ? baseVisible.filter(reviewView === 'reviewed' ? isReviewed : isUnreviewed)
         : baseVisible;
 
-      // Phase 11b: dummy preview cards (one per kind) at the top of Unreviewed
-      // so every card variant is visible at a glance for layout review. Their
-      // ids are prefixed `dummy_` and ReviewCard short-circuits Refine/Approve
-      // for any such entry — they never hit the server.
-      const filteredDummies = DUMMY_ENTRIES;
-
       // Drag-and-drop ordering on the Reviewed lane only. The order array
       // is per-trip and lives in localStorage; entries not in the array
       // sort to the end by capturedAt (newest first to match the rest of
@@ -3578,9 +3537,9 @@
         persistOrder(combined);
       }
 
-      const displayEntries = (tab === 'inbox' && reviewView === 'unreviewed')
-        ? [...filteredDummies, ...visible]
-        : (reviewView === 'reviewed' ? applyOrder(visible) : visible);
+      const displayEntries = (tab === 'inbox' && reviewView === 'reviewed')
+        ? applyOrder(visible)
+        : visible;
 
       // Drop stale draft cache entries once on mount (30-day TTL backstop).
       useEffect(() => { purgeStaleDrafts(); }, []);
@@ -3611,13 +3570,11 @@
       }
       function handleReject(entry) { setRejectTarget(entry); }
 
-// Returns the entry IDs eligible for a DayOne bundle (visible Reviewed
-      // rows minus dummy entries). Empty array if there's nothing to copy.
+      // Returns the entry IDs eligible for a DayOne bundle (visible Reviewed
+      // rows). Empty array if there's nothing to copy.
       function collectReviewedEntryIds() {
         const reviewedRows = applyOrder(visible.filter(isReviewed));
-        return reviewedRows
-          .map(e => e.id)
-          .filter(id => typeof id === 'string' && !id.startsWith('dummy_'));
+        return reviewedRows.map(e => e.id);
       }
 
       // Write a {markdown, html} pair to the clipboard using the dual-format
