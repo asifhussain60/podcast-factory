@@ -67,6 +67,17 @@
   border-radius: var(--radius-lg);
   background: transparent;
   overflow: hidden;
+  border: 4px solid color-mix(in srgb, var(--text) 25%, transparent);
+}
+.ft-root[data-severity="on-time"] .ft-card {
+  border-color: color-mix(in srgb, var(--accent, #22c55e) 50%, transparent);
+}
+.ft-root[data-severity="delayed"] .ft-card {
+  border-color: color-mix(in srgb, var(--state-warning, #f59e0b) 55%, transparent);
+}
+.ft-root[data-severity="late"] .ft-card,
+.ft-root[data-severity="cancelled"] .ft-card {
+  border-color: color-mix(in srgb, var(--rose-2, #ef4444) 55%, transparent);
 }
 
 /* ── Text contrast on colored severity backgrounds ── */
@@ -175,13 +186,13 @@
 }
 .ft-city {
   color: var(--text-secondary);
-  font-size: .85rem;
-  margin-top: .15rem;
+  font-size: 1rem;
+  margin-top: .2rem;
 }
 
 /* Scheduled / actual time */
 .ft-time {
-  font-size: 1.15rem;
+  font-size: 1.35rem;
   font-weight: 600;
   color: var(--text);
   margin-top: .5rem;
@@ -193,7 +204,7 @@
 .ft-time--changed .ft-time-scheduled {
   text-decoration: line-through;
   color: var(--text-muted);
-  font-size: .9rem;
+  font-size: 1.05rem;
   font-weight: 400;
 }
 .ft-time-actual {
@@ -204,14 +215,14 @@
   color: var(--rose-2);
 }
 .ft-tz-label {
-  font-size: .68rem;
+  font-size: .8rem;
   color: var(--text-muted);
   margin-top: .15rem;
   letter-spacing: .02em;
 }
 .ft-tz-alt {
   display: block;
-  font-size: .78rem;
+  font-size: .92rem;
   color: var(--text-secondary);
   font-weight: 500;
   margin-top: .1rem;
@@ -227,10 +238,10 @@
 .ft-chip {
   display: inline-flex;
   align-items: center;
-  gap: .25rem;
-  padding: .2rem .55rem;
+  gap: .3rem;
+  padding: .3rem .65rem;
   border-radius: 6px;
-  font-size: .72rem;
+  font-size: .85rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: .04em;
@@ -252,7 +263,7 @@
   50% { box-shadow: 0 0 8px 3px color-mix(in srgb, var(--state-warning, #f59e0b) 50%, transparent); }
 }
 .ft-chip i {
-  font-size: .65rem;
+  font-size: .75rem;
 }
 .ft-chip--baggage {
   background: color-mix(in srgb, var(--accent) 15%, transparent);
@@ -272,34 +283,94 @@
 }
 .ft-flight-num {
   color: var(--text-secondary);
-  font-size: .82rem;
+  font-size: .95rem;
+  font-weight: 600;
   text-align: center;
 }
 
-/* Route progress line */
+/* Route progress bar (large flight tracker style) */
 .ft-route-line {
   width: 100%;
-  height: 3px;
+  height: 10px;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--rose-a15, rgba(255,255,255,.15)), var(--white-40, rgba(255,255,255,.4)), var(--accent-a15, rgba(255,255,255,.15)));
+  background: color-mix(in srgb, var(--text) 12%, transparent);
   position: relative;
-  margin: .25rem 0;
+  margin: .5rem 0;
+  overflow: visible;
+}
+/* Track dots (departure + arrival endpoints) */
+.ft-route-line::before,
+.ft-route-line::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+.ft-route-line::before {
+  left: -2px;
+  background: var(--text-secondary);
+  border: 2px solid color-mix(in srgb, var(--text) 30%, transparent);
+}
+.ft-route-line::after {
+  right: -2px;
+  background: var(--accent);
+  border: 2px solid color-mix(in srgb, var(--accent) 50%, transparent);
 }
 .ft-progress {
   position: absolute;
   left: 0;
-  top: -1px;
-  height: 5px;
+  top: 0;
+  height: 100%;
   border-radius: 999px;
-  background: var(--accent);
-  transition: width .6s ease;
+  background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 70%, var(--text)));
+  transition: width 1.2s ease;
+  box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 40%, transparent);
 }
 .ft-plane-icon {
   position: absolute;
-  top: -10px;
-  transition: left .6s ease;
-  color: var(--rose-2);
-  font-size: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: left 1.2s ease;
+  color: var(--text);
+  font-size: 1.5rem;
+  z-index: 2;
+  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--accent) 60%, transparent));
+}
+/* Severity-colored progress bars */
+.ft-root[data-severity="on-time"] .ft-progress {
+  background: linear-gradient(90deg, var(--accent, #22c55e), color-mix(in srgb, var(--accent, #22c55e) 70%, var(--text)));
+  box-shadow: 0 0 10px color-mix(in srgb, var(--accent, #22c55e) 45%, transparent);
+}
+.ft-root[data-severity="on-time"] .ft-route-line::after {
+  background: var(--accent, #22c55e);
+}
+.ft-root[data-severity="delayed"] .ft-progress {
+  background: linear-gradient(90deg, var(--state-warning, #f59e0b), color-mix(in srgb, var(--state-warning, #f59e0b) 70%, var(--text)));
+  box-shadow: 0 0 10px color-mix(in srgb, var(--state-warning, #f59e0b) 45%, transparent);
+}
+.ft-root[data-severity="delayed"] .ft-route-line::after {
+  background: var(--state-warning, #f59e0b);
+}
+.ft-root[data-severity="late"] .ft-progress,
+.ft-root[data-severity="cancelled"] .ft-progress {
+  background: linear-gradient(90deg, var(--rose-2, #ef4444), color-mix(in srgb, var(--rose-2, #ef4444) 70%, var(--text)));
+  box-shadow: 0 0 10px color-mix(in srgb, var(--rose-2, #ef4444) 45%, transparent);
+}
+.ft-root[data-severity="late"] .ft-route-line::after,
+.ft-root[data-severity="cancelled"] .ft-route-line::after {
+  background: var(--rose-2, #ef4444);
+}
+/* Contrast: dark plane icon on colored backgrounds */
+.ft-root[data-severity="on-time"] .ft-plane-icon,
+.ft-root[data-severity="delayed"] .ft-plane-icon,
+.ft-root[data-severity="late"] .ft-plane-icon,
+.ft-root[data-severity="cancelled"] .ft-plane-icon {
+  color: var(--contrast-dark);
+  filter: drop-shadow(0 1px 3px color-mix(in srgb, var(--contrast-dark) 30%, transparent));
 }
 
 /* Meta row: seat, aircraft */
@@ -308,16 +379,16 @@
   align-items: center;
   gap: .5rem;
   color: var(--text-secondary);
-  font-size: .78rem;
+  font-size: .92rem;
 }
 .ft-meta-row i {
-  font-size: .7rem;
+  font-size: .82rem;
 }
 .ft-aircraft {
   display: flex;
   align-items: center;
   gap: .3rem;
-  font-size: .72rem;
+  font-size: .85rem;
   color: var(--text-muted);
   margin-top: .15rem;
 }
@@ -334,22 +405,22 @@
 .ft-status {
   display: inline-flex;
   align-items: center;
-  gap: .35rem;
-  padding: .3rem .75rem;
+  gap: .4rem;
+  padding: .4rem .9rem;
   border-radius: 999px;
-  font-size: .78rem;
+  font-size: .92rem;
   font-weight: 700;
   letter-spacing: .04em;
   text-transform: uppercase;
   white-space: nowrap;
-  margin-top: .45rem;
+  margin-top: .55rem;
   backdrop-filter: blur(4px);
   transition: all .4s ease;
 }
 .ft-status-dot {
   display: inline-block;
-  width: 7px;
-  height: 7px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   background: currentColor;
 }
@@ -400,7 +471,7 @@
   display: flex;
   align-items: center;
   gap: .35rem;
-  font-size: .72rem;
+  font-size: .85rem;
   color: var(--text-muted);
   margin-top: .35rem;
 }
