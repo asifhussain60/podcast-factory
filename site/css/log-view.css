@@ -1335,11 +1335,14 @@
   border-color: var(--border-accent);
 }
 
-/* Right-side wrapper in the subtab row — capture actions + reset button */
+/* Right-side wrapper in the subtab row — capture actions + reset button.
+   margin-left: auto keeps the cluster pinned to the right edge both inline
+   with the tabs and after wrapping onto its own row. */
 .log-subtab-right {
   display: flex;
   align-items: flex-end;
   gap: 8px;
+  margin-left: auto;
 }
 
 .log-subtab-reset-btn {
