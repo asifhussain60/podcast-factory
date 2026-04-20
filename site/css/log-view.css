@@ -1095,6 +1095,7 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 .log-subtab-bar {
@@ -1104,6 +1105,7 @@
   padding: 0;
   position: relative;
   z-index: 1;
+  flex-shrink: 0;
 }
 
 /* While a file drag is active over the composer, give the whole module
@@ -1295,6 +1297,8 @@
   transition: background 180ms ease, color 180ms ease, border-color 180ms ease;
   position: relative;
   top: 2px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 .log-subtab:hover {
   color: var(--text-primary);
