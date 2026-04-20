@@ -27,18 +27,39 @@
     },
     "travelers": { "type": "array", "items": { "type": "string", "minLength": 1 } },
     "flights": {
-      "type": "object",
-      "additionalProperties": {
-        "type": "object",
-        "properties": {
-          "flight":  { "type": "string" },
-          "route":   { "type": "string" },
-          "date":    { "type": "string", "format": "date" },
-          "depart":  { "type": "string" },
-          "arrive":  { "type": "string" }
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "flight":  { "type": "string" },
+              "route":   { "type": "string" },
+              "date":    { "type": "string", "format": "date" },
+              "depart":  { "type": "string" },
+              "arrive":  { "type": "string" }
+            },
+            "additionalProperties": true
+          }
         },
-        "additionalProperties": true
-      }
+        {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "flight":    { "type": "string" },
+              "route":     { "type": "string" },
+              "date":      { "type": "string", "format": "date" },
+              "depart":    { "type": "string" },
+              "arrive":    { "type": "string" },
+              "seat":      { "type": "string" },
+              "direction": { "type": "string", "enum": ["inbound", "outbound", "connecting"] },
+              "leg":       { "type": "integer", "minimum": 1 }
+            },
+            "additionalProperties": true
+          }
+        }
+      ]
     },
     "hotels": {
       "type": "array",

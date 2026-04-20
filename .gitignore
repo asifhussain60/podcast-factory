@@ -38,6 +38,9 @@ node_modules/
 # Phase 1 execution-plan workspace — stays untracked per plan §1.4
 _workspace/
 
+# Trash / soft-delete staging
+**/.trash/
+
 # Per-trip queue + ephemeral artifacts (App writes, Cowork drains and deletes per §5.10)
 trips/*/pending.json
 trips/*/receipts/

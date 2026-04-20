@@ -46,6 +46,7 @@
 //   PATCH /api/publish-sessions/:id      — publish-sessions.js (Phase 11d.1)
 //   POST /api/publish-sessions/:id/abandon — publish-sessions.js (Phase 11d.1)
 //   GET  /api/trip-spend                — trip-spend.js (YNAB)
+//   GET  /api/flight-status             — flight-status.js (AeroDataBox)
 //   GET  /api/config                    — core.js (feature flags)
 //   POST /api/trip-refine-all            — trip-refine-all.js (Refine All coordinator)
 //   POST /api/trip-refine-field          — trip-refine-all.js (single-field Re-synth)
@@ -78,6 +79,7 @@ import { createItineraryRecalcRouter } from "./routes/itinerary-recalc.js";
 import { createThemeRouter } from "./routes/theme.js";
 import { createWeatherRouter } from "./routes/weather.js";
 import { createTripSpendRouter } from "./routes/trip-spend.js";
+import { createFlightStatusRouter } from "./routes/flight-status.js";
 import { createHolidayBudgetRouter } from "./routes/holiday-budget.js";
 import { createLogRouter } from "./routes/log.js";
 import { createPublishSessionsRouter } from "./routes/publish-sessions.js";
@@ -211,6 +213,7 @@ app.use(createItineraryRecalcRouter());
 app.use(createThemeRouter({ anthropic, DEFAULT_MODEL, themeSaveValidator }));
 app.use(createWeatherRouter());
 app.use(createTripSpendRouter());
+app.use(createFlightStatusRouter());
 app.use(createHolidayBudgetRouter({ anthropic }));
 app.use(createLogRouter({ queueValidators: QUEUE_VALIDATORS, anthropic, DEFAULT_MODEL, classifyQueue }));
 app.use(createPublishSessionsRouter({ publishSessionValidator }));

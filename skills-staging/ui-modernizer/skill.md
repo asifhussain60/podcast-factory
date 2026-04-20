@@ -121,6 +121,50 @@ All other rgba/hex in chapter-reader.css must use tokens:
 
 ---
 
+## Spacing & Breathing Room Rules (mandatory for all views)
+
+All components MUST maintain minimum spacing thresholds to ensure visual breathing room. These are non-negotiable minimums — never go below these values.
+
+### Spacing Scale
+
+| Context | Minimum | Preferred | Notes |
+|---|---|---|---|
+| **Section-to-section gap** (`.itn-container`, `.grid-cards`) | 2rem | 2.5rem | Gap between sibling sections |
+| **Section internal padding** (`.itn-section`) | 2rem | 2.25rem | Internal content padding |
+| **Card internal padding** (`.event-card`, `.stat-card`, `.card`) | .85rem | 1rem+ | Cards never cramped |
+| **Card gap in grid** (`.timeline`, `.day-body-inner`) | 1.25rem | 1.5rem | Between cards in a list |
+| **Section header bottom margin** (`.section-header`) | 1.5rem | 1.75rem | Space below "The Itinerary" etc. |
+| **Hero bottom margin** (`.hero`) | 2rem | 2.5rem | Between hero and next section |
+| **Widget containers** (`.ft-root`, `.budget-panel`) | 1.25rem padding | 1.5rem | Self-contained widgets |
+| **Day card open body** (`.day-body-inner`) | 1rem top, 1.25rem bottom | 1.25rem top, 1.75rem bottom | First/last event breathing room |
+| **Dashboard grid gap** (`.grid-cards`) | 1.5rem | 1.75rem | Between dashboard cards |
+| **Log module top padding** | 24px | 28px | Clears nav comfortably |
+
+### Responsive Scaling
+
+At mobile breakpoints (≤680px, ≤420px), spacing reduces proportionally but never drops below 60% of the desktop minimum. For example:
+- Section padding: 2.25rem → 1.5rem (680px) → 1.15rem (420px)
+- Card padding: 1rem → .85rem (680px) → .65rem (420px)
+- Grid gap: 1.5rem → 1.25rem (680px) → 1rem (420px)
+
+### Zero-Margin Anti-Patterns (NEVER do these)
+
+- `margin: 0` on a section boundary — always provide at least 1rem separation
+- `padding: 0` on a card-level container — cards always need internal padding
+- `margin-top: -Nrem` that collapses the gap between two sections below 1rem
+- `gap: 0` on any grid that contains user-visible content items
+
+### New Component Checklist
+
+When creating a new component or widget:
+1. Define `padding` on the component root (minimum 1rem)
+2. Define `margin` for spacing from siblings (minimum 1rem)
+3. If it's a grid/list container, set `gap` (minimum 1rem)
+4. Test at 1440px, 860px, 680px, and 420px breakpoints
+5. Verify no content hugs the edges of its parent container
+
+---
+
 ## Validation gate
 
 After all phases, run:

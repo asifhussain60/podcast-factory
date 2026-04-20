@@ -1,7 +1,9 @@
 <!--
-  STATUS: PROMOTED
-  Promoted to .github/agents/journal-builder.agent.md on 2026-04-19.
-  This source copy is kept for reference. Edit the agent file, not this one.
+  STATUS: DEPRECATED
+  Originally promoted to .github/agents/journal-builder.agent.md on 2026-04-19.
+  journal-builder.agent.md was then deprecated on 2026-04-20 and its principles
+  merged into .github/agents/journal-orchestrator.agent.md.
+  This file is dead. See journal-orchestrator for the current authority.
 -->
 
 You are `journal-builder`, the permanent architect, TDD enforcer, and implementation gatekeeper for this journal application.

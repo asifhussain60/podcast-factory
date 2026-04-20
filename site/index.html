@@ -1200,41 +1200,6 @@
       'unsorted-image': { icon: 'fa-camera',        label: 'Photo' },
     };
 
-    // Phase 11b: dummy preview entries — one per kind. Always rendered at the
-    // top of the Unreviewed lane so all card variants are visible for layout
-    // review. ReviewCard short-circuits API actions for any id starting with
-    // `dummy_` so these never hit the server.
-    const DUMMY_ENTRIES = [
-      {
-        id: 'dummy_photo', kind: 'photo', tripSlug: '_dummy', source: 'app',
-        capturedAt: new Date(Date.now() - 1000 * 60 * 60).toISOString(),
-        reviewStatus: 'unreviewed',
-        payload: { imagePath: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800' },
-        notes: '',
-      },
-      {
-        id: 'dummy_receipt', kind: 'receipt', tripSlug: '_dummy', source: 'app',
-        capturedAt: new Date(Date.now() - 1000 * 60 * 90).toISOString(),
-        reviewStatus: 'unreviewed',
-        payload: { imagePath: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800' },
-        notes: '',
-      },
-      {
-        id: 'dummy_note', kind: 'note', tripSlug: '_dummy', source: 'app',
-        capturedAt: new Date(Date.now() - 1000 * 60 * 150).toISOString(),
-        reviewStatus: 'unreviewed',
-        payload: { text: 'Reminder: ask the innkeeper about the ferry timetable to Inishbofin. The coastal road past Letterfrack is supposedly worth the detour even if we skip the island.' },
-        notes: '',
-      },
-      {
-        id: 'dummy_video', kind: 'video', tripSlug: '_dummy', source: 'app',
-        capturedAt: new Date(Date.now() - 1000 * 60 * 180).toISOString(),
-        reviewStatus: 'unreviewed',
-        payload: {},
-        notes: '',
-      },
-    ];
-
     function entryPreview(entry) {
       if (entry.kind === 'note') return entry.payload?.text || '(empty note)';
       if (entry.kind === 'voice') return entry.draft?.prose || entry.payload?.transcript || '(voice note)';
@@ -1255,15 +1220,6 @@
         return ext ? `${ext} video` : 'Video';
       }
       return '(item)';
-    }
-
-    // Source-filter matcher — 'photo' pill matches both firmed photos and
-    // unsorted-image rows (pre-classify). Every other source is a literal
-    // kind match. Mirrors server-side predicate in routes/log.js.
-    function matchesLogSource(entry, source) {
-      if (!source || source === 'all') return true;
-      if (source === 'photo') return entry.kind === 'photo' || entry.kind === 'unsorted-image';
-      return entry.kind === source;
     }
 
     function matchesLogTab(entry, tab) {
@@ -1324,7 +1280,7 @@
       return { bucketKey, dateKey };
     }
     // Group entries by date (if multiple) + time bucket. Returns a flat list
-    // of render items: { type: 'date-header' | 'bucket-header' | 'entry' }.
+    // of render items: { type: 'date-header' | 'entry' }.
     // Preserves the input order within each bucket, so upstream sort (newest
     // first from displayEntries) is honored.
     function groupEntriesForDensity(entries) {
@@ -1345,7 +1301,6 @@
         const d = new Date(); d.setDate(d.getDate() - 1);
         return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
       })();
-      const showDateHeaders = byDate.size > 1;
       // Sort dates newest-first; 'unknown' sinks to the bottom.
       const dateKeys = [...byDate.keys()].sort((a, b) => {
         if (a === 'unknown') return 1;
@@ -1354,25 +1309,16 @@
       });
       const items = [];
       for (const dateKey of dateKeys) {
-        if (showDateHeaders) {
-          let label;
-          if (dateKey === todayKey) label = 'Today';
-          else if (dateKey === yesterdayKey) label = 'Yesterday';
-          else if (dateKey === 'unknown') label = 'Untimed';
-          else label = new Date(dateKey + 'T12:00:00').toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' });
-          items.push({ type: 'date-header', dateKey, label });
-        }
+        let label;
+        if (dateKey === todayKey) label = 'Today';
+        else if (dateKey === yesterdayKey) label = 'Yesterday';
+        else if (dateKey === 'unknown') label = 'Untimed';
+        else label = new Date(dateKey + 'T12:00:00').toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' });
+        items.push({ type: 'date-header', dateKey, label });
         const bucketMap = byDate.get(dateKey);
         for (const def of LOG_BUCKET_DEFS) {
           const list = bucketMap.get(def.key);
           if (!list || !list.length) continue;
-          items.push({
-            type: 'bucket-header',
-            key: `${dateKey}-${def.key}`,
-            label: def.label,
-            range: def.range,
-            count: list.length,
-          });
           for (const entry of list) items.push({ type: 'entry', entry });
         }
       }
@@ -1431,11 +1377,13 @@
       }
       if (kind === 'video') {
         const vp = entry.payload?.videoPath || entry.videoPath;
+        const poster = entry.payload?.posterUrl;
         if (vp) {
-          const src = /^https?:\/\//.test(vp) ? vp : `${LOG_API_BASE}/${vp.replace(/^\//, '')}`;
+          const raw = /^https?:\/\//.test(vp) ? vp : `${LOG_API_BASE}/${vp.replace(/^\//, '')}`;
+          const src = `${raw}#t=0.001`;
           return (
             <div className="log-entry-thumb log-entry-thumb--video-preview">
-              <video src={src} muted playsInline preload="metadata" />
+              <video src={src} poster={poster || undefined} muted playsInline preload="metadata" />
               <span className="log-entry-thumb-play" aria-hidden="true"><Icon name="fa-play" /></span>
               {rel && <span className="log-entry-thumb-time">{rel}</span>}
             </div>
@@ -1609,6 +1557,35 @@
       );
     }
 
+    // Image artifact with async-load shimmer + error fallback. Uses loading="lazy"
+    // so offscreen cards don't block the main network queue.
+    function ImageArtifact({ src }) {
+      const [status, setStatus] = useState('loading');
+      return (
+        <div className={`review-card-artifact review-card-artifact--image is-${status}`}>
+          <img
+            src={src}
+            alt="Captured"
+            className="review-card-artifact-img"
+            onLoad={() => setStatus('loaded')}
+            onError={() => setStatus('error')}
+            loading="lazy"
+            decoding="async"
+          />
+          {status === 'loading' && (
+            <span className="review-card-artifact-loading" aria-hidden="true">
+              <Icon name="fa-circle-notch fa-spin" />
+            </span>
+          )}
+          {status === 'error' && (
+            <span className="review-card-artifact-error">
+              <Icon name="fa-triangle-exclamation" /> Failed to load
+            </span>
+          )}
+        </div>
+      );
+    }
+
     // ─── Phase 11b: artifact pane (Zone 1) — read-only, kind-aware.
     // Image / audio paths are repo-relative (e.g. trips/{slug}/photos/{id}.jpg).
     // Static blobs are mounted by the API server, so URL must prefix LOG_API_BASE.
@@ -1618,7 +1595,7 @@
       if (isImage) {
         const ip = entry.payload?.imagePath || entry.imagePath;
         if (!ip) return <div className="review-card-artifact review-card-artifact--empty">No image attached</div>;
-        return <img src={toApiUrl(ip)} alt="Captured" className="review-card-artifact review-card-artifact--image" />;
+        return <ImageArtifact src={toApiUrl(ip)} />;
       }
       if (kind === 'voice') {
         const audioPath = entry.payload?.audioPath;
@@ -1634,14 +1611,16 @@
       }
       if (kind === 'video') {
         const videoPath = entry.payload?.videoPath || entry.videoPath;
+        const poster = entry.payload?.posterUrl;
         if (!videoPath) return <div className="review-card-artifact review-card-artifact--empty">No video attached</div>;
         return (
           <video
             controls
             playsInline
             preload="metadata"
+            poster={poster || undefined}
             className="review-card-artifact review-card-artifact--video"
-            src={toApiUrl(videoPath)}
+            src={`${toApiUrl(videoPath)}#t=0.001`}
           />
         );
       }
@@ -1650,6 +1629,143 @@
         return <div className="review-card-artifact review-card-artifact--text">{text}</div>;
       }
       return <div className="review-card-artifact review-card-artifact--empty">Unsupported kind: {kind}</div>;
+    }
+
+    // ─── RefineModal — full-screen editing surface opened by the purple Refine button.
+    // Shows the artifact preview for reference alongside a large textarea.
+    // Has its own AI Refine button (does NOT persist until Save). Cancel restores
+    // the card to its pre-modal state.
+    function RefineModal({ entry, kind, initialText, structuredData, kindOverride, isReviewed, isDummy, onSave, onCancel }) {
+      const [text, setText] = useState(initialText || '');
+      const [refining, setRefining] = useState(false);
+      const [refineError, setRefineError] = useState('');
+      const [structured, setStructured] = useState(structuredData || null);
+      const panelRef = useRef(null);
+
+      // Close on Escape
+      useEffect(() => {
+        function onKey(e) { if (e.key === 'Escape') onCancel(); }
+        window.addEventListener('keydown', onKey);
+        return () => window.removeEventListener('keydown', onKey);
+      }, [onCancel]);
+
+      // Focus textarea on mount
+      useEffect(() => {
+        const ta = panelRef.current?.querySelector('.refine-modal-textarea');
+        if (ta) { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }
+      }, []);
+
+      async function handleRefine() {
+        if (refining) return;
+        if (isDummy) {
+          window.notify?.info?.('Demo card', { description: 'Refine is disabled on preview cards.' });
+          return;
+        }
+        setRefining(true);
+        setRefineError('');
+        try {
+          // Photo kind requires a non-empty note (server invariant).
+          // If the user hasn't typed anything, send a sensible default so
+          // the AI still refines using the photo as context.
+          const noteText = text.trim() || (kind === 'photo' || kind === 'unsorted-image'
+            ? 'Describe this moment in my voice'
+            : '');
+          const body = { note: noteText };
+          if (kindOverride) body.kindOverride = kindOverride;
+          const r = await window.BabuAI.logRefine(entry.id, body);
+          if (r?.refined) {
+            setText(r.refined);
+            if (r.structured) setStructured(r.structured);
+          } else {
+            setRefineError('No refined text returned');
+          }
+        } catch (err) {
+          setRefineError(typeof err === 'object' && err?.message ? err.message : String(err));
+        } finally {
+          setRefining(false);
+        }
+      }
+
+      const badge = KIND_BADGE[kind] || { icon: 'fa-file', label: kind };
+
+      return ReactDOM.createPortal(
+        <div className="refine-modal" role="dialog" aria-modal="true" aria-label="Refine entry">
+          <div className="refine-modal-backdrop" onClick={onCancel} />
+          <div className="refine-modal-panel" ref={panelRef}>
+
+            <header className="refine-modal-header">
+              <div className="refine-modal-title">
+                <Icon name="fa-wand-magic-sparkles" />
+                <span>Refine Entry</span>
+              </div>
+              <button type="button" className="refine-modal-close" onClick={onCancel} title="Close (Esc)" aria-label="Close">
+                <Icon name="fa-xmark" />
+              </button>
+            </header>
+
+            <div className="refine-modal-body">
+              <div className="refine-modal-preview">
+                <div className="refine-modal-preview-label">
+                  <Icon name={badge.icon} />
+                  <span>{badge.label}</span>
+                </div>
+                <div className="refine-modal-artifact-wrap">
+                  <ReviewArtifact entry={entry} kind={kind} />
+                </div>
+              </div>
+
+              <div className="refine-modal-editor">
+                <label className="refine-modal-editor-label" htmlFor="refine-modal-textarea">
+                  Your note / prompt
+                </label>
+                <textarea
+                  id="refine-modal-textarea"
+                  className="refine-modal-textarea"
+                  value={text}
+                  onChange={e => setText(e.target.value)}
+                  placeholder="Add a note or prompt for this entry…"
+                  rows={10}
+                  disabled={refining}
+                  spellCheck
+                />
+                {refineError && (
+                  <div className="refine-modal-error" role="alert">
+                    <Icon name="fa-triangle-exclamation" />
+                    <span>{refineError}</span>
+                    <button type="button" className="refine-modal-error-dismiss" onClick={() => setRefineError('')} aria-label="Dismiss">
+                      <Icon name="fa-xmark" />
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <footer className="refine-modal-footer">
+              <button
+                type="button"
+                className="refine-modal-btn refine-modal-btn--refine"
+                onClick={handleRefine}
+                disabled={refining}
+                title="Refine with AI"
+              >
+                <Icon name={refining ? 'fa-circle-notch fa-spin' : 'fa-wand-magic-sparkles'} />
+                <span>{refining ? 'Refining…' : 'Refine'}</span>
+              </button>
+              <div className="refine-modal-footer-right">
+                <button type="button" className="refine-modal-btn refine-modal-btn--cancel" onClick={onCancel}>
+                  Cancel
+                </button>
+                <button type="button" className="refine-modal-btn refine-modal-btn--save" onClick={() => onSave(text, structured)}>
+                  <Icon name="fa-check" />
+                  <span>Save</span>
+                </button>
+              </div>
+            </footer>
+
+          </div>
+        </div>,
+        document.body
+      );
     }
 
     // ─── Phase 11b: unified review card (3 zones).
@@ -1670,6 +1786,8 @@
       const [refineError, setRefineError] = useState('');
       const [approving, setApproving] = useState(false);
       const [flippingKind, setFlippingKind] = useState(false);
+      // RefineModal: open state for the full-screen editing surface.
+      const [refineModalOpen, setRefineModalOpen] = useState(false);
       // Picks one of three visual treatments for the refining animation
       // ('shimmer' | 'pulse' | 'overlay'). Rotated at each refine start so
       // the card "mixes it up" rather than using a single static treatment.
@@ -1898,6 +2016,31 @@
         }
       }
 
+      // Modal Save: push refined/edited text back to the card's draft,
+      // mark as refined so auto-refine-on-blur won't re-fire, and
+      // auto-persist for reviewed entries.
+      async function handleModalSave(text, structured) {
+        draft.setPrompt(text);
+        if (structured) draft.setStructured(structured);
+        setRefineModalOpen(false);
+        // Mark as refined
+        autoRefinedOnceRef.current = true;
+        baselinePromptRef.current = (text || '').trim();
+        try { window.localStorage?.setItem(autoRefineStorageKey, '1'); } catch (_) {}
+        // Auto-persist for reviewed lane
+        if (isReviewed && !isDummy) {
+          try {
+            const patch = { draftProse: (text || '').trim() };
+            if (draft.kindOverride) patch.kindOverride = draft.kindOverride;
+            if (structured) patch.structured = structured;
+            await onSaveDraft?.(entry.id, patch, { silent: true });
+            setLastSaved(text);
+          } catch (err) {
+            window.notify?.error?.('Save failed', { description: err.message || String(err) });
+          }
+        }
+      }
+
       // Drag-and-drop handlers — only active on Reviewed lane real entries.
       const [isDragOver, setIsDragOver] = useState(false);
       const dragProps = draggable ? {
@@ -1995,13 +2138,13 @@
             {effectiveKind !== 'video' && (
               <button
                 className="log-action-btn log-action-btn--refine"
-                onClick={handleRefine}
+                onClick={() => setRefineModalOpen(true)}
                 disabled={approving || refining || unapproving}
-                title={refineTitle}
-                aria-label={typeof refineLabel === 'string' ? refineLabel : 'Refine'}
+                title="Open refine editor"
+                aria-label="Edit &amp; Refine"
               >
-                <Icon name={refineIcon} />
-                <span className="btn-label">{refineLabel}</span>
+                <Icon name="fa-pen-to-square" />
+                <span className="btn-label">Edit</span>
               </button>
             )}
             {!isReviewed && (
@@ -2017,6 +2160,20 @@
               </button>
             )}
           </footer>
+
+          {refineModalOpen && (
+            <RefineModal
+              entry={entry}
+              kind={effectiveKind}
+              initialText={draft.prompt}
+              structuredData={draft.structured}
+              kindOverride={draft.kindOverride}
+              isReviewed={isReviewed}
+              isDummy={isDummy}
+              onSave={handleModalSave}
+              onCancel={() => setRefineModalOpen(false)}
+            />
+          )}
         </article>
       );
     }
@@ -2289,7 +2446,6 @@
       previewBody = null,
       previewActions = null,
     }) {
-      const [reflectionRefining, setReflectionRefining] = useState(false);
       const refineAllBtnRef = useRef(null);
 
       // Return focus to Refine All button after a refine cycle completes (E1 a11y)
@@ -2355,52 +2511,6 @@
 
       function update(patch) { onChange({ ...value, ...patch }); }
 
-      // AI-powered reflection: sends approved entry prose + optional user draft
-      // to /api/refine-reflection which uses the voice DNA fingerprint.
-      // Blank textarea → AI generates from entries. Has text → AI enhances it.
-      async function refineReflection() {
-        if (reflectionRefining) return;
-        const rows = reviewedRows || [];
-        if (!rows.length) {
-          window.notify?.info?.('Nothing to refine', { description: 'Approve a few entries first.' });
-          return;
-        }
-        // Gather prose from all approved entries
-        const entries = rows
-          .map(row => row?.draft?.prose || row?.payload?.text || '')
-          .filter(Boolean);
-        if (!entries.length) {
-          window.notify?.info?.('No prose found', { description: 'Entries need refined text first.' });
-          return;
-        }
-        setReflectionRefining(true);
-        try {
-          const body = {
-            entries,
-            title: value.title || '',
-            context: value.context || '',
-            date: value.date || '',
-          };
-          const currentDraft = (value.reflection || '').trim();
-          if (currentDraft) body.draft = currentDraft;
-
-          const d = await window.BabuAI.request('/api/refine-reflection', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body),
-            timeoutMs: 60000,
-          });
-          if (d?.refined) {
-            update({ reflection: d.refined });
-            window.notify?.success?.(currentDraft ? 'Reflection enhanced' : 'Reflection generated');
-          }
-        } catch (err) {
-          window.notify?.error?.('Reflection refine failed', { description: err.message || String(err) });
-        } finally {
-          setReflectionRefining(false);
-        }
-      }
-
       const hasAny = !!(value.title?.trim() || (value.reflection || '').trim() || dayoneTags.length > 0);
       const storyCount = (reviewedRows || []).length;
 
@@ -2420,47 +2530,20 @@
             </div>
           </header>
 
-          <div className="dayone-title-context">
-            <div className="dayone-field dayone-field--title">
-              <div className="dayone-field-label-row">
-                <label htmlFor="dayone-title" className="dayone-field-label">Title</label>
-                <span className="dayone-field-meta">{(value.title || '').length}/90</span>
-              </div>
-              <input
-                id="dayone-title"
-                className="dayone-hero-input"
-                type="text"
-                maxLength={90}
-                value={value.title || ''}
-                onChange={e => update({ title: e.target.value })}
-                placeholder="A short, specific line — the soul of the entry"
-              />
+          <div className="dayone-field dayone-field--title">
+            <div className="dayone-field-label-row">
+              <label htmlFor="dayone-title" className="dayone-field-label">Title</label>
+              <span className="dayone-field-meta">{(value.title || '').length}/90</span>
             </div>
-
-            <div className="dayone-field dayone-field--context">
-              <div className="dayone-field-label-row">
-                <label htmlFor="dayone-context" className="dayone-field-label">Context</label>
-                {autoContext && value.context !== autoContext && (
-                  <button
-                    type="button"
-                    className="dayone-field-restore"
-                    onClick={() => update({ context: autoContext })}
-                    title="Restore auto-derived context"
-                    aria-label="Restore auto-derived context"
-                  >
-                    <Icon name="fa-wand-magic-sparkles" /> Use trip
-                  </button>
-                )}
-              </div>
-              <input
-                id="dayone-context"
-                className="dayone-hero-input"
-                type="text"
-                value={value.context || ''}
-                onChange={e => update({ context: e.target.value })}
-                placeholder="Where, when, who"
-              />
-            </div>
+            <input
+              id="dayone-title"
+              className="dayone-hero-input"
+              type="text"
+              maxLength={90}
+              value={value.title || ''}
+              onChange={e => update({ title: e.target.value })}
+              placeholder="A short, specific line — the soul of the entry"
+            />
           </div>
 
           <div className="dayone-field dayone-field--reflection">
@@ -2481,16 +2564,6 @@
                     <span className="btn-label"> Refine All</span>
                   </button>
                 )}
-                <button
-                  type="button"
-                  className="dayone-reflection-refine"
-                  onClick={refineReflection}
-                  disabled={reflectionRefining || !storyCount}
-                  title="Quick AI enhance of reflection (voice DNA)"
-                  aria-label="Refine reflection"
-                >
-                  <Icon name={reflectionRefining ? 'fa-circle-notch fa-spin' : 'fa-wand-magic-sparkles'} />
-                </button>
                 {hasAny && (
                   <button
                     type="button"
@@ -2818,17 +2891,6 @@
       useEffect(() => {
         try { localStorage.setItem('log_review_view', reviewView); } catch {}
       }, [reviewView]);
-      const [sourceFilter, setSourceFilter] = useState('all');
-      // Density mode: Compact (4-col scan) / Comfortable (3-col balanced) / Detail (3-col full).
-      // Persisted in localStorage; Compact is the first-load default so a heavy day of captures
-      // (30-50 entries) is immediately scannable without scrolling. Applies only to Log Bank.
-      const [densityMode, setDensityMode] = useState(() => {
-        try { return localStorage.getItem('log_density_mode') || 'compact'; }
-        catch { return 'compact'; }
-      });
-      useEffect(() => {
-        try { localStorage.setItem('log_density_mode', densityMode); } catch {}
-      }, [densityMode]);
       // Day chip filter UI removed in this iteration; the day filter chain in
       // baseVisible short-circuits with this constant.
       const dayFilter = 'all';
@@ -2841,8 +2903,7 @@
       const [noteComposerOpen, setNoteComposerOpen] = useState(false);
       const [receiptProcessing, setReceiptProcessing] = useState(false);
       const [rejectTarget, setRejectTarget] = useState(null);
-      const [dayoneJournals, setDayoneJournals] = useState([]);
-      const [dayoneJournal, setDayoneJournal] = useState('');
+      const dayoneJournal = 'ishrat-trips';
       const [dayonePushing, setDayonePushing] = useState(false);
       // Preview mode swaps the Story cards for a faithful render of the
       // clipboard payload. previewComposed is the structured bundle from
@@ -3383,10 +3444,9 @@
       }, [compose, composeKey]);
 
       // Single canonical filter pipeline — source of truth is `entries`.
-      // Order: tab (inbox only) → source → review-lane split.
+      // Order: tab (inbox only) → review-lane split.
       const baseVisible = entries
-        .filter(e => matchesLogTab(e, tab))
-        .filter(e => matchesLogSource(e, sourceFilter));
+        .filter(e => matchesLogTab(e, tab));
 
       // Phase 11b: review lifecycle applies to ALL kinds in the Inbox tab.
       // Unreviewed lane shows entries with reviewStatus ∈ {unreviewed, in_review}.
@@ -3400,14 +3460,6 @@
       const visible = tab === 'inbox'
         ? baseVisible.filter(reviewView === 'reviewed' ? isReviewed : isUnreviewed)
         : baseVisible;
-
-      // Phase 11b: dummy preview cards (one per kind) at the top of Unreviewed
-      // so every card variant is visible at a glance for layout review. Their
-      // ids are prefixed `dummy_` and ReviewCard short-circuits Refine/Approve
-      // for any such entry — they never hit the server. Dummies respect the
-      // active Source filter so the filter behaves consistently across both
-      // real and preview entries.
-      const filteredDummies = DUMMY_ENTRIES.filter(e => matchesLogSource(e, sourceFilter));
 
       // Drag-and-drop ordering on the Reviewed lane only. The order array
       // is per-trip and lives in localStorage; entries not in the array
@@ -3457,9 +3509,9 @@
         persistOrder(combined);
       }
 
-      const displayEntries = (tab === 'inbox' && reviewView === 'unreviewed')
-        ? [...filteredDummies, ...visible]
-        : (reviewView === 'reviewed' ? applyOrder(visible) : visible);
+      const displayEntries = (tab === 'inbox' && reviewView === 'reviewed')
+        ? applyOrder(visible)
+        : visible;
 
       // Drop stale draft cache entries once on mount (30-day TTL backstop).
       useEffect(() => { purgeStaleDrafts(); }, []);
@@ -3490,25 +3542,11 @@
       }
       function handleReject(entry) { setRejectTarget(entry); }
 
-      // Fetch DayOne journals on mount; default selection to the first.
-      useEffect(() => {
-        fetch(`${LOG_API_BASE}/api/dayone/journals`, { credentials: 'include' })
-          .then(r => r.json())
-          .then(d => {
-            if (!d?.ok || !Array.isArray(d.journals)) return;
-            setDayoneJournals(d.journals);
-            if (d.journals.length && !dayoneJournal) setDayoneJournal(d.journals[0].id);
-          })
-          .catch(() => { /* silent — DayOne push is optional */ });
-      }, []);
-
       // Returns the entry IDs eligible for a DayOne bundle (visible Reviewed
-      // rows minus dummy entries). Empty array if there's nothing to copy.
+      // rows). Empty array if there's nothing to copy.
       function collectReviewedEntryIds() {
         const reviewedRows = applyOrder(visible.filter(isReviewed));
-        return reviewedRows
-          .map(e => e.id)
-          .filter(id => typeof id === 'string' && !id.startsWith('dummy_'));
+        return reviewedRows.map(e => e.id);
       }
 
       // Write a {markdown, html} pair to the clipboard using the dual-format
@@ -3985,14 +4023,6 @@
         }
       }
 
-      const SOURCES = [
-        { id: 'all',     label: 'All' },
-        { id: 'photo',   label: 'Photo',   icon: 'fa-camera' },
-        { id: 'video',   label: 'Video',   icon: 'fa-video' },
-        { id: 'receipt', label: 'Receipt', icon: 'fa-receipt' },
-        { id: 'note',    label: 'Note',    icon: 'fa-note-sticky' },
-      ];
-
       // Shared JSX fragments reused between the two review lanes.
       const captureActionsNode = (
         <div className="log-capture-actions">
@@ -4039,6 +4069,26 @@
         </div>
       );
 
+      // Unreviewed-lane toolbar: capture actions + reset, wrapped in a
+      // bordered pill that sits inline with the first date-header.
+      const unreviewedToolbarNode = (
+        <div className="log-toolbar" role="toolbar" aria-label="Log Bank actions">
+          {captureActionsNode}
+          {reviewUnreviewedCount > 0 && (
+            <button
+              className="log-subtab-reset-btn"
+              onClick={() => setResetOpen(true)}
+              disabled={resetting}
+              title="Clear all entries from Log Bank"
+              aria-label={resetting ? 'Resetting…' : 'Reset Log Bank'}
+            >
+              <Icon name={resetting ? 'fa-circle-notch fa-spin' : 'fa-rotate-left'} />
+              <span className="btn-label"> Reset</span>
+            </button>
+          )}
+        </div>
+      );
+
       // Reviewed-lane card list, already ordered and filtered.
       const reviewedRowsOrdered = tab === 'inbox' ? applyOrder(visible.filter(isReviewed)) : [];
       const reviewedCardsNode = reviewedRowsOrdered.map(entry => {
@@ -4062,38 +4112,24 @@
         ? (<div className="log-empty"><Icon name="fa-spinner" /> <p>Loading your log…</p></div>)
         : (<div className="log-empty"><Icon name="fa-inbox" /><p>Nothing approved yet — review some from Log Bank to see them here.</p></div>);
 
-      // Reviewed-lane footer: Journal select + Copy-to-DayOne + Delete. Lives
+      // Reviewed-lane footer: Copy-to-DayOne + Delete. Lives
       // inside the composer so all post-composition controls sit together.
       const reviewedActionsNode = (
         <>
-          <div className="log-dayone-push-controls">
-            <select
-              className="log-dayone-journal-select"
-              value={dayoneJournal}
-              onChange={e => setDayoneJournal(e.target.value)}
-              disabled={dayonePushing || !dayoneJournals.length}
-              aria-label="Target DayOne journal"
-            >
-              {dayoneJournals.length === 0 && <option value="">No journals available</option>}
-              {dayoneJournals.map(j => (
-                <option key={j.id} value={j.id}>{j.label}</option>
-              ))}
-            </select>
-            <button
-              className="log-dayone-push-btn"
-              onClick={handleDayoneCopy}
-              disabled={dayonePushing || previewLoading || !dayoneJournals.length}
-              title="Click to preview the DayOne entry · ⌘/Ctrl-click to skip preview and copy directly"
-              aria-label={dayonePushing ? 'Copying to DayOne' : previewLoading ? 'Opening preview' : 'Preview and copy DayOne entry'}
-            >
-              <Icon name={(dayonePushing || previewLoading) ? 'fa-circle-notch fa-spin' : 'fa-eye'} />
-              <span className="btn-label">
-                {dayonePushing ? 'Copying…'
-                  : previewLoading ? 'Opening preview…'
-                  : 'Preview & Copy'}
-              </span>
-            </button>
-          </div>
+          <button
+            className="log-dayone-push-btn"
+            onClick={handleDayoneCopy}
+            disabled={dayonePushing || previewLoading}
+            title="Click to preview the DayOne entry · ⌘/Ctrl-click to skip preview and copy directly"
+            aria-label={dayonePushing ? 'Copying to DayOne' : previewLoading ? 'Opening preview' : 'Preview and copy DayOne entry'}
+          >
+            <Icon name={(dayonePushing || previewLoading) ? 'fa-circle-notch fa-spin' : 'fa-eye'} />
+            <span className="btn-label">
+              {dayonePushing ? 'Copying…'
+                : previewLoading ? 'Opening preview…'
+                : 'Preview & Copy'}
+            </span>
+          </button>
           {entries.some(isReviewed) && (
             <button
               className="log-reviewed-delete-btn"
@@ -4234,69 +4270,9 @@
             onChange={e => captureReceipt(e.target.files?.[0])}
           />
 
-          {/* ── Log panel — bordered container: source filter + entry grid ── */}
+          {/* ── Log panel — bordered container: title + tab strip + entry grid ── */}
           <section className="log-panel">
-            <div className="log-panel-control">
-              <div className="log-filter-bar">
-                <div className="log-chip-row">
-                  <span className="log-chip-row-label">Source</span>
-                  {SOURCES.map(s => (
-                    <button
-                      key={s.id}
-                      className={`log-chip ${sourceFilter === s.id ? 'active' : ''}`}
-                      onClick={() => setSourceFilter(s.id)}
-                      aria-label={s.label}
-                      title={s.label}
-                    >
-                      {s.icon && <Icon name={s.icon} />}
-                      <span className="btn-label">{s.icon ? ' ' : ''}{s.label}</span>
-                    </button>
-                  ))}
-                  {tab === 'inbox' && reviewView === 'reviewed' && (
-                    <label className="log-date-picker" title="Journal date for the DayOne entry">
-                      <Icon name="fa-calendar-day" />
-                      <span className="log-date-picker-label">Date</span>
-                      <input
-                        type="date"
-                        className="log-date-picker-input"
-                        value={compose.date || todayIso()}
-                        onChange={e => setCompose(c => ({ ...c, date: e.target.value || todayIso() }))}
-                        aria-label="Journal date"
-                      />
-                    </label>
-                  )}
-                  {/* Density toggle — both lanes (Compact / Comfortable / Detail) */}
-                  {tab === 'inbox' && (
-                    <div className="log-density-toggle" role="group" aria-label="Card density">
-                      <span className="log-density-toggle-label">Density</span>
-                      <div className="log-density-toggle-group">
-                        {[
-                          { id: 'compact',     label: 'Compact',     icon: 'fa-grip' },
-                          { id: 'comfortable', label: 'Comfortable', icon: 'fa-table-cells-large' },
-                          { id: 'detail',      label: 'Detail',      icon: 'fa-rectangle-list' },
-                        ].map(m => (
-                          <button
-                            key={m.id}
-                            type="button"
-                            className="log-density-btn"
-                            aria-pressed={densityMode === m.id}
-                            onClick={() => setDensityMode(m.id)}
-                            title={`${m.label} density`}
-                          >
-                            <Icon name={m.icon} />
-                            <span className="log-density-btn-label">{m.label}</span>
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Review frame — folder-tab strip + composer (Reviewed) or raw card list (Unreviewed).
-                Capture-action buttons get injected via captureActionsNode — into the subtab-row
-                in Unreviewed, into the composer header in Reviewed (never duplicated). */}
+            <h2 className="log-panel-title">DayOne Journal Organizer</h2>
             <div className={`log-review-frame ${tab === 'inbox' ? 'has-tabs' : ''}`}>
               {tab === 'inbox' && (
                 <div className="log-subtab-row">
@@ -4325,25 +4301,20 @@
                     </button>
                   </div>
 
-                  <div className="log-subtab-right">
-                    {reviewView === 'unreviewed' && captureActionsNode}
-                    {(() => {
-                      const activeCount = reviewView === 'reviewed' ? reviewReviewedCount : reviewUnreviewedCount;
-                      const tabLabel = reviewView === 'reviewed' ? 'DayOne Workspace' : 'Log Bank';
-                      return activeCount > 0 ? (
-                        <button
-                          className="log-subtab-reset-btn"
-                          onClick={() => setResetOpen(true)}
-                          disabled={resetting}
-                          title={`Clear all entries from ${tabLabel}`}
-                          aria-label={resetting ? 'Resetting…' : `Reset ${tabLabel}`}
-                        >
-                          <Icon name={resetting ? 'fa-circle-notch fa-spin' : 'fa-rotate-left'} />
-                          <span className="btn-label"> Reset</span>
-                        </button>
-                      ) : null;
-                    })()}
-                  </div>
+                  {reviewView === 'reviewed' && reviewReviewedCount > 0 && (
+                    <div className="log-subtab-right">
+                      <button
+                        className="log-subtab-reset-btn"
+                        onClick={() => setResetOpen(true)}
+                        disabled={resetting}
+                        title="Clear all entries from DayOne Workspace"
+                        aria-label={resetting ? 'Resetting…' : 'Reset DayOne Workspace'}
+                      >
+                        <Icon name={resetting ? 'fa-circle-notch fa-spin' : 'fa-rotate-left'} />
+                        <span className="btn-label"> Reset</span>
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -4396,7 +4367,7 @@
                   />
                 );
               })() : (
-                <div className={`log-entries log-entries--${densityMode}`}>
+                <div className="log-entries log-entries--compact">
                 {/* Inline note composer — opens when [+ Note] is clicked. */}
                 {tab === 'inbox' && reviewView === 'unreviewed' && noteComposerOpen && (
                   <article className="review-card review-card--composer">
@@ -4444,42 +4415,41 @@
                 {loading ? (
                   <div className="log-empty"><Icon name="fa-spinner" /> <p>Loading your log…</p></div>
                 ) : displayEntries.length === 0 ? (
-                  <div className="log-empty">
-                    <Icon name="fa-inbox" />
-                    <p>{
-                      tab === 'inbox'
-                        ? (reviewView === 'reviewed'
-                            ? 'Nothing approved yet — review some from Log Bank to see them here.'
-                            : 'Nothing needs attention — everything is up to date.')
-                        : `No ${tab} items match these filters.`
-                    }</p>
-                  </div>
-                ) : (
-                  (reviewView === 'unreviewed'
+                  <>
+                    {tab === 'inbox' && reviewView === 'unreviewed' && (
+                      <div className="log-toolbar-row">{unreviewedToolbarNode}</div>
+                    )}
+                    <div className="log-empty">
+                      <Icon name="fa-inbox" />
+                      <p>{
+                        tab === 'inbox'
+                          ? (reviewView === 'reviewed'
+                              ? 'Nothing approved yet — review some from Log Bank to see them here.'
+                              : 'Nothing needs attention — everything is up to date.')
+                          : `No ${tab} items match these filters.`
+                      }</p>
+                    </div>
+                  </>
+                ) : (() => {
+                  // Inject the unreviewed toolbar into the first date-header row,
+                  // right-justified. Bucket headers (Morning/Midday/…) are dropped
+                  // so every date section is one flat 4-col grid of cards.
+                  let toolbarInjected = false;
+                  return (reviewView === 'unreviewed'
                     ? groupEntriesForDensity(displayEntries)
                     : displayEntries.map(e => ({ type: 'entry', entry: e }))
                   ).map(item => {
                     if (item.type === 'date-header') {
+                      const showToolbar = tab === 'inbox' && reviewView === 'unreviewed' && !toolbarInjected;
+                      if (showToolbar) toolbarInjected = true;
                       return (
                         <div className="log-date-header" key={`d-${item.dateKey}`}>
                           <span>{item.label}</span>
                           <span className="log-date-meta">{item.dateKey}</span>
+                          {showToolbar && unreviewedToolbarNode}
                         </div>
                       );
                     }
-                    if (item.type === 'bucket-header') {
-                      return (
-                        <div className="log-bucket-header" key={`b-${item.key}`}>
-                          <span className="log-bucket-label">{item.label}</span>
-                          <span className="log-bucket-meta">{item.count} {item.count === 1 ? 'entry' : 'entries'}{item.range ? ` · ${item.range}` : ''}</span>
-                          <span className="log-bucket-rule"></span>
-                        </div>
-                      );
-                    }
-                    // Phase 11b: every entry renders as a unified ReviewCard.
-                    // Lane is per-entry by reviewStatus — approved entries
-                    // get the 'reviewed' shape (Save instead of Approve,
-                    // textarea pre-filled with draft.prose).
                     const entry = item.entry;
                     const lane = entry.reviewStatus === 'approved' ? 'reviewed' : 'unreviewed';
                     const isDummyEntry = typeof entry.id === 'string' && entry.id.startsWith('dummy_');
@@ -4496,8 +4466,8 @@
                         onKindFlipped={handleKindFlipped}
                       />
                     );
-                  })
-                )}
+                  });
+                })()}
               </div>
               )}
             </div>

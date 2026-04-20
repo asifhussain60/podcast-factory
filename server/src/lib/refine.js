@@ -1,20 +1,10 @@
 // refine.js — voice DNA refinement handler.
 // Reads the voice fingerprint via the consolidated voice-fingerprint.js cache
 // so the fingerprint can be edited without restarting the proxy.
+// Uses the named prompt registry for the system instruction.
 
 import { getFingerprint, FINGERPRINT_PATH_RESOLVED } from "./voice-fingerprint.js";
-
-const INSTRUCTION = `Your task is to refine the journal entry below so it matches Asif's voice fingerprint.
-
-Strict rules:
-- Preserve every fact, name, place, and event exactly as given. Do not invent or remove anything.
-- Match the voice fingerprint rules above. Obey the ABSOLUTE PROHIBITIONS without exception.
-- Do not add a closing lesson, moral, or summary. End where the raw entry ends.
-- Do not add headings, lists, bold, italics, or markdown of any kind.
-- Return ONLY the refined prose. No preamble like "Here is the refined version:". No trailing commentary.
-
-Refine the entry below:
----`;
+import { loadPrompt } from "../prompts/index.js";
 
 export function makeRefineHandler(anthropic, defaultModel) {
   return async function refineHandler(req, res) {
@@ -36,7 +26,8 @@ export function makeRefineHandler(anthropic, defaultModel) {
       });
     }
 
-    const system = `${fingerprint}\n\n---\n\n${INSTRUCTION}`;
+    const { system: instruction } = loadPrompt("refine-general");
+    const system = `${fingerprint}\n\n---\n\n${instruction}`;
 
     try {
       const msg = await anthropic.messages.create({

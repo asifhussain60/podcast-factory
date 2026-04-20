@@ -85,7 +85,7 @@ export async function atomicWriteJSON(filePath, data) {
  *  concurrently. Keyed by absolute file path; the chain dissolves once its
  *  last waiter settles so the map doesn't grow unbounded. */
 const _writeChains = new Map();
-function withFileLock(filePath, work) {
+export function withFileLock(filePath, work) {
   const prev = _writeChains.get(filePath) ?? Promise.resolve();
   const next = prev.catch(() => {}).then(work);
   _writeChains.set(filePath, next);

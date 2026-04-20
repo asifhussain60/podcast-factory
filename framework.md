@@ -1,9 +1,26 @@
 # Journal Ecosystem Framework
 
-**Version:** 1.0
-**Last updated:** 2026-04-15
+**Version:** 2.0
+**Last updated:** 2026-04-20
 
-This document governs the three skills that operate on this repository: **journal**, **trip-log**, and **trip-planner**. It defines their boundaries, shared resources, data flow, and rules of engagement.
+This document governs the journal repo's skill ecosystem, App vs Cowork authority split, and operating rules.
+
+## Skill Ecosystem
+
+The repo has 14 skills organized into tiers. The full registry with triggers, ownership, and named-prompt mappings lives in [`skills-staging/README.md`](skills-staging/README.md).
+
+### Agents
+
+| Agent | Location | Role |
+|---|---|---|
+| `CORTEX` | `.github/agents/CORTEX.agent.md` | Governance, vacuum, structure enforcement |
+| `journal-orchestrator` | `.github/agents/journal-orchestrator.agent.md` | Master skill router, drain pipeline, TDD enforcement |
+| `ui-reviewer` | `.claude/agents/ui-reviewer.md` | CSS/theme review |
+| `repo-surgeon` | `.github/agents/repo-surgeon.agent.md` | Holistic architecture audit, orphan cleanup, regression hunting |
+
+### Core Content Skills (Cowork Tier 3, defined below)
+
+Three content skills operate on the memoir and trip content:
 
 ---
 
@@ -173,6 +190,9 @@ Trip expenses are tracked in Piggy Bank → Holiday category. The budget panel i
 ### 7. DayOne Integration
 Trip-log creates DayOne entries tagged with trip metadata from `trip.yaml`. Journal name: "Travel". Tags include trip slug, travelers, and year.
 
+### 8. Integration Documentation
+Every external API integration must have a corresponding doc in `docs/integrations/` covering: auth method, rate limits, error behavior, operational notes, and Keychain key name (if applicable). Created when the integration ships; updated when it changes.
+
 ---
 
 ## Folder Structure After Cleanup
@@ -278,7 +298,7 @@ Component inventory (all live in the single `<script type="text/babel">` block i
 
 - **Atoms** — `Icon`, `Button` (variants: primary | secondary | ghost | destructive; sizes: sm | md | lg; `loading` state disables + spins), `IconButton` (icon-only, aria-label required), `Badge` (variants: success | warning | error | info | neutral | accent), `Text` (tag-polymorphic typography with variant/size/weight/align/color), `Input` / `Textarea` / `Select` / `Checkbox` / `RadioGroup` (thin wrappers over `.input-field`).
 - **Molecules** — `FormField` (label + helper + error + auto-id + aria-describedby around a single child input), `Card` (variants: flat | elevated | glass | module — maps to existing CSS classes, does NOT delete `.glass-card` / `.module-card` / `.entry-card` / `.incident-card` / `.quote-card`), `StatusBadge` (status → variant + icon + label), `EmptyState`, `SkeletonRow` (variants: itinerary-day | queue-row | chat-message | entry-card | chapter-line; fast 480ms pulse; respects reduced-motion), `Pill`, `Chip` (dismissible), `MenuItem`, `ThinkingDots`, `StepProgress`.
-- **Organisms** — `Modal` (React portal, backdrop click + Esc to close, focus trap, body-scroll lock, focus restore on unmount), `ConfirmDialog` (wraps Modal; destructive variant uses warning icon + destructive button), `ToastProvider` + `useToast()` (context-based, `aria-live="polite"`, `success | warning | error | info`, exposed globally via `window.__appToast` so `voice-refiner.jsx`'s isolated React root uses the same single implementation), `CommandPalette` (Cmd-K / Ctrl-K; fuzzy filter; empty shell in Phase 2 — commands registered in Phase 3).
+- **Organisms** — `Modal` (React portal, backdrop click + Esc to close, focus trap, body-scroll lock, focus restore on unmount), `ConfirmDialog` (wraps Modal; destructive variant uses warning icon + destructive button), `ToastProvider` + `useToast()` (context-based, `aria-live="polite"`, `success | warning | error | info`, exposed globally via `window.__appToast` so `voice-refiner.jsx`'s isolated React root uses the same single implementation), `CommandPalette` (Cmd-K / Ctrl-K; fuzzy filter; empty shell in Phase 2 — commands registered in Phase 3), `FlightTracker` (itinerary-page widget at `site/js/flight-tracker.jsx` + `site/css/flight-tracker.css`; state-machine-driven across 5 states: PRE_TRIP / ACTIVE_FLIGHT / COLLAPSED / CHECK_IN_REMINDER / BETWEEN_FLIGHTS / POST_TRIP; adaptive AeroDataBox polling with circuit breaker; IntersectionObserver sticky-collapse; reads `window.__tripData.flights` via `normalizeFlights()` shim that accepts both legacy `{inbound, outbound}` object and new ordered array format).
 - **State hooks** — `useFetch(url, options?) → { data, loading, error, refetch }`, `useLocalStoragePrefs(key, defaults) → [prefs, setPrefs]`, `useActiveTrip() → { trip, loading, error }`, `useCommandPalette() → { open, setOpen }`, `useToast() → { show, dismiss }`.
 
 Token additions (`site/css/themes/theme.css` at `:root` — the single source of visual truth; new tokens below extend the existing scale):
