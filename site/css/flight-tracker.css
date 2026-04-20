@@ -647,18 +647,57 @@
   font-size: .7rem;
 }
 
-/* ── Post-trip (minimal fade-out) ── */
+/* ── Post-trip (collapsed record) ── */
 .ft-post {
   display: flex;
   align-items: center;
   gap: .75rem;
-  padding: .35rem .5rem;
-  opacity: .7;
+  padding: .65rem .85rem;
+  opacity: .65;
   transition: opacity .5s ease;
 }
+.ft-post:hover {
+  opacity: .9;
+}
 .ft-post-icon {
-  font-size: .9rem;
+  font-size: 1.1rem;
   color: var(--accent);
+  flex-shrink: 0;
+}
+.ft-post-main {
+  flex: 1;
+  min-width: 0;
+}
+.ft-post-primary {
+  font-size: .88rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ft-post-flight {
+  color: var(--text-secondary);
+}
+.ft-post-secondary {
+  font-size: .75rem;
+  color: var(--text-muted);
+  margin-top: .15rem;
+}
+.ft-post-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  font-size: .72rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.ft-post-badge i {
+  font-size: .7rem;
 }
 .ft-post-text {
   font-size: .82rem;
