@@ -16,6 +16,7 @@ The repo has 14 skills organized into tiers. The full registry with triggers, ow
 | `CORTEX` | `.github/agents/CORTEX.agent.md` | Governance, vacuum, structure enforcement |
 | `journal-orchestrator` | `.github/agents/journal-orchestrator.agent.md` | Master skill router, drain pipeline, TDD enforcement |
 | `ui-reviewer` | `.claude/agents/ui-reviewer.md` | CSS/theme review |
+| `repo-surgeon` | `.github/agents/repo-surgeon.agent.md` | Holistic architecture audit, orphan cleanup, regression hunting |
 
 ### Core Content Skills (Cowork Tier 3, defined below)
 

@@ -54,6 +54,7 @@ When receiving an intent, classify it and route to the best skill:
 | DayOne publish workflow | `dayone-publish` (App server) | App T2 |
 | Memoir writing, chapter work | `journal` skill (in framework.md) | Cowork T3 |
 | Daily trip recording | `trip-log` skill (in framework.md) | Cowork T3 |
+| "repo review", "architectural audit", "cleanup", "root clutter" | `repo-surgeon` | Cowork T3 |
 
 ### Routing Decision Order
 
