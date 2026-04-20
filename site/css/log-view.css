@@ -62,8 +62,7 @@
    The drawer stays mounted; per-row Refine actions will open it. */
 .ai-drawer-toggle { display: none !important; }
 
-/* Icon standardization inside Log — all row chips share one size */
-.log-module .log-chip i,
+/* Icon standardization inside Log action rows */
 .log-module .log-action-btn i { font-size: var(--row-icon); line-height: 1; }
 
 /* ─── Reviewed-lane footer controls — two standard buttons in a row:
@@ -123,7 +122,7 @@
 }
 
 /* ═══════════════════════════════════════════════════
-   3. Entries Panel — bordered container with control bar
+   3. Entries Panel — bordered container
    ═══════════════════════════════════════════════════ */
 
 .log-panel {
@@ -136,136 +135,10 @@
   box-shadow: var(--log-shadow-card);
 }
 
-/* Control bar — tabs + source filters grouped in a framed row */
-.log-panel-control {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 14px 16px;
-  margin-bottom: 24px;
-  border-radius: var(--radius-lg);
-  background: var(--bg-tertiary);
-  border: var(--log-border);
-  box-shadow:
-    inset 0 1px 0 var(--white-08),
-    var(--shadow-sm);
-}
-
-/* ─── Source Filter Chips (scoped inside .log-panel-control) ─── */
-
-/* .log-filter-bar: was second row in the panel; with the tab bar removed it
-   sits alone. Rule kept for selector targeting; no properties needed. */
-.log-chip-row {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-/* Journal-date picker — rides inside the Source filter row, right-justified
-   via margin-left:auto so it hugs the right edge even as chips reflow. Shown
-   only on the Reviewed subtab (gated in JSX). */
-.log-date-picker {
-  margin-left: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
-  border-radius: var(--radius-full);
-  border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--border-default));
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
-  color: var(--accent);
-  font-size: 0.92rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 140ms ease, border-color 140ms ease;
-}
-.log-date-picker:hover {
-  background: color-mix(in srgb, var(--accent) 18%, transparent);
-  border-color: var(--accent);
-}
-.log-date-picker i { font-size: 1rem; }
-.log-date-picker-label {
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-.log-date-picker-input {
-  appearance: none;
-  -webkit-appearance: none;
-  border: none;
-  background: transparent;
-  color: var(--text-primary);
-  font-family: inherit;
-  font-size: 0.95rem;
-  font-weight: 600;
-  padding: 0;
-  cursor: pointer;
-  min-width: 128px;
-}
-.log-date-picker-input:focus {
-  outline: none;
-  color: var(--accent);
-}
-.log-date-picker-input::-webkit-calendar-picker-indicator {
-  filter: invert(85%) sepia(12%) saturate(260%) hue-rotate(210deg);
-  cursor: pointer;
-}
-@media (max-width: 600px) {
-  .log-date-picker {
-    margin-left: 0;
-    flex-basis: 100%;
-    justify-content: center;
-  }
-}
-.log-chip-row-label {
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-right: 8px;
-}
-.log-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  border-radius: var(--radius-full);
-  border: var(--log-border);
-  background: var(--bg-secondary);
-  color: var(--text-muted);
-  font-size: 1.1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 200ms ease;
-  box-shadow: var(--shadow-sm);
-}
-.log-chip:hover {
-  background: var(--bg-card-hover);
-  color: var(--text-secondary);
-  border-color: var(--border-accent);
-}
-.log-chip.active {
-  background: linear-gradient(135deg,
-    rgba(var(--accent-rgb), 0.18) 0%,
-    rgba(var(--accent-rgb), 0.06) 100%);
-  border-color: var(--border-accent);
-  color: var(--accent);
-  font-weight: 600;
-  box-shadow:
-    0 0 8px rgba(var(--accent-rgb), 0.10),
-    var(--shadow-sm);
-}
-
 /* ═══════════════════════════════════════════════════
-   4. Entry Feed — density-aware grid
-   Default matches legacy 3-col; density modifier classes
-   (--compact, --comfortable, --detail) override columns
-   and card sizing. ReviewCard uses container queries so
-   narrower columns auto-shrink internal zones.
+   4. Entry Feed — 4-column grid
+   ReviewCard uses container queries so narrower columns
+   auto-shrink internal zones.
    ═══════════════════════════════════════════════════ */
 
 .log-entries {
@@ -384,29 +257,6 @@
   display: none;             /* icons only in compact to keep buttons short */
 }
 
-/* ─── Density: Comfortable (3-up, balanced) ─── */
-.log-entries--comfortable {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-}
-@media (max-width: 1100px) {
-  .log-entries--comfortable { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@media (max-width: 720px) {
-  .log-entries--comfortable { grid-template-columns: minmax(0, 1fr); }
-}
-.log-entries--comfortable .review-card-zone--artifact {
-  max-height: 180px;
-}
-.log-entries--comfortable .review-card-prompt-input {
-  min-height: 56px;
-}
-
-/* ─── Density: Detail — explicit alias of current default ─── */
-.log-entries--detail {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
 /* ═══════════════════════════════════════════════════
    4b. Time-bucket headers
    Render between groups of cards. Spans all columns of
@@ -466,66 +316,6 @@
   text-transform: uppercase;
   color: var(--text-muted);
   font-weight: 600;
-}
-
-/* ═══════════════════════════════════════════════════
-   4c. Density toggle pill
-   Matches Source chip-row aesthetic, right-aligned.
-   ═══════════════════════════════════════════════════ */
-
-.log-density-toggle {
-  margin-left: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-}
-.log-density-toggle-label {
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-.log-density-toggle-group {
-  display: inline-flex;
-  padding: 3px;
-  gap: 2px;
-  background: var(--bg-secondary);
-  border: var(--log-border);
-  border-radius: var(--radius-full);
-  box-shadow: var(--shadow-sm);
-}
-.log-density-btn {
-  padding: 6px 14px;
-  border: none;
-  background: transparent;
-  color: var(--text-muted);
-  font-family: inherit;
-  font-size: 0.88rem;
-  font-weight: 500;
-  border-radius: var(--radius-full);
-  cursor: pointer;
-  transition: all 160ms ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-.log-density-btn:hover {
-  color: var(--text-secondary);
-}
-.log-density-btn[aria-pressed="true"] {
-  background: linear-gradient(135deg,
-    rgba(var(--accent-rgb), 0.22) 0%,
-    rgba(var(--accent-rgb), 0.08) 100%);
-  color: var(--accent);
-  font-weight: 600;
-  box-shadow: 0 0 6px rgba(var(--accent-rgb), 0.15);
-}
-.log-density-btn i { font-size: 0.85rem; }
-@media (max-width: 720px) {
-  .log-density-toggle-label { display: none; }
-  .log-density-btn .log-density-btn-label { display: none; }
-  .log-density-btn { padding: 6px 10px; }
 }
 
 .log-empty {
@@ -1086,10 +876,9 @@
   box-shadow: none;
 }
 
-/* Subtab row — folder-tab strip on the left, capture actions on the right.
+/* Subtab row — folder-tab strip on the left, optional reset button on the right.
    The bar overlaps the frame's top border by 1px so the active tab merges
-   into the panel. Capture actions float on the right with their own z-index
-   so dropdowns escape the .log-review-frame stacking context. */
+   into the panel. Capture actions now live in .log-toolbar-row above this row. */
 .log-subtab-row {
   display: flex;
   align-items: flex-end;
@@ -1335,9 +1124,8 @@
   border-color: var(--border-accent);
 }
 
-/* Right-side wrapper in the subtab row — capture actions + reset button.
-   margin-left: auto keeps the cluster pinned to the right edge both inline
-   with the tabs and after wrapping onto its own row. */
+/* Right-side wrapper in the subtab row — reset button only (reviewed lane).
+   margin-left: auto keeps it pinned to the right edge of the flex row. */
 .log-subtab-right {
   display: flex;
   align-items: flex-end;
@@ -1369,6 +1157,30 @@
 .log-subtab-reset-btn:disabled {
   opacity: 0.45;
   cursor: not-allowed;
+}
+
+/* Capture-action toolbar — bordered pill that sits above the tab strip,
+   right-aligned, containing Media/Receipt/Note/Reset in a single row. */
+.log-toolbar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px;
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--bg-tertiary) 55%, transparent);
+  box-shadow: inset 0 1px 0 0 var(--white-04);
+  flex-shrink: 0;
+  flex-wrap: nowrap;
+}
+.log-toolbar .log-capture-actions { margin: 0; flex-wrap: nowrap; }
+.log-toolbar .log-subtab-reset-btn { margin: 0; }
+
+/* Row wrapper — pins the toolbar to the right edge above the tab strip. */
+.log-toolbar-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
 }
 
 /* ═══════════════════════════════════════════════════
