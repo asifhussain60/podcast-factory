@@ -417,7 +417,7 @@
       '        </div>',
       '        <div class="insert-field">',
       '          <label class="insert-field-label" for="insert-notes">Notes <span class="insert-field-hint">(optional)</span></label>',
-      '          <textarea id="insert-notes" class="insert-field-input" rows="2" placeholder="Reservation, heads-up, context\u2026"></textarea>',
+      '          <textarea id="insert-notes" class="insert-field-input" rows="2" placeholder="Reservation, heads-up, context\u2026" autocomplete="off" autocorrect="off" spellcheck="false" data-1p-ignore data-lpignore="true"></textarea>',
       '        </div>',
       '      </div>',
              // ─── Manual form (hidden by default) ──────────────
@@ -472,7 +472,7 @@
       '            </div>',
       '            <div class="insert-field">',
       '              <label class="insert-field-label" for="insert-notes-manual">Notes <span class="insert-field-hint">(optional)</span></label>',
-      '              <textarea id="insert-notes-manual" class="insert-field-input" rows="2" placeholder="Reservation, heads-up, context\u2026"></textarea>',
+      '              <textarea id="insert-notes-manual" class="insert-field-input" rows="2" placeholder="Reservation, heads-up, context\u2026" autocomplete="off" autocorrect="off" spellcheck="false" data-1p-ignore data-lpignore="true"></textarea>',
       '            </div>',
       '          </div>',
       '        </details>',

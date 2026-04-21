@@ -3183,5 +3183,753 @@
     "snapshotRef": "trips/2026-04-ishrat-engagement/snapshots/trip.yaml-847a651a-0fda-4270-bd78-f51b98ae311d.yaml",
     "actor": "refine-all",
     "status": "applied"
+  },
+  {
+    "schemaVersion": "1",
+    "id": "85e768df-2750-44a0-9009-f0c6bee5ae12",
+    "createdAt": "2026-04-21T18:06:44.297Z",
+    "tripSlug": "2026-04-ishrat-engagement",
+    "target": "trip.yaml",
+    "intent": "Delete Dessert at Crispy Cones from day 2",
+    "patch": [
+      {
+        "op": "remove",
+        "path": "/days/1/events/3"
+      }
+    ],
+    "inversePatch": [
+      {
+        "op": "add",
+        "path": "/days/1/events/3",
+        "value": {
+          "time": "1:39 PM",
+          "event": "Dessert at Crispy Cones",
+          "venue": "Wick Plaza, 1199 Amboy Ave, Edison, NJ 08837",
+          "tag": "DINING",
+          "phone": "(732) 744-0123",
+          "rating": 4.7,
+          "notes": "Walk over in the same plaza for Shark Tank-famous rotisserie dough cones with soft serve. Open till 11 PM. [Shifted from 7:30 PM so it starts after Pho House dinner ends at ~7:45 PM.]",
+          "category": "Ice Cream · Sweet Cones",
+          "duration_min": 30,
+          "time_mode": "flex",
+          "lat": 40.529456,
+          "lng": -74.317879,
+          "place_id": "openstreetmap:street:polyline:28596916",
+          "geocoded_at": "2026-04-19T16:29:38.581Z"
+        }
+      }
+    ],
+    "snapshotRef": "trips/2026-04-ishrat-engagement/snapshots/trip.yaml-85e768df-2750-44a0-9009-f0c6bee5ae12.yaml",
+    "actor": "app",
+    "status": "applied"
+  },
+  {
+    "schemaVersion": "1",
+    "id": "47a85f4a-b890-4a50-8e5d-df755937ce9c",
+    "createdAt": "2026-04-21T18:30:29.107Z",
+    "tripSlug": "2026-04-ishrat-engagement",
+    "target": "trip.yaml",
+    "intent": "Insert \"Shop & Browse at Menlo Park Mall\" on day 2",
+    "patch": [
+      {
+        "op": "add",
+        "path": "/days/1/events/1",
+        "value": {
+          "time": "12:00 PM",
+          "event": "Shop & Browse at Menlo Park Mall",
+          "tag": "SHOPPING",
+          "duration_min": 120,
+          "category": "Super-Regional Shopping Mall · Fashion, Beauty & Gifts",
+          "venue": "55 Parsonage Rd, Edison, NJ 08837",
+          "phone": "(732) 494-6255",
+          "rating": 4.2
+        }
+      }
+    ],
+    "inversePatch": [
+      {
+        "op": "remove",
+        "path": "/days/1/events/3"
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/2/drive_min_to_next",
+        "value": 24
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/2/place_id",
+        "value": "openstreetmap:street:polyline:28594523"
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/2/lng",
+        "value": -74.467663
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/2/lat",
+        "value": 40.480371
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/2/duration_min",
+        "value": 180
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/2/category",
+        "value": "Hotel · Downtime"
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/2/notes",
+        "value": "Straight back to hotel after lunch (~5 min drive). Extended 3-hour nap — jet lag recovery is today's priority with no afternoon appointment. Ishrat can sleep deep through this window."
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/2/rating",
+        "value": 4.1
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/2/phone",
+        "value": "(732) 729-0900"
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/2/tag",
+        "value": "REST"
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/2/venue",
+        "value": "Home2 Suites by Hilton, 3 Jersey Ave, New Brunswick, NJ 08901"
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/2/event",
+        "value": "Hotel Rest / Long Nap"
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/2/time",
+        "value": "10:15 AM"
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/1/rating",
+        "value": 4.7
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/1/phone",
+        "value": "(732) 744-0123"
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/1/venue",
+        "value": "Wick Plaza, 1199 Amboy Ave, Edison, NJ 08837"
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/1/category",
+        "value": "Ice Cream · Sweet Cones"
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/1/duration_min",
+        "value": 75
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/1/tag",
+        "value": "DINING"
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/1/event",
+        "value": "Dinner at The Pho House"
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/1/time",
+        "value": "6:00 PM"
+      },
+      {
+        "op": "add",
+        "path": "/days/1/events/1/notes",
+        "value": "Walk over in the same plaza for Shark Tank-famous rotisserie dough cones with soft serve. Open till 11 PM. [Shifted from 7:30 PM so it starts after Pho House dinner ends at ~7:45 PM.]"
+      },
+      {
+        "op": "add",
+        "path": "/days/1/events/1/time_mode",
+        "value": "flex"
+      },
+      {
+        "op": "add",
+        "path": "/days/1/events/1/lat",
+        "value": 40.529456
+      },
+      {
+        "op": "add",
+        "path": "/days/1/events/1/lng",
+        "value": -74.317879
+      },
+      {
+        "op": "add",
+        "path": "/days/1/events/1/place_id",
+        "value": "openstreetmap:street:polyline:28596916"
+      },
+      {
+        "op": "add",
+        "path": "/days/1/events/1/geocoded_at",
+        "value": "2026-04-19T16:29:38.581Z"
+      },
+      {
+        "op": "add",
+        "path": "/days/1/events/1/drive_min_to_next",
+        "value": 23
+      }
+    ],
+    "snapshotRef": "trips/2026-04-ishrat-engagement/snapshots/trip.yaml-47a85f4a-b890-4a50-8e5d-df755937ce9c.yaml",
+    "actor": "app",
+    "status": "applied"
+  },
+  {
+    "schemaVersion": "1",
+    "id": "21a94e55-ae06-415e-b882-c24cea7db929",
+    "createdAt": "2026-04-21T18:30:37.734Z",
+    "tripSlug": "2026-04-ishrat-engagement",
+    "target": "trip.yaml",
+    "intent": "Swap event 2.2 → Menlo Park Mall",
+    "patch": [
+      {
+        "op": "replace",
+        "path": "/days/1/events/1/event",
+        "value": "Menlo Park Mall"
+      }
+    ],
+    "inversePatch": [
+      {
+        "op": "replace",
+        "path": "/days/1/events/1/event",
+        "value": "Shop & Browse at Menlo Park Mall"
+      }
+    ],
+    "snapshotRef": "trips/2026-04-ishrat-engagement/snapshots/trip.yaml-21a94e55-ae06-415e-b882-c24cea7db929.yaml",
+    "actor": "app",
+    "status": "applied"
+  },
+  {
+    "schemaVersion": "1",
+    "id": "e8e908fa-43ba-4f2a-83a0-0f311914dacf",
+    "createdAt": "2026-04-21T18:31:09.955Z",
+    "tripSlug": "2026-04-ishrat-engagement",
+    "target": "trip.yaml",
+    "intent": "Delete J&G South Bound Brook Diner from day 3",
+    "patch": [
+      {
+        "op": "remove",
+        "path": "/days/2/events/0"
+      }
+    ],
+    "inversePatch": [
+      {
+        "op": "replace",
+        "path": "/days/2/events/3/place_id",
+        "value": "openstreetmap:street:polyline:31146670"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/3/lng",
+        "value": -74.299861
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/3/lat",
+        "value": 40.563631
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/3/duration_min",
+        "value": 90
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/3/category",
+        "value": "Korean BBQ · Tabletop Grill"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/3/notes",
+        "value": "Prime No. 7 — Halal all-you-can-eat Korean BBQ. Eat early so you're ready for the 7 PM movie."
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/3/rating",
+        "value": 4.6
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/3/phone",
+        "value": "(732) 404-0077"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/3/tag",
+        "value": "DINING"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/3/venue",
+        "value": "Prime No. 7, 517 US-1, Iselin, NJ 08830"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/3/event",
+        "value": "Early Date Night Dinner"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/3/time",
+        "value": "11:42 AM"
+      },
+      {
+        "op": "add",
+        "path": "/days/2/events/3/drive_min_to_next",
+        "value": 20
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/drive_min_to_next",
+        "value": 27
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/place_id",
+        "value": "openstreetmap:street:polyline:28594523"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/lng",
+        "value": -74.467663
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/lat",
+        "value": 40.480371
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/category",
+        "value": "Hotel · Downtime"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/notes",
+        "value": "Lunch ends ~1:15 PM; 10-min drive back puts us at hotel by 1:25 PM. 90-min nap window before the Korean BBQ + IMAX evening. Critical rest so she's fresh for a 2.5-hr movie."
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/rating",
+        "value": 4.1
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/phone",
+        "value": "(732) 729-0900"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/tag",
+        "value": "REST"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/venue",
+        "value": "Home2 Suites by Hilton, 3 Jersey Ave, New Brunswick, NJ 08901"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/event",
+        "value": "Hotel Nap"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/time",
+        "value": "9:45 AM"
+      },
+      {
+        "op": "remove",
+        "path": "/days/2/events/1/drive_min_to_next"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/place_id",
+        "value": "whosonfirst:region:85688607"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/lng",
+        "value": -74.738208
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/lat",
+        "value": 39.66502
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/duration_min",
+        "value": 75
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/category",
+        "value": "Thai · Light Bites"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/rating",
+        "value": 4.4
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/phone",
+        "value": "(732) 651-2737"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/notes",
+        "value": "Keep it light (~10 min) — share a soup and appetizer. Korean BBQ dinner at 4:30 PM, then movie at 7."
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/tag",
+        "value": "DINING"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/venue",
+        "value": "1050 Route 18 North, East Brunswick, NJ 08816"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/event",
+        "value": "Gusto Grill"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/time",
+        "value": "8:30 AM"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/place_id",
+        "value": "openstreetmap:street:polyline:13485777"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/lng",
+        "value": -74.526708
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/lat",
+        "value": 40.554389
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/duration_min",
+        "value": 60
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/category",
+        "value": "American · Classic Diner"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/notes",
+        "value": "Classic 24-hour NJ diner (~15 min) — famous breakfast platters, fresh-made everything. Stephanie lunch at noon, so keep it light."
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/rating",
+        "value": 4.8
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/phone",
+        "value": "(732) 667-5890"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/venue",
+        "value": "10 Cherry St, South Bound Brook, NJ 08880"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/event",
+        "value": "J&G South Bound Brook Diner"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/time",
+        "value": "7:30 AM"
+      },
+      {
+        "op": "add",
+        "path": "/days/2/events/4",
+        "value": {
+          "time": "1:32 PM",
+          "event": "\"Michael\" IMAX Screening",
+          "venue": "AMC Brunswick Square 13, 755 NJ-18, East Brunswick, NJ 08816",
+          "tag": "ENTERTAINMENT",
+          "phone": "(888) 262-4386",
+          "rating": 4.1,
+          "notes": "Starring Jaafar Jackson, directed by Antoine Fuqua. Runtime ~2.5 hrs. Out by ~9:30 PM. Book on Fandango. Perfect post-dinner date night.",
+          "category": "Cinema · IMAX Premiere",
+          "duration_min": 180,
+          "time_mode": "flex",
+          "lat": 40.461356,
+          "lng": -74.403436,
+          "place_id": "openstreetmap:street:polyline:31142599",
+          "geocoded_at": "2026-04-19T16:29:38.581Z"
+        }
+      }
+    ],
+    "snapshotRef": "trips/2026-04-ishrat-engagement/snapshots/trip.yaml-e8e908fa-43ba-4f2a-83a0-0f311914dacf.yaml",
+    "actor": "app",
+    "status": "applied"
+  },
+  {
+    "schemaVersion": "1",
+    "id": "7421dc4e-93d8-4dd8-b8ed-d538fb7329be",
+    "createdAt": "2026-04-21T18:31:17.724Z",
+    "tripSlug": "2026-04-ishrat-engagement",
+    "target": "trip.yaml",
+    "intent": "Delete Gusto Grill from day 3",
+    "patch": [
+      {
+        "op": "remove",
+        "path": "/days/2/events/0"
+      }
+    ],
+    "inversePatch": [
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/place_id",
+        "value": "openstreetmap:street:polyline:31146670"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/lng",
+        "value": -74.299861
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/lat",
+        "value": 40.563631
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/duration_min",
+        "value": 90
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/category",
+        "value": "Korean BBQ · Tabletop Grill"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/notes",
+        "value": "Prime No. 7 — Halal all-you-can-eat Korean BBQ. Eat early so you're ready for the 7 PM movie."
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/rating",
+        "value": 4.6
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/phone",
+        "value": "(732) 404-0077"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/tag",
+        "value": "DINING"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/venue",
+        "value": "Prime No. 7, 517 US-1, Iselin, NJ 08830"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/event",
+        "value": "Early Date Night Dinner"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/time",
+        "value": "11:42 AM"
+      },
+      {
+        "op": "add",
+        "path": "/days/2/events/2/drive_min_to_next",
+        "value": 20
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/drive_min_to_next",
+        "value": 27
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/place_id",
+        "value": "openstreetmap:street:polyline:28594523"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/lng",
+        "value": -74.467663
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/lat",
+        "value": 40.480371
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/category",
+        "value": "Hotel · Downtime"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/notes",
+        "value": "Lunch ends ~1:15 PM; 10-min drive back puts us at hotel by 1:25 PM. 90-min nap window before the Korean BBQ + IMAX evening. Critical rest so she's fresh for a 2.5-hr movie."
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/rating",
+        "value": 4.1
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/phone",
+        "value": "(732) 729-0900"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/tag",
+        "value": "REST"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/venue",
+        "value": "Home2 Suites by Hilton, 3 Jersey Ave, New Brunswick, NJ 08901"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/event",
+        "value": "Hotel Nap"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/time",
+        "value": "9:45 AM"
+      },
+      {
+        "op": "remove",
+        "path": "/days/2/events/0/drive_min_to_next"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/place_id",
+        "value": "whosonfirst:region:85688607"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/lng",
+        "value": -74.738208
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/lat",
+        "value": 39.66502
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/duration_min",
+        "value": 75
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/category",
+        "value": "Thai · Light Bites"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/rating",
+        "value": 4.4
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/phone",
+        "value": "(732) 651-2737"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/notes",
+        "value": "Keep it light (~10 min) — share a soup and appetizer. Korean BBQ dinner at 4:30 PM, then movie at 7."
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/tag",
+        "value": "DINING"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/venue",
+        "value": "1050 Route 18 North, East Brunswick, NJ 08816"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/event",
+        "value": "Gusto Grill"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/time",
+        "value": "8:30 AM"
+      },
+      {
+        "op": "add",
+        "path": "/days/2/events/3",
+        "value": {
+          "time": "1:32 PM",
+          "event": "\"Michael\" IMAX Screening",
+          "venue": "AMC Brunswick Square 13, 755 NJ-18, East Brunswick, NJ 08816",
+          "tag": "ENTERTAINMENT",
+          "phone": "(888) 262-4386",
+          "rating": 4.1,
+          "notes": "Starring Jaafar Jackson, directed by Antoine Fuqua. Runtime ~2.5 hrs. Out by ~9:30 PM. Book on Fandango. Perfect post-dinner date night.",
+          "category": "Cinema · IMAX Premiere",
+          "duration_min": 180,
+          "time_mode": "flex",
+          "lat": 40.461356,
+          "lng": -74.403436,
+          "place_id": "openstreetmap:street:polyline:31142599",
+          "geocoded_at": "2026-04-19T16:29:38.581Z"
+        }
+      }
+    ],
+    "snapshotRef": "trips/2026-04-ishrat-engagement/snapshots/trip.yaml-7421dc4e-93d8-4dd8-b8ed-d538fb7329be.yaml",
+    "actor": "app",
+    "status": "applied"
   }
 ]

@@ -154,7 +154,17 @@
           "drive_min_to_next": 7
         },
         {
-          "time": "8:37 AM",
+          "time": "12:00 PM",
+          "event": "Menlo Park Mall",
+          "tag": "SHOPPING",
+          "duration_min": 120,
+          "category": "Super-Regional Shopping Mall · Fashion, Beauty & Gifts",
+          "venue": "55 Parsonage Rd, Edison, NJ 08837",
+          "phone": "(732) 494-6255",
+          "rating": 4.2
+        },
+        {
+          "time": "6:00 PM",
           "event": "Dinner at The Pho House",
           "venue": "Wick Plaza, 1199 Amboy Ave, Edison, NJ 08837",
           "tag": "DINING",
@@ -186,22 +196,6 @@
           "place_id": "openstreetmap:street:polyline:28594523",
           "geocoded_at": "2026-04-19T16:29:38.581Z",
           "drive_min_to_next": 24
-        },
-        {
-          "time": "1:39 PM",
-          "event": "Dessert at Crispy Cones",
-          "venue": "Wick Plaza, 1199 Amboy Ave, Edison, NJ 08837",
-          "tag": "DINING",
-          "phone": "(732) 744-0123",
-          "rating": 4.7,
-          "notes": "Walk over in the same plaza for Shark Tank-famous rotisserie dough cones with soft serve. Open till 11 PM. [Shifted from 7:30 PM so it starts after Pho House dinner ends at ~7:45 PM.]",
-          "category": "Ice Cream · Sweet Cones",
-          "duration_min": 30,
-          "time_mode": "flex",
-          "lat": 40.529456,
-          "lng": -74.317879,
-          "place_id": "openstreetmap:street:polyline:28596916",
-          "geocoded_at": "2026-04-19T16:29:38.581Z"
         }
       ]
     },
@@ -211,38 +205,6 @@
       "title": "Stephanie & Movie Premiere",
       "notes": "Day with Stephanie. 'Michael' IMAX screening.",
       "events": [
-        {
-          "time": "7:30 AM",
-          "event": "J&G South Bound Brook Diner",
-          "venue": "10 Cherry St, South Bound Brook, NJ 08880",
-          "tag": "DINING",
-          "phone": "(732) 667-5890",
-          "rating": 4.8,
-          "notes": "Classic 24-hour NJ diner (~15 min) — famous breakfast platters, fresh-made everything. Stephanie lunch at noon, so keep it light.",
-          "category": "American · Classic Diner",
-          "duration_min": 60,
-          "time_mode": "flex",
-          "lat": 40.554389,
-          "lng": -74.526708,
-          "place_id": "openstreetmap:street:polyline:13485777",
-          "geocoded_at": "2026-04-19T16:29:38.581Z"
-        },
-        {
-          "time": "8:30 AM",
-          "event": "Gusto Grill",
-          "venue": "1050 Route 18 North, East Brunswick, NJ 08816",
-          "tag": "DINING",
-          "phone": "(732) 651-2737",
-          "rating": 4.4,
-          "notes": "Keep it light (~10 min) — share a soup and appetizer. Korean BBQ dinner at 4:30 PM, then movie at 7.",
-          "category": "Thai · Light Bites",
-          "duration_min": 75,
-          "time_mode": "flex",
-          "lat": 39.66502,
-          "lng": -74.738208,
-          "place_id": "whosonfirst:region:85688607",
-          "geocoded_at": "2026-04-19T16:29:38.581Z"
-        },
         {
           "time": "9:45 AM",
           "event": "Hotel Nap",
