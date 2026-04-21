@@ -156,15 +156,15 @@
   --mood-playful-bg:      rgba(129, 213, 151, 0.22);
   --mood-playful-fg:      #a3e3ba;
 
-  /* ─── Book-spine palette (Tales-toned greys with green bias) ─── */
-  --book-ch00-bg: #3a4a40;  --book-ch00-border: #2c3a32;
-  --book-ch01-bg: #2f4638;  --book-ch01-border: #223528;
-  --book-ch02-bg: #3d4f42;  --book-ch02-border: #2e3d33;
-  --book-ch03-bg: #2d4236;  --book-ch03-border: #1f2f26;
-  --book-ch04-bg: #404848;  --book-ch04-border: #303838;
-  --book-ch05-bg: #384938;  --book-ch05-border: #2a3a2a;
-  --book-ch06-bg: #3b4a3b;  --book-ch06-border: #2c3a2c;
-  --book-ch07-bg: #354838;  --book-ch07-border: #263828;
+  /* ─── Book-spine palette (Tales dark-green, distinct hues per chapter) ─── */
+  --book-ch00-bg: #2d4a52;  --book-ch00-border: #1d3a42;  /* teal — Introduction */
+  --book-ch01-bg: #3a5240;  --book-ch01-border: #2a4230;  /* pine — Man */
+  --book-ch02-bg: #4a4a38;  --book-ch02-border: #3a3a28;  /* olive-gold — Love */
+  --book-ch03-bg: #2f5a45;  --book-ch03-border: #1f4a35;  /* emerald — Marriage */
+  --book-ch04-bg: #35484f;  --book-ch04-border: #25383f;  /* slate-blue-green */
+  --book-ch05-bg: #4a5a45;  --book-ch05-border: #3a4a35;  /* sage */
+  --book-ch06-bg: #28402e;  --book-ch06-border: #18301e;  /* deep spruce */
+  --book-ch07-bg: #3a5248;  --book-ch07-border: #2a4238;  /* warm jade */
   --book-default-bg: #3a4540;  --book-default-border: #2b332e;
 
   /* ─── Note-type palette ─── */
