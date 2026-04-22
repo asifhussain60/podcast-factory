@@ -224,7 +224,7 @@
         },
         {
           "time": "11:42 AM",
-          "event": "Early Date Night Dinner",
+          "event": "Met Stephanie at N-Thai",
           "venue": "Prime No. 7, 517 US-1, Iselin, NJ 08830",
           "tag": "DINING",
           "phone": "(732) 404-0077",
@@ -238,6 +238,16 @@
           "place_id": "openstreetmap:street:polyline:31146670",
           "geocoded_at": "2026-04-19T16:29:38.581Z",
           "drive_min_to_next": 20
+        },
+        {
+          "time": "1:12 PM",
+          "event": "Junaid Jamshed",
+          "tag": "SHOPPING",
+          "duration_min": 15,
+          "category": "Pakistani & South Asian Ethnic Fashion · Men, Women & Kids Traditional Wear",
+          "venue": "2421 US Highway 1, Unit 3, North Brunswick, NJ 08902",
+          "phone": "(732) 940-6000",
+          "rating": 4
         },
         {
           "time": "1:32 PM",

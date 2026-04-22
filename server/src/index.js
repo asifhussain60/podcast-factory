@@ -127,7 +127,7 @@ app.use(
     methods: ["GET", "POST", "PATCH", "DELETE"],
   })
 );
-app.use(express.json({ limit: "1mb" }));
+app.use(express.json({ limit: "10mb" }));
 // Access gate: deny before any logging/rate-limit work happens on unauth'd
 // public traffic. Loopback bypasses; CF env vars absent = pass-through.
 app.use(accessAuth());

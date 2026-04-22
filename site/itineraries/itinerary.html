@@ -361,6 +361,7 @@
         html += '</div>';
         return html;
       }
+      window.renderSpendDonut = renderSpendDonut;
 
 
       function renderEventCard(ev, num, dayIdx, eventIdx, dayDate, dayNum) {
@@ -2372,7 +2373,7 @@
         Object.keys(j.days).forEach(function(date) {
           var slot = document.querySelector('.day-spend[data-spend-date="' + date + '"]');
           if (!slot) return;
-          slot.innerHTML = renderSpendDonut(j.days[date]);
+          slot.innerHTML = window.renderSpendDonut(j.days[date]);
         });
       } catch (err) {
         console.warn('[SPEND]', err);

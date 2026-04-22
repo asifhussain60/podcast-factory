@@ -3931,5 +3931,177 @@
     "snapshotRef": "trips/2026-04-ishrat-engagement/snapshots/trip.yaml-7421dc4e-93d8-4dd8-b8ed-d538fb7329be.yaml",
     "actor": "app",
     "status": "applied"
+  },
+  {
+    "schemaVersion": "1",
+    "id": "f329b5b4-fad1-4026-b64b-487f566281f3",
+    "createdAt": "2026-04-21T18:39:27.912Z",
+    "tripSlug": "2026-04-ishrat-engagement",
+    "target": "trip.yaml",
+    "intent": "refine-all-patch",
+    "patch": [
+      {
+        "op": "add",
+        "path": "/dayoneTags",
+        "value": []
+      }
+    ],
+    "inversePatch": [],
+    "snapshotRef": "trips/2026-04-ishrat-engagement/snapshots/trip.yaml-f329b5b4-fad1-4026-b64b-487f566281f3.yaml",
+    "actor": "refine-all",
+    "status": "applied"
+  },
+  {
+    "schemaVersion": "1",
+    "id": "7c3f4423-a35e-494f-9750-715cb4c67fb8",
+    "createdAt": "2026-04-22T21:03:49.097Z",
+    "tripSlug": "2026-04-ishrat-engagement",
+    "target": "trip.yaml",
+    "intent": "Swap event 3.2 → Met Stephanie at N-Thai",
+    "patch": [
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/event",
+        "value": "Met Stephanie at N-Thai"
+      }
+    ],
+    "inversePatch": [
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/event",
+        "value": "Early Date Night Dinner"
+      }
+    ],
+    "snapshotRef": "trips/2026-04-ishrat-engagement/snapshots/trip.yaml-7c3f4423-a35e-494f-9750-715cb4c67fb8.yaml",
+    "actor": "app",
+    "status": "applied"
+  },
+  {
+    "schemaVersion": "1",
+    "id": "686b9766-7da7-4eb0-95f6-e2746aca10d6",
+    "createdAt": "2026-04-22T21:05:40.600Z",
+    "tripSlug": "2026-04-ishrat-engagement",
+    "target": "trip.yaml",
+    "intent": "Insert \"Quick Browse at J. Junaid Jamshed\" on day 3",
+    "patch": [
+      {
+        "op": "add",
+        "path": "/days/2/events/2",
+        "value": {
+          "time": "1:12 PM",
+          "event": "Quick Browse at J. Junaid Jamshed",
+          "tag": "SHOPPING",
+          "duration_min": 15,
+          "category": "Pakistani & South Asian Ethnic Fashion · Men, Women & Kids Traditional Wear",
+          "venue": "2421 US Highway 1, Unit 3, North Brunswick, NJ 08902",
+          "phone": "(732) 940-6000",
+          "rating": 4
+        }
+      }
+    ],
+    "inversePatch": [
+      {
+        "op": "remove",
+        "path": "/days/2/events/3"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/rating",
+        "value": 4.1
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/phone",
+        "value": "(888) 262-4386"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/venue",
+        "value": "AMC Brunswick Square 13, 755 NJ-18, East Brunswick, NJ 08816"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/category",
+        "value": "Cinema · IMAX Premiere"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/duration_min",
+        "value": 180
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/tag",
+        "value": "ENTERTAINMENT"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/event",
+        "value": "\"Michael\" IMAX Screening"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/time",
+        "value": "1:32 PM"
+      },
+      {
+        "op": "add",
+        "path": "/days/2/events/2/notes",
+        "value": "Starring Jaafar Jackson, directed by Antoine Fuqua. Runtime ~2.5 hrs. Out by ~9:30 PM. Book on Fandango. Perfect post-dinner date night."
+      },
+      {
+        "op": "add",
+        "path": "/days/2/events/2/time_mode",
+        "value": "flex"
+      },
+      {
+        "op": "add",
+        "path": "/days/2/events/2/lat",
+        "value": 40.461356
+      },
+      {
+        "op": "add",
+        "path": "/days/2/events/2/lng",
+        "value": -74.403436
+      },
+      {
+        "op": "add",
+        "path": "/days/2/events/2/place_id",
+        "value": "openstreetmap:street:polyline:31142599"
+      },
+      {
+        "op": "add",
+        "path": "/days/2/events/2/geocoded_at",
+        "value": "2026-04-19T16:29:38.581Z"
+      }
+    ],
+    "snapshotRef": "trips/2026-04-ishrat-engagement/snapshots/trip.yaml-686b9766-7da7-4eb0-95f6-e2746aca10d6.yaml",
+    "actor": "app",
+    "status": "applied"
+  },
+  {
+    "schemaVersion": "1",
+    "id": "d7a91a09-f215-45fa-8902-6de074c21282",
+    "createdAt": "2026-04-22T21:05:55.229Z",
+    "tripSlug": "2026-04-ishrat-engagement",
+    "target": "trip.yaml",
+    "intent": "Swap event 3.3 → Junaid Jamshed",
+    "patch": [
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/event",
+        "value": "Junaid Jamshed"
+      }
+    ],
+    "inversePatch": [
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/event",
+        "value": "Quick Browse at J. Junaid Jamshed"
+      }
+    ],
+    "snapshotRef": "trips/2026-04-ishrat-engagement/snapshots/trip.yaml-d7a91a09-f215-45fa-8902-6de074c21282.yaml",
+    "actor": "app",
+    "status": "applied"
   }
 ]
