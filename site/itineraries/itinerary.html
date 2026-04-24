@@ -201,7 +201,7 @@
       <select id="journalDay">
         <!-- Populated dynamically from trip.days -->
       </select>
-      <textarea id="journalText" placeholder="Capture a memory..."></textarea>
+      <textarea id="journalText" placeholder="Capture a memory..." autocomplete="off" autocorrect="off" spellcheck="false" data-1p-ignore data-lpignore="true"></textarea>
       <div class="modal-actions">
         <button class="btn btn-secondary" onclick="closeJournal()">Close</button>
         <button class="btn btn-primary" onclick="saveJournal()">Save Entry</button>
@@ -361,6 +361,7 @@
         html += '</div>';
         return html;
       }
+      window.renderSpendDonut = renderSpendDonut;
 
 
       function renderEventCard(ev, num, dayIdx, eventIdx, dayDate, dayNum) {
@@ -882,11 +883,14 @@
       }
       window.__applyEventPatchInPlace = applyEventPatchInPlace;
 
-      // ─── Find-alternatives modal ─────────────────────────────────────
-      // Opens a dark-themed popup, fetches 3 real nearby alternatives from
-      // /api/find-alternatives (Sonnet + web_search), and lets the user
-      // click one to swap via /api/swap-event. No free-text chat step —
-      // this is a focused, point-and-shoot flow.
+      // ─── AI Match Finder modal (replaces legacy alt-modal view) ─────
+      // Unified search-or-ask popup. One search input + quick suggestion
+      // chips drive /api/find-alternatives (Sonnet + web_search). Results
+      // are grouped into "Exact Matches" (verified=true) and "Similar
+      // Options" (unverified). Selection is explicit — click a card to
+      // select, then footer "Use selection" commits the swap through
+      // /api/swap-event. Preserves: abort-on-supersede, rotating status,
+      // skeleton loader, per-event prompt memory.
 
       function buildAltModal() {
         var m = document.createElement('div');
@@ -895,37 +899,51 @@
         m.hidden = true;
         m.innerHTML =
           '<div class="alt-modal-backdrop"></div>' +
-          '<div class="alt-modal-panel" role="dialog" aria-modal="true" aria-labelledby="alt-modal-title">' +
-          '  <button type="button" class="alt-modal-close" aria-label="Close"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>' +
-          '  <div class="alt-modal-header">' +
-          '    <div class="alt-modal-eyebrow"><span class="alt-modal-eyebrow-line"></span><span class="alt-modal-eyebrow-text">Alternatives to</span><span class="alt-modal-eyebrow-line"></span></div>' +
-          '    <h3 class="alt-modal-title" id="alt-modal-title"><span id="alt-modal-target"></span></h3>' +
+          '<section class="alt-modal-panel" role="dialog" aria-modal="true" aria-labelledby="alt-modal-title">' +
+          '  <header class="alt-modal-header">' +
+          '    <div class="alt-modal-heading">' +
+          '      <div class="alt-modal-kicker"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> AI Match Finder</div>' +
+          '      <h3 class="alt-modal-title" id="alt-modal-title">Search or Ask</h3>' +
+          '      <p class="alt-modal-context" id="alt-modal-context">Find exact places or explore similar options.</p>' +
+          '    </div>' +
+          '    <button type="button" class="alt-modal-close" aria-label="Close"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>' +
+          '  </header>' +
+          '  <div class="alt-modal-shell">' +
+          '    <div class="alt-search-wrap">' +
+          '      <i class="alt-search-icon fa-solid fa-magnifying-glass" aria-hidden="true"></i>' +
+          '      <input id="alt-search-input" class="alt-search-input" type="text" placeholder="Search a place or describe what you want" autocomplete="off" spellcheck="false" />' +
+          '      <button type="button" class="alt-search-clear" id="alt-search-clear" aria-label="Clear search"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>' +
+          '    </div>' +
+          '    <div class="alt-chips" aria-label="Quick suggestions">' +
+          '      <button type="button" class="alt-chip" data-prompt="vegetarian only">Vegetarian only</button>' +
+          '      <button type="button" class="alt-chip" data-prompt="quieter, more intimate spot">Quieter, more intimate</button>' +
+          '      <button type="button" class="alt-chip" data-prompt="outdoor seating">Outdoor seating</button>' +
+          '      <button type="button" class="alt-chip" data-prompt="something closer, short drive">Something closer</button>' +
+          '      <button type="button" class="alt-chip" data-prompt="dessert or late-night stop">Dessert / late-night</button>' +
+          '    </div>' +
+          '    <div class="alt-modal-body" id="alt-modal-body"></div>' +
+          '    <footer class="alt-modal-footer">' +
+          '      <button type="button" class="alt-ghost-btn alt-cancel-btn">Cancel</button>' +
+          '      <button type="button" class="alt-primary-btn" id="alt-use-selection" disabled>Use selection</button>' +
+          '    </footer>' +
           '  </div>' +
-          '  <div class="alt-modal-body" id="alt-modal-body"></div>' +
-          '</div>';
+          '</section>';
         document.body.appendChild(m);
-        // Delegated close handler. Bound on the modal root so it survives
-        // any innerHTML reshuffle of the modal body, and using closest()
-        // so the inner <i> icon never swallows the click. Click (not
-        // pointerdown) is deliberate: pointerdown would fire on a touch
-        // drag-start that ends elsewhere (false close on touch devices)
-        // AND keyboard Space/Enter on the focused button synthesizes a
-        // click event, never a pointerdown — so click is the only event
-        // that covers mouse, touch, and keyboard activation cleanly.
-        m.addEventListener('click', function(e) {
-          var closeBtn = e.target.closest && e.target.closest('.alt-modal-close');
+        // Delegated close: survives innerHTML reshuffles. Using closest()
+        // so inner <i> icons don't swallow the click. Click (not
+        // pointerdown) covers mouse/touch/keyboard activation cleanly.
+        m.addEventListener('click', function (e) {
+          var closeBtn = e.target.closest && e.target.closest('.alt-modal-close, .alt-cancel-btn');
           if (closeBtn) {
             console.log('[ALT-MODAL] close clicked, in-flight:', !!altInflight);
             closeAltModal();
             return;
           }
-          // Backdrop click closes too — only when the click target IS the
-          // backdrop element itself (not a panel child that bubbled).
           if (e.target.classList && e.target.classList.contains('alt-modal-backdrop')) {
             closeAltModal();
           }
         });
-        document.addEventListener('keydown', function(e) {
+        document.addEventListener('keydown', function (e) {
           if (e.key === 'Escape' && !m.hidden) {
             console.log('[ALT-MODAL] close via Escape, in-flight:', !!altInflight);
             closeAltModal();
@@ -963,12 +981,10 @@
           if (!el) { stopAltStatus(); return; }
           i = Math.min(i + 1, ALT_STATUS_STEPS.length - 1);
           el.classList.add('alt-status-fade');
-          setTimeout(function() {
+          setTimeout(function () {
             el.textContent = ALT_STATUS_STEPS[i];
             el.classList.remove('alt-status-fade');
           }, 180);
-          // Stretch the final phase so the "Almost there" bubble doesn't
-          // re-fire every 2.6s when the fetch runs long.
           var next = (i === ALT_STATUS_STEPS.length - 1) ? 9000 : 2600;
           altStatusTimer = setTimeout(tick, next);
         }
@@ -995,160 +1011,132 @@
         return '<div class="alt-skel-stack" aria-hidden="true">' + card + card + card + '</div>';
       }
 
-      // Last-used constraints per trip event, so re-opening the same alt modal
-      // remembers what the user asked for. Scoped by dayIndex:eventIndex.
+      // Per-event prompt memory. Re-opening the same event's modal
+      // restores the last-used search phrase. Keyed by dayIdx:eventIdx.
       var altConstraintsByKey = {};
-      // Context of the currently-open modal so "Retry" + "Regenerate" know
-      // what to ask for without reaching into DOM ids.
       var altModalCtx = null;
+      // Selection + results state for the new Use-selection flow.
+      var altSelectedId = null;
+      var altCurrentResults = [];
 
       function constraintsKey(dayIdx, eventIdx) { return dayIdx + ':' + eventIdx; }
 
-      function renderAltConstraintsBar(ctx) {
-        var c = ctx.constraints || {};
-        var cuisines = ['any', 'vegetarian', 'vegan', 'seafood', 'korean', 'italian', 'mexican'];
-        var drives = [
-          { id: null, label: 'Any drive' },
-          { id: 10,   label: '≤10 min' },
-          { id: 20,   label: '≤20 min' },
-          { id: 30,   label: '≤30 min' },
-        ];
-        var parts = ['<div class="alt-constraints" role="group" aria-label="Refine alternatives">'];
-        parts.push('<div class="alt-constraints-row">');
-        parts.push('<label class="alt-constraint-group"><span>Cuisine</span><select data-constraint="cuisine">');
-        cuisines.forEach(function (v) {
-          var val = v === 'any' ? '' : v;
-          var sel = (c.cuisine || '') === val ? ' selected' : '';
-          parts.push('<option value="' + escHtml(val) + '"' + sel + '>' + escHtml(v) + '</option>');
-        });
-        parts.push('</select></label>');
-        parts.push('<label class="alt-constraint-group"><span>Drive</span><select data-constraint="maxDriveMin">');
-        drives.forEach(function (d) {
-          var val = d.id == null ? '' : String(d.id);
-          var sel = String(c.maxDriveMin || '') === val ? ' selected' : '';
-          parts.push('<option value="' + val + '"' + sel + '>' + escHtml(d.label) + '</option>');
-        });
-        parts.push('</select></label>');
-        parts.push('<button type="button" class="alt-constraint-apply">Regenerate</button>');
-        parts.push('</div>');
-        // Free-form steering input. Feeds constraints.notes on the API —
-        // hitting Enter triggers the same re-fetch path as the Regenerate
-        // button so a typed refinement runs immediately, holistically, with
-        // whatever dropdown constraints are already set.
-        var notesVal = c.notes || '';
-        parts.push('<div class="alt-constraints-notes">');
-        parts.push('  <i class="alt-constraints-notes-icon fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i>');
-        parts.push('  <input type="text" class="alt-constraints-notes-input" data-constraint="notes" placeholder="Refine \u2014 e.g. vegetarian only, quieter spot, outdoor seating\u2026" value="' + escHtml(notesVal) + '" autocomplete="off" spellcheck="false" aria-describedby="alt-notes-precedence" />');
-        parts.push('  <button type="button" class="alt-constraints-notes-submit" aria-label="Submit refinement and search again">Enter</button>');
-        parts.push('</div>');
-        parts.push('<div id="alt-notes-precedence" class="alt-constraints-precedence-hint">Your prompt overrides the filters above when both are set.</div>');
-        parts.push('</div>');
-        return parts.join('');
-      }
-
-      function readConstraintsFromBar() {
-        var bar = document.querySelector('.alt-constraints');
-        if (!bar) return {};
-        var out = {};
-        bar.querySelectorAll('[data-constraint]').forEach(function (el) {
-          var key = el.getAttribute('data-constraint');
-          var v = el.value;
-          if (v == null) return;
-          if (key === 'notes') {
-            var trimmed = String(v).trim();
-            if (trimmed) out.notes = trimmed;
-            return;
-          }
-          if (!v) return;
-          if (key === 'maxDriveMin') out[key] = Number(v);
-          else out[key] = v;
-        });
-        return out;
-      }
-
       function renderAltLoadingBody(userPrompt) {
-        // When the user typed a refinement, echo it above the generic status
-        // so the response visibly acknowledges THEIR input — not just "AI is
-        // working" boilerplate.
         var promptEcho = '';
         if (userPrompt) {
           promptEcho =
             '<div class="alt-modal-prompt-echo" role="status" aria-live="polite">' +
             '  <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i>' +
-            '  <span>Evaluating your request: <em>' + escHtml(userPrompt) + '</em></span>' +
+            '  <span>Evaluating: <em>' + escHtml(userPrompt) + '</em></span>' +
             '</div>';
         }
         return (
           promptEcho +
           '<div class="alt-modal-loading" role="status" aria-live="polite">' +
-          '  <div class="alt-modal-progress" aria-hidden="true">' +
-          '    <div class="alt-modal-progress-bar"></div>' +
-          '  </div>' +
+          '  <div class="alt-modal-progress" aria-hidden="true"><div class="alt-modal-progress-bar"></div></div>' +
           '  <div class="alt-modal-status" id="alt-modal-status">' + ALT_STATUS_STEPS[0] + '</div>' +
           '</div>' +
           altSkeletonHtml()
         );
       }
 
-      // Notes-submit busy state — disables the Enter button + Enter key while
-      // a fetch is in flight so rapid double-fires don't stack requests. The
-      // input itself stays enabled so the user can start typing the next
-      // prompt while waiting for the current one.
-      var altNotesBusy = false;
-      function setNotesSubmitBusy(busy) {
-        altNotesBusy = busy;
-        var bodyEl = document.getElementById('alt-modal-body');
-        if (!bodyEl) return;
-        var btn = bodyEl.querySelector('.alt-constraints-notes-submit');
-        if (btn) {
-          btn.disabled = busy;
-          btn.textContent = busy ? '\u2026' : 'Enter';
-          btn.setAttribute('aria-busy', busy ? 'true' : 'false');
-        }
+      // Busy flag for the search input's implicit-submit (Enter key).
+      // Swaps in the previous setNotesSubmitBusy surface so
+      // runFindAlternatives can stay unchanged.
+      var altSearchBusy = false;
+      function setSearchBusy(busy) {
+        altSearchBusy = busy;
+        var input = document.getElementById('alt-search-input');
+        if (input) input.setAttribute('aria-busy', busy ? 'true' : 'false');
+      }
+      // Back-compat shim — runFindAlternatives still references this name.
+      function setNotesSubmitBusy(busy) { setSearchBusy(busy); }
+
+      function updateClearVisibility() {
+        var input = document.getElementById('alt-search-input');
+        var clearBtn = document.getElementById('alt-search-clear');
+        if (!input || !clearBtn) return;
+        clearBtn.classList.toggle('is-visible', Boolean((input.value || '').trim()));
+      }
+
+      function updateUseSelectionBtn() {
+        var btn = document.getElementById('alt-use-selection');
+        if (btn) btn.disabled = !altSelectedId;
       }
 
       function openAltModal(ctx) {
         altModalCtx = ctx;
+        altSelectedId = null;
+        altCurrentResults = [];
         var m = document.getElementById('alt-modal') || buildAltModal();
-        document.getElementById('alt-modal-target').textContent = ctx.eventName || '';
+        var contextEl = document.getElementById('alt-modal-context');
+        if (contextEl) contextEl.textContent = 'Replacing: ' + (ctx.eventName || 'this stop');
+        var input = document.getElementById('alt-search-input');
+        if (input) {
+          input.value = (ctx.constraints && ctx.constraints.notes) ? ctx.constraints.notes : '';
+          input.placeholder = ctx.eventName
+            ? ('Search ' + '\u201C' + ctx.eventName + '\u201D or describe what you want')
+            : 'Search a place or describe what you want';
+        }
+        updateClearVisibility();
+        updateUseSelectionBtn();
         var body = document.getElementById('alt-modal-body');
-        body.innerHTML = renderAltConstraintsBar(ctx) + renderAltLoadingBody();
+        if (body) body.innerHTML = renderAltLoadingBody();
         m.hidden = false;
-        // Wire the Regenerate button + notes-Enter so a constraint change
-        // can drive a fresh fetch without closing the modal. Both paths call
-        // the same applyConstraints() so a typed refinement runs holistically
-        // with whatever dropdowns are already set.
-        function applyConstraints() {
-          if (altNotesBusy) return;
-          var next = readConstraintsFromBar();
-          // Capture-then-clear: read the typed prompt before wiping the input,
-          // so the in-flight fetch carries the value but the field looks fresh
-          // for the next refinement attempt.
-          var inputEl = document.querySelector('.alt-constraints-notes-input');
-          if (inputEl) inputEl.value = '';
-          altConstraintsByKey[constraintsKey(ctx.dayIdx, ctx.eventIdx)] = next;
-          altModalCtx = Object.assign({}, ctx, { constraints: next });
-          setNotesSubmitBusy(true);
+
+        // Wire interactive chrome once — handlers survive body innerHTML
+        // swaps because they attach to the persistent shell elements.
+        function submitSearch() {
+          if (altSearchBusy) return;
+          var v = input ? input.value.trim() : '';
+          var next = v ? { notes: v } : {};
+          altConstraintsByKey[constraintsKey(altModalCtx.dayIdx, altModalCtx.eventIdx)] = next;
+          altModalCtx = Object.assign({}, altModalCtx, { constraints: next });
+          altSelectedId = null;
+          updateUseSelectionBtn();
+          setSearchBusy(true);
+          var bodyEl = document.getElementById('alt-modal-body');
+          if (bodyEl) bodyEl.innerHTML = renderAltLoadingBody(v);
+          startAltStatusCycle();
           runFindAlternatives(altModalCtx);
         }
-        var applyBtn = body.querySelector('.alt-constraint-apply');
-        if (applyBtn) applyBtn.addEventListener('click', applyConstraints);
-        var notesInput = body.querySelector('.alt-constraints-notes-input');
-        if (notesInput) {
-          notesInput.addEventListener('keydown', function (e) {
+
+        var clearBtn = document.getElementById('alt-search-clear');
+        if (clearBtn && !clearBtn.__wired) {
+          clearBtn.addEventListener('click', function () {
+            if (input) { input.value = ''; input.focus(); }
+            updateClearVisibility();
+          });
+          clearBtn.__wired = true;
+        }
+        if (input && !input.__wired) {
+          input.addEventListener('input', updateClearVisibility);
+          input.addEventListener('keydown', function (e) {
             if (e.key === 'Enter' && !e.isComposing) {
               e.preventDefault();
-              if (altNotesBusy) return;
-              applyConstraints();
+              submitSearch();
             }
           });
+          input.__wired = true;
         }
-        // Submit button — same handler as Enter-on-input. Standard pattern:
-        // every AI widget should auto-run on open AND offer an explicit
-        // "submit your override" affordance, not rely on Enter-only.
-        var notesSubmit = body.querySelector('.alt-constraints-notes-submit');
-        if (notesSubmit) notesSubmit.addEventListener('click', applyConstraints);
+        m.querySelectorAll('.alt-chip').forEach(function (chip) {
+          if (chip.__wired) return;
+          chip.addEventListener('click', function () {
+            if (altSearchBusy || !input) return;
+            input.value = chip.getAttribute('data-prompt') || chip.textContent;
+            updateClearVisibility();
+            submitSearch();
+          });
+          chip.__wired = true;
+        });
+        var useBtn = document.getElementById('alt-use-selection');
+        if (useBtn && !useBtn.__wired) {
+          useBtn.addEventListener('click', useSelectedResult);
+          useBtn.__wired = true;
+        }
+
         startAltStatusCycle();
+        setTimeout(function () { if (input) input.focus(); }, 40);
       }
 
       function closeAltModal() {
@@ -1157,26 +1145,24 @@
         var m = document.getElementById('alt-modal');
         if (m) m.hidden = true;
         altModalCtx = null;
-        // Reset busy flag — next open should start with a fresh, clickable
-        // submit button regardless of how the previous session ended.
-        altNotesBusy = false;
+        altSelectedId = null;
+        altCurrentResults = [];
+        altSearchBusy = false;
+        updateUseSelectionBtn();
       }
 
-      // Replace the result area only — preserves the constraints bar so the
-      // user can retry or tweak without losing their selection.
+      // The body slot is now a pure results area — search input, chips,
+      // and footer live in the persistent shell and are untouched across
+      // loading/error/result transitions.
       function updateAltResultsArea(html) {
         var body = document.getElementById('alt-modal-body');
         if (!body) return;
-        var bar = body.querySelector('.alt-constraints');
-        body.innerHTML = '';
-        if (bar) body.appendChild(bar);
-        var frag = document.createElement('div');
-        frag.innerHTML = html;
-        while (frag.firstChild) body.appendChild(frag.firstChild);
+        body.innerHTML = html;
       }
 
       function renderAltError(message) {
         stopAltStatus();
+        setSearchBusy(false);
         var errorHtml =
           '<div class="alt-modal-error">' +
           '  <div class="alt-modal-error-text">' + escHtml(message) + '</div>' +
@@ -1185,52 +1171,108 @@
         updateAltResultsArea(errorHtml);
         var retry = document.querySelector('.alt-modal-retry');
         if (retry && altModalCtx) {
-          retry.addEventListener('click', function () { runFindAlternatives(altModalCtx); });
+          retry.addEventListener('click', function () {
+            setSearchBusy(true);
+            startAltStatusCycle();
+            updateAltResultsArea(renderAltLoadingBody(
+              (altModalCtx.constraints && altModalCtx.constraints.notes) || ''
+            ));
+            runFindAlternatives(altModalCtx);
+          });
         }
       }
 
       function renderAltOptions(dayIdx, eventIdx, alts) {
         stopAltStatus();
-        var body = document.getElementById('alt-modal-body');
-        if (!alts || !alts.length) {
-          updateAltResultsArea('<div class="alt-modal-error">No alternatives found nearby.</div>');
+        setSearchBusy(false);
+        altSelectedId = null;
+        altCurrentResults = Array.isArray(alts) ? alts.slice() : [];
+        updateUseSelectionBtn();
+
+        if (!altCurrentResults.length) {
+          updateAltResultsArea(
+            '<div class="alt-empty is-visible">No matches yet. Try a different phrase \u2014 a cuisine, vibe, or specific place name.</div>'
+          );
           return;
         }
-        // Keep the constraints bar intact so the notes input + dropdowns
-        // stay visible alongside results. updateAltResultsArea preserves it.
-        var bar = body.querySelector('.alt-constraints');
-        body.innerHTML = '';
-        if (bar) body.appendChild(bar);
-        alts.forEach(function(alt) {
-          var opt = document.createElement('div');
-          opt.className = 'alt-option' + (alt.verified ? ' alt-option--verified' : '');
-          var htmlParts = [];
-          htmlParts.push('<div class="alt-option-header">');
-          htmlParts.push('  <span class="alt-option-name">' + escHtml(alt.name || 'Unknown'));
-          if (alt.verified) {
-            htmlParts.push('    <span class="alt-option-badge" title="Verified via Google Search"><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Verified</span>');
-          } else if (alt.verified === false) {
-            htmlParts.push('    <span class="alt-option-badge alt-option-badge--warn" title="' + escHtml(alt.verifyNote || 'Not corroborated by Google') + '"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Unverified</span>');
-          }
-          htmlParts.push('  </span>');
-          if (typeof alt.rating === 'number') {
-            htmlParts.push('  <span class="alt-option-rating"><i class="fa-solid fa-star" aria-hidden="true"></i> ' + escHtml(String(alt.rating)) + '</span>');
-          }
-          htmlParts.push('</div>');
-          if (alt.venue) htmlParts.push('<div class="alt-option-venue">' + escHtml(alt.venue) + '</div>');
-          var metaBits = [];
-          if (alt.phone) metaBits.push('<i class="fa-solid fa-phone" aria-hidden="true"></i> ' + escHtml(alt.phone));
-          if (typeof alt.driveMinutes === 'number') metaBits.push('<i class="fa-solid fa-car" aria-hidden="true"></i> ~' + escHtml(String(alt.driveMinutes)) + ' min drive');
-          if (metaBits.length) htmlParts.push('<div class="alt-option-meta">' + metaBits.join('<span class="alt-option-sep">\u00b7</span>') + '</div>');
-          if (alt.rationale) htmlParts.push('<div class="alt-option-rationale">' + escHtml(alt.rationale) + '</div>');
-          htmlParts.push('<button type="button" class="alt-option-swap">Use this <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>');
-          opt.innerHTML = htmlParts.join('');
-          opt.querySelector('.alt-option-swap').addEventListener('click', function(e) {
-            e.stopPropagation();
-            doSwap(dayIdx, eventIdx, alt);
+
+        // Split by verification. Backend stamps verified=true when Google
+        // Search corroborates; everything else (false or undefined) is
+        // treated as "similar".
+        var exact = altCurrentResults.filter(function (a) { return a && a.verified === true; });
+        var similar = altCurrentResults.filter(function (a) { return !a || a.verified !== true; });
+
+        function sectionHtml(label, items, isExact) {
+          if (!items.length) return '';
+          var cards = items.map(function (alt, i) {
+            // Stable per-card id, stashed on the object so click handlers
+            // can round-trip the selection back to the alt.
+            var id = (alt && alt.name ? alt.name : 'alt') + '|' + (isExact ? 'e' : 's') + '|' + i;
+            alt.__altId = id;
+            return resultCardHtml(alt, id, isExact);
+          }).join('');
+          return (
+            '<div class="alt-section is-visible">' +
+            '  <div class="alt-section-head"><span>' + escHtml(label) + '</span><span class="alt-count">' + items.length + '</span></div>' +
+            '  <div class="alt-section-body">' + cards + '</div>' +
+            '</div>'
+          );
+        }
+
+        var html = sectionHtml('Exact Matches', exact, true) + sectionHtml('Similar Options', similar, false);
+        updateAltResultsArea(html);
+
+        // Wire card clicks to toggle selection (no immediate swap).
+        var area = document.getElementById('alt-modal-body');
+        if (area) {
+          area.querySelectorAll('.alt-result').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+              var id = btn.getAttribute('data-alt-id');
+              altSelectedId = (altSelectedId === id) ? null : id;
+              updateSelectedUI();
+              updateUseSelectionBtn();
+            });
           });
-          body.appendChild(opt);
+        }
+      }
+
+      function resultCardHtml(alt, id, isExact) {
+        var name = escHtml(alt.name || 'Unknown');
+        var venue = alt.venue ? '<div class="alt-result-meta">' + escHtml(alt.venue) + '</div>' : '';
+        var metaBits = [];
+        if (typeof alt.rating === 'number') metaBits.push('<i class="fa-solid fa-star" aria-hidden="true"></i> ' + escHtml(String(alt.rating)));
+        if (typeof alt.driveMinutes === 'number') metaBits.push('<i class="fa-solid fa-car" aria-hidden="true"></i> ~' + escHtml(String(alt.driveMinutes)) + ' min');
+        if (alt.phone) metaBits.push('<i class="fa-solid fa-phone" aria-hidden="true"></i> ' + escHtml(alt.phone));
+        var stats = metaBits.length ? '<div class="alt-result-stats">' + metaBits.join('<span class="alt-result-sep">\u00b7</span>') + '</div>' : '';
+        var rationale = alt.rationale ? '<div class="alt-result-reason">' + escHtml(alt.rationale) + '</div>' : '';
+        var tag = isExact
+          ? '<div class="alt-result-tag alt-result-tag--exact">Exact</div>'
+          : '<div class="alt-result-tag alt-result-tag--similar">Similar</div>';
+        return (
+          '<button type="button" class="alt-result" data-alt-id="' + escHtml(id) + '">' +
+          '  <div class="alt-result-icon" aria-hidden="true"><i class="fa-solid fa-utensils"></i></div>' +
+          '  <div class="alt-result-body">' +
+          '    <div class="alt-result-title">' + name + '</div>' +
+          stats +
+          venue +
+          rationale +
+          '  </div>' +
+          tag +
+          '</button>'
+        );
+      }
+
+      function updateSelectedUI() {
+        document.querySelectorAll('.alt-result').forEach(function (el) {
+          el.classList.toggle('is-active', el.getAttribute('data-alt-id') === altSelectedId);
         });
+      }
+
+      function useSelectedResult() {
+        if (!altSelectedId || !altModalCtx) return;
+        var selected = altCurrentResults.find(function (a) { return a && a.__altId === altSelectedId; });
+        if (!selected) return;
+        doSwap(altModalCtx.dayIdx, altModalCtx.eventIdx, selected);
       }
 
       function doSwap(dayIdx, eventIdx, alt) {
@@ -2372,7 +2414,7 @@
         Object.keys(j.days).forEach(function(date) {
           var slot = document.querySelector('.day-spend[data-spend-date="' + date + '"]');
           if (!slot) return;
-          slot.innerHTML = renderSpendDonut(j.days[date]);
+          slot.innerHTML = window.renderSpendDonut(j.days[date]);
         });
       } catch (err) {
         console.warn('[SPEND]', err);

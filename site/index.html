@@ -732,6 +732,11 @@
                       onChange={e => setNoteText(e.target.value)}
                       onKeyDown={e => { if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) addNote(); }}
                       rows={4}
+                      autoComplete="off"
+                      autoCorrect="off"
+                      spellCheck={false}
+                      data-1p-ignore
+                      data-lpignore="true"
                     />
                     <button className="note-add-btn" onClick={addNote} disabled={!noteText.trim()}>
                       <Icon name="fa-plus" size="0.7em" /> Add Note
@@ -1726,7 +1731,11 @@
                   placeholder="Add a note or prompt for this entry…"
                   rows={10}
                   disabled={refining}
-                  spellCheck
+                  autoComplete="off"
+                  autoCorrect="off"
+                  spellCheck={false}
+                  data-1p-ignore
+                  data-lpignore="true"
                 />
                 {refineError && (
                   <div className="refine-modal-error" role="alert">
@@ -2091,7 +2100,11 @@
               placeholder="Add a note or prompt for this entry…"
               rows={3}
               disabled={refining || approving || unapproving}
-              spellCheck
+              autoComplete="off"
+              autoCorrect="off"
+              spellCheck={false}
+              data-1p-ignore
+              data-lpignore="true"
             />
           </div>
 
@@ -2543,6 +2556,11 @@
               value={value.title || ''}
               onChange={e => update({ title: e.target.value })}
               placeholder="A short, specific line — the soul of the entry"
+              autoComplete="off"
+              autoCorrect="off"
+              spellCheck={false}
+              data-1p-ignore
+              data-lpignore="true"
             />
           </div>
 
@@ -2625,6 +2643,11 @@
               onChange={e => update({ reflection: e.target.value })}
               placeholder="How was this day? What stood out?"
               aria-busy={refineState.reflection.status === 'streaming'}
+              autoComplete="off"
+              autoCorrect="off"
+              spellCheck={false}
+              data-1p-ignore
+              data-lpignore="true"
             />
           </div>
 
@@ -4388,6 +4411,11 @@
                           captureNote().then(() => setNoteComposerOpen(false));
                         }
                       }}
+                      autoComplete="off"
+                      autoCorrect="off"
+                      spellCheck={false}
+                      data-1p-ignore
+                      data-lpignore="true"
                     />
                     <footer className="review-card-actions">
                       <button
