@@ -4103,5 +4103,811 @@
     "snapshotRef": "trips/2026-04-ishrat-engagement/snapshots/trip.yaml-d7a91a09-f215-45fa-8902-6de074c21282.yaml",
     "actor": "app",
     "status": "applied"
+  },
+  {
+    "schemaVersion": "1",
+    "id": "14f086cc-9c01-4f4c-a8ce-1c73ca13e77b",
+    "createdAt": "2026-04-24T18:17:47.882Z",
+    "tripSlug": "2026-04-ishrat-engagement",
+    "target": "trip.yaml",
+    "intent": "Swap event 5.2 → Menol Park Mall",
+    "patch": [
+      {
+        "op": "replace",
+        "path": "/days/4/events/1/event",
+        "value": "Menol Park Mall"
+      }
+    ],
+    "inversePatch": [
+      {
+        "op": "replace",
+        "path": "/days/4/events/1/event",
+        "value": "Final Preparations"
+      }
+    ],
+    "snapshotRef": "trips/2026-04-ishrat-engagement/snapshots/trip.yaml-14f086cc-9c01-4f4c-a8ce-1c73ca13e77b.yaml",
+    "actor": "app",
+    "status": "applied"
+  },
+  {
+    "schemaVersion": "1",
+    "id": "4a5b795b-7e70-4c28-a654-f15a791afd59",
+    "createdAt": "2026-04-24T18:17:58.319Z",
+    "tripSlug": "2026-04-ishrat-engagement",
+    "target": "trip.yaml",
+    "intent": "Swap event 5.3 → Cheesecake Factory",
+    "patch": [
+      {
+        "op": "replace",
+        "path": "/days/4/events/2/event",
+        "value": "Cheesecake Factory"
+      }
+    ],
+    "inversePatch": [
+      {
+        "op": "replace",
+        "path": "/days/4/events/2/event",
+        "value": "Light Post-Salon Lunch at Nirvana Indian"
+      }
+    ],
+    "snapshotRef": "trips/2026-04-ishrat-engagement/snapshots/trip.yaml-4a5b795b-7e70-4c28-a654-f15a791afd59.yaml",
+    "actor": "app",
+    "status": "applied"
+  },
+  {
+    "schemaVersion": "1",
+    "id": "2bc42d13-8dee-443a-8fa8-216a2be6772b",
+    "createdAt": "2026-04-24T18:19:08.380Z",
+    "tripSlug": "2026-04-ishrat-engagement",
+    "target": "trip.yaml",
+    "intent": "Delete Get Ready & Load the Car from day 5",
+    "patch": [
+      {
+        "op": "remove",
+        "path": "/days/4/events/3"
+      }
+    ],
+    "inversePatch": [
+      {
+        "op": "replace",
+        "path": "/days/4/events/4/place_id",
+        "value": "openstreetmap:street:polyline:13460651"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/4/lng",
+        "value": -73.865458
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/4/lat",
+        "value": 40.734033
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/4/time_mode",
+        "value": "anchor"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/4/duration_min",
+        "value": 105
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/4/category"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/4/phone"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/4/notes",
+        "value": "ETA ~4:45–5:15 PM via Holland Tunnel → LIE. Friday evening traffic adds 20–30 min. Leave by 3:30 PM sharp—no later."
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/4/tag",
+        "value": "TRAVEL"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/4/venue",
+        "value": "183-10 Horace Harding Expy, NY 11365"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/4/event",
+        "value": "Drive to Fresh Meadows, Queens"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/4/time",
+        "value": "3:30 PM"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/3/geocoded_at"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/3/place_id"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/3/lng"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/3/lat"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/time_mode",
+        "value": "flex"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/duration_min",
+        "value": 75
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/notes",
+        "value": "Lunch ends 2:00 PM, 5-min drive puts us at hotel by 2:10 PM. Get dressed, final touch-ups, fill gas, load car. Be road-ready by 3:30 PM."
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/tag",
+        "value": "PREPARATION"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/venue",
+        "value": ""
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/event",
+        "value": "Get Ready & Load the Car"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/time",
+        "value": "2:15 PM"
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/5",
+        "value": {
+          "time": "~5:30 PM",
+          "event": "The Celebration",
+          "venue": "Ganesh Temple Society Banquet Hall, 183-10 Horace Harding Expy, Fresh Meadows, NY 11365",
+          "tag": "ENGAGEMENT_HIGHLIGHT",
+          "notes": "An unforgettable evening of family, love, and new beginnings.",
+          "phone": "(718) 460-8484",
+          "category": "Engagement Celebration",
+          "duration_min": 360,
+          "time_mode": "flex",
+          "lat": 40.73482,
+          "lng": -73.79347,
+          "place_id": "geonames:locality:5118005",
+          "geocoded_at": "2026-04-19T16:29:38.581Z"
+        }
+      }
+    ],
+    "snapshotRef": "trips/2026-04-ishrat-engagement/snapshots/trip.yaml-2bc42d13-8dee-443a-8fa8-216a2be6772b.yaml",
+    "actor": "app",
+    "status": "applied"
+  },
+  {
+    "schemaVersion": "1",
+    "id": "72fcea62-7807-4302-8f76-3d3ebd5367de",
+    "createdAt": "2026-04-24T18:19:26.437Z",
+    "tripSlug": "2026-04-ishrat-engagement",
+    "target": "trip.yaml",
+    "intent": "Delete Drive to Fresh Meadows, Queens from day 5",
+    "patch": [
+      {
+        "op": "remove",
+        "path": "/days/4/events/3"
+      }
+    ],
+    "inversePatch": [
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/place_id",
+        "value": "openstreetmap:street:polyline:13460651"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/lng",
+        "value": -73.865458
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/lat",
+        "value": 40.734033
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/time_mode",
+        "value": "anchor"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/duration_min",
+        "value": 105
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/3/category"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/3/phone"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/notes",
+        "value": "ETA ~4:45–5:15 PM via Holland Tunnel → LIE. Friday evening traffic adds 20–30 min. Leave by 3:30 PM sharp—no later."
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/tag",
+        "value": "TRAVEL"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/venue",
+        "value": "183-10 Horace Harding Expy, NY 11365"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/event",
+        "value": "Drive to Fresh Meadows, Queens"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/time",
+        "value": "3:30 PM"
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/4",
+        "value": {
+          "time": "~5:30 PM",
+          "event": "The Celebration",
+          "venue": "Ganesh Temple Society Banquet Hall, 183-10 Horace Harding Expy, Fresh Meadows, NY 11365",
+          "tag": "ENGAGEMENT_HIGHLIGHT",
+          "notes": "An unforgettable evening of family, love, and new beginnings.",
+          "phone": "(718) 460-8484",
+          "category": "Engagement Celebration",
+          "duration_min": 360,
+          "time_mode": "flex",
+          "lat": 40.73482,
+          "lng": -73.79347,
+          "place_id": "geonames:locality:5118005",
+          "geocoded_at": "2026-04-19T16:29:38.581Z"
+        }
+      }
+    ],
+    "snapshotRef": "trips/2026-04-ishrat-engagement/snapshots/trip.yaml-72fcea62-7807-4302-8f76-3d3ebd5367de.yaml",
+    "actor": "app",
+    "status": "applied"
+  },
+  {
+    "schemaVersion": "1",
+    "id": "095ada17-dff5-4892-8adf-e8e397df13c7",
+    "createdAt": "2026-04-24T19:51:21.028Z",
+    "tripSlug": "2026-04-ishrat-engagement",
+    "target": "trip.yaml",
+    "intent": "Insert \"Stewart's Root Beer at East Brunswick\" on day 5",
+    "patch": [
+      {
+        "op": "add",
+        "path": "/days/4/events/1",
+        "value": {
+          "time": "9:00 AM",
+          "event": "Stewart's Root Beer at East Brunswick",
+          "tag": "DINING",
+          "duration_min": 30,
+          "category": "Classic Drive-In · American Comfort Food",
+          "venue": "647 NJ-18, East Brunswick, NJ 08816",
+          "phone": "(732) 251-4030",
+          "rating": 4.4,
+          "lat": 40.461356,
+          "lng": -74.403436,
+          "place_id": "openstreetmap:street:polyline:31142599",
+          "geocoded_at": "2026-04-24T19:51:20.889Z"
+        }
+      }
+    ],
+    "inversePatch": [
+      {
+        "op": "remove",
+        "path": "/days/4/events/4"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/place_id",
+        "value": "geonames:locality:5118005"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/lng",
+        "value": -73.79347
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/lat",
+        "value": 40.73482
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/duration_min",
+        "value": 360
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/category",
+        "value": "Engagement Celebration"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/3/rating"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/phone",
+        "value": "(718) 460-8484"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/notes",
+        "value": "Formal invitation time. An unforgettable evening of family, love, and new beginnings."
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/tag",
+        "value": "ENGAGEMENT_HIGHLIGHT"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/venue",
+        "value": "Ganesh Temple Society Banquet Hall, 183-10 Horace Harding Expy, Fresh Meadows, NY 11365"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/event",
+        "value": "Engagement Party"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/time",
+        "value": "6:30 PM"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/2/duration_min",
+        "value": 60
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/2/notes",
+        "value": "Salon wraps ~12:45 PM. Quick light lunch (soup + salad or light sandwich) within 5 min of the hotel — protects appetite for the heavy party dinner tonight. Panera or a nearby local cafe works."
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/2/tag",
+        "value": "DINING"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/2/venue",
+        "value": "80 NJ-18, East Brunswick, NJ 08816"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/2/event",
+        "value": "Cheesecake Factory"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/2/time",
+        "value": "1:00 PM"
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/2/phone",
+        "value": "(732) 418-0020"
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/2/rating",
+        "value": 4.4
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/2/category",
+        "value": "Indian · Light Lunch"
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/2/lat",
+        "value": 40.461356
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/2/lng",
+        "value": -74.403436
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/2/place_id",
+        "value": "openstreetmap:street:polyline:31142599"
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/2/geocoded_at",
+        "value": "2026-04-19T16:29:38.581Z"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/1/geocoded_at"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/1/place_id"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/1/lng"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/1/lat"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/1/rating"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/1/phone"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/1/venue",
+        "value": ""
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/1/category"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/1/duration_min",
+        "value": 165
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/1/tag",
+        "value": "PREPARATION"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/1/event",
+        "value": "Menol Park Mall"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/1/time",
+        "value": "10:00 AM"
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/1/notes",
+        "value": "Hair and nails appointment — allow the full 2h 45m window. Final outfit check, steam dress, pack essentials. Salon wraps ~12:45 PM."
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/1/time_mode",
+        "value": "flex"
+      }
+    ],
+    "snapshotRef": "trips/2026-04-ishrat-engagement/snapshots/trip.yaml-095ada17-dff5-4892-8adf-e8e397df13c7.yaml",
+    "actor": "app",
+    "status": "applied"
+  },
+  {
+    "schemaVersion": "1",
+    "id": "9b967c00-f255-462e-9f06-80c57ae290a5",
+    "createdAt": "2026-04-24T19:51:27.113Z",
+    "tripSlug": "2026-04-ishrat-engagement",
+    "target": "trip.yaml",
+    "intent": "Delete Breakfast at Omega Diner from day 5",
+    "patch": [
+      {
+        "op": "remove",
+        "path": "/days/4/events/0"
+      }
+    ],
+    "inversePatch": [
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/place_id",
+        "value": "openstreetmap:street:polyline:31142599"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/lng",
+        "value": -74.403436
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/lat",
+        "value": 40.461356
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/duration_min",
+        "value": 60
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/category",
+        "value": "Indian · Light Lunch"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/phone",
+        "value": "(732) 418-0020"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/notes",
+        "value": "Salon wraps ~12:45 PM. Quick light lunch (soup + salad or light sandwich) within 5 min of the hotel — protects appetite for the heavy party dinner tonight. Panera or a nearby local cafe works."
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/tag",
+        "value": "DINING"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/venue",
+        "value": "80 NJ-18, East Brunswick, NJ 08816"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/event",
+        "value": "Cheesecake Factory"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/time",
+        "value": "1:00 PM"
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/3/rating",
+        "value": 4.4
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/2/geocoded_at"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/2/place_id"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/2/lng"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/2/lat"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/2/duration_min",
+        "value": 165
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/2/category"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/2/rating"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/2/phone"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/2/notes",
+        "value": "Hair and nails appointment — allow the full 2h 45m window. Final outfit check, steam dress, pack essentials. Salon wraps ~12:45 PM."
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/2/tag",
+        "value": "PREPARATION"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/2/venue",
+        "value": ""
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/2/event",
+        "value": "Menol Park Mall"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/2/time",
+        "value": "10:00 AM"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/1/time_mode"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/1/duration_min",
+        "value": 30
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/1/notes"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/1/tag",
+        "value": "DINING"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/1/venue",
+        "value": "647 NJ-18, East Brunswick, NJ 08816"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/1/event",
+        "value": "Stewart's Root Beer at East Brunswick"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/1/time",
+        "value": "9:00 AM"
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/1/category",
+        "value": "Classic Drive-In · American Comfort Food"
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/1/phone",
+        "value": "(732) 251-4030"
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/1/rating",
+        "value": 4.4
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/1/lat",
+        "value": 40.461356
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/1/lng",
+        "value": -74.403436
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/1/place_id",
+        "value": "openstreetmap:street:polyline:31142599"
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/1/geocoded_at",
+        "value": "2026-04-24T19:51:20.889Z"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/0/geocoded_at",
+        "value": "2026-04-19T16:29:38.581Z"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/0/place_id",
+        "value": "openstreetmap:street:polyline:31142672"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/0/lng",
+        "value": -74.440849
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/0/lat",
+        "value": 40.466747
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/0/rating",
+        "value": 4.3
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/0/phone",
+        "value": "(732) 246-1444"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/0/venue",
+        "value": "1337 US-1, North Brunswick, NJ 08902"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/0/category",
+        "value": "American · Classic Diner"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/0/duration_min",
+        "value": 60
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/0/event",
+        "value": "Breakfast at Omega Diner"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/0/time",
+        "value": "7:30 AM"
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/0/notes",
+        "value": "Classic American diner (~5 min) — light eggs, toast, tea. Keep it easy; the engagement party tonight will be a heavy dinner."
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/0/time_mode",
+        "value": "flex"
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/4",
+        "value": {
+          "time": "6:30 PM",
+          "event": "Engagement Party",
+          "venue": "Ganesh Temple Society Banquet Hall, 183-10 Horace Harding Expy, Fresh Meadows, NY 11365",
+          "tag": "ENGAGEMENT_HIGHLIGHT",
+          "notes": "Formal invitation time. An unforgettable evening of family, love, and new beginnings.",
+          "phone": "(718) 460-8484",
+          "category": "Engagement Celebration",
+          "duration_min": 360,
+          "time_mode": "flex",
+          "lat": 40.73482,
+          "lng": -73.79347,
+          "place_id": "geonames:locality:5118005",
+          "geocoded_at": "2026-04-19T16:29:38.581Z"
+        }
+      }
+    ],
+    "snapshotRef": "trips/2026-04-ishrat-engagement/snapshots/trip.yaml-9b967c00-f255-462e-9f06-80c57ae290a5.yaml",
+    "actor": "app",
+    "status": "applied"
   }
 ]
