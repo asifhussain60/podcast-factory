@@ -1,12 +1,13 @@
 // routes/trip-edit.js — bounded itinerary editing + venue verification pipeline.
-//   POST /api/trip-edit          — intent classify → structured diffs + JSON Patch
-//   POST /api/trip-edit/revert   — idempotent revert by edit-log id
-//   GET  /api/edit-log           — read trips/{slug}/edit-log.json
-//   POST /api/find-alternatives  — propose 3 nearby alternatives for an event
-//   POST /api/verify-venue       — Gemini-grounded Google Search verification
-//   POST /api/swap-event         — deterministic JSON patch swapping event venue
-//   POST /api/insert-event       — deterministic JSON patch inserting an event at a position
-//   POST /api/suggest-insert     — AI (Sonnet + web_search) candidates to fill a gap; used by insert-mode modal
+//   POST /api/trip-edit                — intent classify → structured diffs + JSON Patch
+//   POST /api/trip-edit/revert         — idempotent revert by edit-log id
+//   GET  /api/edit-log                 — read trips/{slug}/edit-log.json
+//   POST /api/find-alternatives        — propose 3 nearby alternatives for an event
+//   POST /api/verify-venue             — Gemini-grounded Google Search verification
+//   POST /api/swap-event               — deterministic JSON patch swapping event venue
+//   POST /api/insert-event             — deterministic JSON patch inserting an event at a position (auto-geocode + drive-time validation)
+//   POST /api/suggest-insert           — AI (Sonnet + web_search) candidates to fill a gap; mode-routed (exact_vendor / category_search / chain_locations)
+//   POST /api/classify-insert-intent   — Haiku classifier that routes Add Event prompts to a sub-mode
 
 import express from "express";
 import { createHash } from "node:crypto";
@@ -17,6 +18,25 @@ import { shadow } from "../middleware/shadow-write.js";
 import { verifyVenue as geminiVerifyVenue, isAvailable as geminiAvailable } from "../lib/gemini-client.js";
 import { validatePatchPaths, isTagOnlyPatch } from "../lib/patch-validate.js";
 import { extractJsonObject, wrapUserMessage, logExtractFailure } from "../util/json.js";
+import { geocode as orsGeocode, directions as orsDirections, isConfigured as orsConfigured } from "../lib/ors.js";
+
+// Scope radius chip → max drive minutes cap. Used by both the suggest
+// sub-prompts and the post-response drive-time validation.
+const SCOPE_DRIVE_CAP_MIN = Object.freeze({
+  walking: 5,
+  "15min": 15,
+  "30min": 30,
+  expand: 60,
+});
+const ALLOWED_SCOPE_RADIUS = new Set(Object.keys(SCOPE_DRIVE_CAP_MIN));
+const ALLOWED_INTENT_MODES = new Set(["exact_vendor", "category_search", "chain_locations"]);
+
+// Sub-prompt name per routed mode.
+const MODE_TO_PROMPT = Object.freeze({
+  exact_vendor: "suggest-insert-exact-vendor",
+  category_search: "suggest-insert-category-search",
+  chain_locations: "suggest-insert-chain-locations",
+});
 
 // Intent tier-0 rule: keyword match on edit verbs routes to intent=edit; otherwise
 // the Sonnet trip-edit prompt classifies itself.
@@ -379,21 +399,107 @@ export function createTripEditRouter({ anthropic, DEFAULT_MODEL }) {
     }
   });
 
-  // Body: { tripSlug, dayIndex, insertEventIndex, window: {start,end}, constraints?, message? }
+  // Body: { prompt, tripSlug?, dayIndex?, prevVenue?, nextVenue? }
+  //   Haiku-only intent classifier. Used by the Add Event modal to route a
+  //   free-form prompt to one of three sub-prompts before running the
+  //   (expensive) web_search suggestion call.
+  //
+  // Returns: { ok, mode, vendorName, categoryHint, confidence }
+  router.post("/api/classify-insert-intent", async (req, res) => {
+    const { prompt: userPrompt, prevVenue, nextVenue } = req.body ?? {};
+    if (typeof userPrompt !== "string" || !userPrompt.trim()) {
+      return res.status(400).json({ ok: false, error: "prompt (non-empty string) is required" });
+    }
+    try {
+      const promptDef = loadPrompt("classify-insert-intent");
+      const userMsg = JSON.stringify({
+        prompt: userPrompt.trim().slice(0, 400),
+        prevVenue: typeof prevVenue === "string" ? prevVenue.slice(0, 200) : null,
+        nextVenue: typeof nextVenue === "string" ? nextVenue.slice(0, 200) : null,
+      });
+      const msg = await anthropic.messages.create({
+        model: promptDef.model ?? "claude-haiku-4-5-20251001",
+        max_tokens: 256,
+        system: promptDef.system,
+        messages: [{ role: "user", content: userMsg }],
+      });
+      const raw = msg.content.filter((b) => b.type === "text").map((b) => b.text).join("").trim();
+      const parsed = extractJsonObject(raw);
+      if (!parsed || !ALLOWED_INTENT_MODES.has(parsed.mode)) {
+        logExtractFailure(promptDef.name, raw);
+        // Default to category_search on parse failure — safe generic path.
+        return res.json({
+          ok: true,
+          model: msg.model,
+          usage: msg.usage,
+          mode: "category_search",
+          vendorName: null,
+          categoryHint: userPrompt.trim().slice(0, 80),
+          confidence: 0,
+          classifierFallback: true,
+        });
+      }
+      res.json({
+        ok: true,
+        model: msg.model,
+        usage: msg.usage,
+        mode: parsed.mode,
+        vendorName: typeof parsed.vendorName === "string" ? parsed.vendorName.slice(0, 80) : null,
+        categoryHint: typeof parsed.categoryHint === "string" ? parsed.categoryHint.slice(0, 80) : null,
+        confidence: Number.isFinite(parsed.confidence) ? Math.max(0, Math.min(1, parsed.confidence)) : 0.5,
+      });
+    } catch (err) {
+      res.status(502).json({ ok: false, error: err?.message ?? String(err) });
+    }
+  });
+
+  // Body: { tripSlug, dayIndex, insertEventIndex, window: {start,end}, mode, vendorName?, categoryHint?, scopeRadius?, constraints?, message? }
   //   window.start / .end : "H:MM AM/PM" strings bounding the gap.
-  //   constraints   : { cuisine, maxDriveMin, priceTier, tagHint, notes } — all optional.
-  //   message       : user's free-form steer, merged into constraints.notes if set.
-  // Returns: { ok, windowSummary, candidates: [ { event, tag, category, venue, phone,
-  //   rating, duration_min, suggestedStart, driveMinutes, rationale } ] }
+  //   mode         : "exact_vendor" | "category_search" | "chain_locations" — routes to one of three sub-prompts.
+  //                  If omitted, the server falls back to category_search (legacy behavior).
+  //   vendorName   : brand name when mode is exact_vendor or chain_locations.
+  //   categoryHint : category description when mode is category_search.
+  //   scopeRadius  : "walking" | "15min" | "30min" | "expand" — hard drive-time cap. Default "30min".
+  //   constraints  : { cuisine, maxDriveMin, priceTier, tagHint, notes } — all optional.
+  //   message      : user's original free-form prompt (passed as userPrompt to sub-prompt).
+  // Returns: { ok, mode, scopeRadius, windowSummary, candidates: [ ...{ isPrimary, isOutOfRange, ...} ] }
   router.post("/api/suggest-insert", async (req, res) => {
-    const { tripSlug, dayIndex, insertEventIndex, window: win, constraints, message } = req.body ?? {};
+    const {
+      tripSlug,
+      dayIndex,
+      insertEventIndex,
+      window: win,
+      mode: rawMode,
+      vendorName: rawVendorName,
+      categoryHint: rawCategoryHint,
+      scopeRadius: rawScopeRadius,
+      constraints,
+      message,
+    } = req.body ?? {};
+
     if (!Number.isInteger(dayIndex) || !Number.isInteger(insertEventIndex)) {
       return res.status(400).json({ ok: false, error: "dayIndex and insertEventIndex (integers) are required" });
     }
     if (!win || typeof win !== "object" || typeof win.start !== "string" || typeof win.end !== "string") {
       return res.status(400).json({ ok: false, error: "window.start and window.end (strings) are required" });
     }
-    req.body.promptName = "suggest-insert-event";
+
+    // --- Mode routing ---
+    const mode = ALLOWED_INTENT_MODES.has(rawMode) ? rawMode : "category_search";
+    const promptName = MODE_TO_PROMPT[mode];
+    const vendorName = typeof rawVendorName === "string" && rawVendorName.trim() ? rawVendorName.trim().slice(0, 80) : null;
+    const categoryHint = typeof rawCategoryHint === "string" && rawCategoryHint.trim() ? rawCategoryHint.trim().slice(0, 80) : null;
+    const scopeRadius = ALLOWED_SCOPE_RADIUS.has(rawScopeRadius) ? rawScopeRadius : "30min";
+    const scopeDriveCapMin = SCOPE_DRIVE_CAP_MIN[scopeRadius];
+
+    if (mode === "exact_vendor" && !vendorName) {
+      return res.status(400).json({ ok: false, error: "vendorName required when mode is exact_vendor" });
+    }
+    if (mode === "chain_locations" && !vendorName) {
+      return res.status(400).json({ ok: false, error: "vendorName required when mode is chain_locations" });
+    }
+    req.body.promptName = promptName;
+
     try {
       const slug = tripSlug || (await getActiveTripSlug());
       const trip = await readTripObj(slug);
@@ -404,26 +510,22 @@ export function createTripEditRouter({ anthropic, DEFAULT_MODEL }) {
       const prev = insertEventIndex > 0 ? evs[insertEventIndex - 1] : null;
       const next = insertEventIndex < evs.length ? evs[insertEventIndex] : null;
 
-      // Normalize constraints: strip unknown keys, bound strings. Same pattern
-      // as /api/find-alternatives so no free-form key can smuggle prompt
-      // injection through this surface.
+      // Normalize constraints.
       const allowedTiers = new Set(["$", "$$", "$$$", "$$$$"]);
       const rawC = (constraints && typeof constraints === "object") ? constraints : {};
       const normalizedConstraints = {
         cuisine:     typeof rawC.cuisine === "string" && rawC.cuisine.trim() ? rawC.cuisine.trim().slice(0, 40) : null,
-        maxDriveMin: Number.isFinite(rawC.maxDriveMin) && rawC.maxDriveMin > 0 && rawC.maxDriveMin < 180 ? Math.round(rawC.maxDriveMin) : null,
+        // maxDriveMin is superseded by scopeRadius; keep for backward compat.
+        maxDriveMin: Number.isFinite(rawC.maxDriveMin) && rawC.maxDriveMin > 0 && rawC.maxDriveMin < 180 ? Math.round(rawC.maxDriveMin) : scopeDriveCapMin,
         priceTier:   allowedTiers.has(rawC.priceTier) ? rawC.priceTier : null,
         tagHint:     typeof rawC.tagHint === "string" && rawC.tagHint.trim() ? rawC.tagHint.trim().slice(0, 40) : null,
         notes:       typeof rawC.notes === "string" && rawC.notes.trim() ? rawC.notes.trim().slice(0, 200) : null,
       };
-      // Merge the free-form message into notes if provided and notes is empty.
       if (typeof message === "string" && message.trim() && !normalizedConstraints.notes) {
         normalizedConstraints.notes = message.trim().slice(0, 200);
       }
 
-      // Compute window minutes for the prompt (cheap, avoids re-parsing in Sonnet).
       const windowMinutes = computeMinutesBetween(win.start, win.end);
-
       const dayEventsLite = evs.map((ev) => ({
         time: ev?.time ?? null,
         event: ev?.event ?? null,
@@ -431,26 +533,64 @@ export function createTripEditRouter({ anthropic, DEFAULT_MODEL }) {
         venue: ev?.venue ?? null,
       }));
 
-      const prompt = loadPrompt("suggest-insert-event");
-      const userMsg = JSON.stringify({
-        window: { start: win.start, end: win.end, minutes: windowMinutes },
-        prev: prev ? { event: prev.event, venue: prev.venue ?? null, tag: prev.tag ?? null } : null,
-        next: next ? { event: next.event, venue: next.venue ?? null, tag: next.tag ?? null } : null,
-        dayEvents: dayEventsLite,
-        trip: {
-          theme: trip?.theme ?? null,
-          vibe: trip?.vibe ?? null,
-          base: trip?.base ?? null,
-          travelers: Array.isArray(trip?.travelers) ? trip.travelers : [],
-          regions: Array.isArray(trip?.regions) ? trip.regions : [],
-        },
-        constraints: normalizedConstraints,
-      }, null, 2);
+      const tripCtx = {
+        theme: trip?.theme ?? null,
+        vibe: trip?.vibe ?? null,
+        base: trip?.base ?? null,
+        travelers: Array.isArray(trip?.travelers) ? trip.travelers : [],
+        regions: Array.isArray(trip?.regions) ? trip.regions : [],
+      };
+
+      // Build mode-specific user payload.
+      const sharedWindow = { start: win.start, end: win.end, minutes: windowMinutes };
+      const sharedPrev = prev ? { event: prev.event, venue: prev.venue ?? null, tag: prev.tag ?? null } : null;
+      const sharedNext = next ? { event: next.event, venue: next.venue ?? null, tag: next.tag ?? null } : null;
+
+      let userPayload;
+      if (mode === "exact_vendor") {
+        userPayload = {
+          vendorName,
+          window: sharedWindow,
+          scopeRadius,
+          prev: sharedPrev,
+          next: sharedNext,
+          dayEvents: dayEventsLite,
+          trip: tripCtx,
+          userPrompt: typeof message === "string" ? message.slice(0, 400) : "",
+        };
+      } else if (mode === "chain_locations") {
+        userPayload = {
+          vendorName,
+          window: sharedWindow,
+          scopeRadius,
+          prev: sharedPrev,
+          next: sharedNext,
+          dayEvents: dayEventsLite,
+          trip: tripCtx,
+          userPrompt: typeof message === "string" ? message.slice(0, 400) : "",
+        };
+      } else {
+        // category_search
+        userPayload = {
+          categoryHint: categoryHint || normalizedConstraints.notes || "",
+          window: sharedWindow,
+          scopeRadius,
+          prev: sharedPrev,
+          next: sharedNext,
+          dayEvents: dayEventsLite,
+          trip: tripCtx,
+          constraints: normalizedConstraints,
+          userPrompt: typeof message === "string" ? message.slice(0, 400) : "",
+        };
+      }
+
+      const promptDef = loadPrompt(promptName);
+      const userMsg = JSON.stringify(userPayload, null, 2);
 
       const msg = await anthropic.messages.create({
-        model: prompt.model ?? DEFAULT_MODEL,
+        model: promptDef.model ?? DEFAULT_MODEL,
         max_tokens: 2048,
-        system: prompt.system,
+        system: promptDef.system,
         messages: [{ role: "user", content: userMsg }],
         tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 4 }],
       });
@@ -460,17 +600,30 @@ export function createTripEditRouter({ anthropic, DEFAULT_MODEL }) {
         .flatMap((b) => (b.content || []).filter((c) => c.url).map((c) => ({ title: c.title, url: c.url })));
       const parsed = extractJsonObject(raw);
       if (!parsed || !Array.isArray(parsed.candidates)) {
-        logExtractFailure(prompt.name, raw);
-        return res.json({ ok: false, model: msg.model, usage: msg.usage, error: "model did not return candidates", rawText: raw });
+        logExtractFailure(promptDef.name, raw);
+        return res.json({ ok: false, model: msg.model, usage: msg.usage, mode, error: "model did not return candidates", rawText: raw });
       }
+
+      // Normalize candidate flags — new fields are optional so old clients don't break.
+      const normalizedCandidates = parsed.candidates.map((c, idx) => ({
+        ...c,
+        isPrimary: mode === "exact_vendor" || mode === "chain_locations"
+          ? (idx === 0 ? true : Boolean(c.isPrimary))
+          : false,
+        isOutOfRange: Boolean(c.isOutOfRange),
+      }));
 
       res.json({
         ok: true,
         model: msg.model,
         usage: msg.usage,
         tripSlug: slug,
+        mode,
+        scopeRadius,
+        vendorName,
+        categoryHint,
         windowSummary: typeof parsed.windowSummary === "string" ? parsed.windowSummary : null,
-        candidates: parsed.candidates,
+        candidates: normalizedCandidates,
         constraints: normalizedConstraints,
         ...(citations.length ? { citations } : {}),
       });
@@ -479,12 +632,22 @@ export function createTripEditRouter({ anthropic, DEFAULT_MODEL }) {
     }
   });
 
-  // Body: { tripSlug, dayIndex, eventIndex, event: { time, event, tag, venue?, phone?, rating?, notes?, duration_min?, category? } }
-  //   eventIndex: the position to insert at. Existing events at this index
-  //     and beyond shift one slot later (JSON-Patch add semantics).
+  // Body: { tripSlug, dayIndex, eventIndex, event: { time, event, tag, venue?, phone?, rating?, notes?, duration_min?, category?, driveMinutes? }, meta?: { intent_mode?, scope_radius? } }
+  //   eventIndex: position to insert at. Existing events shift per JSON-Patch add.
+  //
+  //   Server-side enrichment before write (fail-soft on ORS unavailable):
+  //     1. Geocode event.venue via ORS → lat, lng, place_id, geocoded_at
+  //     2. Read the prev event's coords (from the same day, index-1) and compute
+  //        ORS driving duration. Compare to event.driveMinutes (AI-reported).
+  //        If delta > 50% of ORS value, attach drive_time_validated=false to the
+  //        event notes metadata and edit-log. Event is NOT blocked.
+  //
+  //   meta.intent_mode / meta.scope_radius are recorded in the edit-log only
+  //   (not persisted to trip.yaml) for forensic replay of the Add Event modal.
+  //
   // Runs through applyTripEdit so the destination-card validator still fires.
   router.post("/api/insert-event", async (req, res) => {
-    const { tripSlug, dayIndex, eventIndex, event } = req.body ?? {};
+    const { tripSlug, dayIndex, eventIndex, event, meta } = req.body ?? {};
     if (!Number.isInteger(dayIndex) || !Number.isInteger(eventIndex) || dayIndex < 0 || eventIndex < 0) {
       return res.status(400).json({ ok: false, error: "dayIndex and eventIndex (non-negative integers) are required" });
     }
@@ -501,12 +664,11 @@ export function createTripEditRouter({ anthropic, DEFAULT_MODEL }) {
       const slug = tripSlug || (await getActiveTripSlug());
       const ALLOWED_KEYS = new Set([
         "time", "event", "tag", "venue", "phone", "rating", "notes", "duration_min", "category",
-        // Itinerary drag-reorder substrate (Phase A, 2026-04-19):
-        "time_mode",     // "anchor" | "flex" — "anchor" = time is fixed (flights, reservations)
-        "lat", "lng",    // geocoded coords (GeoJSON order preserved by ORS)
-        "place_id",      // stable venue identifier (ors:label|lng,lat)
-        "geocoded_at",   // ISO timestamp of last geocode (for staleness checks)
-        "drive_min_to_next",  // server-computed; persisted after recalc
+        "time_mode",
+        "lat", "lng",
+        "place_id",
+        "geocoded_at",
+        "drive_min_to_next",
       ]);
       const clean = {};
       for (const [k, v] of Object.entries(event)) {
@@ -514,17 +676,93 @@ export function createTripEditRouter({ anthropic, DEFAULT_MODEL }) {
         if (v == null || v === "") continue;
         clean[k] = v;
       }
+
+      // --- ORS auto-geocode (fail-soft) -----------------------------------
+      // Only geocode if we have a venue AND the client didn't already supply
+      // lat/lng. Keeps client-provided coords authoritative.
+      let geocodeResult = null;
+      const needsGeocode = typeof clean.venue === "string" && clean.venue.trim() && (!Number.isFinite(clean.lat) || !Number.isFinite(clean.lng));
+      if (needsGeocode && orsConfigured()) {
+        try {
+          // Read trip for focus-point bias (prev event coords or trip.base).
+          let focus;
+          try {
+            const tripForFocus = await readTripObj(slug);
+            const dayForFocus = tripForFocus?.days?.[dayIndex];
+            const prevEv = dayForFocus?.events?.[eventIndex - 1];
+            if (prevEv && Number.isFinite(prevEv.lat) && Number.isFinite(prevEv.lng)) {
+              focus = { lat: prevEv.lat, lng: prevEv.lng };
+            }
+          } catch { /* best-effort focus */ }
+          geocodeResult = await orsGeocode(clean.venue, { focus, size: 1 });
+          if (geocodeResult.ok && geocodeResult.candidates?.[0]) {
+            const top = geocodeResult.candidates[0];
+            clean.lat = top.lat;
+            clean.lng = top.lng;
+            clean.place_id = top.place_id;
+            clean.geocoded_at = new Date().toISOString();
+          }
+        } catch (err) {
+          // Swallow — fail-soft per DoR.
+          geocodeResult = { ok: false, key: orsConfigured(), error: err?.message ?? String(err) };
+        }
+      }
+
+      // --- ORS drive-time validation (fail-soft) --------------------------
+      // Compare client-reported driveMinutes (if any) against ORS directions
+      // from prev event. Annotate meta only; never block the save.
+      let driveTimeValidated = null;
+      let driveTimeOrsMin = null;
+      const reportedDriveMin = Number.isFinite(event?.driveMinutes) ? event.driveMinutes : null;
+      if (orsConfigured() && Number.isFinite(clean.lat) && Number.isFinite(clean.lng)) {
+        try {
+          const tripForDrive = await readTripObj(slug);
+          const prevEv = tripForDrive?.days?.[dayIndex]?.events?.[eventIndex - 1];
+          if (prevEv && Number.isFinite(prevEv.lat) && Number.isFinite(prevEv.lng)) {
+            const dir = await orsDirections(
+              { lat: prevEv.lat, lng: prevEv.lng },
+              { lat: clean.lat, lng: clean.lng },
+            );
+            if (dir.ok) {
+              driveTimeOrsMin = Math.round(dir.duration_s / 60);
+              if (reportedDriveMin != null) {
+                const delta = Math.abs(driveTimeOrsMin - reportedDriveMin);
+                const threshold = Math.max(5, driveTimeOrsMin * 0.5);
+                driveTimeValidated = delta <= threshold;
+              }
+            }
+          }
+        } catch { /* fail-soft */ }
+      }
+
+      // driveMinutes from the AI payload is NOT persisted — the client-side
+      // card stores it as presentation metadata only. Reject it here so it
+      // doesn't land in trip.yaml.
+      delete clean.driveMinutes;
+
       const patch = [{ op: "add", path: `/days/${dayIndex}/events/${eventIndex}`, value: clean }];
       const applied = await applyTripEdit(slug, {
         intent: `Insert "${clean.event}" on day ${dayIndex + 1}`,
         patch,
       });
+
+      // Forensic metadata for edit-log (not persisted to trip.yaml).
+      const logMeta = {
+        intent_mode: typeof meta?.intent_mode === "string" ? meta.intent_mode : null,
+        scope_radius: ALLOWED_SCOPE_RADIUS.has(meta?.scope_radius) ? meta.scope_radius : null,
+        geocoded: geocodeResult?.ok === true,
+        geocode_error: geocodeResult && !geocodeResult.ok ? geocodeResult.error : null,
+        drive_time_reported_min: reportedDriveMin,
+        drive_time_ors_min: driveTimeOrsMin,
+        drive_time_validated: driveTimeValidated,
+      };
+
       if (!applied.ok) {
-        shadow("edit-log", { id: applied.id || `ins-fail-${Date.now()}`, tripSlug: slug, intent: "insert-event", source: "manual-insert", appliedPatch: patch, status: "failed", error: applied.error });
-        return res.status(400).json({ ok: false, error: applied.error, errors: applied.errors });
+        shadow("edit-log", { id: applied.id || `ins-fail-${Date.now()}`, tripSlug: slug, intent: "insert-event", source: "manual-insert", appliedPatch: patch, status: "failed", error: applied.error, meta: logMeta });
+        return res.status(400).json({ ok: false, error: applied.error, errors: applied.errors, enrichment: logMeta });
       }
-      shadow("edit-log", { id: applied.id, tripSlug: slug, intent: "insert-event", source: "manual-insert", appliedPatch: patch, status: "applied", snapshotId: applied.snapshotId });
-      res.json({ ok: true, tripSlug: slug, ...applied });
+      shadow("edit-log", { id: applied.id, tripSlug: slug, intent: "insert-event", source: "manual-insert", appliedPatch: patch, status: "applied", snapshotId: applied.snapshotId, meta: logMeta });
+      res.json({ ok: true, tripSlug: slug, enrichment: logMeta, ...applied });
     } catch (err) {
       res.status(502).json({ ok: false, error: err?.message ?? String(err) });
     }

@@ -3183,5 +3183,1731 @@
     "snapshotRef": "trips/2026-04-ishrat-engagement/snapshots/trip.yaml-847a651a-0fda-4270-bd78-f51b98ae311d.yaml",
     "actor": "refine-all",
     "status": "applied"
+  },
+  {
+    "schemaVersion": "1",
+    "id": "85e768df-2750-44a0-9009-f0c6bee5ae12",
+    "createdAt": "2026-04-21T18:06:44.297Z",
+    "tripSlug": "2026-04-ishrat-engagement",
+    "target": "trip.yaml",
+    "intent": "Delete Dessert at Crispy Cones from day 2",
+    "patch": [
+      {
+        "op": "remove",
+        "path": "/days/1/events/3"
+      }
+    ],
+    "inversePatch": [
+      {
+        "op": "add",
+        "path": "/days/1/events/3",
+        "value": {
+          "time": "1:39 PM",
+          "event": "Dessert at Crispy Cones",
+          "venue": "Wick Plaza, 1199 Amboy Ave, Edison, NJ 08837",
+          "tag": "DINING",
+          "phone": "(732) 744-0123",
+          "rating": 4.7,
+          "notes": "Walk over in the same plaza for Shark Tank-famous rotisserie dough cones with soft serve. Open till 11 PM. [Shifted from 7:30 PM so it starts after Pho House dinner ends at ~7:45 PM.]",
+          "category": "Ice Cream · Sweet Cones",
+          "duration_min": 30,
+          "time_mode": "flex",
+          "lat": 40.529456,
+          "lng": -74.317879,
+          "place_id": "openstreetmap:street:polyline:28596916",
+          "geocoded_at": "2026-04-19T16:29:38.581Z"
+        }
+      }
+    ],
+    "snapshotRef": "trips/2026-04-ishrat-engagement/snapshots/trip.yaml-85e768df-2750-44a0-9009-f0c6bee5ae12.yaml",
+    "actor": "app",
+    "status": "applied"
+  },
+  {
+    "schemaVersion": "1",
+    "id": "47a85f4a-b890-4a50-8e5d-df755937ce9c",
+    "createdAt": "2026-04-21T18:30:29.107Z",
+    "tripSlug": "2026-04-ishrat-engagement",
+    "target": "trip.yaml",
+    "intent": "Insert \"Shop & Browse at Menlo Park Mall\" on day 2",
+    "patch": [
+      {
+        "op": "add",
+        "path": "/days/1/events/1",
+        "value": {
+          "time": "12:00 PM",
+          "event": "Shop & Browse at Menlo Park Mall",
+          "tag": "SHOPPING",
+          "duration_min": 120,
+          "category": "Super-Regional Shopping Mall · Fashion, Beauty & Gifts",
+          "venue": "55 Parsonage Rd, Edison, NJ 08837",
+          "phone": "(732) 494-6255",
+          "rating": 4.2
+        }
+      }
+    ],
+    "inversePatch": [
+      {
+        "op": "remove",
+        "path": "/days/1/events/3"
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/2/drive_min_to_next",
+        "value": 24
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/2/place_id",
+        "value": "openstreetmap:street:polyline:28594523"
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/2/lng",
+        "value": -74.467663
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/2/lat",
+        "value": 40.480371
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/2/duration_min",
+        "value": 180
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/2/category",
+        "value": "Hotel · Downtime"
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/2/notes",
+        "value": "Straight back to hotel after lunch (~5 min drive). Extended 3-hour nap — jet lag recovery is today's priority with no afternoon appointment. Ishrat can sleep deep through this window."
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/2/rating",
+        "value": 4.1
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/2/phone",
+        "value": "(732) 729-0900"
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/2/tag",
+        "value": "REST"
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/2/venue",
+        "value": "Home2 Suites by Hilton, 3 Jersey Ave, New Brunswick, NJ 08901"
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/2/event",
+        "value": "Hotel Rest / Long Nap"
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/2/time",
+        "value": "10:15 AM"
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/1/rating",
+        "value": 4.7
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/1/phone",
+        "value": "(732) 744-0123"
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/1/venue",
+        "value": "Wick Plaza, 1199 Amboy Ave, Edison, NJ 08837"
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/1/category",
+        "value": "Ice Cream · Sweet Cones"
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/1/duration_min",
+        "value": 75
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/1/tag",
+        "value": "DINING"
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/1/event",
+        "value": "Dinner at The Pho House"
+      },
+      {
+        "op": "replace",
+        "path": "/days/1/events/1/time",
+        "value": "6:00 PM"
+      },
+      {
+        "op": "add",
+        "path": "/days/1/events/1/notes",
+        "value": "Walk over in the same plaza for Shark Tank-famous rotisserie dough cones with soft serve. Open till 11 PM. [Shifted from 7:30 PM so it starts after Pho House dinner ends at ~7:45 PM.]"
+      },
+      {
+        "op": "add",
+        "path": "/days/1/events/1/time_mode",
+        "value": "flex"
+      },
+      {
+        "op": "add",
+        "path": "/days/1/events/1/lat",
+        "value": 40.529456
+      },
+      {
+        "op": "add",
+        "path": "/days/1/events/1/lng",
+        "value": -74.317879
+      },
+      {
+        "op": "add",
+        "path": "/days/1/events/1/place_id",
+        "value": "openstreetmap:street:polyline:28596916"
+      },
+      {
+        "op": "add",
+        "path": "/days/1/events/1/geocoded_at",
+        "value": "2026-04-19T16:29:38.581Z"
+      },
+      {
+        "op": "add",
+        "path": "/days/1/events/1/drive_min_to_next",
+        "value": 23
+      }
+    ],
+    "snapshotRef": "trips/2026-04-ishrat-engagement/snapshots/trip.yaml-47a85f4a-b890-4a50-8e5d-df755937ce9c.yaml",
+    "actor": "app",
+    "status": "applied"
+  },
+  {
+    "schemaVersion": "1",
+    "id": "21a94e55-ae06-415e-b882-c24cea7db929",
+    "createdAt": "2026-04-21T18:30:37.734Z",
+    "tripSlug": "2026-04-ishrat-engagement",
+    "target": "trip.yaml",
+    "intent": "Swap event 2.2 → Menlo Park Mall",
+    "patch": [
+      {
+        "op": "replace",
+        "path": "/days/1/events/1/event",
+        "value": "Menlo Park Mall"
+      }
+    ],
+    "inversePatch": [
+      {
+        "op": "replace",
+        "path": "/days/1/events/1/event",
+        "value": "Shop & Browse at Menlo Park Mall"
+      }
+    ],
+    "snapshotRef": "trips/2026-04-ishrat-engagement/snapshots/trip.yaml-21a94e55-ae06-415e-b882-c24cea7db929.yaml",
+    "actor": "app",
+    "status": "applied"
+  },
+  {
+    "schemaVersion": "1",
+    "id": "e8e908fa-43ba-4f2a-83a0-0f311914dacf",
+    "createdAt": "2026-04-21T18:31:09.955Z",
+    "tripSlug": "2026-04-ishrat-engagement",
+    "target": "trip.yaml",
+    "intent": "Delete J&G South Bound Brook Diner from day 3",
+    "patch": [
+      {
+        "op": "remove",
+        "path": "/days/2/events/0"
+      }
+    ],
+    "inversePatch": [
+      {
+        "op": "replace",
+        "path": "/days/2/events/3/place_id",
+        "value": "openstreetmap:street:polyline:31146670"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/3/lng",
+        "value": -74.299861
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/3/lat",
+        "value": 40.563631
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/3/duration_min",
+        "value": 90
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/3/category",
+        "value": "Korean BBQ · Tabletop Grill"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/3/notes",
+        "value": "Prime No. 7 — Halal all-you-can-eat Korean BBQ. Eat early so you're ready for the 7 PM movie."
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/3/rating",
+        "value": 4.6
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/3/phone",
+        "value": "(732) 404-0077"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/3/tag",
+        "value": "DINING"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/3/venue",
+        "value": "Prime No. 7, 517 US-1, Iselin, NJ 08830"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/3/event",
+        "value": "Early Date Night Dinner"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/3/time",
+        "value": "11:42 AM"
+      },
+      {
+        "op": "add",
+        "path": "/days/2/events/3/drive_min_to_next",
+        "value": 20
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/drive_min_to_next",
+        "value": 27
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/place_id",
+        "value": "openstreetmap:street:polyline:28594523"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/lng",
+        "value": -74.467663
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/lat",
+        "value": 40.480371
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/category",
+        "value": "Hotel · Downtime"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/notes",
+        "value": "Lunch ends ~1:15 PM; 10-min drive back puts us at hotel by 1:25 PM. 90-min nap window before the Korean BBQ + IMAX evening. Critical rest so she's fresh for a 2.5-hr movie."
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/rating",
+        "value": 4.1
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/phone",
+        "value": "(732) 729-0900"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/tag",
+        "value": "REST"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/venue",
+        "value": "Home2 Suites by Hilton, 3 Jersey Ave, New Brunswick, NJ 08901"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/event",
+        "value": "Hotel Nap"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/time",
+        "value": "9:45 AM"
+      },
+      {
+        "op": "remove",
+        "path": "/days/2/events/1/drive_min_to_next"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/place_id",
+        "value": "whosonfirst:region:85688607"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/lng",
+        "value": -74.738208
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/lat",
+        "value": 39.66502
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/duration_min",
+        "value": 75
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/category",
+        "value": "Thai · Light Bites"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/rating",
+        "value": 4.4
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/phone",
+        "value": "(732) 651-2737"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/notes",
+        "value": "Keep it light (~10 min) — share a soup and appetizer. Korean BBQ dinner at 4:30 PM, then movie at 7."
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/tag",
+        "value": "DINING"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/venue",
+        "value": "1050 Route 18 North, East Brunswick, NJ 08816"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/event",
+        "value": "Gusto Grill"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/time",
+        "value": "8:30 AM"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/place_id",
+        "value": "openstreetmap:street:polyline:13485777"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/lng",
+        "value": -74.526708
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/lat",
+        "value": 40.554389
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/duration_min",
+        "value": 60
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/category",
+        "value": "American · Classic Diner"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/notes",
+        "value": "Classic 24-hour NJ diner (~15 min) — famous breakfast platters, fresh-made everything. Stephanie lunch at noon, so keep it light."
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/rating",
+        "value": 4.8
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/phone",
+        "value": "(732) 667-5890"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/venue",
+        "value": "10 Cherry St, South Bound Brook, NJ 08880"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/event",
+        "value": "J&G South Bound Brook Diner"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/time",
+        "value": "7:30 AM"
+      },
+      {
+        "op": "add",
+        "path": "/days/2/events/4",
+        "value": {
+          "time": "1:32 PM",
+          "event": "\"Michael\" IMAX Screening",
+          "venue": "AMC Brunswick Square 13, 755 NJ-18, East Brunswick, NJ 08816",
+          "tag": "ENTERTAINMENT",
+          "phone": "(888) 262-4386",
+          "rating": 4.1,
+          "notes": "Starring Jaafar Jackson, directed by Antoine Fuqua. Runtime ~2.5 hrs. Out by ~9:30 PM. Book on Fandango. Perfect post-dinner date night.",
+          "category": "Cinema · IMAX Premiere",
+          "duration_min": 180,
+          "time_mode": "flex",
+          "lat": 40.461356,
+          "lng": -74.403436,
+          "place_id": "openstreetmap:street:polyline:31142599",
+          "geocoded_at": "2026-04-19T16:29:38.581Z"
+        }
+      }
+    ],
+    "snapshotRef": "trips/2026-04-ishrat-engagement/snapshots/trip.yaml-e8e908fa-43ba-4f2a-83a0-0f311914dacf.yaml",
+    "actor": "app",
+    "status": "applied"
+  },
+  {
+    "schemaVersion": "1",
+    "id": "7421dc4e-93d8-4dd8-b8ed-d538fb7329be",
+    "createdAt": "2026-04-21T18:31:17.724Z",
+    "tripSlug": "2026-04-ishrat-engagement",
+    "target": "trip.yaml",
+    "intent": "Delete Gusto Grill from day 3",
+    "patch": [
+      {
+        "op": "remove",
+        "path": "/days/2/events/0"
+      }
+    ],
+    "inversePatch": [
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/place_id",
+        "value": "openstreetmap:street:polyline:31146670"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/lng",
+        "value": -74.299861
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/lat",
+        "value": 40.563631
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/duration_min",
+        "value": 90
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/category",
+        "value": "Korean BBQ · Tabletop Grill"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/notes",
+        "value": "Prime No. 7 — Halal all-you-can-eat Korean BBQ. Eat early so you're ready for the 7 PM movie."
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/rating",
+        "value": 4.6
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/phone",
+        "value": "(732) 404-0077"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/tag",
+        "value": "DINING"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/venue",
+        "value": "Prime No. 7, 517 US-1, Iselin, NJ 08830"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/event",
+        "value": "Early Date Night Dinner"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/time",
+        "value": "11:42 AM"
+      },
+      {
+        "op": "add",
+        "path": "/days/2/events/2/drive_min_to_next",
+        "value": 20
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/drive_min_to_next",
+        "value": 27
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/place_id",
+        "value": "openstreetmap:street:polyline:28594523"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/lng",
+        "value": -74.467663
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/lat",
+        "value": 40.480371
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/category",
+        "value": "Hotel · Downtime"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/notes",
+        "value": "Lunch ends ~1:15 PM; 10-min drive back puts us at hotel by 1:25 PM. 90-min nap window before the Korean BBQ + IMAX evening. Critical rest so she's fresh for a 2.5-hr movie."
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/rating",
+        "value": 4.1
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/phone",
+        "value": "(732) 729-0900"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/tag",
+        "value": "REST"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/venue",
+        "value": "Home2 Suites by Hilton, 3 Jersey Ave, New Brunswick, NJ 08901"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/event",
+        "value": "Hotel Nap"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/time",
+        "value": "9:45 AM"
+      },
+      {
+        "op": "remove",
+        "path": "/days/2/events/0/drive_min_to_next"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/place_id",
+        "value": "whosonfirst:region:85688607"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/lng",
+        "value": -74.738208
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/lat",
+        "value": 39.66502
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/duration_min",
+        "value": 75
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/category",
+        "value": "Thai · Light Bites"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/rating",
+        "value": 4.4
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/phone",
+        "value": "(732) 651-2737"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/notes",
+        "value": "Keep it light (~10 min) — share a soup and appetizer. Korean BBQ dinner at 4:30 PM, then movie at 7."
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/tag",
+        "value": "DINING"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/venue",
+        "value": "1050 Route 18 North, East Brunswick, NJ 08816"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/event",
+        "value": "Gusto Grill"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/0/time",
+        "value": "8:30 AM"
+      },
+      {
+        "op": "add",
+        "path": "/days/2/events/3",
+        "value": {
+          "time": "1:32 PM",
+          "event": "\"Michael\" IMAX Screening",
+          "venue": "AMC Brunswick Square 13, 755 NJ-18, East Brunswick, NJ 08816",
+          "tag": "ENTERTAINMENT",
+          "phone": "(888) 262-4386",
+          "rating": 4.1,
+          "notes": "Starring Jaafar Jackson, directed by Antoine Fuqua. Runtime ~2.5 hrs. Out by ~9:30 PM. Book on Fandango. Perfect post-dinner date night.",
+          "category": "Cinema · IMAX Premiere",
+          "duration_min": 180,
+          "time_mode": "flex",
+          "lat": 40.461356,
+          "lng": -74.403436,
+          "place_id": "openstreetmap:street:polyline:31142599",
+          "geocoded_at": "2026-04-19T16:29:38.581Z"
+        }
+      }
+    ],
+    "snapshotRef": "trips/2026-04-ishrat-engagement/snapshots/trip.yaml-7421dc4e-93d8-4dd8-b8ed-d538fb7329be.yaml",
+    "actor": "app",
+    "status": "applied"
+  },
+  {
+    "schemaVersion": "1",
+    "id": "f329b5b4-fad1-4026-b64b-487f566281f3",
+    "createdAt": "2026-04-21T18:39:27.912Z",
+    "tripSlug": "2026-04-ishrat-engagement",
+    "target": "trip.yaml",
+    "intent": "refine-all-patch",
+    "patch": [
+      {
+        "op": "add",
+        "path": "/dayoneTags",
+        "value": []
+      }
+    ],
+    "inversePatch": [],
+    "snapshotRef": "trips/2026-04-ishrat-engagement/snapshots/trip.yaml-f329b5b4-fad1-4026-b64b-487f566281f3.yaml",
+    "actor": "refine-all",
+    "status": "applied"
+  },
+  {
+    "schemaVersion": "1",
+    "id": "7c3f4423-a35e-494f-9750-715cb4c67fb8",
+    "createdAt": "2026-04-22T21:03:49.097Z",
+    "tripSlug": "2026-04-ishrat-engagement",
+    "target": "trip.yaml",
+    "intent": "Swap event 3.2 → Met Stephanie at N-Thai",
+    "patch": [
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/event",
+        "value": "Met Stephanie at N-Thai"
+      }
+    ],
+    "inversePatch": [
+      {
+        "op": "replace",
+        "path": "/days/2/events/1/event",
+        "value": "Early Date Night Dinner"
+      }
+    ],
+    "snapshotRef": "trips/2026-04-ishrat-engagement/snapshots/trip.yaml-7c3f4423-a35e-494f-9750-715cb4c67fb8.yaml",
+    "actor": "app",
+    "status": "applied"
+  },
+  {
+    "schemaVersion": "1",
+    "id": "686b9766-7da7-4eb0-95f6-e2746aca10d6",
+    "createdAt": "2026-04-22T21:05:40.600Z",
+    "tripSlug": "2026-04-ishrat-engagement",
+    "target": "trip.yaml",
+    "intent": "Insert \"Quick Browse at J. Junaid Jamshed\" on day 3",
+    "patch": [
+      {
+        "op": "add",
+        "path": "/days/2/events/2",
+        "value": {
+          "time": "1:12 PM",
+          "event": "Quick Browse at J. Junaid Jamshed",
+          "tag": "SHOPPING",
+          "duration_min": 15,
+          "category": "Pakistani & South Asian Ethnic Fashion · Men, Women & Kids Traditional Wear",
+          "venue": "2421 US Highway 1, Unit 3, North Brunswick, NJ 08902",
+          "phone": "(732) 940-6000",
+          "rating": 4
+        }
+      }
+    ],
+    "inversePatch": [
+      {
+        "op": "remove",
+        "path": "/days/2/events/3"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/rating",
+        "value": 4.1
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/phone",
+        "value": "(888) 262-4386"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/venue",
+        "value": "AMC Brunswick Square 13, 755 NJ-18, East Brunswick, NJ 08816"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/category",
+        "value": "Cinema · IMAX Premiere"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/duration_min",
+        "value": 180
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/tag",
+        "value": "ENTERTAINMENT"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/event",
+        "value": "\"Michael\" IMAX Screening"
+      },
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/time",
+        "value": "1:32 PM"
+      },
+      {
+        "op": "add",
+        "path": "/days/2/events/2/notes",
+        "value": "Starring Jaafar Jackson, directed by Antoine Fuqua. Runtime ~2.5 hrs. Out by ~9:30 PM. Book on Fandango. Perfect post-dinner date night."
+      },
+      {
+        "op": "add",
+        "path": "/days/2/events/2/time_mode",
+        "value": "flex"
+      },
+      {
+        "op": "add",
+        "path": "/days/2/events/2/lat",
+        "value": 40.461356
+      },
+      {
+        "op": "add",
+        "path": "/days/2/events/2/lng",
+        "value": -74.403436
+      },
+      {
+        "op": "add",
+        "path": "/days/2/events/2/place_id",
+        "value": "openstreetmap:street:polyline:31142599"
+      },
+      {
+        "op": "add",
+        "path": "/days/2/events/2/geocoded_at",
+        "value": "2026-04-19T16:29:38.581Z"
+      }
+    ],
+    "snapshotRef": "trips/2026-04-ishrat-engagement/snapshots/trip.yaml-686b9766-7da7-4eb0-95f6-e2746aca10d6.yaml",
+    "actor": "app",
+    "status": "applied"
+  },
+  {
+    "schemaVersion": "1",
+    "id": "d7a91a09-f215-45fa-8902-6de074c21282",
+    "createdAt": "2026-04-22T21:05:55.229Z",
+    "tripSlug": "2026-04-ishrat-engagement",
+    "target": "trip.yaml",
+    "intent": "Swap event 3.3 → Junaid Jamshed",
+    "patch": [
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/event",
+        "value": "Junaid Jamshed"
+      }
+    ],
+    "inversePatch": [
+      {
+        "op": "replace",
+        "path": "/days/2/events/2/event",
+        "value": "Quick Browse at J. Junaid Jamshed"
+      }
+    ],
+    "snapshotRef": "trips/2026-04-ishrat-engagement/snapshots/trip.yaml-d7a91a09-f215-45fa-8902-6de074c21282.yaml",
+    "actor": "app",
+    "status": "applied"
+  },
+  {
+    "schemaVersion": "1",
+    "id": "14f086cc-9c01-4f4c-a8ce-1c73ca13e77b",
+    "createdAt": "2026-04-24T18:17:47.882Z",
+    "tripSlug": "2026-04-ishrat-engagement",
+    "target": "trip.yaml",
+    "intent": "Swap event 5.2 → Menol Park Mall",
+    "patch": [
+      {
+        "op": "replace",
+        "path": "/days/4/events/1/event",
+        "value": "Menol Park Mall"
+      }
+    ],
+    "inversePatch": [
+      {
+        "op": "replace",
+        "path": "/days/4/events/1/event",
+        "value": "Final Preparations"
+      }
+    ],
+    "snapshotRef": "trips/2026-04-ishrat-engagement/snapshots/trip.yaml-14f086cc-9c01-4f4c-a8ce-1c73ca13e77b.yaml",
+    "actor": "app",
+    "status": "applied"
+  },
+  {
+    "schemaVersion": "1",
+    "id": "4a5b795b-7e70-4c28-a654-f15a791afd59",
+    "createdAt": "2026-04-24T18:17:58.319Z",
+    "tripSlug": "2026-04-ishrat-engagement",
+    "target": "trip.yaml",
+    "intent": "Swap event 5.3 → Cheesecake Factory",
+    "patch": [
+      {
+        "op": "replace",
+        "path": "/days/4/events/2/event",
+        "value": "Cheesecake Factory"
+      }
+    ],
+    "inversePatch": [
+      {
+        "op": "replace",
+        "path": "/days/4/events/2/event",
+        "value": "Light Post-Salon Lunch at Nirvana Indian"
+      }
+    ],
+    "snapshotRef": "trips/2026-04-ishrat-engagement/snapshots/trip.yaml-4a5b795b-7e70-4c28-a654-f15a791afd59.yaml",
+    "actor": "app",
+    "status": "applied"
+  },
+  {
+    "schemaVersion": "1",
+    "id": "2bc42d13-8dee-443a-8fa8-216a2be6772b",
+    "createdAt": "2026-04-24T18:19:08.380Z",
+    "tripSlug": "2026-04-ishrat-engagement",
+    "target": "trip.yaml",
+    "intent": "Delete Get Ready & Load the Car from day 5",
+    "patch": [
+      {
+        "op": "remove",
+        "path": "/days/4/events/3"
+      }
+    ],
+    "inversePatch": [
+      {
+        "op": "replace",
+        "path": "/days/4/events/4/place_id",
+        "value": "openstreetmap:street:polyline:13460651"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/4/lng",
+        "value": -73.865458
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/4/lat",
+        "value": 40.734033
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/4/time_mode",
+        "value": "anchor"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/4/duration_min",
+        "value": 105
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/4/category"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/4/phone"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/4/notes",
+        "value": "ETA ~4:45–5:15 PM via Holland Tunnel → LIE. Friday evening traffic adds 20–30 min. Leave by 3:30 PM sharp—no later."
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/4/tag",
+        "value": "TRAVEL"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/4/venue",
+        "value": "183-10 Horace Harding Expy, NY 11365"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/4/event",
+        "value": "Drive to Fresh Meadows, Queens"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/4/time",
+        "value": "3:30 PM"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/3/geocoded_at"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/3/place_id"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/3/lng"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/3/lat"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/time_mode",
+        "value": "flex"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/duration_min",
+        "value": 75
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/notes",
+        "value": "Lunch ends 2:00 PM, 5-min drive puts us at hotel by 2:10 PM. Get dressed, final touch-ups, fill gas, load car. Be road-ready by 3:30 PM."
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/tag",
+        "value": "PREPARATION"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/venue",
+        "value": ""
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/event",
+        "value": "Get Ready & Load the Car"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/time",
+        "value": "2:15 PM"
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/5",
+        "value": {
+          "time": "~5:30 PM",
+          "event": "The Celebration",
+          "venue": "Ganesh Temple Society Banquet Hall, 183-10 Horace Harding Expy, Fresh Meadows, NY 11365",
+          "tag": "ENGAGEMENT_HIGHLIGHT",
+          "notes": "An unforgettable evening of family, love, and new beginnings.",
+          "phone": "(718) 460-8484",
+          "category": "Engagement Celebration",
+          "duration_min": 360,
+          "time_mode": "flex",
+          "lat": 40.73482,
+          "lng": -73.79347,
+          "place_id": "geonames:locality:5118005",
+          "geocoded_at": "2026-04-19T16:29:38.581Z"
+        }
+      }
+    ],
+    "snapshotRef": "trips/2026-04-ishrat-engagement/snapshots/trip.yaml-2bc42d13-8dee-443a-8fa8-216a2be6772b.yaml",
+    "actor": "app",
+    "status": "applied"
+  },
+  {
+    "schemaVersion": "1",
+    "id": "72fcea62-7807-4302-8f76-3d3ebd5367de",
+    "createdAt": "2026-04-24T18:19:26.437Z",
+    "tripSlug": "2026-04-ishrat-engagement",
+    "target": "trip.yaml",
+    "intent": "Delete Drive to Fresh Meadows, Queens from day 5",
+    "patch": [
+      {
+        "op": "remove",
+        "path": "/days/4/events/3"
+      }
+    ],
+    "inversePatch": [
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/place_id",
+        "value": "openstreetmap:street:polyline:13460651"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/lng",
+        "value": -73.865458
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/lat",
+        "value": 40.734033
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/time_mode",
+        "value": "anchor"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/duration_min",
+        "value": 105
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/3/category"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/3/phone"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/notes",
+        "value": "ETA ~4:45–5:15 PM via Holland Tunnel → LIE. Friday evening traffic adds 20–30 min. Leave by 3:30 PM sharp—no later."
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/tag",
+        "value": "TRAVEL"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/venue",
+        "value": "183-10 Horace Harding Expy, NY 11365"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/event",
+        "value": "Drive to Fresh Meadows, Queens"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/time",
+        "value": "3:30 PM"
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/4",
+        "value": {
+          "time": "~5:30 PM",
+          "event": "The Celebration",
+          "venue": "Ganesh Temple Society Banquet Hall, 183-10 Horace Harding Expy, Fresh Meadows, NY 11365",
+          "tag": "ENGAGEMENT_HIGHLIGHT",
+          "notes": "An unforgettable evening of family, love, and new beginnings.",
+          "phone": "(718) 460-8484",
+          "category": "Engagement Celebration",
+          "duration_min": 360,
+          "time_mode": "flex",
+          "lat": 40.73482,
+          "lng": -73.79347,
+          "place_id": "geonames:locality:5118005",
+          "geocoded_at": "2026-04-19T16:29:38.581Z"
+        }
+      }
+    ],
+    "snapshotRef": "trips/2026-04-ishrat-engagement/snapshots/trip.yaml-72fcea62-7807-4302-8f76-3d3ebd5367de.yaml",
+    "actor": "app",
+    "status": "applied"
+  },
+  {
+    "schemaVersion": "1",
+    "id": "095ada17-dff5-4892-8adf-e8e397df13c7",
+    "createdAt": "2026-04-24T19:51:21.028Z",
+    "tripSlug": "2026-04-ishrat-engagement",
+    "target": "trip.yaml",
+    "intent": "Insert \"Stewart's Root Beer at East Brunswick\" on day 5",
+    "patch": [
+      {
+        "op": "add",
+        "path": "/days/4/events/1",
+        "value": {
+          "time": "9:00 AM",
+          "event": "Stewart's Root Beer at East Brunswick",
+          "tag": "DINING",
+          "duration_min": 30,
+          "category": "Classic Drive-In · American Comfort Food",
+          "venue": "647 NJ-18, East Brunswick, NJ 08816",
+          "phone": "(732) 251-4030",
+          "rating": 4.4,
+          "lat": 40.461356,
+          "lng": -74.403436,
+          "place_id": "openstreetmap:street:polyline:31142599",
+          "geocoded_at": "2026-04-24T19:51:20.889Z"
+        }
+      }
+    ],
+    "inversePatch": [
+      {
+        "op": "remove",
+        "path": "/days/4/events/4"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/place_id",
+        "value": "geonames:locality:5118005"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/lng",
+        "value": -73.79347
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/lat",
+        "value": 40.73482
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/duration_min",
+        "value": 360
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/category",
+        "value": "Engagement Celebration"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/3/rating"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/phone",
+        "value": "(718) 460-8484"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/notes",
+        "value": "Formal invitation time. An unforgettable evening of family, love, and new beginnings."
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/tag",
+        "value": "ENGAGEMENT_HIGHLIGHT"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/venue",
+        "value": "Ganesh Temple Society Banquet Hall, 183-10 Horace Harding Expy, Fresh Meadows, NY 11365"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/event",
+        "value": "Engagement Party"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/time",
+        "value": "6:30 PM"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/2/duration_min",
+        "value": 60
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/2/notes",
+        "value": "Salon wraps ~12:45 PM. Quick light lunch (soup + salad or light sandwich) within 5 min of the hotel — protects appetite for the heavy party dinner tonight. Panera or a nearby local cafe works."
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/2/tag",
+        "value": "DINING"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/2/venue",
+        "value": "80 NJ-18, East Brunswick, NJ 08816"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/2/event",
+        "value": "Cheesecake Factory"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/2/time",
+        "value": "1:00 PM"
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/2/phone",
+        "value": "(732) 418-0020"
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/2/rating",
+        "value": 4.4
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/2/category",
+        "value": "Indian · Light Lunch"
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/2/lat",
+        "value": 40.461356
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/2/lng",
+        "value": -74.403436
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/2/place_id",
+        "value": "openstreetmap:street:polyline:31142599"
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/2/geocoded_at",
+        "value": "2026-04-19T16:29:38.581Z"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/1/geocoded_at"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/1/place_id"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/1/lng"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/1/lat"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/1/rating"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/1/phone"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/1/venue",
+        "value": ""
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/1/category"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/1/duration_min",
+        "value": 165
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/1/tag",
+        "value": "PREPARATION"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/1/event",
+        "value": "Menol Park Mall"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/1/time",
+        "value": "10:00 AM"
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/1/notes",
+        "value": "Hair and nails appointment — allow the full 2h 45m window. Final outfit check, steam dress, pack essentials. Salon wraps ~12:45 PM."
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/1/time_mode",
+        "value": "flex"
+      }
+    ],
+    "snapshotRef": "trips/2026-04-ishrat-engagement/snapshots/trip.yaml-095ada17-dff5-4892-8adf-e8e397df13c7.yaml",
+    "actor": "app",
+    "status": "applied"
+  },
+  {
+    "schemaVersion": "1",
+    "id": "9b967c00-f255-462e-9f06-80c57ae290a5",
+    "createdAt": "2026-04-24T19:51:27.113Z",
+    "tripSlug": "2026-04-ishrat-engagement",
+    "target": "trip.yaml",
+    "intent": "Delete Breakfast at Omega Diner from day 5",
+    "patch": [
+      {
+        "op": "remove",
+        "path": "/days/4/events/0"
+      }
+    ],
+    "inversePatch": [
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/place_id",
+        "value": "openstreetmap:street:polyline:31142599"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/lng",
+        "value": -74.403436
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/lat",
+        "value": 40.461356
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/duration_min",
+        "value": 60
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/category",
+        "value": "Indian · Light Lunch"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/phone",
+        "value": "(732) 418-0020"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/notes",
+        "value": "Salon wraps ~12:45 PM. Quick light lunch (soup + salad or light sandwich) within 5 min of the hotel — protects appetite for the heavy party dinner tonight. Panera or a nearby local cafe works."
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/tag",
+        "value": "DINING"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/venue",
+        "value": "80 NJ-18, East Brunswick, NJ 08816"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/event",
+        "value": "Cheesecake Factory"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/3/time",
+        "value": "1:00 PM"
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/3/rating",
+        "value": 4.4
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/2/geocoded_at"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/2/place_id"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/2/lng"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/2/lat"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/2/duration_min",
+        "value": 165
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/2/category"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/2/rating"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/2/phone"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/2/notes",
+        "value": "Hair and nails appointment — allow the full 2h 45m window. Final outfit check, steam dress, pack essentials. Salon wraps ~12:45 PM."
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/2/tag",
+        "value": "PREPARATION"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/2/venue",
+        "value": ""
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/2/event",
+        "value": "Menol Park Mall"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/2/time",
+        "value": "10:00 AM"
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/1/time_mode"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/1/duration_min",
+        "value": 30
+      },
+      {
+        "op": "remove",
+        "path": "/days/4/events/1/notes"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/1/tag",
+        "value": "DINING"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/1/venue",
+        "value": "647 NJ-18, East Brunswick, NJ 08816"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/1/event",
+        "value": "Stewart's Root Beer at East Brunswick"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/1/time",
+        "value": "9:00 AM"
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/1/category",
+        "value": "Classic Drive-In · American Comfort Food"
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/1/phone",
+        "value": "(732) 251-4030"
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/1/rating",
+        "value": 4.4
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/1/lat",
+        "value": 40.461356
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/1/lng",
+        "value": -74.403436
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/1/place_id",
+        "value": "openstreetmap:street:polyline:31142599"
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/1/geocoded_at",
+        "value": "2026-04-24T19:51:20.889Z"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/0/geocoded_at",
+        "value": "2026-04-19T16:29:38.581Z"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/0/place_id",
+        "value": "openstreetmap:street:polyline:31142672"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/0/lng",
+        "value": -74.440849
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/0/lat",
+        "value": 40.466747
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/0/rating",
+        "value": 4.3
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/0/phone",
+        "value": "(732) 246-1444"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/0/venue",
+        "value": "1337 US-1, North Brunswick, NJ 08902"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/0/category",
+        "value": "American · Classic Diner"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/0/duration_min",
+        "value": 60
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/0/event",
+        "value": "Breakfast at Omega Diner"
+      },
+      {
+        "op": "replace",
+        "path": "/days/4/events/0/time",
+        "value": "7:30 AM"
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/0/notes",
+        "value": "Classic American diner (~5 min) — light eggs, toast, tea. Keep it easy; the engagement party tonight will be a heavy dinner."
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/0/time_mode",
+        "value": "flex"
+      },
+      {
+        "op": "add",
+        "path": "/days/4/events/4",
+        "value": {
+          "time": "6:30 PM",
+          "event": "Engagement Party",
+          "venue": "Ganesh Temple Society Banquet Hall, 183-10 Horace Harding Expy, Fresh Meadows, NY 11365",
+          "tag": "ENGAGEMENT_HIGHLIGHT",
+          "notes": "Formal invitation time. An unforgettable evening of family, love, and new beginnings.",
+          "phone": "(718) 460-8484",
+          "category": "Engagement Celebration",
+          "duration_min": 360,
+          "time_mode": "flex",
+          "lat": 40.73482,
+          "lng": -73.79347,
+          "place_id": "geonames:locality:5118005",
+          "geocoded_at": "2026-04-19T16:29:38.581Z"
+        }
+      }
+    ],
+    "snapshotRef": "trips/2026-04-ishrat-engagement/snapshots/trip.yaml-9b967c00-f255-462e-9f06-80c57ae290a5.yaml",
+    "actor": "app",
+    "status": "applied"
   }
 ]

@@ -17,6 +17,10 @@ import ingestItineraryPrompt from "./ingest-itinerary.js";
 import tripEditPrompt from "./trip-edit.js";
 import findAlternativesPrompt from "./find-alternatives.js";
 import suggestInsertEventPrompt from "./suggest-insert-event.js";
+import classifyInsertIntentPrompt from "./insert/classify-intent.js";
+import suggestInsertExactVendorPrompt from "./insert/exact-vendor.js";
+import suggestInsertCategorySearchPrompt from "./insert/category-search.js";
+import suggestInsertChainLocationsPrompt from "./insert/chain-locations.js";
 import themeSwatchesPrompt from "./theme-swatches.js";
 import themeReviewPrompt from "./theme-review.js";
 import classifyHolidayTxnsPrompt from "./classify-holiday-txns.js";
@@ -43,6 +47,10 @@ const REGISTRY = Object.freeze({
   [tripEditPrompt.name]: tripEditPrompt,
   [findAlternativesPrompt.name]: findAlternativesPrompt,
   [suggestInsertEventPrompt.name]: suggestInsertEventPrompt,
+  [classifyInsertIntentPrompt.name]: classifyInsertIntentPrompt,
+  [suggestInsertExactVendorPrompt.name]: suggestInsertExactVendorPrompt,
+  [suggestInsertCategorySearchPrompt.name]: suggestInsertCategorySearchPrompt,
+  [suggestInsertChainLocationsPrompt.name]: suggestInsertChainLocationsPrompt,
   [themeSwatchesPrompt.name]: themeSwatchesPrompt,
   [themeReviewPrompt.name]: themeReviewPrompt,
   [classifyHolidayTxnsPrompt.name]: classifyHolidayTxnsPrompt,
