@@ -25,9 +25,9 @@
   var NON_DEST_TAGS = ['TRAVEL', 'APPOINTMENT', 'FREE'];
   var ALL_TAGS = DESTINATION_TAGS.concat(NON_DEST_TAGS);
 
-  // Starter chips — non-sending (they fill the input so the user can edit
-  // before sending). Wording meant to be specific enough to nudge the AI
-  // toward the real-venue lane.
+  // Starter chips — demoted to the collapsed "Quick starts" row below the
+  // prompt box in the redesigned panel. Clicking a chip fills the input so
+  // the user can edit before sending (no auto-send).
   var STARTER_CHIPS = [
     { label: 'Halal dinner nearby', text: 'A halal dinner spot within 15 minutes of the prior stop, mid-range.' },
     { label: 'Coffee / tea break', text: 'A specialty coffee or tea spot, cozy, quick 30-min stop.' },
@@ -36,9 +36,27 @@
     { label: 'Date-night drinks', text: 'A romantic bar or lounge for couple\'s drinks, quiet and well-rated.' },
   ];
 
+  // Scope radius chips — controls the hard drive-time cap applied by the
+  // server sub-prompt. Smart default is computed from gap window size.
+  var SCOPE_CHIPS = [
+    { key: 'walking', label: 'Walking',       sub: '≤ 5 min',    capMin: 5 },
+    { key: '15min',   label: '≤ 15 min drive', sub: 'Nearby',    capMin: 15 },
+    { key: '30min',   label: '≤ 30 min drive', sub: 'Short hop', capMin: 30 },
+    { key: 'expand',  label: 'Expand',        sub: 'County-wide', capMin: 60 },
+  ];
+
+  // Smart scope default: tight gap → tighter radius. Respects the idea that
+  // you can't drive 30 min out-and-back in a 1h gap.
+  function defaultScopeForGap(gapMin) {
+    if (!Number.isFinite(gapMin) || gapMin <= 0) return '15min';
+    if (gapMin <= 60)  return '15min';
+    if (gapMin <= 150) return '30min';
+    return '30min'; // expand is only set manually; conservative default
+  }
+
   var PROGRESS_STEPS = [
+    'Reading your request\u2026',
     'Searching nearby venues\u2026',
-    'Reading recent reviews\u2026',
     'Cross-checking ratings and hours\u2026',
     'Ranking by fit and drive time\u2026',
     'Almost there \u2014 hang tight\u2026',
@@ -56,6 +74,10 @@
     manualMode: false,
     modalCtx: null,
     saving: false,
+    // Redesign state (Q1–Q8 locked 2026-04-24)
+    scopeRadius: '30min',   // Walking / ≤15min / ≤30min / Expand
+    lastIntent: null,       // { mode, vendorName, categoryHint, confidence }
+    lastSearchPrompt: null, // remembers the last sent prompt for retry-with-expand
   };
 
   // ─── Utilities ──────────────────────────────────────────────────────
@@ -356,9 +378,16 @@
     m.setAttribute(CHROME_ATTR, '');
     m.hidden = true;
 
-    var chipsHtml = STARTER_CHIPS.map(function (c, i) {
+    var quickStartsHtml = STARTER_CHIPS.map(function (c, i) {
       return '<button type="button" class="insert-chip" data-chip-idx="' + i + '">' +
         escHtml(c.label) + '</button>';
+    }).join('');
+
+    var scopeChipsHtml = SCOPE_CHIPS.map(function (c) {
+      return '<button type="button" class="insert-scope-chip" data-scope="' + c.key + '" aria-pressed="false">' +
+        '<span class="insert-scope-chip-label">' + escHtml(c.label) + '</span>' +
+        '<span class="insert-scope-chip-sub">' + escHtml(c.sub) + '</span>' +
+        '</button>';
     }).join('');
 
     var tagOptions = ALL_TAGS.map(function (t) {
@@ -366,37 +395,68 @@
       return '<option value="' + t + '">' + label + '</option>';
     }).join('');
 
+    // Redesigned single-panel layout (approved 2026-04-24, Q1–Q8 all Option A).
+    // Empty-panel aesthetic, prompt-first, scope-selector, live timeline, demoted
+    // quick-starts, 1-primary+2-fallbacks card grid, manual fallback as secondary link.
     m.innerHTML = [
       '<div class="insert-modal-backdrop"></div>',
-      '<div class="insert-modal-panel" role="dialog" aria-modal="true" aria-labelledby="insert-modal-title">',
+      '<div class="insert-modal-panel insert-modal-panel--v2" role="dialog" aria-modal="true" aria-labelledby="insert-modal-title">',
       '  <button type="button" class="insert-modal-close" aria-label="Close"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>',
       '  <div class="insert-modal-header">',
       '    <div class="insert-modal-eyebrow" id="insert-modal-eyebrow">ADD EVENT</div>',
       '    <h3 class="insert-modal-title" id="insert-modal-title"></h3>',
-      '    <div class="insert-modal-window" id="insert-modal-window"></div>',
       '  </div>',
-      '  <div class="insert-modal-split">',
-           // ─── Left pane — chat ─────────────────────────────────
-      '    <section class="insert-chat" aria-label="AI assistant">',
-      '      <div class="insert-chat-chips" id="insert-chat-chips">' + chipsHtml + '</div>',
-      '      <div class="insert-chat-history" id="insert-chat-history"></div>',
-      '      <div class="insert-chat-inputrow">',
-      '        <textarea id="insert-chat-input" class="insert-chat-input" rows="2" placeholder="Ask the AI to find a spot \u2014 e.g. \u201chalal dinner, quiet, within 15 min drive\u201d" autocomplete="off" spellcheck="false"></textarea>',
-      '        <button type="button" class="insert-chat-send" id="insert-chat-send" title="Send (Enter)" aria-label="Ask AI">',
+
+           // ─── Timeline strip ─────────────────────────────────────
+      '  <div class="insert-timeline" id="insert-timeline" aria-label="Gap timeline">',
+      '    <div class="insert-timeline-seg insert-timeline-seg--prev" id="insert-timeline-prev">',
+      '      <span class="insert-timeline-tag">Prev</span>',
+      '      <span class="insert-timeline-title" id="insert-timeline-prev-title"></span>',
+      '      <span class="insert-timeline-time" id="insert-timeline-prev-time"></span>',
+      '    </div>',
+      '    <div class="insert-timeline-seg insert-timeline-seg--gap" id="insert-timeline-gap">',
+      '      <span class="insert-timeline-gap-text" id="insert-timeline-gap-text"></span>',
+      '    </div>',
+      '    <div class="insert-timeline-seg insert-timeline-seg--next" id="insert-timeline-next">',
+      '      <span class="insert-timeline-tag">Next</span>',
+      '      <span class="insert-timeline-title" id="insert-timeline-next-title"></span>',
+      '      <span class="insert-timeline-time" id="insert-timeline-next-time"></span>',
+      '    </div>',
+      '  </div>',
+
+           // ─── 1x2 split: LEFT criteria / RIGHT results ───────────
+      '  <div class="insert-split" id="insert-split">',
+      '    <section class="insert-criteria" aria-label="Search criteria">',
+      '      <div class="insert-criteria-label">Tell the AI what you want</div>',
+      '      <div class="insert-prompt-row">',
+      '        <textarea id="insert-chat-input" class="insert-prompt-input" rows="3" placeholder="A specific place like \u201cCheesecake Factory\u201d, or a type like \u201cquiet halal dinner\u201d." autocomplete="off" spellcheck="false"></textarea>',
+      '        <button type="button" class="insert-prompt-send" id="insert-chat-send" title="Send (Enter)" aria-label="Ask AI">',
       '          <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>',
       '        </button>',
       '      </div>',
-      '      <button type="button" class="insert-chat-manual" id="insert-manual-toggle">Skip the AI \u2014 add manually</button>',
-      '    </section>',
-           // ─── Right pane — results (or manual form) ────────────
-      '    <section class="insert-results" aria-label="Candidates" id="insert-results-pane">',
-      '      <div class="insert-results-empty" id="insert-results-empty">',
-      '        <div class="insert-results-empty-icon" aria-hidden="true"><i class="fa-solid fa-wand-magic-sparkles"></i></div>',
-      '        <div class="insert-results-empty-title">Ask the AI for 3 options</div>',
-      '        <div class="insert-results-empty-sub">Pick a chip on the left, or type what you\u2019re looking for. I\u2019ll search real venues near the prior stop and return 3 candidates.</div>',
+      '      <div class="insert-scope-row" role="radiogroup" aria-label="Search radius">',
+      '        <span class="insert-scope-label">Radius</span>',
+      '        <div class="insert-scope-chips" id="insert-scope-chips">' + scopeChipsHtml + '</div>',
       '      </div>',
+      '      <details class="insert-quickstarts" id="insert-quickstarts">',
+      '        <summary><span class="insert-quickstarts-label">Quick starts</span></summary>',
+      '        <div class="insert-quickstarts-chips">' + quickStartsHtml + '</div>',
+      '      </details>',
+      '    </section>',
+
+      '    <section class="insert-results insert-results--v2" aria-label="Candidates" id="insert-results-pane">',
+      '      <div class="insert-criteria-label">Results</div>',
+      '      <div class="insert-chat-history" id="insert-chat-history" aria-live="polite"></div>',
       '      <div class="insert-results-cards" id="insert-results-cards" hidden></div>',
-      '      <div class="insert-picked-form" id="insert-picked-form" hidden>',
+      '      <div class="insert-results-placeholder" id="insert-results-placeholder">',
+      '        <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i>',
+      '        <span>Ask the AI, then pick a result.</span>',
+      '      </div>',
+      '    </section>',
+      '  </div>',
+
+           // ─── Time & Details form (full width, below split) ──────
+      '    <div class="insert-picked-form" id="insert-picked-form" hidden>',
       '        <div class="insert-picked-head">',
       '          <span class="insert-picked-label">Time &amp; details</span>',
       '          <span class="insert-picked-hint">Edit start, duration, or notes before saving.</span>',
@@ -411,10 +471,7 @@
       '            <select id="insert-duration" class="insert-field-input"></select>',
       '          </div>',
       '        </div>',
-      '        <div class="insert-field">',
-      '          <span class="insert-field-label">Duration readout</span>',
-      '          <span class="insert-duration-readout" id="insert-duration-readout"></span>',
-      '        </div>',
+      '        <div class="insert-live-readout" id="insert-live-readout" aria-live="polite"></div>',
       '        <div class="insert-field">',
       '          <label class="insert-field-label" for="insert-notes">Notes <span class="insert-field-hint">(optional)</span></label>',
       '          <textarea id="insert-notes" class="insert-field-input" rows="2" placeholder="Reservation, heads-up, context\u2026" autocomplete="off" autocorrect="off" spellcheck="false" data-1p-ignore data-lpignore="true"></textarea>',
@@ -477,10 +534,10 @@
       '          </div>',
       '        </details>',
       '      </div>',
-      '    </section>',
-      '  </div>',
       '  <div class="insert-modal-error" id="insert-modal-error" hidden></div>',
       '  <div class="insert-modal-actions">',
+      '    <a href="#" class="insert-manual-secondary" id="insert-manual-toggle" role="button" tabindex="0">Skip the AI \u2014 add manually</a>',
+      '    <span class="insert-modal-actions-spacer"></span>',
       '    <button type="button" class="insert-modal-btn insert-modal-btn--ghost" data-action="cancel">Cancel</button>',
       '    <button type="button" class="insert-modal-btn insert-modal-btn--secondary" data-action="save-exit" disabled>Save &amp; exit</button>',
       '    <button type="button" class="insert-modal-btn insert-modal-btn--primary" data-action="save" disabled>Save</button>',
@@ -518,8 +575,17 @@
     });
     m.querySelector('#insert-chat-send').addEventListener('click', sendAiTurn);
 
-    // Manual mode
-    m.querySelector('#insert-manual-toggle').addEventListener('click', function () {
+    // Scope radius chips — single-select, stores on state.scopeRadius
+    m.querySelectorAll('.insert-scope-chip').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var key = btn.getAttribute('data-scope');
+        selectScope(key);
+      });
+    });
+
+    // Manual mode (now a secondary link in the footer)
+    m.querySelector('#insert-manual-toggle').addEventListener('click', function (e) {
+      e.preventDefault();
       switchToManual();
     });
     m.querySelector('#insert-manual-back').addEventListener('click', function () {
@@ -544,6 +610,29 @@
     }
   }
 
+  // ─── Scope helpers ──────────────────────────────────────────────────
+  function selectScope(key) {
+    if (!modal) return;
+    var match = SCOPE_CHIPS.find(function (c) { return c.key === key; });
+    if (!match) return;
+    state.scopeRadius = match.key;
+    modal.querySelectorAll('.insert-scope-chip').forEach(function (b) {
+      var isOn = b.getAttribute('data-scope') === match.key;
+      b.classList.toggle('is-selected', isOn);
+      b.setAttribute('aria-pressed', isOn ? 'true' : 'false');
+    });
+  }
+
+  function renderTimeline(ctx) {
+    if (!modal) return;
+    var gapMin = ctx.winEnd - ctx.winStart;
+    modal.querySelector('#insert-timeline-prev-title').textContent = ctx.prevTitle || '\u2014';
+    modal.querySelector('#insert-timeline-prev-time').textContent = ctx.prevTitle ? ('ends ' + formatMin(ctx.winStart)) : 'day start';
+    modal.querySelector('#insert-timeline-next-title').textContent = ctx.nextTitle || '\u2014';
+    modal.querySelector('#insert-timeline-next-time').textContent = ctx.nextTitle ? ('starts ' + formatMin(ctx.winEnd)) : 'day end';
+    modal.querySelector('#insert-timeline-gap-text').textContent = formatDuration(gapMin) + ' available';
+  }
+
   // ─── Open / close ───────────────────────────────────────────────────
   function openInsertModal(ctx) {
     if (!modal) modal = buildModal();
@@ -553,6 +642,8 @@
     state.currentCandidates = [];
     state.pickedIdx = null;
     state.manualMode = false;
+    state.lastIntent = null;
+    state.lastSearchPrompt = null;
     cancelAiInflight();
 
     modal.querySelector('#insert-modal-eyebrow').textContent =
@@ -565,18 +656,24 @@
     else titleText = 'New event';
     modal.querySelector('#insert-modal-title').textContent = titleText;
 
-    modal.querySelector('#insert-modal-window').textContent =
-      'Window: ' + formatMin(ctx.winStart) + ' \u2192 ' + formatMin(ctx.winEnd) +
-      ' \u00b7 ' + formatDuration(ctx.winEnd - ctx.winStart) + ' available';
+    // Timeline strip (prev → gap → next)
+    renderTimeline(ctx);
+
+    // Smart scope default per gap size
+    var gapMin = ctx.winEnd - ctx.winStart;
+    selectScope(defaultScopeForGap(gapMin));
 
     // Reset views
     modal.querySelector('#insert-chat-history').innerHTML = '';
     modal.querySelector('#insert-chat-input').value = '';
-    modal.querySelector('#insert-results-empty').hidden = false;
     modal.querySelector('#insert-results-cards').hidden = true;
     modal.querySelector('#insert-results-cards').innerHTML = '';
     modal.querySelector('#insert-picked-form').hidden = true;
     modal.querySelector('#insert-manual-form').hidden = true;
+    var ph = modal.querySelector('#insert-results-placeholder');
+    if (ph) ph.hidden = false;
+    var qs = modal.querySelector('#insert-quickstarts');
+    if (qs) qs.removeAttribute('open');
     modal.classList.remove('is-manual', 'is-pending');
     setError(null);
 
@@ -666,9 +763,8 @@
     if (!modal || !state.modalCtx) return;
     var startSel = modal.querySelector('#insert-start');
     var durSel = modal.querySelector('#insert-duration');
-    var readout = modal.querySelector('#insert-duration-readout');
+    var readout = modal.querySelector('#insert-live-readout');
     var startMin = Number(startSel.value);
-    var winSize = state.modalCtx.winEnd - state.modalCtx.winStart;
     if (!Number.isFinite(startMin)) return;
     var maxDur = state.modalCtx.winEnd - startMin;
     Array.prototype.forEach.call(durSel.options, function (o) {
@@ -678,7 +774,16 @@
       durSel.value = String(maxDur >= MIN_DURATION_MIN ? maxDur : MIN_DURATION_MIN);
     }
     var dur = Number(durSel.value);
-    readout.textContent = formatDuration(dur) + ' of ' + formatDuration(winSize) + ' available';
+    if (!readout) return;
+    var endMin = startMin + dur;
+    var bufferAfter = state.modalCtx.winEnd - endMin;
+    var bufferLabel = bufferAfter > 0
+      ? formatDuration(bufferAfter) + ' buffer before next'
+      : 'tight \u2014 ends exactly when next begins';
+    readout.innerHTML =
+      '<span class="insert-live-strong">Your event: ' + escHtml(formatMin(startMin)) +
+      ' \u2192 ' + escHtml(formatMin(endMin)) + '</span>' +
+      '<span class="insert-live-sub">' + escHtml(bufferLabel) + '</span>';
   }
 
   function onTagChange() {
@@ -701,7 +806,6 @@
     state.manualMode = true;
     state.pickedIdx = null;
     modal.classList.add('is-manual');
-    modal.querySelector('#insert-results-empty').hidden = true;
     modal.querySelector('#insert-results-cards').hidden = true;
     modal.querySelector('#insert-picked-form').hidden = true;
     modal.querySelector('#insert-manual-form').hidden = false;
@@ -717,7 +821,6 @@
     modal.classList.remove('is-manual');
     modal.querySelector('#insert-manual-form').hidden = true;
     var hasCards = state.currentCandidates && state.currentCandidates.length;
-    modal.querySelector('#insert-results-empty').hidden = hasCards;
     modal.querySelector('#insert-results-cards').hidden = !hasCards;
     modal.querySelector('#insert-picked-form').hidden = state.pickedIdx == null;
     updateSaveButtons();
@@ -755,33 +858,38 @@
     state.aiStatusTimer = setTimeout(tick, 2600);
   }
 
-  function sendAiTurn() {
+  function sendAiTurn(opts) {
     if (state.inflight || !state.modalCtx) return;
+    opts = opts || {};
     var input = modal.querySelector('#insert-chat-input');
-    var message = (input.value || '').trim();
-    if (!message) {
-      input.focus();
-      return;
+    var message;
+    if (opts.retryPrompt) {
+      message = opts.retryPrompt;
+    } else {
+      message = (input.value || '').trim();
+      if (!message) {
+        input.focus();
+        return;
+      }
+      input.value = '';
     }
-    input.value = '';
+    state.lastSearchPrompt = message;
     setError(null);
 
-    // Build history entries
     var turnId = 'turn-' + Date.now();
-    pushUserBubble(message);
+    pushUserBubble(opts.retryPrompt ? (message + ' (retry with expanded radius)') : message);
     var aiTurn = pushAiLoadingBubble(turnId);
 
-    // Clear right pane for fresh results
-    modal.querySelector('#insert-results-empty').hidden = true;
     var cardsHost = modal.querySelector('#insert-results-cards');
     cardsHost.hidden = false;
     cardsHost.innerHTML = skeletonCardsHtml();
+    var ph2 = modal.querySelector('#insert-results-placeholder');
+    if (ph2) ph2.hidden = true;
     modal.querySelector('#insert-picked-form').hidden = true;
     state.pickedIdx = null;
     state.currentCandidates = [];
     updateSaveButtons();
 
-    // Fetch
     cancelAiInflight();
     state.aiAbortCtrl = new AbortController();
     state.inflight = true;
@@ -792,39 +900,40 @@
     var slug = (window.__tripData && window.__tripData.slug) ||
       ((window.__tripContext && window.__tripContext.slug) || '');
     var ctx = state.modalCtx;
-    var body = {
+
+    // Two-step pipeline: classify intent (Haiku) → route to sub-prompt (Sonnet).
+    var classifyBody = {
+      prompt: message,
       tripSlug: slug,
       dayIndex: ctx.dayIdx,
-      insertEventIndex: ctx.insertEventIdx,
-      window: {
-        start: formatMin(ctx.winStart),
-        end: formatMin(ctx.winEnd),
-      },
-      constraints: { notes: message },
-      message: message,
+      prevVenue: ctx.prevTitle || null,
+      nextVenue: ctx.nextTitle || null,
     };
 
-    fetch(API_BASE + '/api/suggest-insert', {
+    fetch(API_BASE + '/api/classify-insert-intent', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
+      body: JSON.stringify(classifyBody),
       signal: state.aiAbortCtrl.signal,
     })
       .then(function (r) { return r.json(); })
       .then(function (data) {
-        if (!data.ok) throw new Error(data.error || 'AI suggestion failed');
-        var cands = Array.isArray(data.candidates) ? data.candidates : [];
-        state.currentCandidates = cands;
-        renderCandidateCards(cands);
-        finalizeAiTurn(aiTurn, cands.length, data.windowSummary);
+        if (!data.ok) throw new Error(data.error || 'intent classification failed');
+        var intent = {
+          mode: data.mode || 'category_search',
+          vendorName: data.vendorName || null,
+          categoryHint: data.categoryHint || null,
+          confidence: Number.isFinite(data.confidence) ? data.confidence : 0.5,
+        };
+        state.lastIntent = intent;
+        return runSuggestCall(intent, message, aiTurn);
       })
       .catch(function (err) {
         if (err && err.name === 'AbortError') return;
         console.warn('[SUGGEST-INSERT]', err);
         cardsHost.innerHTML = '';
         cardsHost.hidden = true;
-        modal.querySelector('#insert-results-empty').hidden = false;
         renderAiError(aiTurn, err.message || String(err));
       })
       .finally(function () {
@@ -834,6 +943,41 @@
           clearTimeout(state.aiStatusTimer);
           state.aiStatusTimer = null;
         }
+      });
+  }
+
+  function runSuggestCall(intent, message, aiTurn) {
+    var API_BASE = window.__API_BASE || '';
+    var slug = (window.__tripData && window.__tripData.slug) ||
+      ((window.__tripContext && window.__tripContext.slug) || '');
+    var ctx = state.modalCtx;
+    var cardsHost = modal.querySelector('#insert-results-cards');
+    var body = {
+      tripSlug: slug,
+      dayIndex: ctx.dayIdx,
+      insertEventIndex: ctx.insertEventIdx,
+      window: { start: formatMin(ctx.winStart), end: formatMin(ctx.winEnd) },
+      mode: intent.mode,
+      vendorName: intent.vendorName,
+      categoryHint: intent.categoryHint,
+      scopeRadius: state.scopeRadius,
+      constraints: { notes: message },
+      message: message,
+    };
+    return fetch(API_BASE + '/api/suggest-insert', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+      signal: state.aiAbortCtrl && state.aiAbortCtrl.signal,
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (!data.ok) throw new Error(data.error || 'AI suggestion failed');
+        var cands = Array.isArray(data.candidates) ? data.candidates : [];
+        state.currentCandidates = cands;
+        renderCandidateCards(cands);
+        finalizeAiTurn(aiTurn, cands.length, data.windowSummary, intent, data.mode);
       });
   }
 
@@ -865,15 +1009,25 @@
     return el;
   }
 
-  function finalizeAiTurn(turnEl, count, summary) {
+  function finalizeAiTurn(turnEl, count, summary, intent, mode) {
     turnEl.classList.remove('is-loading');
     var bubble = turnEl.querySelector('.insert-chat-bubble');
     var body = '';
+    var modeLabel = '';
+    if (mode === 'exact_vendor' && intent && intent.vendorName) {
+      modeLabel = 'Exact match: ' + intent.vendorName;
+    } else if (mode === 'chain_locations' && intent && intent.vendorName) {
+      modeLabel = 'Locations of: ' + intent.vendorName;
+    } else if (mode === 'category_search') {
+      modeLabel = 'Category search';
+    }
     if (count > 0) {
       body += '<div class="insert-chat-result-head"><i class="fa-solid fa-check" aria-hidden="true"></i>' +
-        escHtml(count) + ' option' + (count === 1 ? '' : 's') + ' on the right</div>';
+        escHtml(count) + ' option' + (count === 1 ? '' : 's') +
+        (modeLabel ? ' \u00b7 ' + escHtml(modeLabel) : '') + '</div>';
     } else {
-      body += '<div class="insert-chat-result-head insert-chat-result-head--empty"><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>No candidates matched</div>';
+      body += '<div class="insert-chat-result-head insert-chat-result-head--empty"><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>No candidates matched' +
+        (modeLabel ? ' \u00b7 ' + escHtml(modeLabel) : '') + '</div>';
     }
     if (summary) {
       body += '<div class="insert-chat-result-sub">' + escHtml(summary) + '</div>';
@@ -904,12 +1058,41 @@
     var host = modal.querySelector('#insert-results-cards');
     host.innerHTML = '';
     if (!cands.length) {
-      host.innerHTML = '<div class="insert-results-empty-inline">No candidates this time. Try a different steer (more time, different cuisine, wider drive radius).</div>';
+      host.innerHTML = '<div class="insert-results-empty-inline">No candidates this time. Try a different prompt, widen the radius, or use \u201cSkip the AI\u2014 add manually\u201d below.</div>';
       return;
     }
+
+    // Exact-vendor not-found case: the primary card carries isOutOfRange=true.
+    // Show a one-click "Expand radius" retry button above the card grid.
+    var primaryOutOfRange = cands.find(function (c) { return c.isPrimary && c.isOutOfRange; });
+    if (primaryOutOfRange) {
+      var banner = document.createElement('div');
+      banner.className = 'insert-notfound-banner';
+      banner.innerHTML =
+        '<div class="insert-notfound-text">' +
+        '  <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>' +
+        '  <span><strong>' + escHtml(primaryOutOfRange.event || 'That venue') + '</strong> isn\u2019t reachable within the current radius.</span>' +
+        '</div>' +
+        '<button type="button" class="insert-notfound-expand" id="insert-notfound-expand">' +
+        '  <i class="fa-solid fa-arrows-left-right-to-line" aria-hidden="true"></i> Expand radius and retry' +
+        '</button>';
+      host.appendChild(banner);
+      var expandBtn = banner.querySelector('#insert-notfound-expand');
+      if (expandBtn) {
+        expandBtn.addEventListener('click', function () {
+          selectScope('expand');
+          if (state.lastSearchPrompt) {
+            sendAiTurn({ retryPrompt: state.lastSearchPrompt });
+          }
+        });
+      }
+    }
+
     cands.forEach(function (c, idx) {
       var card = document.createElement('div');
       card.className = 'insert-card';
+      if (c.isPrimary) card.classList.add('insert-card--primary');
+      if (c.isOutOfRange) card.classList.add('insert-card--outofrange');
       card.setAttribute('data-cand-idx', String(idx));
       card.setAttribute('role', 'button');
       card.setAttribute('tabindex', '0');
@@ -920,18 +1103,34 @@
       if (Number.isFinite(c.driveMinutes)) metaBits.push('<span class="insert-card-chip"><i class="fa-solid fa-car" aria-hidden="true"></i>' + escHtml(String(c.driveMinutes)) + ' min drive</span>');
       if (Number.isFinite(c.duration_min)) metaBits.push('<span class="insert-card-chip"><i class="fa-solid fa-hourglass-half" aria-hidden="true"></i>' + escHtml(String(c.duration_min)) + ' min stay</span>');
 
+      var primaryBadge = c.isPrimary ? '<span class="insert-card-primary-badge"><i class="fa-solid fa-star" aria-hidden="true"></i>Primary match</span>' : '';
+      var outOfRangeBadge = c.isOutOfRange ? '<span class="insert-card-oor-badge">Out of range</span>' : '';
+
       card.innerHTML =
         '<div class="insert-card-head">' +
-        '  <h4 class="insert-card-title">' + escHtml(c.event || '(untitled)') + '</h4>' +
+        '  <h4 class="insert-card-title">' + escHtml(c.event || '(untitled)') + primaryBadge + outOfRangeBadge + '</h4>' +
         '  <span class="insert-card-time"><i class="fa-solid fa-clock" aria-hidden="true"></i>' + escHtml(c.suggestedStart || '') + '</span>' +
         '</div>' +
         (metaBits.length ? '<div class="insert-card-meta">' + metaBits.join('') + '</div>' : '') +
         (c.venue ? '<div class="insert-card-venue"><i class="fa-solid fa-location-dot" aria-hidden="true"></i>' + escHtml(c.venue) + '</div>' : '') +
         (c.phone ? '<div class="insert-card-phone"><i class="fa-solid fa-phone" aria-hidden="true"></i>' + escHtml(c.phone) + '</div>' : '') +
         (c.rationale ? '<p class="insert-card-rationale">' + escHtml(c.rationale) + '</p>' : '') +
-        '<div class="insert-card-pick"><span>Pick this</span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></div>';
+        '<button type="button" class="insert-card-use" data-card-use="' + idx + '">' +
+        '  <i class="fa-solid fa-circle-check" aria-hidden="true"></i>' +
+        '  <span>Use this</span>' +
+        '</button>';
 
-      card.addEventListener('click', function () { pickCandidate(idx); });
+      var useBtn = card.querySelector('.insert-card-use');
+      if (useBtn) {
+        useBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          pickCandidate(idx);
+        });
+      }
+      card.addEventListener('click', function (e) {
+        if (e.target && e.target.closest && e.target.closest('.insert-card-use')) return;
+        pickCandidate(idx);
+      });
       card.addEventListener('keydown', function (e) {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
@@ -940,6 +1139,10 @@
       });
       host.appendChild(card);
     });
+
+    // Hide the placeholder when cards are present.
+    var ph = modal.querySelector('#insert-results-placeholder');
+    if (ph) ph.hidden = cands.length > 0;
   }
 
   function pickCandidate(idx) {
@@ -1020,16 +1223,22 @@
     modal.classList.add('is-pending');
     updateSaveButtons();
 
+    var saveBody = {
+      tripSlug: slug,
+      dayIndex: ctx.dayIdx,
+      eventIndex: ctx.insertEventIdx,
+      event: newEvent,
+      meta: {
+        intent_mode: state.manualMode ? 'manual' : (state.lastIntent && state.lastIntent.mode) || null,
+        scope_radius: state.manualMode ? null : state.scopeRadius,
+      },
+    };
+
     fetch(API_BASE + '/api/insert-event', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        tripSlug: slug,
-        dayIndex: ctx.dayIdx,
-        eventIndex: ctx.insertEventIdx,
-        event: newEvent,
-      }),
+      body: JSON.stringify(saveBody),
     })
       .then(function (r) { return r.json(); })
       .then(function (data) {
@@ -1095,6 +1304,9 @@
     if (cand.venue) ev.venue = cand.venue;
     if (cand.phone) ev.phone = cand.phone;
     if (Number.isFinite(cand.rating)) ev.rating = cand.rating;
+    // driveMinutes is passed through for server-side validation vs ORS;
+    // the server strips it before persisting to trip.yaml.
+    if (Number.isFinite(cand.driveMinutes)) ev.driveMinutes = cand.driveMinutes;
     var notes = (modal.querySelector('#insert-notes').value || '').trim();
     if (notes) ev.notes = notes;
     return ev;

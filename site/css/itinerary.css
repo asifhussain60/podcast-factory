@@ -2366,17 +2366,38 @@ html{scroll-behavior:smooth}
   }
 }
 
-/* ═══ ALT-FINDER MODAL ═══════════════════════════════════════════════════════
+/* ═══ AI MATCH FINDER MODAL ═══════════════════════════════════════════════════
    Popup shown when the user clicks "Find an alternative nearby" on an event
-   card. Fetches 3 real venues via /api/find-alternatives; clicking a card
-   hits /api/swap-event and refreshes the itinerary in place. */
+   card. Unified search-or-ask panel: one search input + quick suggestion
+   chips drive /api/find-alternatives; results are grouped into Exact /
+   Similar sections, and footer "Use selection" commits the swap through
+   /api/swap-event. */
+/* Scoped palette for the AI popup. Kept local so the new dark-neutral +
+   green-accent design doesn't bleed into the rest of the themed page. */
 .alt-modal{
+  --ai-bg:        #1f1f1f;
+  --ai-panel:     #262626;
+  --ai-panel-2:   #2f2f2f;
+  --ai-border:    rgba(255,255,255,0.10);
+  --ai-border-2:  rgba(255,255,255,0.14);
+  --ai-text:      #f5f5f5;
+  --ai-muted:     #a8a8a8;
+  --ai-secondary: #cfcfcf;
+  --ai-accent:    #3ab159;
+  --ai-accent-2:  #61c57b;
+  --ai-accent-12: rgba(58,177,89,0.12);
+  --ai-accent-25: rgba(97,197,123,0.25);
+  --ai-accent-55: rgba(97,197,123,0.55);
+  --ai-danger:    #e05b5b;
+  --ai-shadow:    0 24px 80px rgba(0,0,0,0.55);
+
   position:fixed;
   inset:0;
   z-index:9500;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  display:grid;
+  place-items:center;
+  padding:1.125rem;
+  background:rgba(0,0,0,0.62);
   animation:alt-fade-in .18s ease;
 }
 .alt-modal[hidden]{ display:none; }
@@ -2384,149 +2405,209 @@ html{scroll-behavior:smooth}
 .alt-modal-backdrop{
   position:absolute;
   inset:0;
-  background:color-mix(in srgb, var(--bg) 72%, transparent);
-  backdrop-filter:blur(6px);
-  -webkit-backdrop-filter:blur(6px);
+  pointer-events:auto;
 }
 .alt-modal-panel{
   position:relative;
-  width:min(580px, calc(100vw - 2rem));
-  max-height:calc(100vh - 4rem);
-  background:linear-gradient(180deg, var(--bg-tertiary) 0%, var(--bg) 100%);
-  border:1px solid var(--white-10);
-  border-radius:16px;
-  box-shadow:
-    0 40px 80px rgba(0,0,0,.55),
-    0 12px 24px var(--shadow-a35),
-    inset 0 1px 0 0 var(--white-05);
+  width:min(560px, 100%);
+  max-height:min(760px, 92vh);
+  background:var(--ai-bg);
+  border:1px solid var(--ai-border);
+  border-radius:18px;
+  box-shadow:var(--ai-shadow);
   display:flex;
   flex-direction:column;
   overflow:hidden;
-  animation:alt-rise .25s cubic-bezier(.34,1.4,.64,1);
+  color:var(--ai-text);
+  font-family:Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  animation:alt-rise .22s cubic-bezier(.34,1.4,.64,1);
 }
 @keyframes alt-rise{
-  from{ opacity:0; transform:translateY(10px) scale(.98); }
+  from{ opacity:0; transform:translateY(8px) scale(.985); }
   to  { opacity:1; transform:translateY(0) scale(1); }
 }
-/* Header — editorial title treatment. Eyebrow ("Alternatives to") sits
-   between two hairline rules, venue name reads as the heading, close
-   button floats top-right so it never competes with long venue names. */
+
+/* Header — kicker + title + context on the left, round close on the right. */
 .alt-modal-header{
-  position:relative;
   display:flex;
-  flex-direction:column;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:1rem;
+  padding:1.125rem 1.125rem .75rem;
+  border-bottom:1px solid var(--ai-border);
+}
+.alt-modal-heading{ flex:1 1 auto; min-width:0; }
+.alt-modal-kicker{
+  display:inline-flex;
   align-items:center;
-  gap:.55rem;
-  padding:1.4rem 3rem 1.15rem;
-  text-align:center;
-  border-bottom:1px solid var(--white-06);
-}
-.alt-modal-eyebrow{
-  display:flex;
-  align-items:center;
-  gap:.75rem;
-  width:100%;
-  max-width:22rem;
-  color:var(--text-muted);
-}
-.alt-modal-eyebrow-line{
-  flex:1 1 auto;
-  height:1px;
-  background:linear-gradient(90deg,
-    transparent 0%,
-    color-mix(in srgb, var(--rose-2) 55%, transparent) 50%,
-    transparent 100%);
-}
-.alt-modal-eyebrow-text{
-  flex:0 0 auto;
-  font-family:"Inter","SF Pro Display",system-ui,sans-serif;
-  font-size:.68rem;
-  font-weight:500;
-  letter-spacing:.28em;
+  gap:.4rem;
+  color:var(--ai-accent-2);
+  font-size:.75rem;
+  font-weight:800;
+  letter-spacing:.04em;
   text-transform:uppercase;
-  color:var(--rose-2);
+  margin-bottom:.4rem;
 }
+.alt-modal-kicker i{ font-size:.78rem; }
 .alt-modal-title{
   margin:0;
-  font-family:"Cormorant Garamond",serif;
-  font-size:1.7rem;
-  font-weight:500;
-  font-style:italic;
-  line-height:1.15;
-  color:var(--text);
-  letter-spacing:.005em;
-  max-width:30rem;
-  text-wrap:balance;
+  font-family:inherit;
+  font-size:1.25rem;
+  font-weight:700;
+  font-style:normal;
+  line-height:1.2;
+  color:var(--ai-text);
+  letter-spacing:0;
 }
-.alt-modal-title span{
-  color:var(--text);
-  background:linear-gradient(135deg, var(--text) 0%, var(--rose-2) 120%);
-  -webkit-background-clip:text;
-  background-clip:text;
-  -webkit-text-fill-color:transparent;
+.alt-modal-context{
+  margin:.375rem 0 0;
+  color:var(--ai-muted);
+  font-size:.8125rem;
+  line-height:1.35;
 }
 .alt-modal-close{
-  position:absolute;
-  top:.85rem;
-  right:.9rem;
-  /* Stack above sibling content. The loading skeleton's progress bar uses
-     position:absolute and the skeleton cards live in the same scrollable
-     body; z-index:2 guarantees the close affordance always wins. */
-  z-index:2;
+  flex:0 0 auto;
   display:grid;
   place-items:center;
-  width:32px;
-  height:32px;
-  background:var(--white-05);
-  border:1px solid var(--white-10);
-  color:var(--text-secondary);
-  font-size:.9rem;
+  width:34px;
+  height:34px;
+  background:#292929;
+  border:1px solid var(--ai-border);
+  color:var(--ai-muted);
+  font-size:1rem;
   line-height:1;
   cursor:pointer;
-  border-radius:50%;
-  transition:background-color .18s ease, color .18s ease, border-color .18s ease, transform .18s ease;
+  border-radius:999px;
+  transition:background-color .18s ease, color .18s ease, border-color .18s ease;
 }
-/* The icon inside the close button shouldn't intercept the click —
-   bubble it straight to the button so closest('.alt-modal-close')
-   in the delegated handler picks it up cleanly. */
-.alt-modal-close > i{
-  pointer-events:none;
-}
+.alt-modal-close > i{ pointer-events:none; }
 .alt-modal-close:hover{
-  background:color-mix(in srgb, var(--rose) 22%, transparent);
-  border-color:color-mix(in srgb, var(--rose) 45%, transparent);
-  color:var(--text);
-  transform:rotate(90deg);
+  background:var(--ai-panel-2);
+  border-color:var(--ai-border-2);
+  color:var(--ai-text);
 }
 .alt-modal-close:focus-visible{
-  outline:2px solid var(--rose-2);
+  outline:2px solid var(--ai-accent-2);
   outline-offset:2px;
 }
-.alt-modal-body{
-  padding:1rem 1.25rem 1.25rem;
+
+/* Shell — scrollable content. Search + chips are persistent above the
+   results body; footer is pinned at the bottom. */
+.alt-modal-shell{
+  display:flex;
+  flex-direction:column;
+  min-height:0;
+  flex:1 1 auto;
+  padding:.875rem 1.125rem 1.125rem;
+  gap:.75rem;
   overflow-y:auto;
+}
+.alt-search-wrap{
+  display:flex;
+  align-items:center;
+  gap:.625rem;
+  padding:.75rem .8125rem;
+  border-radius:14px;
+  background:var(--ai-panel);
+  border:1px solid var(--ai-border);
+  outline:2px solid transparent;
+  transition:outline-color .18s ease, border-color .18s ease;
+}
+.alt-search-wrap:focus-within{
+  outline-color:var(--ai-accent-25);
+  border-color:var(--ai-accent-55);
+}
+.alt-search-icon{
+  flex:0 0 auto;
+  color:var(--ai-muted);
+  font-size:.9rem;
+}
+.alt-search-input{
+  flex:1 1 auto;
+  min-width:0;
+  background:transparent;
+  border:none;
+  outline:none;
+  color:var(--ai-text);
+  font-family:inherit;
+  font-size:.9375rem;
+  line-height:1.3;
+}
+.alt-search-input::placeholder{
+  color:var(--ai-muted);
+  font-style:normal;
+}
+.alt-search-clear{
+  flex:0 0 auto;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  width:26px;
+  height:26px;
+  border-radius:999px;
+  background:transparent;
+  border:none;
+  color:var(--ai-muted);
+  cursor:pointer;
+  font-size:1rem;
+  transition:background-color .15s ease, color .15s ease;
+}
+.alt-search-clear.is-visible{ display:inline-flex; }
+.alt-search-clear:hover{
+  background:var(--ai-panel-2);
+  color:var(--ai-text);
+}
+.alt-search-clear > i{ pointer-events:none; }
+
+/* Chip row — one-tap refinements, same path as Enter-on-input. */
+.alt-chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.5rem;
+}
+.alt-chip{
+  border:1px solid var(--ai-border);
+  background:var(--ai-panel);
+  color:var(--ai-text);
+  padding:.5rem .625rem;
+  border-radius:999px;
+  font-size:.75rem;
+  font-family:inherit;
+  cursor:pointer;
+  transition:border-color .18s ease, background-color .18s ease;
+}
+.alt-chip:hover{
+  border-color:var(--ai-accent-55);
+  background:var(--ai-panel-2);
+}
+.alt-chip:focus-visible{
+  outline:2px solid var(--ai-accent-2);
+  outline-offset:2px;
+}
+
+.alt-modal-body{
+  flex:1 1 auto;
+  min-height:0;
   display:flex;
   flex-direction:column;
   gap:.75rem;
 }
-/* Progressive loader — indeterminate bar + rotating status line.
-   The find-alternatives backend (Sonnet + web_search) often runs
-   15–30s; the bar confirms the request is still in flight and the
-   status text rotates through meaningful phases so the wait feels
-   narrated, not frozen. Skeleton cards below preview the result
-   shape so the handoff to real options is near-zero visual jank. */
+
+/* Progressive loader — indeterminate bar + rotating status while the
+   Sonnet + web_search backend runs. Skeleton stack below previews the
+   result layout so the swap to real cards has minimal jank. */
 .alt-modal-loading{
   display:flex;
   flex-direction:column;
   gap:.85rem;
-  padding:.25rem 0 1rem;
-  color:var(--text-secondary);
-  font-size:.95rem;
+  padding:.25rem 0 .5rem;
+  color:var(--ai-secondary);
+  font-size:.9375rem;
 }
 .alt-modal-progress{
   position:relative;
   height:3px;
-  background:color-mix(in srgb, var(--rose) 10%, transparent);
+  background:var(--ai-accent-12);
   border-radius:2px;
   overflow:hidden;
 }
@@ -2534,10 +2615,7 @@ html{scroll-behavior:smooth}
   position:absolute;
   top:0; left:0; bottom:0;
   width:38%;
-  background:linear-gradient(90deg,
-    transparent,
-    color-mix(in srgb, var(--rose-2) 85%, transparent),
-    transparent);
+  background:linear-gradient(90deg, transparent, var(--ai-accent-2), transparent);
   animation:alt-progress 1.7s cubic-bezier(.65,0,.35,1) infinite;
 }
 @keyframes alt-progress{
@@ -2546,7 +2624,7 @@ html{scroll-behavior:smooth}
 }
 .alt-modal-status{
   text-align:center;
-  color:var(--text-secondary);
+  color:var(--ai-secondary);
   font-size:.9rem;
   letter-spacing:.005em;
   transition:opacity .18s ease, transform .18s ease;
@@ -2557,20 +2635,20 @@ html{scroll-behavior:smooth}
   transform:translateY(-2px);
 }
 
-/* Skeleton stack — mirrors .alt-option so the loader previews the
-   final layout. Gradient shimmer sweeps left-to-right; stagger the
-   animation-delay so the three cards don't pulse in lockstep. */
+/* Skeleton stack — mirrors .alt-result so the loader previews the final
+   layout. Gradient shimmer sweeps left-to-right; stagger the delay so the
+   three cards don't pulse in lockstep. */
 .alt-skel-stack{
   display:flex;
   flex-direction:column;
-  gap:.75rem;
+  gap:.5rem;
   margin-top:.25rem;
 }
 .alt-skel-card{
-  padding:.95rem 1.05rem;
-  border-radius:12px;
-  background:rgba(255,255,255,.025);
-  border:1px solid var(--white-08);
+  padding:.875rem .9375rem;
+  border-radius:14px;
+  background:var(--ai-panel);
+  border:1px solid var(--ai-border);
   display:flex;
   flex-direction:column;
   gap:.55rem;
@@ -2583,9 +2661,9 @@ html{scroll-behavior:smooth}
   height:.9rem;
   border-radius:4px;
   background:linear-gradient(90deg,
-    var(--white-05) 0%,
-    var(--white-14) 50%,
-    var(--white-05) 100%);
+    rgba(255,255,255,.05) 0%,
+    rgba(255,255,255,.14) 50%,
+    rgba(255,255,255,.05) 100%);
   background-size:200% 100%;
   animation:alt-shimmer 1.6s linear infinite;
 }
@@ -2609,19 +2687,19 @@ html{scroll-behavior:smooth}
 .alt-modal-spinner{
   width:20px;
   height:20px;
-  border:2px solid color-mix(in srgb, var(--rose) 22%, transparent);
-  border-top-color:var(--rose-2);
+  border:2px solid var(--ai-accent-12);
+  border-top-color:var(--ai-accent-2);
   border-radius:50%;
   animation:alt-spin .9s linear infinite;
 }
 @keyframes alt-spin{ to{ transform:rotate(360deg); } }
 .alt-modal-error{
-  padding:1rem 1.1rem;
-  border-radius:10px;
-  background:color-mix(in srgb, var(--error) 10%, transparent);
-  border:1px solid color-mix(in srgb, var(--error) 28%, transparent);
-  color:var(--error);
-  font-size:.92rem;
+  padding:.9375rem 1rem;
+  border-radius:12px;
+  background:rgba(224,91,91,0.10);
+  border:1px solid rgba(224,91,91,0.28);
+  color:var(--ai-danger);
+  font-size:.9rem;
   line-height:1.5;
   display:flex;
   flex-direction:column;
@@ -2629,196 +2707,223 @@ html{scroll-behavior:smooth}
 }
 .alt-modal-retry{
   align-self:flex-start;
-  padding:.4rem .9rem;
+  padding:.4rem .875rem;
   border-radius:8px;
-  background:var(--white-06);
-  border:1px solid var(--white-12);
-  color:var(--text);
+  background:var(--ai-panel);
+  border:1px solid var(--ai-border-2);
+  color:var(--ai-text);
   font-size:.82rem;
+  font-family:inherit;
   cursor:pointer;
   transition:background-color .18s ease, border-color .18s ease;
 }
 .alt-modal-retry:hover{
-  background:var(--white-10);
-  border-color:var(--white-18);
+  background:var(--ai-panel-2);
+  border-color:var(--ai-accent-55);
 }
 
-/* ── Constraints bar (cuisine / price / drive + free-form notes steering) ── */
-.alt-constraints{
+/* Result sections — "Exact Matches" and "Similar Options". */
+.alt-section{
   display:flex;
   flex-direction:column;
-  gap:.7rem;
-  padding:.8rem .9rem;
-  margin-bottom:.85rem;
-  border-radius:12px;
-  background:color-mix(in srgb, var(--white-05) 70%, transparent);
-  border:1px solid var(--white-08);
+  gap:.5rem;
 }
-.alt-constraints-row{
-  display:flex;
-  flex-wrap:wrap;
-  gap:.6rem;
-  align-items:flex-end;
-}
-.alt-constraint-group{
-  display:flex;
-  flex-direction:column;
-  gap:.2rem;
-  font-size:.68rem;
-  text-transform:uppercase;
-  letter-spacing:.14em;
-  color:var(--text-muted);
-}
-.alt-constraint-group select{
-  min-width:7rem;
-  padding:.4rem .6rem;
-  border-radius:8px;
-  background:color-mix(in srgb, var(--bg) 65%, transparent);
-  border:1px solid var(--white-12);
-  color:var(--text);
-  font-size:.88rem;
-  text-transform:none;
-  letter-spacing:normal;
-  transition:border-color .18s ease, background-color .18s ease;
-}
-.alt-constraint-group select:hover,
-.alt-constraint-group select:focus{
-  border-color:color-mix(in srgb, var(--rose-2) 55%, transparent);
-  outline:none;
-}
-.alt-constraint-apply{
-  padding:.48rem 1rem;
-  border-radius:8px;
-  background:color-mix(in srgb, var(--rose) 38%, transparent);
-  border:1px solid color-mix(in srgb, var(--rose) 58%, transparent);
-  color:var(--text);
-  font-size:.84rem;
-  font-weight:500;
-  cursor:pointer;
-  transition:background-color .18s ease, transform .18s ease;
-}
-.alt-constraint-apply:hover{
-  background:color-mix(in srgb, var(--rose) 55%, transparent);
-  transform:translateY(-1px);
-}
-
-/* Free-form refine — single-line text input. Enter submits the same way
-   Regenerate does, so a typed phrase ("vegetarian only", "quieter spot")
-   re-runs the search holistically with whatever dropdowns are set. */
-.alt-constraints-notes{
-  position:relative;
+.alt-section + .alt-section{ margin-top:.25rem; }
+.alt-section-head{
   display:flex;
   align-items:center;
-  gap:.55rem;
-  padding:.55rem .7rem .55rem .85rem;
-  border-radius:10px;
-  background:color-mix(in srgb, var(--bg) 70%, transparent);
-  border:1px solid var(--white-12);
-  transition:border-color .2s ease, background-color .2s ease, box-shadow .2s ease;
-}
-.alt-constraints-notes:focus-within{
-  border-color:color-mix(in srgb, var(--rose-2) 65%, transparent);
-  background:color-mix(in srgb, var(--bg) 85%, transparent);
-  box-shadow:0 0 0 3px color-mix(in srgb, var(--rose-2) 14%, transparent);
-}
-.alt-constraints-notes-icon{
-  flex:0 0 auto;
-  font-size:.85rem;
-  color:var(--rose-2);
-  opacity:.85;
-}
-.alt-constraints-notes-input{
-  flex:1 1 auto;
-  min-width:0;
-  background:transparent;
-  border:none;
-  outline:none;
-  color:var(--text);
-  font-size:.9rem;
-  line-height:1.3;
-  font-family:inherit;
-  letter-spacing:.005em;
-}
-.alt-constraints-notes-input::placeholder{
-  color:var(--text-muted);
-  font-style:italic;
-}
-.alt-constraints-notes-submit{
-  flex:0 0 auto;
-  /* min-width pegged to the resting "Enter" footprint so the button does not
-     shrink when its text swaps to "…" during the in-flight busy state. */
-  min-width:4.25rem;
-  padding:.35rem .8rem;
-  border-radius:6px;
-  background:var(--accent-a14);
-  border:1px solid var(--accent-a35);
-  color:var(--accent);
-  font-family:"JetBrains Mono","DM Mono",ui-monospace,monospace;
-  font-size:.68rem;
-  font-weight:600;
-  letter-spacing:.08em;
+  justify-content:space-between;
+  color:var(--ai-muted);
+  font-size:.75rem;
+  font-weight:800;
   text-transform:uppercase;
-  text-align:center;
-  cursor:pointer;
-  transition:background-color .18s ease, border-color .18s ease, color .18s ease, transform .18s ease;
+  letter-spacing:.04em;
+  padding:0;
 }
-.alt-constraints-notes-submit:hover:not(:disabled){
-  background:var(--accent-a25);
-  border-color:var(--accent);
-  color:var(--text);
-  transform:translateY(-1px);
+.alt-section-body{
+  display:flex;
+  flex-direction:column;
+  gap:.5rem;
 }
-.alt-constraints-notes-submit:focus-visible{
-  outline:none;
-  box-shadow:var(--focus-ring);
-}
-/* Disabled state — token-clean (no opacity on the colored text). The button
-   visibly de-emphasizes while a fetch is in flight; the input next to it
-   stays enabled so users can compose the next prompt while waiting. */
-.alt-constraints-notes-submit:disabled{
-  background:var(--white-04);
-  border-color:var(--white-12);
-  color:var(--text-muted);
-  cursor:not-allowed;
-  transform:none;
-}
-/* Precedence hint sits below the input so users know typed text wins
-   over dropdowns. Standard pattern across all AI override widgets. */
-.alt-constraints-precedence-hint{
-  margin-top:.4rem;
-  padding-left:.4rem;
-  font-size:.7rem;
-  font-style:italic;
-  color:var(--text-muted);
-  letter-spacing:.01em;
+.alt-count{
+  color:var(--ai-accent-2);
+  font-weight:800;
+  font-variant-numeric:tabular-nums;
 }
 
-/* Prompt echo — appears above the rotating status text when the user
-   submitted a free-form refinement. Acknowledges THEIR input so the
-   loading state isn't generic "AI is working" boilerplate. */
+/* Result card — 3-col grid (icon / body / tag). Click selects; the
+   footer's Use-selection commits the swap. */
+.alt-result{
+  width:100%;
+  display:grid;
+  grid-template-columns:42px 1fr auto;
+  gap:.75rem;
+  align-items:center;
+  text-align:left;
+  padding:.75rem;
+  border-radius:14px;
+  background:var(--ai-panel);
+  border:1px solid var(--ai-border);
+  color:var(--ai-text);
+  cursor:pointer;
+  font-family:inherit;
+  transition:background-color .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+.alt-result:hover,
+.alt-result.is-active{
+  background:var(--ai-panel-2);
+  border-color:var(--ai-accent-55);
+}
+.alt-result.is-active{
+  box-shadow:0 0 0 2px var(--ai-accent-25);
+}
+.alt-result:focus-visible{
+  outline:2px solid var(--ai-accent-2);
+  outline-offset:2px;
+}
+.alt-result-icon{
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  border-radius:12px;
+  background:var(--ai-accent-12);
+  color:var(--ai-accent-2);
+  font-size:1.1rem;
+}
+.alt-result-body{ min-width:0; }
+.alt-result-title{
+  color:var(--ai-text);
+  font-weight:800;
+  font-size:.9375rem;
+  line-height:1.25;
+  margin-bottom:.1875rem;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.alt-result-stats{
+  display:flex;
+  align-items:center;
+  gap:.35rem;
+  color:var(--ai-muted);
+  font-size:.75rem;
+  line-height:1.35;
+  flex-wrap:wrap;
+  font-variant-numeric:tabular-nums;
+}
+.alt-result-stats i{ color:var(--ai-accent-2); margin-right:.15rem; }
+.alt-result-sep{ color:var(--ai-muted); opacity:.6; }
+.alt-result-meta{
+  color:var(--ai-muted);
+  font-size:.75rem;
+  line-height:1.35;
+  margin-top:.15rem;
+}
+.alt-result-reason{
+  color:var(--ai-muted);
+  font-size:.75rem;
+  line-height:1.35;
+  font-style:normal;
+  margin-top:.25rem;
+}
+.alt-result-tag{
+  flex:0 0 auto;
+  color:var(--ai-accent-2);
+  font-size:.75rem;
+  font-weight:800;
+  letter-spacing:0;
+  text-transform:none;
+  padding:0;
+  border:none;
+  background:transparent;
+  border-radius:0;
+  white-space:nowrap;
+}
+.alt-result-tag--exact{ color:var(--ai-accent-2); }
+.alt-result-tag--similar{ color:var(--ai-accent-2); opacity:.82; }
+
+/* Empty state — shown when no results return. */
+.alt-empty{
+  display:none;
+  padding:1.625rem .5rem .625rem;
+  text-align:center;
+  color:var(--ai-muted);
+  line-height:1.45;
+  font-size:.9rem;
+}
+.alt-empty.is-visible{ display:block; }
+
+/* Footer — Cancel (ghost) + Use selection (primary). Primary stays
+   disabled until a card is selected. */
+.alt-modal-footer{
+  display:flex;
+  justify-content:flex-end;
+  gap:.625rem;
+  padding-top:.875rem;
+  margin-top:.25rem;
+  border-top:1px solid var(--ai-border);
+}
+.alt-ghost-btn{
+  padding:.625rem .875rem;
+  border-radius:10px;
+  background:var(--ai-panel-2);
+  border:1px solid var(--ai-border);
+  color:var(--ai-text);
+  font-family:inherit;
+  font-size:.875rem;
+  font-weight:700;
+  cursor:pointer;
+  transition:background-color .18s ease, border-color .18s ease;
+}
+.alt-ghost-btn:hover{
+  background:#363636;
+  border-color:var(--ai-border-2);
+}
+.alt-primary-btn{
+  padding:.625rem .875rem;
+  border-radius:10px;
+  background:var(--ai-accent);
+  border:none;
+  color:#071308;
+  font-family:inherit;
+  font-size:.875rem;
+  font-weight:700;
+  letter-spacing:.01em;
+  cursor:pointer;
+  transition:background-color .15s ease, opacity .15s ease;
+}
+.alt-primary-btn:hover:not(:disabled){ background:var(--ai-accent-2); }
+.alt-primary-btn:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+}
+
+/* Prompt echo — shown above the rotating status when the user submitted
+   a free-form refinement. Acknowledges their input so the loading state
+   isn't generic "AI is working" boilerplate. */
 .alt-modal-prompt-echo{
   display:flex;
   align-items:center;
   gap:.55rem;
-  padding:.7rem .9rem;
-  margin-bottom:.7rem;
-  border-radius:8px;
-  background:var(--accent-a08);
-  border:1px solid var(--accent-a25);
-  color:var(--text);
+  padding:.625rem .875rem;
+  margin-bottom:.625rem;
+  border-radius:10px;
+  background:var(--ai-accent-12);
+  border:1px solid var(--ai-accent-25);
+  color:var(--ai-text);
   font-size:.85rem;
   line-height:1.4;
   animation:promptEchoIn .25s ease-out both;
 }
 .alt-modal-prompt-echo i{
   flex:0 0 auto;
-  color:var(--accent);
+  color:var(--ai-accent-2);
   font-size:.95rem;
 }
 .alt-modal-prompt-echo em{
   font-style:italic;
-  color:var(--accent);
-  font-weight:500;
+  color:var(--ai-accent-2);
+  font-weight:600;
 }
 @keyframes promptEchoIn{
   from{opacity:0; transform:translateY(-4px);}
@@ -2840,127 +2945,16 @@ html{scroll-behavior:smooth}
 }
 .spend-unconfigured i{ color:var(--warning); }
 
-.alt-option{
-  padding:.95rem 1.05rem;
-  border-radius:12px;
-  background:rgba(255,255,255,.03);
-  border:1px solid var(--white-08);
-  display:flex;
-  flex-direction:column;
-  gap:.4rem;
-  transition:transform .18s cubic-bezier(.34,1.2,.64,1),
-             background-color .18s ease,
-             border-color .18s ease,
-             box-shadow .18s ease;
-}
-.alt-option:hover{
-  transform:translateY(-1px);
-  background:rgba(255,255,255,.055);
-  border-color:color-mix(in srgb, var(--rose) 30%, transparent);
-  box-shadow:0 10px 24px -14px var(--shadow-a50);
-}
-.alt-option-header{
-  display:flex;
-  align-items:baseline;
-  justify-content:space-between;
-  gap:.75rem;
-}
-.alt-option-name{
-  color:var(--text);
-  font-weight:600;
-  font-size:1.02rem;
-  font-family:"Inter","SF Pro Display",system-ui,sans-serif;
-  letter-spacing:-.005em;
-}
-.alt-option-rating{
-  display:inline-flex;
-  align-items:center;
-  gap:.3rem;
-  color:var(--gold);
-  font-weight:600;
-  font-size:.88rem;
-  white-space:nowrap;
-  font-variant-numeric:tabular-nums;
-  flex-shrink:0;
-}
-.alt-option-venue{
-  color:var(--text-secondary);
-  font-size:.86rem;
-  line-height:1.45;
-}
-.alt-option-meta{
-  display:flex;
-  align-items:center;
-  gap:.55rem;
-  color:var(--text-muted);
-  font-size:.82rem;
-  flex-wrap:wrap;
-}
-.alt-option-meta i{ color:var(--rose-2); margin-right:.15rem; }
-.alt-option-sep{ color:var(--text-muted); }
-.alt-option-rationale{
-  color:var(--text-secondary);
-  font-size:.88rem;
-  font-style:italic;
-  line-height:1.5;
-}
-.alt-option-swap{
-  align-self:flex-start;
-  margin-top:.3rem;
-  padding:.45rem .95rem;
-  border:none;
-  border-radius:8px;
-  background:linear-gradient(135deg, var(--rose) 0%, var(--lavender) 100%);
-  color:var(--contrast-dark);
-  font-weight:600;
-  font-size:.82rem;
-  letter-spacing:.02em;
-  cursor:pointer;
-  display:inline-flex;
-  align-items:center;
-  gap:.45rem;
-  box-shadow:0 2px 10px -2px color-mix(in srgb, var(--rose) 45%, transparent);
-  transition:transform .15s, box-shadow .15s;
-}
-.alt-option-swap:hover{
-  transform:translateY(-1px);
-  box-shadow:0 4px 14px -2px color-mix(in srgb, var(--rose) 60%, transparent);
-}
-.alt-option-swap:active{ transform:translateY(0); }
-
-@media (max-width:560px){
-  .alt-modal-panel{ width:calc(100vw - 1rem); border-radius:14px; }
-}
-
-/* Google-verified badge on alternative option cards */
-.alt-option-badge{
-  display:inline-flex;
-  align-items:center;
-  gap:.3rem;
-  margin-left:.55rem;
-  padding:.15rem .5rem;
-  border-radius:999px;
-  font-size:.68rem;
-  font-weight:600;
-  letter-spacing:.04em;
-  text-transform:uppercase;
-  background:color-mix(in srgb, var(--success) 14%, transparent);
-  color:var(--success);
-  border:1px solid color-mix(in srgb, var(--success) 28%, transparent);
-  vertical-align:middle;
-  white-space:nowrap;
-}
-.alt-option-badge i{ font-size:.72rem; }
-.alt-option-badge--warn{
-  background:var(--gold-a14);
-  color:var(--gold);
-  border-color:color-mix(in srgb, var(--gold) 32%, transparent);
-}
-.alt-option--verified{
-  border-color:color-mix(in srgb, var(--success) 22%, transparent);
-}
-.alt-option--verified:hover{
-  border-color:color-mix(in srgb, var(--success) 45%, transparent);
+@media (max-width:540px){
+  .alt-modal{ padding:1rem; }
+  .alt-modal-panel{ border-radius:16px; }
+  .alt-modal-header{ padding:1rem 1rem .7rem; }
+  .alt-modal-shell{ padding:.75rem 1rem 1rem; }
+  .alt-result{ grid-template-columns:38px 1fr; }
+  .alt-result-tag{ grid-column:2; justify-self:start; margin-top:.25rem; }
+  .alt-modal-footer{ flex-direction:column-reverse; }
+  .alt-modal-footer .alt-ghost-btn,
+  .alt-modal-footer .alt-primary-btn{ width:100%; }
 }
 
 /* ═══ DRAG-REORDER (Phase 12) ═══

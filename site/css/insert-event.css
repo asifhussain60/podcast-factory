@@ -998,3 +998,465 @@ textarea.insert-field-input{
      re-applying display:none here would strip the element from the a11y tree,
      leaving the icon-only button without an accessible name. */
 }
+
+/* ═════════════════════════════════════════════════════════════════════
+   Add Event Modal — V2 Redesign (approved 2026-04-24, pivoted to 1x2 grid)
+   Timeline at top · LEFT criteria / RIGHT results · Time & Details below ·
+   "Use this" button per card · simpler, tighter CSS.
+   ═════════════════════════════════════════════════════════════════════ */
+
+.insert-modal-panel--v2 {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.9rem !important;
+  padding: 1.4rem 1.6rem 1.1rem !important;
+  max-width: 960px !important;
+  width: calc(100vw - 3rem) !important;
+  max-height: 92vh !important;
+  overflow-y: auto !important;
+}
+
+.insert-modal-panel--v2 .insert-modal-header {
+  padding: 0;
+  border: none;
+  margin-bottom: 0.1rem;
+}
+
+/* ── 1x2 Split (criteria | results) ──────────────────────────────── */
+.insert-split {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) !important;
+  gap: 1rem !important;
+  align-items: stretch !important;
+}
+.insert-criteria,
+.insert-results--v2 {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.7rem !important;
+  padding: 0.85rem !important;
+  background: var(--surface-2, rgba(255, 255, 255, 0.03)) !important;
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.08)) !important;
+  border-radius: 0.75rem !important;
+  min-width: 0 !important;
+}
+.insert-criteria-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted, rgba(255, 255, 255, 0.55));
+  font-weight: 700;
+  margin-bottom: 0.1rem;
+}
+.insert-results-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 140px;
+  font-size: 0.85rem;
+  color: var(--text-muted, rgba(255, 255, 255, 0.5));
+  border: 1px dashed var(--border, rgba(255, 255, 255, 0.12));
+  border-radius: 0.55rem;
+}
+.insert-results-placeholder i {
+  color: var(--accent, #a78bfa);
+}
+
+/* ── Timeline strip ───────────────────────────────────────────────── */
+.insert-timeline {
+  display: grid !important;
+  grid-template-columns: 1fr auto 1fr !important;
+  align-items: center !important;
+  gap: 0.6rem !important;
+  padding: 0.75rem 0.9rem !important;
+  background: var(--surface-2, rgba(255, 255, 255, 0.04)) !important;
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.08)) !important;
+  border-radius: 0.85rem !important;
+}
+.insert-timeline-seg {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+.insert-timeline-seg--prev { text-align: left; }
+.insert-timeline-seg--next { text-align: right; }
+.insert-timeline-seg--gap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.6rem;
+  border-left: 1px dashed var(--border, rgba(255, 255, 255, 0.15));
+  border-right: 1px dashed var(--border, rgba(255, 255, 255, 0.15));
+}
+.insert-timeline-tag {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted, rgba(255, 255, 255, 0.5));
+  font-weight: 600;
+}
+.insert-timeline-title {
+  font-size: 0.9rem;
+  color: var(--text, rgba(255, 255, 255, 0.9));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+.insert-timeline-time {
+  font-size: 0.75rem;
+  color: var(--text-muted, rgba(255, 255, 255, 0.55));
+  font-variant-numeric: tabular-nums;
+}
+.insert-timeline-gap-text {
+  font-size: 0.82rem;
+  color: var(--accent, #a78bfa);
+  font-weight: 600;
+  white-space: nowrap;
+  text-align: center;
+}
+
+/* ── Prompt row ──────────────────────────────────────────────────── */
+.insert-prompt-row {
+  display: grid !important;
+  grid-template-columns: 1fr auto !important;
+  gap: 0.5rem !important;
+  align-items: stretch !important;
+}
+.insert-prompt-input {
+  width: 100%;
+  resize: vertical;
+  min-height: 2.6rem;
+  padding: 0.7rem 0.9rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--text, #fff);
+  background: var(--surface-2, rgba(255, 255, 255, 0.04));
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.12));
+  border-radius: 0.7rem;
+  transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+.insert-prompt-input:focus {
+  outline: none;
+  border-color: var(--accent, #a78bfa);
+  box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.18);
+}
+.insert-prompt-send {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 3rem;
+  padding: 0 1rem;
+  color: var(--accent-contrast, #1a1026);
+  background: var(--accent, #a78bfa);
+  border: none;
+  border-radius: 0.7rem;
+  cursor: pointer;
+  transition: transform 120ms ease, background 120ms ease;
+}
+.insert-prompt-send:hover { transform: translateY(-1px); }
+.insert-prompt-send:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ── Scope chips row ─────────────────────────────────────────────── */
+.insert-scope-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.7rem !important;
+  flex-wrap: wrap !important;
+}
+.insert-scope-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted, rgba(255, 255, 255, 0.5));
+  font-weight: 600;
+}
+.insert-scope-chips {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+.insert-scope-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.1rem;
+  padding: 0.45rem 0.75rem;
+  background: var(--surface-2, rgba(255, 255, 255, 0.04));
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.12));
+  border-radius: 0.6rem;
+  color: var(--text, rgba(255, 255, 255, 0.9));
+  cursor: pointer;
+  transition: border-color 120ms ease, background 120ms ease;
+}
+.insert-scope-chip:hover {
+  border-color: var(--accent-soft, rgba(167, 139, 250, 0.4));
+}
+.insert-scope-chip.is-selected {
+  border-color: var(--accent, #a78bfa);
+  background: rgba(167, 139, 250, 0.12);
+  box-shadow: 0 0 0 1px var(--accent, #a78bfa) inset;
+}
+.insert-scope-chip-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+.insert-scope-chip-sub {
+  font-size: 0.68rem;
+  color: var(--text-muted, rgba(255, 255, 255, 0.5));
+  font-weight: 500;
+}
+
+/* ── Quick-starts (collapsed) ────────────────────────────────────── */
+.insert-quickstarts {
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.08));
+  border-radius: 0.6rem;
+  padding: 0.4rem 0.75rem;
+  background: var(--surface-2, rgba(255, 255, 255, 0.02));
+}
+.insert-quickstarts > summary {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  list-style: none;
+  padding: 0.15rem 0;
+}
+.insert-quickstarts > summary::-webkit-details-marker { display: none; }
+.insert-quickstarts > summary::before {
+  content: "\203A";
+  font-size: 1.1rem;
+  color: var(--text-muted, rgba(255, 255, 255, 0.5));
+  transition: transform 120ms ease;
+}
+.insert-quickstarts[open] > summary::before {
+  transform: rotate(90deg);
+}
+.insert-quickstarts-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text, rgba(255, 255, 255, 0.85));
+}
+.insert-quickstarts-hint {
+  font-size: 0.72rem;
+  color: var(--text-muted, rgba(255, 255, 255, 0.5));
+}
+.insert-quickstarts-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding: 0.5rem 0 0.25rem;
+}
+.insert-quickstarts-chips .insert-chip {
+  padding: 0.35rem 0.65rem;
+  font-size: 0.78rem;
+  background: var(--surface-3, rgba(255, 255, 255, 0.06));
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.1));
+  border-radius: 999px;
+  color: var(--text, rgba(255, 255, 255, 0.85));
+  cursor: pointer;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+.insert-quickstarts-chips .insert-chip:hover {
+  background: rgba(167, 139, 250, 0.1);
+  border-color: var(--accent-soft, rgba(167, 139, 250, 0.4));
+}
+
+/* ── Results area (v2 — right column of split) ───────────────────── */
+.insert-results--v2 .insert-chat-history {
+  max-height: 100px !important;
+  overflow-y: auto !important;
+}
+.insert-results--v2 .insert-results-cards {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 0.55rem !important;
+}
+.insert-results--v2 .insert-card {
+  padding: 0.7rem 0.85rem !important;
+  border-radius: 0.55rem !important;
+}
+
+/* ── "Use this" button on every card ─────────────────────────────── */
+.insert-card-use {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.4rem !important;
+  margin-top: 0.5rem !important;
+  padding: 0.45rem 0.85rem !important;
+  font-size: 0.82rem !important;
+  font-weight: 600 !important;
+  color: var(--accent-contrast, #1a1026) !important;
+  background: var(--accent, #a78bfa) !important;
+  border: none !important;
+  border-radius: 0.45rem !important;
+  cursor: pointer !important;
+  transition: transform 120ms ease, filter 120ms ease !important;
+}
+.insert-card-use:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+.insert-card.is-picked .insert-card-use {
+  background: #34d399 !important;
+  color: #062d1f !important;
+}
+.insert-card.is-picked .insert-card-use i.fa-circle-check::before {
+  content: "\f00c"; /* check */
+}
+
+/* ── Primary / out-of-range card styling ─────────────────────────── */
+.insert-card--primary {
+  border-color: var(--accent, #a78bfa);
+  box-shadow: 0 0 0 1px var(--accent, #a78bfa) inset, 0 4px 16px rgba(167, 139, 250, 0.18);
+}
+.insert-card--outofrange {
+  opacity: 0.85;
+}
+.insert-card--outofrange.insert-card--primary {
+  border-color: rgba(248, 113, 113, 0.75);
+  box-shadow: 0 0 0 1px rgba(248, 113, 113, 0.75) inset;
+}
+.insert-card-primary-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-contrast, #1a1026);
+  background: var(--accent, #a78bfa);
+  padding: 0.12rem 0.5rem;
+  border-radius: 999px;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+.insert-card-oor-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  background: rgba(248, 113, 113, 0.85);
+  padding: 0.12rem 0.5rem;
+  border-radius: 999px;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+
+/* ── Not-found banner + expand retry ─────────────────────────────── */
+.insert-notfound-banner {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.9rem;
+  padding: 0.7rem 0.9rem;
+  background: rgba(248, 113, 113, 0.08);
+  border: 1px solid rgba(248, 113, 113, 0.4);
+  border-radius: 0.6rem;
+  color: var(--text, rgba(255, 255, 255, 0.9));
+}
+.insert-notfound-text {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.85rem;
+}
+.insert-notfound-text i {
+  color: rgba(248, 113, 113, 0.9);
+}
+.insert-notfound-expand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.75rem;
+  background: var(--accent, #a78bfa);
+  color: var(--accent-contrast, #1a1026);
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 120ms ease;
+}
+.insert-notfound-expand:hover { transform: translateY(-1px); }
+
+/* ── Live readout (below start/duration) ─────────────────────────── */
+.insert-live-readout {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.5rem 0.7rem;
+  background: var(--surface-2, rgba(255, 255, 255, 0.03));
+  border-left: 2px solid var(--accent, #a78bfa);
+  border-radius: 0.4rem;
+  font-size: 0.82rem;
+}
+.insert-live-strong {
+  color: var(--text, rgba(255, 255, 255, 0.92));
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.insert-live-sub {
+  color: var(--text-muted, rgba(255, 255, 255, 0.55));
+  font-size: 0.74rem;
+}
+
+/* ── Footer: secondary "Skip the AI" link ────────────────────────── */
+.insert-manual-secondary {
+  font-size: 0.8rem;
+  color: var(--text-muted, rgba(255, 255, 255, 0.55));
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.2);
+  text-underline-offset: 3px;
+  cursor: pointer;
+  transition: color 120ms ease, text-decoration-color 120ms ease;
+}
+.insert-manual-secondary:hover,
+.insert-manual-secondary:focus {
+  color: var(--text, rgba(255, 255, 255, 0.85));
+  text-decoration-color: var(--accent, #a78bfa);
+  outline: none;
+}
+.insert-modal-actions-spacer {
+  flex: 1;
+}
+.insert-modal-panel--v2 .insert-modal-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding-top: 0.4rem;
+  border-top: 1px solid var(--border, rgba(255, 255, 255, 0.08));
+  flex-wrap: wrap;
+}
+
+/* ── Responsive (narrow) ─────────────────────────────────────────── */
+@media (max-width: 780px) {
+  .insert-split {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+@media (max-width: 560px) {
+  .insert-timeline {
+    grid-template-columns: 1fr !important;
+    gap: 0.3rem !important;
+    text-align: center;
+  }
+  .insert-timeline-seg--prev,
+  .insert-timeline-seg--next {
+    text-align: center;
+  }
+  .insert-timeline-seg--gap {
+    border-left: none !important;
+    border-right: none !important;
+    border-top: 1px dashed var(--border, rgba(255, 255, 255, 0.15)) !important;
+    border-bottom: 1px dashed var(--border, rgba(255, 255, 255, 0.15)) !important;
+    padding: 0.3rem 0 !important;
+  }
+  .insert-scope-chips { width: 100%; }
+  .insert-scope-chip { flex: 1 1 auto; }
+}
