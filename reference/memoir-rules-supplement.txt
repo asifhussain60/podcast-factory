@@ -1,7 +1,34 @@
 ============================================================
 MEMOIR RULES SUPPLEMENT — LIVE OVERRIDES
 ============================================================
-Last updated: April 12, 2026
+Last updated: April 30, 2026
+
+============================================================
+SECTION 0: ORDER OF OPERATIONS — READ THIS FIRST
+============================================================
+
+THIS FILE IS NOT THE WORKFLOW. The authoritative workflow is:
+
+    JOURNAL_DIR/reference/journal-workflow-v2.md
+
+Read journal-workflow-v2.md NOW, before any other action, before any
+other reference file, before running any script. Workflow-v2 replaces
+SKILL.md Sections 1 through 10 in their entirety.
+
+This supplement adds protocols on top of workflow-v2 (lock list, @@
+markers, incident intake formats, biographical updates). It does not
+replace workflow-v2 — it extends it.
+
+PRECEDENCE WHEN FILES CONFLICT:
+  1. journal-workflow-v2.md   (authoritative)
+  2. memoir-rules-supplement.txt   (this file — extensions only)
+  3. SKILL.md   (frozen, read-only, may carry stale paths and naming)
+  4. SKILL_DIR/references/*   (frozen)
+
+NOMENCLATURE: The memoir is "What I Wish Babu Taught Me." Asif's
+father is "Babu," not "Dad." Every "Dad" you see in the read-only
+SKILL.md or its references is a stale relic — substitute "Babu" on
+every read.
 
 ============================================================
 SECTION A: CHAPTER LOCK PROTOCOL
@@ -22,7 +49,7 @@ UNLOCK TRIGGER: Only when Asif explicitly says "unlock chapter [N]"
 LOCK RULES (apply to every chapter on the LOCKED list):
   - Do NOT open, read for editing purposes, or modify these files
   - Do NOT move incidents into or out of these chapters
-  - Do NOT update Dad's Advice sections in these chapters
+  - Do NOT update Babu's Advice sections in these chapters
   - Do NOT run refinement, polish, or rebuild passes on these chapters
   - Cross-references FROM future chapters TO locked chapters are
     permitted (brief callbacks only, never re-telling an incident)
@@ -31,11 +58,11 @@ LOCK RULES (apply to every chapter on the LOCKED list):
     unless he specifies otherwise
 
 LOCKED CHAPTERS:
-  LOCKED: Intro — "What I Wish Dad Taught Me"
-  LOCKED: Chapter 1 — "Dad, What Does It Mean to Be a Man?"
-  LOCKED: Chapter 2 — "Dad, Tell Me What Love Really Is"
+  LOCKED: Intro — "What I Wish Babu Taught Me"
+  LOCKED: Chapter 1 — "Babu, What Does It Mean to Be a Man?"
+  LOCKED: Chapter 2 — "Babu, Tell Me What Love Really Is"
 
-NEXT ACTIVE CHAPTER: Chapter 3 — "Dad, Tell Me What Marriage Really Is"
+NEXT ACTIVE CHAPTER: Chapter 3 — "Babu, Tell Me What Marriage Really Is"
 
 ============================================================
 SECTION B: STRUCTURAL REORGANIZATION PLAN
@@ -46,7 +73,7 @@ memoir will undergo a structural reorganization pass. This means:
 
   - Chapter order may change based on thematic and emotional arc
   - Incidents may be relocated between chapters for better flow
-  - Dad's Advice sections may be rebalanced
+  - Babu's Advice sections may be rebalanced
   - Cross-references will be updated to match new order
   - The temporal guardrail will be rebuilt from scratch
 
@@ -101,9 +128,10 @@ LOCATION 1 — Journal/ (user's persistent folder)
       ch03-marriage.txt
       (etc.)
 
-    scratchpads/            Temporary working files (deleted after finalization)
-      scratchpad-[chapter-name].txt    (chapter drafts)
-      scratchpad-incidents.txt         (incident drafts under review)
+    scratchpad/             Temporary working files (deleted after finalization)
+      scratch-[chapter-name].txt    (chapter drafts)
+      scratch-incidents.txt         (incident drafts under review)
+      .gitkeep                      (keeps folder tracked in git when empty)
 
     reference/              Project memory and tracking files
       memoir-rules-supplement.txt
@@ -306,7 +334,7 @@ AGENT WORKFLOW:
     - NEVER guess or invent details. Ask if unsure.
 
   STEP 3 — DRAFT TO INCIDENT SCRATCHPAD
-    - Create or open: JOURNAL_DIR/scratchpads/scratchpad-incidents.txt
+    - Create or open: JOURNAL_DIR/scratchpad/scratch-incidents.txt
     - This file contains ONLY refined incident prose, nothing else
     - Each incident is a NUMBERED SECTION with @@ markers:
 
@@ -324,7 +352,10 @@ AGENT WORKFLOW:
 
     - Run all five quality loops on each incident draft
     - ALWAYS present the file to Asif using a computer:// link:
-        [Review your incidents](computer:///sessions/clever-zealous-hamilton/mnt/Journal/scratchpads/scratchpad-incidents.txt)
+        [Review your incidents](computer://<JOURNAL_DIR>/scratchpad/scratch-incidents.txt)
+      where <JOURNAL_DIR> resolves to Asif's mounted journal folder
+      (e.g. /Users/asifhussain/PROJECTS/journal). Do not hardcode an
+      old session-specific mount path.
     - This is NON-NEGOTIABLE. Every time the scratchpad is created
       or updated, open the file for Asif. He reviews in the file,
       not in chat. The link is how he gets there.
@@ -352,7 +383,7 @@ AGENT WORKFLOW:
       3. The refined prose from the scratchpad becomes the incident's
            canonical text (referenced when placing into a chapter later)
     - Confirm to Asif: INC number assigned, chapter target, status
-    - Remove approved incidents from scratchpads/scratchpad-incidents.txt
+    - Remove approved incidents from scratchpad/scratch-incidents.txt
     - When scratchpad is empty (all approved), delete the file
 
   STEP 6 — ROUTE
@@ -362,7 +393,7 @@ AGENT WORKFLOW:
       chapter scratchpad immediately
 
 INCIDENT BANK LOCATION: JOURNAL_DIR/reference/incident-bank.md
-INCIDENT SCRATCHPAD: JOURNAL_DIR/scratchpads/scratchpad-incidents.txt
+INCIDENT SCRATCHPAD: JOURNAL_DIR/scratchpad/scratch-incidents.txt
 ID FORMAT: [INC-NNN] sequential, never reused
 STATUS KEY: PLACED | DRAFTED | BANKED | NEEDS-QQ | IN-REVIEW
 

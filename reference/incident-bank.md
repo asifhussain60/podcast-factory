@@ -1,5 +1,5 @@
 ============================================================
-INCIDENT BANK — What I Wish Dad Taught Me
+INCIDENT BANK — What I Wish Babu Taught Me
 ============================================================
 Last updated: April 15, 2026
 
@@ -20,7 +20,7 @@ ONCE-ONLY RULE:
   An incident with 2 refs is CLOSED to further mentions.
 
 ============================================================
-INTRO — "What I Wish Dad Taught Me" [LOCKED]
+INTRO — "What I Wish Babu Taught Me" [LOCKED]
 ============================================================
 
 [INC-001]
@@ -46,7 +46,7 @@ Connections: Softens the premise — this is not accusation
 Takeaway: The silence was not all Baba's fault. The boy was not ready either.
 
 ============================================================
-CHAPTER 1 — "Dad, What Does It Mean to Be a Man?" [LOCKED]
+CHAPTER 1 — "Babu, What Does It Mean to Be a Man?" [LOCKED]
 ============================================================
 
 [INC-003]
@@ -105,7 +105,7 @@ Connections: Narrative Constant — no victim framing
 Takeaway: Ownership, not accusation.
 
 ============================================================
-CHAPTER 2 — "Dad, Tell Me What Love Really Is" [LOCKED]
+CHAPTER 2 — "Babu, Tell Me What Love Really Is" [LOCKED]
 ============================================================
 
 [INC-008]
@@ -230,7 +230,7 @@ Connections: Central across all chapters
 Takeaway: Love as chosen daily work, not feeling.
 
 ============================================================
-CHAPTER 3 — "Dad, Tell Me What Marriage Really Is" [ACTIVE]
+CHAPTER 3 — "Babu, Tell Me What Marriage Really Is" [ACTIVE]
 ============================================================
 
 [INC-019]
@@ -405,7 +405,7 @@ Themes: marriage, silence, courage
 Emotional arc: search / discovery
 Status: DRAFTED
 Told in: Ch03-Marriage (scratchpad Section 1)
-Refs: Ch03-Marriage Dad's Advice (echo)
+Refs: Ch03-Marriage Babu's Advice (echo)
 Connections: Three men's stories. The eleven-year man. The numb man. The secret watcher.
 Takeaway: An epidemic that wears a suit and prays on time.
 
@@ -416,7 +416,7 @@ Themes: marriage, silence, fear
 Emotional arc: damage
 Status: DRAFTED
 Told in: Ch03-Marriage (scratchpad Section 2)
-Refs: Ch03-Marriage Dad's Advice (echo)
+Refs: Ch03-Marriage Babu's Advice (echo)
 Connections: Builds from INC-022 into marital consequences
 Takeaway: Expected wife to compete with a fantasy. Treated her failure as the disappointment.
 

@@ -7,7 +7,7 @@ This document governs how quotes from book screenshots and sacred sources are ha
 There are TWO distinct categories of sources, each with different weaving rules:
 
 ### Category A: Sacred Sources (ATTRIBUTED respectfully)
-These sources are woven WITH respectful attribution in Asif's voice or Dad's voice. They appear naturally in the text as a person of faith would reference them, not as academic citations.
+These sources are woven WITH respectful attribution in Asif's voice or Babu's voice. They appear naturally in the text as a person of faith would reference them, not as academic citations.
 
 1. **Quran** — Attributed as: "Allah says in the Quran," "as Allah tells us," "the Quran reminds us," or similar natural phrasing. Include surah and ayah in the quotes library for reference, but do NOT include verse numbers in the memoir text itself.
 
@@ -21,7 +21,7 @@ These sources are woven WITH respectful attribution in Asif's voice or Dad's voi
 - The attribution must feel like a person of faith speaking from the heart, not an academic or a cleric. No surah/verse numbers. No hadith collection references. No scholarly apparatus.
 
 ### Category B: All Other Sources (INVISIBLE weaving)
-Authors, scholars, thinkers, contemporary writers (Yasmin Mogahed, etc.) — these are woven WITHOUT any attribution. The quote's idea enters the writing completely absorbed into the appropriate voice. No quotation marks. No "as someone said." No names. The seam must be invisible. The voice (Asif's or Dad's) owns the idea completely.
+Authors, scholars, thinkers, contemporary writers (Yasmin Mogahed, etc.) — these are woven WITHOUT any attribution. The quote's idea enters the writing completely absorbed into the appropriate voice. No quotation marks. No "as someone said." No names. The seam must be invisible. The voice (Asif's or Babu's) owns the idea completely.
 
 This is the same rule that has always governed the Yasmin Mogahed quotes.
 
@@ -54,12 +54,12 @@ Number entries sequentially. Read the existing file first to find the next numbe
 After logging, confirm to Asif: how many quotes were extracted, what themes they were tagged to, and a brief note on where they might be useful.
 
 ### Stage 3: Weave
-Quotes may be woven into ANY part of the memoir: narrative sections, reflective passages, transitional observations, and Dad's advice alike. The voice must match the section they enter.
+Quotes may be woven into ANY part of the memoir: narrative sections, reflective passages, transitional observations, and Babu's advice alike. The voice must match the section they enter.
 
 When writing or refining any chapter, read the full quotes library and identify entries tagged to that chapter's themes that are marked "unused."
 
 **For Category A (sacred sources):**
-The idea AND respectful attribution enter the text. The wording is adapted to Asif's voice or Dad's voice, but the source is honored. The attribution should feel earned by the passage, not dropped in for decoration.
+The idea AND respectful attribution enter the text. The wording is adapted to Asif's voice or Babu's voice, but the source is honored. The attribution should feel earned by the passage, not dropped in for decoration.
 
 **For Category B (all other sources):**
 The idea, not the words, enters the writing. The appropriate voice absorbs the insight and speaks it naturally. No attribution of any kind. The seam must be invisible.
@@ -77,7 +77,7 @@ The sacred quote should arrive at a moment where it earns its weight. It should 
 
 Example (narrative): "Somewhere in that period I kept returning to something the Prophet, peace be upon him, once said: that the strongest man is not the one who wrestles others to the ground, but the one who controls himself when he is angry. I had spent years thinking strength meant volume. It did not."
 
-Example (Dad's advice): "The Commander of the Faithful, Maulana Ali, said it simply: patience is of two kinds, patience over what pains you and patience against what you crave. You will need both, Asif. Both."
+Example (Babu's advice): "The Commander of the Faithful, Maulana Ali, said it simply: patience is of two kinds, patience over what pains you and patience against what you crave. You will need both, Asif. Both."
 
 **How to weave Category B well:**
 
@@ -152,7 +152,7 @@ This memoir is a BOOK, not a journal. Chapters are read in order. Therefore:
 
 - **Earlier chapters must NEVER reference incidents described in later chapters.** If the locked-door incident is first told in the Love chapter, it cannot appear in the Intro or Man chapter.
 - **Later chapters MAY briefly reference or hint at incidents from earlier chapters.** This creates continuity and the feeling of a life being revisited with accumulating clarity. Use phrases like "I mentioned earlier..." or "The same pattern I described in..." sparingly. More often, a brief image callback is enough ("the same panic I had felt at those two locked doors").
-- **Dad's advice sections in later chapters should feel like they grow wiser**, as if the imagined father is also learning from the accumulating weight of Asif's experiences.
+- **Babu's advice sections in later chapters should feel like they grow wiser**, as if the imagined father is also learning from the accumulating weight of Asif's experiences.
 - When revising multiple chapters, always work in chronological order (Intro → Man → Love → Marriage → ...) to ensure no forward references leak in.
 
 ## Quality Check for Woven Quotes

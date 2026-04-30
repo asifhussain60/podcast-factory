@@ -1,4 +1,4 @@
-# Thematic Arc: What I Wish Dad Taught Me
+# Thematic Arc: What I Wish Babu Taught Me
 
 ## Overarching Theme
 
@@ -7,12 +7,12 @@ A man's honest reckoning with what life taught him the hard way, structured as t
 1. **My experiences (good and bad) and what I learned** — The raw material. Every chapter draws from specific memories, mistakes, pain, and occasional grace.
 2. **The transition through life, religion, and studies** — The evolution from confused boy in Kuwait to atheist in America to a man who found faith on his own terms. Religion, psychology, self-study, and lived experience all contributed.
 3. **Ishrat, primarily, and my friends, were the catalysts of my change** — The people who showed him what love, manhood, and honesty actually look like in practice. Ishrat is central, but Afifa Khala, Anees, and others played roles.
-4. **Ends with Dad's advice** — Each chapter closes with the imagined voice of the father Asif needed, speaking the truths that would have saved years of pain.
+4. **Ends with Babu's advice** — Each chapter closes with the imagined voice of the father Asif needed, speaking the truths that would have saved years of pain.
 
 ## Chapter Structure
 
 Every chapter follows this pattern:
-- Opens with a question addressed to the father: "Dad, [question]?"
+- Opens with a question addressed to the father: "Babu, [question]?"
 - Unfolds through specific memories, contradictions, and honest reflection
 - Builds emotional pressure gradually through accumulation of incidents
 - Themes emerge from the narrative, not from declarations
@@ -20,28 +20,28 @@ Every chapter follows this pattern:
 
 ## Chapter Map
 
-### Intro: "What I Wish Dad Taught Me"
+### Intro: "What I Wish Babu Taught Me"
 **Status:** COMPLETE
 **Core:** Sets up the entire memoir. Not a complaint against his father. A record of lessons learned late. The older self speaking to the younger self. Establishes that even if Baba had spoken, the teenage Asif might not have listened. But the lessons are worth leaving behind.
 **Key line:** "Once a man has paid dearly for certain lessons, he should at least have the decency to leave a map behind."
 
-### Chapter 1: "Dad, What Does It Mean to Be a Man?"
+### Chapter 1: "Babu, What Does It Mean to Be a Man?"
 **Status:** COMPLETE
 **Core:** Manhood was never explicitly taught. Bollywood filled the gap. Amma's dominance and Baba's passivity distorted his understanding of strength. Ishrat and Erum corrected it. Real manhood is steadiness, not volume.
 **Key themes:** Male vs man distinction, softness is not weakness, protecting without possessing, Ishrat showing "normal," Erum teaching tenderness, admitting he should have treated his mother better.
-**Dad's advice:** Present and complete. Covers physical strength vs moral strength, respecting women, discipline, private character, accountability.
+**Babu's advice:** Present and complete. Covers physical strength vs moral strength, respecting women, discipline, private character, accountability.
 
-### Chapter 2: "Dad, Tell Me What Love Really Is"
-**Status:** IN PROGRESS (narrative complete through Ishrat section and Dad's advice drafted, but may need further refinement)
+### Chapter 2: "Babu, Tell Me What Love Really Is"
+**Status:** IN PROGRESS (narrative complete through Ishrat section and Babu's advice drafted, but may need further refinement)
 **Core:** Love was confused with obedience, fear, shame, secrecy, punishment, domination, and silence from childhood. Innocence treated like guilt. Authority punishing before understanding. Afifa Khala as the one patch of tenderness. Ishrat as the corrective force. Love as chosen daily work.
 **Key themes:** Emotional starvation, curiosity punished, the therapist incident, the cigarette injustice, Afifa Khala's fragile refuge, mother's backstory and mercy, finding religion in America, Ishrat's patient transformation, love as discipline not feeling.
-**Dad's advice:** Drafted. Covers love with parents, siblings, friends, wife. Breaking old patterns.
+**Babu's advice:** Drafted. Covers love with parents, siblings, friends, wife. Breaking old patterns.
 
-### Chapter 3: "Dad, Tell Me What Marriage [Really Is]"
-**Status:** IN PROGRESS (narrative extends through Ishrat section, Dad's advice drafted, still building)
+### Chapter 3: "Babu, Tell Me What Marriage Really Is"
+**Status:** IN PROGRESS (narrative extends through Ishrat section, Babu's advice drafted, still building)
 **Core:** Sex was already broken before marriage arrived. The bus stop, the rooftop, porn through censorship, the false accusation during engagement, the loveless first marriage, violation within marriage, becoming his father, the cousin, then Ishrat as redemption. Marriage as covenant, not ownership.
 **Key themes:** Sexual confusion from childhood trauma, censorship creating distortion, the engagement accusation and its devastation, marital violation, becoming both parents in marriage, Ishrat as salvage operation, marital sex within trust and friendship, marriage as protection for the psyche.
-**Dad's advice:** Drafted. Covers readiness, responsibility, marital intimacy, breaking inherited patterns.
+**Babu's advice:** Drafted. Covers readiness, responsibility, marital intimacy, breaking inherited patterns.
 
 ### Future Chapters (Planned)
 These have not been written yet. Titles and themes are approximate:
