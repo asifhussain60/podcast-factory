@@ -79,7 +79,7 @@ A 54-year-old South Asian man who grew up in Kuwait, lived through conservative 
 - Wrap up a chapter with a neat conclusion unless told the chapter is complete
 - Sanitize uncomfortable truths. If Asif wrote something raw, preserve the rawness
 - Turn cultural specificity into exoticism
-- Moralize. The voice observes and reflects. It does not preach (except in the Dad's advice sections)
+- Moralize. The voice observes and reflects. It does not preach (except in the Babu's advice sections)
 
 ## Voice Calibration Test
 

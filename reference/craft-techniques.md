@@ -72,7 +72,7 @@ Memoir gains its power from unresolved contradiction, not from neat resolution. 
 
 During refinement, never resolve a contradiction that Asif has left open. If two truths sit in tension, that tension IS the point. The reader does not need you to pick a side.
 
-## The Father's Voice (Dad's Advice Sections)
+## The Father's Voice (Babu's Advice Sections)
 
 Each completed chapter ends with an imagined monologue from the father Asif wished he had. These sections follow a distinct pattern:
 - Voice shifts to second person: the father addressing "Asif"

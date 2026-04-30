@@ -1,7 +1,10 @@
 # Journal Workflow v2 — File-First Model
-# AUTHORITATIVE: This file completely replaces skill.md Sections 1-10.
-# When skill.md conflicts with this file, THIS FILE WINS.
-# Last updated: April 11, 2026
+# AUTHORITATIVE: This file completely replaces SKILL.md Sections 1-10.
+# When SKILL.md conflicts with this file, THIS FILE WINS.
+# Nomenclature: the memoir is "What I Wish Babu Taught Me." Asif's
+#   father is "Babu." Any "Dad" reference in the read-only SKILL.md
+#   or its references is stale — read it as "Babu."
+# Last updated: April 30, 2026
 
 ============================================================
 SECTION 1: SESSION START PROTOCOL
@@ -13,13 +16,22 @@ Before doing ANY work, read these files in this order:
 2. JOURNAL_DIR/reference/master-context.md — synthesized cross-chapter
    intelligence (replaces reading all chapters individually)
 3. JOURNAL_DIR/reference/voice-deep-analysis.md
-4. SKILL_DIR/references/voice-fingerprint.md
-5. SKILL_DIR/references/craft-techniques.md
-6. SKILL_DIR/references/thematic-arc.md
-7. SKILL_DIR/references/biographical-context.md + supplement Bio Context
+4. JOURNAL_DIR/reference/voice-fingerprint.md  (Babu-correct override)
+5. JOURNAL_DIR/reference/craft-techniques.md  (Babu-correct override)
+6. JOURNAL_DIR/reference/thematic-arc.md  (Babu-correct override)
+7. JOURNAL_DIR/reference/biographical-context.md + supplement Bio Context
 8. JOURNAL_DIR/reference/locked-paragraphs.md
 9. JOURNAL_DIR/reference/quotes-library.txt
 10. JOURNAL_DIR/reference/incident-bank.md
+11. JOURNAL_DIR/reference/quotes-workflow.md  (extraction + weaving protocol)
+12. JOURNAL_DIR/reference/translations-glossary.md  (canonical translations)
+13. JOURNAL_DIR/reference/chapter-status.md  (current state of every chapter)
+
+NOTE: Steps 4-7 read the writable JOURNAL_DIR/reference/ versions
+rather than the read-only SKILL_DIR/references/ originals. The writable
+copies carry the Babu nomenclature override and any session-specific
+edits. Do not fall back to SKILL_DIR/references/ unless the writable
+copy is missing.
 
 Then run delta detection:
   python <SKILL_DIR>/scripts/auto_delta.py <JOURNAL_DIR>/chapters
@@ -297,8 +309,12 @@ SECTION 6: OUTPUT RULES
 - Scratchpad: === SECTION N: Title === headers (stripped on finalization).
 - NEVER dump chapter text into chat.
 - ALWAYS present file links after ANY update to scratchpad or chapter:
-  [View scratchpad](computer:///sessions/.../mnt/journal/scratchpad/scratch-{name}.txt)
-  [View chapter](computer:///sessions/.../mnt/journal/chapters/ch{NN}-{name}.txt)
+  [View scratchpad](computer://<JOURNAL_DIR>/scratchpad/scratch-{name}.txt)
+  [View chapter](computer://<JOURNAL_DIR>/chapters/ch{NN}-{name}.txt)
+  Where <JOURNAL_DIR> is Asif's mounted journal folder. In Cowork
+  sessions this resolves to /Users/asifhussain/PROJECTS/journal. Use
+  the user-facing path, not the sandbox session path — the user
+  cannot navigate to /sessions/<id>/mnt/... links.
   This is how Asif reads the work — he clicks the link and opens the
   file directly. Without these links, he cannot see what changed.
 - Chat is for: section counts, readiness scores, Challenger findings,
@@ -322,19 +338,53 @@ After finalization:
 SECTION 8: REFERENCE FILE INDEX
 ============================================================
 
-Skill Directory (SKILL_DIR/references/) — READ-ONLY:
-  voice-fingerprint.md, craft-techniques.md, thematic-arc.md,
-  biographical-context.md, chapter-status.md, quotes-workflow.md,
-  translations-glossary.md
+A. Skill Directory (SKILL_DIR/references/) — READ-ONLY, FROZEN
+   These are the original "Dad"-flavored references. Do not read
+   them directly — every memoir-relevant one has a writable Babu
+   override at JOURNAL_DIR/reference/. Listed here only so the
+   agent knows what exists in the plugin folder.
 
-Journal Directory (JOURNAL_DIR/reference/) — WRITABLE:
-  master-context.md, journal-workflow-v2.md, memoir-rules-supplement.txt,
-  voice-deep-analysis.md, locked-paragraphs.md, quotes-library.txt,
-  incident-bank.md, temporal-guardrail.md
+   voice-fingerprint.md, craft-techniques.md, thematic-arc.md,
+   biographical-context.md, chapter-status.md, quotes-workflow.md,
+   translations-glossary.md
 
-Scratchpad (JOURNAL_DIR/scratchpad/):
-  scratch-{chapter-name}.txt — active working file (temporary)
+B. Journal Directory (JOURNAL_DIR/reference/) — WRITABLE, AUTHORITATIVE
 
-Scripts (SKILL_DIR/scripts/):
-  auto_delta.py, detect_user_delta.py, save_snapshot.py,
-  refresh_all_snapshots.py
+   B1. Always read at session start (in this order):
+       memoir-rules-supplement.txt, master-context.md, voice-deep-analysis.md,
+       voice-fingerprint.md, craft-techniques.md, thematic-arc.md,
+       biographical-context.md, locked-paragraphs.md, quotes-library.txt,
+       incident-bank.md, quotes-workflow.md, translations-glossary.md,
+       chapter-status.md, journal-workflow-v2.md (this file)
+
+   B2. On-demand references (read when the work touches them):
+       temporal-guardrail.md   chronological map; consult before
+                               adding any temporal claim
+       clinic-library.txt       clinical signs library for ADHD,
+                               dyslexia, depression, anxiety, sleep —
+                               read when an incident hinges on a
+                               cognitive or mental-health symptom
+
+   B3. Cross-skill artifacts (NOT for memoir writing — leave alone):
+       voice-fingerprint-light.md   used by Babu app orchestrators
+                                    (highlights, short labels)
+       trip-edit-rules.md           used by trip-log skill /
+                                    Babu app server
+
+C. Scratchpad (JOURNAL_DIR/scratchpad/) — TEMPORARY
+   scratch-{chapter-name}.txt   active chapter working file
+   scratch-incidents.txt        active incident draft batch
+   .gitkeep                     keeps folder tracked when empty
+   Files here are deleted after finalization (history in git).
+
+D. Chapters (JOURNAL_DIR/chapters/)
+   ch00-intro.txt, ch01-man.txt, ch02-love.txt, ch03-marriage.txt,
+   preface.txt, snapshots/{base}-snapshot.txt (delta baseline)
+
+E. Scripts (SKILL_DIR/scripts/) — READ-ONLY EXECUTABLES
+   auto_delta.py            delta CHECK + SAVE for all chapters
+                            usage: auto_delta.py <JOURNAL_DIR>/chapters
+                                   auto_delta.py <JOURNAL_DIR>/chapters --save
+   detect_user_delta.py     core delta engine (called by auto_delta)
+   save_snapshot.py         save single-file snapshot
+   refresh_all_snapshots.py reset all snapshots to current state
