@@ -52,6 +52,22 @@ const INTENTIONAL_HARDCODE_CLASSES = [
   '.light-dot',
 ];
 
+// Scoped palette selectors: blocks that intentionally declare a self-contained
+// color palette outside the theme system. These are accepted when the selector
+// (or any selector that begins with the prefix) introduces its own --ai-* / --ft-* /
+// --toast-* etc. local tokens. Hex/rgba inside such blocks is allowed.
+//
+// Current registrations:
+//   .alt-modal / .alt-* — itinerary.css "find an alternative" popup; deliberately
+//     a fixed dark-neutral + green-accent surface that does NOT shift with theme.
+//     The .alt-* prefix covers the modal's children (.alt-ghost-btn, .alt-primary-btn,
+//     .alt-result-*, .alt-empty, …) which all consume the local --ai-* tokens
+//     declared on .alt-modal.
+const SCOPED_PALETTE_SELECTOR_PREFIXES = [
+  '.alt-modal',
+  '.alt-',
+];
+
 // Specific hex literals that are intentional regardless of selector context.
 const INTENTIONAL_HEX_CONTEXTS = [
   { file: 'app.css', hex: '#7a4a24', reason: 'bookshelf wooden-plank decoration' },
@@ -127,6 +143,37 @@ function lineInReaderThemeBlock(lines, lineIndex) {
         if (depth === 0) {
           const selectorText = lines.slice(Math.max(0, i - 3), i + 1).join(' ');
           if (READER_THEME_SELECTORS.some(sel => selectorText.includes(sel))) return true;
+          return false;
+        }
+        depth--;
+      }
+    }
+  }
+  return false;
+}
+
+// Returns true if the line sits inside a scoped-palette block (selector begins
+// with one of the registered prefixes — e.g. .alt-modal, .alt-modal-close).
+function lineInScopedPaletteBlock(lines, lineIndex) {
+  let depth = 0;
+  for (let i = lineIndex; i >= 0; i--) {
+    const line = lines[i];
+    for (let j = line.length - 1; j >= 0; j--) {
+      const c = line[j];
+      if (c === '}') depth++;
+      else if (c === '{') {
+        if (depth === 0) {
+          const selectorText = lines.slice(Math.max(0, i - 3), i + 1).join(' ');
+          // Tokenize selectors on commas/whitespace; require any selector token
+          // to start with a registered prefix.
+          const selectors = selectorText
+            .replace(/[\r\n{]+/g, ' ')
+            .split(/[, ]+/)
+            .map(s => s.trim())
+            .filter(Boolean);
+          if (selectors.some(sel =>
+            SCOPED_PALETTE_SELECTOR_PREFIXES.some(prefix => sel.startsWith(prefix))
+          )) return true;
           return false;
         }
         depth--;
@@ -268,6 +315,7 @@ function checkHexInComponents() {
       if (!stripped.match(/#[0-9a-fA-F]{3,6}\b/)) continue;
       if (lineMatchesIntentionalClass(rawLine)) continue;
       if (lineInReaderThemeBlock(lines, i)) continue;
+      if (lineInScopedPaletteBlock(lines, i)) continue;
       if (line.match(/url\s*\([^)]*#[0-9a-fA-F]/)) continue;
       const hexMatches = [...stripped.matchAll(/#[0-9a-fA-F]{3,6}\b/g)].map(m => m[0]);
       const flagged = hexMatches.filter(hex => {
@@ -317,6 +365,7 @@ function checkPaletteRgba() {
       const line = rawLine.replace(/\/\*.*?\*\//g, '');
       const stripped = line.replace(/var\s*\(\s*--[\w-]+\s*,\s*[^)]+\)/g, '');
       if (lineInReaderThemeBlock(lines, i)) continue;
+      if (lineInScopedPaletteBlock(lines, i)) continue;
       for (const m of stripped.matchAll(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(?:,[^)]*)?\)/g)) {
         const r = parseInt(m[1]), g = parseInt(m[2]), b = parseInt(m[3]);
         if ((r === 0 && g === 0 && b === 0) || (r === 255 && g === 255 && b === 255)) continue;
