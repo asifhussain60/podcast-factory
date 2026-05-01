@@ -1300,8 +1300,8 @@ textarea.insert-field-input{
   filter: brightness(1.08);
 }
 .insert-card.is-picked .insert-card-use {
-  background: #34d399 !important;
-  color: #062d1f !important;
+  background: var(--success) !important;
+  color: var(--contrast-dark) !important;
 }
 .insert-card.is-picked .insert-card-use i.fa-circle-check::before {
   content: "\f00c"; /* check */
@@ -1316,8 +1316,8 @@ textarea.insert-field-input{
   opacity: 0.85;
 }
 .insert-card--outofrange.insert-card--primary {
-  border-color: rgba(248, 113, 113, 0.75);
-  box-shadow: 0 0 0 1px rgba(248, 113, 113, 0.75) inset;
+  border-color: color-mix(in srgb, var(--error) 75%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--error) 75%, transparent) inset;
 }
 .insert-card-primary-badge {
   display: inline-flex;
@@ -1339,8 +1339,8 @@ textarea.insert-field-input{
   font-size: 0.66rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #fff;
-  background: rgba(248, 113, 113, 0.85);
+  color: var(--contrast-dark);
+  background: color-mix(in srgb, var(--error) 85%, transparent);
   padding: 0.12rem 0.5rem;
   border-radius: 999px;
   margin-left: 0.5rem;
@@ -1355,8 +1355,8 @@ textarea.insert-field-input{
   justify-content: space-between;
   gap: 0.9rem;
   padding: 0.7rem 0.9rem;
-  background: rgba(248, 113, 113, 0.08);
-  border: 1px solid rgba(248, 113, 113, 0.4);
+  background: color-mix(in srgb, var(--error) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--error) 40%, transparent);
   border-radius: 0.6rem;
   color: var(--text, rgba(255, 255, 255, 0.9));
 }
@@ -1367,7 +1367,7 @@ textarea.insert-field-input{
   font-size: 0.85rem;
 }
 .insert-notfound-text i {
-  color: rgba(248, 113, 113, 0.9);
+  color: color-mix(in srgb, var(--error) 90%, transparent);
 }
 .insert-notfound-expand {
   display: inline-flex;
