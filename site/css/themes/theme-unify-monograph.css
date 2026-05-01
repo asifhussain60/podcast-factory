@@ -30,6 +30,9 @@
   --text-muted: #555A65;
   --text-main: #15181C;
   --contrast-dark: #15181C;        /* "always-dark" token — matches --text in light themes */
+  --surface-2:      var(--bg-card);          /* component compat alias — generic surface (low) */
+  --surface-3:      var(--bg-card-hover);    /* component compat alias — generic surface (med) */
+  --accent-contrast: var(--contrast-dark);   /* component compat alias — text on accent */
 
   /* ─── Phase 2 canonical tokens ─── */
   --state-success: var(--success);
