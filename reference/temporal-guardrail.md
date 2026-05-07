@@ -1,6 +1,8 @@
 # Temporal Guardrail: Chronological Event Map
-# A reference MUST NOT be mentioned in a chapter BEFORE the event occurs in the narrative.
-# Run this validation on every writing pass and compliance scan.
+# Nothing gets referenced in a chapter before the event happens in
+# the narrative. No forward-references. The 54-year-old narrator can
+# step back and reflect, but the story's events arrive in order.
+# Validate on every writing pass and compliance scan.
 # Last updated: April 11, 2026
 
 ## CHRONOLOGICAL TIMELINE (Approximate Ages / Life Stages)

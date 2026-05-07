@@ -1,34 +1,36 @@
 ============================================================
-MEMOIR RULES SUPPLEMENT — LIVE OVERRIDES
+MEMOIR RULES SUPPLEMENT (extends workflow-v2)
 ============================================================
 Last updated: April 30, 2026
 
 ============================================================
-SECTION 0: ORDER OF OPERATIONS — READ THIS FIRST
+SECTION 0: ORDER OF OPERATIONS. READ THIS FIRST.
 ============================================================
 
-THIS FILE IS NOT THE WORKFLOW. The authoritative workflow is:
+This file is not the workflow. The workflow is:
 
     JOURNAL_DIR/reference/journal-workflow-v2.md
 
-Read journal-workflow-v2.md NOW, before any other action, before any
-other reference file, before running any script. Workflow-v2 replaces
-SKILL.md Sections 1 through 10 in their entirety.
+Read journal-workflow-v2.md before anything else. Before any other
+reference file. Before running any script. It replaces SKILL.md
+Sections 1 through 10 entirely. If SKILL.md and workflow-v2 disagree,
+workflow-v2 wins.
 
-This supplement adds protocols on top of workflow-v2 (lock list, @@
-markers, incident intake formats, biographical updates). It does not
-replace workflow-v2 — it extends it.
+This supplement extends workflow-v2. It carries the lock list, the @@
+marker system, the incident-intake formats, the live biographical
+updates, and the language directives that did not fit cleanly into
+workflow-v2. It does not replace workflow-v2. It sits on top of it.
 
 PRECEDENCE WHEN FILES CONFLICT:
-  1. journal-workflow-v2.md   (authoritative)
-  2. memoir-rules-supplement.txt   (this file — extensions only)
-  3. SKILL.md   (frozen, read-only, may carry stale paths and naming)
-  4. SKILL_DIR/references/*   (frozen)
+  1. journal-workflow-v2.md           authoritative
+  2. memoir-rules-supplement.txt      this file, extensions only
+  3. SKILL.md                          frozen, may carry stale paths
+  4. SKILL_DIR/references/*           frozen, "Dad"-flavored relics
 
 NOMENCLATURE: The memoir is "What I Wish Babu Taught Me." Asif's
-father is "Babu," not "Dad." Every "Dad" you see in the read-only
-SKILL.md or its references is a stale relic — substitute "Babu" on
-every read.
+father is Babu. Not Dad. Every "Dad" you find in the read-only
+SKILL.md or its references is a stale relic from before the rename.
+Substitute Babu on every read.
 
 ============================================================
 SECTION A: CHAPTER LOCK PROTOCOL
@@ -58,37 +60,39 @@ LOCK RULES (apply to every chapter on the LOCKED list):
     unless he specifies otherwise
 
 LOCKED CHAPTERS:
-  LOCKED: Intro — "What I Wish Babu Taught Me"
-  LOCKED: Chapter 1 — "Babu, What Does It Mean to Be a Man?"
-  LOCKED: Chapter 2 — "Babu, Tell Me What Love Really Is"
+  LOCKED: Intro, "What I Wish Babu Taught Me"
+  LOCKED: Chapter 1, "Babu, What Does It Mean to Be a Man?"
+  LOCKED: Chapter 2, "Babu, Tell Me What Love Really Is"
 
-NEXT ACTIVE CHAPTER: Chapter 3 — "Babu, Tell Me What Marriage Really Is"
+NEXT ACTIVE CHAPTER: Chapter 3, "Babu, Tell Me What Marriage Really Is"
 
 ============================================================
 SECTION B: STRUCTURAL REORGANIZATION PLAN
 ============================================================
 
-Once ALL chapters are complete (through the final chapter), the full
-memoir will undergo a structural reorganization pass. This means:
+Once every chapter is finished, the whole memoir goes through a
+structural reorganization pass. At that point:
 
-  - Chapter order may change based on thematic and emotional arc
-  - Incidents may be relocated between chapters for better flow
+  - Chapter order may change based on the thematic and emotional arc
+  - Incidents may move between chapters for better flow
   - Babu's Advice sections may be rebalanced
-  - Cross-references will be updated to match new order
-  - The temporal guardrail will be rebuilt from scratch
+  - Cross-references update to match the new order
+  - The temporal guardrail gets rebuilt from scratch
 
-Until that reorganization pass, each chapter is written as a
-self-contained unit with its own internal arc. Do not pre-optimize
-for a final order that has not been decided yet.
+Until then, every chapter is written as its own self-contained unit
+with its own internal arc. Do not pre-optimize for a final order
+that has not been decided yet. Optimize for the chapter on the desk.
 
 ============================================================
 SECTION C: LANGUAGE AND TONE DIRECTIVES
 ============================================================
 
-  - The word "sex" is NOT to be used openly in the memoir.
-    Use "intimacy" or "closeness" instead. All language must be
-    appropriate for all ages while preserving emotional honesty
-    and weight.
+  - The word "sex" stays out of the open prose. Use "intimacy" or
+    "closeness" instead. The book has to be readable by all ages
+    without losing the emotional honesty or weight of what is being
+    said. Truth without crudeness. The damage stays in the prose.
+    The vocabulary that would close the book in a teenager's hand
+    does not.
 
 ============================================================
 SECTION D: INCIDENT ONCE-ONLY FLAG SYSTEM
@@ -100,7 +104,7 @@ Every incident in incident-bank.md carries two tracking fields:
               Only one chapter may own the full telling. Ever.
 
   "Refs"    = brief mentions in other chapters (1-2 sentence
-              callback, echo, or image only — never re-telling).
+              callback, echo, or image only, never re-telling).
               MAXIMUM 2 refs per incident across the entire book.
 
 AGENT RULES:
@@ -108,8 +112,8 @@ AGENT RULES:
   - Before adding a brief reference, check "Refs" count < 2
   - An incident with "Told in" filled AND 2 refs is CLOSED
   - When placing or referencing, update the bank IMMEDIATELY
-  - During reorganization, "Told in" may change — but the
-    once-only rule still applies (just to a different chapter)
+  - During reorganization, "Told in" may change, but the
+    once-only rule still applies (just to a different chapter).
 
 ============================================================
 SECTION D2: FOLDER STRUCTURE
@@ -118,7 +122,7 @@ SECTION D2: FOLDER STRUCTURE
 Files live in organized locations. Create appropriate subfolders
 when the content type warrants it. Keep things tidy and findable.
 
-LOCATION 1 — Journal/ (user's persistent folder)
+LOCATION 1: Journal/ (user's persistent folder)
   Purpose: All working files Asif reads and edits
 
   Journal/
@@ -143,10 +147,10 @@ LOCATION 1 — Journal/ (user's persistent folder)
 
   NOTE: Existing flat files in Journal/ are grandfathered in.
   As files are touched or created, migrate them to the correct
-  subfolder above. Do not break anything mid-session — migrate
+  subfolder above. Do not break anything mid-session. Migrate
   at natural save points.
 
-LOCATION 2 — .claude/skills/journal/ (skill config, read-only)
+LOCATION 2: .claude/skills/journal/ (skill config, read-only)
   Purpose: Agent instructions, references, scripts
   Contains:
     - skill.md
@@ -157,7 +161,7 @@ RULES:
   - Create subfolders as needed when organizing makes sense
   - NEVER scatter files across /sessions/ working directory
   - All final outputs go to Journal/ (or appropriate subfolder)
-  - Scratchpads are temporary — deleted after finalization
+  - Scratchpads are temporary. Deleted after finalization.
   - All files Asif needs to see get a computer:// link when created or updated
 
 ============================================================
@@ -169,12 +173,12 @@ SECTION D3: BIOGRAPHICAL CONTEXT UPDATES
 - Family was stranded in Karachi during the Gulf War (1990 Iraqi invasion of Kuwait), unable to return
 - By that time, ex had already moved to the US (Texas) to study
 - After engagement to Afifa Khala's daughter broke off, ex visited Pakistan and they reconnected
-- She drove the proposal — her eagerness carried it, Asif was passive ("I figured, why not")
+- She drove the proposal. Her eagerness carried it. Asif was passive ("I figured, why not")
 - Ex's mother is Finnish (blonde, European features)
 - Uncle (ex's father) is maternal side
 - Ex was the ELDEST daughter; her younger sister became a pediatrician, successful
-- Ex and her sister grew up in a broken home — uncle and Finnish wife fought constantly
-- Asif did NOT know ex from family gatherings — they were pen pals only
+- Ex and her sister grew up in a broken home. Uncle and Finnish wife fought constantly.
+- Asif did NOT know ex from family gatherings. They were pen pals only.
 - Ex: Master's in Finance (M&A) from NYU, 100K student loans + 25-30K credit card debt, minimum payments
 - Ex's mother: paranoid about cleanliness, obsessive anxiety; ex inherited anxiety but rejected cleanliness
 
@@ -184,18 +188,18 @@ SECTION E: SCRATCHPAD INLINE MARKERS (@@ SYSTEM)
 
 Every new scratchpad file MUST have TWO layers of marker visibility:
 
-LAYER 1 — FULL REFERENCE BLOCK (top of file, before Section 1):
+LAYER 1: FULL REFERENCE BLOCK (top of file, before Section 1):
 
-  === @@ QUICK MARKERS — drop at start of any line ===
-  @@refine  — sharpen this sentence or paragraph
-  @@replace — find a stronger word
-  @@expand  — flesh out, add detail, slow down
-  @@cut     — remove this, it does not earn its place
-  @@move    — relocate (add hint: @@move to section 3)
-  @@note    — message to Claude, not content
+  === @@ QUICK MARKERS, drop at start of any line ===
+  @@refine    sharpen this sentence or paragraph
+  @@replace   find a stronger word
+  @@expand    flesh out, add detail, slow down
+  @@cut       remove this, it does not earn its place
+  @@move      relocate (add hint: @@move to section 3)
+  @@note      message to Claude, not content
   === END MARKERS ===
 
-LAYER 2 — COMPACT REMINDER (pinned under every section header):
+LAYER 2: COMPACT REMINDER (pinned under every section header):
 
   === SECTION N: Title ===
   @@ refine | replace | expand | cut | move | note
@@ -220,11 +224,11 @@ TRIGGER: Any of the following:
   - Asif says "intake" or drops a list of rough incidents
   - Asif drops a single incident (one phrase, one sentence)
   - Asif drops a CATEGORIZED or UNCATEGORIZED list
-  - Short phrases, sentence fragments, dashes — any format
+  - Short phrases, sentence fragments, dashes, any format
 
 RECOGNIZED INPUT FORMATS:
 
-  FORMAT A — SINGLE INCIDENT (no list, no category)
+  FORMAT A: SINGLE INCIDENT (no list, no category)
     One incident dropped as a phrase or sentence:
       "the time Baba slapped me at the dinner table"
       "Amma reading my diary"
@@ -234,7 +238,7 @@ RECOGNIZED INPUT FORMATS:
       - Run qualifying questions for this single incident
       - Log to incident-bank.md like any other
 
-  FORMAT B — FLAT LIST (multiple incidents, no category)
+  FORMAT B: FLAT LIST (multiple incidents, no category)
     Multiple incident skeletons with no grouping header:
       - something happened at school
       - the time Baba did X
@@ -245,7 +249,7 @@ RECOGNIZED INPUT FORMATS:
       - Groups them by likely chapter in the qualifying round
       - If chapter assignment is unclear, ask Asif
 
-  FORMAT C — SINGLE CATEGORY WITH LIST
+  FORMAT C: SINGLE CATEGORY WITH LIST
     One category header followed by its incident skeletons:
 
       Marriage with ex wife
@@ -254,14 +258,14 @@ RECOGNIZED INPUT FORMATS:
       * her mother showed up unannounced
 
     RULES:
-      - The header is NOT an incident — it is a grouping label
+      - The header is NOT an incident. It is a grouping label.
       - Use the header to auto-fill: likely chapter tag, era,
         and relationship context for every incident beneath it
       - If the header maps clearly to a chapter (e.g., "Marriage
         with ex wife" → Ch03-Marriage), pre-tag all incidents
       - If ambiguous, ask Asif which chapter before logging
 
-  FORMAT D — MULTIPLE CATEGORIES WITH LISTS
+  FORMAT D: MULTIPLE CATEGORIES WITH LISTS
     Multiple category headers, each with their own incidents,
     dropped in a single message:
 
@@ -299,7 +303,7 @@ RECOGNIZED INPUT FORMATS:
 
 AGENT WORKFLOW:
 
-  STEP 0 — PARSE FORMAT
+  STEP 0: PARSE FORMAT
     - Detect which format: A (single), B (flat list), C (one category),
       or D (multiple categories)
     - For A: treat as batch of one, proceed to Step 1
@@ -310,30 +314,30 @@ AGENT WORKFLOW:
     - Carry all context forward into qualifying questions so Asif
       does not repeat what the header or context already provides
 
-  STEP 1 — BATCH SCAN
+  STEP 1: BATCH SCAN
     - Read the full incident-bank.md
     - Compare Asif's list against existing incidents
     - Flag overlaps ("this sounds like INC-025, confirm?")
     - For Format B: group new incidents under their category header
     - For Format A: group new incidents by likely chapter
 
-  STEP 2 — SMART QUALIFYING ROUND (one pass, not one-by-one)
+  STEP 2: SMART QUALIFYING ROUND (one pass, not one-by-one)
     - For the ENTIRE batch, ask ONE consolidated set of questions
     - ALWAYS use AskUserQuestion tool with selectable options
     - Group questions by category so Asif answers in clusters
     - The category header already answers "which chapter" and
-      "what era" — do NOT re-ask what the header already provides
+      "what era." Do NOT re-ask what the header already provides.
     - Standard question types (all as selectable lists):
         "Where does this land emotionally?"
           → (a) anger (b) sadness (c) humor (d) quiet realization
         "How old were you?"
           → (a) childhood (b) teens (c) twenties (d) later
         "Should this connect to an existing scene?"
-          → (a) yes — which one? (b) no — standalone
+          → (a) yes, which one? (b) no, standalone
     - If an incident is clear enough from context, skip questions for it
     - NEVER guess or invent details. Ask if unsure.
 
-  STEP 3 — DRAFT TO INCIDENT SCRATCHPAD
+  STEP 3: DRAFT TO INCIDENT SCRATCHPAD
     - Create or open: JOURNAL_DIR/scratchpad/scratch-incidents.txt
     - This file contains ONLY refined incident prose, nothing else
     - Each incident is a NUMBERED SECTION with @@ markers:
@@ -360,7 +364,7 @@ AGENT WORKFLOW:
       or updated, open the file for Asif. He reviews in the file,
       not in chat. The link is how he gets there.
 
-  STEP 4 — INTERACTIVE REVIEW (same pattern as chapter workflow)
+  STEP 4: INTERACTIVE REVIEW (same pattern as chapter workflow)
     - Asif reads one incident at a time
     - He can say or mark:
         "Incident 2, change xyz" → update in place
@@ -374,7 +378,7 @@ AGENT WORKFLOW:
     - After processing @@ markers, REMOVE them from the line
     - Iterate until Asif approves each incident
 
-  STEP 5 — APPROVE AND LOG TO INCIDENT BANK
+  STEP 5: APPROVE AND LOG TO INCIDENT BANK
     - ONLY when Asif explicitly approves an incident:
       1. Assign next sequential INC number
       2. Log to incident-bank.md with:
@@ -386,9 +390,9 @@ AGENT WORKFLOW:
     - Remove approved incidents from scratchpad/scratch-incidents.txt
     - When scratchpad is empty (all approved), delete the file
 
-  STEP 6 — ROUTE
+  STEP 6: ROUTE
     - If an incident clearly belongs in a LOCKED chapter, log it but
-      mark: "BANKED — chapter locked, will place during reorganization"
+      mark: "BANKED. Chapter locked, will place during reorganization."
     - If it belongs in the active chapter, offer to draft it into the
       chapter scratchpad immediately
 

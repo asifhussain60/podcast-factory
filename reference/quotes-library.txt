@@ -1,12 +1,12 @@
 QUOTES LIBRARY
 What I Wish Babu Taught Me
-Last updated: April 14, 2026 (54 quotes + 39 reflections — QUOTE-001 through QUOTE-054, REFLECT-001 through REFLECT-039 — 93 items total; QUOTE-012 reclassified from B to C)
+Last updated: April 30, 2026 (55 quotes + 39 reflections — QUOTE-001 through QUOTE-055, REFLECT-001 through REFLECT-039 — 94 items total; QUOTE-055 added: Daredevil TV show, Category B other sources)
 
 CATEGORY KEY
 Category A (Sacred, attributed): QUOTE-020 through QUOTE-041, QUOTE-054 (Quran, Hadith, Ali (AS), Hadith Qudsi)
   -- Attributed respectfully in the voice of a person of faith. Max 1-2 sentences. No lecture tone.
 
-Category B (Invisible weaving — ideas): QUOTE-001 through QUOTE-019 (Yasmin Mogahed), QUOTE-042 through QUOTE-053 (Shaykh Hamza Yusuf)
+Category B (Invisible weaving — ideas): QUOTE-001 through QUOTE-019 (Yasmin Mogahed), QUOTE-042 through QUOTE-053 (Shaykh Hamza Yusuf), QUOTE-055 (Daredevil TV show, other media)
   -- Paraphrased into Asif's voice or Babu's voice. No attribution. No quotation marks. Invisible seams.
   -- The idea is absorbed; the original author disappears entirely.
 
@@ -506,6 +506,29 @@ Theme tags: faith / love / patience / discipline
 Best fit: Faith chapter (the shift from obligatory religion to voluntary devotion — the nawafil as the bridge between duty and love), Love chapter (the voluntary prayer that changed everything), or Babu's advice in Faith (the difference between minimum faith and chosen love of God)
 Used in: Marriage - Babu's advice, woven into "And about the faith that holds any of this together..." paragraph before the final closing
 Notes: This is the hadith qudsi that describes how closeness to God is built through voluntary acts beyond the minimum obligation. Maps directly to Asif's faith transformation: the moment prayer became something he chose rather than something required of him. Babu's voice: "The obligation is the floor, Asif. What you build above it is where you start to be loved back."
+
+---
+CATEGORY B CONTINUED — OTHER SOURCES (non-scholarly, media)
+---
+
+[QUOTE-055]
+Source: Daredevil TV Show (line of dialogue, exact episode TBD)
+Original text: Without forgiveness, there can be no real healing. Forgiveness isn't just the highest act of love; it is the only way forward.
+Attribution style: Category B — invisible weaving. No attribution in the memoir prose. The idea enters absorbed into Asif's voice or Babu's voice. Strip the source, keep the truth.
+Theme tags: forgiveness / love / family / patience
+Best fit: Faith chapter (forgiveness as the doorway out of bitterness, the corollary to the religion-as-weapon thread); Final chapter (forgiveness as the closing pivot for the whole book); Babu's advice in any chapter where forgiveness needs to land plainly. Already-locked chapters (Ch01 Man, Ch02 Love) carry forgiveness threads that this could deepen, but those would have to wait for the reorganization pass.
+Used in: unused
+Notes: The original sentence carries two voice-incompatible elements that must not survive the weave. First, "healing" is a banned word in Asif's prose — replace with "way forward," "way back," "the only road that leads anywhere worth going," or restructure. Second, the contraction "isn't" and the semicolon are TV-script rhythm, not Asif's. Both go.
+
+Three candidate renderings, pick the one that fits the chapter's emotional register at the moment of weaving:
+
+  (1) Plain narrative: "There is no real way forward without forgiveness. It is not just love at its highest. It is the only road out of the room."
+
+  (2) Tight epigrammatic: "Forgiveness is not just the highest act of love. It is the only way past what was done to you. Everything else is rehearsal of the same wound, performed alone."
+
+  (3) Babu's voice (second person, firmer): "Asif, you cannot carry the weight of every wrong done to you and walk forward at the same time. Forgiveness is not weakness. It is the only step that puts the past behind you instead of around your neck."
+
+The idea pairs naturally with REFLECT-013 (seasons) and REFLECT-039 (the inheritance from Amma) when the chapter is laying down the case that parents are complex, not villains, and that the only way out of inherited damage is mercy turned in both directions. Use sparingly. The book has many forgiveness moments; this quote should land at the one that most needs the plain truth.
 
 ---
 CATEGORY C — PERSONAL REFLECTIONS

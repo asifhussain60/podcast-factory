@@ -1,19 +1,19 @@
 # Quotes Workflow: Extraction, Storage, and Weaving
 
-This document governs how quotes from book screenshots and sacred sources are handled across the memoir.
+This is how quotes get extracted, logged, and woven into the prose. Two categories. Different rules. The whole library is sacred. Every entry stays exactly as it was given. Nothing in the library text gets re-molded. Only the workflow around it.
 
 ## Source Categories and Attribution Rules
 
-There are TWO distinct categories of sources, each with different weaving rules:
+Two categories. Each gets handled differently:
 
-### Category A: Sacred Sources (ATTRIBUTED respectfully)
-These sources are woven WITH respectful attribution in Asif's voice or Babu's voice. They appear naturally in the text as a person of faith would reference them, not as academic citations.
+### Category A: Sacred Sources (ATTRIBUTED, respectfully)
+The Quran, hadith, and Maulana Ali. Woven with attribution in Asif's voice or Babu's voice. They appear the way a person of faith mentions them in conversation, not the way an academic cites them.
 
-1. **Quran** — Attributed as: "Allah says in the Quran," "as Allah tells us," "the Quran reminds us," or similar natural phrasing. Include surah and ayah in the quotes library for reference, but do NOT include verse numbers in the memoir text itself.
+1. **Quran**. Attributed as: "Allah says in the Quran," "as Allah tells us," "the Quran reminds us," or similar natural phrasing. Include surah and ayah in the quotes library for reference, but do NOT include verse numbers in the memoir text itself.
 
-2. **Prophet Muhammad (peace be upon him)** — Attributed respectfully using phrases such as: "as my beloved Prophet said," "the Messenger of Allah, peace be upon him, told us," "our Prophet, peace and blessings be upon him, taught," or "the Prophet, Allah's peace and blessings upon him, reminded us." Vary the phrasing naturally. Always include a salutation (peace be upon him, peace and blessings be upon him, or the Arabic equivalent).
+2. **Prophet Muhammad (peace be upon him)**. Attributed respectfully using phrases such as: "as my beloved Prophet said," "the Messenger of Allah, peace be upon him, told us," "our Prophet, peace and blessings be upon him, taught," or "the Prophet, Allah's peace and blessings upon him, reminded us." Vary the phrasing naturally. Always include a salutation (peace be upon him, peace and blessings be upon him, or the Arabic equivalent).
 
-3. **Maulana Ali** — ALWAYS refer to him as "Maulana Ali," NEVER as "Imam Ali." Attributed using his famous titles: "the Commander of the Faithful, Maulana Ali, said," "as Maulana Ali, the lion of God, taught," "Maulana Ali, may Allah be pleased with him, once said," "the gate of knowledge, Maulana Ali, reminded us." Vary the titles respectfully.
+3. **Maulana Ali**. ALWAYS refer to him as "Maulana Ali," NEVER as "Imam Ali." Attributed using his famous titles: "the Commander of the Faithful, Maulana Ali, said," "as Maulana Ali, the lion of God, taught," "Maulana Ali, may Allah be pleased with him, once said," "the gate of knowledge, Maulana Ali, reminded us." Vary the titles respectfully.
 
 **How sacred sources appear in the text:**
 - In NARRATIVE sections (Asif's voice): "I kept returning to something the Prophet, peace be upon him, once said..." or "There is an ayah that stayed with me..." The attribution is part of Asif's reflection, not a footnote.
@@ -21,18 +21,18 @@ These sources are woven WITH respectful attribution in Asif's voice or Babu's vo
 - The attribution must feel like a person of faith speaking from the heart, not an academic or a cleric. No surah/verse numbers. No hadith collection references. No scholarly apparatus.
 
 ### Category B: All Other Sources (INVISIBLE weaving)
-Authors, scholars, thinkers, contemporary writers (Yasmin Mogahed, etc.) — these are woven WITHOUT any attribution. The quote's idea enters the writing completely absorbed into the appropriate voice. No quotation marks. No "as someone said." No names. The seam must be invisible. The voice (Asif's or Babu's) owns the idea completely.
+Authors, scholars, thinkers, contemporary writers (Yasmin Mogahed, Hamza Yusuf, Mary Karr, Vivian Gornick, anyone else). These get woven without attribution. The idea enters the writing absorbed into the voice. No quotation marks. No "as someone said." No names. The seam stays invisible. The voice (Asif's or Babu's) owns the idea completely.
 
-This is the same rule that has always governed the Yasmin Mogahed quotes.
+This is the rule that has always governed the Mogahed quotes. It now applies to every Category B source by default.
 
 ## The Three-Stage Workflow
 
 ### Stage 1: Extract
-When Asif shares a screenshot or image from a book, read the image carefully and transcribe the text exactly as it appears. Do not paraphrase during extraction. Accuracy matters because the original wording informs how the idea will later be adapted.
+When Asif shares a screenshot or image from a book, read it carefully and transcribe the text exactly as it appears. No paraphrasing at extraction. Accuracy matters because the original wording is what the later adaptation will work from.
 
-If the image contains multiple quotes or passages, extract all of them as separate entries.
+Multiple quotes in one image: extract each as its own entry.
 
-If text is partially cut off, partially obscured, or unclear, note this explicitly using [unclear] or [partial] markers so Asif can verify.
+Text that is cut off, obscured, or unclear: note it with [unclear] or [partial] so Asif can verify.
 
 ### Stage 2: Log
 Append each extracted quote to the quotes library file at:
@@ -110,7 +110,7 @@ When writing or refining multiple chapters in sequence, re-read the quotes libra
 
 ## Quote Rotation During Revision
 
-Every time a chapter is revised, the agent must do a rotation check — not just to add unused quotes, but to ask whether any quote currently placed in the chapter should be replaced by a stronger, more relevant one from the unused stack.
+Every time a chapter is revised, the agent runs a rotation check. Not just to add unused quotes, but to ask whether any quote currently placed in the chapter should be replaced by a stronger, more relevant one from the unused stack.
 
 The logic is simple: quotes are not permanent fixtures. A quote that was serviceable when first placed may be weaker than an unused quote that has since arrived, or that was always in the library but not yet considered against this specific passage. Revision is the moment to fix that.
 
@@ -119,12 +119,12 @@ The logic is simple: quotes are not permanent fixtures. A quote that was service
 After reading the full chapter and the full quotes library, go through every currently-used quote in that chapter. For each one, ask:
 
 1. What emotional or thematic job is this quote doing in this passage?
-2. Is there an unused quote in the library that does that same job better — more precisely, more powerfully, more native to the voice at that moment?
+2. Is there an unused quote in the library that does that same job better, more precisely, more powerfully, more native to the voice at that moment?
 3. If yes, is the replacement quote genuinely stronger, or just different? Only rotate if it is a clear upgrade.
 
 If a replacement is warranted:
 - Weave the stronger quote into the passage using the appropriate voice (Category A with attribution, Category B invisible)
-- Update the displaced quote's "Used in" field back to: `Used in: unused` — returning it to the stack for future chapters
+- Update the displaced quote's "Used in" field back to: `Used in: unused`. It returns to the stack for future chapters.
 - Update the new quote's "Used in" field to: `Used in: [chapter] - [brief note on how it was adapted]`
 - Both library entries must be updated before moving to the next chapter
 
@@ -132,19 +132,19 @@ If a replacement is warranted:
 
 Do not rotate for the sake of variety. The burden of proof is on the new quote. Ask: does this replacement make the passage meaningfully stronger, or am I just shuffling the deck?
 
-Do not rotate if the existing quote is deeply embedded in Asif's voice — if removing it would require rewriting multiple surrounding sentences and the passage would lose more than it gains.
+Do not rotate if the existing quote is deeply embedded in Asif's voice. If removing it would require rewriting multiple surrounding sentences and the passage would lose more than it gains, leave it.
 
 Do not rotate a quote if it is in a passage Asif himself wrote or closely edited. Protect his direct voice.
 
 ### Cross-chapter once-only enforcement during rotation
 
-Before selecting any replacement quote, scan the "Used in" fields of ALL quotes in the library — not just the ones tagged to the current chapter. The once-only rule is book-wide. A quote returned to "unused" from one chapter is available again, but a quote marked used in any other chapter cannot be used anywhere else.
+Before selecting any replacement quote, scan the "Used in" fields of ALL quotes in the library, not just the ones tagged to the current chapter. The once-only rule is book-wide. A quote returned to "unused" from one chapter is available again, but a quote marked used in any other chapter cannot be used anywhere else.
 
 When revising multiple chapters in one session, maintain a running mental list of which quotes have been used or returned in the current session, because the library file may not reflect changes from the same session until each chapter's updates are written.
 
 ### The rotation check is not optional
 
-Every REFINE or POLISH pass must include this check. If no rotation is warranted, note it silently and move on. The goal is not to rotate quotes on every revision — it is to ensure no passage is carrying a weaker quote when a better one is sitting unused in the library.
+Every REFINE or POLISH pass must include this check. If no rotation is warranted, note it silently and move on. The goal is not to rotate quotes on every revision. The goal is to make sure no passage is carrying a weaker quote when a better one is sitting unused in the library.
 
 ## Chronological Integrity Rule
 
@@ -170,21 +170,21 @@ If any of these checks fail, rework or cut it. A quote that does not serve the p
 
 Use these tags consistently when logging quotes:
 
-- manhood — strength, character, identity, what it means to lead or protect
-- love — tenderness, affection, emotional honesty, attachment, giving and receiving care
-- marriage — commitment, partnership, intimacy, the daily work of a shared life
-- faith — God, religion, surrender, devotion, the relationship between belief and action
-- money — provision, financial wisdom, priorities, the relationship between wealth and dignity
-- discipline — self-control, habits, consistency, the gap between intention and action
-- pride — ego, arrogance, humility, the cost of needing to be right
-- friendship — loyalty, sincerity, what it means to stand by someone
-- silence — what is left unsaid, listening, restraint, the weight of absence
-- fear — what fear does to a person, the difference between caution and cowardice
-- forgiveness — mercy, letting go, understanding what made others hard
-- patience — endurance, the long view, sitting with discomfort without escaping it
-- family — inheritance, breaking patterns, what we pass down and what we owe
-- courage — bravery, facing truth, standing when it costs something
-- generosity — giving freely, service, the relationship between abundance and character
-- humility — knowing your place before God and people, the antidote to arrogance
+- manhood. strength, character, identity, what it means to lead or protect
+- love. tenderness, affection, emotional honesty, attachment, giving and receiving care
+- marriage. commitment, partnership, intimacy, the daily work of a shared life
+- faith. God, religion, surrender, devotion, the relationship between belief and action
+- money. provision, financial wisdom, priorities, the relationship between wealth and dignity
+- discipline. self-control, habits, consistency, the gap between intention and action
+- pride. ego, arrogance, humility, the cost of needing to be right
+- friendship. loyalty, sincerity, what it means to stand by someone
+- silence. what is left unsaid, listening, restraint, the weight of absence
+- fear. what fear does to a person, the difference between caution and cowardice
+- forgiveness. mercy, letting go, understanding what made others hard
+- patience. endurance, the long view, sitting with discomfort without escaping it
+- family. inheritance, breaking patterns, what we pass down and what we owe
+- courage. bravery, facing truth, standing when it costs something
+- generosity. giving freely, service, the relationship between abundance and character
+- humility. knowing your place before God and people, the antidote to arrogance
 
 A quote may carry multiple tags.

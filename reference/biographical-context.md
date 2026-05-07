@@ -1,6 +1,6 @@
 # Biographical Context: Factual Reference
 
-This file contains verified biographical details from Asif's manuscript. Do NOT invent details beyond what is listed here. If a chapter requires factual context not present in this file, ask Asif.
+These are the verified biographical facts the memoir runs on. Do not invent anything beyond what is here. If a chapter needs context not in this file, ask Asif. Better one question than the wrong fact written confidently. The supplement's Section D3 carries live updates that have come in since this file was last refreshed. Read both.
 
 ## Personal
 

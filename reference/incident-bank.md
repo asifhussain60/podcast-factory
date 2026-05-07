@@ -3,8 +3,14 @@ INCIDENT BANK — What I Wish Babu Taught Me
 ============================================================
 Last updated: April 15, 2026
 
-INTAKE TRIGGER: Say "intake" or drop a list of rough incidents.
-Claude will batch-scan, ask ONE qualifying round, and log them here.
+This is the raw memory bank. Every scene the memoir might use lives
+here, with its chapter assignment, era, themes, and current placement
+status.
+
+INTAKE TRIGGER: Asif says "intake," or drops a list of rough incidents
+in any of the four formats (A single, B flat, C one category, D many).
+The agent batch-scans, runs one qualifying round, and logs results
+here. Format details live in the supplement Section F.
 
 STATUS KEY:
   PLACED   = written into a chapter draft
@@ -14,10 +20,13 @@ STATUS KEY:
 
 ONCE-ONLY RULE:
   "Told in" = the ONE chapter where this incident is told in full.
-  "Refs"    = brief mentions elsewhere (1-2 sentence callback only).
-  MAXIMUM 2 refs per incident across the entire book.
-  Before placing or referencing any incident, check BOTH fields.
-  An incident with 2 refs is CLOSED to further mentions.
+              Only one chapter ever owns the full telling.
+  "Refs"    = brief callbacks elsewhere, 1-2 sentences each, never a
+              re-telling. Maximum 2 refs per incident across the
+              entire book.
+  Before placing or referencing any incident, check both fields.
+  An incident with "Told in" filled and 2 refs used is CLOSED. No
+  further mentions allowed in any chapter.
 
 ============================================================
 INTRO — "What I Wish Babu Taught Me" [LOCKED]

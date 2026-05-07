@@ -1,8 +1,11 @@
 # Locked Paragraphs Registry
 # Rebuilt: April 11, 2026
-# Every substantial paragraph from all chapters is now locked after snapshot.
-# Only Asif can unlock by editing (creating a new delta).
-# Format: chapter | first 100 characters
+# Every substantial paragraph in the locked chapters is recorded here.
+# These paragraphs are reproduced character-for-character. Not paraphrased.
+# Not restructured. Not "tightened." Reproduced.
+# Only Asif can unlock a paragraph, and only by editing it himself.
+# His edit creates a new delta which becomes the new locked version.
+# Format: chapter | first 100 characters of the paragraph
 
 ch00-intro.txt | What I Wish Babu Taught Me
 ch00-intro.txt | Kids,

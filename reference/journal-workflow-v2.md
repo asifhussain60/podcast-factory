@@ -1,9 +1,9 @@
-# Journal Workflow v2 — File-First Model
+# Journal Workflow v2: File-First Model
 # AUTHORITATIVE: This file completely replaces SKILL.md Sections 1-10.
 # When SKILL.md conflicts with this file, THIS FILE WINS.
 # Nomenclature: the memoir is "What I Wish Babu Taught Me." Asif's
 #   father is "Babu." Any "Dad" reference in the read-only SKILL.md
-#   or its references is stale — read it as "Babu."
+#   or its references is stale. Read it as "Babu."
 # Last updated: April 30, 2026
 
 ============================================================
@@ -13,8 +13,8 @@ SECTION 1: SESSION START PROTOCOL
 Before doing ANY work, read these files in this order:
 
 1. JOURNAL_DIR/reference/memoir-rules-supplement.txt
-2. JOURNAL_DIR/reference/master-context.md — synthesized cross-chapter
-   intelligence (replaces reading all chapters individually)
+2. JOURNAL_DIR/reference/master-context.md (synthesized cross-chapter
+   intelligence; replaces reading every chapter individually)
 3. JOURNAL_DIR/reference/voice-deep-analysis.md
 4. JOURNAL_DIR/reference/voice-fingerprint.md  (Babu-correct override)
 5. JOURNAL_DIR/reference/craft-techniques.md  (Babu-correct override)
@@ -64,17 +64,20 @@ JOURNAL_DIR/
 Rules:
   - One active scratchpad per chapter at a time.
   - Naming: scratch-{chapter-name}.txt
-  - No version files — git handles all history.
+  - No version files. Git handles all history.
   - After finalization, scratchpad file is deleted.
   - scratchpad/ folder stays clean between sessions.
 
 ============================================================
-SECTION 3: CHAPTER WORKFLOW — FILE-FIRST MODEL
+SECTION 3: CHAPTER WORKFLOW. FILE-FIRST MODEL.
 ============================================================
 
-ALL work happens directly in the scratchpad file. Asif reads the file
-in his file system. Chat is ONLY for receiving feedback by section
-number and confirming changes. NEVER present chapter text in chat.
+The work happens in the scratchpad file. Asif reads the file directly
+in his filesystem. Chat is for feedback by section number and for
+confirming what changed. Chapter prose never gets dumped into chat.
+If you find yourself about to paste prose into chat, stop. Update the
+file, present the link, report what changed in one or two sentences,
+and wait for the section-by-section feedback.
 
 ### PHASE 1: ASSEMBLY & DRAFT
 
@@ -111,9 +114,11 @@ direction (1-2 sentences), the skill:
   10. Reports in chat: section count, readiness score, any incident
       suggestions. NEVER dumps text into chat.
 
-For NEW chapters (no existing file): assemble from incident bank,
-biographical context, thematic arc, and Asif's brief direction.
-If ambiguous, ask ONE qualifying question before drafting.
+For NEW chapters (no existing file): assemble from the incident bank,
+biographical context, thematic arc, and whatever brief direction
+Asif gave. If anything is ambiguous, ask ONE qualifying question
+before drafting. Never invent. Better one smart question than the
+wrong scene written confidently.
 
 ### PHASE 2: INTERACTIVE REVIEW
 
@@ -131,16 +136,25 @@ After EVERY edit:
   3. Git-commit with descriptive message
   4. OPEN the updated scratchpad file for Asif using computer:// link
   5. Report in chat: what changed + any Challenger flags
-  6. Do NOT dump section text into chat — Asif reads the file
+  6. Do NOT dump section text into chat. Asif reads the file.
 
-When Asif provides new content:
-  - His words are DELTA-PROTECTED (content-locked)
-  - Allowed: grammar, emotional language, articulation/flow, relocation
-  - NOT allowed: rewriting, changing facts, adding/removing sentences,
-    changing structure, merging splits
-  - REQUIRED: enhance with emotion aligned to voice DNA and chapter arc
+When Asif provides new content, his words are delta-protected. They
+are content-locked. The only changes allowed are:
+  - Grammar fixes that do not touch rhythm
+  - A more precise emotional word he would have reached for
+  - Articulation or flow refinements that say the same thing better
+  - Relocation to a better position in the chapter
 
-Section numbering stays stable. New sections get sub-numbers (3a).
+What is not allowed on his content:
+  - Rewriting sentences, even if you think yours is better. They are
+    not yours.
+  - Changing facts, ages, places, dialogue, or details
+  - Adding or removing sentences
+  - Restructuring
+  - Merging paragraphs he split
+
+Section numbering stays stable. New sections get sub-numbers (3a)
+rather than renumbering everything.
 
 ### PHASE 2a: QUALIFYING QUESTIONS
 
@@ -155,7 +169,7 @@ Once ALL sections reviewed and approved:
   1. SEAM CHECK: Read full scratchpad end-to-end. Check bridges
      between every section pair. Fix seams in file.
   2. Run FULL CHALLENGER (Section 4 below) across entire chapter.
-     Iterative — up to 5 passes — fixing issues in file each time.
+     Iterative, up to 5 passes, fixing issues in the file each time.
   3. Report findings in chat ONLY (no report files).
   4. Approval gate opens ONLY when Challenger issues APPROVED.
 
@@ -179,7 +193,7 @@ When Challenger approves:
   12. Update voice-deep-analysis.md with new patterns
 
 ============================================================
-SECTION 4: THE CHALLENGER — ENFORCEMENT ENGINE
+SECTION 4: THE CHALLENGER. ENFORCEMENT ENGINE.
 ============================================================
 
 Runs at TWO levels:
@@ -187,11 +201,11 @@ Runs at TWO levels:
   2. FULL-CHAPTER: Before finalization (Phase 3), iterative up to 5 passes
 
 Severity:
-  CRITICAL — must fix, no override
-  MAJOR — should fix, Asif can explicitly override
-  ADVISORY — flagged, non-blocking
+  CRITICAL: must fix, no override
+  MAJOR: should fix, Asif can explicitly override
+  ADVISORY: flagged, non-blocking
 
-### LOOP 1 — VOICE INTEGRITY
+### LOOP 1: VOICE INTEGRITY
   C1. Every sentence sounds like Asif? Test against voice-deep-analysis.md.
       Flag AI-sounding sentences. [CRITICAL]
   C2. Humor: only 6 documented patterns. No sitcom, no comedy. [MAJOR]
@@ -206,7 +220,7 @@ Severity:
   C8. Voice calibration: test 3 random sentences against calibration lines
       in voice-fingerprint.md. Revise if they don't belong. [CRITICAL]
 
-### LOOP 2 — NARRATIVE ARCHITECTURE
+### LOOP 2: NARRATIVE ARCHITECTURE
   C9. Emotional arc: damage → search → discovery → wisdom. All four phases
       present. Flag missing/underweight. [CRITICAL]
   C10. Scene earns its place: turns something, or flag for removal. [MAJOR]
@@ -216,7 +230,7 @@ Severity:
   C14. Babu's Advice: advises younger self, not lectures about parents.
        Only references events/people from same chapter's narrative. [CRITICAL]
 
-### LOOP 3 — CRAFT & PACING
+### LOOP 3: CRAFT & PACING
   C15. Emotional moments slow, transitions fast. [MAJOR]
   C16. Bridge pattern variety: no two consecutive same-type. [MAJOR]
   C17. Reader fatigue: flag 3+ consecutive high-intensity sections without
@@ -226,7 +240,7 @@ Severity:
   C20. No therapy jargon, self-help, corporate, academic, literary
        affectation, melodrama. [CRITICAL]
 
-### LOOP 4 — GOVERNANCE COMPLIANCE
+### LOOP 4: GOVERNANCE COMPLIANCE
   C21. Ali (AS) everywhere. Full honorific on first use per chapter. [CRITICAL]
   C22. Temporal guardrail: no forward references. [CRITICAL]
   C23. Atif: max 2 mentions per chapter (Ch01 exempt). [MAJOR]
@@ -237,7 +251,7 @@ Severity:
   C27. Locked paragraphs: character-for-character. [CRITICAL]
   C28. Delta protection: only grammar/emotion/articulation/relocation. [CRITICAL]
 
-### LOOP 5 — DUPLICATION & REPETITION ENFORCEMENT
+### LOOP 5: DUPLICATION & REPETITION ENFORCEMENT
   C29. WITHIN-CHAPTER sentence duplication: flag any sentence or construction
        appearing twice, even with minor word changes. Identical meaning +
        identical structure = duplication. [CRITICAL]
@@ -254,20 +268,20 @@ Severity:
        structure) is allowed. Accidental/clumsy repetition flagged. If Asif
        restored something removed, his choice stands. [MAJOR]
 
-### LOOP 6 — REFLECTION & QUOTE INTEGRITY
+### LOOP 6: REFLECTION & QUOTE INTEGRITY
   C35. Reflections: first person ("I") only. Split between realization
        bridges and Babu's Advice setup bridges. [CRITICAL]
   C36. Reflections modifiable into voice DNA. Quotes A/B immutable. [CRITICAL]
   C37. Sacred quotes exact. Invisible quotes paraphrased, meaning intact. [CRITICAL]
 
-### LOOP 7 — CROSS-CHAPTER CONTINUITY
+### LOOP 7: CROSS-CHAPTER CONTINUITY
   C38. Character consistency: master-context.md tracker. No new characters
        in Babu's Advice not in narrative. Atif count enforced. [MAJOR]
   C39. Incident bank reconciliation: every tagged incident placed or
        explicitly deferred. Flag orphans. [MAJOR]
   C40. Thread depth: recurring themes must deepen, not repeat. [MAJOR]
 
-### LOOP 8 — VOICE EXTRACTION
+### LOOP 8: VOICE EXTRACTION
   C41. Extract new voice patterns from this session's work. [ADVISORY]
   C42. Update voice-deep-analysis.md. [ADVISORY]
   C43. Update master-context.md key phrases if new callbacks created. [ADVISORY]
@@ -313,9 +327,9 @@ SECTION 6: OUTPUT RULES
   [View chapter](computer://<JOURNAL_DIR>/chapters/ch{NN}-{name}.txt)
   Where <JOURNAL_DIR> is Asif's mounted journal folder. In Cowork
   sessions this resolves to /Users/asifhussain/PROJECTS/journal. Use
-  the user-facing path, not the sandbox session path — the user
+  the user-facing path, not the sandbox session path. The user
   cannot navigate to /sessions/<id>/mnt/... links.
-  This is how Asif reads the work — he clicks the link and opens the
+  This is how Asif reads the work. He clicks the link and opens the
   file directly. Without these links, he cannot see what changed.
 - Chat is for: section counts, readiness scores, Challenger findings,
   confirming changes, receiving feedback by section number.
@@ -338,9 +352,9 @@ After finalization:
 SECTION 8: REFERENCE FILE INDEX
 ============================================================
 
-A. Skill Directory (SKILL_DIR/references/) — READ-ONLY, FROZEN
+A. Skill Directory (SKILL_DIR/references/). READ-ONLY, FROZEN.
    These are the original "Dad"-flavored references. Do not read
-   them directly — every memoir-relevant one has a writable Babu
+   them directly. Every memoir-relevant one has a writable Babu
    override at JOURNAL_DIR/reference/. Listed here only so the
    agent knows what exists in the plugin folder.
 
@@ -348,7 +362,7 @@ A. Skill Directory (SKILL_DIR/references/) — READ-ONLY, FROZEN
    biographical-context.md, chapter-status.md, quotes-workflow.md,
    translations-glossary.md
 
-B. Journal Directory (JOURNAL_DIR/reference/) — WRITABLE, AUTHORITATIVE
+B. Journal Directory (JOURNAL_DIR/reference/). WRITABLE, AUTHORITATIVE.
 
    B1. Always read at session start (in this order):
        memoir-rules-supplement.txt, master-context.md, voice-deep-analysis.md,
@@ -361,17 +375,17 @@ B. Journal Directory (JOURNAL_DIR/reference/) — WRITABLE, AUTHORITATIVE
        temporal-guardrail.md   chronological map; consult before
                                adding any temporal claim
        clinic-library.txt       clinical signs library for ADHD,
-                               dyslexia, depression, anxiety, sleep —
-                               read when an incident hinges on a
-                               cognitive or mental-health symptom
+                               dyslexia, depression, anxiety, sleep.
+                               Read when an incident hinges on a
+                               cognitive or mental-health symptom.
 
-   B3. Cross-skill artifacts (NOT for memoir writing — leave alone):
+   B3. Cross-skill artifacts (NOT for memoir writing, leave alone):
        voice-fingerprint-light.md   used by Babu app orchestrators
                                     (highlights, short labels)
        trip-edit-rules.md           used by trip-log skill /
                                     Babu app server
 
-C. Scratchpad (JOURNAL_DIR/scratchpad/) — TEMPORARY
+C. Scratchpad (JOURNAL_DIR/scratchpad/). TEMPORARY.
    scratch-{chapter-name}.txt   active chapter working file
    scratch-incidents.txt        active incident draft batch
    .gitkeep                     keeps folder tracked when empty
@@ -381,7 +395,7 @@ D. Chapters (JOURNAL_DIR/chapters/)
    ch00-intro.txt, ch01-man.txt, ch02-love.txt, ch03-marriage.txt,
    preface.txt, snapshots/{base}-snapshot.txt (delta baseline)
 
-E. Scripts (SKILL_DIR/scripts/) — READ-ONLY EXECUTABLES
+E. Scripts (SKILL_DIR/scripts/). READ-ONLY EXECUTABLES.
    auto_delta.py            delta CHECK + SAVE for all chapters
                             usage: auto_delta.py <JOURNAL_DIR>/chapters
                                    auto_delta.py <JOURNAL_DIR>/chapters --save

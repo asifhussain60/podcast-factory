@@ -1,10 +1,10 @@
 # Translations Glossary
 
-Canonical English translations for non-English words and phrases used in the memoir.
+Canonical English translations for the non-English words and phrases the memoir uses.
 
-This file is the single source of truth. When the agent detects a translation change in the delta
-report, it must update the entry here AND apply the new form across every chapter in which the
-word appears. The form recorded here overrides everything else.
+This file is the single source of truth. When the delta report flags a translation change in any chapter, update the entry here first, then apply the new form across every chapter in which the word appears. The form recorded here overrides everything else.
+
+Reminder of the rule (also in voice-fingerprint and craft-techniques): single words never get a parenthetical gloss. Multi-word phrases or full sentences do. ABD is the named exception, glossed as "slave" because the meaning is the point.
 
 Format: WORD or PHRASE | CANONICAL TRANSLATION | chapters where it appears
 
