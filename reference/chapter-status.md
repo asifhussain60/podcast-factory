@@ -25,7 +25,7 @@ All chapter drafts are stored in the journal repo as plain text files:
 - **Status:** LOCKED
 - **File:** ch02-love.txt
 - **Babu's advice section:** COMPLETE
-- **Notes:** Narrative covers childhood emotional starvation through Ishrat's transformative love. Babu's advice section covers love with parents, siblings, friends, wife, and breaking patterns. All 11 incidents placed. Chapter locked — do not modify unless Asif requests changes.
+- **Notes:** Narrative covers childhood emotional starvation through Ishrat's transformative love. Babu's advice section covers love with parents, siblings, friends, wife, and breaking patterns. All 11 incidents placed. Chapter locked. Do not modify unless Asif requests changes.
 
 ### Chapter 3: "Babu, Tell Me What Marriage Really Is"
 - **Status:** IN PROGRESS
@@ -49,12 +49,14 @@ All chapter drafts are stored in the journal repo as plain text files:
 
 ## Working Process
 
-When Asif says:
-- "Continue [chapter]" — pick up where the narrative left off, keep it open-ended
-- "Refine [chapter]" — improve articulation, vocabulary, grammar; preserve voice and style
-- "Polish [chapter]" — same as refine, with extra attention to flow and emotional pacing
-- "Add to [chapter]" — he will provide new material or direction to incorporate
-- "Write Babu's advice for [chapter]" — compose the father's closing monologue
-- "New chapter: [topic]" — begin a new chapter following the established pattern
+What Asif's instructions mean:
 
-All workflow specifics live in `journal-workflow-v2.md`. This file tracks status only.
+- *"Continue [chapter]"*. Pick up where the narrative left off. Keep it open-ended.
+- *"Refine [chapter]"*. Sharpen articulation, vocabulary, and grammar. Preserve voice and style. Never restructure.
+- *"Polish [chapter]"*. Same as refine, with extra attention to flow and emotional pacing.
+- *"Add to [chapter]"*. Asif provides new material or direction. Run it through Phase 2a qualifying questions if it needs them.
+- *"Write Babu's advice for [chapter]"*. Compose the father's closing monologue. Only when the chapter is otherwise complete.
+- *"New chapter: [topic]"*. Begin a new chapter following the established pattern.
+- *"Lock chapter N"*. See supplement Section A. The chapter goes immutable until explicitly unlocked.
+
+All workflow mechanics live in `journal-workflow-v2.md`. This file is the status board. It changes when chapters change state, not when the workflow does.

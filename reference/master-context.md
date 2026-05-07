@@ -1,5 +1,7 @@
 # Master Context Synthesis
-Auto-generated. Updated after every chapter finalization.
+
+This is the cross-chapter intelligence layer. Every chapter's summary, key images, characters introduced, key phrases with callback potential, cross-references, and tone register live here. The Challenger reads this file to catch cross-chapter duplication automatically. It gets regenerated after every chapter finalization, so the protection compounds as the book grows.
+
 Last updated: April 15, 2026
 
 ---
