@@ -30,7 +30,6 @@ Cowork T3 — requires file system access, git history, search, and edit capabil
 
 - CSS/theme audit (delegates to `css-theme-sync` / `ui-reviewer`)
 - Memoir content quality (that's `journal` skill)
-- Queue state (that's `queue-health`)
 - Spend/budget (that's `usage-auditor`)
 
 ## Sub-Agent Passes
@@ -112,6 +111,5 @@ Fixes are committed per-pass: `fix(surgeon-P{N}): {summary}`
 
 - `css-theme-sync` — defers CSS/theme audit
 - `ui-reviewer` — defers CSS review detail
-- `queue-health` — reads queue state (Pass 4 manifest check)
 - `framework.md` — reads governance rules (Pass 3)
 - `skills-staging/README.md` — reads/writes skill registry (Pass 3)

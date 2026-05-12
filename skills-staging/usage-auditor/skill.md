@@ -5,13 +5,13 @@ description: "Usage + spend auditor for Asif's journal. Invoke when the user say
 
 # usage-auditor — Usage & Spend Auditor
 
-Phase 8 read-only orchestrator that summarizes `usage.jsonl` into an actionable spend report. Feeds `daily-drain` preflight and the Home dashboard budget card (Phase 8).
+Read-only orchestrator that summarizes `usage.jsonl` into an actionable spend report against the proxy's `MONTHLY_CAP`.
 
 ## When to invoke
 
-- Preflight for `daily-drain` to gate expensive drains under budget pressure
-- On-demand when the BudgetPill shows amber or rose
+- On-demand when `/api/usage/summary` shows the monthly cap is being approached
 - Monthly retrospective: what did this month cost, what's the trend
+- Before tuning rate-limit / throttle middleware
 
 ## Inputs
 
@@ -19,7 +19,6 @@ Phase 8 read-only orchestrator that summarizes `usage.jsonl` into an actionable 
 |---|---|
 | Live summary | `GET http://localhost:3001/api/usage/summary` (preferred when proxy is up) |
 | Usage log | `server/logs/usage.jsonl` (fallback / finer-grained filtering) |
-| Drain log | `server/logs/drain-log.jsonl` (Cowork drain cost attribution) |
 | Pricing table | embedded in `server/src/usage-summary.js` |
 
 ## Flags
@@ -38,7 +37,6 @@ usage-auditor · {window: YYYY-MM-DD → YYYY-MM-DD} · {n rows}
 total spend:    ${X.XX}       ({pct}% of ${monthlyCAP} cap)
 throttle state: normal|soft|hard
 throttle hits:  {M}           (requests that hit soft/hard gates)
-drain attribution: ${D.DD}    ({pct}% — Cowork drain-log)
 
 by endpoint (top {N} by spend):
   1. /api/refine                 {calls}  avg ${avg}  total ${total}  ({pct}%)
@@ -68,7 +66,6 @@ forecast (--forecast):
   "percentageUsed": 0.07,
   "throttleState": "normal",
   "throttleHits": 57,
-  "drainAttribution": 0.002,
   "byEndpoint": [
     { "endpoint": "/api/refine", "calls": 21, "avgCost": 0.00125, "totalCost": 0.02625, "percentOfMonth": 69.83, "lastCallAt": "2026-04-16T16:04:15.773Z" }
   ],
@@ -85,11 +82,11 @@ forecast (--forecast):
 
 ## Composition strategy
 
-Reads `usage.jsonl` directly (fast-path: reuses `getUsageSummary` from `server/src/usage-summary.js` when proxy is running; falls back to direct file read when proxy is down so audits still work offline). Drain attribution reads `server/logs/drain-log.jsonl`. Forecast is pure Tier 0 math (linear extrapolation of daily average).
+Reads `usage.jsonl` directly (fast-path: reuses `getUsageSummary` from `server/src/usage-summary.js` when proxy is running; falls back to direct file read when proxy is down so audits still work offline). Forecast is pure Tier 0 math (linear extrapolation of daily average).
 
 ## Guardrails
 
-- **Read-only.** Never mutate usage.jsonl, drain-log.jsonl, or billing state.
+- **Read-only.** Never mutate usage.jsonl or billing state.
 - **Timezone-consistent.** All dates UTC unless `--format text`, which renders in America/New_York.
 - **No network calls.** Pricing is embedded; no external price-API lookup.
 - **Fail loud on malformed rows.** Skip the row, log to stderr, don't crash.
@@ -97,6 +94,5 @@ Reads `usage.jsonl` directly (fast-path: reuses `getUsageSummary` from `server/s
 
 ## Non-goals
 
-- Not a drain (see `daily-drain`).
 - Not a throttle enforcer (middleware does that server-side).
 - Not a billing client — this audits local telemetry only.
