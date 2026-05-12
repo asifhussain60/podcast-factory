@@ -67,9 +67,9 @@
   border: 0;
 }
 
-/* ─── Floating fallback (for pages without a nav, e.g. trips/itinerary share).
-       Inherits the 42×42 circular geometry from the base rule — only the
-       positioning, layering, and surface treatment differ. ──────────────── */
+/* ─── Floating fallback (for pages without a nav). Inherits the 42×42
+       circular geometry from the base rule — only the positioning, layering,
+       and surface treatment differ. ──────────────────────────────────────── */
 .tweaker-nav-btn.tweaker-nav-btn--floating {
   position: fixed;
   right: var(--space-4);

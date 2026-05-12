@@ -41,8 +41,8 @@ throttle hits:  {M}           (requests that hit soft/hard gates)
 drain attribution: ${D.DD}    ({pct}% — Cowork drain-log)
 
 by endpoint (top {N} by spend):
-  1. /api/trip-edit              {calls}  avg ${avg}  total ${total}  ({pct}%)
-  2. /api/trip-qa                {calls}  avg ${avg}  total ${total}  ({pct}%)
+  1. /api/refine                 {calls}  avg ${avg}  total ${total}  ({pct}%)
+  2. /api/chat                   {calls}  avg ${avg}  total ${total}  ({pct}%)
   ...
 
 daily trend:
@@ -70,7 +70,7 @@ forecast (--forecast):
   "throttleHits": 57,
   "drainAttribution": 0.002,
   "byEndpoint": [
-    { "endpoint": "/api/trip-assistant", "calls": 21, "avgCost": 0.00125, "totalCost": 0.02625, "percentOfMonth": 69.83, "lastCallAt": "2026-04-16T16:04:15.773Z" }
+    { "endpoint": "/api/refine", "calls": 21, "avgCost": 0.00125, "totalCost": 0.02625, "percentOfMonth": 69.83, "lastCallAt": "2026-04-16T16:04:15.773Z" }
   ],
   "dailyTrend": [{ "day": "2026-04-15", "spend": 0.011 }],
   "forecast": {

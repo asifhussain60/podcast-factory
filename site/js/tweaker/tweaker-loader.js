@@ -9,14 +9,10 @@
 (function () {
   'use strict';
 
-  // Resolve the /site/ base path relative to this HTML file.
-  // site/index.html            → ''            (css at 'css/...', js at 'js/...')
-  // site/itineraries/*.html    → '../'
-  // trips/<slug>/itinerary.html → '../../site/'
-  const path = window.location.pathname;
-  let base = '';
-  if (path.startsWith('/trips/')) base = '../../site/';
-  else if (path.startsWith('/itineraries/') || /\/site\/itineraries\//.test(path)) base = '../';
+  // Tweaker only loads on site/index.html now (memoir-only build), so base
+  // is always empty. The legacy path resolution for itineraries/ and trips/
+  // was removed when those surfaces were stripped in v3.0.
+  const base = '';
 
   function addLink(href) {
     const l = document.createElement('link');

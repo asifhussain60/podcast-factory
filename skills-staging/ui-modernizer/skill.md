@@ -1,6 +1,6 @@
 ---
 name: ui-modernizer
-description: "UI modernization skill for the journal app's ui-modernization branch. Invoke when the user says 'ui-modernizer', '/ui-modernizer', '@ui-modernizer', 'modernize ui', 'run ui phases', or 'continue ui modernization'. Executes the four-phase modernization plan: (1) Design System hygiene — retire --muted token, enforce opacity-on-text rule; (2) Architecture — split monolithic CSS; (3) Interactions — upgrade accordions to grid-template-rows; (4) Views — visual improvements. ALWAYS invokes ui-reviewer agent after each phase. Never touches locked decisions: FloatingChat as independent surface, Phase 1 DOR decisions. Read-only by default — requires explicit 'apply' to make edits."
+description: "UI modernization skill for the journal app's ui-modernization branch. Invoke when the user says 'ui-modernizer', '/ui-modernizer', '@ui-modernizer', 'modernize ui', 'run ui phases', or 'continue ui modernization'. Executes the four-phase modernization plan: (1) Design System hygiene — retire --muted token, enforce opacity-on-text rule; (2) Architecture — split monolithic CSS; (3) Interactions — upgrade accordions to grid-template-rows; (4) Views — visual improvements. ALWAYS invokes ui-reviewer agent after each phase. Read-only by default — requires explicit 'apply' to make edits."
 ---
 
 # ui-modernizer — UI Modernization Skill
@@ -12,7 +12,6 @@ After every phase, the `ui-reviewer` agent is invoked to audit the diff.
 
 | Decision | Status | Reason |
 |---|---|---|
-| FloatingChat as independent `--fc-*` surface | LOCKED | Phase 1 DOR — merging into ai-drawer.css would break the scoped palette contract |
 | Shadow DOM for React islands | REJECTED | Global theme tokens (`var(--*)`) don't pierce shadow boundaries; would require explicit forwarding that undermines the token system |
 | `:root`-free component CSS | LOCKED | Phase 2 design-system canon — theme tokens via `var()` only |
 | `--muted` = alias for `--text-secondary` | CONFIRMED | Identical hex in all 9 themes — safe to retire |

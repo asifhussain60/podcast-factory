@@ -340,10 +340,7 @@ select.input {
 
    Shell nav: `.nav` (this file) is the only implementation.
    Full-bleed sticky header, gutter-padded, glass background.
-   Dashboard and itinerary both use it. Standalone share artifacts
-   (e.g. trips/<slug>/itinerary.html) may omit it — they are
-   explicitly scoped as printable or shareable static snapshots,
-   not site-shell views.
+   The journal dashboard uses it.
    ═══════════════════════════════════════════════════ */
 
 /* ─── Canonical full-width Navigation ─── */
