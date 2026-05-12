@@ -66,7 +66,7 @@ Before doing any memoir work (`journal` skill), read these in order (the canonic
 12. `reference/translations-glossary.md`
 13. `reference/chapter-status.md`
 
-Then run delta detection: `python <SKILL_DIR>/scripts/auto_delta.py <JOURNAL_DIR>/chapters` and read the full delta report before touching any chapter file.
+Then run delta detection: `python3 scripts/memoir/auto_delta.py chapters` (run from repo root). Read the full delta report before touching any chapter file. Scripts are in-repo at `scripts/memoir/` — no dependency on the Claude desktop `skills-plugin` install.
 
 ---
 

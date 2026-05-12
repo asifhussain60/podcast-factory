@@ -34,9 +34,11 @@ edits. Do not fall back to SKILL_DIR/references/ unless the writable
 copy is missing.
 
 Then run delta detection:
-  python <SKILL_DIR>/scripts/auto_delta.py <JOURNAL_DIR>/chapters
+  python3 <JOURNAL_DIR>/scripts/memoir/auto_delta.py <JOURNAL_DIR>/chapters
 
-Read the full delta report before touching any file.
+Read the full delta report before touching any file. (Legacy SKILL_DIR
+location at ~/Library/Application Support/Claude/.../skills/journal/scripts/
+still works but the in-repo copy at scripts/memoir/ is canonical.)
 
 ============================================================
 SECTION 2: FOLDER STRUCTURE
@@ -186,7 +188,7 @@ When Challenger approves:
   6. Update temporal-guardrail.md if timeline affected
   7. Update master-context.md with new chapter synthesis
   8. Run full compliance scan
-  9. Snapshot: python <SKILL_DIR>/scripts/auto_delta.py
+  9. Snapshot: python3 <JOURNAL_DIR>/scripts/memoir/auto_delta.py
      <JOURNAL_DIR>/chapters --save
   10. Git-commit final: "ch{NN}-{name}: finalized"
   11. Delete scratchpad file (history in git)
@@ -395,10 +397,16 @@ D. Chapters (JOURNAL_DIR/chapters/)
    ch00-intro.txt, ch01-man.txt, ch02-love.txt, ch03-marriage.txt,
    preface.txt, snapshots/{base}-snapshot.txt (delta baseline)
 
-E. Scripts (SKILL_DIR/scripts/). READ-ONLY EXECUTABLES.
+E. Scripts (JOURNAL_DIR/scripts/memoir/). IN-REPO, STANDALONE.
+   Pure stdlib Python. No external dependencies. Canonical location.
+   The legacy SKILL_DIR/scripts/ copies (in Claude desktop's
+   skills-plugin install) are identical mirrors — leave them alone
+   but don't rely on them. The in-repo copies travel with the repo
+   and survive uninstall of the desktop skill.
+
    auto_delta.py            delta CHECK + SAVE for all chapters
-                            usage: auto_delta.py <JOURNAL_DIR>/chapters
-                                   auto_delta.py <JOURNAL_DIR>/chapters --save
+                            usage: python3 scripts/memoir/auto_delta.py chapters
+                                   python3 scripts/memoir/auto_delta.py chapters --save
    detect_user_delta.py     core delta engine (called by auto_delta)
    save_snapshot.py         save single-file snapshot
    refresh_all_snapshots.py reset all snapshots to current state
