@@ -1,6 +1,6 @@
-# Skills Registry
+# Skills Registry (memoir-only)
 
-Central index of all skills in the journal ecosystem. The `journal-orchestrator` agent uses this to route intent.
+Central index of the skills that support the memoir engine and the journal site. As of v3.0 (2026-05-12) the trip/daybook/DayOne skills have been removed — see `framework.md` §"What was removed in v3.0".
 
 ## Execution Tiers
 
@@ -9,80 +9,37 @@ Central index of all skills in the journal ecosystem. The `journal-orchestrator`
 | T0 | Deterministic code | Free | <10ms |
 | T1 | Haiku | ~$0.001/call | <2s |
 | T2 | Sonnet | ~$0.01/call | <10s |
-| T3 | Cowork (Claude Code) | ~$0.10-1.00/session | 30s-5min |
+| T3 | Cowork (Claude Code) | ~$0.10–1.00/session | 30s–5min |
 
 ## Skill Index
 
-### Cowork-Only Skills (Tier 3)
+### Memoir core (framework-defined, Cowork T3)
 
-| Skill | Purpose | Owns | Does NOT Own | Triggers |
+| Skill | Purpose | Owns | Triggers |
+|---|---|---|---|
+| `journal` | Memoir chapter writing + refinement (defined in `framework.md`; workflow in `reference/journal-workflow-v2.md`) | `chapters/`, `chapters/snapshots/`, `scratchpad/` | "journal", "continue writing", "next chapter", "refine chapter", "/journal work on chapter N" |
+
+### Dev / infra (Cowork T3 unless noted)
+
+| Skill | Purpose | Owns | Does NOT own | Triggers |
 |---|---|---|---|---|
-| [`trip-planner`](trip-planner/skill.md) | Build interactive trip itineraries | `trips/{slug}/itinerary.*`, `trip.yaml`, `budget.md` | Daily entries, memoir, queue drains | "plan a trip", "itinerary", "travel plan" |
-| [`catch-up`](catch-up/skill.md) | End-of-day synthesis | Preview output only (Phase 7) | Canonical writes (Phase 8 drain) | "catch up", "daily recap", "end of day" |
-| [`voice-to-prose`](voice-to-prose/skill.md) | Voice → memoir prose | Preview prose candidates | Canonical memoir writes | "voice to prose", "refine voice notes" |
-| [`memory-promotion`](memory-promotion/skill.md) | Route memoryWorthy items | Routing plan (preview) | Actual memoir writes | "promote memories", "memoir backlog" |
-| [`queue-triage`](queue-triage/skill.md) | Classify + order queue items | Processing plan | Queue mutations | "triage queues", "what's in my queue" |
-| [`queue-health`](queue-health/skill.md) | Monitor queue health | Health report (JSON + text) | Queue mutations | "queue stats", "stuck items" |
-| [`daily-drain`](daily-drain/skill.md) | Orchestrate full drain pipeline | Drain execution + drain-log | Individual transforms (delegates) | "drain queues", "morning drain" |
-| [`food-photo`](food-photo/skill.md) | Pair receipts with memoir | Cross-link suggestions | Memoir edits | "pair food photos", "food receipts" |
-| [`usage-auditor`](usage-auditor/skill.md) | Audit spend + forecast | Spend report | Budget enforcement (middleware does that) | "audit usage", "spend report" |
-| [`ui-modernizer`](ui-modernizer/skill.md) | Execute UI modernization phases | CSS + component changes | Theme definitions (css-theme-sync) | "modernize ui", "run ui phases" |
-| [`repo-surgeon`](repo-surgeon/skill.md) | Holistic repo audit + repair | Structural integrity, orphan cleanup, registry alignment, `surgeon-log.jsonl` | CSS/theme detail (defers to ui-reviewer), content quality, spend | "repo review", "architectural audit", "cleanup sweep", "root clutter" |
+| [`css-theme-sync`](css-theme-sync/skill.md) | Theme parity validation + auto-fix | Theme tokens across `site/css/` | Theme palette decisions (tweaker handles that) | "validate themes", "theme parity" |
+| [`ui-modernizer`](ui-modernizer/skill.md) | Execute UI modernization phases | CSS + component changes on the site | Theme definitions (defers to css-theme-sync) | "modernize ui", "run ui phases" |
+| [`repo-surgeon`](repo-surgeon/skill.md) | Holistic repo audit + repair | Structural integrity, orphan cleanup, registry alignment | Content quality (memoir voice), CSS detail | "repo review", "architectural audit", "cleanup sweep" |
+| [`usage-auditor`](usage-auditor/skill.md) | Audit Claude-API spend + forecast | Spend report against `MONTHLY_CAP` | Budget enforcement (proxy middleware does that) | "audit usage", "spend report" |
 
-### Hybrid Skills
+## Server prompt registry
 
-| Skill | Purpose | App Role | Cowork Role | Triggers |
-|---|---|---|---|---|
-| [`css-theme-sync`](css-theme-sync/skill.md) | Theme parity validation + auto-fix | `npm run validate-themes` | Auto-fix violations | "validate themes", "theme parity" |
+Named prompts under `server/src/prompts/` that the proxy registers at startup:
 
-### App-Triggered Skills (Tier 1-2, server-executed)
-
-| Skill | Purpose | Tier | Server Endpoints | Triggers |
-|---|---|---|---|---|
-| [`trip-edit`](trip-edit/skill.md) | Natural-language trip editing | T2 (Sonnet) | `/api/trip-edit`, `/api/find-alternatives`, `/api/insert-event`, etc. | User chat in FloatingChat |
-| [`receipt-capture`](receipt-capture/skill.md) | Photo/receipt capture + classify | T1-T2 | `/api/log/capture`, `/api/extract-receipt`, `/api/upload` | Camera button, photo upload |
-| [`dayone-publish`](dayone-publish/skill.md) | Compose + publish to DayOne | T2 (Sonnet) | `/api/publish-sessions/*`, `/api/dayone/*` | "Publish to DayOne" button |
-
-### Framework-Defined Skills (Cowork Tier 3, defined in framework.md)
-
-| Skill | Purpose | Owns |
+| Prompt | Used by | Tier |
 |---|---|---|
-| `journal` | Memoir chapter writing + refinement | `chapters/`, `chapters/snapshots/` |
-| `trip-log` | Daily event recording in voice | `trips/{slug}/journal/` |
+| `refine-general` | `/api/refine` — voice-DNA refinement (the AI drawer in the site) | T2 |
+| `theme-swatches` | `/api/theme-swatches` (tweaker) | T2 |
+| `theme-review` | `/api/theme-review` (tweaker) | T2 |
 
----
+If you add a prompt, register it in `server/src/prompts/index.js` and add a row here.
 
-## Drain Pipeline
+## Agents
 
-```
-queue-health → queue-triage → daily-drain
-                                    ↓
-              voice-to-prose / memory-promotion / food-photo
-                                    ↓
-                                catch-up → canonical writes
-```
-
-## Named Prompt ↔ Skill Map
-
-Server prompts (`server/src/prompts/`) are the AI instructions used by App-tier skills:
-
-| Prompt | Used By Skill | Tier |
-|---|---|---|
-| `refine-general` | General voice refinement | T2 |
-| `refine-note` | `receipt-capture` (note refinement) | T1 |
-| `refine-voice-transcript` | `receipt-capture` (voice refinement) | T1 |
-| `refine-receipt` | `receipt-capture` (receipt extraction) | T2 |
-| `refine-reflection` | `dayone-publish` (trip reflection) | T2 |
-| `trip-edit` | `trip-edit` | T2 |
-| `find-alternatives` | `trip-edit` | T2 |
-| `suggest-insert-event` | `trip-edit` | T2 |
-| `trip-qa` | `trip-edit` (Q&A fallback) | T2 |
-| `trip-assistant` | `trip-edit` (assistant mode) | T2 |
-| `extract-receipt` | `receipt-capture` | T1 |
-| `classify-image-kind` | `receipt-capture` | T1 |
-| `classify-holiday-txns` | `usage-auditor` (YNAB) | T1 |
-| `ingest-itinerary` | `trip-edit` (itinerary import) | T2 |
-| `suggest-tags` | `dayone-publish` (Refine All) | T1 |
-| `synthesize-trip-narrative` | `dayone-publish` (Refine All) | T2 |
-| `theme-swatches` | `css-theme-sync` (tweaker) | T2 |
-| `theme-review` | `css-theme-sync` (tweaker) | T2 |
+Agents live outside this registry; see `framework.md` §Agents. In short: `CORTEX` for governance, `journal-orchestrator` for skill routing, `repo-surgeon` for deep audits, `ui-reviewer` for CSS/theme review on Stop.

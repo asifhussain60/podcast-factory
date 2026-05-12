@@ -2,9 +2,8 @@
  * toast.js — single notification layer for the journal app.
  *
  * Backed by Sonner (https://sonner.emilkowal.ski/). Mounts one <Toaster /> into
- * #notify-root and exposes an imperative API on `window.notify` so both the
- * React SPA shell (site/index.html) and the vanilla itinerary pages
- * (site/itineraries/*.html) can fire toasts the same way.
+ * #notify-root and exposes an imperative API on `window.notify` so the React
+ * SPA shell (site/index.html) can fire toasts.
  *
  * Public API (every method returns a toast id; safe to call before boot):
  *   window.notify.success(message, opts?)

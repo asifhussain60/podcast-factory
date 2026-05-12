@@ -66,7 +66,7 @@ Pass 4: Brittleness Scanner   → stale cross-refs, missing contracts, regressio
 
 ```bash
 # R1: Root clutter scan
-ls -1 | grep -v -E '^(framework\.md|index\.html|package\.json|release-please-config\.json|site-worker\.js|wrangler\.toml|CHANGELOG\.md|\.gitignore|\.gitattributes|\.mcp\.json|LICENSE|README\.md)$' | grep -v -E '^(\.|_workspace|chapters|docs|infra|reference|scripts|server|shared|site|skills-staging|trips)$'
+ls -1 | grep -v -E '^(framework\.md|index\.html|package\.json|release-please-config\.json|site-worker\.js|wrangler\.toml|CHANGELOG\.md|\.gitignore|\.gitattributes|\.mcp\.json|LICENSE|README\.md)$' | grep -v -E '^(\.|_workspace|chapters|docs|infra|reference|scratchpad|scripts|server|shared|site|skills-staging)$'
 
 # R3: Scratch files at root
 ls -1 *.prompt.md scratchpad-* tmp-* test-* debug-* 2>/dev/null
@@ -89,8 +89,8 @@ git ls-files | grep DS_Store
 
 | ID | Rule | Action |
 |---|---|---|
-| C1 | **Orphaned CSS** — Any `.css` file in `site/css/` not linked from `site/index.html` or `site/itineraries/itinerary.html` or imported by another CSS file. | Delete or link. |
-| C2 | **Orphaned JS** — Any `.js` file in `site/js/` not referenced from `site/index.html`, `site/itineraries/itinerary.html`, or another JS file. | Delete or link. |
+| C1 | **Orphaned CSS** — Any `.css` file in `site/css/` not linked from `site/index.html` or imported by another CSS file. | Delete or link. |
+| C2 | **Orphaned JS** — Any `.js` file in `site/js/` not referenced from `site/index.html` or another JS file. | Delete or link. |
 | C3 | **Dead server routes** — Any route registered in `server/src/` with no corresponding client call in `site/js/` or `site/index.html`. | Flag for deprecation. |
 | C4 | **Orphaned prompts** — Any file in `server/src/prompts/` not registered in `server/src/prompts/index.js`. | Register or delete. |
 | C5 | **Stale named exports** — Exports in `server/src/prompts/index.js` that reference nonexistent files. | Remove export. |
@@ -206,13 +206,12 @@ find . -maxdepth 2 -type d \
 | ID | Rule | Action |
 |---|---|---|
 | B1 | **Hardcoded paths** — Any hardcoded absolute path in JS/HTML/CSS (e.g., `/Users/asif...`, `C:\...`). | Replace with relative path or config variable. |
-| B2 | **Hardcoded trip slugs** — Trip slug `2026-04-ishrat-engagement` hardcoded outside trip-specific files. If it appears in `site/index.html`, `server/src/`, or `site/js/`, it's brittle. | Extract to config or make dynamic. |
-| B3 | **Stale branch references** — References to branches like `refine-all-redesign-v2`, `phase-*`, or other completed feature branches in active agent/skill files. | Update or remove. |
-| B4 | **Missing error boundaries** — Server routes without try/catch at the handler level. API endpoints that can crash the process. | Add error boundary. |
-| B5 | **Broken internal links** — Markdown files referencing other files by path that don't exist. | Fix path or remove link. |
-| B6 | **Stale manifest entries** — `trips/manifest.json` entries for trip slugs whose directories don't exist. Reverse: trip directories not in manifest. | Sync manifest. |
-| B7 | **Zombie TODO/FIXME** — `TODO`, `FIXME`, `HACK`, `XXX` comments older than 30 days (check via `git log`). | Resolve or promote to issue. |
-| B8 | **Config drift** — `wrangler.toml` references that don't match actual Cloudflare setup. `package.json` scripts that reference nonexistent files. | Fix references. |
+| B2 | **Stale branch references** — References to completed feature branches (e.g. `refine-all-redesign-v2`, `phase-*`) in active agent/skill files. | Update or remove. |
+| B3 | **Missing error boundaries** — Server routes without try/catch at the handler level. API endpoints that can crash the process. | Add error boundary. |
+| B4 | **Broken internal links** — Markdown files referencing other files by path that don't exist. | Fix path or remove link. |
+| B5 | **Zombie TODO/FIXME** — `TODO`, `FIXME`, `HACK`, `XXX` comments older than 30 days (check via `git log`). | Resolve or promote to issue. |
+| B6 | **Config drift** — `wrangler.toml` references that don't match actual Cloudflare setup. `package.json` scripts that reference nonexistent files. | Fix references. |
+| B7 | **Stale trip/daybook residue** — Any reference to removed v3.0 surfaces (`trips/`, `trip-edit`, `dayone-publish`, `log-view.css`, daybook routes, etc.) in active code or docs. | Remove. The full removal set lives on branch `archive/full-stack-pre-strip`. |
 
 ### Procedure
 
@@ -220,34 +219,20 @@ find . -maxdepth 2 -type d \
 # B1: Hardcoded absolute paths
 grep -rn '/Users/\|C:\\' site/js/ site/css/ site/index.html server/src/ --include='*.js' --include='*.html' --include='*.css' 2>/dev/null
 
-# B2: Hardcoded trip slugs in shared code
-grep -rn '2026-04-ishrat-engagement' site/js/ server/src/ site/index.html --include='*.js' --include='*.html' 2>/dev/null | grep -v 'test-fixtures'
-
-# B3: Stale branch references
+# B2: Stale branch references
 grep -rn 'refine-all-redesign' .github/agents/ .claude/agents/ skills-staging/ framework.md 2>/dev/null
 
-# B5: Broken internal links
+# B4: Broken internal links
 grep -rnoP '\[.*?\]\(((?!http)[^)]+)\)' framework.md skills-staging/README.md .github/agents/*.md 2>/dev/null | while IFS=: read -r file line match; do
   path=$(echo "$match" | grep -oP '\(([^)]+)\)' | tr -d '()')
   [[ -e "$path" ]] || echo "BROKEN LINK in $file:$line → $path"
 done
 
-# B6: Manifest sync
-if [[ -f trips/manifest.json ]]; then
-  python3 -c "
-import json, os
-m = json.load(open('trips/manifest.json'))
-slugs = [t.get('slug','') for t in m.get('trips',m if isinstance(m,list) else [])]
-dirs = [d for d in os.listdir('trips') if os.path.isdir(f'trips/{d}')]
-for s in slugs:
-    if s not in dirs: print(f'MANIFEST GHOST: {s}')
-for d in dirs:
-    if d not in slugs: print(f'UNMANIFESTED DIR: {d}')
-"
-fi
-
-# B7: Zombie TODOs
+# B5: Zombie TODOs
 grep -rn 'TODO\|FIXME\|HACK\|XXX' site/js/ server/src/ site/css/ --include='*.js' --include='*.css' 2>/dev/null
+
+# B7: Trip/daybook residue scan
+grep -rnE 'trips/|trip-edit|trip-planner|dayone|FloatingChat|LogModule|InsertEvent|receipt-capture|food-photo|/api/(trip|log|queue|dayone|publish-sessions|holiday-budget|flight-status|weather|distance-matrix|extract-receipt|refine-(note|voice-transcript|receipt|reflection))' site/ server/src/ skills-staging/ framework.md .github/agents/ 2>/dev/null | grep -v 'archive/full-stack-pre-strip\|^Binary'
 ```
 
 ---
@@ -316,12 +301,12 @@ chapters/         ← memoir content
 docs/             ← documentation
 infra/            ← infrastructure configs
 reference/        ← single source of truth
+scratchpad/       ← active chapter drafts (deleted post-finalization)
 scripts/          ← shell scripts and git hooks
 server/           ← Express API server
 shared/           ← shared JS modules
 site/             ← SPA frontend
 skills-staging/   ← skill definitions
-trips/            ← trip data
 .github/          ← GitHub config + agents
 .claude/          ← Claude config + agents
 ```

@@ -1,8 +1,0 @@
-{
-  "schemaVersion": 1,
-  "id": "",
-  "target": "chapters/ch01-man.txt",
-  "patch": "replace /days/4 with new value",
-  "actor": "assistant",
-  "status": "committed"
-}

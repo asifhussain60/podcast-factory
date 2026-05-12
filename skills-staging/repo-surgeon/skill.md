@@ -81,11 +81,10 @@ Finds fragile patterns that will break on next change:
 | Check | What |
 |---|---|
 | Hardcoded paths | Absolute paths in JS/HTML/CSS. |
-| Hardcoded trip slugs | Trip slugs in shared code outside trip-specific files. |
 | Stale branch refs | References to completed feature branches. |
 | Missing error boundaries | Server routes without try/catch. |
 | Broken internal links | Markdown links to nonexistent files. |
-| Manifest drift | `trips/manifest.json` out of sync with `trips/` directories. |
+| Trip/daybook residue | References to removed v3.0 surfaces (`trips/`, `trip-edit`, `dayone-publish`, daybook routes). |
 | Zombie TODOs | `TODO`/`FIXME` older than 30 days. |
 
 ## Output

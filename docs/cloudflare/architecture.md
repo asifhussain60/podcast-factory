@@ -6,8 +6,8 @@ you *which layer* to investigate.
 
 ## The full request path
 
-A user on an iPad opens `https://journal.kashkole.com/itineraries/itinerary.html?trip=2026-04-ishrat-engagement`
-and asks the Trip Assistant a question. Here's every hop:
+A user on an iPad opens `https://journal.kashkole.com/` and triggers the
+AI voice-refinement drawer on a chapter. Here's every hop:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
@@ -59,7 +59,7 @@ and asks the Trip Assistant a question. Here's every hop:
 │     (c) usageLogger      → captures every auth'd request            │
 │     (d) rateLimiter      → per-route token buckets                  │
 │     (e) throttleBudget   → soft/hard budget gates (Phase 8)         │
-│     (f) route handler    → e.g. /api/trip-qa                        │
+│     (f) route handler    → e.g. /api/refine                        │
 └─────────────────────────────────────────────────────────────────────┘
                               │
 ┌─────────────────────────────────────────────────────────────────────┐
@@ -164,8 +164,9 @@ The `env.preview` block in [wrangler.toml](../../wrangler.toml) is what gives
 
 - **The Anthropic API key.** macOS Keychain only. Surfaces in `/health` as
   `keySource` (e.g. `"keychain:anthropic_api_key"`).
-- **Cowork.** Memoir synthesis, git, YNAB drains, reference/ writes — all
-  happen in Claude Code running in your terminal. The CF pipeline is the App
+- **Cowork.** Memoir synthesis, git, `reference/` writes — all happen in
+  Claude Code running in your terminal. The CF pipeline is the journal-site
   surface only.
-- **Trip data.** Stays on the Mac filesystem at [trips/](../../trips/). The
-  proxy reads/writes; the browser never touches files directly.
+- **Memoir text.** Stays on the Mac filesystem under [chapters/](../../chapters/).
+  The journal site reads these as static files; the browser never writes to
+  them.

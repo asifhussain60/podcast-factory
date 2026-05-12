@@ -22,7 +22,6 @@ theme system:
 - `site/css/**`
 - `site/js/theme-switcher.js`
 - `site/**/*.html`
-- `trips/**/*.html`
 
 Commits with theme parity violations are blocked. The validator runs 8 checks —
 see [server/scripts/validate-theme-parity.mjs](../../server/scripts/validate-theme-parity.mjs)

@@ -16,54 +16,31 @@
 //                                      HTTP 429 { throttled: true, ... }
 //
 // Essentials that always pass (regardless of state): /health, tier-0 reference
-// data (GET /api/reference-data/*), usage summary itself, queue reads, and
-// edit-log reads. The "cheap" set mirrors the Cowork-side rule: synthesis
-// lives in Cowork, never throttled from the App surface.
+// data (GET /api/reference-data/*), and the usage summary itself.
 
 import { getUsageSummary } from "../lib/usage-summary.js";
 
-// Endpoints that must never be throttled. Health first so monitoring always
-// works. Read-only queue + edit-log endpoints follow — they're cheap and the
-// App surface leans on them to render the Queue / Edits panels.
 const ESSENTIAL_PATHS = new Set([
   "/health",
   "/api/usage/summary",
+  "/api/config",
 ]);
 const ESSENTIAL_PREFIXES = [
   "/api/reference-data/",
 ];
-const READ_ONLY_GET = [
-  "/api/edit-log",
-];
 
-// Soft-throttled-to-clarify endpoints: edit intents. When spend is 75-90%
-// we want the App to keep working but not author new memoir-facing writes.
-const EDIT_INTENT_PATHS = new Set([
-  "/api/trip-edit",
-  "/api/trip-edit/revert",
-]);
-
-// Cost-ful endpoints that fall under hard throttle: classification, synthesis,
-// extraction. Tier-0 and queue writes are not here — captures still work
-// because losing a voice memo is worse than overspending by $0.01.
+// Cost-ful endpoints that fall under hard throttle.
 const HARD_DENY_PATHS = new Set([
   "/api/chat",
   "/api/refine",
-  "/api/trip-qa",
-  "/api/trip-assistant",
-  "/api/extract-receipt",
-  "/api/ingest-itinerary",
   "/api/voice-test",
+  "/api/theme-swatches",
+  "/api/theme-review",
 ]);
 
 function classifyPath(method, path) {
   if (ESSENTIAL_PATHS.has(path)) return "essential";
   if (ESSENTIAL_PREFIXES.some((p) => path.startsWith(p))) return "essential";
-  if (method === "GET" && (READ_ONLY_GET.includes(path) || path.startsWith("/api/queue/"))) {
-    return "essential";
-  }
-  if (EDIT_INTENT_PATHS.has(path)) return "edit";
-  if (path === "/api/trip-edit" || path.startsWith("/api/trip-edit/")) return "edit";
   if (HARD_DENY_PATHS.has(path)) return "expensive";
   return "other";
 }
@@ -96,24 +73,12 @@ export function throttleBudget({ monthlyCAP = 50, summaryFn } = {}) {
 
     if (kind === "essential") return next();
 
-    if (state === "soft") {
-      if (kind === "edit") {
-        return res.status(200).json({
-          ok: true,
-          throttled: true,
-          throttleState: "soft",
-          intent: "qa",
-          message:
-            "Edit intents are throttled this month (≥75% budget used). Responding in clarify-only mode — rephrase as a question or wait until next month.",
-        });
-      }
-      // Q&A + synthesis still run under soft. Let them through with the header
-      // so the App can surface a banner.
-      return next();
-    }
+    // soft state: let everything through with the header so the page can
+    // surface a banner. There are no longer any edit-intent endpoints.
+    if (state === "soft") return next();
 
     // state === "hard"
-    if (kind === "expensive" || kind === "edit") {
+    if (kind === "expensive") {
       return res.status(429).json({
         ok: false,
         throttled: true,

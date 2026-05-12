@@ -5,7 +5,6 @@
 #   site/css/**
 #   site/js/theme-switcher.js
 #   site/**/*.html
-#   trips/**/*.html
 #
 # Exit 1 blocks the commit. Bypass with --no-verify (not recommended).
 # Install via: scripts/install-git-hooks.sh
@@ -23,7 +22,7 @@ if [ -z "$STAGED" ]; then
 fi
 
 # Match theme-relevant paths.
-RELEVANT="$(printf '%s\n' "$STAGED" | grep -E '^(site/css/|site/js/theme-switcher\.js|site/.*\.html$|trips/.*\.html$)' || true)"
+RELEVANT="$(printf '%s\n' "$STAGED" | grep -E '^(site/css/|site/js/theme-switcher\.js|site/.*\.html$)' || true)"
 
 if [ -z "$RELEVANT" ]; then
   exit 0

@@ -21,10 +21,10 @@ is down.
 
 ---
 
-## Symptom: Site loads but chat/trip-edit does nothing
+## Symptom: Site loads but the AI drawer does nothing
 
-**What you see:** itinerary page renders, FloatingChat opens, but sending a
-message does nothing (or a silent error in the panel).
+**What you see:** the journal page renders, the AI voice-refinement drawer
+opens, but Refine/Send does nothing (or a silent error in the panel).
 
 **Diagnose:**
 
@@ -38,7 +38,7 @@ message does nothing (or a silent error in the panel).
 | `401` with `{"error":"cloudflare access token missing"}` | Request reached proxy but didn't come through Access. Usually misconfigured origin. | See [#origin-bypass](#origin-bypass). |
 | `401` with `{"error":"cloudflare access token invalid: ..."}` | JWT verify failed. AUD/team mismatch. | See [#aud-mismatch](#aud-mismatch). |
 | `403` with CORS error in console | Origin not in `ALLOWED_ORIGINS`. | See [#cors-error](#cors-error). |
-| `429` | Rate limit or budget throttle. | Check BudgetPill; if near cap, see operations.md → Monthly budget. |
+| `429` | Rate limit or budget throttle. | Check `/api/usage/summary`; if near cap, see operations.md → Monthly budget. |
 | `502` | Proxy down or Anthropic error. | Check proxy logs. |
 
 ---
@@ -313,9 +313,8 @@ gh run view <run-id> --log-failed
 **Common failures:**
 - `validate-markers.mjs` error: you edited a memoir file without respecting
   `@@` markers. See [reference_markers_workflow](../../.claude/projects/-Users-asifhussain-PROJECTS-journal/memory/reference_markers_workflow.md).
-- `validate-schemas.mjs` error: a JSON file in `trips/**/pending.json` or
-  `server/src/schemas/**/fixtures/` broke its schema. The log names the
-  offending file and the Ajv error.
+- `validate-schemas.mjs` error: a JSON file under `server/src/schemas/`
+  broke its schema. The log names the offending file and the Ajv error.
 - `node --check` on `site/js/*.js`: syntax error in a client bundle. Fix
   locally, push again.
 
