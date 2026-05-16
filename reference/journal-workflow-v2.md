@@ -4,7 +4,19 @@
 # Nomenclature: the memoir is "What I Wish Babu Taught Me." Asif's
 #   father is "Babu." Any "Dad" reference in the read-only SKILL.md
 #   or its references is stale. Read it as "Babu."
-# Last updated: April 30, 2026
+#
+# CORTEX Challenger Framework v1 governance: as of 2026-05-16, /journal
+# operates under the framework defined at
+# `reference/cortex-challenger-framework.md`, with skill-specific
+# compliance recorded at
+# `reference/skill-overlays/journal-cortex-overlay.md`.
+# Severity tiers (P0-P3), DoR gate, voice-rewrite convergence loop, and
+# applicable CORE rules are all defined there. When this workflow
+# document and the overlay are both authoritative on a topic, the
+# overlay wins for severity and gate behavior; this document wins for
+# memoir-specific craft and content rules.
+#
+# Last updated: 2026-05-16 (CORTEX framework integration added)
 
 ============================================================
 SECTION 1: SESSION START PROTOCOL
