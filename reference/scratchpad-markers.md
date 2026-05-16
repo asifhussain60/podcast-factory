@@ -1,20 +1,18 @@
-# Scratchpad Markers (`@@`) — Canonical Reference
+# Scratchpad Markers (`@@`) — Journal Skill Reference
 
-**Authoritative spec for the `@@` marker vocabulary.** Used by both the `journal` skill (memoir chapters) and the `podcast` skill (refined episodes). Any future skill that takes a canonical text file and lets the user mark up a parallel scratchpad for refinement should cite this file as the source of truth.
-
-**Supersedes:** the marker section in `reference/memoir-rules-supplement.txt` Section E. That older document remains accurate for the 9 verbs it covers; this document is the consolidated, current spec including the podcast-specific `@@pronounce` addition.
+**Authoritative spec for the `@@` marker vocabulary within the journal skill.** Used for memoir chapter refinement via memoir chapter scratchpads in `scratchpad/`. The podcast skill maintains a parallel, independent copy at `skills-staging/podcast/references/scratchpad-markers.md`. The two copies are independent; changes to one do not require changes to the other.
 
 ---
 
 ## The mental model
 
-A **canonical file** is the finished artifact — a memoir chapter in `chapters/`, a refined podcast episode in `_workspace/podcast/<slug>/01-refined/`. The canonical file is what gets shipped: NotebookLM ingests it; the memoir publishes it.
+A **canonical file** is the finished artifact — a memoir chapter in `chapters/`. The canonical file is what gets shipped and published.
 
-A **scratchpad file** mirrors the canonical file and carries `@@` markers. The user writes markers in the scratchpad; I scan, process, and strip them; then I rewrite the canonical file. The scratchpad and canonical stay in sync but exist for different purposes — the canonical for delivery, the scratchpad for direction-from-the-user.
+A **scratchpad file** mirrors the canonical file and carries `@@` markers. The user writes markers in the scratchpad; the skill scans, processes, and strips them; then it rewrites the canonical file. The scratchpad and canonical stay in sync but serve different purposes: the canonical for delivery, the scratchpad for direction-from-the-user.
 
 Markers never appear in canonical files. They are stripped on every refinement pass.
 
-## The 11-verb vocabulary
+## The 10-verb vocabulary
 
 | Token | Purpose | Argument form | Example |
 |---|---|---|---|
@@ -25,34 +23,27 @@ Markers never appear in canonical files. They are stripped on every refinement p
 | `@@move` | Relocate the marked content | destination | `@@move(to section 3)`, `@@move(to next episode)` |
 | `@@note` | Message to me — not content | freeform | `@@note(check this verse number against Quran 18:110)` |
 | `@@merge` | Combine paragraphs or sections | optional direction | `@@merge`, `@@merge(with next)`, `@@merge(with section above)` |
-| `@@rephrase` | Propose 2-3 alternate phrasings | optional hint | `@@rephrase`, `@@rephrase(more conversational)` |
+| `@@rephrase` | Propose 2–3 alternate phrasings | optional hint | `@@rephrase`, `@@rephrase(more conversational)` |
 | `@@split` | Break this paragraph or section apart | optional hint | `@@split`, `@@split(after "lion")` |
-| `@@pronounce` | Override phonetic for a term (podcast only) | `term: phonetic` | `@@pronounce(Tasawwuf: Ta-saw-woof)` |
-| `@@policy` | Series-wide directive — applies to every refinement pass on every chapter or episode | freeform directive | `@@policy(reduce formality across all episodes — more conversational, fewer ceremonial connectors)` |
+| `@@policy` | Series-wide directive — applies to every refinement pass on every chapter | freeform directive | `@@policy(reduce formality across all chapters — more conversational, fewer ceremonial connectors)` |
 
-## Three tiers of scope
+## Two tiers of scope
 
-Markers fall into three tiers based on how they propagate. The classification is fixed by verb, not by user choice — every marker has exactly one tier.
+Markers fall into two tiers based on how they propagate.
 
-### Tier 1 — Local (8 verbs)
+### Tier 1 — Local (9 verbs)
 
 `@@refine`, `@@replace`, `@@expand`, `@@cut`, `@@move`, `@@merge`, `@@rephrase`, `@@split`.
 
-Apply only to where the marker is placed. Cannot propagate because they reference specific content whose words differ in every chapter or episode. `@@cut` a paragraph in Episode 1; that does not cut anything in Episode 2.
+Apply only to where the marker is placed. Cannot propagate because they reference specific content whose words differ in every chapter. `@@cut` a paragraph in ch01; that does not cut anything in ch02.
 
 `@@note` is also local — it's a message about specific content at that location.
 
-### Tier 2 — Mechanical (1 verb)
-
-`@@pronounce(term: phonetic)`.
-
-Auto-propagates. The term and phonetic are unambiguous; once the user has decided that *Sunnah* should be spoken *Soon-nah*, that fact is true everywhere in the series. On processing, the skill detects every `@@pronounce` marker, asks for one-line confirmation, then propagates the override to every other chapter or episode in the project. The series-wide pronunciation guide (`03-pronunciation.md`) is NOT modified by this — `@@pronounce` is an *override*, scoped to this run.
-
-### Tier 3 — Policy (1 verb)
+### Tier 2 — Policy (1 verb)
 
 `@@policy(directive)`.
 
-Lifted into `scratchpad/series-policies.md` and applied as augmentation to Stage 12 Hard Rules on every refinement pass — for the marked chapter and for every other chapter or episode the skill subsequently refines.
+Lifted into `scratchpad/series-policies.md` and applied as augmentation to every refinement pass — for the marked chapter and for every other chapter the skill subsequently refines.
 
 The policy file is a persistent style guide for the project. Each entry has provenance (which scratchpad it came from, when), the directive itself, and an active/inactive flag. The user can edit the file directly to adjust, deactivate, or remove policies.
 
@@ -70,22 +61,19 @@ A `@@policy` marker is processed once: it gets recorded in `series-policies.md`.
 
 ## Propagation workflow
 
-When the user invokes refinement on a chapter or episode whose scratchpad contains `@@pronounce` or `@@policy` markers:
+When the user invokes refinement on a chapter whose scratchpad contains `@@policy` markers:
 
 1. **Scan** the scratchpad. Classify every marker by tier.
 2. **Apply local (Tier 1) markers** to this chapter's canonical file. Strip them.
-3. **Lift Tier 2 + Tier 3 markers** into proposed entries. Show the user:
+3. **Lift Tier 2 markers** into proposed entries. Show the user:
    ```
    Detected propagation candidates:
-   • 2 pronunciation overrides — auto-propagate to remaining N chapters?
    • 3 series policies — record in series-policies.md and apply to remaining N chapters?
    ```
 4. **User confirms or declines.** Declined entries are dropped; accepted entries are recorded.
-5. **Run Stage 12 refinement** on every other chapter/episode in the project with the policies augmenting Hard Rules. Each chapter is refined once under the new policies; no per-chapter markers needed.
-6. **Strip the Tier 2 + Tier 3 markers** from the original scratchpad (they have been recorded in their persistent locations).
+5. **Run Stage 12 refinement** on every other chapter in the project with the policies augmenting Hard Rules. Each chapter is refined once under the new policies.
+6. **Strip the Tier 2 markers** from the original scratchpad (they have been recorded in their persistent location).
 7. **Write the marker manifest** documenting what propagated and what stayed local.
-
-If the user wants to mark up one chapter and have the rest of the series inherit those changes, the workflow above is the path. Local markers handle "fix this specific spot"; policies handle "everywhere in the series, do this differently."
 
 ### Argument syntax
 
@@ -110,14 +98,11 @@ The scratchpad never becomes a long-lived artifact carrying stale markers. Every
 
 ## File layout
 
-### Per-canonical-file scratchpad pattern
+### Per-chapter scratchpad pattern
 
 | Skill | Canonical | Scratchpad |
 |---|---|---|
 | journal | `chapters/ch03-marriage.txt` | `scratchpad/scratch-marriage.txt` |
-| podcast | `_workspace/podcast/<slug>/01-refined/episode-NN-<slug>.md` | `_workspace/podcast/<slug>/scratchpad/episode-NN-<slug>.scratch.md` |
-
-Same pattern, same lifecycle, same vocabulary. Skill differs only in where it scans.
 
 ### Scratchpad file structure
 
@@ -148,21 +133,22 @@ The marker legend at the top is reference for the user — they don't have to me
 
 ## When *not* to use a marker
 
-Markers are for **changes the user wants me to make to the canonical text**. They are not for:
+Markers are for **changes the user wants the journal skill to make to memoir chapter text**. They are not for:
 
-- **Per-episode metadata** (NotebookLM format, length setting, source-chapter mapping) → edit `_meta/_segments/segments.yml` directly.
-- **Segmentation boundaries** (where one episode ends and the next begins) → edit `segments.yml`; the skill re-segments on next run.
-- **Pronunciation guide entries that apply to the whole series** → edit `03-pronunciation.md` directly. Use `@@pronounce` only when overriding the canonical phonetic for a single episode.
-- **Editorial provenance** (why a passage was added or removed) → editorial-notes.md, not a marker.
+- **Per-chapter metadata** — edit the chapter status file directly.
+- **Pronunciation overrides on podcast episodes** — use the podcast skill's `@@pronounce` verb (in `skills-staging/podcast/references/scratchpad-markers.md`; the journal skill does not implement `@@pronounce`).
+- **Editorial provenance** (why a passage was added or removed) — editorial-notes.md, not a marker.
 
 If the answer is "edit a configuration file," that's not a marker.
 
 ## Validation
 
 `server/scripts/validate-markers.mjs` enforces:
-- Every `@@` marker uses one of the 10 known verbs.
-- Marker format is parseable (verb + optional parenthesized argument).
-- Canonical files contain zero markers.
-- The validator scans `chapters/`, `chapters/scratchpads/`, and `_workspace/podcast/*/scratchpad/`.
+- Every `@@` marker in memoir files uses one of the 10 known journal verbs.
+- Marker format is parseable (`@@verb` with optional parenthesized argument).
+- Canonical chapter files contain zero markers.
+- The validator scans `chapters/` and `chapters/scratchpads/` only.
+
+Podcast scratchpad validation is the podcast skill's own responsibility and is not part of this validator.
 
 A failed validation halts the build/commit until the markers are cleaned up.
