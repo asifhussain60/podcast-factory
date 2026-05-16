@@ -127,6 +127,7 @@ Before routing the `podcast` skill for any `Phase 3: Structure` or `Phase 4: Pac
 - **Enrichment cap:** outside material (Quran, hadith, Imam Ali / Ahl al-Bayt, Ismaili tradition — whitelist at `content/podcast/_system/enrichment-sources.md`) ≤ 60% of any chapter's word count. The author's argument stays the spine.
 - **Phonetic coverage:** every Arabic transliteration, every Quranic verse, every honorific, every name carries a phonetic guide at first-in-chapter occurrence (Phase 0c).
 - **Episode txt format must be CUSTOMIZE-PROMPT + SOURCE only** (per `content/podcast/_system/notebooklm-best-practices.md`). Other draft files (`02-key-passages.md`, `03-context-pack.md`, `04-discussion-spine.md`, `99-show-notes.md`) are authoring-only scaffolds.
+- **NotebookLM hygiene: chapter file contains chapter content only.** Authoring metadata MUST live in `<!-- ... -->` HTML comments (auto-stripped by `build_episode_txt.py`). Chapter prose MUST NOT describe the chapter file itself — no *"This file is..."* / *"Phase 0e..."* / *"Nothing has been added..."* / `[VERIFY CITATION]` markers. The build script's `META_PROSE_TELLS` gate hard-refuses chapters that contain these tells. If routing detects a chapter with meta-prose, route to a cleanup step BEFORE Phase 4 instead of routing the bundle to "ready."
 
 Cross-checking the invariants is a P0 governance step. A skill that bypasses them is a framework violation; reject and surface to Asif before continuing.
 
