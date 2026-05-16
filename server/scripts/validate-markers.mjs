@@ -38,7 +38,15 @@ const __dirname = path.dirname(__filename);
 const REPO_ROOT = path.resolve(__dirname, "../..");
 
 const MARKER_RE = /@@(\w+)\s*\(([^)]*)\)/g;
-const KNOWN_VERBS = new Set(["expand", "replace", "cut", "move", "merge", "rephrase", "split"]);
+// 11-verb vocabulary per journal/reference/scratchpad-markers.md.
+// Shared between journal (memoir) and podcast skills.
+// Tier 1 — Local (8): refine, replace, expand, cut, move, merge, rephrase, split, note
+// Tier 2 — Mechanical (1): pronounce — auto-propagates with confirmation
+// Tier 3 — Policy (1): policy — series-wide directive recorded in series-policies.md
+const KNOWN_VERBS = new Set([
+  "refine", "replace", "expand", "cut", "move", "note",
+  "merge", "rephrase", "split", "pronounce", "policy",
+]);
 
 async function walk(dir, out = []) {
   let entries;
@@ -130,10 +138,13 @@ async function grepIn(files, needle) {
 }
 
 async function main() {
-  // 1. Structural scan
+  // 1. Structural scan — journal (chapters/, chapters/scratchpads/) + podcast (_workspace/podcast/*/scratchpad/)
   const chapterPaths = await walk(path.join(REPO_ROOT, "chapters"));
   const scratchpadPaths = await walk(path.join(REPO_ROOT, "chapters/scratchpads"));
-  const markers = await scanMarkers([...chapterPaths, ...scratchpadPaths]);
+  const podcastScratchpadPaths = await walk(path.join(REPO_ROOT, "_workspace/podcast"));
+  // Filter podcast paths to scratchpad/ subdirectories only (don't validate refined/, _meta/, etc.)
+  const podcastScratchpadOnly = podcastScratchpadPaths.filter((p) => p.includes("/scratchpad/"));
+  const markers = await scanMarkers([...chapterPaths, ...scratchpadPaths, ...podcastScratchpadOnly]);
 
   const unknownVerbs = markers.filter((m) => !m.known);
   if (unknownVerbs.length) {
@@ -189,9 +200,10 @@ async function main() {
 
   // Summary
   console.log(`validate-markers OK`);
-  console.log(`  chapters scanned:     ${chapterPaths.length}`);
-  console.log(`  scratchpads scanned:  ${scratchpadPaths.length}`);
-  console.log(`  @@markers found:      ${markers.length} (${new Set(markers.map(m => m.verb)).size} unique verbs)`);
+  console.log(`  chapters scanned:           ${chapterPaths.length}`);
+  console.log(`  memoir scratchpads scanned: ${scratchpadPaths.length}`);
+  console.log(`  podcast scratchpads scanned: ${podcastScratchpadOnly.length}`);
+  console.log(`  @@markers found:            ${markers.length} (${new Set(markers.map(m => m.verb)).size} unique verbs)`);
   if (markers.length > 0) {
     const byVerb = markers.reduce((acc, m) => { acc[m.verb] = (acc[m.verb] || 0) + 1; return acc; }, {});
     for (const [v, n] of Object.entries(byVerb)) console.log(`    @@${v}: ${n}`);

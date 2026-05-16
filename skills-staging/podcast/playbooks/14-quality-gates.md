@@ -53,10 +53,20 @@ Forbidden patterns in `01-refined/` files:
 
 **Allowed brackets:**
 - `[?word?]` from OCR/transcription confidence flags (Stage 02) — these should have been resolved by Stage 05 but may persist as flags for user review.
-- Frontmatter brackets in section file YAML (between `---` markers).
 
-**Pass:** Zero forbidden patterns in `01-refined/` content body (excluding frontmatter).
+**Pass:** Zero forbidden patterns in `01-refined/` content body.
 **Fail:** Report file, line, and matched pattern. Likely cause: Stage 10 or 11 used a labeled bridge instead of a woven one.
+
+### Gate 2b — No frontmatter or metadata block in refined files
+
+**Check:** Per Stage 12 Hard Rule, refined section files contain **only** the `# Section [N] — [Title]` heading and the refined body. Scan each file in `01-refined/` for:
+
+- Leading `---` block (YAML frontmatter).
+- HTML comments containing audit fields (`<!-- word_count_refined: ... -->`).
+- Any block that looks like per-file metadata (lines matching `section_number:`, `tone_preserved:`, `phonetic_substitutions:`, `paraphrasing_notes:`, etc.).
+
+**Pass:** Each refined file starts with `# Section` heading. No YAML, no comments, no metadata block anywhere in the file.
+**Fail:** Report file and offending content. Likely cause: Stage 12 emitted metadata into the deliverable instead of routing it to `_meta/sections-metadata.yml`.
 
 ### Gate 3 — Citation provenance
 

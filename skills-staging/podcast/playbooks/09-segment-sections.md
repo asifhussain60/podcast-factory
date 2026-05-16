@@ -1,46 +1,107 @@
-# Stage 09 — Segment Into Sections
+# Stage 09 — Segment Into Episodes (Content-Driven)
 
-**Purpose:** Divide the cleaned source into the sections that become individual podcast episodes. Three-stage approach: auto-detect, heuristic fallback, human review when uncertain.
+**REQUIRED READING BEFORE THIS STAGE:** `journal/reference/notebooklm-best-practices.md`. Do not segment a source until that file has been read in the current run. The episode word-count band, the format selection, and the per-episode coherence rule all come from there.
+
+**Purpose:** Re-segment the cleaned source into episodes optimized for NotebookLM Audio Overview, not into the source's native chapter or section structure. A book's chapters were designed for a reader. An Audio Overview episode is a different unit and needs a different shape.
+
+## Core principle: content-driven, not structure-honoring
+
+**The source's table of contents is a hint, not a constraint.** Do not produce one episode per source chapter unless that segmentation happens to satisfy all four content-driven criteria. The skill's deliverable is a series of evenly-paced, thematically coherent episodes — not a 1:1 mirror of the source structure.
+
+Four criteria every episode must satisfy:
+
+1. **Thematic coherence.** One sentence summarizes the episode. If a host can't answer "what is this episode about?" in one clause, the segmentation is wrong.
+2. **Word-count band.** Each refined episode lands in the **1,800-2,800 word band** (Default Deep Dive sweet spot). Hard floor 1,200, hard ceiling 4,500. See `notebooklm-best-practices.md` §3.
+3. **Approximate balance across the series.** Episode lengths should fall within ±30% of the series mean. A 600-word episode next to a 4,000-word episode is a defect.
+4. **Forward-only narrative arc.** Episodes follow the source's logical flow even when they don't follow physical chapters. Each episode has a beginning, middle, and end the hosts can develop.
+
+Source chapters that are too short get **merged with neighboring chapters of related theme**. Source chapters that are too long get **split at internal topic shifts**. This re-segmentation is the central work of Stage 09 — it is not optional.
 
 ## Input
 
 - `WORK_DIR/_cleaned/normalized.md`
-- `WORK_DIR/_metadata.yml` (content type drives segmentation strategy)
+- `WORK_DIR/_metadata.yml` (content type, tone, target audience)
+- `journal/reference/notebooklm-best-practices.md` (authoritative reference, MUST be read)
 
 ## Output
 
-- `WORK_DIR/_segments/segments.yml` — ordered list of sections with title, start line, end line, word count.
-- `WORK_DIR/_segments/section-NN-<slug>.md` — one extracted section per file (input to Stage 12 refinement).
-- `WORK_DIR/chapter-segmentation-proposal.md` — only when Stage 3 (human review) is triggered.
+- `WORK_DIR/_segments/segments.yml` — the **redesigned** episode list. Each entry has: `episode_number`, `slug`, `title`, `theme` (one-sentence summary), `source_chapters` (the original source sections this episode covers), `start_line`/`end_line` ranges into normalized.md, `target_word_count_refined`, `notebooklm_format` (deep-dive / brief / critique / debate), `length_setting` (shorter / default / longer).
+- `WORK_DIR/_segments/episode-NN-<slug>.raw.md` — extracted source content for the episode (concatenation if it spans multiple source chapters).
+- `WORK_DIR/_segments/segmentation-rationale.md` — explanation of why the source structure was preserved, merged, or split for each episode.
+- `WORK_DIR/chapter-segmentation-proposal.md` — only when the auto-design has low confidence and needs human review.
 
-## Content-type-aware strategy
+## Re-segmentation algorithm
 
-The segmentation unit depends on content type from Stage 03:
+### Step 1 — Inventory the source as it stands
 
-| Content type | Section = |
-|---|---|
-| Book | Chapter |
-| Memoir | Chapter |
-| Academic paper | Named section (Introduction / Methods / Findings / Discussion) |
-| Article (multi-section) | Heading-delimited section |
-| Article (single piece) | One section = the entire article |
-| Lecture series | Part / episode |
-| Lecture (single) | Topic break, or one section = the entire lecture |
-| Sermon | One section = the entire sermon |
-| Document | One section per major heading; if no headings, one section = the entire document |
-| Interview | Topic-shift segments |
-| Anthology | One section per piece |
-| Transcript | Topic-shift segments |
+Run the old structural detector (heading scan, chapter labels, numeric markers) to produce a **raw section inventory** with word counts. This is now an intermediate artifact, not the final segmentation. Write it to `_segments/raw-inventory.yml`.
 
-## Shortcut: one-file-per-section
+### Step 2 — Compute series geometry
 
-Before running segmentation, check if `00-source/` contains multiple files named with sequential numbers (`ch-01.txt`, `ch-02.txt`, `chapter-1.md`, `part1.md`, etc.).
+Given the source's total refined word count (estimated as 0.95-1.05× the source word count, since paraphrasing is approximately ratio-neutral):
 
-If yes:
-- Treat each file as one section.
-- Section number = numeric prefix.
-- Section title = filename stem (cleaned), unless the file contains an explicit title line.
-- Skip Stages 1–3 below. Write segments.yml and extract section files. Done.
+```
+total_words = source_word_count
+target_episode_count = round(total_words / 2,300)   # mid of 1,800-2,800 band
+target_episode_size = total_words / target_episode_count
+```
+
+For *Ayyuhal Walad* (16,464 source words): `round(16,464 / 2,300) = 7` episodes, target size ~2,350 words each.
+
+### Step 3 — Group raw sections into thematic episodes
+
+For each raw section in source order, decide:
+
+- **Standalone episode** — if word count is within the band (1,800-2,800) and the section presents a coherent theme.
+- **Merge with following sections** — if word count is under the floor (1,200) and adjacent sections share theme. Merge across the smallest reasonable thematic boundary, not greedily until the band is hit.
+- **Split at internal topic shifts** — if word count exceeds the ceiling (4,500). Detect topic shifts via paragraph-level cues: explicit transition phrases ("Now I will turn to…", "Next, consider…"), shifts in pronoun or addressee, shifts in tense, the entry of a new named entity or proper noun.
+
+Document every merge and split in `segmentation-rationale.md` with one sentence of reasoning per decision.
+
+### Step 4 — Verify the four criteria
+
+For each proposed episode, check:
+
+1. Can you write its theme in one sentence? Write it down and put it in `segments.yml` as the `theme` field.
+2. Is its target refined word count between 1,800 and 2,800? (Hard floor 1,200, hard ceiling 4,500.) If not, halt — return to Step 3.
+3. Are all episodes within ±30% of the series mean? Compute the mean across the proposal; flag outliers.
+4. Does it have a beginning, middle, end? If it's a flat list or a single argument with no development, consider merging or splitting.
+
+### Step 5 — Assign NotebookLM format per episode
+
+Default: **Deep Dive** with Length=Default. Use the other formats only when the content explicitly invites them:
+
+- **The Brief** for a closing prayer, a single supplication, or a one-page summary — episodes well under the word floor where the brevity is the point.
+- **The Critique** for an essay, design doc, or position piece that explicitly invites evaluation. Rare in spiritual/literary work.
+- **The Debate** for a source presenting a claim with a real opposing view. Almost never used for monologic devotional content.
+
+See `notebooklm-best-practices.md` §1.
+
+### Step 6 — Confidence check
+
+If the auto-design produces episodes inside the band, balanced, and thematically clean: proceed.
+
+If any episode is outside the band even after merging/splitting, or the rationale is forced, write `chapter-segmentation-proposal.md` with the proposed design and the issues, and pause for the user.
+
+## Content-type defaults (initial groupings, then refined by Steps 3-4)
+
+These are starting hints for Step 1, not the final shape:
+
+| Content type | Typical episode | Re-segmentation pressure |
+|---|---|---|
+| Book | One thematic chunk crossing chapter boundaries | High — book chapters are usually too short or too long |
+| Memoir | One chapter or one tightly themed multi-chapter arc | Medium — memoir chapters often map cleanly but watch for short ones |
+| Spiritual treatise | One coherent argument or one parable cluster | High — treatises like *Ayyuhal Walad* have many micro-sections that must be merged |
+| Academic paper | One named section, sometimes merged | Low — academic sections are usually already band-sized |
+| Article (multi-section) | One heading-delimited theme | Medium |
+| Lecture series | One lecture, sometimes split | Medium — long lectures need splitting |
+| Sermon | The entire sermon if under 2,800 words; split if longer | Low |
+| Anthology | One piece, or grouped pieces by theme | High — short pieces must be bundled |
+| Transcript | Topic-shift segments rebuilt | High — raw transcripts have no useful structure |
+
+## Shortcut: one-file-per-section (revised)
+
+If `00-source/` contains multiple files with sequential numbers, run Steps 1-6 anyway. The numeric ordering is preserved, but the file-per-episode default is **not** assumed — multiple files may merge into a single episode if their combined refined word count fits the band. The shortcut is just a hint about ordering, not a free pass to skip the re-segmentation work.
 
 ## Stage 1 — Auto-detect explicit markers
 

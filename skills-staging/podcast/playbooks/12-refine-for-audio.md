@@ -18,8 +18,16 @@
 1. **Tone preservation is non-negotiable.** If the source is reverent, the refinement is reverent. If conversational, conversational. Never flatten.
 2. **No non-Latin script in the output.** Every non-Latin term is substituted with its phonetic form. No exceptions.
 3. **No bracketed commentary.** Already enforced; verify nothing slipped in.
-4. **Preserve dialogue structure.** Direct quotations stay direct. Speaker identification preserved.
-5. **Preserve original meaning.** No rephrasing that changes what the source says, even subtly.
+4. **Preserve dialogue structure.** Direct quotations stay direct. Speaker identification preserved. Paraphrasing license does not extend inside quotation marks — attributed quotes stay verbatim modulo script substitution.
+5. **Preserve propositional content; paraphrase freely for articulation.** Changing *how* something is said is allowed and encouraged when it improves audio clarity, removes translation literalisms, or restores natural English rhythm. Changing *what* is said is forbidden.
+
+   **Preserve (locked):** every named entity, every claim, every quantity, every directive ("must"/"should"/"may"), every honorific from the tradition file, every relationship between entities, every directly attributed quote, every theological term with technical precision (e.g., *taqlid*, *tawakkul*, *ikhlas*, *taqwa* — these stay as-is even when their English gloss could be smoothed; only the script form is swapped to phonetic).
+
+   **Free to paraphrase (encouraged):** sentence structure, voice (passive/active), word order, register, idiom choice, syntactic complexity, paragraph flow, transition phrasing, awkward translation artifacts (especially in sources translated through intermediate languages), redundant doubling common in literal translations.
+
+   **Forbidden:** softening qualified claims into neutral ones, intensifying neutral claims into emphatic ones, swapping referents for synonyms with shifted connotation, "modernizing" technical theological vocabulary, changing the subject or object of a sentence, dropping or adding a clause that carries propositional content.
+
+   The outer envelope is enforced by Gate 3 (citation provenance) and Gate 5 (word count 70–140%); paraphrasing operates safely within those bounds.
 
 ## Operations performed
 
@@ -44,13 +52,15 @@ Example:
 
 ### 2. Sentence-level audio clarity
 
-Apply these guidelines, but only where they don't change meaning:
+Apply these guidelines as articulation-level paraphrasing per Hard Rule 5 — propositional content is preserved, phrasing is free:
 
-- **Long sentences** (>40 words) → break into two sentences when natural break exists.
-- **Heavy nominalization** ("the prevention of evil" → "preventing evil") only when the source's style admits the simpler form.
-- **Dense pronoun chains** ("he told him that he..." with unclear antecedents) → restate the antecedent.
+- **Long sentences** (>40 words) → break into two or three sentences when natural break exists. Restructure clause order when the original ordering is a translation artifact rather than a stylistic choice.
+- **Heavy nominalization** ("the prevention of evil" → "preventing evil") whenever the simpler form reads naturally in audio and doesn't lose propositional content.
+- **Dense pronoun chains** ("he told him that he..." with unclear antecedents) → restate the antecedent; recast for clarity when the chain reads as a translation artifact.
 - **Archaic constructions** ("he doth" → "he does") only if the source isn't deliberately archaic. Most translated theological texts use archaic forms intentionally — preserve them.
 - **Run-on prose without paragraph breaks** → add paragraph breaks at natural shift points.
+- **Passive voice** that flows poorly in audio → recast to active when the agent is named or unambiguous in context.
+- **Translation literalisms** (Urdu/Arabic syntactic structures carried into English, redundant doubling like "explain and clarify", over-formal connectors like "verily it is the case that") → recast to natural English rhythm without dropping any claim.
 
 ### 3. Dialogue cleanup
 
@@ -103,26 +113,19 @@ If over 140%: enrichment + analogies + clarifications have run away. Re-do with 
 
 ## Section file format
 
-Each output `01-refined/section-NN-<slug>.md` contains:
+Each output `01-refined/section-NN-<slug>.md` contains **only** the heading and the refined body — no frontmatter, no metadata block, no audit fields. NotebookLM ingests these files directly as sources; any non-content scaffolding is noise in the deliverable.
 
 ```markdown
----
-section_number: N
-section_title: "[Title]"
-source: "[Source Title]"
-word_count: [N]
-tone_preserved: [list of tone labels from Stage 04]
-phonetic_substitutions: [N]
-enrichments_added: [N]
-analogies_added: [N]
----
-
 # Section [N] — [Title]
 
 [Refined audio-clean text, paragraph-formatted, phonetic substitutions
 applied, tone preserved, no non-Latin script, no bracketed commentary,
 suitable for direct ingestion into NotebookLM as source material.]
 ```
+
+**Per-section metadata** (section_number, source_title, author, translator, word counts, ratio, tone labels, phonetic-substitution count, enrichments added, analogies added, paraphrasing notes) is written to `_meta/sections-metadata.yml` — one entry per section, keyed by slug. Stages 14 (quality gates), 15 (export), and 16 (apply) read from there, not from per-file frontmatter.
+
+**Hard rule:** the refined section file must contain nothing except the `# Section [N] — [Title]` heading and the refined prose. No YAML, no comments, no markers, no notes. Anything else is a defect and Gate 2 (or a new structural gate) catches it.
 
 ## What this stage does NOT do
 
