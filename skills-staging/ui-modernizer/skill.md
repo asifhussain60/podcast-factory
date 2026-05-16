@@ -8,6 +8,26 @@ description: "UI modernization skill for the journal app's ui-modernization bran
 Executes the four-phase modernization plan on the `ui-modernization` branch of the journal app.
 After every phase, the `ui-reviewer` agent is invoked to audit the diff.
 
+---
+
+## SECTION 0 — CORTEX Compliance (read first)
+
+This skill targets the **CORTEX Challenger Framework v1.0** (`reference/cortex-challenger-framework.md`).
+Compliance tier: **SILVER (target)**. Per-skill compliance contract: [`cortex-compliance.md`](cortex-compliance.md).
+Shared SECTION 0 contract: [`reference/skill-bootstrap.md`](../../reference/skill-bootstrap.md).
+
+Before any action, read in order:
+1. `reference/cortex-challenger-framework.md`
+2. `reference/skill-bootstrap.md`
+3. `skills-staging/ui-modernizer/cortex-compliance.md`
+4. This file.
+
+**Severity is P0–P3.** Legacy labels (MAJOR) have been mapped inline. The `cortex-compliance.md` mapping table is authoritative when in doubt.
+
+**Run report:** `_workspace/challenger-reports/ui-modernizer-phase<N>-<run_id>.yml` per framework §3 schema.
+
+---
+
 ## Decision log — locked decisions (do NOT override without updating framework.md first)
 
 | Decision | Status | Reason |
@@ -31,7 +51,7 @@ After every phase, the `ui-reviewer` agent is invoked to audit the diff.
   - ✗ `color: var(--text-secondary); opacity: 0.6` — the opacity halves perceived contrast that was carefully tuned.
   - ✓ `color: var(--text-muted)` — use a lower token instead.
 - Add **check 9** to `server/scripts/validate-theme-parity.mjs`: scan component CSS for rule-sets that declare both a text-token `color` and `opacity < 1` in the same selector.
-- Severity: MAJOR (not BLOCKER) — some opacity usages on mixed elements are legitimate (loading skeletons, animations).
+- Severity: **P1** (not P0) — some opacity usages on mixed elements are legitimate (loading skeletons, animations).
 
 ---
 
@@ -40,7 +60,7 @@ After every phase, the `ui-reviewer` agent is invoked to audit the diff.
 Split `site/css/app.css` (3,469 lines) by extracting the chapter reader into a dedicated file.
 
 ### 2a. Extract `chapter-reader.css`
-- Source range: `app.css` lines 698–2163 (reading controls panel, TOC sidebar, notes sidebar, chapter body, reading-theme overlays, responsive).
+- **Source range — anchors, not line numbers:** extract from the comment `/* === BEGIN: Chapter reader === */` to `/* === END: Chapter reader === */`. If those anchors are not present in `app.css`, Stage 0 of this phase inserts them at semantically correct boundaries (detected via banner comments / h2-style section markers / rule grouping) and commits the anchor insertion separately, then extraction operates on anchors. **Never extract by raw line range — line numbers drift silently on hand-edits.** Historical range (for reference only): approximately lines 698–2163 of pre-anchor `app.css`.
 - New file: `site/css/chapter-reader.css`.
 - Update `site/index.html`: add `<link rel="stylesheet" href="css/chapter-reader.css">` after the `app.css` link.
 - Update `server/scripts/validate-theme-parity.mjs` SCOPED_EXEMPT list only if needed (chapter reader contains no intentional hardcoded hex).
@@ -176,5 +196,25 @@ All 9 checks must pass before invoking `ui-reviewer`.
 
 After each phase commit:
 1. Run `npm run validate-themes` — must be clean.
-2. Invoke `ui-reviewer` agent — address all BLOCKER and MAJOR items before next phase.
+2. Invoke `ui-reviewer` agent — address all **P0** and **P1** items before next phase.
 3. Commit with message format: `style(ui): Phase N — <one-line description>`.
+
+## Determinism Contract
+
+Per the shared bootstrap (`reference/skill-bootstrap.md` §4):
+
+- **Findings sort order:** severity (P0 first) → phase number → file path (lexicographic POSIX) → line number → check ID.
+- **Tiebreakers for anchored extraction:** when multiple candidate boundaries are detected, the disambiguator is, in order: (1) banner-comment match (`/* === ... === */` strongest), (2) h2-style block comment (`/* ====... */`), (3) blank-line-separated rule grouping with section name in adjacent comment. The first deterministic match wins. If none decisive, downgrade to a Challenge Gate (alternatives surfaced to operator).
+- **Run identifiers:** `run_id` = SHA-256(skill_name + phase_number + ISO-8601 UTC timestamp + input_hash), truncated to 16 hex chars. `input_hash` = SHA-256 of newline-normalized concatenation of all in-scope files sorted by lexicographic POSIX path.
+- **Locale / clock:** dates ISO-8601 UTC in report.
+- **No line-number-based edits** (deterministic enough is not enough — they drift on hand-edits). Use anchors or AST-style boundaries.
+
+## DoR & Convergence
+
+- **DoR:** 100% required before `--apply` per `cortex-compliance.md`. On failure: `_workspace/ui-modernizer-dor-incomplete-<run_id>.md` + halt.
+- **Convergence:** max 3 cycles per phase. On exceed: halt + `_workspace/ui-modernizer-convergence-failed-<phase>-<run_id>.md`.
+- **Sweep:** all 9 themes in scope or none; all enforced-scope CSS in scope or none; phase rollback applies atomically on failure.
+
+## Run report
+
+After every phase, write `_workspace/challenger-reports/ui-modernizer-phase<N>-<run_id>.yml` per framework §3 schema.

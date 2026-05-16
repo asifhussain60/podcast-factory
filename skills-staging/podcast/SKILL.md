@@ -30,8 +30,16 @@ This skill is generic across content types and traditions. No hardcoded referenc
 ============================================================
 SECTION 0: GROUND RULES — READ BEFORE ANY OUTPUT
 
-(Read also: playbooks/00-cortex-compliance.md — the CORTEX
-Challenger Framework v1 compliance contract for this skill.)
+Read these in order, before any action:
+1. `reference/cortex-challenger-framework.md` — universal framework v1.0
+2. `reference/skill-bootstrap.md` — shared SECTION 0 contract
+3. `skills-staging/podcast/playbooks/00-cortex-compliance.md` — this
+   skill's compliance contract (GOLD target)
+4. This SKILL.md
+5. `reference/notebooklm-best-practices.md` — required reading
+
+Severity is P0–P3 per framework §1 and bootstrap §2. Legacy labels
+do not appear in this skill. Compliance tier: **GOLD (target)**.
 ============================================================
 
 **JOURNAL_DIR** = the mounted journal folder. Verify by checking that `reference/translations-glossary.md` exists.
@@ -219,3 +227,44 @@ The skill stops and asks the user (writes a prompt file to `WORK_DIR/` and pause
 - A quality gate fails (reports which gate, what triggered it, what to fix).
 
 Never silently guess. Never fabricate. When uncertain, write a prompt and stop.
+
+============================================================
+SECTION 9: DETERMINISM CONTRACT
+============================================================
+
+Per the shared bootstrap (`reference/skill-bootstrap.md` §4) and
+the per-stage table in `playbooks/00-cortex-compliance.md`
+§Determinism Contract declarations:
+
+- **Findings sort order in every gate report:** severity (P0 first)
+  → section number → file path (lexicographic POSIX) → line number
+  → finding id (F-NN, numeric).
+- **Stage-tie ordering:** when two gates flag the same finding, the
+  earlier-numbered stage owns it; the later stage references rather
+  than re-emits.
+- **Source-slug derivation (hash-stable):** `kebab-case(lowercase(
+  strip-non-alphanumeric(title)))`, hyphens collapsing runs, capped at
+  64 chars at a word boundary. Same title → same slug, always.
+- **Episode numbering:** zero-padded two digits (`episode-01-...`),
+  contiguous, no gaps. Order is content-flow order, not source-chapter
+  order — once decided in Stage 09, it is frozen for the run.
+- **Run identifiers:** `run_id` = SHA-256(skill_name + ISO-8601 UTC
+  timestamp + input_hash), truncated to 16 hex chars. `input_hash` =
+  SHA-256 of newline-normalized concatenation of all source files in
+  ingest order (lexicographic POSIX paths).
+- **Locale / clock:** ISO-8601 UTC in machine output; en-US with
+  America/New_York in any human-readable timestamps.
+- **Non-deterministic stages (declared exceptions per CORTEX
+  framework §1 Primitive 6):** Stage 10 (enrichment), Stage 11
+  (analogies) — both invoke Haiku for relevance scoring. Same input
+  + same tradition file produces same enrichment IF the underlying
+  Haiku output is stable; when it is not, the stage records its
+  Haiku-call signatures in `_challenger-report.yml` so re-runs are
+  cross-referenceable. No other stage is allowed to be
+  non-deterministic.
+- **Random sources:** forbidden in all deterministic stages. No
+  `Math.random()`, `random.choice()`, `uuid.uuid4()`. If a UUID is
+  needed, derive it from `input_hash` per bootstrap §4.6.
+- **Run report:** `WORK_DIR/_challenger-report.yml` per framework
+  §3 schema. Per-stage timings, per-gate verdicts, convergence cycle
+  count, P0–P3 finding counts. Mandatory before any export.
