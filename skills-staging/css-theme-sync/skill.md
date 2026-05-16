@@ -7,6 +7,26 @@ description: "CSS theme-parity validator and auto-fixer for Asif's journal. Invo
 
 Sustainable enforcement for the token-driven theme system at `site/css/themes/`. Prevents the regression class where a new view or edit bakes Rose & Mauve Night's palette into component CSS and breaks theme swaps.
 
+---
+
+## SECTION 0 — CORTEX Compliance (read first)
+
+This skill targets the **CORTEX Challenger Framework v1.0** (`reference/cortex-challenger-framework.md`).
+Compliance tier: **SILVER (target)**. Per-skill compliance contract: [`cortex-compliance.md`](cortex-compliance.md).
+Shared SECTION 0 contract: [`reference/skill-bootstrap.md`](../../reference/skill-bootstrap.md).
+
+Before any action, read in order:
+1. `reference/cortex-challenger-framework.md`
+2. `reference/skill-bootstrap.md`
+3. `skills-staging/css-theme-sync/cortex-compliance.md`
+4. This file.
+
+**Severity is P0–P3.** Legacy labels in this file (Blocker, Warning) have been replaced inline. The `cortex-compliance.md` mapping table is authoritative when in doubt.
+
+**Run report:** `_workspace/challenger-reports/css-theme-sync-<run_id>.yml` per framework §3 schema.
+
+---
+
 ## When to invoke
 
 - After editing any file under `site/css/` (theme files or component files).
@@ -21,14 +41,14 @@ The underlying validator is [server/scripts/validate-theme-parity.mjs](../../ser
 
 | # | Check | Severity |
 |---|---|---|
-| 1 | Token parity — every theme file declares every token in base (`theme.css`). | Blocker — missing tokens break theme swap. |
-| 2 | Hex literals in enforced component CSS outside fallback chains / intentional whitelist. | Blocker — hex bypasses the theme system. |
-| 3 | Palette rgba in enforced component CSS — `rgba(r,g,b,a)` where `r,g,b` matches any theme palette hex. | Blocker — same class as #2 via rgba. |
-| 4 | Token reference validity — every `var(--token)` resolves against declared tokens (aggregated from all CSS) + auto-discovered dynamic tokens. | Blocker — undefined tokens silently render as initial values. |
-| 5 | HTML hygiene — zero `<style>` blocks, zero `style="…"` HTML attrs with hex/rgba, zero JSX `style={{…}}` with hex/rgba literals inside `<script type="text/babel">` blocks. | Blocker — inline styles bypass the theme link. |
-| 6 | Switcher consistency — every `theme-*.css` on disk is registered in `site/js/theme-switcher.js`; every registered theme has a file on disk. | Blocker — missing entries silently break selection. |
-| 7 | Font parity — for every `--font-*` stack in every theme, the first non-system family must be loaded in every theme-consuming HTML's `<link>` Google Fonts URL. | Blocker — themes silently fall back to generic fonts otherwise. |
-| 8 | Switcher swatch parity — every hex in `THEMES[n].swatches` must be declared somewhere in the corresponding theme file. | Warning — stale swatches mislead the dropdown preview. |
+| 1 | Token parity — every theme file declares every token in base (`theme.css`). | **P0** — missing tokens break theme swap. |
+| 2 | Hex literals in enforced component CSS outside fallback chains / intentional whitelist. | **P0** — hex bypasses the theme system. |
+| 3 | Palette rgba in enforced component CSS — `rgba(r,g,b,a)` where `r,g,b` matches any theme palette hex. | **P0** — same class as #2 via rgba. |
+| 4 | Token reference validity — every `var(--token)` resolves against declared tokens (aggregated from all CSS) + auto-discovered dynamic tokens. | **P0** — undefined tokens silently render as initial values. |
+| 5 | HTML hygiene — zero `<style>` blocks, zero `style="…"` HTML attrs with hex/rgba, zero JSX `style={{…}}` with hex/rgba literals inside `<script type="text/babel">` blocks. | **P0** — inline styles bypass the theme link. |
+| 6 | Switcher consistency — every `theme-*.css` on disk is registered in `site/js/theme-switcher.js`; every registered theme has a file on disk. | **P0** — missing entries silently break selection. |
+| 7 | Font parity — for every `--font-*` stack in every theme, the first non-system family must be loaded in every theme-consuming HTML's `<link>` Google Fonts URL. | **P0** — themes silently fall back to generic fonts otherwise. |
+| 8 | Switcher swatch parity — every hex in `THEMES[n].swatches` must be declared somewhere in the corresponding theme file. | **P2** — stale swatches mislead the dropdown preview. |
 
 **Enforced component CSS**: all `site/css/*.css` EXCEPT `floating-chat.css` (deliberately scoped `--fc-*` palette) and `base.css` (architectural :root defaults). New CSS files added to `site/css/` are automatically enforced without config changes.
 
@@ -154,6 +174,27 @@ When invoked with "go" / "apply" / "fix" as a follow-up after the skill reports 
   - "Run `css-theme-sync --apply` to auto-fix 8 [AUTO] violations."
   - "5 [JUDGE] violations need human review — see above."
   - "3 [KEEP] violations are intentional — consider adding to whitelist at validate-theme-parity.mjs `INTENTIONAL_HARDCODE_CLASSES`."
+
+## Determinism Contract
+
+Per the shared bootstrap (`reference/skill-bootstrap.md` §4) every stage of this skill is deterministic. Specifics:
+
+- **Findings sort order:** severity (P0 first) → file path (lexicographic POSIX) → line number → check number (1–8) → violation index. No randomness anywhere.
+- **Auto-fix ordering:** within a file, fixes apply in ascending line order; within a line, in ascending column order. The fix that changes line numbers is applied last in its line so subsequent fixes' line/column refs remain stable.
+- **Hex/rgba disambiguation (tiebreaker for ambiguous mappings):** when a hex value can map to two tokens depending on CSS property context, the disambiguator is the property name (`background` / `background-color` / `border-color` → bg-class token; `color` → text-class token). When the property is one not in the disambiguator table (e.g., `box-shadow`, gradient stop), the violation is downgraded to `[JUDGE]` / P2 — never auto-fixed. Never pick at random; never apply both.
+- **Run identifiers:** `run_id` = SHA-256(skill_name + ISO-8601 UTC timestamp + input_hash), truncated to 16 hex chars. `input_hash` = SHA-256 of newline-normalized concatenation of all CSS/HTML files in scan order (lexicographic POSIX paths).
+- **Locale / clock:** dates ISO-8601 UTC in report; numeric formatting `en-US` decimal.
+- **No `Math.random()` anywhere.**
+
+## DoR & Convergence
+
+- **DoR (Definition of Ready):** 100% required before `--apply`. Five dimensions per `cortex-compliance.md` §DoR Gate. On failure: `_workspace/css-theme-sync-dor-incomplete-<run_id>.md` + halt.
+- **Convergence:** single rescan after `--apply`. If residual P0/P1 violations remain, halt with `_workspace/css-theme-sync-convergence-failed-<run_id>.md` naming remaining issues.
+- **Sweep:** all 9 themes in scope or none. All matching component CSS files in scope or none.
+
+## Run report
+
+After every run, write `_workspace/challenger-reports/css-theme-sync-<run_id>.yml` per framework §3 schema. Includes per-check verdicts, findings, metrics, convergence cycles used.
 
 ## Exit contracts
 

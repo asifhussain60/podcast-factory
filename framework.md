@@ -1,7 +1,7 @@
 # Journal Ecosystem Framework
 
-**Version:** 3.0 (memoir-only)
-**Last updated:** 2026-05-12
+**Version:** 3.1 (memoir-only — CORTEX Challenger Framework v1.0 adopted)
+**Last updated:** 2026-05-16
 
 This document governs the journal repo: the memoir engine, the journal site, and the small set of agents/skills that support memoir authoring. As of v3.0 the trip-planning, daybook/log-capture, and DayOne-publish ecosystems have been removed (preserved on branch `archive/full-stack-pre-strip`).
 
@@ -48,6 +48,9 @@ These do not produce memoir prose. They keep the repo and its site healthy.
 | `ui-modernizer` | Execute UI modernization phases on the journal site | `skills-staging/ui-modernizer/` |
 | `repo-surgeon` | Holistic repo audit, orphan cleanup, registry alignment | `skills-staging/repo-surgeon/` |
 | `usage-auditor` | Audit Claude-API spend + forecast against monthly cap | `skills-staging/usage-auditor/` |
+| `podcast` | Source-to-NotebookLM transformation (16-stage pipeline; GOLD compliance) | `skills-staging/podcast/` |
+
+All skills target the **CORTEX Challenger Framework v1.0** defined at `reference/cortex-challenger-framework.md`. Severity tiers (P0–P3), DoR gates, convergence loops, sweep contracts, holistic validation, challenge gates, and determinism contracts are universal across skills. The shared SECTION 0 contract that every skill cites at boot is at `reference/skill-bootstrap.md`. Per-skill compliance tiers are tracked in `reference/skill-registry.md`.
 
 ---
 
@@ -87,6 +90,8 @@ journal/
 ├── docs/                       ← anthropic-api-setup, proxy-setup, cloudflare integrations
 ├── infra/                      ← Cloudflare deployment configs
 ├── skills-staging/             ← dev/infra skills (see registry in README.md)
+│   ├── css-theme-sync/, ui-modernizer/, repo-surgeon/, usage-auditor/
+│   └── podcast/                ← source-to-NotebookLM (16-stage pipeline)
 └── .github/agents/             ← CORTEX, journal-orchestrator, repo-surgeon
 ```
 

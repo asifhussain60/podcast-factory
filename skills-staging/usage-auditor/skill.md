@@ -7,6 +7,28 @@ description: "Usage + spend auditor for Asif's journal. Invoke when the user say
 
 Read-only orchestrator that summarizes `usage.jsonl` into an actionable spend report against the proxy's `MONTHLY_CAP`.
 
+---
+
+## SECTION 0 — CORTEX Compliance (read first)
+
+This skill targets the **CORTEX Challenger Framework v1.0** (`reference/cortex-challenger-framework.md`).
+Compliance tier: **BRONZE (target)**. Per-skill compliance contract: [`cortex-compliance.md`](cortex-compliance.md).
+Shared SECTION 0 contract: [`reference/skill-bootstrap.md`](../../reference/skill-bootstrap.md).
+
+Before any action, read in order:
+1. `reference/cortex-challenger-framework.md`
+2. `reference/skill-bootstrap.md`
+3. `skills-staging/usage-auditor/cortex-compliance.md`
+4. This file.
+
+**Severity is P0–P3** (this skill had no prior taxonomy; the compliance doc establishes mapping).
+
+**Run report:** `_workspace/challenger-reports/usage-auditor-<run_id>.yml` per framework §3 schema.
+
+This skill is **read-only** — Convergence Gate is N/A by declaration. DoR threshold is 80% (read-only ops, per framework §1 Primitive 1).
+
+---
+
 ## When to invoke
 
 - On-demand when `/api/usage/summary` shows the monthly cap is being approached
@@ -96,3 +118,27 @@ Reads `usage.jsonl` directly (fast-path: reuses `getUsageSummary` from `server/s
 
 - Not a throttle enforcer (middleware does that server-side).
 - Not a billing client — this audits local telemetry only.
+
+## Determinism Contract
+
+Per the shared bootstrap (`reference/skill-bootstrap.md` §4):
+
+- **Findings sort order:** severity (P0 first) → endpoint name (lexicographic) → day (ISO-8601, ascending).
+- **Aggregation tiebreaker:** when two rows have identical timestamps, sort by request id (lexicographic); if still tied, by original file offset (ascending).
+- **Forecast determinism:** all three projections (`F_linear`, `F_burst`, `F_blended` per `cortex-compliance.md`) are pure functions of (input rows, run-clock, cap). Same input + same clock = same numbers, byte-for-byte. The blend is a fixed `0.6 × linear + 0.4 × burst`.
+- **Burst window:** the "worst 3 days" are selected by descending daily-total, then ascending date (the *earliest* day among ties to make output stable). This tiebreaker is named here explicitly to avoid run-to-run variance on ties.
+- **Run identifiers:** `run_id` = SHA-256(skill_name + ISO-8601 UTC timestamp + input_hash), truncated to 16 hex chars. `input_hash` = SHA-256 of newline-normalized `usage.jsonl` bytes within the requested window.
+- **Locale / clock:**
+  - All dates in JSON output: ISO-8601 UTC.
+  - All dates in text output (default `--format text`): `en-US` with `America/New_York` timezone, named in the string (e.g., `"2026-05-16 18:42 ET"`).
+  - Numeric formatting: `en-US` decimal in JSON; `en-US` with thousands separators in text.
+- **No `Math.random()` anywhere.**
+
+## DoR
+
+- **DoR threshold:** 80% (read-only) per framework §1 Primitive 1. Dimensions per `cortex-compliance.md` §DoR Gate.
+- **On failure:** `_workspace/usage-auditor-dor-incomplete-<run_id>.md` + halt.
+
+## Run report
+
+After every run, write `_workspace/challenger-reports/usage-auditor-<run_id>.yml` per framework §3 schema.
