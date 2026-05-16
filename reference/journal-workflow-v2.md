@@ -384,8 +384,6 @@ B. Journal Directory (JOURNAL_DIR/reference/). WRITABLE, AUTHORITATIVE.
    B3. Cross-skill artifacts (NOT for memoir writing, leave alone):
        voice-fingerprint-light.md   used by Babu app orchestrators
                                     (highlights, short labels)
-       trip-edit-rules.md           used by trip-log skill /
-                                    Babu app server
 
 C. Scratchpad (JOURNAL_DIR/scratchpad/). TEMPORARY.
    scratch-{chapter-name}.txt   active chapter working file
