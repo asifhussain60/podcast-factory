@@ -43,14 +43,14 @@ The Quran sets the same asymmetry into a single question:
 > Hal yastawi alladhina ya`lamuna wa-lladhina la ya`lamun?
 > (HAL yas-TA-wee al-la-DHEE-na YAH-la-MOO-na wal-la-DHEE-na LA yah-la-MOON.)
 > Are those who know equal to those who do not know?
-> — *(Quran, Az-Zumar 39:9)*
+> *(Quran, Az-Zumar 39:9)*
 
 The implicit answer is no. The one who knows is in a different position than the one who does not. Ghazali is pressing his student on which side of that asymmetry the unacted knowledge lands him. Imam Ali (AS) closes the gap with a saying that the Sufi tradition repeats almost as a proverb:
 
 > *Idha lam tantafa` bi-`ilmika kunta ka-l-jahil.*
 > (I-DHA lam tan-TA-fa-` bi-`IL-mi-ka KUN-ta kal-JA-hil.)
 > If you do not benefit from your knowledge, you are like one who does not know.
-> — *(Ghurar al-Hikam wa Durar al-Kalim, compiled by Abd al-Wahid al-Amidi; saying attributed to Imam Ali ibn Abi Talib)*
+> *(Ghurar al-Hikam wa Durar al-Kalim, compiled by Abd al-Wahid al-Amidi; saying attributed to Imam Ali ibn Abi Talib)*
 
 The asymmetry of position the Quran names becomes, in Imam Ali's saying, a collapse: the unbenefiting scholar is not above the ignorant person. He has merely added a sentence Allah can read back to him.
 
@@ -77,24 +77,24 @@ He underwrites the claim with a Quranic verse:
 > Wa Anna Laeysa Lil Insaani illa Maa Sa'aa.
 > (Wa AN-na LAY-sa lil in-SAA-nee IL-la maa SAA-aa.)
 > Human beings will get only what they have strived for.
-> — *(Quran, An-Najm 53:39)*
+> *(Quran, An-Najm 53:39)*
 
 The student, anticipating a counterargument from the legal tradition, might note that this verse is held to have been abrogated. Ghazali concedes the technical point and then asks: what do you do with these verses?
 
 > Famaey Ya'mal Mithqaala Zarratin Khairaey Yarahu Wa Maey Ya'mal Mithqaala Zarratin Sharraey Yarahu.
 > (FA-man yah-MAL mith-QAA-la ZAR-ra-tin KHAY-ran ya-RAH, wa man yah-MAL mith-QAA-la ZAR-ra-tin SHAR-ran ya-RAH.)
 > And so, the one who shall have done an atom's weight of good shall see it, and the one who shall have done an atom's weight of evil shall see it.
-> — *(Quran, Az-Zalzalah 99:7–8)*
+> *(Quran, Az-Zalzalah 99:7–8)*
 
 > Famun Kana Yurju Liqaa-a Rabbihi Fal Ya'mal 'Amalun Salihun.
 > (FA-man KAA-na yar-JU li-QAA-a RAB-bi-hee fal-yah-MAL AH-ma-lan SAA-li-han.)
 > Whoever looks forward to meeting his Lord, let him do righteous deeds, and let him not ascribe unto anyone a share in the worship due to his Lord.
-> — *(Quran, Al-Kahf 18:110)*
+> *(Quran, Al-Kahf 18:110)*
 
 > Innal Lazina Aamano Wa 'Aamaylus Sawlihaatey Kaanat Lahum Jannaatul Firdausee Nuzula Khalideena Feeha.
 > (IN-nal-la-DHEE-na AA-ma-NU wa AH-mi-LUS-SAA-li-HAAT, KAA-nat LA-hum JAN-naa-tul FIR-daw-SI nu-ZU-la.)
 > Verily, those who believe in Allah and perform righteous deeds, for them the highest Paradise is for their hospitality in which they will live forever.
-> — *(Quran, Al-Kahf 18:107)*
+> *(Quran, Al-Kahf 18:107)*
 
 The conjunction *and* in these verses is structural, not decorative. Faith *and* deeds. Ghazali piles the verses on each other so that no one verse can be argued away.
 
@@ -109,7 +109,7 @@ He cuts that worry off cleanly. Entry to Paradise is by Allah's grace alone. The
 > Inna Rahmata Allahi Qareebum Minal Muhsineen.
 > (IN-na RAH-ma-tal-LA-hi qa-REE-bum mi-nal MUH-si-NEEN.)
 > Verily, the Mercy of Allah is close to the doers of good.
-> — *(Quran, Al-A'raf 7:56)*
+> *(Quran, Al-A'raf 7:56)*
 
 Then he tells the story that is, in the architecture of this chapter, the emotional pivot.
 
@@ -157,7 +157,7 @@ This is not Ghazali's private theology. It is the doctrine that opens the entire
 > Innama al-a`malu bi-l-niyyat, wa innama li-kulli imri'in ma nawa.
 > (IN-na-ma al-AH-MAA-lu bin-ni-YAAT, wa IN-na-ma li-KUL-li im-RI-in MA NA-waa.)
 > Verily, deeds are by intentions, and every person shall have only that which they intended.
-> — *(Sahih al-Bukhari, Book 1, Hadith 1; narrated by Umar ibn al-Khattab, on the authority of the Prophet Muhammad, peace and blessings be upon him)*
+> *(Sahih al-Bukhari, Book 1, Hadith 1; narrated by Umar ibn al-Khattab, on the authority of the Prophet Muhammad, peace and blessings be upon him)*
 
 Imam al-Nawawi (d. 1277 CE) placed the same hadith first in his *Forty Hadith* and called it one of the three pillars on which the whole of Islam rests. Ghazali is not introducing a novel diagnosis. He is naming the doctrine the entire scholastic tradition stands on, then asking the student to look at his own intention by it.
 
@@ -177,18 +177,18 @@ This is where Ghazali lands the chapter's most quoted line, the one that is the 
 
 The two halves are not symmetric. Knowledge without action is *madness*, a stronger word than *useless*. To know what to do and not do it is not merely a missed opportunity. It is a kind of derangement.
 
-The diagnosis is shared across the broader Islamic tradition Ghazali is writing within. Imam Ali ibn Abi Talib (peace be upon him) — Imam Ali (AS) — formulated the same warning more than three centuries before Ghazali, in a saying preserved among his aphorisms:
+The diagnosis is shared across the broader Islamic tradition Ghazali is writing within. Imam Ali ibn Abi Talib (peace be upon him), Imam Ali (AS), formulated the same warning more than three centuries before Ghazali, in a saying preserved among his aphorisms:
 
 > *Al-`ilmu maqrunun bi-l-`amal, fa-man `alima `amila, wa-l-`ilmu yahtifu bi-l-`amal, fa-in ajabahu wa-illa irtahala.*
 > (al-IL-mu maq-ROO-nun bil-AH-mal, fa-MAN AH-li-ma AH-mi-la, wa-l-IL-mu yah-TI-fu bil-AH-mal, fa-IN a-JAA-ba-hu wa IL-la ir-TA-ha-la.)
 > Knowledge is paired with action. He who knows must act, for knowledge calls upon action; if action does not respond, knowledge departs.
-> — *(Nahj al-Balagha, Hikam #366; widely transmitted across Shia and Sunni adab literature)*
+> *(Nahj al-Balagha, Hikam #366; widely transmitted across Shia and Sunni adab literature)*
 
 The image is exact. Knowledge does not loiter where it is not answered. It calls, waits, and leaves. Ghazali's madness diagnosis and Imam Ali's departing-knowledge diagnosis name the same disease from two angles: knowledge is the gift you lose the moment you refuse to use it.
 
 The same conviction runs through the Ismaili philosophical tradition that came after Imam Ali and was contemporary with Ghazali himself. Nasir-i Khusraw, the eleventh-century Ismaili philosopher, returns again and again in his *Wajh-i Din* (Face of Religion) and in his *Diwan* to the inseparability of *`ilm* (knowledge) and *`amal* (action). The pairing is one of his recurring themes: knowledge that the soul does not enact does not save the soul that holds it.
 
-> — *(Nasir-i Khusraw, recurring across Wajh-i Din and Diwan; treated as a structural principle of his religious philosophy)*
+> *(Nasir-i Khusraw, recurring across Wajh-i Din and Diwan; treated as a structural principle of his religious philosophy)*
 
 The diagnosis is identical to Ghazali's, made from a tradition that often disagreed with his on much else. Where Sunni Sufi and Shia Ismaili agree this completely, the listener may take the convergence as evidence that the principle is older and deeper than any school's framing of it.
 
@@ -224,7 +224,7 @@ Imam Ali (AS) made the same point about the asymmetry of effort and reward, refu
 > *Rubba qa'imin hazzuhu min qiyamihi as-sahar, wa rubba sa'imin hazzuhu min siyamihi al-ju' wa-l-'atash.*
 > (RUB-ba QAA-i-min HAZ-zu-hu min qi-YAA-mi-hi as-SA-har, wa RUB-ba SAA-i-min HAZ-zu-hu min si-YAA-mi-hi al-JU' wal-AH-tash.)
 > Many a one stays awake at night whose only portion from his vigil is sleeplessness, and many a one fasts whose only portion from his fasting is hunger and thirst.
-> — *(Nahj al-Balagha, Hikam #145; also widely transmitted in canonical hadith literature)*
+> *(Nahj al-Balagha, Hikam #145; also widely transmitted in canonical hadith literature)*
 
 The night-prayer that Ghazali is calling the student toward is not the vigil itself. It is the vigil joined to the intention. The body in the dark is necessary but not sufficient.
 
@@ -277,6 +277,6 @@ Ghazali ends with Shibli's report that he served four hundred spiritual masters 
 
 Ghazali closes the chapter by saying the student does not need much knowledge; acquiring more is *Fard Kifayah*, a communal obligation rather than an individual one. What the student needs is to act on the little he has.
 
-The student's opening petition — *I seek Allah's refuge from the knowledge which is of no benefit* — is in the same posture the Ismaili community brings to its daily *Holy Du`a*, where Part III asks that what is sought from Allah be the knowledge that benefits and the action that is accepted. The petition's wording differs across Sunni, Shia, and Ismaili formulations. The pleading is the same. Ghazali's student is asking, in private, the question that traditions of the Muslim world ask in public every day.
+The student's opening petition, *I seek Allah's refuge from the knowledge which is of no benefit*, is in the same posture the Ismaili community brings to its daily *Holy Du`a*, where Part III asks that what is sought from Allah be the knowledge that benefits and the action that is accepted. The petition's wording differs across Sunni, Shia, and Ismaili formulations. The pleading is the same. Ghazali's student is asking, in private, the question that traditions of the Muslim world ask in public every day.
 
 Ghazali has moved the reader from the question *which knowledge will save me* to the answer *none, by itself*. The decoration of learning is the indictment. The hidden purification of the heart, even for a moment, is the defense. The night prayer is the one thing the corpse carries. Intention is the discriminator. *Mujahadah* is the vehicle. And the four conditions of the seeker are the doorway into the rest of the letter.

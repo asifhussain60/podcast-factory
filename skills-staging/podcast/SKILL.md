@@ -315,6 +315,14 @@ File format rules:
 Goal: finalize the draft, produce the single-txt deliverable for NotebookLM, register the episode, and hand the user the refinement surface.
 
   1. Run the QUALITY GATE (Section 7) silently.
+  1a. **Run the podcast-challenger to convergence** before declaring the bundle ready. The challenger is the semantic-quality counterpart to this skill's structural gate — it catches what the build script cannot statically see (citation authenticity, phonetic coverage drift, enrichment depth, framing 4-part integrity, NotebookLM literalness). Invoke:
+
+     ```
+     /podcast-challenger <book-slug>
+     ```
+
+     The challenger runs up to 3 iterations, auto-fixes deterministic issues (em-dashes, repeated honorifics, lexicon parity), and writes `BOOK_DIR/_system/challenger-report.md` with verdict. **A bundle is not ready until the challenger says `SHIP-READY`.** If the verdict is `BLOCKED`, resolve the listed P0 findings and re-invoke the challenger. See `.github/agents/podcast-challenger.agent.md` for the full check catalog.
+
   2. **Compile the draft + chapter into the final NotebookLM-ready deliverable.** Run:
 
      ```
@@ -598,4 +606,7 @@ SECTION 10: REFERENCE FILE INDEX
 
 ### Scripts:
   - `SKILL_DIR/scripts/new_episode.py` — scaffolds a new draft folder under `BOOK_DIR/_system/episode-drafts/`
-  - `/PROJECTS/journal/scripts/podcast/build_episode_txt.py` — concatenates a draft folder into the final deliverable txt
+  - `/PROJECTS/journal/scripts/podcast/build_episode_txt.py` — compiles the chapter + framing into the final deliverable txt (with HTML-comment stripping and meta-prose anti-pattern checks)
+
+### Agents:
+  - `.github/agents/podcast-challenger.agent.md` — semantic-quality reviewer; runs in a convergence loop (≤3 iterations) before any bundle ships. Validates citation authenticity, phonetic coverage, enrichment depth, framing 4-part structure, NotebookLM literalness. Writes `BOOK_DIR/_system/challenger-report.md`. **Required** between Phase 4 step 1 (quality gate) and step 2 (compile).

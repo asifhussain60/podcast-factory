@@ -63,6 +63,7 @@ content/
 | `CORTEX` | `.github/agents/CORTEX.agent.md` | Governance, vacuum, structure enforcement |
 | `journal-orchestrator` | `.github/agents/journal-orchestrator.agent.md` | Skill routing + canonical-write protection |
 | `repo-surgeon` | `.github/agents/repo-surgeon.agent.md` | Holistic architecture audit, orphan cleanup |
+| `podcast-challenger` | `.github/agents/podcast-challenger.agent.md` | Semantic-quality review of podcasted-book chapters + framings; convergence loop (≤3 iterations) before any bundle ships to NotebookLM |
 | `ui-reviewer` | `.claude/agents/ui-reviewer.md` | CSS/theme review (runs on Stop hook) |
 
 ---
@@ -266,6 +267,14 @@ If anything from that branch needs to come back, cherry-pick from `archive/full-
 - **Bug fix:** initial `build_episode_txt.py` concatenated all 5–6 draft files into the deliverable, producing 8K–10K word txts — 2× the NotebookLM 5,500-word ceiling. Rewritten to emit only CUSTOMIZE PROMPT + SOURCE, matching `notebooklm-best-practices.md` §3 / §5 / §7.
 - **Invariant added:** episodes cannot be built unless `<book>/chapters/` is non-empty. `build_episode_txt.py` hard-errors otherwise. Promotes the structural rule "episodes are derivative artifacts of a source book" from documentation into executable enforcement.
 - **Chapters populated** for Ayyuhal Walad: 22 source sections promoted into `content/podcast/ayyuhal-walad/chapters/chNN-<slug>.txt`.
+
+### v3.3.2 — podcast-challenger agent (semantic-quality gate before NotebookLM upload) (2026-05-16, later)
+
+- **New agent**: `.github/agents/podcast-challenger.agent.md` — semantic-quality reviewer for podcasted-book chapters + framings. Complements `build_episode_txt.py` (which enforces structural contracts) by covering everything semantic: citation authenticity, phonetic coverage, enrichment depth, framing 4-part structure, NotebookLM literalness.
+- **30 checks across 6 categories** — Authenticity (P0), NotebookLM literalness (P0), Pronunciation discipline (P1), Enrichment & depth (P1), Articulation & shape (P1), Framing integrity (P0–P1).
+- **Convergence loop**: ≤3 iterations. Auto-fixes deterministic mechanical issues (em-dashes, cross-episode refs, honorific repetition, lexicon parity). Flags everything semantic for human resolution. Writes `BOOK_DIR/_system/challenger-report.md` with verdict (`SHIP-READY` / `SHIP-WITH-CAUTION` / `BLOCKED`).
+- **Ship-readiness gate**: `journal-orchestrator` refuses to route any "ready for upload" intent until the most recent challenger run shows `SHIP-READY`.
+- **Podcast skill integration**: `skills-staging/podcast/SKILL.md` Phase 4 now has a step 1a "run podcast-challenger to convergence" between the QUALITY GATE and the compile step.
 
 ### v3.3.1 — NotebookLM hygiene (HTML-comment stripping + meta-prose anti-pattern) (2026-05-16, later)
 

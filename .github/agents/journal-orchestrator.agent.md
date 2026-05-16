@@ -77,6 +77,7 @@ The site/proxy is a read-only AI gateway for theme tweaking and voice refinement
 | "repo review", "architectural audit", "cleanup sweep", "root clutter" | `repo-surgeon` | Cowork T3 | BRONZE (target) |
 | "audit usage", "spend report" | `usage-auditor` | Cowork T3 | BRONZE (target) |
 | "podcast", "/podcast", "@podcast", "new episode", "next episode", "turn this into a podcast", "NotebookLM episode", "audio overview", "make this a podcast", "I want to listen to this", "distill for podcast", "episode bundle" | `podcast` (`skills-staging/podcast/SKILL.md`; content workspace at `content/podcast/<book-slug>/`) | Cowork T3 | OUT OF SCOPE (content-prep, by design; enforce per-section Arabic phonetic coverage in source files) |
+| "challenge book", "challenge <book-slug>", "challenge chapter", "review podcast", "audit chapters", "audit framings", "/podcast-challenger", "converge before publish", "check book before upload", "podcast ready for upload" | `podcast-challenger` (`.github/agents/podcast-challenger.agent.md`) | Cowork T3 | Semantic-quality gate; runs in convergence loop (≤3 iterations); writes sidecar `BOOK_DIR/_system/challenger-report.md` |
 | CSS/theme review after edits to `site/css/` or `site/index.html` | `ui-reviewer` (`.claude/agents/ui-reviewer.md`) — runs on Stop hook automatically | — | (agent, not skill) |
 
 If an intent doesn't match a registered skill, default to direct Cowork action and tell Asif which skill (if any) you considered.
@@ -130,6 +131,8 @@ Before routing the `podcast` skill for any `Phase 3: Structure` or `Phase 4: Pac
 - **NotebookLM hygiene: chapter file contains chapter content only.** Authoring metadata MUST live in `<!-- ... -->` HTML comments (auto-stripped by `build_episode_txt.py`). Chapter prose MUST NOT describe the chapter file itself — no *"This file is..."* / *"Phase 0e..."* / *"Nothing has been added..."* / `[VERIFY CITATION]` markers. The build script's `META_PROSE_TELLS` gate hard-refuses chapters that contain these tells. If routing detects a chapter with meta-prose, route to a cleanup step BEFORE Phase 4 instead of routing the bundle to "ready."
 
 Cross-checking the invariants is a P0 governance step. A skill that bypasses them is a framework violation; reject and surface to Asif before continuing.
+
+**Ship-readiness gate:** Refuse to route any "ready for upload" / "publish" / "ship the podcast" intent for a book until the most recent `podcast-challenger` run for that book shows `Verdict: SHIP-READY` in `BOOK_DIR/_system/challenger-report.md`. If the report is missing or stale (older than the most recent chapter/framing modification), route to `podcast-challenger` first.
 
 ---
 
