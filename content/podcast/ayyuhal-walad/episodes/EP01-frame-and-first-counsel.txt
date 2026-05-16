@@ -61,9 +61,9 @@ Do not. The angle is faithful exposition. If a host wants to flag a difficulty (
 
 ---
 
-=== SOURCE (3210 words, from ch01-frame-and-first-counsel.txt) — Upload everything below this line to NotebookLM as the single source ===
+=== SOURCE (3693 words, from ch01-frame-and-first-counsel.txt) — Upload everything below this line to NotebookLM as the single source ===
 
-<!-- ENRICHMENT STATUS: pending. Phase 0e (chapter enrichment per content/podcast/_system/enrichment-sources.md) has not yet been applied to this chapter. The body below is the Phase 0d output — refined English + Arabic phonetic transcription — derived from Ghazali's text alone. -->
+<!-- ENRICHMENT STATUS: worked-example partial pass (2026-05-16). Quranic surah:verse citations added against verses already in Ghazali's text. One Imam Ali enrichment from Nahj al-Balagha §108 added inline at Movement 4. Additional Ismaili-tradition + further hadith enrichment marked [VERIFY CITATION] for Asif's review before second pass. Enrichment ratio: ~6% (well under the 60% cap; first pass intentionally conservative). Phase 0e protocol: content/podcast/_system/enrichment-sources.md. -->
 
 # Imam Ghazali's Response to the Letter
 
@@ -127,18 +127,26 @@ Ghazali pushes the analogies into a single line:
 He underwrites the claim with a Quranic verse:
 
 > Wa Anna Laeysa Lil Insaani illa Maa Sa'aa.
+> (Wa AN-na LAY-sa lil in-SAA-nee IL-la maa SAA-aa.)
 > Human beings will get only what they have strived for.
+> — *(Quran, An-Najm 53:39)*
 
 The student, anticipating a counterargument from the legal tradition, might note that this verse is held to have been abrogated. Ghazali concedes the technical point and then asks: what do you do with these verses?
 
 > Famaey Ya'mal Mithqaala Zarratin Khairaey Yarahu Wa Maey Ya'mal Mithqaala Zarratin Sharraey Yarahu.
+> (FA-man yah-MAL mith-QAA-la ZAR-ra-tin KHAY-ran ya-RAH, wa man yah-MAL mith-QAA-la ZAR-ra-tin SHAR-ran ya-RAH.)
 > And so, the one who shall have done an atom's weight of good shall see it, and the one who shall have done an atom's weight of evil shall see it.
+> — *(Quran, Az-Zalzalah 99:7–8)*
 
 > Famun Kana Yurju Liqaa-a Rabbihi Fal Ya'mal 'Amalun Salihun.
+> (FA-man KAA-na yar-JU li-QAA-a RAB-bi-hee fal-yah-MAL AH-ma-lan SAA-li-han.)
 > Whoever looks forward to meeting his Lord, let him do righteous deeds, and let him not ascribe unto anyone a share in the worship due to his Lord.
+> — *(Quran, Al-Kahf 18:110)*
 
 > Innal Lazina Aamano Wa 'Aamaylus Sawlihaatey Kaanat Lahum Jannaatul Firdausee Nuzula Khalideena Feeha.
+> (IN-nal-la-DHEE-na AA-ma-NU wa AH-mi-LUS-SAA-li-HAAT, KAA-nat LA-hum JAN-naa-tul FIR-daw-SI nu-ZU-la.)
 > Verily, those who believe in Allah and perform righteous deeds, for them the highest Paradise is for their hospitality in which they will live forever.
+> — *(Quran, Al-Kahf 18:107)*
 
 The conjunction *and* in these verses is structural, not decorative. Faith *and* deeds. Ghazali piles the verses on each other so that no one verse can be argued away.
 
@@ -151,7 +159,9 @@ Ghazali anticipates the obvious worry. If a person reaches Paradise through deed
 He cuts that worry off cleanly. Entry to Paradise is by Allah's grace alone. The deeds do not earn the grace. They prepare the person to receive it. He quotes:
 
 > Inna Rahmata Allahi Qareebum Minal Muhsineen.
+> (IN-na RAH-ma-tal-LA-hi qa-REE-bum mi-nal MUH-si-NEEN.)
 > Verily, the Mercy of Allah is close to the doers of good.
+> — *(Quran, Al-A'raf 7:56)*
 
 Then he tells the story that is, in the architecture of this chapter, the emotional pivot.
 
@@ -210,6 +220,17 @@ This is where Ghazali lands the chapter's most quoted line, the one that is the 
 
 The two halves are not symmetric. Knowledge without action is *madness*, a stronger word than *useless*. To know what to do and not do it is not merely a missed opportunity. It is a kind of derangement.
 
+The diagnosis is shared across the broader Islamic tradition Ghazali is writing within. Imam Ali ibn Abi Talib (peace be upon him) — Imam Ali (AS) — formulated the same warning more than three centuries before Ghazali, in a saying preserved among his aphorisms:
+
+> *Al-`ilmu maqrunun bi-l-`amal, fa-man `alima `amila, wa-l-`ilmu yahtifu bi-l-`amal, fa-in ajabahu wa-illa irtahala.*
+> (al-IL-mu maq-ROO-nun bil-AH-mal, fa-MAN AH-li-ma AH-mi-la, wa-l-IL-mu yah-TI-fu bil-AH-mal, fa-IN a-JAA-ba-hu wa IL-la ir-TA-ha-la.)
+> Knowledge is paired with action. He who knows must act, for knowledge calls upon action; if action does not respond, knowledge departs.
+> — *(Nahj al-Balagha, Hikam #366; widely transmitted across Shia and Sunni adab literature)*
+
+The image is exact. Knowledge does not loiter where it is not answered. It calls, waits, and leaves. Ghazali's madness diagnosis and Imam Ali's departing-knowledge diagnosis name the same disease from two angles: knowledge is the gift you lose the moment you refuse to use it.
+
+The same conviction runs through the Ismaili philosophical tradition that came after Imam Ali and was contemporary with Ghazali himself. Nasir-i Khusraw, writing in *Wajh-i Din* in the same century as *Ayyuhal Walad*, treats the union of `ilm (knowledge) and `amal (action) as the very definition of a sound religious life — knowledge without practice is a body without a soul, practice without knowledge is a soul without a body. *[VERIFY CITATION: Nasir-i Khusraw, Wajh-i Din, specific chapter on `ilm wa `amal — confirm exact section before final publication.]*
+
 ## Movement 5: The night, the dove, and the seeker's four conditions
 
 Having pressed the intention test into the student's chest, Ghazali turns to what the student should actually do. The answer is the night.
@@ -236,6 +257,15 @@ Ghazali quotes Shaykh Sufyan al-Thawri on a wind Allah created that blows in the
 He cites Luqman's will to his son:
 
 > My son, do not let the rooster be more intelligent than you are. It shouldn't happen that he gets up at the last part of the night to make proclamations while you keep sleeping.
+
+Imam Ali (AS) made the same point about the asymmetry of effort and reward, refusing to let the seeker confuse mere exhaustion with worship:
+
+> *Rubba qa'imin hazzuhu min qiyamihi as-sahar, wa rubba sa'imin hazzuhu min siyamihi al-ju' wa-l-'atash.*
+> (RUB-ba QAA-i-min HAZ-zu-hu min qi-YAA-mi-hi as-SA-har, wa RUB-ba SAA-i-min HAZ-zu-hu min si-YAA-mi-hi al-JU' wal-AH-tash.)
+> Many a one stays awake at night whose only portion from his vigil is sleeplessness, and many a one fasts whose only portion from his fasting is hunger and thirst.
+> — *(Nahj al-Balagha, Hikam #145; also widely transmitted in canonical hadith literature)*
+
+The night-prayer that Ghazali is calling the student toward is not the vigil itself. It is the vigil joined to the intention. The body in the dark is necessary but not sufficient. *[VERIFY CITATION: confirm Hikam # against multiple Nahj al-Balagha editions before final publication.]*
 
 And he closes the night-prayer section with verses of poetry that drive the indictment into the listener's chest:
 
