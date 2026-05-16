@@ -61,9 +61,7 @@ Do not. The angle is faithful exposition. If a host wants to flag a difficulty (
 
 ---
 
-=== SOURCE (4183 words, from ch01-frame-and-first-counsel.txt) — Upload everything below this line to NotebookLM as the single source ===
-
-<!-- ENRICHMENT STATUS: applied (2026-05-16). Phase 0e enrichment complete per content/podcast/_system/enrichment-sources.md. Verified citations: Quran 39:9, 53:39, 99:7-8, 18:107, 18:110, 7:56; Sahih al-Bukhari Book 1 Hadith 1 (narrated by Umar ibn al-Khattab) at the intention pivot; Nahj al-Balagha Hikam #366 (knowledge calling upon action) and Hikam #145 (vigil without intention); Ghurar al-Hikam on benefiting from knowledge; Holy Du'a Part III reference for parallel pleading. Unverifiable specific Nasir-i Khusraw chapter citation replaced with a defensible general statement about his recurring ilm/amal theme in Wajh-i Din and Diwan. Enrichment ratio: ~22% (under the 60% cap). -->
+=== SOURCE (4030 words, from ch01-frame-and-first-counsel.txt) — Upload everything below this line to NotebookLM as the single source ===
 
 # Imam Ghazali's Response to the Letter
 
@@ -72,8 +70,6 @@ Do not. The angle is faithful exposition. If a host wants to flag a difficulty (
 *Translator (English from Urdu, with original Arabic transliterations preserved):* Irfan Hasan
 *Original work:* Ayyuhal Walad, from *Majmu'a Rasail Imam Ghazali* (Three-Volume Collection of Short Books)
 *Source scope for this episode:* the chapter titled *Imam Ghazali's Response to the Letter*, the opening section of the epistle. Pages 3 through 14 of the printed translation.
-
-This file is a refined and enriched presentation of the chapter, organized into its argumentative movements. The verbatim hadith and Quranic passages are preserved in blockquotes with the original transliteration. Ghazali's prose has been clarified for English readability and structured by beat. Nothing has been added that is not in the source. Anything Ghazali only implies is marked as such.
 
 ---
 

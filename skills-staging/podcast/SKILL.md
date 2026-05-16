@@ -481,6 +481,19 @@ SECTION 6: OUTPUT RULES
   - **`BOOK_DIR/chapters/` MUST contain a matched chapter** for every episode being built. The build script enforces this.
   - Chapter scratchpads live in `BOOK_DIR/_system/episode-drafts/EP##-<slug>/chapter.scratch.md`. The scratchpad persists across refinement passes and is only deleted at project ship-time. The chapter file is the refinement target; the scratchpad is the markup surface.
 
+### Chapter file = chapter content only (NotebookLM hygiene)
+
+The chapter file at `BOOK_DIR/chapters/chNN-<slug>.txt` is uploaded *as-is* to NotebookLM as the SOURCE. The two-host conversation reads literally everything in it. Two rules protect the listener:
+
+  - **Authoring metadata MUST live in `<!-- ... -->` HTML comments.** `build_episode_txt.py` strips all HTML comments from the SOURCE before writing the episode txt. The ENRICHMENT STATUS header, Phase 0 tracking notes, citation inventories, and any other meta-tracking belong inside `<!-- ... -->` blocks — they stay in the chapter file for authors / audits / repo-surgeon but never reach NotebookLM.
+  - **Chapter prose MUST NOT describe the chapter file itself.** Sentences like *"This file is a refined presentation..."*, *"Nothing has been added that is not in the source"*, *"Phase 0e enrichment was applied..."*, or *"Anything Ghazali only implies is marked as such"* are meta-prose about the artifact, not chapter content. The build script scans for a hard list of meta-prose tells (`META_PROSE_TELLS` in `scripts/podcast/build_episode_txt.py`) and refuses to build any episode whose chapter contains one. The chapter must be cleaned before it ships.
+
+What MAY appear in the chapter file (because it's useful context for the hosts):
+
+  - Title (H1), author, translator, original-work attribution, source-scope line — these are framing the hosts use to introduce and ground the episode correctly.
+  - Movement headings (H2), sub-beats (H3) — structural cues for the conversation arc.
+  - The body prose, blockquotes, inline citations, phonetic guides — the actual content.
+
 ============================================================
 SECTION 7: QUALITY GATE — FINAL CHECK BEFORE DELIVERY
 ============================================================
@@ -491,6 +504,7 @@ Before telling Asif a bundle is ready, silently verify:
   2. **Chapter is in the size band:** 1,500-word floor, 2,500–3,500 target, 4,500 ceiling. Hard refuse outside [500, 5,500] (best-practices §3).
   3. **Chapter is enriched** (Phase 0e): outside material from Quran / hadith / Imam Ali / Ismaili sources is present with attribution. Outside material ≤ 60% of chapter word count (invariant 4).
   4. **Chapter has full Arabic phonetic coverage** (Phase 0c): every Arabic term, transliteration, Quranic verse, hadith line, dua, name, and honorific carries a phonetic guide on first appearance per chapter (invariant 5).
+  4a. **NotebookLM hygiene gate:** Any authoring metadata in the chapter is wrapped in `<!-- ... -->` HTML comments (auto-stripped at build). The chapter prose contains NO sentences that describe the chapter file itself — no *"This file is..."*, no *"Phase 0..."*, no *"Nothing has been added that is not in the source"*, no `[VERIFY CITATION]` markers. `build_episode_txt.py` enforces this with `META_PROSE_TELLS`; if it errors, clean the chapter and retry.
   5. Are the required draft files present in the episode-draft folder? (`00-framing.md` mandatory; `02-key-passages.md`, `03-context-pack.md`, `04-discussion-spine.md`, `99-show-notes.md` recommended.)
   6. Is every quote in the chapter verbatim from the original source or correctly attributed to an enrichment source?
   7. Is every attribution correct (translator named for Quranic translations, hadith collection + number, Nahj al-Balagha sermon/letter/saying #, Ismaili source named work + section)?

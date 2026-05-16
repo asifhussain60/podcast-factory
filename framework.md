@@ -215,7 +215,9 @@ Canonical writes to `content/` happen via Cowork (Claude Code) only. The site/pr
 ### 7. Podcast Episode Deliverable
 Per-episode work is authored as a per-episode draft folder under `content/podcast/<book>/_system/episode-drafts/EP##-<slug>/` containing the customize prompt (`00-framing.md`) and authoring scaffolds (`02-key-passages.md`, `03-context-pack.md`, `04-discussion-spine.md`, `99-show-notes.md`). **The SOURCE of each episode is the matching chapter file at `content/podcast/<book>/chapters/chNN-<slug>.txt`** (strict 1:1 chapter ↔ episode mapping, same slug after the prefix). The single `content/podcast/<book>/episodes/EP##-<slug>.txt` is the ONLY artifact uploaded to NotebookLM. It is rebuilt by `scripts/podcast/build_episode_txt.py` on every change to the draft or the chapter — never hand-edited.
 
-The episode txt contains **exactly two clearly delimited blocks**: the CUSTOMIZE PROMPT (body of `00-framing.md` minus the upload checklist) and the SOURCE (body of the matched chapter file). The other draft files are authoring-only scaffolds and do not appear in the txt; their inclusion would push the source over NotebookLM's word-count ceiling and dilute the listener's focus (anchored to `content/podcast/_system/notebooklm-best-practices.md` §3 and §7).
+The episode txt contains **exactly two clearly delimited blocks**: the CUSTOMIZE PROMPT (body of `00-framing.md` minus the upload checklist) and the SOURCE (body of the matched chapter file, with all `<!-- ... -->` HTML comments auto-stripped). The other draft files are authoring-only scaffolds and do not appear in the txt; their inclusion would push the source over NotebookLM's word-count ceiling and dilute the listener's focus (anchored to `content/podcast/_system/notebooklm-best-practices.md` §3 and §7).
+
+**Chapter file hygiene (NotebookLM protection):** Chapter files contain ONLY chapter content. Authoring metadata (ENRICHMENT STATUS headers, Phase 0 tracking notes, citation inventories, `[VERIFY CITATION]` markers) MUST live in `<!-- ... -->` HTML comments — the build script strips them. Chapter prose MUST NOT contain sentences that describe the file itself (*"This file is a refined presentation..."*, *"Phase 0e enrichment..."*, *"Nothing has been added that is not in the source"*). `scripts/podcast/build_episode_txt.py` enforces this with a `META_PROSE_TELLS` substring list — any match is a hard build error.
 
 Chapter (= SOURCE) word counts: floor 1,500; target 2,500–3,500; ceiling 4,500; hard refuse outside [500, 5,500].
 
@@ -264,6 +266,13 @@ If anything from that branch needs to come back, cherry-pick from `archive/full-
 - **Bug fix:** initial `build_episode_txt.py` concatenated all 5–6 draft files into the deliverable, producing 8K–10K word txts — 2× the NotebookLM 5,500-word ceiling. Rewritten to emit only CUSTOMIZE PROMPT + SOURCE, matching `notebooklm-best-practices.md` §3 / §5 / §7.
 - **Invariant added:** episodes cannot be built unless `<book>/chapters/` is non-empty. `build_episode_txt.py` hard-errors otherwise. Promotes the structural rule "episodes are derivative artifacts of a source book" from documentation into executable enforcement.
 - **Chapters populated** for Ayyuhal Walad: 22 source sections promoted into `content/podcast/ayyuhal-walad/chapters/chNN-<slug>.txt`.
+
+### v3.3.1 — NotebookLM hygiene (HTML-comment stripping + meta-prose anti-pattern) (2026-05-16, later)
+
+- **Bug caught by Asif:** chapter files carried two kinds of meta that NotebookLM would have read out loud: `<!-- ENRICHMENT STATUS: ... -->` headers, and "This file is a refined and enriched presentation..." paragraphs. Chapter `.txt` files are plain text; HTML comments do not get stripped by NotebookLM.
+- **Fix:** `scripts/podcast/build_episode_txt.py` now (a) strips all `<!-- ... -->` blocks from both the framing and the chapter before writing the SOURCE block, and (b) scans the post-strip chapter content for meta-prose tells (`This file is`, `This document is`, `Phase 0`, `ENRICHMENT STATUS`, `Nothing has been added that is not in the source`, `Anything Ghazali only implies`, `preserved in blockquotes`, `structured by beat`, `refined presentation of the chapter`, `[VERIFY CITATION`, etc.) — any match is a hard error.
+- **Cleanup:** all 5 Ayyuhal Walad chapter files have had their meta-prose paragraphs removed. ENRICHMENT STATUS HTML comments retained (now auto-stripped by the build).
+- **Protocol encoded:** new "Chapter file = chapter content only (NotebookLM hygiene)" subsection in SKILL.md §6; new Quality Gate item 4a; new Content Invariant in the orchestrator agent; Rule 7 of framework.md updated.
 
 ### v3.3 — chapter IS the source + Phase 0 enrichment protocol (2026-05-16, later)
 

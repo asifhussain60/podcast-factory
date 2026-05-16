@@ -77,9 +77,7 @@ Do not. The angle is faithful exposition. If a host wants to flag a difficulty (
 
 ---
 
-=== SOURCE (3446 words, from ch04-four-cautions.txt) — Upload everything below this line to NotebookLM as the single source ===
-
-<!-- ENRICHMENT STATUS: applied (2026-05-16). Phase 0e enrichment complete per content/podcast/_system/enrichment-sources.md. Added: Sunan Abu Dawud Hadith 4800 (abandoning argument) at Caution 1; Quran 2:44 (enjoining righteousness while forgetting yourselves) at Caution 2; Quran 11:113 (do not incline toward wrongdoers) at Caution 3; Imam Ali on wealth as a test from Nahj al-Balagha Hikam at Caution 4. Enrichment ratio: ~18% (under the 60% cap). -->
+=== SOURCE (3350 words, from ch04-four-cautions.txt) — Upload everything below this line to NotebookLM as the single source ===
 
 # The Eight Admonitions: Ghazali's Four Cautions
 
@@ -87,8 +85,6 @@ Do not. The angle is faithful exposition. If a host wants to flag a difficulty (
 *Author:* Imam Abu Hamid Muhammad al-Ghazali (1058 to 1111 CE)
 *Translator:* Irfan Hasan (English from Urdu, Arabic transliterations preserved)
 *Source scope:* sections 12 through 16, the first half of the Eight Admonitions, in which Ghazali names the four things the seeker must refuse.
-
-This file is a refined presentation of the section, organized by argumentative movement. Verbatim quotes are preserved in blockquotes with original transliteration. Nothing has been added that is not in the source.
 
 ---
 

@@ -7,8 +7,6 @@
 *Translator:* Irfan Hasan (English from Urdu, Arabic transliterations preserved)
 *Source scope:* sections 12 through 16, the first half of the Eight Admonitions, in which Ghazali names the four things the seeker must refuse.
 
-This file is a refined presentation of the section, organized by argumentative movement. Verbatim quotes are preserved in blockquotes with original transliteration. Nothing has been added that is not in the source.
-
 ---
 
 ## The frame

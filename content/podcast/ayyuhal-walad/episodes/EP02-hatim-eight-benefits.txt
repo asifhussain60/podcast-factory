@@ -71,9 +71,7 @@ Do not. The angle is faithful exposition. If a host wants to flag a difficulty (
 
 ---
 
-=== SOURCE (3024 words, from ch02-hatim-eight-benefits.txt) — Upload everything below this line to NotebookLM as the single source ===
-
-<!-- ENRICHMENT STATUS: applied (2026-05-16). Phase 0e enrichment complete per content/podcast/_system/enrichment-sources.md. Added: Sahih Muslim Hadith 1631 (three things that follow the corpse) at Benefit 1; Farewell Sermon excerpt on Taqwa over lineage at Benefit 4; Imam Ali on the nafs as greatest enemy at Benefit 6; Sunan al-Tirmidhi Hadith 2344 (the birds and Tawakkul) at Benefit 7; Nahj al-Balagha Hikam #57 (contentment as treasure) at chapter close. Enrichment ratio: ~25% (under the 60% cap). -->
+=== SOURCE (2917 words, from ch02-hatim-eight-benefits.txt) — Upload everything below this line to NotebookLM as the single source ===
 
 # Hatim bin Ism: Eight Benefits of Thirty-Three Years
 
@@ -82,8 +80,6 @@ Do not. The angle is faithful exposition. If a host wants to flag a difficulty (
 *Translator (English from Urdu, with original Arabic transliterations preserved):* Irfan Hasan
 *Original work:* Ayyuhal Walad, from *Majmu'a Rasail Imam Ghazali* (Three-Volume Collection of Short Books)
 *Source scope for this episode:* the section titled *Benefits Narrated by Hatim bin Ism*, the third major movement of the epistle. Pages 14 through 17 of the printed translation.
-
-This file is a refined presentation of the section. Verbatim hadith and Quranic passages are preserved in blockquotes with the original transliteration. Nothing has been added that is not in the source.
 
 ---
 

@@ -76,16 +76,14 @@ Do not. The angle is faithful exposition. The hosts may notice difficulties (for
 
 ---
 
-=== SOURCE (2584 words, from ch05-method-and-closing-prayer.txt) — Upload everything below this line to NotebookLM as the single source ===
-
-<!-- ENRICHMENT STATUS: applied (2026-05-16). Phase 0e enrichment complete per content/podcast/_system/enrichment-sources.md. Added: Imam Ali's Letter 31 to Imam Hasan (Nahj al-Balagha) on the mirror principle at Matter 2; Quran 3:185 (every soul shall taste death) at Matter 3; structural parallel to the Ismaili Holy Du`a at the closing supplication. Enrichment ratio: ~21% (under the 60% cap). -->
+=== SOURCE (2517 words, from ch05-method-and-closing-prayer.txt) — Upload everything below this line to NotebookLM as the single source ===
 
 # The Method of Living and the Closing Prayer
 
 *From* Ayyuhal Walad (My Dear Beloved Son or Daughter)
 *Author:* Imam Abu Hamid Muhammad al-Ghazali (1058 to 1111 CE)
 *Translator:* Irfan Hasan (English from Urdu)
-*Source scope:* the closing sections of the epistle. The four matters worthy of the student's actions, and the closing supplication. The hadith and the du'a are preserved verbatim with transliteration.
+*Source scope:* the closing sections of the epistle. The four matters worthy of the student's actions, and the closing supplication.
 
 ---
 
