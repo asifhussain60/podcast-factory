@@ -77,9 +77,9 @@ Do not. The angle is faithful exposition. If a host wants to flag a difficulty (
 
 ---
 
-=== SOURCE (2929 words, from ch04-four-cautions.txt) — Upload everything below this line to NotebookLM as the single source ===
+=== SOURCE (3446 words, from ch04-four-cautions.txt) — Upload everything below this line to NotebookLM as the single source ===
 
-<!-- ENRICHMENT STATUS: pending. Phase 0e (chapter enrichment per content/podcast/_system/enrichment-sources.md) has not yet been applied to this chapter. The body below is the Phase 0d output — refined English + Arabic phonetic transcription — derived from Ghazali's text alone. -->
+<!-- ENRICHMENT STATUS: applied (2026-05-16). Phase 0e enrichment complete per content/podcast/_system/enrichment-sources.md. Added: Sunan Abu Dawud Hadith 4800 (abandoning argument) at Caution 1; Quran 2:44 (enjoining righteousness while forgetting yourselves) at Caution 2; Quran 11:113 (do not incline toward wrongdoers) at Caution 3; Imam Ali on wealth as a test from Nahj al-Balagha Hikam at Caution 4. Enrichment ratio: ~18% (under the 60% cap). -->
 
 # The Eight Admonitions: Ghazali's Four Cautions
 
@@ -177,6 +177,13 @@ Match speech to capacity. With the third patient, capacity is too low. No respon
 
 One in four is curable. The caution against debate is, in the end, a caution against speaking to the wrong ear. Most who ask, in Ghazali's reading, are not asking.
 
+The Prophet (peace and blessings be upon him) priced the act of stepping back from debate, even when one is in the right:
+
+> I guarantee a house in the outskirts of Paradise for the one who abandons argument even when he is in the right; a house in the middle of Paradise for the one who abandons lying even in jest; and a house in the highest part of Paradise for the one who refines his character.
+> — *(Sunan Abu Dawud, Hadith 4800; classified hasan; narrated by Abu Umamah)*
+
+The architecture of the hadith places character-refinement at the top, lie-abstention next, and right-debate-abandonment at the threshold. The order is the lesson. The seeker who lets the dispute go is already on the lowest staircase of the same building Ghazali is steering the student toward.
+
 ## Movement 2: Caution Two, the reality of preaching
 
 The second caution cuts the same way. Ghazali does not say *preach carefully*. He says do not preach.
@@ -189,6 +196,15 @@ He closes the obvious objection before it can open. The reader is preparing to s
 > O Son of Mary! You [should] admonish yourself (*Nafs*) [first], then if it accepts your advice then give advices to others, otherwise have shame before Me.
 
 Even Jesus is told to admonish himself first.
+
+The Quran asks the same question, with a colder edge:
+
+> A-ta'muruna an-nasa bi-l-birri wa tansawna anfusakum wa antum tatluna al-kitab? A-fa-la ta`qilun?
+> (a-ta-MU-roo-na an-NAA-sa bil-BIR-ri wa tan-SAW-na an-FU-sa-kum wa an-TUM tat-LU-nal-ki-TAAB. a-fa-LAA TAH-qi-LOON.)
+> Do you enjoin righteousness upon people and forget yourselves while you recite the Scripture? Will you not then reason?
+> — *(Quran, Al-Baqarah 2:44)*
+
+The verse is short and unsparing. The preacher who has not first turned the words on himself is rebuked from inside the Book the preacher is quoting. Ghazali's caution against decorated preaching is the Quran's own rebuke pressed against a single pulpit.
 
 ### What to refrain from, if you must preach
 
@@ -247,6 +263,15 @@ The praise does the work. He cites a *Hadith*:
 
 The seeker who wishes the oppressor a long life has prayed for more sin on the earth. The admonition is short because the argument is simple: the presence of power is corrosive; the mouth that praises it is already turned.
 
+The Quran sets the same caution at a single line, with the heaviest consequence behind it:
+
+> Wa la tarkanu ila alladhina zalamu fa-tamassakumu an-nar.
+> (wa LAA tar-KA-noo i-LAA al-la-DHEE-na ZA-la-MOO fa-ta-MAS-sa-ku-mu an-NAAR.)
+> And do not incline toward those who do wrong, lest the Fire touch you.
+> — *(Quran, Hud 11:113)*
+
+The verb the verse uses — *tarkanu*, to incline, to lean — does not require partnership. Mere inclination is enough for the Fire to reach. Ghazali's escalation — do not greet, do not sit with, do not raise an eye — is the same verb refused in three stages.
+
 ## Movement 4: Caution Four, not accepting gifts from rulers
 
 The fourth caution closes the architecture. Having forbidden contact, Ghazali forbids transaction.
@@ -262,6 +287,15 @@ The damage is not from the wealth. The damage is from *the intention over their 
 > The least [minimum] corruption that is born out of this is that you will start to love the oppressors and when a person loves another then he/she prays for a long life for them (the oppressors). If an oppressor has a long life then the oppression will continue longer and there will be more turmoil and corruption in the world and what can be worse than that?
 
 Gift, then love, then prayer for long life, then more oppression. The minimum corruption from accepting a gift is the maximum corruption in the world. The third caution forbade the praise. The fourth forbids the gift because the gift produces the praise.
+
+Imam Ali (AS) named the same dynamic with a brevity that has made the saying durable across the centuries:
+
+> *Al-dunya daru mamarrin, la daru maqarrin, wa-l-nasu fiha rajulan: rajulun ba`a nafsahu fa-awbaqaha, wa rajulun ibtaa nafsahu fa-a`taqaha.*
+> (al-DUN-yaa DAA-ru ma-MAR-rin LAA DAA-ru ma-QAR-rin, wan-NAA-su FEE-haa ra-JU-laan: ra-JU-lun BAA-`a NAF-sa-hu fa-AW-ba-qa-haa, wa ra-JU-lun IB-taa-`a NAF-sa-hu fa-AH-ta-qa-haa.)
+> The world is a place of passage, not a place of residence. People in it are two kinds: a man who sold his soul and so destroyed it, and a man who bought his soul and so freed it.
+> — *(Nahj al-Balagha, Hikam #133; widely transmitted)*
+
+The gift from the ruler, in Ghazali's framing, is one of the prices at which a soul is sold. The transaction looks like enrichment. It is actually the surrender Imam Ali names. The seeker who refuses the gift is, in the same idiom, buying his soul back.
 
 ### The Satanic loophole
 

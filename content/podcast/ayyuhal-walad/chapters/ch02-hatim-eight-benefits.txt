@@ -1,4 +1,4 @@
-<!-- ENRICHMENT STATUS: pending. Phase 0e (chapter enrichment per content/podcast/_system/enrichment-sources.md) has not yet been applied to this chapter. The body below is the Phase 0d output — refined English + Arabic phonetic transcription — derived from Ghazali's text alone. -->
+<!-- ENRICHMENT STATUS: applied (2026-05-16). Phase 0e enrichment complete per content/podcast/_system/enrichment-sources.md. Added: Sahih Muslim Hadith 1631 (three things that follow the corpse) at Benefit 1; Farewell Sermon excerpt on Taqwa over lineage at Benefit 4; Imam Ali on the nafs as greatest enemy at Benefit 6; Sunan al-Tirmidhi Hadith 2344 (the birds and Tawakkul) at Benefit 7; Nahj al-Balagha Hikam #57 (contentment as treasure) at chapter close. Enrichment ratio: ~25% (under the 60% cap). -->
 
 # Hatim bin Ism: Eight Benefits of Thirty-Three Years
 
@@ -33,6 +33,13 @@ The lovers, whether spouse or child or wealth or reputation, turn at the gravesi
 > "I contemplated on this and said to myself that only that is a good beloved who goes with them in the grave and lives with his/her lover, who will provide the company, who will illuminate the grave, who will be a partner on the Day of Judgment and its destinations (stations that one goes through after burial until the Day of Judgment). I saw that the only beloved who has these [good] qualities is my good (pious/righteous) deeds."
 
 Only one beloved descends with the corpse: the corpse's own righteous deeds. So Hatim made righteous deeds his beloved. Shafeeq replied: *"Bravo O Hatim! You have told a very good thing. Now narrate the second benefit."*
+
+The Prophet (peace and blessings be upon him) made the same point in a hadith that became one of the most cited statements on legacy in the Muslim tradition:
+
+> When the son of Adam dies, his deeds come to an end except for three: a continuing charity, beneficial knowledge, or a righteous child who supplicates for him.
+> — *(Sahih Muslim, Book of Wills, Hadith 1631; narrated by Abu Hurayrah)*
+
+Hatim's *righteous deeds* and the Prophet's three named categories are the same answer at different scales. What follows the corpse is what was given outward in life — sustained charity, knowledge that benefits another mind, the prayer of a child raised in love of Allah. The hoarded inward stays in the casket.
 
 ## Movement 2: The second benefit, the front against the lower self
 
@@ -75,6 +82,13 @@ The verse names a single metric. Nobility is *Taqwa* (TAQ-waa; pious reverence, 
 
 The four ways are not different paths to one summit. They are *false and wrong conjectures*. Only the criterion Allah names is real.
 
+The Prophet (peace and blessings be upon him) drove the same metric home in the Farewell Sermon delivered at the Plain of Arafat in 632 CE, the last public address of his life:
+
+> O people! Your Lord is one and your father is one. All of you are from Adam, and Adam was from dust. The most noble of you in the sight of Allah is the one who is most God-conscious. There is no superiority for an Arab over a non-Arab, nor for a non-Arab over an Arab; neither for a white over a black, nor for a black over a white — except by Taqwa.
+> — *(Khutbat al-Wada`, the Farewell Sermon; transmitted through multiple chains in Musnad Ahmad and other canonical collections)*
+
+The verse Hatim cites and the sermon the Prophet delivers are pointing at the same single criterion. Lineage, race, wealth, eloquence, the cup a person was born holding — none of these. Only the trembling awareness of standing before Allah.
+
 ## Movement 5: The fifth benefit, no envy where the distribution is already settled
 
 The fifth pattern is complaint. People complain about each other, Hatim says, driven by envy, jealousy, or enmity over *greatness, grandeur, [material] possessions, wealth, and knowledge*. The man with less envies the man with more. The man with more guards what he has. Both are oriented to the comparative.
@@ -106,6 +120,15 @@ Energy spent fighting people is stolen from the one conflict that matters. The c
 > *'Alam A'had Ilaeykum Ya Bani Aadama Al La Ta'budush Shaytana Innahu Lakum 'Aduwwum Mubeen Wa Ane'buduni Haza Siratum Mustaqeem.'* (a-lam AH-had i-LAY-kum yaa ba-NEE AA-da-ma al-laa taa-bu-dush SHAY-taa-na in-na-hu la-kum a-DOO-wum mu-BEEN wa ah-bu-DOO-nee HAA-zaa si-RAA-tum mus-ta-QEEM)
 > 'Have I not obtained this promise from you that O you the Children of Adam! Never ever obey the Shaytan (Satan). No doubt, he is your avowed (open) enemy and worship Me alone [because] this is the straight path.'
 
+Imam Ali (AS) named the inner front where this enmity is actually decided. The outward *Shaytan* whispers, but the seat from which his whisper is welcomed or refused is the *nafs* itself:
+
+> *A`da `aduwwika nafsuka allati bayna janbayk.*
+> (AH-DAA a-DOO-wi-ka NAF-su-ka al-LA-tee BAY-na jan-BAY-ka.)
+> The most hostile of your enemies is your own self, which lies between your two sides.
+> — *(Attributed to Imam Ali ibn Abi Talib; widely transmitted across Shia and Sufi ethical literature)*
+
+Hatim's outward withdrawal from human enmity is, on Imam Ali's reading, also a withdrawal from the inward field where Shaytan's campaign is fought and won. The two enmities — the outward enemy and the inner accomplice — are partners in the same operation.
+
 ## Movement 7: The seventh benefit, sustenance is already promised
 
 The seventh pattern is the chase after livelihood. Every person is preoccupied with sustenance and works *with intense effort*. In the rush, the man stops distinguishing *Halal* (ha-LAAL; permissible) from *Haram* (ha-RAAM; forbidden), and accepts doubtful and forbidden earnings out of fear of not having enough. The fear is the engine.
@@ -120,6 +143,13 @@ The verse settles who is responsible for the next meal. Not the creature. The Cr
 > "Then I developed the certitude that the Wise Quran is the truth and is correct and that I am also among those living creatures [of God] that are present on earth. So thus, I got engaged in the worship of Allah and developed the certitude that He will bring to me [my] sustenance because He has promised [to provide me with] sustenance."
 
 The shift is from anxiety to *Tawakkul* (ta-WAK-kul; reliance on God), which is the eighth benefit.
+
+The Prophet (peace and blessings be upon him) closed the matter of provision in a hadith Hatim's posture enacts:
+
+> If you were to rely upon Allah with the reliance He is due, He would provide for you as He provides for the birds: they go out hungry in the morning and return full in the evening.
+> — *(Sunan al-Tirmidhi, Hadith 2344; classified hasan sahih; narrated by Umar ibn al-Khattab)*
+
+The bird's morning is the test. It does not stockpile. It does not anxiously chase. It leaves and returns. The hadith is not naive — it does not deny that the bird must still leave the nest to find what it eats. It denies that the leaving has to be done in fear.
 
 ## Movement 8: The eighth benefit, reliance on Allah in every matter
 
@@ -152,3 +182,12 @@ This is the lever for Ghazali's frame. He turns from the vignette to his own stu
 > "My dear beloved son! You [now] know from these traditions that you do not need a lot of knowledge."
 
 The line lands on the same anvil the first chapter ended on. The student does not need more learning; he needs to act on what he has. Hatim acted on eight verses and reshaped a life. Ghazali then turns into the fifth condition of the seeker, the necessity of a *Shaykh al-Kamil* (shaykh al-KAA-mil; the perfected spiritual guide), which opens the next section of the epistle.
+
+Hatim's eight benefits enumerate the chases he has stopped. Imam Ali (AS) names the inner climate that lets a person stop them:
+
+> *Al-qana`atu kanzun la yufna.*
+> (al-qa-NAA-`a-tu KAN-zun LAA YUF-naa.)
+> Contentment is a treasure that does not run out.
+> — *(Nahj al-Balagha, Hikam #57; among the most widely cited of Imam Ali's aphorisms)*
+
+The eight verses Hatim cites are the *outward* discipline. *Qana`a* — contentment — is the *inward* disposition without which the discipline is impossible. The student of Ghazali, the seeker of any tradition, can memorize all eight and remain restless. The benefit is not in the citation. It is in the climate the citation creates inside the chest.

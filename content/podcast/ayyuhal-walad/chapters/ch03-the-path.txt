@@ -1,4 +1,4 @@
-<!-- ENRICHMENT STATUS: pending. Phase 0e (chapter enrichment per content/podcast/_system/enrichment-sources.md) has not yet been applied to this chapter. The body below is the Phase 0d output — refined English + Arabic phonetic transcription — derived from Ghazali's text alone. -->
+<!-- ENRICHMENT STATUS: applied (2026-05-16). Phase 0e enrichment complete per content/podcast/_system/enrichment-sources.md. Added: Holy Du`a Part II reference (chain of guidance) at Movement 1; Sahih al-Bukhari Hadith 13 / Sahih Muslim Hadith 45 ("none of you believes until...") at Movement 3 (Tasawwuf's horizontal axis); Sunan al-Tirmidhi Hadith 2517 (tie your camel) at Tawakkul; Sahih Muslim Hadith 1905 (the three first thrown into Hell) at Ikhlas. Enrichment ratio: ~22% (under the 60% cap). -->
 
 # The Path: Guide, Discipline, and Inner Reality
 
@@ -27,6 +27,8 @@ Ghazali is answering questions the student has put to him in his letter. The str
 Ghazali begins with a warning. The Shaykh (a spiritual guide) one chooses should be *a scholar but every scholar cannot be a Shaykh al-Kamil*, a perfected spiritual guide. The category is narrower than it sounds. Ghazali offers the qualities so that, in his words, *every nut head (crazy) and misguided person could not claim to be a Shaykh*. The qualities are a filter, not a portrait.
 
 The filter has several parts. The guide must have turned his face away from love of the world, love of honor, and love of worldly ranks. He must have given *Bay'a* (BAY-ah), a binding promise to his own perfected guide, who in turn gave it to his guide, in an unbroken chain back to the Messenger of Allah. He must have performed every kind of *Riazat* (ri-YAA-zat) and *Mujahadah* (moo-JAA-ha-dah), the disciplined inner struggles of the seeker. He must eat little, sleep little, pray more than the obligatory five, fast often, and spend in charity. He must carry, in his inner and outer personality, a list of qualities Ghazali names individually: patience, gratitude, certitude, generosity, contentment, trustworthiness, tolerance, seriousness of purpose, humility, obedience, truthfulness, modesty, dignity, tranquility. He must have *acquired a light (illumination) from the lights of Messenger of Allah*, so that miserliness, jealousy, enmity, expectations from the world, anger, and rebellion have been eliminated from him.
+
+The chain Ghazali describes — guide to guide to guide, *Bay`a* unbroken back to the Prophet — is the same chain of guidance the Ismaili community petitions in Part II of its *Holy Du`a*, where the names of the Imams of the line of Hazrat Ali (AS) are recited in sequence as the living continuation of the same authority the Prophet held. The Sunni Sufi *silsila* and the Ismaili *imamate* take very different views of what the chain transmits and how it is preserved, but they share the structural insight Ghazali makes load-bearing here: the seeker does not navigate alone. The path is walked behind someone who walked it behind someone, in a line that the seeker can trace.
 
 The function of the list is to disqualify the impostor. Ghazali names the threat in the same breath:
 
@@ -86,6 +88,15 @@ The parenthetical is sharp. Ghazali is policing his own tradition. The label *Su
 
 Sympathy to creation, in Ghazali's hands, is not sentiment. It is the absence of using other people as instruments. The condition holds, he adds, only if the welfare being pursued is *in accordance with the Shari'ah*. The horizontal axis stays under the discipline of the vertical.
 
+The Prophet (peace and blessings be upon him) set the same horizontal axis as a test of faith itself:
+
+> La yu'minu ahadukum hatta yuhibba li-akhihi ma yuhibbu li-nafsih.
+> (laa yu'-MI-nu a-HA-du-kum HAT-taa yu-HIB-ba li-a-KHEE-hi MAA yu-HIB-bu li-NAF-si-hee.)
+> None of you truly believes until he loves for his brother what he loves for himself.
+> — *(Sahih al-Bukhari, Hadith 13; Sahih Muslim, Hadith 45; narrated by Anas ibn Malik)*
+
+The hadith is one of the most cited in the Sunni tradition; Imam al-Nawawi placed it thirteenth in his *Forty Hadith*. Ghazali's *sympathy and doing good toward all of Allah's creations* is not a soft additive to the law. It is the threshold the law itself does not cross without.
+
 *Tasawwuf*, by this definition, is not robes, not vocabulary, not the company of imitators. It is two practices held together over time.
 
 ## Movement 4: The Four Realities
@@ -104,6 +115,13 @@ Three movements outward to inward: obey the law, accept what comes, give up the 
 
 *Tawakkul* (ta-WAK-kul) is firm belief, both ways. What is destined will arrive against any opposition. What is not destined will not arrive against any effort. The definition does not abolish striving. It abolishes anxiety about the outcome of striving. The reliance is in the certitude, not in the passivity.
 
+The Prophet (peace and blessings be upon him) made the distinction explicit in a brief and famous exchange:
+
+> A man asked: O Messenger of Allah, shall I tie my camel and trust in Allah, or shall I leave her untied and trust in Allah? He said: Tie her, and trust in Allah.
+> — *(Sunan al-Tirmidhi, Hadith 2517; narrated by Anas ibn Malik)*
+
+The camel must still be tied. *Tawakkul* lives in the heart's posture after the tying, not in refusing to tie.
+
 ### Ikhlas
 
 > You have also asked, what is sincerity to God (Ikhlas)? You should know that Ikhlas is that, all of your deeds should be exclusively for the sake of Allah [and His pleasure]. Whatever you do, it should not be for show off (ostentation/Riya). When you do good deeds, your heart should not be inclined towards people [to impress them and to gain their praise]. Your heart should not be pleased at the admirations (praises) of the people, nor should [your heart] be grieved at their complaints [or criticisms].
@@ -115,6 +133,17 @@ Ghazali then names the disease and prescribes its cure:
 > You should know that Riya (show off/ostentation) is born out of people's praises and honors and the cure of [the spiritual disease of] Riya (show off/ostentation) is that you consider the entire universe subservient to the Power (Control) of Allah, the Exalted, and consider all creations [of Allah] equivalent (similar) to the pebbles and stones, you should understand this that stones do not have the power to bring you either grief or comfort. If you consider all creations like this (i.e. like stones and pebbles) then you will get rid of Riya (show off/ostentation). Until you have this belief that the [mortal] creations have power to bring you grief and comfort, then Riya (show off/ostentation) will never get out of your heart.
 
 The image is bracing. Other people are pebbles. Pebbles cannot praise you in any sense that matters. Pebbles cannot wound you in any sense that matters. As long as the seeker imagines that creatures hold power to grant or withhold something, *Riya* (ri-YAA) cannot be uprooted. The cure is metaphysical before it is behavioral.
+
+The Prophet (peace and blessings be upon him) named the stakes of failing this cure in one of the most severe hadith on intention in the Sunni corpus:
+
+> The first to be judged on the Day of Resurrection will be a man martyred in battle. He will be brought forward, made to acknowledge his blessings, and asked: What did you do? He will say: I fought for You until I was killed. Allah will say: You lie. You fought so that it would be said: he is courageous. And it was said. He will be dragged on his face and thrown into the Fire.
+>
+> Then a man who learned knowledge, taught it, and recited the Quran. The same question. He will say: I learned and taught and recited for You. Allah will say: You lie. You learned so it would be said: he is a scholar. And you recited so it would be said: he is a reciter. And it was said. He will be dragged on his face and thrown into the Fire.
+>
+> Then a man whom Allah had made wealthy. The same question. He will say: There is no path on which You love spending in which I did not spend, for Your sake. Allah will say: You lie. You spent so it would be said: he is generous. And it was said. He will be dragged on his face and thrown into the Fire.
+> — *(Sahih Muslim, Hadith 1905; narrated by Abu Hurayrah)*
+
+The three figures cover the full register of Muslim virtue — martial, intellectual, charitable. The diagnosis is the same in each case, and it is exactly Ghazali's: *the heart was pleased at the admirations of the people*. The deed survives. The intent corrodes it.
 
 ### What ties the four together
 
