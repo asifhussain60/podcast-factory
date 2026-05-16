@@ -61,7 +61,7 @@ Do not. The angle is faithful exposition. If a host wants to flag a difficulty (
 
 ---
 
-=== SOURCE (3968 words, from ch01-frame-and-first-counsel.txt) — Upload everything below this line to NotebookLM as the single source ===
+=== SOURCE (3981 words, from ch01-frame-and-first-counsel.txt) — Upload everything below this line to NotebookLM as the single source ===
 
 # Imam Ghazali's Response to the Letter
 
@@ -106,7 +106,7 @@ The Quran sets the same asymmetry into a single question:
 > Hal yastawi alladhina ya`lamuna wa-lladhina la ya`lamun?
 > (HAL yas-TA-wee al-la-DHEE-na YAH-la-MOO-na wal-la-DHEE-na LA yah-la-MOON.)
 > Are those who know equal to those who do not know?
-> *(Quran, Az-Zumar 39:9)*
+> *(Quran, Az-Zumar 39:9; English: Yusuf Ali. Subsequent Quranic English in this chapter follows the same translation.)*
 
 The implicit answer is no. The one who knows is in a different position than the one who does not. Ghazali is pressing his student on which side of that asymmetry the unacted knowledge lands him. Imam Ali (AS) closes the gap with a saying that the Sufi tradition repeats almost as a proverb:
 
