@@ -114,8 +114,17 @@ These paths are off-limits to anything but explicit Cowork action approved by As
 - `content/babu-memoir/chapters/*.txt` — memoir prose. Edits go through the file-first workflow (scratchpad → Challenger gate → finalize). Never edit a chapter file directly without an in-flight workflow.
 - `content/babu-memoir/_system/locked-paragraphs.md` — character-for-character locked text.
 - `content/babu-memoir/_system/journal-workflow-v2.md` — authoritative workflow. Treat as canon.
-- `content/podcast/<book>/episodes/*.txt` — concatenated NotebookLM deliverables. Rebuild via `scripts/podcast/build_episode_txt.py`, do not hand-edit.
+- `content/podcast/<book>/episodes/*.txt` — compiled NotebookLM deliverables. Rebuild via `scripts/podcast/build_episode_txt.py`, do not hand-edit.
 - `framework.md` — governance contract. Update only when the ecosystem actually changes.
+
+## Content Invariants (route validation)
+
+Before routing the `podcast` skill for any `Phase 3: Structure` or `Phase 4: Package` work on a book:
+
+- **`BOOK_DIR/chapters/` must be non-empty.** Episodes cannot exist without source-book chapters. If empty, route to a chapter-population step first (promote per-section raw extracts from `BOOK_DIR/_system/source/text/sections/` into `chapters/chNN-<slug>.txt`).
+- **Episode txt format must be CUSTOMIZE-PROMPT + SOURCE only** (per `content/podcast/_system/notebooklm-best-practices.md`). The build script enforces source word-count bounds [500, 5,500]; flag any out-of-band before approving the bundle.
+
+Cross-checking the invariants is a P0 governance step. A skill that bypasses them is a framework violation; reject and surface to Asif before continuing.
 
 ---
 

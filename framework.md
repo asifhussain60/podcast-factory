@@ -213,9 +213,18 @@ Asif IS Babu. The Babu voice is Asif's elder/wiser self addressing "Asif" (his y
 Canonical writes to `content/` happen via Cowork (Claude Code) only. The site/proxy never writes content state — the proxy is a read-only AI gateway for theme tweaking and voice refinement.
 
 ### 7. Podcast Episode Deliverable
-Per-episode work is authored as a 5–6 file markdown draft under `content/podcast/<book>/_system/episode-drafts/EP##-<slug>/`. The single concatenated `content/podcast/<book>/episodes/EP##-<slug>.txt` is the ONLY artifact uploaded to NotebookLM. It is rebuilt by `scripts/podcast/build_episode_txt.py` on every change to the draft — never hand-edited.
+Per-episode work is authored as a 5–6 file markdown draft under `content/podcast/<book>/_system/episode-drafts/EP##-<slug>/`. The single `content/podcast/<book>/episodes/EP##-<slug>.txt` is the ONLY artifact uploaded to NotebookLM. It is rebuilt by `scripts/podcast/build_episode_txt.py` on every change to the draft — never hand-edited.
 
-### 8. Integration Documentation
+The episode txt contains **exactly two clearly delimited blocks**: the CUSTOMIZE PROMPT (body of `00-framing.md` minus the upload checklist) and the SOURCE (body of `01-source-primary.md`). Key-passages, context-pack, discussion-spine, and show-notes are **authoring-only scaffolds**; they do not appear in the txt because their inclusion would push the source over NotebookLM's word-count ceiling and dilute the listener's focus (anchored to `content/podcast/_system/notebooklm-best-practices.md` §3 and §7).
+
+Source word counts: 1,800–2,800 words is the Default Deep Dive sweet spot; up to 4,500 (Longer Deep Dive) acceptable with rationale; hard refuse outside [500, 5,500].
+
+### 8. Chapters Required Before Episodes (INVARIANT)
+**Episodes cannot exist without source-book chapters.** For every podcasted book, `content/podcast/<book>/chapters/` must contain at least one `.txt` file (one per chapter of the source book) before any episode is built. The `build_episode_txt.py` script enforces this with a hard error. If chapters are missing, promote the per-section raw extracts from `<book>/_system/source/text/sections/` into `<book>/chapters/chNN-<slug>.txt` first.
+
+This invariant keeps the structure honest: episodes are derivative artifacts of a source book, never freestanding NotebookLM bundles.
+
+### 9. Integration Documentation
 Any external API (Anthropic, Cloudflare Access, etc.) gets a corresponding doc in `docs/` covering auth, rate limits, error behavior, operational notes, and Keychain key name.
 
 ---
@@ -237,7 +246,13 @@ If anything from that branch needs to come back, cherry-pick from `archive/full-
 
 - Introduced `content/` tree. `babu-memoir/` and `podcast/<book>/` siblings, each with `_system/` + `chapters/` (+ `episodes/` for podcast only).
 - Memoir refs moved from `reference/` to `content/babu-memoir/_system/`. Memoir scratchpad and snapshots followed.
-- Podcast moved from `podcast/` to `content/podcast/ayyuhal-walad/`. Episode deliverables flattened from 5–6-file folders to single concatenated `EP##.txt` files; the per-section markdown drafts persist under `_system/episode-drafts/`.
-- New script `scripts/podcast/build_episode_txt.py` builds the single-txt deliverable from a draft.
+- Podcast moved from `podcast/` to `content/podcast/ayyuhal-walad/`. Episode deliverables are single `EP##.txt` files; the per-section markdown drafts persist under `_system/episode-drafts/`.
+- New script `scripts/podcast/build_episode_txt.py` builds the single-txt deliverable. It enforces two invariants: source word count ∈ [500, 5,500] (per NotebookLM best practices §3) and `chapters/` non-empty.
 - New script `scripts/site/sync_chapters.sh` mirrors `content/babu-memoir/chapters/` into `site/chapters/` for Cloudflare deploy.
 - `reference/` now holds only repo-wide skill governance: framework, bootstrap, registry, overlays. No memoir content.
+
+### v3.2.1 — episode-txt format + chapters-required invariant (2026-05-16, later)
+
+- **Bug fix:** initial `build_episode_txt.py` concatenated all 5–6 draft files into the deliverable, producing 8K–10K word txts — 2× the NotebookLM 5,500-word ceiling. Rewritten to emit only CUSTOMIZE PROMPT + SOURCE, matching `notebooklm-best-practices.md` §3 / §5 / §7.
+- **Invariant added:** episodes cannot be built unless `<book>/chapters/` is non-empty. `build_episode_txt.py` hard-errors otherwise. Promotes the structural rule "episodes are derivative artifacts of a source book" from documentation into executable enforcement.
+- **Chapters populated** for Ayyuhal Walad: 22 source sections promoted into `content/podcast/ayyuhal-walad/chapters/chNN-<slug>.txt`.

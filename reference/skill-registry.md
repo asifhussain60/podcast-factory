@@ -94,6 +94,7 @@ Per the framework's Section 7 cross-skill coordination contract, the following f
 | 2026-05-16 | (cowork session) | Full ecosystem audit | All non-CORTEX/ADLC skills at PRE-COMPLIANCE; framework v1.0 authored; overlays / compliance docs created; targets recorded above |
 | 2026-05-16 | (cowork session, later) | Podcast redesign | Replaced 16-stage pipeline with lighter NotebookLM source-bundle agent; podcast moved out of CORTEX scope (content-prep skill, quality judged by human); new content workspace at `podcast/` |
 | 2026-05-16 | (cowork session) | Content reorg | Introduced `content/babu-memoir/` and `content/podcast/<book>/` tree. Memoir refs moved from `reference/` to `content/babu-memoir/_system/`. Podcast moved to `content/podcast/ayyuhal-walad/` with single-txt episodes built by `scripts/podcast/build_episode_txt.py`. `reference/` now holds only repo-wide skill governance. File-ownership table updated accordingly. |
+| 2026-05-16 | (cowork session, later) | Episode-txt format + chapters invariant | Bug: initial build script glommed all 5–6 draft files into the deliverable (8K–10K words, 2× NotebookLM ceiling). Rewritten to emit CUSTOMIZE PROMPT + SOURCE only, gated to [500, 5500] words per `notebooklm-best-practices.md`. New invariant enforced: `<book>/chapters/` must be non-empty before any episode is built. Populated 22 chapters for Ayyuhal Walad from source sections. |
 
 Next audit: when any skill's tier is meaningfully updated (overlay merged into plugin SKILL.md, WIP skill graduates, etc.) — record date, auditor, scope, and result.
 
