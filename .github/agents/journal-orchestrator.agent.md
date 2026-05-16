@@ -121,8 +121,12 @@ These paths are off-limits to anything but explicit Cowork action approved by As
 
 Before routing the `podcast` skill for any `Phase 3: Structure` or `Phase 4: Package` work on a book:
 
-- **`BOOK_DIR/chapters/` must be non-empty.** Episodes cannot exist without source-book chapters. If empty, route to a chapter-population step first (promote per-section raw extracts from `BOOK_DIR/_system/source/text/sections/` into `chapters/chNN-<slug>.txt`).
-- **Episode txt format must be CUSTOMIZE-PROMPT + SOURCE only** (per `content/podcast/_system/notebooklm-best-practices.md`). The build script enforces source word-count bounds [500, 5,500]; flag any out-of-band before approving the bundle.
+- **1:1 chapter ↔ episode mapping.** Each `BOOK_DIR/chapters/chNN-<slug>.txt` is the SOURCE of one episode `BOOK_DIR/episodes/EP##-<slug>.txt`. The slug after the prefix is identical on both sides. The chapter file IS the source — there is no `01-source-primary.md`.
+- **`BOOK_DIR/chapters/` must be non-empty.** Episodes cannot exist without source-book chapters. If empty, route to Phase 0 (SKILL.md §1.5) — extract → English refinement → Arabic phonetic pass → chapter design → enrichment — before any episode work.
+- **Chapter (= SOURCE) size:** 1,500-word floor, 2,500–3,500 target, 4,500 ceiling. Hard refuse outside [500, 5,500] (enforced by `build_episode_txt.py`).
+- **Enrichment cap:** outside material (Quran, hadith, Imam Ali / Ahl al-Bayt, Ismaili tradition — whitelist at `content/podcast/_system/enrichment-sources.md`) ≤ 60% of any chapter's word count. The author's argument stays the spine.
+- **Phonetic coverage:** every Arabic transliteration, every Quranic verse, every honorific, every name carries a phonetic guide at first-in-chapter occurrence (Phase 0c).
+- **Episode txt format must be CUSTOMIZE-PROMPT + SOURCE only** (per `content/podcast/_system/notebooklm-best-practices.md`). Other draft files (`02-key-passages.md`, `03-context-pack.md`, `04-discussion-spine.md`, `99-show-notes.md`) are authoring-only scaffolds.
 
 Cross-checking the invariants is a P0 governance step. A skill that bypasses them is a framework violation; reject and surface to Asif before continuing.
 

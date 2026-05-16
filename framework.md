@@ -39,14 +39,14 @@ content/
         │   ├── pronunciation.md    ← active overrides for the series
         │   ├── editorial-notes.md
         │   ├── library-proposals.md
-        │   ├── episode-drafts/     ← per-episode 5–6 markdown source files (authoring scaffold)
+        │   ├── episode-drafts/     ← per-episode authoring scaffolds (NOT the source — see chapters/)
         │   │   └── EP##-<slug>/
-        │   │       ├── 00-framing.md
-        │   │       ├── 01-source-primary.md (+ .scratch.md mirror)
-        │   │       ├── 02-key-passages.md
-        │   │       ├── 03-context-pack.md
-        │   │       ├── 04-discussion-spine.md
-        │   │       └── 99-show-notes.md
+        │   │       ├── 00-framing.md           ← the CUSTOMIZE prompt for NotebookLM
+        │   │       ├── 02-key-passages.md      ← authoring reference; not uploaded
+        │   │       ├── 03-context-pack.md      ← authoring reference; not uploaded
+        │   │       ├── 04-discussion-spine.md  ← authoring reference; not uploaded
+        │   │       ├── 99-show-notes.md        ← authoring reference; not uploaded
+        │   │       └── chapter.scratch.md      ← @@-marker surface mirroring the chapter
         │   ├── scratchpad/         ← series-policies.md + working scratches
         │   └── legacy/             ← superseded pipeline artifacts
         ├── chapters/               ← source-book chapters as plain txt
@@ -213,16 +213,24 @@ Asif IS Babu. The Babu voice is Asif's elder/wiser self addressing "Asif" (his y
 Canonical writes to `content/` happen via Cowork (Claude Code) only. The site/proxy never writes content state — the proxy is a read-only AI gateway for theme tweaking and voice refinement.
 
 ### 7. Podcast Episode Deliverable
-Per-episode work is authored as a 5–6 file markdown draft under `content/podcast/<book>/_system/episode-drafts/EP##-<slug>/`. The single `content/podcast/<book>/episodes/EP##-<slug>.txt` is the ONLY artifact uploaded to NotebookLM. It is rebuilt by `scripts/podcast/build_episode_txt.py` on every change to the draft — never hand-edited.
+Per-episode work is authored as a per-episode draft folder under `content/podcast/<book>/_system/episode-drafts/EP##-<slug>/` containing the customize prompt (`00-framing.md`) and authoring scaffolds (`02-key-passages.md`, `03-context-pack.md`, `04-discussion-spine.md`, `99-show-notes.md`). **The SOURCE of each episode is the matching chapter file at `content/podcast/<book>/chapters/chNN-<slug>.txt`** (strict 1:1 chapter ↔ episode mapping, same slug after the prefix). The single `content/podcast/<book>/episodes/EP##-<slug>.txt` is the ONLY artifact uploaded to NotebookLM. It is rebuilt by `scripts/podcast/build_episode_txt.py` on every change to the draft or the chapter — never hand-edited.
 
-The episode txt contains **exactly two clearly delimited blocks**: the CUSTOMIZE PROMPT (body of `00-framing.md` minus the upload checklist) and the SOURCE (body of `01-source-primary.md`). Key-passages, context-pack, discussion-spine, and show-notes are **authoring-only scaffolds**; they do not appear in the txt because their inclusion would push the source over NotebookLM's word-count ceiling and dilute the listener's focus (anchored to `content/podcast/_system/notebooklm-best-practices.md` §3 and §7).
+The episode txt contains **exactly two clearly delimited blocks**: the CUSTOMIZE PROMPT (body of `00-framing.md` minus the upload checklist) and the SOURCE (body of the matched chapter file). The other draft files are authoring-only scaffolds and do not appear in the txt; their inclusion would push the source over NotebookLM's word-count ceiling and dilute the listener's focus (anchored to `content/podcast/_system/notebooklm-best-practices.md` §3 and §7).
 
-Source word counts: 1,800–2,800 words is the Default Deep Dive sweet spot; up to 4,500 (Longer Deep Dive) acceptable with rationale; hard refuse outside [500, 5,500].
+Chapter (= SOURCE) word counts: floor 1,500; target 2,500–3,500; ceiling 4,500; hard refuse outside [500, 5,500].
 
-### 8. Chapters Required Before Episodes (INVARIANT)
-**Episodes cannot exist without source-book chapters.** For every podcasted book, `content/podcast/<book>/chapters/` must contain at least one `.txt` file (one per chapter of the source book) before any episode is built. The `build_episode_txt.py` script enforces this with a hard error. If chapters are missing, promote the per-section raw extracts from `<book>/_system/source/text/sections/` into `<book>/chapters/chNN-<slug>.txt` first.
+### 8. Chapters: Designed, Enriched, Required (INVARIANT)
+**Episodes cannot exist without enriched source-book chapters.** For every podcasted book, `content/podcast/<book>/chapters/` must contain one `chNN-<slug>.txt` per planned episode (the slug matches the corresponding `EP##-<slug>` draft folder exactly). Chapters are designed via Phase 0 of the podcast skill:
 
-This invariant keeps the structure honest: episodes are derivative artifacts of a source book, never freestanding NotebookLM bundles.
+- **Phase 0a — Source extraction.** OCR / text-layer extract the original PDF into `<book>/_system/source/text/raw-extract.md`, then refine into `normalized.md`.
+- **Phase 0b — English refinement.** Translation quality is fixed; OCR artifacts are cleaned; archaic or awkward phrasing is modernized while preserving meaning and intent.
+- **Phase 0c — Arabic phonetic transcription pass.** Every Arabic transliteration, Quranic verse, hadith line, dua, honorific, and name receives a phonetic guide at first occurrence in the book; the lexicon at `<book>/_system/source/text/_lexicon.md` is the persistent canonical record.
+- **Phase 0d — Chapter design.** The published structure of the source book is a HINT, not a constraint. Chapters are designed by MEANINGFUL THEMATIC SEPARATION and BALANCED SIZE (floor 1,500, target 2,500–3,500, ceiling 4,500; all chapters within ~30% of each other in word count).
+- **Phase 0e — Enrichment.** Each chapter is enriched from the Tier 1–7 whitelist at `content/podcast/_system/enrichment-sources.md` (author's own corpus, Quran, hadith, Imam Ali via *Nahj al-Balagha*, Ismaili tradition, Sufi tradition, modern reference works). Outside material ≤ 60% of any chapter's word count — the author's argument stays the spine.
+- **Phase 0f — Series intake + confirmation gate.** Asif confirms the chapter plan; confirming chapters IS confirming the episode plan under the 1:1 mapping.
+- **Phase 0g — Register the series.** Episode draft folders are scaffolded with slugs matching their chapter slugs.
+
+`build_episode_txt.py` enforces the chapter-exists and chapter-size invariants with hard errors. Episodes are derivative artifacts of an enriched source book, never freestanding NotebookLM bundles.
 
 ### 9. Integration Documentation
 Any external API (Anthropic, Cloudflare Access, etc.) gets a corresponding doc in `docs/` covering auth, rate limits, error behavior, operational notes, and Keychain key name.
@@ -256,3 +264,12 @@ If anything from that branch needs to come back, cherry-pick from `archive/full-
 - **Bug fix:** initial `build_episode_txt.py` concatenated all 5–6 draft files into the deliverable, producing 8K–10K word txts — 2× the NotebookLM 5,500-word ceiling. Rewritten to emit only CUSTOMIZE PROMPT + SOURCE, matching `notebooklm-best-practices.md` §3 / §5 / §7.
 - **Invariant added:** episodes cannot be built unless `<book>/chapters/` is non-empty. `build_episode_txt.py` hard-errors otherwise. Promotes the structural rule "episodes are derivative artifacts of a source book" from documentation into executable enforcement.
 - **Chapters populated** for Ayyuhal Walad: 22 source sections promoted into `content/podcast/ayyuhal-walad/chapters/chNN-<slug>.txt`.
+
+### v3.3 — chapter IS the source + Phase 0 enrichment protocol (2026-05-16, later)
+
+- **Architectural shift:** strict 1:1 chapter ↔ episode mapping. The chapter file under `content/podcast/<book>/chapters/chNN-<slug>.txt` IS the SOURCE block of its episode. Eliminated `01-source-primary.md` from episode-draft folders. Single source of truth; chapter rewrites flow straight to the next episode-txt build.
+- **Phase 0 rewritten:** 0a Source extraction → 0b English refinement → 0c Arabic phonetic transcription pass → 0d Chapter design (meaningful separation, balanced size, content-driven) → 0e Chapter enrichment (Tier 1–7 whitelist; ≤60% outside material) → 0f Series intake + confirmation → 0g Register series.
+- **New canonical reference:** `content/podcast/_system/enrichment-sources.md` — the whitelist of authorized enrichment sources (Author's corpus, Quran, hadith, Imam Ali via *Nahj al-Balagha* and *Ghurar al-Hikam*, Ismaili tradition: Holy Du'a, Ginans, Farmans of the Aga Khans, classical Ismaili philosophers, Sufi tradition near Ghazali, modern reference works) with citation formats and enrichment principles.
+- **Build script call signature changed:** `build_episode_txt.py BOOK_DIR EP##-<slug>`. Reads framing from the draft folder and the SOURCE from the slug-matched chapter file. Slug mismatch is a hard error.
+- **Quality Gate enriched:** 19-step checklist now includes chapter-exists, chapter-size band, enrichment-ratio cap, phonetic-coverage, and chapter-IS-source invariants.
+- **Ayyuhal Walad migration applied:** 22 thin section-extract chapters archived to `content/podcast/ayyuhal-walad/_system/legacy/raw-section-chapters/`. The 5 substantive episode source-primary files promoted into `chapters/ch01-frame-and-first-counsel.txt` through `ch05-method-and-closing-prayer.txt`. EP01 draft folder renamed `EP01-ayyuhal-walad-ch1` → `EP01-frame-and-first-counsel` for slug parity. Each draft folder's `01-source-primary.md` removed; scratchpads renamed to `chapter.scratch.md`. All 5 episodes rebuild cleanly under the new architecture. **Enrichment (Phase 0e) is pending per chapter** — each chapter currently carries an `<!-- ENRICHMENT STATUS: pending -->` header and represents the Phase 0d output only; enrichment from `enrichment-sources.md` is a per-chapter content session driven by Asif.

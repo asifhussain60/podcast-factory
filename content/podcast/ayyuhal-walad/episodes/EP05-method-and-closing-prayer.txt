@@ -76,7 +76,9 @@ Do not. The angle is faithful exposition. The hosts may notice difficulties (for
 
 ---
 
-=== SOURCE (2097 words) — Upload everything below this line to NotebookLM as the single source ===
+=== SOURCE (2137 words, from ch05-method-and-closing-prayer.txt) — Upload everything below this line to NotebookLM as the single source ===
+
+<!-- ENRICHMENT STATUS: pending. Phase 0e (chapter enrichment per content/podcast/_system/enrichment-sources.md) has not yet been applied to this chapter. The body below is the Phase 0d output — refined English + Arabic phonetic transcription — derived from Ghazali's text alone. -->
 
 # The Method of Living and the Closing Prayer
 

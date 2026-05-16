@@ -21,9 +21,13 @@ import sys
 from pathlib import Path
 
 STUB_FILES = {
-    "00-framing.md": "# Framing — Episode {n}: {title}\n\n## Audience\n\n_To be filled in Phase 1._\n\n## Angle\n\n## Host Dynamic\n\n## Central Tensions\n\n## Tone Constraints\n\n## Steering Instructions\n",
-    "01-source-primary.md": "# {title} — [Author]\n\n## Source\n\n- **Author:**\n- **Work:**\n- **Edition/Translator:**\n- **Year:**\n- **Section/Chapter:**\n- **Source path:**\n",
-    "02-key-passages.md": "# Key Passages — {title}\n\n_Verbatim quotes from the source, in source order. Each passage in a blockquote with attribution._\n",
+    "00-framing.md": "# Framing — Episode {n}: {title}\n\n## Audience\n\n_To be filled in Phase 1._\n\n## Angle\n\n## Host Dynamic\n\n## Central Tensions\n\n## Tone Constraints\n\n## Pronunciation Hooks\n\n## Anti-noise Rules\n\n## Steering Instructions\n",
+    # NOTE: There is no 01-source-primary.md. Per SKILL.md §0 (1:1 chapter ↔ episode
+    # mapping), the SOURCE content for an episode IS its matched chapter file at
+    # BOOK_DIR/chapters/ch??-{slug}.txt. The chapter must be authored under Phase 0
+    # (extract → English refinement → Arabic phonetic pass → chapter design →
+    # enrichment) before this draft can compile to an episode txt.
+    "02-key-passages.md": "# Key Passages — {title}\n\n_Verbatim quotes from the chapter (including enrichments), in chapter order. Each passage in a blockquote with attribution. This file is an authoring scaffold and does NOT upload to NotebookLM._\n",
     "03-context-pack.md": "# Context Pack — {title}\n\n## Author\n\n## Tradition\n\n## Historical Moment\n\n## Related Works\n\n## Why Now\n",
     "04-discussion-spine.md": "# Discussion Spine — Episode {n}: {title}\n\n_6–12 beats. Each beat: Key question, Tension, Anchor passage, Landing._\n",
     "99-show-notes.md": "# Show Notes — Episode {n}: {title}\n\n## Blurb\n\n## Listening Time\n\n## Sources\n\n## References Mentioned\n\n## Related Episodes\n",
@@ -96,9 +100,12 @@ def main() -> int:
 
     add_registry_row(registry_path, n, args.title, args.slug, book_slug)
 
+    chapter_expected = book_dir / "chapters" / f"ch{n:02d}-{args.slug}.txt"
     print(f"Scaffolded episode draft folder: {draft_dir}")
+    print(f"Matching chapter (SOURCE) must exist at: {chapter_expected}")
+    print(f"  - If missing, run Phase 0 (SKILL.md §1.5) to author it before compiling.")
     print(f"Final deliverable will be:        {book_dir / 'episodes' / (folder_name + '.txt')}")
-    print(f"  (build with: python3 scripts/podcast/build_episode_txt.py {draft_dir} {book_dir / 'episodes' / (folder_name + '.txt')})")
+    print(f"  (build with: python3 scripts/podcast/build_episode_txt.py {book_dir} {folder_name})")
     print(f"Registry updated:                 {registry_path}")
     return 0
 

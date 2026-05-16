@@ -1,3 +1,5 @@
+<!-- ENRICHMENT STATUS: pending. Phase 0e (chapter enrichment per content/podcast/_system/enrichment-sources.md) has not yet been applied to this chapter. The body below is the Phase 0d output — refined English + Arabic phonetic transcription — derived from Ghazali's text alone. -->
+
 # The Path: Guide, Discipline, and Inner Reality
 
 *From* Ayyuhal Walad (My Dear Beloved Son or Daughter)

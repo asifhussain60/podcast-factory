@@ -71,7 +71,9 @@ Do not. The angle is faithful exposition. If a host wants to flag a difficulty (
 
 ---
 
-=== SOURCE (2299 words) — Upload everything below this line to NotebookLM as the single source ===
+=== SOURCE (2339 words, from ch02-hatim-eight-benefits.txt) — Upload everything below this line to NotebookLM as the single source ===
+
+<!-- ENRICHMENT STATUS: pending. Phase 0e (chapter enrichment per content/podcast/_system/enrichment-sources.md) has not yet been applied to this chapter. The body below is the Phase 0d output — refined English + Arabic phonetic transcription — derived from Ghazali's text alone. -->
 
 # Hatim bin Ism: Eight Benefits of Thirty-Three Years
 
