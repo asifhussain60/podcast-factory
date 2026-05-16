@@ -1,6 +1,6 @@
 ---
 name: podcast
-description: "Podcast source-bundle agent for Asif. ALWAYS invoke when user says 'podcast', '/podcast', '@podcast', 'new episode', 'next episode', 'turn this into a podcast', 'NotebookLM episode', or 'audio overview'. Also trigger for: convert PDF or book to podcast, distill for podcast, two-host source, episode bundle, framing, show notes, registry, spine, beats. Trigger when user uploads a book, PDF, article, transcript, lecture, memoir chapter, or notes AND says 'make this a podcast' or 'I want to listen to this'. Prepares NotebookLM-ready coordinated source bundles (framing, primary source, key passages, context pack, discussion spine, show notes) so the Audio Overview produces a focused two-host conversation. Does NOT generate audio and does NOT write scripts directly. NotebookLM does that work; this skill provides the steering."
+description: "Podcast source-bundle agent for Asif. ALWAYS invoke when user says 'podcast', '/podcast', '@podcast', 'new episode', 'next episode', 'turn this into a podcast', 'NotebookLM episode', or 'audio overview'. Also trigger for: convert PDF or book to podcast, distill for podcast, two-host source, episode bundle, framing, show notes, registry, spine, beats. Trigger when user uploads a book, PDF, article, transcript, lecture, or notes AND says 'make this a podcast' or 'I want to listen to this'. Prepares NotebookLM-ready coordinated source bundles (framing, primary source, key passages, context pack, discussion spine, show notes) so the Audio Overview produces a focused two-host conversation. Does NOT generate audio and does NOT write scripts directly. NotebookLM does that work; this skill provides the steering. BOUNDARY: this skill reads nothing from /journal (chapters/, reference/). Its only outward connection to the journal ecosystem is proposing additions to quotes-library.txt and clinic-library.txt via a staging file."
 ---
 
 # Podcast: NotebookLM Source-Bundle Agent
@@ -39,7 +39,7 @@ Before doing ANY work, read these files in this order:
 2. `SKILL_DIR/references/two-host-framing.md` — default Host A / Host B personas and steering language
 3. `SKILL_DIR/references/source-distillation.md` — how to distill each source type into signal
 4. `SKILL_DIR/references/episode-architecture.md` — discussion-spine shape, opening hook, landing
-5. `/PROJECTS/journal/reference/scratchpad-markers.md`, the canonical `@@` marker vocabulary used for refining `01-source-primary.md` (and any other file under user markup). Authoritative across journal + podcast skills.
+5. `SKILL_DIR/references/scratchpad-markers.md` — the podcast-local `@@` marker vocabulary. This copy is podcast-owned and independent from the journal skill's marker spec.
 6. `PODCAST_DIR/_registry.md` — current episode index, last episode number, any in-progress
 7. `PODCAST_DIR/_README.md` — workspace conventions and upload checklist
 
@@ -148,6 +148,20 @@ When the user invokes the skill again on an episode that already has a marked-up
   5. Strip processed markers from the scratchpad. Keep the legend block and the canonical mirror intact.
   6. Re-open the scratchpad with Read so the next pass starts cleanly.
 
+### Arabic phonetic enforcement (mandatory)
+
+For `01-source-primary.md` and any scratchpad mirror of it, enforce this invariant:
+
+  - Every Arabic transliteration or Arabic-script term must include an inline phonetic guide at first appearance in each section.
+  - If a section contains quoted Arabic transliteration (for Quran, hadith, dua, or named invocations), the quote line must carry a phonetic rendering in parentheses immediately after the transliteration line.
+  - Never leave a transliterated Arabic term without pronunciation support once the section has any pronunciation guidance.
+  - `@@pronounce(term: phonetic)` entries override defaults and must be applied to every matching occurrence in the file on the current pass.
+
+Accepted format:
+
+  - `*Sunnah* (SOON-nah; outward and inward way of life)`
+  - `> Wa ... (wa ... phonetic rendering)`
+
 ============================================================
 SECTION 3: SOURCE TYPOLOGY
 ============================================================
@@ -157,7 +171,7 @@ Each source type has its own distillation pattern. The full patterns live in `SK
   - **Book/PDF chapter** — single chapter from a longer work. Bundle covers ONE chapter per episode. Multiple chapters = multiple episodes.
   - **Full book** — short books only (≤ 200 pages). Long books should be split into chapter or theme episodes.
   - **Article/essay** — standalone piece. Distillation usually fits in `01-source-primary.md` alone; `02-key-passages.md` may be lighter.
-  - **Memoir chapter** — from `/PROJECTS/journal/`. Cross-reference voice fingerprint. The hosts discuss the chapter respectfully; never narrate over Asif's voice.
+  - **Memoir chapter** — treat as a plain text source. Use only the text Asif supplies; do NOT read any journal reference files (voice fingerprint, master-context, etc.). The hosts discuss the chapter as a literary text; they never narrate over Asif's voice. If memoir voice context is needed, ask Asif to provide a plain-language summary directly.
   - **Transcript/lecture** — extract argument structure from spoken-language meander. Discard verbal tics. Preserve speaker attribution.
   - **Asif's notes** — outline-form material. Distillation expands beats into discussable form; we mark anything we expand with `[expanded from note]`.
   - **Multi-source synthesis** — 2–4 sources put in conversation. Each source gets its own `01a-`, `01b-` primary file. `04-discussion-spine.md` carries the synthesis lens.
@@ -211,6 +225,7 @@ Every bundle passes through these loops before Phase 4. They run silently during
   - Filename prefixes ensure intended source order.
   - Total bundle word count is in the ~3,000–15,000 range (NotebookLM works best in this band).
   - No tables of contents, no auto-generated indices — flat structure NotebookLM can parse.
+  - Arabic transliterations are paired with phonetic guides per section before delivery.
 
 **LOOP 3 — TWO-HOST STEERING**
   - Framing names 2–4 specific tensions, not generic themes.
@@ -230,6 +245,12 @@ Every bundle passes through these loops before Phase 4. They run silently during
   - `_registry.md` row added with all columns filled.
   - No orphan files in `episodes/`.
   - Scratch distillation is NOT in the episode folder (lives in `_workspace/` per the workspace scratchpad rule).
+
+**LOOP 6 — PRONUNCIATION COVERAGE**
+  - Scan every section in `01-source-primary.md` for transliterated Arabic terms.
+  - If any term is missing phonetics, add phonetics before declaring the gate passed.
+  - If `@@pronounce` markers exist, verify each override appears in the rewritten canonical output.
+  - Fail the gate if Arabic terms remain without phonetics in a section containing pronunciation guides.
 
 ============================================================
 SECTION 6: OUTPUT RULES
@@ -258,6 +279,7 @@ Before telling Asif a bundle is ready, silently verify:
   5. Does `00-framing.md` name 2–4 specific tensions?
   6. Does `04-discussion-spine.md` have 6–12 beats?
   7. Are filenames numbered correctly so NotebookLM orders sources as intended?
+  8. Does every section that includes Arabic terms also include phonetic transcriptions for those terms?
   8. Is the episode number monotonic from the registry?
   9. Did the registry get updated?
   10. Did the upload checklist make it into `00-framing.md`?
@@ -284,12 +306,34 @@ This skill does not:
 If asked to do any of the above, decline politely and propose the in-scope alternative.
 
 ============================================================
-SECTION 9: CROSS-PROJECT LINKS
+SECTION 9: BOUNDARIES AND THE ONE PERMITTED JOURNAL CONNECTION
 ============================================================
 
-  - **Memoir source** (`/PROJECTS/journal/`): the `/journal` skill governs memoir voice. If a podcast episode uses a memoir chapter as source, READ the memoir voice-fingerprint first and ensure the framing respects it. The hosts discuss the chapter; they never narrate over Asif's voice.
-  - **Babu App** (`/PROJECTS/journal/site/`): future integration may surface generated podcast episodes in the app. Episode registry is the integration point.
-  - **CORTEX governance**: applies to engineering work, not to podcast content prep. No CORTEX overhead on episode bundles.
+### What this skill does NOT touch
+
+  - `reference/` (all journal reference files — voice fingerprint, master-context, memoir rules, incident bank, locked paragraphs, workflow, etc.)
+  - `chapters/` (memoir chapter files)
+  - `scratchpad/` (memoir scratchpads)
+  - Any journal skill file or journal reference document
+
+This skill is self-contained. It reads from `podcast/` and from sources Asif provides. It writes to `podcast/` only.
+
+### The one permitted outward connection
+
+After completing an episode, the podcast skill MAY propose additions to two shared libraries:
+
+  - `reference/quotes-library.txt` — if the episode surfaces a passage strong enough to inform memoir work
+  - `reference/clinic-library.txt` — if the source contains a craft observation relevant to memoir writing
+
+**Protocol:** Write the proposal to `podcast/_workspace/EP##-[slug]/proposed-library-entries.md`. Do NOT write directly to `reference/` files. Asif routes the proposal to the journal skill himself. The proposal file is cleaned up with the workspace after Phase 4 unless Asif wants to keep it.
+
+### Babu App
+
+  - Future integration may surface podcast episodes in the Babu App (`/PROJECTS/journal/site/`). The episode registry is the integration point. No action required from this skill.
+
+### CORTEX governance
+
+  - Applies to engineering work only, not to podcast content prep. No CORTEX overhead on episode bundles.
 
 ============================================================
 SECTION 10: REFERENCE FILE INDEX

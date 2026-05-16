@@ -37,15 +37,15 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const REPO_ROOT = path.resolve(__dirname, "../..");
 
-const MARKER_RE = /@@(\w+)\s*\(([^)]*)\)/g;
+const MARKER_RE = /@@([a-zA-Z][\w-]*)(?:\s*\(([^)]*)\))?/g;
 // 11-verb vocabulary per journal/reference/scratchpad-markers.md.
-// Shared between journal (memoir) and podcast skills.
-// Tier 1 — Local (8): refine, replace, expand, cut, move, merge, rephrase, split, note
-// Tier 2 — Mechanical (1): pronounce — auto-propagates with confirmation
-// Tier 3 — Policy (1): policy — series-wide directive recorded in series-policies.md
+// Journal skill owns 10 verbs. @@pronounce is podcast-only (see
+// skills-staging/podcast/references/scratchpad-markers.md).
+// Tier 1 — Local (9): refine, replace, expand, cut, move, merge, rephrase, split, note
+// Tier 2 — Policy (1): policy — series-wide directive recorded in series-policies.md
 const KNOWN_VERBS = new Set([
   "refine", "replace", "expand", "cut", "move", "note",
-  "merge", "rephrase", "split", "pronounce", "policy",
+  "merge", "rephrase", "split", "policy",
 ]);
 
 async function walk(dir, out = []) {
@@ -80,7 +80,7 @@ async function scanMarkers(paths) {
       results.push({
         file: rel,
         verb,
-        args: h[2].trim(),
+        args: (h[2] || "").trim(),
         known: KNOWN_VERBS.has(verb),
       });
     }
@@ -138,13 +138,11 @@ async function grepIn(files, needle) {
 }
 
 async function main() {
-  // 1. Structural scan — journal (chapters/, chapters/scratchpads/) + podcast (_workspace/podcast/*/scratchpad/)
+  // 1. Structural scan — journal only: chapters/ and chapters/scratchpads/
+  // Podcast scratchpad validation is the podcast skill's own responsibility.
   const chapterPaths = await walk(path.join(REPO_ROOT, "chapters"));
   const scratchpadPaths = await walk(path.join(REPO_ROOT, "chapters/scratchpads"));
-  const podcastScratchpadPaths = await walk(path.join(REPO_ROOT, "_workspace/podcast"));
-  // Filter podcast paths to scratchpad/ subdirectories only (don't validate refined/, _meta/, etc.)
-  const podcastScratchpadOnly = podcastScratchpadPaths.filter((p) => p.includes("/scratchpad/"));
-  const markers = await scanMarkers([...chapterPaths, ...scratchpadPaths, ...podcastScratchpadOnly]);
+  const markers = await scanMarkers([...chapterPaths, ...scratchpadPaths]);
 
   const unknownVerbs = markers.filter((m) => !m.known);
   if (unknownVerbs.length) {
@@ -198,11 +196,9 @@ async function main() {
     }
   }
 
-  // Summary
   console.log(`validate-markers OK`);
   console.log(`  chapters scanned:           ${chapterPaths.length}`);
   console.log(`  memoir scratchpads scanned: ${scratchpadPaths.length}`);
-  console.log(`  podcast scratchpads scanned: ${podcastScratchpadOnly.length}`);
   console.log(`  @@markers found:            ${markers.length} (${new Set(markers.map(m => m.verb)).size} unique verbs)`);
   if (markers.length > 0) {
     const byVerb = markers.reduce((acc, m) => { acc[m.verb] = (acc[m.verb] || 0) + 1; return acc; }, {});
@@ -211,9 +207,8 @@ async function main() {
   console.log(`  migration source:     does not touch chapters/ or reference/`);
   console.log(`  schema.sql:           no memoir tables (operational data only)`);
   console.log(`  .gitignore:           chapters/ + reference/ tracked`);
-  console.log(`\nNote: end-to-end marker drain (synthetic scratchpad → journal skill →`);
-  console.log(`markers stripped) requires the 'journal' skill, which is deferred to`);
-  console.log(`a later Cowork phase. Preservation invariant is proven here.`);
+  console.log(`\nNote: podcast scratchpad validation is the podcast skill's responsibility.`);
+  console.log(`This validator covers memoir (chapters/ + scratchpad/) only.`);
   process.exit(0);
 }
 
