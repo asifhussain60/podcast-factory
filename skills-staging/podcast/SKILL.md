@@ -49,6 +49,78 @@ If `PODCAST_DIR` is missing the registry or README, scaffold it before continuin
   - Create `_README.md` from `SKILL_DIR/references/workspace-readme-template.md`
 
 ============================================================
+SECTION 1.5: PDF / LONG-SOURCE INGESTION PROTOCOL (PHASE 0)
+============================================================
+
+**Trigger**: any source that is (a) a PDF, (b) longer than a single chapter, or (c) a multi-section work where the user has not pre-named one chapter to focus on.
+
+A PDF must never produce a single episode by default. A 30-page PDF with a table of contents is a *series*, not an episode. Phase 0 below converts the document into a designated source-text folder and a confirmed episode plan BEFORE any bundle is written. Skipping Phase 0 is the failure mode that produces a one-episode workspace for a multi-chapter book.
+
+### PHASE 0a: SOURCE EXTRACTION → PERSISTENT TEXT FOLDER
+
+Designated folder: `PODCAST_DIR/_workspace/[source-slug]/00-source-text/`
+
+The slug is derived from the source title (kebab-case, ≤ 40 chars). This folder is the persistent home for the cleaned source text — it is NOT cleaned up after Phase 4, because every episode in the series reads from it.
+
+Files produced in this phase:
+
+  - `raw-extract.md` — verbatim text extraction. For PDFs with a text layer, use the text layer; for image-only PDFs, run OCR (Tesseract via `ocrmypdf` or equivalent). Page breaks marked with `<!-- page N -->`.
+  - `normalized.md` — LLM-corrected version of the raw extract. Corrections allowed: rejoin hyphenated line breaks, remove repeated headers/footers, restore paragraph reflow, normalize transliterations using the lexicon, fix obvious OCR character substitutions (rn→m, l→I, 0→O where the surrounding word makes it clear). Corrections NOT allowed: paraphrasing, removing content, "improving" prose, modernizing terminology.
+  - `_lexicon.md` — running list of proper nouns, transliterated terms, technical terminology with the agreed spelling and (where applicable) phonetic guide. Built incrementally as Phase 0b progresses; consulted by every episode bundle that follows.
+  - `_extraction-notes.md` — anything uncertain: low-confidence OCR spans, illegible passages, footnote vs body text ambiguity, translator brackets that were preserved vs collapsed. This file is the audit trail; nothing gets silently smoothed.
+
+Rules:
+  - If `raw-extract.md` already exists from a prior run, do NOT re-extract. Read it and continue.
+  - Never overwrite `normalized.md` silently. If re-correcting, write `normalized.v2.md` and reconcile.
+  - If the PDF has neither a text layer nor scanned pages (e.g., it's an encrypted form), stop and ask Asif for an alternate source.
+
+### PHASE 0b: CHAPTER / SECTION INVENTORY
+
+Goal: produce a ground-truth inventory of every detected chapter/section in the source, with source coordinates.
+
+Method:
+  1. Detect a table of contents if one exists. The TOC is a hypothesis, not the truth — pages drift, sections get inlined.
+  2. Walk `normalized.md` heading-by-heading. Every chapter heading (or section break in a TOC-less work) becomes an inventory row.
+  3. For each detected section: assign a number (monotonic, zero-padded), a kebab-case slug, the source page span if known, and the word count.
+  4. Write `00-source-text/inventory.yml` with one row per detected section.
+  5. For each section, write a per-section raw extract to `00-source-text/sections/section-NN-[slug].raw.md`. These are the inputs to per-episode distillation.
+
+Trap to avoid: trusting the TOC blindly. Verify each entry against the body. A TOC entry that turns out to be one paragraph inside another section is folded into that section, not promoted to its own bundle.
+
+### PHASE 0c: EPISODE SEGMENTATION PLAN
+
+Goal: group the raw inventory into a coherent series of episode-sized bundles.
+
+Method:
+  1. Read `inventory.yml`. Compute the total source word count.
+  2. Apply the geometry constraint: each episode bundle targets **1,800–2,800 refined words** of `01-source-primary.md` (which corresponds roughly to a 10–15 min Audio Overview). Bundles outside this band produce weak overviews — short bundles ramble, long bundles cut signal.
+  3. Group adjacent sections that share a theme. Split single sections that exceed 3,000 words.
+  4. Aim for **5–9 episodes** for a typical short book; longer works may justify more. A series of 1 from a multi-chapter source is wrong unless the user explicitly asked for it.
+  5. Write `00-source-text/segments.yml` with one row per planned episode: `episode_number`, `slug`, `title`, `theme` (1 sentence), `source_sections` (list of section numbers from inventory), `source_word_count`, `target_word_count_refined`.
+  6. Write `00-source-text/segmentation-rationale.md` explaining any non-obvious grouping decisions (why two sections were merged, why one was split).
+
+### PHASE 0d: SERIES-LEVEL INTAKE + CONFIRMATION GATE
+
+Before generating any bundle, ask Asif ONE consolidated round of intake questions (covering the whole series, not per-episode):
+
+  - Audience (covers all episodes unless he flags per-episode overrides)
+  - Angle (faithful exposition / critical / personal application / etc.)
+  - Host dynamic
+  - Length target (per episode)
+  - Confirmation of the segments.yml plan — present the episode list with titles and source coverage; offer a one-line preview of each. Asif can accept, reorder, merge, or split.
+
+This is the SINGLE confirmation gate for the whole series. Once the plan is confirmed, all bundles are generated end-to-end without further per-episode confirmation.
+
+If the source is a single chapter or article (not a PDF, not multi-chapter), skip Phase 0 entirely and go straight to Phase 1.
+
+### PHASE 0e: REGISTER THE SERIES
+
+  1. Reserve a contiguous block of episode numbers in `_registry.md` (one row per planned episode, status `draft`, all pointing to the same source slug).
+  2. Each episode folder is `EP##-[source-slug]-[episode-slug]` if the episode slug differs from the source slug; otherwise `EP##-[episode-slug]`.
+
+After Phase 0e, every planned episode runs Phases 1–4 below. Phase 1 intake for each episode is shortcut: most fields are inherited from the series intake; only per-episode overrides are surfaced. Phases 2–4 run normally per episode.
+
+============================================================
 SECTION 2: EPISODE WORKFLOW — PRIMARY MODE
 ============================================================
 
@@ -86,6 +158,8 @@ Rules:
 ### PHASE 2: DISTILL
 
 Goal: extract the spine of the source into signal Claude can shape.
+
+For multi-episode series, distillation works from `_workspace/[source-slug]/00-source-text/sections/section-NN-*.raw.md` (the per-section extracts produced in Phase 0b), grouped per the segments.yml plan. The lexicon is consulted; new terms are added to it as encountered.
 
 Distillation produces a working document (kept in scratch — NEVER in the episode folder until Phase 3):
   - **Core thesis** (1–2 sentences): what is this source actually saying?
@@ -168,8 +242,8 @@ SECTION 3: SOURCE TYPOLOGY
 
 Each source type has its own distillation pattern. The full patterns live in `SKILL_DIR/references/source-distillation.md`. Quick reference:
 
-  - **Book/PDF chapter** — single chapter from a longer work. Bundle covers ONE chapter per episode. Multiple chapters = multiple episodes.
-  - **Full book** — short books only (≤ 200 pages). Long books should be split into chapter or theme episodes.
+  - **Book/PDF chapter** — single chapter from a longer work. Bundle covers ONE chapter per episode. Multiple chapters = multiple episodes. **A multi-chapter PDF is a series, never a single episode — run Phase 0 first.**
+  - **Full book** — short books only (≤ 200 pages). Long books should be split into chapter or theme episodes via Phase 0c segmentation.
   - **Article/essay** — standalone piece. Distillation usually fits in `01-source-primary.md` alone; `02-key-passages.md` may be lighter.
   - **Memoir chapter** — treat as a plain text source. Use only the text Asif supplies; do NOT read any journal reference files (voice fingerprint, master-context, etc.). The hosts discuss the chapter as a literary text; they never narrate over Asif's voice. If memoir voice context is needed, ask Asif to provide a plain-language summary directly.
   - **Transcript/lecture** — extract argument structure from spoken-language meander. Discard verbal tics. Preserve speaker attribution.
@@ -351,7 +425,8 @@ SECTION 10: REFERENCE FILE INDEX
   - `_registry.md` — episode index (number, title, slug, status, NotebookLM URL)
   - `episodes/EP##-[slug]/` — one folder per episode (see Section 2.3 for files)
   - `_archive/` — retired episodes
-  - `_workspace/EP##-[slug]/` — scratch distillation, cleaned after Phase 4
+  - `_workspace/EP##-[slug]/` — per-episode scratch (scratchpad mirror persists; other distillation cleaned after Phase 4)
+  - `_workspace/[source-slug]/00-source-text/` — persistent cleaned source for multi-episode series (raw-extract, normalized, lexicon, inventory, segments). Persists for the life of the series.
 
 ### Scripts (SKILL_DIR/scripts/):
   - `new_episode.py` — scaffolds a new episode folder with the file template + opens registry for the new row

@@ -1,0 +1,84 @@
+# EP05 Framing: Ayyuhal Walad, The Method of Living and the Closing Prayer
+
+## What this is
+
+This is the customize prompt for NotebookLM's Audio Overview, plus the host steering for the two-host conversation. The hosts are speaking about the closing portion of *Ayyuhal Walad* (My Dear Beloved Son or Daughter), Imam Abu Hamid al-Ghazali's short epistle written near the end of his life. This is the **final episode of the series**. In it, Ghazali names the four practical methods his student must live by, and he ends the letter with a single supplication that the student can recite for the rest of his days. The closing prayer is the artifact the student takes from the entire letter.
+
+## The completion the listener is hearing
+
+The original student wrote to Ghazali asking for two things in particular. First, a supplication he could always recite. Second, a piece of advice he could always act on. The four matters in this episode are the daily-conduct prescription. The closing du'a (du-AAH) is the prayer. Both halves of the student's request are answered, in this short section, at the same time. The episode is the end of the letter and the end of the series.
+
+## Audience
+
+General thoughtful adult. Not a specialist in Sufism, not necessarily Muslim, but someone willing to take a classical religious text on its own terms. The listener may not have heard the earlier episodes. Gloss terms like *Tawakkul* (ta-WAK-kul; reliance on God), *Du'a* (du-AAH; supplication), *Fard Kifaya* (fard ki-FAA-yah; communal obligation) on first use; do not re-gloss.
+
+## Angle
+
+Faithful exposition. The hosts treat Ghazali's prescription as it is given. They do not modernize the four matters into productivity tips. They do not reduce the du'a to a wellness invocation. They let the supplication breathe; it is the text Ghazali himself leaves on the table.
+
+## Central tensions to reach
+
+1. **The student's two requests, answered together.** The student asked for daily-action advice and for a daily prayer. Ghazali, near the end of the letter, gives both. The four matters are the action. The du'a is the prayer. The hosts should make this connection explicit, ideally early.
+
+2. **Why "do not stockpile food" sits beside "relate intimately to God."** The four matters are not a graded hierarchy from spiritual to mundane. They are a single ethic of daily life. The pantry and the heart are governed by the same posture. The hosts should not laugh at the inclusion of the food rule; they should hold it as Ghazali holds it.
+
+3. **Du'a as communion, not request.** In the Islamic tradition the supplication is not primarily a list of wants delivered to a vending-machine God. It is the act of standing before Allah. The closing du'a names many things asked for, several things refused, and ends in pure address: *O Allah, O Allah, O Allah*. The hosts should let the listener feel the shift from petition into pure invocation.
+
+4. **The letter ends, and now what?** Ghazali says, *In this book, I have answered all of your questions. Now you should gather courage and act on all of them and do not forget me in your supplications.* The student receives the letter. The teacher disappears from the room. The question lands on the listener, who is now in the student's seat.
+
+## Host dynamic
+
+**Host A, Curious Mind.** Asks plainly: why these four matters and not others? Why is *not stockpiling food* in the same list as how to treat people? What does it feel like to recite a long supplication after every prayer? Warm, unguarded. Does not perform surprise.
+
+**Host B, Scholar Companion.** Holds the historical and tradition-context grounding. Explains the genre of advice-for-daily-life in Ghazali's writing, the role of du'a in Islamic spirituality, the difference between *Du'a* (du-AAH) and what a Western listener might call *prayer of request*. Never lectures. When the text says something hard, Host B does not soften it.
+
+## Tone constraints
+
+- No cheerful filler. This is the close of a letter the student will carry for the rest of his life. The hosts should feel the weight of an ending.
+- No reducing the du'a to keywords. When the supplication is read, let it be read. The listener should hear it.
+- No summary-of-summary. The earlier episodes already summarized Ghazali's diagnosis. This episode lives in the prescription.
+- Use Ghazali's own words. The du'a must be read verbatim. The four matters carry their own clean prose; do not paraphrase them away.
+- End on a question, not a conclusion. The letter ends pointing at the student. The hosts should land in the same posture.
+
+## Permission to disagree
+
+Do not. The angle is faithful exposition. The hosts may notice difficulties (for example, *what would not stockpiling food mean for a modern family?*) and hold them as honest questions, not counter-arguments.
+
+## Pronunciation
+
+- *Ayyuhal Walad*: Eye-yoo-hal Wah-lad
+- *Du'a*: Du-aah
+- *Tawakkul*: Ta-wak-kul
+- *Fard Kifaya*: Fard Ki-faa-yah
+- *Tawfeeq*: Taw-feeq
+- *Sahah Sitta*: Sa-hah Sit-tah
+- *Ahl al-Bayt*: Ahl al-Bayt
+- *Azwaj al-Mutahharat*: Az-waaj al-Mu-tah-ha-raat
+- *Ummahatil Mu'mineen*: Um-ma-haa-til Mu-mi-neen
+- *Aisha Siddiqa*: Aa-i-sha Sid-dee-qa
+- *Ahya al-Uloom ad-Deen*: Ih-yaa al-oo-loom ad-deen
+- *Ya Aziz*: Yaa A-zeez
+- *Ya Ghaffar*: Yaa Ghaf-faar
+- *Ya Kareem*: Yaa Ka-reem
+- *Ya Sattar*: Yaa Sat-taar
+- *Ya Haleem*: Yaa Ha-leem
+- *Ya Jabbar*: Yaa Jab-baar
+- *Ya Azeem*: Yaa A-zeem
+- *Ya Qahhar*: Yaa Qah-haar
+- *Ya Rahman*: Yaa Rah-maan
+- *Ya Raheem*: Yaa Ra-heem
+- *Ya Arhum ur-Rahimeen*: Yaa Ar-hum ur-Ra-hi-meen
+- *Rabb ul-Alameen*: Rab-bul Aa-la-meen
+- *Al-Malik*: Al-Ma-lik
+- *Al-Wahhab*: Al-Wah-haab
+
+---
+
+## Upload checklist
+
+1. Open https://notebooklm.google.com and create a new notebook. Name it `EP05: Ayyuhal Walad, The Method of Living and the Closing Prayer`.
+2. Add sources in this order: `00-framing.md`, `01-source-primary.md`, `02-key-passages.md`, `03-context-pack.md`, `04-discussion-spine.md`.
+3. Click *Audio Overview*, then *Customize*. Paste the entire body of this file (everything above this checklist) into the customize prompt box.
+4. Click *Generate*. Wait three to five minutes.
+5. Listen end-to-end. If strong, download the MP3 from the player menu and paste the notebook URL into `_registry.md`.
+6. If weak, re-read `04-discussion-spine.md` and the *central tensions* section above. The bundle is the bottleneck, not NotebookLM.

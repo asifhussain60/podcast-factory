@@ -1,0 +1,207 @@
+# The Eight Admonitions: Ghazali's Four Cautions
+
+*From* Ayyuhal Walad (My Dear Beloved Son or Daughter)
+*Author:* Imam Abu Hamid Muhammad al-Ghazali (1058 to 1111 CE)
+*Translator:* Irfan Hasan (English from Urdu, Arabic transliterations preserved)
+*Source scope:* sections 12 through 16, the first half of the Eight Admonitions, in which Ghazali names the four things the seeker must refuse.
+
+This file is a refined presentation of the section, organized by argumentative movement. Verbatim quotes are preserved in blockquotes with original transliteration. Nothing has been added that is not in the source.
+
+---
+
+## The frame
+
+This section sits late in *Ayyuhal Walad*. The student has received the diagnosis (knowledge without action is *madness*), the eight benefits of Hatim, and the inner architecture of the path. Now Ghazali turns from what the seeker must *do* to what he must *not do*:
+
+> Among these [eight admonitions], you have to do four of them and you do not do four of them so that your knowledge does not become your enemy on the Day of Judgment. First, those four things will be mentioned that you should not do.
+
+*So that your knowledge does not become your enemy.* The four refusals are the negative space of the life of the path. They are what *not* doing protects the inner work. Debate. Preaching. The company of rulers. Their gifts.
+
+## Movement 1: Caution One, the principles of debate
+
+Ghazali opens severely. He does not say *be careful in religious debate*. He says do not enter into it.
+
+> Firstly, as much as it's possible you should not have [religious] debates with everyone and do not argue with anyone on any [religious or non-religious] issue because there are many [hidden] calamities (harms) in it and has more harms than benefits.
+
+Then he names what debate breeds. Seven evils, and the length of the list is the point:
+
+> This work (debates and arguments) is the fountainhead (source) of all evil things such as ostentation (show off/ *Riya* (ree-yaa)), jealousy, arrogance, resentment, enmity, pride, egoism, etc.
+
+These are the inner diseases the entire treatise has been working against. Debate is the spring from which they return.
+
+### The two tests of right intention
+
+Ghazali concedes a narrow ground. If the intention is truth, the intention can in principle be correct. He gives two tests.
+
+The first:
+
+> First [indication] is that, if truth is revealed from either your tongue or from the tongue of the opponent, it makes no difference to you. In other words, you are satisfied (content) in both cases that the truth has been revealed.
+
+The seeker who wants the truth does not care whose mouth it comes from. If he is relieved when *he* turns out to be right, his intention was not truth. It was vindication.
+
+The second:
+
+> Second indication [of your right intention] is that you consider it better to argue on this [issue with your opponent] in solitude [and not in front of an audience].
+
+The audience is the tell. A debate that requires witnesses is for the witnesses, not for the matter.
+
+And then the practical instruction. Even when you are certain you are right:
+
+> But if you argue [or debate] on an issue and if you are certain that you are correct and the opponent is only arguing [for the sake of arguing] then you beware and do not argue with him/her and end your discussion right at that point otherwise grudges [and resentments] will born out of this and no benefit [whatsoever] will be achieved.
+
+The grudge that prolonging the argument births is heavier than the rightness.
+
+### The patient and the doctor
+
+Ghazali then offers a metaphor that authorizes pastoral triage. Asking religious questions is like narrating heart-diseases to a doctor of the heart. Ignorant people are patients. True scholars are doctors. The imperfect scholar cannot cure. The *Shaykh al-Kamil* (shaykh al-KAA-mil), the perfected scholar, can. And:
+
+> To be indulged in curing an incurable disease like this is equivalent to wasting time.
+
+This sets up the four categories of patient that follow, and authorizes the seeker to walk away from three of the four.
+
+### Four categories of patient
+
+**First, the jealous questioner.** Asks not to learn but to object out of envy.
+
+> Jealousy is such a lethal disease that has no cure. Just understand that whatever answer you will give, no matter how good it is, he/she will consider you an enemy and his/her fire of envy and jealousy will be further ignited. Therefore, it's better to not respond to this person.
+
+He drives it with a couplet:
+
+> *Kullul 'Adawati Qad Turja Izalatuha Illa 'Adawata Mun 'Aadaka Min Hasadin.*
+> Every kind of animosity can be rectified (corrected) but the animosity born out of jealousy is not possible to be rectified.
+
+And a Quranic verse that authorizes walking away:
+
+> *Fa 'AaRid 'Um Mun Tawalla 'Un Zikrina Walam Yurid Illal Hayatad Dunya.*
+> So stay away from the individual who [because of jealousy] turns his/her face away from Our remembrance and desires nothing but [the pleasures of] the life of the world.
+
+**Second, the foolish questioner.** Has not learned, and objects to those who have. Ghazali quotes Prophet *'Isa* (Jesus, peace be upon him):
+
+> I am [with the Permission of God] not incapable of bringing dead to life but I am incapable of curing the fools and the ignorant folks.
+
+Raising the dead is easier than curing the foolish. No response.
+
+**Third, the restless and impatient questioner.** Hears the words of the spiritually elevated and bends them to his own preferences. *Understands it according to his/her own interest.* Mindless. The Prophet:
+
+> *Nahnu Ma'aashirul Anbiyaee Umirna Un Natakallamun Nasa 'Ala Qadre 'Uuqulihim.*
+> Our group of prophets have been ordered [by Allah] to talk to the people according to their minds (i.e. mental capacities/understandings).
+
+Match speech to capacity. With the third patient, capacity is too low. No response.
+
+**Fourth, the curable patient.** Seeking the *Sirat al-Mustaqeem* (see-RAAT al-mus-ta-QEEM), the path of guidance. Obedient, sharp, intelligent. Without anger, *Nafs* (nafs)-following, jealousy, or desire for wealth and fame.
+
+> This type of person is that patient who can be cured. Therefore, to answer the questions of this person is not just legitimate but it's obligatory (*Wajib* (waa-jib)).
+
+One in four is curable. The caution against debate is, in the end, a caution against speaking to the wrong ear. Most who ask, in Ghazali's reading, are not asking.
+
+## Movement 2: Caution Two, the reality of preaching
+
+The second caution cuts the same way. Ghazali does not say *preach carefully*. He says do not preach.
+
+> You are being admonished that you refrain from preaching and making speeches because there are great calamities and harms in it.
+
+He closes the obvious objection before it can open. The reader is preparing to say *but I act on what I preach.* Ghazali answers with a divine word reported to Prophet *'Isa*:
+
+> *Ya Ibna Maryama A'azee Nafsaka Fa In At-ta'azta Fa Izin Nasa Fustahyee Minni.*
+> O Son of Mary! You [should] admonish yourself (*Nafs*) [first], then if it accepts your advice then give advices to others, otherwise have shame before Me.
+
+Even Jesus is told to admonish himself first.
+
+### What to refrain from, if you must preach
+
+**First, no decoration.**
+
+> Firstly, in your sermon refrain from colorful narrations, gestures and signs (secretive language), flowery and decorated language, pleasing poetry, illegal talk that is against the *Shari'ah* (sha-REE-ah) (Divine laws), and lies of [fake] Sufis (spiritually elevated individuals). It is because Allah, the Exalted, does not like those who are pretentious (showy).
+
+A preacher who decorates is a preacher whose heart is heedless. The decoration is the diagnosis.
+
+The sermon's actual purpose is to bring the listener inside the reality of the hereafter: the punishment, regret over wasted time, the *Malik ul-Maut* (Maa-lik ul-Mawt, the Angel of Death), the questioning by *Munkir Nakeer* (Mun-kir Na-keer), the field of *Hashr* (hashr), the weighing of actions in the *Mizaan* (mee-zaan), and the crossing of the bridge of *Sirat* (see-raat), *thinner than a hair and sharper than a sword*.
+
+### The flood image
+
+Then Ghazali gives the image that does most of the work. Imagine flood water has reached the door of a house. Within seconds it will engulf the house and drown the children inside. The owner will scream into the rooms: *Al-Hazr Al-Hazr.* Beware! Beware! Run quickly! Flood water has arrived!
+
+> In a horrific time like this, the owner of the house will never mention the flood in colorful sentences, gestures and signs (secretive language), flowery and decorated language, or in an embellished colorful poetry. The example of the sermon should be like this.
+
+The sermon is the flood warning. A father warning his children does not write a poem. A preacher who writes a poem about Hell is not warning anyone. He is performing.
+
+**Second, no thoughts of applause.**
+
+> Secondly, while giving sermons (religious talks or preaching), one should not allow such thoughts to enter into one's heart that after listening to his/her sermon people will shout slogans of praise, become ecstatic, tear their clothes, raise a loud uproar in the gathering, and audience will start saying that the gathering was very good and that so-and-so gave a very good sermon.
+
+That is *Riya*. To want it is to lack intelligence. The true intention is enumerated as a series of summons: *from* this world *to* the next, *from* sin to servitude, *from* greed to detachment, *from* miserliness to generosity, *from* *Riya* to *Ikhlas* (ikh-laas, sincerity), *from* arrogance to humility, *from* heedlessness to consciousness, *from* pride to piety.
+
+### The preacher as Satan
+
+The section closes with the strongest sentence. A preacher who decorates, who performs for applause, who does not deliver the flood warning, is not, in Ghazali's reading, a misguided preacher. He is *Shaytan* (shay-taan):
+
+> This type of a person is a *Shaytan* (Satan) [who after becoming a slave of his/her degraded lower self, thinks that he/she will display his/her abilities in the sermon and will obtain the fame and grandeur of the world]. This *Shaytan* (Satan) misguides creations [of God] from the path of true guidance, sheds their blood, and involves them in an eternal destruction.
+
+And the practical injunction that follows is the severest in this part of the letter:
+
+> The person who has the power to get such preacher off the pulpit (*Minbar* (min-bar)), it is obligatory (*Wajib*) on him to get such people deliberately removed from the pulpit and to stop them from giving sermons.
+
+The community has an obligation to remove the showy preacher from the *Minbar*. The decorated sermon is a *Fasad* (fa-saad) in religion that Ghazali says is not even spread by *Shaytan* himself. It is spread by his apprentice on the pulpit.
+
+## Movement 3: Caution Three, staying away from rulers
+
+The third caution is the shortest and the severest in tone. Three behaviors, forbidden in escalating order:
+
+> Third [admonition about things you should avoid] is that you should not [even] greet any king, any affluent, or any ruler and stay away from their proximity (company) and gatherings and more than that you should not even lift an eye to look at them.
+
+Do not greet them. Do not sit with them. Do not even raise an eye toward them. The escalation is the argument. The eye that lingers on power is already infected.
+
+> Because, in seeing them and in keeping their company, has many calamities hidden in them.
+
+And even when contact is unavoidable, he closes the door on the natural response:
+
+> But if ever you happen to be in their company by any chance, then refrain from praising them.
+
+The praise does the work. He cites a *Hadith*:
+
+> *Fa InnAllaha Yaghdib Iza Mudihal Faasiqu Waz Zalimu Wa Iza Madaha Wa Mun Da'aa Li Zalimin Bitoolil Baqaaii Faqad Ahabba Aye Ya'siyAllahu Fil Arde.*
+> Verily, Allah, the Exalted, is angry when any transgressor (*Fasiq* (faa-siq)) and an oppressor (*Zalim* (zaa-lim)) is praised and the one who prays for a long life for an oppressor, is as if he/she has liked that he/she walks on earth as a sinner.
+
+The seeker who wishes the oppressor a long life has prayed for more sin on the earth. The admonition is short because the argument is simple: the presence of power is corrosive; the mouth that praises it is already turned.
+
+## Movement 4: Caution Four, not accepting gifts from rulers
+
+The fourth caution closes the architecture. Having forbidden contact, Ghazali forbids transaction.
+
+> Fourth [admonition about things you should avoid] is that you should not accept any gifts from rulers even though you know that what they are giving is from *Halal* (ha-laal, legal/permissible) sources.
+
+Even if the wealth is legal. Even if acquired justly. The seeker still refuses.
+
+> The reason for this is that to have an intention over their possessions causes great damage and turmoil in the *Deen* (deen, the path to God/religion).
+
+The damage is not from the wealth. The damage is from *the intention over their possessions*. The mechanism follows:
+
+> The least [minimum] corruption that is born out of this is that you will start to love the oppressors and when a person loves another then he/she prays for a long life for them (the oppressors). If an oppressor has a long life then the oppression will continue longer and there will be more turmoil and corruption in the world and what can be worse than that?
+
+Gift, then love, then prayer for long life, then more oppression. The minimum corruption from accepting a gift is the maximum corruption in the world. The third caution forbade the praise. The fourth forbids the gift because the gift produces the praise.
+
+### The Satanic loophole
+
+Then Ghazali turns to the loophole the seeker will invent. *I will take the gift and redistribute it to the poor.* Ghazali names this thought as *Shaytan*'s:
+
+> Beware! Beware! *Shaytan* (Satan) will misguide you and will create this thought in your heart, "First thing you should do is that take the money from these rulers and then distribute it among the indigents (poor) and cause them some comfort and fulfill their needs". Beware! Never accept this kind of advice from any *Shaytan* (Satan) either from among the Jinns (an invisible creation of God who, if inclined towards evil, become Satan's recruits in causing harm to the human beings by inciting them to evil) or from among the humans, and do not get trapped in their machinations (plots/conspiracies) to get deceived by them because Satan has spilled the blood of many using this strategy and still continues to spill blood.
+
+The double *Beware! Beware!* is doing the work. The thought sounds noble. It is the strategy. Satan has used the charitable redistribution argument, in Ghazali's reading, to spill the blood of many.
+
+Ghazali closes by pointing the student to the longer treatment in his larger work:
+
+> There are so many calamities embedded (hidden) within this fact that we have explained in our book "*Ahya al-Uloom ad-Deen*" (ih-YAA al-oo-LOOM ad-Deen, Revival of the Knowledge of the Path to God). You can search (find) them there.
+
+The full argument is in the *Ihya*. The student has read it. The letter has been pressing the same point throughout: he has the books, what he needs is to act on them.
+
+## Movement 5: The architecture of refusal
+
+The four cautions are not a list. They are an architecture.
+
+The first refuses *speech for vindication*. The second refuses *speech for applause*. The third refuses *presence to the powerful*. The fourth refuses *receipt from the powerful*. Two about the tongue, two about the body. Two about what the seeker emits, two about what he accepts.
+
+Underneath all four is a single mechanism. Each invites the seeker into a transaction in which his inner work is the currency. Debate spends sincerity for the small victory of being right. Decorated preaching spends *Ikhlas* for the small reward of being praised. Presence to rulers spends moral clarity for being noticed by power. Acceptance of gifts spends the *Deen* itself for the comfort of the gift. The transactions are unequal. The seeker is always trading something irrecoverable for something trivial. The four refusals keep the inner work intact by refusing to spend it.
+
+The severity is structural. Ghazali, writing as a man who had stood on the *Minbar* of the most prestigious institution of his era, who had been honored by the Seljuk vizier, who had then walked away from all of it, knows the four transactions from the inside. He is not theorizing.
+
+He framed the eight admonitions with the line: *so that your knowledge does not become your enemy on the Day of Judgment.* The four refusals are the conditions under which the knowledge the student has acquired can remain a friend instead of an indictment. Without them, every further thing he learns becomes more weight on the wrong side of the scale. The refusals do not produce the inner life. They protect it from being spent. The section ends with the student standing at the door of the *Ihya*, holding the four refusals, and being told that the rest of the work is to act on what he already knows.

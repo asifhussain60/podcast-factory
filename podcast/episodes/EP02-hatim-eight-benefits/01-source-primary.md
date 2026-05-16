@@ -1,0 +1,152 @@
+# Hatim bin Ism: Eight Benefits of Thirty-Three Years
+
+*From* Ayyuhal Walad (My Dear Beloved Son or Daughter)
+*Author:* Imam Abu Hamid Muhammad al-Ghazali (1058 to 1111 CE)
+*Translator (English from Urdu, with original Arabic transliterations preserved):* Irfan Hasan
+*Original work:* Ayyuhal Walad, from *Majmu'a Rasail Imam Ghazali* (Three-Volume Collection of Short Books)
+*Source scope for this episode:* the section titled *Benefits Narrated by Hatim bin Ism*, the third major movement of the epistle. Pages 14 through 17 of the printed translation.
+
+This file is a refined presentation of the section. Verbatim hadith and Quranic passages are preserved in blockquotes with the original transliteration. Nothing has been added that is not in the source.
+
+---
+
+## The setting
+
+The first chapter pressed a diagnosis. Knowledge without action is madness. Intention is the discriminator. *Mujahadah* (moo-JAA-ha-dah; the intense inner spiritual struggle) is the vehicle. The chapter ended pointing at a question: what does a person who has actually closed that gap look like?
+
+Section three is Ghazali's answer in the form of a vignette. A teacher asks a student what he has learned in thirty-three years. The student answers in eight numbered insights. The teacher is *Shaykh Shafeeq Balkhi* (sha-QEEQ al-BAL-khee; the source spells *Shafeeq*, standardly *Shaqiq al-Balkhi*, an early Sufi master of Balkh in present-day Afghanistan, died around 810 CE). The student is *Hatim bin Ism* (HAA-tim ibn ISM).
+
+Each benefit follows the same shape. Hatim *looks at the people of this world*. He sees a pattern. He goes to a verse of the Quran. The verse contradicts the pattern. Hatim acts on the verse. The worldly mind chases X. The Quran says Y. The verse becomes the practice.
+
+---
+
+## Movement 1: The first benefit, the beloved who follows you into the grave
+
+Hatim begins with love.
+
+> "O my teacher! The first benefit is that I looked at the people of this world and saw that everyone has a beloved. But these beloveds of the people [of the world] are such that some of them (i.e. the beloveds) are with them (i.e. the people) until their illness that brings death, some of them are with them until death, some of them are with them until they reach their graves, and after burial all the lovers return from there. None of their beloveds go with them in their graves to live with them there and to provide their company [in the darkness, solitude, narrowness, and horror of the grave]."
+
+The lovers, whether spouse or child or wealth or reputation, turn at the graveside. The corpse goes on alone.
+
+> "I contemplated on this and said to myself that only that is a good beloved who goes with them in the grave and lives with his/her lover, who will provide the company, who will illuminate the grave, who will be a partner on the Day of Judgment and its destinations (stations that one goes through after burial until the Day of Judgment). I saw that the only beloved who has these [good] qualities is my good (pious/righteous) deeds."
+
+Only one beloved descends with the corpse: the corpse's own righteous deeds. So Hatim made righteous deeds his beloved. Shafeeq replied: *"Bravo O Hatim! You have told a very good thing. Now narrate the second benefit."*
+
+## Movement 2: The second benefit, the front against the lower self
+
+The second pattern is the universal grip of *Nafs* (NAFS; the lower self that instructs one to commit evil). The *Nafs* drives, the man follows. Against this pattern Hatim places a single verse:
+
+> *'Wa Amma Mun Khafa Maqama Rabbihi Wa Nahun Nafsa 'Anil Hawa Fa Innal Jannata Heyal Mawa.'* (wa am-ma man KHAA-fa ma-QAA-ma rab-bi-hee wa na-HAN nafsa a-nil ha-WAA fa in-nal jan-na-ta hee-yal MAA-waa)
+> 'But the one who has stood in fear of his/her Sustainer's Presence, and restrained his/her inner self from the base (low and evil) desires, Paradise will the place of rest [for this person].' (Quran, Chapter 79, Verses 40-41)
+
+Hatim took the verse at its word.
+
+> "I developed the certitude that the Wise Quran is correct and the book of Allah is the truth. Then I established a front against my Nafs (lower self) and became determined to oppose it. I molded it (i.e. my lower self) in such a shape that I did not fulfill any of its desires until it started to find peace [and satisfaction] in the worship of Allah, the Exalted."
+
+The military metaphor is Hatim's own. He withheld the lower self's satisfactions until the appetite itself rotated and came to find peace in worship.
+
+## Movement 3: The third benefit, what stays with Allah is everlasting
+
+The third pattern is the chase after possessions. Every person, Hatim says, is busy *with great pain and hard work* accumulating wealth, and is very happy at the size of the pile. Against this pattern Hatim places a single verse:
+
+> *'Ma 'Indakum Yanfadu Wa Ma 'IndAllahi Baaqin.'* (maa IN-da-kum yan-FA-doo wa maa in-dal-LAA-hee BAA-qin)
+> 'All that is with you is bound to come to an end, whereas all that, which is with Allah is everlasting.' (Quran, Chapter 16, Verse 96)
+
+The verse is a ledger. What is with you ends. What is with Allah endures.
+
+> "Then whatever [material possessions] I accumulated in the world, I spent it all in Way of Allah by distributing it among pious indigents and beggars so that it (the material possessions that I distributed in the Way of Allah) will get deposited with Allah, the Exalted, as my trust and will become source of immense good and ransom (i.e. salvation) in the life hereafter."
+
+Not asceticism for its own sake. The wealth is not the problem; its location is. So Hatim moved it.
+
+## Movement 4: The fourth benefit, the only true grandeur is Taqwa
+
+The fourth pattern is the chase after honor. Some men locate grandeur in tribe and group. Some in wealth, family, children. Some in *anger, beating, killing, murder and pillage*. Some in *wasteful spending*. Each is a candidate answer to the same question: what makes a person noble? Each is wrong.
+
+Against the four variants Hatim places a single verse:
+
+> *'Inna Akramakum 'IndAllahi Atqakum.'* (in-na ak-ra-ma-kum in-dal-LAA-hee at-QAA-kum)
+> 'Verily, the noblest of you in the sight of Allah is the one who is most deeply conscious (i.e. fearful) of Him.' (Quran, Chapter 49, Verse 13)
+
+The verse names a single metric. Nobility is *Taqwa* (TAQ-waa; pious reverence, consciousness, awe, and fear of Allah).
+
+> "Therefore this is correct and is the truth and the creations' thoughts are false and wrong conjectures. That's why I adopted Taqwa (pious reverence, consciousness, awe, and fear of Allah) so that I get counted as the one with the highest rank in the sight of Allah, the Exalted."
+
+The four ways are not different paths to one summit. They are *false and wrong conjectures*. Only the criterion Allah names is real.
+
+## Movement 5: The fifth benefit, no envy where the distribution is already settled
+
+The fifth pattern is complaint. People complain about each other, Hatim says, driven by envy, jealousy, or enmity over *greatness, grandeur, [material] possessions, wealth, and knowledge*. The man with less envies the man with more. The man with more guards what he has. Both are oriented to the comparative.
+
+Against the comparative Hatim places a single verse:
+
+> *'Nahnu Qasumna Baeynahum Ma'eeshatahum Fil Hayatid Dunya.'* (NAH-nu qa-SAM-naa bay-na-hum ma-ee-sha-ta-hum fil ha-YAA-tid dun-YAA)
+> 'It is We who distribute their means of livelihood (sustenance) among them in the life of this world.' (Quran, Chapter 43, Verse 32)
+
+The verse closes the contest before it begins. The distribution was performed by Allah *since the first beginning [of the creation]*, and no creature has *any control [or say] in this matter*.
+
+> "Therefore, I did not compete or had jealousy with anyone and remained agreed to Allah's distribution [of worldly bounties] and [His appointed] destiny and got along with the whole world [by giving up all jealousies and enmities against God's creations]."
+
+Hatim's word for the resulting posture is *agreed*. He is in agreement with the distribution. The other man's portion is not Hatim's loss.
+
+## Movement 6: The sixth benefit, the only enemy is Shaytan
+
+The sixth pattern is enmity. Every person, Hatim says, is *having enmity with someone else for some reason*. The lower self keeps a ledger of grievances and refreshes it daily. Against this pattern Hatim places a single verse:
+
+> *'Innash Shaytana Lakum 'Aduwwun Fettakhizuhu 'Aduwwa.'* (IN-nash SHAY-taa-na la-kum a-DOO-wun fat-ta-KHI-zoo-hu a-DOO-waa)
+> 'Verily, Shaytan (Satan) is your enemy so treat him as your enemy.' (Quran, Chapter 35, Verse 6)
+
+There is one enemy: *Shaytan* (SHAY-taan; Satan, the deceiver). All other enmities are misdirected.
+
+> "After that, I developed the certitude that Allah's saying is the truth, I should not have any enmity with anyone other than Shaytan (Satan). Since then, I considered Satan as my enemy and did not obey any of his orders. Instead, I developed obedience [of Allah] and followed the commandments of Allah, the Exalted and adopted only His worship and servitude."
+
+Energy spent fighting people is stolen from the one conflict that matters. The correct way is the *Sirat al-Mustaqeem* (si-RAAT al-mus-ta-QEEM; the straight path of guidance in which there is no crookedness).
+
+> *'Alam A'had Ilaeykum Ya Bani Aadama Al La Ta'budush Shaytana Innahu Lakum 'Aduwwum Mubeen Wa Ane'buduni Haza Siratum Mustaqeem.'* (a-lam AH-had i-LAY-kum yaa ba-NEE AA-da-ma al-laa taa-bu-dush SHAY-taa-na in-na-hu la-kum a-DOO-wum mu-BEEN wa ah-bu-DOO-nee HAA-zaa si-RAA-tum mus-ta-QEEM)
+> 'Have I not obtained this promise from you that O you the Children of Adam! Never ever obey the Shaytan (Satan). No doubt, he is your avowed (open) enemy and worship Me alone [because] this is the straight path.'
+
+## Movement 7: The seventh benefit, sustenance is already promised
+
+The seventh pattern is the chase after livelihood. Every person is preoccupied with sustenance and works *with intense effort*. In the rush, the man stops distinguishing *Halal* (ha-LAAL; permissible) from *Haram* (ha-RAAM; forbidden), and accepts doubtful and forbidden earnings out of fear of not having enough. The fear is the engine.
+
+Against this pattern Hatim places a single verse:
+
+> *'Wa Ma Min Daabbatin Fil Arde Illa 'AlalAllahi Rizquha.'* (wa maa min DAAB-ba-tin fil AR-di il-laa a-lal-LAA-hee riz-QU-haa)
+> 'And there is no living creature on earth whose sustenance is not the responsibility of Allah.' (Quran, Chapter 11, Verse 6)
+
+The verse settles who is responsible for the next meal. Not the creature. The Creator.
+
+> "Then I developed the certitude that the Wise Quran is the truth and is correct and that I am also among those living creatures [of God] that are present on earth. So thus, I got engaged in the worship of Allah and developed the certitude that He will bring to me [my] sustenance because He has promised [to provide me with] sustenance."
+
+The shift is from anxiety to *Tawakkul* (ta-WAK-kul; reliance on God), which is the eighth benefit.
+
+## Movement 8: The eighth benefit, reliance on Allah in every matter
+
+The eighth pattern is reliance. Every person places trust in something. Some trust possessions. Some trust people. The instinct to lean is universal; the object varies. Against the variety Hatim places two verses:
+
+> *'Wa Maey Yatawakkal 'AlalAllahi Fahuwa Hasbuhu.'* (wa man ya-ta-WAK-kal a-lal-LAA-hee fa-HU-wa HAS-bu-hu)
+> 'And for everyone who places his/her trust in Allah, He [alone] is enough [for him/her].' (Quran, Chapter 65, Verse 3)
+
+> *'Wa Huwa Husbi Wa Nai'mal Wakeel.'* (wa HU-wa HAS-bee wa NAI-mal wa-KEEL)
+> 'And He is sufficient for me and He is the best Helper.'
+
+The verses do not deny that a man may also have possessions or relationships. They name what is sufficient when those run out.
+
+> "[Therefore, I adopted complete reliance on Allah in every matter.]"
+
+The eighth benefit closes the circle. The first identified righteous deeds as the only beloved who descends into the grave. The eighth identifies Allah as the only support that does not fail. Between the two, the *Nafs* has been refronted, possessions moved, honor recalibrated, envy retired, the one true enemy named, and the chase for sustenance handed over.
+
+---
+
+## Shafeeq's verdict and Ghazali's frame
+
+When Shafeeq has heard all eight, his closing response takes the vignette out of the personal:
+
+> "O Hatim! May Allah grant you His Tawfeeq (i.e. enable you to do righteous deeds and to walk on His Path). You have told [us] very good things. I have seen in Taurat (Torah), Injil (Gospel of Prophet Jesus), Zabur (Psalms), and in the praiseworthy differentiator between right and wrong (i.e. the Holy Quran), that all these books [of God] mention these eight benefits, i.e., all four books in their teachings have told [us] these eight benefits. Whoever acts on these [eight principles] is like as if he/she has acted on all four [holy] books."
+
+The eight, Shafeeq says, are not folk wisdom. They are the marrow of all four revealed books. The *Taurat* (TAW-raat; Torah), the *Injil* (in-JEEL; Gospel of Jesus), the *Zabur* (za-BOOR; Psalms), and the Quran each teach exactly these eight. The student who acts on the eight has acted on all four.
+
+This is the lever for Ghazali's frame. He turns from the vignette to his own student:
+
+> "My dear beloved son! You [now] know from these traditions that you do not need a lot of knowledge."
+
+The line lands on the same anvil the first chapter ended on. The student does not need more learning; he needs to act on what he has. Hatim acted on eight verses and reshaped a life. Ghazali then turns into the fifth condition of the seeker, the necessity of a *Shaykh al-Kamil* (shaykh al-KAA-mil; the perfected spiritual guide), which opens the next section of the epistle.
