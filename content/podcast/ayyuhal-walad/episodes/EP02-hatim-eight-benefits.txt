@@ -1,4 +1,4 @@
-=== CUSTOMIZE PROMPT (1002 words) — Paste everything in this block into NotebookLM's "Customize" prompt box ===
+=== CUSTOMIZE PROMPT (1010 words) — Paste everything in this block into NotebookLM's "Customize" prompt box ===
 
 # EP02 Framing: Ayyuhal Walad, Section 3: Hatim bin Ism, Eight Benefits of Thirty-Three Years
 
@@ -6,11 +6,11 @@
 
 This is the customize prompt for NotebookLM's Audio Overview, plus the host steering for the two-host conversation. The hosts are speaking about the third section of *Ayyuhal Walad* (My Dear Beloved Son or Daughter), in which Imam Abu Hamid al-Ghazali sets down his argument and tells a story. A student named Hatim bin Ism, after thirty-three years with his teacher Shaqiq al-Balkhi, is asked what he has actually learned. He answers in eight numbered inversions, each one a small reversal of how the worldly mind ordinarily moves.
 
-EP01 ended on a diagnosis: knowledge without action is madness, intention is the discriminator, *Mujahadah* is the vehicle. EP02 is the vignette that answers, in narrative form, the question EP01 left hanging: what does a person who has actually closed the gap between belief and behavior look like?
+Earlier in the same letter, Ghazali set down a diagnosis: knowledge without action is madness, intention is the discriminator, *Mujahadah* is the vehicle. This section is the vignette that answers, in narrative form, the question Ghazali had been pressing: what does a person who has actually closed the gap between belief and behavior look like?
 
 ## Audience
 
-General thoughtful adult. Not a specialist in Sufism, not necessarily Muslim, but someone willing to take a classical religious text on its own terms for the length of one conversation. Same audience as EP01. Assume the listener has heard the previous episode or could pick this one up cold. Gloss terms like *Nafs*, *Taqwa*, *Tawakkul*, *Shaytan* the first time they appear, never again.
+General thoughtful adult. Not a specialist in Sufism, not necessarily Muslim, but someone willing to take a classical religious text on its own terms for the length of one conversation. Assume the listener may be coming to this fresh. Gloss terms like *Nafs*, *Taqwa*, *Tawakkul*, *Shaytan* the first time they appear, never again.
 
 ## Angle
 
@@ -28,11 +28,11 @@ The hosts must return to these four tensions across the conversation.
 
 3. **Thirty-three years for eight sentences.** Shafeeq asks Hatim what he has gotten from the discipleship. Hatim does not answer with a library. He answers with eight short statements, each anchored in a single Quranic verse. The chapter is, among other things, an argument about what *learning* means in this tradition. It is not the acquisition of more material. It is the slow rotation of a person around a small number of verses they have actually believed.
 
-4. **Shafeeq's verdict.** After hearing all eight, Shafeeq tells Hatim that the *Taurat*, *Injil*, *Zabur*, and Quran each teach exactly these eight, and that the person who acts on them has acted on all four books. This is the lever. Ghazali turns from the vignette to his own student with: *you do not need a lot of knowledge*. The hosts should land this connection clearly. EP01 said knowledge without action is madness; EP02's vignette says the act is the curriculum.
+4. **Shafeeq's verdict.** After hearing all eight, Shafeeq tells Hatim that the *Taurat*, *Injil*, *Zabur*, and Quran each teach exactly these eight, and that the person who acts on them has acted on all four books. This is the lever. Ghazali turns from the vignette to his own student with: *you do not need a lot of knowledge*. The hosts should land this connection clearly. Earlier in the letter Ghazali called knowledge without action madness; this vignette says the act is the curriculum.
 
 ## Host dynamic
 
-Same as EP01.
+Default two-host configuration, slightly adjusted for the gravity of the source.
 
 **Host A, Curious Mind.** A thoughtful generalist. Asks plainly: what does it mean to *make righteous deeds your beloved*? Why is *Shaytan* the only enemy? Warm, unguarded, willing to be unsettled. Does not perform shock or use phrases like *wow* or *that is so interesting*.
 
@@ -71,23 +71,22 @@ Do not. The angle is faithful exposition. If a host wants to flag a difficulty (
 
 ---
 
-=== SOURCE (2917 words, from ch02-hatim-eight-benefits.txt) — Upload everything below this line to NotebookLM as the single source ===
+=== SOURCE (2874 words, from ch02-hatim-eight-benefits.txt) — Upload everything below this line to NotebookLM as the single source ===
 
 # Hatim bin Ism: Eight Benefits of Thirty-Three Years
 
 *From* Ayyuhal Walad (My Dear Beloved Son or Daughter)
 *Author:* Imam Abu Hamid Muhammad al-Ghazali (1058 to 1111 CE)
-*Translator (English from Urdu, with original Arabic transliterations preserved):* Irfan Hasan
+*Translator:* Irfan Hasan
 *Original work:* Ayyuhal Walad, from *Majmu'a Rasail Imam Ghazali* (Three-Volume Collection of Short Books)
-*Source scope for this episode:* the section titled *Benefits Narrated by Hatim bin Ism*, the third major movement of the epistle. Pages 14 through 17 of the printed translation.
 
 ---
 
 ## The setting
 
-The first chapter pressed a diagnosis. Knowledge without action is madness. Intention is the discriminator. *Mujahadah* (moo-JAA-ha-dah; the intense inner spiritual struggle) is the vehicle. The chapter ended pointing at a question: what does a person who has actually closed that gap look like?
+Earlier in the letter, Ghazali pressed a diagnosis. Knowledge without action is madness. Intention is the discriminator. *Mujahadah* (moo-JAA-ha-dah; the intense inner spiritual struggle) is the vehicle. He left the reader at a question: what does a person who has actually closed that gap look like?
 
-Section three is Ghazali's answer in the form of a vignette. A teacher asks a student what he has learned in thirty-three years. The student answers in eight numbered insights. The teacher is *Shaykh Shafeeq Balkhi* (sha-QEEQ al-BAL-khee; the source spells *Shafeeq*, standardly *Shaqiq al-Balkhi*, an early Sufi master of Balkh in present-day Afghanistan, died around 810 CE). The student is *Hatim bin Ism* (HAA-tim ibn ISM).
+Ghazali's answer comes in the form of a vignette. A teacher asks a student what he has learned in thirty-three years. The student answers in eight numbered insights. The teacher is *Shaykh Shaqiq al-Balkhi* (sha-QEEQ al-BAL-khee), an early Sufi master of Balkh in present-day Afghanistan who died around 810 CE. The student is *Hatim bin Ism* (HAA-tim ibn ISM).
 
 Each benefit follows the same shape. Hatim *looks at the people of this world*. He sees a pattern. He goes to a verse of the Quran. The verse contradicts the pattern. Hatim acts on the verse. The worldly mind chases X. The Quran says Y. The verse becomes the practice.
 

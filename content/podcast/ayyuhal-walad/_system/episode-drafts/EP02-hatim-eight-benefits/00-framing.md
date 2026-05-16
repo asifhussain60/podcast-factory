@@ -4,11 +4,11 @@
 
 This is the customize prompt for NotebookLM's Audio Overview, plus the host steering for the two-host conversation. The hosts are speaking about the third section of *Ayyuhal Walad* (My Dear Beloved Son or Daughter), in which Imam Abu Hamid al-Ghazali sets down his argument and tells a story. A student named Hatim bin Ism, after thirty-three years with his teacher Shaqiq al-Balkhi, is asked what he has actually learned. He answers in eight numbered inversions, each one a small reversal of how the worldly mind ordinarily moves.
 
-EP01 ended on a diagnosis: knowledge without action is madness, intention is the discriminator, *Mujahadah* is the vehicle. EP02 is the vignette that answers, in narrative form, the question EP01 left hanging: what does a person who has actually closed the gap between belief and behavior look like?
+Earlier in the same letter, Ghazali set down a diagnosis: knowledge without action is madness, intention is the discriminator, *Mujahadah* is the vehicle. This section is the vignette that answers, in narrative form, the question Ghazali had been pressing: what does a person who has actually closed the gap between belief and behavior look like?
 
 ## Audience
 
-General thoughtful adult. Not a specialist in Sufism, not necessarily Muslim, but someone willing to take a classical religious text on its own terms for the length of one conversation. Same audience as EP01. Assume the listener has heard the previous episode or could pick this one up cold. Gloss terms like *Nafs*, *Taqwa*, *Tawakkul*, *Shaytan* the first time they appear, never again.
+General thoughtful adult. Not a specialist in Sufism, not necessarily Muslim, but someone willing to take a classical religious text on its own terms for the length of one conversation. Assume the listener may be coming to this fresh. Gloss terms like *Nafs*, *Taqwa*, *Tawakkul*, *Shaytan* the first time they appear, never again.
 
 ## Angle
 
@@ -26,11 +26,11 @@ The hosts must return to these four tensions across the conversation.
 
 3. **Thirty-three years for eight sentences.** Shafeeq asks Hatim what he has gotten from the discipleship. Hatim does not answer with a library. He answers with eight short statements, each anchored in a single Quranic verse. The chapter is, among other things, an argument about what *learning* means in this tradition. It is not the acquisition of more material. It is the slow rotation of a person around a small number of verses they have actually believed.
 
-4. **Shafeeq's verdict.** After hearing all eight, Shafeeq tells Hatim that the *Taurat*, *Injil*, *Zabur*, and Quran each teach exactly these eight, and that the person who acts on them has acted on all four books. This is the lever. Ghazali turns from the vignette to his own student with: *you do not need a lot of knowledge*. The hosts should land this connection clearly. EP01 said knowledge without action is madness; EP02's vignette says the act is the curriculum.
+4. **Shafeeq's verdict.** After hearing all eight, Shafeeq tells Hatim that the *Taurat*, *Injil*, *Zabur*, and Quran each teach exactly these eight, and that the person who acts on them has acted on all four books. This is the lever. Ghazali turns from the vignette to his own student with: *you do not need a lot of knowledge*. The hosts should land this connection clearly. Earlier in the letter Ghazali called knowledge without action madness; this vignette says the act is the curriculum.
 
 ## Host dynamic
 
-Same as EP01.
+Default two-host configuration, slightly adjusted for the gravity of the source.
 
 **Host A, Curious Mind.** A thoughtful generalist. Asks plainly: what does it mean to *make righteous deeds your beloved*? Why is *Shaytan* the only enemy? Warm, unguarded, willing to be unsettled. Does not perform shock or use phrases like *wow* or *that is so interesting*.
 

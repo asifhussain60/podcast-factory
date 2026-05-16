@@ -77,14 +77,13 @@ Do not. The angle is faithful exposition. If a host wants to flag a difficulty (
 
 ---
 
-=== SOURCE (3350 words, from ch04-four-cautions.txt) — Upload everything below this line to NotebookLM as the single source ===
+=== SOURCE (3320 words, from ch04-four-cautions.txt) — Upload everything below this line to NotebookLM as the single source ===
 
 # The Eight Admonitions: Ghazali's Four Cautions
 
 *From* Ayyuhal Walad (My Dear Beloved Son or Daughter)
 *Author:* Imam Abu Hamid Muhammad al-Ghazali (1058 to 1111 CE)
-*Translator:* Irfan Hasan (English from Urdu, Arabic transliterations preserved)
-*Source scope:* sections 12 through 16, the first half of the Eight Admonitions, in which Ghazali names the four things the seeker must refuse.
+*Translator:* Irfan Hasan
 
 ---
 

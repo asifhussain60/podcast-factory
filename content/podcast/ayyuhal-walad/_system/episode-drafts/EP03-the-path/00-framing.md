@@ -22,7 +22,7 @@ The hosts must return to these tensions across the conversation. They are the sp
 
 2. **Obedience before knowledge.** Once a real guide is found, the disciple owes him outer and inner respect. The disciple does not argue. The disciple does not entertain even a small grain of doubt. The disciple obeys in matters that are not forbidden by *Shari'ah*. This grates against modern instincts. Ghazali knows it does. He names the protection: a true guide will not command something forbidden; only a fake one will. The protection is structural, not psychological.
 
-3. **What Tasawwuf is and is not.** Ghazali names *Tasawwuf* with two qualities, both precise. First, obedience to the *Shari'ah*. Second, sympathy and the doing of good toward all of God's creations. Not robes. Not vocabulary. Not the gatherings of imitators. The chapter's nearest cousin is EP01's hollow Sufi, the tongue speaking wisdom while the heart sits in heedlessness. *Tasawwuf* in Ghazali's hands is a practice, not a costume.
+3. **What Tasawwuf is and is not.** Ghazali names *Tasawwuf* with two qualities, both precise. First, obedience to the *Shari'ah*. Second, sympathy and the doing of good toward all of God's creations. Not robes. Not vocabulary. Not the gatherings of imitators. The nearest cousin in Ghazali's own argument is the hollow Sufi he flagged earlier in the letter, the tongue speaking wisdom while the heart sits in heedlessness. *Tasawwuf* in Ghazali's hands is a practice, not a costume.
 
 4. **The four realities, in parallel.** Servitude, reliance on God (*Tawakkul*), sincerity (*Ikhlas*), and *Tasawwuf* itself. Each is given a short, almost diagrammatic definition. Servitude has three things. *Tawakkul* is firm belief that what is destined for you will come and what is not destined for you will not. *Ikhlas* is that all your deeds are exclusively for the sake of Allah, with the cure of *Riya* (ostentation) named explicitly: consider all created beings as pebbles and stones. These definitions look simple. The work of living them is the whole of religious life.
 
@@ -34,7 +34,7 @@ The hosts must return to these tensions across the conversation. They are the sp
 
 ## Tone constraints
 
-- No cheerful filler. This is the prescription half of the letter; the gravity carries through from EP01.
+- No cheerful filler. This is the prescription half of the letter; the gravity carries through from the opening of the letter.
 - No *wow, that is so interesting* loops. Trust the listener.
 - No summarizing the obvious. Do not restate what was just said in different words.
 - Use Ghazali's own words. The definitions of *Tasawwuf*, *Tawakkul*, and *Ikhlas* are short. Quote them directly.

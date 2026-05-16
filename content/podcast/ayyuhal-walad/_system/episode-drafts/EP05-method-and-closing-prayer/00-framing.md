@@ -10,7 +10,7 @@ The original student wrote to Ghazali asking for two things in particular. First
 
 ## Audience
 
-General thoughtful adult. Not a specialist in Sufism, not necessarily Muslim, but someone willing to take a classical religious text on its own terms. The listener may not have heard the earlier episodes. Gloss terms like *Tawakkul* (ta-WAK-kul; reliance on God), *Du'a* (du-AAH; supplication), *Fard Kifaya* (fard ki-FAA-yah; communal obligation) on first use; do not re-gloss.
+General thoughtful adult. Not a specialist in Sufism, not necessarily Muslim, but someone willing to take a classical religious text on its own terms. Assume the listener may be coming to this fresh. Gloss terms like *Tawakkul* (ta-WAK-kul; reliance on God), *Du'a* (du-AAH; supplication), *Fard Kifaya* (fard ki-FAA-yah; communal obligation) on first use; do not re-gloss.
 
 ## Angle
 
@@ -36,7 +36,7 @@ Faithful exposition. The hosts treat Ghazali's prescription as it is given. They
 
 - No cheerful filler. This is the close of a letter the student will carry for the rest of his life. The hosts should feel the weight of an ending.
 - No reducing the du'a to keywords. When the supplication is read, let it be read. The listener should hear it.
-- No summary-of-summary. The earlier episodes already summarized Ghazali's diagnosis. This episode lives in the prescription.
+- No summary-of-summary. The earlier sections of the letter already laid down Ghazali's diagnosis. This stretch lives in the prescription.
 - Use Ghazali's own words. The du'a must be read verbatim. The four matters carry their own clean prose; do not paraphrase them away.
 - End on a question, not a conclusion. The letter ends pointing at the student. The hosts should land in the same posture.
 

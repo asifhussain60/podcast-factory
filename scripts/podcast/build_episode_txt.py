@@ -85,6 +85,33 @@ META_PROSE_TELLS = [
     "refined presentation of the section",
     "refined presentation of the chapter",
     "[verify citation",
+    # Cross-episode references — NotebookLM has no context for other episodes.
+    "previous episode",
+    "earlier episode",
+    "next episode",
+    "prior episode",
+    "earlier in this episode",
+    "later in this episode",
+    "the episode honors",
+    # Translator-apparatus prefixes — the file describing its own translator's edits.
+    "translator's clarification",
+    "translator's interpolation",
+    "the translator notes",
+    "the translator adds",
+    "the square brackets are",
+    # File-length / authoring-trace self-references.
+    "in a few thousand words",
+    "in just a few thousand",
+    "in a few hundred words",
+    "source scope for this episode",
+    "source scope:",
+    "pages [0-9]+ through [0-9]+ of the printed translation",  # exact phrase pattern
+]
+
+# Additional regex tells (case-insensitive). Used in tandem with the substring list above
+# for patterns the simple substring check can't express. Each is matched with re.search.
+META_PROSE_REGEX_TELLS = [
+    r"\bEP\d{2}\b",  # any EP## reference (cross-episode steering that NotebookLM cannot resolve)
 ]
 
 
@@ -144,28 +171,44 @@ def strip_html_comments(text: str) -> str:
 
 
 def assert_no_meta_prose(source: str, chapter_path: Path) -> None:
-    """Refuse to build if the SOURCE contains tells that it's describing itself."""
+    """Refuse to build if the SOURCE contains tells that it's describing itself
+    or referencing other episodes NotebookLM cannot resolve."""
     lower = source.lower()
-    hits = [tell for tell in META_PROSE_TELLS if tell in lower]
-    if hits:
-        lines = source.splitlines()
-        offending = []
-        for tell in hits:
-            for ln, line in enumerate(lines, 1):
-                if tell in line.lower():
-                    offending.append(f"  {chapter_path.name}:{ln}: {line.strip()[:120]}")
-                    break
-        joined = "\n".join(offending[:8])
-        sys.exit(
-            f"ERROR: chapter contains meta-prose that would reach NotebookLM hosts.\n"
-            f"  Tells found: {', '.join(repr(h) for h in hits)}\n"
-            f"  Offending lines:\n{joined}\n\n"
-            f"  Chapter files must contain ONLY chapter content. Authoring metadata\n"
-            f"  belongs in `<!-- ... -->` HTML comments (auto-stripped at build) or in\n"
-            f"  a sidecar file. Meta-prose paragraphs that describe the chapter file\n"
-            f"  itself ('This file is a refined presentation...', 'Phase 0e enrichment...')\n"
-            f"  must be removed. See skills-staging/podcast/SKILL.md §6 Output Rules."
-        )
+    substring_hits = [tell for tell in META_PROSE_TELLS if tell in lower]
+    regex_hits = []
+    for pat in META_PROSE_REGEX_TELLS:
+        for m in re.finditer(pat, source, flags=re.IGNORECASE):
+            regex_hits.append((pat, m.group(0)))
+    if not (substring_hits or regex_hits):
+        return
+
+    lines = source.splitlines()
+    offending = []
+    for tell in substring_hits:
+        for ln, line in enumerate(lines, 1):
+            if tell in line.lower():
+                offending.append(f"  {chapter_path.name}:{ln}: {line.strip()[:120]}")
+                break
+    for pat, matched in regex_hits[:5]:
+        for ln, line in enumerate(lines, 1):
+            if re.search(pat, line, flags=re.IGNORECASE):
+                offending.append(f"  {chapter_path.name}:{ln} (regex {pat!r} matched {matched!r}): {line.strip()[:120]}")
+                break
+
+    joined = "\n".join(offending[:10])
+    tells_summary = ", ".join(repr(h) for h in substring_hits)
+    if regex_hits:
+        tells_summary += " | regex: " + ", ".join(repr(p) for p, _ in regex_hits[:5])
+    sys.exit(
+        f"ERROR: chapter contains meta-prose that would reach NotebookLM hosts.\n"
+        f"  Tells found: {tells_summary}\n"
+        f"  Offending lines:\n{joined}\n\n"
+        f"  Chapter files must contain ONLY chapter content. Authoring metadata\n"
+        f"  belongs in `<!-- ... -->` HTML comments (auto-stripped at build) or in\n"
+        f"  a sidecar file. Cross-episode references (EP01, 'previous episode')\n"
+        f"  must be removed — NotebookLM has no context for other episodes.\n"
+        f"  See skills-staging/podcast/SKILL.md §6 Output Rules."
+    )
 
 
 def word_count(text: str) -> int:
