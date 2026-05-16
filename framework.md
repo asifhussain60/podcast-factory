@@ -1,13 +1,58 @@
 # Journal Ecosystem Framework
 
-**Version:** 3.1 (memoir-only — CORTEX Challenger Framework v1.0 adopted)
+**Version:** 3.2 (content/ tree adopted — memoir + podcast siblings)
 **Last updated:** 2026-05-16
 
-This document governs the journal repo: the memoir engine, the journal site, and the small set of agents/skills that support memoir authoring. As of v3.0 the trip-planning, daybook/log-capture, and DayOne-publish ecosystems have been removed (preserved on branch `archive/full-stack-pre-strip`).
+This document governs the journal repo: the memoir engine, the journal site, the podcast source-bundle agent, and the small set of agents/skills that support content authoring. As of v3.0 the trip-planning, daybook/log-capture, and DayOne-publish ecosystems have been removed (preserved on branch `archive/full-stack-pre-strip`). As of v3.2 all authored content lives under a single `content/` tree with `babu-memoir/` and `podcast/<book-slug>/` as siblings.
 
 ## Nomenclature
 
-The memoir is *"What I Wish Babu Taught Me."* **Asif IS Babu.** Babu is Asif's wiser/elder voice addressing his younger self "Asif" inside each chapter's closing advice section. Babu is NOT Asif's father. Any stale "Dad" reference in read-only `SKILL_DIR/references/` copies is overridden by the writable Babu versions in `reference/`.
+The memoir is *"What I Wish Babu Taught Me."* **Asif IS Babu.** Babu is Asif's wiser/elder voice addressing his younger self "Asif" inside each chapter's closing advice section. Babu is NOT Asif's father. Any stale "Dad" reference in read-only `SKILL_DIR/references/` copies is overridden by the writable Babu versions in `content/babu-memoir/_system/`.
+
+---
+
+## Content tree
+
+All authored content lives under [content/](content/):
+
+```
+content/
+├── babu-memoir/                    ← the memoir (chapters only; no episodes)
+│   ├── _system/                    ← voice, craft, quotes, incidents, snapshots, scratchpad, workflow
+│   └── chapters/                   ← preface.txt, ch00…ch03.txt
+└── podcast/                        ← parent for podcasted source books
+    ├── _README.md                  ← podcast-wide intro
+    ├── _system/                    ← book-agnostic refs (skill-owned)
+    │   ├── registry.md             ← episode index across all books
+    │   ├── notebooklm-source-format.md
+    │   ├── notebooklm-best-practices.md
+    │   ├── two-host-framing.md
+    │   ├── source-distillation.md
+    │   ├── episode-architecture.md
+    │   ├── scratchpad-markers.md
+    │   └── workspace-readme-template.md
+    └── ayyuhal-walad/              ← one source book (template; add more as siblings)
+        ├── _README.md              ← book-specific
+        ├── _system/                ← book-specific authoring state
+        │   ├── source/             ← original PDF + extracted/normalized text
+        │   ├── meta/               ← extracted metadata, normalized.md, segments, lexicon
+        │   ├── pronunciation.md    ← active overrides for the series
+        │   ├── editorial-notes.md
+        │   ├── library-proposals.md
+        │   ├── episode-drafts/     ← per-episode 5–6 markdown source files (authoring scaffold)
+        │   │   └── EP##-<slug>/
+        │   │       ├── 00-framing.md
+        │   │       ├── 01-source-primary.md (+ .scratch.md mirror)
+        │   │       ├── 02-key-passages.md
+        │   │       ├── 03-context-pack.md
+        │   │       ├── 04-discussion-spine.md
+        │   │       └── 99-show-notes.md
+        │   ├── scratchpad/         ← series-policies.md + working scratches
+        │   └── legacy/             ← superseded pipeline artifacts
+        ├── chapters/               ← source-book chapters as plain txt
+        └── episodes/               ← FINAL deliverables (one concatenated txt per episode)
+            └── EP##-<slug>.txt     ← built by scripts/podcast/build_episode_txt.py
+```
 
 ---
 
@@ -22,25 +67,43 @@ The memoir is *"What I Wish Babu Taught Me."* **Asif IS Babu.** Babu is Asif's w
 
 ---
 
-## The single content skill: `journal`
+## The memoir skill: `journal`
 
 **Purpose:** Write, refine, and polish chapters of *"What I Wish Babu Taught Me."*
 
-**Owns:** `chapters/`, `chapters/snapshots/`, `scratchpad/`.
+**Owns:** `content/babu-memoir/chapters/`, `content/babu-memoir/_system/snapshots/`, `content/babu-memoir/_system/scratchpad/`.
 
-**Reads:** all of `reference/` — voice, craft, quotes, incidents, rules.
+**Reads:** all of `content/babu-memoir/_system/` — voice, craft, quotes, incidents, rules.
 
 **Writes:** chapter files; date-stamped snapshots (`chXX-name-YYYY-MM-DD.txt`).
 
 **Triggers:** `journal`, `continue writing`, `next chapter`, `refine chapter`, `edit my memoir`, `/journal work on chapter N`.
 
-**Workflow:** The authoritative spec is `reference/journal-workflow-v2.md`. That file explicitly supersedes any conflicting `SKILL.md` content. Section 1 of the workflow lists the session-start reading order; Section 4 defines the eight-loop Challenger gate that every chapter must pass before finalization.
+**Workflow:** The authoritative spec is `content/babu-memoir/_system/journal-workflow-v2.md`. That file explicitly supersedes any conflicting `SKILL.md` content. Section 1 lists the session-start reading order; Section 4 defines the eight-loop Challenger gate that every chapter must pass before finalization.
+
+**After finalizing a chapter:** run `scripts/site/sync_chapters.sh` to refresh the site's `site/chapters/` bundle mirror so the published site picks up the change on next deploy.
 
 ---
 
-## Supporting skills (dev/infra, not memoir content)
+## The podcast skill: `podcast`
 
-These do not produce memoir prose. They keep the repo and its site healthy.
+**Purpose:** Convert source material (PDFs, books, articles, transcripts) into NotebookLM-ready source bundles that steer the Audio Overview into a focused two-host conversation.
+
+**Owns:** all of `content/podcast/` — both the book-agnostic `_system/` and every `<book-slug>/`.
+
+**Reads:** sources Asif provides + `content/podcast/_system/` references.
+
+**Writes:** per-episode draft bundles under `<book>/_system/episode-drafts/EP##-<slug>/`; final concatenated deliverables at `<book>/episodes/EP##-<slug>.txt` (rebuilt via `scripts/podcast/build_episode_txt.py`).
+
+**Triggers:** `podcast`, `/podcast`, `@podcast`, `new episode`, `next episode`, `make this a podcast`, `NotebookLM episode`, `audio overview`.
+
+**CORTEX:** out of scope (content-prep, by design — quality judged by human listening, not automated gates).
+
+---
+
+## Supporting engineering skills
+
+These do not produce content. They keep the repo and its site healthy.
 
 | Skill | Purpose | Location | CORTEX |
 |---|---|---|---|
@@ -48,64 +111,60 @@ These do not produce memoir prose. They keep the repo and its site healthy.
 | `ui-modernizer` | Execute UI modernization phases on the journal site | `skills-staging/ui-modernizer/` | SILVER (target) |
 | `repo-surgeon` | Holistic repo audit, orphan cleanup, registry alignment | `skills-staging/repo-surgeon/` | BRONZE (target) |
 | `usage-auditor` | Audit Claude-API spend + forecast against monthly cap | `skills-staging/usage-auditor/` | BRONZE (target) |
-| `podcast` | NotebookLM source-bundle prep: 5-to-6 markdown files per episode that steer NotebookLM's Audio Overview. Does NOT generate audio or write scripts. | `skills-staging/podcast/` (skill) + `podcast/` (content workspace) | Out of scope (content-prep skill, not engineering — per its own SKILL.md §9) |
 
-Engineering skills target the **CORTEX Challenger Framework v1.0** defined at `reference/cortex-challenger-framework.md`. Severity tiers (P0–P3), DoR gates, convergence loops, sweep contracts, holistic validation, challenge gates, and determinism contracts are universal across them. The shared SECTION 0 contract every engineering skill cites at boot is at `reference/skill-bootstrap.md`. Per-skill compliance tiers are tracked in `reference/skill-registry.md`.
+Engineering skills target the **CORTEX Challenger Framework v1.0** defined at `reference/cortex-challenger-framework.md`. The shared SECTION 0 contract every engineering skill cites at boot is at `reference/skill-bootstrap.md`. Per-skill compliance tiers are tracked in `reference/skill-registry.md`.
 
-Content-prep skills (currently just `podcast`) are intentionally exempt from CORTEX overhead per their own design — they produce artifacts (episode bundles, chapters) whose quality is judged by the human, not by automated gates.
+Content-prep skills (`journal` and `podcast`) are governed by their own workflow docs, not by CORTEX automated gates — quality is judged by the human against the canonical voice and feel.
 
 ---
 
 ## Architecture
 
 ```
-journal/
-├── framework.md                ← this file
-├── chapters/                   ← memoir text (plain .txt, no markdown)
-│   ├── preface.txt, ch00-intro.txt, ch01-man.txt, ch02-love.txt, ch03-marriage.txt
-│   └── snapshots/              ← date-stamped delta baselines
-├── reference/                  ← single source of truth for memoir knowledge
-│   ├── voice-fingerprint.md, voice-deep-analysis.md, craft-techniques.md
-│   ├── thematic-arc.md, biographical-context.md, chapter-status.md
-│   ├── locked-paragraphs.md, temporal-guardrail.md, translations-glossary.md
-│   ├── quotes-library.txt, quotes-workflow.md, clinic-library.txt
-│   ├── incident-bank.md, memoir-rules-supplement.txt
-│   ├── journal-workflow-v2.md  ← authoritative workflow (overrides SKILL.md)
-│   └── master-context.md       ← synthesized cross-chapter intelligence
-├── scratchpad/                 ← active working drafts (deleted post-finalization)
-├── site/                       ← journal SPA (React-via-Babel, no build)
-│   ├── index.html
-│   ├── chapters/               ← chapter .txt files mirrored for site reads
-│   ├── data/notes/             ← per-chapter reader notes
-│   ├── css/                    ← base, app, chapter-reader, themes/, ai-drawer, etc.
-│   └── js/                     ← claude-client, voice-refiner, theme-switcher, tweaker, toast
-├── server/                     ← local-only Claude proxy (port 3001)
+journal/                                    ← repo root
+├── framework.md                            ← this file
+├── content/                                ← all authored content (see Content tree above)
+│   ├── babu-memoir/
+│   └── podcast/
+├── reference/                              ← repo-wide skill governance
+│   ├── cortex-challenger-framework.md      ← the framework v1.0
+│   ├── skill-bootstrap.md                  ← shared SECTION 0 contract
+│   ├── skill-registry.md                   ← per-skill tier + file ownership
+│   └── skill-overlays/
+│       ├── journal-cortex-overlay.md
+│       ├── clean-commit-cortex-overlay.md
+│       ├── refine-cortex-overlay.md
+│       └── tell-me-cortex-overlay.md
+├── skills-staging/                         ← in-repo skill definitions
 │   ├── README.md
-│   └── src/
-│       ├── index.js            ← express bootstrap
-│       ├── routes/             ← core, usage, theme
-│       ├── prompts/            ← refine-general, theme-swatches, theme-review
-│       ├── lib/                ← keychain, refine, voice-fingerprint, usage-summary, gemini-client
-│       ├── middleware/         ← access-auth, usage-logger, rate-limit, throttle-budget
-│       └── schemas/            ← theme-save.schema.json (only surviving schema)
-├── shared/                     ← shared client/server modules (tag-normalize)
-├── docs/                       ← anthropic-api-setup, proxy-setup, cloudflare integrations
-├── infra/                      ← Cloudflare deployment configs
-├── podcast/                    ← podcast content workspace (one folder per episode)
-│   ├── _README.md, _registry.md
-│   ├── _archive/, _workspace/
-│   └── episodes/EP##-<slug>/   ← 5-to-6-file NotebookLM source bundles
-├── skills-staging/             ← skills (see registry in README.md)
-│   ├── css-theme-sync/, ui-modernizer/, repo-surgeon/, usage-auditor/  (engineering)
-│   └── podcast/                ← NotebookLM source-bundle agent (content-prep, out of CORTEX scope)
-└── .github/agents/             ← CORTEX, journal-orchestrator, repo-surgeon
+│   ├── podcast/                            ← podcast skill (SKILL.md + scripts/)
+│   ├── css-theme-sync/, ui-modernizer/, repo-surgeon/, usage-auditor/
+├── scripts/
+│   ├── memoir/                             ← auto_delta, detect_user_delta, save_snapshot, refresh_all_snapshots
+│   ├── podcast/                            ← build_episode_txt.py (draft → single-txt deliverable)
+│   ├── site/                               ← sync_chapters.sh (canonical memoir → site mirror)
+│   ├── git-hooks/, install-git-hooks.sh
+├── site/                                   ← journal SPA (React-via-Babel, no build)
+│   ├── index.html
+│   ├── chapters/                           ← BUILD ARTIFACT — mirror of content/babu-memoir/chapters/
+│   │                                          (synced by scripts/site/sync_chapters.sh)
+│   ├── data/notes/                         ← per-chapter reader notes
+│   ├── css/                                ← base, app, chapter-reader, themes/, ai-drawer, etc.
+│   └── js/                                 ← claude-client, voice-refiner, theme-switcher, tweaker, toast
+├── server/                                 ← local-only Claude proxy (port 3001)
+│   └── src/                                ← index, routes/, prompts/, lib/, middleware/, schemas/
+├── shared/                                 ← shared client/server modules (tag-normalize)
+├── docs/                                   ← anthropic-api-setup, proxy-setup, cloudflare integrations
+├── infra/                                  ← Cloudflare deployment configs
+├── _workspace/                             ← gitignored scratch (chats, ideas, screenshots)
+└── .github/agents/                         ← CORTEX, journal-orchestrator, repo-surgeon
 ```
 
 ---
 
 ## The journal site + proxy
 
-The site (`site/`) is a single-page React-via-Babel app served as static files. It reads chapter text directly from `chapters/*.txt` and per-chapter notes from `site/data/notes/*.json`. There is no chapter-related backend at runtime.
+The site (`site/`) is a single-page React-via-Babel app served as static files. It reads chapter text directly from `site/chapters/*.txt` — which is a **build artifact** mirroring `content/babu-memoir/chapters/` (the canonical source). The mirror is refreshed via `scripts/site/sync_chapters.sh` after any chapter finalization, and before any site deploy. Per-chapter notes live in `site/data/notes/*.json`.
 
 The proxy (`server/`) is a small Express service on `127.0.0.1:3001` that holds the Anthropic API key (loaded from macOS Keychain at startup) so the browser never touches it. Its surface:
 
@@ -116,9 +175,11 @@ The proxy (`server/`) is a small Express service on `127.0.0.1:3001` that holds 
 | POST | `/api/voice-test` | Smoke test against memoir voice |
 | POST | `/api/refine` | Voice-DNA refinement (used by the AI drawer) |
 | POST | `/api/chat` | Generic passthrough with optional `promptName` |
-| GET | `/api/reference-data/:name` | Tier 0 JSON files |
+| GET | `/api/reference-data/:name` | Tier 0 JSON files (server-local, unrelated to memoir refs) |
 | GET | `/api/usage/summary` | Monthly spend rollup |
 | POST | `/api/theme-swatches`, `/api/theme-review`, `/api/theme-save` | Tweaker (theme authoring) |
+
+The voice-fingerprint files read by `server/src/lib/voice-fingerprint.js` resolve to `content/babu-memoir/_system/voice-fingerprint.md` and `voice-fingerprint-light.md`.
 
 Commands:
 
@@ -131,58 +192,31 @@ CORS is locked to localhost + the two deployed hostnames (`journal.kashkole.com`
 
 ---
 
-## Reference folder — single source of truth
-
-All memoir knowledge lives in `reference/`. No duplication across skills.
-
-### Voice & Craft
-- `voice-fingerprint.md` — Asif's writing voice DNA
-- `voice-deep-analysis.md` — Extended voice characteristics
-- `craft-techniques.md` — Writing techniques and patterns
-- `translations-glossary.md` — Urdu/cultural terms and translations
-
-### Memoir Structure
-- `thematic-arc.md` — Chapter themes and emotional progression
-- `biographical-context.md` — Timeline, key people, life events
-- `chapter-status.md` — Current state of each chapter
-- `locked-paragraphs.md` — Approved text that must not be changed
-- `temporal-guardrail.md` — Timeline consistency rules
-
-### Content Libraries
-- `quotes-library.txt` — Collected quotes for Babu's-advice sections
-- `quotes-workflow.md` — Extraction + weaving protocol
-- `clinic-library.txt` — Clinical signs library for cognitive/mental-health symptoms in incidents
-- `incident-bank.md` — All memoir incidents, classified and scored
-
-### Governance
-- `memoir-rules-supplement.txt` — Rules for voice, structure, duplication prevention
-- `journal-workflow-v2.md` — File-first model, eight-loop Challenger, git versioning
-- `master-context.md` — Synthesized cross-chapter intelligence
-
----
-
 ## Rules of Engagement
 
 ### 1. File-First Model
-All chapter work happens in `scratchpad/scratch-{name}.txt`. Chat is for section-numbered feedback only. Never dump prose into chat. Always present `computer://` file links so Asif can click through to read updates.
+All chapter work happens in `content/babu-memoir/_system/scratchpad/scratch-{name}.txt`. Chat is for section-numbered feedback only. Never dump prose into chat. Always present `computer://` file links so Asif can click through to read updates.
 
 ### 2. Voice Consistency
-Every sentence must pass the calibration in `reference/voice-fingerprint.md`. The Challenger gate (Section 4 of the workflow) catches drift.
+Every sentence must pass the calibration in `content/babu-memoir/_system/voice-fingerprint.md`. The Challenger gate (Section 4 of the workflow) catches drift.
 
 ### 3. No Duplication
-Content exists in exactly one place. Skills reference, they don't copy. If a file moves, update this framework and the skill registry.
+Content exists in exactly one place. Skills reference, they don't copy. The only sanctioned duplicate is `site/chapters/`, which is an explicit, scripted build-artifact mirror.
 
 ### 4. Snapshot Discipline
-Chapter snapshots use date stamps: `ch01-man-YYYY-MM-DD.txt`. Take a snapshot before any major edit session via `auto_delta.py --save`.
+Chapter snapshots use date stamps: `ch01-man-YYYY-MM-DD.txt`. Take a snapshot before any major edit session via `python3 scripts/memoir/save_snapshot.py content/babu-memoir/chapters/<file>.txt`. Snapshots land under `content/babu-memoir/_system/snapshots/`.
 
 ### 5. Babu Identity
 Asif IS Babu. The Babu voice is Asif's elder/wiser self addressing "Asif" (his younger self). Babu is NEVER Asif's father. Any incoming material that frames Babu as the father needs correction before being used.
 
 ### 6. Cowork-Canonical-Writes
-Canonical writes to `chapters/` and `reference/` happen via Cowork (Claude Code) only. The site/proxy never writes memoir state — the proxy is a read-only AI gateway for theme tweaking and voice refinement.
+Canonical writes to `content/` happen via Cowork (Claude Code) only. The site/proxy never writes content state — the proxy is a read-only AI gateway for theme tweaking and voice refinement.
 
-### 7. Integration Documentation
-Any external API (Anthropic, Cloudflare Access, etc.) gets a corresponding doc in `docs/` covering auth, rate limits, error behavior, operational notes, and Keychain key name. Created when the integration ships; updated when it changes.
+### 7. Podcast Episode Deliverable
+Per-episode work is authored as a 5–6 file markdown draft under `content/podcast/<book>/_system/episode-drafts/EP##-<slug>/`. The single concatenated `content/podcast/<book>/episodes/EP##-<slug>.txt` is the ONLY artifact uploaded to NotebookLM. It is rebuilt by `scripts/podcast/build_episode_txt.py` on every change to the draft — never hand-edited.
+
+### 8. Integration Documentation
+Any external API (Anthropic, Cloudflare Access, etc.) gets a corresponding doc in `docs/` covering auth, rate limits, error behavior, operational notes, and Keychain key name.
 
 ---
 
@@ -198,3 +232,12 @@ For historical reference. All of these live on the branch `archive/full-stack-pr
 - The MCP ops server (`server/src/mcp/`).
 
 If anything from that branch needs to come back, cherry-pick from `archive/full-stack-pre-strip` rather than rewriting from scratch.
+
+## What changed in v3.2
+
+- Introduced `content/` tree. `babu-memoir/` and `podcast/<book>/` siblings, each with `_system/` + `chapters/` (+ `episodes/` for podcast only).
+- Memoir refs moved from `reference/` to `content/babu-memoir/_system/`. Memoir scratchpad and snapshots followed.
+- Podcast moved from `podcast/` to `content/podcast/ayyuhal-walad/`. Episode deliverables flattened from 5–6-file folders to single concatenated `EP##.txt` files; the per-section markdown drafts persist under `_system/episode-drafts/`.
+- New script `scripts/podcast/build_episode_txt.py` builds the single-txt deliverable from a draft.
+- New script `scripts/site/sync_chapters.sh` mirrors `content/babu-memoir/chapters/` into `site/chapters/` for Cloudflare deploy.
+- `reference/` now holds only repo-wide skill governance: framework, bootstrap, registry, overlays. No memoir content.

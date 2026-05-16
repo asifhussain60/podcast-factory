@@ -9,7 +9,7 @@ SECTION 0: ORDER OF OPERATIONS. READ THIS FIRST.
 
 This file is not the workflow. The workflow is:
 
-    JOURNAL_DIR/reference/journal-workflow-v2.md
+    JOURNAL_DIR/content/babu-memoir/_system/journal-workflow-v2.md
 
 Read journal-workflow-v2.md before anything else. Before any other
 reference file. Before running any script. It replaces SKILL.md
@@ -396,7 +396,7 @@ AGENT WORKFLOW:
     - If it belongs in the active chapter, offer to draft it into the
       chapter scratchpad immediately
 
-INCIDENT BANK LOCATION: JOURNAL_DIR/reference/incident-bank.md
+INCIDENT BANK LOCATION: JOURNAL_DIR/content/babu-memoir/_system/incident-bank.md
 INCIDENT SCRATCHPAD: JOURNAL_DIR/scratchpad/scratch-incidents.txt
 ID FORMAT: [INC-NNN] sequential, never reused
 STATUS KEY: PLACED | DRAFTED | BANKED | NEEDS-QQ | IN-REVIEW

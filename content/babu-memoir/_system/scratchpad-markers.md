@@ -1,12 +1,12 @@
 # Scratchpad Markers (`@@`) — Journal Skill Reference
 
-**Authoritative spec for the `@@` marker vocabulary within the journal skill.** Used for memoir chapter refinement via memoir chapter scratchpads in `scratchpad/`. The podcast skill maintains a parallel, independent copy at `skills-staging/podcast/references/scratchpad-markers.md`. The two copies are independent; changes to one do not require changes to the other.
+**Authoritative spec for the `@@` marker vocabulary within the journal skill.** Used for memoir chapter refinement via memoir chapter scratchpads in `content/babu-memoir/_system/scratchpad/`. The podcast skill maintains a parallel, independent copy at `content/podcast/_system/scratchpad-markers.md`. The two copies are independent; changes to one do not require changes to the other.
 
 ---
 
 ## The mental model
 
-A **canonical file** is the finished artifact — a memoir chapter in `chapters/`. The canonical file is what gets shipped and published.
+A **canonical file** is the finished artifact — a memoir chapter in `content/babu-memoir/chapters/`. The canonical file is what gets shipped and published.
 
 A **scratchpad file** mirrors the canonical file and carries `@@` markers. The user writes markers in the scratchpad; the skill scans, processes, and strips them; then it rewrites the canonical file. The scratchpad and canonical stay in sync but serve different purposes: the canonical for delivery, the scratchpad for direction-from-the-user.
 
@@ -43,7 +43,7 @@ Apply only to where the marker is placed. Cannot propagate because they referenc
 
 `@@policy(directive)`.
 
-Lifted into `scratchpad/series-policies.md` and applied as augmentation to every refinement pass — for the marked chapter and for every other chapter the skill subsequently refines.
+Lifted into `content/babu-memoir/_system/scratchpad/series-policies.md` and applied as augmentation to every refinement pass — for the marked chapter and for every other chapter the skill subsequently refines.
 
 The policy file is a persistent style guide for the project. Each entry has provenance (which scratchpad it came from, when), the directive itself, and an active/inactive flag. The user can edit the file directly to adjust, deactivate, or remove policies.
 
@@ -102,7 +102,7 @@ The scratchpad never becomes a long-lived artifact carrying stale markers. Every
 
 | Skill | Canonical | Scratchpad |
 |---|---|---|
-| journal | `chapters/ch03-marriage.txt` | `scratchpad/scratch-marriage.txt` |
+| journal | `content/babu-memoir/chapters/ch03-marriage.txt` | `content/babu-memoir/_system/scratchpad/scratch-marriage.txt` |
 
 ### Scratchpad file structure
 
@@ -147,7 +147,7 @@ If the answer is "edit a configuration file," that's not a marker.
 - Every `@@` marker in memoir files uses one of the 10 known journal verbs.
 - Marker format is parseable (`@@verb` with optional parenthesized argument).
 - Canonical chapter files contain zero markers.
-- The validator scans `chapters/` and `chapters/scratchpads/` only.
+- The validator scans `content/babu-memoir/chapters/` and `content/babu-memoir/_system/scratchpad/` only.
 
 Podcast scratchpad validation is the podcast skill's own responsibility and is not part of this validator.
 

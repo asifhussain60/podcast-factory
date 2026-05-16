@@ -24,29 +24,29 @@ SECTION 1: SESSION START PROTOCOL
 
 Before doing ANY work, read these files in this order:
 
-1. JOURNAL_DIR/reference/memoir-rules-supplement.txt
-2. JOURNAL_DIR/reference/master-context.md (synthesized cross-chapter
+1. JOURNAL_DIR/content/babu-memoir/_system/memoir-rules-supplement.txt
+2. JOURNAL_DIR/content/babu-memoir/_system/master-context.md (synthesized cross-chapter
    intelligence; replaces reading every chapter individually)
-3. JOURNAL_DIR/reference/voice-deep-analysis.md
-4. JOURNAL_DIR/reference/voice-fingerprint.md  (Babu-correct override)
-5. JOURNAL_DIR/reference/craft-techniques.md  (Babu-correct override)
-6. JOURNAL_DIR/reference/thematic-arc.md  (Babu-correct override)
-7. JOURNAL_DIR/reference/biographical-context.md + supplement Bio Context
-8. JOURNAL_DIR/reference/locked-paragraphs.md
-9. JOURNAL_DIR/reference/quotes-library.txt
-10. JOURNAL_DIR/reference/incident-bank.md
-11. JOURNAL_DIR/reference/quotes-workflow.md  (extraction + weaving protocol)
-12. JOURNAL_DIR/reference/translations-glossary.md  (canonical translations)
-13. JOURNAL_DIR/reference/chapter-status.md  (current state of every chapter)
+3. JOURNAL_DIR/content/babu-memoir/_system/voice-deep-analysis.md
+4. JOURNAL_DIR/content/babu-memoir/_system/voice-fingerprint.md  (Babu-correct override)
+5. JOURNAL_DIR/content/babu-memoir/_system/craft-techniques.md  (Babu-correct override)
+6. JOURNAL_DIR/content/babu-memoir/_system/thematic-arc.md  (Babu-correct override)
+7. JOURNAL_DIR/content/babu-memoir/_system/biographical-context.md + supplement Bio Context
+8. JOURNAL_DIR/content/babu-memoir/_system/locked-paragraphs.md
+9. JOURNAL_DIR/content/babu-memoir/_system/quotes-library.txt
+10. JOURNAL_DIR/content/babu-memoir/_system/incident-bank.md
+11. JOURNAL_DIR/content/babu-memoir/_system/quotes-workflow.md  (extraction + weaving protocol)
+12. JOURNAL_DIR/content/babu-memoir/_system/translations-glossary.md  (canonical translations)
+13. JOURNAL_DIR/content/babu-memoir/_system/chapter-status.md  (current state of every chapter)
 
-NOTE: Steps 4-7 read the writable JOURNAL_DIR/reference/ versions
+NOTE: Steps 4-7 read the writable JOURNAL_DIR/content/babu-memoir/_system/ versions
 rather than the read-only SKILL_DIR/references/ originals. The writable
 copies carry the Babu nomenclature override and any session-specific
 edits. Do not fall back to SKILL_DIR/references/ unless the writable
 copy is missing.
 
 Then run delta detection:
-  python3 <JOURNAL_DIR>/scripts/memoir/auto_delta.py <JOURNAL_DIR>/chapters
+  python3 <JOURNAL_DIR>/scripts/memoir/auto_delta.py <JOURNAL_DIR>/content/babu-memoir/chapters
 
 Read the full delta report before touching any file. (Legacy SKILL_DIR
 location at ~/Library/Application Support/Claude/.../skills/journal/scripts/
@@ -57,27 +57,30 @@ SECTION 2: FOLDER STRUCTURE
 ============================================================
 
 JOURNAL_DIR/
-  chapters/              Final chapter files only
-    ch00-intro.txt
-    ch01-man.txt
-    ch02-love.txt
-    ch03-marriage.txt
-    snapshots/           Delta snapshots
-  reference/             All reference documents
-    master-context.md    Synthesized cross-chapter intelligence
-    journal-workflow-v2.md  THIS FILE (authoritative workflow)
-    memoir-rules-supplement.txt
-    voice-deep-analysis.md
-    locked-paragraphs.md
-    quotes-library.txt
-    incident-bank.md
-    temporal-guardrail.md
-  scratchpad/            Working files (one per chapter)
-    scratch-love.txt     Active working file
+  content/
+    babu-memoir/
+      _system/                     All reference + working state
+        master-context.md          Synthesized cross-chapter intelligence
+        journal-workflow-v2.md     THIS FILE (authoritative workflow)
+        memoir-rules-supplement.txt
+        voice-deep-analysis.md
+        locked-paragraphs.md
+        quotes-library.txt
+        incident-bank.md
+        temporal-guardrail.md
+        snapshots/                 Delta snapshots (date-stamped)
+        scratchpad/                Working files (one per chapter)
+          scratch-love.txt         Active working file
+      chapters/                    Final chapter files only
+        preface.txt
+        ch00-intro.txt
+        ch01-man.txt
+        ch02-love.txt
+        ch03-marriage.txt
 
 Rules:
   - One active scratchpad per chapter at a time.
-  - Naming: scratch-{chapter-name}.txt
+  - Naming: scratch-{chapter-name}.txt (under content/babu-memoir/_system/scratchpad/)
   - No version files. Git handles all history.
   - After finalization, scratchpad file is deleted.
   - scratchpad/ folder stays clean between sessions.
@@ -107,7 +110,7 @@ direction (1-2 sentences), the skill:
      could be mined for new incident bank entries. If found, suggest
      to Asif before drafting.
   6. Checks quotes-library.txt for unused quotes fitting this chapter
-  7. Writes the FULL chapter into scratchpad/scratch-{name}.txt:
+  7. Writes the FULL chapter into content/babu-memoir/_system/scratchpad/scratch-{name}.txt:
      - Holistic write following the arc: experience → ownership → wisdom
      - Three-phase balance: Experiences ~50-60%, Learnings ~20-30%,
        Babu's Advice ~15-20%
@@ -122,8 +125,8 @@ direction (1-2 sentences), the skill:
        === SECTION N: Title ===
   8. Git-commits the scratchpad: "scratch-{name}: initial draft"
   9. OPENS BOTH FILES for Asif to review:
-     - Present scratchpad file: scratchpad/scratch-{name}.txt
-     - Present chapter file: chapters/ch{NN}-{name}.txt (if exists)
+     - Present scratchpad file: content/babu-memoir/_system/scratchpad/scratch-{name}.txt
+     - Present chapter file: content/babu-memoir/chapters/ch{NN}-{name}.txt (if exists)
      Use computer:// links so Asif can click to open them directly.
   10. Reports in chat: section count, readiness score, any incident
       suggestions. NEVER dumps text into chat.
@@ -191,9 +194,9 @@ Once ALL sections reviewed and approved:
 
 When Challenger approves:
   1. Strip section headers from scratchpad
-  2. Write clean content to chapters/ch{NN}-{name}.txt
+  2. Write clean content to content/babu-memoir/chapters/ch{NN}-{name}.txt
   3. OPEN the finalized chapter file for Asif using computer:// link:
-     chapters/ch{NN}-{name}.txt
+     content/babu-memoir/chapters/ch{NN}-{name}.txt
   4. Lock new/modified paragraphs in locked-paragraphs.md
   4. Update quotes-library.txt usage markers
   5. Update incident-bank.md placement status
@@ -321,9 +324,9 @@ All scratchpad history tracked via git commits:
   - Finalization: "ch{NN}-{name}: finalized"
 
 Commands:
-  - History: git log --oneline scratchpad/scratch-{name}.txt
-  - Diff: git diff HEAD~1 scratchpad/scratch-{name}.txt
-  - Rollback: git checkout HEAD~1 -- scratchpad/scratch-{name}.txt
+  - History: git log --oneline content/babu-memoir/_system/scratchpad/scratch-{name}.txt
+  - Diff: git diff HEAD~1 content/babu-memoir/_system/scratchpad/scratch-{name}.txt
+  - Rollback: git checkout HEAD~1 -- content/babu-memoir/_system/scratchpad/scratch-{name}.txt
 
 No file copies. Git is sole version control.
 
@@ -337,8 +340,8 @@ SECTION 6: OUTPUT RULES
 - Scratchpad: === SECTION N: Title === headers (stripped on finalization).
 - NEVER dump chapter text into chat.
 - ALWAYS present file links after ANY update to scratchpad or chapter:
-  [View scratchpad](computer://<JOURNAL_DIR>/scratchpad/scratch-{name}.txt)
-  [View chapter](computer://<JOURNAL_DIR>/chapters/ch{NN}-{name}.txt)
+  [View scratchpad](computer://<JOURNAL_DIR>/content/babu-memoir/_system/scratchpad/scratch-{name}.txt)
+  [View chapter](computer://<JOURNAL_DIR>/content/babu-memoir/chapters/ch{NN}-{name}.txt)
   Where <JOURNAL_DIR> is Asif's mounted journal folder. In Cowork
   sessions this resolves to /Users/asifhussain/PROJECTS/journal. Use
   the user-facing path, not the sandbox session path. The user
@@ -369,14 +372,14 @@ SECTION 8: REFERENCE FILE INDEX
 A. Skill Directory (SKILL_DIR/references/). READ-ONLY, FROZEN.
    These are the original "Dad"-flavored references. Do not read
    them directly. Every memoir-relevant one has a writable Babu
-   override at JOURNAL_DIR/reference/. Listed here only so the
+   override at JOURNAL_DIR/content/babu-memoir/_system/. Listed here only so the
    agent knows what exists in the plugin folder.
 
    voice-fingerprint.md, craft-techniques.md, thematic-arc.md,
    biographical-context.md, chapter-status.md, quotes-workflow.md,
    translations-glossary.md
 
-B. Journal Directory (JOURNAL_DIR/reference/). WRITABLE, AUTHORITATIVE.
+B. Journal Directory (JOURNAL_DIR/content/babu-memoir/_system/). WRITABLE, AUTHORITATIVE.
 
    B1. Always read at session start (in this order):
        memoir-rules-supplement.txt, master-context.md, voice-deep-analysis.md,
@@ -397,13 +400,13 @@ B. Journal Directory (JOURNAL_DIR/reference/). WRITABLE, AUTHORITATIVE.
        voice-fingerprint-light.md   used by Babu app orchestrators
                                     (highlights, short labels)
 
-C. Scratchpad (JOURNAL_DIR/scratchpad/). TEMPORARY.
+C. Scratchpad (JOURNAL_DIR/content/babu-memoir/_system/scratchpad/). TEMPORARY.
    scratch-{chapter-name}.txt   active chapter working file
    scratch-incidents.txt        active incident draft batch
    .gitkeep                     keeps folder tracked when empty
    Files here are deleted after finalization (history in git).
 
-D. Chapters (JOURNAL_DIR/chapters/)
+D. Chapters (JOURNAL_DIR/content/babu-memoir/chapters/)
    ch00-intro.txt, ch01-man.txt, ch02-love.txt, ch03-marriage.txt,
    preface.txt, snapshots/{base}-snapshot.txt (delta baseline)
 

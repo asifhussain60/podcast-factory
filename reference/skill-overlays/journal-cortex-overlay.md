@@ -123,7 +123,7 @@ Before Phase 1 (rebuild in scratchpad), the journal skill verifies these DoR dim
 |---|---|---|
 | Input completeness | 25% | Chapter target file exists and is readable |
 | Context clarity | 25% | Asif has specified the chapter (e.g., "ch01-man") and the scope (full rewrite / specific section) |
-| Dependency resolution | 25% | `reference/voice-fingerprint.md`, `reference/memoir-rules-supplement.txt`, `reference/translations-glossary.md`, `reference/incident-bank.md`, `reference/temporal-guardrail.md`, `reference/locked-paragraphs.md` all readable; delta protocol has run (or doesn't need to) |
+| Dependency resolution | 25% | `content/babu-memoir/_system/voice-fingerprint.md`, `content/babu-memoir/_system/memoir-rules-supplement.txt`, `content/babu-memoir/_system/translations-glossary.md`, `content/babu-memoir/_system/incident-bank.md`, `content/babu-memoir/_system/temporal-guardrail.md`, `content/babu-memoir/_system/locked-paragraphs.md` all readable; delta protocol has run (or doesn't need to) |
 | Risk assessment | 15% | If chapter contains locked paragraphs or delta-protected paragraphs, Asif is aware they will not be modified |
 | Output target identified | 10% | Scratchpad path determined |
 

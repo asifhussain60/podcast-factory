@@ -36,7 +36,7 @@ Text that is cut off, obscured, or unclear: note it with [unclear] or [partial] 
 
 ### Stage 2: Log
 Append each extracted quote to the quotes library file at:
-`reference/quotes-library.txt`
+`content/babu-memoir/_system/quotes-library.txt`
 
 Use this exact format for each entry:
 

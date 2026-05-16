@@ -327,12 +327,12 @@ Only one skill may write to a given file in a single transaction. Other skills p
 | Target | Owner |
 |---|---|
 | `chapters/*.txt` | journal |
-| `reference/translations-glossary.md` (memoir sections) | journal |
-| `reference/translations-glossary.md` (Podcast Pronunciation Lexicon section) | podcast |
-| `reference/quotes-library.txt` | journal (other skills propose) |
-| `reference/clinic-library.txt` | journal (other skills propose) |
-| `reference/incident-bank.md` | journal only |
-| `reference/voice-fingerprint*.md` | journal only |
+| `content/babu-memoir/_system/translations-glossary.md` (memoir sections) | journal |
+| `content/babu-memoir/_system/translations-glossary.md` (Podcast Pronunciation Lexicon section) | podcast |
+| `content/babu-memoir/_system/quotes-library.txt` | journal (other skills propose) |
+| `content/babu-memoir/_system/clinic-library.txt` | journal (other skills propose) |
+| `content/babu-memoir/_system/incident-bank.md` | journal only |
+| `content/babu-memoir/_system/voice-fingerprint*.md` | journal only |
 | `_workspace/podcast/<slug>/*` | podcast |
 | Theme CSS files | css-theme-sync |
 | `site/*.html` | ui-modernizer (with css-theme-sync coordinating) |
