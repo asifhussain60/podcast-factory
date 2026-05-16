@@ -1,0 +1,67 @@
+name: christian
+description: |
+  Christian tradition whitelist — starter file.
+  Covers broad Christian theological material across major branches.
+  Distinguishes by sub-tradition when the source declares one.
+
+figures:
+  - "Jesus Christ"
+  - "The Apostles (Peter, Paul, John, James, etc.)"
+  - "Augustine of Hippo"
+  - "Thomas Aquinas"
+  - "Origen"
+  - "Athanasius"
+  - "John Chrysostom"
+  - "Martin Luther"
+  - "John Calvin"
+  - "Soren Kierkegaard"
+  - "C.S. Lewis"
+  - "Karl Barth"
+  - "Hans Urs von Balthasar"
+
+signal_terms:
+  - "trinity"
+  - "incarnation"
+  - "redemption"
+  - "atonement"
+  - "salvation"
+  - "kerygma"
+  - "kenosis"
+  - "theosis"
+  - "logos"
+  - "sacrament"
+  - "eucharist"
+  - "ecclesiology"
+  - "patristics"
+
+allowed_enrichment_sources:
+  - "The Bible (specify translation when quoting)"
+  - "Church Fathers (patristic writings)"
+  - "Councils of the Church for doctrinal context"
+  - "Major theological works of named figures"
+  - "Peer-reviewed Christian academic theology"
+
+forbidden_enrichment_sources:
+  - "Sectarian polemics across Christian branches"
+  - "Anti-religious polemics dressed as commentary"
+  - "Online sources without clear scholarly attribution"
+
+tone_preferences:
+  - "Preserve reverence in passages about Christ and the Trinity"
+  - "Honor the source's denominational stance — do not impose Catholic, Protestant, or Orthodox framing if the source belongs to a different branch"
+  - "Distinguish between dogma and theological opinion when the source makes the distinction"
+
+modern_analogy_register:
+  preferred_domains:
+    - "Vocation, calling, and life's work"
+    - "Reconciliation in relationships and institutions"
+    - "Hospitality and table-fellowship"
+    - "Stewardship as a model for responsibility"
+  avoid_domains:
+    - "Political analogies that map theological positions onto party platforms"
+    - "Marketplace metaphors that flatten grace to transaction"
+
+quote_attribution_requirements:
+  - "Direct attribution to a named figure or to a specific scriptural reference"
+  - "Translation cited when applicable"
+  - "Source verifiable in an allowed_enrichment_source"

@@ -1,0 +1,152 @@
+name: ismaili
+description: |
+  Ismaili tradition enrichment whitelist.
+  Comprehensive curation for Fatimid-era and modern Ismaili scholarly material.
+  Used by the /podcast skill when source-tradition resolves to "ismaili".
+
+# Figures whose teachings can be referenced during enrichment.
+# Any quote or teaching from these figures must be verifiable in published Ismaili
+# tradition sources. The skill never invents quotations.
+figures:
+  # Prophet
+  - "Prophet Muhammad"
+  - "Muhammad (peace and blessings be upon him)"
+
+  # The Imams in the Ismaili line — first seven (the Mustali / Tayyibi and Nizari lines
+  # share the first seven before divergence)
+  - "Imam Ali ibn Abi Talib"
+  - "Imam Hasan ibn Ali"
+  - "Imam Husayn ibn Ali"
+  - "Imam Ali Zayn al-Abidin"
+  - "Imam Muhammad al-Baqir"
+  - "Imam Ja'far al-Sadiq"
+  - "Imam Isma'il ibn Ja'far"
+  - "Imam Muhammad ibn Isma'il"
+
+  # Fatimid Caliphs / Imams of the Fatimid era
+  - "Imam al-Mahdi (Ubayd Allah)"
+  - "Imam al-Qa'im"
+  - "Imam al-Mansur"
+  - "Imam al-Mu'izz"
+  - "Imam al-Aziz"
+  - "Imam al-Hakim"
+  - "Imam al-Zahir"
+  - "Imam al-Mustansir"
+
+  # Recognized Ismaili scholars and dais (classical)
+  - "Qadi al-Numan ibn Muhammad"
+  - "Abu Hatim al-Razi"
+  - "Abu Ya'qub al-Sijistani"
+  - "Hamid al-Din al-Kirmani"
+  - "Ja'far ibn Mansur al-Yaman"
+  - "Nasir-i Khusraw"
+  - "al-Mu'ayyad fi'l-Din al-Shirazi"
+  - "Hatim al-Hamidi"
+  - "Idris Imad al-Din"
+
+  # Post-Fatimid and modern Ismaili figures
+  - "Nasir al-Din al-Tusi"
+  - "Hasan-i Sabbah (historical context)"
+
+  # Contemporary Ismaili scholarship (academic, IIS-affiliated)
+  - "Farhad Daftary"
+  - "Aziz Esmail"
+  - "Azim Nanji"
+  - "Wilferd Madelung"  # not Ismaili but a recognized scholar of Ismaili thought
+  - "Heinz Halm"        # not Ismaili but academically authoritative
+
+# Signal terms — vocabulary whose appearance suggests Ismaili tradition.
+# Used by Stage 04 tradition detection.
+signal_terms:
+  - "taa-weel"
+  - "ta'wil"
+  - "wilaayah"
+  - "wilayat"
+  - "natiq"
+  - "samit"
+  - "asas"
+  - "da'i"
+  - "da'wah"
+  - "hujjah"
+  - "imamat"
+  - "imamate"
+  - "batin"
+  - "zahir"
+  - "haqiqa"
+  - "ma'rifa"
+  - "ginan"
+  - "sat panth"
+  - "satpanth"
+  - "ginanic"
+  - "fatimid"
+  - "musta'li"
+  - "nizari"
+  - "tayyibi"
+  - "ismaili"
+
+# Allowed enrichment sources during Stage 10.
+# Enrichment can quote, paraphrase, or summarize from these.
+# Always with proper attribution recorded in 04-editorial-notes.md.
+allowed_enrichment_sources:
+  - "The Holy Qur'an (any translation, attribute the translator)"
+  - "Hadith collections used within Ismaili tradition (Da'a'im al-Islam by Qadi al-Numan)"
+  - "Sayings of Imam Ali (Nahj al-Balagha)"
+  - "Teachings of the first seven Imams as transmitted in Ismaili tradition"
+  - "Qadi al-Numan — legal and esoteric works"
+  - "Nasir-i Khusraw — Wajh-i Din, Jami al-Hikmatayn, Diwan"
+  - "Abu Ya'qub al-Sijistani — Kitab al-Yanabi, Kashf al-Mahjub"
+  - "Hamid al-Din al-Kirmani — Rahat al-Aql, al-Risala al-Hawiyya"
+  - "Ja'far ibn Mansur al-Yaman — Sara'ir wa Asrar al-Nutaqa', Kitab al-Alim wa'l-Ghulam (The Master and the Disciple)"
+  - "al-Mu'ayyad al-Shirazi — Majalis al-Mu'ayyadiyya"
+  - "Idris Imad al-Din — Uyun al-Akhbar"
+  - "Nasir al-Din al-Tusi — Rawdat al-Taslim"
+  - "Contemporary IIS publications (peer-reviewed)"
+  - "Established academic works on Fatimid history and Ismaili thought"
+
+# Forbidden enrichment sources — never used.
+forbidden_enrichment_sources:
+  - "Non-Ismaili hadith collections used to argue against Ismaili interpretation"
+  - "Sectarian polemics from any tradition"
+  - "Modern non-academic commentary on Ismaili texts"
+  - "Sources promoting takfir (excommunication) of any group"
+  - "Anonymous or unattributed online sources"
+  - "Generative-AI-produced 'quotations' attributed to historical figures"
+
+# Tone preferences for refinement (Stage 12).
+tone_preferences:
+  - "Preserve reverence in theological passages — no casual rephrasing of claims about Allah, Prophets, or Imams"
+  - "Preserve honorifics — Prophet ﷺ in original-script renders as 'peace and blessings be upon him' (or 'peace be upon him' for prophets other than Muhammad); Imam (peace be upon him) for Imams"
+  - "Preserve restraint — Ismaili tradition values measured speech; do not amplify or dramatize"
+  - "Preserve esoteric / exoteric distinction (zahir / batin) — when the source distinguishes outward and inner meaning, the refined text must preserve that distinction explicitly"
+  - "Preserve the hierarchy of figures — Prophet, Imams, hujjahs, da'is — when one is mentioned in relation to another, preserve the relational language"
+
+# Modern analogy register for Stage 11.
+modern_analogy_register:
+  preferred_domains:
+    - "Software architecture (UI / source code / system architecture as parallel to zahir / batin / haqiqa)"
+    - "Professional licensing and authorization (oath / covenant; admission into a profession)"
+    - "Mentorship and apprenticeship (scholar / seeker; medical residency; trade apprenticeship)"
+    - "Secure access systems (knowledge transmission; password vs. authorization vs. role)"
+    - "Open-source maintainership and chain of trust (the chain of guidance)"
+    - "Editorial and legal interpretation (taa-weel as disciplined interpretation, not free imagination)"
+    - "Engineering blueprints vs. instructions (the difference between knowing the practice and knowing why)"
+
+  acceptable_domains:
+    - "Mentorship in arts and sciences"
+    - "Tradition-based crafts (master / apprentice)"
+    - "Constitutional interpretation as analogy for ta'wil"
+
+  avoid_domains:
+    - "Any analogy that flattens spiritual hierarchy to mere institutional bureaucracy"
+    - "Any analogy that equates revelation with information theory or data"
+    - "Any analogy that suggests the Imam is a CEO, manager, or political figure"
+    - "Any analogy that treats faith as a transaction or a marketing funnel"
+    - "Pop-culture analogies that would be dated within a year"
+
+# Quality rule for quotes proposed to quotes-library.txt from sources in this tradition.
+quote_attribution_requirements:
+  - "Direct attribution to a named figure in the figures list"
+  - "Source citation (work title + chapter/section if available)"
+  - "Translator name if the quote is translated"
+  - "Confirmation the quote appears in an allowed_enrichment_source"
+  - "Quotes attributed to Prophet ﷺ must come from Da'a'im al-Islam or another tradition-accepted source — not from contested hadith collections"

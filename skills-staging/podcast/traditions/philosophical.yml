@@ -1,0 +1,71 @@
+name: philosophical
+description: |
+  Philosophical tradition whitelist — starter file.
+  For sources from Western, Eastern, or comparative philosophy that aren't tied
+  to a single religious tradition. Use a religious tradition file instead when
+  the source is fundamentally religious.
+
+figures:
+  - "Plato"
+  - "Aristotle"
+  - "Plotinus"
+  - "Confucius"
+  - "Laozi"
+  - "Nagarjuna"
+  - "Descartes"
+  - "Spinoza"
+  - "Kant"
+  - "Hegel"
+  - "Nietzsche"
+  - "William James"
+  - "Wittgenstein"
+  - "Heidegger"
+  - "Hannah Arendt"
+  - "Simone Weil"
+  - "Iris Murdoch"
+  - "Charles Taylor"
+
+signal_terms:
+  - "ontology"
+  - "epistemology"
+  - "metaphysics"
+  - "phenomenology"
+  - "existentialism"
+  - "hermeneutics"
+  - "dialectic"
+  - "praxis"
+  - "telos"
+  - "noumenon"
+  - "phenomenon"
+  - "a priori"
+
+allowed_enrichment_sources:
+  - "Primary works of named figures"
+  - "Peer-reviewed academic philosophy"
+  - "Stanford Encyclopedia of Philosophy"
+  - "Established secondary literature with clear attribution"
+
+forbidden_enrichment_sources:
+  - "Popular philosophy books that misrepresent primary sources"
+  - "Online sources without clear scholarly attribution"
+  - "Self-help framings of philosophical concepts"
+
+tone_preferences:
+  - "Preserve argumentative structure — premises, inferences, conclusions"
+  - "Honor the source's school — do not impose continental framing on analytic work or vice versa"
+  - "Distinguish between the philosopher's claim and the reader's interpretation"
+
+modern_analogy_register:
+  preferred_domains:
+    - "Scientific method and experimental design"
+    - "Mathematical reasoning"
+    - "Legal interpretation"
+    - "Engineering trade-offs"
+  avoid_domains:
+    - "Marketing or business strategy parallels"
+    - "Political party positions"
+
+quote_attribution_requirements:
+  - "Direct attribution to a named figure"
+  - "Work title and section/Bekker number for Aristotle / Stephanus for Plato when available"
+  - "Translator named if translated"
