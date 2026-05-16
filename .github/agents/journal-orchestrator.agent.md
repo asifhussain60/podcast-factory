@@ -57,7 +57,7 @@ The site/proxy is a read-only AI gateway for theme tweaking and voice refinement
 | "modernize ui", "run ui phases" | `ui-modernizer` | Cowork T3 | SILVER (target) |
 | "repo review", "architectural audit", "cleanup sweep", "root clutter" | `repo-surgeon` | Cowork T3 | BRONZE (target) |
 | "audit usage", "spend report" | `usage-auditor` | Cowork T3 | BRONZE (target) |
-| "podcast", "/podcast", "@podcast", "new episode", "next episode", "turn this into a podcast", "NotebookLM episode", "audio overview", "make this a podcast", "I want to listen to this", "distill for podcast", "episode bundle" | `podcast` (`skills-staging/podcast/SKILL.md`; content workspace at `podcast/`) | Cowork T3 | OUT OF SCOPE (content-prep, by design) |
+| "podcast", "/podcast", "@podcast", "new episode", "next episode", "turn this into a podcast", "NotebookLM episode", "audio overview", "make this a podcast", "I want to listen to this", "distill for podcast", "episode bundle" | `podcast` (`skills-staging/podcast/SKILL.md`; content workspace at `podcast/`) | Cowork T3 | OUT OF SCOPE (content-prep, by design; enforce per-section Arabic phonetic coverage in source files) |
 | CSS/theme review after edits to `site/css/` or `site/index.html` | `ui-reviewer` (`.claude/agents/ui-reviewer.md`) — runs on Stop hook automatically | — | (agent, not skill) |
 
 If an intent doesn't match a registered skill, default to direct Cowork action and tell Asif which skill (if any) you considered.
