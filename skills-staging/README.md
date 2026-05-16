@@ -1,6 +1,8 @@
-# Skills Registry (memoir-only)
+# Skills Registry (memoir + podcast)
 
-Central index of the skills that support the memoir engine and the journal site. As of v3.1 (2026-05-16) every skill targets the **CORTEX Challenger Framework v1.0** (`reference/cortex-challenger-framework.md`) and cites the shared SECTION 0 contract at `reference/skill-bootstrap.md`. As of v3.0 (2026-05-12) the trip/daybook/DayOne skills have been removed — see `framework.md` §"What was removed in v3.0".
+Central index of the skills that support the memoir engine, the journal site, and the podcast workspace. As of v3.1 (2026-05-16) every **engineering** skill targets the **CORTEX Challenger Framework v1.0** (`reference/cortex-challenger-framework.md`) and cites the shared SECTION 0 contract at `reference/skill-bootstrap.md`. **Content-prep** skills (currently just `podcast`) are intentionally exempt from CORTEX overhead — their quality is judged by the human reading/listening, not by automated gates.
+
+As of v3.0 (2026-05-12) the trip/daybook/DayOne skills have been removed — see `framework.md` §"What was removed in v3.0".
 
 Per-skill compliance tier and overlay path: `reference/skill-registry.md`.
 
@@ -21,7 +23,7 @@ Per-skill compliance tier and overlay path: `reference/skill-registry.md`.
 |---|---|---|---|
 | `journal` | Memoir chapter writing + refinement (defined in `framework.md`; workflow in `reference/journal-workflow-v2.md`) | `chapters/`, `chapters/snapshots/`, `scratchpad/` | "journal", "continue writing", "next chapter", "refine chapter", "/journal work on chapter N" |
 
-### Dev / infra (Cowork T3 unless noted)
+### Engineering skills (Cowork T3 — CORTEX-compliant)
 
 | Skill | Purpose | Owns | Does NOT own | Triggers | Compliance |
 |---|---|---|---|---|---|
@@ -29,7 +31,12 @@ Per-skill compliance tier and overlay path: `reference/skill-registry.md`.
 | [`ui-modernizer`](ui-modernizer/skill.md) | Execute UI modernization phases | CSS + component changes on the site | Theme definitions (defers to css-theme-sync) | "modernize ui", "run ui phases" | SILVER (target) |
 | [`repo-surgeon`](repo-surgeon/skill.md) | Holistic repo audit + repair | Structural integrity, orphan cleanup, registry alignment | Content quality (memoir voice), CSS detail | "repo review", "architectural audit", "cleanup sweep" | BRONZE (target) |
 | [`usage-auditor`](usage-auditor/skill.md) | Audit Claude-API spend + forecast | Spend report against `MONTHLY_CAP` | Budget enforcement (proxy middleware does that) | "audit usage", "spend report" | BRONZE (target) |
-| [`podcast`](podcast/SKILL.md) | Source-to-NotebookLM transformation (16-stage pipeline) | `_workspace/podcast/<slug>/*`, Podcast Pronunciation Lexicon section of `translations-glossary.md` | Memoir prose (defers to journal); theme work | "podcast this", "turn this into a podcast", "NotebookLM-ready" | GOLD (target) |
+
+### Content-prep skills (out of CORTEX scope — quality judged by human)
+
+| Skill | Purpose | Owns | Does NOT own | Triggers |
+|---|---|---|---|---|
+| [`podcast`](podcast/SKILL.md) | NotebookLM source-bundle prep — 5-to-6 markdown files per episode (framing, primary source, key passages, context, discussion spine, optional show notes) that steer NotebookLM's Audio Overview | `podcast/` workspace (registry, episodes, archive) | Audio generation (NotebookLM does); scripts (NotebookLM does); web research (sources come from user / `journal/`) | "podcast", "/podcast", "@podcast", "new episode", "next episode", "turn this into a podcast", "NotebookLM episode", "audio overview", "make this a podcast", "I want to listen to this" |
 
 ## Server prompt registry
 
@@ -49,4 +56,6 @@ Agents live outside this registry; see `framework.md` §Agents. In short: `CORTE
 
 ## Bootstrap & severity
 
-Every skill in this directory cites `reference/skill-bootstrap.md` at SECTION 0. All severity labels are P0 (immutable / halt) / P1 (high / re-run after fix) / P2 (medium / proceed with explicit waiver) / P3 (advisory). Legacy labels (Blocker, Warning, Critical, High, Medium, Low, MAJOR, BLOCKER, NIT) are deprecated — see `reference/skill-bootstrap.md` §2.
+Every **engineering** skill in this directory cites `reference/skill-bootstrap.md` at SECTION 0 and uses the universal P0–P3 severity taxonomy (P0 immutable / halt, P1 high / re-run after fix, P2 medium / proceed with explicit waiver, P3 advisory). Legacy labels (Blocker, Warning, Critical, High, Medium, Low, MAJOR, BLOCKER, NIT) are deprecated — see `reference/skill-bootstrap.md` §2.
+
+`podcast` is a content-prep skill and is explicitly out of CORTEX scope per its own SKILL.md §9 — no DoR gates, no convergence loops, no `_challenger-report.yml`. Its quality contract is its Section 7 manual gate.

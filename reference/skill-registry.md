@@ -12,7 +12,7 @@
 |---|---|---|---|---|
 | **CORTEX** | BASELINE | self-defining | Active (plugin) | `~/.claude/skills/cortex/SKILL.md` |
 | **ADLC** | GOLD | predates framework but compatible | Active (plugin) | `~/.claude/skills/adlc/SKILL.md` |
-| **Podcast** | GOLD (target) | v1.0 | Active in staging | `journal/skills-staging/podcast/SKILL.md` + `playbooks/00-cortex-compliance.md` |
+| **Podcast** | OUT OF SCOPE (content-prep, by design) | n/a | Active in staging — content-prep skill, intentionally exempt from CORTEX per SKILL.md §9; quality judged by human listening, not automated gates | `journal/skills-staging/podcast/SKILL.md` (content workspace: `journal/podcast/`) |
 | **Journal** | SILVER (target) | v1.0 | Active (plugin) — overlay describes post-compliance behavior | `~/.claude/skills/journal/SKILL.md` + `journal/reference/skill-overlays/journal-cortex-overlay.md` |
 | **Refine** | BRONZE (target) | v1.0 | Active (plugin) — overlay applies | `~/.claude/skills/refine/SKILL.md` + `journal/reference/skill-overlays/refine-cortex-overlay.md` |
 | **Tell-me** | SILVER (target) | v1.0 | Active (plugin) — overlay applies | `~/.claude/skills/tell-me/SKILL.md` + `journal/reference/skill-overlays/tell-me-cortex-overlay.md` |
@@ -53,7 +53,6 @@ Per the framework's Section 7 cross-skill coordination contract, the following f
 |---|---|
 | `chapters/*.txt` | journal |
 | `reference/translations-glossary.md` (memoir sections) | journal |
-| `reference/translations-glossary.md` (Podcast Pronunciation Lexicon section) | podcast |
 | `reference/quotes-library.txt` | journal (other skills propose) |
 | `reference/clinic-library.txt` | journal (other skills propose) |
 | `reference/incident-bank.md` | journal only |
@@ -73,7 +72,7 @@ Per the framework's Section 7 cross-skill coordination contract, the following f
 | `reference/skill-registry.md` | this file — framework owns |
 | `reference/cortex-challenger-framework.md` | framework only (locked) |
 | `reference/skill-overlays/*` | each skill owns its own overlay |
-| `_workspace/podcast/<slug>/*` | podcast |
+| `podcast/*` (content workspace: registry, episodes, archive) | podcast |
 | `_workspace/challenger-reports/*` | per-skill (write own report) |
 | `site/css/*.css` (themes) | css-theme-sync |
 | `site/*.html`, `site/css/app.css` | ui-modernizer (with css-theme-sync coordinating for theme tokens) |
@@ -86,6 +85,7 @@ Per the framework's Section 7 cross-skill coordination contract, the following f
 | Date | Auditor | Scope | Result |
 |---|---|---|---|
 | 2026-05-16 | (cowork session) | Full ecosystem audit | All non-CORTEX/ADLC skills at PRE-COMPLIANCE; framework v1.0 authored; overlays / compliance docs created; targets recorded above |
+| 2026-05-16 | (cowork session, later) | Podcast redesign | Replaced 16-stage pipeline with lighter NotebookLM source-bundle agent; podcast moved out of CORTEX scope (content-prep skill, quality judged by human); new content workspace at `podcast/` |
 
 Next audit: when any skill's tier is meaningfully updated (overlay merged into plugin SKILL.md, WIP skill graduates, etc.) — record date, auditor, scope, and result.
 

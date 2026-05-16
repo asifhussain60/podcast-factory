@@ -42,15 +42,17 @@ The memoir is *"What I Wish Babu Taught Me."* **Asif IS Babu.** Babu is Asif's w
 
 These do not produce memoir prose. They keep the repo and its site healthy.
 
-| Skill | Purpose | Location |
-|---|---|---|
-| `css-theme-sync` | Theme parity validation + auto-fix across `site/css/` | `skills-staging/css-theme-sync/` |
-| `ui-modernizer` | Execute UI modernization phases on the journal site | `skills-staging/ui-modernizer/` |
-| `repo-surgeon` | Holistic repo audit, orphan cleanup, registry alignment | `skills-staging/repo-surgeon/` |
-| `usage-auditor` | Audit Claude-API spend + forecast against monthly cap | `skills-staging/usage-auditor/` |
-| `podcast` | Source-to-NotebookLM transformation (16-stage pipeline; GOLD compliance) | `skills-staging/podcast/` |
+| Skill | Purpose | Location | CORTEX |
+|---|---|---|---|
+| `css-theme-sync` | Theme parity validation + auto-fix across `site/css/` | `skills-staging/css-theme-sync/` | SILVER (target) |
+| `ui-modernizer` | Execute UI modernization phases on the journal site | `skills-staging/ui-modernizer/` | SILVER (target) |
+| `repo-surgeon` | Holistic repo audit, orphan cleanup, registry alignment | `skills-staging/repo-surgeon/` | BRONZE (target) |
+| `usage-auditor` | Audit Claude-API spend + forecast against monthly cap | `skills-staging/usage-auditor/` | BRONZE (target) |
+| `podcast` | NotebookLM source-bundle prep: 5-to-6 markdown files per episode that steer NotebookLM's Audio Overview. Does NOT generate audio or write scripts. | `skills-staging/podcast/` (skill) + `podcast/` (content workspace) | Out of scope (content-prep skill, not engineering — per its own SKILL.md §9) |
 
-All skills target the **CORTEX Challenger Framework v1.0** defined at `reference/cortex-challenger-framework.md`. Severity tiers (P0–P3), DoR gates, convergence loops, sweep contracts, holistic validation, challenge gates, and determinism contracts are universal across skills. The shared SECTION 0 contract that every skill cites at boot is at `reference/skill-bootstrap.md`. Per-skill compliance tiers are tracked in `reference/skill-registry.md`.
+Engineering skills target the **CORTEX Challenger Framework v1.0** defined at `reference/cortex-challenger-framework.md`. Severity tiers (P0–P3), DoR gates, convergence loops, sweep contracts, holistic validation, challenge gates, and determinism contracts are universal across them. The shared SECTION 0 contract every engineering skill cites at boot is at `reference/skill-bootstrap.md`. Per-skill compliance tiers are tracked in `reference/skill-registry.md`.
+
+Content-prep skills (currently just `podcast`) are intentionally exempt from CORTEX overhead per their own design — they produce artifacts (episode bundles, chapters) whose quality is judged by the human, not by automated gates.
 
 ---
 
@@ -89,9 +91,13 @@ journal/
 ├── shared/                     ← shared client/server modules (tag-normalize)
 ├── docs/                       ← anthropic-api-setup, proxy-setup, cloudflare integrations
 ├── infra/                      ← Cloudflare deployment configs
-├── skills-staging/             ← dev/infra skills (see registry in README.md)
-│   ├── css-theme-sync/, ui-modernizer/, repo-surgeon/, usage-auditor/
-│   └── podcast/                ← source-to-NotebookLM (16-stage pipeline)
+├── podcast/                    ← podcast content workspace (one folder per episode)
+│   ├── _README.md, _registry.md
+│   ├── _archive/, _workspace/
+│   └── episodes/EP##-<slug>/   ← 5-to-6-file NotebookLM source bundles
+├── skills-staging/             ← skills (see registry in README.md)
+│   ├── css-theme-sync/, ui-modernizer/, repo-surgeon/, usage-auditor/  (engineering)
+│   └── podcast/                ← NotebookLM source-bundle agent (content-prep, out of CORTEX scope)
 └── .github/agents/             ← CORTEX, journal-orchestrator, repo-surgeon
 ```
 
