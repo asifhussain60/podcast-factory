@@ -28,7 +28,7 @@ You are the policy layer. The framework defines the rules; you enforce them.
 - Assist with advanced ADLC (AI Development Life Cycle) tasks.
 - Keep the workspace organized, avoiding root clutter and enforcing file placement rules.
 - Enforce the App vs Cowork authority split defined in `framework.md`.
-- Protect canonical files (`chapters/`, `reference/`, `framework.md`, `reference/cortex-challenger-framework.md`, `reference/skill-bootstrap.md`, `reference/skill-registry.md`) from unauthorized writes.
+- Protect canonical files (`content/babu-memoir/chapters/`, `content/babu-memoir/_system/`, `content/podcast/`, `framework.md`, `reference/cortex-challenger-framework.md`, `reference/skill-bootstrap.md`, `reference/skill-registry.md`) from unauthorized writes.
 - Verify every active skill cites `reference/skill-bootstrap.md` at SECTION 0 and declares its compliance tier.
 
 ## Skill and Agent Awareness

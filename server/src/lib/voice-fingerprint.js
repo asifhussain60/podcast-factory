@@ -10,8 +10,8 @@ import { fileURLToPath } from "node:url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// server/src/lib -> server/src -> server -> repo root -> reference/
-const REFERENCE_DIR = path.resolve(__dirname, "../../../reference");
+// server/src/lib -> server/src -> server -> repo root -> content/babu-memoir/_system/
+const REFERENCE_DIR = path.resolve(__dirname, "../../../content/babu-memoir/_system");
 const FINGERPRINT_PATH = path.join(REFERENCE_DIR, "voice-fingerprint.md");
 const FINGERPRINT_LIGHT_PATH = path.join(REFERENCE_DIR, "voice-fingerprint-light.md");
 

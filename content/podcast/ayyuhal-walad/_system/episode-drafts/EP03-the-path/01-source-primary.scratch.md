@@ -1,0 +1,151 @@
+=== @@ QUICK MARKERS, drop at start of any line, or on its own line above a paragraph, or on a section header ===
+@@refine     sharpen this sentence or paragraph
+@@replace    find a stronger word, @@replace(stronger than "great") optional hint
+@@expand     flesh out, add detail, slow down, @@expand(more on the angel) optional hint
+@@cut        remove this, it does not earn its place
+@@move       relocate, @@move(to Movement 5) destination required
+@@note       message to me, not content, @@note(check verse number against Quran 18:110)
+@@merge      combine paragraphs or sections, @@merge(with next) optional direction
+@@rephrase   propose 2-3 alternate phrasings, @@rephrase(more conversational) optional hint
+@@split      break this apart, @@split(after "lion") optional hint
+@@pronounce  override phonetic, @@pronounce(Tasawwuf: Ta-saw-woof), auto-propagates across episodes
+@@policy     series-wide directive, @@policy(reduce formality across all episodes), propagates
+=== END MARKERS ===
+
+# Scratchpad, EP03, 01-source-primary.md
+# Mirror of: episodes/EP03-the-path/01-source-primary.md
+# Purpose: refinement + enrichment surface. Drop @@ markers wherever you want changes.
+# Markers are stripped from the canonical on every refinement pass. The legend above persists.
+# Re-invoke the podcast skill (e.g. "refine EP03") to apply your markup.
+
+---
+
+# The Path: Guide, Discipline, and Inner Reality
+
+*From* Ayyuhal Walad (My Dear Beloved Son or Daughter)
+*Author:* Imam Abu Hamid Muhammad al-Ghazali (1058 to 1111 CE)
+*Translator (English from Urdu, with original Arabic transliterations preserved):* Irfan Hasan
+*Original work:* Ayyuhal Walad, from *Majmu'a Rasail Imam Ghazali* (Three-Volume Collection of Short Books)
+*Source scope for this episode:* eight short sections of the epistle, covering the qualities of a spiritual guide, obedience to the guide, outer and inner etiquettes of the disciple, the reality of *Tasawwuf*, and the realities of servitude, *Tawakkul*, and *Ikhlas*.
+
+This file is a refined and enriched presentation of the eight sections, organized into four movements. The verbatim definitions and quoted lines are preserved in blockquotes with the original transliteration. Ghazali's prose has been clarified for English readability and structured by beat. Nothing has been added that is not in the source. Anything Ghazali only implies is marked as such.
+
+---
+
+## The setting
+
+EP01 ended with the four conditions of the seeker as a doorway. EP02 placed Hatim bin Ism's eight distilled benefits beside that doorway as a worked example of how a long apprenticeship actually compresses into a few practiced postures. This episode is the apparatus the doorway opens into: a real guide, a disciple's etiquettes, a precise definition of the inner discipline, and the inner realities the discipline is for.
+
+Ghazali is answering questions the student has put to him in his letter. The structure of this stretch of the epistle is therefore Q-and-A. *You have asked, what is Tasawwuf?* *You have asked, what is servitude?* *You have asked, what is reliance on God?* *You have asked, what is sincerity to God?* The answers are short. The episode honors that compression.
+
+---
+
+## Movement 1: The Guide
+
+### The qualities of a Shaykh
+
+Ghazali begins with a warning. The Shaykh (a spiritual guide) one chooses should be *a scholar but every scholar cannot be a Shaykh al-Kamil*, a perfected spiritual guide. The category is narrower than it sounds. Ghazali offers the qualities so that, in his words, *every nut head (crazy) and misguided person could not claim to be a Shaykh*. The qualities are a filter, not a portrait.
+
+The filter has several parts. The guide must have turned his face away from love of the world, love of honor, and love of worldly ranks. He must have given *Bay'a* (BAY-ah), a binding promise to his own perfected guide, who in turn gave it to his guide, in an unbroken chain back to the Messenger of Allah. He must have performed every kind of *Riazat* (ri-YAA-zat) and *Mujahadah* (moo-JAA-ha-dah), the disciplined inner struggles of the seeker. He must eat little, sleep little, pray more than the obligatory five, fast often, and spend in charity. He must carry, in his inner and outer personality, a list of qualities Ghazali names individually: patience, gratitude, certitude, generosity, contentment, trustworthiness, tolerance, seriousness of purpose, humility, obedience, truthfulness, modesty, dignity, tranquility. He must have *acquired a light (illumination) from the lights of Messenger of Allah*, so that miserliness, jealousy, enmity, expectations from the world, anger, and rebellion have been eliminated from him.
+
+The function of the list is to disqualify the impostor. Ghazali names the threat in the same breath:
+
+> [it is necessary to define these qualities due to the presence of a large number of fake impersonators claiming to be Shaykhs whose sole purpose is to deceive people to gain material benefits thus causing great damage to this important aspect of Islam by disillusioning people and misguiding many].
+
+The square brackets are the translator's clarification. The point is Ghazali's. The qualities of a real guide are demanding because the field is contested by frauds. Following such a guide, Ghazali says, *is the correct way*.
+
+### Obedience to the guide
+
+The section that follows is the shortest in the epistle. Ghazali concedes the difficulty plainly:
+
+> Such spiritual guides are very difficult to find.
+
+If the seeker finds one, and the guide accepts him among his *Mureed*s (moo-REEDs), his disciples, then the seeker owes the guide *outer and inner respect*. The two kinds of respect are the spine of the next two sections.
+
+## Movement 2: The Etiquettes
+
+### Outer etiquettes
+
+Ghazali names a small set of concrete behaviors. The disciple does not argue with the guide. If a disagreement starts and the disciple thinks the guide has forgotten something, the disciple does not object. The disciple does not loiter at the place of prayer. When the time for prayer comes he goes and prays; when prayer is done he wraps up the praying mat and does not perform many optional prayers in front of the Shaykh after the obligatory ones.
+
+The core rule is one sentence:
+
+> Whatever the perfected guide commands, the disciple should obey it to the best of his/her capacity.
+
+The translator notes Ghazali's protection against abuse. A true spiritual guide cannot and will not command a disciple to do something *Haram* (ha-RAAM), forbidden in the *Shari'ah* (sha-REE-ah). The impostor, lacking the qualities of the previous section, can. The qualifications of the guide are therefore not ornamental. They are the safety in the obedience.
+
+### Inner etiquettes
+
+Outer respect is gestural. Inner respect goes underneath. Ghazali names it directly:
+
+> Inner etiquettes [to one's spiritual guide] include that whatever the disciple apparently hears from the Murshid (MUR-shid; spiritual guide), he/she should not entertain even a small grain of doubt in his/her heart about the Shaykh's words or deeds otherwise the disciple will be called a hypocrite.
+
+The standard is severe. The disciple is not allowed the private reservation, the silent disagreement under the public agreement. If the disciple cannot manage this internal unity, Ghazali gives him an honest exit: *he/she should abstain from the company of the spiritual guide until his/her inside becomes like his/her outside.* Hypocrisy is named here as the failure mode. The remedy is distance, not pretense.
+
+Ghazali adds two more conditions in the same section, numbered the sixth and seventh in a longer count the epistle has been keeping. The sixth: the seeker refrains from the deceptions of the *Nafs* (Nafs), the lower self that whispers evil into the heart. This is done by abandoning *the gatherings of the bad-charactered folks and the ignorant people*. When the seeker withdraws from those gatherings, *the domination of Shaytan (shay-TAAN; Satan) over his/her heart will come to an end* and Satanic influences are eradicated from their roots. Ghazali notes that this Satanic group can come from among humans or from among the *Jinn* (Jinn).
+
+The seventh: in every situation, the seeker gives preference to humility and lack of greed over wealth, and adopts contentment, satisfaction with the Will of Allah.
+
+Ghazali closes the section with a clean count:
+
+> These seven things are essential for the traveler on the Path of Allah, the Exalted, and the seeker [of the truth].
+
+## Movement 3: Tasawwuf
+
+The student has asked the foundational question. Ghazali's answer is two-part and precise.
+
+> You have asked, what is Tasawwuf (ta-SAW-wuf)? Tasawwuf is the name of two qualities: First [quality] is that [the slave] should be obedient to Allah, i.e., he/she should be acting on the Shari'ah (the outer laws of Islam including obligations, commandments, and prohibitions). And second [quality] is that [the seeker] is the one who is sympathetic and a doer of good towards [all of] Allah's creations.
+
+Two qualities. Obedience to the law of God, vertically. Sympathy and doing good to the creation, horizontally. Ghazali names the person who has both:
+
+> One who has perseverance in acting on the Shari'ah and has the qualities of [desiring] betterment (true success) for the entire humanity is a "Sufi" (SOO-fee) (this actually is the correct use of this term as opposed to the wrong uses of the term that are prevalent today).
+
+The parenthetical is sharp. Ghazali is policing his own tradition. The label *Sufi* belongs to a precise practice and is otherwise misused. He restates the two qualities in different language to be sure they have landed:
+
+> Loyalty [and obedience] to Allah is that [the seeker] sacrifices his own happiness for the sake of Allah. Sincerity to [all] people [of the world] is that [the seeker] does not keep relations with the people for his/her own motives [but instead is selfless towards them and performs selfless duty to them] and refrains from selfishness.
+
+Sympathy to creation, in Ghazali's hands, is not sentiment. It is the absence of using other people as instruments. The condition holds, he adds, only if the welfare being pursued is *in accordance with the Shari'ah*. The horizontal axis stays under the discipline of the vertical.
+
+*Tasawwuf*, by this definition, is not robes, not vocabulary, not the company of imitators. It is two practices held together over time.
+
+## Movement 4: The Four Realities
+
+Ghazali then runs three short answers in parallel: servitude, *Tawakkul* (ta-WAK-kul), *Ikhlas* (ikh-LAAS). Each begins with the same construction: *You have asked, what is X?* Each closes inside a few sentences.
+
+### Servitude
+
+> You have asked, what is servitude? Servitude has three things: First is to obey the commandments of Shari'ah (the outer laws of Islam). Second is to be content with the decree and destiny appointed by Allah, the Exalted. Third is to leave one's desires and prerogatives and to be happy with the Desire and Prerogative (Power) of Allah, the Exalted.
+
+Three movements outward to inward: obey the law, accept what comes, give up the inner preference. Servitude is not a feeling. It is a sequence of postures.
+
+### Tawakkul
+
+> You have also asked, what is reliance on God (Tawakkul)? You should know that Tawakkul is that, one should have firm belief and certitude in what Allah, the Exalted, has promised. In other words, one should believe that you will surely get whatever Allah, the Exalted, has destined for you. Then if the entire world tries to stop it, it (Allah's Decree for you) cannot be stopped. But for that which is not written in your destiny [by Allah], if you and the entire world make efforts for it, you will never get it.
+
+*Tawakkul* is firm belief, both ways. What is destined will arrive against any opposition. What is not destined will not arrive against any effort. The definition does not abolish striving. It abolishes anxiety about the outcome of striving. The reliance is in the certitude, not in the passivity.
+
+### Ikhlas
+
+> You have also asked, what is sincerity to God (Ikhlas)? You should know that Ikhlas is that, all of your deeds should be exclusively for the sake of Allah [and His pleasure]. Whatever you do, it should not be for show off (ostentation/Riya). When you do good deeds, your heart should not be inclined towards people [to impress them and to gain their praise]. Your heart should not be pleased at the admirations (praises) of the people, nor should [your heart] be grieved at their complaints [or criticisms].
+
+*Ikhlas* is that the audience of the action is only Allah. The test is the heart's reaction to praise and criticism. If admiration lifts the heart, or criticism lowers it, sincerity has leaked.
+
+Ghazali then names the disease and prescribes its cure:
+
+> You should know that Riya (ri-YAA; show off/ostentation) is born out of people's praises and honors and the cure of [the spiritual disease of] Riya (show off/ostentation) is that you consider the entire universe subservient to the Power (Control) of Allah, the Exalted, and consider all creations [of Allah] equivalent (similar) to the pebbles and stones, you should understand this that stones do not have the power to bring you either grief or comfort. If you consider all creations like this (i.e. like stones and pebbles) then you will get rid of Riya (show off/ostentation). Until you have this belief that the [mortal] creations have power to bring you grief and comfort, then Riya (show off/ostentation) will never get out of your heart.
+
+The image is bracing. Other people are pebbles. Pebbles cannot praise you in any sense that matters. Pebbles cannot wound you in any sense that matters. As long as the seeker imagines that creatures hold power to grant or withhold something, *Riya* cannot be uprooted. The cure is metaphysical before it is behavioral.
+
+### What ties the four together
+
+*Tasawwuf*, servitude, *Tawakkul*, *Ikhlas*. They are not four topics but four faces of one stance toward God. *Tasawwuf* names the stance as a practice. Servitude names the actor's posture. *Tawakkul* names what the actor believes about outcomes. *Ikhlas* names the audience the actor performs for. Each is given in a few sentences and each contains the whole.
+
+---
+
+## Where this stretch of the letter ends
+
+The student has more questions; Ghazali will not answer them all. Some are in his other books. Some, he says, *writing their answers is forbidden*. The rest the student should hold by acting on what is already written. He closes with a line from Shaykh Zun Noon Misri (zun NOON MIS-ree):
+
+> If you have the courage to exert your utmost [with your soul in this way] then come [and step in this way] otherwise do not just get indulged in the nice things that Sufis say.
+
+The line tracks the whole episode. The four definitions are not for collecting. They are an invitation. *Tasawwuf*, servitude, *Tawakkul*, *Ikhlas* are practices, not concepts. The gap between the definition and the doing is, again, what EP01 called madness.

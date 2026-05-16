@@ -87,6 +87,6 @@ If any sample fails its expected behavior:
 
 1. Copy the raw input, the actual refined output, and what you expected into a new file like `docs/voice-refine-failures-2026-04-15.md`.
 2. Tell me which sample failed and what went wrong.
-3. We either (a) strengthen the fingerprint in `reference/voice-fingerprint.md` (no code change, 5-second cache reload) or (b) strengthen the instruction block in `server/src/refine.js` (requires proxy restart via `launchctl kickstart -k gui/$(id -u)/com.asif.babu-journal-proxy`).
+3. We either (a) strengthen the fingerprint in `content/babu-memoir/_system/voice-fingerprint.md` (no code change, 5-second cache reload) or (b) strengthen the instruction block in `server/src/refine.js` (requires proxy restart via `launchctl kickstart -k gui/$(id -u)/com.asif.babu-journal-proxy`).
 
 Fingerprint changes are almost always the right first move. Only touch the instruction block if the rule belongs there (e.g., output format, length limits) rather than in voice itself.

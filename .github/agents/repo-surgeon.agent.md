@@ -189,7 +189,7 @@ If ANY of the three returns a hit referencing this candidate, downgrade to "POSS
 | A2 | **Agent registry** — Every `.agent.md` in `.github/agents/` and every `.md` in `.claude/agents/` must be listed in `framework.md` agents table (or marked DEPRECATED in frontmatter). | Update framework.md or deprecate. |
 | A3 | **Prompt ↔ Skill alignment** — Every prompt in the "Named Prompt ↔ Skill Map" in `skills-staging/README.md` must exist in `server/src/prompts/`. Reverse: every prompt file must appear in the map. | Sync the map. |
 | A4 | **Route ↔ Prompt alignment** — Every server route that calls a named prompt must reference it correctly. | Fix import path. |
-| A5 | **Canonical write violations** — Scan recent git history for App-surface commits that touch `chapters/`, `reference/`, or `framework.md`. | Flag violation, add pre-commit guard if pattern. |
+| A5 | **Canonical write violations** — Scan recent git history for App-surface commits that touch `content/`, `reference/`, or `framework.md`. | Flag violation, add pre-commit guard if pattern. |
 | A6 | **Framework.md staleness** — Compare folder structure in framework.md's tree diagram against actual `ls`. | Update the tree. |
 | A7 | **Deprecated agent cleanup** — Agents marked DEPRECATED that are older than 30 days should be archived or removed. | Move to `_workspace/archive/` or delete. |
 
@@ -339,13 +339,11 @@ README.md
 
 ```
 _workspace/       ← untracked workspace (gitignored)
-chapters/         ← memoir content
+content/          ← all authored content (memoir + podcasts)
 docs/             ← documentation
 infra/            ← infrastructure configs
-podcast/          ← podcast content workspace (registry, episodes, archive)
-reference/        ← single source of truth
-scratchpad/       ← active chapter drafts (deleted post-finalization)
-scripts/          ← shell scripts and git hooks
+reference/        ← repo-wide skill governance (framework, bootstrap, registry, overlays)
+scripts/          ← shell + python scripts (memoir/, podcast/, git-hooks/)
 server/           ← Express API server
 shared/           ← shared JS modules
 site/             ← SPA frontend

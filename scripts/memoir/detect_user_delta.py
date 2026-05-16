@@ -39,11 +39,12 @@ import string
 # ---------------------------------------------------------------------------
 
 def get_snapshot_path(chapter_path):
-    """Snapshots live in a 'snapshots/' subfolder next to the chapter files."""
+    """Snapshots live under the sibling _system/snapshots/ of the chapter dir."""
     chapter_dir = os.path.dirname(os.path.abspath(chapter_path))
     base = os.path.splitext(os.path.basename(chapter_path))[0]
     ext  = os.path.splitext(chapter_path)[1]
-    snapshots_dir = os.path.join(chapter_dir, 'snapshots')
+    book_dir = os.path.dirname(chapter_dir)
+    snapshots_dir = os.path.join(book_dir, '_system', 'snapshots')
     os.makedirs(snapshots_dir, exist_ok=True)
     return os.path.join(snapshots_dir, f"{base}-snapshot{ext}")
 

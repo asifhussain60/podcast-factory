@@ -173,7 +173,8 @@ def save_all(journal_folder):
 
     for chapter_path in chapters:
         name     = os.path.basename(chapter_path)
-        snap_dir = os.path.join(os.path.dirname(os.path.abspath(chapter_path)), 'snapshots')
+        chapter_dir = os.path.dirname(os.path.abspath(chapter_path))
+        snap_dir = os.path.join(os.path.dirname(chapter_dir), '_system', 'snapshots')
         os.makedirs(snap_dir, exist_ok=True)
         snap     = os.path.join(snap_dir, os.path.splitext(os.path.basename(chapter_path))[0] + '-snapshot' + os.path.splitext(chapter_path)[1])
         size     = os.path.getsize(chapter_path)

@@ -21,7 +21,7 @@ Per-skill compliance tier and overlay path: `reference/skill-registry.md`.
 
 | Skill | Purpose | Owns | Triggers |
 |---|---|---|---|
-| `journal` | Memoir chapter writing + refinement (defined in `framework.md`; workflow in `reference/journal-workflow-v2.md`) | `chapters/`, `chapters/snapshots/`, `scratchpad/` | "journal", "continue writing", "next chapter", "refine chapter", "/journal work on chapter N" |
+| `journal` | Memoir chapter writing + refinement (defined in `framework.md`; workflow in `content/babu-memoir/_system/journal-workflow-v2.md`) | `content/babu-memoir/chapters/`, `content/babu-memoir/_system/snapshots/`, `content/babu-memoir/_system/scratchpad/` | "journal", "continue writing", "next chapter", "refine chapter", "/journal work on chapter N" |
 
 ### Engineering skills (Cowork T3 — CORTEX-compliant)
 

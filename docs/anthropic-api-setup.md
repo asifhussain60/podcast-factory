@@ -66,7 +66,7 @@ Rationale:
 |--------|------|---------|
 | `GET` | `/health` | Liveness + model + key-source diagnostics (no secrets) |
 | `POST` | `/api/voice-test` | Babu-memoir smoke test (proves wiring + voice) |
-| `POST` | `/api/refine` | Voice DNA refinement using `reference/voice-fingerprint.md` as system prompt (5-second cache) |
+| `POST` | `/api/refine` | Voice DNA refinement using `content/babu-memoir/_system/voice-fingerprint.md` as system prompt (5-second cache) |
 | `POST` | `/api/chat` | Generic passthrough: `{ system?, messages, model?, max_tokens? }` |
 
 ---
@@ -177,7 +177,7 @@ launchctl kickstart -k gui/$(id -u)/com.asif.babu-journal-proxy
 
 This is the go-to command any time `server/src/*.js` changes.
 
-> The voice fingerprint at `reference/voice-fingerprint.md` hot-reloads on a 5-second cache — no kickstart needed for voice tuning.
+> The voice fingerprint at `content/babu-memoir/_system/voice-fingerprint.md` hot-reloads on a 5-second cache — no kickstart needed for voice tuning.
 
 ---
 
@@ -224,6 +224,6 @@ launchctl kickstart -k gui/$(id -u)/com.asif.babu-journal-proxy
 | `server/package.json` | Dependencies & scripts |
 | `infra/launchd/com.asif.babu-journal-proxy.plist` | LaunchAgent template |
 | `docs/proxy-setup.md` | Original setup runbook |
-| `reference/voice-fingerprint.md` | Voice DNA for `/api/refine` |
+| `content/babu-memoir/_system/voice-fingerprint.md` | Voice DNA for `/api/refine` |
 | `server/.logs/proxy.out.log` | stdout log |
 | `server/.logs/proxy.err.log` | stderr log |

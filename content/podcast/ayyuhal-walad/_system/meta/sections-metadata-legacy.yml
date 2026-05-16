@@ -1,0 +1,65 @@
+---
+source:
+  title: "Ayyuhal Walad — My Dear Beloved Son (or Daughter)"
+  author: "Imam Abu Hamid Muhammad Al-Ghazali"
+  translator: "Irfan Hasan"
+  original_language: "Arabic (with Urdu intermediate, then English)"
+
+sections:
+  - section_number: 1
+    slug: introduction
+    section_title: "Introduction of the Book"
+    refined: true
+    word_count_source: 368
+    word_count_refined: 323
+    ratio: 0.88
+    tone_preserved: [reverent, narrative, instructional]
+    phonetic_substitutions: 4
+    enrichments_added: 0
+    analogies_added: 0
+    paraphrasing_notes: |
+      Urdu-syntactic literalisms smoothed (e.g., 'It has been learned that one of the
+      students of Imam Ghazali had a thought in his heart' →
+      'One of Imam Ghazali's students, after years of study, found himself troubled
+      by a question'). Redundant doubling collapsed. Every claim, name, and citation
+      preserved verbatim.
+
+  - section_number: 8
+    slug: reality-of-tasawwuf
+    section_title: "Reality of Tasawwuf"
+    refined: true
+    word_count_source: 233
+    word_count_refined: 287
+    ratio: 1.23
+    tone_preserved: [reverent, instructional, argumentative]
+    phonetic_substitutions: 5
+    enrichments_added: 0
+    analogies_added: 1
+    paraphrasing_notes: |
+      Restructured the source's nested clause-within-clause Urdu syntax (parenthetical
+      glosses inside parentheticals) into separate sentences. Preserved every theological
+      claim, the two-quality structure, the Sufi definition, and the corrective against
+      contemporary misuse of the term. One brief modern analogy added per Stage 11
+      (the licensed-professional / lived-discipline distinction). Trimmed after initial
+      ratio of 1.41 brought the section back into the Gate 5 envelope.
+
+  - section_number: 13
+    slug: admonition-1-debate
+    section_title: "Admonition 1 — Principles of Debate"
+    refined: true
+    word_count_source: 1113
+    word_count_refined: 1044
+    ratio: 0.94
+    tone_preserved: [argumentative, instructional, reverent]
+    phonetic_substitutions: 9
+    enrichments_added: 0
+    analogies_added: 1
+    paraphrasing_notes: |
+      Long Urdu-syntax sentences with multiple parenthetical glosses split into focused
+      English sentences. The four-category taxonomy and its diagnostic logic preserved
+      exactly. Quranic verse, hadith, and Arabic poetry preserved verbatim in
+      transliteration with English meaning intact. One modern analogy added (echo
+      chamber) per Stage 11 — woven, unlabeled.
+
+# Remaining 19 sections — not yet refined in this dry-run.
+# Will be appended when refinement continues.
