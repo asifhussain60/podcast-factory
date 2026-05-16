@@ -83,7 +83,7 @@ Pass 4: Brittleness Scanner   → stale cross-refs, missing contracts, regressio
 
 ```bash
 # R1: Root clutter scan
-ls -1 | grep -v -E '^(framework\.md|index\.html|package\.json|release-please-config\.json|site-worker\.js|wrangler\.toml|CHANGELOG\.md|\.gitignore|\.gitattributes|\.mcp\.json|LICENSE|README\.md)$' | grep -v -E '^(\.|_workspace|chapters|docs|infra|reference|scratchpad|scripts|server|shared|site|skills-staging)$'
+ls -1 | grep -v -E '^(framework\.md|index\.html|package\.json|release-please-config\.json|site-worker\.js|wrangler\.toml|CHANGELOG\.md|\.gitignore|\.gitattributes|\.mcp\.json|LICENSE|README\.md)$' | grep -v -E '^(\.|_workspace|chapters|docs|infra|podcast|reference|scratchpad|scripts|server|shared|site|skills-staging)$'
 
 # R3: Scratch files at root
 ls -1 *.prompt.md scratchpad-* tmp-* test-* debug-* 2>/dev/null
@@ -342,6 +342,7 @@ _workspace/       ← untracked workspace (gitignored)
 chapters/         ← memoir content
 docs/             ← documentation
 infra/            ← infrastructure configs
+podcast/          ← podcast content workspace (registry, episodes, archive)
 reference/        ← single source of truth
 scratchpad/       ← active chapter drafts (deleted post-finalization)
 scripts/          ← shell scripts and git hooks
