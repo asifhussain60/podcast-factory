@@ -1,94 +1,72 @@
 # Source Distillation Patterns — by source type
 
-Distillation is the Phase 2 work that produces signal from the raw source. Each source type has its own pattern. All patterns produce the same six outputs (core thesis, arc, key passages, tensions, context, application angle) but the EXTRACTION method differs by source type.
+Distillation is Phase 2 work that produces signal from the raw source. Under the strict 1:1 chapter ↔ episode mapping (`skills-staging/podcast/SKILL.md` §0), distillation extracts what the chapter is saying so the episode's `00-framing.md` and authoring scaffolds (`02-key-passages`, `03-context-pack`, `04-discussion-spine`, `99-show-notes`) can shape the listener's experience.
 
-## Book / PDF chapter
+**The chapter itself is authored in Phase 0d (design) + Phase 0e (enrichment) of the PDF ingestion protocol** — not in Phase 2. Phase 2 reads the already-enriched chapter and extracts the spine from it.
 
-**Method**: read the full chapter twice.
+All patterns produce the same six outputs (core thesis, arc, key passages, tensions, context, application angle) but the EXTRACTION method differs by source type.
+
+## Enriched book chapter (the default — produced by Phase 0)
+
+**Method**: read the enriched chapter `BOOK_DIR/chapters/chNN-<slug>.txt` twice.
   - First pass: take no notes. Just absorb the argument.
   - Second pass: capture the spine.
 
 **Capture**:
-  - **Core thesis** — the one sentence the author would write if forced to summarize their own chapter
-  - **Arc** — beat-by-beat: opening claim → support → counter-position → resolution. Chapters often have 4–8 movements.
+  - **Core thesis** — the one sentence the chapter would write if forced to summarize itself.
+  - **Arc** — beat-by-beat: opening claim → support → counter-position → resolution. Enriched chapters often have 4–8 movements.
   - **Key passages** — 8–15. Bias toward passages that:
     - State a position clearly
-    - Surprise (the author goes somewhere unexpected)
-    - Contradict another part of the chapter or another author
-    - Anchor a tradition or terminology
+    - Surprise (the chapter goes somewhere unexpected)
+    - Contradict another part of the chapter or another tradition
+    - Anchor a tradition or terminology (the Phase 0e enrichment quotes are gold here — they're already attributed)
     - Land emotionally
-  - **Tensions** — both internal (within the chapter) and external (against other thinkers)
-  - **Context** — when written, who the author was responding to, what tradition
-  - **Application angle** — how does this land for the named audience
+  - **Tensions** — both internal (within the chapter) and external (e.g., between the source author and an enrichment source the chapter quotes).
+  - **Context** — when the original source was written, who the author was responding to, what tradition (the chapter's enrichment paragraph carries this; the distillation extracts and tightens it).
+  - **Application angle** — how does this land for the named audience.
 
-**Trap to avoid**: extracting passages that ARE the thesis verbatim. Those go in `02-key-passages.md`, but also paraphrase the thesis in `01-source-primary.md` — don't just copy.
+**Trap to avoid**: distilling away the enrichments. The Quranic verses, hadith, sayings of Imam Ali (AS), and Ismaili sources Phase 0e wove into the chapter ARE part of the spine and belong in `02-key-passages.md` with their attributions intact.
 
-## Full book (≤ 200 pages only)
-
-**Method**: chapter-by-chapter, then synthesize.
-  - For each chapter: produce a 3–5 line distillation
-  - For the book: identify the SPINE that runs through chapters
-  - Key passages chosen from across the book, not weighted toward any single chapter
-
-**Trap to avoid**: trying to cover everything. A full-book episode is about the spine, not the totality. The episode will be ~12–25 min; you cannot fit every detail.
-
-## Article / essay
+## Article / essay (single chapter only — no Phase 0 multi-chapter design)
 
 **Method**: single pass, then beat-mapping.
-  - Articles already have a thesis upfront — find it in the first 1–2 paragraphs
-  - Identify the move structure: claim → evidence → objection → response → conclusion
-  - Often 1–3 key passages is plenty
-  - `01-source-primary.md` can be near-complete: an essay is short enough to include most of it
+  - Articles already have a thesis upfront — find it in the first 1–2 paragraphs.
+  - Identify the move structure: claim → evidence → objection → response → conclusion.
+  - Often 1–3 key passages is plenty.
+  - For a stand-alone article, the chapter file `BOOK_DIR/chapters/ch01-<slug>.txt` can be near-complete: refine the article's English (Phase 0b), apply phonetic transcription if it contains Arabic (Phase 0c), and enrich modestly per the whitelist in `enrichment-sources.md` (Phase 0e). The article's own structure IS the chapter.
 
 **Trap to avoid**: over-distilling. If the essay is already tight, your distillation is mostly direct quotation with light framing.
 
-## Memoir chapter (from `/PROJECTS/journal/`)
+## Memoir chapter (from `content/babu-memoir/`)
 
-**Method**: read the chapter as a reader, not a host.
-  - DO NOT alter the voice
-  - DO NOT narrate over Asif's prose in `01-source-primary.md`
-  - Cross-reference the journal skill's voice-fingerprint and craft-techniques references
+Memoir chapters are NOT podcast chapters under this skill. They live in the `journal` skill's territory. The podcast skill does NOT read from `content/babu-memoir/chapters/` (per SKILL.md §9). If Asif wants a memoir chapter podcasted, he provides the chapter content directly as a source, and the podcast skill treats it as a stand-alone article (above) — with no enrichment from the journal's reference files.
 
-**Capture differently than other sources**:
-  - **Core thesis** — what the chapter does emotionally (not just intellectually)
-  - **Arc** — the chapter's emotional arc (damage → search → discovery → wisdom)
-  - **Key passages** — lines that land. The funniest, the most specific, the sentences that turn something.
-  - **Tensions** — the human ones in the chapter (memory vs. interpretation, child-self vs. adult-self, etc.)
-  - **Context** — biographical context the listener needs (light touch — don't over-explain)
-  - **Application angle** — what does this offer the listener?
-
-**Host framing override for memoir episodes**:
-  - Hosts discuss the chapter, they do not perform it
-  - They quote Asif's lines verbatim and respond to them as readers
-  - They never speculate beyond what's on the page
-  - They acknowledge that this is a living person's memoir, not a case study
-
-**Trap to avoid**: hosts becoming therapeutic. They are companions in reading, not analysts of the writer.
+**Trap to avoid**: pulling memoir reference files (voice-fingerprint, master-context, etc.) into a podcast bundle. The memoir skill owns those.
 
 ## Transcript / lecture
 
 **Method**: structure-finding through the spoken meander.
   - First pass: read the full transcript. Note where the speaker reaches their actual point.
-  - Speakers often spend 2–3 minutes circling before landing the argument. Discard the circling in `01-source-primary.md`.
-  - Preserve speaker's verbatim quotes in `02-key-passages.md` — including hesitations if they're meaningful
+  - Speakers often spend 2–3 minutes circling before landing the argument. Discard the circling when authoring the chapter in Phase 0d.
+  - Preserve speaker's verbatim quotes in `02-key-passages.md` — including hesitations if they're meaningful.
 
 **Capture**:
-  - **Core thesis** — the argument once stripped of verbal filler
-  - **Arc** — often the speaker's actual argument is non-linear; reorder for clarity in `01-source-primary.md` but note that you reordered
-  - **Key passages** — the moments where the speaker lands the punch
-  - **Tensions** — the speaker may have argued with themselves; capture the contradiction
-  - **Context** — venue, occasion, audience, year
-  - **Application angle** — adjusted for written/listening audience
+  - **Core thesis** — the argument once stripped of verbal filler.
+  - **Arc** — often the speaker's actual argument is non-linear; reorder for clarity in the chapter (Phase 0d) but note in `chapters-rationale.md` that you reordered.
+  - **Key passages** — the moments where the speaker lands the punch.
+  - **Tensions** — the speaker may have argued with themselves; capture the contradiction.
+  - **Context** — venue, occasion, audience, year.
+  - **Application angle** — adjusted for written/listening audience.
 
 **Trap to avoid**: cleaning up the speaker so much that they sound like a different person. Preserve the voice while removing the filler.
 
 ## Asif's notes
 
 **Method**: expansion with marking.
-  - Notes are usually outline form
-  - Expand each bullet into a paragraph or short section
-  - Anywhere you expand beyond what the note says, mark `[expanded from note]`
-  - Anywhere you add an inference, mark `[claude inference]`
+  - Notes are usually outline form.
+  - Expand each bullet into a paragraph or short section in the chapter file.
+  - Anywhere you expand beyond what the note says, mark `[expanded from note]`.
+  - Anywhere you add an inference, mark `[claude inference]`.
 
 **Always ask Asif**:
   - What did you mean by [ambiguous bullet]?
@@ -97,13 +75,13 @@ Distillation is the Phase 2 work that produces signal from the raw source. Each 
 
 **Trap to avoid**: producing fluent prose that sounds like Asif but contains positions he didn't state. Use the marks. Better honest than smooth.
 
-## Multi-source synthesis (2–4 sources)
+## Multi-source synthesis (2–4 sources in one chapter)
 
-**Method**: distill each source independently, then synthesize.
-  - Run the appropriate single-source method per source
-  - Produce one `01a-`, `01b-`, etc. file per source
-  - The synthesis lives in `04-discussion-spine.md` — which agreements/tensions are we surfacing?
-  - The framing file declares the lens
+**Method**: distill each source independently, then synthesize into ONE chapter.
+  - Run the appropriate single-source method per source.
+  - Author a single chapter that puts the sources in conversation; the chapter is still one NotebookLM source per the 1:1 mapping.
+  - The synthesis lens lives in the chapter's opening contextual frame and in `04-discussion-spine.md`.
+  - The framing file (`00-framing.md`) declares the lens to NotebookLM.
 
 **Capture additionally**:
   - **Agreements** — where do the sources overlap?
@@ -111,3 +89,17 @@ Distillation is the Phase 2 work that produces signal from the raw source. Each 
   - **Synthesis lens** — what is the EPISODE arguing by putting these in conversation?
 
 **Trap to avoid**: false equivalence. If one source is much stronger than the other, say so in the framing — don't pretend balance.
+
+---
+
+## How distillation connects to chapter design (Phase 0d) and enrichment (Phase 0e)
+
+The order matters:
+
+1. **Phase 0a/0b/0c** produce a single refined English source file with full Arabic phonetic coverage. This is `normalized.md`.
+2. **Phase 0d** is chapter design — split `normalized.md` into balanced thematic chapters in `BOOK_DIR/chapters/`. Distillation (this file) is NOT yet running.
+3. **Phase 0e** enriches each chapter from the whitelist in `enrichment-sources.md`. Outside material ≤ 60%. The chapter is now substantively complete.
+4. **Phase 1–3** then run per episode: intake → distill the enriched chapter (this file's methods) → author the episode-draft scaffolds (`00-framing.md` etc.).
+5. **Phase 4** builds the episode txt from `00-framing.md` + the matched chapter.
+
+Distillation is downstream of authoring. The chapter file is the source of truth; this file's methods extract from it, they do not produce it.
