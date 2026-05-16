@@ -11,6 +11,9 @@ This skill is generic across content types and traditions. No hardcoded referenc
 
 ============================================================
 SECTION 0: GROUND RULES — READ BEFORE ANY OUTPUT
+
+(Read also: playbooks/00-cortex-compliance.md — the CORTEX
+Challenger Framework v1 compliance contract for this skill.)
 ============================================================
 
 **JOURNAL_DIR** = the mounted journal folder. Verify by checking that `reference/translations-glossary.md` exists.
@@ -51,29 +54,49 @@ Parameters:
 Default behavior (`/podcast <input>` with no flags): full pipeline, all output types, standard depth, general audience, auto-detected tradition.
 
 ============================================================
-SECTION 2: PIPELINE STAGES (15)
+SECTION 2: CORTEX CHALLENGER FRAMEWORK COMPLIANCE
+============================================================
+
+This skill targets **CORTEX Challenger Framework v1** (canonical: `journal/reference/cortex-challenger-framework.md`).
+
+Compliance tier: **GOLD**.
+
+Applied CORE rules: CORE-002, CORE-035, CORE-048, CORE-064, CORE-068, CORE-071, CORE-INTERNAL-001, CORE-VOICE-001.
+
+Severity tier mapping for every gate, DoR definition, convergence loop behavior, sweep contracts, determinism declarations, and Challenge Gate triggers — all defined in `playbooks/00-cortex-compliance.md`. **Read that playbook first when invoking this skill.**
+
+Every run produces `_challenger-report.yml` per the framework's Section 3 schema.
+
+============================================================
+SECTION 3: PIPELINE STAGES (16, plus compliance + DoR)
 ============================================================
 
 Each stage has a dedicated playbook in `playbooks/`. Read the playbook for the stage you are executing before producing output for that stage.
 
+0. `00-cortex-compliance.md` — framework compliance contract (READ FIRST)
+0.5 (DoR gate per `00-cortex-compliance.md` — runs immediately after Stage 01, blocks if any P0 dimension fails)
 1. `01-ingest-source.md` — accept files, copy to `WORK_DIR/00-source/`
 2. `02-extract-text.md` — text extraction, OCR, audio/video transcription
 3. `03-detect-metadata.md` — title, author, period, audience, content type
-4. `04-classify-tone-genre.md` — reverent / narrative / argumentative / conversational / academic
+4. `04-classify-tone-genre.md` — reverent / narrative / argumentative / conversational / academic + tradition detection
 5. `05-clean-normalize.md` — OCR artifacts, broken breaks, duplicates, headers/footers
 6. `06-detect-foreign-terms.md` — any non-Latin script across all supported languages
 7. `07-generate-phonetics.md` — language-appropriate transliteration
 8. `08-build-pronunciation.md` — project master lexicon to source-specific guide
-9. `09-segment-sections.md` — three-stage segmentation with human-in-loop
+9. `09-segment-sections.md` — three-stage segmentation with human-in-loop (Challenge Gate trigger)
 10. `10-enrich-context.md` — tradition-whitelist-bounded enrichment
 11. `11-add-modern-analogies.md` — period-aware, audience-aware, woven (no labels)
 12. `12-refine-for-audio.md` — clarity passes that preserve tone
+12b. `12b-library-proposals.md` — Tier 1 library cross-pollination proposals (runs concurrently with Stage 12)
 13. `13-generate-instructions.md` — per-section NotebookLM instruction blocks + global anti-noise block
-14. `14-quality-gates.md` — five hard gates
+14. `14-quality-gates.md` — original five hard gates (1–5)
+14b. `14b-gates-6-7.md` — framework-added Gates 6 (implicit citations) and 7 (per-section determinism)
 15. `15-export-files.md` — write outputs, build ZIP
 
 Plus apply step:
 - `16-apply-library-proposals.md` — explicit merge of staging proposals into live libraries with regression guards
+
+**Stages 14 + 14b run inside a 3-cycle convergence loop per CORE-068.** Failed gates trigger re-runs of producing stages; if not converged after 3 cycles, the pipeline halts and writes `CONVERGENCE-FAILED.md`.
 
 ============================================================
 SECTION 3: OUTPUT LAYOUT (per source)
