@@ -395,6 +395,40 @@ def validate_contract(c: Contract, chapter: ResolvedChapter) -> None:
     if mode not in valid_modes:
         sys.exit(f"ERROR: contract.adaptation_mode {mode!r} not in {valid_modes}.")
 
+    # source_type ↔ library/<category>/ folder coupling.
+    # The category folder is derived from the chapter's resolved path; the
+    # contract's source_type must match. Mismatch usually means the contract
+    # was copy-pasted from another book without updating source_type.
+    source_type = c.get("source_type")
+    valid_source_types = {"book-chapter", "article", "document", "lecture",
+                          "interview", "letter"}
+    if source_type not in valid_source_types:
+        sys.exit(f"ERROR: contract.source_type {source_type!r} not in {valid_source_types}.")
+    # Map source_type → expected category folder (plural noun under library/).
+    expected_category = {
+        "book-chapter": "books",
+        "article":      "articles",
+        "document":     "documents",
+        "lecture":      "lectures",
+        "interview":    "interviews",
+        "letter":       "letters",
+    }[source_type]
+    try:
+        actual_category = chapter.path.parents[2].name
+        if actual_category != expected_category:
+            sys.exit(
+                f"ERROR: contract.source_type {source_type!r} requires the chapter to live\n"
+                f"  under content/podcast/library/{expected_category}/<book-slug>/, but the\n"
+                f"  chapter resolved to a path under .../library/{actual_category}/.\n"
+                f"    Chapter: {chapter.path}\n"
+                f"  Fix: either move the chapter to the {expected_category}/ category, or\n"
+                f"  change contract.source_type to match the {actual_category}/ category."
+            )
+    except IndexError:
+        # Chapter resolved via a non-standard path (legacy literal-path fallback);
+        # skip the category check rather than crashing.
+        pass
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Meta-prose lint (mirrors build_episode_txt.py — fail fast at extract time
@@ -717,6 +751,16 @@ def emit_bundle(chapter: ResolvedChapter, c: Contract, force: bool) -> None:
     # (books/, articles/, etc.) is honored — chapter is at
     # library/<category>/<book>/chapters/<file>.txt; parents[1] is the book dir.
     bucket_root = chapter.path.parents[1]
+    # Defense-in-depth: confirm the resolved bucket_root really sits under
+    # library/<category>/<book>/. A legacy-fallback resolution (no library/
+    # ancestor) would emit files in the wrong place; better to fail loud here.
+    if bucket_root.parent.parent.name != "library":
+        sys.exit(
+            f"ERROR: resolved chapter is not under content/podcast/library/<category>/<book>/.\n"
+            f"  bucket_root={bucket_root}\n"
+            f"  This usually means a legacy path resolution was used. Re-run with a\n"
+            f"  chapter under the v3.5 library layout."
+        )
 
     ep_num = c.get("episode_number") or chapter.chapter_number or next_episode_number(bucket_root)
     slug = c.get("slug")

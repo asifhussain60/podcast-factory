@@ -137,13 +137,13 @@ Content-prep skills (`journal` and `podcast`) are governed by their own workflow
 
 ---
 
-## Refinement surfaces: `refine` vs `refine-prompt`
+## Refinement surfaces: `cowork-brief` vs `refine-prompt`
 
-Two refinement surfaces exist in this repo with similar names but disjoint scope. Treat them as separate tools — never substitute one for the other.
+Two refinement surfaces exist in this repo with disjoint scope. Treat them as separate tools — never substitute one for the other. (Pre-v3.5 the Cowork-brief skill was named `refine`, which collided with `refine-prompt`. Renamed 2026-05-17.)
 
 | Surface | Location | Target | Output shape | Reads repo? |
 |---|---|---|---|---|
-| `refine` | [skills-staging/refine/](skills-staging/refine/) | Cowork briefs (external deliverable format) | Cowork-shaped brief | No |
+| `cowork-brief` | [skills-staging/cowork-brief/](skills-staging/cowork-brief/) | Cowork briefs (external deliverable format) | Cowork-shaped brief | No |
 | `refine-prompt` | Canonical: [.github/agents/refine-prompt.agent.md](.github/agents/refine-prompt.agent.md) + [.github/agents/operating-contract.md](.github/agents/operating-contract.md). Runtime: [.claude/agents/refine-prompt.md](.claude/agents/refine-prompt.md) + [.claude/commands/refine-prompt.md](.claude/commands/refine-prompt.md) (per-machine, gitignored, loaded by Claude Code) | Claude Opus 4.7 / Claude Code (VS Code) instructions for *this* repo | Single compact instruction-paragraph | Yes — inventories `framework.md`, `.github/agents/`, `.claude/agents/`, `skills-staging/`, root listing |
 
 `refine-prompt` is repo-aware. It reads [.github/agents/operating-contract.md](.github/agents/operating-contract.md) (the externalized Operating Contract — single source of truth, repo-agnostic), distills its 8 sections into terse imperatives, layers in anti-regression hints from a single bash-call inventory, and emits exactly one paragraph (80–180 words) ending with the user's original ask as the closing imperative. The paragraph also embeds an interactive-clarification clause instructing the downstream Claude to surface `AskUserQuestion`-style options (best recommendation first, labeled `(Recommended)`, one question at a time) whenever ambiguity remains.
@@ -171,7 +171,7 @@ journal/                                    ← repo root
 │   └── skill-overlays/
 │       ├── journal-cortex-overlay.md
 │       ├── clean-commit-cortex-overlay.md
-│       ├── refine-cortex-overlay.md
+│       ├── cowork-brief-cortex-overlay.md
 │       └── tell-me-cortex-overlay.md
 ├── skills-staging/                         ← in-repo skill definitions
 │   ├── README.md

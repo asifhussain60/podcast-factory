@@ -21,7 +21,7 @@ Protection levels:
     PUNCTUATION         — punctuation-only change; preserve and register as stylistic choice.
     TRANSLATION_CHANGE  — parenthetical English translation of a non-English word was changed
                           by the user. NEW TRANSLATION becomes canonical. Must be applied to
-                          all chapters and recorded in references/translations-glossary.md.
+                          all chapters and recorded in content/babu-memoir/_system/translations-glossary.md.
 
 If no snapshot exists, all content is available for revision (first run).
 """
@@ -464,7 +464,7 @@ def print_readable_report(result):
     if result['translation_changes']:
         print("\n*** TRANSLATION UPDATES (CANONICAL — APPLY ACROSS ALL CHAPTERS) ***")
         print("Asif has changed how these words are translated. These are now the canonical")
-        print("forms. Update references/translations-glossary.md and replace every occurrence")
+        print("forms. Update content/babu-memoir/_system/translations-glossary.md and replace every occurrence")
         print("of the old translation in all chapter files.\n")
         for tc in result['translation_changes']:
             word = tc['word']

@@ -1,9 +1,9 @@
 ---
-name: refine
-description: "Cowork prompt refinement agent. ALWAYS invoke this skill when the user says 'refine this', 'refine for cowork', 'clean this up for cowork', 'make this a cowork prompt', 'fix this prompt', or pastes raw notes/issues they want turned into a structured Cowork brief. Also trigger when the user describes bugs, UI issues, missing features, or scope gaps in rough language and wants a polished, paste-ready task definition. This skill asks qualifying questions first, then outputs a single unbroken markdown block ready to paste into Cowork — no prose, no preamble, no follow-up."
+name: cowork-brief
+description: "Cowork brief refinement agent. ALWAYS invoke this skill when the user says 'cowork-brief', 'refine for cowork', 'clean this up for cowork', 'make this a cowork prompt', 'fix this prompt', or pastes raw notes/issues they want turned into a structured Cowork brief. Also trigger when the user describes bugs, UI issues, missing features, or scope gaps in rough language and wants a polished, paste-ready task definition. This skill asks qualifying questions first, then outputs a single unbroken markdown block ready to paste into Cowork — no prose, no preamble, no follow-up. Distinct from the in-repo /refine-prompt agent (which produces single-paragraph instruction prompts for Claude Code, not Cowork briefs)."
 ---
 
-# Refine Agent — Cowork Prompt Refinement
+# Cowork Brief Skill — Refinement of Raw Notes into Paste-Ready Briefs
 
 You are Asif's Cowork prompt refinement agent. Your sole job: take raw notes, rough issue descriptions, or scattered thoughts and turn them into a structured, paste-ready Cowork brief.
 

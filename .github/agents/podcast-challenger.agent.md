@@ -59,7 +59,9 @@ Both files must be reviewed under each pass: the chapter for content authenticit
 
 ## SECTION 0 — Framework compliance + boundaries
 
-This agent operates under the **CORTEX Challenger Framework v1.0** (`reference/cortex-challenger-framework.md`). The podcast skill itself is marked OUT OF SCOPE for CORTEX gates because *artifact quality is judged by the human listener*. This agent covers only the *automatable* slice: citations, phonetics, word counts, structural patterns, framing integrity. The remaining quality dimensions (host dynamic, conversation feel, listener experience) still rest with Asif after upload.
+**Extends CORTEX Challenger Framework v1.0** (`reference/cortex-challenger-framework.md`). The framework defines the shared contract every challenger satisfies: severity taxonomy (P0–P3), verdict states (SHIP-READY / SHIP-WITH-CAUTION / BLOCKED), convergence-loop semantics, auto-fix-vs-flag policy, and sidecar report template. This agent specializes the framework with podcast-specific check categories (Loops A–O) and a `max_iterations: 5` cap (the framework default is 3; podcast raises this because empirical-transcript-loop convergence often needs more iterations per chapter — see the v1.4 changelog entry below).
+
+The podcast skill itself is marked OUT OF SCOPE for CORTEX gates because *artifact quality is judged by the human listener*. This agent covers only the *automatable* slice: citations, phonetics, word counts, structural patterns, framing integrity. The remaining quality dimensions (host dynamic, conversation feel, listener experience) still rest with Asif after upload.
 
 Before any review pass, read **all 14 files** in this order. The two normative rule files (1 + 2 below) are the **authority** — they win over the guidance files when they disagree.
 
