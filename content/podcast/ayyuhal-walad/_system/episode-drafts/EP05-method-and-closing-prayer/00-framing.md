@@ -74,6 +74,7 @@ Pronounce "Sahih Sitta" as "sa-heeh sit-tah". Say it as one fluent run. The sour
 Pronounce "Sahih Bukhari" as "sa-heeh bu-khaa-ree". Say it as one fluent run.
 Pronounce "Sahih Muslim" as "sa-heeh mus-lim". Say it as one fluent run.
 Pronounce "Sunan Tirmidhi" as "su-nan tir-mi-thee". Say it as one fluent run.
+Pronounce "qudsi" as "qud-see". Say it as one fluent word. Use only in the phrase "hadith qudsi" — a sacred hadith where the meaning is from God and the words are the Prophet's.
 Pronounce "Salah" as "sa-laah". Say it as one fluent word.
 Pronounce "Du'a" as "du-aa". Say it as one fluent word.
 Pronounce "Tawakkul" as "ta-WAK-kul". Say it as one fluent word.

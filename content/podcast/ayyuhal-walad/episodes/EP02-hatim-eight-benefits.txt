@@ -75,6 +75,7 @@ Pronounce "Nafs" as "nafs". Say it as one fluent word.
 Pronounce "Iblis" as "ib-lees". Say it as one fluent word.
 Pronounce "Aga Khan IV" as "aa-ga khaan the fourth". Say "aa-ga khaan" as one fluent run.
 Pronounce "Holy Du'a" as "ho-lee du-aa". Say "du-aa" as one fluent word.
+Pronounce "farman" as "far-maan". Say it as one fluent word.
 
 Name discipline. Use each long name in full once on first occurrence, then use the short alias for every subsequent reference:
  - Shaqiq al-Balkhi → Shaqeeq

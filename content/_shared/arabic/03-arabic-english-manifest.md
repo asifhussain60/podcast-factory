@@ -103,6 +103,7 @@ record. Subsequent uses in the same chapter are bare `Ali (AS)`.
 | Ma'rifa / ma'arifah | direct knowledge of God | **maa-ri-fah** | |
 | Zikr / Dhikr | remembrance (of God) | **thikr** | `th` more reliable than `dh`. |
 | Hadith | a saying or report of the Prophet | **ha-deeth** | |
+| Hadith qudsi | a "sacred" hadith — meaning from God, words from the Prophet | **ha-deeth qud-see** | Keep both halves; gloss on first use as "divine, sacred". |
 | Ahadith | plural of hadith | **a-haa-deeth** | |
 | Sahaba | the Companions of the Prophet | **sa-haa-bah** | |
 | Ahl al-Bayt | the family of the Prophet | **ahl al-bayt** | |

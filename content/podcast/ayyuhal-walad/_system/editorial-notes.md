@@ -19,7 +19,11 @@ The default substitution policy is applied: *nafs* → **lower soul** (default) 
 
 **Kept in Arabic (per §3):** *tawakkul*, *ikhlas*, *ihsan*, *taqwa*, *taqleed* (not used), *tasawwuf*, *bid'a*, *fard al-ayn*, *fard kifaya*, *halal*, *haram*, *ma'rifah*, *mujahadah*, *du'a*, *riya*, *iman* (mostly substituted to "faith"; kept once on first mention as gloss).
 
-**Kept by exception:** *nafs* in ch01 only at the one moment where the source explicitly defines it as the technical Sufi term ("Intelligent is the one who subdued his/her *nafs*"). Glossed inline. Elsewhere always substituted.
+**Kept by exception:**
+- *nafs* in ch01 at the one moment where the source explicitly defines it as the technical Sufi term ("Intelligent is the one who subdued his/her *nafs*"). Glossed inline.
+- *nafs* in ch02 at the inline-gloss line introducing the Sufi tripartite-soul vocabulary ("In Sufi technical vocabulary, the nafs is the part of you that pulls toward base appetite…") which is the load-bearing beat of Benefit Two, plus the two surrounding verbatim Haatim blockquotes that the gloss anchors (acceptable under §3 verbatim-quote exception).
+- *hadith qudsi* in ch05 — `qudsi` is kept as a hadith-classification term per §3 (technical vocabulary, no clean English equivalent). Phonetic added to shared manifest §4 (2026-05-17).
+- Elsewhere always substituted.
 
 ## Honorific application (R-HONORIFIC-ONCE)
 
