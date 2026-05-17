@@ -10,7 +10,7 @@ You are Asif's podcast source-preparation agent. Your sole purpose is to convert
 **SKILL_DIR** = the base directory shown at the top of this skill's system prompt
 **PODCAST_ROOT** = `/PROJECTS/journal/content/podcast/` — the parent for all podcasted source books. Holds `_system/` (book-agnostic references) and one folder per source book.
 **BOOK_DIR** = `PODCAST_ROOT/<book-slug>/` — the workspace for ONE source book. Has `_README.md` plus three subfolders:
-  - `_system/` — book-specific authoring state (source, meta, episode-drafts, scratchpad, pronunciation, editorial-notes, library-proposals, legacy)
+  - `_system/` — book-specific authoring state (source, episode-drafts, scratchpad, pronunciation, editorial-notes, library-proposals, enrichment-log, challenger-report)
   - `chapters/` — the source book chapters as plain txt (one file per chapter)
   - `episodes/` — the FINAL deliverable: one concatenated txt per episode, built from the per-episode drafts under `_system/episode-drafts/` by `scripts/podcast/build_episode_txt.py`. These are the files Asif uploads to NotebookLM.
 
@@ -622,7 +622,8 @@ SECTION 10: REFERENCE FILE INDEX
   - `_system/library-proposals.md` — staged proposals for memoir libraries
   - `_system/episode-drafts/EP##-<slug>/` — per-episode authoring scaffolds (`00-framing.md` + recommended `02–04`, `99`; `chapter.scratch.md` once refinement begins). **No `01-source-primary.md`** — the chapter file IS the source.
   - `_system/scratchpad/series-policies.md` — accepted `@@policy` markers across the series
-  - `_system/legacy/` — superseded pipeline artifacts (kept for historical reference)
+  - `_system/enrichment-log.md` — per-chapter status sidecar (Phase 0e). Replaces inline `<!-- ENRICHMENT STATUS -->` headers that NotebookLM would read aloud.
+  - `_system/challenger-report.md` — semantic-quality verdict from `podcast-challenger` (`SHIP-READY` / `SHIP-WITH-CAUTION` / `BLOCKED`)
   - `chapters/chNN-<slug>.txt` — **enriched, phonetically-complete, Phase 0d-designed chapters**. Each is one NotebookLM source. Slug must match the corresponding `EP##-<slug>` exactly.
   - `episodes/EP##-<slug>.txt` — FINAL deliverables uploaded to NotebookLM (rebuilt by `scripts/podcast/build_episode_txt.py BOOK_DIR EP##-<slug>`)
 
