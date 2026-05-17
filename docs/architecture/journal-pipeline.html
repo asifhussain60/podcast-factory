@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Journal Pipeline · End to End</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/architecture.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="brand">Babu <span>·</span> Architecture</div>
+  <div class="crumbs"><a href="index.html">map</a> <span class="sep">›</span> Journal <span class="sep">›</span> Pipeline</div>
+</nav>
+
+<main class="page">
+
+  <header class="hero">
+    <span class="eyebrow" style="background:rgba(255,176,204,0.12);border-color:rgba(255,176,204,0.32);color:var(--rose)">journal · pipeline · end-to-end</span>
+    <h1>How a memoir chapter actually <em>moves</em></h1>
+    <p class="lede">
+      From the moment Asif types <code>/journal</code> to the moment a finished
+      chapter file lands in <code>chapters/</code>, ready to paste into Day One.
+      Every file the skill reads, every script that runs, every guard that
+      protects Asif's own edits — laid out in order, top to bottom.
+    </p>
+  </header>
+
+  <!-- ── The big end-to-end SVG ─────────────────────────────── -->
+  <div class="section-head">
+    <div class="label">·· the whole journey ··</div>
+    <h2>One chapter, one full pass</h2>
+    <div class="sub">Read top to bottom. The left lane is what Asif does. The right lane is what the skill does. Files and scripts sit in the middle.</div>
+  </div>
+
+  <div class="diagram">
+    <svg viewBox="0 0 820 2380" role="img" aria-labelledby="journal-pipeline-title">
+      <title id="journal-pipeline-title">Journal skill end-to-end pipeline</title>
+
+      <!-- Lane headers -->
+      <g>
+        <rect x="20" y="20" width="240" height="48" rx="10" class="node-rose" />
+        <text x="140" y="50" text-anchor="middle" class="label-strong" style="fill:var(--rose)">ASIF · WRITER</text>
+
+        <rect x="290" y="20" width="240" height="48" rx="10" class="node-accent" />
+        <text x="410" y="50" text-anchor="middle" class="label-strong" style="fill:var(--accent)">FILES · SCRIPTS</text>
+
+        <rect x="560" y="20" width="240" height="48" rx="10" class="node-mint" />
+        <text x="680" y="50" text-anchor="middle" class="label-strong" style="fill:var(--mint)">/JOURNAL · CLAUDE</text>
+      </g>
+
+      <!-- Vertical lane lines -->
+      <line x1="140" y1="80" x2="140" y2="2300" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4" />
+      <line x1="410" y1="80" x2="410" y2="2300" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4" />
+      <line x1="680" y1="80" x2="680" y2="2300" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4" />
+
+      <!-- STEP 1: trigger -->
+      <g>
+        <rect x="40" y="100" width="200" height="62" rx="10" class="node-rose" />
+        <text x="140" y="124" text-anchor="middle" class="label-strong">Types /journal</text>
+        <text x="140" y="146" text-anchor="middle" class="label-mono">"continue Ch04"</text>
+
+        <path class="edge-accent" d="M240,131 L560,131" marker-end="url(#a1)" />
+        <defs>
+          <marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/>
+          </marker>
+        </defs>
+
+        <rect x="560" y="100" width="240" height="62" rx="10" class="node-mint" />
+        <text x="680" y="124" text-anchor="middle" class="label-strong">Skill activates</text>
+        <text x="680" y="146" text-anchor="middle" class="label-mono">trigger words detected</text>
+      </g>
+
+      <!-- STEP 2: session-start reads -->
+      <g>
+        <rect x="40" y="190" width="760" height="38" rx="8" fill="var(--accent-soft)" stroke="var(--accent-strong)" />
+        <text x="420" y="214" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:13px">·· SESSION START — read 16 files in order before touching anything ··</text>
+      </g>
+
+      <!-- File grid (8 columns × 2 rows) — read order numbered 1-16 -->
+      <g>
+        <!-- Row 1 -->
+        <rect x="40" y="246" width="180" height="50" rx="8" class="node" />
+        <text x="130" y="266" text-anchor="middle" class="label-mono" style="fill:var(--accent)">01 · authoritative workflow</text>
+        <text x="130" y="284" text-anchor="middle" class="label-mono">journal-workflow-v2.md</text>
+
+        <rect x="230" y="246" width="180" height="50" rx="8" class="node" />
+        <text x="320" y="266" text-anchor="middle" class="label-mono" style="fill:var(--accent)">02 · live supplement</text>
+        <text x="320" y="284" text-anchor="middle" class="label-mono">rules-supplement.txt</text>
+
+        <rect x="420" y="246" width="180" height="50" rx="8" class="node" />
+        <text x="510" y="266" text-anchor="middle" class="label-mono" style="fill:var(--accent)">03 · cross-chapter intel</text>
+        <text x="510" y="284" text-anchor="middle" class="label-mono">master-context.md</text>
+
+        <rect x="610" y="246" width="180" height="50" rx="8" class="node" />
+        <text x="700" y="266" text-anchor="middle" class="label-mono" style="fill:var(--accent)">04 · voice patterns</text>
+        <text x="700" y="284" text-anchor="middle" class="label-mono">voice-deep-analysis.md</text>
+
+        <rect x="40" y="306" width="180" height="50" rx="8" class="node" />
+        <text x="130" y="326" text-anchor="middle" class="label-mono" style="fill:var(--accent)">05 · voice DNA</text>
+        <text x="130" y="344" text-anchor="middle" class="label-mono">voice-fingerprint.md</text>
+
+        <rect x="230" y="306" width="180" height="50" rx="8" class="node" />
+        <text x="320" y="326" text-anchor="middle" class="label-mono" style="fill:var(--accent)">06 · craft</text>
+        <text x="320" y="344" text-anchor="middle" class="label-mono">craft-techniques.md</text>
+
+        <rect x="420" y="306" width="180" height="50" rx="8" class="node" />
+        <text x="510" y="326" text-anchor="middle" class="label-mono" style="fill:var(--accent)">07 · chapter map</text>
+        <text x="510" y="344" text-anchor="middle" class="label-mono">thematic-arc.md</text>
+
+        <rect x="610" y="306" width="180" height="50" rx="8" class="node" />
+        <text x="700" y="326" text-anchor="middle" class="label-mono" style="fill:var(--accent)">08 · bio</text>
+        <text x="700" y="344" text-anchor="middle" class="label-mono">biographical-context.md</text>
+
+        <rect x="40" y="366" width="180" height="50" rx="8" class="node" />
+        <text x="130" y="386" text-anchor="middle" class="label-mono" style="fill:var(--accent)">09 · locked paragraphs</text>
+        <text x="130" y="404" text-anchor="middle" class="label-mono">locked-paragraphs.md</text>
+
+        <rect x="230" y="366" width="180" height="50" rx="8" class="node" />
+        <text x="320" y="386" text-anchor="middle" class="label-mono" style="fill:var(--accent)">10 · quotes &amp; reflections</text>
+        <text x="320" y="404" text-anchor="middle" class="label-mono">quotes-library.txt</text>
+
+        <rect x="420" y="366" width="180" height="50" rx="8" class="node" />
+        <text x="510" y="386" text-anchor="middle" class="label-mono" style="fill:var(--accent)">11 · raw memory</text>
+        <text x="510" y="404" text-anchor="middle" class="label-mono">incident-bank.md</text>
+
+        <rect x="610" y="366" width="180" height="50" rx="8" class="node" />
+        <text x="700" y="386" text-anchor="middle" class="label-mono" style="fill:var(--accent)">12 · quote weaving</text>
+        <text x="700" y="404" text-anchor="middle" class="label-mono">quotes-workflow.md</text>
+
+        <rect x="40" y="426" width="180" height="50" rx="8" class="node" />
+        <text x="130" y="446" text-anchor="middle" class="label-mono" style="fill:var(--accent)">13 · translations</text>
+        <text x="130" y="464" text-anchor="middle" class="label-mono">translations-glossary.md</text>
+
+        <rect x="230" y="426" width="180" height="50" rx="8" class="node" />
+        <text x="320" y="446" text-anchor="middle" class="label-mono" style="fill:var(--accent)">14 · status</text>
+        <text x="320" y="464" text-anchor="middle" class="label-mono">chapter-status.md</text>
+
+        <!-- 15-16 the shared arabic -->
+        <rect x="420" y="426" width="180" height="50" rx="8" class="node-gold" />
+        <text x="510" y="446" text-anchor="middle" class="label-mono" style="fill:var(--gold)">15 · shared arabic</text>
+        <text x="510" y="464" text-anchor="middle" class="label-mono">arabic-english-manifest</text>
+
+        <rect x="610" y="426" width="180" height="50" rx="8" class="node-gold" />
+        <text x="700" y="446" text-anchor="middle" class="label-mono" style="fill:var(--gold)">16 · substitution policy</text>
+        <text x="700" y="464" text-anchor="middle" class="label-mono">common-term-substitutions</text>
+      </g>
+
+      <!-- STEP 3: delta detection script -->
+      <g>
+        <rect x="160" y="510" width="500" height="68" rx="10" class="node-accent" />
+        <text x="410" y="538" text-anchor="middle" class="label-strong" style="fill:var(--accent)">⚙ scripts/memoir/auto_delta.py</text>
+        <text x="410" y="560" text-anchor="middle" class="label-mono">scan every chapter · diff against snapshot · flag what Asif edited himself</text>
+
+        <text x="680" y="554" text-anchor="middle" class="label" style="fill:var(--mint)">read full delta report</text>
+        <text x="680" y="572" text-anchor="middle" class="label-mono">before touching ANY file</text>
+      </g>
+
+      <!-- Output: delta report -->
+      <g>
+        <rect x="310" y="600" width="200" height="50" rx="8" class="node" />
+        <text x="410" y="623" text-anchor="middle" class="label-strong">Delta Report</text>
+        <text x="410" y="642" text-anchor="middle" class="label-mono">PROTECTED · SPLIT · TRANSLATIONS</text>
+      </g>
+
+      <!-- DECISION: translation sync? -->
+      <g>
+        <path class="edge-soft" d="M410,650 L410,690" />
+        <polygon points="350,690 470,690 410,750" class="node-gold" />
+        <text x="410" y="715" text-anchor="middle" class="label-strong" style="font-size:13px">translation</text>
+        <text x="410" y="731" text-anchor="middle" class="label-strong" style="font-size:13px">changed?</text>
+
+        <!-- yes branch -->
+        <path class="edge" d="M470,720 L560,720" />
+        <rect x="560" y="694" width="220" height="58" rx="8" class="node-gold" />
+        <text x="670" y="717" text-anchor="middle" class="label-strong" style="fill:var(--gold);font-size:13px">1 · consult shared manifest</text>
+        <text x="670" y="737" text-anchor="middle" class="label-mono">2 · update glossary · 3 · cascade</text>
+
+        <!-- no branch -->
+        <path class="edge-soft" d="M410,750 L410,780" />
+      </g>
+
+      <!-- PHASE 1: REBUILD -->
+      <g>
+        <rect x="40" y="790" width="760" height="38" rx="8" fill="rgba(255,176,204,0.10)" stroke="var(--rose)" />
+        <text x="420" y="814" text-anchor="middle" class="label-mono" style="fill:var(--rose);font-size:13px">·· PHASE 1 — REBUILD in a scratchpad (chapter file is never touched yet) ··</text>
+      </g>
+
+      <g>
+        <rect x="40" y="846" width="200" height="78" rx="10" class="node-rose" />
+        <text x="140" y="870" text-anchor="middle" class="label-strong">Asif waits</text>
+        <text x="140" y="892" text-anchor="middle" class="label-mono">reads scratchpad</text>
+        <text x="140" y="910" text-anchor="middle" class="label-mono">in his editor</text>
+
+        <rect x="270" y="846" width="280" height="78" rx="10" class="node" />
+        <text x="410" y="868" text-anchor="middle" class="label-mono" style="fill:var(--accent)">📝 scratchpad file</text>
+        <text x="410" y="892" text-anchor="middle" class="label-strong">scratch-&lt;chapter&gt;.txt</text>
+        <text x="410" y="912" text-anchor="middle" class="label-mono">divided into === SECTION N ===</text>
+
+        <rect x="580" y="846" width="220" height="78" rx="10" class="node-mint" />
+        <text x="690" y="868" text-anchor="middle" class="label-strong">Rebuild rules</text>
+        <text x="690" y="888" text-anchor="middle" class="label-mono">keep all Asif's sentences</text>
+        <text x="690" y="906" text-anchor="middle" class="label-mono">refine · humour · pacing</text>
+      </g>
+
+      <!-- PHASE 2: INTERACTIVE REVIEW -->
+      <g>
+        <rect x="40" y="950" width="760" height="38" rx="8" fill="rgba(255,176,204,0.10)" stroke="var(--rose)" />
+        <text x="420" y="974" text-anchor="middle" class="label-mono" style="fill:var(--rose);font-size:13px">·· PHASE 2 — INTERACTIVE REVIEW (section by section, no full re-paste in chat) ··</text>
+      </g>
+
+      <g>
+        <rect x="40" y="1006" width="200" height="86" rx="10" class="node-rose" />
+        <text x="140" y="1030" text-anchor="middle" class="label-strong">Speaks by</text>
+        <text x="140" y="1048" text-anchor="middle" class="label-strong">section number</text>
+        <text x="140" y="1070" text-anchor="middle" class="label-mono">"section 5 needs"</text>
+        <text x="140" y="1086" text-anchor="middle" class="label-mono">"more humour"</text>
+
+        <path class="edge-accent" d="M240,1049 L560,1049" />
+
+        <rect x="560" y="1006" width="240" height="86" rx="10" class="node-mint" />
+        <text x="680" y="1030" text-anchor="middle" class="label-strong">Updates IN PLACE</text>
+        <text x="680" y="1052" text-anchor="middle" class="label-mono">same section · same #</text>
+        <text x="680" y="1070" text-anchor="middle" class="label-mono">new content → sub-# (3a)</text>
+        <text x="680" y="1086" text-anchor="middle" class="label-mono">never renumber everything</text>
+      </g>
+
+      <!-- PHASE 2a: qualifying questions (optional branch) -->
+      <g>
+        <rect x="160" y="1108" width="500" height="62" rx="10" class="node-accent" />
+        <text x="410" y="1132" text-anchor="middle" class="label-strong" style="fill:var(--accent)">PHASE 2a · QUALIFYING QUESTIONS AGENT (when ambiguous)</text>
+        <text x="410" y="1152" text-anchor="middle" class="label-mono">multi-choice prompts · never guess · land emotion · time · connect to scene?</text>
+      </g>
+
+      <!-- PHASE 3: 5 QUALITY LOOPS (silent) -->
+      <g>
+        <rect x="40" y="1190" width="760" height="38" rx="8" fill="rgba(155,227,194,0.10)" stroke="var(--mint)" />
+        <text x="420" y="1214" text-anchor="middle" class="label-mono" style="fill:var(--mint);font-size:13px">·· PHASE 3 — 5 QUALITY LOOPS run silently around every change ··</text>
+      </g>
+
+      <g>
+        <rect x="40" y="1246" width="150" height="100" rx="10" class="node-mint" />
+        <text x="115" y="1270" text-anchor="middle" class="label-strong" style="font-size:13px">L1 · VOICE</text>
+        <text x="115" y="1292" text-anchor="middle" class="label-mono">sounds like Asif?</text>
+        <text x="115" y="1310" text-anchor="middle" class="label-mono">humour patterns</text>
+        <text x="115" y="1328" text-anchor="middle" class="label-mono">vocab DNA · openers</text>
+
+        <rect x="200" y="1246" width="150" height="100" rx="10" class="node-mint" />
+        <text x="275" y="1270" text-anchor="middle" class="label-strong" style="font-size:13px">L2 · ARCHITECTURE</text>
+        <text x="275" y="1292" text-anchor="middle" class="label-mono">damage → wisdom</text>
+        <text x="275" y="1310" text-anchor="middle" class="label-mono">every scene turns</text>
+        <text x="275" y="1328" text-anchor="middle" class="label-mono">no victim framing</text>
+
+        <rect x="360" y="1246" width="150" height="100" rx="10" class="node-mint" />
+        <text x="435" y="1270" text-anchor="middle" class="label-strong" style="font-size:13px">L3 · CRAFT</text>
+        <text x="435" y="1292" text-anchor="middle" class="label-mono">pace slow on peaks</text>
+        <text x="435" y="1310" text-anchor="middle" class="label-mono">no em-dashes</text>
+        <text x="435" y="1328" text-anchor="middle" class="label-mono">no therapy jargon</text>
+
+        <rect x="520" y="1246" width="150" height="100" rx="10" class="node-mint" />
+        <text x="595" y="1270" text-anchor="middle" class="label-strong" style="font-size:13px">L4 · GOVERNANCE</text>
+        <text x="595" y="1292" text-anchor="middle" class="label-mono">Ali (AS) once / ch</text>
+        <text x="595" y="1310" text-anchor="middle" class="label-mono">temporal guardrail</text>
+        <text x="595" y="1328" text-anchor="middle" class="label-mono">quote once-only</text>
+
+        <rect x="680" y="1246" width="120" height="100" rx="10" class="node-mint" />
+        <text x="740" y="1270" text-anchor="middle" class="label-strong" style="font-size:13px">L5 · EXTRACT</text>
+        <text x="740" y="1292" text-anchor="middle" class="label-mono">new patterns</text>
+        <text x="740" y="1310" text-anchor="middle" class="label-mono">→ voice-deep</text>
+        <text x="740" y="1328" text-anchor="middle" class="label-mono">-analysis.md</text>
+      </g>
+
+      <!-- DELTA PROTECTION SUB-LOOP -->
+      <g>
+        <rect x="40" y="1370" width="760" height="62" rx="10" class="node-rose" />
+        <text x="420" y="1394" text-anchor="middle" class="label-strong" style="fill:var(--rose)">🛡 DELTA PROTECTION — Asif's own edits are content-locked</text>
+        <text x="420" y="1416" text-anchor="middle" class="label-mono">grammar · emotional precision · articulation · relocation OK · rewriting his words NEVER</text>
+      </g>
+
+      <!-- Loop arrow back to phase 2 -->
+      <path class="edge-soft" d="M40,1280 Q 10,1280 10,1050 Q 10,1010 40,1010" />
+      <text x="22" y="1148" text-anchor="middle" class="label-mono" style="font-size:12px;fill:var(--text-muted)" transform="rotate(-90, 22, 1148)">repeat per section</text>
+
+      <!-- PHASE 4: FINALIZATION -->
+      <g>
+        <rect x="40" y="1456" width="760" height="38" rx="8" fill="rgba(198,166,255,0.12)" stroke="var(--accent)" />
+        <text x="420" y="1480" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:13px">·· PHASE 4 — FINALIZATION (when all sections approved) ··</text>
+      </g>
+
+      <!-- 9-step finalization checklist -->
+      <g>
+        <rect x="40" y="1512" width="250" height="46" rx="8" class="node-accent" />
+        <text x="165" y="1530" text-anchor="middle" class="label-mono" style="fill:var(--accent)">step 1</text>
+        <text x="165" y="1548" text-anchor="middle" class="label-strong" style="font-size:13px">SEAM CHECK end-to-end</text>
+
+        <rect x="300" y="1512" width="250" height="46" rx="8" class="node-accent" />
+        <text x="425" y="1530" text-anchor="middle" class="label-mono" style="fill:var(--accent)">step 2</text>
+        <text x="425" y="1548" text-anchor="middle" class="label-strong" style="font-size:13px">MOVE → chapters/ch##.txt</text>
+
+        <rect x="560" y="1512" width="240" height="46" rx="8" class="node-accent" />
+        <text x="680" y="1530" text-anchor="middle" class="label-mono" style="fill:var(--accent)">step 3</text>
+        <text x="680" y="1548" text-anchor="middle" class="label-strong" style="font-size:13px">LOCK new paragraphs</text>
+
+        <rect x="40" y="1568" width="250" height="46" rx="8" class="node-accent" />
+        <text x="165" y="1586" text-anchor="middle" class="label-mono" style="fill:var(--accent)">step 4</text>
+        <text x="165" y="1604" text-anchor="middle" class="label-strong" style="font-size:13px">update quotes-library.txt</text>
+
+        <rect x="300" y="1568" width="250" height="46" rx="8" class="node-accent" />
+        <text x="425" y="1586" text-anchor="middle" class="label-mono" style="fill:var(--accent)">step 5</text>
+        <text x="425" y="1604" text-anchor="middle" class="label-strong" style="font-size:13px">update incident-bank.md</text>
+
+        <rect x="560" y="1568" width="240" height="46" rx="8" class="node-accent" />
+        <text x="680" y="1586" text-anchor="middle" class="label-mono" style="fill:var(--accent)">step 6</text>
+        <text x="680" y="1604" text-anchor="middle" class="label-strong" style="font-size:13px">update temporal-guardrail</text>
+
+        <rect x="40" y="1624" width="250" height="46" rx="8" class="node-accent" />
+        <text x="165" y="1642" text-anchor="middle" class="label-mono" style="fill:var(--accent)">step 7</text>
+        <text x="165" y="1660" text-anchor="middle" class="label-strong" style="font-size:13px">full compliance scan</text>
+
+        <rect x="300" y="1624" width="250" height="46" rx="8" class="node-accent" />
+        <text x="425" y="1642" text-anchor="middle" class="label-mono" style="fill:var(--accent)">step 8</text>
+        <text x="425" y="1660" text-anchor="middle" class="label-strong" style="font-size:13px">⚙ auto_delta.py --save</text>
+
+        <rect x="560" y="1624" width="240" height="46" rx="8" class="node-accent" />
+        <text x="680" y="1642" text-anchor="middle" class="label-mono" style="fill:var(--accent)">step 9</text>
+        <text x="680" y="1660" text-anchor="middle" class="label-strong" style="font-size:13px">delete scratchpad</text>
+      </g>
+
+      <!-- Output -->
+      <g>
+        <rect x="170" y="1700" width="480" height="86" rx="14" class="node-rose" />
+        <text x="410" y="1728" text-anchor="middle" class="label-mono" style="fill:var(--rose);font-size:13px">·· DELIVERED ··</text>
+        <text x="410" y="1756" text-anchor="middle" class="label-display" style="fill:var(--rose)">chapters/chNN-&lt;slug&gt;.txt</text>
+        <text x="410" y="1778" text-anchor="middle" class="label-mono">plain text · ready for Day One · snapshot saved</text>
+      </g>
+
+      <!-- ── Outside the in-session loop: Asif edits later ─── -->
+      <g>
+        <rect x="40" y="1816" width="760" height="38" rx="8" fill="rgba(244,212,156,0.10)" stroke="var(--gold)" />
+        <text x="420" y="1840" text-anchor="middle" class="label-mono" style="fill:var(--gold);font-size:13px">·· LATER — Asif edits chapter files directly · DELTA PROTOCOL keeps them sacred ··</text>
+      </g>
+
+      <g>
+        <rect x="40" y="1872" width="200" height="78" rx="10" class="node-rose" />
+        <text x="140" y="1896" text-anchor="middle" class="label-strong">Asif opens</text>
+        <text x="140" y="1914" text-anchor="middle" class="label-strong">a chapter file</text>
+        <text x="140" y="1934" text-anchor="middle" class="label-mono">edits in his editor</text>
+
+        <rect x="270" y="1872" width="280" height="78" rx="10" class="node-gold" />
+        <text x="410" y="1896" text-anchor="middle" class="label-strong" style="fill:var(--gold)">snapshot diff</text>
+        <text x="410" y="1916" text-anchor="middle" class="label-mono">new content vs saved snapshot</text>
+        <text x="410" y="1934" text-anchor="middle" class="label-mono">_system/snapshots/</text>
+
+        <rect x="580" y="1872" width="220" height="78" rx="10" class="node-mint" />
+        <text x="690" y="1894" text-anchor="middle" class="label-strong">Next session</text>
+        <text x="690" y="1916" text-anchor="middle" class="label-mono">auto_delta.py reports</text>
+        <text x="690" y="1934" text-anchor="middle" class="label-mono">PROTECTED on next rebuild</text>
+      </g>
+
+      <!-- The protected guard rules -->
+      <g>
+        <rect x="40" y="1976" width="760" height="100" rx="14" class="node-rose" />
+        <text x="420" y="2004" text-anchor="middle" class="label-mono" style="fill:var(--rose);font-size:13px">·· PROTECTED-PARAGRAPH RULES ··</text>
+        <text x="420" y="2030" text-anchor="middle" class="label">✓ grammar fixes &#160;·&#160; ✓ better emotional word &#160;·&#160; ✓ smoother phrasing &#160;·&#160; ✓ move to better position</text>
+        <text x="420" y="2054" text-anchor="middle" class="label" style="fill:var(--error)">✗ rewriting · ✗ changing the story · ✗ adding/removing sentences · ✗ merging splits he made</text>
+      </g>
+
+      <!-- ── Connections to the wider ecosystem ──────────── -->
+      <g>
+        <rect x="40" y="2106" width="760" height="38" rx="8" fill="rgba(155,199,227,0.10)" stroke="var(--sky)" />
+        <text x="420" y="2130" text-anchor="middle" class="label-mono" style="fill:var(--sky);font-size:13px">·· OUTBOUND CONNECTIONS — what other parts of the project can read ··</text>
+      </g>
+
+      <g>
+        <rect x="40" y="2162" width="240" height="86" rx="10" class="node-sky" />
+        <text x="160" y="2188" text-anchor="middle" class="label-strong">/podcast skill</text>
+        <text x="160" y="2208" text-anchor="middle" class="label-mono">may read</text>
+        <text x="160" y="2226" text-anchor="middle" class="label-mono">chapters/*.txt</text>
+        <text x="160" y="2242" text-anchor="middle" class="label-mono">via extract_chapter.py</text>
+
+        <rect x="290" y="2162" width="240" height="86" rx="10" class="node-sky" />
+        <text x="410" y="2188" text-anchor="middle" class="label-strong">Babu site (web)</text>
+        <text x="410" y="2208" text-anchor="middle" class="label-mono">renders</text>
+        <text x="410" y="2226" text-anchor="middle" class="label-mono">chapters/*.txt</text>
+        <text x="410" y="2242" text-anchor="middle" class="label-mono">site/chapter-reader.js</text>
+
+        <rect x="540" y="2162" width="240" height="86" rx="10" class="node-sky" />
+        <text x="660" y="2188" text-anchor="middle" class="label-strong">Day One (manual)</text>
+        <text x="660" y="2208" text-anchor="middle" class="label-mono">Asif copies</text>
+        <text x="660" y="2226" text-anchor="middle" class="label-mono">chapter prose</text>
+        <text x="660" y="2242" text-anchor="middle" class="label-mono">into the journal app</text>
+      </g>
+
+      <!-- Outer outcome statement -->
+      <g>
+        <rect x="40" y="2280" width="760" height="60" rx="14" fill="var(--accent-soft)" stroke="var(--accent-strong)" />
+        <text x="420" y="2308" text-anchor="middle" class="label-display" style="font-size:18px;fill:var(--text)">The chapter belongs to Asif.</text>
+        <text x="420" y="2330" text-anchor="middle" class="label-mono">Claude is the assistant. The voice is his.</text>
+      </g>
+
+    </svg>
+    <div class="caption">Vertical end-to-end pipeline · 16 files read · 9 finalization steps · delta-protected edits</div>
+  </div>
+
+  <!-- ── Expository sections ─────────────────────────────────── -->
+  <div class="section-head">
+    <div class="label">·· moment by moment ··</div>
+    <h2>The five things to remember</h2>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="meta">·· phase 1 ··</div>
+      <h3>The scratchpad is the workshop</h3>
+      <p>The actual chapter file is sacred. All the rebuilding happens in a separate
+      <code>scratch-&lt;chapter&gt;.txt</code> file that gets deleted after the chapter
+      is finalized. Asif reads it in his editor, not in chat — chat is for
+      section-by-section feedback only.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· phase 2 ··</div>
+      <h3>Sections, not rewrites</h3>
+      <p>The scratchpad is divided into <strong>numbered sections</strong>. Asif
+      says "section 5 needs more humour" and only that section is updated, in
+      place. New material inserted between two sections becomes
+      <strong>3a</strong>, never renumbering the rest.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· phase 3 ··</div>
+      <h3>Five quality loops, all silent</h3>
+      <p>Voice, architecture, craft, governance, extraction. They are not
+      separate approval steps — they run automatically around every edit. The
+      only thing Asif sees is the rebuilt section.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· delta protection ··</div>
+      <h3>His edits are sacred</h3>
+      <p>When Asif edits a chapter file between sessions, the next session
+      detects the change and <strong>locks</strong> the paragraph. The skill
+      can fix grammar and move it for better flow, but it cannot rewrite his
+      words. Even if it thinks its phrasing is better.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· phase 4 ··</div>
+      <h3>Nine ceremonial steps to finalize</h3>
+      <p>Seam check, move, lock, update three indices, full compliance scan,
+      snapshot save, delete scratchpad. The list looks long because each step
+      keeps a different invariant true. Skip one and the next session reads
+      stale state.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· the shared brain ··</div>
+      <h3>Arabic terms defer to the manifest</h3>
+      <p>When a chapter introduces or changes an Arabic translation, the skill
+      consults the cross-skill manifest under <code>content/_shared/arabic/</code>
+      first. Memoir voice choices that have already shipped win — but the
+      shared file is the default authority.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-eyebrow">·· the principle ··</div>
+    <p>The pipeline is built around one rule: <strong>Asif IS Babu</strong>. Claude is the assistant that helps him refine and finalize his words. Every guardrail in the diagram above exists to keep Asif's voice intact while still making the writing process faster.</p>
+  </div>
+
+  <footer class="footer">
+    <a href="index.html">← back to the map</a> &nbsp;·&nbsp; <a href="journal-overview.html">overview</a> &nbsp;·&nbsp; <a href="journal-quality-system.html">quality system →</a>
+  </footer>
+
+</main>
+</body>
+</html>

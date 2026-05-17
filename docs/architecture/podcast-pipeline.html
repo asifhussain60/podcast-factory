@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Podcast Pipeline · End to End</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/architecture.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="brand">Babu <span>·</span> Architecture</div>
+  <div class="crumbs"><a href="index.html">map</a> <span class="sep">›</span> Podcast <span class="sep">›</span> Pipeline</div>
+</nav>
+
+<main class="page">
+
+  <header class="hero">
+    <span class="eyebrow" style="background:rgba(155,227,194,0.12);border-color:rgba(155,227,194,0.32);color:var(--mint)">podcast · pipeline · end-to-end</span>
+    <h1>From a PDF on the desk to <em>two files in NotebookLM</em></h1>
+    <p class="lede">
+      The podcast skill never writes a single line of dialogue. It prepares a
+      <strong>perfectly steered packet of source material</strong> so that
+      NotebookLM's two hosts say exactly the right things on their own. This
+      page shows every file, every agent, every challenger pass, and every
+      script that gets us there.
+    </p>
+  </header>
+
+  <div class="section-head">
+    <div class="label">·· the whole journey ··</div>
+    <h2>One book, one full series</h2>
+    <div class="sub">Read top to bottom. The path forks early — a PDF triggers a full <em>Phase 0</em> ingestion; a memoir chapter takes the <em>Extract</em> short-cut. They reunite at Phase 1.</div>
+  </div>
+
+  <div class="diagram">
+    <svg viewBox="0 0 820 3920" role="img" aria-labelledby="podcast-pipeline-title">
+      <title id="podcast-pipeline-title">Podcast skill end-to-end pipeline</title>
+      <defs>
+        <marker id="arrowM" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="var(--mint)"/>
+        </marker>
+        <marker id="arrowA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/>
+        </marker>
+        <marker id="arrowG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="var(--gold)"/>
+        </marker>
+      </defs>
+
+      <!-- Lane headers -->
+      <g>
+        <rect x="20" y="20" width="240" height="48" rx="10" class="node-mint" />
+        <text x="140" y="50" text-anchor="middle" class="label-strong" style="fill:var(--mint)">ASIF · CURATOR</text>
+
+        <rect x="290" y="20" width="240" height="48" rx="10" class="node-accent" />
+        <text x="410" y="50" text-anchor="middle" class="label-strong" style="fill:var(--accent)">FILES · SCRIPTS · AGENTS</text>
+
+        <rect x="560" y="20" width="240" height="48" rx="10" class="node-rose" />
+        <text x="680" y="50" text-anchor="middle" class="label-strong" style="fill:var(--rose)">/PODCAST · CLAUDE</text>
+      </g>
+
+      <line x1="140" y1="80" x2="140" y2="3870" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4" />
+      <line x1="410" y1="80" x2="410" y2="3870" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4" />
+      <line x1="680" y1="80" x2="680" y2="3870" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4" />
+
+      <!-- STEP 1: trigger -->
+      <g>
+        <rect x="40" y="100" width="200" height="62" rx="10" class="node-mint" />
+        <text x="140" y="124" text-anchor="middle" class="label-strong">drops PDF + says</text>
+        <text x="140" y="146" text-anchor="middle" class="label-mono">"make this a podcast"</text>
+
+        <path class="edge-accent" d="M240,131 L560,131" marker-end="url(#arrowA)" />
+
+        <rect x="560" y="100" width="240" height="62" rx="10" class="node-rose" />
+        <text x="680" y="124" text-anchor="middle" class="label-strong">Skill activates</text>
+        <text x="680" y="146" text-anchor="middle" class="label-mono">trigger words detected</text>
+      </g>
+
+      <!-- STEP 2: session-start reads -->
+      <g>
+        <rect x="40" y="190" width="760" height="38" rx="8" fill="var(--accent-soft)" stroke="var(--accent-strong)" />
+        <text x="420" y="214" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:13px">·· SESSION START — read 13 files in order ··</text>
+      </g>
+
+      <!-- File grid: 5 SHARED ARABIC, then 7 PODCAST HANDBOOK, then 1 BOOK README -->
+      <g>
+        <rect x="40" y="246" width="760" height="32" rx="6" fill="rgba(244,212,156,0.08)" stroke="var(--gold)" stroke-dasharray="2 3" />
+        <text x="420" y="266" text-anchor="middle" class="label-mono" style="fill:var(--gold);font-size:12px">·· first the shared brain (5 files · cross-skill) ··</text>
+
+        <rect x="40" y="286" width="148" height="48" rx="8" class="node-gold" />
+        <text x="114" y="305" text-anchor="middle" class="label-mono" style="fill:var(--gold)">01 · README</text>
+        <text x="114" y="322" text-anchor="middle" class="label-mono">_shared/arabic/00</text>
+
+        <rect x="194" y="286" width="148" height="48" rx="8" class="node-gold" />
+        <text x="268" y="305" text-anchor="middle" class="label-mono" style="fill:var(--gold)">02 · TTS rules</text>
+        <text x="268" y="322" text-anchor="middle" class="label-mono">tts-pronunciation</text>
+
+        <rect x="348" y="286" width="148" height="48" rx="8" class="node-gold" />
+        <text x="422" y="305" text-anchor="middle" class="label-mono" style="fill:var(--gold)">03 · letter guide</text>
+        <text x="422" y="322" text-anchor="middle" class="label-mono">quran-letter-phonetics</text>
+
+        <rect x="502" y="286" width="148" height="48" rx="8" class="node-gold" />
+        <text x="576" y="305" text-anchor="middle" class="label-mono" style="fill:var(--gold)">04 · manifest</text>
+        <text x="576" y="322" text-anchor="middle" class="label-mono">arabic-english-manifest</text>
+
+        <rect x="656" y="286" width="144" height="48" rx="8" class="node-gold" />
+        <text x="728" y="305" text-anchor="middle" class="label-mono" style="fill:var(--gold)">05 · substitution</text>
+        <text x="728" y="322" text-anchor="middle" class="label-mono">common-term-subs</text>
+      </g>
+
+      <g>
+        <rect x="40" y="346" width="760" height="32" rx="6" fill="rgba(198,166,255,0.08)" stroke="var(--accent)" stroke-dasharray="2 3" />
+        <text x="420" y="366" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:12px">·· then the podcast handbook (7 files · book-agnostic) ··</text>
+
+        <rect x="40" y="386" width="180" height="48" rx="8" class="node" />
+        <text x="130" y="405" text-anchor="middle" class="label-mono" style="fill:var(--accent)">06 · source-format</text>
+        <text x="130" y="422" text-anchor="middle" class="label-mono">notebooklm-source-format</text>
+
+        <rect x="225" y="386" width="180" height="48" rx="8" class="node" />
+        <text x="315" y="405" text-anchor="middle" class="label-mono" style="fill:var(--accent)">07 · framing</text>
+        <text x="315" y="422" text-anchor="middle" class="label-mono">two-host-framing</text>
+
+        <rect x="410" y="386" width="180" height="48" rx="8" class="node" />
+        <text x="500" y="405" text-anchor="middle" class="label-mono" style="fill:var(--accent)">08 · distillation</text>
+        <text x="500" y="422" text-anchor="middle" class="label-mono">source-distillation</text>
+
+        <rect x="595" y="386" width="205" height="48" rx="8" class="node" />
+        <text x="697" y="405" text-anchor="middle" class="label-mono" style="fill:var(--accent)">09 · architecture</text>
+        <text x="697" y="422" text-anchor="middle" class="label-mono">episode-architecture</text>
+
+        <rect x="40" y="446" width="180" height="48" rx="8" class="node" />
+        <text x="130" y="465" text-anchor="middle" class="label-mono" style="fill:var(--accent)">10 · @@ markers</text>
+        <text x="130" y="482" text-anchor="middle" class="label-mono">scratchpad-markers</text>
+
+        <rect x="225" y="446" width="180" height="48" rx="8" class="node" />
+        <text x="315" y="465" text-anchor="middle" class="label-mono" style="fill:var(--accent)">11 · best practices</text>
+        <text x="315" y="482" text-anchor="middle" class="label-mono">notebooklm-best-practices</text>
+
+        <rect x="410" y="446" width="180" height="48" rx="8" class="node" />
+        <text x="500" y="465" text-anchor="middle" class="label-mono" style="fill:var(--accent)">12 · registry</text>
+        <text x="500" y="482" text-anchor="middle" class="label-mono">_handbook/registry</text>
+
+        <rect x="595" y="446" width="205" height="48" rx="8" class="node-mint" />
+        <text x="697" y="465" text-anchor="middle" class="label-mono" style="fill:var(--mint)">13 · book README</text>
+        <text x="697" y="482" text-anchor="middle" class="label-mono">BOOK_DIR/_README.md</text>
+      </g>
+
+      <!-- DECISION: PDF vs Extract Mode -->
+      <g>
+        <rect x="40" y="520" width="760" height="38" rx="8" fill="var(--accent-soft)" stroke="var(--accent-strong)" />
+        <text x="420" y="544" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:13px">·· DECISION — what kind of source is this? ··</text>
+      </g>
+
+      <g>
+        <polygon points="340,580 480,580 410,680" class="node-accent" />
+        <text x="410" y="615" text-anchor="middle" class="label-strong">PDF or</text>
+        <text x="410" y="635" text-anchor="middle" class="label-strong">long source?</text>
+
+        <!-- left branch: PDF → Phase 0 -->
+        <path class="edge" d="M340,610 L160,610 L160,710" marker-end="url(#arrowM)" />
+        <text x="240" y="600" text-anchor="middle" class="label-mono">YES · multi-chapter PDF</text>
+
+        <!-- right branch: Extract Mode -->
+        <path class="edge" d="M480,610 L680,610 L680,710" marker-end="url(#arrowM)" />
+        <text x="600" y="600" text-anchor="middle" class="label-mono">NO · single memoir chapter</text>
+      </g>
+
+      <!-- PHASE 0 — left side (PDF spine) -->
+      <g>
+        <rect x="40" y="710" width="240" height="38" rx="8" fill="rgba(155,227,194,0.10)" stroke="var(--mint)" />
+        <text x="160" y="734" text-anchor="middle" class="label-mono" style="fill:var(--mint);font-size:13px">·· PHASE 0 — PDF ingestion ··</text>
+
+        <rect x="40" y="760" width="240" height="56" rx="10" class="node-mint" />
+        <text x="160" y="782" text-anchor="middle" class="label-strong">0a · EXTRACT</text>
+        <text x="160" y="802" text-anchor="middle" class="label-mono">OCR / text layer → raw-extract.md</text>
+
+        <rect x="40" y="826" width="240" height="56" rx="10" class="node-mint" />
+        <text x="160" y="848" text-anchor="middle" class="label-strong">0b · ENGLISH REFINEMENT</text>
+        <text x="160" y="868" text-anchor="middle" class="label-mono">fix OCR + bad translation → normalized.md</text>
+
+        <rect x="40" y="892" width="240" height="56" rx="10" class="node-mint" />
+        <text x="160" y="914" text-anchor="middle" class="label-strong">0c · ARABIC PHONETICS</text>
+        <text x="160" y="934" text-anchor="middle" class="label-mono">consult shared brain · annotate inline</text>
+
+        <rect x="40" y="958" width="240" height="56" rx="10" class="node-mint" />
+        <text x="160" y="980" text-anchor="middle" class="label-strong">0d · CHAPTER DESIGN</text>
+        <text x="160" y="1000" text-anchor="middle" class="label-mono">re-segment 2.5–3.5k words · 5–10 chapters</text>
+
+        <rect x="40" y="1024" width="240" height="56" rx="10" class="node-mint" />
+        <text x="160" y="1046" text-anchor="middle" class="label-strong">0e · ENRICH from 7 tiers</text>
+        <text x="160" y="1066" text-anchor="middle" class="label-mono">Quran · hadith · Ali (AS) · Ismaili · Sufi</text>
+
+        <rect x="40" y="1090" width="240" height="56" rx="10" class="node-mint" />
+        <text x="160" y="1112" text-anchor="middle" class="label-strong">0f · CONFIRMATION GATE</text>
+        <text x="160" y="1132" text-anchor="middle" class="label-mono">Asif sees chapter plan · accepts / reorders</text>
+
+        <rect x="40" y="1156" width="240" height="56" rx="10" class="node-mint" />
+        <text x="160" y="1178" text-anchor="middle" class="label-strong">0g · REGISTER SERIES</text>
+        <text x="160" y="1198" text-anchor="middle" class="label-mono">reserve EP## · scaffold draft folders</text>
+      </g>
+
+      <!-- PHASE 0 — right side (Extract Mode shortcut) -->
+      <g>
+        <rect x="540" y="710" width="240" height="38" rx="8" fill="rgba(155,227,194,0.10)" stroke="var(--mint)" />
+        <text x="660" y="734" text-anchor="middle" class="label-mono" style="fill:var(--mint);font-size:13px">·· EXTRACT MODE — short cut ··</text>
+
+        <rect x="540" y="760" width="240" height="98" rx="10" class="node-rose" />
+        <text x="660" y="786" text-anchor="middle" class="label-strong" style="fill:var(--rose)">read memoir chapter</text>
+        <text x="660" y="806" text-anchor="middle" class="label-mono">babu-memoir/chapters/*.txt</text>
+        <text x="660" y="826" text-anchor="middle" class="label-mono">via the ONE sanctioned</text>
+        <text x="660" y="846" text-anchor="middle" class="label-mono">cross-boundary door</text>
+
+        <rect x="540" y="870" width="240" height="76" rx="10" class="node-accent" />
+        <text x="660" y="894" text-anchor="middle" class="label-strong" style="fill:var(--accent)">⚙ extract_chapter.py</text>
+        <text x="660" y="914" text-anchor="middle" class="label-mono">reads contract YAML</text>
+        <text x="660" y="932" text-anchor="middle" class="label-mono">writes chapter file directly</text>
+
+        <rect x="540" y="958" width="240" height="76" rx="10" class="node" />
+        <text x="660" y="982" text-anchor="middle" class="label-strong">chapter-contracts/&lt;slug&gt;.yml</text>
+        <text x="660" y="1002" text-anchor="middle" class="label-mono">audience · angle · tensions</text>
+        <text x="660" y="1020" text-anchor="middle" class="label-mono">anchor passages · phonetics</text>
+
+        <rect x="540" y="1046" width="240" height="56" rx="10" class="node" />
+        <text x="660" y="1068" text-anchor="middle" class="label-strong">splitting policy</text>
+        <text x="660" y="1088" text-anchor="middle" class="label-mono">ch01-man → inheritance + becoming</text>
+      </g>
+
+      <!-- Both paths converge: chapter file exists in BOOK_DIR/chapters/ -->
+      <path class="edge-accent" d="M160,1212 Q 410,1240 410,1270" marker-end="url(#arrowA)" />
+      <path class="edge-accent" d="M660,1102 Q 410,1200 410,1270" marker-end="url(#arrowA)" />
+
+      <g>
+        <rect x="200" y="1280" width="420" height="86" rx="14" class="node-accent" />
+        <text x="410" y="1306" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:13px">·· BOTH PATHS LAND HERE ··</text>
+        <text x="410" y="1332" text-anchor="middle" class="label-display">BOOK_DIR/chapters/chNN-&lt;slug&gt;.txt</text>
+        <text x="410" y="1354" text-anchor="middle" class="label-mono">the SOURCE that NotebookLM will ingest</text>
+      </g>
+
+      <!-- PHASE 1: INTAKE -->
+      <g>
+        <rect x="40" y="1396" width="760" height="38" rx="8" fill="rgba(155,227,194,0.10)" stroke="var(--mint)" />
+        <text x="420" y="1420" text-anchor="middle" class="label-mono" style="fill:var(--mint);font-size:13px">·· PHASE 1 — INTAKE (multiple-choice qualifying questions if ambiguous) ··</text>
+      </g>
+
+      <g>
+        <rect x="40" y="1452" width="200" height="92" rx="10" class="node-mint" />
+        <text x="140" y="1476" text-anchor="middle" class="label-strong">answers 5 questions</text>
+        <text x="140" y="1496" text-anchor="middle" class="label-mono">source type · angle</text>
+        <text x="140" y="1514" text-anchor="middle" class="label-mono">audience · length</text>
+        <text x="140" y="1532" text-anchor="middle" class="label-mono">host dynamic</text>
+
+        <rect x="270" y="1452" width="280" height="92" rx="10" class="node" />
+        <text x="410" y="1476" text-anchor="middle" class="label-strong">Intake summary</text>
+        <text x="410" y="1498" text-anchor="middle" class="label-mono">working title</text>
+        <text x="410" y="1516" text-anchor="middle" class="label-mono">proposed EP##</text>
+        <text x="410" y="1534" text-anchor="middle" class="label-mono">(next monotonic in registry)</text>
+
+        <rect x="580" y="1452" width="220" height="92" rx="10" class="node-rose" />
+        <text x="690" y="1476" text-anchor="middle" class="label-strong">Qualifying Questions</text>
+        <text x="690" y="1496" text-anchor="middle" class="label-strong">Agent (Phase 1a)</text>
+        <text x="690" y="1518" text-anchor="middle" class="label-mono">multi-choice prompts</text>
+        <text x="690" y="1536" text-anchor="middle" class="label-mono">never guesses audience</text>
+      </g>
+
+      <!-- PHASE 2: DISTILL (in working memory only) -->
+      <g>
+        <rect x="40" y="1572" width="760" height="38" rx="8" fill="rgba(155,227,194,0.10)" stroke="var(--mint)" />
+        <text x="420" y="1596" text-anchor="middle" class="label-mono" style="fill:var(--mint);font-size:13px">·· PHASE 2 — DISTILL (in scratch · never written to disk yet) ··</text>
+      </g>
+
+      <g>
+        <rect x="40" y="1628" width="370" height="100" rx="10" class="node-rose" />
+        <text x="225" y="1652" text-anchor="middle" class="label-strong">core thesis · 1–2 sentences</text>
+        <text x="225" y="1672" text-anchor="middle" class="label">arc · the beats</text>
+        <text x="225" y="1692" text-anchor="middle" class="label">6–15 key passages · verbatim</text>
+        <text x="225" y="1712" text-anchor="middle" class="label">tensions · context · application angle</text>
+
+        <rect x="430" y="1628" width="370" height="100" rx="10" class="node" />
+        <text x="615" y="1652" text-anchor="middle" class="label-strong" style="fill:var(--accent)">never invents</text>
+        <text x="615" y="1674" text-anchor="middle" class="label">if a fact is missing</text>
+        <text x="615" y="1694" text-anchor="middle" class="label" style="fill:var(--gold)">mark [CONTEXT NEEDED]</text>
+        <text x="615" y="1714" text-anchor="middle" class="label">ask Asif before filling</text>
+      </g>
+
+      <!-- PHASE 3: BUILD DRAFT FOLDER -->
+      <g>
+        <rect x="40" y="1756" width="760" height="38" rx="8" fill="rgba(155,227,194,0.10)" stroke="var(--mint)" />
+        <text x="420" y="1780" text-anchor="middle" class="label-mono" style="fill:var(--mint);font-size:13px">·· PHASE 3 — STRUCTURE the episode draft folder ··</text>
+      </g>
+
+      <g>
+        <rect x="40" y="1812" width="760" height="40" rx="8" class="node" />
+        <text x="420" y="1836" text-anchor="middle" class="label-mono">📂 BOOK_DIR/_system/episode-drafts/EP##-&lt;slug&gt;/</text>
+
+        <rect x="40" y="1862" width="240" height="68" rx="10" class="node-accent" />
+        <text x="160" y="1884" text-anchor="middle" class="label-strong" style="fill:var(--accent)">00-framing.md</text>
+        <text x="160" y="1904" text-anchor="middle" class="label-mono">MANDATORY</text>
+        <text x="160" y="1922" text-anchor="middle" class="label-mono">→ becomes the customize prompt</text>
+
+        <rect x="290" y="1862" width="240" height="68" rx="10" class="node" />
+        <text x="410" y="1884" text-anchor="middle" class="label-strong">02-key-passages.md</text>
+        <text x="410" y="1904" text-anchor="middle" class="label-mono">scaffold</text>
+        <text x="410" y="1922" text-anchor="middle" class="label-mono">never uploaded</text>
+
+        <rect x="540" y="1862" width="260" height="68" rx="10" class="node" />
+        <text x="670" y="1884" text-anchor="middle" class="label-strong">03-context-pack.md</text>
+        <text x="670" y="1904" text-anchor="middle" class="label-mono">scaffold</text>
+        <text x="670" y="1922" text-anchor="middle" class="label-mono">never uploaded</text>
+
+        <rect x="40" y="1940" width="370" height="68" rx="10" class="node" />
+        <text x="225" y="1962" text-anchor="middle" class="label-strong">04-discussion-spine.md</text>
+        <text x="225" y="1982" text-anchor="middle" class="label-mono">6–12 thematic beats · scaffold</text>
+        <text x="225" y="2000" text-anchor="middle" class="label-mono">never uploaded</text>
+
+        <rect x="420" y="1940" width="380" height="68" rx="10" class="node" />
+        <text x="610" y="1962" text-anchor="middle" class="label-strong">99-show-notes.md</text>
+        <text x="610" y="1982" text-anchor="middle" class="label-mono">title · blurb · refs · related episodes</text>
+        <text x="610" y="2000" text-anchor="middle" class="label-mono">for Asif's records</text>
+
+        <rect x="40" y="2018" width="760" height="46" rx="10" fill="rgba(248,113,113,0.08)" stroke="var(--error)" />
+        <text x="420" y="2046" text-anchor="middle" class="label-mono" style="fill:var(--error)">⚠ there is NO 01-source-primary.md — the chapter file from Phase 0 IS the source</text>
+      </g>
+
+      <!-- PHASE 4: VALIDATE, EMIT, REGISTER -->
+      <g>
+        <rect x="40" y="2090" width="760" height="38" rx="8" fill="rgba(198,166,255,0.12)" stroke="var(--accent)" />
+        <text x="420" y="2114" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:13px">·· PHASE 4 — VALIDATE → CHALLENGER → EMIT → REGISTER → LOAD SCRATCHPAD ··</text>
+      </g>
+
+      <!-- 4.1 silent quality gate -->
+      <g>
+        <rect x="40" y="2146" width="760" height="56" rx="10" class="node-mint" />
+        <text x="420" y="2170" text-anchor="middle" class="label-strong" style="fill:var(--mint)">step 1 · QUALITY GATE — 6 loops run silently</text>
+        <text x="420" y="2190" text-anchor="middle" class="label-mono">source integrity · NotebookLM optimization · two-host steering · architecture · hygiene · pronunciation coverage</text>
+      </g>
+
+      <!-- 4.2 podcast-challenger AGENT -->
+      <g>
+        <rect x="40" y="2214" width="760" height="38" rx="8" fill="rgba(244,212,156,0.10)" stroke="var(--gold)" />
+        <text x="420" y="2238" text-anchor="middle" class="label-mono" style="fill:var(--gold);font-size:13px">·· step 2 — podcast-challenger AGENT (convergence loop · max 3 iterations) ··</text>
+      </g>
+
+      <g>
+        <!-- Challenger box -->
+        <rect x="40" y="2270" width="760" height="320" rx="14" class="node-gold" />
+
+        <text x="420" y="2296" text-anchor="middle" class="label-display" style="fill:var(--gold);font-size:18px">.github/agents/podcast-challenger.agent.md</text>
+
+        <!-- Reads -->
+        <text x="60" y="2326" class="label-strong" style="fill:var(--text)">READS BEFORE EACH PASS:</text>
+        <text x="60" y="2346" class="label-mono">shared arabic (4 files) · best practices · enrichment sources · markers · extract spec · SKILL.md · scripts</text>
+
+        <!-- Categories of checks -->
+        <text x="60" y="2376" class="label-strong" style="fill:var(--text)">CHECKS IN 7 CATEGORIES:</text>
+
+        <rect x="60" y="2386" width="160" height="46" rx="6" class="node" />
+        <text x="140" y="2404" text-anchor="middle" class="label-mono" style="fill:var(--accent)">A · governance</text>
+        <text x="140" y="2422" text-anchor="middle" class="label-mono">framework compliance</text>
+
+        <rect x="230" y="2386" width="160" height="46" rx="6" class="node" />
+        <text x="310" y="2404" text-anchor="middle" class="label-mono" style="fill:var(--error)">B · NotebookLM hygiene</text>
+        <text x="310" y="2422" text-anchor="middle" class="label-mono">no meta-prose · no em-dashes</text>
+
+        <rect x="400" y="2386" width="160" height="46" rx="6" class="node" />
+        <text x="480" y="2404" text-anchor="middle" class="label-mono" style="fill:var(--gold)">C · pronunciation</text>
+        <text x="480" y="2422" text-anchor="middle" class="label-mono">coverage + parity + substitution</text>
+
+        <rect x="570" y="2386" width="170" height="46" rx="6" class="node" />
+        <text x="655" y="2404" text-anchor="middle" class="label-mono" style="fill:var(--mint)">D · enrichment depth</text>
+        <text x="655" y="2422" text-anchor="middle" class="label-mono">multi-tier · ≤60% · no stacks</text>
+
+        <rect x="60" y="2440" width="160" height="46" rx="6" class="node" />
+        <text x="140" y="2458" text-anchor="middle" class="label-mono" style="fill:var(--rose)">E · articulation</text>
+        <text x="140" y="2476" text-anchor="middle" class="label-mono">word-count · arc · no filler</text>
+
+        <rect x="230" y="2440" width="160" height="46" rx="6" class="node" />
+        <text x="310" y="2458" text-anchor="middle" class="label-mono" style="fill:var(--sky)">F · framing integrity</text>
+        <text x="310" y="2476" text-anchor="middle" class="label-mono">4-part structure · tensions</text>
+
+        <rect x="400" y="2440" width="340" height="46" rx="6" class="node" />
+        <text x="570" y="2458" text-anchor="middle" class="label-mono" style="fill:var(--wisteria)">G · extract contracts (when applicable)</text>
+        <text x="570" y="2476" text-anchor="middle" class="label-mono">contract present · validates · derivative lineage</text>
+
+        <!-- auto-fix vs flag -->
+        <text x="60" y="2510" class="label-strong" style="fill:var(--text)">FINDINGS HANDLING:</text>
+
+        <rect x="60" y="2520" width="350" height="56" rx="8" class="node-mint" />
+        <text x="235" y="2542" text-anchor="middle" class="label-strong" style="fill:var(--mint)">AUTO-FIX (deterministic + reversible)</text>
+        <text x="235" y="2562" text-anchor="middle" class="label-mono">em-dashes · cross-ep refs · honorific repeats · phonetic gaps from lexicon</text>
+
+        <rect x="420" y="2520" width="320" height="56" rx="8" class="node-rose" />
+        <text x="580" y="2542" text-anchor="middle" class="label-strong" style="fill:var(--rose)">FLAG (human resolution)</text>
+        <text x="580" y="2562" text-anchor="middle" class="label-mono">semantic findings · authoring decisions</text>
+      </g>
+
+      <!-- Challenger loop -->
+      <g>
+        <path class="edge" d="M420,2600 Q 410,2630 410,2660" stroke="var(--gold)" marker-end="url(#arrowG)" />
+        <polygon points="350,2660 470,2660 410,2740" class="node-gold" />
+        <text x="410" y="2690" text-anchor="middle" class="label-strong">findings</text>
+        <text x="410" y="2708" text-anchor="middle" class="label-strong">cleared?</text>
+
+        <!-- yes -->
+        <text x="500" y="2700" class="label-mono" style="fill:var(--success)">YES</text>
+        <path class="edge" d="M470,2700 L520,2700 L520,2770" stroke="var(--success)" marker-end="url(#arrowM)" />
+
+        <!-- no -->
+        <text x="310" y="2700" class="label-mono" style="fill:var(--error)">NO · iterate</text>
+        <path class="edge" d="M350,2700 L260,2700 L260,2500 L40,2500" stroke="var(--error)" stroke-dasharray="5 3" />
+        <text x="40" y="2492" class="label-mono" style="fill:var(--error);font-size:12px">re-read · re-run all checks · re-fix · max 3 passes</text>
+      </g>
+
+      <!-- Challenger verdict -->
+      <g>
+        <rect x="40" y="2770" width="240" height="56" rx="10" class="node-mint" />
+        <text x="160" y="2792" text-anchor="middle" class="label-strong" style="fill:var(--success)">SHIP-READY ✓</text>
+        <text x="160" y="2810" text-anchor="middle" class="label-mono">proceed to step 3</text>
+
+        <rect x="290" y="2770" width="240" height="56" rx="10" class="node-gold" />
+        <text x="410" y="2792" text-anchor="middle" class="label-strong" style="fill:var(--warning)">SHIP-WITH-CAUTION</text>
+        <text x="410" y="2810" text-anchor="middle" class="label-mono">non-blocking flags noted</text>
+
+        <rect x="540" y="2770" width="240" height="56" rx="10" class="node-rose" />
+        <text x="660" y="2792" text-anchor="middle" class="label-strong" style="fill:var(--error)">BLOCKED ✗</text>
+        <text x="660" y="2810" text-anchor="middle" class="label-mono">resolve P0 · re-invoke</text>
+      </g>
+
+      <!-- Report file -->
+      <g>
+        <rect x="200" y="2842" width="420" height="48" rx="8" class="node" />
+        <text x="410" y="2872" text-anchor="middle" class="label-mono" style="fill:var(--gold)">📄 BOOK_DIR/_system/challenger-report.md</text>
+      </g>
+
+      <!-- 4.3 build_episode_txt.py -->
+      <g>
+        <rect x="40" y="2910" width="760" height="38" rx="8" fill="rgba(198,166,255,0.12)" stroke="var(--accent)" />
+        <text x="420" y="2934" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:13px">·· step 3 — ⚙ scripts/podcast/build_episode_txt.py ··</text>
+      </g>
+
+      <g>
+        <rect x="40" y="2966" width="760" height="138" rx="14" class="node-accent" />
+        <text x="420" y="2992" text-anchor="middle" class="label-strong" style="fill:var(--accent);font-size:15px">VALIDATES + EMITS</text>
+
+        <text x="60" y="3020" class="label-mono" style="fill:var(--text)">CHAPTER (the SOURCE):</text>
+        <text x="60" y="3040" class="label-mono">· no HTML comments · no meta-prose tells · word count ∈ [500, 5500] · sweet spot 1800–2800</text>
+
+        <text x="60" y="3066" class="label-mono" style="fill:var(--text)">FRAMING (the CUSTOMIZE PROMPT, post-strip):</text>
+        <text x="60" y="3086" class="label-mono">· strip HTML comments + trailing upload-checklist · re-check meta-prose · word count ∈ [150, 2000]</text>
+      </g>
+
+      <!-- 4.4 emitted files -->
+      <g>
+        <rect x="40" y="3120" width="760" height="38" rx="8" fill="var(--accent-soft)" stroke="var(--accent-strong)" />
+        <text x="420" y="3144" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:13px">·· THE TWO-FILE DELIVERABLE (architecture v3.4) ··</text>
+      </g>
+
+      <g>
+        <rect x="40" y="3176" width="370" height="120" rx="14" class="node-mint" />
+        <text x="225" y="3204" text-anchor="middle" class="label-mono" style="fill:var(--mint);font-size:13px">·· FILE 1 · THE SOURCE ··</text>
+        <text x="225" y="3232" text-anchor="middle" class="label-display" style="font-size:16px">chapters/chNN-&lt;slug&gt;.txt</text>
+        <text x="225" y="3258" text-anchor="middle" class="label">uploaded directly to NotebookLM</text>
+        <text x="225" y="3278" text-anchor="middle" class="label-mono">as the single source · upload-ready by construction</text>
+
+        <rect x="430" y="3176" width="370" height="120" rx="14" class="node-accent" />
+        <text x="615" y="3204" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:13px">·· FILE 2 · THE CUSTOMIZE PROMPT ··</text>
+        <text x="615" y="3232" text-anchor="middle" class="label-display" style="font-size:16px">episodes/EP##-&lt;slug&gt;.txt</text>
+        <text x="615" y="3258" text-anchor="middle" class="label">pasted into NotebookLM's Customize box</text>
+        <text x="615" y="3278" text-anchor="middle" class="label-mono">emitted from 00-framing.md · do NOT hand-edit</text>
+      </g>
+
+      <!-- 4.5 register + scratchpad -->
+      <g>
+        <rect x="40" y="3312" width="370" height="68" rx="10" class="node" />
+        <text x="225" y="3336" text-anchor="middle" class="label-mono" style="fill:var(--accent)">step 4 · register the episode</text>
+        <text x="225" y="3356" text-anchor="middle" class="label-strong">_handbook/registry.md</text>
+        <text x="225" y="3374" text-anchor="middle" class="label-mono">EP## · title · slug · status · NotebookLM URL</text>
+
+        <rect x="430" y="3312" width="370" height="68" rx="10" class="node" />
+        <text x="615" y="3336" text-anchor="middle" class="label-mono" style="fill:var(--accent)">step 5 · write chapter scratchpad</text>
+        <text x="615" y="3356" text-anchor="middle" class="label-strong">EP##/chapter.scratch.md</text>
+        <text x="615" y="3374" text-anchor="middle" class="label-mono">mirror of chapter + @@ marker legend</text>
+      </g>
+
+      <!-- 4.6 handoff -->
+      <g>
+        <rect x="40" y="3398" width="760" height="56" rx="10" class="node-rose" />
+        <text x="420" y="3420" text-anchor="middle" class="label-strong" style="fill:var(--rose)">step 6 · OPEN SCRATCHPAD WITH READ — control passes back to Asif</text>
+        <text x="420" y="3440" text-anchor="middle" class="label-mono">he marks up with @@refine · @@expand · @@cut · @@pronounce · @@policy</text>
+      </g>
+
+      <!-- ── UPLOAD (manual) ─── -->
+      <g>
+        <rect x="40" y="3478" width="760" height="38" rx="8" fill="rgba(155,199,227,0.10)" stroke="var(--sky)" />
+        <text x="420" y="3502" text-anchor="middle" class="label-mono" style="fill:var(--sky);font-size:13px">·· OUTSIDE THE SKILL — Asif uploads to NotebookLM manually ··</text>
+      </g>
+
+      <g>
+        <rect x="40" y="3534" width="370" height="86" rx="14" class="node-sky" />
+        <text x="225" y="3560" text-anchor="middle" class="label-mono" style="fill:var(--sky);font-size:13px">·· upload step ··</text>
+        <text x="225" y="3584" text-anchor="middle" class="label-strong">upload chapter file as source</text>
+        <text x="225" y="3604" text-anchor="middle" class="label-mono">paste episode txt into Customize box</text>
+
+        <rect x="430" y="3534" width="370" height="86" rx="14" class="node-sky" />
+        <text x="615" y="3560" text-anchor="middle" class="label-mono" style="fill:var(--sky);font-size:13px">·· generate ··</text>
+        <text x="615" y="3584" text-anchor="middle" class="label-strong">NotebookLM produces Audio Overview</text>
+        <text x="615" y="3604" text-anchor="middle" class="label-mono">two hosts · ~10–15 min · listen + iterate</text>
+      </g>
+
+      <!-- ── REFINEMENT LOOP ─── -->
+      <g>
+        <rect x="40" y="3650" width="760" height="38" rx="8" fill="rgba(198,166,255,0.12)" stroke="var(--accent)" />
+        <text x="420" y="3674" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:13px">·· REFINEMENT LOOP — re-invoke /podcast on marked-up scratchpad ··</text>
+      </g>
+
+      <g>
+        <rect x="40" y="3706" width="200" height="78" rx="10" class="node-mint" />
+        <text x="140" y="3730" text-anchor="middle" class="label-strong">marks scratchpad</text>
+        <text x="140" y="3750" text-anchor="middle" class="label-mono">@@refine "this is dry"</text>
+        <text x="140" y="3768" text-anchor="middle" class="label-mono">@@cut · @@expand · @@policy</text>
+
+        <rect x="270" y="3706" width="280" height="78" rx="10" class="node-accent" />
+        <text x="410" y="3728" text-anchor="middle" class="label-strong" style="fill:var(--accent)">classify by tier · apply</text>
+        <text x="410" y="3748" text-anchor="middle" class="label-mono">tier 1 local · tier 2 pronounce</text>
+        <text x="410" y="3766" text-anchor="middle" class="label-mono">tier 3 series policy</text>
+
+        <rect x="580" y="3706" width="220" height="78" rx="10" class="node-rose" />
+        <text x="690" y="3728" text-anchor="middle" class="label-strong">rewrite chapter</text>
+        <text x="690" y="3748" text-anchor="middle" class="label-mono">re-run build_episode_txt</text>
+        <text x="690" y="3766" text-anchor="middle" class="label-mono">re-open scratchpad</text>
+      </g>
+
+      <!-- Final outcome -->
+      <g>
+        <rect x="40" y="3810" width="760" height="60" rx="14" fill="var(--accent-soft)" stroke="var(--accent-strong)" />
+        <text x="420" y="3838" text-anchor="middle" class="label-display" style="font-size:18px;fill:var(--text)">We don't write the script. We load the gun.</text>
+        <text x="420" y="3860" text-anchor="middle" class="label-mono">If the hosts say exactly what mattered, the bundle was strong.</text>
+      </g>
+
+    </svg>
+    <div class="caption">Vertical end-to-end pipeline · 13 files read · Phase 0 a–g · Phase 1–4 · podcast-challenger convergence loop · two-file deliverable</div>
+  </div>
+
+  <!-- Expository -->
+  <div class="section-head">
+    <div class="label">·· moment by moment ··</div>
+    <h2>The seven things to remember</h2>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="meta">·· session start ··</div>
+      <h3>Five shared files before anything book-specific</h3>
+      <p>The pronunciation brain at <code>content/_shared/arabic/</code> is read
+      first, every run. That is what guarantees an Arabic term in book A is
+      pronounced the same way in book B six months later.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· phase 0 ··</div>
+      <h3>A PDF is a <em>series</em>, never an episode</h3>
+      <p>A 30-page PDF with a table of contents becomes 5-to-10 designed
+      chapters, each one is its own NotebookLM upload. Phase 0d re-segments
+      by meaningful thematic units; Phase 0e enriches each chapter with
+      authoritative material from seven tradition-tiers.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· extract mode ··</div>
+      <h3>Memoir chapters take the short-cut</h3>
+      <p>When the source is a memoir chapter, all of Phase 0 is skipped. The
+      chapter file is read directly via the one sanctioned door between the
+      memoir room and the podcast room, governed by a YAML contract per
+      chapter.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· the chapter file ··</div>
+      <h3>One chapter, one episode</h3>
+      <p>Strict 1:1 mapping enforced by the build script. Each
+      <code>chNN-&lt;slug&gt;.txt</code> is the source of exactly one
+      <code>EP##-&lt;slug&gt;.txt</code>. The slug is identical on both sides.
+      Skip the chapter, and there is no episode to build.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· phase 4 ··</div>
+      <h3>The challenger agent must say SHIP-READY</h3>
+      <p>A separate agent (<code>podcast-challenger</code>) reads every chapter
+      and framing literally, runs 30+ checks across seven categories, auto-fixes
+      the deterministic problems, and writes a verdict. The bundle is not
+      ready until that verdict is green.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· two-file model ··</div>
+      <h3>Why two files, not one</h3>
+      <p>If you uploaded a single concatenated file, NotebookLM would treat the
+      customize prompt as source content and the hosts would read it out loud.
+      Two files, two folders, zero ambiguity.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· refinement ··</div>
+      <h3>The scratchpad is the dialogue surface</h3>
+      <p>After the episode is built, the chapter is mirrored into a scratchpad
+      with an <code>@@</code> marker legend prepended. Asif marks the
+      scratchpad up. The skill applies the markers, rewrites the chapter, and
+      re-runs the build script.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· what this isn't ··</div>
+      <h3>NOT a podcast generator</h3>
+      <p>This skill does not write scripts, does not generate audio, does not
+      automate NotebookLM, and does not publish episodes. NotebookLM does
+      those things. The skill <em>steers</em> NotebookLM.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-eyebrow">·· the test ··</div>
+    <p>A strong bundle is one where, after NotebookLM finishes the Audio Overview, the listener thinks <strong>"the hosts said exactly what mattered."</strong> If the hosts drift or ramble, the bundle was weak — fix the bundle, not the model.</p>
+  </div>
+
+  <footer class="footer">
+    <a href="index.html">← back to the map</a> &nbsp;·&nbsp; <a href="podcast-overview.html">overview</a> &nbsp;·&nbsp; <a href="podcast-quality-system.html">quality system →</a>
+  </footer>
+
+</main>
+</body>
+</html>

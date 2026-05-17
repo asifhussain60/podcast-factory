@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cross-Skill Boundaries</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/architecture.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="brand">Babu <span>·</span> Architecture</div>
+  <div class="crumbs"><a href="index.html">map</a> <span class="sep">›</span> Boundaries</div>
+</nav>
+
+<main class="page">
+
+  <header class="hero">
+    <span class="eyebrow" style="background:rgba(155,199,227,0.12);border-color:rgba(155,199,227,0.32);color:var(--sky)">cross-skill · boundaries</span>
+    <h1>What each room can touch, and the <em>two doors between them</em></h1>
+    <p class="lede">
+      Each skill writes only to its own area. There is one sanctioned door
+      where the podcast may read a memoir chapter, and one shared brain that
+      both rooms read from. Everything else is fenced off — by design, and by
+      the actual code in the adapters.
+    </p>
+  </header>
+
+  <!-- Big DFD with fences -->
+  <div class="section-head">
+    <div class="label">·· the whole map ··</div>
+    <h2>The walls and the doors</h2>
+    <div class="sub">Two skill rooms, one shared brain, three downstream consumers, two crossing points. Read top to bottom.</div>
+  </div>
+
+  <div class="diagram">
+    <svg viewBox="0 0 720 1640" role="img" aria-labelledby="boundaries-title">
+      <title id="boundaries-title">Cross-skill boundaries</title>
+      <defs>
+        <marker id="bArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/>
+        </marker>
+        <marker id="bArrowG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="var(--gold)"/>
+        </marker>
+        <marker id="bArrowS" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="var(--sky)"/>
+        </marker>
+      </defs>
+
+      <!-- Shared brain at top -->
+      <g>
+        <rect x="80" y="20" width="560" height="100" rx="14" class="node-gold" />
+        <text x="360" y="50" text-anchor="middle" class="label-mono" style="fill:var(--gold);font-size:13px">·· SHARED BRAIN — content/_shared/arabic/ ··</text>
+        <text x="360" y="80" text-anchor="middle" class="label-display" style="font-size:18px">canonical Arabic pronunciation reference</text>
+        <text x="360" y="106" text-anchor="middle" class="label-mono">owned by no skill · read by every skill on every run</text>
+      </g>
+
+      <!-- Arrows down to both skills -->
+      <path class="edge" d="M280,120 Q 180,150 180,200" stroke="var(--gold)" marker-end="url(#bArrowG)" />
+      <path class="edge" d="M440,120 Q 540,150 540,200" stroke="var(--gold)" marker-end="url(#bArrowG)" />
+
+      <text x="120" y="160" class="label-mono" style="fill:var(--gold);font-size:12px">read</text>
+      <text x="600" y="160" text-anchor="end" class="label-mono" style="fill:var(--gold);font-size:12px">read</text>
+
+      <!-- Two skill rooms side by side -->
+      <!-- JOURNAL ROOM -->
+      <g>
+        <rect x="40" y="210" width="280" height="420" rx="16" class="node-rose" />
+        <text x="180" y="240" text-anchor="middle" class="label-mono" style="fill:var(--rose);font-size:13px">·· JOURNAL ROOM ··</text>
+        <text x="180" y="268" text-anchor="middle" class="label-display" style="font-size:18px">/journal · memoir</text>
+
+        <text x="60" y="298" class="label-mono" style="fill:var(--text);font-size:13px">OWNS (writes to):</text>
+        <text x="60" y="320" class="label-mono">content/babu-memoir/</text>
+        <text x="60" y="340" class="label-mono">· chapters/</text>
+        <text x="60" y="360" class="label-mono">· _system/ (scratch · snapshots ·</text>
+        <text x="60" y="378" class="label-mono">  glossary · quotes · incidents)</text>
+
+        <text x="60" y="406" class="label-mono" style="fill:var(--text);font-size:13px">READS:</text>
+        <text x="60" y="428" class="label-mono">· its own files</text>
+        <text x="60" y="448" class="label-mono">· the shared brain</text>
+        <text x="60" y="468" class="label-mono">· skill-dir reference fallback</text>
+
+        <text x="60" y="496" class="label-mono" style="fill:var(--error);font-size:13px">FORBIDDEN:</text>
+        <text x="60" y="518" class="label-mono">· content/podcast/</text>
+        <text x="60" y="538" class="label-mono">· site/ · server/</text>
+        <text x="60" y="558" class="label-mono">· skills-staging/podcast/</text>
+        <text x="60" y="578" class="label-mono">· cloudflare config</text>
+
+        <text x="60" y="606" class="label-mono" style="fill:var(--accent);font-size:13px">SCRIPTS:</text>
+        <text x="60" y="624" class="label-mono">scripts/memoir/auto_delta.py</text>
+      </g>
+
+      <!-- PODCAST ROOM -->
+      <g>
+        <rect x="400" y="210" width="280" height="420" rx="16" class="node-mint" />
+        <text x="540" y="240" text-anchor="middle" class="label-mono" style="fill:var(--mint);font-size:13px">·· PODCAST ROOM ··</text>
+        <text x="540" y="268" text-anchor="middle" class="label-display" style="font-size:18px">/podcast · NotebookLM</text>
+
+        <text x="420" y="298" class="label-mono" style="fill:var(--text);font-size:13px">OWNS (writes to):</text>
+        <text x="420" y="320" class="label-mono">content/podcast/</text>
+        <text x="420" y="340" class="label-mono">· _handbook/ (book-agnostic)</text>
+        <text x="420" y="360" class="label-mono">· &lt;book-slug&gt;/</text>
+        <text x="420" y="380" class="label-mono">  chapters/ · episodes/ · _system/</text>
+
+        <text x="420" y="408" class="label-mono" style="fill:var(--text);font-size:13px">READS:</text>
+        <text x="420" y="430" class="label-mono">· its own files</text>
+        <text x="420" y="450" class="label-mono">· the shared brain</text>
+        <text x="420" y="470" class="label-mono">· memoir chapters (via the door)</text>
+
+        <text x="420" y="498" class="label-mono" style="fill:var(--error);font-size:13px">FORBIDDEN:</text>
+        <text x="420" y="520" class="label-mono">· content/babu-memoir/_system/</text>
+        <text x="420" y="540" class="label-mono">· voice-fingerprint*</text>
+        <text x="420" y="560" class="label-mono">· master-context*</text>
+        <text x="420" y="580" class="label-mono">· skills-staging/journal/</text>
+
+        <text x="420" y="608" class="label-mono" style="fill:var(--accent);font-size:13px">SCRIPTS:</text>
+        <text x="420" y="624" class="label-mono">build_episode_txt · extract_chapter</text>
+      </g>
+
+      <!-- The DOOR between them -->
+      <g>
+        <path class="edge" d="M320,420 L400,420" stroke="var(--accent)" stroke-width="2.5" marker-end="url(#bArrow)" />
+        <rect x="290" y="385" width="140" height="36" rx="8" fill="var(--accent-soft)" stroke="var(--accent-strong)" />
+        <text x="360" y="408" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:12px">·· THE DOOR ··</text>
+      </g>
+
+      <!-- Door explanation -->
+      <g>
+        <rect x="40" y="650" width="640" height="120" rx="14" class="node-accent" />
+        <text x="360" y="678" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:13px">·· THE ONE SANCTIONED CROSSING ··</text>
+        <text x="360" y="704" text-anchor="middle" class="label-display" style="font-size:16px">content/babu-memoir/chapters/*.txt</text>
+        <text x="360" y="728" text-anchor="middle" class="label">memoir chapter files are the SOURCE input to Extract Mode</text>
+        <text x="360" y="748" text-anchor="middle" class="label">READ-ONLY · governed by extract_chapter.py's PROHIBITED_PATH_PREFIXES list</text>
+      </g>
+
+      <!-- The challenger agent -->
+      <g>
+        <rect x="40" y="790" width="640" height="130" rx="14" class="node-gold" />
+        <text x="360" y="818" text-anchor="middle" class="label-mono" style="fill:var(--gold);font-size:13px">·· PODCAST-CHALLENGER AGENT ··</text>
+        <text x="360" y="844" text-anchor="middle" class="label-display" style="font-size:16px">.github/agents/podcast-challenger.agent.md</text>
+        <text x="360" y="870" text-anchor="middle" class="label">independent reviewer · reads shared brain + podcast handbook + chapters</text>
+        <text x="360" y="892" text-anchor="middle" class="label">writes BOOK_DIR/_system/challenger-report.md</text>
+        <text x="360" y="912" text-anchor="middle" class="label-mono">never writes a memoir file</text>
+      </g>
+
+      <!-- Outbound proposals (proposed library entries) -->
+      <g>
+        <rect x="40" y="940" width="640" height="120" rx="14" class="node-rose" />
+        <text x="360" y="968" text-anchor="middle" class="label-mono" style="fill:var(--rose);font-size:13px">·· THE OTHER CROSSING — outbound proposals ··</text>
+        <text x="360" y="996" text-anchor="middle" class="label">after each episode, podcast MAY propose additions to memoir libraries</text>
+        <text x="360" y="1018" text-anchor="middle" class="label">writes to BOOK_DIR/_system/episode-drafts/EP##/proposed-library-entries.md</text>
+        <text x="360" y="1040" text-anchor="middle" class="label-mono">Asif routes the proposal to the journal skill manually · never auto-applied</text>
+      </g>
+
+      <!-- Downstream consumers -->
+      <g>
+        <rect x="40" y="1090" width="640" height="38" rx="8" fill="rgba(155,199,227,0.10)" stroke="var(--sky)" />
+        <text x="360" y="1114" text-anchor="middle" class="label-mono" style="fill:var(--sky);font-size:13px">·· DOWNSTREAM CONSUMERS (read-only, outside both skills) ··</text>
+      </g>
+
+      <g>
+        <rect x="40" y="1146" width="200" height="140" rx="14" class="node-sky" />
+        <text x="140" y="1174" text-anchor="middle" class="label-mono" style="fill:var(--sky);font-size:13px">·· consumer 1 ··</text>
+        <text x="140" y="1198" text-anchor="middle" class="label-strong">Babu web app</text>
+        <text x="140" y="1218" text-anchor="middle" class="label-mono">site/index.html</text>
+        <text x="140" y="1238" text-anchor="middle" class="label">renders</text>
+        <text x="140" y="1258" text-anchor="middle" class="label-mono">memoir chapters</text>
+        <text x="140" y="1278" text-anchor="middle" class="label-mono">podcast registry</text>
+
+        <rect x="260" y="1146" width="200" height="140" rx="14" class="node-sky" />
+        <text x="360" y="1174" text-anchor="middle" class="label-mono" style="fill:var(--sky);font-size:13px">·· consumer 2 ··</text>
+        <text x="360" y="1198" text-anchor="middle" class="label-strong">Day One (manual)</text>
+        <text x="360" y="1218" text-anchor="middle" class="label-mono">Asif copies</text>
+        <text x="360" y="1238" text-anchor="middle" class="label">memoir prose</text>
+        <text x="360" y="1258" text-anchor="middle" class="label-mono">into the journal app</text>
+        <text x="360" y="1278" text-anchor="middle" class="label-mono">for personal archive</text>
+
+        <rect x="480" y="1146" width="200" height="140" rx="14" class="node-sky" />
+        <text x="580" y="1174" text-anchor="middle" class="label-mono" style="fill:var(--sky);font-size:13px">·· consumer 3 ··</text>
+        <text x="580" y="1198" text-anchor="middle" class="label-strong">NotebookLM (manual)</text>
+        <text x="580" y="1218" text-anchor="middle" class="label-mono">Asif uploads</text>
+        <text x="580" y="1238" text-anchor="middle" class="label">2 files per episode</text>
+        <text x="580" y="1258" text-anchor="middle" class="label-mono">audio overview generated</text>
+        <text x="580" y="1278" text-anchor="middle" class="label-mono">listened to · iterated</text>
+      </g>
+
+      <!-- Forbidden-zone callout -->
+      <g>
+        <rect x="40" y="1310" width="640" height="180" rx="14" fill="rgba(248,113,113,0.06)" stroke="var(--error)" />
+        <text x="360" y="1340" text-anchor="middle" class="label-mono" style="fill:var(--error);font-size:13px">·· WHAT NEITHER SKILL TOUCHES ··</text>
+        <text x="60" y="1372" class="label">· cloudflare workers / proxy config (separate concern)</text>
+        <text x="60" y="1392" class="label">· server-side rendering or API routes (site/server logic)</text>
+        <text x="60" y="1412" class="label">· the web app's CSS or JS (site/css · site/js)</text>
+        <text x="60" y="1432" class="label">· git itself · CI · environment variables</text>
+        <text x="60" y="1452" class="label">· each other's SKILL.md or scripts</text>
+        <text x="60" y="1472" class="label-mono">violations are caught by the agent adapter's prohibited-path lists</text>
+      </g>
+
+      <!-- Closing principle -->
+      <g>
+        <rect x="40" y="1510" width="640" height="100" rx="14" fill="var(--accent-soft)" stroke="var(--accent-strong)" />
+        <text x="360" y="1538" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:13px">·· the principle ··</text>
+        <text x="360" y="1564" text-anchor="middle" class="label-display" style="font-size:16px">tight rooms, named doors, one shared brain</text>
+        <text x="360" y="1588" text-anchor="middle" class="label">accidents stay local · intentional crossings are documented and enforced in code</text>
+      </g>
+
+    </svg>
+    <div class="caption">Vertical map of the whole system · two rooms · one brain · three downstream consumers · two crossings</div>
+  </div>
+
+  <!-- ── Expository ─────────────────────────────────────── -->
+  <div class="section-head">
+    <div class="label">·· why the walls ··</div>
+    <h2>Three reasons the boundaries exist</h2>
+  </div>
+
+  <div class="grid grid-3">
+    <div class="card">
+      <div class="meta">·· reason 1 ··</div>
+      <h3>The memoir has a voice</h3>
+      <p>The journal skill's voice-fingerprint files are tuned over months
+      of careful work. If the podcast skill could read them, it would
+      <em>imitate</em> them — and the podcast voice should be NotebookLM's two
+      hosts, not a memoir narrator. Different rooms keep different voices.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· reason 2 ··</div>
+      <h3>The podcast scratchpads change every day</h3>
+      <p>If the journal skill could read podcast scratchpads, every memoir
+      session would have to re-read potentially hundreds of unstable working
+      files. The boundary keeps the memoir's context window calm.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· reason 3 ··</div>
+      <h3>One brain for what is genuinely shared</h3>
+      <p>Pronunciation IS shared — the same Arabic term means the same thing
+      in both rooms. So it lives in <code>content/_shared/arabic/</code> and
+      both rooms read from it. Everything else stays room-local.</p>
+    </div>
+  </div>
+
+  <div class="section-head">
+    <div class="label">·· enforcement ··</div>
+    <h2>How the boundaries are actually enforced</h2>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>SKILL.md boundary clauses</h3>
+      <p>Each skill's <code>SKILL.md</code> has a Section that lists what it
+      owns, what it reads, and what it does NOT touch. These are
+      instructions the agent reads on every session start.</p>
+    </div>
+
+    <div class="card">
+      <h3>Adapter prohibited paths</h3>
+      <p>The <code>extract_chapter.py</code> script (the only script that
+      crosses the memoir/podcast boundary) carries explicit
+      <code>PROHIBITED_PATH_PREFIXES</code> and
+      <code>PROHIBITED_NAME_PATTERNS</code> lists. It will refuse to read a
+      forbidden file even if the agent asks it to.</p>
+    </div>
+
+    <div class="card">
+      <h3>The challenger agent</h3>
+      <p>The <code>podcast-challenger</code> agent is the second pair of
+      eyes that catches boundary leaks in chapters and framings before they
+      ship — meta-prose tells, cross-episode references, journal-file paths
+      where they should not be.</p>
+    </div>
+
+    <div class="card">
+      <h3>Code review by Asif</h3>
+      <p>The skills propose; Asif disposes. Every cross-skill writing
+      attempt (proposed library entry, shared-manifest addition) lands in a
+      staging file that Asif routes manually. No skill writes across a
+      boundary without his approval.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-eyebrow">·· the spirit ··</div>
+    <p>The boundaries are not bureaucracy. They are the reason this project can grow without each new skill destabilising the others. Add a third skill tomorrow — it gets its own room, reads the shared brain, and the existing rooms keep working untouched.</p>
+  </div>
+
+  <footer class="footer">
+    <a href="index.html">← back to the map</a> &nbsp;·&nbsp; <a href="shared-arabic-reference.html">the shared brain</a> &nbsp;·&nbsp; <a href="journal-pipeline.html">journal</a> &nbsp;·&nbsp; <a href="podcast-pipeline.html">podcast</a>
+  </footer>
+
+</main>
+</body>
+</html>

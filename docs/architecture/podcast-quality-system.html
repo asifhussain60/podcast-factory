@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Podcast Quality System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/architecture.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="brand">Babu <span>·</span> Architecture</div>
+  <div class="crumbs"><a href="index.html">map</a> <span class="sep">›</span> Podcast <span class="sep">›</span> Quality System</div>
+</nav>
+
+<main class="page">
+
+  <header class="hero">
+    <span class="eyebrow" style="background:rgba(155,227,194,0.12);border-color:rgba(155,227,194,0.32);color:var(--mint)">podcast · quality system</span>
+    <h1>Six silent loops, a seven-tier pyramid, <em>one challenger agent</em></h1>
+    <p class="lede">
+      Quality control runs on three layers: six silent loops every bundle
+      passes through, a strictly tiered list of where enrichment is allowed
+      to come from, and an independent challenger agent that keeps iterating
+      until the bundle is genuinely ready.
+    </p>
+  </header>
+
+  <!-- ── The six loops ─────────────────────────────────────── -->
+  <div class="section-head">
+    <div class="label">·· silent gates ··</div>
+    <h2>The six quality loops</h2>
+    <div class="sub">They run during Phase 3, before the challenger ever sees the bundle. Each one targets a different failure mode.</div>
+  </div>
+
+  <div class="diagram">
+    <svg viewBox="0 0 720 1400" role="img" aria-labelledby="podcast-loops-title">
+      <title id="podcast-loops-title">Six quality loops</title>
+
+      <g>
+        <rect x="40" y="20" width="640" height="200" rx="14" class="node-mint" />
+        <text x="60" y="48" class="label-mono" style="fill:var(--mint);font-size:13px">·· LOOP 1 · source integrity ··</text>
+        <text x="60" y="78" class="label-display" style="font-size:18px">Every quote is verbatim. Every attribution correct.</text>
+        <text x="60" y="110" class="label">· check each quote character-by-character against the source</text>
+        <text x="60" y="132" class="label">· author · work · page or section named on first reference</text>
+        <text x="60" y="154" class="label">· translator named for any Quranic translation</text>
+        <text x="60" y="176" class="label">· <strong>[CONTEXT NEEDED]</strong> markers allowed · invention is not</text>
+        <text x="60" y="198" class="label">· hadith citations carry collection name and number</text>
+      </g>
+
+      <g>
+        <rect x="40" y="240" width="640" height="200" rx="14" class="node-mint" />
+        <text x="60" y="268" class="label-mono" style="fill:var(--mint);font-size:13px">·· LOOP 2 · NotebookLM optimization ··</text>
+        <text x="60" y="298" class="label-display" style="font-size:18px">Files NotebookLM actually parses well.</text>
+        <text x="60" y="328" class="label">· chapter file lands in the 1,800–2,800 word sweet spot</text>
+        <text x="60" y="350" class="label">· framing file 200–500 words · up to ~1,000 for high-gravity sources</text>
+        <text x="60" y="372" class="label">· heading hierarchy consistent · never skips levels</text>
+        <text x="60" y="394" class="label">· each file is focused — framing has no source content, chapter has no framing prose</text>
+        <text x="60" y="416" class="label">· no tables of contents · no auto-generated indices · flat parseable structure</text>
+      </g>
+
+      <g>
+        <rect x="40" y="460" width="640" height="160" rx="14" class="node-mint" />
+        <text x="60" y="488" class="label-mono" style="fill:var(--mint);font-size:13px">·· LOOP 3 · two-host steering ··</text>
+        <text x="60" y="518" class="label-display" style="font-size:18px">Specific tensions · concrete audience.</text>
+        <text x="60" y="548" class="label">· framing names 2–4 specific tensions (not generic themes)</text>
+        <text x="60" y="570" class="label">· audience named concretely (not "general audience")</text>
+        <text x="60" y="592" class="label">· at least one canonical steering phrase present ("Slow down on…", "End on a question…")</text>
+        <text x="60" y="614" class="label">· discussion spine carries 6–12 beats — fewer too thin · more unsteerable</text>
+      </g>
+
+      <g>
+        <rect x="40" y="640" width="640" height="160" rx="14" class="node-mint" />
+        <text x="60" y="668" class="label-mono" style="fill:var(--mint);font-size:13px">·· LOOP 4 · episode architecture ··</text>
+        <text x="60" y="698" class="label-display" style="font-size:18px">A real arc, not a checklist.</text>
+        <text x="60" y="728" class="label">· opening beat is a HOOK, not "today we'll discuss…"</text>
+        <text x="60" y="750" class="label">· middle beats build pressure or compare positions, not just enumerate</text>
+        <text x="60" y="772" class="label">· final beat lands on a question or unresolved tension where appropriate</text>
+        <text x="60" y="794" class="label">· the arc moves the listener from one state to another</text>
+      </g>
+
+      <g>
+        <rect x="40" y="820" width="640" height="180" rx="14" class="node-mint" />
+        <text x="60" y="848" class="label-mono" style="fill:var(--mint);font-size:13px">·· LOOP 5 · workspace hygiene ··</text>
+        <text x="60" y="878" class="label-display" style="font-size:18px">Conventions that prevent silent drift.</text>
+        <text x="60" y="908" class="label">· episode number is monotonic from the registry</text>
+        <text x="60" y="930" class="label">· slug is kebab-case · descriptive · ≤ 40 chars</text>
+        <text x="60" y="952" class="label">· every episode txt has a draft folder · every chapter has a matched slug</text>
+        <text x="60" y="974" class="label">· registry.md row added with all columns filled</text>
+      </g>
+
+      <g>
+        <rect x="40" y="1020" width="640" height="220" rx="14" class="node-mint" />
+        <text x="60" y="1048" class="label-mono" style="fill:var(--mint);font-size:13px">·· LOOP 6 · pronunciation coverage ··</text>
+        <text x="60" y="1078" class="label-display" style="font-size:18px">Every Arabic term · every honorific · every verse line.</text>
+        <text x="60" y="1108" class="label">· scan the chapter for transliterated Arabic terms</text>
+        <text x="60" y="1130" class="label">· <strong>cross-check every term against the shared manifest first</strong></text>
+        <text x="60" y="1152" class="label">· any drift from the canonical phonetic is auto-fixed to the manifest form</text>
+        <text x="60" y="1174" class="label">· run the substitution audit — nafs · shaytan · ruh · etc.</text>
+        <text x="60" y="1196" class="label">· @@pronounce markers from the scratchpad land in the rewritten chapter</text>
+        <text x="60" y="1218" class="label">· book lexicon updated so the next chapter inherits</text>
+      </g>
+
+      <!-- Then the challenger -->
+      <g>
+        <rect x="40" y="1260" width="640" height="120" rx="14" fill="var(--accent-soft)" stroke="var(--accent-strong)" />
+        <text x="360" y="1290" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:13px">·· AFTER ALL SIX LOOPS PASS ··</text>
+        <text x="360" y="1316" text-anchor="middle" class="label-display" style="font-size:16px">the podcast-challenger agent takes over</text>
+        <text x="360" y="1340" text-anchor="middle" class="label">scroll down for the convergence loop</text>
+        <text x="360" y="1360" text-anchor="middle" class="label-mono">it reads what the loops cannot see — semantic depth, framing integrity, NotebookLM literalness</text>
+      </g>
+
+    </svg>
+    <div class="caption">Six loops · all silent · the writer never sees them unless one fails</div>
+  </div>
+
+  <!-- ── The challenger convergence loop ─────────────────── -->
+  <div class="section-head">
+    <div class="label">·· the second pair of eyes ··</div>
+    <h2>The podcast-challenger agent</h2>
+    <div class="sub">A separate agent that reads everything literally — exactly like NotebookLM does — and keeps iterating until the bundle is genuinely ready.</div>
+  </div>
+
+  <div class="diagram">
+    <svg viewBox="0 0 720 1120" role="img" aria-labelledby="challenger-title">
+      <title id="challenger-title">Podcast challenger convergence loop</title>
+
+      <defs>
+        <marker id="chArr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="var(--gold)"/>
+        </marker>
+        <marker id="chArrM" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="var(--mint)"/>
+        </marker>
+        <marker id="chArrE" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="var(--error)"/>
+        </marker>
+      </defs>
+
+      <!-- Trigger -->
+      <g>
+        <rect x="80" y="20" width="560" height="68" rx="12" class="node-mint" />
+        <text x="360" y="46" text-anchor="middle" class="label-mono" style="fill:var(--mint)">·· trigger ··</text>
+        <text x="360" y="72" text-anchor="middle" class="label-strong">/podcast-challenger &lt;book-slug&gt;</text>
+      </g>
+
+      <path class="edge-accent" d="M360,88 L360,128" marker-end="url(#chArrM)" />
+
+      <!-- Reads -->
+      <g>
+        <rect x="40" y="138" width="640" height="120" rx="14" class="node-gold" />
+        <text x="60" y="166" class="label-mono" style="fill:var(--gold);font-size:13px">·· reads before each pass ··</text>
+        <text x="60" y="194" class="label">shared arabic (4 files) · best practices · enrichment sources</text>
+        <text x="60" y="216" class="label">scratchpad markers · extract spec · chapter contract template</text>
+        <text x="60" y="238" class="label">SKILL.md · build_episode_txt.py · extract_chapter.py</text>
+      </g>
+
+      <path class="edge-accent" d="M360,258 L360,298" marker-end="url(#chArrM)" />
+
+      <!-- Iteration banner -->
+      <g>
+        <rect x="80" y="308" width="560" height="48" rx="10" fill="var(--accent-soft)" stroke="var(--accent-strong)" />
+        <text x="360" y="336" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:13px">·· iteration i ∈ [1, 3] ··</text>
+      </g>
+
+      <!-- Pass 1 box -->
+      <g>
+        <rect x="40" y="376" width="640" height="200" rx="14" class="node" />
+        <text x="60" y="404" class="label-mono" style="fill:var(--accent);font-size:13px">·· step a — re-read everything ··</text>
+        <text x="60" y="430" class="label">all in-scope chapters + framings re-read every iteration</text>
+        <text x="60" y="450" class="label">so auto-fixes from iteration i-1 are visible</text>
+
+        <text x="60" y="482" class="label-mono" style="fill:var(--accent);font-size:13px">·· step b — run all 30+ checks ··</text>
+        <text x="60" y="508" class="label">7 categories · A governance · B hygiene · C pronunciation · D enrichment</text>
+        <text x="60" y="528" class="label">E articulation · F framing · G extract contracts</text>
+
+        <text x="60" y="560" class="label-mono" style="fill:var(--accent);font-size:13px">·· step c — apply auto-fixes for deterministic findings ··</text>
+      </g>
+
+      <path class="edge-accent" d="M360,576 L360,616" marker-end="url(#chArrM)" />
+
+      <!-- Auto-fix vs flag -->
+      <g>
+        <rect x="40" y="626" width="310" height="160" rx="14" class="node-mint" />
+        <text x="195" y="654" text-anchor="middle" class="label-strong" style="fill:var(--mint)">AUTO-FIX</text>
+        <text x="195" y="680" text-anchor="middle" class="label-mono">deterministic + reversible</text>
+        <text x="50" y="710" class="label">· em-dashes · honorific repeats</text>
+        <text x="50" y="730" class="label">· cross-episode references</text>
+        <text x="50" y="750" class="label">· phonetic gaps from lexicon</text>
+        <text x="50" y="770" class="label">· filler-word exact matches</text>
+
+        <rect x="370" y="626" width="310" height="160" rx="14" class="node-rose" />
+        <text x="525" y="654" text-anchor="middle" class="label-strong" style="fill:var(--rose)">FLAG</text>
+        <text x="525" y="680" text-anchor="middle" class="label-mono">human resolution required</text>
+        <text x="380" y="710" class="label">· semantic findings</text>
+        <text x="380" y="730" class="label">· authoring decisions</text>
+        <text x="380" y="750" class="label">· tradition-mix balance</text>
+        <text x="380" y="770" class="label">· framing tension quality</text>
+      </g>
+
+      <path class="edge-accent" d="M195,786 L195,820 L360,820 L525,820 L525,786" />
+      <path class="edge-accent" d="M360,820 L360,860" marker-end="url(#chArrM)" />
+
+      <!-- Decision: cleared? -->
+      <g>
+        <polygon points="290,870 430,870 360,960" class="node-gold" />
+        <text x="360" y="905" text-anchor="middle" class="label-strong">all findings</text>
+        <text x="360" y="925" text-anchor="middle" class="label-strong">cleared?</text>
+
+        <!-- yes -->
+        <text x="490" y="912" class="label-mono" style="fill:var(--success)">YES — break early</text>
+        <path class="edge" d="M430,915 L520,915 L520,1000" stroke="var(--success)" marker-end="url(#chArrM)" />
+
+        <!-- no -->
+        <text x="230" y="912" text-anchor="end" class="label-mono" style="fill:var(--error)">NO — iterate</text>
+        <path class="edge" d="M290,915 L210,915 L210,360 L40,360" stroke="var(--error)" stroke-dasharray="5 4" />
+        <text x="40" y="355" class="label-mono" style="fill:var(--error);font-size:12px">i ← i + 1 · max 3 iterations</text>
+      </g>
+
+      <!-- Final verdict -->
+      <g>
+        <rect x="40" y="1010" width="200" height="80" rx="12" class="node-mint" />
+        <text x="140" y="1040" text-anchor="middle" class="label-strong" style="fill:var(--success)">SHIP-READY ✓</text>
+        <text x="140" y="1064" text-anchor="middle" class="label-mono">all P0/P1 cleared</text>
+
+        <rect x="260" y="1010" width="200" height="80" rx="12" class="node-gold" />
+        <text x="360" y="1040" text-anchor="middle" class="label-strong" style="fill:var(--warning)">SHIP-WITH-CAUTION</text>
+        <text x="360" y="1064" text-anchor="middle" class="label-mono">non-blocking flags noted</text>
+
+        <rect x="480" y="1010" width="200" height="80" rx="12" class="node-rose" />
+        <text x="580" y="1040" text-anchor="middle" class="label-strong" style="fill:var(--error)">BLOCKED ✗</text>
+        <text x="580" y="1064" text-anchor="middle" class="label-mono">P0 remains · re-invoke</text>
+      </g>
+
+    </svg>
+    <div class="caption">Three iterations max · auto-fix the deterministic · flag the semantic · ship when cleared</div>
+  </div>
+
+  <!-- ── 7-tier enrichment pyramid ──────────────────────── -->
+  <div class="section-head">
+    <div class="label">·· what enrichment is allowed from ··</div>
+    <h2>The seven-tier source whitelist</h2>
+    <div class="sub">Enrichment is what turns a translated section into a substantive standalone chapter. It comes from one of these seven tiers — never anywhere else.</div>
+  </div>
+
+  <div class="diagram">
+    <svg viewBox="0 0 720 900" role="img" aria-labelledby="pyramid-title">
+      <title id="pyramid-title">Seven-tier enrichment whitelist</title>
+
+      <!-- Pyramid with widening bases -->
+      <g>
+        <!-- Tier 1 -->
+        <polygon points="290,40 430,40 410,100 310,100" class="node-accent" />
+        <text x="360" y="64" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:13px">tier 1 · author's own corpus</text>
+        <text x="360" y="86" text-anchor="middle" class="label">highest priority</text>
+
+        <!-- Tier 2 -->
+        <polygon points="270,110 450,110 430,170 290,170" class="node-rose" />
+        <text x="360" y="134" text-anchor="middle" class="label-mono" style="fill:var(--rose);font-size:13px">tier 2 · Quran</text>
+        <text x="360" y="156" text-anchor="middle" class="label">transliteration + phonetic + English</text>
+
+        <!-- Tier 3 -->
+        <polygon points="245,180 475,180 450,240 270,240" class="node-mint" />
+        <text x="360" y="204" text-anchor="middle" class="label-mono" style="fill:var(--mint);font-size:13px">tier 3 · hadith of the Prophet</text>
+        <text x="360" y="226" text-anchor="middle" class="label">Bukhari · Muslim · Tirmidhi · the Six Books</text>
+
+        <!-- Tier 4 -->
+        <polygon points="220,250 500,250 475,310 245,310" class="node-gold" />
+        <text x="360" y="274" text-anchor="middle" class="label-mono" style="fill:var(--gold);font-size:13px">tier 4 · Imam Ali (AS) and Ahl al-Bayt</text>
+        <text x="360" y="296" text-anchor="middle" class="label">Nahj al-Balagha · Ghurar al-Hikam · Sahifa al-Sajjadiyya</text>
+
+        <!-- Tier 5 -->
+        <polygon points="190,320 530,320 500,380 220,380" class="node-sky" />
+        <text x="360" y="344" text-anchor="middle" class="label-mono" style="fill:var(--sky);font-size:13px">tier 5 · Ismaili tradition</text>
+        <text x="360" y="366" text-anchor="middle" class="label">Ginans · Holy Du'a · Farmans · classical Ismaili philosophers</text>
+
+        <!-- Tier 6 -->
+        <polygon points="155,390 565,390 530,450 190,450" class="node" />
+        <text x="360" y="414" text-anchor="middle" class="label-mono" style="fill:var(--wisteria);font-size:13px">tier 6 · Sufi tradition near Ghazali</text>
+        <text x="360" y="436" text-anchor="middle" class="label">Junaid · Hasan al-Basri · Rumi · Attar · Sa'di · Ibn Ata Allah</text>
+
+        <!-- Tier 7 -->
+        <polygon points="115,460 605,460 565,520 155,520" fill="rgba(248,113,113,0.06)" stroke="var(--error)" />
+        <text x="360" y="484" text-anchor="middle" class="label-mono" style="fill:var(--error);font-size:13px">·· EVERYTHING OUTSIDE THESE TIERS IS REJECTED ··</text>
+        <text x="360" y="506" text-anchor="middle" class="label">no Wikipedia · no contemporary commentary unless on the whitelist</text>
+      </g>
+
+      <!-- Hard cap -->
+      <g>
+        <rect x="40" y="560" width="640" height="80" rx="14" class="node-gold" />
+        <text x="360" y="588" text-anchor="middle" class="label-mono" style="fill:var(--gold);font-size:13px">·· hard enrichment cap ··</text>
+        <text x="360" y="614" text-anchor="middle" class="label-display" style="font-size:16px">outside material ≤ 60% of chapter word count</text>
+        <text x="360" y="634" text-anchor="middle" class="label-mono">the original author's argument stays the spine</text>
+      </g>
+
+      <!-- Anti-patterns -->
+      <g>
+        <rect x="40" y="660" width="640" height="220" rx="14" class="node-rose" />
+        <text x="60" y="688" class="label-mono" style="fill:var(--rose);font-size:13px">·· anti-patterns ··</text>
+        <text x="60" y="716" class="label">✗ quoting a verse without explaining why it lands here</text>
+        <text x="60" y="738" class="label">✗ stacking three quotes on the same beat — one well-placed quote wins</text>
+        <text x="60" y="760" class="label">✗ pulling enrichments only from one tradition (all hadith, no Imam Ali)</text>
+        <text x="60" y="782" class="label">✗ introducing material that contradicts the source as if it supports it</text>
+        <text x="60" y="804" class="label">✗ devotional padding — every honorific after first occurrence per chapter is repetition</text>
+        <text x="60" y="826" class="label">✗ using outside material as filler when the source's own argument is the spine</text>
+        <text x="60" y="848" class="label">· disagreement, if surfaced, must be NAMED as disagreement</text>
+      </g>
+
+    </svg>
+    <div class="caption">Seven tiers, one cap, six anti-patterns · the enrichment is the difference between an OCR'd PDF and a substantive episode</div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-eyebrow">·· why all this rigor ··</div>
+    <p>NotebookLM reads <em>literally</em>. If the chapter has a sloppy citation, the hosts will repeat the sloppy citation. If the enrichment is shallow, the conversation will feel shallow. If the framing's tensions are generic, the conversation will drift. The quality system exists because <strong>we cannot edit the hosts after the fact</strong> — we can only steer them in advance.</p>
+  </div>
+
+  <footer class="footer">
+    <a href="index.html">← back to the map</a> &nbsp;·&nbsp; <a href="podcast-overview.html">overview</a> &nbsp;·&nbsp; <a href="podcast-pipeline.html">pipeline</a>
+  </footer>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Architecture — Journal & Podcast Skills</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/architecture.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="brand">Babu <span>·</span> Architecture</div>
+  <div class="crumbs">overview map</div>
+</nav>
+
+<main class="page">
+
+  <header class="hero">
+    <span class="eyebrow">map · v1 · 2026-05-17</span>
+    <h1>How the writing rooms <em>actually work</em></h1>
+    <p class="lede">
+      Two skills (one for the memoir, one for the podcast) share a single brain
+      for Arabic pronunciation. The nine views below explain the moving parts
+      in plain language — pick a starting point.
+    </p>
+  </header>
+
+  <!-- ── Map SVG — vertical orientation ──────────────────────── -->
+  <div class="diagram">
+    <svg viewBox="0 0 720 1100" role="img" aria-labelledby="map-title">
+      <title id="map-title">Vertical map of architecture views</title>
+
+      <!-- Title strip -->
+      <g>
+        <text x="360" y="40" text-anchor="middle" class="label-mono" style="font-size:13px;fill:var(--accent);letter-spacing:.2em">·· THE ARCHITECTURE ··</text>
+        <text x="360" y="70" text-anchor="middle" class="label-display" style="font-size:22px">Two writing rooms · one shared brain</text>
+      </g>
+
+      <!-- Shared Arabic at the top -->
+      <g>
+        <rect x="180" y="110" width="360" height="100" rx="14" class="node-gold" />
+        <text x="360" y="140" text-anchor="middle" class="label-mono" style="fill:var(--gold);font-size:13px">·· SHARED · CROSS-SKILL ··</text>
+        <text x="360" y="168" text-anchor="middle" class="label-strong">Arabic pronunciation brain</text>
+        <text x="360" y="192" text-anchor="middle" class="label-mono">4 files · read by every skill on every run</text>
+      </g>
+
+      <!-- Connectors down to two skills -->
+      <path class="edge-accent" d="M280,210 Q 200,260 200,310" />
+      <path class="edge-accent" d="M440,210 Q 520,260 520,310" />
+
+      <!-- Two skill blocks side-by-side -->
+      <!-- Journal block -->
+      <g>
+        <rect x="40" y="310" width="320" height="320" rx="16" class="node-rose" />
+        <text x="200" y="345" text-anchor="middle" class="label-mono" style="fill:var(--rose);font-size:13px">·· JOURNAL · MEMOIR ··</text>
+        <text x="200" y="375" text-anchor="middle" class="label-display" style="fill:var(--rose)">Babu's voice</text>
+
+        <!-- 3 view chips -->
+        <rect x="65" y="405" width="270" height="58" rx="10" class="node" />
+        <text x="200" y="428" text-anchor="middle" class="label-strong">01 · Overview</text>
+        <text x="200" y="450" text-anchor="middle" class="label-mono">who · what · why</text>
+
+        <rect x="65" y="478" width="270" height="58" rx="10" class="node" />
+        <text x="200" y="501" text-anchor="middle" class="label-strong">02 · Pipeline (end-to-end)</text>
+        <text x="200" y="523" text-anchor="middle" class="label-mono">session → chapter delivered</text>
+
+        <rect x="65" y="551" width="270" height="58" rx="10" class="node" />
+        <text x="200" y="574" text-anchor="middle" class="label-strong">03 · Quality system</text>
+        <text x="200" y="596" text-anchor="middle" class="label-mono">5 loops · delta · voice DNA</text>
+      </g>
+
+      <!-- Podcast block -->
+      <g>
+        <rect x="380" y="310" width="320" height="320" rx="16" class="node-mint" />
+        <text x="540" y="345" text-anchor="middle" class="label-mono" style="fill:var(--mint);font-size:13px">·· PODCAST · NOTEBOOKLM ··</text>
+        <text x="540" y="375" text-anchor="middle" class="label-display" style="fill:var(--mint)">Source steering</text>
+
+        <rect x="405" y="405" width="270" height="58" rx="10" class="node" />
+        <text x="540" y="428" text-anchor="middle" class="label-strong">01 · Overview</text>
+        <text x="540" y="450" text-anchor="middle" class="label-mono">the two-file deliverable</text>
+
+        <rect x="405" y="478" width="270" height="58" rx="10" class="node" />
+        <text x="540" y="501" text-anchor="middle" class="label-strong">02 · Pipeline (end-to-end)</text>
+        <text x="540" y="523" text-anchor="middle" class="label-mono">PDF → 2 files in NotebookLM</text>
+
+        <rect x="405" y="551" width="270" height="58" rx="10" class="node" />
+        <text x="540" y="574" text-anchor="middle" class="label-strong">03 · Quality system</text>
+        <text x="540" y="596" text-anchor="middle" class="label-mono">6 loops · enrichment · challenger</text>
+      </g>
+
+      <!-- Bridge between the two -->
+      <g>
+        <path class="edge-soft" d="M360,470 L380,470" />
+        <text x="370" y="465" text-anchor="middle" class="label-mono" style="font-size:11px">extract</text>
+      </g>
+
+      <!-- Boundaries layer below -->
+      <path class="edge" d="M200,630 Q 200,680 200,720" />
+      <path class="edge" d="M540,630 Q 540,680 540,720" />
+
+      <g>
+        <rect x="80" y="720" width="560" height="100" rx="14" class="node-sky" />
+        <text x="360" y="750" text-anchor="middle" class="label-mono" style="fill:var(--sky);font-size:13px">·· BOUNDARIES + CROSSING POINTS ··</text>
+        <text x="360" y="778" text-anchor="middle" class="label-strong">What each room can touch</text>
+        <text x="360" y="802" text-anchor="middle" class="label-mono">memoir reads · podcast reads · the one door · the shared brain</text>
+      </g>
+
+      <!-- Reading order at the bottom -->
+      <g>
+        <rect x="80" y="860" width="560" height="180" rx="14" class="node" />
+        <text x="360" y="892" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:13px">·· READING ORDER ··</text>
+
+        <text x="360" y="930" text-anchor="middle" class="label-strong" style="fill:var(--rose)">VPs &amp; execs</text>
+        <text x="360" y="952" text-anchor="middle" class="label-mono">start with both Overviews — 8 minutes total</text>
+
+        <text x="360" y="982" text-anchor="middle" class="label-strong" style="fill:var(--mint)">Builders</text>
+        <text x="360" y="1004" text-anchor="middle" class="label-mono">jump to the two Pipeline pages — the diagrams are the spec</text>
+
+        <text x="360" y="1024" text-anchor="middle" class="label-mono" style="font-size:13px;opacity:.6">Reviewers → Quality system pages</text>
+      </g>
+
+    </svg>
+    <div class="caption">Vertical map · scroll the page, not the diagram</div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-eyebrow">·· two end-to-end pipeline views ··</div>
+    <p>The <a href="journal-pipeline.html"><strong>Journal pipeline</strong></a> and the <a href="podcast-pipeline.html"><strong>Podcast pipeline</strong></a> are the deepest views in this set. Each one shows <strong>every</strong> file read, every agent invoked, every challenger pass, every script that runs — top-to-bottom, in order, with the names of the moving parts. Start there if you want to understand the whole system in one read.</p>
+  </div>
+
+  <!-- ── Section: the 9 views ─────────────────────────────────── -->
+  <section>
+    <div class="section-head">
+      <div class="label">·· catalogue ··</div>
+      <h2>The nine views</h2>
+      <div class="sub">Each page is self-contained. Start with the overview of whichever skill you care about, then go deeper.</div>
+    </div>
+
+    <div class="grid grid-3">
+
+      <a href="journal-overview.html" class="nav-card">
+        <div class="nav-tag" style="color:var(--rose)">Journal · 01</div>
+        <h3>Overview</h3>
+        <p>What this skill is and who it serves. The 54-year-old narrator writing the father he wished he had.</p>
+      </a>
+
+      <a href="journal-pipeline.html" class="nav-card">
+        <div class="nav-tag" style="color:var(--rose)">Journal · 02</div>
+        <h3>Pipeline</h3>
+        <p>Session start → rebuild → interactive review → finalize. Where the words actually move.</p>
+      </a>
+
+      <a href="journal-quality-system.html" class="nav-card">
+        <div class="nav-tag" style="color:var(--rose)">Journal · 03</div>
+        <h3>Quality system</h3>
+        <p>Five quality loops, six humour patterns, the delta protection that keeps Asif's own edits sacred.</p>
+      </a>
+
+      <a href="podcast-overview.html" class="nav-card">
+        <div class="nav-tag" style="color:var(--mint)">Podcast · 01</div>
+        <h3>Overview</h3>
+        <p>We do not write podcast scripts. We hand NotebookLM a perfectly steered packet of source material.</p>
+      </a>
+
+      <a href="podcast-pipeline.html" class="nav-card">
+        <div class="nav-tag" style="color:var(--mint)">Podcast · 02</div>
+        <h3>Pipeline</h3>
+        <p>From a PDF dropped on the desk to two files uploaded into NotebookLM. The journey through Phase 0.</p>
+      </a>
+
+      <a href="podcast-quality-system.html" class="nav-card">
+        <div class="nav-tag" style="color:var(--mint)">Podcast · 03</div>
+        <h3>Quality system</h3>
+        <p>Six quality loops, a seven-tier enrichment pyramid, and a challenger agent that keeps trying until convergence.</p>
+      </a>
+
+      <a href="shared-arabic-reference.html" class="nav-card">
+        <div class="nav-tag" style="color:var(--gold)">Shared</div>
+        <h3>Arabic pronunciation</h3>
+        <p>The cross-skill brain for every Arabic term. Authority order, decision flow, who reads what.</p>
+      </a>
+
+      <a href="cross-skill-boundaries.html" class="nav-card">
+        <div class="nav-tag" style="color:var(--sky)">Boundaries</div>
+        <h3>What each room owns</h3>
+        <p>The walls that keep the memoir room separate from the podcast room, and the one door between them.</p>
+      </a>
+
+      <div class="nav-card" style="cursor:default;opacity:.7">
+        <div class="nav-tag">Meta</div>
+        <h3>Reading order</h3>
+        <p>VPs and execs: start with both overviews. Builders: jump to the pipeline pages. Reviewers: head straight to quality systems.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── The promise ─────────────────────────────────────────── -->
+  <div class="callout">
+    <div class="callout-eyebrow">·· the promise ··</div>
+    <p>Every page passes the <strong>coffee-with-a-VP test</strong>: clear English, no jargon, the diagrams do the heavy lifting. You should be able to describe the system back to a colleague after one read.</p>
+  </div>
+
+  <footer class="footer">
+    Architecture docs · journal repo · maintained by the team
+  </footer>
+
+</main>
+</body>
+</html>
