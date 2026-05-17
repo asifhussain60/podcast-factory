@@ -2,7 +2,16 @@
 
 ## Opening directive
 
-Open the episode with a brief welcome, one sentence, followed by a two-to-three sentence summary that names the source, Ayyuhal Walad, Ghazali's letter to a former student, and lands the central question this chapter is going to ask. Do not open with "today we'll discuss". Do not open with "in this episode". Open in the voice of someone who has just come across a story they want to tell, and they want the listener to come close enough to hear it. The summary should make clear that this is part of a five-part series and that this chapter contains the single most quoted vignette in the letter: a teacher asking his student of thirty-three years what he has actually learned.
+Open the episode with a brief welcome, one sentence, followed by a two-to-three sentence summary that names the source, Ayyuhal Walad, Ghazali's letter to a former student, and lands the central question this chapter is going to ask. Open in the voice of someone who has just come across a story they want to tell, and they want the listener to come close enough to hear it. The summary should make clear that this is part of a five-part series and that this chapter contains the single most quoted vignette in the letter: a teacher asking his student of thirty-three years what he has actually learned.
+
+**Forbidden opening phrasings.** Do not open with any of:
+ - "Welcome to this deep dive" or any sentence containing "deep dive"
+ - "Today we'll discuss" / "today we will discuss"
+ - "In this episode" / "In our final deep dive"
+ - "Welcome back" / "Welcome to today"
+ - "Welcome to our..."
+
+The phrase "deep dive" does not appear anywhere in the episode, including the opening, mid-conversation transitions, or the closing reflection. It is NotebookLM's house phrase and it does not belong here.
 
 ## Background
 
@@ -54,7 +63,9 @@ Focus 2. The eight benefits in order, with the Quranic verse anchor for each. Qu
 
 Focus 3. The closing claim, that these eight appear in all four revealed scriptures. Hold the claim. Do not deflate it. Do not turn it into ecumenical politeness.
 
-Landing. Close on Haatim's final benefit, the placing of complete reliance on Allah, and then Ghazali's one-line address to his student: *you now know from this story that you do not need a lot of knowledge.* End on that line. No host commentary after.
+Landing. Close on Haatim's final benefit, the placing of complete reliance on Allah, and then Ghazali's one-line address to his student: *you now know from this story that you do not need a lot of knowledge.*
+
+**Closing discipline (hard imperative).** Ghazali's line above is the last thing the listener hears. After that line, the episode ends. Do not add a host reflection. Do not address the listener directly. Do not introduce a "final thought" or "what if" framing. Do not summarize the eight benefits. Do not invite the listener to ask themselves a question. Do not say anything containing the word "you" addressed to the listener. The episode ends on Ghazali's voice, not on host commentary. Six paragraphs of host monologue after Ghazali's line is a violation of this directive.
 
 ## Pronunciation
 
@@ -90,9 +101,13 @@ Do not read this guidance aloud. The phonetics above are for the voice model onl
 
 Do NOT modernize. The hosts do not mention any of: Twitter, X, social media, algorithm, content creator, internet troll, reply guy, YouTube comment, TikTok, Instagram, podcast, livestream, app, screen time, notification, attention economy, 21st century, "in our modern world", quote-tweet, hashtag, follower count, like, share, repost, doomscroll, hot take, cognitive behavioral therapy, productivity framework, life hack, self-help, wellness, mindfulness app, dopamine hit, deep dive.
 
-The source is a classical text. The conversation stays in the source's own register. If a contemporary parallel is genuinely necessary, name it generically ("public debate", "performance for an audience"), never a named modern platform or product.
+Also forbidden — generic-modern framings that do not name a platform but still drag the conversation into the 21st century: "We live in an era…", "in our era", "modern ear", "modern listener", "We call it…", "self-care", "speaking our truth", "in today's world", "in modern life", "the contemporary listener", "modern-day". The conversation does not contextualize Ghazali against modernity. The discomfort the listener feels in their own life is the listener's to discover; the hosts do not name it on their behalf.
+
+The source is a classical text. The conversation stays in the source's own register. If a contemporary parallel is genuinely necessary, name it generically ("public debate", "performance for an audience"), never a named modern platform or product, and never anchored to "we" / "us" / "our era".
 
 Do NOT perform surprise. Do not say: "wow", "that's so interesting", "it's chilling", "it's devastating", "it's terrifying", "it's profound", "it's fascinating", "it's amazing", "oh my god", "right?", "exactly", "no way". Do not gasp. Do not repeat the previous host's last word as a single-word reaction. Trust the listener to register weight without being told.
+
+Do NOT use conversational acknowledgment interjections. Specifically forbidden: "Yeah", "yeah", "Oh, for sure", "Oh for sure", "for sure", "Right.", "Right,", "Right?", "exactly", "Exactly", "totally", "absolutely", "definitely", "of course", "makes sense", "that makes sense", "I see", "I hear you", "got it". When one host finishes a thought, the other picks up the thread directly with substantive content. No back-channeling. No one-word affirmations. The voice model defaults to acknowledgment grammar; this episode does not use it.
 
 Do NOT abbreviate the names of major works. Always say "Ihya Ulum al-Din", never "the Ihya" or "EI" or "IUD". Always say "Nahj al-Balagha", never "the Nahj" or "NJB". Always say "Sahih Bukhari" and "Sahih Muslim", never "Sahihayn".
 
