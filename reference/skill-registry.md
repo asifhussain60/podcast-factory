@@ -13,7 +13,7 @@
 | **CORTEX** | BASELINE | Active (plugin) | `~/.claude/skills/cortex/SKILL.md` |
 | **ADLC** | GOLD | Active (plugin) | `~/.claude/skills/adlc/SKILL.md` |
 | **Journal** | SILVER (target) | Active (plugin) — overlay applies | `~/.claude/skills/journal/SKILL.md` + `journal/reference/skill-overlays/journal-cortex-overlay.md` |
-| **Refine** | BRONZE (target) | Active (plugin) — overlay applies | `~/.claude/skills/refine/SKILL.md` + `journal/reference/skill-overlays/refine-cortex-overlay.md` |
+| **Cowork-brief** (was `refine` pre-v3.5) | BRONZE (target) | Active (plugin) — overlay applies | `~/.claude/skills/cowork-brief/SKILL.md` + `journal/reference/skill-overlays/cowork-brief-cortex-overlay.md` |
 | **Tell-me** | SILVER (target) | Active (plugin) — overlay applies | `~/.claude/skills/tell-me/SKILL.md` + `journal/reference/skill-overlays/tell-me-cortex-overlay.md` |
 | **Clean-commit** | BRONZE (target) | Active (plugin) — overlay applies | `~/.claude/skills/clean-commit/SKILL.md` + `journal/reference/skill-overlays/clean-commit-cortex-overlay.md` |
 | **Podcast** | OUT OF SCOPE (content-prep) | Active in staging — exempt from CORTEX per SKILL.md §9; quality judged by human listening | `journal/skills-staging/podcast/SKILL.md` |

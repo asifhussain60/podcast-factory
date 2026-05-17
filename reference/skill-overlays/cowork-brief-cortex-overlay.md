@@ -1,10 +1,10 @@
-# /refine — CORTEX Challenger Framework v1 Overlay
+# /cowork-brief — CORTEX Challenger Framework v1 Overlay
 
-**Skill:** `refine` (prompt refinement agent)
-**Plugin path:** `~/.claude/skills/refine/SKILL.md` (read-only)
+**Skill:** `cowork-brief` (Cowork prompt refinement agent; pre-v3.5 name was `refine`)
+**Plugin path:** `~/.claude/skills/cowork-brief/SKILL.md` (read-only; renamed from `refine/`)
 **Framework targeted:** CORTEX Challenger Framework v1
 **Compliance tier:** BRONZE (after overlay applied)
-**Reason for BRONZE:** Refine is a single-pass conversational skill. The overlay adds severity tiers + operator-validation loop + missing primitives, but the skill is fundamentally a Q&A workflow, not a long-running pipeline. BRONZE reflects that some primitives (Convergence, Sweep Completeness) are not naturally applicable.
+**Reason for BRONZE:** This skill is a single-pass conversational workflow. The overlay adds severity tiers + operator-validation loop + missing primitives, but the skill is fundamentally a Q&A workflow, not a long-running pipeline. BRONZE reflects that some primitives (Convergence, Sweep Completeness) are not naturally applicable.
 
 ---
 

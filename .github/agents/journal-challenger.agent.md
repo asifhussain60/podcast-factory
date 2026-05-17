@@ -52,6 +52,8 @@ Every check below ultimately serves this constant. A finding that improves prose
 
 ## SECTION 0 — Framework compliance + boundaries
 
+**Extends CORTEX Challenger Framework v1.0** (`reference/cortex-challenger-framework.md`). The framework defines the shared contract every challenger satisfies: severity taxonomy (P0–P3), verdict states (SHIP-READY / SHIP-WITH-CAUTION / BLOCKED), convergence-loop semantics, auto-fix-vs-flag policy, and sidecar report template. This agent specializes the framework with memoir-specific check categories (Loops V, A, C, G, D, N) and a `max_iterations: 3` cap (the framework default is 3; the peer `podcast-challenger` raises this to 5 because its convergence pattern requires more passes per chapter — see its v1.4 changelog entry).
+
 This agent operates under the same governance pattern as `podcast-challenger`. Quality dimensions that rest on the human reader (voice authenticity, emotional weight, the specific feel of Asif's prose) are surfaced as findings, not auto-fixed.
 
 Before any review pass, read **all 18 files** in this order. The 11 normative files (1–11) are the **authority** — they win when guidance disagrees.
