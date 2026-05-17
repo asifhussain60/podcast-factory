@@ -20,20 +20,22 @@
 
   <header class="hero">
     <span class="eyebrow" style="background:rgba(155,227,194,0.12);border-color:rgba(155,227,194,0.32);color:var(--mint)">podcast · pipeline · end-to-end</span>
-    <h1>From a PDF on the desk to <em>two files in NotebookLM</em></h1>
+    <h1>From <em>any source, any format</em> to two files in NotebookLM</h1>
     <p class="lede">
-      The podcast skill never writes a single line of dialogue. It prepares a
-      <strong>perfectly steered packet of source material</strong> so that
-      NotebookLM's two hosts say exactly the right things on their own. This
-      page shows every file, every agent, every challenger pass, and every
-      script that gets us there.
+      The podcast skill never writes a single line of dialogue. It accepts
+      <strong>any source</strong> — book, PDF, MP3, Word, PowerPoint, Excel,
+      transcript, plain text — normalizes it to text in one universal intake
+      step, then prepares a <strong>perfectly steered packet of source
+      material</strong> so that NotebookLM's two hosts say exactly the right
+      things on their own. This page shows every file, every agent, every
+      challenger pass, and every script that gets us there.
     </p>
   </header>
 
   <div class="section-head">
     <div class="label">·· the whole journey ··</div>
     <h2>One book, one full series</h2>
-    <div class="sub">Read top to bottom. The path forks early — a PDF triggers a full <em>Phase 0</em> ingestion; a memoir chapter takes the <em>Extract</em> short-cut. They reunite at Phase 1.</div>
+    <div class="sub">Read top to bottom. The path forks early — any long-form source (PDF · audio · Word · PPT · Excel · book) triggers a full <em>Phase 0</em> ingestion; a memoir chapter takes the <em>Extract</em> short-cut. They reunite at Phase 1.</div>
   </div>
 
   <div class="diagram">
@@ -70,7 +72,7 @@
       <!-- STEP 1: trigger -->
       <g>
         <rect x="40" y="100" width="200" height="62" rx="10" class="node-mint" />
-        <text x="140" y="124" text-anchor="middle" class="label-strong">drops PDF + says</text>
+        <text x="140" y="124" text-anchor="middle" class="label-strong">drops a source + says</text>
         <text x="140" y="146" text-anchor="middle" class="label-mono">"make this a podcast"</text>
 
         <path class="edge-accent" d="M240,131 L560,131" marker-end="url(#arrowA)" />
@@ -149,7 +151,7 @@
         <text x="697" y="482" text-anchor="middle" class="label-mono">BOOK_DIR/_README.md</text>
       </g>
 
-      <!-- DECISION: PDF vs Extract Mode -->
+      <!-- DECISION: Long-form vs Extract Mode -->
       <g>
         <rect x="40" y="520" width="760" height="38" rx="8" fill="var(--accent-soft)" stroke="var(--accent-strong)" />
         <text x="420" y="544" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:13px">·· DECISION — what kind of source is this? ··</text>
@@ -157,26 +159,27 @@
 
       <g>
         <polygon points="340,580 480,580 410,680" class="node-accent" />
-        <text x="410" y="615" text-anchor="middle" class="label-strong">PDF or</text>
-        <text x="410" y="635" text-anchor="middle" class="label-strong">long source?</text>
+        <text x="410" y="615" text-anchor="middle" class="label-strong">long-form</text>
+        <text x="410" y="635" text-anchor="middle" class="label-strong">multi-chapter?</text>
 
-        <!-- left branch: PDF → Phase 0 -->
+        <!-- left branch: long-form → Phase 0 -->
         <path class="edge" d="M340,610 L160,610 L160,710" marker-end="url(#arrowM)" />
-        <text x="240" y="600" text-anchor="middle" class="label-mono">YES · multi-chapter PDF</text>
+        <text x="240" y="598" text-anchor="middle" class="label-mono">YES · PDF · audio</text>
+        <text x="240" y="618" text-anchor="middle" class="label-mono">Word · PPT · Excel · book</text>
 
         <!-- right branch: Extract Mode -->
         <path class="edge" d="M480,610 L680,610 L680,710" marker-end="url(#arrowM)" />
         <text x="600" y="600" text-anchor="middle" class="label-mono">NO · single memoir chapter</text>
       </g>
 
-      <!-- PHASE 0 — left side (PDF spine) -->
+      <!-- PHASE 0 — left side (long-form spine) -->
       <g>
         <rect x="40" y="710" width="240" height="38" rx="8" fill="rgba(155,227,194,0.10)" stroke="var(--mint)" />
-        <text x="160" y="734" text-anchor="middle" class="label-mono" style="fill:var(--mint);font-size:13px">·· PHASE 0 — PDF ingestion ··</text>
+        <text x="160" y="734" text-anchor="middle" class="label-mono" style="fill:var(--mint);font-size:13px">·· PHASE 0 — any-format ingestion ··</text>
 
         <rect x="40" y="760" width="240" height="56" rx="10" class="node-mint" />
-        <text x="160" y="782" text-anchor="middle" class="label-strong">0a · EXTRACT</text>
-        <text x="160" y="802" text-anchor="middle" class="label-mono">OCR / text layer → raw-extract.md</text>
+        <text x="160" y="782" text-anchor="middle" class="label-strong">0a · NORMALIZE TO TEXT</text>
+        <text x="160" y="802" text-anchor="middle" class="label-mono">PDF · MP3 · docx · pptx · xlsx → raw-extract.md</text>
 
         <rect x="40" y="826" width="240" height="56" rx="10" class="node-mint" />
         <text x="160" y="848" text-anchor="middle" class="label-strong">0b · ENGLISH REFINEMENT</text>
@@ -561,10 +564,11 @@
 
     <div class="card">
       <div class="meta">·· phase 0 ··</div>
-      <h3>A PDF is a <em>series</em>, never an episode</h3>
-      <p>A 30-page PDF with a table of contents becomes 5-to-10 designed
-      chapters, each one is its own NotebookLM upload. Phase 0d re-segments
-      by meaningful thematic units; Phase 0e enriches each chapter with
+      <h3>A long source is a <em>series</em>, never an episode</h3>
+      <p>A 30-page PDF, a two-hour audio recording, a 40-slide deck — each
+      becomes 5-to-10 designed chapters, each one its own NotebookLM upload.
+      Phase 0a normalizes any format to text first; Phase 0d re-segments by
+      meaningful thematic units; Phase 0e enriches each chapter with
       authoritative material from seven tradition-tiers.</p>
     </div>
 

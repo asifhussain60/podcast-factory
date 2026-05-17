@@ -2,7 +2,7 @@
 
 Distillation is Phase 2 work that produces signal from the raw source. Under the strict 1:1 chapter ↔ episode mapping (`skills-staging/podcast/SKILL.md` §0), distillation extracts what the chapter is saying so the episode's `00-framing.md` and authoring scaffolds (`02-key-passages`, `03-context-pack`, `04-discussion-spine`, `99-show-notes`) can shape the listener's experience.
 
-**The chapter itself is authored in Phase 0d (design) + Phase 0e (enrichment) of the PDF ingestion protocol** — not in Phase 2. Phase 2 reads the already-enriched chapter and extracts the spine from it.
+**The chapter itself is authored in Phase 0d (design) + Phase 0e (enrichment) of the any-format long-source ingestion protocol** — not in Phase 2. Phase 0a normalizes the source (PDF, audio, Word, PPT, etc.) to text; Phase 2 reads the already-enriched chapter and extracts the spine from it.
 
 All patterns produce the same six outputs (core thesis, arc, key passages, tensions, context, application angle) but the EXTRACTION method differs by source type.
 
@@ -61,6 +61,44 @@ When a memoir chapter is podcasted, treat it as authored prose under Extract Mod
   - **Application angle** — adjusted for written/listening audience.
 
 **Trap to avoid**: cleaning up the speaker so much that they sound like a different person. Preserve the voice while removing the filler.
+
+## Audio recording (transcribed in Phase 0a)
+
+**Method**: same as Transcript/lecture above, but with two added concerns introduced by automatic transcription.
+  - **Transcription confidence**: Phase 0a's transcriber is not perfect. Names, technical terms, and rapid speech are common mis-transcriptions. Spot-check anything that lands in `02-key-passages.md` against the original audio (Phase 0a leaves the original at `BOOK_DIR/_system/source/<title>.mp3`).
+  - **Speaker diarization**: if more than one voice was on the recording, Phase 0a's diarizer labels speakers as `Speaker A` / `Speaker B` etc. Replace with real names in Phase 0b where confidence is high; flag the rest in `_extraction-notes.md`.
+  - **Timestamps**: Phase 0a inserts `<!-- mm:ss -->` markers every ~60s. Keep them through Phase 0d so Phase 2 distillation can cite back to specific moments in `02-key-passages.md` (format: `(audio 14:23)` instead of `(page 14)`).
+
+**Trap to avoid**: trusting the transcript verbatim for quoted material. Any quote you plan to include MUST be verified against the audio, because a 95%-accurate transcriber still mis-hears one word in twenty.
+
+## Word document (.docx) / structured prose
+
+**Method**: identical to "Enriched book chapter" above once Phase 0a has normalized the document. Two notes:
+  - Heading hierarchy in the source is a *hint* for Phase 0d chapter design but is not binding. A Word document with five H1 sections may still resegment into 3, 7, or 10 chapters based on thematic weight.
+  - Tables in the source survive Phase 0a as markdown tables; they may or may not be load-bearing for the argument — distillation decides whether each table is a key passage or context.
+
+## PowerPoint deck (.pptx)
+
+**Method**: slide-first reading, then thematic re-segmentation.
+  - Phase 0a extracted both slide text AND speaker notes. Speaker notes typically carry the argument; slide text typically carries the headlines.
+  - First pass: read all speaker notes in order. They give you the spoken argument the deck would have carried.
+  - Second pass: read slide text. Identify which slides are setup, which carry punch, which are placeholders.
+  - Phase 0d should group slides into 4–10 chapters based on argument arcs, never one chapter per slide.
+
+**Capture**:
+  - **Core thesis** — usually emerges from the first 3–5 slides' speaker notes.
+  - **Arc** — slide order is your starting point but you may reorder if the deck was poorly structured.
+  - **Key passages** — quote either the slide headline OR the speaker note, whichever carries the punch; never both unless they say different things.
+
+**Trap to avoid**: treating the deck as if each slide were a chapter. Decks are dense headline-and-illustration formats; a 40-slide deck is rarely more than a 10,000-word essay's worth of content.
+
+## Excel / spreadsheet (.xlsx)
+
+**Method**: only used when the spreadsheet IS the source (a table of aphorisms, a structured journal of one-line teachings, a register of incidents). For data spreadsheets where the analysis is the point, the spreadsheet is supporting evidence, not the source — author the analysis separately and treat the spreadsheet as an enrichment reference.
+  - Phase 0a flattens each sheet to a markdown table. Read each table end-to-end.
+  - Decide whether each row is its own micro-chapter (rare) or whether thematic groupings yield 5–10 chapters.
+
+**Trap to avoid**: turning a spreadsheet podcast into row-by-row recitation. Find the patterns across rows.
 
 ## Asif's notes
 
