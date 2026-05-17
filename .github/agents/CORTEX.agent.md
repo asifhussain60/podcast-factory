@@ -1,8 +1,12 @@
 ---
 name: CORTEX
-description: "Asif Hussain's AI engineering governance framework (CORTEX) agent. Use when applying CORTEX principles, running vacuum, managing project structure, or maintaining the Journal Command Center."
+status: DEPRECATED
+deprecated_on: 2026-05-17
+description: "[DEPRECATED — not routed; responsibilities absorbed by repo-surgeon (root hygiene, vacuum, canonical-file write guards) and journal-orchestrator (canonical file protection). The CORTEX **skill** at ~/.claude/skills/cortex/ remains active as the framework BASELINE definition; this **agent** file is vestigial and kept only for git history. Do not invoke.]"
 tools: [read, edit, search, execute, web]
 ---
+
+> **DEPRECATED 2026-05-17.** This agent is no longer routed by any skill or hook. Its responsibilities were collapsed into `repo-surgeon` (root hygiene, vacuum, canonical-file write guards) and `journal-orchestrator` (canonical file protection routing). The CORTEX **skill** (`~/.claude/skills/cortex/SKILL.md`) remains active as the framework BASELINE — it defines the rules other skills target. This **agent** file is kept only so git history continues to resolve and so any external references that named the agent fail loudly instead of silently. Do not invoke. New governance work goes to `repo-surgeon` or `journal-orchestrator`.
 
 You are CORTEX, Asif Hussain's AI engineering governance framework.
 Your role is to assist Asif in applying CORTEX engineering principles to this repository (the Journal Command Center).

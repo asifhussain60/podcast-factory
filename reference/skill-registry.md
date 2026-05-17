@@ -151,11 +151,11 @@ Per the framework's Section 7 cross-skill coordination contract, the following f
 
 Agents live outside the skill model. See `framework.md` §Agents for the full table. Currently:
 
-- `CORTEX` — governance/vacuum (`.github/agents/CORTEX.agent.md`)
 - `journal-orchestrator` — skill routing + canonical-write protection (`.github/agents/journal-orchestrator.agent.md`)
-- `repo-surgeon` — full procedure absorbed into `skills-staging/repo-surgeon/skill.md`; thin agent stub at `.github/agents/repo-surgeon.agent.md` for subagent registration only
-- `podcast-challenger` — semantic-quality reviewer (`.github/agents/podcast-challenger.agent.md`)
+- `repo-surgeon` — full procedure absorbed into `skills-staging/repo-surgeon/skill.md`; thin agent stub at `.github/agents/repo-surgeon.agent.md` for subagent registration only; absorbs root-hygiene/vacuum from the deprecated CORTEX agent
+- `podcast-challenger` v1.2 — semantic-quality reviewer with Extract Mode contract checks (`.github/agents/podcast-challenger.agent.md`)
 - `ui-reviewer` — CSS/theme review on Stop hook (`.claude/agents/ui-reviewer.md`)
+- ~~`CORTEX`~~ — **DEPRECATED 2026-05-17.** Agent at `.github/agents/CORTEX.agent.md` is no longer routed; responsibilities absorbed by `repo-surgeon` and `journal-orchestrator`. The CORTEX **skill** at `~/.claude/skills/cortex/` remains active as the framework BASELINE.
 
 ---
 
@@ -171,6 +171,8 @@ Agents live outside the skill model. See `framework.md` §Agents for the full ta
 | 2026-05-16 | podcast-challenger agent | New semantic-quality gate at `.github/agents/podcast-challenger.agent.md`. 30 checks across 6 categories. Convergence ≤3 iterations. Sidecar report at `BOOK_DIR/_system/challenger-report.md`. Orchestrator refuses "ready for upload" intents until `SHIP-READY` |
 | 2026-05-16 | Two-file deliverable v3.4 | `chapters/chNN-<slug>.txt` IS the SOURCE (uploaded directly); `episodes/EP##-<slug>.txt` IS the CUSTOMIZE PROMPT only. `build_episode_txt.py` rewritten to validate chapter as-is + emit prompt-only episode txt |
 | 2026-05-17 | Consolidation + root cleanup | `_system/legacy/` + `_system/meta/` removed from Ayyuhal Walad; stale dated memoir snapshots removed; root `.env.example` + `index.html` removed; `repo-surgeon` trinity collapsed to single `skill.md` + thin agent stub; `skills-staging/README.md` merged into this file |
+| 2026-05-17 | Podcast Extract Mode | `scripts/podcast/extract_chapter.py` + per-chapter contract schema (`content/podcast/_handbook/chapter-contract.template.yml`) + splitting policy spec (`extract-capability.md`). Sanctioned crossing for `content/babu-memoir/chapters/*.txt`. First production split: `ch01-man.txt` → `inheritance` (3,463w) + `becoming` (3,113w) |
+| 2026-05-17 | Production-readiness audit + remediation | Journal `SKILL.md` mirrored to `skills-staging/journal/` (was install-only); Dad→Babu rewrite + v2 banner + correct folder paths; `01-source-primary.md` invariant violation in `extract_chapter.py` removed (file no longer emitted); meta-prose lint in extractor sync'd with build script; handbook drift fixed in `scratchpad-markers.md`, `source-distillation.md`, `extract-capability.md`; `new_episode.py` registry path corrected (_system→_handbook); `podcast-challenger` v1.2 with Category G (Extract Mode contracts); CORTEX agent deprecated (responsibilities absorbed by `repo-surgeon` + `journal-orchestrator`); `clean-commit` / `refine` / `tell-me` mirrored from install to `skills-staging/`; `site-worker.js` `/trips/*` proxy removed |
 
 Next audit: when any skill's tier is meaningfully updated (overlay merged into plugin SKILL.md, WIP skill graduates) — record date, scope, and result.
 
