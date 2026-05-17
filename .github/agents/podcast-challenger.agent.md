@@ -5,7 +5,7 @@ tools: [read, edit, search, execute]
 
 # Canonical challenger contract (peer with .github/agents/journal-challenger.agent.md)
 challenger_contract:
-  max_iterations: 3
+  max_iterations: 5
   verdict_states: [SHIP-READY, SHIP-WITH-CAUTION, BLOCKED]
   severity_tiers: [P0, P1, P2]
   auto_fix_categories:
@@ -301,24 +301,31 @@ Loop N enforces the architectural pivot from inline phonetic guides (which Noteb
 
 ## SECTION 4 — Convergence loop
 
-Run the catalog up to **3 iterations** per invocation.
+Run the catalog up to **N iterations** per invocation, where N is `challenger_contract.max_iterations` in the frontmatter (currently **5**).
 
 ```
-For iteration i ∈ [1, 3]:
+For iteration i ∈ [1, N]:
   1. Read all in-scope chapters + framings (re-read every iteration so
      auto-fixes from i-1 are visible).
   2. Run all 30 checks.
   3. Apply auto-fixes for any in-scope deterministic findings.
   4. Re-run `build_episode_txt.py BOOK_DIR EP##-<slug>` for every changed
      chapter (to keep episode txts in sync).
-  5. If iteration produced no auto-fixes AND no new findings → break early.
-  6. Otherwise continue to iteration i+1.
+  5. Tally (auto_fixes_this_iter, p0_count, p1_count, p2_count).
+  6. Early-break conditions (any one is sufficient):
+       a. Iteration produced no auto-fixes AND no new findings vs i-1.
+       b. **Intelligent break (added in v1.4):** (p0_count, p1_count) identical
+          to iteration i-1's AND zero auto-fixes were applied this iteration.
+          Further iteration won't help; surface findings and stop.
+  7. Otherwise continue to iteration i+1.
 
 After loop:
   - If P0 findings remain → BLOCKED verdict.
   - Else if P1 findings remain → SHIP-WITH-CAUTION verdict (list P1 items).
   - Else → SHIP-READY verdict.
 ```
+
+The per-invocation cap is a circuit-breaker — it bounds runtime in a single shot. The **outer re-invocation loop is the caller's responsibility** (the `/podcast` skill's Phase 4 step 3 drives it: read this report's `Verdict:` line, address P0 findings if not SHIP-READY, re-invoke). Two consecutive outer invocations with identical (verdict, p0_count, p1_count) → outer stall surfaced to human. This agent is not responsible for that outer accounting — it just writes the report.
 
 Always write the sidecar report (Section 6) — even on a clean run, the report serves as the timestamped "this book was reviewed clean on YYYY-MM-DD" record.
 
@@ -442,7 +449,8 @@ When invoked:
 
 - Do not run the agent on memoir content. The boundary is hard.
 - Do not auto-fix any check not explicitly listed in Section 3's allowed set. When in doubt, flag.
-- Do not exceed the 3-iteration cap. Failure to converge in 3 means the chapter has a structural issue that needs human direction.
+- Do not exceed the per-invocation `max_iterations` cap (frontmatter; currently 5). Failure to converge within the cap is a signal that the chapter has a structural issue — write the report at the current verdict, let the outer caller decide whether to address P0 findings and re-invoke or surface to human. **Do not silently inflate the cap to force SHIP-READY.**
+- Do not implement the outer re-invocation loop inside this agent. The agent runs once, writes the report, and exits. The caller (`/podcast` Phase 4 step 3) is responsible for reading the verdict and re-invoking after P0 fixes.
 - Do not edit the `02-key-passages.md` / `03-context-pack.md` / `04-discussion-spine.md` / `99-show-notes.md` scaffolds. The challenger reads them for context but only ever modifies `chapters/*.txt` and `00-framing.md`.
 - Do not hand-edit `BOOK_DIR/episodes/*.txt`. Always re-run `build_episode_txt.py` after a chapter or framing change.
 - Do not silently bump severity. If a check the catalog rates P1 turns out to feel P0 in a specific case, flag it as P1 with a note that the agent recommends escalation; let the user decide.
@@ -451,6 +459,8 @@ When invoked:
 ---
 
 ## Version
+
+v1.4 (2026-05-17, late evening). **Convergence-gate hardening.** Bumped `max_iterations` from 3 → 5 to give the inner loop more runway before falling back to the outer re-invocation loop. Added the intelligent-break rule (Section 4 step 6b): when an iteration produces zero auto-fixes AND identical (p0, p1) counts vs the prior iteration, break early. Documented the split of responsibility: this agent runs once and writes the report; the `/podcast` skill's Phase 4 step 3 drives the outer re-invocation loop. Updated Section 8 anti-anti-pattern: removed the strict 3-cap prohibition (the new cap is 5) and added the prohibition against silently inflating the cap or implementing the outer loop in-agent. Companion edit: `skills-staging/podcast/SKILL.md` Phase 4 restructured so Step 3 is now an unambiguous HARD GATE blocking Steps 4–8 with a verdict-line requirement on the human-facing summary; new wrapper at `.claude/agents/podcast-challenger.md` registers this agent as an invokable `subagent_type`.
 
 v1.3 (2026-05-17, evening). **Empirical-audit pivot.** Added Category M (modernization + surprise-noise audit; R-NOMODERNIZE + R-NOSURPRISE), Category N (phonetic-as-content audit; R-PHONETICS-OUT + R-PRONUNCIATION-IMPERATIVE), Category O (honorific repetition + abbreviation audit; R-HONORIFIC-ONCE + R-NO-ABBREVIATION). New auto-fix entries M1, M2, N1, N2, N3, N4, O2. Loop M is the **empirical-transcript loop** — when `BOOK_DIR/turboscribe/EP##-<slug>.transcript.txt` is present, the agent scans it directly for the failure modes the framing was meant to prevent. Driven by a 5-transcript audit of *Ayyuhal Walad* that exposed systematic phonetic doublings ("Sahih Sitta, sahasita"), mangled names ("tassel wolf" for *Tasawwuf*), and >40 surprise-noise injections.
 
