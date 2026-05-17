@@ -1,0 +1,119 @@
+# Framing: Episode 05: The Method of Living and the Closing Prayer
+
+## Opening directive
+
+Open the episode with a brief welcome, one sentence, followed by a two-to-three sentence summary that names the source, Ayyuhal Walad, Ghazali's letter to a former student, and lands the central question this chapter is going to ask. Do not open with "today we'll discuss". Do not open with "in this episode". Open in the voice of someone closing out a long conversation and wanting the last beats to land cleanly. The summary should make clear that this is the final part of a five-part series, that the chapter contains Ghazali's four positive instructions to balance the four cautions named in the letter's preceding section, and that the letter closes with a long supplication the student is asked to recite after every prayer.
+
+## Background
+
+This chapter covers the closing movement of the letter. After the four cautions on what to refuse, Ghazali names four positive methods: how to treat Allah in your private affairs, how to treat other people, how to choose what knowledge to pursue, and how to handle your food and material provisions. Each method is structured around a relationship. The chapter then closes with the supplication Ghazali writes for the student to carry, a long du'a he asks the student to recite especially after every Salah.
+
+## Audience
+
+Thoughtful seekers, Muslim and otherwise, drawn to the Islamic and Sufi spiritual tradition. The bar is the intelligent listener encountering Ghazali for the first time, without prior academic preparation. Assume curiosity, assume good faith, assume no specialist vocabulary.
+
+## Angle
+
+Faithful exposition with light personal-application beats. The four methods are practical. Let them stay practical. The closing supplication is the letter's full intention compressed into a single sustained address to God. Read enough of it that the listener feels the shape; do not paraphrase its content.
+
+## Central tensions to reach
+
+There are four named tensions in this chapter, and the conversation must reach each one.
+
+First. The way you treat your servant is the test for the way you treat your Lord. Ghazali asks the student to apply the test of asymmetry: you would not accept from your servant what you ask God to accept from you. Sit with the discomfort.
+
+Second. The Prophet's measuring stick, *love for your brother what you love for yourself*, is run alongside Imam Ali's longer expansion of the same teaching to his son al-Hasan. The two versions cover the same ground in different rhythms. Quote both.
+
+Third. The week-to-live thought experiment. If you knew you had a week, what would you study? Ghazali says the question is not hypothetical. It is the question that should organize the week you actually have, every week. Hold the question with the listener; do not deflate it.
+
+Fourth. The stockpiling principle. Ghazali tells the student to stockpile no more than a year, and only if his reliance on God, his Tawakkul, is still weak. The Prophet did not stockpile for the wives whose Tawakkul was perfect. The amount of stockpile tracks the gap in trust. Walk the listener through this calibration.
+
+## Host dynamic
+
+Curious Mind and Patient Teacher.
+
+Host A is the Curious Mind. Bring the listener's real questions. *A week-to-live thought experiment sounds extreme; what's the point of running it?* *Is the stockpile rule actually possible for someone with a family?* Warm, plain language.
+
+Host B is the Patient Teacher. Quotes the chapter directly when discussing each of the four methods. Quotes the Prophet's hadith and Imam Ali's letter to his son al-Hasan. Quotes the closing supplication where called for. Never lectures.
+
+Conversation discipline. Each host completes a thought before the other responds. No interjections like "yeah" or "right" or "exactly" inside the other host's sentence. No talking over.
+
+## Tone constraints
+
+No false enthusiasm. The four methods are demanding. The supplication is long. Allow the conversation to slow down where the chapter slows down. Allow short sentences. Allow silence after the closing line.
+
+## Permission to disagree
+
+Do not. This is faithful exposition. Where the listener might disagree, name the disagreement and continue.
+
+## Three-part focus
+
+Focus 1. The first two methods, how the student treats God, and how the student treats other people. Slow down on the servant analogy. Quote the hadith *qudsi*, *My slave's faith is never complete unless he likes for all human beings what he likes for himself*, and let it land. Quote Imam Ali's letter to his son al-Hasan from Nahj al-Balagha letter 31; read enough of it that the listener hears its rhythm.
+
+Focus 2. The third method, what knowledge to study. The week-to-live thought experiment and the king's-visit thought experiment are paired in the chapter. Walk through them slowly. The Prophet's hadith, *Allah does not look at your faces and your actions, but He looks at your hearts and your intentions*, anchors the beat.
+
+Focus 3. The fourth method, not stockpiling food. Walk through the calibration: stockpile less as trust grows. Aisha, the example of strong Tawakkul, gets no stockpile at all. The Prophet's hadith on the birds leaving the nest hungry and returning full anchors the beat.
+
+Landing. Close with selections from the closing supplication itself. Do not summarize the supplication. Read enough of it, at least the opening petition and the closing names of God, to let it carry the episode out. End with Ghazali's last line: *This book comes to an end with the help of the Absolute Sovereign and the Giver of all.* No host commentary after.
+
+## Pronunciation
+
+Pronounce "Ayyuhal Walad" as "eye-yoo-hal waa-lad". Say it as two fluent words. Do not spell. Do not pause.
+Pronounce "Ghazali" as "gha-zaa-lee". Say it as one fluent word.
+Pronounce "Imam Abu Hamid Muhammad al-Ghazali" as "i-maam a-boo haa-mid mu-ham-mad al-gha-zaa-lee". Use ONCE; thereafter use "Ghazali".
+Pronounce "Ihya Ulum al-Din" as "ih-yaa oo-loom ad-deen". Say it as three fluent runs. Do not abbreviate to "the Ihya". Use the full title every time.
+Pronounce "Aisha" as "aa-i-shah". Say it as one fluent word. Hold the first vowel long.
+Pronounce "Aisha Siddiqa" as "aa-i-shah sid-dee-qah". Say it as one fluent run.
+Pronounce "Imam Ali" as "i-maam a-lee". Say it as one fluent run.
+Pronounce "Nahj al-Balagha" as "nahj al-ba-laa-ghah". Say it as one fluent run. Do not abbreviate to "the Nahj". Use the full title every time.
+Pronounce "Imam Hasan" as "i-maam ha-san". Say it as one fluent run.
+Pronounce "Imam Zayn al-Abidin" as "i-maam zayn al-aa-bi-deen". Say it as one fluent run.
+Pronounce "Sahifa al-Sajjadiyya" as "sa-hee-fa as-saj-jaa-dee-yah". Say it as one fluent run.
+Pronounce "Ahl al-Bayt" as "ahl al-bayt". Say it as one fluent run.
+Pronounce "Sahih Sitta" as "sa-heeh sit-tah". Say it as one fluent run. The source spells it "Sahah Sitta"; the canonical pronunciation lengthens to "sa-heeh".
+Pronounce "Sahih Bukhari" as "sa-heeh bu-khaa-ree". Say it as one fluent run.
+Pronounce "Sahih Muslim" as "sa-heeh mus-lim". Say it as one fluent run.
+Pronounce "Sunan Tirmidhi" as "su-nan tir-mi-thee". Say it as one fluent run.
+Pronounce "Salah" as "sa-laah". Say it as one fluent word.
+Pronounce "Du'a" as "du-aa". Say it as one fluent word.
+Pronounce "Tawakkul" as "ta-WAK-kul". Say it as one fluent word.
+Pronounce "Ihsan" as "ih-SAAN". Say it as one fluent word.
+Pronounce "Fard al-ayn" as "fard al-ayn". Say it as one fluent run.
+Pronounce "Fard Kifaya" as "fard ki-faa-yah". Say it as one fluent run.
+Pronounce "Tawfeeq" as "taw-feeq". Say it as one fluent word.
+Pronounce "Quran" as "qur-aan". Say it as one fluent word.
+Pronounce "Holy Du'a" as "ho-lee du-aa". Say "du-aa" as one fluent word.
+
+Name discipline. Use each long name in full once on first occurrence, then use the short alias for every subsequent reference:
+ - Imam Abu Hamid Muhammad al-Ghazali → Ghazali
+ - Imam Ali ibn Abi Talib → Imam Ali
+ - Imam Hasan ibn Ali → Imam Hasan
+ - Imam Zayn al-Abidin → Imam Zayn
+
+Honorific discipline. Every honorific is spoken in full English ("peace and blessings of Allah be upon him", "peace be upon him", "may Allah be pleased with him", "may Allah have mercy upon him"), never the typographic abbreviation. Each figure's honorific is spoken exactly once per episode, on the first mention. After that, name the figure by alias without re-attaching the honorific.
+
+Do not read this guidance aloud. The phonetics above are for the voice model only.
+
+## Do not (forbidden vocabulary and framings)
+
+Do NOT modernize. The hosts do not mention any of: Twitter, X, social media, algorithm, content creator, internet troll, reply guy, YouTube comment, TikTok, Instagram, podcast, livestream, app, screen time, notification, attention economy, 21st century, "in our modern world", quote-tweet, hashtag, follower count, like, share, repost, doomscroll, hot take, cognitive behavioral therapy, productivity framework, life hack, self-help, wellness, mindfulness app, dopamine hit, deep dive.
+
+The source is a classical text. The conversation stays in the source's own register. If a contemporary parallel is genuinely necessary, name it generically ("public debate", "performance for an audience"), never a named modern platform or product.
+
+Do NOT perform surprise. Do not say: "wow", "that's so interesting", "it's chilling", "it's devastating", "it's terrifying", "it's profound", "it's fascinating", "it's amazing", "oh my god", "right?", "exactly", "no way". Do not gasp. Do not repeat the previous host's last word as a single-word reaction. Trust the listener to register weight without being told.
+
+Do NOT abbreviate the names of major works. Always say "Ihya Ulum al-Din", never "the Ihya" or "EI" or "IUD". Always say "Nahj al-Balagha", never "the Nahj" or "NJB". Always say "Sahih Bukhari" and "Sahih Muslim", never "Sahihayn".
+
+Do NOT restate the central thesis more than twice across the conversation, once at the open and once at the close. Do not re-cite a quote already cited. Do not summarize what was just said. Each beat lands once; the next beat moves forward.
+
+Stay on the source's main content, the four methods, the two hadith on loving for one's brother, the week-to-live thought experiment, the calibrated stockpile, the closing supplication. Historical or biographical background (the Prophet's wives, the chronology of Aisha, the geography of Medina) is mentioned ONLY when it directly explains a beat under discussion, and ONLY ONCE per episode. Do not open with biographical context. Do not return to it after first mention.
+
+Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.
+
+## Upload checklist
+
+1. Open NotebookLM. Create a new notebook for *Ayyuhal Walad, Episode 05*.
+2. Upload `content/podcast/ayyuhal-walad/chapters/ch05-method-and-closing-prayer.txt` as the single source for the notebook.
+3. Paste the contents of `content/podcast/ayyuhal-walad/episodes/EP05-method-and-closing-prayer.txt` into NotebookLM's *Customize* prompt box.
+4. Choose the *Deep Dive* Audio Overview format. Length: *Default*.
+5. Click *Generate*.
