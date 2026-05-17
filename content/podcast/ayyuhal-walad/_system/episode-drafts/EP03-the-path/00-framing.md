@@ -72,6 +72,7 @@ Pronounce "Bay'a" as "BAY-ah". Say it as one fluent word.
 Pronounce "Riyazat" as "ri-YAH-zat". Say it as one fluent word.
 Pronounce "Mujahadah" as "moo-JAH-ha-dah". Say it as one fluent word.
 Pronounce "murid" as "moo-REED". Say it as one fluent word.
+Pronounce "Mureed" as "moo-REED". Say it as one fluent word. Plural "Mureeds" is "moo-REEDZ".
 Pronounce "murshid" as "MUR-shid". Say it as one fluent word.
 Pronounce "Nafs" as "NAFS". Say it as one short fluent word.
 Pronounce "Shaytan" as "shay-TAAN". Say it as one fluent word.
@@ -84,6 +85,7 @@ Pronounce "Tawakkul" as "ta-WAK-kul". Say it as one fluent word. Do not spell it
 Pronounce "Ikhlas" as "ikh-LAAS". Say it as one fluent word. Do not spell it.
 Pronounce "Riya" as "ri-YAH". Say it as one fluent word.
 Pronounce "Dhul-Nun al-Misri" as "dhul-NOON al-MIS-ree". Say it as one fluent phrase. Do not break it into separate words.
+Pronounce "Zun Noon Misri" as "zun-NOON MIS-ree". Say it as one fluent phrase. Do not break it. Do not say "shake stone" or "shay-stone".
 Pronounce "Sahih Bukhari" as "sa-HEEH boo-KHAH-ree". Say it as two fluent words.
 Pronounce "Sahih Muslim" as "sa-HEEH MUS-lim". Say it as two fluent words.
 Pronounce "Ihya Ulum al-Din" as "IH-yah oo-LOOM ad-DEEN". Say it as one fluent phrase. Do not abbreviate.

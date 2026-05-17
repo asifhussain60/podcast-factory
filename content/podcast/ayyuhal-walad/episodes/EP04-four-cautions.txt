@@ -78,6 +78,11 @@ Pronounce "wajib" as "WAH-jib". Say it as one fluent word.
 Pronounce "Shaytan" as "shay-TAAN". Say it as one fluent word.
 Pronounce "Shaykh al-Kamil" as "shaykh al-KAH-mil". Say it as two fluent words.
 Pronounce "Sirat al-Mustaqeem" as "see-RAAT al-mus-ta-QEEM". Say it as one fluent phrase.
+Pronounce "Sirat" as "see-RAAT". Say it as one fluent word.
+Pronounce "Malik ul-Maut" as "MAA-lik ul-MAWT". Say it as one fluent phrase. This is the Angel of Death.
+Pronounce "Munkir Nakeer" as "MUN-kir na-KEER". Say it as two fluent words.
+Pronounce "Hashr" as "HASHR". Say it as one short fluent word.
+Pronounce "Mizaan" as "mee-ZAAN". Say it as one fluent word.
 Pronounce "minbar" as "MIN-bar". Say it as one fluent word.
 Pronounce "fasad" as "fa-SAAD". Say it as one fluent word.
 Pronounce "fasiq" as "FAH-siq". Say it as one fluent word.

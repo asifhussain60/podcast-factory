@@ -64,6 +64,9 @@ Use each long name in full once on first occurrence, then use the alias on every
 - Imam Junaid Baghdadi → Junaid
 - Imam Ali ibn Abi Talib → Imam Ali
 - Imam al-Bukhari → Bukhari
+- Hasan al-Basri → Hasan al-Basri (alias is the same — keep in full each time, but pronounce it fluently)
+- Sufyan al-Thawri → Sufyan
+- Nasir-i Khusraw → Nasir Khusraw
 
 ## Pronunciation
 
@@ -73,6 +76,10 @@ Pronounce "Tahajjud" as "ta-HAH-jood". Say it as one fluent word.
 Pronounce "Mujahadah" as "moo-JAH-ha-dah". Say it as one fluent word.
 Pronounce "Junaid" as "joo-NAYD". Say it as one fluent word.
 Pronounce "Baghdadi" as "bagh-DAH-dee". Say it as one fluent word.
+Pronounce "Hasan al-Basri" as "ha-SAN al-BAS-ree". Say it as two fluent words.
+Pronounce "Sufyan al-Thawri" as "suf-YAAN ath-THAW-ree". Say it as two fluent words.
+Pronounce "Sufyan" as "suf-YAAN" on every subsequent occurrence.
+Pronounce "Nasir-i Khusraw" as "NAA-sir-i khus-RAW". Say it as one fluent phrase. Do not say "Nasiri Khusra".
 Pronounce "Sunnah" as "SOON-nah". Say it as one fluent word.
 Pronounce "Sharia" as "sha-REE-ah". Say it as one fluent word.
 Pronounce "hadith" as "ha-DEETH". Say it as one fluent word.

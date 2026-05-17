@@ -71,6 +71,8 @@ Pronounce "Fard Kifaya" as "FARD ki-FAH-yah". Say it as two fluent words.
 Pronounce "Fard al-ayn" as "FARD al-AYN". Say it as two fluent words.
 Pronounce "tawfeeq" as "taw-FEEQ". Say it as one fluent word.
 Pronounce "Sahih Sitta" as "sa-HEEH SIT-tah". Say it as two fluent words. Do not repeat the word.
+Pronounce "Sahah Sitta" as "sa-HAH SIT-tah". Say it as two fluent words. Do not repeat the word. (The chapter uses this older transliteration of Sahih Sitta.)
+Pronounce "Salaat" as "sa-LAAT". Say it as one fluent word.
 Pronounce "Ahl al-Bayt" as "AHL al-BAYT". Say it as two fluent words.
 Pronounce "Azwaj al-Mutahharat" as "az-WAJ al-mu-TAH-ha-rat". Say it as one fluent phrase. Do not repeat.
 Pronounce "Ummahat al-Mu'mineen" as "um-ma-HAT al-MOO-mi-neen". Say it as one fluent phrase. Do not repeat.
