@@ -6,7 +6,7 @@
 
 This document is the single shared "SECTION 0" contract that every skill in `skills-staging/` and every overlay-managed plugin skill points to. It tells the skill — and the agent reading the skill — exactly how to boot, how to score severity, how to keep output deterministic, and where to write the run report.
 
-If a skill needs to deviate from any clause here, the deviation is named explicitly inside that skill's `cortex-compliance.md` (or playbooks/00-cortex-compliance.md for podcast) with a one-sentence justification.
+If a skill needs to deviate from any clause here, the deviation is named explicitly inside that skill's `cortex-compliance.md` (or inline within `skill.md` for skills that have consolidated their compliance contract) with a one-sentence justification.
 
 ---
 
@@ -17,9 +17,9 @@ Every skill, on invocation, reads in this exact order:
 1. `reference/cortex-challenger-framework.md` — the framework (severity taxonomy, primitives, schema).
 2. `reference/skill-bootstrap.md` — this file.
 3. The skill's own compliance doc:
-   - In-repo staging skills: `skills-staging/<skill>/cortex-compliance.md`.
-   - Podcast (large skill with playbooks): `skills-staging/podcast/playbooks/00-cortex-compliance.md`.
+   - In-repo staging skills: `skills-staging/<skill>/cortex-compliance.md`, OR an inline compliance section inside the skill's `skill.md` for skills that have consolidated (e.g., `repo-surgeon`).
    - Plugin skills with overlays: `reference/skill-overlays/<skill>-cortex-overlay.md`.
+   - Podcast: out of CORTEX scope per its SKILL.md §9; no compliance file required.
 4. The skill's own `SKILL.md` body.
 5. Any per-skill reference files the SKILL.md names explicitly.
 

@@ -37,7 +37,7 @@ This repo has a governed skill ecosystem:
 
 - **Framework:** `reference/cortex-challenger-framework.md` v1.0 — universal rules every skill targets.
 - **Bootstrap contract:** `reference/skill-bootstrap.md` — shared SECTION 0 every skill cites.
-- **Skill registry:** `reference/skill-registry.md` — authoritative per-skill tier + overlay path; secondary index at `skills-staging/README.md`.
+- **Skill registry:** `reference/skill-registry.md` — authoritative per-skill tier, overlay path, capabilities, server prompt registry, execution tiers, and file ownership. Single source of truth.
 - **Master orchestrator:** `.github/agents/journal-orchestrator.agent.md` — routes intent to skills (now includes podcast).
 - **UI reviewer:** `.claude/agents/ui-reviewer.md` — CSS/theme audit agent (runs on Stop hook).
 - **Repo surgeon:** `.github/agents/repo-surgeon.agent.md` (agent procedure) + `skills-staging/repo-surgeon/SKILL.md` (skill contract).

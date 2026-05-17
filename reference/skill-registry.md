@@ -1,36 +1,90 @@
 # Skill Registry
 
-**Purpose:** Single source of truth for every skill in the user's Cowork ecosystem, its CORTEX Challenger Framework compliance tier, and its file ownership claims.
+**Purpose:** Single source of truth for every skill in the user's Cowork ecosystem — compliance tier, file ownership, capabilities, triggers, execution tier.
 
-**Authority:** Anchored to `reference/cortex-challenger-framework.md` v1.0.
+**Authority:** Anchored to `reference/cortex-challenger-framework.md` v1.0. Anything in `framework.md` defers to this file for skill-level detail.
 
 ---
 
-## Active skills
+## Active skills — compliance
 
-| Skill | Tier | Framework version | Status | SKILL.md or overlay path |
-|---|---|---|---|---|
-| **CORTEX** | BASELINE | self-defining | Active (plugin) | `~/.claude/skills/cortex/SKILL.md` |
-| **ADLC** | GOLD | predates framework but compatible | Active (plugin) | `~/.claude/skills/adlc/SKILL.md` |
-| **Podcast** | OUT OF SCOPE (content-prep, by design) | n/a | Active in staging — content-prep skill, intentionally exempt from CORTEX per SKILL.md §9; quality judged by human listening, not automated gates | `journal/skills-staging/podcast/SKILL.md` (content workspace: `journal/content/podcast/<book-slug>/`) |
-| **Journal** | SILVER (target) | v1.0 | Active (plugin) — overlay describes post-compliance behavior | `~/.claude/skills/journal/SKILL.md` + `journal/reference/skill-overlays/journal-cortex-overlay.md` |
-| **Refine** | BRONZE (target) | v1.0 | Active (plugin) — overlay applies | `~/.claude/skills/refine/SKILL.md` + `journal/reference/skill-overlays/refine-cortex-overlay.md` |
-| **Tell-me** | SILVER (target) | v1.0 | Active (plugin) — overlay applies | `~/.claude/skills/tell-me/SKILL.md` + `journal/reference/skill-overlays/tell-me-cortex-overlay.md` |
-| **Clean-commit** | BRONZE (target) | v1.0 | Active (plugin) — overlay applies | `~/.claude/skills/clean-commit/SKILL.md` + `journal/reference/skill-overlays/clean-commit-cortex-overlay.md` |
-| **CSS-theme-sync** | SILVER (target) | v1.0 | WIP in staging | `journal/skills-staging/css-theme-sync/skill.md` + `cortex-compliance.md` |
-| **Repo-surgeon** | BRONZE (target) | v1.0 | WIP in staging | `journal/skills-staging/repo-surgeon/skill.md` + `cortex-compliance.md` |
-| **UI-modernizer** | SILVER (target) | v1.0 | WIP in staging | `journal/skills-staging/ui-modernizer/skill.md` + `cortex-compliance.md` |
-| **Usage-auditor** | BRONZE (target) | v1.0 | WIP in staging (spec only) | `journal/skills-staging/usage-auditor/skill.md` + `cortex-compliance.md` |
+| Skill | Compliance Tier | Status | Definition path |
+|---|---|---|---|
+| **CORTEX** | BASELINE | Active (plugin) | `~/.claude/skills/cortex/SKILL.md` |
+| **ADLC** | GOLD | Active (plugin) | `~/.claude/skills/adlc/SKILL.md` |
+| **Journal** | SILVER (target) | Active (plugin) — overlay applies | `~/.claude/skills/journal/SKILL.md` + `journal/reference/skill-overlays/journal-cortex-overlay.md` |
+| **Refine** | BRONZE (target) | Active (plugin) — overlay applies | `~/.claude/skills/refine/SKILL.md` + `journal/reference/skill-overlays/refine-cortex-overlay.md` |
+| **Tell-me** | SILVER (target) | Active (plugin) — overlay applies | `~/.claude/skills/tell-me/SKILL.md` + `journal/reference/skill-overlays/tell-me-cortex-overlay.md` |
+| **Clean-commit** | BRONZE (target) | Active (plugin) — overlay applies | `~/.claude/skills/clean-commit/SKILL.md` + `journal/reference/skill-overlays/clean-commit-cortex-overlay.md` |
+| **Podcast** | OUT OF SCOPE (content-prep) | Active in staging — exempt from CORTEX per SKILL.md §9; quality judged by human listening | `journal/skills-staging/podcast/SKILL.md` |
+| **CSS-theme-sync** | SILVER (target) | WIP in staging | `journal/skills-staging/css-theme-sync/skill.md` (+ `cortex-compliance.md`) |
+| **Repo-surgeon** | BRONZE (target) | WIP in staging — consolidated to single skill.md | `journal/skills-staging/repo-surgeon/skill.md` |
+| **UI-modernizer** | SILVER (target) | WIP in staging | `journal/skills-staging/ui-modernizer/skill.md` (+ `cortex-compliance.md`) |
+| **Usage-auditor** | BRONZE (target) | WIP in staging (spec only) | `journal/skills-staging/usage-auditor/skill.md` (+ `cortex-compliance.md`) |
+
+All skills target **CORTEX Challenger Framework v1.0**. The framework version is implicit unless a row says otherwise.
 
 ## Retired skills
 
-| Skill | Status | Retired | Notes |
-|---|---|---|---|
-| **Trip-log** | RETIRED | 2026-05-16 | Memory tombstoned; plugin file still present (read-only) — disable via Cowork plugin settings to fully remove |
+| Skill | Retired | Notes |
+|---|---|---|
+| **Trip-log** | 2026-05-16 | Memory tombstoned; plugin file still present (read-only) — disable via Cowork plugin settings to fully remove |
 
 ---
 
-## Tier meanings
+## Active skills — capabilities
+
+Detail on what each skill owns, what triggers it, and what it explicitly defers to other skills.
+
+### Memoir core (framework-defined, Cowork T3)
+
+| Skill | Purpose | Owns | Triggers |
+|---|---|---|---|
+| `journal` | Memoir chapter writing + refinement (workflow in `content/babu-memoir/_system/journal-workflow-v2.md`) | `content/babu-memoir/chapters/`, `content/babu-memoir/_system/snapshots/`, `content/babu-memoir/_system/scratchpad/` | "journal", "continue writing", "next chapter", "refine chapter", "/journal work on chapter N" |
+
+### Engineering skills (Cowork T3 — CORTEX-compliant)
+
+| Skill | Purpose | Owns | Does NOT own | Triggers |
+|---|---|---|---|---|
+| `css-theme-sync` | Theme parity validation + auto-fix | Theme tokens across `site/css/` | Theme palette decisions (tweaker handles that) | "validate themes", "theme parity" |
+| `ui-modernizer` | Execute UI modernization phases | CSS + component changes on the site | Theme definitions (defers to css-theme-sync) | "modernize ui", "run ui phases" |
+| `repo-surgeon` | Holistic repo audit + repair (4 passes: Structure / Code / Architecture / Brittleness) | Structural integrity, orphan cleanup, registry alignment | Content quality (memoir voice), CSS detail | "repo review", "architectural audit", "cleanup sweep", "root clutter" |
+| `usage-auditor` | Audit Claude-API spend + forecast | Spend report against `MONTHLY_CAP` | Budget enforcement (proxy middleware) | "audit usage", "spend report" |
+
+### Content-prep skills (out of CORTEX scope — quality judged by human)
+
+| Skill | Purpose | Owns | Triggers |
+|---|---|---|---|
+| `podcast` | NotebookLM source-bundle prep — per-episode draft bundle that steers the Audio Overview into a focused two-host conversation | `content/podcast/` (registry, books, chapters, episodes) | "podcast", "/podcast", "@podcast", "new episode", "next episode", "make this a podcast", "NotebookLM episode", "audio overview", "turn this into a podcast" |
+
+---
+
+## Execution tiers
+
+| Tier | Runner | Budget | Latency |
+|---|---|---|---|
+| T0 | Deterministic code | Free | <10ms |
+| T1 | Haiku | ~$0.001/call | <2s |
+| T2 | Sonnet | ~$0.01/call | <10s |
+| T3 | Cowork (Claude Code) | ~$0.10–1.00/session | 30s–5min |
+
+---
+
+## Server prompt registry
+
+Named prompts under `server/src/prompts/` registered at proxy startup via `server/src/prompts/index.js`:
+
+| Prompt | Used by route | Execution tier |
+|---|---|---|
+| `refine-general` | `POST /api/refine` — voice-DNA refinement (the AI drawer on the site) | T2 |
+| `theme-swatches` | `POST /api/theme-swatches` (tweaker) | T2 |
+| `theme-review` | `POST /api/theme-review` (tweaker) | T2 |
+
+When adding a prompt: register in `server/src/prompts/index.js` and add a row here. `repo-surgeon` Pass 3 rule A3 enforces bidirectional sync.
+
+---
+
+## Compliance tier meanings
 
 (See `reference/cortex-challenger-framework.md` Section 5 for full definitions.)
 
@@ -41,13 +95,19 @@
 - **PRE-COMPLIANCE** — Skill exists but framework not yet applied
 - **BASELINE** — Defines the framework rules others adopt (CORTEX itself)
 
-"Target" suffix (e.g., "SILVER (target)") means: the overlay or compliance doc has been written; the listed tier reflects the post-application state. Until overlays are merged into plugin skills (via plugin rebuild), the actual runtime tier is PRE-COMPLIANCE.
+"Target" suffix means: the overlay or compliance doc has been written; the listed tier reflects the post-application state. Until overlays are merged into plugin skills (via plugin rebuild), the actual runtime tier is PRE-COMPLIANCE.
+
+## Bootstrap & severity
+
+Every engineering skill cites `reference/skill-bootstrap.md` at SECTION 0 and uses the universal **P0–P3** severity taxonomy (P0 immutable / halt, P1 high / re-run after fix, P2 medium / proceed with explicit waiver, P3 advisory). Legacy labels (Blocker, Warning, Critical, High, Medium, Low, MAJOR, BLOCKER, NIT) are deprecated.
+
+`podcast` is content-prep and is out of CORTEX scope per its SKILL.md §9 — no DoR gates, no convergence loops, no `_challenger-report.yml`. Its quality contract is its Section 7 manual gate.
 
 ---
 
 ## File ownership
 
-Per the framework's Section 7 cross-skill coordination contract, the following file-ownership claims govern write access. Skills that need to write to a file owned by another skill must use a staging file + apply step.
+Per the framework's Section 7 cross-skill coordination contract, the following file-ownership claims govern write access. Skills writing to a file owned by another skill must use a staging file + apply step.
 
 | File / directory | Owner |
 |---|---|
@@ -87,45 +147,56 @@ Per the framework's Section 7 cross-skill coordination contract, the following f
 
 ---
 
-## Compliance audit log
+## Agents
 
-| Date | Auditor | Scope | Result |
-|---|---|---|---|
-| 2026-05-16 | (cowork session) | Full ecosystem audit | All non-CORTEX/ADLC skills at PRE-COMPLIANCE; framework v1.0 authored; overlays / compliance docs created; targets recorded above |
-| 2026-05-16 | (cowork session, later) | Podcast redesign | Replaced 16-stage pipeline with lighter NotebookLM source-bundle agent; podcast moved out of CORTEX scope (content-prep skill, quality judged by human); new content workspace at `podcast/` |
-| 2026-05-16 | (cowork session) | Content reorg | Introduced `content/babu-memoir/` and `content/podcast/<book>/` tree. Memoir refs moved from `reference/` to `content/babu-memoir/_system/`. Podcast moved to `content/podcast/ayyuhal-walad/` with single-txt episodes built by `scripts/podcast/build_episode_txt.py`. `reference/` now holds only repo-wide skill governance. File-ownership table updated accordingly. |
-| 2026-05-16 | (cowork session, later) | Episode-txt format + chapters invariant | Bug: initial build script glommed all 5–6 draft files into the deliverable (8K–10K words, 2× NotebookLM ceiling). Rewritten to emit CUSTOMIZE PROMPT + SOURCE only, gated to [500, 5500] words per `notebooklm-best-practices.md`. New invariant enforced: `<book>/chapters/` must be non-empty before any episode is built. Populated 22 chapters for Ayyuhal Walad from source sections. |
-| 2026-05-16 | (cowork session, later) | Phase 0 pipeline + chapter-as-SOURCE + enrichment whitelist | v3.3: strict 1:1 chapter ↔ episode mapping. Chapter file IS the SOURCE block (no more `01-source-primary.md` in drafts). New `content/podcast/_system/enrichment-sources.md` whitelist (Tier 1 author corpus → Tier 5 Ismaili tradition → Tier 6 near-Ghazali Sufis). Phase 0 protocol (0a–0g) encoded in `SKILL.md` §1.5. A/B/C rule: rewrite-for-articulation allowed; 1,500-floor / 2,500–3,500-target / 4,500-ceiling; ≤60% outside enrichment. Build script signature `<BOOK_DIR> <EP##-slug>` with slug-parity invariant. Ayyuhal Walad migrated: 22 thin chapters archived, 5 substantive promoted as enrichment-pending. |
-| 2026-05-16 | (cowork session, later) | Chapter IS source + Phase 0 enrichment protocol | Strict 1:1 chapter ↔ episode mapping adopted (chapter slug == episode slug). Eliminated `01-source-primary.md`; chapter file IS the SOURCE. Phase 0 rewritten: extract → English refinement → Arabic phonetic pass → chapter design (meaningful separation, balanced size) → enrichment (Tier 1–7 whitelist; ≤60% outside material). New whitelist file `content/podcast/_system/enrichment-sources.md` (author's corpus, Quran, hadith, Imam Ali, Ismaili tradition, Sufi tradition, modern reference). Build script call signature changed to `BOOK_DIR EP##-<slug>` with slug-match chapter lookup. |
-| 2026-05-16 | (cowork session, later) | NotebookLM hygiene: HTML-comment stripping + meta-prose anti-pattern | Bug caught by Asif: chapter files (plain .txt) carried `<!-- ENRICHMENT STATUS -->` headers + "This file is a refined presentation…" paragraphs that NotebookLM would read out loud. `build_episode_txt.py` now strips all `<!-- ... -->` blocks and hard-refuses any chapter containing meta-prose tells (`This file is`, `Phase 0`, `Nothing has been added…`, etc.). All 5 Ayyuhal Walad chapters cleaned. Protocol encoded in SKILL.md §6, Quality Gate item 4a, orchestrator content invariants, framework.md Rule 7. |
-| 2026-05-16 | (cowork session, later) | podcast-challenger agent (semantic-quality gate) | New agent `.github/agents/podcast-challenger.agent.md`. Complements `build_episode_txt.py` (structural gate) by validating semantic quality: citation authenticity, phonetic coverage, enrichment depth, framing 4-part structure, NotebookLM literalness. 30 checks across 6 categories (Authenticity, NotebookLM literalness, Pronunciation, Enrichment & depth, Articulation & shape, Framing integrity). Convergence loop ≤3 iterations. Auto-fixes deterministic issues (em-dashes, cross-episode refs, honorific repetition, lexicon parity); flags semantic findings. Sidecar report at `BOOK_DIR/_system/challenger-report.md`. Orchestrator ship-readiness gate refuses upload intents until `SHIP-READY` verdict. Podcast skill Phase 4 adds challenger-to-convergence step before compile. |
-| 2026-05-16 | (cowork session, later) | Two-file deliverable model (v3.4 architecture refactor) | Architecture inversion caught by Asif: v3.3.x had `episodes/EP##.txt` concatenating CUSTOMIZE PROMPT + SOURCE blocks, requiring per-upload copy-paste split. New model: `chapters/chNN-<slug>.txt` IS the SOURCE (uploaded directly), `episodes/EP##-<slug>.txt` IS the CUSTOMIZE PROMPT only (pasted into Customize box). `build_episode_txt.py` rewritten — validates chapter as-is (no transformation), emits customize-prompt-only episode txt from `00-framing.md`. Chapter metadata moved from inline HTML comments to sidecar `BOOK_DIR/_system/enrichment-log.md`. Chapter files are upload-ready by construction. All 5 Ayyuhal Walad chapters + framings updated; episode txts shrink from ~4,000 to ~900 words each. podcast-challenger bumped to v1.1 with scope clarifications. |
+Agents live outside the skill model. See `framework.md` §Agents for the full table. Currently:
 
-Next audit: when any skill's tier is meaningfully updated (overlay merged into plugin SKILL.md, WIP skill graduates, etc.) — record date, auditor, scope, and result.
+- `CORTEX` — governance/vacuum (`.github/agents/CORTEX.agent.md`)
+- `journal-orchestrator` — skill routing + canonical-write protection (`.github/agents/journal-orchestrator.agent.md`)
+- `repo-surgeon` — full procedure absorbed into `skills-staging/repo-surgeon/skill.md`; thin agent stub at `.github/agents/repo-surgeon.agent.md` for subagent registration only
+- `podcast-challenger` — semantic-quality reviewer (`.github/agents/podcast-challenger.agent.md`)
+- `ui-reviewer` — CSS/theme review on Stop hook (`.claude/agents/ui-reviewer.md`)
 
 ---
 
-## How to add a new skill to the registry
+## Compliance audit log
 
-1. Author the skill's SKILL.md (or skill.md for staging).
-2. Author its `cortex-compliance.md` (in-skill) or its `skill-overlays/<name>-cortex-overlay.md` (for read-only plugins).
+| Date | Scope | Result |
+|---|---|---|
+| 2026-05-16 | Full ecosystem audit | All non-CORTEX/ADLC skills at PRE-COMPLIANCE; framework v1.0 authored; overlays / compliance docs created |
+| 2026-05-16 | Podcast redesign | 16-stage pipeline replaced with NotebookLM source-bundle agent; podcast moved out of CORTEX scope; new content workspace at `content/podcast/` |
+| 2026-05-16 | Content reorg | `content/` tree introduced (`babu-memoir/`, `podcast/<book>/` siblings). Memoir refs moved from `reference/` to `content/babu-memoir/_system/`. `reference/` now holds only repo-wide skill governance |
+| 2026-05-16 | Podcast pipeline v3.3 | Strict 1:1 chapter ↔ episode mapping; chapter IS the SOURCE; Phase 0 protocol (extract → English refinement → Arabic phonetic pass → chapter design → enrichment); enrichment whitelist at `content/podcast/_system/enrichment-sources.md` |
+| 2026-05-16 | NotebookLM hygiene | `build_episode_txt.py` strips HTML comments + hard-refuses meta-prose tells in chapter and framing files |
+| 2026-05-16 | podcast-challenger agent | New semantic-quality gate at `.github/agents/podcast-challenger.agent.md`. 30 checks across 6 categories. Convergence ≤3 iterations. Sidecar report at `BOOK_DIR/_system/challenger-report.md`. Orchestrator refuses "ready for upload" intents until `SHIP-READY` |
+| 2026-05-16 | Two-file deliverable v3.4 | `chapters/chNN-<slug>.txt` IS the SOURCE (uploaded directly); `episodes/EP##-<slug>.txt` IS the CUSTOMIZE PROMPT only. `build_episode_txt.py` rewritten to validate chapter as-is + emit prompt-only episode txt |
+| 2026-05-17 | Consolidation + root cleanup | `_system/legacy/` + `_system/meta/` removed from Ayyuhal Walad; stale dated memoir snapshots removed; root `.env.example` + `index.html` removed; `repo-surgeon` trinity collapsed to single `skill.md` + thin agent stub; `skills-staging/README.md` merged into this file |
+
+Next audit: when any skill's tier is meaningfully updated (overlay merged into plugin SKILL.md, WIP skill graduates) — record date, scope, and result.
+
+---
+
+## Maintenance procedures
+
+### Add a new skill
+
+1. Author `skill.md` (in-skill) or overlay (`skill-overlays/<name>-cortex-overlay.md`) for read-only plugin skills.
+2. Author `cortex-compliance.md` next to the skill (if in `skills-staging/`).
 3. Self-assess against the framework's adoption checklist (Section 4 of framework).
-4. Determine the target tier.
-5. Add a row to the "Active skills" table above with the framework version targeted and the SKILL.md / overlay path.
-6. If the skill claims write ownership over any files, add to "File ownership" table.
-7. Update the audit log.
+4. Add rows to "Active skills — compliance" and "Active skills — capabilities" tables above.
+5. If the skill claims write ownership over any file, add to "File ownership" table.
+6. Update audit log.
 
-## How to graduate a skill's tier
+### Graduate a skill's tier
 
 1. Apply outstanding gaps from the skill's compliance doc.
-2. Re-self-assess against framework's adoption checklist.
-3. If percentage applicable items satisfied increased into the next tier band, update the registry table.
-4. Add a row to the audit log.
+2. Re-self-assess against the framework's adoption checklist.
+3. If applicable items satisfied increased into the next tier band, update the registry.
+4. Add an audit log row.
 
-## How to deprecate / retire a skill
+### Deprecate / retire a skill
 
-1. Add to "Retired skills" table.
-2. Note retirement date and reason.
-3. If files owned by the retired skill should pass to another owner, update "File ownership" table.
-4. Remove from "Active skills" table.
-5. Update audit log.
+1. Add to "Retired skills" table with retirement date and reason.
+2. If files owned by the retired skill should pass to another owner, update "File ownership" table.
+3. Remove from "Active skills" tables.
+4. Update audit log.
