@@ -26,7 +26,7 @@ CONTRACT RESOLUTION
 
 OUTPUT (per contract.source_type)
 
-  memoir:        content/podcast/babu-memoir/...
+  memoir:        content/podcast/from-memoir/...
   book-chapter:  content/podcast/<book_slug>/...
   article:       content/podcast/<book_slug>/...
 
@@ -275,7 +275,7 @@ CH_PREFIX_RE = re.compile(r"^ch(\d+)-(.+)$")
 @dataclass
 class ResolvedChapter:
     path: Path
-    source_bucket: str  # "babu-memoir" or a book slug
+    source_bucket: str  # "from-memoir" or a book slug
     chapter_number: int | None
     chapter_slug: str   # the slug after ch## (e.g. "man" from "ch01-man")
 
@@ -301,13 +301,13 @@ def resolve_chapter_ref(ref: str) -> ResolvedChapter:
             rel = literal.relative_to(CONTENT_DIR)
             parts = rel.parts
             if parts[0] == "babu-memoir":
-                bucket = "babu-memoir"
+                bucket = "from-memoir"
             elif parts[0] == "podcast" and len(parts) >= 2:
                 bucket = parts[1]
             else:
                 bucket = parts[0]
         except ValueError:
-            bucket = "babu-memoir"  # fallback
+            bucket = "from-memoir"  # fallback
         num, slug = parse_chapter_filename(literal)
         return ResolvedChapter(literal, bucket, num, slug)
 
@@ -316,7 +316,7 @@ def resolve_chapter_ref(ref: str) -> ResolvedChapter:
     if memoir_candidate.exists():
         assert_boundary_safe(memoir_candidate)
         num, slug = parse_chapter_filename(memoir_candidate)
-        return ResolvedChapter(memoir_candidate, "babu-memoir", num, slug)
+        return ResolvedChapter(memoir_candidate, "from-memoir", num, slug)
 
     # 3. Any podcast book chapters
     for book_chapters in sorted(PODCAST_DIR.glob("*/chapters")):
@@ -377,8 +377,8 @@ def stub_contract(chapter: ResolvedChapter) -> dict[str, Any]:
     return {
         "chapter_ref": chapter.path.stem,
         "slug": chapter.chapter_slug,
-        "source_type": "memoir" if chapter.source_bucket == "babu-memoir" else "book-chapter",
-        "book_slug": None if chapter.source_bucket == "babu-memoir" else chapter.source_bucket,
+        "source_type": "memoir" if chapter.source_bucket == "from-memoir" else "book-chapter",
+        "book_slug": None if chapter.source_bucket == "from-memoir" else chapter.source_bucket,
         "episode_number": chapter.chapter_number,
         "title": "[TODO] Episode title",
         "audience": "[TODO] Concrete audience description.",
@@ -734,7 +734,7 @@ def write_if_needed(path: Path, content: str, force: bool, written: list[Path], 
 
 
 def emit_bundle(chapter: ResolvedChapter, c: Contract, force: bool) -> None:
-    bucket = chapter.source_bucket if chapter.source_bucket != "babu-memoir" else "babu-memoir"
+    bucket = chapter.source_bucket if chapter.source_bucket != "from-memoir" else "from-memoir"
     if c.get("source_type") == "book-chapter" and c.get("book_slug"):
         bucket = c.get("book_slug")
     bucket_root = PODCAST_DIR / bucket

@@ -88,7 +88,7 @@ You do NOT review:
 - The MP3 output of NotebookLM (only the upstream sources: chapters + framings).
 - The `02-key-passages.md` / `03-context-pack.md` / `04-discussion-spine.md` / `99-show-notes.md` authoring scaffolds (they do not flow to NotebookLM).
 
-**You DO review** memoir-derived bundles when they reach this skill via Extract Mode. `content/podcast/babu-memoir/chapters/*.txt` and their matching `chapter-contracts/*.yml` are in-scope just like any other book. The sanctioned crossing (SKILL.md §9) makes them podcast artifacts once extracted; the source memoir files at `content/babu-memoir/chapters/*.txt` are read-only inputs to the adapter and are NOT this agent's responsibility.
+**You DO review** memoir-derived bundles when they reach this skill via Extract Mode. `content/podcast/from-memoir/chapters/*.txt` and their matching `chapter-contracts/*.yml` are in-scope just like any other book. The sanctioned crossing (SKILL.md §9) makes them podcast artifacts once extracted; the source memoir files at `content/babu-memoir/chapters/*.txt` are read-only inputs to the adapter and are NOT this agent's responsibility.
 
 ---
 

@@ -28,7 +28,7 @@ chapter_ref: ch01-man
 slug: man
 
 # REQUIRED. Source bucket — determines output location.
-#   memoir         → content/podcast/babu-memoir/
+#   memoir         → content/podcast/from-memoir/
 #   book-chapter   → content/podcast/<book-slug>/    (book_slug below)
 #   article        → content/podcast/<article-slug>/
 source_type: memoir

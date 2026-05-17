@@ -27,7 +27,7 @@ First match wins (per `extract_chapter.py` resolution rules):
 Verify the resolved file exists. Missing chapter is a hard error — do not invent one. Report the resolved path back.
 
 ### 2. Determine the source bucket and contract path
-- Memoir chapter → bucket = `babu-memoir`, contract at `content/podcast/babu-memoir/chapter-contracts/<slug>.yml`
+- Memoir chapter → bucket = `from-memoir`, contract at `content/podcast/from-memoir/chapter-contracts/<slug>.yml`
 - Book chapter → bucket = `<book-slug>` (from path), contract at `content/podcast/<book-slug>/chapter-contracts/<slug>.yml`
 
 Where `<slug>` is the chapter filename stripped of the `ch##-` prefix and `.txt` suffix.

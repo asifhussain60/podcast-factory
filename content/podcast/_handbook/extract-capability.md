@@ -57,7 +57,7 @@ content/podcast/<bucket>/
 
 No `01-source-primary.md`. Under v3.4's two-file deliverable model the chapter file IS the source — there is no second copy in the draft folder. See SKILL.md §0 Invariant 1.
 
-`<bucket>` is `babu-memoir` for memoir chapters, or `<book_slug>` for book chapters.
+`<bucket>` is `from-memoir` for memoir chapters, or `<book_slug>` for book chapters.
 
 Downstream, `build_episode_txt.py <bucket-root> EP##-<slug>` emits the final `episodes/EP##-<slug>.txt` (the customize-prompt-only file pasted into NotebookLM's Customize box).
 
@@ -84,19 +84,19 @@ A read that resolves into a prohibited path exits with `BOUNDARY VIOLATION` and 
 
 ```
 $ python3 scripts/podcast/extract_chapter.py ch01-man
-NOTE: no contract found — wrote stub at content/podcast/babu-memoir/chapter-contracts/man.yml. Edit it and re-run with --force.
+NOTE: no contract found — wrote stub at content/podcast/from-memoir/chapter-contracts/man.yml. Edit it and re-run with --force.
 
 # Edit the stub: fill audience, key_tensions, tone_constraints, title.
 
 $ python3 scripts/podcast/extract_chapter.py ch01-man --force
 Extracted EP01-man from ch01-man.txt
-  Source bucket: babu-memoir
-  Episode draft: content/podcast/babu-memoir/_system/episode-drafts/EP01-man
+  Source bucket: from-memoir
+  Episode draft: content/podcast/from-memoir/_system/episode-drafts/EP01-man
   Files written: 7
   Files unchanged: 0
 
 Next: build the customize-prompt episode txt:
-  python3 scripts/podcast/build_episode_txt.py content/podcast/babu-memoir EP01-man
+  python3 scripts/podcast/build_episode_txt.py content/podcast/from-memoir EP01-man
 ```
 
 ## Worked example — re-extract a book chapter
@@ -143,7 +143,7 @@ The skill chooses where to cut and what to title. That decision is editorial and
 
 Source: `content/babu-memoir/chapters/ch01-man.txt` (6,576 words — over 5,500, split required).
 
-Derivatives in `content/podcast/babu-memoir/chapters/`:
+Derivatives in `content/podcast/from-memoir/chapters/`:
 
 | Derivative | Word count | Content arc |
 |---|---|---|
