@@ -58,12 +58,14 @@ Emit **one paragraph**, no headers, no bullets, no blank lines inside. The parag
 
 **Token economy**: omit articles where unambiguous, prefer single verbs over phrasal verbs, drop adjectives that do not constrain behavior.
 
-### 5. Output discipline
+### 5. Output discipline (hard rules)
 
-- Emit **only** the paragraph. No preamble (`Here is the refined prompt:`), no postamble (`Let me know if you want changes.`), no code fence, no headers, no metadata.
-- Start the first character of your response with the paragraph's first word.
-- End with the closing imperative period. Nothing follows.
+- Emit **only** the paragraph. The very first character of your response is the paragraph's first word (an imperative verb).
+- **Do not restate your task.** Forbidden openers include but are not limited to: "Produce one compact...", "Here is...", "The refined prompt is...", "I will now emit...", "Emit one artifact;" as a standalone framing line.
+- No preamble, no postamble (`Let me know if you want changes.`), no code fence, no markdown headers, no labels, no metadata, no signature.
+- End with the closing imperative period. Nothing follows — no trailing notes, no agent-id, no usage stats (the orchestrator strips those, but do not emit them yourself).
 - Single paragraph means no blank lines inside the output and no line breaks except those imposed by the terminal at word boundaries.
+- If you catch yourself writing a meta-sentence about what you are about to produce, delete it before responding.
 
 ## Determinism contract
 
