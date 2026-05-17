@@ -63,6 +63,8 @@ content/
 | `journal-orchestrator` | `.github/agents/journal-orchestrator.agent.md` | Skill routing + canonical-write protection |
 | `repo-surgeon` | `.github/agents/repo-surgeon.agent.md` | Holistic architecture audit, orphan cleanup, root hygiene, canonical-file write guards |
 | `podcast-challenger` | `.github/agents/podcast-challenger.agent.md` | Semantic-quality review of podcasted-book chapters + framings + Extract Mode contracts; convergence loop (≤3 iterations) before any bundle ships to NotebookLM |
+| `podcast-extract` | `.github/agents/podcast-extract.agent.md` | Single-chapter → NotebookLM bundle fast path. Thin wrapper around `scripts/podcast/extract_chapter.py`; zero handbook pre-reads. Invoked via `/extract-chapter <ref>`. Distinct from the full `/podcast` skill (Series Mode). |
+| `refine-prompt` | `.github/agents/refine-prompt.agent.md` | Refines a raw request into one compact instruction-paragraph for Claude Opus 4.7 / Claude Code. Reads externalized Operating Contract; invoked via `/refine-prompt`. |
 | `ui-reviewer` | `.claude/agents/ui-reviewer.md` | CSS/theme review (runs on Stop hook) |
 | `CORTEX` (DEPRECATED 2026-05-17) | `.github/agents/CORTEX.agent.md` | No longer routed. Responsibilities absorbed by `repo-surgeon` (governance/vacuum) and `journal-orchestrator` (canonical-write protection). The CORTEX **skill** at `~/.claude/skills/cortex/` remains active as the framework BASELINE — only the standalone agent is deprecated. |
 
