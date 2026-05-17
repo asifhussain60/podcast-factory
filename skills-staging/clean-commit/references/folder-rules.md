@@ -6,56 +6,76 @@ Known folder layouts for Asif's projects. When auditing a folder, match it again
 
 ## Journal Repo ("What I Wish Babu Taught Me")
 
-Canonical structure:
+Canonical structure (v3.5+, post-podcast-restructure):
 
 ```
 journal/
   .git/
   .gitignore
-  chapters/               # Memoir chapter files (ch00-intro.txt, ch01-man.txt, etc.)
-    snapshots/            # Point-in-time chapter snapshots
-  reference/              # Living reference docs (incident-bank.md, quotes-library.txt, etc.)
-  scratchpad/             # Working drafts (scratchpad-*.txt, scratch-*.txt)
-  trips/                  # Trip folders, each self-contained
-    {year}-{month}-{slug}/
-      trip.yaml
-      voice-guide.md
-      memoir-extracts.md
-      journal/
-        day-{NN}.md
-      photos/
-        day-{NN}/
-      dayone/
-        day-{NN}-dayone.md
-    {year}-{month}-daily/  # Non-trip daily logs (monthly rolling)
-      trip.yaml
-      journal/
-        {YYYY-MM-DD}.md
-      dayone/
-  gpt/                    # GPT prompt archives (read-only reference)
+  framework.md                       # Cross-skill governance contract
+  content/
+    _shared/arabic/                  # Cross-skill Arabic phonetic reference (only sanctioned cross-skill data)
+    babu-memoir/                     # The memoir
+      chapters/                      # ch00-intro.txt, ch01-man.txt, etc.
+      _system/                       # Voice fingerprint, master context, quotes library,
+                                     #   clinic library, scratchpad, snapshots, workflow,
+                                     #   scratchpad-markers, etc.
+    podcast/                         # Podcast workspace
+      _README.md
+      library/                       # Source materials by category
+        books/<book-slug>/           # Multi-chapter long-form works
+          _system/                   # Source PDF, episode-drafts, scratchpad,
+                                     #   pronunciation, editorial-notes, enrichment-log,
+                                     #   challenger-report
+          chapters/                  # chNN-<slug>.txt (NotebookLM SOURCE files)
+          episodes/                  # EP##-<slug>.txt (Customize prompt files)
+          turboscribe/               # TurboScribe transcripts after audio renders
+          chapter-contracts/         # Per-chapter Extract Mode contracts
+        articles/                    # Single essays / journal pieces
+        documents/                   # Reports, white papers
+        lectures/                    # Recorded talks, sermons
+        interviews/                  # Q&A transcripts
+        letters/                     # Epistolary works
+      .skill/                        # Podcast-skill internals (hidden by leading dot)
+        registry.md                  # Cross-book episode index
+        handbook/                    # Book-agnostic refs + templates
+        archive/                     # Superseded book snapshots
+  scripts/
+    memoir/                          # auto_delta, save_snapshot, refresh_all_snapshots, etc.
+    podcast/                         # build_episode_txt, extract_chapter, audit_transcript
+    site/                            # sync_chapters
+  skills-staging/                    # Skill source-of-truth (canonical SKILL.md files)
+  reference/                         # Skill-registry, challenger framework, bootstrap, overlays
+  .github/agents/                    # Agent definitions
+  site/                              # Babu App static site
+  docs/                              # Architecture HTMLs
 ```
 
 ### What belongs where
 
 | File type | Belongs in | Notes |
 |---|---|---|
-| Chapter files (.txt) | `chapters/` | Named ch{NN}-{slug}.txt |
-| Incident bank, quotes, voice analysis | `reference/` | Living docs, updated regularly |
-| Working drafts | `scratchpad/` | Prefixed with scratch- or scratchpad- |
-| Trip entries | `trips/{slug}/journal/` | Never in root or chapters |
-| DayOne exports | `trips/{slug}/dayone/` | Never loose in trips/ |
-| Trip metadata | `trips/{slug}/trip.yaml` | One per trip folder |
-| Photos | `trips/{slug}/photos/` | Organized by day |
-| GPT prompts | `gpt/` | Archive, rarely changed |
+| Memoir chapter files (.txt) | `content/babu-memoir/chapters/` | Named ch{NN}-{slug}.txt |
+| Memoir workflow + reference | `content/babu-memoir/_system/` | journal-workflow-v2.md, voice-fingerprint.md, quotes-library.txt, etc. |
+| Podcast book chapters | `content/podcast/library/books/<book>/chapters/` | Named ch{NN}-{slug}.txt; uploaded to NotebookLM as SOURCE |
+| Podcast episode prompts | `content/podcast/library/books/<book>/episodes/` | Built from 00-framing.md by build_episode_txt.py |
+| Per-chapter Extract contracts | `content/podcast/library/<category>/<book>/chapter-contracts/` | YAML schema in .skill/handbook/chapter-contract.template.yml |
+| Skill handbook refs (podcast) | `content/podcast/.skill/handbook/` | Book-agnostic; book-bound = `<book>/_system/` |
+| Episode registry | `content/podcast/.skill/registry.md` | Cross-book monotonic EP# index |
+| Skill source-of-truth | `skills-staging/<skill>/SKILL.md` | Tracked in git; install copies go to Claude Code per-machine |
+| Agent definitions | `.github/agents/<name>.agent.md` | Plus a thin wrapper at `.claude/agents/<name>.md` for per-machine load |
+| Cross-skill governance | `framework.md`, `reference/skill-registry.md` | Authoritative; every cross-skill operation reads these |
 
 ### What does NOT belong
 
 | Pattern | Why it's sprawl |
 |---|---|
-| `.skill` files in root | Packaging artifacts — install to Cowork, don't leave in repo |
-| `.html` files in `trips/` root | Dashboard or tool artifacts — either move inside a trip or delete |
-| `_skill-install/`, `_dashboard*` | Tool scaffolding — one-time-use, should be removed after install |
-| Loose `.md` or `.txt` in root | Everything has a home folder — nothing lives in the repo root except .gitignore |
+| `.skill` files in root | Packaging artifacts — install to Claude Code, don't leave in repo |
+| Loose `.md` / `.txt` in root | Everything has a home folder; root carries only CHANGELOG.md, README.md (if any), framework.md, package.json, wrangler.toml |
+| `chapters/`, `reference/`, `scratchpad/`, `trips/` at root | All relocated under `content/` (memoir) or removed (trips) in v3.0–v3.2 |
+| Files under `content/podcast/<book>/` (no `library/<category>/` prefix) | Legacy podcast layout — current canonical is `library/<category>/<book>/` |
+| `_handbook/` anywhere | Renamed to `.skill/handbook/` in v3.5 |
+| `from-memoir/` under podcast | Severed in v3.5 — memoir is not a podcast source |
 | `*.lock` in `.git/` | Stale lock files from crashed git processes |
 | `.DS_Store` anywhere | macOS metadata — should be gitignored |
 

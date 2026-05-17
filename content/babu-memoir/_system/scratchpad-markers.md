@@ -1,6 +1,6 @@
 # Scratchpad Markers (`@@`) — Journal Skill Reference
 
-**Authoritative spec for the `@@` marker vocabulary within the journal skill.** Used for memoir chapter refinement via memoir chapter scratchpads in `content/babu-memoir/_system/scratchpad/`. The podcast skill maintains a parallel, independent copy at `content/podcast/_handbook/scratchpad-markers.md`. The two copies are independent; changes to one do not require changes to the other.
+**Authoritative spec for the `@@` marker vocabulary within the journal skill.** Used for memoir chapter refinement via memoir chapter scratchpads in `content/babu-memoir/_system/scratchpad/`. The podcast skill maintains a parallel, independent copy at `content/podcast/.skill/handbook/scratchpad-markers.md`. The two copies are independent; changes to one do not require changes to the other.
 
 ---
 
