@@ -535,32 +535,17 @@ Each source type has its own distillation pattern. The full patterns live in `PO
 SECTION 4: TWO-HOST FRAMING — THE STEERING LAYER
 ============================================================
 
-NotebookLM's Audio Overview always uses two hosts. Our framing file decides what they sound like and what they care about.
+NotebookLM's Audio Overview always uses two hosts. The framing file (`00-framing.md`) decides what they sound like and what they care about. It tells NotebookLM:
 
-### Default Personas
-
-  - **Host A — Curious Mind**: stand-in for the listener. Asks "why does this matter?", "wait, what does that mean in practice?", "but isn't there a tension with...?". Warm, plain language, occasionally surprised. Not naive — just unguarded.
-  - **Host B — Scholar/Companion**: domain-knowledgeable. Provides context, traditional grounding, citations from the source. Calm, precise, willing to admit uncertainty. Never lectures.
-
-The framing file (`00-framing.md`) tells NotebookLM:
   - Who the listener is (so the hosts pitch register correctly)
   - The angle (faithful / critical / personal / comparative)
   - The named tensions the hosts must reach (this is the steering)
   - Tone constraints (e.g., "no cheerful filler", "no 'wow, that's so interesting' loops")
   - Permission to disagree where the source allows it
 
-### Steering Language Patterns
+The default persona pair is **Host A — Curious Mind** (listener stand-in) and **Host B — Scholar/Companion** (domain anchor). Override pairs (skeptic+believer, two skeptics, mentor+student, two practitioners, custom) are available; declare any override in the framing file.
 
-These phrases reliably bend the Audio Overview output. Use them in `00-framing.md`:
-
-  - "Slow down on..." → hosts spend more time on that beat
-  - "Treat [X] as the central tension" → hosts return to X
-  - "Quote [Author] directly when discussing..." → increases verbatim quote inclusion
-  - "Avoid summarizing the obvious" → reduces filler
-  - "End on a question, not a conclusion" → produces open-ended landing
-  - "Speak as though the listener has [context]" → adjusts assumed knowledge
-
-Full patterns in `PODCAST_ROOT/.skill/handbook/two-host-framing.md`.
+**Full personas, override-pair specifications, steering language patterns, anti-patterns, and tone-constraint snippets live in `PODCAST_ROOT/.skill/handbook/two-host-framing.md`.** That handbook copy is the single source of truth — read it during Phase 3 before authoring `00-framing.md`. This SKILL.md section is the orientation; the handbook is the working reference.
 
 ============================================================
 SECTION 5: QUALITY LOOPS — RUN SILENTLY DURING STRUCTURE

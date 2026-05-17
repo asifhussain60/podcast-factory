@@ -149,32 +149,26 @@ INLINE_PHONETIC_PATTERNS = [
 
 
 # ─── R-NO-ABBREVIATION (2026-05-17) ──────────────────────────────────────────
-# Specific abbreviated work titles that listeners cannot resolve from context.
-FORBIDDEN_ABBREVIATIONS = {
-    r"\bthe Ihya\b(?! Ulum)": "the Ihya (use full title 'Ihya Ulum al-Din')",
-    r"\bthe Nahj\b(?! al-Balagha)": "the Nahj (use full title 'Nahj al-Balagha')",
-    r"\bEI\b": "EI (use full title 'Ihya Ulum al-Din')",
-    r"\bIUD\b": "IUD (use full title 'Ihya Ulum al-Din')",
-    r"\bNJB\b": "NJB (use full title 'Nahj al-Balagha')",
-    r"\bSahihayn\b": "Sahihayn (use 'Sahih Bukhari and Sahih Muslim')",
-}
+# Canonical abbreviation map lives in _rules.py (mirrored from the handbook).
+# abbreviations_for_build() returns regex_pattern → user-facing message.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).parent))
+from _rules import abbreviations_for_build, HONORIFICS as _HONORIFICS_RAW
+
+FORBIDDEN_ABBREVIATIONS = abbreviations_for_build()
 
 
 # ─── R-HONORIFIC-ONCE (2026-05-17) ───────────────────────────────────────────
-# Honorific phrase forms that count as expansions; allowed once per figure per chapter.
-HONORIFIC_PHRASES = [
-    re.compile(r"\(peace and blessings be upon him\)", re.IGNORECASE),
-    re.compile(r"\(peace be upon him\)", re.IGNORECASE),
-    re.compile(r"\(peace be upon them\)", re.IGNORECASE),
-    re.compile(r"\(peace be upon her\)", re.IGNORECASE),
-    re.compile(r"\(may Allah be pleased with him\)", re.IGNORECASE),
-    re.compile(r"\(may Allah be pleased with her\)", re.IGNORECASE),
-    re.compile(r"\(PBUH\)"),
-    re.compile(r"\(SAW\)"),
-    re.compile(r"\(AS\)"),
-    re.compile(r"\(RA\)"),
-    re.compile(r"ﷺ"),
-]
+# Honorific phrase forms — each is one allowed-once-per-figure-per-chapter form.
+# IGNORECASE for the prose forms; literal for the bracket-acronym forms.
+def _compile_honorific(p: str) -> re.Pattern:
+    is_acronym = p.startswith(r"\(") and p.upper() == p
+    return re.compile(p) if is_acronym or p == "ﷺ" else re.compile(p, re.IGNORECASE)
+
+
+HONORIFIC_PHRASES = [_compile_honorific(p) for p in _HONORIFICS_RAW
+                     if p.startswith(r"\(") or p == "ﷺ"]
 
 
 # ─── R-PRONUNCIATION-IMPERATIVE (framing) (2026-05-17) ───────────────────────

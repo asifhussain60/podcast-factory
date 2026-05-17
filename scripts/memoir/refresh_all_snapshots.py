@@ -27,17 +27,11 @@ import os
 import shutil
 import glob
 from datetime import datetime
+from pathlib import Path
 
-
-def get_snapshot_path(chapter_path):
-    """Snapshots live under the sibling _system/snapshots/ of the chapter dir."""
-    chapter_dir = os.path.dirname(os.path.abspath(chapter_path))
-    base = os.path.splitext(os.path.basename(chapter_path))[0]
-    ext  = os.path.splitext(chapter_path)[1]
-    book_dir = os.path.dirname(chapter_dir)
-    snapshots_dir = os.path.join(book_dir, '_system', 'snapshots')
-    os.makedirs(snapshots_dir, exist_ok=True)
-    return os.path.join(snapshots_dir, f"{base}-snapshot{ext}")
+# Reuse the canonical snapshot-path function so the two scripts cannot drift.
+sys.path.insert(0, str(Path(__file__).parent))
+from save_snapshot import get_snapshot_path
 
 
 def is_snapshot_file(path):

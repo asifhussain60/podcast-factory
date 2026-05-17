@@ -44,71 +44,19 @@ import sys
 from pathlib import Path
 from collections import Counter
 
+# Canonical rule lists live in _rules.py (mirrored from the handbook normative
+# copy at content/podcast/.skill/handbook/notebooklm-customize-prompt-rules.md).
+sys.path.insert(0, str(Path(__file__).parent))
+from _rules import (
+    MODERNIZE_DENY,
+    SURPRISE_DENY,
+    WELCOME_COLD,
+    HONORIFICS as HONORIFIC_EXPANSIONS,
+    FILLER_INTERJECTIONS,
+    abbreviations_for_audit,
+)
 
-# ─── DENY lists (canonical, mirrored from notebooklm-customize-prompt-rules.md)
-MODERNIZE_DENY = [
-    "Twitter", "twitter", "X.com", " X ", "social media",
-    "algorithm", "algorithmic", "content creator", "internet troll",
-    "reply guy", "YouTube comment", "youtube comment", "TikTok", "tiktok",
-    "Instagram", "instagram", "livestream", "screen time", "notification",
-    "attention economy", "21st century", "quote-tweet", "quote tweet",
-    "quote tweeting", "hashtag", "follower count", "doomscroll",
-    "hot take", "cognitive behavioral therapy",
-    "productivity framework", "life hack", "self-help", "wellness",
-    "mindfulness app", "dopamine hit", "deep dive",
-    "in our modern world", "modern digital lives", "platforms like",
-]
-
-SURPRISE_DENY = [
-    "wow", "Wow",
-    "that's so interesting", "that is so interesting",
-    "it's chilling", "It's chilling",
-    "it's devastating", "It's devastating",
-    "it's terrifying", "It's terrifying",
-    "it's profound", "It's profound",
-    "it's fascinating", "It's fascinating",
-    "it's amazing", "It's amazing",
-    "oh my god", "Oh my god",
-    " right? ", " right?\n", "Right?",
-    " exactly", "Exactly",
-    "no way", "No way",
-]
-
-WELCOME_COLD = [
-    "today we'll discuss", "today we will discuss",
-    "in this episode", "in our final deep dive",
-    "Welcome to our", "Welcome to today", "Welcome back",
-]
-
-FORBIDDEN_ABBREVIATIONS = [
-    ("the Ihya", "Ihya Ulum al-Din"),
-    (" EI ", "Ihya Ulum al-Din"),
-    (" EI.", "Ihya Ulum al-Din"),
-    ("the Nahj", "Nahj al-Balagha"),
-    ("Sahihayn", "Sahih Bukhari and Sahih Muslim"),
-]
-
-HONORIFIC_EXPANSIONS = [
-    r"\(peace and blessings be upon him\)",
-    r"\(peace be upon him\)",
-    r"\(peace be upon them\)",
-    r"\(peace be upon her\)",
-    r"\(may Allah be pleased with him\)",
-    r"\(may Allah be pleased with her\)",
-    r"\(PBUH\)",
-    r"\(SAW\)",
-    r"\(AS\)",
-    r"\(RA\)",
-    "peace and blessings of Allah be upon him",
-    "peace and blessings be upon him",
-    "peace be upon him",
-]
-
-FILLER_INTERJECTIONS = [
-    " yeah ", " Yeah ", " yeah, ", " Yeah,",
-    " right, ", " Right, ", " right. ", " Right. ",
-    " exactly, ", " Exactly, ",
-]
+FORBIDDEN_ABBREVIATIONS = abbreviations_for_audit()
 
 
 # Names commonly mangled by NotebookLM TTS (observed empirically).
