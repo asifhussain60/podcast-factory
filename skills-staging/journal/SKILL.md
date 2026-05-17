@@ -21,6 +21,7 @@ SECTION 0: AUTHORITATIVE WORKFLOW — READ THIS FIRST
 
 **SKILL_DIR** = the base directory shown at the top of this skill's system prompt (read-only fallback for reference docs).
 **JOURNAL_DIR** = the mounted Journal folder root (e.g., `/PROJECTS/journal/`). At session start, verify by checking that `content/babu-memoir/chapters/` exists and contains chapter files (`ch01-man.txt`, `ch02-love.txt`, etc.). If files are missing, check the session's mount path and adjust.
+**SHARED_ARABIC** = `<JOURNAL_DIR>/content/_shared/arabic/` — cross-skill canonical Arabic / Islamic pronunciation reference. Consulted whenever a chapter touches Arabic vocabulary, an Arabic translation changes, or a new Arabic term is being introduced. The journal skill defers to this folder for the canonical English gloss and substitution policy; memoir voice choices already shipped in chapters override per `04-common-term-substitutions.md` §4.
 
 ============================================================
 SECTION 1: THE NARRATIVE CONSTANT — GOVERNS EVERY WORD
@@ -52,6 +53,7 @@ Before doing ANY work, read these files in this order:
 7. `<JOURNAL_DIR>/content/babu-memoir/_system/biographical-context.md` (+ supplement's Biographical Context section)
 8. `<JOURNAL_DIR>/content/babu-memoir/_system/locked-paragraphs.md` — permanently locked paragraphs
 9. `<JOURNAL_DIR>/content/babu-memoir/_system/quotes-library.txt` — quotes and reflections library
+10. `SHARED_ARABIC/00-README.md`, `01-tts-pronunciation-key.md`, `03-arabic-english-manifest.md`, `04-common-term-substitutions.md` — the shared Arabic pronunciation reference. Read on entry to any session that may touch Arabic vocabulary (any chapter that contains Islamic terms — i.e., every chapter except those that are entirely secular). `02-quran-letter-phonetics.md` only when respelling a new term from scratch.
 
 Then run delta detection:
 ```
@@ -232,10 +234,12 @@ What is NOT allowed on protected or locked paragraphs:
   6. Splitting paragraphs Asif did not split
 
 ### Translation Sync — if delta reports translation_changes
-  1. Open `<JOURNAL_DIR>/content/babu-memoir/_system/translations-glossary.md`
-  2. For each changed translation: update the entry, log the change
-  3. Apply the new form across every other chapter file
-  4. Save glossary and all affected files first
+  1. **Consult `SHARED_ARABIC/03-arabic-english-manifest.md`** for the canonical English gloss and the substitution-policy verdict in `SHARED_ARABIC/04-common-term-substitutions.md`. If Asif's new translation matches a context-driven entry there, accept; if it contradicts §3 (keep-the-Arabic) entries, surface the conflict before proceeding.
+  2. Open `<JOURNAL_DIR>/content/babu-memoir/_system/translations-glossary.md`
+  3. For each changed translation: update the entry, log the change
+  4. Apply the new form across every other chapter file
+  5. Save glossary and all affected files first
+  6. If the change introduces a new Arabic term not yet in `SHARED_ARABIC/03-arabic-english-manifest.md`, append the term to the matching section there (and to `04-common-term-substitutions.md` if it warrants a substitution policy entry).
 
 ### SESSION END — run after all chapter files are saved
 ```
@@ -393,6 +397,13 @@ SECTION 11: REFERENCE FILE INDEX
 
 ### Read-only fallback (`<SKILL_DIR>/references/`)
 The skill ships a `references/` copy of the seven core voice/craft/thematic docs as a read-only fallback. The repo's `_system/` copies are authoritative and override — only fall back here if the repo copies are unreachable.
+
+### Cross-skill shared Arabic reference (`<JOURNAL_DIR>/content/_shared/arabic/`)
+- `00-README.md` — index, who reads what, how to add a new term
+- `01-tts-pronunciation-key.md` — TTS engineering rules (used when memoir prose needs an Arabic respelling for an audiobook reading or podcast extract)
+- `02-quran-letter-phonetics.md` — classical-Arabic letter-by-letter guide (rarely needed by journal; used when introducing a brand-new term)
+- `03-arabic-english-manifest.md` — canonical Arabic→English→phonetic lookup (the source of truth for glossing decisions)
+- `04-common-term-substitutions.md` — substitution policy. **Memoir voice choices that have already shipped override this policy** (see its §4). Apply only when introducing an Arabic term to the memoir for the first time.
 
 ============================================================
 SECTION 12: BOUNDARIES

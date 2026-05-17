@@ -45,6 +45,15 @@ Format: WORD or PHRASE | CANONICAL TRANSLATION | chapters where it appears
 
 ## Podcast Pronunciation Lexicon
 
+> **Superseded as of 2026-05-17.** The canonical Arabic→English→phonetic lookup
+> now lives in `content/_shared/arabic/03-arabic-english-manifest.md`, with the
+> substitution policy in `content/_shared/arabic/04-common-term-substitutions.md`
+> and the TTS engineering rules in `content/_shared/arabic/01-tts-pronunciation-key.md`.
+> The podcast skill reads those four shared files on every run.
+> The lexicon below is kept here only for historical record of what the podcast
+> seeded on 2026-05-16. **Do not add new terms here** — add them to the shared
+> manifest instead.
+
 Phonetic spellings used by the `/podcast` skill when generating NotebookLM-ready output. These are pronunciation-friendly transcriptions — the podcast removes non-Latin script entirely and uses these spellings so text-to-speech produces consistent audio across episodes.
 
 The podcast skill reads this section on every run, projects only the terms that appear in a given source into that source's `03-pronunciation.md` guide, and proposes new terms via the staging file `06-library-proposals.md` (never edits this file directly). To apply proposals: `/podcast apply <source-slug>`.
@@ -91,3 +100,5 @@ Podcast lexicon additions are committed by the `/podcast apply <slug>` command a
 <!-- REVISION LOG — append entries below this line -->
 
 2026-05-16 — Podcast Pronunciation Lexicon section seeded with 11 terms + 1 devotional phrase as part of `/podcast` skill installation. No memoir chapter content affected.
+
+2026-05-17 — Podcast Pronunciation Lexicon section superseded by the cross-skill canonical reference at `content/_shared/arabic/`. The section is retained for historical record; new terms go to the shared manifest. Memoir-specific glosses in the sections above remain authoritative for memoir chapters.
