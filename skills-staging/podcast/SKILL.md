@@ -82,6 +82,10 @@ SECTION 1.5: PDF / LONG-SOURCE INGESTION PROTOCOL (PHASE 0)
 
 A PDF must never produce a single episode by default. A 30-page PDF with a table of contents is a *series*, not an episode. Phase 0 below converts the document into a designated source-text folder and a confirmed chapter plan BEFORE any episode is written. Skipping Phase 0 is the failure mode that produces a one-episode workspace for a multi-chapter book.
 
+**Bypass for single-chapter sources (Extract Mode)**: when the source is already a single chapter `.txt` file (e.g., a memoir chapter at `content/babu-memoir/chapters/chNN-<slug>.txt`, or a pre-prepared chapter file under `BOOK_DIR/chapters/`), skip Phase 0 entirely. Use `scripts/podcast/extract_chapter.py <chapter-ref>` driven by a per-chapter contract under `content/podcast/<book-slug>/chapter-contracts/<slug>.yml`. Full spec: `content/podcast/_handbook/extract-capability.md`. The `extract` capability is the right answer for memoir chapters, re-runs of a single episode, and any source where chapter design has already been done by hand.
+
+**Splitting policy**: when a source chapter exceeds the 4,500-word ceiling (Section 0, Invariant 3), split it into derivatives with clean single-noun English titles (kebab-case, no version suffixes) and record provenance via the `derived_from:` field in each derivative's contract. Full spec: `content/podcast/_handbook/extract-capability.md` § Splitting policy.
+
 **The phases run in order**: extract → English refinement → Arabic phonetic pass → chapter design → enrichment → series intake. Each phase's output is the next phase's input. Phases 0b–0e are written into `BOOK_DIR/chapters/chNN-<slug>.txt` files; those files ARE the NotebookLM source content.
 
 ### PHASE 0a: SOURCE EXTRACTION → SINGLE WORKING FILE
@@ -573,10 +577,15 @@ SECTION 9: BOUNDARIES AND THE ONE PERMITTED JOURNAL CONNECTION
 
 ### What this skill does NOT touch
 
-  - `content/babu-memoir/` — the memoir's chapters, _system/ files, scratchpad, snapshots. All of it is journal-skill territory.
+  - `content/babu-memoir/reference/`, `content/babu-memoir/_system/`, `content/babu-memoir/scratchpad/` — journal-skill territory.
+  - Any file matching `voice-fingerprint*` or `master-context*` anywhere under `content/babu-memoir/`.
   - Any journal skill file or journal reference document
 
-This skill is self-contained. It reads from `content/podcast/` and from sources Asif provides. It writes to `content/podcast/` only.
+This skill is self-contained. It writes to `content/podcast/` only. It reads from `content/podcast/`, from sources Asif provides, and from ONE sanctioned crossing point — see below.
+
+### The one sanctioned read across the boundary
+
+`content/babu-memoir/chapters/*.txt` — memoir chapter `.txt` files are the SOURCE input to the `extract` capability. Reads ONLY; nothing else under `content/babu-memoir/` is in scope. The `extract_chapter.py` adapter enforces this via `PROHIBITED_PATH_PREFIXES` and `PROHIBITED_NAME_PATTERNS`.
 
 ### The one permitted outward connection
 

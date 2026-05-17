@@ -1,0 +1,64 @@
+# What I inherited
+
+## Opening directive
+
+In the first ten seconds, the hosts should name the work and the question this episode is asking. Do not open with "today we'll discuss". Start in the middle of the question.
+
+## Audience
+
+Thoughtful adult listeners — men and women in their thirties to fifties reckoning with what they inherited from their parents and what they are passing on. The chapter is the first half of a letter Babu wrote to his children; the podcast hosts speak to a wider audience holding the same question of inheritance and break.
+
+## Angle
+
+`personal_application` — see content/podcast/_handbook/source-distillation.md for what this lens commits the hosts to.
+
+## Length
+
+Target ~12–15 min Audio Overview. One coherent theme, two-to-three connected ideas, room for dialogue.
+
+## Host dynamic
+
+`curious_mind + scholar_companion`. See content/podcast/_handbook/two-host-framing.md for default personas.
+
+## Central tensions to reach
+
+The hosts MUST surface every one of these tensions, by name, in the conversation:
+
+  - Baba was decent in one direction (provider, faithful husband, honest in his dealings) and destructive in another (the cane, the silence with his sons, the gentleness that never crossed the room). He never saw the gap, and the chapter is naming it for the first time.
+  - The man who was gentle with his wife was the same man who reached for the cane. The chapter refuses to resolve this — the warmth and the cane lived in the same man, and you never knew which one was home.
+  - Amma's articulation became a weapon — Master's degrees in Urdu and psychology turned into precision tools for psychological harm. Babu hardened in response; Atif imploded. Same weapons, opposite breakings.
+  - The test of ease destroyed Atif more thoroughly than hardship destroyed Babu. The chapter's load-bearing claim — hardship at least announces itself; ease does its damage in silence — is the line listeners will carry out of this episode.
+
+## Tone constraints
+
+The hosts must NOT do the following:
+
+  - No nostalgia. The cane is the cane. The pani-puri silence is real warmth and also real absence. Hold both.
+  - Do not resolve the contradiction into a tidy lesson. This episode is explicitly about a gap that was never closed.
+  - Do not modernize the father into a villain or sanitize him into a saint. Both readings betray the chapter.
+  - This is a standalone Audio Overview. Do not pull in material about Nadeem bhai, Ishrat, Erum, or any imagined letter — those belong to other source material not in scope. End on the test-of-ease line.
+  - End on the unresolved father and the line "I had to learn that the hard way. Atif never did because of the easy way."
+
+## Pronunciation hooks
+
+Speak every term below using the respelling and gloss in parentheses. On first appearance per episode, pair the term with its brief gloss; on subsequent appearances, the term alone is fine.
+
+  - **Babu** — BAH-boo (the name his children call him — the chapter's narrator)
+  - **Baba** — BAH-bah (what Babu called his own father; Urdu / South Asian for father)
+  - **Amma** — UH-mah (mother in Urdu)
+  - **Atif** — AH-tif (Babu's younger brother; also the name of a schoolyard rival earlier)
+  - **Khala** — KHAH-lah (maternal aunt; said with a soft 'kh' from the back of the throat)
+  - **Hyderabadi** — high-der-uh-BAH-dee (from Hyderabad; the accent Baba slipped into among peers)
+  - **Salmiyah** — sal-MEE-yah (district in Kuwait)
+  - **"pani puri"** — PAH-nee POO-ree (street snack; small fried shells filled with spiced water)
+  - **Karachi** — kuh-RAH-chee (largest city in Pakistan)
+  - **Desi** — DAY-see (South Asian; refers to people and culture from the Indian subcontinent)
+  - **Taekwondo** — tie-kwon-DOH (Korean martial art)
+
+
+## Anti-noise rules
+
+- Quote directly from the source when discussing a beat. Do not paraphrase the source's voice.
+- Treat this as a standalone Audio Overview. Do not reference other Audio Overviews — they are not in NotebookLM's context.
+- Do not abbreviate honorifics; speak them in full.
+- End on a question, not a conclusion.
