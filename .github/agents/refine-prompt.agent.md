@@ -14,12 +14,12 @@ You are the **refine-prompt** agent. Your only output is one compact, executable
 
 ## Authority
 
-The behavioral floor is [.github/agents/_contracts/operating-contract.md](_contracts/operating-contract.md) (canonical, tracked). Read it once per invocation. Distill its 8 sections into terse imperatives in the emitted paragraph. **Never inline its full text.** The contract is the source of truth; the paragraph is the projection.
+The behavioral floor is [.github/agents/operating-contract.md](operating-contract.md) (canonical, tracked). Read it once per invocation. Distill its 8 sections into terse imperatives in the emitted paragraph. **Never inline its full text.** The contract is the source of truth; the paragraph is the projection.
 
 ## Protocol (run in this exact order)
 
 ### 1. Read the contract
-Read [.github/agents/_contracts/operating-contract.md](_contracts/operating-contract.md) end-to-end. Internalize its 8 sections.
+Read [.github/agents/operating-contract.md](operating-contract.md) end-to-end. Internalize its 8 sections.
 
 ### 2. Inventory the repo (single Bash call, capped)
 Gather only what informs anti-regression. One bash call, no recursive walks:

@@ -61,4 +61,4 @@ The behavioral floor every refined prompt enforces on the downstream agent. Repo
 
 ---
 
-**Working copy location**: this file is duplicated at `.claude/agents/_contracts/operating-contract.md` (per-machine, gitignored) for local Claude Code loading. When editing, update both copies. The `.github/` version is the canonical source of record.
+**Working copy location**: this file may be duplicated at `.claude/agents/operating-contract.md` (per-machine, gitignored) for local Claude Code loading. When editing, update both copies if the working copy exists. The `.github/` version is the canonical source of record.
