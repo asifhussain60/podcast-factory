@@ -1,101 +1,79 @@
 # Podcast Workspace — README
 
-This is the working directory for podcast episode bundles. Each bundle is a coordinated set of markdown files designed to be uploaded to **NotebookLM** so its Audio Overview feature produces a strong two-host conversation.
+This folder holds source-book workspaces for podcast-bound material. Each `<book-slug>/` is one source book. The `/podcast` skill turns its chapters into NotebookLM-ready bundles whose Audio Overview produces a focused two-host conversation.
 
-## What this folder is and isn't
-
-**This folder IS**:
-  - The source-of-truth for episode bundles
-  - A registry of episodes (`_registry.md`)
-  - The hand-off point between Claude (which builds the bundle) and NotebookLM (which generates the audio)
-
-**This folder IS NOT**:
-  - The audio output location (download MP3s to `_archive/audio/` if you want them stored)
-  - A staging area for in-progress episodes (use `_workspace/EP##-[slug]/` for scratch)
+The skill definition itself lives at `/PROJECTS/journal/skills-staging/podcast/SKILL.md` (canonical, version-controlled). This folder is the content workspace.
 
 ## Folder layout
 
 ```
 /PROJECTS/journal/content/podcast/
-├── _README.md              this file
-├── _registry.md            episode index (number, title, slug, status, NotebookLM URL, date)
-├── _archive/               retired or superseded episodes
-├── _workspace/             scratch distillation per episode (cleaned up after Phase 4)
-└── episodes/
-    └── EP##-[slug]/
-        ├── 00-framing.md          uploaded as source + pasted into NotebookLM Customize
-        ├── 01-source-primary.md   distilled main source
-        ├── 02-key-passages.md     verbatim quotes
-        ├── 03-context-pack.md     author, tradition, historical moment
-        ├── 04-discussion-spine.md 6–12 thematic beats
-        └── 99-show-notes.md       (optional) episode title, blurb, references
+├── _README.md                  this file
+├── _handbook/                  book-agnostic skill refs + templates + cross-book registry
+│   ├── registry.md             episode index across all books
+│   ├── enrichment-sources.md   Tier 1–7 whitelist
+│   ├── notebooklm-best-practices.md
+│   ├── notebooklm-source-format.md
+│   ├── two-host-framing.md
+│   ├── source-distillation.md
+│   ├── episode-architecture.md
+│   ├── scratchpad-markers.md
+│   └── workspace-readme-template.md
+└── <book-slug>/                one source book (e.g. ayyuhal-walad/)
+    ├── _README.md              book-specific conventions + upload checklist
+    ├── _system/                book-specific authoring state (source, episode-drafts, scratchpad, pronunciation, editorial-notes, enrichment-log, challenger-report)
+    ├── chapters/               source-book chapters as plain txt — uploaded to NotebookLM as SOURCE files
+    └── episodes/               EP##-<slug>.txt — customize-prompt-only, pasted into NotebookLM's *Customize* box
 ```
 
-The skill definition itself lives at `/PROJECTS/journal/skills-staging/podcast/` (canonical, version-controlled). This folder is the content workspace only.
+## The two-file deliverable model (v3.4)
+
+Per episode, two files reach NotebookLM in distinct roles:
+
+| File | Role | NotebookLM action |
+|---|---|---|
+| `<book>/chapters/chNN-<slug>.txt` | The enriched chapter — the **SOURCE** | Uploaded directly as the single source for the notebook |
+| `<book>/episodes/EP##-<slug>.txt` | The customize prompt only — the **CUSTOMIZE PROMPT** | Pasted into the *Customize* prompt box |
+
+Strict 1:1 chapter ↔ episode mapping. Slug after the prefix is identical on both sides. The chapter IS the source — no transformation. Episode txts are emitted from `<book>/_system/episode-drafts/EP##-<slug>/00-framing.md` by `scripts/podcast/build_episode_txt.py`.
 
 ## NotebookLM upload workflow
 
-For each episode bundle:
+For each episode:
 
 1. Open https://notebooklm.google.com → **New notebook**
 2. Name it `EP##: [Episode Title]`
-3. **Add sources** → upload these files in order:
-   - `00-framing.md`
-   - `01-source-primary.md`
-   - `02-key-passages.md`
-   - `03-context-pack.md`
-   - `04-discussion-spine.md`
+3. **Add sources** → upload `<book>/chapters/chNN-<slug>.txt`
 4. Click **Audio Overview** → **Customize**
-5. Paste the contents of `00-framing.md` into the Customize prompt box
-6. Click **Generate**
-7. Wait ~3–5 minutes
-8. Listen. If the result is strong: download the MP3 from the player menu, paste the NotebookLM notebook URL into `_registry.md`.
-9. If the result is weak: re-read `04-discussion-spine.md` and `00-framing.md` — the bundle was the bottleneck, not NotebookLM.
-
-## Episode lifecycle
-
-  - **draft** — bundle being built
-  - **ready** — bundle complete, awaiting NotebookLM upload
-  - **generated** — Audio Overview generated, URL captured
-  - **published** — MP3 downloaded and stored (if applicable)
-  - **archived** — superseded or retired
-
-Status is tracked in `_registry.md`.
+5. Paste the contents of `<book>/episodes/EP##-<slug>.txt` into the Customize box
+6. Click **Generate**, wait ~3–5 minutes
+7. Listen. If strong: capture the notebook URL into `_handbook/registry.md`. If weak: re-read `00-framing.md` and the chapter — the bundle was the bottleneck, not NotebookLM.
 
 ## Working with Claude
 
-Triggers for the `/podcast` skill:
-  - "Build a podcast episode from [source]"
-  - "New episode on [topic]"
-  - "Refine the bundle for EP##"
-  - Drop a PDF and say "make this a podcast"
+The `/podcast` skill triggers on: "podcast", "/podcast", "@podcast", "new episode", "next episode", "turn this into a podcast", "NotebookLM episode", "audio overview", or dropping a PDF/book with "make this a podcast".
 
 Claude will:
-  1. Ask intake questions (audience, angle, length, host dynamic)
-  2. Distill the source(s) into scratch
-  3. Build the 5-to-6-file bundle in the episode folder
-  4. Update the registry
-  5. Hand back an upload checklist
+1. Ask intake questions (book, audience, angle, host dynamic)
+2. Phase 0: extract → English refinement → Arabic phonetic pass → chapter design → enrichment (Tier 1–7 whitelist from `_handbook/enrichment-sources.md`)
+3. Phase 3: author per-episode framing + scaffolds under `<book>/_system/episode-drafts/EP##-<slug>/`
+4. Phase 4: run `podcast-challenger` to convergence, then build the episode txt via `scripts/podcast/build_episode_txt.py`
+5. Hand back an upload checklist
 
-Claude does NOT:
-  - Generate audio (NotebookLM does this)
-  - Write a script (NotebookLM does this)
-  - Upload to NotebookLM (manual)
+Claude does NOT generate audio, write scripts, or upload to NotebookLM — those steps are NotebookLM + manual.
 
-## Installing the /podcast skill
+## Episode lifecycle
 
-The canonical skill source lives at `/PROJECTS/journal/skills-staging/podcast/`. To activate it in this Claude environment:
+- **draft** — chapter or framing being authored
+- **challenger-pending** — awaiting `podcast-challenger` convergence
+- **ready** — `SHIP-READY` verdict; episode txt built; ready to upload
+- **generated** — Audio Overview generated, URL captured in `_handbook/registry.md`
+- **archived** — superseded or retired
 
-```bash
-# macOS plugin skills directory (replace with actual plugin path on your system)
-cp -R /Users/asifhussain/PROJECTS/journal/skills-staging/podcast \
-      ~/Library/Application\ Support/Claude/<plugin-skills-path>/
-```
+Status is tracked in `_handbook/registry.md`.
 
-Once installed, restart the Claude session. The skill will trigger on `/podcast`, `@podcast`, "new episode", "turn this into a podcast", etc.
+## Hygiene
 
-## Workspace hygiene
-
-  - All scratch files live under `_workspace/EP##-[slug]/` — never in the episode folder
-  - Cleaned up after Phase 4 of the workflow
-  - Per the user's workspace scratchpad rule: nothing in `/PROJECTS/journal/` root that isn't a deliverable
+- Scratchpads live under `<book>/_system/scratchpad/` and per-episode at `<book>/_system/episode-drafts/EP##-<slug>/chapter.scratch.md` — never at this folder's root.
+- Chapter files (`<book>/chapters/*.txt`) are upload-ready by construction: no HTML comments, no meta-prose. The build script's META_PROSE_TELLS gate hard-refuses any chapter that violates this.
+- Authoring metadata for chapters lives in the sidecar `<book>/_system/enrichment-log.md`, not inline.

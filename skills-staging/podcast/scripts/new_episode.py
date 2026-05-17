@@ -2,10 +2,10 @@
 """new_episode.py — scaffold a new episode draft folder under a source book.
 
 Usage:
-    python new_episode.py <BOOK_DIR> <slug> [--title "Episode Title"] [--registry <PODCAST_ROOT/_system/registry.md>]
+    python new_episode.py <BOOK_DIR> <slug> [--title "Episode Title"] [--registry <PODCAST_ROOT/_handbook/registry.md>]
 
 What it does:
-    1. Reads PODCAST_ROOT/_system/registry.md to find the next monotonic episode number
+    1. Reads PODCAST_ROOT/_handbook/registry.md to find the next monotonic episode number
        (PODCAST_ROOT is BOOK_DIR.parent unless --registry is passed)
     2. Creates BOOK_DIR/_system/episode-drafts/EP##-<slug>/ with stub files (00 through 04, plus 99 optional)
     3. Ensures BOOK_DIR/episodes/ exists (the final concatenated txt lives here, built by build_episode_txt.py)

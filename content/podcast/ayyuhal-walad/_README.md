@@ -80,7 +80,7 @@ To process: invoke `/podcast refine episode-01`. The skill will classify markers
 3. New Stage 12 Hard Rule 5 (paraphrase for articulation, preserve propositional content) operates within Gate 5 envelope.
 4. **Content-driven re-segmentation (Stage 09 revised)** collapsed 22 raw sections into 7 thematic episodes with even pacing — Episode 1 demonstrates expansion across a chapter boundary; Episode 5 demonstrates heavy merger of 8 source chapters into one cohesive episode.
 5. **Frontmatter rule (Stage 12 + Gate 2b)** — refined episodes contain only the heading and prose; all metadata lives in `_meta/episodes-metadata.yml`.
-6. **NotebookLM best-practices reference** — `content/podcast/_system/notebooklm-best-practices.md` is the authoritative source for segmentation targets and prompt design; the skill consults it on every run.
+6. **NotebookLM best-practices reference** — `content/podcast/_handbook/notebooklm-best-practices.md` is the authoritative source for segmentation targets and prompt design; the skill consults it on every run.
 7. **`@@` marker scratchpad capability (Stage 12.5)** — 10-verb vocabulary in place; demo scratchpad on Episode 1; validator extended to scan podcast scratchpads.
 
 ## What the user needs to decide before continuing

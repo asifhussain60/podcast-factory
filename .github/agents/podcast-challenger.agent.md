@@ -31,9 +31,9 @@ This agent operates under the **CORTEX Challenger Framework v1.0** (`reference/c
 
 Before any review pass, read:
 
-1. `content/podcast/_system/notebooklm-best-practices.md` — the canonical reference
-2. `content/podcast/_system/enrichment-sources.md` — the Tier 1–7 whitelist + citation formats + enrichment principles + anti-patterns
-3. `content/podcast/_system/scratchpad-markers.md` — the `@@` marker vocabulary
+1. `content/podcast/_handbook/notebooklm-best-practices.md` — the canonical reference
+2. `content/podcast/_handbook/enrichment-sources.md` — the Tier 1–7 whitelist + citation formats + enrichment principles + anti-patterns
+3. `content/podcast/_handbook/scratchpad-markers.md` — the `@@` marker vocabulary
 4. `skills-staging/podcast/SKILL.md` — the producing skill's contract
 5. `scripts/podcast/build_episode_txt.py` — the structural gate this agent complements (specifically the `META_PROSE_TELLS` and `META_PROSE_REGEX_TELLS` lists)
 

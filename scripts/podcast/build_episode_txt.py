@@ -78,7 +78,7 @@ META_PROSE_TELLS = [
     "phase 0a", "phase 0b", "phase 0c", "phase 0d", "phase 0e", "phase 0f", "phase 0g",
     "enrichment status",
     "enrichment ratio",
-    "per content/podcast/_system",
+    "per content/podcast/_handbook",
     "nothing has been added that is not in the source",
     "anything ghazali only implies",
     "anything the author only implies",
@@ -248,7 +248,7 @@ def validate_chapter(chapter_path: Path) -> int:
         sys.exit(
             f"ERROR: chapter {chapter_path.name} is {n} words. "
             f"Hard band is {CHAPTER_WORD_MIN_HARD}-{CHAPTER_WORD_MAX_HARD}. "
-            f"See content/podcast/_system/notebooklm-best-practices.md §3."
+            f"See content/podcast/_handbook/notebooklm-best-practices.md §3."
         )
     return n
 
@@ -269,7 +269,7 @@ def build_framing_episode_txt(framing_path: Path, out_path: Path) -> int:
         sys.exit(
             f"ERROR: framing {framing_path.name} produces a customize prompt of {n} "
             f"words. Target band is {FRAMING_WORD_MIN}-{FRAMING_WORD_MAX}. "
-            f"See content/podcast/_system/notebooklm-best-practices.md §5."
+            f"See content/podcast/_handbook/notebooklm-best-practices.md §5."
         )
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
