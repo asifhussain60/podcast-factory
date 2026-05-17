@@ -19,12 +19,18 @@
 <main class="page">
 
   <header class="hero">
-    <span class="eyebrow">map · v1 · 2026-05-17</span>
+    <span class="eyebrow">map · v1.1 · 2026-05-17 · podcast architecture v3.5</span>
     <h1>How the writing rooms <em>actually work</em></h1>
     <p class="lede">
       Two skills (one for the memoir, one for the podcast) share a single brain
       for Arabic pronunciation. The nine views below explain the moving parts
-      in plain language — pick a starting point.
+      in plain language — pick a starting point. <strong>2026-05-17 update:</strong>
+      the podcast architecture pivoted to v3.5 after a 5-transcript empirical
+      audit of <em>Ayyuhal Walad</em>. Phonetic guidance now lives in the
+      customize prompt as imperative directives, never inline in the chapter.
+      Three new chapter rules and four new framing rules close the
+      empirical-feedback loop via <code>audit_transcript.py</code>. See the
+      Podcast Overview and Quality System pages.
     </p>
   </header>
 
@@ -88,7 +94,7 @@
 
         <rect x="405" y="551" width="270" height="58" rx="10" class="node" />
         <text x="540" y="574" text-anchor="middle" class="label-strong">03 · Quality system</text>
-        <text x="540" y="596" text-anchor="middle" class="label-mono">6 loops + 4 new · 2 normative rule files · challenger</text>
+        <text x="540" y="596" text-anchor="middle" class="label-mono">7 loops · 11 categories · audit_transcript · v3.5</text>
       </g>
 
       <!-- Bridge between the two -->
@@ -174,7 +180,7 @@
       <a href="podcast-quality-system.html" class="nav-card">
         <div class="nav-tag" style="color:var(--mint)">Podcast · 03</div>
         <h3>Quality system</h3>
-        <p>Six quality loops, a seven-tier enrichment pyramid, and a challenger agent that keeps trying until convergence.</p>
+        <p>Seven quality loops, a seven-tier enrichment pyramid, eleven challenger categories (A–O), and a new <code>audit_transcript.py</code> empirical-feedback loop that reads the actual NotebookLM-generated transcript.</p>
       </a>
 
       <a href="shared-arabic-reference.html" class="nav-card">

@@ -30,13 +30,28 @@ VALIDATION GATES (both files):
     - No meta-prose tells (META_PROSE_TELLS + META_PROSE_REGEX_TELLS — any match is
       a hard error). Authoring metadata belongs in
       `BOOK_DIR/_system/enrichment-log.md`, NOT in the chapter file.
+    - **No inline phonetic parens** (R-PHONETICS-OUT, 2026-05-17). Patterns like
+      `*Term* (PHO-ne-tic; gloss)` or `> (bis-mil-laah ir-rah-maan ...)` are read
+      aloud by NotebookLM as content. Phonetic guidance lives in the customize
+      prompt's `## Pronunciation` block instead.
+    - **No abbreviated work titles** (R-NO-ABBREVIATION). `the Ihya`, `EI`, `the Nahj`,
+      `Sahihayn` etc. are forbidden; use full canonical titles.
+    - **Honorific expansions appear at most once per figure** (R-HONORIFIC-ONCE).
+      `(peace and blessings be upon him)` / `ﷺ` / `(PBUH)` / `(AS)` / `(RA)` and
+      equivalents may expand only on first mention of each figure.
     - Word count in [500, 5500] hard band (notebooklm-best-practices.md §3).
   - **Framing file (the CUSTOMIZE PROMPT):**
     - Strip trailing "Upload checklist" section (it's the user's how-to, not the prompt).
     - Strip HTML comments.
     - Re-check META_PROSE_TELLS on the framing too — leaks through here are equally bad,
       since the framing is pasted into NotebookLM's Customize box.
-    - Word count in [200, 2000] soft target; warn at extremes.
+    - **`## Pronunciation` block uses imperative form** (R-PRONUNCIATION-IMPERATIVE).
+      Every non-blank line MUST start with `Pronounce "` or `Do not`. Legacy
+      passive-list pattern (`*term*: phonetic`) is rejected.
+    - **`## Do not` DENY block present** (R-NOMODERNIZE + R-NOSURPRISE). Must include
+      the canonical modernization-deny and surprise-deny terms.
+    - **Final line is the no-read-aloud guard** (R-NO-READ-PROMPT).
+    - Word count in [150, 2000] hard band.
 
 Usage:
   python3 build_episode_txt.py <BOOK_DIR> <EP##-slug>
@@ -116,6 +131,74 @@ META_PROSE_TELLS = [
 # Regex tells (case-insensitive). Used in tandem with the substring list.
 META_PROSE_REGEX_TELLS = [
     r"\bEP\d{2}\b",  # any EP## reference NotebookLM cannot resolve
+]
+
+
+# ─── R-PHONETICS-OUT (2026-05-17) ────────────────────────────────────────────
+# The chapter MUST NOT carry inline phonetic guides. Two failure shapes:
+#   1. *Term* (PHO-NE-TIC; gloss)              — italicized term followed by paren
+#   2. > (bis-mil-laah ir-rah-maan ir-ra-heem) — phonetic-only blockquote line
+INLINE_PHONETIC_PATTERNS = [
+    # *italic* ( UPPERCASE-HYPHEN-RESPELLING ...)  — e.g. *Sunnah* (SOON-nah; ...)
+    re.compile(r"\*[A-Za-z'`\-]+\*\s*\(\s*[A-Za-z]+[-][A-Za-z]+"),
+    # > (lowercase-hyphen-respelling lowercase-hyphen-respelling ...) — post-transliteration line
+    re.compile(r"^>\s*\(\s*[a-z]+\-[a-z]+(?:[-\s][a-z\-]+)+", re.MULTILINE),
+    # bare inline form (term) (PHO-NE-TIC) e.g. *Mujahadah* (moo-JAA-ha-dah; ...)
+    re.compile(r"\([A-Z]{2,}[\-][A-Z][A-Z\-]+[a-z\-]*\b"),
+]
+
+
+# ─── R-NO-ABBREVIATION (2026-05-17) ──────────────────────────────────────────
+# Specific abbreviated work titles that listeners cannot resolve from context.
+FORBIDDEN_ABBREVIATIONS = {
+    r"\bthe Ihya\b(?! Ulum)": "the Ihya (use full title 'Ihya Ulum al-Din')",
+    r"\bthe Nahj\b(?! al-Balagha)": "the Nahj (use full title 'Nahj al-Balagha')",
+    r"\bEI\b": "EI (use full title 'Ihya Ulum al-Din')",
+    r"\bIUD\b": "IUD (use full title 'Ihya Ulum al-Din')",
+    r"\bNJB\b": "NJB (use full title 'Nahj al-Balagha')",
+    r"\bSahihayn\b": "Sahihayn (use 'Sahih Bukhari and Sahih Muslim')",
+}
+
+
+# ─── R-HONORIFIC-ONCE (2026-05-17) ───────────────────────────────────────────
+# Honorific phrase forms that count as expansions; allowed once per figure per chapter.
+HONORIFIC_PHRASES = [
+    re.compile(r"\(peace and blessings be upon him\)", re.IGNORECASE),
+    re.compile(r"\(peace be upon him\)", re.IGNORECASE),
+    re.compile(r"\(peace be upon them\)", re.IGNORECASE),
+    re.compile(r"\(peace be upon her\)", re.IGNORECASE),
+    re.compile(r"\(may Allah be pleased with him\)", re.IGNORECASE),
+    re.compile(r"\(may Allah be pleased with her\)", re.IGNORECASE),
+    re.compile(r"\(PBUH\)"),
+    re.compile(r"\(SAW\)"),
+    re.compile(r"\(AS\)"),
+    re.compile(r"\(RA\)"),
+    re.compile(r"ﷺ"),
+]
+
+
+# ─── R-PRONUNCIATION-IMPERATIVE (framing) (2026-05-17) ───────────────────────
+# Pronunciation block lines must start with one of these imperative verbs.
+PRONUNCIATION_LINE_OK = re.compile(r"^\s*(Pronounce\s+\"|Do not\s+|Say\s+)", re.MULTILINE)
+# Legacy passive-list patterns that are forbidden in the imperative-form block.
+LEGACY_PASSIVE_PRONUNCIATION = re.compile(
+    r"^\s*[-*]?\s*\*[A-Za-z'`\-\s]+\*\s*[:\-]\s*[A-Za-z][\w\-\s]+$",
+    re.MULTILINE,
+)
+
+
+# ─── R-NOMODERNIZE / R-NOSURPRISE / R-NO-READ-PROMPT (framing) (2026-05-17) ──
+# The framing must contain a `## Do not` section that names the canonical DENY phrases.
+REQUIRED_FRAMING_DO_NOT_PHRASES = [
+    # Modernize sample (presence of these few signals the full block is in place)
+    "Twitter",
+    "social media",
+    "algorithm",
+    # Surprise-noise sample
+    "wow",
+    "right?",
+    # Read-aloud guard
+    "Do not read this prompt aloud",
 ]
 
 
@@ -238,11 +321,156 @@ def word_count(text: str) -> int:
     return len(text.split())
 
 
+def assert_no_inline_phonetics(content: str, file_path: Path) -> None:
+    """R-PHONETICS-OUT: chapter must not carry inline phonetic guides.
+
+    Phonetics live in the customize prompt's `## Pronunciation` block, per
+    R-PRONUNCIATION-IMPERATIVE. NotebookLM reads parenthetical phonetics aloud
+    as content; the audited failure mode is doublings like "Sahih Sitta,
+    sahasita" and mangled names like "tassel wolf" for *Tasawwuf*.
+    """
+    hits: list[tuple[int, str]] = []
+    for pat in INLINE_PHONETIC_PATTERNS:
+        for m in pat.finditer(content):
+            ln = content[: m.start()].count("\n") + 1
+            line = content.splitlines()[ln - 1] if ln - 1 < len(content.splitlines()) else ""
+            hits.append((ln, line.strip()[:120]))
+    if not hits:
+        return
+    joined = "\n".join(f"  {file_path.name}:{ln}: {line}" for ln, line in hits[:10])
+    sys.exit(
+        f"ERROR: chapter (SOURCE) file contains inline phonetic guides.\n"
+        f"  Hits ({len(hits)} found; first 10 shown):\n{joined}\n\n"
+        f"  R-PHONETICS-OUT (2026-05-17): chapter files must not carry inline\n"
+        f"  `*Term* (PHO-ne-tic; gloss)` parens or post-transliteration phonetic\n"
+        f"  blockquote lines. NotebookLM reads them aloud as content — empirically\n"
+        f"  producing 'Sahih Sitta, sahasita' doublings and mangled names like\n"
+        f"  'tassel wolf' for *Tasawwuf*. Move every phonetic into the matching\n"
+        f"  framing's `## Pronunciation` block as an imperative line:\n"
+        f"      Pronounce \"Tasawwuf\" as \"ta-SAW-wuf\". Say it as one fluent word.\n"
+        f"  See content/podcast/_handbook/notebooklm-source-chapter-rules.md\n"
+        f"  R-PHONETICS-OUT and notebooklm-customize-prompt-rules.md\n"
+        f"  R-PRONUNCIATION-IMPERATIVE."
+    )
+
+
+def assert_no_abbreviations(content: str, file_path: Path) -> None:
+    """R-NO-ABBREVIATION: chapter must spell out canonical work titles."""
+    hits: list[tuple[int, str, str]] = []
+    for pat, label in FORBIDDEN_ABBREVIATIONS.items():
+        for m in re.finditer(pat, content):
+            ln = content[: m.start()].count("\n") + 1
+            line = content.splitlines()[ln - 1] if ln - 1 < len(content.splitlines()) else ""
+            hits.append((ln, label, line.strip()[:120]))
+    if not hits:
+        return
+    joined = "\n".join(f"  {file_path.name}:{ln}: {label} → in: {line}" for ln, label, line in hits[:10])
+    sys.exit(
+        f"ERROR: chapter (SOURCE) file contains abbreviated work titles.\n"
+        f"  Hits:\n{joined}\n\n"
+        f"  R-NO-ABBREVIATION: listeners cannot resolve unfamiliar contractions.\n"
+        f"  Use the full canonical title every time. See\n"
+        f"  content/podcast/_handbook/notebooklm-source-chapter-rules.md R-NO-ABBREVIATION."
+    )
+
+
+def assert_honorifics_once_only(content: str, file_path: Path) -> None:
+    """R-HONORIFIC-ONCE: each honorific phrase form expanded ≤1 time per chapter."""
+    over: list[tuple[str, int]] = []
+    for pat in HONORIFIC_PHRASES:
+        n = len(pat.findall(content))
+        if n > 1:
+            over.append((pat.pattern, n))
+    if not over:
+        return
+    joined = "\n".join(f"  '{pat}' appears {n} times" for pat, n in over)
+    sys.exit(
+        f"ERROR: chapter (SOURCE) file repeats honorific expansions.\n"
+        f"  File: {file_path}\n"
+        f"  Repeated honorifics (allowed once per chapter per form):\n{joined}\n\n"
+        f"  R-HONORIFIC-ONCE: expand each honorific exactly once per figure on\n"
+        f"  first mention; subsequent mentions use the contracted name only\n"
+        f"  ('the Prophet', 'Imam Ali'). NotebookLM reads every expansion aloud\n"
+        f"  — empirically: 9 expansions of '(peace and blessings be upon him)'\n"
+        f"  in a single audited episode. See\n"
+        f"  content/podcast/_handbook/notebooklm-source-chapter-rules.md\n"
+        f"  R-HONORIFIC-ONCE."
+    )
+
+
+def assert_framing_pronunciation_imperative(content: str, file_path: Path) -> None:
+    """R-PRONUNCIATION-IMPERATIVE: every Pronunciation line uses imperative form."""
+    m = re.search(r"^##\s+Pronunciation\b.*?$([\s\S]*?)(?=^##\s+|\Z)", content, re.MULTILINE)
+    if not m:
+        sys.exit(
+            f"ERROR: framing (CUSTOMIZE PROMPT) is missing a `## Pronunciation` section.\n"
+            f"  File: {file_path}\n"
+            f"  R-PRONUNCIATION-IMPERATIVE: every framing must carry a Pronunciation\n"
+            f"  block of imperative directives (`Pronounce \"Term\" as \"phonetic\". ...`).\n"
+            f"  See content/podcast/_handbook/notebooklm-customize-prompt-rules.md\n"
+            f"  R-PRONUNCIATION-IMPERATIVE."
+        )
+    block = m.group(1)
+    legacy = LEGACY_PASSIVE_PRONUNCIATION.findall(block)
+    if legacy:
+        sample = "\n".join(f"    {line.strip()[:100]}" for line in legacy[:5])
+        sys.exit(
+            f"ERROR: framing's `## Pronunciation` block uses the legacy passive-list pattern.\n"
+            f"  File: {file_path}\n"
+            f"  Offending lines (first 5):\n{sample}\n\n"
+            f"  R-PRONUNCIATION-IMPERATIVE: rewrite as `Pronounce \"Term\" as \"phonetic\".`\n"
+            f"  The passive list does not change NotebookLM voice-model behavior — empirically\n"
+            f"  hosts said 'tassel wolf' for *Tasawwuf* across three episodes."
+        )
+    # Require at least one Pronounce line
+    if "Pronounce \"" not in block and 'Pronounce "' not in block:
+        sys.exit(
+            f"ERROR: framing's `## Pronunciation` block has no imperative `Pronounce \"...\"` lines.\n"
+            f"  File: {file_path}\n"
+            f"  See R-PRONUNCIATION-IMPERATIVE."
+        )
+    # Require the final-line guard inside or after the block
+    if "Do not read this guidance aloud" not in content and "Do not read this prompt aloud" not in content:
+        sys.exit(
+            f"ERROR: framing missing the no-read-aloud guard.\n"
+            f"  File: {file_path}\n"
+            f"  R-NO-READ-PROMPT: framing must end with `Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.`"
+        )
+
+
+def assert_framing_deny_block(content: str, file_path: Path) -> None:
+    """R-NOMODERNIZE + R-NOSURPRISE + R-NO-READ-PROMPT: framing carries a `## Do not` block."""
+    if not re.search(r"^##\s+Do not\b", content, re.MULTILINE):
+        sys.exit(
+            f"ERROR: framing missing the `## Do not (forbidden vocabulary and framings)` section.\n"
+            f"  File: {file_path}\n"
+            f"  R-NOMODERNIZE + R-NOSURPRISE: every framing must include a DENY block\n"
+            f"  listing modernization terms (Twitter, X, social media, algorithm, ...) and\n"
+            f"  surprise-noise phrases ('wow', 'right?', 'it's chilling', ...). The block\n"
+            f"  is the structural fix for empirically-observed host drift away from\n"
+            f"  faithful exposition into modern analogies and surprise loops.\n"
+            f"  See content/podcast/_handbook/notebooklm-customize-prompt-rules.md."
+        )
+    missing = [p for p in REQUIRED_FRAMING_DO_NOT_PHRASES if p not in content]
+    if missing:
+        sys.exit(
+            f"ERROR: framing's DENY block is missing required entries: {missing}\n"
+            f"  File: {file_path}\n"
+            f"  See R-NOMODERNIZE / R-NOSURPRISE / R-NO-READ-PROMPT for the canonical list."
+        )
+
+
 def validate_chapter(chapter_path: Path) -> int:
     """Validate the chapter file. Returns word count. Exits on any error."""
     text = chapter_path.read_text(encoding="utf-8")
     assert_no_html_comments(text, chapter_path, "chapter (SOURCE)")
     assert_no_meta_prose(text, chapter_path, "chapter (SOURCE)")
+    # R-PHONETICS-OUT (2026-05-17)
+    assert_no_inline_phonetics(text, chapter_path)
+    # R-NO-ABBREVIATION (2026-05-17)
+    assert_no_abbreviations(text, chapter_path)
+    # R-HONORIFIC-ONCE (2026-05-17)
+    assert_honorifics_once_only(text, chapter_path)
     n = word_count(text)
     if n < CHAPTER_WORD_MIN_HARD or n > CHAPTER_WORD_MAX_HARD:
         sys.exit(
@@ -263,6 +491,10 @@ def build_framing_episode_txt(framing_path: Path, out_path: Path) -> int:
 
     # Re-validate cleaned framing for meta-prose tells (cross-episode refs, etc.).
     assert_no_meta_prose(cleaned, framing_path, "framing (CUSTOMIZE PROMPT)")
+    # R-PRONUNCIATION-IMPERATIVE (2026-05-17)
+    assert_framing_pronunciation_imperative(cleaned, framing_path)
+    # R-NOMODERNIZE + R-NOSURPRISE + R-NO-READ-PROMPT (2026-05-17)
+    assert_framing_deny_block(cleaned, framing_path)
 
     n = word_count(cleaned)
     if n < FRAMING_WORD_MIN or n > FRAMING_WORD_MAX:

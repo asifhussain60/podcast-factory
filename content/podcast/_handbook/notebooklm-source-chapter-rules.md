@@ -195,43 +195,58 @@ Count consecutive blockquotes; flag stacks ≥3 without intervening commentary o
 
 ---
 
-## R-PHONETIC · Phonetic coverage on every Arabic term
+## R-PHONETICS-OUT · No inline phonetic guides in the chapter
 
 ### Rule
 
-Every Arabic transliteration, Quranic verse line, hadith line, du`a, name, and honorific MUST carry an inline phonetic guide on its **first occurrence per chapter**. The phonetic spelling MUST match `content/_shared/arabic/03-arabic-english-manifest.md` exactly — drift is a failure.
+The chapter file MUST NOT carry inline phonetic guides in parentheses (`*Term* (PHO-ne-tic; gloss)`, or `> (bis-mil-laah ir-rah-maan ir-ra-heem. …)` after a transliteration). All phonetic guidance for the episode lives in the customize prompt's **Pronunciation** block (R-PRONUNCIATION-IMPERATIVE in `notebooklm-customize-prompt-rules.md`). The chapter ships the transliteration only (or the English equivalent if substituted per R-SUBSTITUTION); a short English gloss after the term is permitted when it carries meaning the listener needs, but the **respelled phonetic itself never appears inline**.
+
+### Why
+
+This rule replaces the deprecated R-PHONETIC. NotebookLM has no TTS-engineer layer — it reads parenthetical text aloud as content. Empirical evidence (May 2026 audit against the 5 *Ayyuhal Walad* transcripts): inline `(SOON-nah; …)` produced systematic doublings — hosts saying "Sunnah, soon-nah" or "Sahih Sitta, sahasita" — and mangled names like "tassel wolf" for *Tasawwuf*, "shakestone noon mystery" for *Shaykh Dhul-Nun al-Misri*, "Najah Balala" for *Nahj al-Balagha*. Moving phonetic guidance out of read-aloud surface and into the imperative customize prompt is the structural fix.
 
 ### Auto-detect
 
-For each italicized Arabic transliteration or known Arabic-origin term, verify a `*Term* (PHO-net-ic; gloss)` pattern on first occurrence. Cross-check phonetic against shared manifest.
+Regex scan for the parenthetical respelling pattern. Anchor on:
+- `\*[A-Za-z'`\-]+\*\s*\([A-Z][A-Z\-]+`
+- `>\s*\([a-z\-]+\s+[a-z\-]+`  (the post-transliteration phonetic line in a blockquote)
+- Any parenthesis whose contents are >50% hyphen-delimited respelled syllables.
 
 ### Auto-fix or flag
 
-**AUTO-FIX** when the term is in the shared manifest or book lexicon (insert canonical phonetic). **FLAG (P1)** when neither file knows the term (author proposes new entry).
+**AUTO-FIX** (deterministic): strip the parenthetical phonetic; keep the term + any non-phonetic gloss before the semicolon if present. If the parenthetical was a post-transliteration phonetic line, strip the whole line. Move the term + canonical phonetic into the customize prompt's Pronunciation block via R-PRONUNCIATION-IMPERATIVE.
 
 ### Authority for challenger
 
-`podcast-challenger` Loop **C1** + **C2**.
+`podcast-challenger` Loop **N** (phonetic-as-content audit) + Loop **C1** (still tracks phonetic coverage but now measured against the customize prompt's Pronunciation block, not inline chapter parens).
 
 ---
 
-## R-HONORIFICS · Honorifics at first mention only
+## R-HONORIFIC-ONCE · Honorifics expanded exactly once per chapter
 
 ### Rule
 
-Honorifics — `(PBUH)`, `(SAW)`, `(AS)`, `(RA)` — MUST appear at first mention only per chapter, not on every line. Devotional padding is the anti-pattern.
+Honorifics — `(PBUH)`, `(SAW)`, `(AS)`, `(RA)`, `(peace and blessings be upon him)`, `(peace be upon him)`, `(peace be upon them)`, `(may Allah be pleased with him/her)` — MUST be expanded **exactly once per chapter, on first mention of each figure**. Every subsequent mention of the same figure uses the contracted form (`the Prophet`, `Imam Ali`, `Imam Hasan`, `Aisha`, etc.) without re-attached honorific.
+
+### Why
+
+Devotional padding is the anti-pattern. NotebookLM reads every expanded honorific aloud, so a chapter that writes "the Prophet (peace and blessings be upon him)" eight times produces eight on-air recitations. The 2026-05-17 audit measured this on the *Eight Truths That Survive the Grave* transcript — the hosts said "the prophet, peace and blessings be upon him" nine times in a single episode.
 
 ### Auto-detect
 
-Count occurrences per honorific; first allowed, subsequent → strip.
+For each known figure (Prophet, Imam Ali, Imam Hasan, Imam Husayn, Aisha, Hatim, Junaid, Ghazali, etc.), count expansions of any honorific form. First occurrence allowed; every subsequent → strip the honorific phrase, keep the name.
 
 ### Auto-fix
 
-**AUTO-FIX** (deterministic): strip subsequent occurrences.
+**AUTO-FIX** (deterministic): strip every 2nd+ honorific expansion. Replace `(peace and blessings be upon him)` / `ﷺ` / `PBUH` / `SAW` (2nd+) with empty string. Same for `(AS)`, `(RA)`, etc.
+
+### Build-script enforcement
+
+`build_episode_txt.py` counts honorific expansions and refuses the chapter when any expanded form appears more than once. The deterministic fix is automatic in the challenger; the build script enforces only after the fix has had a chance to run.
 
 ### Authority for challenger
 
-`podcast-challenger` Loop **C3**.
+`podcast-challenger` Loop **O** (honorific repetition count) + Loop **C3** (legacy alias).
 
 ---
 
@@ -316,6 +331,39 @@ Substring scan for `[CONTEXT NEEDED]`. Semantic check for content not traceable 
 
 ---
 
+## R-NO-ABBREVIATION · Full names of major works on every appearance
+
+### Rule
+
+Titles of canonical works MUST appear in their full, recognizable form **every time** they are mentioned. Forbidden contractions in the chapter: `the Ihya`, `EI`, `IUD`, `the Nahj`, `NJB`, `the Mishkat`, `the Sahifa`, `Sahihayn`. The hosts must be able to read the title once and have the listener recognize the work.
+
+Allowed canonical forms (drawn from `enrichment-sources.md` Tier 1–6):
+- `Ihya Ulum al-Din` (Ghazali, *Revival of the Religious Sciences*)
+- `Kimiya al-Sa'ada` (Ghazali, *Alchemy of Happiness*)
+- `Munqidh min al-Dalal` (Ghazali, *Deliverance from Error*)
+- `Mishkat al-Anwar`, `Bidayat al-Hidaya`, `Jawahir al-Quran` (Ghazali)
+- `Nahj al-Balagha` (Imam Ali (AS), the Peak of Eloquence)
+- `Ghurar al-Hikam`, `Sahifa al-Sajjadiyya`
+- `Sahih Bukhari`, `Sahih Muslim`, `Sunan Abu Dawud`, `Sunan Tirmidhi`, `Sunan Nasa'i`, `Sunan Ibn Majah`, `Riyad al-Salihin`
+
+### Why
+
+Empirical evidence from the *Architecture of Refusal* transcript: Ghazali's `Ihya Ulum al-Din` was abbreviated in the chapter as `the Ihya`, and the host called it `the EI`. Listeners cannot recognize an abbreviation they have never heard before; the hosts will not glide past an unfamiliar contraction smoothly.
+
+### Auto-detect
+
+Substring scan for the forbidden contractions above; flag any hit.
+
+### Auto-fix
+
+**AUTO-FIX** (deterministic) for the known list: `the Ihya` → `Ihya Ulum al-Din`; `the Nahj` → `Nahj al-Balagha`; `EI` → `Ihya Ulum al-Din`. Add new entries to the deterministic map as new works enter the corpus.
+
+### Authority for challenger
+
+`podcast-challenger` Loop **B7** (work-title abbreviation audit) — new check added 2026-05-17.
+
+---
+
 ## R-OPENFRAME · Chapter opens with one-paragraph contextual frame
 
 ### Rule
@@ -348,4 +396,5 @@ Same as `notebooklm-customize-prompt-rules.md` — append new rules as `## R-<NA
 
 ## Revision log
 
+- 2026-05-17 (later) — **Architectural pivot driven by empirical audit of 5 NotebookLM transcripts.** Replaced R-PHONETIC (inline phonetic guides) with R-PHONETICS-OUT (chapter ships clean transliteration; phonetic guidance lives in the customize prompt). Renamed R-HONORIFICS → R-HONORIFIC-ONCE with stricter language and build-script enforcement. Added R-NO-ABBREVIATION for canonical work titles. Root cause: NotebookLM reads parenthetical phonetics aloud as content, producing systematic doublings ("Sahih Sitta, sahasita") and mangled names ("tassel wolf" for *Tasawwuf*, "Najah Balala" for *Nahj al-Balagha*, "the EI" for *Ihya Ulum al-Din*).
 - 2026-05-17 — Seeded with R-NOHTML, R-NOMETAPROSE, R-CROSSREF, R-NOEMDASH, R-WORDBAND, R-ENRICH60, R-MULTITIER, R-NOSTACK, R-PHONETIC, R-HONORIFICS, R-NAMES, R-SUBSTITUTION, R-ATTRIBUTION, R-NOFABRIC, R-OPENFRAME. Extracted from SKILL.md §0 Invariants 1–5 and §6 Output Rules plus podcast-challenger Loops A–G.

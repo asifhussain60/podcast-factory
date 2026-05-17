@@ -630,6 +630,58 @@
     <p>A strong bundle is one where, after NotebookLM finishes the Audio Overview, the listener thinks <strong>"the hosts said exactly what mattered."</strong> If the hosts drift or ramble, the bundle was weak — fix the bundle, not the model.</p>
   </div>
 
+  <!-- ── Empirical feedback loop · audit_transcript.py ────── -->
+  <div class="section-head">
+    <div class="label">·· architecture v3.5 · empirical feedback loop · 2026-05-17 ··</div>
+    <h2>What happens AFTER upload · the audit_transcript loop</h2>
+    <div class="sub">The pipeline above ends at "upload + click Generate". The v3.5 architecture adds a second loop that runs <em>after</em> NotebookLM produces the audio overview: transcribe it, drop into <code>transcripts/</code>, run <code>audit_transcript.py</code>, get a per-episode regression report. The next chapter/framing revision pass is informed by what the hosts actually said, not by what we hoped they would say.</div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="meta">·· step 1 ··</div>
+      <h3>Transcribe the audio overview</h3>
+      <p>Via Turboscribe (or equivalent). Save to
+      <code>content/podcast/&lt;book-slug&gt;/transcripts/EP##-&lt;slug&gt;.transcript.txt</code>.
+      Slug must match the chapter + episode (1:1:1 mapping; the audit script
+      auto-resolves the path from the EP id).</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· step 2 ··</div>
+      <h3>Run the audit</h3>
+      <p><code>python3 scripts/podcast/audit_transcript.py BOOK_DIR EP##-&lt;slug&gt;</code>
+      writes <code>_system/audit-EP##-&lt;slug&gt;.md</code>. The report measures
+      phonetic doublings, mangled names, modernization injections, surprise-noise
+      loops, welcome violations, honorific repetition, abbreviation hits, and
+      filler density.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· step 3 ··</div>
+      <h3>Use the report as the regression target</h3>
+      <p>The next pass through Phases 3–4 (rewrite chapter, rewrite framing,
+      re-run <code>build_episode_txt.py</code>) is informed by the audit. Did
+      Sahih Sitta still get doubled? Open the framing's <code>## Pronunciation</code>
+      block — add an explicit imperative directive. Did "deep dive" appear?
+      Extend the <code>## Do not</code> DENY block.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· step 4 ··</div>
+      <h3>Re-upload · re-transcribe · re-audit</h3>
+      <p>Each pass closes the gap. The first pre-v3.5 audit established the
+      baseline; every subsequent audit is measured against the prior report.
+      Goal: drive phonetic doublings to zero, mangled names to zero, modernization
+      density below 0.5 per 1k words, surprise density below 1.0 per 1k words.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-eyebrow">·· why this loop closes the architecture ··</div>
+    <p>Before v3.5, the pipeline was open-loop. We wrote chapter + customize prompt → uploaded → trusted NotebookLM produced what we steered for. There was no sensor at the output. Empirically that meant: 5 episodes of <em>Ayyuhal Walad</em> shipped with systematic phonetic doublings, mangled names, surprise loops, and modernization injections that nobody had measured. Architecture v3.5 closes the loop: sensor (transcribe), analyser (<code>audit_transcript.py</code>), actuator (the producer + challenger), and a target metric per failure mode.</p>
+  </div>
+
   <footer class="footer">
     <a href="index.html">← back to the map</a> &nbsp;·&nbsp; <a href="podcast-overview.html">overview</a> &nbsp;·&nbsp; <a href="podcast-quality-system.html">quality system →</a>
   </footer>

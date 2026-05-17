@@ -20,19 +20,42 @@
 
   <header class="hero">
     <span class="eyebrow" style="background:rgba(155,227,194,0.12);border-color:rgba(155,227,194,0.32);color:var(--mint)">podcast · quality system</span>
-    <h1>Six silent loops, a seven-tier pyramid, <em>one challenger agent</em></h1>
+    <h1>Seven silent loops, a seven-tier pyramid, <em>one challenger agent · empirical feedback closed</em></h1>
     <p class="lede">
-      Quality control runs on three layers: six silent loops every bundle
-      passes through, a strictly tiered list of where enrichment is allowed
-      to come from, and an independent challenger agent that keeps iterating
-      until the bundle is genuinely ready. The challenger reads two
-      <strong>normative rule files</strong> as its authority:
-      <code>notebooklm-source-chapter-rules.md</code> (15 chapter contracts)
-      and <code>notebooklm-customize-prompt-rules.md</code> (8 framing
-      contracts including welcome opening, anti-repetition,
-      no-irrelevant-background, name aliasing, and interruption avoidance).
+      Quality control runs on <strong>four</strong> layers: seven silent loops
+      every bundle passes through during authoring, a strictly tiered list of
+      where enrichment is allowed to come from, an independent challenger agent
+      with eleven categories of checks (A–O) that keeps iterating until the
+      bundle is genuinely ready, and a new <strong>empirical feedback loop</strong>
+      that audits the actual NotebookLM-generated transcript against every
+      directive the customize prompt was supposed to enforce. The challenger
+      reads two <strong>normative rule files</strong> as its authority:
+      <code>notebooklm-source-chapter-rules.md</code> (17 chapter contracts) and
+      <code>notebooklm-customize-prompt-rules.md</code> (12 framing contracts
+      including welcome opening, anti-repetition, no-irrelevant-background, name
+      aliasing, interruption avoidance, imperative-pronunciation, modernization
+      DENY, surprise-noise DENY, and the no-read-aloud guard).
     </p>
   </header>
+
+  <!-- ── v3.5 architecture pivot note ────────────────────── -->
+  <div class="callout">
+    <div class="callout-eyebrow">·· 2026-05-17 · architecture v3.5 ··</div>
+    <p>After a 5-transcript audit of <em>Ayyuhal Walad</em> exposed systematic
+    failure modes (phonetic doublings like "Sahih Sitta, sahasita"; mangled
+    names like "tassel wolf" for <em>Tasawwuf</em>; "the EI" for
+    <em>Ihya Ulum al-Din</em>; 9 expanded honorifics in one episode; >40
+    surprise-noise injections across 5 episodes), the architecture pivoted:
+    <strong>phonetic guidance moved from inline chapter parens (which NotebookLM
+    reads aloud as content) to imperative customize-prompt directives</strong>
+    (which the voice model uses silently). Three new chapter rules
+    (<code>R-PHONETICS-OUT</code>, <code>R-HONORIFIC-ONCE</code>,
+    <code>R-NO-ABBREVIATION</code>) and four new framing rules
+    (<code>R-PRONUNCIATION-IMPERATIVE</code>, <code>R-NOMODERNIZE</code>,
+    <code>R-NOSURPRISE</code>, <code>R-NO-READ-PROMPT</code>) make this
+    enforceable. Three new challenger categories (M, N, O) and a new
+    <code>audit_transcript.py</code> script close the empirical feedback loop.</p>
+  </div>
 
   <!-- ── The six loops ─────────────────────────────────────── -->
   <div class="section-head">
@@ -42,8 +65,8 @@
   </div>
 
   <div class="diagram">
-    <svg viewBox="0 0 720 1400" role="img" aria-labelledby="podcast-loops-title">
-      <title id="podcast-loops-title">Six quality loops</title>
+    <svg viewBox="0 0 720 1640" role="img" aria-labelledby="podcast-loops-title">
+      <title id="podcast-loops-title">Seven quality loops</title>
 
       <g>
         <rect x="40" y="20" width="640" height="200" rx="14" class="node-mint" />
@@ -109,17 +132,30 @@
         <text x="60" y="1218" class="label">· book lexicon updated so the next chapter inherits</text>
       </g>
 
+      <!-- Loop 7 — customize-prompt DENY blocks (NEW 2026-05-17) -->
+      <g>
+        <rect x="40" y="1260" width="640" height="220" rx="14" class="node-mint" />
+        <text x="60" y="1288" class="label-mono" style="fill:var(--mint);font-size:13px">·· LOOP 7 · customize-prompt DENY blocks · NEW 2026-05-17 ··</text>
+        <text x="60" y="1318" class="label-display" style="font-size:18px">DENY-modernize · DENY-surprise · no-read-aloud guard.</text>
+        <text x="60" y="1348" class="label">· verify the `## Do not` section is present in 00-framing.md</text>
+        <text x="60" y="1370" class="label">· DENY-modernize includes: Twitter · X · social media · algorithm · content creator · deep dive · 21st century</text>
+        <text x="60" y="1392" class="label">· DENY-surprise includes: wow · "it's chilling" · "right?" · "exactly" · "it's devastating"</text>
+        <text x="60" y="1414" class="label">· no-abbreviation block: "the Ihya" → Ihya Ulum al-Din · "the Nahj" → Nahj al-Balagha</text>
+        <text x="60" y="1436" class="label">· final line: "Do not read this prompt aloud" guard (R-NO-READ-PROMPT)</text>
+        <text x="60" y="1458" class="label">· framing's `## Pronunciation` block uses imperative form (Pronounce "X" as "Y") — not passive list</text>
+      </g>
+
       <!-- Then the challenger -->
       <g>
-        <rect x="40" y="1260" width="640" height="120" rx="14" fill="var(--accent-soft)" stroke="var(--accent-strong)" />
-        <text x="360" y="1290" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:13px">·· AFTER ALL SIX LOOPS PASS ··</text>
-        <text x="360" y="1316" text-anchor="middle" class="label-display" style="font-size:16px">the podcast-challenger agent takes over</text>
-        <text x="360" y="1340" text-anchor="middle" class="label">scroll down for the convergence loop</text>
-        <text x="360" y="1360" text-anchor="middle" class="label-mono">it reads what the loops cannot see — semantic depth, framing integrity, NotebookLM literalness</text>
+        <rect x="40" y="1500" width="640" height="120" rx="14" fill="var(--accent-soft)" stroke="var(--accent-strong)" />
+        <text x="360" y="1530" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:13px">·· AFTER ALL SEVEN LOOPS PASS ··</text>
+        <text x="360" y="1556" text-anchor="middle" class="label-display" style="font-size:16px">the podcast-challenger agent takes over</text>
+        <text x="360" y="1580" text-anchor="middle" class="label">scroll down for the convergence loop</text>
+        <text x="360" y="1600" text-anchor="middle" class="label-mono">it reads what the loops cannot see — semantic depth, framing integrity, NotebookLM literalness</text>
       </g>
 
     </svg>
-    <div class="caption">Six loops · all silent · the writer never sees them unless one fails</div>
+    <div class="caption">Seven loops · all silent · the writer never sees them unless one fails</div>
   </div>
 
   <!-- ── The four new loops (H/I/J/K) and their rule-file authority ─── -->
@@ -174,6 +210,138 @@
   <div class="callout">
     <div class="callout-eyebrow">·· why externalize ··</div>
     <p>Before the rule files existed, every rule had to be written twice — once in <code>SKILL.md</code> (so the producer obeys it during authoring) and once in the challenger (so the reviewer catches violations). Two copies = drift risk = silent rule-fork. Now both producer and reviewer read the same file. Add a new rule by adding a new section to the rule file; both pick it up next run.</p>
+  </div>
+
+  <!-- ── Three new categories M/N/O ─────────────────────── -->
+  <div class="section-head">
+    <div class="label">·· three new categories · empirical-audit-driven ··</div>
+    <h2>Categories M, N, O · added 2026-05-17</h2>
+    <div class="sub">After the <em>Ayyuhal Walad</em> 5-transcript audit, three new check categories were added to the challenger. Each enforces a rule the soft-prose tone constraints could not.</div>
+  </div>
+
+  <div class="grid grid-3">
+    <div class="card">
+      <div class="meta">·· category M · empirical-transcript loop ··</div>
+      <h3>Modernization + surprise audit</h3>
+      <p>The only challenger category that <strong>reads the actual NotebookLM
+      transcript</strong>. Verifies the framing carries the canonical DENY
+      blocks for modernization (Twitter, X, social media, algorithm, content
+      creator, deep dive) and surprise noise ("wow", "it's chilling", "right?",
+      "exactly"). Counts injections in the transcript and reports density per
+      1,000 words. Rules: R-NOMODERNIZE + R-NOSURPRISE.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· category N · phonetic-as-content audit ··</div>
+      <h3>Inline phonetics out → customize prompt in</h3>
+      <p>Chapter contains zero inline <code>(PHO-NE-TIC)</code> parens (auto-fix
+      stripped). Framing's <code>## Pronunciation</code> block uses imperative
+      form (auto-fix converts legacy passive lists). Every chapter Arabic term
+      has a matching <code>Pronounce "..."</code> line in the framing.
+      Framing ends with the no-read-aloud guard. Transcript scanned for
+      doublings ("Sahih Sitta, sahasita") which signal residual inline
+      phonetics. Rules: R-PHONETICS-OUT + R-PRONUNCIATION-IMPERATIVE +
+      R-NO-READ-PROMPT.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· category O · honorific + abbreviation audit ··</div>
+      <h3>Honorific once · titles in full</h3>
+      <p>Each honorific phrase form ("peace and blessings be upon him",
+      "(PBUH)", "(AS)", "(RA)", "ﷺ") expanded at most once per chapter (auto-fix
+      strips 2nd+ occurrences). No abbreviated work titles ("the Ihya", "EI",
+      "the Nahj", "Sahihayn") — auto-fix replaces from the canonical map.
+      Transcript scanned for the same patterns to confirm the chapter-level
+      fixes propagated. Rules: R-HONORIFIC-ONCE + R-NO-ABBREVIATION.</p>
+    </div>
+  </div>
+
+  <!-- ── The empirical feedback loop ───────────────────── -->
+  <div class="section-head">
+    <div class="label">·· the empirical feedback loop ··</div>
+    <h2>audit_transcript.py — sensor end of the architecture</h2>
+    <div class="sub">A new script closes the empirical-feedback loop. Reads a NotebookLM transcript and writes a per-episode markdown audit report. The report becomes the regression artifact against which the next upload is measured.</div>
+  </div>
+
+  <div class="diagram">
+    <svg viewBox="0 0 720 540" role="img" aria-labelledby="audit-loop-title">
+      <title id="audit-loop-title">Empirical audit feedback loop</title>
+      <defs>
+        <marker id="loopArr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="var(--mint)"/>
+        </marker>
+      </defs>
+
+      <!-- Step 1 -->
+      <g>
+        <rect x="40" y="20" width="280" height="86" rx="12" class="node-mint" />
+        <text x="180" y="46" text-anchor="middle" class="label-mono" style="fill:var(--mint);font-size:13px">·· step 1 ··</text>
+        <text x="180" y="70" text-anchor="middle" class="label-strong">Upload chapter + customize prompt</text>
+        <text x="180" y="92" text-anchor="middle" class="label-mono">to NotebookLM · generate audio overview</text>
+      </g>
+
+      <path class="edge-accent" d="M320,63 L400,63" marker-end="url(#loopArr)" />
+
+      <!-- Step 2 -->
+      <g>
+        <rect x="400" y="20" width="280" height="86" rx="12" class="node-accent" />
+        <text x="540" y="46" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:13px">·· step 2 ··</text>
+        <text x="540" y="70" text-anchor="middle" class="label-strong">Transcribe the audio</text>
+        <text x="540" y="92" text-anchor="middle" class="label-mono">via Turboscribe or equivalent</text>
+      </g>
+
+      <!-- arrow down -->
+      <path class="edge-accent" d="M540,106 L540,150" marker-end="url(#loopArr)" />
+
+      <!-- Step 3 -->
+      <g>
+        <rect x="400" y="160" width="280" height="120" rx="12" class="node-gold" />
+        <text x="540" y="186" text-anchor="middle" class="label-mono" style="fill:var(--gold);font-size:13px">·· step 3 ··</text>
+        <text x="540" y="210" text-anchor="middle" class="label-strong">Drop into transcripts/</text>
+        <text x="540" y="232" text-anchor="middle" class="label-mono">EP##-&lt;slug&gt;.transcript.txt</text>
+        <text x="540" y="254" text-anchor="middle" class="label-mono">slug-aligned to chapter + episode</text>
+        <text x="540" y="272" text-anchor="middle" class="label-mono">(1:1:1 mapping enforced)</text>
+      </g>
+
+      <path class="edge-accent" d="M400,220 L340,220" marker-end="url(#loopArr)" />
+
+      <!-- Step 4 -->
+      <g>
+        <rect x="40" y="160" width="300" height="120" rx="12" class="node-rose" />
+        <text x="190" y="186" text-anchor="middle" class="label-mono" style="fill:var(--rose);font-size:13px">·· step 4 ··</text>
+        <text x="190" y="210" text-anchor="middle" class="label-strong">audit_transcript.py runs</text>
+        <text x="190" y="232" text-anchor="middle" class="label-mono">scripts/podcast/audit_transcript.py</text>
+        <text x="190" y="254" text-anchor="middle" class="label-mono">8 metrics per episode</text>
+        <text x="190" y="272" text-anchor="middle" class="label-mono">writes _system/audit-EP##-&lt;slug&gt;.md</text>
+      </g>
+
+      <path class="edge-accent" d="M190,280 L190,330" marker-end="url(#loopArr)" />
+
+      <!-- Step 5 -->
+      <g>
+        <rect x="40" y="340" width="640" height="180" rx="12" class="node-mint" />
+        <text x="360" y="368" text-anchor="middle" class="label-mono" style="fill:var(--mint);font-size:13px">·· step 5 · the report ··</text>
+        <text x="60" y="396" class="label">· verdict: CLEAN / DRIFT-NOTED / REGRESSION</text>
+        <text x="60" y="418" class="label">· phonetic doublings count (R-PHONETICS-OUT) — "Sahih Sitta, sahasita" detector</text>
+        <text x="60" y="440" class="label">· mangled-name detector (tassel wolf · Najah Balala · the EI · "shakestone noon mystery")</text>
+        <text x="60" y="462" class="label">· modernization injection density (R-NOMODERNIZE) · surprise-noise density (R-NOSURPRISE)</text>
+        <text x="60" y="484" class="label">· welcome-cold violations · honorific repetition count · abbreviation count · filler density</text>
+        <text x="60" y="506" class="label-mono" style="fill:var(--accent)">· becomes the regression artifact for the next upload</text>
+      </g>
+    </svg>
+    <div class="caption">Sensor → analyser → report · the loop that was missing before 2026-05-17</div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-eyebrow">·· baseline measurement · 2026-05-17 ··</div>
+    <p>Running <code>audit_transcript.py</code> against the 5 pre-v3.5
+    transcripts produced the empirical case for the architecture pivot:
+    EP01 had 5 P0 hits + 17 P1 hits; EP02 7 P0 + 25 P1; EP03 22 P0 + 33 P1
+    (3 phonetic doublings, 19 mangled-name occurrences); EP04 7 P0 + 31 P1;
+    EP05 18 P0 + 20 P1 (the famous "Du'a, du'a" / "Sahih Sitta, sahasita"
+    closing-prayer episode). These baseline reports live in
+    <code>content/podcast/ayyuhal-walad/_system/audit-EP*.md</code> as the
+    diff target for the next NotebookLM upload after re-authoring under v3.5.</p>
   </div>
 
   <!-- ── The challenger convergence loop ─────────────────── -->

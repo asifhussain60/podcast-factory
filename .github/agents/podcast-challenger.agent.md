@@ -234,6 +234,37 @@ If the user invokes without a book-slug, ask for one. Do not guess.
 | K1 | **Interruption-avoidance clause present** — Host dynamic or Anti-noise contains a "Conversation discipline" clause forbidding mid-sentence interjections and talking-over per R-NOINTERRUPT. | Substring scan for "interjection" / "talking over" / "completes a thought" in Host dynamic or Anti-noise. | Auto-fix (insert R-NOINTERRUPT clause). Flag (P1) when neither section exists. |
 | K2 | **Filler-injection words named** — Host dynamic explicitly names the forbidden filler-interjection vocabulary ("yeah", "right", "exactly") so NotebookLM's voice model has a concrete list. | Pattern scan for the named filler words in the Host dynamic block. | Auto-fix (insert) when Host dynamic exists. Flag (P1) otherwise. |
 
+### Category M: Modernization + surprise-noise audit (P0/P1) — R-NOMODERNIZE + R-NOSURPRISE — added 2026-05-17
+
+Loop M is the **empirical-transcript loop**: it scans both the framing AND the most recent NotebookLM transcript (when present under `BOOK_DIR/transcripts/EP##-<slug>.transcript.txt`) for the specific failure modes that motivated R-NOMODERNIZE and R-NOSURPRISE.
+
+| ID | Check | Detection | Remediation |
+|---|---|---|---|
+| M1 | **Framing carries DENY-modernize block** — `## Do not` section names at least: Twitter, X, social media, algorithm, content creator, internet troll, reply guy, YouTube comment, TikTok, deep dive, "21st century", "in our modern world", quote-tweet, cognitive behavioral therapy. | Substring scan in `## Do not` section. | Auto-fix (insert canonical block) when `## Do not` exists. Flag (P0) when section missing entirely. |
+| M2 | **Framing carries DENY-surprise block** — names at least: "wow", "that's so interesting", "it's chilling", "it's devastating", "it's terrifying", "right?", "exactly", "no way". | Substring scan in `## Do not` section. | Auto-fix (insert canonical clause). Flag (P0) when section missing. |
+| M3 | **Transcript contains zero injected modernizations** (empirical audit) — when `transcripts/EP##-<slug>.transcript.txt` exists, scan for any DENY-modernize term. ≤1 acceptable; >1 indicates the framing is being ignored. | Substring scan in transcript. | Flag (P1) per injection; report drift count in sidecar. |
+| M4 | **Transcript surprise-loop density ≤ 1 per 1,000 words** — scan for any DENY-surprise phrase; compute per-1000-word frequency. | Regex scan + word-count of transcript. | Flag (P1) when over the cap. |
+
+### Category N: Phonetic-as-content audit (P0) — R-PHONETICS-OUT + R-PRONUNCIATION-IMPERATIVE — added 2026-05-17
+
+Loop N enforces the architectural pivot from inline phonetic guides (which NotebookLM reads aloud as content, producing doublings like "Sahih Sitta, sahasita" and mangled names like "tassel wolf" for *Tasawwuf*) to customize-prompt imperative directives.
+
+| ID | Check | Detection | Remediation |
+|---|---|---|---|
+| N1 | **Chapter contains zero inline phonetic parens** — patterns `*Term* (PHO-NE-TIC; ...)` and post-transliteration phonetic lines (`> (bis-mil-laah ...)`) are forbidden. | Regex scan (`INLINE_PHONETIC_PATTERNS` in `scripts/podcast/build_episode_txt.py`). | Auto-fix (strip the parenthetical phonetic, keep the term + any non-phonetic gloss). Migrate the term + canonical phonetic into the framing's Pronunciation block. |
+| N2 | **Framing's `## Pronunciation` block uses imperative form** — every non-blank line begins `Pronounce "..."` or `Do not ...`. The legacy passive-list pattern (`*term*: phonetic`) is forbidden. | Regex scan (`LEGACY_PASSIVE_PRONUNCIATION` in build script). | Auto-fix (deterministic conversion: `*Term*: Pho-net-ic` → `Pronounce "Term" as "Pho-net-ic". Say it as one fluent word.`). |
+| N3 | **Every transliterated Arabic term in the chapter has a matching `Pronounce "..."` line in the framing** — gap detection: term in chapter without corresponding directive in framing. | Set diff: chapter italicized Arabic terms vs framing `Pronounce ".."` lines. | Auto-fix when the term is in the shared manifest or `_phonetics.md` (insert the line). Flag (P1) when neither file knows the term. |
+| N4 | **Framing ends with the no-read-aloud guard** (R-NO-READ-PROMPT) — `Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.` | Substring scan at end of framing. | Auto-fix (insert at end). |
+| N5 | **Transcript empirical: zero parenthetical-phonetic doublings** — when transcript exists, detect adjacent identical-or-near-identical tokens within 3 words of each other (the signature of "Sahih Sitta, sahasita"). | Tokenization + Levenshtein distance ≤2 between adjacent tokens. | Flag (P1) per doubling; report count. Indicates framing was missing the imperative directive or the chapter still carried inline phonetic. |
+
+### Category O: Honorific repetition + abbreviation audit (P0) — R-HONORIFIC-ONCE + R-NO-ABBREVIATION — added 2026-05-17
+
+| ID | Check | Detection | Remediation |
+|---|---|---|---|
+| O1 | **Each honorific phrase form expanded at most once per chapter** — counts of `(peace and blessings be upon him)`, `(PBUH)`, `(SAW)`, `(AS)`, `(RA)`, `(peace be upon him/her/them)`, `(may Allah be pleased with him/her)`, `ﷺ`. | Regex scan + counter. | Auto-fix (strip 2nd+ occurrences of each form). |
+| O2 | **No abbreviated work titles** — `the Ihya`, `EI`, `the Nahj`, `Sahihayn`, `the Mishkat`, etc. (the `FORBIDDEN_ABBREVIATIONS` map in the build script). | Substring scan. | Auto-fix (replace with full canonical title from R-NO-ABBREVIATION). |
+| O3 | **Transcript empirical: no expanded honorifics repeated more than once** — when transcript exists, count expansions and report. | Regex scan in transcript. | Flag (P1) per repetition; report count. |
+
 ---
 
 ## SECTION 3 — Auto-fix vs flag rules
@@ -242,15 +273,21 @@ If the user invokes without a book-slug, ask for one. Do not guess.
 
 - B2 (cross-episode references): regex replacement to source-anchored phrasing
 - B5 (em-dashes): `—` → `, ` with sentence rebalance
-- C1 (phonetic coverage) when the term is in the shared manifest or `_lexicon.md`: insert the phonetic guide at first chapter occurrence; the shared manifest's spelling wins
-- C2 (lexicon parity): add the chapter's phonetics to `_lexicon.md` if missing; auto-fix chapter spellings that drifted from the shared manifest; flag manifest-vs-chapter semantic disagreements for human judgment
-- C3 (honorific discipline): strip subsequent honorifics, keep first
+- C1 (phonetic coverage) when the term is in the shared manifest or `_phonetics.md`: insert into the framing's `## Pronunciation` block as an imperative line; the shared manifest's spelling wins
+- C2 (lexicon parity): add the chapter's terms to `_phonetics.md` if missing; auto-fix framing imperative spellings that drifted from the shared manifest; flag manifest-vs-chapter semantic disagreements for human judgment
+- C3 / O1 (honorific discipline): strip 2nd+ honorific expansions, keep first
 - E4 (verbal filler exact-match tells): strip the matched phrase
 - H1/H2/H3 (welcome opening, episode summary, closing landing): insert the template clauses from `notebooklm-customize-prompt-rules.md` when the parent section (Opening directive, Landing) exists
 - I1/I2 (anti-repetition, no-irrelevant-background clauses in framing): insert R-NOREPEAT / R-NOBACKGROUND template clauses when the parent section (Anti-noise, Three-part focus) exists
 - J1 (framing Name discipline block): insert "Full name → Alias" lines for every long name in the chapter that has an alias in `content/_shared/arabic/05-name-alias-policy.md`
 - J2 (chapter alias application): replace subsequent full-name occurrences with the alias when the alias is in the policy file
 - K1/K2 (interruption-avoidance, filler-vocabulary clauses): insert R-NOINTERRUPT template clause + filler-word list when Host dynamic or Anti-noise section exists
+- **M1/M2 (DENY blocks for modernize + surprise)**: insert canonical `## Do not` block from R-NOMODERNIZE / R-NOSURPRISE templates when missing
+- **N1 (inline phonetic paren strip)**: regex-strip `*Term* (PHO-NE-TIC; gloss)` parens in chapter; preserve the term + any non-phonetic gloss
+- **N2 (legacy passive Pronunciation list → imperative)**: deterministic conversion per R-PRONUNCIATION-IMPERATIVE auto-fix rule
+- **N3 (gap-fill framing Pronunciation)**: insert `Pronounce "..." as "..."` lines for chapter Arabic terms found in shared manifest or `_phonetics.md`
+- **N4 (no-read-aloud guard)**: append the literal `Do not read this prompt aloud. ...` sentence to the framing
+- **O2 (abbreviation expansion)**: regex-replace from `FORBIDDEN_ABBREVIATIONS` map in build script
 
 **Everything else is flagged**, not auto-fixed. The agent never:
 - Adds, removes, or changes citations (authoring decision).
@@ -414,6 +451,8 @@ When invoked:
 ---
 
 ## Version
+
+v1.3 (2026-05-17, evening). **Empirical-audit pivot.** Added Category M (modernization + surprise-noise audit; R-NOMODERNIZE + R-NOSURPRISE), Category N (phonetic-as-content audit; R-PHONETICS-OUT + R-PRONUNCIATION-IMPERATIVE), Category O (honorific repetition + abbreviation audit; R-HONORIFIC-ONCE + R-NO-ABBREVIATION). New auto-fix entries M1, M2, N1, N2, N3, N4, O2. Loop M is the **empirical-transcript loop** — when `BOOK_DIR/transcripts/EP##-<slug>.transcript.txt` is present, the agent scans it directly for the failure modes the framing was meant to prevent. Driven by a 5-transcript audit of *Ayyuhal Walad* that exposed systematic phonetic doublings ("Sahih Sitta, sahasita"), mangled names ("tassel wolf" for *Tasawwuf*), and >40 surprise-noise injections.
 
 v1.2 (2026-05-17). Extract Mode awareness: added Category G (contracts G1–G7), extended Section 0 cold-start reads with `extract-capability.md` + `chapter-contract.template.yml` + `extract_chapter.py`, rewrote the boundary section so memoir-derived bundles are in-scope while memoir authoring files remain out-of-scope, added the Extract Mode adapter as a sibling structural gate in Section 6, added contract path to the non-auto-fix list in Section 3. Update audit-log row in `reference/skill-registry.md`.
 

@@ -1,0 +1,78 @@
+# Transcript Audit · EP01-frame-and-first-counsel
+
+**Transcript:** `podcast/ayyuhal-walad/transcripts/EP01-frame-and-first-counsel.transcript.txt`
+**Word count:** 3423
+**Audit tool:** `scripts/podcast/audit_transcript.py` v1.0 (2026-05-17)
+
+## Verdict: **REGRESSION**
+
+- P0 hits (architecture failures): **5**
+- P1 hits (drift signals): **17**
+
+## Phonetic doublings · R-PHONETICS-OUT (P0)
+
+Pattern: `Term, term-phonetic` — the hosts read the transliteration AND its respelled phonetic. Indicates either inline phonetics survived in the chapter file or the framing's `## Pronunciation` block was not in imperative form.
+
+**Count:** 1
+
+- `you, you`
+
+## Mangled names (P0)
+
+Known-mangling lookup: each canonical name is scanned against its empirically-observed mangled forms.
+
+| Canonical | Mangled form | Count |
+|---|---|---|
+| `Ayyuhal Walad` | `ayuhol walad` | 1 |
+| `Mujahadah` | `mujahada` | 2 |
+| `Nasir-i Khusraw` | `nasiri khusra` | 1 |
+
+## Welcome-opening violations · R-WELCOME (P0)
+
+**None detected.**
+
+## Modernization injections · R-NOMODERNIZE (P1) · density 0.6 per 1k words
+
+| Phrase | Count |
+|---|---|
+| `deep dive` | 2 |
+
+## Surprise-noise loops · R-NOSURPRISE (P1) · density 4.4 per 1k words
+
+| Phrase | Count |
+|---|---|
+| `Exactly` | 8 |
+| `exactly` | 3 |
+| `Wow` | 2 |
+| `right?` | 2 |
+
+## Honorific repetitions · R-HONORIFIC-ONCE (P1)
+
+Each form allowed exactly once per chapter; the transcript should reflect ≤1 expansion per honorific phrase form.
+
+**None detected.**
+
+## Abbreviated work titles · R-NO-ABBREVIATION (P1)
+
+**None detected.**
+
+## Filler interjections · R-NOINTERRUPT (P2) · density 2.3 per 1k words
+
+| Phrase | Count |
+|---|---|
+| `Right.` | 4 |
+| `Yeah,` | 3 |
+| `Right,` | 1 |
+
+## Remediation cheat sheet
+
+| Finding | Action |
+|---|---|
+| Phonetic doublings | Inspect chapter for surviving inline `(PHO-ne-tic)` parens; verify framing's `## Pronunciation` block uses imperative form per R-PRONUNCIATION-IMPERATIVE. |
+| Mangled names | Add explicit `Pronounce "<canonical>" as "<phonetic>". Say it as one fluent word.` line to the framing's Pronunciation block. Check `content/_shared/arabic/03-arabic-english-manifest.md` for canonical spelling. |
+| Welcome opening violations | Verify framing carries the R-WELCOME directive; tighten the Opening section to forbid the specific phrase. |
+| Modernization injections | Extend the framing's `## Do not` block with the specific phrase; confirm R-NOMODERNIZE canonical list is present. |
+| Surprise loops | Extend `## Do not` with the specific phrase; confirm R-NOSURPRISE canonical list is present. |
+| Honorific repetition | Audit chapter file with `assert_honorifics_once_only` in `build_episode_txt.py`; strip 2nd+ expansions. |
+| Abbreviated titles | Search-and-replace per the `FORBIDDEN_ABBREVIATIONS` map in `build_episode_txt.py`. |
+

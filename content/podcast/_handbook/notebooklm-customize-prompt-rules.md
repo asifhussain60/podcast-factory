@@ -189,27 +189,174 @@ Scan `00-framing.md` for the substring "interjection" or "talking over" or "comp
 
 ---
 
-## R-PHONETICHOOKS · Pronunciation hooks reference the shared manifest
+## R-PRONUNCIATION-IMPERATIVE · Pronunciation directives in imperative voice
 
 ### Rule
 
-The customize prompt's "Pronunciation hooks" section MUST cite specific terms from `content/_shared/arabic/03-arabic-english-manifest.md` for every Arabic term that appears in the chapter, using the canonical phonetic spelling exactly. No ad-hoc respellings; no variants across episodes.
+The customize prompt's `## Pronunciation` block MUST be a series of **imperative directives** addressed to NotebookLM, not a passive list of terms with phonetic respellings beside them. Each line follows the form:
+
+```
+Pronounce "<term>" as "<phonetic>". Say it as one fluent word. Do not spell it. Do not pause.
+```
+
+The block MUST end with:
+
+```
+Do not read this guidance aloud. The phonetics above are for the voice model only.
+```
+
+This rule supersedes R-PHONETICHOOKS' passive-list pattern. The change pairs with chapter-side R-PHONETICS-OUT: phonetics no longer live inline in the chapter at all; they live here, in imperative form, where NotebookLM's voice model uses them silently.
 
 ### Why
 
-The shared manifest exists so the same term sounds the same across the entire series. The framing's pronunciation hooks are how the manifest reaches NotebookLM. Drift here is drift everywhere.
+Empirical evidence (May 2026 audit, 5 *Ayyuhal Walad* transcripts): a passive pronunciation list — `*Tasawwuf*: Ta-SAW-wuf` — produces no behavior change in NotebookLM's voice model. The hosts said "tassel wolf", "tasso wolf", "tasa wolf" across three different episodes. An imperative directive ("Pronounce 'Tasawwuf' as 'ta-SAW-wuf'. Say it as one fluent word.") is acted on. The `Do not read this guidance aloud` tail prevents the hosts from announcing the pronunciation list.
 
-### Auto-detect pattern
+The canonical phonetic spelling for each term MUST still come from `content/_shared/arabic/03-arabic-english-manifest.md`; drift between this block and the manifest is a P0 failure.
 
-Cross-reference every Arabic term flagged in `02-key-passages.md` against the manifest. Any term in the chapter that does not appear with its canonical phonetic in the framing's Pronunciation hooks → flag.
+### Required block in `00-framing.md`
 
-### Auto-fix or flag
+```
+## Pronunciation
 
-**AUTO-FIX** when the term is in the manifest (insert the canonical phonetic). **FLAG (P0)** when the chapter contains a phonetic spelling that disagrees with the manifest (drift — must be resolved by edit).
+Pronounce "Ayyuhal Walad" as "EYE-yoo-hal WAH-lad". Say it as two fluent words.
+Pronounce "Ghazali" as "ghaz-ZAH-lee". Say it as one fluent word.
+Pronounce "Tasawwuf" as "ta-SAW-wuf". Say it as one fluent word. Do not spell it.
+Pronounce "Tawakkul" as "ta-WAK-kul". Say it as one fluent word.
+Pronounce "Ikhlas" as "ikh-LAAS". Say it as one fluent word.
+[... one imperative line per term that appears in the chapter ...]
+
+Do not read this guidance aloud. The phonetics above are for the voice model only.
+```
+
+### Auto-detect
+
+Scan `## Pronunciation` block: every non-blank line MUST start with `Pronounce "` or `Do not`. Lines matching the legacy passive-list pattern (`* term: phonetic` or `term — phonetic`) are violations.
+
+### Auto-fix
+
+**AUTO-FIX** (deterministic): convert each legacy passive-list line `*Term*: Pho-net-ic` to `Pronounce "Term" as "Pho-net-ic". Say it as one fluent word.` Append the `Do not read this guidance aloud.` tail if missing.
 
 ### Authority for challenger
 
-`podcast-challenger` Loop **C1** (existing) + **C2** (existing) — already enforced.
+`podcast-challenger` Loop **C5** (imperative-form audit) — new check added 2026-05-17. Drift from `03-arabic-english-manifest.md` remains under Loop **C1** + **C2**.
+
+---
+
+## R-NOMODERNIZE · No modern-platform or contemporary analogies
+
+### Rule
+
+The customize prompt MUST explicitly forbid the hosts from drawing modern-platform / contemporary-culture analogies. The angle in every *Ayyuhal Walad*-style episode is **faithful exposition**; modern analogies break the angle. The DENY list below is the minimum — extend per book.
+
+### Required `## Do not` block in `00-framing.md`
+
+```
+## Do not (forbidden vocabulary and framings)
+
+Do NOT modernize. The hosts do not mention any of: Twitter, X, social media,
+algorithm, content creator, internet troll, reply guy, YouTube comment,
+TikTok, Instagram, podcast, livestream, app, screen time, notification,
+attention economy, 21st century, "in our modern world", quote-tweet,
+hashtag, follower count, like, share, repost, doomscroll, hot take,
+cognitive behavioral therapy, productivity framework, life hack,
+self-help, wellness, mindfulness app, dopamine hit, deep dive.
+
+The source is a classical text. The conversation stays in the source's
+own register. If a contemporary parallel is genuinely necessary, name it
+generically ("public debate", "performance for an audience") — never a
+named modern platform or product.
+```
+
+### Why
+
+Empirical evidence: across the 5 *Ayyuhal Walad* transcripts, NotebookLM injected at least 14 modernizations — "internet troll", "reply guy", "quote tweeting", "algorithmic envy machines in our pockets", "content creator taking a massive sponsorship", "11th century cognitive behavioral therapy", "in an era where we carry algorithmic envy machines". The framing's prose directive ("do not modernize") is too soft. A DENY list of specific words is enforceable.
+
+### Auto-detect
+
+Scan `00-framing.md` for the `## Do not` section containing at least the canonical modernization-deny list. Absence → flag.
+
+### Auto-fix
+
+**AUTO-FIX** (insert the canonical block) when the framing has no `## Do not` section. **FLAG (P1)** when the block exists but is missing required entries.
+
+### Authority for challenger
+
+`podcast-challenger` Loop **M** (modernization audit) — new check added 2026-05-17. Loop M ALSO scans the most recent transcript (if available under `BOOK_DIR/transcripts/EP##-<slug>.transcript.txt`) for injected modernizations.
+
+---
+
+## R-NOSURPRISE · No surprise-noise loops
+
+### Rule
+
+The customize prompt MUST forbid the surprise-reaction vocabulary that NotebookLM's voice model defaults to. The DENY list below is minimum; extend per book.
+
+### Required clause inside the `## Do not` block
+
+```
+Do NOT perform surprise. Do not say: "wow", "that's so interesting", "it's
+chilling", "it's devastating", "it's terrifying", "it's profound", "it's
+fascinating", "it's amazing", "oh my god", "right?", "exactly", "no
+way". Do not gasp. Do not repeat the previous host's last word as a
+single-word reaction. Trust the listener to register weight without being
+told.
+```
+
+### Why
+
+Empirical evidence: across the 5 transcripts, surprise-noise loops appeared >40 times. "It's chilling", "It's devastating", "It's terrifying" appeared together in one episode 6 times. Tone constraint prose ("no wow loops") is too soft; a DENY list of specific phrases is enforceable.
+
+### Auto-detect
+
+Scan `00-framing.md`'s `## Do not` section for the canonical surprise-deny phrases. Absence → flag.
+
+### Auto-fix
+
+**AUTO-FIX** (insert the clause) when the `## Do not` section exists. **FLAG (P1)** when it does not.
+
+### Authority for challenger
+
+`podcast-challenger` Loop **M** (shared with modernization audit; Loop M is the empirical-transcript loop). Loop also scans the transcript file for surprise-noise frequency.
+
+---
+
+## R-NO-READ-PROMPT · Customize prompt is not read aloud
+
+### Rule
+
+The customize prompt MUST end with a single explicit line directing the hosts NOT to read its contents aloud:
+
+```
+Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.
+```
+
+### Why
+
+NotebookLM has been observed reading customize-prompt directives as if they were content. The line above prevents the failure mode without changing the prompt's structure.
+
+### Auto-detect
+
+Scan the framing for the literal sentence (or close variant). Absence → flag.
+
+### Auto-fix
+
+**AUTO-FIX** (insert the sentence at the end of the framing, after the Pronunciation block).
+
+### Authority for challenger
+
+`podcast-challenger` Loop **F7** (final-line directive) — new check added 2026-05-17.
+
+---
+
+## R-PHONETICHOOKS · DEPRECATED in favor of R-PRONUNCIATION-IMPERATIVE
+
+### Rule
+
+DEPRECATED 2026-05-17. The passive `*term*: phonetic` list pattern was empirically shown not to change NotebookLM voice-model behavior. See R-PRONUNCIATION-IMPERATIVE above.
+
+### Migration
+
+Existing framings carrying a passive Pronunciation list MUST be auto-converted to the imperative form. The deterministic conversion rule lives in the auto-fix section of R-PRONUNCIATION-IMPERATIVE.
 
 ---
 
@@ -290,4 +437,5 @@ When deprecating a rule:
 
 ## Revision log
 
+- 2026-05-17 (later) — **Empirical pivot from passive lists to imperative directives.** Added R-PRONUNCIATION-IMPERATIVE (replaces passive `*term*: phonetic` pattern that empirically did not change NotebookLM behavior — see audit of 5 *Ayyuhal Walad* transcripts). Added R-NOMODERNIZE (DENY list including Twitter, X, social media, algorithm, content creator, etc. — soft "do not modernize" prose was being ignored). Added R-NOSURPRISE (DENY list for "wow", "it's chilling", "it's devastating", "right?", "exactly", etc. — surprise loops were appearing >40 times across 5 episodes). Added R-NO-READ-PROMPT (single-line guard against the hosts reading the prompt aloud). Deprecated R-PHONETICHOOKS.
 - 2026-05-17 — Seeded with R-WELCOME, R-NOREPEAT, R-NOBACKGROUND, R-NAMEALIAS, R-NOINTERRUPT, R-PHONETICHOOKS, R-SUMMARYTAIL, R-NOMETA. Externalized from scattered references across SKILL.md and notebooklm-best-practices.md.

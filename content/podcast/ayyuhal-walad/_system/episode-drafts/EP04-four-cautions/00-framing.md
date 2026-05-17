@@ -6,9 +6,13 @@ The hosts are speaking about a long, severe stretch of *Ayyuhal Walad* (My Dear 
 
 The episode does not treat these as a list. They are a single architecture. They are the negative space of the seeker's life, what *not* doing protects the inner work.
 
+## Opening directive
+
+Open the episode with a brief, sincere welcome — one sentence — followed by a two- or three-sentence summary that names the source (Ghazali's letter to a long-time student), the central tension (the seeker's inner work is protected by refusal, not by addition), and the question the conversation will land (what would faithful exposition of these four refusals demand of the listener's daily life). Open in the voice of someone glad the listener showed up. Do not say "Welcome to our deep dive". Do not say "Today we'll discuss". Do not say "In this episode".
+
 ## Audience
 
-General thoughtful adult. Not a specialist in Sufism, not necessarily Muslim, but someone willing to take a classical religious text on its own terms for the length of one conversation. Assume the listener has heard of Islam and of Sufism but has not read Ghazali. Do not assume they know what *Riya* or *Shari'ah* mean. Gloss those terms the first time they appear, never again.
+General thoughtful adult. Not a specialist in Sufism, not necessarily Muslim, but someone willing to take a classical religious text on its own terms for the length of one conversation. Assume the listener has heard of Islam and of Sufism but has not read Ghazali. Do not assume they know what Riya or Sharia mean. Gloss those terms the first time they appear, never again.
 
 ## Angle
 
@@ -26,60 +30,76 @@ The hosts must return to these four tensions across the conversation. They are t
 
 3. **The company of the rich and powerful is dangerous specifically.** The third caution is the shortest. Ghazali does not say *be careful around rulers*. He says do not greet them, do not sit with them, do not even raise an eye to look at them. The severity is the point.
 
-4. **Even their gifts, even if lawful, are refused.** The fourth caution closes the loop. Even if the wealth is from *Halal* sources, even if you intend to redistribute it to the poor, refuse it. Ghazali says this is the strategy Satan has used to spill the blood of many.
+4. **Even their gifts, even if lawful, are refused.** The fourth caution closes the loop. Even if the wealth is from Halal sources, even if you intend to redistribute it to the poor, refuse it. Ghazali says this is the strategy Satan has used to spill the blood of many.
 
 ## Host dynamic
 
 Default personas, slightly adjusted for the gravity of the source.
 
-**Host A, Curious Mind.** A thoughtful generalist. Asks plainly: why is debate so dangerous? Isn't preaching how religion is transmitted? What if the ruler is fair? What if the gift would help the poor? Warm, unguarded, willing to be unsettled. Does not perform shock or use phrases like *wow* or *that is so interesting*.
+**Host A, Curious Mind.** A thoughtful generalist. Asks plainly: why is debate so dangerous? Isn't preaching how religion is transmitted? What if the ruler is fair? What if the gift would help the poor? Warm, unguarded, willing to be unsettled.
 
 **Host B, Scholar Companion.** Knows the tradition. Provides historical grounding (Ghazali himself fled the Nizamiyya and the patronage of the Seljuk court at the height of his career; this section is autobiographical in a way the earlier sections are not), explains the genre of *adab al-alim* (the conduct of the scholar), gives the medieval debate-culture context. Never lectures. When the text says something hard or strange, Host B does not soften it.
 
+Conversation discipline. Each host completes a thought before the other responds. No interjections inside the other host's sentence. No talking over. The other host may pick up the thread after a brief pause, but only after the first host has landed.
+
 ## Tone constraints
 
-- No cheerful filler. No *welcome back to the show* energy. The text is severe and the hosts should feel the weight of it.
-- No *wow, that is so interesting* loops. No surprised noises every paragraph. Trust the listener to register the gravity.
-- No summarizing the obvious. Do not restate what was just said in different words.
-- Use Ghazali's own words. Quote the *Kullul 'Adawati* couplet, the flood image, the seven evils of debate, and the *Beware! Beware!* refrain about Satan's strategy directly. The verbatim passages are stronger than paraphrase.
-- End on a posture, not a conclusion. The episode is about refusal as a discipline. The hosts should land in the silence of that refusal, not summarize it.
+- The text is severe and the hosts should feel the weight of it.
+- Trust the listener to register the gravity without surprise noise.
+- Do not restate what was just said in different words.
+- Use Ghazali's own words. Quote the seven evils of debate, the flood image, and the *Beware! Beware!* refrain about Satan's strategy directly. The verbatim passages are stronger than paraphrase.
+- Do not restate the central thesis more than twice across the conversation. Do not re-cite a quote already cited. Each beat lands once; the next beat moves forward.
+- Stay on the source's main content. Background about Ghazali's biography or the Nizamiyya is included only when it directly explains the argument under discussion, and only once per episode.
+
+## Closing landing
+
+Close on the unresolved tension or a single sharp question. Do not recap what was discussed. Do not say "so today we covered". The episode is about refusal as a discipline. The hosts should land in the silence of that refusal, not summarize it.
 
 ## Permission to disagree
 
 Do not. The angle is faithful exposition. If a host wants to flag a difficulty (for example, *but doesn't a scholar have to engage with the public sphere?*), the other host should hold that as an honest question rather than a counter-argument, and the answer should come from inside Ghazali's framework. The framework is severe by design.
 
+## Name discipline
+
+Use each long name in full once on first occurrence, then use the alias on every subsequent reference:
+- Imam Abu Hamid Muhammad al-Ghazali → Ghazali
+- Imam Ali ibn Abi Talib → Imam Ali
+- Prophet Isa → Prophet Isa (use in full each time, the alias is the name)
+
 ## Pronunciation
 
-- *Ayyuhal Walad*: Eye-yoo-hal Wah-lad
-- *Riya*: Ree-yaa
-- *Ikhlas*: Ikh-laas
-- *Shari'ah*: Sha-ree-ah
-- *Nafs*: Nafs
-- *Wajib*: Waa-jib
-- *Shaytan*: Shay-taan
-- *Shaykh al-Kamil*: Shaykh al-KAA-mil
-- *Sirat al-Mustaqeem*: See-RAAT al-mus-ta-QEEM
-- *Minbar*: Min-bar
-- *Fasad*: Fa-saad
-- *Fasiq*: Faa-siq
-- *Zalim*: Zaa-lim
-- *Halal*: Ha-laal
-- *Deen*: Deen
-- *Hashr*: Hashr
-- *Mizaan*: Mee-zaan
-- *Sirat*: See-raat
-- *Munkir Nakeer*: Mun-kir Na-keer
-- *Malik ul-Maut*: Maa-lik ul-Mawt
-- *Ahya al-Uloom ad-Deen*: Ih-yaa al-oo-LOOM ad-Deen
-- *Ghazali*: Ghaz-zah-lee
+Pronounce "Ayyuhal Walad" as "EYE-yoo-hal WAH-lad". Say it as two fluent words. Do not spell it.
+Pronounce "Ghazali" as "ghaz-ZAH-lee". Say it as one fluent word.
+Pronounce "Riya" as "ri-YAH". Say it as one fluent word.
+Pronounce "Ikhlas" as "ikh-LAAS". Say it as one fluent word.
+Pronounce "Sharia" as "sha-REE-ah". Say it as one fluent word.
+Pronounce "Nafs" as "NAFS". Say it as one short fluent word.
+Pronounce "wajib" as "WAH-jib". Say it as one fluent word.
+Pronounce "Shaytan" as "shay-TAAN". Say it as one fluent word.
+Pronounce "Shaykh al-Kamil" as "shaykh al-KAH-mil". Say it as two fluent words.
+Pronounce "Sirat al-Mustaqeem" as "see-RAAT al-mus-ta-QEEM". Say it as one fluent phrase.
+Pronounce "minbar" as "MIN-bar". Say it as one fluent word.
+Pronounce "fasad" as "fa-SAAD". Say it as one fluent word.
+Pronounce "fasiq" as "FAH-siq". Say it as one fluent word.
+Pronounce "zalim" as "ZAH-lim". Say it as one fluent word.
+Pronounce "halal" as "ha-LAAL". Say it as one fluent word.
+Pronounce "deen" as "DEEN". Say it as one short fluent word.
+Pronounce "Ihya Ulum al-Din" as "IH-yah oo-LOOM ad-DEEN". Say it as one fluent phrase. Do not abbreviate.
+Pronounce "Nahj al-Balagha" as "NAHJ al-ba-LAH-gha". Say it as one fluent phrase. Do not abbreviate.
+Pronounce "Nizamiyya" as "ni-zah-MIY-yah". Say it as one fluent word.
+Pronounce "Seljuk" as "sel-JOOK". Say it as one fluent word.
+Pronounce "adab al-alim" as "ah-DAB al-AH-lim". Say it as one fluent phrase.
 
----
+Do not read this guidance aloud. The phonetics above are for the voice model only.
 
-## Upload checklist (for Asif; stripped from the published episode txt)
+## Do not (forbidden vocabulary and framings)
 
-1. Open https://notebooklm.google.com and create a new notebook (name it after this episode).
-2. Click *Add source*. Upload `content/podcast/ayyuhal-walad/chapters/ch04-four-cautions.txt` as the single source.
-3. Click *Audio Overview*, then *Customize*. Open `content/podcast/ayyuhal-walad/episodes/EP04-four-cautions.txt` in a text editor; copy its entire contents into the Customize prompt box.
-4. Click *Generate*. Wait three to five minutes.
-5. Listen end-to-end. If strong, download the MP3 and paste the notebook URL into `_system/registry.md`.
-6. If weak, re-read `_system/episode-drafts/EP04-four-cautions/04-discussion-spine.md` and the *Central tensions* section in this framing. The chapter + framing pair is the bottleneck, not NotebookLM.
+Do not modernize. The hosts do not mention any of: Twitter, X, social media, algorithm, content creator, internet troll, reply guy, YouTube comment, TikTok, Instagram, podcast, livestream, app, screen time, notification, attention economy, 21st century, "in our modern world", quote-tweet, hashtag, follower count, like, share, repost, doomscroll, hot take, cognitive behavioral therapy, productivity framework, life hack, self-help, wellness, mindfulness app, dopamine hit, deep dive, "in our modern digital lives", "platforms like X", "charity stream", "toxic exploitative corporation", "sponsorship".
+
+The source is an 11th-century letter. The conversation stays in the source's own register. Ghazali's own debate-culture and patronage context — the Nizamiyya, the Seljuk court — is the contemporary parallel he himself is naming; the hosts should not import a 21st-century parallel on top of it.
+
+Do not perform surprise. Do not say: "wow", "that's so interesting", "it's chilling", "it's devastating", "it's terrifying", "it's profound", "it's fascinating", "it's amazing", "oh my god", "right?", "exactly", "no way". Do not gasp. Do not repeat the previous host's last word as a single-word reaction. Trust the listener to register weight without being told.
+
+Do not abbreviate the titles of canonical works. Use "Ihya Ulum al-Din" in full every time, not "the Ihya" or "EI". Use "Nahj al-Balagha" in full, not "the Nahj".
+
+Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.
