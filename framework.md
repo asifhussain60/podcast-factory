@@ -22,8 +22,9 @@ content/
 │   └── chapters/                   ← preface.txt, ch00…ch03.txt
 └── podcast/                        ← parent for podcasted source books
     ├── _README.md                  ← podcast-wide intro
-    ├── _system/                    ← book-agnostic refs (skill-owned)
+    ├── _handbook/                  ← book-agnostic skill refs + templates + episode registry (sorts above books, contains no content)
     │   ├── registry.md             ← episode index across all books
+    │   ├── enrichment-sources.md   ← Tier 1–7 whitelist
     │   ├── notebooklm-source-format.md
     │   ├── notebooklm-best-practices.md
     │   ├── two-host-framing.md
@@ -89,9 +90,9 @@ content/
 
 **Purpose:** Convert source material (PDFs, books, articles, transcripts) into NotebookLM-ready source bundles that steer the Audio Overview into a focused two-host conversation.
 
-**Owns:** all of `content/podcast/` — both the book-agnostic `_system/` and every `<book-slug>/`.
+**Owns:** all of `content/podcast/` — both the book-agnostic `_handbook/` and every `<book-slug>/`.
 
-**Reads:** sources Asif provides + `content/podcast/_system/` references.
+**Reads:** sources Asif provides + `content/podcast/_handbook/` references.
 
 **Writes:** per-episode draft bundles under `<book>/_system/episode-drafts/EP##-<slug>/`; final concatenated deliverables at `<book>/episodes/EP##-<slug>.txt` (rebuilt via `scripts/podcast/build_episode_txt.py`).
 
@@ -227,7 +228,7 @@ The chapter file IS the source. `scripts/podcast/build_episode_txt.py` does NOT 
 
 **Why two files (not one):** if a single concatenated file with both blocks is uploaded as a source, NotebookLM treats the customize prompt as source content and the hosts may read it aloud. Two separate files, two folders by purpose, zero ambiguity.
 
-The other draft files (`02-key-passages.md`, `03-context-pack.md`, `04-discussion-spine.md`, `99-show-notes.md`) are authoring-only scaffolds — they inform the chapter's enrichment and the framing's tensions but do not flow to NotebookLM (anchored to `content/podcast/_system/notebooklm-best-practices.md` §3 and §7).
+The other draft files (`02-key-passages.md`, `03-context-pack.md`, `04-discussion-spine.md`, `99-show-notes.md`) are authoring-only scaffolds — they inform the chapter's enrichment and the framing's tensions but do not flow to NotebookLM (anchored to `content/podcast/_handbook/notebooklm-best-practices.md` §3 and §7).
 
 **Chapter file hygiene (NotebookLM protection):** Chapter files contain ONLY chapter content — they are uploaded as-is. Authoring metadata (status, citation inventory, enrichment ratio, verification notes) lives in `content/podcast/<book>/_system/enrichment-log.md`, NOT inline. Forbidden in any chapter: HTML `<!-- ... -->` blocks, *"This file is..."* / *"Phase 0..."* / *"Nothing has been added..."* / `[VERIFY CITATION]` markers, `EP\d\d` cross-references. `scripts/podcast/build_episode_txt.py` enforces this with `META_PROSE_TELLS` + `META_PROSE_REGEX_TELLS` + a no-HTML-comments check — any match is a hard build error. The same gate is re-applied to the framing file's post-strip content (the customize-prompt episode txt).
 
@@ -240,7 +241,7 @@ Chapter (= SOURCE) word counts: floor 1,500; target 2,500–3,500; ceiling 4,500
 - **Phase 0b — English refinement.** Translation quality is fixed; OCR artifacts are cleaned; archaic or awkward phrasing is modernized while preserving meaning and intent.
 - **Phase 0c — Arabic phonetic transcription pass.** Every Arabic transliteration, Quranic verse, hadith line, dua, honorific, and name receives a phonetic guide at first occurrence in the book; the lexicon at `<book>/_system/source/text/_lexicon.md` is the persistent canonical record.
 - **Phase 0d — Chapter design.** The published structure of the source book is a HINT, not a constraint. Chapters are designed by MEANINGFUL THEMATIC SEPARATION and BALANCED SIZE (floor 1,500, target 2,500–3,500, ceiling 4,500; all chapters within ~30% of each other in word count).
-- **Phase 0e — Enrichment.** Each chapter is enriched from the Tier 1–7 whitelist at `content/podcast/_system/enrichment-sources.md` (author's own corpus, Quran, hadith, Imam Ali via *Nahj al-Balagha*, Ismaili tradition, Sufi tradition, modern reference works). Outside material ≤ 60% of any chapter's word count — the author's argument stays the spine.
+- **Phase 0e — Enrichment.** Each chapter is enriched from the Tier 1–7 whitelist at `content/podcast/_handbook/enrichment-sources.md` (author's own corpus, Quran, hadith, Imam Ali via *Nahj al-Balagha*, Ismaili tradition, Sufi tradition, modern reference works). Outside material ≤ 60% of any chapter's word count — the author's argument stays the spine.
 - **Phase 0f — Series intake + confirmation gate.** Asif confirms the chapter plan; confirming chapters IS confirming the episode plan under the 1:1 mapping.
 - **Phase 0g — Register the series.** Episode draft folders are scaffolded with slugs matching their chapter slugs.
 
@@ -308,7 +309,7 @@ If anything from that branch needs to come back, cherry-pick from `archive/full-
 
 - **Architectural shift:** strict 1:1 chapter ↔ episode mapping. The chapter file under `content/podcast/<book>/chapters/chNN-<slug>.txt` IS the SOURCE block of its episode. Eliminated `01-source-primary.md` from episode-draft folders. Single source of truth; chapter rewrites flow straight to the next episode-txt build.
 - **Phase 0 rewritten:** 0a Source extraction → 0b English refinement → 0c Arabic phonetic transcription pass → 0d Chapter design (meaningful separation, balanced size, content-driven) → 0e Chapter enrichment (Tier 1–7 whitelist; ≤60% outside material) → 0f Series intake + confirmation → 0g Register series.
-- **New canonical reference:** `content/podcast/_system/enrichment-sources.md` — the whitelist of authorized enrichment sources (Author's corpus, Quran, hadith, Imam Ali via *Nahj al-Balagha* and *Ghurar al-Hikam*, Ismaili tradition: Holy Du'a, Ginans, Farmans of the Aga Khans, classical Ismaili philosophers, Sufi tradition near Ghazali, modern reference works) with citation formats and enrichment principles.
+- **New canonical reference:** `content/podcast/_handbook/enrichment-sources.md` — the whitelist of authorized enrichment sources (Author's corpus, Quran, hadith, Imam Ali via *Nahj al-Balagha* and *Ghurar al-Hikam*, Ismaili tradition: Holy Du'a, Ginans, Farmans of the Aga Khans, classical Ismaili philosophers, Sufi tradition near Ghazali, modern reference works) with citation formats and enrichment principles.
 - **Build script call signature changed:** `build_episode_txt.py BOOK_DIR EP##-<slug>`. Reads framing from the draft folder and the SOURCE from the slug-matched chapter file. Slug mismatch is a hard error.
 - **Quality Gate enriched:** 19-step checklist now includes chapter-exists, chapter-size band, enrichment-ratio cap, phonetic-coverage, and chapter-IS-source invariants.
 - **Ayyuhal Walad migration applied:** 22 thin section-extract chapters retired (preserved in git history); 5 substantive episode source-primary files promoted to `chapters/ch01-frame-and-first-counsel.txt` through `ch05-method-and-closing-prayer.txt`. EP01 draft folder renamed `EP01-ayyuhal-walad-ch1` → `EP01-frame-and-first-counsel` for slug parity. Each draft folder's `01-source-primary.md` removed; scratchpads renamed to `chapter.scratch.md`. All 5 episodes rebuild cleanly under the new architecture. Enrichment (Phase 0e) is per-chapter content sessions driven by Asif.

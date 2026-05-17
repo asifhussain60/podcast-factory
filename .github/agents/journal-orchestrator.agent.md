@@ -37,7 +37,7 @@ content/
 │   ├── _system/           ← voice, craft, quotes, incidents, snapshots, scratchpad, workflow
 │   └── chapters/          ← preface.txt, ch00…ch03.txt
 └── podcast/               ← podcasted source books
-    ├── _system/           ← podcast-skill-wide refs (book-agnostic)
+    ├── _handbook/         ← podcast-skill-wide refs (book-agnostic)
     └── <book-slug>/       ← one folder per source book (currently: ayyuhal-walad)
         ├── _system/       ← book-specific: source, meta, pronunciation, editorial-notes, episode-drafts, scratchpad
         ├── chapters/      ← source-book chapters as txt
@@ -125,9 +125,9 @@ Before routing the `podcast` skill for any `Phase 3: Structure` or `Phase 4: Pac
 - **1:1 chapter ↔ episode mapping.** Each `BOOK_DIR/chapters/chNN-<slug>.txt` is the SOURCE of one episode `BOOK_DIR/episodes/EP##-<slug>.txt`. The slug after the prefix is identical on both sides. The chapter file IS the source — there is no `01-source-primary.md`.
 - **`BOOK_DIR/chapters/` must be non-empty.** Episodes cannot exist without source-book chapters. If empty, route to Phase 0 (SKILL.md §1.5) — extract → English refinement → Arabic phonetic pass → chapter design → enrichment — before any episode work.
 - **Chapter (= SOURCE) size:** 1,500-word floor, 2,500–3,500 target, 4,500 ceiling. Hard refuse outside [500, 5,500] (enforced by `build_episode_txt.py`).
-- **Enrichment cap:** outside material (Quran, hadith, Imam Ali / Ahl al-Bayt, Ismaili tradition — whitelist at `content/podcast/_system/enrichment-sources.md`) ≤ 60% of any chapter's word count. The author's argument stays the spine.
+- **Enrichment cap:** outside material (Quran, hadith, Imam Ali / Ahl al-Bayt, Ismaili tradition — whitelist at `content/podcast/_handbook/enrichment-sources.md`) ≤ 60% of any chapter's word count. The author's argument stays the spine.
 - **Phonetic coverage:** every Arabic transliteration, every Quranic verse, every honorific, every name carries a phonetic guide at first-in-chapter occurrence (Phase 0c).
-- **Episode txt format must be CUSTOMIZE-PROMPT + SOURCE only** (per `content/podcast/_system/notebooklm-best-practices.md`). Other draft files (`02-key-passages.md`, `03-context-pack.md`, `04-discussion-spine.md`, `99-show-notes.md`) are authoring-only scaffolds.
+- **Episode txt format must be CUSTOMIZE-PROMPT + SOURCE only** (per `content/podcast/_handbook/notebooklm-best-practices.md`). Other draft files (`02-key-passages.md`, `03-context-pack.md`, `04-discussion-spine.md`, `99-show-notes.md`) are authoring-only scaffolds.
 - **NotebookLM hygiene: chapter file contains chapter content only.** Under the v3.4 two-file deliverable model, the chapter file IS the SOURCE uploaded directly to NotebookLM (no transformation). Authoring metadata lives in `BOOK_DIR/_system/enrichment-log.md` — NOT in HTML comments inside the chapter, NOT in chapter prose. Forbidden in the chapter: HTML `<!-- ... -->` blocks, *"This file is..."* / *"Phase 0e..."* / *"Nothing has been added..."* / `[VERIFY CITATION]` markers, `EP\d\d` cross-references. The build script's META_PROSE_TELLS + META_PROSE_REGEX_TELLS gate hard-refuses chapters that contain these tells. Same gate is re-applied to the framing file (which generates the customize-prompt episode txt).
 
 Cross-checking the invariants is a P0 governance step. A skill that bypasses them is a framework violation; reject and surface to Asif before continuing.
