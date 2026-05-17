@@ -1,43 +1,34 @@
 ---
 name: repo-surgeon
-description: "Holistic repo architecture reviewer, regression hunter, and cleanup enforcer. Runs four sub-agent passes — Structure, Code, Architecture, Brittleness — then generates a repair plan and executes approved fixes. Invoke for 'repo review', 'architectural audit', 'cleanup sweep', 'find regressions', 'root clutter', or 'repo health check'."
+description: "Holistic repo architecture reviewer, regression hunter, and cleanup enforcer. Runs four passes — Structure, Code, Architecture, Brittleness — generates a repair plan, and executes approved fixes. Invoke for 'repo review', 'architectural audit', 'cleanup sweep', 'find regressions', 'root clutter', or 'repo health check'."
 ---
 
 # repo-surgeon — Architectural Auditor & Repair Skill
 
-Systematic, multi-pass review of the journal repo's architecture, code hygiene, structural integrity, and brittleness. Generates a repair plan, then executes it.
+Single-file definition. This file is the canonical skill contract, the per-pass procedure, and the CORTEX compliance contract. The subagent stub at `.github/agents/repo-surgeon.agent.md` registers the agent's description/tools and points back here for full procedure.
 
 ---
 
-## SECTION 0 — CORTEX Compliance (read first)
+## SECTION 0 — Bootstrap (read first)
 
 This skill targets the **CORTEX Challenger Framework v1.0** (`reference/cortex-challenger-framework.md`).
-Compliance tier: **BRONZE (target)**. Per-skill compliance contract: [`cortex-compliance.md`](cortex-compliance.md).
-Shared SECTION 0 contract: [`reference/skill-bootstrap.md`](../../reference/skill-bootstrap.md).
+Compliance tier: **BRONZE (target)** — Pass 2 dynamic-import detection is wired; full per-pass playbooks are below; framework primitives are explicit.
 
 Before any action, read in order:
-1. `reference/cortex-challenger-framework.md`
-2. `reference/skill-bootstrap.md`
-3. `skills-staging/repo-surgeon/cortex-compliance.md`
-4. This file (SKILL.md).
-5. The execution-detail companion: [`.github/agents/repo-surgeon.agent.md`](../../.github/agents/repo-surgeon.agent.md) — contains the procedural bash for each pass. This SKILL.md is the contract; the agent file is the procedure.
+1. `reference/cortex-challenger-framework.md` — the framework
+2. `reference/skill-bootstrap.md` — the shared SECTION 0 contract
+3. `reference/skill-registry.md` — file ownership table
+4. This file (SKILL.md) end-to-end.
 
-**Severity is P0–P3.** Legacy labels (Critical, High, Medium, Low) have been mapped inline. The `cortex-compliance.md` mapping table is authoritative when in doubt.
+Severity is **P0 / P1 / P2 / P3** per bootstrap §2. Legacy labels (Critical / High / Medium / Low) map: Critical → P0, High → P1, Medium → P2, Low → P3. See "Severity tier mapping" below for per-pass examples.
 
-**Run report:** one report per pass at `_workspace/challenger-reports/repo-surgeon-pass<N>-<run_id>.yml` per framework §3 schema.
+Run report: one report per pass at `_workspace/challenger-reports/repo-surgeon-pass<N>-<run_id>.yml` per framework §3 schema.
 
 ---
 
-## When to invoke
+## Role
 
-- After any large feature merge or convergence cycle
-- Before a release to main
-- On demand: "repo review", "architectural audit", "cleanup sweep", "root clutter"
-- Weekly maintenance cadence (recommended)
-
-## Tier
-
-Cowork T3 — requires file system access, git history, search, and edit capabilities.
+Systematic, multi-pass reviews of the journal repo. Identify structural drift, dead code, orphaned files, root clutter, stale references, architectural violations, brittleness — then fix them. Not a linter; a structural surgeon that understands the repo's governance model and enforces it.
 
 ## Owns
 
@@ -53,91 +44,37 @@ Cowork T3 — requires file system access, git history, search, and edit capabil
 - Memoir content quality (that's `journal` skill)
 - Spend/budget (that's `usage-auditor`)
 
-## Sub-Agent Passes
+---
 
-The skill executes four passes in order. Each pass is a focused sub-agent concern.
+## Activation
 
-### Pass 1 — Structure Auditor
+Trigger on any of:
+- `repo-surgeon`, `/repo-surgeon`, `@repo-surgeon`
+- "repo review", "architectural audit", "cleanup sweep", "find regressions"
+- "root clutter", "repo health check", "code hygiene", "dead code audit"
+- "run the surgeon", "full sweep"
 
-Scans physical repo structure for violations:
+## Tier
 
-| Check | What |
-|---|---|
-| Root clutter | Only governed files at root. Everything else → `_workspace/scratch/` or delete. |
-| Misplaced files | Files outside their governed location (e.g., prompts outside `server/src/prompts/`). |
-| Empty directories | Tracked empty dirs are violations. |
-| `.DS_Store` leaks | Must be covered by `.gitignore`. |
-| Temp files | `*.prompt.md`, `scratchpad-*`, `tmp-*`, `debug-*` at root. |
+Cowork T3 — file system access, git history, search, edit capabilities.
 
-### Pass 2 — Code Auditor
+---
 
-Scans for dead and redundant code:
+## Execution Model
 
-| Check | What |
-|---|---|
-| Orphaned CSS | `.css` files not linked from any HTML. |
-| Orphaned JS | `.js` files not referenced from any HTML or JS. |
-| Dead server routes | Routes with no client caller. |
-| Orphaned prompts | Prompt files not in registry. |
-| Orphaned shared modules | `shared/*.js` not imported anywhere. |
-| Console.log leaks | Unguarded `console.log` in production JS. |
+Every run executes **four passes** in sequence. Each pass produces findings. After all passes complete, a **repair plan** is generated and executed.
 
-### Pass 3 — Architecture Auditor
+```
+Pass 1: Structure Auditor     → root clutter, misplaced files, folder violations
+Pass 2: Code Auditor          → dead code, orphaned files, redundant modules, stale imports
+Pass 3: Architecture Auditor  → App/Cowork drift, skill registry gaps, prompt orphans
+Pass 4: Brittleness Scanner   → stale cross-refs, missing contracts, regression traps
+              │
+              ▼
+        Repair Plan → Preview → Execute (with user approval for destructive ops)
+```
 
-Validates governance alignment:
-
-| Check | What |
-|---|---|
-| Skill registry completeness | Every `skills-staging/*/` in README, every README entry has `skill.md`. |
-| Agent registry | Every agent file listed in `framework.md` or marked DEPRECATED. |
-| Prompt ↔ Skill map | Bidirectional sync between prompt files and skill registry map. |
-| Canonical write violations | App commits touching Cowork-only paths in recent history. |
-| Framework.md staleness | Folder tree in framework.md matches reality. |
-
-### Pass 4 — Brittleness Scanner
-
-Finds fragile patterns that will break on next change:
-
-| Check | What |
-|---|---|
-| Hardcoded paths | Absolute paths in JS/HTML/CSS. |
-| Stale branch refs | References to completed feature branches. |
-| Missing error boundaries | Server routes without try/catch. |
-| Broken internal links | Markdown links to nonexistent files. |
-| Trip/daybook residue | References to removed v3.0 surfaces (`trips/`, `trip-edit`, `dayone-publish`, daybook routes). |
-| Zombie TODOs | `TODO`/`FIXME` older than 30 days. |
-
-## Output
-
-Each run produces:
-
-1. **Findings report** — categorized by pass, with severity **P0 / P1 / P2 / P3** (legacy: Critical → P0, High → P1, Medium → P2, Low → P3).
-2. **Repair plan** — actionable fix list grouped by severity.
-3. **Execution log** — appended to `server/logs/surgeon-log.jsonl`.
-4. **Per-pass run report** — `_workspace/challenger-reports/repo-surgeon-pass<N>-<run_id>.yml` per framework §3 schema.
-
-## Determinism Contract
-
-Per the shared bootstrap (`reference/skill-bootstrap.md` §4):
-
-- **Findings sort order:** severity (P0 first) → pass number (1–4) → rule ID (R1/C1/A1/B1 etc., lexicographic) → file path (lexicographic POSIX) → line number.
-- **Orphan-detection tiebreaker (Pass 2):** before flagging a file as orphan, run the static + dynamic-import detection per `cortex-compliance.md`. Any dynamic-pattern hit downgrades to "POSSIBLE ORPHAN — verify before deletion" / P2 (never P0/P1). **Never silently delete on a single static-analysis miss.**
-- **TODO age threshold (Pass 4):** 30 days (configurable; current default). Age is computed against the run's clock-source timestamp (UTC), not local time. Time-dependence is declared per `cortex-compliance.md` §Determinism Contract.
-- **Run identifiers:** `run_id` = SHA-256(skill_name + pass_number + ISO-8601 UTC timestamp + input_hash), truncated to 16 hex chars. `input_hash` = SHA-256 of `git rev-parse HEAD` + `git status --porcelain` output (newline-normalized).
-- **Locale / clock:** dates ISO-8601 UTC; numeric formatting `en-US` decimal.
-- **No `Math.random()` or unseeded RNG anywhere.**
-
-## DoR, Convergence, Sweep
-
-- **DoR:** 100% required before `--fix` per `cortex-compliance.md`. On failure: `_workspace/repo-surgeon-dor-incomplete-<run_id>.md` + halt.
-- **Convergence:** max 3 cycles per pass. On exceed: halt + report.
-- **Sweep:** per pass, per category — Pass 2 deletes all confirmed orphans in approved scope or none; Pass 1 moves all root violations or none. No partial sweeps.
-
-## Challenge Gate triggers
-
-Per `cortex-compliance.md` §Challenge Gate: any pass touching > 10 files OR > 5 root moves OR > 10 orphan deletions surfaces 2+ alternatives before commit.
-
-## Flags
+### Flags
 
 | Flag | Effect |
 |---|---|
@@ -145,6 +82,389 @@ Per `cortex-compliance.md` §Challenge Gate: any pass touching > 10 files OR > 5
 | `--fix` | Execute the repair plan (destructive ops need confirmation). |
 | `--pass <1-4>` | Run only one pass. |
 | `--root-only` | Shortcut: only Pass 1 Rule R1 (root hygiene). |
+
+---
+
+## Pass 1: Structure Auditor
+
+**Goal:** Repo root must be clean. Files must live in their governed locations.
+
+### Rules
+
+| ID | Rule | Action |
+|---|---|---|
+| R1 | **Root hygiene** — Only these files may exist at repo root: `framework.md`, `package.json`, `release-please-config.json`, `.release-please-manifest.json`, `site-worker.js`, `wrangler.toml`, `CHANGELOG.md`, `.gitignore`, `.gitattributes`, `.mcp.json`, `LICENSE`, `README.md`. Everything else is clutter. | Move to `_workspace/scratch/` or correct location, or delete if stale. |
+| R2 | **No loose dotfiles** — `.env*`, `.tool-versions`, editor configs (`.vscode/settings.json` excepted) at root are violations unless gitignored. | Add to `.gitignore` or relocate. |
+| R3 | **No temp/scratch at root** — `*.prompt.md`, `scratchpad-*`, `tmp-*`, `test-*`, `debug-*` at root are violations. | Move to `_workspace/scratch/`. |
+| R4 | **Folder depth** — No content file should be more than 4 levels deep from repo root (exception: `node_modules/`, `.git/`). | Flag for review. |
+| R5 | **Empty directories** — Tracked empty directories (with no files, just `.gitkeep` or nothing) are violations. | Remove or add `.gitkeep` with purpose comment. |
+| R6 | **`.DS_Store` penetration** — Any `.DS_Store` not covered by `.gitignore` is a violation. | Add pattern to `.gitignore` if missing. |
+
+### Procedure
+
+```bash
+# R1: Root clutter scan
+ls -1 | grep -v -E '^(framework\.md|package\.json|release-please-config\.json|\.release-please-manifest\.json|site-worker\.js|wrangler\.toml|CHANGELOG\.md|\.gitignore|\.gitattributes|\.mcp\.json|LICENSE|README\.md)$' | grep -v -E '^(\.|_workspace|content|docs|infra|reference|scripts|server|shared|site|skills-staging)$'
+
+# R3: Scratch files at root
+ls -1 *.prompt.md scratchpad-* tmp-* test-* debug-* 2>/dev/null
+
+# R5: Empty tracked directories
+find . -type d -empty -not -path './.git/*' -not -path '*/node_modules/*'
+
+# R6: DS_Store leak
+git ls-files --others --ignored --exclude-standard | grep DS_Store
+git ls-files | grep DS_Store
+```
+
+---
+
+## Pass 2: Code Auditor
+
+**Goal:** No dead code. No orphaned files. No redundant modules.
+
+### Rules
+
+| ID | Rule | Action |
+|---|---|---|
+| C1 | **Orphaned CSS** — `.css` in `site/css/` not linked from `site/index.html` or imported by another CSS. | Delete or link. |
+| C2 | **Orphaned JS** — `.js` in `site/js/` not referenced from `site/index.html` or another JS. | Delete or link. |
+| C3 | **Dead server routes** — Route registered in `server/src/` with no client caller in `site/`. | Flag for deprecation. |
+| C4 | **Orphaned prompts** — File in `server/src/prompts/` not registered in `server/src/prompts/index.js`. | Register or delete. |
+| C5 | **Stale named exports** — Exports in `server/src/prompts/index.js` referencing nonexistent files. | Remove export. |
+| C6 | **Duplicate functions** — Identical signatures + near-identical bodies across files. | Consolidate. |
+| C7 | **Console.log in production** — Unguarded `console.log` in `site/js/` (non-debug files). | Remove or guard with `DEBUG` flag. |
+| C8 | **Orphaned shared modules** — `shared/*.js` not imported by `site/` or `server/`. | Flag for removal. |
+
+### Procedure
+
+```bash
+# C1: Orphaned CSS
+for f in site/css/*.css; do
+  base=$(basename "$f")
+  grep -rq "$base" site/index.html site/css/ 2>/dev/null || echo "ORPHANED CSS: $f"
+done
+
+# C2: Orphaned JS
+for f in site/js/*.js; do
+  base=$(basename "$f")
+  grep -rq "$base" site/index.html site/js/ 2>/dev/null || echo "ORPHANED JS: $f"
+done
+
+# C4: Orphaned prompts
+for f in server/src/prompts/*.js; do
+  base=$(basename "$f" .js)
+  [[ "$base" == "index" ]] && continue
+  grep -q "$base" server/src/prompts/index.js || echo "ORPHANED PROMPT: $f"
+done
+
+# C8: Orphaned shared modules
+for f in shared/*.js; do
+  base=$(basename "$f")
+  grep -rq "$base" site/ server/src/ 2>/dev/null || echo "ORPHANED SHARED: $f"
+done
+```
+
+### Dynamic-import safety (closes silent-failure mode)
+
+Static `grep` alone produces false-positive orphans for files reached via dynamic import. **Before flagging any candidate orphan as deletable**, also run:
+
+```bash
+candidate="$f"
+base=$(basename "$candidate")
+modname=$(basename "$candidate" .js)
+
+# 1. String-literal references anywhere in the repo
+grep -rn "['\"]${base}['\"]" --include='*.js' --include='*.json' --include='*.html' . 2>/dev/null
+grep -rn "['\"]${modname}['\"]" --include='*.js' --include='*.json' --include='*.html' . 2>/dev/null
+
+# 2. Dynamic-import patterns (template literals, require(varname))
+grep -rnE "import\\([^)]*\\\$\\{|require\\([a-zA-Z_]" --include='*.js' . 2>/dev/null | grep -i "$modname"
+
+# 3. Glob-based loaders / registry lookups
+grep -rnE "readdirSync|glob\\.sync|require\\.context" --include='*.js' . 2>/dev/null
+```
+
+If ANY of the three returns a hit referencing this candidate, downgrade to "POSSIBLE ORPHAN — verify before deletion" / **P2**. `--fix` does NOT delete; operator review required. Only if all three are clean is the candidate a confirmed orphan at **P1**.
+
+---
+
+## Pass 3: Architecture Auditor
+
+**Goal:** Enforce App/Cowork split, skill registry completeness, governance alignment.
+
+### Rules
+
+| ID | Rule | Action |
+|---|---|---|
+| A1 | **Skill registry completeness** — Every directory in `skills-staging/` appears in `reference/skill-registry.md`; every registry entry has `skills-staging/<name>/skill.md`. | Add missing entries. |
+| A2 | **Agent registry** — Every `.agent.md` in `.github/agents/` and every `.md` in `.claude/agents/` listed in `framework.md` agents table (or marked DEPRECATED in frontmatter). | Update framework.md or deprecate. |
+| A3 | **Prompt ↔ Registry alignment** — Every prompt file in `server/src/prompts/` registered in `server/src/prompts/index.js` AND noted in `reference/skill-registry.md` server-prompt-registry section. | Sync the map. |
+| A4 | **Route ↔ Prompt alignment** — Every server route calling a named prompt references it correctly. | Fix import path. |
+| A5 | **Canonical write violations** — Scan recent git history for App-surface commits touching `content/`, `reference/`, or `framework.md`. | Flag violation, add pre-commit guard if pattern. |
+| A6 | **Framework.md staleness** — Folder tree in framework.md matches actual `ls`. | Update the tree. |
+| A7 | **Deprecated agent cleanup** — Agents marked DEPRECATED older than 30 days archive or remove. | Move to `_workspace/archive/` or delete. |
+
+### Procedure
+
+```bash
+# A1: Skill directory vs registry
+for d in skills-staging/*/; do
+  name=$(basename "$d")
+  grep -q "$name" reference/skill-registry.md || echo "UNREGISTERED SKILL DIR: $name"
+  [[ -f "skills-staging/$name/skill.md" || -f "skills-staging/$name/SKILL.md" ]] || echo "MISSING skill.md: skills-staging/$name/"
+done
+
+# A2: Unregistered agents
+for f in .github/agents/*.agent.md .claude/agents/*.md; do
+  name=$(basename "$f" .agent.md)
+  name=$(basename "$name" .md)
+  if ! grep -q "$name" framework.md && ! head -5 "$f" | grep -qi 'deprecated'; then
+    echo "UNREGISTERED AGENT: $f"
+  fi
+done
+
+# A3: Prompt file vs registry
+for f in server/src/prompts/*.js; do
+  base=$(basename "$f" .js)
+  [[ "$base" == "index" ]] && continue
+  grep -q "$base" reference/skill-registry.md || echo "UNMAPPED PROMPT: $base"
+done
+
+# A6: Framework tree drift
+echo "Compare framework.md folder tree against:"
+find . -maxdepth 2 -type d \
+  -not -path './.git*' \
+  -not -path './node_modules*' \
+  -not -path './server/node_modules*' \
+  -not -path './_workspace*' \
+  | sort
+```
+
+---
+
+## Pass 4: Brittleness Scanner
+
+**Goal:** Find fragile patterns that will break on next change.
+
+### Rules
+
+| ID | Rule | Action |
+|---|---|---|
+| B1 | **Hardcoded paths** — Any hardcoded absolute path in JS/HTML/CSS (e.g., `/Users/asif...`, `C:\...`). | Replace with relative path or config variable. |
+| B2 | **Stale branch references** — References to completed feature branches (e.g. `refine-all-redesign-v2`, `phase-*`) in active agent/skill files. | Update or remove. |
+| B3 | **Missing error boundaries** — Server routes without try/catch at the handler level. | Add error boundary. |
+| B4 | **Broken internal links** — Markdown files referencing other files by path that don't exist. | Fix path or remove link. |
+| B5 | **Zombie TODO/FIXME** — `TODO`, `FIXME`, `HACK`, `XXX` comments older than 30 days (check via `git log`). | Resolve or promote to issue. |
+| B6 | **Config drift** — `wrangler.toml` references not matching actual Cloudflare setup. `package.json` scripts referencing nonexistent files. | Fix references. |
+| B7 | **Stale v3.0 residue** — Any reference to removed surfaces (`trips/`, `trip-edit`, `dayone-publish`, `log-view.css`, daybook routes) in active code or docs. | Remove. Full removal set lives on branch `archive/full-stack-pre-strip`. |
+
+### Procedure
+
+```bash
+# B1: Hardcoded absolute paths
+grep -rn '/Users/\|C:\\' site/js/ site/css/ site/index.html server/src/ --include='*.js' --include='*.html' --include='*.css' 2>/dev/null
+
+# B2: Stale branch references
+grep -rn 'refine-all-redesign' .github/agents/ .claude/agents/ skills-staging/ framework.md 2>/dev/null
+
+# B4: Broken internal links
+grep -rnoP '\[.*?\]\(((?!http)[^)]+)\)' framework.md reference/skill-registry.md .github/agents/*.md 2>/dev/null | while IFS=: read -r file line match; do
+  path=$(echo "$match" | grep -oP '\(([^)]+)\)' | tr -d '()')
+  [[ -e "$path" ]] || echo "BROKEN LINK in $file:$line → $path"
+done
+
+# B5: Zombie TODOs
+grep -rn 'TODO\|FIXME\|HACK\|XXX' site/js/ server/src/ site/css/ --include='*.js' --include='*.css' 2>/dev/null
+
+# B7: Trip/daybook residue scan
+grep -rnE 'trips/|trip-edit|trip-planner|dayone|FloatingChat|LogModule|InsertEvent|receipt-capture|food-photo|/api/(trip|log|queue|dayone|publish-sessions|holiday-budget|flight-status|weather|distance-matrix|extract-receipt|refine-(note|voice-transcript|receipt|reflection))' site/ server/src/ skills-staging/ framework.md .github/agents/ 2>/dev/null | grep -v 'archive/full-stack-pre-strip\|^Binary'
+```
+
+---
+
+## Severity tier mapping (per-pass examples)
+
+| Pass | Finding type | Severity |
+|---|---|---|
+| Pass 1 (Structure) | Root has > 20 files; canonical structure violated | **P1** |
+| Pass 1 | Misplaced file (e.g., `.env` in root, tracked) | **P0** if it's a secrets file; **P2** otherwise |
+| Pass 2 (Code) | Orphan file (truly unreachable) | **P1** |
+| Pass 2 | Orphan candidate that might be reached via dynamic import | **P2** (requires verification) |
+| Pass 3 (Architecture) | File violates framework.md folder placement | **P1** |
+| Pass 4 (Brittleness) | Hardcoded path in code | **P1** |
+| Pass 4 | TODO older than 30 days | **P2** |
+| Pass 4 | TODO older than 180 days | **P1** |
+
+---
+
+## DoR Gate (per run)
+
+| Dimension | Weight | Score 100% when |
+|---|---|---|
+| Input completeness | 20% | Target repo specified and readable |
+| Context clarity | 25% | `--preview` or `--fix` mode explicit; `--pass N` if scoped |
+| Dependency resolution | 25% | framework.md / canonical-structure spec readable; git available |
+| Risk assessment | 20% | If `--fix` scope > 20 files, escalate before execution |
+| Output target identified | 10% | Repo path resolved; commit will be made per pass |
+
+**Pass criterion:** 100%. On failure: write `_workspace/repo-surgeon-dor-incomplete-<run_id>.md` and halt.
+
+## Convergence Gate
+
+Per-pass:
+
+```
+For each pass (1–4):
+    cycle = 0
+    WHILE cycle < 3:
+        run pass in --check mode
+        IF no P0/P1 findings: BREAK
+        IF --fix mode: apply fixes; cycle += 1
+        IF --preview mode: report and break (no convergence in preview)
+
+    IF cycle == 3 AND P0/P1 still present:
+        HALT pass; report what didn't converge
+```
+
+## Sweep Completeness
+
+Per-pass, per-category. Pass 2 deletes all confirmed orphans in approved scope or none. Pass 1 moves all root violations or none. No partial sweeps.
+
+## Holistic Validation
+
+After each pass commits, run a 5-check:
+1. Registry: changed files in expected paths.
+2. Dependency drift: framework.md still parses; no broken references.
+3. Regression risk: tests still pass (if test infra exists).
+4. Governance: commit message follows convention; sweep contract honored.
+5. Challenge gate: if pass touched > 10 files, alternatives offered.
+
+## Challenge Gate triggers
+
+- Pass 1 root-only refactor with > 5 files moved: alternatives offered.
+- Pass 2 orphan deletion of > 10 files: alternatives offered.
+- Pass 3 architectural relocation: alternatives offered.
+- Pass 4 hardcoded-path fix touching > 5 files: alternatives offered.
+
+## Determinism Contract
+
+| Pass | Deterministic? | Why / exception |
+|---|---|---|
+| Pass 1 (Structure) | YES given same R1 allow-list | |
+| Pass 2 (Code, static) | YES | AST analysis is deterministic |
+| Pass 2 (Code, dynamic) | YES given same grep patterns | |
+| Pass 3 (Architecture) | YES given framework.md | |
+| Pass 4 (Brittleness) | TIME-DEPENDENT | TODO ages depend on git dates (declared, not subjective) |
+
+Findings sort order: severity (P0 first) → pass number (1–4) → rule ID (R1/C1/A1/B1, lexicographic) → file path (lexicographic POSIX) → line number. `run_id` = SHA-256(`skill_name || "\0" || ISO-8601 UTC timestamp || "\0" || input_hash`) truncated to 16 hex. `input_hash` = SHA-256 of `git rev-parse HEAD` + `git status --porcelain` (newline-normalized). Dates ISO-8601 UTC; numeric formatting `en-US` decimal. No `Math.random()` or unseeded RNG anywhere.
+
+---
+
+## Repair Plan
+
+After all passes complete, generate a **Repair Plan** structured as:
+
+```markdown
+## Repair Plan — {date}
+
+### P0 — Critical (blocks ship)
+1. [finding] → [fix action]
+
+### P1 — High (architectural debt; blocks merge)
+1. [finding] → [fix action]
+
+### P2 — Medium (hygiene; may proceed with waiver)
+1. [finding] → [fix action]
+
+### P3 — Low (advisory / informational)
+1. [finding] → [fix action]
+
+### Deferred (needs human decision)
+1. [finding] → [options]
+```
+
+Sort within each tier: file path (lexicographic POSIX) → line number → rule ID.
+
+### Execution Rules
+
+1. **Preview first** — Always generate the plan before executing. Show it to the user.
+2. **Non-destructive by default** — Moves over deletes. Deprecation over removal.
+3. **Destructive ops require confirmation** — File deletions, agent removals, route removals.
+4. **Batch commits** — Group fixes by pass. One commit per pass, not per fix.
+5. **Commit message format** — `fix(surgeon-P{N}): {summary}` where N is the pass number.
+6. **Update registries** — After any structural change, update `reference/skill-registry.md`, `framework.md` agents table, and `server/src/prompts/index.js` as needed.
+7. **Log the run** — Append a summary to `server/logs/surgeon-log.jsonl` (create if missing).
+
+## Output
+
+1. **Findings report** — categorized by pass, severity **P0 / P1 / P2 / P3**.
+2. **Repair plan** — actionable fix list grouped by severity.
+3. **Execution log** — appended to `server/logs/surgeon-log.jsonl`.
+4. **Per-pass run report** — `_workspace/challenger-reports/repo-surgeon-pass<N>-<run_id>.yml` per framework §3 schema.
+
+---
+
+## Root Hygiene — The Prime Directive
+
+The repo root is a **governed surface**. It is NOT a dumping ground.
+
+### Allowed at root (exhaustive list)
+
+```
+framework.md
+package.json
+release-please-config.json
+.release-please-manifest.json
+site-worker.js
+wrangler.toml
+CHANGELOG.md
+.gitignore
+.gitattributes
+.mcp.json (gitignored)
+LICENSE
+README.md
+```
+
+### Allowed directories at root
+
+```
+_workspace/       ← untracked workspace (gitignored)
+content/          ← all authored content (memoir + podcasts)
+docs/             ← documentation
+infra/            ← infrastructure configs
+reference/        ← repo-wide skill governance (framework, bootstrap, registry, overlays)
+scripts/          ← shell + python scripts (memoir/, podcast/, git-hooks/)
+server/           ← Express API server
+shared/           ← shared JS modules
+site/             ← SPA frontend
+skills-staging/   ← skill definitions
+.github/          ← GitHub config + agents
+.claude/          ← Claude config + agents
+```
+
+**Anything else at root is a violation.** Move it or delete it. No exceptions. No "temporary" files. The root tells the story of the repo at a glance.
+
+---
+
+## Integration with Other Agents
+
+- **CORTEX** — repo-surgeon is CORTEX's enforcement arm for structural reviews. CORTEX governs policy; repo-surgeon enforces it.
+- **journal-orchestrator** — Routes `repo-surgeon` triggers. Does not duplicate surgeon's analysis.
+- **ui-reviewer** — Handles CSS/theme-specific review. repo-surgeon defers CSS audit to ui-reviewer and focuses on structural/architectural concerns.
+
+## Cold Start
+
+At the beginning of every run:
+
+```bash
+git status --short
+git log --oneline -10
+ls -1A                      # root hygiene check
+head -5 framework.md        # confirm version
+```
+
+Then proceed through passes 1→4 in order.
 
 ## Commit Convention
 
@@ -155,4 +475,29 @@ Fixes are committed per-pass: `fix(surgeon-P{N}): {summary}`
 - `css-theme-sync` — defers CSS/theme audit
 - `ui-reviewer` — defers CSS review detail
 - `framework.md` — reads governance rules (Pass 3)
-- `skills-staging/README.md` — reads/writes skill registry (Pass 3)
+- `reference/skill-registry.md` — reads/writes skill registry (Pass 3)
+
+---
+
+## Applied CORE rules
+
+| Rule | Applied via |
+|---|---|
+| CORE-028 | Pass 1 enforces snake_case for new files |
+| CORE-035 | Pass 2 enforces single canonical implementation (orphans = duplicates that lost) |
+| CORE-048 | Per-pass holistic validation |
+| CORE-064 | Per-pass sweep completeness |
+| CORE-068 | Per-pass convergence (max 3 cycles) |
+| CORE-071 | Per-skill-invocation DoR |
+
+## Outstanding gaps to reach SILVER
+
+1. Implement automated pass-runner (currently each pass is procedural bash; SILVER requires it be invocable as a single skill action).
+2. Make TODO-age threshold configurable (currently hardcoded 30 days).
+3. Wire `_workspace/challenger-reports/` output emission into each pass automatically.
+
+When all three are addressed, skill graduates to SILVER.
+
+## Framework version targeted
+
+CORTEX Challenger Framework v1.0.
