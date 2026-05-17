@@ -236,13 +236,13 @@ If the user invokes without a book-slug, ask for one. Do not guess.
 
 ### Category M: Modernization + surprise-noise audit (P0/P1) — R-NOMODERNIZE + R-NOSURPRISE — added 2026-05-17
 
-Loop M is the **empirical-transcript loop**: it scans both the framing AND the most recent NotebookLM transcript (when present under `BOOK_DIR/transcripts/EP##-<slug>.transcript.txt`) for the specific failure modes that motivated R-NOMODERNIZE and R-NOSURPRISE.
+Loop M is the **empirical-transcript loop**: it scans both the framing AND the most recent NotebookLM transcript (when present under `BOOK_DIR/turboscribe/EP##-<slug>.transcript.txt`) for the specific failure modes that motivated R-NOMODERNIZE and R-NOSURPRISE.
 
 | ID | Check | Detection | Remediation |
 |---|---|---|---|
 | M1 | **Framing carries DENY-modernize block** — `## Do not` section names at least: Twitter, X, social media, algorithm, content creator, internet troll, reply guy, YouTube comment, TikTok, deep dive, "21st century", "in our modern world", quote-tweet, cognitive behavioral therapy. | Substring scan in `## Do not` section. | Auto-fix (insert canonical block) when `## Do not` exists. Flag (P0) when section missing entirely. |
 | M2 | **Framing carries DENY-surprise block** — names at least: "wow", "that's so interesting", "it's chilling", "it's devastating", "it's terrifying", "right?", "exactly", "no way". | Substring scan in `## Do not` section. | Auto-fix (insert canonical clause). Flag (P0) when section missing. |
-| M3 | **Transcript contains zero injected modernizations** (empirical audit) — when `transcripts/EP##-<slug>.transcript.txt` exists, scan for any DENY-modernize term. ≤1 acceptable; >1 indicates the framing is being ignored. | Substring scan in transcript. | Flag (P1) per injection; report drift count in sidecar. |
+| M3 | **Transcript contains zero injected modernizations** (empirical audit) — when `turboscribe/EP##-<slug>.transcript.txt` exists, scan for any DENY-modernize term. ≤1 acceptable; >1 indicates the framing is being ignored. | Substring scan in transcript. | Flag (P1) per injection; report drift count in sidecar. |
 | M4 | **Transcript surprise-loop density ≤ 1 per 1,000 words** — scan for any DENY-surprise phrase; compute per-1000-word frequency. | Regex scan + word-count of transcript. | Flag (P1) when over the cap. |
 
 ### Category N: Phonetic-as-content audit (P0) — R-PHONETICS-OUT + R-PRONUNCIATION-IMPERATIVE — added 2026-05-17
@@ -452,7 +452,7 @@ When invoked:
 
 ## Version
 
-v1.3 (2026-05-17, evening). **Empirical-audit pivot.** Added Category M (modernization + surprise-noise audit; R-NOMODERNIZE + R-NOSURPRISE), Category N (phonetic-as-content audit; R-PHONETICS-OUT + R-PRONUNCIATION-IMPERATIVE), Category O (honorific repetition + abbreviation audit; R-HONORIFIC-ONCE + R-NO-ABBREVIATION). New auto-fix entries M1, M2, N1, N2, N3, N4, O2. Loop M is the **empirical-transcript loop** — when `BOOK_DIR/transcripts/EP##-<slug>.transcript.txt` is present, the agent scans it directly for the failure modes the framing was meant to prevent. Driven by a 5-transcript audit of *Ayyuhal Walad* that exposed systematic phonetic doublings ("Sahih Sitta, sahasita"), mangled names ("tassel wolf" for *Tasawwuf*), and >40 surprise-noise injections.
+v1.3 (2026-05-17, evening). **Empirical-audit pivot.** Added Category M (modernization + surprise-noise audit; R-NOMODERNIZE + R-NOSURPRISE), Category N (phonetic-as-content audit; R-PHONETICS-OUT + R-PRONUNCIATION-IMPERATIVE), Category O (honorific repetition + abbreviation audit; R-HONORIFIC-ONCE + R-NO-ABBREVIATION). New auto-fix entries M1, M2, N1, N2, N3, N4, O2. Loop M is the **empirical-transcript loop** — when `BOOK_DIR/turboscribe/EP##-<slug>.transcript.txt` is present, the agent scans it directly for the failure modes the framing was meant to prevent. Driven by a 5-transcript audit of *Ayyuhal Walad* that exposed systematic phonetic doublings ("Sahih Sitta, sahasita"), mangled names ("tassel wolf" for *Tasawwuf*), and >40 surprise-noise injections.
 
 v1.2 (2026-05-17). Extract Mode awareness: added Category G (contracts G1–G7), extended Section 0 cold-start reads with `extract-capability.md` + `chapter-contract.template.yml` + `extract_chapter.py`, rewrote the boundary section so memoir-derived bundles are in-scope while memoir authoring files remain out-of-scope, added the Extract Mode adapter as a sibling structural gate in Section 6, added contract path to the non-auto-fix list in Section 3. Update audit-log row in `reference/skill-registry.md`.
 

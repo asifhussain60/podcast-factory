@@ -634,7 +634,7 @@
   <div class="section-head">
     <div class="label">·· architecture v3.5 · empirical feedback loop · 2026-05-17 ··</div>
     <h2>What happens AFTER upload · the audit_transcript loop</h2>
-    <div class="sub">The pipeline above ends at "upload + click Generate". The v3.5 architecture adds a second loop that runs <em>after</em> NotebookLM produces the audio overview: transcribe it, drop into <code>transcripts/</code>, run <code>audit_transcript.py</code>, get a per-episode regression report. The next chapter/framing revision pass is informed by what the hosts actually said, not by what we hoped they would say.</div>
+    <div class="sub">The pipeline above ends at "upload + click Generate". The v3.5 architecture adds a second loop that runs <em>after</em> NotebookLM produces the audio overview: transcribe it, drop into <code>turboscribe/</code>, run <code>audit_transcript.py</code>, get a per-episode regression report. The next chapter/framing revision pass is informed by what the hosts actually said, not by what we hoped they would say.</div>
   </div>
 
   <div class="grid grid-2">
@@ -642,7 +642,7 @@
       <div class="meta">·· step 1 ··</div>
       <h3>Transcribe the audio overview</h3>
       <p>Via Turboscribe (or equivalent). Save to
-      <code>content/podcast/&lt;book-slug&gt;/transcripts/EP##-&lt;slug&gt;.transcript.txt</code>.
+      <code>content/podcast/&lt;book-slug&gt;/turboscribe/EP##-&lt;slug&gt;.transcript.txt</code>.
       Slug must match the chapter + episode (1:1:1 mapping; the audit script
       auto-resolves the path from the EP id).</p>
     </div>

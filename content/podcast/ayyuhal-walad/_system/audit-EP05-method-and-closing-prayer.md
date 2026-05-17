@@ -1,6 +1,6 @@
 # Transcript Audit · EP05-method-and-closing-prayer
 
-**Transcript:** `podcast/ayyuhal-walad/transcripts/EP05-method-and-closing-prayer.transcript.txt`
+**Transcript:** `podcast/ayyuhal-walad/turboscribe/EP05-method-and-closing-prayer.transcript.txt`
 **Word count:** 3120
 **Audit tool:** `scripts/podcast/audit_transcript.py` v1.0 (2026-05-17)
 

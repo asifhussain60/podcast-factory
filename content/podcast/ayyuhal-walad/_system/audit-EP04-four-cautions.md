@@ -1,6 +1,6 @@
 # Transcript Audit · EP04-four-cautions
 
-**Transcript:** `podcast/ayyuhal-walad/transcripts/EP04-four-cautions.transcript.txt`
+**Transcript:** `podcast/ayyuhal-walad/turboscribe/EP04-four-cautions.transcript.txt`
 **Word count:** 3382
 **Audit tool:** `scripts/podcast/audit_transcript.py` v1.0 (2026-05-17)
 

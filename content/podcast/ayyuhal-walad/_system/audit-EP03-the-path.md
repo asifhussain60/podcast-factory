@@ -1,6 +1,6 @@
 # Transcript Audit · EP03-the-path
 
-**Transcript:** `podcast/ayyuhal-walad/transcripts/EP03-the-path.transcript.txt`
+**Transcript:** `podcast/ayyuhal-walad/turboscribe/EP03-the-path.transcript.txt`
 **Word count:** 3513
 **Audit tool:** `scripts/podcast/audit_transcript.py` v1.0 (2026-05-17)
 

@@ -92,7 +92,7 @@ The structural state at the start of this run was already strong — all 5 episo
 
 #### M3 — Pre-v3.5 transcripts contain modernization injections (empirical evidence; remediation = re-record)
 
-The 5 NotebookLM transcripts at `content/podcast/ayyuhal-walad/transcripts/EP##-*.transcript.txt` were generated before architecture v3.5 (the DENY blocks landed in commit `9179541`). They carry the failure modes the v3.5 framings now forbid. The framings are correctly hardened; these transcripts are pre-fix artifacts and should be regenerated.
+The 5 NotebookLM transcripts at `content/podcast/ayyuhal-walad/turboscribe/EP##-*.transcript.txt` were generated before architecture v3.5 (the DENY blocks landed in commit `9179541`). They carry the failure modes the v3.5 framings now forbid. The framings are correctly hardened; these transcripts are pre-fix artifacts and should be regenerated.
 
 | Episode | Modernizations | Density | Surprise loops | Density |
 |---|---|---|---|---|
@@ -106,7 +106,7 @@ The 5 NotebookLM transcripts at `content/podcast/ayyuhal-walad/transcripts/EP##-
 
 #### O3 — Pre-v3.5 transcript honorific repetition (EP02 only)
 
-- **File:** `transcripts/EP02-hatim-eight-benefits.transcript.txt`
+- **File:** `turboscribe/EP02-hatim-eight-benefits.transcript.txt`
 - **Finding:** "peace and blessings be upon him" expanded 3 times in transcript despite chapter carrying expansion exactly once. Indicates the hosts re-expanded on their own. The chapter is now compliant; this is pre-v3.5 host behavior. Re-record will resolve.
 
 ### P2 (advisory)
@@ -264,7 +264,7 @@ All 5 episodes rebuild clean post-convergence.
 2. Click *Add source*. Upload `content/podcast/ayyuhal-walad/chapters/chNN-<slug>.txt` as the single source.
 3. Click *Audio Overview* → *Customize*. Open `content/podcast/ayyuhal-walad/episodes/EP##-<slug>.txt`, copy its entire contents into the Customize prompt box.
 4. Click *Generate*. Wait 3–5 minutes.
-5. Once new transcripts are available under `transcripts/`, re-run `podcast-challenger` to verify M3/M4/O3 empirical findings have cleared.
+5. Once new transcripts are available under `turboscribe/`, re-run `podcast-challenger` to verify M3/M4/O3 empirical findings have cleared.
 
 ---
 

@@ -281,7 +281,7 @@ Scan `00-framing.md` for the `## Do not` section containing at least the canonic
 
 ### Authority for challenger
 
-`podcast-challenger` Loop **M** (modernization audit) — new check added 2026-05-17. Loop M ALSO scans the most recent transcript (if available under `BOOK_DIR/transcripts/EP##-<slug>.transcript.txt`) for injected modernizations.
+`podcast-challenger` Loop **M** (modernization audit) — new check added 2026-05-17. Loop M ALSO scans the most recent transcript (if available under `BOOK_DIR/turboscribe/EP##-<slug>.transcript.txt`) for injected modernizations.
 
 ---
 

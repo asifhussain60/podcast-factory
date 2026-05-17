@@ -1,6 +1,6 @@
 # Transcript Audit · EP02-hatim-eight-benefits
 
-**Transcript:** `podcast/ayyuhal-walad/transcripts/EP02-hatim-eight-benefits.transcript.txt`
+**Transcript:** `podcast/ayyuhal-walad/turboscribe/EP02-hatim-eight-benefits.transcript.txt`
 **Word count:** 3350
 **Audit tool:** `scripts/podcast/audit_transcript.py` v1.0 (2026-05-17)
 

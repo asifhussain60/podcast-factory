@@ -10,12 +10,13 @@ You are Asif's podcast source-preparation agent. Your sole purpose is to convert
 **SKILL_DIR** = the base directory shown at the top of this skill's system prompt
 **PODCAST_ROOT** = `/PROJECTS/journal/content/podcast/` — the parent for all podcasted source books. Holds `_system/` (book-agnostic references) and one folder per source book.
 **SHARED_ARABIC** = `/PROJECTS/journal/content/_shared/arabic/` — the cross-skill canonical Arabic / Islamic pronunciation reference. Owned by no single skill; consulted by every skill that touches Arabic content. **MUST be read in full on every podcast run before any chapter authoring, refinement, or quality-gate pass.**
-**BOOK_DIR** = `PODCAST_ROOT/<book-slug>/` — the workspace for ONE source book. Has `_README.md` plus three subfolders:
+**BOOK_DIR** = `PODCAST_ROOT/<book-slug>/` — the workspace for ONE source book. Has `_README.md` plus four subfolders:
   - `_system/` — book-specific authoring state (source, episode-drafts, scratchpad, pronunciation, editorial-notes, library-proposals, enrichment-log, challenger-report)
   - `chapters/` — the source book chapters as plain txt (one file per chapter)
   - `episodes/` — the FINAL deliverable: one concatenated txt per episode, built from the per-episode drafts under `_system/episode-drafts/` by `scripts/podcast/build_episode_txt.py`. These are the files Asif uploads to NotebookLM.
+  - `turboscribe/` — slug-aligned transcripts (`EP##-<slug>.transcript.txt`, one per episode) of NotebookLM Audio Overviews, dropped by Asif after transcribing via **TurboScribe** (https://turboscribe.ai, manual subscription). Nothing in the pipeline writes to this folder; it is human-input only. Read by `scripts/podcast/audit_transcript.py` for the lexical audit pass and by the `podcast-challenger` Loop M empirical-transcript audit.
 
-At session start, verify `PODCAST_ROOT/_handbook/registry.md` exists. If a book is being worked, verify `BOOK_DIR/_system/` and `BOOK_DIR/episodes/` exist. If missing, run the scaffold protocol in Section 1.
+At session start, verify `PODCAST_ROOT/_handbook/registry.md` exists. If a book is being worked, verify `BOOK_DIR/_system/`, `BOOK_DIR/episodes/`, and `BOOK_DIR/turboscribe/` exist. If missing, run the scaffold protocol in Section 1.
 
 ============================================================
 SECTION 0: THE MISSION CONSTANT — GOVERNS EVERY EPISODE
@@ -79,8 +80,30 @@ If `PODCAST_ROOT` is missing the registry, scaffold it before continuing:
   - Create `PODCAST_ROOT/_handbook/registry.md` with the header from `PODCAST_ROOT/_handbook/workspace-readme-template.md`
 
 If a new book is being added:
-  - Create `PODCAST_ROOT/<book-slug>/_system/`, `PODCAST_ROOT/<book-slug>/chapters/`, `PODCAST_ROOT/<book-slug>/episodes/`
+  - Create `PODCAST_ROOT/<book-slug>/_system/`, `PODCAST_ROOT/<book-slug>/chapters/`, `PODCAST_ROOT/<book-slug>/episodes/`, `PODCAST_ROOT/<book-slug>/turboscribe/`
   - Create `PODCAST_ROOT/<book-slug>/_README.md` from the template
+  - Create `PODCAST_ROOT/<book-slug>/turboscribe/_README.md` from the template below
+
+**`turboscribe/_README.md` template** (copy into every new book's `turboscribe/` folder, replacing `<Book Title>`):
+
+```
+# TurboScribe transcripts
+
+Slug-aligned transcripts for *<Book Title>*. One file per episode, named `EP##-<slug>.transcript.txt` to match `chapters/ch##-<slug>.txt` and `episodes/EP##-<slug>.txt` exactly.
+
+## Provenance
+
+NotebookLM renders the Audio Overview from the chapter + customize prompt. Asif transcribes the audio via TurboScribe (https://turboscribe.ai, manual subscription) and drops the result here, renamed to the slug-aligned form. Nothing in the pipeline writes to this folder — human input only.
+
+## Format
+
+SRT preferred (timestamps support pacing analysis); TXT acceptable. File extension stays `.transcript.txt` regardless of the underlying format.
+
+## Consumers
+
+- `scripts/podcast/audit_transcript.py <BOOK_DIR> <EP##-slug>` — lexical audit; writes `_system/audit-EP##-<slug>.md`.
+- `.github/agents/podcast-challenger.agent.md` Loop M — empirical-transcript scan for modernization injections, phonetic doublings, mangled names.
+```
 
 **Chapter-population gate (run before any episode work on a book):**
   - `ls BOOK_DIR/chapters/*.txt` must return at least one file. **Each chapter file is itself the SOURCE block of its episode** under the strict 1:1 chapter ↔ episode mapping (Section 0). If `chapters/` is empty, run Phase 0 (Section 1.5) end-to-end — episode work cannot begin without enriched chapters. The build script refuses to write episodes otherwise.

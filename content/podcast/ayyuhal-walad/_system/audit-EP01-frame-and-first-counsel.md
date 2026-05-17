@@ -1,6 +1,6 @@
 # Transcript Audit · EP01-frame-and-first-counsel
 
-**Transcript:** `podcast/ayyuhal-walad/transcripts/EP01-frame-and-first-counsel.transcript.txt`
+**Transcript:** `podcast/ayyuhal-walad/turboscribe/EP01-frame-and-first-counsel.transcript.txt`
 **Word count:** 3423
 **Audit tool:** `scripts/podcast/audit_transcript.py` v1.0 (2026-05-17)
 
