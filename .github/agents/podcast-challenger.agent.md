@@ -438,6 +438,26 @@ When invoked:
 
 ---
 
+## SECTION 7b — Downstream coordination with `transcript-reviewer`
+
+This agent (`podcast-challenger`) is the **pre-publish** semantic gate. Its peer `.github/agents/transcript-reviewer.agent.md` is the **post-publish** empirical reviewer. The two compose as follows:
+
+**Inputs from transcript-reviewer.** When `transcript-reviewer` runs against a TurboScribe transcript, it produces a review report at `BOOK_DIR/_system/transcript-review-EP##-<slug>.md` containing T1 (chapter) and T2 (framing) delta proposals. These proposals carry evidence quotes from the rendered audio, severity tags, and target file paths + line refs.
+
+**Gating contract.** When Asif applies a T1 or T2 delta proposal, `podcast-challenger` is invoked in its standard convergence loop against the modified chapter or framing BEFORE the change is committed. The challenger:
+
+1. Reads the modified file along with the matching review report (linked via the EP slug).
+2. Runs its standard category checks (A–O) over the modified artifact.
+3. If the delta resolves the smell without introducing a new check violation → SHIP-READY, change is committed, the review report is annotated with `applied_at: <ts>` and `applied_by: podcast-challenger`.
+4. If the delta resolves the smell but introduces a new violation → SHIP-WITH-CAUTION, the new violation surfaces in the challenger report; Asif decides whether to refine the delta or accept the trade.
+5. If the delta does not resolve the smell (regression mismatch) → BLOCKED, the change is rejected and the review-report finding is flagged for re-analysis by `transcript-reviewer`.
+
+**Loop closure.** Once T1/T2 deltas are committed and the episode is re-built with `build_episode_txt.py`, the next audio render → transcribe → review cycle either confirms the fix (smell does not recur, contributes to deprecation candidacy) or reveals a stickier pattern (smell recurs, recurrence_bonus kicks in on the pressure ledger). T3 (handbook-rule) and T4 (agent-evolution) proposals from the review report are gated by Asif's explicit approval, not by this agent.
+
+**Authority boundary.** This agent does not write to `_handbook/pressure-ledger.json` or `_handbook/listening-smell-catalog.md` — those are the reviewer's surfaces. This agent reads them as inputs when present (a smell at "canonical" stage that recurs in a chapter being challenged is a P0 finding under Category M/N/O).
+
+---
+
 ## SECTION 8 — Anti-anti-patterns (things to NOT do)
 
 - Do not run the agent on memoir content. The boundary is hard.

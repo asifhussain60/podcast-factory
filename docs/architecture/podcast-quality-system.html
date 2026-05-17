@@ -344,6 +344,100 @@
     diff target for the next NotebookLM upload after re-authoring under v3.5.</p>
   </div>
 
+  <!-- ── The post-publish semantic review loop ─────────────────── -->
+  <div class="section-head">
+    <div class="label">·· the post-publish semantic loop ··</div>
+    <h2>transcript-reviewer — the eyes after the fact</h2>
+    <div class="sub">The lexical audit (audit_transcript.py) catches deny-list hits. A separate agent reads the same transcript semantically against four dimensions — faithfulness, listening quality, rule compliance, persona — and produces a four-tier delta proposal that flows back into the chapter, the framing, the handbook rules, and the agent contracts themselves.</div>
+  </div>
+
+  <div class="diagram">
+    <svg viewBox="0 0 720 760" role="img" aria-labelledby="reviewer-title">
+      <title id="reviewer-title">Post-publish semantic review loop</title>
+      <defs>
+        <marker id="revArr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/>
+        </marker>
+        <marker id="revArrG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="var(--gold)"/>
+        </marker>
+      </defs>
+
+      <!-- Phase A — raw drop -->
+      <g>
+        <rect x="40" y="20" width="640" height="76" rx="12" class="node-mint" />
+        <text x="60" y="46" class="label-mono" style="fill:var(--mint);font-size:13px">·· phase A · raw drop ··</text>
+        <text x="60" y="72" class="label-strong">Asif exports SRT from turboscribe.ai · drops into BOOK_DIR/truboscribe/</text>
+        <text x="60" y="90" class="label-mono">SRT preferred (timestamps) · TXT fallback · TurboScribe has no API</text>
+      </g>
+
+      <path class="edge-accent" d="M360,96 L360,124" marker-end="url(#revArr)" />
+
+      <!-- Phase B — canonicalize -->
+      <g>
+        <rect x="40" y="134" width="640" height="64" rx="12" class="node-gold" />
+        <text x="60" y="160" class="label-mono" style="fill:var(--gold);font-size:13px">·· phase B · canonicalize ··</text>
+        <text x="60" y="184" class="label">reviewer matches raw drop → slug-aligned BOOK_DIR/transcripts/EP##-&lt;slug&gt;.transcript.srt</text>
+      </g>
+
+      <path class="edge-accent" d="M360,198 L360,226" marker-end="url(#revArr)" />
+
+      <!-- Phase C — lexical -->
+      <g>
+        <rect x="40" y="236" width="640" height="64" rx="12" class="node-rose" />
+        <text x="60" y="262" class="label-mono" style="fill:var(--rose);font-size:13px">·· phase C · lexical pre-pass (delegated) ··</text>
+        <text x="60" y="286" class="label">audit_transcript.py → _system/audit-EP##-&lt;slug&gt;.md (deny-list, density, mangled-name table)</text>
+      </g>
+
+      <path class="edge-accent" d="M360,300 L360,328" marker-end="url(#revArr)" />
+
+      <!-- Phase D — semantic review (4 dimensions) -->
+      <g>
+        <rect x="40" y="338" width="640" height="160" rx="14" class="node" />
+        <text x="60" y="364" class="label-mono" style="fill:var(--accent);font-size:13px">·· phase D · semantic review · 4 dimensions ··</text>
+        <text x="60" y="392" class="label"><tspan style="font-weight:600">D1 Faithfulness</tspan> — F1 quote-shape · F2 citation integrity · F3 coverage · F4 inversion · F5 hallucination</text>
+        <text x="60" y="414" class="label"><tspan style="font-weight:600">D2 Listening Quality</tspan> — L1 focus drift · L2 choppy · L3 unclear · L4 interrupts · L5 pacing · L6 dead-end</text>
+        <text x="60" y="436" class="label"><tspan style="font-weight:600">D3 Rule Compliance</tspan> — R1 paraphrased honorific · R2 indirect modernize · R4 abbreviation variant · R5 welcome-variant</text>
+        <text x="60" y="458" class="label"><tspan style="font-weight:600">D4 Persona</tspan> — P1 false agreement · P2 voice swap · P3 sycophancy · P4 energy mismatch · P5 faux expertise</text>
+        <text x="60" y="484" class="label-mono" style="fill:var(--accent)">writes _system/transcript-review-EP##.md · every smell carries evidence quote + timestamp</text>
+      </g>
+
+      <path class="edge-accent" d="M360,498 L360,526" marker-end="url(#revArr)" />
+
+      <!-- Phase E — 4-tier deltas -->
+      <g>
+        <rect x="40" y="536" width="640" height="120" rx="14" class="node-gold" />
+        <text x="60" y="562" class="label-mono" style="fill:var(--gold);font-size:13px">·· phase E · 4-tier delta proposal ··</text>
+        <text x="60" y="588" class="label"><tspan style="font-weight:600">T1</tspan> chapter edit (before/after block, file path, line refs)</text>
+        <text x="60" y="608" class="label"><tspan style="font-weight:600">T2</tspan> framing edit (00-framing.md before/after block)</text>
+        <text x="60" y="628" class="label"><tspan style="font-weight:600">T3</tspan> handbook rule proposal (gated by pressure-ledger threshold, ≥3 provisional, ≥6 canonical)</text>
+        <text x="60" y="648" class="label"><tspan style="font-weight:600">T4</tspan> agent-evolution proposal (taxonomy gap / scanner blind spot / loop stall)</text>
+      </g>
+
+      <path class="edge-accent" d="M360,656 L360,684" marker-end="url(#revArr)" />
+
+      <!-- Phase F + G -->
+      <g>
+        <rect x="40" y="694" width="640" height="56" rx="12" class="node-mint" />
+        <text x="60" y="720" class="label-mono" style="fill:var(--mint);font-size:13px">·· phase F · ledger update + batch report ·· phase G · verdict ··</text>
+        <text x="60" y="740" class="label">pressure-ledger.json updated · cross-episode trend · SHIP-READY / SHIP-WITH-CAUTION / REGRESSION / BLOCKED</text>
+      </g>
+    </svg>
+    <div class="caption">The semantic cousin of audit_transcript.py · evidence-bound · proposal-only (T1/T2/T3/T4 are never applied without challenger gate + human approval)</div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-eyebrow">·· the pressure-ledger ··</div>
+    <p>The reviewer's institutional memory. Every smell observation contributes
+    pressure as <code>severity × spread × recurrence</code>. P0 weighs 3,
+    cross-series boosts 1.5x, post-T2-fix recurrence doubles. Pressure ≥ 3 →
+    provisional rule (warning); pressure ≥ 6 OR cross-series confirmation →
+    canonical rule (gate). The ledger at
+    <code>content/podcast/_handbook/pressure-ledger.json</code> persists across
+    batches and series — this is how the pipeline gets smarter over time
+    without ad-hoc threshold tuning.</p>
+  </div>
+
   <!-- ── The challenger convergence loop ─────────────────── -->
   <div class="section-head">
     <div class="label">·· the second pair of eyes ··</div>

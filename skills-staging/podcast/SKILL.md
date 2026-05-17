@@ -1,6 +1,6 @@
 ---
 name: podcast
-description: "Podcast source-bundle agent for Asif. ALWAYS invoke when user says 'podcast', '/podcast', '@podcast', 'new episode', 'next episode', 'turn this into a podcast', 'NotebookLM episode', or 'audio overview'. Also trigger for: convert any source to podcast, distill for podcast, two-host source, episode bundle, framing, show notes, registry, spine, beats. Trigger when user uploads ANY content format — book, PDF, MP3/audio recording, Word document (.docx), PowerPoint (.pptx), Excel (.xlsx), plain text, markdown, transcript, lecture, article, or notes — AND says 'make this a podcast' or 'I want to listen to this'. Every format is normalized to text in Phase 0a, then runs through the same standardized pipeline. Prepares NotebookLM-ready coordinated source bundles (framing, primary source, key passages, context pack, discussion spine, show notes) so the Audio Overview produces a focused two-host conversation. Does NOT generate audio and does NOT write scripts directly. NotebookLM does that work; this skill provides the steering. BOUNDARY: this skill reads nothing from /journal memoir content (content/babu-memoir/). Its only outward connection to the journal ecosystem is proposing additions to quotes-library.txt and clinic-library.txt via a staging file."
+description: "Podcast source-bundle agent for Asif. ALWAYS invoke when user says 'podcast', '/podcast', '@podcast', 'new episode', 'next episode', 'turn this into a podcast', 'NotebookLM episode', or 'audio overview'. Also trigger for: convert any source to podcast, distill for podcast, two-host source, episode bundle, framing, show notes, registry, spine, beats. ALSO trigger for post-publish transcript review: 'review transcripts', 'review turboscribe', 'process turboscribe folder', '/review-transcript', 'audit audio', 'transcript convergence', 'rate the audio episodes' — these route through Section 11 to the `transcript-reviewer` agent. Trigger when user uploads ANY content format — book, PDF, MP3/audio recording, Word document (.docx), PowerPoint (.pptx), Excel (.xlsx), plain text, markdown, transcript, lecture, article, or notes — AND says 'make this a podcast' or 'I want to listen to this'. Every format is normalized to text in Phase 0a, then runs through the same standardized pipeline. Prepares NotebookLM-ready coordinated source bundles (framing, primary source, key passages, context pack, discussion spine, show notes) so the Audio Overview produces a focused two-host conversation. Does NOT generate audio and does NOT write scripts directly. NotebookLM does that work; this skill provides the steering. BOUNDARY: this skill reads nothing from /journal memoir content (content/babu-memoir/). Its only outward connection to the journal ecosystem is proposing additions to quotes-library.txt and clinic-library.txt via a staging file."
 ---
 
 # Podcast: NotebookLM Source-Bundle Agent
@@ -719,3 +719,67 @@ SECTION 10: REFERENCE FILE INDEX
   - `.github/agents/podcast-challenger.agent.md` — semantic-quality reviewer; runs in a convergence loop (≤3 iterations) before any bundle ships. Validates citation authenticity (Loop A), NotebookLM literalness (Loop B), phonetic coverage + substitution + name-aliasing (Loops C + J), enrichment depth (Loop D), articulation (Loop E), framing 4-part structure (Loop F), welcome opening + closing landing (Loop H), anti-repetition + no-irrelevant-background (Loop I), interruption avoidance (Loop K). Authority for the check catalog is the two normative rule files (`notebooklm-source-chapter-rules.md` + `notebooklm-customize-prompt-rules.md`). Writes `BOOK_DIR/_system/challenger-report.md`. **Required** between Phase 4 step 1 (quality gate) and step 2 (compile).
   - `.github/agents/journal-challenger.agent.md` — peer challenger for the `/journal` skill. Shares the same contract (`max_iterations: 3`, verdict states `SHIP-READY`/`SHIP-WITH-CAUTION`/`BLOCKED`) and the same shared Arabic references. Out-of-scope for podcast invocations; listed here only so authors know the symmetry exists.
   - `.github/agents/reconcile.agent.md` — **DELEGATE TO THIS AGENT** when Asif points at a `docs/architecture/podcast-*.html` view and says it is wrong, stale, or should also support X. Triggers: any pasted `file:///.../docs/architecture/*.html` URL paired with a change request; phrases "fix this view", "docs and code disagree", "this should also support X", "pipeline is wrong about Y", or "/reconcile". The agent fixes the code FIRST (skill → handbook → scripts) with zero regression, THEN updates the HTML to match. Do not attempt the reconciliation inline — the agent enforces a specific phase order this skill is not designed to carry.
+  - `.github/agents/transcript-reviewer.agent.md` — **DELEGATE TO THIS AGENT** for post-publish empirical review of NotebookLM audio overviews. Triggers: `/review-transcript`, "review transcripts", "process turboscribe folder", "audit the audio for <series>". The agent reads transcripts from `BOOK_DIR/truboscribe/` (raw inbox), canonicalizes them into `BOOK_DIR/transcripts/`, invokes `scripts/podcast/audit_transcript.py` for the lexical pass, then produces a 4-dimension semantic review (Faithfulness, Listening Quality, Rule Compliance, Persona) with 4-tier delta proposals (T1 chapter / T2 framing / T3 handbook rule / T4 agent evolution). Updates `_handbook/pressure-ledger.json` for cross-episode promotion tracking. **Never edits chapter, framing, handbook-rule, or agent files directly** — every fix is a proposal in the review report. Normative refs: `_handbook/transcript-review-protocol.md` and `_handbook/listening-smell-catalog.md`.
+
+============================================================
+SECTION 11: POST-PUBLISH REVIEW LOOP (turboscribe → transcript-reviewer)
+============================================================
+
+After NotebookLM renders the audio for an episode, Asif manually transcribes the audio using **TurboScribe** (https://turboscribe.ai) and exports the result as **SRT** (preferred — timestamps enable pacing analysis) or **TXT** (fallback). TurboScribe has no public API; the ingest path is file-drop.
+
+### Folder convention
+
+```
+BOOK_DIR/
+├── truboscribe/                         ← RAW inbox (original TurboScribe filenames)
+│   ├── _README.md
+│   └── <whatever TurboScribe named the export>.srt|.txt|.vtt
+├── transcripts/                         ← CANONICAL (slug-aligned, agent-managed)
+│   ├── _README.md
+│   └── EP##-<slug>.transcript.srt|.txt
+└── _system/
+    ├── audit-EP##-<slug>.md             ← lexical-pass output (audit_transcript.py)
+    ├── transcript-review-EP##-<slug>.md ← semantic-pass output (transcript-reviewer)
+    └── transcript-review-batch-<YYYY-MM-DD>.md  ← consolidated batch report
+```
+
+### Invocation
+
+When Asif says "review transcripts for <series>" or "process turboscribe folder for <series>" or "/review-transcript":
+
+1. Confirm the series and the count of files in `truboscribe/`.
+2. Delegate to `.github/agents/transcript-reviewer.agent.md`.
+3. The agent runs the batch protocol (Phases A–G) defined in `_handbook/transcript-review-protocol.md` §2.
+4. Output: per-episode reviews + consolidated batch report + updated pressure ledger.
+5. Asif reviews the report and approves any T3 (handbook-rule) or T4 (agent-evolution) proposals before they are applied.
+
+### Convergence loop (review → fix → re-record)
+
+The post-publish loop closes the empirical feedback path:
+
+```
+chapter + framing → NotebookLM → audio → TurboScribe → transcript
+                                                            ↓
+                                            transcript-reviewer (semantic)
+                                            + audit_transcript.py (lexical)
+                                                            ↓
+                                       4-tier delta proposal report
+                                                            ↓
+                                       T1/T2 applied (challenger gates)
+                                       T3/T4 approved by Asif
+                                                            ↓
+                                       Re-build episode → re-record in NotebookLM
+                                                            ↓
+                                       Drop new transcript → loop until SHIP-READY
+```
+
+### Pressure-ledger ownership
+
+`content/podcast/_handbook/pressure-ledger.json` is the long-term institutional memory of every observed smell across all series. The reviewer agent is the only writer. The ledger drives:
+
+- Provisional rule promotion (pressure ≥ 3)
+- Canonical rule promotion (pressure ≥ 6 OR cross-series confirmation)
+- Cross-series smell detection (the spread multiplier in the pressure formula)
+- Deprecation candidates (canonical rules with 0 violations in 4 consecutive batches)
+
+The catalog (`_handbook/listening-smell-catalog.md`) is the human-readable mirror of the ledger and provides canonical examples + remediation history per smell family.
