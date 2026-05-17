@@ -85,6 +85,7 @@ Pronounce "Bismillah" as "bis-mil-laah". Say it as one fluent word.
 Pronounce "Ka'bah" as "kaa-bah". Say it as one fluent word.
 Pronounce "Minhaj al-Abidin" as "min-haaj al-aa-bi-deen". Say it as two fluent runs.
 Pronounce "bid'a" as "bid-ah". Say it as one fluent word.
+Pronounce "fard kifaya" as "fard ki-faa-yah". Say it as one fluent run.
 Pronounce "Kimiya al-Sa'ada" as "kee-mee-yaa as-sa-aa-dah". Say it as two fluent runs.
 Pronounce "Arba'in" as "ar-ba-een". Say it as one fluent word.
 

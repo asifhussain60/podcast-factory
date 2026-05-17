@@ -79,6 +79,7 @@ Pronounce "Salah" as "sa-laah". Say it as one fluent word.
 Pronounce "Du'a" as "du-aa". Say it as one fluent word.
 Pronounce "Tawakkul" as "ta-WAK-kul". Say it as one fluent word.
 Pronounce "Ihsan" as "ih-SAAN". Say it as one fluent word.
+Pronounce "taqwa" as "taq-waa". Say it as one fluent word.
 Pronounce "Fard al-ayn" as "fard al-ayn". Say it as one fluent run.
 Pronounce "Fard Kifaya" as "fard ki-faa-yah". Say it as one fluent run.
 Pronounce "Tawfeeq" as "taw-feeq". Say it as one fluent word.
