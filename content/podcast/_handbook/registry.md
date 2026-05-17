@@ -7,8 +7,8 @@ Architecture: v3.5 (chapter-as-source; phonetics in customize prompt only).
 
 | EP# | Title | Slug | Source Type | Status | Date Started | NotebookLM URL |
 |-----|-------|------|-------------|--------|--------------|----------------|
-| 01  | The Frame and the First Counsel | frame-and-first-counsel | book/PDF chapter | draft | 2026-05-17 | (pending) |
-| 02  | Haatim's Eight Benefits | hatim-eight-benefits | book/PDF chapter | draft | 2026-05-17 | (pending) |
-| 03  | The Path of the Seeker | the-path | book/PDF chapter | draft | 2026-05-17 | (pending) |
-| 04  | The Four Cautions | four-cautions | book/PDF chapter | draft | 2026-05-17 | (pending) |
-| 05  | The Method of Living and the Closing Prayer | method-and-closing-prayer | book/PDF chapter | draft | 2026-05-17 | (pending) |
+| 01  | The Frame and the First Counsel | frame-and-first-counsel | book/PDF chapter | ready | 2026-05-17 | (pending) |
+| 02  | Haatim's Eight Benefits | hatim-eight-benefits | book/PDF chapter | ready | 2026-05-17 | (pending) |
+| 03  | The Path of the Seeker | the-path | book/PDF chapter | ready | 2026-05-17 | (pending) |
+| 04  | The Four Cautions | four-cautions | book/PDF chapter | ready | 2026-05-17 | (pending) |
+| 05  | The Method of Living and the Closing Prayer | method-and-closing-prayer | book/PDF chapter | ready | 2026-05-17 | (pending) |

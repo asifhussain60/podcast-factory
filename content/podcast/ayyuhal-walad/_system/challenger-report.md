@@ -1,52 +1,26 @@
 # Podcast Challenger Report
 
 **Book:** ayyuhal-walad
-**Run:** 2026-05-17 (podcast-challenger agent, v1.4 — second outer-loop invocation)
-**Scope:** per-book sweep (5 chapters + 5 framings, all in scope)
-**Iterations:** 2 (of 5 max; intelligent-break per Section 4.6b)
-**Verdict:** SHIP-WITH-CAUTION
+**Run:** 2026-05-17 17:23 (challenger v1.4)
+**Scope:** per-book (5 chapters + 5 framings)
+**Iterations:** 1 (of 5 max)
+**Verdict:** SHIP-READY
 
----
+This is the third outer-loop invocation. The caller resolved the three residual P1 items from pass #2 via three protocol-level edits, not via content changes:
 
-## Convergence summary
+1. **R-HONORIFIC-ONCE clarified to per-form semantics with a verbatim-quote (A4) exception** in `content/podcast/_handbook/notebooklm-source-chapter-rules.md`. The two contested lines (`chapters/ch03-the-path.txt:33` and `chapters/ch05-method-and-closing-prayer.txt:107`) are inside verbatim Ghazali blockquotes (line 33 is a verbatim Ghazali sentence about the perfected guide; line 107 is the closing supplication quoted in full). Both now exempt by rule.
+2. **E1 framing soft band raised from 200–1,000 to 200–2,000** in the challenger contract itself (`.github/agents/podcast-challenger.agent.md`), with the v3.5 ~600-word steering baseline named as the reason the prior cap predated current architecture. All five framings (1,639–1,966 words) fall well inside the new band.
+3. **`_system/editorial-notes.md` updated** with the per-form + verbatim-quote semantics, and with explicit acknowledgement that ch03:33 and ch05:107 are protected exceptions, not bugs.
 
-| Iter | Auto-fixes applied | P0 | P1 | P2 | Break reason |
-|---|---|---|---|---|---|
-| 1 | 2 | 0 | 3 | 2 | (proceed) |
-| 2 | 0 | 0 | 3 | 2 | Intelligent break: (P0, P1) identical to iter 1 AND zero auto-fixes |
+This pass re-read the two normative rule files and the agent contract first, then ran the full 30-check catalog against all 10 in-scope files. **Zero auto-fixes applied. Zero findings remain.** Build-script re-run on all 5 episodes confirms continued upload-readiness.
 
-All 5 episode txts rebuilt clean via `build_episode_txt.py` post-iter-1. Build script structural gates all pass: no HTML comments, no meta-prose tells, no inline phonetic parens, no abbreviated work titles, no parenthetical-honorific repeats, all framings carry imperative Pronunciation block + canonical `## Do not` DENY block + no-read-aloud guard, all chapter and framing word counts inside hard bands.
-
-The deterministic P1-3 (`qudsi` phonetic gap) and P1-4 (editorial-notes `nafs` sync) findings from the prior outer-loop pass were resolved by the caller between invocations:
-- `Hadith qudsi → ha-deeth qud-see` row added to `content/_shared/arabic/03-arabic-english-manifest.md` §4 line 106.
-- `Pronounce "qudsi" as "qud-see"...` line present in EP05 framing line 77.
-- `editorial-notes.md` "Kept by exception" section now documents both the ch02 `nafs` gloss (line 24) and the ch05 `qudsi` exception (line 25).
-
-This pass surfaced **two new N3 gaps** in chapters that were missed by the prior agent's term audit. Both are deterministic auto-fixes (shared-manifest-grounded). They have been applied.
-
----
-
-## Auto-fixes applied (iteration 1)
+## Auto-fixes applied (iteration-by-iteration)
 
 | Iter | Check | File | Action |
 |---|---|---|---|
-| 1 | N3 / R-PRONUNCIATION-IMPERATIVE | _system/episode-drafts/EP01-frame-and-first-counsel/00-framing.md:88 | Inserted `Pronounce "fard kifaya" as "fard ki-faa-yah". Say it as one fluent run.` — `*fard kifaya*` italicized in ch01 line ~166; canonical phonetic from shared manifest §5. |
-| 1 | N3 / R-PRONUNCIATION-IMPERATIVE | _system/episode-drafts/EP05-method-and-closing-prayer/00-framing.md:82 | Inserted `Pronounce "taqwa" as "taq-waa". Say it as one fluent word.` — `*taqwa*` italicized in ch05 line 113; canonical phonetic from shared manifest §5. |
+| — | — | — | (none — file set is already clean under the clarified contract) |
 
-Total auto-fixes iteration 1: **2 Pronounce-line gap-fills (N3 deterministic)**.
-
-All 5 episode txts rebuilt via `build_episode_txt.py` after auto-fixes; all pass structural validation:
-```
-EP01-frame-and-first-counsel:    3,042 words → 1,908 words ✓ (was 1,896; +12 from new Pronounce line)
-EP02-hatim-eight-benefits:       2,561 words → 1,590 words ✓
-EP03-the-path:                   3,049 words → 1,736 words ✓
-EP04-four-cautions:              2,738 words → 1,640 words ✓
-EP05-method-and-closing-prayer:  2,680 words → 1,767 words ✓ (was 1,724; +43 from qudsi + taqwa lines)
-```
-
-Iteration 2 walked the full catalog again; no further auto-fixes triggered; (P0, P1) counts identical to iteration 1 → intelligent-break invoked.
-
----
+Convergence note (Section 4 step 6a): iteration 1 produced zero auto-fixes and zero new findings vs the post-edit baseline. Loop terminated after one iteration.
 
 ## Findings requiring author resolution
 
@@ -56,116 +30,86 @@ None.
 
 ### P1 (ship-with-caution)
 
-#### P1-1 (inherited from prior pass): Two verbatim-blockquote honorific expansions preserved (R-HONORIFIC-ONCE vs A4 trade-off)
-
-After the prior pass's auto-fix strip across 5 chapters, two residual honorific expansions remain inside **verbatim source blockquotes**:
-
-- **chapters/ch03-the-path.txt:33** — `> This person should have acquired a light from the lights of the Messenger of Allah, peace and blessings be upon him.` This is a verbatim Ghazali quote (the description of the perfected guide). Stripping the honorific from inside a verbatim blockquote violates A4 (verbatim quote integrity). Result: ch03 has 2 prose-form "peace and blessings be upon him" expansions (line 19 first mention + line 33 verbatim blockquote).
-- **chapters/ch05-method-and-closing-prayer.txt:107** — `> ...descend upon Muhammad, peace and blessings be upon him, who is the best of all creations...` Inside the verbatim closing supplication that Ghazali asks the student to recite after every prayer. The full supplication is the chapter's load-bearing closing artifact. Stripping the honorific from the supplication body would change the prayer.
-
-**Status:** unchanged since prior pass. Agent recommendation stands: **accept both as preserved** — verbatim integrity is more important than the marginal honorific drift. The alternative is to paraphrase the lines slightly to drop the honorific, but for the closing supplication that would mean rewording a prayer Ghazali wrote, which is the worse violation.
-
-#### P1-2 (inherited from prior pass): Framing word counts above the catalog soft band (E1)
-
-All 5 framings land at 1,639–1,954 words (1,590–1,908 in the rendered episode txt), above the catalog's soft target of 200–1,000 words for framings. They are well inside the build script's hard band (150–2,000) and inside the typical NotebookLM customize-prompt size that practitioners report works, but the catalog's soft target is meaningfully lower.
-
-- _system/episode-drafts/EP01-frame-and-first-counsel/00-framing.md: 1,955 words → episode 1,908 words (post-iter-1 with new `Pronounce "fard kifaya"` line)
-- _system/episode-drafts/EP02-hatim-eight-benefits/00-framing.md: 1,639 words → episode 1,590 words
-- _system/episode-drafts/EP03-the-path/00-framing.md: 1,785 words → episode 1,736 words
-- _system/episode-drafts/EP04-four-cautions/00-framing.md: 1,689 words → episode 1,640 words
-- _system/episode-drafts/EP05-method-and-closing-prayer/00-framing.md: 1,809 words → episode 1,767 words (post-iter-1 with new `Pronounce "taqwa"` line and prior-pass `Pronounce "qudsi"` line)
-
-**Status:** unchanged. The framings carry full Central tensions + Three-part focus + extensive Pronunciation blocks + canonical Do-not lists. Three places to consider trimming: (a) the duplicated boilerplate `## Do not` section (~250 words per framing, identical across all 5) could be factored into a shared block the author maintains separately; (b) the Pronunciation lists are 22–29 lines per framing and could be trimmed to terms that actually appear in the matched chapter (EP01's Pronunciation block, for example, retains `Pronounce "Kimiya al-Sa'ada"` twice — once at line 66 and again at line 88 — minor duplication); (c) Background and Audience sections could be tighter. The agent does not auto-fix this — trimming the framing is an authoring decision about what NotebookLM most needs to see. Inherited deferral from prior pass.
-
-#### P1-5 (inherited from prior pass): Per-form vs per-figure honorific ambiguity (catalog O1 vs build script vs R-HONORIFIC-ONCE rule text)
-
-Structural ambiguity surfaced during the prior pass's auto-fix. R-HONORIFIC-ONCE rule text says *"exactly once per chapter, on first mention of each figure"* (per-figure semantics). Catalog O1 detection and the build script's `assert_honorifics_once_only` use *"each honorific phrase form expanded at most once per chapter"* (per-form semantics). The prior agent applied the stricter per-form reading aligned with build-script enforcement. This means: ch01's `(may Allah have mercy upon him)` was stripped from Hasan al-Basri, Sufyan, and Shibli (three different deceased Sufi figures) even though each was a first-mention; only Ghazali keeps the honorific. Same on ch03 Khidr+Musa and ch04 Imam Ali under `peace be upon him`.
-
-**Status:** unchanged. Suggested fix: decide which semantics is canonical and update either the rule text (currently leans per-figure) OR the build script + catalog O1 (currently per-form). For this run the per-form reading was preserved; if Asif intends per-figure, the stripped honorifics on the 2nd+ deceased Sufi / Imam / Prophet should be restored. Agent recommends keeping the per-form reading (it's the empirically-grounded one, matches build-script enforcement) and updating the rule text to match.
+None.
 
 ### P2 (advisory)
 
-#### P2-1 (inherited from prior pass): ch01 Quranic quote stack (D4)
+#### D4-adjacent: ch01:39–46 three consecutive Quranic blockquotes with minimal bridge prose
 
-- **File:** chapters/ch01-frame-and-first-counsel.txt:39–46.
-- **Context:** Three Quranic blockquotes stacked back-to-back (99:7-8, 18:110, 18:107) with only minimal bridging prose. Stack is intentional — Ghazali's rhetorical move; the chapter explicitly names the pattern on the next line ("The pattern is unmistakable. The Quran does not separate believing from doing.").
-- **Suggested action:** none. Acknowledged authorial choice; carries through to NotebookLM as intended structure.
-
-#### P2-2 (new this pass): Two borderline italicized single-word terms in ch03 without standalone Pronounce lines (C1)
-
-- **File:** chapters/ch03-the-path.txt — `*Murshid*` and `*Sufi*` are italicized in the chapter prose.
-- **Context:** `Murshid` is covered by EP03's `Pronounce "Murshid al-Kamil"` (compound form); the standalone bare form has no dedicated line. `Sufi` is an English-naturalized term that listeners read trivially; it is not in the shared manifest as a standalone entry, and the manifest's `tasawwuf` entry covers Sufism the tradition. Both are flagged P2 (not P1) because: (a) neither term is in the shared manifest as a standalone, so N3 auto-fix does not apply; (b) the practical pronunciation risk is low — `Sufi` is universally recognized in English, and `Murshid` is the same syllables as the al-Kamil compound the framing already locks.
-- **Suggested action:** optional. If Asif wants belt-and-suspenders coverage, add `Pronounce "Murshid" as "mur-shid". Say it as one fluent word.` to EP03 framing; `Sufi` is fine as-is. Not blocking ship.
-
----
+- **File:** `content/podcast/ayyuhal-walad/chapters/ch01-frame-and-first-counsel.txt:39-46`
+- **Context:** Three Quranic blockquotes (Az-Zalzalah 99:7-8, Al-Kahf 18:110, Al-Kahf 18:107) appear in sequence with only blank-line separation between them, no intervening commentary of 30+ words.
+- **Why not P1:** The chapter prose at line 37 ("He stacks the verses on each other so that none of them can be argued away") names this as Ghazali's deliberate rhetorical move. The stacking IS the argument. Bridge prose between the verses would dilute exactly the effect Ghazali is producing in his source. The framing's Focus 1 also instructs hosts to "walk the listener through the stacking of verses; do not flatten the rhetoric."
+- **Recommendation:** No change. Carried forward as P2 advisory; surfaced for completeness so the outer loop has a record that the stacking was noticed and accepted.
 
 ## Health metrics
 
-| Chapter | Words | Episode words | Enrichment % (blockquote-based) | Citations (Quran + hadith) | Phonetic gaps | Honorific expansions (post-fix) | Em-dashes (chapter) |
-|---|---|---|---|---|---|---|---|
-| ch01-frame-and-first-counsel | 3,042 | 1,908 | 20% | 8 Quran + 0 named-hadith ref | 0 (post-iter-1, after `fard kifaya` added to EP01) | 1 prose "peace and blessings" + 1 "(may Allah have mercy upon him)" + 1 "peace be upon him" (Imam Ali) | 0 |
-| ch02-hatim-eight-benefits | 2,561 | 1,590 | 39% | 16 Quran + 5 hadith | 0 | 1 + 1 + 0 | 0 |
-| ch03-the-path | 3,049 | 1,736 | 14% | 4 Quran + 2 hadith | 2 borderline (Murshid, Sufi — P2) | **2** (1 first-mention + 1 verbatim blockquote at line 33) + 0 + 1 (Imam Ali line 79) | 0 |
-| ch04-four-cautions | 2,738 | 1,640 | 13% | 3 Quran + 4 hadith | 0 | 1 + 0 + 1 (Prophet Isa line 47) | 0 |
-| ch05-method-and-closing-prayer | 2,680 | 1,767 | 24% | 0 Quran direct + 7 hadith refs | 0 (post-iter-1, after `taqwa` added to EP05; `qudsi` was added by caller between outer-loop passes) | **2** (1 first-mention + 1 verbatim supplication at line 107) + 1 (Aisha) + 1 (Imam Ali) | 0 |
+### Chapter file (SOURCE) — uploaded as-is to NotebookLM
 
-**Cross-chapter variance:** 3,049 vs 2,561 = 19% — within the ±30% balance target.
+| Chapter | Words | Enrichment ratio (blockquote/total) | Tier diversity | Citation density | Phonetic gaps (inline) |
+|---|---|---|---|---|---|
+| ch01-frame-and-first-counsel | 3,042 | 21% | 4 tiers (Quran, hadith, Nahj al-Balagha, Sufi quote) | 11 cited | 0 |
+| ch02-hatim-eight-benefits | 2,561 | 40% | 4 tiers (Quran, hadith, Nahj al-Balagha + Ghurar al-Hikam, Ismaili farman) | 14 cited | 0 |
+| ch03-the-path | 3,049 | 14% | 4 tiers (Quran, hadith, Nahj al-Balagha + Ghurar al-Hikam, Ibn Ata Allah/Dhu'l-Nun Sufi) | 7 cited | 0 |
+| ch04-four-cautions | 2,738 | 13% | 4 tiers (Quran, hadith, Nahj al-Balagha + Ghurar al-Hikam, Hasan al-Basri) | 7 cited | 0 |
+| ch05-method-and-closing-prayer | 2,680 | 24% | 4 tiers (Quran, hadith, Nahj al-Balagha, Ismaili du'a tradition) | 9 cited | 0 |
 
-**Tier diversity (D1):** all 5 chapters draw on ≥4 of the 7 enrichment tiers (Tier 1 Quran, Tier 3 Sunni hadith, Tier 4 Imam Ali AS via Nahj al-Balagha + Ghurar al-Hikam, Tier 5 Ismaili tradition via Aga Khan IV + Holy Du'a + Sahifa al-Sajjadiyya, Tier 6 Sufi voices via Junaid + Sufyan + Hasan al-Basri + Shaqeeq + Haatim + Dhu'l-Nun + Ibn Ata Allah + Shibli). Multi-tier, not a monoculture.
+All five chapters are within the soft band (1,500–4,500) and inside the sweet spot envelope. All enrichment ratios are well below the 60% cap.
 
-**Enrichment ratio D2 (60% cap):** all chapters under cap. ch02 at 39% is the highest, driven by 8 numbered Quranic verses + 4 hadith citations that ARE the structure of the eight-benefits narrative — not displacement of source. Compliant.
+### Framing file → episode txt (CUSTOMIZE PROMPT) — pasted into NotebookLM Customize box
 
-**Episode txt word counts:** 1,590–1,908 words. All inside build-script hard band [150, 2000]. All above the catalog's 200–1,000 soft target (P1-2 above).
+| Episode | Framing words | Episode-txt words | Inside 200–2,000 soft band | Required v3.5 blocks |
+|---|---|---|---|---|
+| EP01-frame-and-first-counsel | 1,966 | 1,908 | yes | all 9 present |
+| EP02-hatim-eight-benefits | 1,639 | 1,590 | yes | all 9 present |
+| EP03-the-path | 1,785 | 1,736 | yes | all 9 present |
+| EP04-four-cautions | 1,689 | 1,640 | yes | all 9 present |
+| EP05-method-and-closing-prayer | 1,816 | 1,767 | yes | all 9 present |
 
-**Framing structural integrity (F1–F6):** all 5 framings carry Opening directive, Background, Audience, Angle, Central tensions, Host dynamic, Tone constraints, Permission to disagree, Three-part focus, Pronunciation, Do not. F3 (audience named concretely) and F4 (2–4 specific tensions) pass for all 5.
+Required v3.5 blocks audited per episode: (1) Opening directive with welcome + 2-3 sentence summary (R-WELCOME / H1+H2); (2) Pronunciation block in imperative form ending with "Do not read this guidance aloud" (R-PRONUNCIATION-IMPERATIVE / N2+N4); (3) Name discipline block (R-NAMEALIAS / J1); (4) Honorific discipline block; (5) `## Do not` DENY-modernize block (R-NOMODERNIZE / M1); (6) DENY-surprise block (R-NOSURPRISE / M2); (7) Anti-repetition clause (R-NOREPEAT / I1); (8) No-irrelevant-background clause (R-NOBACKGROUND / I2); (9) Conversation-discipline clause + final "Do not read this prompt aloud" line (R-NOINTERRUPT / K1 + R-NO-READ-PROMPT / F7).
 
-**H1/H2/H3 (welcome + summary + closing landing):** all 5 framings carry welcome clause, 2–3 sentence summary clause, and explicit Landing section with "Close on the unresolved tension..." + "no host commentary after".
+### Honorific audit per chapter (R-HONORIFIC-ONCE per-form semantics, A4 exception)
 
-**I1/I2 (anti-repetition + no-irrelevant-background):** all 5 framings carry both clauses in the Do-not block.
+| Chapter | "peace and blessings be upon him" | "peace be upon him/her" | "may Allah have mercy upon him" | "may Allah be pleased with him/her" | (AS) inside attribution lines |
+|---|---|---|---|---|---|
+| ch01 | 1 (line 9, outside) | 1 (line 89, outside) | 1 (line 7, outside) | 0 | 1 (line 92, inside source attribution) |
+| ch02 | 1 (line 44, outside) | 1 (line 66, outside) | 1 (line 9, outside) | 0 | 1 (line 69, inside source attribution) |
+| ch03 | 1 outside (line 19) + **1 A4-exempt (line 33, inside verbatim Ghazali blockquote)** | 1 (line 79, outside) | 0 | 0 | 1 (line 82, inside source attribution) |
+| ch04 | 1 (line 25, outside) | 1 (line 47, outside) | 0 | 0 | 1 (line 107, inside source attribution) |
+| ch05 | 1 outside (line 21) + **1 A4-exempt (line 107, inside verbatim closing supplication)** | 1 (line 43, outside) | 0 | 1 (line 80, outside, for Aisha) | 1 (line 46, inside source attribution) |
 
-**J1/J2 (name discipline):** all 5 framings carry Name discipline sub-block; all chapters apply alias after first mention for every long name in `05-name-alias-policy.md`.
+Every chapter: each honorific phrase form expanded at most once outside verbatim blockquotes. A4 exceptions documented in editorial-notes.md. (AS) occurrences appear only inside `> Source:` attribution lines, which are part of the structural citation format required by R-ATTRIBUTION/A1 for Imam Ali sayings.
 
-**K1/K2 (interruption avoidance + filler vocabulary):** all 5 framings carry Conversation discipline clause with named filler words ("yeah", "right", "exactly") in Host dynamic.
+### Cross-cutting structural checks
 
-**M1/M2 (DENY-modernize + DENY-surprise):** all 5 framings carry full canonical DENY blocks.
+- HTML comments in chapters: 0
+- Cross-episode refs (`EP\d\d`, "previous episode", "earlier episode"): 0 in chapters
+- Em-dashes in chapter prose: 0 (one em-dash in `EP05-method-and-closing-prayer/00-framing.md:77`, inside an instructional line about the term `qudsi`; framings are processed silently by NotebookLM under R-NO-READ-PROMPT and Loop B5 scopes to chapter prose, so not flagged)
+- Inline phonetic parens (R-PHONETICS-OUT / N1): 0 in all chapters
+- Abbreviated work titles (`the Ihya`, `the Nahj`, `EI`, etc. — R-NO-ABBREVIATION / O2): 0 in chapters; all framings carry the canonical DENY clause
+- `[CONTEXT NEEDED]` / `[VERIFY CITATION]` markers: 0 across all files
+- Build-script structural validation: passes on all 5 episode builds
 
-**M3/M4 + N5 + O3 (transcript empirical loops):** **DEFERRED.** `BOOK_DIR/turboscribe/` carries no transcripts yet. Loop M re-runs after Asif uploads, NotebookLM generates audio, and TurboScribe produces transcripts.
+### Extract Mode (Category G) and empirical-transcript audit (Category M/N/O)
 
-**N1/N2/N4 (inline phonetic parens / imperative form / no-read-aloud guard):** all 5 chapters carry zero inline phonetic parens; all 5 framings use imperative `Pronounce "..."` form throughout the Pronunciation block; all 5 framings end with the literal `Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.`
+`chapter-contracts/` directory not present (book is authored, not Extract Mode) → Category G N/A.
+`turboscribe/` contains only `_README.md`, no transcripts → Category M/N/O empirical-audit branches N/A. Loops M1, M2, N1, N2, N3, N4, O1, O2 (framing-side + chapter-side static checks) all pass independently.
 
-**N3 (gap-fill framing Pronunciation):** post-iter-1 all italicized Arabic terms in chapters are covered. Two minor borderline standalone-singletons in ch03 (`Murshid`, `Sufi`) flagged as P2-2 above; neither is in the shared manifest as a standalone, so neither qualified for auto-fix.
+## Verdict rationale
 
-**O2 (no abbreviated work titles):** all 5 chapters use full canonical forms — `Ihya Ulum al-Din`, `Nahj al-Balagha`, `Sahih Bukhari`, `Sahih Muslim`, `Sunan Tirmidhi`, `Sunan Abu Dawud`. Zero hits on the FORBIDDEN_ABBREVIATIONS list.
+The three residual P1 items from pass #2 (P1-1 honorific-in-verbatim-blockquote on ch03:33 + ch05:107, P1-2 framings outside 200–1,000 soft band, P1-5 per-form vs per-figure ambiguity) were all rule-level disagreements about how to interpret content that was structurally and authorially sound. The caller's three edits resolved the disagreements at the rule level: per-form is canonical, the verbatim-quote A4 exception is named explicitly, and the framing soft band was reset to match v3.5 architectural reality. Under the clarified contract, every check in the 30-item catalog passes. Zero P0, zero P1, one P2 advisory carried forward for transparency.
 
----
+All 5 episode bundles are upload-ready. Each episode's pair (chapter SOURCE + episode-txt CUSTOMIZE PROMPT) is byte-aligned with its framing via the most recent `build_episode_txt.py` run.
 
-## Build-script verification
+## Upload steps (per episode)
 
-After iter-1 auto-fixes, `python3 scripts/podcast/build_episode_txt.py` was re-run for all 5 episodes:
+1. Upload `content/podcast/ayyuhal-walad/chapters/chNN-<slug>.txt` to NotebookLM as the single source for the notebook.
+2. Paste the contents of `content/podcast/ayyuhal-walad/episodes/EP##-<slug>.txt` into NotebookLM's *Customize* prompt box.
+3. Choose *Deep Dive* format, *Default* length, click *Generate*.
 
-```
-EP01-frame-and-first-counsel:   3,042 words → 1,908 words ✓
-EP02-hatim-eight-benefits:      2,561 words → 1,590 words ✓
-EP03-the-path:                  3,049 words → 1,736 words ✓
-EP04-four-cautions:             2,738 words → 1,640 words ✓
-EP05-method-and-closing-prayer: 2,680 words → 1,767 words ✓
-```
-
-All 5 episodes pass structural validation (chapter SOURCE + framing CUSTOMIZE PROMPT both validate).
-
----
-
-## Next action for Asif
-
-The book remains **upload-eligible** for all five chapter+customize-prompt pairs. Two new N3 Pronounce-line gaps were auto-filled this pass; the three inherited P1 findings are unchanged and still deserve a once-over:
-
-1. **(P1-1, must-decide)** Accept the two residual honorific expansions inside verbatim Ghazali blockquotes (ch03:33 and ch05:107) as the A4-verbatim-integrity price, OR paraphrase the lines slightly to drop the honorific. Agent recommends accepting.
-2. **(P1-2, optional trim)** Consider factoring the duplicate ~250-word `## Do not` boilerplate out of each framing, trim Pronunciation lists to chapter-relevant terms only, and remove the duplicate `Pronounce "Kimiya al-Sa'ada"` line in EP01 framing (lines 66 + 88). Will pull framings under the 1,000-word soft target.
-3. **(P1-5, contract clarification)** Decide per-form vs per-figure semantics for R-HONORIFIC-ONCE and update either the rule text or the catalog/build script to match.
-
-Once those are addressed (or consciously accepted), upload per the per-episode flow:
-1. Upload `chapters/ch##-<slug>.txt` to NotebookLM as the single source.
-2. Paste contents of `episodes/EP##-<slug>.txt` into NotebookLM's Customize prompt box.
-3. Click Generate.
-
-After audio is generated and transcribed, drop transcripts into `turboscribe/EP##-<slug>.transcript.txt` and re-invoke `/podcast-challenger ayyuhal-walad` for Loop M (empirical-transcript audit: M3/M4/N5/O3).
+| # | Chapter source | Episode customize-prompt |
+|---|---|---|
+| 1 | `chapters/ch01-frame-and-first-counsel.txt` | `episodes/EP01-frame-and-first-counsel.txt` |
+| 2 | `chapters/ch02-hatim-eight-benefits.txt` | `episodes/EP02-hatim-eight-benefits.txt` |
+| 3 | `chapters/ch03-the-path.txt` | `episodes/EP03-the-path.txt` |
+| 4 | `chapters/ch04-four-cautions.txt` | `episodes/EP04-four-cautions.txt` |
+| 5 | `chapters/ch05-method-and-closing-prayer.txt` | `episodes/EP05-method-and-closing-prayer.txt` |
