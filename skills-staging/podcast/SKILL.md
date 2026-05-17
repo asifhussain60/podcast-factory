@@ -16,7 +16,7 @@ You are Asif's podcast source-preparation agent. Your sole purpose is to convert
   - `episodes/` — the FINAL deliverable: one concatenated txt per episode, built from the per-episode drafts under `_system/episode-drafts/` by `scripts/podcast/build_episode_txt.py`. These are the files Asif uploads to NotebookLM.
   - `turboscribe/` — slug-aligned transcripts (`EP##-<slug>.transcript.txt`, one per episode) of NotebookLM Audio Overviews, dropped by Asif after transcribing via **TurboScribe** (https://turboscribe.ai, manual subscription). Nothing in the pipeline writes to this folder; it is human-input only. Read by `scripts/podcast/audit_transcript.py` for the lexical audit pass and by the `podcast-challenger` Loop M empirical-transcript audit.
 
-At session start, verify `PODCAST_ROOT/_handbook/registry.md` exists. If a book is being worked, verify `BOOK_DIR/_system/`, `BOOK_DIR/episodes/`, and `BOOK_DIR/turboscribe/` exist. If missing, run the scaffold protocol in Section 1.
+At session start, verify `PODCAST_ROOT/.skill/registry.md` exists. If a book is being worked, verify `BOOK_DIR/_system/`, `BOOK_DIR/episodes/`, and `BOOK_DIR/turboscribe/` exist. If missing, run the scaffold protocol in Section 1.
 
 ============================================================
 SECTION 0: THE MISSION CONSTANT — GOVERNS EVERY EPISODE
@@ -63,21 +63,21 @@ Before doing ANY work, read these files in this order:
 4. `SHARED_ARABIC/03-arabic-english-manifest.md` — Latin-only Arabic→English→phonetic lookup; canonical spellings live here
 5. `SHARED_ARABIC/04-common-term-substitutions.md` — when to replace common Arabic terms with their English equivalents (nafs, shaytan, ruh, etc.)
 6. `SHARED_ARABIC/05-name-alias-policy.md` — long-name → short-alias policy (Ghazali, Haatim, Junaid, etc.). Applied during chapter authoring AND in the framing's Name discipline block.
-7. `PODCAST_ROOT/_handbook/notebooklm-source-chapter-rules.md` — **NORMATIVE** contract for the chapter file (Loops B + C + D + E authority). Wins over guidance files where they overlap.
-8. `PODCAST_ROOT/_handbook/notebooklm-customize-prompt-rules.md` — **NORMATIVE** contract for the customize-prompt framing (Loops F + H + I + J + K authority). Includes welcome opening, anti-repetition, no-irrelevant-background, name-aliasing, interruption avoidance rules.
-9. `PODCAST_ROOT/_handbook/notebooklm-source-format.md` — the file-by-file format NotebookLM responds to best
-10. `PODCAST_ROOT/_handbook/two-host-framing.md` — default Host A / Host B personas and steering language
-11. `PODCAST_ROOT/_handbook/source-distillation.md` — how to distill each source type into signal
-12. `PODCAST_ROOT/_handbook/episode-architecture.md` — discussion-spine shape, opening hook, landing
-13. `PODCAST_ROOT/_handbook/scratchpad-markers.md` — the podcast-local `@@` marker vocabulary. This copy is podcast-owned and independent from the journal skill's marker spec.
-14. `PODCAST_ROOT/_handbook/notebooklm-best-practices.md` — distilled best-practices for shaping NotebookLM output (GUIDANCE — superseded by the two normative files above where they overlap).
-15. `PODCAST_ROOT/_handbook/registry.md` — current episode index across all books
+7. `PODCAST_ROOT/.skill/handbook/notebooklm-source-chapter-rules.md` — **NORMATIVE** contract for the chapter file (Loops B + C + D + E authority). Wins over guidance files where they overlap.
+8. `PODCAST_ROOT/.skill/handbook/notebooklm-customize-prompt-rules.md` — **NORMATIVE** contract for the customize-prompt framing (Loops F + H + I + J + K authority). Includes welcome opening, anti-repetition, no-irrelevant-background, name-aliasing, interruption avoidance rules.
+9. `PODCAST_ROOT/.skill/handbook/notebooklm-source-format.md` — the file-by-file format NotebookLM responds to best
+10. `PODCAST_ROOT/.skill/handbook/two-host-framing.md` — default Host A / Host B personas and steering language
+11. `PODCAST_ROOT/.skill/handbook/source-distillation.md` — how to distill each source type into signal
+12. `PODCAST_ROOT/.skill/handbook/episode-architecture.md` — discussion-spine shape, opening hook, landing
+13. `PODCAST_ROOT/.skill/handbook/scratchpad-markers.md` — the podcast-local `@@` marker vocabulary. This copy is podcast-owned and independent from the journal skill's marker spec.
+14. `PODCAST_ROOT/.skill/handbook/notebooklm-best-practices.md` — distilled best-practices for shaping NotebookLM output (GUIDANCE — superseded by the two normative files above where they overlap).
+15. `PODCAST_ROOT/.skill/registry.md` — current episode index across all books
 16. `BOOK_DIR/_README.md` — book-specific conventions and upload checklist (if a book is being worked)
 
 **The six SHARED_ARABIC files (incl. 05-name-alias-policy) and the two NORMATIVE handbook files (notebooklm-*-rules) are mandatory on every run, not optional.** They are the authority for every Arabic phonetic decision, every customize-prompt template, every chapter-as-source constraint. Per-book overrides in `BOOK_DIR/_system/pronunciation.md` may add terms but must not contradict the shared manifest. Guidance files explain WHY; normative files state WHAT.
 
 If `PODCAST_ROOT` is missing the registry, scaffold it before continuing:
-  - Create `PODCAST_ROOT/_handbook/registry.md` with the header from `PODCAST_ROOT/_handbook/workspace-readme-template.md`
+  - Create `PODCAST_ROOT/.skill/registry.md` with the header from `PODCAST_ROOT/.skill/handbook/workspace-readme-template.md`
 
 If a new book is being added:
   - Create `PODCAST_ROOT/<book-slug>/_system/`, `PODCAST_ROOT/<book-slug>/chapters/`, `PODCAST_ROOT/<book-slug>/episodes/`, `PODCAST_ROOT/<book-slug>/turboscribe/`
@@ -116,9 +116,9 @@ SECTION 1.5: ANY-FORMAT LONG-SOURCE INGESTION PROTOCOL (PHASE 0)
 
 A long source must never produce a single episode by default. A 30-page PDF with a table of contents is a *series*, not an episode. A two-hour podcast transcript is a *series*. A 40-slide deck is a *series*. Phase 0 below converts the source — regardless of format — into a designated text folder and a confirmed chapter plan BEFORE any episode is written. Skipping Phase 0 is the failure mode that produces a one-episode workspace for a multi-chapter source.
 
-**Bypass for single-chapter sources (Extract Mode)**: when the source is already a single chapter `.txt` file (memoir chapter, pre-prepared book chapter, single-episode re-run), skip this entire SKILL — Phase 0 pre-reads, SHARED_ARABIC index, handbook normative refs, all of it. Use the `/extract-chapter <chapter-ref>` slash command (wired to the `podcast-extract` agent at `.github/agents/podcast-extract.agent.md`), which drives `scripts/podcast/extract_chapter.py` deterministically from a per-chapter contract under `content/podcast/<book-slug>/chapter-contracts/<slug>.yml`. Full spec: `content/podcast/_handbook/extract-capability.md`. Extract Mode is the right answer for memoir chapters, single-episode re-runs, and any source where chapter design has already been done by hand.
+**Bypass for single-chapter sources (Extract Mode)**: when the source is already a single chapter `.txt` file (pre-prepared book chapter, single-episode re-run), skip this entire SKILL — Phase 0 pre-reads, SHARED_ARABIC index, handbook normative refs, all of it. Use the `/extract-chapter <chapter-ref>` slash command (wired to the `podcast-extract` agent at `.github/agents/podcast-extract.agent.md`), which drives `scripts/podcast/extract_chapter.py` deterministically from a per-chapter contract under `content/podcast/library/<category>/<book-slug>/chapter-contracts/<slug>.yml`. Full spec: `content/podcast/.skill/handbook/extract-capability.md`. Extract Mode is the right answer for single-episode re-runs and any source where chapter design has already been done by hand.
 
-**Splitting policy**: when a source chapter exceeds the 4,500-word ceiling (Section 0, Invariant 3), split it into derivatives with clean single-noun English titles (kebab-case, no version suffixes) and record provenance via the `derived_from:` field in each derivative's contract. Full spec: `content/podcast/_handbook/extract-capability.md` § Splitting policy.
+**Splitting policy**: when a source chapter exceeds the 4,500-word ceiling (Section 0, Invariant 3), split it into derivatives with clean single-noun English titles (kebab-case, no version suffixes) and record provenance via the `derived_from:` field in each derivative's contract. Full spec: `content/podcast/.skill/handbook/extract-capability.md` § Splitting policy.
 
 **The phases run in order**: extract → English refinement → Arabic phonetic pass → chapter design → enrichment → series intake. Each phase's output is the next phase's input. Phases 0b–0e are written into `BOOK_DIR/chapters/chNN-<slug>.txt` files; those files ARE the NotebookLM source content.
 
@@ -218,7 +218,7 @@ Goal: design the chapter set for the NotebookLM-podcast series. **Each chapter I
 
 Output: `BOOK_DIR/chapters/chNN-<slug>.txt` — one file per designed chapter. Numbered monotonically (zero-padded). Slug is kebab-case, ≤ 40 chars, descriptive.
 
-Sizing rules (per `PODCAST_ROOT/_handbook/notebooklm-best-practices.md` §3):
+Sizing rules (per `PODCAST_ROOT/.skill/handbook/notebooklm-best-practices.md` §3):
   - **Floor: 1,500 words** per chapter.
   - **Target: 2,500–3,500 words** per chapter.
   - **Hard ceiling: 4,500 words** per chapter (any chapter over that gets split).
@@ -241,7 +241,7 @@ Goal: each chapter is enriched beyond the source's own words with carefully chos
 
 Output: enriched `BOOK_DIR/chapters/chNN-<slug>.txt` files (same files as Phase 0d, now richer).
 
-Allowed enrichment sources, citation format, and tradition-mix principles are codified in the canonical whitelist: **`PODCAST_ROOT/_handbook/enrichment-sources.md`**. Consult it before adding any enrichment. The whitelist is tiered:
+Allowed enrichment sources, citation format, and tradition-mix principles are codified in the canonical whitelist: **`PODCAST_ROOT/.skill/handbook/enrichment-sources.md`**. Consult it before adding any enrichment. The whitelist is tiered:
 
   - **Tier 1 — The Author's Own Corpus** (highest priority). For Ghazali: *Ihya Ulum al-Din*, *Kimiya al-Sa'ada*, *Munqidh min al-Dalal*, *Mishkat al-Anwar*, *Bidayat al-Hidaya*, *Jawahir al-Quran*.
   - **Tier 2 — Quran** — Arabic transliteration + phonetic + English translation, cited `(Quran <Surah>:<Verse>)`.
@@ -284,7 +284,7 @@ If the source is a single chapter or article (not a PDF, not multi-chapter), ski
 
 ### PHASE 0g: REGISTER THE SERIES
 
-  1. Reserve a contiguous block of episode numbers in `PODCAST_ROOT/_handbook/registry.md` — one row per chapter (and therefore per episode), status `draft`, all pointing to the same book-slug.
+  1. Reserve a contiguous block of episode numbers in `PODCAST_ROOT/.skill/registry.md` — one row per chapter (and therefore per episode), status `draft`, all pointing to the same book-slug.
   2. For each chapter `chNN-<slug>.txt`, create the matching episode draft folder `BOOK_DIR/_system/episode-drafts/EP##-<slug>/` (with the same slug — that mapping is how `build_episode_txt.py` finds the chapter for each episode).
 
 After Phase 0g, every planned episode runs Phases 1–4 below. Phase 1 intake for each episode is shortcut: most fields are inherited from the series intake; only per-episode overrides are surfaced. Phases 2–4 run normally per episode.
@@ -358,7 +358,7 @@ The draft folder (mandatory files):
     9. **Do not (forbidden vocabulary and framings)** — DENY blocks per R-NOMODERNIZE + R-NOSURPRISE: modernization terms (Twitter, X, social media, algorithm, content creator, deep dive, ...), surprise noise ("wow", "right?", "it's chilling", ...), abbreviations of canonical works ("the Ihya", "EI").
     10. **Final line** (R-NO-READ-PROMPT) — `Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.`
     
-    Target ~500–1,200 words. The four-part structural skeleton (opening directive, three-part focus, pronunciation hooks, anti-noise rules) from `PODCAST_ROOT/_handbook/notebooklm-best-practices.md` §5 maps onto blocks 1–9 above.
+    Target ~500–1,200 words. The four-part structural skeleton (opening directive, three-part focus, pronunciation hooks, anti-noise rules) from `PODCAST_ROOT/.skill/handbook/notebooklm-best-practices.md` §5 maps onto blocks 1–9 above.
 
 The draft folder (recommended authoring scaffolds — do NOT flow to NotebookLM):
 
@@ -415,7 +415,7 @@ The chapter file IS the source. The build script does NOT transform it; it only 
      **Validation gates (chapter — the SOURCE the user uploads):**
      - No HTML comments (would be read literally by NotebookLM). Authoring metadata lives in `BOOK_DIR/_system/enrichment-log.md`, NOT inline in the chapter.
      - No meta-prose tells (the build script's `META_PROSE_TELLS` + `META_PROSE_REGEX_TELLS`). Any match is a hard error.
-     - Word count ∈ [500, 5,500] hard band (sweet spot 1,800–2,800; per `PODCAST_ROOT/_handbook/notebooklm-best-practices.md` §3).
+     - Word count ∈ [500, 5,500] hard band (sweet spot 1,800–2,800; per `PODCAST_ROOT/.skill/handbook/notebooklm-best-practices.md` §3).
 
      **Validation gates (framing — the CUSTOMIZE PROMPT, post-strip):**
      - Re-checked against the same `META_PROSE_TELLS` list — meta in the customize prompt is steering noise.
@@ -466,9 +466,9 @@ The chapter file IS the source. The build script does NOT transform it; it only 
 
      See `.github/agents/podcast-challenger.agent.md` for the full check catalog (Categories A–O, ~30 checks), severity tier rules, and per-iteration semantics.
 
-  4. Update `PODCAST_ROOT/_handbook/registry.md` with the new episode row: number, title, slug, book-slug, source type, status, date, NotebookLM notebook URL (Asif fills this after upload).
+  4. Update `PODCAST_ROOT/.skill/registry.md` with the new episode row: number, title, slug, book-slug, source type, status, date, NotebookLM notebook URL (Asif fills this after upload).
   5. Maintain the UPLOAD CHECKLIST as the final section of `00-framing.md` (stripped by the build script before emission, so it never reaches NotebookLM). It is Asif-facing documentation: "(1) Upload `BOOK_DIR/chapters/chNN-<slug>.txt` as the single source. (2) Paste contents of `BOOK_DIR/episodes/EP##-<slug>.txt` into NotebookLM's *Customize* prompt box. (3) Click *Generate*."
-  6. **Write the chapter-refinement scratchpad.** Create `BOOK_DIR/_system/episode-drafts/EP##-<slug>/chapter.scratch.md`. The scratchpad is a verbatim mirror of `BOOK_DIR/chapters/chNN-<slug>.txt`, with the `@@` marker legend block (see `PODCAST_ROOT/_handbook/scratchpad-markers.md`) prepended at the top. The legend block is reference material for the user, kept across refinement passes and stripped only at project ship-time. **The chapter file is the refinement target** — every marker the user applies eventually rewrites the chapter, and the chapter rewrite is what changes the SOURCE block in the next episode-txt build.
+  6. **Write the chapter-refinement scratchpad.** Create `BOOK_DIR/_system/episode-drafts/EP##-<slug>/chapter.scratch.md`. The scratchpad is a verbatim mirror of `BOOK_DIR/chapters/chNN-<slug>.txt`, with the `@@` marker legend block (see `PODCAST_ROOT/.skill/handbook/scratchpad-markers.md`) prepended at the top. The legend block is reference material for the user, kept across refinement passes and stripped only at project ship-time. **The chapter file is the refinement target** — every marker the user applies eventually rewrites the chapter, and the chapter rewrite is what changes the SOURCE block in the next episode-txt build.
   7. **Open the scratchpad with Read** so it appears in the chat for Asif to start marking up immediately. This is the handoff. After this step, control passes to Asif; he marks up the scratchpad with `@@refine`, `@@expand`, `@@replace`, `@@cut`, `@@note`, `@@policy`, etc., and re-invokes the skill to apply the markers. After each applied pass, **re-run `build_episode_txt.py`** so the deliverable txt stays in sync with the rewritten chapter.
   8. **Output the human-facing summary** — and ONLY now is this permitted. The summary MUST begin with one of two lines:
 
@@ -517,7 +517,7 @@ Accepted format:
 SECTION 3: SOURCE TYPOLOGY
 ============================================================
 
-Each source type has its own distillation pattern. The full patterns live in `PODCAST_ROOT/_handbook/source-distillation.md`. Format-to-text conversion is done once in Phase 0a (see the normalization table there). After Phase 0a, all source types flow through the same Phase 0b–0g and Phase 1–4 pipeline. Quick reference:
+Each source type has its own distillation pattern. The full patterns live in `PODCAST_ROOT/.skill/handbook/source-distillation.md`. Format-to-text conversion is done once in Phase 0a (see the normalization table there). After Phase 0a, all source types flow through the same Phase 0b–0g and Phase 1–4 pipeline. Quick reference:
 
   - **Book chapter or PDF chapter** — single chapter from a longer work. Bundle covers ONE chapter per episode. Multiple chapters = multiple episodes. **A multi-chapter book is a series, never a single episode — run Phase 0 first.**
   - **Full book / PDF** — short books only (≤ 200 pages). Long books should be split into chapter or theme episodes via Phase 0d segmentation.
@@ -560,7 +560,7 @@ These phrases reliably bend the Audio Overview output. Use them in `00-framing.m
   - "End on a question, not a conclusion" → produces open-ended landing
   - "Speak as though the listener has [context]" → adjusts assumed knowledge
 
-Full patterns in `PODCAST_ROOT/_handbook/two-host-framing.md`.
+Full patterns in `PODCAST_ROOT/.skill/handbook/two-host-framing.md`.
 
 ============================================================
 SECTION 5: QUALITY LOOPS — RUN SILENTLY DURING STRUCTURE
@@ -574,7 +574,7 @@ Every bundle passes through these loops before Phase 4. They run silently during
   - No fabricated facts. `[CONTEXT NEEDED]` is allowed; invention is not.
   - Translations (if any) are marked as such with translator named.
 
-**LOOP 2 — NOTEBOOKLM OPTIMIZATION** (anchored to `PODCAST_ROOT/_handbook/notebooklm-best-practices.md`)
+**LOOP 2 — NOTEBOOKLM OPTIMIZATION** (anchored to `PODCAST_ROOT/.skill/handbook/notebooklm-best-practices.md`)
   - Heading hierarchy is consistent within each file.
   - Each file is focused: framing has no source content, chapter (SOURCE) has no framing prose.
   - The chapter file `BOOK_DIR/chapters/chNN-<slug>.txt` (which IS the SOURCE block of the matched episode) lands in the **1,800–2,800 word Default Deep Dive band** (best-practices §3). Acceptable up to 4,500 (Longer Deep Dive) with a noted rationale. Hard refuse outside [500, 5,500] — `build_episode_txt.py` enforces this.
@@ -597,7 +597,7 @@ Every bundle passes through these loops before Phase 4. They run silently during
 **LOOP 5 — WORKSPACE HYGIENE**
   - Episode number is monotonic from the registry.
   - Slug is kebab-case, descriptive, ≤ 40 chars.
-  - `PODCAST_ROOT/_handbook/registry.md` row added with all columns filled.
+  - `PODCAST_ROOT/.skill/registry.md` row added with all columns filled.
   - No orphan files in `BOOK_DIR/episodes/`. Every txt there must correspond to a draft folder in `_system/episode-drafts/`.
   - **`BOOK_DIR/chapters/` is non-empty** — at least one `.txt` per source-book chapter exists. Episodes without chapters violate the Section 0 invariant.
   - Scratch distillation is NOT in the draft folder until Phase 3 (lives in the agent's working memory until then).
@@ -707,19 +707,14 @@ SECTION 9: BOUNDARIES AND THE ONE PERMITTED JOURNAL CONNECTION
 
 ### What this skill does NOT touch
 
-  - `content/babu-memoir/reference/`, `content/babu-memoir/_system/`, `content/babu-memoir/scratchpad/` — journal-skill territory.
-  - Any file matching `voice-fingerprint*` or `master-context*` anywhere under `content/babu-memoir/`.
+  - Anything under `content/babu-memoir/` — journal-skill territory. The `extract_chapter.py` adapter blocks all reads via `PROHIBITED_PATH_PREFIXES`.
   - Any journal skill file or journal reference document
 
-This skill is self-contained. It writes to `content/podcast/` only. It reads from `content/podcast/`, from `content/_shared/arabic/` (cross-skill, read-only), from sources Asif provides, and from ONE sanctioned crossing point into the memoir — see below.
+This skill is self-contained. It writes to `content/podcast/` only. It reads from `content/podcast/`, from `content/_shared/arabic/` (cross-skill, read-only), and from sources Asif provides. There is no inbound read from the memoir.
 
 ### Cross-skill read (always allowed)
 
 `content/_shared/arabic/*.md` — the shared Arabic / Islamic pronunciation reference. Read on every run. The podcast skill MAY propose additions to the manifest (via `BOOK_DIR/_system/source/text/_extraction-notes.md`), but writes to `content/_shared/arabic/` itself happen only when Asif explicitly approves and routes them. Treat the directory as authoritative input.
-
-### The one sanctioned read across the memoir boundary
-
-`content/babu-memoir/chapters/*.txt` — memoir chapter `.txt` files are the SOURCE input to the `extract` capability. Reads ONLY; nothing else under `content/babu-memoir/` is in scope. The `extract_chapter.py` adapter enforces this via `PROHIBITED_PATH_PREFIXES` and `PROHIBITED_NAME_PATTERNS`.
 
 ### The one permitted outward connection
 
@@ -732,7 +727,7 @@ After completing an episode, the podcast skill MAY propose additions to two shar
 
 ### Babu App
 
-  - Future integration may surface podcast episodes in the Babu App (`/PROJECTS/journal/site/`). The episode registry (`PODCAST_ROOT/_handbook/registry.md`) is the integration point. No action required from this skill.
+  - Future integration may surface podcast episodes in the Babu App (`/PROJECTS/journal/site/`). The episode registry (`PODCAST_ROOT/.skill/registry.md`) is the integration point. No action required from this skill.
 
 ### CORTEX governance
 
@@ -750,7 +745,7 @@ SECTION 10: REFERENCE FILE INDEX
   - `04-common-term-substitutions.md` — substitution policy (nafs, shaytan, ruh, etc.)
   - `05-name-alias-policy.md` — long-name → short-alias policy (Ghazali, Haatim, Junaid, etc.); chapter + framing both apply it
 
-### In `PODCAST_ROOT/_handbook/` (book-agnostic, owned by the podcast skill):
+### In `PODCAST_ROOT/.skill/handbook/` (book-agnostic, owned by the podcast skill):
   - `registry.md` — episode index (number, title, slug, book-slug, status, NotebookLM URL)
   - `notebooklm-source-chapter-rules.md` — **NORMATIVE** chapter-as-source contract (R-NOHTML, R-PHONETIC, R-NAMES, R-OPENFRAME, R-ENRICH60, etc.); single source of truth read by both producer and challenger
   - `notebooklm-customize-prompt-rules.md` — **NORMATIVE** customize-prompt contract (R-WELCOME, R-NOREPEAT, R-NOBACKGROUND, R-NAMEALIAS, R-NOINTERRUPT, R-SUMMARYTAIL); single source of truth for what the framing must do

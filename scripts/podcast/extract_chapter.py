@@ -15,20 +15,18 @@ INVOCATION
 CHAPTER REF RESOLUTION (first match wins)
 
   1. Literal path (absolute or repo-relative) → used as-is.
-  2. content/babu-memoir/chapters/<ref>.txt        (memoir sanctioned crossing)
-  3. content/podcast/*/chapters/<ref>.txt          (any book chapter)
+  2. content/podcast/library/*/*/chapters/<ref>.txt  (any book chapter)
 
 CONTRACT RESOLUTION
 
   1. --contract <path> (explicit)
-  2. content/podcast/<source-slug>/chapter-contracts/<chapter-slug>.yml
+  2. content/podcast/library/<category>/<book-slug>/chapter-contracts/<chapter-slug>.yml
   3. Falls back to a generated stub at the location above, with [TODO] markers.
 
 OUTPUT (per contract.source_type)
 
-  memoir:        content/podcast/from-memoir/...
-  book-chapter:  content/podcast/<book_slug>/...
-  article:       content/podcast/<book_slug>/...
+  book-chapter:  content/podcast/library/books/<book_slug>/...
+  article:       content/podcast/library/articles/<book_slug>/...
 
   ├── chapters/ch##-<slug>.txt                       (chapter copy; SOURCE upload; THE refinement target)
   ├── _system/episode-drafts/EP##-<slug>/
@@ -49,14 +47,11 @@ DETERMINISM GUARANTEE
   Content slots requiring downstream LLM authoring are clearly marked
   with [LLM-SELECT], [LLM-FILL], or [TODO].
 
-BOUNDARY (SKILL.md §9 v2)
+BOUNDARY (SKILL.md §9)
 
-  This script reads ONLY:
-    - content/babu-memoir/chapters/*.txt  (sanctioned crossing point)
-    - content/podcast/**                  (this skill's workspace)
-  It MUST NOT read content/babu-memoir/reference/, _system/, scratchpad/,
-  voice-fingerprint*, or master-context*. The adapter is enforced below
-  via PROHIBITED_PATHS.
+  This script reads ONLY content/podcast/**. Memoir content
+  (content/babu-memoir/**) is out of scope and refused by the adapter
+  via PROHIBITED_PATH_PREFIXES.
 """
 
 from __future__ import annotations
@@ -74,21 +69,14 @@ from typing import Any
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 CONTENT_DIR = REPO_ROOT / "content"
-MEMOIR_CHAPTERS = CONTENT_DIR / "babu-memoir" / "chapters"
 PODCAST_DIR = CONTENT_DIR / "podcast"
-HANDBOOK_DIR = PODCAST_DIR / "_handbook"
+LIBRARY_DIR = PODCAST_DIR / "library"
+HANDBOOK_DIR = PODCAST_DIR / ".skill" / "handbook"
 
 # Boundary enforcement — any read that resolves into one of these is fatal.
-# Wildcards are simple string `startswith` matches against the resolved path
-# relative to CONTENT_DIR.
+# Memoir content is out of scope for the podcast skill.
 PROHIBITED_PATH_PREFIXES = [
-    "babu-memoir/reference",
-    "babu-memoir/_system",
-    "babu-memoir/scratchpad",
-]
-PROHIBITED_NAME_PATTERNS = [
-    re.compile(r"^voice-fingerprint", re.IGNORECASE),
-    re.compile(r"^master-context", re.IGNORECASE),
+    "babu-memoir",
 ]
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -243,7 +231,7 @@ def load_yaml(text: str) -> dict[str, Any]:
 
 
 def assert_boundary_safe(p: Path) -> None:
-    """Refuse to read any path forbidden by SKILL.md §9 v2."""
+    """Refuse to read any path forbidden by SKILL.md §9."""
     try:
         rel = p.resolve().relative_to(CONTENT_DIR.resolve())
     except ValueError:
@@ -253,14 +241,7 @@ def assert_boundary_safe(p: Path) -> None:
         if rel_str.startswith(prefix):
             sys.exit(
                 f"BOUNDARY VIOLATION: refused to read {rel_str}\n"
-                f"  SKILL.md §9 v2 prohibits podcast access to journal {prefix}/. "
-                f"Only content/babu-memoir/chapters/*.txt is sanctioned."
-            )
-    for pat in PROHIBITED_NAME_PATTERNS:
-        if pat.match(p.name):
-            sys.exit(
-                f"BOUNDARY VIOLATION: refused to read {p.name}\n"
-                f"  SKILL.md §9 v2 prohibits podcast access to {p.name}."
+                f"  SKILL.md §9 prohibits podcast access to content/{prefix}/."
             )
 
 
@@ -275,7 +256,7 @@ CH_PREFIX_RE = re.compile(r"^ch(\d+)-(.+)$")
 @dataclass
 class ResolvedChapter:
     path: Path
-    source_bucket: str  # "from-memoir" or a book slug
+    source_bucket: str  # book slug (e.g. "ayyuhal-walad")
     chapter_number: int | None
     chapter_slug: str   # the slug after ch## (e.g. "man" from "ch01-man")
 
@@ -296,30 +277,23 @@ def resolve_chapter_ref(ref: str) -> ResolvedChapter:
         literal = (REPO_ROOT / ref).resolve()
     if literal.exists() and literal.is_file():
         assert_boundary_safe(literal)
-        # Determine bucket from path
+        # Determine bucket from path (expected: content/podcast/library/<category>/<book>/chapters/<file>.txt)
         try:
             rel = literal.relative_to(CONTENT_DIR)
             parts = rel.parts
-            if parts[0] == "babu-memoir":
-                bucket = "from-memoir"
+            if parts[0] == "podcast" and len(parts) >= 4 and parts[1] == "library":
+                bucket = parts[3]  # the book-slug under <category>/
             elif parts[0] == "podcast" and len(parts) >= 2:
-                bucket = parts[1]
+                bucket = parts[1]  # legacy fallback
             else:
                 bucket = parts[0]
         except ValueError:
-            bucket = "from-memoir"  # fallback
+            bucket = "unknown"
         num, slug = parse_chapter_filename(literal)
         return ResolvedChapter(literal, bucket, num, slug)
 
-    # 2. Memoir chapters (sanctioned crossing)
-    memoir_candidate = MEMOIR_CHAPTERS / f"{ref}.txt"
-    if memoir_candidate.exists():
-        assert_boundary_safe(memoir_candidate)
-        num, slug = parse_chapter_filename(memoir_candidate)
-        return ResolvedChapter(memoir_candidate, "from-memoir", num, slug)
-
-    # 3. Any podcast book chapters
-    for book_chapters in sorted(PODCAST_DIR.glob("*/chapters")):
+    # 2. Any podcast book chapters under library/<category>/<book>/chapters/
+    for book_chapters in sorted(LIBRARY_DIR.glob("*/*/chapters")):
         cand = book_chapters / f"{ref}.txt"
         if cand.exists():
             assert_boundary_safe(cand)
@@ -331,8 +305,7 @@ def resolve_chapter_ref(ref: str) -> ResolvedChapter:
         f"ERROR: could not resolve chapter ref {ref!r}.\n"
         f"  Tried:\n"
         f"    {literal}\n"
-        f"    {memoir_candidate}\n"
-        f"    {PODCAST_DIR}/*/chapters/{ref}.txt\n"
+        f"    {LIBRARY_DIR}/*/*/chapters/{ref}.txt\n"
     )
 
 
@@ -377,8 +350,8 @@ def stub_contract(chapter: ResolvedChapter) -> dict[str, Any]:
     return {
         "chapter_ref": chapter.path.stem,
         "slug": chapter.chapter_slug,
-        "source_type": "memoir" if chapter.source_bucket == "from-memoir" else "book-chapter",
-        "book_slug": None if chapter.source_bucket == "from-memoir" else chapter.source_bucket,
+        "source_type": "book-chapter",
+        "book_slug": chapter.source_bucket,
         "episode_number": chapter.chapter_number,
         "title": "[TODO] Episode title",
         "audience": "[TODO] Concrete audience description.",
@@ -401,7 +374,7 @@ def validate_contract(c: Contract, chapter: ResolvedChapter) -> None:
         loc = c.path or "(stub)"
         sys.exit(
             f"ERROR: contract at {loc} is missing required fields: {', '.join(missing)}.\n"
-            f"  See content/podcast/_handbook/chapter-contract.template.yml for the full schema."
+            f"  See content/podcast/.skill/handbook/chapter-contract.template.yml for the full schema."
         )
     if c.get("slug") != chapter.chapter_slug:
         sys.exit(
@@ -559,7 +532,7 @@ In the first ten seconds, the hosts should name the work and the question this e
 
 ## Angle
 
-`{angle}` — see content/podcast/_handbook/source-distillation.md for what this lens commits the hosts to.
+`{angle}` — see content/podcast/.skill/handbook/source-distillation.md for what this lens commits the hosts to.
 
 ## Length
 
@@ -567,7 +540,7 @@ In the first ten seconds, the hosts should name the work and the question this e
 
 ## Host dynamic
 
-`{host_dynamic}`. See content/podcast/_handbook/two-host-framing.md for default personas.
+`{host_dynamic}`. See content/podcast/.skill/handbook/two-host-framing.md for default personas.
 
 ## Central tensions to reach
 
@@ -633,7 +606,7 @@ Background the hosts need to stay grounded. Not airtime — retrieval support.
 
 ## Author / narrator
 
-[LLM-FILL — for memoir, this is Babu (Asif), writing for his children. For book chapters, name the author, dates, tradition.]
+[LLM-FILL — name the author, dates, tradition.]
 
 ## What this chapter is responding to
 
@@ -734,10 +707,13 @@ def write_if_needed(path: Path, content: str, force: bool, written: list[Path], 
 
 
 def emit_bundle(chapter: ResolvedChapter, c: Contract, force: bool) -> None:
-    bucket = chapter.source_bucket if chapter.source_bucket != "from-memoir" else "from-memoir"
+    bucket = chapter.source_bucket
     if c.get("source_type") == "book-chapter" and c.get("book_slug"):
         bucket = c.get("book_slug")
-    bucket_root = PODCAST_DIR / bucket
+    # bucket_root derived from the resolved chapter path so the category folder
+    # (books/, articles/, etc.) is honored — chapter is at
+    # library/<category>/<book>/chapters/<file>.txt; parents[1] is the book dir.
+    bucket_root = chapter.path.parents[1]
 
     ep_num = c.get("episode_number") or chapter.chapter_number or next_episode_number(bucket_root)
     slug = c.get("slug")
@@ -746,7 +722,7 @@ def emit_bundle(chapter: ResolvedChapter, c: Contract, force: bool) -> None:
     chapter_text = chapter.path.read_text(encoding="utf-8")
 
     # Word-count band check — surfaces collisions with NotebookLM's Audio Overview limits
-    # at extract time, not at build time. See content/podcast/_handbook/notebooklm-best-practices.md §3.
+    # at extract time, not at build time. See content/podcast/.skill/handbook/notebooklm-best-practices.md §3.
     word_count = len(chapter_text.split())
     band_warnings: list[str] = []
     if word_count > 5500:

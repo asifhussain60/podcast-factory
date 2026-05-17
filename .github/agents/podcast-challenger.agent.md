@@ -20,17 +20,17 @@ challenger_contract:
     - missing name-alias block (insertion when alias is in shared policy)
     - missing interruption-avoidance clause (template insertion)
   reads_normative:
-    - content/podcast/_handbook/notebooklm-customize-prompt-rules.md
-    - content/podcast/_handbook/notebooklm-source-chapter-rules.md
+    - content/podcast/.skill/handbook/notebooklm-customize-prompt-rules.md
+    - content/podcast/.skill/handbook/notebooklm-source-chapter-rules.md
     - content/_shared/arabic/03-arabic-english-manifest.md
     - content/_shared/arabic/04-common-term-substitutions.md
     - content/_shared/arabic/05-name-alias-policy.md
   reads_guidance:
-    - content/podcast/_handbook/notebooklm-best-practices.md
-    - content/podcast/_handbook/enrichment-sources.md
-    - content/podcast/_handbook/two-host-framing.md
-    - content/podcast/_handbook/scratchpad-markers.md
-    - content/podcast/_handbook/extract-capability.md
+    - content/podcast/.skill/handbook/notebooklm-best-practices.md
+    - content/podcast/.skill/handbook/enrichment-sources.md
+    - content/podcast/.skill/handbook/two-host-framing.md
+    - content/podcast/.skill/handbook/scratchpad-markers.md
+    - content/podcast/.skill/handbook/extract-capability.md
     - skills-staging/podcast/SKILL.md
     - scripts/podcast/build_episode_txt.py
     - scripts/podcast/extract_chapter.py
@@ -65,8 +65,8 @@ Before any review pass, read **all 14 files** in this order. The two normative r
 
 **Normative (must-read, contract-bearing):**
 
-1. `content/podcast/_handbook/notebooklm-source-chapter-rules.md` — chapter-as-source contract (Loops B + C + D + E authority)
-2. `content/podcast/_handbook/notebooklm-customize-prompt-rules.md` — customize-prompt contract (Loops F + H + I + J + K authority)
+1. `content/podcast/.skill/handbook/notebooklm-source-chapter-rules.md` — chapter-as-source contract (Loops B + C + D + E authority)
+2. `content/podcast/.skill/handbook/notebooklm-customize-prompt-rules.md` — customize-prompt contract (Loops F + H + I + J + K authority)
 3. `content/_shared/arabic/03-arabic-english-manifest.md` — canonical Arabic→English→phonetic lookup (Loop C1 + C2)
 4. `content/_shared/arabic/04-common-term-substitutions.md` — substitution policy (Loop C4)
 5. `content/_shared/arabic/05-name-alias-policy.md` — long-name → short-alias policy (Loops J1 + J2)
@@ -75,20 +75,18 @@ Before any review pass, read **all 14 files** in this order. The two normative r
 
 6. `content/_shared/arabic/00-README.md` — index of the cross-skill Arabic / Islamic pronunciation reference
 7. `content/_shared/arabic/01-tts-pronunciation-key.md` — TTS engineering rules
-8. `content/podcast/_handbook/notebooklm-best-practices.md` — the canonical guidance reference (superseded by 1 + 2 above where they overlap)
-9. `content/podcast/_handbook/enrichment-sources.md` — the Tier 1–7 whitelist + citation formats + enrichment principles + anti-patterns
-10. `content/podcast/_handbook/scratchpad-markers.md` — the `@@` marker vocabulary
-11. `content/podcast/_handbook/extract-capability.md` — Extract Mode spec + splitting policy + `derived_from:` lineage rules
-12. `content/podcast/_handbook/chapter-contract.template.yml` — per-chapter contract schema (the I/O surface for Extract Mode)
+8. `content/podcast/.skill/handbook/notebooklm-best-practices.md` — the canonical guidance reference (superseded by 1 + 2 above where they overlap)
+9. `content/podcast/.skill/handbook/enrichment-sources.md` — the Tier 1–7 whitelist + citation formats + enrichment principles + anti-patterns
+10. `content/podcast/.skill/handbook/scratchpad-markers.md` — the `@@` marker vocabulary
+11. `content/podcast/.skill/handbook/extract-capability.md` — Extract Mode spec + splitting policy + `derived_from:` lineage rules
+12. `content/podcast/.skill/handbook/chapter-contract.template.yml` — per-chapter contract schema (the I/O surface for Extract Mode)
 13. `skills-staging/podcast/SKILL.md` — the producing skill's contract
 14. `scripts/podcast/build_episode_txt.py` + `scripts/podcast/extract_chapter.py` — the structural gates this agent complements (the `META_PROSE_TELLS` / `META_PROSE_REGEX_TELLS` / `CONTRACT_META_PROSE_TELLS` lists in particular)
 
 You do NOT review:
-- Memoir authoring files under `content/babu-memoir/reference/`, `content/babu-memoir/_system/`, `content/babu-memoir/scratchpad/`, or any `voice-fingerprint*` / `master-context*` file (out of scope per SKILL.md §9 — these belong to the journal skill).
+- Anything under `content/babu-memoir/` — memoir is out of scope per SKILL.md §9 (these belong to the journal skill).
 - The MP3 output of NotebookLM (only the upstream sources: chapters + framings).
 - The `02-key-passages.md` / `03-context-pack.md` / `04-discussion-spine.md` / `99-show-notes.md` authoring scaffolds (they do not flow to NotebookLM).
-
-**You DO review** memoir-derived bundles when they reach this skill via Extract Mode. `content/podcast/from-memoir/chapters/*.txt` and their matching `chapter-contracts/*.yml` are in-scope just like any other book. The sanctioned crossing (SKILL.md §9) makes them podcast artifacts once extracted; the source memoir files at `content/babu-memoir/chapters/*.txt` are read-only inputs to the adapter and are NOT this agent's responsibility.
 
 ---
 
@@ -200,7 +198,6 @@ If the user invokes without a book-slug, ask for one. Do not guess.
 | G4 | **`derived_from:` lineage valid** — for any contract carrying `derived_from:`, the referenced source file exists and is the same source for every sibling derivative. | Open each derivative contract; resolve `derived_from:` path; verify file exists; verify all siblings (other derivatives of the same source) point at the same path. | Flag (P1). Broken lineage means the staleness-detection signal is unreliable. |
 | G5 | **Derivative slug discipline** — when a single source has been split, every derivative title is a clean single-noun English slug (kebab-case, no version suffixes like `-v2`, `-part-a`, `-half-one`) per `extract-capability.md` § Splitting policy. | Walk derivatives; reject slug shapes matching `(v\d|part-[a-z]|half-\w+|section-\d)`. | Flag (P1). |
 | G6 | **Source not stale relative to derivative** — for derivatives, compare mtime of `derived_from:` source vs mtime of the chapter file. If source is newer, derivative is stale. | `stat` both paths. | Flag (P1) — author decides whether to re-split or accept the drift. |
-| G7 | **No leak from prohibited paths** — verify the contract does not point any `derived_from:` field into `content/babu-memoir/reference/`, `_system/`, `scratchpad/`, or any `voice-fingerprint*` / `master-context*` file. (Belt-and-suspenders; the adapter's `PROHIBITED_PATH_PREFIXES` already blocks reads, but a contract carrying a prohibited path is itself a boundary violation worth flagging.) | Substring scan of the resolved `derived_from:` path. | Flag (P0). |
 
 ### Category H: Welcome opening + closing landing (P1) — `notebooklm-customize-prompt-rules.md` R-WELCOME, R-SUMMARYTAIL
 
@@ -359,7 +356,7 @@ Always write the sidecar report (Section 6) — even on a clean run, the report 
 ### P0 (blocks ship)
 
 #### A1: Citation discipline — missing surah:verse in EP04 source quote
-- **File:** content/podcast/ayyuhal-walad/chapters/ch04-four-cautions.txt:128
+- **File:** content/podcast/library/books/ayyuhal-walad/chapters/ch04-four-cautions.txt:128
 - **Context:** blockquote of Quranic verse with English translation but no `(Quran X:Y)` citation line.
 - **Suggested fix:** Identify the verse, add citation on the line below the quote per enrichment-sources.md §2 format.
 
@@ -421,7 +418,7 @@ This agent calls the build script after every auto-fix iteration so the episode 
 ### Extract Mode adapter
 
 `scripts/podcast/extract_chapter.py` is the sibling structural gate for Extract Mode books. It:
-- Resolves chapter refs through the sanctioned crossing (`PROHIBITED_PATH_PREFIXES`, `PROHIBITED_NAME_PATTERNS`).
+- Resolves chapter refs within `content/podcast/library/<category>/<book-slug>/chapters/` (memoir paths blocked via `PROHIBITED_PATH_PREFIXES`).
 - Reads the per-chapter contract at `BOOK_DIR/chapter-contracts/<slug>.yml`.
 - Runs `lint_contract_meta_prose` over the fields that flow into the rendered framing — same `META_PROSE_TELLS` / `META_PROSE_REGEX_TELLS` family as the build script, applied at extract time so the contract is fixed instead of a generated artifact.
 - Emits the 5-file episode-draft scaffold + chapter copy. Deterministic; same contract + same chapter → byte-identical re-run.
@@ -447,7 +444,7 @@ When invoked:
 
 ## SECTION 8 — Anti-anti-patterns (things to NOT do)
 
-- Do not run the agent on memoir content. The boundary is hard.
+- Do not run the agent on content outside `content/podcast/library/<category>/<book>/`. Memoir is out of scope; the boundary is hard.
 - Do not auto-fix any check not explicitly listed in Section 3's allowed set. When in doubt, flag.
 - Do not exceed the per-invocation `max_iterations` cap (frontmatter; currently 5). Failure to converge within the cap is a signal that the chapter has a structural issue — write the report at the current verdict, let the outer caller decide whether to address P0 findings and re-invoke or surface to human. **Do not silently inflate the cap to force SHIP-READY.**
 - Do not implement the outer re-invocation loop inside this agent. The agent runs once, writes the report, and exits. The caller (`/podcast` Phase 4 step 3) is responsible for reading the verdict and re-invoking after P0 fixes.
@@ -459,6 +456,8 @@ When invoked:
 ---
 
 ## Version
+
+v1.5 (2026-05-17). **Workspace restructure + memoir severance.** Podcast workspace moved: `content/podcast/_handbook/` → `content/podcast/.skill/handbook/`, `content/podcast/_handbook/registry.md` → `content/podcast/.skill/registry.md`, `content/podcast/<book>/` → `content/podcast/library/<category>/<book>/`, `content/podcast/_archive/` → `content/podcast/.skill/archive/`. Memoir inbound pipeline removed: `content/podcast/from-memoir/` deleted, Extract Mode no longer reads `content/babu-memoir/chapters/`. Companion edits: Category G7 (derived_from leak check into memoir paths) removed, "memoir-derived bundles in scope" clause removed, Section 8 anti-pattern simplified to "content outside library/<category>/<book>/". The outbound library-proposals path (podcast → memoir libraries via staged proposal file) is preserved.
 
 v1.4 (2026-05-17, late evening). **Convergence-gate hardening.** Bumped `max_iterations` from 3 → 5 to give the inner loop more runway before falling back to the outer re-invocation loop. Added the intelligent-break rule (Section 4 step 6b): when an iteration produces zero auto-fixes AND identical (p0, p1) counts vs the prior iteration, break early. Documented the split of responsibility: this agent runs once and writes the report; the `/podcast` skill's Phase 4 step 3 drives the outer re-invocation loop. Updated Section 8 anti-anti-pattern: removed the strict 3-cap prohibition (the new cap is 5) and added the prohibition against silently inflating the cap or implementing the outer loop in-agent. Companion edit: `skills-staging/podcast/SKILL.md` Phase 4 restructured so Step 3 is now an unambiguous HARD GATE blocking Steps 4–8 with a verdict-line requirement on the human-facing summary; new wrapper at `.claude/agents/podcast-challenger.md` registers this agent as an invokable `subagent_type`.
 

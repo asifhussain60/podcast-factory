@@ -9,11 +9,11 @@ You are the **podcast-extract** agent. Your only job: take one chapter reference
 
 ## Inputs
 
-- `$ARGUMENTS` (or direct invocation): a single chapter reference. Examples: `ch01-man`, `ch01-inheritance`, `content/babu-memoir/chapters/ch02-love.txt`, `ayyuhal-walad-ch1`.
+- `$ARGUMENTS` (or direct invocation): a single chapter reference. Examples: `ch01-frame-and-first-counsel`, `content/podcast/library/books/ayyuhal-walad/chapters/ch02-hatim-eight-benefits.txt`, `ayyuhal-walad-ch1`.
 
 ## Authority
 
-The full specification of Extract Mode is at [content/podcast/_handbook/extract-capability.md](../../content/podcast/_handbook/extract-capability.md). The contract schema is at [content/podcast/_handbook/chapter-contract.template.yml](../../content/podcast/_handbook/chapter-contract.template.yml). This agent is a thin wrapper around `scripts/podcast/extract_chapter.py` — it never invents fields, never modifies handbook references, never reads outside the sanctioned paths.
+The full specification of Extract Mode is at [content/podcast/.skill/handbook/extract-capability.md](../../content/podcast/.skill/handbook/extract-capability.md). The contract schema is at [content/podcast/.skill/handbook/chapter-contract.template.yml](../../content/podcast/.skill/handbook/chapter-contract.template.yml). This agent is a thin wrapper around `scripts/podcast/extract_chapter.py` — it never invents fields, never modifies handbook references, never reads outside the sanctioned paths.
 
 ## Protocol (run in this exact order)
 
@@ -21,14 +21,12 @@ The full specification of Extract Mode is at [content/podcast/_handbook/extract-
 First match wins (per `extract_chapter.py` resolution rules):
 
 1. Literal path (absolute or repo-relative) → use as-is
-2. `content/babu-memoir/chapters/<ref>.txt` → memoir chapter
-3. `content/podcast/*/chapters/<ref>.txt` → book chapter
+2. `content/podcast/library/*/*/chapters/<ref>.txt` → book chapter
 
 Verify the resolved file exists. Missing chapter is a hard error — do not invent one. Report the resolved path back.
 
 ### 2. Determine the source bucket and contract path
-- Memoir chapter → bucket = `from-memoir`, contract at `content/podcast/from-memoir/chapter-contracts/<slug>.yml`
-- Book chapter → bucket = `<book-slug>` (from path), contract at `content/podcast/<book-slug>/chapter-contracts/<slug>.yml`
+- bucket = `<book-slug>` (from path), contract at `content/podcast/library/<category>/<book-slug>/chapter-contracts/<slug>.yml`
 
 Where `<slug>` is the chapter filename stripped of the `ch##-` prefix and `.txt` suffix.
 
@@ -52,9 +50,9 @@ If the script's exit code is non-zero, report the full stderr verbatim and **sto
 On success, return **only** these three lines (no preamble, no postamble):
 
 ```
-Bundle emitted: content/podcast/<bucket>/_system/episode-drafts/EP##-<slug>/
-Chapter source: content/podcast/<bucket>/chapters/ch##-<slug>.txt
-Next: edit 02-key-passages.md (LLM-SELECT), 03-context-pack.md (LLM-FILL), 04-discussion-spine.md (LLM-FILL); then run scripts/podcast/build_episode_txt.py content/podcast/<bucket> EP##-<slug>
+Bundle emitted: content/podcast/library/<bucket>/_system/episode-drafts/EP##-<slug>/
+Chapter source: content/podcast/library/<bucket>/chapters/ch##-<slug>.txt
+Next: edit 02-key-passages.md (LLM-SELECT), 03-context-pack.md (LLM-FILL), 04-discussion-spine.md (LLM-FILL); then run scripts/podcast/build_episode_txt.py content/podcast/library/<bucket> EP##-<slug>
 ```
 
 Substitute the actual `<bucket>`, `##`, and `<slug>` from the run.
@@ -69,15 +67,11 @@ Substitute the actual `<bucket>`, `##`, and `<slug>` from the run.
 ## Boundary
 
 This agent's read scope:
-- `content/babu-memoir/chapters/*.txt` (sanctioned memoir crossing)
 - `content/podcast/**`
 - `scripts/podcast/extract_chapter.py`
 
 Prohibited (enforced by `extract_chapter.py`'s `PROHIBITED_PATH_PREFIXES`):
-- `content/babu-memoir/reference/**`
-- `content/babu-memoir/_system/**`
-- `content/babu-memoir/scratchpad/**`
-- Any path matching `voice-fingerprint*` or `master-context*`
+- `content/babu-memoir/**` — memoir is out of scope for the podcast skill
 
 ## Determinism
 

@@ -58,7 +58,7 @@ Usage:
 
 Example:
   python3 scripts/podcast/build_episode_txt.py \\
-    content/podcast/ayyuhal-walad \\
+    content/podcast/library/books/ayyuhal-walad \\
     EP01-frame-and-first-counsel
 """
 
@@ -93,7 +93,7 @@ META_PROSE_TELLS = [
     "phase 0a", "phase 0b", "phase 0c", "phase 0d", "phase 0e", "phase 0f", "phase 0g",
     "enrichment status",
     "enrichment ratio",
-    "per content/podcast/_handbook",
+    "per content/podcast/.skill/handbook",
     "nothing has been added that is not in the source",
     "anything ghazali only implies",
     "anything the author only implies",
@@ -348,7 +348,7 @@ def assert_no_inline_phonetics(content: str, file_path: Path) -> None:
         f"  'tassel wolf' for *Tasawwuf*. Move every phonetic into the matching\n"
         f"  framing's `## Pronunciation` block as an imperative line:\n"
         f"      Pronounce \"Tasawwuf\" as \"ta-SAW-wuf\". Say it as one fluent word.\n"
-        f"  See content/podcast/_handbook/notebooklm-source-chapter-rules.md\n"
+        f"  See content/podcast/.skill/handbook/notebooklm-source-chapter-rules.md\n"
         f"  R-PHONETICS-OUT and notebooklm-customize-prompt-rules.md\n"
         f"  R-PRONUNCIATION-IMPERATIVE."
     )
@@ -370,7 +370,7 @@ def assert_no_abbreviations(content: str, file_path: Path) -> None:
         f"  Hits:\n{joined}\n\n"
         f"  R-NO-ABBREVIATION: listeners cannot resolve unfamiliar contractions.\n"
         f"  Use the full canonical title every time. See\n"
-        f"  content/podcast/_handbook/notebooklm-source-chapter-rules.md R-NO-ABBREVIATION."
+        f"  content/podcast/.skill/handbook/notebooklm-source-chapter-rules.md R-NO-ABBREVIATION."
     )
 
 
@@ -393,7 +393,7 @@ def assert_honorifics_once_only(content: str, file_path: Path) -> None:
         f"  ('the Prophet', 'Imam Ali'). NotebookLM reads every expansion aloud\n"
         f"  — empirically: 9 expansions of '(peace and blessings be upon him)'\n"
         f"  in a single audited episode. See\n"
-        f"  content/podcast/_handbook/notebooklm-source-chapter-rules.md\n"
+        f"  content/podcast/.skill/handbook/notebooklm-source-chapter-rules.md\n"
         f"  R-HONORIFIC-ONCE."
     )
 
@@ -407,7 +407,7 @@ def assert_framing_pronunciation_imperative(content: str, file_path: Path) -> No
             f"  File: {file_path}\n"
             f"  R-PRONUNCIATION-IMPERATIVE: every framing must carry a Pronunciation\n"
             f"  block of imperative directives (`Pronounce \"Term\" as \"phonetic\". ...`).\n"
-            f"  See content/podcast/_handbook/notebooklm-customize-prompt-rules.md\n"
+            f"  See content/podcast/.skill/handbook/notebooklm-customize-prompt-rules.md\n"
             f"  R-PRONUNCIATION-IMPERATIVE."
         )
     block = m.group(1)
@@ -449,7 +449,7 @@ def assert_framing_deny_block(content: str, file_path: Path) -> None:
             f"  surprise-noise phrases ('wow', 'right?', 'it's chilling', ...). The block\n"
             f"  is the structural fix for empirically-observed host drift away from\n"
             f"  faithful exposition into modern analogies and surprise loops.\n"
-            f"  See content/podcast/_handbook/notebooklm-customize-prompt-rules.md."
+            f"  See content/podcast/.skill/handbook/notebooklm-customize-prompt-rules.md."
         )
     missing = [p for p in REQUIRED_FRAMING_DO_NOT_PHRASES if p not in content]
     if missing:
@@ -476,7 +476,7 @@ def validate_chapter(chapter_path: Path) -> int:
         sys.exit(
             f"ERROR: chapter {chapter_path.name} is {n} words. "
             f"Hard band is {CHAPTER_WORD_MIN_HARD}-{CHAPTER_WORD_MAX_HARD}. "
-            f"See content/podcast/_handbook/notebooklm-best-practices.md §3."
+            f"See content/podcast/.skill/handbook/notebooklm-best-practices.md §3."
         )
     return n
 
@@ -501,7 +501,7 @@ def build_framing_episode_txt(framing_path: Path, out_path: Path) -> int:
         sys.exit(
             f"ERROR: framing {framing_path.name} produces a customize prompt of {n} "
             f"words. Target band is {FRAMING_WORD_MIN}-{FRAMING_WORD_MAX}. "
-            f"See content/podcast/_handbook/notebooklm-best-practices.md §5."
+            f"See content/podcast/.skill/handbook/notebooklm-best-practices.md §5."
         )
 
     out_path.parent.mkdir(parents=True, exist_ok=True)

@@ -44,8 +44,8 @@ For every claim from Phase 1, find the authoritative source in the repo:
 
 | View claim is about | Authoritative source |
 |---------------------|----------------------|
-| A skill's procedure | `skills-staging/<skill>/SKILL.md` plus any `_handbook/` files it points at |
-| A skill's reference data | `content/<skill-domain>/_handbook/*.md`, `content/_shared/*.md` |
+| A skill's procedure | `skills-staging/<skill>/SKILL.md` plus any handbook files it points at (podcast: `content/podcast/.skill/handbook/*.md`) |
+| A skill's reference data | `content/<skill-domain>/.skill/handbook/*.md` (or skill-specific equivalent), `content/_shared/*.md` |
 | An agent's behaviour | `.github/agents/<agent>.agent.md` plus the skill file it points at |
 | A script's input/output | `scripts/<skill>/<script>.py` — read the actual `main()` and the constants near the top |
 | A data shape | the file or schema itself (yml, json, txt) under `content/` |
@@ -74,7 +74,7 @@ This is the agent's commitment. If Asif redirects, you re-write the contract. Yo
 Apply edits in this order:
 
 1. **Skill files** (`skills-staging/<skill>/SKILL.md`) — these are the agent's standing orders; everything else flows from them.
-2. **Handbook references** (`content/<skill>/_handbook/*.md`) — the procedural patterns the skill cites.
+2. **Handbook references** (`content/<skill>/.skill/handbook/*.md` for podcast; skill-specific equivalent for others) — the procedural patterns the skill cites.
 3. **Shared references** (`content/_shared/**/*.md`) — only when the change crosses skill boundaries.
 4. **Agent files** (`.github/agents/*.agent.md`) — when an agent's check catalog needs updating to enforce the new rule.
 5. **Scripts** (`scripts/<skill>/*.py`) — when validation or build logic must change to enforce the new contract.
@@ -98,7 +98,7 @@ python3 -c "import ast; [ast.parse(open(p).read()) for p in [
 ]]; print('python OK')"
 
 # Existing artefacts still build (regression baseline)
-python3 scripts/podcast/build_episode_txt.py content/podcast/ayyuhal-walad EP01-frame-and-first-counsel
+python3 scripts/podcast/build_episode_txt.py content/podcast/library/books/ayyuhal-walad EP01-frame-and-first-counsel
 
 # Architecture HTML SVGs still parse as XML
 python3 -c "

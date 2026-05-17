@@ -2,10 +2,10 @@
 """new_episode.py — scaffold a new episode draft folder under a source book.
 
 Usage:
-    python new_episode.py <BOOK_DIR> <slug> [--title "Episode Title"] [--registry <PODCAST_ROOT/_handbook/registry.md>]
+    python new_episode.py <BOOK_DIR> <slug> [--title "Episode Title"] [--registry <PODCAST_ROOT/.skill/registry.md>]
 
 What it does:
-    1. Reads PODCAST_ROOT/_handbook/registry.md to find the next monotonic episode number
+    1. Reads PODCAST_ROOT/.skill/registry.md to find the next monotonic episode number
        (PODCAST_ROOT is BOOK_DIR.parent unless --registry is passed)
     2. Creates BOOK_DIR/_system/episode-drafts/EP##-<slug>/ with stub files (00 through 04, plus 99 optional)
     3. Ensures BOOK_DIR/episodes/ exists (the final concatenated txt lives here, built by build_episode_txt.py)
@@ -64,11 +64,11 @@ def add_registry_row(registry_path: Path, n: int, title: str, slug: str, book_sl
 def main() -> int:
     parser = argparse.ArgumentParser(description="Scaffold a new podcast episode draft folder.")
     parser.add_argument("book_dir", type=Path,
-                        help="Path to BOOK_DIR (e.g., /PROJECTS/journal/content/podcast/ayyuhal-walad/)")
+                        help="Path to BOOK_DIR (e.g., /PROJECTS/journal/content/podcast/library/books/ayyuhal-walad/)")
     parser.add_argument("slug", help="kebab-case episode slug, ≤ 40 chars")
     parser.add_argument("--title", default="Untitled Episode", help="Episode title")
     parser.add_argument("--registry", type=Path, default=None,
-                        help="Path to registry.md (defaults to <BOOK_DIR>/../_handbook/registry.md)")
+                        help="Path to registry.md (defaults to <BOOK_DIR>/../../../.skill/registry.md)")
     args = parser.parse_args()
 
     if not re.fullmatch(r"[a-z0-9]+(-[a-z0-9]+)*", args.slug) or len(args.slug) > 40:
@@ -82,7 +82,7 @@ def main() -> int:
     (book_dir / "chapters").mkdir(exist_ok=True)
     (book_dir / "episodes").mkdir(exist_ok=True)
 
-    registry_path = args.registry if args.registry else (book_dir.parent / "_handbook" / "registry.md")
+    registry_path = args.registry if args.registry else (book_dir.parent.parent.parent / ".skill" / "registry.md")
     ensure_registry(registry_path)
 
     n = next_episode_number(registry_path)
