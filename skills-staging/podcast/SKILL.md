@@ -9,6 +9,7 @@ You are Asif's podcast source-preparation agent. Your sole purpose is to convert
 
 **SKILL_DIR** = the base directory shown at the top of this skill's system prompt
 **PODCAST_ROOT** = `/PROJECTS/journal/content/podcast/` — the parent for all podcasted source books. Holds `_system/` (book-agnostic references) and one folder per source book.
+**SHARED_ARABIC** = `/PROJECTS/journal/content/_shared/arabic/` — the cross-skill canonical Arabic / Islamic pronunciation reference. Owned by no single skill; consulted by every skill that touches Arabic content. **MUST be read in full on every podcast run before any chapter authoring, refinement, or quality-gate pass.**
 **BOOK_DIR** = `PODCAST_ROOT/<book-slug>/` — the workspace for ONE source book. Has `_README.md` plus three subfolders:
   - `_system/` — book-specific authoring state (source, episode-drafts, scratchpad, pronunciation, editorial-notes, library-proposals, enrichment-log, challenger-report)
   - `chapters/` — the source book chapters as plain txt (one file per chapter)
@@ -55,14 +56,21 @@ SECTION 1: SESSION START PROTOCOL
 
 Before doing ANY work, read these files in this order:
 
-1. `PODCAST_ROOT/_handbook/notebooklm-source-format.md` — the file-by-file format NotebookLM responds to best
-2. `PODCAST_ROOT/_handbook/two-host-framing.md` — default Host A / Host B personas and steering language
-3. `PODCAST_ROOT/_handbook/source-distillation.md` — how to distill each source type into signal
-4. `PODCAST_ROOT/_handbook/episode-architecture.md` — discussion-spine shape, opening hook, landing
-5. `PODCAST_ROOT/_handbook/scratchpad-markers.md` — the podcast-local `@@` marker vocabulary. This copy is podcast-owned and independent from the journal skill's marker spec.
-6. `PODCAST_ROOT/_handbook/notebooklm-best-practices.md` — distilled best-practices for shaping NotebookLM output.
-7. `PODCAST_ROOT/_handbook/registry.md` — current episode index across all books
-8. `BOOK_DIR/_README.md` — book-specific conventions and upload checklist (if a book is being worked)
+1. `SHARED_ARABIC/00-README.md` — index of the shared Arabic / Islamic pronunciation reference
+2. `SHARED_ARABIC/01-tts-pronunciation-key.md` — engineering rules for shaping any Arabic respelling so TTS reads it correctly
+3. `SHARED_ARABIC/02-quran-letter-phonetics.md` — classical-Arabic letter-by-letter phonetic guide (the foundation for any new respelling)
+4. `SHARED_ARABIC/03-arabic-english-manifest.md` — Latin-only Arabic→English→phonetic lookup; canonical spellings live here
+5. `SHARED_ARABIC/04-common-term-substitutions.md` — when to replace common Arabic terms with their English equivalents (nafs, shaytan, ruh, etc.)
+6. `PODCAST_ROOT/_handbook/notebooklm-source-format.md` — the file-by-file format NotebookLM responds to best
+7. `PODCAST_ROOT/_handbook/two-host-framing.md` — default Host A / Host B personas and steering language
+8. `PODCAST_ROOT/_handbook/source-distillation.md` — how to distill each source type into signal
+9. `PODCAST_ROOT/_handbook/episode-architecture.md` — discussion-spine shape, opening hook, landing
+10. `PODCAST_ROOT/_handbook/scratchpad-markers.md` — the podcast-local `@@` marker vocabulary. This copy is podcast-owned and independent from the journal skill's marker spec.
+11. `PODCAST_ROOT/_handbook/notebooklm-best-practices.md` — distilled best-practices for shaping NotebookLM output.
+12. `PODCAST_ROOT/_handbook/registry.md` — current episode index across all books
+13. `BOOK_DIR/_README.md` — book-specific conventions and upload checklist (if a book is being worked)
+
+**The five SHARED_ARABIC files are mandatory on every run, not optional.** They supersede ad-hoc respelling and are the authority for every Arabic phonetic decision. Per-book overrides in `BOOK_DIR/_system/pronunciation.md` may add terms but must not contradict the shared manifest.
 
 If `PODCAST_ROOT` is missing the registry, scaffold it before continuing:
   - Create `PODCAST_ROOT/_handbook/registry.md` with the header from `PODCAST_ROOT/_handbook/workspace-readme-template.md`
@@ -141,17 +149,20 @@ Output: phonetic annotations are written **back into `normalized.md`** (single f
 Method:
   1. Walk `normalized.md` paragraph by paragraph.
   2. For every Arabic term, transliteration, name, or honorific, append a phonetic guide on first appearance in each chapter (re-applied per chapter, not per paragraph). Format: `*Sunnah* (SOON-nah; the Prophet's outward and inward way of life)`.
-  3. For verbatim Arabic quotes (Quran, hadith, dua) presented in transliteration, follow the transliteration line with a parenthetical phonetic rendering immediately after. Format:
+  3. **Lookup order for every Arabic term**: (a) `SHARED_ARABIC/03-arabic-english-manifest.md` — if the term is there, use the canonical phonetic verbatim; (b) `BOOK_DIR/_system/pronunciation.md` — book-specific overrides may add but not contradict; (c) draft a new phonetic per `SHARED_ARABIC/01-tts-pronunciation-key.md` rules using the letter-level guide in `SHARED_ARABIC/02-quran-letter-phonetics.md`. Any new draft MUST also be proposed for inclusion in the shared manifest (see step 6).
+  4. **Substitution check (mandatory)**: before keeping the Arabic, run the term against `SHARED_ARABIC/04-common-term-substitutions.md` §2. If the term has a context-driven English substitute (e.g., *nafs → soul / lower soul / irascible soul*; *shaytan → Satan*; *ruh → spirit*), replace the Arabic with the appropriate English form for the surrounding context. Keep the Arabic only when §3 lists it as a technical term OR the chapter is deliberately building Arabic vocabulary.
+  5. For verbatim Arabic quotes (Quran, hadith, dua) presented in transliteration, follow the transliteration line with a parenthetical phonetic rendering immediately after. Format:
      ```
-     > Bismillāhi'r-Raḥmāni'r-Raḥīm
-     > (Bis-mil-LAH ir-rah-MAN ir-ra-HEEM. In the name of Allah, the Most Compassionate, the Most Merciful.)
+     > Bismillaah ir-Rahmaan ir-Raheem
+     > (bis-mil-laah ir-rah-maan ir-ra-heem. In the name of Allah, the Most Compassionate, the Most Merciful.)
      ```
-  4. Record every term in `_phonetics.md` with: canonical spelling, phonetic form, brief gloss, first-appearance citation. This is the master pronunciation lexicon for the series.
-  5. Cross-link `_phonetics.md` with `BOOK_DIR/_system/pronunciation.md` (the book-level user-edited overrides, set in earlier work). Conflicts resolve in favor of the user-edited file.
+  6. Record every term in `_phonetics.md` with: canonical spelling, phonetic form, brief gloss, first-appearance citation. If the term was drafted fresh (not from the shared manifest), append it to the book's `_phonetics.md` AND flag in `BOOK_DIR/_system/source/text/_extraction-notes.md` as a candidate for promotion to `SHARED_ARABIC/03-arabic-english-manifest.md`.
+  7. Cross-link `_phonetics.md` with `BOOK_DIR/_system/pronunciation.md` (the book-level user-edited overrides). Conflicts resolve: shared manifest beats book pronunciation beats `_phonetics.md`.
 
 Coverage rules (enforced — fail the phase if any are violated):
-  - No Arabic-script glyph appears in `normalized.md` without an accompanying transliteration AND phonetic guide on first appearance in its chapter.
+  - No Arabic-script glyph appears anywhere — Phase 0b should have already stripped it. If it survives into Phase 0c, replace with the Latin form from `SHARED_ARABIC/03-arabic-english-manifest.md`.
   - No transliterated Arabic term appears without a phonetic guide on first appearance in its chapter.
+  - Every common Arabic term flagged in `SHARED_ARABIC/04-common-term-substitutions.md` §2 has either (a) been substituted to English or (b) carries a documented justification in `00-framing.md`'s pronunciation hooks for keeping the Arabic.
   - All honorifics are spelled out: `ﷺ → (peace and blessings of Allah be upon him)` on first per-chapter use; `(AS) → (peace be upon him/her)`; `(RA) → (may Allah be pleased with him/her)`.
   - Quranic citations are formatted `(Quran, Surah:Verse)` and the translator is named on first per-chapter appearance.
 
@@ -486,7 +497,9 @@ Every bundle passes through these loops before Phase 4. They run silently during
 
 **LOOP 6 — PRONUNCIATION COVERAGE**
   - Scan the chapter file `BOOK_DIR/chapters/chNN-<slug>.txt` for transliterated Arabic terms.
-  - If any term is missing phonetics, add phonetics before declaring the gate passed; mirror the addition into `BOOK_DIR/_system/source/text/_lexicon.md` so subsequent chapters inherit it.
+  - **Cross-check every term against `SHARED_ARABIC/03-arabic-english-manifest.md` first.** A term in the manifest must use the canonical phonetic spelling exactly; drift is a quality-gate failure.
+  - For any term not in the manifest, verify the phonetic was drafted per `SHARED_ARABIC/01-tts-pronunciation-key.md` rules and that the term is recorded in `BOOK_DIR/_system/source/text/_lexicon.md` so subsequent chapters inherit it.
+  - **Run the substitution audit**: walk `SHARED_ARABIC/04-common-term-substitutions.md` §2 entries against the chapter. Any flagged Arabic term still present without a documented framing justification is a Loop 6 failure — either substitute the English form or add the justification to `00-framing.md`'s pronunciation hooks.
   - If `@@pronounce` markers exist in `chapter.scratch.md`, verify each override appears in the rewritten chapter.
   - Fail the gate if Arabic terms remain without phonetics in a chapter that contains any pronunciation guidance.
 
@@ -581,9 +594,13 @@ SECTION 9: BOUNDARIES AND THE ONE PERMITTED JOURNAL CONNECTION
   - Any file matching `voice-fingerprint*` or `master-context*` anywhere under `content/babu-memoir/`.
   - Any journal skill file or journal reference document
 
-This skill is self-contained. It writes to `content/podcast/` only. It reads from `content/podcast/`, from sources Asif provides, and from ONE sanctioned crossing point — see below.
+This skill is self-contained. It writes to `content/podcast/` only. It reads from `content/podcast/`, from `content/_shared/arabic/` (cross-skill, read-only), from sources Asif provides, and from ONE sanctioned crossing point into the memoir — see below.
 
-### The one sanctioned read across the boundary
+### Cross-skill read (always allowed)
+
+`content/_shared/arabic/*.md` — the shared Arabic / Islamic pronunciation reference. Read on every run. The podcast skill MAY propose additions to the manifest (via `BOOK_DIR/_system/source/text/_extraction-notes.md`), but writes to `content/_shared/arabic/` itself happen only when Asif explicitly approves and routes them. Treat the directory as authoritative input.
+
+### The one sanctioned read across the memoir boundary
 
 `content/babu-memoir/chapters/*.txt` — memoir chapter `.txt` files are the SOURCE input to the `extract` capability. Reads ONLY; nothing else under `content/babu-memoir/` is in scope. The `extract_chapter.py` adapter enforces this via `PROHIBITED_PATH_PREFIXES` and `PROHIBITED_NAME_PATTERNS`.
 
@@ -607,6 +624,13 @@ After completing an episode, the podcast skill MAY propose additions to two shar
 ============================================================
 SECTION 10: REFERENCE FILE INDEX
 ============================================================
+
+### In `SHARED_ARABIC/` (cross-skill, mandatory on every podcast run):
+  - `00-README.md` — index, who reads what, how to add a new term
+  - `01-tts-pronunciation-key.md` — TTS engineering rules (long vowels, gemination, liaison, ASCII-only)
+  - `02-quran-letter-phonetics.md` — classical-Arabic letter-by-letter phonetic guide
+  - `03-arabic-english-manifest.md` — Latin-only Arabic→English→phonetic lookup (canonical spellings)
+  - `04-common-term-substitutions.md` — substitution policy (nafs, shaytan, ruh, etc.)
 
 ### In `PODCAST_ROOT/_handbook/` (book-agnostic, owned by the podcast skill):
   - `registry.md` — episode index (number, title, slug, book-slug, status, NotebookLM URL)

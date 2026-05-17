@@ -31,14 +31,18 @@ This agent operates under the **CORTEX Challenger Framework v1.0** (`reference/c
 
 Before any review pass, read:
 
-1. `content/podcast/_handbook/notebooklm-best-practices.md` — the canonical reference
-2. `content/podcast/_handbook/enrichment-sources.md` — the Tier 1–7 whitelist + citation formats + enrichment principles + anti-patterns
-3. `content/podcast/_handbook/scratchpad-markers.md` — the `@@` marker vocabulary
-4. `content/podcast/_handbook/extract-capability.md` — Extract Mode spec + splitting policy + `derived_from:` lineage rules
-5. `content/podcast/_handbook/chapter-contract.template.yml` — per-chapter contract schema (the I/O surface for Extract Mode)
-6. `skills-staging/podcast/SKILL.md` — the producing skill's contract
-7. `scripts/podcast/build_episode_txt.py` — the structural gate this agent complements (specifically the `META_PROSE_TELLS` and `META_PROSE_REGEX_TELLS` lists)
-8. `scripts/podcast/extract_chapter.py` — the Extract Mode adapter; its `CONTRACT_META_PROSE_TELLS` / `CONTRACT_META_PROSE_REGEX` lint operates on the contract before any file is written
+1. `content/_shared/arabic/00-README.md` — index of the cross-skill Arabic / Islamic pronunciation reference
+2. `content/_shared/arabic/01-tts-pronunciation-key.md` — TTS engineering rules; the spelling discipline every chapter must conform to
+3. `content/_shared/arabic/03-arabic-english-manifest.md` — canonical Arabic→English→phonetic lookup (authority for Loop C1 and C2 cross-checks)
+4. `content/_shared/arabic/04-common-term-substitutions.md` — substitution policy for high-frequency Arabic terms (authority for new Loop C4 audit below)
+5. `content/podcast/_handbook/notebooklm-best-practices.md` — the canonical reference
+6. `content/podcast/_handbook/enrichment-sources.md` — the Tier 1–7 whitelist + citation formats + enrichment principles + anti-patterns
+7. `content/podcast/_handbook/scratchpad-markers.md` — the `@@` marker vocabulary
+8. `content/podcast/_handbook/extract-capability.md` — Extract Mode spec + splitting policy + `derived_from:` lineage rules
+9. `content/podcast/_handbook/chapter-contract.template.yml` — per-chapter contract schema (the I/O surface for Extract Mode)
+10. `skills-staging/podcast/SKILL.md` — the producing skill's contract
+11. `scripts/podcast/build_episode_txt.py` — the structural gate this agent complements (specifically the `META_PROSE_TELLS` and `META_PROSE_REGEX_TELLS` lists)
+12. `scripts/podcast/extract_chapter.py` — the Extract Mode adapter; its `CONTRACT_META_PROSE_TELLS` / `CONTRACT_META_PROSE_REGEX` lint operates on the contract before any file is written
 
 You do NOT review:
 - Memoir authoring files under `content/babu-memoir/reference/`, `content/babu-memoir/_system/`, `content/babu-memoir/scratchpad/`, or any `voice-fingerprint*` / `master-context*` file (out of scope per SKILL.md §9 — these belong to the journal skill).
@@ -111,9 +115,10 @@ If the user invokes without a book-slug, ask for one. Do not guess.
 
 | ID | Check | Detection | Remediation |
 |---|---|---|---|
-| C1 | **Phonetic coverage** — every Arabic transliteration, Quranic verse line, hadith line, du`a, name, and honorific has an inline phonetic guide on first chapter occurrence. | For each italicized Arabic transliteration or known Arabic-origin term, verify a phonetic guide (`*Sunnah* (SOON-nah; ...)` pattern) appears on first occurrence. | Auto-fix when the term is in `_system/source/text/_lexicon.md`; flag otherwise. |
-| C2 | **Lexicon parity** — every phonetic guide in the chapter is also in `_system/source/text/_lexicon.md`; the same term has the same phonetic across all chapters. | Diff chapter phonetics against the lexicon; cross-chapter consistency check. | Auto-fix lexicon (add missing entries); flag inconsistencies for human judgment. |
+| C1 | **Phonetic coverage** — every Arabic transliteration, Quranic verse line, hadith line, du`a, name, and honorific has an inline phonetic guide on first chapter occurrence. | For each italicized Arabic transliteration or known Arabic-origin term, verify a phonetic guide (`*Sunnah* (SOON-nah; ...)` pattern) appears on first occurrence. | **Lookup order**: (a) `content/_shared/arabic/03-arabic-english-manifest.md` — if listed, the chapter MUST use the canonical phonetic exactly; (b) `_system/source/text/_lexicon.md`. Auto-fix when the term is in either; flag otherwise. Drift from the shared manifest spelling is auto-fixed to the manifest form. |
+| C2 | **Lexicon parity** — every phonetic guide in the chapter is also in `_system/source/text/_lexicon.md` AND matches the shared manifest where the term appears there; the same term has the same phonetic across all chapters. | Diff chapter phonetics against the shared manifest first, then the book lexicon; cross-chapter consistency check. | Auto-fix lexicon (add missing entries) and auto-fix chapter spellings that drifted from the shared manifest; flag chapter-vs-manifest semantic disagreements for human judgment. |
 | C3 | **Honorific discipline** — PBUH / AS / RA at first mention only per chapter; not on every line (devotional-padding anti-pattern from `enrichment-sources.md` §4). | Count occurrences per honorific; first allowed, subsequent flagged. | Auto-fix (deterministic): strip subsequent occurrences. |
+| C4 | **Substitution-policy audit** — every term flagged in `content/_shared/arabic/04-common-term-substitutions.md` §2 (the context-driven substitutions: `nafs`, `shaytan`, `ruh`, `qalb`, `aql`, `hawa`, `dunya`, `akhirah`, `jannah`, `jahannam`, `qiyamah`, `ilm`, `hikmah`, `sabr`, `shukr`, `niyyah`, `malak`, `zuhd`, `wara'`, `tasawwuf`) has either (a) been substituted to the English form appropriate for surrounding context, or (b) is justified by a documented note in `00-framing.md`'s pronunciation hooks (e.g., "we are keeping *nafs* because this chapter builds the Sufi tripartite-soul vocabulary"). | Substring scan for each §2 term in the chapter; for any hit, scan the framing's pronunciation hooks for a justification matching the term. | Flag (P1). Substitution is an authoring decision — never auto-fix. The author either replaces the Arabic with the English from §2, or adds the justification to the framing. |
 
 ### Category D: Enrichment & depth (P1)
 

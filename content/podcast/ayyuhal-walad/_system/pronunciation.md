@@ -1,5 +1,12 @@
 # Pronunciation Guide — *Ayyuhal Walad*
 
+> **Authority order:** the shared canonical reference at
+> `content/_shared/arabic/` wins for any term that appears there. This
+> book-level guide carries the Ayyuhal-Walad-specific terms (Sufi
+> vocabulary, named figures, source-specific Quranic verses) and any
+> book-level overrides. A term that disagrees with the shared manifest is a
+> defect — fix it here, not the other way around.
+
 **Source:** *Ayyuhal Walad — My Dear Beloved Son (or Daughter)* by Imam Abu Hamid Muhammad Al-Ghazali, translated into English by Irfan Hasan from an Urdu translation of the original Arabic.
 **Tradition:** Islamic (Sunni Sufi).
 **Style:** Pronunciation-friendly English transliteration. Long vowels doubled, no diacritics, hyphenated where stress matters.
