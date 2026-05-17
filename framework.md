@@ -1,9 +1,9 @@
 # Journal Ecosystem Framework
 
-**Version:** 3.2 (content/ tree adopted — memoir + podcast siblings)
-**Last updated:** 2026-05-16
+**Version:** 3.5 (podcast library/<category>/<book> + .skill/ split; memoir inbound severed)
+**Last updated:** 2026-05-17
 
-This document governs the journal repo: the memoir engine, the journal site, the podcast source-bundle agent, and the small set of agents/skills that support content authoring. As of v3.0 the trip-planning, daybook/log-capture, and DayOne-publish ecosystems have been removed (preserved on branch `archive/full-stack-pre-strip`). As of v3.2 all authored content lives under a single `content/` tree with `babu-memoir/` and `podcast/<book-slug>/` as siblings.
+This document governs the journal repo: the memoir engine, the journal site, the podcast source-bundle agent, and the small set of agents/skills that support content authoring. As of v3.0 the trip-planning, daybook/log-capture, and DayOne-publish ecosystems have been removed (preserved on branch `archive/full-stack-pre-strip`). As of v3.2 all authored content lives under a single `content/` tree with `babu-memoir/` and `podcast/` as siblings. As of v3.5 the podcast workspace splits human-facing book payload (`content/podcast/library/<category>/<book>/`) from skill internals (`content/podcast/.skill/`); the memoir → podcast inbound pipeline is severed (memoir is no longer a podcast source).
 
 ## Nomenclature
 
@@ -17,41 +17,57 @@ All authored content lives under [content/](content/):
 
 ```
 content/
+├── _shared/                        ← cross-skill data (only sanctioned cross-skill read)
+│   └── arabic/                     ← shared phonetic / Islamic terminology reference
 ├── babu-memoir/                    ← the memoir (chapters only; no episodes)
 │   ├── _system/                    ← voice, craft, quotes, incidents, snapshots, scratchpad, workflow
 │   └── chapters/                   ← preface.txt, ch00…ch03.txt
-└── podcast/                        ← parent for podcasted source books
+└── podcast/                        ← podcast workspace
     ├── _README.md                  ← podcast-wide intro
-    ├── _handbook/                  ← book-agnostic skill refs + templates + episode registry (sorts above books, contains no content)
-    │   ├── registry.md             ← episode index across all books
-    │   ├── enrichment-sources.md   ← Tier 1–7 whitelist
-    │   ├── notebooklm-source-format.md
-    │   ├── notebooklm-best-practices.md
-    │   ├── two-host-framing.md
-    │   ├── source-distillation.md
-    │   ├── episode-architecture.md
-    │   ├── scratchpad-markers.md
-    │   └── workspace-readme-template.md
-    └── ayyuhal-walad/              ← one source book (template; add more as siblings)
-        ├── _README.md              ← book-specific
-        ├── _system/                ← book-specific authoring state
-        │   ├── source/             ← original PDF + extracted/normalized text
-        │   ├── meta/               ← extracted metadata, normalized.md, segments, lexicon
-        │   ├── pronunciation.md    ← active overrides for the series
-        │   ├── editorial-notes.md
-        │   ├── library-proposals.md
-        │   ├── episode-drafts/     ← per-episode authoring scaffolds (NOT the source — see chapters/)
-        │   │   └── EP##-<slug>/
-        │   │       ├── 00-framing.md           ← the CUSTOMIZE prompt for NotebookLM
-        │   │       ├── 02-key-passages.md      ← authoring reference; not uploaded
-        │   │       ├── 03-context-pack.md      ← authoring reference; not uploaded
-        │   │       ├── 04-discussion-spine.md  ← authoring reference; not uploaded
-        │   │       ├── 99-show-notes.md        ← authoring reference; not uploaded
-        │   │       └── chapter.scratch.md      ← @@-marker surface mirroring the chapter
-        │   └── scratchpad/         ← series-policies.md + working scratches
-        ├── chapters/               ← source-book chapters as plain txt
-        └── episodes/               ← FINAL deliverables (one concatenated txt per episode)
-            └── EP##-<slug>.txt     ← built by scripts/podcast/build_episode_txt.py
+    ├── library/                    ← human-facing payload: source materials by category
+    │   ├── books/                  ← multi-chapter long-form works
+    │   │   └── <book-slug>/        ← one source book (e.g. ayyuhal-walad/)
+    │   │       ├── _README.md      ← book-specific
+    │   │       ├── _system/        ← book-specific authoring state
+    │   │       │   ├── source/                ← original PDF + extracted/normalized text + lexicon + phonetics
+    │   │       │   ├── pronunciation.md       ← active overrides for the series
+    │   │       │   ├── editorial-notes.md
+    │   │       │   ├── enrichment-log.md      ← per-chapter status sidecar (Phase 0e)
+    │   │       │   ├── challenger-report.md   ← podcast-challenger verdict
+    │   │       │   ├── episode-drafts/        ← per-episode authoring scaffolds (NOT the source)
+    │   │       │   │   └── EP##-<slug>/
+    │   │       │   │       ├── 00-framing.md           ← the CUSTOMIZE prompt for NotebookLM
+    │   │       │   │       ├── 02-key-passages.md      ← authoring reference; not uploaded
+    │   │       │   │       ├── 03-context-pack.md      ← authoring reference; not uploaded
+    │   │       │   │       ├── 04-discussion-spine.md  ← authoring reference; not uploaded
+    │   │       │   │       ├── 99-show-notes.md        ← authoring reference; not uploaded
+    │   │       │   │       └── chapter.scratch.md      ← @@-marker surface mirroring the chapter
+    │   │       │   └── scratchpad/            ← working scratches
+    │   │       ├── chapters/                  ← source-book chapters as plain txt (SOURCE upload)
+    │   │       ├── chapter-contracts/         ← per-chapter Extract Mode contracts (YAML)
+    │   │       ├── episodes/                  ← CUSTOMIZE prompts (one txt per episode)
+    │   │       └── turboscribe/               ← TurboScribe transcripts after audio renders
+    │   ├── articles/               ← single essays / journal pieces
+    │   ├── documents/              ← reports, white papers, official documents
+    │   ├── lectures/               ← recorded talks, sermons (transcribed)
+    │   ├── interviews/             ← Q&A transcripts
+    │   └── letters/                ← epistolary works
+    └── .skill/                     ← podcast-skill internals (hidden by leading dot)
+        ├── registry.md             ← episode index across all books
+        ├── handbook/               ← book-agnostic skill refs + templates
+        │   ├── enrichment-sources.md       ← Tier 1–7 whitelist
+        │   ├── notebooklm-source-format.md
+        │   ├── notebooklm-source-chapter-rules.md   ← NORMATIVE
+        │   ├── notebooklm-customize-prompt-rules.md ← NORMATIVE
+        │   ├── notebooklm-best-practices.md         ← GUIDANCE
+        │   ├── two-host-framing.md
+        │   ├── source-distillation.md
+        │   ├── episode-architecture.md
+        │   ├── scratchpad-markers.md
+        │   ├── extract-capability.md
+        │   ├── chapter-contract.template.yml
+        │   └── workspace-readme-template.md
+        └── archive/                ← superseded book snapshots
 ```
 
 ---
@@ -92,11 +108,11 @@ content/
 
 **Purpose:** Convert source material (PDFs, books, articles, transcripts) into NotebookLM-ready source bundles that steer the Audio Overview into a focused two-host conversation.
 
-**Owns:** all of `content/podcast/` — both the book-agnostic `_handbook/` and every `<book-slug>/`.
+**Owns:** all of `content/podcast/` — both the skill-internal `.skill/` (handbook, registry, archive) and every book workspace under `library/<category>/<book>/`.
 
-**Reads:** sources Asif provides + `content/podcast/_handbook/` references.
+**Reads:** sources Asif provides + `content/podcast/.skill/handbook/` references + `content/_shared/arabic/` (cross-skill, read-only). Does NOT read `content/babu-memoir/` — memoir is out of scope (v3.5 severance).
 
-**Writes:** per-episode draft bundles under `<book>/_system/episode-drafts/EP##-<slug>/`; final concatenated deliverables at `<book>/episodes/EP##-<slug>.txt` (rebuilt via `scripts/podcast/build_episode_txt.py`).
+**Writes:** per-episode draft bundles under `library/<category>/<book>/_system/episode-drafts/EP##-<slug>/`; customize-prompt episode txts at `library/<category>/<book>/episodes/EP##-<slug>.txt` (rebuilt via `scripts/podcast/build_episode_txt.py`).
 
 **Triggers:** `podcast`, `/podcast`, `@podcast`, `new episode`, `next episode`, `make this a podcast`, `NotebookLM episode`, `audio overview`.
 
@@ -236,33 +252,33 @@ Canonical writes to `content/` happen via Cowork (Claude Code) only. The site/pr
 
 ### 7. Podcast Episode Deliverable (architecture v3.4 — two-file model)
 
-Per-episode work is authored as a draft folder under `content/podcast/<book>/_system/episode-drafts/EP##-<slug>/` containing the framing (`00-framing.md`) and authoring scaffolds (`02-key-passages.md`, `03-context-pack.md`, `04-discussion-spine.md`, `99-show-notes.md`) PLUS the matching chapter at `content/podcast/<book>/chapters/chNN-<slug>.txt` (strict 1:1 chapter ↔ episode mapping, same slug after the prefix).
+Per-episode work is authored as a draft folder under `content/podcast/library/<category>/<book>/_system/episode-drafts/EP##-<slug>/` containing the framing (`00-framing.md`) and authoring scaffolds (`02-key-passages.md`, `03-context-pack.md`, `04-discussion-spine.md`, `99-show-notes.md`) PLUS the matching chapter at `content/podcast/library/<category>/<book>/chapters/chNN-<slug>.txt` (strict 1:1 chapter ↔ episode mapping, same slug after the prefix).
 
 **Two files reach NotebookLM, in distinct roles:**
 
 | File | Role | NotebookLM action |
 |---|---|---|
-| `content/podcast/<book>/chapters/chNN-<slug>.txt` | The enriched chapter — the **SOURCE** | Uploaded directly as the single source for the notebook (no transformation) |
-| `content/podcast/<book>/episodes/EP##-<slug>.txt` | The customize prompt only — the **CUSTOMIZE PROMPT** | Pasted into NotebookLM's *Customize* prompt box |
+| `library/<category>/<book>/chapters/chNN-<slug>.txt` | The enriched chapter — the **SOURCE** | Uploaded directly as the single source for the notebook (no transformation) |
+| `library/<category>/<book>/episodes/EP##-<slug>.txt` | The customize prompt only — the **CUSTOMIZE PROMPT** | Pasted into NotebookLM's *Customize* prompt box |
 
 The chapter file IS the source. `scripts/podcast/build_episode_txt.py` does NOT transform it; it only validates it. The episode txt IS the customize prompt — emitted by the build script from `00-framing.md` (HTML comments stripped, trailing Upload Checklist section stripped, post-strip meta-prose re-checked).
 
 **Why two files (not one):** if a single concatenated file with both blocks is uploaded as a source, NotebookLM treats the customize prompt as source content and the hosts may read it aloud. Two separate files, two folders by purpose, zero ambiguity.
 
-The other draft files (`02-key-passages.md`, `03-context-pack.md`, `04-discussion-spine.md`, `99-show-notes.md`) are authoring-only scaffolds — they inform the chapter's enrichment and the framing's tensions but do not flow to NotebookLM (anchored to `content/podcast/_handbook/notebooklm-best-practices.md` §3 and §7).
+The other draft files (`02-key-passages.md`, `03-context-pack.md`, `04-discussion-spine.md`, `99-show-notes.md`) are authoring-only scaffolds — they inform the chapter's enrichment and the framing's tensions but do not flow to NotebookLM (anchored to `content/podcast/.skill/handbook/notebooklm-best-practices.md` §3 and §7).
 
-**Chapter file hygiene (NotebookLM protection):** Chapter files contain ONLY chapter content — they are uploaded as-is. Authoring metadata (status, citation inventory, enrichment ratio, verification notes) lives in `content/podcast/<book>/_system/enrichment-log.md`, NOT inline. Forbidden in any chapter: HTML `<!-- ... -->` blocks, *"This file is..."* / *"Phase 0..."* / *"Nothing has been added..."* / `[VERIFY CITATION]` markers, `EP\d\d` cross-references. `scripts/podcast/build_episode_txt.py` enforces this with `META_PROSE_TELLS` + `META_PROSE_REGEX_TELLS` + a no-HTML-comments check — any match is a hard build error. The same gate is re-applied to the framing file's post-strip content (the customize-prompt episode txt).
+**Chapter file hygiene (NotebookLM protection):** Chapter files contain ONLY chapter content — they are uploaded as-is. Authoring metadata (status, citation inventory, enrichment ratio, verification notes) lives in `library/<category>/<book>/_system/enrichment-log.md`, NOT inline. Forbidden in any chapter: HTML `<!-- ... -->` blocks, *"This file is..."* / *"Phase 0..."* / *"Nothing has been added..."* / `[VERIFY CITATION]` markers, `EP\d\d` cross-references. `scripts/podcast/build_episode_txt.py` enforces this with `META_PROSE_TELLS` + `META_PROSE_REGEX_TELLS` + a no-HTML-comments check — any match is a hard build error. The same gate is re-applied to the framing file's post-strip content (the customize-prompt episode txt).
 
 Chapter (= SOURCE) word counts: floor 1,500; target 2,500–3,500; ceiling 4,500; hard refuse outside [500, 5,500]. Framing (= CUSTOMIZE PROMPT) word counts: target 150–2,000.
 
 ### 8. Chapters: Designed, Enriched, Required (INVARIANT)
-**Episodes cannot exist without enriched source-book chapters.** For every podcasted book, `content/podcast/<book>/chapters/` must contain one `chNN-<slug>.txt` per planned episode (the slug matches the corresponding `EP##-<slug>` draft folder exactly). Chapters are designed via Phase 0 of the podcast skill:
+**Episodes cannot exist without enriched source-book chapters.** For every podcasted book, `content/podcast/library/<category>/<book>/chapters/` must contain one `chNN-<slug>.txt` per planned episode (the slug matches the corresponding `EP##-<slug>` draft folder exactly). Chapters are designed via Phase 0 of the podcast skill:
 
 - **Phase 0a — Source extraction.** OCR / text-layer extract the original PDF into `<book>/_system/source/text/raw-extract.md`, then refine into `normalized.md`.
 - **Phase 0b — English refinement.** Translation quality is fixed; OCR artifacts are cleaned; archaic or awkward phrasing is modernized while preserving meaning and intent.
 - **Phase 0c — Arabic phonetic transcription pass.** Every Arabic transliteration, Quranic verse, hadith line, dua, honorific, and name receives a phonetic guide at first occurrence in the book; the lexicon at `<book>/_system/source/text/_lexicon.md` is the persistent canonical record.
 - **Phase 0d — Chapter design.** The published structure of the source book is a HINT, not a constraint. Chapters are designed by MEANINGFUL THEMATIC SEPARATION and BALANCED SIZE (floor 1,500, target 2,500–3,500, ceiling 4,500; all chapters within ~30% of each other in word count).
-- **Phase 0e — Enrichment.** Each chapter is enriched from the Tier 1–7 whitelist at `content/podcast/_handbook/enrichment-sources.md` (author's own corpus, Quran, hadith, Imam Ali via *Nahj al-Balagha*, Ismaili tradition, Sufi tradition, modern reference works). Outside material ≤ 60% of any chapter's word count — the author's argument stays the spine.
+- **Phase 0e — Enrichment.** Each chapter is enriched from the Tier 1–7 whitelist at `content/podcast/.skill/handbook/enrichment-sources.md` (author's own corpus, Quran, hadith, Imam Ali via *Nahj al-Balagha*, Ismaili tradition, Sufi tradition, modern reference works). Outside material ≤ 60% of any chapter's word count — the author's argument stays the spine.
 - **Phase 0f — Series intake + confirmation gate.** Asif confirms the chapter plan; confirming chapters IS confirming the episode plan under the 1:1 mapping.
 - **Phase 0g — Register the series.** Episode draft folders are scaffolded with slugs matching their chapter slugs.
 
@@ -270,6 +286,15 @@ Chapter (= SOURCE) word counts: floor 1,500; target 2,500–3,500; ceiling 4,500
 
 ### 9. Integration Documentation
 Any external API (Anthropic, Cloudflare Access, etc.) gets a corresponding doc in `docs/` covering auth, rate limits, error behavior, operational notes, and Keychain key name.
+
+---
+
+## What changed in v3.5 (2026-05-17)
+
+- **Podcast workspace restructure.** `content/podcast/<book>/` → `content/podcast/library/<category>/<book>/`. Six category folders under `library/`: `books/`, `articles/`, `documents/`, `lectures/`, `interviews/`, `letters/`. Only `books/ayyuhal-walad/` is populated; the others are placeholders for future source types. Skill internals moved to `content/podcast/.skill/`: `_handbook/` → `.skill/handbook/`, registry promoted from handbook to `.skill/registry.md` (mutable state distinguished from reference), `_archive/` → `.skill/archive/`. The dotfolder hides skill internals from Finder and the IDE explorer by default.
+- **Memoir inbound severance.** `content/podcast/from-memoir/` deleted (16 files). `scripts/podcast/extract_chapter.py` `MEMOIR_CHAPTERS` constant + memoir resolution branch removed. `PROHIBITED_PATH_PREFIXES` now blocks all of `content/babu-memoir/` as out-of-scope (was a carve-out before; now a hard bar). The podcast skill no longer reads memoir content. SKILL.md §9 "one sanctioned read across the memoir boundary" subsection removed. The OUTBOUND library-proposals path (podcast → memoir libraries via staged proposal file) is preserved.
+- **`podcast-challenger` v1.5.** Workspace restructure + memoir severance changelog entry; Category G7 (`derived_from:` leak check into memoir paths) removed; "memoir-derived bundles in scope" clause removed.
+- **`extract_chapter.py` contract path fix (Bundle 1 of v3.5 refactor).** `contract_path_for()` was returning a v3.4-era path that no longer exists; now derived from `chapter.path.parents[1]` so it correctly points at `library/<category>/<book>/chapter-contracts/<slug>.yml`.
 
 ---
 
@@ -330,7 +355,7 @@ If anything from that branch needs to come back, cherry-pick from `archive/full-
 
 - **Architectural shift:** strict 1:1 chapter ↔ episode mapping. The chapter file under `content/podcast/<book>/chapters/chNN-<slug>.txt` IS the SOURCE block of its episode. Eliminated `01-source-primary.md` from episode-draft folders. Single source of truth; chapter rewrites flow straight to the next episode-txt build.
 - **Phase 0 rewritten:** 0a Source extraction → 0b English refinement → 0c Arabic phonetic transcription pass → 0d Chapter design (meaningful separation, balanced size, content-driven) → 0e Chapter enrichment (Tier 1–7 whitelist; ≤60% outside material) → 0f Series intake + confirmation → 0g Register series.
-- **New canonical reference:** `content/podcast/_handbook/enrichment-sources.md` — the whitelist of authorized enrichment sources (Author's corpus, Quran, hadith, Imam Ali via *Nahj al-Balagha* and *Ghurar al-Hikam*, Ismaili tradition: Holy Du'a, Ginans, Farmans of the Aga Khans, classical Ismaili philosophers, Sufi tradition near Ghazali, modern reference works) with citation formats and enrichment principles.
+- **New canonical reference:** `content/podcast/.skill/handbook/enrichment-sources.md` — the whitelist of authorized enrichment sources (Author's corpus, Quran, hadith, Imam Ali via *Nahj al-Balagha* and *Ghurar al-Hikam*, Ismaili tradition: Holy Du'a, Ginans, Farmans of the Aga Khans, classical Ismaili philosophers, Sufi tradition near Ghazali, modern reference works) with citation formats and enrichment principles.
 - **Build script call signature changed:** `build_episode_txt.py BOOK_DIR EP##-<slug>`. Reads framing from the draft folder and the SOURCE from the slug-matched chapter file. Slug mismatch is a hard error.
 - **Quality Gate enriched:** 19-step checklist now includes chapter-exists, chapter-size band, enrichment-ratio cap, phonetic-coverage, and chapter-IS-source invariants.
 - **Ayyuhal Walad migration applied:** 22 thin section-extract chapters retired (preserved in git history); 5 substantive episode source-primary files promoted to `chapters/ch01-frame-and-first-counsel.txt` through `ch05-method-and-closing-prayer.txt`. EP01 draft folder renamed `EP01-ayyuhal-walad-ch1` → `EP01-frame-and-first-counsel` for slug parity. Each draft folder's `01-source-primary.md` removed; scratchpads renamed to `chapter.scratch.md`. All 5 episodes rebuild cleanly under the new architecture. Enrichment (Phase 0e) is per-chapter content sessions driven by Asif.
