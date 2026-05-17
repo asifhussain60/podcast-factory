@@ -328,7 +328,10 @@ class Contract:
 
 
 def contract_path_for(chapter: ResolvedChapter) -> Path:
-    return PODCAST_DIR / chapter.source_bucket / "chapter-contracts" / f"{chapter.chapter_slug}.yml"
+    # Sits next to the chapter file at <book>/chapter-contracts/<slug>.yml.
+    # chapter.path is library/<category>/<book>/chapters/ch##-<slug>.txt;
+    # parents[1] is the <book> directory.
+    return chapter.path.parents[1] / "chapter-contracts" / f"{chapter.chapter_slug}.yml"
 
 
 def load_contract(explicit: Path | None, chapter: ResolvedChapter) -> Contract:
@@ -849,7 +852,7 @@ def main() -> None:
     )
     ap.add_argument("chapter_ref", help="Chapter path, slug, or basename (e.g. ch01-man).")
     ap.add_argument("--contract", type=Path, default=None,
-                    help="Explicit contract file. Default: content/podcast/<bucket>/chapter-contracts/<slug>.yml")
+                    help="Explicit contract file. Default: content/podcast/library/<category>/<book>/chapter-contracts/<slug>.yml")
     ap.add_argument("--force", action="store_true",
                     help="Overwrite existing bundle files even if they differ.")
     args = ap.parse_args()

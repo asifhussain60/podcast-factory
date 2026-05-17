@@ -104,4 +104,4 @@ folder:
 Seeded on 2026-05-17 from the root-level `arabic-islamic-pronunciation-key.md`
 (which has been removed) plus prior content in
 `content/babu-memoir/_system/translations-glossary.md` (Podcast Pronunciation
-Lexicon section) and `content/podcast/ayyuhal-walad/_system/pronunciation.md`.
+Lexicon section) and `content/podcast/library/books/ayyuhal-walad/_system/pronunciation.md`.
