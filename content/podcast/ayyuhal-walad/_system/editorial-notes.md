@@ -25,13 +25,19 @@ The default substitution policy is applied: *nafs* → **lower soul** (default) 
 - *hadith qudsi* in ch05 — `qudsi` is kept as a hadith-classification term per §3 (technical vocabulary, no clean English equivalent). Phonetic added to shared manifest §4 (2026-05-17).
 - Elsewhere always substituted.
 
-## Honorific application (R-HONORIFIC-ONCE)
+## Honorific application (R-HONORIFIC-ONCE — per-form semantics + A4 verbatim-quote exception)
 
-Each chapter expands the honorific at most once per figure:
-- Prophet Muhammad — *peace and blessings be upon him* on first mention; *the Prophet* thereafter.
-- Companions (RA) — *may Allah be pleased with him/her* on first mention; bare name thereafter.
-- Imams (AS) — *peace be upon him* on first mention; bare alias thereafter.
-- Sufi masters (RA, departed) — *may Allah have mercy upon him* on first mention; alias thereafter.
+Per the 2026-05-17 rule clarification: R-HONORIFIC-ONCE is **per-form**, not per-figure. Each honorific phrase form is expanded at most once per chapter, attached to the first figure who carries it. Subsequent figures who would carry the same form get the bare name.
+
+- Prophet Muhammad gets *peace and blessings be upon him* on first mention; subsequent Prophet mentions use *the Prophet* / *Muhammad* with no re-attached honorific.
+- The form *may Allah have mercy upon him* attaches to the first deceased Sufi master in the chapter; later deceased Sufi figures in the same chapter are introduced by name only.
+- Same for *peace be upon him* (first Imam or Prophet figure in the chapter, then bare names) and *may Allah be pleased with him/her* (first Companion, then bare names).
+
+**Verbatim-quote exception (A4):** honorifics that appear inside verbatim source blockquotes (Quran, prophetic hadith, named quoted dua/supplication, primary-teacher quote) ship as-is and do NOT count toward the form's per-chapter cap. Two such cases in this book:
+- `chapters/ch03-the-path.txt:33` — verbatim Ghazali quote describing the perfected guide.
+- `chapters/ch05-method-and-closing-prayer.txt:107` — inside the verbatim closing supplication Ghazali asks the student to recite after every prayer.
+
+Both are acknowledged exceptions, not bugs; the challenger should not auto-strip them.
 
 ## Name alias application (per `05-name-alias-policy.md`)
 

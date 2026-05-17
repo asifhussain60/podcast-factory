@@ -222,27 +222,25 @@ Regex scan for the parenthetical respelling pattern. Anchor on:
 
 ---
 
-## R-HONORIFIC-ONCE · Honorifics expanded exactly once per chapter
+## R-HONORIFIC-ONCE · Each honorific form expanded at most once per chapter (per-form semantics; verbatim-quote exception)
 
 ### Rule
 
-Honorifics — `(PBUH)`, `(SAW)`, `(AS)`, `(RA)`, `(peace and blessings be upon him)`, `(peace be upon him)`, `(peace be upon them)`, `(may Allah be pleased with him/her)` — MUST be expanded **exactly once per chapter, on first mention of each figure**. Every subsequent mention of the same figure uses the contracted form (`the Prophet`, `Imam Ali`, `Imam Hasan`, `Aisha`, etc.) without re-attached honorific.
+Honorifics — `(PBUH)`, `(SAW)`, `(AS)`, `(RA)`, `(peace and blessings be upon him)`, `(peace be upon him)`, `(peace be upon them)`, `(may Allah be pleased with him/her)`, `(may Allah have mercy upon him/her)` — MUST be expanded **at most once per chapter for each distinct honorific phrase form, attached to the first figure who carries it.** Every subsequent appearance of the same form (regardless of which figure it would attach to) is stripped to the bare name. This is the **per-form** semantics, deliberately stricter than per-figure: it caps the total honorific-recitation count NotebookLM produces per episode.
+
+**Exception (A4 verbatim-quote integrity):** honorifics that appear INSIDE verbatim source blockquotes (Quran verses, prophetic hadith, named verbatim quotes from the author or a primary teacher, dua/supplications quoted in full) are exempt from this count. The blockquote ships the source's exact words; the audio overview will read those words once, with the original honorific intact. These exempted occurrences do not contribute to the form's once-per-chapter cap and the challenger MUST NOT auto-strip them.
 
 ### Why
 
-Devotional padding is the anti-pattern. NotebookLM reads every expanded honorific aloud, so a chapter that writes "the Prophet (peace and blessings be upon him)" eight times produces eight on-air recitations. The 2026-05-17 audit measured this on the *Eight Truths That Survive the Grave* transcript — the hosts said "the prophet, peace and blessings be upon him" nine times in a single episode.
+Devotional padding is the anti-pattern. NotebookLM reads every expanded honorific aloud, so a chapter that writes "the Prophet (peace and blessings be upon him)" eight times produces eight on-air recitations. The 2026-05-17 audit measured this on the *Eight Truths That Survive the Grave* transcript — the hosts said "the prophet, peace and blessings of Allah be upon him" nine times in a single episode. Per-form (rather than per-figure) cleanly caps aggregate recitation count regardless of how many distinct figures appear; the verbatim-quote exception preserves source integrity (A4) for the small set of cases where the honorific is part of the quoted text, not authorial addition.
 
 ### Auto-detect
 
-For each known figure (Prophet, Imam Ali, Imam Hasan, Imam Husayn, Aisha, Hatim, Junaid, Ghazali, etc.), count expansions of any honorific form. First occurrence allowed; every subsequent → strip the honorific phrase, keep the name.
+For each honorific form in the catalog above, count all OUTSIDE-blockquote occurrences across the chapter. The first occurrence (in reading order) is preserved; every subsequent OUTSIDE-blockquote occurrence is flagged for strip. Occurrences INSIDE verbatim blockquotes are tracked separately and do not contribute to the count.
 
 ### Auto-fix
 
-**AUTO-FIX** (deterministic): strip every 2nd+ honorific expansion. Replace `(peace and blessings be upon him)` / `ﷺ` / `PBUH` / `SAW` (2nd+) with empty string. Same for `(AS)`, `(RA)`, etc.
-
-### Build-script enforcement
-
-`build_episode_txt.py` counts honorific expansions and refuses the chapter when any expanded form appears more than once. The deterministic fix is automatic in the challenger; the build script enforces only after the fix has had a chance to run.
+**AUTO-FIX** (deterministic): strip every 2nd+ outside-blockquote honorific expansion of each form. Replace `(peace and blessings be upon him)` / `ﷺ` / `PBUH` / `SAW` (2nd+, non-blockquote) with empty string. Same for `(AS)`, `(RA)`, `(may Allah have mercy upon him)`, etc. **Never** strip an honorific occurrence that is inside a verbatim blockquote — these are protected by the A4 exception above. When in doubt about whether a span is a verbatim blockquote, treat as protected and flag P1 instead.
 
 ### Authority for challenger
 
