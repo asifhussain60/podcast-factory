@@ -3,7 +3,7 @@
 
 Resolves a chapter reference to a source file, reads its sidecar contract,
 and emits a deterministic NotebookLM Audio Overview bundle: 00-framing.md,
-01-source-primary.md, 02-key-passages.md, 03-context-pack.md,
+02-key-passages.md, 03-context-pack.md,
 04-discussion-spine.md, 99-show-notes.md.
 
 INVOCATION
@@ -30,15 +30,17 @@ OUTPUT (per contract.source_type)
   book-chapter:  content/podcast/<book_slug>/...
   article:       content/podcast/<book_slug>/...
 
-  ├── chapters/ch##-<slug>.txt                       (chapter copy; SOURCE upload)
+  ├── chapters/ch##-<slug>.txt                       (chapter copy; SOURCE upload; THE refinement target)
   ├── _system/episode-drafts/EP##-<slug>/
   │   ├── 00-framing.md         (CUSTOMIZE PROMPT body — fed to build_episode_txt.py)
-  │   ├── 01-source-primary.md  (mirror of chapter; canonical refinement target)
   │   ├── 02-key-passages.md    (scaffold with anchor markers)
   │   ├── 03-context-pack.md    (scaffold)
   │   ├── 04-discussion-spine.md (N beat templates per length_target)
   │   └── 99-show-notes.md      (optional, from contract.show_notes)
   └── (build_episode_txt.py emits episodes/EP##-<slug>.txt downstream)
+
+  NOTE: No `01-source-primary.md` — the chapter file IS the source under v3.4's
+  two-file deliverable model (SKILL.md §0 Invariant 1).
 
 DETERMINISM GUARANTEE
 
@@ -590,20 +592,6 @@ The hosts must NOT do the following:
 """
 
 
-def render_source_primary(c: Contract, chapter: ResolvedChapter, chapter_text: str) -> str:
-    title = c.get("title")
-    return f"""# {title}
-
-*Source:* `{chapter.path.name}` (verbatim mirror; the refinement target)
-*Source type:* {c.get('source_type')}
-*Adaptation mode:* {c.get('adaptation_mode')}
-
----
-
-{chapter_text.rstrip()}
-"""
-
-
 def render_key_passages(c: Contract, chapter: ResolvedChapter) -> str:
     anchors = c.get("anchor_passages", [])
     body = ""
@@ -613,7 +601,7 @@ def render_key_passages(c: Contract, chapter: ResolvedChapter) -> str:
     else:
         body = """### [LLM-SELECT] 6–15 verbatim passages
 
-The downstream authoring pass selects 6–15 verbatim passages from `01-source-primary.md`, ordered as they appear in the source. Each gets:
+The downstream authoring pass selects 6–15 verbatim passages from the chapter file (`BOOK_DIR/chapters/chNN-<slug>.txt`), ordered as they appear in the source. Each gets:
 
 ```
 ### Passage N
@@ -766,8 +754,8 @@ def emit_bundle(chapter: ResolvedChapter, c: Contract, force: bool) -> None:
             f"  WARN: chapter is {word_count} words — over the 5,500 word ceiling.\n"
             f"        NotebookLM will summarize away content past this. Canon says split.\n"
             f"        build_episode_txt.py will REFUSE this chapter.\n"
-            f"        Paths: (a) refine 01-source-primary.md down to ~4,500 and copy back to\n"
-            f"        chapters/{chapter.path.name}; (b) split into two derivative chapters\n"
+            f"        Paths: (a) refine the chapter file ({chapter.path.name}) in place\n"
+            f"        down to ≤4,500 words; (b) split into two derivative chapters\n"
             f"        with distinct slugs; (c) explicitly raise CHAPTER_WORD_MAX_HARD\n"
             f"        in build_episode_txt.py (against canon — only do this knowingly)."
         )
@@ -796,7 +784,6 @@ def emit_bundle(chapter: ResolvedChapter, c: Contract, force: bool) -> None:
     write_if_needed(chapter_out, chapter_text, force, written, skipped)
 
     write_if_needed(draft_dir / "00-framing.md", render_framing(c, chapter, ep_num), force, written, skipped)
-    write_if_needed(draft_dir / "01-source-primary.md", render_source_primary(c, chapter, chapter_text), force, written, skipped)
     write_if_needed(draft_dir / "02-key-passages.md", render_key_passages(c, chapter), force, written, skipped)
     write_if_needed(draft_dir / "03-context-pack.md", render_context_pack(c, chapter), force, written, skipped)
     write_if_needed(draft_dir / "04-discussion-spine.md", render_discussion_spine(c, chapter), force, written, skipped)

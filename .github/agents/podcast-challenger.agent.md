@@ -34,13 +34,18 @@ Before any review pass, read:
 1. `content/podcast/_handbook/notebooklm-best-practices.md` — the canonical reference
 2. `content/podcast/_handbook/enrichment-sources.md` — the Tier 1–7 whitelist + citation formats + enrichment principles + anti-patterns
 3. `content/podcast/_handbook/scratchpad-markers.md` — the `@@` marker vocabulary
-4. `skills-staging/podcast/SKILL.md` — the producing skill's contract
-5. `scripts/podcast/build_episode_txt.py` — the structural gate this agent complements (specifically the `META_PROSE_TELLS` and `META_PROSE_REGEX_TELLS` lists)
+4. `content/podcast/_handbook/extract-capability.md` — Extract Mode spec + splitting policy + `derived_from:` lineage rules
+5. `content/podcast/_handbook/chapter-contract.template.yml` — per-chapter contract schema (the I/O surface for Extract Mode)
+6. `skills-staging/podcast/SKILL.md` — the producing skill's contract
+7. `scripts/podcast/build_episode_txt.py` — the structural gate this agent complements (specifically the `META_PROSE_TELLS` and `META_PROSE_REGEX_TELLS` lists)
+8. `scripts/podcast/extract_chapter.py` — the Extract Mode adapter; its `CONTRACT_META_PROSE_TELLS` / `CONTRACT_META_PROSE_REGEX` lint operates on the contract before any file is written
 
 You do NOT review:
-- Memoir content under `content/babu-memoir/` (out of scope per the podcast skill's §9 boundary).
+- Memoir authoring files under `content/babu-memoir/reference/`, `content/babu-memoir/_system/`, `content/babu-memoir/scratchpad/`, or any `voice-fingerprint*` / `master-context*` file (out of scope per SKILL.md §9 — these belong to the journal skill).
 - The MP3 output of NotebookLM (only the upstream sources: chapters + framings).
 - The `02-key-passages.md` / `03-context-pack.md` / `04-discussion-spine.md` / `99-show-notes.md` authoring scaffolds (they do not flow to NotebookLM).
+
+**You DO review** memoir-derived bundles when they reach this skill via Extract Mode. `content/podcast/babu-memoir/chapters/*.txt` and their matching `chapter-contracts/*.yml` are in-scope just like any other book. The sanctioned crossing (SKILL.md §9) makes them podcast artifacts once extracted; the source memoir files at `content/babu-memoir/chapters/*.txt` are read-only inputs to the adapter and are NOT this agent's responsibility.
 
 ---
 
@@ -54,10 +59,11 @@ Two modes, both supported. The orchestrator picks based on the trigger phrase.
 /podcast-challenger <book-slug>
 ```
 
-Scope (both file types reviewed under each pass):
+Scope (all three artifact types reviewed under each pass):
 - All chapter SOURCE files: `BOOK_DIR/chapters/chNN-<slug>.txt`
 - All framing files (which generate the customize prompts): `BOOK_DIR/_system/episode-drafts/EP##-<slug>/00-framing.md`
-- After auto-fixes, re-run `build_episode_txt.py` for each `EP##-<slug>` so the customize-prompt episode txts stay in sync with their framings.
+- For Extract Mode books (any book whose `chapter-contracts/` directory is non-empty): all `BOOK_DIR/chapter-contracts/<slug>.yml` contracts. Contract findings (Category G) gate the chapter findings — a broken contract usually means the bundle was generated against the wrong inputs.
+- After auto-fixes, re-run `extract_chapter.py <chapter-ref> --force` for each contract whose tone-bearing fields were touched, then `build_episode_txt.py` for each `EP##-<slug>` so the downstream artifacts stay in sync.
 
 Used for "review podcast", "challenge ayyuhal-walad", "audit chapters", "converge before publish".
 
@@ -140,6 +146,18 @@ If the user invokes without a book-slug, ask for one. Do not guess.
 | F5 | **Discussion-spine has 6–12 beats** — `04-discussion-spine.md` scaffold present and well-shaped. | `wc -l` + structural inspection of `04-discussion-spine.md`. | Flag (P1) if outside band. |
 | F6 | **Steering phrases present** — at least one canonical NotebookLM steering phrase ("Slow down on…", "Treat X as the central tension…", "End on a question…") from `two-host-framing.md`. | Substring scan of framing. | Flag (P2) — the framing can work without these but they reliably bend output. |
 
+### Category G: Extract Mode contracts (P0/P1) — applies only when `BOOK_DIR/chapter-contracts/` is populated
+
+| ID | Check | Detection | Remediation |
+|---|---|---|---|
+| G1 | **Contract present per chapter** — every `chapters/chNN-<slug>.txt` has a matching `chapter-contracts/<slug>.yml`. | `ls` cross-check. Slug parity. | Flag (P0) — missing contract means the bundle was either stub-generated and never authored, or out of sync. |
+| G2 | **Contract validates** — `extract_chapter.py` succeeds when re-run against the contract: required fields present, slug matches chapter slug, `angle` and `adaptation_mode` in allowed enums. | Re-run `extract_chapter.py <chapter-ref> --force` and capture exit status. | Flag (P0) on non-zero exit; the extractor's own error message goes into the report verbatim. |
+| G3 | **Contract passes meta-prose lint** — no `EP##` references, no "next/previous episode", no Phase 0a–e leaks, no translator-apparatus prefixes in `title` / `audience` / `key_tensions` / `tone_constraints` / `anchor_passages`. Mirrors the extractor's `CONTRACT_META_PROSE_TELLS` + `CONTRACT_META_PROSE_REGEX`. | Same lint logic as `extract_chapter.py`. | Flag (P0). Authoring decision; reword and re-run. |
+| G4 | **`derived_from:` lineage valid** — for any contract carrying `derived_from:`, the referenced source file exists and is the same source for every sibling derivative. | Open each derivative contract; resolve `derived_from:` path; verify file exists; verify all siblings (other derivatives of the same source) point at the same path. | Flag (P1). Broken lineage means the staleness-detection signal is unreliable. |
+| G5 | **Derivative slug discipline** — when a single source has been split, every derivative title is a clean single-noun English slug (kebab-case, no version suffixes like `-v2`, `-part-a`, `-half-one`) per `extract-capability.md` § Splitting policy. | Walk derivatives; reject slug shapes matching `(v\d|part-[a-z]|half-\w+|section-\d)`. | Flag (P1). |
+| G6 | **Source not stale relative to derivative** — for derivatives, compare mtime of `derived_from:` source vs mtime of the chapter file. If source is newer, derivative is stale. | `stat` both paths. | Flag (P1) — author decides whether to re-split or accept the drift. |
+| G7 | **No leak from prohibited paths** — verify the contract does not point any `derived_from:` field into `content/babu-memoir/reference/`, `_system/`, `scratchpad/`, or any `voice-fingerprint*` / `master-context*` file. (Belt-and-suspenders; the adapter's `PROHIBITED_PATH_PREFIXES` already blocks reads, but a contract carrying a prohibited path is itself a boundary violation worth flagging.) | Substring scan of the resolved `derived_from:` path. | Flag (P0). |
+
 ---
 
 ## SECTION 3 — Auto-fix vs flag rules
@@ -159,6 +177,7 @@ If the user invokes without a book-slug, ask for one. Do not guess.
 - Adjusts the chapter's argument or structure (D3, E2, E3, F2, F4 — semantic decisions).
 - Touches `BOOK_DIR/episodes/*.txt` directly. Episode txts are emitted by `build_episode_txt.py` from the framing files. After fixing a framing, the agent re-runs the build script so the customize-prompt episode txt stays in sync.
 - Touches `BOOK_DIR/chapters/*.txt` for anything other than the auto-fix list. Chapter files are uploaded as-is to NotebookLM as SOURCE — any change is content authoring, not mechanical cleanup. The agent only applies the deterministic auto-fixes listed above (em-dashes, repeated honorifics, lexicon-grounded phonetic gaps, exact-match verbal filler tells, cross-episode-ref rewrites). Anything more is flagged for the author.
+- Touches `BOOK_DIR/chapter-contracts/*.yml`. Contracts are authored YAML — Category G findings are always flagged. After the author reworks a contract, the agent re-runs `extract_chapter.py <chapter-ref> --force` then `build_episode_txt.py` so the bundle stays in sync.
 
 ---
 
@@ -274,6 +293,16 @@ If `verdict == BLOCKED`: list the P0 items inline (max 5) and stop. Do not attem
 
 This agent calls the build script after every auto-fix iteration so the episode txts stay in sync with the framings. Any script error becomes a P0 finding in the report (filed verbatim).
 
+### Extract Mode adapter
+
+`scripts/podcast/extract_chapter.py` is the sibling structural gate for Extract Mode books. It:
+- Resolves chapter refs through the sanctioned crossing (`PROHIBITED_PATH_PREFIXES`, `PROHIBITED_NAME_PATTERNS`).
+- Reads the per-chapter contract at `BOOK_DIR/chapter-contracts/<slug>.yml`.
+- Runs `lint_contract_meta_prose` over the fields that flow into the rendered framing — same `META_PROSE_TELLS` / `META_PROSE_REGEX_TELLS` family as the build script, applied at extract time so the contract is fixed instead of a generated artifact.
+- Emits the 5-file episode-draft scaffold + chapter copy. Deterministic; same contract + same chapter → byte-identical re-run.
+
+For Category G findings, the agent uses this script as the validator: re-run with `--force` after every contract fix, capture exit status, file extractor errors verbatim into the report.
+
 ---
 
 ## SECTION 7 — Cold-start procedure
@@ -305,6 +334,8 @@ When invoked:
 
 ## Version
 
-v1.1 (2026-05-16). Updated for architecture v3.4: two-file deliverable model (chapter file IS the SOURCE uploaded as-is; episode txt IS the CUSTOMIZE PROMPT only). Build script no longer transforms chapters; it validates them. Authoring metadata for chapters moved out of HTML comments into `BOOK_DIR/_system/enrichment-log.md`. All check IDs unchanged; scope clarifications added throughout. When the check catalog or auto-fix rules change again, bump the version and update the audit log row in `reference/skill-registry.md`.
+v1.2 (2026-05-17). Extract Mode awareness: added Category G (contracts G1–G7), extended Section 0 cold-start reads with `extract-capability.md` + `chapter-contract.template.yml` + `extract_chapter.py`, rewrote the boundary section so memoir-derived bundles are in-scope while memoir authoring files remain out-of-scope, added the Extract Mode adapter as a sibling structural gate in Section 6, added contract path to the non-auto-fix list in Section 3. Update audit-log row in `reference/skill-registry.md`.
+
+v1.1 (2026-05-16). Updated for architecture v3.4: two-file deliverable model (chapter file IS the SOURCE uploaded as-is; episode txt IS the CUSTOMIZE PROMPT only). Build script no longer transforms chapters; it validates them. Authoring metadata for chapters moved out of HTML comments into `BOOK_DIR/_system/enrichment-log.md`. All check IDs unchanged; scope clarifications added throughout.
 
 v1.0 (2026-05-16). Initial release.

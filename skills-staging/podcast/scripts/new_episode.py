@@ -68,7 +68,7 @@ def main() -> int:
     parser.add_argument("slug", help="kebab-case episode slug, ≤ 40 chars")
     parser.add_argument("--title", default="Untitled Episode", help="Episode title")
     parser.add_argument("--registry", type=Path, default=None,
-                        help="Path to registry.md (defaults to <BOOK_DIR>/../_system/registry.md)")
+                        help="Path to registry.md (defaults to <BOOK_DIR>/../_handbook/registry.md)")
     args = parser.parse_args()
 
     if not re.fullmatch(r"[a-z0-9]+(-[a-z0-9]+)*", args.slug) or len(args.slug) > 40:
@@ -82,7 +82,7 @@ def main() -> int:
     (book_dir / "chapters").mkdir(exist_ok=True)
     (book_dir / "episodes").mkdir(exist_ok=True)
 
-    registry_path = args.registry if args.registry else (book_dir.parent / "_system" / "registry.md")
+    registry_path = args.registry if args.registry else (book_dir.parent / "_handbook" / "registry.md")
     ensure_registry(registry_path)
 
     n = next_episode_number(registry_path)

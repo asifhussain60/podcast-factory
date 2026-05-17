@@ -45,16 +45,17 @@ The full schema lives in `chapter-contract.template.yml`. The contract is the I/
 
 ```
 content/podcast/<bucket>/
-├── chapters/ch##-<slug>.txt                       ← chapter copy (SOURCE upload)
+├── chapters/ch##-<slug>.txt                       ← chapter copy (SOURCE upload; THE refinement target)
 ├── chapter-contracts/<slug>.yml                   ← the signed contract
 ├── _system/episode-drafts/EP##-<slug>/
 │   ├── 00-framing.md         ← CUSTOMIZE PROMPT (downstream: build_episode_txt.py)
-│   ├── 01-source-primary.md  ← mirror of chapter (the refinement target)
 │   ├── 02-key-passages.md    ← scaffold; LLM-SELECT downstream
 │   ├── 03-context-pack.md    ← scaffold; LLM-FILL downstream
 │   ├── 04-discussion-spine.md ← N beats per length_target; LLM-FILL downstream
 │   └── 99-show-notes.md      ← from contract.show_notes
 ```
+
+No `01-source-primary.md`. Under v3.4's two-file deliverable model the chapter file IS the source — there is no second copy in the draft folder. See SKILL.md §0 Invariant 1.
 
 `<bucket>` is `babu-memoir` for memoir chapters, or `<book_slug>` for book chapters.
 
@@ -155,6 +156,6 @@ Each derivative has its own contract (`inheritance.yml`, `becoming.yml`) with `d
 
 - It does not call the LLM. It does not author key passages, context, or beats.
 - It does not ingest PDFs. Use Series Mode (Phase 0) for that.
-- It does not modify the chapter file. The chapter is verbatim in `01-source-primary.md` and verbatim in `chapters/ch##-<slug>.txt`.
+- It does not modify the chapter file. The chapter at `chapters/ch##-<slug>.txt` is the source upload; nothing else mirrors it.
 - It does not run `podcast-challenger`. Run that separately against the emitted bundle.
 - It does not upload to NotebookLM. That step is always manual.

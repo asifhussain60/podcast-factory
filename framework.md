@@ -60,11 +60,11 @@ content/
 
 | Agent | Location | Role |
 |---|---|---|
-| `CORTEX` | `.github/agents/CORTEX.agent.md` | Governance, vacuum, structure enforcement |
 | `journal-orchestrator` | `.github/agents/journal-orchestrator.agent.md` | Skill routing + canonical-write protection |
-| `repo-surgeon` | `.github/agents/repo-surgeon.agent.md` | Holistic architecture audit, orphan cleanup |
-| `podcast-challenger` | `.github/agents/podcast-challenger.agent.md` | Semantic-quality review of podcasted-book chapters + framings; convergence loop (≤3 iterations) before any bundle ships to NotebookLM |
+| `repo-surgeon` | `.github/agents/repo-surgeon.agent.md` | Holistic architecture audit, orphan cleanup, root hygiene, canonical-file write guards |
+| `podcast-challenger` | `.github/agents/podcast-challenger.agent.md` | Semantic-quality review of podcasted-book chapters + framings + Extract Mode contracts; convergence loop (≤3 iterations) before any bundle ships to NotebookLM |
 | `ui-reviewer` | `.claude/agents/ui-reviewer.md` | CSS/theme review (runs on Stop hook) |
+| `CORTEX` (DEPRECATED 2026-05-17) | `.github/agents/CORTEX.agent.md` | No longer routed. Responsibilities absorbed by `repo-surgeon` (governance/vacuum) and `journal-orchestrator` (canonical-write protection). The CORTEX **skill** at `~/.claude/skills/cortex/` remains active as the framework BASELINE — only the standalone agent is deprecated. |
 
 ---
 
@@ -158,7 +158,7 @@ journal/                                    ← repo root
 ├── docs/                                   ← anthropic-api-setup, proxy-setup, cloudflare integrations
 ├── infra/                                  ← Cloudflare deployment configs
 ├── _workspace/                             ← gitignored scratch (chats, ideas, screenshots)
-└── .github/agents/                         ← CORTEX, journal-orchestrator, repo-surgeon
+└── .github/agents/                         ← journal-orchestrator, repo-surgeon, podcast-challenger (CORTEX agent deprecated 2026-05-17)
 ```
 
 ---

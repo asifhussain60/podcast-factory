@@ -37,11 +37,13 @@ All patterns produce the same six outputs (core thesis, arc, key passages, tensi
 
 **Trap to avoid**: over-distilling. If the essay is already tight, your distillation is mostly direct quotation with light framing.
 
-## Memoir chapter (from `content/babu-memoir/`)
+## Memoir chapter (from `content/babu-memoir/chapters/`)
 
-Memoir chapters are NOT podcast chapters under this skill. They live in the `journal` skill's territory. The podcast skill does NOT read from `content/babu-memoir/chapters/` (per SKILL.md §9). If Asif wants a memoir chapter podcasted, he provides the chapter content directly as a source, and the podcast skill treats it as a stand-alone article (above) — with no enrichment from the journal's reference files.
+Memoir chapters reach this skill via the one sanctioned crossing declared in SKILL.md §9: `content/babu-memoir/chapters/*.txt` is read-only input to the `extract` capability (`scripts/podcast/extract_chapter.py`). Everything else under `content/babu-memoir/` — `reference/`, `_system/`, `scratchpad/`, any `voice-fingerprint*` or `master-context*` file — remains journal-skill territory and is blocked at the adapter layer (`PROHIBITED_PATH_PREFIXES`, `PROHIBITED_NAME_PATTERNS`).
 
-**Trap to avoid**: pulling memoir reference files (voice-fingerprint, master-context, etc.) into a podcast bundle. The memoir skill owns those.
+When a memoir chapter is podcasted, treat it as authored prose under Extract Mode (`content/podcast/_handbook/extract-capability.md`). The chapter file IS the SOURCE upload; the per-chapter contract at `content/podcast/babu-memoir/chapter-contracts/<slug>.yml` carries audience, angle, tensions, anchor passages, and phonetic overrides. No enrichment from the whitelist (Phase 0e) is applied to memoir material — memoir is first-person voice and stays unembellished. The `derived_from:` field in each contract tracks lineage when a single memoir chapter has been split into two derivatives (e.g., `ch01-man.txt` → `inheritance` + `becoming`).
+
+**Trap to avoid**: pulling memoir reference files (voice-fingerprint, master-context, scratchpad notes) into a podcast bundle. Those are journal-skill territory and the adapter refuses to read them.
 
 ## Transcript / lecture
 

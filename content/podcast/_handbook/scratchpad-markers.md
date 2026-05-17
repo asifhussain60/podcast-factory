@@ -6,9 +6,9 @@
 
 ## The mental model
 
-A **canonical file** is the finished artifact — a refined podcast episode at `content/podcast/<book>/_system/episode-drafts/EP##-<slug>/01-source-primary.md`. The canonical file is what NotebookLM ingests.
+A **canonical file** is the finished chapter — the enriched, phonetically-complete chapter at `content/podcast/<book>/chapters/chNN-<slug>.txt`. The canonical file is what NotebookLM ingests as the SOURCE upload (SKILL.md §0 Invariant 1: the chapter file IS the source; there is no separate `01-source-primary.md`).
 
-A **scratchpad file** mirrors the canonical file and carries `@@` markers. The user writes markers in the scratchpad; the skill scans, processes, and strips them; then it rewrites the canonical file. The scratchpad and canonical stay in sync but serve different purposes: the canonical for delivery, the scratchpad for direction-from-the-user.
+A **scratchpad file** mirrors the canonical chapter and carries `@@` markers. The user writes markers in the scratchpad; the skill scans, processes, and strips them; then it rewrites the canonical chapter file. The scratchpad and canonical stay in sync but serve different purposes: the canonical for delivery, the scratchpad for direction-from-the-user.
 
 Markers never appear in canonical files. They are stripped on every refinement pass.
 

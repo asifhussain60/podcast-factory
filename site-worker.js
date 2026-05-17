@@ -1,16 +1,16 @@
 // Cloudflare Worker — runs at journal.kashkole.com edge.
 //
-// Proxies /api/*, /trips/*, and /shared/* to journal-api.kashkole.com so that
-// all API calls and media files from the browser are same-origin (no CORS
-// preflight). The CF_Authorization cookie is forwarded so Cloudflare Access on
-// the API side can issue its own JWT and let the request through to Express.
+// Proxies /api/* and /shared/* to journal-api.kashkole.com so that all API
+// calls and media files from the browser are same-origin (no CORS preflight).
+// The CF_Authorization cookie is forwarded so Cloudflare Access on the API
+// side can issue its own JWT and let the request through to Express.
 //
 // All other requests fall through to the static-asset bundle (site/).
 
 const API_ORIGIN = 'https://journal-api.kashkole.com';
 
 // Paths that must be proxied to the API server.
-const API_PREFIXES = ['/api/', '/trips/', '/shared/'];
+const API_PREFIXES = ['/api/', '/shared/'];
 
 export default {
   async fetch(request, env) {
