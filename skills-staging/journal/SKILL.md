@@ -405,6 +405,9 @@ The skill ships a `references/` copy of the seven core voice/craft/thematic docs
 - `03-arabic-english-manifest.md` — canonical Arabic→English→phonetic lookup (the source of truth for glossing decisions)
 - `04-common-term-substitutions.md` — substitution policy. **Memoir voice choices that have already shipped override this policy** (see its §4). Apply only when introducing an Arabic term to the memoir for the first time.
 
+### Related agents (delegate, do not inline)
+- `.github/agents/reconcile.agent.md` — **DELEGATE TO THIS AGENT** when Asif points at a `docs/architecture/journal-*.html` view and says it is wrong, stale, or should also support X. Triggers: any pasted `file:///.../docs/architecture/*.html` URL paired with a change request; phrases "fix this view", "docs and code disagree", "this should also support X", "pipeline is wrong about Y", or "/reconcile". The agent fixes the code FIRST (skill → handbook → scripts) with zero regression, THEN updates the HTML to match. Do not attempt the reconciliation inline — the agent enforces a specific phase order this skill is not designed to carry.
+
 ============================================================
 SECTION 12: BOUNDARIES
 ============================================================
