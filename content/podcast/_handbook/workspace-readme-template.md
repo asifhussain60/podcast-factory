@@ -1,88 +1,58 @@
-# Podcast Workspace — README
+# Podcast — <Book Title>
 
-This is the working directory for podcast episode bundles. Each bundle is a coordinated set of markdown files designed to be uploaded to **NotebookLM** so its Audio Overview feature produces a strong two-host conversation.
+**Source:** *<Book Title>* by <Author>. <Translator / edition note if relevant>. Original at [`_system/source/<book-title>.<ext>`](computer:///Users/asifhussain/PROJECTS/journal/content/podcast/<book-slug>/_system/source/<book-title>.<ext>).
 
-## What this folder is and isn't
+**Slug:** `<book-slug>` · **Episodes:** <count> (1:1 chapter↔episode mapping) · **Architecture:** v3.5 (chapter-as-source, phonetics in customize prompt only).
 
-**This folder IS**:
-  - The source-of-truth for episode bundles
-  - A registry of episodes (`_registry.md`)
-  - The hand-off point between Claude (which builds the bundle) and NotebookLM (which generates the audio)
+---
 
-**This folder IS NOT**:
-  - The audio output location (download MP3s to `/PROJECTS/journal/content/podcast/<book-slug>/_system/audio/` if you want them stored)
-  - A staging area for in-progress episodes (use `_workspace/EP##-[slug]/` for scratch)
-
-## Folder layout
+## Folder map
 
 ```
-/PROJECTS/journal/content/podcast/
-├── _README.md              this file
-├── _registry.md            episode index (number, title, slug, status, NotebookLM URL, date)
-├── _archive/               retired or superseded episodes
-├── _workspace/             scratch distillation per episode (cleaned up after Phase 4)
-├── _skill/                 canonical /podcast skill source (copy into plugins to activate)
-└── episodes/
-    └── EP##-[slug]/
-        ├── 00-framing.md          uploaded as source + pasted into NotebookLM Customize
-        ├── 01-source-primary.md   distilled main source
-        ├── 02-key-passages.md     verbatim quotes
-        ├── 03-context-pack.md     author, tradition, historical moment
-        ├── 04-discussion-spine.md 6–12 thematic beats
-        └── 99-show-notes.md       (optional) episode title, blurb, references
+<book-slug>/
+├── _README.md                                you are here
+├── chapters/                                 SOURCE — uploaded to NotebookLM as-is
+│   └── ch##-<slug>.txt                       (one per designed chapter)
+├── episodes/                                 CUSTOMIZE PROMPT — pasted into NotebookLM Customize box
+│   └── EP##-<slug>.txt                       (one per chapter, slug-matched)
+├── turboscribe/                              POST-PUBLISH TRANSCRIPTS — slug-aligned, dropped by Asif
+│   ├── _README.md                            naming convention + consumers
+│   └── EP##-<slug>.transcript.txt            (one per generated episode)
+└── _system/                                  book-specific authoring state
+    ├── source/
+    │   ├── <book-title>.<ext>                verbatim original (audit anchor; never modified)
+    │   └── text/                             Phase 0a–0c extraction + normalization + phonetics
+    ├── episode-drafts/EP##-<slug>/           per-episode framing + scaffolds (00-framing.md is mandatory)
+    ├── scratchpad/                           @@-marker workspace (per episode + series-policies)
+    ├── pronunciation.md                      book-level overrides (additive to SHARED_ARABIC)
+    ├── enrichment-log.md                     attribution sidecar for Phase 0e enrichment
+    ├── editorial-notes.md                    flags + provenance + user decisions
+    ├── library-proposals.md                  staged additions to journal libraries
+    ├── audit-EP##-<slug>.md                  lexical-audit reports (audit_transcript.py output)
+    └── challenger-report.md                  podcast-challenger convergence verdict
 ```
 
-## NotebookLM upload workflow
+## Two-file deliverable per episode
 
-For each episode bundle:
+| File | Role | NotebookLM action |
+|---|---|---|
+| `chapters/ch##-<slug>.txt` | enriched chapter — **SOURCE** | Upload as the single source file |
+| `episodes/EP##-<slug>.txt` | customize prompt — **CUSTOMIZE PROMPT** | Paste into the *Customize* box |
 
-1. Open https://notebooklm.google.com → **New notebook**
-2. Name it `EP##: [Episode Title]`
-3. **Add sources** → upload these files in order:
-   - `00-framing.md`
-   - `01-source-primary.md`
-   - `02-key-passages.md`
-   - `03-context-pack.md`
-   - `04-discussion-spine.md`
-4. Click **Audio Overview** → **Customize**
-5. Paste the contents of `00-framing.md` into the Customize prompt box
-6. Click **Generate**
-7. Wait ~3–5 minutes
-8. Listen. If the result is strong: download the MP3 from the player menu, paste the NotebookLM notebook URL into `_registry.md`.
-9. If the result is weak: re-read `04-discussion-spine.md` and `00-framing.md` — the bundle was the bottleneck, not NotebookLM.
+Strict 1:1 mapping enforced: slug after the prefix is identical on both sides. The chapter IS the source — no transformation by `build_episode_txt.py`.
 
-## Episode lifecycle
+## Post-publish loop
 
-  - **draft** — bundle being built
-  - **ready** — bundle complete, awaiting NotebookLM upload
-  - **generated** — Audio Overview generated, URL captured
-  - **published** — MP3 downloaded and stored (if applicable)
-  - **archived** — superseded or retired
+After NotebookLM renders the audio for an episode, Asif transcribes via **TurboScribe** (https://turboscribe.ai, manual subscription) and drops the result into `turboscribe/` as `EP##-<slug>.transcript.txt`. The lexical audit (`scripts/podcast/audit_transcript.py`) reads from there. The `podcast-challenger` Loop M scans the same transcript for modernization injections, phonetic doublings, and mangled names.
 
-Status is tracked in `_registry.md`.
+## Status
 
-## Working with Claude
+<Fill in: which episodes are drafted, converged, generated, transcribed, audited. Cross-link to `_system/challenger-report.md` and any per-episode audits.>
 
-Triggers for the `/podcast` skill:
-  - "Build a podcast episode from [source]"
-  - "New episode on [topic]"
-  - "Refine the bundle for EP##"
-  - Drop a PDF and say "make this a podcast"
+## Canonical references
 
-Claude will:
-  1. Ask intake questions (audience, angle, length, host dynamic)
-  2. Distill the source(s) into scratch
-  3. Build the 5-to-6-file bundle in the episode folder
-  4. Update the registry
-  5. Hand back an upload checklist
-
-Claude does NOT:
-  - Generate audio (NotebookLM does this)
-  - Write a script (NotebookLM does this)
-  - Upload to NotebookLM (manual)
-
-## Workspace hygiene
-
-  - All scratch files live under `_workspace/EP##-[slug]/` — never in the episode folder
-  - Cleaned up after Phase 4 of the workflow
-  - Per the user's workspace scratchpad rule: nothing in `/PROJECTS/journal/` root that isn't a deliverable
+- Skill: [`skills-staging/podcast/SKILL.md`](computer:///Users/asifhussain/PROJECTS/journal/skills-staging/podcast/SKILL.md)
+- Challenger: [`.github/agents/podcast-challenger.agent.md`](computer:///Users/asifhussain/PROJECTS/journal/.github/agents/podcast-challenger.agent.md)
+- Single-chapter fast path: [`.github/agents/podcast-extract.agent.md`](computer:///Users/asifhussain/PROJECTS/journal/.github/agents/podcast-extract.agent.md)
+- Cross-series episode index: [`content/podcast/_handbook/registry.md`](computer:///Users/asifhussain/PROJECTS/journal/content/podcast/_handbook/registry.md)
+- Shared Arabic / phonetics authority: [`content/_shared/arabic/`](computer:///Users/asifhussain/PROJECTS/journal/content/_shared/arabic/)

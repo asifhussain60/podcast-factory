@@ -21,12 +21,13 @@ The skill definition itself lives at `/PROJECTS/journal/skills-staging/podcast/S
 │   └── workspace-readme-template.md
 └── <book-slug>/                one source book (e.g. ayyuhal-walad/)
     ├── _README.md              book-specific conventions + upload checklist
-    ├── _system/                book-specific authoring state (source, episode-drafts, scratchpad, pronunciation, editorial-notes, enrichment-log, challenger-report)
+    ├── _system/                book-specific authoring state (source, episode-drafts, scratchpad, pronunciation, editorial-notes, enrichment-log, challenger-report, audit-EP*.md)
     ├── chapters/               source-book chapters as plain txt — uploaded to NotebookLM as SOURCE files
-    └── episodes/               EP##-<slug>.txt — customize-prompt-only, pasted into NotebookLM's *Customize* box
+    ├── episodes/               EP##-<slug>.txt — customize-prompt-only, pasted into NotebookLM's *Customize* box
+    └── turboscribe/            EP##-<slug>.transcript.txt — slug-aligned TurboScribe transcripts dropped by Asif after NotebookLM renders audio
 ```
 
-## The two-file deliverable model (v3.4)
+## The two-file deliverable model (v3.5)
 
 Per episode, two files reach NotebookLM in distinct roles:
 
