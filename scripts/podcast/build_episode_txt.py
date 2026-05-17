@@ -1,39 +1,42 @@
 #!/usr/bin/env python3
-"""build_episode_txt.py — Compile a NotebookLM-ready episode .txt from a draft + chapter.
+"""build_episode_txt.py — Validate the chapter + framing pair, emit the customize-prompt episode txt.
 
-Under the strict 1:1 chapter ↔ episode mapping (skills-staging/podcast/SKILL.md §0),
-the SOURCE block of every episode IS its corresponding chapter file. The episode
-draft folder contains ONLY the customize prompt and authoring scaffolds; the chapter
-file under BOOK_DIR/chapters/ is the source of truth.
+ARCHITECTURE (v3.4):
 
-The output file has two clearly delimited blocks:
+  - `BOOK_DIR/chapters/chNN-<slug>.txt` IS the NotebookLM SOURCE. The user uploads it
+    directly. The build script does NOT transform it. It only validates it.
+  - `BOOK_DIR/episodes/EP##-<slug>.txt` IS the NotebookLM CUSTOMIZE PROMPT. The user
+    pastes it into NotebookLM's *Customize* prompt box. The build script writes it
+    from the body of `BOOK_DIR/_system/episode-drafts/EP##-<slug>/00-framing.md`,
+    minus any trailing "Upload checklist" section, minus any HTML comments.
 
-  === CUSTOMIZE PROMPT — Paste into NotebookLM "Customize" prompt box ===
-  <body of 00-framing.md, minus any "Upload checklist" trailer>
+So the per-episode upload flow is:
 
-  === SOURCE — Upload everything below this line to NotebookLM as the single source ===
-  <body of BOOK_DIR/chapters/chNN-<slug>.txt, matched to the episode by slug,
-   with all HTML comments stripped and meta-prose tells rejected>
+  1. Open `BOOK_DIR/chapters/chNN-<slug>.txt` in NotebookLM's "Add source" dialog.
+     Upload the file as the single source for the notebook.
+  2. Open `BOOK_DIR/episodes/EP##-<slug>.txt` in a text editor.
+     Copy everything in the file. Paste into NotebookLM's *Customize* prompt box.
+  3. Click *Generate*.
 
-The other draft files (02-key-passages.md, 03-context-pack.md, 04-discussion-spine.md,
-99-show-notes.md) are authoring-only scaffolds; they do NOT flow to NotebookLM.
+The slug after `ch##-` must match the slug after `EP##-` exactly (1:1 chapter ↔ episode
+mapping, per SKILL.md §0).
 
-Compliance gates (per content/podcast/_system/notebooklm-best-practices.md):
+VALIDATION GATES (both files):
 
-  - BOOK_DIR/chapters/ must contain at least one .txt before any episode is built.
-  - The chapter chNN-<slug>.txt matching the episode EP##-<slug> must exist
-    (same slug after the prefix). Slug mismatch = hard error.
-  - SOURCE block (the chapter, after stripping) must be 500-5500 words (hard bounds,
-    sweet spot 1,800-2,800). Out-of-bound errors and refuses to write.
-
-Meta-protection gates (anti-pattern: chapter prose describing the chapter file itself):
-
-  - HTML comments (`<!-- ... -->`) are stripped from the SOURCE block. Authoring
-    metadata can live as HTML comments in the chapter file (ENRICHMENT STATUS,
-    Phase 0 tracking, etc.) without reaching NotebookLM.
-  - The post-strip SOURCE block is scanned for meta-prose tells (substrings that
-    typically introduce a sentence ABOUT the file rather than chapter content).
-    Any match is a hard error — the chapter must be cleaned before it can ship.
+  - `BOOK_DIR/chapters/` must contain at least one .txt before any episode can be built.
+  - The matching `chNN-<slug>.txt` must exist for the requested `EP##-<slug>`.
+  - **Chapter file (the SOURCE the user uploads):**
+    - No HTML comments (would be read literally by NotebookLM).
+    - No meta-prose tells (META_PROSE_TELLS + META_PROSE_REGEX_TELLS — any match is
+      a hard error). Authoring metadata belongs in
+      `BOOK_DIR/_system/enrichment-log.md`, NOT in the chapter file.
+    - Word count in [500, 5500] hard band (notebooklm-best-practices.md §3).
+  - **Framing file (the CUSTOMIZE PROMPT):**
+    - Strip trailing "Upload checklist" section (it's the user's how-to, not the prompt).
+    - Strip HTML comments.
+    - Re-check META_PROSE_TELLS on the framing too — leaks through here are equally bad,
+      since the framing is pasted into NotebookLM's Customize box.
+    - Word count in [200, 2000] soft target; warn at extremes.
 
 Usage:
   python3 build_episode_txt.py <BOOK_DIR> <EP##-slug>
@@ -48,21 +51,23 @@ import re
 import sys
 from pathlib import Path
 
-SOURCE_WORD_MIN_HARD = 500
-SOURCE_WORD_MAX_HARD = 5500
-SOURCE_WORD_MIN_SOFT = 1500
-SOURCE_WORD_MAX_SOFT = 4500
+# Chapter (SOURCE) word-count bounds — per notebooklm-best-practices.md §3
+CHAPTER_WORD_MIN_HARD = 500
+CHAPTER_WORD_MAX_HARD = 5500
+CHAPTER_WORD_MIN_SOFT = 1500
+CHAPTER_WORD_MAX_SOFT = 4500
+
+# Framing (CUSTOMIZE PROMPT) word-count bounds — per notebooklm-best-practices.md §5
+FRAMING_WORD_MIN = 150
+FRAMING_WORD_MAX = 2000
 
 EP_PATTERN = re.compile(r"^EP(\d+)-(.+)$")
 CH_PATTERN = re.compile(r"^ch(\d+)-(.+)\.txt$")
 
 HTML_COMMENT_RE = re.compile(r"<!--.*?-->", re.DOTALL)
 
-# Substrings that almost always introduce meta-prose about the file itself,
-# not chapter content. If any of these appears in a chapter after comment-stripping,
-# the build script refuses — the chapter must be cleaned before it ships to NotebookLM.
-# Match is case-insensitive and whole-substring (no word boundaries needed because
-# these phrases are distinctive enough).
+# Substrings that almost always introduce meta-prose about the file itself rather than
+# content. Any match in chapter OR framing is a hard error.
 META_PROSE_TELLS = [
     "this file is",
     "this document is",
@@ -105,13 +110,12 @@ META_PROSE_TELLS = [
     "in a few hundred words",
     "source scope for this episode",
     "source scope:",
-    "pages [0-9]+ through [0-9]+ of the printed translation",  # exact phrase pattern
+    "pages [0-9]+ through [0-9]+ of the printed translation",
 ]
 
-# Additional regex tells (case-insensitive). Used in tandem with the substring list above
-# for patterns the simple substring check can't express. Each is matched with re.search.
+# Regex tells (case-insensitive). Used in tandem with the substring list.
 META_PROSE_REGEX_TELLS = [
-    r"\bEP\d{2}\b",  # any EP## reference (cross-episode steering that NotebookLM cannot resolve)
+    r"\bEP\d{2}\b",  # any EP## reference NotebookLM cannot resolve
 ]
 
 
@@ -134,7 +138,6 @@ def assert_chapters_populated(book_dir: Path) -> list[Path]:
 
 
 def find_chapter_by_slug(chapters_dir: Path, episode_slug: str) -> Path:
-    """Locate ch??-<slug>.txt where <slug> matches the episode's <slug>."""
     candidates = []
     for f in sorted(chapters_dir.glob("*.txt")):
         m = CH_PATTERN.match(f.name)
@@ -158,41 +161,46 @@ def find_chapter_by_slug(chapters_dir: Path, episode_slug: str) -> Path:
 
 
 def strip_upload_checklist(framing_md: str) -> str:
+    """Drop any trailing '## Upload checklist' block — that's the user's how-to."""
     parts = re.split(r"(?im)^[#]{1,3}\s*Upload checklist.*$", framing_md, maxsplit=1)
     return parts[0].rstrip() + "\n"
 
 
+def has_html_comments(text: str) -> bool:
+    return bool(HTML_COMMENT_RE.search(text))
+
+
 def strip_html_comments(text: str) -> str:
-    """Remove <!-- ... --> blocks (multi-line aware), collapse the blank line they leave."""
     cleaned = HTML_COMMENT_RE.sub("", text)
-    # Collapse 3+ consecutive newlines to 2 so the stripped section doesn't leave a gap.
     cleaned = re.sub(r"\n{3,}", "\n\n", cleaned)
     return cleaned.strip() + "\n"
 
 
-def assert_no_meta_prose(source: str, chapter_path: Path) -> None:
-    """Refuse to build if the SOURCE contains tells that it's describing itself
-    or referencing other episodes NotebookLM cannot resolve."""
-    lower = source.lower()
+def assert_no_meta_prose(content: str, file_path: Path, role: str) -> None:
+    """Refuse to build if content contains meta-prose tells.
+
+    `role` is 'chapter (SOURCE)' or 'framing (CUSTOMIZE PROMPT)' for the error message.
+    """
+    lower = content.lower()
     substring_hits = [tell for tell in META_PROSE_TELLS if tell in lower]
     regex_hits = []
     for pat in META_PROSE_REGEX_TELLS:
-        for m in re.finditer(pat, source, flags=re.IGNORECASE):
+        for m in re.finditer(pat, content, flags=re.IGNORECASE):
             regex_hits.append((pat, m.group(0)))
     if not (substring_hits or regex_hits):
         return
 
-    lines = source.splitlines()
+    lines = content.splitlines()
     offending = []
     for tell in substring_hits:
         for ln, line in enumerate(lines, 1):
             if tell in line.lower():
-                offending.append(f"  {chapter_path.name}:{ln}: {line.strip()[:120]}")
+                offending.append(f"  {file_path.name}:{ln}: {line.strip()[:120]}")
                 break
     for pat, matched in regex_hits[:5]:
         for ln, line in enumerate(lines, 1):
             if re.search(pat, line, flags=re.IGNORECASE):
-                offending.append(f"  {chapter_path.name}:{ln} (regex {pat!r} matched {matched!r}): {line.strip()[:120]}")
+                offending.append(f"  {file_path.name}:{ln} (regex {pat!r} matched {matched!r}): {line.strip()[:120]}")
                 break
 
     joined = "\n".join(offending[:10])
@@ -200,19 +208,73 @@ def assert_no_meta_prose(source: str, chapter_path: Path) -> None:
     if regex_hits:
         tells_summary += " | regex: " + ", ".join(repr(p) for p, _ in regex_hits[:5])
     sys.exit(
-        f"ERROR: chapter contains meta-prose that would reach NotebookLM hosts.\n"
+        f"ERROR: {role} file contains meta-prose that would reach NotebookLM.\n"
         f"  Tells found: {tells_summary}\n"
         f"  Offending lines:\n{joined}\n\n"
-        f"  Chapter files must contain ONLY chapter content. Authoring metadata\n"
-        f"  belongs in `<!-- ... -->` HTML comments (auto-stripped at build) or in\n"
-        f"  a sidecar file. Cross-episode references (EP01, 'previous episode')\n"
-        f"  must be removed — NotebookLM has no context for other episodes.\n"
+        f"  Chapter files are uploaded as-is to NotebookLM as the SOURCE — meta inside\n"
+        f"  the file is read literally by the hosts. Authoring metadata belongs in\n"
+        f"  `BOOK_DIR/_system/enrichment-log.md`, NOT inline.\n"
+        f"  Framing files are pasted as-is into NotebookLM's Customize box — meta there\n"
+        f"  becomes steering noise.\n"
         f"  See skills-staging/podcast/SKILL.md §6 Output Rules."
     )
 
 
+def assert_no_html_comments(content: str, file_path: Path, role: str) -> None:
+    if has_html_comments(content):
+        sys.exit(
+            f"ERROR: {role} file contains HTML comments (`<!-- ... -->`).\n"
+            f"  File: {file_path}\n"
+            f"  Chapter files are uploaded as-is to NotebookLM as the SOURCE. HTML\n"
+            f"  comments would be read literally by the hosts. Move authoring metadata\n"
+            f"  to `BOOK_DIR/_system/enrichment-log.md` and remove the inline comment.\n"
+            f"  Framing files are pasted as-is into Customize box; same constraint.\n"
+            f"  (build_episode_txt.py does NOT strip — it refuses, so the chapter file\n"
+            f"  is always upload-ready.)"
+        )
+
+
 def word_count(text: str) -> int:
     return len(text.split())
+
+
+def validate_chapter(chapter_path: Path) -> int:
+    """Validate the chapter file. Returns word count. Exits on any error."""
+    text = chapter_path.read_text(encoding="utf-8")
+    assert_no_html_comments(text, chapter_path, "chapter (SOURCE)")
+    assert_no_meta_prose(text, chapter_path, "chapter (SOURCE)")
+    n = word_count(text)
+    if n < CHAPTER_WORD_MIN_HARD or n > CHAPTER_WORD_MAX_HARD:
+        sys.exit(
+            f"ERROR: chapter {chapter_path.name} is {n} words. "
+            f"Hard band is {CHAPTER_WORD_MIN_HARD}-{CHAPTER_WORD_MAX_HARD}. "
+            f"See content/podcast/_system/notebooklm-best-practices.md §3."
+        )
+    return n
+
+
+def build_framing_episode_txt(framing_path: Path, out_path: Path) -> int:
+    """Read the framing, strip upload-checklist + HTML comments, validate, write to
+    out_path as the customize-prompt-only episode txt. Returns word count of the
+    final framing content."""
+    raw = framing_path.read_text(encoding="utf-8")
+    no_checklist = strip_upload_checklist(raw)
+    cleaned = strip_html_comments(no_checklist).strip()
+
+    # Re-validate cleaned framing for meta-prose tells (cross-episode refs, etc.).
+    assert_no_meta_prose(cleaned, framing_path, "framing (CUSTOMIZE PROMPT)")
+
+    n = word_count(cleaned)
+    if n < FRAMING_WORD_MIN or n > FRAMING_WORD_MAX:
+        sys.exit(
+            f"ERROR: framing {framing_path.name} produces a customize prompt of {n} "
+            f"words. Target band is {FRAMING_WORD_MIN}-{FRAMING_WORD_MAX}. "
+            f"See content/podcast/_system/notebooklm-best-practices.md §5."
+        )
+
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(cleaned + "\n", encoding="utf-8")
+    return n
 
 
 def build(book_dir: Path, episode_id: str) -> None:
@@ -236,59 +298,39 @@ def build(book_dir: Path, episode_id: str) -> None:
     if not framing_file.exists():
         sys.exit(f"ERROR: missing 00-framing.md in {draft_dir}")
 
+    # 1. Validate the chapter (uploaded as-is to NotebookLM as the SOURCE).
     assert_chapters_populated(book_dir)
     chapter_file = find_chapter_by_slug(book_dir / "chapters", episode_slug)
+    chapter_words = validate_chapter(chapter_file)
 
-    framing_raw = framing_file.read_text(encoding="utf-8")
-    framing = strip_html_comments(strip_upload_checklist(framing_raw)).strip()
-
-    source_raw = chapter_file.read_text(encoding="utf-8")
-    source = strip_html_comments(source_raw).strip()
-
-    # Anti-pattern check: chapter prose describing the chapter file itself.
-    assert_no_meta_prose(source, chapter_file)
-
-    source_words = word_count(source)
-    if source_words < SOURCE_WORD_MIN_HARD or source_words > SOURCE_WORD_MAX_HARD:
-        sys.exit(
-            f"ERROR: SOURCE block (chapter {chapter_file.name}, post-strip) is "
-            f"{source_words} words. Hard band is "
-            f"{SOURCE_WORD_MIN_HARD}-{SOURCE_WORD_MAX_HARD}. "
-            f"See content/podcast/_system/notebooklm-best-practices.md §3."
-        )
-
-    framing_words = word_count(framing)
-
+    # 2. Build the customize-prompt-only episode txt.
     out_path = book_dir / "episodes" / f"{episode_id}.txt"
-    body = (
-        f'=== CUSTOMIZE PROMPT ({framing_words} words) — '
-        f'Paste everything in this block into NotebookLM\'s "Customize" prompt box ===\n\n'
-        f"{framing}\n\n"
-        f'=== SOURCE ({source_words} words, from {chapter_file.name}) — '
-        f'Upload everything below this line to NotebookLM as the single source ===\n\n'
-        f"{source}\n"
-    )
+    framing_words = build_framing_episode_txt(framing_file, out_path)
 
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(body, encoding="utf-8")
-
+    # Word-count warnings (band-soft, not hard).
     warnings = []
-    if source_words < SOURCE_WORD_MIN_SOFT:
+    if chapter_words < CHAPTER_WORD_MIN_SOFT:
         warnings.append(
-            f"SOURCE is {source_words} words — under the {SOURCE_WORD_MIN_SOFT}-word "
-            f"Default Deep Dive floor. Hosts may resort to filler."
+            f"chapter is {chapter_words} words — under the {CHAPTER_WORD_MIN_SOFT}-word "
+            f"Default Deep Dive floor. NotebookLM hosts may resort to filler."
         )
-    if source_words > SOURCE_WORD_MAX_SOFT:
+    if chapter_words > CHAPTER_WORD_MAX_SOFT:
         warnings.append(
-            f"SOURCE is {source_words} words — over the {SOURCE_WORD_MAX_SOFT}-word "
+            f"chapter is {chapter_words} words — over the {CHAPTER_WORD_MAX_SOFT}-word "
             f"Longer Deep Dive ceiling. Conversation may lose thread."
         )
 
     print(
-        f"Wrote {out_path}\n"
-        f"  framing:  {framing_words} words (post HTML-comment + checklist strip)\n"
-        f"  source:   {source_words} words (post HTML-comment strip; chapter: {chapter_file.name})\n"
-        f"  total:    {framing_words + source_words} words"
+        f"Validated chapter (SOURCE): {chapter_file}\n"
+        f"  {chapter_words} words — uploaded as-is to NotebookLM\n"
+        f"\n"
+        f"Wrote episode (CUSTOMIZE PROMPT): {out_path}\n"
+        f"  {framing_words} words — paste into NotebookLM's Customize prompt box\n"
+        f"\n"
+        f"To upload:\n"
+        f"  1. Upload {chapter_file.relative_to(book_dir.parent.parent)} to NotebookLM as the single source.\n"
+        f"  2. Paste contents of {out_path.relative_to(book_dir.parent.parent)} into NotebookLM's Customize prompt box.\n"
+        f"  3. Click Generate."
     )
     for w in warnings:
         print(f"  WARN: {w}")

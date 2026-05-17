@@ -1,8 +1,8 @@
-# EP02 Framing: Ayyuhal Walad, Section 3: Hatim bin Ism, Eight Benefits of Thirty-Three Years
+# Ayyuhal Walad, Section 3: Hatim bin Ism, Eight Benefits of Thirty-Three Years
 
-## What this is
+## Background
 
-This is the customize prompt for NotebookLM's Audio Overview, plus the host steering for the two-host conversation. The hosts are speaking about the third section of *Ayyuhal Walad* (My Dear Beloved Son or Daughter), in which Imam Abu Hamid al-Ghazali sets down his argument and tells a story. A student named Hatim bin Ism, after thirty-three years with his teacher Shaqiq al-Balkhi, is asked what he has actually learned. He answers in eight numbered inversions, each one a small reversal of how the worldly mind ordinarily moves.
+The hosts are speaking about the third section of *Ayyuhal Walad* (My Dear Beloved Son or Daughter), in which Imam Abu Hamid al-Ghazali sets down his argument and tells a story. A student named Hatim bin Ism, after thirty-three years with his teacher Shaqiq al-Balkhi, is asked what he has actually learned. He answers in eight numbered inversions, each one a small reversal of how the worldly mind ordinarily moves.
 
 Earlier in the same letter, Ghazali set down a diagnosis: knowledge without action is madness, intention is the discriminator, *Mujahadah* is the vehicle. This section is the vignette that answers, in narrative form, the question Ghazali had been pressing: what does a person who has actually closed the gap between belief and behavior look like?
 
@@ -69,11 +69,11 @@ Do not. The angle is faithful exposition. If a host wants to flag a difficulty (
 
 ---
 
-## Upload checklist
+## Upload checklist (for Asif; stripped from the published episode txt)
 
-1. Open https://notebooklm.google.com and create a new notebook. Name it `EP02: Ayyuhal Walad, Hatim bin Ism, Eight Benefits of Thirty-Three Years`.
-2. Add sources in this order: `00-framing.md`, `01-source-primary.md`, `02-key-passages.md`, `03-context-pack.md`, `04-discussion-spine.md`.
-3. Click *Audio Overview*, then *Customize*. Paste the entire body of this file (everything above this checklist) into the customize prompt box.
+1. Open https://notebooklm.google.com and create a new notebook (name it after this episode).
+2. Click *Add source*. Upload `content/podcast/ayyuhal-walad/chapters/ch02-hatim-eight-benefits.txt` as the single source.
+3. Click *Audio Overview*, then *Customize*. Open `content/podcast/ayyuhal-walad/episodes/EP02-hatim-eight-benefits.txt` in a text editor; copy its entire contents into the Customize prompt box.
 4. Click *Generate*. Wait three to five minutes.
-5. Listen end-to-end. If strong, download the MP3 from the player menu and paste the notebook URL into `_registry.md`.
-6. If weak, re-read `04-discussion-spine.md` and the *central tensions* section above. The bundle is the bottleneck, not NotebookLM.
+5. Listen end-to-end. If strong, download the MP3 and paste the notebook URL into `_system/registry.md`.
+6. If weak, re-read `_system/episode-drafts/EP02-hatim-eight-benefits/04-discussion-spine.md` and the *Central tensions* section in this framing. The chapter + framing pair is the bottleneck, not NotebookLM.

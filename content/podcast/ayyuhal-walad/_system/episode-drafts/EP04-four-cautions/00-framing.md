@@ -1,8 +1,8 @@
-# EP04 Framing: Ayyuhal Walad, The Eight Admonitions: Ghazali's Four Cautions
+# Ayyuhal Walad, The Eight Admonitions: Ghazali's Four Cautions
 
-## What this is
+## Background
 
-This is the customize prompt for NotebookLM's Audio Overview, plus the host steering for the two-host conversation. The hosts are speaking about a long, severe stretch of *Ayyuhal Walad* (My Dear Beloved Son or Daughter) in which Imam Ghazali, having brought the student through the diagnosis (knowledge without action), the eight benefits of Hatim, and the inner architecture of the path, turns to what the seeker must *not* do. He gives eight admonitions. The first four are refusals. They are the subject of this episode: do not enter into debate, do not preach for show, do not keep the company of rulers, do not accept their gifts.
+The hosts are speaking about a long, severe stretch of *Ayyuhal Walad* (My Dear Beloved Son or Daughter) in which Imam Ghazali, having brought the student through the diagnosis (knowledge without action), the eight benefits of Hatim, and the inner architecture of the path, turns to what the seeker must *not* do. He gives eight admonitions. The first four are refusals. They are the subject of this episode: do not enter into debate, do not preach for show, do not keep the company of rulers, do not accept their gifts.
 
 The episode does not treat these as a list. They are a single architecture. They are the negative space of the seeker's life, what *not* doing protects the inner work.
 
@@ -75,11 +75,11 @@ Do not. The angle is faithful exposition. If a host wants to flag a difficulty (
 
 ---
 
-## Upload checklist
+## Upload checklist (for Asif; stripped from the published episode txt)
 
-1. Open https://notebooklm.google.com and create a new notebook. Name it `EP04: Ayyuhal Walad, The Four Cautions`.
-2. Add sources in this order: `00-framing.md`, `01-source-primary.md`, `02-key-passages.md`, `03-context-pack.md`, `04-discussion-spine.md`.
-3. Click *Audio Overview*, then *Customize*. Paste the entire body of this file (everything above this checklist) into the customize prompt box.
+1. Open https://notebooklm.google.com and create a new notebook (name it after this episode).
+2. Click *Add source*. Upload `content/podcast/ayyuhal-walad/chapters/ch04-four-cautions.txt` as the single source.
+3. Click *Audio Overview*, then *Customize*. Open `content/podcast/ayyuhal-walad/episodes/EP04-four-cautions.txt` in a text editor; copy its entire contents into the Customize prompt box.
 4. Click *Generate*. Wait three to five minutes.
-5. Listen end-to-end. If strong, download the MP3 from the player menu and paste the notebook URL into `_registry.md`.
-6. If weak, re-read `04-discussion-spine.md` and the *central tensions* section above. The bundle is the bottleneck, not NotebookLM.
+5. Listen end-to-end. If strong, download the MP3 and paste the notebook URL into `_system/registry.md`.
+6. If weak, re-read `_system/episode-drafts/EP04-four-cautions/04-discussion-spine.md` and the *Central tensions* section in this framing. The chapter + framing pair is the bottleneck, not NotebookLM.

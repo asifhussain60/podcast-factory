@@ -213,14 +213,26 @@ Asif IS Babu. The Babu voice is Asif's elder/wiser self addressing "Asif" (his y
 ### 6. Cowork-Canonical-Writes
 Canonical writes to `content/` happen via Cowork (Claude Code) only. The site/proxy never writes content state — the proxy is a read-only AI gateway for theme tweaking and voice refinement.
 
-### 7. Podcast Episode Deliverable
-Per-episode work is authored as a per-episode draft folder under `content/podcast/<book>/_system/episode-drafts/EP##-<slug>/` containing the customize prompt (`00-framing.md`) and authoring scaffolds (`02-key-passages.md`, `03-context-pack.md`, `04-discussion-spine.md`, `99-show-notes.md`). **The SOURCE of each episode is the matching chapter file at `content/podcast/<book>/chapters/chNN-<slug>.txt`** (strict 1:1 chapter ↔ episode mapping, same slug after the prefix). The single `content/podcast/<book>/episodes/EP##-<slug>.txt` is the ONLY artifact uploaded to NotebookLM. It is rebuilt by `scripts/podcast/build_episode_txt.py` on every change to the draft or the chapter — never hand-edited.
+### 7. Podcast Episode Deliverable (architecture v3.4 — two-file model)
 
-The episode txt contains **exactly two clearly delimited blocks**: the CUSTOMIZE PROMPT (body of `00-framing.md` minus the upload checklist) and the SOURCE (body of the matched chapter file, with all `<!-- ... -->` HTML comments auto-stripped). The other draft files are authoring-only scaffolds and do not appear in the txt; their inclusion would push the source over NotebookLM's word-count ceiling and dilute the listener's focus (anchored to `content/podcast/_system/notebooklm-best-practices.md` §3 and §7).
+Per-episode work is authored as a draft folder under `content/podcast/<book>/_system/episode-drafts/EP##-<slug>/` containing the framing (`00-framing.md`) and authoring scaffolds (`02-key-passages.md`, `03-context-pack.md`, `04-discussion-spine.md`, `99-show-notes.md`) PLUS the matching chapter at `content/podcast/<book>/chapters/chNN-<slug>.txt` (strict 1:1 chapter ↔ episode mapping, same slug after the prefix).
 
-**Chapter file hygiene (NotebookLM protection):** Chapter files contain ONLY chapter content. Authoring metadata (ENRICHMENT STATUS headers, Phase 0 tracking notes, citation inventories, `[VERIFY CITATION]` markers) MUST live in `<!-- ... -->` HTML comments — the build script strips them. Chapter prose MUST NOT contain sentences that describe the file itself (*"This file is a refined presentation..."*, *"Phase 0e enrichment..."*, *"Nothing has been added that is not in the source"*). `scripts/podcast/build_episode_txt.py` enforces this with a `META_PROSE_TELLS` substring list — any match is a hard build error.
+**Two files reach NotebookLM, in distinct roles:**
 
-Chapter (= SOURCE) word counts: floor 1,500; target 2,500–3,500; ceiling 4,500; hard refuse outside [500, 5,500].
+| File | Role | NotebookLM action |
+|---|---|---|
+| `content/podcast/<book>/chapters/chNN-<slug>.txt` | The enriched chapter — the **SOURCE** | Uploaded directly as the single source for the notebook (no transformation) |
+| `content/podcast/<book>/episodes/EP##-<slug>.txt` | The customize prompt only — the **CUSTOMIZE PROMPT** | Pasted into NotebookLM's *Customize* prompt box |
+
+The chapter file IS the source. `scripts/podcast/build_episode_txt.py` does NOT transform it; it only validates it. The episode txt IS the customize prompt — emitted by the build script from `00-framing.md` (HTML comments stripped, trailing Upload Checklist section stripped, post-strip meta-prose re-checked).
+
+**Why two files (not one):** if a single concatenated file with both blocks is uploaded as a source, NotebookLM treats the customize prompt as source content and the hosts may read it aloud. Two separate files, two folders by purpose, zero ambiguity.
+
+The other draft files (`02-key-passages.md`, `03-context-pack.md`, `04-discussion-spine.md`, `99-show-notes.md`) are authoring-only scaffolds — they inform the chapter's enrichment and the framing's tensions but do not flow to NotebookLM (anchored to `content/podcast/_system/notebooklm-best-practices.md` §3 and §7).
+
+**Chapter file hygiene (NotebookLM protection):** Chapter files contain ONLY chapter content — they are uploaded as-is. Authoring metadata (status, citation inventory, enrichment ratio, verification notes) lives in `content/podcast/<book>/_system/enrichment-log.md`, NOT inline. Forbidden in any chapter: HTML `<!-- ... -->` blocks, *"This file is..."* / *"Phase 0..."* / *"Nothing has been added..."* / `[VERIFY CITATION]` markers, `EP\d\d` cross-references. `scripts/podcast/build_episode_txt.py` enforces this with `META_PROSE_TELLS` + `META_PROSE_REGEX_TELLS` + a no-HTML-comments check — any match is a hard build error. The same gate is re-applied to the framing file's post-strip content (the customize-prompt episode txt).
+
+Chapter (= SOURCE) word counts: floor 1,500; target 2,500–3,500; ceiling 4,500; hard refuse outside [500, 5,500]. Framing (= CUSTOMIZE PROMPT) word counts: target 150–2,000.
 
 ### 8. Chapters: Designed, Enriched, Required (INVARIANT)
 **Episodes cannot exist without enriched source-book chapters.** For every podcasted book, `content/podcast/<book>/chapters/` must contain one `chNN-<slug>.txt` per planned episode (the slug matches the corresponding `EP##-<slug>` draft folder exactly). Chapters are designed via Phase 0 of the podcast skill:
@@ -267,6 +279,16 @@ If anything from that branch needs to come back, cherry-pick from `archive/full-
 - **Bug fix:** initial `build_episode_txt.py` concatenated all 5–6 draft files into the deliverable, producing 8K–10K word txts — 2× the NotebookLM 5,500-word ceiling. Rewritten to emit only CUSTOMIZE PROMPT + SOURCE, matching `notebooklm-best-practices.md` §3 / §5 / §7.
 - **Invariant added:** episodes cannot be built unless `<book>/chapters/` is non-empty. `build_episode_txt.py` hard-errors otherwise. Promotes the structural rule "episodes are derivative artifacts of a source book" from documentation into executable enforcement.
 - **Chapters populated** for Ayyuhal Walad: 22 source sections promoted into `content/podcast/ayyuhal-walad/chapters/chNN-<slug>.txt`.
+
+### v3.4 — two-file deliverable model (chapter IS the SOURCE; episode txt IS the CUSTOMIZE PROMPT) (2026-05-16, later)
+
+- **Architecture flip caught by Asif:** the v3.3.x design had `episodes/EP##.txt` contain BOTH the customize prompt AND the source content concatenated with `=== ... ===` separators, requiring the user to copy-paste each block into the right NotebookLM surface. Confusing and error-prone. Asif's intent (from the original reorg request) was: chapters/ = SOURCE files (upload directly), episodes/ = customize prompts (paste into Customize box). Two folders, two roles, zero ambiguity.
+- **Implementation**:
+  - `scripts/podcast/build_episode_txt.py` rewritten. The chapter file is now uploaded as-is to NotebookLM; the build script validates it (no HTML comments, no meta-prose, word count in band) but does NOT transform it. The episode txt is emitted from `00-framing.md` only — HTML comments stripped, trailing Upload Checklist stripped, meta-prose re-checked.
+  - Chapter metadata moved out of inline `<!-- ENRICHMENT STATUS -->` headers into a sidecar at `content/podcast/<book>/_system/enrichment-log.md`. Chapter files are now upload-ready by construction.
+  - All 5 Ayyuhal Walad chapter files cleaned (HTML comments stripped); all 5 framings updated (recursive self-descriptions removed; Upload Checklists rewritten for the two-file workflow; H1s stripped of "EP## Framing:" boilerplate).
+- **Episode txts shrink dramatically:** customize-prompt-only is 815–989 words per episode (was 3,400–4,800 with the concatenated model). Chapter SOURCE files are the same content as before.
+- **Documentation propagated:** SKILL.md Section 6 + Section 7 (Quality Gate items 16/17/18 rewritten); Phase 4 step 2 rewritten with the new two-file model; podcast-challenger agent v1.1 (architecture clarifications throughout); orchestrator content-invariant block; framework Rule 7.
 
 ### v3.3.2 — podcast-challenger agent (semantic-quality gate before NotebookLM upload) (2026-05-16, later)
 

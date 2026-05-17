@@ -1,5 +1,3 @@
-<!-- ENRICHMENT STATUS: applied (2026-05-16). Phase 0e enrichment complete per content/podcast/_system/enrichment-sources.md. Added: Sunan Abu Dawud Hadith 4800 (abandoning argument) at Caution 1; Quran 2:44 (enjoining righteousness while forgetting yourselves) at Caution 2; Quran 11:113 (do not incline toward wrongdoers) at Caution 3; Imam Ali on wealth as a test from Nahj al-Balagha Hikam at Caution 4. Enrichment ratio: ~18% (under the 60% cap). -->
-
 # The Eight Admonitions: Ghazali's Four Cautions
 
 *From* Ayyuhal Walad (My Dear Beloved Son or Daughter)

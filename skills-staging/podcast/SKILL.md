@@ -310,9 +310,22 @@ File format rules:
   - No emojis unless source uses them.
   - Line length is irrelevant — NotebookLM ignores wrapping.
 
-### PHASE 4: PACKAGE, COMPILE, REGISTER & LOAD SCRATCHPAD
+### PHASE 4: VALIDATE, EMIT, REGISTER & LOAD SCRATCHPAD
 
-Goal: finalize the draft, produce the single-txt deliverable for NotebookLM, register the episode, and hand the user the refinement surface.
+Goal: validate the chapter + framing pair, emit the customize-prompt-only episode txt, register the episode, and hand the user the refinement surface.
+
+**The two-file deliverable model (architecture v3.4):**
+
+| File | Role | NotebookLM action |
+|---|---|---|
+| `BOOK_DIR/chapters/chNN-<slug>.txt` | The enriched chapter (**SOURCE**) | **Upload directly** as the single source for the notebook |
+| `BOOK_DIR/episodes/EP##-<slug>.txt` | The customize prompt only (**CUSTOMIZE PROMPT**) | **Paste** into NotebookLM's *Customize* prompt box |
+
+The chapter file IS the source. The build script does NOT transform it; it only validates it. The episode txt IS the customize prompt — emitted by the build script from `00-framing.md`, minus any HTML comments and any trailing Upload Checklist section.
+
+**Why two files (not one):** if you upload a single concatenated file containing both blocks, NotebookLM treats the customize prompt as source content and the hosts may read it aloud. Two separate files, two folders by purpose, zero ambiguity.
+
+**Phase 4 steps:**
 
   1. Run the QUALITY GATE (Section 7) silently.
   1a. **Run the podcast-challenger to convergence** before declaring the bundle ready. The challenger is the semantic-quality counterpart to this skill's structural gate — it catches what the build script cannot statically see (citation authenticity, phonetic coverage drift, enrichment depth, framing 4-part integrity, NotebookLM literalness). Invoke:
@@ -323,32 +336,33 @@ Goal: finalize the draft, produce the single-txt deliverable for NotebookLM, reg
 
      The challenger runs up to 3 iterations, auto-fixes deterministic issues (em-dashes, repeated honorifics, lexicon parity), and writes `BOOK_DIR/_system/challenger-report.md` with verdict. **A bundle is not ready until the challenger says `SHIP-READY`.** If the verdict is `BLOCKED`, resolve the listed P0 findings and re-invoke the challenger. See `.github/agents/podcast-challenger.agent.md` for the full check catalog.
 
-  2. **Compile the draft + chapter into the final NotebookLM-ready deliverable.** Run:
+  2. **Validate the chapter + framing pair and emit the customize-prompt episode txt.** Run:
 
      ```
      python3 scripts/podcast/build_episode_txt.py BOOK_DIR EP##-<slug>
      ```
 
      The script reads:
-     - `BOOK_DIR/_system/episode-drafts/EP##-<slug>/00-framing.md` (the CUSTOMIZE PROMPT)
-     - `BOOK_DIR/chapters/chNN-<slug>.txt` (the SOURCE — matched by slug to the draft folder)
+     - `BOOK_DIR/_system/episode-drafts/EP##-<slug>/00-framing.md` — the framing draft
+     - `BOOK_DIR/chapters/chNN-<slug>.txt` — the chapter (SOURCE), matched by slug
 
-     And writes `BOOK_DIR/episodes/EP##-<slug>.txt` with **exactly two blocks**:
+     It does NOT transform the chapter. It validates both files, then writes the customize-prompt-only `BOOK_DIR/episodes/EP##-<slug>.txt` from the framing body (HTML comments stripped, Upload Checklist trailing section stripped).
 
-     - `=== CUSTOMIZE PROMPT — Paste into NotebookLM "Customize" prompt box ===` followed by the body of `00-framing.md` (minus any trailing "Upload checklist" section).
-     - `=== SOURCE — Upload everything below this line to NotebookLM as the single source ===` followed by the body of the matched chapter file.
+     **Validation gates (chapter — the SOURCE the user uploads):**
+     - No HTML comments (would be read literally by NotebookLM). Authoring metadata lives in `BOOK_DIR/_system/enrichment-log.md`, NOT inline in the chapter.
+     - No meta-prose tells (the build script's `META_PROSE_TELLS` + `META_PROSE_REGEX_TELLS`). Any match is a hard error.
+     - Word count ∈ [500, 5,500] hard band (sweet spot 1,800–2,800; per `PODCAST_ROOT/_system/notebooklm-best-practices.md` §3).
 
-     **The chapter file IS the source.** No `01-source-primary.md` exists in the draft folder. The other draft files (`02-key-passages.md`, `03-context-pack.md`, `04-discussion-spine.md`, `99-show-notes.md`) are authoring-only scaffolds that informed the chapter's enrichment and the episode's framing; they do not flow to NotebookLM.
+     **Validation gates (framing — the CUSTOMIZE PROMPT, post-strip):**
+     - Re-checked against the same `META_PROSE_TELLS` list — meta in the customize prompt is steering noise.
+     - Word count ∈ [150, 2,000] (per best-practices §5).
 
-     The build script enforces:
-     - **`BOOK_DIR/chapters/` must contain at least one `.txt` file before any episode is built.** Episodes cannot exist without enriched chapters. The script refuses to write if `chapters/` is missing or empty.
-     - **The chapter `chNN-<slug>.txt` matched to the episode `EP##-<slug>` must exist.** Slug mismatch = script error. Names every chapter expected: each episode-draft slug must have a matching chapter slug.
-     - SOURCE block (the chapter) ∈ [500, 5500] words (hard bounds — errors outside). Sweet spot 1,800–2,800; warning outside [1,500, 4,500] (per `PODCAST_ROOT/_system/notebooklm-best-practices.md` §3).
+     The other draft files (`02-key-passages.md`, `03-context-pack.md`, `04-discussion-spine.md`, `99-show-notes.md`) are authoring-only scaffolds that informed the chapter's enrichment and the framing's tensions. They do not flow to NotebookLM.
 
-     The deliverable is regenerated on every refinement pass; the chapter file and the framing file remain the editing surfaces.
+     The episode txt is regenerated on every refinement pass; the chapter file and the framing file remain the editing surfaces.
 
   3. Update `PODCAST_ROOT/_system/registry.md` with the new episode row: number, title, slug, book-slug, source type, status, date, NotebookLM notebook URL (Asif fills this after upload).
-  4. Write the UPLOAD CHECKLIST as the final section of `00-framing.md` — a 6-line "how to upload to NotebookLM" recap (create notebook, paste the CUSTOMIZE PROMPT block from the episode txt into NotebookLM's *Customize* box, upload the SOURCE block as a single source, generate Audio Overview, optionally download MP3, paste URL back into registry).
+  4. Maintain the UPLOAD CHECKLIST as the final section of `00-framing.md` (stripped by the build script before emission, so it never reaches NotebookLM). It is Asif-facing documentation: "(1) Upload `BOOK_DIR/chapters/chNN-<slug>.txt` as the single source. (2) Paste contents of `BOOK_DIR/episodes/EP##-<slug>.txt` into NotebookLM's *Customize* prompt box. (3) Click *Generate*."
   5. **Write the chapter-refinement scratchpad.** Create `BOOK_DIR/_system/episode-drafts/EP##-<slug>/chapter.scratch.md`. The scratchpad is a verbatim mirror of `BOOK_DIR/chapters/chNN-<slug>.txt`, with the `@@` marker legend block (see `PODCAST_ROOT/_system/scratchpad-markers.md`) prepended at the top. The legend block is reference material for the user, kept across refinement passes and stripped only at project ship-time. **The chapter file is the refinement target** — every marker the user applies eventually rewrites the chapter, and the chapter rewrite is what changes the SOURCE block in the next episode-txt build.
   6. **Open the scratchpad with Read** so it appears in the chat for Asif to start marking up immediately. This is the handoff. After this step, control passes to Asif; he marks up the scratchpad with `@@refine`, `@@expand`, `@@replace`, `@@cut`, `@@note`, `@@policy`, etc., and re-invokes the skill to apply the markers. After each applied pass, **re-run `build_episode_txt.py`** so the deliverable txt stays in sync with the rewritten chapter.
   7. Output a brief summary to Asif: draft folder path, framing word count, chapter (SOURCE) word count, deliverable txt path, scratchpad path, registry entry. Do **not** restate the chapter's content; the scratchpad load is the deliverable.
@@ -484,8 +498,11 @@ SECTION 6: OUTPUT RULES
   - Draft file names follow the strict prefix convention (`00-`, `02-`, `03-`, `04-`, `99-`). **There is no `01-source-primary.md`** — the chapter file IS the source.
   - **Slug parity (1:1 mapping):** `EP##-<slug>` draft folder ↔ `chNN-<slug>.txt` chapter file. The slugs must match.
   - Draft folder name: `BOOK_DIR/_system/episode-drafts/EP##-<slug>/`. Chapter file name: `BOOK_DIR/chapters/chNN-<slug>.txt`.
-  - The FINAL deliverable is a single `BOOK_DIR/episodes/EP##-<slug>.txt` produced by `scripts/podcast/build_episode_txt.py`. **The txt contains exactly two clearly delimited blocks:** the CUSTOMIZE PROMPT (body of `00-framing.md` minus the Upload checklist) and the SOURCE (body of the matched `chNN-<slug>.txt`).
-  - **NEVER hand-edit the episode txt.** Always rebuild from the draft + chapter via `build_episode_txt.py`.
+  - **Two-file deliverable model (architecture v3.4):**
+    - `BOOK_DIR/chapters/chNN-<slug>.txt` is the **SOURCE** — uploaded directly to NotebookLM as-is.
+    - `BOOK_DIR/episodes/EP##-<slug>.txt` is the **CUSTOMIZE PROMPT** — pasted into NotebookLM's Customize prompt box. Emitted from `00-framing.md` by `build_episode_txt.py` (HTML comments stripped, trailing Upload Checklist section stripped).
+  - **NEVER hand-edit the episode txt.** It is generated. To change it, edit `00-framing.md` and re-run the build script.
+  - **NEVER put anything in a chapter file that should not be read aloud by the hosts.** Chapter files are uploaded as-is. No HTML comments, no meta-prose, no authoring trackers.
   - **`BOOK_DIR/chapters/` MUST contain a matched chapter** for every episode being built. The build script enforces this.
   - Chapter scratchpads live in `BOOK_DIR/_system/episode-drafts/EP##-<slug>/chapter.scratch.md`. The scratchpad persists across refinement passes and is only deleted at project ship-time. The chapter file is the refinement target; the scratchpad is the markup surface.
 
@@ -493,14 +510,18 @@ SECTION 6: OUTPUT RULES
 
 The chapter file at `BOOK_DIR/chapters/chNN-<slug>.txt` is uploaded *as-is* to NotebookLM as the SOURCE. The two-host conversation reads literally everything in it. Two rules protect the listener:
 
-  - **Authoring metadata MUST live in `<!-- ... -->` HTML comments.** `build_episode_txt.py` strips all HTML comments from the SOURCE before writing the episode txt. The ENRICHMENT STATUS header, Phase 0 tracking notes, citation inventories, and any other meta-tracking belong inside `<!-- ... -->` blocks — they stay in the chapter file for authors / audits / repo-surgeon but never reach NotebookLM.
-  - **Chapter prose MUST NOT describe the chapter file itself.** Sentences like *"This file is a refined presentation..."*, *"Nothing has been added that is not in the source"*, *"Phase 0e enrichment was applied..."*, or *"Anything Ghazali only implies is marked as such"* are meta-prose about the artifact, not chapter content. The build script scans for a hard list of meta-prose tells (`META_PROSE_TELLS` in `scripts/podcast/build_episode_txt.py`) and refuses to build any episode whose chapter contains one. The chapter must be cleaned before it ships.
+  - **Authoring metadata MUST live in `BOOK_DIR/_system/enrichment-log.md`**, NOT in the chapter file. The log holds per-chapter status, citation inventory, enrichment ratio, verification notes, and iteration history. The chapter file contains only chapter content. `build_episode_txt.py` hard-refuses any chapter containing HTML comments — the chapter file is upload-ready by construction, not by stripping.
+  - **Chapter prose MUST NOT describe the chapter file itself.** Sentences like *"This file is a refined presentation..."*, *"Nothing has been added that is not in the source"*, *"Phase 0e enrichment was applied..."*, or *"Anything Ghazali only implies is marked as such"* are meta-prose about the artifact, not chapter content. The build script scans for a hard list of meta-prose tells (`META_PROSE_TELLS` + `META_PROSE_REGEX_TELLS` in `scripts/podcast/build_episode_txt.py`) and refuses to build any episode whose chapter contains one.
 
 What MAY appear in the chapter file (because it's useful context for the hosts):
 
-  - Title (H1), author, translator, original-work attribution, source-scope line — these are framing the hosts use to introduce and ground the episode correctly.
+  - Title (H1), author, translator, original-work attribution — these are framing the hosts use to introduce and ground the episode correctly.
   - Movement headings (H2), sub-beats (H3) — structural cues for the conversation arc.
   - The body prose, blockquotes, inline citations, phonetic guides — the actual content.
+
+### Framing file = customize prompt only (same hygiene applies)
+
+The framing file at `BOOK_DIR/_system/episode-drafts/EP##-<slug>/00-framing.md` is the source for the episode txt (which IS the customize prompt). The build script strips HTML comments and the trailing Upload Checklist before emission, but the same META_PROSE_TELLS gate is re-run against the post-strip framing. No cross-episode references (`EP\d\d`), no "previous episode", no self-descriptions like "this is the customize prompt", no Phase 0 leak. The framing addresses NotebookLM directly via the four-part structure (Audience, Angle, Central tensions, Host dynamic + Pronunciation hooks + Anti-noise rules).
 
 ============================================================
 SECTION 7: QUALITY GATE — FINAL CHECK BEFORE DELIVERY
@@ -512,7 +533,7 @@ Before telling Asif a bundle is ready, silently verify:
   2. **Chapter is in the size band:** 1,500-word floor, 2,500–3,500 target, 4,500 ceiling. Hard refuse outside [500, 5,500] (best-practices §3).
   3. **Chapter is enriched** (Phase 0e): outside material from Quran / hadith / Imam Ali / Ismaili sources is present with attribution. Outside material ≤ 60% of chapter word count (invariant 4).
   4. **Chapter has full Arabic phonetic coverage** (Phase 0c): every Arabic term, transliteration, Quranic verse, hadith line, dua, name, and honorific carries a phonetic guide on first appearance per chapter (invariant 5).
-  4a. **NotebookLM hygiene gate:** Any authoring metadata in the chapter is wrapped in `<!-- ... -->` HTML comments (auto-stripped at build). The chapter prose contains NO sentences that describe the chapter file itself — no *"This file is..."*, no *"Phase 0..."*, no *"Nothing has been added that is not in the source"*, no `[VERIFY CITATION]` markers. `build_episode_txt.py` enforces this with `META_PROSE_TELLS`; if it errors, clean the chapter and retry.
+  4a. **NotebookLM hygiene gate (chapter is upload-ready by construction):** The chapter file contains NO HTML comments and NO meta-prose about itself. Authoring metadata lives in `BOOK_DIR/_system/enrichment-log.md`, NOT in the chapter. Forbidden in the chapter: `<!-- ... -->` blocks, `"This file is..."`, `"Phase 0..."`, `"Nothing has been added that is not in the source"`, `[VERIFY CITATION]` markers, cross-episode `EP##` references. `build_episode_txt.py` enforces this with `META_PROSE_TELLS` + `META_PROSE_REGEX_TELLS` and a no-HTML-comments check; if any fires, clean the chapter and retry. Same gate is re-run against the framing file's post-strip content.
   5. Are the required draft files present in the episode-draft folder? (`00-framing.md` mandatory; `02-key-passages.md`, `03-context-pack.md`, `04-discussion-spine.md`, `99-show-notes.md` recommended.)
   6. Is every quote in the chapter verbatim from the original source or correctly attributed to an enrichment source?
   7. Is every attribution correct (translator named for Quranic translations, hadith collection + number, Nahj al-Balagha sermon/letter/saying #, Ismaili source named work + section)?
@@ -524,10 +545,11 @@ Before telling Asif a bundle is ready, silently verify:
   13. Did the upload checklist make it into `00-framing.md`?
   14. Are there any em dashes anywhere? (Remove them.)
   15. Was anything fabricated? (Discard and re-author the chapter.)
-  16. Was `build_episode_txt.py` run and `BOOK_DIR/episodes/EP##-<slug>.txt` produced? Did the script's invariant + word-count gates pass?
-  17. Does the episode txt contain **only** the CUSTOMIZE PROMPT + SOURCE blocks — no key-passages, context-pack, discussion-spine, or show-notes inlined?
-  18. Was the chapter scratchpad written to `BOOK_DIR/_system/episode-drafts/EP##-<slug>/chapter.scratch.md` with the `@@` legend prepended?
-  19. Was the scratchpad opened with Read at the end so it appears in the chat for the user?
+  16. Was `build_episode_txt.py` run and `BOOK_DIR/episodes/EP##-<slug>.txt` produced? Did the script's chapter + framing validation gates pass?
+  17. Does `BOOK_DIR/episodes/EP##-<slug>.txt` contain **only** customize-prompt content (no source, no key-passages, no context-pack, no discussion-spine, no show-notes, no Upload Checklist)? Word count ∈ [150, 2,000]?
+  18. Does `BOOK_DIR/chapters/chNN-<slug>.txt` contain **only** chapter prose (no HTML comments, no meta-prose, no `EP##` cross-refs)? Word count ∈ [500, 5,500]?
+  19. Was the chapter scratchpad written to `BOOK_DIR/_system/episode-drafts/EP##-<slug>/chapter.scratch.md` with the `@@` legend prepended?
+  20. Was the scratchpad opened with Read at the end so it appears in the chat for the user?
 
 If any check fails, fix before delivering.
 

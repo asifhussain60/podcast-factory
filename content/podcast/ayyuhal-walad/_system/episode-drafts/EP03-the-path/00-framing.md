@@ -1,8 +1,8 @@
-# EP03 Framing: Ayyuhal Walad, The Path: Guide, Discipline, and Inner Reality
+# Ayyuhal Walad, The Path: Guide, Discipline, and Inner Reality
 
-## What this is
+## Background
 
-This is the customize prompt for NotebookLM's Audio Overview, plus the host steering for the two-host conversation. The hosts are speaking about the middle stretch of *Ayyuhal Walad* (My Dear Beloved Son or Daughter), the short epistle Imam Abu Hamid al-Ghazali wrote near the end of his life. The student asked, among other things: *what is a true spiritual guide, what is Tasawwuf, what is servitude, what is reliance on God, what is sincerity?* This episode is Ghazali's compressed answer. Eight short sections of the epistle, stitched into four movements: the guide, the etiquettes of the disciple, the definition of Tasawwuf, and the four realities.
+The hosts are speaking about the middle stretch of *Ayyuhal Walad* (My Dear Beloved Son or Daughter), the short epistle Imam Abu Hamid al-Ghazali wrote near the end of his life. The student asked, among other things: *what is a true spiritual guide, what is Tasawwuf, what is servitude, what is reliance on God, what is sincerity?* This episode is Ghazali's compressed answer. Eight short sections of the epistle, stitched into four movements: the guide, the etiquettes of the disciple, the definition of Tasawwuf, and the four realities.
 
 ## Audience
 
@@ -69,11 +69,11 @@ Do not. The angle is faithful exposition. A host may flag a difficulty (for exam
 
 ---
 
-## Upload checklist
+## Upload checklist (for Asif; stripped from the published episode txt)
 
-1. Open https://notebooklm.google.com and create a new notebook. Name it `EP03: Ayyuhal Walad, The Path: Guide, Discipline, and Inner Reality`.
-2. Add sources in this order: `00-framing.md`, `01-source-primary.md`, `02-key-passages.md`, `03-context-pack.md`, `04-discussion-spine.md`.
-3. Click *Audio Overview*, then *Customize*. Paste the entire body of this file (everything above this checklist) into the customize prompt box.
+1. Open https://notebooklm.google.com and create a new notebook (name it after this episode).
+2. Click *Add source*. Upload `content/podcast/ayyuhal-walad/chapters/ch03-the-path.txt` as the single source.
+3. Click *Audio Overview*, then *Customize*. Open `content/podcast/ayyuhal-walad/episodes/EP03-the-path.txt` in a text editor; copy its entire contents into the Customize prompt box.
 4. Click *Generate*. Wait three to five minutes.
-5. Listen end-to-end. If strong, download the MP3 from the player menu and paste the notebook URL into `_registry.md`.
-6. If weak, re-read `04-discussion-spine.md` and the *central tensions* section above. The bundle is the bottleneck, not NotebookLM.
+5. Listen end-to-end. If strong, download the MP3 and paste the notebook URL into `_system/registry.md`.
+6. If weak, re-read `_system/episode-drafts/EP03-the-path/04-discussion-spine.md` and the *Central tensions* section in this framing. The chapter + framing pair is the bottleneck, not NotebookLM.

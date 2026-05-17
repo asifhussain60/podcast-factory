@@ -1,5 +1,3 @@
-<!-- ENRICHMENT STATUS: applied (2026-05-16). Phase 0e enrichment complete per content/podcast/_system/enrichment-sources.md. Added: Holy Du`a Part II reference (chain of guidance) at Movement 1; Sahih al-Bukhari Hadith 13 / Sahih Muslim Hadith 45 ("none of you believes until...") at Movement 3 (Tasawwuf's horizontal axis); Sunan al-Tirmidhi Hadith 2517 (tie your camel) at Tawakkul; Sahih Muslim Hadith 1905 (the three first thrown into Hell) at Ikhlas. Enrichment ratio: ~22% (under the 60% cap). -->
-
 # The Path: Guide, Discipline, and Inner Reality
 
 *From* Ayyuhal Walad (My Dear Beloved Son or Daughter)

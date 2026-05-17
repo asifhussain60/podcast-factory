@@ -1,5 +1,3 @@
-<!-- ENRICHMENT STATUS: applied (2026-05-16). Phase 0e enrichment complete per content/podcast/_system/enrichment-sources.md. Verified citations: Quran 39:9, 53:39, 99:7-8, 18:107, 18:110, 7:56; Sahih al-Bukhari Book 1 Hadith 1 (narrated by Umar ibn al-Khattab) at the intention pivot; Nahj al-Balagha Hikam #366 (knowledge calling upon action) and Hikam #145 (vigil without intention); Ghurar al-Hikam on benefiting from knowledge; Holy Du'a Part III reference for parallel pleading. Unverifiable specific Nasir-i Khusraw chapter citation replaced with a defensible general statement about his recurring ilm/amal theme in Wajh-i Din and Diwan. Enrichment ratio: ~22% (under the 60% cap). -->
-
 # Imam Ghazali's Response to the Letter
 
 *From* Ayyuhal Walad (My Dear Beloved Son or Daughter)

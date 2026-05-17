@@ -1,5 +1,3 @@
-<!-- ENRICHMENT STATUS: applied (2026-05-16). Phase 0e enrichment complete per content/podcast/_system/enrichment-sources.md. Added: Sahih Muslim Hadith 1631 (three things that follow the corpse) at Benefit 1; Farewell Sermon excerpt on Taqwa over lineage at Benefit 4; Imam Ali on the nafs as greatest enemy at Benefit 6; Sunan al-Tirmidhi Hadith 2344 (the birds and Tawakkul) at Benefit 7; Nahj al-Balagha Hikam #57 (contentment as treasure) at chapter close. Enrichment ratio: ~25% (under the 60% cap). -->
-
 # Hatim bin Ism: Eight Benefits of Thirty-Three Years
 
 *From* Ayyuhal Walad (My Dear Beloved Son or Daughter)

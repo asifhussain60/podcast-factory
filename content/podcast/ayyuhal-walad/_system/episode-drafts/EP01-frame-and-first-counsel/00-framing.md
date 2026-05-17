@@ -1,8 +1,8 @@
-# EP01 Framing: Ayyuhal Walad, Chapter 1: Imam Ghazali's Response to the Letter
+# Ayyuhal Walad, Chapter 1: Imam Ghazali's Response to the Letter
 
-## What this is
+## Background
 
-This is the customize prompt for NotebookLM's Audio Overview, plus the host steering for the two-host conversation. The hosts are speaking about a single chapter of *Ayyuhal Walad* (My Dear Beloved Son or Daughter), the short epistle Imam Abu Hamid al-Ghazali wrote near the end of his life in response to a long-time student who asked, in effect: *of everything I have learned from you, what will actually matter when I die?*
+The hosts are speaking about a single chapter of *Ayyuhal Walad* (My Dear Beloved Son or Daughter), the short epistle Imam Abu Hamid al-Ghazali wrote near the end of his life in response to a long-time student who asked, in effect: *of everything I have learned from you, what will actually matter when I die?*
 
 ## Audience
 
@@ -59,11 +59,11 @@ Do not. The angle is faithful exposition. If a host wants to flag a difficulty (
 
 ---
 
-## Upload checklist
+## Upload checklist (for Asif; stripped from the published episode txt)
 
-1. Open https://notebooklm.google.com and create a new notebook. Name it `EP01: Ayyuhal Walad, Imam Ghazali's Response to the Letter`.
-2. Add sources in this order: `00-framing.md`, `01-source-primary.md`, `02-key-passages.md`, `03-context-pack.md`, `04-discussion-spine.md`.
-3. Click *Audio Overview*, then *Customize*. Paste the entire body of this file (everything above this checklist) into the customize prompt box.
+1. Open https://notebooklm.google.com and create a new notebook (name it after this episode).
+2. Click *Add source*. Upload `content/podcast/ayyuhal-walad/chapters/ch01-frame-and-first-counsel.txt` as the single source.
+3. Click *Audio Overview*, then *Customize*. Open `content/podcast/ayyuhal-walad/episodes/EP01-frame-and-first-counsel.txt` in a text editor; copy its entire contents into the Customize prompt box.
 4. Click *Generate*. Wait three to five minutes.
-5. Listen end-to-end. If strong, download the MP3 from the player menu and paste the notebook URL into `_registry.md`.
-6. If weak, re-read `04-discussion-spine.md` and the *central tensions* section above. The bundle is the bottleneck, not NotebookLM.
+5. Listen end-to-end. If strong, download the MP3 and paste the notebook URL into `_system/registry.md`.
+6. If weak, re-read `_system/episode-drafts/EP01-frame-and-first-counsel/04-discussion-spine.md` and the *Central tensions* section in this framing. The chapter + framing pair is the bottleneck, not NotebookLM.
