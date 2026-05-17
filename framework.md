@@ -47,8 +47,7 @@ content/
         │   │       ├── 04-discussion-spine.md  ← authoring reference; not uploaded
         │   │       ├── 99-show-notes.md        ← authoring reference; not uploaded
         │   │       └── chapter.scratch.md      ← @@-marker surface mirroring the chapter
-        │   ├── scratchpad/         ← series-policies.md + working scratches
-        │   └── legacy/             ← superseded pipeline artifacts
+        │   └── scratchpad/         ← series-policies.md + working scratches
         ├── chapters/               ← source-book chapters as plain txt
         └── episodes/               ← FINAL deliverables (one concatenated txt per episode)
             └── EP##-<slug>.txt     ← built by scripts/podcast/build_episode_txt.py
@@ -312,4 +311,4 @@ If anything from that branch needs to come back, cherry-pick from `archive/full-
 - **New canonical reference:** `content/podcast/_system/enrichment-sources.md` — the whitelist of authorized enrichment sources (Author's corpus, Quran, hadith, Imam Ali via *Nahj al-Balagha* and *Ghurar al-Hikam*, Ismaili tradition: Holy Du'a, Ginans, Farmans of the Aga Khans, classical Ismaili philosophers, Sufi tradition near Ghazali, modern reference works) with citation formats and enrichment principles.
 - **Build script call signature changed:** `build_episode_txt.py BOOK_DIR EP##-<slug>`. Reads framing from the draft folder and the SOURCE from the slug-matched chapter file. Slug mismatch is a hard error.
 - **Quality Gate enriched:** 19-step checklist now includes chapter-exists, chapter-size band, enrichment-ratio cap, phonetic-coverage, and chapter-IS-source invariants.
-- **Ayyuhal Walad migration applied:** 22 thin section-extract chapters archived to `content/podcast/ayyuhal-walad/_system/legacy/raw-section-chapters/`. The 5 substantive episode source-primary files promoted into `chapters/ch01-frame-and-first-counsel.txt` through `ch05-method-and-closing-prayer.txt`. EP01 draft folder renamed `EP01-ayyuhal-walad-ch1` → `EP01-frame-and-first-counsel` for slug parity. Each draft folder's `01-source-primary.md` removed; scratchpads renamed to `chapter.scratch.md`. All 5 episodes rebuild cleanly under the new architecture. **Enrichment (Phase 0e) is pending per chapter** — each chapter currently carries an `<!-- ENRICHMENT STATUS: pending -->` header and represents the Phase 0d output only; enrichment from `enrichment-sources.md` is a per-chapter content session driven by Asif.
+- **Ayyuhal Walad migration applied:** 22 thin section-extract chapters retired (preserved in git history); 5 substantive episode source-primary files promoted to `chapters/ch01-frame-and-first-counsel.txt` through `ch05-method-and-closing-prayer.txt`. EP01 draft folder renamed `EP01-ayyuhal-walad-ch1` → `EP01-frame-and-first-counsel` for slug parity. Each draft folder's `01-source-primary.md` removed; scratchpads renamed to `chapter.scratch.md`. All 5 episodes rebuild cleanly under the new architecture. Enrichment (Phase 0e) is per-chapter content sessions driven by Asif.
