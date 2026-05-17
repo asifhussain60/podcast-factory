@@ -25,7 +25,12 @@
       Quality control runs on three layers: six silent loops every bundle
       passes through, a strictly tiered list of where enrichment is allowed
       to come from, and an independent challenger agent that keeps iterating
-      until the bundle is genuinely ready.
+      until the bundle is genuinely ready. The challenger reads two
+      <strong>normative rule files</strong> as its authority:
+      <code>notebooklm-source-chapter-rules.md</code> (15 chapter contracts)
+      and <code>notebooklm-customize-prompt-rules.md</code> (8 framing
+      contracts including welcome opening, anti-repetition,
+      no-irrelevant-background, name aliasing, and interruption avoidance).
     </p>
   </header>
 
@@ -117,6 +122,60 @@
     <div class="caption">Six loops · all silent · the writer never sees them unless one fails</div>
   </div>
 
+  <!-- ── The four new loops (H/I/J/K) and their rule-file authority ─── -->
+  <div class="section-head">
+    <div class="label">·· four new loops · normative rules ··</div>
+    <h2>The customize-prompt enforcement layer</h2>
+    <div class="sub">Loops H, I, J, K each enforce a rule from <code>notebooklm-customize-prompt-rules.md</code>. The rule file is the single source of truth — both the producing skill and the challenger read it. No drift possible.</div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="meta">·· loop H · welcome + landing ··</div>
+      <h3>Open with a welcome and summary; close on a question</h3>
+      <p>The customize prompt must direct hosts to <strong>open with a brief
+      welcome and a 2–3 sentence summary</strong> naming source + tension +
+      landing question. Forbids "today we'll discuss" boilerplate. Closes
+      on the unresolved tension or a single sharp line — <strong>never</strong>
+      a recap of what was just said. Rules R-WELCOME + R-SUMMARYTAIL.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· loop I · anti-repetition + background ··</div>
+      <h3>Land each beat once; no Wikipedia detours</h3>
+      <p>The customize prompt must forbid restating the central thesis more
+      than twice, re-citing quotes, or summarizing what was just said.
+      Biographical / historical background about author or translator
+      appears <strong>only when pertinent and only once</strong> — never
+      opening the episode, never returned to. Rules R-NOREPEAT + R-NOBACKGROUND.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· loop J · name aliasing ··</div>
+      <h3>Long name once, alias thereafter</h3>
+      <p>"Imam Abu Hamid Muhammad al-Ghazali" said in full once, then
+      <strong>"Ghazali"</strong> for every subsequent reference. "Hatim bin
+      Ism al-Asamm" → <strong>"Haatim"</strong>. ~30 canonical aliases live
+      in <code>content/_shared/arabic/05-name-alias-policy.md</code>; both
+      chapter and framing apply them. Rules R-NAMEALIAS + R-NAMES.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· loop K · interruption avoidance ··</div>
+      <h3>Each host completes a thought</h3>
+      <p>The customize prompt must forbid mid-sentence interjections
+      ("yeah", "right", "exactly") and talking-over. Hosts may pick up the
+      thread after the other lands a beat, but not before. Concrete
+      filler-word vocabulary is named in the framing so NotebookLM's voice
+      model has a list to suppress. Rule R-NOINTERRUPT.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-eyebrow">·· why externalize ··</div>
+    <p>Before the rule files existed, every rule had to be written twice — once in <code>SKILL.md</code> (so the producer obeys it during authoring) and once in the challenger (so the reviewer catches violations). Two copies = drift risk = silent rule-fork. Now both producer and reviewer read the same file. Add a new rule by adding a new section to the rule file; both pick it up next run.</p>
+  </div>
+
   <!-- ── The challenger convergence loop ─────────────────── -->
   <div class="section-head">
     <div class="label">·· the second pair of eyes ··</div>
@@ -153,8 +212,8 @@
       <g>
         <rect x="40" y="138" width="640" height="120" rx="14" class="node-gold" />
         <text x="60" y="166" class="label-mono" style="fill:var(--gold);font-size:13px">·· reads before each pass ··</text>
-        <text x="60" y="194" class="label">shared arabic (4 files) · best practices · enrichment sources</text>
-        <text x="60" y="216" class="label">scratchpad markers · extract spec · chapter contract template</text>
+        <text x="60" y="194" class="label">5 normative files: 2 NotebookLM rule files + 3 shared arabic (manifest, substitution, name-alias)</text>
+        <text x="60" y="216" class="label">9 guidance files: shared arabic README + TTS key + handbook (best-practices, enrichment, markers, extract, contract)</text>
         <text x="60" y="238" class="label">SKILL.md · build_episode_txt.py · extract_chapter.py</text>
       </g>
 
@@ -174,8 +233,8 @@
         <text x="60" y="450" class="label">so auto-fixes from iteration i-1 are visible</text>
 
         <text x="60" y="482" class="label-mono" style="fill:var(--accent);font-size:13px">·· step b — run all 30+ checks ··</text>
-        <text x="60" y="508" class="label">7 categories · A governance · B hygiene · C pronunciation · D enrichment</text>
-        <text x="60" y="528" class="label">E articulation · F framing · G extract contracts</text>
+        <text x="60" y="508" class="label">11 categories · A authenticity · B hygiene · C pronunciation · D enrichment · E articulation</text>
+        <text x="60" y="528" class="label">F framing · G extract contracts · H welcome+landing · I anti-repetition · J name-alias · K interruptions</text>
 
         <text x="60" y="560" class="label-mono" style="fill:var(--accent);font-size:13px">·· step c — apply auto-fixes for deterministic findings ··</text>
       </g>

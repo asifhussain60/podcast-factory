@@ -53,7 +53,7 @@ Before doing ANY work, read these files in this order:
 7. `<JOURNAL_DIR>/content/babu-memoir/_system/biographical-context.md` (+ supplement's Biographical Context section)
 8. `<JOURNAL_DIR>/content/babu-memoir/_system/locked-paragraphs.md` — permanently locked paragraphs
 9. `<JOURNAL_DIR>/content/babu-memoir/_system/quotes-library.txt` — quotes and reflections library
-10. `SHARED_ARABIC/00-README.md`, `01-tts-pronunciation-key.md`, `03-arabic-english-manifest.md`, `04-common-term-substitutions.md` — the shared Arabic pronunciation reference. Read on entry to any session that may touch Arabic vocabulary (any chapter that contains Islamic terms — i.e., every chapter except those that are entirely secular). `02-quran-letter-phonetics.md` only when respelling a new term from scratch.
+10. `SHARED_ARABIC/00-README.md`, `01-tts-pronunciation-key.md`, `03-arabic-english-manifest.md`, `04-common-term-substitutions.md`, `05-name-alias-policy.md` — the shared Arabic pronunciation reference. Read on entry to any session that may touch Arabic vocabulary (any chapter that contains Islamic terms — i.e., every chapter except those that are entirely secular). `02-quran-letter-phonetics.md` only when respelling a new term from scratch. **`05-name-alias-policy.md` is consulted whenever a long Islamic name is introduced** (Imam Abu Hamid Muhammad al-Ghazali → Ghazali after first mention). Memoir voice that has already shipped overrides the policy.
 
 Then run delta detection:
 ```
@@ -406,6 +406,7 @@ The skill ships a `references/` copy of the seven core voice/craft/thematic docs
 - `04-common-term-substitutions.md` — substitution policy. **Memoir voice choices that have already shipped override this policy** (see its §4). Apply only when introducing an Arabic term to the memoir for the first time.
 
 ### Related agents (delegate, do not inline)
+- `.github/agents/journal-challenger.agent.md` — **REQUIRED before Phase 4 finalization.** Semantic-quality reviewer for memoir chapters. Runs convergence loop (≤3 iterations). Reads voice-fingerprint, voice-deep-analysis, craft-techniques, thematic-arc, temporal-guardrail, locked-paragraphs, translations-glossary, shared Arabic manifest + substitution + name-alias policies. Categories: voice integrity (V), narrative architecture (A), craft (C), governance (G), delta protection (D), Arabic-pronunciation cascade (N). Verdicts: `SHIP-READY` / `SHIP-WITH-CAUTION` / `BLOCKED`. A `BLOCKED` verdict prevents the move from scratchpad to `chapters/`.
 - `.github/agents/reconcile.agent.md` — **DELEGATE TO THIS AGENT** when Asif points at a `docs/architecture/journal-*.html` view and says it is wrong, stale, or should also support X. Triggers: any pasted `file:///.../docs/architecture/*.html` URL paired with a change request; phrases "fix this view", "docs and code disagree", "this should also support X", "pipeline is wrong about Y", or "/reconcile". The agent fixes the code FIRST (skill → handbook → scripts) with zero regression, THEN updates the HTML to match. Do not attempt the reconciliation inline — the agent enforces a specific phase order this skill is not designed to carry.
 
 ============================================================

@@ -61,16 +61,19 @@ Before doing ANY work, read these files in this order:
 3. `SHARED_ARABIC/02-quran-letter-phonetics.md` — classical-Arabic letter-by-letter phonetic guide (the foundation for any new respelling)
 4. `SHARED_ARABIC/03-arabic-english-manifest.md` — Latin-only Arabic→English→phonetic lookup; canonical spellings live here
 5. `SHARED_ARABIC/04-common-term-substitutions.md` — when to replace common Arabic terms with their English equivalents (nafs, shaytan, ruh, etc.)
-6. `PODCAST_ROOT/_handbook/notebooklm-source-format.md` — the file-by-file format NotebookLM responds to best
-7. `PODCAST_ROOT/_handbook/two-host-framing.md` — default Host A / Host B personas and steering language
-8. `PODCAST_ROOT/_handbook/source-distillation.md` — how to distill each source type into signal
-9. `PODCAST_ROOT/_handbook/episode-architecture.md` — discussion-spine shape, opening hook, landing
-10. `PODCAST_ROOT/_handbook/scratchpad-markers.md` — the podcast-local `@@` marker vocabulary. This copy is podcast-owned and independent from the journal skill's marker spec.
-11. `PODCAST_ROOT/_handbook/notebooklm-best-practices.md` — distilled best-practices for shaping NotebookLM output.
-12. `PODCAST_ROOT/_handbook/registry.md` — current episode index across all books
-13. `BOOK_DIR/_README.md` — book-specific conventions and upload checklist (if a book is being worked)
+6. `SHARED_ARABIC/05-name-alias-policy.md` — long-name → short-alias policy (Ghazali, Haatim, Junaid, etc.). Applied during chapter authoring AND in the framing's Name discipline block.
+7. `PODCAST_ROOT/_handbook/notebooklm-source-chapter-rules.md` — **NORMATIVE** contract for the chapter file (Loops B + C + D + E authority). Wins over guidance files where they overlap.
+8. `PODCAST_ROOT/_handbook/notebooklm-customize-prompt-rules.md` — **NORMATIVE** contract for the customize-prompt framing (Loops F + H + I + J + K authority). Includes welcome opening, anti-repetition, no-irrelevant-background, name-aliasing, interruption avoidance rules.
+9. `PODCAST_ROOT/_handbook/notebooklm-source-format.md` — the file-by-file format NotebookLM responds to best
+10. `PODCAST_ROOT/_handbook/two-host-framing.md` — default Host A / Host B personas and steering language
+11. `PODCAST_ROOT/_handbook/source-distillation.md` — how to distill each source type into signal
+12. `PODCAST_ROOT/_handbook/episode-architecture.md` — discussion-spine shape, opening hook, landing
+13. `PODCAST_ROOT/_handbook/scratchpad-markers.md` — the podcast-local `@@` marker vocabulary. This copy is podcast-owned and independent from the journal skill's marker spec.
+14. `PODCAST_ROOT/_handbook/notebooklm-best-practices.md` — distilled best-practices for shaping NotebookLM output (GUIDANCE — superseded by the two normative files above where they overlap).
+15. `PODCAST_ROOT/_handbook/registry.md` — current episode index across all books
+16. `BOOK_DIR/_README.md` — book-specific conventions and upload checklist (if a book is being worked)
 
-**The five SHARED_ARABIC files are mandatory on every run, not optional.** They supersede ad-hoc respelling and are the authority for every Arabic phonetic decision. Per-book overrides in `BOOK_DIR/_system/pronunciation.md` may add terms but must not contradict the shared manifest.
+**The six SHARED_ARABIC files (incl. 05-name-alias-policy) and the two NORMATIVE handbook files (notebooklm-*-rules) are mandatory on every run, not optional.** They are the authority for every Arabic phonetic decision, every customize-prompt template, every chapter-as-source constraint. Per-book overrides in `BOOK_DIR/_system/pronunciation.md` may add terms but must not contradict the shared manifest. Guidance files explain WHY; normative files state WHAT.
 
 If `PODCAST_ROOT` is missing the registry, scaffold it before continuing:
   - Create `PODCAST_ROOT/_handbook/registry.md` with the header from `PODCAST_ROOT/_handbook/workspace-readme-template.md`
@@ -652,11 +655,14 @@ SECTION 10: REFERENCE FILE INDEX
   - `02-quran-letter-phonetics.md` — classical-Arabic letter-by-letter phonetic guide
   - `03-arabic-english-manifest.md` — Latin-only Arabic→English→phonetic lookup (canonical spellings)
   - `04-common-term-substitutions.md` — substitution policy (nafs, shaytan, ruh, etc.)
+  - `05-name-alias-policy.md` — long-name → short-alias policy (Ghazali, Haatim, Junaid, etc.); chapter + framing both apply it
 
 ### In `PODCAST_ROOT/_handbook/` (book-agnostic, owned by the podcast skill):
   - `registry.md` — episode index (number, title, slug, book-slug, status, NotebookLM URL)
-  - `notebooklm-source-format.md` — file-by-file format spec for NotebookLM ingestion
-  - `notebooklm-best-practices.md` — distilled best-practices reference
+  - `notebooklm-source-chapter-rules.md` — **NORMATIVE** chapter-as-source contract (R-NOHTML, R-PHONETIC, R-NAMES, R-OPENFRAME, R-ENRICH60, etc.); single source of truth read by both producer and challenger
+  - `notebooklm-customize-prompt-rules.md` — **NORMATIVE** customize-prompt contract (R-WELCOME, R-NOREPEAT, R-NOBACKGROUND, R-NAMEALIAS, R-NOINTERRUPT, R-SUMMARYTAIL); single source of truth for what the framing must do
+  - `notebooklm-source-format.md` — file-by-file format spec for NotebookLM ingestion (GUIDANCE)
+  - `notebooklm-best-practices.md` — distilled best-practices reference (GUIDANCE — superseded by the two NORMATIVE files above where they overlap)
   - `enrichment-sources.md` — Phase 0e whitelist + citation format + tradition-mix principles
   - `two-host-framing.md` — host personas + steering language patterns
   - `source-distillation.md` — distillation pattern per source type
@@ -686,5 +692,6 @@ SECTION 10: REFERENCE FILE INDEX
   - `/PROJECTS/journal/scripts/podcast/build_episode_txt.py` — compiles the chapter + framing into the final deliverable txt (with HTML-comment stripping and meta-prose anti-pattern checks)
 
 ### Agents:
-  - `.github/agents/podcast-challenger.agent.md` — semantic-quality reviewer; runs in a convergence loop (≤3 iterations) before any bundle ships. Validates citation authenticity, phonetic coverage, enrichment depth, framing 4-part structure, NotebookLM literalness. Writes `BOOK_DIR/_system/challenger-report.md`. **Required** between Phase 4 step 1 (quality gate) and step 2 (compile).
+  - `.github/agents/podcast-challenger.agent.md` — semantic-quality reviewer; runs in a convergence loop (≤3 iterations) before any bundle ships. Validates citation authenticity (Loop A), NotebookLM literalness (Loop B), phonetic coverage + substitution + name-aliasing (Loops C + J), enrichment depth (Loop D), articulation (Loop E), framing 4-part structure (Loop F), welcome opening + closing landing (Loop H), anti-repetition + no-irrelevant-background (Loop I), interruption avoidance (Loop K). Authority for the check catalog is the two normative rule files (`notebooklm-source-chapter-rules.md` + `notebooklm-customize-prompt-rules.md`). Writes `BOOK_DIR/_system/challenger-report.md`. **Required** between Phase 4 step 1 (quality gate) and step 2 (compile).
+  - `.github/agents/journal-challenger.agent.md` — peer challenger for the `/journal` skill. Shares the same contract (`max_iterations: 3`, verdict states `SHIP-READY`/`SHIP-WITH-CAUTION`/`BLOCKED`) and the same shared Arabic references. Out-of-scope for podcast invocations; listed here only so authors know the symmetry exists.
   - `.github/agents/reconcile.agent.md` — **DELEGATE TO THIS AGENT** when Asif points at a `docs/architecture/podcast-*.html` view and says it is wrong, stale, or should also support X. Triggers: any pasted `file:///.../docs/architecture/*.html` URL paired with a change request; phrases "fix this view", "docs and code disagree", "this should also support X", "pipeline is wrong about Y", or "/reconcile". The agent fixes the code FIRST (skill → handbook → scripts) with zero regression, THEN updates the HTML to match. Do not attempt the reconciliation inline — the agent enforces a specific phase order this skill is not designed to carry.

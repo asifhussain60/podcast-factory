@@ -289,6 +289,77 @@
     <p>The quality system exists to <strong>protect the writing</strong>, not to police it. Five loops keep the voice consistent, six humour patterns keep the laughter authentic, the delta shield keeps Asif's hand on every paragraph he has touched. The combination is what lets the skill help him write the book faster without ever writing the book <em>for</em> him.</p>
   </div>
 
+  <!-- ── The journal-challenger ─────────────────────────── -->
+  <div class="section-head">
+    <div class="label">·· second pair of eyes ··</div>
+    <h2>The journal-challenger agent</h2>
+    <div class="sub">A peer to the podcast-challenger. Runs convergence loop (≤3 iterations) before any chapter ships. Shares the same contract: <code>SHIP-READY</code> / <code>SHIP-WITH-CAUTION</code> / <code>BLOCKED</code>.</div>
+  </div>
+
+  <div class="grid grid-3">
+    <div class="card">
+      <div class="meta">·· loop V · voice integrity ··</div>
+      <h3>Sounds like Asif?</h3>
+      <p>Tests every sentence against <code>voice-deep-analysis.md</code>.
+      Catches the six humour patterns, the banned-word list (no "trauma",
+      "toxic", "boundaries", "journey"), and the preferred-vocabulary DNA.
+      Severity: <strong>P0 for voice-fingerprint violations</strong>; P1
+      for vocabulary drift.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· loop A · narrative arc ··</div>
+      <h3>Does the chapter turn?</h3>
+      <p>Damage → search → discovery → wisdom. Every scene must turn
+      something. Three-phase balance (Experiences ~50–60%, Learnings
+      ~20–30%, Babu's Advice ~15–20%). <strong>The narrative constant
+      holds</strong> — no victim framing, no accusation. P0 on constant
+      violations.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· loop C · craft + pacing ··</div>
+      <h3>Em-dashes, jargon, paragraph length</h3>
+      <p>No em-dashes (auto-fixed to commas). No therapy jargon. No
+      semicolons. Commas after introductory adverbials. Paragraphs 2–4
+      sentences. Bridge patterns used between scenes. Auto-fix the
+      deterministic, flag the semantic.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· loop G · governance ··</div>
+      <h3>Ali (AS), translations, locked paragraphs</h3>
+      <p>"Ali (AS, peace be upon him)" on first use per chapter only.
+      Temporal guardrail respected. Translation rule honoured (single
+      words never glossed inline; ABD is the exception). Quote-once-only
+      across the book. Locked paragraphs character-for-character.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· loop D · delta protection ··</div>
+      <h3>Asif's edits are sacred</h3>
+      <p>Cross-checks every change against the delta report from
+      <code>auto_delta.py</code>. P0 on any unauthorized rewrite of a
+      protected paragraph. Restoration from snapshot required if
+      violated. Translation changes synced across all chapters.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· loop N · Arabic cascade ··</div>
+      <h3>Names, phonetics, substitutions</h3>
+      <p>When the chapter introduces a long Islamic name (e.g., Imam Abu
+      Hamid Muhammad al-Ghazali), the alias policy is consulted.
+      <strong>Memoir voice already shipped overrides</strong> the shared
+      manifest — but new occurrences honour it. Phonetic drift against
+      the shared manifest is P0.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-eyebrow">·· when it runs ··</div>
+    <p>Before <strong>Phase 4 finalization</strong>. A <code>BLOCKED</code> verdict prevents the move from the scratchpad to <code>chapters/</code>. After finalization the challenger also sweeps the shipped chapter as a sanity check; new findings go into the next session's challenger report. Writes <code>content/babu-memoir/_system/challenger-report.md</code>.</p>
+  </div>
+
   <footer class="footer">
     <a href="index.html">← back to the map</a> &nbsp;·&nbsp; <a href="journal-overview.html">overview</a> &nbsp;·&nbsp; <a href="journal-pipeline.html">pipeline</a>
   </footer>

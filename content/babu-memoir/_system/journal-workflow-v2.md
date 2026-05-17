@@ -41,6 +41,7 @@ Before doing ANY work, read these files in this order:
 14. JOURNAL_DIR/content/_shared/arabic/00-README.md  (cross-skill Arabic reference index)
 15. JOURNAL_DIR/content/_shared/arabic/03-arabic-english-manifest.md  (canonical Arabic to English to phonetic lookup; translations-glossary wins for memoir-specific glosses)
 16. JOURNAL_DIR/content/_shared/arabic/04-common-term-substitutions.md  (substitution policy for nafs, shaytan, ruh, etc.; memoir voice choices already shipped override per its Section 4)
+17. JOURNAL_DIR/content/_shared/arabic/05-name-alias-policy.md  (long-name to short-alias policy: Ghazali, Haatim, Junaid, etc.; applied when memoir introduces a long Islamic name for the first time)
 
 NOTE: Steps 4-7 read the writable JOURNAL_DIR/content/babu-memoir/_system/ versions
 rather than the read-only SKILL_DIR/references/ originals. The writable
