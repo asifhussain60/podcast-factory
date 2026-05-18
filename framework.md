@@ -1,6 +1,6 @@
 # Journal Ecosystem Framework
 
-**Version:** 3.5.1 (podcast library + .skill split; memoir inbound severed; v3.0 dead-code cleanup completed)
+**Version:** 3.5.1 (podcast library +.skill split; memoir inbound severed; v3.0 dead-code cleanup completed)
 **Last updated:** 2026-05-17
 
 This document governs the journal repo: the memoir engine, the journal site, the podcast source-bundle agent, and the small set of agents/skills that support content authoring. As of v3.0 the trip-planning, daybook/log-capture, and DayOne-publish ecosystems have been removed (preserved on branch `archive/full-stack-pre-strip`). As of v3.2 all authored content lives under a single `content/` tree with `babu-memoir/` and `podcast/` as siblings. As of v3.5 the podcast workspace splits human-facing book payload (`content/podcast/library/<category>/<book>/`) from skill internals (`content/podcast/.skill/`); the memoir → podcast inbound pipeline is severed (memoir is no longer a podcast source).
@@ -17,57 +17,57 @@ All authored content lives under [content/](content/):
 
 ```
 content/
-├── _shared/                        ← cross-skill data (only sanctioned cross-skill read)
-│   └── arabic/                     ← shared phonetic / Islamic terminology reference
-├── babu-memoir/                    ← the memoir (chapters only; no episodes)
-│   ├── _system/                    ← voice, craft, quotes, incidents, snapshots, scratchpad, workflow
-│   └── chapters/                   ← preface.txt, ch00…ch03.txt
-└── podcast/                        ← podcast workspace
-    ├── _README.md                  ← podcast-wide intro
-    ├── library/                    ← human-facing payload: source materials by category
-    │   ├── books/                  ← multi-chapter long-form works
-    │   │   └── <book-slug>/        ← one source book (e.g. ayyuhal-walad/)
-    │   │       ├── _README.md      ← book-specific
-    │   │       ├── _system/        ← book-specific authoring state
-    │   │       │   ├── source/                ← original PDF + extracted/normalized text + lexicon + phonetics
-    │   │       │   ├── pronunciation.md       ← active overrides for the series
-    │   │       │   ├── editorial-notes.md
-    │   │       │   ├── enrichment-log.md      ← per-chapter status sidecar (Phase 0e)
-    │   │       │   ├── challenger-report.md   ← podcast-challenger verdict
-    │   │       │   ├── episode-drafts/        ← per-episode authoring scaffolds (NOT the source)
-    │   │       │   │   └── EP##-<slug>/
-    │   │       │   │       ├── 00-framing.md           ← the CUSTOMIZE prompt for NotebookLM
-    │   │       │   │       ├── 02-key-passages.md      ← authoring reference; not uploaded
-    │   │       │   │       ├── 03-context-pack.md      ← authoring reference; not uploaded
-    │   │       │   │       ├── 04-discussion-spine.md  ← authoring reference; not uploaded
-    │   │       │   │       ├── 99-show-notes.md        ← authoring reference; not uploaded
-    │   │       │   │       └── chapter.scratch.md      ← @@-marker surface mirroring the chapter
-    │   │       │   └── scratchpad/            ← working scratches
-    │   │       ├── chapters/                  ← source-book chapters as plain txt (SOURCE upload)
-    │   │       ├── chapter-contracts/         ← per-chapter Extract Mode contracts (YAML)
-    │   │       ├── episodes/                  ← CUSTOMIZE prompts (one txt per episode)
-    │   │       └── turboscribe/               ← TurboScribe transcripts after audio renders
-    │   ├── articles/               ← single essays / journal pieces
-    │   ├── documents/              ← reports, white papers, official documents
-    │   ├── lectures/               ← recorded talks, sermons (transcribed)
-    │   ├── interviews/             ← Q&A transcripts
-    │   └── letters/                ← epistolary works
-    └── .skill/                     ← podcast-skill internals (hidden by leading dot)
-        ├── registry.md             ← episode index across all books
-        ├── handbook/               ← book-agnostic skill refs + templates
-        │   ├── enrichment-sources.md       ← Tier 1–7 whitelist
-        │   ├── notebooklm-source-format.md
-        │   ├── notebooklm-source-chapter-rules.md   ← NORMATIVE
-        │   ├── notebooklm-customize-prompt-rules.md ← NORMATIVE
-        │   ├── notebooklm-best-practices.md         ← GUIDANCE
-        │   ├── two-host-framing.md
-        │   ├── source-distillation.md
-        │   ├── episode-architecture.md
-        │   ├── scratchpad-markers.md
-        │   ├── extract-capability.md
-        │   ├── chapter-contract.template.yml
-        │   └── workspace-readme-template.md
-        └── archive/                ← superseded book snapshots
+├── _shared/ ← cross-skill data (only sanctioned cross-skill read)
+│ └── arabic/ ← shared phonetic / Islamic terminology reference
+├── babu-memoir/ ← the memoir (chapters only; no episodes)
+│ ├── _system/ ← voice, craft, quotes, incidents, snapshots, scratchpad, workflow
+│ └── chapters/ ← preface.txt, ch00…ch03.txt
+└── podcast/ ← podcast workspace
+ ├── _README.md ← podcast-wide intro
+ ├── library/ ← human-facing payload: source materials by category
+ │ ├── books/ ← multi-chapter long-form works
+ │ │ └── <book-slug>/ ← one source book (e.g. ayyuhal-walad/)
+ │ │ ├── _README.md ← book-specific
+ │ │ ├── _system/ ← book-specific authoring state
+ │ │ │ ├── source/ ← original PDF + extracted/normalized text + lexicon + phonetics
+ │ │ │ ├── pronunciation.md ← active overrides for the series
+ │ │ │ ├── editorial-notes.md
+ │ │ │ ├── enrichment-log.md ← per-chapter status sidecar (Phase 0e)
+ │ │ │ ├── challenger-report.md ← podcast-challenger verdict
+ │ │ │ ├── episode-drafts/ ← per-episode authoring scaffolds (NOT the source)
+ │ │ │ │ └── EP##-<slug>/
+ │ │ │ │ ├── 00-framing.md ← the CUSTOMIZE prompt for NotebookLM
+ │ │ │ │ ├── 02-key-passages.md ← authoring reference; not uploaded
+ │ │ │ │ ├── 03-context-pack.md ← authoring reference; not uploaded
+ │ │ │ │ ├── 04-discussion-spine.md ← authoring reference; not uploaded
+ │ │ │ │ ├── 99-show-notes.md ← authoring reference; not uploaded
+ │ │ │ │ └── chapter.scratch.md ← @@-marker surface mirroring the chapter
+ │ │ │ └── scratchpad/ ← working scratches
+ │ │ ├── chapters/ ← source-book chapters as plain txt (SOURCE upload)
+ │ │ ├── chapter-contracts/ ← per-chapter Extract Mode contracts (YAML)
+ │ │ ├── episodes/ ← CUSTOMIZE prompts (one txt per episode)
+ │ │ └── transcripts/ ← Transcripts after audio renders
+ │ ├── articles/ ← single essays / journal pieces
+ │ ├── documents/ ← reports, white papers, official documents
+ │ ├── lectures/ ← recorded talks, sermons (transcribed)
+ │ ├── interviews/ ← Q&A transcripts
+ │ └── letters/ ← epistolary works
+ └──.skill/ ← podcast-skill internals (hidden by leading dot)
+ ├── registry.md ← episode index across all books
+ ├── handbook/ ← book-agnostic skill refs + templates
+ │ ├── enrichment-sources.md ← Tier 1–7 whitelist
+ │ ├── notebooklm-source-format.md
+ │ ├── notebooklm-source-chapter-rules.md ← NORMATIVE
+ │ ├── notebooklm-customize-prompt-rules.md ← NORMATIVE
+ │ ├── notebooklm-best-practices.md ← GUIDANCE
+ │ ├── two-host-framing.md
+ │ ├── source-distillation.md
+ │ ├── episode-architecture.md
+ │ ├── scratchpad-markers.md
+ │ ├── extract-capability.md
+ │ ├── chapter-contract.template.yml
+ │ └── workspace-readme-template.md
+ └── archive/ ← superseded book snapshots
 ```
 
 ---
@@ -159,43 +159,43 @@ File layout follows the repo convention: tracked canonical agents live at `.gith
 ## Architecture
 
 ```
-journal/                                    ← repo root
-├── framework.md                            ← this file
-├── content/                                ← all authored content (see Content tree above)
-│   ├── babu-memoir/
-│   └── podcast/
-├── reference/                              ← repo-wide skill governance
-│   ├── cortex-challenger-framework.md      ← the framework v1.0
-│   ├── skill-bootstrap.md                  ← shared SECTION 0 contract
-│   ├── skill-registry.md                   ← per-skill tier + file ownership
-│   └── skill-overlays/
-│       ├── journal-cortex-overlay.md
-│       ├── clean-commit-cortex-overlay.md
-│       ├── cowork-brief-cortex-overlay.md
-│       └── tell-me-cortex-overlay.md
-├── skills-staging/                         ← in-repo skill definitions
-│   ├── README.md
-│   ├── podcast/                            ← podcast skill (SKILL.md + scripts/)
-│   ├── css-theme-sync/, ui-modernizer/, repo-surgeon/, usage-auditor/
+journal/ ← repo root
+├── framework.md ← this file
+├── content/ ← all authored content (see Content tree above)
+│ ├── babu-memoir/
+│ └── podcast/
+├── reference/ ← repo-wide skill governance
+│ ├── cortex-challenger-framework.md ← the framework v1.0
+│ ├── skill-bootstrap.md ← shared SECTION 0 contract
+│ ├── skill-registry.md ← per-skill tier + file ownership
+│ └── skill-overlays/
+│ ├── journal-cortex-overlay.md
+│ ├── clean-commit-cortex-overlay.md
+│ ├── cowork-brief-cortex-overlay.md
+│ └── tell-me-cortex-overlay.md
+├── skills-staging/ ← in-repo skill definitions
+│ ├── README.md
+│ ├── podcast/ ← podcast skill (SKILL.md + scripts/)
+│ ├── css-theme-sync/, ui-modernizer/, repo-surgeon/, usage-auditor/
 ├── scripts/
-│   ├── memoir/                             ← auto_delta, detect_user_delta, save_snapshot, refresh_all_snapshots
-│   ├── podcast/                            ← build_episode_txt.py (draft → single-txt deliverable)
-│   ├── site/                               ← sync_chapters.sh (canonical memoir → site mirror)
-│   ├── git-hooks/, install-git-hooks.sh
-├── site/                                   ← journal SPA (React-via-Babel, no build)
-│   ├── index.html
-│   ├── chapters/                           ← BUILD ARTIFACT — mirror of content/babu-memoir/chapters/
-│   │                                          (synced by scripts/site/sync_chapters.sh)
-│   ├── data/notes/                         ← per-chapter reader notes
-│   ├── css/                                ← base, app, chapter-reader, themes/, ai-drawer, etc.
-│   └── js/                                 ← claude-client, voice-refiner, theme-switcher, tweaker, toast
-├── server/                                 ← local-only Claude proxy (port 3001)
-│   └── src/                                ← index, routes/, prompts/, lib/, middleware/, schemas/
-├── shared/                                 ← shared client/server modules (tag-normalize)
-├── docs/                                   ← anthropic-api-setup, proxy-setup, cloudflare integrations
-├── infra/                                  ← Cloudflare deployment configs
-├── _workspace/                             ← gitignored scratch (chats, ideas, screenshots)
-└── .github/agents/                         ← journal-orchestrator, repo-surgeon, podcast-challenger (CORTEX agent deprecated 2026-05-17)
+│ ├── memoir/ ← auto_delta, detect_user_delta, save_snapshot, refresh_all_snapshots
+│ ├── podcast/ ← build_episode_txt.py (draft → single-txt deliverable)
+│ ├── site/ ← sync_chapters.sh (canonical memoir → site mirror)
+│ ├── git-hooks/, install-git-hooks.sh
+├── site/ ← journal SPA (React-via-Babel, no build)
+│ ├── index.html
+│ ├── chapters/ ← BUILD ARTIFACT — mirror of content/babu-memoir/chapters/
+│ │ (synced by scripts/site/sync_chapters.sh)
+│ ├── data/notes/ ← per-chapter reader notes
+│ ├── css/ ← base, app, chapter-reader, themes/, ai-drawer, etc.
+│ └── js/ ← claude-client, voice-refiner, theme-switcher, tweaker, toast
+├── server/ ← local-only Claude proxy (port 3001)
+│ └── src/ ← index, routes/, prompts/, lib/, middleware/, schemas/
+├── shared/ ← shared client/server modules (tag-normalize)
+├── docs/ ← anthropic-api-setup, proxy-setup, cloudflare integrations
+├── infra/ ← Cloudflare deployment configs
+├── _workspace/ ← gitignored scratch (chats, ideas, screenshots)
+└──.github/agents/ ← journal-orchestrator, repo-surgeon, podcast-challenger (CORTEX agent deprecated 2026-05-17)
 ```
 
 ---
@@ -222,8 +222,8 @@ The voice-fingerprint files read by `server/src/lib/voice-fingerprint.js` resolv
 Commands:
 
 ```
-npm run dev      # serve site on http://localhost:3000
-npm run server   # start proxy on http://localhost:3001
+npm run dev # serve site on http://localhost:3000
+npm run server # start proxy on http://localhost:3001
 ```
 
 CORS is locked to localhost + the two deployed hostnames (`journal.kashkole.com`, `journal-dev.kashkole.com`).
@@ -267,7 +267,7 @@ The chapter file IS the source. `scripts/podcast/build_episode_txt.py` does NOT 
 
 The other draft files (`02-key-passages.md`, `03-context-pack.md`, `04-discussion-spine.md`, `99-show-notes.md`) are authoring-only scaffolds — they inform the chapter's enrichment and the framing's tensions but do not flow to NotebookLM (anchored to `content/podcast/.skill/handbook/notebooklm-best-practices.md` §3 and §7).
 
-**Chapter file hygiene (NotebookLM protection):** Chapter files contain ONLY chapter content — they are uploaded as-is. Authoring metadata (status, citation inventory, enrichment ratio, verification notes) lives in `library/<category>/<book>/_system/enrichment-log.md`, NOT inline. Forbidden in any chapter: HTML `<!-- ... -->` blocks, *"This file is..."* / *"Phase 0..."* / *"Nothing has been added..."* / `[VERIFY CITATION]` markers, `EP\d\d` cross-references. `scripts/podcast/build_episode_txt.py` enforces this with `META_PROSE_TELLS` + `META_PROSE_REGEX_TELLS` + a no-HTML-comments check — any match is a hard build error. The same gate is re-applied to the framing file's post-strip content (the customize-prompt episode txt).
+**Chapter file hygiene (NotebookLM protection):** Chapter files contain ONLY chapter content — they are uploaded as-is. Authoring metadata (status, citation inventory, enrichment ratio, verification notes) lives in `library/<category>/<book>/_system/enrichment-log.md`, NOT inline. Forbidden in any chapter: HTML `<!--... -->` blocks, *"This file is..."* / *"Phase 0..."* / *"Nothing has been added..."* / `[VERIFY CITATION]` markers, `EP\d\d` cross-references. `scripts/podcast/build_episode_txt.py` enforces this with `META_PROSE_TELLS` + `META_PROSE_REGEX_TELLS` + a no-HTML-comments check — any match is a hard build error. The same gate is re-applied to the framing file's post-strip content (the customize-prompt episode txt).
 
 Chapter (= SOURCE) word counts: floor 1,500; target 2,500–3,500; ceiling 4,500; hard refuse outside [500, 5,500]. Framing (= CUSTOMIZE PROMPT) word counts: target 150–2,000.
 
@@ -341,11 +341,11 @@ If anything from that branch needs to come back, cherry-pick from `archive/full-
 
 ### v3.4 — two-file deliverable model (chapter IS the SOURCE; episode txt IS the CUSTOMIZE PROMPT) (2026-05-16, later)
 
-- **Architecture flip caught by Asif:** the v3.3.x design had `episodes/EP##.txt` contain BOTH the customize prompt AND the source content concatenated with `=== ... ===` separators, requiring the user to copy-paste each block into the right NotebookLM surface. Confusing and error-prone. Asif's intent (from the original reorg request) was: chapters/ = SOURCE files (upload directly), episodes/ = customize prompts (paste into Customize box). Two folders, two roles, zero ambiguity.
+- **Architecture flip caught by Asif:** the v3.3.x design had `episodes/EP##.txt` contain BOTH the customize prompt AND the source content concatenated with `===... ===` separators, requiring the user to copy-paste each block into the right NotebookLM surface. Confusing and error-prone. Asif's intent (from the original reorg request) was: chapters/ = SOURCE files (upload directly), episodes/ = customize prompts (paste into Customize box). Two folders, two roles, zero ambiguity.
 - **Implementation**:
-  - `scripts/podcast/build_episode_txt.py` rewritten. The chapter file is now uploaded as-is to NotebookLM; the build script validates it (no HTML comments, no meta-prose, word count in band) but does NOT transform it. The episode txt is emitted from `00-framing.md` only — HTML comments stripped, trailing Upload Checklist stripped, meta-prose re-checked.
-  - Chapter metadata moved out of inline `<!-- ENRICHMENT STATUS -->` headers into a sidecar at `content/podcast/<book>/_system/enrichment-log.md`. Chapter files are now upload-ready by construction.
-  - All 5 Ayyuhal Walad chapter files cleaned (HTML comments stripped); all 5 framings updated (recursive self-descriptions removed; Upload Checklists rewritten for the two-file workflow; H1s stripped of "EP## Framing:" boilerplate).
+ - `scripts/podcast/build_episode_txt.py` rewritten. The chapter file is now uploaded as-is to NotebookLM; the build script validates it (no HTML comments, no meta-prose, word count in band) but does NOT transform it. The episode txt is emitted from `00-framing.md` only — HTML comments stripped, trailing Upload Checklist stripped, meta-prose re-checked.
+ - Chapter metadata moved out of inline `<!-- ENRICHMENT STATUS -->` headers into a sidecar at `content/podcast/<book>/_system/enrichment-log.md`. Chapter files are now upload-ready by construction.
+ - All 5 Ayyuhal Walad chapter files cleaned (HTML comments stripped); all 5 framings updated (recursive self-descriptions removed; Upload Checklists rewritten for the two-file workflow; H1s stripped of "EP## Framing:" boilerplate).
 - **Episode txts shrink dramatically:** customize-prompt-only is 815–989 words per episode (was 3,400–4,800 with the concatenated model). Chapter SOURCE files are the same content as before.
 - **Documentation propagated:** SKILL.md Section 6 + Section 7 (Quality Gate items 16/17/18 rewritten); Phase 4 step 2 rewritten with the new two-file model; podcast-challenger agent v1.1 (architecture clarifications throughout); orchestrator content-invariant block; framework Rule 7.
 
@@ -359,8 +359,8 @@ If anything from that branch needs to come back, cherry-pick from `archive/full-
 
 ### v3.3.1 — NotebookLM hygiene (HTML-comment stripping + meta-prose anti-pattern) (2026-05-16, later)
 
-- **Bug caught by Asif:** chapter files carried two kinds of meta that NotebookLM would have read out loud: `<!-- ENRICHMENT STATUS: ... -->` headers, and "This file is a refined and enriched presentation..." paragraphs. Chapter `.txt` files are plain text; HTML comments do not get stripped by NotebookLM.
-- **Fix:** `scripts/podcast/build_episode_txt.py` now (a) strips all `<!-- ... -->` blocks from both the framing and the chapter before writing the SOURCE block, and (b) scans the post-strip chapter content for meta-prose tells (`This file is`, `This document is`, `Phase 0`, `ENRICHMENT STATUS`, `Nothing has been added that is not in the source`, `Anything Ghazali only implies`, `preserved in blockquotes`, `structured by beat`, `refined presentation of the chapter`, `[VERIFY CITATION`, etc.) — any match is a hard error.
+- **Bug caught by Asif:** chapter files carried two kinds of meta that NotebookLM would have read out loud: `<!-- ENRICHMENT STATUS:... -->` headers, and "This file is a refined and enriched presentation..." paragraphs. Chapter `.txt` files are plain text; HTML comments do not get stripped by NotebookLM.
+- **Fix:** `scripts/podcast/build_episode_txt.py` now (a) strips all `<!--... -->` blocks from both the framing and the chapter before writing the SOURCE block, and (b) scans the post-strip chapter content for meta-prose tells (`This file is`, `This document is`, `Phase 0`, `ENRICHMENT STATUS`, `Nothing has been added that is not in the source`, `Anything Ghazali only implies`, `preserved in blockquotes`, `structured by beat`, `refined presentation of the chapter`, `[VERIFY CITATION`, etc.) — any match is a hard error.
 - **Cleanup:** all 5 Ayyuhal Walad chapter files have had their meta-prose paragraphs removed. ENRICHMENT STATUS HTML comments retained (now auto-stripped by the build).
 - **Protocol encoded:** new "Chapter file = chapter content only (NotebookLM hygiene)" subsection in SKILL.md §6; new Quality Gate item 4a; new Content Invariant in the orchestrator agent; Rule 7 of framework.md updated.
 
