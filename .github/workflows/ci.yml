@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   validate:
-    name: Validate schemas + markers
+    name: Validate server + client
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -33,13 +33,9 @@ jobs:
         working-directory: server
         run: npm test
 
-      - name: Validate JSON schemas + fixtures
+      - name: Validate theme-token parity across site/css/
         working-directory: server
-        run: node scripts/validate-schemas.mjs
-
-      - name: Validate memoir markers
-        working-directory: server
-        run: node scripts/validate-markers.mjs
+        run: node scripts/validate-theme-parity.mjs
 
       - name: Syntax-check client JS bundles
         run: |

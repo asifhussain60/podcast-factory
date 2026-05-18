@@ -1,5 +1,5 @@
 // routes/core.js — foundational endpoints:
-//   GET  /health                  — liveness + key-source + gemini status
+//   GET  /health                  — liveness + key-source + access status
 //   POST /api/voice-test          — Babu-memoir smoke test
 //   POST /api/refine              — voice DNA refinement (legacy + promptName)
 //   POST /api/chat                — generic passthrough
@@ -12,7 +12,6 @@ import { fileURLToPath } from "node:url";
 import { makeRefineHandler } from "../lib/refine.js";
 import { hasPrompt, loadPrompt } from "../prompts/index.js";
 import { accessAuthStatus } from "../middleware/access-auth.js";
-import { status as geminiStatus } from "../lib/gemini-client.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -37,15 +36,7 @@ export function createCoreRouter({ anthropic, DEFAULT_MODEL, KEY_SOURCE, PORT, A
       port: PORT,
       allowedOrigins: ALLOWED_ORIGINS,
       access: accessAuthStatus(),
-      gemini: geminiStatus(),
       ts: new Date().toISOString(),
-    });
-  });
-
-  // Feature-flag surface for the frontend — only public-by-design flags.
-  router.get("/api/config", (_req, res) => {
-    res.json({
-      refineAllEnabled: process.env.REFINE_ALL_ENABLED === "true",
     });
   });
 

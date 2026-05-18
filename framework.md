@@ -1,6 +1,6 @@
 # Journal Ecosystem Framework
 
-**Version:** 3.5 (podcast library/<category>/<book> + .skill/ split; memoir inbound severed)
+**Version:** 3.5.1 (podcast library + .skill split; memoir inbound severed; v3.0 dead-code cleanup completed)
 **Last updated:** 2026-05-17
 
 This document governs the journal repo: the memoir engine, the journal site, the podcast source-bundle agent, and the small set of agents/skills that support content authoring. As of v3.0 the trip-planning, daybook/log-capture, and DayOne-publish ecosystems have been removed (preserved on branch `archive/full-stack-pre-strip`). As of v3.2 all authored content lives under a single `content/` tree with `babu-memoir/` and `podcast/` as siblings. As of v3.5 the podcast workspace splits human-facing book payload (`content/podcast/library/<category>/<book>/`) from skill internals (`content/podcast/.skill/`); the memoir → podcast inbound pipeline is severed (memoir is no longer a podcast source).
@@ -288,6 +288,19 @@ Chapter (= SOURCE) word counts: floor 1,500; target 2,500–3,500; ceiling 4,500
 Any external API (Anthropic, Cloudflare Access, etc.) gets a corresponding doc in `docs/` covering auth, rate limits, error behavior, operational notes, and Keychain key name.
 
 ---
+
+## What changed in v3.5.1 (2026-05-17, evening) — v3.0 dead-code cleanup
+
+The v3.0 strip removed trip planning, daybook, DayOne, YNAB, SQLite ops DB, and Gemini/RapidAPI integrations from the design, but the server code carried the now-orphan modules and dependencies for months. This pass actually removes them.
+
+- **Deleted server source:** `server/src/util/ynab.js` (YNAB token loader), `server/src/lib/gemini-client.js` (Gemini venue verification — pulled in protobufjs CVEs).
+- **Deleted server scripts:** `migrate-schema.mjs` (SQLite ops DB migration runner), `validate-parity.mjs` (DB-vs-file parity), `validate-workflow-state.mjs` (trip-log workflow state), `backfill-anchors.mjs` (itinerary geocoding), `test-a2.mjs` (trip-edit schema test), `mac-vision-ocr.swift` (receipt OCR shim), `validate-schemas.mjs` + `validate-markers.mjs` (silently broken since v3.2 — referenced paths and infrastructure that no longer exist).
+- **Slimmed `keychain.js`:** removed `loadGeminiKey()` + `loadRapidApiKey()` + their service-name constants. Only `loadAnthropicKey()` remains.
+- **Slimmed `routes/core.js`:** removed the `gemini: geminiStatus()` field from `/health` and the dead `/api/config` endpoint that exposed `refineAllEnabled` for the long-gone `/api/trip-refine-all` endpoint.
+- **Dropped server deps:** `@google/genai` (3 protobufjs CVEs), `better-sqlite3` (SQLite ops DB), `multer` (file uploads), `fast-json-patch` (queue/dead-letter pipeline), `js-yaml` (unused). `server/package.json` now lists 7 runtime deps, down from 12.
+- **`npm audit` is now 0 vulnerabilities** (was 3 high/moderate before).
+- **Cleaned env files:** `server/.env` no longer carries YNAB or OpenRouteService tokens; `server/.env.example` no longer documents `REFINE_ALL_ENABLED` or `ORS_API_KEY`. Users on previous installs should revoke the YNAB and OpenRouteService tokens upstream since they're no longer in use.
+- **CI workflow:** `Validate JSON schemas + fixtures` and `Validate memoir markers` steps removed (their scripts are deleted); the `Validate theme-token parity` step replaces them. Schema validation now happens at runtime via Express middleware on the actual endpoints; marker discipline is enforced by the journal-challenger and podcast-challenger agents.
 
 ## What changed in v3.5 (2026-05-17)
 

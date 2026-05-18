@@ -5,7 +5,6 @@
 //
 // Endpoints:
 //   GET  /health                       — core.js
-//   GET  /api/config                   — core.js
 //   POST /api/voice-test               — core.js
 //   POST /api/refine                   — core.js (memoir voice-DNA refinement)
 //   POST /api/chat                     — core.js (generic passthrough)

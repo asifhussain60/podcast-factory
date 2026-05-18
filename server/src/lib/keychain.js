@@ -1,12 +1,9 @@
-// keychain.js — retrieves API keys from macOS Keychain.
-// Falls back to env vars if Keychain lookup fails (useful for CI or
-// non-macOS contexts). Never logs key values. Never writes them to disk.
+// keychain.js — retrieves the Anthropic API key from macOS Keychain.
+// Falls back to env var if Keychain lookup fails. Never logs key values.
 
 import { execFileSync } from "node:child_process";
 
 const ANTHROPIC_SERVICE = "anthropic-api-key";
-const GEMINI_SERVICE    = "gemini_api_key";
-const RAPIDAPI_SERVICE  = "rapidapi-key";
 
 function readKeychain(service) {
   try {
@@ -34,33 +31,4 @@ export function loadAnthropicKey() {
     `  security add-generic-password -s ${ANTHROPIC_SERVICE} -a "$USER" -w 'sk-ant-...'\n` +
     `Or export ANTHROPIC_API_KEY before starting the server.`
   );
-}
-
-// Soft loader: returns null if no key is available anywhere. Callers
-// that treat Gemini as an optional enhancement (e.g. venue verification)
-// check the return value and degrade gracefully.
-export function loadGeminiKey() {
-  const keychainKey = readKeychain(GEMINI_SERVICE);
-  if (keychainKey && keychainKey.length > 10) {
-    return { key: keychainKey, source: "keychain" };
-  }
-  const envKey = process.env.GEMINI_API_KEY;
-  if (envKey && envKey.length > 10) {
-    return { key: envKey, source: "env" };
-  }
-  return { key: null, source: null };
-}
-
-// Soft loader for RapidAPI (AeroDataBox flight status). Returns null key if
-// unavailable — callers degrade gracefully.
-export function loadRapidApiKey() {
-  const keychainKey = readKeychain(RAPIDAPI_SERVICE);
-  if (keychainKey && keychainKey.length > 10) {
-    return { key: keychainKey, source: "keychain" };
-  }
-  const envKey = process.env.RAPIDAPI_KEY;
-  if (envKey && envKey.length > 10) {
-    return { key: envKey, source: "env" };
-  }
-  return { key: null, source: null };
 }
