@@ -262,15 +262,15 @@ Listener readability. The customize prompt (R-NAMEALIAS in `notebooklm-customize
 
 ### Auto-detect
 
-For each known long name in the chapter, count occurrences; flag if the alias is not used after first mention.
+For each known long name in the chapter, count occurrences; flag if the alias is not used after first mention. **Detection MUST cover all surface forms** — plain text, markdown emphasis (`**Long Name**`, `*Long Name*`), and section-header constructs (`#+ **Long Name**` or `#+ Long Name`). Each surface form is one occurrence.
 
 ### Auto-fix or flag
 
-**AUTO-FIX** when the alias is in the policy file (replace subsequent full-name occurrences with the alias). **FLAG (P1)** when an unknown long name appears (author proposes alias).
+**AUTO-FIX** when the alias is in the policy file: replace subsequent full-name occurrences with the alias. This applies to **every surface form including bold/italic emphasis and section headers** — e.g., `**Hamid al-Din Ahmad ibn Abdullah al-Kirmani**, the author of *al-Riyad*.` (line position 99 in the kitab-al-riyad EP01 audit) is rewritten to `**Al-Kirmani** — Hamid al-Din Ahmad ibn Abdullah al-Kirmani, the author of *al-Riyad*.` when the line begins with the bold form and carries an orienting clause, OR to the plain alias otherwise. The em-dash bridge preserves the bio anchor without violating R-NAMES. **FLAG (P1)** when an unknown long name appears (author proposes alias).
 
 ### Authority for challenger
 
-`podcast-challenger` Loop **J2** (chapter-side counterpart to the framing-side check).
+`podcast-challenger` Loop **J2** (chapter-side counterpart to the framing-side check). The bold-header surface-form coverage was promoted from `_learning/proposals/2026-05-18-j2-density-kitab-al-riyad-ep01-the-lineage-of-a-lost-argument.md` on 2026-05-18 after 3× firings in one chapter.
 
 ---
 

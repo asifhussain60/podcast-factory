@@ -1,13 +1,13 @@
 {
-  "ts": "2026-05-18T17:52Z",
+  "ts": "2026-05-18T18:38Z",
   "book": "kitab-al-riyad",
   "chapters_in_scope": 1,
   "p0": 0,
-  "p1": 5,
+  "p1": 2,
   "p2": 1,
-  "auto_fixes": 6,
-  "score": 0.0,
-  "badge": "Unstable",
+  "auto_fixes": 10,
+  "score": 0.55,
+  "badge": "Drifting",
   "verdict": "SHIP-WITH-CAUTION",
   "challenger_version": "2.0"
 }

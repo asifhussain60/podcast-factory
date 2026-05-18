@@ -57,7 +57,7 @@ THRESHOLD_EPISODES = 3
 # framing or J2 firing 3× in one chapter.
 THRESHOLD_DENSITY = 3
 
-PROPOSER_VERSION = "1.2"
+PROPOSER_VERSION = "1.3"  # 2026-05-18: skip when ALL records are auto-fixed (post-promotion noise suppression)
 
 # Routing: check_id → suggested target rule file. Used to pre-fill the
 # "Target file(s)" section of a proposal. Authors override as needed.
@@ -349,8 +349,16 @@ def main() -> int:
     skipped_resolved: list[str] = []
     skipped_below_threshold: list[str] = []
 
+    skipped_all_autofixed: list[str] = []
+
     # ── Pass 1: cross-book / cross-episode signature recurrence ─────────────
     for sig, recs in sorted(by_sig.items()):
+        # Skip when EVERY record for this signature carries resolution=auto-fixed.
+        # The rule has already absorbed the pattern; further proposals are noise.
+        if recs and all(r.get("resolution") == "auto-fixed" for r in recs):
+            skipped_all_autofixed.append(sig)
+            continue
+
         books = {r.get("book", "") for r in recs if r.get("book")}
         episodes = {r.get("episode", "") for r in recs if r.get("episode")}
         if not (len(books) >= THRESHOLD_BOOKS or len(episodes) >= THRESHOLD_EPISODES):
@@ -386,7 +394,13 @@ def main() -> int:
     #    or a tighter precondition." ──────────────────────────────────────
     density_written: list[Path] = []
     for (check_id, book, ep), recs in sorted(by_check_in_episode.items()):
-        if len(recs) < THRESHOLD_DENSITY:
+        # Count only still-flagged firings against the density threshold.
+        # Auto-fixed firings prove the rule absorbed the pattern; they should
+        # not keep re-firing the proposal once the fix lands.
+        flagged_recs = [r for r in recs if r.get("resolution") != "auto-fixed"]
+        if len(flagged_recs) < THRESHOLD_DENSITY:
+            if recs and not flagged_recs:
+                skipped_all_autofixed.append(f"{check_id}:density:{book}:{ep}")
             continue
         consolidated_sig = f"{check_id}:density:{book}:{ep}"
         slug = signature_to_slug(consolidated_sig)
@@ -418,6 +432,7 @@ def main() -> int:
     print(f"  proposals written (recur):  {len(written)}")
     print(f"  proposals written (density):{len(density_written)}")
     print(f"  skipped (already resolved): {len(skipped_resolved)}")
+    print(f"  skipped (all auto-fixed):   {len(skipped_all_autofixed)}")
     print(f"  skipped (below threshold):  {len(skipped_below_threshold)}")
     for p in written + density_written:
         print(f"  → {p.relative_to(REPO_ROOT) if REPO_ROOT in p.parents else p}")

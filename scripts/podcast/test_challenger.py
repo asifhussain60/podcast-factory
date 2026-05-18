@@ -148,6 +148,47 @@ def detect_surprise(text: str) -> list[str]:
     return sorted(set(hits))
 
 
+def detect_j2_bold_header(text: str) -> list[str]:
+    """J2 (bold-header surface form) — markdown bold/header carrying a known
+    long ceremonial name AFTER its first plain-text mention.
+
+    Detector strategy: find every `**<phrase>**` where <phrase> is 4+ tokens
+    AND begins with one of the long-name tokens from the name-alias policy
+    (kept as a compact prefix list here to keep the fixture deterministic).
+    Each match is one hit; first-mention exemption is not modeled (fixtures
+    assume the long name has appeared earlier as plain text).
+    """
+    long_name_prefixes = [
+        "Abu Hatim Ahmad ibn Hamdan al-Razi",
+        "Abu Ya'qub Ishaq al-Sijistani",
+        "Hamid al-Din Ahmad ibn Abdullah al-Kirmani",
+        "Muhammad ibn Ahmad al-Nasafi",
+    ]
+    hits = []
+    for m in re.finditer(r"\*\*([^*\n]+)\*\*", text):
+        phrase = m.group(1).strip()
+        for prefix in long_name_prefixes:
+            if phrase.startswith(prefix):
+                ln = text[: m.start()].count("\n") + 1
+                hits.append(f"L{ln}:{prefix}")
+                break
+    return sorted(set(hits))
+
+
+def detect_surprise_positive_companion(text: str) -> list[str]:
+    """R-NOSURPRISE positive-companion presence check.
+
+    The framing's `## Do not` block must carry BOTH the DENY clause AND the
+    positive directive promoted on 2026-05-18. The detector returns hits
+    only when the positive paragraph is MISSING — its presence is the
+    intended state, so a clean framing produces zero hits.
+    """
+    required_phrase = "name what is new in ONE short clause"
+    if required_phrase in text:
+        return []
+    return ["MISSING:surprise-positive-companion"]
+
+
 DETECTORS = {
     "em_dash": detect_em_dash,
     "honorific_repeat": detect_honorific_repeat,
@@ -156,6 +197,8 @@ DETECTORS = {
     "formal_transition": detect_formal_transition,
     "abbreviation": detect_abbreviation,
     "surprise": detect_surprise,
+    "j2_bold_header": detect_j2_bold_header,
+    "surprise_positive_companion": detect_surprise_positive_companion,
 }
 
 

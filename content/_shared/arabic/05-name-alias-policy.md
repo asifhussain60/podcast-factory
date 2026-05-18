@@ -75,7 +75,11 @@ The alias MUST use the canonical phonetic spelling from `03-arabic-english-manif
 |---|---|---|
 | Nasir-i Khusraw | Nasir Khusraw | naa-sir khus-raw |
 | Hamid al-Din al-Kirmani | al-Kirmani | al-kir-maa-nee |
+| Hamid al-Din Ahmad ibn Abdullah al-Kirmani | al-Kirmani | al-kir-maa-nee |
 | Abu Ya'qub al-Sijistani | al-Sijistani | as-si-jis-taa-nee |
+| Abu Ya'qub Ishaq al-Sijistani | al-Sijistani | as-si-jis-taa-nee |
+| Abu Hatim Ahmad ibn Hamdan al-Razi | Abu Hatim al-Razi | a-boo haa-tim al-raa-zee |
+| Muhammad ibn Ahmad al-Nasafi | al-Nasafi | an-na-sa-fee |
 | Mu'ayyad fi al-Din al-Shirazi | al-Mu'ayyad | al-mu-ay-yad |
 | Qadi al-Nu'man | Qadi al-Nu'man | qaa-dee an-nu-maan |
 | Pir Hasan Kabirdin | Pir Hasan | peer ha-san |

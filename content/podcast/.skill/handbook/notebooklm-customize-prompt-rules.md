@@ -459,17 +459,30 @@ single-word reaction. Trust the listener to register weight without being
 told.
 ```
 
+### Required POSITIVE companion (added 2026-05-18 via the learning pipeline)
+
+The DENY list alone empirically still leaves a vacuum the model fills with adjacent surprise vocabulary. Every framing MUST also carry a positive directive — placed alongside the DENY clause inside the `## Do not` block — that tells the hosts what to do instead:
+
+```
+When something in the source genuinely lands as new, name what is new in
+ONE short clause that advances the argument ("the move he just made is
+strict", "the citation chain stops there"), then continue. Do not pad
+with reaction interjections. The reaction IS the next substantive sentence.
+```
+
+Promoted from `_learning/proposals/2026-05-18-tx-surprise-density-ayyuhal-walad-ep02-hatim-eight-benefits.md` on 2026-05-18 after 5× firings of distinct surprise vocabulary (`wow / Wow / right? / exactly / Exactly`) in a single transcript despite the DENY clause being present in the framing. The DENY list is necessary but not sufficient; the positive directive closes the gap.
+
 ### Why
 
-Empirical evidence: across the 5 transcripts, surprise-noise loops appeared >40 times. "It's chilling", "It's devastating", "It's terrifying" appeared together in one episode 6 times. Tone constraint prose ("no wow loops") is too soft; a DENY list of specific phrases is enforceable.
+Empirical evidence: across the 5 transcripts, surprise-noise loops appeared >40 times. "It's chilling", "It's devastating", "It's terrifying" appeared together in one episode 6 times. Tone constraint prose ("no wow loops") is too soft; a DENY list of specific phrases is enforceable. The positive companion (above) further redirects the host's prosodic energy into argument-advancing speech rather than affect.
 
 ### Auto-detect
 
-Scan `00-framing.md`'s `## Do not` section for the canonical surprise-deny phrases. Absence → flag.
+Scan `00-framing.md`'s `## Do not` section for the canonical surprise-deny phrases AND the positive companion paragraph (key phrase: "name what is new in ONE short clause"). Absence of either → flag.
 
 ### Auto-fix
 
-**AUTO-FIX** (insert the clause) when the `## Do not` section exists. **FLAG (P1)** when it does not.
+**AUTO-FIX** (insert the DENY clause AND the positive companion paragraph together) when the `## Do not` section exists. **FLAG (P1)** when it does not.
 
 ### Authority for challenger
 

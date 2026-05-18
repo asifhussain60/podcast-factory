@@ -163,6 +163,8 @@ The source is a 1,000-year-old philosophical treatise mediated through a 1960 sc
 
 Do NOT perform surprise. Do not say: "wow", "that's so interesting", "it's chilling", "it's devastating", "it's terrifying", "it's profound", "it's fascinating", "it's amazing", "oh my god", "right?", "exactly", "no way". Do not gasp. Do not repeat the previous host's last word as a single-word reaction. Trust the listener to register weight without being told.
 
+When something in the source genuinely lands as new, name what is new in ONE short clause that advances the argument ("the move he just made is strict", "the citation chain stops there"), then continue. Do not pad with reaction interjections. The reaction IS the next substantive sentence.
+
 Do NOT abbreviate the names of major works. Always say "Kitab al-Riyad" or "al-Riyad" — never "the Riyad" alone or "Riyadh". Always say "al-Mahsul", "al-Islah", "al-Nusra" — do not anglicize. Always say "Rahat al-Aql" — never "the Rahat". Always say "Nahj al-Balagha" — never "the Nahj".
 
 Do NOT confuse the two al-Razis. Abu Hatim al-Razi is the Ismaili da'i, author of *al-Islah*, the one this chapter is about. Abu Bakr al-Razi is the physician-philosopher, his contemporary and debate opponent. Both lived in Rayy. They are different men. When the chapter mentions a debate between Abu Hatim and Abu Bakr al-Razi, the hosts must not flatten the two.

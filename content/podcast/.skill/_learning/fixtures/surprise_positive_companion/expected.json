@@ -1,0 +1,5 @@
+{
+  "check_id": "R-NOSURPRISE-positive",
+  "detector": "surprise_positive_companion",
+  "hits": []
+}
