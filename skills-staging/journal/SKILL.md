@@ -163,14 +163,33 @@ Before any section is considered complete, it passes through these quality loops
 
 When all sections are approved (see `journal-workflow-v2.md` §4 for the canonical step-by-step):
   1. Run a SEAM CHECK: read the full scratchpad end-to-end. Check flow between sections — editing Section 5 in isolation may have created a seam with Section 6. Fix any seams.
-  2. Move the full chapter from scratchpad to `content/babu-memoir/chapters/ch##-<slug>.txt`
-  3. Lock all new/modified paragraphs in `_system/locked-paragraphs.md`
-  4. Update `_system/quotes-library.txt` usage markers for any quotes placed or moved
-  5. Update `_system/incident-bank.md` for any new incidents placed
-  6. Update `_system/temporal-guardrail.md` if new incidents affect the timeline
-  7. Run full compliance scan (all Loop 4 checks)
-  8. Run snapshot: `python3 <JOURNAL_DIR>/scripts/memoir/auto_delta.py <JOURNAL_DIR> --save`
-  9. Delete the scratchpad
+  2. **HARD GATE — Run the journal-challenger to SHIP-READY in an outer convergence loop.** The Loop 4 in-conversation checks above are author-side discipline. The challenger is the semantic-quality gate — voice integrity (V), narrative architecture (A), craft compliance (C), governance (G), delta protection (D), Arabic-pronunciation cascade (N). Until this gate yields `SHIP-READY` (or an explicit stall surface), Steps 3–9 below MUST NOT execute and the producing agent MUST NOT emit any human-facing "chapter complete" signal.
+
+     Drive it through:
+     - **Preferred** (when invokable as a subagent): `Agent` tool with `subagent_type=journal-challenger`, prompt `--scope=scratchpad --chapter <slug>`.
+     - **Fallback** (when `journal-challenger` is not registered as a subagent_type): spawn a `general-purpose` Agent and pass the canonical spec `.github/agents/journal-challenger.agent.md` as its briefing along with the chapter scope. The spawned agent must read the spec in full on every invocation, not paraphrase from memory.
+
+     Outer re-invocation loop (mirrors podcast Phase 4 step 3):
+     ```
+     loop:
+       invoke challenger on --scope=scratchpad --chapter <slug>
+       read content/babu-memoir/_system/challenger-report.md → (verdict, p0_count, p1_count)
+       if verdict == SHIP-READY: break
+       if (verdict, p0_count, p1_count) == prior: break  # stall — surface to human
+       # otherwise: address every P0 finding in challenger-report.md, then re-invoke
+     ```
+     A `BLOCKED` verdict prevents the scratchpad → `chapters/` move (Step 3). The challenger itself runs up to `challenger_contract.max_iterations` (currently 3) per invocation and auto-fixes deterministic issues only from the allowed list (em-dashes, banned-word swaps grounded in `voice-deep-analysis.md`, repeated honorifics, manifest-grounded phonetic gaps, translation drift against `translations-glossary.md`, missing chapter-opening contextual frame).
+
+     The human-facing summary after Phase 4 MUST begin with `Challenger verdict: SHIP-READY` (or the explicit stall surface). It cannot run on a non-SHIP-READY workspace without the stall handoff.
+
+  3. Move the full chapter from scratchpad to `content/babu-memoir/chapters/ch##-<slug>.txt`
+  4. Lock all new/modified paragraphs in `_system/locked-paragraphs.md`
+  5. Update `_system/quotes-library.txt` usage markers for any quotes placed or moved
+  6. Update `_system/incident-bank.md` for any new incidents placed
+  7. Update `_system/temporal-guardrail.md` if new incidents affect the timeline
+  8. Run full compliance scan (all Loop 4 checks)
+  9. Run snapshot: `python3 <JOURNAL_DIR>/scripts/memoir/auto_delta.py <JOURNAL_DIR> --save`
+  10. Delete the scratchpad
 
 ============================================================
 SECTION 4: VOICE DNA — THE SIX HUMOR PATTERNS
