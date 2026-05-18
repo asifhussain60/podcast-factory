@@ -62,6 +62,13 @@ content/podcast/library/audio/*/
 # files are committed; transcripts/ is local-only scratch.
 content/podcast/library/lectures/*/transcripts/
 
+# Sandbox inbox — universal drop zone for raw inputs (MP3, PDF, TurboScribe
+# txt, etc.) before the podcast agent triages them into the right book dir.
+# Nothing inside should ever be committed; only the README documents the
+# contract. See content/podcast/library/_sandbox/README.md.
+content/podcast/library/_sandbox/*
+!content/podcast/library/_sandbox/README.md
+
 # Python bytecode
 **/__pycache__/
 *.pyc
