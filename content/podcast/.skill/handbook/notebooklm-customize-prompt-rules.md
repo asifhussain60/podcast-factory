@@ -189,6 +189,153 @@ Scan `00-framing.md` for the substring "interjection" or "talking over" or "comp
 
 ---
 
+## R-SURPRISE-MOVE · Separate-prep illusion via planted handoffs
+
+### Rule
+
+The framing MUST direct the conversation choreography to include **at least one moment per episode** where one host introduces a passage, citation, or question that the other host has not led with, and the other host reacts in real time. The reaction is genuine, not staged. Mechanical alternation (Host A asks → Host B answers → Host A asks → Host B answers) is forbidden.
+
+### Why
+
+NotebookLM's default two-host pattern is rhythmic Q-and-A. Listeners experience this as scripted. A planted "surprise move" — Host A drops a quote Host B has not framed, or Host B raises a counter-citation Host A has not invited — produces the cadence of two people who prepared separately. The episode reads as conversation, not as interview.
+
+### Required clause in `00-framing.md`
+
+Under "Host dynamic" → "Conversation choreography" (create the subsection if absent):
+
+```
+Plant at least one moment where one host introduces a passage, citation,
+or question from the source that the other has not led toward. The other
+host reacts to it in real time — taking it on directly, not deferring or
+sidestepping. This breaks the rhythm of alternating Q-and-A and signals
+to the listener that the hosts prepared separately. Do not stage the
+surprise; let the planted passage carry the weight.
+```
+
+### Auto-detect
+
+Scan `00-framing.md` for "Conversation choreography" subsection (or substring "plant at least one moment" / "prepared separately") within Host dynamic. Absence → flag.
+
+### Auto-fix
+
+**AUTO-FIX** (insert the canonical clause) when Host dynamic section exists. **FLAG (P1)** when Host dynamic itself is missing.
+
+### Authority for challenger
+
+`podcast-challenger` Loop **R1** (separate-prep illusion clause present) — new check added 2026-05-18.
+
+---
+
+## R-RESET · Reset moments between beats
+
+### Rule
+
+When the discussion spine has more than five beats, the framing MUST direct the hosts to insert a **reset moment** between major beat groups: a single sentence from one host re-anchoring where the conversation is, before the next beat begins. A reset is not a recap of the episode — it is a marker that names what just landed and what the next move opens.
+
+### Why
+
+Above five beats, NotebookLM's defaults compress past the seams: the listener loses thread, and the second half of the episode feels like a different conversation from the first. A scripted reset re-anchors without breaking conversational flow. One sentence is enough; more becomes lecture summary.
+
+### Required clause in `00-framing.md`
+
+Under "Three-part focus" → "Pacing" (or new "Reset moments" sub-section):
+
+```
+Between major beats, insert a single-sentence reset — one host names what
+just landed, then the next beat begins. Examples:
+- "So the diagnosis is in. Now the question becomes — what does it ask
+  the reader to do?"
+- "We've been on the inside of the experience. Let me step back and ask
+  who else in the tradition was making this argument."
+A reset is one sentence. It does not summarize the episode; it marks the
+seam. Do not over-anchor; one reset per major beat-group is enough.
+```
+
+### Auto-detect
+
+Scan `00-framing.md` for the substring "reset" or "single-sentence reset" within Three-part focus / Pacing / Reset moments subsection. Absence in framings whose discussion spine has >5 beats → flag.
+
+### Auto-fix
+
+**AUTO-FIX** (insert the canonical clause) when the framing has >5 beats in its discussion spine AND no reset directive. **FLAG (P2)** when the framing has ≤5 beats and the clause is absent (advisory only — short episodes don't need resets).
+
+### Authority for challenger
+
+`podcast-challenger` Loop **R2** (reset clause present when warranted) — new check added 2026-05-18. The challenger reads the discussion spine's beat count to determine whether R2 applies.
+
+---
+
+## R-CADENCE · Short-to-medium sentence rhythm
+
+### Rule
+
+The framing MUST include a cadence directive under Tone constraints: short-to-medium sentences with varied rhythm. Long compound sentences with three or more subordinate clauses are forbidden. The pace is conversation, not lecture.
+
+### Why
+
+NotebookLM defaults to declarative-essay sentence structure when its source is dense prose (classical translations, scholarly essays). The result reads-aloud as a podcast voicing a read-aloud essay. An explicit cadence directive bends the voice model toward conversational sentence lengths.
+
+### Required clause in `00-framing.md`
+
+Under "Tone" or "Tone constraints":
+
+```
+Cadence: short-to-medium sentences with varied rhythm. Mix simple
+declarative sentences with occasional longer ones. Avoid sentences that
+chain three or more subordinate clauses ("which", "that", "where") in
+sequence. The pace is conversation, not lecture; the hosts are thinking
+out loud, not reading.
+```
+
+### Auto-detect
+
+Scan `00-framing.md` Tone section for substring "cadence" or "short-to-medium" or "thinking out loud". Absence → flag.
+
+### Auto-fix
+
+**AUTO-FIX** (insert the canonical clause) when Tone section exists. **FLAG (P2)** when Tone section itself is missing.
+
+### Authority for challenger
+
+`podcast-challenger` Loop **R3** (cadence clause present) — new check added 2026-05-18.
+
+---
+
+## R-NOFORMAL · No formal-essay transitions
+
+### Rule
+
+The customize prompt's `## Do not` block MUST include the banned formal-essay transition phrases. The hosts speak as friends thinking together, not as a writer reading section dividers aloud.
+
+### Why
+
+NotebookLM defaults to essay-structural transitions when its source is dense exposition. "Firstly", "Secondly", "Moving on", "In conclusion", and "Furthermore" are the tells. Banning the specific tokens is enforceable; banning "formal language" generically is not (same lesson as R-NOMODERNIZE).
+
+### Required clause inside the `## Do not` block
+
+```
+Do NOT use formal-essay transitions. Do not say: "Firstly", "Secondly",
+"Thirdly", "Furthermore", "Moreover", "In conclusion", "To summarize",
+"To begin with", "To start", "Moving on to", "Let us turn to", "Lastly",
+"Last but not least", "All in all". These belong to written essays, not
+to two people thinking out loud. Transitions in conversation happen via
+pacing (a beat, a question, a re-anchor) — not via section dividers.
+```
+
+### Auto-detect
+
+Scan `00-framing.md`'s `## Do not` section for the canonical formal-transition deny phrases. Absence → flag.
+
+### Auto-fix
+
+**AUTO-FIX** (insert the clause) when the `## Do not` section exists. **FLAG (P1)** when it does not (the M1 + M2 fix will create it, then R-NOFORMAL augments).
+
+### Authority for challenger
+
+`podcast-challenger` Loop **R4** (formal-transition deny present) — new check added 2026-05-18. Loop M also scans the most recent transcript for occurrences of the banned phrases.
+
+---
+
 ## R-PRONUNCIATION-IMPERATIVE · Pronunciation directives in imperative voice
 
 ### Rule
@@ -241,46 +388,57 @@ Scan `## Pronunciation` block: every non-blank line MUST start with `Pronounce "
 
 ---
 
-## R-NOMODERNIZE · No modern-platform or contemporary analogies
+## R-NOMODERNIZE · No named modern platforms or products; analogies welcome
 
 ### Rule
 
-The customize prompt MUST explicitly forbid the hosts from drawing modern-platform / contemporary-culture analogies whenever the chapter's declared `contract.angle` is `faithful_exposition` (the typical case for classical-text material). Modern analogies break the angle. The DENY list below is the minimum — extend per book in `BOOK_DIR/_system/meta-prose-tells.md` or in the framing itself.
+The customize prompt MUST forbid the hosts from naming specific modern platforms, products, or internet-culture artifacts (the DENY list below). **Generic modern-life practical analogies are explicitly ALLOWED and encouraged** when they illuminate a classical concept the listener might otherwise struggle with. The distinction is *named-modern-artifact* (banned) vs *modern-life situation* (allowed).
+
+Banned: `Twitter`, `algorithm`, `doomscrolling`, `content creator`.
+Allowed: "imagine a parent worrying about their child's choices", "the way someone might rehearse what they want to say before a difficult conversation", "the experience of comparing yourself to a coworker who got promoted".
+
+The angle in `faithful_exposition` mode is to keep the conversation in the source's register; the listener can still receive a contemporary practical analogy as long as it doesn't name a modern platform or internet artifact.
 
 ### Required `## Do not` block in `00-framing.md`
 
 ```
 ## Do not (forbidden vocabulary and framings)
 
-Do NOT modernize. The hosts do not mention any of: Twitter, X, social media,
-algorithm, content creator, internet troll, reply guy, YouTube comment,
-TikTok, Instagram, podcast, livestream, app, screen time, notification,
-attention economy, 21st century, "in our modern world", quote-tweet,
-hashtag, follower count, like, share, repost, doomscroll, hot take,
-cognitive behavioral therapy, productivity framework, life hack,
-self-help, wellness, mindfulness app, dopamine hit, deep dive.
+Do NOT name modern platforms, products, or internet-culture artifacts. The
+hosts do not mention any of: Twitter, X, social media, algorithm, content
+creator, internet troll, reply guy, YouTube comment, TikTok, Instagram,
+podcast, livestream, app, screen time, notification, attention economy,
+21st century, "in our modern world", quote-tweet, hashtag, follower count,
+like, share, repost, doomscroll, hot take, cognitive behavioral therapy,
+productivity framework, life hack, self-help, wellness, mindfulness app,
+dopamine hit, deep dive.
 
-The source is a classical text. The conversation stays in the source's
-own register. If a contemporary parallel is genuinely necessary, name it
-generically ("public debate", "performance for an audience") — never a
-named modern platform or product.
+DO use modern-life practical analogies when they help the listener
+recognize a classical concept in lived experience — a parent worrying
+about a child, an employee resenting a coworker, the experience of
+preparing for a difficult conversation, learning a craft over years.
+These analogies illuminate the source without dragging in named modern
+platforms or internet artifacts. Each analogy lands in a single beat and
+returns to the source; it does not replace the source.
 ```
 
 ### Why
 
-Empirical evidence (transcript audit, May 2026 — full inventory in [`worked-examples.md` §5](worked-examples.md#5--empirical-evidence-motivating-r-phonetics-out-r-nomodernize-r-nosurprise)): the framing's soft prose directive ("do not modernize") is ignored — NotebookLM injects modern-platform analogies (`internet troll`, `reply guy`, `algorithmic envy machines`, etc.) anyway. A DENY list of specific words is enforceable; prose is not.
+Empirical evidence (transcript audit, May 2026 — full inventory in [`worked-examples.md` §5](worked-examples.md#5--empirical-evidence-motivating-r-phonetics-out-r-nomodernize-r-nosurprise)): the failure mode is NotebookLM naming specific modern platforms (`internet troll`, `reply guy`, `algorithmic envy machines`) which break the angle. **The failure mode is *naming the artifact*, not *using a contemporary parallel***. The earlier formulation of this rule over-restricted: it banned all modern analogies, which suppressed pedagogically valuable comparisons. The corrected formulation bans the named-artifact pollution while permitting the practical analogies that help a 2026 listener recognize an 1100 CE concept.
 
 ### Auto-detect
 
-Scan `00-framing.md` for the `## Do not` section containing at least the canonical modernization-deny list. Absence → flag.
+Two scans:
+- **Negative**: `## Do not` section contains at least the canonical platform-deny list. Absence → flag.
+- **Positive**: framing includes the "DO use modern-life practical analogies" paragraph (or equivalent permission). Absence → flag (P2 advisory — the framing is workable without it, but the angle is needlessly tight).
 
 ### Auto-fix
 
-**AUTO-FIX** (insert the canonical block) when the framing has no `## Do not` section. **FLAG (P1)** when the block exists but is missing required entries.
+**AUTO-FIX** (insert the canonical block including both Do-not and Do paragraphs) when the framing has no `## Do not` section. **FLAG (P1)** when the negative block exists but is missing required DENY entries. **AUTO-FIX (P2)** to insert the positive paragraph when the negative block exists but the permission is absent.
 
 ### Authority for challenger
 
-`podcast-challenger` Loop **M** (modernization audit) — new check added 2026-05-17. Loop M ALSO scans the most recent transcript (if available under `BOOK_DIR/turboscribe/EP##-<slug>.transcript.txt`) for injected modernizations.
+`podcast-challenger` Loop **M** (modernization audit) — updated 2026-05-18 to honor the named-artifact-vs-practical-analogy distinction. Loop M ALSO scans the most recent transcript (if available under `BOOK_DIR/turboscribe/EP##-<slug>.transcript.txt`) for injected named artifacts.
 
 ---
 
@@ -436,5 +594,6 @@ When deprecating a rule:
 
 ## Revision log
 
+- 2026-05-18 — **Conversation choreography rules + R-NOMODERNIZE softening.** Added R-SURPRISE-MOVE (separate-prep illusion via planted handoffs — at least one moment per episode), R-RESET (single-sentence reset between major beat-groups in spines >5 beats), R-CADENCE (short-to-medium sentence rhythm under Tone constraints), R-NOFORMAL (DENY block extension for formal-essay transitions: `Firstly`, `In conclusion`, `Moving on to`, etc.). Softened R-NOMODERNIZE: the failure mode is *naming the modern artifact* (Twitter, algorithm, etc.), not *using a contemporary parallel* — modern-life practical analogies are now explicitly permitted when they help the listener recognize a classical concept in lived experience. The DENY list of named platforms remains intact; the rule adds a positive permission paragraph. New checks in `podcast-challenger` Category R (R1–R4). Driven by a quality-baseline review showing the prior R-NOMODERNIZE formulation over-restricted analogies and suppressed pedagogical comparisons, and that the framing lacked explicit signals for the separate-prep illusion, reset moments, and cadence/transition discipline.
 - 2026-05-17 (later) — **Empirical pivot from passive lists to imperative directives.** Added R-PRONUNCIATION-IMPERATIVE (replaces passive `*term*: phonetic` pattern that empirically did not change NotebookLM behavior — see audit notes in [`worked-examples.md` §5](worked-examples.md#5--empirical-evidence-motivating-r-phonetics-out-r-nomodernize-r-nosurprise)). Added R-NOMODERNIZE (DENY list including Twitter, X, social media, algorithm, content creator, etc. — soft "do not modernize" prose was being ignored). Added R-NOSURPRISE (DENY list for "wow", "it's chilling", "it's devastating", "right?", "exactly", etc. — surprise loops appeared >40 times across the audited episodes). Added R-NO-READ-PROMPT (single-line guard against the hosts reading the prompt aloud). Deprecated R-PHONETICHOOKS.
 - 2026-05-17 — Seeded with R-WELCOME, R-NOREPEAT, R-NOBACKGROUND, R-NAMEALIAS, R-NOINTERRUPT, R-PHONETICHOOKS, R-SUMMARYTAIL, R-NOMETA. Externalized from scattered references across SKILL.md and notebooklm-best-practices.md.

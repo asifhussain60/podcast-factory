@@ -20,9 +20,10 @@ Every beat in the spine has the same structure:
 - **Tension:** What's the friction in this beat?
 - **Anchor passage:** Reference (or short quote from) the passage from `02-key-passages.md`
 - **Landing:** What state does this beat leave the listener in?
+- **Reset before next beat:** (optional; REQUIRED at seams between major beat-groups in any spine with >5 beats, per R-RESET) Single sentence the Driver host uses to re-anchor the listener. Example: "So the diagnosis is in. Now the question becomes — what does it ask the reader to do?"
 ```
 
-The "Key question" is the host instinct. The "Tension" is what makes the beat alive. The "Anchor passage" is what NotebookLM retrieves when discussing the beat. The "Landing" is the emotional/intellectual residue.
+The "Key question" is the host instinct. The "Tension" is what makes the beat alive. The "Anchor passage" is what NotebookLM retrieves when discussing the beat. The "Landing" is the emotional/intellectual residue. The "Reset" (when present) is one sentence that names what just landed and what the next move opens — never a recap of the episode. One reset per major beat-group is enough.
 
 ## The arc across beats
 

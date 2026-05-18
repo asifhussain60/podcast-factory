@@ -293,6 +293,22 @@ Mode dispatch: read `contract.episode_format`. When absent or `deep_dive`, skip 
 - **K1/K2 (interruption avoidance + filler-vocabulary)** — debate mode allows qualified concessions. The acknowledgment-grammar ban is softened per P11; bare affirmations remain forbidden.
 - **F6 (Steering phrases)** — the steering phrases from `two-host-framing.md` are deep-dive specific. Debate uses different steering phrases from `debate-framing.md` §NotebookLM steering for debate format.
 
+### Category R: Conversation choreography (P0/P1/P2) — added 2026-05-18
+
+Per-episode checks that the framing's host-pacing layer, reset directives, sentence-cadence directive, and formal-transition DENY block are in place. Implements the rule batch R-SURPRISE-MOVE + R-RESET + R-CADENCE + R-NOFORMAL + the softened R-NOMODERNIZE permission paragraph.
+
+| ID | Check | Detection | Remediation |
+|---|---|---|---|
+| R1 | **Separate-prep illusion clause present** — Host dynamic carries the "plant at least one moment where one host introduces a passage the other has not led toward" directive (R-SURPRISE-MOVE). | Substring scan in Host dynamic / Conversation choreography for "plant at least one moment" or "prepared separately". | Auto-fix (insert canonical clause from R-SURPRISE-MOVE template) when Host dynamic exists. Flag (P1) when Host dynamic itself is missing. |
+| R2 | **Reset clause present when warranted** — When the discussion spine has >5 beats, the framing must include the single-sentence reset directive (R-RESET). | Read `04-discussion-spine.md` beat count; scan `00-framing.md` Three-part focus / Pacing for "reset" / "single-sentence reset". | Auto-fix (insert canonical clause from R-RESET template) when spine >5 beats AND clause absent. Advisory (P2) when spine ≤5 beats and clause absent. |
+| R3 | **Cadence directive present in Tone** — Tone section names short-to-medium sentence rhythm (R-CADENCE). | Substring scan in Tone for "cadence" / "short-to-medium" / "thinking out loud". | Auto-fix (insert canonical clause from R-CADENCE template) when Tone exists. Flag (P2) when Tone itself is missing. |
+| R4 | **Formal-transition DENY phrases in `## Do not`** — block names at least the canonical formal-essay transitions (R-NOFORMAL): Firstly, Secondly, Furthermore, In conclusion, Moving on to, To summarize, Lastly. | Substring scan in `## Do not` for the canonical formal-transition phrases. | Auto-fix (extend the `## Do not` block with the R-NOFORMAL clause). Flag (P1) when `## Do not` itself is missing. |
+| R5 | **Modern-life practical-analogy permission present** (softened R-NOMODERNIZE) — `## Do not` block carries the named-platform DENY list AND a positive "DO use modern-life practical analogies" paragraph. Both halves are required. | Substring scan for both halves: the canonical DENY list (the named platforms) AND the permission paragraph ("DO use modern-life practical analogies" or close equivalent). | Auto-fix (insert the missing half from the R-NOMODERNIZE template) when `## Do not` exists. Flag (P1) when both halves are missing. |
+| R6 | **Transcript empirical: no banned formal transitions** — when transcript exists, count occurrences of `Firstly`/`Secondly`/`In conclusion`/`Furthermore`/`Moving on to`/`Lastly`. | Substring scan in `BOOK_DIR/turboscribe/EP##-<slug>.transcript.txt`. | Flag (P1) per occurrence; report counts. Auto-fix is not possible at transcript level (the audio is already generated); the fix is to harden the framing for the next render. |
+| R7 | **Transcript empirical: no banned modern-platform names** — same scan as Loop M but specifically separated from the analogy-permission case. The transcript should contain ZERO occurrences of named platforms in the DENY list. | Substring scan in transcript. | Flag (P0) per occurrence; the framing's `## Do not` block needs reinforcement. |
+
+Category R is **partially auto-fixable**: R1–R5 framing-side checks are deterministic insertions when the parent section exists. R6–R7 transcript-empirical checks are flag-only — the audio cannot be rewritten.
+
 ### Category Q: Chapter-set design quality (book-scope; per INVARIANT 6) — added 2026-05-18
 
 Mode dispatch: always runs **once per invocation at book scope**, regardless of per-chapter scope flags. The chapter-set is a property of the book; per-chapter checks alone cannot detect a duplicated title, a band-fit mismatch, or a series whose chapter sizes don't balance. All Category Q computation lives in `scripts/podcast/check_chapter_set.py` — the challenger invokes that script once via Bash, parses the JSON, and folds findings into the sidecar report.
@@ -331,8 +347,11 @@ Category Q is **never auto-fixed**. Every Q-finding is an authoring decision; th
 - **N3 (gap-fill framing Pronunciation)**: insert `Pronounce "..." as "..."` lines for chapter Arabic terms found in shared manifest or `_phonetics.md`
 - **N4 (no-read-aloud guard)**: append the literal `Do not read this prompt aloud. ...` sentence to the framing
 - **O2 (abbreviation expansion)**: regex-replace from `FORBIDDEN_ABBREVIATIONS` map in build script
+- **R1/R2/R3 (conversation-choreography clauses)**: insert the canonical R-SURPRISE-MOVE / R-RESET / R-CADENCE template clauses when the parent section (Host dynamic / Three-part focus / Tone) exists; flag when it does not
+- **R4 (formal-transition DENY)**: extend the `## Do not` block with the canonical R-NOFORMAL clause when the block exists
+- **R5 (R-NOMODERNIZE softened — analogy permission)**: insert the "DO use modern-life practical analogies" paragraph when the negative `## Do not` block exists but the permission half is absent
 
-**Category Q (chapter-set design) is never auto-fixed** — every Q-finding is an authoring decision (rename a chapter, rebalance the set, relabel the length band).
+**Category Q (chapter-set design) is never auto-fixed** — every Q-finding is an authoring decision (rename a chapter, rebalance the set, relabel the length band). Category R **framing-side** checks (R1–R5) auto-fix per the matrix above; Category R **transcript-empirical** checks (R6, R7) are flag-only (the audio is already rendered).
 
 **Everything else is flagged**, not auto-fixed. The agent never:
 - Adds, removes, or changes citations (authoring decision).
