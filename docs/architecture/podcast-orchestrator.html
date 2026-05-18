@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Podcast · Autonomous Book Orchestrator + Trainer</title>
+  <title>Podcast · Autonomous Book Orchestrator + Trainer (v2)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -12,56 +12,129 @@
     .pill-good { background:rgba(74,222,128,0.10); border:1px solid rgba(74,222,128,0.32); color:var(--success); padding:.18rem .6rem; border-radius:9999px; font-family:var(--font-mono); font-size:.78rem; letter-spacing:.04em; }
     .pill-warn { background:rgba(251,191,36,0.10); border:1px solid rgba(251,191,36,0.32); color:var(--warning); padding:.18rem .6rem; border-radius:9999px; font-family:var(--font-mono); font-size:.78rem; letter-spacing:.04em; }
     .pill-info { background:rgba(155,199,227,0.10); border:1px solid rgba(155,199,227,0.32); color:var(--sky); padding:.18rem .6rem; border-radius:9999px; font-family:var(--font-mono); font-size:.78rem; letter-spacing:.04em; }
+    .pill-bad  { background:rgba(248,113,113,0.10); border:1px solid rgba(248,113,113,0.32); color:var(--error); padding:.18rem .6rem; border-radius:9999px; font-family:var(--font-mono); font-size:.78rem; letter-spacing:.04em; }
     .guard-table { width:100%; border-collapse:collapse; margin:1.25rem 0; }
     .guard-table th, .guard-table td { padding:.65rem .85rem; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
     .guard-table th { font-family:var(--font-mono); font-size:.78rem; letter-spacing:.06em; text-transform:uppercase; color:var(--text-muted); font-weight:500; }
     .guard-table td.cap { font-family:var(--font-mono); color:var(--accent); white-space:nowrap; }
+    .guard-table td.strike { text-decoration:line-through; color:var(--text-muted); }
     pre.sample { background:rgba(0,0,0,.22); border:1px solid var(--line); border-radius:var(--radius-md); padding:1rem 1.2rem; font-family:var(--font-mono); font-size:.86rem; line-height:1.55; overflow-x:auto; color:var(--text-secondary); }
     .two-col { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; margin:1.25rem 0; }
     @media (max-width:760px) { .two-col { grid-template-columns:1fr; } }
+    .callout-note { border-left:3px solid var(--accent); background:rgba(155,199,227,0.06); padding:1rem 1.2rem; border-radius:var(--radius-sm); margin:1.5rem 0; }
+    .callout-note h4 { margin:0 0 .5rem 0; font-family:var(--font-mono); font-size:.85rem; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); }
+    .arrow-list { list-style:none; padding-left:0; }
+    .arrow-list li { padding:.35rem 0; padding-left:1.4rem; position:relative; }
+    .arrow-list li::before { content:"›"; position:absolute; left:0; color:var(--accent); font-family:var(--font-mono); }
   </style>
 </head>
 <body>
 
 <nav class="topnav">
   <div class="brand">Babu <span>·</span> Architecture</div>
-  <div class="crumbs"><a href="index.html">map</a> <span class="sep">›</span> Podcast <span class="sep">›</span> Autonomous Orchestrator</div>
+  <div class="crumbs"><a href="index.html">map</a> <span class="sep">›</span> Podcast <span class="sep">›</span> Autonomous Orchestrator (v2)</div>
 </nav>
 
 <main class="page">
 
   <header class="hero">
-    <span class="eyebrow" style="background:rgba(155,227,194,0.12);border-color:rgba(155,227,194,0.32);color:var(--mint)">podcast · orchestration · v1 · 2026-05-18 · proposed</span>
-    <h1>Drop a book. <em>Walk away.</em> Come back to a shipped series.</h1>
+    <span class="eyebrow">view · v2 · 2026-05-18 · reconciled onto the <code>_learning/</code> substrate · plan-only</span>
+    <h1>Drop a book. <em>Walk away.</em> Come back to a shipped series — without two competing learning loops.</h1>
     <p class="lede">
-      The existing <code>/podcast</code> skill is conversational — every phase waits on a human turn.
-      The orchestrator overlay closes that loop for autonomous, multi-hour book processing: one
-      command takes a PDF in <code>_workspace/Books/</code> through Azure OCR, English refinement, phonetic
-      indexing, chapter design, enrichment, framing authorship, episode compilation, and a bounded
-      podcast-challenger convergence loop — emitting NotebookLM-ready bundles per chapter. There is
-      <strong>exactly one human gate</strong>, at Phase 0f (Series Confirmation), where the chapter
-      plan and series angle land for sign-off. Everything else runs hands-off, checkpoints to git
-      every step, and reports progress in a file you can <code>tail</code> from your phone. When a
-      book ships, a <strong>podcast-trainer</strong> agent reads the lessons across all of its
-      challenger reports, proposes targeted improvements to the challenger spec and handbook,
-      validates them against a held-out regression suite, and commits only what doesn't regress
-      other genres. The book branch then merges to <code>develop</code>.
+      v1 of this plan (commit <code>596abe1</code>) landed one commit after the closed-loop learning substrate
+      shipped in <code>7ab3ac3</code> / <code>7e1afc1</code> / <code>f41365e</code>, and unknowingly invented a
+      second one — separate ledger (<code>trainer-ledger.md</code>), separate regression suite
+      (<code>content/podcast/_system/regression-suite/</code>), separate proposals dir, separate observations log,
+      eight new state files per book. v2 collapses everything onto the existing
+      <code>content/podcast/.skill/_learning/</code> substrate: <strong>one ledger</strong>
+      (<code>findings.jsonl</code>), <strong>one regression suite</strong>
+      (<code>_learning/fixtures/</code> + <code>test_challenger.py</code>), <strong>one proposals directory</strong>
+      (<code>_learning/proposals/</code> → <code>promoted/</code>), <strong>two state files per book</strong>
+      (down from eight), <strong>one human gate</strong> (Phase 0f), <strong>three implementation passes</strong>
+      (down from five). The orchestrator drives; the challenger validates; the trainer consumes the
+      substrate. No new ledger formats. No parallel pipelines.
     </p>
     <p class="lede" style="margin-top:.75rem">
       <span class="pill-info">scope</span>&nbsp;
       <span class="pill-info">phase 0a → final commit, hands-off</span>&nbsp;
       <span class="pill-warn">one human gate: phase 0f</span>&nbsp;
-      <span class="pill-good">no infinite loops · all caps explicit</span>
+      <span class="pill-good">single source of truth: <code>_learning/</code></span>&nbsp;
+      <span class="pill-good">cap: 3 outer × 5 inner = 15 passes / chapter</span>
     </p>
   </header>
 
   <!-- ─────────────────────────────────────────────────────────────
-       SECTION 1 — At a glance
+       SECTION 1 — Reconciliation since v1
+       ───────────────────────────────────────────────────────────── -->
+  <div class="section-head">
+    <div class="label">·· what changed from v1 ··</div>
+    <h2>The reconciliation in one table</h2>
+    <div class="sub">v1 of this plan duplicated machinery the <code>_learning/</code> substrate already implements. v2 keeps the orchestrator's autonomy story whole and points the trainer at the existing substrate.</div>
+  </div>
+
+  <table class="guard-table">
+    <thead><tr><th>Concern</th><th>v1 plan (proposed, never built)</th><th>v2 (this design)</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Findings ledger</strong></td>
+        <td class="strike">markdown table <code>_system/trainer-ledger.md</code></td>
+        <td class="cap">JSONL <code>_learning/findings.jsonl</code> (shipped, schema-versioned, append-only)</td>
+      </tr>
+      <tr>
+        <td><strong>Regression suite</strong></td>
+        <td class="strike">held-out anchor chapters under <code>_system/regression-suite/</code> + <code>baselines.json</code></td>
+        <td class="cap"><code>_learning/fixtures/&lt;check-id&gt;/{input.txt,expected.json}</code> + <code>test_challenger.py</code> (shipped, 7/7 green)</td>
+      </tr>
+      <tr>
+        <td><strong>Proposals dir</strong></td>
+        <td class="strike">per-book <code>BOOK_DIR/_system/proposals/</code></td>
+        <td class="cap">library-wide <code>_learning/proposals/</code> → <code>_learning/promoted/</code> (shipped)</td>
+      </tr>
+      <tr>
+        <td><strong>Trainer observations log</strong></td>
+        <td class="strike"><code>BOOK_DIR/_system/trainer-observations.md</code></td>
+        <td class="cap">every JSONL record IS an observation — no separate file</td>
+      </tr>
+      <tr>
+        <td><strong>Trainer report</strong></td>
+        <td class="strike"><code>BOOK_DIR/_system/trainer-report.md</code></td>
+        <td class="cap"><code>_learning/patterns.md</code> (regenerated by <code>learn_aggregate.py</code>)</td>
+      </tr>
+      <tr>
+        <td><strong>Helper script</strong></td>
+        <td class="strike"><code>scripts/podcast/_regression.py --seed</code></td>
+        <td class="cap"><code>test_challenger.py --update-golden</code> (shipped)</td>
+      </tr>
+      <tr>
+        <td><strong>Per-book state files</strong></td>
+        <td class="strike">8 new files: <code>orchestrator-{state.json,log.md}</code>, <code>PROGRESS.md</code>, <code>series-plan.md</code>, <code>proposals/</code>, <code>trainer-{observations,report}.md</code>, <code>needs-human-review.md</code></td>
+        <td class="cap">2: <code>orchestrator-state.json</code> + <code>series-plan.md</code>. Everything else folds into <code>challenger-report.md</code> + <code>health-trend.md</code> + <code>findings.jsonl</code></td>
+      </tr>
+      <tr>
+        <td><strong>Convergence cap</strong></td>
+        <td class="strike">5 outer × 5 inner = 25 passes / chapter (≈ $100–$200 per 8-chapter book — exceeds the $50 cap)</td>
+        <td class="cap">3 outer × 5 inner = 15 passes / chapter (≈ $30–$60, fits the cap)</td>
+      </tr>
+      <tr>
+        <td><strong>Implementation phases</strong></td>
+        <td class="strike">A–D + Trainer = 5 atomic phases</td>
+        <td class="cap">A driver · B per-chapter loop · C trainer-on-substrate = 3 phases</td>
+      </tr>
+      <tr>
+        <td><strong>Architecture HTML</strong></td>
+        <td class="strike">937 lines for a system with zero Python yet</td>
+        <td class="cap">this document — ≤ 400 lines, mirrors agent-spec section headers</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ─────────────────────────────────────────────────────────────
+       SECTION 2 — At a glance
        ───────────────────────────────────────────────────────────── -->
   <div class="section-head">
     <div class="label">·· at a glance ··</div>
     <h2>What the orchestrator adds — and what it leaves alone</h2>
-    <div class="sub">The existing pipeline (skill, scripts, agents) does the work; the orchestrator is the autopilot that drives them in sequence without a human at every checkpoint.</div>
+    <div class="sub">The existing pipeline (skill, scripts, agents, <code>_learning/</code>) does the work. The orchestrator is the autopilot that drives them in sequence without a human at every checkpoint.</div>
   </div>
 
   <div class="two-col">
@@ -72,866 +145,339 @@
         <li><code>scripts/podcast/ingest_source.py</code> — Azure OCR + Translation</li>
         <li><code>scripts/podcast/extract_chapter.py</code> — chapter → bundle scaffold</li>
         <li><code>scripts/podcast/build_episode_txt.py</code> — chapter + framing → episode <code>.txt</code></li>
-        <li><code>podcast-challenger</code> agent — 5-iter internal auto-fix loop, writes <code>challenger-report.md</code></li>
+        <li><code>scripts/podcast/audit_transcript.py</code> — transcript → JSONL ledger emission</li>
+        <li><code>scripts/podcast/{learn_aggregate,learn_propose,test_challenger,write_health}.py</code> — the substrate</li>
+        <li><code>scripts/podcast/_rules.py</code> — <code>CHALLENGER_VERSION</code>, <code>emit_finding()</code>, DENY lists</li>
+        <li><code>podcast-challenger</code> agent v2.0 — auto-fix loop, stamps version into report, writes to ledger</li>
         <li><code>podcast-extract</code> agent — single-chapter fast path</li>
         <li><code>/podcast</code> skill — the conversational entry, untouched</li>
         <li>All handbook normative files — chapter rules, framing rules, Arabic manifests</li>
+        <li><code>content/podcast/.skill/_learning/</code> — fixtures, proposals, promoted, archive, health, README</li>
       </ul>
     </div>
     <div class="card">
-      <div class="meta">·· new · proposed ··</div>
+      <div class="meta">·· new · proposed (v2) ··</div>
       <h3>What the orchestrator overlay adds</h3>
       <ul>
         <li><code>scripts/podcast/orchestrate_book.py</code> — top-level Python driver</li>
-        <li><code>scripts/podcast/_authoring.py</code> — LLM-call helpers (normalize, segment, enrich, frame)</li>
-        <li><code>scripts/podcast/_convergence.py</code> — outer challenger loop runner</li>
-        <li><code>scripts/podcast/_progress.py</code> — status file + PROGRESS.md emitter</li>
-        <li><code>scripts/podcast/_regression.py</code> — held-out regression suite runner</li>
-        <li><code>podcast-orchestrator</code> agent — driver for Claude-driven phases (segment, enrich, frame)</li>
-        <li><code>podcast-trainer</code> agent — cross-book pattern learner</li>
-        <li><code>content/podcast/_system/regression-suite/</code> — anchor chapters per genre</li>
+        <li><code>scripts/podcast/_authoring.py</code> — LLM-call helpers (segment, enrich, frame)</li>
+        <li><code>scripts/podcast/_convergence.py</code> — outer challenger loop runner (3 × 5)</li>
+        <li><code>scripts/podcast/_progress.py</code> — atomic <code>orchestrator-state.json</code> writer</li>
+        <li><code>scripts/podcast/sync-agent-wrappers.sh</code> — copies <code>.github/agents/*.agent.md</code> → <code>infra/claude-agents/*.md</code></li>
+        <li><code>podcast-orchestrator</code> agent — driver for Claude-driven phases</li>
+        <li><code>podcast-trainer</code> agent (rewritten) — consumes <code>_learning/patterns.md</code>, emits diffs to <code>_learning/proposals/</code></li>
       </ul>
+      <div class="callout-note" style="margin-top:1rem">
+        <h4>Note · what is NOT being added</h4>
+        Nothing new under <code>BOOK_DIR/_system/</code> except <code>orchestrator-state.json</code> + <code>series-plan.md</code>. No new ledger format. No new regression suite directory. No new proposals tree. Reuse > invent.
+      </div>
     </div>
   </div>
 
   <!-- ─────────────────────────────────────────────────────────────
-       SECTION 2 — End-to-end orchestration (big SVG)
+       SECTION 3 — End-to-end orchestration
        ───────────────────────────────────────────────────────────── -->
   <div class="section-head">
-    <div class="label">·· diagram 1 of 4 ··</div>
-    <h2>End-to-end orchestration of one book</h2>
-    <div class="sub">Three lanes: ASIF · the autopilot · the cloud. Each lane reads its own column top-to-bottom. The single human-gate sits where the chapter plan lands. The trainer pass and merge to <code>develop</code> close the loop.</div>
-  </div>
-
-  <div class="diagram">
-    <svg viewBox="0 0 860 2080" role="img" aria-labelledby="orch-title">
-      <title id="orch-title">Autonomous book orchestrator — end-to-end flow</title>
-      <defs>
-        <marker id="aM" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--mint)"/></marker>
-        <marker id="aA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker>
-        <marker id="aG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--gold)"/></marker>
-        <marker id="aS" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--sky)"/></marker>
-      </defs>
-
-      <!-- Lane headers -->
-      <g>
-        <rect x="20" y="20" width="260" height="48" rx="10" class="node-mint" />
-        <text x="150" y="50" text-anchor="middle" class="label-strong" style="fill:var(--mint)">ASIF · CURATOR</text>
-        <rect x="300" y="20" width="260" height="48" rx="10" class="node-accent" />
-        <text x="430" y="50" text-anchor="middle" class="label-strong" style="fill:var(--accent)">ORCHESTRATOR · SCRIPT + AGENT</text>
-        <rect x="580" y="20" width="260" height="48" rx="10" class="node-rose" />
-        <text x="710" y="50" text-anchor="middle" class="label-strong" style="fill:var(--rose)">AZURE · NOTEBOOKLM · GIT</text>
-      </g>
-      <line x1="150" y1="80" x2="150" y2="2050" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4" />
-      <line x1="430" y1="80" x2="430" y2="2050" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4" />
-      <line x1="710" y1="80" x2="710" y2="2050" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4" />
-
-      <!-- STEP 1: drop -->
-      <g>
-        <rect x="40" y="100" width="220" height="62" rx="10" class="node-mint"/>
-        <text x="150" y="124" text-anchor="middle" class="label-strong">drops PDF in</text>
-        <text x="150" y="146" text-anchor="middle" class="label-mono">_workspace/Books/</text>
-        <path class="edge-mint" d="M260,131 L300,131" marker-end="url(#aM)"/>
-        <rect x="300" y="100" width="260" height="62" rx="10" class="node-accent"/>
-        <text x="430" y="124" text-anchor="middle" class="label-strong">orchestrate_book.py "&lt;path&gt;"</text>
-        <text x="430" y="146" text-anchor="middle" class="label-mono">slug derived · contract scaffolded</text>
-      </g>
-
-      <!-- STEP 2: branch -->
-      <g>
-        <rect x="300" y="190" width="260" height="44" rx="8" fill="rgba(155,199,227,0.10)" stroke="var(--sky)"/>
-        <text x="430" y="216" text-anchor="middle" class="label-mono" style="fill:var(--sky);font-size:12px">·· git checkout -b book/&lt;slug&gt; ··</text>
-        <path class="edge-sky" d="M560,212 L580,212" stroke="var(--sky)" stroke-width="2" fill="none" marker-end="url(#aS)"/>
-        <rect x="580" y="190" width="240" height="44" rx="8" fill="rgba(155,199,227,0.08)" stroke="var(--sky)"/>
-        <text x="700" y="216" text-anchor="middle" class="label-mono" style="fill:var(--sky);font-size:12px">remote branch created · pushed</text>
-      </g>
-
-      <!-- PHASE 0a: ingest -->
-      <g>
-        <rect x="300" y="262" width="260" height="84" rx="10" class="node-accent"/>
-        <text x="430" y="286" text-anchor="middle" class="label-strong">PHASE 0a · INGEST</text>
-        <text x="430" y="308" text-anchor="middle" class="label-mono" style="font-size:12px">ingest_source.py &lt;pdf&gt;</text>
-        <text x="430" y="328" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-muted)">Doc Intel OCR + Translator</text>
-        <path class="edge-rose" d="M560,304 L580,304" stroke="var(--rose)" stroke-width="2" fill="none" marker-end="url(#aA)"/>
-        <rect x="580" y="262" width="240" height="84" rx="10" class="node-rose"/>
-        <text x="700" y="286" text-anchor="middle" class="label-strong">Azure</text>
-        <text x="700" y="308" text-anchor="middle" class="label-mono" style="font-size:12px">journal-docintel · S0</text>
-        <text x="700" y="328" text-anchor="middle" class="label-mono" style="font-size:12px">journal-translator · S1</text>
-      </g>
-      <text x="430" y="362" text-anchor="middle" class="label-mono" style="fill:var(--text-faint);font-size:11px">→ _system/source/text/raw-extract.md · commit · push</text>
-
-      <!-- PHASE 0b: normalize -->
-      <g>
-        <rect x="300" y="382" width="260" height="62" rx="10" class="node-accent"/>
-        <text x="430" y="406" text-anchor="middle" class="label-strong">PHASE 0b · NORMALIZE</text>
-        <text x="430" y="426" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-muted)">LLM English refinement</text>
-      </g>
-      <text x="430" y="458" text-anchor="middle" class="label-mono" style="fill:var(--text-faint);font-size:11px">→ chapters/normalized.md · commit · push</text>
-
-      <!-- PHASE 0c: phonetics -->
-      <g>
-        <rect x="300" y="478" width="260" height="62" rx="10" class="node-accent"/>
-        <text x="430" y="502" text-anchor="middle" class="label-strong">PHASE 0c · PHONETICS</text>
-        <text x="430" y="522" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-muted)">auto Arabic index ← SHARED_ARABIC + source</text>
-      </g>
-      <text x="430" y="554" text-anchor="middle" class="label-mono" style="fill:var(--text-faint);font-size:11px">→ _system/_phonetics.md · commit · push</text>
-
-      <!-- PHASE 0d: segment -->
-      <g>
-        <rect x="300" y="574" width="260" height="62" rx="10" class="node-accent"/>
-        <text x="430" y="598" text-anchor="middle" class="label-strong">PHASE 0d · SEGMENT</text>
-        <text x="430" y="618" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-muted)">LLM proposes thematic boundaries</text>
-      </g>
-      <text x="430" y="650" text-anchor="middle" class="label-mono" style="fill:var(--text-faint);font-size:11px">→ chapter-contracts/*.yml · commit · push</text>
-
-      <!-- PHASE 0e: enrich -->
-      <g>
-        <rect x="300" y="670" width="260" height="62" rx="10" class="node-accent"/>
-        <text x="430" y="694" text-anchor="middle" class="label-strong">PHASE 0e · ENRICH</text>
-        <text x="430" y="714" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-muted)">LLM selects Quran / hadith / Imam Ali</text>
-      </g>
-      <text x="430" y="746" text-anchor="middle" class="label-mono" style="fill:var(--text-faint);font-size:11px">→ chapters/chNN-&lt;slug&gt;.txt enriched · commit · push</text>
-
-      <!-- PHASE 0f GATE: huge -->
-      <g>
-        <rect x="40" y="780" width="780" height="100" rx="14" fill="rgba(251,191,36,0.10)" stroke="var(--warning)" stroke-width="2"/>
-        <text x="430" y="808" text-anchor="middle" class="label-mono" style="fill:var(--warning);font-size:13px;letter-spacing:.18em">·· · ·  HUMAN GATE — PHASE 0f  · · · ··</text>
-        <text x="430" y="836" text-anchor="middle" class="label-strong" style="font-size:15px">Asif reviews <tspan class="label-mono">_system/series-plan.md</tspan> · approves audience · angle · host dynamic · chapter list</text>
-        <text x="430" y="864" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-secondary)">resume command: <tspan class="label-strong">orchestrate_book.py --resume &lt;book-slug&gt;</tspan></text>
-      </g>
-
-      <!-- PER-CHAPTER LOOP banner -->
-      <g>
-        <rect x="40" y="906" width="780" height="38" rx="8" fill="var(--accent-soft)" stroke="var(--accent-strong)"/>
-        <text x="430" y="930" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:13px;letter-spacing:.18em">·· FOR EACH CHAPTER  (sequential · bounded parallelism = 1)  ··</text>
-      </g>
-
-      <!-- per-chapter steps -->
-      <g>
-        <rect x="300" y="962" width="260" height="54" rx="10" class="node-accent"/>
-        <text x="430" y="986" text-anchor="middle" class="label-strong">extract_chapter.py</text>
-        <text x="430" y="1004" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-muted)">scaffold episode-draft folder</text>
-      </g>
-
-      <g>
-        <rect x="300" y="1032" width="260" height="62" rx="10" class="node-accent"/>
-        <text x="430" y="1056" text-anchor="middle" class="label-strong">AUTHOR FRAMING</text>
-        <text x="430" y="1076" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-muted)">LLM writes 00-framing.md (Extended tier)</text>
-      </g>
-
-      <g>
-        <rect x="300" y="1110" width="260" height="54" rx="10" class="node-accent"/>
-        <text x="430" y="1134" text-anchor="middle" class="label-strong">build_episode_txt.py</text>
-        <text x="430" y="1152" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-muted)">emit EP##-&lt;slug&gt;.txt</text>
-      </g>
-
-      <!-- CHALLENGER CONVERGENCE -->
-      <g>
-        <rect x="200" y="1184" width="460" height="160" rx="14" fill="rgba(155,227,194,0.08)" stroke="var(--mint)" stroke-width="2"/>
-        <text x="430" y="1210" text-anchor="middle" class="label-mono" style="fill:var(--mint);font-size:12px;letter-spacing:.16em">·· CHALLENGER CONVERGENCE — outer cap = 5 ··</text>
-        <text x="430" y="1240" text-anchor="middle" class="label-strong">podcast-challenger agent</text>
-        <text x="430" y="1260" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-muted)">5 internal iters · auto-fix · writes challenger-report.md</text>
-        <text x="430" y="1284" text-anchor="middle" class="label-strong" style="font-size:13px">verdict?</text>
-        <text x="270" y="1316" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--success)">SHIP-READY → break</text>
-        <text x="430" y="1316" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--warning)">SHIP-CAUTION + iter≥3 → ship</text>
-        <text x="590" y="1316" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--error)">BLOCKED → fixer · re-frame</text>
-        <text x="430" y="1334" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-faint)">hit cap with BLOCKED → SHIP-CAUTION + flag for human review</text>
-      </g>
-
-      <g>
-        <rect x="300" y="1362" width="260" height="44" rx="8" fill="rgba(155,199,227,0.10)" stroke="var(--sky)"/>
-        <text x="430" y="1388" text-anchor="middle" class="label-mono" style="fill:var(--sky);font-size:12px">chapter shipped · commit · push</text>
-      </g>
-
-      <!-- loop back arrow -->
-      <path d="M180,1384 L180,984 L298,984" stroke="var(--accent)" stroke-width="2" fill="none" stroke-dasharray="6 5" marker-end="url(#aA)"/>
-      <text x="100" y="1180" class="label-mono" style="fill:var(--accent);font-size:11px">next chapter</text>
-
-      <!-- CHAPTERS DONE -->
-      <g>
-        <rect x="40" y="1430" width="780" height="38" rx="8" fill="rgba(244,212,156,0.10)" stroke="var(--gold)"/>
-        <text x="430" y="1454" text-anchor="middle" class="label-mono" style="fill:var(--gold);font-size:13px;letter-spacing:.18em">·· ALL CHAPTERS SHIPPED  → TRAINER PASS  ··</text>
-      </g>
-
-      <!-- TRAINER PASS -->
-      <g>
-        <rect x="300" y="1486" width="260" height="100" rx="10" class="node-gold"/>
-        <text x="430" y="1512" text-anchor="middle" class="label-strong" style="fill:var(--gold)">podcast-trainer agent</text>
-        <text x="430" y="1534" text-anchor="middle" class="label-mono" style="font-size:11px">reads all challenger-report.md</text>
-        <text x="430" y="1554" text-anchor="middle" class="label-mono" style="font-size:11px">clusters patterns · proposes diffs</text>
-        <text x="430" y="1574" text-anchor="middle" class="label-mono" style="font-size:11px">runs regression suite gate</text>
-      </g>
-
-      <g>
-        <rect x="300" y="1602" width="260" height="62" rx="10" class="node-accent"/>
-        <text x="430" y="1626" text-anchor="middle" class="label-strong">regression check</text>
-        <text x="430" y="1646" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-muted)">held-out anchors · all genres</text>
-      </g>
-
-      <g>
-        <rect x="40" y="1680" width="375" height="62" rx="10" fill="rgba(74,222,128,0.10)" stroke="var(--success)"/>
-        <text x="227" y="1704" text-anchor="middle" class="label-strong" style="fill:var(--success);font-size:13px">PASS → auto-commit on book branch</text>
-        <text x="227" y="1724" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-muted)">refinement-class changes (P1/P2 patterns)</text>
-        <rect x="445" y="1680" width="375" height="62" rx="10" fill="rgba(251,191,36,0.10)" stroke="var(--warning)"/>
-        <text x="632" y="1704" text-anchor="middle" class="label-strong" style="fill:var(--warning);font-size:13px">FAIL or P0-class → flag for human</text>
-        <text x="632" y="1724" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-muted)">never auto-commits across regression</text>
-      </g>
-
-      <!-- MERGE -->
-      <g>
-        <rect x="40" y="1760" width="780" height="38" rx="8" fill="rgba(155,199,227,0.10)" stroke="var(--sky)"/>
-        <text x="430" y="1784" text-anchor="middle" class="label-mono" style="fill:var(--sky);font-size:13px;letter-spacing:.18em">·· book/&lt;slug&gt;  →  merge to develop  ··</text>
-      </g>
-
-      <g>
-        <rect x="40" y="1816" width="780" height="62" rx="10" class="node-mint"/>
-        <text x="430" y="1840" text-anchor="middle" class="label-strong" style="fill:var(--mint)">notification to Asif · summary report · NotebookLM upload checklist</text>
-        <text x="430" y="1862" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-muted)">per-chapter verdict · trainer-proposed changes · cost · wall-clock</text>
-      </g>
-
-      <!-- ASIF: final upload -->
-      <g>
-        <rect x="40" y="1900" width="220" height="54" rx="10" class="node-mint"/>
-        <text x="150" y="1924" text-anchor="middle" class="label-strong">uploads to NotebookLM</text>
-        <text x="150" y="1944" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-muted)">manual · always · by design</text>
-      </g>
-
-      <!-- progress reporting callout -->
-      <g>
-        <rect x="40" y="1980" width="780" height="56" rx="10" fill="rgba(198,166,255,0.06)" stroke="var(--accent-strong)" stroke-dasharray="3 4"/>
-        <text x="430" y="2004" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:12px">·· at any moment Asif can ·· tail _system/PROGRESS.md · git log book/&lt;slug&gt; · cat _system/orchestrator-state.json ··</text>
-        <text x="430" y="2024" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-faint)">a checkpoint commit lands at every phase boundary and every chapter</text>
-      </g>
-    </svg>
-  </div>
-
-  <!-- ─────────────────────────────────────────────────────────────
-       SECTION 3 — Convergence loop
-       ───────────────────────────────────────────────────────────── -->
-  <div class="section-head">
-    <div class="label">·· diagram 2 of 4 ··</div>
-    <h2>Convergence loop — bounded by design</h2>
-    <div class="sub">The challenger already has a <strong>5-iteration internal auto-fix loop</strong>. The orchestrator wraps a <strong>second outer loop</strong> that re-invokes the challenger after a fixer agent rewrites failing sections. Both loops have hard caps. A book can never spin forever.</div>
-  </div>
-
-  <div class="diagram">
-    <svg viewBox="0 0 860 700" role="img" aria-labelledby="conv-title">
-      <title id="conv-title">Two-level convergence loop with explicit caps</title>
-      <defs>
-        <marker id="cM" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--mint)"/></marker>
-        <marker id="cE" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--error)"/></marker>
-        <marker id="cS" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--success)"/></marker>
-      </defs>
-
-      <!-- Outer box: orchestrator convergence -->
-      <rect x="20" y="20" width="820" height="660" rx="18" fill="rgba(198,166,255,0.05)" stroke="var(--accent-strong)" stroke-width="2"/>
-      <text x="430" y="50" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:12px;letter-spacing:.18em">·· OUTER LOOP · ORCHESTRATOR · CAP = 5  ··</text>
-
-      <!-- Frame + build -->
-      <rect x="80" y="80" width="240" height="64" rx="10" class="node-accent"/>
-      <text x="200" y="106" text-anchor="middle" class="label-strong">author 00-framing.md</text>
-      <text x="200" y="126" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-muted)">LLM · Extended-tier template</text>
-
-      <rect x="80" y="160" width="240" height="50" rx="10" class="node-accent"/>
-      <text x="200" y="190" text-anchor="middle" class="label-strong">build_episode_txt.py</text>
-
-      <path class="edge-mint" d="M320,185 L380,185" marker-end="url(#cM)"/>
-
-      <!-- Inner box: challenger -->
-      <rect x="380" y="80" width="400" height="220" rx="14" fill="rgba(155,227,194,0.08)" stroke="var(--mint)" stroke-width="2"/>
-      <text x="580" y="108" text-anchor="middle" class="label-mono" style="fill:var(--mint);font-size:12px;letter-spacing:.16em">·· INNER LOOP · CHALLENGER · CAP = 5  ··</text>
-      <rect x="430" y="130" width="300" height="60" rx="10" class="node-mint"/>
-      <text x="580" y="156" text-anchor="middle" class="label-strong">podcast-challenger</text>
-      <text x="580" y="176" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-muted)">auto-fix deterministic findings</text>
-      <rect x="430" y="208" width="300" height="60" rx="10" fill="rgba(155,199,227,0.10)" stroke="var(--sky)"/>
-      <text x="580" y="232" text-anchor="middle" class="label-mono" style="fill:var(--sky);font-size:12px">→ _system/challenger-report.md</text>
-      <text x="580" y="252" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-muted)">verdict · P0 / P1 / P2 findings</text>
-
-      <!-- Verdict decision -->
-      <rect x="80" y="340" width="700" height="240" rx="14" fill="var(--panel)" stroke="var(--line-strong)"/>
-      <text x="430" y="370" text-anchor="middle" class="label-mono" style="font-size:12px;letter-spacing:.16em;fill:var(--text-muted)">·· VERDICT BRANCH ··</text>
-
-      <rect x="100" y="390" width="200" height="80" rx="10" fill="rgba(74,222,128,0.08)" stroke="var(--success)"/>
-      <text x="200" y="416" text-anchor="middle" class="label-strong" style="fill:var(--success)">SHIP-READY</text>
-      <text x="200" y="438" text-anchor="middle" class="label-mono" style="font-size:11px">no P0 / few P1</text>
-      <text x="200" y="456" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--success)">→ break · commit</text>
-
-      <rect x="330" y="390" width="200" height="80" rx="10" fill="rgba(251,191,36,0.08)" stroke="var(--warning)"/>
-      <text x="430" y="416" text-anchor="middle" class="label-strong" style="fill:var(--warning)">SHIP-CAUTION</text>
-      <text x="430" y="434" text-anchor="middle" class="label-mono" style="font-size:11px">P1s only · no P0</text>
-      <text x="430" y="452" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-secondary)">iter ≥ 3 → ship + flag</text>
-      <text x="430" y="466" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-muted)">iter &lt; 3 → fixer · retry</text>
-
-      <rect x="560" y="390" width="200" height="80" rx="10" fill="rgba(248,113,113,0.08)" stroke="var(--error)"/>
-      <text x="660" y="416" text-anchor="middle" class="label-strong" style="fill:var(--error)">BLOCKED</text>
-      <text x="660" y="434" text-anchor="middle" class="label-mono" style="font-size:11px">≥ 1 P0 finding</text>
-      <text x="660" y="452" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--error)">fixer agent · re-frame</text>
-      <text x="660" y="466" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-muted)">retry outer loop</text>
-
-      <!-- Cap reached -->
-      <rect x="100" y="500" width="660" height="60" rx="10" fill="rgba(248,113,113,0.06)" stroke="var(--error)" stroke-dasharray="4 4"/>
-      <text x="430" y="524" text-anchor="middle" class="label-mono" style="fill:var(--error);font-size:12px;letter-spacing:.14em">·· OUTER CAP HIT (5 ITERATIONS, STILL BLOCKED) ··</text>
-      <text x="430" y="544" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-secondary)">force-ship SHIP-CAUTION · write _system/needs-human-review.md · CONTINUE to next chapter</text>
-
-      <!-- Retry arrow -->
-      <path d="M660,470 Q780,470 780,250 Q780,80 200,80" stroke="var(--error)" stroke-width="2" fill="none" stroke-dasharray="6 5" marker-end="url(#cE)"/>
-      <text x="800" y="350" text-anchor="middle" transform="rotate(-90 800 350)" class="label-mono" style="fill:var(--error);font-size:11px">outer retry · author fix</text>
-
-      <!-- Footer note -->
-      <rect x="40" y="600" width="780" height="60" rx="10" fill="var(--accent-soft)" stroke="var(--accent-strong)" stroke-dasharray="3 4"/>
-      <text x="430" y="624" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:12px">·· MAX WORK PER CHAPTER ··  5 outer × 5 inner = 25 challenger passes max</text>
-      <text x="430" y="644" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-faint)">always terminates · never infinite · always commits a state</text>
-    </svg>
-  </div>
-
-  <!-- Verbal explanation of caps -->
-  <div class="callout">
-    <div class="callout-eyebrow">·· why this cannot infinite-loop ··</div>
-    <p>Every loop in the orchestrator is bounded by a counter that lives in <code>_system/orchestrator-state.json</code>. The script reads the counter before each iteration; it exits the loop unconditionally when the counter hits its cap, regardless of verdict. The state file is written to disk before each loop body and is the single source of truth on resume — even a hard crash mid-iteration cannot reset a counter. There are <strong>six independent caps</strong> across the system (see the table below); the multiplicative ceiling per chapter is <strong>25 challenger passes</strong>, per book is <strong>25 × N chapters</strong>, and per <em>run</em> is the wall-clock guard and the Azure cost guard.</p>
-  </div>
-
-  <!-- ─────────────────────────────────────────────────────────────
-       SECTION 4 — Guards table
-       ───────────────────────────────────────────────────────────── -->
-  <div class="section-head">
-    <div class="label">·· every cap, every fallback ··</div>
-    <h2>The infinite-loop guard inventory</h2>
-    <div class="sub">If the orchestrator ever hangs, the cause is in this table. Each row names the cap, where it lives, what happens at the cap, and what state survives.</div>
+    <div class="label">·· orchestration ··</div>
+    <h2>End-to-end run · one human gate</h2>
+    <div class="sub">PDF in <code>_workspace/Books/</code> through merged <code>develop</code>. Halts once, at Phase 0f, for human approval of the chapter plan. Resumes with one command.</div>
   </div>
 
   <table class="guard-table">
-    <thead><tr><th>Guard</th><th>Cap</th><th>At the cap</th><th>State survives in</th></tr></thead>
+    <thead><tr><th>Phase</th><th>What runs</th><th>Output</th><th>Gate</th></tr></thead>
     <tbody>
-      <tr>
-        <td>Inner challenger auto-fix</td>
-        <td class="cap">5 iters</td>
-        <td>emits verdict (READY · CAUTION · BLOCKED) with current findings</td>
-        <td><code>_system/challenger-report.md</code></td>
-      </tr>
-      <tr>
-        <td>Outer convergence (orchestrator)</td>
-        <td class="cap">5 iters</td>
-        <td>force-ship SHIP-CAUTION · write <code>needs-human-review.md</code> · continue</td>
-        <td><code>_system/orchestrator-state.json</code> (per chapter)</td>
-      </tr>
-      <tr>
-        <td>Fixer agent retries (per P0)</td>
-        <td class="cap">3 attempts</td>
-        <td>skip the P0 finding · pass to next outer iter</td>
-        <td>fixer log in <code>_system/orchestrator-log.md</code></td>
-      </tr>
-      <tr>
-        <td>Azure / Anthropic API call retries</td>
-        <td class="cap">3 attempts</td>
-        <td>exponential backoff (1s · 4s · 16s) · then chapter SKIP · continue book</td>
-        <td>per-call log in <code>_system/orchestrator-log.md</code></td>
-      </tr>
-      <tr>
-        <td>Per-chapter wall clock</td>
-        <td class="cap">90 min</td>
-        <td>SKIP chapter · write skip stub · continue</td>
-        <td>chapter status = <code>SKIPPED_TIMEOUT</code></td>
-      </tr>
-      <tr>
-        <td>Book wall clock</td>
-        <td class="cap">24 hr</td>
-        <td>halt orchestrator · emit partial report · resumable</td>
-        <td><code>_system/orchestrator-state.json</code></td>
-      </tr>
-      <tr>
-        <td>Book Azure spend</td>
-        <td class="cap">$50</td>
-        <td>halt orchestrator · emit cost report · resumable</td>
-        <td><code>_system/orchestrator-cost.json</code></td>
-      </tr>
-      <tr>
-        <td>Trainer regression suite</td>
-        <td class="cap">1 pass</td>
-        <td>not iterative — runs once · accepts or rejects per change</td>
-        <td><code>_system/trainer-report.md</code></td>
-      </tr>
+      <tr><td>Pre-flight</td><td>Azure connectivity probe · clean working tree · on <code>develop</code> · PDF readable · slug uncollided</td><td>refuse-with-fix-command on any miss</td><td class="cap"><span class="pill-bad">HARD</span></td></tr>
+      <tr><td>Branch</td><td><code>git checkout -b book/&lt;slug&gt;</code> + push</td><td>book branch created</td><td>auto</td></tr>
+      <tr><td>Scaffold</td><td><code>scaffold_book.py</code></td><td>BOOK_DIR layout</td><td>auto</td></tr>
+      <tr><td>0a Ingest</td><td><code>ingest_source.py</code> (Azure OCR + Translation)</td><td><code>_system/source/text/raw-extract.md</code></td><td>auto</td></tr>
+      <tr><td>0b–0e Authoring</td><td><code>_authoring.py</code> shells out to <code>claude -p</code> for normalize / segment / enrich / phonetic-pass</td><td>chapter files + per-chapter contracts</td><td>auto</td></tr>
+      <tr><td><strong>0f Series Plan</strong></td><td>writes <code>_system/series-plan.md</code> with audience, angle, host dynamic, tier, chapter list</td><td>commit + final notification</td><td class="cap"><span class="pill-warn">HUMAN</span></td></tr>
+      <tr><td>Resume · per-chapter</td><td>extract → author framing → build → <code>podcast-challenger</code> convergence (3 × 5)</td><td>SHIP-READY or SHIP-WITH-CAUTION + flag</td><td>auto</td></tr>
+      <tr><td>Trainer</td><td><code>podcast-trainer</code> reads <code>_learning/patterns.md</code>, applies regression-gated diffs</td><td>commits with <code>[trainer]</code> tag</td><td>auto</td></tr>
+      <tr><td>Merge</td><td><code>git merge --no-ff book/&lt;slug&gt; → develop</code> + push</td><td>release-ready develop</td><td>auto</td></tr>
     </tbody>
   </table>
 
   <!-- ─────────────────────────────────────────────────────────────
-       SECTION 5 — Progress reporting
+       SECTION 4 — Convergence loop
        ───────────────────────────────────────────────────────────── -->
   <div class="section-head">
-    <div class="label">·· check in from anywhere ··</div>
-    <h2>Progress reporting — three surfaces, one source of truth</h2>
-    <div class="sub">You can leave the orchestrator running for hours and check progress from your phone, your other Mac, or another shell. Three surfaces; each derives from the same state file.</div>
+    <div class="label">·· convergence ··</div>
+    <h2>Per-chapter loop · bounded by design</h2>
+    <div class="sub">Three layers of cap. The inner cap is already enforced by the challenger. The middle cap is enforced by the orchestrator. The outer cap is the entire book — hard time + cost ceilings.</div>
+  </div>
+
+  <table class="guard-table">
+    <thead><tr><th>Layer</th><th>Cap</th><th>Enforced by</th><th>Failure mode</th></tr></thead>
+    <tbody>
+      <tr><td>Inner (per challenger invocation)</td><td class="cap">5 iterations</td><td><code>challenger_contract.max_iterations</code> in <code>podcast-challenger.agent.md</code></td><td>intelligent break · surface findings</td></tr>
+      <tr><td>Middle (per chapter)</td><td class="cap">3 outer invocations</td><td><code>_convergence.py</code> in the orchestrator</td><td>force-ship SHIP-WITH-CAUTION · flag in <code>challenger-report.md</code></td></tr>
+      <tr><td>Outer (per book)</td><td class="cap">24h · $50</td><td>orchestrator pre-flight + per-phase check</td><td>halt cleanly · resumable</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin-top:1.5rem">Per-outer-iteration decision rule</h3>
+  <pre class="sample">SHIP-READY                                   → break loop, ship
+SHIP-WITH-CAUTION, iter ≥ 2                  → ship + flag (no P0)
+SHIP-WITH-CAUTION, iter &lt; 2                  → invoke fixer agent on P1s, retry
+BLOCKED (any P0)                             → invoke fixer agent on P0s
+                                               (max 3 fixer attempts per finding)
+                                               re-author affected sections, retry
+iter == 3 still BLOCKED                      → force-ship SHIP-CAUTION
+                                               write into challenger-report.md
+                                               continue to next chapter
+                                               NEVER spin past 3 outer iterations</pre>
+
+  <!-- ─────────────────────────────────────────────────────────────
+       SECTION 5 — The _learning/ substrate (the brain)
+       ───────────────────────────────────────────────────────────── -->
+  <div class="section-head">
+    <div class="label">·· substrate ··</div>
+    <h2>The <code>_learning/</code> substrate — one source of truth</h2>
+    <div class="sub">Shipped 2026-05-18 across three commits. The orchestrator writes to it (via the challenger and <code>audit_transcript.py</code>); the trainer reads from it. There is no second copy of any of this data anywhere in the repo.</div>
+  </div>
+
+  <table class="guard-table">
+    <thead><tr><th>Path</th><th>Shape</th><th>Producer</th><th>Consumer</th></tr></thead>
+    <tbody>
+      <tr><td><code>_learning/findings.jsonl</code></td><td>append-only JSONL, one finding per line</td><td>challenger + <code>audit_transcript.py</code> via <code>emit_finding()</code></td><td><code>learn_aggregate.py</code></td></tr>
+      <tr><td><code>_learning/patterns.md</code></td><td>signature roll-up + in-book density tables</td><td><code>learn_aggregate.py</code></td><td>trainer · human review</td></tr>
+      <tr><td><code>_learning/proposals/</code></td><td>markdown proposals, ≥ 2 books OR ≥ 3 episodes OR ≥ 3 density</td><td><code>learn_propose.py</code></td><td>trainer · human review</td></tr>
+      <tr><td><code>_learning/promoted/</code></td><td>tombstones with decision log + commit hash</td><td>trainer (or human) on accept</td><td><code>learn_propose.py</code> (skip re-fire)</td></tr>
+      <tr><td><code>_learning/archive/</code></td><td>rejected proposals with <code>Rejected because…</code> line</td><td>human</td><td><code>learn_propose.py</code> (skip re-fire)</td></tr>
+      <tr><td><code>_learning/fixtures/&lt;check-id&gt;/</code></td><td><code>input.txt</code> + <code>expected.json</code></td><td>human (or trainer when promoting)</td><td><code>test_challenger.py</code></td></tr>
+      <tr><td><code>_learning/health/&lt;book&gt;.json</code></td><td>score + badge + verdict snapshot</td><td><code>write_health.py</code></td><td>trainer · human review</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ─────────────────────────────────────────────────────────────
+       SECTION 6 — Trainer architecture (rewritten)
+       ───────────────────────────────────────────────────────────── -->
+  <div class="section-head">
+    <div class="label">·· trainer · v2 ··</div>
+    <h2>The trainer · semantic layer on the substrate</h2>
+    <div class="sub">The trainer's job is exactly the promotion-ladder step the substrate's <code>learn_propose.py</code> hands off to a human. v2 lets the trainer agent execute that step under regression gating instead of leaving it to manual review.</div>
+  </div>
+
+  <table class="guard-table">
+    <thead><tr><th>Step</th><th>What the trainer does</th><th>Reads from</th><th>Writes to</th></tr></thead>
+    <tbody>
+      <tr><td>1 · Read</td><td>read the latest patterns + open proposals + health JSON</td><td><code>_learning/{patterns.md,proposals/,health/}</code></td><td>—</td></tr>
+      <tr><td>2 · Hypothesize</td><td>for each proposer-eligible signature: draft the smallest spec/handbook diff that would prevent re-occurrence; tag with <code>source_type</code> from this book's contract (genre-scoped first)</td><td>handbook, agent specs, <code>_rules.py</code></td><td>scratch (worktree)</td></tr>
+      <tr><td>3 · Test</td><td><code>git worktree add</code> → apply diff → <code>test_challenger.py</code> (must remain green)</td><td><code>_learning/fixtures/</code></td><td>scratch (worktree)</td></tr>
+      <tr><td>4 · Promote</td><td>on green: commit on book branch with <code>[trainer]</code> tag · move proposal to <code>_learning/promoted/</code> with decision-log entry · bump <code>CHALLENGER_VERSION</code> in <code>_rules.py</code> by 0.1 if <code>podcast-challenger.agent.md</code> was in the diff</td><td>—</td><td>handbook/spec, <code>_learning/promoted/</code>, <code>_rules.py</code>, book branch</td></tr>
+      <tr><td>5 · Flag</td><td>on regression fail OR touches an INVARIANT OR P0-class proposal: move to <code>_learning/archive/</code> with reason; never commit</td><td>—</td><td><code>_learning/archive/</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin-top:1.5rem">Promotion ladder (unchanged from v1, re-aimed at the substrate)</h3>
+  <table class="guard-table">
+    <thead><tr><th>Tier</th><th>Trigger</th><th>Action</th></tr></thead>
+    <tbody>
+      <tr><td>Tier 0 · Observation</td><td>1 record</td><td>stays in <code>findings.jsonl</code> only · no proposal</td></tr>
+      <tr><td>Tier 1 · Candidate</td><td>≥ 3 density OR ≥ 2 books OR ≥ 3 episodes</td><td><code>learn_propose.py</code> writes proposal · no commit</td></tr>
+      <tr><td>Tier 2 · Promoted (genre)</td><td>regression passes · single-genre block</td><td>trainer commits on book branch · tombstones in <code>_learning/promoted/</code></td></tr>
+      <tr><td>Tier 3 · Cross-genre</td><td>≥ 2 books · ≥ 2 genres · regression passes everywhere</td><td>trainer promotes out of genre block to general rule</td></tr>
+      <tr><td>Tier H · Human-only</td><td>touches an INVARIANT · regression fails · P0-class</td><td>archive with reason · never auto-commit</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ─────────────────────────────────────────────────────────────
+       SECTION 7 — Agent graph
+       ───────────────────────────────────────────────────────────── -->
+  <div class="section-head">
+    <div class="label">·· agent graph ··</div>
+    <h2>Where the agents sit · each owns one verb</h2>
+    <div class="sub">Five agents, no overlap. The substrate is the persistence layer; the agents are stateless about each other.</div>
+  </div>
+
+  <table class="guard-table">
+    <thead><tr><th>Agent</th><th>Verb</th><th>Inputs</th><th>Outputs</th></tr></thead>
+    <tbody>
+      <tr><td><code>/podcast</code> skill</td><td>author (conversational)</td><td>human turn-by-turn</td><td>chapter + framing in BOOK_DIR</td></tr>
+      <tr><td><code>podcast-extract</code></td><td>extract (one chapter)</td><td>chapter contract</td><td>NotebookLM bundle</td></tr>
+      <tr><td><code>podcast-orchestrator</code></td><td>drive (autonomous · book)</td><td>PDF + slug</td><td>merged book branch on <code>develop</code></td></tr>
+      <tr><td><code>podcast-challenger</code></td><td>validate</td><td>chapter + framing</td><td><code>challenger-report.md</code> + <code>findings.jsonl</code> append + <code>health.json</code></td></tr>
+      <tr><td><code>podcast-trainer</code></td><td>propose-and-regress</td><td><code>_learning/{patterns,proposals/,health/}</code></td><td>handbook/spec diffs · <code>promoted/</code> tombstones</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ─────────────────────────────────────────────────────────────
+       SECTION 8 — State files per book
+       ───────────────────────────────────────────────────────────── -->
+  <div class="section-head">
+    <div class="label">·· state files ··</div>
+    <h2>What lives in <code>BOOK_DIR/_system/</code> · diet from 8 → 2</h2>
+    <div class="sub">v1 added 8 new artifacts per book. v2 adds 2. Everything else folds into artifacts that already exist for non-orchestrator runs.</div>
+  </div>
+
+  <table class="guard-table">
+    <thead><tr><th>File</th><th>Status (v2)</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td><code>orchestrator-state.json</code></td><td class="cap"><span class="pill-good">KEEP</span></td><td>machine state for <code>--resume</code>; atomic via tmpfile+rename</td></tr>
+      <tr><td><code>series-plan.md</code></td><td class="cap"><span class="pill-good">KEEP</span></td><td>the Phase 0f gate artifact · the only thing the human reviews</td></tr>
+      <tr><td><code>orchestrator-log.md</code></td><td class="strike">DROP</td><td><code>git log book/&lt;slug&gt;</code> is the log · verbose run output goes to <code>_workspace/Books/&lt;slug&gt;/.runlog</code> (gitignored)</td></tr>
+      <tr><td><code>PROGRESS.md</code></td><td class="strike">DROP</td><td>derived on demand from <code>orchestrator-state.json</code> via <code>orchestrate_book.py --status</code></td></tr>
+      <tr><td><code>needs-human-review.md</code></td><td class="strike">DROP</td><td><code>challenger-report.md</code> already lists P0/P1 findings</td></tr>
+      <tr><td><code>proposals/</code> (per-book)</td><td class="strike">DROP</td><td>proposals are library-wide · live at <code>_learning/proposals/</code></td></tr>
+      <tr><td><code>trainer-observations.md</code></td><td class="strike">DROP</td><td>every JSONL record IS an observation</td></tr>
+      <tr><td><code>trainer-report.md</code></td><td class="strike">DROP</td><td>= <code>_learning/patterns.md</code> (book-scoped view via filter)</td></tr>
+      <tr><td><code>challenger-report.md</code></td><td class="cap"><span class="pill-info">existing</span></td><td>per-book aggregate; unchanged from v1.0</td></tr>
+      <tr><td><code>health-trend.md</code></td><td class="cap"><span class="pill-info">existing</span></td><td>per-book trend; written by <code>write_health.py</code></td></tr>
+    </tbody>
+  </table>
+
+  <!-- ─────────────────────────────────────────────────────────────
+       SECTION 9 — Cost + time
+       ───────────────────────────────────────────────────────────── -->
+  <div class="section-head">
+    <div class="label">·· cost · 8-chapter book ··</div>
+    <h2>Reconciled cost model · stays inside the $50 cap</h2>
+    <div class="sub">v1's 5×5=25 cap forced the per-book ceiling above $100 just for the challenger. v2's 3×5=15 cap brings it back under $50.</div>
+  </div>
+
+  <table class="guard-table">
+    <thead><tr><th>Phase</th><th>Calls</th><th>Anthropic est.</th><th>Azure est.</th></tr></thead>
+    <tbody>
+      <tr><td>0a Ingest</td><td>—</td><td>$0</td><td>$5–$8</td></tr>
+      <tr><td>0b–0e Authoring (one-shot per phase × 8 chapters)</td><td>~32 LLM calls</td><td>$8–$15</td><td>$0</td></tr>
+      <tr><td>0f Series plan</td><td>1 LLM call</td><td>$0.50–$1</td><td>$0</td></tr>
+      <tr><td>Per-chapter framing authorship</td><td>8 LLM calls</td><td>$4–$8</td><td>$0</td></tr>
+      <tr><td>Per-chapter challenger (avg 1.5 outer × 5 inner = 7.5 passes; cap 15)</td><td>~60 LLM calls</td><td>$15–$30</td><td>$0</td></tr>
+      <tr><td>Trainer pass</td><td>3–8 LLM calls + regression worktree</td><td>$1–$3</td><td>$0</td></tr>
+      <tr><td><strong>Total / 8-chapter book</strong></td><td>~105 LLM + Azure</td><td class="cap">$28.50–$57</td><td class="cap">$5–$8</td></tr>
+    </tbody>
+  </table>
+
+  <p style="margin-top:.75rem; color:var(--text-muted); font-size:.92rem">
+    Wall-clock: 2–6 h per book end-to-end (mostly Azure ingest + Anthropic latency on the challenger loop). Hard caps: 24 h, $50. On any cap hit: halt cleanly with a resumable state file.
+  </p>
+
+  <!-- ─────────────────────────────────────────────────────────────
+       SECTION 10 — Implementation plan
+       ───────────────────────────────────────────────────────────── -->
+  <div class="section-head">
+    <div class="label">·· build order ··</div>
+    <h2>Three phases · each independently ships value</h2>
+    <div class="sub">v1 proposed five. v2 collapses to three because the substrate (formerly proposed as Phase D) already exists.</div>
   </div>
 
   <div class="two-col">
     <div class="card">
-      <div class="meta">·· machine-readable ··</div>
-      <h3><code>_system/orchestrator-state.json</code></h3>
-      <p>Atomic JSON snapshot — written before every state transition, fsync'd, swapped via atomic rename. Tooling reads this. Safe to <code>cat</code> at any moment.</p>
-      <pre class="sample">{
-  "book_slug": "asaas-al-taveel",
-  "phase": "chapter_convergence",
-  "chapter_total": 8,
-  "chapter_done": 3,
-  "chapter_current": "ch04-the-shape-of-faith",
-  "outer_iter": 2,
-  "inner_iter": null,
-  "percent_complete": 41,
-  "wall_clock_started": "2026-05-18T22:14:03Z",
-  "wall_clock_elapsed_sec": 4287,
-  "azure_spend_usd": 2.18,
-  "anthropic_spend_usd": 0.94,
-  "last_event": "challenger SHIP-CAUTION on ch04 iter=2",
-  "next_step": "fixer pass on 3 P1 findings"
-}</pre>
+      <div class="meta">·· phase A ··</div>
+      <h3>Driver to Phase 0f</h3>
+      <ul class="arrow-list">
+        <li>build <code>orchestrate_book.py</code> with pre-flight + branch + scaffold + 0a (Azure) + 0f-gate halt</li>
+        <li>build <code>_authoring.py</code> stubs (0b–0e shell out to <code>claude -p</code> in a thin wrapper)</li>
+        <li>build <code>_progress.py</code> (atomic state.json writer)</li>
+        <li>build <code>--status</code> rendering from state.json (no PROGRESS.md committed)</li>
+        <li>ship value: <em>autonomy from PDF to the Phase 0f gate</em> · everything past 0f stays manual</li>
+      </ul>
     </div>
-
     <div class="card">
-      <div class="meta">·· human-readable ··</div>
-      <h3><code>_system/PROGRESS.md</code></h3>
-      <p>Markdown re-rendered from the state file every transition. Tail it in your editor; open in GitHub web on your phone. Shows percentage, ETA estimate, last 10 events.</p>
-      <pre class="sample"># asaas-al-taveel — 41% complete
-
-**Phase:** chapter_convergence
-**Current:** ch04 (outer iter 2 of 5)
-**Done:** 3 / 8 chapters · 0 SKIPPED
-**Elapsed:** 1h 11m  ·  **ETA:** ~2h 30m remaining
-**Cost:** Azure $2.18 · Anthropic $0.94 · cap $50.00
-
-## Last 10 events
-- 22:38 ch04 challenger SHIP-CAUTION (3 P1)
-- 22:31 ch04 framing authored
-- 22:26 ch03 challenger SHIP-READY ✓
-- 22:19 ch03 framing authored
-- 22:13 ch02 challenger SHIP-READY ✓
-…</pre>
+      <div class="meta">·· phase B ··</div>
+      <h3>Per-chapter convergence loop</h3>
+      <ul class="arrow-list">
+        <li>build <code>_convergence.py</code> with 3 outer × 5 inner cap and the decision rule above</li>
+        <li>wire <code>--resume</code> into per-chapter extract → frame → build → challenger</li>
+        <li>commit + push after every chapter</li>
+        <li>ship value: <em>autonomous per-chapter ship → SHIP-READY or SHIP-WITH-CAUTION</em></li>
+      </ul>
     </div>
-  </div>
-
-  <div class="callout">
-    <div class="callout-eyebrow">·· third surface · git log ··</div>
-    <p>Every phase boundary and every chapter ship emits an atomic commit on the <code>book/&lt;slug&gt;</code> branch. <code>git log --oneline book/asaas-al-taveel</code> from any machine shows the same picture: phase-by-phase progress, time-stamped, attributable. The trainer's own commits are tagged with <code>[trainer]</code> in the subject; chapter ships are tagged <code>[ch01]</code>, <code>[ch02]</code>, etc. The branch is pushed to origin after every commit so the state is visible on GitHub web while the run continues locally.</p>
-  </div>
-
-  <!-- ─────────────────────────────────────────────────────────────
-       SECTION 6 — Git workflow (SVG)
-       ───────────────────────────────────────────────────────────── -->
-  <div class="section-head">
-    <div class="label">·· diagram 3 of 4 ··</div>
-    <h2>Git workflow — one branch per book, merge on completion</h2>
-    <div class="sub">Each book gets an isolated branch. Checkpoint commits land throughout the run. The trainer's accepted updates ride into <code>develop</code> with the same merge.</div>
-  </div>
-
-  <div class="diagram">
-    <svg viewBox="0 0 860 460" role="img" aria-labelledby="git-title">
-      <title id="git-title">Per-book branch lifecycle</title>
-      <defs>
-        <marker id="gA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker>
-        <marker id="gM" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--mint)"/></marker>
-      </defs>
-
-      <!-- develop line -->
-      <line x1="40" y1="80" x2="820" y2="80" stroke="var(--sky)" stroke-width="3"/>
-      <text x="40" y="68" class="label-mono" style="fill:var(--sky);font-size:12px">develop</text>
-      <circle cx="80" cy="80" r="7" fill="var(--sky)"/>
-      <circle cx="800" cy="80" r="7" fill="var(--sky)"/>
-
-      <!-- book branch -->
-      <path d="M80,80 C140,80 140,180 200,180 L740,180 C780,180 780,80 820,80" stroke="var(--accent)" stroke-width="3" fill="none"/>
-      <text x="200" y="170" class="label-mono" style="fill:var(--accent);font-size:12px">book/asaas-al-taveel</text>
-
-      <!-- commits on book branch -->
-      <g>
-        <circle cx="220" cy="180" r="6" fill="var(--accent)"/>
-        <text x="220" y="208" text-anchor="middle" class="label-mono" style="font-size:10px">scaffold</text>
-        <circle cx="280" cy="180" r="6" fill="var(--accent)"/>
-        <text x="280" y="208" text-anchor="middle" class="label-mono" style="font-size:10px">0a ingest</text>
-        <circle cx="340" cy="180" r="6" fill="var(--accent)"/>
-        <text x="340" y="208" text-anchor="middle" class="label-mono" style="font-size:10px">0b-0e</text>
-        <circle cx="400" cy="180" r="8" fill="var(--warning)" stroke="var(--warning)" stroke-width="2"/>
-        <text x="400" y="160" text-anchor="middle" class="label-mono" style="font-size:10px;fill:var(--warning)">⏸ 0f gate</text>
-        <text x="400" y="210" text-anchor="middle" class="label-mono" style="font-size:10px">series-plan</text>
-        <circle cx="460" cy="180" r="6" fill="var(--accent)"/>
-        <text x="460" y="208" text-anchor="middle" class="label-mono" style="font-size:10px">[ch01]</text>
-        <circle cx="510" cy="180" r="6" fill="var(--accent)"/>
-        <text x="510" y="208" text-anchor="middle" class="label-mono" style="font-size:10px">[ch02]</text>
-        <circle cx="560" cy="180" r="6" fill="var(--accent)"/>
-        <text x="560" y="208" text-anchor="middle" class="label-mono" style="font-size:10px">[ch03]</text>
-        <circle cx="610" cy="180" r="6" fill="var(--accent)"/>
-        <text x="610" y="208" text-anchor="middle" class="label-mono" style="font-size:10px">[ch04…]</text>
-        <circle cx="660" cy="180" r="6" fill="var(--accent)"/>
-        <text x="660" y="208" text-anchor="middle" class="label-mono" style="font-size:10px">[chN]</text>
-        <circle cx="720" cy="180" r="7" fill="var(--gold)"/>
-        <text x="720" y="160" text-anchor="middle" class="label-mono" style="fill:var(--gold);font-size:10px">[trainer]</text>
-        <text x="720" y="208" text-anchor="middle" class="label-mono" style="font-size:10px">skill diffs</text>
-      </g>
-
-      <!-- merge arrow -->
-      <path d="M740,180 Q790,180 800,80" stroke="var(--mint)" stroke-width="2.5" fill="none" marker-end="url(#gM)"/>
-      <text x="780" y="120" class="label-mono" style="fill:var(--mint);font-size:11px">merge</text>
-
-      <!-- timeline labels -->
-      <rect x="40" y="260" width="780" height="180" rx="10" fill="var(--panel)" stroke="var(--line)"/>
-      <text x="60" y="288" class="label-mono" style="font-size:12px;fill:var(--text-muted);letter-spacing:.12em">·· COMMIT CONVENTION ··</text>
-
-      <text x="60" y="316" class="label-mono" style="font-size:12px">scaffold</text>
-      <text x="200" y="316" class="label-mono" style="font-size:11px;fill:var(--text-secondary)">podcast(asaas-al-taveel): scaffold book directory</text>
-
-      <text x="60" y="336" class="label-mono" style="font-size:12px">0a ingest</text>
-      <text x="200" y="336" class="label-mono" style="font-size:11px;fill:var(--text-secondary)">podcast(asaas-al-taveel): phase 0a Azure ingest — N pages, M chars translated</text>
-
-      <text x="60" y="356" class="label-mono" style="font-size:12px;fill:var(--warning)">0f gate</text>
-      <text x="200" y="356" class="label-mono" style="font-size:11px;fill:var(--text-secondary)">podcast(asaas-al-taveel): phase 0f series plan — HUMAN GATE</text>
-
-      <text x="60" y="376" class="label-mono" style="font-size:12px">[chNN]</text>
-      <text x="200" y="376" class="label-mono" style="font-size:11px;fill:var(--text-secondary)">podcast(asaas-al-taveel)[ch04]: SHIP-READY — 3 P1 accepted</text>
-
-      <text x="60" y="396" class="label-mono" style="font-size:12px;fill:var(--gold)">[trainer]</text>
-      <text x="200" y="396" class="label-mono" style="font-size:11px;fill:var(--text-secondary)">podcast(challenger)[trainer]: refine R-PRONUNCIATION-IMPERATIVE — passes regression</text>
-
-      <text x="60" y="416" class="label-mono" style="font-size:12px;fill:var(--mint)">merge</text>
-      <text x="200" y="416" class="label-mono" style="font-size:11px;fill:var(--text-secondary)">Merge branch 'book/asaas-al-taveel' into develop — 8 chapters · 3 trainer diffs</text>
-    </svg>
-  </div>
-
-  <!-- ─────────────────────────────────────────────────────────────
-       SECTION 7 — Trainer architecture (BIG SVG)
-       ───────────────────────────────────────────────────────────── -->
-  <div class="section-head">
-    <div class="label">·· diagram 4 of 4 ··</div>
-    <h2>The <code>podcast-trainer</code> agent — learning across books without regression</h2>
-    <div class="sub">After all chapters in a book ship, the trainer reads the run's findings, looks for patterns recurring across chapters and books, proposes targeted edits to the challenger spec and handbooks, and gates every proposal through a held-out regression suite spanning multiple genres. Anything that improves <em>only</em> this book at the expense of others is rejected.</div>
-  </div>
-
-  <div class="diagram">
-    <svg viewBox="0 0 860 880" role="img" aria-labelledby="train-title">
-      <title id="train-title">Trainer feedback loop with regression guard</title>
-      <defs>
-        <marker id="tA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--gold)"/></marker>
-        <marker id="tS" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--success)"/></marker>
-        <marker id="tE" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--error)"/></marker>
-      </defs>
-
-      <!-- Inputs -->
-      <rect x="40" y="30" width="780" height="36" rx="8" fill="rgba(244,212,156,0.08)" stroke="var(--gold)" stroke-dasharray="2 3"/>
-      <text x="430" y="54" text-anchor="middle" class="label-mono" style="fill:var(--gold);font-size:12px;letter-spacing:.18em">·· INPUTS · what the trainer reads on the book branch ··</text>
-
-      <g>
-        <rect x="40" y="80" width="180" height="80" rx="10" class="node-rose"/>
-        <text x="130" y="106" text-anchor="middle" class="label-strong">challenger reports</text>
-        <text x="130" y="128" text-anchor="middle" class="label-mono" style="font-size:11px">N × _system/</text>
-        <text x="130" y="146" text-anchor="middle" class="label-mono" style="font-size:11px">challenger-report.md</text>
-
-        <rect x="240" y="80" width="180" height="80" rx="10" class="node-accent"/>
-        <text x="330" y="106" text-anchor="middle" class="label-strong">framings + episode txts</text>
-        <text x="330" y="128" text-anchor="middle" class="label-mono" style="font-size:11px">_system/episode-drafts/</text>
-        <text x="330" y="146" text-anchor="middle" class="label-mono" style="font-size:11px">episodes/EP##-&lt;slug&gt;.txt</text>
-
-        <rect x="440" y="80" width="180" height="80" rx="10" class="node-mint"/>
-        <text x="530" y="106" text-anchor="middle" class="label-strong">audit reports</text>
-        <text x="530" y="128" text-anchor="middle" class="label-mono" style="font-size:11px">_system/audit-EP##.md</text>
-        <text x="530" y="146" text-anchor="middle" class="label-mono" style="font-size:11px">(when transcripts present)</text>
-
-        <rect x="640" y="80" width="180" height="80" rx="10" fill="rgba(155,199,227,0.10)" stroke="var(--sky)"/>
-        <text x="730" y="106" text-anchor="middle" class="label-strong" style="fill:var(--sky)">book contract</text>
-        <text x="730" y="128" text-anchor="middle" class="label-mono" style="font-size:11px">genre · source_type</text>
-        <text x="730" y="146" text-anchor="middle" class="label-mono" style="font-size:11px">length tier · audience</text>
-      </g>
-
-      <!-- Processing -->
-      <rect x="40" y="190" width="780" height="36" rx="8" fill="var(--accent-soft)" stroke="var(--accent-strong)"/>
-      <text x="430" y="214" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:12px;letter-spacing:.18em">·· PROCESS · cluster · hypothesize · diff ··</text>
-
-      <g>
-        <rect x="40" y="240" width="240" height="100" rx="10" class="node-gold"/>
-        <text x="160" y="266" text-anchor="middle" class="label-strong" style="fill:var(--gold)">1. cluster findings</text>
-        <text x="160" y="286" text-anchor="middle" class="label-mono" style="font-size:11px">group P0 / P1 / P2 by</text>
-        <text x="160" y="304" text-anchor="middle" class="label-mono" style="font-size:11px">rule-id · pattern · genre</text>
-        <text x="160" y="324" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-muted)">≥ 3 occurrences → candidate</text>
-
-        <rect x="310" y="240" width="240" height="100" rx="10" class="node-gold"/>
-        <text x="430" y="266" text-anchor="middle" class="label-strong" style="fill:var(--gold)">2. hypothesize</text>
-        <text x="430" y="286" text-anchor="middle" class="label-mono" style="font-size:11px">propose targeted edit</text>
-        <text x="430" y="304" text-anchor="middle" class="label-mono" style="font-size:11px">to challenger rule / handbook</text>
-        <text x="430" y="324" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-muted)">cite source findings inline</text>
-
-        <rect x="580" y="240" width="240" height="100" rx="10" class="node-gold"/>
-        <text x="700" y="266" text-anchor="middle" class="label-strong" style="fill:var(--gold)">3. emit diff</text>
-        <text x="700" y="286" text-anchor="middle" class="label-mono" style="font-size:11px">unified diff against</text>
-        <text x="700" y="304" text-anchor="middle" class="label-mono" style="font-size:11px">tracked spec / handbook</text>
-        <text x="700" y="324" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-muted)">stored in _system/proposals/</text>
-      </g>
-
-      <!-- Regression guard -->
-      <rect x="40" y="370" width="780" height="36" rx="8" fill="rgba(74,222,128,0.08)" stroke="var(--success)"/>
-      <text x="430" y="394" text-anchor="middle" class="label-mono" style="fill:var(--success);font-size:12px;letter-spacing:.18em">·· REGRESSION GUARD · the anti-overfit safety net ··</text>
-
-      <g>
-        <rect x="40" y="420" width="380" height="160" rx="10" class="node-accent"/>
-        <text x="230" y="446" text-anchor="middle" class="label-strong">regression suite</text>
-        <text x="230" y="464" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-muted)">content/podcast/_system/regression-suite/</text>
-        <text x="230" y="486" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-secondary)">anchor chapters per genre · 8–16 total</text>
-        <line x1="80" y1="500" x2="380" y2="500" stroke="var(--line)" stroke-dasharray="2 3"/>
-        <text x="230" y="522" text-anchor="middle" class="label-mono" style="font-size:11px">philosophical_treatise · 2</text>
-        <text x="230" y="540" text-anchor="middle" class="label-mono" style="font-size:11px">hadith_collection · 2 · lecture · 2</text>
-        <text x="230" y="558" text-anchor="middle" class="label-mono" style="font-size:11px">biography · 2 · letter · 1 · interview · 1</text>
-        <text x="230" y="576" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-muted)">+ baseline verdict per anchor</text>
-
-        <rect x="440" y="420" width="380" height="160" rx="10" class="node-rose"/>
-        <text x="630" y="446" text-anchor="middle" class="label-strong">run challenger on every anchor</text>
-        <text x="630" y="466" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-muted)">with the proposed diff applied locally</text>
-        <line x1="480" y1="480" x2="780" y2="480" stroke="var(--line)" stroke-dasharray="2 3"/>
-        <text x="630" y="504" text-anchor="middle" class="label-mono" style="font-size:11px">compare new verdict to baseline</text>
-        <text x="630" y="524" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--success)">any anchor improves · others unchanged → PASS</text>
-        <text x="630" y="544" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--error)">any anchor degrades → FAIL · reject diff</text>
-        <text x="630" y="564" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--warning)">unchanged across all → ACCEPT only if cluster ≥ 5 occurrences</text>
-      </g>
-
-      <!-- Outputs -->
-      <rect x="40" y="610" width="780" height="36" rx="8" fill="rgba(155,199,227,0.10)" stroke="var(--sky)"/>
-      <text x="430" y="634" text-anchor="middle" class="label-mono" style="fill:var(--sky);font-size:12px;letter-spacing:.18em">·· OUTPUTS · only what passes the gate ··</text>
-
-      <g>
-        <rect x="40" y="660" width="380" height="100" rx="10" fill="rgba(74,222,128,0.08)" stroke="var(--success)"/>
-        <text x="230" y="688" text-anchor="middle" class="label-strong" style="fill:var(--success)">PASS → auto-commit on book branch</text>
-        <text x="230" y="710" text-anchor="middle" class="label-mono" style="font-size:11px">tagged: podcast(challenger)[trainer]</text>
-        <text x="230" y="730" text-anchor="middle" class="label-mono" style="font-size:11px">cites: cluster source findings</text>
-        <text x="230" y="748" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-muted)">includes: regression diff verbatim</text>
-
-        <rect x="440" y="660" width="380" height="100" rx="10" fill="rgba(251,191,36,0.08)" stroke="var(--warning)"/>
-        <text x="630" y="688" text-anchor="middle" class="label-strong" style="fill:var(--warning)">FAIL / P0-class → flag for human</text>
-        <text x="630" y="710" text-anchor="middle" class="label-mono" style="font-size:11px">written to _system/trainer-report.md</text>
-        <text x="630" y="730" text-anchor="middle" class="label-mono" style="font-size:11px">summary in book completion notification</text>
-        <text x="630" y="748" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-muted)">never auto-applied across regression</text>
-      </g>
-
-      <!-- Anti-overfit rules -->
-      <rect x="40" y="790" width="780" height="76" rx="10" fill="var(--accent-soft)" stroke="var(--accent-strong)" stroke-dasharray="3 4"/>
-      <text x="430" y="814" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:12px;letter-spacing:.16em">·· ANTI-OVERFIT INVARIANTS ··</text>
-      <text x="430" y="834" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-secondary)">trainer never modifies the regression suite · suite changes are human-curated, separately committed</text>
-      <text x="430" y="852" text-anchor="middle" class="label-mono" style="font-size:11px;fill:var(--text-secondary)">genre-specific proposals must reference contract.source_type · cross-genre proposals must pass all genres</text>
-    </svg>
-  </div>
-
-  <!-- ─────────────────────────────────────────────────────────────
-       SECTION 8 — Trainer mechanics
-       ───────────────────────────────────────────────────────────── -->
-  <div class="section-head">
-    <div class="label">·· what the trainer can touch — and cannot ··</div>
-    <h2>Editable targets, off-limits invariants</h2>
-    <div class="sub">The trainer's reach is deliberately bounded. It can refine rules; it cannot rewrite invariants. It can add patterns; it cannot remove established gates.</div>
   </div>
 
   <div class="two-col">
     <div class="card">
-      <div class="meta">·· in scope · trainer may propose edits ··</div>
-      <h3>What the trainer can change</h3>
-      <ul>
-        <li><code>.github/agents/podcast-challenger.agent.md</code> — refine rule descriptions, add new auto-fix patterns, tune severity thresholds</li>
-        <li><code>content/podcast/.skill/handbook/notebooklm-customize-prompt-rules.md</code> — extend do-not patterns, must-do patterns</li>
-        <li><code>content/podcast/.skill/handbook/notebooklm-source-chapter-rules.md</code> — refine chapter-level constraints when violations recur</li>
-        <li><code>content/_shared/arabic/03-arabic-english-manifest.md</code> — propose new canonical entries (with attribution to the chapter where the term first appeared)</li>
-        <li><code>content/_shared/arabic/05-name-alias-policy.md</code> — propose new alias rules (long → short forms)</li>
+      <div class="meta">·· phase C ··</div>
+      <h3>Trainer onto the substrate</h3>
+      <ul class="arrow-list">
+        <li>rewrite <code>podcast-trainer.agent.md</code> §Protocol per Section 6 above</li>
+        <li>no new files in <code>scripts/</code>; trainer is an LLM agent that wraps <code>learn_aggregate.py</code> + <code>learn_propose.py</code> + <code>test_challenger.py</code></li>
+        <li>trainer's commit subject: <code>podcast(challenger)[trainer]: &lt;summary&gt;</code>; bumps <code>CHALLENGER_VERSION</code> in <code>_rules.py</code> on any spec diff</li>
+        <li>ship value: <em>regression-gated, book-end rule promotions on the book branch</em></li>
       </ul>
     </div>
     <div class="card">
-      <div class="meta">·· out of scope · trainer cannot touch ··</div>
-      <h3>What stays off-limits</h3>
-      <ul>
-        <li>The six <strong>INVARIANTS</strong> in <code>SKILL.md</code> §Section 0 — semantic guarantees of the architecture</li>
-        <li>The regression suite contents — only humans add or remove anchor chapters</li>
-        <li>Phase boundaries — the trainer cannot collapse, reorder, or skip Phase 0a–0g</li>
-        <li>The <strong>0f human gate</strong> — autonomy can never claim back this gate</li>
-        <li>Script source (<code>*.py</code>) — only configuration / spec / markdown</li>
-        <li>Build invariants in <code>build_episode_txt.py</code> hard gates — these are code, not prompt</li>
-        <li>Anything outside <code>content/podcast/</code> and <code>content/_shared/arabic/</code></li>
+      <div class="meta">·· phase D (housekeeping) ··</div>
+      <h3>Plan-doc + wrapper hygiene</h3>
+      <ul class="arrow-list">
+        <li>this HTML replaces the v1 937-line file</li>
+        <li>add <code>scripts/podcast/sync-agent-wrappers.sh</code> (10-line copy + diff-check; CI-gateable)</li>
+        <li>ROADMAP <code>A14</code> row: trainer-on-substrate integration</li>
+        <li>SKILL.md Phase 4: note that autonomous mode = <code>podcast-orchestrator</code>; conversational mode = <code>/podcast</code></li>
       </ul>
     </div>
   </div>
 
   <!-- ─────────────────────────────────────────────────────────────
-       SECTION 9 — Trainer training set & promotion ladder
+       SECTION 11 — Failure modes (compressed)
        ───────────────────────────────────────────────────────────── -->
   <div class="section-head">
-    <div class="label">·· the promotion ladder ··</div>
-    <h2>From observed pattern to landed rule</h2>
-    <div class="sub">A finding doesn't become a rule on first sight. The trainer escalates evidence over time, and only the strongest, regression-clean proposals graduate to handbook text.</div>
-  </div>
-
-  <table class="guard-table">
-    <thead><tr><th>Tier</th><th>Trigger</th><th>What the trainer does</th><th>Where the change lands</th></tr></thead>
-    <tbody>
-      <tr>
-        <td><span class="pill-info">Tier 0</span> Observation</td>
-        <td>1 occurrence in 1 chapter</td>
-        <td>logs to <code>_system/trainer-observations.md</code> with citation; no action</td>
-        <td>nowhere yet — pattern under watch</td>
-      </tr>
-      <tr>
-        <td><span class="pill-info">Tier 1</span> Candidate</td>
-        <td>≥ 3 occurrences across this book</td>
-        <td>hypothesizes a refinement; writes proposal in <code>_system/proposals/&lt;pattern-id&gt;.md</code></td>
-        <td>book branch only · awaits regression</td>
-      </tr>
-      <tr>
-        <td><span class="pill-good">Tier 2</span> Promoted</td>
-        <td>Regression passes AND single-genre</td>
-        <td>auto-commits genre-tagged refinement on book branch</td>
-        <td><code>handbook/*</code> with <code>{source_type: …}</code> block</td>
-      </tr>
-      <tr>
-        <td><span class="pill-good">Tier 3</span> Cross-genre</td>
-        <td>≥ 2 books, ≥ 2 genres, regression passes everywhere</td>
-        <td>promotes refinement out of genre block into general rule</td>
-        <td><code>handbook/*</code> general section</td>
-      </tr>
-      <tr>
-        <td><span class="pill-warn">Tier H</span> Human-only</td>
-        <td>Touches an invariant, or regression fails, or P0-class change</td>
-        <td>flags in <code>_system/trainer-report.md</code> · summary in completion notification</td>
-        <td>nowhere — escalated to Asif for review</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <!-- ─────────────────────────────────────────────────────────────
-       SECTION 10 — Anti-duplication audit
-       ───────────────────────────────────────────────────────────── -->
-  <div class="section-head">
-    <div class="label">·· no duplication ··</div>
-    <h2>Where the two new agents sit in the agent graph</h2>
-    <div class="sub">The user asked for the trainer to exist <em>without</em> duplicating any agent. Here is the explicit map of what each agent does and why no role overlaps.</div>
-  </div>
-
-  <table class="guard-table">
-    <thead><tr><th>Agent</th><th>Scope</th><th>Touches</th><th>Does NOT</th></tr></thead>
-    <tbody>
-      <tr>
-        <td><code>/podcast</code> (skill)</td>
-        <td>Conversational guide for a single session</td>
-        <td>All phases, but human-in-loop each</td>
-        <td>Drive autonomously across phases</td>
-      </tr>
-      <tr>
-        <td><code>podcast-extract</code></td>
-        <td>One chapter → episode-draft bundle</td>
-        <td><code>extract_chapter.py</code></td>
-        <td>Multi-chapter ingest, Phase 0</td>
-      </tr>
-      <tr>
-        <td><code>podcast-challenger</code></td>
-        <td>Validate <em>one</em> chapter against spec</td>
-        <td>Read chapter + framing, write <code>challenger-report.md</code></td>
-        <td>Modify spec, modify handbook</td>
-      </tr>
-      <tr>
-        <td><span class="pill-info">NEW</span> <code>podcast-orchestrator</code></td>
-        <td>Drive entire book through autopilot</td>
-        <td>Sequence scripts + sub-agents, manage state + git</td>
-        <td>Validate (delegates to challenger), modify spec (delegates to trainer)</td>
-      </tr>
-      <tr>
-        <td><span class="pill-info">NEW</span> <code>podcast-trainer</code></td>
-        <td>Learn across book branches, refine spec</td>
-        <td>Read challenger reports, edit handbook + challenger spec under regression gate</td>
-        <td>Validate chapters, drive pipeline, touch invariants</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <!-- ─────────────────────────────────────────────────────────────
-       SECTION 11 — Cost & time
-       ───────────────────────────────────────────────────────────── -->
-  <div class="section-head">
-    <div class="label">·· what one book costs ··</div>
-    <h2>Cost and time model for an 8-chapter book</h2>
-    <div class="sub">Conservative estimate based on the kitab-al-riyad pilot (Phase 0a–0e + EP01 shipped). Extended-tier targets, S0 Doc Intel, S1 Translator, Anthropic Sonnet 4.6.</div>
-  </div>
-
-  <table class="guard-table">
-    <thead><tr><th>Phase</th><th>Per book</th><th>Per chapter (x N)</th><th>Notes</th></tr></thead>
-    <tbody>
-      <tr><td>Azure Doc Intelligence (S0)</td><td class="cap">~$0.40</td><td>—</td><td>1.50 / 1k pages; a 10-MB Arabic PDF runs ~400 pages</td></tr>
-      <tr><td>Azure Translator</td><td class="cap">~$2.00</td><td>—</td><td>$10 / M chars; refined chapters ~200k chars total</td></tr>
-      <tr><td>Anthropic — normalize / phonetics / segment / enrich</td><td class="cap">~$1.00</td><td>—</td><td>once per book; ~50k input + ~30k output tokens</td></tr>
-      <tr><td>Anthropic — framing authorship</td><td>—</td><td class="cap">~$0.20</td><td>per chapter; ~15k input + ~3k output</td></tr>
-      <tr><td>Anthropic — challenger convergence</td><td>—</td><td class="cap">~$0.30</td><td>3 outer × ~3 inner avg; agent reads handbooks</td></tr>
-      <tr><td>Anthropic — fixer agent (BLOCKED only)</td><td>—</td><td class="cap">~$0.10</td><td>occasional; bounded by 5 outer iter cap</td></tr>
-      <tr><td>Anthropic — trainer pass</td><td class="cap">~$0.40</td><td>—</td><td>once per book; reads N reports + handbook</td></tr>
-      <tr><td colspan="4" style="border-top:1px solid var(--line-strong); padding-top:.8rem;"><strong>Total for 8-chapter book:</strong> &nbsp;<span class="pill-info">~$8</span>&nbsp; (Azure $2.40 + Anthropic ~$5.20) &nbsp;·&nbsp; well under the $50 cap with 5× safety margin</td></tr>
-      <tr><td colspan="4"><strong>Wall clock:</strong> ~3–6 hours for an 8-chapter book at default convergence (book wall-clock cap 24h)</td></tr>
-    </tbody>
-  </table>
-
-  <!-- ─────────────────────────────────────────────────────────────
-       SECTION 12 — Failure modes
-       ───────────────────────────────────────────────────────────── -->
-  <div class="section-head">
-    <div class="label">·· how each failure mode ends ··</div>
+    <div class="label">·· failure modes ··</div>
     <h2>What happens when something goes wrong</h2>
+    <div class="sub">Every failure mode resolves to one of: STOP-with-fix-command, exp-backoff-then-skip, force-ship-with-flag, halt-cleanly-resumable.</div>
   </div>
 
   <table class="guard-table">
-    <thead><tr><th>Failure</th><th>What the orchestrator does</th><th>Resumability</th></tr></thead>
+    <thead><tr><th>Failure</th><th>Response</th></tr></thead>
     <tbody>
-      <tr><td>Azure API rate-limit</td><td>exp backoff (1s · 4s · 16s) then SKIP chapter</td><td>resume picks up at SKIPPED chapter</td></tr>
-      <tr><td>Anthropic API outage</td><td>same backoff · then SKIP chapter</td><td>resume picks up at SKIPPED chapter</td></tr>
-      <tr><td>OCR returns garbled text</td><td>halt before Phase 0b · emit <code>needs-human-review.md</code></td><td>fix raw-extract by hand · resume</td></tr>
-      <tr><td>LLM segments wrong boundaries</td><td>persists segments as proposal · 0f gate</td><td>edit chapter-contracts/*.yml · resume</td></tr>
-      <tr><td>Challenger never reaches SHIP-READY</td><td>5 outer × 5 inner = 25 passes → force-ship CAUTION + flag</td><td>continue book · review flag post-run</td></tr>
-      <tr><td>Process killed mid-run</td><td>state lives in <code>_system/orchestrator-state.json</code></td><td>full resume from last checkpoint</td></tr>
-      <tr><td>Git push fails mid-run</td><td>local commits persist · log push failure · continue</td><td>resume retries push every phase boundary</td></tr>
-      <tr><td>Book wall clock hit (24 h)</td><td>halt cleanly · emit partial completion report</td><td>resumable next day</td></tr>
-      <tr><td>Azure cost cap hit ($50)</td><td>halt cleanly · emit cost report</td><td>resumable after manual confirmation</td></tr>
-      <tr><td>Trainer regression fails on all proposals</td><td>still merges book to develop — only proposals fail · log every reject</td><td>no resume needed</td></tr>
+      <tr><td>Pre-flight fail (Azure / dirty tree / wrong branch)</td><td>STOP with exact fix command. No partial state.</td></tr>
+      <tr><td>Mid-book API outage</td><td>exp backoff 3× (1s · 4s · 16s) per call → SKIP chapter on persistent fail → continue book</td></tr>
+      <tr><td>OCR garbled</td><td>halt before 0b · flag in <code>orchestrator-state.json</code> · leave branch in place</td></tr>
+      <tr><td>Killed mid-run</td><td>state file is the truth · <code>--resume</code> from last completed checkpoint</td></tr>
+      <tr><td>Git push fails</td><td>log + retry every phase boundary · never <code>--no-verify</code></td></tr>
+      <tr><td>Time cap (24h) or cost cap ($50) reached</td><td>halt cleanly · partial-completion report · resumable</td></tr>
+      <tr><td>Convergence cap (iter == 3 still BLOCKED)</td><td>force-ship SHIP-CAUTION · flag in <code>challenger-report.md</code> · next chapter</td></tr>
+      <tr><td>Trainer regression fail</td><td>archive proposal with reason · never commit · ledger row appended</td></tr>
+      <tr><td>Trainer diff applies to INVARIANT</td><td>archive with <code>Tier H — human only</code> · never commit</td></tr>
     </tbody>
   </table>
 
   <!-- ─────────────────────────────────────────────────────────────
-       SECTION 13 — Roadmap
+       SECTION 12 — Out of scope
        ───────────────────────────────────────────────────────────── -->
   <div class="section-head">
-    <div class="label">·· implementation roadmap ··</div>
-    <h2>Five phases of build · each independently ships value</h2>
-    <div class="sub">Phase A alone takes the human-coordination overhead away. Phase B closes Phase-0 manual gates. Phase C cuts framing authorship. Phase D closes the verdict loop. The trainer (Phase T) lands last because it needs a corpus of book branches to learn from.</div>
+    <div class="label">·· out of scope ··</div>
+    <h2>What this design explicitly does <em>not</em> do</h2>
   </div>
 
-  <table class="guard-table">
-    <thead><tr><th>Phase</th><th>Deliverable</th><th>Cuts manual</th><th>Effort</th></tr></thead>
-    <tbody>
-      <tr><td><span class="pill-info">A — Wrapper</span></td><td><code>orchestrate_book.py</code> calling existing scripts in sequence · halts at 0f · checkpoint commits</td><td>cross-phase coordination · branching</td><td>~2 hrs</td></tr>
-      <tr><td><span class="pill-info">B — Auto Phase 0</span></td><td>LLM-driven normalize · phonetics · segment · enrich</td><td>0b · 0c · 0d · 0e human gates</td><td>~4 hrs</td></tr>
-      <tr><td><span class="pill-info">C — Auto framing</span></td><td>LLM-authored <code>00-framing.md</code> per chapter</td><td>framing authorship gate</td><td>~3 hrs</td></tr>
-      <tr><td><span class="pill-info">D — Convergence loop</span></td><td>outer challenger loop · fixer agent · 5/5 cap</td><td>verdict interpretation gate</td><td>~3 hrs</td></tr>
-      <tr><td><span class="pill-info">T — Trainer + regression</span></td><td><code>podcast-trainer</code> agent · <code>_regression.py</code> · seed regression suite</td><td>spec maintenance burden</td><td>~5 hrs</td></tr>
-      <tr><td colspan="4"><strong>After all five phases:</strong> drop PDF · run one command · walk away · come back to an 8-chapter shipped series on a merged branch with provenance, cost ledger, and trainer-proposed (regression-passed) skill improvements.</td></tr>
-    </tbody>
-  </table>
+  <ul class="arrow-list">
+    <li>Does not edit the regression suite contents (<code>_learning/fixtures/</code>) — humans add anchors</li>
+    <li>Does not touch the six INVARIANTS in <code>skills-staging/podcast/SKILL.md</code> §0</li>
+    <li>Does not skip the Phase 0f human gate · ever</li>
+    <li>Does not push to <code>main</code> · merges only to <code>develop</code></li>
+    <li>Does not modify <code>*.py</code> from the trainer's autonomous side · trainer is a spec/handbook editor only</li>
+    <li>Does not run on memoir content — hard boundary</li>
+    <li>Does not read other books' branches in a single trainer pass · cross-book learning happens via cumulative <code>findings.jsonl</code> across trainer runs</li>
+  </ul>
 
-  <!-- ─────────────────────────────────────────────────────────────
-       SECTION 14 — Open questions
-       ───────────────────────────────────────────────────────────── -->
-  <div class="section-head">
-    <div class="label">·· deliberately deferred ··</div>
-    <h2>Out of scope · explicitly</h2>
-  </div>
-
-  <div class="callout">
-    <ul>
-      <li><strong>NotebookLM upload automation.</strong> No public API. Manual paste remains the human step at the end of every chapter — by design, not by oversight.</li>
-      <li><strong>Multi-book parallelism.</strong> One book at a time. Book branches don't conflict, but the trainer must see a clean corpus per pass.</li>
-      <li><strong>Loop M (post-publication transcript audit).</strong> Already specified in the skill (Section 4); orchestrator does not run it because TurboScribe is a manual subscription step. Trainer reads transcript audits when they exist.</li>
-      <li><strong>Cross-skill training.</strong> The trainer reads only <code>podcast-challenger</code> and the podcast handbook. The memoir / journal pipelines are separately governed.</li>
-      <li><strong>Reinforcement on rejected diffs.</strong> If the regression suite rejects 20 trainer proposals across 10 books, that's a signal the suite needs a human-curated update — not that the trainer needs more autonomy.</li>
-    </ul>
-  </div>
-
-  <footer class="footer">
-    <a href="index.html">← back to the map</a> &nbsp;·&nbsp; <a href="podcast-pipeline.html">existing pipeline (peer)</a> &nbsp;·&nbsp; <a href="podcast-quality-system.html">quality system</a> &nbsp;·&nbsp; <a href="azure.html">Azure</a>
-    <div class="footer-secondary">
-      <a href="../multi-mac-runbook.md">multi-Mac runbook</a> &nbsp;·&nbsp; <a href="../../skills-staging/podcast/SKILL.md">/podcast skill</a> &nbsp;·&nbsp; <a href="../../.github/agents/podcast-challenger.agent.md">podcast-challenger</a> &nbsp;·&nbsp; <a href="../../.github/agents/podcast-orchestrator.agent.md">podcast-orchestrator (new)</a> &nbsp;·&nbsp; <a href="../../.github/agents/podcast-trainer.agent.md">podcast-trainer (new)</a>
-    </div>
+  <footer style="margin-top:3rem; padding-top:1.5rem; border-top:1px solid var(--line); color:var(--text-muted); font-size:.88rem;">
+    <p style="margin-bottom:.5rem">
+      <strong>Source of truth.</strong> The canonical agent specs win when this document and they disagree —
+      <code>.github/agents/podcast-orchestrator.agent.md</code> and
+      <code>.github/agents/podcast-trainer.agent.md</code>. This HTML reflects the reconciled v2 plan;
+      v1 lives in commit <code>596abe1</code> for historical context.
+    </p>
+    <p style="margin-bottom:.5rem">
+      <strong>Existing primitives this builds on:</strong>
+      <code>_learning/findings.jsonl</code> ·
+      <code>learn_aggregate.py</code> ·
+      <code>learn_propose.py</code> ·
+      <code>test_challenger.py</code> ·
+      <code>write_health.py</code> ·
+      <code>_rules.py:emit_finding()</code> ·
+      <code>CHALLENGER_VERSION</code> ·
+      <code>build_episode_txt.py</code> ·
+      <code>ingest_source.py</code> ·
+      <code>extract_chapter.py</code> ·
+      <code>audit_transcript.py</code>.
+    </p>
+    <p>
+      <strong>Status:</strong> <span class="pill-warn">plan-only · awaiting approval to implement</span>
+    </p>
   </footer>
 
 </main>
+
 </body>
 </html>
