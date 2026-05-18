@@ -64,7 +64,7 @@ Both files must be reviewed under each pass: the chapter for content authenticit
 
 The podcast skill itself is marked OUT OF SCOPE for CORTEX gates because *artifact quality is judged by the human listener*. This agent covers only the *automatable* slice: citations, phonetics, word counts, structural patterns, framing integrity. The remaining quality dimensions (host dynamic, conversation feel, listener experience) still rest with Asif after upload.
 
-Before any review pass, read **all 16 files** in this order. The two normative rule files (1 + 2 below) are the **authority** — they win over the guidance files when they disagree.
+Before any review pass, read **all 18 files** in this order. The two normative rule files (1 + 2 below) are the **authority** — they win over the guidance files when they disagree.
 
 **Normative (must-read, contract-bearing):**
 
@@ -87,6 +87,8 @@ Before any review pass, read **all 16 files** in this order. The two normative r
 14. `content/podcast/.skill/handbook/worked-examples.md` — illustrative-only blocks (one book's concrete instances); read for shape, never to constrain
 15. `skills-staging/podcast/SKILL.md` — the producing skill's contract
 16. `scripts/podcast/build_episode_txt.py` + `scripts/podcast/extract_chapter.py` + `scripts/podcast/check_chapter_set.py` — the structural gates this agent complements (the `META_PROSE_TELLS` / `META_PROSE_REGEX_TELLS` / `CONTRACT_META_PROSE_TELLS` lists, plus the Q-check computation)
+17. `content/podcast/.skill/handbook/arabic-tts-protocol.md` — Arabic TTS protocol (Track A, **forward state**). Describes the Conversational vs Classical mode distinction, the `## Phonetic Key (TTS Pronunciation)` section name, and the TTS engineering rules promotion. Until B1–B8 land in the named rule files, this document is **advisory** — do not enforce its target-state rules against current framings, but use its mode distinction to inform any pronunciation guidance the challenger suggests in `notes:` blocks of the sidecar report.
+18. `content/podcast/.skill/ROADMAP.md` — consolidated state-of-the-skill ledger. Names everything in flight (Section B), recently shipped (Section A), and rejected from external proposals (Section D). Consulted to decide whether a finding is consistent with the skill's current direction, and to surface "this is already in flight" notes when reviewers find an issue the roadmap already tracks.
 
 You do NOT review:
 - Anything under `content/babu-memoir/` — memoir is out of scope per SKILL.md §9 (these belong to the journal skill).
@@ -525,6 +527,8 @@ When invoked:
 ---
 
 ## Version
+
+v1.7 (2026-05-18). **Tracked governance promotion.** Two formerly-workspace documents promoted into the skill tree and added to the cold-start file list. (1) `_workspace/podcast-arabic-tts-protocol-plan.md` → `content/podcast/.skill/handbook/arabic-tts-protocol.md` — Track A protocol describing the Conversational vs Classical mode split, `## Phonetic Key (TTS Pronunciation)` section rename, and TTS engineering rule promotion. **Forward state**: producer and challenger consult it advisorily; rule changes do NOT yet enforce against current framings until B1–B8 land in their named rule files. (2) `_workspace/podcast-final-enhancement-list.md` → `content/podcast/.skill/ROADMAP.md` — consolidated state-of-the-skill ledger (recently shipped / in flight / portable / rejected / open decisions). Section 0 cold-start count bumped 16 → 18; both files added as items 17 and 18. SKILL.md preflight list extended in parallel.
 
 v1.6 (2026-05-17). **Debate format support.** Added Category P (Debate-format integrity, 13 checks P1–P13) gated on `contract.episode_format: debate`. The skill now supports two episode formats: `deep_dive` (default — two hosts walk through the source) and `debate` (each host adopts a role + position and argues from it). When the contract carries `episode_format: debate`, the rendered framing follows the structure in `.skill/handbook/debate-framing.md` (Proposition + Roles + Positions + Source moves + Rules of debate + Resolution). Category P validates the new schema fields, the rendered framing's coverage of debate rules, and (when a transcript exists) empirical adherence to position-keeping + no-host-verdict. Deep-dive-specific checks F4 (central tensions), K1/K2 (interruption avoidance), F6 (steering phrases) are softened or replaced under debate mode — see Category P preface for the dispatch rules. Companion edits: `scripts/podcast/extract_chapter.py` `stub_contract()` + `validate_contract()` + `render_framing()` extended with the `episode_format` + `debate` block. `SKILL.md` §4 documents both formats with a "when to choose which" guide. `chapter-contract.template.yml` extended with the `episode_format` enum + `debate:` block schema.
 
