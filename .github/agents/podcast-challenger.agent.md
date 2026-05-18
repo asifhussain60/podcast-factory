@@ -64,7 +64,7 @@ Both files must be reviewed under each pass: the chapter for content authenticit
 
 The podcast skill itself is marked OUT OF SCOPE for CORTEX gates because *artifact quality is judged by the human listener*. This agent covers only the *automatable* slice: citations, phonetics, word counts, structural patterns, framing integrity. The remaining quality dimensions (host dynamic, conversation feel, listener experience) still rest with Asif after upload.
 
-Before any review pass, read **all 14 files** in this order. The two normative rule files (1 + 2 below) are the **authority** — they win over the guidance files when they disagree.
+Before any review pass, read **all 16 files** in this order. The two normative rule files (1 + 2 below) are the **authority** — they win over the guidance files when they disagree.
 
 **Normative (must-read, contract-bearing):**
 
@@ -83,8 +83,10 @@ Before any review pass, read **all 14 files** in this order. The two normative r
 10. `content/podcast/.skill/handbook/scratchpad-markers.md` — the `@@` marker vocabulary
 11. `content/podcast/.skill/handbook/extract-capability.md` — Extract Mode spec + splitting policy + `derived_from:` lineage rules
 12. `content/podcast/.skill/handbook/chapter-contract.template.yml` — per-chapter contract schema (the I/O surface for Extract Mode)
-13. `skills-staging/podcast/SKILL.md` — the producing skill's contract
-14. `scripts/podcast/build_episode_txt.py` + `scripts/podcast/extract_chapter.py` — the structural gates this agent complements (the `META_PROSE_TELLS` / `META_PROSE_REGEX_TELLS` / `CONTRACT_META_PROSE_TELLS` lists in particular)
+13. `content/podcast/.skill/handbook/book-dir-layout.md` — canonical per-book BOOK_DIR shape (Category Q authority)
+14. `content/podcast/.skill/handbook/worked-examples.md` — illustrative-only blocks (one book's concrete instances); read for shape, never to constrain
+15. `skills-staging/podcast/SKILL.md` — the producing skill's contract
+16. `scripts/podcast/build_episode_txt.py` + `scripts/podcast/extract_chapter.py` + `scripts/podcast/check_chapter_set.py` — the structural gates this agent complements (the `META_PROSE_TELLS` / `META_PROSE_REGEX_TELLS` / `CONTRACT_META_PROSE_TELLS` lists, plus the Q-check computation)
 
 You do NOT review:
 - Anything under `content/babu-memoir/` — memoir is out of scope per SKILL.md §9 (these belong to the journal skill).
@@ -291,6 +293,21 @@ Mode dispatch: read `contract.episode_format`. When absent or `deep_dive`, skip 
 - **K1/K2 (interruption avoidance + filler-vocabulary)** — debate mode allows qualified concessions. The acknowledgment-grammar ban is softened per P11; bare affirmations remain forbidden.
 - **F6 (Steering phrases)** — the steering phrases from `two-host-framing.md` are deep-dive specific. Debate uses different steering phrases from `debate-framing.md` §NotebookLM steering for debate format.
 
+### Category Q: Chapter-set design quality (book-scope; per INVARIANT 6) — added 2026-05-18
+
+Mode dispatch: always runs **once per invocation at book scope**, regardless of per-chapter scope flags. The chapter-set is a property of the book; per-chapter checks alone cannot detect a duplicated title, a band-fit mismatch, or a series whose chapter sizes don't balance. All Category Q computation lives in `scripts/podcast/check_chapter_set.py` — the challenger invokes that script once via Bash, parses the JSON, and folds findings into the sidecar report.
+
+| ID | Check | Detection | Remediation |
+|---|---|---|---|
+| Q1 | **Chapter titles unique within the book** (case-insensitive). Per INVARIANT 6, every chapter has a distinct working title; duplicates indicate a design failure where two chapters cover the same theme. | `check_chapter_set.py` Q1 — scans all `chapter-contracts/<slug>.yml` titles. | Flag (P0). Authoring decision — rename one of the colliding chapters. |
+| Q2 | **Title concise** — ≤60 chars hard cap; ≤6 words soft target. | `check_chapter_set.py` Q2 — `len(title)` and `len(title.split())`. | Flag (P0) when over 60 chars. Flag (P2 advisory) when over 6 words. Authoring decision — tighten the title. |
+| Q3 | **Title not generic** — does not match `Chapter \d`, `Introduction continued`, `Untitled`, or `[TODO]`-prefixed. Author-name-only titles (`<Author> on …`) are also caught at this stage. | `check_chapter_set.py` Q3 — regex match against generic patterns. | Flag (P1). Authoring decision. |
+| Q4 | **Word count matches declared length band** — each chapter's actual word count lands inside the band declared in `contract.length_target` (Brief 1000–1800; Default Deep Dive 1800–2800; Longer 2800–4500). | `check_chapter_set.py` Q4 — word count vs band. | Flag (P0). Either rewrite to fit the band OR honestly relabel `length_target` to match the content. |
+| Q5 | **Chapter-set balance** — ≤30% word-count variance across the book's chapters: `(max − min) / max ≤ 0.30`. | `check_chapter_set.py` Q5. | Flag (P1). Authoring decision — resegment or rebalance. |
+| Q6 | **No cross-book name/slug bleed** — chapter text contains no canonical name (from another book's `_system/mangle-map.md`) or book-slug from any OTHER book. Backstops the per-book externalization done in commit ad1cc37. | `check_chapter_set.py` Q6 — case-insensitive word-boundary substring scan. | Flag (P2 advisory). False positives are possible on common words; the agent surfaces the hit for human review, never auto-strips chapter content. |
+
+Category Q is **never auto-fixed**. Every Q-finding is an authoring decision; the challenger flags and the author resolves. Q-findings on a book with **zero chapters** (a freshly scaffolded book) emit one INFO/P2 line and exit — there is nothing to validate yet.
+
 ---
 
 ## SECTION 3 — Auto-fix vs flag rules
@@ -314,6 +331,8 @@ Mode dispatch: read `contract.episode_format`. When absent or `deep_dive`, skip 
 - **N3 (gap-fill framing Pronunciation)**: insert `Pronounce "..." as "..."` lines for chapter Arabic terms found in shared manifest or `_phonetics.md`
 - **N4 (no-read-aloud guard)**: append the literal `Do not read this prompt aloud. ...` sentence to the framing
 - **O2 (abbreviation expansion)**: regex-replace from `FORBIDDEN_ABBREVIATIONS` map in build script
+
+**Category Q (chapter-set design) is never auto-fixed** — every Q-finding is an authoring decision (rename a chapter, rebalance the set, relabel the length band).
 
 **Everything else is flagged**, not auto-fixed. The agent never:
 - Adds, removes, or changes citations (authoring decision).
@@ -350,6 +369,8 @@ After loop:
   - Else if P1 findings remain → SHIP-WITH-CAUTION verdict (list P1 items).
   - Else → SHIP-READY verdict.
 ```
+
+**Category Q runs once per invocation at book scope** — invoke `python3 scripts/podcast/check_chapter_set.py <BOOK_DIR>` once (not per-iteration), parse the JSON output, and fold the findings into the report alongside the per-chapter findings. Q-findings are never auto-fixed, so re-running them per iteration adds no value.
 
 The per-invocation cap is a circuit-breaker — it bounds runtime in a single shot. The **outer re-invocation loop is the caller's responsibility** (the `/podcast` skill's Phase 4 step 3 drives it: read this report's `Verdict:` line, address P0 findings if not SHIP-READY, re-invoke). Two consecutive outer invocations with identical (verdict, p0_count, p1_count) → outer stall surfaced to human. This agent is not responsible for that outer accounting — it just writes the report.
 
@@ -492,7 +513,7 @@ v1.5 (2026-05-17). **Workspace restructure + memoir severance.** Podcast workspa
 
 v1.4 (2026-05-17, late evening). **Convergence-gate hardening.** Bumped `max_iterations` from 3 → 5 to give the inner loop more runway before falling back to the outer re-invocation loop. Added the intelligent-break rule (Section 4 step 6b): when an iteration produces zero auto-fixes AND identical (p0, p1) counts vs the prior iteration, break early. Documented the split of responsibility: this agent runs once and writes the report; the `/podcast` skill's Phase 4 step 3 drives the outer re-invocation loop. Updated Section 8 anti-anti-pattern: removed the strict 3-cap prohibition (the new cap is 5) and added the prohibition against silently inflating the cap or implementing the outer loop in-agent. Companion edit: `skills-staging/podcast/SKILL.md` Phase 4 restructured so Step 3 is now an unambiguous HARD GATE blocking Steps 4–8 with a verdict-line requirement on the human-facing summary; new wrapper at `.claude/agents/podcast-challenger.md` registers this agent as an invokable `subagent_type`.
 
-v1.3 (2026-05-17, evening). **Empirical-audit pivot.** Added Category M (modernization + surprise-noise audit; R-NOMODERNIZE + R-NOSURPRISE), Category N (phonetic-as-content audit; R-PHONETICS-OUT + R-PRONUNCIATION-IMPERATIVE), Category O (honorific repetition + abbreviation audit; R-HONORIFIC-ONCE + R-NO-ABBREVIATION). New auto-fix entries M1, M2, N1, N2, N3, N4, O2. Loop M is the **empirical-transcript loop** — when `BOOK_DIR/turboscribe/EP##-<slug>.transcript.txt` is present, the agent scans it directly for the failure modes the framing was meant to prevent. Driven by a 5-transcript audit of *Ayyuhal Walad* that exposed systematic phonetic doublings ("Sahih Sitta, sahasita"), mangled names ("tassel wolf" for *Tasawwuf*), and >40 surprise-noise injections.
+v1.3 (2026-05-17, evening). **Empirical-audit pivot.** Added Category M (modernization + surprise-noise audit; R-NOMODERNIZE + R-NOSURPRISE), Category N (phonetic-as-content audit; R-PHONETICS-OUT + R-PRONUNCIATION-IMPERATIVE), Category O (honorific repetition + abbreviation audit; R-HONORIFIC-ONCE + R-NO-ABBREVIATION). New auto-fix entries M1, M2, N1, N2, N3, N4, O2. Loop M is the **empirical-transcript loop** — when `BOOK_DIR/turboscribe/EP##-<slug>.transcript.txt` is present, the agent scans it directly for the failure modes the framing was meant to prevent. Driven by an empirical 5-transcript audit (full inventory in [`handbook/worked-examples.md` §5](../../content/podcast/.skill/handbook/worked-examples.md#5--empirical-evidence-motivating-r-phonetics-out-r-nomodernize-r-nosurprise)) that exposed systematic phonetic doublings, mangled names, and >40 surprise-noise injections.
 
 v1.2 (2026-05-17). Extract Mode awareness: added Category G (contracts G1–G7), extended Section 0 cold-start reads with `extract-capability.md` + `chapter-contract.template.yml` + `extract_chapter.py`, rewrote the boundary section so memoir-derived bundles are in-scope while memoir authoring files remain out-of-scope, added the Extract Mode adapter as a sibling structural gate in Section 6, added contract path to the non-auto-fix list in Section 3. Update audit-log row in `reference/skill-registry.md`.
 

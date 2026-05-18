@@ -1,0 +1,31 @@
+# chapter-contract.yml — backfilled 2026-05-18 for legacy episode authored pre-Extract-Mode.
+# Anchor passages are marked [POPULATE]; re-extract with --force after filling them in.
+
+chapter_ref: ch05-method-and-closing-prayer
+slug: method-and-closing-prayer
+source_type: book-chapter
+book_slug: ayyuhal-walad
+episode_number: 5
+title: Method of Living, Closing Prayer
+audience: Listeners ready for the end of the letter — four things to do, the King's eye on the heart, the closing supplication.
+angle: faithful_exposition
+episode_format: deep_dive
+host_dynamic: curious_mind + scholar_companion
+host_dynamic_custom: null
+debate: null
+length_target: default_deep_dive
+key_tensions:
+  - From what to refuse to what to do — the letter pivots.
+  - The closing supplication is its own structural argument.
+  - The student does not need more learning; he needs to act on what he has.
+tone_constraints:
+  - Treat the closing prayer as text, not as ornament.
+  - No modernizations.
+anchor_passages:
+  - "[POPULATE] verbatim passage 1 from chapters/ch05-method-and-closing-prayer.txt"
+adaptation_mode: faithful
+phonetic_overrides: {}
+show_notes:
+  blurb: null
+  related_episodes: []
+  references: []

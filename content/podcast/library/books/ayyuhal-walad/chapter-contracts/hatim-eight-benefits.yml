@@ -1,0 +1,31 @@
+# chapter-contract.yml — backfilled 2026-05-18 for legacy episode authored pre-Extract-Mode.
+# Anchor passages are marked [POPULATE]; re-extract with --force after filling them in.
+
+chapter_ref: ch02-hatim-eight-benefits
+slug: hatim-eight-benefits
+source_type: book-chapter
+book_slug: ayyuhal-walad
+episode_number: 2
+title: Haatim's Eight Benefits
+audience: Listeners ready for a worked example of how a long apprenticeship compresses into a few practiced postures.
+angle: faithful_exposition
+episode_format: deep_dive
+host_dynamic: curious_mind + scholar_companion
+host_dynamic_custom: null
+debate: null
+length_target: default_deep_dive
+key_tensions:
+  - Eight benefits, eight verses — pattern as method, not list.
+  - The worldly mind chases X; the Quran says Y. The verse becomes the practice.
+  - Contentment is the inward climate the eight outward disciplines need.
+tone_constraints:
+  - Honor the original vignette form; do not synthesize prematurely.
+  - No modernizations of the Quranic verses.
+anchor_passages:
+  - "[POPULATE] verbatim passage 1 from chapters/ch02-hatim-eight-benefits.txt"
+adaptation_mode: faithful
+phonetic_overrides: {}
+show_notes:
+  blurb: null
+  related_episodes: []
+  references: []

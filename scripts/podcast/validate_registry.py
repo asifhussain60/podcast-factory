@@ -57,9 +57,10 @@ ALLOWED_STATUS = {"draft", "challenger-pending", "ready", "generated", "archived
 SLUG_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 
 
-def parse_table(text: str) -> list[dict[str, str]]:
+def parse_table(text: str) -> tuple[list[dict[str, str]], bool]:
     """Parse the markdown table into a list of row dicts keyed by header.
-    Returns [] if no table found."""
+    Returns (rows, header_found). A freshly-scaffolded registry has the header
+    but no rows — that is a valid state, not a parse failure."""
     lines = [l.rstrip() for l in text.splitlines()]
     header_idx = None
     for i, line in enumerate(lines):
@@ -67,7 +68,7 @@ def parse_table(text: str) -> list[dict[str, str]]:
             header_idx = i
             break
     if header_idx is None:
-        return []
+        return ([], False)
     headers = [c.strip() for c in lines[header_idx].strip("|").split("|")]
     # Skip the separator row (|---|---|...)
     rows = []
@@ -78,7 +79,7 @@ def parse_table(text: str) -> list[dict[str, str]]:
         if len(cells) < len(headers):
             cells += [""] * (len(headers) - len(cells))
         rows.append(dict(zip(headers, cells)))
-    return rows
+    return (rows, True)
 
 
 def chapter_for_row(book_dir: Path, slug: str, ep_num: int) -> Path | None:
@@ -97,9 +98,12 @@ def discover_registries() -> list[Path]:
 def validate_one(registry_path: Path) -> list[str]:
     """Validate a single per-book registry. Returns a list of findings (empty = pass)."""
     text = registry_path.read_text(encoding="utf-8")
-    rows = parse_table(text)
+    rows, header_found = parse_table(text)
+    if not header_found:
+        return [f"R1 FAIL: no header row found in {registry_path}"]
     if not rows:
-        return [f"R1 FAIL: no parseable table in {registry_path}"]
+        # Header present, zero rows: freshly scaffolded book, nothing to validate.
+        return []
 
     # BOOK_DIR is registry_path.parents[1] (registry.md → _system → BOOK_DIR).
     book_dir = registry_path.parents[1]
@@ -193,7 +197,7 @@ def main() -> int:
             total_findings += 1
             continue
         findings = validate_one(r)
-        rows = parse_table(r.read_text(encoding="utf-8"))
+        rows, _ = parse_table(r.read_text(encoding="utf-8"))
         total_rows += len(rows)
         if findings:
             print(f"validate_registry: {len(findings)} finding(s) in {r}", file=sys.stderr)

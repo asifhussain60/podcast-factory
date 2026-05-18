@@ -1,0 +1,31 @@
+# chapter-contract.yml — backfilled 2026-05-18 for legacy episode authored pre-Extract-Mode.
+# Anchor passages are marked [POPULATE]; re-extract with --force after filling them in.
+
+chapter_ref: ch03-the-path
+slug: the-path
+source_type: book-chapter
+book_slug: ayyuhal-walad
+episode_number: 3
+title: The Path of the Seeker
+audience: Listeners who want the apparatus of the path — the real guide, the disciple's etiquettes, the inner discipline.
+angle: faithful_exposition
+episode_format: deep_dive
+host_dynamic: curious_mind + scholar_companion
+host_dynamic_custom: null
+debate: null
+length_target: longer
+key_tensions:
+  - A spiritual guide is a precise category, not a sentiment.
+  - The disciple's outer respect and inner respect must coincide.
+  - Tasawwuf, servitude, reliance, sincerity — four practices in parallel.
+tone_constraints:
+  - Honor the Q-and-A structure of this section.
+  - No modernizations.
+anchor_passages:
+  - "[POPULATE] verbatim passage 1 from chapters/ch03-the-path.txt"
+adaptation_mode: faithful
+phonetic_overrides: {}
+show_notes:
+  blurb: null
+  related_episodes: []
+  references: []
