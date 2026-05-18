@@ -34,6 +34,8 @@
   --wisteria: #b094c4;
   --mint: #9be3c2;
   --sky: #9bc7e3;
+  --azure: #5cc8ff;
+  --cloudflare: #ffac6f;
 
   /* Semantic */
   --success: #4ade80;
@@ -385,6 +387,18 @@ a:hover { color: var(--text); }
   stroke-width: 1.4;
 }
 
+.diagram svg .node-azure {
+  fill: rgba(92, 200, 255, 0.10);
+  stroke: var(--azure);
+  stroke-width: 1.4;
+}
+
+.diagram svg .node-cloudflare {
+  fill: rgba(255, 172, 111, 0.10);
+  stroke: var(--cloudflare);
+  stroke-width: 1.4;
+}
+
 .diagram svg .edge {
   stroke: var(--line-strong);
   stroke-width: 1.4;
@@ -402,6 +416,20 @@ a:hover { color: var(--text); }
   stroke-width: 1;
   fill: none;
   stroke-dasharray: 4 4;
+}
+
+.diagram svg .edge-azure {
+  stroke: var(--azure);
+  stroke-width: 1.4;
+  fill: none;
+  opacity: 0.7;
+}
+
+.diagram svg .edge-cloudflare {
+  stroke: var(--cloudflare);
+  stroke-width: 1.4;
+  fill: none;
+  opacity: 0.7;
 }
 
 /* Callout */
@@ -441,6 +469,12 @@ a:hover { color: var(--text); }
 }
 
 .footer a { color: var(--accent); }
+
+.footer .footer-secondary {
+  margin-top: 0.6rem;
+  opacity: 0.6;
+  font-size: 0.75rem;
+}
 
 /* Nav cards (used on index) */
 .nav-card {
