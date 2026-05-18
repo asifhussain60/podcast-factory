@@ -1,13 +1,13 @@
 # Transcript Audit · EP02-hatim-eight-benefits
 
-**Transcript:** `books/ayyuhal-walad/turboscribe/EP02-hatim-eight-benefits.transcript.srt`
-**Word count:** 5253
+**Transcript:** `books/ayyuhal-walad/turboscribe/EP02-hatim-eight-benefits.transcript.txt`
+**Word count:** 3146
 **Audit tool:** `scripts/podcast/audit_transcript.py` v1.0 (2026-05-17)
 
 ## Verdict: **DRIFT-NOTED**
 
 - P0 hits (architecture failures): **0**
-- P1 hits (drift signals): **14**
+- P1 hits (drift signals): **12**
 
 ## Phonetic doublings · R-PHONETICS-OUT (P0)
 
@@ -25,20 +25,18 @@ Known-mangling lookup: each canonical name is scanned against its empirically-ob
 
 **None detected.**
 
-## Modernization injections · R-NOMODERNIZE (P1) · density 0.8 per 1k words
+## Modernization injections · R-NOMODERNIZE (P1) · density 0.0 per 1k words
+
+**None detected.**
+
+## Surprise-noise loops · R-NOSURPRISE (P1) · density 3.8 per 1k words
 
 | Phrase | Count |
 |---|---|
-| `deep dive` | 3 |
-| `algorithm` | 1 |
-
-## Surprise-noise loops · R-NOSURPRISE (P1) · density 1.9 per 1k words
-
-| Phrase | Count |
-|---|---|
-| `right?` | 3 |
-| `exactly` | 3 |
-| `Exactly` | 3 |
+| `Exactly` | 6 |
+| `right?` | 2 |
+| `exactly` | 2 |
+| `wow` | 1 |
 | `Wow` | 1 |
 
 ## Honorific repetitions · R-HONORIFIC-ONCE (P1)

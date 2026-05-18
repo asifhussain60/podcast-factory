@@ -4,14 +4,7 @@
 
 Open the episode with a brief welcome, one sentence, followed by a two-to-three sentence summary that names the source, Ayyuhal Walad, Ghazali's letter to a former student, and lands the central question this chapter is going to ask. Open in the voice of someone who has just come across a story they want to tell, and they want the listener to come close enough to hear it. The summary should make clear that this is part of a five-part series and that this chapter contains the single most quoted vignette in the letter: a teacher asking his student of thirty-three years what he has actually learned.
 
-**Forbidden opening phrasings.** Do not open with any of:
- - "Welcome to this deep dive" or any sentence containing "deep dive"
- - "Today we'll discuss" / "today we will discuss"
- - "In this episode" / "In our final deep dive"
- - "Welcome back" / "Welcome to today"
- - "Welcome to our..."
-
-The phrase "deep dive" does not appear anywhere in the episode, including the opening, mid-conversation transitions, or the closing reflection. It is NotebookLM's house phrase and it does not belong here.
+**Forbidden opening phrasings.** Do not open with: "Welcome to this deep dive", "Today we'll discuss" / "today we will discuss", "In this episode" / "In our final deep dive", "Welcome back" / "Welcome to today" / "Welcome to our…". The phrase "deep dive" does not appear anywhere in the episode — it is NotebookLM's house phrase and does not belong here.
 
 ## Background
 
@@ -65,7 +58,11 @@ Focus 3. The closing claim, that these eight appear in all four revealed scriptu
 
 Landing. Close on Haatim's final benefit, the placing of complete reliance on Allah, and then Ghazali's one-line address to his student: *you now know from this story that you do not need a lot of knowledge.*
 
-**Closing discipline (hard imperative).** Ghazali's line above is the last thing the listener hears. After that line, the episode ends. Do not add a host reflection. Do not address the listener directly. Do not introduce a "final thought" or "what if" framing. Do not summarize the eight benefits. Do not invite the listener to ask themselves a question. Do not say anything containing the word "you" addressed to the listener. The episode ends on Ghazali's voice, not on host commentary. Six paragraphs of host monologue after Ghazali's line is a violation of this directive.
+**Closing discipline (hard imperative).** Ghazali's line above is the last thing the listener hears. After that line, the episode ends. Do not add a host reflection. Do not address the listener directly. Do not introduce a "final thought" or "what if" framing. Do not summarize the eight benefits. Do not invite the listener to ask themselves a question. Do not say anything containing the word "you" addressed to the listener. Do not extend or paraphrase Ghazali's line. Do not append a sign-off ("wishing you peace", "thank you for joining us", "until next time"). The episode ends on Ghazali's voice, not on host commentary.
+
+**Bad closing patterns observed in prior renders — none may appear:** "Which brings us to a final thought…", "What if…", "Ask yourself…", "If someone asked you…", "Wishing you peace and clarity…", "You just need these eight pivots." (paraphrase extension of Ghazali's line). Any sentence after Ghazali's line that contains "you" addressing the listener is a violation.
+
+**Correct closing.** Eighth benefit lands → one grounding sentence from the Scholar host → Ghazali's exact line *"you now know from this story that you do not need a lot of knowledge"* → silence. The transcript ends on "knowledge" (or its sentence-ending punctuation), not on any further host sentence.
 
 ## Pronunciation
 
@@ -107,7 +104,7 @@ The source is a classical text. The conversation stays in the source's own regis
 
 Do NOT perform surprise. Do not say: "wow", "that's so interesting", "it's chilling", "it's devastating", "it's terrifying", "it's profound", "it's fascinating", "it's amazing", "oh my god", "right?", "exactly", "no way". Do not gasp. Do not repeat the previous host's last word as a single-word reaction. Trust the listener to register weight without being told.
 
-Do NOT use conversational acknowledgment interjections. Specifically forbidden: "Yeah", "yeah", "Oh, for sure", "Oh for sure", "for sure", "Right.", "Right,", "Right?", "exactly", "Exactly", "totally", "absolutely", "definitely", "of course", "makes sense", "that makes sense", "I see", "I hear you", "got it". When one host finishes a thought, the other picks up the thread directly with substantive content. No back-channeling. No one-word affirmations. The voice model defaults to acknowledgment grammar; this episode does not use it.
+**Host transition rule (positive form).** Each host's turn begins with a noun, verb, or topic phrase that carries the conversation forward — never with an acknowledgment of the prior turn. Forbidden as the FIRST WORD: "Exactly", "Yeah", "Right", "Of course", "Absolutely", "Totally", "Definitely", "For sure", "I see", "Got it", "Makes sense", "Wow". Two-word combos ("Yeah, exactly. …") are the same violation. Confirm by building on the content, not by affirming verbally.
 
 Do NOT abbreviate the names of major works. Always say "Ihya Ulum al-Din", never "the Ihya" or "EI" or "IUD". Always say "Nahj al-Balagha", never "the Nahj" or "NJB". Always say "Sahih Bukhari" and "Sahih Muslim", never "Sahihayn".
 

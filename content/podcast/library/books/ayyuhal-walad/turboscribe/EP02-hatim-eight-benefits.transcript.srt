@@ -1,2095 +1,2103 @@
 1
-00:00:00,410 --> 00:00:01,450
-Welcome to this deep dive.
+00:00:00,190 --> 00:00:01,990
+A warm greeting to you as we begin.
 
 2
-00:00:02,090 --> 00:00:04,350
-Imagine spending, you know, 33 years of your
+00:00:02,890 --> 00:00:06,050
+We are stepping back into Ayyuhal Walad, Imam
 
 3
-00:00:04,350 --> 00:00:07,370
-life mentoring someone, pouring every ounce of your
+00:00:06,050 --> 00:00:08,490
+al-Ghazali's famous letter to a former student,
 
 4
-00:00:07,370 --> 00:00:09,470
-knowledge into them, only to ask them what
+00:00:08,850 --> 00:00:10,270
+for the second part of our five-part
 
 5
-00:00:09,470 --> 00:00:11,750
-they've actually learned, and hear them say they
+00:00:10,270 --> 00:00:10,650
+series.
 
 6
-00:00:11,750 --> 00:00:13,390
-got exactly eight things out of it.
+00:00:11,510 --> 00:00:14,110
+This chapter holds the single most quoted story
 
 7
-00:00:13,930 --> 00:00:17,090
-In Ayyuhal Walad Imam al-Ghazali's famous letter
+00:00:14,110 --> 00:00:17,570
+in the entire letter, a master asking his
 
 8
-00:00:17,090 --> 00:00:19,730
-to a former student, this very scenario is
+00:00:17,570 --> 00:00:20,470
+devoted disciple of 33 years what he has
 
 9
-00:00:19,730 --> 00:00:22,250
-the single most quoted vignette in the entire
+00:00:20,470 --> 00:00:23,270
+actually learned, and the answer to that question
 
 10
-00:00:22,250 --> 00:00:22,710
-text.
+00:00:23,270 --> 00:00:26,010
+will challenge everything we think we know about
 
 11
-00:00:23,110 --> 00:00:24,890
-As part of our five-part series on
+00:00:26,010 --> 00:00:27,190
+the accumulation of knowledge.
 
 12
-00:00:24,890 --> 00:00:27,210
-this letter, we're going to explore what those
+00:00:27,190 --> 00:00:28,490
+It really does challenge everything.
 
 13
-00:00:27,210 --> 00:00:29,730
-eight things are, and confront the central question
+00:00:29,130 --> 00:00:30,910
+And to set the stage for you, we
 
 14
-00:00:29,730 --> 00:00:31,710
-of why these eight might just be enough
+00:00:30,910 --> 00:00:33,150
+need to look at these two towering figures
 
 15
-00:00:31,710 --> 00:00:33,570
-to carry a person through this life into
+00:00:33,150 --> 00:00:36,070
+in the spiritual landscape of 8th century Khorasan.
 
 16
-00:00:33,570 --> 00:00:34,050
-the next.
+00:00:36,610 --> 00:00:39,430
+So the master is Shaqiq al-Balki, who
 
 17
-00:00:34,230 --> 00:00:36,610
-Yeah, the individuals involved in this exchange really
+00:00:39,430 --> 00:00:41,990
+is a man of immense authority and just
 
 18
-00:00:36,610 --> 00:00:38,250
-make the stakes incredibly high.
+00:00:41,990 --> 00:00:43,550
+a profound inner life.
 
 19
-00:00:38,450 --> 00:00:39,050
-Oh, for sure.
+00:00:43,630 --> 00:00:45,750
+And his student is Hatim bin Ism al
 
 20
-00:00:39,590 --> 00:00:41,090
-Who exactly are we looking at here?
+00:00:45,750 --> 00:00:46,110
+-Assam.
 
 21
-00:00:41,290 --> 00:00:43,670
-Well, we're looking at a conversation between Shaqiq
+00:00:46,270 --> 00:00:47,390
+Yeah, Hatim had been with him for a
 
 22
-00:00:43,670 --> 00:00:46,350
-al-Balki, who was a revered spiritual master
+00:00:47,390 --> 00:00:48,150
+really long time, right?
 
 23
-00:00:46,350 --> 00:00:49,410
-in 8th century Khorasan, and his longtime student,
+00:00:48,210 --> 00:00:48,850
+Yeah, exactly.
 
 24
-00:00:49,530 --> 00:00:50,750
-Hatim bin Ism Al-Assam.
+00:00:48,990 --> 00:00:51,170
+He spent over three decades by his teacher's
 
 25
-00:00:51,130 --> 00:00:54,170
-And Ghazali actually pauses the broader theological argument
+00:00:51,170 --> 00:00:51,410
+side.
 
 26
-00:00:54,170 --> 00:00:56,050
-of his letter just to drop this story
+00:00:51,730 --> 00:00:53,750
+So the story actually begins with a question
 
 27
-00:00:56,050 --> 00:00:57,250
-right in the middle, doesn't he?
+00:00:53,750 --> 00:00:55,510
+that carries the weight of all those years.
 
 28
-00:00:57,390 --> 00:00:57,750
-He does.
+00:00:55,990 --> 00:00:58,450
+Shaqiq turns to Hatim and he asks, Oh,
 
 29
-00:00:58,070 --> 00:01:00,490
-He is basically signaling to the reader that
+00:00:58,470 --> 00:01:00,090
+Hatim, how long have you been in my
 
 30
-00:01:00,490 --> 00:01:04,010
-this specific interaction contains a really unique, concentrated
+00:01:00,090 --> 00:01:01,670
+company and listen to what I've been saying?
 
 31
-00:01:04,010 --> 00:01:05,010
-form of certainty.
+00:01:01,870 --> 00:01:03,450
+Which is, I mean, it's quite the setup
 
 32
-00:01:05,510 --> 00:01:08,190
-Okay, let's unpack this, because the scene itself
+00:01:03,450 --> 00:01:04,550
+for a performance review.
 
 33
-00:01:08,190 --> 00:01:10,190
-carries just immense emotional weight.
+00:01:04,910 --> 00:01:05,650
+It really is.
 
 34
-00:01:10,250 --> 00:01:10,990
-It really does.
+00:01:06,090 --> 00:01:08,990
+And Hatim replies that it has been 33
 
 35
-00:01:11,550 --> 00:01:13,510
-Shaqiq looks at his student after decades of
+00:01:08,990 --> 00:01:09,550
+years.
 
 36
-00:01:13,510 --> 00:01:17,230
-companionship, and asks a very natural question about
+00:01:10,010 --> 00:01:11,270
+So Shaqiq presses him.
 
 37
-00:01:17,230 --> 00:01:18,450
-the fruit of all that labor.
+00:01:11,610 --> 00:01:14,850
+He asks, in all that time, what benefit
 
 38
-00:01:19,250 --> 00:01:21,510
-And Hatim just calmly replies that he has
+00:01:14,850 --> 00:01:16,150
+have you derived from me?
 
 39
-00:01:21,510 --> 00:01:22,870
-obtained eight benefits.
+00:01:16,590 --> 00:01:17,610
+33 years of studying.
 
 40
-00:01:22,870 --> 00:01:23,490
-Right.
+00:01:17,810 --> 00:01:20,010
+You would expect a massive catalog of knowledge.
 
 41
-00:01:23,690 --> 00:01:25,590
-And Shaqiq reacts like a parent who has
+00:01:20,110 --> 00:01:20,250
+Right.
 
 42
-00:01:25,590 --> 00:01:27,330
-just been handed a tragic diagnosis.
+00:01:20,330 --> 00:01:22,310
+But Hatim just answers that he has obtained
 
 43
-00:01:28,090 --> 00:01:30,830
-He recites the Quranic verse that's reserved for
-
-44
-00:01:30,830 --> 00:01:32,330
-moments of profound grief.
-
-45
-00:01:32,490 --> 00:01:34,990
-The indeed to Allah we belong and to
-
-46
-00:01:34,990 --> 00:01:36,590
-him we shall return verse.
-
-47
-00:01:36,730 --> 00:01:37,070
-Exactly.
-
-48
-00:01:37,270 --> 00:01:39,530
-He is lamenting that his entire life's work
-
-49
-00:01:39,530 --> 00:01:41,470
-as a teacher has resulted in a mere
-
-50
-00:01:41,470 --> 00:01:42,310
-eight takeaways.
-
-51
-00:01:42,550 --> 00:01:44,050
-The tension in that moment is palpable.
-
-52
-00:01:44,650 --> 00:01:46,750
-Shaqiq feels a devastating sense of failure.
-
-53
-00:01:47,390 --> 00:01:49,670
-But Hatim remains entirely unbothered, right?
-
-54
-00:01:49,970 --> 00:01:51,250
-Like, he doesn't panic at all.
-
-55
-00:01:51,250 --> 00:01:52,350
-Completely unbothered.
-
-56
-00:01:52,630 --> 00:01:53,870
-He tells his teacher that this is the
-
-57
-00:01:53,870 --> 00:01:56,030
-absolute truth, and more importantly, he does not
-
-58
-00:01:56,030 --> 00:01:56,750
-need anything more.
-
-59
-00:01:56,890 --> 00:01:58,570
-He claims these eight are sufficient.
-
-60
-00:01:58,930 --> 00:02:00,730
-And I think we need to let that
-
-61
-00:02:00,730 --> 00:02:02,690
-tension hang in the air for you, the
-
-62
-00:02:02,690 --> 00:02:06,410
-listener, to decide as we proceed, who is
-
-63
-00:02:06,410 --> 00:02:07,530
-actually right here?
-
-64
-00:02:07,930 --> 00:02:10,930
-Is the heartbroken teacher who expected an encyclopedia
-
-65
-00:02:10,930 --> 00:02:11,250
-right?
-
-66
-00:02:11,790 --> 00:02:13,550
-Or is the serene student who found a
-
-67
-00:02:13,550 --> 00:02:14,130
-compass right?
-
-68
-00:02:14,550 --> 00:02:17,450
-Well, Shaqiq ultimately asks him to explain these
-
-69
-00:02:17,450 --> 00:02:18,310
+00:01:22,310 --> 00:01:23,530
 eight benefits.
 
+44
+00:01:23,690 --> 00:01:24,170
+Just eight.
+
+45
+00:01:24,770 --> 00:01:26,850
+And, you know, the reaction from the teacher
+
+46
+00:01:26,850 --> 00:01:28,950
+is what makes this moment so arresting.
+
+47
+00:01:29,010 --> 00:01:30,910
+He doesn't like ask to hear them right
+
+48
+00:01:30,910 --> 00:01:31,250
+away.
+
+49
+00:01:31,370 --> 00:01:33,370
+And he certainly doesn't praise his student's brevity.
+
+50
+00:01:33,650 --> 00:01:36,670
+Shaqiq experiences this profound, immediate grief.
+
+51
+00:01:36,850 --> 00:01:38,110
+He is completely shattered.
+
+52
+00:01:38,250 --> 00:01:40,750
+He actually recites the Quranic verse that Muslims
+
+53
+00:01:40,750 --> 00:01:43,750
+utter at moments of devastating loss, like when
+
+54
+00:01:43,750 --> 00:01:45,470
+someone has died or a tragedy has struck.
+
+55
+00:01:45,630 --> 00:01:48,270
+He says, Indeed, to Allah we belong and
+
+56
+00:01:48,270 --> 00:01:49,430
+to him we shall return.
+
+57
+00:01:49,630 --> 00:01:50,110
+Oh, wow.
+
+58
+00:01:50,290 --> 00:01:51,350
+So he's literally mourning.
+
+59
+00:01:51,570 --> 00:01:51,890
+Yes.
+
+60
+00:01:51,890 --> 00:01:53,810
+He looks at his devoted student and says,
+
+61
+00:01:54,030 --> 00:01:55,930
+Oh, Hatim, I have spent my lifetime teaching
+
+62
+00:01:55,930 --> 00:01:58,110
+you and you have just gained eight benefits
+
+63
+00:01:58,110 --> 00:01:58,530
+from me.
+
+64
+00:01:58,730 --> 00:02:01,090
+He believes the student has gained tragically little
+
+65
+00:02:01,090 --> 00:02:03,290
+from a lifetime of rigorous spiritual work.
+
+66
+00:02:03,410 --> 00:02:06,850
+But Hatim, he remains incredibly calm through all
+
+67
+00:02:06,850 --> 00:02:07,130
+this.
+
+68
+00:02:07,430 --> 00:02:09,870
+He doesn't apologize and he doesn't, you know,
+
+69
+00:02:10,250 --> 00:02:13,750
+scramble to invent more benefits just to appease
+
 70
-00:02:18,310 --> 00:02:21,610
-And what emerges is a very specific methodology.
+00:02:13,750 --> 00:02:14,710
+his master's grief.
 
 71
-00:02:22,050 --> 00:02:23,590
-And the methodology is what makes it so
-
-72
-00:02:23,590 --> 00:02:24,510
-fascinating to me.
-
-73
-00:02:24,850 --> 00:02:27,330
-Because Hatim didn't just, you know, write down
-
-74
-00:02:27,330 --> 00:02:28,610
-eight quotes from a lecture.
-
-75
-00:02:28,850 --> 00:02:29,690
+00:02:14,890 --> 00:02:15,750
 No, not at all.
 
+72
+00:02:15,850 --> 00:02:19,110
+He simply states, without flinching, that these eight
+
+73
+00:02:19,110 --> 00:02:20,050
+are the reality.
+
+74
+00:02:20,050 --> 00:02:22,270
+He tells Shaqiq, I do not need more.
+
+75
+00:02:22,710 --> 00:02:24,290
+These eight are enough to carry me through
+
 76
-00:02:29,710 --> 00:02:31,290
-He developed an algorithm.
+00:02:24,290 --> 00:02:25,470
+this life and into the next.
 
 77
-00:02:31,730 --> 00:02:33,830
-It's like a scientific method for the soul.
+00:02:25,610 --> 00:02:26,670
+Yeah, it's such a bold claim.
 
 78
-00:02:33,990 --> 00:02:36,470
-And he applied it eight distinct times.
+00:02:26,990 --> 00:02:27,310
+It is.
 
 79
-00:02:36,930 --> 00:02:38,010
-That's a great way to put it.
+00:02:27,430 --> 00:02:29,770
+And it makes you wonder, who is right
 
 80
-00:02:38,150 --> 00:02:40,870
-He observes a human behavior, notices that the
+00:02:29,770 --> 00:02:30,130
+here?
 
 81
-00:02:40,870 --> 00:02:43,530
-things people value inevitably fail them, finds a
+00:02:30,970 --> 00:02:32,630
+I mean, the teacher who sees a tragedy
 
 82
-00:02:43,530 --> 00:02:46,350
-Quranic verse that offers the eternal alternative, and
+00:02:32,630 --> 00:02:34,970
+of wasted time or the student who claims
 
 83
-00:02:46,350 --> 00:02:49,350
-then completely reorganizes his life around that verse.
+00:02:34,970 --> 00:02:37,250
+absolute sufficiency in just eight things.
 
 84
-00:02:49,630 --> 00:02:50,830
-So the structure itself is a method.
+00:02:37,590 --> 00:02:40,210
+We're going to leave that question completely unresolved
 
 85
-00:02:51,010 --> 00:02:51,490
-It's not a sermon.
+00:02:40,210 --> 00:02:40,910
+for you to ponder.
 
 86
-00:02:51,730 --> 00:02:52,150
-Exactly.
+00:02:41,190 --> 00:02:42,070
+It's a heavy question.
 
 87
-00:02:52,710 --> 00:02:54,870
-And that pattern is the true inheritance he
+00:02:42,230 --> 00:02:44,490
+But eventually the master does invite him to
 
 88
-00:02:54,870 --> 00:02:55,890
-received from his teacher.
+00:02:44,490 --> 00:02:45,670
+name these eight benefits.
 
 89
-00:02:56,430 --> 00:02:58,790
-The 33 years were not spent memorizing trivia.
+00:02:45,670 --> 00:02:48,230
+And when Hatim begins to speak, he reveals
 
 90
-00:02:58,970 --> 00:03:01,410
-They were spent mastering this interior pattern.
+00:02:48,230 --> 00:02:51,310
+something far more profound than just a simple
 
 91
-00:03:01,590 --> 00:03:02,830
-So how does he apply it first?
+00:02:51,310 --> 00:02:53,150
+list of theological bullet points.
 
 92
-00:03:03,270 --> 00:03:05,370
-He applies it to the concept of devotion.
+00:02:53,490 --> 00:02:55,650
+It's actually a rigorous, repeated discipline, isn't it?
 
 93
-00:03:06,310 --> 00:03:08,750
-He looks at humanity and observes that everyone
+00:02:55,810 --> 00:02:57,510
+The structure he uses is a method, not
 
 94
-00:03:08,750 --> 00:03:09,430
-has a beloved.
+00:02:57,510 --> 00:02:58,090
+just a sermon.
 
 95
-00:03:09,670 --> 00:03:12,810
-People pour their energy into spouses, children, friends,
+00:02:58,230 --> 00:02:58,570
+Exactly.
 
 96
-00:03:13,070 --> 00:03:14,190
-wealth, or status.
+00:02:58,850 --> 00:03:01,370
+For every single benefit, Hatim does the exact
 
 97
-00:03:14,190 --> 00:03:14,630
-Right.
+00:03:01,370 --> 00:03:01,970
+same thing.
 
 98
-00:03:15,010 --> 00:03:17,870
-But he notices a brutal expiration date attached
+00:03:02,090 --> 00:03:03,730
+He observes the people of the world.
 
 99
-00:03:17,870 --> 00:03:18,530
-to all of them.
+00:03:04,110 --> 00:03:05,170
+He sees what they value.
 
 100
-00:03:18,790 --> 00:03:19,130
-Yes.
+00:03:05,450 --> 00:03:07,770
+And then he realizes that those worldly values
 
 101
-00:03:19,610 --> 00:03:21,510
-Some of these beloveds abandon you when you
+00:03:07,770 --> 00:03:09,250
+inevitably fail.
 
 102
-00:03:21,510 --> 00:03:22,030
-fall ill.
-
-103
-00:03:22,490 --> 00:03:23,550
-Some leave when you die.
-
-104
-00:03:24,290 --> 00:03:26,990
-Even the most fiercely loyal beloved will only
-
-105
-00:03:26,990 --> 00:03:28,770
-accompany you to the edge of the grave.
-
-106
-00:03:29,210 --> 00:03:31,750
-And once the earth is moved, every single
-
-107
-00:03:31,750 --> 00:03:33,110
-one of those companions goes home.
-
-108
-00:03:33,190 --> 00:03:33,610
-They do.
-
-109
-00:03:33,710 --> 00:03:35,150
-They turn their backs on the grave.
-
-110
-00:03:35,390 --> 00:03:37,950
-So Hatim realizes that if you are going
-
-111
-00:03:37,950 --> 00:03:40,110
-to invest your entire capacity for love into
-
-112
-00:03:40,110 --> 00:03:42,850
-something, it makes zero sense to choose a
-
-113
-00:03:42,850 --> 00:03:45,110
-beloved who refuses to cross the border with
-
-114
-00:03:45,110 --> 00:03:45,270
-you.
-
-115
-00:03:45,590 --> 00:03:46,110
-Precisely.
-
-116
-00:03:46,510 --> 00:03:48,690
-He concludes that the only companion that actually
-
-117
-00:03:48,690 --> 00:03:51,450
-goes into the grave, stays there, and illuminates
-
-118
-00:03:51,450 --> 00:03:53,790
-the dark is his collection of good deeds.
-
-119
-00:03:54,130 --> 00:03:56,230
-So he decides to make his actions his
-
-120
-00:03:56,230 --> 00:03:57,030
-actual beloved.
-
-121
-00:03:57,210 --> 00:03:57,690
-He does.
-
-122
-00:03:57,910 --> 00:03:59,930
-He elevates good deeds from a chore to
-
-123
-00:03:59,930 --> 00:04:01,230
-an object of genuine affection.
-
-124
-00:04:01,570 --> 00:04:03,550
-He treats them with the care and attention
-
-125
-00:04:03,550 --> 00:04:05,950
-that a person normally reserves for a spouse
-
-126
-00:04:05,950 --> 00:04:06,670
-or a child.
-
-127
-00:04:06,830 --> 00:04:08,670
-It's kind of like, um, imagine packing a
-
-128
-00:04:08,670 --> 00:04:10,130
-massive suitcase for a trip, right?
-
-129
-00:04:10,130 --> 00:04:12,850
-You pack all your favorite clothes, your gadgets,
-
-130
-00:04:13,070 --> 00:04:13,390
-everything.
-
-131
-00:04:13,710 --> 00:04:15,290
-And then you get to the airport and
-
-132
-00:04:15,290 --> 00:04:18,230
-Customs tells you they are confiscating absolutely everything
-
-133
-00:04:18,230 --> 00:04:20,470
-in the bag except the actions you took
-
-134
-00:04:20,470 --> 00:04:21,230
-before arriving.
-
-135
-00:04:21,430 --> 00:04:22,990
-It just shifts your entire focus.
-
-136
-00:04:23,230 --> 00:04:24,470
-That is a perfect analogy.
-
-137
-00:04:24,930 --> 00:04:27,610
-And this mirrors a foundational architecture laid out
-
-138
-00:04:27,610 --> 00:04:28,530
-by the Prophet Muhammad.
-
-139
-00:04:29,150 --> 00:04:31,450
-He taught that when a person dies, their
-
-140
-00:04:31,450 --> 00:04:33,390
-actions come to an end, except for three
-
-141
-00:04:33,390 --> 00:04:33,830
-things.
-
-142
-00:04:34,230 --> 00:04:34,610
-Which are?
-
-143
-00:04:34,790 --> 00:04:37,550
-A continuing charity, a knowledge from which benefit
-
-144
-00:04:37,550 --> 00:04:39,910
-is gained, and a pious child who prays
-
-145
-00:04:39,910 --> 00:04:40,250
-for them.
-
-146
-00:04:41,090 --> 00:04:43,130
-The through line here is that the only
-
-147
-00:04:43,130 --> 00:04:45,310
-things that survive you are the actions you
-
-148
-00:04:45,310 --> 00:04:47,350
-set in motion while you were alive.
-
-149
-00:04:47,650 --> 00:04:47,850
-Wow.
-
-150
-00:04:48,110 --> 00:04:49,990
-So transitioning from who we love in the
-
-151
-00:04:49,990 --> 00:04:51,890
-external world to who we listen to internally,
-
-152
-00:04:52,570 --> 00:04:55,410
-Hatim applies his method to our psychological appetites
-
-153
-00:04:55,410 --> 00:04:55,730
-next.
-
-154
-00:04:56,130 --> 00:04:56,310
+00:03:09,470 --> 00:03:09,650
 Right.
 
-155
-00:04:56,490 --> 00:04:58,710
-He looks at society and sees people entirely
+103
+00:03:09,710 --> 00:03:11,010
+He sees the cracks in the system.
 
-156
-00:04:58,710 --> 00:05:00,730
-enslaved to the demands of their lower soul,
-
-157
-00:05:01,090 --> 00:05:02,950
-what the Sufi tradition calls the nafs.
-
-158
-00:05:03,170 --> 00:05:03,730
-The nafs.
-
-159
-00:05:04,010 --> 00:05:06,550
-That's that base drive for immediate gratification.
-
-160
-00:05:06,550 --> 00:05:09,830
-The voice that demands pleasure and comfort regardless
-
-161
-00:05:09,830 --> 00:05:11,170
-of the long-term cost.
-
-162
-00:05:11,650 --> 00:05:11,750
+104
+00:03:11,090 --> 00:03:11,370
 Yes.
 
-163
-00:05:11,830 --> 00:05:14,190
-And Hatim sees people following this voice while
+105
+00:03:11,370 --> 00:03:14,030
+And then he meditates on a specific Quranic
 
-164
-00:05:14,190 --> 00:05:16,910
-genuinely believing they are exercising free will.
+106
+00:03:14,030 --> 00:03:16,930
+verse that provides the eternal alternative.
 
-165
-00:05:17,450 --> 00:05:19,390
-The tragedy of the lower soul is its
+107
+00:03:17,710 --> 00:03:20,630
+And finally, he radically reorganizes his life around
 
-166
-00:05:19,390 --> 00:05:19,910
-disguise.
+108
+00:03:20,630 --> 00:03:21,150
+that verse.
 
-167
-00:05:20,570 --> 00:05:22,590
-It masquerades as your own personality.
+109
+00:03:21,830 --> 00:03:24,790
+He applied this deliberate structural dismantling of illusion
 
-168
-00:05:22,950 --> 00:05:23,730
-That is terrifying.
+110
+00:03:24,790 --> 00:03:27,010
+eight times over those 33 years.
 
-169
-00:05:24,170 --> 00:05:26,450
-So what verse does he anchor this second
+111
+00:03:27,290 --> 00:03:29,850
+And the very first illusion he dismantles is
 
-170
-00:05:26,450 --> 00:05:27,070
-benefit on?
+112
+00:03:29,850 --> 00:03:31,610
+the concept of the beloved.
 
-171
-00:05:27,230 --> 00:05:29,790
-He finds his anchor in a specific promise.
-
-172
-00:05:30,010 --> 00:05:31,830
-And I will quote the Yusuf Ali translation
-
-173
-00:05:31,830 --> 00:05:33,970
-here as it captures the gravity perfectly.
-
-174
-00:05:35,030 --> 00:05:36,990
-And for such as had entertained the fear
-
-175
-00:05:36,990 --> 00:05:39,750
-of standing before their Lord's tribunal and had
-
-176
-00:05:39,750 --> 00:05:43,070
-restrained their soul from lower desires, their abode
-
-177
-00:05:43,070 --> 00:05:43,950
-will be the garden.
-
-178
-00:05:44,330 --> 00:05:47,330
-So Hatim responds to this by establishing an
-
-179
-00:05:47,330 --> 00:05:50,010
-uncompromising blockade against his own appetites.
-
-180
-00:05:50,130 --> 00:05:50,530
-He does.
-
-181
-00:05:50,630 --> 00:05:52,410
-He states that he refused to fulfill any
-
-182
-00:05:52,410 --> 00:05:54,630
-of its desires until it surrendered and found
-
-183
-00:05:54,630 --> 00:05:55,410
-peace in worship.
-
-184
-00:05:55,950 --> 00:05:58,370
-He basically established a literal front against his
-
-185
-00:05:58,370 --> 00:05:58,770
-nafs.
-
-186
-00:05:58,770 --> 00:06:00,530
-OK, I have to name this because this
-
-187
-00:06:00,530 --> 00:06:03,450
-is a deeply uncomfortable concept for a modern
-
-188
-00:06:03,450 --> 00:06:03,750
-ear.
-
-189
-00:06:04,010 --> 00:06:05,010
-I completely agree.
-
-190
-00:06:05,270 --> 00:06:07,290
-We live in an era defined by accommodating
-
-191
-00:06:07,290 --> 00:06:08,430
-our internal desires.
-
-192
-00:06:08,830 --> 00:06:10,490
-We call it self-care or speaking our
-
-193
-00:06:10,490 --> 00:06:10,750
-truth.
-
-194
-00:06:11,270 --> 00:06:12,810
-The idea of looking at your own internal
-
-195
-00:06:12,810 --> 00:06:15,470
-wants and starving them of yeses sounds like
-
-196
-00:06:15,470 --> 00:06:17,070
-psychological torture to most people.
-
-197
-00:06:17,270 --> 00:06:18,130
-It does sound harsh.
-
-198
-00:06:18,510 --> 00:06:20,790
-Because we are conditioned to negotiate with ourselves.
-
-199
-00:06:21,030 --> 00:06:21,150
+113
+00:03:31,890 --> 00:03:32,150
 Yeah.
 
+114
+00:03:32,310 --> 00:03:33,050
+The first pivot.
+
+115
+00:03:33,570 --> 00:03:35,190
+Hatim says he looked around and saw that
+
+116
+00:03:35,190 --> 00:03:37,490
+everyone has something or someone they love.
+
+117
+00:03:37,590 --> 00:03:40,250
+You know, a spouse, a friend, wealth, honor,
+
+118
+00:03:40,590 --> 00:03:40,910
+status.
+
+119
+00:03:40,910 --> 00:03:43,250
+But he noticed a brutal timeline attached to
+
+120
+00:03:43,250 --> 00:03:43,750
+all of them, right?
+
+121
+00:03:43,950 --> 00:03:44,250
+He did.
+
+122
+00:03:44,510 --> 00:03:46,390
+He noticed that some of these beloveds stay
+
+123
+00:03:46,390 --> 00:03:48,250
+with the lover until an illness arrives.
+
+124
+00:03:48,710 --> 00:03:50,090
+Some stay until the moment of death.
+
+125
+00:03:50,410 --> 00:03:51,870
+Some might even stay until the burial.
+
+126
+00:03:52,410 --> 00:03:54,550
+But after the grave is closed, the lovers
+
+127
+00:03:54,550 --> 00:03:55,350
+all go home.
+
+128
+00:03:55,710 --> 00:03:58,650
+The bond is real, but the departure is
+
+129
+00:03:58,650 --> 00:03:59,110
+absolute.
+
+130
+00:03:59,550 --> 00:04:02,130
+None of these worldly beloveds actually enter the
+
+131
+00:04:02,130 --> 00:04:03,510
+grave with the one who loved them.
+
+132
+00:04:03,890 --> 00:04:04,370
+Exactly.
+
+133
+00:04:04,770 --> 00:04:07,290
+So, Hatim decided to find the only beloved
+
+134
+00:04:07,290 --> 00:04:09,210
+that possessed the qualities he demanded.
+
+135
+00:04:09,610 --> 00:04:11,330
+He wanted a beloved that would go with
+
+136
+00:04:11,330 --> 00:04:13,190
+him into the grave, keep him company there,
+
+137
+00:04:13,350 --> 00:04:15,250
+illuminate the darkness, stand beside him on the
+
+138
+00:04:15,250 --> 00:04:17,149
+day of judgment, and just never leave.
+
+139
+00:04:17,350 --> 00:04:18,890
+And what did he find that met those
+
+140
+00:04:18,890 --> 00:04:19,370
+criteria?
+
+141
+00:04:20,010 --> 00:04:21,870
+He realized the only thing that meets those
+
+142
+00:04:21,870 --> 00:04:24,050
+criteria is his own good deeds.
+
+143
+00:04:24,730 --> 00:04:27,230
+So he made his righteous actions his beloved.
+
+144
+00:04:27,770 --> 00:04:30,610
+He gave his daily conduct the affection, attention,
+
+145
+00:04:30,830 --> 00:04:33,490
+and loyalty that human beings normally reserve for
+
+146
+00:04:33,490 --> 00:04:33,950
+a person.
+
+147
+00:04:34,470 --> 00:04:36,370
+That is just a complete inversion of how
+
+148
+00:04:36,370 --> 00:04:37,750
+we normally think about legacy.
+
+149
+00:04:37,750 --> 00:04:40,070
+I mean, we usually define our legacy as
+
+150
+00:04:40,070 --> 00:04:41,390
+a monument we build.
+
+151
+00:04:41,530 --> 00:04:43,410
+It's the company we founded, the inheritance we
+
+152
+00:04:43,410 --> 00:04:45,570
+pass on, or the memories other people hold
+
+153
+00:04:45,570 --> 00:04:45,850
+of us.
+
+154
+00:04:45,870 --> 00:04:47,710
+It's what we leave behind, you know, in
+
+155
+00:04:47,710 --> 00:04:48,590
+the rearview mirror.
+
+156
+00:04:48,810 --> 00:04:48,990
+Right.
+
+157
+00:04:49,290 --> 00:04:51,930
+But Hatim looks at legacy as luggage.
+
+158
+00:04:52,930 --> 00:04:53,870
+It is what you pack.
+
+159
+00:04:54,130 --> 00:04:55,250
+It is what goes with you.
+
+160
+00:04:55,670 --> 00:04:57,830
+And that concept is deeply grounded in the
+
+161
+00:04:57,830 --> 00:04:58,790
+tradition, isn't it?
+
+162
+00:04:58,910 --> 00:04:59,410
+It is.
+
+163
+00:04:59,510 --> 00:05:01,270
+It's grounded in the teachings of the prophet
+
+164
+00:05:01,270 --> 00:05:03,810
+Muhammad, who explained that when a person dies,
+
+165
+00:05:04,330 --> 00:05:06,090
+their actions come to an end except for
+
+166
+00:05:06,090 --> 00:05:06,710
+three things.
+
+167
+00:05:07,330 --> 00:05:10,510
+A continuing charity, a beneficial knowledge, and a
+
+168
+00:05:10,510 --> 00:05:11,910
+pious child who prays for them.
+
+169
+00:05:12,190 --> 00:05:14,570
+So all three of those surviving entities are,
+
+170
+00:05:14,730 --> 00:05:16,230
+in themselves, actions.
+
+171
+00:05:16,710 --> 00:05:18,290
+They are the things you did that keep
+
+172
+00:05:18,290 --> 00:05:19,630
+echoing after you were gone.
+
+173
+00:05:19,690 --> 00:05:20,450
+Yeah, exactly.
+
+174
+00:05:20,870 --> 00:05:23,490
+But making your actions your ultimate beloved creates
+
+175
+00:05:23,490 --> 00:05:25,070
+an immediate internal war.
+
+176
+00:05:25,590 --> 00:05:27,870
+The moment you decide to focus entirely on
+
+177
+00:05:27,870 --> 00:05:31,210
+good deeds, your lower appetites scream for attention
+
+178
+00:05:31,210 --> 00:05:33,070
+because they want to be loved instead.
+
+179
+00:05:33,070 --> 00:05:34,730
+And that brings us to the second benefit,
+
+180
+00:05:34,950 --> 00:05:35,110
+right?
+
+181
+00:05:35,270 --> 00:05:37,190
+How he dealt with that internal war.
+
+182
+00:05:37,290 --> 00:05:37,550
+Yes.
+
+183
+00:05:37,830 --> 00:05:40,330
+In the Sufi technical vocabulary, this appetite is
+
+184
+00:05:40,330 --> 00:05:42,210
+called the nafs, the lower soul.
+
+185
+00:05:42,850 --> 00:05:44,590
+It's the part of the human psychology that
+
+186
+00:05:44,590 --> 00:05:46,150
+pulls toward base desires.
+
+187
+00:05:46,830 --> 00:05:49,310
+It wants comfort, status, and pleasure right now,
+
+188
+00:05:49,490 --> 00:05:51,670
+regardless of the long-term spiritual cost.
+
+189
+00:05:51,770 --> 00:05:53,090
+It's the part of us that just wants
+
+190
+00:05:53,090 --> 00:05:53,650
+to consume.
+
+191
+00:05:54,170 --> 00:05:54,650
+Exactly.
+
+192
+00:05:54,930 --> 00:05:57,870
+And Hatim realized that most people were completely
+
+193
+00:05:57,870 --> 00:06:00,030
+subservient to their lower soul.
+
+194
+00:06:00,430 --> 00:06:02,510
+They believed they were acting in freedom because
+
+195
+00:06:02,510 --> 00:06:04,430
+they were doing what they wanted, but they
+
+196
+00:06:04,430 --> 00:06:07,190
+were actually just obeying their unexamined appetites.
+
+197
+00:06:07,370 --> 00:06:08,890
+Okay, I have to jump in here because
+
+198
+00:06:08,890 --> 00:06:12,790
+our modern culture is built entirely around concepts
+
+199
+00:06:12,790 --> 00:06:14,710
+that validate those appetites.
+
 200
-00:06:21,810 --> 00:06:23,510
-We promise to eat healthy all week so
+00:06:14,790 --> 00:06:15,430
+Oh, absolutely.
 
 201
-00:06:23,510 --> 00:06:24,590
-we can binge on the weekend.
+00:06:15,730 --> 00:06:19,130
+We talk constantly about finding balance, practicing self
 
 202
-00:06:25,530 --> 00:06:27,890
-But Hatim refuses to negotiate at all.
+00:06:19,130 --> 00:06:20,610
+-care, honoring our desires.
 
 203
-00:06:27,890 --> 00:06:31,850
-Well, the framework Hatim operates within recognizes that
+00:06:20,990 --> 00:06:23,890
+We're basically told that denying ourselves is unhealthy.
 
 204
-00:06:31,850 --> 00:06:33,670
-you cannot negotiate with a fire.
+00:06:24,670 --> 00:06:27,710
+So Hatim's response sounds incredibly harsh to the
 
 205
-00:06:34,430 --> 00:06:36,550
-Giving the lower soul a little bit of
+00:06:27,710 --> 00:06:29,610
+modern ear, almost cruel, honestly.
 
 206
-00:06:36,550 --> 00:06:38,310
-what it wants does not pacify it.
+00:06:29,610 --> 00:06:30,630
+I know it sounds harsh.
 
 207
-00:06:38,430 --> 00:06:39,770
-It merely fuels it.
+00:06:30,850 --> 00:06:33,090
+He establishes a front against his lower soul,
 
 208
-00:06:39,990 --> 00:06:40,950
-That makes a lot of sense.
+00:06:33,250 --> 00:06:35,370
+and he refuses to fulfill any of its
 
 209
-00:06:41,450 --> 00:06:44,170
-Imam Ali articulated the danger of this internal
+00:06:35,370 --> 00:06:35,810
+desires.
 
 210
-00:06:44,170 --> 00:06:46,650
-dynamic when he warned not to let the
+00:06:36,090 --> 00:06:37,570
+He does not negotiate with it.
 
 211
-00:06:46,650 --> 00:06:48,610
-lower soul be a partner in your decisions.
+00:06:37,850 --> 00:06:39,930
+He starved it of every yes until it
 
 212
-00:06:49,030 --> 00:06:51,290
-He pointed out that because the lower soul
+00:06:39,930 --> 00:06:41,630
+found peace in the worship of God.
 
 213
-00:06:51,290 --> 00:06:53,730
-speaks in your own voice, you will not
+00:06:41,690 --> 00:06:43,050
+He just completely shut it down.
 
 214
-00:06:53,730 --> 00:06:54,830
-even notice its arguments.
+00:06:43,110 --> 00:06:43,770
+No compromise.
 
 215
-00:06:55,590 --> 00:06:57,370
-So any compromise is just a trap.
+00:06:44,030 --> 00:06:44,330
+None.
 
 216
-00:06:57,730 --> 00:06:59,830
-You have to silence that internal negotiator to
+00:06:44,690 --> 00:06:47,030
+Because he recognized that negotiation with the lower
 
 217
-00:06:59,830 --> 00:07:00,590
-hear anything else.
+00:06:47,030 --> 00:06:48,310
+soul always fails.
 
 218
-00:07:01,130 --> 00:07:03,470
-So once that internal noise is silenced, your
+00:06:48,890 --> 00:06:51,150
+Imam Ali captured the mechanics of this failure
 
 219
-00:07:03,470 --> 00:07:06,230
-perspective on external society has to completely shift.
+00:06:51,150 --> 00:06:53,090
+brilliantly when he taught, do not let the
 
 220
-00:07:06,670 --> 00:07:08,970
-Because you aren't driven by those appetites anymore,
+00:06:53,090 --> 00:06:54,770
+lower soul be a partner in your decisions.
 
 221
-00:07:09,130 --> 00:07:11,850
-so you naturally start questioning the scoreboards people
+00:06:54,850 --> 00:06:56,310
+It speaks in your own voice, so you
 
 222
-00:07:11,850 --> 00:07:13,450
-use to measure the successful life.
+00:06:56,310 --> 00:06:57,410
+will not notice its arguments.
 
 223
-00:07:13,530 --> 00:07:15,010
-Which brings us to the third benefit.
+00:06:57,890 --> 00:06:58,190
+Wow.
 
 224
-00:07:15,670 --> 00:07:18,410
-Hatim observes the sheer exhaustion of people hoarding
+00:06:58,690 --> 00:07:00,010
+It speaks in your own voice.
 
 225
-00:07:18,410 --> 00:07:19,170
-mortal possessions.
+00:07:00,570 --> 00:07:01,790
+So if you try to strike a bargain
 
 226
-00:07:19,790 --> 00:07:22,090
-They sacrifice their time, their health, and their
+00:07:01,790 --> 00:07:04,010
+with your appetite, giving it half of what
 
 227
-00:07:22,090 --> 00:07:23,850
-ethics to build a pile of wealth.
+00:07:04,010 --> 00:07:05,930
+it wants just to keep it quiet, you're
 
 228
-00:07:23,850 --> 00:07:26,210
-Only to leave it behind for someone else
+00:07:05,930 --> 00:07:06,390
+going to lose.
 
 229
-00:07:26,210 --> 00:07:26,690
-to spend.
+00:07:06,550 --> 00:07:06,930
+You will lose.
 
 230
-00:07:26,990 --> 00:07:27,210
+00:07:07,030 --> 00:07:07,230
 Yes.
 
 231
-00:07:27,630 --> 00:07:31,210
-So he counters this exhausting pursuit with the
+00:07:07,450 --> 00:07:10,150
+It uses your own logic, your own internal
 
 232
-00:07:31,210 --> 00:07:34,330
-Quranic verse, what is with you must vanish,
+00:07:10,150 --> 00:07:12,870
+monologue to convince you that a compromise is
 
 233
-00:07:34,930 --> 00:07:36,790
-what is with Allah will endure.
+00:07:12,870 --> 00:07:13,670
+actually a victory.
 
 234
-00:07:37,170 --> 00:07:39,630
-That is a stark reality check.
+00:07:14,110 --> 00:07:16,650
+So Hatim simply refused to participate in the
 
 235
-00:07:40,070 --> 00:07:42,250
-So his pivot there is absolute.
+00:07:16,650 --> 00:07:17,170
+negotiation.
 
 236
-00:07:42,910 --> 00:07:45,230
-He decides that any wealth he accumulates should
+00:07:17,630 --> 00:07:19,270
+And the loudest thing that the lower soul
 
 237
-00:07:45,230 --> 00:07:47,670
-be deposited where it cannot vanish.
+00:07:19,270 --> 00:07:22,910
+usually demands from us is security, which almost
 
 238
-00:07:47,790 --> 00:07:47,990
-Right.
+00:07:22,910 --> 00:07:24,250
+always means accumulation.
 
 239
-00:07:48,130 --> 00:07:50,410
-He gives his wealth to the destitute, essentially
+00:07:24,610 --> 00:07:26,350
+And that leads to his third observation.
 
 240
-00:07:50,410 --> 00:07:51,910
-depositing it with God.
-
-241
-00:07:51,910 --> 00:07:54,310
-He transfers his assets out of this mortal
-
-242
-00:07:54,310 --> 00:07:56,490
-economy and into the eternal one.
-
-243
-00:07:56,650 --> 00:07:58,310
-And there's a prophetic tradition about this too,
-
-244
-00:07:58,390 --> 00:07:58,530
-right?
-
-245
-00:07:58,790 --> 00:07:59,290
-There is.
-
-246
-00:07:59,650 --> 00:08:01,630
-The prophet taught that your wealth is only
-
-247
-00:08:01,630 --> 00:08:03,550
-what you ate, what you wore, and what
-
-248
-00:08:03,550 --> 00:08:05,090
-you gave in charity to go ahead of
-
-249
-00:08:05,090 --> 00:08:05,270
-you.
-
-250
-00:08:05,570 --> 00:08:07,950
-It's literally like winning millions of chips at
-
-251
-00:08:07,950 --> 00:08:10,110
-a casino right before management kicks you out
-
-252
-00:08:10,110 --> 00:08:11,690
-and tells you the chips are worthless outside
-
-253
-00:08:11,690 --> 00:08:12,170
-the building.
-
-254
-00:08:12,330 --> 00:08:13,890
-The only way to keep the value is
-
-255
-00:08:13,890 --> 00:08:15,270
-to cash them out before you leave.
-
-256
-00:08:15,470 --> 00:08:16,510
-That is exactly it.
-
-257
-00:08:16,690 --> 00:08:19,550
-And for his fourth benefit, Hatim realizes the
-
-258
-00:08:19,550 --> 00:08:21,410
-same thing about societal status.
-
-259
-00:08:21,410 --> 00:08:24,030
-He watches people desperately trying to prove their
-
-260
-00:08:24,030 --> 00:08:27,030
-worth through these false scoreboards for grandeur.
-
-261
-00:08:27,110 --> 00:08:28,670
-He sees them relying on the size of
-
-262
-00:08:28,670 --> 00:08:31,270
-their tribe, the aggression they can display, or
-
-263
-00:08:31,270 --> 00:08:33,549
-the sheer amount of resources they can waste.
-
-264
-00:08:33,630 --> 00:08:36,010
-So how does he dismantle those false metrics?
-
-265
-00:08:36,409 --> 00:08:38,630
-By anchoring his life on this verse.
-
-266
-00:08:39,630 --> 00:08:41,390
-Verily, the most honored of you in the
-
-267
-00:08:41,390 --> 00:08:43,270
-sight of Allah is he who is the
-
-268
-00:08:43,270 --> 00:08:44,270
-most righteous of you.
-
-269
-00:08:44,790 --> 00:08:46,390
-The Quranic term there is taqwa.
-
-270
-00:08:46,550 --> 00:08:46,690
-Yeah.
-
-271
-00:08:46,710 --> 00:08:49,330
-A deep, watchful awareness of God's presence.
-
-272
-00:08:49,330 --> 00:08:49,830
-Yes.
-
-273
-00:08:50,250 --> 00:08:52,350
-Taqwa is the only valid metric of honor.
-
-274
-00:08:52,650 --> 00:08:54,730
-It is not about bloodlines, bank accounts, or
-
-275
-00:08:54,730 --> 00:08:56,010
-public displays of power.
-
-276
-00:08:56,430 --> 00:08:59,390
-It is an entirely private, internal state of
-
-277
-00:08:59,390 --> 00:08:59,970
-reverence.
-
-278
-00:09:00,390 --> 00:09:01,390
-So what does this all mean?
-
-279
-00:09:02,130 --> 00:09:05,550
-The psychological relief of dropping society's scoreboard is
-
-280
-00:09:05,550 --> 00:09:06,010
-immense.
-
-281
-00:09:07,070 --> 00:09:08,570
-Think about the energy you and I spend
-
-282
-00:09:08,570 --> 00:09:11,030
-worrying about our job titles, our zip codes,
-
-283
-00:09:11,370 --> 00:09:13,050
-or how we are perceived by people we
-
-284
-00:09:13,050 --> 00:09:13,790
-don't even like.
-
-285
-00:09:13,890 --> 00:09:15,370
-It is an exhausting way to live.
-
-286
-00:09:15,470 --> 00:09:16,150
-It really is.
-
-287
-00:09:16,150 --> 00:09:19,030
-Hatim looks at that entire game, realizes the
-
-288
-00:09:19,030 --> 00:09:21,090
-rules are completely made up, and simply walks
-
-289
-00:09:21,090 --> 00:09:21,630
-off the field.
-
-290
-00:09:21,870 --> 00:09:23,230
-And this connects across time.
-
-291
-00:09:23,350 --> 00:09:25,610
-His Highness Aga Khan IV spoke to this
-
-292
-00:09:25,610 --> 00:09:28,070
-exact paradigm when he noted that knowledge is
-
-293
-00:09:28,070 --> 00:09:29,930
-honored not for the diplomas on a wall,
-
-294
-00:09:30,270 --> 00:09:32,030
-but for what it makes a person actually
-
-295
-00:09:32,030 --> 00:09:32,370
-do.
-
-296
-00:09:32,670 --> 00:09:34,810
-And Imam Ali mirrored this as well, stating
-
-297
-00:09:34,810 --> 00:09:37,730
-that honor lies in the heart, not in
-
-298
-00:09:37,730 --> 00:09:38,070
-position.
-
-299
-00:09:38,510 --> 00:09:41,310
-Now, walking off that field naturally alters how
-
-300
-00:09:41,310 --> 00:09:43,270
-you view the people who are still playing
-
-301
-00:09:43,270 --> 00:09:43,610
-the game.
-
-302
-00:09:43,610 --> 00:09:46,450
-This brings us to Hatim's fifth observation.
-
-303
-00:09:46,830 --> 00:09:48,550
-If you drop the scoreboard, you stop being
-
-304
-00:09:48,550 --> 00:09:49,390
-jealous of your neighbor.
-
-305
-00:09:49,790 --> 00:09:50,310
-Precisely.
-
-306
-00:09:50,710 --> 00:09:53,490
-He watches humanity tearing itself apart through envy.
-
-307
-00:09:54,110 --> 00:09:57,290
-People complain, harbor bitterness, and sabotage each other
-
-308
-00:09:57,290 --> 00:10:00,710
-out of jealousy over possessions, status, and knowledge.
-
-309
-00:10:01,350 --> 00:10:03,350
-So he implies his method and finds the
-
-310
-00:10:03,350 --> 00:10:03,890
-next verse.
-
-311
-00:10:04,070 --> 00:10:06,090
-He finds the verse, It is we who
-
-312
-00:10:06,090 --> 00:10:08,370
-portion out between them their livelihood in the
-
-313
-00:10:08,370 --> 00:10:09,330
-life of this world.
-
-314
-00:10:09,330 --> 00:10:12,850
-Okay, this concept of pre-distribution creates serious
-
-315
-00:10:12,850 --> 00:10:14,210
-psychological friction.
-
-316
-00:10:14,990 --> 00:10:16,850
-The verse states that the division of resources
-
-317
-00:10:16,850 --> 00:10:19,330
-was decided long before we were even born.
-
-318
-00:10:19,610 --> 00:10:21,710
-Right, and from a practical standpoint, the realization
-
-319
-00:10:21,710 --> 00:10:23,810
-is that harboring malice toward your co-worker
-
-320
-00:10:23,810 --> 00:10:26,590
-for getting a promotion is entirely illogical.
-
-321
-00:10:26,770 --> 00:10:28,950
-Because your anger does not change the distribution.
-
-322
-00:10:29,430 --> 00:10:30,470
-Competing changes nothing.
-
-323
-00:10:31,070 --> 00:10:33,630
-But actually silencing that very human pang of
-
-324
-00:10:33,630 --> 00:10:36,350
-jealousy in real time is incredibly difficult.
-
-325
-00:10:36,710 --> 00:10:38,750
-The discipline required there is profound.
-
-326
-00:10:39,410 --> 00:10:42,510
-Hatim's solution is to stop holding grudges entirely.
-
-327
-00:10:43,030 --> 00:10:45,430
-Because he recognizes the source of the distribution,
-
-328
-00:10:46,030 --> 00:10:47,870
-he allows others to have their given share
-
-329
-00:10:47,870 --> 00:10:48,910
-without resentment.
-
-330
-00:10:49,410 --> 00:10:51,610
-And the Prophet offered a highly practical mechanism
-
-331
-00:10:51,610 --> 00:10:52,630
-for this too, didn't he?
-
-332
-00:10:52,670 --> 00:10:53,070
-He did.
-
-333
-00:10:53,490 --> 00:10:55,510
-He advised people to look at those who
-
-334
-00:10:55,510 --> 00:10:58,150
-are below them and to purposefully avoid looking
-
-335
-00:10:58,150 --> 00:10:59,350
-at those who are above them.
-
-336
-00:10:59,410 --> 00:11:01,770
-Because by controlling where you direct your attention,
-
-337
-00:11:02,270 --> 00:11:05,090
-you protect yourself from belittling the blessings you
-
-338
-00:11:05,090 --> 00:11:05,790
-have already been given.
-
-339
-00:11:06,430 --> 00:11:07,650
-It's not about complacency.
-
-340
-00:11:07,750 --> 00:11:08,610
-No, not at all.
-
-341
-00:11:08,610 --> 00:11:12,030
-It is a deliberate refusal to look sideways
-
-342
-00:11:12,030 --> 00:11:13,230
-at the runner next to you.
-
-343
-00:11:13,490 --> 00:11:15,290
-You realize you are not in a race
-
-344
-00:11:15,290 --> 00:11:15,890
-against them.
-
-345
-00:11:15,970 --> 00:11:19,070
-You are simply navigating the specific unique route
-
-346
-00:11:19,070 --> 00:11:19,830
-you are assigned.
-
-347
-00:11:20,050 --> 00:11:21,490
-And if your neighbor is not your rival,
-
-348
-00:11:21,750 --> 00:11:23,210
-it forces you to figure out who the
-
-349
-00:11:23,210 --> 00:11:24,130
-actual enemy is.
-
-350
-00:11:24,590 --> 00:11:25,770
-This is his sixth benefit.
-
-351
-00:11:26,470 --> 00:11:28,670
-He looks around and sees people consumed by
-
-352
-00:11:28,670 --> 00:11:30,550
-hatred for other human beings.
-
-353
-00:11:30,990 --> 00:11:33,030
-They spend their lives plotting against their peers.
-
-354
-00:11:33,230 --> 00:11:35,630
-Right, so he resolves this confusion by returning
-
-355
-00:11:35,630 --> 00:11:36,250
-to the text.
-
-356
-00:11:36,250 --> 00:11:39,350
-He finds the verse, Verily Satan is an
-
-357
-00:11:39,350 --> 00:11:41,270
-enemy to you, so treat him as an
-
-358
-00:11:41,270 --> 00:11:41,590
-enemy.
-
-359
-00:11:41,930 --> 00:11:43,990
-Hatim takes this directive literally.
-
-360
-00:11:44,930 --> 00:11:47,650
-If God explicitly names Satan as the open
-
-361
-00:11:47,650 --> 00:11:50,490
-enemy, then no human being can be the
-
-362
-00:11:50,490 --> 00:11:51,190
-ultimate enemy.
-
-363
-00:11:51,350 --> 00:11:52,770
-That is the core realization.
-
-364
-00:11:53,250 --> 00:11:55,070
-The person who wronged you is not the
-
-365
-00:11:55,070 --> 00:11:55,890
-true adversary.
-
-366
-00:11:56,510 --> 00:11:59,310
-The true adversary is the invisible mechanism of
-
-367
-00:11:59,310 --> 00:12:02,390
-division itself, the impulse that urges you to
-
-368
-00:12:02,390 --> 00:12:03,370
-hate another person.
-
-369
-00:12:03,370 --> 00:12:06,410
-By treating Satan as his sole enemy, he
-
-370
-00:12:06,410 --> 00:12:08,890
-frees himself from the exhausting burden of human
-
-371
-00:12:08,890 --> 00:12:09,410
-animosity.
-
-372
-00:12:10,510 --> 00:12:12,210
-Okay, but here's where it gets really interesting.
-
-373
-00:12:12,430 --> 00:12:12,710
-How so?
-
-374
-00:12:13,090 --> 00:12:15,730
-This leads to a very grounded practical problem
-
-375
-00:12:15,730 --> 00:12:16,810
-for his seventh benefit.
-
-376
-00:12:17,410 --> 00:12:19,570
-If you aren't competing with your neighbors and
-
-377
-00:12:19,570 --> 00:12:22,370
-you aren't hoarding wealth, how do you actually
-
-378
-00:12:22,370 --> 00:12:23,750
-survive in the physical world?
-
-379
-00:12:24,430 --> 00:12:27,390
-Well, Hatim watches people debase themselves, violate their
-
-380
-00:12:27,390 --> 00:12:29,910
-own ethics, and panic endlessly just to secure
-
-381
-00:12:29,910 --> 00:12:30,810
-their basic livelihood.
-
-382
-00:12:30,810 --> 00:12:33,150
-They take jobs that compromise their soul because
-
-383
-00:12:33,150 --> 00:12:34,430
-they're terrified of starving.
-
-384
-00:12:34,750 --> 00:12:36,830
-And that panic over sustenance is a universal
-
-385
-00:12:36,830 --> 00:12:37,730
-human condition.
-
-386
-00:12:38,310 --> 00:12:40,390
-But Hatim cures this panic with the verse,
-
-387
-00:12:40,730 --> 00:12:42,270
-There is no moving creature on earth, but
-
-388
-00:12:42,270 --> 00:12:43,890
-its sustenance dependeth on Allah.
-
-389
-00:12:44,070 --> 00:12:46,130
-He acknowledges that he is a moving creature
-
-390
-00:12:46,130 --> 00:12:49,390
-on earth, which means his sustenance is a
-
-391
-00:12:49,390 --> 00:12:51,530
-guaranteed responsibility of the divine.
-
-392
-00:12:51,690 --> 00:12:52,270
-Exactly.
-
-393
-00:12:52,890 --> 00:12:55,690
-He refuses to humiliate himself or violate his
-
-394
-00:12:55,690 --> 00:12:57,690
-principles out of economic terror.
-
-395
-00:12:57,950 --> 00:12:59,530
-But I have to play devil's advocate here.
-
-396
-00:12:59,530 --> 00:13:02,270
-The cynical interpretation of this is the couch
-
-397
-00:13:02,270 --> 00:13:03,150
-potato defense.
-
-398
-00:13:03,950 --> 00:13:06,470
-People hear that their sustenance is guaranteed and
-
-399
-00:13:06,470 --> 00:13:07,870
-assume they can just sit in their living
-
-400
-00:13:07,870 --> 00:13:09,390
-room and wait for a roasted chicken to
-
-401
-00:13:09,390 --> 00:13:10,110
-fall through the ceiling.
-
-402
-00:13:10,190 --> 00:13:12,970
-I want to clarify this carefully because Hatim
-
-403
-00:13:12,970 --> 00:13:15,270
-is not advocating for idleness.
-
-404
-00:13:15,830 --> 00:13:17,330
-He is not saying to do nothing.
-
-405
-00:13:17,550 --> 00:13:17,750
+00:07:26,550 --> 00:07:26,810
 Right.
 
-406
-00:13:17,830 --> 00:13:19,790
-He is saying, do not violate the sharia
+241
+00:07:26,810 --> 00:07:29,370
+Hatim saw people working with great pain to
 
-407
-00:13:19,790 --> 00:13:20,630
-to chase it.
+242
+00:07:29,370 --> 00:07:31,650
+accumulate the possessions of this mortal world.
 
-408
-00:13:20,890 --> 00:13:22,730
-You do the work, but you do not
+243
+00:07:32,070 --> 00:07:34,630
+People derive a massive sense of happiness and
 
-409
-00:13:22,730 --> 00:13:25,290
-violate your integrity to secure the outcome.
+244
+00:07:34,630 --> 00:07:37,010
+safety from having a stockpile of resources.
 
-410
-00:13:25,430 --> 00:13:26,870
-So it's about ethical boundary setting.
+245
+00:07:37,310 --> 00:07:39,570
+But he meditates on a Quranic verse that
 
-411
-00:13:27,050 --> 00:13:27,350
+246
+00:07:39,570 --> 00:07:41,970
+completely redefines the nature of a stockpile, doesn't
+
+247
+00:07:41,970 --> 00:07:42,110
+he?
+
+248
+00:07:42,190 --> 00:07:42,670
+He does.
+
+249
+00:07:42,990 --> 00:07:44,850
+The verse states, all that is with you
+
+250
+00:07:44,850 --> 00:07:46,150
+is bound to come to an end.
+
+251
+00:07:46,570 --> 00:07:48,690
+All that which is with Allah is everlasting.
+
+252
+00:07:49,850 --> 00:07:52,110
+So Hatim changed the physical location where he
+
+253
+00:07:52,110 --> 00:07:53,070
+stored his earnings.
+
+254
+00:07:53,330 --> 00:07:54,390
+What does that look like practically?
+
+255
+00:07:54,390 --> 00:07:56,550
+He took whatever wealth he had accumulated and
+
+256
+00:07:56,550 --> 00:07:57,750
+distributed it to the destitute.
+
+257
+00:07:58,150 --> 00:08:00,690
+He basically deposited his wealth with God rather
+
+258
+00:08:00,690 --> 00:08:02,130
+than leaving it behind in the dust.
+
+259
+00:08:02,490 --> 00:08:04,370
+Which connects perfectly to what the Prophet Muhammad
+
+260
+00:08:04,370 --> 00:08:06,550
+taught, that your wealth is only what you
+
+261
+00:08:06,550 --> 00:08:08,550
+ate, what you wore, and what you gave
+
+262
+00:08:08,550 --> 00:08:08,850
+away.
+
+263
+00:08:09,290 --> 00:08:11,170
+Everything else in your bank account isn't really
+
+264
+00:08:11,170 --> 00:08:11,530
+yours.
+
+265
+00:08:11,950 --> 00:08:14,130
+You're just holding it for whoever inherits it
+
+266
+00:08:14,130 --> 00:08:14,530
+next.
+
+267
+00:08:14,730 --> 00:08:16,290
+That's a sobering thought, isn't it?
+
+268
+00:08:16,510 --> 00:08:19,370
+And functionally, giving away your wealth without becoming
+
+269
+00:08:19,370 --> 00:08:21,950
+destitute yourself requires a massive shift in how
+
+270
+00:08:21,950 --> 00:08:23,050
+you measure value.
+
+271
+00:08:23,050 --> 00:08:23,510
+Yeah.
+
+272
+00:08:23,810 --> 00:08:26,850
+Because once you stop accumulating money just to
+
+273
+00:08:26,850 --> 00:08:29,710
+hoard it, you realize money is usually just
+
+274
+00:08:29,710 --> 00:08:32,110
+a proxy for something else, which is status.
+
+275
+00:08:32,669 --> 00:08:33,690
+And that's the fourth pivot.
+
+276
+00:08:33,909 --> 00:08:34,409
+Exactly.
+
+277
+00:08:35,010 --> 00:08:37,770
+Hatim observes people desperately trying to claim grandeur
+
+278
+00:08:37,770 --> 00:08:38,270
+and honor.
+
+279
+00:08:38,690 --> 00:08:40,830
+They use large tribes or social networks as
+
+280
+00:08:40,830 --> 00:08:41,530
+a scoreboard.
+
+281
+00:08:41,789 --> 00:08:42,470
+They use wealth.
+
+282
+00:08:42,929 --> 00:08:45,790
+Some use violence, anger, and intimidation to feel
+
+283
+00:08:45,790 --> 00:08:46,370
+powerful.
+
+284
+00:08:46,610 --> 00:08:49,370
+Some even take pride in lavish waste, signaling
+
+285
+00:08:49,370 --> 00:08:51,090
+their worth by how much they can afford
+
+286
+00:08:51,090 --> 00:08:52,790
+to destroy or just throw away.
+
+287
+00:08:52,970 --> 00:08:53,190
+Right.
+
+288
+00:08:53,950 --> 00:08:56,190
+Hatim looked at all those mechanisms for claiming
+
+289
+00:08:56,190 --> 00:08:58,910
+honor and anchored himself instead to taqwa.
+
+290
+00:08:59,550 --> 00:09:00,530
+God-consciousness.
+
+291
+00:09:00,890 --> 00:09:01,150
 Yes.
 
-412
-00:13:27,890 --> 00:13:30,770
-The Islamic tradition uses a beautiful analogy to
+292
+00:09:01,630 --> 00:09:03,930
+The Quran says, Indeed, the most honored of
 
-413
-00:13:30,770 --> 00:13:32,410
-clarify this exact balance.
+293
+00:09:03,930 --> 00:09:05,190
+you in the sight of Allah is the
 
-414
-00:13:33,010 --> 00:13:35,470
-The prophet described true reliance by pointing to
+294
+00:09:05,190 --> 00:09:07,210
+one who is most deeply conscious of him.
 
-415
-00:13:35,470 --> 00:13:35,910
-the birds.
+295
+00:09:07,830 --> 00:09:11,230
+Taqwa is this watchful, constant awareness of God's
 
-416
-00:13:36,310 --> 00:13:38,030
-They leave their nests in the morning hungry
+296
+00:09:11,230 --> 00:09:11,550
+presence.
 
-417
-00:13:38,030 --> 00:13:40,190
-and they return in the evening full.
+297
+00:09:12,210 --> 00:09:14,010
+It dictates how you act when the doors
 
-418
-00:13:40,630 --> 00:13:42,190
-The birds do not sit in the nest
+298
+00:09:14,010 --> 00:09:15,890
+are closed, when there is no audience, and
 
-419
-00:13:42,190 --> 00:13:43,910
-expecting food to magically appear.
+299
+00:09:15,890 --> 00:09:17,190
+when no one is keeping score.
 
-420
-00:13:44,270 --> 00:13:46,350
-They fly, they search, they expend energy.
+300
+00:09:17,190 --> 00:09:20,030
+Because none of those worldly candidates for honor,
 
-421
-00:13:46,770 --> 00:13:49,170
-But they do so without the existential dread
+301
+00:09:20,310 --> 00:09:23,050
+you know, bloodline, money, force, or showing off,
 
-422
-00:13:49,170 --> 00:13:50,730
-that the earth will suddenly run out of
+302
+00:09:23,210 --> 00:09:24,730
+they have nothing to do with reality.
 
-423
-00:13:50,730 --> 00:13:50,970
-seeds.
+303
+00:09:24,770 --> 00:09:25,390
+Nothing at all.
 
-424
-00:13:51,490 --> 00:13:53,450
-They put in the effort without the anxiety
+304
+00:09:25,510 --> 00:09:27,750
+And this insight echoes across the centuries.
 
-425
-00:13:53,450 --> 00:13:55,710
-of trying to control the ultimate result.
+305
+00:09:28,470 --> 00:09:31,470
+In Najal Balagha, Imam Ali says, Honor lies
 
-426
-00:13:55,710 --> 00:13:56,990
-Effort without anxiety.
+306
+00:09:31,470 --> 00:09:33,430
+in the heart, not in the position.
 
-427
-00:13:57,470 --> 00:13:59,850
-That is the perfect distillation of the final
+307
+00:09:34,090 --> 00:09:36,130
+We even see the same principle highlighted in
 
-428
-00:13:59,850 --> 00:14:00,210
-pivot.
+308
+00:09:36,130 --> 00:09:37,850
+the modern era by the Aga Khan IV,
 
-429
-00:14:00,550 --> 00:14:04,290
-Because after addressing his beloveds, his internal appetites,
+309
+00:09:38,210 --> 00:09:40,490
+who told his community that knowledge is honored
 
-430
-00:14:04,590 --> 00:14:07,570
-his wealth, his status, his envy, his enemies,
+310
+00:09:40,490 --> 00:09:42,930
+not because of the diplomas it grants, but
 
-431
-00:14:07,670 --> 00:14:11,550
-and his sustenance, Hatim observes the absolute foundation
+311
+00:09:42,930 --> 00:09:44,870
+because of what it makes a person do.
 
-432
-00:14:11,550 --> 00:14:13,550
-upon which people build their lives.
+312
+00:09:44,870 --> 00:09:48,770
+The metric is internal action, not external validation.
 
-433
-00:14:13,630 --> 00:14:16,090
-He sees that everyone places their trust in
+313
+00:09:49,430 --> 00:09:50,670
+It is like we are all playing a
 
-434
-00:14:16,090 --> 00:14:17,310
-something incredibly fragile.
+314
+00:09:50,670 --> 00:09:53,490
+massive multiplayer game, obsessing over our public stats,
 
-435
-00:14:17,630 --> 00:14:18,930
-Some trust their bank accounts.
+315
+00:09:53,610 --> 00:09:54,930
+our followers, our job titles.
 
-436
-00:14:19,430 --> 00:14:21,010
-Others trust their political connections.
+316
+00:09:55,490 --> 00:09:56,990
+Hatim looked at the game and realized the
 
-437
-00:14:21,450 --> 00:14:23,350
-And some trust their physical health.
+317
+00:09:56,990 --> 00:09:58,230
+server was going to shut down eventually.
 
-438
-00:14:23,350 --> 00:14:25,930
-And every single one of those foundations can
+318
+00:09:58,510 --> 00:10:00,450
+So he started playing by the only metric
 
-439
-00:14:25,930 --> 00:14:27,010
-shatter in an instant.
+319
+00:10:00,450 --> 00:10:01,810
+the developer actually tracks.
 
-440
-00:14:27,150 --> 00:14:30,170
-So he finds the ultimate unshakable foundation in
+320
+00:10:02,050 --> 00:10:03,250
+That's a great way to put it.
 
-441
-00:14:30,170 --> 00:14:30,610
-the verse.
+321
+00:10:03,570 --> 00:10:05,610
+But you know, playing by a different metric
 
-442
-00:14:30,870 --> 00:14:32,490
-And if anyone puts his trust in Allah,
+322
+00:10:05,610 --> 00:10:07,970
+puts you wildly out of sync with everyone
 
-443
-00:14:32,790 --> 00:14:34,350
-sufficient is Allah for him.
+323
+00:10:07,970 --> 00:10:10,730
+else, which brings up a massive psychological friction.
 
-444
-00:14:34,530 --> 00:14:35,790
-So Hatim adopts Tawakkul.
+324
+00:10:11,050 --> 00:10:12,150
+Which is the fifth benefit.
 
-445
-00:14:36,030 --> 00:14:39,590
-Yes, total unmitigated reliance on God after taking
+325
+00:10:12,370 --> 00:10:12,610
+Yeah.
 
-446
-00:14:39,590 --> 00:14:40,570
-the appropriate action.
+326
+00:10:12,610 --> 00:10:14,570
+And this is a trap that consumes almost
 
-447
-00:14:40,910 --> 00:14:43,150
-He makes this the load-bearing architecture of
+327
+00:10:14,570 --> 00:10:14,990
+everyone.
 
-448
-00:14:43,150 --> 00:14:44,230
-his entire existence.
+328
+00:10:15,910 --> 00:10:16,210
+Envy.
 
-449
-00:14:44,590 --> 00:14:47,270
-That is a very heavy, profoundly quiet place
+329
+00:10:17,170 --> 00:10:19,510
+Hatim looks at people and sees them complaining
 
-450
-00:14:47,270 --> 00:14:47,730
-to land.
+330
+00:10:19,510 --> 00:10:23,550
+about each other, harboring intense jealousy and fighting
 
-451
-00:14:47,850 --> 00:14:48,450
-It really is.
+331
+00:10:23,550 --> 00:10:25,770
+out of a constant competition for greatness and
 
-452
-00:14:48,630 --> 00:14:51,550
-So after Hatim finishes explaining these eight profound
+332
+00:10:25,770 --> 00:10:26,270
+possessions.
 
-453
-00:14:51,550 --> 00:14:54,710
-reorientations, we return to the reaction of his
+333
+00:10:26,410 --> 00:10:28,690
+So Hatim meditated on a verse in the
 
-454
-00:14:54,710 --> 00:14:55,070
-teacher.
+334
+00:10:28,690 --> 00:10:31,530
+Quran where God says, It is we who
 
-455
-00:14:55,410 --> 00:14:58,430
-Shekek, who initially wept with grief over the
+335
+00:10:31,530 --> 00:10:33,910
+distribute their means of livelihood among them in
 
-456
-00:14:58,430 --> 00:15:00,810
-seemingly paltry number of lessons his student had
+336
+00:10:33,910 --> 00:10:34,850
+the life of this world.
 
-457
-00:15:00,810 --> 00:15:01,090
-learned.
+337
+00:10:35,330 --> 00:10:38,090
+He realized that the distribution of provision had
 
-458
-00:15:01,270 --> 00:15:04,310
-What's fascinating here is the staggering theological claim
+338
+00:10:38,090 --> 00:10:39,050
+already happened.
 
-459
-00:15:04,310 --> 00:15:05,810
-he issues in response to this.
+339
+00:10:39,050 --> 00:10:41,630
+The allocation of resources was decided by God
 
-460
-00:15:05,850 --> 00:15:06,550
-It is astonishing.
+340
+00:10:41,630 --> 00:10:43,550
+long before any of us arrived on the
 
-461
-00:15:07,130 --> 00:15:09,450
-He tells Hatim that he has personally examined
+341
+00:10:43,550 --> 00:10:43,770
+scene.
 
-462
-00:15:09,450 --> 00:15:12,070
-the Torah, the Gospel, the songs, and the
+342
+00:10:43,870 --> 00:10:44,210
+Exactly.
 
-463
-00:15:12,070 --> 00:15:12,590
-Holy Quran.
+343
+00:10:44,630 --> 00:10:47,670
+Because the distribution is already set, competing with
 
-464
-00:15:13,030 --> 00:15:15,070
-And he declares that all four of these
+344
+00:10:47,670 --> 00:10:49,550
+someone else doesn't actually change the outcome.
 
-465
-00:15:15,070 --> 00:15:18,830
-revealed books teach these exact same eight principles.
+345
+00:10:50,090 --> 00:10:52,870
+Once Hatim internalized this fact, he simply let
 
-466
-00:15:18,830 --> 00:15:22,250
-Whoever acts upon these eight, Shekek says, has
+346
+00:10:52,870 --> 00:10:54,170
+people have what they had been given.
 
-467
-00:15:22,250 --> 00:15:23,970
-acted upon all the revealed scriptures.
+347
+00:10:54,370 --> 00:10:56,010
+He knew his own provision came from the
 
-468
-00:15:24,070 --> 00:15:25,250
-It is a massive claim.
+348
+00:10:56,010 --> 00:10:57,030
+exact same hand.
 
-469
-00:15:25,550 --> 00:15:25,890
-It is.
+349
+00:10:57,150 --> 00:10:59,190
+Okay, but cognitively, how do you actually do
 
-470
-00:15:26,190 --> 00:15:28,270
-I urge you, the listener, to just sit
+350
+00:10:59,190 --> 00:10:59,430
+that?
 
-471
-00:15:28,270 --> 00:15:29,410
-with that immense claim.
+351
+00:10:59,490 --> 00:11:01,630
+I mean, when your coworker gets the promotion
 
-472
-00:15:29,830 --> 00:15:32,790
-The gravity of that completely recontextualizes the entire
+352
+00:11:01,630 --> 00:11:03,750
+you worked years for, you can tell yourself
 
-473
-00:15:32,790 --> 00:15:33,370
-deep dive.
+353
+00:11:03,750 --> 00:11:05,550
+that God ordained it, but your heart is
 
-474
-00:15:33,570 --> 00:15:34,010
+354
+00:11:05,550 --> 00:11:06,050
+still burning.
+
+355
+00:11:06,150 --> 00:11:06,690
+It is, yeah.
+
+356
+00:11:06,690 --> 00:11:09,430
+And if you truly believe the distribution is
+
+357
+00:11:09,430 --> 00:11:11,490
+fixed, doesn't that just kill ambition?
+
+358
+00:11:12,230 --> 00:11:14,610
+Doesn't it invite a total passivity where you
+
+359
+00:11:14,610 --> 00:11:16,630
+sit back and say, well, whatever is meant
+
+360
+00:11:16,630 --> 00:11:18,330
+for me will find me, so why even
+
+361
+00:11:18,330 --> 00:11:18,770
+try?
+
+362
+00:11:19,450 --> 00:11:22,050
+That's a really common pushback, but it kills
+
+363
+00:11:22,050 --> 00:11:23,290
+envy, not action.
+
+364
+00:11:23,810 --> 00:11:26,310
+The discipline isn't to stop moving or stop
+
+365
+00:11:26,310 --> 00:11:26,650
+building.
+
+366
+00:11:27,330 --> 00:11:29,510
+The discipline is to control where you look
+
+367
+00:11:29,510 --> 00:11:30,390
+while you work.
+
+368
+00:11:30,870 --> 00:11:33,370
+You still labor, but you stop looking sideways
+
+369
+00:11:33,370 --> 00:11:34,950
+at your neighbor's plate to see if they
+
+370
+00:11:34,950 --> 00:11:35,450
+got more.
+
+371
+00:11:35,450 --> 00:11:36,390
+Oh, that makes sense.
+
+372
+00:11:36,410 --> 00:11:36,570
+Yeah.
+
+373
+00:11:36,790 --> 00:11:39,470
+And the Prophet Muhammad outlined the exact psychological
+
+374
+00:11:39,470 --> 00:11:41,150
+grounding exercise for this.
+
+375
+00:11:41,730 --> 00:11:43,650
+He instructed his followers to look at those
+
+376
+00:11:43,650 --> 00:11:46,210
+who are below them in worldly provision and
+
+377
+00:11:46,210 --> 00:11:47,510
+not to look at those who are above
+
+378
+00:11:47,510 --> 00:11:47,810
+them.
+
+379
+00:11:48,370 --> 00:11:50,090
+He said that looking downward is more likely
+
+380
+00:11:50,090 --> 00:11:52,110
+to keep a person from belittling the blessings
+
+381
+00:11:52,110 --> 00:11:53,250
+of Allah upon them.
+
+382
+00:11:53,590 --> 00:11:56,090
+It forces an immediate recalibration of gratitude.
+
+383
+00:11:56,850 --> 00:11:58,630
+By looking at those who have less, you
+
+384
+00:11:58,630 --> 00:12:01,210
+properly define the massive size of the blessings
+
+385
+00:12:01,210 --> 00:12:04,070
+you already hold, which just extinguishes the fire
+
+386
+00:12:04,070 --> 00:12:04,550
+of envy.
+
+387
+00:12:04,550 --> 00:12:05,170
 It does.
 
+388
+00:12:05,290 --> 00:12:06,710
+And when you stop seeing your neighbor as
+
+389
+00:12:06,710 --> 00:12:08,590
+a competitor for a finite slice of the
+
+390
+00:12:08,590 --> 00:12:11,210
+pie, it completely dismantles how you view enemies,
+
+391
+00:12:11,370 --> 00:12:13,230
+which brings us to the sixth benefit.
+
+392
+00:12:13,590 --> 00:12:16,310
+Hatim looks around and sees everyone holding on
+
+393
+00:12:16,310 --> 00:12:18,010
+to enmities against each other.
+
+394
+00:12:18,190 --> 00:12:20,710
+People exhaust themselves plotting against their rivals.
+
+395
+00:12:21,370 --> 00:12:22,710
+But then he looks at the Quran and
+
+396
+00:12:22,710 --> 00:12:25,170
+he realizes there is only one named enemy.
+
+397
+00:12:25,390 --> 00:12:25,670
+Yes.
+
+398
+00:12:26,170 --> 00:12:28,990
+The Quran says, Verily, Satan is your enemy,
+
+399
+00:12:29,210 --> 00:12:30,450
+so treat him as your enemy.
+
+400
+00:12:30,950 --> 00:12:33,370
+That is the verse Hatim anchors himself to.
+
+401
+00:12:33,990 --> 00:12:37,070
+Humanity was commanded not to worship Satan, who
+
+402
+00:12:37,070 --> 00:12:38,070
+is the open enemy.
+
+403
+00:12:38,870 --> 00:12:41,350
+Hatim realized that fighting other humans was just
+
+404
+00:12:41,350 --> 00:12:43,190
+a distraction from the actual war.
+
+405
+00:12:43,430 --> 00:12:45,670
+Just think about the profound relief of that
+
+406
+00:12:45,670 --> 00:12:46,270
+realization.
+
+407
+00:12:46,830 --> 00:12:48,630
+The person at work who undermines you, the
+
+408
+00:12:48,630 --> 00:12:51,050
+neighbor who annoys you, the people who actively
+
+409
+00:12:51,050 --> 00:12:52,330
+oppose your worldview.
+
+410
+00:12:52,910 --> 00:12:53,870
+They are just people.
+
+411
+00:12:54,030 --> 00:12:55,710
+They are human beings doing their thing, driven
+
+412
+00:12:55,710 --> 00:12:58,150
+by their own anxieties, mostly without even thinking
+
+413
+00:12:58,150 --> 00:12:58,690
+about you.
+
+414
+00:12:58,830 --> 00:12:59,270
+Exactly.
+
+415
+00:12:59,490 --> 00:13:01,490
+The real enemy is the internal voice telling
+
+416
+00:13:01,490 --> 00:13:02,150
+you to hate them.
+
+417
+00:13:02,770 --> 00:13:05,050
+If you could fully internalize that no human
+
+418
+00:13:05,050 --> 00:13:07,550
+being is your actual enemy, the emotional weight
+
+419
+00:13:07,550 --> 00:13:09,190
+that drops off your shoulders is staggering.
+
+420
+00:13:09,410 --> 00:13:11,370
+It clears the psychological path entirely.
+
+421
+00:13:11,810 --> 00:13:13,890
+And that clearing leads to a logical step
+
+422
+00:13:13,890 --> 00:13:14,850
+in the seventh benefit.
+
+423
+00:13:15,410 --> 00:13:17,730
+Once you stop fighting enemies, the only anxiety
+
+424
+00:13:17,730 --> 00:13:18,970
+left is raw survival.
+
+425
+00:13:19,250 --> 00:13:20,190
+Because we all have to eat.
+
+426
+00:13:20,490 --> 00:13:20,750
+Right.
+
+427
+00:13:21,230 --> 00:13:24,670
+Hatim observed people humiliating themselves and engaging in
+
+428
+00:13:24,670 --> 00:13:28,410
+doubtful, even forbidden earnings, out of a sheer
+
+429
+00:13:28,410 --> 00:13:30,330
+panic to secure their sustenance.
+
+430
+00:13:30,770 --> 00:13:33,330
+They were terrified of starving, so they compromised
+
+431
+00:13:33,330 --> 00:13:35,030
+their integrity just to make sure they had
+
+432
+00:13:35,030 --> 00:13:35,430
+enough.
+
+433
+00:13:35,970 --> 00:13:37,670
+So what verse did he anchor himself to
+
+434
+00:13:37,670 --> 00:13:38,210
+for this one?
+
+435
+00:13:38,730 --> 00:13:41,050
+He anchored himself in the Quranic promise that
+
+436
+00:13:41,050 --> 00:13:43,070
+there is no living creature on earth whose
+
+437
+00:13:43,070 --> 00:13:45,950
+sustenance is not the absolute responsibility of God.
+
+438
+00:13:46,270 --> 00:13:49,230
+He recognized himself as a living creature, meaning
+
+439
+00:13:49,230 --> 00:13:51,030
+that divine promise covered him.
+
+440
+00:13:51,430 --> 00:13:52,830
+Which again, we have to be careful not
+
+441
+00:13:52,830 --> 00:13:55,130
+to misread this as an excuse for laziness.
+
+442
+00:13:55,510 --> 00:13:57,050
+Hatim is not suggesting you sit in a
+
+443
+00:13:57,050 --> 00:13:58,790
+room and wait for food to magically appear.
+
+444
+00:13:58,950 --> 00:13:59,630
+No, not at all.
+
+445
+00:13:59,630 --> 00:14:01,250
+He is stating that you do not violate
+
+446
+00:14:01,250 --> 00:14:03,670
+the moral law, the sharia, to chase what
+
+447
+00:14:03,670 --> 00:14:05,370
+God has already promised to provide.
+
+448
+00:14:05,710 --> 00:14:08,710
+The prophet beautifully illustrated the mechanics of this
+
+449
+00:14:08,710 --> 00:14:10,750
+reliance with the example of the birds.
+
+450
+00:14:11,350 --> 00:14:13,390
+He said if you truly relied on God,
+
+451
+00:14:13,890 --> 00:14:15,730
+he would provide for you as he provides
+
+452
+00:14:15,730 --> 00:14:16,310
+for the birds.
+
+453
+00:14:16,930 --> 00:14:18,750
+They leave their nests in the morning hungry,
+
+454
+00:14:19,150 --> 00:14:20,770
+and they return in the evening full.
+
+455
+00:14:21,130 --> 00:14:22,510
+They still have to fly out of the
+
+456
+00:14:22,510 --> 00:14:23,930
+nest and scour the earth for food.
+
+457
+00:14:24,330 --> 00:14:25,410
+They definitely go to work.
+
+458
+00:14:25,410 --> 00:14:28,190
+But they leave the nest without the panic
+
+459
+00:14:28,190 --> 00:14:29,790
+that they will not be provided for.
+
+460
+00:14:30,530 --> 00:14:32,970
+They work without the crippling anxiety that the
+
+461
+00:14:32,970 --> 00:14:35,110
+provision isn't out there waiting for them.
+
+462
+00:14:35,510 --> 00:14:38,690
+Working without panic requires trusting that the floor
+
+463
+00:14:38,690 --> 00:14:40,190
+will not fall out from under you.
+
+464
+00:14:40,690 --> 00:14:42,590
+And that brings us to the culmination of
+
+465
+00:14:42,590 --> 00:14:44,890
+Hatim's method, the eighth benefit.
+
+466
+00:14:45,110 --> 00:14:46,210
+Yes, the final pivot.
+
+467
+00:14:47,010 --> 00:14:50,490
+Hatim observed people relying on profoundly fragile things.
+
+468
+00:14:51,030 --> 00:14:53,010
+Some trust their bank accounts, some trust their
+
+469
+00:14:53,010 --> 00:14:55,250
+social networks, some trust their physical health.
+
+470
+00:14:55,870 --> 00:14:58,450
+But he chooses to place his absolute reliance
+
+471
+00:14:58,450 --> 00:14:59,650
+on God alone.
+
+472
+00:15:00,310 --> 00:15:01,930
+This is the concept of tawakkol.
+
+473
+00:15:02,130 --> 00:15:04,210
+And this isn't just a warm, comforting sentiment
+
+474
+00:15:04,210 --> 00:15:05,890
+you put on a piece of calligraphy on
+
 475
-00:15:34,490 --> 00:15:35,990
-Shekek is stating that if you strip away
+00:15:05,890 --> 00:15:06,310
+your wall.
 
 476
-00:15:35,990 --> 00:15:38,470
-all the cultural noise, the centuries of complex
+00:15:06,450 --> 00:15:06,570
+No.
 
 477
-00:15:38,470 --> 00:15:40,930
-theological debate, and the endless volumes of commentary,
+00:15:06,730 --> 00:15:09,810
+This was the fundamental, load-bearing architecture of
 
 478
-00:15:41,510 --> 00:15:44,370
-you find the exact same architectural core across
+00:15:09,810 --> 00:15:11,470
+every single decision Hatim made.
 
 479
-00:15:44,370 --> 00:15:45,570
-every major tradition.
+00:15:11,870 --> 00:15:13,170
+We should probably just let that sit for
 
 480
-00:15:45,570 --> 00:15:48,210
-Ghazali places this story in his letter to
+00:15:13,170 --> 00:15:13,430
+a second.
 
 481
-00:15:48,210 --> 00:15:50,570
-tell his student that spiritual maturity is not
+00:15:13,550 --> 00:15:13,770
+Yeah.
 
 482
-00:15:50,570 --> 00:15:52,710
-about an endless accumulation of knowledge.
+00:15:14,110 --> 00:15:17,310
+So, Shakiko Balki, the teacher who moments ago
 
 483
-00:15:53,130 --> 00:15:55,470
-No, it is about distilling your reality down
+00:15:17,310 --> 00:15:20,050
+was grieving the loss of 33 years, listens
 
 484
-00:15:55,470 --> 00:15:57,390
-to a few fundamental questions.
+00:15:20,050 --> 00:15:21,270
+to these eight pivots.
 
 485
-00:15:58,310 --> 00:15:59,070
-Who do you love?
+00:15:21,700 --> 00:15:24,530
+He hears his student explain who he loves,
 
 486
-00:15:59,790 --> 00:16:01,070
-Who commands your desires?
+00:15:24,890 --> 00:15:27,770
+who controls his appetites, where his wealth goes,
 
 487
-00:16:01,850 --> 00:16:03,150
-Where is your wealth stored?
+00:15:28,170 --> 00:15:30,970
+how he measures honor, why he stops envying,
 
 488
-00:16:03,630 --> 00:16:04,870
-What is your metric for honor?
+00:15:31,190 --> 00:15:33,310
+who the real enemy is who feeds him,
 
 489
-00:16:05,130 --> 00:16:06,150
-Who is your real enemy?
+00:15:33,470 --> 00:15:35,550
+and who he ultimately relies on.
 
 490
-00:16:06,750 --> 00:16:07,930
-And what is holding you up?
+00:15:35,730 --> 00:15:37,730
+And Shakiko doesn't just say, oh, good summary.
 
 491
-00:16:08,210 --> 00:16:11,210
-Ghazali uses Hatim to demonstrate that 33 years
+00:15:37,970 --> 00:15:38,230
+No.
 
 492
-00:16:11,210 --> 00:16:13,570
-of study were not meant to produce a
+00:15:38,370 --> 00:15:40,790
+He says, oh, Hatim, may Allah grant you
 
 493
-00:16:13,570 --> 00:16:14,610
-walking encyclopedia.
+00:15:40,790 --> 00:15:42,870
+the success to do righteous deeds and walk
 
 494
-00:16:14,610 --> 00:16:17,290
-They were meant to produce a transformed human
+00:15:42,870 --> 00:15:43,530
+on his path.
 
 495
-00:16:17,290 --> 00:16:17,690
-being.
+00:15:43,950 --> 00:15:45,530
+You have told us very good things.
 
 496
-00:16:18,090 --> 00:16:19,990
-At the beginning of the story, eight benefits
+00:15:45,810 --> 00:15:47,350
+I have seen in the Torah, in the
 
 497
-00:16:19,990 --> 00:16:22,530
-sounded like a catastrophic failure of education.
+00:15:47,350 --> 00:15:49,130
+Gospel, in the Psalms, and in the Holy
 
 498
-00:16:23,070 --> 00:16:24,510
-By the end of the story, you realize
+00:15:49,130 --> 00:15:51,390
+Qur'an that all four of these books
 
 499
-00:16:24,510 --> 00:16:26,830
-that possessing these eight benefits is the definition
+00:15:51,390 --> 00:15:52,810
+name these eight benefits.
 
 500
-00:16:26,830 --> 00:16:28,690
-of mastering the curriculum of life.
+00:15:53,330 --> 00:15:55,410
+Whoever acts on these eight has acted on
 
 501
-00:16:28,870 --> 00:16:31,490
-We spend our entire lives assuming that growth
+00:15:55,410 --> 00:15:56,430
+all four books.
 
 502
-00:16:31,490 --> 00:16:32,530
-means adding complexity.
+00:15:56,570 --> 00:15:58,590
+The Torah, the Gospel, the Psalms, and the
 
 503
-00:16:33,170 --> 00:16:35,450
-We gather more books, more opinions, more sophisticated
+00:15:58,590 --> 00:15:58,950
+Qur'an.
 
 504
-00:16:35,450 --> 00:16:38,470
-arguments, thinking that eventually the sheer volume of
+00:15:59,430 --> 00:16:01,430
+Why would these specific eight pivots be the
 
 505
-00:16:38,470 --> 00:16:39,510
-information will save us.
+00:16:01,430 --> 00:16:04,170
+central heartbeat of every revealed scripture across all
 
 506
-00:16:39,610 --> 00:16:42,270
-But Hatim's 33 years suggests the exact opposite.
+00:16:04,170 --> 00:16:04,830
+of human history?
 
 507
-00:16:42,270 --> 00:16:44,810
-What if true spiritual education is actually a
+00:16:05,050 --> 00:16:06,410
+It's an incredible statement.
 
 508
-00:16:44,810 --> 00:16:46,450
-process of aggressive subtraction?
+00:16:06,490 --> 00:16:08,510
+It is a staggering claim about the universal
 
 509
-00:16:47,110 --> 00:16:48,550
-What if the goal isn't to build a
+00:16:08,510 --> 00:16:10,010
+architecture of spiritual survival.
 
 510
-00:16:48,550 --> 00:16:51,630
-more complicated mind, but to unlearn the noise
+00:16:10,350 --> 00:16:11,890
+We are going to leave that mystery intact
 
 511
-00:16:51,630 --> 00:16:53,570
-until you are left with nothing but the
+00:16:11,890 --> 00:16:12,690
+for you to sit with.
 
 512
-00:16:53,570 --> 00:16:56,590
-few solid truths that can actually survive the
+00:16:12,890 --> 00:16:13,410
+Why these eight?
 
 513
-00:16:56,590 --> 00:16:56,950
-grave?
+00:16:13,510 --> 00:16:15,570
+Imam al-Ghazali ends his retelling of the
 
 514
-00:16:57,770 --> 00:16:59,670
-Which brings us to a final thought directed
+00:16:15,570 --> 00:16:17,350
+story with a direct sentence to his former
 
 515
-00:16:59,670 --> 00:17:00,950
-squarely at you, the listener.
+00:16:17,350 --> 00:16:17,770
+student.
 
 516
-00:17:01,470 --> 00:17:03,270
-This deep dive began with a teacher asking
+00:16:17,770 --> 00:16:21,930
+Ghazali writes, my dear beloved son, you now
 
 517
-00:17:03,270 --> 00:17:05,650
-a student what he actually derived from 33
+00:16:21,930 --> 00:16:23,550
+know from this story that you do not
 
 518
-00:17:05,650 --> 00:17:06,849
-years of life and study.
+00:16:23,550 --> 00:16:24,790
+need a lot of knowledge.
 
 519
-00:17:07,109 --> 00:17:08,890
-If someone asked you today to name the
+00:16:25,290 --> 00:16:27,330
+You just need these eight pivots.
 
 520
-00:17:08,890 --> 00:17:11,130
-core pivots that currently define the architecture of
+00:16:27,650 --> 00:16:29,590
+Ask yourself, if you were to pick just
 
 521
-00:17:11,130 --> 00:17:12,910
-your life, would you have an answer?
+00:16:29,590 --> 00:16:32,190
+one of Hatim's eight benefits to act as
 
 522
-00:17:13,410 --> 00:17:15,589
-And more importantly, if we apply Hatim's very
+00:16:32,190 --> 00:16:34,790
+the architecture for your choices tomorrow morning, which
 
 523
-00:17:15,589 --> 00:17:18,510
-first test, would your answer actually survive the
+00:16:34,790 --> 00:16:36,850
+one exposes the biggest illusion in your life
 
 524
-00:17:18,510 --> 00:17:18,770
-grave?
+00:16:36,850 --> 00:16:37,230
+right now?
+
+525
+00:16:37,510 --> 00:16:39,310
+Wishing you peace and clarity as you consider
+
+526
+00:16:39,310 --> 00:16:39,570
+that.
