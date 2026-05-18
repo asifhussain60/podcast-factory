@@ -42,8 +42,9 @@ node_modules/
 # store-keychain-keys.sh or Azure Key Vault.)
 !infra/azure/azure-config.env
 
-# Phase 1 execution-plan workspace — stays untracked per plan §1.4
-_workspace/
+# _workspace/ used to be the untracked execution-plan zone. It is now tracked
+# (the contents are useful for cross-Mac handoff — see primary-mac-activation.md).
+# .DS_Store inside it is still excluded by the OS-junk rule above.
 
 # Trash / soft-delete staging
 **/.trash/
