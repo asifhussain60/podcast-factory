@@ -44,23 +44,149 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_LEDGER = REPO_ROOT / "content/podcast/.skill/_learning/findings.jsonl"
 DEFAULT_PROPOSALS_DIR = REPO_ROOT / "content/podcast/.skill/_learning/proposals"
 DEFAULT_PROMOTED_DIR = REPO_ROOT / "content/podcast/.skill/_learning/promoted"
+DEFAULT_ARCHIVE_DIR = REPO_ROOT / "content/podcast/.skill/_learning/archive"
 
 THRESHOLD_BOOKS = 2
 THRESHOLD_EPISODES = 3
 
-PROPOSER_VERSION = "1.0"
+# In-book-density threshold (v1.1, 2026-05-18). When the same `check_id` fires
+# ≥ this many times in a single (book, episode), emit one *consolidated*
+# proposal grouped by check_id. This catches the strongest learning signal in
+# an early-stage repo (one or two books in flight) where signatures are
+# distinct but the *kind* of finding is recurring — e.g., N3 firing 6× in one
+# framing or J2 firing 3× in one chapter.
+THRESHOLD_DENSITY = 3
+
+PROPOSER_VERSION = "1.2"
 
 # Routing: check_id → suggested target rule file. Used to pre-fill the
 # "Target file(s)" section of a proposal. Authors override as needed.
+# Covers (a) TX-* empirical-transcript checks (audit_transcript.py) and
+# (b) Loop A-R catalog check IDs from .github/agents/podcast-challenger.agent.md.
+SOURCE_RULES = "content/podcast/.skill/handbook/notebooklm-source-chapter-rules.md"
+CUSTOMIZE_RULES = "content/podcast/.skill/handbook/notebooklm-customize-prompt-rules.md"
+ENRICHMENT = "content/podcast/.skill/handbook/enrichment-sources.md"
+SHARED_ARABIC = "content/_shared/arabic/"
+CONTRACT_TPL = "content/podcast/.skill/handbook/chapter-contract.template.yml"
+DEBATE = "content/podcast/.skill/handbook/debate-framing.md"
+RULES_PY = "scripts/podcast/_rules.py"
+BUILD_PY = "scripts/podcast/build_episode_txt.py"
+
 CHECK_ID_TO_TARGET = {
-    "TX-MODERNIZE": "content/podcast/.skill/handbook/notebooklm-customize-prompt-rules.md (R-NOMODERNIZE) + scripts/podcast/_rules.py (MODERNIZE_DENY)",
-    "TX-SURPRISE": "content/podcast/.skill/handbook/notebooklm-customize-prompt-rules.md (R-NOSURPRISE) + scripts/podcast/_rules.py (SURPRISE_DENY)",
-    "TX-WELCOME-COLD": "content/podcast/.skill/handbook/notebooklm-customize-prompt-rules.md (R-WELCOME) + scripts/podcast/_rules.py (WELCOME_COLD)",
-    "TX-MANGLE": "content/podcast/.skill/handbook/_mangle-map.md (or per-book mangle-map.md)",
-    "TX-PHON-DOUBLE": "content/podcast/.skill/handbook/notebooklm-customize-prompt-rules.md (R-PHONETICS-OUT)",
-    "TX-HONORIFIC-REPEAT": "content/podcast/.skill/handbook/notebooklm-customize-prompt-rules.md (R-HONORIFIC-ONCE)",
-    "TX-ABBREV": "scripts/podcast/_rules.py (ABBREVIATIONS_MAP)",
-    "TX-FILLER": "scripts/podcast/_rules.py (FILLER_INTERJECTIONS)",
+    # ── Transcript-empirical (audit_transcript.py + _rules.py lists) ──────
+    "TX-MODERNIZE": f"{CUSTOMIZE_RULES} (R-NOMODERNIZE) + {RULES_PY} (MODERNIZE_DENY)",
+    "TX-SURPRISE": f"{CUSTOMIZE_RULES} (R-NOSURPRISE) + {RULES_PY} (SURPRISE_DENY)",
+    "TX-WELCOME-COLD": f"{CUSTOMIZE_RULES} (R-WELCOME) + {RULES_PY} (WELCOME_COLD)",
+    "TX-MANGLE": "content/podcast/.skill/handbook/_mangle-map.md (or per-book BOOK_DIR/_system/mangle-map.md when book-specific)",
+    "TX-PHON-DOUBLE": f"{CUSTOMIZE_RULES} (R-PHONETICS-OUT)",
+    "TX-HONORIFIC-REPEAT": f"{SOURCE_RULES} (R-HONORIFIC-ONCE) + {RULES_PY} (HONORIFICS)",
+    "TX-ABBREV": f"{RULES_PY} (ABBREVIATIONS_MAP)",
+    "TX-FILLER": f"{RULES_PY} (FILLER_INTERJECTIONS) + {CUSTOMIZE_RULES} (R-NOINTERRUPT)",
+    # ── Category A: Authenticity ─────────────────────────────────────────
+    "A1": f"{ENRICHMENT} §2 (citation format)",
+    "A2": f"{ENRICHMENT} §2 (citation authenticity) + author resolves",
+    "A3": f"{ENRICHMENT} §2 (translation provenance) + author resolves",
+    "A4": f"{ENRICHMENT} §2 (verbatim quote integrity) + author resolves",
+    "A5": "author resolution — semantic source-shifting requires human judgment",
+    "A6": "author resolution — cross-tradition annotation requires human judgment",
+    # ── Category B: NotebookLM literalness ──────────────────────────────
+    "B1": f"{BUILD_PY} (META_PROSE_TELLS + META_PROSE_REGEX_TELLS)",
+    "B2": f"{BUILD_PY} (cross-episode regex) — auto-fix",
+    "B3": "author resolution — file-length self-reference needs rewrite",
+    "B4": "author resolution — translator-apparatus prefix needs rewrite",
+    "B5": f"{BUILD_PY} (em-dash auto-fix)",
+    "B6": "author resolution — invented dialogue requires human verification",
+    # ── Category C: Pronunciation discipline ─────────────────────────────
+    "C1": f"{SHARED_ARABIC}03-arabic-english-manifest.md + BOOK_DIR/_system/source/text/_phonetics.md",
+    "C2": f"{SHARED_ARABIC}03-arabic-english-manifest.md (manifest wins)",
+    "C3": f"{SOURCE_RULES} (R-HONORIFIC-ONCE) + {RULES_PY} (HONORIFICS)",
+    "C4": f"{SHARED_ARABIC}04-common-term-substitutions.md §2",
+    # ── Category D: Enrichment & depth ──────────────────────────────────
+    "D1": f"{ENRICHMENT} (tier diversity) — author decision",
+    "D2": f"{ENRICHMENT} (enrichment ratio) — author decision",
+    "D3": "author resolution — tradition coherence requires human judgment",
+    "D4": "author resolution — quote-stacking needs prose bridges",
+    "D5": f"{BUILD_PY} (CONTEXT-NEEDED marker hard-fail)",
+    # ── Category E: Articulation & shape ────────────────────────────────
+    "E1": f"{BUILD_PY} (FRAMING_WORD_MIN/MAX; CHAPTER_WORD_MIN/MAX_HARD) + {CUSTOMIZE_RULES} length-target gating",
+    "E2": "author resolution — one-sentence summarizability",
+    "E3": "author resolution — beginning/middle/end arc",
+    "E4": f"{RULES_PY} (FILLER_INTERJECTIONS) + {CUSTOMIZE_RULES} (R-NOINTERRUPT)",
+    "E5": "author resolution — translation-residue rewrite",
+    # ── Category F: Framing integrity ───────────────────────────────────
+    "F1": f"{BUILD_PY} (framing file presence)",
+    "F2": f"{CUSTOMIZE_RULES} (4-part structure)",
+    "F3": "author resolution — audience profile",
+    "F4": "author resolution — central tensions naming",
+    "F5": "author resolution — discussion-spine beat count",
+    "F6": "content/podcast/.skill/handbook/two-host-framing.md (steering phrases)",
+    # ── Category G: Extract Mode contracts ──────────────────────────────
+    "G1": f"{CONTRACT_TPL} + scripts/podcast/extract_chapter.py",
+    "G2": f"{CONTRACT_TPL} + scripts/podcast/extract_chapter.py",
+    "G3": f"scripts/podcast/extract_chapter.py (CONTRACT_META_PROSE_TELLS)",
+    "G4": f"{CONTRACT_TPL} (derived_from)",
+    "G5": "content/podcast/.skill/handbook/extract-capability.md §Splitting policy",
+    "G6": "scripts/podcast/check_lineage.py",
+    # ── Category H: Welcome opening + closing landing ───────────────────
+    "H1": f"{CUSTOMIZE_RULES} (R-WELCOME)",
+    "H2": f"{CUSTOMIZE_RULES} (R-WELCOME, summary clause)",
+    "H3": f"{CUSTOMIZE_RULES} (R-SUMMARYTAIL)",
+    # ── Category I: Anti-repetition + no-irrelevant-background ──────────
+    "I1": f"{CUSTOMIZE_RULES} (R-NOREPEAT)",
+    "I2": f"{CUSTOMIZE_RULES} (R-NOBACKGROUND)",
+    "I3": "author resolution — chapter movement structure",
+    "I4": "author resolution — chapter background bound",
+    # ── Category J: Name aliasing ───────────────────────────────────────
+    "J1": f"{CUSTOMIZE_RULES} (R-NAMEALIAS) + {SHARED_ARABIC}05-name-alias-policy.md",
+    "J2": f"{SOURCE_RULES} (R-NAMES) + {SHARED_ARABIC}05-name-alias-policy.md",
+    "J3": f"{SHARED_ARABIC}03-arabic-english-manifest.md (manifest wins)",
+    # ── Category K: Interruption avoidance + host dynamic ───────────────
+    "K1": f"{CUSTOMIZE_RULES} (R-NOINTERRUPT)",
+    "K2": f"{CUSTOMIZE_RULES} (R-NOINTERRUPT, filler vocab)",
+    # ── Category M: Modernization + surprise-noise empirical ────────────
+    "M1": f"{CUSTOMIZE_RULES} (R-NOMODERNIZE)",
+    "M2": f"{CUSTOMIZE_RULES} (R-NOSURPRISE)",
+    "M3": f"{CUSTOMIZE_RULES} (R-NOMODERNIZE) + {RULES_PY} (MODERNIZE_DENY)",
+    "M4": f"{CUSTOMIZE_RULES} (R-NOSURPRISE) + {RULES_PY} (SURPRISE_DENY)",
+    # ── Category N: Phonetic-as-content audit ───────────────────────────
+    "N1": f"{SOURCE_RULES} (R-PHONETICS-OUT) + {BUILD_PY} (INLINE_PHONETIC_PATTERNS)",
+    "N2": f"{CUSTOMIZE_RULES} (R-PRONUNCIATION-IMPERATIVE) + {BUILD_PY} (LEGACY_PASSIVE_PRONUNCIATION)",
+    "N3": f"{CUSTOMIZE_RULES} (R-PRONUNCIATION-IMPERATIVE) + BOOK_DIR/_system/source/text/_phonetics.md",
+    "N4": f"{CUSTOMIZE_RULES} (R-NO-READ-PROMPT)",
+    "N5": f"{CUSTOMIZE_RULES} (R-PHONETICS-OUT) + {RULES_PY} (NAME_MANGLING_MAP via _mangle-map.md)",
+    # ── Category O: Honorific + abbreviation audit ──────────────────────
+    "O1": f"{SOURCE_RULES} (R-HONORIFIC-ONCE) + {RULES_PY} (HONORIFICS)",
+    "O2": f"{SOURCE_RULES} (R-NO-ABBREVIATION) + {RULES_PY} (ABBREVIATIONS_MAP)",
+    "O3": f"{RULES_PY} (HONORIFICS) — empirical transcript flag-only",
+    # ── Category P: Debate-format integrity ─────────────────────────────
+    "P1": f"{CONTRACT_TPL} (debate block schema)",
+    "P2": f"{CONTRACT_TPL} (debate.resolution enum)",
+    "P3": f"{DEBATE} §Vocabulary",
+    "P4": f"{DEBATE} §Vocabulary",
+    "P5": f"{DEBATE} §Source moves",
+    "P6": f"{DEBATE} §Rules of debate",
+    "P7": f"{DEBATE} §NotebookLM steering",
+    "P8": f"{DEBATE} §Resolution",
+    "P9": f"{DEBATE} §Resolution",
+    "P10": f"{DEBATE} §NotebookLM steering",
+    "P11": f"{DEBATE} §Conversation discipline",
+    "P12": f"{DEBATE} (empirical transcript flag-only)",
+    "P13": f"{DEBATE} (empirical transcript flag-only)",
+    # ── Category Q: Chapter-set design ──────────────────────────────────
+    "Q1": "scripts/podcast/check_chapter_set.py + author renames",
+    "Q2": "scripts/podcast/check_chapter_set.py + author tightens title",
+    "Q3": "scripts/podcast/check_chapter_set.py + author titles",
+    "Q4": f"{CONTRACT_TPL} (length_target) + author rebalances",
+    "Q5": "scripts/podcast/check_chapter_set.py + author resegments",
+    "Q6": "BOOK_DIR/_system/mangle-map.md + author verifies",
+    # ── Category R: Conversation choreography ───────────────────────────
+    "R1": f"{CUSTOMIZE_RULES} (R-SURPRISE-MOVE)",
+    "R2": f"{CUSTOMIZE_RULES} (R-RESET)",
+    "R3": f"{CUSTOMIZE_RULES} (R-CADENCE)",
+    "R4": f"{CUSTOMIZE_RULES} (R-NOFORMAL)",
+    "R5": f"{CUSTOMIZE_RULES} (R-NOMODERNIZE — analogy permission half)",
+    "R6": f"{CUSTOMIZE_RULES} (R-NOFORMAL) — empirical transcript flag-only",
+    "R7": f"{CUSTOMIZE_RULES} (R-NOMODERNIZE) — empirical transcript flag-only",
 }
 
 
@@ -84,13 +210,21 @@ def signature_to_slug(sig: str) -> str:
     return s[:80] if len(s) > 80 else s
 
 
-def is_already_promoted(slug: str, promoted_dir: Path) -> Path | None:
-    """If a promoted/ file ending in -<slug>.md exists, return its path."""
-    if not promoted_dir.exists():
-        return None
-    for p in promoted_dir.glob(f"*-{slug}.md"):
-        return p
+def is_already_resolved(slug: str, *dirs: Path) -> Path | None:
+    """If a file ending in -<slug>.md exists in any of `dirs`, return its path.
+    Used to skip signatures already moved to `promoted/` or `archive/` — the
+    human has already decided about them, and re-creating the proposal would
+    just churn the directory."""
+    for d in dirs:
+        if not d.exists():
+            continue
+        for p in d.glob(f"*-{slug}.md"):
+            return p
     return None
+
+
+# Legacy alias kept for back-compat with the v1.0 call site below.
+is_already_promoted = is_already_resolved
 
 
 def render_proposal(
@@ -187,6 +321,7 @@ def main() -> int:
     p.add_argument("--ledger", type=Path, default=DEFAULT_LEDGER)
     p.add_argument("--proposals-dir", type=Path, default=DEFAULT_PROPOSALS_DIR)
     p.add_argument("--promoted-dir", type=Path, default=DEFAULT_PROMOTED_DIR)
+    p.add_argument("--archive-dir", type=Path, default=DEFAULT_ARCHIVE_DIR)
     p.add_argument("--dry-run", action="store_true")
     args = p.parse_args()
 
@@ -196,18 +331,25 @@ def main() -> int:
         return 0
 
     by_sig: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    by_check_in_episode: dict[tuple[str, str, str], list[dict[str, Any]]] = defaultdict(list)
     for r in records:
         sig = r.get("signature", "")
         if sig:
             by_sig[sig].append(r)
+        check = r.get("check_id", "")
+        book = r.get("book", "")
+        ep = r.get("episode", "")
+        if check and book:
+            by_check_in_episode[(check, book, ep)].append(r)
 
     args.proposals_dir.mkdir(parents=True, exist_ok=True)
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
     written: list[Path] = []
-    skipped_promoted: list[str] = []
+    skipped_resolved: list[str] = []
     skipped_below_threshold: list[str] = []
 
+    # ── Pass 1: cross-book / cross-episode signature recurrence ─────────────
     for sig, recs in sorted(by_sig.items()):
         books = {r.get("book", "") for r in recs if r.get("book")}
         episodes = {r.get("episode", "") for r in recs if r.get("episode")}
@@ -216,9 +358,9 @@ def main() -> int:
             continue
 
         slug = signature_to_slug(sig)
-        already = is_already_promoted(slug, args.promoted_dir)
+        already = is_already_resolved(slug, args.promoted_dir, args.archive_dir)
         if already:
-            skipped_promoted.append(sig)
+            skipped_resolved.append(sig)
             continue
 
         check_id = recs[0].get("check_id", "")
@@ -237,13 +379,47 @@ def main() -> int:
         out_path.write_text(body, encoding="utf-8")
         written.append(out_path)
 
+    # ── Pass 2: in-book density (≥ THRESHOLD_DENSITY records of same check_id
+    #    in same (book, episode)). Emits one *consolidated* proposal per
+    #    (check_id, book, episode) tuple. Signal: "this check fires repeatedly
+    #    against one artifact — the check itself probably needs sharper auto-fix
+    #    or a tighter precondition." ──────────────────────────────────────
+    density_written: list[Path] = []
+    for (check_id, book, ep), recs in sorted(by_check_in_episode.items()):
+        if len(recs) < THRESHOLD_DENSITY:
+            continue
+        consolidated_sig = f"{check_id}:density:{book}:{ep}"
+        slug = signature_to_slug(consolidated_sig)
+        already = is_already_resolved(slug, args.promoted_dir, args.archive_dir)
+        if already:
+            skipped_resolved.append(consolidated_sig)
+            continue
+        severity = recs[0].get("severity", "")
+        body = render_proposal(consolidated_sig, recs, check_id, severity)
+        # Tag the body as a density proposal so the human reviewer knows the
+        # trigger was in-book density, not cross-book recurrence.
+        body = body.replace(
+            "**Trigger.**",
+            f"**Trigger (density).** {len(recs)}× firings of `{check_id}` within `{book}/{ep}` — in-book density ≥ {THRESHOLD_DENSITY}.\n\n**Trigger.**",
+            1,
+        )
+        out_path = args.proposals_dir / f"{today}-{slug}.md"
+        if args.dry_run:
+            print(f"[dry-run] would write (density): {out_path.relative_to(REPO_ROOT) if REPO_ROOT in out_path.parents else out_path}")
+            continue
+        if out_path.exists() and out_path.read_text(encoding="utf-8") == body:
+            continue
+        out_path.write_text(body, encoding="utf-8")
+        density_written.append(out_path)
+
     print(f"Proposer summary:")
-    print(f"  records read:         {len(records)}")
-    print(f"  signatures grouped:   {len(by_sig)}")
-    print(f"  proposals written:    {len(written)}")
-    print(f"  skipped (already promoted): {len(skipped_promoted)}")
+    print(f"  records read:               {len(records)}")
+    print(f"  signatures grouped:         {len(by_sig)}")
+    print(f"  proposals written (recur):  {len(written)}")
+    print(f"  proposals written (density):{len(density_written)}")
+    print(f"  skipped (already resolved): {len(skipped_resolved)}")
     print(f"  skipped (below threshold):  {len(skipped_below_threshold)}")
-    for p in written:
+    for p in written + density_written:
         print(f"  → {p.relative_to(REPO_ROOT) if REPO_ROOT in p.parents else p}")
     return 0
 

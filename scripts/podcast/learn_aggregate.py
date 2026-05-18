@@ -42,8 +42,9 @@ OUTPUT_PATH = REPO_ROOT / "content/podcast/.skill/_learning/patterns.md"
 # Aggregation thresholds — a pattern is "recurring" (proposer-eligible) when
 # it crosses EITHER threshold. Single occurrences are still recorded but
 # tagged so the proposer ignores them.
-THRESHOLD_BOOKS = 2     # appears in ≥ 2 distinct books
-THRESHOLD_EPISODES = 3  # appears in ≥ 3 distinct episodes
+THRESHOLD_BOOKS = 2      # appears in ≥ 2 distinct books
+THRESHOLD_EPISODES = 3   # appears in ≥ 3 distinct episodes
+THRESHOLD_DENSITY = 3    # check_id fires ≥ 3× in same (book, episode)
 
 
 def load_ledger(path: Path) -> list[dict[str, Any]]:
@@ -78,6 +79,15 @@ def aggregate(records: list[dict[str, Any]]) -> str:
             "_No findings in the ledger yet._\n"
         )
 
+    # In-book density groupings (check_id, book, episode) → records
+    density: dict[tuple[str, str, str], int] = defaultdict(int)
+    for r in records:
+        check = r.get("check_id", "")
+        book = r.get("book", "")
+        ep = r.get("episode", "")
+        if check and book:
+            density[(check, book, ep)] += 1
+
     rows: list[tuple[str, int, int, int, str, str, str, str]] = []
     for sig, recs in groups.items():
         count = len(recs)
@@ -108,7 +118,8 @@ def aggregate(records: list[dict[str, Any]]) -> str:
     )
     lines.append(f"**Total records:** {len(records)} · **Distinct signatures:** {len(groups)}")
     lines.append(
-        f"**Proposer thresholds:** ≥ {THRESHOLD_BOOKS} books OR ≥ {THRESHOLD_EPISODES} episodes"
+        f"**Proposer thresholds:** ≥ {THRESHOLD_BOOKS} books OR ≥ {THRESHOLD_EPISODES} episodes "
+        f"OR ≥ {THRESHOLD_DENSITY} firings of same check in same (book, episode)"
     )
     lines.append("")
     lines.append("## Signatures (sorted by occurrence)")
@@ -116,13 +127,30 @@ def aggregate(records: list[dict[str, Any]]) -> str:
     lines.append("| Signature | Count | Books | Episodes | Severity | Check | First seen | Last seen | Proposer-eligible |")
     lines.append("|---|---|---|---|---|---|---|---|---|")
     for sig, count, n_books, n_eps, ts_first, ts_last, sev, check in rows:
-        eligible = (n_books >= THRESHOLD_BOOKS) or (n_eps >= THRESHOLD_EPISODES)
+        eligible = (
+            n_books >= THRESHOLD_BOOKS
+            or n_eps >= THRESHOLD_EPISODES
+        )
         flag = "**Y**" if eligible else "n"
         lines.append(
             f"| `{sig}` | {count} | {n_books} | {n_eps} | {sev} | {check} | "
             f"{ts_first} | {ts_last} | {flag} |"
         )
     lines.append("")
+    # Density section — surfaces (check_id, book, episode) tuples that crossed
+    # the density threshold; these are the "tighten this check" candidates.
+    dense_rows = [(k, n) for k, n in density.items() if n >= THRESHOLD_DENSITY]
+    if dense_rows:
+        dense_rows.sort(key=lambda x: -x[1])
+        lines.append("## In-book density (≥ density threshold)")
+        lines.append("")
+        lines.append("Recurring same-check findings against one artifact. Strong learning signal even before cross-book recurrence.")
+        lines.append("")
+        lines.append("| Check | Book | Episode | Firings |")
+        lines.append("|---|---|---|---|")
+        for (check, book, ep), n in dense_rows:
+            lines.append(f"| `{check}` | `{book}` | `{ep}` | **{n}** |")
+        lines.append("")
     lines.append("## How to read this")
     lines.append("")
     lines.append(
