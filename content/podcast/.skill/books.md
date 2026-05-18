@@ -20,3 +20,4 @@ table with these columns (extra columns tolerated):
 - `Source Type` — one of `book-chapter`, `article`, `document`, `lecture`, `interview`, `letter`
 - `Status` — one of `draft`, `challenger-pending`, `ready`, `generated`, `archived`
 - `Date Started`, `NotebookLM URL` — optional metadata
+| books | kitab-al-riyad | Kitab al-Riyad | [registry](../library/books/kitab-al-riyad/_system/registry.md) |
