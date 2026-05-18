@@ -12,10 +12,14 @@ INVOCATION
   python3 scripts/podcast/extract_chapter.py <chapter-ref> --contract <path>
   python3 scripts/podcast/extract_chapter.py <chapter-ref> --force
 
-CHAPTER REF RESOLUTION (first match wins)
+CHAPTER REF RESOLUTION
 
   1. Literal path (absolute or repo-relative) → used as-is.
-  2. content/podcast/library/*/*/chapters/<ref>.txt  (any book chapter)
+  2. `<book-slug>/<ref>` shorthand → resolves within that book only.
+  3. Bare `<ref>` → searches every
+     content/podcast/library/*/*/chapters/<ref>.txt. If more than one book
+     owns the same chapter slug, the script refuses with a disambiguation
+     error rather than silently picking the alphabetically-first match.
 
 CONTRACT RESOLUTION
 
@@ -256,13 +260,23 @@ CH_PREFIX_RE = re.compile(r"^ch(\d+)-(.+)$")
 @dataclass
 class ResolvedChapter:
     path: Path
-    source_bucket: str  # book slug (e.g. "ayyuhal-walad")
+    source_bucket: str  # book slug taken from library/<category>/<book>/ — never hardcoded
     chapter_number: int | None
     chapter_slug: str   # the slug after ch## (e.g. "man" from "ch01-man")
 
 
 def resolve_chapter_ref(ref: str) -> ResolvedChapter:
-    """Resolve a chapter ref string to a (path, source-bucket, num, slug)."""
+    """Resolve a chapter ref string to a (path, source-bucket, num, slug).
+
+    Resolution order (first definitive match wins; ambiguity is an error):
+
+      1. Literal path (absolute or repo-relative) → used as-is.
+      2. `<book-slug>/<ref>` shorthand → forces resolution within one book.
+      3. Bare `<ref>` → searched across every
+         `library/<category>/<book>/chapters/<ref>.txt`. If the same `<ref>`
+         exists in more than one book, the script refuses and asks the caller
+         to disambiguate via `<book-slug>/<ref>`.
+    """
 
     def parse_chapter_filename(p: Path) -> tuple[int | None, str]:
         stem = p.stem
@@ -292,14 +306,46 @@ def resolve_chapter_ref(ref: str) -> ResolvedChapter:
         num, slug = parse_chapter_filename(literal)
         return ResolvedChapter(literal, bucket, num, slug)
 
-    # 2. Any podcast book chapters under library/<category>/<book>/chapters/
-    for book_chapters in sorted(LIBRARY_DIR.glob("*/*/chapters")):
-        cand = book_chapters / f"{ref}.txt"
-        if cand.exists():
+    # 2. `<book-slug>/<ref>` shorthand: explicit book scoping.
+    if "/" in ref and not ref.startswith("/"):
+        book_slug, bare_ref = ref.split("/", 1)
+        candidates = list(LIBRARY_DIR.glob(f"*/{book_slug}/chapters/{bare_ref}.txt"))
+        if len(candidates) == 1:
+            cand = candidates[0]
             assert_boundary_safe(cand)
             num, slug = parse_chapter_filename(cand)
-            bucket = cand.parents[1].name
-            return ResolvedChapter(cand, bucket, num, slug)
+            return ResolvedChapter(cand, book_slug, num, slug)
+        if len(candidates) > 1:
+            sys.exit(
+                f"ERROR: book-slug {book_slug!r} resolves to multiple paths under "
+                f"{LIBRARY_DIR}/*/{book_slug}/. Found:\n"
+                + "\n".join(f"    {c}" for c in candidates)
+            )
+        # 0 matches under the explicit book — fall through to bare-ref resolution
+        # so the caller sees the standard "could not resolve" message with all
+        # paths tried.
+
+    # 3. Bare `<ref>`: search every library/<category>/<book>/chapters/.
+    matches = [bc / f"{ref}.txt" for bc in sorted(LIBRARY_DIR.glob("*/*/chapters"))
+               if (bc / f"{ref}.txt").exists()]
+    if len(matches) == 1:
+        cand = matches[0]
+        assert_boundary_safe(cand)
+        num, slug = parse_chapter_filename(cand)
+        bucket = cand.parents[1].name
+        return ResolvedChapter(cand, bucket, num, slug)
+    if len(matches) > 1:
+        # Ambiguous: same chapter slug in two or more books. Refuse the lookup
+        # rather than silently picking the first match (the old behavior favored
+        # the alphabetically-first book, which is exactly the cross-book
+        # contamination this script must avoid).
+        sys.exit(
+            f"ERROR: chapter ref {ref!r} matches in {len(matches)} books:\n"
+            + "\n".join(f"    {c.parents[1].name}/  →  {c.relative_to(REPO_ROOT)}"
+                        for c in matches) +
+            f"\n  Disambiguate by passing `<book-slug>/{ref}` "
+            f"(e.g. `<book-slug>/{ref}`) or the full repo-relative path."
+        )
 
     sys.exit(
         f"ERROR: could not resolve chapter ref {ref!r}.\n"
@@ -387,6 +433,45 @@ def validate_contract(c: Contract, chapter: ResolvedChapter) -> None:
             f"chapter slug ({chapter.chapter_slug!r}).\n"
             f"  Under the 1:1 chapter ↔ episode mapping (SKILL.md §0), these must match exactly."
         )
+
+    # INVARIANT 6 (SKILL.md §0): per-chapter title is concise + unique within the book.
+    # Skip this check for stub contracts — those are intentionally TODO-marked and
+    # written to disk by emit_bundle so the author can edit them in place.
+    if c.path is not None:
+        title = c.get("title")
+        if isinstance(title, str):
+            stripped = title.strip()
+            if not stripped or stripped.startswith("[TODO]"):
+                sys.exit(
+                    f"ERROR: contract.title at {c.path} is a TODO placeholder. Set a real "
+                    f"concise title (≤ 60 chars; ≤ 6 words; unique within the book) before "
+                    f"extracting."
+                )
+            if len(stripped) > 60:
+                sys.exit(
+                    f"ERROR: contract.title is {len(stripped)} chars (>60). "
+                    f"Per SKILL.md INVARIANT 6, chapter titles must be concise."
+                )
+            # Uniqueness within the book: scan sibling contracts.
+            contracts_dir = c.path.parent
+            collisions: list[str] = []
+            for sibling in sorted(contracts_dir.glob("*.yml")):
+                if sibling == c.path:
+                    continue
+                try:
+                    other = load_yaml(sibling.read_text(encoding="utf-8"))
+                except Exception:
+                    continue
+                other_title = (other.get("title") or "").strip()
+                if other_title and other_title.lower() == stripped.lower():
+                    collisions.append(f"{sibling.name}: {other_title!r}")
+            if collisions:
+                sys.exit(
+                    f"ERROR: contract.title {stripped!r} duplicates another chapter in "
+                    f"this book:\n"
+                    + "\n".join(f"    {c}" for c in collisions) +
+                    f"\n  Per SKILL.md INVARIANT 6, every chapter must have a unique title."
+                )
     angle = c.get("angle")
     valid_angles = {"faithful_exposition", "personal_application",
                     "critical_dialectical", "comparative"}

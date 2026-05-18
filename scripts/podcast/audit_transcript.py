@@ -39,6 +39,8 @@ DOES NOT MODIFY anything else. Read-only against chapter, framing, and
 transcript; writes only the audit report.
 """
 
+from __future__ import annotations
+
 import re
 import sys
 from pathlib import Path
@@ -61,17 +63,17 @@ FORBIDDEN_ABBREVIATIONS = abbreviations_for_audit()
 
 # Names commonly mangled by NotebookLM TTS (observed empirically).
 # Maps canonical spelling → list of likely mangled forms to detect.
+#
+# This dict holds **generic** Arabic / Islamic vocabulary that is likely to
+# appear across any Islamic-source book and to be mangled the same way. Truly
+# **book-specific** entries — the book's own title, the specific narrators or
+# characters in that book — live next to the book at
+# `BOOK_DIR/_system/mangle-map.md` and are merged in by `load_book_mangle_map`.
 NAME_MANGLING_MAP = {
-    "Ayyuhal Walad": [
-        "a yuhal wallad", "i you hall wall odd", "ayyuhallwalaad",
-        "ayuhol walad", "ayyuhaw walad", "ayyuhal wallad",
-    ],
     "Tasawwuf": ["tassel wolf", "tasso wolf", "tasa wolf", "tassel woolf"],
     "Ikhlas": ["aclus", "iclas", "ick las"],
     "Nahj al-Balagha": ["najah balala", "najah balaga", "nahjal balaga"],
     "Dhul-Nun al-Misri": ["shakestone noon mystery", "shake stone noon"],
-    "Hatim bin Ism": ["hatim vanism", "hatim of nism", "hatim vanism"],
-    "Shaqiq al-Balkhi": ["shaikik al-balki", "shafeeq balkhi"],
     "Bay'a": ["bhaya", "bayaa"],
     "Riyazat": ["rizat", "riyzat"],
     "Mujahadah": ["mujahada", "moo jahada"],
@@ -87,6 +89,34 @@ NAME_MANGLING_MAP = {
     "Fard Kifaya": ["fard ki efaya"],
     "Hadith Qudsi": [],  # detected by adjacent repetition instead
 }
+
+
+def load_book_mangle_map(book_dir: Path) -> dict[str, list[str]]:
+    """Read optional per-book name-mangling overrides from
+    `BOOK_DIR/_system/mangle-map.md`. Format is a markdown pipe table:
+
+        | Canonical | Mangled forms (comma-separated) |
+        |---|---|
+        | Ayyuhal Walad | a yuhal wallad, i you hall wall odd, ... |
+
+    Returns {} if the file does not exist. Entries are merged into the global
+    `NAME_MANGLING_MAP` at audit time; per-book wins on conflict.
+    """
+    f = book_dir / "_system" / "mangle-map.md"
+    if not f.exists():
+        return {}
+    out: dict[str, list[str]] = {}
+    for raw in f.read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if not line.startswith("|") or line.startswith("|---") or line.startswith("| Canonical"):
+            continue
+        cells = [c.strip() for c in line.strip("|").split("|")]
+        if len(cells) < 2 or not cells[0]:
+            continue
+        canonical = cells[0]
+        forms = [m.strip() for m in cells[1].split(",") if m.strip()]
+        out[canonical] = forms
+    return out
 
 
 def count_phrase_hits(text: str, phrases: list[str]) -> list[tuple[str, int]]:
@@ -132,9 +162,12 @@ def detect_phonetic_doublings(text: str) -> list[str]:
     return hits
 
 
-def detect_mangled_names(text: str) -> list[tuple[str, str, int]]:
+def detect_mangled_names(text: str, extra_map: dict[str, list[str]] | None = None) -> list[tuple[str, str, int]]:
+    merged = dict(NAME_MANGLING_MAP)
+    if extra_map:
+        merged.update(extra_map)
     out = []
-    for canonical, mangled_forms in NAME_MANGLING_MAP.items():
+    for canonical, mangled_forms in merged.items():
         for m in mangled_forms:
             n = text.lower().count(m.lower())
             if n > 0:
@@ -156,6 +189,10 @@ def audit(book_dir: Path, episode_id: str, transcript_path: Path) -> Path:
     text = transcript_path.read_text(encoding="utf-8")
     wc = word_count(text)
 
+    # Load per-book name-mangling overrides (book-specific characters, titles, etc.)
+    # from BOOK_DIR/_system/mangle-map.md. Empty if the file doesn't exist.
+    book_mangle_map = load_book_mangle_map(book_dir)
+
     # Compute every metric
     modernize_hits = count_phrase_hits(text, MODERNIZE_DENY)
     surprise_hits = count_phrase_hits(text, SURPRISE_DENY)
@@ -164,7 +201,7 @@ def audit(book_dir: Path, episode_id: str, transcript_path: Path) -> Path:
     honorific_hits = count_regex_hits(text, HONORIFIC_EXPANSIONS)
     filler_hits = count_phrase_hits(text, FILLER_INTERJECTIONS)
     phonetic_doublings = detect_phonetic_doublings(text)
-    mangled = detect_mangled_names(text)
+    mangled = detect_mangled_names(text, book_mangle_map)
 
     # Densities (per 1,000 words)
     per_kw = lambda n: f"{(n * 1000) / wc:.1f}" if wc else "0.0"

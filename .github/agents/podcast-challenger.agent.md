@@ -1,6 +1,6 @@
 ---
 name: podcast-challenger
-description: "Semantic-quality challenger for podcasted-book chapters (uploaded to NotebookLM as the SOURCE) and framings/episode-txts (pasted into the NotebookLM Customize prompt box). Validates everything `build_episode_txt.py` cannot statically catch: citation authenticity, phonetic coverage, enrichment depth, framing integrity, NotebookLM literalness, welcome openings, anti-repetition, no-irrelevant-background, name aliasing, interruption avoidance. Runs in a convergence loop (up to 3 iterations), auto-fixes deterministic issues, surfaces semantic findings for human resolution. Invoke for: 'challenge ayyuhal-walad', 'review podcast', 'audit chapters', '/podcast-challenger', 'converge before publish', 'check book before upload'."
+description: "Semantic-quality challenger for podcasted-book chapters (uploaded to NotebookLM as the SOURCE) and framings/episode-txts (pasted into the NotebookLM Customize prompt box). Validates everything `build_episode_txt.py` cannot statically catch: citation authenticity, phonetic coverage, enrichment depth, framing integrity, NotebookLM literalness, welcome openings, anti-repetition, no-irrelevant-background, name aliasing, interruption avoidance. Runs in a convergence loop (up to 3 iterations), auto-fixes deterministic issues, surfaces semantic findings for human resolution. Book-agnostic: caller supplies `<book-slug>`. Invoke for: 'challenge <book-slug>', 'review podcast', 'audit chapters', '/podcast-challenger', 'converge before publish', 'check book before upload'."
 tools: [read, edit, search, execute]
 
 # Canonical challenger contract (peer with .github/agents/journal-challenger.agent.md)
@@ -109,7 +109,7 @@ Scope (all three artifact types reviewed under each pass):
 - For Extract Mode books (any book whose `chapter-contracts/` directory is non-empty): all `BOOK_DIR/chapter-contracts/<slug>.yml` contracts. Contract findings (Category G) gate the chapter findings — a broken contract usually means the bundle was generated against the wrong inputs.
 - After auto-fixes, re-run `extract_chapter.py <chapter-ref> --force` for each contract whose tone-bearing fields were touched, then `build_episode_txt.py` for each `EP##-<slug>` so the downstream artifacts stay in sync.
 
-Used for "review podcast", "challenge ayyuhal-walad", "audit chapters", "converge before publish".
+Used for "review podcast", "challenge <book-slug>", "audit chapters", "converge before publish".
 
 ### Per-chapter focus
 
@@ -376,16 +376,16 @@ Always write the sidecar report (Section 6) — even on a clean run, the report 
 
 | Iter | Check | File | Action |
 |---|---|---|---|
-| 1 | B5 | ch01-frame-and-first-counsel.txt:42 | Replaced em-dash with comma |
-| 1 | C3 | ch02-hatim-eight-benefits.txt:88 | Stripped repeated "(peace and blessings be upon him)" |
-| 2 | B2 | EP03-the-path/00-framing.md:14 | Rewrote "the previous episode" → "earlier in the letter" |
+| 1 | B5 | ch01-<slug>.txt:42 | Replaced em-dash with comma |
+| 1 | C3 | ch02-<slug>.txt:88 | Stripped repeated honorific expansion |
+| 2 | B2 | EP03-<slug>/00-framing.md:14 | Rewrote cross-episode reference to in-source language |
 
 ## Findings requiring author resolution
 
 ### P0 (blocks ship)
 
-#### A1: Citation discipline — missing surah:verse in EP04 source quote
-- **File:** content/podcast/library/books/ayyuhal-walad/chapters/ch04-four-cautions.txt:128
+#### A1: Citation discipline — missing surah:verse in an EP source quote
+- **File:** content/podcast/library/<category>/<book-slug>/chapters/ch##-<slug>.txt:LINE
 - **Context:** blockquote of Quranic verse with English translation but no `(Quran X:Y)` citation line.
 - **Suggested fix:** Identify the verse, add citation on the line below the quote per enrichment-sources.md §2 format.
 
@@ -460,7 +460,7 @@ For Category G findings, the agent uses this script as the validator: re-run wit
 
 When invoked:
 
-1. Confirm the book-slug. If missing, ask: "Which book? (e.g., `ayyuhal-walad`)".
+1. Confirm the book-slug. If missing, ask: "Which book? (give the `<book-slug>` directory name from `content/podcast/library/<category>/`)".
 2. Confirm scope. If per-chapter, confirm the chapter slug exists.
 3. Read the cold-start files (Section 0 list).
 4. Enumerate the in-scope chapters + framings.

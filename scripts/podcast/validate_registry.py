@@ -1,42 +1,45 @@
 #!/usr/bin/env python3
-"""validate_registry.py — deterministic checks for content/podcast/.skill/registry.md.
+"""validate_registry.py — deterministic checks for per-book podcast registries.
 
-The registry is mutable cross-book state: a markdown table of every episode
-across every podcasted source. Nothing today validates its structure, slug
-uniqueness, monotonicity, or row freshness. This script does.
+Each book carries its own registry at
+    content/podcast/library/<category>/<book-slug>/_system/registry.md
+
+The top-level index at content/podcast/.skill/books.md lists every book that
+has a registry. This script discovers all per-book registries via glob and
+validates each one independently. Nothing else validates their structure, slug
+uniqueness, monotonicity, or row freshness.
 
 Usage:
-    python3 scripts/podcast/validate_registry.py
-    python3 scripts/podcast/validate_registry.py --registry <path>
+    python3 scripts/podcast/validate_registry.py            # all per-book registries
+    python3 scripts/podcast/validate_registry.py --registry <path>   # one specific file
 
 Exit codes:
     0 — all checks pass
     1 — at least one check failed; details on stderr
 
-Checks
+Checks (applied to each registry independently)
 ------
 
 R1. Table parseable
     The registry contains a markdown table with at least 5 expected columns:
     EP#, Title, Slug, Source Type, Status. (Extra columns are tolerated.)
 
-R2. EP# monotonic + unique
+R2. EP# monotonic + unique within the book
     Every row's EP# is a positive integer. Numbers are strictly increasing.
-    No duplicates.
+    No duplicates within the same book.
 
-R3. Slug uniqueness
-    Every Slug is unique across the registry. Slugs are kebab-case
+R3. Slug uniqueness + shape within the book
+    Every Slug is unique within the book and kebab-case
     ([a-z0-9]+(-[a-z0-9]+)*), max 40 chars.
 
 R4. Status value in the allowed set
     Status ∈ {draft, challenger-pending, ready, generated, archived}.
 
 R5. Status freshness
-    For every `ready` row, the matching chapter file
-    content/podcast/library/<category>/<book>/chapters/ch{EP}-{slug}.txt must
-    exist. Missing → status is stale (P0).
+    For every `ready` or `generated` row, the matching chapter file
+    <BOOK_DIR>/chapters/ch{EP}-{slug}.txt must exist. Missing → status is stale (P0).
 
-This script is read-only. It never modifies the registry. The podcast-challenger
+This script is read-only. It never modifies a registry. The podcast-challenger
 agent invokes it before declaring a SHIP-READY verdict.
 """
 
@@ -78,39 +81,28 @@ def parse_table(text: str) -> list[dict[str, str]]:
     return rows
 
 
-def find_chapter_file(slug: str, ep_num: int) -> Path | None:
-    """Search every library/<category>/<book>/chapters/ for ch{NN}-{slug}.txt."""
+def chapter_for_row(book_dir: Path, slug: str, ep_num: int) -> Path | None:
+    """Resolve the chapter file for a row within its own book."""
+    cand = book_dir / "chapters" / f"ch{ep_num:02d}-{slug}.txt"
+    return cand if cand.exists() else None
+
+
+def discover_registries() -> list[Path]:
+    """Find every per-book registry: library/*/*/_system/registry.md."""
     if not LIBRARY_DIR.exists():
-        return None
-    pattern = f"ch{ep_num:02d}-{slug}.txt"
-    for category in LIBRARY_DIR.iterdir():
-        if not category.is_dir():
-            continue
-        for book in category.iterdir():
-            cand = book / "chapters" / pattern
-            if cand.exists():
-                return cand
-    return None
+        return []
+    return sorted(LIBRARY_DIR.glob("*/*/_system/registry.md"))
 
 
-def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument(
-        "--registry", type=Path, default=None,
-        help="Registry path. Default: content/podcast/.skill/registry.md",
-    )
-    args = ap.parse_args()
-    registry_path = args.registry or (REPO_ROOT / "content" / "podcast" / ".skill" / "registry.md")
-    if not registry_path.exists():
-        print(f"ERROR: registry not found at {registry_path}", file=sys.stderr)
-        return 1
-
+def validate_one(registry_path: Path) -> list[str]:
+    """Validate a single per-book registry. Returns a list of findings (empty = pass)."""
     text = registry_path.read_text(encoding="utf-8")
     rows = parse_table(text)
     if not rows:
-        print(f"R1 FAIL: no parseable table in {registry_path}", file=sys.stderr)
-        return 1
+        return [f"R1 FAIL: no parseable table in {registry_path}"]
 
+    # BOOK_DIR is registry_path.parents[1] (registry.md → _system → BOOK_DIR).
+    book_dir = registry_path.parents[1]
     findings: list[str] = []
 
     # R2 — monotonic + unique
@@ -163,21 +155,55 @@ def main() -> int:
         if not raw.isdigit() or not slug:
             continue
         ep_num = int(raw)
-        cand = find_chapter_file(slug, ep_num)
+        cand = chapter_for_row(book_dir, slug, ep_num)
         if cand is None:
             findings.append(
                 f"R5: row EP{ep_num:02d} ({slug!r}) is {status} but no matching "
-                f"chapter file ch{ep_num:02d}-{slug}.txt found under library/"
+                f"chapter file ch{ep_num:02d}-{slug}.txt under {book_dir}/chapters/"
             )
 
-    if findings:
-        print(f"validate_registry: {len(findings)} finding(s) in {registry_path}", file=sys.stderr)
-        for f in findings:
-            print(f"  - {f}", file=sys.stderr)
-        return 1
+    return findings
 
-    print(f"validate_registry: OK — {len(rows)} row(s) in {registry_path}")
-    return 0
+
+def main() -> int:
+    ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    ap.add_argument(
+        "--registry", type=Path, default=None,
+        help="Specific per-book registry to validate. Default: discover all.",
+    )
+    args = ap.parse_args()
+
+    if args.registry is not None:
+        registries = [args.registry]
+    else:
+        registries = discover_registries()
+        if not registries:
+            print(
+                "validate_registry: no per-book registries found under "
+                "content/podcast/library/*/*/_system/registry.md",
+                file=sys.stderr,
+            )
+            return 1
+
+    total_rows = 0
+    total_findings = 0
+    for r in registries:
+        if not r.exists():
+            print(f"ERROR: registry not found at {r}", file=sys.stderr)
+            total_findings += 1
+            continue
+        findings = validate_one(r)
+        rows = parse_table(r.read_text(encoding="utf-8"))
+        total_rows += len(rows)
+        if findings:
+            print(f"validate_registry: {len(findings)} finding(s) in {r}", file=sys.stderr)
+            for f in findings:
+                print(f"  - {f}", file=sys.stderr)
+            total_findings += len(findings)
+        else:
+            print(f"validate_registry: OK — {len(rows)} row(s) in {r}")
+
+    return 1 if total_findings else 0
 
 
 if __name__ == "__main__":

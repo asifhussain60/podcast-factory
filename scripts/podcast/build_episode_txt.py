@@ -58,9 +58,17 @@ Usage:
 
 Example:
   python3 scripts/podcast/build_episode_txt.py \\
-    content/podcast/library/books/ayyuhal-walad \\
-    EP01-frame-and-first-counsel
+    content/podcast/library/<category>/<book-slug> \\
+    EP##-<slug>
+
+Per-book overrides (optional, book-agnostic):
+  BOOK_DIR/_system/meta-prose-tells.md  — extra substring tells appended to
+  the global META_PROSE_TELLS list. One tell per line, prefixed by `- `.
+  Use this for book-specific authoring phrases (e.g. an author's name in
+  a self-describing prose pattern) instead of editing this file.
 """
+
+from __future__ import annotations
 
 import re
 import sys
@@ -95,10 +103,8 @@ META_PROSE_TELLS = [
     "enrichment ratio",
     "per content/podcast/.skill/handbook",
     "nothing has been added that is not in the source",
-    "anything ghazali only implies",
     "anything the author only implies",
     "preserved in blockquotes with the original transliteration",
-    "ghazali's prose has been clarified",
     "the author's prose has been clarified",
     "structured by beat",
     "refined and enriched presentation",
@@ -253,13 +259,37 @@ def strip_html_comments(text: str) -> str:
     return cleaned.strip() + "\n"
 
 
-def assert_no_meta_prose(content: str, file_path: Path, role: str) -> None:
+def load_book_meta_prose_tells(book_dir: Path) -> list[str]:
+    """Read optional per-book extra meta-prose tells from
+    `BOOK_DIR/_system/meta-prose-tells.md`. One tell per `- ` line. Returns an
+    empty list if the file does not exist. Tells are normalized to lowercase to
+    match `assert_no_meta_prose`'s substring check.
+    """
+    f = book_dir / "_system" / "meta-prose-tells.md"
+    if not f.exists():
+        return []
+    tells: list[str] = []
+    for raw in f.read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if not line.startswith("- "):
+            continue
+        tell = line[2:].strip().strip('"').strip("'").lower()
+        if tell:
+            tells.append(tell)
+    return tells
+
+
+def assert_no_meta_prose(content: str, file_path: Path, role: str,
+                         extra_tells: list[str] | None = None) -> None:
     """Refuse to build if content contains meta-prose tells.
 
     `role` is 'chapter (SOURCE)' or 'framing (CUSTOMIZE PROMPT)' for the error message.
+    `extra_tells` are book-specific substring tells loaded via
+    `load_book_meta_prose_tells`. They are checked in addition to the global list.
     """
     lower = content.lower()
-    substring_hits = [tell for tell in META_PROSE_TELLS if tell in lower]
+    all_tells = META_PROSE_TELLS + list(extra_tells or [])
+    substring_hits = [tell for tell in all_tells if tell in lower]
     regex_hits = []
     for pat in META_PROSE_REGEX_TELLS:
         for m in re.finditer(pat, content, flags=re.IGNORECASE):
@@ -454,11 +484,11 @@ def assert_framing_deny_block(content: str, file_path: Path) -> None:
         )
 
 
-def validate_chapter(chapter_path: Path) -> int:
+def validate_chapter(chapter_path: Path, extra_tells: list[str] | None = None) -> int:
     """Validate the chapter file. Returns word count. Exits on any error."""
     text = chapter_path.read_text(encoding="utf-8")
     assert_no_html_comments(text, chapter_path, "chapter (SOURCE)")
-    assert_no_meta_prose(text, chapter_path, "chapter (SOURCE)")
+    assert_no_meta_prose(text, chapter_path, "chapter (SOURCE)", extra_tells)
     # R-PHONETICS-OUT (2026-05-17)
     assert_no_inline_phonetics(text, chapter_path)
     # R-NO-ABBREVIATION (2026-05-17)
@@ -475,7 +505,8 @@ def validate_chapter(chapter_path: Path) -> int:
     return n
 
 
-def build_framing_episode_txt(framing_path: Path, out_path: Path) -> int:
+def build_framing_episode_txt(framing_path: Path, out_path: Path,
+                              extra_tells: list[str] | None = None) -> int:
     """Read the framing, strip upload-checklist + HTML comments, validate, write to
     out_path as the customize-prompt-only episode txt. Returns word count of the
     final framing content."""
@@ -484,7 +515,7 @@ def build_framing_episode_txt(framing_path: Path, out_path: Path) -> int:
     cleaned = strip_html_comments(no_checklist).strip()
 
     # Re-validate cleaned framing for meta-prose tells (cross-episode refs, etc.).
-    assert_no_meta_prose(cleaned, framing_path, "framing (CUSTOMIZE PROMPT)")
+    assert_no_meta_prose(cleaned, framing_path, "framing (CUSTOMIZE PROMPT)", extra_tells)
     # R-PRONUNCIATION-IMPERATIVE (2026-05-17)
     assert_framing_pronunciation_imperative(cleaned, framing_path)
     # R-NOMODERNIZE + R-NOSURPRISE + R-NO-READ-PROMPT (2026-05-17)
@@ -524,14 +555,20 @@ def build(book_dir: Path, episode_id: str) -> None:
     if not framing_file.exists():
         sys.exit(f"ERROR: missing 00-framing.md in {draft_dir}")
 
+    # Load any book-specific meta-prose tells from BOOK_DIR/_system/meta-prose-tells.md.
+    # This keeps author-specific phrases (e.g. "anything <author> only implies") out of
+    # the global META_PROSE_TELLS list — each book carries its own tells next to its
+    # chapters, so they don't bleed across books.
+    extra_tells = load_book_meta_prose_tells(book_dir)
+
     # 1. Validate the chapter (uploaded as-is to NotebookLM as the SOURCE).
     assert_chapters_populated(book_dir)
     chapter_file = find_chapter_by_slug(book_dir / "chapters", episode_slug)
-    chapter_words = validate_chapter(chapter_file)
+    chapter_words = validate_chapter(chapter_file, extra_tells)
 
     # 2. Build the customize-prompt-only episode txt.
     out_path = book_dir / "episodes" / f"{episode_id}.txt"
-    framing_words = build_framing_episode_txt(framing_file, out_path)
+    framing_words = build_framing_episode_txt(framing_file, out_path, extra_tells)
 
     # Word-count warnings (band-soft, not hard).
     warnings = []
