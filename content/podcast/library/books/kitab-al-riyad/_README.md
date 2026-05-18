@@ -1,6 +1,6 @@
 # Podcast — Kitab al-Riyad
 
-**Source:** *Kitab al-Riyad* by Hamid al-Din al-Kirmani.
+**Source:** *Kitab al-Riyad* by Hamid al-Din Ahmad ibn Abdullah al-Kirmani.
 
 **Slug:** `kitab-al-riyad` · **Category:** `books` · **Architecture:** v3.5 (chapter-as-source; phonetics in customize prompt only).
 
@@ -13,4 +13,4 @@ Per `content/podcast/.skill/handbook/book-dir-layout.md`. The full tree is docum
 1. Upload `chapters/ch##-<slug>.txt` to NotebookLM as the **single source**.
 2. Paste contents of `episodes/EP##-<slug>.txt` into NotebookLM's **Customize prompt** box.
 3. Click *Generate*.
-4. After audio renders: transcribe, drop the transcript at `transcripts/EP##-<slug>.transcript.txt`, then run `audit_transcript.py <BOOK_DIR> EP##-<slug>`.
+4. After audio renders: transcribe via Azure Speech-to-Text (`scripts/podcast/transcribe_episode.py`) or any external service, drop the transcript at `transcripts/EP##-<slug>.transcript.txt`, then run `audit_transcript.py <BOOK_DIR> EP##-<slug>`.

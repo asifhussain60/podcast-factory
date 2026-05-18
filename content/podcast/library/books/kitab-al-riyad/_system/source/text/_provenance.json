@@ -1,6 +1,6 @@
 {
   "schema": "podcast.ingest-source/v1",
-  "generated_at": "2026-05-18T16:55:59.668660+00:00",
+  "generated_at": "2026-05-18T22:38:18.948188+00:00",
   "source": {
     "path": "/Users/asifhussain/PROJECTS/journal/content/podcast/library/books/kitab-al-riyad/_system/source/Kitab-al-Riyad.pdf",
     "byte_size": 4620222
@@ -13,7 +13,7 @@
     "model": "prebuilt-read",
     "page_count": 260,
     "ocr_char_count": 310234,
-    "elapsed_seconds": 14.88,
+    "elapsed_seconds": 16.39,
     "operation_id": "succeeded"
   },
   "translator": {
@@ -22,7 +22,7 @@
     "tgt_lang": "en",
     "region": "eastus",
     "output_char_count": 461941,
-    "elapsed_seconds": 18.41
+    "elapsed_seconds": 19.15
   },
   "outputs": {
     "raw_extract": "content/podcast/library/books/kitab-al-riyad/_system/source/text/raw-extract.md",
