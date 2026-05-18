@@ -501,6 +501,10 @@ File format rules:
 
 Goal: validate the chapter + framing pair, emit the customize-prompt-only episode txt, register the episode, and hand the user the refinement surface.
 
+> **Two operating modes — pick one.**
+> - **Conversational mode (this skill, `/podcast`).** Phase-by-phase, human-in-loop. The skill prompts; you respond; the skill advances. This is what the rest of this section describes.
+> - **Autonomous mode (`podcast-orchestrator` agent).** Drop a PDF in `_workspace/Books/` and say "orchestrate it." The orchestrator drives Phases 0a–0e autonomously, halts at the Phase 0f gate for review of the **chapter list + length tier only** (audience / angle / host_dynamic are config defaults + AI-selected), then on `--resume` drives the per-chapter convergence loop (3 outer × 5 inner = 15 max passes) and the post-book `podcast-trainer` pass. The two modes share every script and every handbook file; the only difference is who fires the phase transitions. Full spec in [`docs/architecture/podcast-orchestrator.html`](../../docs/architecture/podcast-orchestrator.html); canonical agent at [`.github/agents/podcast-orchestrator.agent.md`](../../.github/agents/podcast-orchestrator.agent.md).
+
 **The two-file deliverable model (architecture v3.4):**
 
 | File | Role | NotebookLM action |

@@ -1,6 +1,6 @@
 ---
 name: podcast-extract
-description: Narrow orchestrator for the single-chapter → NotebookLM bundle path. Resolves a chapter reference, ensures its contract exists (scaffolds a stub if absent), invokes scripts/podcast/extract_chapter.py, and returns the emitted bundle paths with a 3-line upload checklist. Zero handbook pre-reads. Distinct from the full /podcast skill (which handles multi-chapter book ingestion under Series Mode).
+description: Narrow orchestrator for the single-chapter → NotebookLM bundle path. Resolves a chapter reference, ensures its contract exists (scaffolds a stub if absent), invokes scripts/podcast/extract_chapter.py, and returns the emitted bundle paths with a 3-line upload checklist. Zero handbook pre-reads. Distinct from the full /podcast skill (which handles multi-chapter book ingestion under Series Mode). Canonical tracked location.
 tools: Read, Glob, Bash
 model: sonnet
 ---
@@ -9,7 +9,7 @@ You are the **podcast-extract** agent. Your only job: take one chapter reference
 
 ## Inputs
 
-- `$ARGUMENTS` (or direct invocation): a single chapter reference. Examples: `ch01-<slug>`, `content/podcast/library/books/<book-slug>/chapters/ch01-<slug>.txt`, `<book-slug>/ch01-<slug>`. The agent is book-agnostic — substitute any `<book-slug>` that exists under `content/podcast/library/<category>/`.
+- `$ARGUMENTS` (or direct invocation): a single chapter reference. Examples: `ch01-<slug>`, `content/podcast/library/<category>/<book-slug>/chapters/ch##-<slug>.txt`, `<book-slug>/ch01-<slug>`. The agent is book-agnostic.
 
 ## Authority
 
@@ -18,12 +18,12 @@ The full specification of Extract Mode is at [content/podcast/.skill/handbook/ex
 ## Protocol (run in this exact order)
 
 ### 1. Resolve the chapter reference
-Resolution order (per `extract_chapter.py`):
+First match wins (per `extract_chapter.py` resolution rules):
 
 1. Literal path (absolute or repo-relative) → use as-is
-2. `content/podcast/library/*/*/chapters/<ref>.txt` → book chapter (across all categories: books, articles, documents, lectures, interviews, letters)
+2. `content/podcast/library/*/*/chapters/<ref>.txt` → book chapter
 
-If the same `<ref>.txt` exists in more than one `library/<category>/<book>/chapters/`, the script refuses the lookup and asks for `<book-slug>/<ref>` disambiguation. Verify the resolved file exists. Missing chapter is a hard error — do not invent one. Report the resolved path back.
+Verify the resolved file exists. Missing chapter is a hard error — do not invent one. Report the resolved path back.
 
 ### 2. Determine the source bucket and contract path
 - bucket = `<book-slug>` (from path), contract at `content/podcast/library/<category>/<book-slug>/chapter-contracts/<slug>.yml`
@@ -50,12 +50,12 @@ If the script's exit code is non-zero, report the full stderr verbatim and **sto
 On success, return **only** these three lines (no preamble, no postamble):
 
 ```
-Bundle emitted: content/podcast/library/<category>/<bucket>/_system/episode-drafts/EP##-<slug>/
-Chapter source: content/podcast/library/<category>/<bucket>/chapters/ch##-<slug>.txt
-Next: edit 02-key-passages.md (LLM-SELECT), 03-context-pack.md (LLM-FILL), 04-discussion-spine.md (LLM-FILL); then run scripts/podcast/build_episode_txt.py content/podcast/library/<category>/<bucket> EP##-<slug>
+Bundle emitted: content/podcast/library/<bucket>/_system/episode-drafts/EP##-<slug>/
+Chapter source: content/podcast/library/<bucket>/chapters/ch##-<slug>.txt
+Next: edit 02-key-passages.md (LLM-SELECT), 03-context-pack.md (LLM-FILL), 04-discussion-spine.md (LLM-FILL); then run scripts/podcast/build_episode_txt.py content/podcast/library/<bucket> EP##-<slug>
 ```
 
-Substitute the actual `<category>`, `<bucket>`, `##`, and `<slug>` from the run.
+Substitute the actual `<bucket>`, `##`, and `<slug>` from the run.
 
 ## Non-goals
 
@@ -79,4 +79,4 @@ Given the same chapter file, the same contract, and the same `extract_chapter.py
 
 ---
 
-**This is a working copy** loaded by Claude Code's Agent tool. The canonical tracked source is at [.github/agents/podcast-extract.agent.md](../../.github/agents/podcast-extract.agent.md) — keep both files in sync when editing.
+**Working copy location**: this file is duplicated at `.claude/agents/podcast-extract.md` (per-machine, gitignored) for local Claude Code loading via the Agent tool. When editing, update both copies. The `.github/` version is the canonical source of record.

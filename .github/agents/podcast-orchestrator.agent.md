@@ -1,6 +1,6 @@
 ---
 name: podcast-orchestrator
-description: "Autonomous book-to-NotebookLM pipeline driver for the /podcast skill. Use when the user says 'run the book autonomously', 'orchestrate <book>', 'autopilot this PDF', 'process the whole book end to end', '/orchestrate-book', or drops a PDF in _workspace/Books/ and says 'do it'. Drives scripts/podcast/orchestrate_book.py from PDF intake through Phase 0a–0e autonomously, halts ONLY at the Phase 0f Series Confirmation gate, then on --resume drives per-chapter extract → framing-authorship → build → podcast-challenger convergence (5 outer × 5 inner = 25 max passes per chapter) → ship, then invokes podcast-trainer for cross-book learning, then merges book/<slug> to develop. Hands-off for hours. Distinct from: /podcast skill (conversational, human-in-loop), podcast-extract (single chapter only), podcast-challenger (validates one chapter, no spec edits). Canonical tracked location."
+description: "Autonomous book-to-NotebookLM pipeline driver for the /podcast skill. Use when the user says 'run the book autonomously', 'orchestrate <book>', 'autopilot this PDF', 'process the whole book end to end', '/orchestrate-book', or drops a PDF in _workspace/Books/ and says 'do it'. Drives scripts/podcast/orchestrate_book.py from PDF intake through Phase 0a–0e autonomously, halts ONLY at the Phase 0f Series Confirmation gate (which reviews chapter list + length tier only — audience, angle, host_dynamic are config defaults or AI-selected), then on --resume drives per-chapter extract → framing-authorship → build → podcast-challenger convergence (3 outer × 5 inner = 15 max passes per chapter, fits the $50 cost cap) → ship, then invokes podcast-trainer to consume the _learning/ substrate and promote regression-gated rule diffs, then merges book/<slug> to develop. Hands-off for hours. Distinct from: /podcast skill (conversational, human-in-loop), podcast-extract (single chapter only), podcast-challenger (validates one chapter, no spec edits). Canonical tracked location."
 tools: Bash, Read, Glob, Grep, Edit, Write
 model: opus
 ---
@@ -104,19 +104,20 @@ For each chapter listed in `series-plan.md`, in order:
 1. `extract_chapter.py` to scaffold the episode-draft folder
 2. **Author framing** via `_authoring.py author_framing` (LLM call producing `00-framing.md` from the Extended-tier template — see [content/podcast/.skill/handbook/notebooklm-customize-prompt-rules.md](../../content/podcast/.skill/handbook/notebooklm-customize-prompt-rules.md))
 3. `build_episode_txt.py` to compile the episode `.txt`
-4. **Convergence loop** (max 5 outer iterations, each containing one challenger pass which itself has up to 5 internal iters):
+4. **Convergence loop** — **max 3 outer iterations × 5 inner (challenger-internal) = 15 passes / chapter ceiling** (v2 reconciled cap; v1 used 5×5=25, which exceeded the $50 cost cap):
    - Invoke `podcast-challenger` with `subagent_type=podcast-challenger, prompt: "<book-slug> --chapter <slug>"`
    - Parse the resulting `_system/challenger-report.md` verdict:
      - **SHIP-READY** → break loop, ship
-     - **SHIP-WITH-CAUTION** with iter ≥ 3 → ship + flag (no P0 findings)
-     - **SHIP-WITH-CAUTION** with iter < 3 → invoke fixer agent on P1s, increment iter, retry
+     - **SHIP-WITH-CAUTION** with iter ≥ 2 → ship + flag (no P0 findings); the open P1 items are already enumerated in `challenger-report.md` — no separate `needs-human-review.md` needed
+     - **SHIP-WITH-CAUTION** with iter < 2 → invoke fixer agent on P1s, increment iter, retry
      - **BLOCKED** (any P0) → invoke fixer agent on P0 findings (max 3 fixer attempts), re-author affected sections, increment iter, retry
-   - **Cap reached (iter=5 still BLOCKED):** force-ship SHIP-CAUTION, write `_system/needs-human-review.md` citing the unresolved findings, continue to next chapter. **Never spin past 5 outer iterations.**
-5. Commit `podcast(<slug>)[chNN]: <verdict> — <key metric>` and push.
+   - **Cap reached (iter == 3 still BLOCKED):** force-ship SHIP-CAUTION; the P0 findings are listed in `challenger-report.md` (which the challenger always writes); continue to next chapter. **Never spin past 3 outer iterations.**
+5. The challenger emits every finding into `_learning/findings.jsonl` and runs `write_health.py` at the end of each pass automatically — no orchestrator action needed.
+6. Commit `podcast(<slug>)[chNN]: <verdict> — <key metric>` and push.
 
 ### 3. After all chapters — trainer pass
 
-Invoke `podcast-trainer` with `subagent_type=podcast-trainer, prompt: "<book-slug>"`. The trainer reads challenger reports across the book, proposes diffs, runs regression. Any auto-accepted commits land on the book branch with `[trainer]` tag. Any flagged proposals show up in `_system/trainer-report.md`.
+Invoke `podcast-trainer` with `subagent_type=podcast-trainer, prompt: "<book-slug>"`. Per the rewritten trainer protocol (v2), the trainer reads `_learning/patterns.md` + open proposals in `_learning/proposals/`, applies regression-gated diffs in a worktree, and either commits the rule change on the book branch with a `[trainer]` tag or moves the proposal to `_learning/archive/` with a documented reason. There is no `_system/trainer-report.md` — every decision lives as a tombstone in `_learning/promoted/` or `_learning/archive/`.
 
 ### 4. Merge to develop
 
@@ -139,28 +140,31 @@ Emit a summary including:
 ## Failure modes — see also the orchestrator HTML doc
 
 - **Pre-flight fails** → STOP with exact fix command. No partial state.
-- **Mid-book API outage** → exp backoff 3× (1s / 4s / 16s) per call → SKIP chapter on persistent fail → continue book.
-- **OCR garbled** → halt before Phase 0b, emit `needs-human-review.md`, leave branch in place.
+- **Mid-book API outage** → exp backoff 3× (1s / 4s / 16s) per call → SKIP chapter on persistent fail → continue book. The skipped chapter's `challenger-report.md` carries the failure note.
+- **OCR garbled** → halt before Phase 0b, set `state.phase = "needs_human_review"` with the failing-step name in `state.last_error`, leave branch in place. The state file is the only failure-surface artifact.
 - **Killed mid-run** → state file is the truth; `--resume` always works from the last completed checkpoint.
 - **Git push fails** → log it, continue, retry every phase boundary.
-- **Hard time cap (24 h)** → halt cleanly, emit partial completion report, resumable.
-- **Cost cap ($50)** → halt cleanly, emit cost report, requires manual confirmation to resume.
+- **Hard time cap (24 h)** → halt cleanly with `state.phase = "halted_time_cap"`; resumable.
+- **Cost cap ($50)** → halt cleanly with `state.phase = "halted_cost_cap"`; requires `--resume --confirm` to continue.
 
 ## Progress reporting
 
 After **every** state transition, atomically write:
 1. `_system/orchestrator-state.json` (machine readable — atomic via tmpfile + rename)
-2. `_system/PROGRESS.md` (human readable, includes ETA + last 10 events)
-3. A git commit with subject describing the transition
+2. A git commit with subject describing the transition
 
-This is non-negotiable. The user can `cat` the state from any machine, `tail` the PROGRESS file in an editor, or `git log` the book branch to see where things stand.
+The state file is the single source of truth. `orchestrate-book --status <slug>` reads it and renders a human-readable view on demand — no committed `PROGRESS.md` artifact required (it would just duplicate the state file with extra parse overhead). `git log book/<slug>` provides the event timeline for free.
+
+The state file's stable shape (machine-readable, atomic write) is non-negotiable. Anyone can `cat` it from any machine, or run `orchestrate-book --status <slug>` for the rendered view.
 
 ## What this agent must NEVER do
 
 - Run unprompted on a book that already has an active branch (refuse with clear error)
 - Auto-resolve a BLOCKED verdict by lowering severity — must use the fixer agent
-- Modify the regression suite (`content/podcast/_system/regression-suite/`) — that's human-curated
+- Modify the regression suite (`content/podcast/.skill/_learning/fixtures/`) — that's human-curated
 - Modify the skill, handbook, or challenger spec — that's the trainer's domain
+- Modify the substrate's append-only ledger or derived view (`_learning/findings.jsonl`, `_learning/patterns.md`) — only the challenger / `audit_transcript.py` write the ledger; only `learn_aggregate.py` writes patterns
 - Skip the Phase 0f gate, even if `--auto-approve` is somehow passed (the flag does not exist)
 - Push to `main` (only develop merge is in scope)
 - Continue past a hard cap "just one more iteration"
+- Write `BOOK_DIR/_system/PROGRESS.md`, `BOOK_DIR/_system/orchestrator-log.md`, or `BOOK_DIR/_system/needs-human-review.md` (v2: state.json is the only state surface; challenger-report.md carries the open findings; git log carries the event timeline)
