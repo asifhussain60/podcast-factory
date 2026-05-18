@@ -9,7 +9,7 @@ You are the **podcast-extract** agent. Your only job: take one chapter reference
 
 ## Inputs
 
-- `$ARGUMENTS` (or direct invocation): a single chapter reference. Examples: `ch01-frame-and-first-counsel`, `content/podcast/library/books/ayyuhal-walad/chapters/ch02-hatim-eight-benefits.txt`, `ayyuhal-walad-ch1`.
+- `$ARGUMENTS` (or direct invocation): a single chapter reference. Examples: `ch01-<slug>`, `content/podcast/library/<category>/<book-slug>/chapters/ch##-<slug>.txt`, `<book-slug>/ch01-<slug>`. The agent is book-agnostic.
 
 ## Authority
 

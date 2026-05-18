@@ -2,7 +2,7 @@
 
 **Authoritative status:** Canonical reference for Phase 0f (chapter enrichment) of the podcast skill. Any enrichment that draws on outside material MUST come from this whitelist and MUST be cited per the format below. Material from outside the whitelist is rejected.
 
-**Scope:** Applies to every podcasted source book in `content/podcast/<book>/`. Per the A/B/C rule encoded in `skills-staging/podcast/SKILL.md`, outside enrichment may not exceed 60% of any chapter's final word count.
+**Scope:** Applies to every podcasted source book under `content/podcast/library/<category>/<book-slug>/`. Per the A/B/C rule encoded in `skills-staging/podcast/SKILL.md`, outside enrichment may not exceed 60% of any chapter's final word count.
 
 ---
 
@@ -10,12 +10,13 @@
 
 Sources are tiered. Tier 1 has highest priority; lower tiers fill in where Tier 1 doesn't speak to the theme.
 
-### Tier 1 — The Author's Own Corpus
+### Tier 1 — The Author's Own Corpus (per-book)
 
 When the source book has a known author, the author's other writings are the highest-priority enrichment. They preserve voice and avoid theological displacement.
 
-- For Ghazali (current book *Ayyuhal Walad*): *Ihya Ulum al-Din*, *Kimiya al-Sa'ada* (Alchemy of Happiness), *Munqidh min al-Dalal* (Deliverance from Error), *Mishkat al-Anwar* (Niche of Lights), *Bidayat al-Hidaya* (Beginning of Guidance), *Jawahir al-Quran* (Jewels of the Quran), *Arba'in* (Forty Steps), *Minhaj al-Abidin* (The Path of Worshippers).
-- For other authors: their named corpus, cited by title + book/chapter.
+**Tier 1 is book-specific.** Each book enumerates its author's corpus at `BOOK_DIR/_system/enrichment-whitelist.md`. The handbook does not name any one author's works here. Examples of what such a file contains — for one book's author — live at [`worked-examples.md` §7](worked-examples.md#7--tier-1-enrichment-whitelist-book-specific).
+
+If a book's enrichment-whitelist.md is missing or empty, Tier 1 simply does not contribute to that book's enrichment and the lower tiers carry the load. There is no global Tier 1 fallback.
 
 ### Tier 2 — Quran
 
@@ -58,12 +59,12 @@ The following sources are excluded from podcast enrichment by author policy (Asi
 - Classical Ismaili philosophers — Nasir-i Khusraw, Hamid al-Din al-Kirmani, Abu Ya'qub al-Sijistani, Mu'ayyad fi al-Din al-Shirazi, Qadi al-Nu'man, Ja'far ibn Mansur al-Yaman.
 - Any other Ismaili-specific named scholar or text.
 
-### Tier 6 — Sufi Tradition Near Ghazali
+### Tier 6 — Sufi Tradition
 
-Used when the source book is by Ghazali or treats Sufi themes. These authors are in conversation with Ghazali's spirit.
+Used when the source book treats Sufi themes or is in dialogue with classical Sufi thought.
 
-- Junaid al-Baghdadi (d. 910) — whom Ghazali himself cites in *Ayyuhal Walad*.
-- Hasan al-Basri (d. 728) — frequently cited by Ghazali.
+- Junaid al-Baghdadi (d. 910).
+- Hasan al-Basri (d. 728).
 - Rabi'a al-Adawiyya (d. 801).
 - Jalal al-Din Rumi (d. 1273) — *Mathnawi*, *Diwan-i Shams*, *Fihi Ma Fihi*.
 - Farid al-Din Attar (d. c. 1221) — *Mantiq al-Tayr* (Conference of the Birds), *Tadhkirat al-Awliya*.
@@ -73,11 +74,11 @@ Used when the source book is by Ghazali or treats Sufi themes. These authors are
 
 ### Tier 7 — Modern Reference Works (for context only, not for direct quotation)
 
-Used to verify dates, biographies, and citations. Not quoted in the chapter text.
+Used to verify dates, biographies, and citations. Not quoted in the chapter text. The handbook does not pre-name author-specific references here — each book's `BOOK_DIR/_system/enrichment-whitelist.md` may enumerate its own Tier-7 references alongside the Tier 1 corpus.
 
+General-purpose references (apply across books):
 - Annemarie Schimmel, *Mystical Dimensions of Islam*.
 - Seyyed Hossein Nasr, *Islamic Spirituality* (anthologies).
-- W. Montgomery Watt, *Muslim Intellectual: A Study of al-Ghazali*.
 - Farhad Daftary, *The Isma'ilis: Their History and Doctrines* (for Ismaili tradition).
 
 ---
@@ -96,8 +97,8 @@ Every direct quote or borrowed material gets an inline citation in parentheses. 
 | Nahj al-Balagha | `(Nahj al-Balagha, Sermon <N>)` / `(NB Letter <N>)` / `(NB Aphorism <N>)` | `(Nahj al-Balagha, Sermon 1)` |
 | Ghurar al-Hikam | `(Ghurar al-Hikam, <N>)` | `(Ghurar al-Hikam, 6900)` |
 | Sahifa al-Sajjadiyya | `(Sahifa al-Sajjadiyya, Du'a <N>)` | `(Sahifa al-Sajjadiyya, Du'a 5)` |
-| Ghazali — Ihya | `(Ihya Ulum al-Din, Vol. <N>, Book of <Title>)` | `(Ihya Ulum al-Din, Vol. 1, Book of Knowledge)` |
-| Ghazali — other | `(<Title>, <Chapter/Section>)` | `(Kimiya al-Sa'ada, Chapter 1)` |
+| Author's own corpus — multi-volume | `(<Work Title>, Vol. <N>, Book of <Title>)` | per `BOOK_DIR/_system/enrichment-whitelist.md` |
+| Author's own corpus — single-volume | `(<Work Title>, <Chapter/Section>)` | per `BOOK_DIR/_system/enrichment-whitelist.md` |
 | Holy Du'a | `(Holy Du'a, Part <I–VI>)` | `(Holy Du'a, Part III)` |
 | Ginan | `(<Ginan title>, by <Pir name>)` + translator credited if quoted in translation | `(Sakhi maro saheb sona varno, by Pir Hasan Kabirdin)` |
 | Farman | `(Farman of HH Aga Khan <III/IV/V>, <location>, <date>)` | `(Farman of HH Aga Khan IV, Aiglemont, 19 December 1986)` |
@@ -127,9 +128,9 @@ These principles govern HOW outside material is used inside an enriched chapter.
 
 3. **Quote, do not paraphrase, when adding scripture or hadith.** Verbatim quotation with citation is the only acceptable form for Quran, hadith, and Ahl al-Bayt traditions. Paraphrasing scripture is forbidden.
 
-4. **Honor the author's affinity.** Ghazali cites Junaid, Hasan al-Basri, Quran, and hadith frequently. Enrichment that draws on those same sources amplifies what's already in the text. Enrichment that pulls Ismaili philosophical material is appropriate where the theme is universal (intention, sincerity, knowledge-and-action), less appropriate where Ghazali is making a specifically Ash'ari or Sufi-of-his-time argument that doesn't have a clear Ismaili parallel.
+4. **Honor the author's affinity.** Note which sources the book's author cites frequently — those same sources amplify what's already in the text on enrichment. Cross-tradition material is appropriate where the theme is universal (intention, sincerity, knowledge-and-action, the disciplines of the heart), less appropriate where the author is making a specifically school-bound argument that doesn't have a clear parallel in the borrowed tradition.
 
-5. **Cross-tradition is welcome where the theme is shared.** Most of *Ayyuhal Walad* — intention, action over knowledge, sincerity, night-prayer, service without expectation, the danger of vanity — is shared territory across Sunni, Shia, Ismaili, and Sufi traditions. Use the breadth honestly.
+5. **Cross-tradition is welcome where the theme is shared.** Universal themes — intention, action-over-knowledge, sincerity, the danger of vanity, service without expectation — are shared territory across Sunni, Shia, Ismaili, and Sufi traditions. Use that breadth honestly.
 
 6. **Cite, don't smuggle.** Every borrowed sentence has a citation. No "the tradition teaches that…" generalities. Specificity is what gives the chapter its weight.
 

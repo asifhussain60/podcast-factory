@@ -97,7 +97,7 @@ def load_book_mangle_map(book_dir: Path) -> dict[str, list[str]]:
 
         | Canonical | Mangled forms (comma-separated) |
         |---|---|
-        | Ayyuhal Walad | a yuhal wallad, i you hall wall odd, ... |
+        | <Canonical Name> | <mangled-form-1>, <mangled-form-2>, ... |
 
     Returns {} if the file does not exist. Entries are merged into the global
     `NAME_MANGLING_MAP` at audit time; per-book wins on conflict.

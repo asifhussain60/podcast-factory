@@ -18,7 +18,7 @@ Markers never appear in canonical files. They are stripped on every refinement p
 |---|---|---|---|
 | `@@refine` | Sharpen this sentence or paragraph | none | `@@refine` |
 | `@@replace` | Find a stronger word | optional hint | `@@replace`, `@@replace(stronger than "great")` |
-| `@@expand` | Flesh out, add detail, slow down | optional hint | `@@expand`, `@@expand(more on Ghazali's tone)` |
+| `@@expand` | Flesh out, add detail, slow down | optional hint | `@@expand`, `@@expand(more on the author's tone)` |
 | `@@cut` | Remove — does not earn its place | none | `@@cut` |
 | `@@move` | Relocate the marked content | destination | `@@move(to Movement 5)`, `@@move(to next episode)` |
 | `@@note` | Message to the skill — not content | freeform | `@@note(check verse number against Quran 18:110)` |
@@ -105,11 +105,13 @@ The scratchpad never becomes a long-lived artifact carrying stale markers. Every
 
 ## File layout
 
-### Per-episode scratchpad pattern
+### Per-episode scratchpad pattern (v3.5: chapter-as-source)
 
-| Skill | Canonical | Scratchpad |
+| Skill | Canonical (the SOURCE) | Per-episode scratchpad |
 |---|---|---|
-| podcast | `content/podcast/library/books/ayyuhal-walad/_system/episode-drafts/EP01-ayyuhal-walad-ch1/01-source-primary.md` | `content/podcast/library/books/ayyuhal-walad/_system/episode-drafts/EP01-ayyuhal-walad-ch1/01-source-primary.scratch.md` |
+| podcast | `content/podcast/library/<category>/<book-slug>/chapters/ch##-<slug>.txt` | `content/podcast/library/<category>/<book-slug>/_system/episode-drafts/EP##-<slug>/chapter.scratch.md` |
+
+Under v3.5 (chapter-as-source) the chapter file IS the SOURCE; there is no separate `01-source-primary.md`. The scratchpad mirrors the chapter and is stripped after each refinement pass. A worked layout for one book lives at [`worked-examples.md` §2](worked-examples.md#2--per-episode-scratchpad-layout-v35).
 
 ### Scratchpad file structure
 

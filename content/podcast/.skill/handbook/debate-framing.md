@@ -17,7 +17,7 @@ Choose Debate when:
 
 Choose Deep Dive when:
 
-- The teaching is structural and admits no opposing position (the eight benefits of Hatim are not a debate).
+- The teaching is structural and admits no opposing position (e.g. a list of distilled benefits or a sequence of practices is not a debate).
 - The source is narrative or memoir.
 - The author's voice is the spine and adding a second position would distort the source.
 - The chapter is the first introduction to the source for the listener.
@@ -28,7 +28,7 @@ If in doubt, default to Deep Dive. Debate is harder to do well and demands more 
 
 ## Vocabulary
 
-- **Proposition** — the single sentence under debate. Phrased as a claim, not a question. Example: *"Ghazali's prohibition on serving rulers is absolute and admits no exception."*
+- **Proposition** — the single sentence under debate. Phrased as a claim, not a question. (For a concrete instance, see [`worked-examples.md` §6](worked-examples.md#6--debate-framing-worked-example-ep04-four-cautions).)
 - **Position** — what each host argues. Phrased as a positive claim, not "the opposite of the other position." Each host's position must be defensible from the source, even if the source ultimately favors one side.
 - **Role** — the historical or intellectual perspective each host adopts. Not a personality. The role tells the listener *whose voice is in the room*. Examples: "the orthodox jurist", "the historically-grounded scholar", "the lay practitioner", "the modernist reformer", "the Sufi mystic", "the philosophical rationalist".
 - **Source moves** — specific moves each host has available from the source material (quotes, passages, passages-elsewhere-in-the-book, traditions that support the position). Pre-named in the framing so the hosts know their armory.
@@ -44,7 +44,7 @@ Pair the roles against the proposition. A few combinations that have worked in c
 The first reads the source's prohibitions as categorical. The second reads them in their historical context and notes where the author himself, or the tradition, qualifies them. Best for legal-ethical material (the four cautions, the obligations of the seeker, the conditions for taking a guide).
 
 ### Theologian + practitioner
-The first argues from the systematic doctrine. The second argues from what actually happens in a lived spiritual life. Best for material on prayer, contemplation, the inner work (Ghazali's method, his closing supplication).
+The first argues from the systematic doctrine. The second argues from what actually happens in a lived spiritual life. Best for material on prayer, contemplation, and the inner work (method, supplication, the disciplines of the heart).
 
 ### Inside the tradition + outside the tradition
 The first speaks as someone for whom the source is normative. The second speaks as a sympathetic reader from outside who finds the teaching valuable but on different grounds. Best for material that crosses traditions (the universality claim in EP02, the four-scripture claim, the architecture of self-knowledge).
@@ -95,28 +95,9 @@ Sections that are PRESENT in deep dive but absent or modified in debate:
 
 ---
 
-## Worked example — EP04 Four Cautions as debate
+## Worked example
 
-**Proposition.** Ghazali's prohibition on serving rulers is absolute and admits no exception, even for a sincere scholar invited to advise a just ruler.
-
-**Host A — the orthodox jurist.** Position: the prohibition is categorical. Any contact with worldly power corrupts the heart's orientation. The four cautions are stated in their strongest form precisely because exceptions hollow out the rule.
-
-Source moves available to Host A:
-- The text of the four cautions, read in their imperative form.
-- The supporting hadith on avoiding the doors of power.
-- Ghazali's own statement that the cautions are meant to be ABSOLUTE for the seeker who is not yet established.
-
-**Host B — the historically-grounded scholar.** Position: the prohibition is contextual. Ghazali means the rulers of his time (the late Abbasid courts of his decade), not all rulers in all conditions. A scholar of established interior life serving a just ruler at the ruler's invitation, for the limited purpose of correction, falls outside the prohibition.
-
-Source moves available to Host B:
-- Ghazali's own earlier service to viziers in Baghdad.
-- The classical Islamic principle of `naseeha` (sincere counsel to leaders) attributed to the Prophet.
-- The example of Imam Ali serving as caliph as the paradigm of just rule.
-- Ghazali's distinction between *strong* and *weak* engagement with power earlier in the *Ihya*.
-
-**Resolution.** `historical_division` — the tradition itself has held both readings, and the closing names this rather than pretending to a synthesis the tradition didn't reach.
-
-This worked example is illustrative, not prescriptive. Each debate-format episode is bespoke; the framing carries the proposition and positions specific to that chapter.
+A concrete debate-frame instance (proposition, two host positions with source moves, `historical_division` resolution) drawn from one book lives at [`worked-examples.md` §6](worked-examples.md#6--debate-framing-worked-example-ep04-four-cautions). It is illustrative, not prescriptive — each debate-format episode is bespoke; the framing carries the proposition and positions specific to that chapter.
 
 ---
 

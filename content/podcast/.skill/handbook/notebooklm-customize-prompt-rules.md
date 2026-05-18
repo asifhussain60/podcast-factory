@@ -124,7 +124,7 @@ The customize prompt MUST direct hosts to use a person's full name ONCE per epis
 
 ### Why
 
-Repeating "Imam Abu Hamid Muhammad al-Ghazali" across 30 references in a 15-minute episode is fatiguing to the listener and consumes airtime that should carry argument. The alias is how human podcasts handle it; NotebookLM does not do it by default.
+Repeating a long ceremonial author name (e.g. an honorific-prefixed multi-token full name) across 30 references in a 15-minute episode is fatiguing to the listener and consumes airtime that should carry argument. The alias is how human podcasts handle it; NotebookLM does not do it by default. (Concrete examples of long names mapped to short aliases live at [`worked-examples.md` §3](worked-examples.md#3--name-alias-clause-for-the-customize-prompt).)
 
 ### Required clause in `00-framing.md`
 
@@ -133,12 +133,12 @@ Under "Pronunciation hooks":
 ```
 Name discipline. Use each long name in full ONCE on first occurrence, then
 use the short alias for every subsequent reference:
-  - Imam Abu Hamid Muhammad al-Ghazali  →  Ghazali
-  - Hatim bin Ism al-Asamm              →  Haatim
-  - Shaqiq al-Balkhi                    →  Shaqeeq
-  - Sufyan al-Thawri                    →  Sufyan
-  - <add any long name in this episode>
+  - <Long full name #1>  →  <short alias #1>
+  - <Long full name #2>  →  <short alias #2>
+  - <add any long name appearing in this episode>
 ```
+
+The aliases come from `content/_shared/arabic/05-name-alias-policy.md` (for Arabic/Islamic figures) or from common usage for others. A worked instance of this block from one book lives at [`worked-examples.md` §3](worked-examples.md#3--name-alias-clause-for-the-customize-prompt).
 
 ### Auto-detect pattern
 
@@ -209,24 +209,23 @@ This rule supersedes R-PHONETICHOOKS' passive-list pattern. The change pairs wit
 
 ### Why
 
-Empirical evidence (May 2026 audit, 5 *Ayyuhal Walad* transcripts): a passive pronunciation list — `*Tasawwuf*: Ta-SAW-wuf` — produces no behavior change in NotebookLM's voice model. The hosts said "tassel wolf", "tasso wolf", "tasa wolf" across three different episodes. An imperative directive ("Pronounce 'Tasawwuf' as 'ta-SAW-wuf'. Say it as one fluent word.") is acted on. The `Do not read this guidance aloud` tail prevents the hosts from announcing the pronunciation list.
+Empirical evidence (transcript audit, May 2026 — the failure modes are detailed in [`worked-examples.md` §5](worked-examples.md#5--empirical-evidence-motivating-r-phonetics-out-r-nomodernize-r-nosurprise)): a passive pronunciation list — `*<Term>*: <pho-net-ic>` — produces no behavior change in NotebookLM's voice model. The hosts mangle the term across episodes. An imperative directive (`Pronounce "<Term>" as "<pho-net-ic>". Say it as one fluent word.`) is acted on. The `Do not read this guidance aloud` tail prevents the hosts from announcing the pronunciation list.
 
-The canonical phonetic spelling for each term MUST still come from `content/_shared/arabic/03-arabic-english-manifest.md`; drift between this block and the manifest is a P0 failure.
+The canonical phonetic spelling for each term MUST still come from `content/_shared/arabic/03-arabic-english-manifest.md`; drift between this block and the manifest is a P0 failure. Per-book overrides live in `BOOK_DIR/_system/pronunciation.md`.
 
 ### Required block in `00-framing.md`
 
 ```
 ## Pronunciation
 
-Pronounce "Ayyuhal Walad" as "EYE-yoo-hal WAH-lad". Say it as two fluent words.
-Pronounce "Ghazali" as "ghaz-ZAH-lee". Say it as one fluent word.
-Pronounce "Tasawwuf" as "ta-SAW-wuf". Say it as one fluent word. Do not spell it.
-Pronounce "Tawakkul" as "ta-WAK-kul". Say it as one fluent word.
-Pronounce "Ikhlas" as "ikh-LAAS". Say it as one fluent word.
+Pronounce "<Term 1>" as "<pho-net-ic 1>". Say it as <one fluent word | N fluent words>.
+Pronounce "<Term 2>" as "<pho-net-ic 2>". Say it as one fluent word. Do not spell it.
 [... one imperative line per term that appears in the chapter ...]
 
 Do not read this guidance aloud. The phonetics above are for the voice model only.
 ```
+
+A worked block from one book (filled with real terms) lives at [`worked-examples.md` §4](worked-examples.md#4--pronunciation-block-for-the-customize-prompt).
 
 ### Auto-detect
 
@@ -246,7 +245,7 @@ Scan `## Pronunciation` block: every non-blank line MUST start with `Pronounce "
 
 ### Rule
 
-The customize prompt MUST explicitly forbid the hosts from drawing modern-platform / contemporary-culture analogies. The angle in every *Ayyuhal Walad*-style episode is **faithful exposition**; modern analogies break the angle. The DENY list below is the minimum — extend per book.
+The customize prompt MUST explicitly forbid the hosts from drawing modern-platform / contemporary-culture analogies whenever the chapter's declared `contract.angle` is `faithful_exposition` (the typical case for classical-text material). Modern analogies break the angle. The DENY list below is the minimum — extend per book in `BOOK_DIR/_system/meta-prose-tells.md` or in the framing itself.
 
 ### Required `## Do not` block in `00-framing.md`
 
@@ -269,7 +268,7 @@ named modern platform or product.
 
 ### Why
 
-Empirical evidence: across the 5 *Ayyuhal Walad* transcripts, NotebookLM injected at least 14 modernizations — "internet troll", "reply guy", "quote tweeting", "algorithmic envy machines in our pockets", "content creator taking a massive sponsorship", "11th century cognitive behavioral therapy", "in an era where we carry algorithmic envy machines". The framing's prose directive ("do not modernize") is too soft. A DENY list of specific words is enforceable.
+Empirical evidence (transcript audit, May 2026 — full inventory in [`worked-examples.md` §5](worked-examples.md#5--empirical-evidence-motivating-r-phonetics-out-r-nomodernize-r-nosurprise)): the framing's soft prose directive ("do not modernize") is ignored — NotebookLM injects modern-platform analogies (`internet troll`, `reply guy`, `algorithmic envy machines`, etc.) anyway. A DENY list of specific words is enforceable; prose is not.
 
 ### Auto-detect
 
@@ -437,5 +436,5 @@ When deprecating a rule:
 
 ## Revision log
 
-- 2026-05-17 (later) — **Empirical pivot from passive lists to imperative directives.** Added R-PRONUNCIATION-IMPERATIVE (replaces passive `*term*: phonetic` pattern that empirically did not change NotebookLM behavior — see audit of 5 *Ayyuhal Walad* transcripts). Added R-NOMODERNIZE (DENY list including Twitter, X, social media, algorithm, content creator, etc. — soft "do not modernize" prose was being ignored). Added R-NOSURPRISE (DENY list for "wow", "it's chilling", "it's devastating", "right?", "exactly", etc. — surprise loops were appearing >40 times across 5 episodes). Added R-NO-READ-PROMPT (single-line guard against the hosts reading the prompt aloud). Deprecated R-PHONETICHOOKS.
+- 2026-05-17 (later) — **Empirical pivot from passive lists to imperative directives.** Added R-PRONUNCIATION-IMPERATIVE (replaces passive `*term*: phonetic` pattern that empirically did not change NotebookLM behavior — see audit notes in [`worked-examples.md` §5](worked-examples.md#5--empirical-evidence-motivating-r-phonetics-out-r-nomodernize-r-nosurprise)). Added R-NOMODERNIZE (DENY list including Twitter, X, social media, algorithm, content creator, etc. — soft "do not modernize" prose was being ignored). Added R-NOSURPRISE (DENY list for "wow", "it's chilling", "it's devastating", "right?", "exactly", etc. — surprise loops appeared >40 times across the audited episodes). Added R-NO-READ-PROMPT (single-line guard against the hosts reading the prompt aloud). Deprecated R-PHONETICHOOKS.
 - 2026-05-17 — Seeded with R-WELCOME, R-NOREPEAT, R-NOBACKGROUND, R-NAMEALIAS, R-NOINTERRUPT, R-PHONETICHOOKS, R-SUMMARYTAIL, R-NOMETA. Externalized from scattered references across SKILL.md and notebooklm-best-practices.md.

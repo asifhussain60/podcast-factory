@@ -40,7 +40,9 @@ The chapter file MUST NOT describe itself. Forbidden patterns:
 - "This file is a refined presentation…"
 - "Nothing has been added that is not in the source…"
 - "Phase 0e enrichment was applied…"
-- "Anything Ghazali only implies is marked as such…"
+- "Anything the author only implies is marked as such…"
+
+Per-book author-specific tells (e.g. "Anything <Author> only implies…") live in `BOOK_DIR/_system/meta-prose-tells.md` and are loaded by `build_episode_txt.py` at validation time.
 
 ### Why
 
@@ -203,7 +205,7 @@ The chapter file MUST NOT carry inline phonetic guides in parentheses (`*Term* (
 
 ### Why
 
-This rule replaces the deprecated R-PHONETIC. NotebookLM has no TTS-engineer layer — it reads parenthetical text aloud as content. Empirical evidence (May 2026 audit against the 5 *Ayyuhal Walad* transcripts): inline `(SOON-nah; …)` produced systematic doublings — hosts saying "Sunnah, soon-nah" or "Sahih Sitta, sahasita" — and mangled names like "tassel wolf" for *Tasawwuf*, "shakestone noon mystery" for *Shaykh Dhul-Nun al-Misri*, "Najah Balala" for *Nahj al-Balagha*. Moving phonetic guidance out of read-aloud surface and into the imperative customize prompt is the structural fix.
+This rule replaces the deprecated R-PHONETIC. NotebookLM has no TTS-engineer layer — it reads parenthetical text aloud as content. Empirical evidence (transcript audit, May 2026 — failure-mode inventory in [`worked-examples.md` §5](worked-examples.md#5--empirical-evidence-motivating-r-phonetics-out-r-nomodernize-r-nosurprise)): inline phonetic parens produce systematic term doublings in the audio and mangled names. Moving phonetic guidance out of the chapter (the read-aloud surface) and into the customize prompt's imperative `## Pronunciation` block is the structural fix.
 
 ### Auto-detect
 
@@ -252,7 +254,7 @@ For each honorific form in the catalog above, count all OUTSIDE-blockquote occur
 
 ### Rule
 
-Long names (3+ tokens, e.g., "Imam Abu Hamid Muhammad al-Ghazali", "Hatim bin Ism al-Asamm") MUST appear in full on first chapter mention, then use the short alias from `content/_shared/arabic/05-name-alias-policy.md` for every subsequent mention.
+Long names (3+ tokens) MUST appear in full on first chapter mention, then use the short alias from `content/_shared/arabic/05-name-alias-policy.md` (for Arabic/Islamic figures) or `BOOK_DIR/_system/pronunciation.md` (per-book overrides) for every subsequent mention. A worked instance of the name-alias clause as it appears in the framing lives at [`worked-examples.md` §3](worked-examples.md#3--name-alias-clause-for-the-customize-prompt).
 
 ### Why
 
@@ -333,24 +335,17 @@ Substring scan for `[CONTEXT NEEDED]`. Semantic check for content not traceable 
 
 ### Rule
 
-Titles of canonical works MUST appear in their full, recognizable form **every time** they are mentioned. Forbidden contractions in the chapter: `the Ihya`, `EI`, `IUD`, `the Nahj`, `NJB`, `the Mishkat`, `the Sahifa`, `Sahihayn`. The hosts must be able to read the title once and have the listener recognize the work.
+Titles of canonical works MUST appear in their full, recognizable form **every time** they are mentioned. No short-form contractions in the chapter — listeners cannot resolve an abbreviation they have never heard before; hosts will not glide past it smoothly.
 
-Allowed canonical forms (drawn from `enrichment-sources.md` Tier 1–6):
-- `Ihya Ulum al-Din` (Ghazali, *Revival of the Religious Sciences*)
-- `Kimiya al-Sa'ada` (Ghazali, *Alchemy of Happiness*)
-- `Munqidh min al-Dalal` (Ghazali, *Deliverance from Error*)
-- `Mishkat al-Anwar`, `Bidayat al-Hidaya`, `Jawahir al-Quran` (Ghazali)
-- `Nahj al-Balagha` (Imam Ali (AS), the Peak of Eloquence)
-- `Ghurar al-Hikam`, `Sahifa al-Sajjadiyya`
-- `Sahih Bukhari`, `Sahih Muslim`, `Sunan Abu Dawud`, `Sunan Tirmidhi`, `Sunan Nasa'i`, `Sunan Ibn Majah`, `Riyad al-Salihin`
+Allowed canonical work-titles are drawn from `enrichment-sources.md` Tiers 2–6 (Quran / hadith / Imam Ali's corpus / Ahl al-Bayt / Sufi tradition) plus the **per-book Tier 1** at `BOOK_DIR/_system/enrichment-whitelist.md` (the author's own corpus). Forbidden contractions of any of those titles in the chapter — e.g. `the <First-Word>`, two-letter or three-letter acronyms — are P0 violations.
 
 ### Why
 
-Empirical evidence from the *Architecture of Refusal* transcript: Ghazali's `Ihya Ulum al-Din` was abbreviated in the chapter as `the Ihya`, and the host called it `the EI`. Listeners cannot recognize an abbreviation they have never heard before; the hosts will not glide past an unfamiliar contraction smoothly.
+Empirical evidence (transcript audit, May 2026 — see [`worked-examples.md` §5](worked-examples.md#5--empirical-evidence-motivating-r-phonetics-out-r-nomodernize-r-nosurprise)): a chapter that abbreviates a long Arabic work title triggers the host to mangle the abbreviation (e.g. `the Ihya` was voiced as `the EI`). The recognizable full form on every mention prevents the failure.
 
 ### Auto-detect
 
-Substring scan for the forbidden contractions above; flag any hit.
+Substring scan in the chapter for known-contraction patterns of any canonical work title from `enrichment-sources.md` Tiers 2–6 + `BOOK_DIR/_system/enrichment-whitelist.md`. Patterns: `the <First-Word>` where `<First-Word>` is the first token of a known full title; 2–3 letter acronyms drawn from initial letters of a known full title. Any hit → flag.
 
 ### Auto-fix
 

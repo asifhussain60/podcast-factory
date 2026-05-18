@@ -21,12 +21,13 @@ python3 scripts/podcast/extract_chapter.py <chapter-ref> --force
 
 ## Chapter ref resolution
 
-The first match wins:
+Resolution order (first definitive match wins; ambiguity is an error):
 
 | Order | Resolution | Example |
 |---|---|---|
-| 1 | Literal path (absolute or repo-relative) | `content/podcast/library/books/ayyuhal-walad/chapters/ch02-hatim-eight-benefits.txt` |
-| 2 | `content/podcast/library/*/*/chapters/<ref>.txt` | `ch02-hatim-eight-benefits` |
+| 1 | Literal path (absolute or repo-relative) | `content/podcast/library/<category>/<book-slug>/chapters/ch##-<slug>.txt` |
+| 2 | `<book-slug>/<ref>` shorthand (forces resolution within one book) | `<book-slug>/ch01-<slug>` |
+| 3 | Bare `<ref>` searched across `content/podcast/library/*/*/chapters/<ref>.txt`. If two books own the same slug, the script refuses with a disambiguation error rather than silently picking one. | `ch01-<slug>` |
 
 A missing chapter is a hard error — the extractor refuses to invent one.
 
@@ -76,36 +77,9 @@ Extract Mode reads only from `content/podcast/**`. Memoir paths are out of scope
 
 A read that resolves into a prohibited path exits with `BOUNDARY VIOLATION` and a non-zero code.
 
-## Worked example — re-extract a book chapter
+## Worked examples
 
-```
-$ python3 scripts/podcast/extract_chapter.py ch02-hatim-eight-benefits
-# (contract already exists from prior run; bundle re-rendered deterministically)
-Extracted EP02-hatim-eight-benefits from ch02-hatim-eight-benefits.txt
-  Source bucket: ayyuhal-walad
-  Files unchanged: 7
-```
-
-Re-running with no contract change is a no-op. This is the idempotency promise.
-
-## Worked example — first run (contract stub)
-
-```
-$ python3 scripts/podcast/extract_chapter.py ch01-frame-and-first-counsel
-NOTE: no contract found — wrote stub at content/podcast/library/books/ayyuhal-walad/chapter-contracts/frame-and-first-counsel.yml. Edit it and re-run with --force.
-
-# Edit the stub: fill audience, key_tensions, tone_constraints, title.
-
-$ python3 scripts/podcast/extract_chapter.py ch01-frame-and-first-counsel --force
-Extracted EP01-frame-and-first-counsel from ch01-frame-and-first-counsel.txt
-  Source bucket: ayyuhal-walad
-  Episode draft: content/podcast/library/books/ayyuhal-walad/_system/episode-drafts/EP01-frame-and-first-counsel
-  Files written: 7
-  Files unchanged: 0
-
-Next: build the customize-prompt episode txt:
-  python3 scripts/podcast/build_episode_txt.py content/podcast/library/books/ayyuhal-walad EP01-frame-and-first-counsel
-```
+Concrete CLI traces (idempotent re-render, first-run stub flow, ambiguous-ref disambiguation) live in [`worked-examples.md` §1](worked-examples.md#1--extract_chapterpy-cli-usage). Same shape applies to every book.
 
 ## Splitting policy (standing rule)
 
