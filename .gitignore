@@ -34,6 +34,7 @@ node_modules/
 .env
 .env.local
 *.env
+!*.template.env
 
 # Phase 1 execution-plan workspace — stays untracked per plan §1.4
 _workspace/
