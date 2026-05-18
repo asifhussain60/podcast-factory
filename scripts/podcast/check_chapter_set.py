@@ -47,10 +47,15 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 LIBRARY_DIR = REPO_ROOT / "content" / "podcast" / "library"
 
 # Length-target → (min, max) inclusive bands. Per SKILL.md INVARIANT 6.
+# Extended Deep Dive (~30–45 min audio) is the recommended default for dense /
+# philosophical / technical sources; it requires explicit length steering in
+# the customize prompt. See SKILL.md Phase 0d "Choosing the tier" and
+# notebooklm-best-practices.md §3.
 LENGTH_BANDS = {
     "brief": (1000, 1800),
     "default_deep_dive": (1800, 2800),
     "longer": (2800, 4500),
+    "extended": (5500, 9500),
 }
 
 # Title is "generic" if it matches any of these patterns (case-insensitive).

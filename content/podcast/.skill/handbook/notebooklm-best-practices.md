@@ -43,20 +43,29 @@ Synthesized from Google's documented format characteristics, MakeUseOf prompt-de
 |---|---|---|
 | Brief (~2 min) | 200-500 words | A single argument, one decision, one takeaway. |
 | Short Deep Dive (~8 min) | 800-1,500 words | One claim with two-to-three supporting pieces. |
-| **Default Deep Dive (~15 min)** | **1,800-2,800 words** | **Sweet spot for most podcast work.** A coherent theme that develops, with room for dialogue and analogy without sprawl. |
-| Longer Deep Dive (~25 min) | 3,000-4,500 words | Multi-thematic or extended-argument source. Avoid going much past 4,500 — hosts begin to lose narrative thread. |
-| Maximum useful per episode | ~5,500 words | Beyond this, NotebookLM either summarizes away content or the conversation becomes superficial. Split into multiple episodes. |
+| Default Deep Dive (~12-15 min) | 1,800-2,800 words | A coherent theme that develops, with room for dialogue and analogy without sprawl. Good for letters, essays, and short narratives. |
+| Longer Deep Dive (~18-22 min) | 2,800-4,500 words | Multi-thematic or extended-argument source. |
+| **Extended Deep Dive (~30-45 min)** | **5,500-9,500 words** | **The recommended default for dense / philosophical / technical sources.** Sustains a 30-45 min deep-dive conversation with 4-7 focus areas, 3-4 anchor passages, and 2-3 named tensions. Requires the customize prompt to explicitly request 30-45 min length (NotebookLM defaults to ~12 min regardless of source size if not steered). Source corpus density past ~9,500 words risks NotebookLM summarizing rather than dwelling. |
 
-**Hard floor:** episodes under ~500 words feel thin. Hosts have nothing to develop and resort to filler. Bundle thin sections together.
+**Hard floor:** episodes under ~1,000 words feel thin. Hosts have nothing to develop and resort to filler. Bundle thin sections together.
 
-**Hard ceiling:** episodes over ~5,500 words feel rambling. Split.
+**Hard ceiling:** episodes over ~10,000 words risk NotebookLM falling back to summarization mode rather than sustained dialogue. Split.
+
+**Tier-dead-zone (4,500-5,500 words):** chapters in this range are too dense for Longer Deep Dive and too thin to sustain Extended Deep Dive. Either tighten to ≤4,500 or expand via Phase 0e enrichment to ≥5,500. `build_episode_txt.py` emits a soft warning when a chapter lands here.
+
+**Extended-tier customize-prompt requirements (mandatory when targeting 30-45 min):**
+1. **Length-explicit Opening directive** — must contain the phrase *"target a 30 to 45 minute deep-dive conversation"*. Without this, NotebookLM ignores source density and produces ~12 min.
+2. **4-7 substantive focus areas** (vs. 3 for Default tier). Each is one ~5-7 min conversational beat.
+3. **2-3 named tensions** (vs. 1-2 for Default). Tensions prevent drift into summary.
+4. **3-4 verbatim anchor passages** (vs. 1-2 for Default) for hosts to quote.
+5. **Customize-prompt body 1,000-1,800 words** (vs. 200-500 for Default).
 
 ## 4. The single most important rule: re-segment by content, not by source structure
 
 **Do not honor the source's chapter or section structure when segmenting for Audio Overview.** A book's chapters were designed for a reader, not for an AI host conversation. The right segmentation is:
 
 1. **Thematic coherence** — each episode is one idea or one tightly connected cluster of ideas. Listeners should be able to summarize the episode in one sentence.
-2. **Approximately balanced word count** — every episode lands in the 1,800-2,800 word band (Default Deep Dive). Outliers (a brief closing prayer, an unusually long admonition) are documented and either split or accepted with a note.
+2. **Approximately balanced word count** — every episode lands in the tier its series targets: 1,800-2,800 for Default series, 5,500-9,500 for Extended series. **All chapters in a series should be within ~30% of each other within the chosen tier**. A series mixing 2,400-word and 8,000-word chapters has the wrong shape; pick one tier and stay in it. Outliers (a brief closing prayer, an unusually long admonition) are documented and either split, merged, or accepted with a note.
 3. **Natural narrative arc** — each episode has a beginning, middle, and end. The middle is where the host conversation can dwell. Avoid episodes that are just lists.
 4. **Forward-only ordering** — episodes follow the source's logical flow even when they don't follow its physical chapters. A listener should be able to listen in order and feel the work unfolding.
 
@@ -71,7 +80,7 @@ Google's "Customize" prompt box ("What should the AI hosts focus on in this epis
 3. **Pronunciation hooks.** Every non-English term, every transliteration, every honorific the hosts will encounter — paired with its phonetic form and brief gloss.
 4. **Anti-noise rules.** What the hosts must NOT do — drift into general background, summarize the next episode, abbreviate honorifics, invent supporting material.
 
-Default prompts are 1-2 lines. Skill-generated prompts should be 200-500 words per episode.
+Default prompts are 1-2 lines. Skill-generated prompts for the **Default tier are 200-500 words** per episode; for the **Extended tier (30-45 min) they are 1,000-1,800 words** because the length-steering, 4-7 focus areas, and 3-4 anchor passages require the additional surface.
 
 ## 6. Source format support (early 2026)
 
@@ -119,7 +128,7 @@ Audio Overviews can be downloaded as audio files or shared via link. **Shared li
 The `podcast` skill and any new audio-targeted agent must verify these checks before producing instruction prompts:
 
 - [ ] Has this file been read in the current run?
-- [ ] Does the segmentation plan target the Default Deep Dive word-count band (1,800-2,800 refined words per episode)?
+- [ ] Does the segmentation plan target the appropriate tier (Default 1,800-2,800 for letters/essays/short narratives; **Extended 5,500-9,500 for dense / philosophical / technical sources**) and stay in that single tier across all chapters?
 - [ ] Are episodes thematically coherent — one sentence per episode summary?
 - [ ] Are word counts approximately balanced across the series?
 - [ ] Does each per-episode instruction prompt include the four required components (opening, three-part focus, pronunciation hooks, anti-noise rules)?

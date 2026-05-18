@@ -39,7 +39,14 @@ VALIDATION GATES (both files):
     - **Honorific expansions appear at most once per figure** (R-HONORIFIC-ONCE).
       `(peace and blessings be upon him)` / `ﷺ` / `(PBUH)` / `(AS)` / `(RA)` and
       equivalents may expand only on first mention of each figure.
-    - Word count in [500, 5500] hard band (notebooklm-best-practices.md §3).
+    - Word count in [500, 10000] hard band (notebooklm-best-practices.md §3).
+      The 10,000 ceiling accommodates the **Extended Deep Dive** tier
+      (~30–45 min audio, 5,500–9,500 words). Default Deep Dive remains
+      in 1,800–2,800; Longer in 2,800–4,500; Extended in 5,500–9,500.
+      The intentional gap between Longer (≤4,500) and Extended (≥5,500)
+      is a tier-discipline boundary: chapters falling at 4,800 are in a
+      dead zone (too dense for Longer, too thin to sustain Extended);
+      either tighten ≤4,500 or expand via Phase 0e enrichment ≥5,500.
   - **Framing file (the CUSTOMIZE PROMPT):**
     - Strip trailing "Upload checklist" section (it's the user's how-to, not the prompt).
     - Strip HTML comments.
@@ -75,10 +82,21 @@ import sys
 from pathlib import Path
 
 # Chapter (SOURCE) word-count bounds — per notebooklm-best-practices.md §3
+# Tier bands:
+#   Brief Deep Dive    (~6–10 min):  1,000–1,800 words
+#   Default Deep Dive  (~12–15 min): 1,800–2,800
+#   Longer Deep Dive   (~18–22 min): 2,800–4,500
+#   Extended Deep Dive (~30–45 min): 5,500–9,500   ← recommended for dense / philosophical sources
+# Hard band [500, 10,000] enforced here; soft sanity band [1,000, 9,500].
+# The dead zone 4,500–5,500 produces tier-confused chapters (too dense for
+# Longer, too thin to sustain Extended) — flagged with a soft warning but
+# not refused.
 CHAPTER_WORD_MIN_HARD = 500
-CHAPTER_WORD_MAX_HARD = 5500
-CHAPTER_WORD_MIN_SOFT = 1500
-CHAPTER_WORD_MAX_SOFT = 4500
+CHAPTER_WORD_MAX_HARD = 10000
+CHAPTER_WORD_MIN_SOFT = 1000
+CHAPTER_WORD_MAX_SOFT = 9500
+CHAPTER_DEAD_ZONE_MIN = 4500
+CHAPTER_DEAD_ZONE_MAX = 5500
 
 # Framing (CUSTOMIZE PROMPT) word-count bounds — per notebooklm-best-practices.md §5
 FRAMING_WORD_MIN = 150
@@ -575,12 +593,20 @@ def build(book_dir: Path, episode_id: str) -> None:
     if chapter_words < CHAPTER_WORD_MIN_SOFT:
         warnings.append(
             f"chapter is {chapter_words} words — under the {CHAPTER_WORD_MIN_SOFT}-word "
-            f"Default Deep Dive floor. NotebookLM hosts may resort to filler."
+            f"Brief Deep Dive floor. NotebookLM hosts may resort to filler."
         )
     if chapter_words > CHAPTER_WORD_MAX_SOFT:
         warnings.append(
             f"chapter is {chapter_words} words — over the {CHAPTER_WORD_MAX_SOFT}-word "
-            f"Longer Deep Dive ceiling. Conversation may lose thread."
+            f"Extended Deep Dive ceiling. Conversation may lose thread."
+        )
+    if CHAPTER_DEAD_ZONE_MIN < chapter_words < CHAPTER_DEAD_ZONE_MAX:
+        warnings.append(
+            f"chapter is {chapter_words} words — in the tier-dead-zone "
+            f"({CHAPTER_DEAD_ZONE_MIN}-{CHAPTER_DEAD_ZONE_MAX}): too dense for Longer "
+            f"Deep Dive, too thin to sustain Extended Deep Dive. Either tighten "
+            f"to ≤{CHAPTER_DEAD_ZONE_MIN} or expand via Phase 0e enrichment "
+            f"to ≥{CHAPTER_DEAD_ZONE_MAX}."
         )
 
     print(
