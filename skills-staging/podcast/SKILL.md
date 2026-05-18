@@ -66,6 +66,31 @@ These invariants are what keep the structure honest: episodes are derivative art
 SECTION 1: SESSION START PROTOCOL
 ============================================================
 
+## Step 0 — API connectivity pre-flight (run before reading any files)
+
+Run in terminal:
+
+```
+cd /PROJECTS/journal/server && npm run test:connectivity:offline
+```
+
+Expected output: `pass 1  fail 0` with `key resolved from: keychain` or `env`.
+
+- If it **passes**: continue to Step 1.
+- If it **fails** (no key found): stop and tell the user:
+  ```
+  API key not found. Add it to Keychain:
+    security add-generic-password -s anthropic-api-key -a "$USER" -w 'sk-ant-...'
+  Or: export ANTHROPIC_API_KEY=sk-ant-...
+  ```
+- If the proxy server is already running on port 3001, run the full suite instead:
+  ```
+  cd /PROJECTS/journal/server && npm run test:connectivity
+  ```
+  This additionally verifies /health and Cloudflare JWKS reachability. A full-suite pass confirms the entire API surface is healthy before episode work begins.
+
+Do NOT proceed to Step 1 if the pre-flight fails.
+
 Before doing ANY work, read these files in this order:
 
 1. `SHARED_ARABIC/00-README.md` — index of the shared Arabic / Islamic pronunciation reference
