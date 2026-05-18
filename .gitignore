@@ -51,11 +51,17 @@ node_modules/
 # get committed.
 _workspace/Books/
 
-# Podcast audio source files (mp3/wav/m4a/etc.) — large binaries that live
-# under library/audio/<book-slug>/. Lectures are transcribed externally
-# (TurboScribe / Azure Speech) and only the derived chapters + episode txts
-# get committed. Keeps the repo small and avoids accidental binary commits.
-content/podcast/library/audio/*/
+# Podcast raw-input binaries (audio, video, archives, editing-project files)
+# — large assets that live under library/<category>/<slug>/_source/. Only
+# derived text artifacts (refined chapters, episode txts, kept transcripts)
+# get committed. Keeps the repo small regardless of where binaries land.
+content/podcast/library/**/*.mp3
+content/podcast/library/**/*.wav
+content/podcast/library/**/*.m4a
+content/podcast/library/**/*.mp4
+content/podcast/library/**/*.mov
+content/podcast/library/**/*.zip
+content/podcast/library/**/*.llc
 
 # Transcript working artifacts — raw Speech-to-Text + translator output used
 # during chapter-source authoring. The final cleaned chapters/ + episodes/
