@@ -22,6 +22,8 @@ The install script:
 | `journal-challenger.md` | `.github/agents/journal-challenger.agent.md` | `/journal` Phase 4 step 2 (HARD GATE) |
 | `podcast-challenger.md` | `.github/agents/podcast-challenger.agent.md` | `/podcast` Phase 4 step 3 (HARD GATE) |
 | `podcast-extract.md` | `.github/agents/podcast-extract.agent.md` | `/podcast` Phase 0d extraction |
+| `podcast-orchestrator.md` | `.github/agents/podcast-orchestrator.agent.md` | Autonomous book pipeline driver (see [`docs/architecture/podcast-orchestrator.html`](../../docs/architecture/podcast-orchestrator.html)) |
+| `podcast-trainer.md` | `.github/agents/podcast-trainer.agent.md` | Cross-book pattern learner with regression gate |
 | `refine-prompt.md` | `.github/agents/refine-prompt.agent.md` | `/refine-prompt` |
 | `ui-reviewer.md` | (no canonical spec; self-contained) | Post-`site/` edits (via `.claude/hooks/ui-reviewer-stop.sh`) |
 
