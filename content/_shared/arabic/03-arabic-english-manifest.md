@@ -153,6 +153,11 @@ English form unless theological precision demands the Arabic. See
 | haram | forbidden | **ha-raam** | Keep (widely recognized English borrowing). |
 | fard / fard al-ayn | obligatory / personal obligation | **fard / fard al-ayn** | Keep (technical). Gloss on first use. |
 | fard kifaya | communal obligation | **fard ki-faa-yah** | Keep (technical). Gloss on first use. |
+| Shaykh | spiritual master / guide | **shay-kh** | Two syllables: "shay" + "kh" (guttural like Scottish "loch"). **Do NOT pronounce as the English word "shake"** — the final consonant is the throat-fricative 'kh', not 'k'. |
+| Shaykh al-Kamil | the perfected spiritual guide | **shay-kh al-kaa-mil** | Same 'kh' sound. |
+| Murshid | guide (synonym for Shaykh in the Sufi path) | **mur-shid** | |
+| Murshid al-Kamil | the perfected guide | **mur-shid al-kaa-mil** | |
+| Bay'a / Bay'ah | oath of allegiance to a guide | **bay-ʿah** | The ʿ is the glottal stop after "bay" — say it as two beats: "bay·ah". |
 
 ---
 
