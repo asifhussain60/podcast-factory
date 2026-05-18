@@ -1,36 +1,34 @@
 #!/usr/bin/env python3
-"""orchestrate_book.py — Autonomous book-to-NotebookLM pipeline driver (Phase A).
+"""orchestrate_book.py — Autonomous book-to-NotebookLM pipeline driver (Phase A + B + C).
 
 PURPOSE
 
   Deterministic Python driver for the `podcast-orchestrator` agent. v2 plan
-  defines three phases of implementation (see
+  shipped Phases A + B + C in a single coherent landing (see
   docs/architecture/podcast-orchestrator.html §10):
 
-    Phase A · Driver to Phase 0f         ← THIS FILE (current scope)
-    Phase B · Per-chapter convergence    (future)
-    Phase C · Trainer onto substrate     (spec-only; trainer is an LLM agent)
+    Phase A · Driver pre-flight → Phase 0a (Azure ingest)
+    Phase B · Per-chapter convergence loop (3 outer × 5 inner = 15 max)
+    Phase C · Trainer invocation (substrate-driven, regression-gated)
 
-  Phase A — what's shipped here:
-    - Pre-flight (HARD GATES): Azure connectivity, working-tree clean,
-      on `develop` (or the matching `book/<slug>` branch on --resume),
-      PDF readable, slug uncollided.
-    - Branch creation: `git checkout -b book/<slug>` + push.
-    - Scaffold: shells out to `scripts/podcast/scaffold_book.py`.
-    - Phase 0a: shells out to `scripts/podcast/ingest_source.py` (Azure
-      OCR + Translation), the only deterministic LLM-free phase.
-    - State writes: every transition writes
-      `<BOOK_DIR>/_system/orchestrator-state.json` via _progress.py
-      (atomic tmpfile + rename).
-    - 0b–0e: NOT yet autonomous — _authoring.py stubs raise
-      AuthoringError with a manual-fallback message. The orchestrator
-      writes a `phase_status: halted_pending_llm_authoring` and exits
-      cleanly, naming the next `--resume` action.
-    - 0f: the chapter list + tier review halt is deferred to Phase B
-      (since 0b–0e produce the chapter list).
-    - `--status <slug>`: renders the state.json without modifying anything.
-    - `--resume <slug>`: re-enters the driver and advances from the last
-      completed phase.
+  Pipeline (initial run):
+    pre-flight → branch → scaffold → 0a (Azure) → 0b (English refinement) →
+    0c (phonetic pass) → 0d (chapter design) → 0e (enrichment) →
+    0f-halt (writes series-plan.md, exits for human review)
+
+  Pipeline (--resume after Phase 0f approval):
+    per-chapter (extract → frame → build → converge) → 0g (register) →
+    trainer (substrate-driven) → merge book/<slug> → develop → done
+
+  Phase 0b–0e LLM authoring shells out to `claude -p` via `_authoring.py`
+  with phase-specific prompts. Each phase asserts a non-empty output
+  artifact; failure halts the orchestrator with a manual-fallback message
+  the human can follow via the conversational `/podcast` skill, then
+  `--resume` picks up at the next deterministic checkpoint.
+
+  State lives in `<BOOK_DIR>/_system/orchestrator-state.json` (atomic
+  tmpfile + rename). `--status <slug>` renders it without modification.
+  `--resume <slug>` reads it and advances from `last_completed_phase`.
 
 USAGE
 
@@ -75,11 +73,28 @@ from _progress import (  # noqa: E402
     update_phase,
     write_state,
 )
+from _authoring import (  # noqa: E402
+    AuthoringError,
+    author_phase_0b,
+    author_phase_0c,
+    author_phase_0d,
+    author_phase_0e,
+    author_framing,
+    invoke_trainer,
+)
+from _convergence import (  # noqa: E402
+    MAX_OUTER_ITERATIONS,
+    ChapterOutcome,
+    converge_chapter,
+    render_outcome,
+)
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 LIBRARY_ROOT = REPO_ROOT / "content" / "podcast" / "library"
 SCAFFOLD_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "scaffold_book.py"
 INGEST_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "ingest_source.py"
+EXTRACT_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "extract_chapter.py"
+BUILD_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "build_episode_txt.py"
 AZURE_PROBE = REPO_ROOT / "scripts" / "podcast" / "test_azure_connectivity.py"
 
 ALLOWED_CATEGORIES = ("books", "articles", "documents", "lectures", "interviews", "letters")
@@ -296,6 +311,284 @@ def phase_git_commit(book_dir: Path, subject: str) -> None:
         raise RuntimeError(f"`git commit` failed: {err}")
 
 
+# ─── Phase 0f — write series plan + halt for human review ─────────────────────
+
+
+SERIES_PLAN_TEMPLATE = """# Series Plan — {title}
+
+**Book slug:** `{book_slug}`
+**Branch:** `{branch}`
+**Generated:** {ts}
+**Orchestrator:** v{orch_version}
+**Status:** AWAITING HUMAN APPROVAL
+
+---
+
+## Human-reviewed sections
+
+### Length tier (AI recommendation)
+
+**Tier:** `{length_tier}`
+**Rationale:** {tier_rationale}
+
+### Chapter list
+
+{chapter_list_table}
+
+---
+
+## Audit-trail-only sections (no human review)
+
+### Audience (orchestrator config default)
+{audience}
+
+### Angle (orchestrator config default)
+{angle}
+
+### Host dynamic (AI-selected per chapter)
+{host_dynamic_table}
+
+---
+
+## Next step
+
+Review the **Length tier** + **Chapter list** sections above.
+
+If both look correct: `python3 scripts/podcast/orchestrate_book.py --resume {book_slug}`
+
+If a chapter's segmentation or title needs fixing: edit the relevant
+`chapter-contracts/<slug>.yml` and `chapters/ch##-<slug>.txt`, then
+re-invoke `--resume`. The orchestrator detects the change and re-validates.
+
+If the tier choice is wrong: edit every `chapter-contracts/<slug>.yml` to
+the desired `length_target`, then re-invoke `--resume`.
+"""
+
+
+def phase_0f_write_series_plan(book_dir: Path, title: str) -> Path:
+    """Assemble the series-plan.md from the contracts + chapter files written by 0d/0e.
+
+    Returns the path written. Does NOT halt — the caller (`run_initial`)
+    updates state to `phase=0f, status=halted` and exits.
+    """
+    import yaml as _yaml  # local import keeps PyYAML optional for --status-only callers
+    from datetime import datetime, timezone
+
+    book_slug = book_dir.name
+    contracts_dir = book_dir / "chapter-contracts"
+    chapters_dir = book_dir / "chapters"
+    out_path = book_dir / "_system" / "series-plan.md"
+
+    contracts: list[tuple[str, dict]] = []
+    for yml in sorted(contracts_dir.glob("*.yml")):
+        try:
+            with yml.open("r", encoding="utf-8") as f:
+                data = _yaml.safe_load(f) or {}
+        except _yaml.YAMLError:
+            raise RuntimeError(f"chapter contract failed to parse: {yml}")
+        contracts.append((yml.stem, data))
+
+    if not contracts:
+        raise RuntimeError(
+            f"Phase 0f: no chapter contracts under {contracts_dir}. "
+            "Phase 0d should have produced them."
+        )
+
+    # Tier (assume all contracts share the same length_target; flag if not)
+    tiers = {c[1].get("length_target", "extended") for c in contracts}
+    if len(tiers) == 1:
+        length_tier = next(iter(tiers))
+        tier_rationale = (
+            "All chapters target the same length tier — series is balanced."
+        )
+    else:
+        length_tier = "MIXED · author resolves"
+        tier_rationale = (
+            f"Chapters declare mixed tiers ({sorted(tiers)}). Pick one in the "
+            "contracts before resuming."
+        )
+
+    # Chapter list table
+    rows = ["| # | Slug | Title | Words | Target tier |", "|---|---|---|---|---|"]
+    for slug, data in contracts:
+        ch_num = data.get("episode_number", "?")
+        title_ = data.get("title", slug)
+        target = data.get("length_target", "?")
+        ch_file = next(chapters_dir.glob(f"ch*-{slug}.txt"), None)
+        words = len(ch_file.read_text(encoding="utf-8").split()) if ch_file else "?"
+        rows.append(f"| {ch_num} | `{slug}` | {title_} | {words} | {target} |")
+    chapter_list_table = "\n".join(rows)
+
+    # Audience / angle from the first contract (all should agree post-0d)
+    first = contracts[0][1]
+    audience = first.get("audience", "(not set — see chapter-contracts/<slug>.yml)").strip()
+    angle = first.get("angle", "(not set)")
+
+    # Host dynamic per chapter (AI-selected)
+    host_rows = ["| Chapter | Host dynamic | Rationale |", "|---|---|---|"]
+    for slug, data in contracts:
+        hd = data.get("host_dynamic", "curious_mind + patient_teacher")
+        # If the contract carries a rationale field, use it; otherwise leave blank
+        rationale = data.get("host_dynamic_rationale", "")
+        host_rows.append(f"| `{slug}` | {hd} | {rationale} |")
+    host_dynamic_table = "\n".join(host_rows)
+
+    state = read_state(book_dir) or {}
+    body = SERIES_PLAN_TEMPLATE.format(
+        title=title,
+        book_slug=book_slug,
+        branch=state.get("branch", f"book/{book_slug}"),
+        ts=datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ"),
+        orch_version=ORCHESTRATOR_VERSION,
+        length_tier=length_tier,
+        tier_rationale=tier_rationale,
+        chapter_list_table=chapter_list_table,
+        audience=audience,
+        angle=angle,
+        host_dynamic_table=host_dynamic_table,
+    )
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(body, encoding="utf-8")
+    return out_path
+
+
+# ─── Phase 0g — register the series ─────────────────────────────────────────
+
+
+def phase_0g_register(book_dir: Path) -> None:
+    """Append episode rows to PODCAST_ROOT/.skill/registry.md (idempotent).
+
+    This is a deterministic deferred step — Phase 0d already wrote per-chapter
+    contracts; 0g surfaces the series in the cross-book registry so subsequent
+    `validate_registry.py` runs see it.
+    """
+    registry = REPO_ROOT / "content" / "podcast" / ".skill" / "registry.md"
+    if not registry.exists():
+        # Brand-new repo or never-initialized registry — leave alone.
+        return
+    book_slug = book_dir.name
+    contracts_dir = book_dir / "chapter-contracts"
+    if not contracts_dir.is_dir():
+        return
+
+    import yaml as _yaml
+    existing = registry.read_text(encoding="utf-8")
+    new_lines: list[str] = []
+    for yml in sorted(contracts_dir.glob("*.yml")):
+        with yml.open("r", encoding="utf-8") as f:
+            data = _yaml.safe_load(f) or {}
+        ep = data.get("episode_number", "?")
+        slug = data.get("slug", yml.stem)
+        title = data.get("title", slug)
+        source_type = data.get("source_type", "book-chapter")
+        # Idempotent — skip if a row already mentions this slug
+        if f"`{slug}`" in existing:
+            continue
+        new_lines.append(
+            f"| EP{ep:02d} | {title} | `{slug}` | {source_type} | drafted | "
+            f"{book_slug} | — |"
+            if isinstance(ep, int) else
+            f"| EP{ep} | {title} | `{slug}` | {source_type} | drafted | {book_slug} | — |"
+        )
+    if new_lines:
+        with registry.open("a", encoding="utf-8") as f:
+            f.write("\n".join(new_lines) + "\n")
+
+
+# ─── Phase Per-chapter — extract + frame + build + converge ──────────────────
+
+
+def per_chapter_pass(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
+    """Run the full per-chapter pipeline for one chapter.
+
+    extract → author framing → build episode .txt → converge via challenger.
+    Returns the convergence ChapterOutcome.
+    """
+    book_slug = book_dir.name
+
+    # 1. Extract — scaffolds the episode-draft folder + bundle from the contract.
+    rc, out, err = _run(
+        [sys.executable, str(EXTRACT_SCRIPT), f"{book_slug}:{chapter_slug}"]
+    )
+    if rc != 0:
+        return ChapterOutcome(
+            chapter_slug=chapter_slug,
+            final_verdict="FAILED",
+            outer_iterations=0,
+            fixer_attempts=0,
+            p0_remaining=0, p1_remaining=0, p2_remaining=0,
+            notes=[f"extract_chapter.py failed: rc={rc}: {err.strip()[:200]}"],
+        )
+
+    # 2. Author framing — LLM call.
+    try:
+        author_framing(book_dir, chapter_slug)
+    except AuthoringError as e:
+        return ChapterOutcome(
+            chapter_slug=chapter_slug,
+            final_verdict="FAILED",
+            outer_iterations=0,
+            fixer_attempts=0,
+            p0_remaining=0, p1_remaining=0, p2_remaining=0,
+            notes=[f"framing authoring failed: {e}"],
+        )
+
+    # 3. Build the episode .txt — deterministic gate. We resolve the EP##-<slug>
+    #    from the chapter file name on disk.
+    chapter_file = next((book_dir / "chapters").glob(f"ch*-{chapter_slug}.txt"), None)
+    if chapter_file is None:
+        return ChapterOutcome(
+            chapter_slug=chapter_slug,
+            final_verdict="FAILED",
+            outer_iterations=0,
+            fixer_attempts=0,
+            p0_remaining=0, p1_remaining=0, p2_remaining=0,
+            notes=[f"chapter file missing for slug {chapter_slug}"],
+        )
+    chap_num = chapter_file.stem.split("-", 1)[0][2:]
+    episode_id = f"EP{chap_num}-{chapter_slug}"
+    rc, out, err = _run([sys.executable, str(BUILD_SCRIPT), str(book_dir), episode_id])
+    if rc != 0:
+        return ChapterOutcome(
+            chapter_slug=chapter_slug,
+            final_verdict="FAILED",
+            outer_iterations=0,
+            fixer_attempts=0,
+            p0_remaining=0, p1_remaining=0, p2_remaining=0,
+            notes=[f"build_episode_txt.py failed: rc={rc}: {err.strip()[:300]}"],
+        )
+
+    # 4. Convergence loop via _convergence.py.
+    return converge_chapter(book_dir, chapter_slug)
+
+
+# ─── Phase Merge — book/<slug> → develop ─────────────────────────────────────
+
+
+def phase_merge_to_develop(book_slug: str) -> None:
+    """Fast-forward develop + merge book branch with --no-ff. Never touches main."""
+    branch = f"book/{book_slug}"
+    rc, _, err = _git("checkout", "develop")
+    if rc != 0:
+        raise RuntimeError(f"`git checkout develop` failed: {err}")
+    rc, _, err = _git("pull", "--ff-only", "origin", "develop")
+    if rc != 0:
+        # Non-fatal — local merge can still proceed without remote pull.
+        _err(f"warning: `git pull --ff-only origin develop` failed: {err}")
+    rc, _, err = _git(
+        "merge",
+        "--no-ff",
+        branch,
+        "-m",
+        f"Merge branch '{branch}' into develop",
+    )
+    if rc != 0:
+        raise RuntimeError(f"`git merge --no-ff {branch}` failed: {err}")
+    rc, _, err = _git("push", "origin", "develop")
+    if rc != 0:
+        _err(f"warning: `git push origin develop` failed: {err}\n  (local merge preserved)")
+
+
 # ─── driver ──────────────────────────────────────────────────────────────────
 
 
@@ -350,29 +643,196 @@ def run_initial(args: argparse.Namespace) -> int:
     update_phase(book_dir, phase="0a", status="completed")
     phase_git_commit(book_dir, f"podcast({slug}): phase 0a Azure ingest")
 
-    # Phase A boundary: 0b–0e are LLM-authoring stubs.
+    # ── Phases 0b–0e — LLM authoring via claude -p shellout ────────────────
+    return _drive_authoring_through_0f(book_dir, title)
+
+
+def _drive_authoring_through_0f(book_dir: Path, title: str) -> int:
+    """Run Phases 0b → 0c → 0d → 0e → 0f-halt. Used by run_initial AND --resume."""
+    book_slug = book_dir.name
+
+    phase_map = [
+        ("0b", author_phase_0b, "phase 0b English refinement"),
+        ("0c", author_phase_0c, "phase 0c phonetic pass"),
+        ("0d", author_phase_0d, "phase 0d chapter design"),
+        ("0e", author_phase_0e, "phase 0e enrichment"),
+    ]
+    state = read_state(book_dir) or {}
+    last_completed = state.get("last_completed_phase") or ""
+    skip_set = {"0a"}
+    # Build the set of phases already completed (everything up to and including last_completed)
+    for ph, _, _ in phase_map:
+        if last_completed and (last_completed == ph or last_completed >= ph and ph <= last_completed):
+            pass
+    # Simpler: only skip if the phase is marked completed in state.phases[ph]
+    completed = {
+        p for p, blk in state.get("phases", {}).items()
+        if blk.get("status") == "completed"
+    }
+
+    for phase_id, fn, subject in phase_map:
+        if phase_id in completed:
+            _info(f"phase: {phase_id} · already completed, skipping")
+            continue
+        _info(f"phase: {phase_id} · {subject} (LLM shellout)")
+        update_phase(book_dir, phase=phase_id, status="running")
+        try:
+            fn(book_dir)
+        except AuthoringError as e:
+            update_phase(book_dir, phase=phase_id, status="failed",
+                         error=str(e), extras={"manual_fallback": e.manual_fallback})
+            _err(f"phase {phase_id} failed: {e}")
+            if e.manual_fallback:
+                _err("manual fallback:")
+                for line in e.manual_fallback.splitlines():
+                    _err(f"  {line}")
+            return 3
+        update_phase(book_dir, phase=phase_id, status="completed")
+        phase_git_commit(book_dir, f"podcast({book_slug}): {subject}")
+
+    # Phase 0f — assemble series-plan.md and halt.
+    _info("phase: 0f · assembling series-plan.md for human review")
+    update_phase(book_dir, phase="0f", status="running")
+    try:
+        plan_path = phase_0f_write_series_plan(book_dir, title)
+    except RuntimeError as e:
+        update_phase(book_dir, phase="0f", status="failed", error=str(e))
+        _err(str(e))
+        return 2
     update_phase(
         book_dir,
-        phase="0b",
+        phase="0f",
         status="halted",
-        error=(
-            "Phase A boundary: 0b-0e LLM authoring not yet autonomous. "
-            "Drive Phases 0b-0e via the conversational /podcast skill on this "
-            "BOOK_DIR, then re-invoke orchestrate-book --resume <slug>."
-        ),
+        extras={"series_plan_path": str(plan_path.relative_to(REPO_ROOT))},
     )
+    phase_git_commit(book_dir, f"podcast({book_slug}): phase 0f series plan written; awaiting human review")
+
     _info("")
     _info("─" * 72)
-    _info(f"Phase A complete · halted at the 0b authoring boundary.")
+    _info(f"Phase 0f complete · halted for human review.")
     _info("")
-    _info("Next steps (manual until Phase B lands):")
-    _info(f"  1. /podcast — drive Phases 0b, 0c, 0d, 0e on this BOOK_DIR:")
-    _info(f"     {book_dir.relative_to(REPO_ROOT)}")
-    _info(f"  2. Re-invoke: python3 scripts/podcast/orchestrate_book.py --resume {slug}")
+    _info(f"Review the series plan:")
+    _info(f"  {plan_path.relative_to(REPO_ROOT)}")
     _info("")
-    _info(f"Current state: python3 scripts/podcast/orchestrate_book.py --status {slug}")
+    _info(f"Resume when approved:")
+    _info(f"  python3 scripts/podcast/orchestrate_book.py --resume {book_slug}")
     _info("─" * 72)
-    return 3
+    return 0
+
+
+def _drive_per_chapter_and_after(book_dir: Path) -> int:
+    """After Phase 0f approval, drive per-chapter loop + 0g + trainer + merge."""
+    book_slug = book_dir.name
+
+    # Resolve chapter slugs from the chapter contracts (canonical source after 0d).
+    contracts_dir = book_dir / "chapter-contracts"
+    chapter_slugs = sorted(p.stem for p in contracts_dir.glob("*.yml"))
+    if not chapter_slugs:
+        _err(
+            f"no chapter contracts under {contracts_dir} — "
+            "Phase 0d should have produced them. Cannot proceed."
+        )
+        return 2
+
+    state = read_state(book_dir) or {}
+    completed_chapter_slugs = set(
+        state.get("phases", {}).get("per-chapter", {}).get("completed_slugs", [])
+    )
+
+    update_phase(book_dir, phase="per-chapter", status="running")
+    outcomes: list[ChapterOutcome] = []
+    for slug in chapter_slugs:
+        if slug in completed_chapter_slugs:
+            _info(f"phase: per-chapter[{slug}] · already shipped, skipping")
+            continue
+        _info(f"phase: per-chapter[{slug}] · extract → frame → build → converge")
+        outcome = per_chapter_pass(book_dir, slug)
+        outcomes.append(outcome)
+        _info(render_outcome(outcome))
+        if outcome.final_verdict == "FAILED":
+            update_phase(
+                book_dir,
+                phase="per-chapter",
+                status="failed",
+                error=f"chapter {slug} failed: {'; '.join(outcome.notes[-3:])}",
+                extras={
+                    "completed_slugs": sorted(completed_chapter_slugs),
+                    "failed_slug": slug,
+                },
+            )
+            _err(f"chapter {slug} failed; halting per-chapter loop.")
+            return 2
+
+        completed_chapter_slugs.add(slug)
+        # Commit the chapter's chunk of work on the book branch.
+        phase_git_commit(
+            book_dir,
+            f"podcast({book_slug})[{slug}]: {outcome.final_verdict} "
+            f"(iter={outcome.outer_iterations} · P0={outcome.p0_remaining} "
+            f"P1={outcome.p1_remaining})",
+        )
+        update_phase(
+            book_dir,
+            phase="per-chapter",
+            status="running",
+            extras={"completed_slugs": sorted(completed_chapter_slugs)},
+        )
+
+    update_phase(
+        book_dir,
+        phase="per-chapter",
+        status="completed",
+        extras={"completed_slugs": sorted(completed_chapter_slugs)},
+    )
+
+    # Phase 0g — register the series in the cross-book registry.
+    _info("phase: 0g · register series in registry.md")
+    update_phase(book_dir, phase="0g", status="running")
+    try:
+        phase_0g_register(book_dir)
+    except RuntimeError as e:
+        update_phase(book_dir, phase="0g", status="failed", error=str(e))
+        _err(str(e))
+        return 2
+    update_phase(book_dir, phase="0g", status="completed")
+    phase_git_commit(book_dir, f"podcast({book_slug}): phase 0g register series")
+
+    # Trainer pass — substrate-driven rule promotion (regression-gated).
+    _info("phase: trainer · invoke podcast-trainer on the book branch")
+    update_phase(book_dir, phase="trainer", status="running")
+    try:
+        invoke_trainer(book_dir)
+    except AuthoringError as e:
+        # Trainer failure is NOT fatal — the book still merges to develop.
+        update_phase(
+            book_dir, phase="trainer", status="failed",
+            error=str(e),
+            extras={"manual_fallback": e.manual_fallback},
+        )
+        _err(f"trainer pass failed (non-fatal): {e}")
+    else:
+        update_phase(book_dir, phase="trainer", status="completed")
+
+    # Merge to develop.
+    _info("phase: merge · book branch → develop")
+    update_phase(book_dir, phase="merge", status="running")
+    try:
+        phase_merge_to_develop(book_slug)
+    except RuntimeError as e:
+        update_phase(book_dir, phase="merge", status="failed", error=str(e))
+        _err(str(e))
+        return 2
+    update_phase(book_dir, phase="merge", status="completed")
+    update_phase(book_dir, phase="done",  status="completed")
+
+    _info("")
+    _info("─" * 72)
+    _info(f"Book {book_slug}: SHIPPED.")
+    _info("Per-chapter outcomes:")
+    for o in outcomes:
+        _info(render_outcome(o))
+    _info("─" * 72)
+    return 0
 
 
 def run_resume(args: argparse.Namespace) -> int:
@@ -392,43 +852,58 @@ def run_resume(args: argparse.Namespace) -> int:
         return 2
 
     last = state.get("last_completed_phase") or ""
-    next_p = state.get("next_phase") or ""
+    current_phase = state.get("phase") or ""
+    current_status = state.get("phase_status") or ""
 
-    _info(f"  last completed: {last or '(none)'}")
-    _info(f"  next phase:     {next_p or '(none)'}")
+    _info(f"  last completed:  {last or '(none)'}")
+    _info(f"  current phase:   {current_phase}  [{current_status}]")
 
-    # Phase B not yet implemented. If we're past 0a, we're either waiting on
-    # manual LLM authoring (0b-0e) or in territory Phase B owns.
-    if last in ("0a", "0b", "0c", "0d", "0e"):
-        # Check whether the next deterministic checkpoint's preconditions are met.
-        # For now: if all of refined-english.md, _phonetics.md, chapter files exist,
-        # we can advance the marker; otherwise tell the user to keep authoring.
-        srctext = book_dir / "_system" / "source" / "text"
-        chapters_dir = book_dir / "chapters"
-        has_refined = (srctext / "refined-english.md").exists()
-        has_phonetics = (srctext / "_phonetics.md").exists()
-        has_chapters = any(chapters_dir.glob("ch*.txt"))
+    # If we halted at 0f, this is the post-human-approval resume — drive Phase B + C.
+    if current_phase == "0f" and current_status == "halted":
+        plan = book_dir / "_system" / "series-plan.md"
+        if not plan.exists() or plan.stat().st_size == 0:
+            _err(f"series-plan.md missing at {plan} — cannot resume after 0f.")
+            return 2
+        _info("Phase 0f gate cleared (human approved by re-invoking --resume).")
+        return _drive_per_chapter_and_after(book_dir)
 
-        _info("")
-        _info("  Phase B (per-chapter convergence) is not yet shipped.")
-        _info("  Current authoring artifacts on disk:")
-        _info(f"    refined-english.md: {'✓' if has_refined else '·'}")
-        _info(f"    _phonetics.md:      {'✓' if has_phonetics else '·'}")
-        _info(f"    chapters/*.txt:     {'✓' if has_chapters else '·'}")
-        _info("")
-        if has_chapters:
-            _info("  All authoring artifacts present. Phase 0f (series plan)")
-            _info("  + per-chapter convergence loop will ship in Phase B.")
-            _info("  For now, drive Phase 3 (framings) + Phase 4 (build + challenger)")
-            _info("  via the conversational /podcast skill.")
-        else:
-            _info("  Continue Phases 0b-0e via /podcast, then re-invoke --resume.")
-        return 3
+    # If we halted mid-0b/0c/0d/0e (LLM-authoring failure), retry from there.
+    if current_phase in ("0b", "0c", "0d", "0e") and current_status in ("failed", "halted"):
+        # Derive title from the BOOK_DIR's _README.md or use the slug as a fallback.
+        title = _read_book_title(book_dir) or slug.replace("-", " ").title()
+        _info(f"resuming LLM-authoring phases from {current_phase} (status={current_status})")
+        return _drive_authoring_through_0f(book_dir, title)
+
+    # If we're past 0a and the state shows authoring is complete, advance to 0f.
+    if last in ("0a",) or (last in ("0b", "0c", "0d", "0e") and current_status == "completed"):
+        title = _read_book_title(book_dir) or slug.replace("-", " ").title()
+        return _drive_authoring_through_0f(book_dir, title)
+
+    # If we halted mid-per-chapter, resume the loop (it tracks completed_slugs).
+    if current_phase == "per-chapter" and current_status in ("failed", "halted", "running"):
+        return _drive_per_chapter_and_after(book_dir)
+
+    # If we already merged, nothing to do.
+    if current_phase == "done":
+        _info("This book has already shipped. Nothing to resume.")
+        return 0
 
     _info("")
-    _info(f"  No automated action for current phase '{next_p}'. State file:")
+    _info(f"  No automated action for current phase '{current_phase}'. State file:")
     _info(f"    {(book_dir / '_system' / 'orchestrator-state.json').relative_to(REPO_ROOT)}")
     return 3
+
+
+def _read_book_title(book_dir: Path) -> str | None:
+    """Best-effort title extraction from BOOK_DIR/_README.md."""
+    readme = book_dir / "_README.md"
+    if not readme.exists():
+        return None
+    for line in readme.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if line.startswith("# Podcast — "):
+            return line[len("# Podcast — "):].strip()
+    return None
 
 
 def run_status(args: argparse.Namespace) -> int:
@@ -454,7 +929,7 @@ def run_status(args: argparse.Namespace) -> int:
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="orchestrate-book",
-        description="Autonomous book-to-NotebookLM pipeline driver (Phase A).",
+        description="Autonomous book-to-NotebookLM pipeline driver (Phase A + B + C).",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=(
             "Examples:\n"
