@@ -68,6 +68,58 @@ These invariants are what keep the structure honest: episodes are derivative art
 SECTION 1: SESSION START PROTOCOL
 ============================================================
 
+## Step 0 — API connectivity pre-flight (run before reading any files)
+
+Two halves: the Anthropic proxy (always required), and the Azure stack
+(required only when Phase 0a will be invoked against a PDF/scan source —
+see Phase 0a below for the trigger).
+
+**Anthropic proxy — always:**
+
+```
+cd /PROJECTS/journal/server && npm run test:connectivity:offline
+```
+
+Expected output: `pass 1  fail 0` with `key resolved from: keychain` or `env`.
+
+- If it **passes**: continue.
+- If it **fails** (no key found): stop and tell the user:
+  ```
+  API key not found. Add it to Keychain:
+    security add-generic-password -s anthropic-api-key -a "$USER" -w 'sk-ant-...'
+  Or: export ANTHROPIC_API_KEY=sk-ant-...
+  ```
+- If the proxy server is already running on port 3001, run the full suite instead:
+  ```
+  cd /PROJECTS/journal/server && npm run test:connectivity
+  ```
+  This additionally verifies /health and Cloudflare JWKS reachability.
+
+**Azure stack — when Phase 0a will run against a PDF/scan source:**
+
+```
+python3 scripts/podcast/test_azure_connectivity.py
+```
+
+Expected output: `pass 4  fail 0`. Verifies Translator + Doc Intelligence
+credentials in Keychain and a live round-trip against both endpoints.
+
+- If it **fails with "credentials missing"**: the Azure stack has not been
+  provisioned (or the keys haven't been pulled into Keychain). Tell the user:
+  ```
+  Azure pipeline not yet wired. Run once:
+    brew install azure-cli && az login
+    cd infra/azure && ./provision-azure.sh && ./store-keychain-keys.sh
+  Then retry the pre-flight.
+  ```
+- If it **fails live** (creds present but Translator/Doc Intel returns
+  401/403/region error): tell the user the resource exists but is unhealthy;
+  inspect with `cd infra/azure && ./verify-azure.sh`.
+
+Do NOT proceed to Step 1 if the relevant half of the pre-flight fails. (If the
+session is for episode work on already-ingested chapters, the Azure half can
+be skipped — only the Anthropic proxy half is mandatory.)
+
 Before doing ANY work, read these files in this order:
 
 1. `SHARED_ARABIC/00-README.md` — index of the shared Arabic / Islamic pronunciation reference
@@ -149,12 +201,29 @@ Designated folder: `BOOK_DIR/_system/source/text/`
 
 The book-slug is derived from the source title (kebab-case, ≤ 40 chars). This folder is the persistent home for the cleaned source text — it is NOT cleaned up after delivery. The original source file (regardless of format) lives at `BOOK_DIR/_system/source/<book-title>.<ext>`.
 
-**Format-to-text normalization table.** Every supported format becomes `raw-extract.md` via the matching method. Once `raw-extract.md` exists, the rest of the pipeline is identical regardless of where the input came from.
+**Deterministic ingestion for PDF/scan sources (preferred path).** When the source is a PDF — text-layer or image-only — run the deterministic ingestion script instead of hand-pasting OCR output:
+
+```
+python3 scripts/podcast/ingest_source.py BOOK_DIR/_system/source/<book>.pdf \
+    --book-slug <book-slug> --src-lang ar
+```
+
+The script routes the PDF through Azure Document Intelligence (`prebuilt-read`, page-anchored OCR with reading order preserved) and Azure Translator (chunked text v3.0, source-language → English), and writes:
+
+- `BOOK_DIR/_system/source/text/raw-extract.md` — the canonical Phase 0a artifact named below.
+- `BOOK_DIR/_system/source/text/_provenance.json` — audit sidecar: page count, char counts, Azure endpoints + API versions, elapsed times.
+- `BOOK_DIR/_system/source/text/_extraction-notes.md` — created empty if absent; Phase 0b/0c append to it.
+
+Pass `--no-translate` when the source is already English. Pass `--force` to re-ingest. The script refuses to write into a non-existent BOOK_DIR — run `scaffold_book.py` first.
+
+If the Azure stack is not yet provisioned, the script fails with a clear "run `infra/azure/store-keychain-keys.sh`" message; the Step 0 Azure pre-flight catches this before any ingestion attempt.
+
+**Format-to-text normalization table.** For sources that are NOT PDFs, every supported format becomes `raw-extract.md` via the matching method. Once `raw-extract.md` exists, the rest of the pipeline is identical regardless of where the input came from.
 
 | Input format | File extension(s) | Normalization method | Markers to preserve |
 |--------------|-------------------|----------------------|---------------------|
-| PDF (text layer) | `.pdf` | Read the embedded text layer (e.g. `pdftotext -layout`) | Page breaks → `<!-- page N -->` |
-| PDF (image-only) | `.pdf` | OCR via Tesseract or `ocrmypdf` | Page breaks → `<!-- page N -->`; low-confidence spans flagged in `_extraction-notes.md` |
+| PDF (text layer) | `.pdf` | **Preferred:** `scripts/podcast/ingest_source.py` (Azure Doc Intel `prebuilt-read` handles text-layer + scan uniformly). Fallback: `pdftotext -layout`. | Page breaks → `<!-- page N -->` |
+| PDF (image-only) | `.pdf` | **Preferred:** `scripts/podcast/ingest_source.py` (Azure Doc Intel OCR + Translator in one step). Fallback: Tesseract or `ocrmypdf` + manual translation. | Page breaks → `<!-- page N -->`; low-confidence spans flagged in `_extraction-notes.md` |
 | Audio recording | `.mp3` `.wav` `.m4a` `.flac` | Transcribe (Whisper-class model — `whisper`, `whisperx`, or equivalent). Speaker-diarize when more than one voice. | Timestamps → `<!-- 00:14:23 -->` every ~60s; speaker labels → `**Speaker A:**` |
 | Word document | `.docx` `.doc` | Extract via `pandoc -f docx -t markdown` or `python-docx` | Heading hierarchy preserved as `#`/`##`; tables retained as markdown tables |
 | PowerPoint | `.pptx` `.ppt` | Extract slide text AND speaker notes via `python-pptx` or `pandoc` | Slide breaks → `<!-- slide N: <title> -->`; speaker notes as blockquotes below slide text |
@@ -559,6 +628,32 @@ Accepted format:
 
   - `*Sunnah* (SOON-nah; outward and inward way of life)`
   - `> Wa ... (wa ... phonetic rendering)`
+
+### Post-publication audit cadence (continuous Loop M)
+
+Phase 4 ships the deliverable to NotebookLM. **Loop M closes the empirical-feedback loop on what NotebookLM actually produced** — without it, the framing rules stop evolving and the system relearns the same drift on every book.
+
+**Standing SLA — every shipped episode is audited and challenged within 7 days.**
+
+The three-step sequence (fully deterministic when Azure Speech is provisioned; otherwise the transcript drop is the only human-pacing step):
+
+  1. **Produce the transcript.** Pick the path that fits the environment:
+     - **(a) Automated — Azure Speech-to-Text.** When `ENABLE_SPEECH=true` in `infra/azure/azure-config.env` and credentials are in Keychain (run `infra/azure/store-keychain-keys.sh` after provisioning):
+       ```
+       python3 scripts/podcast/transcribe_episode.py BOOK_DIR EP##-<slug> path/to/episode.mp3
+       ```
+       Writes `BOOK_DIR/turboscribe/EP##-<slug>.transcript.txt` directly. Synchronous; ~30 sec for a 20-min episode. The script prints the next step on completion.
+     - **(b) Manual — TurboScribe.** Drop a `.transcript.txt` at `BOOK_DIR/turboscribe/EP##-<slug>.transcript.txt` (TurboScribe export, https://turboscribe.ai, manual subscription). The filename contract is fixed by the `turboscribe/_README.md` template — both paths write to the same place so downstream tooling is path-blind.
+  2. **Run the lexical audit.**
+     ```
+     python3 scripts/podcast/audit_transcript.py BOOK_DIR EP##-<slug>
+     ```
+     Writes `BOOK_DIR/_system/audit-EP##-<slug>.md`. The script prints the explicit next step on completion.
+  3. **Invoke the challenger in transcript scope.** Use the Agent tool with `subagent_type=podcast-challenger`, prompt `<book-slug>` (per-book) or `<book-slug> --chapter <slug>` (per-episode). The agent reads the transcript directly under Loop M and folds findings into the convergence loop alongside the framing checks.
+
+**Why this is a standing invariant (not an optional step).** Every load-bearing rule addition since the May 2026 reset — R-PHONETICS-OUT, R-PRONUNCIATION-IMPERATIVE, R-NOMODERNIZE, R-NOSURPRISE, R-HONORIFIC-ONCE, R-NO-ABBREVIATION — came from transcript-derived failure-mode evidence (the 5-transcript audit catalogued in `worked-examples.md` §5). Treat this loop as the system's learning rate; skipping it freezes the rule surface against future failure modes.
+
+**What goes back into the rule surface.** When the audit + challenger turn up a new failure mode (a mangled name not in `audit_transcript.py`'s `NAME_MANGLING_MAP`, a modernization phrase not in `_rules.py`'s `MODERNIZE_DENY`, etc.), file it as a Section B proposal in `ROADMAP.md` with the transcript count as evidence. Rule additions ship via the same protocol that gave us R-NOMODERNIZE.
 
 ============================================================
 SECTION 3: SOURCE TYPOLOGY

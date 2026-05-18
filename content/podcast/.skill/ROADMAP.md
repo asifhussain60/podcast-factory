@@ -26,6 +26,8 @@
 | A7 | Canonical BOOK_DIR layout: `content/podcast/library/<category>/<book-slug>/` with `chapters/`, `chapter-contracts/`, `episodes/`, `turboscribe/`, `_system/` | per-book trees | a9e8933 |
 | A8 | Per-book overrides separated from skill internals (`.skill/` vs `library/`) | repo-wide | ad1cc37, 02bb140 |
 | A9 | `audit_transcript.py` empirical-feedback loop (sensor → analyser → per-episode regression report) | `scripts/podcast/audit_transcript.py` | pre-May 18 |
+| A10 | **Post-publication audit cadence** — 7-day SLA, 3-command sequence (transcript drop → `audit_transcript.py` → `podcast-challenger`), Loop M declared a standing invariant. Closes the rule-evolution feedback loop on actual NotebookLM output. | `skills-staging/podcast/SKILL.md` §post-publication; `scripts/podcast/audit_transcript.py` (next-step print) | 2026-05-18 |
+| A11 | **Azure Speech-to-Text helper** — `transcribe_episode.py` (audio → `turboscribe/EP##-<slug>.transcript.txt`); Speech client in `_azure.py` (Fast Transcription API 2024-11-15, synchronous, multipart); provisioning + keychain + connectivity-probe extensions across `infra/azure/*` + `test_azure_connectivity.py`. Manual TurboScribe drops continue to work unchanged. Activation gated on `ENABLE_SPEECH=true` in `azure-config.env` + re-run of `provision-azure.sh` and `store-keychain-keys.sh`. | `scripts/podcast/_azure.py`, `scripts/podcast/transcribe_episode.py`, `infra/azure/{provision-azure,store-keychain-keys}.sh`, `infra/azure/azure-config.{template.env,env}`, `scripts/podcast/test_azure_connectivity.py`, `skills-staging/podcast/SKILL.md` §post-publication step 1a | 2026-05-18 |
 
 ---
 
@@ -45,6 +47,8 @@ Source: `content/podcast/.skill/handbook/arabic-tts-protocol.md` (Track A only; 
 | B8 | Re-render `EP02-hatim-eight-benefits` with auto-fixed section name | per-book draft |
 
 **R-PHONETICS-OUT remains intact** — no inline phonetic parens in chapters. Reverting it would regress the 5-episode audit.
+
+**Note (2026-05-18):** the previously-listed B9–B12 (Azure Speech-to-Text helper) shipped as **A11** above. Activation requires `ENABLE_SPEECH=true` in `infra/azure/azure-config.env` + a re-run of `provision-azure.sh` and `store-keychain-keys.sh`. Smoke test (B11 equivalent): once provisioned, run `transcribe_episode.py` against an audio export of the existing `EP02-hatim-eight-benefits` and diff against the TurboScribe transcript already at `ayyuhal-walad/turboscribe/`.
 
 ---
 

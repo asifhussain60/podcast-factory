@@ -1,0 +1,90 @@
+{
+  "package": "journal-podcast-arabic-source-review",
+  "generated_from": "Archive.zip",
+  "sources": [
+    {
+      "id": "SRC-001",
+      "file": "Ahed Namah for Men & Women.pdf",
+      "title": "Ahed Namah for Men & Women",
+      "library": "library/sources/ismaili/devotional/pledges_and_prayers/",
+      "status": "No useful embedded text layer; OCR required"
+    },
+    {
+      "id": "SRC-002",
+      "file": "Asaas Al-Taveel.pdf",
+      "title": "Asās al-Taʾwīl / Asaas Al-Taveel (Foundation of Esoteric Interpretation)",
+      "library": "library/sources/ismaili/ta_wil_and_esotericism/",
+      "status": "No useful embedded text layer; OCR required"
+    },
+    {
+      "id": "SRC-003",
+      "file": "Ayyuhal Walad.pdf",
+      "title": "Ayyuhā al-Walad / My Dear Beloved Son or Daughter",
+      "library": "library/sources/islamic/ethics_and_spiritual_counsel/ghazali/",
+      "status": "Text layer present and useful"
+    },
+    {
+      "id": "SRC-004",
+      "file": "Kitab Isbath Al-Imamah.txt",
+      "title": "Kitāb Ithbāt al-Imāmah / The Proof or Establishment of the Imamate",
+      "library": "library/sources/ismaili/imamate/doctrine/",
+      "status": "Text file present and readable"
+    },
+    {
+      "id": "SRC-005",
+      "file": "Kitab Maqbas al Akhbar al Jariyah fi Akhyar wa Ashrar - Sayedna Ali bin Sayedna Sulaiman PDF (2).pdf",
+      "title": "Kitāb Maqbas al-Akhbār al-Jāriyah fī Akhyār wa Ashrār, attributed in filename to Sayyidnā Ali bin Sayyidnā Sulaiman",
+      "library": "library/sources/ismaili/history_and_adab/maqbas_al_akhbar/",
+      "status": "No useful embedded text layer; OCR required"
+    },
+    {
+      "id": "SRC-006",
+      "file": "Kitab al-Riyad.pdf",
+      "title": "Kitāb al-Riyāḍ (The Book of Gardens)",
+      "library": "library/sources/ismaili/philosophy_and_theology/kirmani_or_classical/",
+      "status": "No useful embedded text layer; OCR required"
+    },
+    {
+      "id": "SRC-007",
+      "file": "MM - Anjum apa.pdf",
+      "title": "MM - Anjum apa",
+      "library": "library/sources/ismaili/notes_and_lessons/creation_cosmology/",
+      "status": "Text layer present and useful"
+    },
+    {
+      "id": "SRC-008",
+      "file": "Majalis Moyyada.pdf",
+      "title": "Majālis al-Muʾayyadiyya / Majalis Moyyada",
+      "library": "library/sources/ismaili/majalis/muayyad/",
+      "status": "No useful embedded text layer; OCR required"
+    },
+    {
+      "id": "SRC-009",
+      "file": "Masaail - Searchable.pdf",
+      "title": "Masāʾil (Questions / Issues) - Searchable version",
+      "library": "library/sources/ismaili/questions_and_answers/masaail/",
+      "status": "Text layer present and useful"
+    },
+    {
+      "id": "SRC-010",
+      "file": "Masaail.pdf",
+      "title": "Masāʾil (Questions / Issues) - alternate scan",
+      "library": "library/sources/ismaili/questions_and_answers/masaail/",
+      "status": "Text layer present and useful"
+    },
+    {
+      "id": "SRC-011",
+      "file": "Raahat al-Aqal.pdf",
+      "title": "Rāḥat al-ʿAql / The Comfort of the Intellect",
+      "library": "library/sources/ismaili/philosophy_and_theology/rahat_al_aql/",
+      "status": "No useful embedded text layer; OCR required"
+    },
+    {
+      "id": "SRC-012",
+      "file": "Rasail Ikhwan AsSafa.pdf",
+      "title": "Rasāʾil Ikhwān al-Ṣafāʾ (Epistles of the Brethren of Purity)",
+      "library": "library/sources/islamic/philosophy/ikhwan_al_safa/",
+      "status": "Text layer present and useful"
+    }
+  ]
+}

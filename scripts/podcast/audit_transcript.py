@@ -385,6 +385,17 @@ def main() -> None:
     report_path = audit(book_dir, episode_id, transcript_path)
     print(f"Wrote audit report: {report_path}")
 
+    book_slug = book_dir.name
+    print(
+        "\nNext step (closes Loop M):\n"
+        f"  Invoke podcast-challenger (subagent_type=podcast-challenger) "
+        f"on `{book_slug}` so the transcript findings fold into the convergence loop.\n"
+        "  The agent reads this audit report and the transcript directly per "
+        "Category M / N / O of the canonical spec.\n"
+        "  Post-publication SLA: every shipped episode is audited and challenged "
+        "within 7 days. See skills-staging/podcast/SKILL.md §post-publication."
+    )
+
 
 if __name__ == "__main__":
     main()

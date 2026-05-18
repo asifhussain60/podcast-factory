@@ -35,9 +35,16 @@ node_modules/
 .env.local
 *.env
 !*.template.env
+# infra/azure/azure-config.env is intentionally tracked: it holds resource
+# names + the subscription ID (publicly visible in any portal URL), no
+# secrets. Tracking it lets a new Mac `git clone && make bootstrap` without
+# manually copying the template. (Real secrets live in macOS Keychain via
+# store-keychain-keys.sh or Azure Key Vault.)
+!infra/azure/azure-config.env
 
-# Phase 1 execution-plan workspace — stays untracked per plan §1.4
-_workspace/
+# _workspace/ used to be the untracked execution-plan zone. It is now tracked
+# (the contents are useful for cross-Mac handoff — see primary-mac-activation.md).
+# .DS_Store inside it is still excluded by the OS-junk rule above.
 
 # Trash / soft-delete staging
 **/.trash/
