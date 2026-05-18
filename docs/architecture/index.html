@@ -19,22 +19,30 @@
 <main class="page">
 
   <header class="hero">
-    <span class="eyebrow">map · v1.4 · 2026-05-18 · infrastructure pillars added (azure + cloudflare)</span>
+    <span class="eyebrow">map · v1.5 · 2026-05-18 · autonomous orchestrator + closed-loop learning substrate added</span>
     <h1>How the writing rooms <em>actually work</em></h1>
     <p class="lede">
       Two skills (one for the memoir, one for the podcast) share a single brain
       for Arabic pronunciation. Two infrastructure pillars (Cloudflare for the
       public app, Azure for OCR and translation) carry traffic and compute.
-      Eleven views in total — pick a starting point. <strong>2026-05-17:</strong>
+      Twelve views in total — pick a starting point. <strong>2026-05-17:</strong>
       podcast architecture pivoted to v3.5 after a 5-transcript empirical audit
       of <em>Ayyuhal Walad</em>; phonetic guidance now lives in the customize
       prompt, never inline. <strong>2026-05-18:</strong> conversation
       choreography (Driver vs Color roles), R-NOMODERNIZE softened with a "DO
       use modern-life analogies" paragraph, <code>scaffold_book.py</code>,
       per-chapter <code>chapter-contracts/&lt;slug&gt;.yml</code>, Category Q
-      cross-book-bleed checks, a debate episode format. Arabic TTS protocol and
-      the skill ROADMAP loaded by every producer and challenger run. New
-      <strong>infrastructure pillars</strong>: Cloudflare tunnel for public
+      cross-book-bleed checks, a debate episode format. <strong>2026-05-18 (later):</strong>
+      a <strong>closed-loop learning substrate</strong> at
+      <code>content/podcast/.skill/_learning/</code> turns every challenger and
+      audit finding into a single append-only JSONL ledger, a regression-gated
+      proposals lifecycle, and a per-book health score; a
+      <strong>podcast-orchestrator</strong> agent drives an entire PDF through the
+      pipeline with exactly one human gate at Phase 0f, then invokes a
+      <strong>podcast-trainer</strong> agent that promotes rule changes on the
+      book branch only when seven frozen fixtures stay green. Arabic TTS
+      protocol and the skill ROADMAP loaded by every producer and challenger
+      run. <strong>Infrastructure pillars</strong>: Cloudflare tunnel for public
       access without inbound ports, and the Azure stack
       (<code>rg-journal-ai</code>) for Arabic OCR + English translation — both
       scripted, idempotent, and parameterized for future apps.
@@ -85,9 +93,9 @@
         <text x="200" y="596" text-anchor="middle" class="label-mono">5 loops · delta · voice DNA · challenger</text>
       </g>
 
-      <!-- Podcast block -->
+      <!-- Podcast block — extended 2026-05-18 to fit a 4th chip (orchestrator + trainer) -->
       <g>
-        <rect x="380" y="310" width="320" height="320" rx="16" class="node-mint" />
+        <rect x="380" y="310" width="320" height="395" rx="16" class="node-mint" />
         <text x="540" y="345" text-anchor="middle" class="label-mono" style="fill:var(--mint);font-size:13px">·· PODCAST · NOTEBOOKLM ··</text>
         <text x="540" y="375" text-anchor="middle" class="label-display" style="fill:var(--mint)">Source steering</text>
 
@@ -101,7 +109,11 @@
 
         <rect x="405" y="551" width="270" height="58" rx="10" class="node" />
         <text x="540" y="574" text-anchor="middle" class="label-strong">03 · Quality system</text>
-        <text x="540" y="596" text-anchor="middle" class="label-mono">7 loops · 11 categories · audit_transcript · v3.5</text>
+        <text x="540" y="596" text-anchor="middle" class="label-mono">7 loops · _learning/ substrate · trainer</text>
+
+        <rect x="405" y="624" width="270" height="58" rx="10" class="node-accent" />
+        <text x="540" y="647" text-anchor="middle" class="label-strong" style="fill:var(--accent)">04 · Orchestrator + trainer</text>
+        <text x="540" y="669" text-anchor="middle" class="label-mono">autonomous · one human gate · v2 plan</text>
       </g>
 
       <!-- Bridge between the two -->
@@ -112,7 +124,7 @@
 
       <!-- Boundaries layer -->
       <path class="edge" d="M200,630 Q 200,680 200,720" />
-      <path class="edge" d="M540,630 Q 540,680 540,720" />
+      <path class="edge" d="M540,705 L540,720" />
 
       <g>
         <rect x="80" y="720" width="560" height="100" rx="14" class="node-sky" />
@@ -172,12 +184,12 @@
     <p>The <a href="journal-pipeline.html"><strong>Journal pipeline</strong></a> and the <a href="podcast-pipeline.html"><strong>Podcast pipeline</strong></a> are the deepest views in this set. Each one shows <strong>every</strong> file read, every agent invoked, every challenger pass, every script that runs — top-to-bottom, in order, with the names of the moving parts. Start there if you want to understand the whole system in one read.</p>
   </div>
 
-  <!-- ── Section: the 11 views, grouped by layer ─────────────── -->
+  <!-- ── Section: the 12 views, grouped by layer ─────────────── -->
   <section>
     <div class="section-head">
       <div class="label">·· catalogue ··</div>
-      <h2>The eleven views</h2>
-      <div class="sub">Eleven self-contained pages in four bands — content skills, the shared brain, the boundaries between rooms, and the infrastructure underneath. Start with whichever band you care about.</div>
+      <h2>The twelve views</h2>
+      <div class="sub">Twelve self-contained pages in four bands — content skills, the shared brain, the boundaries between rooms, and the infrastructure underneath. Start with whichever band you care about.</div>
     </div>
 
     <!-- Content skills row -->
@@ -216,7 +228,13 @@
       <a href="podcast-quality-system.html" class="nav-card">
         <div class="nav-tag" style="color:var(--mint)">Podcast · 03</div>
         <h3>Quality system</h3>
-        <p>Seven quality loops, a seven-tier enrichment pyramid, twelve challenger categories (A–O plus Q for cross-book bleed), and the <code>audit_transcript.py</code> empirical-feedback loop that reads the actual NotebookLM-generated transcript.</p>
+        <p>Seven quality loops, a seven-tier enrichment pyramid, twelve challenger categories (A–O plus Q for cross-book bleed), the <code>audit_transcript.py</code> empirical-feedback loop, and the closed-loop <code>_learning/</code> substrate with the <code>podcast-trainer</code> agent that promotes rule changes under a regression gate.</p>
+      </a>
+
+      <a href="podcast-orchestrator.html" class="nav-card">
+        <div class="nav-tag" style="color:var(--mint)">Podcast · 04</div>
+        <h3>Autonomous orchestrator + trainer</h3>
+        <p>Drop a PDF, walk away. One human gate at Phase 0f (chapter list + tier only). Bounded per-chapter convergence loop, then the <code>podcast-trainer</code> reads the <code>_learning/</code> substrate and proposes rule diffs under regression gating. v2 plan reflects the substrate reconciliation.</p>
       </a>
 
     </div>

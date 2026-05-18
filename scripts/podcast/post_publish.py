@@ -15,7 +15,7 @@ USAGE
 
     - With <audio-path>: transcribes via Azure Speech first, then audits.
     - Without <audio-path>: assumes a transcript is already at
-      BOOK_DIR/turboscribe/EP##-<slug>.transcript.txt (manual TurboScribe drop
+      BOOK_DIR/transcripts/EP##-<slug>.transcript.txt (manual transcript drop
       OR a prior transcribe_episode.py run). Skips step 1.
 
 NON-GOALS
@@ -56,8 +56,8 @@ def main() -> None:
     if not book_dir.is_dir():
         sys.exit(f"ERROR: BOOK_DIR is not a directory: {book_dir}")
 
-    turboscribe_dir = book_dir / "turboscribe"
-    transcript_path = turboscribe_dir / f"{episode_id}.transcript.txt"
+    transcripts_dir = book_dir / "transcripts"
+    transcript_path = transcripts_dir / f"{episode_id}.transcript.txt"
 
     # ── Step 1 — Transcribe (optional) ────────────────────────────────────
     if audio_path is not None:
@@ -69,7 +69,7 @@ def main() -> None:
             sys.exit(
                 f"ERROR: no transcript at {transcript_path} and no <audio-path> "
                 f"provided.\n"
-                f"  Either drop a manual TurboScribe transcript at that path, "
+                f"  Either drop a manual transcript at that path, "
                 f"or pass an audio file:\n"
                 f"  python3 {sys.argv[0]} {book_dir} {episode_id} path/to/audio.mp3"
             )

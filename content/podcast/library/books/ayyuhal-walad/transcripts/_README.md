@@ -1,10 +1,10 @@
-# TurboScribe transcripts
+# Transcripts
 
 Slug-aligned transcripts for *Ayyuhal Walad*. One file per episode, named `EP##-<slug>.transcript.txt` to match `chapters/ch##-<slug>.txt` and `episodes/EP##-<slug>.txt` exactly.
 
 ## Provenance
 
-NotebookLM renders the Audio Overview from the chapter + customize prompt. Asif transcribes the audio via TurboScribe (https://turboscribe.ai, manual subscription) and drops the result here, renamed to the slug-aligned form. Nothing in the pipeline writes to this folder — human input only.
+NotebookLM renders the Audio Overview from the chapter + customize prompt. Asif transcribes the audio via Azure Speech-to-Text or an external service (https://transcripts.ai, manual subscription) and drops the result here, renamed to the slug-aligned form. Nothing in the pipeline writes to this folder — human input only.
 
 ## Format
 

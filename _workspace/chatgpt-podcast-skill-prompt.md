@@ -64,8 +64,8 @@ Engineering rules:
 3. Use ALL-CAPS for the stressed syllable only.
 4. Do not use IPA. Do not use standard Romanization tokens.
 5. For each term, classify the mode:
-   - **Conversational** — smooth Anglicized phonetic for casual integration. Example: `Inshallah` → `in-shah-LAH`.
-   - **Classical** — hard-syllable Tajweed-approximating breaks for scripture and named historical figures. Example: `Quran` → `koor-AHN`, `Tasawwuf` → `ta-SAW-wuf`.
+ - **Conversational** — smooth Anglicized phonetic for casual integration. Example: `Inshallah` → `in-shah-LAH`.
+ - **Classical** — hard-syllable Tajweed-approximating breaks for scripture and named historical figures. Example: `Quran` → `koor-AHN`, `Tasawwuf` → `ta-SAW-wuf`.
 
 ## Phase 0d — Chapter design (content-depth-driven)
 
@@ -135,7 +135,7 @@ Why: NotebookLM reads parenthetical text aloud as content. Inline phonetics prod
 
 **R-HONORIFIC-ONCE.** Each honorific phrase form (`(peace and blessings be upon him)`, `(PBUH)`, `(AS)`, `(RA)`, `ﷺ`) appears AT MOST ONCE per chapter, at first mention. Subsequent mentions of the same figure use the contracted name alone.
 
-**No HTML comments.** No `<!-- ... -->` blocks in the chapter. Authoring metadata lives outside.
+**No HTML comments.** No `<!--... -->` blocks in the chapter. Authoring metadata lives outside.
 
 **Format.** Plain text (no headings beyond paragraph breaks). Modern clean English. Phase 0c phonetic annotations PRESERVED in your work notes but STRIPPED before writing the chapter file.
 
@@ -189,15 +189,15 @@ No irrelevant background: focus on the source's main content. Historical backgro
 Pronounce "<Term 1>" as "<pho-net-ic 1>". Say it as one fluent word.
 Pronounce "<Term 2>" as "<pho-net-ic 2>". Say it as one fluent word. Do not spell it.
 Pronounce "<Name 1>" as "<pho-net-ic name 1>". Say it as <one | two> fluent words.
-[... one imperative line per non-English term that appears in the chapter ...]
+[... one imperative line per non-English term that appears in the chapter...]
 
 Do not read this guidance aloud. The phonetics above are for the voice model only.
 
 ## Name discipline
 
 Use each long name in full ONCE on first occurrence, then use the short alias for every subsequent reference:
-  - <Long full name 1>  →  <short alias 1>
-  - <Long full name 2>  →  <short alias 2>
+ - <Long full name 1> → <short alias 1>
+ - <Long full name 2> → <short alias 2>
 
 ## Do not (forbidden vocabulary and framings)
 
@@ -272,7 +272,7 @@ PHONETIC KEY (reviewer copy — also embedded in the CUSTOMIZE PROMPT above)
 |---|---|---|
 | Tasawwuf | ta-SAW-wuf | Classical |
 | Inshallah | in-shah-LAH | Conversational |
-| ... | ... | ... |
+|... |... |... |
 ```
 
 The Phonetic Key reviewer copy is a courtesy table for the user to verify before audio generation. The same entries appear inside the CUSTOMIZE PROMPT as imperative lines.
@@ -315,9 +315,9 @@ Do not read this guidance aloud. The phonetics above are for the voice model onl
 
 Name discipline sample:
 ```
-- Imam Abu Hamid Muhammad al-Ghazali  →  Ghazali
-- Hatim bin Ism al-Asamm              →  Haatim
-- Shaqiq al-Balkhi                    →  Shaqeeq
+- Imam Abu Hamid Muhammad al-Ghazali → Ghazali
+- Hatim bin Ism al-Asamm → Haatim
+- Shaqiq al-Balkhi → Shaqeeq
 ```
 
 The chapter file itself contains NONE of those phonetic spellings inline — the chapter writes `Tasawwuf`, the customize prompt teaches NotebookLM how to say it. This separation is structural; do not collapse it.
@@ -355,7 +355,7 @@ The chapter file itself contains NONE of those phonetic spellings inline — the
 
 ## What this prompt does NOT include (deliberate omissions)
 
-- **The empirical-transcript audit loop** (`audit_transcript.py` + Loop M). That loop runs AFTER NotebookLM generates audio and the audio is transcribed via TurboScribe. Re-running drift detection across iterations is a feedback loop ChatGPT cannot drive itself; the user owns that pass.
+- **The empirical-transcript audit loop** (`audit_transcript.py` + Loop M). That loop runs AFTER NotebookLM generates audio and the audio is transcribed via. Re-running drift detection across iterations is a feedback loop ChatGPT cannot drive itself; the user owns that pass.
 - **Per-book contracts (YAML).** The repo skill uses `chapter-contracts/<slug>.yml` as the I/O surface for deterministic re-rendering. ChatGPT doesn't need contracts because it's the producer, not a deterministic re-renderer.
 - **The `podcast-challenger` Category Q checks** for cross-book bleed and chapter-set design quality. The acceptance checklist in the prompt covers the per-episode subset; Category Q's cross-book scope is implicit (ChatGPT is producing one book at a time).
 - **The `scaffold_book.py` workspace layout.** ChatGPT produces files for the user to save; the directory shape is the user's responsibility.

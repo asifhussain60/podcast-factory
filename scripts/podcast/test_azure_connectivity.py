@@ -161,8 +161,8 @@ def main() -> int:
     result.check("4. Doc Intelligence endpoint reachable", docintel_reachable, skip_when_live=True)
 
     # ── 5. Speech creds present (optional — only if ENABLE_SPEECH=true) ──
-    # Speech is the post-publication Loop M automation (replaces manual
-    # TurboScribe drop). When the resource isn't provisioned, the probe is
+    # Speech is the post-publication Loop M automation (audio → transcript
+    # under BOOK_DIR/transcripts/). When the resource isn't provisioned, the probe is
     # skipped rather than failed — Speech is not on the critical path for
     # chapter ingestion.
     def speech_creds() -> str:

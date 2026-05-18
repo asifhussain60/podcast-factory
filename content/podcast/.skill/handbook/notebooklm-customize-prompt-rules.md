@@ -133,9 +133,9 @@ Under "Pronunciation hooks":
 ```
 Name discipline. Use each long name in full ONCE on first occurrence, then
 use the short alias for every subsequent reference:
-  - <Long full name #1>  →  <short alias #1>
-  - <Long full name #2>  →  <short alias #2>
-  - <add any long name appearing in this episode>
+ - <Long full name #1> → <short alias #1>
+ - <Long full name #2> → <short alias #2>
+ - <add any long name appearing in this episode>
 ```
 
 The aliases come from `content/_shared/arabic/05-name-alias-policy.md` (for Arabic/Islamic figures) or from common usage for others. A worked instance of this block from one book lives at [`worked-examples.md` §3](worked-examples.md#3--name-alias-clause-for-the-customize-prompt).
@@ -244,9 +244,9 @@ Under "Three-part focus" → "Pacing" (or new "Reset moments" sub-section):
 Between major beats, insert a single-sentence reset — one host names what
 just landed, then the next beat begins. Examples:
 - "So the diagnosis is in. Now the question becomes — what does it ask
-  the reader to do?"
+ the reader to do?"
 - "We've been on the inside of the experience. Let me step back and ask
-  who else in the tradition was making this argument."
+ who else in the tradition was making this argument."
 A reset is one sentence. It does not summarize the episode; it marks the
 seam. Do not over-anchor; one reset per major beat-group is enough.
 ```
@@ -367,7 +367,7 @@ The canonical phonetic spelling for each term MUST still come from `content/_sha
 
 Pronounce "<Term 1>" as "<pho-net-ic 1>". Say it as <one fluent word | N fluent words>.
 Pronounce "<Term 2>" as "<pho-net-ic 2>". Say it as one fluent word. Do not spell it.
-[... one imperative line per term that appears in the chapter ...]
+[... one imperative line per term that appears in the chapter...]
 
 Do not read this guidance aloud. The phonetics above are for the voice model only.
 ```
@@ -438,7 +438,7 @@ Two scans:
 
 ### Authority for challenger
 
-`podcast-challenger` Loop **M** (modernization audit) — updated 2026-05-18 to honor the named-artifact-vs-practical-analogy distinction. Loop M ALSO scans the most recent transcript (if available under `BOOK_DIR/turboscribe/EP##-<slug>.transcript.txt`) for injected named artifacts.
+`podcast-challenger` Loop **M** (modernization audit) — updated 2026-05-18 to honor the named-artifact-vs-practical-analogy distinction. Loop M ALSO scans the most recent transcript (if available under `BOOK_DIR/transcripts/EP##-<slug>.transcript.txt`) for injected named artifacts.
 
 ---
 

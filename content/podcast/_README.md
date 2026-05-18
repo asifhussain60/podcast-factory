@@ -8,32 +8,32 @@ The skill definition itself lives at `/PROJECTS/journal/skills-staging/podcast/S
 
 ```
 /PROJECTS/journal/content/podcast/
-├── _README.md                      this file
-├── library/                       ← the sources
-│   ├── books/                      multi-chapter long-form works
-│   │   └── <book-slug>/            one source book (e.g. ayyuhal-walad/)
-│   │       ├── _README.md          book-specific conventions + upload checklist
-│   │       ├── _system/            book-specific authoring state (source, episode-drafts, scratchpad, pronunciation, editorial-notes, enrichment-log, challenger-report, audit-EP*.md)
-│   │       ├── chapters/           source-book chapters as plain txt — uploaded to NotebookLM as SOURCE files
-│   │       ├── episodes/           EP##-<slug>.txt — customize-prompt-only, pasted into NotebookLM's *Customize* box
-│   │       └── turboscribe/        EP##-<slug>.transcript.txt — slug-aligned TurboScribe transcripts dropped by Asif after NotebookLM renders audio
-│   ├── articles/                   single essays, magazine/journal pieces
-│   ├── documents/                  reports, white papers, official documents
-│   ├── lectures/                   recorded talks, sermons, transcribed audio
-│   ├── interviews/                 transcribed Q&A conversations
-│   └── letters/                    epistolary works, long-form correspondence
-└── .skill/                         ← podcast-skill internals (hidden by leading dot)
-    ├── registry.md                 episode index across all books
-    ├── handbook/                   book-agnostic skill refs + templates
-    │   ├── enrichment-sources.md   Tier 1–7 whitelist
-    │   ├── notebooklm-best-practices.md
-    │   ├── notebooklm-source-format.md
-    │   ├── two-host-framing.md
-    │   ├── source-distillation.md
-    │   ├── episode-architecture.md
-    │   ├── scratchpad-markers.md
-    │   └── workspace-readme-template.md
-    └── archive/                    superseded book snapshots
+├── _README.md this file
+├── library/ ← the sources
+│ ├── books/ multi-chapter long-form works
+│ │ └── <book-slug>/ one source book (e.g. ayyuhal-walad/)
+│ │ ├── _README.md book-specific conventions + upload checklist
+│ │ ├── _system/ book-specific authoring state (source, episode-drafts, scratchpad, pronunciation, editorial-notes, enrichment-log, challenger-report, audit-EP*.md)
+│ │ ├── chapters/ source-book chapters as plain txt — uploaded to NotebookLM as SOURCE files
+│ │ ├── episodes/ EP##-<slug>.txt — customize-prompt-only, pasted into NotebookLM's *Customize* box
+│ │ └── transcripts/ EP##-<slug>.transcript.txt — slug-aligned episode transcripts dropped after NotebookLM renders audio
+│ ├── articles/ single essays, magazine/journal pieces
+│ ├── documents/ reports, white papers, official documents
+│ ├── lectures/ recorded talks, sermons, transcribed audio
+│ ├── interviews/ transcribed Q&A conversations
+│ └── letters/ epistolary works, long-form correspondence
+└──.skill/ ← podcast-skill internals (hidden by leading dot)
+ ├── registry.md episode index across all books
+ ├── handbook/ book-agnostic skill refs + templates
+ │ ├── enrichment-sources.md Tier 1–7 whitelist
+ │ ├── notebooklm-best-practices.md
+ │ ├── notebooklm-source-format.md
+ │ ├── two-host-framing.md
+ │ ├── source-distillation.md
+ │ ├── episode-architecture.md
+ │ ├── scratchpad-markers.md
+ │ └── workspace-readme-template.md
+ └── archive/ superseded book snapshots
 ```
 
 ## The two-file deliverable model (v3.5)

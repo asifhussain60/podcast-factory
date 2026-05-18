@@ -10,45 +10,45 @@ Canonical structure (v3.5+, post-podcast-restructure):
 
 ```
 journal/
-  .git/
-  .gitignore
-  framework.md                       # Cross-skill governance contract
-  content/
-    _shared/arabic/                  # Cross-skill Arabic phonetic reference (only sanctioned cross-skill data)
-    babu-memoir/                     # The memoir
-      chapters/                      # ch00-intro.txt, ch01-man.txt, etc.
-      _system/                       # Voice fingerprint, master context, quotes library,
-                                     #   clinic library, scratchpad, snapshots, workflow,
-                                     #   scratchpad-markers, etc.
-    podcast/                         # Podcast workspace
-      _README.md
-      library/                       # Source materials by category
-        books/<book-slug>/           # Multi-chapter long-form works
-          _system/                   # Source PDF, episode-drafts, scratchpad,
-                                     #   pronunciation, editorial-notes, enrichment-log,
-                                     #   challenger-report
-          chapters/                  # chNN-<slug>.txt (NotebookLM SOURCE files)
-          episodes/                  # EP##-<slug>.txt (Customize prompt files)
-          turboscribe/               # TurboScribe transcripts after audio renders
-          chapter-contracts/         # Per-chapter Extract Mode contracts
-        articles/                    # Single essays / journal pieces
-        documents/                   # Reports, white papers
-        lectures/                    # Recorded talks, sermons
-        interviews/                  # Q&A transcripts
-        letters/                     # Epistolary works
-      .skill/                        # Podcast-skill internals (hidden by leading dot)
-        registry.md                  # Cross-book episode index
-        handbook/                    # Book-agnostic refs + templates
-        archive/                     # Superseded book snapshots
-  scripts/
-    memoir/                          # auto_delta, save_snapshot, refresh_all_snapshots, etc.
-    podcast/                         # build_episode_txt, extract_chapter, audit_transcript
-    site/                            # sync_chapters
-  skills-staging/                    # Skill source-of-truth (canonical SKILL.md files)
-  reference/                         # Skill-registry, challenger framework, bootstrap, overlays
-  .github/agents/                    # Agent definitions
-  site/                              # Babu App static site
-  docs/                              # Architecture HTMLs
+.git/
+.gitignore
+ framework.md # Cross-skill governance contract
+ content/
+ _shared/arabic/ # Cross-skill Arabic phonetic reference (only sanctioned cross-skill data)
+ babu-memoir/ # The memoir
+ chapters/ # ch00-intro.txt, ch01-man.txt, etc.
+ _system/ # Voice fingerprint, master context, quotes library,
+ # clinic library, scratchpad, snapshots, workflow,
+ # scratchpad-markers, etc.
+ podcast/ # Podcast workspace
+ _README.md
+ library/ # Source materials by category
+ books/<book-slug>/ # Multi-chapter long-form works
+ _system/ # Source PDF, episode-drafts, scratchpad,
+ # pronunciation, editorial-notes, enrichment-log,
+ # challenger-report
+ chapters/ # chNN-<slug>.txt (NotebookLM SOURCE files)
+ episodes/ # EP##-<slug>.txt (Customize prompt files)
+ transcripts/ # Transcripts after audio renders
+ chapter-contracts/ # Per-chapter Extract Mode contracts
+ articles/ # Single essays / journal pieces
+ documents/ # Reports, white papers
+ lectures/ # Recorded talks, sermons
+ interviews/ # Q&A transcripts
+ letters/ # Epistolary works
+.skill/ # Podcast-skill internals (hidden by leading dot)
+ registry.md # Cross-book episode index
+ handbook/ # Book-agnostic refs + templates
+ archive/ # Superseded book snapshots
+ scripts/
+ memoir/ # auto_delta, save_snapshot, refresh_all_snapshots, etc.
+ podcast/ # build_episode_txt, extract_chapter, audit_transcript
+ site/ # sync_chapters
+ skills-staging/ # Skill source-of-truth (canonical SKILL.md files)
+ reference/ # Skill-registry, challenger framework, bootstrap, overlays
+.github/agents/ # Agent definitions
+ site/ # Babu App static site
+ docs/ # Architecture HTMLs
 ```
 
 ### What belongs where
@@ -59,7 +59,7 @@ journal/
 | Memoir workflow + reference | `content/babu-memoir/_system/` | journal-workflow-v2.md, voice-fingerprint.md, quotes-library.txt, etc. |
 | Podcast book chapters | `content/podcast/library/books/<book>/chapters/` | Named ch{NN}-{slug}.txt; uploaded to NotebookLM as SOURCE |
 | Podcast episode prompts | `content/podcast/library/books/<book>/episodes/` | Built from 00-framing.md by build_episode_txt.py |
-| Per-chapter Extract contracts | `content/podcast/library/<category>/<book>/chapter-contracts/` | YAML schema in .skill/handbook/chapter-contract.template.yml |
+| Per-chapter Extract contracts | `content/podcast/library/<category>/<book>/chapter-contracts/` | YAML schema in.skill/handbook/chapter-contract.template.yml |
 | Skill handbook refs (podcast) | `content/podcast/.skill/handbook/` | Book-agnostic; book-bound = `<book>/_system/` |
 | Episode registry | `content/podcast/.skill/registry.md` | Cross-book monotonic EP# index |
 | Skill source-of-truth | `skills-staging/<skill>/SKILL.md` | Tracked in git; install copies go to Claude Code per-machine |
@@ -79,7 +79,7 @@ journal/
 | `*.lock` in `.git/` | Stale lock files from crashed git processes |
 | `.DS_Store` anywhere | macOS metadata — should be gitignored |
 
-### .gitignore should contain
+###.gitignore should contain
 
 ```
 .DS_Store
@@ -98,22 +98,22 @@ For repos without documented structure, apply these conventions:
 
 ```
 repo/
-  src/          # Source code
-  tests/        # Test files
-  docs/         # Documentation
-  scripts/      # Build/deploy/utility scripts
-  .github/      # CI/CD workflows
-  .gitignore
-  README.md
-  package.json / requirements.txt / Cargo.toml  # Dependency manifest
+ src/ # Source code
+ tests/ # Test files
+ docs/ # Documentation
+ scripts/ # Build/deploy/utility scripts
+.github/ # CI/CD workflows
+.gitignore
+ README.md
+ package.json / requirements.txt / Cargo.toml # Dependency manifest
 ```
 
 ### Common sprawl in code repos
 
 | Pattern | Action |
 |---|---|
-| `node_modules/` committed | Remove, add to .gitignore |
-| `dist/`, `build/`, `out/` committed | Remove, add to .gitignore |
-| `.env`, `.env.local` committed | Remove, add to .gitignore, WARN about secrets |
-| `*.log` files | Remove, add to .gitignore |
+| `node_modules/` committed | Remove, add to.gitignore |
+| `dist/`, `build/`, `out/` committed | Remove, add to.gitignore |
+| `.env`, `.env.local` committed | Remove, add to.gitignore, WARN about secrets |
+| `*.log` files | Remove, add to.gitignore |
 | IDE folders (`.idea/`, `.vscode/settings.json`) | Confirm with user — some teams track these |

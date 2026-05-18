@@ -28,7 +28,7 @@ USAGE
   python3 scripts/podcast/audit_transcript.py <BOOK_DIR> <EP##-slug> [<transcript-file>]
 
   When the transcript file argument is omitted, the script auto-resolves to
-    <BOOK_DIR>/turboscribe/EP##-<slug>.transcript.txt
+    <BOOK_DIR>/transcripts/EP##-<slug>.transcript.txt
 
 OUTPUT
 
@@ -203,7 +203,7 @@ def audit(book_dir: Path, episode_id: str, transcript_path: Path) -> Path:
     if not transcript_path.exists():
         sys.exit(
             f"ERROR: transcript not found: {transcript_path}\n"
-            f"  Expected location: <BOOK_DIR>/turboscribe/<EP##-slug>.transcript.txt\n"
+            f"  Expected location: <BOOK_DIR>/transcripts/<EP##-slug>.transcript.txt\n"
             f"  Or pass the path explicitly as the third argument."
         )
     text = transcript_path.read_text(encoding="utf-8")
@@ -437,7 +437,7 @@ def main() -> None:
         sys.exit(
             "Usage: audit_transcript.py <BOOK_DIR> <EP##-slug> [<transcript-file>]\n"
             "  When transcript-file is omitted, the default is\n"
-            "  <BOOK_DIR>/turboscribe/<EP##-slug>.transcript.txt"
+            "  <BOOK_DIR>/transcripts/<EP##-slug>.transcript.txt"
         )
     book_dir = Path(sys.argv[1]).resolve()
     episode_id = sys.argv[2]
@@ -447,7 +447,7 @@ def main() -> None:
     if len(sys.argv) == 4:
         transcript_path = Path(sys.argv[3]).resolve()
     else:
-        transcript_path = book_dir / "turboscribe" / f"{episode_id}.transcript.txt"
+        transcript_path = book_dir / "transcripts" / f"{episode_id}.transcript.txt"
 
     report_path = audit(book_dir, episode_id, transcript_path)
     print(f"Wrote audit report: {report_path}")

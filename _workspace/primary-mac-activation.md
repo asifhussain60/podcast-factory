@@ -17,7 +17,7 @@ Run these checks first. **Stop and fix anything that fails before continuing.**
 
 ```sh
 # A. az CLI installed (the bootstrap script's prereq)
-command -v az  # expect: /opt/homebrew/bin/az  (or wherever brew put it)
+command -v az # expect: /opt/homebrew/bin/az (or wherever brew put it)
 
 # B. Logged into the right Azure account
 az account show --query "{name:name, id:id}" -o tsv
@@ -29,7 +29,7 @@ az group show --name rg-journal-ai --query name -o tsv
 
 # D. Existing Keychain entries (proof you've bootstrapped at least once)
 security find-generic-password -s azure-journal-translator-key1 >/dev/null && echo "OK translator" || echo "MISSING translator — run: make store-keys"
-security find-generic-password -s azure-journal-docintel-key1   >/dev/null && echo "OK docintel"   || echo "MISSING docintel — run: make store-keys"
+security find-generic-password -s azure-journal-docintel-key1 >/dev/null && echo "OK docintel" || echo "MISSING docintel — run: make store-keys"
 ```
 
 If A/B/C pass and D shows OK for translator+docintel, you're ready. If D is missing entries, run `cd ~/PROJECTS/journal && make store-keys` first.
@@ -43,10 +43,10 @@ If you are setting up a **fresh Mac**, skip this runbook and run `cd ~/PROJECTS/
 ```sh
 cd ~/PROJECTS/journal
 git fetch origin
-git status                                # confirm working tree is clean (no uncommitted local changes)
+git status # confirm working tree is clean (no uncommitted local changes)
 git checkout test/api-connectivity
 git pull --ff-only origin test/api-connectivity
-git log --oneline -3                      # confirm HEAD is c85e87d (or descendant)
+git log --oneline -3 # confirm HEAD is c85e87d (or descendant)
 ```
 
 Expected HEAD line:
@@ -66,22 +66,22 @@ The work this runbook exists for. Each command is idempotent — safe to re-run 
 # 1. Flip the flag in the tracked config
 sed -i '' 's/ENABLE_SPEECH="false"/ENABLE_SPEECH="true"/' infra/azure/azure-config.env
 grep ENABLE_SPEECH infra/azure/azure-config.env
-# expect: ENABLE_SPEECH="true"     # Flip to "true" + re-run provision-azure.sh ...
+# expect: ENABLE_SPEECH="true" # Flip to "true" + re-run provision-azure.sh...
 
 # 2. Provision the Azure Speech resource (~30 sec; SKU S0 = $1/audio-hour pay-as-you-go)
 make provision
-# expect: [4/6] Speech: journal-speech (SKU S0)  /  OK
+# expect: [4/6] Speech: journal-speech (SKU S0) / OK
 # (If you see [4/6] Speech: SKIPPED, the sed in step 1 didn't take — check the file.)
 
 # 3. Fetch keys to Keychain
 make store-keys
-# expect: ==> Speech keys → keychain  /  OK azure-journal-speech-key1
-#                                         OK azure-journal-speech-endpoint
-#                                         OK azure-journal-speech-region
+# expect: ==> Speech keys → keychain / OK azure-journal-speech-key1
+# OK azure-journal-speech-endpoint
+# OK azure-journal-speech-region
 
 # 4. Health check
 make verify
-# expect: All checks passed (N / N).  Speech section now shows 4 PASS lines.
+# expect: All checks passed (N / N). Speech section now shows 4 PASS lines.
 ```
 
 ---
@@ -91,7 +91,7 @@ make verify
 ```sh
 # 5. Connectivity probe — Speech credentials check now PASSes (was SKIP before)
 make azure-probe
-# expect: PASS  5. Speech credentials (optional)  region=eastus
+# expect: PASS 5. Speech credentials (optional) region=eastus
 
 # 6. Python smoke test
 python3 -c "
@@ -99,10 +99,10 @@ import sys; sys.path.insert(0, 'scripts/podcast')
 import _azure
 creds = _azure.load_speech_creds()
 print(f'Speech endpoint: {creds.endpoint}')
-print(f'Speech region:   {creds.region}')
+print(f'Speech region: {creds.region}')
 "
 # expect: Speech endpoint: https://eastus.api.cognitive.microsoft.com
-#         Speech region:   eastus
+# Speech region: eastus
 ```
 
 ---
@@ -114,17 +114,17 @@ Once you have a NotebookLM Audio Overview MP3 to test against:
 ```sh
 # 7. Full post-publication pipeline: transcribe → audit → challenger next-step
 make podcast-post-publish \
-  BOOK_DIR=content/podcast/library/books/ayyuhal-walad \
-  EP=EP02-hatim-eight-benefits \
-  AUDIO=path/to/EP02-hatim-eight-benefits.mp3
+ BOOK_DIR=content/podcast/library/books/ayyuhal-walad \
+ EP=EP02-hatim-eight-benefits \
+ AUDIO=path/to/EP02-hatim-eight-benefits.mp3
 
 # expect output ends with:
-#   [3/3] Next — invoke podcast-challenger to fold Loop M into convergence:
-#         Use the Agent tool with subagent_type=podcast-challenger,
-#         prompt: `ayyuhal-walad --chapter hatim-eight-benefits`
+# [3/3] Next — invoke podcast-challenger to fold Loop M into convergence:
+# Use the Agent tool with subagent_type=podcast-challenger,
+# prompt: `ayyuhal-walad --chapter hatim-eight-benefits`
 ```
 
-Parity check: the resulting `turboscribe/EP02-hatim-eight-benefits.transcript.txt` should be similar (not byte-identical, but functionally equivalent) to the existing TurboScribe transcript at the same path. The audit report at `_system/audit-EP02-hatim-eight-benefits.md` should produce comparable P0/P1 counts to the manual-transcript audit.
+Parity check: the resulting `transcripts/EP02-hatim-eight-benefits.transcript.txt` should be similar (not byte-identical, but functionally equivalent) to the existing transcript at the same path. The audit report at `_system/audit-EP02-hatim-eight-benefits.md` should produce comparable P0/P1 counts to the manual-transcript audit.
 
 If parity diverges materially, surface the diff — that's empirical signal worth adding to `ROADMAP.md` Section B.
 
@@ -136,7 +136,7 @@ After Sections 2–3 pass, commit the flag flip so future Macs (and a re-clone h
 
 ```sh
 git add infra/azure/azure-config.env
-git diff --cached infra/azure/azure-config.env   # one-line change: ENABLE_SPEECH="false" → "true"
+git diff --cached infra/azure/azure-config.env # one-line change: ENABLE_SPEECH="false" → "true"
 git commit -m "infra(azure): activate Azure Speech (ENABLE_SPEECH=true)"
 git push origin test/api-connectivity
 ```
@@ -158,14 +158,14 @@ sed -i '' 's/ENABLE_SPEECH="true"/ENABLE_SPEECH="false"/' infra/azure/azure-conf
 
 # Clean Keychain
 for s in speech-key1 speech-endpoint speech-region; do
-  security delete-generic-password -s "azure-journal-$s" 2>/dev/null
+ security delete-generic-password -s "azure-journal-$s" 2>/dev/null
 done
 
 # Verify (Speech section should now SKIP)
 make verify
 ```
 
-The manual TurboScribe drop path remains unchanged at all times — `transcribe_episode.py` is the *added* path, not a replacement.
+The manual drop path remains unchanged at all times — `transcribe_episode.py` is the *added* path, not a replacement.
 
 ---
 
@@ -187,13 +187,13 @@ The manual TurboScribe drop path remains unchanged at all times — `transcribe_
 After running Sections 2–3, paste this filled-out summary back to the agent so we can confirm activation succeeded without you having to ferry full command output:
 
 ```
-Section 0 (preconditions): [ ] az found  [ ] logged in  [ ] rg exists  [ ] keys present
-Section 1 (sync):          [ ] HEAD = c85e87d (or descendant)
-Section 2 (activate):      [ ] flag flipped  [ ] make provision OK  [ ] make store-keys OK  [ ] make verify OK
-Section 3 (verify):        [ ] make azure-probe shows Speech PASS  [ ] python load_speech_creds OK
-Section 4 (e2e smoke):     [ ] (optional) transcribe → audit ran cleanly  -- OR --  [ ] deferred until first real episode
-Section 5 (commit/push):   [ ] activation commit pushed
-Section 6 (rollback):      [ ] not needed
+Section 0 (preconditions): [ ] az found [ ] logged in [ ] rg exists [ ] keys present
+Section 1 (sync): [ ] HEAD = c85e87d (or descendant)
+Section 2 (activate): [ ] flag flipped [ ] make provision OK [ ] make store-keys OK [ ] make verify OK
+Section 3 (verify): [ ] make azure-probe shows Speech PASS [ ] python load_speech_creds OK
+Section 4 (e2e smoke): [ ] (optional) transcribe → audit ran cleanly -- OR -- [ ] deferred until first real episode
+Section 5 (commit/push): [ ] activation commit pushed
+Section 6 (rollback): [ ] not needed
 ```
 
 Any failures → paste the failing command + last 10 lines of its output. I can debug from the logs without touching the live stack.

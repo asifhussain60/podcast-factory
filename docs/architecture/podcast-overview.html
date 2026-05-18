@@ -1,383 +1,395 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Podcast Overview · What it is and why</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/architecture.css">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Podcast Overview · What it is and why</title>
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="css/architecture.css">
 </head>
 <body>
 
 <nav class="topnav">
-  <div class="brand">Babu <span>·</span> Architecture</div>
-  <div class="crumbs"><a href="index.html">map</a> <span class="sep">›</span> Podcast <span class="sep">›</span> Overview</div>
+ <div class="brand">Babu <span>·</span> Architecture</div>
+ <div class="crumbs"><a href="index.html">map</a> <span class="sep">›</span> Podcast <span class="sep">›</span> Overview</div>
 </nav>
 
 <main class="page">
 
-  <header class="hero">
-    <span class="eyebrow" style="background:rgba(155,227,194,0.12);border-color:rgba(155,227,194,0.32);color:var(--mint)">podcast · overview</span>
-    <h1>We don't write podcasts. We <em>steer</em> NotebookLM.</h1>
-    <p class="lede">
-      The podcast skill takes a source in <strong>any format</strong> — book,
-      PDF, audio recording, Word doc, slide deck, spreadsheet, transcript,
-      plain text — normalizes it to text in one universal intake step, and
-      turns it into two files that NotebookLM ingests to produce a strong
-      two-host Audio Overview. We never write dialogue. We never record. We
-      never generate audio. We <strong>load the gun</strong>.
-    </p>
-  </header>
+ <header class="hero">
+ <span class="eyebrow" style="background:rgba(155,227,194,0.12);border-color:rgba(155,227,194,0.32);color:var(--mint)">podcast · overview</span>
+ <h1>We don't write podcasts. We <em>steer</em> NotebookLM.</h1>
+ <p class="lede">
+ The podcast skill takes a source in <strong>any format</strong> — book,
+ PDF, audio recording, Word doc, slide deck, spreadsheet, transcript,
+ plain text — normalizes it to text in one universal intake step, and
+ turns it into two files that NotebookLM ingests to produce a strong
+ two-host Audio Overview. We never write dialogue. We never record. We
+ never generate audio. We <strong>load the gun</strong>.
+ </p>
+ </header>
 
-  <!-- Big comparison: before vs after -->
-  <div class="section-head">
-    <div class="label">·· what is this skill ··</div>
-    <h2>Traditional podcasting vs the model we use</h2>
-    <div class="sub">A vertical comparison. The model on the right is what this skill actually does.</div>
-  </div>
+ <!-- Big comparison: before vs after -->
+ <div class="section-head">
+ <div class="label">·· what is this skill ··</div>
+ <h2>Traditional podcasting vs the model we use</h2>
+ <div class="sub">A vertical comparison. The model on the right is what this skill actually does.</div>
+ </div>
 
-  <div class="diagram">
-    <svg viewBox="0 0 720 1100" role="img" aria-labelledby="podcast-compare-title">
-      <title id="podcast-compare-title">Traditional vs NotebookLM-steered podcasting</title>
+ <div class="diagram">
+ <svg viewBox="0 0 720 1100" role="img" aria-labelledby="podcast-compare-title">
+ <title id="podcast-compare-title">Traditional vs NotebookLM-steered podcasting</title>
 
-      <!-- Side titles -->
-      <g>
-        <rect x="20" y="20" width="335" height="60" rx="12" fill="rgba(248,113,113,0.10)" stroke="var(--error)" />
-        <text x="187" y="48" text-anchor="middle" class="label-mono" style="fill:var(--error);font-size:13px">·· TRADITIONAL ··</text>
-        <text x="187" y="72" text-anchor="middle" class="label-strong">Write → record → edit → publish</text>
+ <!-- Side titles -->
+ <g>
+ <rect x="20" y="20" width="335" height="60" rx="12" fill="rgba(248,113,113,0.10)" stroke="var(--error)" />
+ <text x="187" y="48" text-anchor="middle" class="label-mono" style="fill:var(--error);font-size:13px">·· TRADITIONAL ··</text>
+ <text x="187" y="72" text-anchor="middle" class="label-strong">Write → record → edit → publish</text>
 
-        <rect x="365" y="20" width="335" height="60" rx="12" class="node-mint" />
-        <text x="532" y="48" text-anchor="middle" class="label-mono" style="fill:var(--mint);font-size:13px">·· WHAT THIS SKILL DOES ··</text>
-        <text x="532" y="72" text-anchor="middle" class="label-strong">Steer NotebookLM with a packet</text>
-      </g>
+ <rect x="365" y="20" width="335" height="60" rx="12" class="node-mint" />
+ <text x="532" y="48" text-anchor="middle" class="label-mono" style="fill:var(--mint);font-size:13px">·· WHAT THIS SKILL DOES ··</text>
+ <text x="532" y="72" text-anchor="middle" class="label-strong">Steer NotebookLM with a packet</text>
+ </g>
 
-      <!-- Step 1 -->
-      <g>
-        <rect x="20" y="100" width="335" height="106" rx="10" class="node" />
-        <text x="187" y="124" text-anchor="middle" class="label-mono" style="opacity:.7">step 1</text>
-        <text x="187" y="148" text-anchor="middle" class="label-strong">Outline the episode</text>
-        <text x="187" y="170" text-anchor="middle" class="label">topics · order · key beats</text>
-        <text x="187" y="192" text-anchor="middle" class="label-mono" style="opacity:.6">format-locked to one source type</text>
+ <!-- Step 1 -->
+ <g>
+ <rect x="20" y="100" width="335" height="106" rx="10" class="node" />
+ <text x="187" y="124" text-anchor="middle" class="label-mono" style="opacity:.7">step 1</text>
+ <text x="187" y="148" text-anchor="middle" class="label-strong">Outline the episode</text>
+ <text x="187" y="170" text-anchor="middle" class="label">topics · order · key beats</text>
+ <text x="187" y="192" text-anchor="middle" class="label-mono" style="opacity:.6">format-locked to one source type</text>
 
-        <rect x="365" y="100" width="335" height="106" rx="10" class="node-mint" />
-        <text x="532" y="124" text-anchor="middle" class="label-mono" style="fill:var(--mint)">step 1 · universal intake</text>
-        <text x="532" y="148" text-anchor="middle" class="label-strong">Take any source, any format</text>
-        <text x="532" y="170" text-anchor="middle" class="label">PDF · book · MP3 · Word · PPT · Excel</text>
-        <text x="532" y="190" text-anchor="middle" class="label">TXT · transcript · article · notes</text>
-      </g>
+ <rect x="365" y="100" width="335" height="106" rx="10" class="node-mint" />
+ <text x="532" y="124" text-anchor="middle" class="label-mono" style="fill:var(--mint)">step 1 · universal intake</text>
+ <text x="532" y="148" text-anchor="middle" class="label-strong">Take any source, any format</text>
+ <text x="532" y="170" text-anchor="middle" class="label">PDF · book · MP3 · Word · PPT · Excel</text>
+ <text x="532" y="190" text-anchor="middle" class="label">TXT · transcript · article · notes</text>
+ </g>
 
-      <!-- Step 2 -->
-      <g>
-        <rect x="20" y="220" width="335" height="86" rx="10" class="node" />
-        <text x="187" y="244" text-anchor="middle" class="label-mono" style="opacity:.7">step 2</text>
-        <text x="187" y="268" text-anchor="middle" class="label-strong">Write a full script</text>
-        <text x="187" y="288" text-anchor="middle" class="label">every line of dialogue · every pause</text>
+ <!-- Step 2 -->
+ <g>
+ <rect x="20" y="220" width="335" height="86" rx="10" class="node" />
+ <text x="187" y="244" text-anchor="middle" class="label-mono" style="opacity:.7">step 2</text>
+ <text x="187" y="268" text-anchor="middle" class="label-strong">Write a full script</text>
+ <text x="187" y="288" text-anchor="middle" class="label">every line of dialogue · every pause</text>
 
-        <rect x="365" y="220" width="335" height="86" rx="10" class="node-mint" />
-        <text x="532" y="244" text-anchor="middle" class="label-mono" style="fill:var(--mint)">step 2 · normalize once</text>
-        <text x="532" y="268" text-anchor="middle" class="label-strong">All formats → one text file</text>
-        <text x="532" y="288" text-anchor="middle" class="label">OCR · transcribe · extract · convert</text>
-      </g>
+ <rect x="365" y="220" width="335" height="86" rx="10" class="node-mint" />
+ <text x="532" y="244" text-anchor="middle" class="label-mono" style="fill:var(--mint)">step 2 · normalize once</text>
+ <text x="532" y="268" text-anchor="middle" class="label-strong">All formats → one text file</text>
+ <text x="532" y="288" text-anchor="middle" class="label">OCR · transcribe · extract · convert</text>
+ </g>
 
-      <!-- Step 3 -->
-      <g>
-        <rect x="20" y="320" width="335" height="86" rx="10" class="node" />
-        <text x="187" y="344" text-anchor="middle" class="label-mono" style="opacity:.7">step 3</text>
-        <text x="187" y="368" text-anchor="middle" class="label-strong">Record voices</text>
-        <text x="187" y="388" text-anchor="middle" class="label">studio · two people · time</text>
+ <!-- Step 3 -->
+ <g>
+ <rect x="20" y="320" width="335" height="86" rx="10" class="node" />
+ <text x="187" y="344" text-anchor="middle" class="label-mono" style="opacity:.7">step 3</text>
+ <text x="187" y="368" text-anchor="middle" class="label-strong">Record voices</text>
+ <text x="187" y="388" text-anchor="middle" class="label">studio · two people · time</text>
 
-        <rect x="365" y="320" width="335" height="86" rx="10" class="node-mint" />
-        <text x="532" y="344" text-anchor="middle" class="label-mono" style="fill:var(--mint)">step 3</text>
-        <text x="532" y="368" text-anchor="middle" class="label-strong">Enrich with the canon</text>
-        <text x="532" y="388" text-anchor="middle" class="label">Quran · hadith · Ali (AS) · Sufi · Ismaili</text>
-      </g>
+ <rect x="365" y="320" width="335" height="86" rx="10" class="node-mint" />
+ <text x="532" y="344" text-anchor="middle" class="label-mono" style="fill:var(--mint)">step 3</text>
+ <text x="532" y="368" text-anchor="middle" class="label-strong">Enrich with the canon</text>
+ <text x="532" y="388" text-anchor="middle" class="label">Quran · hadith · Ali (AS) · Sufi · Ismaili</text>
+ </g>
 
-      <!-- Step 4 -->
-      <g>
-        <rect x="20" y="420" width="335" height="86" rx="10" class="node" />
-        <text x="187" y="444" text-anchor="middle" class="label-mono" style="opacity:.7">step 4</text>
-        <text x="187" y="468" text-anchor="middle" class="label-strong">Edit the audio</text>
-        <text x="187" y="488" text-anchor="middle" class="label">cuts · transitions · music · master</text>
+ <!-- Step 4 -->
+ <g>
+ <rect x="20" y="420" width="335" height="86" rx="10" class="node" />
+ <text x="187" y="444" text-anchor="middle" class="label-mono" style="opacity:.7">step 4</text>
+ <text x="187" y="468" text-anchor="middle" class="label-strong">Edit the audio</text>
+ <text x="187" y="488" text-anchor="middle" class="label">cuts · transitions · music · master</text>
 
-        <rect x="365" y="420" width="335" height="86" rx="10" class="node-mint" />
-        <text x="532" y="444" text-anchor="middle" class="label-mono" style="fill:var(--mint)">step 4</text>
-        <text x="532" y="468" text-anchor="middle" class="label-strong">Write a framing file</text>
-        <text x="532" y="488" text-anchor="middle" class="label">audience · angle · tensions · tone</text>
-      </g>
+ <rect x="365" y="420" width="335" height="86" rx="10" class="node-mint" />
+ <text x="532" y="444" text-anchor="middle" class="label-mono" style="fill:var(--mint)">step 4</text>
+ <text x="532" y="468" text-anchor="middle" class="label-strong">Write a framing file</text>
+ <text x="532" y="488" text-anchor="middle" class="label">audience · angle · tensions · tone</text>
+ </g>
 
-      <!-- Step 5 -->
-      <g>
-        <rect x="20" y="520" width="335" height="86" rx="10" class="node" />
-        <text x="187" y="544" text-anchor="middle" class="label-mono" style="opacity:.7">step 5</text>
-        <text x="187" y="568" text-anchor="middle" class="label-strong">Publish to platforms</text>
-        <text x="187" y="588" text-anchor="middle" class="label">Apple · Spotify · RSS</text>
+ <!-- Step 5 -->
+ <g>
+ <rect x="20" y="520" width="335" height="86" rx="10" class="node" />
+ <text x="187" y="544" text-anchor="middle" class="label-mono" style="opacity:.7">step 5</text>
+ <text x="187" y="568" text-anchor="middle" class="label-strong">Publish to platforms</text>
+ <text x="187" y="588" text-anchor="middle" class="label">Apple · Spotify · RSS</text>
 
-        <rect x="365" y="520" width="335" height="86" rx="10" class="node-mint" />
-        <text x="532" y="544" text-anchor="middle" class="label-mono" style="fill:var(--mint)">step 5</text>
-        <text x="532" y="568" text-anchor="middle" class="label-strong">Upload + click Generate</text>
-        <text x="532" y="588" text-anchor="middle" class="label">NotebookLM produces the dialogue</text>
-      </g>
+ <rect x="365" y="520" width="335" height="86" rx="10" class="node-mint" />
+ <text x="532" y="544" text-anchor="middle" class="label-mono" style="fill:var(--mint)">step 5</text>
+ <text x="532" y="568" text-anchor="middle" class="label-strong">Upload + click Generate</text>
+ <text x="532" y="588" text-anchor="middle" class="label">NotebookLM produces the dialogue</text>
+ </g>
 
-      <!-- Time / cost -->
-      <g>
-        <rect x="20" y="630" width="335" height="86" rx="10" fill="rgba(248,113,113,0.06)" stroke="var(--error)" />
-        <text x="187" y="658" text-anchor="middle" class="label-mono" style="fill:var(--error);font-size:13px">·· TIME ··</text>
-        <text x="187" y="680" text-anchor="middle" class="label-display" style="font-size:16px;fill:var(--error)">days to weeks per episode</text>
-        <text x="187" y="702" text-anchor="middle" class="label-mono">script · record · edit · publish</text>
+ <!-- Time / cost -->
+ <g>
+ <rect x="20" y="630" width="335" height="86" rx="10" fill="rgba(248,113,113,0.06)" stroke="var(--error)" />
+ <text x="187" y="658" text-anchor="middle" class="label-mono" style="fill:var(--error);font-size:13px">·· TIME ··</text>
+ <text x="187" y="680" text-anchor="middle" class="label-display" style="font-size:16px;fill:var(--error)">days to weeks per episode</text>
+ <text x="187" y="702" text-anchor="middle" class="label-mono">script · record · edit · publish</text>
 
-        <rect x="365" y="630" width="335" height="86" rx="10" class="node-mint" />
-        <text x="532" y="658" text-anchor="middle" class="label-mono" style="fill:var(--mint);font-size:13px">·· TIME ··</text>
-        <text x="532" y="680" text-anchor="middle" class="label-display" style="font-size:16px;fill:var(--mint)">hours per episode</text>
-        <text x="532" y="702" text-anchor="middle" class="label-mono">normalize · enrich · frame · upload</text>
-      </g>
+ <rect x="365" y="630" width="335" height="86" rx="10" class="node-mint" />
+ <text x="532" y="658" text-anchor="middle" class="label-mono" style="fill:var(--mint);font-size:13px">·· TIME ··</text>
+ <text x="532" y="680" text-anchor="middle" class="label-display" style="font-size:16px;fill:var(--mint)">hours per episode</text>
+ <text x="532" y="702" text-anchor="middle" class="label-mono">normalize · enrich · frame · upload</text>
+ </g>
 
-      <!-- Voice -->
-      <g>
-        <rect x="20" y="740" width="335" height="86" rx="10" fill="rgba(248,113,113,0.06)" stroke="var(--error)" />
-        <text x="187" y="768" text-anchor="middle" class="label-mono" style="fill:var(--error);font-size:13px">·· VOICE ··</text>
-        <text x="187" y="790" text-anchor="middle" class="label-display" style="font-size:16px;fill:var(--error)">your voice (or two friends)</text>
-        <text x="187" y="812" text-anchor="middle" class="label-mono">limited scale</text>
+ <!-- Voice -->
+ <g>
+ <rect x="20" y="740" width="335" height="86" rx="10" fill="rgba(248,113,113,0.06)" stroke="var(--error)" />
+ <text x="187" y="768" text-anchor="middle" class="label-mono" style="fill:var(--error);font-size:13px">·· VOICE ··</text>
+ <text x="187" y="790" text-anchor="middle" class="label-display" style="font-size:16px;fill:var(--error)">your voice (or two friends)</text>
+ <text x="187" y="812" text-anchor="middle" class="label-mono">limited scale</text>
 
-        <rect x="365" y="740" width="335" height="86" rx="10" class="node-mint" />
-        <text x="532" y="768" text-anchor="middle" class="label-mono" style="fill:var(--mint);font-size:13px">·· VOICE ··</text>
-        <text x="532" y="790" text-anchor="middle" class="label-display" style="font-size:16px;fill:var(--mint)">NotebookLM hosts</text>
-        <text x="532" y="812" text-anchor="middle" class="label-mono">consistent across the series</text>
-      </g>
+ <rect x="365" y="740" width="335" height="86" rx="10" class="node-mint" />
+ <text x="532" y="768" text-anchor="middle" class="label-mono" style="fill:var(--mint);font-size:13px">·· VOICE ··</text>
+ <text x="532" y="790" text-anchor="middle" class="label-display" style="font-size:16px;fill:var(--mint)">NotebookLM hosts</text>
+ <text x="532" y="812" text-anchor="middle" class="label-mono">consistent across the series</text>
+ </g>
 
-      <!-- Test -->
-      <g>
-        <rect x="20" y="840" width="680" height="100" rx="14" class="node-accent" />
-        <text x="360" y="868" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:13px">·· THE TEST ··</text>
-        <text x="360" y="896" text-anchor="middle" class="label-display" style="font-size:18px">"The hosts said exactly what mattered."</text>
-        <text x="360" y="920" text-anchor="middle" class="label">If they drift, the bundle was weak — fix the bundle, not the model.</text>
-      </g>
+ <!-- Test -->
+ <g>
+ <rect x="20" y="840" width="680" height="100" rx="14" class="node-accent" />
+ <text x="360" y="868" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:13px">·· THE TEST ··</text>
+ <text x="360" y="896" text-anchor="middle" class="label-display" style="font-size:18px">"The hosts said exactly what mattered."</text>
+ <text x="360" y="920" text-anchor="middle" class="label">If they drift, the bundle was weak — fix the bundle, not the model.</text>
+ </g>
 
-      <!-- What this skill is NOT -->
-      <g>
-        <rect x="20" y="960" width="680" height="124" rx="14" class="node-rose" />
-        <text x="360" y="988" text-anchor="middle" class="label-mono" style="fill:var(--rose);font-size:13px">·· WHAT THIS SKILL IS NOT ··</text>
-        <text x="360" y="1016" text-anchor="middle" class="label">✗ a script writer (NotebookLM writes dialogue)</text>
-        <text x="360" y="1038" text-anchor="middle" class="label">✗ an audio generator (NotebookLM produces the MP3)</text>
-        <text x="360" y="1060" text-anchor="middle" class="label">✗ a summarizer · a research engine · a translator · a publishing tool</text>
-      </g>
+ <!-- What this skill is NOT -->
+ <g>
+ <rect x="20" y="960" width="680" height="124" rx="14" class="node-rose" />
+ <text x="360" y="988" text-anchor="middle" class="label-mono" style="fill:var(--rose);font-size:13px">·· WHAT THIS SKILL IS NOT ··</text>
+ <text x="360" y="1016" text-anchor="middle" class="label">✗ a script writer (NotebookLM writes dialogue)</text>
+ <text x="360" y="1038" text-anchor="middle" class="label">✗ an audio generator (NotebookLM produces the MP3)</text>
+ <text x="360" y="1060" text-anchor="middle" class="label">✗ a summarizer · a research engine · a translator · a publishing tool</text>
+ </g>
 
-    </svg>
-    <div class="caption">Vertical side-by-side · the right column is what this skill does</div>
-  </div>
+ </svg>
+ <div class="caption">Vertical side-by-side · the right column is what this skill does</div>
+ </div>
 
-  <!-- ── The two-file deliverable ─────────────────────────── -->
-  <div class="section-head">
-    <div class="label">·· the deliverable model ··</div>
-    <h2>Two files, two folders, zero ambiguity</h2>
-    <div class="sub">Why we never concatenate them into one upload.</div>
-  </div>
+ <!-- ── The two-file deliverable ─────────────────────────── -->
+ <div class="section-head">
+ <div class="label">·· the deliverable model ··</div>
+ <h2>Two files, two folders, zero ambiguity</h2>
+ <div class="sub">Why we never concatenate them into one upload.</div>
+ </div>
 
-  <div class="diagram">
-    <svg viewBox="0 0 720 820" role="img" aria-labelledby="two-file-title">
-      <title id="two-file-title">Two-file deliverable model</title>
+ <div class="diagram">
+ <svg viewBox="0 0 720 820" role="img" aria-labelledby="two-file-title">
+ <title id="two-file-title">Two-file deliverable model</title>
 
-      <!-- Top: input -->
-      <g>
-        <rect x="80" y="20" width="560" height="86" rx="14" class="node-gold" />
-        <text x="360" y="48" text-anchor="middle" class="label-mono" style="fill:var(--gold);font-size:13px">·· input · any format ··</text>
-        <text x="360" y="76" text-anchor="middle" class="label-display" style="font-size:16px">book · PDF · MP3 · Word · PPT · Excel · TXT · transcript</text>
-        <text x="360" y="98" text-anchor="middle" class="label-mono">normalized to text in Phase 0a · lives under content/podcast/&lt;book-slug&gt;/</text>
-      </g>
+ <!-- Top: input -->
+ <g>
+ <rect x="80" y="20" width="560" height="86" rx="14" class="node-gold" />
+ <text x="360" y="48" text-anchor="middle" class="label-mono" style="fill:var(--gold);font-size:13px">·· input · any format ··</text>
+ <text x="360" y="76" text-anchor="middle" class="label-display" style="font-size:16px">book · PDF · MP3 · Word · PPT · Excel · TXT · transcript</text>
+ <text x="360" y="98" text-anchor="middle" class="label-mono">normalized to text in Phase 0a · lives under content/podcast/&lt;book-slug&gt;/</text>
+ </g>
 
-      <!-- Branch arrows -->
-      <path class="edge-accent" d="M280,106 Q 200,140 200,180" marker-end="url(#tfArrow)" />
-      <path class="edge-accent" d="M440,106 Q 520,140 520,180" marker-end="url(#tfArrow)" />
-      <defs>
-        <marker id="tfArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
-          <path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/>
-        </marker>
-      </defs>
+ <!-- Branch arrows -->
+ <path class="edge-accent" d="M280,106 Q 200,140 200,180" marker-end="url(#tfArrow)" />
+ <path class="edge-accent" d="M440,106 Q 520,140 520,180" marker-end="url(#tfArrow)" />
+ <defs>
+ <marker id="tfArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+ <path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/>
+ </marker>
+ </defs>
 
-      <!-- File 1: SOURCE -->
-      <g>
-        <rect x="40" y="190" width="320" height="220" rx="14" class="node-mint" />
-        <text x="200" y="218" text-anchor="middle" class="label-mono" style="fill:var(--mint);font-size:13px">·· FILE 1 ··</text>
-        <text x="200" y="244" text-anchor="middle" class="label-display" style="font-size:16px">THE SOURCE</text>
+ <!-- File 1: SOURCE -->
+ <g>
+ <rect x="40" y="190" width="320" height="220" rx="14" class="node-mint" />
+ <text x="200" y="218" text-anchor="middle" class="label-mono" style="fill:var(--mint);font-size:13px">·· FILE 1 ··</text>
+ <text x="200" y="244" text-anchor="middle" class="label-display" style="font-size:16px">THE SOURCE</text>
 
-        <rect x="60" y="262" width="280" height="36" rx="6" class="node" />
-        <text x="200" y="285" text-anchor="middle" class="label-mono">chapters/chNN-&lt;slug&gt;.txt</text>
+ <rect x="60" y="262" width="280" height="36" rx="6" class="node" />
+ <text x="200" y="285" text-anchor="middle" class="label-mono">chapters/chNN-&lt;slug&gt;.txt</text>
 
-        <text x="200" y="320" text-anchor="middle" class="label">enriched chapter prose</text>
-        <text x="200" y="340" text-anchor="middle" class="label">phonetic guides on every Arabic term</text>
-        <text x="200" y="360" text-anchor="middle" class="label">attributed citations</text>
-        <text x="200" y="380" text-anchor="middle" class="label" style="fill:var(--text-muted);font-style:italic">"upload-ready by construction"</text>
-        <text x="200" y="400" text-anchor="middle" class="label-mono">uploaded as the single source</text>
-      </g>
+ <text x="200" y="320" text-anchor="middle" class="label">enriched chapter prose</text>
+ <text x="200" y="340" text-anchor="middle" class="label">phonetic guides on every Arabic term</text>
+ <text x="200" y="360" text-anchor="middle" class="label">attributed citations</text>
+ <text x="200" y="380" text-anchor="middle" class="label" style="fill:var(--text-muted);font-style:italic">"upload-ready by construction"</text>
+ <text x="200" y="400" text-anchor="middle" class="label-mono">uploaded as the single source</text>
+ </g>
 
-      <!-- File 2: CUSTOMIZE PROMPT -->
-      <g>
-        <rect x="380" y="190" width="320" height="220" rx="14" class="node-accent" />
-        <text x="540" y="218" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:13px">·· FILE 2 ··</text>
-        <text x="540" y="244" text-anchor="middle" class="label-display" style="font-size:16px">THE CUSTOMIZE PROMPT</text>
+ <!-- File 2: CUSTOMIZE PROMPT -->
+ <g>
+ <rect x="380" y="190" width="320" height="220" rx="14" class="node-accent" />
+ <text x="540" y="218" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:13px">·· FILE 2 ··</text>
+ <text x="540" y="244" text-anchor="middle" class="label-display" style="font-size:16px">THE CUSTOMIZE PROMPT</text>
 
-        <rect x="400" y="262" width="280" height="36" rx="6" class="node" />
-        <text x="540" y="285" text-anchor="middle" class="label-mono">episodes/EP##-&lt;slug&gt;.txt</text>
+ <rect x="400" y="262" width="280" height="36" rx="6" class="node" />
+ <text x="540" y="285" text-anchor="middle" class="label-mono">episodes/EP##-&lt;slug&gt;.txt</text>
 
-        <text x="540" y="320" text-anchor="middle" class="label">audience · angle · tensions</text>
-        <text x="540" y="340" text-anchor="middle" class="label">host dynamic · tone constraints</text>
-        <text x="540" y="360" text-anchor="middle" class="label">pronunciation hooks · anti-noise rules</text>
-        <text x="540" y="380" text-anchor="middle" class="label" style="fill:var(--text-muted);font-style:italic">"emitted from 00-framing.md"</text>
-        <text x="540" y="400" text-anchor="middle" class="label-mono">pasted into NotebookLM's Customize box</text>
-      </g>
+ <text x="540" y="320" text-anchor="middle" class="label">audience · angle · tensions</text>
+ <text x="540" y="340" text-anchor="middle" class="label">host dynamic · tone constraints</text>
+ <text x="540" y="360" text-anchor="middle" class="label">pronunciation hooks · anti-noise rules</text>
+ <text x="540" y="380" text-anchor="middle" class="label" style="fill:var(--text-muted);font-style:italic">"emitted from 00-framing.md"</text>
+ <text x="540" y="400" text-anchor="middle" class="label-mono">pasted into NotebookLM's Customize box</text>
+ </g>
 
-      <!-- Why arrow / explanation -->
-      <g>
-        <rect x="40" y="440" width="660" height="100" rx="14" fill="rgba(248,113,113,0.06)" stroke="var(--error)" />
-        <text x="360" y="468" text-anchor="middle" class="label-mono" style="fill:var(--error);font-size:13px">·· WHY TWO FILES NOT ONE ··</text>
-        <text x="360" y="494" text-anchor="middle" class="label">If you upload a single concatenated file containing both,</text>
-        <text x="360" y="514" text-anchor="middle" class="label">NotebookLM treats the customize prompt as source content</text>
-        <text x="360" y="534" text-anchor="middle" class="label-strong">and the hosts will read the steering instructions aloud.</text>
-      </g>
+ <!-- Why arrow / explanation -->
+ <g>
+ <rect x="40" y="440" width="660" height="100" rx="14" fill="rgba(248,113,113,0.06)" stroke="var(--error)" />
+ <text x="360" y="468" text-anchor="middle" class="label-mono" style="fill:var(--error);font-size:13px">·· WHY TWO FILES NOT ONE ··</text>
+ <text x="360" y="494" text-anchor="middle" class="label">If you upload a single concatenated file containing both,</text>
+ <text x="360" y="514" text-anchor="middle" class="label">NotebookLM treats the customize prompt as source content</text>
+ <text x="360" y="534" text-anchor="middle" class="label-strong">and the hosts will read the steering instructions aloud.</text>
+ </g>
 
-      <!-- NotebookLM result -->
-      <g>
-        <rect x="80" y="570" width="560" height="100" rx="14" class="node-sky" />
-        <text x="360" y="598" text-anchor="middle" class="label-mono" style="fill:var(--sky);font-size:13px">·· NotebookLM ··</text>
-        <text x="360" y="624" text-anchor="middle" class="label-display" style="font-size:16px">two hosts have a ~10–15 minute conversation</text>
-        <text x="360" y="648" text-anchor="middle" class="label">Curious Mind asks "why does this matter?"</text>
-        <text x="360" y="666" text-anchor="middle" class="label">Scholar provides grounding · cites the source</text>
-      </g>
+ <!-- NotebookLM result -->
+ <g>
+ <rect x="80" y="570" width="560" height="100" rx="14" class="node-sky" />
+ <text x="360" y="598" text-anchor="middle" class="label-mono" style="fill:var(--sky);font-size:13px">·· NotebookLM ··</text>
+ <text x="360" y="624" text-anchor="middle" class="label-display" style="font-size:16px">two hosts have a ~10–15 minute conversation</text>
+ <text x="360" y="648" text-anchor="middle" class="label">Curious Mind asks "why does this matter?"</text>
+ <text x="360" y="666" text-anchor="middle" class="label">Scholar provides grounding · cites the source</text>
+ </g>
 
-      <!-- Outcome -->
-      <g>
-        <rect x="80" y="700" width="560" height="90" rx="14" fill="var(--accent-soft)" stroke="var(--accent-strong)" />
-        <text x="360" y="728" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:13px">·· OUTCOME ··</text>
-        <text x="360" y="754" text-anchor="middle" class="label-display" style="font-size:18px">a focused two-host Audio Overview</text>
-        <text x="360" y="778" text-anchor="middle" class="label-mono">consistent across the series · ready for upload to the Babu site</text>
-      </g>
+ <!-- Outcome -->
+ <g>
+ <rect x="80" y="700" width="560" height="90" rx="14" fill="var(--accent-soft)" stroke="var(--accent-strong)" />
+ <text x="360" y="728" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:13px">·· OUTCOME ··</text>
+ <text x="360" y="754" text-anchor="middle" class="label-display" style="font-size:18px">a focused two-host Audio Overview</text>
+ <text x="360" y="778" text-anchor="middle" class="label-mono">consistent across the series · ready for upload to the Babu site</text>
+ </g>
 
-    </svg>
-    <div class="caption">Two files · one upload sequence · zero confusion</div>
-  </div>
+ </svg>
+ <div class="caption">Two files · one upload sequence · zero confusion</div>
+ </div>
 
-  <!-- Default personas -->
-  <div class="section-head">
-    <div class="label">·· the steering layer ··</div>
-    <h2>The default two-host personas</h2>
-    <div class="sub">NotebookLM's Audio Overview always uses two hosts. The framing file decides what they sound like.</div>
-  </div>
+ <!-- Default personas -->
+ <div class="section-head">
+ <div class="label">·· the steering layer ··</div>
+ <h2>The default two-host personas</h2>
+ <div class="sub">NotebookLM's Audio Overview always uses two hosts. The framing file decides what they sound like.</div>
+ </div>
 
-  <div class="grid grid-2">
-    <div class="card">
-      <div class="meta">·· host A ··</div>
-      <h3>Curious Mind</h3>
-      <p>Stand-in for the listener. Asks <em>"why does this matter?"</em>,
-      <em>"wait, what does that mean in practice?"</em>, <em>"but isn't there
-      a tension with…?"</em> Warm, plain language, occasionally surprised. Not
-      naive — just unguarded.</p>
-    </div>
+ <div class="grid grid-2">
+ <div class="card">
+ <div class="meta">·· host A ··</div>
+ <h3>Curious Mind</h3>
+ <p>Stand-in for the listener. Asks <em>"why does this matter?"</em>,
+ <em>"wait, what does that mean in practice?"</em>, <em>"but isn't there
+ a tension with…?"</em> Warm, plain language, occasionally surprised. Not
+ naive — just unguarded.</p>
+ </div>
 
-    <div class="card">
-      <div class="meta">·· host B ··</div>
-      <h3>Scholar / Companion</h3>
-      <p>Domain-knowledgeable. Provides context, traditional grounding,
-      citations from the source. Calm, precise, willing to admit uncertainty.
-      <strong>Never lectures.</strong></p>
-    </div>
-  </div>
+ <div class="card">
+ <div class="meta">·· host B ··</div>
+ <h3>Scholar / Companion</h3>
+ <p>Domain-knowledgeable. Provides context, traditional grounding,
+ citations from the source. Calm, precise, willing to admit uncertainty.
+ <strong>Never lectures.</strong></p>
+ </div>
+ </div>
 
-  <div class="callout">
-    <div class="callout-eyebrow">·· the steering language ··</div>
-    <p>Phrases that reliably bend NotebookLM's output:
-    <strong>"Slow down on…"</strong> (hosts spend more time on that beat),
-    <strong>"Treat X as the central tension"</strong> (hosts return to X),
-    <strong>"End on a question, not a conclusion"</strong> (produces open-ended landing).
-    These go into the customize-prompt file, not the source.</p>
-  </div>
+ <div class="callout">
+ <div class="callout-eyebrow">·· the steering language ··</div>
+ <p>Phrases that reliably bend NotebookLM's output:
+ <strong>"Slow down on…"</strong> (hosts spend more time on that beat),
+ <strong>"Treat X as the central tension"</strong> (hosts return to X),
+ <strong>"End on a question, not a conclusion"</strong> (produces open-ended landing).
+ These go into the customize-prompt file, not the source.</p>
+ </div>
 
-  <!-- ── Architecture v3.5 pivot ─────────────────────────── -->
-  <div class="section-head">
-    <div class="label">·· architecture v3.5 · 2026-05-17 ··</div>
-    <h2>Phonetics live in the customize prompt, never in the chapter</h2>
-    <div class="sub">The pivot that closed the empirical feedback loop. We audited 5 NotebookLM transcripts of <em>Ayyuhal Walad</em>. Inline phonetic guides — written in parentheses next to every Arabic term so the TTS engine would say them correctly — were being read aloud as content by the hosts. The structural fix moves all phonetic guidance out of the chapter (the read-aloud surface) and into the customize prompt (the instruction surface), as <strong>imperative directives</strong> rather than passive lists.</div>
-  </div>
+ <!-- ── Architecture v3.5 pivot ─────────────────────────── -->
+ <div class="section-head">
+ <div class="label">·· architecture v3.5 · 2026-05-17 ··</div>
+ <h2>Phonetics live in the customize prompt, never in the chapter</h2>
+ <div class="sub">The pivot that closed the empirical feedback loop. We audited 5 NotebookLM transcripts of <em>Ayyuhal Walad</em>. Inline phonetic guides — written in parentheses next to every Arabic term so the TTS engine would say them correctly — were being read aloud as content by the hosts. The structural fix moves all phonetic guidance out of the chapter (the read-aloud surface) and into the customize prompt (the instruction surface), as <strong>imperative directives</strong> rather than passive lists.</div>
+ </div>
 
-  <div class="grid grid-2">
-    <div class="card">
-      <div class="meta">·· before (v3.4) ··</div>
-      <h3>Inline parentheticals · passive lists</h3>
-      <p><strong>Chapter:</strong> <code>*Tasawwuf* (ta-SAW-wuf; the inner practice)</code><br/>
-      <strong>Customize prompt:</strong> <code>- *Tasawwuf*: Ta-SAW-wuf</code></p>
-      <p><strong>Observed in transcripts:</strong> "Sahih Sitta, sahasita" doublings, "tassel wolf" for <em>Tasawwuf</em>, "Najah Balala" for <em>Nahj al-Balagha</em>, "the EI" for <em>Ihya Ulum al-Din</em>, 9 expansions of "(peace and blessings be upon him)" in one episode.</p>
-    </div>
+ <div class="grid grid-2">
+ <div class="card">
+ <div class="meta">·· before (v3.4) ··</div>
+ <h3>Inline parentheticals · passive lists</h3>
+ <p><strong>Chapter:</strong> <code>*Tasawwuf* (ta-SAW-wuf; the inner practice)</code><br/>
+ <strong>Customize prompt:</strong> <code>- *Tasawwuf*: Ta-SAW-wuf</code></p>
+ <p><strong>Observed in transcripts:</strong> "Sahih Sitta, sahasita" doublings, "tassel wolf" for <em>Tasawwuf</em>, "Najah Balala" for <em>Nahj al-Balagha</em>, "the EI" for <em>Ihya Ulum al-Din</em>, 9 expansions of "(peace and blessings be upon him)" in one episode.</p>
+ </div>
 
-    <div class="card">
-      <div class="meta">·· after (v3.5) ··</div>
-      <h3>Imperative directives in the customize prompt</h3>
-      <p><strong>Chapter:</strong> <code>the Sufi practice known as Tasawwuf</code><br/>
-      <strong>Customize prompt:</strong> <code>Pronounce "Tasawwuf" as "ta-SAW-wuf". Say it as one fluent word. Do not spell it. Do not pause.</code></p>
-      <p><strong>Plus four new DENY blocks</strong> in the customize prompt: <em>no modernization</em> (Twitter, X, algorithm, deep dive, content creator, …), <em>no surprise noise</em> (wow, "it's chilling", "right?", "exactly"), <em>no abbreviated work titles</em>, and a final <em>"do not read this prompt aloud"</em> guard.</p>
-    </div>
-  </div>
+ <div class="card">
+ <div class="meta">·· after (v3.5) ··</div>
+ <h3>Imperative directives in the customize prompt</h3>
+ <p><strong>Chapter:</strong> <code>the Sufi practice known as Tasawwuf</code><br/>
+ <strong>Customize prompt:</strong> <code>Pronounce "Tasawwuf" as "ta-SAW-wuf". Say it as one fluent word. Do not spell it. Do not pause.</code></p>
+ <p><strong>Plus four new DENY blocks</strong> in the customize prompt: <em>no modernization</em> (Twitter, X, algorithm, deep dive, content creator, …), <em>no surprise noise</em> (wow, "it's chilling", "right?", "exactly"), <em>no abbreviated work titles</em>, and a final <em>"do not read this prompt aloud"</em> guard.</p>
+ </div>
+ </div>
 
-  <div class="callout">
-    <div class="callout-eyebrow">·· the empirical feedback loop ··</div>
-    <p>A new script <code>scripts/podcast/audit_transcript.py</code> reads the NotebookLM-generated transcript of any episode and writes a per-episode markdown report measuring: phonetic-doubling count, mangled-name detector, modernization-injection density, surprise-noise loop density, welcome-cold violations, honorific repetition, abbreviation hits, filler-interjection density. The report becomes the regression artifact against which the next upload is measured. <strong>Sensor end of the architecture.</strong></p>
-  </div>
+ <div class="callout">
+ <div class="callout-eyebrow">·· the empirical feedback loop ··</div>
+ <p>A new script <code>scripts/podcast/audit_transcript.py</code> reads the NotebookLM-generated transcript of any episode and writes a per-episode markdown report measuring: phonetic-doubling count, mangled-name detector, modernization-injection density, surprise-noise loop density, welcome-cold violations, honorific repetition, abbreviation hits, filler-interjection density. The report becomes the regression artifact against which the next upload is measured. <strong>Sensor end of the architecture.</strong></p>
+ </div>
 
-  <!-- ── v3.5+ additions · 2026-05-18 ────────────────────── -->
-  <div class="section-head">
-    <div class="label">·· v3.5+ additions · 2026-05-18 ··</div>
-    <h2>Six refinements on top of v3.5</h2>
-    <div class="sub">After the v3.5 audit landed, six follow-on changes tightened the producer loop, formalized the workspace layout, and broadened the format menu beyond <em>deep_dive</em>.</div>
-  </div>
+ <!-- ── v3.5+ additions · 2026-05-18 ────────────────────── -->
+ <div class="section-head">
+ <div class="label">·· v3.5+ additions · 2026-05-18 ··</div>
+ <h2>Eight refinements on top of v3.5</h2>
+ <div class="sub">After the v3.5 audit landed, eight follow-on changes tightened the producer loop, formalized the workspace layout, broadened the format menu beyond <em>deep_dive</em>, and — landed 2026-05-18 — added a closed-loop learning substrate with an autonomous orchestrator + trainer overlay.</div>
+ </div>
 
-  <div class="grid grid-3">
-    <div class="card">
-      <div class="meta">·· producer · authoring ··</div>
-      <h3>Conversation choreography</h3>
-      <p>The two-host framing now declares <strong>Driver</strong> (Host A — intro, transitions, pacing, resets, landing) and <strong>Color</strong> (Host B — analytical contrast, related works, the counter-reading). Each episode plants <strong>one cross-introduction beat</strong> — one host introduces a passage the other has not led toward. No mid-sentence interjections. No talking-over.</p>
-    </div>
+ <div class="grid grid-3">
+ <div class="card">
+ <div class="meta">·· producer · authoring ··</div>
+ <h3>Conversation choreography</h3>
+ <p>The two-host framing now declares <strong>Driver</strong> (Host A — intro, transitions, pacing, resets, landing) and <strong>Color</strong> (Host B — analytical contrast, related works, the counter-reading). Each episode plants <strong>one cross-introduction beat</strong> — one host introduces a passage the other has not led toward. No mid-sentence interjections. No talking-over.</p>
+ </div>
 
-    <div class="card">
-      <div class="meta">·· producer · tone ··</div>
-      <h3>R-NOMODERNIZE softened</h3>
-      <p>The platform/anachronism DENY list stays (Twitter, X, algorithm, deep dive, content creator). What was added is an explicit <strong>"DO use modern-life practical analogies"</strong> paragraph — a parent worrying about a child, an employee resenting a coworker, learning a craft over years. Each analogy lands in a single beat and returns to the source.</p>
-    </div>
+ <div class="card">
+ <div class="meta">·· producer · tone ··</div>
+ <h3>R-NOMODERNIZE softened</h3>
+ <p>The platform/anachronism DENY list stays (Twitter, X, algorithm, deep dive, content creator). What was added is an explicit <strong>"DO use modern-life practical analogies"</strong> paragraph — a parent worrying about a child, an employee resenting a coworker, learning a craft over years. Each analogy lands in a single beat and returns to the source.</p>
+ </div>
 
-    <div class="card">
-      <div class="meta">·· workspace · scaffolding ··</div>
-      <h3>scaffold_book.py + chapter-contracts</h3>
-      <p>One-shot creation of the canonical BOOK_DIR layout: <code>chapters/</code>, <code>chapter-contracts/</code>, <code>episodes/</code>, <code>turboscribe/</code>, <code>_system/</code>. Each chapter gets a <code>chapter-contracts/&lt;slug&gt;.yml</code> sidecar (title · content-type · enrichment scope · anchor passages) — the deterministic I/O surface that <code>extract_chapter.py</code> reads to emit the NotebookLM bundle.</p>
-    </div>
+ <div class="card">
+ <div class="meta">·· workspace · scaffolding ··</div>
+ <h3>scaffold_book.py + chapter-contracts</h3>
+ <p>One-shot creation of the canonical BOOK_DIR layout: <code>chapters/</code>, <code>chapter-contracts/</code>, <code>episodes/</code>, <code>transcripts/</code>, <code>_system/</code>. Each chapter gets a <code>chapter-contracts/&lt;slug&gt;.yml</code> sidecar (title · content-type · enrichment scope · anchor passages) — the deterministic I/O surface that <code>extract_chapter.py</code> reads to emit the NotebookLM bundle.</p>
+ </div>
 
-    <div class="card">
-      <div class="meta">·· challenger · cross-book ··</div>
-      <h3>Category Q · cross-book bleed</h3>
-      <p>New challenger category. When a single repo hosts multiple podcasted books, terms or framings from one book must not leak into another's framing. Q checks the per-book pronunciation manifest, chapter-set design balance (~30% word-count variance across the series), and cross-book term collisions.</p>
-    </div>
+ <div class="card">
+ <div class="meta">·· challenger · cross-book ··</div>
+ <h3>Category Q · cross-book bleed</h3>
+ <p>New challenger category. When a single repo hosts multiple podcasted books, terms or framings from one book must not leak into another's framing. Q checks the per-book pronunciation manifest, chapter-set design balance (~30% word-count variance across the series), and cross-book term collisions.</p>
+ </div>
 
-    <div class="card">
-      <div class="meta">·· format · range ··</div>
-      <h3>Debate alongside deep_dive</h3>
-      <p>The episode format menu now carries two shapes. <strong>deep_dive</strong> is the default — Curious Mind + Scholar Companion exploring one source. <strong>debate</strong> introduces two hosts holding opposed positions on the same source, alternating beat by beat. Each format has its own schema, render path, and challenger checks.</p>
-    </div>
+ <div class="card">
+ <div class="meta">·· format · range ··</div>
+ <h3>Debate alongside deep_dive</h3>
+ <p>The episode format menu now carries two shapes. <strong>deep_dive</strong> is the default — Curious Mind + Scholar Companion exploring one source. <strong>debate</strong> introduces two hosts holding opposed positions on the same source, alternating beat by beat. Each format has its own schema, render path, and challenger checks.</p>
+ </div>
 
-    <div class="card">
-      <div class="meta">·· portability · derivative ··</div>
-      <h3>ChatGPT-portable system prompt</h3>
-      <p>A single ChatGPT system prompt (<code>_workspace/chatgpt-podcast-skill-prompt.md</code>) captures Phase 0a–0e for users who want to drive the pipeline through ChatGPT instead of running the repo skill. Deliberately omits the empirical-transcript audit loop, per-book contracts, Category Q, and <code>scaffold_book.py</code> layout — those need the repo.</p>
-    </div>
-  </div>
+ <div class="card">
+ <div class="meta">·· portability · derivative ··</div>
+ <h3>ChatGPT-portable system prompt</h3>
+ <p>A single ChatGPT system prompt (<code>_workspace/chatgpt-podcast-skill-prompt.md</code>) captures Phase 0a–0e for users who want to drive the pipeline through ChatGPT instead of running the repo skill. Deliberately omits the empirical-transcript audit loop, per-book contracts, Category Q, and <code>scaffold_book.py</code> layout — those need the repo.</p>
+ </div>
 
-  <div class="callout">
-    <div class="callout-eyebrow">·· pending · Arabic TTS protocol · Track A approved · awaiting implement ··</div>
-    <p>The tracked protocol at <code>content/podcast/.skill/handbook/arabic-tts-protocol.md</code> (cold-start item 17 in <code>podcast-challenger.agent.md</code>; item 18 in <code>SKILL.md</code>) proposes four refinements: TTS engineering rules as numbered imperatives in <code>content/_shared/arabic/01-tts-pronunciation-key.md</code>; <code>R-PRONUNCIATION-IMPERATIVE</code> splits into <strong>Conversational</strong> (smooth Anglicized) and <strong>Classical</strong> (Tajweed-approximating); the <code>## Pronunciation</code> section renamed to <code>## Phonetic Key (TTS Pronunciation)</code>; per-book <code>pronunciation.md</code> gains a <code>Mode</code> column. The protocol is consulted on every chapter and every episode authoring run; until B1–B8 land in their named rule files, the protocol is advisory and the rule files win. <strong>R-PHONETICS-OUT stays intact</strong> — no inline parens in chapters.</p>
-  </div>
+ <div class="card">
+ <div class="meta">·· quality · closed loop ··</div>
+ <h3>The <code>_learning/</code> substrate</h3>
+ <p>Every challenger and audit finding emits a JSONL record into <code>content/podcast/.skill/_learning/findings.jsonl</code> via <code>scripts/podcast/_rules.py::emit_finding()</code>. <code>learn_aggregate.py</code> rolls the ledger up by signature into <code>patterns.md</code>; <code>learn_propose.py</code> emits markdown proposals when a signature crosses ≥ 2 books OR ≥ 3 episodes OR ≥ 3 density firings; <code>test_challenger.py</code> regresses seven frozen fixtures before any rule promotion lands. <strong>One ledger, one regression suite, one proposals lifecycle</strong> — no parallel pipelines. Full design in the <a href="podcast-quality-system.html">quality-system view</a>.</p>
+ </div>
 
-  <footer class="footer">
-    <a href="index.html">← back to the map</a> &nbsp;·&nbsp; <a href="podcast-pipeline.html">pipeline →</a> &nbsp;·&nbsp; <a href="podcast-quality-system.html">quality system</a> &nbsp;·&nbsp; <a href="journal-overview.html">journal overview (peer)</a>
-    <div class="footer-secondary">
-      <a href="shared-arabic-reference.html">shared Arabic brain</a> &nbsp;·&nbsp; <a href="cross-skill-boundaries.html">boundaries</a> &nbsp;·&nbsp; <a href="azure.html">Azure (OCR + translation)</a> &nbsp;·&nbsp; <a href="cloudflare.html">Cloudflare</a>
-    </div>
-  </footer>
+ <div class="card">
+ <div class="meta">·· autonomy · orchestrator + trainer ··</div>
+ <h3>Drop a PDF, walk away</h3>
+ <p>The <strong><code>podcast-orchestrator</code></strong> agent drives a book from PDF through merged <code>develop</code> with <strong>one human gate</strong> at Phase 0f (chapter list + length tier only — audience, angle, and host dynamic are project-fixed defaults or AI-selected). Per-chapter bounded convergence (3 outer × 5 inner = 15 passes max). After all chapters ship, the <strong><code>podcast-trainer</code></strong> agent reads <code>_learning/patterns.md</code>, applies candidate rule diffs in a worktree, regression-tests, and commits Tier-2 / Tier-3 promotions on the book branch under a strict regression gate. Full design in the <a href="podcast-orchestrator.html">autonomous orchestrator view</a>.</p>
+ </div>
+ </div>
+
+ <div class="callout">
+ <div class="callout-eyebrow">·· pending · Arabic TTS protocol · Track A approved · awaiting implement ··</div>
+ <p>The tracked protocol at <code>content/podcast/.skill/handbook/arabic-tts-protocol.md</code> (cold-start item 17 in <code>podcast-challenger.agent.md</code>; item 18 in <code>SKILL.md</code>) proposes four refinements: TTS engineering rules as numbered imperatives in <code>content/_shared/arabic/01-tts-pronunciation-key.md</code>; <code>R-PRONUNCIATION-IMPERATIVE</code> splits into <strong>Conversational</strong> (smooth Anglicized) and <strong>Classical</strong> (Tajweed-approximating); the <code>## Pronunciation</code> section renamed to <code>## Phonetic Key (TTS Pronunciation)</code>; per-book <code>pronunciation.md</code> gains a <code>Mode</code> column. The protocol is consulted on every chapter and every episode authoring run; until B1–B8 land in their named rule files, the protocol is advisory and the rule files win. <strong>R-PHONETICS-OUT stays intact</strong> — no inline parens in chapters.</p>
+ </div>
+
+ <footer class="footer">
+ <a href="index.html">← back to the map</a> &nbsp;·&nbsp; <a href="podcast-pipeline.html">pipeline →</a> &nbsp;·&nbsp; <a href="podcast-quality-system.html">quality system</a> &nbsp;·&nbsp; <a href="podcast-orchestrator.html">orchestrator + trainer</a> &nbsp;·&nbsp; <a href="journal-overview.html">journal overview (peer)</a>
+ <div class="footer-secondary">
+ <a href="shared-arabic-reference.html">shared Arabic brain</a> &nbsp;·&nbsp; <a href="cross-skill-boundaries.html">boundaries</a> &nbsp;·&nbsp; <a href="azure.html">Azure (OCR + translation)</a> &nbsp;·&nbsp; <a href="cloudflare.html">Cloudflare</a>
+ </div>
+ </footer>
 
 </main>
 </body>

@@ -3,11 +3,11 @@
 
 PURPOSE
 
-  Replaces the manual TurboScribe step in the post-publication audit loop
+  Replaces an external transcription step in the post-publication audit loop
   (skills-staging/podcast/SKILL.md §post-publication). Given a downloaded
   NotebookLM Audio Overview MP3/WAV, transcribes via Azure Speech Fast
   Transcription and writes the result to the canonical
-  `BOOK_DIR/turboscribe/EP##-<slug>.transcript.txt` path so `audit_transcript.py`
+  `BOOK_DIR/transcripts/EP##-<slug>.transcript.txt` path so `audit_transcript.py`
   and the podcast-challenger's Loop M consume it without changes.
 
 USAGE
@@ -16,14 +16,14 @@ USAGE
 
 OUTPUTS
 
-  Writes <BOOK_DIR>/turboscribe/<EP##-slug>.transcript.txt
+  Writes <BOOK_DIR>/transcripts/<EP##-slug>.transcript.txt
   Prints the next-step command (audit_transcript.py) on completion.
 
 GATING
 
   Requires Azure Speech credentials in the macOS Keychain (or env vars). Run
   `infra/azure/store-keychain-keys.sh` after `infra/azure/provision-azure.sh`
-  with ENABLE_SPEECH=true. Manual TurboScribe drops remain a supported
+  with ENABLE_SPEECH=true. Manual transcript drops remain a supported
   fallback — both paths write to the same filename contract.
 """
 
@@ -44,9 +44,9 @@ def transcribe(book_dir: Path, episode_id: str, audio_path: Path) -> Path:
     if not audio_path.is_file():
         raise SystemExit(f"ERROR: audio file not found: {audio_path}")
 
-    turboscribe_dir = book_dir / "turboscribe"
-    turboscribe_dir.mkdir(parents=True, exist_ok=True)
-    out_path = turboscribe_dir / f"{episode_id}.transcript.txt"
+    transcripts_dir = book_dir / "transcripts"
+    transcripts_dir.mkdir(parents=True, exist_ok=True)
+    out_path = transcripts_dir / f"{episode_id}.transcript.txt"
 
     creds = _azure.load_speech_creds()
     audio_bytes = audio_path.read_bytes()
@@ -68,7 +68,7 @@ def main() -> None:
     if len(sys.argv) != 4:
         sys.exit(
             "Usage: transcribe_episode.py <BOOK_DIR> <EP##-slug> <audio-path>\n"
-            "  Writes <BOOK_DIR>/turboscribe/<EP##-slug>.transcript.txt"
+            "  Writes <BOOK_DIR>/transcripts/<EP##-slug>.transcript.txt"
         )
     book_dir = Path(sys.argv[1]).resolve()
     episode_id = sys.argv[2]

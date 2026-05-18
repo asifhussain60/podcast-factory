@@ -43,19 +43,19 @@ The `/podcast` skill today is a **deterministic build system wrapped around in-c
 
 ```
 [external source] → Phase 0a normalize → Phase 0b…0e chapters/contracts/enrichment
-   → extract_chapter.py → episode-drafts/ → build_episode_txt.py
-   → BOOK_DIR/episodes/EP##-<slug>.txt → [upload to NotebookLM]
-   → NotebookLM Audio Overview → [transcribe in TurboScribe] → turboscribe/
-   → audit_transcript.py → loop closure
+ → extract_chapter.py → episode-drafts/ → build_episode_txt.py
+ → BOOK_DIR/episodes/EP##-<slug>.txt → [upload to NotebookLM]
+ → NotebookLM Audio Overview → [transcribe in ] → transcripts/
+ → audit_transcript.py → loop closure
 ```
 
 Six pain points stand out, in rough order of how much they slow you down:
 
 ### P1. Phase 0a is manual and unaided
-Source normalization (PDF → text, scanned Arabic → English, audio → text, .docx/.pptx → text) is currently "do whatever you can with the tools you have". The Azure stack just provisioned **exists specifically to solve this**, but no script reaches it. Every new source today costs you an external-tool dance.
+Source normalization (PDF → text, scanned Arabic → English, audio → text,.docx/.pptx → text) is currently "do whatever you can with the tools you have". The Azure stack just provisioned **exists specifically to solve this**, but no script reaches it. Every new source today costs you an external-tool dance.
 
-### P2. The TurboScribe loop is paid, manual, and slow
-NotebookLM produces an MP3. You sign in to TurboScribe (paid subscription), upload, wait, download, rename to `EP##-<slug>.transcript.txt`, drop into `BOOK_DIR/turboscribe/`. Only then does `audit_transcript.py` run. This is the single biggest source of human latency in the iteration loop.
+### P2. The loop is paid, manual, and slow
+NotebookLM produces an MP3. You sign in to (paid subscription), upload, wait, download, rename to `EP##-<slug>.transcript.txt`, drop into `BOOK_DIR/transcripts/`. Only then does `audit_transcript.py` run. This is the single biggest source of human latency in the iteration loop.
 
 ### P3. The Arabic TTS protocol is approved but unexecuted
 [ROADMAP §B (B1–B8)](content/podcast/.skill/ROADMAP.md) — Conversational vs Classical mode split, `## Pronunciation` → `## Phonetic Key (TTS Pronunciation)` rename, per-book Mode column, EP02 re-render. Gated on you typing `implement`. **Independent of Azure** but blocks any Track B direct-TTS work that would replace NotebookLM.
@@ -79,8 +79,8 @@ Chapter re-segmentation (Phase 0d) and outside-material enrichment (Phase 0e) cu
 
 ```
 Usage:
-  ingest_source.py <pdf-path> --lang ar --book-slug rahat-al-aql
-  ingest_source.py blob://source-arabic/rahat-al-aql.pdf --book-slug rahat-al-aql
+ ingest_source.py <pdf-path> --lang ar --book-slug rahat-al-aql
+ ingest_source.py blob://source-arabic/rahat-al-aql.pdf --book-slug rahat-al-aql
 ```
 
 Behaviour:
@@ -104,22 +104,22 @@ Eight atomic steps already specified in [content/podcast/.skill/handbook/arabic-
 
 Why now: independent of Azure, but the Conversational/Classical mode column in per-book `pronunciation.md` becomes the source-of-truth for any later Track B (direct-TTS) work. Without it, Track B has nothing to read.
 
-### Horizon C — replace TurboScribe with Azure Speech-to-Text (1 evening)
+### Horizon C — replace with Azure Speech-to-Text (1 evening)
 
 **Single deliverable: `scripts/podcast/transcribe_audio.py`.**
 
 ```
 Usage:
-  transcribe_audio.py path/to/notebooklm-export.mp3 \
-    --book-slug ayyuhal-walad --episode EP02
+ transcribe_audio.py path/to/notebooklm-export.mp3 \
+ --book-slug ayyuhal-walad --episode EP02
 ```
 
 Behaviour:
 1. Hits Azure Speech-to-Text (batch transcription endpoint).
-2. Emits `BOOK_DIR/turboscribe/EP##-<slug>.transcript.txt` directly.
-3. Drops the audio file under `BOOK_DIR/turboscribe/_audio/EP##-<slug>.mp3` (gitignored) for replay.
+2. Emits `BOOK_DIR/transcripts/EP##-<slug>.transcript.txt` directly.
+3. Drops the audio file under `BOOK_DIR/transcripts/_audio/EP##-<slug>.mp3` (gitignored) for replay.
 
-This drops the TurboScribe subscription, eliminates the manual rename, and lets `audit_transcript.py` run unattended right after you finish listening to NotebookLM's output.
+This drops the subscription, eliminates the manual rename, and lets `audit_transcript.py` run unattended right after you finish listening to NotebookLM's output.
 
 **Provisioning delta:** Azure Speech is a Cognitive Services resource — add `ENABLE_SPEECH="true"` + a `SPEECH_NAME="journal-speech"` block to `azure-config.env`, re-run `provision-azure.sh`. No new script architecture; just one more service alongside Translator + Doc Intel. Keychain entries follow the same `azure-journal-speech-*` naming convention.
 
@@ -151,38 +151,38 @@ After all five horizons, the pipeline becomes:
 
 ```
 [Arabic PDF in source-arabic blob]
-        │
-        ▼
-ingest_source.py                       ← Horizon A
-  ├─ Doc Intel (OCR, layout preserved)
-  └─ Translator (Arabic → English)
-        │
-        ▼
-chapters/_raw/<source>.txt + .provenance.json
-        │
-        ▼
-[Phase 0d/0e — chapter re-segment + enrich, with Mode-aware pronunciation]   ← Horizon B
-        │
-        ▼
+ │
+ ▼
+ingest_source.py ← Horizon A
+ ├─ Doc Intel (OCR, layout preserved)
+ └─ Translator (Arabic → English)
+ │
+ ▼
+chapters/_raw/<source>.txt +.provenance.json
+ │
+ ▼
+[Phase 0d/0e — chapter re-segment + enrich, with Mode-aware pronunciation] ← Horizon B
+ │
+ ▼
 chapters/ch##-<slug>.txt + chapter-contracts/<slug>.yml
-        │
-        ▼
-extract_chapter.py + build_episode_txt.py     (unchanged — deterministic build)
-        │
-        ▼
+ │
+ ▼
+extract_chapter.py + build_episode_txt.py (unchanged — deterministic build)
+ │
+ ▼
 episodes/EP##-<slug>.txt
-        │
-        ▼
-[NotebookLM Audio Overview]            (Horizon D may replace this later)
-        │
-        ▼
-transcribe_audio.py                    ← Horizon C
-        │
-        ▼
-turboscribe/EP##-<slug>.transcript.txt
-        │
-        ▼
-audit_transcript.py                    (unchanged — closes the loop empirically)
+ │
+ ▼
+[NotebookLM Audio Overview] (Horizon D may replace this later)
+ │
+ ▼
+transcribe_audio.py ← Horizon C
+ │
+ ▼
+transcripts/EP##-<slug>.transcript.txt
+ │
+ ▼
+audit_transcript.py (unchanged — closes the loop empirically)
 ```
 
 Every human-in-the-loop step that exists today either disappears or becomes an `--implement`-style explicit gate. The hand-paste paths drop. The subscription drops. The pronunciation contract becomes a re-runnable artifact instead of in-conversation memory.
@@ -195,7 +195,7 @@ Every human-in-the-loop step that exists today either disappears or becomes an `
 |---|---|---|---|
 | D1 | Approve Horizon A (`ingest_source.py`) | Wires Azure into Phase 0a — pipeline finally has source-of-truth ingestion | 1 evening |
 | D2 | Type `implement` for the Arabic TTS protocol | ROADMAP §B1–B8 execute; EP02 re-renders clean | 1–2 evenings, gated |
-| D3 | Approve Horizon C (Speech-to-Text) — and the `ENABLE_SPEECH` config addition | TurboScribe loop dies; iteration latency drops | 1 evening |
+| D3 | Approve Horizon C (Speech-to-Text) — and the `ENABLE_SPEECH` config addition | loop dies; iteration latency drops | 1 evening |
 | D4 | Decide Horizon E cleanups (ROADMAP §E1) | `skills-staging/` → `skills/`, `_contracts/` flatten | 1 hour |
 | D5 | Defer or commit to Horizon D (direct-TTS) | If commit: budget $$ for custom voice; if defer: no action | n/a unless deciding to commit |
 
@@ -222,7 +222,7 @@ Three files landed on branch `test/api-connectivity`:
 
 - [`scripts/podcast/_azure.py`](../scripts/podcast/_azure.py) — Azure REST adapter. Pure stdlib (no `pip install` deps). Reads creds from macOS Keychain (or `AZURE_*` env vars for CI), wraps Document Intelligence `prebuilt-read` + Translator Text v3.0. Surfaces clean `AzureCredsError` when the stack hasn't been provisioned.
 - [`scripts/podcast/ingest_source.py`](../scripts/podcast/ingest_source.py) — Horizon A deliverable verbatim per §3. PDF in → `raw-extract.md` + `_provenance.json` out. Refuses to write into a non-existent BOOK_DIR (run `scaffold_book.py` first). Idempotent with `--force`.
-- [`scripts/podcast/test_azure_connectivity.py`](../scripts/podcast/test_azure_connectivity.py) — pre-flight test, the Azure half of SKILL.md §1 Step 0. Reports `pass N  fail M` mirroring the Node test for symmetry. `SKIP_LIVE=1` skips the round-trip probes.
+- [`scripts/podcast/test_azure_connectivity.py`](../scripts/podcast/test_azure_connectivity.py) — pre-flight test, the Azure half of SKILL.md §1 Step 0. Reports `pass N fail M` mirroring the Node test for symmetry. `SKIP_LIVE=1` skips the round-trip probes.
 
 [SKILL.md](../skills-staging/podcast/SKILL.md) updated in two places:
 - §1 Step 0 — Step 0 split into "Anthropic proxy (always)" and "Azure stack (when Phase 0a runs against a PDF)" halves, each with the failing-state diagnostic.
@@ -247,7 +247,7 @@ cd ~/PROJECTS/journal/infra/azure
 # 4. Verify everything is wired
 ./verify-azure.sh
 python3 ~/PROJECTS/journal/scripts/podcast/test_azure_connectivity.py
-# Expect: pass 4  fail 0
+# Expect: pass 4 fail 0
 ```
 
 Then a first real ingestion:
@@ -258,12 +258,12 @@ python3 scripts/podcast/scaffold_book.py books rahat-al-aql "Rāḥat al-ʿAql"
 
 # put the PDF where the layout expects it
 cp ~/Downloads/rahat-al-aql.pdf \
-   content/podcast/library/books/rahat-al-aql/_system/source/
+ content/podcast/library/books/rahat-al-aql/_system/source/
 
 # ingest — Doc Intel OCR + Translator ar→en
 python3 scripts/podcast/ingest_source.py \
-    content/podcast/library/books/rahat-al-aql/_system/source/rahat-al-aql.pdf \
-    --book-slug rahat-al-aql --src-lang ar
+ content/podcast/library/books/rahat-al-aql/_system/source/rahat-al-aql.pdf \
+ --book-slug rahat-al-aql --src-lang ar
 ```
 
 Output lands at `content/podcast/library/books/rahat-al-aql/_system/source/text/raw-extract.md` with a `_provenance.json` sidecar. From there, Phase 0b (English refinement) → 0c (phonetics) → 0d (chapter design) → 0e (enrichment) per SKILL.md §1.5.
@@ -282,12 +282,12 @@ Output lands at `content/podcast/library/books/rahat-al-aql/_system/source/text/
 
 **Work Pending**
 - **Run the four provisioning commands** in §7 (`brew install azure-cli`, `az login`, `./provision-azure.sh`, `./store-keychain-keys.sh`). The wiring is callable today; only the cloud-side stack is missing.
-- Four decisions remain (D2–D5 from §5). Recommended sequence next: D3 (Speech-to-Text, kills the TurboScribe loop) → D2 (Arabic TTS protocol, gated on your `implement` token) → D4 (cleanups). Defer D5.
+- Four decisions remain (D2–D5 from §5). Recommended sequence next: D3 (Speech-to-Text, kills the loop) → D2 (Arabic TTS protocol, gated on your `implement` token) → D4 (cleanups). Defer D5.
 - ROADMAP.md §B (Arabic TTS protocol) and §E1 (workspace cleanups) still flagged as awaiting explicit `implement`.
 
 **Decisions Needed**
 - D2 — Type `implement` to execute the Arabic TTS protocol's B1–B8 steps?
-- D3 — Add Azure Speech-to-Text to `azure-config.env` and replace the TurboScribe loop? (Drops a paid subscription; ~$0.25 per episode.)
+- D3 — Add Azure Speech-to-Text to `azure-config.env` and replace the loop? (Drops a paid subscription; ~$0.25 per episode.)
 - D4 — Execute ROADMAP §E1 workspace cleanups (`skills-staging/` → `skills/`, flatten `_contracts/`)?
 - D5 — Commit to or defer Horizon D (direct-TTS via Azure Neural Voice)?
 

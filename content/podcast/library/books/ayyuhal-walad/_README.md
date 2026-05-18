@@ -10,27 +10,27 @@
 
 ```
 ayyuhal-walad/
-├── _README.md                                you are here
-├── chapters/                                 SOURCE — uploaded to NotebookLM as-is
-│   ├── ch01-frame-and-first-counsel.txt
-│   ├── ch02-hatim-eight-benefits.txt
-│   ├── ch03-the-path.txt
-│   ├── ch04-four-cautions.txt
-│   └── ch05-method-and-closing-prayer.txt
-├── episodes/                                 CUSTOMIZE PROMPT — pasted into NotebookLM Customize box
-│   └── EP##-<slug>.txt                       (one per chapter, slug-matched)
-├── turboscribe/                              POST-PUBLISH TRANSCRIPTS — slug-aligned
-│   └── _README.md
-└── _system/                                  book-specific authoring state
-    ├── source/
-    │   ├── Ayyuhal-Walad.pdf                 verbatim original (audit anchor; never modified)
-    │   └── text/                             Phase 0a–0c extraction + normalization + phonetics
-    ├── episode-drafts/EP##-<slug>/           per-episode framing + scaffolds
-    ├── scratchpad/                           series-policies
-    ├── pronunciation.md                      book-level overrides (additive to SHARED_ARABIC)
-    ├── enrichment-log.md                     attribution sidecar for Phase 0e enrichment
-    ├── editorial-notes.md                    flags + provenance + user decisions
-    └── challenger-report.md                  podcast-challenger convergence verdict
+├── _README.md you are here
+├── chapters/ SOURCE — uploaded to NotebookLM as-is
+│ ├── ch01-frame-and-first-counsel.txt
+│ ├── ch02-hatim-eight-benefits.txt
+│ ├── ch03-the-path.txt
+│ ├── ch04-four-cautions.txt
+│ └── ch05-method-and-closing-prayer.txt
+├── episodes/ CUSTOMIZE PROMPT — pasted into NotebookLM Customize box
+│ └── EP##-<slug>.txt (one per chapter, slug-matched)
+├── transcripts/ POST-PUBLISH TRANSCRIPTS — slug-aligned
+│ └── _README.md
+└── _system/ book-specific authoring state
+ ├── source/
+ │ ├── Ayyuhal-Walad.pdf verbatim original (audit anchor; never modified)
+ │ └── text/ Phase 0a–0c extraction + normalization + phonetics
+ ├── episode-drafts/EP##-<slug>/ per-episode framing + scaffolds
+ ├── scratchpad/ series-policies
+ ├── pronunciation.md book-level overrides (additive to SHARED_ARABIC)
+ ├── enrichment-log.md attribution sidecar for Phase 0e enrichment
+ ├── editorial-notes.md flags + provenance + user decisions
+ └── challenger-report.md podcast-challenger convergence verdict
 ```
 
 ## Two-file deliverable per episode

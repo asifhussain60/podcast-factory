@@ -92,7 +92,7 @@ Every chapter: each honorific phrase form expanded at most once outside verbatim
 ### Extract Mode (Category G) and empirical-transcript audit (Category M/N/O)
 
 `chapter-contracts/` directory not present (book is authored, not Extract Mode) → Category G N/A.
-`turboscribe/` contains only `_README.md`, no transcripts → Category M/N/O empirical-audit branches N/A. Loops M1, M2, N1, N2, N3, N4, O1, O2 (framing-side + chapter-side static checks) all pass independently.
+`transcripts/` contains only `_README.md`, no transcripts → Category M/N/O empirical-audit branches N/A. Loops M1, M2, N1, N2, N3, N4, O1, O2 (framing-side + chapter-side static checks) all pass independently.
 
 ## Verdict rationale
 

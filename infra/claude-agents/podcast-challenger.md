@@ -17,7 +17,7 @@ This `.claude/agents/` registration is a thin wrapper that makes the spec invoka
 
 - **First positional argument** (required): book-slug. The book must exist under `content/podcast/library/<category>/<book-slug>/` (category ∈ {books, articles, documents, lectures, interviews, letters}) with at least `chapters/` and `_system/episode-drafts/`.
 - **Optional `--chapter <slug>`**: narrow to a single chapter (faster).
-- **Optional `--scope=transcript`**: invoke Loop M's empirical-transcript audit (requires `BOOK_DIR/turboscribe/EP##-<slug>.transcript.txt` to exist).
+- **Optional `--scope=transcript`**: invoke Loop M's empirical-transcript audit (requires `BOOK_DIR/transcripts/EP##-<slug>.transcript.txt` to exist).
 
 ## Cold-start checklist (every invocation)
 
@@ -46,9 +46,9 @@ After the loop, derive the verdict from remaining findings:
 2. **Ledger emission**: emit one JSONL record per finding into `content/podcast/.skill/_learning/findings.jsonl` via `scripts/podcast/_rules.py::emit_finding()`. See canonical spec's Section 5 "Ledger emission" for the schema and signature rules. Deduplicate by signature within a single run.
 3. **Health-score write**: invoke `scripts/podcast/write_health.py` once at end-of-run with the (P0, P1, P2, chapters, auto-fixes, verdict) tally. This writes `_learning/health/<book-slug>.json` and appends to `BOOK_DIR/_system/health-trend.md`.
 4. **Chat summary** (single line):
-   ```
-   podcast-challenger: <verdict> for <book-slug> after N iteration(s). Auto-fixed M items. R findings remain (P0:p P1:q P2:r). Score: S.SS (<badge>). Full report: content/podcast/<book>/_system/challenger-report.md
-   ```
+ ```
+ podcast-challenger: <verdict> for <book-slug> after N iteration(s). Auto-fixed M items. R findings remain (P0:p P1:q P2:r). Score: S.SS (<badge>). Full report: content/podcast/<book>/_system/challenger-report.md
+ ```
 5. **If verdict is SHIP-READY**: also confirm the per-episode upload steps (chapters/chNN-<slug>.txt as SOURCE; episodes/EP##-<slug>.txt as CUSTOMIZE PROMPT).
 6. **If verdict is BLOCKED**: list the P0 items inline (max 5) and stop. Do NOT attempt further passes within this invocation — the caller is expected to fix and re-invoke.
 
