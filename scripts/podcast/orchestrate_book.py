@@ -267,7 +267,7 @@ def phase_scaffold(category: str, book_slug: str, title: str, author: str | None
         str(SCAFFOLD_SCRIPT),
         category,
         book_slug,
-        "--title", title,
+        title,
     ]
     if author:
         cmd += ["--author", author]
@@ -280,13 +280,14 @@ def phase_scaffold(category: str, book_slug: str, title: str, author: str | None
     return book_dir
 
 
-def phase_0a_ingest(book_dir: Path, pdf_path: Path) -> None:
+def phase_0a_ingest(book_dir: Path, pdf_path: Path, category: str, book_slug: str) -> None:
     """Shell out to ingest_source.py for Azure OCR + Translation."""
     cmd = [
         sys.executable,
         str(INGEST_SCRIPT),
         str(pdf_path),
-        str(book_dir),
+        "--book-slug", book_slug,
+        "--category", category,
     ]
     rc, out, err = _run(cmd)
     if rc != 0:
@@ -635,7 +636,7 @@ def run_initial(args: argparse.Namespace) -> int:
     _info(f"phase: 0a · Azure OCR + Translation on {pdf_path.name}")
     update_phase(book_dir, phase="0a", status="running")
     try:
-        phase_0a_ingest(book_dir, pdf_path)
+        phase_0a_ingest(book_dir, pdf_path, category, slug)
     except RuntimeError as e:
         update_phase(book_dir, phase="0a", status="failed", error=str(e))
         _err(str(e))
