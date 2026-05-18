@@ -1,5 +1,16 @@
 # Framing: Episode 01: The Frame and the First Counsel
 
+## Critical pronunciation + citation rules (read BEFORE generating)
+
+**Quran verses.** Speak the chapter and verse numbers BEFORE the translation. The chapter source uses prose lead-ins of the form *"The Quran, in Surah <Name>, verse <X>:"* — follow that pattern exactly. NEVER read the verse first and attach the citation afterwards.
+
+**Names commonly mispronounced — apply explicitly:**
+ - "Ghazali" → **gha-zaa-lee**. NOT "gah-zay-lee".
+ - "Ayyuhal Walad" → **eye-yoo-hal waa-lad** (two fluent words). NOT spelled out.
+ - "Imam Ali" → **i-maam a-lee**. The 'ali' is two syllables, NOT the English name "Allie".
+
+The full pronunciation list is below in the ## Pronunciation section. Apply all of those rules; this Critical block wins on any conflict.
+
 ## Opening directive
 
 Open the episode with a brief welcome, one sentence, followed by a two-to-three sentence summary that names the source, Ayyuhal Walad, the short letter from Imam Abu Hamid Muhammad al-Ghazali to one of his former students, and lands the central tension this conversation will hold. Do not open with "today we'll discuss". Do not open with "in this episode". Open in the voice of someone genuinely glad the listener showed up. The summary should make clear that this is the opening half of a five-part series and that this chapter contains Ghazali's first long answer to the student's letter.
@@ -58,9 +69,7 @@ Landing. Close on the unresolved tension, a question, or a single sharp line. Do
 
 ## Pronunciation
 
-Pronounce "Ayyuhal Walad" as "eye-yoo-hal waa-lad". Say it as two fluent words. Do not spell. Do not pause.
-Pronounce "Imam Abu Hamid Muhammad al-Ghazali" as "i-maam a-boo haa-mid mu-ham-mad al-gha-zaa-lee". Say it as one fluent run on the first occurrence; thereafter use the alias "Ghazali", which is pronounced "gha-zaa-lee". Do not spell.
-Pronounce "Ghazali" as "gha-zaa-lee". Say it as one fluent word.
+Pronounce "Imam Abu Hamid Muhammad al-Ghazali" as "i-maam a-boo haa-mid mu-ham-mad al-gha-zaa-lee". First occurrence only; thereafter alias to "Ghazali".
 Pronounce "Irfan Hasan" as "ir-faan ha-san". Say it as two fluent words.
 Pronounce "Ihya Ulum al-Din" as "ih-yaa oo-loom ad-deen". Say it as three fluent words. Do not abbreviate to "the Ihya". Do not say "EI". Use the full title every time.
 Pronounce "Kimiya al-Sa'ada" as "kee-mee-yaa as-sa-aa-dah". Say it as two fluent runs.

@@ -1,5 +1,16 @@
 # Framing: Episode 04: The Four Cautions
 
+## Critical pronunciation + citation rules (read BEFORE generating)
+
+**Quran verses.** Speak the chapter and verse numbers BEFORE the translation. The chapter source uses prose lead-ins of the form *"The Quran, in Surah <Name>, verse <X>:"* — follow that pattern exactly. NEVER read the verse first and attach the citation afterwards.
+
+**Names commonly mispronounced — apply explicitly:**
+ - "Ghazali" → **gha-zaa-lee**. NOT "gah-zay-lee".
+ - "Imam Ali" → **i-maam a-lee**. NOT "Allie".
+ - "Nahj al-Balagha" → **nahj al-ba-laa-ghah**. NOT "the Nahj"; always use the full title.
+
+The full pronunciation list is below in the ## Pronunciation section. Apply all of those rules; this Critical block wins on any conflict.
+
 ## Opening directive
 
 Open the episode with a brief welcome, one sentence, followed by a two-to-three sentence summary that names the source, Ayyuhal Walad, Ghazali's letter to a former student, and lands the central question this chapter is going to ask. Do not open with "today we'll discuss". Do not open with "in this episode". Open in the voice of someone who has just sat through a difficult instruction and wants to bring the listener inside it. The summary should make clear that this is part of a five-part series and that this chapter is the half of Ghazali's Eight Admonitions that names what the seeker must refuse: religious debate, public preaching, the company of rulers, and gifts from them.

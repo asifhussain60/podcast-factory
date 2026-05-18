@@ -1,5 +1,20 @@
 # Framing: Episode 03: The Path of the Seeker
 
+## Critical pronunciation + citation rules (read BEFORE generating)
+
+**Quran verses.** Speak the chapter and verse numbers BEFORE the translation. The chapter source uses prose lead-ins of the form *"The Quran, in Surah <Name>, verse <X>:"* — follow that pattern exactly. NEVER read the verse first and attach the citation afterwards.
+
+**Names commonly mispronounced — apply explicitly:**
+ - "Shaykh" → **shay-kh**. The 'kh' is a throat-fricative, like the 'ch' in Scottish "loch". NOT the English word "shake".
+ - "Shaykh al-Kamil" → **shay-kh al-kaa-mil**. NOT "shake al-cam-ill".
+ - "Murshid" → **mur-shid**. NOT "Murr-shed".
+ - "Tasawwuf" → **ta-saw-woof**. NOT "tassel wolf".
+ - "Ikhlas" → **ikh-laas** (with the throat-fricative 'kh', not 'k'). NOT "ick-las".
+ - "Tawakkul" → **ta-wak-kul**. NOT "ta-walk-ul".
+ - "Bay'a" → **bay-ʿah** (two beats with a glottal stop). NOT "buy-a".
+
+The full pronunciation list is below in the ## Pronunciation section. Apply all of those rules; this Critical block wins on any conflict.
+
 ## Opening directive
 
 Open the episode with a brief welcome, one sentence, followed by a two-to-three sentence summary that names the source, Ayyuhal Walad, Ghazali's letter to a former student, and lands the central question this chapter is going to ask. Do not open with "today we'll discuss". Do not open with "in this episode". Open in the voice of someone who has been carrying an idea for a while and finally has a chance to put it down for the listener. The summary should make clear that this is part of a five-part series and that this chapter is where Ghazali sketches the inner architecture of the seeker: the seven conditions, the perfected guide, and the four inner stations he names by their classical Arabic terms, Tasawwuf, servitude, Tawakkul, and Ikhlas.

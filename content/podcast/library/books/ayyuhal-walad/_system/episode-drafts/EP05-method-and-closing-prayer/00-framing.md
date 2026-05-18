@@ -1,5 +1,19 @@
 # Framing: Episode 05: The Method of Living and the Closing Prayer
 
+## Critical pronunciation + citation rules (read BEFORE generating)
+
+**Quran verses.** When the Quran is quoted, speak the chapter and verse numbers BEFORE the translation. Format: *"The Quran, in Surah <Name>, verse <X>:"* — then the verse. NEVER read the verse first and attach the citation afterwards.
+
+**Names commonly mispronounced — apply explicitly:**
+ - "Imam Hasan" → **i-maam ha-san**. NOT "Hassan".
+ - "Imam Zayn al-Abidin" → **i-maam zayn al-aa-bi-deen**. NOT "Zane-al-Abe-deen".
+ - "Ahl al-Bayt" → **ahl al-bayt**. NOT "all al-bait".
+ - "Sahih Sitta" → **sa-heeh sit-tah**. NOT "sahasita".
+ - "Sahifa al-Sajjadiyya" → **sa-hee-fa as-saj-jaa-dee-yah**. NOT "Sa-heffa".
+ - "Ghazali" → **gha-zaa-lee**. NOT "gah-zay-lee".
+
+The full pronunciation list is below in the ## Pronunciation section. Apply all of those rules; this Critical block wins on any conflict.
+
 ## Opening directive
 
 Open the episode with a brief welcome, one sentence, followed by a two-to-three sentence summary that names the source, Ayyuhal Walad, Ghazali's letter to a former student, and lands the central question this chapter is going to ask. Do not open with "today we'll discuss". Do not open with "in this episode". Open in the voice of someone closing out a long conversation and wanting the last beats to land cleanly. The summary should make clear that this is the final part of a five-part series, that the chapter contains Ghazali's four positive instructions to balance the four cautions named in the letter's preceding section, and that the letter closes with a long supplication the student is asked to recite after every prayer.
@@ -84,7 +98,6 @@ Pronounce "Fard al-ayn" as "fard al-ayn". Say it as one fluent run.
 Pronounce "Fard Kifaya" as "fard ki-faa-yah". Say it as one fluent run.
 Pronounce "Tawfeeq" as "taw-feeq". Say it as one fluent word.
 Pronounce "Quran" as "qur-aan". Say it as one fluent word.
-Pronounce "Holy Du'a" as "ho-lee du-aa". Say "du-aa" as one fluent word.
 
 Name discipline. Use each long name in full once on first occurrence, then use the short alias for every subsequent reference:
  - Imam Abu Hamid Muhammad al-Ghazali → Ghazali

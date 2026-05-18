@@ -1,5 +1,17 @@
 # Framing: Episode 02: Haatim's Eight Benefits
 
+## Critical pronunciation + citation rules (read BEFORE generating)
+
+**Quran verses.** Speak the chapter and verse numbers BEFORE the translation. The chapter source uses prose lead-ins of the form *"The Quran, in Surah <Name>, verse <X>:"* — follow that pattern exactly. NEVER read the verse first and attach the citation afterwards.
+
+**Names commonly mispronounced — apply explicitly:**
+ - "Haatim" → **haa-tim** (hold first vowel long). NOT "Hateem".
+ - "Shaqeeq" → **sha-qeeq**. NOT "shake-eek".
+ - "Ghazali" → **gha-zaa-lee**. NOT "gah-zay-lee".
+ - "taqwa" → **taq-waa**. NOT "tack-wah".
+
+The full pronunciation list is below in the ## Pronunciation section. Apply all of those rules; this Critical block wins on any conflict.
+
 ## Opening directive
 
 Open the episode with a brief welcome, one sentence, followed by a two-to-three sentence summary that names the source, Ayyuhal Walad, Ghazali's letter to a former student, and lands the central question this chapter is going to ask. Open in the voice of someone who has just come across a story they want to tell, and they want the listener to come close enough to hear it. The summary should make clear that this is part of a five-part series and that this chapter contains the single most quoted vignette in the letter: a teacher asking his student of thirty-three years what he has actually learned.
@@ -66,24 +78,16 @@ Landing. Close on Haatim's final benefit, the placing of complete reliance on Al
 
 ## Pronunciation
 
-Pronounce "Ayyuhal Walad" as "eye-yoo-hal waa-lad". Say it as two fluent words. Do not spell. Do not pause.
-Pronounce "Ghazali" as "gha-zaa-lee". Say it as one fluent word.
-Pronounce "Shaqiq al-Balkhi" as "sha-qeeq al-bal-khee". Say it as one fluent run on the first occurrence; thereafter use the alias "Shaqeeq", pronounced "sha-qeeq".
-Pronounce "Shaqeeq" as "sha-qeeq". Say it as one fluent word.
-Pronounce "Hatim bin Ism al-Asamm" as "haa-tim ibn ism al-a-samm". Say it as one fluent run on the first occurrence; thereafter use the alias "Haatim", pronounced "haa-tim".
-Pronounce "Haatim" as "haa-tim". Say it as one fluent word. Hold the first vowel long.
-Pronounce "Imam Ali" as "i-maam a-lee". Say it as one fluent run.
-Pronounce "Nahj al-Balagha" as "nahj al-ba-laa-ghah". Say it as one fluent run. Do not abbreviate to "the Nahj". Use the full title every time.
-Pronounce "Ghurar al-Hikam" as "ghu-rar al-hi-kam". Say it as one fluent run.
-Pronounce "Sirat al-Mustaqeem" as "si-raat al-mus-ta-qeem". Say it as one fluent run.
-Pronounce "Taqwa" as "taq-waa". Say it as one fluent word.
-Pronounce "Tawakkul" as "ta-wak-kul". Say it as one fluent word.
-Pronounce "Quran" as "qur-aan". Say it as one fluent word.
-Pronounce "Nafs" as "nafs". Say it as one fluent word.
-Pronounce "Iblis" as "ib-lees". Say it as one fluent word.
-Pronounce "Aga Khan IV" as "aa-ga khaan the fourth". Say "aa-ga khaan" as one fluent run.
-Pronounce "Holy Du'a" as "ho-lee du-aa". Say "du-aa" as one fluent word.
-Pronounce "farman" as "far-maan". Say it as one fluent word.
+Pronounce "Ayyuhal Walad" as "eye-yoo-hal waa-lad". Say it as two fluent words.
+Pronounce "Shaqiq al-Balkhi" as "sha-qeeq al-bal-khee". First occurrence only; thereafter use alias "Shaqeeq".
+Pronounce "Hatim bin Ism al-Asamm" as "haa-tim ibn ism al-a-samm". First occurrence only; thereafter use alias "Haatim".
+Pronounce "Nahj al-Balagha" as "nahj al-ba-laa-ghah". Do not abbreviate to "the Nahj".
+Pronounce "Ghurar al-Hikam" as "ghu-rar al-hi-kam".
+Pronounce "Sirat al-Mustaqeem" as "si-raat al-mus-ta-qeem".
+Pronounce "Tawakkul" as "ta-wak-kul".
+Pronounce "Quran" as "qur-aan".
+Pronounce "Nafs" as "nafs".
+Pronounce "Iblis" as "ib-lees".
 
 Name discipline. Use each long name in full once on first occurrence, then use the short alias for every subsequent reference:
  - Shaqiq al-Balkhi → Shaqeeq

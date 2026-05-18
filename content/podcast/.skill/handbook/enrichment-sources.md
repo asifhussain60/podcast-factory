@@ -25,25 +25,38 @@ The Quran as primary scripture. Quote with both transliteration and English tran
 
 The six canonical Sunni collections (*Kutub al-Sittah*): Sahih al-Bukhari, Sahih Muslim, Sunan al-Tirmidhi, Sunan Abu Dawud, Sunan al-Nasa'i, Sunan Ibn Majah. Supplementary curated collections: *Riyad al-Salihin* (Imam al-Nawawi), *Al-Adab al-Mufrad* (al-Bukhari). Use grading (sahih, hasan, da'if) when contested.
 
-### Tier 4 — Imam Ali ibn Abi Talib (AS) and the Ahl al-Bayt
+### Tier 4 — Imam Ali ibn Abi Talib (AS) and his companions
 
 - *Nahj al-Balagha* (compiled by al-Sharif al-Radi, c. 1009 CE) — sermons (*khutab*), letters (*kutub*), aphorisms (*hikam*) of Imam Ali. Cited by section number.
 - *Ghurar al-Hikam wa Durar al-Kalim* (al-Amidi) — extended aphorisms of Imam Ali.
-- *Sahifa al-Sajjadiyya* — du'as of Imam Zayn al-Abidin, Imam Ali's great-grandson. Cited by du'a number.
-- Other Ahl al-Bayt traditions where authenticated.
+- Companions of Imam Ali — Salman al-Farsi, Abu Dharr al-Ghifari, Miqdad ibn al-Aswad, Ammar ibn Yasir. Traditions cited by authenticated chain.
 
-### Tier 5 — Ismaili Tradition
+### Tier 5 — Ahl al-Bayt (Imam Ali's progeny)
 
-- **The Holy Du'a** — the daily Ismaili prayer. Cited by part number (parts I–VI).
-- **Ginans** — devotional poetry of the South Asian Ismaili tradition. Cited by ginan title + composer (e.g., Pir Hasan Kabirdin, Pir Sadr al-Din, Pir Shams al-Din, Saiyad Imam Shah, Saiyad Pir Sabz Ali). Translations attributed to the translator.
-- **Farmans of the Aga Khans** — Aga Khan III (Sultan Muhammad Shah), Aga Khan IV (Shah Karim al-Hussaini), Aga Khan V (Rahim al-Hussaini). Cited by speaker, date, and location.
-- **Classical Ismaili philosophers:**
-  - Nasir-i Khusraw (1004–1088): *Wajh-i Din*, *Shish Fasl* (Six Chapters), *Jami' al-Hikmatayn*, *Safarnama*, *Diwan*.
-  - Hamid al-Din al-Kirmani (d. c. 1021): *Rahat al-Aql* (The Repose of the Intellect), *Risalat al-Riyad*.
-  - Abu Ya'qub al-Sijistani (d. c. 971): *Kitab al-Yanabi'* (Book of Wellsprings), *Kashf al-Mahjub*.
-  - Mu'ayyad fi al-Din al-Shirazi (d. 1078): *Al-Majalis al-Mu'ayyadiyya*, *Diwan*.
-  - Qadi al-Nu'man (d. 974): *Da'a'im al-Islam* (Pillars of Islam).
-  - Ja'far ibn Mansur al-Yaman: *Sara'ir al-Nutaqa'*, *Ta'wil al-Zakat*.
+Authenticated traditions from any member of the progeny of Imam Ali ibn Abi Talib (AS) and Sayyida Fatima al-Zahra (AS) — the household of the Prophet through Ali's line. This includes but is not limited to:
+
+- **Sayyida Fatima al-Zahra (AS)** — sermons (notably the *Khutba of Fadak*), supplications, and authenticated sayings.
+- **Imam Hasan ibn Ali (AS)** — letters, sermons, and authenticated sayings.
+- **Imam Hussain ibn Ali (AS)** — the sermons and letters from Karbala and before; the supplication of Arafa (*Du'a Arafa*) is the principal preserved du'a.
+- **Sayyida Zaynab bint Ali (AS)** — sermons after Karbala (Kufa, Damascus).
+- **Imam Ali Zayn al-Abidin (AS)** (also: Imam Ali Zainul Abideen, the fourth Imam) — *Sahifa al-Sajjadiyya* (the Psalms of Islam, du'as cited by number), *Risalat al-Huquq* (the Treatise of Rights).
+- **Imam Muhammad al-Baqir (AS)** (the fifth Imam) — authenticated traditions on Quranic exegesis, fiqh, and ethics.
+- **Imam Ja'far al-Sadiq (AS)** (the sixth Imam) — authenticated traditions in the Sunni and Shia hadith corpora.
+- Subsequent Imams in Imam Ali's line as accepted by either Twelver or Ismaili tradition, where the saying is authenticated.
+
+The whitelist extends to ANY verified member of Imam Ali's progeny, not just the figures named above. Citations follow the shape: speaker + source-work + section/du'a/letter number.
+
+**Exception (out of scope — see Tier 5b):** the Aga Khans (Aga Khan III, IV, V) and Ismaili-specific institutional sources remain explicitly excluded by author policy, even though the Aga Khans claim descent in Imam Ali's line. Use other figures from the line above for equivalent attribution, or generalize without naming.
+
+### Tier 5b — Out of scope (do NOT quote)
+
+The following sources are excluded from podcast enrichment by author policy (Asif, 2026-05-17). If a quote from any of these appears in the original published source the chapter is adapted from, paraphrase the principle and attribute it to one of the allowed Tier 1–5 sources, OR generalize without naming the speaker / tradition.
+
+- Aga Khans (Aga Khan III, IV, V) — farmans, addresses, writings.
+- Ginans of the South Asian Ismaili tradition.
+- The Holy Du'a of the Ismaili daily prayer (refer generically to "daily prayer" without identifying the tradition).
+- Classical Ismaili philosophers — Nasir-i Khusraw, Hamid al-Din al-Kirmani, Abu Ya'qub al-Sijistani, Mu'ayyad fi al-Din al-Shirazi, Qadi al-Nu'man, Ja'far ibn Mansur al-Yaman.
+- Any other Ismaili-specific named scholar or text.
 
 ### Tier 6 — Sufi Tradition Near Ghazali
 
