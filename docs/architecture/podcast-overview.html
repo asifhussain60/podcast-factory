@@ -322,6 +322,56 @@
     <p>A new script <code>scripts/podcast/audit_transcript.py</code> reads the NotebookLM-generated transcript of any episode and writes a per-episode markdown report measuring: phonetic-doubling count, mangled-name detector, modernization-injection density, surprise-noise loop density, welcome-cold violations, honorific repetition, abbreviation hits, filler-interjection density. The report becomes the regression artifact against which the next upload is measured. <strong>Sensor end of the architecture.</strong></p>
   </div>
 
+  <!-- ── v3.5+ additions · 2026-05-18 ────────────────────── -->
+  <div class="section-head">
+    <div class="label">·· v3.5+ additions · 2026-05-18 ··</div>
+    <h2>Six refinements on top of v3.5</h2>
+    <div class="sub">After the v3.5 audit landed, six follow-on changes tightened the producer loop, formalized the workspace layout, and broadened the format menu beyond <em>deep_dive</em>.</div>
+  </div>
+
+  <div class="grid grid-3">
+    <div class="card">
+      <div class="meta">·· producer · authoring ··</div>
+      <h3>Conversation choreography</h3>
+      <p>The two-host framing now declares <strong>Driver</strong> (Host A — intro, transitions, pacing, resets, landing) and <strong>Color</strong> (Host B — analytical contrast, related works, the counter-reading). Each episode plants <strong>one cross-introduction beat</strong> — one host introduces a passage the other has not led toward. No mid-sentence interjections. No talking-over.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· producer · tone ··</div>
+      <h3>R-NOMODERNIZE softened</h3>
+      <p>The platform/anachronism DENY list stays (Twitter, X, algorithm, deep dive, content creator). What was added is an explicit <strong>"DO use modern-life practical analogies"</strong> paragraph — a parent worrying about a child, an employee resenting a coworker, learning a craft over years. Each analogy lands in a single beat and returns to the source.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· workspace · scaffolding ··</div>
+      <h3>scaffold_book.py + chapter-contracts</h3>
+      <p>One-shot creation of the canonical BOOK_DIR layout: <code>chapters/</code>, <code>chapter-contracts/</code>, <code>episodes/</code>, <code>turboscribe/</code>, <code>_system/</code>. Each chapter gets a <code>chapter-contracts/&lt;slug&gt;.yml</code> sidecar (title · content-type · enrichment scope · anchor passages) — the deterministic I/O surface that <code>extract_chapter.py</code> reads to emit the NotebookLM bundle.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· challenger · cross-book ··</div>
+      <h3>Category Q · cross-book bleed</h3>
+      <p>New challenger category. When a single repo hosts multiple podcasted books, terms or framings from one book must not leak into another's framing. Q checks the per-book pronunciation manifest, chapter-set design balance (~30% word-count variance across the series), and cross-book term collisions.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· format · range ··</div>
+      <h3>Debate alongside deep_dive</h3>
+      <p>The episode format menu now carries two shapes. <strong>deep_dive</strong> is the default — Curious Mind + Scholar Companion exploring one source. <strong>debate</strong> introduces two hosts holding opposed positions on the same source, alternating beat by beat. Each format has its own schema, render path, and challenger checks.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· portability · derivative ··</div>
+      <h3>ChatGPT-portable system prompt</h3>
+      <p>A single ChatGPT system prompt (<code>_workspace/chatgpt-podcast-skill-prompt.md</code>) captures Phase 0a–0e for users who want to drive the pipeline through ChatGPT instead of running the repo skill. Deliberately omits the empirical-transcript audit loop, per-book contracts, Category Q, and <code>scaffold_book.py</code> layout — those need the repo.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-eyebrow">·· pending · Arabic TTS protocol · Track A approved · awaiting implement ··</div>
+    <p>A protocol plan in <code>_workspace/podcast-arabic-tts-protocol-plan.md</code> proposes four further refinements: TTS engineering rules as numbered imperatives in <code>content/_shared/arabic/01-tts-pronunciation-key.md</code>; <code>R-PRONUNCIATION-IMPERATIVE</code> splits into <strong>Conversational</strong> (smooth Anglicized) and <strong>Classical</strong> (Tajweed-approximating); the <code>## Pronunciation</code> section renamed to <code>## Phonetic Key (TTS Pronunciation)</code>; per-book <code>pronunciation.md</code> gains a <code>Mode</code> column. <strong>R-PHONETICS-OUT stays intact</strong> — no inline parens in chapters.</p>
+  </div>
+
   <footer class="footer">
     <a href="index.html">← back to the map</a> &nbsp;·&nbsp; <a href="podcast-pipeline.html">pipeline →</a> &nbsp;·&nbsp; <a href="podcast-quality-system.html">quality system</a>
   </footer>

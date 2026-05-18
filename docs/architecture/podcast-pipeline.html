@@ -38,6 +38,11 @@
     <div class="sub">Read top to bottom. The path forks early — any long-form source (PDF · audio · Word · PPT · Excel · book) triggers a full <em>Phase 0</em> ingestion; a memoir chapter takes the <em>Extract</em> short-cut. They reunite at Phase 1.</div>
   </div>
 
+  <div class="callout">
+    <div class="callout-eyebrow">·· before phase 0 · workspace prologue (added 2026-05-18) ··</div>
+    <p>For a brand-new book, the producer runs <code>scripts/podcast/scaffold_book.py &lt;category&gt; &lt;book-slug&gt;</code> once. It stamps the canonical BOOK_DIR layout — <code>chapters/</code>, <code>chapter-contracts/</code>, <code>episodes/</code>, <code>turboscribe/</code>, <code>_system/</code> with all required stub files (pronunciation.md, editorial-notes.md, enrichment-log.md) and appends a row to <code>content/podcast/.skill/books.md</code>. Every subsequent script (extract, build, audit, challenger) assumes this exact shape. The format choice — <strong>deep_dive</strong> or <strong>debate</strong> — is set in each chapter's contract YAML; the pipeline below renders either one.</p>
+  </div>
+
   <div class="diagram">
     <svg viewBox="0 0 820 3920" role="img" aria-labelledby="podcast-pipeline-title">
       <title id="podcast-pipeline-title">Podcast skill end-to-end pipeline</title>
@@ -458,7 +463,7 @@
       <!-- 4.4 emitted files -->
       <g>
         <rect x="40" y="3120" width="760" height="38" rx="8" fill="var(--accent-soft)" stroke="var(--accent-strong)" />
-        <text x="420" y="3144" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:13px">·· THE TWO-FILE DELIVERABLE (architecture v3.4) ··</text>
+        <text x="420" y="3144" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:13px">·· THE TWO-FILE DELIVERABLE (architecture v3.5+) ··</text>
       </g>
 
       <g>

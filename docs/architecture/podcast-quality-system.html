@@ -25,8 +25,9 @@
       Quality control runs on <strong>four</strong> layers: seven silent loops
       every bundle passes through during authoring, a strictly tiered list of
       where enrichment is allowed to come from, an independent challenger agent
-      with eleven categories of checks (A–O) that keeps iterating until the
-      bundle is genuinely ready, and a new <strong>empirical feedback loop</strong>
+      with a growing set of check categories (A–K, M, N, O, Q) that keeps
+      iterating until the bundle is genuinely ready, and a new
+      <strong>empirical feedback loop</strong>
       that audits the actual NotebookLM-generated transcript against every
       directive the customize prompt was supposed to enforce. The challenger
       reads two <strong>normative rule files</strong> as its authority:
@@ -254,6 +255,60 @@
       Transcript scanned for the same patterns to confirm the chapter-level
       fixes propagated. Rules: R-HONORIFIC-ONCE + R-NO-ABBREVIATION.</p>
     </div>
+  </div>
+
+  <!-- ── Category Q (added 2026-05-18) ─────────────────── -->
+  <div class="section-head">
+    <div class="label">·· category Q · cross-book + chapter-set design · added 2026-05-18 ··</div>
+    <h2>Category Q · cross-book bleed and series balance</h2>
+    <div class="sub">When the repo hosts multiple podcasted books, Q checks that terms, framings, and phonetic guidance from one book do not bleed into another. It also checks the chapter-set as a whole: word-count variance, title uniqueness across the series, contract coverage, lineage integrity.</div>
+  </div>
+
+  <div class="grid grid-3">
+    <div class="card">
+      <div class="meta">·· Q1 · pronunciation manifest scope ··</div>
+      <h3>Each book owns its phonetics</h3>
+      <p>Per-book <code>_system/pronunciation.md</code> entries must not silently shadow another book's. Shared canonical terms inherit from <code>content/_shared/arabic/</code>; per-book overrides stay scoped. Flag if a term from book A appears in book B's manifest without independent justification.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· Q2 · chapter-set balance ··</div>
+      <h3>~30% word-count variance across the series</h3>
+      <p>A series with 1,200-word and 4,000-word chapters has the wrong shape. Q reads every chapter file in <code>chapters/</code>, computes the variance, and flags series that exceed the 30% band. Re-segmentation, not patchwork.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· Q3 · chapter-contract coverage ··</div>
+      <h3>Every chapter has a YAML contract</h3>
+      <p>Every <code>chapters/chNN-&lt;slug&gt;.txt</code> must have a paired <code>chapter-contracts/&lt;slug&gt;.yml</code> (title · content-type · enrichment scope · anchor passages). Missing contracts halt the run; orphan contracts flag for cleanup. Lineage validator runs on every full extract.</p>
+    </div>
+  </div>
+
+  <!-- ── New 2026-05-18 producer rules ─────────────────── -->
+  <div class="section-head">
+    <div class="label">·· producer rules · added 2026-05-18 ··</div>
+    <h2>Conversation choreography + R-NOMODERNIZE softening</h2>
+    <div class="sub">Two rule additions that emerged from re-listening to the post-v3.5 Ayyuhal Walad episodes. Both live in <code>two-host-framing.md</code> and <code>notebooklm-customize-prompt-rules.md</code>; both producer and challenger read them.</div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="meta">·· R-CHOREOGRAPHY ··</div>
+      <h3>Driver · Color · one cross-introduction beat</h3>
+      <p>Host A is the <strong>Driver</strong> (owns intro, transitions, pacing, resets between beats, landing) and the Curious Mind (listener stand-in). Host B is the <strong>Color</strong> (analytical contrast, related works, the counter-reading) and the Scholar. Each episode plants <strong>at least one beat</strong> where one host introduces a passage, citation, or question from the source that the other has not led toward. Breaks mechanical Q-and-A rhythm.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">·· R-NOMODERNIZE · softened ··</div>
+      <h3>Platform DENY stays · modern-life analogies DO</h3>
+      <p>The platform/anachronism DENY list is unchanged (Twitter, X, algorithm, deep dive, content creator, dopamine hit, …). What was added is the explicit <strong>positive form</strong>: hosts DO use generic modern-life situations as comprehension aids — a parent worrying about a child, an employee resenting a coworker, learning a craft over years. Each analogy lands in a single beat and returns to the source.</p>
+    </div>
+  </div>
+
+  <!-- ── Pending: Phonetic Key rename + Mode split ─────── -->
+  <div class="callout">
+    <div class="callout-eyebrow">·· pending · Arabic TTS protocol · Track A approved · awaiting implement ··</div>
+    <p>A protocol plan in <code>_workspace/podcast-arabic-tts-protocol-plan.md</code> proposes four refinements that have NOT yet landed in the rules files: (1) <code>## Pronunciation</code> renamed to <code>## Phonetic Key (TTS Pronunciation)</code>; (2) <code>R-PRONUNCIATION-IMPERATIVE</code> splits into <strong>Conversational</strong> (smooth Anglicized — <em>Inshallah</em> → in-shah-LAH) and <strong>Classical</strong> (Tajweed-approximating hard syllables — <em>Quran</em> → koor-AHN); (3) TTS engineering rules (Q→K, Dh→TH, Kh→KH guttural, stress-cap, hyphen-glottal) promoted to numbered imperatives in <code>content/_shared/arabic/01-tts-pronunciation-key.md</code>; (4) per-book <code>pronunciation.md</code> gains a <code>Mode</code> column. <strong>R-PHONETICS-OUT stays intact.</strong> Challenger Loop C5 will gain a sub-check flagging scripture-citation terms misclassified as Conversational.</p>
   </div>
 
   <!-- ── The empirical feedback loop ───────────────────── -->

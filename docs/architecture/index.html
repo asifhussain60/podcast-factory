@@ -19,18 +19,25 @@
 <main class="page">
 
   <header class="hero">
-    <span class="eyebrow">map · v1.1 · 2026-05-17 · podcast architecture v3.5</span>
+    <span class="eyebrow">map · v1.2 · 2026-05-18 · podcast architecture v3.5+</span>
     <h1>How the writing rooms <em>actually work</em></h1>
     <p class="lede">
       Two skills (one for the memoir, one for the podcast) share a single brain
       for Arabic pronunciation. The nine views below explain the moving parts
-      in plain language — pick a starting point. <strong>2026-05-17 update:</strong>
+      in plain language — pick a starting point. <strong>2026-05-17:</strong>
       the podcast architecture pivoted to v3.5 after a 5-transcript empirical
       audit of <em>Ayyuhal Walad</em>. Phonetic guidance now lives in the
       customize prompt as imperative directives, never inline in the chapter.
-      Three new chapter rules and four new framing rules close the
-      empirical-feedback loop via <code>audit_transcript.py</code>. See the
-      Podcast Overview and Quality System pages.
+      <strong>2026-05-18 additions:</strong> conversation choreography (Driver
+      vs Color roles, one cross-introduction beat, no mid-sentence
+      interjections); R-NOMODERNIZE softened with an explicit "DO use
+      modern-life practical analogies" paragraph; <code>scaffold_book.py</code>
+      stamps a canonical BOOK_DIR layout in one shot; per-chapter
+      <code>chapter-contracts/&lt;slug&gt;.yml</code> as the deterministic I/O
+      surface; Category Q challenger checks for cross-book bleed; a debate
+      episode format alongside <em>deep_dive</em>. A portable ChatGPT system
+      prompt (in <code>_workspace/</code>) lets users drive Phase 0a–0e
+      without running the repo skill.
     </p>
   </header>
 
@@ -180,7 +187,7 @@
       <a href="podcast-quality-system.html" class="nav-card">
         <div class="nav-tag" style="color:var(--mint)">Podcast · 03</div>
         <h3>Quality system</h3>
-        <p>Seven quality loops, a seven-tier enrichment pyramid, eleven challenger categories (A–O), and a new <code>audit_transcript.py</code> empirical-feedback loop that reads the actual NotebookLM-generated transcript.</p>
+        <p>Seven quality loops, a seven-tier enrichment pyramid, twelve challenger categories (A–O plus Q for cross-book bleed), and the <code>audit_transcript.py</code> empirical-feedback loop that reads the actual NotebookLM-generated transcript.</p>
       </a>
 
       <a href="shared-arabic-reference.html" class="nav-card">

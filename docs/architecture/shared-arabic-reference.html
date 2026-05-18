@@ -372,6 +372,11 @@
     <p>Before today, each skill carried its own copy of these rules. The podcast had a "Podcast Pronunciation Lexicon" inside the memoir's translations-glossary; the root of the repo carried a one-off pronunciation key file; each book had its own pronunciation guide. Today, the canonical layer lives at <code>content/_shared/arabic/</code>, both skills are wired to read it on every run, and the challenger agent has a new <strong>Loop C4</strong> that audits substitution compliance. The legacy locations now defer to the shared brain.</p>
   </div>
 
+  <div class="callout">
+    <div class="callout-eyebrow">·· pending · Conversational vs Classical mode · Track A approved · awaiting implement ··</div>
+    <p>A protocol plan (<code>_workspace/podcast-arabic-tts-protocol-plan.md</code>) proposes a binary <strong>Mode</strong> classification per term: <strong>Conversational</strong> (smooth Anglicized phonetic for casual integration — <em>Inshallah</em> → in-shah-LAH) versus <strong>Classical</strong> (hard-syllable Tajweed approximation for scripture and named historical figures — <em>Quran</em> → koor-AHN). The change adds a <code>Mode</code> column to each book's <code>_system/pronunciation.md</code> (optional on parse; absence defaults to Classical), promotes the TTS engineering rules (Q→K, Dh→TH, Kh→KH guttural, stress-cap, hyphen-glottal) to <strong>numbered imperatives</strong> in <code>01-tts-pronunciation-key.md</code>, and renames the per-episode framing section <code>## Pronunciation</code> → <code>## Phonetic Key (TTS Pronunciation)</code>. Challenger Loop C5 will gain a sub-check flagging scripture-citation terms misclassified as Conversational. <strong>R-PHONETICS-OUT remains intact</strong> — chapters stay free of inline parens.</p>
+  </div>
+
   <footer class="footer">
     <a href="index.html">← back to the map</a> &nbsp;·&nbsp; <a href="journal-pipeline.html">journal pipeline</a> &nbsp;·&nbsp; <a href="podcast-pipeline.html">podcast pipeline</a>
   </footer>
