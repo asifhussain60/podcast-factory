@@ -51,6 +51,17 @@ node_modules/
 # get committed.
 _workspace/Books/
 
+# Podcast audio source files (mp3/wav/m4a/etc.) — large binaries that live
+# under library/audio/<book-slug>/. Lectures are transcribed externally
+# (TurboScribe / Azure Speech) and only the derived chapters + episode txts
+# get committed. Keeps the repo small and avoids accidental binary commits.
+content/podcast/library/audio/*/
+
+# Transcript working artifacts — raw Speech-to-Text + translator output used
+# during chapter-source authoring. The final cleaned chapters/ + episodes/
+# files are committed; transcripts/ is local-only scratch.
+content/podcast/library/lectures/*/transcripts/
+
 # Python bytecode
 **/__pycache__/
 *.pyc
