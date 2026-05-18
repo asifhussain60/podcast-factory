@@ -54,6 +54,14 @@ if [ "$ENABLE_DOCINTEL" = "true" ]; then
   check "Keychain: docintel-key1"      "security find-generic-password -s ${PREFIX}-docintel-key1"
 fi
 
+if [ "${ENABLE_SPEECH:-false}" = "true" ]; then
+  echo "==> Speech"
+  check "$SPEECH_NAME exists"          "az cognitiveservices account show --name $SPEECH_NAME --resource-group $RESOURCE_GROUP"
+  check "Keychain: speech-key1"        "security find-generic-password -s ${PREFIX}-speech-key1"
+  check "Keychain: speech-endpoint"    "security find-generic-password -s ${PREFIX}-speech-endpoint"
+  check "Keychain: speech-region"      "security find-generic-password -s ${PREFIX}-speech-region"
+fi
+
 if [ "$ENABLE_STORAGE" = "true" ]; then
   echo "==> Storage"
   check "$STORAGE_ACCOUNT_NAME exists" "az storage account show --name $STORAGE_ACCOUNT_NAME --resource-group $RESOURCE_GROUP"

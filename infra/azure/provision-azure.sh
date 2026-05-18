@@ -92,7 +92,7 @@ fi
 
 # --- Document Intelligence --------------------------------------------------
 if [ "$ENABLE_DOCINTEL" = "true" ]; then
-  echo "==> [3/5] Document Intelligence: $DOCINTEL_NAME (SKU $DOCINTEL_SKU)"
+  echo "==> [3/6] Document Intelligence: $DOCINTEL_NAME (SKU $DOCINTEL_SKU)"
   az cognitiveservices account create \
     --name "$DOCINTEL_NAME" \
     --resource-group "$RESOURCE_GROUP" \
@@ -103,12 +103,28 @@ if [ "$ENABLE_DOCINTEL" = "true" ]; then
     --output none
   echo "    OK"
 else
-  echo "==> [3/5] Document Intelligence: SKIPPED (ENABLE_DOCINTEL=false)"
+  echo "==> [3/6] Document Intelligence: SKIPPED (ENABLE_DOCINTEL=false)"
+fi
+
+# --- Speech (Cognitive Services Speech-to-Text) -----------------------------
+if [ "${ENABLE_SPEECH:-false}" = "true" ]; then
+  echo "==> [4/6] Speech: $SPEECH_NAME (SKU $SPEECH_SKU)"
+  az cognitiveservices account create \
+    --name "$SPEECH_NAME" \
+    --resource-group "$RESOURCE_GROUP" \
+    --location "$LOCATION" \
+    --kind SpeechServices \
+    --sku "$SPEECH_SKU" \
+    --yes \
+    --output none
+  echo "    OK"
+else
+  echo "==> [4/6] Speech: SKIPPED (ENABLE_SPEECH=false)"
 fi
 
 # --- Storage + containers ---------------------------------------------------
 if [ "$ENABLE_STORAGE" = "true" ]; then
-  echo "==> [4/5] Storage account: $STORAGE_ACCOUNT_NAME (SKU $STORAGE_SKU)"
+  echo "==> [5/6] Storage account: $STORAGE_ACCOUNT_NAME (SKU $STORAGE_SKU)"
 
   # Check global uniqueness BEFORE create (saves a confusing error).
   AVAIL=$(az storage account check-name --name "$STORAGE_ACCOUNT_NAME" \
@@ -147,12 +163,12 @@ if [ "$ENABLE_STORAGE" = "true" ]; then
   done
   echo "    OK"
 else
-  echo "==> [4/5] Storage: SKIPPED (ENABLE_STORAGE=false)"
+  echo "==> [5/6] Storage: SKIPPED (ENABLE_STORAGE=false)"
 fi
 
 # --- Key Vault (optional) ---------------------------------------------------
 if [ "$ENABLE_KEYVAULT" = "true" ]; then
-  echo "==> [5/5] Key Vault: $KEYVAULT_NAME"
+  echo "==> [6/6] Key Vault: $KEYVAULT_NAME"
   az keyvault create \
     --name "$KEYVAULT_NAME" \
     --resource-group "$RESOURCE_GROUP" \
@@ -171,7 +187,7 @@ if [ "$ENABLE_KEYVAULT" = "true" ]; then
     --output none 2>/dev/null || true
   echo "    Granted Key Vault Secrets Officer to current user"
 else
-  echo "==> [5/5] Key Vault: SKIPPED (ENABLE_KEYVAULT=false)"
+  echo "==> [6/6] Key Vault: SKIPPED (ENABLE_KEYVAULT=false)"
 fi
 
 # --- Summary + next steps ---------------------------------------------------
@@ -206,6 +222,10 @@ if [ "$ENABLE_DOCINTEL" = "true" ]; then
   DI_EP=$(az cognitiveservices account show --name "$DOCINTEL_NAME" \
             --resource-group "$RESOURCE_GROUP" --query properties.endpoint -o tsv 2>/dev/null || echo "(not yet ready)")
   echo "       Document Intelligence: $DI_EP"
+fi
+if [ "${ENABLE_SPEECH:-false}" = "true" ]; then
+  # Fast Transcription uses the region-based endpoint, not the per-resource one.
+  echo "       Speech:                https://${LOCATION}.api.cognitive.microsoft.com"
 fi
 if [ "$ENABLE_STORAGE" = "true" ]; then
   echo "       Storage:               https://${STORAGE_ACCOUNT_NAME}.blob.core.windows.net/"
