@@ -50,7 +50,7 @@
       (<code>findings.jsonl</code>), <strong>one regression suite</strong>
       (<code>_learning/fixtures/</code> + <code>test_challenger.py</code>), <strong>one proposals directory</strong>
       (<code>_learning/proposals/</code> → <code>promoted/</code>), <strong>two state files per book</strong>
-      (down from eight), <strong>one human gate</strong> (Phase 0f), <strong>three implementation passes</strong>
+      (down from eight), <strong>one human gate</strong> (Phase 0f — chapter list + tier only; audience / angle / host dynamic are auto), <strong>three implementation passes</strong>
       (down from five). The orchestrator drives; the challenger validates; the trainer consumes the
       substrate. No new ledger formats. No parallel pipelines.
     </p>
@@ -114,6 +114,11 @@
         <td><strong>Convergence cap</strong></td>
         <td class="strike">5 outer × 5 inner = 25 passes / chapter (≈ $100–$200 per 8-chapter book — exceeds the $50 cap)</td>
         <td class="cap">3 outer × 5 inner = 15 passes / chapter (≈ $30–$60, fits the cap)</td>
+      </tr>
+      <tr>
+        <td><strong>Phase 0f gate scope</strong></td>
+        <td class="strike">human reviews audience, angle, host dynamic, tier, chapter list (5 items)</td>
+        <td class="cap">human reviews <strong>chapter list + tier</strong> only (2 items). Audience / angle = orchestrator-config defaults; host_dynamic = AI-selected from canonical pairs</td>
       </tr>
       <tr>
         <td><strong>Implementation phases</strong></td>
@@ -180,7 +185,7 @@
   <div class="section-head">
     <div class="label">·· orchestration ··</div>
     <h2>End-to-end run · one human gate</h2>
-    <div class="sub">PDF in <code>_workspace/Books/</code> through merged <code>develop</code>. Halts once, at Phase 0f, for human approval of the chapter plan. Resumes with one command.</div>
+    <div class="sub">PDF in <code>_workspace/Books/</code> through merged <code>develop</code>. Halts once, at Phase 0f, for human approval of the <strong>chapter segmentation + tier</strong> only. Audience, angle, and host dynamic are project-fixed defaults (audience/angle) or AI-selected (host pair) — no human review. Resumes with one command.</div>
   </div>
 
   <table class="guard-table">
@@ -191,12 +196,23 @@
       <tr><td>Scaffold</td><td><code>scaffold_book.py</code></td><td>BOOK_DIR layout</td><td>auto</td></tr>
       <tr><td>0a Ingest</td><td><code>ingest_source.py</code> (Azure OCR + Translation)</td><td><code>_system/source/text/raw-extract.md</code></td><td>auto</td></tr>
       <tr><td>0b–0e Authoring</td><td><code>_authoring.py</code> shells out to <code>claude -p</code> for normalize / segment / enrich / phonetic-pass</td><td>chapter files + per-chapter contracts</td><td>auto</td></tr>
-      <tr><td><strong>0f Series Plan</strong></td><td>writes <code>_system/series-plan.md</code> with audience, angle, host dynamic, tier, chapter list</td><td>commit + final notification</td><td class="cap"><span class="pill-warn">HUMAN</span></td></tr>
+      <tr><td><strong>0f Chapter Plan</strong></td><td>writes <code>_system/series-plan.md</code> with the AI's <strong>tier choice</strong> + <strong>chapter list</strong> (titles + word-count targets). Audience / angle / host dynamic are <strong>orchestrator-config defaults</strong> (project-fixed) plus an AI-selected host pair — recorded for the audit trail, <strong>not</strong> for human review.</td><td>commit + final notification</td><td class="cap"><span class="pill-warn">HUMAN</span></td></tr>
       <tr><td>Resume · per-chapter</td><td>extract → author framing → build → <code>podcast-challenger</code> convergence (3 × 5)</td><td>SHIP-READY or SHIP-WITH-CAUTION + flag</td><td>auto</td></tr>
       <tr><td>Trainer</td><td><code>podcast-trainer</code> reads <code>_learning/patterns.md</code>, applies regression-gated diffs</td><td>commits with <code>[trainer]</code> tag</td><td>auto</td></tr>
       <tr><td>Merge</td><td><code>git merge --no-ff book/&lt;slug&gt; → develop</code> + push</td><td>release-ready develop</td><td>auto</td></tr>
     </tbody>
   </table>
+
+  <div class="callout-note" style="margin-top:1rem">
+    <h4>Note · what the Phase 0f gate actually reviews</h4>
+    The series-plan.md presented at the gate contains <strong>chapter list (titles + word-count targets)</strong> and <strong>length tier choice</strong> — the two outputs of Phase 0a–0e that benefit from human eyes (a bad segmentation wastes 8 chapters of work). The other three fields the chapter-contract template carries — <em>audience</em>, <em>angle</em>, <em>host_dynamic</em> — are not authoring decisions:
+    <ul style="margin-top:.5rem">
+      <li><strong>Audience</strong> · project-fixed in the orchestrator config (the listener profile is a property of the library, not the book)</li>
+      <li><strong>Angle</strong> · project-fixed in the orchestrator config (the editorial stance is constant across the library)</li>
+      <li><strong>Host dynamic</strong> · AI-selected per chapter from a canonical pair list in <code>content/podcast/.skill/handbook/two-host-framing.md</code> based on the chapter's content shape (curious_mind + patient_teacher · skeptic + advocate · etc.)</li>
+    </ul>
+    These three fields are written to <code>series-plan.md</code> for the audit trail and to the per-chapter contract for the build, but they do not invite human review.
+  </div>
 
   <!-- ─────────────────────────────────────────────────────────────
        SECTION 4 — Convergence loop
@@ -315,7 +331,7 @@ iter == 3 still BLOCKED                      → force-ship SHIP-CAUTION
     <thead><tr><th>File</th><th>Status (v2)</th><th>Why</th></tr></thead>
     <tbody>
       <tr><td><code>orchestrator-state.json</code></td><td class="cap"><span class="pill-good">KEEP</span></td><td>machine state for <code>--resume</code>; atomic via tmpfile+rename</td></tr>
-      <tr><td><code>series-plan.md</code></td><td class="cap"><span class="pill-good">KEEP</span></td><td>the Phase 0f gate artifact · the only thing the human reviews</td></tr>
+      <tr><td><code>series-plan.md</code></td><td class="cap"><span class="pill-good">KEEP</span></td><td>the Phase 0f gate artifact · human reviews the chapter list + tier only (audience/angle/host_dynamic are auto)</td></tr>
       <tr><td><code>orchestrator-log.md</code></td><td class="strike">DROP</td><td><code>git log book/&lt;slug&gt;</code> is the log · verbose run output goes to <code>_workspace/Books/&lt;slug&gt;/.runlog</code> (gitignored)</td></tr>
       <tr><td><code>PROGRESS.md</code></td><td class="strike">DROP</td><td>derived on demand from <code>orchestrator-state.json</code> via <code>orchestrate_book.py --status</code></td></tr>
       <tr><td><code>needs-human-review.md</code></td><td class="strike">DROP</td><td><code>challenger-report.md</code> already lists P0/P1 findings</td></tr>

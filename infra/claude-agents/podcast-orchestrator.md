@@ -74,7 +74,20 @@ For each phase, invoke the relevant LLM-authoring helper (`scripts/podcast/_auth
 
 ### 6. Halt at Phase 0f
 
-Write the series plan to `_system/series-plan.md` covering: audience, angle, host dynamic, length tier choice, chapter list with titles + word-count targets. Emit a clear notification (stdout + final commit message) telling the user: review `series-plan.md`, then run `/orchestrate-book --resume <slug>` when ready.
+Write the series plan to `_system/series-plan.md`. The plan contains two **human-reviewed** sections at the top:
+
+1. **Length tier choice** (default · longer · extended) — the AI's recommendation with a one-line rationale tying it to total enriched word count.
+2. **Chapter list** — titles + word-count targets per chapter, in series order.
+
+These are the two outputs of Phase 0a–0e that benefit from human eyes — a bad segmentation wastes 8 chapters of downstream work. Below the human-reviewed sections, the file also records (for the audit trail, **not** for human review):
+
+- **Audience** — project-fixed default from the orchestrator config (listener profile is a property of the library, not the book).
+- **Angle** — project-fixed default from the orchestrator config (editorial stance is constant across the library).
+- **Host dynamic** — AI-selected per chapter from the canonical pair list in `content/podcast/.skill/handbook/two-host-framing.md` based on each chapter's content shape (curious_mind + patient_teacher · skeptic + advocate · etc.). The AI writes its selection + a one-line rationale per chapter.
+
+These three fields flow into each `chapter-contracts/<slug>.yml` automatically; the human is not asked about them. The Phase 0f gate is intentionally narrowed to the two items that vary across books and have downstream cost on a mis-call.
+
+Emit a clear notification (stdout + final commit message) telling the user: review the **Length tier** + **Chapter list** sections of `series-plan.md`, then run `/orchestrate-book --resume <slug>` when ready.
 
 **STOP HERE.** Do not proceed.
 
