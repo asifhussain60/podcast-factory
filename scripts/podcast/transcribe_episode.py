@@ -12,7 +12,10 @@ PURPOSE
 
 USAGE
 
-  python3 scripts/podcast/transcribe_episode.py <BOOK_DIR> <EP##-slug> <audio-path>
+  python3 scripts/podcast/transcribe_episode.py <BOOK_DIR> <EP##-slug> <audio-path> [--locale <locale>]
+
+  --locale defaults to en-US. Pass ur-PK for Urdu, ar-SA for Arabic, etc.
+  Full list: https://learn.microsoft.com/azure/ai-services/speech-service/language-support
 
 OUTPUTS
 
@@ -37,7 +40,13 @@ sys.path.insert(0, str(SCRIPT_DIR))
 import _azure  # noqa: E402
 
 
-def transcribe(book_dir: Path, episode_id: str, audio_path: Path) -> Path:
+def transcribe(
+    book_dir: Path,
+    episode_id: str,
+    audio_path: Path,
+    *,
+    locale: str = "en-US",
+) -> Path:
     """Transcribe `audio_path` and write the slug-aligned transcript file."""
     if not book_dir.is_dir():
         raise SystemExit(f"ERROR: BOOK_DIR is not a directory: {book_dir}")
@@ -51,30 +60,59 @@ def transcribe(book_dir: Path, episode_id: str, audio_path: Path) -> Path:
     creds = _azure.load_speech_creds()
     audio_bytes = audio_path.read_bytes()
     audio_size_mb = len(audio_bytes) / (1024 * 1024)
-    print(f"Transcribing {audio_path.name} ({audio_size_mb:.1f} MB) via Azure Speech ({creds.region})...")
+    print(
+        f"Transcribing {audio_path.name} ({audio_size_mb:.1f} MB) "
+        f"via Azure Speech ({creds.region}, locale={locale})..."
+    )
 
-    text = _azure.transcribe_audio(creds, audio_bytes, audio_path.name)
+    text = _azure.transcribe_audio(creds, audio_bytes, audio_path.name, locale=locale)
     if not text.strip():
         raise SystemExit(
             "ERROR: Speech returned an empty transcript. Audio may be silent, "
-            "corrupted, or exceed the Fast Transcription 2-hour ceiling."
+            "corrupted, exceed the Fast Transcription 2-hour ceiling, or use a "
+            "locale the speech model couldn't recognize."
         )
 
     out_path.write_text(text + "\n", encoding="utf-8")
     return out_path
 
 
-def main() -> None:
-    if len(sys.argv) != 4:
-        sys.exit(
-            "Usage: transcribe_episode.py <BOOK_DIR> <EP##-slug> <audio-path>\n"
-            "  Writes <BOOK_DIR>/transcripts/<EP##-slug>.transcript.txt"
-        )
-    book_dir = Path(sys.argv[1]).resolve()
-    episode_id = sys.argv[2]
-    audio_path = Path(sys.argv[3]).resolve()
+def _parse_args(argv: list[str]) -> tuple[Path, str, Path, str]:
+    """Parse positional args + optional --locale flag.
 
-    out_path = transcribe(book_dir, episode_id, audio_path)
+    Kept manual rather than argparse to preserve the historical 3-positional
+    contract used by callers and docs across the skill.
+    """
+    locale = "en-US"
+    positional: list[str] = []
+    i = 0
+    while i < len(argv):
+        tok = argv[i]
+        if tok == "--locale" and i + 1 < len(argv):
+            locale = argv[i + 1]
+            i += 2
+            continue
+        if tok.startswith("--locale="):
+            locale = tok.split("=", 1)[1]
+            i += 1
+            continue
+        positional.append(tok)
+        i += 1
+    if len(positional) != 3:
+        sys.exit(
+            "Usage: transcribe_episode.py <BOOK_DIR> <EP##-slug> <audio-path> [--locale <locale>]\n"
+            "  Writes <BOOK_DIR>/transcripts/<EP##-slug>.transcript.txt\n"
+            "  --locale defaults to en-US. Examples: ur-PK, ar-SA, hi-IN."
+        )
+    book_dir = Path(positional[0]).resolve()
+    episode_id = positional[1]
+    audio_path = Path(positional[2]).resolve()
+    return book_dir, episode_id, audio_path, locale
+
+
+def main() -> None:
+    book_dir, episode_id, audio_path, locale = _parse_args(sys.argv[1:])
+    out_path = transcribe(book_dir, episode_id, audio_path, locale=locale)
     print(f"Wrote transcript: {out_path}")
 
     book_slug = book_dir.name
