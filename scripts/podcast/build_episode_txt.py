@@ -98,9 +98,16 @@ CHAPTER_WORD_MAX_SOFT = 9500
 CHAPTER_DEAD_ZONE_MIN = 4500
 CHAPTER_DEAD_ZONE_MAX = 5500
 
-# Framing (CUSTOMIZE PROMPT) word-count bounds — per notebooklm-best-practices.md §5
+# Framing (CUSTOMIZE PROMPT) word-count bounds — per notebooklm-best-practices.md §5.
+# Default tier framing: 200–500 words.  Longer tier: up to ~800.  Extended tier:
+# 1,000–1,800 in body (the 6-part focus, 3 tensions, 4 anchor passages), plus a
+# pronunciation block that on a name-dense source (8+ figures, multiple book
+# titles, technical vocabulary) commonly runs another 1,000–1,500 words. Hard
+# cap 3,500 to allow Extended episodes the headroom for full phonetic
+# discipline + R-* mandatory clauses without authoring trim. Going past this
+# risks NotebookLM deprioritizing the actual steering content.
 FRAMING_WORD_MIN = 150
-FRAMING_WORD_MAX = 2000
+FRAMING_WORD_MAX = 3500
 
 EP_PATTERN = re.compile(r"^EP(\d+)-(.+)$")
 CH_PATTERN = re.compile(r"^ch(\d+)-(.+)\.txt$")
