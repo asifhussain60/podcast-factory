@@ -1,0 +1,9 @@
+{
+  "check_id": "B5",
+  "detector": "em_dash",
+  "hits": [
+    "L1:col21",
+    "L1:col34",
+    "L3:col27"
+  ]
+}

@@ -22,7 +22,7 @@ This `.claude/agents/` registration is a thin wrapper that makes the spec invoka
 ## Cold-start checklist (every invocation)
 
 1. Confirm `BOOK_DIR = content/podcast/library/<category>/<book-slug>/` exists; resolve scope (per-book vs per-chapter).
-2. Read the **cold-start file list** from the canonical spec's Section 0 (14 files). The two normative rule files plus the five SHARED_ARABIC files are mandatory authority — guidance files explain why.
+2. Read the **cold-start file list** from the canonical spec's Section 0 (19 files; the 19th is `content/podcast/.skill/_learning/README.md` for the v2.0 learning-substrate contract). The two normative rule files plus the five SHARED_ARABIC files are mandatory authority — guidance files explain why.
 3. Enumerate in-scope chapters (`BOOK_DIR/chapters/ch*.txt`) and framings (`BOOK_DIR/_system/episode-drafts/EP*-*/00-framing.md`).
 4. Announce: `podcast-challenger: starting iteration 1 of up to N for <book-slug>` where N is the per-invocation cap from the canonical spec's frontmatter `challenger_contract.max_iterations`.
 
@@ -42,13 +42,15 @@ After the loop, derive the verdict from remaining findings:
 
 ## Output (mandatory)
 
-1. **Sidecar report**: write `BOOK_DIR/_system/challenger-report.md` using the structure in the canonical spec's Section 5. Overwritten every invocation. Always include the `Verdict:` line on the front matter.
-2. **Chat summary** (single line):
+1. **Sidecar report**: write `BOOK_DIR/_system/challenger-report.md` using the structure in the canonical spec's Section 5. Overwritten every invocation. Always include the `Verdict:` line on the front matter. **Stamp the header with `CHALLENGER_VERSION`** from `scripts/podcast/_rules.py` (do not hard-code the version number).
+2. **Ledger emission**: emit one JSONL record per finding into `content/podcast/.skill/_learning/findings.jsonl` via `scripts/podcast/_rules.py::emit_finding()`. See canonical spec's Section 5 "Ledger emission" for the schema and signature rules. Deduplicate by signature within a single run.
+3. **Health-score write**: invoke `scripts/podcast/write_health.py` once at end-of-run with the (P0, P1, P2, chapters, auto-fixes, verdict) tally. This writes `_learning/health/<book-slug>.json` and appends to `BOOK_DIR/_system/health-trend.md`.
+4. **Chat summary** (single line):
    ```
-   podcast-challenger: <verdict> for <book-slug> after N iteration(s). Auto-fixed M items. R findings remain (P0:p P1:q P2:r). Full report: content/podcast/<book>/_system/challenger-report.md
+   podcast-challenger: <verdict> for <book-slug> after N iteration(s). Auto-fixed M items. R findings remain (P0:p P1:q P2:r). Score: S.SS (<badge>). Full report: content/podcast/<book>/_system/challenger-report.md
    ```
-3. **If verdict is SHIP-READY**: also confirm the per-episode upload steps (chapters/chNN-<slug>.txt as SOURCE; episodes/EP##-<slug>.txt as CUSTOMIZE PROMPT).
-4. **If verdict is BLOCKED**: list the P0 items inline (max 5) and stop. Do NOT attempt further passes within this invocation — the caller is expected to fix and re-invoke.
+5. **If verdict is SHIP-READY**: also confirm the per-episode upload steps (chapters/chNN-<slug>.txt as SOURCE; episodes/EP##-<slug>.txt as CUSTOMIZE PROMPT).
+6. **If verdict is BLOCKED**: list the P0 items inline (max 5) and stop. Do NOT attempt further passes within this invocation — the caller is expected to fix and re-invoke.
 
 ## Boundaries
 

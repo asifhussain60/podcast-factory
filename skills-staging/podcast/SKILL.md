@@ -582,6 +582,17 @@ The chapter file IS the source. The build script does NOT transform it; it only 
 
      See `.github/agents/podcast-challenger.agent.md` for the full check catalog (Categories A–O, ~30 checks), severity tier rules, and per-iteration semantics.
 
+     **Post-SHIP-READY learning hook (added v2.0, 2026-05-18 — runs once after the gate clears):**
+
+     ```bash
+     python3 scripts/podcast/learn_aggregate.py
+     python3 scripts/podcast/learn_propose.py
+     ```
+
+     `learn_aggregate.py` reads the append-only `_learning/findings.jsonl` ledger (populated by the challenger and `audit_transcript.py` on every run) and rewrites `_learning/patterns.md`. `learn_propose.py` then emits one markdown file under `_learning/proposals/` per signature that crosses the proposer thresholds (≥ 2 books OR ≥ 3 episodes). Existing proposals that have already been promoted (`_learning/promoted/`) are skipped. If new proposals are written, surface their paths in the Step 8 summary so Asif can review.
+
+     The aggregate + propose pair NEVER modifies normative rule files. Promotion (proposal → handbook rule + `_rules.py` constant list) is human-driven and must pass `scripts/podcast/test_challenger.py --verbose` against the fixture corpus before merging. See `content/podcast/.skill/_learning/README.md` for the full pipeline contract.
+
   4. Update `PODCAST_ROOT/.skill/registry.md` with the new episode row: number, title, slug, book-slug, source type, status, date, NotebookLM notebook URL (Asif fills this after upload).
   5. Maintain the UPLOAD CHECKLIST as the final section of `00-framing.md` (stripped by the build script before emission, so it never reaches NotebookLM). It is Asif-facing documentation: "(1) Upload `BOOK_DIR/chapters/chNN-<slug>.txt` as the single source. (2) Paste contents of `BOOK_DIR/episodes/EP##-<slug>.txt` into NotebookLM's *Customize* prompt box. (3) Click *Generate*."
   6. **Write the chapter-refinement scratchpad.** Create `BOOK_DIR/_system/episode-drafts/EP##-<slug>/chapter.scratch.md`. The scratchpad is a verbatim mirror of `BOOK_DIR/chapters/chNN-<slug>.txt`, with the `@@` marker legend block (see `PODCAST_ROOT/.skill/handbook/scratchpad-markers.md`) prepended at the top. The legend block is reference material for the user, kept across refinement passes and stripped only at project ship-time. **The chapter file is the refinement target** — every marker the user applies eventually rewrites the chapter, and the chapter rewrite is what changes the SOURCE block in the next episode-txt build.
@@ -934,7 +945,11 @@ SECTION 10: REFERENCE FILE INDEX
   - `audit_transcript.py` — post-hoc audit against a TurboScribe transcript dropped under `BOOK_DIR/turboscribe/`. Used by the empirical-transcript loop in `podcast-challenger`.
   - `validate_registry.py` — deterministic checks on the cross-book registry (table parse, EP# monotonicity + uniqueness, slug kebab-case + uniqueness, status enum, ready-row freshness).
   - `check_lineage.py` — staleness check for split-derivative contracts. Compares `derived_from:` source mtime against the derivative chapter's mtime.
-  - `_rules.py` — canonical rule data (DENY lists, abbreviation map, honorific patterns) imported by the build and audit scripts. Mirrored from `.skill/handbook/notebooklm-customize-prompt-rules.md`.
+  - `_rules.py` — canonical rule data (DENY lists, abbreviation map, honorific patterns) imported by the build and audit scripts. Mirrored from `.skill/handbook/notebooklm-customize-prompt-rules.md`. Also home of `CHALLENGER_VERSION` (single-source version stamped into every challenger report and ledger record) and `emit_finding()` (the JSONL-ledger writer used by both the challenger agent and `audit_transcript.py`).
+  - `learn_aggregate.py` — Stage 2 of the learning pipeline. Reads the append-only `_learning/findings.jsonl` ledger and writes `_learning/patterns.md`. Read-only against the ledger. Idempotent.
+  - `learn_propose.py` — Stage 3 of the learning pipeline. Reads `patterns.md` and writes one markdown proposal under `_learning/proposals/` per signature crossing the proposer thresholds (≥ 2 books OR ≥ 3 episodes). Skips signatures already promoted. Authoring of the rule itself remains human-driven.
+  - `test_challenger.py` — Stage 4 of the learning pipeline. Regression harness against `_learning/fixtures/<check-id>/{input.txt,expected.json}`. Five bootstrap fixtures shipped (B5, O1, N1, M3, R4). `--update-golden` flag rewrites expectations from actual detector output for intentional rule shifts.
+  - `write_health.py` — per-book health-score writer. Invoked by the challenger agent at end-of-run; writes `_learning/health/<book-slug>.json` and appends to `BOOK_DIR/_system/health-trend.md`. Score formula `1 − (P0·1.0 + P1·0.2 + P2·0.05) / chapters_in_scope`.
 
 ### Agents:
   - `.github/agents/podcast-challenger.agent.md` — semantic-quality reviewer; runs in a convergence loop (≤5 iterations per the v1.4 frontmatter `max_iterations: 5`; the orchestrator drives an outer re-invocation loop on top if P0 findings remain) before any bundle ships. Validates citation authenticity (Loop A), NotebookLM literalness (Loop B), phonetic coverage + substitution + name-aliasing (Loops C + J), enrichment depth (Loop D), articulation (Loop E), framing 4-part structure (Loop F), welcome opening + closing landing (Loop H), anti-repetition + no-irrelevant-background (Loop I), interruption avoidance (Loop K). Authority for the check catalog is the two normative rule files (`notebooklm-source-chapter-rules.md` + `notebooklm-customize-prompt-rules.md`). Writes `BOOK_DIR/_system/challenger-report.md`. **Required** between Phase 4 step 1 (quality gate) and step 2 (compile).

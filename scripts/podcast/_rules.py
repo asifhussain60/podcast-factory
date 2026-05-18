@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+from pathlib import Path
+
 """Canonical rule data shared across the podcast scripts.
 
 These lists are mirrored from `content/podcast/.skill/handbook/notebooklm-customize-prompt-rules.md`
@@ -11,10 +15,25 @@ Consumers:
     framing content at build time.
   - scripts/podcast/audit_transcript.py — uses all six lists for post-hoc
     transcript scans against the actual NotebookLM audio output.
+  - scripts/podcast/learn_aggregate.py / learn_propose.py / test_challenger.py
+    read CHALLENGER_VERSION + LEARNING_DIR to locate the substrate.
+  - .github/agents/podcast-challenger.agent.md stamps CHALLENGER_VERSION into
+    every challenger-report.md.
 
 Each consumer transforms the raw data into its own preferred shape (regex dict
 vs. substring list); the canonical data itself is plain Python literals.
 """
+
+# ─── Challenger self-version (stamped into every challenger-report.md and every
+# findings.jsonl record). Single source of truth — agent reads from here so
+# the spec frontmatter version, the report header version, and the ledger
+# `source_version` field never drift.
+CHALLENGER_VERSION = "2.0"
+
+# ─── Learning substrate root (relative to repo root). Used by all four
+# learning scripts (aggregate, propose, test, health writer) and by the
+# challenger agent's report-writer to locate findings.jsonl + health/.
+LEARNING_DIR = "content/podcast/.skill/_learning"
 
 # ─── R-NO-MODERNIZE (chapter + framing must not pull in 21st-century social-media idioms)
 # Substring scans — phrase as-it-would-appear in transcript text.
@@ -114,6 +133,55 @@ def abbreviations_for_audit() -> list[tuple[str, str]]:
             else:
                 out.append((a, full))
     return out
+
+
+def emit_finding(
+    *,
+    repo_root: Path,
+    source: str,
+    source_version: str,
+    book: str,
+    episode: str = "",
+    chapter: str = "",
+    check_id: str,
+    severity: str,
+    signature: str,
+    file: str = "",
+    line: int | None = None,
+    context_excerpt: str = "",
+    resolution: str = "flagged",
+) -> None:
+    """Append one JSONL record to the learning-substrate findings ledger.
+
+    Atomic single-line append (writes are < PIPE_BUF so concurrent emitters
+    interleave safely on POSIX). The ledger lives at
+    `<repo_root>/content/podcast/.skill/_learning/findings.jsonl` and is
+    append-only. Callers MUST NOT emit duplicates within a single run.
+    """
+    import json as _json
+    from datetime import datetime, timezone
+
+    ledger = repo_root / LEARNING_DIR / "findings.jsonl"
+    ledger.parent.mkdir(parents=True, exist_ok=True)
+
+    record = {
+        "ts": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "source": source,
+        "source_version": source_version,
+        "book": book,
+        "episode": episode,
+        "chapter": chapter,
+        "check_id": check_id,
+        "severity": severity,
+        "signature": signature,
+        "file": file,
+        "line": line,
+        "context_excerpt": context_excerpt[:300],
+        "resolution": resolution,
+    }
+    line_out = _json.dumps(record, ensure_ascii=False, sort_keys=True) + "\n"
+    with ledger.open("a", encoding="utf-8") as f:
+        f.write(line_out)
 
 
 def abbreviations_for_build() -> dict[str, str]:

@@ -56,39 +56,59 @@ from _rules import (
     HONORIFICS as HONORIFIC_EXPANSIONS,
     FILLER_INTERJECTIONS,
     abbreviations_for_audit,
+    emit_finding,
 )
+
+# Version tag stamped into every finding record this script emits.
+# v1.2 (2026-05-18) — generic mangle map externalized to
+# `content/podcast/.skill/handbook/_mangle-map.md`; ledger emission added.
+AUDIT_TRANSCRIPT_VERSION = "1.2"
+
+# Repo root resolution: this script lives at <repo>/scripts/podcast/.
+REPO_ROOT = Path(__file__).resolve().parents[2]
 
 FORBIDDEN_ABBREVIATIONS = abbreviations_for_audit()
 
 
 # Names commonly mangled by NotebookLM TTS (observed empirically).
-# Maps canonical spelling → list of likely mangled forms to detect.
 #
-# This dict holds **generic** Arabic / Islamic vocabulary that is likely to
-# appear across any Islamic-source book and to be mangled the same way. Truly
-# **book-specific** entries — the book's own title, the specific narrators or
-# characters in that book — live next to the book at
-# `BOOK_DIR/_system/mangle-map.md` and are merged in by `load_book_mangle_map`.
-NAME_MANGLING_MAP = {
-    "Tasawwuf": ["tassel wolf", "tasso wolf", "tasa wolf", "tassel woolf"],
-    "Ikhlas": ["aclus", "iclas", "ick las"],
-    "Nahj al-Balagha": ["najah balala", "najah balaga", "nahjal balaga"],
-    "Dhul-Nun al-Misri": ["shakestone noon mystery", "shake stone noon"],
-    "Bay'a": ["bhaya", "bayaa"],
-    "Riyazat": ["rizat", "riyzat"],
-    "Mujahadah": ["mujahada", "moo jahada"],
-    "Nasir-i Khusraw": ["nasiri khusra", "nasir kushra"],
-    "Riya": [" rhea ", " rhea,", " rhea."],  # spelled like the ostrich
-    "Ihya Ulum al-Din": [" EI ", " EI."],
-    "Sahih Bukhari": ["sahail bukhari"],
-    "Sahih Muslim": ["sahi muslim"],
-    "Sahih Sitta": ["sahasita", "sa ha sita"],
-    "Azwaj al-Mutahharat": ["aswaja al-mutaharat"],
-    "Aisha Siddiqa": ["aisha siddhika"],
-    "Fard al-ayn": ["fard al-an"],
-    "Fard Kifaya": ["fard ki efaya"],
-    "Hadith Qudsi": [],  # detected by adjacent repetition instead
-}
+# The generic, cross-book mangle map now lives at
+# `content/podcast/.skill/handbook/_mangle-map.md` (loaded at audit time via
+# `load_generic_mangle_map()`). Per-book overrides live at
+# `BOOK_DIR/_system/mangle-map.md` and win on conflict (merged by
+# `load_book_mangle_map`).
+#
+# `Hadith Qudsi` mangling is detected by the adjacent-repetition heuristic in
+# `detect_phonetic_doublings`, not the lookup map — leaving it out of the
+# handbook file is intentional.
+GENERIC_MANGLE_MAP_PATH = (
+    REPO_ROOT / "content/podcast/.skill/handbook/_mangle-map.md"
+)
+
+
+def load_generic_mangle_map() -> dict[str, list[str]]:
+    """Read the cross-book generic mangle map from the handbook.
+
+    Markdown pipe-table shape; same parser as `load_book_mangle_map`.
+    """
+    if not GENERIC_MANGLE_MAP_PATH.exists():
+        return {}
+    out: dict[str, list[str]] = {}
+    for raw in GENERIC_MANGLE_MAP_PATH.read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if not line.startswith("|") or line.startswith("|---") or line.startswith("| Canonical"):
+            continue
+        cells = [c.strip() for c in line.strip("|").split("|")]
+        if len(cells) < 2 or not cells[0]:
+            continue
+        canonical = cells[0]
+        forms = [m.strip() for m in cells[1].split(",") if m.strip()]
+        out[canonical] = forms
+    return out
+
+
+# Loaded once at import time; immutable after first read.
+NAME_MANGLING_MAP = load_generic_mangle_map()
 
 
 def load_book_mangle_map(book_dir: Path) -> dict[str, list[str]]:
@@ -212,7 +232,7 @@ def audit(book_dir: Path, episode_id: str, transcript_path: Path) -> Path:
     lines.append("")
     lines.append(f"**Transcript:** `{transcript_path.relative_to(book_dir.parent.parent) if book_dir.parent.parent in transcript_path.parents else transcript_path}`")
     lines.append(f"**Word count:** {wc}")
-    lines.append(f"**Audit tool:** `scripts/podcast/audit_transcript.py` v1.0 (2026-05-17)")
+    lines.append(f"**Audit tool:** `scripts/podcast/audit_transcript.py` v{AUDIT_TRANSCRIPT_VERSION}")
     lines.append("")
 
     # Headline verdict
@@ -362,6 +382,53 @@ def audit(book_dir: Path, episode_id: str, transcript_path: Path) -> Path:
     report_dir.mkdir(parents=True, exist_ok=True)
     report_path = report_dir / f"audit-{episode_id}.md"
     report_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+    # ── Sense stage of the learning pipeline ─────────────────────────────
+    # Emit one JSONL record per finding into _learning/findings.jsonl so the
+    # aggregator + proposer can pick up recurring patterns across books.
+    transcript_file = str(transcript_path.relative_to(REPO_ROOT)) if REPO_ROOT in transcript_path.parents else str(transcript_path)
+    book_slug = book_dir.name
+    emit_kw = dict(
+        repo_root=REPO_ROOT,
+        source="audit_transcript",
+        source_version=AUDIT_TRANSCRIPT_VERSION,
+        book=book_slug,
+        episode=episode_id,
+        file=transcript_file,
+    )
+    for d in phonetic_doublings:
+        emit_finding(check_id="TX-PHON-DOUBLE", severity="P0",
+                     signature=f"TX-PHON-DOUBLE:{d}",
+                     context_excerpt=d, **emit_kw)
+    for canonical, mangled_form, _n in mangled:
+        emit_finding(check_id="TX-MANGLE", severity="P0",
+                     signature=f"TX-MANGLE:{canonical}->{mangled_form}",
+                     context_excerpt=f"{canonical} → {mangled_form}", **emit_kw)
+    for phrase, _n in welcome_hits:
+        emit_finding(check_id="TX-WELCOME-COLD", severity="P0",
+                     signature=f"TX-WELCOME-COLD:{phrase.strip()}",
+                     context_excerpt=phrase.strip(), **emit_kw)
+    for phrase, _n in modernize_hits:
+        emit_finding(check_id="TX-MODERNIZE", severity="P1",
+                     signature=f"TX-MODERNIZE:{phrase.strip()}",
+                     context_excerpt=phrase.strip(), **emit_kw)
+    for phrase, _n in surprise_hits:
+        emit_finding(check_id="TX-SURPRISE", severity="P1",
+                     signature=f"TX-SURPRISE:{phrase.strip()}",
+                     context_excerpt=phrase.strip(), **emit_kw)
+    for pattern, _n in honorific_hits:
+        emit_finding(check_id="TX-HONORIFIC-REPEAT", severity="P1",
+                     signature=f"TX-HONORIFIC-REPEAT:{pattern}",
+                     context_excerpt=pattern, **emit_kw)
+    for phrase, _n in abbreviation_hits:
+        emit_finding(check_id="TX-ABBREV", severity="P1",
+                     signature=f"TX-ABBREV:{phrase.strip()}",
+                     context_excerpt=phrase.strip(), **emit_kw)
+    for phrase, _n in filler_hits:
+        emit_finding(check_id="TX-FILLER", severity="P2",
+                     signature=f"TX-FILLER:{phrase.strip()}",
+                     context_excerpt=phrase.strip(), **emit_kw)
+
     return report_path
 
 

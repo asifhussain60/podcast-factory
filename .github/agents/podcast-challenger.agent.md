@@ -1,6 +1,6 @@
 ---
 name: podcast-challenger
-description: "Semantic-quality challenger for podcasted-book chapters (uploaded to NotebookLM as the SOURCE) and framings/episode-txts (pasted into the NotebookLM Customize prompt box). Validates everything `build_episode_txt.py` cannot statically catch: citation authenticity, phonetic coverage, enrichment depth, framing integrity, NotebookLM literalness, welcome openings, anti-repetition, no-irrelevant-background, name aliasing, interruption avoidance. Runs in a convergence loop (up to 3 iterations), auto-fixes deterministic issues, surfaces semantic findings for human resolution. Book-agnostic: caller supplies `<book-slug>`. Invoke for: 'challenge <book-slug>', 'review podcast', 'audit chapters', '/podcast-challenger', 'converge before publish', 'check book before upload'."
+description: "Semantic-quality challenger for podcasted-book chapters (uploaded to NotebookLM as the SOURCE) and framings/episode-txts (pasted into the NotebookLM Customize prompt box). Validates everything `build_episode_txt.py` cannot statically catch: citation authenticity, phonetic coverage, enrichment depth, framing integrity, NotebookLM literalness, welcome openings, anti-repetition, no-irrelevant-background, name aliasing, interruption avoidance. Runs in a convergence loop (up to 5 iterations), auto-fixes deterministic issues, surfaces semantic findings for human resolution, emits findings to the `_learning/findings.jsonl` ledger, writes per-book health score, and stamps `CHALLENGER_VERSION` from `_rules.py` into every report. Book-agnostic: caller supplies `<book-slug>`. Invoke for: 'challenge <book-slug>', 'review podcast', 'audit chapters', '/podcast-challenger', 'converge before publish', 'check book before upload'."
 tools: [read, edit, search, execute]
 
 # Canonical challenger contract (peer with .github/agents/journal-challenger.agent.md)
@@ -89,6 +89,7 @@ Before any review pass, read **all 18 files** in this order. The two normative r
 16. `scripts/podcast/build_episode_txt.py` + `scripts/podcast/extract_chapter.py` + `scripts/podcast/check_chapter_set.py` — the structural gates this agent complements (the `META_PROSE_TELLS` / `META_PROSE_REGEX_TELLS` / `CONTRACT_META_PROSE_TELLS` lists, plus the Q-check computation)
 17. `content/podcast/.skill/handbook/arabic-tts-protocol.md` — Arabic TTS protocol (Track A, **forward state**). Describes the Conversational vs Classical mode distinction, the `## Phonetic Key (TTS Pronunciation)` section name, and the TTS engineering rules promotion. Until B1–B8 land in the named rule files, this document is **advisory** — do not enforce its target-state rules against current framings, but use its mode distinction to inform any pronunciation guidance the challenger suggests in `notes:` blocks of the sidecar report.
 18. `content/podcast/.skill/ROADMAP.md` — consolidated state-of-the-skill ledger. Names everything in flight (Section B), recently shipped (Section A), and rejected from external proposals (Section D). Consulted to decide whether a finding is consistent with the skill's current direction, and to surface "this is already in flight" notes when reviewers find an issue the roadmap already tracks.
+19. `content/podcast/.skill/_learning/README.md` — learning-substrate contract. Names the findings.jsonl schema, aggregate/propose/test/promote stages, health-score formula and badges, and the proposal template. Read on every invocation because the ledger-emission step (Section 5 below) writes records via `emit_finding()` and the health-write step at end-of-run uses the formula from this README.
 
 You do NOT review:
 - Anything under `content/babu-memoir/` — memoir is out of scope per SKILL.md §9 (these belong to the journal skill).
@@ -178,7 +179,7 @@ If the user invokes without a book-slug, ask for one. Do not guess.
 
 | ID | Check | Detection | Remediation |
 |---|---|---|---|
-| E1 | **Word-count band** — chapter 1,500–4,500 words; framing 200–2,000 words (sweet spot 800–1,800). | `wc -w` (or equivalent) on the file post HTML-comment strip. | Flag (P1) when outside the soft band; the build script enforces the hard bounds [150, 2000] for framings and [500, 5500] for chapters. **Note (2026-05-17 reset):** the framing soft band was raised from 200–1,000 to 200–2,000 to match v3.5 architecture reality. The imperative Pronunciation block (R-PRONUNCIATION-IMPERATIVE), DENY-modernize block (R-NOMODERNIZE), DENY-surprise block (R-NOSURPRISE), name-discipline block (R-NAMEALIAS), and conversation-discipline block together create a ~600-word steering baseline before any episode-specific content; the prior 1,000-word soft cap predated those mandatory blocks. |
+| E1 | **Word-count band** — chapter 1,500–4,500 words; framing 200–2,000 words (default tier soft band) OR 200–3,500 words (Extended tier; `contract.length_target == "extended"`). | `wc -w` (or equivalent) on the file post HTML-comment strip. | Flag (P1) when outside the soft band; the build script enforces the actual hard bound `FRAMING_WORD_MAX = 3500` for framings and `[500, 5500]` for chapters. **Reconciliation (v2.0, 2026-05-18):** the build script hard cap has been 3,500 since the Extended-tier landing; prior challenger reports that named "3,000" as the cap were hallucinated. Mandatory R-* insertion proceeds up to 3,500 — do not block on the 2,000-word soft band when `contract.length_target == "extended"`. **Note (2026-05-17 reset):** the default-tier soft band was raised from 200–1,000 to 200–2,000 to match v3.5 architecture reality. The imperative Pronunciation block (R-PRONUNCIATION-IMPERATIVE), DENY-modernize block (R-NOMODERNIZE), DENY-surprise block (R-NOSURPRISE), name-discipline block (R-NAMEALIAS), and conversation-discipline block together create a ~600-word steering baseline before any episode-specific content. |
 | E2 | **One-sentence summarizability** — the listener can summarize the episode in one sentence. | Read the chapter; attempt a one-sentence summary; if the chapter is multi-thematic such that one sentence cannot honestly contain it, flag. | Flag (P1). |
 | E3 | **Beginning / middle / end arc** — chapter has a hook open, pressure-building middle, landed close; not just a list. | Inspect Movement headings + opening + closing paragraphs. | Flag (P1). |
 | E4 | **No verbal filler / cheerful filler** — no "Well, you know…", "It's interesting that…", "wow", "amazing". | Substring scan + semantic check for filler patterns. | Auto-fix (deterministic) for the exact substring tells; flag the semantic ones. |
@@ -448,14 +449,65 @@ Always write the sidecar report (Section 6) — even on a clean run, the report 
 | ... | | | | | |
 ```
 
+### Ledger emission (mandatory — added 2026-05-18 in v2.0)
+
+After writing the sidecar report, the agent MUST emit one JSONL record per **distinct finding** (auto-fixes count as `resolution: "auto-fixed"`; remaining items as `resolution: "flagged"`) into `content/podcast/.skill/_learning/findings.jsonl`. The emission uses `scripts/podcast/_rules.py::emit_finding()` invoked through a small Python one-liner via Bash. Example for a single finding:
+
+```bash
+python3 -c "
+from pathlib import Path
+import sys
+sys.path.insert(0, 'scripts/podcast')
+from _rules import emit_finding, CHALLENGER_VERSION
+emit_finding(
+    repo_root=Path('.').resolve(),
+    source='podcast-challenger',
+    source_version=CHALLENGER_VERSION,
+    book='<book-slug>',
+    episode='<EP##-slug>',           # or '' for book-scope
+    chapter='<chNN-slug>',           # or '' for framing-only
+    check_id='<A2|B5|C1|...|TX-MANGLE>',
+    severity='<P0|P1|P2|INFO>',
+    signature='<check_id>:<smallest-distinguishing-detail>',
+    file='<repo-relative path>',
+    line=<int or None>,
+    context_excerpt='<≤300-char excerpt>',
+    resolution='<auto-fixed|flagged|carried>',
+)
+"
+```
+
+**Signature rules:** stable across runs; identical issue → identical signature. Examples:
+- `A2:ambiguous-citation:al-Kirmani-tradition`
+- `B5:em-dash:ch01-the-lineage-of-a-lost-argument.txt:42`
+- `R4:formal-transition:Firstly`
+- `TX-MANGLE:Tasawwuf->tassel wolf`
+
+**Deduplication:** within a single run, do not emit two records with the same `signature`. The aggregator dedups by signature across runs; the agent dedups within a run.
+
+### Health-score write (mandatory — added 2026-05-18 in v2.0)
+
+After the ledger-emission pass, invoke the health writer once per run:
+
+```bash
+python3 scripts/podcast/write_health.py \
+    --book <book-slug> \
+    --p0 <P0 count> --p1 <P1 count> --p2 <P2 count> \
+    --chapters <chapters in scope> \
+    --auto-fixes <total auto-fixes this run> \
+    --verdict <SHIP-READY|SHIP-WITH-CAUTION|BLOCKED>
+```
+
+This writes `_learning/health/<book-slug>.json` and appends a row to `BOOK_DIR/_system/health-trend.md`. Both artifacts are part of the SHIP-READY contract — a clean report without a health write is incomplete.
+
 ### Chat summary
 
 After the loop ends, emit a single chat line:
 
 ```
 podcast-challenger: <verdict> for <book-slug> after N iteration(s).
-Auto-fixed M items. R findings remain (P0:p P1:q P2:r). Full report:
-content/podcast/<book>/_system/challenger-report.md
+Auto-fixed M items. R findings remain (P0:p P1:q P2:r). Score: S.SS (<badge>).
+Full report: content/podcast/<book>/_system/challenger-report.md
 ```
 
 If `verdict == SHIP-READY`: confirm both file types are upload-ready for every episode:
@@ -527,6 +579,8 @@ When invoked:
 ---
 
 ## Version
+
+v2.0 (2026-05-18, late evening). **Closed-loop learning substrate.** Added the `_learning/` substrate (READMEd at `content/podcast/.skill/_learning/README.md`) wiring four new pieces around the existing sense-stage scripts: (1) **findings ledger** — every finding this agent surfaces AND every audit_transcript.py hit appends one JSONL record to `_learning/findings.jsonl` via `emit_finding()` in `scripts/podcast/_rules.py`; (2) **aggregator** — `scripts/podcast/learn_aggregate.py` groups the ledger by signature into `_learning/patterns.md`; (3) **proposer** — `scripts/podcast/learn_propose.py` emits rule-promotion markdown proposals under `_learning/proposals/` for any signature crossing thresholds (≥2 books OR ≥3 episodes); (4) **regression harness** — `scripts/podcast/test_challenger.py` runs the deterministic auto-fix detectors against frozen `_learning/fixtures/<check-id>/` corpora and exits non-zero on any regression; bootstrap fixtures shipped for B5, O1, N1, M3, R4. New `scripts/podcast/write_health.py` writes `_learning/health/<book-slug>.json` and appends to `BOOK_DIR/_system/health-trend.md` after every challenger run; score formula `1 − (P0·1.0 + P1·0.2 + P2·0.05) / chapters`. Single-source `CHALLENGER_VERSION` constant in `_rules.py` (this is v2.0) stamped into every sidecar report and every ledger record. Cold-start file list extended (16+2 → 19 — added `_learning/README.md`, `learn_aggregate.py`, `learn_propose.py`). Section 5 sidecar report gains a mandatory ledger-emission step. Section 6 integration adds the post-SHIP-READY hook in `/podcast` Phase 4. E1 reconciled: the actual build-script hard cap is `FRAMING_WORD_MAX = 3500`, not 3,000; the prior soft-band of 200–2,000 is retained as a warning band but does NOT block insertion of mandatory R-* clauses up to 3,500.
 
 v1.9 (2026-05-18, evening). **Loop M input pipeline automated via Azure Speech.** The transcript drop at `BOOK_DIR/turboscribe/EP##-<slug>.transcript.txt` is now produced either manually (TurboScribe) or automatically by `scripts/podcast/transcribe_episode.py` (Azure Speech Fast Transcription, API 2024-11-15). The agent's behavior is unchanged — Loop M still reads the file from the same path. Companion edits: new `transcribe_audio()` + `SpeechCreds` + `load_speech_creds()` in `scripts/podcast/_azure.py` (pure stdlib, mirrors Doc Intel / Translator pattern); new `scripts/podcast/transcribe_episode.py`; provisioning extensions in `infra/azure/{provision-azure,store-keychain-keys}.sh` + `azure-config.{template.env,env}` gated on `ENABLE_SPEECH=true`; `test_azure_connectivity.py` extended with a soft-skip-when-not-provisioned probe (check #5). `skills-staging/podcast/SKILL.md` §post-publication step 1 now documents both paths (1a automated, 1b manual). `ROADMAP.md` Section A gains A11 with the file list; the previously-deferred B9–B12 sub-block is retired. No rule-file changes, no producer changes, no check-catalog changes.
 

@@ -2,11 +2,11 @@
 
 **Transcript:** `books/ayyuhal-walad/turboscribe/EP02-hatim-eight-benefits.transcript.txt`
 **Word count:** 3146
-**Audit tool:** `scripts/podcast/audit_transcript.py` v1.0 (2026-05-17)
+**Audit tool:** `scripts/podcast/audit_transcript.py` v1.2
 
-## Verdict: **DRIFT-NOTED**
+## Verdict: **REGRESSION**
 
-- P0 hits (architecture failures): **0**
+- P0 hits (architecture failures): **39**
 - P1 hits (drift signals): **12**
 
 ## Phonetic doublings · R-PHONETICS-OUT (P0)
@@ -19,7 +19,9 @@ Pattern: `Term, term-phonetic` — the hosts read the transliteration AND its re
 
 Known-mangling lookup: each canonical name is scanned against its empirically-observed mangled forms.
 
-**No mangled names detected.**
+| Canonical | Mangled form | Count |
+|---|---|---|
+| `Ihya Ulum al-Din` | `EI` | 39 |
 
 ## Welcome-opening violations · R-WELCOME (P0)
 
