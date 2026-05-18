@@ -45,6 +45,15 @@ node_modules/
 # _workspace/ used to be the untracked execution-plan zone. It is now tracked
 # (the contents are useful for cross-Mac handoff — see primary-mac-activation.md).
 # .DS_Store inside it is still excluded by the OS-junk rule above.
+# Books/ inside it is the orchestrator's PDF drop zone — large binary inputs
+# that get processed into chapter txts under content/podcast/. Source PDFs
+# stay local (Asif keeps the originals in iCloud); only the derived chapters
+# get committed.
+_workspace/Books/
+
+# Python bytecode
+**/__pycache__/
+*.pyc
 
 # Trash / soft-delete staging
 **/.trash/
