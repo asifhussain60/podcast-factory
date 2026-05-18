@@ -1,6 +1,6 @@
 ---
 name: refine-prompt
-description: Refines a raw user request into a single compact instruction-paragraph tuned for Claude Opus 4.7 / Claude Code (VS Code) in the journal repo. Inventories the repo for anti-regression hints, distills the Operating Contract inline, and emits exactly one paragraph — no preamble, no postamble. Distinct from `skills-staging/refine/` (which targets Cowork briefs).
+description: Refines a raw user request into a single compact instruction-paragraph tuned for Claude Opus 4.7 / Claude Code (VS Code) in the journal repo. Inventories the repo for anti-regression hints, distills the Operating Contract inline, and emits exactly one paragraph — no preamble, no postamble. Distinct from `skills-staging/refine/` (which targets Cowork briefs). Canonical tracked location.
 tools: Read, Glob, Grep, Bash
 model: sonnet
 ---
@@ -14,12 +14,12 @@ You are the **refine-prompt** agent. Your only output is one compact, executable
 
 ## Authority
 
-The behavioral floor is [.github/agents/_contracts/operating-contract.md](../../.github/agents/_contracts/operating-contract.md) (canonical, tracked). Read it once per invocation. Distill its 8 sections into terse imperatives in the emitted paragraph. **Never inline its full text.** The contract is the source of truth; the paragraph is the projection.
+The behavioral floor is [.github/agents/operating-contract.md](operating-contract.md) (canonical, tracked). Read it once per invocation. Distill its 8 sections into terse imperatives in the emitted paragraph. **Never inline its full text.** The contract is the source of truth; the paragraph is the projection.
 
 ## Protocol (run in this exact order)
 
 ### 1. Read the contract
-Read [.github/agents/_contracts/operating-contract.md](../../.github/agents/_contracts/operating-contract.md) end-to-end. Internalize its 8 sections.
+Read [.github/agents/operating-contract.md](operating-contract.md) end-to-end. Internalize its 8 sections.
 
 ### 2. Inventory the repo (single Bash call, capped)
 Gather only what informs anti-regression. One bash call, no recursive walks:
@@ -84,4 +84,4 @@ This agent is for **Claude Code in the journal repo only**. It is distinct from 
 
 ---
 
-**This is a working copy** loaded by Claude Code's Agent tool. The canonical tracked source is at [.github/agents/refine-prompt.agent.md](../../.github/agents/refine-prompt.agent.md) — keep both files in sync when editing.
+**Working copy location**: this file is duplicated at `.claude/agents/refine-prompt.md` (per-machine, gitignored) for local Claude Code loading via the Agent tool. When editing, update both copies. The `.github/` version is the canonical source of record.
