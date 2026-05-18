@@ -359,8 +359,10 @@ def stub_contract(chapter: ResolvedChapter) -> dict[str, Any]:
         "title": "[TODO] Episode title",
         "audience": "[TODO] Concrete audience description.",
         "angle": "personal_application",
+        "episode_format": "deep_dive",
         "host_dynamic": "curious_mind + scholar_companion",
         "host_dynamic_custom": None,
+        "debate": None,
         "length_target": "default_deep_dive",
         "key_tensions": ["[TODO] Tension 1", "[TODO] Tension 2", "[TODO] Tension 3"],
         "tone_constraints": ["[TODO] Tone constraint 1"],
@@ -394,6 +396,44 @@ def validate_contract(c: Contract, chapter: ResolvedChapter) -> None:
     valid_modes = {"faithful", "bridge", "modern_paraphrase"}
     if mode not in valid_modes:
         sys.exit(f"ERROR: contract.adaptation_mode {mode!r} not in {valid_modes}.")
+
+    # episode_format validation + mode-conditional required fields.
+    # Default to deep_dive when absent (backward compat with pre-v3.6 contracts).
+    episode_format = c.get("episode_format") or "deep_dive"
+    valid_formats = {"deep_dive", "debate"}
+    if episode_format not in valid_formats:
+        sys.exit(
+            f"ERROR: contract.episode_format {episode_format!r} not in {valid_formats}.\n"
+            f"  See content/podcast/.skill/handbook/debate-framing.md for the debate spec."
+        )
+    if episode_format == "debate":
+        debate = c.get("debate")
+        if not isinstance(debate, dict):
+            sys.exit(
+                f"ERROR: contract.episode_format is 'debate' but contract.debate is "
+                f"null/missing.\n  Required fields: debate.proposition, debate.host_a, "
+                f"debate.host_b, debate.resolution. See debate-framing.md §Framing structure."
+            )
+        for required in ("proposition", "host_a", "host_b", "resolution"):
+            if not debate.get(required):
+                sys.exit(
+                    f"ERROR: contract.debate.{required} is missing or empty.\n"
+                    f"  See debate-framing.md §Vocabulary for what each field means."
+                )
+        valid_resolutions = {"synthesis", "open", "host_a_concedes",
+                             "host_b_concedes", "historical_division"}
+        if debate.get("resolution") not in valid_resolutions:
+            sys.exit(
+                f"ERROR: contract.debate.resolution {debate.get('resolution')!r} not in "
+                f"{valid_resolutions}."
+            )
+        for host_key in ("host_a", "host_b"):
+            host = debate.get(host_key)
+            if not isinstance(host, dict):
+                sys.exit(f"ERROR: contract.debate.{host_key} must be a mapping with role + position + source_moves.")
+            for sub in ("role", "position"):
+                if not host.get(sub):
+                    sys.exit(f"ERROR: contract.debate.{host_key}.{sub} is missing or empty.")
 
     # source_type ↔ library/<category>/ folder coupling.
     # The category folder is derived from the chapter's resolved path; the
@@ -526,6 +566,13 @@ def fmt_list(items: list[Any], prefix: str = "  - ") -> str:
 
 
 def render_framing(c: Contract, chapter: ResolvedChapter, ep_num: int) -> str:
+    episode_format = c.get("episode_format") or "deep_dive"
+    if episode_format == "debate":
+        return _render_framing_debate(c, chapter, ep_num)
+    return _render_framing_deep_dive(c, chapter, ep_num)
+
+
+def _render_framing_deep_dive(c: Contract, chapter: ResolvedChapter, ep_num: int) -> str:
     title = c.get("title")
     audience = c.get("audience")
     angle = c.get("angle")
@@ -558,6 +605,8 @@ def render_framing(c: Contract, chapter: ResolvedChapter, ep_num: int) -> str:
         )
 
     return f"""# {title}
+
+**Episode format:** Deep Dive (two hosts walk through the source). See `.skill/handbook/two-host-framing.md` for the format spec; if this should be a debate instead, set `contract.episode_format: debate` and see `.skill/handbook/debate-framing.md`.
 
 ## Opening directive
 
@@ -599,6 +648,118 @@ The hosts must NOT do the following:
 - Treat this as a standalone Audio Overview. Do not reference other Audio Overviews — they are not in NotebookLM's context.
 - Do not abbreviate honorifics; speak them in full.
 - End on a question, not a conclusion.
+"""
+
+
+def _render_framing_debate(c: Contract, chapter: ResolvedChapter, ep_num: int) -> str:
+    title = c.get("title")
+    audience = c.get("audience")
+    tone = c.get("tone_constraints", [])
+    length = c.get("length_target", "default_deep_dive")
+    debate = c.get("debate") or {}
+    prop = debate.get("proposition", "[LLM-FILL — proposition under debate]")
+    host_a = debate.get("host_a") or {}
+    host_b = debate.get("host_b") or {}
+    resolution = debate.get("resolution", "open")
+
+    length_blurb = {
+        "brief": "Target ~6–10 min Audio Overview. One tight exchange of positions.",
+        "default_deep_dive": "Target ~12–15 min Audio Overview. Three or four moves per side, with a resolution beat at the close.",
+        "longer": "Target ~22–40 min Audio Overview. Multi-stage debate; positions stress-tested through several rounds.",
+    }.get(length, "Target ~12–15 min Audio Overview.")
+
+    resolution_blurb = {
+        "synthesis": "The two positions resolve into a richer reading the listener can carry. Both hosts arrive at a shared statement that neither one held at the start.",
+        "open": "The two positions are held in tension at the close. No host announces a winner. The listener leaves with both views in mind.",
+        "host_a_concedes": f"Host A — {host_a.get('role', '[role]')} — concedes the main point to Host B by the close, having lost the disputation on the source's own terms.",
+        "host_b_concedes": f"Host B — {host_b.get('role', '[role]')} — concedes the main point to Host A by the close.",
+        "historical_division": "The episode names the disagreement as one the tradition itself has held both ways. Neither host concedes; neither synthesizes. The close states that the tradition is divided.",
+    }.get(resolution, "[LLM-FILL — resolution shape]")
+
+    moves_a = host_a.get("source_moves", []) or []
+    moves_b = host_b.get("source_moves", []) or []
+    moves_a_block = fmt_list(moves_a) if moves_a else "  - [LLM-FILL — quotes, passages, and traditions Host A draws on]\n"
+    moves_b_block = fmt_list(moves_b) if moves_b else "  - [LLM-FILL — quotes, passages, and traditions Host B draws on]\n"
+
+    phonetics = c.get("phonetic_overrides") or {}
+    if phonetics:
+        rows = "".join(f"  - **{term}** — {respelling}\n" for term, respelling in phonetics.items())
+        pronunciation_block = (
+            "Speak every term below using the respelling and gloss in parentheses. "
+            f"On first appearance, pair the term with its brief gloss.\n\n{rows}"
+        )
+    else:
+        pronunciation_block = (
+            "[LLM-FILL — list every non-English term with respelling and gloss, "
+            "or set contract.phonetic_overrides.]"
+        )
+
+    return f"""# {title}
+
+**Episode format:** Debate (each host adopts a role + position and argues from it). See `.skill/handbook/debate-framing.md` for the full format spec.
+
+## Opening directive
+
+In the first twenty seconds, the hosts name the work, state the proposition under debate verbatim, and tell the listener that they will hold opposing positions through the conversation. Do not open with "today we'll discuss" or "welcome to this deep dive". Open by stating the proposition.
+
+## Audience
+
+{audience}
+
+## Length
+
+{length_blurb}
+
+## Proposition under debate
+
+> {prop}
+
+## Roles + positions
+
+**Host A — {host_a.get('role', '[LLM-FILL role]')}.**
+Position: {host_a.get('position', '[LLM-FILL position]')}
+
+Source moves available to Host A:
+{moves_a_block}
+**Host B — {host_b.get('role', '[LLM-FILL role]')}.**
+Position: {host_b.get('position', '[LLM-FILL position]')}
+
+Source moves available to Host B:
+{moves_b_block}
+## Rules of debate (apply through the entire episode)
+
+1. **No strawman.** Each host argues the strongest form of their position. The OTHER host names the weaknesses, never the host holding it.
+2. **Source-grounded only.** Every move references the source text, a passage from the same author's larger corpus, or an established tradition the position is anchored in. No appeals to modern common sense.
+3. **Defended positions stay defended.** A host may concede a sub-point with qualification ("That's a fair point on X, but...") but does not abandon their named position unless the resolution is `host_X_concedes`.
+4. **Disagreement is the work.** Acknowledgment grammar ("Exactly", "Yeah, exactly") that is forbidden in Deep Dive is softened here: a host may concede a sub-point but the concession is qualified and followed by a return to the host's main position. Bare affirmations remain forbidden.
+5. **One position at a time.** Each beat surfaces one part of the argument. Hosts do not jump topics.
+6. **The proposition is named at open and at close.** Resolution is announced at the close per the contract's `resolution` field; no host announces a winner.
+7. **No verdict from the host.** Neither host says "I've convinced you" or "you have to admit". The listener decides.
+8. **The author's voice is third in the room.** A quote from the source is authoritative for that moment, regardless of which host invokes it.
+
+## Resolution
+
+`{resolution}` — {resolution_blurb}
+
+## Tone constraints
+
+The hosts must NOT do the following:
+
+{fmt_list(tone)}
+- No ad hominem. No characterizing the other position as foolish, naive, or fundamentalist.
+- No sarcasm. Firm disagreement, not contempt.
+- No theatrical opposition ("battle of ideas", "showdown", "who is right"). This is *munazara*, not boxing.
+
+## Pronunciation hooks
+
+{pronunciation_block}
+
+## Anti-noise rules
+
+- Quote directly from the source. Each host's moves cite specific passages.
+- Treat this as a standalone Audio Overview. Do not reference other Audio Overviews.
+- Do not abbreviate honorifics; speak them in full.
+- Close on the resolution beat as specified above, not on a host paraphrase.
 """
 
 

@@ -66,7 +66,8 @@ Before doing ANY work, read these files in this order:
 7. `PODCAST_ROOT/.skill/handbook/notebooklm-source-chapter-rules.md` — **NORMATIVE** contract for the chapter file (Loops B + C + D + E authority). Wins over guidance files where they overlap.
 8. `PODCAST_ROOT/.skill/handbook/notebooklm-customize-prompt-rules.md` — **NORMATIVE** contract for the customize-prompt framing (Loops F + H + I + J + K authority). Includes welcome opening, anti-repetition, no-irrelevant-background, name-aliasing, interruption avoidance rules.
 9. `PODCAST_ROOT/.skill/handbook/notebooklm-source-format.md` — the file-by-file format NotebookLM responds to best
-10. `PODCAST_ROOT/.skill/handbook/two-host-framing.md` — default Host A / Host B personas and steering language
+10. `PODCAST_ROOT/.skill/handbook/two-host-framing.md` — Deep Dive format: default Host A / Host B personas and steering language
+10b. `PODCAST_ROOT/.skill/handbook/debate-framing.md` — Debate format: roles, positions, source moves, resolution shapes. Required reading when `contract.episode_format: debate`.
 11. `PODCAST_ROOT/.skill/handbook/source-distillation.md` — how to distill each source type into signal
 12. `PODCAST_ROOT/.skill/handbook/episode-architecture.md` — discussion-spine shape, opening hook, landing
 13. `PODCAST_ROOT/.skill/handbook/scratchpad-markers.md` — the podcast-local `@@` marker vocabulary. This copy is podcast-owned and independent from the journal skill's marker spec.
@@ -535,17 +536,41 @@ Each source type has its own distillation pattern. The full patterns live in `PO
 SECTION 4: TWO-HOST FRAMING — THE STEERING LAYER
 ============================================================
 
-NotebookLM's Audio Overview always uses two hosts. The framing file (`00-framing.md`) decides what they sound like and what they care about. It tells NotebookLM:
+NotebookLM's Audio Overview always uses two hosts. The framing file (`00-framing.md`) decides what they sound like and what they care about. The skill supports **two episode formats**, declared per-episode via `contract.episode_format`:
 
-  - Who the listener is (so the hosts pitch register correctly)
+### Deep Dive (default — `episode_format: deep_dive`)
+
+Two hosts walk through the source faithfully. The framing tells NotebookLM:
+
+  - Who the listener is
   - The angle (faithful / critical / personal / comparative)
-  - The named tensions the hosts must reach (this is the steering)
+  - The named tensions the hosts must reach
   - Tone constraints (e.g., "no cheerful filler", "no 'wow, that's so interesting' loops")
   - Permission to disagree where the source allows it
 
 The default persona pair is **Host A — Curious Mind** (listener stand-in) and **Host B — Scholar/Companion** (domain anchor). Override pairs (skeptic+believer, two skeptics, mentor+student, two practitioners, custom) are available; declare any override in the framing file.
 
-**Full personas, override-pair specifications, steering language patterns, anti-patterns, and tone-constraint snippets live in `PODCAST_ROOT/.skill/handbook/two-host-framing.md`.** That handbook copy is the single source of truth — read it during Phase 3 before authoring `00-framing.md`. This SKILL.md section is the orientation; the handbook is the working reference.
+Full spec: `PODCAST_ROOT/.skill/handbook/two-host-framing.md`.
+
+### Debate (`episode_format: debate`)
+
+Each host adopts a role + position and argues from it. The framing tells NotebookLM:
+
+  - The single proposition under debate (phrased as a claim, not a question)
+  - Host A's role + position + source moves
+  - Host B's role + position + source moves
+  - The rules of debate (no strawman, source-grounded only, defended positions stay defended, disagreement is the work, no host verdict)
+  - The resolution shape (synthesis / open / host_X concedes / historical_division)
+
+Default role pairs include: orthodox jurist + historically-grounded scholar, theologian + practitioner, inside-tradition + outside-tradition, two-perspectives-within-one-tradition, author's defender + author's critic. Roles are anchored in the source and its tradition, not in modern political identities. The goal is pedagogical disputation (*munazara*), not contest.
+
+The schema's `debate` block is REQUIRED when `episode_format: debate`. `extract_chapter.py` validates `proposition`, `host_a.role`, `host_a.position`, `host_b.role`, `host_b.position`, and `resolution` at extract time.
+
+Full spec: `PODCAST_ROOT/.skill/handbook/debate-framing.md`.
+
+### When to choose which
+
+Choose **Debate** when the source contains a defensible-on-both-sides proposition, when the historical tradition itself holds opposing readings, or when the teaching is sharpened by being stress-tested rather than exposited. Choose **Deep Dive** otherwise — including for all narrative, memoir, and structural (non-propositional) content. When in doubt, default to Deep Dive; the debate format is harder to do well and demands more rigor in the framing.
 
 ============================================================
 SECTION 5: QUALITY LOOPS — RUN SILENTLY DURING STRUCTURE
@@ -737,7 +762,8 @@ SECTION 10: REFERENCE FILE INDEX
   - `notebooklm-source-format.md` — file-by-file format spec for NotebookLM ingestion (GUIDANCE)
   - `notebooklm-best-practices.md` — distilled best-practices reference (GUIDANCE — superseded by the two NORMATIVE files above where they overlap)
   - `enrichment-sources.md` — Phase 0e whitelist + citation format + tradition-mix principles
-  - `two-host-framing.md` — host personas + steering language patterns
+  - `two-host-framing.md` — host personas + steering language patterns (Deep Dive format)
+  - `debate-framing.md` — proposition + roles + positions + resolution shapes (Debate format)
   - `source-distillation.md` — distillation pattern per source type
   - `episode-architecture.md` — opening hook, beat shape, landing
   - `scratchpad-markers.md` — podcast-local `@@` marker vocabulary

@@ -29,6 +29,7 @@ challenger_contract:
     - content/podcast/.skill/handbook/notebooklm-best-practices.md
     - content/podcast/.skill/handbook/enrichment-sources.md
     - content/podcast/.skill/handbook/two-host-framing.md
+    - content/podcast/.skill/handbook/debate-framing.md
     - content/podcast/.skill/handbook/scratchpad-markers.md
     - content/podcast/.skill/handbook/extract-capability.md
     - skills-staging/podcast/SKILL.md
@@ -264,6 +265,32 @@ Loop N enforces the architectural pivot from inline phonetic guides (which Noteb
 | O2 | **No abbreviated work titles** — `the Ihya`, `EI`, `the Nahj`, `Sahihayn`, `the Mishkat`, etc. (the `FORBIDDEN_ABBREVIATIONS` map in the build script). | Substring scan. | Auto-fix (replace with full canonical title from R-NO-ABBREVIATION). |
 | O3 | **Transcript empirical: no expanded honorifics repeated more than once** — when transcript exists, count expansions and report. | Regex scan in transcript. | Flag (P1) per repetition; report count. |
 
+### Category P: Debate-format integrity (P0/P1) — applies only when `contract.episode_format: debate` — added 2026-05-17
+
+Mode dispatch: read `contract.episode_format`. When absent or `deep_dive`, skip Category P entirely. When `debate`, run Category P in addition to all other categories. Some checks from Category F (Framing integrity) and Category K (Interruption avoidance) are softened in debate mode; Category P contains the debate-specific replacements.
+
+| ID | Check | Detection | Remediation |
+|---|---|---|---|
+| P1 | **`contract.debate` block fully populated** — proposition + host_a.role + host_a.position + host_b.role + host_b.position + resolution all present and non-null. `extract_chapter.py` validates this at extract time; the challenger re-validates as a belt-and-suspenders gate. | Re-run `extract_chapter.py <chapter-ref> --force` and capture exit status. | Flag (P0) on non-zero exit. The extractor's error message goes verbatim into the report. |
+| P2 | **`resolution` value is in the allowed enum** — one of `synthesis`, `open`, `host_a_concedes`, `host_b_concedes`, `historical_division`. | YAML field check. | Flag (P0) on invalid value. |
+| P3 | **Proposition is phrased as a claim, not a question** — the proposition does not end with `?` and is not phrased as a question. Per `debate-framing.md` §Vocabulary, propositions are claims. | Substring + regex check on the proposition. | Flag (P1). Authoring decision — reword as a claim. |
+| P4 | **Each host's position is a positive claim, not "the opposite of the other"** — Host B's position must NOT start with "the opposite of", "the inverse of", "the rejection of host_a's", etc. Each host's position stands on its own. | Regex scan of `host_b.position` and `host_a.position`. | Flag (P1). |
+| P5 | **Each host has source moves named** — `debate.host_a.source_moves` and `debate.host_b.source_moves` are non-empty lists. The hosts need armory; the framing must name it. | List-length check. | Flag (P0) on empty lists — without source moves, the debate cannot stay source-grounded per the rules of debate. |
+| P6 | **Framing carries the Rules of Debate** — the rendered `00-framing.md` includes a numbered Rules section with at least: no strawman, source-grounded only, defended positions stay defended, disagreement is the work, no host verdict, author's voice is third in the room. | Substring scan in framing. | Auto-fix (insert canonical Rules block from `debate-framing.md` §Rules of debate). |
+| P7 | **Proposition is named at the open** — Opening directive instructs the hosts to state the proposition verbatim in the opening. | Substring scan for "proposition" within Opening directive. | Auto-fix (insert "State the proposition verbatim in the opening" line). |
+| P8 | **Resolution is named at the close** — Resolution section names the `contract.debate.resolution` value and describes what the close sounds like. | Substring scan for the resolution value within Resolution section. | Auto-fix when the contract resolution is set. Flag (P1) when missing. |
+| P9 | **No-verdict closing clause present** — Resolution section forbids the hosts from announcing a winner. | Substring scan for "no winner" / "do not announce a winner" / "no verdict from the host". | Auto-fix (insert canonical clause). |
+| P10 | **Anti-theatre tone** — Tone constraints section forbids "battle of ideas", "showdown", "fight", "who is right", and similar contest framings per `debate-framing.md` §NotebookLM steering. | Substring scan in Tone constraints. | Auto-fix (insert the anti-theatre clause). |
+| P11 | **Acknowledgment grammar softened (debate-specific override of K2)** — Host transition rule in debate mode allows qualified concessions ("That's a fair point on X, but...") but still forbids bare affirmations ("Exactly", "Yeah, exactly"). Verify the framing carries this softened form, NOT the deep-dive strict form. | Substring scan: must contain "qualified concession" or "concede sub-point with qualification"; must NOT contain "no acknowledgment of the prior turn" (the deep-dive strict form). | Flag (P1) on form mismatch. |
+| P12 | **Transcript empirical: hosts stay in position** — when `turboscribe/EP##-<slug>.transcript.txt` exists, scan for transition phrases that signal a host abandoning their named position mid-episode ("I've come around to your view", "I now agree", "you've convinced me") unless the contract resolution is `host_X_concedes`. | Substring scan in transcript with cross-check against `contract.debate.resolution`. | Flag (P1) per violation; report counts. |
+| P13 | **Transcript empirical: proposition stated verbatim at open** — first 60 seconds of the transcript contains the proposition text (allowing minor word-order variation). | Substring scan in transcript's opening segment with fuzzy match. | Flag (P1) when proposition is not stated; report what was said instead. |
+
+**Deep-dive checks that are softened in debate mode:**
+
+- **F4 (Central tensions named)** — debate replaces tensions with the single proposition + paired positions. F4 does not apply when `episode_format: debate`; the equivalent check is P1 (debate block populated).
+- **K1/K2 (interruption avoidance + filler-vocabulary)** — debate mode allows qualified concessions. The acknowledgment-grammar ban is softened per P11; bare affirmations remain forbidden.
+- **F6 (Steering phrases)** — the steering phrases from `two-host-framing.md` are deep-dive specific. Debate uses different steering phrases from `debate-framing.md` §NotebookLM steering for debate format.
+
 ---
 
 ## SECTION 3 — Auto-fix vs flag rules
@@ -458,6 +485,8 @@ When invoked:
 ---
 
 ## Version
+
+v1.6 (2026-05-17). **Debate format support.** Added Category P (Debate-format integrity, 13 checks P1–P13) gated on `contract.episode_format: debate`. The skill now supports two episode formats: `deep_dive` (default — two hosts walk through the source) and `debate` (each host adopts a role + position and argues from it). When the contract carries `episode_format: debate`, the rendered framing follows the structure in `.skill/handbook/debate-framing.md` (Proposition + Roles + Positions + Source moves + Rules of debate + Resolution). Category P validates the new schema fields, the rendered framing's coverage of debate rules, and (when a transcript exists) empirical adherence to position-keeping + no-host-verdict. Deep-dive-specific checks F4 (central tensions), K1/K2 (interruption avoidance), F6 (steering phrases) are softened or replaced under debate mode — see Category P preface for the dispatch rules. Companion edits: `scripts/podcast/extract_chapter.py` `stub_contract()` + `validate_contract()` + `render_framing()` extended with the `episode_format` + `debate` block. `SKILL.md` §4 documents both formats with a "when to choose which" guide. `chapter-contract.template.yml` extended with the `episode_format` enum + `debate:` block schema.
 
 v1.5 (2026-05-17). **Workspace restructure + memoir severance.** Podcast workspace moved: `content/podcast/_handbook/` → `content/podcast/.skill/handbook/`, `content/podcast/_handbook/registry.md` → `content/podcast/.skill/registry.md`, `content/podcast/<book>/` → `content/podcast/library/<category>/<book>/`, `content/podcast/_archive/` → `content/podcast/.skill/archive/`. Memoir inbound pipeline removed: `content/podcast/from-memoir/` deleted, Extract Mode no longer reads `content/babu-memoir/chapters/`. Companion edits: Category G7 (derived_from leak check into memoir paths) removed, "memoir-derived bundles in scope" clause removed, Section 8 anti-pattern simplified to "content outside library/<category>/<book>/". The outbound library-proposals path (podcast → memoir libraries via staged proposal file) is preserved.
 

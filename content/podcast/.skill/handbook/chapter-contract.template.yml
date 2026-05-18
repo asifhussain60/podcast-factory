@@ -65,13 +65,45 @@ audience: >
 #   comparative — put the chapter in conversation with other thinkers
 angle: personal_application
 
-# REQUIRED. Two-host dynamic. One of:
-#   curious_mind + scholar_companion   (default; works for most memoir)
+# REQUIRED. Episode format. One of:
+#   deep_dive  — two hosts walk through the source faithfully (default)
+#   debate     — each host adopts a role + position and argues from it
+# See .skill/handbook/two-host-framing.md (deep_dive) and
+# .skill/handbook/debate-framing.md (debate) for the full spec of each.
+episode_format: deep_dive
+
+# REQUIRED for episode_format=deep_dive. Two-host dynamic. One of:
+#   curious_mind + scholar_companion   (default)
 #   skeptic + believer
 #   two_skeptics
+#   mentor + student
+#   two_practitioners
 #   custom (then fill host_dynamic_custom)
+# Leave null when episode_format=debate (debate uses `debate.host_a.role`
+# and `debate.host_b.role` instead).
 host_dynamic: curious_mind + scholar_companion
 host_dynamic_custom: null
+
+# REQUIRED for episode_format=debate. Defines the proposition under debate,
+# each host's role + position, the source moves available to each host, and
+# how the episode resolves. Leave null when episode_format=deep_dive.
+# Full spec: .skill/handbook/debate-framing.md
+#
+# Schema:
+#   debate:
+#     proposition: "<one sentence, phrased as a claim>"
+#     host_a:
+#       role: "<historical or intellectual perspective>"
+#       position: "<positive claim, not 'the opposite of host_b'>"
+#       source_moves:
+#         - "<quote, passage, or tradition this host draws on>"
+#         - ...
+#     host_b:
+#       role: ...
+#       position: ...
+#       source_moves: [...]
+#     resolution: synthesis | open | host_a_concedes | host_b_concedes | historical_division
+debate: null
 
 # Target Audio Overview length. One of: brief | default_deep_dive | longer
 # default_deep_dive → 12–15 min, source target 1,800–2,800 refined words
