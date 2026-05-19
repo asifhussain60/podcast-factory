@@ -2,46 +2,191 @@
 # Podcast Pipeline — Phased Plan (CANONICAL)
 # =============================================================================
 # Scope: podcast agent + skill ONLY. Journal is OUT OF SCOPE.
+#
+# v3 (2026-05-19) — three structural changes from v2:
+#   1. SEQUENTIAL RENUMBERING. Phases are now P1..P20, organized into 6 named
+#      waves (W1..W6). Each wave is a unit of autonomous, scheduled-task
+#      execution with a single DONE signal sourced from acceptance-criteria.md.
+#      The legacy P0a / P0b / P0c / P0 / P1..P7 numbering is retired; back-compat
+#      aliases live in `legacy_id_map` for one release.
+#   2. CLAUDE CODE IS THE PRIMARY EXECUTION MECHANISM. The wholesale
+#      Anthropic-Python-SDK migration formerly in P3 is CANCELLED. `claude -p`
+#      (Claude Code in headless mode, --permission-mode acceptEdits) remains
+#      the workhorse for every LLM call in scripts/podcast/. The Python SDK is
+#      reserved for narrow side-channel cases (status-API helper, cost-ledger
+#      token counting) — never as a swap for the primary execution path.
+#   3. NUMERIC/SYMBOLIC DISAMBIGUATION is folded in as a first-class phase (P4)
+#      in Wave 1. Adds the challenger Loop N, the abjad-numerals shared file,
+#      the disambiguation handbook, and the orchestrator's Phase-0d numeric-scan
+#      step. Worked example: Master & Disciple Ch-02.
+#
 # See README.md for scope boundary, research/findings.md for citations,
-# view/index.html for visual architecture diagrams.
+# view/index.html for visual architecture diagrams,
+# numeric-symbolic-disambiguation-plan.md for P4's full design document.
 # =============================================================================
 
 meta:
-  version: 2
+  version: 3
   created: 2026-05-19
-  refined: 2026-05-19           # initial repo-surgeon evidence sweep + folded VS Code refinement prompt
-  gap_closed: 2026-05-19        # systematic gap audit; 23 findings resolved on branch plan/v2-gap-close
-  execute_readied: 2026-05-19   # DoR audit + repo-surgeon Pass 5 + acceptance-criteria.md on plan/v2-execute-readiness
+  refined: 2026-05-19
+  gap_closed: 2026-05-19
+  execute_readied: 2026-05-19
+  restructured: 2026-05-19          # v3 restructure: waves + sequential ids + SDK cancel + P4 numeric
   owner: asif
-  legacy_cleanup_basenames:     # consumed by repo-surgeon Pass 5 L8 (broken-ref annotation audit)
+
+  primary_execution_mechanism: claude-code-cli
+  primary_execution_rationale: |
+    The podcast agent and skill are DESIGNED FOR and EXECUTED VIA Anthropic
+    Claude Code. The orchestrator's LLM workhorse is `claude -p` (Claude Code
+    in headless mode) invoked with --permission-mode acceptEdits. This preserves
+    the agent runtime (tool use, file-edit, multi-turn refinement, permission
+    semantics) that the skill design depends on, and avoids re-implementing the
+    agent protocol on top of a raw Python SDK client.
+
+    The Anthropic Python SDK is used ONLY for narrow, side-channel use cases:
+      • status-API helper calls (P8) — e.g., one-shot 'summarize this state'
+      • cost-ledger token counting (P6) — usage extraction from claude -p stdout
+    Never as a replacement for the primary LLM execution path.
+
+  legacy_id_map:                    # v2 → v3 ID translation; one release of back-compat
+    P0a: P1
+    P0b: P2
+    P0c: P3
+    P0d: P4                         # P0d was the v2-draft slot for numeric/symbolic; now P4
+    P0:  P5
+    "P3.4 (cost-only)": P6
+    P1:  P7
+    P2:  P8
+    P3:  CANCELLED                  # SDK migration phases (P3.1, P3.2, P3.3, P3.5, P3.6) cancelled
+    P4:  P9
+    "P4.8 (eta)": P10
+    "P5.0": P11
+    "P5.1+P5.2": P12
+    "P5.3": P13
+    "P5.4": P14
+    "P6.1": P15
+    "P6.2+P6.3": P16
+    "P6.4": CANCELLED               # SDK token-count parity — no SDK to compare against
+    "P6.5": CANCELLED               # SDK fallback shim — no SDK to fall back from
+    "P7.1": P17
+    "P7.2": P18
+    "P7.3": P19
+    "P7.4": P20
+
+  legacy_cleanup_basenames:         # consumed by repo-surgeon Pass 5 L8
     - chatgpt-podcast-skill-prompt
     - folder-cleanup-prompt
     - podcast-refactor-executive-summary
     - podcast-orchestrator-large-books
+
   branch_strategy: "feature branches off develop, merge via --no-ff"
-  primary_mac: true                              # Azure-backed pipeline runs here (see ../primary-mac-activation.md)
+  primary_mac: true                 # Azure-backed pipeline runs here (see ../primary-mac-activation.md)
+
   scope_in:
     - .github/agents/podcast-orchestrator.agent.md
     - .github/agents/podcast-trainer.agent.md
-    - .github/agents/podcast-challenger.agent.md   # not yet in .github/; lives in infra/+.claude/. Migrated by P6.2.
-    - .github/agents/podcast-extract.agent.md      # not yet in .github/; lives in infra/+.claude/. Migrated by P6.2.
+    - .github/agents/podcast-challenger.agent.md   # not yet in .github/; migrated by P16
+    - .github/agents/podcast-extract.agent.md      # not yet in .github/; migrated by P16
     - skills-staging/podcast/**
-    - scripts/podcast/**                            # includes scripts/podcast/tests/ (E2E harness, P0b)
+    - scripts/podcast/**                            # includes scripts/podcast/tests/
     - content/podcast/**
-    - docs/architecture/podcast-*.html              # podcast-facing architecture docs (rename surface, P6.1)
+    - docs/architecture/podcast-*.html              # podcast-facing architecture docs (rename surface, P15)
+
   scope_out:
     - .github/agents/journal-*.agent.md
     - .github/agents/CORTEX.agent.md
     - .github/agents/reconcile.agent.md
     - .github/agents/repo-surgeon.agent.md
-    - infra/claude-agents/**                        # explicit DELETION target after P6.2 migration
+    - infra/claude-agents/**                        # explicit DELETION target after P16 migration
     - skills-staging/journal/**
     - scripts/memoir/**
     - scripts/site/**
     - content/babu-memoir/**
-    - content/_shared/**                            # journal reads READ-ONLY (Arabic), podcast NEVER writes
-    - docs/architecture/journal-*.html              # journal docs out of scope
+    - content/_shared/**                            # journal reads READ-ONLY (Arabic); podcast writes ONLY to content/_shared/arabic/06-abjad-numerals.md per P4
+    - docs/architecture/journal-*.html
     - docs/architecture/index.html                  # cross-cutting nav, edit only when both sides agree
+
+  scope_in_writes_to_shared_exception:              # one-time exception for P4
+    path: content/_shared/arabic/06-abjad-numerals.md
+    rationale: |
+      P4 (Numeric/Symbolic Disambiguation) creates ONE cross-skill shared file:
+      the canonical abjad-numerals reference, used by both podcast pre-refined
+      mode AND any future journal Arabic-handling. The file's location follows
+      the existing `content/_shared/arabic/00-..05-` pattern. After creation,
+      the file is READ-ONLY for both skills. No other writes to content/_shared/**
+      are permitted from the podcast skill.
+
+# -----------------------------------------------------------------------------
+# Waves — autonomous scheduled-task units
+# -----------------------------------------------------------------------------
+# Each wave is one scheduled task (cron / `/schedule` skill / launchd). The
+# task kicks off the wave, runs its phases sequentially (or in parallel where
+# noted), checks the wave's DONE signal against acceptance-criteria.md, and
+# either advances to the next wave (if gated open) or halts for human review.
+# -----------------------------------------------------------------------------
+waves:
+
+  - id: W1
+    name: "Foundation & Guardrails"
+    phases: [P1, P2, P3, P4, P5, P6]
+    schedule_intent: "Overnight; idempotent; zero LLM cost"
+    parallelism: "P1, P2, P3, P4 in parallel; P5 sequential after P4; P6 sequential after P5"
+    blast_radius: "Local — no external API calls; CI workflows created but not executed"
+    kickoff_cmd: "python3 scripts/podcast/run_wave.py 1"
+    done_signal: "All P1–P6 rows in acceptance-criteria.md `### Wave 1` group checked"
+    gates_open_next: "Wave 2 (after human review of W1 commit)"
+
+  - id: W2
+    name: "Observability"
+    phases: [P7, P8]
+    schedule_intent: "Single daytime window; ~1 wk wall-clock; trivial LLM cost"
+    parallelism: "P7 then P8; P8 depends on P7's heartbeat schema"
+    blast_radius: "Local — new daemon thread + localhost FastAPI service"
+    kickoff_cmd: "python3 scripts/podcast/run_wave.py 2"
+    done_signal: "All P7–P8 acceptance rows checked; dashboard reachable at http://127.0.0.1:8765/"
+    gates_open_next: "Wave 3"
+
+  - id: W3
+    name: "Corpus Validation"
+    phases: [P9, P10]
+    schedule_intent: "One graduated run per scheduled invocation; book picked from queue"
+    parallelism: "Strictly sequential — one book per invocation; ETA model (P10) trains on completed runs"
+    blast_radius: "BIG — full Azure OCR + claude -p spend per run; uses cost ledger from P6"
+    kickoff_cmd: "python3 scripts/podcast/run_wave.py 3 --book <slug>"
+    done_signal: "All 7 books in P9 either shipped clean OR documented failure-mode + remediation; P10 ETA model within ±30% on held-out book"
+    gates_open_next: "Wave 4"
+    cost_guardrail: "P6 hard halt enforced (default $50); wave aborts if hard cap hit"
+
+  - id: W4
+    name: "Control Plane"
+    phases: [P11, P12, P13, P14]
+    schedule_intent: "Single window; mutation surface only, no autonomous LLM spend"
+    parallelism: "P11 first (decision); P12+P13 parallel; P14 last"
+    blast_radius: "Mutation API live; pause/resume/delete enabled; bearer-token auth"
+    kickoff_cmd: "python3 scripts/podcast/run_wave.py 4"
+    done_signal: "All P11–P14 rows checked; 2 books run truly parallel in P12 acceptance"
+    gates_open_next: "Wave 5"
+
+  - id: W5
+    name: "Polish"
+    phases: [P15, P16]
+    schedule_intent: "Single scheduled task; HARD-GATED by zero in-flight books"
+    parallelism: "P15 first (orchestrator phase rename); P16 second (agent dedup + CI)"
+    blast_radius: "Touches every podcast file with a phase-id reference; ~700 LOC surface"
+    kickoff_cmd: "python3 scripts/podcast/run_wave.py 5 --confirm-zero-inflight"
+    done_signal: "Phase rename schema_version=2 across live state files; agent picker shows each agent once; isolation CI green"
+    gates_open_next: "Wave 6 (trigger-gated, not time-gated)"
+    prereq_gate: "scripts/podcast/orchestrator_status.py --all --json | jq '[.books[] | select(.phase_status==\"running\" or .phase_status==\"failed\")] | length' == 0"
+
+  - id: W6
+    name: "Deferred"
+    phases: [P17, P18, P19, P20]
+    schedule_intent: "NOT time-scheduled — each phase has its own `promote_when` trigger"
+    parallelism: "N/A — promoted individually as triggers fire"
+    blast_radius: "Per-phase; see individual phases"
+    kickoff_cmd: "manual — `python3 scripts/podcast/run_wave.py 6 --phase P17` after promote_when trigger fires"
+    done_signal: "Each promoted phase ships its own acceptance rows"
+    gates_open_next: "N/A (terminal wave)"
 
 # -----------------------------------------------------------------------------
 # System check (verified 2026-05-19 — refresh before each batch)
@@ -52,7 +197,7 @@ system_check:
     subscription: "Journal AI — primary"
     subscription_id: "3440564d-c056-4173-bec6-7af92dbece77"
     tenant: "asifhussain60msn.onmicrosoft.com"
-  azure_resources:                                 # verified via `az resource list`
+  azure_resources:
     - {name: journal-docintel,   kind: FormRecognizer,  location: eastus, group: rg-journal-ai}
     - {name: journal-translator, kind: TextTranslation, location: eastus, group: rg-journal-ai}
     - {name: journal-speech,     kind: SpeechServices,  location: eastus, group: rg-journal-ai}
@@ -60,20 +205,20 @@ system_check:
     claude_cli:      "2.1.144"
     python:          "3.14.4"
     node:            "v24.15.0"
-    gh:              "installed, NOT authenticated"   # blocks PR work, NOT plan work
+    gh:              "installed, NOT authenticated"
   git:
-    branch:          "develop"
-    clean:           true
+    branch:          "book/master-disciple-notebooklm-scaffolding"
+    clean:           false                              # numeric-symbolic-disambiguation-plan.md untracked
     remote_synced:   true
   orchestrator:
-    active_runs:     []                              # confirmed via pgrep
+    active_runs:     []
     kitab_al_riyad:
       phase:         "0a"
       phase_status:  "completed"
       next_phase:    "0b"
       last_error:    null
-      in_flight_chunks: 0                            # no `.in.md`/`.out.md` orphans
-  safe_to_edit_plan: true                            # no async work touching tracked files
+      in_flight_chunks: 0
+  safe_to_edit_plan: true
 
 # -----------------------------------------------------------------------------
 # Async work safety rules (enforced before every code edit)
@@ -91,8 +236,8 @@ async_safety:
   unsafe_during_async:
     - "Edits inside the active book directory"
     - "Spawning a second `claude -p` heavy run"
-    - "Phase rename migration (P6.1)"
-    - "Agent dedup (P6.2)"
+    - "Phase rename migration (P15)"
+    - "Agent dedup (P16)"
   wait_banner_format: |
     ╔══════════════════════════════════════════════════════════════════╗
     ║  ⏸  WAITING ON ASYNC WORK — DO NOT START NEW LLM RUNS            ║
@@ -111,7 +256,7 @@ async_safety:
     ║  SAFE WORK   │ {paths safe to edit}                              ║
     ║  DO NOT      │ {paths not safe to touch}                         ║
     ╚══════════════════════════════════════════════════════════════════╝
-  wait_banner_format_ascii: |                       # used when terminal does not render UTF-8 box-drawing
+  wait_banner_format_ascii: |
     +==================================================================+
     |  >> WAITING ON ASYNC WORK -- DO NOT START NEW LLM RUNS           |
     +==================================================================+
@@ -135,42 +280,66 @@ async_safety:
 # -----------------------------------------------------------------------------
 principles:
   - id: P-1
+    name: "Claude Code is the primary execution mechanism"
+    detail: |
+      `claude -p --permission-mode acceptEdits` is the canonical LLM-call site for
+      every workhorse phase (0b refine-english, 0c phonetics, 0d chapter-design,
+      0e enrichment, per-chapter framing/build/challenger, trainer). The Anthropic
+      Python SDK is RESERVED for narrow side-channel use (status-API helper, cost
+      ledger token counting), NEVER for the primary execution path. This preserves
+      the Claude Code agent runtime (tool use, multi-turn, permission semantics) that
+      the skill design depends on.
+
+  - id: P-2
     name: "Ship the band-aid before the cure"
     detail: |
-      P0 is a 2-line fix that unblocks the kitab-al-riyad run today.
-      Do P0 even though P3 (SDK migration) makes it obsolete — the validation
-      that follows P0 informs P3's design.
-  - id: P-2
+      P5 is a 2-line permission-mode fix that unblocks kitab-al-riyad today. Ship
+      it via Wave 1 even though P6 (cost ledger) and P7 (heartbeat) will harden
+      around it. No phase is allowed to depend on a yet-unshipped phase from a
+      later wave.
+
+  - id: P-3
     name: "Observation before mutation"
     detail: |
-      Build read-only status (P1, P2) before the control plane (P5).
-      A dashboard is useless if the process is opaque; mutations are dangerous
-      if you can't see what's happening.
-  - id: P-3
+      Wave 2 (heartbeat + status API) ships BEFORE Wave 4 (control plane mutation
+      API). A dashboard is useless if the process is opaque; mutations are dangerous
+      if you cannot see what is happening.
+
+  - id: P-4
     name: "Validate on real books before refactoring"
     detail: |
-      P4 runs the graduated book corpus (30p → 865p) on the current shell-out
-      pipeline. ONLY after that passes do we touch the SDK migration (P3 reorders
-      to AFTER P4 if validation surfaces unknown failure modes).
-  - id: P-4
+      Wave 3 runs the graduated book corpus (30p → 865p) BEFORE Wave 5 polish.
+      Wave 5 phase-rename (P15) cannot run while any book is in-flight; that gate
+      is enforced by Wave 5's prereq_gate.
+
+  - id: P-5
     name: "Resume-safe checkpoints everywhere"
     detail: |
       Every new code path must be resume-safe: append-only logs, .done markers,
       atomic file writes. No phase may overwrite state from an earlier phase.
-  - id: P-5
+
+  - id: P-6
     name: "Podcast / journal isolation is enforced, not aspirational"
     detail: |
       No file under scripts/podcast/ may import from scripts/site/ or scripts/memoir/.
-      Add a CI check in P6 that asserts this. Boundary already holds in current code
-      per repo-surgeon evidence sweep 2026-05-19 — work is to lock it down, not remove
-      existing automatic feeds (there are none).
-  - id: P-6
+      P1 audits, P16 wires the CI check. One whitelisted exception: P4 creates
+      content/_shared/arabic/06-abjad-numerals.md (see meta.scope_in_writes_to_shared_exception).
+
+  - id: P-7
     name: "Manual handoff for cross-skill content, never automatic"
     detail: |
       The podcast skill MAY propose additions to journal libraries (quotes, clinical,
       memoir) by writing to BOOK_DIR/_system/episode-drafts/EP##-*/proposed-library-entries.md.
-      It MUST NEVER write directly to content/babu-memoir/** or content/_shared/**.
-      Promotion of proposed entries is a manual journal-side step.
+      It MUST NEVER write directly to content/babu-memoir/** or content/_shared/**
+      (except the P4 abjad file noted above). Promotion is a manual journal-side step.
+
+  - id: P-8
+    name: "No invented enumerations (Numeric/Symbolic Disambiguation)"
+    detail: |
+      Any numeric claim in source text ("twelve regions", "seven seas") must be
+      either (a) backed by a period-attested enumeration with source citation, or
+      (b) explicitly flagged for human review. Inventing an unsourced enumeration
+      is a P0 BLOCKED finding from podcast-challenger Loop N (P4).
 
 # -----------------------------------------------------------------------------
 # Intelligence sources — where each agent/skill MUST consult before acting
@@ -183,26 +352,30 @@ intelligence_sources:
       - {path: "scripts/podcast/orchestrate_book.py",                 when: "any state-machine change",    staleness_signal: "phase_map / state schema drift"}
       - {path: "scripts/podcast/_progress.py",                        when: "any state-schema edit",       staleness_signal: "schema_version constant out of sync with state.json"}
       - {path: "content/podcast/library/books/*/_system/orchestrator-state.json", when: "before resume / retry-phase", staleness_signal: "phase_status=running with stale ts_updated"}
-      - {path: "_workspace/plan/podcast-plan.yaml",                   when: "every multi-step task",       staleness_signal: "meta.gap_closed date >7d old AND active phase changed"}
+      - {path: "_workspace/plan/podcast-plan.yaml",                   when: "every multi-step task",       staleness_signal: "meta.restructured date >7d old AND active wave changed"}
       - {path: "_workspace/plan/research/findings.md",                when: "any architecture decision",   staleness_signal: "linked URL HTTP 404"}
+      - {path: "_workspace/plan/numeric-symbolic-disambiguation-plan.md", when: "any per-book scaffolding for Islamic source material", staleness_signal: "ambiguity register stale relative to chapter list"}
+      - {path: "content/podcast/.skill/handbook/numeric-symbolic-disambiguation.md", when: "any chapter with numeric/symbolic claims", staleness_signal: "P4 deliverable; created in Wave 1"}
+      - {path: "content/_shared/arabic/06-abjad-numerals.md",         when: "any letter-count / abjad-value claim", staleness_signal: "P4 deliverable; created in Wave 1"}
       - {path: "docs/architecture/podcast-pipeline.html",             when: "any phase boundary change",   staleness_signal: "phase IDs disagree with _progress.py PHASE_ORDER"}
       - {path: "docs/architecture/podcast-orchestrator.html",         when: "any orchestrator behavior change", staleness_signal: "phase IDs disagree with code"}
     per_book_intelligence:
       - {path: "<book>/_system/source/raw-extract.md",                consult_for: "OCR truth-source for refinement decisions"}
       - {path: "<book>/_system/source/text/refined-english.md",       consult_for: "Phase-0c-and-beyond canonical text"}
       - {path: "<book>/_system/source/text/_phonetics.md",            consult_for: "Arabic term pronunciation map"}
+      - {path: "<book>/_system/source/text/numeric-disambiguation-register.md", consult_for: "P4: per-book numeric/symbolic ambiguity register"}
       - {path: "<book>/_system/source-chapter-map.md",                consult_for: "Phase 0d unit_mode=section/auto traceability"}
       - {path: "<book>/_system/challenger-report.md",                 consult_for: "Ship-readiness verdict before merge"}
   journal:
     canonical_skill:  "skills-staging/journal/SKILL.md"
     consult_before_any_edit:
       - {path: "skills-staging/journal/SKILL.md",                     when: "every session start"}
-      - {path: "content/babu-memoir/_system/voice-fingerprint.md",    when: "any chapter authoring (light variant) — voice-fingerprint-light.md / voice-deep-analysis.md as needed"}
+      - {path: "content/babu-memoir/_system/voice-fingerprint.md",    when: "any chapter authoring"}
       - {path: "content/babu-memoir/_system/craft-techniques.md",     when: "any chapter authoring"}
       - {path: "content/babu-memoir/_system/thematic-arc.md",         when: "chapter slotting / re-ordering"}
       - {path: "content/babu-memoir/_system/locked-paragraphs.md",    when: "edits near locked passages"}
       - {path: "content/babu-memoir/_system/biographical-context.md", when: "fact-checking / timeline questions"}
-      - {path: "content/_shared/arabic/**",                           when: "Arabic word pronunciation (READ-ONLY)"}
+      - {path: "content/_shared/arabic/**",                           when: "Arabic word pronunciation (READ-ONLY); includes 06-abjad-numerals.md after P4"}
     boundary: "READS NOTHING from content/podcast/. The only cross-skill connection is consuming proposed-library-entries.md as input to manual library curation."
   cross_cutting:
     - {path: "_workspace/primary-mac-activation.md",                  consult_for: "Azure bootstrap on a new Mac"}
@@ -211,27 +384,32 @@ intelligence_sources:
   conflict_resolution:
     description: |
       When two intelligence sources disagree, prefer in this order (highest authority first):
-        1. The relevant agent's `reads_normative` list (challenger frontmatter) — these are contract-bearing.
-        2. `_workspace/plan/podcast-plan.yaml` (canonical phased plan; if its `gap_closed` date is <7d old).
+        1. The relevant agent's `reads_normative` list (challenger frontmatter) — contract-bearing.
+        2. `_workspace/plan/podcast-plan.yaml` (canonical phased plan; if `restructured` <7d old).
         3. `skills-staging/<skill>/SKILL.md` (the producing skill's current contract).
         4. `_workspace/plan/research/findings.md` (rationale + citations).
-        5. `docs/architecture/*.html` (visual / narrative; treat as derived, not authoritative).
-      Plan staleness signal: if `meta.gap_closed` is >7 days old AND the active phase has changed since,
+        5. `_workspace/plan/numeric-symbolic-disambiguation-plan.md` (P4 design doc; authoritative for numeric/symbolic protocol).
+        6. `docs/architecture/*.html` (visual / narrative; treat as derived, not authoritative).
+      Plan staleness signal: if `meta.restructured` is >7 days old AND the active wave has changed since,
       run `/repo-surgeon --plan-only` before trusting the plan.
   full_read_requirement:
     description: |
       For multi-step authoring tasks, the agent MUST read EVERY file under its bucket's
       `consult_before_any_edit` list in full at session start (not skim). Single-step
-      lookups may read on-demand. The plan staleness signal in conflict_resolution
-      governs whether a re-read is required mid-task.
+      lookups may read on-demand.
 
-# -----------------------------------------------------------------------------
+# =============================================================================
 # Phases
-# -----------------------------------------------------------------------------
+# =============================================================================
 phases:
 
-  # =============================================================================
-  - id: P0a
+  # ===========================================================================
+  # WAVE 1 — Foundation & Guardrails
+  # ===========================================================================
+
+  - id: P1
+    wave: W1
+    legacy_id: P0a
     name: "Journal/podcast boundary verification + CI lock-down"
     effort: hours
     priority: blocker
@@ -240,10 +418,9 @@ phases:
       Evidence sweep 2026-05-19 confirms NO automatic podcast→journal/clinical/quote
       feeds exist. The podcast skill writes proposed-library-entries.md to its own
       _system/episode-drafts/ directory only — promotion is manual. This phase
-      LOCKS the property in place via CI before it can regress; no code removal
-      needed because there is nothing to remove.
+      LOCKS the property in place via CI before it can regress.
     tasks:
-      - id: P0a.1
+      - id: P1.1
         title: "Audit script confirming zero cross-boundary writes"
         files:
           - scripts/podcast/_boundary_check.py             # NEW
@@ -251,21 +428,24 @@ phases:
           AST scan + grep for any write/append/open(...,'w') under scripts/podcast/
           targeting:
             content/babu-memoir/** | content/_shared/** | scripts/memoir/** | scripts/site/**
+          ALLOWED exception (per meta.scope_in_writes_to_shared_exception):
+            content/_shared/arabic/06-abjad-numerals.md (created by P4 one-time)
           Exit 0 if clean, non-zero with file:line if violation found.
         acceptance:
           - "Runs in <2s over scripts/podcast/"
           - "Documented in skills-staging/podcast/SKILL.md as the boundary contract"
-      - id: P0a.2
+          - "Allows P4's one-time write to content/_shared/arabic/06-abjad-numerals.md"
+      - id: P1.2
         title: "Document manual handoff for cross-skill content"
         files:
           - skills-staging/podcast/SKILL.md                # add Manual Handoff section
-          - docs/podcast/manual-library-handoff.md         # NEW (or fold into SKILL.md)
-          - scripts/podcast/_proposal_writer.py            # NEW — emits proposed-library-entries.md
+          - docs/podcast/manual-library-handoff.md         # NEW
+          - scripts/podcast/_proposal_writer.py            # NEW
         spec: |
           Document: where proposed-library-entries.md lives, who promotes it, how the
           journal side ingests, how to detect drift (proposed but never promoted).
 
-          Canonical schema for `BOOK_DIR/_system/episode-drafts/EP##-<slug>/proposed-library-entries.md`:
+          Schema for `BOOK_DIR/_system/episode-drafts/EP##-<slug>/proposed-library-entries.md`:
           ```yaml
           ---
           schema_version: 1
@@ -274,152 +454,288 @@ phases:
           generated_by: scripts/podcast/_proposal_writer.py
           generated_at: <ISO-8601 UTC>
           ---
-
           ## Quotes proposed for content/babu-memoir/_system/quotes-library.txt
-
           - text: "<quote text>"
             attribution: "<who said it>"
             source_ref: "<book + chapter + page>"
             episode_context: "<one-line>"
             confidence: high|medium|low
-
           ## Clinical anecdotes proposed for content/babu-memoir/_system/clinic-library.txt
-
           - title: "<descriptor>"
             summary: "<2-3 sentences>"
             source_ref: "<…>"
             episode_context: "<…>"
-
           ## Promotion ledger (journal side writes here when promoted)
-
           - quote_id: <hash>
             promoted_at: <ISO-8601>
             promoted_to: content/babu-memoir/_system/quotes-library.txt#<line-anchor>
           ```
-
-          Promotion is a manual journal-side operation:
-            1. Journal author reviews `proposed-library-entries.md`.
-            2. Author appends accepted entries to the target library file.
-            3. Author writes a row to the Promotion ledger above.
-            4. Drift detection: any entry NOT in the ledger after N days is flagged by Pass 5 L11 (future addition).
         acceptance:
-          - "Search 'manual library handoff' in skills-staging/podcast/SKILL.md returns the section"
-          - "scripts/podcast/_proposal_writer.py emits a schema-valid proposed-library-entries.md given a populated chapter contract"
-          - "docs/podcast/manual-library-handoff.md links to the schema above and documents promotion workflow"
-      - id: P0a.3
-        title: "CI gate (deferred to P6.3, listed here for traceability)"
-        spec: "P0a.1 wired into .github/workflows/podcast-isolation.yml — see P6.3"
+          - "grep 'manual library handoff' in skills-staging/podcast/SKILL.md returns the section"
+          - "scripts/podcast/_proposal_writer.py emits a schema-valid file from a populated chapter contract"
+          - "docs/podcast/manual-library-handoff.md documents the promotion workflow"
+      - id: P1.3
+        title: "CI gate (deferred to P16, listed here for traceability)"
+        spec: "P1.1 invocation present in .github/workflows/podcast-isolation.yml — created in P16"
 
-  # =============================================================================
-  - id: P0b
+  - id: P2
+    wave: W1
+    legacy_id: P0b
     name: "E2E test harness for the podcast pipeline"
     effort: 1-2 days
     priority: blocker
     depends_on: []
     why: |
-      Today: only unit (test_challenger.py) + integration (test_azure_connectivity.py)
-      tests exist. There is NO automated end-to-end coverage of orchestrate_book.py.
-      The only way to detect regressions in the state machine, chunking, or phase
-      transitions is to run a full book and visually inspect outputs. This blocks
-      P3 (SDK migration) from being safely verified.
+      Today: only unit + integration tests exist. There is NO automated end-to-end
+      coverage of orchestrate_book.py. The only way to detect regressions in the
+      state machine, chunking, or phase transitions is to run a full book and
+      visually inspect outputs. This blocks W3 corpus validation.
     tasks:
-      - id: P0b.1
+      - id: P2.1
         title: "Tiny-book fixture for E2E"
         files:
           - scripts/podcast/tests/e2e/__init__.py          # NEW
-          - scripts/podcast/tests/e2e/fixtures/tiny-book/  # NEW (3-chapter, ~5k word synthetic PDF or text)
-          - scripts/podcast/tests/e2e/conftest.py          # NEW (env fixtures, tmp_book_dir)
+          - scripts/podcast/tests/e2e/fixtures/tiny-book/  # NEW
+          - scripts/podcast/tests/e2e/conftest.py          # NEW
         acceptance:
           - "Fixture text is deterministic; cost <$0.50 per full run"
           - "Includes ≥1 Arabic phrase to exercise translator + phonetics"
-      - id: P0b.2
+          - "Includes ≥1 numeric/symbolic claim (e.g., 'three companions') to exercise P4 challenger Loop N detection"
+      - id: P2.2
         title: "Sunny-day E2E: PDF → 0a..0e → halts at 0f gate"
         files:
           - scripts/podcast/tests/e2e/test_full_pipeline.py # NEW
         spec: |
           - Spin up tmp book dir, copy fixture, run orchestrate_book.py --no-gate
           - Assert: state.json shows each phase completed in order
-          - Assert: refined-english.md and _phonetics.md non-empty AND contain >100 words each
-            (catches the silent-failure bug class P0 fixes — empty .out.md was the failure mode)
-          - Assert: every `_chunks/0b/win-*.in.md` has a matching `win-*.out.md` of non-zero size
+          - Assert: refined-english.md and _phonetics.md non-empty AND >100 words each
+          - Assert: every `_chunks/0b/win-*.in.md` has a matching non-zero `win-*.out.md`
           - Assert: ≥1 chapter-contract written; ≥1 chapter txt written
-          - Assert: halts cleanly at 0f (series-plan human-review gate)
-          - Assert: heartbeat.json updated within 30s during run
-          - Assert: no log line containing 'NO ARTIFACT' anywhere in the run log
+          - Assert: halts cleanly at 0f
+          - Assert: heartbeat.json updated within 30s (after P7 ships)
+          - Assert: no log line containing 'NO ARTIFACT'
+          - Assert: numeric-disambiguation-register.md exists if fixture contains numeric claims
         acceptance:
-          - "Run command: `pytest scripts/podcast/tests/e2e/ -v` (documented in scripts/podcast/tests/README.md)"
+          - "Run command: `pytest scripts/podcast/tests/e2e/ -v`"
           - "Total wall-clock <15min on tiny fixture; <$1 cost"
-          - "Asserts on artifacts AND state transitions AND failure handling"
-          - "Sunny-day test FAILS if the P0 bug class returns (verified by toggling --permission-mode in a regression branch)"
-      - id: P0b.3
+          - "Sunny-day test FAILS if the P5 bug class returns (verified by toggling --permission-mode in a regression branch)"
+      - id: P2.3
         title: "Rainy-day E2E: artifact-missing / rc=0-but-refusal"
         files:
           - scripts/podcast/tests/e2e/test_failure_modes.py # NEW
         spec: |
-          - Inject mock `claude -p` that returns rc=0 with no file write (the P0 bug class)
+          - Inject mock `claude -p` that returns rc=0 with no file write
           - Assert: orchestrator raises typed error, does NOT silently advance
-          - Test resume after killing mid-window (verify .out.md checkpoint reuse)
+          - Test resume after killing mid-window
           - Test --retry-phase on a failed 0c
         acceptance:
-          - "All rainy-day scenarios fail loud (typed errors, not silent passes)"
+          - "All rainy-day scenarios fail loud"
           - "Resume-after-kill restores exactly the windows that finished"
-      - id: P0b.4
+      - id: P2.4
         title: "Wire E2E into validation gate"
         files:
           - .github/workflows/podcast-e2e.yml              # NEW
-          - skills-staging/podcast/SKILL.md                # add "Before ship: run E2E" gate
-        spec: |
-          CI job: tiny-book E2E on every PR touching scripts/podcast/.
-          NOT on every push to develop (cost / wall-clock).
+          - skills-staging/podcast/SKILL.md
         acceptance:
           - "PR to scripts/podcast/ fails CI if E2E test fails"
           - "Skill SKILL.md documents the gate"
 
-  # =============================================================================
-  - id: P0c
+  - id: P3
+    wave: W1
+    legacy_id: P0c
     name: "Doc regressions introduced by legacy-file cleanup (2026-05-19)"
     effort: hours
     priority: blocker
     depends_on: []
+    status: PARTIALLY_DONE              # P0c.1, P0c.2 already shipped in v2
     why: |
-      The legacy-file deletion in commit b0d991b removed
-      _workspace/chatgpt-podcast-skill-prompt.md. That path is referenced by
-      docs/architecture/podcast-overview.html:366, leaving a stale link. Close
-      this regression before the next docs publish.
+      Commit b0d991b deleted four `_workspace/` files referenced from
+      docs/architecture/podcast-overview.html. Close before next docs publish.
     tasks:
-      - id: P0c.1
-        title: "Repair or rewrite the chatgpt-podcast-skill-prompt reference"
-        files:
-          - docs/architecture/podcast-overview.html
-        spec: |
-          Options:
-            1. Rewrite the paragraph to point at skills-staging/podcast/SKILL.md
-               (the current canonical source) and remove the chatgpt-prompt fork
-               description entirely.
-            2. Restore the deleted file from git history (commit b0d991b^).
-          Decision: option 1 — the chatgpt fork is no longer maintained and SKILL.md
-          is the single source of truth.
+      - id: P3.1
+        legacy_id: P0c.1
+        title: "Repair chatgpt-podcast-skill-prompt reference"
+        status: DONE
+        files: [docs/architecture/podcast-overview.html]
         acceptance:
           - "grep -r 'chatgpt-podcast-skill-prompt' docs/ scripts/ skills-staging/ returns no results"
           - "podcast-overview.html paragraph reads coherently without the deleted reference"
-      - id: P0c.2
+      - id: P3.2
+        legacy_id: P0c.2
         title: "Audit for other broken links from the cleanup"
-        spec: |
-          For each path deleted in commit b0d991b, grep the entire repo (excluding
-          .git, node_modules) for the basename. Any non-test reference is a
-          regression to repair.
-          Deleted basenames to grep:
-            - chatgpt-podcast-skill-prompt
-            - folder-cleanup-prompt
-            - podcast-refactor-executive-summary
-            - podcast-orchestrator-large-books
+        status: DONE
         acceptance:
-          - "All four basenames return zero non-test references in docs/, scripts/, skills-staging/, .github/"
-          - "Any references found are repaired or explicitly redirected"
+          - "All four legacy basenames (legacy_cleanup_basenames) annotated as deleted/retired/closed"
 
-  # =============================================================================
-  - id: P0
-    name: "Critical bug fix: claude -p permission mode"
+  - id: P4
+    wave: W1
+    legacy_id: P0d
+    name: "Numeric/Symbolic Disambiguation protocol — handbook + challenger Loop N + per-book scaffolding"
+    effort: 1-2 days
+    priority: blocker
+    depends_on: []
+    why: |
+      Classical Islamic / Ismaili source material is saturated with symbolic numeric
+      structures (7 heavens, 12 regions, 7 seas, abjad-encoded ciphers, modern
+      anachronisms). The current pipeline handles these poorly: asserts counts
+      without enumeration, modernizes anachronistically (e.g., "seven continents"),
+      leaves cipher sequences unannotated. This phase installs the protocol BEFORE
+      any future Islamic-source book ships so it is enforced from chapter 1, not
+      retrofitted.
+
+      Worked example: Master & Disciple Ch-02 (Oath and Cosmic Origins) — see
+      `_workspace/plan/numeric-symbolic-disambiguation-plan.md` for the full
+      ambiguity register, source citations, and decision log.
+    tasks:
+      - id: P4.1
+        title: "Create canonical abjad-numerals shared file"
+        files:
+          - content/_shared/arabic/06-abjad-numerals.md    # NEW (the ONLY whitelisted write to content/_shared/**)
+        spec: |
+          Mirrors structure of existing content/_shared/arabic/00-..05- files. Contents:
+            1. Full Mashriqi (Eastern) and Maghribi (Western) abjad tables.
+            2. Hisab al-Jummal practice — how to sum, how ة and final letters count.
+            3. Worked examples (Allah=66, basmala=786, Muhammad=92, Ali=110, kun=70, etc).
+            4. When to use it in the pipeline (any letter-count claim; any abjad-encoded passage).
+            5. Lookup behavior for pronunciation-guide entries with numeric claims.
+        acceptance:
+          - "File exists at canonical location"
+          - "Includes both Mashriqi and Maghribi variants"
+          - "Includes verified reference calculations (Allah, basmala, Muhammad, Ali)"
+          - "Includes Ch-02 worked calculations (kun=70, fayakun=166, etc)"
+          - "After P4 commit, content/_shared/arabic/06-abjad-numerals.md is treated as READ-ONLY by both podcast and journal skills"
+
+      - id: P4.2
+        title: "Create disambiguation handbook for the podcast skill"
+        files:
+          - content/podcast/.skill/handbook/numeric-symbolic-disambiguation.md   # NEW
+        spec: |
+          The general protocol — applies to ANY book (not just Master & Disciple).
+          Sections:
+            1. Activation triggers (count-without-enumeration; cipher; anachronistic gloss)
+            2. Workflow per ambiguity (identify → research → record → scaffold → checklist)
+            3. The "enumerate once" rule (anti-repetition across episodes)
+            4. Anachronism handling (label both period-referent AND modernization)
+            5. Invented content is P0 BLOCKED
+            6. Authoritative-source register (preference order: critical edition >
+               Iranica/IIS > peer-reviewed > general reference > web)
+        acceptance:
+          - "Handbook exists at canonical path"
+          - "References content/_shared/arabic/06-abjad-numerals.md as the abjad authority"
+          - "References numeric-symbolic-disambiguation-plan.md as the worked-example source"
+
+      - id: P4.3
+        title: "Extend SKILL.md pre-read list to include the new shared + handbook files"
+        files:
+          - skills-staging/podcast/SKILL.md
+        spec: |
+          Add reference #21:
+            21. PODCAST_ROOT/.skill/handbook/numeric-symbolic-disambiguation.md
+                — required protocol for any book asserting counts-without-enumeration,
+                  containing abjad ciphers, or applying modern glosses to pre-modern referents.
+          Extend SHARED_ARABIC mandatory pre-read paragraph to include 06-abjad-numerals.md
+          (raising the count from six SHARED_ARABIC files to seven).
+        acceptance:
+          - "skills-staging/podcast/SKILL.md grep '06-abjad-numerals.md' returns the new pre-read line"
+          - "Reference #21 present in pre-read list"
+
+      - id: P4.4
+        title: "Extend pre-refined-source-mode handbook with Numeric Disambiguation step"
+        files:
+          - content/podcast/.skill/handbook/pre-refined-source-mode.md
+        spec: |
+          Add a new required scaffolding step:
+            ## Numeric Disambiguation
+            - Per-claim symbolic meaning + period-attested enumeration (if resolved)
+            - ONE-TIME enumeration policy
+            - Cross-references to 03-source-integrity-notes.md numeric register + 06-abjad-numerals.md
+          Plus a new failure-mode entry:
+            6. Asserting an invented enumeration → P0 BLOCKED finding in the challenger.
+        acceptance:
+          - "Handbook contains both the new scaffolding step and the new failure-mode entry"
+
+      - id: P4.5
+        title: "Add challenger Loop N (Numeric/Symbolic Disambiguation)"
+        files:
+          - .github/agents/podcast-challenger.agent.md     # add Loop N spec  (Note: agent currently lives in infra/+.claude/, migrated by P16)
+          - .claude/agents/podcast-challenger.md           # mirror Loop N
+        spec: |
+          Loop N checks:
+            1. Enumeration coverage — every "N X" claim has either an enumeration in the
+               per-chapter scaffolding's Numeric Disambiguation block, OR an explicit
+               NEEDS HUMAN REVIEW flag in 03-source-integrity-notes.md.
+            2. One-time enumeration — no enumeration repeated across episodes; cross-episode scan.
+            3. Abjad cipher coverage — any abjad-encoded sequence has either a sourced decoding
+               or a NEEDS HUMAN REVIEW flag.
+            4. Anachronism labeling — every anachronistic gloss has both period referent +
+               modernization labeled, with explicit on-air host instruction.
+            5. No invented content — any enumeration without a source citation is P0.
+          Severity ladder:
+            - P0 (BLOCKED): invented enumeration; unsourced cipher decoding
+            - P1 (SHIP-WITH-CAUTION): enumeration repeated across episodes; anachronism unlabeled
+            - P2 (note for next episode): NEEDS HUMAN REVIEW items still pending after publication
+          Note: This file is in scripts/podcast/'s scope only after the P16 agent-dedup migration.
+          During Wave 1, P4.5 edits the existing locations (infra/ + .claude/) and stages the
+          .github/agents/ version for P16 to land. P16 finalizes the move.
+        acceptance:
+          - "podcast-challenger.agent.md contains a Loop N section with the 5 checks + severity ladder"
+          - "Mirror file in .claude/agents/podcast-challenger.md is byte-identical (after stripping .agent.md suffix)"
+          - "Loop N's reads_guidance includes content/_shared/arabic/06-abjad-numerals.md and content/podcast/.skill/handbook/numeric-symbolic-disambiguation.md"
+
+      - id: P4.6
+        title: "Add Phase-0d numeric/symbolic scan step to the orchestrator"
+        files:
+          - scripts/podcast/_authoring.py                  # Phase 0d prompt scaffolding
+        spec: |
+          After chapter boundaries are determined in Phase 0d, scan each chapter for:
+            (a) numeric claims ("N X") without enumeration
+            (b) abjad-encoded sequences
+            (c) anachronistic glosses
+          Findings are recorded to:
+            <book>/_system/source/text/numeric-disambiguation-register.md
+          The orchestrator only FLAGS; it does not invent decodings. Resolution
+          happens at the per-chapter scaffolding layer (P4.7) and at the challenger
+          Loop N gate (P4.5).
+        acceptance:
+          - "Phase 0d prompt instructs the LLM to emit numeric-disambiguation-register.md"
+          - "E2E test (P2.2) verifies the register file exists when the fixture contains numeric claims"
+
+      - id: P4.7
+        title: "Apply protocol to Master & Disciple as the worked-example book"
+        files:
+          - content/podcast/library/books/the-master-and-the-disciple/_notebooklm/02-glossary.md
+          - content/podcast/library/books/the-master-and-the-disciple/_notebooklm/03-source-integrity-notes.md
+          - content/podcast/library/books/the-master-and-the-disciple/_notebooklm/ch02-scaffolding.md
+          - content/podcast/library/books/the-master-and-the-disciple/_notebooklm/06-human-review-checklist.md
+        spec: |
+          Apply the full Ch-02 ambiguity register per
+          _workspace/plan/numeric-symbolic-disambiguation-plan.md §3:
+            - 02-glossary.md: add Twelve Jazāʾir, Seven Seas (Yaʿqūbī),
+              Seven Oft-Repeated, Asāas, Hisab al-Jummal entries
+            - 03-source-integrity-notes.md: add Numeric/Symbolic enumeration register
+              + Anachronism register tables
+            - ch02-scaffolding.md: insert Numeric Disambiguation section between
+              Podcast Segment Map and Recurring Refrain; append NotebookLM instructions
+            - 06-human-review-checklist.md: add §J Numeric/Symbolic Enumeration Review
+              with 9 checkboxes + failure-mode escalation
+        acceptance:
+          - "All 4 M&D NotebookLM files updated per the plan §3 spec"
+          - "Cross-references between files are consistent (e.g., glossary entry references the integrity-notes register row)"
+          - "Decision log on file: 12-jazāʾir = both (symbolic + historical); cryptic sphere letters = NEEDS HUMAN REVIEW"
+
+      - id: P4.8
+        title: "Update plan staleness signals + intelligence sources for P4 deliverables"
+        files:
+          - _workspace/plan/podcast-plan.yaml              # already done as part of v3 restructure
+          - _workspace/plan/numeric-symbolic-disambiguation-plan.md  # add header pointer to P4 home
+        acceptance:
+          - "podcast-plan.yaml intelligence_sources.podcast.consult_before_any_edit references the new handbook + abjad file"
+          - "numeric-symbolic-disambiguation-plan.md header references its P4 home in podcast-plan.yaml"
+
+  - id: P5
+    wave: W1
+    legacy_id: P0
+    name: "claude -p permission-mode fix + artifact validation"
     effort: hours
     priority: blocker
     depends_on: []
@@ -427,18 +743,21 @@ phases:
       Current orchestrator silently fails inside Phase 0b/0c/0d/0e because
       `claude -p` refuses file-write tools without --permission-mode acceptEdits.
       Returns rc=0 with a refusal in stdout; orchestrator's artifact check logs
-      "NO ARTIFACT" and proceeds to the next window. All windows on
-      kitab-al-riyad failed this way last session (5 .in.md written, 0 .out.md).
+      "NO ARTIFACT" and proceeds. All windows on kitab-al-riyad failed this way
+      last session (5 .in.md written, 0 .out.md).
+
+      Per P-1 (Claude Code primary), `claude -p` is the canonical execution
+      mechanism. This phase HARDENS that mechanism; it does NOT replace it.
     tasks:
-      - id: P0.1
+      - id: P5.1
         title: "Add --permission-mode acceptEdits to all claude -p invocations"
         files:
-          - scripts/podcast/_chunking.py    # _run_one_window
-          - scripts/podcast/_authoring.py   # _run_claude (and any other CLAUDE_CMD sites)
+          - scripts/podcast/_chunking.py
+          - scripts/podcast/_authoring.py
         acceptance:
           - "grep 'claude -p' returns 0 results without --permission-mode flag"
           - "Both sites pass --permission-mode acceptEdits"
-      - id: P0.2
+      - id: P5.2
         title: "Harden artifact check: rc=0 AND out_path exists AND non-empty"
         files:
           - scripts/podcast/_chunking.py
@@ -446,40 +765,109 @@ phases:
         acceptance:
           - "If out_path missing OR file_size == 0, raise typed error with stdout/stderr capture"
           - "No silent 'NO ARTIFACT' continuation — every failure surfaces"
-      - id: P0.3
+      - id: P5.3
         title: "Re-run kitab-al-riyad --resume; verify Phase 0b completes"
         branch_workflow: |
-          1. Apply P0.1/P0.2 patches on `develop` first; merge to develop after
-             the boundary check (P0a.1) and a tiny-book smoke pass.
-          2. Rebase `book/kitab-al-riyad` onto the updated `develop` (or
-             cherry-pick the P0 commits if rebase would touch in-flight files).
-          3. Confirm `_system/orchestrator-state.json` still parses unchanged after
-             the rebase (the rebase must not touch state files).
+          1. Apply P5.1/P5.2 patches on `develop` first; merge after P1 boundary check
+             + P2 tiny-book smoke pass.
+          2. Rebase `book/kitab-al-riyad` onto updated develop (or cherry-pick P5 commits
+             if rebase would touch in-flight files).
+          3. Confirm orchestrator-state.json still parses unchanged after the rebase.
           4. `git checkout book/kitab-al-riyad` and
              `python3 scripts/podcast/orchestrate_book.py --resume kitab-al-riyad`.
         acceptance:
-          - "P0.1 + P0.2 land on develop BEFORE book branch resume"
-          - "book/kitab-al-riyad rebased clean onto develop; state.json untouched by the rebase"
+          - "P5.1 + P5.2 land on develop BEFORE book branch resume"
+          - "book/kitab-al-riyad rebased clean onto develop; state.json untouched"
           - "All N windows produce non-empty .out.md files"
-          - "Phase transitions 0b -> 0c -> 0d -> 0e cleanly OR halts cleanly at 0f human gate"
+          - "Phase transitions 0b → 0c → 0d → 0e cleanly OR halts cleanly at 0f"
 
-  # =============================================================================
-  - id: P1
-    name: "Observability foundation: heartbeat + status CLI"
+  - id: P6
+    wave: W1
+    legacy_id: "P3.4 (cost-only)"
+    name: "Cost ledger + soft/hard caps (decoupled from cancelled SDK migration)"
+    effort: 1 day
+    priority: high
+    depends_on: [P5]
+    why: |
+      Cost tracking is essential for W3 corpus validation (which spends real
+      Anthropic budget on 7 books up to 865 pages). The v2 plan coupled cost
+      tracking to the SDK migration (P3.4 inside P3); with SDK migration
+      cancelled, cost ledger is split out as its own phase.
+
+      Token counts come from `claude -p` stdout parsing (the CLI emits usage at
+      end of run); price multiplication happens in a Python module that reads a
+      pricing table constant.
+    tasks:
+      - id: P6.1
+        title: "Cost-ledger writer alongside _chunking + _authoring"
+        files:
+          - scripts/podcast/_cost_ledger.py               # NEW
+          - scripts/podcast/_chunking.py                  # call append_cost after each claude -p
+          - scripts/podcast/_authoring.py                 # same
+        spec: |
+          After each `claude -p` run, parse usage from stdout (Claude Code CLI
+          emits a final usage summary line) and append to
+          <book>/_system/cost-ledger.jsonl:
+            {ts, phase, step, model, input_tokens, output_tokens, cache_read,
+             cache_create, cost_usd}
+          Pricing table is a module constant; warn loudly if model unknown.
+        acceptance:
+          - "After any claude -p call, a new row appears in cost-ledger.jsonl"
+          - "Row schema validates against scripts/podcast/_cost_ledger.py docstring"
+          - "Unknown model emits a structured warning, not a silent zero"
+
+      - id: P6.2
+        title: "Cost-ledger summary CLI"
+        files:
+          - scripts/podcast/cost_ledger_summary.py        # NEW
+        spec: |
+          Reads <book>/_system/cost-ledger.jsonl and emits:
+            {total_input_tokens, total_output_tokens, total_cost_usd_by_phase}
+          Plus a cost-validation.json snapshot stored alongside the ledger.
+        acceptance:
+          - "`python3 scripts/podcast/cost_ledger_summary.py <book>` exits 0 and prints structured totals"
+          - "cost-validation.json regenerated on each invocation"
+
+      - id: P6.3
+        title: "Soft/hard cost caps with CLI overrides"
+        files:
+          - scripts/podcast/orchestrate_book.py
+          - scripts/podcast/_cost_ledger.py
+        spec: |
+          Defaults per open_questions.Q2:
+            - soft warning at $20 (heartbeat + log)
+            - hard halt before Phase 0d at $50
+          CLI overrides:
+            --cost-cap-soft N --cost-cap-hard N
+          state.json overrides:
+            state.config.cost_cap_soft / cost_cap_hard
+        acceptance:
+          - "Soft cap triggers warning in heartbeat without halting"
+          - "Hard cap halts before Phase 0d transition"
+          - "Both overridable via CLI and state.config"
+
+  # ===========================================================================
+  # WAVE 2 — Observability
+  # ===========================================================================
+
+  - id: P7
+    wave: W2
+    legacy_id: "v2 P1"
+    name: "Heartbeat + status CLI + wait-banner"
     effort: 1-2 days
     priority: high
-    depends_on: [P0]
+    depends_on: [P5, P6]
     why: |
       Currently zero visibility into in-flight work. User waits 15+ minutes
       with no signal whether claude -p is making progress, hung, or dead.
       Heartbeat thread + read-only CLI eliminates this anxiety AND lays the
-      data plane for P2 (HTTP API) and P5 (live dashboard).
+      data plane for P8 (HTTP API) and P12 (live dashboard).
     tasks:
-      - id: P1.1
+      - id: P7.1
         title: "Heartbeat daemon thread in scripts/podcast/_progress.py"
         files:
           - scripts/podcast/_progress.py
-          - scripts/podcast/orchestrate_book.py   # spawn heartbeat at startup
+          - scripts/podcast/orchestrate_book.py
         spec:
           path: "<book>/_system/heartbeat.json"
           interval_sec: 30
@@ -488,16 +876,18 @@ phases:
             - phase
             - phase_status
             - elapsed_in_phase_s
-            - last_chunk_written          # path of most recent .out.md / .done file
+            - last_chunk_written
             - last_chunk_mtime
-            - last_log_line               # tail -1 of orchestrator log
-            - subprocess_pid              # current claude -p PID, if any
+            - last_log_line
+            - subprocess_pid
+            - hostname                       # for R3 multi-Mac mitigation
+            - cost_so_far_usd                # P6 cost ledger snapshot
           write: "atomic (tmp + rename); never block on disk"
         acceptance:
           - "heartbeat.json updates within 30s while orchestrator runs"
           - "Thread is daemon=True; orchestrator exit terminates it cleanly"
           - "Zero impact on claude -p timing (heartbeat is side-channel only)"
-      - id: P1.2
+      - id: P7.2
         title: "Per-LLM-call heartbeat bumps"
         files:
           - scripts/podcast/_chunking.py
@@ -505,37 +895,32 @@ phases:
         spec: |
           Before each chunked window / per-source-chapter / per-chapter LLM call,
           call _progress.bump_heartbeat(label="0b · win-007 · 3082 words").
-          Lets status CLI show step-level progress, not just phase-level.
         acceptance:
           - "Within 30s of any LLM call starting, heartbeat label reflects it"
-      - id: P1.3
-        title: "scripts/podcast/orchestrator_status.py (CLI inspector)"
+      - id: P7.3
+        title: "scripts/podcast/orchestrator_status.py (CLI inspector + wait-banner)"
         files:
-          - scripts/podcast/orchestrator_status.py   # NEW
+          - scripts/podcast/orchestrator_status.py        # NEW
         spec: |
           Read-only. Reads heartbeat.json + state.json + _chunks/ dir + log tail.
-          Emits the user-preferred boxed banner (canonical format in meta.async_safety.wait_banner_format).
+          Emits the boxed banner per meta.async_safety.wait_banner_format.
           Usage:
             python3 scripts/podcast/orchestrator_status.py <book-slug>
             python3 scripts/podcast/orchestrator_status.py --all
-            python3 scripts/podcast/orchestrator_status.py --json     # for piping
-            python3 scripts/podcast/orchestrator_status.py --banner   # emit the boxed banner (default for TTY)
-          Banner fields (sourced from heartbeat.json + state.json):
-            title, author, page_count, source_type/size, branch, process_name, pid,
-            current_phase, log_path, next_gate, phase/unit count/percent, safe_paths,
-            unsafe_paths
-          Banner is the format used by agents when asking the user to wait on async work.
+            python3 scripts/podcast/orchestrator_status.py --json
+            python3 scripts/podcast/orchestrator_status.py --banner [--ascii]
+            python3 scripts/podcast/orchestrator_status.py --eta            # P10 later
         acceptance:
           - "Runs in <1s on a 260-page book's state"
           - "Falls back gracefully if heartbeat.json missing (uses log tail)"
-          - "Emits exit code 0 if process alive, 2 if dead, 1 if state stale (>5min)"
-          - "Boxed banner preserves the row/column structure of meta.async_safety.wait_banner_format (template), with field substitution; verified by structural-match unit test, not byte equality"
-          - "`--ascii` flag emits the same banner with ASCII fallback chars (+ - |) for terminals without UTF-8 box support"
-      - id: P1.4
+          - "Exit code 0 if process alive, 2 if dead, 1 if state stale (>5min)"
+          - "Boxed banner preserves the row/column structure of meta.async_safety.wait_banner_format"
+          - "`--ascii` flag emits ASCII-fallback banner for non-UTF8 terminals"
+      - id: P7.4
         title: "JSONL event log for downstream consumers"
         files:
-          - scripts/podcast/_progress.py   # new: append_event()
-          - scripts/podcast/_chunking.py   # call append_event at key boundaries
+          - scripts/podcast/_progress.py                  # new: append_event()
+          - scripts/podcast/_chunking.py
           - scripts/podcast/_authoring.py
         spec:
           path: "<book>/_system/events.jsonl"
@@ -545,45 +930,41 @@ phases:
           - "events.jsonl tails cleanly with `tail -F`"
           - "Schema documented in scripts/podcast/_progress.py docstring"
 
-  # =============================================================================
-  - id: P2
+  - id: P8
+    wave: W2
+    legacy_id: "v2 P2"
     name: "Read-only Status API + browser dashboard"
     effort: 3-4 days
     priority: high
-    depends_on: [P1]
+    depends_on: [P7]
     why: |
       Browser-based dashboard replaces bash status checks. SSE stream gives
-      the user true real-time feedback instead of polling. Read-only by design
-      — mutations land in P5 only after observation is proven robust.
+      true real-time feedback instead of polling. Read-only by design — mutations
+      land in P12 only after observation is proven robust.
     tasks:
-      - id: P2.0
+      - id: P8.1
         title: "Prereq — create scripts/podcast/requirements.txt"
         files:
-          - scripts/podcast/requirements.txt   # NEW
+          - scripts/podcast/requirements.txt              # NEW
         spec: |
-          Today scripts/podcast/ has no requirements.txt. P2.1 and P3.1 both need
-          one (fastapi, uvicorn[standard], anthropic). Create it as a P2 prereq
-          rather than implicitly inside P2.1 so P3.1 can also depend on it cleanly.
           Initial pins:
             fastapi>=0.115
             uvicorn[standard]>=0.30
-            anthropic>=0.40    # added when P3.1 lands; P2 only adds fastapi+uvicorn
-            pytest>=8.0        # added as part of P0b setup
+            anthropic>=0.40    # NARROW use only: P6 cost-ledger helper + P8 status helper. Not the primary execution path.
+            pytest>=8.0
             pytest-asyncio>=0.23
         acceptance:
-          - "File exists; `pip install -r scripts/podcast/requirements.txt` succeeds in a clean venv"
-          - "P3.1 adds `anthropic` to this file via a one-line append, not by creating a new file"
-      - id: P2.1
+          - "`pip install -r scripts/podcast/requirements.txt` succeeds in a clean venv"
+      - id: P8.2
         title: "FastAPI service: scripts/podcast/service/"
         files:
-          - scripts/podcast/service/__init__.py   # NEW
-          - scripts/podcast/service/app.py        # NEW — FastAPI app
-          - scripts/podcast/service/models.py     # NEW — Pydantic schemas
-          - scripts/podcast/service/sources.py    # NEW — filesystem readers
+          - scripts/podcast/service/__init__.py           # NEW
+          - scripts/podcast/service/app.py                # NEW
+          - scripts/podcast/service/models.py             # NEW
+          - scripts/podcast/service/sources.py            # NEW
         spec:
           port: 8765
-          host: 127.0.0.1                         # localhost only by default
-          deps: ["fastapi", "uvicorn[standard]"]  # add to scripts/podcast/requirements.txt
+          host: 127.0.0.1
           endpoints:
             - "GET  /healthz                          → liveness"
             - "GET  /books                            → list all books + phase + status"
@@ -592,467 +973,488 @@ phases:
             - "GET  /books/{slug}/logs?tail=200       → recent log lines"
             - "GET  /books/{slug}/events?since=<ts>   → events.jsonl rows"
             - "GET  /books/{slug}/chunks/{phase}      → per-window status grid"
-            - "GET  /books/{slug}/stream              → SSE feed of new events"
+            - "GET  /books/{slug}/stream              → SSE feed"
+            - "GET  /books/{slug}/cost                → cost-ledger summary"
+            - "GET  /books/{slug}/disambiguation      → P4 numeric-disambiguation-register.md JSON"
           mutations: NONE
         acceptance:
           - "OpenAPI docs render at /docs"
-          - "pytest asserts every non-stream endpoint returns content-type `application/json` AND parses to valid JSON"
-          - "pytest asserts /books/{slug}/stream returns content-type `text/event-stream` and emits at least one event"
+          - "pytest asserts every non-stream endpoint returns content-type `application/json`"
+          - "pytest asserts /books/{slug}/stream returns content-type `text/event-stream`"
           - "Service uses filesystem ONLY — no DB, no global state"
-      - id: P2.2
-        title: "Static dashboard SPA in scripts/podcast/service/static/"
+      - id: P8.3
+        title: "Static dashboard SPA"
         files:
-          - scripts/podcast/service/static/index.html   # NEW
-          - scripts/podcast/service/static/dashboard.js # NEW
-          - scripts/podcast/service/static/styles.css   # NEW
+          - scripts/podcast/service/static/index.html     # NEW
+          - scripts/podcast/service/static/dashboard.js   # NEW
+          - scripts/podcast/service/static/styles.css     # NEW
         spec: |
           Vanilla JS, no framework. Single page:
-            • Top: book picker (all books, current phase, last heartbeat age)
-            • Middle: phase timeline (P0 → done) with completed/active/pending styling
-            • Bottom: live event stream (SSE) + log tail
-          Mounted at /  via app.mount("/", StaticFiles(...))
+            • Top: book picker (current phase, last heartbeat age, cost-so-far)
+            • Middle: phase timeline (P0..done) with completed/active/pending styling
+            • Bottom-left: live event stream (SSE)
+            • Bottom-right: P4 disambiguation register summary (pending review items)
         acceptance:
-          - "Open http://127.0.0.1:8765/ in browser → live updating dashboard"
-          - "Phase-stuck detection: heartbeat age >2min flashes yellow, >10min flashes red"
-      - id: P2.3
-        title: "launchd plist for dev daemon + startup documentation"
+          - "Open http://127.0.0.1:8765/ → live updating dashboard"
+          - "Phase-stuck detection: heartbeat age >2min yellow, >10min red"
+          - "Disambiguation panel surfaces P0 (blocked) and P1 (caution) findings"
+      - id: P8.4
+        title: "launchd plist + startup documentation"
         files:
           - infra/launchd/com.journal.podcast-service.plist   # NEW
           - docs/podcast/service-startup.md                   # NEW
-        spec: |
-          Optional auto-start. Documented as opt-in. The doc must specify:
-            - how to install the plist (`launchctl bootstrap gui/$UID …`)
-            - how to verify it loaded (`launchctl list | grep podcast-service`)
-            - what behavior the dashboard exhibits if the service is NOT running
-              (curl error → README points users at the start command)
-            - manual one-shot start (`uvicorn scripts.podcast.service.app:app`)
         acceptance:
           - "plist passes `plutil -lint`"
-          - "service-startup.md answers: install / verify / behavior-when-down / manual-start"
-          - "Dashboard JS shows a friendly 'service not running — see docs' card on connection failure"
+          - "service-startup.md covers install / verify / behavior-when-down / manual-start"
 
-  # =============================================================================
-  - id: P3
-    name: "Anthropic SDK migration: replace `claude -p` shell-out"
-    effort: 3-4 days
-    priority: high
-    depends_on: [P0, P0b, P2]                     # P0b E2E harness MUST exist before SDK swap so regressions are caught
-    book_branch_strategy: |
-      P3 changes land on `develop` first. All `book/*` branches with in-flight
-      runs (any state.json not in `done` or `merge`) MUST be paused before P3.5
-      validation. After validation passes, rebase each active book/* onto
-      develop and re-run --resume from its current phase. Document each rebase
-      outcome in the audit log.
-    why: |
-      Native SDK eliminates entire bug classes:
-        - silent file-write refusals (we write files ourselves)
-        - 30-min subprocess.run timeouts (SDK streams to avoid HTTP timeouts)
-        - "rc=0 but no artifact" failures (SDK returns text directly)
-      Adds: token-level streaming for true real-time progress, structured errors
-      (rate-limit / auth / content-policy distinguishable), built-in cost telemetry
-      via usage headers, Claude 4.6+ error recovery via continuation requests.
-    tasks:
-      - id: P3.1
-        title: "Add `anthropic` to requirements; create wrapper module"
-        files:
-          - scripts/podcast/requirements.txt
-          - scripts/podcast/_claude_client.py    # NEW
-        spec: |
-          Single function: call_claude(prompt, *, max_tokens, model, on_token=None, on_error=None) -> str
-          Internals:
-            with client.messages.stream(...) as stream:
-                for text in stream.text_stream:
-                    if on_token: on_token(text)            # heartbeat bump
-                msg = stream.get_final_message()
-            return msg.content[0].text
-          Reads ANTHROPIC_API_KEY from env (already in keychain per store-keychain-keys.sh).
-          Implements Claude 4.6+ continuation pattern for interrupted streams.
-        acceptance:
-          - "100% drop-in replacement signature; one function only"
-          - "Returns the same text the CLI would have written to out_path"
-          - "Bubbles up typed errors (RateLimit, Overloaded, Auth, ContentPolicy)"
-      - id: P3.2
-        title: "Swap _chunking._run_one_window to use _claude_client"
-        files: [scripts/podcast/_chunking.py]
-        acceptance:
-          - "No subprocess.Popen / subprocess.run remains in _chunking.py"
-          - "out_path is written by Python after call_claude returns the text"
-          - "Per-token heartbeat bumps via on_token callback"
-      - id: P3.3
-        title: "Swap _authoring._run_claude to use _claude_client"
-        files: [scripts/podcast/_authoring.py]
-        acceptance:
-          - "Same as P3.2 for 0d/0e and per-chapter authoring"
-      - id: P3.4
-        title: "Cost-tracking sidecar"
-        files:
-          - scripts/podcast/_claude_client.py
-          - scripts/podcast/cost_ledger_summary.py        # NEW — sums ledger; pytest assertion target
-        spec: |
-          After every call, append a line to <book>/_system/cost-ledger.jsonl:
-            {ts, phase, step, model, input_tokens, output_tokens, cache_read, cache_create, cost_usd}
-          Use pricing table in module constant; warn loudly if model not in table.
-          `cost_ledger_summary.py` reads the ledger and emits:
-            {total_input_tokens, total_output_tokens, total_cost_usd_by_phase}
-          plus a `cost-validation.json` snapshot stored alongside the ledger.
-        acceptance:
-          - "`python3 scripts/podcast/cost_ledger_summary.py <book>` exits 0 and prints structured totals"
-          - "cost-validation.json regenerated on each run; diffable in PR review"
-          - "Manual cross-check vs Anthropic console for first SDK book: ledger total within ±1%"
-      - id: P3.5
-        title: "End-to-end re-run on kitab-al-riyad (or fresh small book) with SDK path"
-        acceptance:
-          - "All phases complete with zero subprocess errors"
-          - "Dashboard shows live token counts during 0d/0e"
-          - "cost-ledger.jsonl populated"
-          - "P0b E2E suite passes on the SDK code path"
-      - id: P3.6
-        title: "Fallback shim — keep CLAUDE_CMD subprocess path behind a flag"
-        files:
-          - scripts/podcast/_claude_client.py
-          - scripts/podcast/orchestrate_book.py
-        spec: |
-          Add env var `PODCAST_LLM_BACKEND` accepting `sdk` (default) | `cli`.
-          When `cli`, _claude_client transparently dispatches to the legacy shell-out
-          path with --permission-mode acceptEdits (the P0 fix). Logged loudly at
-          startup. Removed in the release AFTER the first xlarge book ships clean
-          on SDK.
-        acceptance:
-          - "PODCAST_LLM_BACKEND=cli replicates the old behavior end-to-end on tiny-book fixture"
-          - "Default behavior unchanged when env var unset"
-          - "Removal scheduled in P6 (track as P6.5)"
+  # ===========================================================================
+  # WAVE 3 — Corpus Validation
+  # ===========================================================================
 
-  # =============================================================================
-  - id: P4
-    name: "Sample corpus validation (graduated stress test)"
-    effort: 1 week (mostly wall-clock waiting)
+  - id: P9
+    wave: W3
+    legacy_id: "v2 P4.1-P4.7"
+    name: "Sample corpus validation (graduated 30p → 865p, 7 books)"
+    effort: 1 week wall-clock
     priority: high
-    depends_on: [P3]
+    depends_on: [P8]
     why: |
       Prove the pipeline handles the full size range BEFORE adding control plane
-      (P5) or refactor (P6). Each run also feeds the trainer with cross-book
-      examples for chapter-design heuristics.
+      (W4) or polish (W5). Each run also feeds the trainer with cross-book examples.
+
+      Per principle P-1, every run is on `claude -p` (Claude Code primary). The
+      Anthropic Python SDK is NOT used in the workhorse phases.
     tasks:
-      - id: P4.1
-        title: "Tiny: Ayyuhal Walad (30p)"
+      - id: P9.1
+        title: "Tiny: Ayyuhal Walad (30p) — first-shipped baseline"
         prereq: "Branch book/ayyuhal-walad already partially exists; verify it still resumes"
+        source_material_risk: "low — short text"
         acceptance:
           - "Full pipeline to merge in <2h wall-clock"
           - "Cost <$5"
-      - id: P4.2
+      - id: P9.2
         title: "Small: Masaail searchable (81p)"
+        source_material_risk: "medium — multi-chapter 0d loop"
         acceptance: ["Full pipeline; record token/cost/wall-clock"]
-      - id: P4.3
+      - id: P9.3
         title: "Small: Majalis Moyyada (139p)"
-        acceptance: ["Full pipeline; record metrics"]
-      - id: P4.4
+        source_material_risk: "high — Ismaili source material; P4 Loop N exercise"
+        acceptance:
+          - "Full pipeline; metrics recorded"
+          - "P4 numeric-disambiguation-register.md populated for at least 3 chapters"
+          - "Challenger Loop N raises no P0 findings post-convergence"
+      - id: P9.4
         title: "Large: Kitab Maqbas (392p)"
         risk: "First book where Phase 0d source-chapter loop may produce 15+ episodes"
-        acceptance: ["Full pipeline; verify chapter contracts hold"]
-      - id: P4.5
+        source_material_risk: "high"
+        acceptance: ["Full pipeline; chapter contracts hold; Loop N clean"]
+      - id: P9.5
         title: "Large: Asaas Al-Taveel (416p)"
-        acceptance: ["Full pipeline; record metrics"]
-      - id: P4.6
+        source_material_risk: "high"
+        acceptance: ["Full pipeline; metrics recorded; Loop N clean"]
+      - id: P9.6
         title: "XLarge: Raahat al-Aqal (591p)"
-        risk: "Phase 0a may approach Doc Intelligence 600s poll budget"
-        acceptance: ["Full pipeline; or document Doc-Intelligence-poll-extension issue"]
-      - id: P4.7
+        risk: "Phase 0a may approach Doc Intelligence 600s poll budget (R2)"
+        source_material_risk: "high"
+        acceptance: ["Full pipeline OR documented Doc-Intelligence-poll-extension issue"]
+      - id: P9.7
         title: "XLarge: Rasail Ikhwan AsSafa (865p)"
         risk: "Largest book; tests Phase 0d map-reduce at upper end"
-        acceptance: ["Full pipeline OR documented failure mode + remediation issue"]
-      - id: P4.8
-        title: "ETA model: words -> wall-clock per phase"
+        source_material_risk: "high — Ikhwan epistles dense with numeric symbolism"
+        acceptance:
+          - "Full pipeline OR documented failure mode + remediation issue"
+          - "P4 disambiguation register exercised on classical-philosophical numeric structures"
+
+  - id: P10
+    wave: W3
+    legacy_id: "v2 P4.8"
+    name: "ETA model: words → wall-clock per phase"
+    effort: hours
+    priority: medium
+    depends_on: [P9]
+    tasks:
+      - id: P10.1
+        title: "Linear regression over P9.1–P9.7 runs"
         files:
-          - scripts/podcast/orchestrator_status.py    # add --eta flag
+          - scripts/podcast/orchestrator_status.py        # add --eta
         spec: |
-          Linear regression over P4.1–P4.7 runs: (raw_words, refined_words) ->
-          (phase_0b_min, 0c_min, 0d_min, 0e_min, per_chapter_min). Use for status
-          CLI / dashboard ETA display.
+          (raw_words, refined_words) → (phase_0b_min, 0c_min, 0d_min, 0e_min, per_chapter_min).
+          Use for status CLI / dashboard ETA display.
         acceptance: ["ETA prediction within ±30% on a held-out book"]
 
-  # =============================================================================
-  - id: P5
-    name: "Control plane: mutation API + worker pool"
-    effort: 1-2 weeks
+  # ===========================================================================
+  # WAVE 4 — Control Plane
+  # ===========================================================================
+
+  - id: P11
+    wave: W4
+    legacy_id: "v2 P5.0"
+    name: "Multi-Mac decision (resolves Q1)"
+    effort: hours
     priority: medium
-    depends_on: [P4]
-    why: |
-      Hands-off operation. Trigger new books from browser, retry phases without
-      shell, run 2-3 books concurrently. Worker pool means one stuck book doesn't
-      block the others.
+    depends_on: [P10]
     tasks:
-      - id: P5.0
-        title: "Resolve Q1 — multi-Mac story for the service"
+      - id: P11.1
+        title: "Document the multi-Mac architecture choice"
         files:
-          - docs/podcast/multi-mac-decision.md       # NEW
-          - _workspace/plan/podcast-plan.yaml        # update open_questions:Q1 → resolved
+          - docs/podcast/multi-mac-decision.md            # NEW
+          - _workspace/plan/podcast-plan.yaml             # mark open_questions.Q1 resolved
         spec: |
           Decide and document:
             - primary-only service vs. distributed workers
             - heartbeat hostname enforcement (R3 mitigation)
             - state directory location (local fs vs. shared iCloud/git)
             - auth model (localhost token vs. SSH-tunneled remote viewer)
-          Default lean per current_lean in Q1: primary-only; secondary Macs are
-          read-only viewers via SSH-tunneled dashboard. Confirm or revise.
+          Default lean (per Q1.current_lean): primary-only; secondary Macs are
+          read-only viewers via SSH-tunneled dashboard.
         acceptance:
           - "Q1 marked resolved in open_questions with a one-line decision ref"
-          - "multi-mac-decision.md documents the choice and its implications for P5.1/P5.2"
-      - id: P5.1
-        title: "Mutation endpoints"
+          - "multi-mac-decision.md documents the choice + implications for P12/P13"
+
+  - id: P12
+    wave: W4
+    legacy_id: "v2 P5.1 + P5.2"
+    name: "Mutation API + worker pool"
+    effort: 1 week
+    priority: medium
+    depends_on: [P11]
+    tasks:
+      - id: P12.1
+        title: "Mutation endpoints in FastAPI service"
         files: [scripts/podcast/service/app.py]
         spec:
           endpoints:
             - "POST   /books                        body: {pdf_path|pdf_upload, slug, tier}"
             - "POST   /books/{slug}/resume"
-            - "POST   /books/{slug}/pause"          # SIGSTOP the subprocess
+            - "POST   /books/{slug}/pause"          # SIGSTOP
             - "POST   /books/{slug}/retry-phase     body: {phase}"
             - "DELETE /books/{slug}                 query: ?rollback_branch=true"
-          auth: "single shared bearer token from keychain; localhost-only still default"
+          auth: "single shared bearer token from keychain; localhost-only default"
         acceptance:
           - "All mutations write an audit row to _workspace/podcast-audit.jsonl"
-          - "Pause/resume verified on a live run"
-      - id: P5.2
+          - "Pause/resume verified on a live run (SIGSTOP/SIGCONT confirmed by ps state)"
+      - id: P12.2
         title: "Worker pool: subprocess.Popen registry"
         files:
-          - scripts/podcast/service/workers.py     # NEW
+          - scripts/podcast/service/workers.py            # NEW
         spec: |
-          - max_concurrent (default 2) configurable
-          - one Popen per book; monitored by asyncio task
-          - SIGTERM on shutdown; cleanup on crash
-          - exposes /workers endpoint with PID + state per slot
+          max_concurrent (default 2) configurable; one Popen per book; SIGTERM on
+          shutdown; cleanup on crash; /workers endpoint with PID + state per slot.
         acceptance:
           - "2 books run truly in parallel without state corruption"
-          - "Server restart picks up orphaned runs via state.json scan (read-only resume detect)"
-      - id: P5.3
-        title: "SQLite cross-book index (READ-ONLY cache)"
+          - "Server restart picks up orphaned runs via state.json scan"
+
+  - id: P13
+    wave: W4
+    legacy_id: "v2 P5.3"
+    name: "SQLite cross-book index (READ-ONLY cache)"
+    effort: 1-2 days
+    priority: medium
+    depends_on: [P12]
+    tasks:
+      - id: P13.1
+        title: "Index module + rebuild command"
         files:
-          - _workspace/podcast.db                  # NEW (gitignored)
-          - scripts/podcast/service/index.py       # NEW
+          - _workspace/podcast.db                         # NEW (gitignored)
+          - scripts/podcast/service/index.py              # NEW
         spec: |
           Built from filesystem state. Per-book row: slug, title, pages, raw_words,
-          refined_words, current_phase, last_event_ts, total_cost_usd.
-          Rebuild command: `python -m scripts.podcast.service.index --rebuild`.
+          refined_words, current_phase, last_event_ts, total_cost_usd,
+          disambiguation_pending_count (P4 link).
+          Rebuild: `python -m scripts.podcast.service.index --rebuild`.
           DB is a CACHE — JSON files remain authoritative.
         acceptance:
           - "DB file gitignored under _workspace/"
           - "Rebuild from a fresh empty DB reproduces identical state"
-      - id: P5.4
-        title: "Dashboard mutation UI (start / retry / delete buttons)"
+
+  - id: P14
+    wave: W4
+    legacy_id: "v2 P5.4"
+    name: "Dashboard mutation UI (start / retry / delete) + destructive confirmations"
+    effort: 1 day
+    priority: medium
+    depends_on: [P12, P13]
+    tasks:
+      - id: P14.1
+        title: "Mutation buttons + typed-slug destructive confirmation"
         files: [scripts/podcast/service/static/dashboard.js]
         acceptance:
-          - "All mutations confirmable; destructive ones require typed slug to confirm"
+          - "Destructive operations require typed slug to confirm"
+          - "All button actions audit-logged via P12.1"
 
-  # =============================================================================
-  - id: P6
-    name: "Polish: phase rename + agent dedup + isolation check"
-    effort: 3-5 days
+  # ===========================================================================
+  # WAVE 5 — Polish
+  # ===========================================================================
+
+  - id: P15
+    wave: W5
+    legacy_id: "v2 P6.1"
+    name: "Orchestrator phase rename: 14-step sequential naming"
+    effort: 2-3 days
     priority: medium
-    depends_on: [P5]
+    depends_on: [P14]
+    prereq_gate: |
+      ZERO in-flight books, verified by:
+        python3 scripts/podcast/orchestrator_status.py --all --json | \
+          jq '[.books[] | select(.phase_status=="running" or .phase_status=="failed")] | length' \
+        == 0
+    files:
+      - scripts/podcast/_progress.py                      # bump schema_version 1→2; translation layer
+      - scripts/podcast/orchestrate_book.py
+      - scripts/podcast/_authoring.py
+      - scripts/podcast/_chunking.py
+      - scripts/podcast/_convergence.py
+      - scripts/podcast/extract_chapter.py
+      - scripts/podcast/build_episode_txt.py
+      - skills-staging/podcast/**
+      - .github/agents/podcast-*.agent.md
+      - _workspace/plan/podcast-plan.yaml                 # this file
+      - _workspace/plan/view/index.html
+      - docs/architecture/podcast-pipeline.html
+      - docs/architecture/podcast-orchestrator.html
+      - docs/architecture/podcast-quality-system.html
+      - docs/architecture/podcast-overview.html
+      - docs/architecture/index.html
+    spec: |
+      Full mapping (orchestrator-internal phase IDs — distinct from the plan's
+      outer PHASE numbering P1..P20):
+
+        | Old key       | New key                |
+        |---------------|------------------------|
+        | pre-flight    | 01-preflight           |
+        | branch        | 02-branch              |
+        | scaffold      | 03-scaffold            |
+        | 0a            | 04-ocr-translate       |
+        | 0b            | 05-refine-english      |
+        | 0c            | 06-phonetics           |
+        | 0d            | 07-chapter-design      |
+        | 0e            | 08-enrichment          |
+        | 0f            | 09-series-plan         |
+        | 0g            | 10-register-series     |
+        | per-chapter   | 11-per-chapter         |
+        | trainer       | 12-trainer             |
+        | merge         | 13-merge               |
+        | done          | 14-done                |
+
+      Migration requirements:
+        1. read_state() detects schema_version=1 and rewrites keys on load.
+        2. write_state() emits schema_version=2 with new keys only.
+        3. --retry-phase accepts BOTH old and new names for at least one release.
+        4. Logs, banners, JSONL events use NEW names only.
+    acceptance:
+      - "Existing state.json migrates seamlessly on first read (schema_version 1→2)"
+      - "`--retry-phase 0b` and `--retry-phase 05-refine-english` both resolve to the same phase"
+      - "Docs (podcast-pipeline.html, plan view/index.html) updated atomically with the code"
+      - "Zero `0a`..`0g` literal phase-ID strings remain in scripts/podcast/"
+
+  - id: P16
+    wave: W5
+    legacy_id: "v2 P6.2 + P6.3"
+    name: "Agent dedup + isolation CI"
+    effort: 2-3 days
+    priority: medium
+    depends_on: [P15]
+    why: |
+      Three agent locations (.github/agents/, infra/claude-agents/, .claude/agents/)
+      have drifted. Migrate uniques to .github/agents/ (sole upstream), delete
+      infra/claude-agents/, materialize .claude/agents/ from upstream.
     tasks:
-      - id: P6.1
-        title: "Phase rename: full 14-step sequential naming"
-        prereq: |
-          Before running this migration, verify NO books are in-flight:
-            python3 scripts/podcast/orchestrator_status.py --all --json | \
-              jq '[.books[] | select(.phase_status=="running" or .phase_status=="failed")] | length' \
-              # must return 0
-          R4 risk codified: a mid-flight book during this migration corrupts state.
+      - id: P16.1
+        title: "Migrate podcast-challenger, podcast-extract, ui-reviewer to .github/agents/"
         files:
-          - scripts/podcast/_progress.py           # bump schema_version to 2; add translation layer
-          - scripts/podcast/orchestrate_book.py    # phase_map, completed set, --retry-phase
-          - scripts/podcast/_authoring.py          # phase="0d" strings (32 occurrences)
-          - scripts/podcast/_chunking.py
-          - scripts/podcast/_convergence.py
-          - scripts/podcast/extract_chapter.py     # has "phase 0a", "phase 0b" strings
-          - scripts/podcast/build_episode_txt.py   # has "phase 0a"…"phase 0g" strings
-          - skills-staging/podcast/**              # any phase references
-          - .github/agents/podcast-*.agent.md      # task descriptions
-          - _workspace/plan/podcast-plan.yaml      # this file
-          - _workspace/plan/view/index.html        # visual diagram
-          - docs/architecture/podcast-pipeline.html       # SVG phase labels 0a–0g
-          - docs/architecture/podcast-orchestrator.html   # phase 0a/0f text
-          - docs/architecture/podcast-quality-system.html # Phase 0f gate refs
-          - docs/architecture/podcast-overview.html       # Phase 0a refs
-          - docs/architecture/index.html                  # Phase 0f nav refs (cross-cutting, edit-with-care)
-        spec: |
-          Full mapping (replaces partial 0a→0g mapping in v1 of this plan):
-
-            | Old key       | New key                |
-            |---------------|------------------------|
-            | pre-flight    | 01-preflight           |
-            | branch        | 02-branch              |
-            | scaffold      | 03-scaffold            |
-            | 0a            | 04-ocr-translate       |
-            | 0b            | 05-refine-english      |
-            | 0c            | 06-phonetics           |
-            | 0d            | 07-chapter-design      |
-            | 0e            | 08-enrichment          |
-            | 0f            | 09-series-plan         |
-            | 0g            | 10-register-series     |
-            | per-chapter   | 11-per-chapter         |
-            | trainer       | 12-trainer             |
-            | merge         | 13-merge               |
-            | done          | 14-done                |
-
-          Migration requirements:
-            1. read_state() detects schema_version=1 (legacy) and rewrites keys → new names on load.
-            2. write_state() emits schema_version=2 with new keys only.
-            3. --retry-phase accepts BOTH old and new names for at least one release.
-            4. Logs, banners, JSONL events use NEW names only.
-            5. Surface ~700 lines per evidence sweep (orchestrate_book.py 38, _authoring.py 32, agent docs 10+, SKILL.md 3, plan-yaml 70+).
-            6. DEFER until no books are in-flight (R4 risk).
+          - .github/agents/podcast-challenger.agent.md    # NEW
+          - .github/agents/podcast-extract.agent.md       # NEW
+          - .github/agents/ui-reviewer.agent.md           # NEW
+        prereq_note: |
+          P4.5 already staged Loop N edits in infra/+.claude/. Carry those edits
+          into the migrated .github/agents/ copy. Verify byte-identity after
+          materialization.
         acceptance:
-          - "Existing kitab-al-riyad state.json migrates seamlessly on first read"
-          - "`--retry-phase 0b` and `--retry-phase 05-refine-english` both resolve to the same phase"
-          - "Docs (podcast-pipeline.html, plan view/index.html) updated atomically with the code"
-          - "Zero `0a`..`0g` literal strings remain in scripts/podcast/ after migration"
-      - id: P6.2
-        title: "Agent dedup — canonicalize on .github/agents/ and delete infra/claude-agents/"
-        prereq: |
-          BLOCKER per evidence sweep 2026-05-19: the following agents exist ONLY in
-          infra/claude-agents/ + .claude/agents/, NOT in .github/agents/. They must be
-          migrated upstream FIRST or unique content is lost:
-            - podcast-challenger.md (70K) ← largest agent; episode contract validator
-            - podcast-extract.md    (5K stub) ← single-chapter extraction
-            - ui-reviewer.md        (10K)     ← UI/CSS review helper
+          - "Every agent in any of three locations exists in .github/agents/"
+      - id: P16.2
+        title: "scripts/check_agent_dedup.py + CI integration"
         files:
-          - .github/agents/podcast-challenger.agent.md     # NEW — migrate from infra/
-          - .github/agents/podcast-extract.agent.md        # NEW — migrate from infra/
-          - .github/agents/ui-reviewer.agent.md            # NEW — migrate from infra/
-          - infra/claude-agents/                           # DELETE after migration
-          - scripts/install-claude-skills.sh               # rewrite to source from .github/agents/
-        spec: |
-          Inventory snapshot (verified 2026-05-19):
-            UNIQUE to .github/agents/        : CORTEX, journal-orchestrator, reconcile, repo-surgeon — preserve as-is
-            DUPLICATE (.github + infra)       : podcast-orchestrator, podcast-trainer
-            TRIPLICATE (.github + infra + .claude): journal-challenger, refine-prompt
-            DUPLICATE (infra + .claude)       : podcast-challenger, podcast-extract, ui-reviewer ← MIGRATE
-          After migration: .github/agents/ is sole upstream source. install-claude-skills.sh
-          materializes .claude/agents/*.md by stripping the `.agent.md` suffix.
+          - scripts/check_agent_dedup.py                  # NEW
+          - .github/workflows/podcast-isolation.yml       # NEW (also hosts P16.3)
         acceptance:
-          - "Every agent appearing in any of the three locations exists in .github/agents/"
-          - "scripts/check_agent_dedup.py (NEW) compares names across the three dirs, exits 0 only when set differences are empty; runs in CI"
-          - "VS Code/Claude Code agent picker shows each agent exactly once (visual verification step in the PR description)"
-          - "infra/claude-agents/ removed; git log preserves history (the directory is a tracked deletion, not a force-removal)"
-          - "install-claude-skills.sh idempotent: second run produces zero diffs"
-      - id: P6.3
-        title: "CI check: scripts/podcast/ does not import from scripts/site/ or scripts/memoir/"
+          - "Exits 0 only when name sets across the three dirs match"
+          - "Runs in CI"
+      - id: P16.3
+        title: "Isolation check: scripts/podcast/ does not import scripts/site/ or scripts/memoir/"
         files:
-          - scripts/podcast/_isolation_check.py    # NEW
-          - .github/workflows/podcast-isolation.yml # NEW (lint job)
+          - scripts/podcast/_isolation_check.py           # NEW
+          - .github/workflows/podcast-isolation.yml       # appends isolation job
         acceptance:
           - "AST scan fails build if forbidden import found"
-      - id: P6.4
-        title: "Heartbeat → stream-json upgrade in _claude_client"
-        files: [scripts/podcast/_claude_client.py]
-        spec: |
-          Already streaming via SDK in P3; this task just ensures heartbeat
-          ticks reflect Anthropic SSE events (output_tokens cumulative) rather
-          than approximate token counts.
+      - id: P16.4
+        title: "Delete infra/claude-agents/; rewrite install-claude-skills.sh"
+        files:
+          - infra/claude-agents/                          # DELETE
+          - scripts/install-claude-skills.sh
         acceptance:
-          - "Side-by-side compare on tiny-book fixture: heartbeat final output_tokens equals stream.get_final_message().usage.output_tokens"
-          - "Test stored as scripts/podcast/tests/e2e/test_token_count_parity.py"
-      - id: P6.5
-        title: "Retire the CLI fallback shim from P3.6"
-        prereq: "At least one xlarge book (≥800p) shipped clean on the SDK path"
-        files: [scripts/podcast/_claude_client.py, scripts/podcast/orchestrate_book.py]
-        spec: "Remove PODCAST_LLM_BACKEND env var and all `cli` dispatch. Subprocess code path deleted."
-        acceptance:
-          - "grep -r 'PODCAST_LLM_BACKEND' scripts/podcast/ returns 0 results"
-          - "grep -rE 'subprocess\\.(run|Popen).*claude' scripts/podcast/ returns 0 results"
+          - "infra/claude-agents/ removed; git log preserves history"
+          - "install-claude-skills.sh idempotent (second run produces zero diffs)"
+          - "VS Code/Claude Code agent picker shows each agent exactly once"
 
-  # =============================================================================
-  - id: P7
-    name: "Deferred / speculative"
-    effort: TBD
-    priority: low
-    depends_on: [P6]
-    tasks:
-      - id: P7.1
-        title: "PDF pre-splitting (Option B from earlier recon)"
-        defer_until: "A book actually exceeds 500 MB OR 2000 pages OR Doc Intelligence 600s poll budget"
-        spec: "Optional state.config.sub_pdfs list; pypdf dependency; 0a-pre phase"
-      - id: P7.2
-        title: "Parallel per-chapter LLM calls in 0e and convergence"
-        defer_until: "Cost-tracking proven stable AND user explicitly opts in"
-      - id: P7.3
-        title: "Trainer ingestion of SQLite event log"
-        defer_until: "P5 SQLite index proven stable"
-      - id: P7.4
-        title: "Web upload for PDFs in dashboard"
-        defer_until: "P5 mutation API stable; iCloud-folder discovery may suffice in interim"
+  # ===========================================================================
+  # WAVE 6 — Deferred (trigger-gated, not time-gated)
+  # ===========================================================================
+
+  - id: P17
+    wave: W6
+    legacy_id: "v2 P7.1"
+    name: "PDF pre-splitting (Option B from earlier recon)"
+    promote_when: "A book exceeds 500 MB OR 2000 pages OR Doc Intelligence 600s poll budget"
+    spec: "Optional state.config.sub_pdfs list; pypdf dependency; 0a-pre phase"
+
+  - id: P18
+    wave: W6
+    legacy_id: "v2 P7.2"
+    name: "Parallel per-chapter LLM calls in 0e + convergence"
+    promote_when: "P6 cost-tracking proven stable AND user explicitly opts in"
+
+  - id: P19
+    wave: W6
+    legacy_id: "v2 P7.3"
+    name: "Trainer ingestion of SQLite event log"
+    promote_when: "P13 SQLite index proven stable"
+
+  - id: P20
+    wave: W6
+    legacy_id: "v2 P7.4"
+    name: "Web upload for PDFs in dashboard"
+    promote_when: "P12 mutation API stable; iCloud-folder discovery may suffice in interim"
 
 # -----------------------------------------------------------------------------
-# Open questions (must be resolved before P5)
+# Open questions
 # -----------------------------------------------------------------------------
 open_questions:
   - id: Q1
     question: "Multi-Mac story for the service"
     detail: |
       User memory designates THIS Mac as primary for the Azure-backed pipeline as of
-      2026-05-18. Runbook: ../primary-mac-activation.md. Does the FastAPI service (P2/P5)
-      run on the primary Mac only, or are jobs delegated across machines? Affects:
-      state location, auth, worker pool design, heartbeat hostname enforcement (R3).
+      2026-05-18. Does the FastAPI service run on the primary Mac only, or are jobs
+      delegated across machines? Affects: state location, auth, worker pool design,
+      heartbeat hostname enforcement (R3).
     current_lean: "Service runs primary-only; secondary Macs are read-only viewers via SSH-tunneled dashboard."
-    blocks: P5
-    formal_resolution_task: P5.0   # promoted to a real task; this entry stays until the doc lands
+    blocks: P12
+    formal_resolution_task: P11
+
   - id: Q2
     question: "Cost ceiling per book"
     detail: |
-      Should the orchestrator halt if a book's running cost exceeds $X? Soft warning
-      at heartbeat, hard halt before Phase 0d, etc.
-    blocks: P3.4
+      Should the orchestrator halt if a book's running cost exceeds $X?
+    blocks: P6
     default_until_overridden: |
       Soft warning at $20 (heartbeat banner); hard halt before Phase 0d at $50.
-      Implemented in P3.4 via a check against `cost-ledger.jsonl` summing.
-      User may override with `--cost-cap-soft` / `--cost-cap-hard` CLI flags or
-      `state.config.cost_cap_*` keys in the state file.
-    resolution_phase: P3.4   # decision lands when the cost-tracking sidecar ships
+      Implemented in P6.3 via a check against cost-ledger.jsonl summing.
+      Overrides: --cost-cap-soft / --cost-cap-hard CLI flags, or state.config keys.
+    resolution_phase: P6.3
+
   - id: Q3
-    question: "Trainer integration with SDK migration"
+    question: "Trainer integration with claude -p stays as-is"
     detail: |
-      podcast-trainer.agent.md ingests per-chapter convergence outputs. SDK path
-      should preserve that integration; verify before P3.3 ships.
-    blocks: P3.3
+      podcast-trainer.agent.md ingests per-chapter convergence outputs. With SDK
+      migration cancelled, trainer continues to run on claude -p; no integration
+      work needed beyond verifying the trainer reads the new cost-ledger.jsonl
+      surface for cross-book cost commentary.
+    resolution: "RESOLVED — keep as-is; trainer reads cost-ledger.jsonl for context"
+    closed_at: 2026-05-19
+
+  - id: Q4
+    question: "Sphere-letters cipher in Master & Disciple Ch-02"
+    detail: |
+      The seven-letter abjad-encoded sequence `(ب ج لا د م لہ م)` references the
+      seven heavenly spheres. Three candidate interpretations on file (initials
+      of seven karūbiyya; OCR artifact; abbreviated planet names). User decision
+      2026-05-19: flag for human/editorial review; do NOT decode.
+    blocks: "Episode 2 production for Master & Disciple"
+    resolution_path: "Consult James W. Morris critical edition (I.B. Tauris)"
+    handled_by: "P4.5 challenger Loop N — flags as NEEDS HUMAN REVIEW; no invented decoding"
+
+  - id: Q5
+    question: "Fifth intermediary (Thursday's symbol) in Master & Disciple Ch-02"
+    detail: |
+      Probable reading: fifth rank in da'wa hierarchy (Nāṭiq→Asāas→Imām→Ḥujja→Dāʿī)
+      = the Dāʿī. Internally consistent but must be verified against Morris edition.
+    blocks: "Episode 2 production for Master & Disciple"
+    resolution_path: "Morris critical edition footnote check"
+    handled_by: "P4.5 Loop N — flag NEEDS HUMAN REVIEW"
+
+  - id: Q6
+    question: "Non-standard luminary order in Master & Disciple Ch-02"
+    detail: |
+      Ch-02 lists 'seven heavens (Saturn, Jupiter, Mars, Sun, Venus, Mercury, Moon)'
+      — period-appropriate (Ptolemaic) but non-standard order. Confirm against
+      Morris edition whether order matches Arabic original or translator's choice.
+    blocks: "Episode 2 production for Master & Disciple"
+    resolution_path: "Morris critical edition cross-check"
+
+  - id: Q7
+    question: "Seven continents anachronism in Master & Disciple Ch-02"
+    detail: |
+      Source text says 'seven continents (Asia, Africa, N-America, S-America,
+      Antarctica, Europe, Australia)' — anachronistic. Period referent is
+      al-aqālīm al-sabʿa (seven climes). Confirm with user/translator whether
+      this is deliberate editorial accommodation OR OCR/translation drift.
+    blocks: "Episode 2 production for Master & Disciple"
+    resolution_path: "User/translator confirmation; if drift, restore period referent"
 
 # -----------------------------------------------------------------------------
 # Risks
 # -----------------------------------------------------------------------------
 risks:
   - id: R1
-    severity: high
-    risk: "P3 SDK migration introduces a regression that's only visible at scale"
-    mitigation: "Run P4.1 and P4.2 (tiny + small books) FIRST on the SDK path before declaring P3 done. Keep CLAUDE_CMD fallback for one release."
+    severity: medium
+    risk: "claude -p timeout fragility at scale (xlarge books)"
+    mitigation: "P5.2 hardens artifact validation; P7 heartbeat exposes hangs; P9.6/P9.7 prove behavior on 591p and 865p books before W4 control plane goes live"
+
   - id: R2
     severity: medium
     risk: "Doc Intelligence 600s poll budget insufficient for 800+ page books"
-    mitigation: "P4.6 / P4.7 expose this. If hit, extend budget to 1800s as a single-line fix; PDF splitting still deferred."
+    mitigation: "P9.6 / P9.7 expose. If hit, extend budget to 1800s as a single-line fix; PDF splitting (P17) remains deferred"
+
   - id: R3
     severity: medium
-    risk: "FastAPI service started on Mac A while orchestrator is run manually on Mac B → state divergence"
-    mitigation: "Heartbeat carries hostname; service rejects mutations on books whose last heartbeat was a different host (configurable override)."
+    risk: "FastAPI service started on Mac A while orchestrator run manually on Mac B → state divergence"
+    mitigation: "Heartbeat carries hostname (P7.1); service rejects mutations on books whose last heartbeat was a different host (P11/P12)"
+
   - id: R4
     severity: low
-    risk: "Phase rename (P6.1) breaks an in-flight book"
-    mitigation: "Defer P6.1 until no books are in-flight; translation layer makes the migration atomic when run."
+    risk: "Phase rename (P15) breaks an in-flight book"
+    mitigation: "P15 prereq_gate enforces zero-in-flight; translation layer makes migration atomic"
+
+  - id: R5
+    severity: medium
+    risk: "Invented numeric enumerations slip past human review (P4)"
+    mitigation: "Challenger Loop N (P4.5) raises P0 BLOCKED on any unsourced enumeration; book cannot ship until resolved"
+
+  - id: R6
+    severity: low
+    risk: "P4 abjad reference file write to content/_shared/ breaks isolation principle"
+    mitigation: "meta.scope_in_writes_to_shared_exception whitelists exactly one path; P1.1 boundary check honors the exception"
 
 # -----------------------------------------------------------------------------
 # Done definition
 # -----------------------------------------------------------------------------
 done_when:
-  - "P0a → P5 all merged to develop with passing CI (P0a/P0b/P0c are blockers for P3+)"
-  - "P0c.1 — chatgpt-podcast-skill-prompt reference repaired in docs/architecture/podcast-overview.html"
-  - "P0c.2 — no other broken references from the 2026-05-19 legacy-file cleanup"
-  - "scripts/podcast/_boundary_check.py exits 0; no automatic writes outside content/podcast/**"
-  - "E2E test (P0b) passes on tiny-book fixture; PR gate enforces it"
-  - "Dashboard at http://127.0.0.1:8765/ can: list, start, resume, retry, delete books"
+  - "Waves W1..W4 all merged to develop with passing CI"
+  - "Wave W5 ships after zero books in-flight gate satisfied"
+  - "P3.1, P3.2 — doc-regression cleanup done (already shipped)"
+  - "P4.1 content/_shared/arabic/06-abjad-numerals.md exists; both skills treat it as READ-ONLY thereafter"
+  - "P4.2 content/podcast/.skill/handbook/numeric-symbolic-disambiguation.md exists"
+  - "P4.5 podcast-challenger Loop N implemented; mirrored across .github/+.claude/ post-P16"
+  - "P4.7 Master & Disciple Ch-02 scaffolding updated; Q4–Q7 either resolved or visibly carried"
+  - "scripts/podcast/_boundary_check.py exits 0; one whitelisted exception honored"
+  - "E2E test (P2) passes on tiny-book fixture; PR gate enforces it"
+  - "Dashboard at http://127.0.0.1:8765/ can: list, start, resume, retry, delete books AND surface P4 disambiguation register"
   - "Full pipeline run on Rasail Ikhwan (865p) completes with structured cost ledger"
-  - "Zero `subprocess.run([CLAUDE_CMD,...])` calls remain in scripts/podcast/ (after P6.5)"
-  - "isolation_check CI job is green; agent-dedup CI script exits 0"
-  - "Agent picker shows each agent exactly once (P6.2 dedup verified)"
-  - "podcast-challenger / podcast-extract / ui-reviewer migrated to .github/agents/"
+  - "Zero subprocess errors in W3 runs (P5 permission-mode fix proven on real books)"
+  - "isolation_check CI green; agent-dedup CI exits 0"
+  - "Agent picker shows each agent exactly once"
   - "Phase rename to 01-preflight..14-done complete; schema_version=2 across all live state files"
   - "docs/architecture/podcast-*.html updated in lockstep with code phase rename"
-  - "podcast-orchestrator.agent.md updated to reference the new service + status CLI"
+  - "podcast-orchestrator.agent.md updated to reference the new service + status CLI + Loop N"
   - "Manual library handoff documented in skills-staging/podcast/SKILL.md"
-  - "Q1 (multi-Mac) resolved via P5.0; multi-mac-decision.md committed"
+  - "Q1 (multi-Mac) resolved via P11; multi-mac-decision.md committed"
+  - "Anthropic Python SDK appears in scripts/podcast/ ONLY in narrow side-channel use (cost ledger helper, status helper) — NEVER as the workhorse LLM execution path"
