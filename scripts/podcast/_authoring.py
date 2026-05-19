@@ -96,7 +96,7 @@ def _run_claude_p(
     """
     try:
         proc = subprocess.run(
-            [CLAUDE_CMD, "-p", prompt],
+            [CLAUDE_CMD, "-p", "--permission-mode", "acceptEdits", prompt],
             cwd=cwd,
             capture_output=True,
             text=True,

@@ -252,7 +252,7 @@ def run_windowed(
         log(f"    win {idx:03d}/{total} · invoking claude -p ({_word_count(body)} words in)")
         try:
             proc = subprocess.run(
-                [CLAUDE_CMD, "-p", prompt],
+                [CLAUDE_CMD, "-p", "--permission-mode", "acceptEdits", prompt],
                 capture_output=True,
                 text=True,
                 timeout=timeout_per_window,
