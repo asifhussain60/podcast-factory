@@ -38,13 +38,30 @@ DESIGN NOTES
 from __future__ import annotations
 
 import subprocess
+import sys
 from pathlib import Path
+
+# Local import of the chunking helper (same directory as this file).
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from _chunking import (  # noqa: E402
+    ChunkingError,
+    concat_outputs,
+    run_windowed,
+)
 
 DEFAULT_TIMEOUT = 1800        # 30 min — phase 0b on a long book can take a while
 FRAMING_TIMEOUT = 900         # 15 min per framing
 CHALLENGER_TIMEOUT = 900      # 15 min per challenger pass (challenger's own cap is 5 iter)
 FIXER_TIMEOUT = 600           # 10 min per fixer attempt
 TRAINER_TIMEOUT = 1800        # 30 min for the trainer pass
+
+# Windowing defaults for long-source phases (0b, 0c).
+PHASE_0B_WINDOW_WORDS = 3000        # ~12 KB of refined output per window
+PHASE_0B_OVERLAP_WORDS = 120        # context tail to preserve cross-window coherence
+PHASE_0B_WINDOW_TIMEOUT = 600       # 10 min per window
+PHASE_0C_WINDOW_WORDS = 8000        # phonetic extraction tolerates larger windows (read-mostly)
+PHASE_0C_OVERLAP_WORDS = 60
+PHASE_0C_WINDOW_TIMEOUT = 600
 
 CLAUDE_CMD = "claude"         # resolved via PATH
 
@@ -134,18 +151,40 @@ def _assert_artifact(
         )
 
 
-# ─── Phase 0b — English refinement ───────────────────────────────────────────
-def author_phase_0b(book_dir: Path, timeout: int = DEFAULT_TIMEOUT) -> str:
-    """Refine the Azure-translated raw extract into clean English prose.
+# ─── Phase 0b — English refinement (chunked) ─────────────────────────────────
+def author_phase_0b(
+    book_dir: Path,
+    timeout: int = DEFAULT_TIMEOUT,        # retained for back-compat; per-window timeout is what matters
+    *,
+    window_words: int = PHASE_0B_WINDOW_WORDS,
+    overlap_words: int = PHASE_0B_OVERLAP_WORDS,
+    window_timeout: int = PHASE_0B_WINDOW_TIMEOUT,
+    log=print,
+) -> str:
+    """Refine the Azure-translated raw extract into clean English prose — windowed.
+
+    For books larger than ~5,000 words, refining in a single `claude -p` call
+    blows past the 30-min shellout timeout and produces no artifact. This
+    implementation splits the raw extract into paragraph-aligned windows of
+    ~`window_words` words, refines each window in its own `claude -p` call
+    with checkpointed output, then concatenates the per-window outputs into
+    the final `refined-english.md`.
 
     Reads:  BOOK_DIR/_system/source/text/raw-extract.md
     Writes: BOOK_DIR/_system/source/text/refined-english.md
+            BOOK_DIR/_system/source/text/_chunks/0b/win-NNN.{in,out}.md  (provenance)
 
-    Returns: stdout from the claude -p call (for state-file logging).
+    Resume-safe: if some windows succeeded on a prior run and others failed,
+    re-invoking only retries the failed/missing windows. Once every window's
+    `.out.md` is present, `refined-english.md` is assembled and the phase
+    completes.
+
+    Returns: a short summary string for state-file logging.
     """
     book_slug = book_dir.name
     in_path = book_dir / "_system" / "source" / "text" / "raw-extract.md"
     out_path = book_dir / "_system" / "source" / "text" / "refined-english.md"
+    chunks_dir = book_dir / "_system" / "source" / "text" / "_chunks" / "0b"
 
     if not in_path.exists():
         raise AuthoringError(
@@ -154,49 +193,101 @@ def author_phase_0b(book_dir: Path, timeout: int = DEFAULT_TIMEOUT) -> str:
             manual_fallback="Re-run Phase 0a or drop a manual raw-extract.md.",
         )
 
-    prompt = (
-        f"You are driving Phase 0b (English Refinement) of the /podcast skill on book-slug "
-        f"`{book_slug}`. Read the canonical Phase 0b procedure from "
-        f"`skills-staging/podcast/SKILL.md` (search for `### PHASE 0b: ENGLISH REFINEMENT`) "
-        f"and apply it.\n\n"
-        f"INPUT:  `{in_path}` (Azure-translated raw extract — may be uneven English)\n"
-        f"OUTPUT: `{out_path}` (clean, audio-quality English prose preserving Arabic "
-        f"transliterations + every named figure + every citation)\n\n"
-        f"Constraints:\n"
-        f"- Do NOT modify any file outside `{out_path}`.\n"
-        f"- Do NOT invent content not present in the input — fidelity to the source is mandatory.\n"
-        f"- Preserve every Arabic-derived term in transliteration form (al-Razi, al-Kirmani, etc.).\n"
-        f"- Preserve every citation (verse references, hadith collection numbers).\n"
-        f"- Output target: 3,000–30,000 words depending on source length; no hard cap.\n\n"
-        f"Exit when `{out_path}` is non-empty and Phase 0b is complete per SKILL.md."
-    )
+    raw_text = in_path.read_text(encoding="utf-8")
 
-    rc, stdout, stderr = _run_claude_p(prompt, timeout=timeout)
-    _assert_artifact(
-        phase="0b",
-        path=out_path,
-        rc=rc,
-        stdout=stdout,
-        stderr=stderr,
-        manual_fallback=(
-            "1. /podcast — drive Phase 0b on this BOOK_DIR manually.\n"
-            "2. When refined-english.md is non-empty, re-invoke orchestrate-book --resume."
-        ),
-    )
-    return stdout
+    def _builder(body: str, idx: int, total: int, win_out: Path) -> str:
+        # Write the body to a side file so the prompt stays small and the LLM
+        # reads the chunk from disk (its preferred IO pattern).
+        win_in = win_out.with_suffix("").with_suffix(".in.md")  # win-NNN.in.md
+        return (
+            f"You are driving Phase 0b (English Refinement) of the /podcast skill on book-slug "
+            f"`{book_slug}`, **window {idx} of {total}**. Read the canonical Phase 0b procedure "
+            f"from `skills-staging/podcast/SKILL.md` (search `### PHASE 0b: ENGLISH REFINEMENT`).\n\n"
+            f"INPUT  (read this window only): `{win_in}`\n"
+            f"OUTPUT (write the refined window here): `{win_out}`\n\n"
+            f"This is one window in a sequence — DO NOT add chapter headings, intros, "
+            f"summaries, or transitions that assume you have seen the whole book. Refine only "
+            f"the prose in the INPUT file. If the input begins with a `<!-- context-overlap -->` "
+            f"block, that is the tail of the prior window for continuity — DO NOT re-emit it "
+            f"in your output; resume cleanly after it.\n\n"
+            f"Constraints (same as the whole-book Phase 0b — apply at the window scope):\n"
+            f"- Do NOT modify any file other than `{win_out}`.\n"
+            f"- Do NOT invent content not present in the INPUT — fidelity to the source is mandatory.\n"
+            f"- Preserve every Arabic-derived term in transliteration form (al-Razi, al-Kirmani, etc.).\n"
+            f"- Preserve every citation (verse references, hadith collection numbers).\n"
+            f"- Do NOT wrap output in code fences or add preamble like 'Here is the refined text:'.\n\n"
+            f"Exit when `{win_out}` is non-empty."
+        )
+
+    log("  phase 0b · chunked refinement")
+    try:
+        out_paths = run_windowed(
+            text=raw_text,
+            chunks_dir=chunks_dir,
+            prompt_builder=_builder,
+            target_words=window_words,
+            overlap_words=overlap_words,
+            timeout_per_window=window_timeout,
+            log=lambda m: log(m),
+        )
+    except ChunkingError as e:
+        raise AuthoringError(
+            phase="0b",
+            message=str(e),
+            manual_fallback=e.manual_fallback or (
+                "1. Inspect _chunks/0b/win-*.in.md and drive failed windows via /podcast.\n"
+                "2. Drop each result at _chunks/0b/win-NNN.out.md.\n"
+                "3. Re-invoke orchestrate-book --resume."
+            ),
+        ) from e
+
+    # Stitch the per-window outputs into the final artifact.
+    try:
+        merged = concat_outputs(out_paths)
+    except ChunkingError as e:
+        raise AuthoringError(
+            phase="0b",
+            message=str(e),
+            manual_fallback=e.manual_fallback,
+        ) from e
+
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(merged, encoding="utf-8")
+    if out_path.stat().st_size == 0:
+        raise AuthoringError(
+            phase="0b",
+            message=f"Phase 0b assembled artifact is empty: {out_path}",
+            manual_fallback="Inspect _chunks/0b/win-*.out.md — at least one was non-empty but stitched to nothing.",
+        )
+
+    return f"0b chunked: {len(out_paths)} windows merged into {out_path.name}"
 
 
-# ─── Phase 0c — Arabic phonetic transcription ───────────────────────────────
-def author_phase_0c(book_dir: Path, timeout: int = DEFAULT_TIMEOUT) -> str:
-    """Add phonetic transcription for every Arabic / non-English term.
+# ─── Phase 0c — Arabic phonetic transcription (chunked) ──────────────────────
+def author_phase_0c(
+    book_dir: Path,
+    timeout: int = DEFAULT_TIMEOUT,
+    *,
+    window_words: int = PHASE_0C_WINDOW_WORDS,
+    overlap_words: int = PHASE_0C_OVERLAP_WORDS,
+    window_timeout: int = PHASE_0C_WINDOW_TIMEOUT,
+    log=print,
+) -> str:
+    """Add phonetic transcription for every Arabic / non-English term — windowed.
 
     Reads:  BOOK_DIR/_system/source/text/refined-english.md
-            content/_shared/arabic/03-arabic-english-manifest.md (consulted first)
+            content/_shared/arabic/03-arabic-english-manifest.md (authoritative)
     Writes: BOOK_DIR/_system/source/text/_phonetics.md
+            BOOK_DIR/_system/source/text/_chunks/0c/win-NNN.{in,out}.md
+
+    Per-window output is itself a pipe-table (one row per term). After all
+    windows succeed, rows are merged and deduplicated by `term`; the merged
+    table is written to `_phonetics.md`.
     """
     book_slug = book_dir.name
     in_path = book_dir / "_system" / "source" / "text" / "refined-english.md"
     out_path = book_dir / "_system" / "source" / "text" / "_phonetics.md"
+    chunks_dir = book_dir / "_system" / "source" / "text" / "_chunks" / "0c"
 
     if not in_path.exists():
         raise AuthoringError(
@@ -205,57 +296,154 @@ def author_phase_0c(book_dir: Path, timeout: int = DEFAULT_TIMEOUT) -> str:
             manual_fallback="Run Phase 0b first.",
         )
 
-    prompt = (
-        f"You are driving Phase 0c (Arabic Phonetic Transcription Pass) of the /podcast skill "
-        f"on book-slug `{book_slug}`. Read the canonical procedure from "
-        f"`skills-staging/podcast/SKILL.md` (search for `### PHASE 0c`) and apply it.\n\n"
-        f"INPUT:  `{in_path}` (the refined English text from Phase 0b)\n"
-        f"AUTHORITY (consult before adding new phonetic entries):\n"
-        f"  - `content/_shared/arabic/03-arabic-english-manifest.md` (canonical lookups)\n"
-        f"  - `content/_shared/arabic/01-tts-pronunciation-key.md` (TTS rules)\n"
-        f"  - `content/_shared/arabic/05-name-alias-policy.md` (long-name → short alias)\n"
-        f"OUTPUT: `{out_path}` (markdown pipe table: term | transliteration | phonetic | "
-        f"first-occurrence line ref)\n\n"
-        f"Constraints:\n"
-        f"- Do NOT modify any file outside `{out_path}`.\n"
-        f"- The shared manifest WINS on every term it covers — use it verbatim. Add new "
-        f"entries only for terms the manifest doesn't carry.\n"
-        f"- Every Arabic-derived term that appears in the refined English needs a row.\n\n"
-        f"Exit when `{out_path}` is non-empty and Phase 0c is complete."
-    )
+    refined_text = in_path.read_text(encoding="utf-8")
 
-    rc, stdout, stderr = _run_claude_p(prompt, timeout=timeout)
-    _assert_artifact(
-        phase="0c",
-        path=out_path,
-        rc=rc,
-        stdout=stdout,
-        stderr=stderr,
-        manual_fallback=(
-            "1. /podcast — drive Phase 0c on this BOOK_DIR manually.\n"
-            "2. When _phonetics.md is non-empty, re-invoke orchestrate-book --resume."
-        ),
-    )
-    return stdout
+    def _builder(body: str, idx: int, total: int, win_out: Path) -> str:
+        win_in = win_out.with_suffix("").with_suffix(".in.md")
+        return (
+            f"You are driving Phase 0c (Arabic Phonetic Transcription Pass) of the /podcast skill "
+            f"on book-slug `{book_slug}`, **window {idx} of {total}**. Read the canonical "
+            f"procedure from `skills-staging/podcast/SKILL.md` (search `### PHASE 0c`).\n\n"
+            f"INPUT  (read this window): `{win_in}`\n"
+            f"AUTHORITY (consult before adding new entries):\n"
+            f"  - `content/_shared/arabic/03-arabic-english-manifest.md` (canonical — WINS)\n"
+            f"  - `content/_shared/arabic/01-tts-pronunciation-key.md` (TTS rules)\n"
+            f"  - `content/_shared/arabic/05-name-alias-policy.md` (long-name → short alias)\n"
+            f"OUTPUT (write the phonetic table for THIS window only): `{win_out}`\n\n"
+            f"Output FORMAT — a markdown pipe table with EXACTLY this header:\n"
+            f"```\n"
+            f"| term | transliteration | phonetic | first-occurrence-snippet |\n"
+            f"|---|---|---|---|\n"
+            f"```\n"
+            f"One row per unique Arabic-derived term in the INPUT. The shared manifest WINS — "
+            f"copy its entries verbatim for any term it covers; add new rows only for terms it "
+            f"doesn't carry.\n\n"
+            f"Constraints:\n"
+            f"- Do NOT modify any file other than `{win_out}`.\n"
+            f"- Do NOT wrap output in code fences.\n"
+            f"- If a term repeats within this window, emit it once.\n"
+            f"- Per-window dedup only — cross-window dedup is handled by the orchestrator.\n\n"
+            f"Exit when `{win_out}` contains a valid pipe table (header + at least zero rows; "
+            f"emit just the header if the window has no Arabic terms)."
+        )
+
+    log("  phase 0c · chunked phonetic extraction")
+    try:
+        out_paths = run_windowed(
+            text=refined_text,
+            chunks_dir=chunks_dir,
+            prompt_builder=_builder,
+            target_words=window_words,
+            overlap_words=overlap_words,
+            timeout_per_window=window_timeout,
+            log=lambda m: log(m),
+        )
+    except ChunkingError as e:
+        raise AuthoringError(
+            phase="0c",
+            message=str(e),
+            manual_fallback=e.manual_fallback or (
+                "1. Inspect _chunks/0c/win-*.in.md and drive failed windows via /podcast.\n"
+                "2. Drop each result at _chunks/0c/win-NNN.out.md.\n"
+                "3. Re-invoke orchestrate-book --resume."
+            ),
+        ) from e
+
+    # Merge + dedup rows across windows.
+    merged = _merge_phonetic_tables(out_paths)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(merged, encoding="utf-8")
+    if out_path.stat().st_size == 0:
+        raise AuthoringError(
+            phase="0c",
+            message=f"Phase 0c assembled artifact is empty: {out_path}",
+            manual_fallback="Inspect _chunks/0c/win-*.out.md and merge manually.",
+        )
+
+    return f"0c chunked: {len(out_paths)} windows merged into {out_path.name}"
+
+
+def _merge_phonetic_tables(paths: list[Path]) -> str:
+    """Concatenate pipe-table outputs from windowed runs; dedup on first column.
+
+    Tolerates per-window outputs that include preambles, code fences, or extra
+    blank rows. Preserves first-seen order for each unique term so the resulting
+    table corresponds roughly to the book's reading order.
+    """
+    import re as _re
+
+    header = "| term | transliteration | phonetic | first-occurrence-snippet |"
+    divider = "|---|---|---|---|"
+    seen: dict[str, str] = {}
+    order: list[str] = []
+
+    row_re = _re.compile(r"^\s*\|\s*([^|]+?)\s*\|.*\|\s*$")
+    for p in paths:
+        if not p.exists():
+            continue
+        for line in p.read_text(encoding="utf-8").splitlines():
+            s = line.strip()
+            if not s or s.startswith("```"):
+                continue
+            # Skip header / divider rows in any window's output.
+            if s.startswith("| term ") or s.startswith("|---"):
+                continue
+            m = row_re.match(line)
+            if not m:
+                continue
+            term = m.group(1).strip().strip("`").lower()
+            if not term or term in seen:
+                continue
+            seen[term] = line.rstrip()
+            order.append(term)
+
+    body = "\n".join(seen[t] for t in order)
+    return f"{header}\n{divider}\n{body}\n" if order else f"{header}\n{divider}\n"
 
 
 # ─── Phase 0d — Chapter design ───────────────────────────────────────────────
 def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
+                    unit_mode: str = "auto",
                     timeout: int = DEFAULT_TIMEOUT) -> str:
-    """Segment the refined source into meaningful, balanced chapters.
+    """Segment the refined source into meaningful, balanced **episode units**.
+
+    `unit_mode` controls how source structure maps to episodes:
+
+      - `chapter` — each source chapter becomes exactly one episode (one
+        chapter file + one contract). Good for short/medium books where
+        source chapters already fit the tier band.
+
+      - `section` — each source chapter is split into multiple sections;
+        each section becomes its own episode. Naming uses suffixes:
+        `ch03a-...txt`, `ch03b-...txt`, etc. Good for long books where a
+        single source chapter would exceed the tier band by >50%.
+
+      - `auto` (default) — the LLM decides per source chapter: keep whole
+        if it fits the tier band within ±50%, else split into sections.
+        This is the recommended setting for any unfamiliar book.
 
     Reads:  BOOK_DIR/_system/source/text/refined-english.md
             BOOK_DIR/_system/source/text/_phonetics.md
-    Writes: BOOK_DIR/chapters/ch01-<slug>.txt ... chNN-<slug>.txt
-            BOOK_DIR/chapter-contracts/<slug>.yml (one per chapter)
+    Writes: BOOK_DIR/chapters/ch##[a-z]?-<slug>.txt
+            BOOK_DIR/chapter-contracts/<slug>.yml (one per episode)
             BOOK_DIR/_system/source/text/chapters-rationale.md
+            BOOK_DIR/_system/source/text/source-chapter-map.md
+                (table of source-chapter → episode-list; required when
+                 unit_mode != 'chapter')
     """
     book_slug = book_dir.name
     in_refined = book_dir / "_system" / "source" / "text" / "refined-english.md"
     in_phonetics = book_dir / "_system" / "source" / "text" / "_phonetics.md"
     out_rationale = book_dir / "_system" / "source" / "text" / "chapters-rationale.md"
+    out_source_map = book_dir / "_system" / "source" / "text" / "source-chapter-map.md"
     chapters_dir = book_dir / "chapters"
     contracts_dir = book_dir / "chapter-contracts"
+
+    if unit_mode not in ("chapter", "section", "auto"):
+        raise AuthoringError(
+            phase="0d",
+            message=f"unit_mode must be one of chapter|section|auto (got {unit_mode!r})",
+        )
 
     for p in (in_refined, in_phonetics):
         if not p.exists():
@@ -266,31 +454,69 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             )
 
     tier_band = {
-        "default_deep_dive": "1,800–2,800 words per chapter",
-        "longer": "2,800–4,500 words per chapter",
-        "extended": "5,500–9,500 words per chapter",
-    }.get(length_tier, "5,500–9,500 words per chapter (extended)")
+        "default_deep_dive": "1,800–2,800 words per episode",
+        "longer": "2,800–4,500 words per episode",
+        "extended": "5,500–9,500 words per episode",
+    }.get(length_tier, "5,500–9,500 words per episode (extended)")
+
+    unit_directive = {
+        "chapter": (
+            "UNIT MODE: **chapter** — each source chapter becomes exactly ONE episode. "
+            "Do NOT split any source chapter, even if it overflows the tier band."
+        ),
+        "section": (
+            "UNIT MODE: **section** — each source chapter is split into one or more "
+            "thematic sections; each section becomes its OWN episode. Use suffix letters "
+            "(`ch03a-...`, `ch03b-...`) when multiple episodes come from the same source "
+            "chapter; otherwise just `chNN-...` if the source chapter yields exactly one "
+            "section. Every episode MUST land inside the tier band."
+        ),
+        "auto": (
+            "UNIT MODE: **auto** — for each source chapter, decide: if its word count is "
+            "within ±50% of the tier band midpoint, emit ONE episode for the whole chapter. "
+            "If it exceeds 1.5× the band's upper bound, SPLIT it into sections (each section "
+            "is its own episode, named `chNN<suffix>-...` where suffix is a single lowercase "
+            "letter when multiple episodes come from the same source chapter). Aim for "
+            "all episodes within ~30% of each other."
+        ),
+    }[unit_mode]
+
+    source_map_instruction = (
+        f"- Write `{out_source_map}` with a pipe table mapping each source chapter to its "
+        f"resulting episode(s). Header: `| source chapter | source title | episode(s) | "
+        f"split reason |`. This audit trail is REQUIRED when unit_mode is `section` or `auto`."
+        if unit_mode in ("section", "auto") else
+        f"- (unit_mode=chapter) Skip `source-chapter-map.md`."
+    )
 
     prompt = (
-        f"You are driving Phase 0d (Chapter Design) of the /podcast skill on book-slug "
-        f"`{book_slug}`. Read the canonical procedure from `skills-staging/podcast/SKILL.md` "
-        f"(search for `### PHASE 0d`) and apply it.\n\n"
+        f"You are driving Phase 0d (Chapter / Episode Design) of the /podcast skill on "
+        f"book-slug `{book_slug}`. Read the canonical procedure from "
+        f"`skills-staging/podcast/SKILL.md` (search `### PHASE 0d`) and apply it.\n\n"
         f"INPUT:  `{in_refined}`, `{in_phonetics}`\n"
         f"OUTPUTS:\n"
-        f"  - `{chapters_dir}/ch01-<slug>.txt`, `ch02-<slug>.txt`, ...\n"
-        f"  - `{contracts_dir}/<slug>.yml` (one per chapter, per chapter-contract.template.yml)\n"
-        f"  - `{out_rationale}` (one paragraph per chapter explaining the segmentation)\n\n"
-        f"Length tier: **{length_tier}** — each chapter MUST land in {tier_band}. "
-        f"Chapters in a series should be within ~30% of each other within the tier.\n\n"
+        f"  - `{chapters_dir}/ch##[a-z]?-<slug>.txt` — one per episode\n"
+        f"  - `{contracts_dir}/<slug>.yml` (one per episode, per chapter-contract.template.yml)\n"
+        f"  - `{out_rationale}` (one paragraph per episode explaining the segmentation)\n"
+        f"  - `{out_source_map}` (source-chapter → episode mapping, when unit_mode != chapter)\n\n"
+        f"Length tier: **{length_tier}** — each episode MUST land in {tier_band}. "
+        f"Episodes in a series should be within ~30% of each other within the tier.\n\n"
+        f"{unit_directive}\n\n"
         f"Constraints:\n"
         f"- Do NOT modify any file outside the named outputs.\n"
-        f"- Chapter slugs are short kebab-case (e.g. `the-lineage-of-a-lost-argument`).\n"
+        f"- Episode slugs are short kebab-case (e.g. `the-lineage-of-a-lost-argument`). "
+        f"When a source chapter is split into sections, each section gets its own "
+        f"distinct slug — do NOT reuse the source chapter's slug across sections.\n"
         f"- Each `chapter-contracts/<slug>.yml` carries: chapter_ref, slug, source_type, "
         f"book_slug, episode_number, title, audience, angle, episode_format=deep_dive, "
         f"host_dynamic, length_target, key_tensions, tone_constraints, anchor_passages, "
         f"adaptation_mode=faithful, phonetic_overrides, show_notes.\n"
-        f"- Re-segment by THEME, not by the source's own chapter breaks.\n\n"
-        f"Exit when every chapter file + contract is written and `{out_rationale}` is non-empty."
+        f"  - When this episode is a section of a longer source chapter, also include "
+        f"`source_chapter_ref` and `section_index` (1-based) in the contract.\n"
+        f"- Re-segment by THEME, not by the source's own chapter breaks (the source's "
+        f"breaks are a STARTING point, not a constraint).\n"
+        f"{source_map_instruction}\n\n"
+        f"Exit when every episode file + contract is written and `{out_rationale}` is non-empty."
     )
 
     rc, stdout, stderr = _run_claude_p(prompt, timeout=timeout)
@@ -318,6 +544,15 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             phase="0d",
             message=f"Phase 0d produced no contracts under {contracts_dir}",
             manual_fallback="Author the per-chapter contracts via /podcast, then --resume.",
+        )
+    if unit_mode in ("section", "auto") and not out_source_map.exists():
+        raise AuthoringError(
+            phase="0d",
+            message=(
+                f"unit_mode={unit_mode!r} requires source-chapter-map.md but it was not "
+                f"written at {out_source_map}"
+            ),
+            manual_fallback="Author source-chapter-map.md manually via /podcast, then --resume.",
         )
     return stdout
 
