@@ -1766,6 +1766,38 @@ phases:
       - "test_challenger.py exits 0 after the trainer's commit (no fixture regressed)"
       - "If trainer promoted a rule, CHALLENGER_VERSION bumped by 0.1 in _rules.py"
     tasks:
+      - id: P9.0
+        title: "Pilot: Kitab al-Riyad (254p) — dogfooding ahead of formal W3 corpus"
+        added: 2026-05-19
+        why: |
+          KaR is NOT a formal W3 corpus member. It's the pilot/dogfooding run
+          that exercised the pipeline ahead of P9.1–P9.7. Tracked here because
+          its acceptance evidence is reusable for the formal corpus rows: it
+          validated Phase 0a + 0b on a 254p Arabic-scanned source, surfaced the
+          stale-running-status bug (see [[project-orchestrator-resume-bug]]),
+          first-exercised the P22 review-gate workflow manually 2026-05-19,
+          and committed the first content-range.md artifact (forward-looking
+          per P4.10).
+        prereq: "Branch book/kitab-al-riyad already exists at 09899d9 with Phase 0a + 0b complete + operator-review committed"
+        source_material_risk: "high — Arabic scan, 254 pages, edited 1960 Beirut edition"
+        preflight_required:
+          - "P9.0.scaffold ✅ tree exists per book-dir-layout (shipped 2026-05-18)"
+          - "P9.0.phase-0a ✅ Phase 0a Azure OCR complete; raw-extract.md present (shipped 2026-05-19 05:25Z)"
+          - "P9.0.phase-0b ✅ Phase 0b refinement complete; refined-english.md 3,709 lines (shipped 2026-05-19 19:06Z)"
+          - "P9.0.review-gate ✅ Manual P22-style operator transcript review: §6 Bāb·§ + §7 52–232 + §8 approved (shipped 2026-05-19)"
+          - "P9.0.content-range ✅ content-range.md emitted (forward-looking; P4.10 honors it when shipped)"
+        acceptance:
+          - "P9.0.phase-0c 📊 Phase 0c Arabic phonetic pass complete; _phonetics.md populated; no claude -p refusals"
+          - "P9.0.phase-0d 📊 Phase 0d chapter segmentation complete; chapter contracts slug-aligned with chapters/chNN-bab-N-*.txt per operator's Bāb/§ preference"
+          - "P9.0.phase-0e 📊 Phase 0e enrichment complete; bāb + fasl added to concept-glossary"
+          - "P9.0.phase-0f-gate 🔒 Phase 0f operator gate cleared (persona, tier, series_pattern, episode count + boundaries)"
+          - "P9.0.phase-0g 📊 Phase 0g per-chapter authoring loop complete for all episodes"
+          - "P9.0.assembly 📊 build_episode_txt.py produced episodes/EP##-*.txt passing META_PROSE_TELLS / R-PHONETICS-OUT / R-HONORIFIC-ONCE / framing DENY"
+          - "P9.0.challenger 📊 podcast-challenger Category P green; concept-glossary referenced by ≥1 framing per episode"
+          - "P9.0.loop-n 🔒 Loop N converges clean; editor's 25-work bibliography (page 31) marked false-positive if it fires (avoidable with P4.10 enforcement)"
+          - "P9.0.cost-cap 📊 Total cost within cost_cap_hard ($50); cost-ledger rows per phase"
+          - "P9.0.ship ✅ Episodes uploaded to NotebookLM; transcripts dropped; challenger verdict = SHIP-READY"
+
       - id: P9.1
         title: "Tiny: Ayyuhal Walad (30p) — first-shipped baseline"
         prereq: "Branch book/ayyuhal-walad already partially exists; verify it still resumes"
