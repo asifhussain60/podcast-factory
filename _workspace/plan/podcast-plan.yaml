@@ -11,7 +11,13 @@ meta:
   created: 2026-05-19
   refined: 2026-05-19           # initial repo-surgeon evidence sweep + folded VS Code refinement prompt
   gap_closed: 2026-05-19        # systematic gap audit; 23 findings resolved on branch plan/v2-gap-close
+  execute_readied: 2026-05-19   # DoR audit + repo-surgeon Pass 5 + acceptance-criteria.md on plan/v2-execute-readiness
   owner: asif
+  legacy_cleanup_basenames:     # consumed by repo-surgeon Pass 5 L8 (broken-ref annotation audit)
+    - chatgpt-podcast-skill-prompt
+    - folder-cleanup-prompt
+    - podcast-refactor-executive-summary
+    - podcast-orchestrator-large-books
   branch_strategy: "feature branches off develop, merge via --no-ff"
   primary_mac: true                              # Azure-backed pipeline runs here (see ../primary-mac-activation.md)
   scope_in:
@@ -201,6 +207,23 @@ intelligence_sources:
   cross_cutting:
     - {path: "_workspace/primary-mac-activation.md",                  consult_for: "Azure bootstrap on a new Mac"}
     - {path: "_workspace/plan/view/index.html",                       consult_for: "Visual architecture overview (read-only)"}
+    - {path: "_workspace/plan/acceptance-criteria.md",                consult_for: "Master checklist tracking entire scope of work (read every multi-step task)"}
+  conflict_resolution:
+    description: |
+      When two intelligence sources disagree, prefer in this order (highest authority first):
+        1. The relevant agent's `reads_normative` list (challenger frontmatter) — these are contract-bearing.
+        2. `_workspace/plan/podcast-plan.yaml` (canonical phased plan; if its `gap_closed` date is <7d old).
+        3. `skills-staging/<skill>/SKILL.md` (the producing skill's current contract).
+        4. `_workspace/plan/research/findings.md` (rationale + citations).
+        5. `docs/architecture/*.html` (visual / narrative; treat as derived, not authoritative).
+      Plan staleness signal: if `meta.gap_closed` is >7 days old AND the active phase has changed since,
+      run `/repo-surgeon --plan-only` before trusting the plan.
+  full_read_requirement:
+    description: |
+      For multi-step authoring tasks, the agent MUST read EVERY file under its bucket's
+      `consult_before_any_edit` list in full at session start (not skim). Single-step
+      lookups may read on-demand. The plan staleness signal in conflict_resolution
+      governs whether a re-read is required mid-task.
 
 # -----------------------------------------------------------------------------
 # Phases
@@ -237,11 +260,52 @@ phases:
         files:
           - skills-staging/podcast/SKILL.md                # add Manual Handoff section
           - docs/podcast/manual-library-handoff.md         # NEW (or fold into SKILL.md)
+          - scripts/podcast/_proposal_writer.py            # NEW — emits proposed-library-entries.md
         spec: |
           Document: where proposed-library-entries.md lives, who promotes it, how the
           journal side ingests, how to detect drift (proposed but never promoted).
+
+          Canonical schema for `BOOK_DIR/_system/episode-drafts/EP##-<slug>/proposed-library-entries.md`:
+          ```yaml
+          ---
+          schema_version: 1
+          book_slug: <slug>
+          episode_id: EP##-<slug>
+          generated_by: scripts/podcast/_proposal_writer.py
+          generated_at: <ISO-8601 UTC>
+          ---
+
+          ## Quotes proposed for content/babu-memoir/_system/quotes-library.txt
+
+          - text: "<quote text>"
+            attribution: "<who said it>"
+            source_ref: "<book + chapter + page>"
+            episode_context: "<one-line>"
+            confidence: high|medium|low
+
+          ## Clinical anecdotes proposed for content/babu-memoir/_system/clinic-library.txt
+
+          - title: "<descriptor>"
+            summary: "<2-3 sentences>"
+            source_ref: "<…>"
+            episode_context: "<…>"
+
+          ## Promotion ledger (journal side writes here when promoted)
+
+          - quote_id: <hash>
+            promoted_at: <ISO-8601>
+            promoted_to: content/babu-memoir/_system/quotes-library.txt#<line-anchor>
+          ```
+
+          Promotion is a manual journal-side operation:
+            1. Journal author reviews `proposed-library-entries.md`.
+            2. Author appends accepted entries to the target library file.
+            3. Author writes a row to the Promotion ledger above.
+            4. Drift detection: any entry NOT in the ledger after N days is flagged by Pass 5 L11 (future addition).
         acceptance:
-          - "Search 'manual library handoff' in SKILL.md returns the section"
+          - "Search 'manual library handoff' in skills-staging/podcast/SKILL.md returns the section"
+          - "scripts/podcast/_proposal_writer.py emits a schema-valid proposed-library-entries.md given a populated chapter contract"
+          - "docs/podcast/manual-library-handoff.md links to the schema above and documents promotion workflow"
       - id: P0a.3
         title: "CI gate (deferred to P6.3, listed here for traceability)"
         spec: "P0a.1 wired into .github/workflows/podcast-isolation.yml — see P6.3"
@@ -275,14 +339,18 @@ phases:
         spec: |
           - Spin up tmp book dir, copy fixture, run orchestrate_book.py --no-gate
           - Assert: state.json shows each phase completed in order
-          - Assert: refined-english.md and _phonetics.md non-empty
+          - Assert: refined-english.md and _phonetics.md non-empty AND contain >100 words each
+            (catches the silent-failure bug class P0 fixes — empty .out.md was the failure mode)
+          - Assert: every `_chunks/0b/win-*.in.md` has a matching `win-*.out.md` of non-zero size
           - Assert: ≥1 chapter-contract written; ≥1 chapter txt written
           - Assert: halts cleanly at 0f (series-plan human-review gate)
           - Assert: heartbeat.json updated within 30s during run
+          - Assert: no log line containing 'NO ARTIFACT' anywhere in the run log
         acceptance:
-          - "Run command: `pytest scripts/podcast/tests/e2e/ -v` (documented in README)"
+          - "Run command: `pytest scripts/podcast/tests/e2e/ -v` (documented in scripts/podcast/tests/README.md)"
           - "Total wall-clock <15min on tiny fixture; <$1 cost"
           - "Asserts on artifacts AND state transitions AND failure handling"
+          - "Sunny-day test FAILS if the P0 bug class returns (verified by toggling --permission-mode in a regression branch)"
       - id: P0b.3
         title: "Rainy-day E2E: artifact-missing / rc=0-but-refusal"
         files:
@@ -488,6 +556,23 @@ phases:
       the user true real-time feedback instead of polling. Read-only by design
       — mutations land in P5 only after observation is proven robust.
     tasks:
+      - id: P2.0
+        title: "Prereq — create scripts/podcast/requirements.txt"
+        files:
+          - scripts/podcast/requirements.txt   # NEW
+        spec: |
+          Today scripts/podcast/ has no requirements.txt. P2.1 and P3.1 both need
+          one (fastapi, uvicorn[standard], anthropic). Create it as a P2 prereq
+          rather than implicitly inside P2.1 so P3.1 can also depend on it cleanly.
+          Initial pins:
+            fastapi>=0.115
+            uvicorn[standard]>=0.30
+            anthropic>=0.40    # added when P3.1 lands; P2 only adds fastapi+uvicorn
+            pytest>=8.0        # added as part of P0b setup
+            pytest-asyncio>=0.23
+        acceptance:
+          - "File exists; `pip install -r scripts/podcast/requirements.txt` succeeds in a clean venv"
+          - "P3.1 adds `anthropic` to this file via a one-line append, not by creating a new file"
       - id: P2.1
         title: "FastAPI service: scripts/podcast/service/"
         files:
@@ -917,6 +1002,12 @@ open_questions:
       Should the orchestrator halt if a book's running cost exceeds $X? Soft warning
       at heartbeat, hard halt before Phase 0d, etc.
     blocks: P3.4
+    default_until_overridden: |
+      Soft warning at $20 (heartbeat banner); hard halt before Phase 0d at $50.
+      Implemented in P3.4 via a check against `cost-ledger.jsonl` summing.
+      User may override with `--cost-cap-soft` / `--cost-cap-hard` CLI flags or
+      `state.config.cost_cap_*` keys in the state file.
+    resolution_phase: P3.4   # decision lands when the cost-tracking sidecar ships
   - id: Q3
     question: "Trainer integration with SDK migration"
     detail: |
