@@ -1,0 +1,31 @@
+{
+  "schema": "podcast.ingest-source/v1",
+  "generated_at": "2026-05-18T22:51:00.220048+00:00",
+  "source": {
+    "path": "/Users/asifhussain/PROJECTS/journal/_workspace/Books/Kitab-al-Riyad.pdf",
+    "byte_size": 4620222
+  },
+  "book_slug": "kitab-al-riyad",
+  "book_dir": "content/podcast/library/books/kitab-al-riyad",
+  "doc_intelligence": {
+    "endpoint": "https://journal-docintel.cognitiveservices.azure.com",
+    "api_version": "2023-07-31",
+    "model": "prebuilt-read",
+    "page_count": 260,
+    "ocr_char_count": 310234,
+    "elapsed_seconds": 18.63,
+    "operation_id": "succeeded"
+  },
+  "translator": {
+    "api_version": "3.0",
+    "src_lang": "ar",
+    "tgt_lang": "en",
+    "region": "eastus",
+    "output_char_count": 461941,
+    "elapsed_seconds": 9.26
+  },
+  "outputs": {
+    "raw_extract": "content/podcast/library/books/kitab-al-riyad/_system/source/text/raw-extract.md",
+    "extraction_notes": "content/podcast/library/books/kitab-al-riyad/_system/source/text/_extraction-notes.md"
+  }
+}

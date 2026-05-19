@@ -321,6 +321,7 @@ SERIES_PLAN_TEMPLATE = """# Series Plan — {title}
 **Branch:** `{branch}`
 **Generated:** {ts}
 **Orchestrator:** v{orch_version}
+**Unit mode:** `{unit_mode}`
 **Status:** AWAITING HUMAN APPROVAL
 
 ---
@@ -332,10 +333,10 @@ SERIES_PLAN_TEMPLATE = """# Series Plan — {title}
 **Tier:** `{length_tier}`
 **Rationale:** {tier_rationale}
 
-### Chapter list
+### Episode list
 
 {chapter_list_table}
-
+{source_map_section}
 ---
 
 ## Audit-trail-only sections (no human review)
@@ -353,16 +354,20 @@ SERIES_PLAN_TEMPLATE = """# Series Plan — {title}
 
 ## Next step
 
-Review the **Length tier** + **Chapter list** sections above.
+Review the **Length tier**, **Episode list**, and (if shown) **Source-chapter → episode map**.
 
-If both look correct: `python3 scripts/podcast/orchestrate_book.py --resume {book_slug}`
+If everything looks correct: `python3 scripts/podcast/orchestrate_book.py --resume {book_slug}`
 
-If a chapter's segmentation or title needs fixing: edit the relevant
-`chapter-contracts/<slug>.yml` and `chapters/ch##-<slug>.txt`, then
+If an episode's segmentation or title needs fixing: edit the relevant
+`chapter-contracts/<slug>.yml` and `chapters/ch##[a-z]?-<slug>.txt`, then
 re-invoke `--resume`. The orchestrator detects the change and re-validates.
 
 If the tier choice is wrong: edit every `chapter-contracts/<slug>.yml` to
 the desired `length_target`, then re-invoke `--resume`.
+
+If you want to change unit mode (chapter ↔ section ↔ auto), reset Phase 0d:
+  `python3 scripts/podcast/orchestrate_book.py --resume {book_slug} --retry-phase 0d`
+(then edit `_system/orchestrator-state.json` `config.unit_mode` before resuming)
 """
 
 
@@ -435,15 +440,30 @@ def phase_0f_write_series_plan(book_dir: Path, title: str) -> Path:
     host_dynamic_table = "\n".join(host_rows)
 
     state = read_state(book_dir) or {}
+    config = state.get("config", {})
+    unit_mode = config.get("unit_mode", "auto")
+
+    # If a source-chapter map exists, inline it as its own section.
+    source_map_path = book_dir / "_system" / "source" / "text" / "source-chapter-map.md"
+    if source_map_path.exists() and source_map_path.stat().st_size > 0:
+        source_map_section = (
+            "\n### Source-chapter → episode map\n\n"
+            f"{source_map_path.read_text(encoding='utf-8').strip()}\n"
+        )
+    else:
+        source_map_section = ""
+
     body = SERIES_PLAN_TEMPLATE.format(
         title=title,
         book_slug=book_slug,
         branch=state.get("branch", f"book/{book_slug}"),
         ts=datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ"),
         orch_version=ORCHESTRATOR_VERSION,
+        unit_mode=unit_mode,
         length_tier=length_tier,
         tier_rationale=tier_rationale,
         chapter_list_table=chapter_list_table,
+        source_map_section=source_map_section,
         audience=audience,
         angle=angle,
         host_dynamic_table=host_dynamic_table,
@@ -626,6 +646,10 @@ def run_initial(args: argparse.Namespace) -> int:
 
     # Initialize the state file now that BOOK_DIR exists.
     state = initial_state(slug, category)
+    state["config"] = {
+        "length_tier": args.length_tier,
+        "unit_mode": args.unit_mode,
+    }
     write_state(book_dir, state)
     update_phase(book_dir, phase="pre-flight", status="completed")
     update_phase(book_dir, phase="branch",     status="completed")
@@ -652,20 +676,31 @@ def _drive_authoring_through_0f(book_dir: Path, title: str) -> int:
     """Run Phases 0b → 0c → 0d → 0e → 0f-halt. Used by run_initial AND --resume."""
     book_slug = book_dir.name
 
-    phase_map = [
-        ("0b", author_phase_0b, "phase 0b English refinement"),
-        ("0c", author_phase_0c, "phase 0c phonetic pass"),
-        ("0d", author_phase_0d, "phase 0d chapter design"),
-        ("0e", author_phase_0e, "phase 0e enrichment"),
-    ]
     state = read_state(book_dir) or {}
-    last_completed = state.get("last_completed_phase") or ""
-    skip_set = {"0a"}
-    # Build the set of phases already completed (everything up to and including last_completed)
-    for ph, _, _ in phase_map:
-        if last_completed and (last_completed == ph or last_completed >= ph and ph <= last_completed):
-            pass
-    # Simpler: only skip if the phase is marked completed in state.phases[ph]
+    config = state.get("config", {})
+    length_tier = config.get("length_tier", "extended")
+    unit_mode = config.get("unit_mode", "auto")
+
+    # Per-phase wrappers so each gets its phase-specific config + log routing.
+    def _run_0b(bd: Path) -> None:
+        author_phase_0b(bd, log=_info)
+
+    def _run_0c(bd: Path) -> None:
+        author_phase_0c(bd, log=_info)
+
+    def _run_0d(bd: Path) -> None:
+        author_phase_0d(bd, length_tier=length_tier, unit_mode=unit_mode, log=_info)
+
+    def _run_0e(bd: Path) -> None:
+        author_phase_0e(bd, log=_info)
+
+    phase_map = [
+        ("0b", _run_0b, "phase 0b English refinement (chunked)"),
+        ("0c", _run_0c, "phase 0c phonetic pass (chunked)"),
+        ("0d", _run_0d, f"phase 0d chapter design (tier={length_tier}, unit={unit_mode})"),
+        ("0e", _run_0e, "phase 0e enrichment"),
+    ]
+    # Only skip phases marked completed in state.phases[ph].
     completed = {
         p for p, blk in state.get("phases", {}).items()
         if blk.get("status") == "completed"
@@ -852,6 +887,40 @@ def run_resume(args: argparse.Namespace) -> int:
         _err("state file missing despite pre-flight pass — abort")
         return 2
 
+    # --retry-phase: reset the named phase's status to pending so the loop re-runs it.
+    retry_phase = getattr(args, "retry_phase", None)
+    if retry_phase:
+        if retry_phase not in state.get("phases", {}):
+            _err(f"--retry-phase: unknown phase {retry_phase!r}. Known: {sorted(state.get('phases', {}).keys())}")
+            return 1
+        _info(f"  --retry-phase {retry_phase}: resetting status to 'pending'")
+        block = state["phases"][retry_phase]
+        block["status"] = "pending"
+        block.pop("ts_completed", None)
+        block.pop("manual_fallback", None)
+        state["phase"] = retry_phase
+        state["phase_status"] = "pending"
+        # If we're retrying an authoring phase, also clear any later 'completed' marks
+        # so the downstream order is rebuilt from this point.
+        order = ("0b", "0c", "0d", "0e")
+        if retry_phase in order:
+            idx = order.index(retry_phase)
+            for later in order[idx + 1:]:
+                lb = state["phases"].get(later, {})
+                if lb.get("status") == "completed":
+                    _info(f"  --retry-phase: clearing downstream {later} (was completed)")
+                    lb["status"] = "pending"
+                    lb.pop("ts_completed", None)
+        # last_completed_phase walks back to the predecessor.
+        canonical = ("pre-flight", "branch", "scaffold", "0a", "0b", "0c", "0d", "0e",
+                     "0f", "0g", "per-chapter", "trainer", "merge", "done")
+        if retry_phase in canonical:
+            i = canonical.index(retry_phase)
+            state["last_completed_phase"] = canonical[i - 1] if i > 0 else None
+        write_state(book_dir, state)
+        # Re-read for the rest of run_resume.
+        state = read_state(book_dir) or state
+
     last = state.get("last_completed_phase") or ""
     current_phase = state.get("phase") or ""
     current_status = state.get("phase_status") or ""
@@ -869,7 +938,7 @@ def run_resume(args: argparse.Namespace) -> int:
         return _drive_per_chapter_and_after(book_dir)
 
     # If we halted mid-0b/0c/0d/0e (LLM-authoring failure), retry from there.
-    if current_phase in ("0b", "0c", "0d", "0e") and current_status in ("failed", "halted"):
+    if current_phase in ("0b", "0c", "0d", "0e") and current_status in ("failed", "halted", "pending"):
         # Derive title from the BOOK_DIR's _README.md or use the slug as a fallback.
         title = _read_book_title(book_dir) or slug.replace("-", " ").title()
         _info(f"resuming LLM-authoring phases from {current_phase} (status={current_status})")
@@ -954,6 +1023,28 @@ def build_parser() -> argparse.ArgumentParser:
                    help="resume an orchestrator run for the named book slug")
     p.add_argument("--status", metavar="SLUG",
                    help="render the current state for the named book slug")
+    p.add_argument("--retry-phase", metavar="PHASE_ID", default=None,
+                   help=(
+                       "(used with --resume) reset the named phase's status to 'pending' "
+                       "and re-run it. Useful after fixing a 'failed' phase. "
+                       "Example: --resume foo --retry-phase 0b"
+                   ))
+    p.add_argument("--length-tier", default="extended",
+                   choices=("default_deep_dive", "longer", "extended"),
+                   help=(
+                       "target episode length tier (initial run only; persisted in state). "
+                       "default_deep_dive=1.8-2.8k words, longer=2.8-4.5k, extended=5.5-9.5k. "
+                       "Default: extended."
+                   ))
+    p.add_argument("--unit-mode", default="auto",
+                   choices=("chapter", "section", "auto"),
+                   help=(
+                       "Phase 0d episode segmentation (initial run only; persisted in state). "
+                       "chapter=one episode per source chapter (small books); "
+                       "section=split every chapter into sections; "
+                       "auto=LLM decides per chapter based on tier band (recommended). "
+                       "Default: auto."
+                   ))
     p.add_argument("--version", action="version",
                    version=f"orchestrate_book.py v{ORCHESTRATOR_VERSION}")
     return p

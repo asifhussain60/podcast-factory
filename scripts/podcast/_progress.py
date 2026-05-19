@@ -50,7 +50,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-ORCHESTRATOR_VERSION = "1.1"  # 2026-05-18: Phase B + C wiring (per-chapter loop + trainer + merge)
+ORCHESTRATOR_VERSION = "1.2"  # 2026-05-19: chunked 0b/0c + unit_mode (chapter|section|auto) + --retry-phase
 SCHEMA_VERSION = 1
 
 # Phase identifiers in canonical order — keep in sync with orchestrate_book.py.
