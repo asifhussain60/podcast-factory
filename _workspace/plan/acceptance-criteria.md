@@ -194,10 +194,12 @@ Use `- [x]` to mark done; `- [ ]` to mark pending. Group anchors (`### Wave N �
 - [ ] **P22.impl** ✅ `scripts/podcast/orchestrate_book.py` halts at the detected gate point with phase_status=`halted-for-transcript-review` and exit code 3
 - [ ] **P22.impl** ✅ `<book>/english-transcript.md` and `<book>/operator-review.md` written at halt point (top-level, not buried under `_system/`)
 - [ ] **P22.impl** ✅ `--approve-transcript` flag resumes from halt; refuses when `operator-review.md` has comments but no `I approve` checkbox
-- [ ] **P22.impl** ✅ Downstream Phase 0c+ prompts include `<operator-review>` XML block when comments present
+- [ ] **P22.impl** ✅ Downstream phases from the halt point onwards include `<operator-review>` XML block when comments present (Phase 0b+ for English-text-layer/markdown halt-after-0a; Phase 0c+ for Arabic-scan halt-after-0b)
 - [ ] **P22.impl** ✅ `--skip-transcript-gate` flag bypasses the halt (backward compat for legacy run modes)
 - [ ] **P22.test** ✅ E2E test `test_operator_review_gate.py` asserts: halt at correct phase per source type; comments influence refined.md downstream (Levenshtein delta); operator-review.md never overwritten on resume
 - [ ] **P22.docs** ✅ `docs/podcast/operator-review-gate.md` documents operator workflow + when to use `--skip-transcript-gate`
+- [ ] **P22.preflight-invariant** 🔒 Hand-authored preflight artifacts NEVER overwritten by orchestrator on resume: if `<book>/_system/source/text/chapters-rationale.md`, `<book>/_system/concept-glossary.md`, or `<book>/_system/registry.md` exists at halt time, `--approve-transcript` must skip the auto-regeneration step for that file. Asaas case validates this. (Without this guardrail, the operator's pre-Phase-0a intelligence is silently destroyed.)
+- [ ] **P22.git-policy** ✅ `english-transcript.md` and `operator-review.md` are git-tracked (NOT under .gitignore); operator-review commits follow convention `podcast(<book-slug>): operator transcript review — <one-line summary>` for searchable audit trail
 
 ---
 
@@ -211,7 +213,8 @@ Use `- [x]` to mark done; `- [ ]` to mark pending. Group anchors (`### Wave N �
 - [ ] **P9.4** 📊 Kitab Maqbas (392p): full pipeline; chapter contracts hold; Loop N clean
 - [x] **P9.5.pre1** ✅ `content/podcast/library/books/asaas-al-taveel/_system/source/text/chapters-rationale.md` exists with the 6-chapter natiq map (Adam/Nuh/Ibrahim/Musa/Isa/Muhammad + the unwritten Qa'im) — shipped 2026-05-19
 - [x] **P9.5.pre2** ✅ `content/podcast/library/books/asaas-al-taveel/_system/concept-glossary.md` exists with ≥20 entries across cosmology, hermeneutics, neoplatonic emanation, Fatimid doctrinal terms — shipped 2026-05-19
-- [ ] **P9.5.pre3** 🔒 Operator-recommended 6-episode preset reviewed at Phase 0f gate (Mentor+Student persona; `series_pattern=recursive_scaffold`; long-form tier)
+- [x] **P9.5.pre3** ✅ `content/podcast/library/books/asaas-al-taveel/_system/registry.md` exists with `series_pattern: recursive_scaffold` declared at series level + 6-episode skeleton — shipped 2026-05-19 (closes audit Gap 5: Pattern 5 gating would otherwise silently no-op when P9.5 runs)
+- [ ] **P9.5.pre4** 🔒 Operator-recommended 6-episode preset reviewed at Phase 0f gate (Mentor+Student persona; `series_pattern=recursive_scaffold`; long-form tier)
 - [ ] **P9.5** 📊 Asaas Al-Taveel (416p): full pipeline; metrics recorded; Loop N clean
 - [ ] **P9.5** ✅ Episode 6 (The Seventh Silence) honors the unwritten Qa'im chapter as content — not silently skipped
 - [ ] **P9.5** ✅ Concept-glossary referenced by ≥1 framing per episode OR zero-new-vocab declaration logged
@@ -316,12 +319,15 @@ Use `- [x]` to mark done; `- [ ]` to mark pending. Group anchors (`### Wave N �
 - [ ] **P17.1.ext.6** ✅ `voice_mode` field (`single_author | curated_anthology | editor_voice`) consumed by `_authoring.py` Phase 11; default = `single_author` preserves existing behavior
 - [ ] **P17.1.ext.7** 📊 Folder-bundle fixture `_learning/fixtures/folder_bundle/three-articles/` runs clean through Phase 0a → Phase 11; produces episode txt with cross-doc references intact
 - [ ] **P17.1.ext.8** ✅ Single-PDF parity: existing W3 corpus books produce byte-identical `refined-english.md` + chapter txt with auto-scaffolded 1-doc manifest (golden frozen at tiny-book + Ayyuhal Walad)
+- [ ] **P17.1.ext.9** 🔒 Sequencing-enforcement: `run_wave.py 5 --phase P17` refuses dispatch until `orchestrator_status.py --book asaas-al-taveel` reports `phase_status=complete`; override requires both `--force-pre-asaas` flag AND `ASAAS_OVERRIDE=1` env var (documented in `docs/podcast/source-adapter-registry.md`). Closes the audit's single biggest sequencing risk.
 
 #### Handbook deltas (shipped 2026-05-19 alongside P17.1 promotion)
 
 - [x] **P4.9** ✅ `content/podcast/.skill/handbook/book-dir-layout.md` documents per-book `concept-glossary.md` schema + body shape (Change A)
 - [x] **P4.9** ✅ `content/podcast/.skill/handbook/episode-architecture.md` Pattern 5 — Recursive Scaffold added (Change B); registry.md `series_pattern: recursive_scaffold` documented
 - [x] **P4.9** ✅ `content/podcast/.skill/handbook/two-host-framing.md` `Voice mode override` section added (Change D prep)
+- [ ] **P4.9.fixtures** 📊 Pattern 5 fixtures landed under `_learning/fixtures/phase_prompts/07-chapter-design/recursive-scaffold/`: three sub-fixtures (`golden`, `missing-recap`, `wrong-pattern-declared`) — `golden` passes; `missing-recap` and `wrong-pattern-declared` fail loud with a Category P finding. Until these ship, Pattern 5 is documentation-only (no behavioral enforcement on Ep2+ recap).
+- [ ] **P4.9.challenger** 📊 Challenger Category P sub-check: when `concept-glossary.md` exists in a book, every framing must reference ≥1 glossary slug OR contain the literal "no new technical vocabulary in this episode". Implemented in `infra/claude-agents/podcast-challenger/_rules.py` (or wherever Category P is housed); fixture-gated; emits P1-severity finding on violation.
 
 - [ ] **P18** 🟡 Parallel per-chapter LLM calls — promote when P6 cost-tracking stable AND user opts in 
 - [ ] **P19** 🟡 Trainer self-learning — phase-prompt addenda + regression fixtures + health recursion; promote when P13 SQLite proven stable AND P2.6 refinement determinism green AND P9.8 yield report shows fixture_coverage_pct UP

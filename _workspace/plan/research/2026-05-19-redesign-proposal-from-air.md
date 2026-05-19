@@ -4,6 +4,8 @@
 
 **Integrated into the plan:** 2026-05-19 by the primary-Mac assistant as commit `efdf323` on branch `feat/podcast-w1-foundation`. Three of four proposed changes (A + B + C) landed directly as handbook + plan + preflight deltas; one (D) is scoped under P17.1's `extension_change_d` block for landing AFTER P9.5 (Asaas) ships clean. Two operator-added changes (E and F) were appended as P21 and P22 respectively.
 
+**Post-integration audit:** 2026-05-19 by claude-opus-4.7 (parallel-Mac session, second pass). Read-only audit of the integrated state. Verdict: SHIP-READY. Surfaced 5 minor drifts and 5 missing items. All gaps closed in a follow-up commit on the same branch — see `research/2026-05-19-redesign-audit-from-air.md` for the audit doc and `meta.research_artifacts` for the cross-link.
+
 **Status:** This document is the source-of-truth narrative for the architectural decisions taken on 2026-05-19. The plan YAML carries the structured deltas; this file carries the *why*.
 
 ---
