@@ -1,0 +1,48 @@
+name: podcast-e2e
+
+# Per podcast-plan.yaml P2.4: PRs touching scripts/podcast/** OR
+# content/podcast/.skill/handbook/** fail CI if the E2E test suite is red.
+#
+# All tests use stdlib unittest with mocked subprocess.run + mocked Azure
+# entry points — no live LLM call, no live Azure call, $0 cost per CI run.
+
+on:
+  pull_request:
+    branches: [develop, main]
+    paths:
+      - "scripts/podcast/**"
+      - "content/podcast/.skill/handbook/**"
+      - ".github/agents/podcast-*.agent.md"
+      - ".github/workflows/podcast-e2e.yml"
+  push:
+    branches: [develop, main]
+    paths:
+      - "scripts/podcast/**"
+      - "content/podcast/.skill/handbook/**"
+      - ".github/agents/podcast-*.agent.md"
+
+permissions:
+  contents: read
+
+jobs:
+  e2e:
+    name: podcast pipeline E2E (mocked Azure / claude -p)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.14
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Run the full unittest suite (stdlib unittest only — no pytest dep)
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -v -s scripts/podcast/tests/
+
+      - name: Boundary check (P1.1) — scripts/podcast must not write to journal/memoir
+        run: |
+          python3 scripts/podcast/_boundary_check.py

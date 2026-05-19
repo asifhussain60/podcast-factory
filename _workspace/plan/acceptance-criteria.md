@@ -39,12 +39,12 @@ Use `- [x]` to mark done; `- [ ]` to mark pending. Group anchors (`### Wave N �
 
 - [x] **P2.1** ✅ `scripts/podcast/tests/e2e/` exists with `__init__.py`, `conftest.py`, `fixtures/tiny-book/` (3-chapter, ~5k word synthetic source with ≥1 Arabic phrase + ≥1 numeric claim for Loop N)
 - [x] **P2.1** 📊 Tiny-book fixture cost <$0.50/full pass
-- [ ] **P2.2** ✅ `scripts/podcast/tests/e2e/test_full_pipeline.py` exists; `pytest scripts/podcast/tests/e2e/ -v` passes
-- [ ] **P2.2** ✅ Sunny-day asserts: state.json shows each phase completed in order; refined-english + _phonetics >100 words; every `_chunks/05-refine-english/win-*.in.md` has matching non-zero `win-*.out.md`; ≥1 chapter-contract; ≥1 chapter txt; halts at 09-series-plan gate; heartbeat updates ≤30s (post-P7); **NO `NO ARTIFACT` log line**; `numeric-disambiguation-register.md` present
-- [ ] **P2.2** ✅ Sunny-day fails when P5 bug class returns (regression toggle `--permission-mode`)
-- [ ] **P2.2** 📊 Tiny-book sunny-day total <15min, cost <$1
+- [x] **P2.2** ✅ `scripts/podcast/tests/e2e/test_full_pipeline.py` exists; `pytest scripts/podcast/tests/e2e/ -v` passes
+- [x] **P2.2** ✅ Sunny-day asserts: state.json shows each phase completed in order; refined-english + _phonetics >100 words; every `_chunks/05-refine-english/win-*.in.md` has matching non-zero `win-*.out.md`; ≥1 chapter-contract; ≥1 chapter txt; halts at 09-series-plan gate; heartbeat updates ≤30s (post-P7); **NO `NO ARTIFACT` log line**; `numeric-disambiguation-register.md` present
+- [x] **P2.2** ✅ Sunny-day fails when P5 bug class returns (regression toggle `--permission-mode`)
+- [x] **P2.2** 📊 Tiny-book sunny-day total <15min, cost <$1
 - [ ] **P2.3** ✅ `test_failure_modes.py` exists; mock `claude -p` rc=0 with no file write → typed error; resume-after-kill restores `.out.md` checkpoints; `--retry-phase` on failed 06-phonetics works
-- [ ] **P2.4** ✅ `.github/workflows/podcast-e2e.yml` exists; PRs touching `scripts/podcast/` fail CI when E2E fails; `skills-staging/podcast/SKILL.md` documents the gate
+- [x] **P2.4** ✅ `.github/workflows/podcast-e2e.yml` exists; PRs touching `scripts/podcast/` fail CI when E2E fails; `skills-staging/podcast/SKILL.md` documents the gate
 - [ ] **P2.5** ✅ `scripts/podcast/tests/e2e/test_learning_loop.py` exists; `pytest scripts/podcast/tests/e2e/test_learning_loop.py -v` exits 0
 - [ ] **P2.5** ✅ Test asserts: tiny-book run → ≥3 ledger rows appended → `learn_aggregate.py` regenerates `patterns.md` → `learn_propose.py` emits ≥1 proposal → `test_challenger.py` exits 0 → `write_health.py` writes health + appends `health-trend.md`
 - [ ] **P2.5** ✅ Idempotency: second run produces no duplicate findings (line-count stable); no new proposal emitted for an already-promoted signature

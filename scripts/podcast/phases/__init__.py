@@ -21,6 +21,7 @@ from typing import Callable
 from ._base import PhaseResult
 from . import (
     p1_1, p1_2,
+    p2_2, p2_4,
     p4_1, p4_2, p4_3, p4_4, p4_7, p4_8,
     p5_4, p6_1, p6_2,
     p11_1,
@@ -45,14 +46,15 @@ REGISTRY: dict[int, list] = {
         p4_8,    # intelligence_sources for P4 deliverables
         p6_1,    # cost-ledger writer
         p6_2,    # cost-ledger summary CLI
+        p2_2,    # sunny-day E2E test (mocked author_phase_0b-0e)
+        p2_4,    # podcast-e2e CI workflow
 
-        # ── Halt-with-DoR (the autonomous loop CAN'T safely auto-execute these;
-        # each runner surfaces blockers/assumptions/ambiguities + operator-action
-        # on every tick until the deliverable lands; then auto-marks) ───────
-        dor_halts.p2_1,   # tiny-book fixture (operator authors content)
-        dor_halts.p2_2,   # sunny-day E2E (needs Azure mocks)
-        dor_halts.p2_3,   # rainy-day E2E
-        dor_halts.p2_4,   # CI workflow podcast-e2e.yml
+        # ── Halt-with-DoR (queued for autonomous authoring by Claude in a future
+        # session; runner halts the launchd loop until then with a precise DoR
+        # breakdown of what Claude will write). Only P5.3 is a true operator gate
+        # (needs Azure spend approval). ────────────────────────────────────
+        dor_halts.p2_1,   # tiny-book fixture (SHIPPED — runner re-detects on next tick)
+        dor_halts.p2_3,   # rainy-day E2E (Claude-authorable in next session)
         dor_halts.p2_5,   # learning-loop E2E + CI gate
         dor_halts.p2_6,   # refinement determinism (one-time live golden author)
         dor_halts.p4_4b,  # Loop N regression fixture (waits on P4.5)
