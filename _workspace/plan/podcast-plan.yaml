@@ -20,6 +20,32 @@
 #      the disambiguation handbook, and the orchestrator's Phase-0d numeric-scan
 #      step. Worked example: Master & Disciple Ch-02.
 #
+# v3.2.1 (2026-05-19, later still) — two-kernel acceptance from the cowork-brief review:
+#   1. SKILL.md INTELLIGENCE-MODULE LAYER documented. The
+#      content/podcast/.skill/handbook/ directory was already the swap point but
+#      the swap rule was implicit. v3.2.1 makes it explicit in SKILL.md §10:
+#      adding a new framing strategy / NotebookLM trick / phase-prompt addendum
+#      requires editing exactly ONE folder — no SKILL.md, agent-file, or
+#      journal-side edits. The deprecation channel (DEPRECATED header) and the
+#      check-fixture pairing rule (P-9) are now first-class doc.
+#   2. P17.1 SOURCE-ADAPTER REGISTRY added (W6, trigger-gated). Adapter pattern
+#      for new input formats (Urdu PDFs, scanned images, video transcripts).
+#      Lives at scripts/podcast/adapters/ as a Python package. Uniform
+#      SourceAdapter Protocol (can_handle / extract / normalize / emit). Azure
+#      creds stay in the shared _azure.py helper — adapters don't know about
+#      Keychain plumbing. Rejected alternative: monolithic --source-type flag
+#      in _azure.py — would inflate the file by 100-300 LOC per format and
+#      entangle unrelated deps (Whisper for video ≠ Azure for PDF).
+#   Rejected from the same brief (with rationale in the review response):
+#     • New _workspace/plan/podcast-plan-review.md duplicate doc.
+#     • `manifest.yaml` versioning of intelligence — conflicts with the
+#       _learning/ substrate's promotion/archive log; two truth sources.
+#     • `pipeline/adapters/*.js` + `server/src/pipeline/` — wrong language
+#       (this pipeline is Python) and wrong location (server/ is the journal
+#       site's Node proxy, unrelated to podcast).
+#     • `skills-staging/podcast/pipeline/` — skills-staging is the intelligence
+#       layer per framework.md; runtime adapters belong in scripts/podcast/.
+#
 # v3.2 (2026-05-19, later) — DoR-for-execution rebalancing. Eleven changes from v3.1:
 #   1.  W5 ABSORBED into W1/W2. P15 split into P5.4 (constants module, W1) +
 #       P8.6 (bulk find/replace + HTML doc rewrite, W2). P16 collapsed into P8.8
@@ -89,7 +115,7 @@
 # =============================================================================
 
 meta:
-  version: "3.2"
+  version: "3.2.1"
   created: 2026-05-19
   refined: 2026-05-19
   gap_closed: 2026-05-19
@@ -97,6 +123,7 @@ meta:
   restructured: 2026-05-19          # v3 restructure: waves + sequential ids + SDK cancel + P4 numeric
   learning_loop_owned: 2026-05-19   # v3.1: plan now owns _learning/ substrate production-readiness
   rebalanced: 2026-05-19            # v3.2: W5 absorbed into W1/W2; P5.1 shipped; D3 view upgrade owned; P19 self-learning expanded
+  modularized: 2026-05-19           # v3.2.1: SKILL.md intelligence-module layer documented; P17.1 source-adapter registry added
   owner: asif
 
   primary_execution_mechanism: claude-code-cli
@@ -280,7 +307,7 @@ waves:
 
   - id: W6
     name: "Deferred + Self-Learning"
-    phases: [P17, P18, P19, P20]
+    phases: [P17, P17.1, P18, P19, P20]                # v3.2.1: P17.1 source-adapter registry added as sibling to P17
     schedule_intent: "NOT time-scheduled — each phase has its own `promote_when` trigger"
     parallelism: "N/A — promoted individually as triggers fire. P19.1/P19.2/P19.3 sequential (substrate → fixtures → recursion verification)."
     blast_radius: "Per-phase; see individual phases. P19 self-learning addenda are gated by P19.2 regression fixtures + R9 cap (≤5 addenda per phase, FIFO eviction)."
@@ -2106,6 +2133,116 @@ phases:
     promote_when: "A book exceeds 500 MB OR 2000 pages OR Doc Intelligence 600s poll budget"
     spec: "Optional state.config.sub_pdfs list; pypdf dependency; 0a-pre phase"
 
+  - id: P17.1
+    wave: W6
+    legacy_id: null                                    # v3.2.1 NEW — no v2 ancestor
+    name: "Source-adapter registry (pluggable input formats)"
+    promote_when: |
+      First non-Arabic-PDF source arrives (Urdu PDF, scanned image, video
+      transcript, audio file as primary source rather than secondary), OR
+      user explicitly opts in to formalize the adapter pattern.
+    why: |
+      Today Phase 04-ocr-translate hardcodes the Arabic-PDF flow via
+      scripts/podcast/_azure.py. New input formats require either inflating
+      _azure.py with if/elif branches (entangles unrelated deps — Whisper for
+      video, Tesseract for scans, Azure for PDF) or rewriting the orchestrator.
+      v3.2.1 lands a registry pattern: each input type is one adapter file
+      under scripts/podcast/adapters/, each implementing the same Protocol.
+      Orchestrator dispatches via the registry; _azure.py remains the shared
+      credentials/client helper (adapters don't know about Keychain plumbing).
+    promote_when_rationale: |
+      Per CORE-048 challenge-gate: the alternative considered was monolithic
+      `--source-type` flag in _azure.py with if/elif dispatch. Rejected because
+      each new format (Urdu / video / scanned image) inflates _azure.py by
+      100-300 LOC and entangles deps. Adapter pattern keeps each format's
+      dependencies and tests isolated; one folder per addition.
+    files:
+      - scripts/podcast/adapters/__init__.py                 # NEW — REGISTRY dict + SourceAdapter Protocol
+      - scripts/podcast/adapters/_base.py                    # NEW — SourceAdapter Protocol + RawText dataclass
+      - scripts/podcast/adapters/arabic_pdf.py               # NEW — migrates current _azure.py PDF flow
+      - scripts/podcast/adapters/_azure_client.py            # NEW (or REFACTOR _azure.py) — single shared Azure helper
+      - scripts/podcast/orchestrate_book.py                  # call adapters.dispatch(source_path) in Phase 04
+      - scripts/podcast/tests/adapters/__init__.py           # NEW
+      - scripts/podcast/tests/adapters/test_registry.py      # NEW — registry dispatch + Protocol conformance
+      - scripts/podcast/tests/adapters/test_arabic_pdf.py    # NEW — golden-fixture parity vs pre-migration output
+      - docs/podcast/source-adapter-registry.md              # NEW — extension guide for future contributors
+    spec: |
+      Protocol (scripts/podcast/adapters/_base.py):
+        ```python
+        from pathlib import Path
+        from typing import Protocol, runtime_checkable
+        from dataclasses import dataclass
+
+        @dataclass
+        class RawText:
+            text: str
+            source_lang: str           # ISO 639-1 (ar, ur, fa, en, ...)
+            confidence: float          # 0.0-1.0; per-page OCR confidence floor
+            page_count: int | None
+            adapter_id: str
+            extraction_notes: list[str]
+
+        @runtime_checkable
+        class SourceAdapter(Protocol):
+            adapter_id: str
+            handles_extensions: tuple[str, ...]   # (".pdf",) etc.
+            handles_mime_types: tuple[str, ...]
+
+            @classmethod
+            def can_handle(cls, source_path: Path) -> bool: ...
+            def extract(self, source_path: Path, book_dir: Path) -> RawText: ...
+            def normalize(self, raw: RawText) -> str: ...                  # → refined-input.md
+            def emit(self, normalized: str, book_dir: Path) -> Path: ...   # writes raw-extract.md
+        ```
+      Registry (scripts/podcast/adapters/__init__.py):
+        ```python
+        from .arabic_pdf import ArabicPdfAdapter
+        # future: from .urdu_pdf import UrduPdfAdapter
+        # future: from .video_transcript import VideoTranscriptAdapter
+
+        REGISTRY: dict[str, type[SourceAdapter]] = {
+            "arabic-pdf": ArabicPdfAdapter,
+            # ...
+        }
+
+        def dispatch(source_path: Path) -> SourceAdapter:
+            for adapter_cls in REGISTRY.values():
+                if adapter_cls.can_handle(source_path):
+                    return adapter_cls()
+            raise UnsupportedSourceError(source_path)
+        ```
+      Azure creds (scripts/podcast/adapters/_azure_client.py):
+        Single helper class exposing `.translate(text, target='en')`,
+        `.ocr(pdf_path) -> Iterator[Page]`, `.transcribe(audio_path) -> str`.
+        Adapters import this; they NEVER read Azure keys directly. Keychain
+        plumbing stays here. Path migration: rename existing _azure.py → adapters/_azure_client.py
+        in P17.1 commit; update imports across orchestrate_book.py and any
+        consumer.
+
+      Migration acceptance (DoR for first promotion):
+        1. Existing Arabic-PDF flow migrates from _azure.py to ArabicPdfAdapter.
+        2. Golden-fixture parity: tiny-book Phase 04-ocr-translate output is
+           byte-identical pre- vs. post-migration (regression-protective).
+        3. orchestrate_book.py Phase 04 calls adapters.dispatch() instead of
+           direct _azure.py functions.
+        4. docs/podcast/source-adapter-registry.md documents the extension
+           contract — adding a new adapter is one new file under adapters/
+           plus one line in REGISTRY plus its own test fixture.
+
+    depends_on: [P17, P5.4, P8.6]    # P17 PDF pre-split is sibling; P5.4+P8.6 phase rename should land first so Phase 04 has a stable canonical name
+    acceptance:
+      - "scripts/podcast/adapters/ Python package exists; _base.py defines SourceAdapter Protocol + RawText dataclass"
+      - "scripts/podcast/adapters/__init__.py exports REGISTRY dict + dispatch(source_path) function; dispatch raises UnsupportedSourceError on unknown type"
+      - "scripts/podcast/adapters/arabic_pdf.py implements SourceAdapter for .pdf files with source_lang='ar'; passes isinstance(..., SourceAdapter) check at runtime"
+      - "scripts/podcast/adapters/_azure_client.py is the SOLE site that reads Azure credentials from Keychain; adapters import this module only — `grep -rE 'KEYCHAIN|az_key|api_key' scripts/podcast/adapters/` outside _azure_client.py returns 0 results"
+      - "orchestrate_book.py Phase 04 calls `adapters.dispatch(source_path).extract(...).normalize().emit(book_dir)` — no direct _azure.py imports"
+      - "scripts/podcast/tests/adapters/test_registry.py asserts: (a) every adapter in REGISTRY satisfies SourceAdapter Protocol, (b) dispatch resolves correctly for known extensions, (c) UnsupportedSourceError raised cleanly for unknown"
+      - "scripts/podcast/tests/adapters/test_arabic_pdf.py asserts golden-fixture parity: tiny-book pre-migration raw-extract.md == post-migration raw-extract.md (byte-identical OR within Levenshtein ≥0.95 if non-determinism in Azure OCR is unavoidable — document which in the test)"
+      - "docs/podcast/source-adapter-registry.md exists; extension guide includes a worked example for adding a new adapter (one new file + one REGISTRY line + one test)"
+      - "Adding a hypothetical urdu_pdf.py touches exactly: adapters/urdu_pdf.py (new file), adapters/__init__.py (one REGISTRY line), tests/adapters/test_urdu_pdf.py (new file). Zero edits to orchestrate_book.py, _authoring.py, _chunking.py, SKILL.md, or any agent file (verified by manually walking through the worked example in PR description)"
+      - "Boundary check (P1.1): adapters/ folder participates in scripts/podcast/ isolation — no imports from scripts/site/ or scripts/memoir/"
+      - "Cost-ledger integration: each adapter call appends a cost-ledger.jsonl row via the shared _cost_ledger.py module (P6.1); Azure spend by adapter is itemized"
+
   - id: P18
     wave: W6
     legacy_id: "v2 P7.2"
@@ -2478,3 +2615,5 @@ done_when:
   - "P-9 invariant verified end-to-end: a book that ships under v3.2 demonstrably caused the system to either (a) promote a new rule, (b) archive a proposal with reason, or (c) add a fixture, or (d) write/revert a phase-prompt addendum — never NEVER_RAN without rationale"
   - "Anthropic Python SDK appears in scripts/podcast/ ONLY in narrow side-channel use (cost ledger helper, status helper) — NEVER as the workhorse LLM execution path"
   - "v3.2 W6 P19 self-learning: trainer can write phase-prompt addenda (P19.1) gated by phase_prompts fixtures (P19.2); addenda are health-score-recursed and auto-reverted on regression (P19.3); R9 cap (≤5 per phase) enforced"
+  - "v3.2.1 SKILL.md §10 documents the intelligence-module swap point: handbook/ files are the swappable layer; deprecation channel + check-fixture pairing rule + phase-prompt addenda channel all explicit"
+  - "v3.2.1 W6 P17.1 source-adapter registry promoted on first non-Arabic-PDF source: scripts/podcast/adapters/ Python package; SourceAdapter Protocol; ArabicPdfAdapter migration with golden-fixture parity; orchestrator dispatches via REGISTRY; Azure creds isolated to _azure_client.py"

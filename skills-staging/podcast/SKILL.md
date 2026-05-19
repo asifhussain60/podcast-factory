@@ -914,6 +914,17 @@ SECTION 10: REFERENCE FILE INDEX
  - `04-common-term-substitutions.md` — substitution policy (nafs, shaytan, ruh, etc.)
  - `05-name-alias-policy.md` — long-name → short-alias policy; chapter + framing both apply it (per-book worked instance: `handbook/worked-examples.md` §3)
 
+### Intelligence-module layer (the swap point — no SKILL.md edit required)
+
+The files in `PODCAST_ROOT/.skill/handbook/` (enumerated below) ARE the swappable intelligence layer for this skill. Adding or improving a podcast capability follows this contract:
+
+- **To add a new framing strategy / steering technique / NotebookLM trick**: drop a new `.md` file under `content/podcast/.skill/handbook/`. Reference it from the relevant pre-read list in this section AND from the consuming phase's prompt (see `scripts/podcast/_authoring.py`). No edits to this `SKILL.md`, no edits to journal files, no edits to any agent file are required.
+- **To deprecate / supersede**: leave the old file in place (per **R-NOREMOVE**); mark it `## DEPRECATED — superseded by <new-file>` at the top. The `_learning/promoted/` substrate tracks the rule-level transitions; this is the **file-level** deprecation channel.
+- **To add a new check** the challenger should enforce: extend `notebooklm-source-chapter-rules.md` OR `notebooklm-customize-prompt-rules.md` (the two NORMATIVE files); ship one regression fixture under `content/podcast/.skill/_learning/fixtures/<check-id>/` in the same commit (P-9 invariant). No agent file edits required.
+- **For phase-prompt evolution** (refinement / phonetics / chapter-design / enrichment / per-chapter): land an addendum file under `content/podcast/.skill/handbook/_learned-addenda/<phase-id>.md` once `_workspace/plan/podcast-plan.yaml` P19.1 ships. Gated by P19.2 regression fixtures + R9 cap (≤5 addenda per phase, FIFO eviction). Trainer is the writer; humans review at the quarterly cadence.
+
+This pattern makes podcast intelligence improvements **isolated to one folder**. Skill code, agent specs, and the journal skill are never touched as a side effect of an intelligence change.
+
 ### In `PODCAST_ROOT/.skill/handbook/` (book-agnostic, owned by the podcast skill):
  - `registry.md` — episode index (number, title, slug, book-slug, status, NotebookLM URL)
  - `notebooklm-source-chapter-rules.md` — **NORMATIVE** chapter-as-source contract (R-NOHTML, R-PHONETIC, R-NAMES, R-OPENFRAME, R-ENRICH60, etc.); single source of truth read by both producer and challenger

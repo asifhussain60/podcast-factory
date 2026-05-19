@@ -1,6 +1,6 @@
 # Acceptance Criteria — Master Checklist
 
-**Companion to:** [`podcast-plan.yaml`](./podcast-plan.yaml) **v3.2** (2026-05-19 — v3.2 DoR rebalancing: P5.1 SHIPPED; W5 absorbed into W1/W2 via P5.4+P8.6+P8.7+P8.8; P2.6 refinement determinism; P10.1 cost-eta; P11 demoted; P12.3 mutation pytest harness; P19 expanded to self-learning P19.1/P19.2/P19.3 + R9 cap; P1.4 exit-code 4 for P-9 violation. Prior: v3.1 learning-loop production-readiness; v3 6-wave restructure; SDK migration cancelled; P4 numeric/symbolic disambiguation)
+**Companion to:** [`podcast-plan.yaml`](./podcast-plan.yaml) **v3.2.1** (2026-05-19 — v3.2.1 modularization: SKILL.md §10 documents intelligence-module swap point; P17.1 source-adapter registry added for pluggable input formats. Prior: v3.2 DoR rebalancing — P5.1 SHIPPED, W5 absorbed via P5.4+P8.6+P8.7+P8.8, P2.6 refinement determinism, P10.1 cost-eta, P11 demoted, P12.3 mutation pytest harness, P19 self-learning P19.1/P19.2/P19.3 + R9 cap, P1.4 exit-code 4. v3.1 learning-loop production-readiness; v3 6-wave restructure; SDK migration cancelled; P4 numeric/symbolic disambiguation)
 **Companion to:** [`view/index.html`](./view/index.html), [`research/findings.md`](./research/findings.md), [`numeric-symbolic-disambiguation-plan.md`](./numeric-symbolic-disambiguation-plan.md) (P4 design doc)
 **Audited by:** `/repo-surgeon --plan-only` Pass 5 L10 (acceptance ↔ YAML sync)
 **Read by:** journal-challenger Category B, podcast-challenger Category S + Loop N (all consult this file)
@@ -288,6 +288,21 @@ W5 row remains in the YAML waves[] only so `run_wave.py 5` has a no-op handler.
 ## Wave 6 — Deferred (trigger-gated, no acceptance until promoted)
 
 - [ ] **P17** 🟡 PDF pre-splitting — promote when book exceeds 500MB OR 2000 pages OR DI 600s poll budget  *(was v2 P7.1)*
+
+#### P17.1 — Source-adapter registry (pluggable input formats)  *(v3.2.1 NEW)*
+
+- [ ] **P17.1** 🟡 **(v3.2.1)** Promote when first non-Arabic-PDF source arrives (Urdu PDF, scanned image, video transcript) OR user explicitly opts in
+- [ ] **P17.1** ✅ **(v3.2.1)** `scripts/podcast/adapters/` Python package exists; `_base.py` defines `SourceAdapter` Protocol + `RawText` dataclass
+- [ ] **P17.1** ✅ **(v3.2.1)** `adapters/__init__.py` exports `REGISTRY` dict + `dispatch(source_path)` function; raises `UnsupportedSourceError` on unknown type
+- [ ] **P17.1** ✅ **(v3.2.1)** `adapters/arabic_pdf.py` implements `SourceAdapter` for `.pdf` files with `source_lang='ar'`; passes `isinstance(..., SourceAdapter)` runtime check
+- [ ] **P17.1** ✅ **(v3.2.1)** `adapters/_azure_client.py` is the SOLE site reading Azure credentials from Keychain; `grep -rE 'KEYCHAIN|az_key|api_key' scripts/podcast/adapters/` outside `_azure_client.py` returns 0 results
+- [ ] **P17.1** ✅ **(v3.2.1)** `orchestrate_book.py` Phase 04 calls `adapters.dispatch(source_path).extract(...).normalize().emit(book_dir)` — no direct `_azure.py` imports
+- [ ] **P17.1** ✅ **(v3.2.1)** `tests/adapters/test_registry.py` asserts Protocol conformance + dispatch resolution + UnsupportedSourceError handling
+- [ ] **P17.1** ✅ **(v3.2.1)** `tests/adapters/test_arabic_pdf.py` asserts golden-fixture parity: tiny-book pre- vs. post-migration `raw-extract.md` (byte-identical OR Levenshtein ≥0.95 if Azure OCR non-determinism, documented)
+- [ ] **P17.1** ✅ **(v3.2.1)** `docs/podcast/source-adapter-registry.md` exists; extension guide with worked example
+- [ ] **P17.1** 🔒 **(v3.2.1)** Walk-through test: adding hypothetical `urdu_pdf.py` touches exactly 3 files (adapters/urdu_pdf.py + adapters/__init__.py one-line + tests/adapters/test_urdu_pdf.py); ZERO edits to orchestrate_book.py, _authoring.py, _chunking.py, SKILL.md, or any agent file
+- [ ] **P17.1** ✅ **(v3.2.1)** Boundary check (P1.1): `adapters/` participates in podcast isolation — no imports from `scripts/site/` or `scripts/memoir/`
+- [ ] **P17.1** ✅ **(v3.2.1)** Cost-ledger integration: each adapter call appends a `cost-ledger.jsonl` row via shared `_cost_ledger.py`; Azure spend itemized by adapter
 - [ ] **P18** 🟡 Parallel per-chapter LLM calls — promote when P6 cost-tracking stable AND user opts in  *(was v2 P7.2)*
 - [ ] **P19** 🟡 **(v3.2 EXPANDED)** Trainer self-learning — phase-prompt addenda + regression fixtures + health recursion; promote when P13 SQLite proven stable AND P2.6 refinement determinism green AND P9.8 yield report shows fixture_coverage_pct UP
 
@@ -424,9 +439,9 @@ The following v2 phases are **CANCELLED** by the v3 directive "Claude Code is th
 
 ## Inventory
 
-- Total checkboxes: ~230 (Pass 5 L10 counts actual rows; v3.2 net delta vs v3.1 ≈ +45: +5 P2.6 +4 P5.4 +1 P1.4-ec4 +10 P8.6 +12 P8.7 +9 P8.8 +3 P10.1-cost +3 P11-demote +8 P12.3 +5 P19.1 +5 P19.2 +4 P19.3 −9 P15 −8 P16 +3 W5.obs; v3.2 P5.1 SHIPPED checkbox banks +1 checked row)
+- Total checkboxes: ~243 (Pass 5 L10 counts actual rows; v3.2.1 +13 P17.1 rows; v3.2 net delta vs v3.1 ≈ +45)
 - Currently checked: 12 (P3.1, P3.2, P5.1 SHIPPED, W5.obs ×3, OP-1..OP-6)
-- Currently pending: ~218
+- Currently pending: ~231
 - Verification mix: ✅ auto-verifiable (majority) · 🟡 dep-blocked · 🔒 manual gate · 📊 metric-bound
 
 ## Wave summary (autonomous scheduling targets)
