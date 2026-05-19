@@ -1,6 +1,6 @@
 # Acceptance Criteria — Master Checklist
 
-**Companion to:** [`podcast-plan.yaml`](./podcast-plan.yaml) **v3** (2026-05-19 — sequential renumbering, 6-wave grouping, SDK migration cancelled, Numeric/Symbolic Disambiguation folded in as P4)
+**Companion to:** [`podcast-plan.yaml`](./podcast-plan.yaml) **v3.1** (2026-05-19 — sequential renumbering, 6-wave grouping, SDK migration cancelled, Numeric/Symbolic Disambiguation folded in as P4, **learning-loop production-readiness pass** adds P1.4 / P2.5 / P4.4b / P6.4 / P7.5 / P8.5 / P9.8 / P15.4 + principle P-9 + risk R7/R8)
 **Companion to:** [`view/index.html`](./view/index.html), [`research/findings.md`](./research/findings.md), [`numeric-symbolic-disambiguation-plan.md`](./numeric-symbolic-disambiguation-plan.md) (P4 design doc)
 **Audited by:** `/repo-surgeon --plan-only` Pass 5 L10 (acceptance ↔ YAML sync)
 **Read by:** journal-challenger Category B, podcast-challenger Category S + Loop N (all consult this file)
@@ -30,6 +30,11 @@ This file is the SHIP / DONE oracle. Every row maps to one verifiable acceptance
 - [ ] **P1.2** ✅ `docs/podcast/manual-library-handoff.md` exists; documents promotion workflow
 - [ ] **P1.2** ✅ `scripts/podcast/_proposal_writer.py` exists; emits schema-valid `proposed-library-entries.md` with frontmatter `schema_version`, `book_slug`, `episode_id`, `generated_by`, `generated_at`
 - [ ] **P1.3** 🟡 CI wiring deferred to P16; P1.1 invocation present in `.github/workflows/podcast-isolation.yml`
+- [ ] **P1.4** ✅ `scripts/podcast/run_wave.py` exists; subcommands 1–6; idempotent (second invocation does zero work when wave already done)
+- [ ] **P1.4** ✅ `run_wave.py --check N` computes wave N done_signal from `acceptance-criteria.md` without executing
+- [ ] **P1.4** ✅ W3 invocation refuses if `cost-ledger.jsonl` shows >$50 in current book (hard cap from P6.3)
+- [ ] **P1.4** ✅ W5 invocation refuses without `--confirm-zero-inflight` AND a passing prereq_gate
+- [ ] **P1.4** ✅ Exit codes: 0=already done, 2=executed+DONE, 3=halted at human-review gate, 1=error
 
 ### P2 — E2E test harness  *(was P0b)*
 
@@ -41,6 +46,11 @@ This file is the SHIP / DONE oracle. Every row maps to one verifiable acceptance
 - [ ] **P2.2** 📊 Tiny-book sunny-day total <15min, cost <$1
 - [ ] **P2.3** ✅ `test_failure_modes.py` exists; mock `claude -p` rc=0 with no file write → typed error; resume-after-kill restores `.out.md` checkpoints; `--retry-phase` on failed 0c works
 - [ ] **P2.4** ✅ `.github/workflows/podcast-e2e.yml` exists; PRs touching `scripts/podcast/` fail CI when E2E fails; `skills-staging/podcast/SKILL.md` documents the gate
+- [ ] **P2.5** ✅ `scripts/podcast/tests/e2e/test_learning_loop.py` exists; `pytest scripts/podcast/tests/e2e/test_learning_loop.py -v` exits 0
+- [ ] **P2.5** ✅ Test asserts: tiny-book run → ≥3 ledger rows appended → `learn_aggregate.py` regenerates `patterns.md` → `learn_propose.py` emits ≥1 proposal → `test_challenger.py` exits 0 → `write_health.py` writes health + appends `health-trend.md`
+- [ ] **P2.5** ✅ Idempotency: second run produces no duplicate findings (line-count stable); no new proposal emitted for an already-promoted signature
+- [ ] **P2.5** ✅ `.github/workflows/podcast-learning-loop.yml` runs `test_challenger.py` on every PR touching `scripts/podcast/`, `.github/agents/podcast-challenger.agent.md`, or `content/podcast/.skill/handbook/`; red harness BLOCKS merge to develop
+- [ ] **P2.5** 🔒 P-9 invariant: `test_challenger.py` exits 0 on `develop` at all times (manual gate at every wave kickoff)
 
 ### P3 — Doc regressions from 2026-05-19 legacy cleanup  *(was P0c — partially done)*
 
@@ -55,6 +65,9 @@ This file is the SHIP / DONE oracle. Every row maps to one verifiable acceptance
 - [ ] **P4.2** ✅ Handbook references `06-abjad-numerals.md` as abjad authority + `numeric-symbolic-disambiguation-plan.md` as worked-example source
 - [ ] **P4.3** ✅ `skills-staging/podcast/SKILL.md` pre-read list includes reference #21 (handbook) + SHARED_ARABIC entry now lists 7 files (00–06)
 - [ ] **P4.4** ✅ `content/podcast/.skill/handbook/pre-refined-source-mode.md` has new "Numeric Disambiguation" scaffolding step + new failure-mode entry #6 (invented enumeration = P0 BLOCKED)
+- [ ] **P4.4b** ✅ `content/podcast/.skill/_learning/fixtures/loop_n_numeric_invented/{input.txt,expected.json}` exist (P-9 invariant: every new check ships a fixture)
+- [ ] **P4.4b** ✅ `test_challenger.py` covers Loop N detector and exits 0 with 8/8 fixtures (7 prior + 1 Loop N)
+- [ ] **P4.4b** ✅ If Loop N check IDs evolve in P4.5, `expected.json` updates in the same commit
 - [ ] **P4.5** ✅ podcast-challenger spec contains Loop N section: 5 checks (enumeration coverage, one-time enumeration, abjad cipher coverage, anachronism labeling, no invented content) + severity ladder (P0/P1/P2)
 - [ ] **P4.5** ✅ Loop N spec mirrored in `.claude/agents/podcast-challenger.md` (byte-identical post-suffix-strip)
 - [ ] **P4.5** ✅ Loop N's `reads_guidance` lists `06-abjad-numerals.md` + `numeric-symbolic-disambiguation.md` handbook
@@ -78,6 +91,11 @@ This file is the SHIP / DONE oracle. Every row maps to one verifiable acceptance
 - [ ] **P6.2** ✅ `scripts/podcast/cost_ledger_summary.py` exits 0; prints structured totals; regenerates `cost-validation.json` (diffable in PR review)
 - [ ] **P6.2** 🔒 Manual cross-check vs Anthropic console for first W3 book: ledger within ±1%
 - [ ] **P6.3** ✅ Soft warning at $20 (heartbeat); hard halt before Phase 0d at $50; `--cost-cap-soft` / `--cost-cap-hard` CLI flags AND `state.config.cost_cap_*` keys override
+- [ ] **P6.4** ✅ `invoke_trainer()` prompt extended with Protocol §3.5 (read cost-ledger.jsonl, propose remediation if budget exceeded by >20%)
+- [ ] **P6.4** ✅ `.github/agents/podcast-trainer.agent.md` Protocol §3 references cost-ledger cross-cut
+- [ ] **P6.4** ✅ Trainer end-of-run audit line includes `cost-context: $X.XX`
+- [ ] **P6.4** ✅ Q3 row in YAML reopened; closes only when P6.4 lands on develop
+- [ ] **P6.4** ✅ Cost-budget overrun (>20% over tier budget) surfaces a P1-class commentary tombstone in `_learning/{promoted,archive}/`
 
 ---
 
@@ -94,6 +112,9 @@ This file is the SHIP / DONE oracle. Every row maps to one verifiable acceptance
 - [ ] **P7.3** ✅ Boxed banner preserves row/column structure of `meta.async_safety.wait_banner_format`; structural-match unit test passes
 - [ ] **P7.3** ✅ `--ascii` flag emits ASCII-fallback banner
 - [ ] **P7.4** ✅ `<book>/_system/events.jsonl` tails cleanly with `tail -F`; schema `{ts, phase, step, total, label, level, msg}` documented
+- [ ] **P7.5** ✅ heartbeat.json includes 6 new learning fields: `learning_findings_appended_this_run`, `learning_proposals_open`, `learning_promoted_total`, `learning_fixture_count`, `last_trainer_outcome`, `challenger_version`
+- [ ] **P7.5** ✅ Fields update within 30s of any substrate change (new file appears in `promoted/` or `fixtures/`)
+- [ ] **P7.5** ✅ Zero impact on `claude -p` timing (tiny-book wall-clock comparison)
 
 ### P8 — Read-only Status API + browser dashboard  *(was v2 P2)*
 
@@ -111,6 +132,12 @@ This file is the SHIP / DONE oracle. Every row maps to one verifiable acceptance
 - [ ] **P8.4** ✅ `infra/launchd/com.journal.podcast-service.plist` passes `plutil -lint`
 - [ ] **P8.4** ✅ `docs/podcast/service-startup.md` documents install/verify/behavior-when-down/manual-start
 - [ ] **P8.4** ✅ Dashboard shows "service not running — see docs" card on connection failure
+- [ ] **P8.5** ✅ `GET /learning` returns repo-wide summary (findings_total, distinct_signatures, proposals_open, promoted_total, archived_total, fixtures_count, challenger_version, last_trainer_run_ts, fixture_coverage_pct)
+- [ ] **P8.5** ✅ `GET /books/{slug}/learning` returns per-book substrate state (health_score, health_history, findings by severity, last_trainer_outcome, promoted_during_this_book)
+- [ ] **P8.5** ✅ `GET /books/{slug}/health-trend` returns the tail of `health-trend.md`
+- [ ] **P8.5** ✅ Dashboard "Learning" tab renders: fixture-coverage % + ↑/↓ vs last week; per-book health row; promotions feed (latest 10 from `_learning/promoted/`)
+- [ ] **P8.5** ✅ Red-harness banner appears when `test_challenger.py` exit != 0 (verified by injecting a failing fixture in CI)
+- [ ] **P8.5** ✅ 14-day flat-line on `promoted_total` AND zero `archived/` activity → "system isn't learning" warning band
 
 ---
 
@@ -125,6 +152,24 @@ This file is the SHIP / DONE oracle. Every row maps to one verifiable acceptance
 - [ ] **P9.5** 📊 Asaas Al-Taveel (416p): full pipeline; metrics recorded; Loop N clean
 - [ ] **P9.6** 📊 Raahat al-Aqal (591p): full pipeline OR Doc Intelligence 600s poll budget remediation issue filed
 - [ ] **P9.7** 📊 Rasail Ikhwan AsSafa (865p): full pipeline OR failure-mode + remediation issue filed; P4 register exercised on classical-philosophical numeric structures
+
+### P9 — Per-book ship gate (P-9 invariant; applies to EVERY P9.* row above)
+
+- [ ] **P9.gate** ✅ For each shipped book: cost-ledger row appended for every claude -p call
+- [ ] **P9.gate** ✅ For each shipped book: ≥1 finding row in `findings.jsonl` OR documented zero-findings rationale in `challenger-report.md`
+- [ ] **P9.gate** ✅ For each shipped book: `health/<slug>.json` written; `health-trend.md` row appended
+- [ ] **P9.gate** ✅ For each shipped book: trainer ran; outcome ∈ {PROMOTED, ARCHIVED} (never NEVER_RAN unless explicitly documented)
+- [ ] **P9.gate** ✅ For each shipped book: `test_challenger.py` exits 0 AFTER any trainer commit
+- [ ] **P9.gate** ✅ If trainer promoted a rule on this book: `CHALLENGER_VERSION` bumped by 0.1 in `_rules.py` in the same commit
+
+### P9.8 — Cross-book learning yield report  *(W3 terminal artifact; P-9 measurable improvement)*
+
+- [ ] **P9.8** ✅ `_workspace/plan/research/learning-yield-report.md` exists; cites every P9.* book that completed (or documents why one didn't)
+- [ ] **P9.8** ✅ Per-book columns: health-score trajectory, findings count by severity, fixture additions, promotions, archived proposals
+- [ ] **P9.8** 📊 `fixture_coverage_pct` at W3 end > `fixture_coverage_pct` at W3 start (P-9 invariant)
+- [ ] **P9.8** 📊 `promoted/` cardinality at W3 end ≥ start + 1 OR documented rationale (e.g., "regression harness protecting against premature promotion")
+- [ ] **P9.8** ✅ `CHALLENGER_VERSION` trajectory recorded; any cost-budget breaches from P6.4 surfaced
+- [ ] **P9.8** ✅ Report linked from `done_when` block + this Wave 3 group
 
 ### P10 — ETA model  *(was v2 P4.8)*
 
@@ -169,6 +214,10 @@ This file is the SHIP / DONE oracle. Every row maps to one verifiable acceptance
 - [ ] **P15** ✅ `--retry-phase 0b` AND `--retry-phase 05-refine-english` resolve to the same phase (back-compat alias for one release)
 - [ ] **P15** ✅ Docs updated atomically: `docs/architecture/podcast-pipeline.html`, `podcast-orchestrator.html`, `podcast-quality-system.html`, `podcast-overview.html`, `docs/architecture/index.html`
 - [ ] **P15** ✅ `grep -rE '\b0[a-g]\b' scripts/podcast/` returns 0 literal phase-ID strings (post-migration)
+- [ ] **P15.4** ✅ `grep -n '"trainer"' scripts/podcast/` returns 0 raw matches outside the legacy-translation table
+- [ ] **P15.4** ✅ `scripts/podcast/tests/e2e/test_phase_rename.py` asserts state.json shows `phase: "12-trainer"` after the trainer step on a `schema_version=2` fixture
+- [ ] **P15.4** ✅ `schema_version=1` fixture migrates; `--retry-phase trainer` resolves to `12-trainer`
+- [ ] **P15.4** ✅ `.github/agents/podcast-trainer.agent.md` updated to reference `12-trainer` everywhere a phase string appears
 
 ### P16 — Agent dedup + isolation CI  *(was v2 P6.2 + P6.3)*
 
@@ -257,6 +306,24 @@ The following v2 phases are **CANCELLED** by the v3 directive "Claude Code is th
 - [ ] **CH7** ✅ Loop N P0 findings (invented enumeration; unsourced cipher decoding) BLOCK ship
 - [ ] **CH8** ✅ Both challengers emit sidecar report referencing this file's row IDs when verdict is BLOCKED
 
+### Learning-loop conformance  *(NEW v3.1 — codifies P-9 invariant)*
+
+- [ ] **LL1** ✅ `_learning/` substrate intact: `findings.jsonl`, `patterns.md`, `proposals/`, `promoted/`, `archive/`, `fixtures/`, `health/`, `README.md` all present
+- [ ] **LL2** ✅ `findings.jsonl` schema matches `emit_finding()` kwargs in `scripts/podcast/_rules.py` (verified by P2.5 E2E)
+- [ ] **LL3** ✅ `scripts/podcast/test_challenger.py` exits 0 on `develop` at all times (gated by P2.5 CI)
+- [ ] **LL4** ✅ `scripts/podcast/learn_aggregate.py` regeneration of `patterns.md` is byte-deterministic given the same ledger (unit test)
+- [ ] **LL5** ✅ `scripts/podcast/learn_propose.py` is idempotent (re-running with no new findings produces zero new proposals)
+- [ ] **LL6** ✅ `_learning/promoted/` is append-only in PR review (deleting a tombstone requires explicit rationale)
+- [ ] **LL7** ✅ `CHALLENGER_VERSION` in `_rules.py` is the SOLE version source; stamped in every challenger report + ledger record
+- [ ] **LL8** ✅ Trainer audit one-liner emitted at end of every `invoke_trainer` pass: `podcast-trainer: K proposals processed; A accepted; R archived; CHALLENGER_VERSION X→Y; cost-context: $Z`
+- [ ] **LL9** ✅ For every new challenger check (Loop N, future), at least one fixture lands in `_learning/fixtures/` in the same commit (per P-9; enforced by reviewer + P4.4b precedent)
+- [ ] **LL10** ✅ Dashboard learning panel (P8.5) shows fixture-coverage % trending UP across the W3 corpus (visual P-9 verification)
+- [ ] **LL11** ✅ `_workspace/plan/research/learning-yield-report.md` (P9.8) exists at end of W3
+- [ ] **LL12** ✅ Post-publication SLA (`post_publish.py` + `audit_transcript.py` + Loop M) wired into the substrate — every audit-run appends to `findings.jsonl` (verified by re-running `post_publish.py` on a known transcript)
+- [ ] **LL13** ✅ Heartbeat (P7.5) exposes substrate state to operator without dashboard
+- [ ] **LL14** ✅ Trainer reads cost-ledger.jsonl (P6.4) and emits cost-context field in audit one-liner
+- [ ] **LL15** ✅ Quarterly `findings.jsonl` rotation works: file `_learning/archive/findings-YYYYQN.jsonl` exists after first calendar-quarter rollover; ledger never grows unbounded
+
 ---
 
 ## Refinement-prompt deliverables (refinement prompt §"Output Format")
@@ -281,9 +348,9 @@ The following v2 phases are **CANCELLED** by the v3 directive "Claude Code is th
 
 ## Inventory
 
-- Total checkboxes: ~140 (Pass 5 L10 counts actual rows; up from ~120 in v2 due to P4 addition)
+- Total checkboxes: ~185 (Pass 5 L10 counts actual rows; up from ~140 in v3 due to v3.1 learning-loop production-readiness pass: +5 P1.4 + 6 P2.5 + 3 P4.4b + 6 P6.4 + 3 P7.5 + 6 P8.5 + 6 P9.gate + 6 P9.8 + 4 P15.4 + 15 LL1..LL15)
 - Currently checked: 8 (P3 partial — P3.1/P3.2 — plus OP-1..OP-6)
-- Currently pending: ~132
+- Currently pending: ~177
 - Verification mix: ✅ auto-verifiable (majority) · 🟡 dep-blocked · 🔒 manual gate · 📊 metric-bound
 
 ## Wave summary (autonomous scheduling targets)

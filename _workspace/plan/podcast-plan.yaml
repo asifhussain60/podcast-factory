@@ -20,6 +20,29 @@
 #      the disambiguation handbook, and the orchestrator's Phase-0d numeric-scan
 #      step. Worked example: Master & Disciple Ch-02.
 #
+# v3.1 (2026-05-19, late) — production-readiness pass for the LEARNING LOOP:
+#   The `_learning/` closed-loop substrate (sense → aggregate → propose → test →
+#   promote, plus the post-book podcast-trainer pass) was shipped 2026-05-18 and
+#   has already produced two promoted rules (J2 bold-header, R-NOSURPRISE
+#   companion). The plan inherited the substrate but did not own its production-
+#   readiness. v3.1 corrects that:
+#     • New principle P-9 (system must measurably improve every shipped book).
+#     • New W1 task P1.4: scripts/podcast/run_wave.py (kickoff harness; was
+#       referenced 8× but unowned).
+#     • New W1 task P2.5: E2E test for the learning loop (tiny-book → ledger →
+#       aggregate → propose → regression-green).
+#     • New W1 task P6.4: trainer reads cost-ledger.jsonl (closes Q3 with an
+#       implementation row, not just a "resolved" verdict).
+#     • New W2 tasks P7.5 / P8.5: heartbeat + dashboard surface learning state.
+#     • New W3 metrics: every book records promotions, fixture deltas, health-
+#       score trend; trainer outcome is a ship gate.
+#     • New W5 task P15.4: trainer phase-rename round-trip is asserted.
+#     • New R7: learning loop silently degrades (fixture coverage, promoted-rule
+#       regression).
+#     • intelligence_sources extended with _learning/ canonical paths.
+#     • acceptance-criteria.md mirrors every new row; done_when extended.
+#   The substrate code itself is NOT changed by v3.1 — only owned and gated.
+#
 # See README.md for scope boundary, research/findings.md for citations,
 # view/index.html for visual architecture diagrams,
 # numeric-symbolic-disambiguation-plan.md for P4's full design document.
@@ -32,6 +55,7 @@ meta:
   gap_closed: 2026-05-19
   execute_readied: 2026-05-19
   restructured: 2026-05-19          # v3 restructure: waves + sequential ids + SDK cancel + P4 numeric
+  learning_loop_owned: 2026-05-19   # v3.1: plan now owns _learning/ substrate production-readiness
   owner: asif
 
   primary_execution_mechanism: claude-code-cli
@@ -129,12 +153,20 @@ waves:
   - id: W1
     name: "Foundation & Guardrails"
     phases: [P1, P2, P3, P4, P5, P6]
-    schedule_intent: "Overnight; idempotent; zero LLM cost"
-    parallelism: "P1, P2, P3, P4 in parallel; P5 sequential after P4; P6 sequential after P5"
-    blast_radius: "Local — no external API calls; CI workflows created but not executed"
+    schedule_intent: "Overnight; idempotent; zero LLM cost (except a tiny-book pass for P2.5)"
+    parallelism: "P1, P2, P3, P4 in parallel; P5 sequential after P4; P6 sequential after P5; P1.4 (run_wave.py) before any other phase can be kicked off; P2.5 sequential after P2.2 (learning E2E builds on sunny-day E2E)"
+    blast_radius: "Local — no external API calls except P2.5 tiny-book pass (<$1); CI workflows created but not executed"
     kickoff_cmd: "python3 scripts/podcast/run_wave.py 1"
-    done_signal: "All P1–P6 rows in acceptance-criteria.md `### Wave 1` group checked"
-    gates_open_next: "Wave 2 (after human review of W1 commit)"
+    done_signal: "All P1–P6 rows in acceptance-criteria.md `### Wave 1` group checked, including P1.4 (run_wave.py), P2.5 (learning-loop E2E), P4.4b (Loop N fixture), and P6.4 (trainer cost-ledger hook)"
+    gates_open_next: "Wave 2 (after human review of W1 commit AND test_challenger.py green on develop)"
+    learning_loop_gate: |
+      W1 is the wave that OWNS the learning loop becoming a load-bearing
+      invariant. After W1, every PR to scripts/podcast/, .github/agents/
+      podcast-challenger.agent.md, or content/podcast/.skill/handbook/ MUST
+      pass the regression harness in CI. The substrate's two existing
+      promotions (J2 bold-header + R-NOSURPRISE companion) plus the seven
+      bootstrap fixtures stay green through W1 — no plan task is allowed to
+      regress them.
 
   - id: W2
     name: "Observability"
@@ -150,12 +182,17 @@ waves:
     name: "Corpus Validation"
     phases: [P9, P10]
     schedule_intent: "One graduated run per scheduled invocation; book picked from queue"
-    parallelism: "Strictly sequential — one book per invocation; ETA model (P10) trains on completed runs"
+    parallelism: "Strictly sequential — one book per invocation; ETA model (P10) trains on completed runs; P9.8 yield report runs ONCE after P9.7"
     blast_radius: "BIG — full Azure OCR + claude -p spend per run; uses cost ledger from P6"
     kickoff_cmd: "python3 scripts/podcast/run_wave.py 3 --book <slug>"
-    done_signal: "All 7 books in P9 either shipped clean OR documented failure-mode + remediation; P10 ETA model within ±30% on held-out book"
-    gates_open_next: "Wave 4"
+    done_signal: "All 7 books in P9 either shipped clean OR documented failure-mode + remediation; P10 ETA model within ±30% on held-out book; P9.8 yield report committed and shows fixture_coverage_pct trending UP"
+    gates_open_next: "Wave 4 (after P9.8 yield report human-reviewed)"
     cost_guardrail: "P6 hard halt enforced (default $50); wave aborts if hard cap hit"
+    learning_loop_gate: |
+      Each book in W3 MUST satisfy the per_book_ship_gate (defined under P9):
+      cost-ledger row, finding emission, health score, trainer outcome,
+      regression harness green. The W3 yield report (P9.8) is the W3 acceptance
+      artifact for P-9 — without it, W3 is not done.
 
   - id: W4
     name: "Control Plane"
@@ -207,8 +244,8 @@ system_check:
     node:            "v24.15.0"
     gh:              "installed, NOT authenticated"
   git:
-    branch:          "book/master-disciple-notebooklm-scaffolding"
-    clean:           false                              # numeric-symbolic-disambiguation-plan.md untracked
+    branch:          "develop"                          # v3.1 refresh — book branch merged 2026-05-19
+    clean:           true
     remote_synced:   true
   orchestrator:
     active_runs:     []
@@ -341,6 +378,38 @@ principles:
       (b) explicitly flagged for human review. Inventing an unsourced enumeration
       is a P0 BLOCKED finding from podcast-challenger Loop N (P4).
 
+  - id: P-9
+    name: "The system must measurably improve from every shipped book"
+    detail: |
+      The `_learning/` closed-loop substrate (sense → aggregate → propose → test →
+      promote → trainer) is a load-bearing invariant, not a nice-to-have. Every
+      book that ships MUST:
+        (a) append findings to `_learning/findings.jsonl` via `emit_finding()`,
+        (b) refresh `_learning/health/<book-slug>.json` and append a row to
+            `BOOK_DIR/_system/health-trend.md`,
+        (c) cause `learn_aggregate.py` to regenerate `_learning/patterns.md`,
+        (d) cause `learn_propose.py` to either emit new proposals or no-op,
+        (e) trigger the `podcast-trainer` agent which either promotes a
+            regression-green diff (test_challenger.py 7/7 green in worktree) or
+            archives a proposal with documented reason.
+      The regression harness `scripts/podcast/test_challenger.py` MUST stay green
+      on `develop` AT ALL TIMES — a red harness is a release-blocker tracked by
+      W1 acceptance row P2.5 + W3 per-book ship gate.
+
+      The trainer NEVER auto-modifies the regression fixture set; only humans
+      add fixtures (anti-Goodhart). A trainer pass that ends with 0 proposals
+      promoted AND 0 proposals archived is suspicious — surface a warning.
+
+      "Smarter on every run" is operationalized by three metrics tracked in the
+      dashboard (P8.5):
+        1. Fixture coverage = |fixtures/| / |distinct check_ids in patterns.md|
+           — must trend ↑ over time, never ↓ except by human-approved deletion.
+        2. Promoted-rule count (`promoted/` cardinality) — append-only series.
+        3. Per-book health score (P0·1.0 + P1·0.2 + P2·0.05 penalty) — should
+           trend ↓ for repeat books (same book re-run with newer rule set).
+      All three are surfaced in `/books/{slug}/learning` (P8.5) and on the
+      Wave-3 per-book ship checklist (P9.*).
+
 # -----------------------------------------------------------------------------
 # Intelligence sources — where each agent/skill MUST consult before acting
 # -----------------------------------------------------------------------------
@@ -359,6 +428,14 @@ intelligence_sources:
       - {path: "content/_shared/arabic/06-abjad-numerals.md",         when: "any letter-count / abjad-value claim", staleness_signal: "P4 deliverable; created in Wave 1"}
       - {path: "docs/architecture/podcast-pipeline.html",             when: "any phase boundary change",   staleness_signal: "phase IDs disagree with _progress.py PHASE_ORDER"}
       - {path: "docs/architecture/podcast-orchestrator.html",         when: "any orchestrator behavior change", staleness_signal: "phase IDs disagree with code"}
+      # ── Learning-substrate canonical paths (v3.1; P-9 invariant) ───────────
+      - {path: "content/podcast/.skill/_learning/README.md",          when: "every session that may write findings",    staleness_signal: "schema diverges from emit_finding() kwargs in _rules.py"}
+      - {path: "content/podcast/.skill/_learning/patterns.md",        when: "before invoking podcast-trainer",          staleness_signal: "mtime older than findings.jsonl tail"}
+      - {path: "content/podcast/.skill/_learning/proposals/",         when: "before invoking podcast-trainer",          staleness_signal: "any proposal older than its signature's last_seen in patterns.md"}
+      - {path: "content/podcast/.skill/_learning/promoted/",          when: "drafting any rule diff",                   staleness_signal: "tombstone references a check_id no longer in _rules.py"}
+      - {path: "content/podcast/.skill/_learning/health/",            when: "W3 per-book ship gate; dashboard render",  staleness_signal: "no entry for a book that completed Phase 14-done"}
+      - {path: "scripts/podcast/_rules.py",                           when: "any change to CHALLENGER_VERSION or DENY lists", staleness_signal: "CHALLENGER_VERSION not bumped after promoted/ gains a file"}
+      - {path: "scripts/podcast/test_challenger.py",                  when: "every CI run; before any trainer commit",  staleness_signal: "exit code != 0 on develop"}
     per_book_intelligence:
       - {path: "<book>/_system/source/raw-extract.md",                consult_for: "OCR truth-source for refinement decisions"}
       - {path: "<book>/_system/source/text/refined-english.md",       consult_for: "Phase-0c-and-beyond canonical text"}
@@ -477,6 +554,40 @@ phases:
       - id: P1.3
         title: "CI gate (deferred to P16, listed here for traceability)"
         spec: "P1.1 invocation present in .github/workflows/podcast-isolation.yml — created in P16"
+      - id: P1.4
+        title: "Wave kickoff harness — scripts/podcast/run_wave.py"
+        files:
+          - scripts/podcast/run_wave.py                  # NEW (referenced 8× as kickoff_cmd; now owned)
+        spec: |
+          Single entry point invoked by `/schedule` (or launchd) at the start of
+          each wave. Subcommands `1..6` map to W1..W6.
+
+          Responsibilities (per wave):
+            1. Read meta.system_check; refuse if `safe_to_edit_plan = false`
+               OR a heavier guard (W3+ waves require zero in-flight books).
+            2. Read acceptance-criteria.md for the wave's row group; print the
+               unchecked rows so the operator (or scheduled runner) knows the
+               scope.
+            3. Dispatch to per-wave runner functions:
+                 W1 → run boundary check, E2E setup, doc fixes, P4 scaffold,
+                      perm-mode fix, cost ledger (PARALLEL where safe).
+                 W2 → start heartbeat + service.
+                 W3 → kick off `orchestrate_book.py <slug>` for the next
+                      queued book (with cost cap from P6.3).
+                 W4 → start mutation API + worker pool.
+                 W5 → run zero-in-flight gate, then phase rename + agent dedup.
+                 W6 → require `--phase` argument; refuse without it.
+            4. Idempotent: re-running a wave should diff-only what's not done.
+            5. `--check` flag: compute the wave's `done_signal` from
+               acceptance-criteria.md row-state WITHOUT running the wave.
+          Wave kickoffs MUST NOT silently advance — every wave halts at its
+          `done_signal` and waits for human review (or scheduled re-fire).
+        acceptance:
+          - "`python3 scripts/podcast/run_wave.py 1` runs idempotently; second invocation does zero work if W1 acceptance rows already checked"
+          - "`run_wave.py --check 5` computes Wave 5 done_signal from acceptance-criteria.md without executing"
+          - "W3 invocation refuses if cost-ledger.jsonl shows >$50 spent in the current book (hard cap from P6.3)"
+          - "W5 invocation refuses without `--confirm-zero-inflight` AND a passing prereq_gate check"
+          - "Exit code 0 = wave already done, 2 = wave executed and DONE, 3 = wave halted at human-review gate, 1 = error"
 
   - id: P2
     wave: W1
@@ -539,6 +650,45 @@ phases:
         acceptance:
           - "PR to scripts/podcast/ fails CI if E2E test fails"
           - "Skill SKILL.md documents the gate"
+      - id: P2.5
+        title: "Learning-loop E2E + regression-harness CI gate (P-9 invariant)"
+        files:
+          - scripts/podcast/tests/e2e/test_learning_loop.py   # NEW
+          - .github/workflows/podcast-learning-loop.yml       # NEW (or appended to podcast-e2e.yml)
+        spec: |
+          End-to-end test for the closed-loop substrate (sense → aggregate →
+          propose → test). On the tiny-book fixture from P2.1:
+
+          1. Run the orchestrator to completion (re-uses P2.2 sunny path).
+          2. Invoke the podcast-challenger sub-agent on the produced chapter
+             contract (mock the LLM by injecting a deterministic stub that
+             surfaces exactly 3 findings: 1 P1 + 2 P2).
+          3. Assert `_learning/findings.jsonl` gained ≥3 rows with the expected
+             check_ids; schema validates via `emit_finding`'s docstring.
+          4. Run `python3 scripts/podcast/learn_aggregate.py`; assert
+             `_learning/patterns.md` regenerates and lists the new signatures.
+          5. Run `python3 scripts/podcast/learn_propose.py`; assert at least the
+             density-threshold path emits a markdown proposal under
+             `_learning/proposals/` (the same-check-3×-in-one-(book,episode)
+             trigger from `learn_aggregate.py:THRESHOLD_DENSITY = 3`).
+          6. Run `python3 scripts/podcast/test_challenger.py`; assert exit 0
+             against the full fixture corpus (7 fixtures shipped; harness MUST
+             stay green on develop at all times).
+          7. Run `python3 scripts/podcast/write_health.py <tiny-book>`; assert
+             `_learning/health/<slug>.json` written and `health-trend.md`
+             appended.
+
+          Idempotency: re-running the test must not append duplicate findings
+          (the challenger emits ONE record per finding per run). Verify by
+          asserting findings.jsonl line-count is stable across two consecutive
+          test runs against the same fixture state.
+        acceptance:
+          - "`pytest scripts/podcast/tests/e2e/test_learning_loop.py -v` exits 0"
+          - "Test creates ≥1 new proposal in _learning/proposals/ on first run; second run produces no new proposal (idempotent)"
+          - "test_challenger.py exit code 0 with current 7 fixtures (B5, O1, N1, M3, R4, j2_bold_header, surprise_positive_companion)"
+          - "CI job `podcast-learning-loop` runs test_challenger.py on every PR to scripts/podcast/ AND to .github/agents/podcast-challenger.agent.md AND to content/podcast/.skill/handbook/"
+          - "CI job fails on any regression (exit non-zero); failing PR cannot merge to develop"
+          - "P-9 invariant verified: tiny-book run produces findings.jsonl row + health entry + patterns regenerate"
 
   - id: P3
     wave: W1
@@ -653,6 +803,27 @@ phases:
             6. Asserting an invented enumeration → P0 BLOCKED finding in the challenger.
         acceptance:
           - "Handbook contains both the new scaffolding step and the new failure-mode entry"
+
+      - id: P4.4b
+        title: "Loop N regression fixture (P-9 invariant — every new check ships a fixture)"
+        files:
+          - content/podcast/.skill/_learning/fixtures/loop_n_numeric_invented/input.txt   # NEW
+          - content/podcast/.skill/_learning/fixtures/loop_n_numeric_invented/expected.json  # NEW
+          - scripts/podcast/test_challenger.py             # extend with Loop N detector
+        spec: |
+          Add at least one regression fixture that exercises Loop N's invented-
+          enumeration detector. Minimal input.txt: a chapter excerpt that
+          asserts "twelve regions" without enumeration. expected.json: one P0
+          finding with `check_id: N1-INVENTED-ENUMERATION` (or the chosen ID
+          from Loop N's check ladder, recorded in P4.5).
+
+          Rationale: every new challenger check MUST land with at least one
+          fixture, or the next trainer pass cannot regression-gate diffs that
+          touch the check. This is the operational form of P-9.
+        acceptance:
+          - "Fixture directory exists with both input.txt and expected.json"
+          - "test_challenger.py covers the Loop N detector and exits 0 with all 8 fixtures (7 prior + 1 new)"
+          - "If Loop N's check IDs change in P4.5, this fixture's expected.json is updated in the same commit"
 
       - id: P4.5
         title: "Add challenger Loop N (Numeric/Symbolic Disambiguation)"
@@ -846,6 +1017,37 @@ phases:
           - "Hard cap halts before Phase 0d transition"
           - "Both overridable via CLI and state.config"
 
+      - id: P6.4
+        title: "Trainer reads cost-ledger.jsonl (closes Q3 with an implementation row)"
+        files:
+          - scripts/podcast/_authoring.py                  # invoke_trainer prompt extension
+          - .github/agents/podcast-trainer.agent.md        # add reads_normative entry + Protocol §3 step
+        spec: |
+          Q3 declared the trainer's cost-ledger integration "RESOLVED — keep
+          as-is" but shipped no acceptance row. P6.4 corrects that.
+
+          Changes:
+            1. `invoke_trainer()` prompt (scripts/podcast/_authoring.py:1141)
+               gains a Protocol §3.5 instruction: "Read
+               <book>/_system/cost-ledger.jsonl summary; if total_cost_usd
+               exceeds the book's tier budget by >20%, INCLUDE a cost-
+               commentary section in the trainer report tombstone with a
+               proposed remediation (smaller windows, fewer convergence
+               iterations, or fixture-driven auto-fix expansion)."
+            2. `.github/agents/podcast-trainer.agent.md` Protocol §3 (Cluster +
+               Hypothesize) adds a new sub-step: "Cross-reference proposal
+               clusters with cost-ledger hotspots. A proposal that would
+               require restructuring a phase that already exceeds budget is
+               prioritized; a proposal that targets a cheap phase is deferred."
+            3. The trainer's end-of-run audit line (the one-liner per
+               podcast-trainer.agent.md §END) gains a `cost-context: $X.XX`
+               field showing the book's total spend at trainer time.
+        acceptance:
+          - "Trainer invocation reads cost-ledger.jsonl when it exists; tolerates absence (no halt)"
+          - "Trainer report end-line includes `cost-context: $X.XX` field"
+          - "If cost exceeds tier budget by >20%, trainer surfaces a P1-class cost-commentary tombstone in _learning/promoted/ OR _learning/archive/"
+          - "Q3 row in this YAML reopened with status `IMPLEMENTING via P6.4`; closed only when P6.4 lands on develop"
+
   # ===========================================================================
   # WAVE 2 — Observability
   # ===========================================================================
@@ -930,6 +1132,27 @@ phases:
           - "events.jsonl tails cleanly with `tail -F`"
           - "Schema documented in scripts/podcast/_progress.py docstring"
 
+      - id: P7.5
+        title: "Heartbeat exposes learning-substrate state (P-9 visibility)"
+        files:
+          - scripts/podcast/_progress.py                  # extend heartbeat schema
+        spec: |
+          Add new fields to `<book>/_system/heartbeat.json`:
+            - learning_findings_appended_this_run: int
+            - learning_proposals_open: int        (count of _learning/proposals/*.md)
+            - learning_promoted_total: int        (count of _learning/promoted/*.md)
+            - learning_fixture_count: int         (count of _learning/fixtures/*/)
+            - last_trainer_outcome: enum          (NEVER_RAN | PROMOTED | ARCHIVED | RED_HARNESS | null)
+            - challenger_version: str             (from _rules.py CHALLENGER_VERSION)
+
+          These fields are read-only snapshots — the heartbeat thread never
+          modifies the substrate. Fields are computed from filesystem state at
+          each heartbeat tick (cheap; bounded directory listings).
+        acceptance:
+          - "heartbeat.json includes all 6 new learning fields"
+          - "Fields update within 30s of any substrate change (file appears in promoted/ or fixtures/)"
+          - "Zero impact on claude -p timing (verified by tiny-book wall-clock comparison)"
+
   - id: P8
     wave: W2
     legacy_id: "v2 P2"
@@ -1007,6 +1230,38 @@ phases:
           - "plist passes `plutil -lint`"
           - "service-startup.md covers install / verify / behavior-when-down / manual-start"
 
+      - id: P8.5
+        title: "Dashboard learning panel — fixture coverage, promotions, health trend (P-9 visibility)"
+        files:
+          - scripts/podcast/service/app.py                # add /learning + /books/{slug}/learning
+          - scripts/podcast/service/static/dashboard.js   # add learning-panel UI
+          - scripts/podcast/service/static/styles.css     # panel styling
+        spec: |
+          New REST endpoints:
+            - GET /learning                              → repo-wide learning summary
+                {findings_total, distinct_signatures, proposals_open,
+                 promoted_total, archived_total, fixtures_count,
+                 challenger_version, last_trainer_run_ts,
+                 fixture_coverage_pct} (= |fixtures/| / |distinct check_ids|)
+            - GET /books/{slug}/learning                 → per-book substrate state
+                {health_score, health_history, findings_count_by_severity,
+                 last_trainer_outcome, promoted_during_this_book[]}
+            - GET /books/{slug}/health-trend             → tail of health-trend.md
+
+          Dashboard SPA (P8.3) adds a new "Learning" tab:
+            • Header tile: fixture-coverage %, ↑/↓ vs last week
+            • Per-book row: health score (color-coded), last trainer outcome
+            • Promotions feed: latest 10 entries from _learning/promoted/
+              (signature + date + commit hash)
+            • Warning band: if test_challenger.py CI is red on develop, top-of-
+              dashboard banner shows "REGRESSION HARNESS RED — promotions blocked"
+        acceptance:
+          - "Both endpoints return application/json + OpenAPI documented"
+          - "Dashboard Learning tab renders with mock substrate state in unit test"
+          - "Fixture-coverage % renders; correctly bumps when a new fixture lands"
+          - "Last-trainer-outcome reflects the most recent entry in _learning/{promoted,archive}/"
+          - "Red-harness banner appears when test_challenger.py exit != 0 (verified by injecting a failing fixture in CI)"
+
   # ===========================================================================
   # WAVE 3 — Corpus Validation
   # ===========================================================================
@@ -1024,6 +1279,19 @@ phases:
 
       Per principle P-1, every run is on `claude -p` (Claude Code primary). The
       Anthropic Python SDK is NOT used in the workhorse phases.
+
+      Per principle P-9, every shipped book MUST make the system measurably
+      smarter. The per-book ship gate (P9.0) verifies the learning loop closed
+      cleanly: findings appended, health score written, trainer ran, regression
+      harness stayed green. A book that ships clean WITHOUT triggering any
+      learning-loop activity is suspicious — the gate surfaces a P1 warning.
+    per_book_ship_gate:                     # NEW v3.1 — applies to every P9.* row
+      - "Cost ledger row appended for every phase that called claude -p"
+      - "Findings appended to _learning/findings.jsonl (≥1 record OR documented zero-findings rationale)"
+      - "Health score written to _learning/health/<slug>.json; health-trend.md row appended"
+      - "Trainer ran; outcome is PROMOTED or ARCHIVED (never NEVER_RAN unless documented)"
+      - "test_challenger.py exits 0 after the trainer's commit (no fixture regressed)"
+      - "If trainer promoted a rule, CHALLENGER_VERSION bumped by 0.1 in _rules.py"
     tasks:
       - id: P9.1
         title: "Tiny: Ayyuhal Walad (30p) — first-shipped baseline"
@@ -1064,6 +1332,31 @@ phases:
         acceptance:
           - "Full pipeline OR documented failure mode + remediation issue"
           - "P4 disambiguation register exercised on classical-philosophical numeric structures"
+
+      - id: P9.8
+        title: "Cross-book learning yield report (P-9 measurable improvement)"
+        depends_on_local: [P9.1, P9.2, P9.3, P9.4, P9.5, P9.6, P9.7]
+        files:
+          - _workspace/plan/research/learning-yield-report.md   # NEW (terminal artifact of W3)
+        spec: |
+          After the 7-book corpus runs, produce a single report capturing:
+            - Per-book health-score trajectory
+            - Per-book findings count by severity
+            - Per-book fixture additions (new fixtures landed during the run)
+            - Promotions across the corpus (signatures + commit hashes)
+            - Archived proposals (signatures + reasons)
+            - Fixture-coverage % at W3 start vs. W3 end
+            - CHALLENGER_VERSION trajectory across the 7 runs
+            - Any cost-budget breaches surfaced by P6.4
+            - Any books that triggered the "NEVER_RAN" trainer warning
+          The report is read by W5 (informs which trainer-promoted rules will
+          land in the phase-rename window) and by the next user/operator
+          session as ground truth for "did the system get smarter?"
+        acceptance:
+          - "Report exists; cites every P9.* book that completed (or documents why one didn't)"
+          - "fixture_coverage_pct at W3 end > W3 start (P-9 invariant: smarter every run)"
+          - "promoted/ cardinality at W3 end ≥ start + 1 (at least one new promotion during the corpus run, OR documented rationale why none — e.g., regression harness was protecting against premature promotion)"
+          - "Report linked from done_when block + acceptance-criteria.md Wave 3 group"
 
   - id: P10
     wave: W3
@@ -1246,6 +1539,32 @@ phases:
       - "`--retry-phase 0b` and `--retry-phase 05-refine-english` both resolve to the same phase"
       - "Docs (podcast-pipeline.html, plan view/index.html) updated atomically with the code"
       - "Zero `0a`..`0g` literal phase-ID strings remain in scripts/podcast/"
+    sub_tasks:
+      - id: P15.4
+        title: "Trainer phase rename round-trip + invoke_trainer regression"
+        files:
+          - scripts/podcast/_authoring.py                  # update phase name in any state-write
+          - scripts/podcast/orchestrate_book.py            # update line 837/916 references
+          - scripts/podcast/tests/e2e/test_phase_rename.py # NEW (or extend P2.3)
+        spec: |
+          The phase rename maps `trainer` → `12-trainer`. The existing
+          `invoke_trainer()` invocation in `_authoring.py:1133` writes
+          `update_phase(book_dir, phase="trainer", ...)` and the PHASE_ORDER
+          tuple in `orchestrate_book.py:916` includes the literal `"trainer"`.
+          BOTH MUST be updated atomically with the rename or the trainer
+          silently fails to record its phase status.
+
+          Test: on a tiny-book fixture with state.json at schema_version=2,
+          drive the orchestrator to the trainer step (mock the trainer to a
+          no-op that returns rc=0), assert that the state.json shows
+          `phase: "12-trainer"` and `phase_status: "completed"`. Then drive
+          again with schema_version=1 input and assert the read_state()
+          migration also resolves the old `trainer` key correctly.
+        acceptance:
+          - "grep -n '\"trainer\"' scripts/podcast/ returns 0 raw string matches outside the legacy-translation table"
+          - "test_phase_rename.py asserts state.json shows `12-trainer` after the trainer phase runs on a schema_version=2 fixture"
+          - "schema_version=1 fixture migrates and `--retry-phase trainer` resolves to `12-trainer`"
+          - "podcast-trainer.agent.md updated to reference `12-trainer` in any phase-name strings"
 
   - id: P16
     wave: W5
@@ -1355,11 +1674,18 @@ open_questions:
     question: "Trainer integration with claude -p stays as-is"
     detail: |
       podcast-trainer.agent.md ingests per-chapter convergence outputs. With SDK
-      migration cancelled, trainer continues to run on claude -p; no integration
-      work needed beyond verifying the trainer reads the new cost-ledger.jsonl
-      surface for cross-book cost commentary.
-    resolution: "RESOLVED — keep as-is; trainer reads cost-ledger.jsonl for context"
-    closed_at: 2026-05-19
+      migration cancelled, trainer continues to run on claude -p; the trainer
+      MUST read the new cost-ledger.jsonl for cross-book cost commentary.
+
+      v3.1 (2026-05-19, late): Q3 was previously declared RESOLVED without an
+      implementation row. Reopened — implementation is now tracked as P6.4.
+      Q3 closes when P6.4 lands on develop AND the trainer's end-line audit
+      includes `cost-context: $X.XX`.
+    resolution: "IMPLEMENTING via P6.4 — trainer reads cost-ledger.jsonl + emits cost-context field"
+    blocks: P6.4
+    resolution_phase: P6.4
+    formal_resolution_task: P6.4
+    closed_at: null                                   # was 2026-05-19, reopened by v3.1
 
   - id: Q4
     question: "Sphere-letters cipher in Master & Disciple Ch-02"
@@ -1434,6 +1760,50 @@ risks:
     risk: "P4 abjad reference file write to content/_shared/ breaks isolation principle"
     mitigation: "meta.scope_in_writes_to_shared_exception whitelists exactly one path; P1.1 boundary check honors the exception"
 
+  - id: R7
+    severity: medium
+    risk: |
+      Learning loop silently degrades: fixture coverage drops, promoted rules
+      regress without anyone noticing, trainer runs all return NEVER_RAN, or
+      patterns.md stops regenerating because findings.jsonl is corrupt.
+
+      Failure mode: a book ships clean — but the next book inherits a quietly
+      broken learning loop, and the system gets DUMBER over time. This is the
+      most insidious failure mode for the P-9 invariant because nothing breaks
+      loudly; the system just stops improving.
+    mitigation: |
+      Three layers of defense:
+        1. P2.5 CI gate — test_challenger.py exits 0 on every PR; red harness
+           blocks merge. This catches fixture regression at PR time.
+        2. P7.5 + P8.5 dashboard visibility — fixture_coverage_pct,
+           promoted_total, and last_trainer_outcome are surfaced on every
+           dashboard load; a 14-day flat-line on promoted_total without any
+           archived/ activity is a "system isn't learning" warning band.
+        3. P9.8 cross-book yield report — terminal W3 artifact that explicitly
+           asserts fixture_coverage_pct(W3 end) > fixture_coverage_pct(W3 start).
+           If the assertion fails, W3 does NOT pass acceptance.
+
+      Escalation path if the dashboard's warning band fires for >14 days:
+        - Human inspects findings.jsonl for schema corruption
+        - Human inspects most recent trainer run logs in _learning/archive/
+        - If patterns.md is stale, run `learn_aggregate.py` manually
+        - If the regression harness is red, address the failing fixture as a
+          blocker before any more books are scheduled (W3 halts)
+
+  - id: R8
+    severity: low
+    risk: |
+      Trainer auto-archive of a proposal it should have escalated. If trainer
+      regression fails for a NARROW reason that a human-authored, NARROWER diff
+      could have passed, the proposal is permanently archived (per Tier-3 anti-
+      overfit rule in podcast-trainer.agent.md §"INVARIANTS").
+    mitigation: |
+      The archive tombstone in _learning/archive/ MUST include the
+      test_challenger.py failure output (per agent spec §"Archive flow"). A
+      future human reviewing the archive can revive the proposal manually if
+      they spot a viable narrower diff. P14 dashboard mutation UI surfaces
+      archived proposals so this review can happen without grep-fu.
+
 # -----------------------------------------------------------------------------
 # Done definition
 # -----------------------------------------------------------------------------
@@ -1443,18 +1813,27 @@ done_when:
   - "P3.1, P3.2 — doc-regression cleanup done (already shipped)"
   - "P4.1 content/_shared/arabic/06-abjad-numerals.md exists; both skills treat it as READ-ONLY thereafter"
   - "P4.2 content/podcast/.skill/handbook/numeric-symbolic-disambiguation.md exists"
+  - "P4.4b Loop N regression fixture lands with the Loop N spec; test_challenger.py 8/8 green"
   - "P4.5 podcast-challenger Loop N implemented; mirrored across .github/+.claude/ post-P16"
   - "P4.7 Master & Disciple Ch-02 scaffolding updated; Q4–Q7 either resolved or visibly carried"
   - "scripts/podcast/_boundary_check.py exits 0; one whitelisted exception honored"
-  - "E2E test (P2) passes on tiny-book fixture; PR gate enforces it"
-  - "Dashboard at http://127.0.0.1:8765/ can: list, start, resume, retry, delete books AND surface P4 disambiguation register"
+  - "scripts/podcast/run_wave.py exists (P1.4); every wave kickoff is a single command"
+  - "E2E test (P2.2) passes on tiny-book fixture; PR gate enforces it"
+  - "Learning-loop E2E (P2.5) passes; CI gates test_challenger.py on every relevant PR; harness green on develop"
+  - "Dashboard at http://127.0.0.1:8765/ can: list, start, resume, retry, delete books AND surface P4 disambiguation register AND learning panel (fixture coverage, promotions, health trend)"
+  - "Heartbeat exposes 6 learning fields (P7.5) including last_trainer_outcome + challenger_version"
+  - "Cost-ledger trainer integration (P6.4) live; trainer end-line includes cost-context"
   - "Full pipeline run on Rasail Ikhwan (865p) completes with structured cost ledger"
   - "Zero subprocess errors in W3 runs (P5 permission-mode fix proven on real books)"
+  - "P9.8 cross-book learning yield report committed; fixture_coverage_pct trended UP across W3; ≥1 trainer promotion landed during W3 (or documented exception)"
   - "isolation_check CI green; agent-dedup CI exits 0"
   - "Agent picker shows each agent exactly once"
   - "Phase rename to 01-preflight..14-done complete; schema_version=2 across all live state files"
+  - "P15.4 — trainer phase rename round-trip asserted; invoke_trainer writes 12-trainer on schema_version=2 fixtures"
   - "docs/architecture/podcast-*.html updated in lockstep with code phase rename"
   - "podcast-orchestrator.agent.md updated to reference the new service + status CLI + Loop N"
   - "Manual library handoff documented in skills-staging/podcast/SKILL.md"
   - "Q1 (multi-Mac) resolved via P11; multi-mac-decision.md committed"
+  - "Q3 (trainer cost-ledger) resolved via P6.4; closed_at populated after merge"
+  - "P-9 invariant verified end-to-end: a book that ships under v3.1 demonstrably caused the system to either (a) promote a new rule, (b) archive a proposal with reason, or (c) add a fixture — never NEVER_RAN without rationale"
   - "Anthropic Python SDK appears in scripts/podcast/ ONLY in narrow side-channel use (cost ledger helper, status helper) — NEVER as the workhorse LLM execution path"
