@@ -233,7 +233,22 @@ class MainArgvTests(unittest.TestCase):
         self._write_acc(SAMPLE_ACC)
         rc, out, _ = self._run_main("1")
         self.assertEqual(rc, run_wave.EXIT_HALTED_REVIEW)
-        self.assertIn("HALTED at human-review gate", out)
+        # New phase-registry dispatcher emits one of these halt signatures:
+        #   • "phase registry is empty" — wave registry has no runners wired
+        #   • "halted at a phase requiring human review" — a runner returned halted
+        #   • "executed N phase(s); X/Y wave rows checked" — partial progress
+        # Whichever path runs, exit code is HALTED_REVIEW (asserted above).
+        self.assertTrue(
+            any(
+                marker in out
+                for marker in (
+                    "phase registry is empty",
+                    "halted at a phase requiring",
+                    "wave rows checked",
+                )
+            ),
+            f"Expected a halt-shape signature in output, got:\n{out}",
+        )
 
     def test_check_flag_reports_without_dispatching(self):
         self._write_acc(SAMPLE_ACC)

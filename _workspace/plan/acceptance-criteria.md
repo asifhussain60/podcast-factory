@@ -22,9 +22,9 @@ Use `- [x]` to mark done; `- [ ]` to mark pending. Group anchors (`### Wave N �
 
 ### P1 — Journal/podcast boundary verification + CI lock-down 
 
-- [ ] **P1.1** ✅ `scripts/podcast/_boundary_check.py` exists; runs <2s; exit 0 on clean tree; non-zero with `file:line` on any write/append/`open(...,'w')` targeting `content/babu-memoir/**`, `content/_shared/**`, `scripts/memoir/**`, `scripts/site/**`
-- [ ] **P1.1** ✅ Boundary contract documented in `skills-staging/podcast/SKILL.md` (grep returns the section)
-- [ ] **P1.1** ✅ Whitelisted exception honored: `content/_shared/arabic/06-abjad-numerals.md` (P4) does NOT trip the check
+- [x] **P1.1** ✅ `scripts/podcast/_boundary_check.py` exists; runs <2s; exit 0 on clean tree; non-zero with `file:line` on any write/append/`open(...,'w')` targeting `content/babu-memoir/**`, `content/_shared/**`, `scripts/memoir/**`, `scripts/site/**`
+- [x] **P1.1** ✅ Boundary contract documented in `skills-staging/podcast/SKILL.md` (grep returns the section)
+- [x] **P1.1** ✅ Whitelisted exception honored: `content/_shared/arabic/06-abjad-numerals.md` (P4) does NOT trip the check
 - [ ] **P1.2** ✅ "Manual library handoff" section in `skills-staging/podcast/SKILL.md` (grep returns it)
 - [ ] **P1.2** ✅ `docs/podcast/manual-library-handoff.md` exists; documents promotion workflow
 - [ ] **P1.2** ✅ `scripts/podcast/_proposal_writer.py` exists; emits schema-valid `proposed-library-entries.md` with frontmatter `schema_version`, `book_slug`, `episode_id`, `generated_by`, `generated_at`
@@ -87,10 +87,10 @@ Use `- [x]` to mark done; `- [ ]` to mark pending. Group anchors (`### Wave N �
 - [x] **P5.1** ✅ **SHIPPED** — `grep 'claude -p' scripts/podcast/` returns 0 results without `--permission-mode acceptEdits`; both call sites pass the flag: `_authoring.py:99` and `_chunking.py:255` now invoke `[CLAUDE_CMD, "-p", "--permission-mode", "acceptEdits", prompt]`
 - [x] **P5.2** ✅ Artifact check raises typed error when `out_path` missing OR `file_size == 0`; no silent `NO ARTIFACT`; stdout/stderr captured — verified by `ChunkingArtifactValidationTests.test_rc_zero_no_artifact_raises_fatal` + `AssertArtifactTests` (4 tests); `ChunkingError` extended with `stdout`/`stderr` kwargs; chapter-design (07) + enrichment (08) loops now raise on rc=0-no-artifact instead of `continue`
 - [ ] **P5.3** ✅ P5.1 + P5.2 merged to `develop` BEFORE `book/kitab-al-riyad` resume; book branch rebased clean; `_system/orchestrator-state.json` untouched by rebase; all N windows produce non-empty `.out.md`; phase transitions 05-refine-english → 06-phonetics → 07-chapter-design → 08-enrichment cleanly OR halts cleanly at 09-series-plan gate
-- [ ] **P5.4** ✅ `scripts/podcast/_phases.py` module exists; `Phase` StrEnum with 14 values in PHASE_ORDER (01-preflight..14-done); `LEGACY_ALIAS` covers 0a..0g + named-step set; `resolve()` raises ValueError on unknown name
-- [ ] **P5.4** ✅ `scripts/podcast/tests/test_phases.py` asserts: Phase is StrEnum, PHASE_ORDER==tuple(Phase), every LEGACY_ALIAS key resolves, unknown raises ValueError
-- [ ] **P5.4** ✅ Importing `_phases.py` has zero side effects (no FS writes, no network)
-- [ ] **P5.4** 🟡 Consumed by W2 P8.6 bulk rewrite — W1 deliverable is the module + tests only; other modules not yet importing it
+- [x] **P5.4** ✅ `scripts/podcast/_phases.py` module exists; `Phase` StrEnum with 14 values in PHASE_ORDER (01-preflight..14-done); `LEGACY_ALIAS` covers 0a..0g + named-step set; `resolve()` raises ValueError on unknown name
+- [x] **P5.4** ✅ `scripts/podcast/tests/test_phases.py` asserts: Phase is StrEnum, PHASE_ORDER==tuple(Phase), every LEGACY_ALIAS key resolves, unknown raises ValueError
+- [x] **P5.4** ✅ Importing `_phases.py` has zero side effects (no FS writes, no network)
+- [x] **P5.4** 🟡 Consumed by W2 P8.6 bulk rewrite — W1 deliverable is the module + tests only; other modules not yet importing it
 
 ### P6 — Cost ledger + soft/hard caps  *(was P3.4; decoupled from cancelled SDK migration)*
 

@@ -172,34 +172,91 @@ def _print_phase_status(label: str, status: str) -> None:
     print(f"[run_wave]   {label.ljust(pad)} — {status}")
 
 
-def run_wave_1(args: argparse.Namespace) -> int:
-    """W1 — Foundation & Guardrails."""
-    print(f"[run_wave] W1 dispatch ({WAVE_NAMES[1]})")
-    _print_phase_status("P1.1 _boundary_check.py", "TODO")
-    _print_phase_status("P1.2 _proposal_writer.py + handoff doc", "TODO")
-    _print_phase_status("P1.4 run_wave.py", "✓ this file")
-    _print_phase_status("P2.1 tests/e2e/fixtures/tiny-book/", "TODO")
-    _print_phase_status("P2.2 test_full_pipeline.py", "TODO")
-    _print_phase_status("P2.3 test_failure_modes.py", "TODO")
-    _print_phase_status("P2.4 .github/workflows/podcast-e2e.yml", "TODO")
-    _print_phase_status("P2.5 test_learning_loop.py + CI gate", "TODO")
-    _print_phase_status("P2.6 test_refinement_determinism.py", "TODO")
-    _print_phase_status("P3.1 / P3.2 doc-cleanup", "✓ shipped (develop)")
-    _print_phase_status("P4.1 06-abjad-numerals.md", "TODO")
-    _print_phase_status("P4.2 disambiguation handbook", "TODO")
-    _print_phase_status("P4.5 challenger Loop N", "TODO")
-    _print_phase_status("P5.1 --permission-mode acceptEdits", "✓ shipped (develop)")
-    _print_phase_status("P5.2 artifact validation harden", "TODO")
-    _print_phase_status("P5.3 kitab-al-riyad resume", "TODO")
-    _print_phase_status("P5.4 _phases.py constants module", "TODO")
-    _print_phase_status("P6.1 _cost_ledger.py", "TODO")
-    _print_phase_status("P6.2 cost_ledger_summary.py", "TODO")
-    _print_phase_status("P6.3 soft/hard cost caps", "TODO")
-    _print_phase_status("P6.4 trainer cost-ledger hook", "TODO")
+def _run_phase_registry(args: argparse.Namespace, wave_n: int) -> int:
+    """Iterate the wave's phase registry and execute each phase autonomously.
+
+    Each phase module exports `is_done(repo) -> bool` and
+    `execute(repo) -> PhaseResult`. Idempotent: phases already done are
+    skipped. Phases that halt at a human-review gate stop the loop and
+    bubble that up to the dispatcher.
+    """
+    try:
+        from scripts.podcast import phases as _phases_pkg  # type: ignore
+        from scripts.podcast import _acceptance  # type: ignore
+    except ImportError:
+        # Allow running as a script when not installed as a package
+        sys.path.insert(0, str(REPO_ROOT))
+        from scripts.podcast import phases as _phases_pkg  # type: ignore
+        from scripts.podcast import _acceptance  # type: ignore
+
+    phase_list = _phases_pkg.wave_phases(wave_n)
+    if not phase_list:
+        print(f"[run_wave] W{wave_n} phase registry is empty — no autonomous work to drive.")
+        print(f"[run_wave]   Land per-phase runners under scripts/podcast/phases/ and append")
+        print(f"[run_wave]   them to phases/__init__.py REGISTRY[{wave_n}].")
+        return EXIT_HALTED_REVIEW
+
+    print(f"[run_wave] W{wave_n} ({WAVE_NAMES[wave_n]}) — iterating {len(phase_list)} phase(s)")
     print()
-    print("[run_wave] HALTED at human-review gate — per-phase dispatchers not yet wired.")
-    print("[run_wave] Land the TODO phases in subsequent commits on this branch.")
+
+    overall_halted = False
+    for mod in phase_list:
+        pid = getattr(mod, "PHASE_ID", "?")
+        desc = getattr(mod, "DESCRIPTION", "")
+        _print_phase_status(f"{pid} {desc[:60]}", "checking…")
+
+        if mod.is_done(REPO_ROOT):
+            _print_phase_status(f"{pid}", "✓ already done (idempotent skip)")
+            # Mark acceptance rows if not already checked.
+            n = _acceptance.mark_task_rows_in_file(pid)
+            if n > 0:
+                _print_phase_status(f"  └─ marked", f"{n} acceptance row(s) → [x]")
+            continue
+
+        try:
+            result = mod.execute(REPO_ROOT)
+        except Exception as e:  # noqa: BLE001 — surface as runner failure
+            _print_phase_status(f"{pid}", f"✗ ERROR: {e!r}")
+            return EXIT_ERROR
+
+        if result.status == "done":
+            _print_phase_status(f"{pid}", f"✓ done — {result.message}")
+            for rid in result.rows_marked:
+                n = _acceptance.mark_task_rows_in_file(rid)
+                if n > 0:
+                    _print_phase_status(f"  └─ marked", f"{n} row(s) for {rid} → [x]")
+        elif result.status == "halted":
+            _print_phase_status(f"{pid}", f"⏸ HALTED — {result.message}")
+            for p in result.evidence_paths:
+                _print_phase_status(f"  └─ evidence", p)
+            overall_halted = True
+            break
+        else:
+            _print_phase_status(f"{pid}", f"✗ ERROR — {result.message}")
+            return EXIT_ERROR
+
+    print()
+    if overall_halted:
+        print(f"[run_wave] W{wave_n} halted at a phase requiring human review. See above.")
+        return EXIT_HALTED_REVIEW
+
+    # All phases executed. Re-check wave done-status.
+    text = ACCEPTANCE_FILE.read_text()
+    if is_wave_done(text, wave_n):
+        print(f"[run_wave] W{wave_n} DONE — every acceptance row in this wave is checked.")
+        return EXIT_EXECUTED_DONE
+    checked, total = wave_status(text, wave_n)
+    print(
+        f"[run_wave] W{wave_n} executed {len(phase_list)} phase(s); "
+        f"{checked}/{total} wave rows checked. Remaining rows belong to phases "
+        f"not yet in phases/__init__.py REGISTRY[{wave_n}]. Land them in subsequent commits."
+    )
     return EXIT_HALTED_REVIEW
+
+
+def run_wave_1(args: argparse.Namespace) -> int:
+    """W1 — Foundation & Guardrails. Iterates the phase registry."""
+    return _run_phase_registry(args, 1)
 
 
 def run_wave_2(args: argparse.Namespace) -> int:
