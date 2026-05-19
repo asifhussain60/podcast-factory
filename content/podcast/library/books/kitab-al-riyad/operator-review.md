@@ -65,10 +65,12 @@ I'll normalize this before Phase 0d runs:
 - *Abwāb* → "Bāb 1" through "Bāb 10" (or "Book 1"–"Book 10")
 - *Fusūl* → "§1" through "§157" globally, OR "Bāb N · §M" within-bāb numbering
 
-**Operator preference (choose one or write your own):**
-- [ ] **Bāb N · §M** within-bāb numbering (more honest to the source)
-- [ ] **Book N · Section M** plain-English alternative
-- [ ] (your preferred convention)
+**Operator preference (chosen 2026-05-19):**
+- [x] **Bāb N · §M** within-bāb numbering (more honest to the source)
+- [ ] ~~Book N · Section M~~
+- [ ] ~~Part N · Chapter M~~
+
+Chapter file slugs will be: `ch01-bab-1-perfection-of-the-soul.txt` … `ch10-bab-10-eschatology.txt` (final titles per Phase 0d). Cross-references: "as we saw in §3 above" within-bāb; "recall Bāb 8 · §22 on motion and rest" across-bāb. Hosts naturally explain *bāb* the first time it appears in Ep1; the concept-glossary will gain `bāb` and `fasl` as entries during Phase 0e.
 
 ## 7. Content range — skip editor's apparatus + back-matter indexes
 
@@ -100,16 +102,32 @@ Back matter being skipped (pages 233–254):
 - p. 247–249: Index of Names
 - p. 251–254: Index of cities and countries
 
-**Confirm or override:**
-- [ ] Defaults above look right — emit `content-range.md` as-is
-- [ ] Override → `body_starts_at_page: ___`, `body_ends_at_page: ___`
-- [ ] No content-range for this run — process whole transcript (backward-compat)
+**Confirmed 2026-05-19:**
+- [x] Defaults above look right — emit `content-range.md` with body 52–232 (preface in, TOC out)
+- [ ] ~~Override range~~
+- [ ] ~~No content-range~~
+
+`_system/source/text/content-range.md` emitted alongside this approval commit.
 
 ## 8. Approval
 
-When ready to resume:
+- [x] **I approve this transcript — proceed with Phase 0c** (2026-05-19)
 
-- [ ] I approve this transcript — proceed with Phase 0c
+### Caveat: P4.10 + P22 enforcement code not yet shipped
+
+The content-range convention (P4.10) and operator-review prompt-injection (P22) are documented in the plan but the orchestrator code that READS `content-range.md` and the `<operator-review>` XML block is in W2 (P22) + a future commit (P4.10). For THIS resume:
+
+- `content-range.md` is committed as a record of operator intent — **honored by future runs** once P4.10 ships
+- The current orchestrator will process the **whole 254-page transcript** at Phase 0c/0d/0e (Loop N may spuriously flag the editor's 25-work bibliography; ~$3-5 extra LLM cost)
+- The Bāb N · §M naming preference is captured here — **not auto-injected into Phase 0d's prompt** until P22 ships; Phase 0d's LLM will choose chapter naming heuristically
+
+Two options for actually resuming:
+
+**Option A — Resume now, accept the gap.** Live with whole-transcript processing + heuristic chapter naming for this single run. Future runs honor preferences once P22 + P4.10 land. Net cost: ~$3-5 extra on Phase 0c-0e for this book.
+
+**Option B — Ship P22 + P4.10 minimal code first, then resume.** ~1-2 hours of focused work to wire content-range.md reading into Phase 0d and operator-review.md injection into Phase 0c+ prompts. Then resume honors all operator decisions.
+
+Operator's call. Either way, this commit captures the decisions so they're durable.
 
 ---
 
