@@ -187,6 +187,18 @@ Use `- [x]` to mark done; `- [ ]` to mark pending. Group anchors (`### Wave N �
 - [ ] **P8.8** ✅ `.github/workflows/podcast-isolation.yml` exists; runs boundary_check + isolation_check + dedup_check + test_challenger.py; all green on clean tree
 - [ ] **P8.8** ✅ VS Code / Claude Code agent picker shows each agent exactly once (visual verification in PR description)
 
+### P22 — Operator-review gate after Phase 0a/0b (English-transcript halt)
+
+- [x] **P22.spec** ✅ Phase scoped in `podcast-plan.yaml` with halt-point heuristic (Arabic scan → after 0b; English text-layer → after 0a; markdown → after 0a) — promoted 2026-05-19 per operator opt-in
+- [ ] **P22.impl** ✅ `scripts/podcast/_transcript_writer.py` exists; paginator converts `refined-english.md` (or `normalized.md`) → `english-transcript.md` with page breadcrumbs and review margins
+- [ ] **P22.impl** ✅ `scripts/podcast/orchestrate_book.py` halts at the detected gate point with phase_status=`halted-for-transcript-review` and exit code 3
+- [ ] **P22.impl** ✅ `<book>/english-transcript.md` and `<book>/operator-review.md` written at halt point (top-level, not buried under `_system/`)
+- [ ] **P22.impl** ✅ `--approve-transcript` flag resumes from halt; refuses when `operator-review.md` has comments but no `I approve` checkbox
+- [ ] **P22.impl** ✅ Downstream Phase 0c+ prompts include `<operator-review>` XML block when comments present
+- [ ] **P22.impl** ✅ `--skip-transcript-gate` flag bypasses the halt (backward compat for legacy run modes)
+- [ ] **P22.test** ✅ E2E test `test_operator_review_gate.py` asserts: halt at correct phase per source type; comments influence refined.md downstream (Levenshtein delta); operator-review.md never overwritten on resume
+- [ ] **P22.docs** ✅ `docs/podcast/operator-review-gate.md` documents operator workflow + when to use `--skip-transcript-gate`
+
 ---
 
 ## Wave 3 — Corpus Validation (Phases P9–P10)
@@ -197,7 +209,13 @@ Use `- [x]` to mark done; `- [ ]` to mark pending. Group anchors (`### Wave N �
 - [ ] **P9.2** 📊 Masaail searchable (81p): full pipeline; token/cost/wall-clock recorded
 - [ ] **P9.3** 📊 Majalis Moyyada (139p): full pipeline; metrics recorded; **P4 numeric-disambiguation-register.md populated for ≥3 chapters; Loop N raises no P0 findings post-convergence**
 - [ ] **P9.4** 📊 Kitab Maqbas (392p): full pipeline; chapter contracts hold; Loop N clean
+- [x] **P9.5.pre1** ✅ `content/podcast/library/books/asaas-al-taveel/_system/source/text/chapters-rationale.md` exists with the 6-chapter natiq map (Adam/Nuh/Ibrahim/Musa/Isa/Muhammad + the unwritten Qa'im) — shipped 2026-05-19
+- [x] **P9.5.pre2** ✅ `content/podcast/library/books/asaas-al-taveel/_system/concept-glossary.md` exists with ≥20 entries across cosmology, hermeneutics, neoplatonic emanation, Fatimid doctrinal terms — shipped 2026-05-19
+- [ ] **P9.5.pre3** 🔒 Operator-recommended 6-episode preset reviewed at Phase 0f gate (Mentor+Student persona; `series_pattern=recursive_scaffold`; long-form tier)
 - [ ] **P9.5** 📊 Asaas Al-Taveel (416p): full pipeline; metrics recorded; Loop N clean
+- [ ] **P9.5** ✅ Episode 6 (The Seventh Silence) honors the unwritten Qa'im chapter as content — not silently skipped
+- [ ] **P9.5** ✅ Concept-glossary referenced by ≥1 framing per episode OR zero-new-vocab declaration logged
+- [ ] **P9.5** ✅ P4 numeric-disambiguation register populated; 7-natiq and 12-hujja enumerations carry citations
 - [ ] **P9.6** 📊 Raahat al-Aqal (591p): full pipeline OR Doc Intelligence 600s poll budget remediation issue filed
 - [ ] **P9.7** 📊 Rasail Ikhwan AsSafa (865p): full pipeline OR failure-mode + remediation issue filed; P4 register exercised on classical-philosophical numeric structures
 
@@ -287,6 +305,24 @@ Use `- [x]` to mark done; `- [ ]` to mark pending. Group anchors (`### Wave N �
 - [ ] **P17.1** 🔒 Walk-through test: adding hypothetical `urdu_pdf.py` touches exactly 3 files (adapters/urdu_pdf.py + adapters/__init__.py one-line + tests/adapters/test_urdu_pdf.py); ZERO edits to orchestrate_book.py, _authoring.py, _chunking.py, SKILL.md, or any agent file
 - [ ] **P17.1** ✅ Boundary check (P1.1): `adapters/` participates in podcast isolation — no imports from `scripts/site/` or `scripts/memoir/`
 - [ ] **P17.1** ✅ Cost-ledger integration: each adapter call appends a `cost-ledger.jsonl` row via shared `_cost_ledger.py`; Azure spend itemized by adapter
+
+#### P17.1 ext — Change D — Manifest-driven multi-source ingestion (promoted 2026-05-19)
+
+- [ ] **P17.1.ext.1** ✅ Manifest schema (`schema_version`, `bundle_kind`, `voice_mode`, `documents[]`) documented in `book-dir-layout.md`; YAML validator at `scripts/podcast/adapters/_manifest.py`
+- [ ] **P17.1.ext.2** ✅ Four new adapters land: `english_pdf.py`, `markdown.py`, `transcript.py`, `auto.py` — each implements `SourceAdapter` Protocol; parity tests under `tests/adapters/`
+- [ ] **P17.1.ext.3** ✅ `scaffold_book.py` auto-generates 1-doc manifest stub for new single-source books (backward-compat shim); `scaffold_bundle.py` walks a folder + emits N-doc manifest stub
+- [ ] **P17.1.ext.4** ✅ `orchestrate_book.py` Phase 0a honors manifest ordering + adapter dispatch; concatenated `normalized.md` preserves doc-boundary comment markers (`<!-- DOC: file.pdf | role: chapter -->`)
+- [ ] **P17.1.ext.5** ✅ Phase 0d respects manifest `chapter_slug` declarations; falls back to auto-segmentation only when manifest is silent
+- [ ] **P17.1.ext.6** ✅ `voice_mode` field (`single_author | curated_anthology | editor_voice`) consumed by `_authoring.py` Phase 11; default = `single_author` preserves existing behavior
+- [ ] **P17.1.ext.7** 📊 Folder-bundle fixture `_learning/fixtures/folder_bundle/three-articles/` runs clean through Phase 0a → Phase 11; produces episode txt with cross-doc references intact
+- [ ] **P17.1.ext.8** ✅ Single-PDF parity: existing W3 corpus books produce byte-identical `refined-english.md` + chapter txt with auto-scaffolded 1-doc manifest (golden frozen at tiny-book + Ayyuhal Walad)
+
+#### Handbook deltas (shipped 2026-05-19 alongside P17.1 promotion)
+
+- [x] **P4.9** ✅ `content/podcast/.skill/handbook/book-dir-layout.md` documents per-book `concept-glossary.md` schema + body shape (Change A)
+- [x] **P4.9** ✅ `content/podcast/.skill/handbook/episode-architecture.md` Pattern 5 — Recursive Scaffold added (Change B); registry.md `series_pattern: recursive_scaffold` documented
+- [x] **P4.9** ✅ `content/podcast/.skill/handbook/two-host-framing.md` `Voice mode override` section added (Change D prep)
+
 - [ ] **P18** 🟡 Parallel per-chapter LLM calls — promote when P6 cost-tracking stable AND user opts in 
 - [ ] **P19** 🟡 Trainer self-learning — phase-prompt addenda + regression fixtures + health recursion; promote when P13 SQLite proven stable AND P2.6 refinement determinism green AND P9.8 yield report shows fixture_coverage_pct UP
 
@@ -312,6 +348,19 @@ Use `- [x]` to mark done; `- [ ]` to mark pending. Group anchors (`### Wave N �
 - [ ] **P19.3** ✅ Next-book trainer pass computes per-signature health-score delta vs. last-book-with-this-signature; reverts regressed addenda automatically
 - [ ] **P19.3** ✅ Revert-tombstone in `_learned-addenda/_archive/` cites the regression measurements
 - [ ] **P19.3** ✅ If addendum reverts 2+ times for the same signature, signature escalates to human-review queue (P14 dashboard surface)
+#### P21 — Cross-book learning store (promoted-when ≥3 W3 books shipped)
+
+- [ ] **P21.api** ✅ `scripts/podcast/_learning_store.py` exposes `lookup_term(term, lang)`, `promote_term(...)`, `lookup_pattern(...)`, `promote_pattern(...)`; lookups <5ms p99
+- [ ] **P21.store** ✅ `content/podcast/_learning/vocabulary.sqlite` (gitignored) + `vocabulary.jsonl` (git-tracked audit log); rebuild from .jsonl reproduces .sqlite byte-identical
+- [ ] **P21.store** ✅ `content/podcast/_learning/patterns.sqlite` + `patterns.jsonl`; `author-profiles/` directory; `operator-prefs.yml` with voice_mode + tier defaults
+- [ ] **P21.telemetry** ✅ Per-run `cache-stats.jsonl` row per phase: `{phase, lookups, hits, misses, hit_rate, elapsed_ms_saved}`
+- [ ] **P21.integration** ✅ Phase 0c (`_chunking.py`) looks up known terms before claude -p call; cache hits skip LLM with `method=cache-hit` ledger row
+- [ ] **P21.integration** ✅ Phase 0b/0e (`_authoring.py`) consults author-profile + pattern store; misses promote LLM output to store after success
+- [ ] **P21.review** ✅ Dashboard (P8) `/learning/vocabulary` endpoint lists recent additions; operator can mark terms `operator_locked=true` to freeze the canonical value
+- [ ] **P21.goodhart** ✅ `operator_locked` terms never re-derived; locked terms surface in challenger findings if downstream LLM output contradicts them
+- [ ] **P21.boundary** ✅ `_learning_store.py` reads but does not write outside `content/podcast/_learning/` (P1.1 boundary check)
+- [ ] **P21** 📊 Cache-hit rate on book #5 of W3 corpus: Phase 0c ≥50%; Phase 0e ≥30%
+
 - [ ] **P20** 🟡 Web upload for PDFs in dashboard — promote when P12 mutation API stable 
 
 ---

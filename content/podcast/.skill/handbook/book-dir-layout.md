@@ -32,6 +32,7 @@ content/podcast/library/<category>/<book-slug>/
  ├── meta-prose-tells.md ← per-book author-specific meta-prose tells
  ├── enrichment-whitelist.md ← Tier 1 author's-own-corpus (per book)
  ├── enrichment-log.md ← per-chapter enrichment status + provenance
+ ├── concept-glossary.md ← (optional) per-book conceptual term inventory
  ├── challenger-report.md ← latest podcast-challenger output
  ├── scratchpad/
  │ └── series-policies.md ← Tier-3 @@policy markers (series-wide)
@@ -68,6 +69,7 @@ content/podcast/library/<category>/<book-slug>/
 | `_system/meta-prose-tells.md` | the book — author-specific tells | `build_episode_txt.py:load_book_meta_prose_tells` | author |
 | `_system/enrichment-whitelist.md` | the book — Tier 1 corpus | `podcast-challenger` enrichment audit | author |
 | `_system/enrichment-log.md` | the book — chapter status + verification notes | `podcast-challenger` | author |
+| `_system/concept-glossary.md` | the book — per-book conceptual term inventory (optional) | Phase 11 framing authoring; `podcast-challenger` Category P | author (manual, claude-p, or extract) |
 | `_system/challenger-report.md` | the book — latest challenger output | humans (verdict + findings) | `podcast-challenger` |
 | `_system/scratchpad/series-policies.md` | the book — Tier-3 `@@policy` markers | refinement pass | scratchpad processing |
 | `_system/source/<Source-Title>.<ext>` | the book — verbatim original | audit anchor | author (one-time drop) |
@@ -87,6 +89,50 @@ content/podcast/library/<category>/<book-slug>/
 - **No `01-source-primary.md`** anywhere. Under v3.5 the chapter file IS the source; there is no separate source-primary file in the draft folder.
 - **One slug per chapter, slug-identical across surfaces.** `chapters/chNN-<slug>.txt` ↔ `chapter-contracts/<slug>.yml` ↔ `_system/episode-drafts/EP##-<slug>/` ↔ `episodes/EP##-<slug>.txt` ↔ `transcripts/EP##-<slug>.transcript.txt`. `build_episode_txt.py` enforces the match by slug.
 - **Per-book overrides MAY add, NEVER contradict the shared manifest.** `pronunciation.md`, `mangle-map.md`, `meta-prose-tells.md`, `enrichment-whitelist.md` extend their shared/canonical counterparts; they never override a globally-canonical entry. The challenger's Category P6 (cross-book bleed) backstops this.
+
+## Per-book concept glossary
+
+The optional file `_system/concept-glossary.md` is a per-book inventory of technical vocabulary the listener must acquire across episodes. It is **distinct** from neighboring artifacts:
+
+| Artifact | What it captures |
+|---|---|
+| `pronunciation.md` | phonetic guides per term (how to say it) |
+| `mangle-map.md` | TTS mangling overrides (NotebookLM voice fixes) |
+| `concept-glossary.md` | one-sentence listener-gloss per term (what it MEANS) |
+
+When present, the per-episode framing author (Phase 11) reads it: Episode 1 introduces ~8-10 foundational terms; Episode 2+ references "see glossary terms already established in Ep1" rather than re-defining. The `podcast-challenger` Category P gains one check — if the file exists, every framing must reference ≥1 glossary term OR declare zero-new-vocab.
+
+### Schema
+
+```yaml
+schema_version: 1
+book_slug: <slug>
+generated_by: <human | claude-p | extract>
+generated_at: <ISO 8601 timestamp>
+purpose: |
+  Per-book inventory of technical vocabulary that the listener must
+  acquire across episodes. Distinct from pronunciation.md (phonetic) and
+  mangle-map.md (TTS-fix). This file is CONCEPTUAL: a one-sentence
+  listener-gloss per term.
+```
+
+### Body shape
+
+Bulleted terms grouped by domain. Example:
+
+```markdown
+## Cosmology
+- **natiq** (ناطق): a "speaker prophet" who inaugurates a cosmological cycle.
+- **asas** (أساس): the "foundation" — the figure who carries the inner meaning.
+- **hujja** (حجة): "proof" — the senior teacher under the imam.
+
+## Hermeneutics
+- **ta'wil** (تأويل): allegorical interpretation returning a thing to its first principle.
+- **zahir** (ظاهر): the outer/manifest meaning of scripture.
+- **batin** (باطن): the inner/hidden meaning — what ta'wil discloses.
+```
+
+When the file is **absent**, episodes run as today — no challenger check fires. Adoption is opt-in per book.
 
 ## Onboarding a new book
 

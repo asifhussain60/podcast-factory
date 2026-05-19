@@ -42,6 +42,24 @@ Every persona carries TWO layers: an **inquiry layer** (Curious Mind / Scholar C
   - **Two Practitioners** — both inside the tradition, comparing lived experience. Use for spiritual practice / craft sources.
   - **Custom** — describe persona pair explicitly in the framing file.
 
+## Voice mode override (for multi-document source bundles)
+
+For book runs (single PDF, single author), the default is implicit: one author voice across all episodes. For **multi-document bundles** (folder ingestion, anthology, lecture series + slides + notes), the source crosses author boundaries. Declare `voice_mode` in the source manifest at `_system/source/manifest.yml`:
+
+| Mode | When to use | What changes at Phase 11 framing |
+|---|---|---|
+| `single_author` | One PDF, one author (default; preserves current behavior) | `meta-prose-tells.md` + `enrichment-whitelist.md` apply bundle-wide as today |
+| `curated_anthology` | Multiple docs by distinct authors on a shared theme | Per-doc meta-prose-tells; framing names each author voice; hosts acknowledge voice shifts at doc boundaries |
+| `editor_voice` | Source bundle is presented through an explicit editor's curation (a Reader, a Festschrift) | An editor persona is layered into framing; hosts treat the editor as the narrative through-line; original authors are named but the editor's selection logic is the spine |
+
+### Failure mode this prevents
+
+Without `voice_mode`, a folder bundle of 5 authors produces hosts who paper over real voice discontinuities, or refinement flattens distinct voices into one register. Naming the mode upfront forces the framing to honor — or deliberately fuse — the source's voice structure.
+
+### Default behavior
+
+When `manifest.yml` is absent (existing single-book runs), `scaffold_book.py` auto-scaffolds a 1-doc manifest with `voice_mode: single_author`. Behavior is unchanged from pre-manifest runs.
+
 ## Steering Language Patterns (use in `00-framing.md`)
 
 These are tested phrases that reliably shift NotebookLM Audio Overview output.

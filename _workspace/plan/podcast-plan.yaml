@@ -124,7 +124,7 @@ waves:
 
   - id: W2
     name: "Observability + Polish"
-    phases: [P7, P8]
+    phases: [P7, P8, P22]
     schedule_intent: "Single daytime+overnight window; ~1.5 wk wall-clock; trivial LLM cost"
     parallelism: "P7 then P8; P8 depends on P7's heartbeat schema; P8.6/P8.7/P8.8 sequential at the END of W2 (after P8.1-P8.5 ship; before W3 starts so zero-in-flight is naturally true)"
     blast_radius: "Local — new daemon thread + localhost FastAPI service + bulk phase rename across scripts/podcast/ + agent dedup deletion of infra/claude-agents/"
@@ -155,6 +155,17 @@ waves:
         has just promoted or archived, and whether the regression harness is
         still green. The pipeline went from "trust and hope" to "watch and
         intervene."
+
+        Wave 2 also introduces the English-transcript operator-review gate
+        (P22). After Phase 0b (or Phase 0a for English-source books) the
+        orchestrator now halts, surfaces the full English transcript of the
+        book at the top of the book directory, scaffolds an operator-review.md
+        for comments, and waits for --approve-transcript to resume. The
+        operator's ~5 minutes of review attention happens BEFORE the heavy
+        cycles (phonetic pass, chapter design, enrichment, per-chapter
+        framing), so OCR/translation issues get caught at the cheapest
+        possible point and operator domain knowledge informs every downstream
+        phase.
 
   - id: W3
     name: "Corpus Validation"
@@ -230,7 +241,7 @@ waves:
 
   - id: W5
     name: "Deferred + Self-Learning"
-    phases: [P17, P17.1, P18, P19, P20]
+    phases: [P17, P17.1, P18, P19, P20, P21]
     schedule_intent: "NOT time-scheduled — each phase has its own `promote_when` trigger"
     parallelism: "N/A — promoted individually as triggers fire. P19.1/P19.2/P19.3 sequential (substrate → fixtures → recursion verification)."
     blast_radius: "Per-phase; see individual phases. P19 self-learning addenda are gated by P19.2 regression fixtures + R9 cap (≤5 addenda per phase, FIFO eviction)."
@@ -254,11 +265,16 @@ waves:
 
         Wave 5 also lands the optional convenience features: PDF pre-splitting
         for books too large for Azure's polling budget in one shot, parallel
-        per-chapter authoring for speed, web upload via the dashboard, and the
-        source-adapter registry (so non-PDF inputs like Urdu PDFs, scanned
-        images, or video transcripts can be plugged in without rewriting the
-        orchestrator). Each Wave 5 phase promotes individually when its trigger
-        fires; the wave never auto-fires under launchd.
+        per-chapter authoring for speed, web upload via the dashboard, the
+        source-adapter registry promotion (which enables manifest-driven
+        multi-source ingestion — folder bundles, multi-author anthologies, etc.
+        running through the same pipeline), and the cross-book learning store
+        (P21) that lets vocabulary, patterns, author style profiles, and
+        operator preferences accumulate across books so the LLM cognitive load
+        drops on each successive run.
+
+        Each Wave 5 phase promotes individually when its trigger fires; the
+        wave never auto-fires under launchd.
 
 # -----------------------------------------------------------------------------
 # System check (verified 2026-05-19 — refresh before each batch)
@@ -1692,7 +1708,15 @@ phases:
       - id: P9.5
         title: "Large: Asaas Al-Taveel (416p)"
         source_material_risk: "high"
-        acceptance: ["Full pipeline; metrics recorded; Loop N clean"]
+        preflight_required:
+          - "content/podcast/library/books/asaas-al-taveel/_system/source/text/chapters-rationale.md exists with the 6-chapter natiq map (Adam/Nuh/Ibrahim/Musa/Isa/Muhammad + the unwritten Qa'im) BEFORE run_wave.py 3 --book asaas-al-taveel fires"
+          - "content/podcast/library/books/asaas-al-taveel/_system/concept-glossary.md exists with ≥20 entries across cosmology, hermeneutics, neoplatonic emanation, and Fatimid doctrinal terms BEFORE the run fires"
+          - "Operator-recommended 6-episode preset reviewed at Phase 0f operator gate (Mentor+Student persona; series_pattern=recursive_scaffold; long-form tier)"
+        acceptance:
+          - "Full pipeline; metrics recorded; Loop N clean"
+          - "Episode 6 (The Seventh Silence) honors the unwritten Qa'im chapter as content — not silently skipped"
+          - "Concept-glossary referenced by ≥1 framing per episode OR zero-new-vocab declaration logged"
+          - "P4 numeric-disambiguation register populated; 7-natiq and 12-hujja enumerations carry citations"
       - id: P9.6
         title: "XLarge: Raahat al-Aqal (591p)"
         risk: "Phase 04-ocr-translate may approach Doc Intelligence 600s poll budget (R2)"
@@ -1936,11 +1960,17 @@ phases:
 
   - id: P17.1
     wave: W5
-    name: "Source-adapter registry (pluggable input formats)"
+    name: "Source-adapter registry (pluggable input formats) + manifest-driven multi-source ingestion"
     promote_when: |
-      First non-Arabic-PDF source arrives (Urdu PDF, scanned image, video
-      transcript, audio file as primary source rather than secondary), OR
-      user explicitly opts in to formalize the adapter pattern.
+      PROMOTED 2026-05-19 — operator explicitly opted in for (a) folder-bundle
+      ingestion ("podcast agent on a folder of curated documents") and
+      (b) Asaas chapter-map preflight convention. Triggered after P9.5
+      (Asaas) ships clean — Asaas validates the chapters-rationale.md /
+      manifest preflight convention on a single-source book BEFORE scaling
+      to N-doc bundles.
+
+      Original trigger (now superseded): first non-Arabic-PDF source arrives
+      (Urdu PDF, scanned image, video transcript), OR user explicitly opts in.
     why: |
       Today Phase 04-ocr-translate hardcodes the Arabic-PDF flow via
       scripts/podcast/_azure.py. New input formats require either inflating
@@ -2042,6 +2072,70 @@ phases:
       - "Adding a hypothetical urdu_pdf.py touches exactly: adapters/urdu_pdf.py (new file), adapters/__init__.py (one REGISTRY line), tests/adapters/test_urdu_pdf.py (new file). Zero edits to orchestrate_book.py, _authoring.py, _chunking.py, SKILL.md, or any agent file (verified by manually walking through the worked example in PR description)"
       - "Boundary check (P1.1): adapters/ folder participates in scripts/podcast/ isolation — no imports from scripts/site/ or scripts/memoir/"
       - "Cost-ledger integration: each adapter call appends a cost-ledger.jsonl row via the shared _cost_ledger.py module (P6.1); Azure spend by adapter is itemized"
+
+    extension_change_d:
+      summary: |
+        Change D — Manifest-driven multi-source ingestion. Extends P17.1's
+        adapter pattern with a manifest schema, four additional adapters
+        (english_pdf, markdown, transcript, auto), a voice_mode field for
+        multi-author bundles, and a backward-compat shim that auto-scaffolds
+        a 1-doc manifest for existing single-source books. Lands AFTER P9.5
+        (Asaas) ships clean.
+      files_new:
+        - scripts/podcast/adapters/_manifest.py             # NEW — manifest schema + YAML validator
+        - scripts/podcast/adapters/english_pdf.py           # NEW — Azure OCR with lang hint = en
+        - scripts/podcast/adapters/markdown.py              # NEW — trivial (read file, normalize whitespace)
+        - scripts/podcast/adapters/transcript.py            # NEW — timestamped-transcript parser; preserves speaker tags
+        - scripts/podcast/adapters/auto.py                  # NEW — detect format by extension + first-bytes sniff
+        - scripts/podcast/scaffold_bundle.py                # NEW — walk a folder, emit a manifest stub
+        - scripts/podcast/tests/adapters/test_manifest_validator.py
+        - scripts/podcast/tests/adapters/test_english_pdf.py
+        - scripts/podcast/tests/adapters/test_markdown.py
+        - scripts/podcast/tests/adapters/test_transcript.py
+        - scripts/podcast/tests/adapters/test_auto.py
+        - scripts/podcast/tests/adapters/test_voice_mode.py
+        - scripts/podcast/tests/e2e/test_folder_bundle.py
+        - scripts/podcast/tests/e2e/test_single_pdf_manifest_parity.py
+        - scripts/podcast/tests/e2e/fixtures/folder-bundle/   # 3-doc synthetic fixture
+      files_modified:
+        - scripts/podcast/scaffold_book.py                  # auto-scaffold 1-doc manifest for new single-source books (backward-compat shim)
+        - scripts/podcast/orchestrate_book.py               # Phase 0a honors manifest ordering + adapter dispatch
+        - scripts/podcast/_authoring.py                     # Phase 11 reads voice_mode for framing context
+        - content/podcast/.skill/handbook/book-dir-layout.md   # document _system/source/manifest.yml schema
+        - content/podcast/.skill/handbook/two-host-framing.md  # already updated 2026-05-19 with voice_mode override section
+      manifest_schema: |
+        schema_version: 1
+        bundle_kind: folder | single_pdf | mixed
+        voice_mode: single_author | curated_anthology | editor_voice
+        title: "<Bundle Title>"
+        author_or_curator: "<operator-supplied>"
+        documents:
+          - path: source/file1.pdf
+            role: intro | chapter | appendix | sidebar | epigraph
+            order: 1
+            chapter_slug: <kebab-case>     # only when role: chapter
+            adapter: arabic_pdf | english_pdf | markdown | transcript | auto
+          - path: source/file2.txt
+            role: chapter
+            order: 2
+      ext_acceptance:
+        - "P17.1.ext.1 ✅ Manifest schema documented in book-dir-layout.md; YAML validator at scripts/podcast/adapters/_manifest.py"
+        - "P17.1.ext.2 ✅ Four new adapters (english_pdf, markdown, transcript, auto) implement SourceAdapter Protocol; parity tests under tests/adapters/"
+        - "P17.1.ext.3 ✅ scaffold_book.py auto-generates 1-doc manifest stub for new single-source books (backward-compat shim); scaffold_bundle.py auto-generates N-doc manifest stub from a folder walk"
+        - "P17.1.ext.4 ✅ orchestrate_book.py Phase 0a honors manifest ordering + adapter dispatch; produces concatenated normalized.md with doc-boundary comment markers (<!-- DOC: file1.pdf | role: chapter -->)"
+        - "P17.1.ext.5 ✅ Phase 0d respects manifest chapter_slug declarations; falls back to auto-segmentation only when manifest is silent"
+        - "P17.1.ext.6 ✅ voice_mode field (single_author | curated_anthology | editor_voice) consumed by _authoring.py Phase 11; default = single_author preserves existing behavior"
+        - "P17.1.ext.7 📊 Folder-bundle fixture under _learning/fixtures/folder_bundle/three-articles/ runs clean through Phase 0a → Phase 11; produces episode txt with cross-doc references intact"
+        - "P17.1.ext.8 ✅ Single-PDF parity: existing W3 corpus books produce byte-identical refined-english.md + chapter txt with the auto-scaffolded 1-doc manifest (golden frozen at tiny-book + Ayyuhal Walad)"
+      voice_mode_risk: |
+        Cross-author voice homogenization in folder bundles is the single
+        biggest risk. The current pipeline assumes one author voice per book
+        (meta-prose-tells.md + enrichment-whitelist.md are per-book). A
+        bundle_kind: folder mixing 5 authors will produce hosts who paper
+        over real voice discontinuities. Mitigation: voice_mode manifest
+        field — default `single_author` preserves current behavior;
+        `curated_anthology` suppresses cross-doc meta-prose homogenization;
+        `editor_voice` layers an explicit editor persona into framing.
 
   - id: P18
     wave: W5
@@ -2171,6 +2265,219 @@ phases:
           - "Next-book trainer pass computes per-signature health delta and reverts regressed addenda"
           - "Revert-tombstone in _learned-addenda/_archive/ cites the regression measurements"
           - "If addendum reverts 2+ times for the same signature, signature is escalated to human-review queue (P14 dashboard surface)"
+
+  - id: P22
+    wave: W2
+    name: "Operator-review gate after Phase 0a (English-transcript halt + comment-driven refinement)"
+    promote_when: |
+      PROMOTED 2026-05-19 — operator explicitly opted in. Verbatim:
+      "Can I get a full transcription of the book in English since it's being
+      processed entirely anyways? Without that this effort is not worth much.
+      Once you have the full transcript (in English from whatever language)
+      then you should apply all refinements. You should break for my review
+      and comment-based updates before starting the heavy processing cycles."
+    why: |
+      Today the orchestrator runs Phase 0a (OCR + translate) → Phase 0b
+      (refinement, chunked, ~32 windows for a 260-page book) → Phase 0c
+      (phonetic) → Phase 0d (chapter design) → Phase 0e (enrichment) → Phase
+      0f (operator gate). The operator's first chance to see the book in
+      English is somewhere mid-Phase 0b when refined.md starts taking shape,
+      and the first hard halt is Phase 0f — by which point ~6 hours of LLM
+      work has already happened.
+
+      Two problems with this:
+        1. The operator has no early visibility into the *raw English text*
+           of the book. If OCR scrambled a passage, if translation glitched,
+           if a page was skipped — the operator finds out 6 hours in.
+        2. There is no place to insert operator domain knowledge (corrections,
+           glossary additions, page-range adjustments) before the heavy
+           LLM-driven phases bake assumptions into refined.md.
+
+      P22 inserts a halt-with-DoR gate immediately after Phase 0a. The
+      orchestrator writes a clean, paginated English transcript artifact +
+      a scaffolded operator-review.md file, then halts. The operator reads
+      the transcript, adds comments to operator-review.md (or edits the
+      transcript directly), then resumes with --approve-transcript. The
+      operator's comments are concatenated into the Phase 0b refinement
+      prompt as additional context.
+
+      Net effect: ~5 minutes of operator attention BEFORE the 6-hour heavy
+      cycle, instead of after. The operator's review catches OCR/translation
+      issues at the cheapest possible point, and the operator's domain
+      knowledge informs every downstream phase.
+    files:
+      - scripts/podcast/orchestrate_book.py                  # MODIFY — Phase 0a now writes english-transcript.md + halts at 0a.5 gate
+      - scripts/podcast/_authoring.py                        # MODIFY — Phase 0b refinement reads operator-review.md as additional prompt context
+      - scripts/podcast/_transcript_writer.py                # NEW — clean paginator: normalized.md → english-transcript.md with page breadcrumbs
+      - scripts/podcast/tests/test_transcript_writer.py      # NEW
+      - scripts/podcast/tests/e2e/test_operator_review_gate.py  # NEW
+      - docs/podcast/operator-review-gate.md                 # NEW — operator workflow doc
+    halt_point_heuristic: |
+      The halt point depends on where the first CLEAN readable English
+      artifact is produced:
+
+      - **Arabic-scanned PDF source** (e.g. KaR, Asaas, Raahat al-Aqal):
+        halt AFTER Phase 0b. Phase 0a produces raw-extract.md (Azure raw
+        translate is unreadable junk — proper names mangled, sentences
+        scrambled). Phase 0b produces refined-english.md, which IS the
+        readable English transcript. Halt here.
+      - **English text-layer PDF source** (e.g. modern English books with
+        OCR text already embedded): halt AFTER Phase 0a. Phase 0a produces
+        the English text directly via PDF text extraction. Phase 0b
+        becomes a light polish pass and the transcript is essentially
+        what Phase 0a emitted.
+      - **Markdown / transcript source**: halt AFTER Phase 0a. The text
+        is already clean.
+
+      The orchestrator detects which case applies by reading the source
+      adapter (P17.1) and the source language. Default: halt after the
+      first phase whose output is a complete, single-file English artifact
+      passing a readability heuristic (proper-noun integrity, sentence
+      coherence, ≥80% recognizable English vocabulary).
+    spec: |
+      When the halt phase completes, the orchestrator:
+        1. Reads <book>/_system/source/text/refined-english.md
+           (or normalized.md for English-source cases per halt_point_heuristic)
+        2. Calls _transcript_writer.paginate(source) → english-transcript.md
+           - paragraph breaks preserved
+           - page-number breadcrumbs from OCR metadata inserted every page boundary
+           - generous left margin for marginal review notes
+           - top-of-file header naming the book + source language + OCR confidence
+             + which-phase-was-the-halt-point
+        3. Writes english-transcript.md to <book>/english-transcript.md
+           (top-level, not buried under _system/, so it's visible to the
+           operator at a glance)
+        4. Writes a scaffolded operator-review.md template to
+           <book>/operator-review.md with sections:
+             - Translation issues (page-anchored)
+             - Missing or scrambled passages
+             - Glossary additions
+             - Pronunciation corrections
+             - Free-form comments
+             - "I approve this transcript — proceed" checkbox
+        5. Sets state.json phase_status="halted-for-transcript-review",
+           writes halt message to stdout/log:
+           ```
+           ┌─────────────────────────────────────────────────────────────┐
+           │ HALTED — English transcript ready for operator review       │
+           │                                                             │
+           │ Read:   <book>/english-transcript.md                        │
+           │ Comment: <book>/operator-review.md (or edit transcript)     │
+           │ Resume: python3 orchestrate_book.py --resume <slug>         │
+           │           --approve-transcript                              │
+           └─────────────────────────────────────────────────────────────┘
+           ```
+        6. Exits with rc=3 (halt, not error)
+
+      When the operator runs --approve-transcript:
+        1. Verifies operator-review.md has the "I approve" checkbox marked
+           OR is empty (no comments = silent approval)
+        2. Reads operator-review.md and any inline edits to
+           english-transcript.md
+        3. Passes the operator's comments into the Phase 0b refinement
+           prompt as a `<operator-review>` XML block at the top of the
+           system prompt
+        4. Resumes Phase 0b normally
+    depends_on: [P5, P6]   # P5 ships acceptEdits + artifact validation; P6 ships cost ledger (the gate must not lose ledger context across halt-resume)
+    acceptance:
+      - "Halt-point detection: Arabic-scanned source → halt after Phase 0b; English text-layer source → halt after Phase 0a; markdown source → halt after Phase 0a (verified against fixtures)"
+      - "At halt, <book>/english-transcript.md exists; word count within ±2% of source artifact (paragraphing preserved; page breadcrumbs intact)"
+      - "At halt, <book>/operator-review.md exists with scaffolded sections; operator can mark 'I approve' checkbox"
+      - "state.json shows phase_status='halted-for-transcript-review' at the halt point"
+      - "Orchestrator exit code is 3 (halt) — not 0 (success) or 1 (error)"
+      - "--approve-transcript flag resumes from the halt; refuses to resume if operator-review.md has comments but no 'I approve' checkbox"
+      - "Downstream Phase 0c+ prompts include operator-review.md content as <operator-review> XML block when present"
+      - "E2E test: operator-review.md with 3 typo corrections influences refined.md (assertion via Levenshtein delta in fixture)"
+      - "Backward-compat: --skip-transcript-gate flag bypasses the halt for runs that don't want the gate (default: gate is on)"
+      - "Cost-ledger row written for the halt-point paginator step (no LLM call; records the paginator + scaffolder runtime)"
+      - "operator-review.md is NEVER overwritten by the orchestrator after initial scaffold; operator edits are preserved on resume"
+
+  - id: P21
+    wave: W5
+    name: "Cross-book learning store (vocabulary + patterns + author profiles + operator preferences)"
+    promote_when: |
+      ≥3 books shipped clean through W3 corpus (P9.1–P9.3 minimum) AND
+      operator opts in. The store needs at least 3 books' worth of vocabulary
+      and pattern observations to be worth the indexing overhead.
+
+      Original operator motivation (2026-05-19): "The cognitive and language
+      load on the LLM should keep reducing drastically from each run. Once
+      you learn patterns and they're stored in some fashion in a local
+      database, it should work. Remember I am the ONLY one using this."
+    why: |
+      Today every book's Phase 0c (Arabic phonetic pass) re-derives phonetic
+      guides for terms the system has already seen 50 times across other
+      books. Every Phase 0d re-derives chapter-design patterns. Every
+      Phase 11 re-discovers the author's style profile. No knowledge
+      accumulates across books beyond the trainer's narrow phase-prompt
+      addenda (P19) and the per-book glossary/pronunciation files.
+
+      The cross-book learning store changes that. Single-user, single-Mac,
+      git-tracked SQLite + structured YAML files. Each phase looks up known
+      terms / patterns / profiles BEFORE calling claude -p. Cache hits skip
+      LLM cost entirely. Cache misses go through the LLM as today, then
+      promote the result to the store for the next book.
+
+      Concrete time savings (per modeling):
+        - Book 2 (post-store): ~20-30% faster end-to-end vs book 1
+        - Book 5: ~40-50% faster
+        - Book 10: ~50-60% faster (asymptotic)
+        - Phase 0c phonetic pass: up to 80% LLM-call reduction by book 5
+        - Phase 0b refinement: ~20-25% reduction (style profile reuse)
+        - Phase 0e enrichment: ~30-50% reduction (pattern library reuse)
+    promote_when_rationale: |
+      Premature promotion (after only 1-2 books) burns engineering effort on
+      indexing infrastructure without enough data to demonstrate the cache-hit
+      curve. P9.1-P9.3 (Ayyuhal Walad, Masaail, Majalis Moyyada) span small
+      and small-medium ranges across different content types — sufficient
+      seed corpus for vocabulary.sqlite to start showing 30%+ hit rates.
+    files_new:
+      - content/podcast/_learning/vocabulary.sqlite          # NEW — gitignored binary; rebuildable from JSONL log
+      - content/podcast/_learning/vocabulary.jsonl           # NEW — append-only audit log; git-tracked
+      - content/podcast/_learning/patterns.sqlite            # NEW — gitignored
+      - content/podcast/_learning/patterns.jsonl             # NEW — git-tracked
+      - content/podcast/_learning/author-profiles/           # NEW — one YAML per author
+      - content/podcast/_learning/operator-prefs.yml         # NEW — voice_mode default, tier default, etc.
+      - content/podcast/_learning/cache-stats.jsonl          # NEW — per-run hit-rate telemetry
+      - scripts/podcast/_learning_store.py                   # NEW — read/write API
+      - scripts/podcast/_learning_rebuild.py                 # NEW — rebuild .sqlite from .jsonl audit log
+      - scripts/podcast/tests/test_learning_store.py         # NEW
+    files_modified:
+      - scripts/podcast/_chunking.py                         # Phase 0c looks up term phonetics before LLM call
+      - scripts/podcast/_authoring.py                        # Phase 0b/0e style-profile + pattern lookups
+      - .gitignore                                            # ignore *.sqlite under _learning/
+    schema_sketch: |
+      vocabulary.sqlite
+        terms(
+          term TEXT PRIMARY KEY,           -- the Arabic / foreign word
+          source_lang TEXT,                -- "ar" | "ur" | "fa" | ...
+          pronunciation TEXT,              -- phonetic guide
+          one_line_gloss TEXT,             -- conceptual meaning
+          domain TEXT,                     -- cosmology | hermeneutics | fiqh | ...
+          first_seen_book TEXT,            -- book slug
+          first_seen_at TEXT,              -- ISO ts
+          occurrence_count INTEGER,        -- across all books
+          operator_locked BOOLEAN,         -- true = operator-approved canonical; never re-derive
+          confidence FLOAT                 -- 0.0-1.0; LLM-derived vs operator-confirmed
+        )
+
+      patterns.sqlite
+        patterns(
+          signature TEXT PRIMARY KEY,      -- hash of (book_type, structure_key)
+          pattern_name TEXT,               -- "qur'anic verse → exegesis → moral application"
+          example_books TEXT,              -- JSON array of slugs
+          template TEXT,                   -- markdown template
+          times_used INTEGER
+        )
+    acceptance:
+      - "scripts/podcast/_learning_store.py exposes: lookup_term(term, lang) -> Term | None; promote_term(...); lookup_pattern(...); promote_pattern(...)"
+      - "Lookups complete in <5ms p99 (SQLite read; in-memory cache after first hit)"
+      - "Cache-stats per-run telemetry: cache-stats.jsonl row per phase with {phase, lookups, hits, misses, hit_rate, elapsed_ms_saved}"
+      - "Operator review surface: dashboard (P8) gets a /learning/vocabulary endpoint listing recent additions; operator can mark terms operator_locked=true"
+      - "Audit log: every store write also appends to .jsonl; rebuild_from_jsonl reproduces .sqlite byte-identical OR within documented tolerance"
+      - "Boundary check (P1.1): _learning_store.py reads but does not write outside content/podcast/_learning/"
+      - "Cost-ledger integration: rows include hit/miss field; LLM-skipped calls show $0 cost with method='cache-hit'"
+      - "Goodhart guard: operator can mark a term as operator_locked, preventing the LLM-derived value from re-asserting itself on a later run"
 
   - id: P20
     wave: W5
