@@ -94,3 +94,4 @@ trips/*/snapshots/
 
 # Wrangler local cache (regenerated per invocation)
 .wrangler/
+_workspace/orchestrator-logs/
