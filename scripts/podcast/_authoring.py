@@ -63,6 +63,11 @@ PHASE_0C_WINDOW_WORDS = 8000        # phonetic extraction tolerates larger windo
 PHASE_0C_OVERLAP_WORDS = 60
 PHASE_0C_WINDOW_TIMEOUT = 600
 
+# Map-reduce defaults for Phase 0d / 0e (per-source-chapter / per-episode-chapter loops).
+PHASE_0D_TOC_TIMEOUT = 600            # 10 min — TOC step processes whole refined-english.md once (read-mostly)
+PHASE_0D_SC_TIMEOUT = 1200            # 20 min per source chapter — writes 1-3 episode files + contracts
+PHASE_0E_CHAPTER_TIMEOUT = 900        # 15 min per chapter enrichment
+
 CLAUDE_CMD = "claude"         # resolved via PATH
 
 
@@ -401,26 +406,47 @@ def _merge_phonetic_tables(paths: list[Path]) -> str:
     return f"{header}\n{divider}\n{body}\n" if order else f"{header}\n{divider}\n"
 
 
-# ─── Phase 0d — Chapter design ───────────────────────────────────────────────
+# ─── Phase 0d — Chapter design (map-reduce by source chapter) ────────────────
 def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
                     unit_mode: str = "auto",
-                    timeout: int = DEFAULT_TIMEOUT) -> str:
+                    timeout: int = DEFAULT_TIMEOUT,
+                    toc_timeout: int = PHASE_0D_TOC_TIMEOUT,
+                    sc_timeout: int = PHASE_0D_SC_TIMEOUT,
+                    log=print) -> str:
     """Segment the refined source into meaningful, balanced **episode units**.
 
+    Implemented as a 2-step map-reduce so the LLM never has to author the
+    entire book's chapter set in a single shellout:
+
+      Step 1 (TOC + plan, one small call):
+          Read refined-english.md, identify source-chapter boundaries
+          (by heading or thematic break), and emit a JSON plan to
+          `_chunks/0d/source-toc.json`. Each entry pins start_line +
+          end_line (1-indexed, inclusive) into refined-english.md, the
+          chosen `unit_mode` for that source chapter, the episode count,
+          and the kebab-case slug for each episode.
+
+      Step 2 (per-source-chapter loop, one call each):
+          For each source chapter in the plan, slice the refined text,
+          pass it to a focused `claude -p` call that writes ONLY this
+          source chapter's episode files + contracts (with episode
+          numbers already pre-assigned from the plan, so the global
+          numbering is monotonic). Per-source-chapter rationale +
+          source-map rows are written to
+          `_chunks/0d/sc-NNN.{rationale,source-map}.md`. A
+          `_chunks/0d/sc-NNN.done` marker file makes the loop
+          resume-safe — if the orchestrator crashes mid-way, re-running
+          only retries the not-yet-done source chapters.
+
+      Step 3 (stitch, deterministic):
+          Concat all sc-NNN.rationale.md → chapters-rationale.md.
+          Concat all sc-NNN.source-map.md (under one shared pipe-table
+          header) → source-chapter-map.md (when unit_mode != chapter).
+
     `unit_mode` controls how source structure maps to episodes:
-
-      - `chapter` — each source chapter becomes exactly one episode (one
-        chapter file + one contract). Good for short/medium books where
-        source chapters already fit the tier band.
-
-      - `section` — each source chapter is split into multiple sections;
-        each section becomes its own episode. Naming uses suffixes:
-        `ch03a-...txt`, `ch03b-...txt`, etc. Good for long books where a
-        single source chapter would exceed the tier band by >50%.
-
-      - `auto` (default) — the LLM decides per source chapter: keep whole
-        if it fits the tier band within ±50%, else split into sections.
-        This is the recommended setting for any unfamiliar book.
+      - `chapter` — each source chapter becomes exactly one episode
+      - `section` — each source chapter is split into multiple episodes
+      - `auto` (default) — Step 1 decides per-chapter based on tier band
 
     Reads:  BOOK_DIR/_system/source/text/refined-english.md
             BOOK_DIR/_system/source/text/_phonetics.md
@@ -428,9 +454,13 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             BOOK_DIR/chapter-contracts/<slug>.yml (one per episode)
             BOOK_DIR/_system/source/text/chapters-rationale.md
             BOOK_DIR/_system/source/text/source-chapter-map.md
-                (table of source-chapter → episode-list; required when
-                 unit_mode != 'chapter')
+                (when unit_mode != 'chapter')
+            BOOK_DIR/_system/source/text/_chunks/0d/source-toc.json
+            BOOK_DIR/_system/source/text/_chunks/0d/sc-NNN.{rationale,source-map}.md
+            BOOK_DIR/_system/source/text/_chunks/0d/sc-NNN.done
     """
+    import json as _json
+
     book_slug = book_dir.name
     in_refined = book_dir / "_system" / "source" / "text" / "refined-english.md"
     in_phonetics = book_dir / "_system" / "source" / "text" / "_phonetics.md"
@@ -438,6 +468,8 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
     out_source_map = book_dir / "_system" / "source" / "text" / "source-chapter-map.md"
     chapters_dir = book_dir / "chapters"
     contracts_dir = book_dir / "chapter-contracts"
+    chunks_dir = book_dir / "_system" / "source" / "text" / "_chunks" / "0d"
+    toc_path = chunks_dir / "source-toc.json"
 
     if unit_mode not in ("chapter", "section", "auto"):
         raise AuthoringError(
@@ -453,6 +485,10 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
                 manual_fallback="Run prior phases (0b, 0c) first.",
             )
 
+    chunks_dir.mkdir(parents=True, exist_ok=True)
+    chapters_dir.mkdir(parents=True, exist_ok=True)
+    contracts_dir.mkdir(parents=True, exist_ok=True)
+
     tier_band = {
         "default_deep_dive": "1,800–2,800 words per episode",
         "longer": "2,800–4,500 words per episode",
@@ -461,105 +497,344 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
 
     unit_directive = {
         "chapter": (
-            "UNIT MODE: **chapter** — each source chapter becomes exactly ONE episode. "
-            "Do NOT split any source chapter, even if it overflows the tier band."
+            "UNIT MODE: **chapter** — every source chapter MUST become exactly ONE episode "
+            "(unit_mode='chapter', episode_count=1). Do NOT split any source chapter even if "
+            "its word count overflows the tier band."
         ),
         "section": (
-            "UNIT MODE: **section** — each source chapter is split into one or more "
-            "thematic sections; each section becomes its OWN episode. Use suffix letters "
-            "(`ch03a-...`, `ch03b-...`) when multiple episodes come from the same source "
-            "chapter; otherwise just `chNN-...` if the source chapter yields exactly one "
-            "section. Every episode MUST land inside the tier band."
+            "UNIT MODE: **section** — every source chapter MUST be split into 2 or more "
+            "thematic sections (unit_mode='sections', episode_count>=2). Aim for tier-band "
+            "compliance per resulting episode."
         ),
         "auto": (
-            "UNIT MODE: **auto** — for each source chapter, decide: if its word count is "
-            "within ±50% of the tier band midpoint, emit ONE episode for the whole chapter. "
-            "If it exceeds 1.5× the band's upper bound, SPLIT it into sections (each section "
-            "is its own episode, named `chNN<suffix>-...` where suffix is a single lowercase "
-            "letter when multiple episodes come from the same source chapter). Aim for "
-            "all episodes within ~30% of each other."
+            "UNIT MODE: **auto** — for each source chapter, decide individually: "
+            "if its word count is within ±50% of the tier band midpoint, set "
+            "unit_mode='chapter' (episode_count=1). If it exceeds 1.5× the tier band's upper "
+            "bound, set unit_mode='sections' and pick episode_count so each resulting episode "
+            "lands inside the band. Aim for all episodes within ~30% of each other."
         ),
     }[unit_mode]
 
-    source_map_instruction = (
-        f"- Write `{out_source_map}` with a pipe table mapping each source chapter to its "
-        f"resulting episode(s). Header: `| source chapter | source title | episode(s) | "
-        f"split reason |`. This audit trail is REQUIRED when unit_mode is `section` or `auto`."
-        if unit_mode in ("section", "auto") else
-        f"- (unit_mode=chapter) Skip `source-chapter-map.md`."
-    )
+    # ── STEP 1: TOC + plan ───────────────────────────────────────────────────
+    log("  phase 0d · step 1/3 · TOC + segmentation plan")
 
-    prompt = (
-        f"You are driving Phase 0d (Chapter / Episode Design) of the /podcast skill on "
-        f"book-slug `{book_slug}`. Read the canonical procedure from "
-        f"`skills-staging/podcast/SKILL.md` (search `### PHASE 0d`) and apply it.\n\n"
-        f"INPUT:  `{in_refined}`, `{in_phonetics}`\n"
-        f"OUTPUTS:\n"
-        f"  - `{chapters_dir}/ch##[a-z]?-<slug>.txt` — one per episode\n"
-        f"  - `{contracts_dir}/<slug>.yml` (one per episode, per chapter-contract.template.yml)\n"
-        f"  - `{out_rationale}` (one paragraph per episode explaining the segmentation)\n"
-        f"  - `{out_source_map}` (source-chapter → episode mapping, when unit_mode != chapter)\n\n"
-        f"Length tier: **{length_tier}** — each episode MUST land in {tier_band}. "
-        f"Episodes in a series should be within ~30% of each other within the tier.\n\n"
-        f"{unit_directive}\n\n"
-        f"Constraints:\n"
-        f"- Do NOT modify any file outside the named outputs.\n"
-        f"- Episode slugs are short kebab-case (e.g. `the-lineage-of-a-lost-argument`). "
-        f"When a source chapter is split into sections, each section gets its own "
-        f"distinct slug — do NOT reuse the source chapter's slug across sections.\n"
-        f"- Each `chapter-contracts/<slug>.yml` carries: chapter_ref, slug, source_type, "
-        f"book_slug, episode_number, title, audience, angle, episode_format=deep_dive, "
-        f"host_dynamic, length_target, key_tensions, tone_constraints, anchor_passages, "
-        f"adaptation_mode=faithful, phonetic_overrides, show_notes.\n"
-        f"  - When this episode is a section of a longer source chapter, also include "
-        f"`source_chapter_ref` and `section_index` (1-based) in the contract.\n"
-        f"- Re-segment by THEME, not by the source's own chapter breaks (the source's "
-        f"breaks are a STARTING point, not a constraint).\n"
-        f"{source_map_instruction}\n\n"
-        f"Exit when every episode file + contract is written and `{out_rationale}` is non-empty."
-    )
+    if toc_path.exists() and toc_path.stat().st_size > 0:
+        log(f"    skip toc (already on disk: {toc_path.name})")
+    else:
+        toc_prompt = (
+            f"You are driving Phase 0d STEP 1 (TOC + segmentation plan) of the /podcast "
+            f"skill on book-slug `{book_slug}`. This is a small read-mostly call: you will "
+            f"NOT write any chapter or contract files in this step — only one JSON plan.\n\n"
+            f"INPUT:  `{in_refined}` (the refined English source)\n"
+            f"OUTPUT: `{toc_path}` (machine-readable plan; valid JSON only, no markdown)\n\n"
+            f"TASK:\n"
+            f"1. Read `{in_refined}` and identify the source chapters (by heading, "
+            f"thematic break, or major topic shift). Use the source author's own "
+            f"chapter breaks as the starting point.\n"
+            f"2. For each source chapter, compute its line range in `{in_refined}` "
+            f"(1-indexed, inclusive — use `wc -l` style counting; lines are separated by "
+            f"`\\n`). Also compute its word count (whitespace-split).\n"
+            f"3. Apply the following segmentation directive PER SOURCE CHAPTER:\n"
+            f"   {unit_directive}\n"
+            f"4. Assign monotonically increasing episode numbers (`ep_num`) across the whole "
+            f"book starting at 1. Each episode gets a short kebab-case `episode_slug` "
+            f"(distinct across the whole book). When a source chapter splits into multiple "
+            f"episodes (unit_mode='sections'), each episode's slug must reflect its OWN "
+            f"theme, not the source chapter's overall theme.\n\n"
+            f"Length tier: **{length_tier}** — target {tier_band}.\n\n"
+            f"OUTPUT FORMAT — write to `{toc_path}`, valid JSON, no surrounding text:\n"
+            f"```json\n"
+            f"{{\n"
+            f'  "length_tier": "{length_tier}",\n'
+            f'  "unit_mode_input": "{unit_mode}",\n'
+            f'  "source_chapters": [\n'
+            f'    {{\n'
+            f'      "sc_index": 1,\n'
+            f'      "source_title": "Introduction",\n'
+            f'      "start_line": 12,\n'
+            f'      "end_line": 487,\n'
+            f'      "word_count": 4280,\n'
+            f'      "unit_mode": "chapter",\n'
+            f'      "episode_count": 1,\n'
+            f'      "episodes": [\n'
+            f'        {{ "ep_num": 1, "episode_slug": "the-question-of-authority", '
+            f'"section_index": null }}\n'
+            f'      ],\n'
+            f'      "split_reason": "fits tier band"\n'
+            f'    }},\n'
+            f'    {{\n'
+            f'      "sc_index": 2,\n'
+            f'      "source_title": "On the Imamate",\n'
+            f'      "start_line": 488,\n'
+            f'      "end_line": 1820,\n'
+            f'      "word_count": 11400,\n'
+            f'      "unit_mode": "sections",\n'
+            f'      "episode_count": 2,\n'
+            f'      "episodes": [\n'
+            f'        {{ "ep_num": 2, "episode_slug": "the-claim-to-succession", '
+            f'"section_index": 1 }},\n'
+            f'        {{ "ep_num": 3, "episode_slug": "the-tests-of-legitimacy", '
+            f'"section_index": 2 }}\n'
+            f'      ],\n'
+            f'      "split_reason": "1.7x upper bound; thematic seam at the legitimacy tests"\n'
+            f'    }}\n'
+            f'  ]\n'
+            f"}}\n"
+            f"```\n\n"
+            f"Constraints:\n"
+            f"- Write ONLY `{toc_path}`. Do NOT touch any other file.\n"
+            f"- The output MUST be valid JSON (parseable by Python's json.loads).\n"
+            f"- ep_num starts at 1 and is strictly monotonic across the whole array.\n"
+            f"- end_line of source_chapter N must be < start_line of source_chapter N+1.\n"
+            f"- episode_slug must be unique across the whole book.\n"
+            f"- For unit_mode='chapter', episodes[*].section_index MUST be null.\n"
+            f"- For unit_mode='sections', episodes[*].section_index is 1..episode_count.\n\n"
+            f"Exit when `{toc_path}` is non-empty and valid JSON."
+        )
+        rc, stdout, stderr = _run_claude_p(toc_prompt, timeout=toc_timeout)
+        _assert_artifact(
+            phase="0d-toc",
+            path=toc_path,
+            rc=rc,
+            stdout=stdout,
+            stderr=stderr,
+            manual_fallback=(
+                f"Author `{toc_path}` manually (see prompt structure in _authoring.py), "
+                f"then re-invoke orchestrate-book --resume."
+            ),
+        )
 
-    rc, stdout, stderr = _run_claude_p(prompt, timeout=timeout)
-    _assert_artifact(
-        phase="0d",
-        path=out_rationale,
-        rc=rc,
-        stdout=stdout,
-        stderr=stderr,
-        manual_fallback=(
-            "1. /podcast — drive Phase 0d on this BOOK_DIR manually.\n"
-            "2. When chapters/ + chapter-contracts/ are populated, re-invoke "
-            "orchestrate-book --resume."
-        ),
-    )
-    # Verify that at least one chapter + contract was produced.
+    # Validate + parse plan.
+    try:
+        plan = _json.loads(toc_path.read_text(encoding="utf-8"))
+    except _json.JSONDecodeError as e:
+        raise AuthoringError(
+            phase="0d-toc",
+            message=f"source-toc.json is not valid JSON: {e}",
+            manual_fallback=(
+                f"Fix or delete `{toc_path}` and retry Phase 0d "
+                f"(--resume --retry-phase 0d)."
+            ),
+        ) from e
+
+    source_chapters = plan.get("source_chapters") or []
+    if not source_chapters:
+        raise AuthoringError(
+            phase="0d-toc",
+            message="source-toc.json has no source_chapters",
+            manual_fallback=f"Edit `{toc_path}` to add source_chapters then retry.",
+        )
+
+    refined_lines = in_refined.read_text(encoding="utf-8").splitlines()
+
+    # ── STEP 2: per-source-chapter loop ──────────────────────────────────────
+    log(f"  phase 0d · step 2/3 · per-source-chapter loop ({len(source_chapters)} chapters)")
+
+    sc_failures: list[tuple[int, str]] = []
+    for sc in source_chapters:
+        sc_idx = int(sc["sc_index"])
+        sc_title = str(sc.get("source_title", f"source chapter {sc_idx}"))
+        start_line = int(sc["start_line"])
+        end_line = int(sc["end_line"])
+        sc_unit_mode = str(sc.get("unit_mode", "chapter"))
+        episode_count = int(sc.get("episode_count", 1))
+        episodes = sc.get("episodes") or []
+        if len(episodes) != episode_count:
+            sc_failures.append((sc_idx, f"plan inconsistent: episodes={len(episodes)} != episode_count={episode_count}"))
+            continue
+
+        done_marker = chunks_dir / f"sc-{sc_idx:03d}.done"
+        rationale_path = chunks_dir / f"sc-{sc_idx:03d}.rationale.md"
+        source_map_path = chunks_dir / f"sc-{sc_idx:03d}.source-map.md"
+        slice_path = chunks_dir / f"sc-{sc_idx:03d}.in.md"
+
+        if done_marker.exists():
+            log(f"    sc {sc_idx:03d}/{len(source_chapters)} · skip (done)")
+            continue
+
+        # Slice the refined text for this source chapter.
+        if start_line < 1 or end_line > len(refined_lines) or start_line > end_line:
+            sc_failures.append((sc_idx, f"bad line range {start_line}-{end_line} (refined has {len(refined_lines)} lines)"))
+            log(f"    sc {sc_idx:03d}/{len(source_chapters)} · BAD RANGE")
+            continue
+        slice_text = "\n".join(refined_lines[start_line - 1:end_line])
+        slice_wc = len(slice_text.split())
+        slice_path.write_text(slice_text, encoding="utf-8")
+
+        # Expected output filenames for THIS source chapter's episodes.
+        expected_chapter_files: list[Path] = []
+        expected_contract_files: list[Path] = []
+        episode_lines: list[str] = []
+        for ep in episodes:
+            ep_num = int(ep["ep_num"])
+            ep_slug = str(ep["episode_slug"])
+            section_index = ep.get("section_index")
+            # Naming: chNN-<slug>.txt for whole-chapter; chNN<letter>-<slug>.txt for sections.
+            if sc_unit_mode == "sections" and section_index is not None:
+                # section_index 1 → 'a', 2 → 'b', etc.
+                suffix = chr(ord("a") + int(section_index) - 1)
+                fname_base = f"ch{ep_num:02d}{suffix}-{ep_slug}"
+            else:
+                fname_base = f"ch{ep_num:02d}-{ep_slug}"
+            expected_chapter_files.append(chapters_dir / f"{fname_base}.txt")
+            expected_contract_files.append(contracts_dir / f"{ep_slug}.yml")
+            episode_lines.append(
+                f"  - ep_num={ep_num}  slug={ep_slug}  "
+                f"chapter_file=`chapters/{fname_base}.txt`  "
+                f"contract=`chapter-contracts/{ep_slug}.yml`"
+                + (f"  section_index={section_index}" if section_index is not None else "")
+            )
+
+        sc_prompt = (
+            f"You are driving Phase 0d STEP 2 (per-source-chapter authoring) of the /podcast "
+            f"skill on book-slug `{book_slug}`, **source chapter {sc_idx} of "
+            f"{len(source_chapters)}** (`{sc_title}`). Read the canonical procedure from "
+            f"`skills-staging/podcast/SKILL.md` (search `### PHASE 0d`) for episode-authoring "
+            f"discipline.\n\n"
+            f"INPUT (the refined English for THIS source chapter only): `{slice_path}`\n"
+            f"  · word_count: {slice_wc}  ·  source_line_range: {start_line}-{end_line}\n"
+            f"AUTHORITY:\n"
+            f"  - `{in_phonetics}` (consult for Arabic terms appearing in this slice)\n"
+            f"  - `content/_shared/arabic/03-arabic-english-manifest.md`\n"
+            f"  - `skills-staging/podcast/handbook/chapter-contract.template.yml` (contract shape)\n\n"
+            f"PLAN FOR THIS SOURCE CHAPTER (from `{toc_path}`):\n"
+            f"  unit_mode: {sc_unit_mode}\n"
+            f"  episode_count: {episode_count}\n"
+            f"  length_tier: {length_tier} ({tier_band})\n"
+            f"  episodes:\n" + "\n".join(episode_lines) + "\n\n"
+            f"OUTPUTS (write exactly these files — DO NOT touch any other path):\n"
+            + "".join(f"  - `{p}`\n" for p in expected_chapter_files)
+            + "".join(f"  - `{p}`\n" for p in expected_contract_files)
+            + f"  - `{rationale_path}` (one paragraph per episode in this source chapter; "
+            f"each paragraph starts with the episode's filename in backticks)\n"
+            + (
+                f"  - `{source_map_path}` (pipe-table rows for THIS source chapter, "
+                f"NO header — the orchestrator stitches headers later. Format per row: "
+                f"`| {sc_idx} | {sc_title} | <comma-sep chapter filenames> | <split_reason> |`)\n"
+                if unit_mode != "chapter" else ""
+            )
+            + f"\nConstraints:\n"
+            f"- Use the EXACT episode filenames listed above. Do NOT invent slugs or "
+            f"renumber. Pre-assigned ep_num + section_index come from the global plan.\n"
+            f"- Each `chapter-contracts/<slug>.yml` carries: chapter_ref, slug, source_type, "
+            f"book_slug=`{book_slug}`, episode_number, title, audience, angle, "
+            f"episode_format=deep_dive, host_dynamic, length_target, key_tensions, "
+            f"tone_constraints, anchor_passages, adaptation_mode=faithful, "
+            f"phonetic_overrides, show_notes.\n"
+            + (
+                "  - When this episode is a section of a longer source chapter, also include "
+                "`source_chapter_ref` (the sc_index) and `section_index` (1-based) in the "
+                "contract.\n"
+                if sc_unit_mode == "sections" else ""
+            )
+            + f"- Each chapter txt MUST land inside the tier band ({tier_band}).\n"
+            f"- Do NOT modify any file outside the named outputs (in particular, do NOT "
+            f"touch other source-chapter slices or other episodes' files).\n"
+            f"- Do NOT write `{toc_path}` or `{chapters_dir.parent / '_system' / 'source' / 'text' / 'chapters-rationale.md'}` — "
+            f"the orchestrator stitches those.\n\n"
+            f"Exit when every output file above exists and is non-empty."
+        )
+
+        log(f"    sc {sc_idx:03d}/{len(source_chapters)} · authoring "
+            f"({episode_count} ep, {slice_wc} src words) · `{sc_title[:50]}`")
+        rc, stdout, stderr = _run_claude_p(sc_prompt, timeout=sc_timeout)
+        if rc != 0:
+            sc_failures.append((sc_idx, f"rc={rc}: {(stderr or '').strip()[:200]}"))
+            log(f"    sc {sc_idx:03d}/{len(source_chapters)} · FAILED rc={rc}")
+            continue
+
+        # Validate this source chapter's outputs.
+        missing = [str(p) for p in expected_chapter_files + expected_contract_files
+                   if not p.exists() or p.stat().st_size == 0]
+        if not rationale_path.exists() or rationale_path.stat().st_size == 0:
+            missing.append(str(rationale_path))
+        if unit_mode != "chapter" and (not source_map_path.exists() or source_map_path.stat().st_size == 0):
+            missing.append(str(source_map_path))
+        if missing:
+            sc_failures.append((sc_idx, f"missing artifacts: {missing[:3]}"))
+            log(f"    sc {sc_idx:03d}/{len(source_chapters)} · INCOMPLETE")
+            continue
+
+        # All good → checkpoint.
+        done_marker.write_text(
+            f"sc_index={sc_idx}\nsource_title={sc_title}\nepisode_count={episode_count}\n",
+            encoding="utf-8",
+        )
+        log(f"    sc {sc_idx:03d}/{len(source_chapters)} · OK")
+
+    if sc_failures:
+        raise AuthoringError(
+            phase="0d",
+            message=(
+                f"{len(sc_failures)} of {len(source_chapters)} source chapters failed: "
+                + "; ".join(f"sc {i}: {m}" for i, m in sc_failures[:3])
+            ),
+            manual_fallback=(
+                f"Inspect _chunks/0d/sc-NNN.in.md for failed source chapters; "
+                f"drive each manually via /podcast, then re-invoke "
+                f"orchestrate-book --resume (already-done source chapters are skipped via "
+                f"the .done marker file)."
+            ),
+        )
+
+    # ── STEP 3: stitch ────────────────────────────────────────────────────────
+    log("  phase 0d · step 3/3 · stitch rationale + source-map")
+
+    rationale_parts: list[str] = []
+    for sc in source_chapters:
+        sc_idx = int(sc["sc_index"])
+        rp = chunks_dir / f"sc-{sc_idx:03d}.rationale.md"
+        if rp.exists() and rp.stat().st_size > 0:
+            sc_title = str(sc.get("source_title", f"source chapter {sc_idx}"))
+            rationale_parts.append(f"## Source chapter {sc_idx} — {sc_title}\n\n{rp.read_text(encoding='utf-8').strip()}\n")
+    out_rationale.write_text("\n".join(rationale_parts) + "\n", encoding="utf-8")
+
+    if unit_mode != "chapter":
+        header = (
+            "| source chapter | source title | episode(s) | split reason |\n"
+            "|---|---|---|---|\n"
+        )
+        sm_rows: list[str] = []
+        for sc in source_chapters:
+            sc_idx = int(sc["sc_index"])
+            smp = chunks_dir / f"sc-{sc_idx:03d}.source-map.md"
+            if smp.exists() and smp.stat().st_size > 0:
+                sm_rows.append(smp.read_text(encoding="utf-8").strip())
+        out_source_map.write_text(header + "\n".join(sm_rows) + "\n", encoding="utf-8")
+
+    # Final sanity check — at least one chapter + contract present.
     if not list(chapters_dir.glob("ch*.txt")):
         raise AuthoringError(
             phase="0d",
             message=f"Phase 0d produced no chapter files under {chapters_dir}",
-            manual_fallback="Re-run Phase 0d via /podcast on this BOOK_DIR.",
+            manual_fallback="Inspect _chunks/0d/sc-NNN.done markers and chapters/ dir.",
         )
     if not list(contracts_dir.glob("*.yml")):
         raise AuthoringError(
             phase="0d",
             message=f"Phase 0d produced no contracts under {contracts_dir}",
-            manual_fallback="Author the per-chapter contracts via /podcast, then --resume.",
+            manual_fallback="Inspect _chunks/0d/sc-NNN.done markers and chapter-contracts/ dir.",
         )
-    if unit_mode in ("section", "auto") and not out_source_map.exists():
-        raise AuthoringError(
-            phase="0d",
-            message=(
-                f"unit_mode={unit_mode!r} requires source-chapter-map.md but it was not "
-                f"written at {out_source_map}"
-            ),
-            manual_fallback="Author source-chapter-map.md manually via /podcast, then --resume.",
-        )
-    return stdout
+
+    total_episodes = sum(int(sc.get("episode_count", 1)) for sc in source_chapters)
+    return (
+        f"0d map-reduce: {len(source_chapters)} source chapters → "
+        f"{total_episodes} episodes (chapters + contracts written)"
+    )
 
 
 # ─── Phase 0e — Chapter enrichment ──────────────────────────────────────────
-def author_phase_0e(book_dir: Path, timeout: int = DEFAULT_TIMEOUT) -> str:
+def author_phase_0e(book_dir: Path,
+                    timeout: int = DEFAULT_TIMEOUT,
+                    chapter_timeout: int = PHASE_0E_CHAPTER_TIMEOUT,
+                    log=print) -> str:
     """Enrich each chapter with citations from the seven-tier whitelist.
+
+    Implemented as a per-chapter loop so the LLM only enriches one chapter
+    file per `claude -p` call. Idempotent: an enrichment-log.md row of the
+    form `- <chapter-stem>: ENRICHED ...` marks a chapter as done; reruns
+    skip those chapters. The first time this runs the log is created and
+    receives one row per chapter as each completes.
 
     Reads:  every BOOK_DIR/chapters/ch*.txt
             content/podcast/.skill/handbook/enrichment-sources.md
@@ -567,58 +842,116 @@ def author_phase_0e(book_dir: Path, timeout: int = DEFAULT_TIMEOUT) -> str:
     Writes: enriched BOOK_DIR/chapters/ch*.txt (in place)
             BOOK_DIR/_system/enrichment-log.md (per-chapter status)
     """
+    import datetime as _dt
+
     book_slug = book_dir.name
     chapters_dir = book_dir / "chapters"
     enrichment_log = book_dir / "_system" / "enrichment-log.md"
 
-    if not list(chapters_dir.glob("ch*.txt")):
+    chapter_files = sorted(chapters_dir.glob("ch*.txt"))
+    if not chapter_files:
         raise AuthoringError(
             phase="0e",
             message=f"no chapters to enrich under {chapters_dir} (Phase 0d should have produced them)",
             manual_fallback="Run Phase 0d first.",
         )
 
-    prompt = (
-        f"You are driving Phase 0e (Chapter Enrichment from Outside Sources) of the /podcast "
-        f"skill on book-slug `{book_slug}`. Read the canonical procedure from "
-        f"`skills-staging/podcast/SKILL.md` (search for `### PHASE 0e`) and apply it.\n\n"
-        f"INPUT:  every `{chapters_dir}/ch*.txt`\n"
-        f"AUTHORITY:\n"
-        f"  - `content/podcast/.skill/handbook/enrichment-sources.md` (seven-tier whitelist + "
-        f"60% cap + tier-diversity rule)\n"
-        f"  - `content/_shared/arabic/03-arabic-english-manifest.md`\n"
-        f"  - `content/podcast/.skill/handbook/notebooklm-source-chapter-rules.md` (R-rules)\n"
-        f"OUTPUTS:\n"
-        f"  - enriched chapter files (in place — every `{chapters_dir}/ch*.txt`)\n"
-        f"  - `{enrichment_log}` (per-chapter enrichment status)\n\n"
-        f"Constraints:\n"
-        f"- Outside material ≤ 60% of any chapter's word count. The original author's "
-        f"argument stays the spine.\n"
-        f"- Tier diversity required — don't pull all enrichments from one tier.\n"
-        f"- Every citation carries author, work, page or section, and translator (for Quranic translations).\n"
-        f"- Apply R-PHONETICS-OUT: no inline `*term* (PHO-NE-TIC)` parens in chapters; "
-        f"phonetic discipline lives in the customize prompt only.\n"
-        f"- Apply R-HONORIFIC-ONCE: each honorific phrase form expanded ≤ 1× per chapter.\n"
-        f"- Do NOT modify any file outside the named chapter files + enrichment-log.md.\n\n"
-        f"After enrichment, verify each chapter still passes "
-        f"`python3 scripts/podcast/build_episode_txt.py` (you may need to run this after each "
-        f"chapter — fix any hard-gate failures before exiting).\n\n"
-        f"Exit when every chapter is enriched and `{enrichment_log}` records the per-chapter status."
-    )
+    enrichment_log.parent.mkdir(parents=True, exist_ok=True)
+    if not enrichment_log.exists():
+        enrichment_log.write_text(
+            f"# Enrichment log — {book_slug}\n\n"
+            f"Per-chapter status. Rows with `ENRICHED` are checkpointed and skipped on resume.\n\n",
+            encoding="utf-8",
+        )
 
-    rc, stdout, stderr = _run_claude_p(prompt, timeout=timeout)
-    _assert_artifact(
-        phase="0e",
-        path=enrichment_log,
-        rc=rc,
-        stdout=stdout,
-        stderr=stderr,
-        manual_fallback=(
-            "1. /podcast — drive Phase 0e on this BOOK_DIR manually.\n"
-            "2. When enrichment-log.md is non-empty, re-invoke orchestrate-book --resume."
-        ),
+    existing_log = enrichment_log.read_text(encoding="utf-8")
+    already_done: set[str] = set()
+    for line in existing_log.splitlines():
+        s = line.strip()
+        if s.startswith("- ") and ": ENRICHED" in s:
+            # `- ch03-foo: ENRICHED at 2025-...`
+            stem = s[2:].split(":", 1)[0].strip()
+            already_done.add(stem)
+
+    log(f"  phase 0e · per-chapter loop ({len(chapter_files)} chapters, "
+        f"{len(already_done)} already enriched)")
+
+    failures: list[tuple[str, str]] = []
+    for chapter_file in chapter_files:
+        stem = chapter_file.stem  # e.g. ch03-foo or ch03a-foo
+        if stem in already_done:
+            log(f"    {stem} · skip (already enriched)")
+            continue
+
+        prompt = (
+            f"You are driving Phase 0e (Chapter Enrichment from Outside Sources) of the "
+            f"/podcast skill on book-slug `{book_slug}`, **chapter `{stem}` only**. Read "
+            f"the canonical procedure from `skills-staging/podcast/SKILL.md` "
+            f"(search `### PHASE 0e`) and apply it to THIS ONE chapter.\n\n"
+            f"INPUT (the chapter file to enrich in place): `{chapter_file}`\n"
+            f"AUTHORITY:\n"
+            f"  - `content/podcast/.skill/handbook/enrichment-sources.md` (seven-tier "
+            f"whitelist + 60% cap + tier-diversity rule)\n"
+            f"  - `content/_shared/arabic/03-arabic-english-manifest.md`\n"
+            f"  - `content/podcast/.skill/handbook/notebooklm-source-chapter-rules.md` "
+            f"(R-rules)\n\n"
+            f"OUTPUTS (write ONLY these — do NOT touch any other file):\n"
+            f"  - `{chapter_file}` (enriched in place)\n\n"
+            f"Constraints:\n"
+            f"- Outside material ≤ 60% of THIS chapter's word count. The original author's "
+            f"argument stays the spine.\n"
+            f"- Tier diversity required — don't pull all enrichments from one tier.\n"
+            f"- Every citation carries author, work, page or section, and translator "
+            f"(for Quranic translations).\n"
+            f"- Apply R-PHONETICS-OUT: no inline `*term* (PHO-NE-TIC)` parens in chapter "
+            f"prose; phonetic discipline lives in the customize prompt only.\n"
+            f"- Apply R-HONORIFIC-ONCE: each honorific phrase form expanded ≤ 1× in this "
+            f"chapter.\n"
+            f"- Do NOT modify any other chapter file, contract, or `enrichment-log.md` — "
+            f"the orchestrator appends the log row after validating your output.\n\n"
+            f"Exit when `{chapter_file}` has been rewritten in place with citations woven in."
+        )
+
+        log(f"    {stem} · enriching")
+        # Capture pre-enrichment mtime to detect that the file was actually rewritten.
+        pre_mtime = chapter_file.stat().st_mtime
+        rc, stdout, stderr = _run_claude_p(prompt, timeout=chapter_timeout)
+        if rc != 0:
+            failures.append((stem, f"rc={rc}: {(stderr or '').strip()[:200]}"))
+            log(f"    {stem} · FAILED rc={rc}")
+            continue
+        if not chapter_file.exists() or chapter_file.stat().st_size == 0:
+            failures.append((stem, "chapter file missing or empty after enrichment"))
+            log(f"    {stem} · MISSING")
+            continue
+        post_mtime = chapter_file.stat().st_mtime
+        touched = " (in-place rewrite)" if post_mtime > pre_mtime else " (no mtime change — verify manually)"
+
+        # Append checkpoint row.
+        ts = _dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        with enrichment_log.open("a", encoding="utf-8") as f:
+            f.write(f"- {stem}: ENRICHED at {ts}{touched}\n")
+        log(f"    {stem} · OK")
+
+    if failures:
+        raise AuthoringError(
+            phase="0e",
+            message=(
+                f"{len(failures)} of {len(chapter_files)} chapters failed enrichment: "
+                + "; ".join(f"{s}: {m}" for s, m in failures[:3])
+            ),
+            manual_fallback=(
+                "Inspect the chapter files of failed chapters; enrich each manually via "
+                "/podcast, then add a `- <stem>: ENRICHED ...` row to enrichment-log.md "
+                "and re-invoke orchestrate-book --resume."
+            ),
+        )
+
+    return (
+        f"0e per-chapter loop: {len(chapter_files)} chapters enriched "
+        f"({len(already_done)} skipped as already done, "
+        f"{len(chapter_files) - len(already_done)} newly enriched)"
     )
-    return stdout
 
 
 # ─── Per-chapter framing authorship ──────────────────────────────────────────

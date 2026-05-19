@@ -689,10 +689,10 @@ def _drive_authoring_through_0f(book_dir: Path, title: str) -> int:
         author_phase_0c(bd, log=_info)
 
     def _run_0d(bd: Path) -> None:
-        author_phase_0d(bd, length_tier=length_tier, unit_mode=unit_mode)
+        author_phase_0d(bd, length_tier=length_tier, unit_mode=unit_mode, log=_info)
 
     def _run_0e(bd: Path) -> None:
-        author_phase_0e(bd)
+        author_phase_0e(bd, log=_info)
 
     phase_map = [
         ("0b", _run_0b, "phase 0b English refinement (chunked)"),
