@@ -71,6 +71,29 @@ meta:
       pattern. After creation, READ-ONLY for both skills. No other writes
       to content/_shared/** are permitted from the podcast skill.
 
+  research_artifacts:                               # source-of-truth narratives behind plan deltas
+    - path: research/findings.md
+      authored: 2026-05-XX
+      summary: "Pre-W1 research findings (P4 numeric-symbolic, P5 permission-mode, P-9 invariant, etc.)"
+    - path: research/master-disciple-recommendations.md
+      authored: 2026-05-XX
+      summary: "Master & Disciple book-specific recommendations from earlier sessions"
+    - path: research/podcast-best-practices.md
+      authored: 2026-05-XX
+      summary: "Cross-book podcast authoring best practices distilled from corpus runs"
+    - path: research/2026-05-19-redesign-proposal-from-air.md
+      authored: 2026-05-19
+      authored_by: claude-opus-4.7 on MacBook Air parallel session
+      integrated_in: efdf323 + later edits on feat/podcast-w1-foundation
+      summary: |
+        Operator-curated source bundle → podcast capability arc. Four changes:
+        A (per-book concept-glossary), B (Pattern 5 Recursive Scaffold),
+        C (Asaas chapter-map preflight + 6-episode preset), D (manifest-driven
+        multi-source ingestion via P17.1 extension). Operator added Changes E
+        (P21 cross-book learning store) and F (P22 transcript-review gate)
+        during integration. Document is the source-of-truth narrative for the
+        architectural decisions taken 2026-05-19.
+
 # -----------------------------------------------------------------------------
 # Waves — autonomous scheduled-task units
 # -----------------------------------------------------------------------------
