@@ -105,6 +105,15 @@ Use `- [x]` to mark done; `- [ ]` to mark pending. Group anchors (`### Wave N �
 - [ ] **P6.4** ✅ Q3 row in YAML reopened; closes only when P6.4 lands on develop
 - [ ] **P6.4** ✅ Cost-budget overrun (>20% over tier budget) surfaces a P1-class commentary tombstone in `_learning/{promoted,archive}/`
 
+#### P6.5 — Fix `datetime.UTC` AttributeError in cost-ledger append path (surfaced by KaR pilot 2026-05-19)
+
+- [ ] **P6.5.fix** ✅ `grep -n 'datetime.UTC' scripts/podcast/_cost_ledger.py` returns 0 results; replaced with `timezone.utc` (`from datetime import timezone`)
+- [ ] **P6.5.compat** ✅ Cost-ledger import + append succeeds on Python 3.10 (verify via CI matrix or local pyenv shim)
+- [ ] **P6.5.regression** 📊 On a fresh book run, `<book>/_system/cost-ledger.jsonl` contains ≥1 row per LLM-shellout call; no `cost-ledger append failed` lines in stderr (verify via tail of orchestrator stderr)
+- [ ] **P6.5.retroactive** 🔒 KaR's missing ledger rows are NOT retroactively reconstructed — accepted as a one-time gap (P9.0 cost tracking will be approximate; future books are clean)
+
+**Context:** Surfaced during KaR pilot run 2026-05-19 Phase 0c+0d. Every claude -p invocation emitted `[_run_claude_p] cost-ledger append failed: AttributeError("module 'datetime' has no attribute 'UTC'")`. Means `_cost_ledger.py` uses Python-3.11+ idiom `datetime.UTC` while operator runs Python <3.11. Net: cost-ledger.jsonl is empty — cost cap enforcement (P6.3) silently no-ops, trainer cost-context (P6.4) reads empty file, P9.8 yield report has no data. Silent data loss — the exception is caught at `_run_claude_p` and logged then suppressed.
+
 ---
 
 ## Wave 2 — Observability (Phases P7–P8)
@@ -214,8 +223,8 @@ KaR is the **pilot / dogfooding** run that exercises the pipeline ahead of the f
 - [x] **P9.0.phase-0b** ✅ Phase 0b (English refinement, chunked across 5 windows) complete; `_system/source/text/refined-english.md` written (3,709 lines / 485 KB); top-level mirror `english-transcript.md` written via paginator passthrough (completed 2026-05-19 19:06 UTC)
 - [x] **P9.0.review-gate** ✅ P22-style operator transcript review completed manually 2026-05-19: §6 Bāb N · §M naming chosen; §7 content range 52–232 confirmed (preface in, TOC out); §8 approved. `operator-review.md` checked + git-tracked at book top level. First exercise of the P22 workflow.
 - [x] **P9.0.content-range** ✅ `content/podcast/library/books/kitab-al-riyad/_system/source/text/content-range.md` shipped 2026-05-19 declaring `body_starts_at_page: 52`, `body_ends_at_page: 232`. Forward-looking artifact — honored by P4.10 code when shipped; current run processes whole transcript (~$3-5 extra LLM cost; Loop N may spuriously flag editor's 25-work bibliography).
-- [ ] **P9.0.phase-0c** 📊 Phase 0c (Arabic phonetic pass, chunked) complete; `_system/source/text/_phonetics.md` populated; no claude -p refusals
-- [ ] **P9.0.phase-0d** 📊 Phase 0d (chapter segmentation) complete; `_system/source/text/chapters-rationale.md` written; chapter contracts in `chapter-contracts/` slug-aligned with `chapters/chNN-bab-N-*.txt` per operator's Bāb/§ preference
+- [x] **P9.0.phase-0c** ✅ Phase 0c (Arabic phonetic pass, chunked across 13 windows) complete 2026-05-19; `_system/source/text/_phonetics.md` populated; no claude -p refusals (committed on `book/kitab-al-riyad` @ `29e7f85`)
+- [ ] **P9.0.phase-0d** 🟡 Phase 0d (chapter segmentation) — step 1/3 (TOC + segmentation) ✅; step 2/3 reached sc 004/10 before sc 005/10 timeout (1200s LLM call hung). 6 chapter files + 5 contracts emitted; `chapters/chNN-bab-N-*.txt` slugs honor operator's Bāb/§ preference organically. Partial commit on `book/kitab-al-riyad` @ `b59b4d8`. Resume attempt in flight (task `becvcttj8`).
 - [ ] **P9.0.phase-0e** 📊 Phase 0e (enrichment) complete; enrichment-log.md populated per chapter; bāb + fasl added as concept-glossary entries
 - [ ] **P9.0.phase-0f-gate** 🔒 Phase 0f operator gate cleared with persona override (likely Mentor+Student per book audience), tier (long-form 10-14 beats), `series_pattern` declared in registry.md if applicable, episode count + boundaries reviewed
 - [ ] **P9.0.phase-0g** 📊 Phase 0g per-chapter authoring loop complete for all episodes; `_system/episode-drafts/EP##-<slug>/` populated with framing/key-passages/context-pack/discussion-spine
@@ -429,7 +438,7 @@ KaR is the **pilot / dogfooding** run that exercises the pipeline ahead of the f
 - [ ] **L4** ✅ No cross-imports between `scripts/podcast/`, `scripts/memoir/`, `scripts/site/`
 - [ ] **L7** ✅ `_workspace/plan/view/index.html` references every phase id (P1–P20) AND every wave id (W1–W6) from the YAML
 - [ ] **L8** ✅ Every reference to a `meta.legacy_cleanup_basenames` entry outside plan/chats paths is annotated as deleted/retired/closed
-- [ ] **L9** ✅ Every CANCELLED phase row above (v2 P3.x, P6.4, P6.5) has zero non-strikethrough references in plan files
+- [ ] **L9** ✅ Every CANCELLED phase row above (v2 P3.x) has zero non-strikethrough references in plan files. Note: P6.4 was resurrected for the trainer cost-ledger hook (Q3 resolution); P6.5 was resurrected 2026-05-19 for the datetime.UTC fix surfaced by the KaR pilot.
 - [ ] **L10** ✅ Every checkbox here references an id that exists in YAML (or a known marker — B*, S*, L*, Q*, R*, W*)
 - [ ] **L11** ✅ Every `legacy_id` mapping in YAML `meta.legacy_id_map` is consistent with the row's `wave` + `id` in `phases[]`
 

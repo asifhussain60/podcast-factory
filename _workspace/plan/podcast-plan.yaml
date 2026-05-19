@@ -1336,6 +1336,41 @@ phases:
           - "If cost exceeds tier budget by >20%, trainer surfaces a P1-class cost-commentary tombstone in _learning/promoted/ OR _learning/archive/"
           - "Q3 row in this YAML reopened with status `IMPLEMENTING via P6.4`; closed only when P6.4 lands on develop"
 
+      - id: P6.5
+        title: "Fix datetime.UTC AttributeError in cost-ledger append path"
+        added: 2026-05-19
+        why: |
+          Surfaced during KaR pilot run 2026-05-19: every claude -p invocation
+          logs `[_run_claude_p] cost-ledger append failed:
+          AttributeError("module 'datetime' has no attribute 'UTC'")`. Means
+          the cost-ledger code uses `datetime.UTC` (added in Python 3.11),
+          but the operator's Python is older. Net effect: cost-ledger.jsonl
+          rows are NOT being written for any phase. Cost cap enforcement
+          (P6.3) cannot fire. Trainer cost-context (P6.4) reads an empty
+          file. Cost trajectory across the W3 corpus (P9.8 yield report)
+          cannot be computed.
+
+          The 13 phase 0c chunks + 4 phase 0d chapter authoring calls all
+          silently failed to write ledger rows on KaR. None of the recovery
+          paths are wired (the exception is caught and logged, then
+          continues — silent data loss).
+        files:
+          - scripts/podcast/_cost_ledger.py   # MODIFY — replace datetime.UTC with timezone.utc
+          - scripts/podcast/tests/test_cost_ledger.py  # NEW or EXTEND — test on Python 3.10
+        spec: |
+          Replace every `datetime.UTC` reference with `timezone.utc` (and add
+          `from datetime import timezone` if not already imported). Equivalent
+          semantics, available since Python 3.2. Verify no other Python-3.11+
+          idioms slipped into the cost-ledger or its callers.
+
+          The error is caught at the call site (_run_claude_p) so the fix is
+          surgical to the ledger module itself. No call-site changes needed.
+        acceptance:
+          - "P6.5.fix ✅ `grep -n 'datetime.UTC' scripts/podcast/_cost_ledger.py` returns 0 results"
+          - "P6.5.compat ✅ Cost-ledger import + append succeeds on Python 3.10 (CI matrix or local pyenv shim)"
+          - "P6.5.regression 📊 On a fresh book run, `<book>/_system/cost-ledger.jsonl` contains ≥1 row per LLM-shellout call; no `cost-ledger append failed` lines in stderr"
+          - "P6.5.retroactive 🔒 KaR's missing ledger rows are NOT retroactively reconstructed — accepted as a one-time gap (P9.0 cost tracking will be approximate; future books are fine)"
+
   # ===========================================================================
   # WAVE 2 — Observability
   # ===========================================================================
