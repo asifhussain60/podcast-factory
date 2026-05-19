@@ -7,13 +7,17 @@
 # =============================================================================
 
 meta:
-  version: 1
+  version: 2
   created: 2026-05-19
+  refined: 2026-05-19  # repo-surgeon evidence sweep + folded VS Code refinement prompt
   owner: asif
   branch_strategy: "feature branches off develop, merge via --no-ff"
+  primary_mac: true                              # Azure-backed pipeline runs here (see ../primary-mac-activation.md)
   scope_in:
     - .github/agents/podcast-orchestrator.agent.md
     - .github/agents/podcast-trainer.agent.md
+    - .github/agents/podcast-challenger.agent.md   # CURRENTLY MISSING — see P6.2
+    - .github/agents/podcast-extract.agent.md      # CURRENTLY MISSING — see P6.2
     - skills-staging/podcast/**
     - scripts/podcast/**
     - content/podcast/**
@@ -27,6 +31,75 @@ meta:
     - scripts/site/**
     - content/babu-memoir/**
     - content/_shared/**
+
+# -----------------------------------------------------------------------------
+# System check (verified 2026-05-19 — refresh before each batch)
+# -----------------------------------------------------------------------------
+system_check:
+  azure_cli:
+    logged_in: true
+    subscription: "Journal AI — primary"
+    subscription_id: "3440564d-c056-4173-bec6-7af92dbece77"
+    tenant: "asifhussain60msn.onmicrosoft.com"
+  azure_resources:                                 # verified via `az resource list`
+    - {name: journal-docintel,   kind: FormRecognizer,  location: eastus, group: rg-journal-ai}
+    - {name: journal-translator, kind: TextTranslation, location: eastus, group: rg-journal-ai}
+    - {name: journal-speech,     kind: SpeechServices,  location: eastus, group: rg-journal-ai}
+  toolchain:
+    claude_cli:      "2.1.144"
+    python:          "3.14.4"
+    node:            "v24.15.0"
+    gh:              "installed, NOT authenticated"   # blocks PR work, NOT plan work
+  git:
+    branch:          "develop"
+    clean:           true
+    remote_synced:   true
+  orchestrator:
+    active_runs:     []                              # confirmed via pgrep
+    kitab_al_riyad:
+      phase:         "0a"
+      phase_status:  "completed"
+      next_phase:    "0b"
+      last_error:    null
+      in_flight_chunks: 0                            # no `.in.md`/`.out.md` orphans
+  safe_to_edit_plan: true                            # no async work touching tracked files
+
+# -----------------------------------------------------------------------------
+# Async work safety rules (enforced before every code edit)
+# -----------------------------------------------------------------------------
+async_safety:
+  pre_edit_checklist:
+    - "pgrep -fl 'orchestrate_book|claude -p|extract_chapter|build_episode' → empty"
+    - "Find no `.in.md` without a matching `.out.md` in any active `_chunks/` dir"
+    - "If async is running, read the heartbeat to confirm advancement; do NOT touch files under: \
+       _system/orchestrator-state.json | _system/source/text/** | _system/source/text/_chunks/** | chapters/** | chapter-contracts/** | episodes/** | transcripts/** | _learning/**"
+  read_only_always_safe:
+    - "Glob, grep, read of any path"
+    - "git status / log / diff"
+    - "az resource list, az account show"
+  unsafe_during_async:
+    - "Edits inside the active book directory"
+    - "Spawning a second `claude -p` heavy run"
+    - "Phase rename migration (P6.1)"
+    - "Agent dedup (P6.2)"
+  wait_banner_format: |
+    ╔══════════════════════════════════════════════════════════════════╗
+    ║  ⏸  WAITING ON ASYNC WORK — DO NOT START NEW LLM RUNS            ║
+    ╠══════════════════════════════════════════════════════════════════╣
+    ║  BOOK     │ {title}                                              ║
+    ║  AUTHOR   │ {author or unknown}                                  ║
+    ║  PAGES    │ {page_count or unknown}  │  SOURCE  │ {type/size}    ║
+    ║  BRANCH   │ {branch}                                             ║
+    ╠══════════════════════════════════════════════════════════════════╣
+    ║  RUNNING                                                         ║
+    ║   • {process name} ({terminal/pid}) — {current phase}            ║
+    ║     log: {log path}                                              ║
+    ║                                                                  ║
+    ║  NEXT GATE   │ {next human or automated gate}                    ║
+    ║  PROGRESS    │ {phase/unit count/percent if available}           ║
+    ║  SAFE WORK   │ {paths safe to edit}                              ║
+    ║  DO NOT      │ {paths not safe to touch}                         ║
+    ╚══════════════════════════════════════════════════════════════════╝
 
 # -----------------------------------------------------------------------------
 # Guiding principles
@@ -59,12 +132,154 @@ principles:
     name: "Podcast / journal isolation is enforced, not aspirational"
     detail: |
       No file under scripts/podcast/ may import from scripts/site/ or scripts/memoir/.
-      Add a CI check in P6 that asserts this.
+      Add a CI check in P6 that asserts this. Boundary already holds in current code
+      per repo-surgeon evidence sweep 2026-05-19 — work is to lock it down, not remove
+      existing automatic feeds (there are none).
+  - id: P-6
+    name: "Manual handoff for cross-skill content, never automatic"
+    detail: |
+      The podcast skill MAY propose additions to journal libraries (quotes, clinical,
+      memoir) by writing to BOOK_DIR/_system/episode-drafts/EP##-*/proposed-library-entries.md.
+      It MUST NEVER write directly to content/babu-memoir/** or content/_shared/**.
+      Promotion of proposed entries is a manual journal-side step.
+
+# -----------------------------------------------------------------------------
+# Intelligence sources — where each agent/skill MUST consult before acting
+# -----------------------------------------------------------------------------
+intelligence_sources:
+  podcast:
+    canonical_skill:  "skills-staging/podcast/SKILL.md"
+    consult_before_any_edit:
+      - {path: "skills-staging/podcast/SKILL.md",                     when: "every session start", staleness_signal: "git diff vs branch HEAD"}
+      - {path: "skills-staging/podcast/framework.md",                 when: "any phase logic change", staleness_signal: "schema_version drift"}
+      - {path: "scripts/podcast/orchestrate_book.py",                 when: "any state-machine change",   staleness_signal: "phase_map / state schema drift"}
+      - {path: "content/podcast/library/books/*/_system/orchestrator-state.json", when: "before resume / retry-phase", staleness_signal: "phase_status=running with stale ts_updated"}
+      - {path: "_workspace/plan/podcast-plan.yaml",                   when: "every multi-step task",       staleness_signal: "meta.refined date >7d old AND active phase changed"}
+      - {path: "_workspace/plan/research/findings.md",                when: "any architecture decision",   staleness_signal: "linked URL HTTP 404"}
+    per_book_intelligence:
+      - {path: "<book>/_system/source/raw-extract.md",                consult_for: "OCR truth-source for refinement decisions"}
+      - {path: "<book>/_system/source/text/refined-english.md",       consult_for: "Phase-0c-and-beyond canonical text"}
+      - {path: "<book>/_system/source/text/_phonetics.md",            consult_for: "Arabic term pronunciation map"}
+      - {path: "<book>/_system/source-chapter-map.md",                consult_for: "Phase 0d unit_mode=section/auto traceability"}
+      - {path: "<book>/_system/challenger-report.md",                 consult_for: "Ship-readiness verdict before merge"}
+  journal:
+    canonical_skill:  "skills-staging/journal/SKILL.md"
+    consult_before_any_edit:
+      - {path: "skills-staging/journal/SKILL.md",                     when: "every session start"}
+      - {path: "content/babu-memoir/_system/voice.md",                when: "any chapter authoring"}
+      - {path: "content/babu-memoir/_system/craft.md",                when: "any chapter authoring"}
+      - {path: "content/babu-memoir/_system/thematic-arc.md",         when: "chapter slotting / re-ordering"}
+      - {path: "content/babu-memoir/_system/locked-paragraphs.md",    when: "edits near locked passages"}
+      - {path: "content/_shared/arabic/**",                           when: "Arabic word pronunciation (READ-ONLY)"}
+    boundary: "READS NOTHING from content/podcast/. The only cross-skill connection is consuming proposed-library-entries.md as input to manual library curation."
+  cross_cutting:
+    - {path: "_workspace/primary-mac-activation.md",                  consult_for: "Azure bootstrap on a new Mac"}
+    - {path: "_workspace/plan/view/index.html",                       consult_for: "Visual architecture overview (read-only)"}
 
 # -----------------------------------------------------------------------------
 # Phases
 # -----------------------------------------------------------------------------
 phases:
+
+  # =============================================================================
+  - id: P0a
+    name: "Journal/podcast boundary verification + CI lock-down"
+    effort: hours
+    priority: blocker
+    depends_on: []
+    why: |
+      Evidence sweep 2026-05-19 confirms NO automatic podcast→journal/clinical/quote
+      feeds exist. The podcast skill writes proposed-library-entries.md to its own
+      _system/episode-drafts/ directory only — promotion is manual. This phase
+      LOCKS the property in place via CI before it can regress; no code removal
+      needed because there is nothing to remove.
+    tasks:
+      - id: P0a.1
+        title: "Audit script confirming zero cross-boundary writes"
+        files:
+          - scripts/podcast/_boundary_check.py             # NEW
+        spec: |
+          AST scan + grep for any write/append/open(...,'w') under scripts/podcast/
+          targeting:
+            content/babu-memoir/** | content/_shared/** | scripts/memoir/** | scripts/site/**
+          Exit 0 if clean, non-zero with file:line if violation found.
+        acceptance:
+          - "Runs in <2s over scripts/podcast/"
+          - "Documented in skills-staging/podcast/SKILL.md as the boundary contract"
+      - id: P0a.2
+        title: "Document manual handoff for cross-skill content"
+        files:
+          - skills-staging/podcast/SKILL.md                # add Manual Handoff section
+          - docs/podcast/manual-library-handoff.md         # NEW (or fold into SKILL.md)
+        spec: |
+          Document: where proposed-library-entries.md lives, who promotes it, how the
+          journal side ingests, how to detect drift (proposed but never promoted).
+        acceptance:
+          - "Search 'manual library handoff' in SKILL.md returns the section"
+      - id: P0a.3
+        title: "CI gate (deferred to P6.3, listed here for traceability)"
+        spec: "P0a.1 wired into .github/workflows/podcast-isolation.yml — see P6.3"
+
+  # =============================================================================
+  - id: P0b
+    name: "E2E test harness for the podcast pipeline"
+    effort: 1-2 days
+    priority: blocker
+    depends_on: []
+    why: |
+      Today: only unit (test_challenger.py) + integration (test_azure_connectivity.py)
+      tests exist. There is NO automated end-to-end coverage of orchestrate_book.py.
+      The only way to detect regressions in the state machine, chunking, or phase
+      transitions is to run a full book and visually inspect outputs. This blocks
+      P3 (SDK migration) from being safely verified.
+    tasks:
+      - id: P0b.1
+        title: "Tiny-book fixture for E2E"
+        files:
+          - scripts/podcast/tests/e2e/__init__.py          # NEW
+          - scripts/podcast/tests/e2e/fixtures/tiny-book/  # NEW (3-chapter, ~5k word synthetic PDF or text)
+          - scripts/podcast/tests/e2e/conftest.py          # NEW (env fixtures, tmp_book_dir)
+        acceptance:
+          - "Fixture text is deterministic; cost <$0.50 per full run"
+          - "Includes ≥1 Arabic phrase to exercise translator + phonetics"
+      - id: P0b.2
+        title: "Sunny-day E2E: PDF → 0a..0e → halts at 0f gate"
+        files:
+          - scripts/podcast/tests/e2e/test_full_pipeline.py # NEW
+        spec: |
+          - Spin up tmp book dir, copy fixture, run orchestrate_book.py --no-gate
+          - Assert: state.json shows each phase completed in order
+          - Assert: refined-english.md and _phonetics.md non-empty
+          - Assert: ≥1 chapter-contract written; ≥1 chapter txt written
+          - Assert: halts cleanly at 0f (series-plan human-review gate)
+          - Assert: heartbeat.json updated within 30s during run
+        acceptance:
+          - "Run command: `pytest scripts/podcast/tests/e2e/ -v` (documented in README)"
+          - "Total wall-clock <15min on tiny fixture; <$1 cost"
+          - "Asserts on artifacts AND state transitions AND failure handling"
+      - id: P0b.3
+        title: "Rainy-day E2E: artifact-missing / rc=0-but-refusal"
+        files:
+          - scripts/podcast/tests/e2e/test_failure_modes.py # NEW
+        spec: |
+          - Inject mock `claude -p` that returns rc=0 with no file write (the P0 bug class)
+          - Assert: orchestrator raises typed error, does NOT silently advance
+          - Test resume after killing mid-window (verify .out.md checkpoint reuse)
+          - Test --retry-phase on a failed 0c
+        acceptance:
+          - "All rainy-day scenarios fail loud (typed errors, not silent passes)"
+          - "Resume-after-kill restores exactly the windows that finished"
+      - id: P0b.4
+        title: "Wire E2E into validation gate"
+        files:
+          - .github/workflows/podcast-e2e.yml              # NEW
+          - skills-staging/podcast/SKILL.md                # add "Before ship: run E2E" gate
+        spec: |
+          CI job: tiny-book E2E on every PR touching scripts/podcast/.
+          NOT on every push to develop (cost / wall-clock).
+        acceptance:
+          - "PR to scripts/podcast/ fails CI if E2E test fails"
+          - "Skill SKILL.md documents the gate"
 
   # =============================================================================
   - id: P0
@@ -152,15 +367,22 @@ phases:
           - scripts/podcast/orchestrator_status.py   # NEW
         spec: |
           Read-only. Reads heartbeat.json + state.json + _chunks/ dir + log tail.
-          Emits the user-preferred boxed banner (see ~/.../memory.preferences.md).
+          Emits the user-preferred boxed banner (canonical format in meta.async_safety.wait_banner_format).
           Usage:
             python3 scripts/podcast/orchestrator_status.py <book-slug>
             python3 scripts/podcast/orchestrator_status.py --all
-            python3 scripts/podcast/orchestrator_status.py --json   # for piping
+            python3 scripts/podcast/orchestrator_status.py --json     # for piping
+            python3 scripts/podcast/orchestrator_status.py --banner   # emit the boxed banner (default for TTY)
+          Banner fields (sourced from heartbeat.json + state.json):
+            title, author, page_count, source_type/size, branch, process_name, pid,
+            current_phase, log_path, next_gate, phase/unit count/percent, safe_paths,
+            unsafe_paths
+          Banner is the format used by agents when asking the user to wait on async work.
         acceptance:
           - "Runs in <1s on a 260-page book's state"
           - "Falls back gracefully if heartbeat.json missing (uses log tail)"
           - "Emits exit code 0 if process alive, 2 if dead, 1 if state stale (>5min)"
+          - "Boxed banner matches meta.async_safety.wait_banner_format byte-for-byte structure"
       - id: P1.4
         title: "JSONL event log for downstream consumers"
         files:
@@ -196,7 +418,7 @@ phases:
         spec:
           port: 8765
           host: 127.0.0.1                         # localhost only by default
-          deps: [fastapi, uvicorn[standard]]      # add to scripts/podcast/requirements.txt
+          deps: ["fastapi", "uvicorn[standard]"]  # add to scripts/podcast/requirements.txt
           endpoints:
             - "GET  /healthz                          → liveness"
             - "GET  /books                            → list all books + phase + status"
@@ -408,7 +630,7 @@ phases:
     depends_on: [P5]
     tasks:
       - id: P6.1
-        title: "Phase rename: 0a-0g → 04-ocr-translate … 10-register-series"
+        title: "Phase rename: full 14-step sequential naming"
         files:
           - scripts/podcast/_progress.py           # bump schema_version to 2; add translation layer
           - scripts/podcast/orchestrate_book.py    # phase_map, completed set, --retry-phase
@@ -416,22 +638,69 @@ phases:
           - scripts/podcast/_chunking.py
           - scripts/podcast/_convergence.py
           - skills-staging/podcast/**             # any phase references
+          - .github/agents/podcast-*.agent.md     # task descriptions
+          - _workspace/plan/podcast-plan.yaml     # this file
+          - _workspace/plan/view/index.html       # visual diagram
         spec: |
-          Mapping: see _workspace/plan/research/findings.md §phase-rename.
-          read_state() detects schema_version=1 and rewrites keys → new names on load.
-          --retry-phase accepts BOTH old and new names for one release.
+          Full mapping (replaces partial 0a→0g mapping in v1 of this plan):
+
+            | Old key       | New key                |
+            |---------------|------------------------|
+            | pre-flight    | 01-preflight           |
+            | branch        | 02-branch              |
+            | scaffold      | 03-scaffold            |
+            | 0a            | 04-ocr-translate       |
+            | 0b            | 05-refine-english      |
+            | 0c            | 06-phonetics           |
+            | 0d            | 07-chapter-design      |
+            | 0e            | 08-enrichment          |
+            | 0f            | 09-series-plan         |
+            | 0g            | 10-register-series     |
+            | per-chapter   | 11-per-chapter         |
+            | trainer       | 12-trainer             |
+            | merge         | 13-merge               |
+            | done          | 14-done                |
+
+          Migration requirements:
+            1. read_state() detects schema_version=1 (legacy) and rewrites keys → new names on load.
+            2. write_state() emits schema_version=2 with new keys only.
+            3. --retry-phase accepts BOTH old and new names for at least one release.
+            4. Logs, banners, JSONL events use NEW names only.
+            5. Surface ~700 lines per evidence sweep (orchestrate_book.py 38, _authoring.py 32, agent docs 10+, SKILL.md 3, plan-yaml 70+).
+            6. DEFER until no books are in-flight (R4 risk).
         acceptance:
-          - "Existing kitab-al-riyad state.json migrates seamlessly"
-          - "Docs (podcast-pipeline.html etc.) updated atomically"
+          - "Existing kitab-al-riyad state.json migrates seamlessly on first read"
+          - "`--retry-phase 0b` and `--retry-phase 05-refine-english` both resolve to the same phase"
+          - "Docs (podcast-pipeline.html, plan view/index.html) updated atomically with the code"
+          - "Zero `0a`..`0g` literal strings remain in scripts/podcast/ after migration"
       - id: P6.2
-        title: "Delete infra/claude-agents/ duplicates"
-        prereq: "Verify ui-reviewer (only in infra) is migrated to .github/agents/ first"
+        title: "Agent dedup — canonicalize on .github/agents/ and delete infra/claude-agents/"
+        prereq: |
+          BLOCKER per evidence sweep 2026-05-19: the following agents exist ONLY in
+          infra/claude-agents/ + .claude/agents/, NOT in .github/agents/. They must be
+          migrated upstream FIRST or unique content is lost:
+            - podcast-challenger.md (70K) ← largest agent; episode contract validator
+            - podcast-extract.md    (5K stub) ← single-chapter extraction
+            - ui-reviewer.md        (10K)     ← UI/CSS review helper
         files:
-          - infra/claude-agents/                   # delete
-          - scripts/install-claude-skills.sh       # rewrite to source from .github/agents/
+          - .github/agents/podcast-challenger.agent.md     # NEW — migrate from infra/
+          - .github/agents/podcast-extract.agent.md        # NEW — migrate from infra/
+          - .github/agents/ui-reviewer.agent.md            # NEW — migrate from infra/
+          - infra/claude-agents/                           # DELETE after migration
+          - scripts/install-claude-skills.sh               # rewrite to source from .github/agents/
+        spec: |
+          Inventory snapshot (verified 2026-05-19):
+            UNIQUE to .github/agents/        : CORTEX, journal-orchestrator, reconcile, repo-surgeon — preserve as-is
+            DUPLICATE (.github + infra)       : podcast-orchestrator, podcast-trainer
+            TRIPLICATE (.github + infra + .claude): journal-challenger, refine-prompt
+            DUPLICATE (infra + .claude)       : podcast-challenger, podcast-extract, ui-reviewer ← MIGRATE
+          After migration: .github/agents/ is sole upstream source. install-claude-skills.sh
+          materializes .claude/agents/*.md by stripping the `.agent.md` suffix.
         acceptance:
-          - "Agent picker shows each agent once"
-          - "install-claude-skills.sh strips .agent.md suffix when copying to .claude/agents/"
+          - "Every agent appearing in any of the three locations exists in .github/agents/"
+          - "VS Code/Claude Code agent picker shows each agent exactly once"
+          - "infra/claude-agents/ removed; git log preserves history"
+          - "install-claude-skills.sh idempotent: second run produces zero diffs"
       - id: P6.3
         title: "CI check: scripts/podcast/ does not import from scripts/site/ or scripts/memoir/"
         files:
@@ -476,9 +745,11 @@ open_questions:
   - id: Q1
     question: "Multi-Mac story for the service"
     detail: |
-      User has multi-mac-runbook.md. Does the FastAPI service run on the primary Mac
-      only, or are jobs delegated across machines? Affects: state location, auth,
-      worker pool design.
+      User memory designates THIS Mac as primary for the Azure-backed pipeline as of
+      2026-05-18. Runbook: ../primary-mac-activation.md. Does the FastAPI service (P2/P5)
+      run on the primary Mac only, or are jobs delegated across machines? Affects:
+      state location, auth, worker pool design, heartbeat hostname enforcement (R3).
+    current_lean: "Service runs primary-only; secondary Macs are read-only viewers via SSH-tunneled dashboard."
     blocks: P5
   - id: Q2
     question: "Cost ceiling per book"
@@ -518,9 +789,15 @@ risks:
 # Done definition
 # -----------------------------------------------------------------------------
 done_when:
-  - "P0 → P5 all merged to develop with passing CI"
+  - "P0a → P5 all merged to develop with passing CI (P0a/P0b are blockers for P3+)"
+  - "scripts/podcast/_boundary_check.py exits 0; no automatic writes outside content/podcast/**"
+  - "E2E test (P0b) passes on tiny-book fixture; PR gate enforces it"
   - "Dashboard at http://127.0.0.1:8765/ can: list, start, resume, retry, delete books"
   - "Full pipeline run on Rasail Ikhwan (865p) completes with structured cost ledger"
   - "Zero `subprocess.run([CLAUDE_CMD,...])` calls remain in scripts/podcast/"
   - "isolation_check CI job is green"
+  - "Agent picker shows each agent exactly once (P6.2 dedup verified)"
+  - "podcast-challenger / podcast-extract / ui-reviewer migrated to .github/agents/"
+  - "Phase rename to 01-preflight..14-done complete; schema_version=2 across all live state files"
   - "podcast-orchestrator.agent.md updated to reference the new service + status CLI"
+  - "Manual library handoff documented in skills-staging/podcast/SKILL.md"

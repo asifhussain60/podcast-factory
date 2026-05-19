@@ -113,3 +113,96 @@ Source: <https://fastapi.tiangolo.com/tutorial/background-tasks/>
 | Trainer | podcast-trainer agent + per-chapter convergence | journal has no trainer |
 
 **Hard rule:** any file under `scripts/podcast/` or its FastAPI service may NOT import from `scripts/site/` or `scripts/memoir/`, and vice versa. Cross-cutting shared utilities (if any ever needed) go into a new `scripts/_shared/` package — currently empty by design.
+
+## 7. Large-book chunking — root cause and the flat-layout decision
+
+Folded in from `_workspace/podcast-orchestrator-large-books.md` (deleted after fold-in).
+**Status:** implemented · branch `book/kitab-al-riyad` · orchestrator v1.2.
+
+### What was broken
+
+Phase 0b on `kitab-al-riyad` (88k-word raw extract) ran 22:51 → 23:20 and died at the 30-min `claude -p` timeout. Root cause: **one monolithic LLM call** for the entire book. The 30-min ceiling is a property of the headless CLI, not the input. So any book with more than ~30k words of OCR'd raw text would block here regardless of how chapters are later carved.
+
+Two orthogonal problems surfaced together:
+
+1. **Phase 0b/0c monolithic shellout** — pipeline-breaking. Bug.
+2. **Per-chapter granularity for very long source chapters** — UX limitation, not a blocker.
+
+The chunking fix (1) unblocks large books. The section-mode fix (2) is scoped narrowly so it does not cascade through downstream code.
+
+### Why a nested-folder layout was rejected
+
+A nested layout (chapters→sections→episodes) would have rippled through every downstream tool. The invariant that keeps the pipeline tractable is:
+
+> One episode = one chapter file = one contract = one NotebookLM upload.
+
+Every downstream tool (`extract_chapter.py`, `build_episode_txt.py`, `podcast-challenger`, `podcast-trainer`) assumes that invariant. Sections are just named episodes with a suffix (`ch03a-foo.txt`, `ch03b-bar.txt`) and a back-reference (`source_chapter_ref: ch03`, `section_index: 1`) inside their contract. The series-plan surfaces a source→episode map for human review. Nothing downstream needs to know whether `ch03a-` came from a whole source chapter or half of one.
+
+### Fix 1 — Chunked Phase 0b/0c (`scripts/podcast/_chunking.py`)
+
+- Paragraph-aligned windows of ~3000 words (0b) / ~8000 words (0c), with a 120-word context-overlap block prepended to every continuation.
+- Per-window `claude -p` calls (10-min timeout each, well under the 30-min ceiling).
+- **Checkpointed:** every window writes `_chunks/0b/win-NNN.in.md` (input provenance) and the model writes `win-NNN.out.md` (its output). On `--resume`, windows whose `out.md` already exists and is non-empty are skipped. Crash-safe.
+- Stitching strips common LLM preambles ("Here is the refined text:") and stray markdown fences before assembling the final `refined-english.md` / `_phonetics.md`.
+- `_phonetics.md` merge dedupes by first column (term, case-folded), preserving first-occurrence order across windows.
+
+Validated on the real `kitab-al-riyad/raw-extract.md`: 32 windows, mean 2873 words, with `<!-- context-overlap from prior window -->` blocks on windows 2–32. Total throughput ~92k words.
+
+### Fix 2 — Phase 0d `unit_mode` (`chapter | section | auto`)
+
+- New state config `state.config.unit_mode`, written at initial-run time from `--unit-mode` (default `auto`).
+- The Phase 0d prompt branches:
+  - `chapter` — one episode per source chapter, never split. Small books / short chapters.
+  - `section` — split every source chapter into sections sized to the tier band.
+  - `auto` — per-chapter decision; split only when source word count exceeds 1.5× the tier upper bound. Recommended default.
+- Section episodes named `ch03a-`, `ch03b-`, `ch03c-`. Each contract gets `source_chapter_ref` + `section_index`.
+- When `unit_mode != chapter`, Phase 0d also writes `_system/source/text/source-chapter-map.md` (pipe table of source-chapter → episodes), embedded into the 0f series-plan for human review.
+
+### Operator ergonomics — `--retry-phase`
+
+Resetting a failed phase used to require hand-editing `orchestrator-state.json`. New flag:
+
+```bash
+python3 scripts/podcast/orchestrate_book.py --resume <slug> --retry-phase 0b
+```
+
+Sets the named phase to `pending`, clears any downstream `completed` markers in the authoring band (0b → 0e), and resumes. The chunking checkpoint means a retried 0b/0c reuses any already-completed windows.
+
+### Driving `kitab-al-riyad` from the current state (0a complete, 0b pending)
+
+```bash
+git checkout book/kitab-al-riyad
+python3 scripts/podcast/orchestrate_book.py --resume kitab-al-riyad
+```
+
+Window-processes 0b (~32 windows, ~5 min each on a stable connection) into `refined-english.md`, then chunks 0c into `_phonetics.md`, then 0d (with `unit_mode=auto`) into the contracts + chapter txts, then 0e, then halts at 0f for series-plan review.
+
+**Note:** the P0 fix (`--permission-mode acceptEdits` + hardened artifact check) MUST be applied before this resume — see `podcast-plan.yaml` P0.1/P0.2.
+
+### Files touched in this fix
+
+- NEW: `scripts/podcast/_chunking.py`
+- CHANGED: `scripts/podcast/_authoring.py` (phases 0b, 0c, 0d rewritten)
+- CHANGED: `scripts/podcast/orchestrate_book.py` (CLI flags, state config, series-plan template, `--retry-phase`)
+- CHANGED: `scripts/podcast/_progress.py` (version bump to 1.2)
+
+## 8. System check snapshot — 2026-05-19
+
+Verified by the repo-surgeon evidence sweep. Refresh before each batch.
+
+| Domain | Status | Detail |
+|---|---|---|
+| Azure CLI | ✅ logged in | `Journal AI — primary` (subscription `3440564d-c056-4173-bec6-7af92dbece77`) |
+| Azure Doc Intelligence | ✅ provisioned | `journal-docintel` (FormRecognizer, eastus, rg-journal-ai) |
+| Azure Translator | ✅ provisioned | `journal-translator` (TextTranslation, eastus, rg-journal-ai) |
+| Azure Speech | ✅ provisioned | `journal-speech` (SpeechServices, eastus, rg-journal-ai) |
+| Claude CLI | ✅ 2.1.144 | `/Users/ahmac/.nvm/versions/node/v24.15.0/bin/claude` |
+| Python | ✅ 3.14.4 | system python |
+| Node | ✅ v24.15.0 | nvm |
+| gh CLI | ⚠️ unauthenticated | non-blocking for plan work; needed for PR ops |
+| Git | ✅ clean | branch `develop`, fast-forwarded to `origin/develop` |
+| Orchestrator runs | ✅ none active | `pgrep -fl 'orchestrate_book|claude -p'` empty |
+| `kitab-al-riyad` state | ✅ resumable | phase `0a` complete; `0b` pending; no orphan chunks |
+| Podcast→journal feeds | ✅ none | boundary holds in current code; CI lock-down in P0a |
+| Duplicate agents | ⚠️ migration needed | `podcast-challenger`/`podcast-extract`/`ui-reviewer` missing from `.github/agents/` |
+| E2E tests | ❌ absent | only unit + integration tests exist; P0b creates the harness |

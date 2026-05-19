@@ -123,15 +123,32 @@
 <div class="container">
 
 <header>
-  <h1>Podcast Pipeline — Phased Plan</h1>
+  <h1>Podcast Pipeline — Phased Plan <span class="badge badge-scope-in" style="font-size:10px;vertical-align:middle">v2 · 2026-05-19</span></h1>
   <p class="subtitle">
-    Phased migration plan: bug-fix → observability → SDK migration → control plane.
+    Phased migration plan: boundary-lockdown → E2E harness → bug-fix → observability → SDK migration → control plane → polish.
     Scope: podcast agent + skill only. Journal is out of scope.
   </p>
   <p class="subtitle">
     Canonical: <code>_workspace/plan/podcast-plan.yaml</code> •
-    Research: <code>_workspace/plan/research/findings.md</code>
+    Research: <code>_workspace/plan/research/findings.md</code> •
+    Runbook: <code>_workspace/primary-mac-activation.md</code>
   </p>
+  <div class="card medium" style="margin-top:18px">
+    <h3 style="margin-top:0">v2 — what changed</h3>
+    <ul style="margin-bottom:0">
+      <li><strong>New P0a</strong> — journal/podcast boundary verification + CI lock-down. Evidence sweep 2026-05-19 confirms no automatic feeds exist today; this phase locks that property in place.</li>
+      <li><strong>New P0b</strong> — first true E2E test harness (tiny-book fixture, sunny + rainy day). Blocks P3 SDK migration.</li>
+      <li><strong>P1.3 wait-banner</strong> — boxed-banner format codified in <code>podcast-plan.yaml</code> <code>async_safety.wait_banner_format</code>; status CLI emits it for TTY.</li>
+      <li><strong>P6.1 expanded</strong> — full 14-step phase rename mapping (<code>01-preflight</code> … <code>14-done</code>) with backward-compatible aliases for one release.</li>
+      <li><strong>P6.2 blocker noted</strong> — <code>podcast-challenger</code>, <code>podcast-extract</code>, <code>ui-reviewer</code> must be migrated to <code>.github/agents/</code> before <code>infra/claude-agents/</code> can be deleted.</li>
+      <li><strong>Intelligence-source catalog</strong> — codified per-agent <em>what to consult before any edit</em>, embedded in <code>podcast-plan.yaml</code>.</li>
+      <li><strong>System-check snapshot</strong> — embedded in <code>meta.system_check</code>; refresh before each batch.</li>
+      <li><strong>Legacy files cleaned</strong> — 4 superseded files deleted, 1 stale package archived. See README §Legacy-file triage.</li>
+    </ul>
+    <p style="margin-bottom:0;font-size:12.5px;color:var(--text-dim)">
+      Diagrams below still use <code>0a…0g</code> because that is the current deployed state. The rename is P6.1 — applied after no books are in-flight.
+    </p>
+  </div>
 </header>
 
 <h2 id="toc">Contents</h2>
