@@ -3,10 +3,10 @@
   "book_slug": "kitab-al-riyad",
   "category": "books",
   "branch": "book/kitab-al-riyad",
-  "phase": "0a",
+  "phase": "0b",
   "phase_status": "completed",
-  "last_completed_phase": "0a",
-  "next_phase": "0b",
+  "last_completed_phase": "0b",
+  "next_phase": "0c",
   "last_error": null,
   "phases": {
     "pre-flight": {
@@ -27,7 +27,9 @@
       "ts_completed": "2026-05-18T22:51:13Z"
     },
     "0b": {
-      "status": "pending"
+      "status": "completed",
+      "ts_started": "2026-05-19T17:34:33Z",
+      "ts_completed": "2026-05-19T19:06:50Z"
     },
     "0c": {
       "status": "pending"
@@ -63,7 +65,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-05-18T22:51:13Z",
-  "ts_updated": "2026-05-18T22:51:13Z",
+  "ts_updated": "2026-05-19T19:06:50Z",
   "challenger_version": "2.0",
   "orchestrator_version": "1.1"
 }
