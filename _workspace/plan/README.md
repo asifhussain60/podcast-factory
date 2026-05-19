@@ -7,7 +7,8 @@
 
 | File | Purpose |
 |---|---|
-| [`podcast-plan.yaml`](./podcast-plan.yaml) | Canonical phased plan (P0a, P0b, P0 → P7). Single source of truth. |
+| [`podcast-plan.yaml`](./podcast-plan.yaml) | Canonical phased plan (P0a, P0b, P0c, P0 → P7). Single source of truth. |
+| [`acceptance-criteria.md`](./acceptance-criteria.md) | **Master SHIP/DONE checklist.** Every measurable promise in the YAML rendered as a checkbox; audited by `/repo-surgeon --plan-only` Pass 5. |
 | [`view/index.html`](./view/index.html) | Rich HTML view with SVG architecture diagrams. Open in browser. |
 | [`research/findings.md`](./research/findings.md) | Web-research citations, sample-book corpus, chunking rationale, system-check snapshot. |
 | [`../primary-mac-activation.md`](../primary-mac-activation.md) | One-time runbook for bootstrapping a primary Mac (Azure provisioning). Referenced by Q1 open question. |
