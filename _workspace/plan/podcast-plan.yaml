@@ -163,7 +163,7 @@ system_check:
     claude_cli:      "2.1.144"
     python:          "3.14.4"
     node:            "v24.15.0"
-    gh:              "installed (v2.92.0), NOT authenticated — run `gh auth login --hostname github.com --git-protocol https --web` before W1 kickoff"
+    gh:              "installed (v2.92.0), authenticated as asifhussain60 (2026-05-19; keyring; scopes gist, read:org, repo, workflow)"
   git:
     branch:          "develop"
     clean:           true

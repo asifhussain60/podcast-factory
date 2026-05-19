@@ -19,12 +19,12 @@ This document is the permanent, audit-preservable verdict of the DoR gate. The c
 | Claude CLI ≥ 2.1.144 | yes | ✅ | [yaml:163](./podcast-plan.yaml#L163) |
 | Python 3.14.4 | yes | ✅ | [yaml:164](./podcast-plan.yaml#L164) |
 | Node v24.15.0 (for site/proxy work; not required for podcast pipeline runtime) | yes | ✅ | [yaml:165](./podcast-plan.yaml#L165) |
-| `gh` authenticated | **NO** | ❌ **blocker for CI work** | [yaml:166](./podcast-plan.yaml#L166); run `gh auth login --hostname github.com --git-protocol https --web` |
+| `gh` authenticated | yes | ✅ (resolved 2026-05-19; keyring; scopes: `gist, read:org, repo, workflow`) | [yaml:166](./podcast-plan.yaml#L166); user `asifhussain60` |
 | Git: `develop == origin/develop`, clean tree | yes | ✅ | both at `d986a3d` at branch time |
 | Orchestrator quiescence | no in-flight runs | ✅ | `system_check.orchestrator.active_runs: []` |
 | Guinea-pig PDF physically present | yes | ✅ | 4.4 MB at iCloud path; [yaml:174](./podcast-plan.yaml#L174) |
 
-`gh auth` is the **only outstanding pre-flight blocker**. It does not block W1 code work; it blocks any acceptance row that creates or runs a `.github/workflows/*.yml`. Resolve before P2.4 / P2.5 / P8.8 land.
+All pre-flight blockers resolved. `gh auth` cleared 2026-05-19 (scopes include `workflow`, so P2.4 / P2.5 / P8.8 CI rows can land).
 
 ---
 
@@ -116,7 +116,6 @@ Plus `RawText` dataclass, `REGISTRY: dict[str, type[SourceAdapter]]`, `dispatch(
 ## What happens next (the executable path)
 
 ```
-gh auth login --hostname github.com --git-protocol https --web   # blocker for CI rows
 python3 scripts/podcast/run_wave.py 1                            # W1 kickoff — once run_wave.py P1.4 ships
 ```
 
