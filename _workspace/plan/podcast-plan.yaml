@@ -1,0 +1,526 @@
+# =============================================================================
+# Podcast Pipeline — Phased Plan (CANONICAL)
+# =============================================================================
+# Scope: podcast agent + skill ONLY. Journal is OUT OF SCOPE.
+# See README.md for scope boundary, research/findings.md for citations,
+# view/index.html for visual architecture diagrams.
+# =============================================================================
+
+meta:
+  version: 1
+  created: 2026-05-19
+  owner: asif
+  branch_strategy: "feature branches off develop, merge via --no-ff"
+  scope_in:
+    - .github/agents/podcast-orchestrator.agent.md
+    - .github/agents/podcast-trainer.agent.md
+    - skills-staging/podcast/**
+    - scripts/podcast/**
+    - content/podcast/**
+  scope_out:
+    - .github/agents/journal-*.agent.md
+    - .github/agents/CORTEX.agent.md
+    - .github/agents/reconcile.agent.md
+    - .github/agents/repo-surgeon.agent.md
+    - skills-staging/journal/**
+    - scripts/memoir/**
+    - scripts/site/**
+    - content/babu-memoir/**
+    - content/_shared/**
+
+# -----------------------------------------------------------------------------
+# Guiding principles
+# -----------------------------------------------------------------------------
+principles:
+  - id: P-1
+    name: "Ship the band-aid before the cure"
+    detail: |
+      P0 is a 2-line fix that unblocks the kitab-al-riyad run today.
+      Do P0 even though P3 (SDK migration) makes it obsolete — the validation
+      that follows P0 informs P3's design.
+  - id: P-2
+    name: "Observation before mutation"
+    detail: |
+      Build read-only status (P1, P2) before the control plane (P5).
+      A dashboard is useless if the process is opaque; mutations are dangerous
+      if you can't see what's happening.
+  - id: P-3
+    name: "Validate on real books before refactoring"
+    detail: |
+      P4 runs the graduated book corpus (30p → 865p) on the current shell-out
+      pipeline. ONLY after that passes do we touch the SDK migration (P3 reorders
+      to AFTER P4 if validation surfaces unknown failure modes).
+  - id: P-4
+    name: "Resume-safe checkpoints everywhere"
+    detail: |
+      Every new code path must be resume-safe: append-only logs, .done markers,
+      atomic file writes. No phase may overwrite state from an earlier phase.
+  - id: P-5
+    name: "Podcast / journal isolation is enforced, not aspirational"
+    detail: |
+      No file under scripts/podcast/ may import from scripts/site/ or scripts/memoir/.
+      Add a CI check in P6 that asserts this.
+
+# -----------------------------------------------------------------------------
+# Phases
+# -----------------------------------------------------------------------------
+phases:
+
+  # =============================================================================
+  - id: P0
+    name: "Critical bug fix: claude -p permission mode"
+    effort: hours
+    priority: blocker
+    depends_on: []
+    why: |
+      Current orchestrator silently fails inside Phase 0b/0c/0d/0e because
+      `claude -p` refuses file-write tools without --permission-mode acceptEdits.
+      Returns rc=0 with a refusal in stdout; orchestrator's artifact check logs
+      "NO ARTIFACT" and proceeds to the next window. All windows on
+      kitab-al-riyad failed this way last session (5 .in.md written, 0 .out.md).
+    tasks:
+      - id: P0.1
+        title: "Add --permission-mode acceptEdits to all claude -p invocations"
+        files:
+          - scripts/podcast/_chunking.py    # _run_one_window
+          - scripts/podcast/_authoring.py   # _run_claude (and any other CLAUDE_CMD sites)
+        acceptance:
+          - "grep 'claude -p' returns 0 results without --permission-mode flag"
+          - "Both sites pass --permission-mode acceptEdits"
+      - id: P0.2
+        title: "Harden artifact check: rc=0 AND out_path exists AND non-empty"
+        files:
+          - scripts/podcast/_chunking.py
+          - scripts/podcast/_authoring.py
+        acceptance:
+          - "If out_path missing OR file_size == 0, raise typed error with stdout/stderr capture"
+          - "No silent 'NO ARTIFACT' continuation — every failure surfaces"
+      - id: P0.3
+        title: "Re-run kitab-al-riyad --resume; verify Phase 0b completes"
+        acceptance:
+          - "All N windows produce non-empty .out.md files"
+          - "Phase transitions 0b -> 0c -> 0d -> 0e cleanly OR halts cleanly at 0f human gate"
+
+  # =============================================================================
+  - id: P1
+    name: "Observability foundation: heartbeat + status CLI"
+    effort: 1-2 days
+    priority: high
+    depends_on: [P0]
+    why: |
+      Currently zero visibility into in-flight work. User waits 15+ minutes
+      with no signal whether claude -p is making progress, hung, or dead.
+      Heartbeat thread + read-only CLI eliminates this anxiety AND lays the
+      data plane for P2 (HTTP API) and P5 (live dashboard).
+    tasks:
+      - id: P1.1
+        title: "Heartbeat daemon thread in scripts/podcast/_progress.py"
+        files:
+          - scripts/podcast/_progress.py
+          - scripts/podcast/orchestrate_book.py   # spawn heartbeat at startup
+        spec:
+          path: "<book>/_system/heartbeat.json"
+          interval_sec: 30
+          fields:
+            - pid
+            - phase
+            - phase_status
+            - elapsed_in_phase_s
+            - last_chunk_written          # path of most recent .out.md / .done file
+            - last_chunk_mtime
+            - last_log_line               # tail -1 of orchestrator log
+            - subprocess_pid              # current claude -p PID, if any
+          write: "atomic (tmp + rename); never block on disk"
+        acceptance:
+          - "heartbeat.json updates within 30s while orchestrator runs"
+          - "Thread is daemon=True; orchestrator exit terminates it cleanly"
+          - "Zero impact on claude -p timing (heartbeat is side-channel only)"
+      - id: P1.2
+        title: "Per-LLM-call heartbeat bumps"
+        files:
+          - scripts/podcast/_chunking.py
+          - scripts/podcast/_authoring.py
+        spec: |
+          Before each chunked window / per-source-chapter / per-chapter LLM call,
+          call _progress.bump_heartbeat(label="0b · win-007 · 3082 words").
+          Lets status CLI show step-level progress, not just phase-level.
+        acceptance:
+          - "Within 30s of any LLM call starting, heartbeat label reflects it"
+      - id: P1.3
+        title: "scripts/podcast/orchestrator_status.py (CLI inspector)"
+        files:
+          - scripts/podcast/orchestrator_status.py   # NEW
+        spec: |
+          Read-only. Reads heartbeat.json + state.json + _chunks/ dir + log tail.
+          Emits the user-preferred boxed banner (see ~/.../memory.preferences.md).
+          Usage:
+            python3 scripts/podcast/orchestrator_status.py <book-slug>
+            python3 scripts/podcast/orchestrator_status.py --all
+            python3 scripts/podcast/orchestrator_status.py --json   # for piping
+        acceptance:
+          - "Runs in <1s on a 260-page book's state"
+          - "Falls back gracefully if heartbeat.json missing (uses log tail)"
+          - "Emits exit code 0 if process alive, 2 if dead, 1 if state stale (>5min)"
+      - id: P1.4
+        title: "JSONL event log for downstream consumers"
+        files:
+          - scripts/podcast/_progress.py   # new: append_event()
+          - scripts/podcast/_chunking.py   # call append_event at key boundaries
+          - scripts/podcast/_authoring.py
+        spec:
+          path: "<book>/_system/events.jsonl"
+          line_schema: {ts, phase, step, total, label, level, msg}
+          append_only: true
+        acceptance:
+          - "events.jsonl tails cleanly with `tail -F`"
+          - "Schema documented in scripts/podcast/_progress.py docstring"
+
+  # =============================================================================
+  - id: P2
+    name: "Read-only Status API + browser dashboard"
+    effort: 3-4 days
+    priority: high
+    depends_on: [P1]
+    why: |
+      Browser-based dashboard replaces bash status checks. SSE stream gives
+      the user true real-time feedback instead of polling. Read-only by design
+      — mutations land in P5 only after observation is proven robust.
+    tasks:
+      - id: P2.1
+        title: "FastAPI service: scripts/podcast/service/"
+        files:
+          - scripts/podcast/service/__init__.py   # NEW
+          - scripts/podcast/service/app.py        # NEW — FastAPI app
+          - scripts/podcast/service/models.py     # NEW — Pydantic schemas
+          - scripts/podcast/service/sources.py    # NEW — filesystem readers
+        spec:
+          port: 8765
+          host: 127.0.0.1                         # localhost only by default
+          deps: [fastapi, uvicorn[standard]]      # add to scripts/podcast/requirements.txt
+          endpoints:
+            - "GET  /healthz                          → liveness"
+            - "GET  /books                            → list all books + phase + status"
+            - "GET  /books/{slug}                     → state.json + chunk counts + heartbeat"
+            - "GET  /books/{slug}/heartbeat           → heartbeat.json (raw)"
+            - "GET  /books/{slug}/logs?tail=200       → recent log lines"
+            - "GET  /books/{slug}/events?since=<ts>   → events.jsonl rows"
+            - "GET  /books/{slug}/chunks/{phase}      → per-window status grid"
+            - "GET  /books/{slug}/stream              → SSE feed of new events"
+          mutations: NONE
+        acceptance:
+          - "OpenAPI docs render at /docs"
+          - "All endpoints return JSON; SSE endpoint sends text/event-stream"
+          - "Service uses filesystem ONLY — no DB, no global state"
+      - id: P2.2
+        title: "Static dashboard SPA in scripts/podcast/service/static/"
+        files:
+          - scripts/podcast/service/static/index.html   # NEW
+          - scripts/podcast/service/static/dashboard.js # NEW
+          - scripts/podcast/service/static/styles.css   # NEW
+        spec: |
+          Vanilla JS, no framework. Single page:
+            • Top: book picker (all books, current phase, last heartbeat age)
+            • Middle: phase timeline (P0 → done) with completed/active/pending styling
+            • Bottom: live event stream (SSE) + log tail
+          Mounted at /  via app.mount("/", StaticFiles(...))
+        acceptance:
+          - "Open http://127.0.0.1:8765/ in browser → live updating dashboard"
+          - "Phase-stuck detection: heartbeat age >2min flashes yellow, >10min flashes red"
+      - id: P2.3
+        title: "launchd plist for dev daemon"
+        files:
+          - infra/launchd/com.journal.podcast-service.plist   # NEW
+        spec: "Optional: start FastAPI service on user login. Documented as opt-in."
+        acceptance: ["plist passes `plutil -lint`"]
+
+  # =============================================================================
+  - id: P3
+    name: "Anthropic SDK migration: replace `claude -p` shell-out"
+    effort: 3-4 days
+    priority: high
+    depends_on: [P0, P2]                          # P2 first → dashboard helps catch regressions
+    why: |
+      Native SDK eliminates entire bug classes:
+        - silent file-write refusals (we write files ourselves)
+        - 30-min subprocess.run timeouts (SDK streams to avoid HTTP timeouts)
+        - "rc=0 but no artifact" failures (SDK returns text directly)
+      Adds: token-level streaming for true real-time progress, structured errors
+      (rate-limit / auth / content-policy distinguishable), built-in cost telemetry
+      via usage headers, Claude 4.6+ error recovery via continuation requests.
+    tasks:
+      - id: P3.1
+        title: "Add `anthropic` to requirements; create wrapper module"
+        files:
+          - scripts/podcast/requirements.txt
+          - scripts/podcast/_claude_client.py    # NEW
+        spec: |
+          Single function: call_claude(prompt, *, max_tokens, model, on_token=None, on_error=None) -> str
+          Internals:
+            with client.messages.stream(...) as stream:
+                for text in stream.text_stream:
+                    if on_token: on_token(text)            # heartbeat bump
+                msg = stream.get_final_message()
+            return msg.content[0].text
+          Reads ANTHROPIC_API_KEY from env (already in keychain per store-keychain-keys.sh).
+          Implements Claude 4.6+ continuation pattern for interrupted streams.
+        acceptance:
+          - "100% drop-in replacement signature; one function only"
+          - "Returns the same text the CLI would have written to out_path"
+          - "Bubbles up typed errors (RateLimit, Overloaded, Auth, ContentPolicy)"
+      - id: P3.2
+        title: "Swap _chunking._run_one_window to use _claude_client"
+        files: [scripts/podcast/_chunking.py]
+        acceptance:
+          - "No subprocess.Popen / subprocess.run remains in _chunking.py"
+          - "out_path is written by Python after call_claude returns the text"
+          - "Per-token heartbeat bumps via on_token callback"
+      - id: P3.3
+        title: "Swap _authoring._run_claude to use _claude_client"
+        files: [scripts/podcast/_authoring.py]
+        acceptance:
+          - "Same as P3.2 for 0d/0e and per-chapter authoring"
+      - id: P3.4
+        title: "Cost-tracking sidecar"
+        files:
+          - scripts/podcast/_claude_client.py
+        spec: |
+          After every call, append a line to <book>/_system/cost-ledger.jsonl:
+            {ts, phase, step, model, input_tokens, output_tokens, cache_read, cache_create, cost_usd}
+          Use pricing table in module constant; warn loudly if model not in table.
+        acceptance:
+          - "ledger sums to within 1% of Anthropic console for kitab-al-riyad full run"
+      - id: P3.5
+        title: "End-to-end re-run on kitab-al-riyad (or fresh small book) with SDK path"
+        acceptance:
+          - "All phases complete with zero subprocess errors"
+          - "Dashboard shows live token counts during 0d/0e"
+          - "cost-ledger.jsonl populated"
+
+  # =============================================================================
+  - id: P4
+    name: "Sample corpus validation (graduated stress test)"
+    effort: 1 week (mostly wall-clock waiting)
+    priority: high
+    depends_on: [P3]
+    why: |
+      Prove the pipeline handles the full size range BEFORE adding control plane
+      (P5) or refactor (P6). Each run also feeds the trainer with cross-book
+      examples for chapter-design heuristics.
+    tasks:
+      - id: P4.1
+        title: "Tiny: Ayyuhal Walad (30p)"
+        prereq: "Branch book/ayyuhal-walad already partially exists; verify it still resumes"
+        acceptance:
+          - "Full pipeline to merge in <2h wall-clock"
+          - "Cost <$5"
+      - id: P4.2
+        title: "Small: Masaail searchable (81p)"
+        acceptance: ["Full pipeline; record token/cost/wall-clock"]
+      - id: P4.3
+        title: "Small: Majalis Moyyada (139p)"
+        acceptance: ["Full pipeline; record metrics"]
+      - id: P4.4
+        title: "Large: Kitab Maqbas (392p)"
+        risk: "First book where Phase 0d source-chapter loop may produce 15+ episodes"
+        acceptance: ["Full pipeline; verify chapter contracts hold"]
+      - id: P4.5
+        title: "Large: Asaas Al-Taveel (416p)"
+        acceptance: ["Full pipeline; record metrics"]
+      - id: P4.6
+        title: "XLarge: Raahat al-Aqal (591p)"
+        risk: "Phase 0a may approach Doc Intelligence 600s poll budget"
+        acceptance: ["Full pipeline; or document Doc-Intelligence-poll-extension issue"]
+      - id: P4.7
+        title: "XLarge: Rasail Ikhwan AsSafa (865p)"
+        risk: "Largest book; tests Phase 0d map-reduce at upper end"
+        acceptance: ["Full pipeline OR documented failure mode + remediation issue"]
+      - id: P4.8
+        title: "ETA model: words -> wall-clock per phase"
+        files:
+          - scripts/podcast/orchestrator_status.py    # add --eta flag
+        spec: |
+          Linear regression over P4.1–P4.7 runs: (raw_words, refined_words) ->
+          (phase_0b_min, 0c_min, 0d_min, 0e_min, per_chapter_min). Use for status
+          CLI / dashboard ETA display.
+        acceptance: ["ETA prediction within ±30% on a held-out book"]
+
+  # =============================================================================
+  - id: P5
+    name: "Control plane: mutation API + worker pool"
+    effort: 1-2 weeks
+    priority: medium
+    depends_on: [P4]
+    why: |
+      Hands-off operation. Trigger new books from browser, retry phases without
+      shell, run 2-3 books concurrently. Worker pool means one stuck book doesn't
+      block the others.
+    tasks:
+      - id: P5.1
+        title: "Mutation endpoints"
+        files: [scripts/podcast/service/app.py]
+        spec:
+          endpoints:
+            - "POST   /books                        body: {pdf_path|pdf_upload, slug, tier}"
+            - "POST   /books/{slug}/resume"
+            - "POST   /books/{slug}/pause"          # SIGSTOP the subprocess
+            - "POST   /books/{slug}/retry-phase     body: {phase}"
+            - "DELETE /books/{slug}                 query: ?rollback_branch=true"
+          auth: "single shared bearer token from keychain; localhost-only still default"
+        acceptance:
+          - "All mutations write an audit row to _workspace/podcast-audit.jsonl"
+          - "Pause/resume verified on a live run"
+      - id: P5.2
+        title: "Worker pool: subprocess.Popen registry"
+        files:
+          - scripts/podcast/service/workers.py     # NEW
+        spec: |
+          - max_concurrent (default 2) configurable
+          - one Popen per book; monitored by asyncio task
+          - SIGTERM on shutdown; cleanup on crash
+          - exposes /workers endpoint with PID + state per slot
+        acceptance:
+          - "2 books run truly in parallel without state corruption"
+          - "Server restart picks up orphaned runs via state.json scan (read-only resume detect)"
+      - id: P5.3
+        title: "SQLite cross-book index (READ-ONLY cache)"
+        files:
+          - _workspace/podcast.db                  # NEW (gitignored)
+          - scripts/podcast/service/index.py       # NEW
+        spec: |
+          Built from filesystem state. Per-book row: slug, title, pages, raw_words,
+          refined_words, current_phase, last_event_ts, total_cost_usd.
+          Rebuild command: `python -m scripts.podcast.service.index --rebuild`.
+          DB is a CACHE — JSON files remain authoritative.
+        acceptance:
+          - "DB file gitignored under _workspace/"
+          - "Rebuild from a fresh empty DB reproduces identical state"
+      - id: P5.4
+        title: "Dashboard mutation UI (start / retry / delete buttons)"
+        files: [scripts/podcast/service/static/dashboard.js]
+        acceptance:
+          - "All mutations confirmable; destructive ones require typed slug to confirm"
+
+  # =============================================================================
+  - id: P6
+    name: "Polish: phase rename + agent dedup + isolation check"
+    effort: 3-5 days
+    priority: medium
+    depends_on: [P5]
+    tasks:
+      - id: P6.1
+        title: "Phase rename: 0a-0g → 04-ocr-translate … 10-register-series"
+        files:
+          - scripts/podcast/_progress.py           # bump schema_version to 2; add translation layer
+          - scripts/podcast/orchestrate_book.py    # phase_map, completed set, --retry-phase
+          - scripts/podcast/_authoring.py          # phase="0d" strings
+          - scripts/podcast/_chunking.py
+          - scripts/podcast/_convergence.py
+          - skills-staging/podcast/**             # any phase references
+        spec: |
+          Mapping: see _workspace/plan/research/findings.md §phase-rename.
+          read_state() detects schema_version=1 and rewrites keys → new names on load.
+          --retry-phase accepts BOTH old and new names for one release.
+        acceptance:
+          - "Existing kitab-al-riyad state.json migrates seamlessly"
+          - "Docs (podcast-pipeline.html etc.) updated atomically"
+      - id: P6.2
+        title: "Delete infra/claude-agents/ duplicates"
+        prereq: "Verify ui-reviewer (only in infra) is migrated to .github/agents/ first"
+        files:
+          - infra/claude-agents/                   # delete
+          - scripts/install-claude-skills.sh       # rewrite to source from .github/agents/
+        acceptance:
+          - "Agent picker shows each agent once"
+          - "install-claude-skills.sh strips .agent.md suffix when copying to .claude/agents/"
+      - id: P6.3
+        title: "CI check: scripts/podcast/ does not import from scripts/site/ or scripts/memoir/"
+        files:
+          - scripts/podcast/_isolation_check.py    # NEW
+          - .github/workflows/podcast-isolation.yml # NEW (lint job)
+        acceptance:
+          - "AST scan fails build if forbidden import found"
+      - id: P6.4
+        title: "Heartbeat → stream-json upgrade in _claude_client"
+        files: [scripts/podcast/_claude_client.py]
+        spec: |
+          Already streaming via SDK in P3; this task just ensures heartbeat
+          ticks reflect Anthropic SSE events (output_tokens cumulative) rather
+          than approximate token counts.
+        acceptance: ["heartbeat shows exact output_tokens within 1 token of API total"]
+
+  # =============================================================================
+  - id: P7
+    name: "Deferred / speculative"
+    effort: TBD
+    priority: low
+    depends_on: [P6]
+    tasks:
+      - id: P7.1
+        title: "PDF pre-splitting (Option B from earlier recon)"
+        defer_until: "A book actually exceeds 500 MB OR 2000 pages OR Doc Intelligence 600s poll budget"
+        spec: "Optional state.config.sub_pdfs list; pypdf dependency; 0a-pre phase"
+      - id: P7.2
+        title: "Parallel per-chapter LLM calls in 0e and convergence"
+        defer_until: "Cost-tracking proven stable AND user explicitly opts in"
+      - id: P7.3
+        title: "Trainer ingestion of SQLite event log"
+        defer_until: "P5 SQLite index proven stable"
+      - id: P7.4
+        title: "Web upload for PDFs in dashboard"
+        defer_until: "P5 mutation API stable; iCloud-folder discovery may suffice in interim"
+
+# -----------------------------------------------------------------------------
+# Open questions (must be resolved before P5)
+# -----------------------------------------------------------------------------
+open_questions:
+  - id: Q1
+    question: "Multi-Mac story for the service"
+    detail: |
+      User has multi-mac-runbook.md. Does the FastAPI service run on the primary Mac
+      only, or are jobs delegated across machines? Affects: state location, auth,
+      worker pool design.
+    blocks: P5
+  - id: Q2
+    question: "Cost ceiling per book"
+    detail: |
+      Should the orchestrator halt if a book's running cost exceeds $X? Soft warning
+      at heartbeat, hard halt before Phase 0d, etc.
+    blocks: P3.4
+  - id: Q3
+    question: "Trainer integration with SDK migration"
+    detail: |
+      podcast-trainer.agent.md ingests per-chapter convergence outputs. SDK path
+      should preserve that integration; verify before P3.3 ships.
+    blocks: P3.3
+
+# -----------------------------------------------------------------------------
+# Risks
+# -----------------------------------------------------------------------------
+risks:
+  - id: R1
+    severity: high
+    risk: "P3 SDK migration introduces a regression that's only visible at scale"
+    mitigation: "Run P4.1 and P4.2 (tiny + small books) FIRST on the SDK path before declaring P3 done. Keep CLAUDE_CMD fallback for one release."
+  - id: R2
+    severity: medium
+    risk: "Doc Intelligence 600s poll budget insufficient for 800+ page books"
+    mitigation: "P4.6 / P4.7 expose this. If hit, extend budget to 1800s as a single-line fix; PDF splitting still deferred."
+  - id: R3
+    severity: medium
+    risk: "FastAPI service started on Mac A while orchestrator is run manually on Mac B → state divergence"
+    mitigation: "Heartbeat carries hostname; service rejects mutations on books whose last heartbeat was a different host (configurable override)."
+  - id: R4
+    severity: low
+    risk: "Phase rename (P6.1) breaks an in-flight book"
+    mitigation: "Defer P6.1 until no books are in-flight; translation layer makes the migration atomic when run."
+
+# -----------------------------------------------------------------------------
+# Done definition
+# -----------------------------------------------------------------------------
+done_when:
+  - "P0 → P5 all merged to develop with passing CI"
+  - "Dashboard at http://127.0.0.1:8765/ can: list, start, resume, retry, delete books"
+  - "Full pipeline run on Rasail Ikhwan (865p) completes with structured cost ledger"
+  - "Zero `subprocess.run([CLAUDE_CMD,...])` calls remain in scripts/podcast/"
+  - "isolation_check CI job is green"
+  - "podcast-orchestrator.agent.md updated to reference the new service + status CLI"
