@@ -19,16 +19,32 @@ from __future__ import annotations
 from typing import Callable
 
 from ._base import PhaseResult
-from . import p1_1, p5_4
+from . import p1_1, p4_3, p4_4, p4_8, p5_4, p6_1, p6_2
 
 # Phase registry — ordered within each wave per declared dependencies.
 # Each list entry is the module exporting PHASE_ID / is_done / execute.
 REGISTRY: dict[int, list] = {
     1: [
-        p5_4,   # phase-id constants module — zero deps, ships first as foundation
+        p5_4,   # phase-id constants module — zero deps, ships first
         p1_1,   # boundary check — depends only on the constants module's existence
-        # P1.2, P1.3, P2.x, P3.x (already done), P4.x, P5.1 (shipped), P5.2 (shipped),
-        # P5.3, P6.x land in subsequent commits via the same registry pattern.
+        p4_3,   # SKILL.md pre-read extension — pure verify
+        p4_4,   # pre-refined-source-mode handbook extension — pure verify
+        p4_8,   # intelligence_sources for P4 deliverables — pure verify
+        p6_1,   # cost-ledger writer
+        p6_2,   # cost-ledger summary CLI
+        # Outstanding W1 phases not yet wired:
+        #   P1.2 proposal writer + handoff doc
+        #   P1.3 CI workflow wiring (depends on P8.8 in W2)
+        #   P2.1/2.2/2.3/2.4/2.5/2.6 E2E test harness
+        #   P4.1 abjad-numerals shared file (large content authoring)
+        #   P4.2 numeric-symbolic-disambiguation handbook
+        #   P4.4b Loop N regression fixture
+        #   P4.5 challenger Loop N spec
+        #   P4.6 Phase 07-chapter-design numeric scan
+        #   P4.7 Master & Disciple Ch-02 scaffolding
+        #   P5.3 kitab-al-riyad resume (requires explicit Azure spend approval)
+        #   P6.3 soft/hard cost caps (requires P7 heartbeat for soft-warning path)
+        #   P6.4 trainer cost-ledger hook
     ],
     2: [],
     3: [],

@@ -2097,6 +2097,7 @@ open_questions:
 
   - id: Q3
     question: "Trainer integration with claude -p stays as-is"
+    status: IMPLEMENTING
     detail: |
       podcast-trainer.agent.md ingests per-chapter convergence outputs. The
       trainer runs on claude -p (no SDK swap) and reads cost-ledger.jsonl for

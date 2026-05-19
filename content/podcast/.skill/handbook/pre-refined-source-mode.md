@@ -123,6 +123,7 @@ Each `chNN-scaffolding.md` file follows this skeleton:
 - How to make it listenable:
 
 ## Podcast Segment Map        # optional — for dense chapters
+## Numeric Disambiguation     # required when chapter asserts counts without enumeration, contains abjad ciphers, or applies modern glosses to pre-modern referents (P4 protocol)
 ## Character Cards            # optional — for drama-heavy chapters
 ## Claim Map                  # optional — for argument-heavy chapters
 ## Listener Objection         # optional — when chapter triggers predictable modern resistance
@@ -204,6 +205,16 @@ This mode preserves the user's editorial work while adding the production scaffo
 - General podcast best-practices (the cross-project distilled standard): `_workspace/plan/research/podcast-best-practices.md` (treat as historical reference; the operating canon is the SKILL + this handbook)
 - Project-specific recommendation log that drove this mode's design: `_workspace/plan/research/master-disciple-recommendations.md`
 
+## Numeric Disambiguation scaffolding (P4 protocol)
+
+When a chapter contains numeric / symbolic claims that the source asserts without enumeration (e.g., "twelve regions", "seven seas"), abjad-encoded ciphers, or anachronistic glosses, the per-chapter scaffolding MUST include a `## Numeric Disambiguation` section with these elements:
+
+- **Per-claim symbolic meaning + period-attested enumeration** (when resolved). One row per ambiguity: claim → symbolic-meaning → enumeration-source → host-policy.
+- **ONE-TIME enumeration policy.** A given list (e.g., the twelve jazāʾir) is enumerated ONCE across the series, in the episode where it first matters. Subsequent episodes refer to it; they do not re-enumerate.
+- **Cross-references.** Every numeric row points at `_notebooklm/03-source-integrity-notes.md` (Numeric register table) AND, where relevant, `SHARED_ARABIC/06-abjad-numerals.md` (for letter-count or abjad-value claims).
+
+See `content/podcast/.skill/handbook/numeric-symbolic-disambiguation.md` for the general protocol and `_workspace/plan/numeric-symbolic-disambiguation-plan.md` for the worked example (Master & Disciple Ch-02).
+
 ## Failure modes to avoid
 
 1. **Rewriting frozen prose.** The whole point of this mode is to *add* scaffolding, not to modify the source. If the user wants prose rewritten, that is a different request (Phase 0b or hand-edit).
@@ -211,6 +222,7 @@ This mode preserves the user's editorial work while adding the production scaffo
 3. **Letting `[Editorial Clarification]` content into the customize prompt unlabeled.** NotebookLM will then quote editor's-voice as if it were source-text-voice.
 4. **Building scaffolding that summarizes instead of steers.** Scaffolding is *editorial guidance about how to present the work*, not a summary of the work. If a scaffolding file reads like a summary, it has failed.
 5. **Forgetting the human review checklist.** This is a pre-publication gate. Skipping it is the failure mode that ships theological errors.
+6. **Asserting an invented enumeration.** Any "N X" claim listed WITHOUT a period-attested source (Iranica, critical edition, named medieval authority) is a P0 BLOCKED finding from podcast-challenger Loop N (P4.5). Either resolve the enumeration with a source citation, or flag explicitly as `NEEDS HUMAN REVIEW` in `03-source-integrity-notes.md`. Inventing an unsourced enumeration is the failure mode the protocol exists to eradicate.
 
 ## Status
 
