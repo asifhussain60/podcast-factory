@@ -4,9 +4,9 @@
 
 **Maintenance.** Update this file whenever an item moves between sections (e.g., a Section B item lands in code → migrate to Section A with the commit hash). Treat it as living state, not historical record.
 
-**Last reconciled:** 2026-05-18
+**Last reconciled:** 2026-05-18 (annotated 2026-05-19 for legacy-file cleanup)
 **Sources reconciled:**
-- `_workspace/chatgpt-podcast-skill-prompt.md` (portable ChatGPT system prompt — out-of-tree personal derivative)
+- ~~`_workspace/chatgpt-podcast-skill-prompt.md`~~ — **DELETED 2026-05-19** (commit b0d991b). Was the portable ChatGPT system prompt. The repo skill (`skills-staging/podcast/SKILL.md`) is now the only maintained driver. E3 below is closed by deletion.
 - `content/podcast/.skill/handbook/arabic-tts-protocol.md` (Track A protocol; was `_workspace/podcast-arabic-tts-protocol-plan.md` before promotion on 2026-05-18)
 - ChatGPT "Recommendations and Architectural Guidance" doc (pasted 2026-05-18; assessment in Section D below)
 - Repo commits 2026-05-17 → 2026-05-18
@@ -55,17 +55,17 @@ Source: `content/podcast/.skill/handbook/arabic-tts-protocol.md` (Track A only; 
 
 ---
 
-## C. Portable derivative (lives only in `_workspace/`)
+## C. Portable derivative — RETIRED 2026-05-19
 
-`_workspace/chatgpt-podcast-skill-prompt.md` — a single ChatGPT system prompt that captures Phase 0a–0e for users who want to drive the pipeline through ChatGPT instead of running the repo skill.
+`_workspace/chatgpt-podcast-skill-prompt.md` (deleted 2026-05-19 in commit b0d991b) used to be a single ChatGPT system prompt capturing Phase 0a–0e for users who wanted to drive the pipeline through ChatGPT instead of the repo skill. **The portable fork is no longer maintained** — `skills-staging/podcast/SKILL.md` is the single source of truth.
 
-**Deliberately omits** (the repo owns these):
+Historical note on what the portable fork deliberately omitted (the repo owns these):
 - The `audit_transcript.py` empirical-feedback loop (post-NotebookLM, can't be self-driven by ChatGPT).
 - Per-book `chapter-contracts/*.yml` (deterministic re-render is a repo-skill concern).
 - `podcast-challenger` Category Q cross-book checks.
 - `scaffold_book.py` workspace layout (user manages folders).
 
-**Sync trigger:** if the underlying handbook files (`notebooklm-source-chapter-rules.md`, `notebooklm-customize-prompt-rules.md`, `two-host-framing.md`, `episode-architecture.md`, `enrichment-sources.md`, `01-tts-pronunciation-key.md`, `SKILL.md`) change, regenerate this prompt.
+**Sync trigger:** no longer applicable — the derivative is retired. If a portable export becomes useful again in the future, regenerate from the current handbook files and place under `content/podcast/.skill/exports/`.
 
 ---
 
@@ -101,14 +101,14 @@ Source: `content/podcast/.skill/handbook/arabic-tts-protocol.md` (Track A only; 
 
 | # | Item | Status |
 |---|---|---|
-| E1 | `_workspace/folder-cleanup-prompt.md` (May 17) — proposed `skills-staging/` → `skills/`, fold `reference/` → `skills/`, flatten `_contracts/`. Partial: step 3 (`podcast/babu-memoir` → severed) executed via the v3.5 restructure (commit 02bb140); steps 2, 4, 5 still pending | Awaits decision |
+| E1 | ~~`_workspace/folder-cleanup-prompt.md`~~ — **source DELETED 2026-05-19**; remaining `skills-staging/` → `skills/` rename + `reference/`/`_contracts/` cleanup tracked in `_workspace/plan/podcast-plan.yaml` (P6 polish phase) | Awaits decision |
 | E2 | When to execute the Arabic TTS protocol (Section B above; details in `handbook/arabic-tts-protocol.md`) | Awaits `implement` |
-| E3 | Whether to formalize the portable ChatGPT prompt as a tracked artifact (move from `_workspace/` into `content/podcast/.skill/exports/` or similar) | Awaits decision |
+| E3 | Whether to formalize the portable ChatGPT prompt as a tracked artifact | **CLOSED 2026-05-19** — source file deleted; repo skill is the only maintained driver |
 
 ---
 
 ## Acceptance signals
 
 - After B1–B8 land: zero `## Pronunciation` headers in non-archival files; all entries in per-book `pronunciation.md` have a Mode column; EP02 re-renders clean. Migrate the protocol entry from Section B to Section A with the commit hash; mark `handbook/arabic-tts-protocol.md` `IMPLEMENTED`.
-- After E3 decision: `chatgpt-podcast-skill-prompt.md` either moves to a tracked location (likely `content/podcast/.skill/exports/`) or stays as a personal derivative in `_workspace/`.
-- After E1 decision: workspace folder cleanup completes (the protocol + this ROADMAP no longer live in `_workspace/`; only `chatgpt-podcast-skill-prompt.md` and `folder-cleanup-prompt.md` remain).
+- ~~After E3 decision~~ — **resolved 2026-05-19** by deletion of the ChatGPT prompt fork; the repo skill (`skills-staging/podcast/SKILL.md`) is the single maintained driver.
+- After E1 decision (subsumed by P6 of `_workspace/plan/podcast-plan.yaml`): workspace folder cleanup completes (the `skills-staging/` → `skills/` rename + sibling consolidation).
