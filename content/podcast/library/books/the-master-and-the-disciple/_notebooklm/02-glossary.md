@@ -86,6 +86,31 @@
 
 ---
 
+### The Twelve Jazāʾir (al-jazāʾir al-ithnāʿashar)
+- **Plain-English meaning:** The twelve "islands" or regions into which the classical Fatimid Ismaili da'wa divided the inhabited world. Each region was headed by a chief dāʿī bearing the title *ḥujja*. In the symbolic cosmology of Ch 2, the twelve regions on earth point to the twelve hujjas who assist each Imam.
+- **Why it matters:** Ch 2 asserts "twelve regions" but does not enumerate them. The historically attested enumeration is: al-ʿArab, al-Rūm, al-Ṣaqāliba, al-Nūba, al-Khazar, al-Hind, al-Sind, al-Zanj, al-Ḥabash, al-Ṣīn, al-Daylam, al-Barbar. (Sources: Encyclopedia Iranica §"Dāʿī"; Ibn Ḥawqal; Nāṣir-i Khusraw on Khurāsān as a jazīra.)
+- **Host enumeration policy:** deliver the list ONCE, in Episode 2. Do not repeat in later episodes.
+
+### The Seven Seas (al-biḥār al-sabʿa) — Yaʿqūbī enumeration
+- **Plain-English meaning:** The seven maritime regions known to 9th-century Arab geographers — period-contemporary with Ja'far ibn Mansūr al-Yaman.
+- **Why it matters:** Ch 2 calls the seven seas "intermediaries between Allah and the Imams following the Natiq." The Yaʿqūbī list: Sea of Fars (Persian Gulf), Sea of Larwi (Arabian Sea), Sea of Harkand (Bay of Bengal), Sea of Kalāh-bār (Strait of Malacca), Sea of Ṣalāhiṭ (Singapore Strait), Sea of Kardanj (Gulf of Thailand / lower South China Sea), Sea of Ṣanjī (South China Sea).
+- **Host framing:** "the seven seas of classical Arab geography known at the time the book was written." Do NOT substitute the Greek/Mediterranean list (Aegean, Adriatic, etc.) — that is not the Ismaili reference frame.
+- **Host enumeration policy:** deliver the list ONCE, in Episode 2.
+
+### The Seven Oft-Repeated (al-sabʿ al-mathānī)
+- **Plain-English meaning:** Sūrat al-Fātiḥah — the seven-verse opening surah of the Qur'an, recited in every unit of prayer. Ch 2 assigns it as Monday's symbol.
+- **Why it matters:** Ch 2 names "the seven doubled ones" as Monday's symbol without identifying it. Without this fill, listeners hear an opaque reference. The cross-tradition consensus (Sunni and Shia tafsīr) is al-Fātiḥah.
+
+### The Asāas
+- **Plain-English meaning:** "Foundation" — in Ismaili tradition, the figure who functions as the Naṭiq's living interpreter during his lifetime and becomes the Wasi (trustee) after his death.
+- **Why it matters:** Ch 2 references the Asāas without naming whose Asāas. For Muhammad's cycle, the Asāas is Imam Ali, peace be upon him. Implicit in the chapter; explicit in foundational doctrine.
+
+### Hisab al-Jummal (Abjad numerals)
+- **Plain-English meaning:** The traditional Arabic-letter numerology system in which each letter has a numerical value. See `content/_shared/arabic/06-abjad-numerals.md` for the full table.
+- **Why it matters:** Ch 2 contains explicit letter-count claims (the 7 letters of "kun fayakun"; the 12 letters of "iradah amr bi-qawl") and one cryptic abjad-encoded sphere sequence (B3 in source-integrity notes). The reader / host needs the Abjad table to verify the claims and to handle the cipher.
+
+---
+
 ## Listener-friendly definition rhythm
 
 **[Podcast Host Cue]** The first time you use any term from this list, deliver it in this pattern: pronounce → define → return to the conversation. Do NOT stack three new terms in one sentence. Example: *"The book uses the word Wilaayah — Wi-LAA-yah — which means spiritual allegiance to the rightful guide. Hold onto that as we read this next exchange."*

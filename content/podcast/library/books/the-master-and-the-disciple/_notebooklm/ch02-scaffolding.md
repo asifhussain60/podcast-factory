@@ -109,6 +109,30 @@ The chapter is too long for one undifferentiated discussion. Treat it as four se
 
 ---
 
+## Numeric Disambiguation
+
+Ch-02 is dense with numeric / symbolic claims that the source asserts without enumeration. Per the P4 protocol (`content/podcast/.skill/handbook/numeric-symbolic-disambiguation.md`), every such item is classified RESOLVED, RESOLVED-with-framing, or NEEDS HUMAN REVIEW. The full register is `03-source-integrity-notes.md` §"Numeric/Symbolic enumeration register"; this section names the on-air host policy.
+
+**Items to surface on air:**
+
+1. **12 jazāʾir / regions** — enumerate ONCE in this episode using the glossary list (al-ʿArab through al-Barbar). Do not re-enumerate in later episodes.
+2. **7 seas** — RESOLVED with framing caveat. Host frames: *"the seven seas of classical Arab geography known at the time the book was written."* Then enumerates the Yaʿqūbī list from glossary. **Do NOT** substitute the Greek/Mediterranean list.
+3. **Cryptic sphere-letters sequence (ب ج لا د م لہ م)** — NEEDS HUMAN REVIEW. Host signals: *"the text encodes the seven spheres in a letter-sequence that requires the tradition's specialist commentary to fully decode."* Do NOT invent a decoding.
+4. **12 Naqibs** — RESOLVED with two framings. Use sense (2) (cosmological 12 per Naṭiq); mention sense (1) (Aqaba historical 12) once as Muhammad-cycle exemplar.
+5. **12 Hujjahs of each Imam** — RESOLVED (structural). Frame as: *"for each Imam there are twelve diurnal and twelve nocturnal ḥujjas."* Do not name them.
+6. **The seven oft-repeated (al-sabʿ al-mathānī)** — RESOLVED. Identify as Sūrat al-Fātiḥah on first mention.
+7. **The fifth intermediary** — NEEDS HUMAN REVIEW. Probable reading: Dāʿī rank. Verify against Morris edition before locking.
+8. **The Asāas (cycle-specific)** — RESOLVED. For Muhammad's cycle: Asāas = Ali, peace be upon him. Make explicit on first mention.
+
+**Anachronism handling** (per Anachronism register in `03-source-integrity-notes.md`):
+
+- **"Seven continents"** — anachronistic; period referent is *al-aqālīm al-sabʿa* (seven climes). Host labels both: *"the modern reader thinks of seven continents; the period text refers to the seven climes — the Greek-Ptolemaic latitudinal bands also used by the Ikhwān al-Ṣafāʾ."*
+- **"Seven heavens (Saturn, Jupiter, Mars, Sun, Venus, Mercury, Moon)"** — period-appropriate but non-standard order. Use as given; flag the order for Morris-edition cross-check post-publication.
+
+**[NotebookLM Instruction]** When the chapter mentions any of the above items, deliver the host policy from this section LITERALLY. If a numeric or symbolic claim appears that is NOT in this section AND not in the integrity-notes register, default to *"the tradition treats this as a layered teaching; we'll surface its meaning without overclaiming the specifics"* and flag it for human review. Never invent an enumeration or decoding. Loop N (P4.5 challenger) blocks ship on any invented enumeration.
+
+---
+
 ## Recurring Refrain for Host
 
 > "The point is not to memorize the symbolic correspondences. The point is to learn how the visible world points to ordered inner meaning."

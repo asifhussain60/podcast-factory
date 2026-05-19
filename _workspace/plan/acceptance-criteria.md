@@ -77,8 +77,8 @@ Use `- [x]` to mark done; `- [ ]` to mark pending. Group anchors (`### Wave N �
 - [ ] **P4.5** ✅ Loop N's `reads_guidance` lists `06-abjad-numerals.md` + `numeric-symbolic-disambiguation.md` handbook
 - [ ] **P4.6** ✅ `scripts/podcast/_authoring.py` Phase 07-chapter-design prompt instructs LLM to emit `numeric-disambiguation-register.md`
 - [ ] **P4.6** ✅ E2E test (P2.2) verifies register file exists when fixture contains numeric claims
-- [ ] **P4.7** ✅ Master & Disciple Ch-02 scaffolding updates landed: `02-glossary.md` (5 new entries), `03-source-integrity-notes.md` (Numeric/Symbolic enumeration register + Anachronism register), `ch02-scaffolding.md` (Numeric Disambiguation section + appended NotebookLM instructions), `06-human-review-checklist.md` (§J with 9 checkboxes + failure-mode escalation)
-- [ ] **P4.7** ✅ Decision log captured: 12-jazāʾir = symbolic+historical; sphere-cipher = NEEDS HUMAN REVIEW; fifth intermediary = NEEDS HUMAN REVIEW
+- [x] **P4.7** ✅ Master & Disciple Ch-02 scaffolding updates landed: `02-glossary.md` (5 new entries), `03-source-integrity-notes.md` (Numeric/Symbolic enumeration register + Anachronism register), `ch02-scaffolding.md` (Numeric Disambiguation section + appended NotebookLM instructions), `06-human-review-checklist.md` (§J with 9 checkboxes + failure-mode escalation)
+- [x] **P4.7** ✅ Decision log captured: 12-jazāʾir = symbolic+historical; sphere-cipher = NEEDS HUMAN REVIEW; fifth intermediary = NEEDS HUMAN REVIEW
 - [x] **P4.8** ✅ `intelligence_sources.podcast.consult_before_any_edit` includes handbook + abjad reference
 - [x] **P4.8** ✅ `_workspace/plan/numeric-symbolic-disambiguation-plan.md` header points to its P4 canonical home in podcast-plan.yaml
 

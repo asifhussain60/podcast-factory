@@ -21,7 +21,7 @@ from typing import Callable
 from ._base import PhaseResult
 from . import (
     p1_1, p1_2,
-    p4_1, p4_2, p4_3, p4_4, p4_8,
+    p4_1, p4_2, p4_3, p4_4, p4_7, p4_8,
     p5_4, p6_1, p6_2,
     p11_1,
     dor_halts,
@@ -32,13 +32,16 @@ from . import (
 REGISTRY: dict[int, list] = {
     1: [
         # ── Foundation (deliverables auto-marked when their files validate) ──
+        # Verify-only runners go FIRST so all shippable acceptance rows mark
+        # on every tick BEFORE the loop halts at any DoR-blocked phase.
         p5_4,    # phase-id constants module — zero deps
         p1_1,    # boundary check
         p1_2,    # proposal writer + manual library handoff doc
-        p4_1,    # abjad-numerals shared file (CONTENT — shipped)
-        p4_2,    # numeric/symbolic disambiguation handbook (CONTENT — shipped)
+        p4_1,    # abjad-numerals shared file
+        p4_2,    # numeric/symbolic disambiguation handbook
         p4_3,    # SKILL.md pre-read extension
         p4_4,    # pre-refined-source-mode handbook extension
+        p4_7,    # M&D Ch-02 scaffolding (Numeric Disambiguation + checklist §J)
         p4_8,    # intelligence_sources for P4 deliverables
         p6_1,    # cost-ledger writer
         p6_2,    # cost-ledger summary CLI
@@ -55,7 +58,6 @@ REGISTRY: dict[int, list] = {
         dor_halts.p4_4b,  # Loop N regression fixture (waits on P4.5)
         dor_halts.p4_5,   # challenger Loop N spec (agent-file edits)
         dor_halts.p4_6,   # Phase 07 numeric scan (invasive _authoring.py)
-        dor_halts.p4_7,   # Master & Disciple Ch-02 scaffolding
         dor_halts.p5_3,   # kitab-al-riyad resume — explicit Azure spend approval gate
         dor_halts.p6_3,   # soft/hard cost caps (waits on P7 heartbeat)
         dor_halts.p6_4,   # trainer cost-ledger hook (agent-file edit)

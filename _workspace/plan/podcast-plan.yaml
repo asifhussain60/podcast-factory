@@ -90,6 +90,29 @@ waves:
     kickoff_cmd: "python3 scripts/podcast/run_wave.py 1"
     done_signal: "All P1–P6 rows in acceptance-criteria.md `### Wave 1` group checked, including P1.4 (run_wave.py), P2.5 (learning-loop E2E), P2.6 (refinement determinism), P4.4b (Loop N fixture), P5.4 (phase constants module), and P6.4 (trainer cost-ledger hook)"
     gates_open_next: "Wave 2 (after human review of W1 commit AND test_challenger.py green on develop)"
+    on_completion:
+      # Plain-language summary auto-rendered into _workspace/plan/view/index.html
+      # under the "Wave Completions" section when this wave's done_signal flips.
+      # See scripts/podcast/_view_updater.py for the rendering mechanism.
+      update_html_views: true
+      target_files:
+        - _workspace/plan/view/index.html
+      html_summary: |
+        Wave 1 laid the foundations and guardrails the rest of the pipeline depends
+        on. We installed automatic checks so that podcast work can never accidentally
+        write into the memoir's files, a way to track exactly how much each book
+        costs to process, the single entry point that kicks off every wave on a
+        schedule, hardened error handling so silent failures can't slip through, and
+        the first piece of the Arabic-numeric protocol (the abjad-numerals reference,
+        the disambiguation handbook, and the rules that prevent invented
+        enumerations from reaching listeners).
+
+        In plain language: before Wave 1, the system was fragile. A single mistake
+        could overwrite a memoir chapter, blow the cost budget, or quietly produce
+        a broken book without the operator noticing. After Wave 1, the system has
+        seat belts. Every step is monitored, every cost is logged, and every cross-
+        boundary write is blocked. The pipeline is now safe to run unattended on
+        long passes.
     learning_loop_gate: |
       W1 is the wave that OWNS the learning loop becoming a load-bearing
       invariant. After W1, every PR to scripts/podcast/, .github/agents/
@@ -109,6 +132,29 @@ waves:
     done_signal: "All P7–P8 acceptance rows checked; dashboard reachable at http://127.0.0.1:8765/; phase rename schema_version=2 across live state files; agent picker shows each agent exactly once; isolation_check + dedup_check CI green; D3 views render the 6 diagrams"
     prereq_gate_for_p8_6_p8_8: "scripts/podcast/orchestrator_status.py --all --json | jq '[.books[] | select(.phase_status==\"running\" or .phase_status==\"failed\")] | length' == 0  (naturally satisfied before W3 begins)"
     gates_open_next: "Wave 3"
+    on_completion:
+      update_html_views: true
+      target_files:
+        - _workspace/plan/view/index.html
+      html_summary: |
+        Wave 2 turned the lights on. We added a heartbeat that updates every 30
+        seconds so you can see what each book is doing in real time, a localhost
+        browser dashboard that shows every book's progress + cost + recent
+        learning-loop activity, a status command that prints a clean snapshot
+        from the terminal, and a structured event log that downstream tools can
+        tail. We also cleaned up the architectural debt: every step of the
+        pipeline now has a stable, well-ordered name (01-preflight through
+        14-done), the planning views gained six interactive diagrams, and the
+        three places agent files used to live consolidated into one source of
+        truth.
+
+        In plain language: before Wave 2, you'd start a long pipeline run and
+        have no idea whether it was healthy or hung. After Wave 2, every step is
+        observable. The dashboard at 127.0.0.1:8765 tells you exactly where each
+        book is, how much it has cost so far, what the quality-learning system
+        has just promoted or archived, and whether the regression harness is
+        still green. The pipeline went from "trust and hope" to "watch and
+        intervene."
 
   - id: W3
     name: "Corpus Validation"
@@ -120,6 +166,29 @@ waves:
     done_signal: "All 7 books in P9 either shipped clean OR documented failure-mode + remediation; P10 ETA model within ±30% on held-out book; P9.8 yield report committed and shows fixture_coverage_pct trending UP"
     gates_open_next: "Wave 4 (after P9.8 yield report human-reviewed)"
     cost_guardrail: "P6 hard halt enforced (default $50); wave aborts if hard cap hit"
+    on_completion:
+      update_html_views: true
+      target_files:
+        - _workspace/plan/view/index.html
+      html_summary: |
+        Wave 3 ran the pipeline through seven real books, graduated from a tiny
+        30-page Ghazali treatise (Ayyuhal Walad) up to an 865-page philosophical
+        compendium (Rasail Ikhwan al-Safa). Each book taught the system
+        something: the trainer reviewed every run, the learning-loop substrate
+        promoted or archived rules based on what the challenger found, and the
+        ETA model learned to predict wall-clock and cost from the book's word
+        count. The cross-book yield report at the end of the wave shows
+        measurably more fixture coverage and a non-decreasing per-book health
+        score — concrete evidence the system got smarter from the first book to
+        the last.
+
+        In plain language: this is where the pipeline stopped being a theory and
+        started being a tested production system. Seven distinct Islamic /
+        Ismaili source books — different sizes, different complexity, different
+        editorial quality — all went through the full process. The challenger
+        caught quality issues; the trainer learned from them; the system
+        compounded improvements. By the end, the operator has a corpus of
+        shipped books AND a learning-loop that's demonstrably getting smarter.
     learning_loop_gate: |
       Each book in W3 MUST satisfy the per_book_ship_gate (defined under P9):
       cost-ledger row, finding emission, health score, trainer outcome,
@@ -135,6 +204,29 @@ waves:
     kickoff_cmd: "python3 scripts/podcast/run_wave.py 4"
     done_signal: "All P11–P14 rows checked; 2 books run truly parallel in P12 acceptance"
     gates_open_next: "Wave 5 (trigger-gated, not time-gated)"
+    on_completion:
+      update_html_views: true
+      target_files:
+        - _workspace/plan/view/index.html
+      html_summary: |
+        Wave 4 made the pipeline operationally controllable. Up to this point,
+        you could watch a book run, but if something went wrong mid-run, your
+        only options were "let it finish" or "kill the process." Wave 4 adds
+        the controls: pause and resume a running book, retry a failed step,
+        delete a botched run cleanly, and run two books in parallel without
+        their state files colliding. A SQLite index makes cross-book queries
+        fast (which book has the highest cost, which is closest to done, which
+        had the most challenger findings), and the dashboard from Wave 2 gets
+        new buttons for every mutation — with typed-slug confirmation on the
+        destructive ones.
+
+        In plain language: before Wave 4, the pipeline was a one-shot
+        commitment. After Wave 4, it's a real production system. You can
+        operate it like any other long-running job — pause when something
+        else needs the machine, resume when ready, retry a single step
+        without restarting the whole book, and run a small + a large book
+        side by side. Plus everything is audit-logged: every mutation writes
+        a row, so you always know who did what and when.
 
   - id: W5
     name: "Deferred + Self-Learning"
@@ -145,6 +237,28 @@ waves:
     kickoff_cmd: "manual — `python3 scripts/podcast/run_wave.py 5 --phase P17` after promote_when trigger fires"
     done_signal: "Each promoted phase ships its own acceptance rows"
     gates_open_next: "N/A (terminal wave)"
+    on_completion:
+      update_html_views: true
+      target_files:
+        - _workspace/plan/view/index.html
+      html_summary: |
+        Wave 5 ships the genuinely autonomous-quality-evolution capability.
+        Before this wave, the system's "learning" was limited to the trainer
+        editing a deny-list of forbidden phrases. After Wave 5, the trainer can
+        write phase-prompt addenda — short, fixture-gated guidance that gets
+        appended to the refinement, phonetics, or framing prompt for every
+        future book. The addenda are kept honest by regression fixtures (hand-
+        authored, never modified by the trainer), a hard cap of five addenda
+        per phase, and a health-score recursion that auto-reverts any addendum
+        that doesn't measurably improve the next book.
+
+        Wave 5 also lands the optional convenience features: PDF pre-splitting
+        for books too large for Azure's polling budget in one shot, parallel
+        per-chapter authoring for speed, web upload via the dashboard, and the
+        source-adapter registry (so non-PDF inputs like Urdu PDFs, scanned
+        images, or video transcripts can be plugged in without rewriting the
+        orchestrator). Each Wave 5 phase promotes individually when its trigger
+        fires; the wave never auto-fires under launchd.
 
 # -----------------------------------------------------------------------------
 # System check (verified 2026-05-19 — refresh before each batch)

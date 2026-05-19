@@ -440,6 +440,27 @@ def main(argv: list[str] | None = None) -> int:
     # Did the dispatcher leave the wave fully DONE?
     text_after = ACCEPTANCE_FILE.read_text()
     if is_wave_done(text_after, args.wave):
+        # Wave just transitioned to DONE → render the plain-language summary
+        # into the HTML views (per yaml.waves[id=WN].on_completion).
+        try:
+            from scripts.podcast import _view_updater  # type: ignore
+            result = _view_updater.update_view_for_wave(args.wave)
+            if result["updated"]:
+                print(
+                    f"[run_wave] HTML views updated for W{args.wave}: "
+                    f"{', '.join(result['updated'])}"
+                )
+            elif result["missing_summary"]:
+                print(
+                    f"[run_wave] W{args.wave} done — no on_completion.html_summary "
+                    f"declared in YAML; skipping view update."
+                )
+        except Exception as e:  # noqa: BLE001 — view update is non-fatal
+            print(
+                f"[run_wave] WARNING: view update for W{args.wave} failed: {e!r}",
+                file=sys.stderr,
+            )
+
         if not p9_invariant_green():
             print(
                 "[run_wave] Wave DONE but P-9 invariant violated "

@@ -71,6 +71,22 @@ For each episode, the reviewer confirms:
 - [ ] No irrelevant biographical preamble ("born in the year…") about Ja'far ibn Mansoor al-Yaman or any Imaam.
 - [ ] The host did not interrupt itself across a sacred name or quoted teaching.
 
+## J. Numeric / Symbolic Disambiguation review (P4 protocol)
+
+For Ch 2 specifically, but applicable to any chapter asserting numeric / symbolic claims:
+
+- [ ] Every numeric/symbolic claim in the chapter has a row in `03-source-integrity-notes.md` §"Numeric/Symbolic enumeration register" (status = RESOLVED / RESOLVED-with-framing / NEEDS HUMAN REVIEW).
+- [ ] No invented enumeration appears in any chapter (Loop N P0 blocker).
+- [ ] The 12 jazāʾir enumeration appears in episode 2 only, not in episodes 3+ (one-time enumeration rule).
+- [ ] The 7 seas enumeration uses the Yaʿqūbī list with the framing caveat, NOT the Greek/Mediterranean list.
+- [ ] The cryptic sphere-letters sequence (ب ج لا د م لہ م) is flagged NEEDS HUMAN REVIEW; no decoding is offered on air.
+- [ ] The fifth intermediary is flagged NEEDS HUMAN REVIEW; the Dāʿī reading is probable but not asserted as definitive.
+- [ ] The anachronism register entries are honored: host labels BOTH period referent AND modernization for "seven continents" / "seven heavens" order.
+- [ ] The luminary order in Ch 2 is flagged for Morris-edition cross-check post-publication.
+- [ ] Any chapter using abjad letter-values cites `content/_shared/arabic/06-abjad-numerals.md` as authority.
+
+**Failure-mode escalation:** if Loop N raises a P0 finding (invented enumeration / unsourced cipher decoding), the book is BLOCKED from shipping. Resolution paths: (1) add a tier 1-4 source to the register row, OR (2) reclassify as NEEDS HUMAN REVIEW and remove the enumeration assertion from prose (replace with "requires specialist commentary" framing). If neither path resolves it, escalate to the Morris critical edition. **Never silently advance.**
+
 ---
 
 ## Sign-off

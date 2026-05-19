@@ -55,6 +55,28 @@ Each chapter includes bracketed paragraphs added by the editor for modern listen
 | Company checklists vs. mission | Ch 6 | Sharee-ah as visible order vs. religion as living mission | Safe and load-bearing. Keep this one. |
 | Jeweler verifying credentials vs. counterfeit certificate | Ch 6 | The jewel-and-glass test for knowledge | Central metaphor for verification; keep prominent. |
 
+## Numeric / Symbolic enumeration register
+
+Every numeric or symbolic claim in the chapter set that asserts a count without enumerating its members. Each item is classified by resolution status and given a podcast-handling instruction. **Loop N (P4.5 challenger) blocks ship on any P0 invented enumeration.**
+
+| Item | Chapter | Status | Authoritative source | Podcast instruction |
+|---|---|---|---|---|
+| 12 jazāʾir / regions | Ch 2 | RESOLVED | Iranica §"Dāʿī" + Ibn Ḥawqal + Nāṣir-i Khusraw | Enumerate ONCE in Ep 2 using glossary list. Do not repeat. |
+| 7 seas | Ch 2 | RESOLVED (framing caveat) | Yaʿqūbī (9th c.) per Wikipedia "Seven Seas" §"Medieval Arab geographers" | Enumerate ONCE in Ep 2 with framing "the seven seas of classical Arab geography known at the time the book was written." |
+| Cryptic letter sequence (ب ج لا د م لہ م) | Ch 2 | **NEEDS HUMAN REVIEW** | Iranica §"Cosmogony vi" mentions seven karūbiyya without enumerating; Morris critical edition must be consulted | Host signals: "the text encodes the seven spheres in a letter-sequence that requires the tradition's specialist commentary to fully decode." Do not invent a decoding. |
+| 12 Naqibs | Ch 2 | RESOLVED (two framings) | wikishia §"Pledge of al-Aqaba"; Bukhari | Sense (1): historical Aqaba 12 — exemplar for Muhammad's cycle. Sense (2): cosmological 12 per Naṭiq. Use sense (2) for Ch 2's symbolic register; mention sense (1) once as the Muhammad-cycle exemplar. |
+| 12 Hujjahs of each Imam | Ch 2, Ch 6 | RESOLVED (structural) | Iranica §"Cosmogony vi"; Dā'ī Abū ʿAbdallāh al-Shīʿī | Frame as a tradition-internal structure: "for each Imam there are twelve diurnal and twelve nocturnal ḥujjas." Do not name them. |
+| The seven oft-repeated (al-sabʿ al-mathānī) | Ch 2 | RESOLVED | Cross-tradition tafsīr consensus | Identify as Sūrat al-Fātiḥah on first mention. |
+| The fifth intermediary | Ch 2 | **NEEDS HUMAN REVIEW** | Iranica §"Cosmogony vi" confirms the five-rank hierarchy | Probable reading: Thursday's symbol = the Dāʿī rank. Verify against Morris edition before locking. |
+| The Asāas (cycle-specific) | Ch 2 | RESOLVED | Foundational Ismaili doctrine | For Muhammad's cycle: Asāas = Ali, peace be upon him. Make explicit on first mention. |
+
+## Anachronism register
+
+| Claim | Chapter | Issue | Podcast instruction |
+|---|---|---|---|
+| "seven continents (Asia, Africa, N-America, S-America, Antarctica, Europe, Australia)" | Ch 2 | Anachronistic — period referent is *al-aqālīm al-sabʿa* (seven climes / Ptolemaic latitudinal bands) | Host labels both: "the modern reader thinks of seven continents; the period text refers to the seven climes — the Greek-Ptolemaic latitudinal bands also used by the Ikhwān al-Ṣafāʾ." |
+| "seven heavens (Saturn, Jupiter, Mars, Sun, Venus, Mercury, Moon)" | Ch 2 | Period-appropriate (classical Ptolemaic luminaries) but non-standard order | Use as given; flag the order for verification against the Morris edition. |
+
 ## Transliteration consistency
 
 Per the Editorial Notes, Arabic-script passages were replaced with English phonetic transcriptions. The pronunciation guide (`01-pronunciation-guide.md`) is the **authoritative spoken form**. Cross-flags before publication:
