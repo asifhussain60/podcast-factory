@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 """ingest_source.py — Phase 0a normalization for PDF/scan sources (Horizon A).
 
-This is the deterministic ingestion script the executive summary
-(`_workspace/podcast-refactor-executive-summary.md` § Horizon A) calls for.
-It wires the freshly-provisioned Azure stack (Doc Intelligence + Translator)
-into the front of the podcast pipeline. The agent stays dumb; this script
-widens the deterministic layer so Phase 0a is no longer "do whatever you can
-with the tools you have".
+Deterministic ingestion script for the podcast pipeline. Wires the
+freshly-provisioned Azure stack (Doc Intelligence + Translator) into the
+front of the orchestrator. Originally specified in
+_workspace/podcast-refactor-executive-summary.md (deleted 2026-05-19 in
+commit b0d991b after its contents were absorbed into
+_workspace/plan/podcast-plan.yaml as P0..P7). The agent stays dumb; this
+script widens the deterministic layer so Phase 0a is no longer "do whatever
+you can with the tools you have".
 
 INVOCATION
 

@@ -155,6 +155,7 @@
 <div class="toc">
   <ol>
     <li><a href="#scope">Scope &amp; isolation</a></li>
+    <li><a href="#system-check">System check &amp; intelligence sources</a> <span class="badge badge-scope-in" style="font-size:9px">v2</span></li>
     <li><a href="#corpus">Sample book corpus</a></li>
     <li><a href="#current">Current pipeline (as-is)</a></li>
     <li><a href="#target">Target architecture</a></li>
@@ -198,7 +199,61 @@
 imports from <code>scripts/site/</code> or <code>scripts/memoir/</code>.</p>
 
 <!-- ====================================================================== -->
-<h2 id="corpus">2. Sample book corpus (your iCloud Books/)</h2>
+<!-- ====================================================================== -->
+<h2 id="system-check">2. System check &amp; intelligence sources <span class="badge badge-scope-in" style="font-size:10px;vertical-align:middle">v2</span></h2>
+
+<p>Verified by the repo-surgeon evidence sweep on 2026-05-19. Refresh before each batch of edits. Canonical: <code>meta.system_check</code> + <code>intelligence_sources</code> in <code>podcast-plan.yaml</code>.</p>
+
+<div class="two-col">
+  <div class="grid-card">
+    <h4>System check</h4>
+    <table>
+      <tr><th>Domain</th><th>Status</th></tr>
+      <tr><td>Azure CLI / subscription</td><td>✅ <code>Journal AI — primary</code></td></tr>
+      <tr><td>Azure Doc Intelligence</td><td>✅ <code>journal-docintel</code></td></tr>
+      <tr><td>Azure Translator</td><td>✅ <code>journal-translator</code></td></tr>
+      <tr><td>Azure Speech</td><td>✅ <code>journal-speech</code></td></tr>
+      <tr><td>Claude CLI</td><td>✅ 2.1.144</td></tr>
+      <tr><td>Python / Node</td><td>✅ 3.14.4 / v24.15.0</td></tr>
+      <tr><td>gh CLI</td><td>⚠️ unauthenticated (non-blocking)</td></tr>
+      <tr><td>Git</td><td>✅ clean</td></tr>
+      <tr><td>Active orchestrator</td><td>✅ none</td></tr>
+      <tr><td>kitab-al-riyad state</td><td>✅ 0a complete, 0b pending</td></tr>
+    </table>
+  </div>
+  <div class="grid-card">
+    <h4>Intelligence sources — podcast</h4>
+    <p>Each agent MUST consult these before any edit:</p>
+    <ul>
+      <li><code>skills-staging/podcast/SKILL.md</code> — every session start</li>
+      <li><code>scripts/podcast/orchestrate_book.py</code> — state-machine changes</li>
+      <li><code>scripts/podcast/_progress.py</code> — state-schema edits</li>
+      <li><code>content/podcast/library/books/&lt;slug&gt;/_system/orchestrator-state.json</code> — before resume / retry-phase</li>
+      <li><code>_workspace/plan/podcast-plan.yaml</code> — every multi-step task</li>
+      <li><code>_workspace/plan/research/findings.md</code> — any architecture decision</li>
+      <li><code>docs/architecture/podcast-pipeline.html</code> — any phase boundary change</li>
+    </ul>
+    <h4 style="margin-top:18px">Intelligence sources — journal (out-of-scope reference)</h4>
+    <ul style="font-size:12.5px;color:var(--text-dim)">
+      <li><code>skills-staging/journal/SKILL.md</code></li>
+      <li><code>content/babu-memoir/_system/{voice-fingerprint,craft-techniques,thematic-arc,locked-paragraphs,biographical-context}.md</code></li>
+      <li><code>content/_shared/arabic/</code> (READ-ONLY)</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card medium" style="margin-top:14px">
+  <h4 style="margin-top:0">Async safety — wait-banner</h4>
+  <p>Codified in <code>meta.async_safety.wait_banner_format</code> (UTF-8 box-drawing) and <code>wait_banner_format_ascii</code> (ASCII fallback). The status CLI (P1.3) emits the boxed banner for TTY, or the ASCII variant via <code>--ascii</code>. Pre-edit checklist:</p>
+  <ol>
+    <li><code>pgrep -fl 'orchestrate_book|claude -p|extract_chapter|build_episode'</code> → empty</li>
+    <li>No <code>.in.md</code> without a matching <code>.out.md</code> in any active <code>_chunks/</code> dir</li>
+    <li>If async is running, read the heartbeat to confirm advancement; do NOT touch active book paths</li>
+  </ol>
+</div>
+
+<!-- ====================================================================== -->
+<h2 id="corpus">3. Sample book corpus (your iCloud Books/)</h2>
 
 <svg viewBox="0 0 1200 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sample book corpus chart">
   <defs>
@@ -276,7 +331,7 @@ imports from <code>scripts/site/</code> or <code>scripts/memoir/</code>.</p>
 Document Intelligence's 2,000-page ceiling. <strong>PDF splitting is not needed for any current book</strong> — deferred to P7.</p>
 
 <!-- ====================================================================== -->
-<h2 id="current">3. Current pipeline (as-is)</h2>
+<h2 id="current">4. Current pipeline (as-is)</h2>
 
 <svg viewBox="0 0 1200 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Current pipeline diagram">
   <defs>
@@ -385,7 +440,7 @@ Document Intelligence's 2,000-page ceiling. <strong>PDF splitting is not needed 
 </svg>
 
 <!-- ====================================================================== -->
-<h2 id="target">4. Target architecture (after P5)</h2>
+<h2 id="target">5. Target architecture (after P5)</h2>
 
 <svg viewBox="0 0 1200 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Target architecture diagram">
   <defs>
@@ -546,7 +601,19 @@ Document Intelligence's 2,000-page ceiling. <strong>PDF splitting is not needed 
 </p>
 
 <!-- ====================================================================== -->
-<h2 id="phases">5. Phase roadmap</h2>
+<h2 id="phases">6. Phase roadmap</h2>
+
+<div class="card blocker">
+  <h4 style="margin-top:0">P0-tier blockers (run in parallel before the bug fix)</h4>
+  <table>
+    <tr><th>ID</th><th>Name</th><th>Effort</th><th>Blocks</th></tr>
+    <tr><td><strong>P0a</strong></td><td>Journal/podcast boundary verification + CI lock-down</td><td>hours</td><td>—</td></tr>
+    <tr><td><strong>P0b</strong></td><td>E2E test harness (tiny-book fixture, sunny + rainy day)</td><td>1–2 days</td><td>P3 SDK migration</td></tr>
+    <tr><td><strong>P0c</strong></td><td>Doc regressions from 2026-05-19 legacy cleanup</td><td>hours</td><td>—</td></tr>
+    <tr><td><strong>P0</strong></td><td>Critical bug fix: <code>--permission-mode acceptEdits</code></td><td>hours</td><td>P1, P3</td></tr>
+  </table>
+  <p style="margin-bottom:0;font-size:12.5px;color:var(--text-dim)">All four have <code>depends_on: []</code> — they can run in parallel. The SVG below shows the post-P0 critical path P1 → P7.</p>
+</div>
 
 <svg viewBox="0 0 1200 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Phase timeline">
   <!-- Horizontal track -->
@@ -727,7 +794,7 @@ Document Intelligence's 2,000-page ceiling. <strong>PDF splitting is not needed 
 </div>
 
 <!-- ====================================================================== -->
-<h2 id="observability">6. Observability data flow</h2>
+<h2 id="observability">7. Observability data flow</h2>
 
 <svg viewBox="0 0 1200 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Observability data flow diagram">
   <defs>
@@ -822,7 +889,7 @@ Document Intelligence's 2,000-page ceiling. <strong>PDF splitting is not needed 
 </p>
 
 <!-- ====================================================================== -->
-<h2 id="failure">7. P0 bug post-mortem</h2>
+<h2 id="failure">8. P0 bug post-mortem</h2>
 
 <div class="card blocker">
   <h3>Symptom</h3>
@@ -855,7 +922,7 @@ Document Intelligence's 2,000-page ceiling. <strong>PDF splitting is not needed 
 </div>
 
 <!-- ====================================================================== -->
-<h2 id="sdk">8. Anthropic SDK call shape (P3)</h2>
+<h2 id="sdk">9. Anthropic SDK call shape (P3)</h2>
 
 <svg viewBox="0 0 1200 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SDK call sequence">
   <!-- Lifelines -->
@@ -920,7 +987,7 @@ For interrupted streams, the wrapper retries with a Claude-4.6 continuation requ
 partial response.</p>
 
 <!-- ====================================================================== -->
-<h2 id="dashboard">9. Dashboard wireframe (P2 → P5)</h2>
+<h2 id="dashboard">10. Dashboard wireframe (P2 → P5)</h2>
 
 <svg viewBox="0 0 1200 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dashboard wireframe">
   <!-- Browser chrome -->
@@ -1026,7 +1093,7 @@ partial response.</p>
 </svg>
 
 <!-- ====================================================================== -->
-<h2 id="dosdonts">10. Dos &amp; Don'ts (curated)</h2>
+<h2 id="dosdonts">11. Dos &amp; Don'ts (curated)</h2>
 
 <div class="two-col">
   <div class="grid-card">
@@ -1058,7 +1125,7 @@ partial response.</p>
 </div>
 
 <!-- ====================================================================== -->
-<h2 id="open">11. Open questions &amp; risks</h2>
+<h2 id="open">12. Open questions &amp; risks</h2>
 
 <h3>Open questions (must resolve before P5)</h3>
 <table>

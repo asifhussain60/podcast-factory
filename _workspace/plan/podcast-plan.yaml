@@ -9,28 +9,33 @@
 meta:
   version: 2
   created: 2026-05-19
-  refined: 2026-05-19  # repo-surgeon evidence sweep + folded VS Code refinement prompt
+  refined: 2026-05-19           # initial repo-surgeon evidence sweep + folded VS Code refinement prompt
+  gap_closed: 2026-05-19        # systematic gap audit; 23 findings resolved on branch plan/v2-gap-close
   owner: asif
   branch_strategy: "feature branches off develop, merge via --no-ff"
   primary_mac: true                              # Azure-backed pipeline runs here (see ../primary-mac-activation.md)
   scope_in:
     - .github/agents/podcast-orchestrator.agent.md
     - .github/agents/podcast-trainer.agent.md
-    - .github/agents/podcast-challenger.agent.md   # CURRENTLY MISSING — see P6.2
-    - .github/agents/podcast-extract.agent.md      # CURRENTLY MISSING — see P6.2
+    - .github/agents/podcast-challenger.agent.md   # not yet in .github/; lives in infra/+.claude/. Migrated by P6.2.
+    - .github/agents/podcast-extract.agent.md      # not yet in .github/; lives in infra/+.claude/. Migrated by P6.2.
     - skills-staging/podcast/**
-    - scripts/podcast/**
+    - scripts/podcast/**                            # includes scripts/podcast/tests/ (E2E harness, P0b)
     - content/podcast/**
+    - docs/architecture/podcast-*.html              # podcast-facing architecture docs (rename surface, P6.1)
   scope_out:
     - .github/agents/journal-*.agent.md
     - .github/agents/CORTEX.agent.md
     - .github/agents/reconcile.agent.md
     - .github/agents/repo-surgeon.agent.md
+    - infra/claude-agents/**                        # explicit DELETION target after P6.2 migration
     - skills-staging/journal/**
     - scripts/memoir/**
     - scripts/site/**
     - content/babu-memoir/**
-    - content/_shared/**
+    - content/_shared/**                            # journal reads READ-ONLY (Arabic), podcast NEVER writes
+    - docs/architecture/journal-*.html              # journal docs out of scope
+    - docs/architecture/index.html                  # cross-cutting nav, edit only when both sides agree
 
 # -----------------------------------------------------------------------------
 # System check (verified 2026-05-19 — refresh before each batch)
@@ -100,6 +105,24 @@ async_safety:
     ║  SAFE WORK   │ {paths safe to edit}                              ║
     ║  DO NOT      │ {paths not safe to touch}                         ║
     ╚══════════════════════════════════════════════════════════════════╝
+  wait_banner_format_ascii: |                       # used when terminal does not render UTF-8 box-drawing
+    +==================================================================+
+    |  >> WAITING ON ASYNC WORK -- DO NOT START NEW LLM RUNS           |
+    +==================================================================+
+    |  BOOK     | {title}                                              |
+    |  AUTHOR   | {author or unknown}                                  |
+    |  PAGES    | {page_count or unknown}  |  SOURCE  | {type/size}    |
+    |  BRANCH   | {branch}                                             |
+    +==================================================================+
+    |  RUNNING                                                         |
+    |   * {process name} ({terminal/pid}) -- {current phase}           |
+    |     log: {log path}                                              |
+    |                                                                  |
+    |  NEXT GATE   | {next human or automated gate}                    |
+    |  PROGRESS    | {phase/unit count/percent if available}           |
+    |  SAFE WORK   | {paths safe to edit}                              |
+    |  DO NOT      | {paths not safe to touch}                         |
+    +==================================================================+
 
 # -----------------------------------------------------------------------------
 # Guiding principles
@@ -150,12 +173,14 @@ intelligence_sources:
   podcast:
     canonical_skill:  "skills-staging/podcast/SKILL.md"
     consult_before_any_edit:
-      - {path: "skills-staging/podcast/SKILL.md",                     when: "every session start", staleness_signal: "git diff vs branch HEAD"}
-      - {path: "skills-staging/podcast/framework.md",                 when: "any phase logic change", staleness_signal: "schema_version drift"}
-      - {path: "scripts/podcast/orchestrate_book.py",                 when: "any state-machine change",   staleness_signal: "phase_map / state schema drift"}
+      - {path: "skills-staging/podcast/SKILL.md",                     when: "every session start",         staleness_signal: "git diff vs branch HEAD"}
+      - {path: "scripts/podcast/orchestrate_book.py",                 when: "any state-machine change",    staleness_signal: "phase_map / state schema drift"}
+      - {path: "scripts/podcast/_progress.py",                        when: "any state-schema edit",       staleness_signal: "schema_version constant out of sync with state.json"}
       - {path: "content/podcast/library/books/*/_system/orchestrator-state.json", when: "before resume / retry-phase", staleness_signal: "phase_status=running with stale ts_updated"}
-      - {path: "_workspace/plan/podcast-plan.yaml",                   when: "every multi-step task",       staleness_signal: "meta.refined date >7d old AND active phase changed"}
+      - {path: "_workspace/plan/podcast-plan.yaml",                   when: "every multi-step task",       staleness_signal: "meta.gap_closed date >7d old AND active phase changed"}
       - {path: "_workspace/plan/research/findings.md",                when: "any architecture decision",   staleness_signal: "linked URL HTTP 404"}
+      - {path: "docs/architecture/podcast-pipeline.html",             when: "any phase boundary change",   staleness_signal: "phase IDs disagree with _progress.py PHASE_ORDER"}
+      - {path: "docs/architecture/podcast-orchestrator.html",         when: "any orchestrator behavior change", staleness_signal: "phase IDs disagree with code"}
     per_book_intelligence:
       - {path: "<book>/_system/source/raw-extract.md",                consult_for: "OCR truth-source for refinement decisions"}
       - {path: "<book>/_system/source/text/refined-english.md",       consult_for: "Phase-0c-and-beyond canonical text"}
@@ -166,10 +191,11 @@ intelligence_sources:
     canonical_skill:  "skills-staging/journal/SKILL.md"
     consult_before_any_edit:
       - {path: "skills-staging/journal/SKILL.md",                     when: "every session start"}
-      - {path: "content/babu-memoir/_system/voice.md",                when: "any chapter authoring"}
-      - {path: "content/babu-memoir/_system/craft.md",                when: "any chapter authoring"}
+      - {path: "content/babu-memoir/_system/voice-fingerprint.md",    when: "any chapter authoring (light variant) — voice-fingerprint-light.md / voice-deep-analysis.md as needed"}
+      - {path: "content/babu-memoir/_system/craft-techniques.md",     when: "any chapter authoring"}
       - {path: "content/babu-memoir/_system/thematic-arc.md",         when: "chapter slotting / re-ordering"}
       - {path: "content/babu-memoir/_system/locked-paragraphs.md",    when: "edits near locked passages"}
+      - {path: "content/babu-memoir/_system/biographical-context.md", when: "fact-checking / timeline questions"}
       - {path: "content/_shared/arabic/**",                           when: "Arabic word pronunciation (READ-ONLY)"}
     boundary: "READS NOTHING from content/podcast/. The only cross-skill connection is consuming proposed-library-entries.md as input to manual library curation."
   cross_cutting:
@@ -282,6 +308,48 @@ phases:
           - "Skill SKILL.md documents the gate"
 
   # =============================================================================
+  - id: P0c
+    name: "Doc regressions introduced by legacy-file cleanup (2026-05-19)"
+    effort: hours
+    priority: blocker
+    depends_on: []
+    why: |
+      The legacy-file deletion in commit b0d991b removed
+      _workspace/chatgpt-podcast-skill-prompt.md. That path is referenced by
+      docs/architecture/podcast-overview.html:366, leaving a stale link. Close
+      this regression before the next docs publish.
+    tasks:
+      - id: P0c.1
+        title: "Repair or rewrite the chatgpt-podcast-skill-prompt reference"
+        files:
+          - docs/architecture/podcast-overview.html
+        spec: |
+          Options:
+            1. Rewrite the paragraph to point at skills-staging/podcast/SKILL.md
+               (the current canonical source) and remove the chatgpt-prompt fork
+               description entirely.
+            2. Restore the deleted file from git history (commit b0d991b^).
+          Decision: option 1 — the chatgpt fork is no longer maintained and SKILL.md
+          is the single source of truth.
+        acceptance:
+          - "grep -r 'chatgpt-podcast-skill-prompt' docs/ scripts/ skills-staging/ returns no results"
+          - "podcast-overview.html paragraph reads coherently without the deleted reference"
+      - id: P0c.2
+        title: "Audit for other broken links from the cleanup"
+        spec: |
+          For each path deleted in commit b0d991b, grep the entire repo (excluding
+          .git, node_modules) for the basename. Any non-test reference is a
+          regression to repair.
+          Deleted basenames to grep:
+            - chatgpt-podcast-skill-prompt
+            - folder-cleanup-prompt
+            - podcast-refactor-executive-summary
+            - podcast-orchestrator-large-books
+        acceptance:
+          - "All four basenames return zero non-test references in docs/, scripts/, skills-staging/, .github/"
+          - "Any references found are repaired or explicitly redirected"
+
+  # =============================================================================
   - id: P0
     name: "Critical bug fix: claude -p permission mode"
     effort: hours
@@ -312,7 +380,18 @@ phases:
           - "No silent 'NO ARTIFACT' continuation — every failure surfaces"
       - id: P0.3
         title: "Re-run kitab-al-riyad --resume; verify Phase 0b completes"
+        branch_workflow: |
+          1. Apply P0.1/P0.2 patches on `develop` first; merge to develop after
+             the boundary check (P0a.1) and a tiny-book smoke pass.
+          2. Rebase `book/kitab-al-riyad` onto the updated `develop` (or
+             cherry-pick the P0 commits if rebase would touch in-flight files).
+          3. Confirm `_system/orchestrator-state.json` still parses unchanged after
+             the rebase (the rebase must not touch state files).
+          4. `git checkout book/kitab-al-riyad` and
+             `python3 scripts/podcast/orchestrate_book.py --resume kitab-al-riyad`.
         acceptance:
+          - "P0.1 + P0.2 land on develop BEFORE book branch resume"
+          - "book/kitab-al-riyad rebased clean onto develop; state.json untouched by the rebase"
           - "All N windows produce non-empty .out.md files"
           - "Phase transitions 0b -> 0c -> 0d -> 0e cleanly OR halts cleanly at 0f human gate"
 
@@ -382,7 +461,8 @@ phases:
           - "Runs in <1s on a 260-page book's state"
           - "Falls back gracefully if heartbeat.json missing (uses log tail)"
           - "Emits exit code 0 if process alive, 2 if dead, 1 if state stale (>5min)"
-          - "Boxed banner matches meta.async_safety.wait_banner_format byte-for-byte structure"
+          - "Boxed banner preserves the row/column structure of meta.async_safety.wait_banner_format (template), with field substitution; verified by structural-match unit test, not byte equality"
+          - "`--ascii` flag emits the same banner with ASCII fallback chars (+ - |) for terminals without UTF-8 box support"
       - id: P1.4
         title: "JSONL event log for downstream consumers"
         files:
@@ -431,7 +511,8 @@ phases:
           mutations: NONE
         acceptance:
           - "OpenAPI docs render at /docs"
-          - "All endpoints return JSON; SSE endpoint sends text/event-stream"
+          - "pytest asserts every non-stream endpoint returns content-type `application/json` AND parses to valid JSON"
+          - "pytest asserts /books/{slug}/stream returns content-type `text/event-stream` and emits at least one event"
           - "Service uses filesystem ONLY — no DB, no global state"
       - id: P2.2
         title: "Static dashboard SPA in scripts/podcast/service/static/"
@@ -449,18 +530,34 @@ phases:
           - "Open http://127.0.0.1:8765/ in browser → live updating dashboard"
           - "Phase-stuck detection: heartbeat age >2min flashes yellow, >10min flashes red"
       - id: P2.3
-        title: "launchd plist for dev daemon"
+        title: "launchd plist for dev daemon + startup documentation"
         files:
           - infra/launchd/com.journal.podcast-service.plist   # NEW
-        spec: "Optional: start FastAPI service on user login. Documented as opt-in."
-        acceptance: ["plist passes `plutil -lint`"]
+          - docs/podcast/service-startup.md                   # NEW
+        spec: |
+          Optional auto-start. Documented as opt-in. The doc must specify:
+            - how to install the plist (`launchctl bootstrap gui/$UID …`)
+            - how to verify it loaded (`launchctl list | grep podcast-service`)
+            - what behavior the dashboard exhibits if the service is NOT running
+              (curl error → README points users at the start command)
+            - manual one-shot start (`uvicorn scripts.podcast.service.app:app`)
+        acceptance:
+          - "plist passes `plutil -lint`"
+          - "service-startup.md answers: install / verify / behavior-when-down / manual-start"
+          - "Dashboard JS shows a friendly 'service not running — see docs' card on connection failure"
 
   # =============================================================================
   - id: P3
     name: "Anthropic SDK migration: replace `claude -p` shell-out"
     effort: 3-4 days
     priority: high
-    depends_on: [P0, P2]                          # P2 first → dashboard helps catch regressions
+    depends_on: [P0, P0b, P2]                     # P0b E2E harness MUST exist before SDK swap so regressions are caught
+    book_branch_strategy: |
+      P3 changes land on `develop` first. All `book/*` branches with in-flight
+      runs (any state.json not in `done` or `merge`) MUST be paused before P3.5
+      validation. After validation passes, rebase each active book/* onto
+      develop and re-run --resume from its current phase. Document each rebase
+      outcome in the audit log.
     why: |
       Native SDK eliminates entire bug classes:
         - silent file-write refusals (we write files ourselves)
@@ -505,18 +602,40 @@ phases:
         title: "Cost-tracking sidecar"
         files:
           - scripts/podcast/_claude_client.py
+          - scripts/podcast/cost_ledger_summary.py        # NEW — sums ledger; pytest assertion target
         spec: |
           After every call, append a line to <book>/_system/cost-ledger.jsonl:
             {ts, phase, step, model, input_tokens, output_tokens, cache_read, cache_create, cost_usd}
           Use pricing table in module constant; warn loudly if model not in table.
+          `cost_ledger_summary.py` reads the ledger and emits:
+            {total_input_tokens, total_output_tokens, total_cost_usd_by_phase}
+          plus a `cost-validation.json` snapshot stored alongside the ledger.
         acceptance:
-          - "ledger sums to within 1% of Anthropic console for kitab-al-riyad full run"
+          - "`python3 scripts/podcast/cost_ledger_summary.py <book>` exits 0 and prints structured totals"
+          - "cost-validation.json regenerated on each run; diffable in PR review"
+          - "Manual cross-check vs Anthropic console for first SDK book: ledger total within ±1%"
       - id: P3.5
         title: "End-to-end re-run on kitab-al-riyad (or fresh small book) with SDK path"
         acceptance:
           - "All phases complete with zero subprocess errors"
           - "Dashboard shows live token counts during 0d/0e"
           - "cost-ledger.jsonl populated"
+          - "P0b E2E suite passes on the SDK code path"
+      - id: P3.6
+        title: "Fallback shim — keep CLAUDE_CMD subprocess path behind a flag"
+        files:
+          - scripts/podcast/_claude_client.py
+          - scripts/podcast/orchestrate_book.py
+        spec: |
+          Add env var `PODCAST_LLM_BACKEND` accepting `sdk` (default) | `cli`.
+          When `cli`, _claude_client transparently dispatches to the legacy shell-out
+          path with --permission-mode acceptEdits (the P0 fix). Logged loudly at
+          startup. Removed in the release AFTER the first xlarge book ships clean
+          on SDK.
+        acceptance:
+          - "PODCAST_LLM_BACKEND=cli replicates the old behavior end-to-end on tiny-book fixture"
+          - "Default behavior unchanged when env var unset"
+          - "Removal scheduled in P6 (track as P6.5)"
 
   # =============================================================================
   - id: P4
@@ -577,6 +696,22 @@ phases:
       shell, run 2-3 books concurrently. Worker pool means one stuck book doesn't
       block the others.
     tasks:
+      - id: P5.0
+        title: "Resolve Q1 — multi-Mac story for the service"
+        files:
+          - docs/podcast/multi-mac-decision.md       # NEW
+          - _workspace/plan/podcast-plan.yaml        # update open_questions:Q1 → resolved
+        spec: |
+          Decide and document:
+            - primary-only service vs. distributed workers
+            - heartbeat hostname enforcement (R3 mitigation)
+            - state directory location (local fs vs. shared iCloud/git)
+            - auth model (localhost token vs. SSH-tunneled remote viewer)
+          Default lean per current_lean in Q1: primary-only; secondary Macs are
+          read-only viewers via SSH-tunneled dashboard. Confirm or revise.
+        acceptance:
+          - "Q1 marked resolved in open_questions with a one-line decision ref"
+          - "multi-mac-decision.md documents the choice and its implications for P5.1/P5.2"
       - id: P5.1
         title: "Mutation endpoints"
         files: [scripts/podcast/service/app.py]
@@ -631,16 +766,29 @@ phases:
     tasks:
       - id: P6.1
         title: "Phase rename: full 14-step sequential naming"
+        prereq: |
+          Before running this migration, verify NO books are in-flight:
+            python3 scripts/podcast/orchestrator_status.py --all --json | \
+              jq '[.books[] | select(.phase_status=="running" or .phase_status=="failed")] | length' \
+              # must return 0
+          R4 risk codified: a mid-flight book during this migration corrupts state.
         files:
           - scripts/podcast/_progress.py           # bump schema_version to 2; add translation layer
           - scripts/podcast/orchestrate_book.py    # phase_map, completed set, --retry-phase
-          - scripts/podcast/_authoring.py          # phase="0d" strings
+          - scripts/podcast/_authoring.py          # phase="0d" strings (32 occurrences)
           - scripts/podcast/_chunking.py
           - scripts/podcast/_convergence.py
-          - skills-staging/podcast/**             # any phase references
-          - .github/agents/podcast-*.agent.md     # task descriptions
-          - _workspace/plan/podcast-plan.yaml     # this file
-          - _workspace/plan/view/index.html       # visual diagram
+          - scripts/podcast/extract_chapter.py     # has "phase 0a", "phase 0b" strings
+          - scripts/podcast/build_episode_txt.py   # has "phase 0a"…"phase 0g" strings
+          - skills-staging/podcast/**              # any phase references
+          - .github/agents/podcast-*.agent.md      # task descriptions
+          - _workspace/plan/podcast-plan.yaml      # this file
+          - _workspace/plan/view/index.html        # visual diagram
+          - docs/architecture/podcast-pipeline.html       # SVG phase labels 0a–0g
+          - docs/architecture/podcast-orchestrator.html   # phase 0a/0f text
+          - docs/architecture/podcast-quality-system.html # Phase 0f gate refs
+          - docs/architecture/podcast-overview.html       # Phase 0a refs
+          - docs/architecture/index.html                  # Phase 0f nav refs (cross-cutting, edit-with-care)
         spec: |
           Full mapping (replaces partial 0a→0g mapping in v1 of this plan):
 
@@ -698,8 +846,9 @@ phases:
           materializes .claude/agents/*.md by stripping the `.agent.md` suffix.
         acceptance:
           - "Every agent appearing in any of the three locations exists in .github/agents/"
-          - "VS Code/Claude Code agent picker shows each agent exactly once"
-          - "infra/claude-agents/ removed; git log preserves history"
+          - "scripts/check_agent_dedup.py (NEW) compares names across the three dirs, exits 0 only when set differences are empty; runs in CI"
+          - "VS Code/Claude Code agent picker shows each agent exactly once (visual verification step in the PR description)"
+          - "infra/claude-agents/ removed; git log preserves history (the directory is a tracked deletion, not a force-removal)"
           - "install-claude-skills.sh idempotent: second run produces zero diffs"
       - id: P6.3
         title: "CI check: scripts/podcast/ does not import from scripts/site/ or scripts/memoir/"
@@ -715,7 +864,17 @@ phases:
           Already streaming via SDK in P3; this task just ensures heartbeat
           ticks reflect Anthropic SSE events (output_tokens cumulative) rather
           than approximate token counts.
-        acceptance: ["heartbeat shows exact output_tokens within 1 token of API total"]
+        acceptance:
+          - "Side-by-side compare on tiny-book fixture: heartbeat final output_tokens equals stream.get_final_message().usage.output_tokens"
+          - "Test stored as scripts/podcast/tests/e2e/test_token_count_parity.py"
+      - id: P6.5
+        title: "Retire the CLI fallback shim from P3.6"
+        prereq: "At least one xlarge book (≥800p) shipped clean on the SDK path"
+        files: [scripts/podcast/_claude_client.py, scripts/podcast/orchestrate_book.py]
+        spec: "Remove PODCAST_LLM_BACKEND env var and all `cli` dispatch. Subprocess code path deleted."
+        acceptance:
+          - "grep -r 'PODCAST_LLM_BACKEND' scripts/podcast/ returns 0 results"
+          - "grep -rE 'subprocess\\.(run|Popen).*claude' scripts/podcast/ returns 0 results"
 
   # =============================================================================
   - id: P7
@@ -751,6 +910,7 @@ open_questions:
       state location, auth, worker pool design, heartbeat hostname enforcement (R3).
     current_lean: "Service runs primary-only; secondary Macs are read-only viewers via SSH-tunneled dashboard."
     blocks: P5
+    formal_resolution_task: P5.0   # promoted to a real task; this entry stays until the doc lands
   - id: Q2
     question: "Cost ceiling per book"
     detail: |
@@ -789,15 +949,19 @@ risks:
 # Done definition
 # -----------------------------------------------------------------------------
 done_when:
-  - "P0a → P5 all merged to develop with passing CI (P0a/P0b are blockers for P3+)"
+  - "P0a → P5 all merged to develop with passing CI (P0a/P0b/P0c are blockers for P3+)"
+  - "P0c.1 — chatgpt-podcast-skill-prompt reference repaired in docs/architecture/podcast-overview.html"
+  - "P0c.2 — no other broken references from the 2026-05-19 legacy-file cleanup"
   - "scripts/podcast/_boundary_check.py exits 0; no automatic writes outside content/podcast/**"
   - "E2E test (P0b) passes on tiny-book fixture; PR gate enforces it"
   - "Dashboard at http://127.0.0.1:8765/ can: list, start, resume, retry, delete books"
   - "Full pipeline run on Rasail Ikhwan (865p) completes with structured cost ledger"
-  - "Zero `subprocess.run([CLAUDE_CMD,...])` calls remain in scripts/podcast/"
-  - "isolation_check CI job is green"
+  - "Zero `subprocess.run([CLAUDE_CMD,...])` calls remain in scripts/podcast/ (after P6.5)"
+  - "isolation_check CI job is green; agent-dedup CI script exits 0"
   - "Agent picker shows each agent exactly once (P6.2 dedup verified)"
   - "podcast-challenger / podcast-extract / ui-reviewer migrated to .github/agents/"
   - "Phase rename to 01-preflight..14-done complete; schema_version=2 across all live state files"
+  - "docs/architecture/podcast-*.html updated in lockstep with code phase rename"
   - "podcast-orchestrator.agent.md updated to reference the new service + status CLI"
   - "Manual library handoff documented in skills-staging/podcast/SKILL.md"
+  - "Q1 (multi-Mac) resolved via P5.0; multi-mac-decision.md committed"
