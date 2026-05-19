@@ -362,11 +362,19 @@ if [ -n "$ACTIVE" ] && [ -n "$RUNNING_STATES" ]; then
   echo "ASYNC ACTIVE — emit wait banner from meta.async_safety.wait_banner_format and HALT."
 fi
 
-# L7: HTML/YAML phase parity — phase id must appear in at least one view HTML
-PHASE_IDS=$(ruby -r yaml -e "puts YAML.load_file('$PLAN')['phases'].map{|p|p['id']}.join(' ')")
-for id in $PHASE_IDS; do
-  grep -lq "$id" _workspace/plan/view/*.html 2>/dev/null || echo "HTML missing phase reference (no view/*.html contains): $id"
-done
+# L7: HTML/YAML phase parity — phase id must appear in at least one view HTML.
+# Implemented in Ruby for shell portability (bash word-splits `$VAR`; zsh does not).
+ruby -r yaml -e "
+phase_ids = YAML.load_file('$PLAN')['phases'].map{|p| p['id']}
+htmls = Dir.glob('_workspace/plan/view/*.html')
+bodies = htmls.map{|f| File.read(f) }
+missing = phase_ids.reject{|id| bodies.any?{|b| b.include?(id) } }
+if missing.empty?
+  puts \"L7 CLEAN (#{phase_ids.size} phase ids covered across #{htmls.size} view html(s))\"
+else
+  missing.each{|id| puts \"HTML missing phase reference (no view/*.html contains): #{id}\" }
+end
+"
 
 # L8: broken-ref annotation for deleted basenames (if list is provided in meta.legacy_cleanup_basenames)
 ruby -r yaml -e "
