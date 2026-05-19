@@ -1101,6 +1101,45 @@ phases:
           - "P4.9.fixtures 📊 Pattern 5 recursive-scaffold fixtures landed (golden passes; missing-recap + wrong-pattern-declared fail with a P1-severity Category P finding); referenced from episode-architecture.md handbook entry"
           - "P4.9.challenger 📊 Challenger Category P sub-check: when concept-glossary.md exists in a book, every framing must reference ≥1 glossary slug OR contain literal 'no new technical vocabulary in this episode'. Fixture-gated. P1-severity finding on violation."
 
+      - id: P4.10
+        title: "Per-book content-range convention — skip editor's apparatus + back-matter indexes"
+        added: 2026-05-19
+        why: |
+          Edited Arabic / philosophical / religious sources routinely carry 10-25%
+          of front-matter (editor's intros, bios, bibliographies, editing notes)
+          and 10-15% of back-matter (indexes — subject, names, places, Qur'anic
+          verses, manuscripts). On Kitab al-Riyad, the editor's apparatus +
+          indexes total 29% of refined-english.md by line count. Today the
+          orchestrator wastes Phase 0c/0e/11 LLM-token spend refining material
+          that won't appear in any episode AND Loop N spuriously flags
+          the editor's bibliography of al-Kirmani's 25 works as
+          "invented enumerations" by the source author.
+
+          The convention introduces an optional per-book artifact at
+          _system/source/text/content-range.md declaring body start/end pages.
+          When present, Phase 0d drops sections outside the window; Phase 0e
+          and Phase 11 only see body content; Loop N skips numeric claims in
+          front/back-matter ranges. Operator typically authors content-range.md
+          at the P22 transcript-review gate. Backward-compat: absence = today's
+          behavior (whole refined-english.md flows through).
+        files:
+          - content/podcast/.skill/handbook/book-dir-layout.md             # MODIFY — Per-book content range section + tree + ownership table (shipped 2026-05-19)
+          - scripts/podcast/_content_range.py                              # NEW — parser + validator for content-range.md
+          - scripts/podcast/orchestrate_book.py                            # MODIFY — Phase 0d reads content-range; segmentation honors window
+          - scripts/podcast/_authoring.py                                  # MODIFY — Phase 0e + Phase 11 read only body content
+          - infra/claude-agents/podcast-challenger/_rules.py               # MODIFY — Loop N skips numeric claims outside body range
+          - scripts/podcast/tests/test_content_range.py                    # NEW — parser tests
+          - scripts/podcast/tests/e2e/test_content_range_e2e.py            # NEW — golden fixture: KaR-shaped tiny book with editor's front + index back
+        acceptance:
+          - "P4.10.docs ✅ content-range.md schema documented in book-dir-layout.md with worked KaR example (shipped 2026-05-19)"
+          - "P4.10.parser ✅ scripts/podcast/_content_range.py exposes parse(book_dir) -> ContentRange | None; ContentRange dataclass with body_starts_at_page, body_ends_at_page, include_author_preface, include_author_toc fields"
+          - "P4.10.validator ✅ Validator rejects content-range.md with body_ends_at_page <= body_starts_at_page; rejects page numbers outside the refined-english.md page-breadcrumb range; YAML schema_version check"
+          - "P4.10.phase0d ✅ Phase 0d (chapter segmentation) reads content-range when present; sections whose page falls outside [body_starts_at_page, body_ends_at_page] are dropped from chapters-rationale.md and chapters/chNN-*.txt — verified via E2E fixture"
+          - "P4.10.phase0e_phase11 ✅ Phase 0e (enrichment) + Phase 11 (per-chapter framing) load only body content; cost-ledger row labels the skipped page range with method='content-range-skip' (no LLM call for skipped pages)"
+          - "P4.10.loopN 🔒 Loop N skips numeric claims whose source page falls outside body range — editor's bibliographic lists (e.g., al-Kirmani's 25 works on KaR page 31) do NOT trigger 'invented enumeration' findings"
+          - "P4.10.backcompat ✅ When content-range.md is absent, behavior is byte-identical to pre-2026-05-19 (golden frozen at tiny-book + Ayyuhal Walad: refined-english.md → chapters/*.txt unchanged)"
+          - "P4.10.metric 📊 W3 corpus: token spend on Phases 0c/0e/11 drops by ≥10% on books that adopt content-range vs same book without (measured via cost-ledger before/after)"
+
   - id: P5
     wave: W1
     name: "claude -p permission-mode fix + artifact validation"
@@ -1769,15 +1808,15 @@ phases:
         title: "Large: Asaas Al-Taveel (416p)"
         source_material_risk: "high"
         preflight_required:
-          - "content/podcast/library/books/asaas-al-taveel/_system/source/text/chapters-rationale.md exists with the 6-chapter natiq map (Adam/Nuh/Ibrahim/Musa/Isa/Muhammad + the unwritten Qa'im) BEFORE run_wave.py 3 --book asaas-al-taveel fires"
-          - "content/podcast/library/books/asaas-al-taveel/_system/concept-glossary.md exists with ≥20 entries across cosmology, hermeneutics, neoplatonic emanation, and Fatimid doctrinal terms BEFORE the run fires"
-          - "content/podcast/library/books/asaas-al-taveel/_system/registry.md exists with series_pattern: recursive_scaffold declared at series level (without this declaration, Pattern 5's discussion-spine author silently defaults to None and Ep2–6 re-teach the template — wasted LLM cost + worse quality)"
-          - "Operator-recommended 6-episode preset reviewed at Phase 0f operator gate (Mentor+Student persona; series_pattern=recursive_scaffold; long-form tier)"
+          - "P9.5.pre1 ✅ content/podcast/library/books/asaas-al-taveel/_system/source/text/chapters-rationale.md exists with the 6-chapter natiq map (Adam/Nuh/Ibrahim/Musa/Isa/Muhammad + the unwritten Qa'im) BEFORE run_wave.py 3 --book asaas-al-taveel fires"
+          - "P9.5.pre2 ✅ content/podcast/library/books/asaas-al-taveel/_system/concept-glossary.md exists with ≥20 entries across cosmology, hermeneutics, neoplatonic emanation, and Fatimid doctrinal terms BEFORE the run fires"
+          - "P9.5.pre3 ✅ content/podcast/library/books/asaas-al-taveel/_system/registry.md exists with series_pattern: recursive_scaffold declared at series level (without this declaration, Pattern 5's discussion-spine author silently defaults to None and Ep2–6 re-teach the template — wasted LLM cost + worse quality)"
+          - "P9.5.pre4 🔒 Operator-recommended 6-episode preset reviewed at Phase 0f operator gate (Mentor+Student persona; series_pattern=recursive_scaffold; long-form tier)"
         acceptance:
-          - "Full pipeline; metrics recorded; Loop N clean"
-          - "Episode 6 (The Seventh Silence) honors the unwritten Qa'im chapter as content — not silently skipped"
-          - "Concept-glossary referenced by ≥1 framing per episode OR zero-new-vocab declaration logged"
-          - "P4 numeric-disambiguation register populated; 7-natiq and 12-hujja enumerations carry citations"
+          - "P9.5.acc1 📊 Full pipeline; metrics recorded; Loop N clean"
+          - "P9.5.acc2 ✅ Episode 6 (The Seventh Silence) honors the unwritten Qa'im chapter as content — not silently skipped"
+          - "P9.5.acc3 ✅ Concept-glossary referenced by ≥1 framing per episode OR zero-new-vocab declaration logged"
+          - "P9.5.acc4 ✅ P4 numeric-disambiguation register populated; 7-natiq and 12-hujja enumerations carry citations"
       - id: P9.6
         title: "XLarge: Raahat al-Aqal (591p)"
         risk: "Phase 04-ocr-translate may approach Doc Intelligence 600s poll budget (R2)"
@@ -2416,6 +2455,14 @@ phases:
              - Glossary additions
              - Pronunciation corrections
              - Free-form comments
+             - **Content range** (§7): operator declares body_starts_at_page
+               + body_ends_at_page; heuristic-suggested defaults pre-filled
+               by the scaffolder (first page whose paragraph density crosses
+               threshold T after a recognized signature like "Introduction"
+               or "Editor's Preface" → body_starts; last page before a
+               recognized "Index" / "Bibliography" / "Errata" header →
+               body_ends). On --approve-transcript resume, the orchestrator
+               emits content-range.md from this section. See P4.10.
              - "I approve this transcript — proceed" checkbox
         5. Sets state.json phase_status="halted-for-transcript-review",
            writes halt message to stdout/log:
@@ -2442,19 +2489,20 @@ phases:
         4. Resumes Phase 0b normally
     depends_on: [P5, P6]   # P5 ships acceptEdits + artifact validation; P6 ships cost ledger (the gate must not lose ledger context across halt-resume)
     acceptance:
-      - "Halt-point detection: Arabic-scanned source → halt after Phase 0b; English text-layer source → halt after Phase 0a; markdown source → halt after Phase 0a (verified against fixtures)"
-      - "At halt, <book>/english-transcript.md exists; word count within ±2% of source artifact (paragraphing preserved; page breadcrumbs intact)"
-      - "At halt, <book>/operator-review.md exists with scaffolded sections; operator can mark 'I approve' checkbox"
-      - "state.json shows phase_status='halted-for-transcript-review' at the halt point"
-      - "Orchestrator exit code is 3 (halt) — not 0 (success) or 1 (error)"
-      - "--approve-transcript flag resumes from the halt; refuses to resume if operator-review.md has comments but no 'I approve' checkbox"
-      - "Downstream phases from the halt point onwards include operator-review.md content as <operator-review> XML block when present (Phase 0b+ for English-text-layer/markdown halt-after-0a; Phase 0c+ for Arabic-scan halt-after-0b)"
-      - "E2E test: operator-review.md with 3 typo corrections influences refined.md (assertion via Levenshtein delta in fixture)"
-      - "Backward-compat: --skip-transcript-gate flag bypasses the halt for runs that don't want the gate (default: gate is on)"
-      - "Cost-ledger row written for the halt-point paginator step (no LLM call; records the paginator + scaffolder runtime)"
-      - "operator-review.md is NEVER overwritten by the orchestrator after initial scaffold; operator edits are preserved on resume"
-      - "Hand-authored preflight artifacts NEVER overwritten: if <book>/_system/source/text/chapters-rationale.md OR <book>/_system/concept-glossary.md OR <book>/_system/registry.md exists at halt time, the orchestrator MUST NOT regenerate them after --approve-transcript. (Asaas case: all three are hand-authored before Phase 0a — auto-regenerating them on resume would destroy the operator's preflight intelligence.)"
-      - "english-transcript.md and operator-review.md are git-tracked (NOT under .gitignore) — audit trail of operator interventions across runs; commits use the message convention 'podcast(<book-slug>): operator transcript review — <one-line summary>'"
+      - "P22.impl-halt-point ✅ Halt-point detection: Arabic-scanned source → halt after Phase 0b; English text-layer source → halt after Phase 0a; markdown source → halt after Phase 0a (verified against fixtures)"
+      - "P22.impl-transcript-exists ✅ At halt, <book>/english-transcript.md exists; word count within ±2% of source artifact (paragraphing preserved; page breadcrumbs intact)"
+      - "P22.impl-review-template ✅ At halt, <book>/operator-review.md exists with scaffolded sections; operator can mark 'I approve' checkbox"
+      - "P22.impl-state ✅ state.json shows phase_status='halted-for-transcript-review' at the halt point"
+      - "P22.impl-exit-code ✅ Orchestrator exit code is 3 (halt) — not 0 (success) or 1 (error)"
+      - "P22.impl-approve-flag ✅ --approve-transcript flag resumes from the halt; refuses to resume if operator-review.md has comments but no 'I approve' checkbox"
+      - "P22.impl-prompt-injection ✅ Downstream phases from the halt point onwards include operator-review.md content as <operator-review> XML block when present (Phase 0b+ for English-text-layer/markdown halt-after-0a; Phase 0c+ for Arabic-scan halt-after-0b)"
+      - "P22.test-e2e ✅ E2E test: operator-review.md with 3 typo corrections influences refined.md (assertion via Levenshtein delta in fixture)"
+      - "P22.impl-skip-flag ✅ Backward-compat: --skip-transcript-gate flag bypasses the halt for runs that don't want the gate (default: gate is on)"
+      - "P22.impl-cost-ledger ✅ Cost-ledger row written for the halt-point paginator step (no LLM call; records the paginator + scaffolder runtime)"
+      - "P22.impl-no-overwrite ✅ operator-review.md is NEVER overwritten by the orchestrator after initial scaffold; operator edits are preserved on resume"
+      - "P22.preflight-invariant 🔒 Hand-authored preflight artifacts NEVER overwritten: if <book>/_system/source/text/chapters-rationale.md OR <book>/_system/concept-glossary.md OR <book>/_system/registry.md exists at halt time, the orchestrator MUST NOT regenerate them after --approve-transcript. (Asaas case: all three are hand-authored before Phase 0a — auto-regenerating them on resume would destroy the operator's preflight intelligence.)"
+      - "P22.git-policy ✅ english-transcript.md and operator-review.md are git-tracked (NOT under .gitignore) — audit trail of operator interventions across runs; commits use the message convention 'podcast(<book-slug>): operator transcript review — <one-line summary>'"
+      - "P22.range ✅ operator-review.md template includes §7 Content range with heuristic-suggested defaults (body_starts_at_page, body_ends_at_page); on --approve-transcript resume, orchestrator emits _system/source/text/content-range.md from operator's declaration (per P4.10). Operator can override the heuristic defaults; if §7 is left blank, content-range.md is NOT emitted and Phase 0d ingests the whole transcript as today."
 
   - id: P21
     wave: W5
@@ -2551,14 +2599,15 @@ phases:
           times_used INTEGER
         )
     acceptance:
-      - "scripts/podcast/_learning_store.py exposes: lookup_term(term, lang) -> Term | None; promote_term(...); lookup_pattern(...); promote_pattern(...)"
-      - "Lookups complete in <5ms p99 (SQLite read; in-memory cache after first hit)"
-      - "Cache-stats per-run telemetry: cache-stats.jsonl row per phase with {phase, lookups, hits, misses, hit_rate, elapsed_ms_saved}"
-      - "Operator review surface: dashboard (P8) gets a /learning/vocabulary endpoint listing recent additions; operator can mark terms operator_locked=true"
-      - "Audit log: every store write also appends to .jsonl; rebuild_from_jsonl reproduces .sqlite byte-identical OR within documented tolerance"
-      - "Boundary check (P1.1): _learning_store.py reads but does not write outside content/podcast/_learning/"
-      - "Cost-ledger integration: rows include hit/miss field; LLM-skipped calls show $0 cost with method='cache-hit'"
-      - "Goodhart guard: operator can mark a term as operator_locked, preventing the LLM-derived value from re-asserting itself on a later run"
+      - "P21.api ✅ scripts/podcast/_learning_store.py exposes: lookup_term(term, lang) -> Term | None; promote_term(...); lookup_pattern(...); promote_pattern(...)"
+      - "P21.perf ✅ Lookups complete in <5ms p99 (SQLite read; in-memory cache after first hit)"
+      - "P21.telemetry ✅ Cache-stats per-run telemetry: cache-stats.jsonl row per phase with {phase, lookups, hits, misses, hit_rate, elapsed_ms_saved}"
+      - "P21.review ✅ Operator review surface: dashboard (P8) gets a /learning/vocabulary endpoint listing recent additions; operator can mark terms operator_locked=true"
+      - "P21.audit ✅ Audit log: every store write also appends to .jsonl; rebuild_from_jsonl reproduces .sqlite byte-identical OR within documented tolerance"
+      - "P21.boundary ✅ Boundary check (P1.1): _learning_store.py reads but does not write outside content/podcast/_learning/"
+      - "P21.cost-ledger ✅ Cost-ledger integration: rows include hit/miss field; LLM-skipped calls show $0 cost with method='cache-hit'"
+      - "P21.goodhart 🔒 Operator can mark a term as operator_locked, preventing the LLM-derived value from re-asserting itself on a later run"
+      - "P21.seed-glossary ✅ Per-book concept-glossary.md is the primary seed source for vocabulary.sqlite (see seed_corpus_policy block above): confidence 0.95 for hand-authored, 0.7 for claude-p-generated; operator_locked=false on initial promotion"
 
   - id: P20
     wave: W5

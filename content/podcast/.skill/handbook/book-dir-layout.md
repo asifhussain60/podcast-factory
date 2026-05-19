@@ -41,7 +41,8 @@ content/podcast/library/<category>/<book-slug>/
  │ └── text/
  │ ├── normalized.md Phase 0a output (one cleaned source file)
  │ ├── _phonetics.md Phase 0c index
- │ └── chapters-rationale.md Phase 0d segmentation rationale
+ │ ├── chapters-rationale.md Phase 0d segmentation rationale
+ │ └── content-range.md (optional) body-page declaration: skip editor's apparatus + indexes
  └── episode-drafts/
  ├── EP01-<slug>/
  │ ├── 00-framing.md CUSTOMIZE PROMPT body
@@ -76,6 +77,7 @@ content/podcast/library/<category>/<book-slug>/
 | `_system/source/text/normalized.md` | the book — Phase 0a output | Phase 0c–0e | Phase 0a |
 | `_system/source/text/_phonetics.md` | the book — phonetic index | Phase 0d–0e + framing authoring | Phase 0c |
 | `_system/source/text/chapters-rationale.md` | the book — segmentation rationale | humans, `podcast-challenger` Category P | Phase 0d |
+| `_system/source/text/content-range.md` | the book — body-page declaration (optional) | Phase 0d (segmentation), Phase 0e (enrichment), Phase 11 (framing), Loop N | operator (via P22 review), or pre-authored alongside Phase 0d preflight |
 | `_system/episode-drafts/EP##-<slug>/00-framing.md` | the episode — the source of CUSTOMIZE PROMPT | `build_episode_txt.py` | author (Phase 3) |
 | `_system/episode-drafts/EP##-<slug>/02-key-passages.md` | the episode | humans, refinement | author |
 | `_system/episode-drafts/EP##-<slug>/03-context-pack.md` | the episode | humans, refinement | author |
@@ -133,6 +135,62 @@ Bulleted terms grouped by domain. Example:
 ```
 
 When the file is **absent**, episodes run as today — no challenger check fires. Adoption is opt-in per book.
+
+## Per-book content range
+
+The optional file `_system/source/text/content-range.md` declares which PDF pages of the refined English transcript contain the actual book — excluding editor's intros, modern bibliographies, and indexes. Edited Arabic / philosophical / religious sources routinely add 10-25% of front matter and 10-15% of back matter that listeners don't need; without this declaration the orchestrator wastes LLM token spend on Phases 0c/0e/11 refining material that won't appear in any episode.
+
+Distinct from neighboring artifacts:
+
+| Artifact | What it captures |
+|---|---|
+| `chapters-rationale.md` | Phase 0d's segmentation rationale + chapter map |
+| `_phonetics.md` | Phase 0c phonetic index |
+| `content-range.md` | Which pages are body content vs. editor's apparatus + back matter |
+
+When present, Phase 0d drops sections outside the range from `chapters-rationale.md` and `chapters/chNN-*.txt`. Phase 0e (enrichment) and Phase 11 (per-chapter framing) only see body content. Loop N skips numeric claims in front/back-matter ranges (editor's bibliographic lists are not the source author's own enumerations).
+
+### Schema
+
+```yaml
+schema_version: 1
+book_slug: <slug>
+generated_by: <human | claude-p | operator-review>
+generated_at: <ISO 8601 timestamp>
+body_starts_at_page: <int>       # PDF page where the source author's own preface or body opens
+body_ends_at_page: <int>         # PDF page where the body's last section ends
+include_author_preface: true|false  # author's own preface (NOT editor's) — usually true
+include_author_toc: false           # author's own table-of-contents page — usually false (structural-only)
+front_matter_summary: |
+  One-line description of what the front matter contains. Listeners don't need this.
+back_matter_summary: |
+  One-line description of what the back matter contains. Listeners don't need this.
+```
+
+Pages are anchored to `<!-- page N -->` breadcrumbs which Phase 0a injects and which survive refinement. Line numbers are NOT used — they shift with reflow.
+
+### Worked example — Kitab al-Riyad
+
+```yaml
+schema_version: 1
+book_slug: kitab-al-riyad
+body_starts_at_page: 52      # al-Kirmani's own preface opens here
+body_ends_at_page: 232       # Bāb 10's last section ends here
+include_author_preface: true
+include_author_toc: false    # al-Kirmani's TOC is structural-only
+front_matter_summary: "Pages 1-51: Editor Arif Tamir's 1960 Introduction — bios of al-Razi/al-Sijistani/al-Kirmani; editing notes (mss A and B); editor's TOC summary."
+back_matter_summary: "Pages 233-254: six indexes — subject, Qurʾānic verses, manuscripts, message, names, places."
+```
+
+This drops 29% of the file from downstream LLM-token spend on KaR alone.
+
+### How content_range is captured
+
+`content-range.md` is typically authored at the P22 operator-review gate: the orchestrator surfaces the paginated transcript, the operator skims to find where the editor's apparatus ends and the author's voice opens, and declares the range in operator-review.md §7. The orchestrator then emits `content-range.md` from that declaration before resuming Phase 0c.
+
+For books with hand-authored preflight (e.g. Asaas al-Taʾwīl), `content-range.md` can be authored alongside `chapters-rationale.md` as a Phase 0d preflight artifact — the operator-review gate then confirms rather than authors.
+
+When the file is **absent**, behavior is unchanged — the whole `refined-english.md` flows into Phase 0d as today. Adoption is per-book and opt-in.
 
 ## Onboarding a new book
 
