@@ -22,7 +22,8 @@ This document is the permanent, audit-preservable verdict of the DoR gate. The c
 | `gh` authenticated | yes | ✅ (resolved 2026-05-19; keyring; scopes: `gist, read:org, repo, workflow`) | [yaml:166](./podcast-plan.yaml#L166); user `asifhussain60` |
 | Git: `develop == origin/develop`, clean tree | yes | ✅ | both at `d986a3d` at branch time |
 | Orchestrator quiescence | no in-flight runs | ✅ | `system_check.orchestrator.active_runs: []` |
-| Guinea-pig PDF physically present | yes | ✅ | 4.4 MB at iCloud path; [yaml:174](./podcast-plan.yaml#L174) |
+| Dev-iteration target PDF present | yes | ✅ | Ayyuhal Walad (30p / 146 KB) at iCloud path; recorded under `system_check.orchestrator.dev_iteration_target` in YAML |
+| Resume-validation target PDF present | yes | ✅ | Kitab al-Riyad (260p / 4.4 MB) at iCloud path; recorded under `system_check.orchestrator.resume_target_kitab_al_riyad` in YAML |
 
 All pre-flight blockers resolved. `gh auth` cleared 2026-05-19 (scopes include `workflow`, so P2.4 / P2.5 / P8.8 CI rows can land).
 
@@ -55,7 +56,8 @@ Plus `RawText` dataclass, `REGISTRY: dict[str, type[SourceAdapter]]`, `dispatch(
 ### (e) At least one test fixture for end-to-end exercise
 **PASS — two fixtures:**
 1. **Tiny-book fixture** (P2.1) — 3-chapter ~5k-word synthetic source with ≥1 Arabic phrase + ≥1 numeric claim. Cost <$0.50 per full pass. Lives at `scripts/podcast/tests/e2e/fixtures/tiny-book/` once W1 P2 ships.
-2. **Kitab al-Riyad PDF** — the corpus guinea-pig book. Verified present at `/Users/ahmac/Library/Mobile Documents/com~apple~CloudDocs/Books/Kitab al-Riyad.pdf` (4.4 MB, mtime 2025-02-10). Wired into [yaml:174](./podcast-plan.yaml#L174). Drives the W3 corpus validation run (P9.5 or earlier slot once tier is confirmed).
+2. **Ayyuhal Walad PDF** — the dev-iteration target. 30p / 146 KB. Verified present at `/Users/ahmac/Library/Mobile Documents/com~apple~CloudDocs/Books/Ayyuhal Walad.pdf`. Also already through the full pipeline once (5 chapters, 5 episodes, transcripts/, challenger-report at [content/podcast/library/books/ayyuhal-walad/](../../content/podcast/library/books/ayyuhal-walad/)). This is the W1+W2 dev-loop target.
+3. **Kitab al-Riyad PDF** — the resume-validation target. 260p / 4.4 MB. Verified present at iCloud path. Paused at `04-ocr-translate` → `05-refine-english`. P5.3 is the one-shot resume proof, not a dev-iteration target. Eventually slots into the W3 corpus run.
 
 ### (f) Measurable acceptance criteria for podcast quality
 **PASS — three authoritative sources, consolidated in companion doc.**

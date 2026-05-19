@@ -170,15 +170,49 @@ system_check:
     remote_synced:   true
   orchestrator:
     active_runs:     []
-    kitab_al_riyad:
+
+    # ── Dev-iteration target ──────────────────────────────────────────────────
+    # Smallest fully-staged book in the repo. 30p / 0.1 MB. Already through the
+    # full pipeline once (5 chapters, 5 episodes, transcripts/, challenger-report).
+    # Use this for: W1+W2 dev-loop iteration, P2.x E2E test scaffolding seed,
+    # P2.6 golden-fixture refinement determinism comparand, regression-protection
+    # baseline. Per yaml.P9.1 ("Tiny: Ayyuhal Walad — first-shipped baseline").
+    dev_iteration_target:
+      slug:          "ayyuhal-walad"
+      source_pdf:    "/Users/ahmac/Library/Mobile Documents/com~apple~CloudDocs/Books/Ayyuhal Walad.pdf"
+      source_verified: 2026-05-19
+      page_count:    30
+      bytes_per_page: 4900               # 146 KB / 30 p — clean text PDF
+      pipeline_history: "shipped (Phase 14-done); see content/podcast/library/books/ayyuhal-walad/"
+      use_for:
+        - "W1 + W2 dev-loop iteration"
+        - "P2.1 tiny-book fixture seed (synthetic fixture stays minimal; real-book exercise on this slug)"
+        - "P2.6 golden-fixture refinement determinism comparand (existing chapters/ are the prior reference)"
+        - "P5.3 control: same code path as kitab-al-riyad resume but cheaper to iterate"
+      cost_estimate_full_pipeline: "<$5"
+      wall_clock_estimate: "<2h"
+
+    # ── Resume validation target (NOT a dev target) ───────────────────────────
+    # Stuck book paused at 04-ocr-translate → 05-refine-english boundary, blocked
+    # historically on P5.1 (now SHIPPED on develop). P5.3 is the proof that the
+    # band-aid actually unblocks the resume on a real in-flight book. 260p / 4.4 MB
+    # — 9× larger than the dev target; do NOT iterate on this.
+    resume_target_kitab_al_riyad:
+      slug:          "kitab-al-riyad"
       source_pdf:    "/Users/ahmac/Library/Mobile Documents/com~apple~CloudDocs/Books/Kitab al-Riyad.pdf"
       source_verified: 2026-05-19
-      phase:         "04-ocr-translate"          # canonical phase name (P5.4 + P8.6); orchestrator state will read this as-is once P8.6 lands
+      page_count:    260
+      phase:         "04-ocr-translate"
       phase_status:  "completed"
       next_phase:    "05-refine-english"
       last_error:    null
       in_flight_chunks: 0
       resume_blocked_on: "P5.2 (artifact validation) — P5.1 (perm-mode) shipped on develop"
+      use_for:
+        - "P5.3 resume validation (one-shot proof, not iteration)"
+        - "W3 corpus run when P9 graduated sequence reaches this slot"
+      cost_estimate_resume_to_done: "$15-25 (260p × refinement + phonetic + chapter-design + enrichment + per-chapter framing/build)"
+
   safe_to_edit_plan: true
 
 # -----------------------------------------------------------------------------
@@ -1522,10 +1556,25 @@ phases:
           - "P4 numeric-disambiguation-register.md populated for at least 3 chapters"
           - "Challenger Loop N raises no P0 findings post-convergence"
       - id: P9.4
-        title: "Large: Kitab Maqbas (392p)"
-        risk: "First book where Phase 07-chapter-design source-chapter loop may produce 15+ episodes"
+        title: "Large: Kitab Maqbas (392p, 236 MB scan-heavy PDF)"
+        risk: |
+          DOUBLE RISK on this book:
+          1. First book where Phase 07-chapter-design source-chapter loop may
+             produce 15+ episodes (chapter-design scaling).
+          2. PDF is ~600 KB/page (235.9 MB / 392 p) — uncompressed scans, not
+             clean text. Azure Doc Intelligence 600s poll budget will be
+             severely tested; this is the canary for R2 (R2 mitigation:
+             extend DI poll budget to 1800s as a single-line fix if hit;
+             P17 PDF pre-splitting remains deferred).
         source_material_risk: "high"
-        acceptance: ["Full pipeline; chapter contracts hold; Loop N clean"]
+        pdf_density: "236 MB / 392 p ≈ 600 KB/page — image-PDF scans"
+        pre_flight_check_before_running:
+          - "Confirm Azure DI quota headroom for 392-page submission"
+          - "Watch heartbeat.json for ts_updated stale > 5 min during Phase 04-ocr-translate"
+          - "If poll budget exceeded: file the documented DI-poll-extension issue per R2 instead of force-retry"
+        acceptance:
+          - "Full pipeline; chapter contracts hold; Loop N clean"
+          - "OR documented R2 hit + issue filed with poll-budget-extension proposal (no force-retry)"
       - id: P9.5
         title: "Large: Asaas Al-Taveel (416p)"
         source_material_risk: "high"
