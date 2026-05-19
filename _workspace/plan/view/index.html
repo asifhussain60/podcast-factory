@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Podcast Workspace — Plan v3.2</title>
+<title>Podcast Workspace — Plan</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="description" content="Landing page for the podcast pipeline plan v3.2. Capability tour, acceptance checklist, and the full phased plan — all in one place." />
+<meta name="description" content="Landing page for the podcast pipeline plan. Capability tour, acceptance checklist, and the full phased plan — all in one place. Version tracked in ./VERSION." />
 <meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)" />
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
 <meta property="og:title" content="Podcast Workspace — Plan v3" />
@@ -85,7 +85,7 @@
 
 <!-- =========================================================== HERO -->
 <section class="hero" aria-labelledby="hero-title">
-  <span class="eyebrow">Plan v3.2 · 2026-05-19</span>
+  <span class="eyebrow">Podcast Pipeline · forward-only plan</span>
   <h1 id="hero-title">Podcast Workspace</h1>
   <p class="lead">
     The home page for everything related to the podcast agent's roadmap, current state, and
@@ -109,7 +109,7 @@
     <a class="card card-link nav-card tone-cyan" href="podcast-capabilities.html">
       <div class="card-icon" aria-hidden="true">🎙</div>
       <h3>Podcast capabilities</h3>
-      <p>A non-technical visual tour of the agent's 13 capabilities, end-to-end flow, quality controls, and roadmap. v3.2 P8.7 adds 6 interactive D3 diagrams across views.</p>
+      <p>A non-technical visual tour of the agent's 13 capabilities, end-to-end flow, quality controls, and roadmap. P8.7 adds 6 interactive D3 diagrams across views.</p>
       <div class="meta">
         <span class="badge tone-cyan">6 tabs</span>
         <span class="badge">D3 diagrams · P8.7</span>
@@ -120,10 +120,10 @@
     <a class="card card-link nav-card tone-green" href="acceptance-criteria.html">
       <div class="card-icon" aria-hidden="true">✓</div>
       <h3>Acceptance checklist</h3>
-      <p>Roughly 200 verifiable rows after v3.2 (W5 absorbed, P19 self-learning expanded) — the ship/done oracle. Drilled-down by wave.</p>
+      <p>Roughly 230 verifiable rows — the ship/done oracle. Drilled-down by wave.</p>
       <div class="meta">
-        <span class="badge tone-green">~200 rows</span>
-        <span class="badge">5 active waves + W5 obsoleted</span>
+        <span class="badge tone-green">~230 rows</span>
+        <span class="badge">5 waves</span>
       </div>
       <div class="arrow">Open checklist →</div>
     </a>
@@ -131,10 +131,10 @@
     <a class="card card-link nav-card tone-purple" href="phased-plan.html">
       <div class="card-icon" aria-hidden="true">📋</div>
       <h3>Phased plan (full)</h3>
-      <p>The canonical 18-active-phase, 5-active-wave plan (v3.2). W5 obsoleted; P15/P16 redirected. P8.7 D3 view upgrade owned in W2.</p>
+      <p>The canonical 19-phase, 5-wave plan. Single execution path; no legacy aliases; version in <code>./VERSION</code>.</p>
       <div class="meta">
-        <span class="badge tone-purple">18 active phases</span>
-        <span class="badge">5 active waves</span>
+        <span class="badge tone-purple">19 phases</span>
+        <span class="badge">5 waves</span>
       </div>
       <div class="arrow">Open phased plan →</div>
     </a>
@@ -149,9 +149,9 @@
 
   <div class="grid grid-4 grid-tight">
     <div class="stat">
-      <div class="stat-label">Plan version</div>
-      <div class="stat-value">v3.2</div>
-      <div class="stat-sub">W5 absorbed; P5.1 shipped; self-learning expanded</div>
+      <div class="stat-label">Plan</div>
+      <div class="stat-value">Forward-only</div>
+      <div class="stat-sub">Single execution path; version in <code>./VERSION</code></div>
     </div>
     <div class="stat">
       <div class="stat-label">Active wave</div>
@@ -160,13 +160,13 @@
     </div>
     <div class="stat">
       <div class="stat-label">Acceptance verified</div>
-      <div class="stat-value">~5%</div>
-      <div class="stat-sub">9 of ~200 rows (P5.1 ship banks one row)</div>
+      <div class="stat-value">~4%</div>
+      <div class="stat-sub">9 of ~230 rows</div>
     </div>
     <div class="stat">
       <div class="stat-label">In-flight runs</div>
       <div class="stat-value">0</div>
-      <div class="stat-sub">P5.1 unblock shipped; W1 ready to kick</div>
+      <div class="stat-sub">P5.1 shipped; W1 ready to kick</div>
     </div>
   </div>
 
@@ -181,47 +181,42 @@
 
 <!-- =================================================== WAVES -->
 <section aria-labelledby="waves-title">
-  <h2 id="waves-title">Waves W1–W6</h2>
+  <h2 id="waves-title">Waves W1–W5</h2>
   <p class="section-lead">
-    Six autonomous, scheduled-task units. Each wave's <code>done_signal</code> resolves against
+    Five autonomous, scheduled-task units. Each wave's <code>done_signal</code> resolves against
     the acceptance checklist.
   </p>
 
   <div class="wave-row w1">
     <span class="wave-id"><span class="dot" aria-hidden="true"></span>W1 · Foundation</span>
-    <span class="wave-desc">Boundary check, E2E harness, doc fixes, numeric disambiguation (P4), <code>claude -p</code> artifact fix, cost ledger.</span>
+    <span class="wave-desc">Boundary check, E2E harness, doc fixes, numeric disambiguation (P4), <code>claude -p</code> artifact fix, cost ledger, phase-constants module (P5.4), refinement determinism (P2.6).</span>
     <span class="wave-status"><span class="badge tone-yellow">In flight</span></span>
   </div>
   <div class="wave-row w2">
     <span class="wave-id"><span class="dot" aria-hidden="true"></span>W2 · Observability + Polish</span>
-    <span class="wave-desc">Heartbeat, status CLI, status API, dashboard, cost + disambiguation panels. v3.2 absorbs former W5: P8.6 bulk phase rename, P8.7 D3 view upgrade (6 diagrams), P8.8 agent dedup.</span>
+    <span class="wave-desc">Heartbeat, status CLI, status API, dashboard, cost + disambiguation panels, P8.6 bulk phase rename, P8.7 D3 view upgrade (6 diagrams), P8.8 agent dedup.</span>
     <span class="wave-status"><span class="badge">Queued</span></span>
   </div>
   <div class="wave-row w3">
     <span class="wave-id"><span class="dot" aria-hidden="true"></span>W3 · Corpus Validation</span>
-    <span class="wave-desc">Seven-book graduated corpus run (30p → 865p) + ETA model fit on real wall-clock data.</span>
+    <span class="wave-desc">Seven-book graduated corpus run (30p → 865p) + ETA model (wall-clock + cost prediction).</span>
     <span class="wave-status"><span class="badge">Queued</span></span>
   </div>
   <div class="wave-row w4">
     <span class="wave-id"><span class="dot" aria-hidden="true"></span>W4 · Control Plane</span>
-    <span class="wave-desc">Multi-Mac decision, mutation API, worker pool, SQLite cross-book index, dashboard mutation UI.</span>
+    <span class="wave-desc">Multi-Mac decision doc, mutation API + pytest harness, worker pool, SQLite cross-book index, dashboard mutation UI.</span>
     <span class="wave-status"><span class="badge">Queued</span></span>
   </div>
   <div class="wave-row w5">
-    <span class="wave-id"><span class="dot" aria-hidden="true"></span>W5 · OBSOLETED (v3.2)</span>
-    <span class="wave-desc">Absorbed into W1+W2. P15 → P5.4 (W1 constants) + P8.6 (W2 bulk rename). P16 → P8.8 (W2 single commit). Eliminates citation rot in <code>_learning/promoted/</code> tombstones.</span>
-    <span class="wave-status"><span class="badge">Obsoleted</span></span>
-  </div>
-  <div class="wave-row w6">
-    <span class="wave-id"><span class="dot" aria-hidden="true"></span>W6 · Deferred + Self-Learning</span>
-    <span class="wave-desc">PDF pre-splitting, parallel LLM, web upload + v3.2 P19 self-learning (phase-prompt addenda P19.1/2/3, R9-capped). Each promotes on its trigger.</span>
+    <span class="wave-id"><span class="dot" aria-hidden="true"></span>W5 · Deferred + Self-Learning</span>
+    <span class="wave-desc">PDF pre-splitting (P17), source-adapter registry (P17.1), parallel LLM (P18), trainer self-learning P19.1/2/3 (R9-capped), web upload (P20). Each promotes on its own trigger.</span>
     <span class="wave-status"><span class="badge">Trigger-gated</span></span>
   </div>
 </section>
 
 <!-- =================================================== PHASE PILL GRID -->
 <section aria-labelledby="phases-title">
-  <h2 id="phases-title">Phases P1–P20</h2>
+  <h2 id="phases-title">Phases</h2>
   <p class="section-lead">
     Every phase id from the canonical YAML. Click a pill to open its row in the acceptance
     checklist. Color stripe matches the owning wave.
@@ -242,13 +237,11 @@
     <a class="phase-pill tone-4" href="acceptance-criteria.html#w4"><strong>P12</strong>Mutate API</a>
     <a class="phase-pill tone-4" href="acceptance-criteria.html#w4"><strong>P13</strong>SQLite</a>
     <a class="phase-pill tone-4" href="acceptance-criteria.html#w4"><strong>P14</strong>UI mutate</a>
-    <a class="phase-pill tone-6 is-deferred" href="acceptance-criteria.html#w5" title="OBSOLETED by v3.2 — see P5.4 + P8.6"><strong>P15</strong>→ P5.4+P8.6</a>
-    <a class="phase-pill tone-6 is-deferred" href="acceptance-criteria.html#w5" title="OBSOLETED by v3.2 — see P8.8"><strong>P16</strong>→ P8.8</a>
-    <a class="phase-pill tone-6 is-deferred" href="acceptance-criteria.html#w6"><strong>P17</strong>PDF split</a>
-    <a class="phase-pill tone-6 is-deferred" href="acceptance-criteria.html#w6" title="v3.2.1 — pluggable input formats via SourceAdapter Protocol"><strong>P17.1</strong>Adapter reg</a>
-    <a class="phase-pill tone-6 is-deferred" href="acceptance-criteria.html#w6"><strong>P18</strong>Parallel LLM</a>
-    <a class="phase-pill tone-6 is-deferred" href="acceptance-criteria.html#w6"><strong>P19</strong>Trainer DB</a>
-    <a class="phase-pill tone-6 is-deferred" href="acceptance-criteria.html#w6"><strong>P20</strong>Upload UI</a>
+    <a class="phase-pill tone-5 is-deferred" href="acceptance-criteria.html#w5"><strong>P17</strong>PDF split</a>
+    <a class="phase-pill tone-5 is-deferred" href="acceptance-criteria.html#w5" title="Pluggable input formats via SourceAdapter Protocol"><strong>P17.1</strong>Adapter reg</a>
+    <a class="phase-pill tone-5 is-deferred" href="acceptance-criteria.html#w5"><strong>P18</strong>Parallel LLM</a>
+    <a class="phase-pill tone-5 is-deferred" href="acceptance-criteria.html#w5"><strong>P19</strong>Self-learning</a>
+    <a class="phase-pill tone-5 is-deferred" href="acceptance-criteria.html#w5"><strong>P20</strong>Upload UI</a>
   </div>
 </section>
 

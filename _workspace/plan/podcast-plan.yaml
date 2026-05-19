@@ -3,127 +3,22 @@
 # =============================================================================
 # Scope: podcast agent + skill ONLY. Journal is OUT OF SCOPE.
 #
-# v3 (2026-05-19) — three structural changes from v2:
-#   1. SEQUENTIAL RENUMBERING. Phases are now P1..P20, organized into 6 named
-#      waves (W1..W6). Each wave is a unit of autonomous, scheduled-task
-#      execution with a single DONE signal sourced from acceptance-criteria.md.
-#      The legacy P0a / P0b / P0c / P0 / P1..P7 numbering is retired; back-compat
-#      aliases live in `legacy_id_map` for one release.
-#   2. CLAUDE CODE IS THE PRIMARY EXECUTION MECHANISM. The wholesale
-#      Anthropic-Python-SDK migration formerly in P3 is CANCELLED. `claude -p`
-#      (Claude Code in headless mode, --permission-mode acceptEdits) remains
-#      the workhorse for every LLM call in scripts/podcast/. The Python SDK is
-#      reserved for narrow side-channel cases (status-API helper, cost-ledger
-#      token counting) — never as a swap for the primary execution path.
-#   3. NUMERIC/SYMBOLIC DISAMBIGUATION is folded in as a first-class phase (P4)
-#      in Wave 1. Adds the challenger Loop N, the abjad-numerals shared file,
-#      the disambiguation handbook, and the orchestrator's Phase-0d numeric-scan
-#      step. Worked example: Master & Disciple Ch-02.
+# Forward-only plan. There is ONE execution path — no version branching,
+# no legacy aliases, no back-compat shims. Version lives in ./VERSION
+# (single source of truth). History is in git, not in this file.
 #
-# v3.2.1 (2026-05-19, later still) — two-kernel acceptance from the cowork-brief review:
-#   1. SKILL.md INTELLIGENCE-MODULE LAYER documented. The
-#      content/podcast/.skill/handbook/ directory was already the swap point but
-#      the swap rule was implicit. v3.2.1 makes it explicit in SKILL.md §10:
-#      adding a new framing strategy / NotebookLM trick / phase-prompt addendum
-#      requires editing exactly ONE folder — no SKILL.md, agent-file, or
-#      journal-side edits. The deprecation channel (DEPRECATED header) and the
-#      check-fixture pairing rule (P-9) are now first-class doc.
-#   2. P17.1 SOURCE-ADAPTER REGISTRY added (W6, trigger-gated). Adapter pattern
-#      for new input formats (Urdu PDFs, scanned images, video transcripts).
-#      Lives at scripts/podcast/adapters/ as a Python package. Uniform
-#      SourceAdapter Protocol (can_handle / extract / normalize / emit). Azure
-#      creds stay in the shared _azure.py helper — adapters don't know about
-#      Keychain plumbing. Rejected alternative: monolithic --source-type flag
-#      in _azure.py — would inflate the file by 100-300 LOC per format and
-#      entangle unrelated deps (Whisper for video ≠ Azure for PDF).
-#   Rejected from the same brief (with rationale in the review response):
-#     • New _workspace/plan/podcast-plan-review.md duplicate doc.
-#     • `manifest.yaml` versioning of intelligence — conflicts with the
-#       _learning/ substrate's promotion/archive log; two truth sources.
-#     • `pipeline/adapters/*.js` + `server/src/pipeline/` — wrong language
-#       (this pipeline is Python) and wrong location (server/ is the journal
-#       site's Node proxy, unrelated to podcast).
-#     • `skills-staging/podcast/pipeline/` — skills-staging is the intelligence
-#       layer per framework.md; runtime adapters belong in scripts/podcast/.
-#
-# v3.2 (2026-05-19, later) — DoR-for-execution rebalancing. Eleven changes from v3.1:
-#   1.  W5 ABSORBED into W1/W2. P15 split into P5.4 (constants module, W1) +
-#       P8.6 (bulk find/replace + HTML doc rewrite, W2). P16 collapsed into P8.8
-#       (W2; single commit). W5 marked OBSOLETED; back-compat in legacy_id_map.
-#       Rationale: shipping rename BEFORE W3 corpus run prevents citation rot
-#       in _learning/promoted/ tombstones; "zero in-flight" naturally true in W2.
-#   2.  P2.6 ADDED (W1): golden-fixture refinement determinism. Two runs on the
-#       tiny-book fixture must produce refined-english.md within bounded text
-#       similarity (Levenshtein ratio ≥ 0.90, structural-key parity 100%).
-#       Operationalizes "bit-stable refinement" quality contract.
-#   3.  P5.1 SHIPPED (2026-05-19, later): --permission-mode acceptEdits added to
-#       subprocess.run([CLAUDE_CMD, "-p", ...]) at _authoring.py:99 and
-#       _chunking.py:255. Two-line band-aid per principle P-2.
-#   4.  P5.4 ADDED (W1): scripts/podcast/_phases.py — single source of truth for
-#       the 14-step phase names. Eliminates literal-string phase IDs.
-#   5.  P8.6 ADDED (W2): bulk phase rename + HTML doc rewrite. Runs after P7+P8
-#       ship, before W3 corpus begins. Prereq_gate "zero in-flight" naturally
-#       satisfied in this window.
-#   6.  P8.7 ADDED (W2): D3.js view upgrade. Six diagrams across four HTML views
-#       (wave DAG, phase Gantt, P4 decision tree, pipeline flowchart, agent
-#       topology, acceptance heatmap). Bundled offline; honors view/index.html's
-#       "offline by design" promise.
-#   7.  P8.8 ADDED (W2): agent dedup + isolation CI. Single-commit collapse of
-#       former P16's 4 sub-tasks.
-#   8.  P10.1 EXTENDED: ETA model parallel-targets cost-per-phase (USD), not just
-#       wall-clock. Closes loop with P6.3 hard cap — refuses W3 invocation when
-#       PREDICTED cost exceeds cap.
-#   9.  P11 DEMOTED to documentation-only. Q1.blocks: P12 removed. P12 depends
-#       on P7.1 heartbeat schema (already provides hostname field), not on a
-#       formal multi-mac decision doc.
-#   10. P12.3 ADDED: mutation API pytest harness (FastAPI TestClient + subprocess
-#       mock). Today's P12.1 acceptance is "verified on a live run" — too thin
-#       for a surface including DELETE /books/{slug}?rollback_branch=true.
-#   11. P19 REWRITTEN as P19.1/P19.2/P19.3 (was 1 line in W6):
-#       - P19.1 phase-prompt addendum substrate
-#       - P19.2 phase-prompt regression fixtures (3+ per phase)
-#       - P19.3 health-score recursion (next-book post-addendum verification)
-#       R9 risk added: addenda compound silently (cap ≤5 per phase, FIFO eviction).
-#       P1.4 exit-code 4 added: "wave done but P-9 invariant violated."
-#
-# v3.1 (2026-05-19, late) — production-readiness pass for the LEARNING LOOP:
-#   The `_learning/` closed-loop substrate (sense → aggregate → propose → test →
-#   promote, plus the post-book podcast-trainer pass) was shipped 2026-05-18 and
-#   has already produced two promoted rules (J2 bold-header, R-NOSURPRISE
-#   companion). The plan inherited the substrate but did not own its production-
-#   readiness. v3.1 corrects that:
-#     • New principle P-9 (system must measurably improve every shipped book).
-#     • New W1 task P1.4: scripts/podcast/run_wave.py (kickoff harness; was
-#       referenced 8× but unowned).
-#     • New W1 task P2.5: E2E test for the learning loop (tiny-book → ledger →
-#       aggregate → propose → regression-green).
-#     • New W1 task P6.4: trainer reads cost-ledger.jsonl (closes Q3 with an
-#       implementation row, not just a "resolved" verdict).
-#     • New W2 tasks P7.5 / P8.5: heartbeat + dashboard surface learning state.
-#     • New W3 metrics: every book records promotions, fixture deltas, health-
-#       score trend; trainer outcome is a ship gate.
-#     • New W5 task P15.4: trainer phase-rename round-trip is asserted.
-#     • New R7: learning loop silently degrades (fixture coverage, promoted-rule
-#       regression).
-#     • intelligence_sources extended with _learning/ canonical paths.
-#     • acceptance-criteria.md mirrors every new row; done_when extended.
-#   The substrate code itself is NOT changed by v3.1 — only owned and gated.
+# Principle: `claude -p --permission-mode acceptEdits` is the canonical
+# LLM-call site for every workhorse phase. The Anthropic Python SDK is
+# RESERVED for narrow side-channel use (status-API helper, cost ledger
+# token counting), never the primary execution path.
 #
 # See README.md for scope boundary, research/findings.md for citations,
-# view/index.html for visual architecture diagrams,
-# numeric-symbolic-disambiguation-plan.md for P4's full design document.
+# view/index.html for visual architecture, numeric-symbolic-disambiguation-plan.md
+# for P4's full design document.
 # =============================================================================
 
 meta:
-  version: "3.2.1"
-  created: 2026-05-19
-  refined: 2026-05-19
-  gap_closed: 2026-05-19
-  execute_readied: 2026-05-19
-  restructured: 2026-05-19          # v3 restructure: waves + sequential ids + SDK cancel + P4 numeric
-  learning_loop_owned: 2026-05-19   # v3.1: plan now owns _learning/ substrate production-readiness
-  rebalanced: 2026-05-19            # v3.2: W5 absorbed into W1/W2; P5.1 shipped; D3 view upgrade owned; P19 self-learning expanded
-  modularized: 2026-05-19           # v3.2.1: SKILL.md intelligence-module layer documented; P17.1 source-adapter registry added
+  version_file: VERSION             # single source of truth at _workspace/plan/VERSION
   owner: asif
 
   primary_execution_mechanism: claude-code-cli
@@ -140,77 +35,41 @@ meta:
       • cost-ledger token counting (P6) — usage extraction from claude -p stdout
     Never as a replacement for the primary LLM execution path.
 
-  legacy_id_map:                    # v2 → v3 → v3.2 ID translation; one release of back-compat
-    P0a: P1
-    P0b: P2
-    P0c: P3
-    P0d: P4                         # P0d was the v2-draft slot for numeric/symbolic; now P4
-    P0:  P5
-    "P3.4 (cost-only)": P6
-    P1:  P7
-    P2:  P8
-    P3:  CANCELLED                  # SDK migration phases (P3.1, P3.2, P3.3, P3.5, P3.6) cancelled
-    P4:  P9
-    "P4.8 (eta)": P10
-    "P5.0": P11
-    "P5.1+P5.2": P12
-    "P5.3": P13
-    "P5.4": P14
-    "P6.1": OBSOLETED_BY_P5.4_AND_P8.6   # v3.2: phase rename split; W5 absorbed
-    "P6.2+P6.3": OBSOLETED_BY_P8.8       # v3.2: agent dedup collapsed; W5 absorbed
-    "P6.4": CANCELLED               # SDK token-count parity — no SDK to compare against
-    "P6.5": CANCELLED               # SDK fallback shim — no SDK to fall back from
-    "P7.1": P17
-    "P7.2": P18
-    "P7.3": P19
-    "P7.4": P20
-    # v3.2 obsoletions (W5 absorbed into W1/W2):
-    P15: OBSOLETED_BY_P5.4_AND_P8.6      # see meta v3.2_summary change #1
-    P16: OBSOLETED_BY_P8.8               # see meta v3.2_summary change #1
-    "P15.4": OBSOLETED_BY_P5.4_AND_P8.6  # trainer phase-rename round-trip now in P8.6 acceptance
-
-  legacy_cleanup_basenames:         # consumed by repo-surgeon Pass 5 L8
-    - chatgpt-podcast-skill-prompt
-    - folder-cleanup-prompt
-    - podcast-refactor-executive-summary
-    - podcast-orchestrator-large-books
-
   branch_strategy: "feature branches off develop, merge via --no-ff"
   primary_mac: true                 # Azure-backed pipeline runs here (see ../primary-mac-activation.md)
 
   scope_in:
     - .github/agents/podcast-orchestrator.agent.md
     - .github/agents/podcast-trainer.agent.md
-    - .github/agents/podcast-challenger.agent.md   # not yet in .github/; migrated by P16
-    - .github/agents/podcast-extract.agent.md      # not yet in .github/; migrated by P16
+    - .github/agents/podcast-challenger.agent.md
+    - .github/agents/podcast-extract.agent.md
     - skills-staging/podcast/**
     - scripts/podcast/**                            # includes scripts/podcast/tests/
     - content/podcast/**
-    - docs/architecture/podcast-*.html              # podcast-facing architecture docs (rename surface, P15)
+    - docs/architecture/podcast-*.html
 
   scope_out:
     - .github/agents/journal-*.agent.md
     - .github/agents/CORTEX.agent.md
     - .github/agents/reconcile.agent.md
     - .github/agents/repo-surgeon.agent.md
-    - infra/claude-agents/**                        # explicit DELETION target after P16 migration
+    - infra/claude-agents/**                        # deletion target — see P8.8
     - skills-staging/journal/**
     - scripts/memoir/**
     - scripts/site/**
     - content/babu-memoir/**
-    - content/_shared/**                            # journal reads READ-ONLY (Arabic); podcast writes ONLY to content/_shared/arabic/06-abjad-numerals.md per P4
+    - content/_shared/**                            # journal reads READ-ONLY; podcast writes ONLY to content/_shared/arabic/06-abjad-numerals.md per P4
     - docs/architecture/journal-*.html
     - docs/architecture/index.html                  # cross-cutting nav, edit only when both sides agree
 
   scope_in_writes_to_shared_exception:              # one-time exception for P4
     path: content/_shared/arabic/06-abjad-numerals.md
     rationale: |
-      P4 (Numeric/Symbolic Disambiguation) creates ONE cross-skill shared file:
-      the canonical abjad-numerals reference, used by both podcast pre-refined
-      mode AND any future journal Arabic-handling. The file's location follows
-      the existing `content/_shared/arabic/00-..05-` pattern. After creation,
-      the file is READ-ONLY for both skills. No other writes to content/_shared/**
-      are permitted from the podcast skill.
+      P4 creates ONE cross-skill shared file: the canonical abjad-numerals
+      reference, used by the podcast pre-refined mode AND any future journal
+      Arabic-handling. Follows the existing content/_shared/arabic/00-..05-
+      pattern. After creation, READ-ONLY for both skills. No other writes
+      to content/_shared/** are permitted from the podcast skill.
 
 # -----------------------------------------------------------------------------
 # Waves — autonomous scheduled-task units
@@ -241,7 +100,7 @@ waves:
       regress them.
 
   - id: W2
-    name: "Observability + Polish (formerly W5)"
+    name: "Observability + Polish"
     phases: [P7, P8]
     schedule_intent: "Single daytime+overnight window; ~1.5 wk wall-clock; trivial LLM cost"
     parallelism: "P7 then P8; P8 depends on P7's heartbeat schema; P8.6/P8.7/P8.8 sequential at the END of W2 (after P8.1-P8.5 ship; before W3 starts so zero-in-flight is naturally true)"
@@ -250,10 +109,6 @@ waves:
     done_signal: "All P7–P8 acceptance rows checked; dashboard reachable at http://127.0.0.1:8765/; phase rename schema_version=2 across live state files; agent picker shows each agent exactly once; isolation_check + dedup_check CI green; D3 views render the 6 diagrams"
     prereq_gate_for_p8_6_p8_8: "scripts/podcast/orchestrator_status.py --all --json | jq '[.books[] | select(.phase_status==\"running\" or .phase_status==\"failed\")] | length' == 0  (naturally satisfied before W3 begins)"
     gates_open_next: "Wave 3"
-    absorbed_from_w5: |
-      v3.2: P15 (phase rename) split into P5.4 (W1 constants) + P8.6 (W2 bulk rename + HTML).
-      P16 (agent dedup + isolation CI) collapsed into P8.8. P8.7 D3 view upgrade added.
-      W5 marked OBSOLETED — see waves[id=W5].
 
   - id: W3
     name: "Corpus Validation"
@@ -279,39 +134,15 @@ waves:
     blast_radius: "Mutation API live; pause/resume/delete enabled; bearer-token auth"
     kickoff_cmd: "python3 scripts/podcast/run_wave.py 4"
     done_signal: "All P11–P14 rows checked; 2 books run truly parallel in P12 acceptance"
-    gates_open_next: "Wave 5"
+    gates_open_next: "Wave 5 (trigger-gated, not time-gated)"
 
   - id: W5
-    name: "OBSOLETED (work absorbed into W1/W2 by v3.2)"
-    status: OBSOLETED
-    phases: []                       # was [P15, P16] — both phases redirected
-    schedule_intent: "N/A — wave no longer executable"
-    parallelism: "N/A"
-    blast_radius: "N/A"
-    kickoff_cmd: "N/A — `run_wave.py 5` returns exit 0 with explanatory message"
-    done_signal: "Auto-DONE: P5.4 (W1) + P8.6 + P8.7 + P8.8 (W2) collectively deliver everything W5 promised"
-    gates_open_next: "Wave 6 (trigger-gated, gated on W2 done_signal, not on W5)"
-    redirect: |
-      v3.2 absorbed P15 + P16 into W1+W2 to eliminate the post-corpus phase-name
-      citation rot in _learning/promoted/ tombstones and to remove the 2-3 day
-      W5 schedule overhead. See meta.v3.2 changes #1.
-        P15 (phase rename)            → P5.4 (W1) + P8.6 (W2)
-        P15.4 (trainer round-trip)    → folded into P8.6 acceptance
-        P16.1 (migrate agents)        → P8.8 sub-step
-        P16.2 (dedup check + CI)      → P8.8 sub-step
-        P16.3 (isolation check + CI)  → P8.8 sub-step
-        P16.4 (delete infra/)         → P8.8 sub-step
-      W5 row kept in waves[] only so `run_wave.py 5` retains a no-op handler;
-      `scripts/podcast/run_wave.py --check 5` prints the redirect explanation
-      and exits 0.
-
-  - id: W6
     name: "Deferred + Self-Learning"
-    phases: [P17, P17.1, P18, P19, P20]                # v3.2.1: P17.1 source-adapter registry added as sibling to P17
+    phases: [P17, P17.1, P18, P19, P20]
     schedule_intent: "NOT time-scheduled — each phase has its own `promote_when` trigger"
     parallelism: "N/A — promoted individually as triggers fire. P19.1/P19.2/P19.3 sequential (substrate → fixtures → recursion verification)."
     blast_radius: "Per-phase; see individual phases. P19 self-learning addenda are gated by P19.2 regression fixtures + R9 cap (≤5 addenda per phase, FIFO eviction)."
-    kickoff_cmd: "manual — `python3 scripts/podcast/run_wave.py 6 --phase P17` after promote_when trigger fires"
+    kickoff_cmd: "manual — `python3 scripts/podcast/run_wave.py 5 --phase P17` after promote_when trigger fires"
     done_signal: "Each promoted phase ships its own acceptance rows"
     gates_open_next: "N/A (terminal wave)"
 
@@ -334,20 +165,20 @@ system_check:
     node:            "v24.15.0"
     gh:              "installed (v2.92.0), NOT authenticated — run `gh auth login --hostname github.com --git-protocol https --web` before W1 kickoff"
   git:
-    branch:          "develop"                          # v3.1 refresh — book branch merged 2026-05-19
+    branch:          "develop"
     clean:           true
     remote_synced:   true
   orchestrator:
     active_runs:     []
     kitab_al_riyad:
       source_pdf:    "/Users/ahmac/Library/Mobile Documents/com~apple~CloudDocs/Books/Kitab al-Riyad.pdf"
-      source_verified: 2026-05-19    # v3.2: 4.4 MB PDF confirmed present in iCloud
-      phase:         "0a"
+      source_verified: 2026-05-19
+      phase:         "04-ocr-translate"          # canonical phase name (P5.4 + P8.6); orchestrator state will read this as-is once P8.6 lands
       phase_status:  "completed"
-      next_phase:    "0b"
+      next_phase:    "05-refine-english"
       last_error:    null
       in_flight_chunks: 0
-      resume_blocked_on: "P5.1 (now SHIPPED 2026-05-19) + P5.2 (artifact validation, still pending)"
+      resume_blocked_on: "P5.2 (artifact validation) — P5.1 (perm-mode) shipped on develop"
   safe_to_edit_plan: true
 
 # -----------------------------------------------------------------------------
@@ -413,8 +244,8 @@ principles:
     name: "Claude Code is the primary execution mechanism"
     detail: |
       `claude -p --permission-mode acceptEdits` is the canonical LLM-call site for
-      every workhorse phase (0b refine-english, 0c phonetics, 0d chapter-design,
-      0e enrichment, per-chapter framing/build/challenger, trainer). The Anthropic
+      every workhorse phase (05-refine-english, 06-phonetics, 07-chapter-design,
+      08-enrichment, per-chapter framing/build/challenger, trainer). The Anthropic
       Python SDK is RESERVED for narrow side-channel use (status-API helper, cost
       ledger token counting), NEVER for the primary execution path. This preserves
       the Claude Code agent runtime (tool use, multi-turn, permission semantics) that
@@ -438,9 +269,10 @@ principles:
   - id: P-4
     name: "Validate on real books before refactoring"
     detail: |
-      Wave 3 runs the graduated book corpus (30p → 865p) BEFORE Wave 5 polish.
-      Wave 5 phase-rename (P15) cannot run while any book is in-flight; that gate
-      is enforced by Wave 5's prereq_gate.
+      Wave 3 runs the graduated book corpus (30p → 865p) only AFTER Wave 2 has
+      shipped its polish work (P8.6 phase rename, P8.7 view upgrade, P8.8 agent
+      dedup). The W2 closing sequence requires zero in-flight books — naturally
+      true before W3 begins. See waves[id=W2].prereq_gate_for_p8_6_p8_8.
 
   - id: P-5
     name: "Resume-safe checkpoints everywhere"
@@ -521,7 +353,7 @@ intelligence_sources:
       - {path: "content/_shared/arabic/06-abjad-numerals.md",         when: "any letter-count / abjad-value claim", staleness_signal: "P4 deliverable; created in Wave 1"}
       - {path: "docs/architecture/podcast-pipeline.html",             when: "any phase boundary change",   staleness_signal: "phase IDs disagree with _progress.py PHASE_ORDER"}
       - {path: "docs/architecture/podcast-orchestrator.html",         when: "any orchestrator behavior change", staleness_signal: "phase IDs disagree with code"}
-      # ── Learning-substrate canonical paths (v3.1; P-9 invariant) ───────────
+      # ── Learning-substrate canonical paths (P-9 invariant) ───────────
       - {path: "content/podcast/.skill/_learning/README.md",          when: "every session that may write findings",    staleness_signal: "schema diverges from emit_finding() kwargs in _rules.py"}
       - {path: "content/podcast/.skill/_learning/patterns.md",        when: "before invoking podcast-trainer",          staleness_signal: "mtime older than findings.jsonl tail"}
       - {path: "content/podcast/.skill/_learning/proposals/",         when: "before invoking podcast-trainer",          staleness_signal: "any proposal older than its signature's last_seen in patterns.md"}
@@ -531,10 +363,10 @@ intelligence_sources:
       - {path: "scripts/podcast/test_challenger.py",                  when: "every CI run; before any trainer commit",  staleness_signal: "exit code != 0 on develop"}
     per_book_intelligence:
       - {path: "<book>/_system/source/raw-extract.md",                consult_for: "OCR truth-source for refinement decisions"}
-      - {path: "<book>/_system/source/text/refined-english.md",       consult_for: "Phase-0c-and-beyond canonical text"}
+      - {path: "<book>/_system/source/text/refined-english.md",       consult_for: "Phase 06-phonetics-and-beyond canonical text"}
       - {path: "<book>/_system/source/text/_phonetics.md",            consult_for: "Arabic term pronunciation map"}
       - {path: "<book>/_system/source/text/numeric-disambiguation-register.md", consult_for: "P4: per-book numeric/symbolic ambiguity register"}
-      - {path: "<book>/_system/source-chapter-map.md",                consult_for: "Phase 0d unit_mode=section/auto traceability"}
+      - {path: "<book>/_system/source-chapter-map.md",                consult_for: "Phase 07-chapter-design unit_mode=section/auto traceability"}
       - {path: "<book>/_system/challenger-report.md",                 consult_for: "Ship-readiness verdict before merge"}
   journal:
     canonical_skill:  "skills-staging/journal/SKILL.md"
@@ -579,7 +411,6 @@ phases:
 
   - id: P1
     wave: W1
-    legacy_id: P0a
     name: "Journal/podcast boundary verification + CI lock-down"
     effort: hours
     priority: blocker
@@ -645,8 +476,20 @@ phases:
           - "scripts/podcast/_proposal_writer.py emits a schema-valid file from a populated chapter contract"
           - "docs/podcast/manual-library-handoff.md documents the promotion workflow"
       - id: P1.3
-        title: "CI gate (deferred to P16, listed here for traceability)"
-        spec: "P1.1 invocation present in .github/workflows/podcast-isolation.yml — created in P16"
+        title: "CI gate cross-reference: boundary check invoked from podcast-isolation.yml"
+        files:
+          - .github/workflows/podcast-isolation.yml         # consumer; the workflow itself is created by P8.8
+        spec: |
+          P1.1 lands the boundary check script in W1. P8.8 (W2) creates the
+          podcast-isolation.yml CI workflow that invokes it. P1.3 is the
+          cross-reference acceptance: when P8.8 ships, the workflow MUST
+          include a step that runs `python3 scripts/podcast/_boundary_check.py`
+          and fails the job on non-zero exit.
+        depends_on_local: [P1.1, P8.8]   # P8.8 owns the workflow file; this row asserts the wiring
+        acceptance:
+          - ".github/workflows/podcast-isolation.yml contains a step invoking `python3 scripts/podcast/_boundary_check.py`"
+          - "The step's `continue-on-error` is false (failure blocks the workflow)"
+          - "Manual smoke: opening a PR that introduces a forbidden write (e.g., to content/babu-memoir/) fails the isolation check in CI"
       - id: P1.4
         title: "Wave kickoff harness — scripts/podcast/run_wave.py"
         files:
@@ -680,11 +523,10 @@ phases:
           - "`run_wave.py --check 5` computes Wave 5 done_signal from acceptance-criteria.md without executing"
           - "W3 invocation refuses if cost-ledger.jsonl shows >$50 spent in the current book (hard cap from P6.3)"
           - "W5 invocation refuses without `--confirm-zero-inflight` AND a passing prereq_gate check"
-          - "Exit code 0 = wave already done, 2 = wave executed and DONE, 3 = wave halted at human-review gate, 1 = error, 4 = wave DONE but P-9 invariant violated (v3.2 — fixture_coverage_pct dropped OR test_challenger.py red on develop OR last_trainer_outcome=NEVER_RAN without rationale)"
+          - "Exit code 0 = wave already done, 2 = wave executed and DONE, 3 = wave halted at human-review gate, 1 = error, 4 = wave DONE but P-9 invariant violated (fixture_coverage_pct dropped OR test_challenger.py red on develop OR last_trainer_outcome=NEVER_RAN without rationale)"
 
   - id: P2
     wave: W1
-    legacy_id: P0b
     name: "E2E test harness for the podcast pipeline"
     effort: 1-2 days
     priority: blocker
@@ -706,16 +548,16 @@ phases:
           - "Includes ≥1 Arabic phrase to exercise translator + phonetics"
           - "Includes ≥1 numeric/symbolic claim (e.g., 'three companions') to exercise P4 challenger Loop N detection"
       - id: P2.2
-        title: "Sunny-day E2E: PDF → 0a..0e → halts at 0f gate"
+        title: "Sunny-day E2E: PDF → 04-ocr-translate..08-enrichment → halts at 09-series-plan gate gate"
         files:
           - scripts/podcast/tests/e2e/test_full_pipeline.py # NEW
         spec: |
           - Spin up tmp book dir, copy fixture, run orchestrate_book.py --no-gate
           - Assert: state.json shows each phase completed in order
           - Assert: refined-english.md and _phonetics.md non-empty AND >100 words each
-          - Assert: every `_chunks/0b/win-*.in.md` has a matching non-zero `win-*.out.md`
+          - Assert: every `_chunks/05-refine-english/win-*.in.md` has a matching non-zero `win-*.out.md`
           - Assert: ≥1 chapter-contract written; ≥1 chapter txt written
-          - Assert: halts cleanly at 0f
+          - Assert: halts cleanly at 09-series-plan gate
           - Assert: heartbeat.json updated within 30s (after P7 ships)
           - Assert: no log line containing 'NO ARTIFACT'
           - Assert: numeric-disambiguation-register.md exists if fixture contains numeric claims
@@ -731,7 +573,7 @@ phases:
           - Inject mock `claude -p` that returns rc=0 with no file write
           - Assert: orchestrator raises typed error, does NOT silently advance
           - Test resume after killing mid-window
-          - Test --retry-phase on a failed 0c
+          - Test --retry-phase on a failed 06-phonetics
         acceptance:
           - "All rainy-day scenarios fail loud"
           - "Resume-after-kill restores exactly the windows that finished"
@@ -783,7 +625,7 @@ phases:
           - "`pytest scripts/podcast/tests/e2e/test_refinement_determinism.py -v` exits 0 on a fresh checkout"
           - "Levenshtein ratio across two same-input runs >= 0.90; structural-key parity 100%; word-count delta < 5%"
           - "Committed golden refined-english.md exists; PR diff to it requires GOLDEN-REFRESH commit message"
-          - "Run cost <$1 (two tiny-book Phase 0b refinements; <10min wall-clock)"
+          - "Run cost <$1 (two tiny-book Phase 05-refine-english refinements; <10min wall-clock)"
           - "Test fails loud if a future _authoring.py change drifts the refinement style (regression-protective)"
 
       - id: P2.5
@@ -828,7 +670,6 @@ phases:
 
   - id: P3
     wave: W1
-    legacy_id: P0c
     name: "Doc regressions introduced by legacy-file cleanup (2026-05-19)"
     effort: hours
     priority: blocker
@@ -839,7 +680,6 @@ phases:
       docs/architecture/podcast-overview.html. Close before next docs publish.
     tasks:
       - id: P3.1
-        legacy_id: P0c.1
         title: "Repair chatgpt-podcast-skill-prompt reference"
         status: DONE
         files: [docs/architecture/podcast-overview.html]
@@ -847,7 +687,6 @@ phases:
           - "grep -r 'chatgpt-podcast-skill-prompt' docs/ scripts/ skills-staging/ returns no results"
           - "podcast-overview.html paragraph reads coherently without the deleted reference"
       - id: P3.2
-        legacy_id: P0c.2
         title: "Audit for other broken links from the cleanup"
         status: DONE
         acceptance:
@@ -855,7 +694,6 @@ phases:
 
   - id: P4
     wave: W1
-    legacy_id: P0d
     name: "Numeric/Symbolic Disambiguation protocol — handbook + challenger Loop N + per-book scaffolding"
     effort: 1-2 days
     priority: blocker
@@ -990,11 +828,11 @@ phases:
           - "Loop N's reads_guidance includes content/_shared/arabic/06-abjad-numerals.md and content/podcast/.skill/handbook/numeric-symbolic-disambiguation.md"
 
       - id: P4.6
-        title: "Add Phase-0d numeric/symbolic scan step to the orchestrator"
+        title: "Add Phase 07-chapter-design numeric/symbolic scan step to the orchestrator"
         files:
-          - scripts/podcast/_authoring.py                  # Phase 0d prompt scaffolding
+          - scripts/podcast/_authoring.py                  # Phase 07-chapter-design prompt scaffolding
         spec: |
-          After chapter boundaries are determined in Phase 0d, scan each chapter for:
+          After chapter boundaries are determined in Phase 07-chapter-design, scan each chapter for:
             (a) numeric claims ("N X") without enumeration
             (b) abjad-encoded sequences
             (c) anachronistic glosses
@@ -1004,7 +842,7 @@ phases:
           happens at the per-chapter scaffolding layer (P4.7) and at the challenger
           Loop N gate (P4.5).
         acceptance:
-          - "Phase 0d prompt instructs the LLM to emit numeric-disambiguation-register.md"
+          - "Phase 07-chapter-design prompt instructs the LLM to emit numeric-disambiguation-register.md"
           - "E2E test (P2.2) verifies the register file exists when the fixture contains numeric claims"
 
       - id: P4.7
@@ -1033,7 +871,7 @@ phases:
       - id: P4.8
         title: "Update plan staleness signals + intelligence sources for P4 deliverables"
         files:
-          - _workspace/plan/podcast-plan.yaml              # already done as part of v3 restructure
+          - _workspace/plan/podcast-plan.yaml
           - _workspace/plan/numeric-symbolic-disambiguation-plan.md  # add header pointer to P4 home
         acceptance:
           - "podcast-plan.yaml intelligence_sources.podcast.consult_before_any_edit references the new handbook + abjad file"
@@ -1041,13 +879,12 @@ phases:
 
   - id: P5
     wave: W1
-    legacy_id: P0
     name: "claude -p permission-mode fix + artifact validation"
     effort: hours
     priority: blocker
     depends_on: []
     why: |
-      Current orchestrator silently fails inside Phase 0b/0c/0d/0e because
+      Current orchestrator silently fails inside Phases 05-refine-english / 06-phonetics / 07-chapter-design / 08-enrichment because
       `claude -p` refuses file-write tools without --permission-mode acceptEdits.
       Returns rc=0 with a refusal in stdout; orchestrator's artifact check logs
       "NO ARTIFACT" and proceeds. All windows on kitab-al-riyad failed this way
@@ -1058,7 +895,6 @@ phases:
     tasks:
       - id: P5.1
         title: "Add --permission-mode acceptEdits to all claude -p invocations"
-        status: SHIPPED                  # v3.2 2026-05-19 later — see meta.v3.2 change #3
         files:
           - scripts/podcast/_chunking.py
           - scripts/podcast/_authoring.py
@@ -1079,11 +915,11 @@ phases:
       - id: P5.4
         title: "Phase-id constants module (single source of truth for 14-step names)"
         why: |
-          v3.2 absorbs the W5 phase rename into W1+W2. P5.4 lands the CONSTANTS
-          module in W1; P8.6 (W2) does the bulk find/replace of literal phase-ID
-          strings in scripts/podcast/ and HTML docs. Splitting the work this way
-          means W3 corpus runs (and _learning/promoted/ tombstones citing them)
-          use stable names from day one.
+          P5.4 lands the CONSTANTS module in W1; P8.6 (W2) does the bulk
+          find/replace of literal phase-ID strings in scripts/podcast/ and HTML
+          docs. Splitting the work this way means W3 corpus runs (and
+          _learning/promoted/ tombstones citing them) use stable names from
+          day one.
         files:
           - scripts/podcast/_phases.py                     # NEW
         spec: |
@@ -1093,81 +929,57 @@ phases:
             from enum import StrEnum
 
             class Phase(StrEnum):
-                PREFLIGHT     = "01-preflight"
-                BRANCH        = "02-branch"
-                SCAFFOLD      = "03-scaffold"
-                OCR_TRANSLATE = "04-ocr-translate"    # was 0a
-                REFINE_ENG    = "05-refine-english"   # was 0b
-                PHONETICS     = "06-phonetics"        # was 0c
-                CHAPTER_DESIGN = "07-chapter-design"  # was 0d
-                ENRICHMENT    = "08-enrichment"       # was 0e
-                SERIES_PLAN   = "09-series-plan"      # was 0f
-                REGISTER_SERIES = "10-register-series" # was 0g
-                PER_CHAPTER   = "11-per-chapter"
-                TRAINER       = "12-trainer"
-                MERGE         = "13-merge"
-                DONE          = "14-done"
+                PREFLIGHT       = "01-preflight"
+                BRANCH          = "02-branch"
+                SCAFFOLD        = "03-scaffold"
+                OCR_TRANSLATE   = "04-ocr-translate"
+                REFINE_ENG      = "05-refine-english"
+                PHONETICS       = "06-phonetics"
+                CHAPTER_DESIGN  = "07-chapter-design"
+                ENRICHMENT      = "08-enrichment"
+                SERIES_PLAN     = "09-series-plan"
+                REGISTER_SERIES = "10-register-series"
+                PER_CHAPTER     = "11-per-chapter"
+                TRAINER         = "12-trainer"
+                MERGE           = "13-merge"
+                DONE            = "14-done"
 
             PHASE_ORDER: tuple[Phase, ...] = tuple(Phase)
 
-            # Back-compat alias map (v3.2 → one release of back-compat,
-            # removed after P8.6 bulk rewrite lands)
-            LEGACY_ALIAS: dict[str, Phase] = {
-                "0a": Phase.OCR_TRANSLATE,
-                "0b": Phase.REFINE_ENG,
-                "0c": Phase.PHONETICS,
-                "0d": Phase.CHAPTER_DESIGN,
-                "0e": Phase.ENRICHMENT,
-                "0f": Phase.SERIES_PLAN,
-                "0g": Phase.REGISTER_SERIES,
-                "pre-flight": Phase.PREFLIGHT,
-                "branch": Phase.BRANCH,
-                "scaffold": Phase.SCAFFOLD,
-                "per-chapter": Phase.PER_CHAPTER,
-                "trainer": Phase.TRAINER,
-                "merge": Phase.MERGE,
-                "done": Phase.DONE,
-            }
-
-            def resolve(name: str) -> Phase:
-                """Resolve legacy or canonical phase name to Phase enum."""
-                if name in Phase.__members__.values() or name in [p.value for p in Phase]:
-                    return Phase(name)
-                if name in LEGACY_ALIAS:
-                    return LEGACY_ALIAS[name]
-                raise ValueError(f"unknown phase: {name!r}")
             ```
+
+          Single execution path: no LEGACY_ALIAS, no `resolve()` indirection.
+          Callers do `Phase(name)` directly. ValueError on unknown name.
           Other modules (orchestrate_book.py, _authoring.py, _chunking.py,
           _progress.py) DO NOT import this module yet — the bulk find/replace
-          happens in P8.6. P5.4 just lands the source-of-truth file plus a
-          unit test that verifies enum + alias consistency.
+          happens in P8.6. P5.4 lands the source-of-truth file plus a unit
+          test that verifies enum + ordering.
         depends_on_local: [P5.1, P5.2]
         acceptance:
-          - "scripts/podcast/_phases.py exists; Phase enum has all 14 values in PHASE_ORDER"
-          - "LEGACY_ALIAS keys cover the entire old 0a..0g + named-step set"
-          - "scripts/podcast/tests/test_phases.py exists and asserts: (a) Phase enum is StrEnum, (b) PHASE_ORDER == tuple(Phase), (c) every LEGACY_ALIAS key resolves via resolve(), (d) unknown name raises ValueError"
-          - "Importing _phases.py has zero side effects (no FS writes, no network)"
+          - "scripts/podcast/_phases.py exists; Phase enum has all 14 values"
+          - "PHASE_ORDER == tuple(Phase) (canonical phase ordering)"
+          - "scripts/podcast/tests/test_phases.py exists; asserts (a) Phase is StrEnum, (b) PHASE_ORDER == tuple(Phase), (c) Phase('unknown-name') raises ValueError"
+          - "Module has zero side effects on import (no FS writes, no network)"
           - "Module is consumed by W2 P8.6 bulk rewrite; W1 deliverable is the module + tests only"
 
       - id: P5.3
-        title: "Re-run kitab-al-riyad --resume; verify Phase 0b completes"
+        title: "Re-run kitab-al-riyad --resume; verify 05-refine-english completes"
         branch_workflow: |
-          1. Apply P5.1/P5.2 patches on `develop` first; merge after P1 boundary check
-             + P2 tiny-book smoke pass.
-          2. Rebase `book/kitab-al-riyad` onto updated develop (or cherry-pick P5 commits
-             if rebase would touch in-flight files).
+          1. P5.1 (perm-mode) is already on develop. Land P5.2 (artifact validation)
+             on develop after P1 boundary check + P2 tiny-book smoke pass.
+          2. Rebase `book/kitab-al-riyad` onto updated develop (or cherry-pick P5.2
+             commit if rebase would touch in-flight files).
           3. Confirm orchestrator-state.json still parses unchanged after the rebase.
           4. `git checkout book/kitab-al-riyad` and
              `python3 scripts/podcast/orchestrate_book.py --resume kitab-al-riyad`.
         acceptance:
-          - "P5.1 + P5.2 land on develop BEFORE book branch resume"
+          - "P5.2 lands on develop BEFORE book branch resume (P5.1 already shipped)"
           - "book/kitab-al-riyad rebased clean onto develop; state.json untouched"
-          - "All N windows produce non-empty .out.md files"
-          - "Phase transitions 0b → 0c → 0d → 0e cleanly OR halts cleanly at 0f"
+          - "All N refinement windows produce non-empty .out.md files"
+          - "Phase transitions 05-refine-english → 06-phonetics → 07-chapter-design → 08-enrichment cleanly OR halts cleanly at 09-series-plan gate"
 
   - id: P6
     wave: W1
-    legacy_id: "P3.4 (cost-only)"
     name: "Cost ledger + soft/hard caps (decoupled from cancelled SDK migration)"
     effort: 1 day
     priority: high
@@ -1220,14 +1032,14 @@ phases:
         spec: |
           Defaults per open_questions.Q2:
             - soft warning at $20 (heartbeat + log)
-            - hard halt before Phase 0d at $50
+            - hard halt before Phase 07-chapter-design at $50
           CLI overrides:
             --cost-cap-soft N --cost-cap-hard N
           state.json overrides:
             state.config.cost_cap_soft / cost_cap_hard
         acceptance:
           - "Soft cap triggers warning in heartbeat without halting"
-          - "Hard cap halts before Phase 0d transition"
+          - "Hard cap halts before Phase 07-chapter-design transition"
           - "Both overridable via CLI and state.config"
 
       - id: P6.4
@@ -1267,7 +1079,6 @@ phases:
 
   - id: P7
     wave: W2
-    legacy_id: "v2 P1"
     name: "Heartbeat + status CLI + wait-banner"
     effort: 1-2 days
     priority: high
@@ -1309,7 +1120,7 @@ phases:
           - scripts/podcast/_authoring.py
         spec: |
           Before each chunked window / per-source-chapter / per-chapter LLM call,
-          call _progress.bump_heartbeat(label="0b · win-007 · 3082 words").
+          call _progress.bump_heartbeat(label="05-refine-english · win-007 · 3082 words").
         acceptance:
           - "Within 30s of any LLM call starting, heartbeat label reflects it"
       - id: P7.3
@@ -1368,7 +1179,6 @@ phases:
 
   - id: P8
     wave: W2
-    legacy_id: "v2 P2"
     name: "Read-only Status API + browser dashboard"
     effort: 3-4 days
     priority: high
@@ -1475,7 +1285,7 @@ phases:
           - "Last-trainer-outcome reflects the most recent entry in _learning/{promoted,archive}/"
           - "Red-harness banner appears when test_challenger.py exit != 0 (verified by injecting a failing fixture in CI)"
 
-      # ── v3.2 additions: W2 absorbs the former W5 work ───────────────────────
+      # ── Polish work (phase rename + view upgrade + agent dedup) ────────────
       - id: P8.6
         title: "Bulk phase rename + HTML doc rewrite (formerly W5 P15)"
         why: |
@@ -1515,10 +1325,10 @@ phases:
              ("0a"..."0g", "trainer", "merge", "done") to new canonical values
              via _phases.LEGACY_ALIAS before returning state dict.
           2. write_state() emits schema_version=2 with new keys only.
-          3. CLI argparse `--retry-phase` accepts BOTH old and new names for one
-             release (resolves via _phases.resolve()).
+          3. CLI argparse `--retry-phase` accepts ONLY canonical phase names
+             (e.g. `05-refine-english`). No legacy aliases — single execution path.
           4. Logs, banners, JSONL events, heartbeat.json, cost-ledger.jsonl all
-             use the NEW names.
+             use the canonical names.
           5. invoke_trainer() at _authoring.py writes update_phase(book_dir,
              phase=Phase.TRAINER, ...) — not the literal "trainer" string.
           6. PHASE_ORDER tuple in orchestrate_book.py imports from _phases.py.
@@ -1527,7 +1337,6 @@ phases:
              match the code constants.
         acceptance:
           - "Existing state.json migrates seamlessly on first read (schema_version 1 → 2)"
-          - "`--retry-phase 0b` AND `--retry-phase 05-refine-english` both resolve to the same Phase.REFINE_ENG"
           - "`grep -rE '\\b0[a-g]\\b' scripts/podcast/ --include='*.py'` returns 0 literal phase-ID matches outside _phases.LEGACY_ALIAS"
           - "`grep -n '\"trainer\"' scripts/podcast/ --include='*.py'` returns 0 raw matches outside _phases.LEGACY_ALIAS"
           - "scripts/podcast/tests/e2e/test_phase_rename.py asserts state.json shows `12-trainer` after the trainer step on a schema_version=2 fixture; schema_version=1 fixture migrates; --retry-phase trainer resolves to Phase.TRAINER"
@@ -1537,7 +1346,7 @@ phases:
       - id: P8.7
         title: "D3.js view upgrade — 6 diagrams across 4 HTML views (offline-bundled)"
         why: |
-          Per the v3.2 audit (CORE-064 sweep): index.html / phased-plan.html /
+          Per the CORE-064 sweep: index.html / phased-plan.html /
           podcast-capabilities.html / acceptance-criteria.html collectively
           have 0 interactive flow diagrams. The 16 inline SVGs across the four
           files are decorative badges, not architecture. The plan's promise of
@@ -1624,8 +1433,8 @@ phases:
           infra/claude-agents/ (vestigial mirror, 8 files), .claude/agents/
           (Claude Code's materialized location, 5 files). The drift is real —
           podcast-challenger and podcast-extract exist in infra/ + .claude/ but
-          NOT in .github/. v3.2 collapses former P16.1-P16.4 (4 sub-tasks, 2-3
-          days) into one ~half-day commit.
+          NOT in .github/. P8.8 normalizes all three locations in one
+          ~half-day commit.
         files:
           - .github/agents/podcast-challenger.agent.md    # NEW (materialize with staged Loop N edits)
           - .github/agents/podcast-extract.agent.md       # NEW (materialize)
@@ -1670,7 +1479,6 @@ phases:
 
   - id: P9
     wave: W3
-    legacy_id: "v2 P4.1-P4.7"
     name: "Sample corpus validation (graduated 30p → 865p, 7 books)"
     effort: 1 week wall-clock
     priority: high
@@ -1687,7 +1495,7 @@ phases:
       cleanly: findings appended, health score written, trainer ran, regression
       harness stayed green. A book that ships clean WITHOUT triggering any
       learning-loop activity is suspicious — the gate surfaces a P1 warning.
-    per_book_ship_gate:                     # NEW v3.1 — applies to every P9.* row
+    per_book_ship_gate:                     # applies to every P9.* row
       - "Cost ledger row appended for every phase that called claude -p"
       - "Findings appended to _learning/findings.jsonl (≥1 record OR documented zero-findings rationale)"
       - "Health score written to _learning/health/<slug>.json; health-trend.md row appended"
@@ -1704,7 +1512,7 @@ phases:
           - "Cost <$5"
       - id: P9.2
         title: "Small: Masaail searchable (81p)"
-        source_material_risk: "medium — multi-chapter 0d loop"
+        source_material_risk: "medium — multi-chapter 07-chapter-design loop"
         acceptance: ["Full pipeline; record token/cost/wall-clock"]
       - id: P9.3
         title: "Small: Majalis Moyyada (139p)"
@@ -1715,7 +1523,7 @@ phases:
           - "Challenger Loop N raises no P0 findings post-convergence"
       - id: P9.4
         title: "Large: Kitab Maqbas (392p)"
-        risk: "First book where Phase 0d source-chapter loop may produce 15+ episodes"
+        risk: "First book where Phase 07-chapter-design source-chapter loop may produce 15+ episodes"
         source_material_risk: "high"
         acceptance: ["Full pipeline; chapter contracts hold; Loop N clean"]
       - id: P9.5
@@ -1724,12 +1532,12 @@ phases:
         acceptance: ["Full pipeline; metrics recorded; Loop N clean"]
       - id: P9.6
         title: "XLarge: Raahat al-Aqal (591p)"
-        risk: "Phase 0a may approach Doc Intelligence 600s poll budget (R2)"
+        risk: "Phase 04-ocr-translate may approach Doc Intelligence 600s poll budget (R2)"
         source_material_risk: "high"
         acceptance: ["Full pipeline OR documented Doc-Intelligence-poll-extension issue"]
       - id: P9.7
         title: "XLarge: Rasail Ikhwan AsSafa (865p)"
-        risk: "Largest book; tests Phase 0d map-reduce at upper end"
+        risk: "Largest book; tests Phase 07-chapter-design map-reduce at upper end"
         source_material_risk: "high — Ikhwan epistles dense with numeric symbolism"
         acceptance:
           - "Full pipeline OR documented failure mode + remediation issue"
@@ -1762,14 +1570,13 @@ phases:
 
   - id: P10
     wave: W3
-    legacy_id: "v2 P4.8"
     name: "ETA model: words → wall-clock per phase"
     effort: hours
     priority: medium
     depends_on: [P9]
     tasks:
       - id: P10.1
-        title: "Linear regression over P9.1–P9.7 runs — wall-clock AND cost (v3.2)"
+        title: "Linear regression over P9.1–P9.7 runs — wall-clock AND cost"
         files:
           - scripts/podcast/orchestrator_status.py        # add --eta + --cost-eta
           - scripts/podcast/run_wave.py                   # extend W3 invocation to call --cost-eta pre-flight
@@ -1778,14 +1585,14 @@ phases:
           timing in events.jsonl across P9.1-P9.7:
             1. (raw_words, refined_words) → (phase_05_min, 06_min, 07_min, 08_min, per_chapter_min)
             2. (raw_words, refined_words) → (phase_05_usd, 06_usd, 07_usd, 08_usd, per_chapter_usd)
-          v3.2 closes the loop with P6.3 hard cap:
+          Closes the loop with P6.3 hard cap:
             • orchestrator_status.py --cost-eta <book-slug> reads state.config.
               tier + raw_words, predicts total cost, exits non-zero if
               predicted > state.config.cost_cap_hard (default $50).
             • run_wave.py 3 invokes --cost-eta as a pre-flight check; refuses
               W3 invocation if predicted cost exceeds cap (saves $20-50 of
-              Phase 0a spend that would happen before the in-flight P6.3
-              hard-halt fires at Phase 0d).
+              Phase 04-ocr-translate spend that would happen before the in-flight P6.3
+              hard-halt fires at Phase 07-chapter-design).
           Used for status CLI / dashboard ETA display + W3 cost guardrail.
         depends_on_local: []
         acceptance:
@@ -1800,19 +1607,16 @@ phases:
 
   - id: P11
     wave: W4
-    legacy_id: "v2 P5.0"
-    name: "Multi-Mac decision (resolves Q1) — DEMOTED to doc-only (v3.2)"
-    status: DOC_ONLY                       # v3.2 — see meta.v3.2 change #9
+    name: "Multi-Mac decision (resolves Q1)"
     effort: hours                          # ~30 min, single doc file
     priority: low                          # demoted from medium
     depends_on: []                         # no longer blocks P12
     why: |
-      v3.2 demoted P11 from a wave-gating phase to a brief decision-doc task.
-      Reasoning: P12 mutation API depends on the P7.1 heartbeat schema (already
-      provides `hostname` field for R3 mitigation), not on a formal multi-mac
-      architecture. The default lean "primary-only with SSH-tunneled secondary
-      viewers" is locked; no architecture decision is pending. The doc remains
-      so future maintainers see the rationale without grep-archaeology.
+      P12 mutation API depends on the P7.1 heartbeat schema (already provides
+      `hostname` field for R3 mitigation). The locked choice — primary-only
+      service, secondary Macs as SSH-tunneled read-only viewers — needs only
+      a documentation deliverable so future maintainers see the rationale
+      without grep-archaeology.
     tasks:
       - id: P11.1
         title: "Document the locked multi-Mac choice"
@@ -1835,11 +1639,10 @@ phases:
 
   - id: P12
     wave: W4
-    legacy_id: "v2 P5.1 + P5.2"
     name: "Mutation API + worker pool"
     effort: 1 week
     priority: medium
-    depends_on: [P10]                      # v3.2: P11 demoted; P12 depends on heartbeat (P7.1) not on P11 doc
+    depends_on: [P10]
     tasks:
       - id: P12.1
         title: "Mutation endpoints in FastAPI service"
@@ -1867,7 +1670,7 @@ phases:
           - "Server restart picks up orphaned runs via state.json scan"
 
       - id: P12.3
-        title: "Mutation API pytest harness (FastAPI TestClient + subprocess mock) — v3.2"
+        title: "Mutation API pytest harness (FastAPI TestClient + subprocess.Popen mock)"
         files:
           - scripts/podcast/tests/api/__init__.py         # NEW
           - scripts/podcast/tests/api/conftest.py         # NEW — TestClient + mocked Popen fixture
@@ -1876,7 +1679,7 @@ phases:
         why: |
           Today's P12.1 acceptance is "verified on a live run (SIGSTOP/SIGCONT
           confirmed by ps state)" — too thin for a surface that includes
-          DELETE /books/{slug}?rollback_branch=true. v3.2 adds a proper pytest
+          DELETE /books/{slug}?rollback_branch=true. This phase adds a pytest
           harness that exercises every mutation flow against a TestClient with
           subprocess.Popen mocked out, asserting:
             • audit row written for every mutation
@@ -1924,7 +1727,6 @@ phases:
 
   - id: P13
     wave: W4
-    legacy_id: "v2 P5.3"
     name: "SQLite cross-book index (READ-ONLY cache)"
     effort: 1-2 days
     priority: medium
@@ -1947,7 +1749,6 @@ phases:
 
   - id: P14
     wave: W4
-    legacy_id: "v2 P5.4"
     name: "Dashboard mutation UI (start / retry / delete) + destructive confirmations"
     effort: 1 day
     priority: medium
@@ -1961,181 +1762,17 @@ phases:
           - "All button actions audit-logged via P12.1"
 
   # ===========================================================================
-  # WAVE 5 — Polish
-  # ===========================================================================
-
-  - id: P15
-    wave: W5
-    legacy_id: "v2 P6.1"
-    name: "OBSOLETED — split into P5.4 (W1) + P8.6 (W2) by v3.2"
-    status: OBSOLETED
-    redirect:
-      constants_module: P5.4
-      bulk_rewrite_and_html: P8.6
-      trainer_round_trip_assertions: "folded into P8.6 acceptance"
-    effort: "N/A — work redistributed to P5.4 + P8.6"
-    priority: "N/A"
-    depends_on: []
-    obsoletion_note: |
-      v3.2 absorbed P15 into W1+W2 to eliminate citation rot in
-      _learning/promoted/ tombstones (the trainer's append-only history
-      cites phase IDs that would have needed bulk rewriting after W3 if
-      P15 stayed in W5). Now: constants land in W1 P5.4; the bulk
-      find/replace + HTML rewrite lands in W2 P8.6 BEFORE W3 corpus
-      begins. The prereq_gate "zero in-flight books" is naturally true
-      in the W2 window. All P15 acceptance criteria are now covered by
-      P5.4 + P8.6.
-    prereq_gate_legacy: |
-      ZERO in-flight books, verified by:
-        python3 scripts/podcast/orchestrator_status.py --all --json | \
-          jq '[.books[] | select(.phase_status=="running" or .phase_status=="failed")] | length' \
-        == 0
-    files:
-      - scripts/podcast/_progress.py                      # bump schema_version 1→2; translation layer
-      - scripts/podcast/orchestrate_book.py
-      - scripts/podcast/_authoring.py
-      - scripts/podcast/_chunking.py
-      - scripts/podcast/_convergence.py
-      - scripts/podcast/extract_chapter.py
-      - scripts/podcast/build_episode_txt.py
-      - skills-staging/podcast/**
-      - .github/agents/podcast-*.agent.md
-      - _workspace/plan/podcast-plan.yaml                 # this file
-      - _workspace/plan/view/index.html
-      - docs/architecture/podcast-pipeline.html
-      - docs/architecture/podcast-orchestrator.html
-      - docs/architecture/podcast-quality-system.html
-      - docs/architecture/podcast-overview.html
-      - docs/architecture/index.html
-    spec: |
-      Full mapping (orchestrator-internal phase IDs — distinct from the plan's
-      outer PHASE numbering P1..P20):
-
-        | Old key       | New key                |
-        |---------------|------------------------|
-        | pre-flight    | 01-preflight           |
-        | branch        | 02-branch              |
-        | scaffold      | 03-scaffold            |
-        | 0a            | 04-ocr-translate       |
-        | 0b            | 05-refine-english      |
-        | 0c            | 06-phonetics           |
-        | 0d            | 07-chapter-design      |
-        | 0e            | 08-enrichment          |
-        | 0f            | 09-series-plan         |
-        | 0g            | 10-register-series     |
-        | per-chapter   | 11-per-chapter         |
-        | trainer       | 12-trainer             |
-        | merge         | 13-merge               |
-        | done          | 14-done                |
-
-      Migration requirements:
-        1. read_state() detects schema_version=1 and rewrites keys on load.
-        2. write_state() emits schema_version=2 with new keys only.
-        3. --retry-phase accepts BOTH old and new names for at least one release.
-        4. Logs, banners, JSONL events use NEW names only.
-    acceptance:
-      - "Existing state.json migrates seamlessly on first read (schema_version 1→2)"
-      - "`--retry-phase 0b` and `--retry-phase 05-refine-english` both resolve to the same phase"
-      - "Docs (podcast-pipeline.html, plan view/index.html) updated atomically with the code"
-      - "Zero `0a`..`0g` literal phase-ID strings remain in scripts/podcast/"
-    sub_tasks:
-      - id: P15.4
-        title: "Trainer phase rename round-trip + invoke_trainer regression"
-        files:
-          - scripts/podcast/_authoring.py                  # update phase name in any state-write
-          - scripts/podcast/orchestrate_book.py            # update line 837/916 references
-          - scripts/podcast/tests/e2e/test_phase_rename.py # NEW (or extend P2.3)
-        spec: |
-          The phase rename maps `trainer` → `12-trainer`. The existing
-          `invoke_trainer()` invocation in `_authoring.py:1133` writes
-          `update_phase(book_dir, phase="trainer", ...)` and the PHASE_ORDER
-          tuple in `orchestrate_book.py:916` includes the literal `"trainer"`.
-          BOTH MUST be updated atomically with the rename or the trainer
-          silently fails to record its phase status.
-
-          Test: on a tiny-book fixture with state.json at schema_version=2,
-          drive the orchestrator to the trainer step (mock the trainer to a
-          no-op that returns rc=0), assert that the state.json shows
-          `phase: "12-trainer"` and `phase_status: "completed"`. Then drive
-          again with schema_version=1 input and assert the read_state()
-          migration also resolves the old `trainer` key correctly.
-        acceptance:
-          - "grep -n '\"trainer\"' scripts/podcast/ returns 0 raw string matches outside the legacy-translation table"
-          - "test_phase_rename.py asserts state.json shows `12-trainer` after the trainer phase runs on a schema_version=2 fixture"
-          - "schema_version=1 fixture migrates and `--retry-phase trainer` resolves to `12-trainer`"
-          - "podcast-trainer.agent.md updated to reference `12-trainer` in any phase-name strings"
-
-  - id: P16
-    wave: W5
-    legacy_id: "v2 P6.2 + P6.3"
-    name: "OBSOLETED — collapsed into P8.8 (W2) by v3.2"
-    status: OBSOLETED
-    redirect:
-      single_phase: P8.8
-    effort: "N/A — collapsed into P8.8 (single ~half-day commit)"
-    priority: "N/A"
-    depends_on: []
-    obsoletion_note: |
-      v3.2 collapsed P16.1-P16.4 (4 sub-tasks, 2-3 days) into P8.8 (single
-      commit, ~half day). The dependency on P15 is also removed: P8.8 runs
-      AFTER P8.6 (rename) within the same W2 closing window, but they touch
-      disjoint files so they can ship in either order without merge conflicts.
-    why_legacy: |
-      Three agent locations (.github/agents/, infra/claude-agents/, .claude/agents/)
-      have drifted. Migrate uniques to .github/agents/ (sole upstream), delete
-      infra/claude-agents/, materialize .claude/agents/ from upstream.
-    tasks:
-      - id: P16.1
-        title: "Migrate podcast-challenger, podcast-extract, ui-reviewer to .github/agents/"
-        files:
-          - .github/agents/podcast-challenger.agent.md    # NEW
-          - .github/agents/podcast-extract.agent.md       # NEW
-          - .github/agents/ui-reviewer.agent.md           # NEW
-        prereq_note: |
-          P4.5 already staged Loop N edits in infra/+.claude/. Carry those edits
-          into the migrated .github/agents/ copy. Verify byte-identity after
-          materialization.
-        acceptance:
-          - "Every agent in any of three locations exists in .github/agents/"
-      - id: P16.2
-        title: "scripts/check_agent_dedup.py + CI integration"
-        files:
-          - scripts/check_agent_dedup.py                  # NEW
-          - .github/workflows/podcast-isolation.yml       # NEW (also hosts P16.3)
-        acceptance:
-          - "Exits 0 only when name sets across the three dirs match"
-          - "Runs in CI"
-      - id: P16.3
-        title: "Isolation check: scripts/podcast/ does not import scripts/site/ or scripts/memoir/"
-        files:
-          - scripts/podcast/_isolation_check.py           # NEW
-          - .github/workflows/podcast-isolation.yml       # appends isolation job
-        acceptance:
-          - "AST scan fails build if forbidden import found"
-      - id: P16.4
-        title: "Delete infra/claude-agents/; rewrite install-claude-skills.sh"
-        files:
-          - infra/claude-agents/                          # DELETE
-          - scripts/install-claude-skills.sh
-        acceptance:
-          - "infra/claude-agents/ removed; git log preserves history"
-          - "install-claude-skills.sh idempotent (second run produces zero diffs)"
-          - "VS Code/Claude Code agent picker shows each agent exactly once"
-
-  # ===========================================================================
-  # WAVE 6 — Deferred (trigger-gated, not time-gated)
+  # WAVE 5 — Deferred + Self-Learning (trigger-gated, not time-gated)
   # ===========================================================================
 
   - id: P17
-    wave: W6
-    legacy_id: "v2 P7.1"
+    wave: W5
     name: "PDF pre-splitting (Option B from earlier recon)"
     promote_when: "A book exceeds 500 MB OR 2000 pages OR Doc Intelligence 600s poll budget"
-    spec: "Optional state.config.sub_pdfs list; pypdf dependency; 0a-pre phase"
+    spec: "Optional state.config.sub_pdfs list; pypdf dependency; pre-04-ocr-translate sub-phase"
 
   - id: P17.1
-    wave: W6
-    legacy_id: null                                    # v3.2.1 NEW — no v2 ancestor
+    wave: W5
     name: "Source-adapter registry (pluggable input formats)"
     promote_when: |
       First non-Arabic-PDF source arrives (Urdu PDF, scanned image, video
@@ -2146,7 +1783,7 @@ phases:
       scripts/podcast/_azure.py. New input formats require either inflating
       _azure.py with if/elif branches (entangles unrelated deps — Whisper for
       video, Tesseract for scans, Azure for PDF) or rewriting the orchestrator.
-      v3.2.1 lands a registry pattern: each input type is one adapter file
+      Registry pattern: each input type is one adapter file
       under scripts/podcast/adapters/, each implementing the same Protocol.
       Orchestrator dispatches via the registry; _azure.py remains the shared
       credentials/client helper (adapters don't know about Keychain plumbing).
@@ -2229,7 +1866,7 @@ phases:
            contract — adding a new adapter is one new file under adapters/
            plus one line in REGISTRY plus its own test fixture.
 
-    depends_on: [P17, P5.4, P8.6]    # P17 PDF pre-split is sibling; P5.4+P8.6 phase rename should land first so Phase 04 has a stable canonical name
+    depends_on: [P5, P8, P17]        # P5 ships the Phase enum (P5.4); P8 ships the bulk rename (P8.6) so canonical phase names are stable; P17 is the sibling PDF pre-split phase
     acceptance:
       - "scripts/podcast/adapters/ Python package exists; _base.py defines SourceAdapter Protocol + RawText dataclass"
       - "scripts/podcast/adapters/__init__.py exports REGISTRY dict + dispatch(source_path) function; dispatch raises UnsupportedSourceError on unknown type"
@@ -2244,22 +1881,18 @@ phases:
       - "Cost-ledger integration: each adapter call appends a cost-ledger.jsonl row via the shared _cost_ledger.py module (P6.1); Azure spend by adapter is itemized"
 
   - id: P18
-    wave: W6
-    legacy_id: "v2 P7.2"
-    name: "Parallel per-chapter LLM calls in 0e + convergence"
+    wave: W5
+    name: "Parallel per-chapter LLM calls in 08-enrichment + convergence"
     promote_when: "P6 cost-tracking proven stable AND user explicitly opts in"
 
   - id: P19
-    wave: W6
-    legacy_id: "v2 P7.3"
-    name: "Trainer self-learning — phase-prompt addenda + regression fixtures + health recursion (v3.2 expansion)"
+    wave: W5
+    name: "Trainer self-learning — phase-prompt addenda + regression fixtures + health recursion"
     promote_when: "P13 SQLite index proven stable AND P2.6 refinement determinism green AND P9.8 yield report shows fixture_coverage_pct trending UP"
     why: |
-      v3.2 promotes P19 from a 1-line "trainer ingestion of SQLite event log"
-      placeholder to a 3-task self-learning loop. The trainer today can only
-      edit _rules.py DENY lists (a static change). It has no channel to teach
-      the LLM new tricks in the workhorse phases (refinement, phonetics,
-      framing). P19 provides that channel — gated by regression fixtures
+      Today the trainer can only edit _rules.py DENY lists (a static change).
+      P19 gives it a channel to teach the LLM new tricks in the workhorse
+      phases (refinement, phonetics, framing) — gated by regression fixtures
       (anti-Goodhart) and health-score recursion (effect verification).
     risk_cap: "See R9 — addenda compound silently. Hard cap ≤5 addenda per phase, FIFO eviction."
     tasks:
@@ -2377,8 +2010,7 @@ phases:
           - "If addendum reverts 2+ times for the same signature, signature is escalated to human-review queue (P14 dashboard surface)"
 
   - id: P20
-    wave: W6
-    legacy_id: "v2 P7.4"
+    wave: W5
     name: "Web upload for PDFs in dashboard"
     promote_when: "P12 mutation API stable; iCloud-folder discovery may suffice in interim"
 
@@ -2388,7 +2020,6 @@ phases:
 open_questions:
   - id: Q1
     question: "Multi-Mac story for the service"
-    status: RESOLVED                                # v3.2 — lean locked, P11 demoted to doc-only
     closed_at: 2026-05-19
     detail: |
       User memory designates THIS Mac as primary for the Azure-backed pipeline as of
@@ -2396,7 +2027,7 @@ open_questions:
       delegated across machines? Affects: state location, auth, worker pool design,
       heartbeat hostname enforcement (R3).
     resolution: "Primary-only service; secondary Macs are read-only viewers via SSH-tunneled dashboard. R3 mitigated by heartbeat hostname field (P7.1) — service rejects mutations on books whose last heartbeat was a different host. Documented in docs/podcast/multi-mac-decision.md (P11.1)."
-    blocks: []                                      # v3.2: was [P12], now resolved — P12 depends on P7.1 not P11
+    blocks: []
     formal_resolution_task: P11                     # demoted to DOC_ONLY
 
   - id: Q2
@@ -2405,7 +2036,7 @@ open_questions:
       Should the orchestrator halt if a book's running cost exceeds $X?
     blocks: P6
     default_until_overridden: |
-      Soft warning at $20 (heartbeat banner); hard halt before Phase 0d at $50.
+      Soft warning at $20 (heartbeat banner); hard halt before Phase 07-chapter-design at $50.
       Implemented in P6.3 via a check against cost-ledger.jsonl summing.
       Overrides: --cost-cap-soft / --cost-cap-hard CLI flags, or state.config keys.
     resolution_phase: P6.3
@@ -2413,19 +2044,15 @@ open_questions:
   - id: Q3
     question: "Trainer integration with claude -p stays as-is"
     detail: |
-      podcast-trainer.agent.md ingests per-chapter convergence outputs. With SDK
-      migration cancelled, trainer continues to run on claude -p; the trainer
-      MUST read the new cost-ledger.jsonl for cross-book cost commentary.
-
-      v3.1 (2026-05-19, late): Q3 was previously declared RESOLVED without an
-      implementation row. Reopened — implementation is now tracked as P6.4.
-      Q3 closes when P6.4 lands on develop AND the trainer's end-line audit
-      includes `cost-context: $X.XX`.
-    resolution: "IMPLEMENTING via P6.4 — trainer reads cost-ledger.jsonl + emits cost-context field"
+      podcast-trainer.agent.md ingests per-chapter convergence outputs. The
+      trainer runs on claude -p (no SDK swap) and reads cost-ledger.jsonl for
+      cross-book cost commentary. Closes when P6.4 lands on develop AND the
+      trainer's end-line audit includes `cost-context: $X.XX`.
+    resolution: "IMPLEMENTING via P6.4"
     blocks: P6.4
     resolution_phase: P6.4
     formal_resolution_task: P6.4
-    closed_at: null                                   # was 2026-05-19, reopened by v3.1
+    closed_at: null
 
   - id: Q4
     question: "Sphere-letters cipher in Master & Disciple Ch-02"
@@ -2547,7 +2174,7 @@ risks:
   - id: R9
     severity: medium
     risk: |
-      v3.2: phase-prompt addenda (P19.1) compound silently. After 20+ books,
+      Phase-prompt addenda (P19.1) compound silently. After 20+ books,
       a workhorse phase's effective prompt could be 3-5× its base length, with
       internally-contradictory directives accreted from 20+ trainer passes.
       Failure modes:
@@ -2581,10 +2208,9 @@ risks:
 # Done definition
 # -----------------------------------------------------------------------------
 done_when:
-  - "Waves W1, W2, W3, W4 all merged to develop with passing CI (W5 OBSOLETED per v3.2; W6 is per-phase trigger-gated)"
-  - "v3.2: W5 marker resolves auto-DONE when P5.4 + P8.6 + P8.7 + P8.8 all checked"
+  - "Waves W1, W2, W3, W4 all merged to develop with passing CI (W5 is per-phase trigger-gated)"
   - "P3.1, P3.2 — doc-regression cleanup done (already shipped)"
-  - "P5.1 — perm-mode acceptEdits flag shipped (v3.2 2026-05-19 later)"
+  - "P5.1 — perm-mode acceptEdits flag shipped"
   - "P4.1 content/_shared/arabic/06-abjad-numerals.md exists; both skills treat it as READ-ONLY thereafter"
   - "P4.2 content/podcast/.skill/handbook/numeric-symbolic-disambiguation.md exists"
   - "P4.4b Loop N regression fixture lands with the Loop N spec; test_challenger.py 8/8 green"
@@ -2610,10 +2236,10 @@ done_when:
   - "docs/architecture/podcast-*.html updated in lockstep with code phase rename (P8.6)"
   - "podcast-orchestrator.agent.md updated to reference the new service + status CLI + Loop N + Phase enum"
   - "Manual library handoff documented in skills-staging/podcast/SKILL.md"
-  - "Q1 (multi-Mac) resolved (RESOLVED 2026-05-19, v3.2); multi-mac-decision.md committed via P11.1"
+  - "Q1 (multi-Mac) resolved; multi-mac-decision.md committed via P11.1"
   - "Q3 (trainer cost-ledger) resolved via P6.4; closed_at populated after merge"
-  - "P-9 invariant verified end-to-end: a book that ships under v3.2 demonstrably caused the system to either (a) promote a new rule, (b) archive a proposal with reason, or (c) add a fixture, or (d) write/revert a phase-prompt addendum — never NEVER_RAN without rationale"
+  - "P-9 invariant verified end-to-end: a book that ships demonstrably caused the system to either (a) promote a new rule, (b) archive a proposal with reason, or (c) add a fixture, or (d) write/revert a phase-prompt addendum — never NEVER_RAN without rationale"
   - "Anthropic Python SDK appears in scripts/podcast/ ONLY in narrow side-channel use (cost ledger helper, status helper) — NEVER as the workhorse LLM execution path"
-  - "v3.2 W6 P19 self-learning: trainer can write phase-prompt addenda (P19.1) gated by phase_prompts fixtures (P19.2); addenda are health-score-recursed and auto-reverted on regression (P19.3); R9 cap (≤5 per phase) enforced"
-  - "v3.2.1 SKILL.md §10 documents the intelligence-module swap point: handbook/ files are the swappable layer; deprecation channel + check-fixture pairing rule + phase-prompt addenda channel all explicit"
-  - "v3.2.1 W6 P17.1 source-adapter registry promoted on first non-Arabic-PDF source: scripts/podcast/adapters/ Python package; SourceAdapter Protocol; ArabicPdfAdapter migration with golden-fixture parity; orchestrator dispatches via REGISTRY; Azure creds isolated to _azure_client.py"
+  - "W5 P19 self-learning: trainer can write phase-prompt addenda (P19.1) gated by phase_prompts fixtures (P19.2); addenda are health-score-recursed and auto-reverted on regression (P19.3); R9 cap (≤5 per phase) enforced"
+  - "SKILL.md §10 documents the intelligence-module swap point: handbook/ files are the swappable layer; deprecation channel + check-fixture pairing rule + phase-prompt addenda channel all explicit"
+  - "P17.1 source-adapter registry promoted on first non-Arabic-PDF source: scripts/podcast/adapters/ Python package; SourceAdapter Protocol; ArabicPdfAdapter migration with golden-fixture parity; orchestrator dispatches via REGISTRY; Azure creds isolated to _azure_client.py"
