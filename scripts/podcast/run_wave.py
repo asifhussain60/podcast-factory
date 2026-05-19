@@ -260,31 +260,23 @@ def run_wave_1(args: argparse.Namespace) -> int:
 
 
 def run_wave_2(args: argparse.Namespace) -> int:
-    """W2 — Observability + Polish."""
-    print(f"[run_wave] W2 dispatch ({WAVE_NAMES[2]}) — not yet wired.")
-    print("[run_wave] W2 depends on W1 completing (P-3: observation before mutation).")
-    return EXIT_HALTED_REVIEW
+    """W2 — Observability + Polish. Iterates the W2 phase registry."""
+    return _run_phase_registry(args, 2)
 
 
 def run_wave_3(args: argparse.Namespace) -> int:
-    """W3 — Corpus Validation."""
-    print(f"[run_wave] W3 dispatch ({WAVE_NAMES[3]}) for book={args.book!r} — not yet wired.")
-    print("[run_wave] W3 depends on W2 (heartbeat + status API + cost ledger live).")
-    return EXIT_HALTED_REVIEW
+    """W3 — Corpus Validation. Iterates the W3 phase registry."""
+    return _run_phase_registry(args, 3)
 
 
 def run_wave_4(args: argparse.Namespace) -> int:
-    """W4 — Control Plane."""
-    print(f"[run_wave] W4 dispatch ({WAVE_NAMES[4]}) — not yet wired.")
-    print("[run_wave] W4 depends on W3 (corpus runs prove the pipeline before mutation API).")
-    return EXIT_HALTED_REVIEW
+    """W4 — Control Plane. Iterates the W4 phase registry."""
+    return _run_phase_registry(args, 4)
 
 
 def run_wave_5(args: argparse.Namespace) -> int:
-    """W5 — Deferred + Self-Learning (trigger-gated)."""
-    print(f"[run_wave] W5 dispatch ({WAVE_NAMES[5]}) phase={args.phase!r} — not yet wired.")
-    print("[run_wave] W5 phases promote individually; see podcast-plan.yaml.promote_when.")
-    return EXIT_HALTED_REVIEW
+    """W5 — Deferred + Self-Learning. Iterates the W5 phase registry."""
+    return _run_phase_registry(args, 5)
 
 
 DISPATCHERS = {

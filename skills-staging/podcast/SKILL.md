@@ -888,14 +888,21 @@ This skill is self-contained. It writes to `content/podcast/` only. It reads fro
 
 `content/_shared/arabic/*.md` — the shared Arabic / Islamic pronunciation reference. Read on every run. The podcast skill MAY propose additions to the manifest (via `BOOK_DIR/_system/source/text/_extraction-notes.md`), but writes to `content/_shared/arabic/` itself happen only when Asif explicitly approves and routes them. Treat the directory as authoritative input.
 
-### The one permitted outward connection
+### The one permitted outward connection — Manual library handoff
 
 After completing an episode, the podcast skill MAY propose additions to two shared libraries:
 
  - `content/babu-memoir/_system/quotes-library.txt` — if the episode surfaces a passage strong enough to inform memoir work
  - `content/babu-memoir/_system/clinic-library.txt` — if the source contains a craft observation relevant to memoir writing
 
-**Protocol:** Write the proposal to `BOOK_DIR/_system/episode-drafts/EP##-[slug]/proposed-library-entries.md`. Do NOT write directly to `content/babu-memoir/` files. Asif routes the proposal to the journal skill himself. The proposal file is cleaned up with the workspace after Phase 4 unless Asif wants to keep it.
+**Protocol (Manual library handoff):**
+ 1. Producer assembles a `ProposalBundle` (see [`scripts/podcast/_proposal_writer.py`](../../scripts/podcast/_proposal_writer.py)) and calls `write_proposal(book_dir, bundle)`.
+ 2. The proposal lands at `BOOK_DIR/_system/episode-drafts/EP##-<slug>/proposed-library-entries.md` with `schema_version: 1` frontmatter (book_slug + episode_id + generated_by + generated_at).
+ 3. The podcast skill NEVER writes directly to `content/babu-memoir/` files. Runtime enforcement: [`scripts/podcast/_boundary_check.py`](../../scripts/podcast/_boundary_check.py) (P1.1) raises on any write attempt to `content/babu-memoir/**`.
+ 4. The journal-side operator reviews each proposal manually and PROMOTES selected entries to the libraries. Promotion is always human-mediated — there is no auto-promotion script.
+ 5. The journal-side operator appends a promotion-ledger row inside the proposal file for each entry moved; the proposal file is the audit trail.
+
+Full operator guide: [`docs/podcast/manual-library-handoff.md`](../../docs/podcast/manual-library-handoff.md). Cross-skill rationale: principle P-7 in `_workspace/plan/podcast-plan.yaml`.
 
 ### Babu App
 

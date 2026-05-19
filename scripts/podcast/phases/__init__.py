@@ -19,36 +19,52 @@ from __future__ import annotations
 from typing import Callable
 
 from ._base import PhaseResult
-from . import p1_1, p4_3, p4_4, p4_8, p5_4, p6_1, p6_2
+from . import (
+    p1_1, p1_2,
+    p4_1, p4_2, p4_3, p4_4, p4_8,
+    p5_4, p6_1, p6_2,
+    p11_1,
+    dor_halts,
+)
 
 # Phase registry — ordered within each wave per declared dependencies.
 # Each list entry is the module exporting PHASE_ID / is_done / execute.
 REGISTRY: dict[int, list] = {
     1: [
-        p5_4,   # phase-id constants module — zero deps, ships first
-        p1_1,   # boundary check — depends only on the constants module's existence
-        p4_3,   # SKILL.md pre-read extension — pure verify
-        p4_4,   # pre-refined-source-mode handbook extension — pure verify
-        p4_8,   # intelligence_sources for P4 deliverables — pure verify
-        p6_1,   # cost-ledger writer
-        p6_2,   # cost-ledger summary CLI
-        # Outstanding W1 phases not yet wired:
-        #   P1.2 proposal writer + handoff doc
-        #   P1.3 CI workflow wiring (depends on P8.8 in W2)
-        #   P2.1/2.2/2.3/2.4/2.5/2.6 E2E test harness
-        #   P4.1 abjad-numerals shared file (large content authoring)
-        #   P4.2 numeric-symbolic-disambiguation handbook
-        #   P4.4b Loop N regression fixture
-        #   P4.5 challenger Loop N spec
-        #   P4.6 Phase 07-chapter-design numeric scan
-        #   P4.7 Master & Disciple Ch-02 scaffolding
-        #   P5.3 kitab-al-riyad resume (requires explicit Azure spend approval)
-        #   P6.3 soft/hard cost caps (requires P7 heartbeat for soft-warning path)
-        #   P6.4 trainer cost-ledger hook
+        # ── Foundation (deliverables auto-marked when their files validate) ──
+        p5_4,    # phase-id constants module — zero deps
+        p1_1,    # boundary check
+        p1_2,    # proposal writer + manual library handoff doc
+        p4_1,    # abjad-numerals shared file (CONTENT — shipped)
+        p4_2,    # numeric/symbolic disambiguation handbook (CONTENT — shipped)
+        p4_3,    # SKILL.md pre-read extension
+        p4_4,    # pre-refined-source-mode handbook extension
+        p4_8,    # intelligence_sources for P4 deliverables
+        p6_1,    # cost-ledger writer
+        p6_2,    # cost-ledger summary CLI
+
+        # ── Halt-with-DoR (the autonomous loop CAN'T safely auto-execute these;
+        # each runner surfaces blockers/assumptions/ambiguities + operator-action
+        # on every tick until the deliverable lands; then auto-marks) ───────
+        dor_halts.p2_1,   # tiny-book fixture (operator authors content)
+        dor_halts.p2_2,   # sunny-day E2E (needs Azure mocks)
+        dor_halts.p2_3,   # rainy-day E2E
+        dor_halts.p2_4,   # CI workflow podcast-e2e.yml
+        dor_halts.p2_5,   # learning-loop E2E + CI gate
+        dor_halts.p2_6,   # refinement determinism (one-time live golden author)
+        dor_halts.p4_4b,  # Loop N regression fixture (waits on P4.5)
+        dor_halts.p4_5,   # challenger Loop N spec (agent-file edits)
+        dor_halts.p4_6,   # Phase 07 numeric scan (invasive _authoring.py)
+        dor_halts.p4_7,   # Master & Disciple Ch-02 scaffolding
+        dor_halts.p5_3,   # kitab-al-riyad resume — explicit Azure spend approval gate
+        dor_halts.p6_3,   # soft/hard cost caps (waits on P7 heartbeat)
+        dor_halts.p6_4,   # trainer cost-ledger hook (agent-file edit)
     ],
     2: [],
     3: [],
-    4: [],
+    4: [
+        p11_1,   # multi-mac decision doc (already shipped; auto-marks)
+    ],
     5: [],
 }
 

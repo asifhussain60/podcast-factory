@@ -25,9 +25,9 @@ Use `- [x]` to mark done; `- [ ]` to mark pending. Group anchors (`### Wave N �
 - [x] **P1.1** ✅ `scripts/podcast/_boundary_check.py` exists; runs <2s; exit 0 on clean tree; non-zero with `file:line` on any write/append/`open(...,'w')` targeting `content/babu-memoir/**`, `content/_shared/**`, `scripts/memoir/**`, `scripts/site/**`
 - [x] **P1.1** ✅ Boundary contract documented in `skills-staging/podcast/SKILL.md` (grep returns the section)
 - [x] **P1.1** ✅ Whitelisted exception honored: `content/_shared/arabic/06-abjad-numerals.md` (P4) does NOT trip the check
-- [ ] **P1.2** ✅ "Manual library handoff" section in `skills-staging/podcast/SKILL.md` (grep returns it)
-- [ ] **P1.2** ✅ `docs/podcast/manual-library-handoff.md` exists; documents promotion workflow
-- [ ] **P1.2** ✅ `scripts/podcast/_proposal_writer.py` exists; emits schema-valid `proposed-library-entries.md` with frontmatter `schema_version`, `book_slug`, `episode_id`, `generated_by`, `generated_at`
+- [x] **P1.2** ✅ "Manual library handoff" section in `skills-staging/podcast/SKILL.md` (grep returns it)
+- [x] **P1.2** ✅ `docs/podcast/manual-library-handoff.md` exists; documents promotion workflow
+- [x] **P1.2** ✅ `scripts/podcast/_proposal_writer.py` exists; emits schema-valid `proposed-library-entries.md` with frontmatter `schema_version`, `book_slug`, `episode_id`, `generated_by`, `generated_at`
 - [ ] **P1.3** 🟡 CI wiring deferred to P16; P1.1 invocation present in `.github/workflows/podcast-isolation.yml`
 - [x] **P1.4** ✅ `scripts/podcast/run_wave.py` exists; subcommands 1–5; idempotent (second invocation does zero work when wave already done) — verified by `MainArgvTests.test_done_wave_idempotent_exits_zero`
 - [x] **P1.4** ✅ `run_wave.py --check N` computes wave N done_signal from `acceptance-criteria.md` without executing — verified by `MainArgvTests.test_check_flag_reports_without_dispatching`
@@ -63,10 +63,10 @@ Use `- [x]` to mark done; `- [ ]` to mark pending. Group anchors (`### Wave N �
 
 ### P4 — Numeric/Symbolic Disambiguation protocol
 
-- [ ] **P4.1** ✅ `content/_shared/arabic/06-abjad-numerals.md` exists; both Mashriqi + Maghribi tables; Hisab al-Jummal practice; verified reference calculations (Allah=66, basmala=786, Muhammad=92, Ali=110) AND Ch-02 worked calcs (kun=70, fayakun=166)
-- [ ] **P4.1** 🔒 Post-create, file treated as READ-ONLY by both skills (manual gate; Pass 5 L5 enforces no further writes)
-- [ ] **P4.2** ✅ `content/podcast/.skill/handbook/numeric-symbolic-disambiguation.md` exists; 6 sections (triggers, workflow, enumerate-once rule, anachronism handling, invented-content-is-P0, source-preference register)
-- [ ] **P4.2** ✅ Handbook references `06-abjad-numerals.md` as abjad authority + `numeric-symbolic-disambiguation-plan.md` as worked-example source
+- [x] **P4.1** ✅ `content/_shared/arabic/06-abjad-numerals.md` exists; both Mashriqi + Maghribi tables; Hisab al-Jummal practice; verified reference calculations (Allah=66, basmala=786, Muhammad=92, Ali=110) AND Ch-02 worked calcs (kun=70, fayakun=166)
+- [x] **P4.1** 🔒 Post-create, file treated as READ-ONLY by both skills (manual gate; Pass 5 L5 enforces no further writes)
+- [x] **P4.2** ✅ `content/podcast/.skill/handbook/numeric-symbolic-disambiguation.md` exists; 6 sections (triggers, workflow, enumerate-once rule, anachronism handling, invented-content-is-P0, source-preference register)
+- [x] **P4.2** ✅ Handbook references `06-abjad-numerals.md` as abjad authority + `numeric-symbolic-disambiguation-plan.md` as worked-example source
 - [x] **P4.3** ✅ `skills-staging/podcast/SKILL.md` pre-read list includes reference #21 (handbook) + SHARED_ARABIC entry now lists 7 files (00–06)
 - [x] **P4.4** ✅ `content/podcast/.skill/handbook/pre-refined-source-mode.md` has new "Numeric Disambiguation" scaffolding step + new failure-mode entry #6 (invented enumeration = P0 BLOCKED)
 - [ ] **P4.4b** ✅ `content/podcast/.skill/_learning/fixtures/loop_n_numeric_invented/{input.txt,expected.json}` exist (P-9 invariant: every new check ships a fixture)
@@ -232,9 +232,9 @@ Use `- [x]` to mark done; `- [ ]` to mark pending. Group anchors (`### Wave N �
 
 ### P11 — Multi-Mac decision (doc-only)
 
-- [ ] **P11.1** ✅ `docs/podcast/multi-mac-decision.md` exists — single page (~1 screen): primary-only service; secondary Macs are SSH-tunneled read-only viewers; localhost-bound bearer-token auth from keychain; heartbeat hostname enforcement for R3
-- [ ] **P11.1** ✅ Q1 marked RESOLVED in YAML with closed_at=2026-05-19 + decision ref
-- [ ] **P11.1** ✅ P12 acceptance no longer references P11 as a prerequisite (P12.depends_on changed from [P11] to [P10])
+- [x] **P11.1** ✅ `docs/podcast/multi-mac-decision.md` exists — single page (~1 screen): primary-only service; secondary Macs are SSH-tunneled read-only viewers; localhost-bound bearer-token auth from keychain; heartbeat hostname enforcement for R3
+- [x] **P11.1** ✅ Q1 marked RESOLVED in YAML with closed_at=2026-05-19 + decision ref
+- [x] **P11.1** ✅ P12 acceptance no longer references P11 as a prerequisite (P12.depends_on changed from [P11] to [P10])
 
 ### P12 — Mutation API + worker pool 
 
