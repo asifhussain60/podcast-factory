@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Podcast Agent — Capabilities Overview</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="A non-technical visual overview of the podcast agent's capabilities, end-to-end flow, quality controls, and roadmap." />
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<link rel="stylesheet" href="assets/css/theme.css" />
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="index.html">
+      <span class="brand-mark" aria-hidden="true">P</span>
+      <span>Podcast Workspace</span>
+    </a>
+    <nav class="nav-primary" aria-label="Primary">
+      <a href="index.html">Overview</a>
+      <a href="podcast-capabilities.html" aria-current="page">Capabilities</a>
+      <a href="acceptance-criteria.html">Acceptance</a>
+      <a href="phased-plan.html">Phased Plan</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<div class="container">
+
+<!-- =========================================================== HERO -->
+<section class="hero" aria-labelledby="hero-title">
+  <span class="eyebrow">For non-technical stakeholders</span>
+  <h1 id="hero-title">What the Podcast Agent Actually Does</h1>
+  <p class="lead">
+    The podcast agent turns dense, scholarly books — many of them in classical Arabic — into
+    high-fidelity audio podcasts via Google NotebookLM. This page is the executive tour:
+    what the agent is capable of today, how content moves through the pipeline, where humans stay
+    in the loop, and where the work is heading next.
+  </p>
+</section>
+
+<!-- =================================================== KEY STATS -->
+<section aria-labelledby="stats-title">
+  <h2 id="stats-title" class="sr-only">Key numbers</h2>
+  <div class="grid grid-4 grid-tight">
+    <div class="stat">
+      <div class="stat-label">Capabilities</div>
+      <div class="stat-value">13</div>
+      <div class="stat-sub">Distinct agent functions, end-to-end</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Pipeline phases</div>
+      <div class="stat-value">14</div>
+      <div class="stat-sub">From source ingestion to final bundle</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Quality controls</div>
+      <div class="stat-value">5</div>
+      <div class="stat-sub">Automated challengers + manual gates</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Books in pilot corpus</div>
+      <div class="stat-value">7</div>
+      <div class="stat-sub">30 → 865 pages, graduated</div>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================== TABS -->
+<section data-tabs aria-labelledby="tabs-title">
+  <h2 id="tabs-title" class="sr-only">Capability views</h2>
+
+  <div class="tab-list" role="tablist" aria-label="Capability views">
+    <button class="tab-btn" role="tab" aria-controls="tab-overview"    id="t-overview">Overview</button>
+    <button class="tab-btn" role="tab" aria-controls="tab-flow"        id="t-flow">How it works</button>
+    <button class="tab-btn" role="tab" aria-controls="tab-capabilities" id="t-capabilities">Capabilities</button>
+    <button class="tab-btn" role="tab" aria-controls="tab-steering"    id="t-steering">Steering NotebookLM</button>
+    <button class="tab-btn" role="tab" aria-controls="tab-quality"     id="t-quality">Quality &amp; humans</button>
+    <button class="tab-btn" role="tab" aria-controls="tab-roadmap"     id="t-roadmap">Roadmap</button>
+  </div>
+
+  <!-- ========================================= TAB 1: OVERVIEW -->
+  <div class="tab-panel" role="tabpanel" id="tab-overview" aria-labelledby="t-overview">
+
+    <h3 class="mt-0">Capability mind map</h3>
+    <p class="muted">
+      At the highest level, the agent's work clusters into six domains. Each domain bundles
+      several pipeline phases and shares a common review gate.
+    </p>
+
+    <div class="diagram" role="figure" aria-labelledby="mindmap-title">
+      <div class="diagram-title">
+        <h3 id="mindmap-title">Six capability domains</h3>
+        <span class="badge tone-accent">Mind map</span>
+      </div>
+
+      <svg viewBox="0 0 1100 560" role="img" aria-label="Mind map: six domains radiating from the central Podcast Agent node.">
+        <defs>
+          <marker id="cap-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 8 4 L 0 8 z" class="arrowhead" />
+          </marker>
+        </defs>
+
+        <!-- branches -->
+        <g fill="none" stroke-width="2" stroke-linecap="round">
+          <path class="edge accent" d="M 550 280 C 380 200, 280 170, 200 130" />
+          <path class="edge accent" d="M 550 280 C 380 280, 300 280, 200 280" />
+          <path class="edge accent" d="M 550 280 C 380 360, 300 400, 200 430" />
+          <path class="edge accent" d="M 550 280 C 720 200, 820 170, 900 130" />
+          <path class="edge accent" d="M 550 280 C 720 280, 800 280, 900 280" />
+          <path class="edge accent" d="M 550 280 C 720 360, 800 400, 900 430" />
+        </g>
+
+        <!-- leaf: ingestion -->
+        <g>
+          <rect class="node-bg" x="40" y="95" width="320" height="70" rx="14" />
+          <text class="node-label" x="70" y="125" font-size="17">① Source ingestion</text>
+          <text class="node-sub"   x="70" y="148" font-size="13">PDF → OCR → searchable text</text>
+        </g>
+
+        <!-- leaf: refinement -->
+        <g>
+          <rect class="node-bg" x="40" y="245" width="320" height="70" rx="14" />
+          <text class="node-label" x="70" y="275" font-size="17">② English refinement</text>
+          <text class="node-sub"   x="70" y="298" font-size="13">OCR cleanup, modern grammar, prose flow</text>
+        </g>
+
+        <!-- leaf: phonetics -->
+        <g>
+          <rect class="node-bg" x="40" y="395" width="320" height="70" rx="14" />
+          <text class="node-label" x="70" y="425" font-size="17">③ Phonetics &amp; transliteration</text>
+          <text class="node-sub"   x="70" y="448" font-size="13">Arabic terms, names, citations</text>
+        </g>
+
+        <!-- leaf: authoring -->
+        <g>
+          <rect class="node-bg" x="740" y="95" width="320" height="70" rx="14" />
+          <text class="node-label" x="770" y="125" font-size="17">④ Episode authoring</text>
+          <text class="node-sub"   x="770" y="148" font-size="13">Chapter design, enrichment, framing</text>
+        </g>
+
+        <!-- leaf: quality -->
+        <g>
+          <rect class="node-bg" x="740" y="245" width="320" height="70" rx="14" />
+          <text class="node-label" x="770" y="275" font-size="17">⑤ Quality &amp; disambiguation</text>
+          <text class="node-sub"   x="770" y="298" font-size="13">Numeric, symbolic, source integrity</text>
+        </g>
+
+        <!-- leaf: delivery -->
+        <g>
+          <rect class="node-bg" x="740" y="395" width="320" height="70" rx="14" />
+          <text class="node-label" x="770" y="425" font-size="17">⑥ Delivery</text>
+          <text class="node-sub"   x="770" y="448" font-size="13">NotebookLM bundle, registers, ledger</text>
+        </g>
+
+        <!-- center -->
+        <g>
+          <circle cx="550" cy="280" r="92" fill="url(#center-grad)" />
+          <defs>
+            <linearGradient id="center-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%"  stop-color="#58a6ff" />
+              <stop offset="100%" stop-color="#bc8cff" />
+            </linearGradient>
+          </defs>
+          <text x="550" y="270" text-anchor="middle" font-size="20" font-weight="700" fill="#fff">Podcast</text>
+          <text x="550" y="298" text-anchor="middle" font-size="20" font-weight="700" fill="#fff">Agent</text>
+        </g>
+      </svg>
+
+      <p class="caption">
+        Each branch is independently testable and contributes one well-defined artifact to the
+        next phase. The orchestrator coordinates branches; humans gate the most sensitive
+        ones (e.g. symbolic-number interpretations).
+      </p>
+    </div>
+
+    <h3>At a glance</h3>
+    <div class="grid grid-3 grid-tight">
+      <div class="card tone-cyan">
+        <div class="card-icon" aria-hidden="true">⏱</div>
+        <h3>End-to-end in hours, not days</h3>
+        <p>A 30-page pilot moves from PDF to a NotebookLM-ready bundle in under two hours.</p>
+      </div>
+      <div class="card tone-green">
+        <div class="card-icon" aria-hidden="true">✓</div>
+        <h3>Built-in disambiguation</h3>
+        <p>Numeric and symbolic claims (e.g. abjad ciphers) are surfaced for human approval — not silently flattened.</p>
+      </div>
+      <div class="card tone-purple">
+        <div class="card-icon" aria-hidden="true">⟲</div>
+        <h3>Resume-after-kill</h3>
+        <p>Every phase checkpoints; a crashed run picks up where it stopped.</p>
+      </div>
+      <div class="card tone-orange">
+        <div class="card-icon" aria-hidden="true">$</div>
+        <h3>Cost-capped runs</h3>
+        <p>Soft warn at $20, hard halt before the final phase at $50 — per book.</p>
+      </div>
+      <div class="card tone-yellow">
+        <div class="card-icon" aria-hidden="true">👁</div>
+        <h3>Live observability</h3>
+        <p>A local dashboard shows phase progress, heartbeat, and cost in real time.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon" aria-hidden="true">⌂</div>
+        <h3>Runs locally</h3>
+        <p>No SaaS, no server required. Open-source LLM transport, file-system state.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================= TAB 2: HOW IT WORKS -->
+  <div class="tab-panel" role="tabpanel" id="tab-flow" aria-labelledby="t-flow">
+
+    <h3 class="mt-0">End-to-end flow</h3>
+    <p class="muted">
+      A book moves through 14 phases. Six humans-in-the-loop gates are marked in yellow.
+      Every box is a discrete, idempotent step — re-running it produces the same result.
+    </p>
+
+    <div class="diagram" role="figure" aria-labelledby="flow-title">
+      <div class="diagram-title">
+        <h3 id="flow-title">Source PDF → NotebookLM bundle</h3>
+        <span class="badge tone-accent">Flowchart</span>
+      </div>
+
+      <svg viewBox="0 0 1180 540" role="img" aria-label="Linear flowchart with 14 stages, six annotated as human-gated.">
+        <defs>
+          <marker id="flow-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" class="arrowhead accent" />
+          </marker>
+        </defs>
+
+        <!-- row 1: ingest + refine -->
+        <g font-family="-apple-system, system-ui, sans-serif">
+          <g>
+            <rect class="node-bg" x="20"  y="40"  width="170" height="64" rx="10" />
+            <text class="node-label" x="105" y="68"  font-size="13" text-anchor="middle">1. PDF source</text>
+            <text class="node-sub"   x="105" y="88"  font-size="11" text-anchor="middle">scanned or digital</text>
+          </g>
+          <g>
+            <rect class="node-bg" x="210" y="40"  width="170" height="64" rx="10" />
+            <text class="node-label" x="295" y="68"  font-size="13" text-anchor="middle">2. OCR</text>
+            <text class="node-sub"   x="295" y="88"  font-size="11" text-anchor="middle">Azure Doc Intelligence</text>
+          </g>
+          <g>
+            <rect class="node-bg" x="400" y="40"  width="170" height="64" rx="10" />
+            <text class="node-label" x="485" y="68"  font-size="13" text-anchor="middle">3. Chunking</text>
+            <text class="node-sub"   x="485" y="88"  font-size="11" text-anchor="middle">10k-word windows</text>
+          </g>
+          <g>
+            <rect class="node-bg" x="590" y="40"  width="170" height="64" rx="10" />
+            <text class="node-label" x="675" y="68"  font-size="13" text-anchor="middle">4. English refine</text>
+            <text class="node-sub"   x="675" y="88"  font-size="11" text-anchor="middle">readable prose</text>
+          </g>
+          <g>
+            <rect class="node-bg" x="780" y="40"  width="170" height="64" rx="10" />
+            <text class="node-label" x="865" y="68"  font-size="13" text-anchor="middle">5. Phonetics</text>
+            <text class="node-sub"   x="865" y="88"  font-size="11" text-anchor="middle">Arabic transliteration</text>
+          </g>
+          <g>
+            <rect class="node-bg" x="970" y="40"  width="190" height="64" rx="10" />
+            <text class="node-label" x="1065" y="68" font-size="13" text-anchor="middle">6. Numeric scan</text>
+            <text class="node-sub"   x="1065" y="88" font-size="11" text-anchor="middle">disambiguation register</text>
+          </g>
+        </g>
+
+        <!-- row 2 arrows + chapter design -->
+        <g font-family="-apple-system, system-ui, sans-serif">
+          <g>
+            <rect class="node-bg" x="970" y="180" width="190" height="64" rx="10" />
+            <text class="node-label" x="1065" y="208" font-size="13" text-anchor="middle">7. Chapter design</text>
+            <text class="node-sub"   x="1065" y="228" font-size="11" text-anchor="middle">structure + contracts</text>
+            <text font-size="10" fill="#d29922" x="1065" y="172" text-anchor="middle">human gate ▼</text>
+          </g>
+          <g>
+            <rect class="node-bg" x="780" y="180" width="170" height="64" rx="10" />
+            <text class="node-label" x="865" y="208" font-size="13" text-anchor="middle">8. Enrichment</text>
+            <text class="node-sub"   x="865" y="228" font-size="11" text-anchor="middle">depth + scene</text>
+          </g>
+          <g>
+            <rect class="node-bg" x="590" y="180" width="170" height="64" rx="10" />
+            <text class="node-label" x="675" y="208" font-size="13" text-anchor="middle">9. Framing</text>
+            <text class="node-sub"   x="675" y="228" font-size="11" text-anchor="middle">intro/outro per ep.</text>
+          </g>
+          <g>
+            <rect class="node-bg" x="400" y="180" width="170" height="64" rx="10" />
+            <text class="node-label" x="485" y="208" font-size="13" text-anchor="middle">10. Build</text>
+            <text class="node-sub"   x="485" y="228" font-size="11" text-anchor="middle">episode .txt bundles</text>
+          </g>
+          <g>
+            <rect class="node-bg" x="210" y="180" width="170" height="64" rx="10" />
+            <text class="node-label" x="295" y="208" font-size="13" text-anchor="middle">11. Challenger</text>
+            <text class="node-sub"   x="295" y="228" font-size="11" text-anchor="middle">automated audit</text>
+            <text font-size="10" fill="#d29922" x="295" y="172" text-anchor="middle">human gate ▼</text>
+          </g>
+          <g>
+            <rect class="node-bg" x="20"  y="180" width="170" height="64" rx="10" />
+            <text class="node-label" x="105" y="208" font-size="13" text-anchor="middle">12. Convergence</text>
+            <text class="node-sub"   x="105" y="228" font-size="11" text-anchor="middle">iterate until clean</text>
+          </g>
+        </g>
+
+        <!-- row 3 -->
+        <g font-family="-apple-system, system-ui, sans-serif">
+          <g>
+            <rect class="node-bg" x="20"  y="320" width="170" height="64" rx="10" />
+            <text class="node-label" x="105" y="348" font-size="13" text-anchor="middle">13. NotebookLM</text>
+            <text class="node-sub"   x="105" y="368" font-size="11" text-anchor="middle">upload bundle</text>
+            <text font-size="10" fill="#d29922" x="105" y="312" text-anchor="middle">human gate ▼</text>
+          </g>
+          <g>
+            <rect class="node-bg" x="210" y="320" width="170" height="64" rx="10" />
+            <text class="node-label" x="295" y="348" font-size="13" text-anchor="middle">14. Audio overview</text>
+            <text class="node-sub"   x="295" y="368" font-size="11" text-anchor="middle">final podcast</text>
+          </g>
+
+          <!-- side outputs -->
+          <g>
+            <rect class="node-bg" x="430" y="320" width="180" height="50" rx="10" />
+            <text class="node-label" x="520" y="350" font-size="13" text-anchor="middle">📊 cost ledger</text>
+          </g>
+          <g>
+            <rect class="node-bg" x="640" y="320" width="200" height="50" rx="10" />
+            <text class="node-label" x="740" y="350" font-size="13" text-anchor="middle">📒 disambiguation register</text>
+          </g>
+          <g>
+            <rect class="node-bg" x="870" y="320" width="180" height="50" rx="10" />
+            <text class="node-label" x="960" y="350" font-size="13" text-anchor="middle">📈 heartbeat / SSE</text>
+          </g>
+        </g>
+
+        <!-- arrows row1 → row1 (forward) -->
+        <g class="edge accent" stroke-width="2" fill="none" marker-end="url(#flow-arrow)">
+          <line x1="190" y1="72" x2="210" y2="72" />
+          <line x1="380" y1="72" x2="400" y2="72" />
+          <line x1="570" y1="72" x2="590" y2="72" />
+          <line x1="760" y1="72" x2="780" y2="72" />
+          <line x1="950" y1="72" x2="970" y2="72" />
+          <!-- row1 → row2 (right column down) -->
+          <path d="M 1065 104 L 1065 180" />
+          <!-- row2 → row2 (right-to-left) -->
+          <line x1="970" y1="212" x2="950" y2="212" />
+          <line x1="780" y1="212" x2="760" y2="212" />
+          <line x1="590" y1="212" x2="570" y2="212" />
+          <line x1="400" y1="212" x2="380" y2="212" />
+          <line x1="210" y1="212" x2="190" y2="212" />
+          <!-- row2 → row3 (left column down) -->
+          <path d="M 105 244 L 105 320" />
+          <!-- row3 → row3 (left-to-right) -->
+          <line x1="190" y1="352" x2="210" y2="352" />
+        </g>
+
+        <!-- legend -->
+        <g font-family="-apple-system, system-ui, sans-serif" font-size="12">
+          <rect class="node-bg" x="20" y="470" width="14" height="14" rx="3" />
+          <text x="42" y="482" class="node-sub">Automated phase</text>
+          <text x="186" y="482" font-size="13" fill="#d29922">▼ human gate</text>
+          <text x="300" y="482" class="node-sub" font-size="12">→ control flow</text>
+        </g>
+      </svg>
+
+      <p class="caption">
+        The pipeline runs strictly left-to-right, top-to-bottom. After step 11, the
+        challenger raises a verdict (ship / ship-with-caution / blocked). A human resolves
+        any blocked findings before the upload step.
+      </p>
+    </div>
+
+    <h3>Content pipeline by wave</h3>
+    <p class="muted">
+      Each wave packages a coherent set of phases into a single, autonomously-scheduled run.
+      Today, Wave 1 (Foundation) lays the safety net before any large-book run.
+    </p>
+
+    <div class="diagram" role="figure" aria-labelledby="wave-bar-title">
+      <div class="diagram-title">
+        <h3 id="wave-bar-title">Pipeline phases grouped into six waves</h3>
+        <span class="badge tone-purple">Pipeline chart</span>
+      </div>
+
+      <svg viewBox="0 0 1140 340" role="img" aria-label="Stacked bar chart showing six waves and their phase counts.">
+        <defs>
+          <linearGradient id="wave-grad-1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#3fb950"/><stop offset="100%" stop-color="#2da44e"/></linearGradient>
+          <linearGradient id="wave-grad-2" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#58a6ff"/><stop offset="100%" stop-color="#388bfd"/></linearGradient>
+          <linearGradient id="wave-grad-3" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#d29922"/><stop offset="100%" stop-color="#b08800"/></linearGradient>
+          <linearGradient id="wave-grad-4" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#bc8cff"/><stop offset="100%" stop-color="#8957e5"/></linearGradient>
+          <linearGradient id="wave-grad-5" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#db6d28"/><stop offset="100%" stop-color="#bc4c00"/></linearGradient>
+          <linearGradient id="wave-grad-6" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#8b949e"/><stop offset="100%" stop-color="#6e7681"/></linearGradient>
+        </defs>
+
+        <g font-family="-apple-system, system-ui, sans-serif" font-size="13">
+          <!-- W1 -->
+          <text x="20" y="48" class="node-label">W1 · Foundation</text>
+          <rect x="240" y="28" width="540" height="28" rx="6" fill="url(#wave-grad-1)" />
+          <text x="510" y="48" text-anchor="middle" fill="#fff" font-weight="700">P1 P2 P3 P4 P5 P6 — guardrails &amp; numeric disambiguation</text>
+
+          <!-- W2 -->
+          <text x="20" y="98" class="node-label">W2 · Observability</text>
+          <rect x="240" y="78" width="190" height="28" rx="6" fill="url(#wave-grad-2)" />
+          <text x="335" y="98" text-anchor="middle" fill="#fff" font-weight="700">P7 P8</text>
+
+          <!-- W3 -->
+          <text x="20" y="148" class="node-label">W3 · Corpus validation</text>
+          <rect x="240" y="128" width="220" height="28" rx="6" fill="url(#wave-grad-3)" />
+          <text x="350" y="148" text-anchor="middle" fill="#fff" font-weight="700">P9 P10</text>
+
+          <!-- W4 -->
+          <text x="20" y="198" class="node-label">W4 · Control plane</text>
+          <rect x="240" y="178" width="360" height="28" rx="6" fill="url(#wave-grad-4)" />
+          <text x="420" y="198" text-anchor="middle" fill="#fff" font-weight="700">P11 P12 P13 P14</text>
+
+          <!-- W5 -->
+          <text x="20" y="248" class="node-label">W5 · Polish</text>
+          <rect x="240" y="228" width="180" height="28" rx="6" fill="url(#wave-grad-5)" />
+          <text x="330" y="248" text-anchor="middle" fill="#fff" font-weight="700">P15 P16</text>
+
+          <!-- W6 -->
+          <text x="20" y="298" class="node-label">W6 · Deferred</text>
+          <rect x="240" y="278" width="360" height="28" rx="6" fill="url(#wave-grad-6)" />
+          <text x="420" y="298" text-anchor="middle" fill="#fff" font-weight="700">P17 P18 P19 P20</text>
+        </g>
+      </svg>
+
+      <p class="caption">
+        Wave 1 carries the most independent phases and the most leverage: every other wave
+        relies on the guardrails it installs.
+      </p>
+    </div>
+
+    <h3>What flows between phases</h3>
+    <div class="diagram" role="figure" aria-labelledby="dataflow-title">
+      <div class="diagram-title">
+        <h3 id="dataflow-title">Data flow — sources, working state, outputs</h3>
+        <span class="badge tone-cyan">Data flow</span>
+      </div>
+
+      <svg viewBox="0 0 1140 320" role="img" aria-label="Three-stage data flow: sources, working state, outputs.">
+        <defs>
+          <marker id="df-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" class="arrowhead accent" />
+          </marker>
+        </defs>
+        <g font-family="-apple-system, system-ui, sans-serif">
+          <!-- column A: sources -->
+          <text x="160" y="38" text-anchor="middle" font-size="13" class="node-sub">SOURCES</text>
+          <rect class="node-bg" x="30" y="60"  width="260" height="50" rx="10"/>
+          <text class="node-label" x="55" y="92" font-size="14">📄 Book PDF</text>
+          <rect class="node-bg" x="30" y="130" width="260" height="50" rx="10"/>
+          <text class="node-label" x="55" y="162" font-size="14">🗂 Doc-Intelligence OCR</text>
+          <rect class="node-bg" x="30" y="200" width="260" height="50" rx="10"/>
+          <text class="node-label" x="55" y="232" font-size="14">🕮 Shared Arabic references</text>
+
+          <!-- column B: working state -->
+          <text x="570" y="38" text-anchor="middle" font-size="13" class="node-sub">WORKING STATE</text>
+          <rect class="node-bg" x="380" y="60"  width="380" height="50" rx="10"/>
+          <text class="node-label" x="405" y="92" font-size="14">_chunks · windowed source &amp; outputs</text>
+          <rect class="node-bg" x="380" y="130" width="380" height="50" rx="10"/>
+          <text class="node-label" x="405" y="162" font-size="14">_system · state.json, heartbeat, ledger</text>
+          <rect class="node-bg" x="380" y="200" width="380" height="50" rx="10"/>
+          <text class="node-label" x="405" y="232" font-size="14">chapters · designs &amp; contracts</text>
+
+          <!-- column C: outputs -->
+          <text x="990" y="38" text-anchor="middle" font-size="13" class="node-sub">OUTPUTS</text>
+          <rect class="node-bg" x="850" y="60"  width="270" height="50" rx="10"/>
+          <text class="node-label" x="875" y="92" font-size="14">🎙 Episode .txt bundles</text>
+          <rect class="node-bg" x="850" y="130" width="270" height="50" rx="10"/>
+          <text class="node-label" x="875" y="162" font-size="14">📒 Disambiguation register</text>
+          <rect class="node-bg" x="850" y="200" width="270" height="50" rx="10"/>
+          <text class="node-label" x="875" y="232" font-size="14">📊 Cost &amp; quality reports</text>
+
+          <!-- arrows -->
+          <g class="edge accent" fill="none" stroke-width="2" marker-end="url(#df-arrow)">
+            <line x1="290" y1="85"  x2="380" y2="85" />
+            <line x1="290" y1="155" x2="380" y2="155" />
+            <line x1="290" y1="225" x2="380" y2="225" />
+            <line x1="760" y1="85"  x2="850" y2="85" />
+            <line x1="760" y1="155" x2="850" y2="155" />
+            <line x1="760" y1="225" x2="850" y2="225" />
+          </g>
+        </g>
+      </svg>
+      <p class="caption">
+        Working state never leaves the book's folder. The bundle is the only artifact a human
+        uploads off-system — to NotebookLM.
+      </p>
+    </div>
+
+  </div>
+
+  <!-- ========================================= TAB 3: CAPABILITIES -->
+  <div class="tab-panel" role="tabpanel" id="tab-capabilities" aria-labelledby="t-capabilities">
+
+    <h3 class="mt-0">Thirteen capabilities, grouped</h3>
+    <p class="muted">
+      Click any capability to see what it does, who it serves, and what could go wrong if it
+      were absent.
+    </p>
+
+    <div class="accordion" role="list">
+
+      <details role="listitem" open>
+        <summary>① Source ingestion <span class="badge tone-cyan">Ingestion</span></summary>
+        <div class="acc-body">
+          <p>Pulls a book PDF through Azure Document Intelligence to produce searchable,
+          structured text. Handles scanned documents, multi-column layouts, and footnotes.</p>
+          <p><strong>Why it matters:</strong> classical books are almost always scans; without
+          accurate OCR, every downstream step is corrupted.</p>
+        </div>
+      </details>
+
+      <details role="listitem">
+        <summary>② Chunking <span class="badge tone-cyan">Ingestion</span></summary>
+        <div class="acc-body">
+          <p>Splits long OCR output into overlapping ~10,000-word windows so each LLM call stays
+          inside its context budget. Windows checkpoint to disk so any single window can be
+          re-run without restarting the book.</p>
+        </div>
+      </details>
+
+      <details role="listitem">
+        <summary>③ English refinement <span class="badge tone-accent">Refinement</span></summary>
+        <div class="acc-body">
+          <p>Cleans up OCR artifacts, modernises archaic grammar, restores paragraph flow, and
+          produces a passage that reads as English prose rather than translation. Preserves
+          quoted Arabic verbatim.</p>
+        </div>
+      </details>
+
+      <details role="listitem">
+        <summary>④ Phonetic transliteration <span class="badge tone-accent">Refinement</span></summary>
+        <div class="acc-body">
+          <p>Generates phonetic spellings for every Arabic name, term, or citation so NotebookLM's
+          synthetic voices pronounce them correctly. Uses a curated Arabic shared-reference set
+          (six files) for consistency across books.</p>
+        </div>
+      </details>
+
+      <details role="listitem">
+        <summary>⑤ Numeric &amp; symbolic disambiguation <span class="badge tone-yellow">Quality</span></summary>
+        <div class="acc-body">
+          <p>Detects numeric or symbolic claims that risk being flattened by an LLM —
+          abjad-numeral ciphers, anachronisms, fabricated enumerations. Routes uncertain cases
+          to a human review register rather than guessing.</p>
+          <p><strong>Severity ladder:</strong> P0 (invented enumeration ⇒ blocked), P1 (missing
+          abjad coverage), P2 (anachronism nuance). The challenger's Loop N enforces this gate
+          before any ship verdict.</p>
+        </div>
+      </details>
+
+      <details role="listitem">
+        <summary>⑥ Chapter design &amp; contracts <span class="badge tone-purple">Authoring</span></summary>
+        <div class="acc-body">
+          <p>Carves the refined corpus into discrete chapters, each with a one-page "contract"
+          that fixes the chapter's title, scope, characters, and key claims. Contracts let
+          downstream steps proceed in parallel without drifting.</p>
+        </div>
+      </details>
+
+      <details role="listitem">
+        <summary>⑦ Enrichment <span class="badge tone-purple">Authoring</span></summary>
+        <div class="acc-body">
+          <p>Adds narrative depth, scene-setting, and connective tissue suitable for an audio
+          format. Constrained by the chapter contract — enrichment cannot invent characters or
+          claims outside the source.</p>
+        </div>
+      </details>
+
+      <details role="listitem">
+        <summary>⑧ Episode framing &amp; source architecture <span class="badge tone-purple">Authoring</span></summary>
+        <div class="acc-body">
+          <p>Wraps each chapter with NotebookLM-friendly structure: host prompts, episode arc
+          tables, listener-objection cues, segment headers, "do-not-say" guardrails. This is the
+          single biggest lever we have on the final audio — see the "Steering NotebookLM" tab.</p>
+          <p><strong>Why it matters:</strong> NotebookLM's voices and conversational style are
+          fixed. We cannot pick a host, accent, or cadence. What we <em>can</em> influence is the
+          kind of conversation those fixed hosts have — by giving them podcast-intelligent
+          source architecture instead of raw prose.</p>
+        </div>
+      </details>
+
+      <details role="listitem">
+        <summary>⑨ Bundle building <span class="badge tone-accent">Delivery</span></summary>
+        <div class="acc-body">
+          <p>Concatenates refined English, framing, and pronunciation hints into a single
+          plain-text bundle per episode. This is the artifact a human uploads to NotebookLM.</p>
+        </div>
+      </details>
+
+      <details role="listitem">
+        <summary>⑩ Automated quality challenger <span class="badge tone-yellow">Quality</span></summary>
+        <div class="acc-body">
+          <p>A separate LLM agent audits each chapter against six categories: source fidelity,
+          numeric integrity, boundary integrity, async safety, prose quality, and brand voice.
+          Findings carry severity (P0/P1/P2). P0 findings block ship.</p>
+        </div>
+      </details>
+
+      <details role="listitem">
+        <summary>⑪ Cost ledger &amp; caps <span class="badge tone-orange">Operations</span></summary>
+        <div class="acc-body">
+          <p>Every model call appends a row to a cost ledger (tokens, model, USD). Soft warning
+          at $20; hard halt before the final phase at $50. Per-book budget overrides available.</p>
+        </div>
+      </details>
+
+      <details role="listitem">
+        <summary>⑫ Heartbeat &amp; live status <span class="badge tone-cyan">Operations</span></summary>
+        <div class="acc-body">
+          <p>A daemon thread writes a heartbeat every 30 seconds. A local browser dashboard
+          shows phase progress, current chunk, elapsed time, and cost — refreshed via
+          server-sent events.</p>
+        </div>
+      </details>
+
+      <details role="listitem">
+        <summary>⑬ Resume &amp; rollback <span class="badge tone-orange">Operations</span></summary>
+        <div class="acc-body">
+          <p>State is captured per phase per chunk. A killed process resumes cleanly; a bad
+          phase can be retried in isolation; nothing is silently overwritten.</p>
+        </div>
+      </details>
+
+    </div>
+
+    <div class="callout tone-yellow mt-5">
+      <h4>What the agent deliberately does <em>not</em> do</h4>
+      <p>It does not publish audio, schedule episodes, manage social media, or interact with any
+      service other than the LLM and Azure OCR. NotebookLM upload is performed by a human who
+      reviews the bundle first. This is intentional containment — fewer moving parts, fewer
+      ways to silently corrupt a book.</p>
+    </div>
+  </div>
+
+  <!-- ========================================= TAB: STEERING NOTEBOOKLM -->
+  <div class="tab-panel" role="tabpanel" id="tab-steering" aria-labelledby="t-steering">
+
+    <h3 class="mt-0">What NotebookLM controls vs. what we control</h3>
+    <p class="muted">
+      NotebookLM's hosts, voices, accents, cadence, humor, interruptions, and music are
+      <strong>fixed</strong> — chosen by Google's internal model, not by us. The lever that
+      remains is the source bundle we hand it. The better that bundle is engineered, the more
+      the generated podcast feels custom.
+    </p>
+
+    <div class="callout tone-purple">
+      <h4>The single most important sentence on this page</h4>
+      <p style="font-size:17px; line-height:1.5; color:var(--text-bright); margin:0">
+        Our leverage is not voice customization. It is
+        <strong>structuring the sources so the AI knows what kind of conversation it is supposed
+        to generate.</strong>
+      </p>
+    </div>
+
+    <div class="diagram mt-5" role="figure" aria-labelledby="control-matrix-title">
+      <div class="diagram-title">
+        <h3 id="control-matrix-title">Fixed by NotebookLM · Steered by source design</h3>
+        <span class="badge tone-cyan">Control matrix</span>
+      </div>
+
+      <svg viewBox="0 0 1140 480" role="img" aria-label="Two-column diagram showing what NotebookLM fixes versus what source design controls.">
+        <defs>
+          <linearGradient id="fixed-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#8b949e"/><stop offset="100%" stop-color="#6e7681"/>
+          </linearGradient>
+          <linearGradient id="lever-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#58a6ff"/><stop offset="100%" stop-color="#bc8cff"/>
+          </linearGradient>
+        </defs>
+
+        <g font-family="-apple-system, system-ui, sans-serif">
+          <!-- left column header -->
+          <rect x="40" y="20" width="500" height="48" rx="10" fill="url(#fixed-grad)"/>
+          <text x="290" y="50" text-anchor="middle" fill="#fff" font-size="17" font-weight="700">FIXED · we cannot change</text>
+
+          <!-- right column header -->
+          <rect x="600" y="20" width="500" height="48" rx="10" fill="url(#lever-grad)"/>
+          <text x="850" y="50" text-anchor="middle" fill="#fff" font-size="17" font-weight="700">STEERED · our source-design levers</text>
+
+          <!-- LEFT items -->
+          <g class="node-sub" font-size="14">
+            <text x="60" y="100" class="node-label">✖ Voice actor / speaker identity</text>
+            <text x="60" y="128" class="node-label">✖ Gender, accent, cadence</text>
+            <text x="60" y="156" class="node-label">✖ Emotional style, humor personality</text>
+            <text x="60" y="184" class="node-label">✖ Interruption behavior, timing</text>
+            <text x="60" y="212" class="node-label">✖ Conversational chemistry</text>
+            <text x="60" y="240" class="node-label">✖ Background music, audio mixing</text>
+            <text x="60" y="268" class="node-label">✖ Precise pacing</text>
+          </g>
+
+          <!-- divider -->
+          <line x1="570" y1="90" x2="570" y2="460" stroke="var(--border-strong)" stroke-dasharray="4 4"/>
+
+          <!-- RIGHT items -->
+          <g class="node-sub" font-size="14">
+            <text x="620" y="100" class="node-label">✓ Tone of the source material</text>
+            <text x="620" y="128" class="node-label">✓ Structure of the uploaded notes</text>
+            <text x="620" y="156" class="node-label">✓ Episode framing &amp; arc</text>
+            <text x="620" y="184" class="node-label">✓ Vocabulary complexity</text>
+            <text x="620" y="212" class="node-label">✓ Debate vs. explainer balance</text>
+            <text x="620" y="240" class="node-label">✓ Technical vs. conversational density</text>
+            <text x="620" y="268" class="node-label">✓ Whether hosts sound academic / investigative / narrative</text>
+          </g>
+
+          <!-- bottom band -->
+          <rect x="40" y="320" width="1060" height="120" rx="14" fill="var(--bg-elevated)"/>
+          <text x="570" y="350" text-anchor="middle" font-size="14" class="node-sub">RESULT BY DEFAULT</text>
+          <text x="290" y="380" text-anchor="middle" font-size="16" class="node-label">Raw prose upload →</text>
+          <text x="290" y="404" text-anchor="middle" font-size="14" class="node-sub">audiobook-like · summary narration · shallow discussion</text>
+
+          <text x="850" y="380" text-anchor="middle" font-size="16" class="node-label">Podcast-intelligent source →</text>
+          <text x="850" y="404" text-anchor="middle" font-size="14" class="node-sub">tension · questions · callbacks · disagreement · clear flow</text>
+        </g>
+      </svg>
+
+      <p class="caption">
+        The left column is closed off to us. The right column is where every hour of engineering
+        effort pays back. The bottom band is the practical consequence: same hosts, very
+        different shows.
+      </p>
+    </div>
+
+    <h3>Ten source-design levers</h3>
+    <p class="muted">
+      The bundles we hand NotebookLM should exercise every one of these. Skipping a lever
+      means leaving NotebookLM to default to "enhanced audiobook" output.
+    </p>
+
+    <div class="grid grid-3 grid-tight">
+      <div class="card tone-cyan">
+        <div class="card-icon" aria-hidden="true">1</div>
+        <h3>Explicit host prompts</h3>
+        <p>Tell the hosts what to say first, what to push back on, and where to slow down.</p>
+      </div>
+      <div class="card tone-cyan">
+        <div class="card-icon" aria-hidden="true">2</div>
+        <h3>Episode arc tables</h3>
+        <p>A small table of beats per episode — hook, escalation, climax, resolution.</p>
+      </div>
+      <div class="card tone-cyan">
+        <div class="card-icon" aria-hidden="true">3</div>
+        <h3>"What listeners may misunderstand"</h3>
+        <p>Pre-empt the predictable mistakes. The hosts will course-correct in dialogue.</p>
+      </div>
+      <div class="card tone-cyan">
+        <div class="card-icon" aria-hidden="true">4</div>
+        <h3>Listener objection blocks</h3>
+        <p>Stage real objections so the hosts can address them, not skip past them.</p>
+      </div>
+      <div class="card tone-cyan">
+        <div class="card-icon" aria-hidden="true">5</div>
+        <h3>Debate framing</h3>
+        <p>Mark sections where the hosts should disagree — produces tension and texture.</p>
+      </div>
+      <div class="card tone-cyan">
+        <div class="card-icon" aria-hidden="true">6</div>
+        <h3>Segment headers</h3>
+        <p>Clear, named segments produce clear transitions instead of run-on monologue.</p>
+      </div>
+      <div class="card tone-cyan">
+        <div class="card-icon" aria-hidden="true">7</div>
+        <h3>Source-card metadata</h3>
+        <p>What is this source, when, where, why does it matter — surfaced as a card.</p>
+      </div>
+      <div class="card tone-cyan">
+        <div class="card-icon" aria-hidden="true">8</div>
+        <h3>Clear editorial separation</h3>
+        <p>Keep author claims, narrator framing, and citations visually distinct.</p>
+      </div>
+      <div class="card tone-cyan">
+        <div class="card-icon" aria-hidden="true">9</div>
+        <h3>Host question blocks</h3>
+        <p>Pre-written questions the hosts can pick up — anchors the conversation.</p>
+      </div>
+      <div class="card tone-red">
+        <div class="card-icon" aria-hidden="true">10</div>
+        <h3>"Do not say" guardrails</h3>
+        <p>Explicit list of pitfalls — invented numerics, anachronisms, sensitive misreads.</p>
+      </div>
+    </div>
+
+    <h3>Where we are today</h3>
+    <div class="grid grid-2 grid-tight">
+      <div class="card tone-green">
+        <h3>What the bundles already do well</h3>
+        <ul>
+          <li>Phonetic normalization for Arabic terms</li>
+          <li>Modern analogies for classical concepts</li>
+          <li>Explanatory clarifications inline</li>
+          <li>Thematic continuity across chapters</li>
+          <li>Theological framing where appropriate</li>
+          <li>Narrative movement (seeker → oath → symbolism → authority → verification → practice)</li>
+        </ul>
+      </div>
+      <div class="card tone-yellow">
+        <h3>What the bundles still read as</h3>
+        <p>Enhanced prose. The hosts narrate. They do not yet <em>disagree, push back, callback,
+        or stage tension.</em></p>
+        <p class="mt-3"><strong>The gap to close:</strong> add the ten levers above to every
+        chapter's source pack so the same hosts deliver a podcast instead of an audiobook.</p>
+      </div>
+    </div>
+
+    <h3>Where steering shows up in the pipeline</h3>
+    <p class="muted">Steering is not a new phase — it is a deliberate set of additions to existing phases.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Pipeline phase</th><th>Steering levers added here</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Chapter design (⑥)</td><td>Episode arc table · debate framing · "what listeners may misunderstand"</td></tr>
+          <tr><td>Enrichment (⑦)</td><td>Listener objection blocks · vocabulary complexity tuning · clear editorial separation</td></tr>
+          <tr><td>Episode framing (⑧)</td><td>Explicit host prompts · segment headers · host question blocks · "do not say" list · source-card metadata</td></tr>
+          <tr><td>Bundle building (⑨)</td><td>Final assembly order so prompts precede source; metadata cards bookend each episode</td></tr>
+          <tr><td>Challenger (⑩)</td><td>New audit category — verify each lever is present and substantive, not boilerplate</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout tone-cyan mt-5">
+      <h4>One-line takeaway</h4>
+      <p>Most teams upload PDFs and get audiobook output. We are engineering source bundles so
+      the same NotebookLM hosts produce <em>podcast-intelligent</em> output — even though the
+      voices themselves remain fixed.</p>
+    </div>
+  </div>
+
+  <!-- ========================================= TAB: QUALITY -->
+  <div class="tab-panel" role="tabpanel" id="tab-quality" aria-labelledby="t-quality">
+
+    <h3 class="mt-0">Where humans review</h3>
+    <p class="muted">
+      The agent makes drafts. Humans make the calls that matter. Three review gates exist by
+      design; two more emerge automatically when the challenger fires a P0 finding.
+    </p>
+
+    <div class="diagram" role="figure" aria-labelledby="hitl-title">
+      <div class="diagram-title">
+        <h3 id="hitl-title">Human-in-the-loop review flow</h3>
+        <span class="badge tone-yellow">HITL</span>
+      </div>
+
+      <svg viewBox="0 0 1140 380" role="img" aria-label="Human-in-the-loop review flow with five gates and convergence loop.">
+        <defs>
+          <marker id="hitl-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" class="arrowhead accent" />
+          </marker>
+          <marker id="hitl-arrow-y" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#d29922" />
+          </marker>
+        </defs>
+
+        <g font-family="-apple-system, system-ui, sans-serif">
+          <!-- author -->
+          <rect class="node-bg" x="30" y="40" width="180" height="56" rx="10" />
+          <text class="node-label" x="120" y="65" text-anchor="middle" font-size="14">Agent drafts chapter</text>
+          <text class="node-sub"   x="120" y="84" text-anchor="middle" font-size="12">refine · phonetics · enrich</text>
+
+          <!-- challenger -->
+          <rect class="node-bg" x="260" y="40" width="180" height="56" rx="10" />
+          <text class="node-label" x="350" y="65" text-anchor="middle" font-size="14">Challenger audits</text>
+          <text class="node-sub"   x="350" y="84" text-anchor="middle" font-size="12">six categories</text>
+
+          <!-- verdict diamond -->
+          <polygon class="node-bg" points="540,68 620,28 700,68 620,108" />
+          <text class="node-label" x="620" y="64" text-anchor="middle" font-size="13">Verdict?</text>
+          <text class="node-sub"   x="620" y="82" text-anchor="middle" font-size="11">P0 / cautions / clean</text>
+
+          <!-- p0 halt -->
+          <rect fill="#f85149" stroke="#cf222e" x="800" y="20" width="220" height="56" rx="10" />
+          <text x="910" y="42" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">P0 → HALT</text>
+          <text x="910" y="63" text-anchor="middle" fill="#fff" font-size="12">blocking finding raised</text>
+
+          <!-- cautions -->
+          <rect fill="#d29922" stroke="#b08800" x="800" y="100" width="220" height="56" rx="10" />
+          <text x="910" y="122" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">Cautions → review</text>
+          <text x="910" y="143" text-anchor="middle" fill="#fff" font-size="12">P1/P2 findings logged</text>
+
+          <!-- human reviews -->
+          <rect class="node-bg" x="800" y="180" width="220" height="56" rx="10" />
+          <text class="node-label" x="910" y="205" text-anchor="middle" font-size="14">Human reviews</text>
+          <text class="node-sub"   x="910" y="224" text-anchor="middle" font-size="12">register + chapter</text>
+
+          <!-- decision: fix or accept -->
+          <polygon class="node-bg" points="540,210 620,180 700,210 620,240" />
+          <text class="node-label" x="620" y="208" text-anchor="middle" font-size="13">Action</text>
+
+          <!-- revise -->
+          <rect class="node-bg" x="260" y="180" width="180" height="56" rx="10" />
+          <text class="node-label" x="350" y="205" text-anchor="middle" font-size="14">Revise &amp; rerun</text>
+          <text class="node-sub"   x="350" y="224" text-anchor="middle" font-size="12">targeted phase retry</text>
+
+          <!-- ship -->
+          <rect fill="#3fb950" stroke="#2da44e" x="540" y="290" width="160" height="56" rx="10" />
+          <text x="620" y="312" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">Ship-ready</text>
+          <text x="620" y="333" text-anchor="middle" fill="#fff" font-size="12">upload to NotebookLM</text>
+
+          <!-- arrows -->
+          <g fill="none" stroke-width="2">
+            <line class="edge accent" x1="210" y1="68" x2="260" y2="68" marker-end="url(#hitl-arrow)" />
+            <line class="edge accent" x1="440" y1="68" x2="540" y2="68" marker-end="url(#hitl-arrow)" />
+            <line class="edge"        x1="700" y1="58" x2="800" y2="48" marker-end="url(#hitl-arrow)" stroke="#f85149" />
+            <line class="edge yellow" x1="700" y1="80" x2="800" y2="128" marker-end="url(#hitl-arrow-y)" stroke="#d29922" />
+            <line class="edge"        x1="910" y1="76" x2="910" y2="100" stroke="#d29922" stroke-dasharray="4 4" />
+            <line class="edge"        x1="910" y1="156" x2="910" y2="180" stroke="#d29922" stroke-dasharray="4 4" />
+            <line class="edge"        x1="800" y1="208" x2="700" y2="208" marker-end="url(#hitl-arrow)" />
+            <!-- revise loop -->
+            <path class="edge accent" d="M 540 222 C 460 230, 420 250, 350 236" marker-end="url(#hitl-arrow)" />
+            <path class="edge"        d="M 350 180 C 350 130, 350 110, 350 96"  marker-end="url(#hitl-arrow)" stroke="#bc8cff" stroke-dasharray="4 4" />
+            <!-- ship -->
+            <path class="edge green" d="M 620 240 L 620 290" marker-end="url(#hitl-arrow)" stroke="#3fb950" />
+            <!-- direct clean -->
+            <path class="edge green" d="M 620 108 C 620 200, 620 260, 620 290" stroke="#3fb950" stroke-dasharray="6 4" />
+            <text x="650" y="200" fill="#3fb950" font-size="12">clean</text>
+          </g>
+        </g>
+      </svg>
+
+      <p class="caption">
+        A clean chapter ships in one pass. A flagged chapter loops through human review and a
+        targeted phase retry until clean. The agent never overrides a human's verdict.
+      </p>
+    </div>
+
+    <h3>Risk &amp; quality control matrix</h3>
+    <p class="muted">
+      Each known failure mode is rated by likelihood and impact. Controls are listed against
+      every red and amber cell.
+    </p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Risk</th><th>Likelihood</th><th>Impact</th><th>Control</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Invented enumeration (LLM fabricates a count or list)</td>
+            <td><span class="badge tone-yellow">Med</span></td>
+            <td><span class="badge tone-red">High</span></td>
+            <td>Challenger Loop N P0 halt · disambiguation register</td>
+          </tr>
+          <tr>
+            <td>Wrong abjad cipher decoded as literal</td>
+            <td><span class="badge tone-yellow">Med</span></td>
+            <td><span class="badge tone-red">High</span></td>
+            <td>Shared abjad reference · Loop N coverage check</td>
+          </tr>
+          <tr>
+            <td>OCR drift on classical Arabic glyphs</td>
+            <td><span class="badge tone-yellow">Med</span></td>
+            <td><span class="badge tone-yellow">Med</span></td>
+            <td>Doc Intelligence + Phonetics phase + human spot-check</td>
+          </tr>
+          <tr>
+            <td>Phase-0d artifact silently empty (was "NO ARTIFACT" bug)</td>
+            <td><span class="badge tone-green">Low</span></td>
+            <td><span class="badge tone-red">High</span></td>
+            <td>P5 artifact-size assertion · typed error · regression test</td>
+          </tr>
+          <tr>
+            <td>Cost overrun on a long book</td>
+            <td><span class="badge tone-yellow">Med</span></td>
+            <td><span class="badge tone-yellow">Med</span></td>
+            <td>P6 ledger · soft warn $20 · hard halt $50</td>
+          </tr>
+          <tr>
+            <td>Cross-book interference (two runs writing same state)</td>
+            <td><span class="badge tone-green">Low</span></td>
+            <td><span class="badge tone-red">High</span></td>
+            <td>Async-safety check S1 · per-book filesystem scope</td>
+          </tr>
+          <tr>
+            <td>Anachronism (modern term in classical context)</td>
+            <td><span class="badge tone-yellow">Med</span></td>
+            <td><span class="badge tone-yellow">Med</span></td>
+            <td>Disambiguation register · framing review</td>
+          </tr>
+          <tr>
+            <td>Brand voice drift between chapters</td>
+            <td><span class="badge tone-green">Low</span></td>
+            <td><span class="badge tone-yellow">Med</span></td>
+            <td>Challenger brand-voice category · chapter contracts</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Agent lifecycle in one diagram</h3>
+
+    <div class="diagram" role="figure" aria-labelledby="lifecycle-title">
+      <div class="diagram-title">
+        <h3 id="lifecycle-title">Plan → Run → Verify → Promote</h3>
+        <span class="badge tone-purple">Lifecycle</span>
+      </div>
+
+      <svg viewBox="0 0 1140 240" role="img" aria-label="Agent lifecycle in five stages.">
+        <defs>
+          <marker id="lc-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" class="arrowhead accent" />
+          </marker>
+        </defs>
+        <g font-family="-apple-system, system-ui, sans-serif">
+          <g>
+            <circle cx="120" cy="120" r="60" fill="url(#wave-grad-1)" />
+            <text x="120" y="115" text-anchor="middle" fill="#fff" font-weight="700" font-size="15">1. Plan</text>
+            <text x="120" y="135" text-anchor="middle" fill="#fff" font-size="11">Wave kickoff</text>
+          </g>
+          <g>
+            <circle cx="340" cy="120" r="60" fill="url(#wave-grad-2)" />
+            <text x="340" y="115" text-anchor="middle" fill="#fff" font-weight="700" font-size="15">2. Run</text>
+            <text x="340" y="135" text-anchor="middle" fill="#fff" font-size="11">Heartbeat live</text>
+          </g>
+          <g>
+            <circle cx="560" cy="120" r="60" fill="url(#wave-grad-3)" />
+            <text x="560" y="115" text-anchor="middle" fill="#fff" font-weight="700" font-size="15">3. Audit</text>
+            <text x="560" y="135" text-anchor="middle" fill="#fff" font-size="11">Challenger</text>
+          </g>
+          <g>
+            <circle cx="780" cy="120" r="60" fill="url(#wave-grad-4)" />
+            <text x="780" y="115" text-anchor="middle" fill="#fff" font-weight="700" font-size="15">4. Review</text>
+            <text x="780" y="135" text-anchor="middle" fill="#fff" font-size="11">Human gate</text>
+          </g>
+          <g>
+            <circle cx="1000" cy="120" r="60" fill="url(#wave-grad-5)" />
+            <text x="1000" y="115" text-anchor="middle" fill="#fff" font-weight="700" font-size="15">5. Promote</text>
+            <text x="1000" y="135" text-anchor="middle" fill="#fff" font-size="11">Upload + log</text>
+          </g>
+          <g fill="none" class="edge accent" stroke-width="3" marker-end="url(#lc-arrow)">
+            <line x1="180" y1="120" x2="280" y2="120" />
+            <line x1="400" y1="120" x2="500" y2="120" />
+            <line x1="620" y1="120" x2="720" y2="120" />
+            <line x1="840" y1="120" x2="940" y2="120" />
+          </g>
+          <!-- resume loop -->
+          <path class="edge accent" stroke-dasharray="6 4" d="M 780 60 C 600 0, 380 0, 340 60" fill="none" marker-end="url(#lc-arrow)" stroke-width="2" />
+          <text x="560" y="35" text-anchor="middle" class="node-sub" font-size="12">revise → re-run targeted phase</text>
+        </g>
+      </svg>
+      <p class="caption">
+        Steps 1–3 run autonomously. Step 4 is always human. Step 5 is human-initiated. The
+        dashed loop captures the "rerun a single phase" path used after a P0 finding.
+      </p>
+    </div>
+  </div>
+
+  <!-- ========================================= TAB 5: ROADMAP -->
+  <div class="tab-panel" role="tabpanel" id="tab-roadmap" aria-labelledby="t-roadmap">
+
+    <h3 class="mt-0">Capability maturity by wave</h3>
+    <p class="muted">
+      Where each capability stands today, and the wave that takes it to production. Hover or
+      tap a row for a one-line rationale.
+    </p>
+
+    <div class="diagram" role="figure" aria-labelledby="maturity-title">
+      <div class="diagram-title">
+        <h3 id="maturity-title">Maturity chart</h3>
+        <span class="badge tone-cyan">Roadmap</span>
+      </div>
+
+      <svg viewBox="0 0 1140 480" role="img" aria-label="Capability maturity chart across six waves.">
+        <g font-family="-apple-system, system-ui, sans-serif" font-size="13">
+
+          <!-- axis -->
+          <line x1="240" y1="40" x2="240" y2="440" class="edge" stroke-width="1" />
+          <g class="node-sub" font-size="12">
+            <text x="295" y="35" text-anchor="middle">Foundation</text>
+            <text x="445" y="35" text-anchor="middle">Observe</text>
+            <text x="595" y="35" text-anchor="middle">Validate</text>
+            <text x="745" y="35" text-anchor="middle">Control</text>
+            <text x="895" y="35" text-anchor="middle">Polish</text>
+            <text x="1045" y="35" text-anchor="middle">Deferred</text>
+          </g>
+          <g class="edge" stroke-width="1" stroke-dasharray="2 3">
+            <line x1="370" y1="40" x2="370" y2="440" />
+            <line x1="520" y1="40" x2="520" y2="440" />
+            <line x1="670" y1="40" x2="670" y2="440" />
+            <line x1="820" y1="40" x2="820" y2="440" />
+            <line x1="970" y1="40" x2="970" y2="440" />
+          </g>
+
+          <!-- rows -->
+          <g>
+            <text x="20" y="80" class="node-label">Source ingestion</text>
+            <rect x="240" y="65" width="130" height="20" rx="6" fill="url(#wave-grad-1)" />
+          </g>
+          <g>
+            <text x="20" y="115" class="node-label">English refinement</text>
+            <rect x="240" y="100" width="130" height="20" rx="6" fill="url(#wave-grad-1)" />
+          </g>
+          <g>
+            <text x="20" y="150" class="node-label">Phonetics</text>
+            <rect x="240" y="135" width="130" height="20" rx="6" fill="url(#wave-grad-1)" />
+          </g>
+          <g>
+            <text x="20" y="185" class="node-label">Numeric disambiguation</text>
+            <rect x="240" y="170" width="130" height="20" rx="6" fill="url(#wave-grad-1)" />
+          </g>
+          <g>
+            <text x="20" y="220" class="node-label">Cost ledger</text>
+            <rect x="240" y="205" width="130" height="20" rx="6" fill="url(#wave-grad-1)" />
+          </g>
+          <g>
+            <text x="20" y="255" class="node-label">Heartbeat &amp; dashboard</text>
+            <rect x="370" y="240" width="150" height="20" rx="6" fill="url(#wave-grad-2)" />
+          </g>
+          <g>
+            <text x="20" y="290" class="node-label">Corpus validation (30→865p)</text>
+            <rect x="520" y="275" width="150" height="20" rx="6" fill="url(#wave-grad-3)" />
+          </g>
+          <g>
+            <text x="20" y="325" class="node-label">ETA model</text>
+            <rect x="520" y="310" width="150" height="20" rx="6" fill="url(#wave-grad-3)" />
+          </g>
+          <g>
+            <text x="20" y="360" class="node-label">Mutation API · parallel books</text>
+            <rect x="670" y="345" width="150" height="20" rx="6" fill="url(#wave-grad-4)" />
+          </g>
+          <g>
+            <text x="20" y="395" class="node-label">Phase rename · agent dedup</text>
+            <rect x="820" y="380" width="150" height="20" rx="6" fill="url(#wave-grad-5)" />
+          </g>
+          <g>
+            <text x="20" y="430" class="node-label">PDF split · parallel LLM · upload UI</text>
+            <rect x="970" y="415" width="150" height="20" rx="6" fill="url(#wave-grad-6)" />
+          </g>
+        </g>
+      </svg>
+
+      <p class="caption">
+        Today: Wave 1 is in-flight; the kitab-al-riyad book waits behind the artifact-validation
+        fix (P5). Each subsequent wave gates on the previous wave's acceptance criteria.
+      </p>
+    </div>
+
+    <h3>Snapshot of what ships when</h3>
+    <div class="grid grid-2 grid-tight">
+      <div class="card tone-green">
+        <h3>Now (Wave 1)</h3>
+        <ul>
+          <li>Numeric/symbolic disambiguation protocol</li>
+          <li>Boundary check &amp; isolation tests</li>
+          <li>Artifact-validation fix (P5)</li>
+          <li>Cost ledger with caps</li>
+        </ul>
+      </div>
+      <div class="card tone-cyan">
+        <h3>Next (Wave 2)</h3>
+        <ul>
+          <li>30-second heartbeat + status CLI</li>
+          <li>Local dashboard with cost + disambiguation panels</li>
+          <li>launchd autostart on macOS</li>
+        </ul>
+      </div>
+      <div class="card tone-yellow">
+        <h3>Soon (Wave 3)</h3>
+        <ul>
+          <li>Seven-book graduated corpus run</li>
+          <li>ETA model fit to real wall-clock data</li>
+        </ul>
+      </div>
+      <div class="card tone-purple">
+        <h3>Later (Waves 4–5)</h3>
+        <ul>
+          <li>Pause / resume / abort from the dashboard</li>
+          <li>Two books in parallel without state corruption</li>
+          <li>Phase IDs renamed to sequential 14-step names</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout tone-purple mt-5">
+      <h4>What "done" looks like</h4>
+      <p>"Done" for the podcast agent is the moment any of the seven pilot books ships a clean,
+      challenger-approved NotebookLM bundle with the disambiguation register signed off by a
+      human reviewer, the cost ledger reconciled within 1% of the Anthropic console, and the
+      bundle uploaded by a human — not by the agent.</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- =================================================== EXPAND CONTROLS -->
+<section aria-labelledby="extras-title">
+  <h2 id="extras-title">Explore further</h2>
+  <p class="section-lead">
+    Every claim on this page is auditable. Trace it back to a single line in the canonical
+    plan or master checklist.
+  </p>
+  <div class="grid grid-3 grid-tight">
+    <a class="card card-link tone-purple" href="phased-plan.html">
+      <div class="card-icon" aria-hidden="true">📋</div>
+      <h3>Phased plan</h3>
+      <p>The full 20-phase, 6-wave plan with phase diagrams and timelines.</p>
+      <div class="arrow">Open phased plan →</div>
+    </a>
+    <a class="card card-link tone-green" href="acceptance-criteria.html">
+      <div class="card-icon" aria-hidden="true">✓</div>
+      <h3>Acceptance checklist</h3>
+      <p>~140 verifiable rows that gate ship-ready status.</p>
+      <div class="arrow">Open acceptance checklist →</div>
+    </a>
+    <a class="card card-link tone-cyan" href="index.html">
+      <div class="card-icon" aria-hidden="true">🏠</div>
+      <h3>Workspace home</h3>
+      <p>Back to the landing page with all views and current status.</p>
+      <div class="arrow">Back to home →</div>
+    </a>
+  </div>
+</section>
+
+</div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>Podcast Workspace · capabilities view</span>
+    <span class="muted">Plan v3 · last refreshed <span data-year>2026</span></span>
+  </div>
+</footer>
+
+<script src="assets/js/view-common.js"></script>
+</body>
+</html>
