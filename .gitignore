@@ -101,3 +101,6 @@ _workspace/.chats/
 
 # Podcast chunked-window scratch (regenerable from raw-extract.md via orchestrator)
 content/podcast/library/**/_chunks/
+
+# Local-only orchestrator/runtime logs
+_workspace/logs/
