@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Podcast Workspace — Plan v3</title>
+<title>Podcast Workspace — Plan v3.2</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="description" content="Landing page for the podcast pipeline plan v3. Capability tour, acceptance checklist, and the full phased plan — all in one place." />
+<meta name="description" content="Landing page for the podcast pipeline plan v3.2. Capability tour, acceptance checklist, and the full phased plan — all in one place." />
 <meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)" />
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
 <meta property="og:title" content="Podcast Workspace — Plan v3" />
@@ -85,7 +85,7 @@
 
 <!-- =========================================================== HERO -->
 <section class="hero" aria-labelledby="hero-title">
-  <span class="eyebrow">Plan v3 · 2026-05-19</span>
+  <span class="eyebrow">Plan v3.2 · 2026-05-19</span>
   <h1 id="hero-title">Podcast Workspace</h1>
   <p class="lead">
     The home page for everything related to the podcast agent's roadmap, current state, and
@@ -109,10 +109,10 @@
     <a class="card card-link nav-card tone-cyan" href="podcast-capabilities.html">
       <div class="card-icon" aria-hidden="true">🎙</div>
       <h3>Podcast capabilities</h3>
-      <p>A non-technical visual tour of the agent's 13 capabilities, end-to-end flow, quality controls, and roadmap.</p>
+      <p>A non-technical visual tour of the agent's 13 capabilities, end-to-end flow, quality controls, and roadmap. v3.2 P8.7 adds 6 interactive D3 diagrams across views.</p>
       <div class="meta">
         <span class="badge tone-cyan">6 tabs</span>
-        <span class="badge">8 diagrams</span>
+        <span class="badge">D3 diagrams · P8.7</span>
       </div>
       <div class="arrow">Open capabilities view →</div>
     </a>
@@ -120,10 +120,10 @@
     <a class="card card-link nav-card tone-green" href="acceptance-criteria.html">
       <div class="card-icon" aria-hidden="true">✓</div>
       <h3>Acceptance checklist</h3>
-      <p>Roughly 140 verifiable rows — the ship/done oracle. Drilled-down by wave with expand/collapse controls.</p>
+      <p>Roughly 200 verifiable rows after v3.2 (W5 absorbed, P19 self-learning expanded) — the ship/done oracle. Drilled-down by wave.</p>
       <div class="meta">
-        <span class="badge tone-green">~140 rows</span>
-        <span class="badge">6 waves</span>
+        <span class="badge tone-green">~200 rows</span>
+        <span class="badge">5 active waves + W5 obsoleted</span>
       </div>
       <div class="arrow">Open checklist →</div>
     </a>
@@ -131,10 +131,10 @@
     <a class="card card-link nav-card tone-purple" href="phased-plan.html">
       <div class="card-icon" aria-hidden="true">📋</div>
       <h3>Phased plan (full)</h3>
-      <p>The canonical 20-phase, 6-wave plan with SVG architecture diagrams, phase timelines, and the P4 protocol flow.</p>
+      <p>The canonical 18-active-phase, 5-active-wave plan (v3.2). W5 obsoleted; P15/P16 redirected. P8.7 D3 view upgrade owned in W2.</p>
       <div class="meta">
-        <span class="badge tone-purple">20 phases</span>
-        <span class="badge">6 waves</span>
+        <span class="badge tone-purple">18 active phases</span>
+        <span class="badge">5 active waves</span>
       </div>
       <div class="arrow">Open phased plan →</div>
     </a>
@@ -150,8 +150,8 @@
   <div class="grid grid-4 grid-tight">
     <div class="stat">
       <div class="stat-label">Plan version</div>
-      <div class="stat-value">v3</div>
-      <div class="stat-sub">Sequential renumbering, 6-wave grouping</div>
+      <div class="stat-value">v3.2</div>
+      <div class="stat-sub">W5 absorbed; P5.1 shipped; self-learning expanded</div>
     </div>
     <div class="stat">
       <div class="stat-label">Active wave</div>
@@ -160,13 +160,13 @@
     </div>
     <div class="stat">
       <div class="stat-label">Acceptance verified</div>
-      <div class="stat-value">5.7%</div>
-      <div class="stat-sub">8 of ~140 rows</div>
+      <div class="stat-value">~5%</div>
+      <div class="stat-sub">9 of ~200 rows (P5.1 ship banks one row)</div>
     </div>
     <div class="stat">
       <div class="stat-label">In-flight runs</div>
       <div class="stat-value">0</div>
-      <div class="stat-sub">kitab-al-riyad blocked on P5</div>
+      <div class="stat-sub">P5.1 unblock shipped; W1 ready to kick</div>
     </div>
   </div>
 
@@ -193,8 +193,8 @@
     <span class="wave-status"><span class="badge tone-yellow">In flight</span></span>
   </div>
   <div class="wave-row w2">
-    <span class="wave-id"><span class="dot" aria-hidden="true"></span>W2 · Observability</span>
-    <span class="wave-desc">Heartbeat, status CLI, read-only status API, browser dashboard with cost + disambiguation panels.</span>
+    <span class="wave-id"><span class="dot" aria-hidden="true"></span>W2 · Observability + Polish</span>
+    <span class="wave-desc">Heartbeat, status CLI, status API, dashboard, cost + disambiguation panels. v3.2 absorbs former W5: P8.6 bulk phase rename, P8.7 D3 view upgrade (6 diagrams), P8.8 agent dedup.</span>
     <span class="wave-status"><span class="badge">Queued</span></span>
   </div>
   <div class="wave-row w3">
@@ -208,13 +208,13 @@
     <span class="wave-status"><span class="badge">Queued</span></span>
   </div>
   <div class="wave-row w5">
-    <span class="wave-id"><span class="dot" aria-hidden="true"></span>W5 · Polish</span>
-    <span class="wave-desc">Sequential phase rename (14 named steps), agent dedup, isolation CI. Hard-gated on zero in-flight books.</span>
-    <span class="wave-status"><span class="badge">Gated</span></span>
+    <span class="wave-id"><span class="dot" aria-hidden="true"></span>W5 · OBSOLETED (v3.2)</span>
+    <span class="wave-desc">Absorbed into W1+W2. P15 → P5.4 (W1 constants) + P8.6 (W2 bulk rename). P16 → P8.8 (W2 single commit). Eliminates citation rot in <code>_learning/promoted/</code> tombstones.</span>
+    <span class="wave-status"><span class="badge">Obsoleted</span></span>
   </div>
   <div class="wave-row w6">
-    <span class="wave-id"><span class="dot" aria-hidden="true"></span>W6 · Deferred</span>
-    <span class="wave-desc">PDF pre-splitting, parallel LLM, trainer SQLite ingest, web upload — each promotes on a specific trigger.</span>
+    <span class="wave-id"><span class="dot" aria-hidden="true"></span>W6 · Deferred + Self-Learning</span>
+    <span class="wave-desc">PDF pre-splitting, parallel LLM, web upload + v3.2 P19 self-learning (phase-prompt addenda P19.1/2/3, R9-capped). Each promotes on its trigger.</span>
     <span class="wave-status"><span class="badge">Trigger-gated</span></span>
   </div>
 </section>
@@ -242,8 +242,8 @@
     <a class="phase-pill tone-4" href="acceptance-criteria.html#w4"><strong>P12</strong>Mutate API</a>
     <a class="phase-pill tone-4" href="acceptance-criteria.html#w4"><strong>P13</strong>SQLite</a>
     <a class="phase-pill tone-4" href="acceptance-criteria.html#w4"><strong>P14</strong>UI mutate</a>
-    <a class="phase-pill tone-5" href="acceptance-criteria.html#w5"><strong>P15</strong>Phase rename</a>
-    <a class="phase-pill tone-5" href="acceptance-criteria.html#w5"><strong>P16</strong>Agent dedup</a>
+    <a class="phase-pill tone-6 is-deferred" href="acceptance-criteria.html#w5" title="OBSOLETED by v3.2 — see P5.4 + P8.6"><strong>P15</strong>→ P5.4+P8.6</a>
+    <a class="phase-pill tone-6 is-deferred" href="acceptance-criteria.html#w5" title="OBSOLETED by v3.2 — see P8.8"><strong>P16</strong>→ P8.8</a>
     <a class="phase-pill tone-6 is-deferred" href="acceptance-criteria.html#w6"><strong>P17</strong>PDF split</a>
     <a class="phase-pill tone-6 is-deferred" href="acceptance-criteria.html#w6"><strong>P18</strong>Parallel LLM</a>
     <a class="phase-pill tone-6 is-deferred" href="acceptance-criteria.html#w6"><strong>P19</strong>Trainer DB</a>

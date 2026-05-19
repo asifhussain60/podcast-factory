@@ -1,6 +1,6 @@
 # Acceptance Criteria — Master Checklist
 
-**Companion to:** [`podcast-plan.yaml`](./podcast-plan.yaml) **v3.1** (2026-05-19 — sequential renumbering, 6-wave grouping, SDK migration cancelled, Numeric/Symbolic Disambiguation folded in as P4, **learning-loop production-readiness pass** adds P1.4 / P2.5 / P4.4b / P6.4 / P7.5 / P8.5 / P9.8 / P15.4 + principle P-9 + risk R7/R8)
+**Companion to:** [`podcast-plan.yaml`](./podcast-plan.yaml) **v3.2** (2026-05-19 — v3.2 DoR rebalancing: P5.1 SHIPPED; W5 absorbed into W1/W2 via P5.4+P8.6+P8.7+P8.8; P2.6 refinement determinism; P10.1 cost-eta; P11 demoted; P12.3 mutation pytest harness; P19 expanded to self-learning P19.1/P19.2/P19.3 + R9 cap; P1.4 exit-code 4 for P-9 violation. Prior: v3.1 learning-loop production-readiness; v3 6-wave restructure; SDK migration cancelled; P4 numeric/symbolic disambiguation)
 **Companion to:** [`view/index.html`](./view/index.html), [`research/findings.md`](./research/findings.md), [`numeric-symbolic-disambiguation-plan.md`](./numeric-symbolic-disambiguation-plan.md) (P4 design doc)
 **Audited by:** `/repo-surgeon --plan-only` Pass 5 L10 (acceptance ↔ YAML sync)
 **Read by:** journal-challenger Category B, podcast-challenger Category S + Loop N (all consult this file)
@@ -35,6 +35,7 @@ This file is the SHIP / DONE oracle. Every row maps to one verifiable acceptance
 - [ ] **P1.4** ✅ W3 invocation refuses if `cost-ledger.jsonl` shows >$50 in current book (hard cap from P6.3)
 - [ ] **P1.4** ✅ W5 invocation refuses without `--confirm-zero-inflight` AND a passing prereq_gate
 - [ ] **P1.4** ✅ Exit codes: 0=already done, 2=executed+DONE, 3=halted at human-review gate, 1=error
+- [ ] **P1.4** ✅ **(v3.2 NEW)** Exit code 4 = "wave DONE but P-9 invariant violated" — fixture_coverage_pct dropped OR `test_challenger.py` red on develop OR last_trainer_outcome=NEVER_RAN without rationale; scheduler treats as halt-for-inspection
 
 ### P2 — E2E test harness  *(was P0b)*
 
@@ -51,6 +52,11 @@ This file is the SHIP / DONE oracle. Every row maps to one verifiable acceptance
 - [ ] **P2.5** ✅ Idempotency: second run produces no duplicate findings (line-count stable); no new proposal emitted for an already-promoted signature
 - [ ] **P2.5** ✅ `.github/workflows/podcast-learning-loop.yml` runs `test_challenger.py` on every PR touching `scripts/podcast/`, `.github/agents/podcast-challenger.agent.md`, or `content/podcast/.skill/handbook/`; red harness BLOCKS merge to develop
 - [ ] **P2.5** 🔒 P-9 invariant: `test_challenger.py` exits 0 on `develop` at all times (manual gate at every wave kickoff)
+- [ ] **P2.6** ✅ **(v3.2 NEW)** `scripts/podcast/tests/e2e/test_refinement_determinism.py` exists; `pytest scripts/podcast/tests/e2e/test_refinement_determinism.py -v` exits 0
+- [ ] **P2.6** ✅ **(v3.2 NEW)** Asserts: Levenshtein ratio across two same-input refinement runs ≥ 0.90; structural-key parity 100% (H2 / paragraph / parenthetical counts); word-count delta < 5%
+- [ ] **P2.6** ✅ **(v3.2 NEW)** Committed golden `tests/e2e/fixtures/tiny-book/golden/refined-english.md` exists; PR diff to it requires commit message `GOLDEN-REFRESH: <reason>`
+- [ ] **P2.6** 📊 **(v3.2 NEW)** Run cost <$1; wall-clock <10min on tiny-book fixture
+- [ ] **P2.6** ✅ **(v3.2 NEW)** Test fails loud if a future `_authoring.py` change drifts the refinement style — operationalizes the v3.2 bit-stable quality contract
 
 ### P3 — Doc regressions from 2026-05-19 legacy cleanup  *(was P0c — partially done)*
 
@@ -80,9 +86,13 @@ This file is the SHIP / DONE oracle. Every row maps to one verifiable acceptance
 
 ### P5 — `claude -p` permission-mode fix + artifact validation  *(was P0)*
 
-- [ ] **P5.1** ✅ `grep 'claude -p' scripts/podcast/` returns 0 results without `--permission-mode acceptEdits`; both call sites (`_chunking.py:_run_one_window`, `_authoring.py:_run_claude`) pass the flag
+- [x] **P5.1** ✅ **SHIPPED** (v3.2 2026-05-19) — `grep 'claude -p' scripts/podcast/` returns 0 results without `--permission-mode acceptEdits`; both call sites pass the flag: `_authoring.py:99` and `_chunking.py:255` now invoke `[CLAUDE_CMD, "-p", "--permission-mode", "acceptEdits", prompt]`
 - [ ] **P5.2** ✅ Artifact check raises typed error when `out_path` missing OR `file_size == 0`; no silent `NO ARTIFACT`; stdout/stderr captured
 - [ ] **P5.3** ✅ P5.1 + P5.2 merged to `develop` BEFORE `book/kitab-al-riyad` resume; book branch rebased clean; `_system/orchestrator-state.json` untouched by rebase; all N windows produce non-empty `.out.md`; phase transitions 0b → 0c → 0d → 0e cleanly OR halts cleanly at 0f
+- [ ] **P5.4** ✅ **(v3.2 NEW)** `scripts/podcast/_phases.py` module exists; `Phase` StrEnum with 14 values in PHASE_ORDER (01-preflight..14-done); `LEGACY_ALIAS` covers 0a..0g + named-step set; `resolve()` raises ValueError on unknown name
+- [ ] **P5.4** ✅ **(v3.2 NEW)** `scripts/podcast/tests/test_phases.py` asserts: Phase is StrEnum, PHASE_ORDER==tuple(Phase), every LEGACY_ALIAS key resolves, unknown raises ValueError
+- [ ] **P5.4** ✅ **(v3.2 NEW)** Importing `_phases.py` has zero side effects (no FS writes, no network)
+- [ ] **P5.4** 🟡 **(v3.2 NEW)** Consumed by W2 P8.6 bulk rewrite — W1 deliverable is the module + tests only; other modules not yet importing it
 
 ### P6 — Cost ledger + soft/hard caps  *(was P3.4; decoupled from cancelled SDK migration)*
 
@@ -139,6 +149,46 @@ This file is the SHIP / DONE oracle. Every row maps to one verifiable acceptance
 - [ ] **P8.5** ✅ Red-harness banner appears when `test_challenger.py` exit != 0 (verified by injecting a failing fixture in CI)
 - [ ] **P8.5** ✅ 14-day flat-line on `promoted_total` AND zero `archived/` activity → "system isn't learning" warning band
 
+### P8.6 — Bulk phase rename + HTML doc rewrite  *(v3.2 NEW; absorbed from former W5 P15)*
+
+- [ ] **P8.6** 🔒 **(v3.2)** Prereq verified: `orchestrator_status.py --all --json | jq '[.books[] | select(.phase_status=="running" or .phase_status=="failed")] | length'` returns 0 (naturally true in W2 closing window, before W3)
+- [ ] **P8.6** ✅ **(v3.2)** All consumer modules (`orchestrate_book.py`, `_authoring.py`, `_chunking.py`, `_progress.py`, `_convergence.py`, `extract_chapter.py`, `build_episode_txt.py`) import `Phase` enum from `scripts/podcast/_phases.py` instead of literal phase strings
+- [ ] **P8.6** ✅ **(v3.2)** `read_state()` detects `schema_version=1` and rewrites legacy keys via `_phases.LEGACY_ALIAS`; `write_state()` emits `schema_version=2` with new keys only
+- [ ] **P8.6** ✅ **(v3.2)** `--retry-phase 0b` AND `--retry-phase 05-refine-english` both resolve to `Phase.REFINE_ENG`
+- [ ] **P8.6** ✅ **(v3.2)** `grep -rE '\b0[a-g]\b' scripts/podcast/ --include='*.py'` returns 0 literal phase-ID matches outside `_phases.LEGACY_ALIAS`
+- [ ] **P8.6** ✅ **(v3.2)** `grep -n '"trainer"' scripts/podcast/ --include='*.py'` returns 0 raw matches outside `_phases.LEGACY_ALIAS`
+- [ ] **P8.6** ✅ **(v3.2)** `tests/e2e/test_phase_rename.py` asserts state.json shows `12-trainer` after the trainer step on a `schema_version=2` fixture; `schema_version=1` fixture migrates; `--retry-phase trainer` resolves to `Phase.TRAINER`
+- [ ] **P8.6** ✅ **(v3.2)** All 5 `docs/architecture/podcast-*.html` files updated in lockstep with code; grep on each for literal `0a..0g` returns 0 results
+- [ ] **P8.6** ✅ **(v3.2)** All 4 `_workspace/plan/view/*.html` files updated (phase-pill grid labels reflect new step names)
+- [ ] **P8.6** ✅ **(v3.2)** `.github/agents/podcast-trainer.agent.md` updated to reference `12-trainer` in any phase-name strings (was P15.4, now folded here)
+
+### P8.7 — D3.js view upgrade (6 diagrams across 4 views, offline-bundled)  *(v3.2 NEW)*
+
+- [ ] **P8.7** ✅ **(v3.2)** `_workspace/plan/view/assets/js/d3.v7.min.js` exists (~280KB bundled vendor copy; no CDN)
+- [ ] **P8.7** ✅ **(v3.2)** `_workspace/plan/view/assets/js/diagrams.js` exists; registers 6 diagram builders
+- [ ] **P8.7** ✅ **(v3.2)** `_workspace/plan/view/assets/css/diagrams.css` exists; uses only existing `theme.css` CSS variables — no new color literals
+- [ ] **P8.7** ✅ **(v3.2)** D1 wave dependency DAG renders in `index.html` above the wave-row stack; hover shows `done_signal`; click jumps to acceptance anchor
+- [ ] **P8.7** ✅ **(v3.2)** D2 phase Gantt renders in `phased-plan.html`; every phase P1-P20 has a bar; OBSOLETED phases (P15, P16) greyed-out with redirect tooltip
+- [ ] **P8.7** ✅ **(v3.2)** D3 P4 numeric disambiguation decision tree renders in `phased-plan.html`; click to expand/collapse; leaves show P0/P1/P2 verdict
+- [ ] **P8.7** ✅ **(v3.2)** D4 pipeline flowchart renders in `podcast-capabilities.html`; hover shows `_authoring.py` function name
+- [ ] **P8.7** ✅ **(v3.2)** D5 agent topology graph renders in `podcast-capabilities.html`; exactly 4 agent nodes; only trainer has dashed outbound (spec-edit) edges
+- [ ] **P8.7** ✅ **(v3.2)** D6 acceptance heatmap renders in `acceptance-criteria.html`; cell totals sum to current row inventory (~200)
+- [ ] **P8.7** ✅ **(v3.2)** All 6 diagrams render with NO network access (verified by offline test); no `fetch()` of off-domain URLs; no `<script src="http...">` references
+- [ ] **P8.7** ✅ **(v3.2)** Phase IDs cited inside each diagram match `phases[].id` in `podcast-plan.yaml` (Pass 5 L7 conformance)
+- [ ] **P8.7** ✅ **(v3.2)** Accessibility: every diagram has aria-labels + keyboard nav (tabindex) + fallback summary table beneath
+
+### P8.8 — Agent dedup + isolation CI (single-commit collapse of former W5 P16)  *(v3.2 NEW)*
+
+- [ ] **P8.8** ✅ **(v3.2)** `.github/agents/podcast-challenger.agent.md` exists (materialized with staged Loop N edits from P4.5); byte-identical to former `.claude/agents/podcast-challenger.md` post-suffix-strip
+- [ ] **P8.8** ✅ **(v3.2)** `.github/agents/podcast-extract.agent.md` exists (materialized)
+- [ ] **P8.8** ✅ **(v3.2)** `.github/agents/ui-reviewer.agent.md` exists (materialized)
+- [ ] **P8.8** ✅ **(v3.2)** `infra/claude-agents/` directory removed (`git rm -r`; history preserved)
+- [ ] **P8.8** ✅ **(v3.2)** `scripts/install-claude-skills.sh` rewritten: reads `.github/agents/*.agent.md` and materializes `.claude/agents/<basename without .agent>.md`; second run produces zero diffs (idempotent)
+- [ ] **P8.8** ✅ **(v3.2)** `scripts/check_agent_dedup.py` exists; exits 0 only when name sets across `.github/+.claude/` match after suffix-strip; runs in CI
+- [ ] **P8.8** ✅ **(v3.2)** `scripts/podcast/_isolation_check.py` exists; AST scan fails build on `import scripts.site.*` or `import scripts.memoir.*`; honors P1.1 boundary whitelist
+- [ ] **P8.8** ✅ **(v3.2)** `.github/workflows/podcast-isolation.yml` exists; runs boundary_check + isolation_check + dedup_check + test_challenger.py; all green on clean tree
+- [ ] **P8.8** ✅ **(v3.2)** VS Code / Claude Code agent picker shows each agent exactly once (visual verification in PR description)
+
 ---
 
 ## Wave 3 — Corpus Validation (Phases P9–P10)
@@ -174,15 +224,19 @@ This file is the SHIP / DONE oracle. Every row maps to one verifiable acceptance
 ### P10 — ETA model  *(was v2 P4.8)*
 
 - [ ] **P10.1** ✅ `scripts/podcast/orchestrator_status.py --eta` predicts wall-clock within ±30% on held-out book (linear regression over P9.1–P9.7 runs)
+- [ ] **P10.1** ✅ **(v3.2 NEW)** Parallel regression target: cost-per-phase (USD). `--cost-eta <book-slug>` predicts total cost within ±25%
+- [ ] **P10.1** ✅ **(v3.2 NEW)** `run_wave.py 3 --book <slug>` invokes `--cost-eta` as pre-flight; exits non-zero if predicted cost > `cost_cap_hard`; prints predicted/cap/explanation
+- [ ] **P10.1** ✅ **(v3.2 NEW)** CLI flag `--retrain-eta` re-fits both regressions after a new book lands
 
 ---
 
 ## Wave 4 — Control Plane (Phases P11–P14)
 
-### P11 — Multi-Mac decision  *(was v2 P5.0)*
+### P11 — Multi-Mac decision (DEMOTED to doc-only in v3.2)  *(was v2 P5.0)*
 
-- [ ] **P11.1** ✅ `docs/podcast/multi-mac-decision.md` exists (default lean: primary-only; secondary Macs = SSH-tunneled read-only viewers)
-- [ ] **P11.1** ✅ Q1 marked resolved in YAML with one-line decision ref
+- [ ] **P11.1** ✅ **(v3.2 DEMOTED)** `docs/podcast/multi-mac-decision.md` exists — single page (~1 screen): primary-only service; secondary Macs are SSH-tunneled read-only viewers; localhost-bound bearer-token auth from keychain; heartbeat hostname enforcement for R3
+- [ ] **P11.1** ✅ **(v3.2)** Q1 marked RESOLVED in YAML with closed_at=2026-05-19 + decision ref
+- [ ] **P11.1** ✅ **(v3.2)** P12 acceptance no longer references P11 as a prerequisite (P12.depends_on changed from [P11] to [P10])
 
 ### P12 — Mutation API + worker pool  *(was v2 P5.1+P5.2)*
 
@@ -191,6 +245,17 @@ This file is the SHIP / DONE oracle. Every row maps to one verifiable acceptance
 - [ ] **P12.1** ✅ Bearer-token auth from keychain; localhost-only default
 - [ ] **P12.2** ✅ 2 books run truly parallel without state corruption
 - [ ] **P12.2** ✅ Server restart picks up orphaned runs via state.json scan
+
+### P12.3 — Mutation API pytest harness  *(v3.2 NEW)*
+
+- [ ] **P12.3** ✅ **(v3.2 NEW)** `scripts/podcast/tests/api/test_mutations.py` + `test_auth.py` exist; `pytest scripts/podcast/tests/api/ -v` exits 0
+- [ ] **P12.3** ✅ **(v3.2 NEW)** Every mutation flow has ≥2 test cases (start, pause, resume, retry-phase, delete)
+- [ ] **P12.3** ✅ **(v3.2 NEW)** Auth tests assert 401 for missing/invalid bearer; 200 with valid
+- [ ] **P12.3** ✅ **(v3.2 NEW)** Audit row asserted for every mutation flow (TestClient + Popen mock)
+- [ ] **P12.3** ✅ **(v3.2 NEW)** Idempotency asserted: pause+pause is no-op; resume+resume is no-op
+- [ ] **P12.3** ✅ **(v3.2 NEW)** `DELETE /books/{slug}` without `?rollback_branch=true` keeps git branch (mock not called); with the flag, branch deletion is invoked
+- [ ] **P12.3** ✅ **(v3.2 NEW)** Cross-book parallel mutation test passes without state corruption (P13.1 SQLite read consistency)
+- [ ] **P12.3** 📊 **(v3.2 NEW)** Tests use TestClient + subprocess mock — no live subprocess, no API spend; <30s wall-clock
 
 ### P13 — SQLite cross-book index (READ-ONLY cache)  *(was v2 P5.3)*
 
@@ -205,30 +270,18 @@ This file is the SHIP / DONE oracle. Every row maps to one verifiable acceptance
 
 ---
 
-## Wave 5 — Polish (Phases P15–P16; HARD-GATED on zero in-flight books)
+## Wave 5 — OBSOLETED by v3.2 — absorbed into W1+W2
 
-### P15 — Orchestrator phase rename (14-step sequential naming)  *(was v2 P6.1)*
+All P15 / P16 acceptance rows have been redirected. Track progress under:
+- **P5.4** (W1) — phase-id constants module
+- **P8.6** (W2) — bulk phase rename + HTML doc rewrite (absorbs P15 + P15.4 acceptance)
+- **P8.8** (W2) — agent dedup + isolation CI (absorbs P16.1–P16.4 acceptance)
 
-- [ ] **P15** 🔒 Prereq verified: `orchestrator_status.py --all --json | jq '[.books[] | select(.phase_status=="running" or .phase_status=="failed")] | length'` returns 0
-- [ ] **P15** ✅ `kitab-al-riyad/_system/orchestrator-state.json` migrates seamlessly on first read (schema_version=1 → 2)
-- [ ] **P15** ✅ `--retry-phase 0b` AND `--retry-phase 05-refine-english` resolve to the same phase (back-compat alias for one release)
-- [ ] **P15** ✅ Docs updated atomically: `docs/architecture/podcast-pipeline.html`, `podcast-orchestrator.html`, `podcast-quality-system.html`, `podcast-overview.html`, `docs/architecture/index.html`
-- [ ] **P15** ✅ `grep -rE '\b0[a-g]\b' scripts/podcast/` returns 0 literal phase-ID strings (post-migration)
-- [ ] **P15.4** ✅ `grep -n '"trainer"' scripts/podcast/` returns 0 raw matches outside the legacy-translation table
-- [ ] **P15.4** ✅ `scripts/podcast/tests/e2e/test_phase_rename.py` asserts state.json shows `phase: "12-trainer"` after the trainer step on a `schema_version=2` fixture
-- [ ] **P15.4** ✅ `schema_version=1` fixture migrates; `--retry-phase trainer` resolves to `12-trainer`
-- [ ] **P15.4** ✅ `.github/agents/podcast-trainer.agent.md` updated to reference `12-trainer` everywhere a phase string appears
+W5 row remains in the YAML waves[] only so `run_wave.py 5` has a no-op handler.
 
-### P16 — Agent dedup + isolation CI  *(was v2 P6.2 + P6.3)*
-
-- [ ] **P16.1** ✅ Every agent in any of `.github/agents/`, `infra/claude-agents/`, `.claude/agents/` exists in `.github/agents/` (`podcast-challenger.agent.md`, `podcast-extract.agent.md`, `ui-reviewer.agent.md` migrated upstream)
-- [ ] **P16.1** ✅ P4.5 Loop N edits carried across to `.github/agents/podcast-challenger.agent.md` (byte-identity verified post-materialization)
-- [ ] **P16.2** ✅ `scripts/check_agent_dedup.py` exists; exits 0 only when name sets across three dirs match; runs in CI
-- [ ] **P16.2** ✅ VS Code/Claude Code agent picker shows each agent exactly once (PR description records visual verification)
-- [ ] **P16.3** ✅ `scripts/podcast/_isolation_check.py` exists; AST scan fails build on forbidden import
-- [ ] **P16.3** ✅ `.github/workflows/podcast-isolation.yml` exists; isolation_check CI job green on clean tree
-- [ ] **P16.4** ✅ `infra/claude-agents/` removed; git log preserves history (tracked deletion, not force-removal)
-- [ ] **P16.4** ✅ `install-claude-skills.sh` idempotent: second run produces zero diffs
+- [x] **W5.obs** ✅ **(v3.2)** P15 + P15.4 redirected to P5.4 + P8.6 acceptance
+- [x] **W5.obs** ✅ **(v3.2)** P16.1-P16.4 redirected to P8.8 acceptance
+- [x] **W5.obs** ✅ **(v3.2)** Legacy_id_map updated: `P15`, `P16`, `P15.4`, `"v2 P6.1"`, `"v2 P6.2+P6.3"` all map to OBSOLETED_BY_* values
 
 ---
 
@@ -236,7 +289,30 @@ This file is the SHIP / DONE oracle. Every row maps to one verifiable acceptance
 
 - [ ] **P17** 🟡 PDF pre-splitting — promote when book exceeds 500MB OR 2000 pages OR DI 600s poll budget  *(was v2 P7.1)*
 - [ ] **P18** 🟡 Parallel per-chapter LLM calls — promote when P6 cost-tracking stable AND user opts in  *(was v2 P7.2)*
-- [ ] **P19** 🟡 Trainer ingestion of SQLite event log — promote when P13 SQLite proven stable  *(was v2 P7.3)*
+- [ ] **P19** 🟡 **(v3.2 EXPANDED)** Trainer self-learning — phase-prompt addenda + regression fixtures + health recursion; promote when P13 SQLite proven stable AND P2.6 refinement determinism green AND P9.8 yield report shows fixture_coverage_pct UP
+
+#### P19.1 — Phase-prompt addendum substrate  *(v3.2 NEW)*
+
+- [ ] **P19.1** ✅ **(v3.2)** `content/podcast/.skill/handbook/_learned-addenda/` directory exists with `README.md` documenting schema + R9 cap
+- [ ] **P19.1** ✅ **(v3.2)** `_authoring.py` prompt assembly reads addenda matching current phase and concatenates them in `<learned-addenda>` XML block at end of system prompt
+- [ ] **P19.1** ✅ **(v3.2)** R9 cap enforced: 6th addendum to same phase triggers FIFO eviction (oldest → `_archive/`)
+- [ ] **P19.1** ✅ **(v3.2)** `podcast-trainer.agent.md` Protocol §3 documents the addendum-writing flow with ≤5 cap
+- [ ] **P19.1** ✅ **(v3.2)** Every addendum file's frontmatter validates against schema (schema_version, phase, signature, authored_by, authored_at, authored_from_books)
+
+#### P19.2 — Phase-prompt regression fixtures + Goodhart guard  *(v3.2 NEW)*
+
+- [ ] **P19.2** ✅ **(v3.2)** ≥3 fixtures per phase under `_learning/fixtures/phase_prompts/<phase>/` (05-refine-english, 06-phonetics, 07-chapter-design, 08-enrichment, 11-per-chapter)
+- [ ] **P19.2** ✅ **(v3.2)** `scripts/podcast/test_phase_prompts.py` exits 0 against current fixtures (post-P19.1 substrate; no addenda yet)
+- [ ] **P19.2** ✅ **(v3.2)** Trainer addendum proposals MUST pass `test_phase_prompts.py` before write; failing proposals archived with tombstone
+- [ ] **P19.2** ✅ **(v3.2)** `podcast-trainer.agent.md` INVARIANTS reaffirms: trainer never authors or modifies phase_prompts fixtures (only humans)
+- [ ] **P19.2** ✅ **(v3.2)** CI: `test_phase_prompts.py` runs on every PR touching `scripts/podcast/_authoring.py` OR `content/podcast/.skill/handbook/_learned-addenda/`
+
+#### P19.3 — Health-score recursion (next-book post-addendum verification)  *(v3.2 NEW)*
+
+- [ ] **P19.3** ✅ **(v3.2)** `invoke_trainer` records `addenda_in_effect` list in end-of-book audit
+- [ ] **P19.3** ✅ **(v3.2)** Next-book trainer pass computes per-signature health-score delta vs. last-book-with-this-signature; reverts regressed addenda automatically
+- [ ] **P19.3** ✅ **(v3.2)** Revert-tombstone in `_learned-addenda/_archive/` cites the regression measurements
+- [ ] **P19.3** ✅ **(v3.2)** If addendum reverts 2+ times for the same signature, signature escalates to human-review queue (P14 dashboard surface)
 - [ ] **P20** 🟡 Web upload for PDFs in dashboard — promote when P12 mutation API stable  *(was v2 P7.4)*
 
 ---
@@ -348,18 +424,18 @@ The following v2 phases are **CANCELLED** by the v3 directive "Claude Code is th
 
 ## Inventory
 
-- Total checkboxes: ~185 (Pass 5 L10 counts actual rows; up from ~140 in v3 due to v3.1 learning-loop production-readiness pass: +5 P1.4 + 6 P2.5 + 3 P4.4b + 6 P6.4 + 3 P7.5 + 6 P8.5 + 6 P9.gate + 6 P9.8 + 4 P15.4 + 15 LL1..LL15)
-- Currently checked: 8 (P3 partial — P3.1/P3.2 — plus OP-1..OP-6)
-- Currently pending: ~177
+- Total checkboxes: ~230 (Pass 5 L10 counts actual rows; v3.2 net delta vs v3.1 ≈ +45: +5 P2.6 +4 P5.4 +1 P1.4-ec4 +10 P8.6 +12 P8.7 +9 P8.8 +3 P10.1-cost +3 P11-demote +8 P12.3 +5 P19.1 +5 P19.2 +4 P19.3 −9 P15 −8 P16 +3 W5.obs; v3.2 P5.1 SHIPPED checkbox banks +1 checked row)
+- Currently checked: 12 (P3.1, P3.2, P5.1 SHIPPED, W5.obs ×3, OP-1..OP-6)
+- Currently pending: ~218
 - Verification mix: ✅ auto-verifiable (majority) · 🟡 dep-blocked · 🔒 manual gate · 📊 metric-bound
 
 ## Wave summary (autonomous scheduling targets)
 
 | Wave | Phases | Effort | DONE-when (high-level) | Schedule intent |
 |---|---|---|---|---|
-| W1 Foundation | P1–P6 | 2–4 days (parallel) | All W1 acceptance rows checked; kitab-al-riyad resume passes | Overnight idempotent run; zero LLM cost |
-| W2 Observability | P7–P8 | 4–6 days | Dashboard reachable; heartbeat/SSE live; cost panel populates | Daytime; trivial LLM cost |
-| W3 Corpus | P9–P10 | ~1 wk wall-clock | 7 books shipped clean OR failure-modes documented; ETA ±30% | One book per scheduled invocation; cost-capped |
-| W4 Control Plane | P11–P14 | ~1 wk | 2 books parallel; mutations audit-logged | Single window; mutation surface live |
-| W5 Polish | P15–P16 | 3–5 days | Phase rename atomic; agent picker shows each agent once; isolation CI green | HARD-GATED zero-in-flight |
-| W6 Deferred | P17–P20 | N/A | Per-phase `promote_when` triggers fire | Not time-scheduled |
+| W1 Foundation | P1–P6 | 2–4 days (parallel) | All W1 rows checked incl. P2.6 determinism + P5.4 phase constants; kitab-al-riyad resume passes | Overnight idempotent run; zero LLM cost (P2.5+P2.6 tiny-book ~<$2) |
+| W2 Observability + Polish | P7–P8 (incl. P8.6/P8.7/P8.8) | ~1.5 wk | Dashboard reachable; phase rename schema_version=2; D3 views render 6 diagrams; agent dedup + isolation CI green | Daytime+overnight; trivial LLM cost; W2 closes BEFORE W3 starts (zero-in-flight naturally true) |
+| W3 Corpus | P9–P10 | ~1 wk wall-clock | 7 books shipped clean OR failure-modes documented; ETA ±30% (clock) AND ±25% (cost) | One book per scheduled invocation; cost-capped (pre-flight cost-eta check) |
+| W4 Control Plane | P11(doc)–P14 | ~1 wk | 2 books parallel; mutations audit-logged + pytest-harnessed (P12.3); typed-slug destructive confirmation | Single window; mutation surface live |
+| W5 OBSOLETED | — | N/A | Auto-DONE when P5.4 + P8.6 + P8.7 + P8.8 all check | N/A (absorbed into W1+W2 by v3.2) |
+| W6 Deferred + Self-Learning | P17–P20 incl. P19.1/2/3 | N/A | Per-phase `promote_when` triggers fire; P19 self-learning gated by P13 + P2.6 + P9.8 | Not time-scheduled |
