@@ -29,11 +29,11 @@ Use `- [x]` to mark done; `- [ ]` to mark pending. Group anchors (`### Wave N �
 - [ ] **P1.2** ✅ `docs/podcast/manual-library-handoff.md` exists; documents promotion workflow
 - [ ] **P1.2** ✅ `scripts/podcast/_proposal_writer.py` exists; emits schema-valid `proposed-library-entries.md` with frontmatter `schema_version`, `book_slug`, `episode_id`, `generated_by`, `generated_at`
 - [ ] **P1.3** 🟡 CI wiring deferred to P16; P1.1 invocation present in `.github/workflows/podcast-isolation.yml`
-- [ ] **P1.4** ✅ `scripts/podcast/run_wave.py` exists; subcommands 1–6; idempotent (second invocation does zero work when wave already done)
-- [ ] **P1.4** ✅ `run_wave.py --check N` computes wave N done_signal from `acceptance-criteria.md` without executing
-- [ ] **P1.4** ✅ W3 invocation refuses if `cost-ledger.jsonl` shows >$50 in current book (hard cap from P6.3)
-- [ ] **P1.4** ✅ Exit codes: 0=already done, 2=executed+DONE, 3=halted at human-review gate, 1=error
-- [ ] **P1.4** ✅ Exit code 4 = "wave DONE but P-9 invariant violated" — fixture_coverage_pct dropped OR `test_challenger.py` red on develop OR last_trainer_outcome=NEVER_RAN without rationale; scheduler treats as halt-for-inspection
+- [x] **P1.4** ✅ `scripts/podcast/run_wave.py` exists; subcommands 1–5; idempotent (second invocation does zero work when wave already done) — verified by `MainArgvTests.test_done_wave_idempotent_exits_zero`
+- [x] **P1.4** ✅ `run_wave.py --check N` computes wave N done_signal from `acceptance-criteria.md` without executing — verified by `MainArgvTests.test_check_flag_reports_without_dispatching`
+- [x] **P1.4** ✅ W3 invocation refuses if `cost-ledger.jsonl` shows >$50 in current book (hard cap from P6.3) — verified by `MainArgvTests.test_w3_refuses_when_cost_over_cap` + override path
+- [x] **P1.4** ✅ Exit codes: 0=already done, 2=executed+DONE, 3=halted at human-review gate, 1=error — verified by `MainArgvTests` exit-code assertions
+- [x] **P1.4** ✅ Exit code 4 = "wave DONE but P-9 invariant violated" — fixture_coverage_pct dropped OR `test_challenger.py` red on develop OR last_trainer_outcome=NEVER_RAN without rationale; scheduler treats as halt-for-inspection — verified by `P9InvariantTests.test_returns_false_on_subprocess_non_zero`
 
 ### P2 — E2E test harness 
 
@@ -269,7 +269,7 @@ Use `- [x]` to mark done; `- [ ]` to mark pending. Group anchors (`### Wave N �
 ---
 
 
-## Wave 6 — Deferred (trigger-gated, no acceptance until promoted)
+## Wave 5 — Deferred + Self-Learning (trigger-gated, no acceptance until promoted)
 
 - [ ] **P17** 🟡 PDF pre-splitting — promote when book exceeds 500MB OR 2000 pages OR DI 600s poll budget 
 
