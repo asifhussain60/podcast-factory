@@ -85,7 +85,7 @@ Use `- [x]` to mark done; `- [ ]` to mark pending. Group anchors (`### Wave N �
 ### P5 — `claude -p` permission-mode fix + artifact validation  *(was P0)*
 
 - [x] **P5.1** ✅ **SHIPPED** — `grep 'claude -p' scripts/podcast/` returns 0 results without `--permission-mode acceptEdits`; both call sites pass the flag: `_authoring.py:99` and `_chunking.py:255` now invoke `[CLAUDE_CMD, "-p", "--permission-mode", "acceptEdits", prompt]`
-- [ ] **P5.2** ✅ Artifact check raises typed error when `out_path` missing OR `file_size == 0`; no silent `NO ARTIFACT`; stdout/stderr captured
+- [x] **P5.2** ✅ Artifact check raises typed error when `out_path` missing OR `file_size == 0`; no silent `NO ARTIFACT`; stdout/stderr captured — verified by `ChunkingArtifactValidationTests.test_rc_zero_no_artifact_raises_fatal` + `AssertArtifactTests` (4 tests); `ChunkingError` extended with `stdout`/`stderr` kwargs; chapter-design (07) + enrichment (08) loops now raise on rc=0-no-artifact instead of `continue`
 - [ ] **P5.3** ✅ P5.1 + P5.2 merged to `develop` BEFORE `book/kitab-al-riyad` resume; book branch rebased clean; `_system/orchestrator-state.json` untouched by rebase; all N windows produce non-empty `.out.md`; phase transitions 05-refine-english → 06-phonetics → 07-chapter-design → 08-enrichment cleanly OR halts cleanly at 09-series-plan gate
 - [ ] **P5.4** ✅ `scripts/podcast/_phases.py` module exists; `Phase` StrEnum with 14 values in PHASE_ORDER (01-preflight..14-done); `LEGACY_ALIAS` covers 0a..0g + named-step set; `resolve()` raises ValueError on unknown name
 - [ ] **P5.4** ✅ `scripts/podcast/tests/test_phases.py` asserts: Phase is StrEnum, PHASE_ORDER==tuple(Phase), every LEGACY_ALIAS key resolves, unknown raises ValueError

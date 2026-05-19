@@ -739,7 +739,15 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"({episode_count} ep, {slice_wc} src words) · `{sc_title[:50]}`")
         rc, stdout, stderr = _run_claude_p(sc_prompt, timeout=sc_timeout)
         if rc != 0:
-            sc_failures.append((sc_idx, f"rc={rc}: {(stderr or '').strip()[:200]}"))
+            # Transient (network/API/quota) — log + continue; resume retries.
+            # P5.2: capture stdout AND stderr in the failure record.
+            sc_failures.append(
+                (
+                    sc_idx,
+                    f"rc={rc}: stderr={(stderr or '').strip()[:300]} | "
+                    f"stdout={(stdout or '').strip()[:300]}",
+                )
+            )
             log(f"    sc {sc_idx:03d}/{len(source_chapters)} · FAILED rc={rc}")
             continue
 
@@ -751,9 +759,27 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
         if unit_mode != "chapter" and (not source_map_path.exists() or source_map_path.stat().st_size == 0):
             missing.append(str(source_map_path))
         if missing:
-            sc_failures.append((sc_idx, f"missing artifacts: {missing[:3]}"))
-            log(f"    sc {sc_idx:03d}/{len(source_chapters)} · INCOMPLETE")
-            continue
+            # P5.2: rc=0 with missing artifacts is the P5.1 failure class —
+            # LLM exited cleanly without writing. Fatal, not retryable.
+            raise AuthoringError(
+                phase="07-chapter-design",
+                message=(
+                    f"sc {sc_idx:03d}/{len(source_chapters)} ({sc_title!r}) "
+                    f"returned rc=0 but produced no artifacts for: {missing[:5]}. "
+                    f"P5.1 failure class — claude -p exited cleanly without "
+                    f"writing the expected files. After --permission-mode "
+                    f"acceptEdits, this should not recur; surfaces here "
+                    f"indicate a content-filter refusal, quota hit, or prompt "
+                    f"issue."
+                ),
+                manual_fallback=(
+                    f"Inspect stdout/stderr attached to this error. If the "
+                    f"prompt needs adjusting, edit and resume. If transient "
+                    f"quota, retry. DO NOT silently advance."
+                ),
+                stdout=stdout or "",
+                stderr=stderr or "",
+            )
 
         # All good → checkpoint.
         done_marker.write_text(
@@ -917,13 +943,36 @@ def author_phase_0e(book_dir: Path,
         pre_mtime = chapter_file.stat().st_mtime
         rc, stdout, stderr = _run_claude_p(prompt, timeout=chapter_timeout)
         if rc != 0:
-            failures.append((stem, f"rc={rc}: {(stderr or '').strip()[:200]}"))
+            # Transient — log + continue; resume retries.
+            # P5.2: capture stdout AND stderr in the failure record.
+            failures.append(
+                (
+                    stem,
+                    f"rc={rc}: stderr={(stderr or '').strip()[:300]} | "
+                    f"stdout={(stdout or '').strip()[:300]}",
+                )
+            )
             log(f"    {stem} · FAILED rc={rc}")
             continue
         if not chapter_file.exists() or chapter_file.stat().st_size == 0:
-            failures.append((stem, "chapter file missing or empty after enrichment"))
-            log(f"    {stem} · MISSING")
-            continue
+            # P5.2: rc=0 with missing/empty chapter file is the P5.1 failure
+            # class — claude -p exited cleanly without writing. Fatal.
+            raise AuthoringError(
+                phase="08-enrichment",
+                message=(
+                    f"{stem} returned rc=0 but produced no enriched chapter "
+                    f"file at {chapter_file}. P5.1 failure class — claude -p "
+                    f"exited cleanly without writing. After --permission-mode "
+                    f"acceptEdits this should not recur."
+                ),
+                manual_fallback=(
+                    f"Inspect stdout/stderr on this error. If a content-filter "
+                    f"refusal or quota issue, address the cause and resume. "
+                    f"DO NOT silently advance."
+                ),
+                stdout=stdout or "",
+                stderr=stderr or "",
+            )
         post_mtime = chapter_file.stat().st_mtime
         touched = " (in-place rewrite)" if post_mtime > pre_mtime else " (no mtime change — verify manually)"
 

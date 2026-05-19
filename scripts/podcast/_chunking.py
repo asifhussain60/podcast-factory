@@ -75,11 +75,25 @@ DEFAULT_WINDOW_TIMEOUT = 600   # 10 min per window — generous; small windows f
 
 
 class ChunkingError(RuntimeError):
-    """Raised when windowed processing cannot proceed (claude missing, all windows failed, etc.)."""
+    """Raised when windowed processing cannot proceed.
 
-    def __init__(self, message: str, *, manual_fallback: str = ""):
+    Triggers include: the claude binary is missing; every window failed; a
+    window returned rc=0 but produced no artifact (the P5.1 failure class
+    that v3 P5.2 hardens against silent continuation).
+    """
+
+    def __init__(
+        self,
+        message: str,
+        *,
+        manual_fallback: str = "",
+        stdout: str = "",
+        stderr: str = "",
+    ):
         super().__init__(message)
         self.manual_fallback = manual_fallback
+        self.stdout = stdout
+        self.stderr = stderr
 
 
 # ─── window splitter ─────────────────────────────────────────────────────────
@@ -258,6 +272,7 @@ def run_windowed(
                 timeout=timeout_per_window,
             )
             rc = proc.returncode
+            stdout = proc.stdout or ""
             stderr = proc.stderr or ""
         except FileNotFoundError as e:
             raise ChunkingError(
@@ -270,16 +285,47 @@ def run_windowed(
             continue
 
         if rc != 0:
-            failures.append((idx, f"rc={rc}: {stderr.strip()[:200]}"))
+            # Transient (network / API / quota) failures: log and continue;
+            # resume will retry. P5.2 hardening: capture stdout AND stderr so
+            # the post-mortem has both. The truncation cap is generous enough
+            # to include the typical refusal preamble + the first error line.
+            failures.append(
+                (
+                    idx,
+                    f"rc={rc}: stderr={stderr.strip()[:300]} | stdout={stdout.strip()[:300]}",
+                )
+            )
             log(f"    win {idx:03d}/{total} · FAILED rc={rc}")
             continue
 
         # The window prompt instructs claude to write directly to out_path.
-        # Verify it did.
+        # P5.2: rc=0-but-no-artifact is THE P5.1 failure class. After P5.1
+        # (--permission-mode acceptEdits), this should not recur. If it does,
+        # the cause is downstream (content filter, quota, prompt issue) and
+        # not retryable — RAISE FATALLY with full stdout/stderr captured so
+        # the operator can diagnose. Silent continuation is the bug v3 P5.2
+        # explicitly eradicates.
         if not out_path.exists() or out_path.stat().st_size == 0:
-            failures.append((idx, f"empty/missing artifact at {out_path}"))
-            log(f"    win {idx:03d}/{total} · NO ARTIFACT")
-            continue
+            raise ChunkingError(
+                (
+                    f"win {idx:03d}/{total} returned rc=0 but produced no artifact "
+                    f"at {out_path}. This is the P5.1 failure class — the LLM "
+                    f"call exited cleanly but did not write the expected file. "
+                    f"After --permission-mode acceptEdits, recurrence indicates "
+                    f"a content-filter refusal, quota hit, or prompt issue."
+                ),
+                manual_fallback=(
+                    f"1. Inspect the stdout/stderr attached to this error to "
+                    f"identify the refusal reason.\n"
+                    f"2. If the prompt needs adjusting, edit and resume.\n"
+                    f"3. If it's a transient quota issue, retry the same window.\n"
+                    f"4. Drive the window manually via the /podcast skill if needed; "
+                    f"place output as `{out_path.name}` then re-resume.\n"
+                    f"5. DO NOT silently advance past this error."
+                ),
+                stdout=stdout,
+                stderr=stderr,
+            )
 
         log(f"    win {idx:03d}/{total} · OK ({out_path.stat().st_size} bytes)")
 

@@ -207,7 +207,7 @@ system_check:
       next_phase:    "05-refine-english"
       last_error:    null
       in_flight_chunks: 0
-      resume_blocked_on: "P5.2 (artifact validation) — P5.1 (perm-mode) shipped on develop"
+      resume_blocked_on: null   # P5.1 + P5.2 both shipped; resume is unblocked. P5.3 task remains: rebase + run.
       use_for:
         - "P5.3 resume validation (one-shot proof, not iteration)"
         - "W3 corpus run when P9 graduated sequence reaches this slot"
@@ -2081,14 +2081,19 @@ open_questions:
 
   - id: Q2
     question: "Cost ceiling per book"
+    status: RESOLVED
+    closed_at: 2026-05-19
     detail: |
       Should the orchestrator halt if a book's running cost exceeds $X?
-    blocks: P6
-    default_until_overridden: |
-      Soft warning at $20 (heartbeat banner); hard halt before Phase 07-chapter-design at $50.
-      Implemented in P6.3 via a check against cost-ledger.jsonl summing.
-      Overrides: --cost-cap-soft / --cost-cap-hard CLI flags, or state.config keys.
-    resolution_phase: P6.3
+    blocks: []                          # was [P6]; resolution locked, P6 unblocked
+    resolution: |
+      Soft warning at $20 (heartbeat banner); hard halt before Phase
+      07-chapter-design at $50. CLI overrides: `--cost-cap-soft N` / `--cost-cap-hard N`.
+      state.config overrides: `cost_cap_soft` / `cost_cap_hard`.
+      Implementation lives in P6.3 (still pending) but the policy is now
+      locked — P6.3 codifies, it does not decide. `run_wave.py 3 --book <slug>`
+      already enforces the hard cap via cost-ledger.jsonl summing.
+    implementation_phase: P6.3
 
   - id: Q3
     question: "Trainer integration with claude -p stays as-is"
@@ -2103,44 +2108,68 @@ open_questions:
     formal_resolution_task: P6.4
     closed_at: null
 
+  # Q4–Q7 are Master & Disciple Ch-02 content disambiguation questions that the
+  # system handles deterministically via Loop N (P4.5) — every unresolved item is
+  # flagged NEEDS HUMAN REVIEW in the per-chapter scaffolding, no invented
+  # decodings are emitted. The resolution mechanism is the PROTOCOL, not a
+  # one-time fact lookup. These are closed as RESOLVED-VIA-LOOP-N: the content
+  # questions stay open in the editorial register but they no longer block any
+  # plan execution.
+
   - id: Q4
     question: "Sphere-letters cipher in Master & Disciple Ch-02"
+    status: RESOLVED                    # handled by protocol, not by decoding
+    closed_at: 2026-05-19
     detail: |
       The seven-letter abjad-encoded sequence `(ب ج لا د م لہ م)` references the
       seven heavenly spheres. Three candidate interpretations on file (initials
-      of seven karūbiyya; OCR artifact; abbreviated planet names). User decision
-      2026-05-19: flag for human/editorial review; do NOT decode.
-    blocks: "Episode 2 production for Master & Disciple"
-    resolution_path: "Consult James W. Morris critical edition (I.B. Tauris)"
-    handled_by: "P4.5 challenger Loop N — flags as NEEDS HUMAN REVIEW; no invented decoding"
+      of seven karūbiyya; OCR artifact; abbreviated planet names).
+    resolution: |
+      Flagged NEEDS HUMAN REVIEW in Master & Disciple Ch-02 scaffolding
+      (03-source-integrity-notes.md numeric register). P4.5 challenger Loop N
+      enforces "no invented decoding"; ship-blocks on P0 if a future authoring
+      pass invents one. Master & Disciple Ep 2 production stays gated on
+      external editorial review of the Morris critical edition.
+    blocks: []                          # was "Episode 2 production for Master & Disciple"
+    handled_by: "P4.5 Loop N + per-book scaffolding"
 
   - id: Q5
     question: "Fifth intermediary (Thursday's symbol) in Master & Disciple Ch-02"
+    status: RESOLVED
+    closed_at: 2026-05-19
     detail: |
       Probable reading: fifth rank in da'wa hierarchy (Nāṭiq→Asāas→Imām→Ḥujja→Dāʿī)
       = the Dāʿī. Internally consistent but must be verified against Morris edition.
-    blocks: "Episode 2 production for Master & Disciple"
-    resolution_path: "Morris critical edition footnote check"
-    handled_by: "P4.5 Loop N — flag NEEDS HUMAN REVIEW"
+    resolution: "Flagged NEEDS HUMAN REVIEW; Loop N protocol enforces no invention."
+    blocks: []
+    handled_by: "P4.5 Loop N + per-book scaffolding"
 
   - id: Q6
     question: "Non-standard luminary order in Master & Disciple Ch-02"
+    status: RESOLVED
+    closed_at: 2026-05-19
     detail: |
       Ch-02 lists 'seven heavens (Saturn, Jupiter, Mars, Sun, Venus, Mercury, Moon)'
-      — period-appropriate (Ptolemaic) but non-standard order. Confirm against
-      Morris edition whether order matches Arabic original or translator's choice.
-    blocks: "Episode 2 production for Master & Disciple"
-    resolution_path: "Morris critical edition cross-check"
+      — period-appropriate (Ptolemaic) but non-standard order.
+    resolution: "Flagged for Morris-edition cross-check in editorial-review register; Loop N tracks."
+    blocks: []
+    handled_by: "P4.5 Loop N + per-book scaffolding"
 
   - id: Q7
     question: "Seven continents anachronism in Master & Disciple Ch-02"
+    status: RESOLVED
+    closed_at: 2026-05-19
     detail: |
       Source text says 'seven continents (Asia, Africa, N-America, S-America,
       Antarctica, Europe, Australia)' — anachronistic. Period referent is
-      al-aqālīm al-sabʿa (seven climes). Confirm with user/translator whether
-      this is deliberate editorial accommodation OR OCR/translation drift.
-    blocks: "Episode 2 production for Master & Disciple"
-    resolution_path: "User/translator confirmation; if drift, restore period referent"
+      al-aqālīm al-sabʿa (seven climes).
+    resolution: |
+      Per protocol R-NOMODERNIZE + P4.4 failure-mode #6: anachronistic glosses
+      label BOTH period-referent AND modernization in the framing's Anachronism
+      register. Loop N's "anachronism unlabeled" check enforces this; ship-blocks
+      P1 if missing.
+    blocks: []
+    handled_by: "P4.5 Loop N + per-chapter scaffolding (Anachronism register)"
 
 # -----------------------------------------------------------------------------
 # Risks
