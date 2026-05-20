@@ -101,8 +101,10 @@ _workspace/orchestrator-logs/
 # (was local-only until 2026-05-19; tracked thereafter per user directive).
 # Add any sensitive/per-machine subdirectories explicitly here if needed.
 
-# Podcast chunked-window scratch (regenerable from raw-extract.md via orchestrator)
-content/podcast/library/**/_chunks/
+# Chunked-window scratch (orchestrator runtime artifacts — regenerable from
+# raw-extract.md). Broader **/_chunks/ catches any future caller that writes
+# _chunks/ outside the canonical book directory.
+**/_chunks/
 
 # Local-only orchestrator/runtime logs
 _workspace/logs/
