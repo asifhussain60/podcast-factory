@@ -14,10 +14,10 @@ current_book_dir: content/podcast/library/books/kitab-al-riyad
 authoritative_state_path: content/podcast/library/books/kitab-al-riyad/_system/orchestrator-state.json
 status_tag: HOLDING
 current_phase: "0e"
-current_phase_status_summary: phases 0a–0d complete; 0e (enrichment) pending; Air is operator-held to give Studio sole Anthropic quota during asaas Phase 0b
-next_action: await Asif's signal to resume; then --resume 0e (enrichment pass — bāb/fasl → concept-glossary)
+current_phase_status_summary: phases 0a–0d complete; 0e (enrichment) ready to start; operator quota-hold lifted 2026-05-20T11:22:01Z — Air is unblocked but not yet running, awaiting explicit begin signal from Asif
+next_action: on begin signal, run pre-0e validators (check_chapter_set, check_lineage, validate_registry) then `--resume kitab-al-riyad` to start Phase 0e (enrichment pass — bāb/fasl → concept-glossary)
 anthropic_share: 0.5
-last_verified_at: 2026-05-20T11:17:42Z
+last_verified_at: 2026-05-20T11:22:01Z
 last_updated: 2026-05-20
 ---
 
@@ -71,7 +71,7 @@ the orchestrator bugs (P5.x, P6.5) currently tracked on
 
 ## 3. Current state snapshot (re-verify on every session — do not trust this section)
 
-`last_verified_at: 2026-05-20T11:17:42Z`. At that moment, on `origin/book/kitab-al-riyad`:
+`last_verified_at: 2026-05-20T11:22:01Z`. At that moment, on `origin/book/kitab-al-riyad`:
 
 - **HEAD**: `5b13338 podcast(kitab-al-riyad): merge develop — broaden **/_chunks/ ignore`
 - **phase**: `0e`
@@ -100,16 +100,20 @@ The Air has driven 0c (Arabic phonetic), 0d (chapter segmentation; 13
 chapters with contracts), plus `_system/registry.md` / `enrichment-whitelist.md` /
 `mangle-map.md` / `meta-prose-tells.md` populated. All three validators pass clean.
 
-**Why HOLDING**: operator-imposed pause so the Studio has sole Anthropic
-quota for asaas Phase 0b. Not blocked by any pipeline gate.
+**Why HOLDING**: as of 2026-05-20T11:22:01Z the original quota-hold is
+**lifted**. The Air is unblocked but not yet running — it remains tagged
+`HOLDING` because it is still paused at a human gate (awaiting Asif's
+explicit begin signal). Not blocked by any pipeline gate; the nominal
+50/50 Anthropic share with Studio now applies whenever Asif starts 0e.
 
 ---
 
 ## 4. Resume action plan
 
-The Air is paused at the **0d→0e boundary** awaiting Asif's signal. When
-the Studio's asaas Phase 0b completes (or Asif explicitly un-holds the Air),
-the next step is:
+The Air is paused at the **0d→0e boundary** awaiting Asif's explicit begin
+signal. The original quota-hold (giving Studio sole Anthropic during asaas
+Phase 0b) was lifted 2026-05-20T11:22:01Z; the Air now waits only on the
+begin signal. When given, the next step is:
 
 ```bash
 # Verify pre-0e artifacts are intact (13 chapters + 13 contracts)
@@ -145,7 +149,9 @@ same as 0d. Multiple `--resume` rounds expected.
   resuming after stale-lock reset
 - **HEAD**: `fa8c902 podcast(asaas-al-taveel): checkpoint phase 0b stale 'running' lock (SIGKILL)`
 - **Competes for Anthropic quota** when both machines are ACTIVE. Air's
-  HOLDING state means Studio currently has Anthropic to itself.
+  HOLDING state means Studio currently has Anthropic to itself, but the
+  quota-hold has been lifted (2026-05-20T11:22:01Z) — once Air begins 0e,
+  the nominal 50/50 share with Studio applies.
 - Read the Studio's view via:
   ```bash
   git show origin/develop:_workspace/plan/operators/mac-studio-primary.md
