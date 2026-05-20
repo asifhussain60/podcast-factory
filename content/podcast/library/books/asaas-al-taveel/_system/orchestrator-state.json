@@ -4,9 +4,9 @@
   "category": "books",
   "branch": "book/asaas-al-taveel",
   "phase": "0b",
-  "phase_status": "failed",
-  "last_completed_phase": "0a",
-  "next_phase": "0b",
+  "phase_status": "completed",
+  "last_completed_phase": "0b",
+  "next_phase": "0c",
   "last_error": null,
   "phases": {
     "pre-flight": {
@@ -28,8 +28,9 @@
       "ts_completed": "2026-05-20T09:55:57Z"
     },
     "0b": {
-      "status": "failed",
-      "ts_started": "2026-05-20T09:55:57Z"
+      "status": "completed",
+      "ts_started": "2026-05-20T09:55:57Z",
+      "ts_completed": "2026-05-20T13:38:21Z"
     },
     "0c": {
       "status": "pending"
@@ -65,7 +66,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-05-20T09:42:51Z",
-  "ts_updated": "2026-05-20T09:55:57Z",
+  "ts_updated": "2026-05-20T13:38:21Z",
   "challenger_version": "2.0",
   "orchestrator_version": "1.2",
   "config": {
