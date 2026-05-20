@@ -16,7 +16,7 @@ Mandasur Azbakiya
 WWW.BOOKS4ALL.NET
 
 <!-- page 3 -->
-((Kitab al-Riyad))
+*Kitab al-Riyad*
 
 <!-- page 4 -->
 
@@ -35,27 +35,27 @@ Introduction
 
 The Islamic world at the end of the third century of the Muhammadan Hijra was distinguished by the character of its sciences, philosophy, and literature, which shaped its cultural sphere and society. New international currents, complex doctrinal disagreements, and prolonged debate did not come to rest with any single party nor settle in any single place. How useful it is, then, for the researcher who wishes to study the origins of these differences in depth — to weigh the opinions of the writers and scholars who lived in that distant era, who left scientific traces and novel modes of expression characteristic of their time and of their understanding of philosophical issues, and the extent of their effort in interpreting texts and explaining verses — so that he may then arrive at a reasonable view that brings him closer to reality and truth.
 
-The disputes mentioned were often not confined to the oral discussions formerly raised in salons and scientific centers; they grew into long treatises that appeared on the pages of books and publications. Among the sects that contributed a large share to this field were the ((Ismailis)). Yet it is strange that we do not see this group concluding its verbal argument with other groups; instead, another and altogether new kind of debate arose — a debate among
+The disputes mentioned were often not confined to the oral discussions formerly raised in salons and scientific centers; they grew into long treatises that appeared on the pages of books and publications. Among the sects that contributed a large share to this field were the *Ismailis*. Yet it is strange that we do not see this group concluding its verbal argument with other groups; instead, another and altogether new kind of debate arose — a debate among
 
 <!-- page 8 -->
 those who themselves called for it. In this is clear proof of the intellectual freedom that prevailed in their lives — freedom from the constraints that dominate conservative societies and that impose upon them a balance which obliges them not to be anomalous and to stay away from any departure from inherited tradition.
 
-The first debate, or in more precise terms the first scientific discussion, opened new horizons for the Ismailis and moved them into an atmosphere of broad scientific liberation. It made them a subject of conjecture and talk throughout the Islamic world. This began with the emergence of the book ((al-Mahsul)) (The Harvest).
+The first debate, or in more precise terms the first scientific discussion, opened new horizons for the Ismailis and moved them into an atmosphere of broad scientific liberation. It made them a subject of conjecture and talk throughout the Islamic world. This began with the emergence of the book *al-Mahsul* (The Harvest).
 
-This book entered circulation at the beginning of the fourth century AH, or the tenth century AD. It is attributed to the great preacher of Khurasan, ((Muhammad ibn Ahmad al-Nasafi)), who was credited with converting the Samanid state in Transoxiana to Ismailism, and who was executed in the year 331 AH (942 AD), as stated in the book ((al-Farq bayn al-Firaq)) by its author Abd al-Qahir al-Baghdadi. It is very strange that ((Hujjat al-Iraqayn)), its greatest exponent and its foremost philosopher ((Hamid al-Din Ahmad al-Kirmani)), who discussed the subject and went deeply into its examination, did not mention the author of ((al-Mahsul)); rather his discussion focused on ((Abu Hatim al-Razi and Abu Ya'qub al-Sijistani)). There must then be fundamental reasons for this omission that justify it, and perhaps the book ((al-Mahsul)) is wrongly attributed to al-Nasafi.
+This book entered circulation at the beginning of the fourth century AH, or the tenth century AD. It is attributed to the great preacher of Khurasan, *Muhammad ibn Ahmad al-Nasafi*, who was credited with converting the Samanid state in Transoxiana to Ismailism, and who was executed in the year 331 AH (942 AD), as stated in the book *al-Farq bayn al-Firaq* by its author Abd al-Qahir al-Baghdadi. It is very strange that *Hujjat al-Iraqayn*, its greatest exponent and its foremost philosopher *Hamid al-Din Ahmad al-Kirmani*, who discussed the subject and went deeply into its examination, did not mention the author of *al-Mahsul*; rather his discussion focused on *Abu Hatim al-Razi and Abu Ya'qub al-Sijistani*. There must then be fundamental reasons for this omission that justify it, and perhaps the book *al-Mahsul* is wrongly attributed to al-Nasafi.
 
-Whatever the case, the acclaim that the book ((al-Mahsul)) received among Ismaili intellectuals and scholars of that time prompted Abu Hatim al-Razi, the chief preacher in northwestern Persia, to compose a book in which he discussed what was said in ((al-Mahsul)). His book was called ((al-Islah)). It is clear that the opinions which al-Razi advanced provoked a reaction in another great preacher, named Abu Ya'qub al-Sijistani, who regarded them as contrary to the truth and to first principles. This is what led him to write a book in which he challenged the views of al-Razi, called ((al-Nusra)), in which the author defended
+Whatever the case, the acclaim that the book *al-Mahsul* received among Ismaili intellectuals and scholars of that time prompted Abu Hatim al-Razi, the chief preacher in northwestern Persia, to compose a book in which he discussed what was said in *al-Mahsul*. His book was called *al-Islah*. It is clear that the opinions which al-Razi advanced provoked a reaction in another great preacher, named Abu Ya'qub al-Sijistani, who regarded them as contrary to the truth and to first principles. This is what led him to write a book in which he challenged the views of al-Razi, called *al-Nusra*, in which the author defended
 
 — 6 —
 
 <!-- page 9 -->
-((al-Mahsul)) and attacked Abu Hatim al-Razi relentlessly. It seems that ((al-Nusra)) is among al-Sijistani's earliest works, as al-Kirmani himself alludes in his book. Not long afterwards, al-Kirmani reviewed the entire subject in a comprehensive review and composed his precious treatise ((al-Riyad)) — a judgment between the ((two reformers)), as he called them (al-Islah and al-Nusra). With great skill he summarized the opinions that appeared in the three books and subjected them to scholarly criticism. He compared them with the ((Law of the Guiding Mission)) — or, in other words, with the philosophical and doctrinal theories officially adopted by the Fatimid court in his day. In general, we find that al-Kirmani always prefers al-Razi's theories against al-Sijistani's, and objects to the latter because they do not conform to truth and tend toward deviation. Moreover, he notes that al-Razi overlooked some of the statements that appeared in the book ((al-Mahsul)), as we note in the tenth chapter of the book ((al-Riyad)).
+*al-Mahsul* and attacked Abu Hatim al-Razi relentlessly. It seems that *al-Nusra* is among al-Sijistani's earliest works, as al-Kirmani himself alludes in his book. Not long afterwards, al-Kirmani reviewed the entire subject in a comprehensive review and composed his precious treatise *al-Riyad* — a judgment between the *two reformers*, as he called them (al-Islah and al-Nusra). With great skill he summarized the opinions that appeared in the three books and subjected them to scholarly criticism. He compared them with the *Law of the Guiding Mission* — or, in other words, with the philosophical and doctrinal theories officially adopted by the Fatimid court in his day. In general, we find that al-Kirmani always prefers al-Razi's theories against al-Sijistani's, and objects to the latter because they do not conform to truth and tend toward deviation. Moreover, he notes that al-Razi overlooked some of the statements that appeared in the book *al-Mahsul*, as we note in the tenth chapter of the book *al-Riyad*.
 
-It is also worth mentioning the scientific ideas these works contain. A philosophical group such as this deserves to be studied, examined, and scrutinized deeply, but unfortunately the books ((al-Mahsul)) and ((al-Nusra)) have been lost. As for the book ((al-Islah)) by al-Razi and ((al-Riyad)) by al-Kirmani, they are still preserved.
+It is also worth mentioning the scientific ideas these works contain. A philosophical group such as this deserves to be studied, examined, and scrutinized deeply, but unfortunately the books *al-Mahsul* and *al-Nusra* have been lost. As for the book *al-Islah* by al-Razi and *al-Riyad* by al-Kirmani, they are still preserved.
 
-((Kitab al-Riyad))
+*Kitab al-Riyad*
 
-Al-Kirmani's book ((al-Riyad)) is considered one of the important works that express the philosophical theories of Ismailism in the fourth century AH. I have obtained two copies of it: the first from India, and the second from Tehran, sent to me by the Orientalist W. Ivanow, on behalf of the Ismaili Society in India (The Ismaili Society), which wished me to investigate and explain the book and to write its footnotes and commentary as one of the working members of this association.
+Al-Kirmani's book *al-Riyad* is considered one of the important works that express the philosophical theories of Ismailism in the fourth century AH. I have obtained two copies of it: the first from India, and the second from Tehran, sent to me by the Orientalist W. Ivanow, on behalf of the Ismaili Society in India (The Ismaili Society), which wished me to investigate and explain the book and to write its footnotes and commentary as one of the working members of this association.
 
 Before entering into details, I must research and review what is contained in the book in terms of opinions, sayings, arguments, and statements, by way of a brief overview of
 
@@ -76,30 +76,30 @@ He is Abu Hatim Ahmad ibn Hamdan al-Laythi al-Warsanani al-Razi, and his name in
 <!-- page 11 -->
 was not spared the persecution of his enemies in Daylam, and was forced into hiding in the last years of his life. He died in 322 AH, after the Fatimid al-Qa'im took charge of the affairs of the Ismaili imamate in the Maghrib, at the age of sixty-two, as some historians have said.
 
-He was a contemporary of Abu Bakr Muhammad ibn Zakariya al-Razi, the famous physician and author of well-known philosophical views in which he departed from many of Aristotle's theories — natural and metaphysical — denying the reconciliation of philosophy and religion, and holding that philosophy is the only way to reform the individual and society. Between the two Razis there were violent and repeated discussions, attended by some scholars and political leaders. Abu Hatim recorded these discussions in his book ((A'lam al-Nubuwwa)) (Signs of Prophethood). Although he does not name the person he is criticizing, calling him only "the atheist," there is conclusive evidence that this atheist was none other than al-Razi, Abu Bakr.
+He was a contemporary of Abu Bakr Muhammad ibn Zakariya al-Razi, the famous physician and author of well-known philosophical views in which he departed from many of Aristotle's theories — natural and metaphysical — denying the reconciliation of philosophy and religion, and holding that philosophy is the only way to reform the individual and society. Between the two Razis there were violent and repeated discussions, attended by some scholars and political leaders. Abu Hatim recorded these discussions in his book *A'lam al-Nubuwwa* (Signs of Prophethood). Although he does not name the person he is criticizing, calling him only "the atheist," there is conclusive evidence that this atheist was none other than al-Razi, Abu Bakr.
 
-The great philosopher al-Kirmani (Hujjat al-Iraqayn) has noted in his book ((al-Aqwal al-Dhahabiyya)) (The Golden Sayings) that discussions about prophethood and legal rituals took place between Abu Bakr al-Razi and Abu Hatim on the island of Rayy in the days of Mardawij, and in his presence. Abu Hatim was able to humble Abu Bakr al-Razi and to refute his views in his book ((A'lam al-Nubuwwa)) — pages overflowing with charm and marvels — in which he closed off, for the arrogant and the stubborn, every means of evasion and flight.
+The great philosopher al-Kirmani (Hujjat al-Iraqayn) has noted in his book *al-Aqwal al-Dhahabiyya* (The Golden Sayings) that discussions about prophethood and legal rituals took place between Abu Bakr al-Razi and Abu Hatim on the island of Rayy in the days of Mardawij, and in his presence. Abu Hatim was able to humble Abu Bakr al-Razi and to refute his views in his book *A'lam al-Nubuwwa* — pages overflowing with charm and marvels — in which he closed off, for the arrogant and the stubborn, every means of evasion and flight.
 
-His most important works are the book ((al-Zina)) (1) — on the Arabic letters, their derivatives, the reasons for their forms, and the meanings of words. It is a great book on authentic Arabic vocabulary and on the framework within which the Qur'an was articulated and given legal force by the Muslims, and from which Islamic terminology took shape. This book runs to 1200 pages. He dedicated it to the Fatimid imam who succeeded Muhammad al-Mahdi Billah (Ubayd Allah), and to him
+His most important works are the book *al-Zina* (1) — on the Arabic letters, their derivatives, the reasons for their forms, and the meanings of words. It is a great book on authentic Arabic vocabulary and on the framework within which the Qur'an was articulated and given legal force by the Muslims, and from which Islamic terminology took shape. This book runs to 1200 pages. He dedicated it to the Fatimid imam who succeeded Muhammad al-Mahdi Billah (Ubayd Allah), and to him
 
 (1) This book is being edited by Dr. Hussein Hamdani of Cairo University.
 — 9 —
 
 <!-- page 12 -->
-also belong the books ((A'lam al-Nubuwwa)), ((al-Islah)), ((al-Jami')), and others.
+also belong the books *A'lam al-Nubuwwa*, *al-Islah*, *al-Jami'*, and others.
 
 Al-Sijistani:
 
 Abu Ya'qub Ishaq al-Sijistani — or (al-Sijzi) — is considered to be at the forefront of those scholars who struggled, labored, and dedicated themselves to establishing cosmic philosophical principles upon doctrinal intellectual foundations, solid scientific bases, and fixed pillars that do not tremble whatever crises may befall them. Indeed, he is among those who sacrificed all they had in order to spread it and to circulate it in other lands. Late in his life he was accused of blasphemy and atheism by the conservative public, and was finally killed for the sake of his faith. Al-Sijistani played an important role in the field of philosophy and rendered significant intellectual services in the third century of the Hijra. His intellectual impact appeared in his disciple Hamid al-Din al-Kirmani (Hujjat al-Iraqayn), who followed his method, called to his teachings, and continued the flow of his springs. If we recognize that al-Kirmani studied philosophy in al-Sijistani's school of thought, we may place al-Sijistani in the first rank among the famous Muslim scholars, thinkers, and philosophers of the world.
 
-He was a contemporary of the esoteric Ismaili da'wa in the Age of Manifestation — that is, the period of the flourishing of the Fatimid state and its emergence as an Islamic state of civilizational, scientific, social, and political stature — although he lived in a country whose people held to a doctrine that differed from his madhhab. He was forced to adopt (taqiyya) as a cover, and to be very cautious in his movements and his preaching. For this reason his life has come down to us with a certain mysterious ambiguity, and one may not be blamed if we cannot come to know his biography fully or relate everything about him. On the other hand, we have received only a little about the preacher al-Khayr al-Nasafi ((al-Nakhshabi)) the author of ((al-Mahsul)) — beyond what authors have mentioned of his efforts and of his contact with Nasr ibn Ahmad
+He was a contemporary of the esoteric Ismaili da'wa in the Age of Manifestation — that is, the period of the flourishing of the Fatimid state and its emergence as an Islamic state of civilizational, scientific, social, and political stature — although he lived in a country whose people held to a doctrine that differed from his madhhab. He was forced to adopt (taqiyya) as a cover, and to be very cautious in his movements and his preaching. For this reason his life has come down to us with a certain mysterious ambiguity, and one may not be blamed if we cannot come to know his biography fully or relate everything about him. On the other hand, we have received only a little about the preacher al-Khayr al-Nasafi *al-Nakhshabi* the author of *al-Mahsul* — beyond what authors have mentioned of his efforts and of his contact with Nasr ibn Ahmad
 
 — 10 —
 
 <!-- page 13 -->
-the Samanid in Transoxiana, until that Samanid embraced the Ismaili da'wa. We also know little about Abu Hatim al-Razi, the linguist and author of the oldest work in the science of the Arabic language — the book ((al-Zina)) — and about ((Hujjat al-Iraqayn)) Hamid al-Din al-Kirmani, despite the survival of most of his writings and works down to us — even though al-Mu'ayyad fi'l-Din Hibatallah al-Shirazi, the friend and companion of Abu al-Ala al-Ma'arri, wrote his biography in his own hand. We cannot really know much about him, and the same may be said of the obscurity surrounding the lives of the senior Ismaili da'wa men — the hujjas and preachers of Algeria, Syria, Iran, Yemen, and elsewhere. Their lives are even more shrouded in mystery, since the books in which they recorded their biographies have been lost, and only a few of them remain.
+the Samanid in Transoxiana, until that Samanid embraced the Ismaili da'wa. We also know little about Abu Hatim al-Razi, the linguist and author of the oldest work in the science of the Arabic language — the book *al-Zina* — and about *Hujjat al-Iraqayn* Hamid al-Din al-Kirmani, despite the survival of most of his writings and works down to us — even though al-Mu'ayyad fi'l-Din Hibatallah al-Shirazi, the friend and companion of Abu al-Ala al-Ma'arri, wrote his biography in his own hand. We cannot really know much about him, and the same may be said of the obscurity surrounding the lives of the senior Ismaili da'wa men — the hujjas and preachers of Algeria, Syria, Iran, Yemen, and elsewhere. Their lives are even more shrouded in mystery, since the books in which they recorded their biographies have been lost, and only a few of them remain.
 
-He is attributed to (Sijistan), a province in the south of Khurasan, of a Persian family. It is said that he was of the family of the Persian hero ((Rustam)), and there are those who say that he was of Iraqi origin, and that his grandfather came from Kufa and settled in Sijistan. Some researchers who studied his philosophy claim that he died in 331 AH. But this view does not accord with historical reality, for it is known of al-Sijistani that he was the teacher of al-Kirmani, and al-Kirmani remained alive until the year 411 AH. So at what time, then, did al-Kirmani study the philosophical sciences of the da'wa under him? There is an explicit text in the book ((al-Iftikhar)) by al-Sijistani himself in which he mentions that he composed it in 360 AH. The book ((al-Iftikhar)) is in turn mentioned in the book ((al-Riyad)) by al-Kirmani — that is, he was a preacher in the province of Bukhara during the caliphate of the imam ((al-Mu'izz li-Din Allah al-Fatimi)). The meaning of this is that he was a contemporary of the great preacher ((Ja'far ibn Mansur al-Yamani)), and of the scholar and jurist the qadi ((al-Nu'man ibn Muhammad ibn Hayyun al-Maghribi al-Tamimi)), the chief judge of the Fatimid state, and of other great authors and scholars of the da'wa in that golden age of manifest science. There is no shortage of evidence for al-Sijistani's scholarly value from his books and writings, which
+He is attributed to (Sijistan), a province in the south of Khurasan, of a Persian family. It is said that he was of the family of the Persian hero *Rustam*, and there are those who say that he was of Iraqi origin, and that his grandfather came from Kufa and settled in Sijistan. Some researchers who studied his philosophy claim that he died in 331 AH. But this view does not accord with historical reality, for it is known of al-Sijistani that he was the teacher of al-Kirmani, and al-Kirmani remained alive until the year 411 AH. So at what time, then, did al-Kirmani study the philosophical sciences of the da'wa under him? There is an explicit text in the book *al-Iftikhar* by al-Sijistani himself in which he mentions that he composed it in 360 AH. The book *al-Iftikhar* is in turn mentioned in the book *al-Riyad* by al-Kirmani — that is, he was a preacher in the province of Bukhara during the caliphate of the imam *al-Mu'izz li-Din Allah al-Fatimi*. The meaning of this is that he was a contemporary of the great preacher *Ja'far ibn Mansur al-Yamani*, and of the scholar and jurist the qadi *al-Nu'man ibn Muhammad ibn Hayyun al-Maghribi al-Tamimi*, the chief judge of the Fatimid state, and of other great authors and scholars of the da'wa in that golden age of manifest science. There is no shortage of evidence for al-Sijistani's scholarly value from his books and writings, which
 
 — 110 —
 
@@ -233,7 +233,7 @@ The fourth chapter, in eight sub-chapters, treats the question of whether souls 
 
 The Intellect is the First Resurrection, while the speaking souls are the Second Resurrection. Whatever occurred in the first rebirth is resurrected in the second as well.
 
-Al-Kirmani criticizes this opinion and refers the reader to his own writings, especially to the epistle ((Al-Wa'iza — The Preacher)) and ((Al-Mudi'a — The Illuminating)), in which he says: "The Intellect is nothing but the Word itself, and the Word is nothing but the Intellect itself." He confirms this by citing the saying of our Master, Imam al-Mu'izz li-Din Allah — may God's prayers be upon him — in the book ((Ta'wil al-Shari'a — Interpretation of the Shariah)) (1), where he speaks of the intellects and indicates that the Word is the Intellect and that these names are properly applied to it. Al-Kirmani adds: "In addition, we have already explained and discussed the Creator, the Intellect, the Word, and what may be said of the world of creativity and the First Rebirth in the epistle ((Al-Mudi'a — The Illuminating)) and others. These treatises suffice the researcher."
+Al-Kirmani criticizes this opinion and refers the reader to his own writings, especially to the epistle *Al-Wa'iza — The Preacher* and *Al-Mudi'a — The Illuminating*, in which he says: "The Intellect is nothing but the Word itself, and the Word is nothing but the Intellect itself." He confirms this by citing the saying of our Master, Imam al-Mu'izz li-Din Allah — may God's prayers be upon him — in the book *Ta'wil al-Shari'a — Interpretation of the Shariah* (1), where he speaks of the intellects and indicates that the Word is the Intellect and that these names are properly applied to it. Al-Kirmani adds: "In addition, we have already explained and discussed the Creator, the Intellect, the Word, and what may be said of the world of creativity and the First Rebirth in the epistle *Al-Mudi'a — The Illuminating* and others. These treatises suffice the researcher."
 
 (1) This book is one of the writings of Qadi al-Nu'man ibn Hayyun al-Maghribi al-Tamimi. Al-Kirmani's reference here to an Imam — i.e., to one classified among them by Imam al-Mu'izz al-Fatimi — indicates that Imam al-Mu'izz is the source of his information.
 - 27
@@ -243,9 +243,9 @@ Al-Kirmani does not stop here. He cites the words of al-Razi as recorded in the 
 
 Motion and stillness are to the soul as the body and the image are to it; and these last two are like the body of the first two, because the soul is gentler than the body, and the body is denser than the soul. So motion and stillness are gentler than the substance and the image.
 
-It appears that al-Sijistani rejects this analysis, supporting instead the theory of the author of (Al-Mahsul — The Harvest). Al-Kirmani says that both men erred, especially al-Razi, regarding motion. Motion is the action of the mover, which we call the soul. Stillness, by contrast, is the cessation of the mover's action. Therefore, if the mover is the soul, it cannot resemble motion, which is its own action; the same applies to stillness. Moreover, motion and stillness cannot be combined into a single thing, because they alternate as opposites, while the structure and the image are inseparable on the mixed plane and form one thing. This topic has been fully explained in the book ((Rahat al-'Aql — Rest of the Mind)) (2).
+It appears that al-Sijistani rejects this analysis, supporting instead the theory of the author of (Al-Mahsul — The Harvest). Al-Kirmani says that both men erred, especially al-Razi, regarding motion. Motion is the action of the mover, which we call the soul. Stillness, by contrast, is the cessation of the mover's action. Therefore, if the mover is the soul, it cannot resemble motion, which is its own action; the same applies to stillness. Moreover, motion and stillness cannot be combined into a single thing, because they alternate as opposites, while the structure and the image are inseparable on the mixed plane and form one thing. This topic has been fully explained in the book *Rahat al-'Aql — Rest of the Mind* (2).
 
-The fifth chapter, in seven sub-chapters, treats the theme that the human being is the fruit of the material world. Al-Razi says so, and "we see him as belonging to the whole world, its foundation, and its roots." Al-Hayuli is also the basis of the substrate formed in it by motion, stillness, and certain other factors that lead to the formation of different souls — such as the region and others. Al-Sijistani calls this philosophy the "world philosophy," which does not acknowledge the existence of the soul after its separation from the body. The orientalist ((Goldziher)), in the Islamic Encyclopedia, gives a long explanation of these beliefs
+The fifth chapter, in seven sub-chapters, treats the theme that the human being is the fruit of the material world. Al-Razi says so, and "we see him as belonging to the whole world, its foundation, and its roots." Al-Hayuli is also the basis of the substrate formed in it by motion, stillness, and certain other factors that lead to the formation of different souls — such as the region and others. Al-Sijistani calls this philosophy the "world philosophy," which does not acknowledge the existence of the soul after its separation from the body. The orientalist *Goldziher*, in the Islamic Encyclopedia, gives a long explanation of these beliefs
 
 (2) It is very strange to find here that the book Rahat al-'Aql ("Rest of the Mind") was written before Riyad, although al-Kirmani cites Riyad on pages 22, 23 and 364; it occurs to one that the citations in the two books were probably inserted later.
 - 28
@@ -255,13 +255,13 @@ of this category, but without giving a fully decisive answer. It is held that th
 
 We say: how can what he has said be true, when order and arrangement come only from the Intellect? Or how is it correct that universals are made preferable only by the Intellect, while the soul is unaffected by its effects, being on a par with the animals? It is for this reason that God has lifted the pen from the soul until the effects of the Intellect take hold in it. And we have said above that the matter lies in the agents, not in totalities; not every agent seeks, through its action, to achieve a goal or purpose decreed for it. By the same token, the First Intellect itself is not a compound, so it is in order and arrangement, but the Intellect only perceives true perception.
 
-The sixth chapter, in six sub-chapters, rehearses the theme of motion, stillness, and the image. It maintains that what is reported in the book (((Al-Mahsul — The Harvest)) and what Abu Hatim al-Razi and al-Sijistani all transmitted on this score is incorrect, and refers the reader to consult his book ((Al-Masabih — The Lamps)).
+The sixth chapter, in six sub-chapters, rehearses the theme of motion, stillness, and the image. It maintains that what is reported in the book (*Al-Mahsul — The Harvest* and what Abu Hatim al-Razi and al-Sijistani all transmitted on this score is incorrect, and refers the reader to consult his book *Al-Masabih — The Lamps*.
 
-Then the author of ((Al-Nusra)) proceeds and undertakes to define body and soul. He defines body by its acceptance of the three dimensions, and then defines the soul as the similarity of the parts, making the soul of the same course as water, fire, and air — each of which is similar in its parts. With this premise, it becomes impossible to say that the soul is not embodied. The soul (al-nafs) and the spirit (al-ruh) are synonymous names of one thing, and that thing is not embodied; for were it a body, it would necessarily possess the nine qualities and accidents that the body requires, and could be apprehended by a sense;
+Then the author of *Al-Nusra* proceeds and undertakes to define body and soul. He defines body by its acceptance of the three dimensions, and then defines the soul as the similarity of the parts, making the soul of the same course as water, fire, and air — each of which is similar in its parts. With this premise, it becomes impossible to say that the soul is not embodied. The soul (al-nafs) and the spirit (al-ruh) are synonymous names of one thing, and that thing is not embodied; for were it a body, it would necessarily possess the nine qualities and accidents that the body requires, and could be apprehended by a sense;
 - 29
 
 <!-- page 32 -->
-nor would the imagination remain in it as to the nine accidents, or one of them. And when different physical norms hold in it, it must not be a body. Our well-known book ((Al-Masabih — With Lamps)) contains what fully addresses this.
+nor would the imagination remain in it as to the nine accidents, or one of them. And when different physical norms hold in it, it must not be a body. Our well-known book *Al-Masabih — With Lamps* contains what fully addresses this.
 
 The seventh chapter, divided into seven sub-chapters, deals with the classification of the composite materials of the world. In truth it is dedicated entirely to explaining the status of the human being, who forms a class of his own, and his relationship to all else. For this reason al-Razi says: "Man is a plant that sleeps upon the substances of the world." Al-Sijistani agrees with him on one side, but disagrees on another: the human body disintegrates or dissolves into such substances, and al-Razi classes the human being and likens him to an animal because he possesses the senses and attributes. Al-Sijistani replies that this feeling belongs to the growing vegetative soul. Al-Razi argues that the very speaking human composes a point of difference from the animal, while al-Sijistani counters that the animal too possesses the senses. When al-Kirmani weighs the two opinions, he rules that al-Razi is closer to the truth than al-Sijistani. Finally he says:
 
@@ -275,9 +275,9 @@ and in the human being there are the sentient faculties. The whole world is stru
 
 The eighth chapter is divided into twenty-four sub-chapters, and its subject is qada (judgment) and qadar (destiny). These two expressions are mentioned in the Holy Quran and evidence specific synonyms, but both mean (judgment). This topic has had its impact on the long scientific debate that took place in the Islamic era and never reached a decisive result. Thousands of works in Islamic theology have been written on it, but in fact it is a wrong and time-wasting matter to revisit.
 
-Al-Razi, the author of (Al-Islah), says: "In view of the statement of ((Al-Mahsul — The Harvest)) that qada (judgment) agrees with the First and the Preceding, and qadar (destiny) with the Second (i.e., the next) — this is all wrong, because destiny precedes judgment just as the First precedes the Second. The meaning of qadar is estimation — that He made the thing possible — and the meaning of qada is (detail), the separation of the thing or its parts. And the Second, i.e., the manifest qada, cannot be presented over the First." Al-Razi cites several verses from the Holy Quran in support of his interpretation and likens destiny, in detail, to the cloth that is drawn in the tailor's imagination before and after, before being cut. When he has put it into its form — i.e., judges it — it is no longer possible to change it.
+Al-Razi, the author of (Al-Islah), says: "In view of the statement of *Al-Mahsul — The Harvest* that qada (judgment) agrees with the First and the Preceding, and qadar (destiny) with the Second (i.e., the next) — this is all wrong, because destiny precedes judgment just as the First precedes the Second. The meaning of qadar is estimation — that He made the thing possible — and the meaning of qada is (detail), the separation of the thing or its parts. And the Second, i.e., the manifest qada, cannot be presented over the First." Al-Razi cites several verses from the Holy Quran in support of his interpretation and likens destiny, in detail, to the cloth that is drawn in the tailor's imagination before and after, before being cut. When he has put it into its form — i.e., judges it — it is no longer possible to change it.
 
-Al-Sijistani objects to this explanation in defense of his basic theory, which agrees with what is stated in the book ((Al-Mahsul — The Harvest)). He says that qada does not mean detail, although qadar means estimation; the first describes and obliges, while the second is the judgment, a void and an end. He adds that the tailor analogy does not fit the case, because qada is the idea of the dress that results from the art of tailoring, which is (sewing), and the Second is based on
+Al-Sijistani objects to this explanation in defense of his basic theory, which agrees with what is stated in the book *Al-Mahsul — The Harvest*. He says that qada does not mean detail, although qadar means estimation; the first describes and obliges, while the second is the judgment, a void and an end. He adds that the tailor analogy does not fit the case, because qada is the idea of the dress that results from the art of tailoring, which is (sewing), and the Second is based on
 - 31
 
 <!-- page 34 -->
@@ -287,7 +287,7 @@ The author of (Al-Nusra) reports a story from the scholars: When God Almighty cr
 
 The ninth chapter is divided into thirty-three sub-chapters by al-Kirmani. It treats the basis of the principle and the law of Adam, and the laws that came after him, and then proceeds further. In this connection he speaks of the Great Resurrection, saying: The Great Resurrection will come when the doors of teaching are closed, the call that has been perfected ceases, and the Qa'im sets aside the boundaries in the administration of the da'wa. Then it is no longer necessary, wherever a new creation has come.
 
-In this chapter there are also sub-chapters devoted to the question whether Adam, mentioned in the Holy Quran as one of God's interlocutors conveying revelation to humanity and ((the Speaker)) — or, in Ismaili idiom, the one who holds the role — has truly preached the law of
+In this chapter there are also sub-chapters devoted to the question whether Adam, mentioned in the Holy Quran as one of God's interlocutors conveying revelation to humanity and *the Speaker* — or, in Ismaili idiom, the one who holds the role — has truly preached the law of
 - 32
 
 
@@ -838,7 +838,7 @@ as a part of the soul, because nature falls upon its horizon — when it contemp
 (1) It was dropped in copy (A).
 (2) It came in version B (Kamma).
 (3) It came in copy B (itself).
-(4) It fell in copy ((A)).
+(4) It fell in copy *A*.
 (5) The sentence in its entirety is omitted in version (B).
 Kitab al-Riyad [5]
 - 65
@@ -1689,7 +1689,7 @@ If there is any precedence in the discussion over the intellect, the soul, natur
 <!-- page 121 -->
 Chapter Four of the Book of Riyadh
 
-On the judgment between ((the hunters)) — so the discussion concerning it, on the soul being parts and effects.
+On the judgment between *the hunters* — so the discussion concerning it, on the soul being parts and effects.
 
 Chapter One of Chapter Four
 
@@ -1739,7 +1739,7 @@ Chapter Four of Chapter Four
 After the parts, he gives what he gives all of them according to them. These souls were parts of the second, and we found them neither knowledgeable nor wise — all of them are parts of this category. A belief such as this, to that extent of greatness, is unbelief; we seek refuge in God if it be known that the materials of the Messengers — God's prayers be upon them — are from it, that being the closest cause of the overflow upon the world below. The souls also (1) — if they are not parts of the following — then when these souls are not parts, we said: the souls belong to the nature of those paradoxical things whose existence is creative; their appearance and existence are only among the natural and phenomenal worlds. It is a natural force that acquires what is gained from the limits through obedience and worship (2). So it emits from itself an abstract remaining image that is like the abstract things in the House of the Hereafter on the one hand, and the opposite of it on the other.
 
 (1) It fell in copy (b).
-(2) It fell in copy ((A)).
+(2) It fell in copy *A*.
 - 122
 
 
@@ -2311,7 +2311,7 @@ be the name of the posterior, and he argued for that by saying that Allah Almigh
 
 The author of al-Islah's saying about the verse is not in a comparative or congruent manner. This is because he said:
 
-Allah Almighty by ((We)) intends the pure religion that is not tainted by an attribute, and He does not intend by it that there is no attribute. And the word "We" is only to the extent that the Prophet derives, by establishing his rank in the world — not pure non-attribution. And how can "We" fall upon pure non-attribution? Between Him and her is the middle of negation; but she is upon the middle that is near to the Messenger of Allah (peace and blessings be upon him) in the commentary upon him, and the meaning is the Prophet as he is the one who acts in His stead.
+Allah Almighty by *We* intends the pure religion that is not tainted by an attribute, and He does not intend by it that there is no attribute. And the word "We" is only to the extent that the Prophet derives, by establishing his rank in the world — not pure non-attribution. And how can "We" fall upon pure non-attribution? Between Him and her is the middle of negation; but she is upon the middle that is near to the Messenger of Allah (peace and blessings be upon him) in the commentary upon him, and the meaning is the Prophet as he is the one who acts in His stead.
 
 Section Eleven of Chapter Eight
 
@@ -3422,31 +3422,31 @@ Divided into nine chapters, examining the first chapter on the intellect, which 
 
 <!-- page 237 -->
 
-((Chapter Three)), from page 111 to page 118.
+*Chapter Three*, from page 111 to page 118.
 Divided into six chapters; examines the soul and the skeleton and whether they are similar to the First or not.
 
-((Chapter Four)), from page 119 to page 126.
+*Chapter Four*, from page 119 to page 126.
 Divided into eight chapters; examines the contention that souls are parts and not traces.
 
-((Chapter Five)), from page 127 to page 134.
+*Chapter Five*, from page 127 to page 134.
 Divided into seven chapters; argues that human beings are the fruit of the world.
 
-((Chapter Six)), from page 135 to page 142.
+*Chapter Six*, from page 135 to page 142.
 Divided into nine chapters; examines movement, stillness, hysteria, and image.
 
-((Chapter Seven)), from page 143 to page 152.
+*Chapter Seven*, from page 143 to page 152.
 Divided into seven chapters; concerned with the sections of the world.
 
-((Chapter Eight)), from page 153 to page 175.
+*Chapter Eight*, from page 153 to page 175.
 Divided into twenty-four chapters on fate and destiny.
 
-((Chapter Nine)), from page 176 to page 212.
+*Chapter Nine*, from page 176 to page 212.
 Divided into thirty-three chapters; concerned with the chapter on the law of Adam and the guardian of the tablet.
 
-((Chapter Ten)), from page 213 to page 230.
+*Chapter Ten*, from page 213 to page 230.
 Divided into sixteen chapters; concerned with the chapter on Tawhid and the First Creator.
 
-((French Introduction)) includes a definition of the Book of Riyad and the reason for its place.
+*French Introduction* includes a definition of the Book of Riyad and the reason for its place.
 
 — 235
 
@@ -3454,29 +3454,29 @@ Divided into sixteen chapters; concerned with the chapter on Tawhid and the Firs
 
 <!-- page 239 -->
 
-((Index of Quranic Verses))
+*Index of Quranic Verses*
 
 Page
 
 "We will show them Our signs in the horizons and in their own souls until it becomes clear to them that it is the truth." — 57
 
-((The sun ought not to overtake the moon, nor does the night outstrip the day, and each glides in an orbit.)) — 60
+*The sun ought not to overtake the moon, nor does the night outstrip the day, and each glides in an orbit.* — 60
 
 "And among His signs are the night and the day, the sun and the moon." — 64
 
 "And there is nothing but glorifies His praise." — 79
 
-((And We sent the winds as harbingers.)) — 81
+*And We sent the winds as harbingers.* — 81
 
 ("And do not kill your children for fear of poverty; whoever does that has sinned grievously.") — 108
 
-((O soul at peace, return to your Lord, well-pleased and well-pleasing.)) — 148
+*O soul at peace, return to your Lord, well-pleased and well-pleasing.* — 148
 
 "Indeed, We have created everything according to a destiny." — 160
 
 "We will show them Our signs in the horizons and in their own selves until it becomes clear to them that it is the truth." — 161
 
-((Our Lord, You did not create this in vain.)) — 161
+*Our Lord, You did not create this in vain.* — 161
 
 — 237
 
@@ -3484,9 +3484,9 @@ Page
 
 "My Lord, show me, that I may look upon You.' He said, 'You shall not see Me, but look at the mountain — if it settles in its place, then you shall see Me.' And when his Lord manifested Himself to the mountain..." — 169
 
-((Glory be to You, I repent unto You.)) — 170
+*Glory be to You, I repent unto You.* — 170
 
-((God loves the doers of good.)) — p. 172
+*God loves the doers of good.* — p. 172
 
 "Those who believe and do good deeds have no blame in what they have consumed, so long as they fear God and believe and do good deeds." — 173
 
@@ -3494,9 +3494,9 @@ Page
 
 "And recite to them in truth the account of the two sons of Adam, when they offered a sacrifice." — 178
 
-((Mankind was one nation.)) — 181
+*Mankind was one nation.* — 181
 
-((Woe to me, am I unable to be like this crow, and so bury my brother's corpse?)) And so he became one of the regretful." — 182
+*Woe to me, am I unable to be like this crow, and so bury my brother's corpse?* And so he became one of the regretful." — 182
 
 "If you stretch out your hand against me to kill me, I shall not stretch out my hand against you to kill you; I fear God, the Lord of the worlds." — 183
 
@@ -3506,7 +3506,7 @@ Page
 
 "And believe in what I have sent down, confirming that which is with you, and do not be the first to disbelieve in it. And do not exchange My verses for a small price, and be mindful of Me. And do not mix truth with falsehood, nor conceal the truth while you know it. And establish prayer, give zakat, and bow with those who bow." — 186
 
-((I sent Noah.)) — 189
+*I sent Noah.* — 189
 
 "He has ordained for you of the religion what He enjoined upon Noah and that which We have revealed to you, and what We enjoined upon Abraham, Moses, and Jesus — that you establish the religion and do not be divided." — 189
 
@@ -3516,33 +3516,33 @@ Page
 
 <!-- page 241 -->
 
-((Will You place in it one who corrupts it and sheds blood, while we glorify Your praise and sanctify You?)) — 190
+*Will You place in it one who corrupts it and sheds blood, while we glorify Your praise and sanctify You?* — 190
 
 "Even when they come, He will say, 'Did you deny My verses without comprehending them?'" — 195
 
-((I know what you do not know.)) — 196
+*I know what you do not know.* — 196
 
-((We glorify Your praise and sanctify You.)) — 199
+*We glorify Your praise and sanctify You.* — 199
 
 "And He taught Adam all the names; then He presented them to the angels and said, 'Tell Me the names of these, if you are truthful.' They said, 'Glory be to You; we have no knowledge except what You have taught us. You are the All-Knowing, the Wise.' He said, 'O Adam, inform them of their names.' And when he had informed them of their names, He said, 'Did I not tell you that I know the unseen of the heavens and the earth?'" — 199
 
-((The day when children will turn gray.)) — 200
+*The day when children will turn gray.* — 200
 
 "And when the sky is split open and the planets are scattered." — 202
 
 "When the sun is wound round, when the stars are darkened, and when the mountains are set in motion." — 202
 
-((And when the wild beasts are gathered.)) — 202
+*And when the wild beasts are gathered.* — 202
 
-((And construct the ark.)) — 209
+*And construct the ark.* — 209
 
 "And whenever the chiefs of his people passed by him, they mocked him." — 209
 
-((I shall take refuge on a mountain that will protect me from the water.)) — 210
+*I shall take refuge on a mountain that will protect me from the water.* — 210
 
-((There is no protector today from the command of God.)) — 211
+*There is no protector today from the command of God.* — 211
 
-((God bears witness that there is no god but He.)) — 218
+*God bears witness that there is no god but He.* — 218
 
 — 239
 
@@ -3660,7 +3660,7 @@ Al-Risala al-Durriya — 21.
 
 Baghdad and Basra Majlis — 108, 221.
 
-((Al-Wadiyyah, 21))
+*Al-Wadiyyah, 21*
 
 Al-Sha'ari's Message in Characteristics — 21.
 
@@ -3670,7 +3670,7 @@ Al-Hadia — 21.
 
 Islamic Encyclopedia — 28.
 
-((Al-Kafi — 21))
+*Al-Kafi — 21*
 
 Ma'alim al-Din — 138.
 
@@ -3708,7 +3708,7 @@ Principles of Philosophy — 18.
 
 <!-- page 247 -->
 
-(("Index of Names"))
+*"Index of Names"*
 
 Aaron — 187, 189, 190, 192, 193, 194, 197, 198, 199, 200, 201, 204, 205, 206, 207, 208, 209, 211.
 
@@ -3876,7 +3876,7 @@ Heraclitus — 24.
 
 <!-- page 251 -->
 
-(("Index of the names of cities and countries"))
+*"Index of the names of cities and countries"*
 
 Tehran — 12, 38.
 
