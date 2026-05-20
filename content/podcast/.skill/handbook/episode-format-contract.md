@@ -96,6 +96,8 @@ audience_profile: <profile-slug>   # one of: traditional | modern-secular | clin
 
 **Single profile per series.** Audience profile is series-wide, not episode-wide.
 
+> **P24 ↔ P23 synergy.** `audience_profile` and `source_tradition` can be hand-declared by the operator before any content is read, OR proposed by the `podcast-blueprint` agent at slot `05.5-blueprint` (the new content-aware classifier that runs between the P22 transcript-review resume and `06-phonetics`). Blueprint's Layer 1 emits a `classification.json` with `recommended_audience_profile` and `recommended_source_tradition` derived from the refined English transcript; the operator confirms via `--approve-blueprint`, and the orchestrator merges the values into `series-config.yaml` — activating this contract for downstream phases. See [blueprint-protocol.md](./blueprint-protocol.md).
+
 ---
 
 ## 3. Source tradition + supplement-file schema

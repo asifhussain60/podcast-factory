@@ -160,12 +160,12 @@ waves:
 
   - id: W2
     name: "Observability + Polish"
-    phases: [P7, P8, P22]
+    phases: [P7, P8, P22, P23, P24]
     schedule_intent: "Single daytime+overnight window; ~1.5 wk wall-clock; trivial LLM cost"
-    parallelism: "P7 then P8; P8 depends on P7's heartbeat schema; P8.6/P8.7/P8.8 sequential at the END of W2 (after P8.1-P8.5 ship; before W3 starts so zero-in-flight is naturally true)"
-    blast_radius: "Local — new daemon thread + localhost FastAPI service + bulk phase rename across scripts/podcast/ + agent dedup deletion of infra/claude-agents/"
+    parallelism: "P7 then P8; P8 depends on P7's heartbeat schema; P8.6/P8.7/P8.8 sequential at the END of W2 (after P8.1-P8.5 ship; before W3 starts so zero-in-flight is naturally true); P22 → P24 → P23 ordering: P22 transcript review halts, then P24 blueprint runs at 05.5, then P23 contract activates from P24's seeded series-config"
+    blast_radius: "Local — new daemon thread + localhost FastAPI service + bulk phase rename across scripts/podcast/ + agent dedup deletion of infra/claude-agents/ + new podcast-blueprint agent + new orchestrator slot 05.5-blueprint"
     kickoff_cmd: "python3 scripts/podcast/run_wave.py 2"
-    done_signal: "All P7–P8 + P22 acceptance rows checked; dashboard reachable at http://127.0.0.1:8765/; phase rename schema_version=2 across live state files; agent picker shows each agent exactly once; isolation_check + dedup_check CI green; D3 views render the 6 diagrams; transcript-review gate halts at the correct phase per source type"
+    done_signal: "All P7–P8 + P22 + P23 + P24 acceptance rows checked; dashboard reachable at http://127.0.0.1:8765/; phase rename schema_version=2 across live state files; agent picker shows each agent exactly once; isolation_check + dedup_check CI green; D3 views render the 6 diagrams; transcript-review gate halts at the correct phase per source type; blueprint slot 05.5-blueprint runs between P22 resume and 06-phonetics; classification.json + arc-conventions.md emitted per book; recommended_audience_profile populates series-config.yaml on operator approval"
     prereq_gate_for_p8_6_p8_8: "scripts/podcast/orchestrator_status.py --all --json | jq '[.books[] | select(.phase_status==\"running\" or .phase_status==\"failed\")] | length' == 0  (naturally satisfied before W3 begins)"
     gates_open_next: "Wave 3"
     on_completion:
@@ -2897,6 +2897,328 @@ phases:
       - "P23.book-agnostic 🔒 The contract handbook + the supplement schema + the authoring guide contain zero book-name references and zero tradition-specific identifiers (asserted by an automated grep test in CI)"
       - "P23.docs ✅ episode-format-contract.md + _authoring-guide.md + _schema.example.md collectively document: audience profiles, 8 format rules, supplement-file schema, Category Q sub-checks, migration path"
       - "P23.adoption-ready ✅ A new series can opt into the contract by adding 1 field (audience_profile) to series-config.yaml; existing series remain on pre-contract behavior unchanged"
+
+  - id: P24
+    wave: W2
+    name: "podcast-blueprint — content-aware episode-structure planner (slot 0b.5 between P22 and 06-phonetics)"
+    added: 2026-05-20
+    status: SCAFFOLD
+    depends_on: [P22, P23, P17.1, P5, P6]
+    promote_when: |
+      PROMOTED 2026-05-20 — operator-locked design transmitted from Air session
+      7768a31c. Four decisions are LOCKED and not re-debated by Studio:
+        (1) name = podcast-blueprint
+        (2) pipeline slot = phase 0b.5 (between P22 operator-review resume and
+            orchestrator's existing 06-phonetics stage; orchestrator-internal
+            slug = 05.5-blueprint to fit the NN-name convention)
+        (3) Layer-1 auto-upgrades the model for Layers 2-3 via
+            classification.json.recommended_model_for_layer_2 (haiku|sonnet|opus);
+            operator can override with --force-model
+        (4) arc-conventions.md is OPTIONAL input, agent-seeded as DRAFT on first
+            run, operator-editable thereafter; NO global default — every book
+            ends up with its own file but no book is blocked on its absence
+    why: |
+      The pipeline today applies a one-size-fits-all episode structure regardless
+      of source genre, density, narrative mode, or cross-reference load. A
+      tribunal-arc polemic (KaR), a chronological memoir, a problem/solution
+      self-help book, and a vignette essay collection all flow through 06-phonetics
+      → 07-chapter-design → 08-enrichment → 11-per-chapter framing with identical
+      episode-shape assumptions. The chapter-design phase reverse-engineers
+      structure from refined-english.md without ever classifying the source.
+
+      P24 inserts a content-aware classifier + planner BEFORE 06-phonetics so the
+      downstream phases consume a genre-appropriate episode breakdown rather than
+      synthesizing one mid-pipeline. The three-layer architecture:
+
+        Layer 1 (scan/classify) — reads refined-english.md (post-P22-approval),
+          emits classification.json: genre_primary, density_score, narrative_mode,
+          structural_units, cross_reference_load, vocabulary_contestedness,
+          recommended_model_for_layer_2, recommended_audience_profile,
+          recommended_source_tradition, recommended_episode_planning_mode.
+          Runs on Haiku by default (cheap scan); promotes itself if signals warrant.
+
+        Layer 2 (episode planner) — model is whatever Layer 1 recommended (unless
+          operator passed --force-model). Reads classification.json + refined-
+          english.md + arc-conventions.md (if present), emits episode-plan.md:
+          episode count, episode breakdown (titles + word-count targets + planning
+          mode per episode), recap/preview scaffolding cues, cross-episode anti-
+          repetition seeds. Tradition-agnostic; references P23's audience_profile
+          and source_tradition.
+
+        Layer 3 (convention emitter) — same model as Layer 2. On FIRST RUN ONLY
+          for a given book, emits DRAFT arc-conventions.md derived from Layer 1's
+          classification. On subsequent runs, reads arc-conventions.md as-is and
+          DOES NOT overwrite. Operator-editable between runs.
+
+      P23 synergy (the load-bearing integration): Layer 1's
+      recommended_audience_profile + recommended_source_tradition populate a
+      proposed series-config.yaml patch. Operator confirms by accepting the
+      seeded arc-conventions.md (which references the proposed series-config).
+      On --approve-blueprint resume, the orchestrator merges the patch into
+      series-config.yaml, which activates P23's Episode Format Contract for
+      Phase 0e + Phase 11 framing. Without P24, audience_profile is hand-typed
+      by the operator before any content has been read; with P24, it's agent-
+      proposed and operator-confirmed.
+
+      Anti-requirement: NO global episode template. NO one-size-fits-all defaults.
+      Every book is classified, every book gets its own arc-conventions.md,
+      every book's planning mode is genre-appropriate (tribunal_arc for polemics;
+      chronological for memoirs; problem_solution for self-help; vignette_grid
+      for essay collections; dialectical_pairs for didactic dialogues).
+    risk: |
+      R-BLUEPRINT-DRIFT: Layer-1 classifications may misfire on unusual sources
+      (mixed-genre, translated polemics, fragmentary mss). Mitigated by:
+        • operator can edit classification.json before --approve-blueprint
+        • cost-ledger records Layer 1's model upgrade decisions so operator
+          can audit before re-run
+        • E2E test (P24.5) runs classification on tiny-book + a sample of
+          shipped books and asserts stable output across runs (Levenshtein
+          ≥0.90 on episode-plan.md, exact match on classification.json
+          except source_signature)
+
+      R-BLUEPRINT-DEPENDENCY: P24 lands BEFORE Air's three-layer prompt
+      authoring text arrives (the design message truncated mid-section).
+      P24.1 + P24.4 (scaffold + orchestrator wiring) are safe to land NOW;
+      P24.2 + P24.3 (Layer 1 + Layer 2/3 prompt authoring) are gated on
+      receipt of the truncated handoff.
+
+      R-BLUEPRINT-OVERREACH: Layer 3 must NOT silently overwrite an operator-
+      edited arc-conventions.md. Mitigated by: file-exists check before write;
+      if file present, Layer 3 is a no-op for that book.
+    files:
+      - infra/claude-agents/podcast-blueprint.md                              # NEW — agent spec (canonical tracked)
+      - .github/agents/podcast-blueprint.agent.md                             # NEW — mirror per dual-home convention (P8.8 deprecates infra/)
+      - skills-staging/podcast-blueprint/                                     # NEW directory — skill scaffold
+      - skills-staging/podcast-blueprint/SKILL.md                             # NEW
+      - scripts/podcast/blueprint_book.py                                     # NEW — CLI runner
+      - scripts/podcast/_blueprint.py                                         # NEW — library helpers (Layer 1/2/3 dispatch)
+      - scripts/podcast/_blueprint_schema.py                                  # NEW — pydantic models for classification.json + episode-plan.md frontmatter
+      - scripts/podcast/orchestrate_book.py                                   # MODIFY — insert 05.5-blueprint between transcript-review-resume and 06-phonetics; --force-model flag; --approve-blueprint flag
+      - scripts/podcast/_phases.py                                            # MODIFY — register 05.5-blueprint slug
+      - scripts/podcast/_cost_ledger.py                                       # MODIFY — agent_id="podcast-blueprint" rows + model-upgrade-decision sub-rows
+      - content/podcast/.skill/handbook/blueprint-protocol.md                 # NEW — operator handbook (when to override, what each classification means)
+      - content/podcast/.skill/handbook/_schemas/classification.schema.json   # NEW — JSON-Schema for Layer 1 output
+      - content/podcast/.skill/handbook/_templates/arc-conventions.template.md # NEW — Layer 3 seed template
+      - scripts/podcast/phases/p24_1.py                                       # NEW — halt-with-DoR runner for the autonomous loop
+      - scripts/podcast/tests/test_blueprint_schema.py                        # NEW — pydantic schema validation
+      - scripts/podcast/tests/test_blueprint_classifier.py                    # NEW — Layer 1 unit (mocked)
+      - scripts/podcast/tests/e2e/test_blueprint_e2e.py                       # NEW — tiny-book + classification stability regression
+      - _learning/fixtures/blueprint/                                         # NEW directory tree — per-genre fixtures (tribunal_arc, chronological, problem_solution, vignette_grid, dialectical_pairs)
+    halt_point_heuristic: |
+      P24 ONLY runs for books where the operator has approved the P22 transcript
+      review (i.e. refined-english.md is in the operator-approved state). For
+      books with --skip-transcript-gate, P24 reads refined-english.md as-is.
+
+      Within the 05.5-blueprint slot, the orchestrator emits TWO halts:
+        • After Layer 1 completes: writes classification.json + a proposed
+          series-config.yaml patch to <book>/_system/blueprint/proposed-config.yaml.
+          Halts with rc=3 unless --auto-approve-blueprint is set. Operator can
+          edit classification.json or the proposed patch before resume.
+        • After Layer 3 completes (first run only): writes arc-conventions.md
+          as DRAFT to book-top-level. No halt — Layer 3 is a no-op on subsequent
+          runs when the file already exists.
+
+      The orchestrator detects "first run" by absence of <book>/arc-conventions.md.
+    spec: |
+      Slot order (final):
+        01-preflight → 04-ocr-translate → 05-refine-english →
+        [P22 halt: english-transcript.md + operator-review.md] →
+        [resume with --approve-transcript] →
+        05.5-blueprint (P24):
+          Layer 1 (Haiku default) → classification.json + proposed-config.yaml
+            → halt rc=3 unless --auto-approve-blueprint
+          [resume with --approve-blueprint] →
+          Layer 2 (model per Layer 1 recommendation; --force-model overrides)
+            → episode-plan.md
+          Layer 3 (first run only) → arc-conventions.md DRAFT
+          → series-config.yaml merged from proposed-config.yaml →
+            P23 audience_profile activates for downstream phases
+        → 06-phonetics → 07-chapter-design → 08-enrichment → ...
+
+      The 05.5-blueprint phase reads arc-conventions.md if present and respects
+      operator edits to classification.json. Cost-ledger records:
+        agent_id=podcast-blueprint, phase=05.5-blueprint, layer=1|2|3,
+        model_used=<actual>, model_recommended=<from-layer-1>,
+        model_overridden_by_operator=<bool>.
+
+      P23 wiring: when blueprint emits recommended_audience_profile=X and
+      operator approves, the orchestrator writes audience_profile: X into
+      <book>/series-config.yaml. P23's _format_contract.load() then returns a
+      non-None ContractView for downstream phases. When operator REJECTS
+      blueprint's recommendation (leaves audience_profile unset in the patch),
+      P23 stays inactive — zero regression.
+    tasks:
+      - id: P24.1
+        title: "Agent spec + skill scaffold + classification schema (LANDS NOW — surface only)"
+        files:
+          - infra/claude-agents/podcast-blueprint.md
+          - .github/agents/podcast-blueprint.agent.md
+          - skills-staging/podcast-blueprint/SKILL.md
+          - content/podcast/.skill/handbook/blueprint-protocol.md
+          - content/podcast/.skill/handbook/_schemas/classification.schema.json
+          - content/podcast/.skill/handbook/_templates/arc-conventions.template.md
+          - scripts/podcast/_blueprint_schema.py
+          - scripts/podcast/tests/test_blueprint_schema.py
+          - scripts/podcast/phases/p24_1.py
+        spec: |
+          Land the integration surface: agent spec, skill scaffold, JSON-Schema
+          for classification.json, arc-conventions.md template, operator handbook,
+          pydantic models, schema-validation tests, halt-with-DoR runner. This
+          task does NOT implement any of the three layers (those are P24.2 +
+          P24.3); it lands the contract surface so P24.2/P24.3 can plug in.
+
+          Status: SCAFFOLD-NOW. Safe to ship while waiting on Air's truncated
+          three-layer prompt handoff. The classification.schema.json + the
+          orchestrator slot reservation are the load-bearing artifacts.
+        acceptance:
+          - "P24.1.agent-spec ✅ infra/claude-agents/podcast-blueprint.md exists with name, description, tools, model frontmatter; mirrors podcast-extract.md conventions"
+          - "P24.1.dual-home ✅ .github/agents/podcast-blueprint.agent.md mirrors infra/ spec (P8.8 deprecation path applies)"
+          - "P24.1.skill-scaffold ✅ skills-staging/podcast-blueprint/SKILL.md exists with three-layer protocol stub"
+          - "P24.1.schema ✅ classification.schema.json validates the locked field set (genre_primary, density_score, narrative_mode, structural_units, cross_reference_load, vocabulary_contestedness, recommended_model_for_layer_2, recommended_audience_profile, recommended_source_tradition, recommended_episode_planning_mode, rationale)"
+          - "P24.1.template ✅ arc-conventions.template.md exists with placeholders for every Layer 1 classification field; commented examples for each planning_mode"
+          - "P24.1.handbook ✅ blueprint-protocol.md documents: when to override classification, what each planning_mode means, how to edit arc-conventions.md, how the P23 synergy works"
+          - "P24.1.pydantic ✅ _blueprint_schema.py defines Classification + EpisodePlan + ArcConventions models; round-trips JSON without loss"
+          - "P24.1.tests ✅ test_blueprint_schema.py covers: (a) valid classification.json passes; (b) missing required field fails loud; (c) invalid genre_primary enum fails loud; (d) model_recommendation enum gates {haiku, sonnet, opus}"
+          - "P24.1.runner ✅ scripts/podcast/phases/p24_1.py is a halt-with-DoR runner; prints DOR block with the four LOCKED decisions and the gate on Air's truncated handoff"
+          - "P24.1.boundary 🔒 Boundary check passes: no files outside content/podcast/, scripts/podcast/, infra/claude-agents/, .github/agents/, skills-staging/podcast-blueprint/, _workspace/plan/"
+
+      - id: P24.2
+        title: "Layer 1 — scan/classify (BLOCKED on Air handoff)"
+        files:
+          - scripts/podcast/_blueprint.py                  # MODIFY — Layer 1 dispatch
+          - scripts/podcast/blueprint_book.py              # NEW — CLI runner
+          - scripts/podcast/tests/test_blueprint_classifier.py
+          - _learning/fixtures/blueprint/tribunal_arc/{input.md,expected.json}
+          - _learning/fixtures/blueprint/chronological/{input.md,expected.json}
+          - _learning/fixtures/blueprint/problem_solution/{input.md,expected.json}
+          - _learning/fixtures/blueprint/vignette_grid/{input.md,expected.json}
+          - _learning/fixtures/blueprint/dialectical_pairs/{input.md,expected.json}
+        spec: |
+          Implement Layer 1: reads refined-english.md, emits classification.json
+          conforming to classification.schema.json. Uses Haiku by default; the
+          classifier's own output determines whether subsequent layers upgrade
+          to Sonnet or Opus.
+
+          BLOCKED ON: Air's truncated three-layer architecture body. The locked
+          decisions establish WHAT Layer 1 emits; the truncated body establishes
+          the PROMPT skeleton. Until that text arrives, the prompt cannot be
+          authored faithfully to Asif's design intent.
+
+          One-time live golden: run Layer 1 on tiny-book and on Ayyuhal Walad
+          refined-english.md ($0.10-$0.30 estimated); commit goldens with
+          GOLDEN-ESTABLISHED markers.
+        depends_on_local: [P24.1]
+        acceptance:
+          - "P24.2.cli ✅ scripts/podcast/blueprint_book.py <book-slug> --layer 1 emits <book>/_system/blueprint/classification.json"
+          - "P24.2.haiku-default ✅ Default model is Haiku; cost-ledger records model_used=claude-haiku-4-5"
+          - "P24.2.schema-conformant ✅ Emitted classification.json validates against classification.schema.json"
+          - "P24.2.fixtures ✅ Five per-genre fixtures (one per planning_mode) round-trip cleanly; classifier output matches expected.json (modulo source_signature)"
+          - "P24.2.stability ✅ Run Layer 1 twice on the same input → byte-identical classification.json (except source_signature timestamp)"
+          - "P24.2.golden ✅ Ayyuhal Walad refined-english.md classification.json committed with GOLDEN-ESTABLISHED marker; tiny-book classification.json same"
+
+      - id: P24.3
+        title: "Layer 2 (episode planner) + Layer 3 (convention emitter) (BLOCKED on Air handoff)"
+        files:
+          - scripts/podcast/_blueprint.py                  # MODIFY — Layer 2 + Layer 3 dispatch
+          - scripts/podcast/tests/test_blueprint_planner.py
+          - _learning/fixtures/blueprint/episode_plan_golden.md
+        spec: |
+          Implement Layer 2 (episode-plan.md emission, model per Layer 1's
+          recommendation, --force-model overrides) and Layer 3 (arc-conventions.md
+          DRAFT emission, first-run only, no-op when file exists).
+
+          BLOCKED ON: Air's truncated three-layer architecture body.
+
+          Layer 2 reads classification.json + refined-english.md + arc-conventions.md
+          (if present). Layer 3 reads classification.json only. Neither layer
+          calls Azure; both use claude -p with the model dictated by Layer 1.
+
+          The episode-plan.md schema: frontmatter declares episode_count,
+          planning_mode (echoes Layer 1), audience_profile (echoes Layer 1's
+          recommendation). Body section per episode: title, target word count,
+          recap_seeds (cross-episode anti-repetition), preview_seeds (lookahead
+          cues), structural_units (which body parts of the source map to this
+          episode).
+        depends_on_local: [P24.1, P24.2]
+        acceptance:
+          - "P24.3.cli ✅ blueprint_book.py <book-slug> --layer 2 emits episode-plan.md; --layer 3 emits arc-conventions.md (first run only)"
+          - "P24.3.model-honored ✅ Layer 2 uses the model recommended by Layer 1 unless --force-model overrides; cost-ledger records both model_used and model_recommended"
+          - "P24.3.layer3-no-overwrite 🔒 If <book>/arc-conventions.md already exists, Layer 3 is a NO-OP — does not read, does not write, does not error; cost-ledger records skip-reason=arc-conventions-already-present"
+          - "P24.3.synergy-patch ✅ <book>/_system/blueprint/proposed-config.yaml is emitted alongside arc-conventions.md; contains audience_profile + source_tradition derived from classification.json; --approve-blueprint resume merges patch into series-config.yaml"
+          - "P24.3.tests ✅ test_blueprint_planner.py covers Layer 2 + Layer 3 happy paths, Layer 3 no-overwrite invariant, model-override flag"
+
+      - id: P24.4
+        title: "Orchestrator wiring + cost-ledger integration (PARTIALLY-LANDABLE NOW)"
+        files:
+          - scripts/podcast/orchestrate_book.py            # MODIFY — slot 05.5-blueprint
+          - scripts/podcast/_phases.py                     # MODIFY — register slug
+          - scripts/podcast/_cost_ledger.py                # MODIFY — agent_id rows
+          - scripts/podcast/tests/test_orchestrator_blueprint_slot.py
+        spec: |
+          Insert the 05.5-blueprint slot in PHASE_ORDER between 05-refine-english
+          (P22 halt point for Arabic-scan sources) and 06-phonetics. Register
+          flags: --force-model {haiku|sonnet|opus}, --auto-approve-blueprint,
+          --approve-blueprint, --skip-blueprint-gate. Cost-ledger gains rows
+          with agent_id=podcast-blueprint + layer + model_used + model_recommended.
+
+          The slot SHELL is landable NOW (registers the slug, halts cleanly when
+          _blueprint.py is not yet implemented, prints a DoR block citing
+          Air's pending handoff). The CONTENT inside the slot lands with P24.2
+          + P24.3.
+        depends_on_local: [P24.1]
+        acceptance:
+          - "P24.4.slot-registered ✅ _phases.py exports PHASE_05_5_BLUEPRINT constant; 05.5-blueprint appears in PHASE_ORDER between 05-refine-english and 06-phonetics"
+          - "P24.4.flags ✅ orchestrate_book.py accepts --force-model, --auto-approve-blueprint, --approve-blueprint, --skip-blueprint-gate with --help text"
+          - "P24.4.shell-halt 🔶 When _blueprint.py is not yet implemented, the slot halts cleanly with rc=3 and prints the DoR block for P24.2/P24.3; this is the LAND-NOW behavior"
+          - "P24.4.cost-ledger ✅ Cost-ledger row schema extended with agent_id, layer, model_used, model_recommended, model_overridden_by_operator fields"
+          - "P24.4.skip-flag ✅ --skip-blueprint-gate bypasses the slot entirely (zero-regression for legacy run modes; existing in-flight books are NOT replanned)"
+          - "P24.4.backward-compat 🔒 Books past 05.5-blueprint at slot-introduction time (asaas-al-taveel mid-0b, kitab-al-riyad at 0d→0e) are NOT replanned; orchestrator detects past-slot state from state.json and skips with audit log entry"
+
+      - id: P24.5
+        title: "E2E test + classification stability regression"
+        files:
+          - scripts/podcast/tests/e2e/test_blueprint_e2e.py
+          - .github/workflows/podcast-blueprint-e2e.yml  # NEW (or extend podcast-e2e.yml)
+        spec: |
+          E2E: tiny-book → blueprint Layer 1 → expected classification → Layer 2
+          → expected episode-plan → Layer 3 → expected arc-conventions. Asserts
+          stability across runs (byte-identical except source_signature).
+
+          Regression: Ayyuhal Walad refined-english.md → Layer 1 classification
+          stable run-over-run (Levenshtein ≥0.90 on rationale; exact match on
+          enum fields).
+        depends_on_local: [P24.2, P24.3, P24.4]
+        acceptance:
+          - "P24.5.e2e ✅ test_blueprint_e2e.py runs blueprint on tiny-book end-to-end; asserts all three layer outputs match goldens"
+          - "P24.5.stability ✅ Re-running blueprint on the same input produces byte-identical classification.json (except source_signature) and Levenshtein ≥0.90 on episode-plan.md prose"
+          - "P24.5.ci ✅ CI workflow runs blueprint E2E on every PR touching scripts/podcast/_blueprint.py or skills-staging/podcast-blueprint/**"
+          - "P24.5.cost-bound ✅ Full P24.5 E2E suite costs <$0.50 per run (Haiku Layer 1 + Sonnet Layer 2/3 on tiny-book)"
+
+      - id: P24.6
+        title: "DoR appendix entry + acceptance-criteria.md rows"
+        files:
+          - _workspace/plan/podcast-plan-DoR-appendix.md
+          - _workspace/plan/acceptance-criteria.md
+        spec: |
+          Document P24 in the autonomous-loop visible files: DoR appendix +
+          per-phase acceptance checklist. The DoR entry uses the 🔵 (agent-spec-edit)
+          + 🟠 (needs-mocks) + 🟡 (operator-content) statuses depending on task.
+        depends_on_local: []
+        acceptance:
+          - "P24.6.dor ✅ podcast-plan-DoR-appendix.md has a P24 section listing each task with status + blockers + assumptions + ambiguities + operator action"
+          - "P24.6.criteria ✅ acceptance-criteria.md has rows for every P24.x acceptance string"
+          - "P24.6.synergy-doc ✅ episode-format-contract.md has a one-line forward reference to blueprint-protocol.md explaining the P24 → P23 synergy"
+
+    acceptance:
+      - "P24.surface ✅ Agent spec + skill scaffold + classification.schema.json + arc-conventions.template.md + blueprint-protocol.md handbook + pydantic models all exist (P24.1 SHIPPED)"
+      - "P24.slot ✅ Orchestrator slot 05.5-blueprint registered in _phases.py and inserted in PHASE_ORDER between 05-refine-english and 06-phonetics (P24.4 SHELL SHIPPED)"
+      - "P24.layers ✅ All three layers (scan/classify, episode planner, convention emitter) implemented with fixture-gated tests (P24.2 + P24.3)"
+      - "P24.synergy ✅ Blueprint Layer 1's recommended_audience_profile + recommended_source_tradition populate proposed-config.yaml; --approve-blueprint merges into series-config.yaml, activating P23's ContractView"
+      - "P24.model-upgrade ✅ Layer 1 auto-upgrades Layer 2/3 model per classification.recommended_model_for_layer_2; operator can override with --force-model; cost-ledger audits both"
+      - "P24.arc-conventions 🔒 arc-conventions.md is OPTIONAL on input, agent-seeded as DRAFT on first run, operator-editable thereafter; Layer 3 NEVER overwrites an existing file"
+      - "P24.zero-regression 🔒 --skip-blueprint-gate flag preserves pre-P24 behavior; in-flight books past slot 05.5 are NOT replanned; tiny-book golden fixture without blueprint runs to byte-identical output vs pre-2026-05-20 baseline"
+      - "P24.cost ✅ Full blueprint pass on a 260-page book (Kitab al-Riyad scale) costs <$2.00 (Haiku Layer 1 + Sonnet Layer 2/3 typical; Opus path costs <$8.00 for highest-density sources)"
+      - "P24.boundary 🔒 P24 touches only content/podcast/, scripts/podcast/, infra/claude-agents/, .github/agents/, skills-staging/podcast-blueprint/, _workspace/plan/, _learning/fixtures/blueprint/, .github/workflows/podcast-blueprint-e2e.yml"
 
 # -----------------------------------------------------------------------------
 # Open questions
