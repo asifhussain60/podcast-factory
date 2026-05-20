@@ -137,12 +137,12 @@ def list_chapter_files(book_dir: Path) -> list[Path]:
 
 
 def chapter_slug(p: Path) -> str:
-    m = re.match(r"^ch(\d+)-(.+)$", p.stem)
+    m = re.match(r"^ch(\d+)[a-z]?-(.+)$", p.stem)
     return m.group(2) if m else p.stem
 
 
 def chapter_num(p: Path) -> int | None:
-    m = re.match(r"^ch(\d+)-(.+)$", p.stem)
+    m = re.match(r"^ch(\d+)[a-z]?-(.+)$", p.stem)
     return int(m.group(1)) if m else None
 
 
