@@ -36,7 +36,7 @@ meta:
     Never as a replacement for the primary LLM execution path.
 
   branch_strategy: "feature branches off develop, merge via --no-ff"
-  primary_mac: true                 # Azure-backed pipeline runs here (see ../primary-mac-activation.md)
+  primary_mac: true                 # Azure-backed pipeline runs here (see ../runbooks/primary-mac-activation.md)
 
   scope_in:
     - .github/agents/podcast-orchestrator.agent.md
@@ -580,7 +580,7 @@ intelligence_sources:
       - {path: "content/_shared/arabic/**",                           when: "Arabic word pronunciation (READ-ONLY); includes 06-abjad-numerals.md after P4"}
     boundary: "READS NOTHING from content/podcast/. The only cross-skill connection is consuming proposed-library-entries.md as input to manual library curation."
   cross_cutting:
-    - {path: "_workspace/primary-mac-activation.md",                  consult_for: "Azure bootstrap on a new Mac"}
+    - {path: "_workspace/runbooks/primary-mac-activation.md",         consult_for: "Azure bootstrap on a new Mac"}
     - {path: "_workspace/plan/view/index.html",                       consult_for: "Visual architecture overview (read-only)"}
     - {path: "_workspace/plan/acceptance-criteria.md",                consult_for: "Master checklist tracking entire scope of work (read every multi-step task)"}
   conflict_resolution:
