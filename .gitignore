@@ -108,3 +108,6 @@ _workspace/orchestrator-logs/
 
 # Local-only orchestrator/runtime logs
 _workspace/logs/
+
+# Local-only audit snapshots (pre-rerun copies of book artifacts for diff/review)
+_workspace/audit/
