@@ -176,26 +176,35 @@ jq '{phase, phase_status, last_completed_phase, last_error}' \
     content/podcast/library/books/kitab-al-riyad/_system/orchestrator-state.json
 ```
 
-### 4.2 — Cherry-pick the P22.markers framework fix
+### 4.2 — Cherry-pick the P22.markers framework fix + this coord update
 
-Studio committed the fix on `book/asaas-al-taveel`; the four files it
-touches are pure framework code (no book-specific content), so they
-cherry-pick cleanly onto `book/kitab-al-riyad`:
+Studio committed two relevant commits on `book/asaas-al-taveel`:
+
+1. `5201b54` — the P22.markers framework fix (4 files, pure framework code)
+2. `0844e1e` — this Studio-authored coord-doc update (1 file —
+   the Air's own operator file at `_workspace/plan/operators/macbook-air-secondary.md`)
+
+Both cherry-pick cleanly onto `book/kitab-al-riyad`. The 2nd one brings
+this file's updates into the Air's local working tree, so future `cat`
+on this path returns the up-to-date instructions (today the Air operator
+is reading these instructions from `origin/book/asaas-al-taveel` via
+`git show` because that's where Studio wrote them):
 
 ```bash
-# Confirm the framework commit exists on origin
-git log --oneline -5 origin/book/asaas-al-taveel | grep 5201b54
+# Confirm both commits exist on origin
+git log --oneline -10 origin/book/asaas-al-taveel | grep -E "5201b54|0844e1e"
 
-# Cherry-pick onto KaR
-git cherry-pick 5201b54
+# Cherry-pick both onto KaR (in chronological order: framework, then coord)
+git cherry-pick 5201b54 0844e1e
 
-# Sanity-check the 4 files landed
-git diff HEAD~1 HEAD --stat
+# Sanity-check the 5 files landed (4 framework + 1 coord)
+git diff HEAD~2 HEAD --stat
 # Should show:
-#   scripts/podcast/_authoring.py                                | ~70 lines (+51/-19)
-#   scripts/podcast/audit_page_markers.py                        | ~213 lines (NEW)
-#   scripts/podcast/tests/test_audit_page_markers.py             | ~180 lines (NEW)
-#   scripts/podcast/tests/test_phase_0b_preserves_page_markers.py| ~140 lines (NEW)
+#   scripts/podcast/_authoring.py                                 | ~70 lines (+51/-19)
+#   scripts/podcast/audit_page_markers.py                         | ~213 lines (NEW)
+#   scripts/podcast/tests/test_audit_page_markers.py              | ~180 lines (NEW)
+#   scripts/podcast/tests/test_phase_0b_preserves_page_markers.py | ~140 lines (NEW)
+#   _workspace/plan/operators/macbook-air-secondary.md            | ~190 lines (+190/-24)
 
 # Verify the regression fixture passes (sanity-check the merge didn't break it)
 python3 -m unittest scripts.podcast.tests.test_phase_0b_preserves_page_markers -v
@@ -203,6 +212,13 @@ python3 -m unittest scripts.podcast.tests.test_phase_0b_preserves_page_markers -
 python3 -m unittest scripts.podcast.tests.test_audit_page_markers -v
 # Expected: 22/22 pass
 ```
+
+If `git cherry-pick 0844e1e` produces a conflict (because the Air has
+also edited its own file in parallel since 2026-05-20T10:30Z), resolve
+manually — Studio's view of frontmatter is captured under
+`current_phase_status_summary` and `next_action`, but the Air's own
+self-report takes precedence on any field describing the Air's machine
+state (hostname, paths). Then `git cherry-pick --continue`.
 
 ### 4.3 — Audit KaR Phase 0b page markers
 
