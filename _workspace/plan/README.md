@@ -12,7 +12,7 @@
 | [`view/index.html`](./view/index.html) | Rich HTML view with SVG architecture diagrams + wave structure + P4 protocol diagram. Open in browser. Modernized for v3: semantic landmarks, skip-link, prefers-color-scheme, fluid type. |
 | [`numeric-symbolic-disambiguation-plan.md`](./numeric-symbolic-disambiguation-plan.md) | Design document for P4 (Numeric/Symbolic Disambiguation). Authoritative for the protocol; folded into the canonical YAML as P4.1–P4.8 in v3. |
 | [`research/findings.md`](./research/findings.md) | Web-research citations, sample-book corpus, chunking rationale, system-check snapshot. |
-| [`../primary-mac-activation.md`](../primary-mac-activation.md) | One-time runbook for bootstrapping a primary Mac (Azure provisioning). Referenced by Q1. |
+| [`../runbooks/primary-mac-activation.md`](../runbooks/primary-mac-activation.md) | One-time runbook for bootstrapping a primary Mac (Azure provisioning). Referenced by Q1. |
 
 ## How to consume
 
@@ -129,6 +129,6 @@ The substrate code itself is unchanged — v3.1 only owns and gates what already
 | `_workspace/folder-cleanup-prompt.md` | SUPERSEDED — supplanted by current repo structure + W5 of this plan | **DELETED** |
 | `_workspace/podcast-refactor-executive-summary.md` | SUPERSEDED — refactor now formalized as W1–W6 in `podcast-plan.yaml` | **DELETED** |
 | `_workspace/podcast-orchestrator-large-books.md` | FOLDED — chunking rationale now `research/findings.md` §7 | **DELETED** after fold-in |
-| `_workspace/primary-mac-activation.md` | STILL UNIQUE — one-time runbook for Azure bootstrap | **KEPT**, linked from this README |
+| `_workspace/runbooks/primary-mac-activation.md` | STILL UNIQUE — one-time runbook for Azure bootstrap | **KEPT**, linked from this README |
 | `_workspace/journal_podcast_processing_package/` | STALE SCAFFOLDING — pre-orchestrator source-chapter stubs | **MOVED** to `_workspace/_archive/` |
 | `_workspace/.chats/vscode_claude_code_prompt_refinement.md` | SOURCE PROMPT — historical reference; content now in this plan | **KEPT** in `.chats/` |
