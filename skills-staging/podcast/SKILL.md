@@ -128,6 +128,7 @@ Before doing ANY work, read these files in this order:
 4. `SHARED_ARABIC/03-arabic-english-manifest.md` — Latin-only Arabic→English→phonetic lookup; canonical spellings live here
 5. `SHARED_ARABIC/04-common-term-substitutions.md` — when to replace common Arabic terms with their English equivalents (nafs, shaytan, ruh, etc.)
 6. `SHARED_ARABIC/05-name-alias-policy.md` — long-name → short-alias policy. Applied during chapter authoring AND in the framing's Name discipline block. (For a per-book worked instance of the framing's Name discipline block, see `handbook/worked-examples.md` §3.)
+6a. `SHARED_ARABIC/06-abjad-numerals.md` — **abjad-numerals reference** (P4 deliverable). Full Mashriqi + Maghribi tables, Hisab al-Jummal practice, verified reference calculations (Allah=66, basmala=786, Muhammad=92, Ali=110). Required for any letter-count claim or abjad-encoded passage. After creation, READ-ONLY for both skills.
 7. `PODCAST_ROOT/.skill/handbook/notebooklm-source-chapter-rules.md` — **NORMATIVE** contract for the chapter file (Loops B + C + D + E authority). Wins over guidance files where they overlap.
 8. `PODCAST_ROOT/.skill/handbook/notebooklm-customize-prompt-rules.md` — **NORMATIVE** contract for the customize-prompt framing (Loops F + H + I + J + K authority). Includes welcome opening, anti-repetition, no-irrelevant-background, name-aliasing, interruption avoidance rules.
 9. `PODCAST_ROOT/.skill/handbook/notebooklm-source-format.md` — the file-by-file format NotebookLM responds to best
@@ -142,8 +143,11 @@ Before doing ANY work, read these files in this order:
 17. `BOOK_DIR/_README.md` — book-specific conventions and upload checklist (if a book is being worked)
 18. `PODCAST_ROOT/.skill/handbook/arabic-tts-protocol.md` — Arabic TTS protocol (Track A, **forward state**). Describes the Conversational vs Classical mode split, the `## Phonetic Key (TTS Pronunciation)` section name, and the TTS engineering rules promotion. Producer treats it as **advisory** — apply its mode distinction when authoring new phonetic guidance, but do not break existing framings on its target-state rules. Becomes canonical when steps B1–B8 (listed in the protocol) execute.
 19. `PODCAST_ROOT/.skill/ROADMAP.md` — consolidated state-of-the-skill ledger. Names what's recently shipped (Section A), what's in flight (Section B, including the protocol above), what's out-of-tree (Section C), what's rejected from external proposals (Section D), and what awaits an explicit decision (Section E). Consulted before proposing any new structural change so authoring stays aware of the skill's direction.
+20. `PODCAST_ROOT/.skill/handbook/pre-refined-source-mode.md` — **Mode-3 spec**: when to use Pre-Refined Source Mode (multi-chapter book with already-refined prose) instead of the orchestrator pipeline or Extract Mode. Defines the `_notebooklm/` scaffolding pattern, the editorial separation contract, the two-surface pronunciation delivery for pre-refined sources, the per-chapter scaffolding file skeleton, the NotebookLM upload bundle order, and the pre-publication review gate. Canonical worked example: `content/podcast/library/books/the-master-and-the-disciple/_notebooklm/`.
 
-**The six SHARED_ARABIC files (incl. 05-name-alias-policy) and the two NORMATIVE handbook files (notebooklm-*-rules) are mandatory on every run, not optional.** They are the authority for every Arabic phonetic decision, every customize-prompt template, every chapter-as-source constraint. Per-book overrides in `BOOK_DIR/_system/pronunciation.md` may add terms but must not contradict the shared manifest. Guidance files explain WHY; normative files state WHAT.
+21. `PODCAST_ROOT/.skill/handbook/numeric-symbolic-disambiguation.md` — **Numeric/Symbolic Disambiguation protocol** (P4 deliverable). Required for any book asserting counts-without-enumeration ("twelve regions", "seven seas"), containing abjad-encoded ciphers, or applying modern glosses to pre-modern referents. Defines activation triggers, per-ambiguity workflow (identify → research → record → scaffold → checklist), the enumerate-once rule, anachronism handling, the invented-content-is-P0 rule, and the authoritative-source register. Pairs with `SHARED_ARABIC/06-abjad-numerals.md` (the abjad table + reference calculations). Enforced at ship time by podcast-challenger Loop N.
+
+**The seven SHARED_ARABIC files (00-README through 06-abjad-numerals) and the two NORMATIVE handbook files (notebooklm-*-rules) are mandatory on every run, not optional.** They are the authority for every Arabic phonetic decision, every customize-prompt template, every chapter-as-source constraint. Per-book overrides in `BOOK_DIR/_system/pronunciation.md` may add terms but must not contradict the shared manifest. Guidance files explain WHY; normative files state WHAT.
 
 If `PODCAST_ROOT` is missing the top-level books index, scaffold it before continuing:
  - Create `PODCAST_ROOT/.skill/books.md` with the schema from `PODCAST_ROOT/.skill/handbook/workspace-readme-template.md`
@@ -190,6 +194,8 @@ SECTION 1.5: ANY-FORMAT LONG-SOURCE INGESTION PROTOCOL (PHASE 0)
 A long source must never produce a single episode by default. A 30-page PDF with a table of contents is a *series*, not an episode. A two-hour podcast transcript is a *series*. A 40-slide deck is a *series*. Phase 0 below converts the source — regardless of format — into a designated text folder and a confirmed chapter plan BEFORE any episode is written. Skipping Phase 0 is the failure mode that produces a one-episode workspace for a multi-chapter source.
 
 **Bypass for single-chapter sources (Extract Mode)**: when the source is already a single chapter `.txt` file (pre-prepared book chapter, single-episode re-run), skip this entire SKILL — Phase 0 pre-reads, SHARED_ARABIC index, handbook normative refs, all of it. Use the `/extract-chapter <chapter-ref>` slash command (wired to the `podcast-extract` agent at `.github/agents/podcast-extract.agent.md`), which drives `scripts/podcast/extract_chapter.py` deterministically from a per-chapter contract under `content/podcast/library/<category>/<book-slug>/chapter-contracts/<slug>.yml`. Full spec: `content/podcast/.skill/handbook/extract-capability.md`. Extract Mode is the right answer for single-episode re-runs and any source where chapter design has already been done by hand.
+
+**Bypass for pre-refined multi-chapter sources (Pre-Refined Source Mode)**: when the source is a *multi-chapter book whose prose has already been refined by the user* (per-chapter `.md`/`.txt` files at the book root, with editorial commentary already authored inline), do NOT run Phase 0a–0e. Forcing the orchestrator over pre-refined prose destroys the user's editorial work (Phase 0b re-refines; Phase 0d re-segments). Instead, build a `BOOK_DIR/_notebooklm/` scaffolding directory: master source index, centralized pronunciation guide (with stress cues + do-not-pronounce-as table + honorific protocol), listener glossary, source-integrity notes (every quotation/attribution/theological claim classified), Do Not Say guardrails, episode arc map, human-review checklist, and per-chapter scaffolding files (Source Card + Episode Intelligence + Host Questions + Listener Difficulty + Review Lens + Listener Fit + Episode Opener/Closer + NotebookLM Instruction). The chapter prose is frozen; only scaffolding is added. **Arabic pronunciation in this mode is delivered through two surfaces**: (1) `_notebooklm/01-pronunciation-guide.md` uploaded to NotebookLM as a standing reference, AND (2) per-episode customize-prompt `## Pronunciation` block in R-PRONUNCIATION-IMPERATIVE form (per R-PRONUNCIATION-IMPERATIVE). Lookup order for every Arabic term is the same as Phase 0c: `SHARED_ARABIC/03-arabic-english-manifest.md` → `BOOK_DIR/_system/pronunciation.md` → draft per `SHARED_ARABIC/01-tts-pronunciation-key.md`. Full spec: `content/podcast/.skill/handbook/pre-refined-source-mode.md`. Canonical worked example: `content/podcast/library/books/the-master-and-the-disciple/_notebooklm/`.
 
 **Splitting policy**: when a source chapter exceeds the 4,500-word ceiling (Section 0, Invariant 3), split it into derivatives with clean single-noun English titles (kebab-case, no version suffixes) and record provenance via the `derived_from:` field in each derivative's contract. Full spec: `content/podcast/.skill/handbook/extract-capability.md` § Splitting policy.
 
@@ -882,14 +888,21 @@ This skill is self-contained. It writes to `content/podcast/` only. It reads fro
 
 `content/_shared/arabic/*.md` — the shared Arabic / Islamic pronunciation reference. Read on every run. The podcast skill MAY propose additions to the manifest (via `BOOK_DIR/_system/source/text/_extraction-notes.md`), but writes to `content/_shared/arabic/` itself happen only when Asif explicitly approves and routes them. Treat the directory as authoritative input.
 
-### The one permitted outward connection
+### The one permitted outward connection — Manual library handoff
 
 After completing an episode, the podcast skill MAY propose additions to two shared libraries:
 
  - `content/babu-memoir/_system/quotes-library.txt` — if the episode surfaces a passage strong enough to inform memoir work
  - `content/babu-memoir/_system/clinic-library.txt` — if the source contains a craft observation relevant to memoir writing
 
-**Protocol:** Write the proposal to `BOOK_DIR/_system/episode-drafts/EP##-[slug]/proposed-library-entries.md`. Do NOT write directly to `content/babu-memoir/` files. Asif routes the proposal to the journal skill himself. The proposal file is cleaned up with the workspace after Phase 4 unless Asif wants to keep it.
+**Protocol (Manual library handoff):**
+ 1. Producer assembles a `ProposalBundle` (see [`scripts/podcast/_proposal_writer.py`](../../scripts/podcast/_proposal_writer.py)) and calls `write_proposal(book_dir, bundle)`.
+ 2. The proposal lands at `BOOK_DIR/_system/episode-drafts/EP##-<slug>/proposed-library-entries.md` with `schema_version: 1` frontmatter (book_slug + episode_id + generated_by + generated_at).
+ 3. The podcast skill NEVER writes directly to `content/babu-memoir/` files. Runtime enforcement: [`scripts/podcast/_boundary_check.py`](../../scripts/podcast/_boundary_check.py) (P1.1) raises on any write attempt to `content/babu-memoir/**`.
+ 4. The journal-side operator reviews each proposal manually and PROMOTES selected entries to the libraries. Promotion is always human-mediated — there is no auto-promotion script.
+ 5. The journal-side operator appends a promotion-ledger row inside the proposal file for each entry moved; the proposal file is the audit trail.
+
+Full operator guide: [`docs/podcast/manual-library-handoff.md`](../../docs/podcast/manual-library-handoff.md). Cross-skill rationale: principle P-7 in `_workspace/plan/podcast-plan.yaml`.
 
 ### Babu App
 
@@ -910,6 +923,17 @@ SECTION 10: REFERENCE FILE INDEX
  - `03-arabic-english-manifest.md` — Latin-only Arabic→English→phonetic lookup (canonical spellings)
  - `04-common-term-substitutions.md` — substitution policy (nafs, shaytan, ruh, etc.)
  - `05-name-alias-policy.md` — long-name → short-alias policy; chapter + framing both apply it (per-book worked instance: `handbook/worked-examples.md` §3)
+
+### Intelligence-module layer (the swap point — no SKILL.md edit required)
+
+The files in `PODCAST_ROOT/.skill/handbook/` (enumerated below) ARE the swappable intelligence layer for this skill. Adding or improving a podcast capability follows this contract:
+
+- **To add a new framing strategy / steering technique / NotebookLM trick**: drop a new `.md` file under `content/podcast/.skill/handbook/`. Reference it from the relevant pre-read list in this section AND from the consuming phase's prompt (see `scripts/podcast/_authoring.py`). No edits to this `SKILL.md`, no edits to journal files, no edits to any agent file are required.
+- **To deprecate / supersede**: leave the old file in place (per **R-NOREMOVE**); mark it `## DEPRECATED — superseded by <new-file>` at the top. The `_learning/promoted/` substrate tracks the rule-level transitions; this is the **file-level** deprecation channel.
+- **To add a new check** the challenger should enforce: extend `notebooklm-source-chapter-rules.md` OR `notebooklm-customize-prompt-rules.md` (the two NORMATIVE files); ship one regression fixture under `content/podcast/.skill/_learning/fixtures/<check-id>/` in the same commit (P-9 invariant). No agent file edits required.
+- **For phase-prompt evolution** (refinement / phonetics / chapter-design / enrichment / per-chapter): land an addendum file under `content/podcast/.skill/handbook/_learned-addenda/<phase-id>.md` once `_workspace/plan/podcast-plan.yaml` P19.1 ships. Gated by P19.2 regression fixtures + R9 cap (≤5 addenda per phase, FIFO eviction). Trainer is the writer; humans review at the quarterly cadence.
+
+This pattern makes podcast intelligence improvements **isolated to one folder**. Skill code, agent specs, and the journal skill are never touched as a side effect of an intelligence change.
 
 ### In `PODCAST_ROOT/.skill/handbook/` (book-agnostic, owned by the podcast skill):
  - `registry.md` — episode index (number, title, slug, book-slug, status, NotebookLM URL)

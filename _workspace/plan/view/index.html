@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Podcast Workspace — Plan</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Landing page for the podcast pipeline plan. Capability tour, acceptance checklist, and the full phased plan — all in one place. Version tracked in ./VERSION." />
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<meta property="og:title" content="Podcast Workspace — Plan v3" />
+<meta property="og:description" content="Capabilities, acceptance checklist, and phased plan for the podcast agent." />
+<meta property="og:type" content="website" />
+<link rel="stylesheet" href="assets/css/theme.css" />
+<style>
+  .phase-pill-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(82px, 1fr));
+    gap: 8px;
+  }
+  .phase-pill {
+    display: flex; flex-direction: column; align-items: center;
+    padding: 10px 8px; border-radius: var(--radius-sm);
+    background: var(--bg-card); border: 1px solid var(--border);
+    font-size: 12px; color: var(--text-dim);
+    text-decoration: none;
+    transition: border-color 0.15s, transform 0.1s;
+  }
+  .phase-pill:hover { border-color: var(--accent); transform: translateY(-1px); text-decoration: none; }
+  .phase-pill strong { color: var(--text-bright); font-size: 14px; }
+  .phase-pill.tone-1 { border-top: 3px solid var(--green); }
+  .phase-pill.tone-2 { border-top: 3px solid var(--accent); }
+  .phase-pill.tone-3 { border-top: 3px solid var(--yellow); }
+  .phase-pill.tone-4 { border-top: 3px solid var(--purple); }
+  .phase-pill.tone-5 { border-top: 3px solid var(--orange); }
+  .phase-pill.tone-6 { border-top: 3px solid var(--text-muted); }
+  .phase-pill.is-deferred { color: var(--text-muted); border-color: var(--border-soft); }
+  .phase-pill.is-deferred strong { color: var(--text-dim); }
+
+  .wave-row {
+    display: grid;
+    grid-template-columns: 200px 1fr auto;
+    gap: var(--space-4); align-items: center;
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-card);
+    margin-bottom: var(--space-3);
+  }
+  .wave-row .wave-id { font-weight: 700; color: var(--text-bright); display: flex; align-items: center; gap: 8px; }
+  .wave-row .wave-id .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .wave-row.w1 .dot { background: var(--green); }
+  .wave-row.w2 .dot { background: var(--accent); }
+  .wave-row.w3 .dot { background: var(--yellow); }
+  .wave-row.w4 .dot { background: var(--purple); }
+  .wave-row.w5 .dot { background: var(--orange); }
+  .wave-row.w6 .dot { background: var(--text-muted); }
+  .wave-row .wave-desc { color: var(--text-dim); font-size: 14px; }
+  .wave-row .wave-status .badge { white-space: nowrap; }
+  @media (max-width: 720px) {
+    .wave-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="index.html">
+      <span class="brand-mark" aria-hidden="true">P</span>
+      <span>Podcast Workspace</span>
+    </a>
+    <nav class="nav-primary" aria-label="Primary">
+      <a href="index.html" aria-current="page">Overview</a>
+      <a href="podcast-capabilities.html">Capabilities</a>
+      <a href="acceptance-criteria.html">Acceptance</a>
+      <a href="phased-plan.html">Phased Plan</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<div class="container">
+
+<!-- =========================================================== HERO -->
+<section class="hero" aria-labelledby="hero-title">
+  <span class="eyebrow">Podcast Pipeline · forward-only plan</span>
+  <h1 id="hero-title">Podcast Workspace</h1>
+  <p class="lead">
+    The home page for everything related to the podcast agent's roadmap, current state, and
+    quality controls. Three views below cover what the agent does, what counts as ship-ready,
+    and the full phased plan that gets us there.
+  </p>
+  <div class="flex flex-wrap gap-2 mt-4">
+    <a class="btn btn-primary" href="podcast-capabilities.html">Explore capabilities →</a>
+    <a class="btn" href="acceptance-criteria.html">Open checklist</a>
+    <a class="btn btn-ghost" href="phased-plan.html">Full phased plan</a>
+  </div>
+</section>
+
+<!-- =================================================== NAV CARDS -->
+<section aria-labelledby="views-title">
+  <h2 id="views-title">Views</h2>
+  <p class="section-lead">Each view is self-contained and opens directly from disk — no server required.</p>
+
+  <div class="grid grid-3 nav-cards">
+
+    <a class="card card-link nav-card tone-cyan" href="podcast-capabilities.html">
+      <div class="card-icon" aria-hidden="true">🎙</div>
+      <h3>Podcast capabilities</h3>
+      <p>A non-technical visual tour of the agent's 13 capabilities, end-to-end flow, quality controls, and roadmap. P8.7 adds 6 interactive D3 diagrams across views.</p>
+      <div class="meta">
+        <span class="badge tone-cyan">6 tabs</span>
+        <span class="badge">D3 diagrams · P8.7</span>
+      </div>
+      <div class="arrow">Open capabilities view →</div>
+    </a>
+
+    <a class="card card-link nav-card tone-green" href="acceptance-criteria.html">
+      <div class="card-icon" aria-hidden="true">✓</div>
+      <h3>Acceptance checklist</h3>
+      <p>Roughly 230 verifiable rows — the ship/done oracle. Drilled-down by wave.</p>
+      <div class="meta">
+        <span class="badge tone-green">~230 rows</span>
+        <span class="badge">5 waves</span>
+      </div>
+      <div class="arrow">Open checklist →</div>
+    </a>
+
+    <a class="card card-link nav-card tone-purple" href="phased-plan.html">
+      <div class="card-icon" aria-hidden="true">📋</div>
+      <h3>Phased plan (full)</h3>
+      <p>The canonical 19-phase, 5-wave plan. Single execution path; no legacy aliases; version in <code>./VERSION</code>.</p>
+      <div class="meta">
+        <span class="badge tone-purple">19 phases</span>
+        <span class="badge">5 waves</span>
+      </div>
+      <div class="arrow">Open phased plan →</div>
+    </a>
+
+  </div>
+</section>
+
+<!-- =================================================== STATUS -->
+<section aria-labelledby="status-title">
+  <h2 id="status-title">Current status</h2>
+  <p class="section-lead">Snapshot taken 2026-05-19. Lives alongside the system-check table in <code>research/findings.md</code> §8.</p>
+
+  <div class="grid grid-4 grid-tight">
+    <div class="stat">
+      <div class="stat-label">Plan</div>
+      <div class="stat-value">Forward-only</div>
+      <div class="stat-sub">Single execution path; version in <code>./VERSION</code></div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Active wave</div>
+      <div class="stat-value">W1</div>
+      <div class="stat-sub">Foundation &amp; Guardrails</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Acceptance verified</div>
+      <div class="stat-value">~4%</div>
+      <div class="stat-sub">9 of ~230 rows</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">In-flight runs</div>
+      <div class="stat-value">0</div>
+      <div class="stat-sub">P5.1 shipped; W1 ready to kick</div>
+    </div>
+  </div>
+
+  <div class="callout tone-yellow mt-5">
+    <h4>What's next</h4>
+    <p>
+      Land Wave&nbsp;1 (P1 + P2 + P3-done + P4 + P5 + P6) → resume <code>book/kitab-al-riyad</code>
+      after the P5 fix → kick off Wave&nbsp;2 once W1 acceptance rows pass.
+    </p>
+  </div>
+</section>
+
+<!-- =================================================== WAVES -->
+<section aria-labelledby="waves-title">
+  <h2 id="waves-title">Waves W1–W5</h2>
+  <p class="section-lead">
+    Five autonomous, scheduled-task units. Each wave's <code>done_signal</code> resolves against
+    the acceptance checklist.
+  </p>
+
+  <div class="wave-row w1">
+    <span class="wave-id"><span class="dot" aria-hidden="true"></span>W1 · Foundation</span>
+    <span class="wave-desc">Boundary check, E2E harness, doc fixes, numeric disambiguation (P4), <code>claude -p</code> artifact fix, cost ledger, phase-constants module (P5.4), refinement determinism (P2.6).</span>
+    <span class="wave-status"><span class="badge tone-yellow">In flight</span></span>
+  </div>
+  <div class="wave-row w2">
+    <span class="wave-id"><span class="dot" aria-hidden="true"></span>W2 · Observability + Polish</span>
+    <span class="wave-desc">Heartbeat, status CLI, status API, dashboard, cost + disambiguation panels, P8.6 bulk phase rename, P8.7 D3 view upgrade (6 diagrams), P8.8 agent dedup.</span>
+    <span class="wave-status"><span class="badge">Queued</span></span>
+  </div>
+  <div class="wave-row w3">
+    <span class="wave-id"><span class="dot" aria-hidden="true"></span>W3 · Corpus Validation</span>
+    <span class="wave-desc">Seven-book graduated corpus run (30p → 865p) + ETA model (wall-clock + cost prediction).</span>
+    <span class="wave-status"><span class="badge">Queued</span></span>
+  </div>
+  <div class="wave-row w4">
+    <span class="wave-id"><span class="dot" aria-hidden="true"></span>W4 · Control Plane</span>
+    <span class="wave-desc">Multi-Mac decision doc, mutation API + pytest harness, worker pool, SQLite cross-book index, dashboard mutation UI.</span>
+    <span class="wave-status"><span class="badge">Queued</span></span>
+  </div>
+  <div class="wave-row w5">
+    <span class="wave-id"><span class="dot" aria-hidden="true"></span>W5 · Deferred + Self-Learning</span>
+    <span class="wave-desc">PDF pre-splitting (P17), source-adapter registry (P17.1), parallel LLM (P18), trainer self-learning P19.1/2/3 (R9-capped), web upload (P20). Each promotes on its own trigger.</span>
+    <span class="wave-status"><span class="badge">Trigger-gated</span></span>
+  </div>
+</section>
+
+<!-- =================================================== PHASE PILL GRID -->
+<section aria-labelledby="phases-title">
+  <h2 id="phases-title">Phases</h2>
+  <p class="section-lead">
+    Every phase id from the canonical YAML. Click a pill to open its row in the acceptance
+    checklist. Color stripe matches the owning wave.
+  </p>
+
+  <div class="phase-pill-grid">
+    <a class="phase-pill tone-1" href="acceptance-criteria.html#w1"><strong>P1</strong>Boundary</a>
+    <a class="phase-pill tone-1" href="acceptance-criteria.html#w1"><strong>P2</strong>E2E harness</a>
+    <a class="phase-pill tone-1" href="acceptance-criteria.html#w1"><strong>P3</strong>Doc fixes</a>
+    <a class="phase-pill tone-1" href="acceptance-criteria.html#w1"><strong>P4</strong>Disambig.</a>
+    <a class="phase-pill tone-1" href="acceptance-criteria.html#w1"><strong>P5</strong>Perm-fix</a>
+    <a class="phase-pill tone-1" href="acceptance-criteria.html#w1"><strong>P6</strong>Cost ledger</a>
+    <a class="phase-pill tone-2" href="acceptance-criteria.html#w2"><strong>P7</strong>Heartbeat</a>
+    <a class="phase-pill tone-2" href="acceptance-criteria.html#w2"><strong>P8</strong>Status API</a>
+    <a class="phase-pill tone-3" href="acceptance-criteria.html#w3"><strong>P9</strong>Corpus</a>
+    <a class="phase-pill tone-3" href="acceptance-criteria.html#w3"><strong>P10</strong>ETA</a>
+    <a class="phase-pill tone-4" href="acceptance-criteria.html#w4"><strong>P11</strong>Multi-Mac</a>
+    <a class="phase-pill tone-4" href="acceptance-criteria.html#w4"><strong>P12</strong>Mutate API</a>
+    <a class="phase-pill tone-4" href="acceptance-criteria.html#w4"><strong>P13</strong>SQLite</a>
+    <a class="phase-pill tone-4" href="acceptance-criteria.html#w4"><strong>P14</strong>UI mutate</a>
+    <a class="phase-pill tone-5 is-deferred" href="acceptance-criteria.html#w5"><strong>P17</strong>PDF split</a>
+    <a class="phase-pill tone-5 is-deferred" href="acceptance-criteria.html#w5" title="Pluggable input formats via SourceAdapter Protocol"><strong>P17.1</strong>Adapter reg</a>
+    <a class="phase-pill tone-5 is-deferred" href="acceptance-criteria.html#w5"><strong>P18</strong>Parallel LLM</a>
+    <a class="phase-pill tone-5 is-deferred" href="acceptance-criteria.html#w5"><strong>P19</strong>Self-learning</a>
+    <a class="phase-pill tone-5 is-deferred" href="acceptance-criteria.html#w5"><strong>P20</strong>Upload UI</a>
+  </div>
+</section>
+
+<!-- =================================================== EXEC SUMMARY -->
+<section aria-labelledby="exec-title">
+  <h2 id="exec-title">For a non-technical reader</h2>
+  <p class="section-lead">
+    The shortest possible answer to "what is this?".
+  </p>
+  <div class="grid grid-3 grid-tight">
+    <div class="card">
+      <h3>What it is</h3>
+      <p>A book-to-podcast pipeline. Feed in a scholarly book (often classical Arabic). Get out a
+      NotebookLM-ready text bundle that turns into a high-quality audio overview.</p>
+    </div>
+    <div class="card">
+      <h3>Why the plan exists</h3>
+      <p>To turn the pipeline from a prototype that works on one book into a durable system that
+      works on seven books, with cost caps, recovery, and quality gates that humans can audit.</p>
+    </div>
+    <div class="card">
+      <h3>What ships when</h3>
+      <p>Wave&nbsp;1 lands the guardrails. Wave&nbsp;2 makes the agent observable. Wave&nbsp;3 proves
+      it on the corpus. Waves&nbsp;4–6 add control, polish, and deferred bets.</p>
+    </div>
+  </div>
+
+  <div class="callout tone-purple mt-5">
+    <h4>Where the real leverage lives</h4>
+    <p>
+      NotebookLM's voices, cadence, accents, humor, and music are <strong>fixed</strong> — we
+      cannot pick them. What we <em>can</em> shape is the kind of conversation those fixed
+      hosts have, by handing them <strong>podcast-intelligent source architecture</strong>
+      instead of raw prose. Most teams upload PDFs and get audiobook output; we engineer
+      bundles with explicit host prompts, episode arc tables, listener-objection blocks,
+      debate framing, segment headers, and "do-not-say" guardrails so the same hosts deliver
+      a different show. See the <a href="podcast-capabilities.html#tab-steering">Steering
+      NotebookLM</a> tab for the full ten-lever toolkit.
+    </p>
+  </div>
+</section>
+
+<!-- =================================================== HOW TO OPEN -->
+<section aria-labelledby="howto-title">
+  <h2 id="howto-title">How to open these views</h2>
+  <p class="section-lead">All views are static HTML — no server, no build.</p>
+
+  <div class="grid grid-2 grid-tight">
+    <div class="card">
+      <h3>From the file manager</h3>
+      <p class="muted">Double-click any of the four HTML files. They open in your default
+      browser and resolve assets via relative paths.</p>
+      <code>view/index.html</code>
+    </div>
+    <div class="card">
+      <h3>From a terminal</h3>
+      <p class="muted">Open the landing page directly with the system handler:</p>
+      <code>open _workspace/plan/view/index.html</code>
+    </div>
+  </div>
+
+  <div class="callout tone-cyan mt-5">
+    <h4>Offline by design</h4>
+    <p>No external CDNs are required to render. SVG diagrams are inlined. JavaScript ships
+    locally under <code>assets/js/</code>. This works on a plane, on a closed network, and
+    five years from now when the dependency in question is no longer hosted.</p>
+  </div>
+</section>
+
+</div>
+
+<!-- =================================================== WAVE COMPLETIONS -->
+<!-- WAVE_COMPLETIONS_SECTION -->
+<section aria-labelledby="wave-completions-title">
+  <h2 id="wave-completions-title">Wave completions</h2>
+  <p class="section-lead">Plain-language summary of what each wave delivered. Auto-rendered from <code>_workspace/plan/podcast-plan.yaml</code> <code>waves[].on_completion.html_summary</code> when a wave's <code>done_signal</code> flips.</p>
+  <!-- WAVE_SUMMARY_W1_START -->
+  <div class="wave-completion" data-wave="W1">
+    <h3>W1 · Foundation &amp; Guardrails — what was delivered</h3>
+    <p>Paragraph one about W1.
+Multi-line first paragraph continues here.</p>
+    <p>Paragraph two about W1 ending with a period.</p>
+  </div>
+  <!-- WAVE_SUMMARY_W1_END -->
+  <!-- WAVE_SUMMARY_W2_START -->
+  <div class="wave-completion" data-wave="W2">
+    <h3>W2 · Observability — what was delivered</h3>
+    <p>Wave 2 summary, single paragraph.</p>
+  </div>
+  <!-- WAVE_SUMMARY_W2_END -->
+  <!-- WAVE_SUMMARY_W3_START --><!-- WAVE_SUMMARY_W3_END -->
+  <!-- WAVE_SUMMARY_W4_START --><!-- WAVE_SUMMARY_W4_END -->
+  <!-- WAVE_SUMMARY_W5_START --><!-- WAVE_SUMMARY_W5_END -->
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>Podcast Workspace · plan v3 landing</span>
+    <span class="muted">© <span data-year>2026</span> · journal repo</span>
+  </div>
+</footer>
+
+<script src="assets/js/view-common.js"></script>
+</body>
+</html>

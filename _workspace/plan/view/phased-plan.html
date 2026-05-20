@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Podcast Pipeline — Phased Plan (v3)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Canonical phased plan for the podcast pipeline: 6 waves, 20 phases, Claude Code primary execution, Numeric/Symbolic Disambiguation protocol folded in." />
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<meta property="og:title" content="Podcast Pipeline — Phased Plan v3" />
+<meta property="og:description" content="6-wave autonomous-scheduled-task plan. Claude Code primary. SDK migration cancelled. Numeric/Symbolic Disambiguation added as P4." />
+<meta property="og:type" content="website" />
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-alt: #161b22;
+    --bg-card: #1c2128;
+    --border: #30363d;
+    --text: #c9d1d9;
+    --text-dim: #8b949e;
+    --text-bright: #f0f6fc;
+    --accent: #58a6ff;
+    --green: #3fb950;
+    --yellow: #d29922;
+    --red: #f85149;
+    --purple: #bc8cff;
+    --orange: #db6d28;
+    --cyan: #39d0d8;
+    --shadow: 0 4px 16px rgba(0,0,0,0.4);
+    --focus-ring: 0 0 0 3px rgba(88,166,255,0.55);
+    --wave-1: rgba(63,185,80,0.10);
+    --wave-2: rgba(88,166,255,0.10);
+    --wave-3: rgba(210,153,34,0.12);
+    --wave-4: rgba(188,140,255,0.10);
+    --wave-5: rgba(219,109,40,0.10);
+    --wave-6: rgba(139,148,158,0.10);
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #ffffff;
+      --bg-alt: #f6f8fa;
+      --bg-card: #ffffff;
+      --border: #d0d7de;
+      --text: #1f2328;
+      --text-dim: #59636e;
+      --text-bright: #0a0c10;
+      --accent: #0969da;
+      --green: #1a7f37;
+      --yellow: #9a6700;
+      --red: #cf222e;
+      --purple: #8250df;
+      --orange: #bc4c00;
+      --cyan: #1b7c83;
+      --shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+  }
+
+  @media print {
+    :root { --bg: #fff; --bg-alt: #f6f8fa; --bg-card: #fff; --text: #000; --text-dim: #333; --text-bright: #000; --border: #ccc; --shadow: none; }
+    body { font-size: 11pt; }
+    svg, .toc, .card, table { page-break-inside: avoid; }
+    .skip-link, nav[aria-label="Contents"] { display: none; }
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation: none !important; transition: none !important; }
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    line-height: 1.55;
+    font-size: clamp(13px, 0.9vw + 0.6rem, 15px);
+  }
+
+  /* Skip link — keyboard accessibility */
+  .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 8px;
+    background: var(--accent);
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    z-index: 100;
+  }
+  .skip-link:focus { top: 8px; }
+
+  /* Focus visible — keyboard-only users see ring, mouse users don't */
+  :focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+    border-radius: 4px;
+  }
+
+  .container { max-width: 1280px; margin: 0 auto; padding: clamp(16px, 2vw, 32px) clamp(12px, 1.6vw, 24px) 64px; }
+  header { border-bottom: 1px solid var(--border); padding-bottom: 24px; margin-bottom: 32px; }
+
+  h1 { color: var(--text-bright); font-size: clamp(24px, 2vw + 0.8rem, 32px); margin: 0 0 8px; font-weight: 600; line-height: 1.2; }
+  h2 { color: var(--text-bright); font-size: clamp(18px, 1.2vw + 0.6rem, 22px); margin: 48px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); font-weight: 600; scroll-margin-top: 80px; }
+  h3 { color: var(--text-bright); font-size: clamp(15px, 0.8vw + 0.4rem, 17px); margin: 24px 0 12px; font-weight: 600; }
+  h4 { color: var(--text-bright); margin: 0 0 8px; font-weight: 600; }
+
+  a { color: var(--accent); }
+  a:hover { text-decoration: underline; }
+
+  .subtitle { color: var(--text-dim); font-size: clamp(13px, 0.6vw + 0.6rem, 15px); }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-right: 6px;
+  }
+  .badge-blocker { background: var(--red); color: white; }
+  .badge-high    { background: var(--orange); color: white; }
+  .badge-medium  { background: var(--yellow); color: black; }
+  .badge-low     { background: var(--text-dim); color: black; }
+  .badge-scope-in  { background: rgba(63,185,80,0.15); color: var(--green); border: 1px solid var(--green); }
+  .badge-scope-out { background: rgba(248,81,73,0.15); color: var(--red); border: 1px solid var(--red); }
+  .badge-new       { background: rgba(88,166,255,0.18); color: var(--accent); border: 1px solid var(--accent); }
+  .badge-cancelled { background: rgba(139,148,158,0.18); color: var(--text-dim); border: 1px solid var(--text-dim); text-decoration: line-through; }
+  .badge-wave      { background: var(--bg-alt); color: var(--text-bright); border: 1px solid var(--border); font-family: "SF Mono", Menlo, monospace; }
+
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 16px 0;
+    box-shadow: var(--shadow);
+  }
+  .card.blocker  { border-left: 4px solid var(--red); }
+  .card.high     { border-left: 4px solid var(--orange); }
+  .card.medium   { border-left: 4px solid var(--yellow); }
+  .card.low      { border-left: 4px solid var(--text-dim); }
+  .card.feature  { border-left: 4px solid var(--accent); }
+  .card.success  { border-left: 4px solid var(--green); }
+
+  .card.wave-1 { background: linear-gradient(180deg, var(--wave-1), transparent 40%); border-left: 4px solid var(--green); }
+  .card.wave-2 { background: linear-gradient(180deg, var(--wave-2), transparent 40%); border-left: 4px solid var(--accent); }
+  .card.wave-3 { background: linear-gradient(180deg, var(--wave-3), transparent 40%); border-left: 4px solid var(--yellow); }
+  .card.wave-4 { background: linear-gradient(180deg, var(--wave-4), transparent 40%); border-left: 4px solid var(--purple); }
+  .card.wave-5 { background: linear-gradient(180deg, var(--wave-5), transparent 40%); border-left: 4px solid var(--orange); }
+  .card.wave-6 { background: linear-gradient(180deg, var(--wave-6), transparent 40%); border-left: 4px solid var(--text-dim); }
+
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: clamp(12px, 0.5vw + 0.6rem, 14px); }
+  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { color: var(--text-bright); font-weight: 600; background: var(--bg-alt); }
+
+  td code, p code, li code {
+    background: var(--bg-alt);
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 0.92em;
+    color: var(--cyan);
+    font-family: "SF Mono", Menlo, ui-monospace, monospace;
+  }
+  pre {
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 16px;
+    overflow-x: auto;
+    font-size: 12.5px;
+    font-family: "SF Mono", Menlo, ui-monospace, monospace;
+    line-height: 1.5;
+  }
+
+  ul, ol { padding-left: 24px; }
+  li { margin: 4px 0; }
+
+  .two-col   { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  @media (max-width: 820px) {
+    .two-col, .three-col { grid-template-columns: 1fr; }
+  }
+
+  .grid-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 16px; }
+
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; margin: 8px 0 16px; font-size: 12px; color: var(--text-dim); }
+  .legend-item { display: inline-flex; align-items: center; gap: 6px; }
+  .swatch { width: 12px; height: 12px; border-radius: 2px; display: inline-block; }
+
+  nav[aria-label="Contents"] {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 24px;
+  }
+  nav[aria-label="Contents"] ol { columns: 2; column-gap: 32px; margin: 0; }
+  @media (max-width: 600px) { nav[aria-label="Contents"] ol { columns: 1; } }
+
+  svg { display: block; margin: 16px 0; max-width: 100%; height: auto; }
+
+  .do   { color: var(--green); font-weight: 600; }
+  .dont { color: var(--red);   font-weight: 600; }
+  .pill {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 10px;
+    background: var(--bg-alt);
+    color: var(--text-dim);
+    font-size: 11px;
+    margin-left: 4px;
+  }
+
+  .kbd {
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-size: 11px;
+    font-family: "SF Mono", Menlo, monospace;
+    color: var(--text-bright);
+  }
+
+  /* Wave banner cards — autonomous scheduled-task units */
+  .wave-banner {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 16px;
+    align-items: center;
+    padding: 14px 20px;
+    border-radius: 8px;
+    margin: 12px 0;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+  }
+  .wave-banner .wave-id { font-family: "SF Mono", Menlo, monospace; font-weight: 700; font-size: 18px; color: var(--text-bright); }
+  .wave-banner .wave-meta { display: flex; flex-wrap: wrap; gap: 6px 12px; font-size: 12px; color: var(--text-dim); }
+  .wave-banner .wave-cmd { font-family: "SF Mono", Menlo, monospace; font-size: 11px; color: var(--accent); }
+
+  footer { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--text-dim); font-size: 12px; }
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<div class="container">
+
+<header>
+  <h1>Podcast Pipeline — Phased Plan <span class="badge badge-new" style="font-size:10px;vertical-align:middle">v3 · 2026-05-19</span></h1>
+  <p class="subtitle">
+    6-wave / 20-phase plan for autonomous scheduled-task execution. Claude Code is the primary
+    LLM execution mechanism. Numeric/Symbolic Disambiguation is folded in as <strong>P4</strong>.
+    Scope: podcast agent + skill only.
+  </p>
+  <p class="subtitle">
+    Canonical: <code>_workspace/plan/podcast-plan.yaml</code> ·
+    Acceptance: <code>_workspace/plan/acceptance-criteria.md</code> ·
+    P4 design: <code>_workspace/plan/numeric-symbolic-disambiguation-plan.md</code> ·
+    Research: <code>_workspace/plan/research/findings.md</code>
+  </p>
+
+  <div class="card feature" style="margin-top:18px">
+    <h3 style="margin-top:0">v3 — what changed from v2</h3>
+    <ul style="margin-bottom:0">
+      <li><strong>Sequential renumbering.</strong> P0a / P0b / P0c / P0 / P1..P7 → flat <strong>P1..P20</strong>, grouped into <strong>6 named waves (W1..W6)</strong>. Each wave is one autonomous scheduled-task unit with its own kickoff command, DONE signal, and human gate. Legacy IDs preserved in <code>meta.legacy_id_map</code> for one release.</li>
+      <li><strong>Claude Code is the primary execution mechanism.</strong> The wholesale Anthropic-Python-SDK migration formerly planned as P3 is <span class="badge badge-cancelled" style="font-size:9px">cancelled</span>. <code>claude -p --permission-mode acceptEdits</code> remains the workhorse for every LLM call in <code>scripts/podcast/</code>. The Python SDK is reserved for narrow side-channel use (cost-ledger token counting, status-API helper).</li>
+      <li><strong>Numeric/Symbolic Disambiguation added as P4.</strong> First-class phase in Wave 1: canonical abjad-numerals shared file, new handbook, challenger Loop N, Phase-0d scan step, Master &amp; Disciple Ch-02 worked example.</li>
+      <li><strong>Cost ledger decoupled from cancelled SDK migration</strong> — promoted to its own phase <strong>P6</strong> (formerly nested inside v2 P3.4).</li>
+      <li><strong>4 new open questions (Q4–Q7)</strong> tracking Master &amp; Disciple Ch-02 items pending Morris-critical-edition verification.</li>
+      <li><strong>HTML view modernized</strong> — semantic landmarks (<code>&lt;main&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;aside&gt;</code>, <code>&lt;footer&gt;</code>), skip-link, <code>prefers-color-scheme: light</code>, <code>prefers-reduced-motion</code>, <code>:focus-visible</code>, fluid <code>clamp()</code> typography, print stylesheet, Open Graph metadata.</li>
+    </ul>
+    <p style="margin-bottom:0;font-size:12.5px;color:var(--text-dim);margin-top:10px">
+      The orchestrator's internal phase IDs (<code>0a…0g</code>) are unchanged here — they get renamed by P15 in Wave 5, gated on zero in-flight books. The plan's <em>outer</em> phase numbering (P1–P20) is the v3 sequential scheme.
+    </p>
+  </div>
+</header>
+
+<nav aria-label="Contents">
+  <h2 id="toc" style="margin-top:0;border:0;padding:0;font-size:16px">Contents</h2>
+  <ol>
+    <li><a href="#scope">Scope &amp; isolation</a></li>
+    <li><a href="#system-check">System check &amp; intelligence sources</a></li>
+    <li><a href="#waves">Waves — autonomous scheduling</a> <span class="badge badge-new" style="font-size:9px">v3</span></li>
+    <li><a href="#corpus">Sample book corpus &amp; source-integrity risk</a></li>
+    <li><a href="#current">Current pipeline (as-is)</a></li>
+    <li><a href="#target">Target architecture</a></li>
+    <li><a href="#phases">Phase roadmap (P1–P20)</a></li>
+    <li><a href="#numeric">Numeric/Symbolic Disambiguation (P4)</a> <span class="badge badge-new" style="font-size:9px">v3</span></li>
+    <li><a href="#observability">Observability flow</a></li>
+    <li><a href="#failure">P5 bug post-mortem</a></li>
+    <li><a href="#claude-code">Claude Code primary execution</a> <span class="badge badge-new" style="font-size:9px">v3</span></li>
+    <li><a href="#dashboard">Dashboard wireframe</a></li>
+    <li><a href="#dosdonts">Dos &amp; Don'ts</a></li>
+    <li><a href="#open">Open questions &amp; risks</a></li>
+  </ol>
+</nav>
+
+<main id="main">
+
+<!-- ====================================================================== -->
+<h2 id="scope">1. Scope &amp; isolation</h2>
+
+<div class="two-col">
+  <div class="grid-card">
+    <h4><span class="badge badge-scope-in">In scope</span></h4>
+    <ul>
+      <li><code>.github/agents/podcast-orchestrator.agent.md</code></li>
+      <li><code>.github/agents/podcast-trainer.agent.md</code></li>
+      <li><code>skills-staging/podcast/**</code></li>
+      <li><code>scripts/podcast/**</code></li>
+      <li><code>content/podcast/**</code></li>
+      <li><code>docs/architecture/podcast-*.html</code></li>
+      <li><strong>P4 exception:</strong> <code>content/_shared/arabic/06-abjad-numerals.md</code> (one-time write; READ-ONLY thereafter)</li>
+    </ul>
+  </div>
+  <div class="grid-card">
+    <h4><span class="badge badge-scope-out">Out of scope</span></h4>
+    <ul>
+      <li><code>.github/agents/journal-*.agent.md</code></li>
+      <li><code>.github/agents/CORTEX.agent.md</code>, <code>reconcile.agent.md</code>, <code>repo-surgeon.agent.md</code></li>
+      <li><code>skills-staging/journal/**</code> and sibling skills</li>
+      <li><code>scripts/memoir/**</code>, <code>scripts/site/**</code></li>
+      <li><code>content/babu-memoir/**</code></li>
+      <li><code>content/_shared/**</code> (except the single P4 abjad-numerals file)</li>
+      <li><code>docs/architecture/journal-*.html</code>, <code>docs/architecture/index.html</code></li>
+    </ul>
+  </div>
+</div>
+
+<p>P16 adds a CI <strong>isolation check</strong> that fails the build if any file under <code>scripts/podcast/</code> imports from <code>scripts/site/</code> or <code>scripts/memoir/</code>.</p>
+
+<!-- ====================================================================== -->
+<h2 id="system-check">2. System check &amp; intelligence sources</h2>
+
+<p>Verified by the repo-surgeon evidence sweep on 2026-05-19. Refresh before each batch. Canonical: <code>meta.system_check</code> + <code>intelligence_sources</code> in <code>podcast-plan.yaml</code>.</p>
+
+<div class="two-col">
+  <div class="grid-card">
+    <h4>System check</h4>
+    <table>
+      <tr><th>Domain</th><th>Status</th></tr>
+      <tr><td>Azure CLI / subscription</td><td>✅ <code>Journal AI — primary</code></td></tr>
+      <tr><td>Azure Doc Intelligence</td><td>✅ <code>journal-docintel</code></td></tr>
+      <tr><td>Azure Translator</td><td>✅ <code>journal-translator</code></td></tr>
+      <tr><td>Azure Speech</td><td>✅ <code>journal-speech</code></td></tr>
+      <tr><td>Claude CLI <span class="pill">primary</span></td><td>✅ 2.1.144</td></tr>
+      <tr><td>Python / Node</td><td>✅ 3.14.4 / v24.15.0</td></tr>
+      <tr><td>gh CLI</td><td>⚠️ unauthenticated (non-blocking)</td></tr>
+      <tr><td>Git</td><td>⚠️ on <code>book/master-disciple-notebooklm-scaffolding</code>; uncommitted: numeric plan + this v3 restructure</td></tr>
+      <tr><td>Active orchestrator</td><td>✅ none</td></tr>
+      <tr><td>kitab-al-riyad state</td><td>✅ 0a complete, 0b pending P5 fix</td></tr>
+    </table>
+  </div>
+  <div class="grid-card">
+    <h4>Intelligence sources — podcast</h4>
+    <p>Each agent MUST consult these before any edit:</p>
+    <ul>
+      <li><code>skills-staging/podcast/SKILL.md</code> — every session start</li>
+      <li><code>scripts/podcast/orchestrate_book.py</code> — state-machine changes</li>
+      <li><code>scripts/podcast/_progress.py</code> — state-schema edits</li>
+      <li><code>content/podcast/library/books/&lt;slug&gt;/_system/orchestrator-state.json</code> — before resume / retry-phase</li>
+      <li><code>_workspace/plan/podcast-plan.yaml</code> — every multi-step task</li>
+      <li><code>_workspace/plan/numeric-symbolic-disambiguation-plan.md</code> <span class="badge badge-new" style="font-size:9px">v3</span> — any Islamic-source book scaffolding</li>
+      <li><code>content/podcast/.skill/handbook/numeric-symbolic-disambiguation.md</code> <span class="badge badge-new" style="font-size:9px">v3</span> — any chapter with numeric/symbolic claims (P4 deliverable)</li>
+      <li><code>content/_shared/arabic/06-abjad-numerals.md</code> <span class="badge badge-new" style="font-size:9px">v3</span> — any letter-count or abjad-value claim (P4 deliverable)</li>
+      <li><code>_workspace/plan/research/findings.md</code> — any architecture decision</li>
+      <li><code>docs/architecture/podcast-pipeline.html</code> — any phase boundary change</li>
+    </ul>
+    <h4 style="margin-top:18px">Intelligence sources — journal (out-of-scope reference)</h4>
+    <ul style="font-size:12.5px;color:var(--text-dim)">
+      <li><code>skills-staging/journal/SKILL.md</code></li>
+      <li><code>content/babu-memoir/_system/{voice-fingerprint,craft-techniques,thematic-arc,locked-paragraphs,biographical-context}.md</code></li>
+      <li><code>content/_shared/arabic/</code> (READ-ONLY; includes <code>06-abjad-numerals.md</code> after P4 ships)</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card medium" style="margin-top:14px">
+  <h4 style="margin-top:0">Async safety — wait-banner</h4>
+  <p>Codified in <code>meta.async_safety.wait_banner_format</code> (UTF-8 box-drawing) and <code>wait_banner_format_ascii</code> (ASCII fallback). The status CLI (P7.3) emits the boxed banner for TTY, or the ASCII variant via <code>--ascii</code>. Pre-edit checklist:</p>
+  <ol>
+    <li><code>pgrep -fl 'orchestrate_book|claude -p|extract_chapter|build_episode'</code> → empty</li>
+    <li>No <code>.in.md</code> without a matching <code>.out.md</code> in any active <code>_chunks/</code> dir</li>
+    <li>If async is running, read the heartbeat to confirm advancement; do NOT touch active book paths</li>
+  </ol>
+</div>
+
+<!-- ====================================================================== -->
+<h2 id="waves">3. Waves — autonomous scheduling <span class="badge badge-new" style="font-size:10px;vertical-align:middle">v3</span></h2>
+
+<p>Each wave is one autonomous scheduled-task unit. Kick it off; it runs its phases per the parallelism rules, checks its DONE signal against <code>acceptance-criteria.md</code>, and either advances to the next wave or halts for human review. Use <code>scripts/podcast/run_wave.py</code> (created in Wave 1) as the canonical kickoff harness.</p>
+
+<div class="wave-banner wave-1" style="background: linear-gradient(90deg, var(--wave-1), transparent 60%);">
+  <div class="wave-id">W1</div>
+  <div>
+    <h3 style="margin:0">Foundation &amp; Guardrails <span class="pill">P1–P6 · ~2–4 days parallel</span></h3>
+    <div class="wave-meta">
+      <span>⚡ Overnight idempotent</span>
+      <span>💵 Zero LLM cost</span>
+      <span>🧩 P1/P2/P3/P4 parallel · P5 then P6 sequential</span>
+      <span>🚦 DONE: all W1 acceptance rows checked</span>
+    </div>
+  </div>
+  <div class="wave-cmd">$ run_wave.py 1</div>
+</div>
+
+<div class="wave-banner wave-2" style="background: linear-gradient(90deg, var(--wave-2), transparent 60%);">
+  <div class="wave-id">W2</div>
+  <div>
+    <h3 style="margin:0">Observability <span class="pill">P7–P8 · 4–6 days</span></h3>
+    <div class="wave-meta">
+      <span>📡 Heartbeat + FastAPI + dashboard</span>
+      <span>🧩 P7 then P8 sequential</span>
+      <span>🚦 DONE: dashboard reachable at http://127.0.0.1:8765/</span>
+    </div>
+  </div>
+  <div class="wave-cmd">$ run_wave.py 2</div>
+</div>
+
+<div class="wave-banner wave-3" style="background: linear-gradient(90deg, var(--wave-3), transparent 60%);">
+  <div class="wave-id">W3</div>
+  <div>
+    <h3 style="margin:0">Corpus Validation <span class="pill">P9–P10 · ~1 wk wall-clock</span></h3>
+    <div class="wave-meta">
+      <span>📚 7 books · 30p → 865p</span>
+      <span>💵 Cost-capped by P6 ($50 hard halt default)</span>
+      <span>🧩 One book per scheduled invocation</span>
+      <span>🚦 DONE: 7 books shipped OR failure-modes documented; ETA ±30%</span>
+    </div>
+  </div>
+  <div class="wave-cmd">$ run_wave.py 3 --book &lt;slug&gt;</div>
+</div>
+
+<div class="wave-banner wave-4" style="background: linear-gradient(90deg, var(--wave-4), transparent 60%);">
+  <div class="wave-id">W4</div>
+  <div>
+    <h3 style="margin:0">Control Plane <span class="pill">P11–P14 · ~1 wk</span></h3>
+    <div class="wave-meta">
+      <span>🔧 Mutation API + worker pool + SQLite cache</span>
+      <span>🧩 P11 first; P12+P13 parallel; P14 last</span>
+      <span>🚦 DONE: 2 books parallel; mutations audit-logged</span>
+    </div>
+  </div>
+  <div class="wave-cmd">$ run_wave.py 4</div>
+</div>
+
+<div class="wave-banner wave-5" style="background: linear-gradient(90deg, var(--wave-5), transparent 60%);">
+  <div class="wave-id">W5</div>
+  <div>
+    <h3 style="margin:0">Polish <span class="pill">P15–P16 · 3–5 days · HARD-GATED</span></h3>
+    <div class="wave-meta">
+      <span>🔒 Prereq: zero in-flight books</span>
+      <span>♻️ Orchestrator phase rename 0a→04-ocr-translate</span>
+      <span>🗂️ Agent dedup + isolation CI</span>
+      <span>🚦 DONE: schema v2 across live state; agent picker clean</span>
+    </div>
+  </div>
+  <div class="wave-cmd">$ run_wave.py 5 --confirm-zero-inflight</div>
+</div>
+
+<div class="wave-banner wave-6" style="background: linear-gradient(90deg, var(--wave-6), transparent 60%);">
+  <div class="wave-id">W6</div>
+  <div>
+    <h3 style="margin:0">Deferred <span class="pill">P17–P20 · trigger-gated</span></h3>
+    <div class="wave-meta">
+      <span>🎯 Not time-scheduled — each phase has <code>promote_when</code> trigger</span>
+      <span>📦 PDF split / parallel LLM / trainer SQLite / browser upload</span>
+    </div>
+  </div>
+  <div class="wave-cmd">manual: --phase P17</div>
+</div>
+
+<!-- ====================================================================== -->
+<h2 id="corpus">4. Sample book corpus &amp; source-integrity risk</h2>
+
+<p>Page count is one axis; <strong>semantic source-integrity risk</strong> is another. Master &amp; Disciple-class books (classical Ismaili source with abjad encoding, symbolic numerics, anachronism candidates) get the full P4 protocol from chapter 1.</p>
+
+<svg viewBox="0 0 1200 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sample book corpus chart with page count and source-integrity risk indicators">
+  <defs>
+    <linearGradient id="bar-tiny"  x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3fb950" /><stop offset="100%" stop-color="#2ea043"/></linearGradient>
+    <linearGradient id="bar-small" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#58a6ff" /><stop offset="100%" stop-color="#388bfd"/></linearGradient>
+    <linearGradient id="bar-med"   x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#d29922" /><stop offset="100%" stop-color="#bb7706"/></linearGradient>
+    <linearGradient id="bar-large" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#db6d28" /><stop offset="100%" stop-color="#bc4c00"/></linearGradient>
+    <linearGradient id="bar-xl"    x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#bc8cff" /><stop offset="100%" stop-color="#8957e5"/></linearGradient>
+  </defs>
+
+  <line x1="60" y1="270" x2="1150" y2="270" stroke="#30363d" stroke-width="1"/>
+  <line x1="60" y1="40"  x2="60"  y2="270" stroke="#30363d" stroke-width="1"/>
+
+  <g font-family="SF Mono, monospace" font-size="10" fill="#8b949e">
+    <text x="55" y="44"  text-anchor="end">1000</text>
+    <text x="55" y="105" text-anchor="end">500</text>
+    <text x="55" y="166" text-anchor="end">200</text>
+    <text x="55" y="227" text-anchor="end">50</text>
+    <text x="55" y="273" text-anchor="end">0</text>
+  </g>
+
+  <line x1="60" y1="40" x2="1150" y2="40" stroke="#f85149" stroke-width="1" stroke-dasharray="4 4"/>
+  <text x="1145" y="35" text-anchor="end" font-family="SF Pro Text, sans-serif" font-size="11" fill="#f85149">Azure DI ceiling: 2000 pages</text>
+
+  <!-- Bars + source-integrity-risk dot beneath each label (●=high  ◐=med  ○=low) -->
+  <g font-family="SF Pro Text, sans-serif">
+    <g><rect x="80"  y="268" width="60" height="2"  fill="url(#bar-tiny)"/>  <text x="110" y="288" text-anchor="middle" font-size="10" fill="#c9d1d9">MM-Anjum</text><text x="110" y="300" text-anchor="middle" font-size="10" fill="#8b949e">17p</text><text x="110" y="318" text-anchor="middle" font-size="11" fill="#d29922">◐</text></g>
+    <g><rect x="160" y="267" width="60" height="3"  fill="url(#bar-tiny)"/>  <text x="190" y="288" text-anchor="middle" font-size="10" fill="#c9d1d9">Ahed Namah</text><text x="190" y="300" text-anchor="middle" font-size="10" fill="#8b949e">20p</text><text x="190" y="318" text-anchor="middle" font-size="11" fill="#3fb950">○</text></g>
+    <g><rect x="240" y="266" width="60" height="4"  fill="url(#bar-tiny)"/>  <text x="270" y="288" text-anchor="middle" font-size="10" fill="#c9d1d9">Ayyuhal</text><text x="270" y="300" text-anchor="middle" font-size="10" fill="#8b949e">30p ◀ first W3</text><text x="270" y="318" text-anchor="middle" font-size="11" fill="#3fb950">○</text></g>
+    <g><rect x="320" y="259" width="60" height="11" fill="url(#bar-small)"/> <text x="350" y="288" text-anchor="middle" font-size="10" fill="#c9d1d9">Masaail</text><text x="350" y="300" text-anchor="middle" font-size="10" fill="#8b949e">81p</text><text x="350" y="318" text-anchor="middle" font-size="11" fill="#d29922">◐</text></g>
+    <g><rect x="400" y="251" width="60" height="19" fill="url(#bar-small)"/> <text x="430" y="288" text-anchor="middle" font-size="10" fill="#c9d1d9">Majalis</text><text x="430" y="300" text-anchor="middle" font-size="10" fill="#8b949e">139p</text><text x="430" y="318" text-anchor="middle" font-size="11" fill="#f85149">●</text></g>
+    <g><rect x="480" y="235" width="60" height="35" fill="url(#bar-med)"/>   <text x="510" y="288" text-anchor="middle" font-size="10" fill="#c9d1d9">Kitab Riyad</text><text x="510" y="300" text-anchor="middle" font-size="10" fill="#8b949e">260p ◀ in-flight</text><text x="510" y="318" text-anchor="middle" font-size="11" fill="#f85149">●</text></g>
+    <g><rect x="560" y="217" width="60" height="53" fill="url(#bar-large)"/> <text x="590" y="288" text-anchor="middle" font-size="10" fill="#c9d1d9">Maqbas</text><text x="590" y="300" text-anchor="middle" font-size="10" fill="#8b949e">392p</text><text x="590" y="318" text-anchor="middle" font-size="11" fill="#f85149">●</text></g>
+    <g><rect x="640" y="214" width="60" height="56" fill="url(#bar-large)"/> <text x="670" y="288" text-anchor="middle" font-size="10" fill="#c9d1d9">Asaas</text><text x="670" y="300" text-anchor="middle" font-size="10" fill="#8b949e">416p</text><text x="670" y="318" text-anchor="middle" font-size="11" fill="#f85149">●</text></g>
+    <g><rect x="720" y="190" width="60" height="80" fill="url(#bar-xl)"/>    <text x="750" y="288" text-anchor="middle" font-size="10" fill="#c9d1d9">Raahat</text><text x="750" y="300" text-anchor="middle" font-size="10" fill="#8b949e">591p</text><text x="750" y="318" text-anchor="middle" font-size="11" fill="#f85149">●</text></g>
+    <g><rect x="800" y="153" width="60" height="117" fill="url(#bar-xl)"/>   <text x="830" y="288" text-anchor="middle" font-size="10" fill="#c9d1d9">Rasail Ikhwan</text><text x="830" y="300" text-anchor="middle" font-size="10" fill="#8b949e">865p ◀ stress</text><text x="830" y="318" text-anchor="middle" font-size="11" fill="#f85149">●</text></g>
+    <g><rect x="900" y="200" width="60" height="70" fill="url(#bar-large)"/> <text x="930" y="288" text-anchor="middle" font-size="10" fill="#c9d1d9">Master &amp; Disciple</text><text x="930" y="300" text-anchor="middle" font-size="10" fill="#8b949e">~500p (P4 example)</text><text x="930" y="318" text-anchor="middle" font-size="11" fill="#f85149">●</text></g>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(990,60)" font-family="SF Pro Text, sans-serif" font-size="11" fill="#c9d1d9">
+    <rect x="0" y="0"  width="12" height="12" fill="url(#bar-tiny)"/>  <text x="18" y="10">tiny (≤30p)</text>
+    <rect x="0" y="20" width="12" height="12" fill="url(#bar-small)"/> <text x="18" y="30">small (≤200p)</text>
+    <rect x="0" y="40" width="12" height="12" fill="url(#bar-med)"/>   <text x="18" y="50">medium (≤300p)</text>
+    <rect x="0" y="60" width="12" height="12" fill="url(#bar-large)"/> <text x="18" y="70">large (≤500p)</text>
+    <rect x="0" y="80" width="12" height="12" fill="url(#bar-xl)"/>    <text x="18" y="90">xlarge (≥500p)</text>
+    <text x="-2" y="115" font-size="10" fill="#8b949e">Source-integrity risk:</text>
+    <text x="0" y="135" font-size="11" fill="#f85149">●</text> <text x="18" y="135">high (Ismaili / classical)</text>
+    <text x="0" y="153" font-size="11" fill="#d29922">◐</text> <text x="18" y="153">medium</text>
+    <text x="0" y="171" font-size="11" fill="#3fb950">○</text> <text x="18" y="171">low</text>
+  </g>
+</svg>
+
+<p><strong>Key insight:</strong> the largest book (Rasail Ikhwan, 865p) uses only <strong>43%</strong> of Azure Document Intelligence's 2,000-page ceiling. <strong>PDF splitting is not needed for any current book</strong> — deferred to P17. <strong>9 of 11 books carry high source-integrity risk</strong> (●) — the P4 protocol applies broadly, not just to Master &amp; Disciple.</p>
+
+<!-- ====================================================================== -->
+<h2 id="current">5. Current pipeline (as-is)</h2>
+
+<svg viewBox="0 0 1200 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Current pipeline diagram with phases and bug callouts">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8b949e"/>
+    </marker>
+  </defs>
+
+  <g font-family="SF Pro Text, sans-serif" font-size="11" fill="#c9d1d9" text-anchor="middle">
+    <rect x="20"  y="40" width="100" height="50" rx="6" fill="#1c2128" stroke="#30363d"/><text x="70"  y="65">pre-flight</text><text x="70"  y="80" font-size="9" fill="#8b949e">git + state</text>
+    <rect x="140" y="40" width="100" height="50" rx="6" fill="#1c2128" stroke="#30363d"/><text x="190" y="65">branch</text><text x="190" y="80" font-size="9" fill="#8b949e">book/&lt;slug&gt;</text>
+    <rect x="260" y="40" width="100" height="50" rx="6" fill="#1c2128" stroke="#30363d"/><text x="310" y="65">scaffold</text><text x="310" y="80" font-size="9" fill="#8b949e">folder tree</text>
+    <rect x="380" y="40" width="100" height="50" rx="6" fill="#1c2128" stroke="#3fb950"/><text x="430" y="60">0a</text><text x="430" y="75" font-size="9" fill="#8b949e">OCR + translate</text><text x="430" y="85" font-size="9" fill="#39d0d8">Azure DI</text>
+    <rect x="500" y="40" width="100" height="50" rx="6" fill="#1c2128" stroke="#3fb950"/><text x="550" y="60">0b ✂</text><text x="550" y="75" font-size="9" fill="#8b949e">refine english</text><text x="550" y="85" font-size="9" fill="#bc8cff">claude -p (N)</text>
+    <rect x="620" y="40" width="100" height="50" rx="6" fill="#1c2128" stroke="#3fb950"/><text x="670" y="60">0c ✂</text><text x="670" y="75" font-size="9" fill="#8b949e">phonetics</text><text x="670" y="85" font-size="9" fill="#bc8cff">claude -p (N)</text>
+    <rect x="740" y="40" width="100" height="50" rx="6" fill="#1c2128" stroke="#3fb950"/><text x="790" y="60">0d ✂</text><text x="790" y="75" font-size="9" fill="#8b949e">chapter design</text><text x="790" y="85" font-size="9" fill="#bc8cff">claude -p (toc+sc)</text>
+    <rect x="860" y="40" width="100" height="50" rx="6" fill="#1c2128" stroke="#3fb950"/><text x="910" y="60">0e ✂</text><text x="910" y="75" font-size="9" fill="#8b949e">enrich</text><text x="910" y="85" font-size="9" fill="#bc8cff">claude -p (per-ch)</text>
+    <rect x="980" y="40" width="100" height="50" rx="6" fill="#1c2128" stroke="#d29922"/><text x="1030" y="60">0f ⏸</text><text x="1030" y="75" font-size="9" fill="#8b949e">series plan</text><text x="1030" y="85" font-size="9" fill="#d29922">HUMAN GATE</text>
+
+    <rect x="20"  y="160" width="100" height="50" rx="6" fill="#1c2128" stroke="#30363d"/><text x="70"  y="180">0g</text><text x="70"  y="195" font-size="9" fill="#8b949e">register series</text>
+    <rect x="140" y="160" width="220" height="50" rx="6" fill="#1c2128" stroke="#30363d"/><text x="250" y="180">per-chapter (framing→build→challenger)</text><text x="250" y="195" font-size="9" fill="#bc8cff">claude -p × chapters × N rounds</text>
+    <rect x="380" y="160" width="100" height="50" rx="6" fill="#1c2128" stroke="#30363d"/><text x="430" y="180">trainer</text><text x="430" y="195" font-size="9" fill="#bc8cff">claude -p</text>
+    <rect x="500" y="160" width="100" height="50" rx="6" fill="#1c2128" stroke="#30363d"/><text x="550" y="180">merge</text><text x="550" y="195" font-size="9" fill="#8b949e">into develop</text>
+    <rect x="620" y="160" width="100" height="50" rx="6" fill="#1c2128" stroke="#3fb950"/><text x="670" y="185">done ✓</text>
+  </g>
+
+  <g stroke="#8b949e" stroke-width="1.5" fill="none" marker-end="url(#arrow)">
+    <line x1="120" y1="65" x2="138" y2="65"/><line x1="240" y1="65" x2="258" y2="65"/><line x1="360" y1="65" x2="378" y2="65"/>
+    <line x1="480" y1="65" x2="498" y2="65"/><line x1="600" y1="65" x2="618" y2="65"/><line x1="720" y1="65" x2="738" y2="65"/>
+    <line x1="840" y1="65" x2="858" y2="65"/><line x1="960" y1="65" x2="978" y2="65"/>
+    <path d="M1030,90 L1030,130 L70,130 L70,158"/>
+    <line x1="120" y1="185" x2="138" y2="185"/><line x1="360" y1="185" x2="378" y2="185"/><line x1="480" y1="185" x2="498" y2="185"/><line x1="600" y1="185" x2="618" y2="185"/>
+  </g>
+
+  <g font-family="SF Pro Text, sans-serif" font-size="11">
+    <text x="20" y="280" fill="#f85149" font-weight="600">⚠ P5 BUG (was P0): every <tspan font-family="SF Mono, monospace" fill="#bc8cff">claude -p</tspan> site is missing <tspan font-family="SF Mono, monospace" fill="#39d0d8">--permission-mode acceptEdits</tspan></text>
+    <text x="20" y="298" fill="#8b949e">    → file-write tools refused silently → rc=0, no output → orchestrator logs "NO ARTIFACT" and continues</text>
+    <text x="20" y="318" fill="#d29922" font-weight="600">⏸ 0f is a deliberate human gate: review series plan + episode boundaries before per-chapter authoring fires</text>
+    <text x="20" y="340" fill="#8b949e">    ✂ = chunked / checkpointed (resume-safe). Green border = already chunked. Yellow border = human gate.</text>
+  </g>
+</svg>
+
+<!-- ====================================================================== -->
+<h2 id="target">6. Target architecture (after Wave 4)</h2>
+
+<p>Note: the FastAPI service and dashboard <strong>observe and orchestrate</strong> the pipeline; <code>claude -p</code> (Claude Code) remains the workhorse for every workhorse LLM call (per principle P-1). The Anthropic Python SDK is used in narrow side-channel locations only: the cost-ledger helper (P6) and the status-API helper (P8).</p>
+
+<svg viewBox="0 0 1200 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Target architecture: browser, FastAPI service, claude -p workers, filesystem">
+  <defs>
+    <marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#58a6ff"/>
+    </marker>
+    <marker id="arrow3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#3fb950"/>
+    </marker>
+  </defs>
+
+  <g>
+    <rect x="20" y="20" width="1160" height="100" rx="8" fill="#161b22" stroke="#58a6ff" stroke-dasharray="4 4"/>
+    <text x="40" y="42" font-family="SF Pro Text, sans-serif" font-size="13" fill="#58a6ff" font-weight="600">Browser / CLI</text>
+    <rect x="60"  y="55" width="200" height="50" rx="6" fill="#1c2128" stroke="#58a6ff"/><text x="160" y="78" text-anchor="middle" font-size="12" fill="#c9d1d9">Dashboard SPA</text><text x="160" y="93" text-anchor="middle" font-size="10" fill="#8b949e">vanilla JS + SSE</text>
+    <rect x="290" y="55" width="200" height="50" rx="6" fill="#1c2128" stroke="#58a6ff"/><text x="390" y="78" text-anchor="middle" font-size="12" fill="#c9d1d9">orchestrator_status.py</text><text x="390" y="93" text-anchor="middle" font-size="10" fill="#8b949e">CLI inspector</text>
+    <rect x="520" y="55" width="200" height="50" rx="6" fill="#1c2128" stroke="#58a6ff"/><text x="620" y="78" text-anchor="middle" font-size="12" fill="#c9d1d9">curl / httpie</text><text x="620" y="93" text-anchor="middle" font-size="10" fill="#8b949e">automation</text>
+    <rect x="750" y="55" width="200" height="50" rx="6" fill="#1c2128" stroke="#58a6ff"/><text x="850" y="78" text-anchor="middle" font-size="12" fill="#c9d1d9">/docs (OpenAPI)</text><text x="850" y="93" text-anchor="middle" font-size="10" fill="#8b949e">swagger UI</text>
+  </g>
+
+  <g>
+    <rect x="20" y="150" width="1160" height="120" rx="8" fill="#161b22" stroke="#3fb950" stroke-dasharray="4 4"/>
+    <text x="40" y="172" font-family="SF Pro Text, sans-serif" font-size="13" fill="#3fb950" font-weight="600">FastAPI service (scripts/podcast/service/) — port 8765, localhost only</text>
+    <rect x="60"  y="190" width="160" height="60" rx="6" fill="#1c2128" stroke="#3fb950"/><text x="140" y="210" text-anchor="middle" font-size="12" fill="#c9d1d9">Routes</text><text x="140" y="228" text-anchor="middle" font-size="10" fill="#8b949e">/books /heartbeat</text><text x="140" y="242" text-anchor="middle" font-size="10" fill="#8b949e">/stream /events /cost /disambiguation</text>
+    <rect x="240" y="190" width="160" height="60" rx="6" fill="#1c2128" stroke="#3fb950"/><text x="320" y="210" text-anchor="middle" font-size="12" fill="#c9d1d9">Workers</text><text x="320" y="228" text-anchor="middle" font-size="10" fill="#8b949e">Popen registry</text><text x="320" y="242" text-anchor="middle" font-size="10" fill="#8b949e">max_concurrent=2</text>
+    <rect x="420" y="190" width="160" height="60" rx="6" fill="#1c2128" stroke="#3fb950"/><text x="500" y="210" text-anchor="middle" font-size="12" fill="#c9d1d9">Sources</text><text x="500" y="228" text-anchor="middle" font-size="10" fill="#8b949e">state.json + heartbeat readers</text>
+    <rect x="600" y="190" width="160" height="60" rx="6" fill="#1c2128" stroke="#3fb950"/><text x="680" y="210" text-anchor="middle" font-size="12" fill="#c9d1d9">Index (cache)</text><text x="680" y="228" text-anchor="middle" font-size="10" fill="#8b949e">_workspace/podcast.db</text><text x="680" y="242" text-anchor="middle" font-size="10" fill="#8b949e">SQLite, rebuildable</text>
+    <rect x="780" y="190" width="160" height="60" rx="6" fill="#1c2128" stroke="#3fb950"/><text x="860" y="210" text-anchor="middle" font-size="12" fill="#c9d1d9">Audit</text><text x="860" y="228" text-anchor="middle" font-size="10" fill="#8b949e">podcast-audit.jsonl</text>
+    <rect x="960" y="190" width="160" height="60" rx="6" fill="#1c2128" stroke="#3fb950"/><text x="1040" y="210" text-anchor="middle" font-size="12" fill="#c9d1d9">Auth</text><text x="1040" y="228" text-anchor="middle" font-size="10" fill="#8b949e">bearer token / keychain</text>
+  </g>
+
+  <g>
+    <rect x="20" y="300" width="1160" height="100" rx="8" fill="#161b22" stroke="#d29922" stroke-dasharray="4 4"/>
+    <text x="40" y="322" font-family="SF Pro Text, sans-serif" font-size="13" fill="#d29922" font-weight="600">Worker subprocesses — one per book — driven by Claude Code</text>
+    <rect x="60"  y="335" width="220" height="55" rx="6" fill="#1c2128" stroke="#d29922"/><text x="170" y="356" text-anchor="middle" font-size="12" fill="#c9d1d9">orchestrate_book.py --resume A</text><text x="170" y="373" text-anchor="middle" font-size="10" fill="#8b949e">writes heartbeat.json + events.jsonl</text>
+    <rect x="300" y="335" width="220" height="55" rx="6" fill="#1c2128" stroke="#d29922"/><text x="410" y="356" text-anchor="middle" font-size="12" fill="#c9d1d9">orchestrate_book.py --resume B</text><text x="410" y="373" text-anchor="middle" font-size="10" fill="#8b949e">isolated state per book</text>
+    <rect x="540" y="335" width="200" height="55" rx="6" fill="#1c2128" stroke="#bc8cff"/><text x="640" y="356" text-anchor="middle" font-size="12" fill="#c9d1d9">claude -p (Claude Code CLI)</text><text x="640" y="373" text-anchor="middle" font-size="10" fill="#8b949e">--permission-mode acceptEdits · primary execution</text>
+    <rect x="760" y="335" width="160" height="55" rx="6" fill="#1c2128" stroke="#39d0d8"/><text x="840" y="356" text-anchor="middle" font-size="12" fill="#c9d1d9">azure_ocr.py</text><text x="840" y="373" text-anchor="middle" font-size="10" fill="#8b949e">Doc Intelligence</text>
+    <rect x="940" y="335" width="180" height="55" rx="6" fill="#1c2128" stroke="#d29922"/><text x="1030" y="356" text-anchor="middle" font-size="12" fill="#c9d1d9">_cost_ledger.py</text><text x="1030" y="373" text-anchor="middle" font-size="10" fill="#8b949e">parses claude -p stdout · P6</text>
+  </g>
+
+  <g>
+    <rect x="20" y="430" width="1160" height="90" rx="8" fill="#161b22" stroke="#bc8cff" stroke-dasharray="4 4"/>
+    <text x="40" y="452" font-family="SF Pro Text, sans-serif" font-size="13" fill="#bc8cff" font-weight="600">Filesystem (authoritative)</text>
+    <rect x="60"  y="465" width="240" height="45" rx="6" fill="#1c2128" stroke="#bc8cff"/><text x="180" y="484" text-anchor="middle" font-size="11" fill="#c9d1d9">content/podcast/library/books/&lt;slug&gt;/</text><text x="180" y="500" text-anchor="middle" font-size="10" fill="#8b949e">_system/ chapters/ episodes/ ...</text>
+    <rect x="320" y="465" width="180" height="45" rx="6" fill="#1c2128" stroke="#bc8cff"/><text x="410" y="484" text-anchor="middle" font-size="11" fill="#c9d1d9">state.json + heartbeat.json</text>
+    <rect x="520" y="465" width="180" height="45" rx="6" fill="#1c2128" stroke="#bc8cff"/><text x="610" y="484" text-anchor="middle" font-size="11" fill="#c9d1d9">events.jsonl · cost-ledger.jsonl</text>
+    <rect x="720" y="465" width="220" height="45" rx="6" fill="#1c2128" stroke="#bc8cff"/><text x="830" y="484" text-anchor="middle" font-size="11" fill="#c9d1d9">numeric-disambiguation-register.md</text><text x="830" y="500" text-anchor="middle" font-size="10" fill="#8b949e">P4 deliverable</text>
+    <rect x="960" y="465" width="180" height="45" rx="6" fill="#1c2128" stroke="#bc8cff"/><text x="1050" y="484" text-anchor="middle" font-size="11" fill="#c9d1d9">06-abjad-numerals.md</text><text x="1050" y="500" text-anchor="middle" font-size="10" fill="#8b949e">P4 shared (READ-ONLY)</text>
+  </g>
+
+  <g stroke="#58a6ff" stroke-width="1.5" fill="none" marker-end="url(#arrow2)">
+    <line x1="160" y1="105" x2="160" y2="188"/><line x1="390" y1="105" x2="390" y2="188"/><line x1="620" y1="105" x2="620" y2="188"/><line x1="850" y1="105" x2="850" y2="188"/>
+  </g>
+  <g stroke="#3fb950" stroke-width="1.5" fill="none" marker-end="url(#arrow3)">
+    <line x1="320" y1="250" x2="170" y2="333"/><line x1="320" y1="250" x2="410" y2="333"/>
+  </g>
+  <g stroke="#bc8cff" stroke-width="1.5" fill="none" stroke-dasharray="3 3">
+    <line x1="170" y1="390" x2="180" y2="463"/><line x1="170" y1="390" x2="410" y2="463"/><line x1="170" y1="390" x2="610" y2="463"/>
+  </g>
+</svg>
+
+<p class="legend">
+  <span class="legend-item"><span class="swatch" style="background:#58a6ff"></span>HTTP / SSE</span>
+  <span class="legend-item"><span class="swatch" style="background:#3fb950"></span>spawn / read</span>
+  <span class="legend-item"><span class="swatch" style="background:#bc8cff"></span>write</span>
+  <span class="legend-item"><span class="swatch" style="background:#d29922"></span>worker subprocess</span>
+</p>
+
+<!-- ====================================================================== -->
+<h2 id="phases">7. Phase roadmap (P1–P20 across 6 waves)</h2>
+
+<svg viewBox="0 0 1200 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Phase roadmap timeline with 6 wave bands">
+  <!-- Wave bands (background) -->
+  <g>
+    <rect x="40"   y="40" width="270" height="280" fill="#3fb950" opacity="0.10" rx="8"/>
+    <text x="175" y="35" text-anchor="middle" font-family="SF Pro Text" font-size="12" fill="#3fb950" font-weight="600">W1 Foundation (P1–P6)</text>
+
+    <rect x="320"  y="40" width="120" height="280" fill="#58a6ff" opacity="0.10" rx="8"/>
+    <text x="380" y="35" text-anchor="middle" font-family="SF Pro Text" font-size="12" fill="#58a6ff" font-weight="600">W2 Obs.</text>
+
+    <rect x="450"  y="40" width="120" height="280" fill="#d29922" opacity="0.12" rx="8"/>
+    <text x="510" y="35" text-anchor="middle" font-family="SF Pro Text" font-size="12" fill="#d29922" font-weight="600">W3 Corpus</text>
+
+    <rect x="580"  y="40" width="220" height="280" fill="#bc8cff" opacity="0.10" rx="8"/>
+    <text x="690" y="35" text-anchor="middle" font-family="SF Pro Text" font-size="12" fill="#bc8cff" font-weight="600">W4 Control plane</text>
+
+    <rect x="810"  y="40" width="130" height="280" fill="#db6d28" opacity="0.10" rx="8"/>
+    <text x="875" y="35" text-anchor="middle" font-family="SF Pro Text" font-size="12" fill="#db6d28" font-weight="600">W5 Polish (gated)</text>
+
+    <rect x="950"  y="40" width="210" height="280" fill="#8b949e" opacity="0.10" rx="8"/>
+    <text x="1055" y="35" text-anchor="middle" font-family="SF Pro Text" font-size="12" fill="#8b949e" font-weight="600">W6 Deferred (trigger)</text>
+  </g>
+
+  <line x1="40" y1="175" x2="1160" y2="175" stroke="#30363d" stroke-width="2"/>
+
+  <g font-family="SF Pro Text, sans-serif" font-size="10" text-anchor="middle">
+    <!-- Wave 1 nodes -->
+    <circle cx="70"  cy="175" r="16" fill="#3fb950"/><text x="70" y="179" fill="white" font-weight="700" font-size="11">P1</text><text x="70" y="220" fill="#c9d1d9">Boundary</text>
+    <circle cx="115" cy="175" r="16" fill="#3fb950"/><text x="115" y="179" fill="white" font-weight="700" font-size="11">P2</text><text x="115" y="220" fill="#c9d1d9">E2E test</text>
+    <circle cx="160" cy="175" r="16" fill="#3fb950"/><text x="160" y="179" fill="white" font-weight="700" font-size="11">P3</text><text x="160" y="220" fill="#c9d1d9">Doc fix</text>
+    <circle cx="205" cy="175" r="16" fill="#3fb950" stroke="#58a6ff" stroke-width="3"/><text x="205" y="179" fill="white" font-weight="700" font-size="11">P4</text><text x="205" y="220" fill="#58a6ff" font-weight="600">Numeric ★</text>
+    <circle cx="250" cy="175" r="16" fill="#f85149"/><text x="250" y="179" fill="white" font-weight="700" font-size="11">P5</text><text x="250" y="220" fill="#c9d1d9">Perm fix</text>
+    <circle cx="295" cy="175" r="16" fill="#3fb950"/><text x="295" y="179" fill="white" font-weight="700" font-size="11">P6</text><text x="295" y="220" fill="#c9d1d9">Cost ledger</text>
+
+    <!-- Wave 2 nodes -->
+    <circle cx="345" cy="175" r="16" fill="#58a6ff"/><text x="345" y="179" fill="white" font-weight="700" font-size="11">P7</text><text x="345" y="220" fill="#c9d1d9">Heartbeat</text>
+    <circle cx="410" cy="175" r="16" fill="#58a6ff"/><text x="410" y="179" fill="white" font-weight="700" font-size="11">P8</text><text x="410" y="220" fill="#c9d1d9">Status API</text>
+
+    <!-- Wave 3 nodes -->
+    <circle cx="475" cy="175" r="16" fill="#d29922"/><text x="475" y="179" fill="black" font-weight="700" font-size="11">P9</text><text x="475" y="220" fill="#c9d1d9">Corpus 7bks</text>
+    <circle cx="540" cy="175" r="16" fill="#d29922"/><text x="540" y="179" fill="black" font-weight="700" font-size="11">P10</text><text x="540" y="220" fill="#c9d1d9">ETA model</text>
+
+    <!-- Wave 4 nodes -->
+    <circle cx="605" cy="175" r="16" fill="#bc8cff"/><text x="605" y="179" fill="white" font-weight="700" font-size="11">P11</text><text x="605" y="220" fill="#c9d1d9">Multi-Mac</text>
+    <circle cx="670" cy="175" r="16" fill="#bc8cff"/><text x="670" y="179" fill="white" font-weight="700" font-size="11">P12</text><text x="670" y="220" fill="#c9d1d9">Mut. API</text>
+    <circle cx="735" cy="175" r="16" fill="#bc8cff"/><text x="735" y="179" fill="white" font-weight="700" font-size="11">P13</text><text x="735" y="220" fill="#c9d1d9">SQLite</text>
+    <circle cx="800" cy="175" r="16" fill="#bc8cff"/><text x="800" y="179" fill="white" font-weight="700" font-size="11">P14</text><text x="800" y="220" fill="#c9d1d9">UI confirm</text>
+
+    <!-- Wave 5 nodes -->
+    <circle cx="835" cy="175" r="16" fill="#db6d28"/><text x="835" y="179" fill="white" font-weight="700" font-size="11">P15</text><text x="835" y="220" fill="#c9d1d9">Rename</text>
+    <circle cx="905" cy="175" r="16" fill="#db6d28"/><text x="905" y="179" fill="white" font-weight="700" font-size="11">P16</text><text x="905" y="220" fill="#c9d1d9">Dedup + CI</text>
+
+    <!-- Wave 6 nodes -->
+    <circle cx="990"  cy="175" r="16" fill="#8b949e"/><text x="990"  y="179" fill="black" font-weight="700" font-size="11">P17</text><text x="990"  y="220" fill="#8b949e">PDF split</text>
+    <circle cx="1040" cy="175" r="16" fill="#8b949e"/><text x="1040" y="179" fill="black" font-weight="700" font-size="11">P18</text><text x="1040" y="220" fill="#8b949e">Par. LLM</text>
+    <circle cx="1090" cy="175" r="16" fill="#8b949e"/><text x="1090" y="179" fill="black" font-weight="700" font-size="11">P19</text><text x="1090" y="220" fill="#8b949e">Tr. SQLite</text>
+    <circle cx="1140" cy="175" r="16" fill="#8b949e"/><text x="1140" y="179" fill="black" font-weight="700" font-size="11">P20</text><text x="1140" y="220" fill="#8b949e">Upload</text>
+  </g>
+
+  <!-- Cancelled SDK migration callout -->
+  <g font-family="SF Pro Text, sans-serif" font-size="11">
+    <rect x="40" y="265" width="600" height="44" rx="6" fill="#1c2128" stroke="#8b949e" stroke-dasharray="4 4"/>
+    <text x="60" y="285" fill="#8b949e">⊘ CANCELLED in v3: wholesale Anthropic-Python-SDK migration (v2 P3.1–P3.6, P6.4, P6.5)</text>
+    <text x="60" y="301" fill="#8b949e" font-size="10">Claude Code (claude -p) remains the primary execution mechanism. SDK is side-channel only.</text>
+  </g>
+
+  <!-- ★ P4 highlight -->
+  <text x="850" y="300" font-family="SF Pro Text, sans-serif" font-size="11" fill="#58a6ff" font-weight="600">★ P4 NEW — Numeric/Symbolic Disambiguation (folded in from numeric-symbolic-disambiguation-plan.md)</text>
+</svg>
+
+<h3>Per-wave detail</h3>
+
+<div class="card wave-1">
+  <h3 style="margin-top:0"><span class="badge badge-wave">W1</span>Foundation &amp; Guardrails <span style="font-weight:normal;color:var(--text-dim);font-size:13px">P1 boundary · P2 E2E · P3 doc-fix · <strong>P4 numeric ★</strong> · P5 perm-fix · P6 cost ledger</span></h3>
+  <p>Six phases, parallel-safe inside the wave (P1/P2/P3/P4 truly parallel; P5 then P6 sequential). Zero LLM cost. Output of W1: kitab-al-riyad resume passes (via P5), all CI guardrails wired (P1, P2, P16-prep), Numeric/Symbolic protocol installed (P4), cost ledger live (P6).</p>
+</div>
+
+<div class="card wave-2">
+  <h3 style="margin-top:0"><span class="badge badge-wave">W2</span>Observability <span style="font-weight:normal;color:var(--text-dim);font-size:13px">P7 heartbeat · P8 status API + dashboard</span></h3>
+  <p>Two phases sequential. Output: dashboard reachable at <code>http://127.0.0.1:8765/</code>, SSE stream live, cost panel populated (reads ledger from P6), disambiguation panel surfaces P4 Loop N findings.</p>
+</div>
+
+<div class="card wave-3">
+  <h3 style="margin-top:0"><span class="badge badge-wave">W3</span>Corpus Validation <span style="font-weight:normal;color:var(--text-dim);font-size:13px">P9 7-book graduated runs · P10 ETA model</span></h3>
+  <p>Strictly sequential, one book per scheduled invocation. Cost-capped by P6 (default soft $20 / hard $50). High-risk books (Majalis 139p onward) exercise P4 challenger Loop N on Ismaili source material. Output: full pipeline proven on every page-tier; ETA model accurate within ±30%.</p>
+</div>
+
+<div class="card wave-4">
+  <h3 style="margin-top:0"><span class="badge badge-wave">W4</span>Control Plane <span style="font-weight:normal;color:var(--text-dim);font-size:13px">P11 multi-Mac · P12 mutation API · P13 SQLite · P14 destructive confirms</span></h3>
+  <p>P11 first (decides architecture), then P12+P13 parallel, then P14. Bearer-token auth on mutation endpoints, audit-logged. 2 books run truly parallel.</p>
+</div>
+
+<div class="card wave-5">
+  <h3 style="margin-top:0"><span class="badge badge-wave">W5</span>Polish <span style="font-weight:normal;color:var(--text-dim);font-size:13px">P15 phase rename · P16 agent dedup + isolation CI</span></h3>
+  <p><strong>HARD-GATED:</strong> wave will refuse to start unless <code>orchestrator_status.py --all --json</code> shows zero in-flight books. P15 renames <code>0a..0g</code> → <code>01-preflight..14-done</code> across ~700 LOC; P16 dedups three agent locations down to one (.github/agents/).</p>
+</div>
+
+<div class="card wave-6">
+  <h3 style="margin-top:0"><span class="badge badge-wave">W6</span>Deferred <span style="font-weight:normal;color:var(--text-dim);font-size:13px">P17 PDF split · P18 parallel LLM · P19 trainer SQLite · P20 browser upload</span></h3>
+  <p>Not time-scheduled. Each phase has a <code>promote_when</code> trigger (e.g., P17 promotes when a book exceeds 500MB / 2000 pages / DI 600s poll budget). Promoted individually.</p>
+</div>
+
+<!-- ====================================================================== -->
+<h2 id="numeric">8. Numeric/Symbolic Disambiguation (P4) <span class="badge badge-new" style="font-size:10px;vertical-align:middle">v3</span></h2>
+
+<p>Folded in from <code>_workspace/plan/numeric-symbolic-disambiguation-plan.md</code>. Applies to any book asserting counts-without-enumeration, containing abjad-encoded ciphers, or applying modern glosses to pre-modern referents. Worked example: Master &amp; Disciple Ch-02 (Oath and Cosmic Origins).</p>
+
+<svg viewBox="0 0 1200 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Numeric/Symbolic Disambiguation protocol flow">
+  <defs>
+    <marker id="arrow-n" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#58a6ff"/>
+    </marker>
+  </defs>
+
+  <!-- Detection -->
+  <rect x="20"  y="30" width="240" height="70" rx="8" fill="#1c2128" stroke="#3fb950"/>
+  <text x="140" y="55" text-anchor="middle" font-family="SF Pro Text" font-size="13" fill="#c9d1d9" font-weight="600">1. Detection (Phase 0d)</text>
+  <text x="140" y="75" text-anchor="middle" font-family="SF Mono" font-size="10" fill="#8b949e">_authoring.py scans chapter for:</text>
+  <text x="140" y="89" text-anchor="middle" font-family="SF Mono" font-size="10" fill="#8b949e">N-X claims · abjad ciphers · anachronisms</text>
+
+  <!-- Research -->
+  <rect x="300" y="30" width="240" height="70" rx="8" fill="#1c2128" stroke="#58a6ff"/>
+  <text x="420" y="55" text-anchor="middle" font-family="SF Pro Text" font-size="13" fill="#c9d1d9" font-weight="600">2. Research</text>
+  <text x="420" y="75" text-anchor="middle" font-family="SF Mono" font-size="10" fill="#8b949e">Critical ed. → Iranica/IIS → peer-reviewed</text>
+  <text x="420" y="89" text-anchor="middle" font-family="SF Mono" font-size="10" fill="#8b949e">→ general reference → web (lowest weight)</text>
+
+  <!-- Record -->
+  <rect x="580" y="30" width="240" height="70" rx="8" fill="#1c2128" stroke="#bc8cff"/>
+  <text x="700" y="55" text-anchor="middle" font-family="SF Pro Text" font-size="13" fill="#c9d1d9" font-weight="600">3. Record (per-book)</text>
+  <text x="700" y="75" text-anchor="middle" font-family="SF Mono" font-size="10" fill="#8b949e">numeric-disambiguation-register.md</text>
+  <text x="700" y="89" text-anchor="middle" font-family="SF Mono" font-size="10" fill="#8b949e">03-source-integrity-notes.md</text>
+
+  <!-- Scaffold -->
+  <rect x="860" y="30" width="240" height="70" rx="8" fill="#1c2128" stroke="#d29922"/>
+  <text x="980" y="55" text-anchor="middle" font-family="SF Pro Text" font-size="13" fill="#c9d1d9" font-weight="600">4. Scaffold (per-chapter)</text>
+  <text x="980" y="75" text-anchor="middle" font-family="SF Mono" font-size="10" fill="#8b949e">Numeric Disambiguation block</text>
+  <text x="980" y="89" text-anchor="middle" font-family="SF Mono" font-size="10" fill="#8b949e">one-time enumeration policy</text>
+
+  <g stroke="#58a6ff" stroke-width="1.5" fill="none" marker-end="url(#arrow-n)">
+    <line x1="260" y1="65" x2="298" y2="65"/>
+    <line x1="540" y1="65" x2="578" y2="65"/>
+    <line x1="820" y1="65" x2="858" y2="65"/>
+  </g>
+
+  <!-- Challenger Loop N gate -->
+  <rect x="20"  y="160" width="1080" height="80" rx="8" fill="#1c2128" stroke="#f85149"/>
+  <text x="560" y="185" text-anchor="middle" font-family="SF Pro Text" font-size="14" fill="#f85149" font-weight="600">5. Challenger Loop N — gate</text>
+  <text x="560" y="205" text-anchor="middle" font-family="SF Mono" font-size="11" fill="#c9d1d9">enumeration coverage · one-time rule · abjad cipher coverage · anachronism labeling · NO invented content</text>
+  <text x="560" y="223" text-anchor="middle" font-family="SF Mono" font-size="11" fill="#8b949e">P0 BLOCKED: invented enumeration / unsourced cipher decoding · P1 SHIP-WITH-CAUTION: enumeration repeated / unlabeled anachronism · P2 note: pending NEEDS HUMAN REVIEW items</text>
+
+  <!-- Worked example callout -->
+  <rect x="20" y="270" width="540" height="80" rx="8" fill="#1c2128" stroke="#3fb950"/>
+  <text x="40" y="293" font-family="SF Pro Text" font-size="13" fill="#3fb950" font-weight="600">Worked example: M&amp;D Ch-02</text>
+  <text x="40" y="313" font-family="SF Mono" font-size="11" fill="#c9d1d9">RESOLVED: 12 jazāʾir · 7 seas (Yaʿqūbī) · al-mathānī = al-Fātiḥah · Asāas = Ali</text>
+  <text x="40" y="330" font-family="SF Mono" font-size="11" fill="#d29922">NEEDS HUMAN REVIEW: sphere-letters cipher · fifth intermediary · luminary order · continents anachronism</text>
+
+  <!-- Reads -->
+  <rect x="580" y="270" width="520" height="80" rx="8" fill="#1c2128" stroke="#bc8cff"/>
+  <text x="600" y="293" font-family="SF Pro Text" font-size="13" fill="#bc8cff" font-weight="600">Reads (Loop N reads_normative)</text>
+  <text x="600" y="313" font-family="SF Mono" font-size="11" fill="#c9d1d9">content/_shared/arabic/06-abjad-numerals.md</text>
+  <text x="600" y="330" font-family="SF Mono" font-size="11" fill="#c9d1d9">content/podcast/.skill/handbook/numeric-symbolic-disambiguation.md</text>
+</svg>
+
+<!-- ====================================================================== -->
+<h2 id="observability">9. Observability data flow</h2>
+
+<svg viewBox="0 0 1200 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Observability data flow diagram">
+  <defs>
+    <marker id="arrow4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#bc8cff"/>
+    </marker>
+  </defs>
+
+  <rect x="40" y="40" width="240" height="80" rx="8" fill="#1c2128" stroke="#d29922"/>
+  <text x="160" y="68" text-anchor="middle" font-family="SF Pro Text" font-size="14" fill="#c9d1d9" font-weight="600">orchestrate_book.py</text>
+  <text x="160" y="86" text-anchor="middle" font-family="SF Mono" font-size="11" fill="#8b949e">phases 0a … done</text>
+  <text x="160" y="102" text-anchor="middle" font-family="SF Mono" font-size="11" fill="#8b949e">+ heartbeat thread (P7)</text>
+
+  <rect x="40" y="160" width="240" height="60" rx="8" fill="#1c2128" stroke="#bc8cff"/>
+  <text x="160" y="185" text-anchor="middle" font-family="SF Pro Text" font-size="13" fill="#c9d1d9">_chunking._run_one_window</text>
+  <text x="160" y="203" text-anchor="middle" font-family="SF Pro Text" font-size="13" fill="#c9d1d9">_authoring._run_claude</text>
+
+  <text x="290" y="195" font-family="SF Pro Text" font-size="11" fill="#8b949e">→ bumps heartbeat with</text>
+  <text x="290" y="208" font-family="SF Mono"     font-size="11" fill="#bc8cff">label="0b · win-007"</text>
+
+  <g font-family="SF Mono" font-size="11" fill="#c9d1d9">
+    <rect x="560" y="40"  width="280" height="50" rx="6" fill="#1c2128" stroke="#bc8cff"/><text x="700" y="60" text-anchor="middle" font-size="12" font-family="SF Pro Text" fill="#c9d1d9">state.json</text><text x="700" y="78" text-anchor="middle">phase + status + per-phase timestamps</text>
+    <rect x="560" y="105" width="280" height="50" rx="6" fill="#1c2128" stroke="#bc8cff"/><text x="700" y="125" text-anchor="middle" font-size="12" font-family="SF Pro Text" fill="#c9d1d9">heartbeat.json</text><text x="700" y="143" text-anchor="middle">pid + phase + label + cost_so_far_usd + hostname</text>
+    <rect x="560" y="170" width="280" height="50" rx="6" fill="#1c2128" stroke="#bc8cff"/><text x="700" y="190" text-anchor="middle" font-size="12" font-family="SF Pro Text" fill="#c9d1d9">events.jsonl</text><text x="700" y="208" text-anchor="middle">append-only: ts/phase/step/total/label</text>
+    <rect x="560" y="235" width="280" height="50" rx="6" fill="#1c2128" stroke="#bc8cff"/><text x="700" y="255" text-anchor="middle" font-size="12" font-family="SF Pro Text" fill="#c9d1d9">cost-ledger.jsonl <tspan fill="#58a6ff">(P6)</tspan></text><text x="700" y="273" text-anchor="middle">per claude -p call: tokens, cost_usd</text>
+    <rect x="560" y="300" width="280" height="50" rx="6" fill="#1c2128" stroke="#bc8cff"/><text x="700" y="320" text-anchor="middle" font-size="12" font-family="SF Pro Text" fill="#c9d1d9">numeric-disambiguation-register.md <tspan fill="#58a6ff">(P4)</tspan></text><text x="700" y="338" text-anchor="middle">per-book ambiguity register</text>
+  </g>
+
+  <g>
+    <rect x="930" y="40"  width="220" height="60" rx="6" fill="#1c2128" stroke="#58a6ff"/><text x="1040" y="62" text-anchor="middle" font-family="SF Pro Text" font-size="13" fill="#c9d1d9">orchestrator_status.py</text><text x="1040" y="80" text-anchor="middle" font-family="SF Mono"     font-size="10" fill="#8b949e">reads ALL files →</text><text x="1040" y="93" text-anchor="middle" font-family="SF Mono"     font-size="10" fill="#8b949e">boxed wait banner + ETA</text>
+    <rect x="930" y="115" width="220" height="60" rx="6" fill="#1c2128" stroke="#58a6ff"/><text x="1040" y="137" text-anchor="middle" font-family="SF Pro Text" font-size="13" fill="#c9d1d9">FastAPI service</text><text x="1040" y="155" text-anchor="middle" font-family="SF Mono"     font-size="10" fill="#8b949e">/heartbeat /cost /disambiguation</text><text x="1040" y="168" text-anchor="middle" font-family="SF Mono"     font-size="10" fill="#8b949e">SSE: /stream</text>
+    <rect x="930" y="190" width="220" height="60" rx="6" fill="#1c2128" stroke="#58a6ff"/><text x="1040" y="212" text-anchor="middle" font-family="SF Pro Text" font-size="13" fill="#c9d1d9">Dashboard SPA</text><text x="1040" y="230" text-anchor="middle" font-family="SF Mono"     font-size="10" fill="#8b949e">polls heartbeat 5s</text><text x="1040" y="243" text-anchor="middle" font-family="SF Mono"     font-size="10" fill="#8b949e">subscribes SSE</text>
+    <rect x="930" y="265" width="220" height="60" rx="6" fill="#1c2128" stroke="#58a6ff"/><text x="1040" y="287" text-anchor="middle" font-family="SF Pro Text" font-size="13" fill="#c9d1d9">podcast-trainer agent</text><text x="1040" y="305" text-anchor="middle" font-family="SF Mono"     font-size="10" fill="#8b949e">ingests events.jsonl + cost-ledger</text><text x="1040" y="318" text-anchor="middle" font-family="SF Mono"     font-size="10" fill="#8b949e">(P19 deferred)</text>
+  </g>
+
+  <g stroke="#bc8cff" stroke-width="1.5" fill="none" marker-end="url(#arrow4)">
+    <line x1="280" y1="65" x2="558" y2="65"/><line x1="280" y1="80" x2="558" y2="130"/><line x1="280" y1="95" x2="558" y2="195"/><line x1="280" y1="190" x2="558" y2="260"/><line x1="280" y1="200" x2="558" y2="325"/>
+  </g>
+  <g stroke="#58a6ff" stroke-width="1.5" fill="none" stroke-dasharray="3 3">
+    <line x1="840" y1="65" x2="928" y2="70"/><line x1="840" y1="130" x2="928" y2="145"/><line x1="840" y1="195" x2="928" y2="145"/><line x1="840" y1="195" x2="928" y2="220"/><line x1="840" y1="260" x2="928" y2="295"/>
+  </g>
+</svg>
+
+<p class="legend">
+  <span class="legend-item"><span class="swatch" style="background:#bc8cff"></span>writes (producer)</span>
+  <span class="legend-item"><span class="swatch" style="background:#58a6ff"></span>reads (consumer)</span>
+</p>
+
+<!-- ====================================================================== -->
+<h2 id="failure">10. P5 bug post-mortem (was P0 in v2)</h2>
+
+<div class="card blocker">
+  <h3>Symptom</h3>
+  <p>Last session: orchestrator ran 19 minutes on Phase 0b, wrote 5 <code>.in.md</code> window files, produced 0 <code>.out.md</code> artifacts. <code>claude -p</code> child was not visible in <code>pgrep</code>.</p>
+  <h3>Root cause</h3>
+  <p>Headless <code>claude -p</code> invocations require explicit permission flags to perform file-write operations. Default behaviour is to refuse the write tool, returning <code>rc=0</code> with a refusal in stdout. Orchestrator only inspects <code>out_path.exists()</code>, so the refusal is invisible — log shows <code>NO ARTIFACT</code> and proceeds to the next window.</p>
+  <h3>Fix (P5.1 + P5.2)</h3>
+  <pre><code>--- a/scripts/podcast/_chunking.py
++++ b/scripts/podcast/_chunking.py
+@@ -190,7 +190,12 @@ def _run_one_window(...):
+     _atomic_write(in_path, body)
+     proc = subprocess.run(
+-        [CLAUDE_CMD, "-p", prompt],
++        [CLAUDE_CMD, "-p", prompt,
++         "--permission-mode", "acceptEdits"],
+         timeout=600, capture_output=True, text=True,
+     )
+-    if not out_path.exists():
++    if proc.returncode != 0 or not out_path.exists() or out_path.stat().st_size == 0:
++        raise WindowFailed(
++            f"win-{idx:03d}: rc={proc.returncode} "
++            f"out_exists={out_path.exists()} stdout={proc.stdout[:200]}"
++        )</code></pre>
+  <p><strong>v3 note:</strong> The v2 plan treated this as a band-aid that the SDK migration would obsolete. v3 cancels the SDK migration — <code>claude -p</code> with <code>--permission-mode acceptEdits</code> is now the <em>permanent</em> mechanism, not a band-aid. P-1 (Claude Code primary) makes this the long-term design, not the stopgap.</p>
+</div>
+
+<!-- ====================================================================== -->
+<h2 id="claude-code">11. Claude Code primary execution <span class="badge badge-new" style="font-size:10px;vertical-align:middle">v3</span></h2>
+
+<p>Reverses the v2 plan's wholesale Anthropic-Python-SDK migration. Anchored by principle <code>P-1</code> in the YAML.</p>
+
+<svg viewBox="0 0 1200 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Claude Code primary execution call shape">
+  <g font-family="SF Pro Text" font-size="12" fill="#c9d1d9" text-anchor="middle">
+    <rect x="40"   y="30" width="180" height="40" rx="4" fill="#1c2128" stroke="#bc8cff"/><text x="130" y="55">_chunking / _authoring</text>
+    <line x1="130" y1="70" x2="130" y2="290" stroke="#30363d" stroke-dasharray="2 2"/>
+
+    <rect x="280"  y="30" width="180" height="40" rx="4" fill="#1c2128" stroke="#39d0d8"/><text x="370" y="55">subprocess.run</text>
+    <line x1="370" y1="70" x2="370" y2="290" stroke="#30363d" stroke-dasharray="2 2"/>
+
+    <rect x="520"  y="30" width="180" height="40" rx="4" fill="#1c2128" stroke="#bc8cff"/><text x="610" y="55">claude -p (Claude Code)</text>
+    <line x1="610" y1="70" x2="610" y2="290" stroke="#30363d" stroke-dasharray="2 2"/>
+
+    <rect x="760"  y="30" width="180" height="40" rx="4" fill="#1c2128" stroke="#d29922"/><text x="850" y="55">_cost_ledger (P6)</text>
+    <line x1="850" y1="70" x2="850" y2="290" stroke="#30363d" stroke-dasharray="2 2"/>
+
+    <rect x="1000" y="30" width="180" height="40" rx="4" fill="#1c2128" stroke="#3fb950"/><text x="1090" y="55">filesystem</text>
+    <line x1="1090" y1="70" x2="1090" y2="290" stroke="#30363d" stroke-dasharray="2 2"/>
+  </g>
+
+  <g font-family="SF Mono" font-size="11" fill="#c9d1d9">
+    <!-- 1: spawn -->
+    <line x1="130" y1="100" x2="370" y2="100" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow2)"/>
+    <text x="250" y="93" text-anchor="middle">subprocess.run([claude, -p, prompt,</text>
+    <text x="250" y="108" text-anchor="middle">--permission-mode acceptEdits])</text>
+
+    <!-- 2: invoke -->
+    <line x1="370" y1="135" x2="610" y2="135" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow2)"/>
+    <text x="490" y="128" text-anchor="middle">prompt → Claude Code agent runtime</text>
+
+    <!-- 3: tool use (file write) -->
+    <line x1="610" y1="165" x2="1090" y2="165" stroke="#3fb950" stroke-width="2" marker-end="url(#arrow3)"/>
+    <text x="850" y="158" text-anchor="middle">claude -p writes out_path (tool use, permission-granted)</text>
+
+    <!-- 4: stdout (usage line) -->
+    <line x1="610" y1="195" x2="370" y2="195" stroke="#3fb950" stroke-width="2" marker-end="url(#arrow3)"/>
+    <text x="490" y="188" text-anchor="middle">stdout: text + final usage summary</text>
+
+    <!-- 5: ledger -->
+    <line x1="370" y1="225" x2="850" y2="225" stroke="#3fb950" stroke-width="2" marker-end="url(#arrow3)"/>
+    <text x="610" y="218" text-anchor="middle">parse usage; append row to cost-ledger.jsonl</text>
+
+    <!-- 6: verify -->
+    <line x1="370" y1="255" x2="1090" y2="255" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow2)"/>
+    <text x="730" y="248" text-anchor="middle">verify out_path exists AND size > 0 (P5.2)</text>
+
+    <!-- 7: return -->
+    <line x1="370" y1="285" x2="130" y2="285" stroke="#3fb950" stroke-width="2" marker-end="url(#arrow3)"/>
+    <text x="250" y="278" text-anchor="middle">success — phase advances</text>
+  </g>
+</svg>
+
+<div class="card success">
+  <h4>Why Claude Code stays primary (P-1 rationale)</h4>
+  <ul>
+    <li><strong>Agent runtime preserved.</strong> Claude Code provides tool use, file-edit, multi-turn refinement, and permission semantics that the skill design depends on. Re-implementing these on top of a raw Python SDK client is significant work for negligible gain.</li>
+    <li><strong>Permission semantics are explicit.</strong> <code>--permission-mode acceptEdits</code> makes write-tool authorization a first-class CLI surface (and a one-line P5 fix).</li>
+    <li><strong>Skill + agent files load natively.</strong> Skills and agents are designed for Claude Code; <code>claude -p</code> picks them up without translation.</li>
+    <li><strong>Cost tracking is straightforward.</strong> Claude Code emits a usage summary at end of run; P6 parses it. No SDK migration required to get token counts into the ledger.</li>
+  </ul>
+  <p style="margin-bottom:0">The Python SDK still has narrow side-channel uses (P6 helper, P8 status helper). It is NOT the workhorse for refinement, phonetics, chapter design, enrichment, framing, or building.</p>
+</div>
+
+<!-- ====================================================================== -->
+<h2 id="dashboard">12. Dashboard wireframe (P8 → P14)</h2>
+
+<svg viewBox="0 0 1200 560" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dashboard wireframe">
+  <rect x="20" y="20" width="1160" height="520" rx="8" fill="#0d1117" stroke="#30363d"/>
+  <rect x="20" y="20" width="1160" height="32" rx="8" fill="#161b22" stroke="#30363d"/>
+  <circle cx="40" cy="36" r="6" fill="#f85149"/><circle cx="60" cy="36" r="6" fill="#d29922"/><circle cx="80" cy="36" r="6" fill="#3fb950"/>
+  <rect x="200" y="26" width="800" height="20" rx="3" fill="#0d1117" stroke="#30363d"/>
+  <text x="220" y="40" font-family="SF Mono" font-size="11" fill="#8b949e">http://127.0.0.1:8765/</text>
+
+  <text x="50" y="80"  font-family="SF Pro Text" font-size="20" fill="#f0f6fc" font-weight="600">Podcast Pipeline</text>
+  <text x="50" y="100" font-family="SF Mono" font-size="11" fill="#8b949e">2 workers · 1 active · last event 12s ago · spend so far: $14.32</text>
+
+  <rect x="900" y="70" width="120" height="32" rx="6" fill="#1c2128" stroke="#3fb950"/><text x="960" y="91" text-anchor="middle" font-family="SF Pro Text" font-size="13" fill="#3fb950">+ Start book</text>
+  <rect x="1030" y="70" width="120" height="32" rx="6" fill="#1c2128" stroke="#58a6ff"/><text x="1090" y="91" text-anchor="middle" font-family="SF Pro Text" font-size="13" fill="#58a6ff">⚙ Settings</text>
+
+  <text x="50" y="140" font-family="SF Pro Text" font-size="14" fill="#f0f6fc" font-weight="600">Books</text>
+  <g font-family="SF Mono" font-size="11">
+    <rect x="50" y="150" width="350" height="60" rx="6" fill="#1c2128" stroke="#3fb950" stroke-width="2"/><text x="65" y="170" fill="#c9d1d9" font-family="SF Pro Text" font-size="13" font-weight="600">kitab-al-riyad</text><text x="65" y="187" fill="#8b949e">260p · phase 0d · sc 3/11 · 47% · 28m · $14.32</text><text x="65" y="201" fill="#3fb950">● RUNNING — heartbeat 8s ago</text>
+    <rect x="50" y="220" width="350" height="60" rx="6" fill="#1c2128" stroke="#30363d"/><text x="65" y="240" fill="#c9d1d9" font-family="SF Pro Text" font-size="13" font-weight="600">master-and-the-disciple</text><text x="65" y="257" fill="#8b949e">~500p · phase 0d · sc 2/24 · scaffolding</text><text x="65" y="271" fill="#d29922">⏸ P4 register: 4 NEEDS REVIEW items</text>
+    <rect x="50" y="290" width="350" height="60" rx="6" fill="#1c2128" stroke="#30363d"/><text x="65" y="310" fill="#c9d1d9" font-family="SF Pro Text" font-size="13" font-weight="600">ayyuhal-walad</text><text x="65" y="327" fill="#8b949e">30p · phase done · 8 episodes · cost $2.14</text><text x="65" y="341" fill="#8b949e">✓ MERGED 2 days ago</text>
+    <rect x="50" y="360" width="350" height="60" rx="6" fill="#1c2128" stroke="#30363d"/><text x="65" y="380" fill="#c9d1d9" font-family="SF Pro Text" font-size="13" font-weight="600">rasail-ikhwan-as-safa</text><text x="65" y="397" fill="#8b949e">865p · phase pre-flight · queued</text><text x="65" y="411" fill="#d29922">⏸ WAITING for worker slot</text>
+  </g>
+
+  <rect x="430" y="150" width="720" height="370" rx="6" fill="#161b22" stroke="#30363d"/>
+  <text x="450" y="180" font-family="SF Pro Text" font-size="16" fill="#f0f6fc" font-weight="600">kitab-al-riyad</text>
+  <text x="450" y="200" font-family="SF Mono" font-size="11" fill="#8b949e">branch: book/kitab-al-riyad · PID 78451 · cost: $14.32 · cap soft $20 / hard $50</text>
+
+  <!-- Phase strip -->
+  <g font-family="SF Mono" font-size="10" text-anchor="middle">
+    <rect x="450" y="220" width="60" height="22" fill="#3fb950" opacity="0.4" stroke="#3fb950"/><text x="480" y="236" fill="#c9d1d9">0a ✓</text>
+    <rect x="515" y="220" width="60" height="22" fill="#3fb950" opacity="0.4" stroke="#3fb950"/><text x="545" y="236" fill="#c9d1d9">0b ✓</text>
+    <rect x="580" y="220" width="60" height="22" fill="#3fb950" opacity="0.4" stroke="#3fb950"/><text x="610" y="236" fill="#c9d1d9">0c ✓</text>
+    <rect x="645" y="220" width="60" height="22" fill="#d29922" stroke="#d29922"/><text x="675" y="236" fill="black" font-weight="700">0d ▶</text>
+    <rect x="710" y="220" width="60" height="22" fill="#1c2128" stroke="#30363d"/><text x="740" y="236" fill="#8b949e">0e</text>
+    <rect x="775" y="220" width="60" height="22" fill="#1c2128" stroke="#30363d"/><text x="805" y="236" fill="#8b949e">0f ⏸</text>
+    <rect x="840" y="220" width="60" height="22" fill="#1c2128" stroke="#30363d"/><text x="870" y="236" fill="#8b949e">0g</text>
+    <rect x="905" y="220" width="80" height="22" fill="#1c2128" stroke="#30363d"/><text x="945" y="236" fill="#8b949e">per-chapter</text>
+    <rect x="990" y="220" width="60" height="22" fill="#1c2128" stroke="#30363d"/><text x="1020" y="236" fill="#8b949e">trainer</text>
+    <rect x="1055" y="220" width="60" height="22" fill="#1c2128" stroke="#30363d"/><text x="1085" y="236" fill="#8b949e">merge</text>
+  </g>
+
+  <text x="450" y="270" font-family="SF Pro Text" font-size="13" fill="#f0f6fc">Phase 0d — chapter design</text>
+  <text x="450" y="288" font-family="SF Mono" font-size="11" fill="#8b949e">source chapter 3 / 11 · "On the Imamate" · 2 episodes planned</text>
+  <text x="450" y="304" font-family="SF Mono" font-size="11" fill="#58a6ff">▰▰▰▰▰▱▱▱▱▱▱  47%  ·  ETA 32m  ·  9,847 / 21,000 tokens</text>
+
+  <text x="450" y="340" font-family="SF Pro Text" font-size="13" fill="#f0f6fc" font-weight="600">Live events (SSE) <tspan font-size="11" fill="#8b949e" font-weight="400">/books/kitab-al-riyad/stream</tspan></text>
+  <g font-family="SF Mono" font-size="10" fill="#c9d1d9">
+    <text x="450" y="362"><tspan fill="#8b949e">22:14:08 </tspan>0d · sc-003 · writing chapter ch07-trust-and-the-imam</text>
+    <text x="450" y="377"><tspan fill="#8b949e">22:14:01 </tspan>0d · sc-003 · token 9847/21000</text>
+    <text x="450" y="392"><tspan fill="#8b949e">22:13:47 </tspan>0d · sc-002 · DONE (2 ep, 5421 + 6033 words; cost $1.84)</text>
+  </g>
+
+  <!-- P4 disambiguation panel -->
+  <text x="450" y="430" font-family="SF Pro Text" font-size="13" fill="#f0f6fc" font-weight="600">P4 disambiguation register <tspan font-size="11" fill="#8b949e" font-weight="400">/books/kitab-al-riyad/disambiguation</tspan></text>
+  <g font-family="SF Mono" font-size="10">
+    <text x="450" y="452"><tspan fill="#f85149">P0:</tspan> <tspan fill="#c9d1d9">none ✓</tspan></text>
+    <text x="450" y="467"><tspan fill="#d29922">P1:</tspan> <tspan fill="#c9d1d9">none ✓</tspan></text>
+    <text x="450" y="482"><tspan fill="#58a6ff">P2 (NEEDS REVIEW):</tspan> <tspan fill="#c9d1d9">3 items — ch03 "twelve guides" (pending), ch07 sphere-letter cipher (pending), ch09 anachronism candidate</tspan></text>
+  </g>
+
+  <g>
+    <rect x="450"  y="500" width="100" height="30" rx="6" fill="#1c2128" stroke="#d29922"/><text x="500"  y="520" text-anchor="middle" font-family="SF Pro Text" font-size="12" fill="#d29922">⏸ Pause</text>
+    <rect x="560"  y="500" width="120" height="30" rx="6" fill="#1c2128" stroke="#58a6ff"/><text x="620"  y="520" text-anchor="middle" font-family="SF Pro Text" font-size="12" fill="#58a6ff">↺ Retry phase</text>
+    <rect x="690"  y="500" width="100" height="30" rx="6" fill="#1c2128" stroke="#3fb950"/><text x="740"  y="520" text-anchor="middle" font-family="SF Pro Text" font-size="12" fill="#3fb950">▶ Resume</text>
+    <rect x="1050" y="500" width="90" height="30" rx="6" fill="#1c2128" stroke="#f85149"/><text x="1095" y="520" text-anchor="middle" font-family="SF Pro Text" font-size="12" fill="#f85149">✕ Delete</text>
+  </g>
+</svg>
+
+<!-- ====================================================================== -->
+<h2 id="dosdonts">13. Dos &amp; Don'ts (curated)</h2>
+
+<div class="two-col">
+  <div class="grid-card">
+    <h4 class="do">✅ DO</h4>
+    <ul>
+      <li>Always pass <code>--permission-mode acceptEdits</code> to <code>claude -p</code> with file-write tools <span class="pill">P5</span></li>
+      <li>Verify artifact exists AND is non-empty after every LLM call <span class="pill">P5</span></li>
+      <li>Use <code>claude -p</code> (Claude Code) as the workhorse for every refinement / phonetics / chapter-design / enrichment / framing / building call <span class="pill">P-1</span></li>
+      <li>Write heartbeat every ≤30s from a daemon thread, atomic JSON <span class="pill">P7</span></li>
+      <li>Parse <code>claude -p</code> stdout usage line into <code>cost-ledger.jsonl</code> <span class="pill">P6</span></li>
+      <li>Flag any unsourced numeric enumeration as P0 BLOCKED <span class="pill">P4</span></li>
+      <li>Apply the period-vs-modern reframe to any anachronistic gloss <span class="pill">P4</span></li>
+      <li>Spawn long jobs as subprocesses of the API, never as in-process BackgroundTasks <span class="pill">P12</span></li>
+      <li>Keep <code>state.json</code> + filesystem authoritative; SQLite is index/cache only <span class="pill">P13</span></li>
+    </ul>
+  </div>
+  <div class="grid-card">
+    <h4 class="dont">❌ DON'T</h4>
+    <ul>
+      <li>Don't replace <code>claude -p</code> with the Anthropic SDK as the workhorse — that's the cancelled v2 P3 path <span class="pill">P-1</span></li>
+      <li>Don't trust subprocess <code>rc=0</code> alone — always verify artifacts</li>
+      <li>Don't invent enumerations to fill in a "twelve X" claim the source doesn't enumerate <span class="pill">P4</span></li>
+      <li>Don't gloss "seven continents" as the modern list when the period referent is the seven climes <span class="pill">P4</span></li>
+      <li>Don't run orchestrator in FastAPI <code>BackgroundTasks</code> — kills resilience</li>
+      <li>Don't split PDFs until DI ceiling is actually hit <span class="pill">P17</span></li>
+      <li>Don't conflate <code>_workspace/</code> with <code>content/</code></li>
+      <li>Don't mix journal and podcast — separate skills, agents, state, services</li>
+      <li>Don't add SQLite before P13 — JSON files suffice for current scale</li>
+      <li>Don't rename phases mid-flight — W5 prereq_gate enforces zero-in-flight before P15 runs</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ====================================================================== -->
+<h2 id="open">14. Open questions &amp; risks</h2>
+
+<h3>Open questions</h3>
+<table>
+  <thead><tr><th>ID</th><th>Question</th><th>Blocks</th><th>Default / lean</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Q1</strong></td><td>Multi-Mac story: service on primary Mac only, or delegate?</td><td>P12</td><td>Primary-only; secondary Macs are SSH-tunneled read-only viewers</td></tr>
+    <tr><td><strong>Q2</strong></td><td>Cost ceiling per book — hard halt at $X or just warn?</td><td>P6</td><td>Soft $20 / hard $50; CLI overrides</td></tr>
+    <tr><td><strong>Q3</strong></td><td>Trainer integration with the cancelled SDK migration</td><td>—</td><td><span class="badge badge-scope-in" style="font-size:9px">RESOLVED 2026-05-19</span> Keep claude -p; trainer reads cost-ledger for context</td></tr>
+    <tr><td><strong>Q4</strong> <span class="badge badge-new" style="font-size:9px">v3</span></td><td>Sphere-letters cipher (ب ج لا د م لہ م) in M&amp;D Ch-02</td><td>M&amp;D Ep-2 production</td><td>Flag NEEDS HUMAN REVIEW; consult Morris critical edition; do NOT decode</td></tr>
+    <tr><td><strong>Q5</strong> <span class="badge badge-new" style="font-size:9px">v3</span></td><td>Fifth intermediary (Thursday's symbol) in M&amp;D Ch-02</td><td>M&amp;D Ep-2 production</td><td>Probable reading: Dāʿī rank; verify against Morris edition</td></tr>
+    <tr><td><strong>Q6</strong> <span class="badge badge-new" style="font-size:9px">v3</span></td><td>Non-standard luminary order in M&amp;D Ch-02</td><td>M&amp;D Ep-2 production</td><td>Confirm against Arabic original via Morris edition</td></tr>
+    <tr><td><strong>Q7</strong> <span class="badge badge-new" style="font-size:9px">v3</span></td><td>Seven-continents anachronism in M&amp;D Ch-02</td><td>M&amp;D Ep-2 production</td><td>Confirm with user/translator: deliberate or OCR drift</td></tr>
+  </tbody>
+</table>
+
+<h3>Risks</h3>
+<table>
+  <thead><tr><th>ID</th><th>Sev</th><th>Risk</th><th>Mitigation</th></tr></thead>
+  <tbody>
+    <tr><td>R1</td><td><span class="badge badge-medium">MED</span></td><td><code>claude -p</code> timeout fragility at scale (xlarge books)</td><td>P5.2 hardens artifact validation; P7 heartbeat exposes hangs; P9.6/P9.7 prove behavior on 591p and 865p before W4</td></tr>
+    <tr><td>R2</td><td><span class="badge badge-medium">MED</span></td><td>Doc Intelligence 600s poll budget insufficient for 800+p books</td><td>P9.6 / P9.7 expose; extend to 1800s as 1-line fix; PDF split (P17) deferred</td></tr>
+    <tr><td>R3</td><td><span class="badge badge-medium">MED</span></td><td>Service on Mac A + manual run on Mac B → state divergence</td><td>Heartbeat carries hostname (P7.1); service rejects mutations on books last touched by different host</td></tr>
+    <tr><td>R4</td><td><span class="badge badge-low">LOW</span></td><td>Phase rename (P15) breaks an in-flight book</td><td>W5 prereq_gate enforces zero-in-flight; translation layer makes it atomic</td></tr>
+    <tr><td>R5</td><td><span class="badge badge-medium">MED</span></td><td>Invented numeric enumerations slip past human review</td><td>P4 Loop N raises P0 BLOCKED on any unsourced enumeration; book cannot ship</td></tr>
+    <tr><td>R6</td><td><span class="badge badge-low">LOW</span></td><td>P4 abjad shared-file write breaks isolation principle</td><td><code>meta.scope_in_writes_to_shared_exception</code> whitelists exactly one path; P1.1 honors it</td></tr>
+  </tbody>
+</table>
+
+<h3>Done definition</h3>
+<ul>
+  <li>Waves W1..W4 merged to <code>develop</code> with passing CI; W5 ships after zero-in-flight gate</li>
+  <li><code>claude -p --permission-mode acceptEdits</code> is the workhorse on every workhorse phase (P-1)</li>
+  <li>P4 abjad reference + handbook + Loop N installed; Master &amp; Disciple Ch-02 scaffolded; Q4–Q7 either resolved or visibly carried</li>
+  <li>Dashboard at <code>http://127.0.0.1:8765/</code> can list, start, resume, retry, delete books AND surface P4 register</li>
+  <li>Full pipeline run on Rasail Ikhwan (865p) completes with structured cost ledger</li>
+  <li>isolation_check CI green; agent-dedup CI exits 0</li>
+  <li>Orchestrator phase rename to <code>01-preflight..14-done</code> complete (P15)</li>
+  <li>Anthropic Python SDK appears only in narrow side-channel use — never as workhorse</li>
+</ul>
+
+</main>
+
+<footer>
+  Plan v3 · updated 2026-05-19 · scope: podcast only · canonical YAML: <code>_workspace/plan/podcast-plan.yaml</code> · acceptance: <code>_workspace/plan/acceptance-criteria.md</code> · P4 design: <code>_workspace/plan/numeric-symbolic-disambiguation-plan.md</code>
+</footer>
+
+</div>
+</body>
+</html>

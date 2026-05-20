@@ -361,9 +361,9 @@
  </div>
 
  <div class="card">
- <div class="meta">·· portability · derivative ··</div>
- <h3>ChatGPT-portable system prompt</h3>
- <p>A single ChatGPT system prompt (<code>_workspace/chatgpt-podcast-skill-prompt.md</code>) captures Phase 0a–0e for users who want to drive the pipeline through ChatGPT instead of running the repo skill. Deliberately omits the empirical-transcript audit loop, per-book contracts, Category Q, and <code>scaffold_book.py</code> layout — those need the repo.</p>
+ <div class="meta">·· portability · canonical ··</div>
+ <h3>Single source of truth: <code>SKILL.md</code></h3>
+ <p>The canonical pipeline definition lives in <code>skills-staging/podcast/SKILL.md</code>. The earlier ChatGPT-portable system prompt (<code>_workspace/chatgpt-podcast-skill-prompt.md</code>, deleted 2026-05-19 in commit b0d991b) has been retired — the repo skill is now the only maintained driver, with the empirical-transcript audit loop, per-book contracts, Category Q, and <code>scaffold_book.py</code> layout all assumed to be available.</p>
  </div>
 
  <div class="card">

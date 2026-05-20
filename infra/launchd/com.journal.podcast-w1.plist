@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.journal.podcast-w1</string>
+
+    <!--
+        Walk-away mode for podcast pipeline Wave 1.
+
+        Fires `python3 scripts/podcast/run_wave.py 1` once an hour.
+        The script is idempotent: if W1 is already DONE, exit 0; otherwise
+        it iterates the phase registry (scripts/podcast/phases/) running
+        unfinished phases until either:
+          • W1 fully completes (every acceptance row checked) → exit 2
+          • A phase halts at a human-review gate                → exit 3
+          • An error surfaces                                    → exit 1
+          • W1 done but P-9 invariant violated                   → exit 4
+
+        Exit codes are logged but launchd does NOT escalate on non-zero —
+        the next tick re-runs and either picks up where left off or stays
+        halted until the operator addresses the gate.
+
+        Install:
+            cp infra/launchd/com.journal.podcast-w1.plist \
+               ~/Library/LaunchAgents/
+            launchctl load ~/Library/LaunchAgents/com.journal.podcast-w1.plist
+
+        Pause:
+            launchctl unload ~/Library/LaunchAgents/com.journal.podcast-w1.plist
+
+        Fire once on demand:
+            launchctl start com.journal.podcast-w1
+
+        Tail the log:
+            tail -F ~/Library/Logs/podcast-w1.log
+    -->
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/ahmac/homebrew/opt/python@3.14/bin/python3</string>
+        <string>/Users/ahmac/Code/Journal/scripts/podcast/run_wave.py</string>
+        <string>1</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/ahmac/Code/Journal</string>
+
+    <!-- Run every 3600 seconds (1 hour). Adjust StartInterval to taste. -->
+    <key>StartInterval</key>
+    <integer>3600</integer>
+
+    <!-- Do NOT run more than one instance concurrently. -->
+    <key>AbandonProcessGroup</key>
+    <false/>
+
+    <!-- Log stdout + stderr separately so progress is easy to follow. -->
+    <key>StandardOutPath</key>
+    <string>/Users/ahmac/Library/Logs/podcast-w1.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/ahmac/Library/Logs/podcast-w1.err</string>
+
+    <!-- Inherit PATH + basic env from the user shell so claude/git/python work. -->
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/Users/ahmac/homebrew/bin:/Users/ahmac/homebrew/opt/python@3.14/bin:/usr/local/bin:/usr/bin:/bin</string>
+    </dict>
+
+    <!-- Don't run on login; run only on the StartInterval cadence. -->
+    <key>RunAtLoad</key>
+    <false/>
+</dict>
+</plist>

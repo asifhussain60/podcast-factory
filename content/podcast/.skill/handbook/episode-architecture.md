@@ -61,6 +61,21 @@ Used when the source IS a narrative (chapter, memoir, story). Beats follow the s
   - Beats 2–N-1: key moments in order
   - Beat N: the residue the narrative leaves
 
+### Pattern 5 — Recursive Scaffold (across-episode pattern)
+
+Used for sources whose later chapters or cycles REPEAT a structure introduced in chapter 1. Common in: Ismaili natiq cycles (Adam→Nuh→Ibrahim→Musa→ʿIsa→Muhammad→Qaʾim), the 12 imams, Sufi maqāmāt sequences, Mishnah tractate parallels. One episode (typically Ep1) walks the full template; subsequent episodes lean on it.
+
+  - **Ep1 beats**: full template walk-through, using Pattern 1, 2, or 4 internally
+  - **Ep2–N beat 1**: "Remember the pattern from Ep1 — here it is again with [X]" (30-sec recap, REQUIRED)
+  - **Ep2–N middle beats**: only the *deltas* from the template
+  - **Final episode**: the template's terminus OR a deliberate absence (e.g., Asaas al-Taʾwīl's unwritten 7th chapter on the awaited Qāʾim)
+
+Layered ON TOP OF a per-episode beat pattern — Ep2 internally is still Pattern 1/2/3/4. Declare in `_system/registry.md` with the key `series_pattern: recursive_scaffold` so the discussion-spine author (Phase 07-chapter-design + Phase 11-per-chapter) can emit Ep2+ spines that omit the template re-teach.
+
+**Failure mode**: Ep2+ feels like a sequel you can't enter cold. Mitigation: the 30-sec recap at Beat 1 is mandatory — the spine must show it. Fixtures under `_learning/fixtures/phase_prompts/07-chapter-design/recursive-scaffold/` enforce: `golden` (passes), `missing-recap` (fails loud), `wrong-pattern-declared` (fails loud).
+
+This pattern is **purely additive**. The four prior patterns remain valid defaults. Recursive Scaffold is opt-in via `series_pattern`; absence means no behavior change.
+
 ## Opening hook (Beat 1)
 
 NEVER let Beat 1 be "today we'll be discussing [source]." The framing instruction "Don't open with 'today we'll discuss...' — start in the middle of the question" handles this, but the spine has to support it.

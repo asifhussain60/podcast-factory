@@ -142,9 +142,26 @@ def derive_slug(pdf_path: Path) -> str:
 # ─── pre-flight hard gates ───────────────────────────────────────────────────
 
 
+def _in_preflight_artifacts_mode(slug: str, category: str) -> bool:
+    """True when curated preflight artifacts exist on disk but Phase 0a has not run.
+
+    Convention (added 2026-05-19, Air redesign A+B+C+E+F integration): operators
+    may pre-stage `_system/registry.md`, `_system/concept-glossary.md`, and
+    `_system/source/` BEFORE invoking orchestrate_book.py. In that mode the strict
+    `is-on-develop`, `dir-not-exists`, `remote-not-exists` gates would block
+    legitimate first runs. Detect the mode here and relax those gates.
+    """
+    book_dir = LIBRARY_ROOT / category / slug
+    registry = book_dir / "_system" / "registry.md"
+    state    = book_dir / "_system" / "orchestrator-state.json"
+    # Preflight-artifacts mode = curated registry present, but pipeline never ran
+    return registry.exists() and not state.exists()
+
+
 def preflight_initial(pdf_path: Path, slug: str, category: str) -> list[str]:
     """Return list of failure reasons. Empty list = pass."""
     fails: list[str] = []
+    preflight_mode = _in_preflight_artifacts_mode(slug, category)
 
     # 1. Azure connectivity
     rc, _, _ = _run([sys.executable, str(AZURE_PROBE)])
@@ -161,12 +178,20 @@ def preflight_initial(pdf_path: Path, slug: str, category: str) -> list[str]:
             "working tree not clean. Run `git status` and commit / stash first."
         )
 
-    # 3. On `develop` (initial run)
+    # 3. On a valid starting branch for the run mode.
+    #    - Normal initial run: must be on `develop`.
+    #    - Preflight-artifacts mode: also accept `feat/podcast-w1-foundation`
+    #      (where the preflight artifacts were authored) and `book/<slug>`
+    #      (operator pre-cut the per-book branch).
     rc, branch, _ = _git("rev-parse", "--abbrev-ref", "HEAD")
-    if rc != 0 or branch.strip() != "develop":
+    branch = branch.strip() if rc == 0 else ""
+    valid_branches = {"develop"}
+    if preflight_mode:
+        valid_branches |= {"feat/podcast-w1-foundation", f"book/{slug}"}
+    if branch not in valid_branches:
         fails.append(
-            f"current branch is '{branch.strip()}'; expected 'develop'. "
-            "Run: git checkout develop"
+            f"current branch is '{branch}'; expected one of {sorted(valid_branches)}. "
+            "Run: git checkout " + (sorted(valid_branches)[0] if not preflight_mode else f"book/{slug}")
         )
 
     # 4. PDF exists + readable
@@ -176,9 +201,13 @@ def preflight_initial(pdf_path: Path, slug: str, category: str) -> list[str]:
         fails.append(f"PDF is empty: {pdf_path}")
 
     # 5. Slug valid + uncollided locally
+    #    - Normal: BOOK_DIR must not exist.
+    #    - Preflight-artifacts mode: BOOK_DIR is expected to exist with curated
+    #      artifacts; orchestrator-state.json absence already confirmed this is
+    #      a fresh initial run (not a stale partial state).
     if not SLUG_RE.match(slug):
         fails.append(f"slug invalid: {slug!r} (lowercase, hyphens, alphanumerics only)")
-    elif (LIBRARY_ROOT / category / slug).exists():
+    elif (LIBRARY_ROOT / category / slug).exists() and not preflight_mode:
         fails.append(
             f"slug collides with existing book at "
             f"{(LIBRARY_ROOT / category / slug).relative_to(REPO_ROOT)}. "
@@ -186,13 +215,20 @@ def preflight_initial(pdf_path: Path, slug: str, category: str) -> list[str]:
         )
 
     # 6. Slug uncollided remotely
+    #    - Normal: remote book/<slug> must not exist.
+    #    - Preflight-artifacts mode: accept remote book/<slug> only if it points
+    #      at the same commit as the local branch (operator pre-pushed).
     if SLUG_RE.match(slug):
         rc, out, _ = _git("ls-remote", "--heads", "origin", f"book/{slug}")
         if rc == 0 and out.strip():
-            fails.append(
-                f"remote branch 'book/{slug}' already exists. "
-                "Either pick a different slug or use --resume."
-            )
+            remote_sha = out.split()[0] if out else ""
+            rc2, local_sha, _ = _git("rev-parse", f"book/{slug}")
+            local_sha = local_sha.strip() if rc2 == 0 else ""
+            if not (preflight_mode and remote_sha and local_sha and remote_sha == local_sha):
+                fails.append(
+                    f"remote branch 'book/{slug}' already exists. "
+                    "Either pick a different slug or use --resume."
+                )
 
     # 7. Category allowed
     if category not in ALLOWED_CATEGORIES:
@@ -261,7 +297,12 @@ def phase_branch(book_slug: str) -> None:
 
 
 def phase_scaffold(category: str, book_slug: str, title: str, author: str | None) -> Path:
-    """Shell out to scaffold_book.py. Returns the BOOK_DIR."""
+    """Shell out to scaffold_book.py. Returns the BOOK_DIR.
+
+    In preflight-artifacts mode (BOOK_DIR pre-staged with curated registry + glossary +
+    source/), passes --allow-existing so the scaffold fills in only missing stubs
+    (pronunciation.md, mangle-map.md, etc.) without clobbering the curated artifacts.
+    """
     cmd = [
         sys.executable,
         str(SCAFFOLD_SCRIPT),
@@ -271,6 +312,8 @@ def phase_scaffold(category: str, book_slug: str, title: str, author: str | None
     ]
     if author:
         cmd += ["--author", author]
+    if _in_preflight_artifacts_mode(book_slug, category):
+        cmd += ["--allow-existing"]
     rc, out, err = _run(cmd)
     if rc != 0:
         raise RuntimeError(f"scaffold_book.py failed (rc={rc}):\n{err}\n{out}")
@@ -936,6 +979,35 @@ def run_resume(args: argparse.Namespace) -> int:
             return 2
         _info("Phase 0f gate cleared (human approved by re-invoking --resume).")
         return _drive_per_chapter_and_after(book_dir)
+
+    # If we halted mid-0a (Azure ingest failure — e.g., transient network blip
+    # during Translator), re-run ingest from the PDF in _system/source/.
+    if current_phase == "0a" and current_status in ("failed", "pending"):
+        category = state.get("category", "books")
+        source_dir = book_dir / "_system" / "source"
+        pdfs = sorted(source_dir.glob("*.pdf"))
+        if not pdfs:
+            _err(f"No PDF found in {source_dir.relative_to(REPO_ROOT)} — cannot retry 0a.")
+            return 2
+        if len(pdfs) > 1:
+            _err(
+                f"Multiple PDFs in {source_dir.relative_to(REPO_ROOT)}: "
+                f"{[p.name for p in pdfs]}. Keep one and retry."
+            )
+            return 2
+        pdf_path = pdfs[0]
+        _info(f"phase: 0a · re-running Azure ingest on {pdf_path.name}")
+        update_phase(book_dir, phase="0a", status="running")
+        try:
+            phase_0a_ingest(book_dir, pdf_path, category, slug)
+        except RuntimeError as e:
+            update_phase(book_dir, phase="0a", status="failed", error=str(e))
+            _err(str(e))
+            return 2
+        update_phase(book_dir, phase="0a", status="completed")
+        phase_git_commit(book_dir, f"podcast({slug}): phase 0a Azure ingest (retry)")
+        title = _read_book_title(book_dir) or slug.replace("-", " ").title()
+        return _drive_authoring_through_0f(book_dir, title)
 
     # If we halted mid-0b/0c/0d/0e (LLM-authoring failure), retry from there.
     if current_phase in ("0b", "0c", "0d", "0e") and current_status in ("failed", "halted", "pending"):
