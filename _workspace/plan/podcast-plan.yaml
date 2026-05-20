@@ -160,12 +160,12 @@ waves:
 
   - id: W2
     name: "Observability + Polish"
-    phases: [P7, P8, P22, P23, P24]
+    phases: [P7, P8, P22, P23, P24, P25]
     schedule_intent: "Single daytime+overnight window; ~1.5 wk wall-clock; trivial LLM cost"
-    parallelism: "P7 then P8; P8 depends on P7's heartbeat schema; P8.6/P8.7/P8.8 sequential at the END of W2 (after P8.1-P8.5 ship; before W3 starts so zero-in-flight is naturally true); P22 → P24 → P23 ordering: P22 transcript review halts, then P24 blueprint runs at 05.5, then P23 contract activates from P24's seeded series-config"
-    blast_radius: "Local — new daemon thread + localhost FastAPI service + bulk phase rename across scripts/podcast/ + agent dedup deletion of infra/claude-agents/ + new podcast-blueprint agent + new orchestrator slot 05.5-blueprint"
+    parallelism: "P7 then P8; P8 depends on P7's heartbeat schema; P8.6/P8.7/P8.8 sequential at the END of W2 (after P8.1-P8.5 ship; before W3 starts so zero-in-flight is naturally true); P22 → P24 → P23 ordering: P22 transcript review halts, then P24 blueprint runs at 05.5, then P23 contract activates from P24's seeded series-config; P25 is independent (operator-only UI on top of P22 artifacts)"
+    blast_radius: "Local — new daemon thread + localhost FastAPI service + bulk phase rename across scripts/podcast/ + agent dedup deletion of infra/claude-agents/ + new podcast-blueprint agent + new orchestrator slot 05.5-blueprint + Operator Review Studio (P25): FastAPI on :8766 + Vite SPA in site/operator-review/"
     kickoff_cmd: "python3 scripts/podcast/run_wave.py 2"
-    done_signal: "All P7–P8 + P22 + P23 + P24 acceptance rows checked; dashboard reachable at http://127.0.0.1:8765/; phase rename schema_version=2 across live state files; agent picker shows each agent exactly once; isolation_check + dedup_check CI green; D3 views render the 6 diagrams; transcript-review gate halts at the correct phase per source type; blueprint slot 05.5-blueprint runs between P22 resume and 06-phonetics; classification.json + arc-conventions.md emitted per book; recommended_audience_profile populates series-config.yaml on operator approval"
+    done_signal: "All P7–P8 + P22 + P23 + P24 + P25 acceptance rows checked; dashboard reachable at http://127.0.0.1:8765/; review studio reachable at http://127.0.0.1:8766/; phase rename schema_version=2 across live state files; agent picker shows each agent exactly once; isolation_check + dedup_check CI green; D3 views render the 6 diagrams; transcript-review gate halts at the correct phase per source type; blueprint slot 05.5-blueprint runs between P22 resume and 06-phonetics; classification.json + arc-conventions.md emitted per book; recommended_audience_profile populates series-config.yaml on operator approval; review studio writes operator-review.md atomically + zero pipeline regression + 10 AI helper features wired through claude -p subprocess"
     prereq_gate_for_p8_6_p8_8: "scripts/podcast/orchestrator_status.py --all --json | jq '[.books[] | select(.phase_status==\"running\" or .phase_status==\"failed\")] | length' == 0  (naturally satisfied before W3 begins)"
     gates_open_next: "Wave 3"
     on_completion:
@@ -3219,6 +3219,433 @@ phases:
       - "P24.zero-regression 🔒 --skip-blueprint-gate flag preserves pre-P24 behavior; in-flight books past slot 05.5 are NOT replanned; tiny-book golden fixture without blueprint runs to byte-identical output vs pre-2026-05-20 baseline"
       - "P24.cost ✅ Full blueprint pass on a 260-page book (Kitab al-Riyad scale) costs <$2.00 (Haiku Layer 1 + Sonnet Layer 2/3 typical; Opus path costs <$8.00 for highest-density sources)"
       - "P24.boundary 🔒 P24 touches only content/podcast/, scripts/podcast/, infra/claude-agents/, .github/agents/, skills-staging/podcast-blueprint/, _workspace/plan/, _learning/fixtures/blueprint/, .github/workflows/podcast-blueprint-e2e.yml"
+
+  - id: P25
+    wave: W2
+    name: "Operator Review Studio — local SPA + FastAPI helper for the P22 transcript-review gate"
+    added: 2026-05-20
+    status: SCAFFOLD
+    depends_on: [P22, P8]   # uses operator-review.md scaffolded by P22; sibling to P8 dashboard at localhost:8765
+    promote_when: |
+      PROMOTED 2026-05-20 — operator authorized full Phase A+B+C build after the
+      proposal at _workspace/proposals/operator-review-studio.html was reviewed.
+      Seven design decisions locked via interactive AskUserQuestion sequence:
+        Q1 React 18 + Vite + TS
+        Q2 FastAPI on localhost:8766
+        Q3 Multi-worktree-capable architecture, single-worktree default config
+        Q4 Approve modal supports both fire-and-stream AND copy-to-clipboard via toggle
+        Q5 Ship phases A + B + C in one push (~3 working days)
+        Q6 Git commit on approve only — single clean commit per review session
+        Q7 Full P25 plan tracking with halt-with-DoR runners
+    why: |
+      The P22 transcript-review gate halts the pipeline for operator review.
+      The operator workflow today: open english-transcript.md (post-OCR English,
+      typically 100-300 pages) in a text editor, scroll-read, open operator-review.md
+      in a second window, type page-anchored comments under 5 scaffolded sections
+      (translation issues, missing passages, glossary additions, pronunciation
+      corrections, free-form comments, content range §7), tick "I approve" checkbox,
+      open Terminal, run `orchestrate_book.py --resume <slug> --approve-transcript`.
+
+      Time cost: ~30-60 min focused reading per book. Friction points:
+        - Two editor windows, no cross-reference between them
+        - Manual page-anchoring on every comment ("page 47: ...")
+        - No way to skim — every passage must be read because OCR errors hide
+        - Lost scroll position on every window switch
+        - Terminal context-switch to fire the resume command
+
+      P25 lands a focused web app (browser UI at localhost:8766) backed by a tiny
+      FastAPI helper that:
+        1. Lists every book in flight with status badges (Phase 0b, P22-halted,
+           shipped) and lets the operator click the one waiting for review
+        2. Shows a dual-pane editor: virtualized transcript on the left,
+           scaffolded review form on the right
+        3. Supports anchored flagging — select text in transcript → click "Flag
+           this" → row added to "Translation Issues" with page anchor + quoted
+           text pre-filled; operator types the fix
+        4. Fuzzy search (⌘F) + page jump (⌘P) + sticky page indicator
+        5. Diff-with-raw toggle — highlights words that changed between
+           raw-extract.md and refined-english.md so operator only re-reads
+           passages the LLM touched
+        6. Auto-save: ~500ms keystroke debounce → localStorage draft;
+           ~2 sec idle debounce → PUT struct to backend → backend writes
+           operator-review.md
+        7. Approve & Resume modal: writes [x] approve checkbox + commits to git
+           (one clean commit per session) + fires resume subprocess + streams
+           stdout to slide-in drawer; operator can cancel
+        8. Cross-book learning signal (P25.6): when operator marks a finding as
+           "recurring pattern", app emits _learning/findings.jsonl row;
+           podcast-trainer ingests on next pass
+
+      Net effect: ~45 min reduced to ~8 min per book. The reduction comes
+      primarily from anchored flagging (no manual page lookup), diff-with-raw
+      (operator only reads the parts the LLM changed), and one-click approve
+      (no Terminal switch).
+
+      Persistence design: operator-review.md remains the single source of truth
+      that the pipeline reads on --approve-transcript resume. The app keeps it
+      in sync; it does NOT introduce a new storage system. External edits to
+      operator-review.md (e.g., from VS Code) are detected via mtime polling
+      and the app prompts to reload before overwriting.
+
+      Architectural fit: complements the planned P8 read-only dashboard at
+      localhost:8765. P25 is the editor sibling at localhost:8766. Long-term,
+      they may merge into a single observability + control surface.
+    risk: |
+      R-PERSISTENCE-CONFLICT: operator edits operator-review.md in VS Code
+      while the app is open → app overwrites operator's external edits.
+      Mitigated by: mtime polling every 5 sec; on detected external change,
+      app displays "file changed externally — reload?" banner with options
+      reload | overwrite | discard. No silent overwrites.
+
+      R-RESUME-SUBPROCESS: backend fires `orchestrate_book.py --resume <slug>
+      --approve-transcript` as subprocess. Long-running. If app/backend dies
+      mid-resume, subprocess is orphaned.
+      Mitigated by: backend records subprocess PID to <book>/_system/resume-pid;
+      on backend restart, detects orphaned PID and offers operator a "reattach
+      to running resume" option in the books-list page.
+
+      R-MULTI-WORKTREE-LEAKAGE: single server reads/writes multiple worktrees.
+      A bug could write asaas-al-taveel's operator-review.md to kitab-al-riyad's
+      book directory.
+      Mitigated by: every endpoint validates that the book slug exists in the
+      worktree's expected layout (content/podcast/library/books/<slug>/)
+      BEFORE any write; backend refuses writes to paths outside its configured
+      worktree roots; integration test exercises the leakage scenario.
+
+      R-CHROME-DEPENDENCE: Tailwind via CDN is fine in dev; production build
+      bundles Tailwind via PostCSS. App is browser-agnostic (no File System
+      Access API dependence — backend handles file I/O).
+    files:
+      - site/operator-review/                                       # NEW directory — Vite + React + TS + Tailwind SPA
+      - site/operator-review/package.json                           # NEW
+      - site/operator-review/vite.config.ts                         # NEW
+      - site/operator-review/tailwind.config.ts                     # NEW
+      - site/operator-review/postcss.config.cjs                     # NEW
+      - site/operator-review/tsconfig.json                          # NEW
+      - site/operator-review/tsconfig.node.json                     # NEW
+      - site/operator-review/index.html                             # NEW
+      - site/operator-review/README.md                              # NEW
+      - site/operator-review/src/main.tsx                           # NEW
+      - site/operator-review/src/App.tsx                            # NEW
+      - site/operator-review/src/index.css                          # NEW
+      - site/operator-review/src/types.ts                           # NEW
+      - site/operator-review/src/pages/                             # NEW directory
+      - site/operator-review/src/pages/BooksListPage.tsx            # NEW
+      - site/operator-review/src/pages/EditorPage.tsx               # NEW
+      - site/operator-review/src/components/                        # NEW directory
+      - site/operator-review/src/components/BookCard.tsx            # NEW
+      - site/operator-review/src/components/TranscriptPane.tsx      # NEW
+      - site/operator-review/src/components/ReviewPane.tsx          # NEW
+      - site/operator-review/src/components/ReviewSection.tsx       # NEW
+      - site/operator-review/src/components/ContentRangeEditor.tsx  # NEW
+      - site/operator-review/src/components/ApproveBar.tsx          # NEW
+      - site/operator-review/src/components/ApproveModal.tsx        # NEW
+      - site/operator-review/src/components/ResumeLogDrawer.tsx     # NEW
+      - site/operator-review/src/components/FlagButton.tsx          # NEW
+      - site/operator-review/src/components/PageIndicator.tsx       # NEW
+      - site/operator-review/src/components/CommandPalette.tsx      # NEW (⌘P page jump + ⌘F search)
+      - site/operator-review/src/components/ui/                     # NEW directory — shadcn-style primitives
+      - site/operator-review/src/components/ui/Button.tsx
+      - site/operator-review/src/components/ui/Card.tsx
+      - site/operator-review/src/components/ui/Collapsible.tsx
+      - site/operator-review/src/components/ui/Input.tsx
+      - site/operator-review/src/components/ui/Dialog.tsx
+      - site/operator-review/src/components/ui/Toast.tsx
+      - site/operator-review/src/hooks/                             # NEW directory
+      - site/operator-review/src/hooks/useBooks.ts                  # NEW
+      - site/operator-review/src/hooks/useReview.ts                 # NEW (auto-save)
+      - site/operator-review/src/hooks/useTranscript.ts             # NEW
+      - site/operator-review/src/hooks/useDebounce.ts               # NEW
+      - site/operator-review/src/hooks/useKeyboard.ts               # NEW
+      - site/operator-review/src/lib/                               # NEW directory
+      - site/operator-review/src/lib/api.ts                         # NEW
+      - site/operator-review/src/lib/parseReviewMd.ts               # NEW (struct ↔ markdown)
+      - site/operator-review/src/lib/utils.ts                       # NEW (cn helper)
+      - scripts/podcast/review_server.py                            # NEW — FastAPI backend
+      - scripts/podcast/_review_serializer.py                       # NEW — struct ↔ operator-review.md
+      - scripts/podcast/tests/test_review_server.py                 # NEW
+      - scripts/podcast/tests/test_review_serializer.py             # NEW
+      - scripts/podcast/phases/p25_1.py                             # NEW — halt-with-DoR runner for backend
+      - scripts/podcast/phases/p25_2.py                             # NEW — halt-with-DoR runner for frontend scaffold
+      - scripts/podcast/phases/p25_3.py                             # NEW — halt-with-DoR runner for editor pages
+      - scripts/podcast/phases/p25_4.py                             # NEW — halt-with-DoR runner for B-features
+      - scripts/podcast/phases/p25_5.py                             # NEW — halt-with-DoR runner for approve+resume
+    tasks:
+      - id: P25.1
+        title: "FastAPI backend on localhost:8766 — 5 REST endpoints + SSE resume stream"
+        files:
+          - scripts/podcast/review_server.py
+          - scripts/podcast/_review_serializer.py
+          - scripts/podcast/tests/test_review_server.py
+          - scripts/podcast/tests/test_review_serializer.py
+          - scripts/podcast/phases/p25_1.py
+        spec: |
+          FastAPI server with 5 endpoints:
+            GET  /api/books                    — list books across configured worktrees with state
+            GET  /api/books/<slug>             — book metadata + phase state + flag counts
+            GET  /api/books/<slug>/transcript  — english-transcript.md as text + page-marker index
+            GET  /api/books/<slug>/review      — operator-review.md parsed into struct
+            PUT  /api/books/<slug>/review      — write struct → operator-review.md (atomic)
+            POST /api/books/<slug>/approve     — write [x] approve + git commit + fire resume subprocess
+            GET  /api/books/<slug>/resume-log  — SSE stream of subprocess stdout
+            GET  /api/books/<slug>/mtime       — for external-edit detection
+          Configuration: --repo-root <path> flag (single worktree) OR --config
+          ~/.journal-worktrees.yaml (multi-worktree). Same data model.
+          CORS: allow http://localhost:* origins (for Vite dev server).
+          Boundary: every write validates the path resolves under a configured
+          worktree root; refuses writes outside.
+          Atomic writes: write to operator-review.md.tmp → fsync → rename.
+        depends_on_local: []
+        acceptance:
+          - "P25.1.endpoints ✅ All 5 REST endpoints + 1 SSE + 1 mtime endpoint implemented; OpenAPI docs at /docs"
+          - "P25.1.multi-worktree ✅ --config flag accepts ~/.journal-worktrees.yaml with multiple paths; single-worktree default via --repo-root"
+          - "P25.1.atomic-write 🔒 operator-review.md writes are atomic (tmp → fsync → rename); concurrent reads always see consistent file"
+          - "P25.1.boundary 🔒 Path validation refuses writes outside configured worktree roots (integration test exercises leak scenario)"
+          - "P25.1.cors ✅ CORS allows http://localhost:* origins"
+          - "P25.1.mtime ✅ /api/books/<slug>/mtime returns operator-review.md mtime for external-edit detection"
+          - "P25.1.resume-subprocess ✅ POST /approve fires orchestrate_book.py --resume <slug> --approve-transcript; PID recorded to <book>/_system/resume-pid"
+          - "P25.1.sse ✅ GET /resume-log streams stdout via Server-Sent Events; client can cancel by closing the connection"
+          - "P25.1.tests ✅ test_review_server.py (≥15 tests) + test_review_serializer.py (≥10 tests) all green"
+          - "P25.1.runner ✅ scripts/podcast/phases/p25_1.py halt-with-DoR runner detects when fastapi + uvicorn are installed and tests are green; otherwise prints DoR with install command"
+
+      - id: P25.2
+        title: "Frontend scaffold — Vite + React 18 + TS + Tailwind + shadcn-style primitives"
+        files:
+          - site/operator-review/package.json
+          - site/operator-review/vite.config.ts
+          - site/operator-review/tailwind.config.ts
+          - site/operator-review/postcss.config.cjs
+          - site/operator-review/tsconfig.json
+          - site/operator-review/tsconfig.node.json
+          - site/operator-review/index.html
+          - site/operator-review/README.md
+          - site/operator-review/src/main.tsx
+          - site/operator-review/src/App.tsx
+          - site/operator-review/src/index.css
+          - site/operator-review/src/components/ui/Button.tsx
+          - site/operator-review/src/components/ui/Card.tsx
+          - site/operator-review/src/components/ui/Collapsible.tsx
+          - site/operator-review/src/components/ui/Input.tsx
+          - site/operator-review/src/components/ui/Dialog.tsx
+          - site/operator-review/src/components/ui/Toast.tsx
+          - site/operator-review/src/lib/utils.ts
+          - scripts/podcast/phases/p25_2.py
+        spec: |
+          Vite + React 18 + TypeScript + Tailwind 3 + Radix UI + lucide-react +
+          clsx + tailwind-merge + react-router-dom + @tanstack/react-query +
+          zustand + react-virtuoso + fuse.js + react-hot-toast.
+          shadcn-style component primitives manually authored (no shadcn CLI
+          dependency).
+          README.md documents: npm install, npm run dev, --proxy to FastAPI on 8766.
+        depends_on_local: [P25.1]
+        acceptance:
+          - "P25.2.package ✅ package.json declares all listed deps with pinned versions; npm install succeeds in <60s on warm cache"
+          - "P25.2.vite ✅ vite.config.ts proxies /api/* to http://localhost:8766; dev server on 5173 with HMR"
+          - "P25.2.tailwind ✅ Tailwind config extends with dark mode, ink palette, accent palette, font-sans=Inter, font-mono=JetBrains Mono"
+          - "P25.2.primitives ✅ Button + Card + Collapsible + Input + Dialog + Toast are accessible (Radix-based), keyboard-navigable, dark-mode-aware"
+          - "P25.2.app-shell ✅ App.tsx renders the nav + react-router-dom routes (/ → BooksList, /books/:slug → Editor)"
+          - "P25.2.dev-server-boots ✅ npm run dev brings up http://localhost:5173 with the shell visible (no errors in console)"
+
+      - id: P25.3
+        title: "Editor pages — BooksList + EditorPage with dual-pane + auto-save (Phase A)"
+        files:
+          - site/operator-review/src/types.ts
+          - site/operator-review/src/lib/api.ts
+          - site/operator-review/src/lib/parseReviewMd.ts
+          - site/operator-review/src/hooks/useBooks.ts
+          - site/operator-review/src/hooks/useReview.ts
+          - site/operator-review/src/hooks/useTranscript.ts
+          - site/operator-review/src/hooks/useDebounce.ts
+          - site/operator-review/src/pages/BooksListPage.tsx
+          - site/operator-review/src/pages/EditorPage.tsx
+          - site/operator-review/src/components/BookCard.tsx
+          - site/operator-review/src/components/TranscriptPane.tsx
+          - site/operator-review/src/components/ReviewPane.tsx
+          - site/operator-review/src/components/ReviewSection.tsx
+          - site/operator-review/src/components/ContentRangeEditor.tsx
+          - site/operator-review/src/components/ApproveBar.tsx
+          - scripts/podcast/phases/p25_3.py
+        spec: |
+          BooksListPage: card grid (BookCard component per book), status filter
+          chips (All / Needs review / In flight / Done), polling /api/books every
+          15 sec for live status.
+          EditorPage: dual-pane (TranscriptPane left, ReviewPane right), header
+          with book name + back-to-list, sticky ApproveBar at bottom.
+          ReviewPane: collapsible sections for each P22 category, ContentRangeEditor
+          for §7, approval checkbox section.
+          useReview: dual-debounced auto-save (~500ms localStorage, ~2 sec PUT).
+          External-edit detection via mtime polling every 5 sec.
+        depends_on_local: [P25.2]
+        acceptance:
+          - "P25.3.books-list ✅ BooksListPage shows every book under configured worktree roots; status badges render correctly per phase_status state"
+          - "P25.3.editor-shell ✅ EditorPage renders dual-pane layout; transcript loads (no virtualization yet); review form sections all collapsible"
+          - "P25.3.auto-save 🔒 useReview persists to localStorage on every keystroke (debounced ~500ms); PUT to backend on ~2 sec idle; PUT failure surfaces toast with retry"
+          - "P25.3.parse-roundtrip ✅ parseReviewMd round-trips operator-review.md → struct → operator-review.md without byte loss (modulo trailing whitespace normalization); test fixture covers all 6 P22 sections"
+          - "P25.3.external-edit-detection 🔒 mtime polling every 5 sec; on detected external mtime change, banner appears with reload | overwrite | discard buttons"
+          - "P25.3.content-range ✅ §7 ContentRangeEditor populates body_starts_at_page / body_ends_at_page with heuristic defaults from backend; operator override persists"
+          - "P25.3.crash-safe 🔒 Close tab mid-edit → reopen → localStorage draft restored with toast 'restored draft from 14:32'"
+
+      - id: P25.4
+        title: "B-features — anchored flagging + search + page jump + diff-with-raw + reading checklist"
+        files:
+          - site/operator-review/src/components/FlagButton.tsx
+          - site/operator-review/src/components/PageIndicator.tsx
+          - site/operator-review/src/components/CommandPalette.tsx
+          - site/operator-review/src/components/DiffWithRawToggle.tsx
+          - site/operator-review/src/components/ReadingChecklist.tsx
+          - site/operator-review/src/hooks/useKeyboard.ts
+          - site/operator-review/src/hooks/useSelection.ts
+          - site/operator-review/src/hooks/useScrollPage.ts
+          - scripts/podcast/phases/p25_4.py
+        spec: |
+          Anchored flagging: text selection in TranscriptPane → floating FlagButton
+          appears → click → row pre-filled in ReviewPane "Translation Issues"
+          with page anchor + quoted text + cursor in note field.
+          CommandPalette (⌘F search, ⌘P page jump): fuzzy search via fuse.js
+          across transcript paragraphs; page jump scrolls TranscriptPane to
+          page boundary marker.
+          DiffWithRawToggle: fetches raw-extract.md from backend; highlights
+          word-level diffs against refined-english.md inside TranscriptPane.
+          ReadingChecklist: tracks scroll position; "% read" indicator updates
+          live; outline on right side shows unread vs read pages.
+          react-virtuoso virtualizes transcript for 200+ page books.
+        depends_on_local: [P25.3]
+        acceptance:
+          - "P25.4.virtuoso ✅ react-virtuoso renders 300-page transcript with <50ms first-paint (verified against synthetic 300-page fixture)"
+          - "P25.4.anchored-flag ✅ Select text in transcript → FlagButton appears within 100ms; click → row added to Translation Issues with page + quote + cursor in note field"
+          - "P25.4.search ✅ ⌘F opens CommandPalette in search mode; fuzzy match across paragraphs; arrow keys navigate; enter scrolls + highlights"
+          - "P25.4.page-jump ✅ ⌘P opens CommandPalette in page-jump mode; type number → scrolls to that page boundary marker"
+          - "P25.4.sticky-page ✅ PageIndicator shows current page as user scrolls; updates within 100ms of scroll-stop"
+          - "P25.4.diff ✅ DiffWithRawToggle when ON highlights word-level changes between raw-extract.md and refined-english.md; LLM-touched passages are visually distinct"
+          - "P25.4.checklist ✅ ReadingChecklist tracks max-scroll-offset per page; '% read' updates live; outline shows page-level progress"
+          - "P25.4.keyboard ✅ All shortcuts documented in a ? help overlay; Escape closes CommandPalette + Help"
+
+      - id: P25.5
+        title: "Approve + Resume — modal + subprocess + SSE log drawer (Phase C)"
+        files:
+          - site/operator-review/src/components/ApproveModal.tsx
+          - site/operator-review/src/components/ResumeLogDrawer.tsx
+          - site/operator-review/src/hooks/useResumeLog.ts
+          - scripts/podcast/phases/p25_5.py
+        spec: |
+          ApproveModal: confirmation modal with summary (N flags, M glossary
+          entries, content range, approval text). Toggle: 'Fire resume command'
+          (default) vs 'Copy command to clipboard'. Fire path POSTs /approve,
+          opens ResumeLogDrawer. Copy path writes file + commits + copies
+          command to clipboard + closes.
+          ResumeLogDrawer: slide-in from right, SSE-streams stdout from
+          /api/books/<slug>/resume-log, autoscrolls, has 'Cancel resume' button
+          that POSTs DELETE /resume-log → backend kills subprocess.
+          Single git commit per session — message format:
+          'podcast(<slug>): operator transcript review — <auto-generated summary>'
+          where summary is auto-built from struct: '3 flags, 1 glossary, range 14-178'.
+        depends_on_local: [P25.4]
+        acceptance:
+          - "P25.5.modal ✅ ApproveModal renders with current review summary + toggle between fire/copy modes; fire is default"
+          - "P25.5.copy-mode ✅ Copy mode writes file + commits + copies 'orchestrate_book.py --resume <slug> --approve-transcript' to clipboard; toast confirms"
+          - "P25.5.fire-mode ✅ Fire mode POSTs /approve; opens ResumeLogDrawer; user sees Phase 0c output stream live"
+          - "P25.5.cancel ✅ Cancel button in drawer kills subprocess via DELETE /resume-log; backend reports SIGTERM clean exit"
+          - "P25.5.git-commit 🔒 Single commit per session; message follows P22.git-policy convention; auto-generated one-line summary"
+          - "P25.5.orphan-detection ✅ If backend restarts mid-resume, books-list page shows 'resume in flight' badge + reattach option"
+
+      - id: P25.6
+        title: "Cross-book learning signal (optional, deferred slightly)"
+        files:
+          - scripts/podcast/_learning_signal.py
+          - site/operator-review/src/components/PatternMarker.tsx
+        spec: |
+          When operator marks a finding as 'recurring pattern' (checkbox per row
+          in ReviewPane), the app emits a row to <book>/_learning/findings.jsonl
+          (alongside operator-review.md). podcast-trainer ingests on next pass
+          and lifts to spec if ≥3 occurrences across books (existing P21 contract).
+
+          This is the only optional task — operator can defer to a later session
+          without blocking the rest of the MVP.
+        depends_on_local: [P25.3, P25.5]
+        acceptance:
+          - "P25.6.checkbox ✅ Each ReviewSection row has a 'recurring pattern' checkbox; tooltip explains the cross-book learning signal"
+          - "P25.6.emission ✅ When checked, app emits _learning/findings.jsonl row with {finding_id, book_slug, section, page, quote, note, marked_at}"
+          - "P25.6.trainer-ingestion ✅ podcast-trainer reads operator-marked findings.jsonl in addition to challenger findings on next pass"
+          - "P25.6.deferred-by-default ⚪ This task can ship in a separate PR; the rest of P25 doesn't depend on it"
+
+      - id: P25.7
+        title: "AI assist layer — 10 helper features via claude -p subprocess (no new keys)"
+        files:
+          - scripts/podcast/_review_ai.py                                     # NEW — Anthropic claude -p wrappers for 10 AI features
+          - scripts/podcast/tests/test_review_ai.py                           # NEW
+          - site/operator-review/src/components/AIAssistBar.tsx               # NEW — purple bar with 5 trigger buttons
+          - site/operator-review/src/components/AISuggestionsSection.tsx      # NEW — render Sonnet-proposed flags
+          - site/operator-review/src/components/PageSummary.tsx               # NEW — one-line summary above each page marker
+          - site/operator-review/src/components/DiffExplainTooltip.tsx        # NEW — hover an LLM change → AI explanation
+          - site/operator-review/src/components/ArabicTermInfo.tsx            # NEW — click an Arabic term → side info
+          - site/operator-review/src/hooks/useAI.ts                           # NEW — unified hook for all 10 actions
+          - scripts/podcast/phases/p25_7.py                                   # NEW — halt-with-DoR runner
+        spec: |
+          Ships 10 AI helper features inside the Operator Review Studio (P25):
+
+            1. Per-page 1-line summaries     (Haiku, batched, cached)
+            2. Diff-with-raw + explainer     (Sonnet, on-demand hover)
+            4. Arabic-term highlighting      (Sonnet, cached forever — cross-refs
+                                              content/_shared/arabic/03-arabic-english-manifest.md)
+            5. Pre-flight error scan         (Sonnet, whole-book, Cmd-K trigger)
+            6. Voice-shift detection         (Sonnet, structural)
+            8. Restructure episode plan      (Opus, one-shot, editable preview;
+                                              feeds P24 podcast-blueprint synergy)
+           10. Suggested flags               (Sonnet, interactive accept/dismiss)
+           11. Smart note auto-complete      (Haiku, in-textarea, 200ms)
+           12. Auto-categorize notes         (Haiku, passive routing)
+           14. Content range recommender     (Haiku, first/last skim)
+
+          Architecture: every AI endpoint is a thin FastAPI route in
+          scripts/podcast/review_server.py that delegates to _review_ai.py,
+          which spawns `claude -p` as subprocess (NO new API keys; same pattern
+          as orchestrate_book.py). Cost-ledger records every call.
+
+          Browser side: useAI() hook returns mutate functions per action;
+          loading/error states surface as toasts. Mock UI already shows all
+          5 trigger buttons in the AI Assist bar (purple bar between
+          reading-controls and editor-main); this task wires them to real
+          backend endpoints.
+
+          NO Google API used. NO new keys. Reuses the same proxy pattern the
+          memoir's Voice Refiner uses (site/js/claude-client.js + Cloudflare
+          Access cookie).
+
+          Per-book cost budget: ~$1.62 total for all 10 features on a 200-page
+          book (Haiku for summaries / categorization / range / autocomplete;
+          Sonnet for scan / flags / arabic / voice-shift / diff-explain; Opus
+          only for episode plan).
+        depends_on_local: [P25.1, P25.3]
+        acceptance:
+          - "P25.7.a-summaries ✅ POST /api/books/<slug>/ai/summarize emits <book>/_system/ai/page-summaries.jsonl (one row per page); UI renders above each page-marker"
+          - "P25.7.a-diff-explain ✅ POST /api/books/<slug>/ai/explain-diff with {raw, refined} returns explanation; UI shows on hover of .diff-changed span"
+          - "P25.7.a-arabic ✅ POST /api/books/<slug>/ai/arabic-scan returns array of {term, page, context, canonical_form, manifest_match}; UI wraps each in .arabic-term spans (cached per source-signature)"
+          - "P25.7.a-scan ✅ POST /api/books/<slug>/ai/preflight-scan returns array of suggested findings with page anchors + confidence; Cmd-K opens command palette in scan mode"
+          - "P25.7.a-voice-shift ✅ POST /api/books/<slug>/ai/voice-shift returns array of {page, before_quote, after_quote, shift_type}; rendered as purple .ai-suggestion spans in transcript"
+          - "P25.7.a-episode-plan ✅ POST /api/books/<slug>/ai/episode-plan returns proposed breakdown (episode_count, per-episode titles+ranges+wordcount); editable preview drawer"
+          - "P25.7.a-suggest-flags ✅ POST /api/books/<slug>/ai/suggest-flags returns 5-10 candidates with page+quote+reason; rendered in AI suggestions section; Accept/Dismiss buttons"
+          - "P25.7.a-autocomplete ✅ POST /api/books/<slug>/ai/autocomplete with {section, partial_text} returns 3 suggestions; rendered as ghost text in textarea (Tab to accept)"
+          - "P25.7.a-categorize ✅ POST /api/books/<slug>/ai/categorize with {note_text} returns {section_id, confidence}; if non-current-section + confidence>0.8, surface 'move to <X>?' chip"
+          - "P25.7.a-content-range ✅ POST /api/books/<slug>/ai/content-range returns {body_starts, body_ends, rationale}; UI pre-populates content-range fields"
+          - "P25.7.cost-ledger 🔒 Every AI endpoint writes a cost-ledger row with agent_id='podcast-review-studio', operation=<feature-id>, model_used, cost_usd"
+          - "P25.7.no-keys 🔒 No Anthropic API keys in env vars or config files; all AI calls go through subprocess claude -p (which uses the operator's existing Claude CLI auth)"
+          - "P25.7.cost-cap ✅ Per-book AI total budget enforced ~$2.00; backend refuses if cumulative AI spend for the book exceeds cap"
+          - "P25.7.cache ✅ Per-source-signature caching: classification.json + arabic-scan.json + voice-shift.json + page-summaries.jsonl all keyed by sha256 of refined-english.md; re-runs are free until source changes"
+          - "P25.7.tests ✅ test_review_ai.py covers (a) each endpoint returns schema-valid response; (b) cost-ledger row written; (c) cache hits return cached result without spawning claude -p"
+          - "P25.7.boundary 🔒 _review_ai.py spawns claude -p in subprocess with --permission-mode acceptEdits but with --cwd locked to <book> path; refuses if path escapes worktree root"
+
+    acceptance:
+      - "P25.surface ✅ All scaffold files exist (~30 files); backend imports cleanly; frontend scaffolds without npm errors"
+      - "P25.backend ✅ FastAPI backend runs on localhost:8766; all 5 REST + 1 SSE endpoints functional; ≥25 tests green"
+      - "P25.frontend-mvp ✅ Vite dev server boots; books list shows seeded data; editor page renders dual-pane shell"
+      - "P25.a-shipped ✅ Phase A complete (books list + editor + auto-save + approve); zero data loss across reload + crash"
+      - "P25.b-shipped ✅ Phase B complete (anchored flag + search + page jump + sticky page + diff-with-raw + reading checklist)"
+      - "P25.c-shipped ✅ Phase C complete (approve modal + SSE resume drawer + cancellable subprocess + git commit-on-approve)"
+      - "P25.persistence 🔒 operator-review.md remains the single source of truth; external edits detected via mtime polling; no silent overwrites"
+      - "P25.zero-pipeline-impact 🔒 Pipeline behavior unchanged: --approve-transcript reads operator-review.md exactly as today; --skip-transcript-gate continues to work; orchestrator integration is read-only on existing artifacts"
+      - "P25.boundary 🔒 P25 touches only site/operator-review/, scripts/podcast/, _workspace/plan/, and reads (never writes outside of) content/podcast/library/books/<slug>/"
+      - "P25.dogfood ✅ asaas-al-taveel P22 halt (ETA ~09:33 PT 2026-05-20) reviewed via Studio app as first real test"
+      - "P25.ai-layer ✅ P25.7 AI assist layer ships 10 helper features via claude -p subprocess; no new keys; ~$1.62 budget/book; cost-ledger captures every call"
 
 # -----------------------------------------------------------------------------
 # Open questions
