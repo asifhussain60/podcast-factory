@@ -157,6 +157,56 @@ def _assert_artifact(
 
 
 # ─── Phase 0b — English refinement (chunked) ─────────────────────────────────
+def build_phase_0b_window_prompt(
+    book_slug: str,
+    idx: int,
+    total: int,
+    win_in: Path,
+    win_out: Path,
+) -> str:
+    """Construct the per-window refinement prompt sent to ``claude -p``.
+
+    Extracted to module level (was a closure inside :func:`author_phase_0b`) so
+    it can be unit-tested in isolation. See ``tests/test_phase_0b_preserves_page_markers.py``
+    (P22.markers fixture) — that test asserts the prompt contains an explicit
+    instruction to preserve every ``<!-- page N -->`` HTML comment verbatim.
+    Without that instruction, the LLM "tidies" the markers out during heavy
+    prose passages, causing the asaas Phase 0b post-mortem 2026-05-20 defect:
+    58/416 page anchors missing from refined-english.md across 7 of 49 windows.
+    """
+    return (
+        f"You are driving Phase 0b (English Refinement) of the /podcast skill on book-slug "
+        f"`{book_slug}`, **window {idx} of {total}**. Read the canonical Phase 0b procedure "
+        f"from `skills-staging/podcast/SKILL.md` (search `### PHASE 0b: ENGLISH REFINEMENT`).\n\n"
+        f"INPUT  (read this window only): `{win_in}`\n"
+        f"OUTPUT (write the refined window here): `{win_out}`\n\n"
+        f"This is one window in a sequence — DO NOT add chapter headings, intros, "
+        f"summaries, or transitions that assume you have seen the whole book. Refine only "
+        f"the prose in the INPUT file. If the input begins with a `<!-- context-overlap -->` "
+        f"block, that is the tail of the prior window for continuity — DO NOT re-emit it "
+        f"in your output; resume cleanly after it.\n\n"
+        f"**Page-marker invariant (CRITICAL — P22.markers).** The INPUT contains "
+        f"`<!-- page N -->` HTML comments — one before the prose extracted from each "
+        f"source PDF page. You MUST preserve every `<!-- page N -->` comment verbatim "
+        f"at the same relative position in the OUTPUT where it appears in the INPUT. "
+        f"Do NOT collapse adjacent page markers. Do NOT renumber them. Do NOT omit any. "
+        f"Do NOT invent new ones. Do NOT move them to the start or end of the output. "
+        f"These markers are downstream anchors for content-range enforcement (P4.10), "
+        f"per-page citation accuracy (P21), and operator navigation — refinement "
+        f"without them silently breaks every downstream phase. If your refined prose "
+        f"merges paragraphs across a page boundary, keep the `<!-- page N -->` comment "
+        f"in place at the sentence boundary closest to where it originally sat.\n\n"
+        f"Constraints (same as the whole-book Phase 0b — apply at the window scope):\n"
+        f"- Do NOT modify any file other than `{win_out}`.\n"
+        f"- Do NOT invent content not present in the INPUT — fidelity to the source is mandatory.\n"
+        f"- Preserve every Arabic-derived term in transliteration form (al-Razi, al-Kirmani, etc.).\n"
+        f"- Preserve every citation (verse references, hadith collection numbers).\n"
+        f"- Preserve every `<!-- page N -->` HTML comment verbatim and in-place (see invariant above).\n"
+        f"- Do NOT wrap output in code fences or add preamble like 'Here is the refined text:'.\n\n"
+        f"Exit when `{win_out}` is non-empty."
+    )
+
+
 def author_phase_0b(
     book_dir: Path,
     timeout: int = DEFAULT_TIMEOUT,        # retained for back-compat; per-window timeout is what matters
@@ -204,25 +254,7 @@ def author_phase_0b(
         # Write the body to a side file so the prompt stays small and the LLM
         # reads the chunk from disk (its preferred IO pattern).
         win_in = win_out.with_suffix("").with_suffix(".in.md")  # win-NNN.in.md
-        return (
-            f"You are driving Phase 0b (English Refinement) of the /podcast skill on book-slug "
-            f"`{book_slug}`, **window {idx} of {total}**. Read the canonical Phase 0b procedure "
-            f"from `skills-staging/podcast/SKILL.md` (search `### PHASE 0b: ENGLISH REFINEMENT`).\n\n"
-            f"INPUT  (read this window only): `{win_in}`\n"
-            f"OUTPUT (write the refined window here): `{win_out}`\n\n"
-            f"This is one window in a sequence — DO NOT add chapter headings, intros, "
-            f"summaries, or transitions that assume you have seen the whole book. Refine only "
-            f"the prose in the INPUT file. If the input begins with a `<!-- context-overlap -->` "
-            f"block, that is the tail of the prior window for continuity — DO NOT re-emit it "
-            f"in your output; resume cleanly after it.\n\n"
-            f"Constraints (same as the whole-book Phase 0b — apply at the window scope):\n"
-            f"- Do NOT modify any file other than `{win_out}`.\n"
-            f"- Do NOT invent content not present in the INPUT — fidelity to the source is mandatory.\n"
-            f"- Preserve every Arabic-derived term in transliteration form (al-Razi, al-Kirmani, etc.).\n"
-            f"- Preserve every citation (verse references, hadith collection numbers).\n"
-            f"- Do NOT wrap output in code fences or add preamble like 'Here is the refined text:'.\n\n"
-            f"Exit when `{win_out}` is non-empty."
-        )
+        return build_phase_0b_window_prompt(book_slug, idx, total, win_in, win_out)
 
     log("  phase 0b · chunked refinement")
     try:
