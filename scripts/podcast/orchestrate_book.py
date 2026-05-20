@@ -980,6 +980,35 @@ def run_resume(args: argparse.Namespace) -> int:
         _info("Phase 0f gate cleared (human approved by re-invoking --resume).")
         return _drive_per_chapter_and_after(book_dir)
 
+    # If we halted mid-0a (Azure ingest failure — e.g., transient network blip
+    # during Translator), re-run ingest from the PDF in _system/source/.
+    if current_phase == "0a" and current_status in ("failed", "pending"):
+        category = state.get("category", "books")
+        source_dir = book_dir / "_system" / "source"
+        pdfs = sorted(source_dir.glob("*.pdf"))
+        if not pdfs:
+            _err(f"No PDF found in {source_dir.relative_to(REPO_ROOT)} — cannot retry 0a.")
+            return 2
+        if len(pdfs) > 1:
+            _err(
+                f"Multiple PDFs in {source_dir.relative_to(REPO_ROOT)}: "
+                f"{[p.name for p in pdfs]}. Keep one and retry."
+            )
+            return 2
+        pdf_path = pdfs[0]
+        _info(f"phase: 0a · re-running Azure ingest on {pdf_path.name}")
+        update_phase(book_dir, phase="0a", status="running")
+        try:
+            phase_0a_ingest(book_dir, pdf_path, category, slug)
+        except RuntimeError as e:
+            update_phase(book_dir, phase="0a", status="failed", error=str(e))
+            _err(str(e))
+            return 2
+        update_phase(book_dir, phase="0a", status="completed")
+        phase_git_commit(book_dir, f"podcast({slug}): phase 0a Azure ingest (retry)")
+        title = _read_book_title(book_dir) or slug.replace("-", " ").title()
+        return _drive_authoring_through_0f(book_dir, title)
+
     # If we halted mid-0b/0c/0d/0e (LLM-authoring failure), retry from there.
     if current_phase in ("0b", "0c", "0d", "0e") and current_status in ("failed", "halted", "pending"):
         # Derive title from the BOOK_DIR's _README.md or use the slug as a fallback.
