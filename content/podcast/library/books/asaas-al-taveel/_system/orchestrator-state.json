@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "book_slug": "asaas-al-taveel",
+  "category": "books",
+  "branch": "book/asaas-al-taveel",
+  "phase": "scaffold",
+  "phase_status": "completed",
+  "last_completed_phase": "scaffold",
+  "next_phase": "0a",
+  "last_error": null,
+  "phases": {
+    "pre-flight": {
+      "status": "completed",
+      "ts_completed": "2026-05-20T09:42:51Z"
+    },
+    "branch": {
+      "status": "completed",
+      "ts_completed": "2026-05-20T09:42:51Z"
+    },
+    "scaffold": {
+      "status": "completed",
+      "ts_completed": "2026-05-20T09:42:51Z",
+      "book_dir": "content/podcast/library/books/asaas-al-taveel"
+    },
+    "0a": {
+      "status": "pending"
+    },
+    "0b": {
+      "status": "pending"
+    },
+    "0c": {
+      "status": "pending"
+    },
+    "0d": {
+      "status": "pending"
+    },
+    "0e": {
+      "status": "pending"
+    },
+    "0f": {
+      "status": "pending"
+    },
+    "0g": {
+      "status": "pending"
+    },
+    "per-chapter": {
+      "status": "pending"
+    },
+    "trainer": {
+      "status": "pending"
+    },
+    "merge": {
+      "status": "pending"
+    },
+    "done": {
+      "status": "pending"
+    }
+  },
+  "cost": {
+    "azure_usd": 0.0,
+    "anthropic_usd": 0.0
+  },
+  "wall_clock_sec": 0,
+  "ts_started": "2026-05-20T09:42:51Z",
+  "ts_updated": "2026-05-20T09:42:51Z",
+  "challenger_version": "2.0",
+  "orchestrator_version": "1.2",
+  "config": {
+    "length_tier": "extended",
+    "unit_mode": "auto"
+  }
+}
