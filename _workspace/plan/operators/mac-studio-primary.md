@@ -16,12 +16,12 @@ current_branch: book/asaas-al-taveel
 current_book: asaas-al-taveel
 current_book_dir: content/podcast/library/books/asaas-al-taveel
 authoritative_state_path: content/podcast/library/books/asaas-al-taveel/_system/orchestrator-state.json
-status_tag: ACTIVE
+status_tag: HOLDING
 current_phase: "0b"
-current_phase_status_summary: stale running-lock from SIGKILL; reset to failed, then --resume
-next_action: run session-start protocol, flip phase_status running→failed if no orchestrator alive, commit checkpoint, --resume 0b
+current_phase_status_summary: Phase 0b complete 2026-05-20T13:38:21Z (refined-english.md 10329 lines / 759 KB). Halted at P22 manual operator-transcript-review gate. operator-review.md + english-transcript.md mirror scaffolded; Claude pre-flagged pp. 21-27 (author's intro) dropped during 0b chunked refinement. Awaiting operator §§1-8. P22.impl + P4.10 enforcement code unshipped — Claude integrates decisions on "resume asaas" signal.
+next_action: Operator reads english-transcript.md, fills operator-review.md (§§1-8), signals "resume asaas" in chat. Claude then integrates per §What-happens-on-resume, commits operator decisions per row P22.git-policy, runs --resume.
 anthropic_share: 0.5
-last_verified_at: 2026-05-20T10:00:00Z
+last_verified_at: 2026-05-20T15:30:00Z
 last_updated: 2026-05-20
 ---
 
