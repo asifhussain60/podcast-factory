@@ -15,10 +15,10 @@ your current branch may be stale.
 
 ## Active assignments
 
-| Book                  | Machine                  | Branch                  | Status   | last_verified_at         |
-|-----------------------|--------------------------|-------------------------|----------|--------------------------|
-| `asaas-al-taveel`     | `mac-studio-primary`     | `book/asaas-al-taveel`  | ACTIVE   | 2026-05-20T10:00:00Z     |
-| `kitab-al-riyad`      | `macbook-air-secondary`  | `book/kitab-al-riyad`   | HOLDING  | 2026-05-19T19:06:50Z     |
+| Book                  | Machine                  | Branch                  | Status   | Phase | last_verified_at         |
+|-----------------------|--------------------------|-------------------------|----------|-------|--------------------------|
+| `asaas-al-taveel`     | `mac-studio-primary`     | `book/asaas-al-taveel`  | ACTIVE   | 0b (stale running-lock from SIGKILL) | 2026-05-20T10:00:00Z |
+| `kitab-al-riyad`      | `macbook-air-secondary`  | `book/kitab-al-riyad`   | HOLDING  | 0e (pending; 0a–0d complete; operator-held for quota) | 2026-05-20T10:30:00Z |
 
 **Status values**:
 - `ACTIVE` — machine is actively running the pipeline on this book

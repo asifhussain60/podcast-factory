@@ -13,11 +13,11 @@ current_book: kitab-al-riyad
 current_book_dir: content/podcast/library/books/kitab-al-riyad
 authoritative_state_path: content/podcast/library/books/kitab-al-riyad/_system/orchestrator-state.json
 status_tag: HOLDING
-current_phase: "0c"
-current_phase_status_summary: phase 0b complete; halted at P22 for operator transcript review of refined-english.md
-next_action: wait for Asif to complete P22 transcript review, then --resume 0c (Arabic phonetic pass)
+current_phase: "0e"
+current_phase_status_summary: phases 0a–0d complete; 0e (enrichment) pending; Air is operator-held to give Studio sole Anthropic quota during asaas Phase 0b
+next_action: await Asif's signal to resume; then --resume 0e (enrichment pass — bāb/fasl → concept-glossary)
 anthropic_share: 0.5
-last_verified_at: 2026-05-19T19:06:50Z
+last_verified_at: 2026-05-20T10:30:00Z
 last_updated: 2026-05-20
 ---
 
@@ -78,46 +78,55 @@ the orchestrator bugs (P5.x, P6.5) currently tracked on
 
 ## 3. Current state snapshot (re-verify on every session — do not trust this section)
 
-`last_verified_at: 2026-05-19T19:06:50Z`. At that moment:
+`last_verified_at: 2026-05-20T10:30:00Z`. At that moment, on `origin/book/kitab-al-riyad`:
 
-- **HEAD**: `f4e7970 podcast(kitab-al-riyad): halt after Phase 0b for operator transcript review`
-- **phase**: `0c`
-- **phase_status**: `running` (intentionally — held at P22 operator gate)
-- **last_completed_phase**: `0b` (completed 2026-05-19T19:06:50Z)
+- **HEAD**: `ec442f7 podcast(kitab-al-riyad): per-book scaffolding + 2 title tightenings (no LLM)`
+- **phase**: `0e`
+- **phase_status**: `pending` (next phase ready to start)
+- **last_completed_phase**: `0d`
 - **last_error**: `null`
 
 Recent commit story:
 ```
-f4e7970  halt after Phase 0b for operator transcript review            ← HEAD
-543e530  phase 0b English refinement (chunked)
-c5c87a4  chore: ignore _workspace/logs/ (orchestrator runtime logs)
-32c2688  feat(podcast/P6.1-integration): wire cost-ledger into _authoring + _chunking
-5eafdaa  feat(podcast/P5.2)+chore(plan): harden artifact check + close remaining blockers
-c12ecd7  fix(podcast/P5.1): --permission-mode acceptEdits on claude -p invocations
+ec442f7  per-book scaffolding + 2 title tightenings (no LLM)               ← HEAD
+e8163a2  fix(podcast/scripts): accept optional letter suffix in chapter filename regex
+76adac5  Phase 0d complete — ch13 (Bāb 10) + state flipped to 0e
+bdc7a04  Phase 0d advance — Bāb 9 complete (ch12b + 2 contracts)
+517b70d  Phase 0d advance — bābs 4-8 complete + ch11a partial of bāb 9
+b59b4d8  Phase 0c phonetic complete + Phase 0d partial (4/10 chapters segmented)
+29e7f85  phase 0c phonetic pass (chunked)
+09899d9  operator transcript review — approved with content-range 52–232 + bāb/§ naming
+4fafc05  add §6 abwāb/fusūl translation collision + §7 content range to operator-review
+f4e7970  halt after Phase 0b for operator transcript review
 ```
+
+The Air has driven 0c (Arabic phonetic), 0d (chapter segmentation; 13
+chapters with contracts), plus `_system/registry.md` / `enrichment-whitelist.md` /
+`mangle-map.md` / `meta-prose-tells.md` populated. All three validators pass clean.
+
+**Why HOLDING**: operator-imposed pause so the Studio has sole Anthropic
+quota for asaas Phase 0b. Not blocked by any pipeline gate.
 
 ---
 
 ## 4. Resume action plan
 
-Waiting on **Asif's P22 transcript review** of:
-
-- `content/podcast/library/books/kitab-al-riyad/_system/source/text/refined-english.md`
-- (when complete) `_system/operator-review.md` + `_system/content-range.md`
-
-Once Asif marks P22 complete (writes the review artifact + signals
-go-ahead), the Air's next step is:
+The Air is paused at the **0d→0e boundary** awaiting Asif's signal. When
+the Studio's asaas Phase 0b completes (or Asif explicitly un-holds the Air),
+the next step is:
 
 ```bash
-# Verify P22 artifacts exist
-ls content/podcast/library/books/kitab-al-riyad/_system/operator-review.md
-ls content/podcast/library/books/kitab-al-riyad/_system/content-range.md
+# Verify pre-0e artifacts are intact (13 chapters + 13 contracts)
+python3 scripts/podcast/check_chapter_set.py content/podcast/library/books/kitab-al-riyad --format text
+python3 scripts/podcast/check_lineage.py
+python3 scripts/podcast/validate_registry.py --registry content/podcast/library/books/kitab-al-riyad/_system/registry.md
 
-# Resume into Phase 0c (Arabic phonetic pass)
+# Resume into Phase 0e (enrichment pass — bāb/fasl → concept-glossary)
 python3 scripts/podcast/orchestrate_book.py --resume kitab-al-riyad
 ```
 
-Phase 0c is chunked `claude -p`; expect 1200s shell-out cycles same as 0b.
+Phase 0e is chunked `claude -p` per-chapter; expect 1200s shell-out cycles
+same as 0d. Multiple `--resume` rounds expected.
 
 ---
 
@@ -151,12 +160,12 @@ Phase 0c is chunked `claude -p`; expect 1200s shell-out cycles same as 0b.
 ## 7. Known orchestrator bugs
 
 See [coordination-protocol.md §12](coordination-protocol.md). Quick reference
-of bugs Air is most likely to hit on KaR's remaining phases (0c → 0g):
+of bugs Air is most likely to hit on KaR's remaining phases (0e → 0g):
 
-1. **1200s `claude -p` timeout** — expected on 0c/0d/0e. Just resume.
+1. **1200s `claude -p` timeout** — expected on 0e/0g. Just resume.
 2. **Stale `phase_status=running`** — flip to `failed` before `--resume`.
-3. **Phase 0d source-toc fasl counts off-by-one** — KaR already hit this
-   (Bāb 10 declared 16 fusūl, actual 15). Tolerable.
+3. **Phase 0d source-toc fasl counts off-by-one** — already hit (Bāb 10
+   declared 16 fusūl, actual 15). Tolerable; 0d is already past.
 4. **Cost-ledger silent fail** (P6.5) — ignore.
 
 ---
