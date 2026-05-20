@@ -2681,6 +2681,223 @@ phases:
     name: "Web upload for PDFs in dashboard"
     promote_when: "P12 mutation API stable; iCloud-folder discovery may suffice in interim"
 
+  - id: P23
+    wave: W2
+    name: "Episode Format Contract — tradition-agnostic standardization with audience_profile switch"
+    added: 2026-05-20
+    status: DRAFT
+    depends_on: [P4.9, P19.1, P22]
+    why: |
+      Across all books processed by the pipeline, episode-level structural
+      conventions (opening discipline, canonical-text citation form, revered-
+      figure honorifics, source-language preservation, esoteric-concept
+      analogical framing, vagueness handling, modern target-language
+      refinement, closing structure) are implicit, partially encoded in
+      multiple handbook files, or not encoded at all. The result is per-book
+      drift: equivalent passages produce inconsistent surface forms across
+      series; cross-episode anti-repetition is enforced only for Pattern 5
+      recursive-scaffold structures, not for chapter-intros; reverence
+      conventions are informal; and there is no machine-checkable contract
+      governing episode endings.
+
+      P23 lands a single SOURCE OF TRUTH handbook file
+      (content/podcast/.skill/handbook/episode-format-contract.md, DRAFT
+      shipped 2026-05-20) that codifies eight format rules (A-H) and four
+      audience profiles (traditional, modern-secular, clinical-wellness,
+      academic). The contract is TRADITION-AGNOSTIC: it references concrete
+      tradition data (revered figures, citation templates, source-language
+      preservation hotspots) by slug only, via per-tradition supplement
+      files under content/_shared/traditions/<slug>.md.
+
+      The contract activates ONLY when a series declares audience_profile in
+      its series-config.yaml. Absent profile = pre-2026-05-20 behavior =
+      zero regression. This is a load-bearing invariant.
+
+      Enforcement is layered:
+        1. Handbook = single source of truth (this file)
+        2. Phase-prompt addenda (via P19.1 substrate) inject contract slices
+           into phases 0b / 0e / 11 prompts at runtime
+        3. Challenger Category Q sub-checks validate framing output against
+           the contract; fixture-gated per existing challenger discipline
+
+      The design follows the same pattern as P4 numeric-symbolic-disambiguation:
+      handbook is the contract; phases cite it; challenger enforces it.
+    risk: |
+      R-CONTRACT-DRIFT: as the contract evolves, supplement files may fall
+      out of step with schema bumps. Mitigated by schema_version field on
+      both contract and supplement, validator refusal on schema mismatch,
+      and the registry file under content/_shared/traditions/_registry.md
+      tracking supplement status (DRAFT / SHIPPED / DEPRECATED).
+
+      R-OVERREACH: the contract MUST NOT contain tradition-specific content.
+      Mitigated by P23.1 acceptance criterion that the handbook file
+      contains zero tradition-named identifiers (revered-figure names,
+      canonical-text names, source-language scripts). Concrete data lives
+      ONLY in supplement files.
+    files:
+      - content/podcast/.skill/handbook/episode-format-contract.md          # NEW — the contract (DRAFT shipped 2026-05-20)
+      - content/_shared/traditions/                                          # NEW directory — per-tradition supplement files
+      - content/_shared/traditions/_registry.md                              # NEW — supplement registry
+      - scripts/podcast/_format_contract.py                                  # NEW — parser + validator + supplement loader
+      - scripts/podcast/_authoring.py                                        # MODIFY — phase 0b/0e/11 prompts read contract slices + supplement (when declared)
+      - infra/claude-agents/podcast-challenger/_rules.py                     # MODIFY — Category Q sub-checks (13 checks per handbook §13, includes Q-ENTITY-* from Q-CFG-7 resolution)
+      - scripts/podcast/tests/test_format_contract.py                        # NEW — parser + schema validation tests
+      - scripts/podcast/tests/test_format_contract_supplement.py             # NEW — supplement-file schema tests
+      - _learning/fixtures/format_contract/                                  # NEW directory tree — per-sub-check fixtures
+    tasks:
+      - id: P23.1
+        title: "Handbook + per-tradition supplement schema + validator"
+        files:
+          - content/podcast/.skill/handbook/episode-format-contract.md       # already DRAFT-shipped 2026-05-20
+          - content/_shared/traditions/_registry.md                          # NEW
+          - scripts/podcast/_format_contract.py                              # NEW
+          - scripts/podcast/tests/test_format_contract.py                    # NEW
+        spec: |
+          Land the contract handbook file + the supplement-file schema + the
+          validator. Contract is TRADITION-AGNOSTIC (the file itself contains
+          no tradition-specific identifiers). The validator:
+            • Parses series-config.yaml for audience_profile + source_tradition
+            • Validates supplement-file frontmatter against the schema in
+              episode-format-contract.md §3.2
+            • Refuses on schema_version mismatch
+            • Exposes CLI: scripts/podcast/_format_contract.py --validate <book-dir>
+            • Exposes loader: format_contract.load(book_dir) -> ContractView | None
+          The registry file lists known traditions with status (DRAFT /
+          SHIPPED / DEPRECATED); no concrete traditions are pre-populated by
+          this task (operator authors them as the corpus expands).
+        acceptance:
+          - "P23.1.handbook ✅ episode-format-contract.md exists; frontmatter validates against schema; contains zero tradition-specific identifiers (asserted by grep)"
+          - "P23.1.registry ✅ content/_shared/traditions/_registry.md exists with the supplement-file schema documented + empty SHIPPED table"
+          - "P23.1.validator ✅ scripts/podcast/_format_contract.py parses series-config.yaml + loads supplement file by slug; --validate exits 0 on conforming inputs, non-zero on schema mismatch"
+          - "P23.1.absence-default 🔒 When series-config.yaml omits audience_profile, validator returns ContractView=None and the orchestrator runs PRE-2026-05-20 behavior (verified against tiny-book golden fixture: byte-identical refined-english.md + chapters/*.txt)"
+          - "P23.1.schema-reverence ✅ Supplement schema declares BOTH honorifics_matrix (personal figures) AND reverent_entities (non-personal entities) per Q-CFG-7 resolution 2026-05-20"
+          - "P23.1.tests ✅ test_format_contract.py covers: (a) schema validation pass/fail, (b) absence-default produces None, (c) supplement file schema_version mismatch refused, (d) tradition-agnostic invariant grep test, (e) reverent_entities field optionality (supplement with only honorifics_matrix still validates)"
+
+      - id: P23.2
+        title: "Challenger Category Q — 13 sub-checks + fixture-gating"
+        files:
+          - infra/claude-agents/podcast-challenger/_rules.py                  # MODIFY
+          - _learning/fixtures/format_contract/                               # NEW directory tree
+          - _learning/fixtures/format_contract/Q-INTRO-ECONOMY/{golden,fails-loud}/
+          - _learning/fixtures/format_contract/Q-NO-REINTRO/{golden,fails-loud}/
+          - _learning/fixtures/format_contract/Q-CITE-FORMAT/{golden,fails-loud}/
+          - _learning/fixtures/format_contract/Q-HONORIFIC-DENSITY/{golden,fails-loud}/
+          - _learning/fixtures/format_contract/Q-HONORIFIC-MISSING/{golden,fails-loud}/
+          - _learning/fixtures/format_contract/Q-ENTITY-DENSITY/{golden,fails-loud}/         # Q-CFG-7 resolution
+          - _learning/fixtures/format_contract/Q-ENTITY-MISSING/{golden,fails-loud}/         # Q-CFG-7 resolution
+          - _learning/fixtures/format_contract/Q-ANALOGY-LABELED/{golden,fails-loud}/
+          - _learning/fixtures/format_contract/Q-NO-IDENTITY-CLAIM/{golden,fails-loud}/
+          - _learning/fixtures/format_contract/Q-SOURCELANG-PRESERVE/{golden,fails-loud}/
+          - _learning/fixtures/format_contract/Q-VAGUENESS-LABEL/{golden,fails-loud}/
+          - _learning/fixtures/format_contract/Q-CLOSING-3PART/{golden,fails-loud}/
+          - _learning/fixtures/format_contract/Q-PRACTICAL-QUESTION/{golden,fails-loud}/
+        spec: |
+          Implement Category Q (Format Contract Enforcement) with the 13
+          sub-checks documented in episode-format-contract.md §13. Each
+          sub-check:
+            • Receives ContractView (loaded by P23.1) + the framing artifact
+            • Returns a list of Finding objects (severity per §13 table)
+            • Has at least 1 golden fixture (passes clean) + 1 fails-loud
+              fixture (raises the expected finding); fixtures are HUMAN-
+              AUTHORED ONLY (per challenger anti-Goodhart invariant)
+          Severity escalation rule: Q-NO-IDENTITY-CLAIM is P0 (blocks ship);
+          all others are P1 or P2 per §13 table until corpus signal supports
+          escalation (Q-CFG-3 open question).
+
+          Activation gating: sub-checks that require source_tradition data
+          (Q-CITE-FORMAT, Q-HONORIFIC-DENSITY, Q-HONORIFIC-MISSING) emit
+          INFO-only findings when source_tradition is unset.
+        depends_on_local: [P23.1]
+        acceptance:
+          - "P23.2.rules ✅ Category Q registered in _rules.py with all 13 sub-checks; each is fixture-gated"
+          - "P23.2.fixtures ✅ ≥1 golden + ≥1 fails-loud fixture per sub-check (26+ fixtures total — 13 sub-checks × 2 fixtures min); fixtures are HUMAN-AUTHORED"
+          - "P23.2.severity ✅ Q-NO-IDENTITY-CLAIM emits P0; others P1/P2 per §13 table"
+          - "P23.2.absence ✅ Sub-checks that depend on source_tradition emit INFO-only findings when supplement is unset"
+          - "P23.2.regression ✅ Existing challenger fixtures (Categories A-P) still pass; no regression on already-shipped books"
+          - "P23.2.ci ✅ test_challenger.py runs Category Q fixtures; non-zero exit on any Q-fixture failure"
+
+      - id: P23.3
+        title: "Phase-prompt integration via P19.1 addenda substrate"
+        files:
+          - scripts/podcast/_authoring.py                                     # MODIFY — phase 0b/0e/11 prompt assembly
+          - content/podcast/.skill/handbook/_learned-addenda/05-refine-english.md  # NEW (or extend if exists) — references contract §10
+          - content/podcast/.skill/handbook/_learned-addenda/08-enrichment.md      # NEW or extend — references contract §8, §9
+          - content/podcast/.skill/handbook/_learned-addenda/11-per-chapter.md     # NEW or extend — references contract §4, §5, §6, §7, §8, §11
+        spec: |
+          Wire contract slices into the phase prompts via the P19.1 addendum
+          substrate. The addenda do NOT duplicate contract text — they cite
+          it. _authoring.py loads the contract (P23.1's loader) at the START
+          of each phase invocation; if ContractView is None, no addendum is
+          injected (zero regression).
+
+          Per-phase contract slice:
+            Phase 0b reads §10 (modern target-language refinement)
+            Phase 0e reads §8 + §9 (source-language preservation + vagueness)
+            Phase 11 reads §4, §5, §6, §7, §8, §11 (all framing-time rules)
+            Phase 12 (trainer) reads §13 only — Category Q findings as
+              learning signal; trainer NEVER modifies contract or supplement.
+
+          When source_tradition is declared, the per-tradition supplement
+          is loaded and injected as <tradition-supplement> XML alongside
+          the <format-contract> XML block.
+        depends_on_local: [P23.1, P23.2]
+        acceptance:
+          - "P23.3.addenda ✅ Three addendum files created under _learned-addenda/ citing the contract; each ≤ 1500 chars per P19.1 R9 cap"
+          - "P23.3.assembly ✅ _authoring.py phase 0b/0e/11 prompts include <format-contract> XML block when ContractView is non-None; do not include it when None"
+          - "P23.3.supplement ✅ When source_tradition is declared, <tradition-supplement> XML block is also injected; missing supplement file raises a typed error (not silent skip)"
+          - "P23.3.fixtures ✅ Phase-prompt regression fixtures (per P19.2) updated: 3 new fixtures asserting contract-injected prompt assembly is byte-stable across runs"
+          - "P23.3.zero-regression 🔒 Tiny-book golden fixture run with no audience_profile produces byte-identical refined-english.md + chapters/*.txt vs pre-2026-05-20 baseline"
+
+      - id: P23.4
+        title: "Per-tradition supplement schema documentation + authoring guide"
+        files:
+          - content/_shared/traditions/_authoring-guide.md                    # NEW
+          - content/_shared/traditions/_schema.example.md                     # NEW — annotated example
+        spec: |
+          Document the supplement-file authoring workflow for operators
+          who want to add a new tradition to the registry. The guide
+          includes:
+            • Step-by-step process (per episode-format-contract.md §15.3)
+            • Schema reference (per episode-format-contract.md §3.2)
+            • Anti-patterns and footguns
+            • Validator invocation
+            • Fixture-authoring guidance
+            • Registry promotion criteria
+          The annotated example file shows the schema in use WITHOUT
+          declaring any concrete tradition — every field is a placeholder
+          with explanatory comments.
+        depends_on_local: [P23.1]
+        acceptance:
+          - "P23.4.guide ✅ _authoring-guide.md exists; covers step-by-step process, validator usage, fixture guidance"
+          - "P23.4.example ✅ _schema.example.md exists; every field is a placeholder with comments (no concrete tradition declared)"
+          - "P23.4.book-agnostic 🔒 No book name and no specific tradition name appears in either file (asserted by grep)"
+
+      - id: P23.5
+        title: "Cross-handbook reference + cleanup"
+        files:
+          - content/podcast/.skill/handbook/episode-architecture.md           # MODIFY — add cross-reference to format contract §4
+          - content/podcast/.skill/handbook/two-host-framing.md               # MODIFY — add cross-reference to format contract §6
+          - content/podcast/.skill/handbook/numeric-symbolic-disambiguation.md # MODIFY — note format contract §7 complements R-NOMODERNIZE
+        spec: |
+          Add cross-references from the three existing handbook files that
+          intersect the contract's domain. No content is moved or removed
+          from existing files — only forward-references added. Preserves
+          backward compatibility of every existing handbook file.
+        depends_on_local: [P23.1]
+        acceptance:
+          - "P23.5.refs ✅ Three existing handbook files each contain a single one-line forward reference to episode-format-contract.md"
+          - "P23.5.no-content-moved 🔒 git diff on the three existing files shows ADDITIONS ONLY — zero deletions, zero modifications of existing lines"
+
+    acceptance:
+      - "P23.contract ✅ episode-format-contract.md handbook file exists; tradition-agnostic invariant holds (grep proof); frontmatter schema-validated"
+      - "P23.validator ✅ scripts/podcast/_format_contract.py parses, validates, loads contract + supplement files"
+      - "P23.challenger ✅ Challenger Category Q registered with 13 sub-checks; all fixture-gated"
+      - "P23.phases ✅ Phases 0b/0e/11 inject contract slices when audience_profile is declared"
+      - "P23.zero-regression 🔒 Books with no audience_profile in series-config.yaml produce byte-identical artifacts to pre-2026-05-20 baseline (verified across all corpus tiny-book + small-book golden fixtures)"
+      - "P23.book-agnostic 🔒 The contract handbook + the supplement schema + the authoring guide contain zero book-name references and zero tradition-specific identifiers (asserted by an automated grep test in CI)"
+      - "P23.docs ✅ episode-format-contract.md + _authoring-guide.md + _schema.example.md collectively document: audience profiles, 8 format rules, supplement-file schema, Category Q sub-checks, migration path"
+      - "P23.adoption-ready ✅ A new series can opt into the contract by adding 1 field (audience_profile) to series-config.yaml; existing series remain on pre-contract behavior unchanged"
+
 # -----------------------------------------------------------------------------
 # Open questions
 # -----------------------------------------------------------------------------
