@@ -19,6 +19,12 @@ Before any action, read in order:
 2. `reference/skill-bootstrap.md` — the shared SECTION 0 contract
 3. `reference/skill-registry.md` — file ownership table
 4. This file (SKILL.md) end-to-end.
+5. **`_workspace/plan/podcast-plan.yaml`** — the v2 podcast plan (added 2026-05-19). Specifically:
+   - `meta.scope_in` / `meta.scope_out` — the contracted boundaries Pass 5 enforces.
+   - `intelligence_sources` — files agents must consult before edits; Pass 5 L3 verifies existence.
+   - `async_safety` — wait-banner format + pre-edit checklist; Pass 5 L6 honors.
+   - `phases[]` — phase ids that Pass 5 L7 cross-checks against the HTML view.
+6. **`_workspace/plan/acceptance-criteria.md`** (if present) — the master checklist Pass 5 L10 syncs against the YAML.
 
 Severity is **P0 / P1 / P2 / P3** per bootstrap §2. Legacy labels (Critical / High / Medium / Low) map: Critical → P0, High → P1, Medium → P2, Low → P3. See "Severity tier mapping" below for per-pass examples.
 
@@ -62,13 +68,15 @@ Cowork T3 — file system access, git history, search, edit capabilities.
 
 ## Execution Model
 
-Every run executes **four passes** in sequence. Each pass produces findings. After all passes complete, a **repair plan** is generated and executed.
+Every run executes **five passes** in sequence (Pass 5 added 2026-05-19 to support the v2 podcast plan). Each pass produces findings. After all passes complete, a **repair plan** is generated and executed.
 
 ```
 Pass 1: Structure Auditor     → root clutter, misplaced files, folder violations
 Pass 2: Code Auditor          → dead code, orphaned files, redundant modules, stale imports
 Pass 3: Architecture Auditor  → App/Cowork drift, skill registry gaps, prompt orphans
 Pass 4: Brittleness Scanner   → stale cross-refs, missing contracts, regression traps
+Pass 5: Plan Conformance      → v2 plan YAML/MD/HTML parity, intelligence-source liveness,
+                                async-safety state, podcast↔journal boundary integrity
               │
               ▼
         Repair Plan → Preview → Execute (with user approval for destructive ops)
@@ -80,8 +88,10 @@ Pass 4: Brittleness Scanner   → stale cross-refs, missing contracts, regressio
 |---|---|
 | `--preview` | Findings + plan only, no execution. **Default.** |
 | `--fix` | Execute the repair plan (destructive ops need confirmation). |
-| `--pass <1-4>` | Run only one pass. |
+| `--pass <1-5>` | Run only one pass. |
 | `--root-only` | Shortcut: only Pass 1 Rule R1 (root hygiene). |
+| `--plan-only` | Shortcut: only Pass 5 (plan conformance + boundary + async-safety). |
+| `--plan-path <path>` | Override the default `_workspace/plan/podcast-plan.yaml` location (e.g., when reviewing a future second plan). |
 
 ---
 
@@ -283,6 +293,140 @@ grep -rnE 'trips/|trip-edit|trip-planner|dayone|FloatingChat|LogModule|InsertEve
 
 ---
 
+## Pass 5: Plan Conformance
+
+**Goal:** The phased plan at `_workspace/plan/podcast-plan.yaml` must remain (a) parseable, (b) internally consistent across YAML / README.md / view/index.html / research/findings.md, (c) grounded in actual repo paths (no broken `intelligence_sources`), (d) honored by the active orchestrator state (`async_safety` rules upheld), and (e) aligned with the boundary contract (podcast never writes to journal/clinical/quote libraries).
+
+### Rules
+
+| ID | Rule | Action |
+|---|---|---|
+| L1 | **YAML parses cleanly** — `ruby -r yaml -e "YAML.load_file('_workspace/plan/podcast-plan.yaml')"` exits 0; or `python3 -c "import yaml; yaml.safe_load(open('…'))"` if PyYAML installed. | Report syntax error with line/column; halt before fix. |
+| L2 | **Phase list reachable** — every phase referenced in `done_when` exists in `phases[].id`; every `depends_on` entry resolves to a real phase. | Flag dangling refs; suggest insertion or removal. |
+| L3 | **`intelligence_sources` paths exist** — each `path:` under `intelligence_sources.podcast.consult_before_any_edit` / `journal.consult_before_any_edit` / `cross_cutting` resolves to an extant file. Exceptions: paths containing `<book>` (template variable), paths containing `*` (glob), and paths whose `staleness_signal` declares them as a forward deliverable (literal match: `deliverable`, `created in`, `to be created`). | Flag missing paths; offer plausible-replacement suggestions from `git log` filename history. |
+| L4 | **Scope contracts honored** — no file inside `meta.scope_in` patterns imports from any file inside `meta.scope_out` patterns. | Run AST + grep check (see procedure below); flag any cross-import as **P0**. |
+| L5 | **Boundary contract (podcast → journal)** — under `scripts/podcast/**`, no `open(...,'w')` / `open(...,'a')` / `pathlib.Path(...).write_*` / shutil.copy* targets `content/babu-memoir/**`, `content/_shared/**`, `scripts/memoir/**`, or `scripts/site/**`. Reads of `content/_shared/arabic/**` are allowed (READ-ONLY exception). | Flag any write target as **P0**; the only allowed cross-skill write is `BOOK_DIR/_system/episode-drafts/EP##-*/proposed-library-entries.md`. |
+| L6 | **Async-safety state** — if any `orchestrator-state.json` shows `phase_status: running` with `ts_updated` within the last 5 minutes, AND a `pgrep -fl 'orchestrate_book\|claude -p\|extract_chapter\|build_episode'` returns non-empty, emit the wait-banner from `meta.async_safety.wait_banner_format` and HALT all subsequent passes that would touch the active book directory. | Halt + emit banner; do not fix. |
+| L7 | **HTML/YAML parity** — every phase id in `_workspace/plan/podcast-plan.yaml` `phases[].id` must appear in at least one file under `_workspace/plan/view/*.html` (the view system is split — `index.html` is the landing/capability surface; `phased-plan.html` is the canonical phase content; `acceptance-criteria.html` and `podcast-capabilities.html` are role-specific surfaces). | Flag any phase id missing from EVERY view HTML as **P2**. |
+| L8 | **Broken-ref audit after legacy-file cleanup** — for every basename listed under `meta.legacy_cleanup_basenames` (if present), every remaining mention in the repo must occur within 80 characters of one of the literal substrings: `deleted`, `retired`, `RETIRED`, `DELETED`, `closed`. | Flag unannotated mentions as **P1**. |
+| L9 | **HTML view freshness** — `_workspace/plan/view/index.html` mtime older than `_workspace/plan/podcast-plan.yaml` mtime → flag for re-render. (Best-effort check; the HTML is hand-edited, so age alone is not destructive; tag as **P3 advisory**.) | Flag. |
+| L10 | **Acceptance-criteria sync** — if `_workspace/plan/acceptance-criteria.md` exists, every ID mentioned on a checkbox row must resolve to one of: (a) a current phase id (`phases[].id`), (b) a current task id (`phases[].tasks[].id`), (c) an open-question id (`open_questions[].id`), (d) a risk id (`risks[].id`), (e) a legacy id retained for v2→v3 traceability (`phases[].legacy_id`, `phases[].tasks[].legacy_id`, or any key/value in `meta.legacy_id_map`). | Flag drift between checklist and canonical plan as **P1**. |
+
+### Procedure
+
+```bash
+PLAN="_workspace/plan/podcast-plan.yaml"
+
+# L1: YAML lint
+ruby -r yaml -e "YAML.load_file('$PLAN'); puts 'OK'" 2>&1
+
+# L2: Reachable phase ids
+ruby -r yaml -e "
+d=YAML.load_file('$PLAN')
+ids=d['phases'].map{|p|p['id']}.to_set
+d['phases'].each do |p|
+  (p['depends_on']||[]).each{|x| puts \"DANGLING depends_on: #{p['id']} -> #{x}\" unless ids.include?(x)}
+end
+(d['done_when']||[]).each{|line| ids.each{|i| } } # advisory only
+"
+
+# L3: intelligence_sources existence (forward-deliverable paths skipped)
+ruby -r yaml -e "
+d=YAML.load_file('$PLAN')
+forward = /deliverable|created in|to be created/i
+%w[podcast journal].each do |bucket|
+  (d['intelligence_sources'][bucket]['consult_before_any_edit']||[]).each do |row|
+    p=row['path']
+    next if p.include?('<book>') || p.include?('*')
+    next if row['staleness_signal'].to_s =~ forward
+    File.exist?(p) || puts(\"MISSING: #{bucket} -> #{p}\")
+  end
+end
+(d['intelligence_sources']['cross_cutting']||[]).each do |row|
+  next if row['staleness_signal'].to_s =~ forward
+  File.exist?(row['path']) || puts(\"MISSING: cross_cutting -> #{row['path']}\")
+end
+"
+
+# L4: scope_in/scope_out cross-imports (Python AST is conservative; grep is fast)
+grep -rnE '^from scripts\.(memoir|site)\b|^import scripts\.(memoir|site)\b' scripts/podcast/ 2>/dev/null
+grep -rnE '^from scripts\.podcast\b|^import scripts\.podcast\b' scripts/memoir/ scripts/site/ 2>/dev/null
+
+# L5: boundary writes
+grep -rnE '(open\([^)]*content/babu-memoir|open\([^)]*content/_shared|open\([^)]*scripts/memoir|open\([^)]*scripts/site|shutil\.copy[^(]*\([^)]*content/babu-memoir)' scripts/podcast/ 2>/dev/null
+
+# L6: async safety
+ACTIVE=$(pgrep -fl 'orchestrate_book|claude -p|extract_chapter|build_episode' 2>/dev/null)
+RUNNING_STATES=$(find content/podcast/library/books/*/_system/orchestrator-state.json -type f 2>/dev/null | xargs -I{} grep -l '"phase_status": "running"' {} 2>/dev/null)
+if [ -n "$ACTIVE" ] && [ -n "$RUNNING_STATES" ]; then
+  echo "ASYNC ACTIVE — emit wait banner from meta.async_safety.wait_banner_format and HALT."
+fi
+
+# L7: HTML/YAML phase parity — phase id must appear in at least one view HTML.
+# Implemented in Ruby for shell portability (bash word-splits `$VAR`; zsh does not).
+ruby -r yaml -e "
+phase_ids = YAML.load_file('$PLAN')['phases'].map{|p| p['id']}
+htmls = Dir.glob('_workspace/plan/view/*.html')
+bodies = htmls.map{|f| File.read(f) }
+missing = phase_ids.reject{|id| bodies.any?{|b| b.include?(id) } }
+if missing.empty?
+  puts \"L7 CLEAN (#{phase_ids.size} phase ids covered across #{htmls.size} view html(s))\"
+else
+  missing.each{|id| puts \"HTML missing phase reference (no view/*.html contains): #{id}\" }
+end
+"
+
+# L8: broken-ref annotation for deleted basenames (if list is provided in meta.legacy_cleanup_basenames)
+ruby -r yaml -e "
+bases = YAML.load_file('$PLAN').dig('meta','legacy_cleanup_basenames') || []
+exit if bases.empty?
+bases.each do |b|
+  refs = \`grep -rln '#{b}' --include='*.md' --include='*.html' --include='*.py' --include='*.yaml' . 2>/dev/null | grep -v '/.git/' | grep -v '_workspace/plan/' | grep -v '_workspace/.chats/'\`.split(\"\\n\")
+  refs.reject!(&:empty?)
+  refs.each do |f|
+    File.foreach(f).with_index(1) do |line, n|
+      next unless line.include?(b)
+      next if line =~ /deleted|retired|RETIRED|DELETED|closed/i
+      puts \"UNANNOTATED: #{f}:#{n} -> #{b}\"
+    end
+  end
+end
+"
+
+# L10: acceptance-criteria sync (when file exists) — includes legacy_id mappings
+[ -f _workspace/plan/acceptance-criteria.md ] && \
+  ruby -r yaml -e "
+  d=YAML.load_file('$PLAN')
+  ids = (d['phases']||[]).flat_map{|p| [p['id'], p['legacy_id']] + ((p['tasks']||[]).flat_map{|t| [t['id'], t['legacy_id']]})}.compact.flat_map{|x| x.is_a?(String) ? [x] : []}.to_set
+  ids.merge((d['open_questions']||[]).map{|q|q['id']}.compact)
+  ids.merge((d['risks']||[]).map{|r|r['id']}.compact)
+  legacy_map = d.dig('meta','legacy_id_map') || {}
+  ids.merge(legacy_map.keys.map(&:to_s))
+  ids.merge(legacy_map.values.map(&:to_s))
+  File.foreach('_workspace/plan/acceptance-criteria.md').with_index(1) do |line, n|
+    next unless line =~ /^\\s*-\\s*\\[/
+    refs = line.scan(/\\b([PQR]\\d+[a-z]?(?:\\.\\d+)?)\\b/).flatten
+    next if refs.empty?
+    refs.each{|r| ids.include?(r) || puts(\"acceptance-criteria.md:#{n} references unknown id: #{r}\")}
+  end
+  "
+```
+
+### When to invoke Pass 5
+
+- Before every commit on `plan/*` branches.
+- After every merge into `develop` that touches `_workspace/plan/**`, `scripts/podcast/**`, or `docs/architecture/podcast-*.html`.
+- After any legacy-file cleanup commit (verifies broken refs are annotated).
+- Before invoking the orchestrator (verifies async-safety + boundary).
+
+### What Pass 5 deliberately does NOT do
+
+- Does not edit the plan itself — that is the operator's authoring decision.
+- Does not change `intelligence_sources` paths automatically (suggestions are advisory).
+- Does not touch `book/*` branch state files even with `--fix`.
+
+---
+
 ## Severity tier mapping (per-pass examples)
 
 | Pass | Finding type | Severity |
@@ -295,6 +439,14 @@ grep -rnE 'trips/|trip-edit|trip-planner|dayone|FloatingChat|LogModule|InsertEve
 | Pass 4 (Brittleness) | Hardcoded path in code | **P1** |
 | Pass 4 | TODO older than 30 days | **P2** |
 | Pass 4 | TODO older than 180 days | **P1** |
+| Pass 5 (Plan Conformance) | YAML doesn't parse | **P0** |
+| Pass 5 | Boundary contract violation (podcast writes journal-library path) | **P0** |
+| Pass 5 | Async-safety violation while orchestrator running | **P0** (halt) |
+| Pass 5 | `intelligence_sources` path missing in repo | **P1** |
+| Pass 5 | HTML view missing a phase id from YAML | **P2** |
+| Pass 5 | `acceptance-criteria.md` references unknown id | **P1** |
+| Pass 5 | Unannotated reference to a deleted legacy basename | **P1** |
+| Pass 5 | HTML view mtime older than YAML mtime | **P3** advisory |
 
 ---
 
