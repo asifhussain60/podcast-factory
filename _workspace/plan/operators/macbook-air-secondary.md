@@ -3,10 +3,10 @@ schema_version: 1
 machine_id: macbook-air-secondary
 role: secondary
 description: Secondary machine for podcast-pipeline work; currently driving kitab-al-riyad
-hostname_hint: (Air hostname — populate on first run from the Air)
+hostname_hint: Asifs-MacBook-Air.local
 operator: Asif Hussain (asifhussain60@gmail.com)
 worktree_layout:
-  - path: (TBD — the Air's repo path, e.g., /Users/asifhussain/PROJECTS/journal)
+  - path: /Users/asifhussain/PROJECTS/journal
     branch: book/kitab-al-riyad
 current_branch: book/kitab-al-riyad
 current_book: kitab-al-riyad
@@ -17,7 +17,7 @@ current_phase: "0e"
 current_phase_status_summary: phases 0a–0d complete; 0e (enrichment) pending; Air is operator-held to give Studio sole Anthropic quota during asaas Phase 0b
 next_action: await Asif's signal to resume; then --resume 0e (enrichment pass — bāb/fasl → concept-glossary)
 anthropic_share: 0.5
-last_verified_at: 2026-05-20T10:30:00Z
+last_verified_at: 2026-05-20T11:17:42Z
 last_updated: 2026-05-20
 ---
 
@@ -25,12 +25,6 @@ last_updated: 2026-05-20
 
 **This file is written ONLY by `macbook-air-secondary`.** The Studio reads
 it but never writes it. See [coordination-protocol.md §1](coordination-protocol.md).
-
-> NOTE — bootstrap: this file was authored from the Studio side on 2026-05-20
-> to seed the coordination layer. On the Air's next session, populate the
-> `hostname_hint` and `worktree_layout[].path` fields in the frontmatter
-> and remove this note. Until then, treat the frontmatter as the Studio's
-> best-known view, not the Air's self-report.
 
 ---
 
@@ -61,9 +55,8 @@ jq '{phase, phase_status, last_completed_phase, last_error}' \
 
 - **Machine**: MacBook Air
 - **Role**: secondary — supplementary podcast-pipeline machine
-- **Hostname**: (populate on first Air-side run)
-- **Marker**: `~/.machine-id` contains `macbook-air-secondary` (must be
-  created on the Air machine; not yet bootstrapped from Studio)
+- **Hostname**: `Asifs-MacBook-Air.local`
+- **Marker**: `~/.machine-id` contains `macbook-air-secondary`
 - **Operator**: Asif Hussain
 
 ---
@@ -78,27 +71,30 @@ the orchestrator bugs (P5.x, P6.5) currently tracked on
 
 ## 3. Current state snapshot (re-verify on every session — do not trust this section)
 
-`last_verified_at: 2026-05-20T10:30:00Z`. At that moment, on `origin/book/kitab-al-riyad`:
+`last_verified_at: 2026-05-20T11:17:42Z`. At that moment, on `origin/book/kitab-al-riyad`:
 
-- **HEAD**: `ec442f7 podcast(kitab-al-riyad): per-book scaffolding + 2 title tightenings (no LLM)`
+- **HEAD**: `5b13338 podcast(kitab-al-riyad): merge develop — broaden **/_chunks/ ignore`
 - **phase**: `0e`
 - **phase_status**: `pending` (next phase ready to start)
 - **last_completed_phase**: `0d`
 - **last_error**: `null`
 
-Recent commit story:
+Recent commit story (latest 10):
 ```
-ec442f7  per-book scaffolding + 2 title tightenings (no LLM)               ← HEAD
-e8163a2  fix(podcast/scripts): accept optional letter suffix in chapter filename regex
-76adac5  Phase 0d complete — ch13 (Bāb 10) + state flipped to 0e
-bdc7a04  Phase 0d advance — Bāb 9 complete (ch12b + 2 contracts)
-517b70d  Phase 0d advance — bābs 4-8 complete + ch11a partial of bāb 9
-b59b4d8  Phase 0c phonetic complete + Phase 0d partial (4/10 chapters segmented)
-29e7f85  phase 0c phonetic pass (chunked)
-09899d9  operator transcript review — approved with content-range 52–232 + bāb/§ naming
-4fafc05  add §6 abwāb/fusūl translation collision + §7 content range to operator-review
-f4e7970  halt after Phase 0b for operator transcript review
+5b13338  podcast(kitab-al-riyad): merge develop — broaden **/_chunks/ ignore  ← HEAD
+2f5c59f  Merge feat/podcast-w1-foundation into develop — broaden **/_chunks/ ignore
+a53c600  chore(gitignore): broaden _chunks/ to **/_chunks/
+93f3080  podcast(kitab-al-riyad): merge develop — pick up workspace cleanup
+b7c47af  Merge feat/podcast-w1-foundation into develop
+feb1d7a  podcast(kitab-al-riyad): merge develop — pick up cross-machine operator-index layer
+75ed4cf  chore(workspace): tidy root sprawl and organize into named subfolders
+dcb3d5b  podcast(coord): correct Air state — KaR is at Phase 0e pending (0a-0d done)
+fa3ef70  podcast(coord): bootstrap cross-machine operator-index layer
+ec442f7  podcast(kitab-al-riyad): per-book scaffolding + 2 title tightenings (no LLM)
 ```
+
+The KaR pipeline work is at `ec442f7` and earlier; the commits above it are
+develop-merge churn (coord layer bootstrap, workspace cleanup, gitignore tweaks).
 
 The Air has driven 0c (Arabic phonetic), 0d (chapter segmentation; 13
 chapters with contracts), plus `_system/registry.md` / `enrichment-whitelist.md` /
