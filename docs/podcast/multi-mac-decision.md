@@ -94,4 +94,4 @@ The source PDFs CAN live in iCloud (e.g., `~/Library/Mobile Documents/com~apple~
 
 - `_workspace/plan/podcast-plan.yaml` `open_questions[Q1]` — the question this doc resolves.
 - `_workspace/plan/podcast-plan.yaml` `risks[R3]` — the multi-host state-divergence risk this design mitigates.
-- `_workspace/primary-mac-activation.md` — the operator's setup record for the current primary Mac.
+- `_workspace/runbooks/primary-mac-activation.md` — the operator's setup record for the current primary Mac.
