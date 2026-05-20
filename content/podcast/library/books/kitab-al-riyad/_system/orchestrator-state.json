@@ -10,7 +10,7 @@
   "last_error": {
     "phase": "0d",
     "message": "LLM call timed out after 1200s.",
-    "ts": "2026-05-19T23:43:15Z"
+    "ts": "2026-05-20T01:07:45Z"
   },
   "phases": {
     "pre-flight": {
@@ -43,7 +43,7 @@
     "0d": {
       "status": "failed",
       "ts_started": "2026-05-19T21:56:45Z",
-      "ts_completed": "2026-05-19T23:43:15Z",
+      "ts_completed": "2026-05-20T01:07:45Z",
       "manual_fallback": "Resume manually via /podcast and `--resume` the orchestrator."
     },
     "0e": {
@@ -74,7 +74,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-05-18T22:51:13Z",
-  "ts_updated": "2026-05-19T23:43:15Z",
+  "ts_updated": "2026-05-20T01:07:45Z",
   "challenger_version": "2.0",
   "orchestrator_version": "1.1"
 }
