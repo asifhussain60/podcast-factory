@@ -31,19 +31,53 @@ If a passage reads wrong in English, note the PDF page number (`<!-- page N -->`
 
 ## 2. Missing or scrambled passages
 
-> ⚠️ **Pre-filled defect — Claude flagged on scaffold (2026-05-20):**
+> ⚠️ **Pre-filled defect — Claude audit found systematic page-marker stripping (2026-05-20, post-scaffold audit):**
 >
-> **Pages 21–27 are MISSING from `refined-english.md`.** They exist in `_system/source/text/raw-extract.md` (the Phase 0a output) but were dropped during Phase 0b chunked refinement.
+> **Content is preserved across all 416 PDF pages, BUT 58 pages' worth of `<!-- page N -->` anchors were stripped by 7 of the 49 Phase 0b chunked windows.** The refined text exists; the page-anchoring metadata does not. This breaks content-range precision (P4.10) and citation accuracy in framing (P21), but downstream phases 0c/0d/0e can still process the body as continuous prose.
 >
-> The 7-page gap covers the **author's introduction**: al-Nuʿmān's own preamble, including his cross-reference to his earlier *Pillars of Islam* and his framing of why this book matters. `raw-extract.md` line 451+ has the heading "Author's Introduction / In the name of God, the Most Gracious…" — none of this made it into `refined-english.md`, which jumps from `<!-- page 18 -->` (editor's intro tail) straight to `<!-- page 28 -->` (mid-author-introduction, "The Messenger of Allah… every Qur'anic verse has an outer and an inner").
+> **Affected windows (input page-range → markers preserved in output):**
 >
-> **Why this matters:** the author's introduction is the only place al-Nuʿmān explicitly states his project — that this book is the foundational Ismaili treatment of *taʾwīl*. EP01's framing ("the hidden code") leans on this voice. Without pp. 21–27, the listener loses the author's own opening declaration.
+> | Window | Input pages | Markers in output | Refined-english.md gap |
+> |---|---|---:|---|
+> | win-003 | 19–27 (editor's intro tail + author's intro) | 0 of 9 | L187 → L321 (134 lines content present, no page anchors) |
+> | win-007 | 53–61 (Ādam cycle body) | 0 of 9 | L679 → L828 (149 lines content present, no anchors) |
+> | win-016 | 130–139 (Ibrāhīm cycle body) | 0 of 10 | L2186 → L2380 (194 lines content, no anchors) |
+> | win-019 | 161–169 (Ibrāhīm/Mūsā body) | 0 of 9 | L3035 → L3246 (211 lines content, no anchors) |
+> | win-029 | 252–258 (Mūsā cycle body) | 0 of 7 | L5174 → L5317 (143 lines content, no anchors) |
+> | win-038 | 323–328 (Muḥammad cycle body) | 0 of 6 | L7133 → L7354 (221 lines content spans both 038 + 039, no anchors) |
+> | win-039 | 329–335 (Muḥammad cycle body) | 0 of 7 | (continuous with 038) |
+> | win-046 | 379–384 (back-matter) | 5 of 6 (lost p. 382) | L8708 → L8866 |
+> | win-049 | 407–416 (French RTL tail) | 9 of 10 (lost p. 410) | tail; will be excluded via content-range anyway |
+> | win-010 | 80–87 (Nūḥ cycle body) | 9 of 8 (+1 hallucinated marker) | requires page-number sanity check |
 >
-> **Three options:**
+> **Verified content samples in the gap regions:**
 >
-> - [ ] **(A) Re-refine pages 21–27 from raw-extract before Phase 0c** (Recommended) — splice them into refined-english.md at line 320, between `<!-- page 18 -->` and `<!-- page 28 -->`. ~30 min of focused `claude -p` work.
-> - [ ] **(B) Accept the gap; flag for Phase 0g** — let EP01's framing rely on PDF pp. 3–18 (editor's intro) for author voice; document the gap in registry.md.
-> - [ ] **(C) Operator splices manually** — read raw-extract pp. 21–27 and paste a polished English version into `english-transcript.md` at the right slot; I'll mirror into refined-english.md on resume.
+> - L213 of refined: `"Author's Introduction\n\nIn the name of God, the Most Gracious, the Most Merciful…"` — al-Nuʿmān's preamble is INTACT, just unmappable to p. 21 specifically
+> - L7135 of refined (within 038/039 gap): `"In Gospel of John 15:26–27 it is said: 'And the Comforter whom I will send to you…'"` — the John Paraclete quote that should be on p. 323–335 IS present
+> - L5316 of refined (within 029 gap): legal-ruling content + Dawud/Sulayman judgment dialogue ("Entrust her to me, and overpower me in the argument") — present
+>
+> **Why this matters even though content is preserved:**
+>
+> - **Content-range (P4.10) precision is broken** for the 58 unmarked pages. We can't say "skip pp. 130–139" if those markers don't exist. Downstream defaults to processing the whole gap (which is fine if all of it is body content, as it appears to be — these 7 windows span body chapters only).
+> - **Citation accuracy in framing** (Phase 0g) is degraded — a beat that wants to cite "see al-Nuʿmān on p. 134" can't anchor precisely.
+> - **Operator navigation** is harder — jumping to "page 134" via `<!-- page 134 -->` search won't find it.
+> - **Loop N numeric-disambiguation** may flag fewer false positives but also fewer true positives in the unmarked spans.
+>
+> **Root-cause hypothesis:** Phase 0b's refinement prompt template likely doesn't enforce "preserve every `<!-- page N -->` comment verbatim." Some windows happened to keep them (most), some dropped them entirely (7), one hallucinated an extra (win-010). The pattern looks like LLM "tidying" the output during heavy-prose paragraphs.
+>
+> **Four options:**
+>
+> - [ ] **(A) Re-run the 7 affected windows with a stricter "preserve all page markers verbatim" prompt** (Recommended; ~$3–4 Anthropic cost; ~20 min wall-clock; produces correct page anchoring for downstream).
+> - [ ] **(B) Reconstruct markers deterministically** — distribute the missing N page-comments evenly across the corresponding output text by line proportion (cheap, free, approximate-OK for content-range; citation precision still degraded).
+> - [ ] **(C) Accept the metadata loss; rely on chapter-level anchoring** — Phase 0d's chapter boundaries are still anchored at marked pages (Nūḥ at p. 76 ✅, Ibrāhīm at p. 107 ✅, Mūsā at p. 179 ✅ — note: p. 179 marker preserved, body continues across the 252–258 hole). EP01-EP06 framing still works; just no per-page cite precision.
+> - [ ] **(D) Fix the Phase 0b refinement prompt template** (orchestrator code change in `_phase_0b.py` or similar; preserves the fix for all future books). Out of scope for asaas resume but the cleanest long-term fix.
+>
+> **My recommendation:** A for asaas (cost is small, anchoring matters for content-range) + flag D for the next book.
+
+Other passages you spot during review:
+
+- Page __ — (description)
+- Page __ — (description)
 
 Other passages you spot during review:
 
@@ -138,18 +172,19 @@ The refined-english.md is **10,329 lines / 416 PDF pages**. Per `chapters-ration
 schema_version: 1
 body_starts_at_page: 33      # Chapter 1 (Ādam) opens here; refined line 398
 body_ends_at_page: 368       # Chapter 6 (Muḥammad) closes here; refined line 8091
-include_author_preface: false  # author's intro pp. 21–32 — currently broken (see §2); revisit after splice decision
+include_author_preface: false  # author's intro pp. 21–32 content IS in refined (L213+) but page anchors stripped (see §2)
 include_author_toc: false      # author's own TOC at pp. 369–372 — structural-only
 front_matter_summary: |
   Pages 1-32: cover (1-4), editor's intro by Arif Tāmir (5-20), author's
-  introduction (21-32 — partially missing from refined-english.md; see §2).
-  If §2 option A or C is taken, body_starts_at_page may move to 21
-  (operator decision).
+  introduction (21-32 — content present at refined L213+ but page-marker
+  anchors stripped by 0b window 003; see §2 audit table).
 back_matter_summary: |
   Pages 369-408: indexes — names of prophets/figures clusters at pp. 402-408
   (cross-reference for EP01's glossary). Pages 409-416: French editor's
   intro re-OCR'd as if body content (Phase 0a artifact; pure duplication).
 ```
+
+**Caveat on page-anchor precision:** the 58-page hole in page markers (§2) means body content within those windows (pp. 53–61, 130–139, 161–169, 252–258, 323–335 — all inside [33, 368]) gets *fully processed* but cannot be selectively excluded. Practically, that's fine since all 58 affected pages are body content the operator wants included.
 
 **Special consideration — editor's note on the unwritten 7th chapter:**
 
