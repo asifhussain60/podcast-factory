@@ -187,7 +187,7 @@ def append_books_index_row(category: str, book_slug: str, title: str) -> bool:
     return True
 
 
-def scaffold(category: str, book_slug: str, title: str, author: str | None, force: bool) -> int:
+def scaffold(category: str, book_slug: str, title: str, author: str | None, force: bool, allow_existing: bool = False) -> int:
     if category not in ALLOWED_CATEGORIES:
         print(
             f"ERROR: category {category!r} not in {sorted(ALLOWED_CATEGORIES)}",
@@ -196,11 +196,12 @@ def scaffold(category: str, book_slug: str, title: str, author: str | None, forc
         return 1
 
     book_dir = book_dir_for(category, book_slug)
-    if is_non_empty(book_dir) and not force:
+    if is_non_empty(book_dir) and not force and not allow_existing:
         print(
             f"ERROR: {book_dir.relative_to(REPO_ROOT)} exists and is non-empty.\n"
             f"  Re-run with --force to overwrite stub files (existing chapter "
-            f"and contract files are still preserved unless they collide).",
+            f"and contract files are still preserved unless they collide), "
+            f"or --allow-existing to fill in only missing stubs (preflight-artifacts mode).",
             file=sys.stderr,
         )
         return 1
@@ -290,6 +291,12 @@ def main() -> int:
     ap.add_argument("title", help='Human-readable title, e.g. "The Master and the Disciple"')
     ap.add_argument("--author", default=None, help="Author name, free text")
     ap.add_argument("--force", action="store_true", help="Overwrite stub files in a non-empty BOOK_DIR")
+    ap.add_argument(
+        "--allow-existing",
+        action="store_true",
+        help="Fill in only missing stub files when BOOK_DIR is non-empty "
+             "(preflight-artifacts mode: registry.md / concept-glossary.md / source/ pre-staged).",
+    )
     args = ap.parse_args()
 
     if len(args.book_slug) > 40 or not args.book_slug.replace("-", "").isalnum():
@@ -299,7 +306,7 @@ def main() -> int:
         )
         return 1
 
-    return scaffold(args.category, args.book_slug, args.title, args.author, args.force)
+    return scaffold(args.category, args.book_slug, args.title, args.author, args.force, args.allow_existing)
 
 
 if __name__ == "__main__":
