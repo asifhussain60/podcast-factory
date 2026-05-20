@@ -3,11 +3,15 @@
   "book_slug": "asaas-al-taveel",
   "category": "books",
   "branch": "book/asaas-al-taveel",
-  "phase": "scaffold",
-  "phase_status": "completed",
+  "phase": "0a",
+  "phase_status": "failed",
   "last_completed_phase": "scaffold",
   "next_phase": "0a",
-  "last_error": null,
+  "last_error": {
+    "phase": "0a",
+    "message": "ingest_source.py failed (rc=1):\nTraceback (most recent call last):\n  File \"/Users/ahmac/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py\", line 1321, in do_open\n    h.request(req.get_method(), req.selector, req.data, headers,\n    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n              encode_chunked=req.has_header('Transfer-encoding'))\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/ahmac/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py\", line 1367, in request\n    self._send_request(method, url, body, headers, encode_chunked)\n    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/ahmac/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py\", line 1413, in _send_request\n    self.endheaders(body, encode_chunked=encode_chunked)\n    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/ahmac/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py\", line 1362, in endheaders\n    self._send_output(message_body, encode_chunked=encode_chunked)\n    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/ahmac/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py\", line 1122, in _send_output\n    self.send(msg)\n    ~~~~~~~~~^^^^^\n  File \"/Users/ahmac/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py\", line 1066, in send\n    self.connect()\n    ~~~~~~~~~~~~^^\n  File \"/Users/ahmac/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py\", line 1501, in connect\n    super().connect()\n    ~~~~~~~~~~~~~~~^^\n  File \"/Users/ahmac/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py\", line 1032, in connect\n    self.sock = self._create_connection(\n                ~~~~~~~~~~~~~~~~~~~~~~~^\n        (self.host,self.port), self.timeout, self.source_address)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/ahmac/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py\", line 874, in create_connection\n    raise exceptions[0]\n  File \"/Users/ahmac/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py\", line 859, in create_connection\n    sock.connect(sa)\n    ~~~~~~~~~~~~^^^^\nConnectionRefusedError: [Errno 61] Connection refused\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/Users/ahmac/Code/Journal-book-asaas/scripts/podcast/ingest_source.py\", line 273, in <module>\n    raise SystemExit(main())\n                     ~~~~^^\n  File \"/Users/ahmac/Code/Journal-book-asaas/scripts/podcast/ingest_source.py\", line 209, in main\n    final_text = _azure.translate_text(\n        translator, ocr_text, src_lang=args.src_lang, tgt_lang=\"en\"\n    )\n  File \"/Users/ahmac/Code/Journal-book-asaas/scripts/podcast/_azure.py\", line 365, in translate_text\n    status, _, body = _http(\"POST\", url, headers=headers, body=payload)\n                      ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/ahmac/Code/Journal-book-asaas/scripts/podcast/_azure.py\", line 197, in _http\n    with urllib.request.urlopen(req, timeout=timeout) as resp:\n         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/ahmac/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py\", line 187, in urlopen\n    return opener.open(url, data, timeout)\n           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/ahmac/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py\", line 487, in open\n    response = self._open(req, data)\n  File \"/Users/ahmac/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py\", line 504, in _open\n    result = self._call_chain(self.handle_open, protocol, protocol +\n                              '_open', req)\n  File \"/Users/ahmac/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py\", line 464, in _call_chain\n    result = func(*args)\n  File \"/Users/ahmac/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py\", line 1369, in https_open\n    return self.do_open(http.client.HTTPSConnection, req,\n           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n                        context=self._context)\n                        ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/ahmac/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py\", line 1324, in do_open\n    raise URLError(err)\nurllib.error.URLError: <urlopen error [Errno 61] Connection refused>\n\n==> Source: /Users/ahmac/Code/Journal-book-asaas/content/podcast/library/books/asaas-al-taveel/_system/source/Asaas Al-Taveel.pdf  (10,265,378 bytes)\n==> Book:   content/podcast/library/books/asaas-al-taveel\n==> Doc Intelligence: submitting prebuilt-read …\n    OCR done: 416 pages, 490,821 chars, 30.1s\n==> Translator: ar → en, chunked …\n",
+    "ts": "2026-05-20T09:43:45Z"
+  },
   "phases": {
     "pre-flight": {
       "status": "completed",
@@ -23,7 +27,9 @@
       "book_dir": "content/podcast/library/books/asaas-al-taveel"
     },
     "0a": {
-      "status": "pending"
+      "status": "failed",
+      "ts_started": "2026-05-20T09:42:51Z",
+      "ts_completed": "2026-05-20T09:43:45Z"
     },
     "0b": {
       "status": "pending"
@@ -62,7 +68,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-05-20T09:42:51Z",
-  "ts_updated": "2026-05-20T09:42:51Z",
+  "ts_updated": "2026-05-20T09:43:45Z",
   "challenger_version": "2.0",
   "orchestrator_version": "1.2",
   "config": {

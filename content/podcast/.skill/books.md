@@ -21,3 +21,4 @@ table with these columns (extra columns tolerated):
 - `Status` — one of `draft`, `challenger-pending`, `ready`, `generated`, `archived`
 - `Date Started`, `NotebookLM URL` — optional metadata
 | books | kitab-al-riyad | Kitab al-Riyad | [registry](../library/books/kitab-al-riyad/_system/registry.md) |
+| books | asaas-al-taveel | Asaas al-Taʾwīl | [registry](../library/books/asaas-al-taveel/_system/registry.md) |
