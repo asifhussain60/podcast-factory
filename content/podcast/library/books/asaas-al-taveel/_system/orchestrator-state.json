@@ -3,8 +3,8 @@
   "book_slug": "asaas-al-taveel",
   "category": "books",
   "branch": "book/asaas-al-taveel",
-  "phase": "0a",
-  "phase_status": "completed",
+  "phase": "0b",
+  "phase_status": "running",
   "last_completed_phase": "0a",
   "next_phase": "0b",
   "last_error": null,
@@ -28,7 +28,8 @@
       "ts_completed": "2026-05-20T09:55:57Z"
     },
     "0b": {
-      "status": "pending"
+      "status": "running",
+      "ts_started": "2026-05-20T09:55:57Z"
     },
     "0c": {
       "status": "pending"
