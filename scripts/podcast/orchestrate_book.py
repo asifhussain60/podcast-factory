@@ -259,7 +259,18 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
             "Was this book started via orchestrate_book.py?"
         )
 
-    # 2. Working tree clean
+    # 2. F8 sweep — auto-remove orphan episode-drafts/EP* directories before
+    #    the tree-clean check so partial-write residue from a prior failed
+    #    per-chapter pass doesn't block resume. Idempotent; only removes
+    #    dirs that don't correspond to any current chapter contract.
+    try:
+        n_swept = _sweep_orphan_episode_drafts(book_dir)
+        if n_swept:
+            _info(f"pre-flight sweep: removed {n_swept} orphan episode-drafts/ subdir(s)")
+    except Exception as _e:  # noqa: BLE001 — sweep failure must not poison pre-flight
+        _info(f"pre-flight sweep: skipped ({_e!r})")
+
+    # 3. Working tree clean
     rc, out, _ = _git("status", "--porcelain")
     if rc != 0 or out.strip():
         fails.append("working tree not clean. Commit or stash first, then --resume.")
@@ -909,6 +920,60 @@ def _drive_authoring_through_0f(book_dir: Path, title: str) -> int:
     return 0
 
 
+def _sweep_orphan_episode_drafts(book_dir: Path) -> int:
+    """F8 fix (2026-05-21): auto-delete stale `episode-drafts/EP##-...` directories
+    whose names don't match any current chapter's expected episode_id.
+
+    Stale dirs accumulate when an X-class fix causes the orchestrator to halt
+    mid-flight on a partial framing write — the directory persists across
+    resumes and blocks pre-flight (tree-not-clean). Manual `rm -rf` was needed
+    on every failure cycle before this sweep landed.
+
+    For each chapter contract, computes the expected directory name using the
+    same digit-only prefix extraction as per_chapter_pass() (X3) and
+    author_framing() (X7). Any episode-drafts subdirectory whose name is NOT
+    in the expected set gets removed.
+
+    Forensics: the orphan dirs are partial outputs from failed runs and have
+    no shipping value — the orchestrator's log files capture the failure
+    context. Auto-delete is the simpler invariant; no rename+filter dance.
+
+    Returns the count of dirs removed.
+    """
+    import re as _re
+    import shutil
+
+    drafts_dir = book_dir / "_system" / "episode-drafts"
+    if not drafts_dir.is_dir():
+        return 0
+
+    contracts_dir = book_dir / "chapter-contracts"
+    if not contracts_dir.is_dir():
+        return 0
+
+    chapter_slugs = sorted(p.stem for p in contracts_dir.glob("*.yml"))
+    chapters_dir = book_dir / "chapters"
+    expected: set[str] = set()
+    for slug in chapter_slugs:
+        matches = list(chapters_dir.glob(f"ch*-{slug}.txt"))
+        if not matches:
+            continue
+        chap_prefix = matches[0].stem.split("-", 1)[0]  # e.g. "ch14b"
+        m = _re.match(r"ch(\d+)", chap_prefix)
+        chap_num = m.group(1) if m else chap_prefix[2:]
+        expected.add(f"EP{chap_num}-{slug}")
+
+    removed = 0
+    for entry in sorted(drafts_dir.iterdir()):
+        if not entry.is_dir():
+            continue
+        if entry.name not in expected:
+            shutil.rmtree(entry)
+            _info(f"  swept orphan episode-draft: removed {entry.name}/")
+            removed += 1
+    return removed
+
+
 def _drive_per_chapter_and_after(book_dir: Path) -> int:
     """After Phase 0f approval, drive per-chapter loop + 0g + trainer + merge."""
     book_slug = book_dir.name
@@ -922,6 +987,12 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
             "Phase 0d should have produced them. Cannot proceed."
         )
         return 2
+
+    # F8 sweep — remove any orphan episode-drafts/EP* directories before the loop
+    # (defense in depth; preflight_resume() also runs this).
+    n_swept = _sweep_orphan_episode_drafts(book_dir)
+    if n_swept:
+        _info(f"per-chapter sweep: removed {n_swept} orphan episode-drafts/ subdir(s)")
 
     state = read_state(book_dir) or {}
     completed_chapter_slugs = set(

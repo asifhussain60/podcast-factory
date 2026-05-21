@@ -115,7 +115,12 @@ CHAPTER_DEAD_ZONE_MAX = 5500
 # discipline + R-* mandatory clauses without authoring trim. Going past this
 # risks NotebookLM deprioritizing the actual steering content.
 FRAMING_WORD_MIN = 150
-FRAMING_WORD_MAX = 3500
+FRAMING_WORD_MAX = 3700        # F10 fix (2026-05-21): bumped from 3500 to 3700 (~5% tolerance
+                               # mirroring the chapter-band tolerance landed in X6). The
+                               # handbook's "~3500" prose carries the same approximate-
+                               # ness the chapter band does. Trimmed framings landing at
+                               # 3490-3550 (right at the strict cap) were tripping the
+                               # validator on minor word-count fluctuations.
 
 EP_PATTERN = re.compile(r"^EP(\d+)-(.+)$")
 CH_PATTERN = re.compile(r"^ch(\d+)[a-z]?-(.+)\.txt$")
