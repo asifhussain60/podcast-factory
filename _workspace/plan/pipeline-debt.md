@@ -21,7 +21,8 @@ Both Air and Studio sessions write to this file (multi-writer, per `operators/co
 | F11 | Iter-1 SHIP verdict + iter-2 challenger timeout treated as chapter failure even though episode already shipped | 2026-05-21 (KaR EP04/EP07/EP08 — all shipped at iter 1, all marked FAILED on iter-2 timeout) | Medium | Open | — |
 | F12 | Episode IDs derived from chapter filename digits, not from `contract.episode_number`; gaps in listener-facing numbering after chapter drops | 2026-05-21 (KaR EP04/EP07/EP10/EP12/EP14 with missing EP01-EP02 after ch01a/ch02b drops) | Medium | Open | — |
 | F13 | Phase 0e enrichment leaks inline `(pho-net-ic — gloss)` parens into chapter txt despite R-PHONETICS-OUT; observed only in some chapters (ch15) while siblings are clean | 2026-05-21 (KaR ch15 — 18 inline phonetics on terms + 1 on people-name `Abu Hatim al-Razi`) | Medium | Open | — |
-| F14 | Chapter prose + framing repeat Arabic names many times per episode; NotebookLM TTS mangles each occurrence into multiple inconsistent garbled forms (one chapter = 8+ variants of `al-Kirmani`); listeners hear pronunciation noise instead of substance | 2026-05-21 (KaR Ch07 audio transcript review) | **High** | Open | — |
+| F14 | Chapter prose + framing repeat Arabic names many times per episode; NotebookLM TTS mangles each occurrence into multiple inconsistent garbled forms (one chapter = 8+ variants of `al-Kirmani`); listeners hear pronunciation noise instead of substance | 2026-05-21 (KaR Ch07 audio transcript review) | **High** | Triaged (X15 added per-figure rotation-set discipline to Phase 0g framing-gen prompt + KaR name-aliases.yml; takes effect on next orchestrator launch for remaining 5 chapters) | — |
+| F15 | Phase 0g framing-gen produces "two hosts unpacking" dynamic instead of "explainer vs genuine challenger"; over-explanation, premature resolution of central tension, analogy proliferation (14+ analogies in one Ch07 episode) | 2026-05-21 (independent GPT review of KaR Ch07 transcript) | **High** | Triaged (X16 added R-DRAMATIC-ARC + R-CHALLENGER-FRICTION + R-ANALOGY-CAP + R-RECURRING-THESIS to Phase 0g framing-gen prompt; takes effect on next orchestrator launch) | — |
 
 ---
 
@@ -234,6 +235,43 @@ Both Air and Studio sessions write to this file (multi-writer, per `operators/co
 **KaR-specific remediation (out-of-band):** the 7 already-shipped KaR episodes carry the defect in their generated audio. Options: (a) accept the cost; re-upload after a chapter-prose + framing edit pass; (b) accept what shipped and apply the framework fix to future books only. The 6 chapters still in the queue can benefit from a framing-level fix immediately — patch the framing-gen prompt with the rotation-set instructions before they run.
 
 **Verification:** Re-author one chapter's framing with the strengthened name-discipline section; have NotebookLM regenerate the episode; transcript audit should show ≤2 Arabic-name occurrences per figure and natural rotation among English aliases.
+
+---
+
+### F15 — Framing produces "two hosts unpacking" dynamic instead of "explainer vs genuine challenger"
+
+**Where:** `scripts/podcast/_authoring.py:author_framing()` — the framing-gen prompt; specifically the `## Host dynamic`, `## Central tensions`, and `## Three-part focus` instructions.
+
+**What goes wrong:** Surfaced 2026-05-21 by an independent GPT review of the KaR Ch07 NotebookLM-generated audio transcript. Four structural defects:
+
+1. **Second host too agreeable.** Transcript shows phrases like "That is a remarkably precise analogy", "That beautifully maps al-Kirmani's intent", "That is the perfect translation" — supportive-explainer dynamic instead of genuine-challenger dynamic. The episode reads like a polished lecture disguised as dialogue.
+2. **Central tension introduced + resolved too quickly.** The crisis ("if higher and lower realities are categorically different, how do they connect at all?") is stated, then both reformers' positions, al-Kirmani's correction, and several analogies are explained before the listener has time to feel the problem.
+3. **Analogy proliferation.** Ch07's 30-minute episode contains 14+ distinct analogies (footprint, political border, messenger, white-coat doctor, glass-and-stone, fulcrum, sphere, pie chart, cathedral, ladder/mountain/valley, seven seas, solar panels, wax-seal). Some are valuable; cumulative effect is fatigue.
+4. **Thesis stated once, not repeated.** Al-Kirmani's central settled formula ("contact does not require resemblance — it requires rank, receptivity, and transmitted power") is stated once and never returned to. Listener loses the anchor.
+
+**Impact:** Listener gets information but not suspense; the philosophical stakes (an-Nusra's universe-disconnection fear) are explained but don't land emotionally; the episode's intellectual richness is undermined by structural choices.
+
+**Proposed fix (4 parts, all in Phase 0g framing-gen prompt):**
+
+1. **Narrative-arc template for debate-format chapters.** Add a 6-beat structural arc to the framing's `## Three-part focus` template:
+   - Beat 1: crisis statement (state the problem so the listener feels its stakes)
+   - Beat 2: failed answer A (al-Islah's position; let it sound reasonable)
+   - Beat 3: failed answer B (al-Nusra's position; same)
+   - Beat 4: al-Kirmani's pivot (the move that escapes both)
+   - Beat 5: non-bodily correction (why category mistakes were made)
+   - Beat 6: human/political stakes (why this matters beyond metaphysics)
+   - Beat 7 (closing): unresolved listener question
+2. **Challenger-discipline section in host_dynamic.** Require the Color host (or scholar_companion) to genuinely push back. Examples of acceptable pushback openings: "I don't buy that yet…", "That sounds like wordplay…", "Isn't this just replacing X with Y…", "How is this different from hiding the problem under a different word…". Forbid agreeable affirmations as a host's FIRST sentence ("That's a remarkably precise…", "That beautifully maps…", "Perfect translation…"). The Color host's role is FRICTION, not chorus.
+3. **Analogy budget — cap at 3–5 governing analogies.** The framing's `## Tone constraints` enumerates the chosen governing analogies UPFRONT (e.g., "for this chapter use these 3: footprint, messenger, light-through-glass-and-stone"). Hosts elaborate on the chosen ones, but cannot introduce new analogies mid-episode. Forbidden mid-episode invention.
+4. **Recurring-thesis rule.** The chapter's central settled formula (from `contract.anchor_passages`) must be repeated 3 times across the episode: once at the open, once at the pivot, once at the close. Framing's `## Opening directive` + `## Three-part focus` + `## Landing` instructions explicitly reference the repetition rule.
+
+**Push-back on GPT's recommendation:** GPT recommended capping analogies at 3. We recommend 3–5 — for dense philosophical chapters, 3 may be too few for the listener to find footholds across 30 minutes of audio. 5 governing analogies allows breadth without descending into the 14-analogy fatigue Ch07 produced.
+
+**Related root cause (separate framework gap):** ch07's contract assigned `host_dynamic: curious_mind + scholar_companion`, which is supportive-by-design — the wrong host pairing for an adjudicative chapter that debates two reformers. Adjudicative chapters should default to `advocate_a + advocate_b + arbiter`. Phase 0d host-dynamic-selection heuristic needs review (queue as F16 if not already triaged by series-plan classification rules).
+
+**KaR-specific remediation (out-of-band):** the 7 already-shipped KaR episodes carry this defect. The 6 remaining chapters can benefit from X16 (the Phase 0g prompt patch) on next orchestrator launch. Re-doing the 7 shipped is the same Middle Path vs Full Remediation decision as F14.
+
+**Verification:** Re-author one debate-format chapter's framing with X16 in place; regenerate; transcript audit should show ≤5 distinct analogies, ≥3 challenger-pushback moments, central thesis repeated 3 times, and the 6-beat narrative arc visible in pacing.
 
 ---
 
