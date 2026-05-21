@@ -4,10 +4,14 @@
   "category": "books",
   "branch": "book/kitab-al-riyad",
   "phase": "per-chapter",
-  "phase_status": "halted",
+  "phase_status": "failed",
   "last_completed_phase": "0e",
   "next_phase": "per-chapter",
-  "last_error": null,
+  "last_error": {
+    "phase": "per-chapter",
+    "message": "chapter the-intellect-as-the-first-creation failed: extract_chapter.py failed for 'kitab-al-riyad/ch06-the-intellect-as-the-first-creation': rc=1: ERROR: /Users/asifhussain/PROJECTS/journal/content/podcast/library/books/kitab-al-riyad/_system/episode-drafts/EP06-the-intellect-as-the-first-creation/00-framing.md already exists and differs from th",
+    "ts": "2026-05-21T22:04:17Z"
+  },
   "phases": {
     "pre-flight": {
       "status": "completed",
@@ -61,7 +65,7 @@
       "status": "pending"
     },
     "per-chapter": {
-      "status": "pending",
+      "status": "failed",
       "completed_slugs": [
         "motion-stillness-hyle-and-form",
         "prophets-as-teachers-monotheism-and-the-ranks",
@@ -72,9 +76,10 @@
         "tawhid-and-the-critique-of-al-mahsul",
         "the-human-as-fruit-of-the-worlds"
       ],
-      "reset_note": "Bug X5 (2026-05-21): chapter files contained inline phonetic-style parens (*term* (lowercase-hyphenated; gloss)) \u2014 R-PHONETICS-OUT violations per spec. Deterministic strip applied across all 14 chapters (157 parens total stripped). Phonetics already in customize prompts via Phase 0c pronunciation block \u2014 no semantic loss. motion-stillness still in completed_slugs.",
+      "reset_note": "Bug X5 (2026-05-21): chapter files contained inline phonetic-style parens (*term* (lowercase-hyphenated; gloss)) — R-PHONETICS-OUT violations per spec. Deterministic strip applied across all 14 chapters (157 parens total stripped). Phonetics already in customize prompts via Phase 0c pronunciation block — no semantic loss. motion-stillness still in completed_slugs.",
       "ts_started": "2026-05-21T11:24:27Z",
-      "ts_completed": "2026-05-21T21:56:29Z"
+      "ts_completed": "2026-05-21T22:04:17Z",
+      "failed_slug": "the-intellect-as-the-first-creation"
     },
     "trainer": {
       "status": "pending"
@@ -92,7 +97,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-05-18T22:51:13Z",
-  "ts_updated": "2026-05-21T21:56:29Z",
+  "ts_updated": "2026-05-21T22:04:17Z",
   "challenger_version": "2.0",
   "orchestrator_version": "1.1"
 }

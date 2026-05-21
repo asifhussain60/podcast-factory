@@ -117,6 +117,12 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 | F20 | Arabic names (person, book, author) in chapter prose AND framing leak into spoken audio; NotebookLM TTS cannot reliably pronounce them; editorial principle shift: knowledge is the key, not the references | 2026-05-21 (Asif's editorial doctrine after Ch07 v2 review) | **High** | Open | — |
 | F21 | Book-title references in spoken audio need natural-language wrapping ("the book *The Harvest*") rather than bare English title ("The Harvest") to disambiguate from poems/metaphors/ideas | 2026-05-21 (Asif refinement to F20) | Medium | Open | — |
 | F22 | Extended-tier length target needs to be 45-60 min (not 30-45) for dense scholarly content; bumped via X18 in Phase 0g framing-gen prompt; testing on Ch07 v3 upload | 2026-05-21 (Asif directive after Ch07 v2 audio review) | Medium | Triaged (X18 patch in `_authoring.py:author_framing()` Opening-directive line; Ch07 v3 lab carries the new directive as the empirical test) | — |
+| F23 | Pipeline has no chapter-relevance check vs book-thesis; editorial-intro chapters and off-topic appendices reach Phase 0d/0e/0f without being flagged; only caught by manual review (cost KaR ~2 hr + a mid-pipeline drop of ch01a) | 2026-05-21 (Asif Q1 — surfaced during synthesis on forward-prevention) | Medium | Open | — |
+| F24 | Alqaab/honorific titles need functional-paraphrase discipline; literal translation of obscure alqaab into English damages register ("the Striker"); only established renderings (Commander of the Faithful, Lion of God) are spoken; novel alqaab become functional paraphrases ("one of his martial honorifics") | 2026-05-21 (Asif recommendation doc — TTS-Safe Arabic Name/Title/Honorific Handling) | **High** | Open | — |
+| F25 | Show-notes (`99-show-notes.md`) lack a structured apparatus-table; freeform paragraphs make scholarly traceability inconsistent; need per-term row schema (Original / Transliteration / Category / Audio Label / First Use / Later Use / Speak? / Reason) so written layer formally carries what audio layer drops | 2026-05-21 (Asif recommendation doc — written-apparatus formalization) | **High** | Open | — |
+| F26 | `name-aliases.yml` schema is too thin — only `canonical` + `first_mention` + `aliases[]`; needs to absorb `original_arabic`, `transliteration`, `written_display`, `role_in_argument`, `forbidden_spoken_forms[]` per figure; Phase 0d should auto-emit the richer schema (Tier 3 backlog) | 2026-05-21 (Asif recommendation doc — F23 schema integration) | Medium | Open | — |
+| F27 | TTS-safe audit is currently a manual checklist (audit-checklist.md); must become a code-side validator suite in `build_episode_txt.py` to satisfy M1 (LLM ignores prompt-only rules); validators needed: `assert_no_arabic_transliteration_in_chapter_or_framing`, `assert_alqaab_only_established_or_paraphrased`, `assert_show_notes_has_apparatus_table`, `assert_framing_no_modern_artifacts`, `assert_framing_analogy_cap_strict`, `assert_framing_honorific_bounded_both_sides` | 2026-05-21 (synthesis of v3 audit + recommendation doc) | **High** | Open (this is the Tier 2.5 validator burst, now formalized) | — |
+| F28 | Backward-compat decision needed for already-shipped episodes (EP04, 06, 07, 08, 09, 10, 12, 14, 15) once F20+F21+F24+F25 doctrine is locked; options: (a) re-emit all under new doctrine (~6.5 hrs), (b) grandfather them as v1-quality (cost: inconsistency across series); KaR-specific but template-setting for all future books | 2026-05-21 (synthesis of recommendation doc adoption sequence) | Medium | Open (decision needed) | — |
 
 ---
 
@@ -461,6 +467,153 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 - Scripture is the exception: "the Quran" is already unambiguous; doesn't need "the book the Quran". Hadith collections become "the canonical hadith collection" rather than "the book *Sahih al-Bukhari*".
 
 **Verification:** apply prompt patch; transcript audit shows every English book-title is preceded or followed by the word "book" in conversation, OR uses an unambiguous descriptor ("the earlier work", "the corrective treatise").
+
+---
+
+### F23 — Pipeline has no chapter-relevance check vs book-thesis
+
+**Where:** Phases 0a → 0f. No stage compares a chapter's content against the book's thesis.
+
+**What goes wrong:** PDFs commonly include editor's introductions, appendices, bibliographies, or off-topic material that survives Phase 0a (ingest) and Phase 0b (refine) untouched. Phase 0d clusters them into chapter chunks; Phase 0e writes contracts for them; Phase 0f's series-plan ordering takes them as given. Only manual Phase 0f review catches drift — and only if a human notices.
+
+**Concrete cost (KaR):** ch01a was an editor's introduction discussing manuscript stemma and editorial discovery, not al-Kirmani's philosophy. It survived Phases 0a-0e and only got dropped at Phase 0f after ~2 hours of manual review. State.json then needed surgery to remove the chapter from `completed_slugs` and contracts.
+
+**Proposed fix:** Add a Phase 0d.5 "book-coherence" sub-step:
+1. Extract book-level thesis from cover + preface + author-intro into a one-sentence `book_thesis.md`.
+2. For each chapter, score relevance against the thesis (LLM semantic similarity + topical-alignment).
+3. Flag any chapter below threshold as "drift candidate" → human review at Phase 0f gate.
+4. Output: `book-coherence.md` with per-chapter scores + flagged items.
+
+**Verification:** run against KaR — ch01a should score below threshold; ch07-ch15 should score high.
+
+---
+
+### F24 — Alqaab/honorific titles need functional-paraphrase discipline
+
+**Where:** Phase 0e (chapter authoring) + Phase 0g (framing-gen). Specifically: any moment a chapter introduces an Arabic alqaab (honorific title) for a figure.
+
+**What goes wrong:** Three failure modes when chapters reference alqaab:
+1. **Literal English translation damages register.** "The Striker" (al-Karrar / al-Daraab) sounds like a sports nickname; "The Returner" sounds like a fantasy character.
+2. **Multiple alqaab for the same figure clutter audio.** Ali has Asadullah, al-Murtada, al-Karrar, Haydar — speaking all of these confuses identity tracking even if pronounced correctly.
+3. **TTS mangles even well-known alqaab.** "Asadullah" → various unrecognizable forms.
+
+**Editorial principle (from Asif's recommendation doc):** Use only established English forms with scholarly currency (Commander of the Faithful, Lion of God). For novel/obscure alqaab, use **functional paraphrase** that describes the title's role rather than translating it literally.
+
+**Proposed fix:** Phase 0e prompt patch:
+- Allowed spoken forms: `Commander of the Faithful`, `Lion of God`, and any alqaab with established English form in scholarly literature.
+- Novel alqaab → functional paraphrase: "one of his martial honorifics," "a traditional title associated with his rank," "a devotional title emphasizing sacred authority."
+- Phase 0e contract `figures[].audio_label` field becomes the single audio anchor.
+- Written show-notes (F25) carry the literal alqaab in scholarly form.
+
+**Verification:** validator `assert_alqaab_only_established_or_paraphrased` scans framing + chapter for any unfamiliar transliterated alqaab; passes only if every honorific is either on the allowed list OR is a functional paraphrase.
+
+---
+
+### F25 — Show-notes apparatus-table schema
+
+**Where:** Phase 0g — `99-show-notes.md` emission.
+
+**What goes wrong:** Current show-notes are freeform paragraphs. Scholarly traceability requires structured per-term mapping so the listener (or a future researcher) can move from "the author" in audio to "Hamid al-Din al-Kirmani" in the written record. Freeform paragraphs make this lookup inconsistent across episodes.
+
+**Editorial principle (from Asif's recommendation doc):** Every audio script must be accompanied by a written name-and-title table.
+
+**Proposed schema:**
+```markdown
+## Name and Title Preservation Table
+
+| Original / Transliteration | Category | Written Form | Audio Label | First Audio Use | Later Audio Use | Speak in Audio? | Reason |
+|---|---|---|---|---|---|---|---|
+| Ḥamīd al-Dīn al-Kirmānī | Person | Hamid al-Din al-Kirmani | the author | the author of the book at hand | the author | No | TTS instability |
+| Abū Ḥātim al-Rāzī | Person | Abu Hatim al-Razi | the first reformer | the first reformer | the first reformer | No | TTS instability |
+| al-Sahifa al-Sajjadiyya | Book | al-Sahifa al-Sajjadiyya / The Psalms of Islam | the book *The Psalms of Islam* | the book *The Psalms of Islam* | the book | No Arabic | Risk of conflation with Sahih al-Bukhari |
+| Amir al-Mu'minin | Honorific | Amir al-Mu'minin | Commander of the Faithful | Commander of the Faithful | the Commander of the Faithful | Yes, English only | Established English rendering |
+```
+
+**Categories:** `Person` | `Book` | `Title/Alqaab` | `Concept` | `Technical term` | `Quranic surah` | `Geographic name`
+
+**Proposed fix:** Phase 0g emits the apparatus table as the head of `99-show-notes.md`; validator `assert_show_notes_has_apparatus_table` checks for the table header + at least N rows per chapter.
+
+**Verification:** for KaR, the apparatus-table should have ~25 rows per episode (author + 2 reformers + 4 Imams + 3 books + 8 concept-words + 5 honorifics + ~2 surahs).
+
+---
+
+### F26 — `name-aliases.yml` schema evolution
+
+**Where:** `content/podcast/library/books/<book>/_system/name-aliases.yml` per book; consumed by Phase 0g framing-gen.
+
+**Current schema:**
+```yaml
+- canonical: al-Kirmani
+  first_mention: "the author of the book at hand"
+  aliases: ["the author", "the master", "our author"]
+```
+
+**What's missing:** Recommendation doc's F23 schema adds fields the validators and the apparatus-table (F25) both need:
+- `original_arabic` — for written-layer rendering
+- `transliteration` — academic form (e.g., "Ḥamīd al-Dīn al-Kirmānī")
+- `written_display` — readable English form ("Hamid al-Din al-Kirmani")
+- `role_in_argument` — single English sentence ("author of the book under discussion")
+- `forbidden_spoken_forms` — explicit list for code-side regex check ("al-Kirmani", "Kirmani", "al-Karman", etc.)
+
+**Stable-roles doctrine (v4 finding):** Collapse `aliases[]` to a single `audio_label` per figure. Rotation aliases hurt identity tracking.
+
+**Proposed schema:**
+```yaml
+- original_arabic: حميد الدين الكرماني
+  transliteration: Ḥamīd al-Dīn al-Kirmānī
+  written_display: Hamid al-Din al-Kirmani
+  role_in_argument: the author of the book under discussion
+  audio_label: the author
+  first_audio_introduction: "the author of the book at hand"
+  forbidden_spoken_forms:
+    - al-Kirmani
+    - Kirmani
+    - al-Kirmaani
+    - Hamid al-Din al-Kirmani
+  category: Person
+```
+
+**Proposed fix:** Phase 0d auto-emits the richer schema (Tier 3 backlog ticket); migrate existing `name-aliases.yml` files (KaR has one); validator `assert_name_aliases_schema_v2` checks structure.
+
+**Verification:** Phase 0d run on a book produces the v2 schema; Phase 0g framing-gen consumes `audio_label` (not `aliases[]`).
+
+---
+
+### F27 — TTS-safe audit must be a code-side validator suite
+
+**Where:** `scripts/podcast/build_episode_txt.py` — currently has 6 `assert_*` validators from Tier 2; needs ~6 more.
+
+**What goes wrong:** Audit-as-checklist depends on a human (Asif) listening and marking PASS/FAIL. v3 audit proved this catches doctrine violations after the fact but doesn't *prevent* them. M1 (LLM ignores prompt-only rules) keeps repeating because there's no code-side enforcement.
+
+**Proposed validator additions (Tier 2.5):**
+- `assert_no_arabic_transliteration_in_chapter` — regex for "al-", "Abū", "Ibn", apostrophes, hyphenated Arabic patterns; fails if any survive in chapter.txt.
+- `assert_no_arabic_transliteration_in_framing` — same regex applied to framing.md.
+- `assert_alqaab_only_established_or_paraphrased` — alqaab whitelist + paraphrase pattern detection.
+- `assert_framing_no_modern_artifacts` — banned modern-vocabulary list (TV, broadcast, 4K, cosplay, etc.).
+- `assert_framing_analogy_cap_strict` — extracts analogy-like patterns ("think of it like", "imagine a", "it's like when") and checks against the framing's declared 3 governing analogies + banned list.
+- `assert_framing_honorific_bounded_both_sides` — each honorific exactly 1 occurrence; not 0, not 2+.
+- `assert_show_notes_has_apparatus_table` — F25 enforcement.
+- `assert_name_aliases_schema_v2` — F26 enforcement.
+
+**Verification:** run on KaR Ch07 v4 lab; should pass all validators if v4 doctrine holds. Run on Ch07 v3 lab; should FAIL on alqaab + modern-artifacts + analogy-cap (which is exactly what the v3 audio audit found by ear).
+
+---
+
+### F28 — Backward-compat decision for shipped episodes
+
+**Where:** All shipped episodes in `content/podcast/library/books/<book>/episodes/`.
+
+**What goes wrong:** Once F20+F21+F24+F25+F26+F27 doctrine is locked, the 9 already-shipped KaR episodes (EP04, 06, 07, 08, 09, 10, 12, 14, 15) will fail the new validators. Future books will pass; shipped books will sit at v1-quality.
+
+**Options:**
+
+1. **Re-emit all under new doctrine.** Cost: ~9 episodes × ~30 min hand-effort each + audio re-generation = 6.5+ hrs. Benefit: consistent series quality.
+2. **Grandfather them as v1-quality.** Cost: 0 hrs. Drawback: inconsistency; listeners get pre-doctrine quality on early episodes and post-doctrine quality on later ones.
+3. **Hybrid.** Re-emit only the worst offenders (probably EP07 and EP14b based on prior audits); grandfather the rest.
+
+**Decision needed.** This is template-setting — what we do for KaR shapes what we do for every book that ships pre-v4 doctrine.
+
+**Asif to decide.** No verification step until decision is made.
 
 ---
 
