@@ -18,6 +18,8 @@ Both Air and Studio sessions write to this file (multi-writer, per `operators/co
 | F8 | Stale `episode-drafts/EP*` directories accumulate across X-class fix cycles; no auto-clean on resume | 2026-05-21 (KaR EP14b/EP12/EP04) | Low | Triaged (X13 added _sweep_orphan_episode_drafts() in preflight_resume + _drive_per_chapter_and_after; idempotent removal) | — |
 | F9 | R-PHONETICS-OUT pattern #1 was over-broad; suggests rule-set audit for intent/implementation alignment | 2026-05-21 (KaR EP14 first attempt) | Low | Triaged ([X5](https://github.com/asifhussain60/Journal/commit/c9424dd) fixed pattern #1; audit remaining patterns) | — |
 | F10 | Word-band rules with "~" prose use exact thresholds in code (no tolerance) | 2026-05-21 (KaR ch12/ch14b at 10180/10112) | Low | Triaged (X6 bumped chapter ceiling 10000→10500; X13 bumped framing ceiling 3500→3700) | — |
+| F11 | Iter-1 SHIP verdict + iter-2 challenger timeout treated as chapter failure even though episode already shipped | 2026-05-21 (KaR EP04/EP07/EP08 — all shipped at iter 1, all marked FAILED on iter-2 timeout) | Medium | Open | — |
+| F12 | Episode IDs derived from chapter filename digits, not from `contract.episode_number`; gaps in listener-facing numbering after chapter drops | 2026-05-21 (KaR EP04/EP07/EP10/EP12/EP14 with missing EP01-EP02 after ch01a/ch02b drops) | Medium | Open | — |
 
 ---
 
@@ -160,6 +162,36 @@ Both Air and Studio sessions write to this file (multi-writer, per `operators/co
 **Proposed fix:** Apply the same alignment to `FRAMING_WORD_MAX` if its prose source carries similar "~" language. Or introduce a `TOLERANCE_PCT` constant that derives soft/hard bands from a single source-of-truth threshold.
 
 **Verification:** Run a book whose framing lands at 3501 and confirm the validator's response is consistent with the prose's stated intent.
+
+---
+
+### F11 — Iter-1 SHIP verdict + iter-2 challenger timeout = chapter marked FAILED (even though episode shipped)
+
+**Where:** `scripts/podcast/orchestrate_book.py:per_chapter_pass()` — the converge loop after `extract → frame → build`.
+
+**What goes wrong:** When the build step succeeds, the episode `.txt` artifact is emitted to `episodes/EP##-<slug>.txt`. That artifact IS the ship — uploaded to NotebookLM, the chapter generates audio. The converge loop then runs the challenger to find P0/P1/P2 issues, runs the fixer to address them, and iterates. If any iteration's challenger pass times out, the orchestrator marks the entire chapter FAILED — overwriting the shipped status. KaR observed this on EP04 / EP07 / EP08: all three shipped via build step at iter 1, then iter-2's challenger timed out, all three were marked FAILED, requiring manual `state.completed_slugs` patches.
+
+**Impact:** Every dense chapter follows this pattern, blocking auto-progress through the queue. The orchestrator restarts after each manual patch. ~3 minutes per chapter of operator work, recurring on every book.
+
+**Proposed fix:** When any iteration achieves a SHIP-READY or SHIP-WITH-CAUTION verdict, set the chapter as shipped in `state.completed_slugs` immediately (without waiting for the converge loop to fully terminate). Subsequent iterations are best-effort polish — their timeouts should be logged but NOT roll back the ship verdict. Reformulate "FAILED" semantics: a chapter is FAILED only if BUILD fails (no episode artifact emitted). Converge timeouts/errors after a successful ship verdict are recorded as a warning, not a halt.
+
+**Verification:** Run on a chapter known to produce SHIP-WITH-CAUTION at iter 1 (e.g., KaR ch08). Confirm chapter advances to next slug even if iter-2 challenger times out.
+
+---
+
+### F12 — Episode IDs derived from chapter filename digits, not from `contract.episode_number`
+
+**Where:** `scripts/podcast/orchestrate_book.py:per_chapter_pass()` (around line 720) and `scripts/podcast/_authoring.py:author_framing()` (around line 1153) — both currently extract the digit prefix from the chapter filename (with X3 + X7 letter-strip logic) to form the episode_id.
+
+**What goes wrong:** Listener-facing episode IDs derive from chapter filenames. Chapter files carry source-baab provenance (ch03a, ch04b, ch05c, ch13a, ch14b) and may include gaps after a chapter drop (ch01a, ch02b dropped → no EP01/EP02). The listener sees a non-sequential episode feed (KaR shipped EP04 / EP07 / EP10 / EP12 / EP14, queued EP03 / EP05 / EP06 / EP08 / EP09 / EP11 / EP13 / EP15 — visible gaps at EP01 / EP02 and the irregular spacing).
+
+**Impact:** The chapter contracts already have an `episode_number:` field declaring the listener-facing sequence. The orchestrator ignores it and derives from filename digits instead. Renaming chapter files would lose source-baab provenance; the contract field is the right source of truth.
+
+**Proposed fix:** Both `per_chapter_pass()` and `author_framing()` should read `contract.episode_number` and format it as `EP{episode_number:02d}-<slug>` instead of extracting digits from the chapter filename. Operator updates `episode_number` per contract to be sequential 1..N in series-plan order; orchestrator regenerates episode artifacts with the new IDs on next per-chapter pass. Chapter filenames remain unchanged (ch03a, ch04b, ch05c etc. preserve source-baab provenance for future books from the same author).
+
+**Verification:** Set `episode_number: 1` on chapter contract `the-perfect-and-the-perfection-of-the-soul.yml` (currently ch03a). Run the per-chapter pass on it. Confirm episode artifact lands at `episodes/EP01-the-perfect-and-the-perfection-of-the-soul.txt`.
+
+**Out-of-band KaR-specific rename:** see [series-plan.md](../../content/podcast/library/books/kitab-al-riyad/_system/series-plan.md) footer for the per-chapter rename checklist scoped to KaR. Execution waits for the orchestrator to quiesce on the current queue.
 
 ---
 

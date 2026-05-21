@@ -137,3 +137,78 @@ the desired `length_target`, then re-invoke `--resume`.
 If you want to change unit mode (chapter ↔ section ↔ auto), reset Phase 0d:
   `python3 scripts/podcast/orchestrate_book.py --resume kitab-al-riyad --retry-phase 0d`
 (then edit `_system/orchestrator-state.json` `config.unit_mode` before resuming)
+
+---
+
+## Episode renumber checklist (post-queue-quiesce)
+
+After the orchestrator finishes the current per-chapter queue (all 13 chapters
+shipped), execute this checklist to renumber the listener-facing episode IDs
+to sequential EP01–EP13. Chapter filenames stay unchanged (preserve source-
+baab provenance via the letter-suffix encoding); only the listener-facing
+episode IDs change.
+
+**Pre-condition:** orchestrator is quiesced. State.json shows phase=`per-chapter`,
+phase_status=`pending` or `halted`, `completed_slugs` includes all 13 KaR slugs.
+
+**Mapping (chapter slug → target sequential episode ID):**
+
+| # | Chapter slug | Current EP## | Target EP## |
+|---|---|---|---|
+| 1 | the-perfect-and-the-perfection-of-the-soul | EP03 | **EP01** |
+| 2 | soul-intellect-and-the-power-of-emanation | EP04 | **EP02** |
+| 3 | the-soul-in-time-and-the-rejoinder-to-al-nusra | EP05 | **EP03** |
+| 4 | the-intellect-as-the-first-creation | EP06 | **EP04** |
+| 5 | soul-and-spirit-one-substance-or-two | EP07 | **EP05** |
+| 6 | souls-as-parts-or-traces | EP08 | **EP06** |
+| 7 | the-human-as-fruit-of-the-worlds | EP09 | **EP07** |
+| 8 | motion-stillness-hyle-and-form | EP10 | **EP08** |
+| 9 | the-sections-of-the-world | EP11 | **EP09** |
+| 10 | qada-and-qadar-fate-and-destiny | EP12 | **EP10** |
+| 11 | the-shariah-of-adam-and-the-first-speaker | EP13 | **EP11** |
+| 12 | prophets-as-teachers-monotheism-and-the-ranks | EP14 | **EP12** |
+| 13 | tawhid-and-the-critique-of-al-mahsul | EP15 | **EP13** |
+
+**Steps:**
+
+1. **Update each chapter contract** under `chapter-contracts/` — set
+   `episode_number:` to the target sequential ID (1..13) per the table above.
+   This is the source-of-truth field; framework patch F12 (queued in pipeline-debt)
+   teaches the orchestrator to read this field instead of deriving from filename.
+2. **Apply F12 patch** if not yet shipped — modify `orchestrate_book.py:per_chapter_pass()`
+   and `_authoring.py:author_framing()` to use `contract.episode_number` for
+   episode_id formation instead of regex-extracting digits from the chapter
+   filename's `ch##` prefix.
+3. **Rename shipped episode files** in `episodes/` — six files currently
+   exist (EP04, EP07, EP08, EP10, EP12, EP14) and need their filenames
+   updated per the mapping. The contents of each file already reference the
+   correct slug; only the filename changes:
+   - `episodes/EP04-soul-intellect-and-the-power-of-emanation.txt` → `EP02-…`
+   - `episodes/EP07-soul-and-spirit-one-substance-or-two.txt` → `EP05-…`
+   - `episodes/EP08-souls-as-parts-or-traces.txt` → `EP06-…`
+   - `episodes/EP10-motion-stillness-hyle-and-form.txt` → `EP08-…`
+   - `episodes/EP12-qada-and-qadar-fate-and-destiny.txt` → `EP10-…`
+   - `episodes/EP14-prophets-as-teachers-monotheism-and-the-ranks.txt` → `EP12-…`
+4. **Rename episode-draft directories** in `_system/episode-drafts/` —
+   same pattern as the episodes/ rename. The framings inside reference
+   chapter slugs (not EP##), so internal content stays valid.
+5. **Update series-plan internal references** above (e.g., this file's
+   §"Episode list" customize-prompt-path column lists `episodes/EP##-…`
+   paths; update each row to the new EP##).
+6. **Update state.json** — the `completed_slugs` field uses chapter slugs
+   (not EP##), so it's already correct. No state.json edits needed.
+7. **Commit** as a single coord rename commit:
+   `podcast(kar): renumber episode IDs to sequential EP01-EP13 per F12 (chapter
+   filenames preserved with source-baab provenance)`.
+8. **Smoke-test** by re-running the validator on one renumbered episode:
+   `python3 scripts/podcast/build_episode_txt.py content/podcast/library/books/kitab-al-riyad EP01-the-perfect-and-the-perfection-of-the-soul`.
+
+**Why now and not earlier:** renaming files while the orchestrator is writing
+to `_system/orchestrator-state.json` and `episode-drafts/EP##/00-framing.md`
+would race with active writes. The post-quiesce window (after all 13 chapters
+have shipped, before merge-to-develop) is the right surgical moment.
+
+**Reversal:** if the rename causes any regression, `git revert` the rename
+commit. Chapter filenames were never changed, so the source pipeline data
+remains intact. Episode files revert to their EP## numbering tied to
+chapter-filename digits.
