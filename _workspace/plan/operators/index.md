@@ -42,13 +42,13 @@ in the primary worktree if you need it.
 |---|---|---|
 | **In-flight book** | `kitab-al-riyad` | `asaas-al-taveel` |
 | **Branch** | `book/kitab-al-riyad` | `book/asaas-al-taveel` |
-| **Current phase** | 0f-halt (awaiting Asif's 0g go) | 0c (Arabic phonetic — running) |
+| **Current phase** | 0f-halt (awaiting Asif's 0g go) | 0b (halted-for-transcript-review — paused) |
 | **Pages** | 260 | 416 |
 | **Episodes (est)** | 14 (Ep 2 removed) | 15-20 (pending 0d) |
-| **Anthropic spent so far** | ~$13 estimated (cost-ledger broken — P6.5) | ~$8 estimated |
-| **ETA to ship** | 12-14h LLM (once 0g starts) + reviews | 6-10 days |
-| **Last verified** | 2026-05-21T10:30Z | 2026-05-21 (per Studio's last push) |
-| **Next gate** | Asif's go-ahead for Phase 0g | Studio-side gate per Studio's roadmap |
+| **Anthropic spent so far** | ~$13 estimated (cost-ledger broken — P6.5) | ~$8 estimated (Phase 0a+0b; cost-ledger broken — P6.5) |
+| **ETA to ship** | 12-14h LLM (once 0g starts) + reviews | 6-10 days (once operator gates clear) |
+| **Last verified** | 2026-05-21T10:30Z | 2026-05-21T11:10Z (Studio session, post develop @ e7e9ac5 absorbed) |
+| **Next gate** | Asif's go-ahead for Phase 0g | Operator gates: (a) Azure Text Analytics F0 + env vars (P23.azure-setup); (b) §§1-8 of operator-review.md. Then framework lane (P22.impl, P4.10, P6.5, P23) on `feat/podcast-w1-foundation` → merge → Phase 0c. |
 
 ---
 
