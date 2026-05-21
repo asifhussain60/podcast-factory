@@ -8,8 +8,8 @@ Both Air and Studio sessions write to this file (multi-writer, per `operators/co
 
 | ID | Title | Discovered | Severity | Status | Owner |
 |---|---|---|---|---|---|
-| F1 | Phase 0g framing-gen LLM ignores hard word-count caps | 2026-05-21 (KaR EP14) | High | Open | — |
-| F2 | Phase 0g framing-gen produces unused pronunciation entries | 2026-05-21 (KaR EP14) | Medium | Open | — |
+| F1 | Phase 0g framing-gen LLM ignores hard word-count caps | 2026-05-21 (KaR EP14) | High | Triaged ([X10](https://github.com/asifhussain60/Journal/commit/HEAD) added per-section caps + self-check in author_framing prompt) | — |
+| F2 | Phase 0g framing-gen produces unused pronunciation entries | 2026-05-21 (KaR EP14) | Medium | Triaged ([X10](https://github.com/asifhussain60/Journal/commit/HEAD) prompt now requires grep chapter for terms before generating entries) | — |
 | F3 | Phase 0e enrichment emits manuscript-history meta-commentary that NotebookLM hosts then vocalize | 2026-05-21 (KaR ch03a et al.) | High | Open | — |
 | F4 | Phase 0d chapter design includes editorial-intro chapters that aren't substantive book content | 2026-05-21 (KaR ch01a) | Medium | Open | — |
 | F5 | Phase 0e enrichment emits repeated honorific glyphs (ﷺ) per chapter; R-HONORIFIC-ONCE flags downstream | 2026-05-21 (KaR ch08/ch09/ch12/ch14b) | Medium | Open | — |

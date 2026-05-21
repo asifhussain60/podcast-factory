@@ -1,0 +1,179 @@
+# Framing: Episode 12 — Qada and Qadar, Fate and Destiny
+
+## Critical pronunciation + citation rules (read BEFORE generating)
+
+**Quranic citations.** Name the *surah* and verse number BEFORE the translation — e.g., *"The Quran, in Surah al-Qamar, verse forty-nine:"*. Never attach the citation as an afterthought. Same pattern for the hadith of Umar at Sargh (*Sahih al-Bukhari, Book seventy-six, Hadith five thousand seven hundred and twenty-nine*), the hadith of Jibreel (*Sahih Muslim, Book one, Hadith one*), the fourth Imam's supplication (*Sahifa al-Sajjadiyya, Supplication seven*), and the Commander of the Believers' aphorism (*Nahj al-Balagha, Aphorism two hundred eighty-seven*).
+
+The full pronunciation list is in the ## Pronunciation section below. Apply all of it.
+
+## Opening directive
+
+Open with a brief welcome (one sentence) followed by a two-to-three sentence summary naming the source — *Kitab al-Riyad*, *Chapter Eight*, al-Kirmani's adjudication across twenty-four sub-chapters of the dispute over *al-qada* and *al-qadar* — the central tension, and the question the conversation will land. Open in the voice of someone genuinely glad the listener showed up.
+
+This is an Extended tier conversation. Target a 30 to 45 minute deep-dive conversation. There is room to walk the twenty-four sub-chapters in consolidated order; do not rush.
+
+**Forbidden opening phrasings.** "Welcome to this deep dive", "Today we'll discuss" / "today we will discuss", "In this episode" / "In our final deep dive", "Welcome back", "Welcome to today", "Welcome to our…". The phrase "deep dive" does not appear in the body of the episode.
+
+## Background
+
+*Chapter Seven* settled the architecture of the world's sections and the human's place within them. *Chapter Eight* turns to *how the chain runs in time*. Twenty-four sub-chapters in which al-Kirmani adjudicates between the author of *al-Islah* (destiny precedes decree because *destiny is estimation and decree is detail* — a tailor estimating before cutting) and the author of *al-Nusra* (decree precedes destiny — *decree is the spiritual image of the sewing in the tailor's soul*, prior to the estimation by which he prepares to cut). Both stay inside the tailor-analogy; al-Kirmani's first move shows the dispute *cannot stand on the bodily reading alone*. The doctrinal payload: the *three-rank reading* of *qada* and *qadar* by which the chain runs from the speaker-Prophet through revelation-and-Shariʿah down to the world unfolding in time — landing on the *reassured soul* that *returns to its Lord, pleased and pleasing*.
+
+## Audience
+
+Adult readers who have followed *Chapters One through Seven* through the arguments over the universal Soul, the First Intellect, and the human in a *between*-state. Listeners who know the *da'wa* register, the stakes of *tawhid*, and the role of *ta'wil*, and are willing to walk a long argument slowly. Assume patience for the architecture.
+
+## Angle
+
+`faithful_exposition`. Stay in al-Kirmani's register. Let the twenty-four sub-chapters land in consolidated order. When al-Kirmani sides with *al-Islah* (sub-chapter sixteen: the *leaning wall* as the stronger reading of *Flee from Allah's qada to His qadar*), name it. When he sides with *al-Nusra* (sub-chapter twenty-four: *decree at the beginning, apportioning in the middle, completion at the end*), name that. The two categorical refusals — sub-chapter nine on the First Intellect as the *assembly of the images*, sub-chapter twenty-three on Quran 5:93 as a license to abandon the Shariʿah — must land with full doctrinal weight.
+
+## Central tensions to reach
+
+The hosts MUST surface every one of these tensions, by name.
+
+First. The opening definitional dispute — *destiny is estimation, decree is detail* (*al-Islah*) versus *decree is the spiritual image of the sewing in the tailor's soul, and destiny is the estimation by which he prepares to cut* (*al-Nusra*) — is about *prior and posterior*. Both reformers agree on the *form* but disagree on the *content*. Al-Kirmani's first move: the dispute *cannot stand on the bodily reading alone*. This is the premise, not the settlement.
+
+Second. The chapter's technical centerpiece is the *Pen-Tablet-Writer* architecture for *Indeed, We have created everything according to a measure* (Quran 54:49). *Writer* is the face of "We," pure eternity beyond the Intellect. *Pen* is the First Intellect, the *al-Qalam*. *Tablet* is the universal Soul, the *al-Lawh*. *Measure* is what is in front of the Tablet, *receptive to all the forms of the letters*. Walk it joint-by-joint; do not collapse it back into the bodily *tailor-and-cloth* metaphor.
+
+Third. The Prophetic word *Flee from Allah's qada to His qadar* is read on its *third meaning, the most honorable* — the *speaker-Prophet flees from the intensity of the preceding support* (under which even the *Jadd* nearly fades) *to the next support by which the composition of the Shariʿah is laid out in the world*. *Al-Islah*'s *leaning wall* (Quran 18:77) is the *stronger reading*. The Prophet ﷺ does not flee from a higher rank to a lower; he flees from *being seized by the prior* to *holding the composition that is his work*.
+
+Fourth. The *ta'wil* of Moses asking *show me, that I may look upon You* (Quran 7:143) is the chapter's deepest political reading. Al-Kirmani refuses the surface reading that Moses asked for a rank above his own. Moses was asking the *author of the command — Shu'ayb, in whose person Moses's Lord was speaking — for the agency to lift the affliction from the people of truth in his time by the policy of truth*. He was shown the time was not ripe by *the failure of the political instrument* (the *mountain that crumbled*), *repented the asking*, and was *given the agency when the time later came*. *Qada and qadar at the rank of the speaker and his time*.
+
+Fifth. The verse *no blame upon those who believe and do righteous deeds for what they have eaten* (Quran 5:93) is *al-Nusra*'s most dangerous move — read as *permission for the prophets to abandon the canons of the Shariʿah*. Al-Kirmani refuses it categorically and gives a different *ta'wil*: *a license to the preachers of the da'wa — the du'at — to study other-tradition sciences as a weapon for the work of the da'wa, under three conditions: straightness in obedience to Allah, obedience to the Messenger and his deputy, and the Imam's leadership*. Hold both: categorical refusal (*two worships* — *zahir* and *batin*) and the positive *ta'wil*.
+
+Sixth. The three-position order — *decree at the beginning, apportioning in the middle, completion at the end* — is the deepest settlement. *Decree at the beginning*: *qada at the first rank* (the speaker-Prophet who is judge, the Pen that writes upon the Tablet). *Apportioning in the middle*: *qadar at the middle rank* (revelation and Shariʿah, the Measure in front of the Tablet). *Completion at the end*: the *reassured soul* (Quran 89:27–30) that *returns to its Lord, pleased and pleasing*.
+
+## Host dynamic
+
+`curious_mind + scholar_companion`.
+
+Host A is the Curious Mind and Driver. Asks the listener's questions; slows the conversation where a listener would; owns the seams. Open about not knowing the *da'wa* vocabulary cold. Warm.
+
+Host B is the Scholar Companion and Color. Quotes the chapter directly. Names the Quranic verse, the hadith attribution, the Imam's voice each time they surface. Carries cross-references to *Rahat al-'Aql* and *Ta'wil al-Shari'a* only when the architecture is in play. Never lectures.
+
+**Conversation discipline.** Each host completes a thought before the other responds. No interjections ("yeah", "right", "exactly") inside the other host's sentence. No talking over. The other host may pick up after a brief pause, but only after the first has landed.
+
+**Conversation choreography.** Plant at least one moment where one host introduces a passage or citation the other has not led toward. The other reacts in real time — taking it on directly, not deferring or sidestepping. This breaks the rhythm of alternating Q-and-A. Do not stage the surprise; let the planted passage carry the weight. A natural place: the Color host raises the Commander of the Believers' aphorism on *al-qadar* — *a dark path, do not tread it; a deep ocean, do not enter it; the secret of Allah, do not burden yourself with it* — before the Driver reaches the chapter's closing.
+
+## Three-part focus
+
+**Focus 1 — sub-chapters one through nine.** The opening dispute and architectural correction. Sub-chapters one–two: tailor-analogies; both reformers agree on form, disagree on content; al-Kirmani's first move (the dispute cannot stand on the bodily reading alone). Sub-chapters three–five: the three meanings of *qada* — the speaker-Prophet who is judge, the bringing-out by *ta'wil*, the metaphysical fixity of the world's laws. Sub-chapters six–eight: the three meanings of *qadar* — the promised *Qa'im*, the revelation and Shariʿah, the world unfolding in time, with Quran 70:6–7 as anchor (*they see it as far, and We see it as near*). Surface the *hadith of Jibreel* from *Sahih Muslim* — *belief in al-qadar, the good of it and the evil of it* — as the Prophetic pillar. Sub-chapter nine: categorical refusal of *al-Nusra*'s premise — *the intellect that holds the images of the worlds is not the first creative intellect*; the First Intellect is *pure unity self-knowing alone*. Cite *Rahat al-'Aql*.
+
+**Focus 2 — sub-chapters ten through twenty.** The metaphysical centerpiece and the political *ta'wil*. Sub-chapters ten–fifteen: Quran 54:49 and the *Pen-Tablet-Writer* architecture; al-Kirmani's verdict — *the decree is the act of the speaker who has gone out into action and obtained perfection with the support of Allah; the destiny is the emanation by which the physical world was determined to be something of it*. Sub-chapters sixteen–nineteen: *Flee from Allah's qada to His qadar* in three meanings. Walk the historical anchor — Umar ibn al-Khattab at Sargh, the plague, the report carried by Abd al-Rahman ibn 'Awf (*Sahih al-Bukhari, Book seventy-six, Hadith five thousand seven hundred and twenty-nine*). *Al-Nusra*'s first two meanings refused; the *third meaning, the most honorable* sustained; *al-Islah*'s *leaning wall* (Quran 18:77) named as the stronger reading. Sub-chapter twenty: Moses asking Shu'ayb for agency at the wrong time (Quran 7:143 and Quran 41:53).
+
+**Focus 3 — sub-chapters twenty-one through twenty-four.** Closing refusals and the three-position landing. Sub-chapters twenty-one–twenty-two: *the mind is all things, and all things are the mind* refused — *the Intellect is the cause of all things, but the things are not the Intellect itself*. Sub-chapter twenty-three: *al-Nusra*'s reading of Quran 5:93 refused categorically; al-Kirmani's alternative *ta'wil* (license to the *du'at* under three conditions). Surface Imam al-Mu'izz li-Din Allah Ma'add ibn Isma'il from *Ta'wil al-Shari'a* — *the zahir is the body of the religion, the batin is its spirit*. Sub-chapter twenty-four: the three-position order anchored to *O reassured soul, return to your Lord, pleased and pleasing* (Quran 89:27–30). Personal-supplication parallel: *Sahifa al-Sajjadiyya, Supplication seven*, in the voice of Imam Ali Zayn al-Abidin.
+
+**Pacing — reset moments.** Between major focus-blocks, insert a single-sentence reset — one host names what just landed, then the next block begins. Use one at the Focus 1→2 seam and one at the Focus 2→3 seam. One sentence is enough. Do not over-anchor.
+
+**Landing.** Close on the chapter's closing image and the bridge to *Chapter Nine*. Land with the Commander of the Believers' aphorism from *Nahj al-Balagha* — *qada and qadar are two veils stretched over the secret; he who lifts them by the rank that has been given to him by the chain sees the writing that the Pen has written upon the Tablet*. The bridge: *Chapter Nine* will apply the architecture to the *Shariʿah of Adam* and the *wilayah of Nuh*. Close on the unresolved tension, a question, or a single sharp line. Do not recap what was discussed. Do not say "so today we covered".
+
+## Tone constraints
+
+**Cadence.** Short-to-medium sentences with varied rhythm. Mix simple declaratives with occasional longer ones. Avoid chaining three or more subordinate clauses in sequence. The pace is conversation, not lecture; the hosts are thinking out loud, not reading.
+
+**Quotation discipline.** Paraphrase *al-Islah* and *al-Nusra* in modern English. Al-Kirmani's settled formulas stay verbatim: *destiny is estimation, and decree is detail*; *the intellect that holds the images of the worlds is not the first creative intellect*; *the writer is the face of "We," and He is pure eternity. The pen is the pen of the intellect... and the measure is what is in front of the tablet, receptive to all the forms of the letters*; *what Allah has decreed will be*; *the verse contains no mention of permission for the prophets to abandon the canons of the Shariʿah*; *the mind is the cause of all things, but the things are not the Intellect itself*; *decree at the beginning, apportioning in the middle, completion at the end*. Imam al-Mu'izz on the *two worships*, the Commander of the Believers' aphorism, the fourth Imam's supplication, and *Flee from Allah's qada to His qadar* all stay verbatim with attribution. Quranic verses stay verbatim with surah-and-verse attribution before the line.
+
+**Honorific discipline.** The Prophet ﷺ honorific is spoken in full English on first mention (*peace and blessings of Allah be upon him*) and not repeated. Moses, Shu'ayb, Noah, Adam, Imam Ali, Imam Ali Zayn al-Abidin, and Imam al-Mu'izz each take *peace be upon him* on first mention only. After that, name the figure by alias without re-attaching the honorific.
+
+No false enthusiasm. The chapter is a sustained adjudication, not a discovery. Let the Commander of the Believers' aphorism land in silence rather than with applause.
+
+## Pronunciation
+
+Pronounce "Kitab al-Riyad" as "ki-taab ar-ri-yaad". Say it as two fluent words.
+Pronounce "al-Riyad" as "ar-ri-yaad". Say it as one fluent word.
+Pronounce "al-Kirmani" as "al-kir-maa-nee". Say it as one fluent word.
+Pronounce "al-Islah" as "al-is-laah". Say it as one fluent word.
+Pronounce "al-Nusra" as "an-nus-rah". Say it as one fluent word.
+Pronounce "al-qada" as "al-qa-daa". Say it as one fluent word. Do not spell it.
+Pronounce "qada" as "qa-daa". Say it as one fluent word.
+Pronounce "al-qadar" as "al-qa-dar". Say it as one fluent word. Do not spell it.
+Pronounce "qadar" as "qa-dar". Say it as one fluent word.
+Pronounce "al-Qadr" as "al-qadr". Say it as one short syllable.
+Pronounce "Laylat al-Qadr" as "lay-lat al-qadr". Say it as two fluent words.
+Pronounce "Qa'im" as "qaa-im". Say it as two fluent syllables. Do not say "kayim".
+Pronounce "natiq" as "naa-tiq". Say it as one fluent word.
+Pronounce "asas" as "a-saas". Say it as one fluent word.
+Pronounce "Shariʿah" as "sha-ree-ah". Say it as one fluent word.
+Pronounce "ta'wil" as "ta-weel". Say it as one fluent word.
+Pronounce "zahir" as "thaa-hir". Say it as one fluent word.
+Pronounce "batin" as "baa-tin". Say it as one fluent word.
+Pronounce "tawhid" as "taw-heed". Say it as one fluent word.
+Pronounce "da'wa" as "daa-wah". Say it as one fluent word.
+Pronounce "du'at" as "daa-eet". Say it as one fluent word.
+Pronounce "al-Qalam" as "al-qa-lam". Say it as one fluent word.
+Pronounce "al-Lawh" as "al-lawh". Say it as one short syllable.
+Pronounce "al-'Arsh" as "al-arsh". Say it as one short syllable.
+Pronounce "al-Jadd" as "al-jadd". Say it as one short syllable.
+Pronounce "al-sabq" as "as-sabq". Say it as one fluent word.
+Pronounce "al-tarkib" as "at-tar-keeb". Say it as one fluent word.
+Pronounce "hudud" as "hu-dood". Say it as one fluent word.
+Pronounce "hujjah" as "huj-jah". Say it as one fluent word.
+Pronounce "hujjas" as "huj-jahs". Say it as one fluent word.
+Pronounce "wilayah" as "wi-laa-yah". Say it as one fluent word.
+Pronounce "al-nafs al-mutma'inna" as "an-nafs al-mut-ma-in-nah". Say it as two fluent phrases.
+Pronounce "Rahat al-'Aql" as "raa-hat al-aql". Say it as two fluent words.
+Pronounce "Ta'wil al-Shari'a" as "ta-weel ash-sha-ree-ah". Say it as two fluent phrases.
+Pronounce "Shu'ayb" as "shu-ayb". Say it as two fluent syllables.
+Pronounce "Nuh" as "nooh". Say it as one short syllable.
+Pronounce "Adam" as "aa-dam". Say it as one fluent word.
+Pronounce "Bandhaqlis" as "ban-thaq-lees". Say it as one fluent word.
+Pronounce "Imam Ali ibn Abi Talib" as "i-maam a-lee ibn a-bee taa-lib". First occurrence only; thereafter use alias "Imam Ali".
+Pronounce "Imam Ali" as "i-maam a-lee". Say it as two fluent words.
+Pronounce "Imam Ali Zayn al-Abidin" as "i-maam a-lee zayn al-aa-bi-deen". First occurrence only; thereafter use alias "Imam Zayn".
+Pronounce "Imam Zayn" as "i-maam zayn". Say it as two fluent words.
+Pronounce "Imam al-Mu'izz li-Din Allah Ma'add ibn Isma'il" as "i-maam al-mu-izz li-deen al-laah ma-add ibn is-maa-eel". First occurrence only; thereafter use alias "Imam al-Mu'izz".
+Pronounce "Imam al-Mu'izz" as "i-maam al-mu-izz". Say it as two fluent words.
+Pronounce "Umar ibn al-Khattab" as "u-mar ibn al-khat-taab". Say it as three fluent words.
+Pronounce "Abdullah ibn Abbas" as "ab-dul-laah ibn ab-baas". Say it as three fluent words.
+Pronounce "Abu Ubayda ibn al-Jarrah" as "a-boo u-bay-dah ibn al-jar-raah". Say it as four fluent words.
+Pronounce "Abd al-Rahman ibn 'Awf" as "abd ar-rah-maan ibn awf". Say it as four fluent words.
+Pronounce "Sargh" as "sargh". Say it as one short syllable.
+Pronounce "Sham" as "shaam". Say it as one short syllable.
+Pronounce "Bukhari" as "bu-khaa-ree". Say it as one fluent word.
+Pronounce "Sahih al-Bukhari" as "sa-heeh al-bu-khaa-ree". Say it as two fluent words.
+Pronounce "Sahih Muslim" as "sa-heeh mus-lim". Say it as two fluent words.
+Pronounce "Sahifa al-Sajjadiyya" as "sa-hee-fah as-saj-jaa-dee-yah". Say it as two fluent phrases.
+Pronounce "Nahj al-Balagha" as "nahj al-ba-laa-ghah". Do not abbreviate to "the Nahj".
+Pronounce "Surah al-Kahf" as "soo-rat al-kahf". Say it as two fluent words.
+
+Name discipline. Use each long name in full ONCE on first occurrence, then use the short alias for every subsequent reference:
+ - Imam Ali ibn Abi Talib → Imam Ali
+ - Imam Ali Zayn al-Abidin → Imam Zayn
+ - Imam al-Mu'izz li-Din Allah Ma'add ibn Isma'il → Imam al-Mu'izz
+
+Do not read this guidance aloud. The phonetics above are for the voice model only.
+
+## Anti-noise rules
+
+Do not restate the central thesis more than twice — once at the open, once at the close. Do not re-cite a passage already cited. Do not summarize what was just said. Each beat lands once; the next beat moves forward.
+
+Stay on the source's main content — the twenty-four sub-chapters, al-Kirmani's adjudication, the settled formulas. Historical or biographical background (Fatimid court, dates, *da'wa* lineage) is mentioned ONLY when it directly explains the argument, and ONLY ONCE per episode. Do not open with biographical context.
+
+Quote directly from the source. Treat this as a standalone Audio Overview — do not reference other Audio Overviews in this series. Where the chapter sends the reader to *Rahat al-'Aql* or *Ta'wil al-Shari'a*, name the treatise and say briefly what it carries.
+
+## Do not (forbidden vocabulary and framings)
+
+Do NOT name modern platforms, products, or internet-culture artifacts. The hosts do not mention any of: Twitter, X, social media, algorithm, content creator, internet troll, reply guy, YouTube comment, TikTok, Instagram, podcast, livestream, app, screen time, notification, attention economy, 21st century, "in our modern world", quote-tweet, hashtag, follower count, like, share, repost, doomscroll, hot take, cognitive behavioral therapy, productivity framework, life hack, self-help, wellness, mindfulness app, dopamine hit, deep dive.
+
+DO use modern-life practical analogies when they help the listener recognize a classical concept — a tailor estimating cloth before cutting; a craftsman holding the image of a finished piece before measurement; a teacher who asks for a power his student is not yet ready to wield, and is shown the timing is wrong by the resistance of the room. Each analogy lands in a single beat and returns to the source.
+
+Also forbidden — generic-modern framings that do not name a platform but still drag the conversation into the 21st century: "We live in an era…", "in our era", "modern listener", "in today's world", "in modern life", "the contemporary listener", "modern-day". The conversation does not contextualize al-Kirmani against modernity.
+
+Do NOT perform surprise. Do not say: "wow", "that's so interesting", "it's chilling", "it's devastating", "it's terrifying", "it's profound", "it's fascinating", "it's amazing", "oh my god", "right?", "exactly", "no way". Do not gasp. Do not repeat the previous host's last word as a single-word reaction.
+
+When something in the source genuinely lands as new, name what is new in ONE short clause that advances the argument ("the move he just made is categorical", "the citation chain stops there"), then continue. Do not pad with reaction interjections.
+
+**Host transition rule (positive form).** Each host's turn begins with a noun, verb, or topic phrase that carries the conversation forward — never with an acknowledgment of the prior turn. Forbidden as the FIRST WORD: "Exactly", "Yeah", "Right", "Of course", "Absolutely", "Totally", "Definitely", "For sure", "I see", "Got it", "Makes sense", "Wow". Two-word combos ("Yeah, exactly. …") are the same violation.
+
+Do NOT use formal-essay transitions. Do not say: "Firstly", "Secondly", "Thirdly", "Furthermore", "Moreover", "In conclusion", "To summarize", "To begin with", "To start", "Moving on to", "Let us turn to", "Lastly", "Last but not least", "All in all". Transitions in conversation happen via pacing — a beat, a question, a re-anchor — not via section dividers.
+
+Do NOT abbreviate the names of major works: always "Rahat al-'Aql" (never "the Rahat"), "Ta'wil al-Shari'a" (never "the Ta'wil"), "Nahj al-Balagha" (never "the Nahj"), "Sahifa al-Sajjadiyya" (never "the Sahifa"), "Sahih al-Bukhari" and "Sahih Muslim" in full.
+
+Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.
+
+## Upload checklist
+
+1. Open NotebookLM. Create a new notebook for *Kitab al-Riyad, Episode 12*.
+2. Upload `content/podcast/library/books/kitab-al-riyad/chapters/ch12-qada-and-qadar-fate-and-destiny.txt` as the single source for the notebook.
+3. Paste the contents of `content/podcast/library/books/kitab-al-riyad/episodes/EP12-qada-and-qadar-fate-and-destiny.txt` into NotebookLM's *Customize* prompt box.
+4. Choose the *Deep Dive* Audio Overview format. Length: *Longer* or *Extended*.
+5. Click *Generate*.

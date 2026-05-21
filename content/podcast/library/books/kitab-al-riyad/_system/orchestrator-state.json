@@ -64,11 +64,12 @@
       "status": "pending",
       "completed_slugs": [
         "motion-stillness-hyle-and-form",
-        "prophets-as-teachers-monotheism-and-the-ranks"
+        "prophets-as-teachers-monotheism-and-the-ranks",
+        "qada-and-qadar-fate-and-destiny"
       ],
       "reset_note": "Bug X5 (2026-05-21): chapter files contained inline phonetic-style parens (*term* (lowercase-hyphenated; gloss)) \u2014 R-PHONETICS-OUT violations per spec. Deterministic strip applied across all 14 chapters (157 parens total stripped). Phonetics already in customize prompts via Phase 0c pronunciation block \u2014 no semantic loss. motion-stillness still in completed_slugs.",
       "ts_started": "2026-05-21T11:24:27Z",
-      "ts_completed": "2026-05-21T17:12:17Z"
+      "ts_completed": "2026-05-21T17:17:40Z"
     },
     "trainer": {
       "status": "pending"
@@ -86,7 +87,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-05-18T22:51:13Z",
-  "ts_updated": "2026-05-21T17:12:17Z",
+  "ts_updated": "2026-05-21T17:17:40Z",
   "challenger_version": "2.0",
   "orchestrator_version": "1.1"
 }
