@@ -21,7 +21,7 @@ If you cannot finish step 1 with zero regression, you do not start step 2.
 
 The invocation must carry both:
 
-- **A target URL** — usually a `file:///Users/asifhussain/PROJECTS/journal/docs/architecture/<view>.html` link, optionally an `https://` link to the deployed version once that exists. The file path tells you which view to reconcile.
+- **A target URL** — usually a `file://` link to one of the architecture views at `<repo-root>/docs/architecture/<view>.html` (resolve `<repo-root>` via `git rev-parse --show-toplevel`), or an `https://` link to the deployed version once that exists. The file path tells you which view to reconcile.
 - **A change request** — free text describing what is wrong, missing, or should be added. May arrive with a screenshot.
 
 If either is missing, stop and ask for the missing piece. Do not guess.
