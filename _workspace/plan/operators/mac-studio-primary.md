@@ -16,14 +16,47 @@ current_branch: book/asaas-al-taveel
 current_book: asaas-al-taveel
 current_book_dir: content/podcast/library/books/asaas-al-taveel
 authoritative_state_path: content/podcast/library/books/asaas-al-taveel/_system/orchestrator-state.json
-status_tag: ACTIVE
-current_phase: "0b"
-current_phase_status_summary: stale running-lock from SIGKILL; reset to failed, then --resume
-next_action: run session-start protocol, flip phase_status running→failed if no orchestrator alive, commit checkpoint, --resume 0b
+status_tag: AWAITING-DEVELOP-MERGE-THEN-PHASE-0C
+current_phase: "0c"
+current_phase_status_summary: |
+  Phase 0b complete on asaas (P22 gate cleared 2026-05-20). Since the Studio
+  last pushed, the Air has driven KaR through Phases 0c/0d/0e/0f including a
+  Phase 0b re-run against the P22.markers fix, framework upgrades to Phase 0d
+  (content-aware format + essentiality classification) and Phase 0f (richer
+  series-plan template with NotebookLM input cues), and merged book/kitab-al-riyad
+  into develop (commit e122fa0). The Studio's next action is to merge
+  book/asaas-al-taveel into develop using the prepared prompt at
+  _workspace/chats/studio-merge-asaas-prompt.md, then continue Phase 0c on asaas.
+next_action: |
+  1. git fetch --all --prune; git pull --ff-only origin book/asaas-al-taveel
+  2. git pull --ff-only origin develop (sync develop locally too)
+  3. Run the merge prompt at _workspace/chats/studio-merge-asaas-prompt.md to
+     merge book/asaas-al-taveel into develop. Expected: one operator-file conflict
+     resolved by --theirs; three cherry-pick commits dedup via patch identity.
+  4. After develop merge ships: switch back to book/asaas-al-taveel and resume:
+     python3 scripts/podcast/orchestrate_book.py --resume asaas-al-taveel
+     (Phase 0c — Arabic phonetic extraction)
 anthropic_share: 0.5
-last_verified_at: 2026-05-20T10:00:00Z
-last_updated: 2026-05-20
+last_verified_at: 2026-05-21T10:30:00Z
+last_updated: 2026-05-21
+response_conventions: see _workspace/plan/response-conventions.md (BLUF format,
+  AskUserQuestion ordering, halt-and-surface pattern, cross-machine awareness)
+written_by: macbook-air-secondary (one-time exception 2026-05-21 per Asif's
+  explicit instruction — see "WRITE EXCEPTION" note below; Studio resumes
+  ownership of this file on its next session)
 ---
+
+> ⚠️ **WRITE EXCEPTION — 2026-05-21 (Air-authored).** This frontmatter update
+> was written by the Mac Air at Asif's explicit instruction to get both
+> machines in sync after the KaR→develop merge. Per
+> [coordination-protocol.md §1](coordination-protocol.md), the Studio normally
+> owns this file. On the Studio's next session, the Studio re-asserts ownership
+> by updating the frontmatter (last_verified_at, current_phase_status_summary)
+> from its own observed state and removing this note.
+>
+> The previous Air→Studio write exception was 2026-05-20 (when Studio wrote
+> the Air's operator file to seed the coordination layer); this is the symmetric
+> case. Treat as a recoverable handoff, not a new ownership model.
 
 # Mac Studio (primary) — operator index
 
