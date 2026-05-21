@@ -43,14 +43,22 @@ Anyone (technical or not) should understand it.
 
 **Your next step:** one explicit sentence naming the file or command Asif acts on.
 
-**Summary (scan-and-skip):**
+---
+
+## Summary (scan-and-skip)
+
 1. <one-line restate of body section 1>
 2. <one-line restate of body section 2>
 …
 N. **Next step:** <one-line restate of "Your next step">
 ```
 
-The **Summary** is an ordered list at the very end. Each item is ONE LINE summarizing one body section (numbered sections). The final item restates the next step. Purpose: Asif can scroll to the bottom, scan 5–10 lines, and decide whether to scroll up for detail — never has to read the full response top-to-bottom to know what changed and what to do.
+The **Summary** is an ordered list at the very end, **visually separated** from the rest of the response by:
+- A horizontal rule (`---`) on its own line, with a blank line on each side
+- An H2 header (`## Summary (scan-and-skip)`) — one level larger than the `###` body section headers, so it stands out as a distinct concluding zone (not just another body section)
+- A blank line between the header and the first list item
+
+Each item is ONE LINE summarizing one body section (numbered sections). The final item restates the next step, prefixed `**Next step:**` for visual anchor. Purpose: Asif can scroll to the bottom, scan 5–10 lines in a clearly-set-apart zone, and decide whether to scroll up for detail — never has to read the full response top-to-bottom to know what changed and what to do.
 
 **When to include the Summary:** any time the body has 2+ sections, or whenever the total response exceeds ~10 lines. Skip the Summary for single-issue or single-paragraph updates where it would just duplicate the TL;DR.
 
@@ -76,7 +84,10 @@ new refined-english.md verbatim, and the broken adams-law YAML self-resolved.
 
 **Your next step:** authorize advancing to Phase 0e — `python3 scripts/podcast/orchestrate_book.py --resume kitab-al-riyad`.
 
-**Summary (scan-and-skip):**
+---
+
+## Summary (scan-and-skip)
+
 1. 14 chapter contracts regenerated cleanly against the new refined-english.md ([commit 8a34564](https://github.com/asifhussain60/Journal/commit/8a34564))
 2. Previously-broken adams-law YAML self-resolved during the re-run
 3. **Next step:** authorize Phase 0e — `python3 scripts/podcast/orchestrate_book.py --resume kitab-al-riyad`
