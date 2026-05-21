@@ -104,6 +104,34 @@ follows this **4-part shape, in this exact order, with these exact headers**:
 - **Synthesize, don't dump.** When external knowledge helps (style guides, conventions, prior art), use WebSearch and cite. Otherwise stick to what the codebase shows.
 - **Recommend, don't enumerate.** Pick a recommended path and explain why. Asif redirects when needed — don't pre-emptively list all options as equal.
 
+### Common violations — recognize and refuse before sending
+
+The following patterns LOOK template-compliant on a quick glance but break the
+scan-and-decide contract. Before every send, audit the draft for each:
+
+| Violation | Wrong | Right |
+|---|---|---|
+| **Jargon in At-a-glance items** | "X7 framework fix shipped" / "R-FRAMING-WORD-BAND fires" / "ch14b's pronunciation block bloated" | "The behind-the-scenes routing fix you authorized is shipped — the same problem won't happen on the other six chapters with letter-suffix names" / "Validator flagged the new framing as 30% over its word limit" |
+| **Multi-sentence items** | "1. Step A landed. The bloat is mostly in section X (1219 words vs EP10's 607). Three contributing sections: A, B, C." | "1. Step A landed; bloat concentrated in one section, detailed below in §2" |
+| **Tables embedded in At-a-glance** | "5. Here's the breakdown:" (followed by a markdown table) | "5. One section is 30% over budget; full breakdown in §3" |
+| **Custom body section labels** | `### Why ch14b's framing bloated` / `### Three unblock paths` / `### My recommendation` | `### 1. Framing word count exceeds the cap 🔴` (Plain English issue name in the body header; no editorial framing) |
+| **Multi-step Next lines** | "**Next:** *AI* — Step 1: trim. Step 2: patch. Step 3: resume." | "**Next:** *Asif* — confirm I should trim the framing via Claude (the cheapest path); patch and resume happen automatically after." |
+| **Tiered recommendations as the Next** | "**Next:** *Asif* — confirm the tiered fix (Step 1 quick / Step 2 framework)" | One concrete action with one actor. Future steps belong in body §N as fix-options, not the Next line. |
+| **Acronyms without first-mention expansion** | "EP14 framing fails R-FRAMING-WORD-BAND" | "EP14's customize prompt (the framing) is over the validator's word-count cap. The validator rule has the internal label R-FRAMING-WORD-BAND." |
+
+### Pre-send self-check (8 questions; all must be yes)
+
+1. Does my At-a-glance H2 contain a severity emoji + a one-phrase status label?
+2. Are all At-a-glance items single, complete, non-technical sentences?
+3. Does every body section header read `### N. <Plain English name> <emoji>` — no custom labels?
+4. Does the Next line have exactly one actor (`*Asif*` or `*AI*`) and exactly one action?
+5. Is there a `---` rule before the body AND before the Next line?
+6. Does the response end with the Next line? No postscript, no "let me know," no `## Project Status` block?
+7. Are all file paths and commits rendered as markdown links?
+8. If I used a project acronym (X3, EP14b, R-XYZ, ch14b), did I either expand it parenthetically on first use OR keep it out of the At-a-glance summary?
+
+If any answer is no, rewrite before sending. The user does not need to ask twice — the template is hard, not soft, and violations break the scan-and-decide contract that's the entire point of the format.
+
 ## 2. ~~Project Status block~~ — DEPRECATED 2026-05-20
 
 The pre-BLUF `## Project Status` + `### Work Completed` / `### Work Pending`
