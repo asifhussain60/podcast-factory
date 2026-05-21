@@ -1,10 +1,10 @@
 # Podcast Challenger Report
 
 **Book:** kitab-al-riyad
-**Run:** 2026-05-21T17:53:51Z (challenger v2.0)
-**Scope:** per-chapter soul-and-spirit-one-substance-or-two
-**Iterations:** 1 (of 5 max; intelligent-break at iteration 1 — no auto-fixes applied, all P1/P2 findings are non-deterministic authoring decisions)
-**Verdict:** SHIP-WITH-CAUTION
+**Run:** 2026-05-21 (challenger v2.0)
+**Scope:** per-chapter soul-intellect-and-the-power-of-emanation
+**Iterations:** 1 (of 5 max; intelligent-break at iteration 1 — P0 findings are authoring decisions not auto-fixable; further iteration will not converge)
+**Verdict:** BLOCKED
 
 ---
 
