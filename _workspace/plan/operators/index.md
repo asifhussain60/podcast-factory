@@ -42,13 +42,13 @@ in the primary worktree if you need it.
 |---|---|---|
 | **In-flight book** | `kitab-al-riyad` | `asaas-al-taveel` |
 | **Branch** | `book/kitab-al-riyad` | `book/asaas-al-taveel` |
-| **Current phase** | 0f-halt (awaiting Asif's 0g go) | 0b (halted-for-transcript-review — paused) |
+| **Current phase** | per-chapter / 0g (running — EP10 shipped SHIP-WITH-CAUTION, EP14 in flight after X4 fix) | 0b complete (HOLDING-FOR-OPERATOR-GATES — §§1-8 review) |
 | **Pages** | 260 | 416 |
-| **Episodes (est)** | 14 (Ep 2 removed) | 15-20 (pending 0d) |
-| **Anthropic spent so far** | ~$13 estimated (cost-ledger broken — P6.5) | ~$8 estimated (Phase 0a+0b; cost-ledger broken — P6.5) |
-| **ETA to ship** | 12-14h LLM (once 0g starts) + reviews | 6-10 days (once operator gates clear) |
-| **Last verified** | 2026-05-21T10:30Z | 2026-05-21T11:30Z (Studio session, Azure gate cleared) |
-| **Next gate** | Asif's go-ahead for Phase 0g | Operator gate: §§1-8 of [operator-review.md](../../../content/podcast/library/books/asaas-al-taveel/operator-review.md). (Azure F0 cleared 2026-05-21 — see [mac-studio-primary.md §13](mac-studio-primary.md).) Then framework lane (P22.impl, P4.10, P6.5, P23) on `feat/podcast-w1-foundation` → merge → Phase 0c. |
+| **Episodes (est)** | 14 (Ep 2 removed; 1 shipped, 1 in-flight, 12 remaining) | 15-20 (pending 0d) |
+| **Anthropic spent so far** | ~$13 + EP10/EP14 burn (cost-ledger broken — P6.5 + datetime.UTC AttributeError) | ~$8 estimated (Phase 0a+0b; cost-ledger broken — P6.5) |
+| **ETA to ship** | ~12 episodes × 30–90 min wall + reviews; X-bug cycles add overhead | 6-10 days (once operator gates clear) |
+| **Last verified** | 2026-05-21T13:30Z | 2026-05-21T11:30Z (Studio session, Azure gate cleared) |
+| **Next gate** | Resolve R-PHONETICS-OUT (Asif chose author-side patching in [d2246b3](https://github.com/asifhussain60/Journal/commit/d2246b3)); resume orchestrator on EP14; then EP11→EP13, EP15, ch01a–ch09 | Operator gate: §§1-8 of [operator-review.md](../../../content/podcast/library/books/asaas-al-taveel/operator-review.md). (Azure F0 cleared 2026-05-21 — see [mac-studio-primary.md §13](mac-studio-primary.md).) Then framework lane (P22.impl, P4.10, P6.5, P23) on `feat/podcast-w1-foundation` → merge → Phase 0c. |
 
 ---
 

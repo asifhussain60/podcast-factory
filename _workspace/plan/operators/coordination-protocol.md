@@ -252,8 +252,8 @@ When you finish a phase or hit a natural pause, every machine MUST:
 6. Push immediately to origin. If a `post-commit` hook is installed, it
    auto-pushes; otherwise push manually.
 7. Write a response to Asif following `_workspace/plan/response-conventions.md`
-   (BLUF format: TL;DR, Status emoji, Body, Your next step). No custom
-   section labels.
+   §1 (4-part shape: `## At a glance — <status>`, body sections, `---`,
+   `**Next:** *Asif* or *AI* — sentence`). No custom section labels.
 
 ---
 
@@ -302,12 +302,11 @@ Full spec: [`../response-conventions.md`](../response-conventions.md).
 
 Highlights both machines follow without exception:
 
-1. **BLUF format** — every substantive response uses this **5-part shape, in order**:
-   1. `**TL;DR:**` (one sentence, plain English)
-   2. `**Status:**` 🟢 / 🟡 / 🔴
+1. **Response template** — every substantive response uses this **4-part shape, in order** (full spec in [response-conventions.md §1](../response-conventions.md)):
+   1. `## At a glance — <severity emoji> <one-phrase status>` — H2 header with status embedded + numbered list of ~5 non-technical one-liners summarizing the body
+   2. `---` (horizontal rule)
    3. **Body** — `### N. <name> <emoji>` numbered blocks (*Plain English*/*Impact*/*Fix*/*Where* bullets) OR tables. **No custom section labels** ("Deviation from plan", "Verification", "Coord doc", "What changed", etc.).
-   4. `**Your next step:**` (one explicit sentence)
-   5. `---` + `## Summary (scan-and-skip)` ordered list — one line per body section, final item `**Next step:**`-prefixed; clickable links preserved so Asif can act from the Summary without scrolling
+   4. `---` + `**Next:** *Asif* or *AI* — <one explicit sentence>` — single italicized actor + em-dash + action. No `**TL;DR:**` opener, no `## Project Status` block (both deprecated 2026-05-21).
 2. **AskUserQuestion ordering**: recommended option first, labeled
    "(Recommended)"; remaining options ordered priority highest→lowest.
 3. **Asif IS Babu** (the memoir's protagonist). Relevant only if memoir

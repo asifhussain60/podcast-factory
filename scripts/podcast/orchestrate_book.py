@@ -711,7 +711,15 @@ def per_chapter_pass(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
 
     # 3. Build the episode .txt — deterministic gate. We already resolved
     #    chapter_file above; derive the EP##-<slug> id from its name.
-    chap_num = chapter_file.stem.split("-", 1)[0][2:]
+    #    Bug X3 (2026-05-21): some chapter filenames carry a letter suffix
+    #    (e.g., `ch14b-...` when one source chapter splits into multiple
+    #    episodes). The suffix belongs to chapter-set bookkeeping but NOT
+    #    to the episode id — build_episode_txt.py validates strict `EP##-<slug>`
+    #    (digits only). Strip the trailing letter(s) before forming the id.
+    import re as _re
+    chap_prefix = chapter_file.stem.split("-", 1)[0]            # e.g. "ch14b" or "ch10"
+    m = _re.match(r"ch(\d+)", chap_prefix)
+    chap_num = m.group(1) if m else chap_prefix[2:]              # "14" or "10"
     episode_id = f"EP{chap_num}-{chapter_slug}"
     rc, out, err = _run([sys.executable, str(BUILD_SCRIPT), str(book_dir), episode_id])
     if rc != 0:
