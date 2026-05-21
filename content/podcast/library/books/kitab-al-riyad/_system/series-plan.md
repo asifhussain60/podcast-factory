@@ -25,7 +25,7 @@ contract + chapter file before resuming.
 
 | # | Slug | Essential? | Why |
 |---|---|---|---|
-| 1 | `the-four-da-is-and-the-debate` | **optional** | Editor's introduction by Aref Tamer (1958) — sets up who the four da'is are and frames the al-Islah/al-Nusra dispute. Useful pedagogical scaffolding for newcomers; experienced listeners can skip straight to Episode 3 without losing the doctrinal thread. |
+| — | — | — | _(none flagged as optional after 2026-05-21 drop of `the-four-da-is-and-the-debate` — editor's-introduction chapter, no al-Kirmani content)_ |
 
 ### Episode list
 
@@ -39,7 +39,6 @@ Columns:
 
 | # | Title | Words | Tier | Format | Essential | Upload (NotebookLM source) | Customize | Length cue | Hosts |
 |---|---|---|---|---|---|---|---|---|---|
-| 1 | The Four Da'is and the Debate | 6940 | longer | **deep_dive** | optional | `chapters/ch01a-the-four-da-is-and-the-debate.txt` | `episodes/EP01-the-four-da-is-and-the-debate.txt` (TBD post-0g) | "target a 45–60 minute conversation" | Mentor + Scholar Companion |
 | 3 | The Perfect and the Perfection of the Soul | 6729 | extended | **deep_dive** | core | `chapters/ch03a-the-perfect-and-the-perfection-of-the-soul.txt` | `episodes/EP03-the-perfect-and-the-perfection-of-the-soul.txt` (TBD post-0g) | "target a 30–45 minute conversation" | Mentor + Scholar Companion |
 | 4 | Soul, Intellect, and the Power of Emanation | 8223 | extended | **debate** | core | `chapters/ch04b-soul-intellect-and-the-power-of-emanation.txt` | `episodes/EP04-soul-intellect-and-the-power-of-emanation.txt` (TBD post-0g) | "target a 30–45 minute conversation" | Advocate A + Advocate B + Arbiter |
 | 5 | The Soul in Time and the Rejoinder to al-Nusra | 9390 | extended | **debate** | core | `chapters/ch05c-the-soul-in-time-and-the-rejoinder-to-al-nusra.txt` | `episodes/EP05-the-soul-in-time-and-the-rejoinder-to-al-nusra.txt` (TBD post-0g) | "target a 30–45 minute conversation" | Advocate A + Advocate B + Arbiter |
@@ -58,7 +57,7 @@ Columns:
 
 | source chapter | source title | episode(s) | split reason |
 |---|---|---|---|
-| 1 | Editor's Introduction (Aref Tamer) | ch01a-the-four-da-is-and-the-debate.txt, ch02b-the-structure-of-al-riyad-and-the-manuscript.txt | 13026 words ~1.4x band upper (9500) and ~1.74x midpoint (7500); natural seam between the four-da'is/biographies block and the chapter-by-chapter contents-and-manuscript block yields ~6708/~6318 words, both inside band and within 7% of each other |
+| ~~1~~ | ~~Editor's Introduction (Aref Tamer)~~ | _(dropped 2026-05-21 — both ch01a + ch02b were editor's-introduction content, not al-Kirmani's prose)_ | n/a — dropped |
 | 2 | Chapter 1: On the Perfection of the Soul (38 sub-chapters) | ch03a-the-perfect-and-the-perfection-of-the-soul.txt, ch04b-soul-intellect-and-the-power-of-emanation.txt, ch05c-the-soul-in-time-and-the-rejoinder-to-al-nusra.txt | 23417 source words ~2.46x band upper bound (9500); split into three Extended episodes at sub-chapter 10 / sub-chapter 23 seams where dialectical movement turns — ep3 covers damaged-folio preamble + author's preface + book structure + sub-chapters 1–10 (6005 words, foundational formula); ep4 covers sub-chapters 11–23 (7753 words, middle movement built on Two Weighty Things hadith + dolphins-of-Oman beat); ep5 covers sub-chapters 24–38 + closing prayer (8335 words, sensual/speaking/Successor-soul triple distinction + closing prayer); all three inside Extended band (5500–9500), ratio of extremes 1.39x within the ~30% spread directive. |
 | 3 | Chapter 2: On the Intellect, the First Creation (9 sub-chapters) | ch06-the-intellect-as-the-first-creation.txt | 3624 source words sits just below band floor (5500); cannot meaningfully split a 9-sub-chapter unit whose argument is a single continuous correction; enriched with placed inline material from al-Kirmani's *Rahat al-'Aql* and the Q 17:31 / Q 4:6 anchors al-Kirmani himself cites in sub-chapter seven; lands at 6483 words, comfortably inside Extended band |
 | 4 | Chapter 3: Are the Soul and the Spirit One? (6 sub-chapters) | ch07-soul-and-spirit-one-substance-or-two.txt | 2695 source words sits well below band floor (5500); cannot meaningfully split a 6-sub-chapter unit whose argument is a single continuous adjudication of whether the Second and *al-Hayuli* are similar to the First; enriched with placed inline material from al-Kirmani's *Rahat al-'Aql* (Tier 1 cosmology of the seven seas and *dar al-Ibda'*/*dar al-Inbi'ath*), Imam al-Mu'izz li-Din Allah's *Ta'wil al-Shari'a* (Tier 5 Ismaili Tawhid framing), the Quranic anchors Q 33:72 (the trust) and Q 17:85 (the spirit as *amr*) that the *da'wa* tradition supplies when the chapter title asks about Soul and spirit, and one Imam Ali (peace be upon him) aphorism on the intellect as messenger; lands at 6642 words, comfortably mid-Extended band, source-spine ~41% (just under the 60% enrichment cap) |
@@ -83,7 +82,6 @@ faithful_exposition
 ### Host dynamic (AI-selected per chapter)
 | Chapter | Host dynamic | Rationale |
 |---|---|---|
-| `the-four-da-is-and-the-debate` | curious_mind + scholar_companion | Mentor walks the listener through who the four da'is are and what the dispute is about; Scholar Companion asks the questions a newcomer would ask. No named debate happens yet — the editor is setting up the stage for what's to come. |
 | `the-perfect-and-the-perfection-of-the-soul` | curious_mind + scholar_companion |  |
 | `soul-intellect-and-the-power-of-emanation` | advocate_a + advocate_b + arbiter |  |
 | `the-soul-in-time-and-the-rejoinder-to-al-nusra` | advocate_a + advocate_b + arbiter |  |
