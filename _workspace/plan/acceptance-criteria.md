@@ -210,6 +210,41 @@ Use `- [x]` to mark done; `- [ ]` to mark pending. Group anchors (`### Wave N �
 - [ ] **P22.preflight-invariant** 🔒 Hand-authored preflight artifacts NEVER overwritten by orchestrator on resume: if `<book>/_system/source/text/chapters-rationale.md`, `<book>/_system/concept-glossary.md`, or `<book>/_system/registry.md` exists at halt time, `--approve-transcript` must skip the auto-regeneration step for that file. Asaas case validates this. (Without this guardrail, the operator's pre-Phase-0a intelligence is silently destroyed.)
 - [ ] **P22.git-policy** ✅ `english-transcript.md` and `operator-review.md` are git-tracked (NOT under .gitignore); operator-review commits follow convention `podcast(<book-slug>): operator transcript review — <one-line summary>` for searchable audit trail
 
+### P22.markers — Phase 0b refinement preserves all page markers (asaas-discovered defect 2026-05-20)
+
+**Context:** Discovered during asaas-al-taveel Phase 0b post-mortem 2026-05-20. Of 49 chunked refinement windows, 7 (003, 007, 016, 019, 029, 038, 039) emitted 0 page markers from inputs containing 7–10 each; net 58/416 page anchors missing from `refined-english.md`. Body content preserved; metadata loss only. Root cause: refinement prompt template does not enforce verbatim preservation of `<!-- page N -->` HTML comments. This breaks P22 operator navigation, P4.10 content-range precision, P21 citation accuracy, and Loop N anchoring. Fix is one-line prompt edit + regression fixture + re-run.
+
+- [ ] **P22.markers.fixture** ✅ `scripts/podcast/tests/test_phase_0b_preserves_page_markers.py` exists; 2-page mock input with `<!-- page 1 -->` + `<!-- page 2 -->`; asserts both markers appear verbatim at correct relative positions in refined output; runs <5s; zero LLM call (uses recorded fixture, not live `claude -p`)
+- [ ] **P22.markers.fixture-fails-pre-fix** ✅ Fixture fails against the unfixed prompt template (proves the bug is real, not a phantom)
+- [ ] **P22.markers.prompt-fix** ✅ Phase 0b refinement prompt in `scripts/podcast/_authoring.py` (or wherever the refinement system prompt lives) instructs explicitly: "Preserve every `<!-- page N -->` HTML comment verbatim, at the same relative position in the output as in the input. Do NOT collapse adjacent markers, do NOT renumber them, do NOT omit any, do NOT invent new ones." The instruction is in the system prompt section, not the user-turn payload (so it can't be diluted by long inputs).
+- [ ] **P22.markers.fixture-passes-post-fix** ✅ Same fixture passes against the fixed prompt template (proves the fix works without a live re-run)
+- [ ] **P22.markers.audit-tool** ✅ `scripts/podcast/audit_page_markers.py --book <slug>` exists; compares page-marker set in `_system/source/text/raw-extract.md` vs `refined-english.md`; exits 0 when 1:1 match; exits non-zero with per-chunk breakdown table on mismatch
+- [ ] **P22.markers.asaas-staircase** 🔒 Phase 0b re-run executes as smoke (1 chunk — start with win-003, the most-broken) → first-broken-cohort (the 7 originally-broken windows) → full re-run (all 49). Operator halt for sample review between each rung. No silent advance.
+- [ ] **P22.markers.asaas-coverage** 📊 After asaas re-run: `refined-english.md` contains 416/416 page markers (vs 358/416 pre-fix); audit tool exits 0
+- [ ] **P22.markers.asaas-no-hallucinated** 📊 Zero chunks emit a marker absent from input (vs 1 hallucinated in win-010 pre-fix)
+- [ ] **P22.markers.line-ratio** 📊 Per-chunk line-ratio variance (out-lines / in-lines) stays within 50%–130% across all 49 windows post-fix (vs observed 35%–150% pre-fix; signals refinement consistency)
+- [ ] **P22.markers.kar-backcompat** 🟡 KaR re-run with fixed prompt produces `refined-english.md` within Levenshtein 0.95 of pre-fix shipped version (proves the prompt fix doesn't regress refinement quality on already-shipped books). Run after asaas validates the fix.
+- [ ] **P22.markers.ci** ✅ `tests/test_phase_0b_preserves_page_markers.py` runs on every PR touching `scripts/podcast/_authoring.py` OR `_chunking.py`; red harness BLOCKS merge
+
+### P23 — Phase 0a.5 Named-Entity Recognition pre-seeding via Azure Text Analytics (operator-review automation)
+
+**Context:** P22's operator-review.md §3 (glossary candidates) and §4 (pronunciation table) are currently hand-authored by Claude from `chapters-rationale.md` context — coverage is low (12 terms on asaas) and inconsistent across books. P23 inserts a new Phase 0a.5 between 0b and the operator-review scaffold: run Azure Text Analytics S0 (Language service, prebuilt NER) over `refined-english.md`, emit `_system/candidate_named_entities.json`, then the scaffolder pre-fills §3 and §4 from that file ranked by occurrence frequency. Zero Azure cost on Free F0 tier (5,000 records/month; one asaas-size book is ~150 records). Per-book quality improvement: catches the dozens of intermediate-prophet names (Yūshaʿ bin Nūn, Ṭālūt, Dāwūd, Baḥīrā, etc.) that hand-authored lists miss.
+
+- [ ] **P23.azure-setup** 🔒 Operator creates Text Analytics F0 resource in Azure portal (region `eastus`, same resource group as `journal-docintel`); copies KEY 1 + endpoint to environment variables `AZURE_LANGUAGE_KEY` and `AZURE_LANGUAGE_ENDPOINT`. Verify via `echo $AZURE_LANGUAGE_ENDPOINT` returning the URL.
+- [ ] **P23.azure-tier-doc-intel** 🔒 Operator confirms Document Intelligence resource (`journal-docintel`) is on Standard S0 tier with first-year free 500 transactions/month credit (Azure Portal → resource → Pricing tier). Switch to S0 if currently on a higher paid tier.
+- [ ] **P23.azure-tier-translator** 🔒 Operator confirms Translator resource is on Standard S1 with first-year free 2M characters/month credit. Switch to S1 if currently elsewhere.
+- [ ] **P23.client** ✅ `scripts/podcast/_text_analytics.py` exposes `extract_entities(text: str, language: str = "en") -> list[Entity]` where `Entity` is a dataclass with fields `{text, category, subcategory, confidence, offset, length}`; chunks long inputs to fit per-document char cap (5120 chars); reads credentials from env vars only (no hardcoded keys; passes P17.1 boundary check)
+- [ ] **P23.integration** ✅ `scripts/podcast/orchestrate_book.py` Phase 0a.5 runs after Phase 0b completes; invokes `extract_entities()` over `refined-english.md`; emits `_system/candidate_named_entities.json`; phase tracked in `state.json.phases["0a.5"]`
+- [ ] **P23.schema** ✅ `_system/candidate_named_entities.json` schema: `{schema_version: 1, generated_at, source_file, source_chars, total_records_used, entities: [{text, category, subcategory, occurrences, sample_offsets, confidence_avg}]}`; sorted by `occurrences` descending; schema documented in `book-dir-layout.md`
+- [ ] **P23.operator-review-prefill** ✅ When orchestrator (or Claude in manual P22 mode) scaffolds `operator-review.md`, §3 (glossary) and §4 (pronunciation) sections are pre-filled from `candidate_named_entities.json`: categories `Person`, `Location`, `Organization`, `Event` → §4 pronunciation table (pronunciation hint left blank for operator); other entity categories + recurring abstract terms (caught via Key Phrase Extraction, secondary API call) → §3 glossary candidates
+- [ ] **P23.tests** ✅ `scripts/podcast/tests/test_text_analytics.py` exists; uses recorded fixture (no live API call); asserts client returns expected `Entity` structure; tests chunking, edge cases (empty input, non-UTF8), failure modes; runs <5s
+- [ ] **P23.fallback** ✅ Phase 0a.5 fails gracefully: if Azure Language API returns non-2xx, network fails, or env vars missing, orchestrator logs warning, emits empty `candidate_named_entities.json`, continues. Operator-review.md scaffolder treats empty entities file as "fall back to hand-authored §3/§4" — current behavior preserved.
+- [ ] **P23.cost-ledger** ✅ Each Text Analytics call appends a `cost-ledger.jsonl` row with `service='azure-language'`, `model='ta-S0-prebuilt-ner'`, `records_used=<N>`, `cost_usd=0.0` (free tier); ledger tracks cumulative records used vs 5,000/month F0 cap
+- [ ] **P23.cap-warning** ✅ When cumulative `records_used` this calendar-month exceeds 4,500 (90% of F0 cap), orchestrator emits a heartbeat warning + console message; at 5,000 the next call raises `AzureFreeTierExhaustedError` (rather than silently incurring paid-tier charges)
+- [ ] **P23.docs** ✅ `docs/podcast/azure-setup.md` exists; documents creation flow for all three Azure resources (Document Intelligence, Translator, Language) including free-tier limits, env-var setup, key rotation, regional placement; linked from `mac-studio-primary.md` §1 setup section
+- [ ] **P23.regression** 📊 Compared to hand-authored operator-review.md §3+§4 on a 5-book sample: NER pre-seeded version surfaces ≥2× more named entities; operator approval rate (terms kept vs deleted) stays >70% (proves the candidates are useful, not noise)
+- [ ] **P23.computer-vision-fallback** 🟡 `scripts/podcast/adapters/_azure_client.py` includes Computer Vision OCR (Free S1, 5,000 transactions/month) as fallback adapter for books exceeding Document Intelligence's 500 pages/month cap. Forward-looking; not exercised by asaas (416 pages). Promote when first 500+ page book lands and DI cap is hit.
+
 ---
 
 ## Wave 3 — Corpus Validation (Phases P9–P10)
@@ -248,6 +283,26 @@ KaR is the **pilot / dogfooding** run that exercises the pipeline ahead of the f
 - [ ] **P9.5** ✅ Episode 6 (The Seventh Silence) honors the unwritten Qa'im chapter as content — not silently skipped
 - [ ] **P9.5** ✅ Concept-glossary referenced by ≥1 framing per episode OR zero-new-vocab declaration logged
 - [ ] **P9.5** ✅ P4 numeric-disambiguation register populated; 7-natiq and 12-hujja enumerations carry citations
+
+#### P9.5 — SHIP-READY criteria (raised quality bar, added 2026-05-20)
+
+**Context:** Operator committed to "complete Phase 0 perfectly on the hardest book; cost is not the constraint, output quality is." Budget envelope raised from default `cost_cap_hard: $50` to ~$130 for asaas. Per-chapter `podcast-challenger` verdict must be SHIP-READY (not SHIP-WITH-CAUTION). Staircase pattern (smoke → cohort → full) governs each LLM-spending phase. EP01 is the firmest halt point.
+
+- [ ] **P9.5.framework-deps** 🔒 All framework dependencies green BEFORE asaas Phase 0c resume — no phase advance with yellow/red dep: P5.5 (this work), P6.5 (cost-ledger), P22.impl (all rows), P22.markers (all rows), P4.10 (parser, validator, phase0d, phase0e_phase11, loopN, backcompat), P23 (client, integration, schema, operator-review-prefill, tests, fallback, cost-ledger, docs)
+- [ ] **P9.5.staircase-0b** 🔒 Phase 0b re-run executes as staircase: smoke (1 chunk — win-003, most-broken cohort) → first-broken (7 originally-zero-marker windows) → full (49 chunks). Operator halt for sample review between rungs. Each rung's audit logged to `_workspace/plan/checkpoints/asaas-0b.md` (see STAIRCASE.checkpoint-log).
+- [ ] **P9.5.staircase-0c** 🔒 Phase 0c (Arabic phonetic pass) staircase: smoke (1 chapter — Ādam, smallest body chapter) → full (6 chapters). Operator halt for phonetic sample diff vs operator-review.md §4 between rungs. Abort signal: phonetic for any named entity contradicts §4.
+- [ ] **P9.5.staircase-0e** 🔒 Phase 0e enrichment staircase: smoke (Ādam glossary buildout — heaviest foundational-term load per chapters-rationale.md §3) → full (5 remaining chapters). Operator halt for glossary review between rungs. Abort signal: EP01 enrichment misses ≥2 of the 8–10 foundational terms OR pulls footnotes into body.
+- [ ] **P9.5.ep01-firm-halt** 🔒 Phase 0g EP01 (Ādam — The Hidden Code) authored alone to `podcast-challenger` verdict SHIP-READY; orchestrator HALTS for operator full-episode review before EP02 begins. This is the single firmest checkpoint for asaas — EP01 establishes the recursive-scaffold template that EP02–06 inherit, so a defective EP01 propagates to all six episodes if not caught here.
+- [ ] **P9.5.ep01-foundational-glossary** 📊 EP01 framing introduces all 8–10 foundational glossary terms at first occurrence (nāṭiq, asās, ḥujja, taʾwīl, ẓāhir, bāṭin, mubdaʿ, ʿaql awwal, nafs kulliyya) with audible operator-confirmed pronunciation; cross-references resolve to `_system/concept-glossary.md` slugs
+- [ ] **P9.5.ep01-pattern5** 📊 EP01 establishes the recursive_scaffold template per `episode-architecture.md` Pattern 5; EP02–06 each open with 30-sec recap referencing EP01's template (passes Category P sub-check P4.9.challenger)
+- [ ] **P9.5.ep02-06-challenger** 📊 Each of EP02, EP03, EP04, EP05, EP06 reaches `podcast-challenger` verdict SHIP-READY (NOT SHIP-WITH-CAUTION); convergence allowed up to 3 outer × 5 inner iterations per orchestrator design; chapter halting at iteration cap for human input
+- [ ] **P9.5.ep06-unwritten** ✅ EP06 (The Seventh Silence) treats the unwritten Qāʾim chapter as content; recursive-scaffold recap honors the deliberate absence; Mentor+Student persona handles the structural weirdness explicitly (not as an editorial note tacked on)
+- [ ] **P9.5.cross-episode-pass** 📊 Series-level `podcast-challenger` pass across all 6 episodes after per-chapter convergence completes; verdict SHIP-READY for the series; catches cross-episode glossary drift, recursive_scaffold breakdown, pacing inconsistency, persona drift
+- [ ] **P9.5.loop-n-asaas** 🔒 Loop N converges clean on asaas's heavy numeric/symbolic surface: 7 nāṭiqs (enumeration coverage + one-time enumeration), 12 ḥujjas (enumeration coverage), abjad ciphers (cipher coverage per `06-abjad-numerals.md`), Fatimid-doctrine-into-Qurʾānic-narrative anachronism (labeling per handbook §4); no P0 findings; `<allowed_symbolic_readings>` pre-seeded from operator-review.md §5 honored at finding time
+- [ ] **P9.5.budget** 📊 Total asaas Phase 0 through per-chapter cost target $80–$110; hard cap $130 (raised from default `cost_cap_hard: $50` for this run; documented in `state.json.config.cost_cap_hard=130`); cost-ledger rows present for every LLM call AND every Azure call (P6.5 + P23.cost-ledger both shipped by this point)
+- [ ] **P9.5.azure-budget** 📊 Asaas Azure spend stays $0 (Document Intelligence S0 free tier: 416 / 500 transactions used; Translator S1 free tier: ~720K / 2M chars used; Language F0: ~150 / 5000 records used). Verified via Azure Portal cost analysis post-shipment.
+- [ ] **P9.5.checkpoint-trail** ✅ `_workspace/plan/checkpoints/asaas-*.md` files present for every operator halt-and-review (one per phase rung); each cites the sample artifacts reviewed and the explicit operator decision; searchable audit trail
+- [ ] **P9.5.ship-or-bust** 🔒 If any P9.5.* row above can't be cleared, orchestrator HALTS rather than degrading to SHIP-WITH-CAUTION. Quality is the binding constraint; budget is not.
 - [ ] **P9.6** 📊 Raahat al-Aqal (591p): full pipeline OR Doc Intelligence 600s poll budget remediation issue filed
 - [ ] **P9.7** 📊 Rasail Ikhwan AsSafa (865p): full pipeline OR failure-mode + remediation issue filed; P4 register exercised on classical-philosophical numeric structures
 
@@ -430,6 +485,18 @@ KaR is the **pilot / dogfooding** run that exercises the pipeline ahead of the f
 - [ ] **S1/L6** ✅ When orchestrator runs on a book, no agent or operator edits files under that book's `_system/`, `_chunks/`, `chapters/`, `chapter-contracts/`, `episodes/`, `transcripts/`, `_learning/`
 - [ ] **S1/L6** ✅ Wait-banner emitted before any HALT; banner field substitution succeeds on populated `heartbeat.json`
 
+### Staircase + early-course-correct discipline (governance, added 2026-05-20)
+
+Applies to every LLM-spending phase to cap blast radius from defects we haven't yet seen. Operationalizes the "fix bugs at the smallest possible spend, not at the end" principle. Lessons learned via asaas Phase 0b post-mortem (58 page markers dropped, discovered only after audit; would have been caught at chunk 003 if smoke pattern was in place).
+
+- [ ] **STAIRCASE.fixture-first** 🔒 Before any LLM-spending phase fix, a regression fixture exists that fails against pre-fix template and passes against post-fix template. Fixture-development cost: zero LLM, ~5 min. Examples: P22.markers.fixture (Phase 0b), P23.tests (Phase 0a.5).
+- [ ] **STAIRCASE.smoke-first** 🔒 Before scaling a phase to all units, a smoke run executes against the smallest meaningful unit: 1 chunk for Phase 0b/0c; 1 chapter for Phase 0d/0e/0g. Sample artifact surfaced to operator. Halt for explicit "looks good" or course-correction before staircase rung 2.
+- [ ] **STAIRCASE.rung-pattern** ✅ Each phase advances in rungs (typically 1 → cohort → all). Each rung's artifacts audited against per-phase quality criteria before next rung commits. ~12% cost overhead vs single-shot, in exchange for capping blast radius if an early-rung defect is found.
+- [ ] **STAIRCASE.abort-signal** 🔒 Each phase has a pre-defined abort signal documented in the per-phase plan; firing the signal halts the phase immediately, surfaces sample + stderr to operator, sets `phase_status=halted-abort-signal-<name>` in state.json.
+- [ ] **STAIRCASE.checkpoint-log** ✅ Each operator halt-and-review recorded in `_workspace/plan/checkpoints/<book>-<phase>.md` with timestamp, sample artifacts reviewed, operator decision, and rationale if course-correcting. Searchable audit trail across multi-day runs; survives orchestrator restarts.
+- [ ] **STAIRCASE.cap-cost-by-rung** 🔒 Per-phase wall-clock cost caps enforce rung discipline: a single rung cannot exceed (phase_total_estimated × 1.2) before automatic halt. Caps documented in YAML per phase.
+- [ ] **STAIRCASE.applies-to-all** ✅ All future books (W3 corpus P9.1–P9.7, future ad-hoc) inherit this discipline by default; opting out requires explicit `--no-staircase` flag and a documented rationale in the run's commit message
+
 ### Plan conformance (repo-surgeon Pass 5)
 
 - [ ] **L1** ✅ `_workspace/plan/podcast-plan.yaml` parses cleanly
@@ -509,10 +576,18 @@ KaR is the **pilot / dogfooding** run that exercises the pipeline ahead of the f
 
 ## Inventory
 
-- Total checkboxes: ~230 (count regenerated by Pass 5 L10)
+- Total checkboxes: ~275 (count regenerated by Pass 5 L10; +45 added 2026-05-20: P22.markers ×11, P23 ×13, P9.5 SHIP-READY ×14, STAIRCASE governance ×7)
 - Currently checked: 9 (P3.1, P3.2, P5.1 SHIPPED, OP-1..OP-6)
-- Currently pending: ~221
+- Currently pending: ~266
 - Verification mix: ✅ auto-verifiable (majority) · 🟡 dep-blocked · 🔒 manual gate · 📊 metric-bound
+
+**2026-05-20 additions (this commit):**
+- **P22.markers** — Phase 0b page-marker preservation (asaas-discovered defect; regression fixture + prompt fix + audit tool + staircase re-run)
+- **P23** — Phase 0a.5 NER pre-seeding via Azure Text Analytics F0 (replaces hand-authored operator-review.md §3+§4; zero Azure cost on free tier)
+- **P9.5 SHIP-READY criteria** — asaas as the hardest test case; SHIP-READY per-chapter (not SHIP-WITH-CAUTION); $130 hard cap (raised from $50); EP01 firm halt; Loop N convergence required
+- **STAIRCASE.\*** — cross-cutting governance pattern (fixture-first → smoke → cohort → full, with operator halt and abort signals at each rung)
+
+**YAML cross-ref status:** New rows P22.markers.\*, P23.\*, P9.5.\* (SHIP-READY), STAIRCASE.\* are not yet mirrored in `podcast-plan.yaml` `phases[].acceptance[]`. Pass 5 L10 will flag the drift until reconciled. Reconciliation deferred to the YAML-edit session at the start of the framework code work (next session).
 
 ## Wave summary (autonomous scheduling targets)
 

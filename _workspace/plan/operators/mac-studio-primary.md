@@ -16,12 +16,28 @@ current_branch: book/asaas-al-taveel
 current_book: asaas-al-taveel
 current_book_dir: content/podcast/library/books/asaas-al-taveel
 authoritative_state_path: content/podcast/library/books/asaas-al-taveel/_system/orchestrator-state.json
-status_tag: ACTIVE
+status_tag: HOLDING-FOR-FRAMEWORK-FIX
 current_phase: "0b"
-current_phase_status_summary: stale running-lock from SIGKILL; reset to failed, then --resume
-next_action: run session-start protocol, flip phase_status running→failed if no orchestrator alive, commit checkpoint, --resume 0b
+current_phase_status_summary: |
+  Phase 0b complete 2026-05-20T13:38:21Z (refined-english.md 10329 lines / 759 KB).
+  Audit revealed Phase 0b prompt-template defect: 58 of 416 page markers stripped across
+  7 of 49 chunked windows (no content loss; metadata only). Plan revised to "complete
+  Phase 0 perfectly on the hardest book before tackling remaining tasks" with budget
+  envelope raised to $130 hard cap (from $50 default) and SHIP-READY per-chapter
+  challenger verdict required. Acceptance criteria extended with 45 new rows in
+  acceptance-criteria.md (P22.markers ×11, P23 ×13, P9.5 SHIP-READY ×14, STAIRCASE ×7).
+  Awaiting (a) operator Azure setup (Text Analytics F0 resource + env vars per P23.azure-setup)
+  and (b) operator §§1-8 of operator-review.md. Framework code fixes start once both gate.
+next_action: |
+  Operator (1) creates Azure Text Analytics F0 resource per P23.azure-setup, P23.azure-tier-doc-intel,
+  P23.azure-tier-translator — see docs/podcast/azure-setup.md (to be authored as part of P23.docs);
+  (2) finishes operator-review.md §§1-8 review.
+  Claude then drives: framework code fixes (P22.markers, P22.impl, P4.10, P6.5, P23 client/integration/
+  tests/fallback/cost-ledger) on feat/podcast-w1-foundation; merge to book/asaas-al-taveel;
+  Phase 0b staircase re-run; Phase 0a.5 NER pre-seed integration; operator-review.md regenerated
+  from NER; resume 0c → 0d → 0e → 0f → 0g (EP01 firm halt) → EP02-06.
 anthropic_share: 0.5
-last_verified_at: 2026-05-20T10:00:00Z
+last_verified_at: 2026-05-20T17:00:00Z
 last_updated: 2026-05-20
 ---
 
