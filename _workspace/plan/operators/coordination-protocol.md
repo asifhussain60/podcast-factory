@@ -305,15 +305,12 @@ Highlights both machines follow without exception:
 1. **Response template** — every substantive response uses this **4-part shape, in order** (full spec in [response-conventions.md §1](../response-conventions.md)):
    1. `## At a glance — <severity emoji> <one-phrase status>` — H2 header with status embedded + numbered list of ~5 non-technical one-liners summarizing the body
    2. `---` (horizontal rule)
-   3. **Body** — `### N. <name> <emoji>` numbered blocks (*Plain English*/*Impact*/*Fix*/*Where* bullets) OR tables. **No custom section labels** ("Deviation from plan", "Verification", "Coord doc", "What changed", etc.).
-   4. `---` + `**Next:** *Asif* or *AI* — <one explicit sentence>` — single italicized actor + em-dash + action. No `**TL;DR:**` opener, no `## Project Status` block (both deprecated 2026-05-21).
-2. **AskUserQuestion ordering**: recommended option first, labeled
-   "(Recommended)"; remaining options ordered priority highest→lowest.
-3. **Asif IS Babu** (the memoir's protagonist). Relevant only if memoir
-   context comes up; not relevant to podcast work.
-4. Terse responses; clickable markdown links for files/commits (`[name](path)`,
-   `[short-sha](github-url)`); harness-side confirmation for risky actions
-   (force pushes, branch deletions, `rm -rf`).
+   3. **Body** — `### N. <Plain English name> <emoji>` headers followed by **PROSE paragraphs** (2–4 sentences each, naturally covering what happened, impact, fix if any, where to look — with clickable links woven inline). **No literal `*Plain English:* / *Impact:* / *Fix:* / *Where:*` sub-bullets** — those four words are guidance for what to convey, NOT visible markup. Bullets/tables only when content has genuine enumerable structure (with content-meaningful labels). **No custom section header labels** ("Deviation from plan", "Verification", "Coord doc", "What changed").
+   4. `---` + `## Next: 👤 Asif` (or `## Next: 🤖 AI`) — H2 header (matches At-a-glance visual weight, bookends the response) + emoji + exactly-one-word actor name + one sentence naming the action. **No `**TL;DR:**` opener, no `## Project Status` block, no `*Plain English:*` literal sub-bullets, no inline `**Next:**` line** (all deprecated 2026-05-21).
+2. **Default response posture** — reflect the directive, pushback ONLY when warranted (regression risk, scope ambiguity, naming conflict, missing context, better path exists), recommend a best path, ask interactively via AskUserQuestion (one question per call, recommended option FIRST + labeled "(Recommended)") ONLY when a genuine decision is needed. **Do NOT over-ask** — if directive is clear/low-risk/pattern-matched, JUST EXECUTE. Full rule in [response-conventions.md §10](../response-conventions.md).
+3. **AskUserQuestion ordering**: recommended option first, labeled "(Recommended)"; remaining options ordered priority highest→lowest.
+4. **Asif IS Babu** (the memoir's protagonist). Relevant only if memoir context comes up; not relevant to podcast work.
+5. Terse responses; clickable markdown links for files/commits (`[name](path)`, `[short-sha](github-url)`); harness-side confirmation for risky actions (force pushes, branch deletions, `rm -rf`).
 
 ---
 

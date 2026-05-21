@@ -302,16 +302,17 @@ verdict `SHIP-READY` / `SHIP-WITH-CAUTION` / `BLOCKED`. Required gate in
 Full spec: [../response-conventions.md](../response-conventions.md). Headline rules (updated 2026-05-21 — inverted At-a-glance template per Air's commit [b01b2f9](https://github.com/asifhussain60/Journal/commit/b01b2f9), shipped at Asif's direction):
 
 1. **Response template**, 4 parts in order:
-   1. `## At a glance — <severity emoji> <one-phrase status>` — H2 header with status embedded + numbered list of ~5 non-technical one-liner summaries (each a complete sentence; reader can act from these alone if they trust the recommendation)
+   1. `## At a glance — <severity emoji> <one-phrase status>` — H2 header with status embedded + numbered list of ~5 non-technical one-liners (each a complete sentence, clickable links preserved)
    2. `---` (horizontal rule)
-   3. **Body** — `### N. <Plain English issue name> <severity emoji>` numbered blocks (with *Plain English*/*Impact*/*Fix*/*Where* bullets) OR tables when comparing options. **No custom section labels.**
-   4. `---` + `**Next:** *Asif* or *AI* — <one explicit sentence>` — italicized actor name (exactly one word: `*Asif*` or `*AI*`), em-dash, action sentence. Replaces the prior `**Your next step:**` line.
-2. **Severity emojis**: 🟢 ship-ready / 🟡 needs your decision / 🔴 blocked / ⚠ caution — used both in the At-a-glance header and per-section.
-3. **Deprecated** (do NOT use): `**TL;DR:**` opener, standalone `**Status:**` line, trailing `## Summary (scan-and-skip)` block, `## Project Status` block — all replaced 2026-05-21.
-4. **AskUserQuestion ordering**: recommended option first, labeled "(Recommended)"; remaining options priority-ordered highest→lowest.
-5. **Asif IS Babu** (memoir context only — not relevant to podcast work).
-6. **Terse responses**, clickable markdown links for files/commits (`[name](path)` and `[short-sha](github-url)`), halt-and-surface before destructive actions.
-7. **No custom section labels** like "Deviation from plan", "Verification", "Coord doc", "What changed", "Summary". Body lives in `### N.` numbered blocks, tables, or short paragraphs.
+   3. **Body** — `### N. <Plain English name> <emoji>` headers followed by **PROSE paragraphs** (2–4 sentences each, naturally covering what happened, impact, fix if any, where to look — clickable links woven inline). **No literal `*Plain English:* / *Impact:* / *Fix:* / *Where:*` sub-bullets** (those four words are guidance, not markup). Bullets/tables only when content has genuine enumerable structure, with content-meaningful labels.
+   4. `---` + `## Next: 👤 Asif` (or `## Next: 🤖 AI`) — H2 header (matches At-a-glance visual weight, bookends the response) + emoji + exactly-one-word actor name + one sentence naming the action.
+2. **Default response posture** (added 2026-05-21): reflect the directive, push back ONLY when warranted (regression risk, scope ambiguity, naming conflict, missing context, better path exists), recommend a best path, ask interactively via AskUserQuestion (one question per call, recommended option FIRST + labeled "(Recommended)") ONLY when a genuine decision is needed. **Do NOT over-ask** — if directive is clear/low-risk/pattern-matched, JUST EXECUTE. Full rule in [../response-conventions.md §10](../response-conventions.md).
+3. **Severity emojis**: 🟢 ship-ready / 🟡 needs your decision / 🔴 blocked / ⚠ caution — used both in the At-a-glance header and per-section. `## Next:` uses 👤 for Asif-owned action, 🤖 for AI-owned action.
+4. **Deprecated** (do NOT use): `**TL;DR:**` opener, standalone `**Status:**` line, trailing `## Summary (scan-and-skip)` block, `## Project Status` block, literal `*Plain English:*` etc. sub-bullets, inline `**Next:**` line — all replaced 2026-05-21.
+5. **AskUserQuestion ordering**: recommended option first, labeled "(Recommended)"; remaining options priority-ordered highest→lowest.
+6. **Asif IS Babu** (memoir context only — not relevant to podcast work).
+7. **Terse responses**, clickable markdown links for files/commits, halt-and-surface before destructive actions.
+8. **No custom section labels** like "Deviation from plan", "Verification", "Coord doc", "What changed", "Summary". Body lives in `### N.` prose paragraphs, tables, or short paragraphs.
 
 ---
 
@@ -327,8 +328,8 @@ When Studio finishes a phase or hits a pause:
 4. The post-commit hook auto-pushes.
 5. Write a response per [../response-conventions.md](../response-conventions.md)
    using the 4-part At-a-glance template (At a glance H2 + numbered summary,
-   ---, body `### N.` blocks, ---, `**Next:** *Asif*` or `*AI*`) so Asif can
-   decide whether to wake the Air's holding loop on KaR Phase 0g or keep it paused.
+   ---, body `### N.` prose paragraphs, ---, `## Next: 👤 Asif` or `## Next: 🤖 AI`)
+   so Asif can decide whether to wake the Air's holding loop on KaR Phase 0g or keep it paused.
 
 ---
 
