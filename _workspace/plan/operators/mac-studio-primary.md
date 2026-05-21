@@ -6,12 +6,18 @@ description: Primary machine for autonomous podcast-pipeline conversions
 hostname_hint: Asifs-Mac-Studio.local
 operator: Asif Hussain (asifhussain60@gmail.com)
 worktree_layout:
-  - path: /Users/ahmac/Code/Journal
-    branch: main
-  - path: /Users/ahmac/Code/Journal-feat-w1
-    branch: feat/podcast-w1-foundation
+  # NOTE: per index.md and coordination-protocol.md §9, single-worktree-per-machine
+  # is the convention. The Studio currently holds three worktrees of the same repo;
+  # `Journal-book-asaas` is the primary (book lane). The others are observational —
+  # `Journal` (`dump` branch, 1 commit ahead of develop) and `Journal-feat-w1`
+  # (`feat/operator-review-studio`, 7 commits ahead of develop — active operator-review
+  # UI work). Asif decides whether to consolidate.
   - path: /Users/ahmac/Code/Journal-book-asaas
     branch: book/asaas-al-taveel
+  - path: /Users/ahmac/Code/Journal-feat-w1
+    branch: feat/operator-review-studio
+  - path: /Users/ahmac/Code/Journal
+    branch: dump
 current_branch: book/asaas-al-taveel
 current_book: asaas-al-taveel
 current_book_dir: content/podcast/library/books/asaas-al-taveel
@@ -35,8 +41,20 @@ current_phase_status_summary: |
   + test_audit_page_markers), Phase 0f import clean. The Air symmetrically merged
   book/kitab-al-riyad earlier the same day (commit e122fa0).
 
+  SYNC 2026-05-21T11:10Z: pulled develop (now @ e7e9ac5 — Air's coord-doc cleanup
+  v2 + studio-sync-prompt v3 + worktree-clarification commits 560f1b2, 083298b,
+  f00776d, 774b002, 9896e3a) and merged into book/asaas-al-taveel (merge ed8c1d1,
+  clean — no conflicts). Studio now sees: new _workspace/plan/operators/index.md
+  dashboard, new _workspace/plan/book-queue.md pull-on-demand queue, new
+  _workspace/plan/response-conventions.md BLUF spec, refactored coordination-protocol.md
+  (v2 §14 concurrency + §15 WRITE EXCEPTION), new start-session.sh script. Operator
+  files for both machines remain owned per §1 sole-write convention; no WRITE EXCEPTION
+  applies to this file currently.
+
   Awaiting (a) operator Azure setup (Text Analytics F0 resource + env vars per P23.azure-setup)
   and (b) operator §§1-8 of operator-review.md. Framework code fixes resume once both gate.
+  Air is paused per the 2026-05-21 sync; Studio is also paused pending Asif's explicit
+  authorization to resume asaas Phase 0c (Arabic phonetic) or framework lane.
 next_action: |
   Operator (1) creates Azure Text Analytics F0 resource per P23.azure-setup, P23.azure-tier-doc-intel,
   P23.azure-tier-translator — see docs/podcast/azure-setup.md (to be authored as part of P23.docs);
@@ -46,7 +64,7 @@ next_action: |
   Phase 0b staircase re-run; Phase 0a.5 NER pre-seed integration; operator-review.md regenerated
   from NER; resume 0c → 0d → 0e → 0f → 0g (EP01 firm halt) → EP02-06.
 anthropic_share: 0.5
-last_verified_at: 2026-05-21T00:00:00Z
+last_verified_at: 2026-05-21T11:10:47Z
 last_updated: 2026-05-21
 ---
 
@@ -115,12 +133,12 @@ end-to-end autonomously**, stopping only at genuine operator gates.
 
 ## 3. Current state snapshot (re-verify on every session — do not trust this section)
 
-`last_verified_at: 2026-05-21T00:00:00Z`. At that moment:
+`last_verified_at: 2026-05-21T11:10:47Z`. At that moment:
 
-- **book/asaas-al-taveel HEAD**: `5dae77c coord(macbook-air-secondary): amend §4.2 — also cherry-pick this coord commit`
-- **develop HEAD**: `4597a72` (merge commit — book/asaas-al-taveel merged into develop today)
+- **book/asaas-al-taveel HEAD**: `ed8c1d1 merge develop → book/asaas-al-taveel — pick up coord-doc cleanup + worktree clarification (2026-05-21)`
+- **develop HEAD**: `e7e9ac5` (merge book/kitab-al-riyad → develop — studio-sync-prompt v3, authored by Air)
 - **phase**: `0b`
-- **phase_status**: `complete` (refined-english.md 10329 lines)
+- **phase_status**: `halted-for-transcript-review` (refined-english.md 10329 lines)
 - **last_completed_phase**: `0b` (refined English; awaiting P22 operator transcript review)
 - **last_error**: `null`
 
