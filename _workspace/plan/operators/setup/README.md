@@ -43,20 +43,49 @@ This folder is documentation only. The actual bootstrap automation lives at:
 - [../../../../infra/claude-agents/](../../../../infra/claude-agents/) — Claude Code agent specs
 - [../../../../infra/launchd/](../../../../infra/launchd/) — macOS launchd jobs for scheduled work
 - [../start-session.sh](../start-session.sh) — per-session bootstrap (reads `~/.machine-id`, syncs branch, prints next action)
-- [../../../../.github/agents/operator-sync.agent.md](../../../../.github/agents/operator-sync.agent.md) — cross-machine sync diff agent (invoke via `claude --agent operator-sync`)
+- [../../../../.github/agents/podcast-operator.agent.md](../../../../.github/agents/podcast-operator.agent.md) — cross-machine sync diff agent (invoke via `claude --agent podcast-operator`)
 
 When in doubt about "what command actually runs", check those folders first. The docs here describe what the scripts DO and when to invoke them.
 
-## The cross-machine sync agent
+## The `podcast-operator` agent — your unified entry-point
 
-The `operator-sync` agent replaces bespoke "Asif crafts a 100-line sync prompt for the other machine" workflow. From any Mac with `~/.machine-id`, any worktree, any branch:
+When Asif sits down at any Mac and asks "where am I, what's next?", invoke `podcast-operator`. The agent auto-detects the machine via `~/.machine-id`, picks up where work was left off (extracts `next_action` from the operator file with cost/wall-time/gates), surfaces drift across 6 dimensions, reads peer state from origin/develop, and produces a quick recap + reminder in the approved 4-part At-a-glance response template.
+
+**Distinct from `podcast-orchestrator`**: this agent is the entry-point / recap / coordination agent (discovery + reminder). The sibling `podcast-orchestrator` is the autonomous pipeline driver (runs phases 0a → 0g for hours). Typical workflow: invoke `podcast-operator` first for the recap → if pipeline runnable, authorize `podcast-orchestrator --resume <slug>` → invoke `podcast-operator` again afterward for post-run recap.
+
+### Three ways to invoke (pick the one that fits your context)
+
+**Option 1 — CLI flag (works from any terminal, any Mac):**
 
 ```bash
-claude --agent operator-sync                  # discovery only — BLUF report, no writes
-claude --agent operator-sync --report-only    # status table only
-claude --agent operator-sync --execute-safe   # discovery + auto-execute safe ops (fast-forward merges, frontmatter timestamp bumps)
+claude --agent podcast-operator                  # discovery only — recap + drift report, no writes
+claude --agent podcast-operator --report-only    # drift table only, no proposals
+claude --agent podcast-operator --execute-safe   # discovery + auto-execute safe ops (FF merges, own-frontmatter timestamp bumps)
 ```
 
-The agent NEVER auto-resolves conflicts, auto-pushes to develop/main, auto-writes to the peer's operator file, or auto-runs pipeline phases. It discovers drift + proposes actions; the human executes (or passes `--execute-safe` for the small set of known-safe ops).
+**Option 2 — Slash command (in Claude Code chat in VS Code or desktop app):**
 
-Full contract at [../../../../.github/agents/operator-sync.agent.md](../../../../.github/agents/operator-sync.agent.md). Safety rules at SECTION 6 of that file (sole-write, phase-authority, shared-infra zones, read-only files, branch policy — all preserved).
+```
+/podcast-operator
+/podcast-operator --report-only
+/podcast-operator --execute-safe
+```
+
+Auto-registered by `scripts/install-claude-skills.sh` from [../../../../infra/claude-agents/podcast-operator.md](../../../../infra/claude-agents/podcast-operator.md).
+
+**Option 3 — Bash alias (shortest, requires per-Mac setup):**
+
+Add to `~/.zshrc` (or `~/.bashrc` if you use bash):
+
+```bash
+alias po="claude --agent podcast-operator"
+alias op="claude --agent podcast-operator"   # alternative shorter alias
+```
+
+Then from any terminal: `po`, `po --report-only`, `po --execute-safe`.
+
+### Safety contract (preserved across all 3 invocation forms)
+
+The agent NEVER auto-resolves conflicts, auto-pushes to develop/main, auto-writes to the peer's operator file, or auto-runs pipeline phases. It discovers drift + proposes actions; the human executes (or passes `--execute-safe` for the narrow set of known-safe ops listed in SECTION 3 of the agent spec).
+
+Full contract at [../../../../.github/agents/podcast-operator.agent.md](../../../../.github/agents/podcast-operator.agent.md). Safety rules at SECTION 6 of that file (sole-write, phase-authority, shared-infra zones, read-only files, branch policy — all preserved).
