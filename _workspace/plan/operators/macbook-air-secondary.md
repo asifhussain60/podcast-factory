@@ -35,12 +35,39 @@ last_verified_at: 2026-05-21T10:30:00Z
 last_updated: 2026-05-21
 response_conventions: see _workspace/plan/response-conventions.md (BLUF format,
   AskUserQuestion ordering, halt-and-surface pattern, cross-machine awareness)
+written_by: mac-studio-primary (one-time §15 exception, 2026-05-21T11:50Z, per Asif's explicit instruction to add setup/ folder cross-reference)
 ---
 
 # MacBook Air (secondary) — operator index
 
 **This file is written ONLY by `macbook-air-secondary`.** The Studio reads
 it but never writes it. See [coordination-protocol.md §1](coordination-protocol.md).
+
+> ⚠️ **WRITE EXCEPTION — 2026-05-21T11:50Z (Studio-authored, per coord-protocol §15)**
+>
+> The Studio created a new `setup/` documentation folder at
+> [setup/](setup/) per Asif's explicit instruction (chat 2026-05-21). It contains
+> per-machine config ([setup/machines.md](setup/machines.md)), the Azure stack +
+> recreate procedure ([setup/azure-stack.md](setup/azure-stack.md)), a full
+> blank-Mac bootstrap ([setup/recreate-from-scratch.md](setup/recreate-from-scratch.md)),
+> and a runtime-compatibility matrix that records the 2026-05-21 Cowork-incompatibility
+> verdict ([setup/runtime-compatibility.md](setup/runtime-compatibility.md)).
+>
+> **On the Air's next session, do these three things:**
+>
+> 1. Verify the per-Air section in [setup/machines.md](setup/machines.md) accurately
+>    describes the Air (worktree path, current branch, role). The Studio populated
+>    it from its best-known view of the Air. Correct anything wrong.
+> 2. Add a permanent §13 (or appropriate section) to this file that mirrors the
+>    `mac-studio-primary.md §14` pattern: a 3-row summary table + a pointer to
+>    [setup/runtime-compatibility.md](setup/runtime-compatibility.md). This becomes
+>    the canonical "setup docs exist; here's where" entry in your operator file.
+> 3. Remove this WRITE EXCEPTION blockquote AND the `written_by:` frontmatter field.
+>    Commit as `coord(macbook-air-secondary): re-assert ownership after 2026-05-21
+>    setup-folder cross-write`.
+>
+> Also reconcile the two earlier Studio-authored notes below (2026-05-20 bootstrap
+> + P22.markers) if you haven't already.
 
 > NOTE — bootstrap: this file was authored from the Studio side on 2026-05-20
 > to seed the coordination layer. On the Air's next session, populate the

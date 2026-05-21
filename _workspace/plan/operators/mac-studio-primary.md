@@ -6,17 +6,23 @@ description: Primary machine for autonomous podcast-pipeline conversions
 hostname_hint: Asifs-Mac-Studio.local
 operator: Asif Hussain (asifhussain60@gmail.com)
 worktree_layout:
-  - path: /Users/ahmac/Code/Journal
-    branch: main
-  - path: /Users/ahmac/Code/Journal-feat-w1
-    branch: feat/podcast-w1-foundation
+  # NOTE: per index.md and coordination-protocol.md §9, single-worktree-per-machine
+  # is the convention. The Studio currently holds three worktrees of the same repo;
+  # `Journal-book-asaas` is the primary (book lane). The others are observational —
+  # `Journal` (`dump` branch, 1 commit ahead of develop) and `Journal-feat-w1`
+  # (`feat/operator-review-studio`, 7 commits ahead of develop — active operator-review
+  # UI work). Asif decides whether to consolidate.
   - path: /Users/ahmac/Code/Journal-book-asaas
     branch: book/asaas-al-taveel
+  - path: /Users/ahmac/Code/Journal-feat-w1
+    branch: feat/operator-review-studio
+  - path: /Users/ahmac/Code/Journal
+    branch: dump
 current_branch: book/asaas-al-taveel
 current_book: asaas-al-taveel
 current_book_dir: content/podcast/library/books/asaas-al-taveel
 authoritative_state_path: content/podcast/library/books/asaas-al-taveel/_system/orchestrator-state.json
-status_tag: HOLDING-FOR-FRAMEWORK-FIX
+status_tag: HOLDING-FOR-OPERATOR-GATES
 current_phase: "0b"
 current_phase_status_summary: |
   Phase 0b complete 2026-05-20T13:38:21Z (refined-english.md 10329 lines / 759 KB).
@@ -26,19 +32,52 @@ current_phase_status_summary: |
   envelope raised to $130 hard cap (from $50 default) and SHIP-READY per-chapter
   challenger verdict required. Acceptance criteria extended with 45 new rows in
   acceptance-criteria.md (P22.markers ×11, P23 ×13, P9.5 SHIP-READY ×14, STAIRCASE ×7).
-  Awaiting (a) operator Azure setup (Text Analytics F0 resource + env vars per P23.azure-setup)
-  and (b) operator §§1-8 of operator-review.md. Framework code fixes start once both gate.
+
+  MERGE TO DEVELOP COMPLETE 2026-05-21: book/asaas-al-taveel merged into develop
+  (merge commit 4597a72) — Studio's Phase 0a–0b work + framework cherry-picks
+  (P22.markers fix 5201b54, two coord-doc commits) now landed. No conflicts during
+  merge (the Air's macbook-air-secondary.md updates and Studio's mac-studio-primary.md
+  updates did not collide). Gate-4 verification: 30 tests OK (test_phase_0b_preserves_page_markers
+  + test_audit_page_markers), Phase 0f import clean. The Air symmetrically merged
+  book/kitab-al-riyad earlier the same day (commit e122fa0).
+
+  SYNC 2026-05-21T11:10Z: pulled develop (now @ e7e9ac5 — Air's coord-doc cleanup
+  v2 + studio-sync-prompt v3 + worktree-clarification commits 560f1b2, 083298b,
+  f00776d, 774b002, 9896e3a) and merged into book/asaas-al-taveel (merge ed8c1d1,
+  clean — no conflicts). Studio now sees: new _workspace/plan/operators/index.md
+  dashboard, new _workspace/plan/book-queue.md pull-on-demand queue, new
+  _workspace/plan/response-conventions.md BLUF spec, refactored coordination-protocol.md
+  (v2 §14 concurrency + §15 WRITE EXCEPTION), new start-session.sh script. Operator
+  files for both machines remain owned per §1 sole-write convention; no WRITE EXCEPTION
+  applies to this file currently.
+
+  AZURE GATE CLEARED 2026-05-21T11:30Z: operator gate (a) — Azure Text Analytics F0 +
+  keychain wiring — is DONE. The Studio uses the existing `journal-language-market`
+  resource (Kind: TextAnalytics, tier Free F0, region eastus, in `rg-journal-ai`).
+  All three keychain entries are populated and the NER endpoint was verified live
+  (HTTP 200 on a 1-sentence probe; recognized "al-Qadi al-Numan"→Person and
+  "Cairo"→Location). Full Azure resource registry now lives in §13 of this file —
+  future sessions read §13 to avoid re-discovering the wiring. See `infra/azure/`
+  for the broader script-driven Azure stack (docintel + translator + speech already
+  in use).
+
+  Still awaiting (b) operator §§1-8 of operator-review.md. Framework code fixes
+  resume once that gate clears. Air is paused per the 2026-05-21 sync; Studio is
+  also paused pending Asif's explicit authorization to resume asaas Phase 0c
+  (Arabic phonetic) or framework lane.
 next_action: |
-  Operator (1) creates Azure Text Analytics F0 resource per P23.azure-setup, P23.azure-tier-doc-intel,
-  P23.azure-tier-translator — see docs/podcast/azure-setup.md (to be authored as part of P23.docs);
-  (2) finishes operator-review.md §§1-8 review.
-  Claude then drives: framework code fixes (P22.markers, P22.impl, P4.10, P6.5, P23 client/integration/
-  tests/fallback/cost-ledger) on feat/podcast-w1-foundation; merge to book/asaas-al-taveel;
-  Phase 0b staircase re-run; Phase 0a.5 NER pre-seed integration; operator-review.md regenerated
-  from NER; resume 0c → 0d → 0e → 0f → 0g (EP01 firm halt) → EP02-06.
+  Operator finishes §§1-8 of operator-review.md (the last remaining operator gate;
+  gate (a) Azure setup cleared 2026-05-21 — see §13 of this file).
+  Claude then drives: framework code fixes (P22.impl, P4.10, P6.5, P23 client/integration/
+  tests/fallback/cost-ledger including new LanguageCreds + get_language() resolver
+  in scripts/podcast/_azure.py, plus Language section in infra/azure/store-keychain-keys.sh
+  and azure-config.env) on feat/podcast-w1-foundation; merge to book/asaas-al-taveel;
+  Phase 0b staircase re-run; Phase 0a.5 NER pre-seed integration (now unblocked —
+  Language credential is live); operator-review.md regenerated from NER;
+  resume 0c → 0d → 0e → 0f → 0g (EP01 firm halt) → EP02-06.
 anthropic_share: 0.5
-last_verified_at: 2026-05-20T17:00:00Z
-last_updated: 2026-05-20
+last_verified_at: 2026-05-21T11:30:00Z
+last_updated: 2026-05-21
 ---
 
 # Mac Studio (primary) — operator index
@@ -106,27 +145,36 @@ end-to-end autonomously**, stopping only at genuine operator gates.
 
 ## 3. Current state snapshot (re-verify on every session — do not trust this section)
 
-`last_verified_at: 2026-05-20T10:00:00Z`. At that moment:
+`last_verified_at: 2026-05-21T11:10:47Z`. At that moment:
 
-- **HEAD**: `fa8c902 podcast(asaas-al-taveel): checkpoint phase 0b stale 'running' lock (SIGKILL)`
+- **book/asaas-al-taveel HEAD**: `ed8c1d1 merge develop → book/asaas-al-taveel — pick up coord-doc cleanup + worktree clarification (2026-05-21)`
+- **develop HEAD**: `e7e9ac5` (merge book/kitab-al-riyad → develop — studio-sync-prompt v3, authored by Air)
 - **phase**: `0b`
-- **phase_status**: `running` (STALE — SIGKILL'd, not actually running)
-- **last_completed_phase**: `0a` (completed 2026-05-20T09:55:57Z)
+- **phase_status**: `halted-for-transcript-review` (refined-english.md 10329 lines)
+- **last_completed_phase**: `0b` (refined English; awaiting P22 operator transcript review)
 - **last_error**: `null`
 
-Recent commit story:
+Recent commit story on book/asaas-al-taveel (unchanged from 2026-05-20):
 ```
-fa8c902  checkpoint phase 0b stale 'running' lock (SIGKILL)   ← HEAD
-1ec2503  phase 0a Azure ingest (retry)
-24ddd16  reset phase 0a status pending (--retry-phase)
-9f0f277  podcast(orchestrator): wire --retry-phase 0a into run_resume
-265d088  checkpoint failed phase 0a (transient Translator ConnectionRefused)
-d9e7b6b  scaffold book directory
+5dae77c  coord(macbook-air-secondary): amend §4.2 — also cherry-pick this coord commit  ← HEAD
+0844e1e  coord(macbook-air-secondary): unblock Air for KaR Phase 0e + P22.markers prereq
+5201b54  podcast(P22.markers): fix Phase 0b page-marker stripping defect
+699f115  plan: extend acceptance criteria for asaas SHIP-READY Phase 0 push
+b144076  podcast(asaas-al-taveel): correct §2 defect diagnosis — page-marker stripping, not content loss
+5eb8b5b  coord(mac-studio-primary): update operator state @ phase 0b → P22 gate
+39564f1  podcast(asaas-al-taveel): halt after Phase 0b for operator transcript review
+114fc63  podcast(asaas-al-taveel): phase 0b English refinement (chunked)
 ```
 
 The narrative: phase 0a failed once (transient Azure Translator
 `ConnectionRefused`); reset via `--retry-phase 0a` and succeeded on retry.
-Phase 0b started, then was SIGKILL'd, leaving a stale `running` lock.
+Phase 0b chunked English refinement completed (10329 lines), halted at the
+P22 operator transcript-review gate per `halt after Phase 0b`. P22.markers
+prompt-template defect fixed in-branch (5201b54) and cherry-picked to develop
+by the Air on day 1. As of 2026-05-21 the full asaas branch is merged into
+develop (no conflicts) — the Studio's Phase 0a–0b work is now part of develop's
+canonical state alongside the Air's KaR work (merge commit e122fa0 earlier
+the same day).
 
 ---
 
@@ -270,5 +318,105 @@ When Studio finishes a phase or hits a pause:
    `next_action`, `status_tag`.
 3. `git commit -m "coord(mac-studio-primary): update operator state @ phase <X>"`
 4. The post-commit hook auto-pushes.
-5. Write `## Project Status` back to Asif so he can decide whether to wake
-   the Air's holding loop on KaR Phase 0e or keep it paused.
+5. Write a BLUF-format response per [response-conventions.md](../response-conventions.md)
+   so Asif can decide whether to wake the Air's holding loop on KaR Phase 0e or keep it paused.
+
+---
+
+## 13. Azure resources (verified 2026-05-21)
+
+**Do NOT re-discover this wiring on every session — read this section, then jump straight to use.**
+
+The Studio drives Azure-backed phases (0a OCR + translation; 0a.5 NER pre-seed) against
+the resource group [`rg-journal-ai`](https://portal.azure.com/#@/resource/subscriptions/3440564d-c056-4173-bec6-7af92dbece77/resourceGroups/rg-journal-ai/overview)
+in subscription `Journal AI — primary` (ID `3440564d-c056-4173-bec6-7af92dbece77`),
+region `eastus`. Resource names + non-secret config live in
+[infra/azure/azure-config.env](../../../infra/azure/azure-config.env).
+
+### Resources in use
+
+| Resource | Type / SKU | Used by phase | Endpoint | Verified |
+|---|---|---|---|---|
+| `journal-docintel` | Document Intelligence | 0a (OCR) | (in azure-config.env) | in use since 2026-05-19 (Phase 0a on asaas + KaR) |
+| `journal-translator` | Translator, S1 | 0a (AR→EN) | (in azure-config.env) | in use since 2026-05-19 |
+| `journal-language-market` | Language, Kind `TextAnalytics`, tier Free F0 | 0a.5 NER pre-seed (pending framework integration) | `https://journal-language-market.cognitiveservices.azure.com/` | 2026-05-21: HTTP 200; correctly tagged "al-Qadi al-Numan"→Person, "Cairo"→Location |
+| `journalpodcaststorage` | Storage account | (ancillary; not pipeline-critical) | — | exists; not currently called |
+
+### Keychain entries on the Studio
+
+Convention from [infra/azure/store-keychain-keys.sh](../../../infra/azure/store-keychain-keys.sh):
+`azure-<app>-<resource>-<field>` with `<app>` = `journal`. Resolution priority in
+[scripts/podcast/_azure.py](../../../scripts/podcast/_azure.py) `_resolve()`: env var
+wins (for CI), Keychain is the local-Mac fallback.
+
+| Service name | Type | Value summary |
+|---|---|---|
+| `azure-journal-docintel-endpoint` | public | (pre-existing) |
+| `azure-journal-docintel-key1` | secret | (pre-existing) |
+| `azure-journal-docintel-region` | public | `eastus` |
+| `azure-journal-translator-endpoint-text` | public | (pre-existing) |
+| `azure-journal-translator-key1` | secret | (pre-existing) |
+| `azure-journal-translator-region` | public | `eastus` |
+| `azure-journal-language-endpoint` | public | `https://journal-language-market.cognitiveservices.azure.com/` |
+| `azure-journal-language-region` | public | `eastus` |
+| `azure-journal-language-key1` | secret | 84 chars (newer Base64 format; stashed 2026-05-21) |
+
+### Quick verification (no key ever echoed)
+
+```bash
+# Run from anywhere on the Studio:
+ENDPOINT=$(security find-generic-password -s azure-journal-language-endpoint -w)
+KEY=$(security find-generic-password -s azure-journal-language-key1 -w)
+curl -sS -o /dev/null -w "HTTP %{http_code}\n" \
+    -X POST "${ENDPOINT}language/:analyze-text?api-version=2023-04-01" \
+    -H "Ocp-Apim-Subscription-Key: ${KEY}" \
+    -H "Content-Type: application/json" \
+    -d '{"kind":"EntityRecognition","analysisInput":{"documents":[{"id":"1","language":"en","text":"Cairo."}]}}'
+unset KEY
+# Expect: HTTP 200
+```
+
+If this prints `HTTP 200`, all three Azure resources are reachable from the Studio's
+credentials and you can proceed to any phase that needs them.
+
+### Framework lane TODO (deferred to feat/podcast-w1-foundation)
+
+The Language credential is in the keychain but the framework doesn't read it yet. P23 includes:
+
+- Extend [scripts/podcast/_azure.py](../../../scripts/podcast/_azure.py) with
+  `LanguageCreds` dataclass + `get_language()` resolver (mirror of `get_docintel()`/`get_translator()`).
+- Extend [infra/azure/store-keychain-keys.sh](../../../infra/azure/store-keychain-keys.sh)
+  with a Language section so a fresh Mac can `bootstrap` without manual `security` commands.
+- Add `LANGUAGE_NAME="journal-language-market"` + `ENABLE_LANGUAGE="true"` to
+  [infra/azure/azure-config.env](../../../infra/azure/azure-config.env).
+- Wire `get_language()` into Phase 0a.5 NER pre-seed (proper-noun pre-population for the
+  refined-English → operator-review.md pipeline).
+
+### Operator-gate status (updated 2026-05-21)
+
+- Gate (a) Azure Text Analytics F0 + keychain wiring: ✅ DONE 2026-05-21
+- Gate (b) §§1-8 of [operator-review.md](../../../content/podcast/library/books/asaas-al-taveel/operator-review.md): pending operator
+- Framework lane (P22.impl, P4.10, P6.5, P23): pending operator's go after gate (b)
+- Phase 0b STAIRCASE re-run: pending framework lane
+- Phase 0a.5 NER pre-seed integration: pending framework lane (credential is ready)
+- Phase 0c (Arabic phonetic): pending all the above
+
+---
+
+## 14. Multi-operator runtime compatibility
+
+Full canonical reference moved to [setup/runtime-compatibility.md](setup/runtime-compatibility.md).
+The full setup-and-recreate documentation set is at [setup/](setup/) (index at
+[setup/README.md](setup/README.md)).
+
+**Summary for fast-reference:**
+
+| UI | Status | Use for pipeline? |
+|---|---|---|
+| Claude Code (VS Code / desktop / CLI) | ✅ Canonical | Yes |
+| Cowork | 🔴 INCOMPATIBLE | No — Linux sandbox, no Keychain, no `claude -p` auth (verified 2026-05-21) |
+| GitHub Copilot Chat | ❓ Untested | Probe before use |
+
+For a second operator on the same Mac: launch a second Claude Code session on a
+different worktree (variant A or B per [setup/runtime-compatibility.md](setup/runtime-compatibility.md)).
+Do NOT use Cowork.
