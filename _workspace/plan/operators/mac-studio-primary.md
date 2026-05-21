@@ -403,50 +403,20 @@ The Language credential is in the keychain but the framework doesn't read it yet
 
 ---
 
-## 14. Multi-operator runtime compatibility (verified 2026-05-21)
+## 14. Multi-operator runtime compatibility
 
-**Use Claude Code (this) for the podcast pipeline. Do NOT propose other Anthropic UIs as drop-in replacements without re-testing.** Capability probes against alternatives:
+Full canonical reference moved to [setup/runtime-compatibility.md](setup/runtime-compatibility.md).
+The full setup-and-recreate documentation set is at [setup/](setup/) (index at
+[setup/README.md](setup/README.md)).
 
-| UI | Verdict | Reason |
+**Summary for fast-reference:**
+
+| UI | Status | Use for pipeline? |
 |---|---|---|
-| **Claude Code in VS Code** | ✅ FULLY (canonical) | Live Mac shell, Keychain access, `claude -p` shell-out works, long-running orchestrator supervision, file edit + git push, skill system. This is what mac-studio-primary uses. |
-| **Claude Code desktop app (the "Code" tab of the unified Anthropic Mac app)** | ✅ Expected FULLY (not directly probed but same model, same tool surface) | Same harness as VS Code form factor; only differences are IDE integration signals (`<ide_opened_file>`, inline diff review). Coordination work is form-factor-agnostic. |
-| **Cowork (the "Cowork" tab of the unified Anthropic Mac app — async project workspace)** | 🔴 NOT AT ALL | Probed 2026-05-21 via 13-step diagnostic. Architectural blockers, not configurable — see below. |
-| **GitHub Copilot Chat in VS Code** | ❓ NOT PROBED | Likely similar architectural issues (no `claude -p` auth, different LLM-call model). Would need equivalent diagnostic before use. |
+| Claude Code (VS Code / desktop / CLI) | ✅ Canonical | Yes |
+| Cowork | 🔴 INCOMPATIBLE | No — Linux sandbox, no Keychain, no `claude -p` auth (verified 2026-05-21) |
+| GitHub Copilot Chat | ❓ Untested | Probe before use |
 
-### Cowork-specific findings (do not re-discover)
-
-Cowork's runtime is an **isolated Linux aarch64 sandbox VM**, NOT the Mac host. Its desktop-app UI runs on the Mac, but each task's `bash` executes in a fresh ephemeral container with a partial repo snapshot mounted. Hard blockers:
-
-1. **`pwd` is `/sessions/<random-slug>`**, `USER` is sandbox-named (not `ahmac`), `TERM_PROGRAM` + `CLAUDECODE` are empty.
-2. **No `security` binary** → no macOS Keychain → no Azure credential resolution → Phase 0a/0a.5 calls are impossible.
-3. **`/usr/local/bin/claude` v2.1.142 exists in the sandbox but returns "Not logged in"** — cannot inherit the Mac's Claude Code authentication. Phases 0b/0c/0d/0e/0g shell out to `claude -p` from Python; this is a hard blocker.
-4. **Per-call sandbox lifecycle** — each bash call is independent, ~45s cap, no env carryover between calls, no mechanism to supervise a 1.5–10h orchestrator across turns. `nohup` works within one call but the process dies at VM teardown.
-5. **Only the `dump` worktree (`/Users/ahmac/Code/Journal`) is mounted by default** — `book/asaas-al-taveel` is invisible to Cowork even read-only.
-6. **Sandbox Python is 3.10**, below the 3.11 floor flagged in [coordination-protocol.md §12](coordination-protocol.md) (cost-ledger silently fails).
-7. **Separate memory store** — Cowork's memory lives under `…/spaces/<id>/memory/`, separate from Claude Code's `~/.claude/projects/-Users-ahmac-Code-Journal/memory/`. No continuity.
-
-### What Cowork CAN reasonably do here
-
-- Adjacent content work against whatever branch is mounted (currently `dump`): drafting prompt revisions, reviewing shipped transcripts, formatting deliverables.
-- One-off snapshot analyses of book output after a phase ships and gets merged to `dump` or `develop`.
-- NOT live coordination, NOT orchestrator driving, NOT keychain-dependent tasks.
-
-### If you want a second operator on this Mac
-
-Spawn a **second Claude Code session** in a separate terminal / VS Code window on a **different worktree** (e.g., a read-only review session on [/Users/ahmac/Code/Journal-feat-w1](file:///Users/ahmac/Code/Journal-feat-w1) running on `feat/operator-review-studio`). NOT Cowork. The two Claude Code sessions can both:
-- Read Mac Keychain
-- Shell out to `claude -p` with the Mac's auth
-- Supervise long-running processes
-- Share the `~/.claude/projects/.../memory/` memory store
-
-Per [coordination-protocol.md §1](coordination-protocol.md), both sessions would still write only to their own operator file — second-Claude-Code sessions on the same `machine_id` would coordinate via working-directory/branch separation, not separate operator files.
-
-### Capability probe (re-runnable)
-
-The full 13-step probe prompt that produced the 2026-05-21 verdict is preserved in
-session history; the abbreviated version is: "from inside the target UI, run `pwd`,
-`echo $TERM_PROGRAM`, `claude -p 'PONG'`, `security find-generic-password -s azure-journal-language-endpoint -w`,
-`python3 --version`, `git rev-parse --abbrev-ref HEAD`, and verify all five succeed
-on the Mac host, not a sandbox." Any UI that fails any of those five is unsuitable
-for the pipeline.
+For a second operator on the same Mac: launch a second Claude Code session on a
+different worktree (variant A or B per [setup/runtime-compatibility.md](setup/runtime-compatibility.md)).
+Do NOT use Cowork.

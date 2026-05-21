@@ -22,12 +22,13 @@ If `start-session.sh` is missing or you need the manual equivalent, see
 
 | File                            | Writer                | Readers     | Purpose                                                                  |
 |---------------------------------|-----------------------|-------------|--------------------------------------------------------------------------|
-| `start-session.sh`              | operator (Asif) — rarely edited | all machines run it | Per-machine session bootstrap. Executable from any branch. |
-| `index.md`                      | machines (each writes its own row) + operator (queue ordering) | all machines | Cross-machine dashboard: Mac Air ↔ Mac Studio side-by-side current state + cost/time estimates per queued book. |
-| `coordination-protocol.md`      | operator (Asif)       | all machines | The discipline — write rules, push rules, branch policy, quota, sole-write zones, known bugs, conventions. **Wins over per-machine files when in conflict.** |
-| `mac-studio-primary.md`         | Mac Studio only       | all machines | Studio's identity, current book, resume action, peer pointer.            |
-| `macbook-air-secondary.md`      | MacBook Air only      | all machines | Air's identity, current book, resume action, peer pointer.               |
-| `assignments.md`                | (vestigial — see file) | (read for history only) | Pre-v3 static assignment model. Marked informational-only; superseded by `../book-queue.md`. |
+| [start-session.sh](start-session.sh) | operator (Asif) — rarely edited | all machines run it | Per-machine session bootstrap. Executable from any branch. |
+| [index.md](index.md)            | machines (each writes its own row) + operator (queue ordering) | all machines | Cross-machine dashboard: Mac Air ↔ Mac Studio side-by-side current state + cost/time estimates per queued book. |
+| [coordination-protocol.md](coordination-protocol.md) | operator (Asif) | all machines | The discipline — write rules, push rules, branch policy, quota, sole-write zones, known bugs, conventions. **Wins over per-machine files when in conflict.** |
+| [mac-studio-primary.md](mac-studio-primary.md) | Mac Studio only | all machines | Studio's identity, current book, resume action, peer pointer. |
+| [macbook-air-secondary.md](macbook-air-secondary.md) | MacBook Air only | all machines | Air's identity, current book, resume action, peer pointer. |
+| [assignments.md](assignments.md) | (vestigial — see file) | (read for history only) | Pre-v3 static assignment model. Marked informational-only; superseded by `../book-queue.md`. |
+| [setup/](setup/) folder | either machine | all machines | **Setup + recreate-from-scratch reference**: per-machine config ([setup/machines.md](setup/machines.md)), Azure stack ([setup/azure-stack.md](setup/azure-stack.md)), new-Mac bootstrap ([setup/recreate-from-scratch.md](setup/recreate-from-scratch.md)), runtime compatibility / Cowork verdict / second-Claude-session pattern ([setup/runtime-compatibility.md](setup/runtime-compatibility.md)). Index at [setup/README.md](setup/README.md). |
 
 ## Related files in `../` (one directory up)
 
