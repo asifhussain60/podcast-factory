@@ -36,7 +36,7 @@ That script tells you the current book, branch, phase, and next_action.
 
 ## Response format
 
-Asif uses a BLUF response format across both machines and all tools (Copilot, Claude Code):
+Asif uses a **5-part BLUF response format** across both machines and all tools (Copilot, Claude Code):
 
 ```
 **TL;DR:** one sentence — what happened + what to do next
@@ -47,9 +47,20 @@ Asif uses a BLUF response format across both machines and all tools (Copilot, Cl
  OR tables when comparing options. NEVER custom section labels.]
 
 **Your next step:** one explicit sentence naming the file or command Asif acts on.
+
+---
+
+## Summary (scan-and-skip)
+
+1. <one-line restate of body section 1, with clickable links preserved>
+2. <one-line restate of body section 2, with clickable links preserved>
+…
+N. **Next step:** <one-line restate of "Your next step">
 ```
 
-Full spec at `_workspace/plan/response-conventions.md`. The non-negotiables: no custom section labels like "Deviation from plan", "Verification", "Coord doc", "What changed", "Summary". The fixed structure is what makes cross-machine responses scannable.
+Three things make the Summary visually stand apart from the body: (1) a `---` horizontal rule with blank lines on each side, (2) an **H2 header** `## Summary (scan-and-skip)` (one level larger than the `### N.` body sections), (3) a blank line between the header and the first item. Include the Summary whenever the body has 2+ sections or the response exceeds ~10 lines; skip it for single-issue updates where it would just duplicate the TL;DR.
+
+Full spec at `_workspace/plan/response-conventions.md`. The non-negotiables: **no custom section labels** like "Deviation from plan", "Verification", "Coord doc", "What changed". (`## Summary (scan-and-skip)` is NOT a custom label — it's the official Part 5 section name.) The fixed structure is what makes cross-machine responses scannable.
 
 ## Authoritative state
 
