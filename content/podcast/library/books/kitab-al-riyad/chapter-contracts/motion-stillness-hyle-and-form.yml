@@ -37,8 +37,8 @@ audience: >
   appeared* is the gravest error of the chapter — the door to *shirk* at
   the highest end, refused categorically in the name of *tawhid*.
 angle: faithful_exposition
-episode_format: deep_dive
-host_dynamic: curious_mind + scholar_companion
+episode_format: debate
+host_dynamic: advocate_a + advocate_b + arbiter
 host_dynamic_custom: null
 debate: null
 length_target: extended
