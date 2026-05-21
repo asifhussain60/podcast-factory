@@ -16,47 +16,30 @@ current_branch: book/asaas-al-taveel
 current_book: asaas-al-taveel
 current_book_dir: content/podcast/library/books/asaas-al-taveel
 authoritative_state_path: content/podcast/library/books/asaas-al-taveel/_system/orchestrator-state.json
-status_tag: AWAITING-DEVELOP-MERGE-THEN-PHASE-0C
-current_phase: "0c"
+status_tag: HOLDING-FOR-FRAMEWORK-FIX
+current_phase: "0b"
 current_phase_status_summary: |
-  Phase 0b complete on asaas (P22 gate cleared 2026-05-20). Since the Studio
-  last pushed, the Air has driven KaR through Phases 0c/0d/0e/0f including a
-  Phase 0b re-run against the P22.markers fix, framework upgrades to Phase 0d
-  (content-aware format + essentiality classification) and Phase 0f (richer
-  series-plan template with NotebookLM input cues), and merged book/kitab-al-riyad
-  into develop (commit e122fa0). The Studio's next action is to merge
-  book/asaas-al-taveel into develop using the prepared prompt at
-  _workspace/chats/studio-merge-asaas-prompt.md, then continue Phase 0c on asaas.
+  Phase 0b complete 2026-05-20T13:38:21Z (refined-english.md 10329 lines / 759 KB).
+  Audit revealed Phase 0b prompt-template defect: 58 of 416 page markers stripped across
+  7 of 49 chunked windows (no content loss; metadata only). Plan revised to "complete
+  Phase 0 perfectly on the hardest book before tackling remaining tasks" with budget
+  envelope raised to $130 hard cap (from $50 default) and SHIP-READY per-chapter
+  challenger verdict required. Acceptance criteria extended with 45 new rows in
+  acceptance-criteria.md (P22.markers ×11, P23 ×13, P9.5 SHIP-READY ×14, STAIRCASE ×7).
+  Awaiting (a) operator Azure setup (Text Analytics F0 resource + env vars per P23.azure-setup)
+  and (b) operator §§1-8 of operator-review.md. Framework code fixes start once both gate.
 next_action: |
-  1. git fetch --all --prune; git pull --ff-only origin book/asaas-al-taveel
-  2. git pull --ff-only origin develop (sync develop locally too)
-  3. Run the merge prompt at _workspace/chats/studio-merge-asaas-prompt.md to
-     merge book/asaas-al-taveel into develop. Expected: one operator-file conflict
-     resolved by --theirs; three cherry-pick commits dedup via patch identity.
-  4. After develop merge ships: switch back to book/asaas-al-taveel and resume:
-     python3 scripts/podcast/orchestrate_book.py --resume asaas-al-taveel
-     (Phase 0c — Arabic phonetic extraction)
+  Operator (1) creates Azure Text Analytics F0 resource per P23.azure-setup, P23.azure-tier-doc-intel,
+  P23.azure-tier-translator — see docs/podcast/azure-setup.md (to be authored as part of P23.docs);
+  (2) finishes operator-review.md §§1-8 review.
+  Claude then drives: framework code fixes (P22.markers, P22.impl, P4.10, P6.5, P23 client/integration/
+  tests/fallback/cost-ledger) on feat/podcast-w1-foundation; merge to book/asaas-al-taveel;
+  Phase 0b staircase re-run; Phase 0a.5 NER pre-seed integration; operator-review.md regenerated
+  from NER; resume 0c → 0d → 0e → 0f → 0g (EP01 firm halt) → EP02-06.
 anthropic_share: 0.5
-last_verified_at: 2026-05-21T10:30:00Z
-last_updated: 2026-05-21
-response_conventions: see _workspace/plan/response-conventions.md (BLUF format,
-  AskUserQuestion ordering, halt-and-surface pattern, cross-machine awareness)
-written_by: macbook-air-secondary (one-time exception 2026-05-21 per Asif's
-  explicit instruction — see "WRITE EXCEPTION" note below; Studio resumes
-  ownership of this file on its next session)
+last_verified_at: 2026-05-20T17:00:00Z
+last_updated: 2026-05-20
 ---
-
-> ⚠️ **WRITE EXCEPTION — 2026-05-21 (Air-authored).** This frontmatter update
-> was written by the Mac Air at Asif's explicit instruction to get both
-> machines in sync after the KaR→develop merge. Per
-> [coordination-protocol.md §1](coordination-protocol.md), the Studio normally
-> owns this file. On the Studio's next session, the Studio re-asserts ownership
-> by updating the frontmatter (last_verified_at, current_phase_status_summary)
-> from its own observed state and removing this note.
->
-> The previous Air→Studio write exception was 2026-05-20 (when Studio wrote
-> the Air's operator file to seed the coordination layer); this is the symmetric
-> case. Treat as a recoverable handoff, not a new ownership model.
 
 # Mac Studio (primary) — operator index
 
