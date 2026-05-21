@@ -36,31 +36,39 @@ That script tells you the current book, branch, phase, and next_action.
 
 ## Response format
 
-Asif uses a **5-part BLUF response format** across both machines and all tools (Copilot, Claude Code):
+Asif uses a **4-part At-a-glance-first template** across both machines and all tools (Copilot, Claude Code). Inverted 2026-05-21 from the prior 5-part BLUF — Asif's read pattern is scan-summary-first, scroll-for-details, act-on-single-Next-line:
 
 ```
-**TL;DR:** one sentence — what happened + what to do next
+## At a glance — <severity emoji> <one-phrase status label>
 
-**Status:** 🟢 ship-ready / 🟡 needs decision / 🔴 blocked
-
-[Body — per-issue blocks (### N. <name> + Plain English / Impact / Fix / Where bullets)
- OR tables when comparing options. NEVER custom section labels.]
-
-**Your next step:** one explicit sentence naming the file or command Asif acts on.
+1. <one-line punchy summary of body section 1 — non-technical, complete sentence>
+2. <one-line punchy summary of body section 2>
+3. <one-line punchy summary of body section 3>
+4. <…up to ~5 items>
 
 ---
 
-## Summary (scan-and-skip)
+### 1. <Plain English issue name> <severity emoji>
+- *Plain English:* one sentence anyone can understand
+- *Impact:* what this means for the next phase
+- *Fix:* concrete resolution + cost (dollars + minutes if relevant)
+- *Where:* [filename](path) and/or [commit](github-url) clickable refs
 
-1. <one-line restate of body section 1, with clickable links preserved>
-2. <one-line restate of body section 2, with clickable links preserved>
-…
-N. **Next step:** <one-line restate of "Your next step">
+### 2. <Plain English issue name> <severity emoji>
+- (same shape)
+
+[…more body sections as needed; tables also OK when comparing options]
+
+---
+
+**Next:** *Asif* or *AI* — one explicit sentence naming the action and the actor.
 ```
 
-Three things make the Summary visually stand apart from the body: (1) a `---` horizontal rule with blank lines on each side, (2) an **H2 header** `## Summary (scan-and-skip)` (one level larger than the `### N.` body sections), (3) a blank line between the header and the first item. Include the Summary whenever the body has 2+ sections or the response exceeds ~10 lines; skip it for single-issue updates where it would just duplicate the TL;DR.
+Severity emojis: 🟢 ship-ready / 🟡 needs your decision / 🔴 blocked / ⚠ caution. Used in the At-a-glance header AND per body section.
 
-Full spec at `_workspace/plan/response-conventions.md`. The non-negotiables: **no custom section labels** like "Deviation from plan", "Verification", "Coord doc", "What changed". (`## Summary (scan-and-skip)` is NOT a custom label — it's the official Part 5 section name.) The fixed structure is what makes cross-machine responses scannable.
+**Deprecated** (do NOT use): `**TL;DR:**` opener, standalone `**Status:**` line, trailing `## Summary (scan-and-skip)` block, `## Project Status` block — all replaced 2026-05-21. Use the 4-part shape above.
+
+Full spec at `_workspace/plan/response-conventions.md` §1. The non-negotiables: **no custom section labels** like "Deviation from plan", "Verification", "Coord doc", "What changed", "Summary". The fixed 4-part structure is what makes cross-machine responses scannable.
 
 ## Authoritative state
 
