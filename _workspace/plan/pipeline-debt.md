@@ -4,6 +4,93 @@ Tracks framework-level gaps in the podcast pipeline that today's per-book operat
 
 Both Air and Studio sessions write to this file (multi-writer, per `operators/coordination-protocol.md §14`). Add new items at the bottom of the relevant section. Use F-prefix IDs (F1, F2, ...) for framework debt items so they don't collide with X-prefix runtime fixes that are already-shipped code patches.
 
+---
+
+## Lessons learned — meta-patterns across F1–F15
+
+First-read map for new operators. The 15 individual debt items collapse into 7 recurring meta-patterns. Each pattern is what to WATCH FOR in the next book. When a defect surfaces, ask "which Mn does this look like?" — if it matches, the proposed fix shape is already in this file; if it doesn't, you've found M8.
+
+### M1 — LLM ignores explicit caps without self-check OR downstream validator
+
+**Items:** F1 (framing word caps), F2 (unused pronunciation entries), F5 (honorific dedup), F14 (Arabic name repetition), F15 (analogy proliferation + dramatic tension).
+
+**The deeper truth:** The framing-gen / enrichment LLM reads rules but doesn't enforce them. Every cap needs prompt-self-check AND ideally a post-hoc validator gate. Today's X-fixes added self-checks (X10/X14/X15/X16); validator gates remain missing for most rules.
+
+**Triage status:** All 5 items Triaged via prompt-self-check additions. Validator coverage gap is the next framework session priority.
+
+**Watch for:** any new "the LLM produced X over the explicit cap" pattern. Default response: add prompt self-check AND a validator rule simultaneously.
+
+### M2 — Phase 0e enrichment under-disciplined
+
+**Items:** F3 (manuscript-meta), F5 (honorifics in source prose), F13 (inline phonetics in chapter txt), F14 (Arabic name repetition in chapter prose).
+
+**The deeper truth:** Phase 0e emits the chapter source — the file NotebookLM uploads as SOURCE. Every R-rule violation here cascades directly to spoken audio. The Phase 0e prompt is the most leveraged enrichment guard in the entire pipeline.
+
+**Triage status:** Triaged via X14 (R-NO-MANUSCRIPT-META, R-HONORIFIC-ONCE strengthened) + X15 (R-NAMEDISCIPLINE). Empirical verification awaits next book (KaR's chapters were authored before these patches landed).
+
+**Watch for:** any chapter that ships with rule violations only Phase 0e could have introduced (e.g., manuscript-meta paragraphs, repeated honorifics in prose, Arabic-name density). Audit Phase 0e output of the FIRST chapter of the next book carefully.
+
+### M3 — Phase 0d classification heuristics weak
+
+**Items:** F4 (editorial-intro chapters scheduled as episodes), Ch07 host_dynamic mis-assignment (noted under F15's "Related root cause" section).
+
+**The deeper truth:** Phase 0d picks `episode_format` and `host_dynamic` from chapter content without enough empirical structure. Adjudicative chapters get curious_mind+scholar_companion (supportive); editorial intros get full episode contracts. The heuristic needs sharper classification rules.
+
+**Triage status:** Open (F4); Ch07 case documented under F15 but not separately patched.
+
+**Watch for:** any chapter that ships with the WRONG host_dynamic for its rhetorical structure (debate-content with non-debate pairing) OR an editorial intro/foreword that wasn't manually dropped.
+
+### M4 — Orchestrator state-machine has rough edges
+
+**Items:** F8 (stale episode-draft directories), F11 (iter-1 ship + iter-2 timeout treated as chapter failure), F12 (episode IDs from filename digits vs `contract.episode_number`).
+
+**The deeper truth:** Several spots where orchestrator semantics surprise the operator — "tree not clean" blocks after partial writes; "FAILED" verdicts when episodes actually shipped; episode IDs encoding non-listener-facing data. Each individually small; together a fluent-resume gap.
+
+**Triage status:** F8 Triaged (X13 sweep in pre-flight + per-chapter entry). F11 + F12 still Open.
+
+**Watch for:** any resume cycle that requires manual state patching. Each manual patch is a sign this meta-pattern needs another fix.
+
+### M5 — Empirical thresholds vs handbook "~" prose use exact thresholds in code
+
+**Items:** F10 (chapter word band + framing word band).
+
+**The deeper truth:** Handbook says "episodes over ~10,000 words risk…"; code enforced exactly 10,000. Pattern recurs across all soft-with-tolerance limits. Single `TOLERANCE_PCT` constant would generalize the alignment.
+
+**Triage status:** Triaged via X6 (chapter ceiling 10000→10500) + X13 (framing ceiling 3500→3700). Generalization to TOLERANCE_PCT not yet done.
+
+**Watch for:** other "~X" in handbook prose that the code still enforces exactly. Audit on next framework-debt session.
+
+### M6 — Cost tracking + visibility gaps
+
+**Items:** F6 (datetime.UTC silent fail), F7 (no cost projection before multi-task runs).
+
+**The deeper truth:** Operator runs blindly on spend. Cost-ledger was silently failing on Python 3.9 (F6); orchestrator never warned about projected total spend before starting (F7).
+
+**Triage status:** F6 Triaged (X13 datetime.timezone.utc replacement). F7 Open.
+
+**Watch for:** any multi-hour orchestrator run that completes without surfacing a spend tally. F7's fix is to compute `remaining_episodes × per-episode-cost` and surface at resume time.
+
+### M7 — Rule-set drift between prose intent and regex implementation
+
+**Items:** F9 (R-PHONETICS-OUT pattern audit), F13 (other R-rules not yet audited — partially under same heading).
+
+**The deeper truth:** The R-rules are written in English prose (in handbook) AND in regex (in build_episode_txt.py). The two drift apart over time. R-PHONETICS-OUT pattern #1 was over-broad until X5; other patterns may have similar drift.
+
+**Triage status:** F9 Triaged (X5 fixed pattern #1). Full audit of remaining R-rules + unit tests pending.
+
+**Watch for:** any validator false-positive on legitimate content (a sign of over-broad regex) OR a known defect that the validator missed (a sign of under-broad regex).
+
+### How to use this synthesis going forward
+
+When you encounter a NEW defect in a future book, ask first: "which of M1–M7 does this look like?"
+
+- If it matches one of M1–M7: the proposed fix SHAPE is already in this file. Apply the corresponding pattern's fix template; close the new F-item against the existing M.
+- If it doesn't match: you've found M8 (or M9, etc.). Add it to this section. Document the meta-truth and the watch-for signal.
+
+When you commit an X-class fix, update the corresponding Mn entry's triage status. When all items under an Mn are Triaged or Closed, mark the meta-pattern **Resolved** with a closing date.
+
+When you author a new R-rule (handbook addition), CHECK whether it can be enforced both prompt-side AND validator-side. Single-enforcement-point rules are exactly the M1 root cause; double-enforcement closes the loop. The next framework session's first task is auditing existing R-rules for validator coverage gaps.
+
 ## Active framework debt
 
 | ID | Title | Discovered | Severity | Status | Owner |
