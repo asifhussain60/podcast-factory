@@ -116,6 +116,7 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 | F19 | TTS-induced phonetic collisions create theological errors — "al-Qur'an Mayni" (al-Kirmani name colliding with the Quran), "Sahih al-Sajidiyya" (conflating Sahih al-Bukhari hadith collection with al-Sahifa al-Sajjadiyya supplication) | 2026-05-21 (KaR Ch07 v2 audio review) | **High** | Open (superseded by F20 — total removal eliminates this class) | — |
 | F20 | Arabic names (person, book, author) in chapter prose AND framing leak into spoken audio; NotebookLM TTS cannot reliably pronounce them; editorial principle shift: knowledge is the key, not the references | 2026-05-21 (Asif's editorial doctrine after Ch07 v2 review) | **High** | Open | — |
 | F21 | Book-title references in spoken audio need natural-language wrapping ("the book *The Harvest*") rather than bare English title ("The Harvest") to disambiguate from poems/metaphors/ideas | 2026-05-21 (Asif refinement to F20) | Medium | Open | — |
+| F22 | Extended-tier length target needs to be 45-60 min (not 30-45) for dense scholarly content; bumped via X18 in Phase 0g framing-gen prompt; testing on Ch07 v3 upload | 2026-05-21 (Asif directive after Ch07 v2 audio review) | Medium | Triaged (X18 patch in `_authoring.py:author_framing()` Opening-directive line; Ch07 v3 lab carries the new directive as the empirical test) | — |
 
 ---
 
