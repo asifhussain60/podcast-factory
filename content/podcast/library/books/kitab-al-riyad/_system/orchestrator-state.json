@@ -4,7 +4,7 @@
   "category": "books",
   "branch": "book/kitab-al-riyad",
   "phase": "per-chapter",
-  "phase_status": "pending",
+  "phase_status": "halted",
   "last_completed_phase": "0e",
   "next_phase": "per-chapter",
   "last_error": null,
@@ -61,7 +61,7 @@
       "status": "pending"
     },
     "per-chapter": {
-      "status": "pending",
+      "status": "halted",
       "completed_slugs": [
         "motion-stillness-hyle-and-form"
       ],
