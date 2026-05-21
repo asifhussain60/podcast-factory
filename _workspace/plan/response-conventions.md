@@ -110,31 +110,24 @@ Rules:
 - **Summary items keep clickable links** for files and commits, even though they're
   one-liners. Asif should be able to act from the Summary without scrolling.
 
-## 2. The Project Status block (long-running work summary)
+## 2. ~~Project Status block~~ — DEPRECATED 2026-05-20
 
-For tasks spanning many turns, the BLUF can be followed by a `## Project Status`
-block when surfacing where we are overall. Mandatory sub-sections:
+The pre-BLUF `## Project Status` + `### Work Completed` / `### Work Pending`
+block pattern is **deprecated**. It was noisy, rigid, and duplicated information
+that the §1 BLUF structure already carries more cleanly.
 
-```
-## Project Status
+For long-running work summaries: §1's **Part 5 — `## Summary (scan-and-skip)`**
+ordered list at the end of every multi-section response IS the long-running-work
+summary. The body's per-issue `### N.` blocks carry "what's done / what's pending"
+at the per-item level (each block has *Plain English* + *Impact* + *Fix* + *Where*).
+For cross-session continuity, the [book-queue.md](operators/../book-queue.md)
+In-flight / Queue / Completed sections + the [index.md](operators/index.md)
+Machine Status dashboard cover the cross-machine snapshot.
 
-### Work Completed
-- bullet list of done items, with commit refs
-
-### Work Pending
-- bullet list of remaining items, in priority order
-```
-
-Optional sub-sections (use only when relevant):
-- `### Blockers` — what's stopping progress
-- `### Next Action` — single sentence naming the file/command
-- `### Decisions Needed` — questions for Asif
-- `### Risks` — what could go wrong
-- `### Verdict` — ship-ready / needs-fix / blocked
-
-Skip the block entirely on small interactive turns (single question, single
-acknowledgement). Use it when a VP needs a coffee-break update and would want
-to see the whole picture.
+If you find a stale `## Project Status` reference in any operator file, agent spec,
+or coord doc, replace it with a pointer to §1 (BLUF Part 5). Tracked stale refs as
+of 2026-05-21 are all reconciled across `_workspace/plan/operators/*` and
+`.github/agents/*`; flag any new ones at file-edit time.
 
 ## 3. AskUserQuestion conventions
 

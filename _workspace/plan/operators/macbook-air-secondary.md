@@ -53,7 +53,7 @@ it but never writes it. See [coordination-protocol.md §1](coordination-protocol
 > and a runtime-compatibility matrix that records the 2026-05-21 Cowork-incompatibility
 > verdict ([setup/runtime-compatibility.md](setup/runtime-compatibility.md)).
 >
-> **On the Air's next session, do these three things:**
+> **On the Air's next session, do these four things:**
 >
 > 1. Verify the per-Air section in [setup/machines.md](setup/machines.md) accurately
 >    describes the Air (worktree path, current branch, role). The Studio populated
@@ -62,9 +62,14 @@ it but never writes it. See [coordination-protocol.md §1](coordination-protocol
 >    `mac-studio-primary.md §14` pattern: a 3-row summary table + a pointer to
 >    [setup/runtime-compatibility.md](setup/runtime-compatibility.md). This becomes
 >    the canonical "setup docs exist; here's where" entry in your operator file.
-> 3. Remove this WRITE EXCEPTION blockquote AND the `written_by:` frontmatter field.
+> 3. Verify the §12 line 5 update Studio made (replaced the deprecated `## Project Status`
+>    handoff reference with a pointer to the current 5-part BLUF format in
+>    [../response-conventions.md](../response-conventions.md)). Adjust if the
+>    Air-specific phrasing is slightly different from how the Air wants to handoff
+>    to Studio. Same convention applies; just the prose is yours.
+> 4. Remove this WRITE EXCEPTION blockquote AND the `written_by:` frontmatter field.
 >    Commit as `coord(macbook-air-secondary): re-assert ownership after 2026-05-21
->    setup-folder cross-write`.
+>    setup-folder + response-format cross-write`.
 >
 > Also reconcile the two earlier Studio-authored notes below (2026-05-20 bootstrap
 > + P22.markers) if you haven't already.
@@ -420,5 +425,7 @@ When Air finishes a phase or hits a pause:
    `next_action`, `status_tag`.
 3. `git commit -m "coord(macbook-air-secondary): update operator state @ phase <X>"`
 4. The post-commit hook auto-pushes.
-5. Write `## Project Status` back to Asif so he can decide whether to wake
-   the Studio's loop or let it continue.
+5. Write a BLUF-format response per [../response-conventions.md](../response-conventions.md)
+   (5 parts: TL;DR, Status emoji, Body `### N.` blocks or tables, Your next step,
+   `---` + `## Summary (scan-and-skip)` ordered list) so Asif can decide whether to
+   wake the Studio's loop or let it continue.

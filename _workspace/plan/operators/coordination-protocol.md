@@ -302,15 +302,19 @@ Full spec: [`../response-conventions.md`](../response-conventions.md).
 
 Highlights both machines follow without exception:
 
-1. **BLUF format** — every substantive response: TL;DR (one sentence) →
-   Status emoji (🟢/🟡/🔴) → Body (per-issue blocks OR tables) → Your
-   next step (one sentence). No custom section labels.
+1. **BLUF format** — every substantive response uses this **5-part shape, in order**:
+   1. `**TL;DR:**` (one sentence, plain English)
+   2. `**Status:**` 🟢 / 🟡 / 🔴
+   3. **Body** — `### N. <name> <emoji>` numbered blocks (*Plain English*/*Impact*/*Fix*/*Where* bullets) OR tables. **No custom section labels** ("Deviation from plan", "Verification", "Coord doc", "What changed", etc.).
+   4. `**Your next step:**` (one explicit sentence)
+   5. `---` + `## Summary (scan-and-skip)` ordered list — one line per body section, final item `**Next step:**`-prefixed; clickable links preserved so Asif can act from the Summary without scrolling
 2. **AskUserQuestion ordering**: recommended option first, labeled
    "(Recommended)"; remaining options ordered priority highest→lowest.
 3. **Asif IS Babu** (the memoir's protagonist). Relevant only if memoir
    context comes up; not relevant to podcast work.
-4. Terse responses; file:line refs as markdown links; harness-side
-   confirmation for risky actions (force pushes, branch deletions, `rm -rf`).
+4. Terse responses; clickable markdown links for files/commits (`[name](path)`,
+   `[short-sha](github-url)`); harness-side confirmation for risky actions
+   (force pushes, branch deletions, `rm -rf`).
 
 ---
 
