@@ -199,11 +199,3 @@ Do NOT use formal-essay transitions. Do not say: "Firstly", "Secondly", "Thirdly
 Do NOT abbreviate the names of major works. Always say "Rahat al-ʿAql", never "the Rahat" or "the Repose". Always say "Taʾwil al-Shariʿa", never "the Taʾwil". Always say "Nahj al-Balagha", never "the Nahj". Always say "Sahifa al-Sajjadiyya", never "the Sahifa".
 
 Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.
-
-## Upload checklist
-
-1. Open NotebookLM. Create a new notebook for *Kitab al-Riyad, Episode 14b*.
-2. Upload `content/podcast/library/books/kitab-al-riyad/chapters/ch14b-prophets-as-teachers-monotheism-and-the-ranks.txt` as the single source for the notebook.
-3. Paste the contents of `content/podcast/library/books/kitab-al-riyad/episodes/EP14b-prophets-as-teachers-monotheism-and-the-ranks.txt` into NotebookLM's *Customize* prompt box.
-4. Choose the *Deep Dive* Audio Overview format. Length: *Longer* or *Extended*.
-5. Click *Generate*.
