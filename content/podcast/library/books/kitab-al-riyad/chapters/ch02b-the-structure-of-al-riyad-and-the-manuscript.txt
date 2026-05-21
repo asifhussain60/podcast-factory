@@ -16,6 +16,13 @@
 
 *Al-Kirmani* divided *al-Riyad* into ten chapters, each subdivided into several sections. With his literary and scientific deftness, the strength of his exposition, and his learning, he selected what he saw as important and fundamental from *al-Islah* and *al-Nusra* and recast it in his own style — clear and concise — a kind of artistry totally different from *al-Razi's* style.
 
+The Quranic ground for adjudicating disputed teaching by referring it to those who know is named directly in revelation:
+
+> *Fas'alu ahla al-dhikri in kuntum la ta'lamun.*
+> *So ask the people of knowledge, if you do not know.* — (Quran 16:43, Sahih International translation)
+
+What *al-Kirmani* undertakes in *al-Riyad* is the institutional version of that verse. When the *da'wa's* own preachers fall into divergent readings of *al-Mahsul*, the cure is not to silence the disagreement but to set the texts of *al-Islah* and *al-Nusra* side by side and let a higher-ranking knower adjudicate them passage by passage, with his own opinion appended at each point of difference.
+
 What follows is a chapter-by-chapter overview of what *al-Riyad* actually contains.
 
 ## Chapter 1: the perfection of the soul
@@ -32,7 +39,14 @@ The author of *al-Nusra* cited the saying of Empedocles in protest: "The Intelle
 
 (Empedocles, the great philosopher who lived around 440 BC and was a contemporary of Parmenides though younger than him, is described in the editor's footnote in some detail. His doctrine is connected with that of Heraclitus with a slight modification. He was from the city of Akragas on the southern coast of Sicily, a democratic politician who claimed himself to be a god. Legends recount that he performed miracles — sometimes by magic, sometimes by his scientific knowledge. He held that air is a self-contained element, a claim he supported with solid scientific evidence; he recognized that plants reproduce sexually; he held a doctrine of evolution and survival of the fittest; in astronomy he said that the moon is illuminated by rays reflected onto it from the sun. He held that earth, air, fire, and water are the four elements, that the material world is spherical in shape, and he upheld some Pythagorean views and refused to adopt monotheism. He held that the course of nature is governed in its system by chance and necessity more than by any directed end, and in these respects his philosophy is closer to science than the philosophies of Parmenides, Plato, and Aristotle.)
 
-Empedocles and the rest stand to the *al-Riyad's* argument as the *al-Zahir* school stands inside the Hanafi sect — relying on their own minds in walking the paths of religion. Their opinions diverged, and among them there was a distinction: some closer to right, others closer to wrong. They relied on what the balance of religion testifies to — the horizons and the souls. In light of *al-Kirmani's* discussion, the matter of belief in Empedocles's protest is shown to be false, free of exaggeration and prolixity. *Al-Kirmani* closes the chapter: "We ask God to enlighten our minds and to close our affairs and our acts of goodness with happiness, and to aid us through His kindness and generosity in good works."
+Empedocles and the rest stand to the *al-Riyad's* argument as the *al-Zahir* school stands inside the Hanafi sect — relying on their own minds in walking the paths of religion. Their opinions diverged, and among them there was a distinction: some closer to right, others closer to wrong. They relied on what the balance of religion testifies to — the horizons and the souls.
+
+Imam Ali ibn Abi Talib (peace be upon him) had given the Islamic tradition a clean rule for exactly this circumstance — when minds without revelation have spoken some truth among many errors:
+
+> *Al-Hikmatu dallatu al-mu'min, fa-khudh al-hikmata walaw min ahli al-nifaq.*
+> *Wisdom is the lost property of the believer; take wisdom even from the hypocrites.* — (Nahj al-Balagha, Aphorism 79, compiled by al-Sharif al-Radi c. 1009 CE)
+
+This is the operating rule *al-Kirmani* applies when he sorts the Empedoclean fragments. The pre-Islamic philosophers are not rejected wholesale; what was sound in them is recovered, and what was self-led conjecture is named as conjecture. Wisdom is gathered wherever it shows itself, and put back into its right order — which is exactly what *al-Kirmani's* adjudication does with Empedocles's protest. In light of *al-Kirmani's* discussion, the matter of belief in Empedocles's protest is shown to be false, free of exaggeration and prolixity. *Al-Kirmani* closes the chapter: "We ask God to enlighten our minds and to close our affairs and our acts of goodness with happiness, and to aid us through His kindness and generosity in good works."
 
 ## Chapter 2: the relation between Intellect and Soul
 
@@ -88,9 +102,23 @@ Finally, *al-Kirmani* says: "The resemblance is not only between man and the mat
 
 In the world there are different motions, and in the human being there are also six motions corresponding to the six. In the world there is a mover that moves it, and in the human being likewise there is a mover that moves him — namely the soul. In the world there are the four investigations (the elements), and in the human being likewise there are the four natures. In the world there are rivers, valleys of different tastes, mountains, and minerals, and in the human being likewise — as the author of *al-Islah* has shown — there are bones, cartilage, flesh, blood, and what flows from him and issues out of him. In the world there are things that grow and increase without sensation, and in the human being likewise there are things that grow and increase without sensation, such as hair and nails; and his body itself grows and increases from his youth to his old age. In the world there is the sentient animal as well, and in the human being there are the sentient faculties. The whole world is structures and compositions; it is complete in what exists. From all this comes the analogy with the world — though what *al-Kirmani* has mentioned is only a summary, which his other writings detail under the title "Repose of the Mind."
 
+The Quranic anchor for this microcosm doctrine is the verse on the stature in which Allah made the human being:
+
+> *Laqad khalaqna al-insana fi ahsani taqwim.*
+> *We have certainly created man in the best of stature.* — (Quran 95:4, Sahih International translation)
+
+The verse's *ahsan taqwim* — "best of stature," "most upright proportion" — is what *al-Kirmani* and the author of *al-Islah* are rendering philosophically when they line up the six motions, the four natures, the bones and the minerals, the growth without sensation and the sentient faculties. The cosmos is in the human because the human is the *taqwim*, the proportion, in which the whole is gathered.
+
 ## Chapter 8: qada and qadar
 
 The eighth chapter is divided into twenty-four sub-chapters, and its subject is *qada* (judgment) and *qadar* (destiny). These two expressions are mentioned in the Holy *Qur'an* and evidence specific synonyms, but both mean judgment. This topic has had its impact on the long scientific debate that took place in the Islamic era and never reached a decisive result. Thousands of works in Islamic theology have been written on it, but in fact it is a wrong and time-wasting matter to revisit.
+
+The hadith tradition had already fixed the doctrinal frame within which the three preachers' arguments unfold. In the well-known *Hadith of Gabriel*, the Angel sits before the Prophet in human form and asks, in the hearing of the Companions, *What is faith?*
+
+> *An tu'mina bi-llahi, wa mala'ikatihi, wa kutubihi, wa rusulihi, wa al-yawmi al-akhir, wa tu'mina bi-l-qadari khayrihi wa sharrihi.*
+> *That you believe in Allah, and His angels, and His Books, and His Messengers, and the Last Day; and that you believe in the divine decree, its good and its evil.* — (Sahih Muslim, Book 1, Hadith 1; narrated by Umar ibn al-Khattab)
+
+Belief in *qadar* — "its good and its evil" — is named here as a pillar of *iman* itself. What *al-Razi*, *al-Sijistani*, and *al-Kirmani* dispute is not whether to hold the doctrine but how to articulate it philosophically: whether *qada* or *qadar* precedes the other in the order of being, how the First's *qada* relates to the Second's *qadar*, and where the Speaker and the Foundation stand in that architecture. The pillar is settled; the philosophical disclosure of it is what *al-Riyad's* eighth chapter is fighting over.
 
 *Al-Razi*, the author of *al-Islah*, says: "In view of the statement of *al-Mahsul* that *qada* (judgment) agrees with the First and the Preceding, and *qadar* (destiny) with the Second, this is all wrong, because destiny precedes judgment just as the First precedes the Second. The meaning of *qadar* is estimation — that He made the thing possible — and the meaning of *qada* is detail, the separation of the thing or its parts. And the Second, i.e., the manifest *qada*, cannot be presented over the First." *Al-Razi* cites several verses from the *Qur'an* in support of his interpretation and likens destiny, in detail, to the cloth that is drawn in the tailor's imagination before and after, before being cut. When he has put it into its form — that is, judges it — it is no longer possible to change it.
 
@@ -121,6 +149,13 @@ The tenth and last chapter is a critique of all the passages cited from *al-Mahs
 From the opinions of *al-Kirmani* recorded in his books, one judges him to be a great author and a writer trained in the manners and the principles. One of his epistles is *al-Mabasim* — *The Preacher* — and from it we see that he could make an important note and set it down with restraint, where another man would have sent insults and abuse. Here are some of the pieces he corrects.
 
 **First.** The author of *al-Islah* says, on the subject of monotheism, that God is the Creator of things and other-than-things: of the intelligible, the intellectual, and the rational — meaning that such materials or topics may fall under the rule of such elements or may not. *Al-Kirmani* replies: this contradicts the theory that reason — *al-'aql* — is the foundation of creation, behind which there is no other deity, and that nothing can be prior to the Intellect in its existence or alongside the Intellect in its existence. For this theory entails *shirk*, association; it contradicts the law of monotheism. And to speak of creating things and other-than-things, material and non-material, unless one has confused himself and imagined illusions that there is no world other than this one and nothing that negates creation — how then is it possible to say that God is the creative Creator and at the same time deny this?
+
+The Quranic touchstone *al-Kirmani* presses against every passage of *al-Mahsul* — and the kernel against which the word *shirk* draws its whole force — is the chapter Muslims recite as the very definition of *tawhid*:
+
+> *Qul Huwa Allahu Ahad. Allahu al-Samad. Lam yalid wa lam yulad. Wa lam yakun lahu kufuwan ahad.*
+> *Say: He is Allah, [who is] One. Allah, the Eternal Refuge. He neither begets nor is born. Nor is there to Him any equivalent.* — (Quran 112:1–4, Sahih International translation)
+
+Every one of the nine corrections that follow returns to the same place. Anything that hands the creature an independence of action, anything that places the Intellect alongside the Creator as a second source, anything that makes "creativity" a thing in itself sitting between God and the created, is a form of *shirk* because it violates *lam yakun lahu kufuwan ahad* — "there is to Him no equivalent." The verse is the law; the nine corrections are its application.
 
 **Second.** In the fourth chapter, the author of *al-Mahsul* says: "The Creator made things from nothing alone; there is nothing with Him and He has no end; and if we said only 'He and nothing,' we would have denied things and other-than-things, and made both ourselves and Him creative. We have said that His Self, His identity, whatever idea it may be, is a simple vehicle, and that He made everything continuous and non-continuous, bringing it into this existence by virtue of the infinite and finite effect — because nothing comes after 'the thing,' and because the negation of a name is itself a name that comes into being once that name exists, and because the word 'no' is not an idea but is itself one of the ideas, a negation of every idea." This is partly *shirk*: he has refuted the theory of monotheism. *Al-Kirmani* refers the student to his own thesis *al-Rawda* and to *Ta'wil al-Shari'a* by Imam *al-Mu'izz li-Din Allah*.
 

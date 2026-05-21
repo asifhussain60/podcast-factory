@@ -88,11 +88,26 @@ Deficiency is necessary only when it is added in relation to what is above it in
 
 To anchor the move, *al-Kirmani* cites the Quran:
 
-> We will show them Our signs in the horizons and in their own selves until it becomes clear to them that it is the truth. (Quran 41:53, in the rendering al-Kirmani gives.)
+> *Sa-nurihim ayatina fi al-afaqi wa fi anfusihim hatta yatabayyana lahum annahu al-haqq.*
+> *We will show them Our signs in the horizons and in their own selves until it becomes clear to them that it is the truth.* — (Quran 41:53, in the rendering al-Kirmani gives.)
 
 That is: God will establish for them the Imams and the limits, in the gross and the subtle, so that the state of the visible bodies and the souls whose actions exist through them may be apprehended — so that what they had failed to know, the limits of God which are the truth, becomes clear to them through the form.
 
+The same vocabulary of "perfect in itself, deficient only in addition" is what the Quran's oath in *Surat al-Shams* preserves at the level of the human soul. The verse names *taswiya*, "proportioning," as the Creator's own finishing act upon the Soul; whether the Soul then succeeds or fails is named separately, in time, as purification or corruption:
+
+> *Wa nafsin wa ma sawwaha. Fa-alhamaha fujuraha wa taqwaha. Qad aflaha man zakkaha. Wa qad khaba man dassaha.*
+> *And by the soul and Him who proportioned it, who inspired it with discernment of its corruption and its righteousness — successful is the one who purifies it, and lost is the one who corrupts it.* — (Quran 91:7–10, Sahih International translation)
+
+The Soul is *sawwa*, finished in its proportion, perfect in itself, at its origin. Whether it then succeeds (*aflaha*) or fails (*khaba*) is not a question about the Soul's essence but about what is added in time. The Quranic split is the same one *al-Kirmani* is pressing on *al-Sijistani* in philosophical vocabulary: identity is one register, rank in addition is another, and an honest reading does not collapse them into a single scale.
+
 ### Section Five — action, time, and what needs perfecting
+
+The argument has been operating, so far, in the register of philosophy: emanation, cause and effect, attribute and described. Before *al-Razi* sharpens what the next move is about, it is worth marking how the Quran sets the same problem. When the people of Madina asked the Prophet about the Soul, the answer was not a definition but a reservation:
+
+> *Wa yas'alunaka 'an al-ruh. Qul al-ruhu min amri rabbi, wa ma utitum min al-'ilmi illa qalila.*
+> *And they ask you about the soul. Say: The soul is of the affair of my Lord, and mankind has not been given of knowledge except a little.* — (Quran 17:85, Sahih International translation)
+
+The verse closes the door on Soul-as-substance, there is nothing of essence to define, and points instead to *amr*, "the command," the act by which the Soul comes into being. What *al-Razi* is about to say turns on the same axis: perfection and deficiency are not statuses of the Soul's essence but characters of its action, which unfolds in time.
 
 *Al-Razi* opens a new front. What is in need of perfection, he says, is the activity of the soul, not the soul itself. The soul's activity can only occur in time, and the coming-to-life of the soul occurs in time — just as the First Intellect and time are one, since the First Originator is origination, and time and perfection are one. The Creator created all the originated principles at once; and the soul, even though it needs to derive benefit from the First, is therefore not in itself a diminution, and the First was not deficient — though the soul is in need of His command. Completion and deficiency appear in the action of the soul, not in itself.
 
@@ -118,9 +133,17 @@ The reader should mark this: it is one of the moments where *al-Kirmani's* loyal
 
 If we apply to the First Intellect what *al-Sijistani* mentioned, and to the Next what he said of the Next, then it follows that the Next must be the basis for his establishment in the world of the body, being the next in the world of reason. For if it were not for the Speaker, one would not know that one has a God. That is not the case: each of them has a share from God, but the Speaker advances in rank, because he is close to the First and is later than him. And so God said:
 
-> It is not for the sun to overtake the moon, nor does the night outstrip the day; and each is swimming in an orbit. (Quran 36:40, in the rendering al-Kirmani gives.)
+> *La al-shamsu yanbaghi laha an tudrika al-qamara wa la al-laylu sabiqu al-nahari wa kullun fi falakin yasbahun.*
+> *It is not for the sun to overtake the moon, nor does the night outstrip the day; and each is swimming in an orbit.* — (Quran 36:40, in the rendering al-Kirmani gives.)
 
 All are of one kind, and of differing ranks. The verse names the principle: difference in rank is not difference in kind. Sun and moon, day and night, swim in the same orbit; one outranks the other without dispossessing the other of its share. So Intellect and Soul, Speaker and Foundation: of one kind, of differing ranks.
+
+The same insight survives in one of Imam Ali ibn Abi Talib's sayings preserved by *al-Sharif al-Radi*. The aphorism turns on the very word *al-Razi* and *al-Sijistani* have been quarrelling over, *tamm*, "perfect":
+
+> *Idha tamma al-'aqlu, naqasa al-kalam.*
+> *When the intellect reaches its perfection, speech diminishes.* — (Nahj al-Balagha, Aphorism 71, compiled by al-Sharif al-Radi c. 1009 CE)
+
+The construction is exactly what *al-Kirmani* is defending. *Al-'aqlu tamma*, the intellect is complete; *al-kalam naqasa*, speech is diminished. Speech is not made non-existent or imperfect in itself; it is *naaqis* only in relation to the *tamm* of the intellect. The aphorism predicates "perfect" and "diminished" of the same hierarchy without collapsing the lower term into a negation of the upper. The Soul, in *al-Razi's* reading, occupies the same grammatical place: complete in its own essence, "less" only as a relational measure against the First Intellect from which it issues.
 
 ### Section Eight — forms longing for matter, or matter longing for forms?
 
@@ -159,5 +182,13 @@ The tenth sub-chapter wraps the opening movement of the argument. *Al-Sijistani*
 *Al-Kirmani*: the author of *al-Islah* does not say what the author of *al-Nusra* takes him to assert. *Al-Razi* said: all things are perfect in themselves. There is a deficiency in a thing only in addition to that which is higher than it, so it has a degree of rank. What is not found in this additive relation — and if it is related to that which is above — is the aspect of prejudice against *al-Razi*.
 
 The formula is the heart of the first ten sub-chapters. *Al-Islah's* doctrine, rightly understood, is that every existent is perfect *in itself*; deficiency arises only *in addition* — that is, only when one existent is set in relation to another that stands above it. The Soul is perfect in itself. It is deficient only in relation to the First Intellect. To say the Soul is "complete" and to say the Soul is "below the First Intellect" are not contradictions; they describe the same Soul from two different vantage points. The error of *al-Sijistani's* attack, across these ten sub-chapters, has been to treat "perfect" and "deficient" as ranks on a single scale, and then to demand that *al-Razi* place the Soul on one or the other. The Soul, in *al-Razi's* and *al-Kirmani's* reading, is on both — perfect in itself, deficient in relation. There is no scale on which the Soul sits singly.
+
+The Soul as a created proportion that knows itself from its source has been the contemplative ground of every Islamic tradition that ever meditated on the relation. *Jalal al-Din Rumi* opens the *Mathnawi* with the same instinct, naming the human soul as a reed cut from a reed-bed, complete in itself as an instrument, yet bearing in its sound the testimony of the source from which it was severed:
+
+> *Bishnaw in nay chun shikayat mikunad,*
+> *Az judaihaa hikayat mikunad.*
+> *Listen to the reed, how it tells a tale, complaining of separations.* — (Rumi, Mathnawi, Book 1, Verses 1–2)
+
+The contemplative register and the philosophical register are working the same axis. The reed is whole — without it there is no melody — yet its whole nature is to recall the bed it was cut from. *Al-Kirmani's* Soul, perfect in itself, is *al-Razi's* Soul that takes its existence from the First; the distinction *al-Sijistani* has been collapsing is the distinction the reed insists on every time it sounds. Identity is not the same axis as rank.
 
 This is the platform from which the next stretch of *Chapter One* will operate. The argument now turns to the celestial analogies — the sun and the moon, the male and the female, the body and the sperm, the Speaker and the Foundation — which carry the same formula into a series of pairings that the listener already half-recognizes from the world. The instinct that says the moon is the moon, even though it is less luminous than the sun, is the same instinct *al-Razi* is working from. The Soul is the Soul, even though it stands below the First Intellect. To call it "imperfect" because it stands below is to confuse rank with identity. That is what *al-Sijistani* has been doing for ten sub-chapters; and that is what *al-Kirmani*, sub-chapter after sub-chapter, has been refusing to let stand.

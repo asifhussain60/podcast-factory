@@ -8,6 +8,13 @@ The Islamic world at the close of the third century of the Muhammadan *Hijra* wa
 
 The disputes were often not confined to the oral discussions formerly raised in salons and in scientific centers. They grew into long treatises that appeared on the pages of books and publications. Among the sects that contributed a large share to this field were the *Ismailis*. Yet it is strange that we do not see this group concluding its verbal argument with other groups; instead, another and altogether new kind of debate arose — a debate among those who themselves called for the *da'wa*. In this is clear proof of the intellectual freedom that prevailed in their lives — a freedom from the constraints that dominate conservative societies, the kind of balance that obliges men not to be anomalous and to stay away from any departure from inherited tradition.
 
+The Ismaili willingness to put a *da'wa* book under internal correction rather than insulate it from criticism rested on a Quranic premise that ranks knowing above its absence:
+
+> *Qul hal yastawi al-ladhina ya'lamuna wa al-ladhina la ya'lamun.*
+> *Say: Are those who know equal to those who do not know? Only they will remember who are people of understanding.* — (Quran 39:9, Sahih International translation)
+
+To open such a book to dispute was, on this reading, not a breach of discipline but a fidelity to the verse: knowing is the criterion, and the one who knows is not the equal of the one who does not. The four-book chain that follows is what the verse looks like in practice.
+
 The first debate — or, in more precise terms, the first scientific discussion — opened new horizons for the Ismailis and moved them into an atmosphere of broad scientific liberation. It made them a subject of conjecture and talk throughout the Islamic world. And it began with the appearance of a single book.
 
 ## The chain of books
@@ -29,6 +36,13 @@ He is *Abu Hatim Ahmad ibn Hamdan al-Laythi al-Warsanani al-Razi*, known in Isma
 *Al-Razi* was distinguished by the sweetness of his speech and the eloquence for which he is famous. He attracted *al-Marwazi*, the prince of *Rayy*, who was a strict Sunni, and persuaded the princes of those regions to enter into Ismailism, until he became one of the standards of politics and religion, and one of the guides of the Islamic scientific renaissance in the late third and early fourth centuries AH. He took refuge in the theological and philosophical sciences. The great Orientalist Paul Kraus said of him: "He was a leading preacher of the Ismailis and played an important role in political affairs in *Tabaristan* and *Daylam*, especially in *Rayy* and *Isfahan*, until the chief statesmen responded to him, such as *Asfar ibn Shirawayh*, *Mardawij* the commander, and others." In truth, *Abu Hatim al-Razi* was one of the standards of the scientific renaissance not only within Ismailism but in the Islamic world more broadly. He contributed to the dissemination of philosophical teachings in all the eastern lands, and especially in the periphery of the general Islamic culture.
 
 Despite all this, he was not spared the persecution of his enemies in *Daylam*, and was forced into hiding in the last years of his life. He died in 322 AH, after the Fatimid *al-Qa'im* took charge of the affairs of the Ismaili imamate in the *Maghrib*, at the age of sixty-two, as some historians have said.
+
+The arc, prince to preacher to fugitive, traces in one life the cost of carrying knowledge into political conditions that punish it. Imam Ali ibn Abi Talib (peace be upon him) had captured the structure of that cost in one preserved saying:
+
+> *Al-'ilmu khayrun min al-mal: al-'ilmu yahrusuka wa anta tahrusu al-mal.*
+> *Knowledge is better than wealth. Knowledge guards you, while you must guard wealth.* — (Nahj al-Balagha, Aphorism 147, compiled by al-Sharif al-Radi c. 1009 CE)
+
+The guard knowledge gives is not bodily safety. *Al-Razi* survived his enemies long enough to write the books we still have; he did not survive without cost. The trade was not protection from harm but the preservation of a body of work that outlasts the harm.
 
 He was a contemporary of *Abu Bakr Muhammad ibn Zakariya al-Razi*, the famous physician and author of well-known philosophical views in which he departed from many of Aristotle's theories — natural and metaphysical — denying the reconciliation of philosophy and religion, and holding that philosophy is the only way to reform the individual and society. Between the two Razis there were violent and repeated discussions, attended by some scholars and political leaders. *Abu Hatim* recorded these discussions in his book *A'lam al-Nubuwwa* — *Signs of Prophethood*. Although he does not name the person he is criticizing, calling him only "the atheist," there is conclusive evidence that this atheist was none other than *Abu Bakr al-Razi*. *Al-Kirmani*, in his book *al-Aqwal al-Dhahabiyya* — *The Golden Sayings* — notes that discussions about prophethood and legal rituals took place between *Abu Bakr al-Razi* and *Abu Hatim* on the island of *Rayy* in the days of *Mardawij*, and in *Mardawij's* presence. *Abu Hatim* was able to humble *Abu Bakr al-Razi* and to refute his views in his *A'lam al-Nubuwwa* — pages overflowing with charm and marvels — in which he closed off, for the arrogant and the stubborn, every means of evasion and flight.
 
@@ -60,17 +74,38 @@ He holds that the Creator of all creators is an Ancient, Exalted, and Primordial
 
 He transcends every attribute one might affix to Him. He is not attained by sense, does not fall under the eyes, is not perceived by sight, is not called naturalized, is not subject to conjecture, and is not seen. He is not described by the senses, nor grasped by analogy, nor likened to creatures; He is exalted above any rival, equal, or anything of that kind. Exalted is He above the bewildered conjectures of the imagination concerning His might, and above the understanding that falls short of the character of His kingdom — a kingdom whose greatness is seen without being grasped. He has no likeness and no counterpart; He has no equal and no opposite. The very notion of opposition is against Him, for an opposite would be a rival, one that would point to His identity through what He has created and through His names, in the way His prophets indicate. The intellect has no foothold and no analogy by which to attain His heavens, for any analogy that places the creature alongside its Creator is impossible.
 
+The argument is not *al-Sijistani's* invention. It unfolds, in philosophical prose, the explicit shape of the Quranic statement of *tanzih*, the negative discipline of speaking about God:
+
+> *Laysa ka-mithlihi shay'un wa huwa al-sami'u al-basir.*
+> *There is nothing like unto Him, and He is the Hearing, the Seeing.* — (Quran 42:11, Sahih International translation)
+
+Where the verse states it once, the philosopher walks it across every category the mind might use to predicate of God. The string of negations, not body, not in body, not perceived, not analogous, not opposite, is what "nothing like unto Him" becomes when systematized into a theological method.
+
 He is the cause of every existent, since He is the Creator of creators and the Inventor of inventors, the cause of all beings, the Lord of all things, the Originator, the Perfecter, and the One who brings them to the best of their states. He is not bounded by any thought, nor encompassed by any estimation. He has no names — for names are coined for what exists in His creation and not for attributes, and attributes belong to essences — and the letters of language cannot reach the pronunciation of His name, nor name some of Him by them, since the letters themselves are among His inventions. All the names He has created make Him to be that Ancient, Pre-eternal Source, the Owner of the source of primacy in the order of being.
 
 From Him the first *hadd* emerged and the first One overflowed, while He remains the Creator of creators, the Originator who reveals, the One who brings forth from nothing, and the Perpetual whose being subsists in His own individuality and steadfastness. The first act of creation was accompanied by the first number, which He made the origin of numbers — just as He made the Intellect the origin of created things and the first articulator of the world of religion.
 
 Added to all of this, He acquires none of the attributes. He is not a body, nor in a body. He is not rational of Himself; He is not perceived by the senses; He is not in any image, nor in any form, nor in any substance; and there is nothing in any language by which He may be expressed. He exists — but it is not correct to say that He exists in the manner of those existents that have come into being, nor is His existence inferred from the existence of other existents in the manner that an effect is inferred from its cause. He does not come to be without a cause, and exists only as He must exist. Contingent beings depend upon one another in their existence, some resting upon others, and likewise some of them are not fixed in being and do not endure thereafter.
 
+This terminal step, the explicit removal of the attributes themselves, is the move *Imam Ali (AS)* had already made centuries earlier at the opening of his first sermon. Its Arabic phrasing has been treasured by every later Islamic theologian who took *tawhid* seriously as a thinking discipline:
+
+> *Awwalu al-din ma'rifatuhu, wa kamalu ma'rifatihi al-tasdiqu bihi, wa kamalu al-tasdiqi bihi tawhiduhu, wa kamalu tawhidihi al-ikhlasu lahu, wa kamalu al-ikhlasi lahu nafyu al-sifati 'anhu.*
+> *The foremost in religion is His knowledge; the perfection of knowing Him is to attest to Him; the perfection of attesting to Him is to believe in His Oneness; the perfection of believing in His Oneness is to regard Him pure; the perfection of regarding Him pure is the denial of attributes to Him.* — (Nahj al-Balagha, Sermon 1)
+
+The chain of perfections terminates in *nafy al-sifat*, the denial of attributes, for the same reason *al-Sijistani* gives in his own register: any attribute predicated of God would draw Him into the order of created things and dissolve the very distinction the chain was built to preserve.
+
 ## Al-Sijistani on the Intellect and the Soul
 
 *Al-Sijistani* then moves on to the existents in their order and sequence.
 
 The Creator brought nothing into being at the beginning of creation except the Intellect, in whose essence are bounded the images of all created things. The name *al-Qalam*, "the Pen," is given to the Intellect, because the pen marks the inscriptions of creation from its beginning. It is also called *al-'Arsh*, "the Throne" — that is, the seat of the One who sits upon it, whose Majesty knows He is exalted above being settled upon it. The Intellect is also called the primordial from which creatures emerged — meaning all that exists; and what is imprinted upon it precedes the acceptance of the effects of wisdom in advance of the remaining *hudud*, because of its closeness to that source and its union with it, which is knowledge and command taken in one sense. It is therefore permissible to say that the act of the Intellect precedes its power; this virtue is found in nothing other than it, for all the *hudud* below it have their powers preceding their acts. This virtue belongs to the Intellect in particular, so that perfection may reside in it.
+
+The identification of the Intellect with *al-Qalam* is not arbitrary. It rests on a prophetic report preserved in *Sunan Abu Dawud* concerning the first creation:
+
+> *Inna awwala ma khalaqa Allahu al-qalam, fa-qala lahu: uktub. Qala: Rabbi, wa madha aktub? Qala: uktub maqadira kulli shay'in hatta taqumu al-sa'a.*
+> *The first thing Allah created was the Pen. He said to it: "Write." It said: "My Lord, what shall I write?" He said: "Write the decree of all things until the establishment of the Hour."* — (Sunan Abu Dawud, Hadith 4700, narrated by Ubada ibn al-Samit)
+
+For *al-Sijistani*, the Pen of the hadith and the Intellect of the philosophers are one referent under two names: that which receives the first decree and bears the inscription of every reality that follows from it. The Quranic oath *Nun. By the Pen and what they write* (Quran 68:1) names the same act of priority that the philosophers later translate into the language of intelligible causation.
 
 The Intellect is also called *al-Hukm*, "the Decree," because by the Intellect the soul resolves to perceive what it learns and to obtain what is required of it; and it is permissible to say that the Intellect is the decree of God Almighty among His creation. The Intellect is likewise called *al-Hayuli*, prime matter, meaning that the Intellect has the strength to receive what is reflected upon it of the images. And it is called *al-Shams*, "the Sun," meaning that the Intellect perceives the realities.
 
