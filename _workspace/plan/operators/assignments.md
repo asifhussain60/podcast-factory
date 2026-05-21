@@ -1,51 +1,59 @@
 ---
-schema_version: 1
-last_updated: 2026-05-20
-editor: operator (Asif) — single-writer per reassignment event
+schema_version: 2
+last_updated: 2026-05-21
+editor: operator (Asif) for queue order; either machine for In-flight/Completed transitions via claim/completion protocol
 ---
 
-# Book → machine assignments
+# Book → machine assignments (v2 — superseded by book-queue.md)
 
-The single source of truth for "who owns what book." Read this **from
-`origin/develop`** at the start of every session (per
-[coordination-protocol.md](coordination-protocol.md) §3.3) — the copy on
-your current branch may be stale.
+> **As of 2026-05-21, this file is INFORMATIONAL ONLY.** The authoritative
+> single source of truth for cross-machine work assignment has moved to
+> [`_workspace/plan/book-queue.md`](../book-queue.md), which uses a
+> **pull-on-demand claim protocol** rather than the v1 static assignment
+> model. Machines claim books from the Queue section by editing the queue
+> file on develop and pushing immediately (push-rejection is the mutex).
+>
+> Read `book-queue.md` from `origin/develop` at the start of every session
+> to know what's in-flight, what's queued, and what claim protocol to use.
 
----
+## Why the change
 
-## Active assignments
+The static-assignment model in v1 bakes in failure modes — if one machine
+is asleep or unavailable, the books assigned to it idle until that machine
+returns. The pull-on-demand model lets either machine claim the next book
+when free, giving:
 
-| Book                  | Machine                  | Branch                  | Status   | Phase | last_verified_at         |
-|-----------------------|--------------------------|-------------------------|----------|-------|--------------------------|
-| `asaas-al-taveel`     | `mac-studio-primary`     | `book/asaas-al-taveel`  | ACTIVE   | 0b (stale running-lock from SIGKILL) | 2026-05-20T10:00:00Z |
-| `kitab-al-riyad`      | `macbook-air-secondary`  | `book/kitab-al-riyad`   | HOLDING  | 0e (pending; 0a–0d complete; operator-held for quota) | 2026-05-20T10:30:00Z |
+- **Resilience**: Air can sleep without blocking Studio
+- **Natural load balancing**: faster-finishing machine grabs next slot
+- **No author bias**: queue order is Asif's call, not "Studio always does X"
+- **Race-safety**: git push-rejection serializes claims deterministically
 
-**Status values**:
-- `ACTIVE` — machine is actively running the pipeline on this book
-- `HOLDING` — machine is paused at a human gate (e.g., P22 transcript review)
-- `IDLE` — machine is between books, awaiting reassignment
-- `BLOCKED` — machine cannot proceed; needs operator intervention
-
----
-
-## Idle machines
-
-(none — both machines are assigned)
-
----
-
-## Reassignment protocol
-
-1. Asif (or, in his explicit absence, the surviving machine under [§11](coordination-protocol.md))
-   updates this file.
-2. Commit on any branch where it lives; the post-commit hook auto-pushes.
-3. Merge into `develop` so it propagates to every book branch on next
-   `develop → book/<slug>` sync.
-4. Other machines pick up the new mapping at next session-start.
+The two operator files (`macbook-air-secondary.md`, `mac-studio-primary.md`)
+are unchanged — they still describe each machine's CURRENT state. The book
+queue describes the WORK pipeline. Different concepts.
 
 ---
 
-## Reclamation log
+## Current state (as of 2026-05-21, mirrors book-queue.md)
+
+| Book | Machine | Branch | Status | Phase |
+|---|---|---|---|---|
+| `asaas-al-taveel` | `mac-studio-primary` | `book/asaas-al-taveel` | IN-FLIGHT | 0c |
+| `kitab-al-riyad` | `macbook-air-secondary` | `book/kitab-al-riyad` | IN-FLIGHT | 0f-halt (awaiting 0g go-ahead) |
+| 8 books queued | — | — | QUEUED | pending claim |
+
+For the full queue and per-book notes, see [book-queue.md](../book-queue.md).
+
+---
+
+## Claim and completion protocols
+
+See [book-queue.md](../book-queue.md) — both protocols (claim a book,
+ship a book) are defined there with copy-pasteable bash recipes.
+
+---
+
+## Reclamation log (v1 holdover — still relevant)
 
 (none yet)
 
