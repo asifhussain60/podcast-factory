@@ -12,26 +12,53 @@ current_branch: book/kitab-al-riyad
 current_book: kitab-al-riyad
 current_book_dir: content/podcast/library/books/kitab-al-riyad
 authoritative_state_path: content/podcast/library/books/kitab-al-riyad/_system/orchestrator-state.json
-status_tag: HALTED-AT-0F-AWAITING-0G-GO
-current_phase: "0f"
+status_tag: PER-CHAPTER-RUNNING
+current_phase: "per-chapter"
 current_phase_status_summary: |
-  Phases 0a–0f complete. KaR's series-plan.md written and committed at the 0f
-  human-review gate (commit 90a7fa6). Subsequent human-review actions also done:
-  Episode 2 removed (manuscript-history bookkeeping with minimal listener value),
-  11 of 14 episode contracts moved from default deep_dive → debate format to
-  match al-Kirmani's actual al-Islah/al-Nusra rhetorical structure (commit
-  5352d61). Framework upgrades shipped so future books get content-aware Phase 0d
-  classification + richer Phase 0f series-plan template automatically (commit
-  ad80b5a). Air merged book/kitab-al-riyad → develop (commit e122fa0) and pushed.
-  Next gate: Asif's go-ahead to advance KaR to Phase 0g (per-episode authoring of
-  14 episode scripts; estimated cost $14-42, runtime 7-14 hours wall clock).
+  Phases 0a–0f complete; Phase 0g (per-chapter authoring + challenger convergence)
+  in flight under Asif's direct drive.
+
+  Shipped this run:
+  - EP10 motion-stillness-hyle-and-form — SHIP-WITH-CAUTION (commit
+    [4ecafff](https://github.com/asifhussain60/Journal/commit/4ecafff), iter=3
+    fix=4 P0=0 P1=2 P2=2).
+
+  In-flight:
+  - EP14 prophets-as-teachers-monotheism-and-the-ranks — orchestrator PID 68721
+    started 2026-05-21T12:39Z; currently authoring framing via `claude -p`.
+    The initial attempt at 12:33Z failed because `build_episode_txt.py`
+    rejected episode_id `EP14b-...` (regex requires `EP##-<slug>`, digits only).
+    Asif fixed in commit [562b7d5](https://github.com/asifhussain60/Journal/commit/562b7d5)
+    (X3) — strip letter suffix via `ch(\d+)`. Mid-flight artifacts cleaned in
+    [b5e3f5e](https://github.com/asifhussain60/Journal/commit/b5e3f5e); state.json reset.
+
+  Six KaR chapters carry letter suffixes (ch01a, ch03a, ch04b, ch05c, ch13a, ch14b)
+  so the X3 fix unblocks all of them. Twelve episodes remain after EP14.
+
+  Known active orchestrator bug — cost-ledger silent fail with
+  `AttributeError("module 'datetime' has no attribute 'UTC'")` on every
+  `_run_claude_p` call. Python 3.9 vs 3.11 (`datetime.UTC` is 3.11+). Spend on
+  this run NOT tracked; estimate via wall-clock + chapter count. See
+  [coordination-protocol.md §12 P6.5].
 next_action: |
-  Await Asif's go-ahead to advance KaR to Phase 0g. When approved, run:
-    python3 scripts/podcast/orchestrate_book.py --resume kitab-al-riyad
-  Phase 0g is challenger-convergence per chapter (3 outer × 5 inner = 15 passes
-  max per episode). Resume-safe; surface to Asif on any per-chapter halt.
+  Monitor PID 68721; on quiesce read
+  `content/podcast/library/books/kitab-al-riyad/_system/orchestrator-state.json`
+  for current phase/status. Asif drives 0g manually from this point.
+
+  Pending sync tasks deferred until the orchestrator window closes (collision
+  risk during active per-chapter writes):
+    (a) merge `origin/develop` → `book/kitab-al-riyad` to absorb the new
+        `_workspace/plan/operators/setup/` folder + asaas-side coord updates
+        + Studio §13 Azure registry;
+    (b) reconcile the 2026-05-21T11:50Z WRITE EXCEPTION blockquote that arrives
+        on this file via that merge (remove block + `written_by` field);
+    (c) add permanent §13 in this file mirroring
+        [mac-studio-primary.md §14](mac-studio-primary.md): 3-row summary table +
+        pointer to `setup/runtime-compatibility.md`;
+    (d) update per-Air row of `setup/machines.md` to reflect current phase
+        (per-chapter, EP10 shipped, EP14 in flight).
 anthropic_share: 0.5
-last_verified_at: 2026-05-21T10:30:00Z
+last_verified_at: 2026-05-21T12:45:00Z
 last_updated: 2026-05-21
 response_conventions: see _workspace/plan/response-conventions.md (BLUF format,
   AskUserQuestion ordering, halt-and-surface pattern, cross-machine awareness)
@@ -42,40 +69,12 @@ response_conventions: see _workspace/plan/response-conventions.md (BLUF format,
 **This file is written ONLY by `macbook-air-secondary`.** The Studio reads
 it but never writes it. See [coordination-protocol.md §1](coordination-protocol.md).
 
-> NOTE — bootstrap: this file was authored from the Studio side on 2026-05-20
-> to seed the coordination layer. On the Air's next session, populate the
-> `hostname_hint` and `worktree_layout[].path` fields in the frontmatter
-> and remove this note. Until then, treat the frontmatter as the Studio's
-> best-known view, not the Air's self-report.
-
-> NOTE — 2026-05-20 Studio-authored update (operator-authorized): The Studio
-> wrote this update at Asif's explicit request (chat session
-> `f0aba7bb-72f6-440f-b6c9-bf957323ec8c`) to unblock the Air after Studio
-> shipped the P22.markers framework fix. This is a one-time protocol exception;
-> on the Air's next session, the Air re-asserts ownership by writing the
-> next frontmatter update itself per §12.
-
-> ⚠️ **CRITICAL — P22.markers framework fix shipped 2026-05-20.**
->
-> The Studio shipped commit [`5201b54`](https://github.com/asifhussain60/Journal/commit/5201b54)
-> on `book/asaas-al-taveel` fixing a systematic Phase 0b page-marker stripping
-> defect. The defect was discovered during asaas Phase 0b post-mortem on the
-> same day: 58 of 416 `<!-- page N -->` HTML anchors were stripped across 10
-> of 49 chunked refinement windows; body content preserved but page-anchoring
-> metadata lost. Affects every book that ran Phase 0b before 2026-05-20T16:30Z,
-> **including KaR**.
->
-> Before proceeding to Phase 0e, the Air MUST:
->
-> 1. Cherry-pick `5201b54` (4 files: `_authoring.py`, `audit_page_markers.py`,
->    and 2 test files) onto `book/kitab-al-riyad` — see §4 below.
-> 2. Run `python3 scripts/podcast/audit_page_markers.py --book kitab-al-riyad`
->    and review the per-window breakdown.
-> 3. Decide on remediation per the §4 decision tree.
->
-> Without this audit, KaR's downstream phases (content-range enforcement,
-> per-page citation accuracy, operator navigation) inherit the metadata
-> defect silently.
+> **State as of 2026-05-21T12:45Z** — frontmatter `current_phase_status_summary`
+> + `next_action` carry the live status. Body sections §3 and §4 below reflect
+> the 2026-05-20 baseline (pre-Phase-0g) and have NOT yet been rewritten for
+> the post-merge architecture (setup/ folder absorption + §13 multi-operator
+> mirror are deferred — see frontmatter `next_action`). Trust frontmatter +
+> `state.json` over body §3/§4 until the deferred sync commit lands.
 
 ---
 

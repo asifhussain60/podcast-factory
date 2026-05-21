@@ -42,13 +42,13 @@ in the primary worktree if you need it.
 |---|---|---|
 | **In-flight book** | `kitab-al-riyad` | `asaas-al-taveel` |
 | **Branch** | `book/kitab-al-riyad` | `book/asaas-al-taveel` |
-| **Current phase** | 0f-halt (awaiting Asif's 0g go) | 0c (Arabic phonetic — running) |
+| **Current phase** | per-chapter / 0g (running — EP10 shipped SHIP-WITH-CAUTION, EP14 in flight) | 0b complete (HOLDING-FOR-OPERATOR-GATES — §§1-8 review) |
 | **Pages** | 260 | 416 |
-| **Episodes (est)** | 14 (Ep 2 removed) | 15-20 (pending 0d) |
-| **Anthropic spent so far** | ~$13 estimated (cost-ledger broken — P6.5) | ~$8 estimated |
-| **ETA to ship** | 12-14h LLM (once 0g starts) + reviews | 6-10 days |
-| **Last verified** | 2026-05-21T10:30Z | 2026-05-21 (per Studio's last push) |
-| **Next gate** | Asif's go-ahead for Phase 0g | Studio-side gate per Studio's roadmap |
+| **Episodes (est)** | 14 (Ep 2 removed; 1 shipped, 1 in-flight, 12 remaining) | 15-20 (pending 0d) |
+| **Anthropic spent so far** | ~$13 + EP10 burn (cost-ledger broken — P6.5 + datetime.UTC AttributeError) | ~$8 estimated |
+| **ETA to ship** | ~12 episodes × 30–90 min wall + reviews; X-bug cycles add overhead | 6-10 days |
+| **Last verified** | 2026-05-21T12:45Z | 2026-05-21T11:30Z |
+| **Next gate** | Orchestrator quiesce → deferred-sync commit (develop merge + setup/ absorption + §13 mirror); then Asif decides EP11 vs continued auto-drive | Asif finishes §§1-8 of operator-review.md (gate (a) Azure cleared) |
 
 ---
 
