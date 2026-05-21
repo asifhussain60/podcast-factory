@@ -114,3 +114,6 @@ _workspace/audit/
 
 # Sanitizer backups (created by scripts/podcast/sanitize_contract_yaml.py)
 *.yml.bak
+
+# VSCode workspace favorites (user-local IDE state)
+.favorites.json
