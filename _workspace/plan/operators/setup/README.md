@@ -43,5 +43,20 @@ This folder is documentation only. The actual bootstrap automation lives at:
 - [../../../../infra/claude-agents/](../../../../infra/claude-agents/) — Claude Code agent specs
 - [../../../../infra/launchd/](../../../../infra/launchd/) — macOS launchd jobs for scheduled work
 - [../start-session.sh](../start-session.sh) — per-session bootstrap (reads `~/.machine-id`, syncs branch, prints next action)
+- [../../../../.github/agents/operator-sync.agent.md](../../../../.github/agents/operator-sync.agent.md) — cross-machine sync diff agent (invoke via `claude --agent operator-sync`)
 
 When in doubt about "what command actually runs", check those folders first. The docs here describe what the scripts DO and when to invoke them.
+
+## The cross-machine sync agent
+
+The `operator-sync` agent replaces bespoke "Asif crafts a 100-line sync prompt for the other machine" workflow. From any Mac with `~/.machine-id`, any worktree, any branch:
+
+```bash
+claude --agent operator-sync                  # discovery only — BLUF report, no writes
+claude --agent operator-sync --report-only    # status table only
+claude --agent operator-sync --execute-safe   # discovery + auto-execute safe ops (fast-forward merges, frontmatter timestamp bumps)
+```
+
+The agent NEVER auto-resolves conflicts, auto-pushes to develop/main, auto-writes to the peer's operator file, or auto-runs pipeline phases. It discovers drift + proposes actions; the human executes (or passes `--execute-safe` for the small set of known-safe ops).
+
+Full contract at [../../../../.github/agents/operator-sync.agent.md](../../../../.github/agents/operator-sync.agent.md). Safety rules at SECTION 6 of that file (sole-write, phase-authority, shared-infra zones, read-only files, branch policy — all preserved).
