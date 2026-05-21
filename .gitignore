@@ -105,3 +105,15 @@ _workspace/orchestrator-logs/
 # raw-extract.md). Broader **/_chunks/ catches any future caller that writes
 # _chunks/ outside the canonical book directory.
 **/_chunks/
+
+# Local-only orchestrator/runtime logs
+_workspace/logs/
+
+# Local-only audit snapshots (pre-rerun copies of book artifacts for diff/review)
+_workspace/audit/
+
+# Sanitizer backups (created by scripts/podcast/sanitize_contract_yaml.py)
+*.yml.bak
+
+# VSCode workspace favorites (user-local IDE state)
+.favorites.json

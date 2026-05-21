@@ -110,7 +110,7 @@ FRAMING_WORD_MIN = 150
 FRAMING_WORD_MAX = 3500
 
 EP_PATTERN = re.compile(r"^EP(\d+)-(.+)$")
-CH_PATTERN = re.compile(r"^ch(\d+)-(.+)\.txt$")
+CH_PATTERN = re.compile(r"^ch(\d+)[a-z]?-(.+)\.txt$")
 
 HTML_COMMENT_RE = re.compile(r"<!--.*?-->", re.DOTALL)
 

@@ -83,16 +83,28 @@ class AuthoringError(RuntimeError):
         self.stderr = stderr
 
 
+DEFAULT_MODEL_LABEL = "claude-opus-4-7"  # Claude Code's default on Max plan; for cost-ledger labeling
+
+
 def _run_claude_p(
     prompt: str,
     *,
     cwd: Path | None = None,
     timeout: int = DEFAULT_TIMEOUT,
+    book_dir: Path | None = None,
+    phase: str = "",
+    step: str = "",
+    model: str = DEFAULT_MODEL_LABEL,
 ) -> tuple[int, str, str]:
     """Run `claude -p "<prompt>"` synchronously. Return (rc, stdout, stderr).
 
     Raises AuthoringError if the `claude` binary is not on PATH or the call
     times out. Non-zero return codes are returned to the caller for handling.
+
+    P6.1 cost-ledger integration: if `book_dir` is provided, also append a
+    row to `<book_dir>/_system/cost-ledger.jsonl` via `_cost_ledger`. Ledger
+    write failures NEVER poison the LLM call's return value — they emit a
+    stderr warning and otherwise proceed silently.
     """
     try:
         proc = subprocess.run(
@@ -102,7 +114,23 @@ def _run_claude_p(
             text=True,
             timeout=timeout,
         )
-        return proc.returncode, proc.stdout, proc.stderr
+        rc, stdout, stderr = proc.returncode, proc.stdout, proc.stderr
+        if book_dir is not None:
+            try:
+                # Late import — module is optional in some test contexts
+                from _cost_ledger import append_from_claude_p_stdout
+                append_from_claude_p_stdout(
+                    book_dir,
+                    phase=phase or "(unspecified)",
+                    step=step or "(unspecified)",
+                    model=model,
+                    stdout=stdout,
+                )
+            except Exception as e:  # noqa: BLE001 — ledger errors must not poison the call
+                sys.stderr.write(
+                    f"[_run_claude_p] cost-ledger append failed: {e!r}\n"
+                )
+        return rc, stdout, stderr
     except FileNotFoundError as e:
         raise AuthoringError(
             phase="(shellout)",
@@ -157,6 +185,56 @@ def _assert_artifact(
 
 
 # ─── Phase 0b — English refinement (chunked) ─────────────────────────────────
+def build_phase_0b_window_prompt(
+    book_slug: str,
+    idx: int,
+    total: int,
+    win_in: Path,
+    win_out: Path,
+) -> str:
+    """Construct the per-window refinement prompt sent to ``claude -p``.
+
+    Extracted to module level (was a closure inside :func:`author_phase_0b`) so
+    it can be unit-tested in isolation. See ``tests/test_phase_0b_preserves_page_markers.py``
+    (P22.markers fixture) — that test asserts the prompt contains an explicit
+    instruction to preserve every ``<!-- page N -->`` HTML comment verbatim.
+    Without that instruction, the LLM "tidies" the markers out during heavy
+    prose passages, causing the asaas Phase 0b post-mortem 2026-05-20 defect:
+    58/416 page anchors missing from refined-english.md across 7 of 49 windows.
+    """
+    return (
+        f"You are driving Phase 0b (English Refinement) of the /podcast skill on book-slug "
+        f"`{book_slug}`, **window {idx} of {total}**. Read the canonical Phase 0b procedure "
+        f"from `skills-staging/podcast/SKILL.md` (search `### PHASE 0b: ENGLISH REFINEMENT`).\n\n"
+        f"INPUT  (read this window only): `{win_in}`\n"
+        f"OUTPUT (write the refined window here): `{win_out}`\n\n"
+        f"This is one window in a sequence — DO NOT add chapter headings, intros, "
+        f"summaries, or transitions that assume you have seen the whole book. Refine only "
+        f"the prose in the INPUT file. If the input begins with a `<!-- context-overlap -->` "
+        f"block, that is the tail of the prior window for continuity — DO NOT re-emit it "
+        f"in your output; resume cleanly after it.\n\n"
+        f"**Page-marker invariant (CRITICAL — P22.markers).** The INPUT contains "
+        f"`<!-- page N -->` HTML comments — one before the prose extracted from each "
+        f"source PDF page. You MUST preserve every `<!-- page N -->` comment verbatim "
+        f"at the same relative position in the OUTPUT where it appears in the INPUT. "
+        f"Do NOT collapse adjacent page markers. Do NOT renumber them. Do NOT omit any. "
+        f"Do NOT invent new ones. Do NOT move them to the start or end of the output. "
+        f"These markers are downstream anchors for content-range enforcement (P4.10), "
+        f"per-page citation accuracy (P21), and operator navigation — refinement "
+        f"without them silently breaks every downstream phase. If your refined prose "
+        f"merges paragraphs across a page boundary, keep the `<!-- page N -->` comment "
+        f"in place at the sentence boundary closest to where it originally sat.\n\n"
+        f"Constraints (same as the whole-book Phase 0b — apply at the window scope):\n"
+        f"- Do NOT modify any file other than `{win_out}`.\n"
+        f"- Do NOT invent content not present in the INPUT — fidelity to the source is mandatory.\n"
+        f"- Preserve every Arabic-derived term in transliteration form (al-Razi, al-Kirmani, etc.).\n"
+        f"- Preserve every citation (verse references, hadith collection numbers).\n"
+        f"- Preserve every `<!-- page N -->` HTML comment verbatim and in-place (see invariant above).\n"
+        f"- Do NOT wrap output in code fences or add preamble like 'Here is the refined text:'.\n\n"
+        f"Exit when `{win_out}` is non-empty."
+    )
+
+
 def author_phase_0b(
     book_dir: Path,
     timeout: int = DEFAULT_TIMEOUT,        # retained for back-compat; per-window timeout is what matters
@@ -204,25 +282,7 @@ def author_phase_0b(
         # Write the body to a side file so the prompt stays small and the LLM
         # reads the chunk from disk (its preferred IO pattern).
         win_in = win_out.with_suffix("").with_suffix(".in.md")  # win-NNN.in.md
-        return (
-            f"You are driving Phase 0b (English Refinement) of the /podcast skill on book-slug "
-            f"`{book_slug}`, **window {idx} of {total}**. Read the canonical Phase 0b procedure "
-            f"from `skills-staging/podcast/SKILL.md` (search `### PHASE 0b: ENGLISH REFINEMENT`).\n\n"
-            f"INPUT  (read this window only): `{win_in}`\n"
-            f"OUTPUT (write the refined window here): `{win_out}`\n\n"
-            f"This is one window in a sequence — DO NOT add chapter headings, intros, "
-            f"summaries, or transitions that assume you have seen the whole book. Refine only "
-            f"the prose in the INPUT file. If the input begins with a `<!-- context-overlap -->` "
-            f"block, that is the tail of the prior window for continuity — DO NOT re-emit it "
-            f"in your output; resume cleanly after it.\n\n"
-            f"Constraints (same as the whole-book Phase 0b — apply at the window scope):\n"
-            f"- Do NOT modify any file other than `{win_out}`.\n"
-            f"- Do NOT invent content not present in the INPUT — fidelity to the source is mandatory.\n"
-            f"- Preserve every Arabic-derived term in transliteration form (al-Razi, al-Kirmani, etc.).\n"
-            f"- Preserve every citation (verse references, hadith collection numbers).\n"
-            f"- Do NOT wrap output in code fences or add preamble like 'Here is the refined text:'.\n\n"
-            f"Exit when `{win_out}` is non-empty."
-        )
+        return build_phase_0b_window_prompt(book_slug, idx, total, win_in, win_out)
 
     log("  phase 0b · chunked refinement")
     try:
@@ -234,6 +294,8 @@ def author_phase_0b(
             overlap_words=overlap_words,
             timeout_per_window=window_timeout,
             log=lambda m: log(m),
+            book_dir=book_dir,
+            phase="0b",
         )
     except ChunkingError as e:
         raise AuthoringError(
@@ -342,6 +404,8 @@ def author_phase_0c(
             overlap_words=overlap_words,
             timeout_per_window=window_timeout,
             log=lambda m: log(m),
+            book_dir=book_dir,
+            phase="0c",
         )
     except ChunkingError as e:
         raise AuthoringError(
@@ -591,7 +655,10 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"- For unit_mode='sections', episodes[*].section_index is 1..episode_count.\n\n"
             f"Exit when `{toc_path}` is non-empty and valid JSON."
         )
-        rc, stdout, stderr = _run_claude_p(toc_prompt, timeout=toc_timeout)
+        rc, stdout, stderr = _run_claude_p(
+            toc_prompt, timeout=toc_timeout,
+            book_dir=book_dir, phase="0d", step="toc",
+        )
         _assert_artifact(
             phase="0d-toc",
             path=toc_path,
@@ -718,9 +785,54 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"renumber. Pre-assigned ep_num + section_index come from the global plan.\n"
             f"- Each `chapter-contracts/<slug>.yml` carries: chapter_ref, slug, source_type, "
             f"book_slug=`{book_slug}`, episode_number, title, audience, angle, "
-            f"episode_format=deep_dive, host_dynamic, length_target, key_tensions, "
+            f"episode_format, format_rationale, essential, essential_rationale, "
+            f"host_dynamic, host_dynamic_rationale, length_target, key_tensions, "
             f"tone_constraints, anchor_passages, adaptation_mode=faithful, "
             f"phonetic_overrides, show_notes.\n"
+            f"\n"
+            f"CONTENT-AWARE FIELD ASSIGNMENTS — analyze the source-chapter's rhetorical "
+            f"structure to set these fields. Do NOT default blindly.\n"
+            f"\n"
+            f"  episode_format — one of:\n"
+            f"    * deep_dive: chapter is exposition/narrative — one position being developed.\n"
+            f"      Use for: editor's introductions, foundational chapters before disputes\n"
+            f"      kick in, architectural settlements where the author synthesizes without\n"
+            f"      a named opponent, historical/biographical narrative.\n"
+            f"    * debate: chapter contains two or more NAMED opposing voices being\n"
+            f"      adjudicated by the author. Look for explicit patterns like 'X said this,\n"
+            f"      Y said that, the truth is …' or 'the author of [WORK_A] held …, the author\n"
+            f"      of [WORK_B] held …, we reply …'. If the chapter quotes named opponents and\n"
+            f"      systematically refutes/balances them, this is debate.\n"
+            f"    * interview: chapter is Q&A structured (rare in primary sources).\n"
+            f"    * narrative: chapter is pure historical/biographical exposition (no\n"
+            f"      doctrinal dispute, no exposition-of-position — just events).\n"
+            f"  format_rationale: ONE sentence — the textual evidence that drove the choice\n"
+            f"    (e.g., 'Chapter explicitly names al-Islah and al-Nusra as opponents across\n"
+            f"    18/19 sub-chapters; al-Kirmani's resolution appears as the closing move').\n"
+            f"\n"
+            f"  essential — one of:\n"
+            f"    * core: required for the doctrinal/argumentative arc; cannot be removed\n"
+            f"      without breaking the listener's understanding.\n"
+            f"    * optional: useful context but the listener can skip it without losing\n"
+            f"      the thread (e.g., an editor's overview of who the protagonists are).\n"
+            f"    * bonus: scholarly bookkeeping (manuscript history, philological notes,\n"
+            f"      footnote material). Listeners gain little; keep accessible for completists.\n"
+            f"    * skip: editorial side-matter with minimal listener value; recommend\n"
+            f"      cutting from the main series.\n"
+            f"  essential_rationale: ONE sentence — what content drives the verdict (e.g.,\n"
+            f"    'Pure manuscript-history bookkeeping by the 20th-century editor; no source\n"
+            f"    doctrine present').\n"
+            f"\n"
+            f"  host_dynamic — derive from episode_format:\n"
+            f"    * deep_dive → 'curious_mind + scholar_companion' (Mentor + Student)\n"
+            f"    * debate (3+ voices) → 'advocate_a + advocate_b + arbiter'\n"
+            f"    * debate (2 voices) → 'advocate + arbiter'\n"
+            f"    * narrative → 'narrator + companion'\n"
+            f"    * interview → 'interviewer + subject'\n"
+            f"  host_dynamic_rationale: ONE sentence naming who-plays-what for THIS chapter\n"
+            f"    (e.g., 'advocate_a voices al-Islah's gentle/dense proportion, advocate_b\n"
+            f"    voices al-Nusra's structural parallel, arbiter delivers al-Kirmani's\n"
+            f"    settlement that opposites do not meet in the same place').\n"
             + (
                 "  - When this episode is a section of a longer source chapter, also include "
                 "`source_chapter_ref` (the sc_index) and `section_index` (1-based) in the "
@@ -737,7 +849,10 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
 
         log(f"    sc {sc_idx:03d}/{len(source_chapters)} · authoring "
             f"({episode_count} ep, {slice_wc} src words) · `{sc_title[:50]}`")
-        rc, stdout, stderr = _run_claude_p(sc_prompt, timeout=sc_timeout)
+        rc, stdout, stderr = _run_claude_p(
+            sc_prompt, timeout=sc_timeout,
+            book_dir=book_dir, phase="0d", step=f"sc-{sc_idx:03d}",
+        )
         if rc != 0:
             # Transient (network/API/quota) — log + continue; resume retries.
             # P5.2: capture stdout AND stderr in the failure record.
@@ -941,7 +1056,10 @@ def author_phase_0e(book_dir: Path,
         log(f"    {stem} · enriching")
         # Capture pre-enrichment mtime to detect that the file was actually rewritten.
         pre_mtime = chapter_file.stat().st_mtime
-        rc, stdout, stderr = _run_claude_p(prompt, timeout=chapter_timeout)
+        rc, stdout, stderr = _run_claude_p(
+            prompt, timeout=chapter_timeout,
+            book_dir=book_dir, phase="0e", step=stem,
+        )
         if rc != 0:
             # Transient — log + continue; resume retries.
             # P5.2: capture stdout AND stderr in the failure record.
@@ -1068,7 +1186,10 @@ def author_framing(book_dir: Path, chapter_slug: str,
         f"Exit when `{framing_path}` validates."
     )
 
-    rc, stdout, stderr = _run_claude_p(prompt, timeout=timeout)
+    rc, stdout, stderr = _run_claude_p(
+        prompt, timeout=timeout,
+        book_dir=book_dir, phase="per-chapter", step=f"framing/{chapter_slug}",
+    )
     _assert_artifact(
         phase=f"framing/{chapter_slug}",
         path=framing_path,
@@ -1106,7 +1227,10 @@ def invoke_challenger(book_dir: Path, chapter_slug: str,
         f"Invocation argument: `{book_slug} --chapter {chapter_slug}`\n\n"
         f"After the agent returns, exit immediately — do NOT take additional actions."
     )
-    rc, stdout, stderr = _run_claude_p(prompt, timeout=timeout)
+    rc, stdout, stderr = _run_claude_p(
+        prompt, timeout=timeout,
+        book_dir=book_dir, phase="per-chapter", step=f"challenger/{chapter_slug}",
+    )
     report = book_dir / "_system" / "challenger-report.md"
     if rc != 0:
         raise AuthoringError(
@@ -1166,7 +1290,10 @@ def invoke_fixer(book_dir: Path, chapter_slug: str, severity: str,
         f"been addressed (or you have determined the finding cannot be fixed without "
         f"author judgment — in which case leave a one-line note at the end of the report)."
     )
-    rc, stdout, stderr = _run_claude_p(prompt, timeout=timeout)
+    rc, stdout, stderr = _run_claude_p(
+        prompt, timeout=timeout,
+        book_dir=book_dir, phase="per-chapter", step=f"fixer/{chapter_slug}/{severity}",
+    )
     if rc != 0:
         raise AuthoringError(
             phase=f"fixer/{chapter_slug}/{severity}",
@@ -1203,7 +1330,10 @@ def invoke_trainer(book_dir: Path, timeout: int = TRAINER_TIMEOUT) -> str:
         f"Invocation argument: `{book_slug}`\n\n"
         f"After the agent returns, exit immediately."
     )
-    rc, stdout, stderr = _run_claude_p(prompt, timeout=timeout)
+    rc, stdout, stderr = _run_claude_p(
+        prompt, timeout=timeout,
+        book_dir=book_dir, phase="trainer", step="invoke",
+    )
     if rc != 0:
         raise AuthoringError(
             phase="trainer",

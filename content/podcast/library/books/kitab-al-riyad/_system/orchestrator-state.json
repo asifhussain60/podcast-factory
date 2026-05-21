@@ -3,10 +3,10 @@
   "book_slug": "kitab-al-riyad",
   "category": "books",
   "branch": "book/kitab-al-riyad",
-  "phase": "0a",
-  "phase_status": "completed",
-  "last_completed_phase": "0a",
-  "next_phase": "0b",
+  "phase": "0f",
+  "phase_status": "halted",
+  "last_completed_phase": "0e",
+  "next_phase": "0f",
   "last_error": null,
   "phases": {
     "pre-flight": {
@@ -27,19 +27,35 @@
       "ts_completed": "2026-05-18T22:51:13Z"
     },
     "0b": {
-      "status": "pending"
+      "status": "completed",
+      "rerun_reason": "P22.markers framework fix shipped 2026-05-20; previous run stripped 50/260 page markers across 7 zones. Re-running with the fixed prompt.",
+      "ts_started": "2026-05-20T20:09:07Z",
+      "ts_completed": "2026-05-20T21:35:32Z"
     },
     "0c": {
-      "status": "pending"
+      "status": "completed",
+      "ts_started": "2026-05-19T19:06:50Z",
+      "ts_completed": "2026-05-19T21:56:45Z"
     },
     "0d": {
-      "status": "pending"
+      "status": "completed",
+      "ts_started": "2026-05-19T21:56:45Z",
+      "completion_note": "Step 1/3 (chapters-rationale.md) and step 2/3 (chapter segmentation) closed manually after the orchestrator's repeated 1200s LLM-timeouts on sc-009/sc-010. All 13 episodes authored across 10 sc chunks (sc-001 split into 3 episodes; sc-009 into 2; sc-002 through sc-008 + sc-010 single-episode). All .done markers present in _chunks/0d/. Chapter contracts present for every chapter. Resume manually proceeds to Phase 0e.",
+      "ts_completed": "2026-05-21T00:35:33Z",
+      "manual_fallback": "Resume manually via /podcast and `--resume` the orchestrator."
     },
     "0e": {
-      "status": "pending"
+      "status": "completed",
+      "placeholder_note": "Temporary pre-mark so the orchestrator halts at 0f after the 0b re-run. WILL be reverted to 'pending' once Phase 0b finishes and the drift gate is evaluated.",
+      "ts_started": "2026-05-21T00:35:34Z",
+      "ts_completed": "2026-05-21T02:56:07Z",
+      "manual_fallback": "Resume manually via /podcast and `--resume` the orchestrator."
     },
     "0f": {
-      "status": "pending"
+      "status": "halted",
+      "ts_started": "2026-05-20T21:35:33Z",
+      "ts_completed": "2026-05-21T02:56:07Z",
+      "series_plan_path": "content/podcast/library/books/kitab-al-riyad/_system/series-plan.md"
     },
     "0g": {
       "status": "pending"
@@ -63,7 +79,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-05-18T22:51:13Z",
-  "ts_updated": "2026-05-18T22:51:13Z",
+  "ts_updated": "2026-05-21T02:56:07Z",
   "challenger_version": "2.0",
   "orchestrator_version": "1.1"
 }

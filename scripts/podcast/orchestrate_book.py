@@ -376,7 +376,24 @@ SERIES_PLAN_TEMPLATE = """# Series Plan — {title}
 **Tier:** `{length_tier}`
 **Rationale:** {tier_rationale}
 
+### Essentiality recommendations
+
+Episodes the LLM flagged as **optional**, **bonus**, or **skip** during Phase 0d
+content analysis. CORE episodes are not listed (the default; cannot be removed
+without breaking the arc). To act on a `skip` recommendation, delete the
+contract + chapter file before resuming.
+
+{essentiality_table}
+
 ### Episode list
+
+Columns:
+- **Format** — `deep_dive` (Mentor+Student exposition) | `debate` (named voices clash + arbiter) | `narrative` (historical/biographical) | `interview` (Q&A)
+- **Essential** — `core` | `optional` | `bonus` | `skip` (see Essentiality recommendations above)
+- **Upload** — file to drop in NotebookLM's *Sources* panel
+- **Customize** — file whose contents go in NotebookLM's *Customize* box (written by Phase 0g)
+- **Length cue** — what to declare in the customize prompt's opening directive
+- **Hosts** — host pairing for NotebookLM's customize prompt
 
 {chapter_list_table}
 {source_map_section}
@@ -395,15 +412,38 @@ SERIES_PLAN_TEMPLATE = """# Series Plan — {title}
 
 ---
 
+## NotebookLM input checklist (per-episode workflow)
+
+After Phase 0g writes the per-episode customize prompts, for each episode:
+
+1. **Open NotebookLM** → "+ New notebook" (or use existing per-book notebook)
+2. **Sources panel** → "+ Add source" → "Upload from file" → select the file
+   listed in the **Upload** column of the Episode list
+3. **Customize panel** (top right) → "Customize" → paste the entire contents of
+   the **Customize** file
+4. The customize prompt already declares: length cue, host pairing, format
+   (deep_dive vs debate), focus areas, pronunciation block, tone constraints
+5. **Generate** → ~10–15 min for NotebookLM to render audio
+6. **Download** the MP3 → save at `audio/EP##-<slug>.mp3`
+7. **Transcribe** via `python3 scripts/podcast/transcribe_episode.py`
+   → drops at `transcripts/EP##-<slug>.transcript.txt`
+8. **Audit** via `python3 scripts/podcast/audit_transcript.py <BOOK_DIR> EP##-<slug>`
+   — catches Arabic pronunciation drift, missing phonetic cues, fabricated quotes
+9. If audit flags issues: edit `pronunciation.md` overrides → re-paste customize
+   prompt → re-generate
+
+---
+
 ## Next step
 
-Review the **Length tier**, **Episode list**, and (if shown) **Source-chapter → episode map**.
+Review the **Length tier**, **Essentiality recommendations**, **Episode list**,
+and (if shown) **Source-chapter → episode map**.
 
 If everything looks correct: `python3 scripts/podcast/orchestrate_book.py --resume {book_slug}`
 
-If an episode's segmentation or title needs fixing: edit the relevant
-`chapter-contracts/<slug>.yml` and `chapters/ch##[a-z]?-<slug>.txt`, then
-re-invoke `--resume`. The orchestrator detects the change and re-validates.
+If an episode's segmentation, title, format, or host_dynamic needs fixing: edit
+the relevant `chapter-contracts/<slug>.yml` and `chapters/ch##[a-z]?-<slug>.txt`,
+then re-invoke `--resume`. The orchestrator detects the change and re-validates.
 
 If the tier choice is wrong: edit every `chapter-contracts/<slug>.yml` to
 the desired `length_target`, then re-invoke `--resume`.
@@ -437,6 +477,10 @@ def phase_0f_write_series_plan(book_dir: Path, title: str) -> Path:
             raise RuntimeError(f"chapter contract failed to parse: {yml}")
         contracts.append((yml.stem, data))
 
+    # Sort by episode_number so the series-plan tables read in narrative order,
+    # not alphabetical-by-slug. Contracts missing episode_number fall to the end.
+    contracts.sort(key=lambda t: t[1].get("episode_number") or 9999)
+
     if not contracts:
         raise RuntimeError(
             f"Phase 0f: no chapter contracts under {contracts_dir}. "
@@ -457,16 +501,65 @@ def phase_0f_write_series_plan(book_dir: Path, title: str) -> Path:
             "contracts before resuming."
         )
 
-    # Chapter list table
-    rows = ["| # | Slug | Title | Words | Target tier |", "|---|---|---|---|---|"]
+    # Length-cue lookup: maps length_target to the customize-prompt opening directive
+    LENGTH_CUE = {
+        "short_dive": '"target a 12–18 minute conversation"',
+        "extended": '"target a 30–45 minute conversation"',
+        "longer": '"target a 45–60 minute conversation"',
+    }
+    # Host-display lookup: maps host_dynamic field to a NotebookLM-friendly label
+    HOST_DISPLAY = {
+        "curious_mind + scholar_companion": "Mentor + Scholar Companion",
+        "advocate_a + advocate_b + arbiter": "Advocate A + Advocate B + Arbiter",
+        "advocate + arbiter": "Advocate + Arbiter",
+        "narrator + companion": "Narrator + Companion",
+        "interviewer + subject": "Interviewer + Subject",
+    }
+
+    # Chapter list table — extended schema (format, essential, NotebookLM input cues)
+    rows = [
+        "| # | Title | Words | Tier | Format | Essential | Upload (NotebookLM source) | Customize | Length cue | Hosts |",
+        "|---|---|---|---|---|---|---|---|---|---|",
+    ]
     for slug, data in contracts:
         ch_num = data.get("episode_number", "?")
         title_ = data.get("title", slug)
         target = data.get("length_target", "?")
+        fmt = data.get("episode_format", "deep_dive")
+        essential = data.get("essential", "core")
+        host_dyn = data.get("host_dynamic", "curious_mind + scholar_companion")
+        host_disp = HOST_DISPLAY.get(host_dyn, host_dyn)
+        length_cue = LENGTH_CUE.get(target, '"(set length cue)"')
         ch_file = next(chapters_dir.glob(f"ch*-{slug}.txt"), None)
         words = len(ch_file.read_text(encoding="utf-8").split()) if ch_file else "?"
-        rows.append(f"| {ch_num} | `{slug}` | {title_} | {words} | {target} |")
+        upload = f"`chapters/{ch_file.name}`" if ch_file else "(missing)"
+        customize = f"`episodes/EP{ch_num:02d}-{slug}.txt`" if isinstance(ch_num, int) else f"`episodes/EP{ch_num}-{slug}.txt`"
+        rows.append(
+            f"| {ch_num} | {title_} | {words} | {target} | **{fmt}** | "
+            f"{essential} | {upload} | {customize} (TBD post-0g) | {length_cue} | {host_disp} |"
+        )
     chapter_list_table = "\n".join(rows)
+
+    # Essentiality table — surface only non-CORE recommendations
+    ess_rows = [
+        "| # | Slug | Essential? | Why |",
+        "|---|---|---|---|",
+    ]
+    non_core = [
+        (s, d) for s, d in contracts
+        if d.get("essential", "core") != "core"
+    ]
+    if non_core:
+        for slug, data in non_core:
+            ch_num = data.get("episode_number", "?")
+            essential = data.get("essential", "?")
+            why = data.get("essential_rationale", "(no rationale provided)")
+            ess_rows.append(f"| {ch_num} | `{slug}` | **{essential}** | {why} |")
+    else:
+        ess_rows.append(
+            "| — | — | — | All episodes flagged `core`. No essentiality concerns. |"
+        )
+    essentiality_table = "\n".join(ess_rows)
 
     # Audience / angle from the first contract (all should agree post-0d)
     first = contracts[0][1]
@@ -505,6 +598,7 @@ def phase_0f_write_series_plan(book_dir: Path, title: str) -> Path:
         unit_mode=unit_mode,
         length_tier=length_tier,
         tier_rationale=tier_rationale,
+        essentiality_table=essentiality_table,
         chapter_list_table=chapter_list_table,
         source_map_section=source_map_section,
         audience=audience,

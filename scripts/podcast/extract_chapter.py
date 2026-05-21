@@ -254,7 +254,7 @@ def assert_boundary_safe(p: Path) -> None:
 # ─────────────────────────────────────────────────────────────────────────────
 
 
-CH_PREFIX_RE = re.compile(r"^ch(\d+)-(.+)$")
+CH_PREFIX_RE = re.compile(r"^ch(\d+)[a-z]?-(.+)$")
 
 
 @dataclass

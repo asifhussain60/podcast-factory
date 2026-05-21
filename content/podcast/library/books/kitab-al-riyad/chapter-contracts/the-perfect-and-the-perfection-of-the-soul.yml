@@ -1,0 +1,79 @@
+chapter_ref: ch03a-the-perfect-and-the-perfection-of-the-soul
+slug: the-perfect-and-the-perfection-of-the-soul
+source_type: book-chapter
+book_slug: kitab-al-riyad
+source_chapter_ref: 2
+section_index: 1
+episode_number: 3
+title: The Perfect and the Perfection of the Soul
+audience: >
+  Thoughtful adult readers who have followed al-Kirmani's editorial overture
+  through episodes one and two and now want to enter the actual philosophical
+  argument of *al-Riyad* — the foundational dispute over what "perfection"
+  names, whether the Soul is perfect or deficient, and how the formula
+  "perfect in itself, deficient only in relation" gets established across
+  the first ten sub-chapters of Chapter One.
+angle: faithful_exposition
+episode_format: deep_dive
+host_dynamic: curious_mind + scholar_companion
+host_dynamic_custom: null
+debate: null
+length_target: extended
+key_tensions:
+  - >
+    Al-Sijistani's "the perfect is more honorable than perfection" attack on
+    al-Razi rests on treating attribute/described as a single rank-scale, and
+    on importing the natural world's bearer-borne logic into the supra-natural
+    realm where it does not apply. Al-Kirmani patiently dismantles both moves
+    while still respecting his teacher's intent.
+  - >
+    Al-Kirmani sides with al-Razi against his own teacher al-Sijistani — but
+    he also sides AGAINST al-Razi on the Intellect-and-time-are-one claim
+    (sub-chapter 6). The hosts must name both moves; neither discipleship nor
+    refutation is total here.
+  - >
+    The formula "perfect in itself, deficient only in addition to what stands
+    above" is the doctrinal spine of the entire chapter and the entire book.
+    The hosts must surface it so plainly that the listener carries it into
+    episodes 4 and 5 as the key that unlocks every subsequent analogy.
+  - >
+    The damaged opening folios are not skippable preamble — they are the
+    cosmological vocabulary (First Intellect, Second Intellect as Nafs,
+    perception, creation in time) that the rest of the chapter will spend
+    thirty-eight sub-chapters refining. Honor the damage; don't pretend the
+    manuscript opens clean.
+tone_constraints:
+  - Walk the sub-chapters in order. Do not collapse ten sub-chapters into a single thesis.
+  - When al-Kirmani sides with al-Razi against al-Sijistani, name it. When he sides against al-Razi (Intellect-and-time-are-one), name that too. Discipleship is not loyalty here.
+  - Lost-work quotations (the authors of *al-Islah* and *al-Nusra*) may be paraphrased in modern English. Verbatim Quranic verses, the hadith of the Two Weighty Things (which actually appears in episode 4, not here), and al-Kirmani's own settled formulas stay verbatim with attribution.
+  - The damaged-folio passages are part of the chapter, not skippable preamble. Let the OCR damage stand; do not invent reconstructions the source does not contain.
+  - End on the formula ("perfect in itself, deficient only in relation"), not on a "what we learned" summary. The formula is what the listener carries into episode 4.
+  - The opening invocation and the preface are al-Kirmani's voice — keep their gravity. Do not flatten the praise into editorial summary.
+anchor_passages:
+  - "Al-Kirmani's stated method paragraph: 'I thought to quote the sayings of each one of them in the book al-Islah and the corresponding passage in the book al-Nusra, contrasting their objects…'"
+  - "The 'Gardens' metaphor for the book's title: 'like Riyad: a vegetable in the eye, a fruit that comes into the hands.'"
+  - "Quran 41:53 in al-Kirmani's rendering: 'We will show them Our signs in the horizons and in their own selves until it becomes clear to them that it is the truth.'"
+  - "Quran 36:40 in al-Kirmani's rendering: 'It is not for the sun to overtake the moon, nor does the night outstrip the day; and each is swimming in an orbit.'"
+  - "Al-Kirmani's closing formula at sub-chapter ten: 'All things are perfect in themselves; there is a deficiency in a thing only in addition to that which is higher than it.'"
+adaptation_mode: faithful
+phonetic_overrides: {}
+show_notes:
+  blurb: >
+    The opening of *Kitab al-Riyad* in full: the damaged invocation that
+    survives, al-Kirmani's preface and prayer for the ruling Imam, his
+    statement of method, the table of ten chapters, and the first ten
+    sub-chapters of Chapter One — where the foundational doctrine of the
+    book (perfect in itself, deficient only in relation) is established
+    against al-Sijistani's persistent attempt to fix the Soul on a single
+    rank-scale that would make it deficient in itself.
+  related_episodes:
+    - the-four-da-is-and-the-debate
+    - the-structure-of-al-riyad-and-the-manuscript
+    - soul-intellect-and-the-power-of-emanation
+    - the-soul-in-time-and-the-rejoinder-to-al-nusra
+  references:
+    - "al-Kirmani, *Rahat al-'Aql* (The Repose of the Intellect) — full account of time, motion, and the celestial sphere"
+    - "al-Kirmani, *al-Risala al-Mudi'a* (The Illuminating Epistle) — origination as the mediator between the First Intellect and its Creator"
+    - "Imam al-Mu'izz li-Din Allah, *Ta'wil al-Shari'a* — the doctrinal source al-Kirmani draws on for the Intellect/Word equation"
+    - "Quran 41:53 (signs in horizons and selves)"
+    - "Quran 36:40 (sun and moon swimming in their orbits)"

@@ -63,6 +63,7 @@ from __future__ import annotations
 import os
 import re
 import subprocess
+import sys
 import tempfile
 from dataclasses import dataclass
 from pathlib import Path
@@ -223,6 +224,9 @@ def run_windowed(
     overlap_words: int = DEFAULT_OVERLAP_WORDS,
     timeout_per_window: int = DEFAULT_WINDOW_TIMEOUT,
     log: Callable[[str], None] = print,
+    book_dir: Path | None = None,
+    phase: str = "",
+    model: str = "claude-opus-4-7",
 ) -> list[Path]:
     """Drive `claude -p` once per window with checkpointing.
 
@@ -234,6 +238,10 @@ def run_windowed(
       overlap_words       — context-overlap suffix from prior window (default 120)
       timeout_per_window  — per-shellout timeout in seconds (default 600)
       log                 — callable for progress logging (default print)
+      book_dir            — (optional) book directory; if provided, appends a
+                            cost-ledger row per window via `_cost_ledger` (P6.1).
+      phase               — (optional) phase label for ledger rows (e.g., "0b").
+      model               — model name label for ledger rows.
 
     Returns the ordered list of out_path objects (one per window, in order).
     Raises ChunkingError if the claude binary is missing or every window fails.
@@ -283,6 +291,22 @@ def run_windowed(
             failures.append((idx, f"timed out after {timeout_per_window}s"))
             log(f"    win {idx:03d}/{total} · TIMEOUT")
             continue
+
+        # P6.1 cost-ledger integration — record EVERY claude -p call's usage
+        # (rc=0 OR rc!=0), since the API call cost is real regardless of artifact
+        # success. Ledger failure must NOT poison the chunking flow.
+        if book_dir is not None:
+            try:
+                from _cost_ledger import append_from_claude_p_stdout
+                append_from_claude_p_stdout(
+                    book_dir,
+                    phase=phase or "(unspecified)",
+                    step=f"win-{idx:03d}",
+                    model=model,
+                    stdout=stdout,
+                )
+            except Exception as e:  # noqa: BLE001
+                sys.stderr.write(f"[run_windowed] cost-ledger append failed: {e!r}\n")
 
         if rc != 0:
             # Transient (network / API / quota) failures: log and continue;
