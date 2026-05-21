@@ -3,8 +3,8 @@
   "book_slug": "kitab-al-riyad",
   "category": "books",
   "branch": "book/kitab-al-riyad",
-  "phase": "0e",
-  "phase_status": "completed",
+  "phase": "0f",
+  "phase_status": "halted",
   "last_completed_phase": "0e",
   "next_phase": "0f",
   "last_error": null,
@@ -52,9 +52,10 @@
       "manual_fallback": "Resume manually via /podcast and `--resume` the orchestrator."
     },
     "0f": {
-      "status": "failed",
+      "status": "halted",
       "ts_started": "2026-05-20T21:35:33Z",
-      "ts_completed": "2026-05-20T21:35:33Z"
+      "ts_completed": "2026-05-21T02:56:07Z",
+      "series_plan_path": "content/podcast/library/books/kitab-al-riyad/_system/series-plan.md"
     },
     "0g": {
       "status": "pending"
