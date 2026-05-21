@@ -38,7 +38,14 @@ follows this **4-part shape, in this exact order, with these exact headers**:
 ---
 
 ## Next: 👤 Asif    [or 🤖 AI, depending on who owns the next move]
-<One explicit sentence naming the action.>
+<If ONE legitimate path exists: one explicit sentence naming the action.>
+
+<If TWO OR MORE legitimate paths exist: alphabetized list, recommended option as A, final option always "Do all of the above":>
+
+A. (Recommended) <best path — what + brief why>
+B. <alternative path>
+C. <third path if applicable>
+D. Do all of the above (A + B + C in sequence)
 ```
 
 ### The four parts in detail
@@ -49,7 +56,18 @@ follows this **4-part shape, in this exact order, with these exact headers**:
 
 **Part 3 — Horizontal rule (`---`)** — Sets the Next header apart from body content. Always present, even for single-section responses.
 
-**Part 4 — `## Next: 👤 Asif` or `## Next: 🤖 AI`** — H2 header (visual weight matches the At-a-glance header, creating bookends for the response). Emoji + exactly-one-word actor name (`👤 Asif` for user-owned next move, `🤖 AI` for Claude-owned next move). Followed by one explicit sentence naming the action. No multi-step lists; pick one action and one actor. If genuinely independent next moves exist for both actors, write two `## Next:` headers (one per actor) — but this should be rare; usually one.
+**Part 4 — `## Next: 👤 Asif` or `## Next: 🤖 AI`** — H2 header (visual weight matches the At-a-glance header, creating bookends for the response). Emoji + exactly-one-word actor name (`👤 Asif` for user-owned next move, `🤖 AI` for Claude-owned next move).
+
+**When ONE legitimate path exists**: one explicit sentence naming the action.
+
+**When MULTIPLE legitimate paths exist** (the common case after a multi-issue response): an **alphabetized list of options** where:
+- Option `A.` is ALWAYS the recommended path, prefixed `(Recommended)` and followed by the recommendation + brief why
+- Option `B.`, `C.`, etc. are alternatives in priority order (most-likely-useful next, all the way down)
+- The FINAL letter (D, E, etc., whichever comes last) is ALWAYS "Do all of the above (A + B + C in sequence)" — accommodates the common case of "yes do everything"
+
+This mirrors the AskUserQuestion convention (recommended first, structured options). The reader scans the list, picks the letter, replies with one letter — minimal friction.
+
+**If genuinely independent next moves exist for both Asif AND AI** (rare), write two `## Next:` headers — one per actor. Each can have its own options-list.
 
 ### Severity emojis (used both in Part 1 header and per-section in Part 2)
 
@@ -84,7 +102,10 @@ The previously-broken adams-law contract was overwritten by the fresh 0d output,
 ---
 
 ## Next: 👤 Asif
-Authorize Phase 0e by running `python3 scripts/podcast/orchestrate_book.py --resume kitab-al-riyad`.
+A. (Recommended) Authorize Phase 0e by running `python3 scripts/podcast/orchestrate_book.py --resume kitab-al-riyad` — clean re-run unblocks all downstream enrichment.
+B. Spot-check 2-3 chapter contracts in [chapter-contracts/](content/podcast/library/books/kitab-al-riyad/chapter-contracts/) before authorizing — adds 5 min, catches any latent YAML issues.
+C. Defer Phase 0e and finish another book's gate first — only if you have higher-priority cross-book work.
+D. Do all of the above (B → C → A in sequence).
 ```
 
 ### Rules and prohibitions
@@ -95,7 +116,7 @@ Authorize Phase 0e by running `python3 scripts/podcast/orchestrate_book.py --res
 - **No `**Next:**` inline-bold line.** Deprecated 2026-05-21 in favor of the `## Next: 👤 Asif` / `## Next: 🤖 AI` H2 header (matches At-a-glance visual weight; bookends the response).
 - **No trailing summary paragraphs** ("In summary…", "To recap…"). The At-a-glance list already did that job at the top.
 - **No postscripts after the Next header.** The Next header ends the response.
-- **No multi-step Next lines.** Pick one action, name one actor. If there are genuinely independent next steps for multiple actors, write one `## Next:` header per actor (no more than two total — usually one).
+- **Multi-path Next uses alphabetized options.** When 2+ legitimate paths exist, list them as A. (Recommended) / B. / C. / [final letter]. Do all of the above. Single-path: one sentence, no list. **One actor per `## Next:` header** — if genuinely independent next steps exist for both Asif AND AI, write two headers (no more than two total — usually one).
 - **Markdown links always.** `[name](path)` for files, `[commit abc1234](https://github.com/asifhussain60/Journal/commit/abc1234)` for commits, `[file.py:42](scripts/file.py#L42)` for line refs. Never bare paths in prose.
 - **Explain pipeline jargon parenthetically** the first time it appears in a response (Phase 0e, nāṭiq, P22, abjad, da'wa, etc.).
 - **Synthesize, don't dump.** When external knowledge helps (style guides, conventions, prior art), use WebSearch and cite. Otherwise stick to what the codebase shows.
