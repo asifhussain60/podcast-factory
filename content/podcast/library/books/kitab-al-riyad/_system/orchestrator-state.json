@@ -65,9 +65,9 @@
       "completed_slugs": [
         "motion-stillness-hyle-and-form"
       ],
-      "reset_note": "Bug X3 (2026-05-21): build_episode_txt rejected EP14b-... because of letter suffix in chapter filename. Fixed in orchestrate_book.py per_chapter_pass — strips suffix when forming episode_id. Cleaned mid-flight artifacts (duplicate ch14-... chapter file + EP14-... episode-drafts). Resume continues from chapter 2 onward; motion-stillness preserved.",
+      "reset_note": "Bug X4 (2026-05-21): extract_chapter was renormalizing chapter filenames (ch14b- → ch14-), creating a duplicate that build_episode_txt then rejected as ambiguous. Fixed in extract_chapter.py line 1044 — now writes back to chapter.path verbatim. Cleanup: removed ch14-prophets-... duplicate + EP14-* episode-drafts. motion-stillness still in completed_slugs.",
       "ts_started": "2026-05-21T11:24:27Z",
-      "ts_completed": "2026-05-21T12:33:27Z"
+      "ts_completed": "2026-05-21T12:54:31Z"
     },
     "trainer": {
       "status": "pending"
@@ -85,7 +85,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-05-18T22:51:13Z",
-  "ts_updated": "2026-05-21T12:33:27Z",
+  "ts_updated": "2026-05-21T12:54:31Z",
   "challenger_version": "2.0",
   "orchestrator_version": "1.1"
 }

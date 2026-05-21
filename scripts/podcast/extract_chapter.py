@@ -1039,9 +1039,16 @@ def emit_bundle(chapter: ResolvedChapter, c: Contract, force: bool) -> None:
             f"Hosts will resort to filler."
         )
 
-    # 1. Chapter copy → content/podcast/<bucket>/chapters/ch##-<slug>.txt
-    ch_num = chapter.chapter_number or ep_num
-    chapter_out = bucket_root / "chapters" / f"ch{ch_num:02d}-{slug}.txt"
+    # 1. Chapter copy → content/podcast/<bucket>/chapters/ch##[a-z]?-<slug>.txt
+    # Bug X4 (2026-05-21): always write back to the SAME filename we resolved
+    # from. Earlier this rebuilt the path as f"ch{ch_num:02d}-{slug}.txt", which
+    # silently DROPPED the letter suffix that Phase 0d uses on split-from-same-
+    # source-chapter episodes (e.g., ch14b- when one source chapter produced 2
+    # episodes). The renormalized path created a duplicate chapter file
+    # (ch14- alongside the canonical ch14b-), which then made build_episode_txt
+    # fail with "multiple chapter files match slug". Solution: write to
+    # chapter.path verbatim — single canonical filename, no duplicate.
+    chapter_out = chapter.path
 
     # 2. Bundle scaffolding → _system/episode-drafts/EP##-<slug>/
     draft_dir = bucket_root / "_system" / "episode-drafts" / ep_id
