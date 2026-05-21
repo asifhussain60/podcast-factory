@@ -664,9 +664,27 @@ def per_chapter_pass(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
     """
     book_slug = book_dir.name
 
+    # Resolve the chapter file FIRST — extract_chapter.py expects a ref of the
+    # form `<book-slug>/<filename-stem-with-ch##-prefix>`, not `<book>:<slug>`.
+    # (Bug X1 from 2026-05-21: the old `<book>:<slug>` colon form was interpreted
+    # as a literal path and failed every chapter; the contract slug doesn't carry
+    # the `ch##-` prefix that the on-disk filename does.)
+    chapter_file = next((book_dir / "chapters").glob(f"ch*-{chapter_slug}.txt"), None)
+    if chapter_file is None:
+        return ChapterOutcome(
+            chapter_slug=chapter_slug,
+            final_verdict="FAILED",
+            outer_iterations=0,
+            fixer_attempts=0,
+            p0_remaining=0, p1_remaining=0, p2_remaining=0,
+            notes=[f"chapter file missing for slug {chapter_slug} "
+                   f"(expected at chapters/ch*-{chapter_slug}.txt)"],
+        )
+    chapter_ref = f"{book_slug}/{chapter_file.stem}"
+
     # 1. Extract — scaffolds the episode-draft folder + bundle from the contract.
     rc, out, err = _run(
-        [sys.executable, str(EXTRACT_SCRIPT), f"{book_slug}:{chapter_slug}"]
+        [sys.executable, str(EXTRACT_SCRIPT), chapter_ref]
     )
     if rc != 0:
         return ChapterOutcome(
@@ -675,7 +693,7 @@ def per_chapter_pass(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
             outer_iterations=0,
             fixer_attempts=0,
             p0_remaining=0, p1_remaining=0, p2_remaining=0,
-            notes=[f"extract_chapter.py failed: rc={rc}: {err.strip()[:200]}"],
+            notes=[f"extract_chapter.py failed for {chapter_ref!r}: rc={rc}: {err.strip()[:200]}"],
         )
 
     # 2. Author framing — LLM call.
@@ -691,18 +709,8 @@ def per_chapter_pass(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
             notes=[f"framing authoring failed: {e}"],
         )
 
-    # 3. Build the episode .txt — deterministic gate. We resolve the EP##-<slug>
-    #    from the chapter file name on disk.
-    chapter_file = next((book_dir / "chapters").glob(f"ch*-{chapter_slug}.txt"), None)
-    if chapter_file is None:
-        return ChapterOutcome(
-            chapter_slug=chapter_slug,
-            final_verdict="FAILED",
-            outer_iterations=0,
-            fixer_attempts=0,
-            p0_remaining=0, p1_remaining=0, p2_remaining=0,
-            notes=[f"chapter file missing for slug {chapter_slug}"],
-        )
+    # 3. Build the episode .txt — deterministic gate. We already resolved
+    #    chapter_file above; derive the EP##-<slug> id from its name.
     chap_num = chapter_file.stem.split("-", 1)[0][2:]
     episode_id = f"EP{chap_num}-{chapter_slug}"
     rc, out, err = _run([sys.executable, str(BUILD_SCRIPT), str(book_dir), episode_id])
