@@ -1,19 +1,28 @@
 ---
-schema_version: 1
+schema_version: 2
 applies_to: all machines
 edited_by: operator (Asif) only
-last_updated: 2026-05-20
+last_updated: 2026-05-21
 ---
 
-# Cross-machine coordination protocol
+# Cross-machine coordination protocol (v2 — 2026-05-21)
 
 The discipline every machine MUST follow when it picks up work. If a rule
 here conflicts with anything in a per-machine operator file, **this file
-wins**.
+wins**. If a rule here conflicts with `response-conventions.md`, that file
+wins for response format only; this file wins on everything else.
 
 This file is **shared reference material**. It is the same on every branch.
 Asif edits it; machines read it. Never write to this file from a Claude
 session unless explicitly asked.
+
+### v2 changes (2026-05-21)
+- §3 session-start: prefer `start-session.sh` over manual bash recipe
+- §7 sole-write zones: queue-driven instead of hardcoded book→machine
+- §10 pause-and-handoff: end-of-response format references `response-conventions.md`
+- §13 conventions: full spec moved to `response-conventions.md`; this file links
+- §14 (NEW) — concurrency models for sole-write vs shared-write files
+- §15 (NEW) — write-exception protocol (one machine writes peer's operator file)
 
 ---
 
@@ -50,20 +59,40 @@ branch but never conflict, because no two machines ever write the same file.
 
 ## 3. Session-start protocol (run before any other work)
 
+**Preferred — run the script:**
+
 ```bash
-# 3.1  Update all remote-tracking refs (does not affect working tree)
+bash _workspace/plan/operators/start-session.sh
+```
+
+The script: identifies your machine via `~/.machine-id`, syncs develop,
+reads your operator file from develop (the freshest copy), switches to
+your assigned book branch, prints orchestrator state + next_action.
+
+Exit codes:
+- `0` — ready (sitting on the right branch with a known next step)
+- `1` — pre-flight failed (dirty tree / missing machine-id) — fix and re-run
+- `2` — IDLE (no assigned book — claim one per `book-queue.md`)
+
+**Manual fallback** (if the script is broken or missing):
+
+```bash
+# 3.1  Update remote-tracking refs (does not affect working tree)
 git fetch --all --prune
 
 # 3.2  Fast-forward current branch to remote
 git pull --ff-only
 
-# 3.3  Read assignments from canonical source (always fresh from remote)
-git show origin/develop:_workspace/plan/operators/assignments.md
+# 3.3  Read the dashboard (cross-machine state)
+git show origin/develop:_workspace/plan/operators/index.md
 
-# 3.4  Read my own operator file on current branch
+# 3.4  Read your own operator file
 cat _workspace/plan/operators/$(cat ~/.machine-id).md
 
-# 3.5  Get authoritative phase + status from orchestrator state
+# 3.5  Read the queue (only if you're IDLE)
+git show origin/develop:_workspace/plan/book-queue.md
+
+# 3.6  Get authoritative phase + status from orchestrator state
 jq '{phase, phase_status, last_completed_phase, last_error}' \
     content/podcast/library/books/<my-book>/_system/orchestrator-state.json
 ```
@@ -114,11 +143,22 @@ be merged consistently.
 
 ## 7. Sole-write zones (one machine, never the other)
 
-- **Studio** writes `content/podcast/library/books/asaas-al-taveel/**`
-- **Air** writes `content/podcast/library/books/kitab-al-riyad/**`
-- Neither writes into the other's book directory or onto the other's
-  book branch (`book/<slug>`).
-- See `assignments.md` for the current book → machine mapping.
+**The book-to-machine mapping is dynamic — it lives in `../book-queue.md`'s
+"In-flight" section, not hardcoded here.** A machine writes only to
+`content/podcast/library/books/<book>/**` for the book(s) listed as
+in-flight against its own machine_id. Symmetric rule applies to book
+branches (`book/<slug>`).
+
+The claim protocol in `book-queue.md` ensures only one machine claims a
+book at a time (git push-rejection mutex). Once claimed, the sole-write
+discipline kicks in.
+
+**Current snapshot (mirror of `book-queue.md` In-flight section as of
+2026-05-21):**
+- `mac-studio-primary` → `book/asaas-al-taveel`
+- `macbook-air-secondary` → `book/kitab-al-riyad`
+
+This snapshot is illustrative; `book-queue.md` is canonical.
 
 ---
 
@@ -161,17 +201,24 @@ keep the merge fast-forwardable.
 
 When you finish a phase or hit a natural pause, every machine MUST:
 
-1. Run session-start protocol step 5 (read fresh state from state file).
+1. Re-read state file (`jq '...' state.json`) for the truth.
 2. Update **your own** operator file's frontmatter:
    - `last_verified_at` → now (ISO 8601 UTC)
    - `current_phase` → from state file
    - `current_phase_status_summary` → one-line human summary
    - `next_action` → what the next session should do first
-   - `status_tag` → one of `ACTIVE`, `HOLDING`, `IDLE`, `BLOCKED`
-3. Commit with message: `coord(<machine-id>): update operator state @ phase <X>`
-4. The post-commit hook auto-pushes. If it doesn't, push manually.
-5. Write a `## Project Status` block back to Asif (his convention — see
-   per-machine operator file).
+   - `status_tag` → one of `ACTIVE`, `HOLDING-AT-<gate>`, `IDLE`, `BLOCKED`
+3. If you transitioned a book (started, paused, finished): also update
+   `_workspace/plan/book-queue.md` per the claim/completion protocol there.
+4. If you finished work that should be shared across both machines: update
+   `_workspace/plan/operators/index.md` (your own row in the Machine Status
+   table).
+5. Commit with message: `coord(<machine-id>): update operator state @ phase <X>`
+6. Push immediately to origin. If a `post-commit` hook is installed, it
+   auto-pushes; otherwise push manually.
+7. Write a response to Asif following `_workspace/plan/response-conventions.md`
+   (BLUF format: TL;DR, Status emoji, Body, Your next step). No custom
+   section labels.
 
 ---
 
@@ -214,14 +261,60 @@ To reclaim:
 
 ---
 
-## 13. Asif's collaboration conventions (apply in every response)
+## 13. Response conventions (in every response Asif sees)
 
-1. **`## Project Status` block at end of every response** — mandatory
-   **Work Completed** + **Work Pending** sub-sections; optional Blockers /
-   Next Action / Decisions Needed / Risks / Verdict.
+Full spec: [`../response-conventions.md`](../response-conventions.md).
+
+Highlights both machines follow without exception:
+
+1. **BLUF format** — every substantive response: TL;DR (one sentence) →
+   Status emoji (🟢/🟡/🔴) → Body (per-issue blocks OR tables) → Your
+   next step (one sentence). No custom section labels.
 2. **AskUserQuestion ordering**: recommended option first, labeled
    "(Recommended)"; remaining options ordered priority highest→lowest.
 3. **Asif IS Babu** (the memoir's protagonist). Relevant only if memoir
    context comes up; not relevant to podcast work.
-4. Terse responses; file:line refs; harness-side confirmation for risky
-   actions (force pushes, branch deletions, `rm -rf`).
+4. Terse responses; file:line refs as markdown links; harness-side
+   confirmation for risky actions (force pushes, branch deletions, `rm -rf`).
+
+---
+
+## 14. Concurrency models for shared files
+
+Two distinct patterns are in play; do not confuse them.
+
+| Pattern | Files | How writes are serialized |
+|---|---|---|
+| **Sole-write** | `mac-studio-primary.md`, `macbook-air-secondary.md` (each owned by the named machine) | Convention. Only the named machine writes. Coupled with the WRITE EXCEPTION protocol in §15 for one-time cross-writes. |
+| **Multi-writer with claim-mutex** | `../book-queue.md`, `index.md` (machine-status rows) | Each machine edits → commits → pushes immediately. Git push-rejection serializes claims: whoever pushes first wins. Loser pulls/rebases and retries. |
+| **Read-only for machines** | `coordination-protocol.md`, `README.md`, `start-session.sh`, `assignments.md` | Only Asif edits (typically on develop). Machines read. |
+
+When a multi-writer file conflicts on merge, the conflict is resolved by
+re-reading the latest state from origin/develop and re-applying your change
+on top — never overwrite the other machine's claim.
+
+---
+
+## 15. WRITE EXCEPTION protocol (one machine writes peer's operator file)
+
+By default, machines NEVER write the other machine's operator file. The
+exception: Asif may explicitly authorize a one-time cross-write (e.g.,
+to seed a new machine's operator file, or to record cross-machine sync
+state when the peer machine is unavailable).
+
+When this happens:
+
+1. The writing machine adds a `written_by:` field to the frontmatter,
+   naming itself and citing "one-time exception per Asif's explicit
+   instruction" with the date.
+2. The writing machine adds an inline `> ⚠️ **WRITE EXCEPTION — <date>**`
+   blockquote at the top of the body explaining what was written and why.
+3. The blockquote MUST instruct the file's owning machine to re-assert
+   ownership on its next session (drop the WRITE EXCEPTION block, refresh
+   frontmatter from its own observed state).
+4. On the owning machine's next session: it reads the WRITE EXCEPTION,
+   reconciles the contents (typically: keeps cross-machine sync notes,
+   refreshes its own state-fields), removes the block, commits as
+   `coord(<machine-id>): re-assert ownership after <date> write exception`.
+
+Cycle: ownership returns to the named owner; cross-machine sync is preserved.
