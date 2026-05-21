@@ -42,7 +42,7 @@ Both operator machines run the same project but with **different macOS users, di
 | Additional worktrees | none |
 | Role | Secondary — currently driving `book/kitab-al-riyad`; flexes to other books per claim protocol in [../book-queue.md](../book-queue.md) |
 | Anthropic quota share | 0.5 |
-| Currently in-flight | `book/kitab-al-riyad` (Phase 0f, awaiting Asif's 0g go-ahead) |
+| Currently in-flight | `book/kitab-al-riyad` (Phase 0g per-chapter — EP10 shipped SHIP-WITH-CAUTION, EP14 in flight after X3/X4 fixes) |
 | Operator file | [../macbook-air-secondary.md](../macbook-air-secondary.md) |
 
 ## What is THE SAME across machines
