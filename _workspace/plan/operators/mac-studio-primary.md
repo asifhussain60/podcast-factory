@@ -16,7 +16,7 @@ current_branch: book/asaas-al-taveel
 current_book: asaas-al-taveel
 current_book_dir: content/podcast/library/books/asaas-al-taveel
 authoritative_state_path: content/podcast/library/books/asaas-al-taveel/_system/orchestrator-state.json
-status_tag: HOLDING-FOR-FRAMEWORK-FIX
+status_tag: HOLDING-FOR-OPERATOR-GATES
 current_phase: "0b"
 current_phase_status_summary: |
   Phase 0b complete 2026-05-20T13:38:21Z (refined-english.md 10329 lines / 759 KB).
@@ -26,19 +26,28 @@ current_phase_status_summary: |
   envelope raised to $130 hard cap (from $50 default) and SHIP-READY per-chapter
   challenger verdict required. Acceptance criteria extended with 45 new rows in
   acceptance-criteria.md (P22.markers ×11, P23 ×13, P9.5 SHIP-READY ×14, STAIRCASE ×7).
+
+  MERGE TO DEVELOP COMPLETE 2026-05-21: book/asaas-al-taveel merged into develop
+  (merge commit 4597a72) — Studio's Phase 0a–0b work + framework cherry-picks
+  (P22.markers fix 5201b54, two coord-doc commits) now landed. No conflicts during
+  merge (the Air's macbook-air-secondary.md updates and Studio's mac-studio-primary.md
+  updates did not collide). Gate-4 verification: 30 tests OK (test_phase_0b_preserves_page_markers
+  + test_audit_page_markers), Phase 0f import clean. The Air symmetrically merged
+  book/kitab-al-riyad earlier the same day (commit e122fa0).
+
   Awaiting (a) operator Azure setup (Text Analytics F0 resource + env vars per P23.azure-setup)
-  and (b) operator §§1-8 of operator-review.md. Framework code fixes start once both gate.
+  and (b) operator §§1-8 of operator-review.md. Framework code fixes resume once both gate.
 next_action: |
   Operator (1) creates Azure Text Analytics F0 resource per P23.azure-setup, P23.azure-tier-doc-intel,
   P23.azure-tier-translator — see docs/podcast/azure-setup.md (to be authored as part of P23.docs);
   (2) finishes operator-review.md §§1-8 review.
-  Claude then drives: framework code fixes (P22.markers, P22.impl, P4.10, P6.5, P23 client/integration/
+  Claude then drives: framework code fixes (P22.impl, P4.10, P6.5, P23 client/integration/
   tests/fallback/cost-ledger) on feat/podcast-w1-foundation; merge to book/asaas-al-taveel;
   Phase 0b staircase re-run; Phase 0a.5 NER pre-seed integration; operator-review.md regenerated
   from NER; resume 0c → 0d → 0e → 0f → 0g (EP01 firm halt) → EP02-06.
 anthropic_share: 0.5
-last_verified_at: 2026-05-20T17:00:00Z
-last_updated: 2026-05-20
+last_verified_at: 2026-05-21T00:00:00Z
+last_updated: 2026-05-21
 ---
 
 # Mac Studio (primary) — operator index
@@ -106,27 +115,36 @@ end-to-end autonomously**, stopping only at genuine operator gates.
 
 ## 3. Current state snapshot (re-verify on every session — do not trust this section)
 
-`last_verified_at: 2026-05-20T10:00:00Z`. At that moment:
+`last_verified_at: 2026-05-21T00:00:00Z`. At that moment:
 
-- **HEAD**: `fa8c902 podcast(asaas-al-taveel): checkpoint phase 0b stale 'running' lock (SIGKILL)`
+- **book/asaas-al-taveel HEAD**: `5dae77c coord(macbook-air-secondary): amend §4.2 — also cherry-pick this coord commit`
+- **develop HEAD**: `4597a72` (merge commit — book/asaas-al-taveel merged into develop today)
 - **phase**: `0b`
-- **phase_status**: `running` (STALE — SIGKILL'd, not actually running)
-- **last_completed_phase**: `0a` (completed 2026-05-20T09:55:57Z)
+- **phase_status**: `complete` (refined-english.md 10329 lines)
+- **last_completed_phase**: `0b` (refined English; awaiting P22 operator transcript review)
 - **last_error**: `null`
 
-Recent commit story:
+Recent commit story on book/asaas-al-taveel (unchanged from 2026-05-20):
 ```
-fa8c902  checkpoint phase 0b stale 'running' lock (SIGKILL)   ← HEAD
-1ec2503  phase 0a Azure ingest (retry)
-24ddd16  reset phase 0a status pending (--retry-phase)
-9f0f277  podcast(orchestrator): wire --retry-phase 0a into run_resume
-265d088  checkpoint failed phase 0a (transient Translator ConnectionRefused)
-d9e7b6b  scaffold book directory
+5dae77c  coord(macbook-air-secondary): amend §4.2 — also cherry-pick this coord commit  ← HEAD
+0844e1e  coord(macbook-air-secondary): unblock Air for KaR Phase 0e + P22.markers prereq
+5201b54  podcast(P22.markers): fix Phase 0b page-marker stripping defect
+699f115  plan: extend acceptance criteria for asaas SHIP-READY Phase 0 push
+b144076  podcast(asaas-al-taveel): correct §2 defect diagnosis — page-marker stripping, not content loss
+5eb8b5b  coord(mac-studio-primary): update operator state @ phase 0b → P22 gate
+39564f1  podcast(asaas-al-taveel): halt after Phase 0b for operator transcript review
+114fc63  podcast(asaas-al-taveel): phase 0b English refinement (chunked)
 ```
 
 The narrative: phase 0a failed once (transient Azure Translator
 `ConnectionRefused`); reset via `--retry-phase 0a` and succeeded on retry.
-Phase 0b started, then was SIGKILL'd, leaving a stale `running` lock.
+Phase 0b chunked English refinement completed (10329 lines), halted at the
+P22 operator transcript-review gate per `halt after Phase 0b`. P22.markers
+prompt-template defect fixed in-branch (5201b54) and cherry-picked to develop
+by the Air on day 1. As of 2026-05-21 the full asaas branch is merged into
+develop (no conflicts) — the Studio's Phase 0a–0b work is now part of develop's
+canonical state alongside the Air's KaR work (merge commit e122fa0 earlier
+the same day).
 
 ---
 
