@@ -3,11 +3,15 @@
   "book_slug": "kitab-al-riyad",
   "category": "books",
   "branch": "book/kitab-al-riyad",
-  "phase": "0f",
-  "phase_status": "halted",
+  "phase": "per-chapter",
+  "phase_status": "failed",
   "last_completed_phase": "0e",
   "next_phase": "0f",
-  "last_error": null,
+  "last_error": {
+    "phase": "per-chapter",
+    "message": "chapter motion-stillness-hyle-and-form failed: extract_chapter.py failed: rc=1: ERROR: could not resolve chapter ref 'kitab-al-riyad:motion-stillness-hyle-and-form'.\n  Tried:\n    /Users/asifhussain/PROJECTS/journal/kitab-al-riyad:motion-stillness-hyle-and-form\n    /Users/asifhuss",
+    "ts": "2026-05-21T10:31:05Z"
+  },
   "phases": {
     "pre-flight": {
       "status": "completed",
@@ -61,7 +65,11 @@
       "status": "pending"
     },
     "per-chapter": {
-      "status": "pending"
+      "status": "failed",
+      "ts_started": "2026-05-21T10:31:05Z",
+      "ts_completed": "2026-05-21T10:31:05Z",
+      "completed_slugs": [],
+      "failed_slug": "motion-stillness-hyle-and-form"
     },
     "trainer": {
       "status": "pending"
@@ -79,7 +87,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-05-18T22:51:13Z",
-  "ts_updated": "2026-05-21T02:56:07Z",
+  "ts_updated": "2026-05-21T10:31:05Z",
   "challenger_version": "2.0",
   "orchestrator_version": "1.1"
 }

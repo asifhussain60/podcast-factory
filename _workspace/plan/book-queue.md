@@ -11,6 +11,18 @@ This trades a tiny amount of coord overhead for: resilience (one machine
 sleeping doesn't block the other), natural load balancing, and freedom from
 "which machine owns which author" bias.
 
+## Related authority
+
+This file is **multi-writer with claim-mutex** semantics (see
+[coordination-protocol.md §14](operators/coordination-protocol.md#14-concurrency-models-for-shared-files)).
+For the full discipline both machines follow (write rules, push rules,
+branch policy, quota, known bugs, response conventions), read
+[`operators/coordination-protocol.md`](operators/coordination-protocol.md)
+once per machine on first session, then defer to that file's rules.
+
+For the cross-machine dashboard (Air ↔ Studio current state side-by-side
++ cost/time estimates per book), see [`operators/index.md`](operators/index.md).
+
 ---
 
 ## In-flight
