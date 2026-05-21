@@ -509,6 +509,298 @@ def assert_framing_pronunciation_imperative(content: str, file_path: Path) -> No
         )
 
 
+# ─── R-NAMEDISCIPLINE / R-DRAMATIC-ARC / R-CHALLENGER-FRICTION /
+#     R-ANALOGY-CAP / R-RECURRING-THESIS / R-NO-MANUSCRIPT-META  (2026-05-21) ──
+#
+# These 6 checks are P1 FLAG-level (warnings, not hard fails). They emit to
+# stderr and append to a module-level list; the orchestrator's challenger pass
+# escalates them in normal converge iterations. The existing rule checks above
+# remain hard-fail (sys.exit) to preserve the build-script contract that
+# emission means "passes hard gates"; the new structural checks below could
+# be downgraded to a CLI flag later if a particular author needs to bypass.
+P1_FLAGS: list[str] = []
+
+
+def _flag_p1(rule: str, file_path: Path, message: str) -> None:
+    """Record a P1 FLAG for the orchestrator's challenger pass to escalate.
+
+    Emits to stderr immediately so the operator sees it; appends to the
+    process-wide P1_FLAGS list so a downstream caller (e.g. the orchestrator)
+    can collect the full set after the build.
+    """
+    line = f"FLAG (P1) [{rule}] {file_path.name}: {message}"
+    print(line, file=sys.stderr)
+    P1_FLAGS.append(line)
+
+
+# Pushback patterns the Color host must use (R-CHALLENGER-FRICTION).
+CHALLENGER_PUSHBACK_PATTERNS = [
+    "I don't buy that yet",
+    "I don’t buy that yet",          # smart-quote variant
+    "That sounds like wordplay",
+    "Isn't this just replacing",
+    "Isn’t this just replacing",     # smart-quote variant
+    "How is this different",
+]
+
+
+# Forbidden manuscript-meta tells (R-NO-MANUSCRIPT-META).
+MANUSCRIPT_META_TELLS = [
+    "opening folios are heavily damaged",
+    "what can be reconstructed reads",
+    "the text breaks off",
+    "collapses in the OCR",
+    "a second damaged folio carries fragments",
+    "translator's note",
+    "translator’s note",                # smart-quote variant
+    "editor's note",
+    "editor’s note",
+    "manuscript notes",
+]
+
+# Section-header tells for R-NO-MANUSCRIPT-META.
+MANUSCRIPT_META_HEADER_RE = re.compile(
+    r"^#{1,6}\s+(?:What\s+survives\s+at\s+the\s+head|"
+    r"What\s+survives\s+of\s+the|"
+    r"What\s+can\s+be\s+recovered)\b",
+    re.MULTILINE | re.IGNORECASE,
+)
+
+
+def assert_framing_has_name_discipline_section(content: str, file_path: Path) -> None:
+    """R-NAMEDISCIPLINE: framing has a Name discipline section with rotation sets.
+
+    Detection: header presence (`## Name discipline` or equivalent under
+    Pronunciation hooks) + at least one rotation set (a line containing
+    `Rotation:` or `→` followed by aliases). FLAG (P1) if missing.
+    """
+    has_section = bool(re.search(
+        r"^##\s+Name\s+discipline\b", content, re.MULTILINE | re.IGNORECASE
+    )) or bool(re.search(
+        r"^Name\s+discipline\b", content, re.MULTILINE | re.IGNORECASE
+    ))
+    if not has_section:
+        _flag_p1(
+            "R-NAMEDISCIPLINE", file_path,
+            "no `## Name discipline` section found. Add a Name discipline "
+            "section listing each figure's full Arabic name (once on first "
+            "mention) + 3-4 English alias rotation set. See handbook: "
+            "notebooklm-customize-prompt-rules.md R-NAMEDISCIPLINE."
+        )
+        return
+    # Look for at least one rotation set: a line with `Rotation:` or `→` followed
+    # by 3+ aliases. Both forms accepted.
+    has_rotation = bool(re.search(
+        r"(Rotation:|→)\s*[A-Za-z][^\n]*?[/,][^\n]*?[/,]",
+        content,
+    ))
+    if not has_rotation:
+        _flag_p1(
+            "R-NAMEDISCIPLINE", file_path,
+            "Name discipline section found but no rotation set with 3+ aliases "
+            "(`Rotation: a / b / c` or `→ a / b / c`). See handbook."
+        )
+
+
+def assert_framing_dramatic_arc_structure(content: str, file_path: Path) -> None:
+    """R-DRAMATIC-ARC: debate-format framings declare a multi-beat arc.
+
+    Detection: either (a) presence of `Beat 1`..`Beat 6` markers (≥6 beats)
+    OR (b) explicit declaration of crisis / failed-answer / pivot / correction
+    / stakes substrings. FLAG (P1) if neither.
+    """
+    beat_markers = re.findall(r"\bBeat\s+\d+\b", content)
+    distinct_beats = set(beat_markers)
+    has_six_beats = len(distinct_beats) >= 6
+
+    # Substring tells for the 6-beat structure (case-insensitive).
+    structure_tells = ["crisis", "failed answer", "pivot", "stakes"]
+    lower = content.lower()
+    structure_hits = sum(1 for t in structure_tells if t in lower)
+    has_structure_declaration = structure_hits >= 3
+
+    if not (has_six_beats or has_structure_declaration):
+        _flag_p1(
+            "R-DRAMATIC-ARC", file_path,
+            f"no 6-beat dramatic arc detected — found {len(distinct_beats)} "
+            f"distinct Beat markers AND only {structure_hits}/4 structure "
+            f"tells (crisis / failed answer / pivot / stakes). Restructure "
+            f"`## Three-part focus` as a 6-beat arc. See handbook: "
+            f"notebooklm-customize-prompt-rules.md R-DRAMATIC-ARC."
+        )
+
+
+def assert_framing_challenger_friction_lists_patterns(content: str, file_path: Path) -> None:
+    """R-CHALLENGER-FRICTION: framing names challenger role + ≥2 pushback patterns.
+
+    Detection: `## Host dynamic` OR `## Central tensions` mentions the Color
+    host's challenger role (substring `challenger` or `pushback` or `friction`)
+    AND lists ≥2 of the required pushback patterns. FLAG (P1) if not.
+    """
+    # First confirm the framing has either Host dynamic or Central tensions.
+    has_host_dynamic = bool(re.search(r"^##\s+Host\s+dynamic\b", content, re.MULTILINE | re.IGNORECASE))
+    has_central_tensions = bool(re.search(r"^##\s+Central\s+tensions\b", content, re.MULTILINE | re.IGNORECASE))
+    if not (has_host_dynamic or has_central_tensions):
+        _flag_p1(
+            "R-CHALLENGER-FRICTION", file_path,
+            "no `## Host dynamic` or `## Central tensions` section found — the "
+            "challenger-friction clause cannot be placed. See handbook: "
+            "notebooklm-customize-prompt-rules.md R-CHALLENGER-FRICTION."
+        )
+        return
+    lower = content.lower()
+    has_challenger_role = any(t in lower for t in ("challenger", "pushback", "friction"))
+    pattern_hits = sum(1 for p in CHALLENGER_PUSHBACK_PATTERNS if p in content)
+    # Each smart-quote variant double-counts the same pattern; de-dupe by base.
+    seen_bases = set()
+    for p in CHALLENGER_PUSHBACK_PATTERNS:
+        if p in content:
+            base = p.replace("’", "'")
+            seen_bases.add(base)
+    distinct_patterns = len(seen_bases)
+
+    if not has_challenger_role or distinct_patterns < 2:
+        missing = []
+        if not has_challenger_role:
+            missing.append("no `challenger` / `pushback` / `friction` language in Host dynamic or Central tensions")
+        if distinct_patterns < 2:
+            missing.append(f"only {distinct_patterns} of the required pushback patterns found (need ≥2): "
+                           f"I don't buy that yet… / That sounds like wordplay… / Isn't this just replacing… / "
+                           f"How is this different…")
+        _flag_p1(
+            "R-CHALLENGER-FRICTION", file_path,
+            "; ".join(missing) + ". See handbook: notebooklm-customize-prompt-rules.md R-CHALLENGER-FRICTION."
+        )
+
+
+def assert_framing_analogy_cap_declared(content: str, file_path: Path) -> None:
+    """R-ANALOGY-CAP: framing's Tone constraints declares 3-5 governing analogies.
+
+    Detection: presence of an analogy enumeration inside `## Tone constraints`
+    AND count between 3 and 5 inclusive. FLAG (P1) if either out of range OR
+    no enumeration present.
+    """
+    # Extract the Tone constraints section. Match `## Tone constraints` (and
+    # `## Tone`) up to the next `## ` header.
+    m = re.search(
+        r"^##\s+Tone(?:\s+constraints)?\b.*?$([\s\S]*?)(?=^##\s+|\Z)",
+        content, re.MULTILINE | re.IGNORECASE,
+    )
+    if not m:
+        _flag_p1(
+            "R-ANALOGY-CAP", file_path,
+            "no `## Tone constraints` section found — cannot validate analogy "
+            "enumeration. See handbook: notebooklm-customize-prompt-rules.md "
+            "R-ANALOGY-CAP."
+        )
+        return
+    tone_block = m.group(1)
+    # Look for analogy enumeration. Accept these list shapes:
+    #   - Analogy 1 — <name>
+    #   - **Analogy N — <name>** (Beat N)
+    #   - Analogy N (Beat N)
+    analogy_lines = re.findall(
+        r"(?:^|\n)\s*[-*]?\s*\*{0,2}Analogy\s+\d+\b",
+        tone_block, re.IGNORECASE,
+    )
+    n_analogies = len(analogy_lines)
+    if n_analogies == 0:
+        _flag_p1(
+            "R-ANALOGY-CAP", file_path,
+            "no governing-analogy enumeration found in `## Tone constraints`. "
+            "Enumerate 3-5 analogies, each tied to a beat. See handbook: "
+            "notebooklm-customize-prompt-rules.md R-ANALOGY-CAP."
+        )
+        return
+    if n_analogies < 3 or n_analogies > 5:
+        _flag_p1(
+            "R-ANALOGY-CAP", file_path,
+            f"found {n_analogies} governing analogies in `## Tone constraints`; "
+            f"required range is 3-5 inclusive. See handbook: "
+            f"notebooklm-customize-prompt-rules.md R-ANALOGY-CAP."
+        )
+
+
+def assert_framing_recurring_thesis_present(content: str, file_path: Path,
+                                            contract_anchor: str | None = None) -> None:
+    """R-RECURRING-THESIS: framing references the chapter's central thesis 3×.
+
+    Detection: either (a) the exact verbatim thesis string from
+    `contract_anchor` appears 3+ times in the framing, OR (b) explicit
+    reference to `R-RECURRING-THESIS` rule with instruction to repeat 3
+    times. FLAG (P1) if neither.
+    """
+    if contract_anchor:
+        # Count occurrences of the verbatim thesis. Case-sensitive — the rule
+        # requires VERBATIM repetition; smart-quote vs straight-quote
+        # variations are NOT relaxed by this validator (they'd violate the rule).
+        count = content.count(contract_anchor)
+        if count < 3:
+            _flag_p1(
+                "R-RECURRING-THESIS", file_path,
+                f"contract anchor thesis found {count}× in framing; "
+                f"R-RECURRING-THESIS requires VERBATIM appearance ≥3× "
+                f"(open + pivot + close). Thesis (first 80 chars): "
+                f"{contract_anchor[:80]!r}. See handbook: "
+                f"notebooklm-customize-prompt-rules.md R-RECURRING-THESIS."
+            )
+            return
+        # ≥3 occurrences confirmed — also check the framing references the rule
+        # itself for operator visibility, but don't flag on rule-mention alone.
+        return
+    # No contract anchor available — fall back to rule-reference detection.
+    has_rule_ref = "R-RECURRING-THESIS" in content
+    has_three_times = bool(re.search(
+        r"\b(three|3)\s+times\b.*?\b(verbatim|verbatim,)",
+        content, re.IGNORECASE | re.DOTALL,
+    )) or bool(re.search(
+        r"\bverbatim\b.*?\b(three|3)\s+times\b",
+        content, re.IGNORECASE | re.DOTALL,
+    ))
+    if not (has_rule_ref and has_three_times):
+        _flag_p1(
+            "R-RECURRING-THESIS", file_path,
+            f"no contract anchor was provided AND framing lacks both an "
+            f"R-RECURRING-THESIS rule reference and a 'verbatim … three times' "
+            f"instruction. Add the rule clause to `## Anti-noise rules`. "
+            f"See handbook: notebooklm-customize-prompt-rules.md "
+            f"R-RECURRING-THESIS."
+        )
+
+
+def assert_chapter_no_manuscript_meta(content: str, file_path: Path) -> None:
+    """R-NO-MANUSCRIPT-META: chapter source carries no manuscript-history meta.
+
+    Detection: substring scan for the forbidden manuscript-state tells AND
+    regex for section headers like `What survives at the head`. Each hit
+    logged with line number + matched phrase. FLAG (P1) if any hit.
+    """
+    hits: list[tuple[int, str, str]] = []
+    lines = content.splitlines()
+    lower_lines = [ln.lower() for ln in lines]
+    for tell in MANUSCRIPT_META_TELLS:
+        tell_lower = tell.lower()
+        for ln_idx, ln_lower in enumerate(lower_lines):
+            if tell_lower in ln_lower:
+                hits.append((ln_idx + 1, tell, lines[ln_idx].strip()[:120]))
+                break
+    for m in MANUSCRIPT_META_HEADER_RE.finditer(content):
+        ln_idx = content[: m.start()].count("\n")
+        hits.append((ln_idx + 1, m.group(0).strip()[:80], lines[ln_idx].strip()[:120]))
+    if not hits:
+        return
+    joined = "\n    ".join(f"{file_path.name}:{ln}: '{phrase}' in: {context}"
+                          for ln, phrase, context in hits[:10])
+    _flag_p1(
+        "R-NO-MANUSCRIPT-META", file_path,
+        f"chapter contains {len(hits)} manuscript-history meta-prose hit(s). "
+        f"NotebookLM would voice these as content. Move manuscript-state "
+        f"context to `BOOK_DIR/_system/manuscript-history.md`.\n    {joined}\n"
+        f"  See handbook: notebooklm-source-chapter-rules.md "
+        f"R-NO-MANUSCRIPT-META."
+    )
+
+
 def assert_framing_deny_block(content: str, file_path: Path) -> None:
     """R-NOMODERNIZE + R-NOSURPRISE + R-NO-READ-PROMPT: framing carries a `## Do not` block."""
     if not re.search(r"^##\s+Do not\b", content, re.MULTILINE):
@@ -542,6 +834,8 @@ def validate_chapter(chapter_path: Path, extra_tells: list[str] | None = None) -
     assert_no_abbreviations(text, chapter_path)
     # R-HONORIFIC-ONCE (2026-05-17)
     assert_honorifics_once_only(text, chapter_path)
+    # R-NO-MANUSCRIPT-META (2026-05-21, X14) — P1 FLAG (warning, not hard fail).
+    assert_chapter_no_manuscript_meta(text, chapter_path)
     n = word_count(text)
     if n < CHAPTER_WORD_MIN_HARD or n > CHAPTER_WORD_MAX_HARD:
         sys.exit(
@@ -567,6 +861,15 @@ def build_framing_episode_txt(framing_path: Path, out_path: Path,
     assert_framing_pronunciation_imperative(cleaned, framing_path)
     # R-NOMODERNIZE + R-NOSURPRISE + R-NO-READ-PROMPT (2026-05-17)
     assert_framing_deny_block(cleaned, framing_path)
+    # R-NAMEDISCIPLINE / R-DRAMATIC-ARC / R-CHALLENGER-FRICTION /
+    # R-ANALOGY-CAP / R-RECURRING-THESIS (2026-05-21, X15+X16) — P1 FLAGS
+    # (warnings, not hard fails). The orchestrator's challenger pass
+    # escalates these in normal converge iterations.
+    assert_framing_has_name_discipline_section(cleaned, framing_path)
+    assert_framing_dramatic_arc_structure(cleaned, framing_path)
+    assert_framing_challenger_friction_lists_patterns(cleaned, framing_path)
+    assert_framing_analogy_cap_declared(cleaned, framing_path)
+    assert_framing_recurring_thesis_present(cleaned, framing_path, contract_anchor=None)
 
     n = word_count(cleaned)
     if n < FRAMING_WORD_MIN or n > FRAMING_WORD_MAX:

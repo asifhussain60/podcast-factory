@@ -62,6 +62,44 @@ Substring + regex scan against `META_PROSE_TELLS` and `META_PROSE_REGEX_TELLS` i
 
 ---
 
+## R-NO-MANUSCRIPT-META · No paragraphs about the source manuscript's physical state
+
+### Rule
+
+Phase 0e enrichment MUST NOT emit paragraphs describing the source manuscript's physical state, the OCR pipeline's behavior, or the translator's reconstruction process. NotebookLM reads these paragraphs aloud as if they were content; the hosts then narrate paleography and OCR debris instead of the chapter's argument.
+
+Forbidden patterns (substring scan; case-insensitive):
+
+ - "the opening folios are heavily damaged"
+ - "what can be reconstructed reads"
+ - "the text breaks off"
+ - "collapses in the OCR"
+ - "a second damaged folio carries fragments"
+ - "translator's note"
+ - "editor's note"
+ - "manuscript notes"
+ - section headers containing "What survives at the head" (also "What survives of the…", "What can be recovered…")
+
+This rule is stricter than R-NOMETAPROSE (which catches authoring-pipeline meta) — R-NO-MANUSCRIPT-META catches MANUSCRIPT-physical-state meta, which is a different failure-mode family produced specifically by Phase 0e enrichment when the prompt mentions damaged folios or OCR artifacts.
+
+### Why
+
+Empirical (2026-05-21 audit of *Kitab al-Riyad* ch03a): the chapter file shipped with a `## What survives at the head of the manuscript` section containing 4 paragraphs about damaged opening folios, OCR collapse points, and the translator's reconstruction process. The chapter never reached NotebookLM because the validator caught the section before emission; but had it shipped, the audio overview would have opened with paleography rather than argument. Phase 0e's enrichment prompt accepted manuscript-state context as input (to help orient the model on which passages were original vs. reconstructed), then leaked that context into the chapter body. The fix is a chapter-side validator that refuses any chapter carrying these tells.
+
+### Auto-detect
+
+Substring scan for the forbidden patterns above. Each hit logs the line number and the matched phrase. Any hit → flag.
+
+### Auto-fix or flag
+
+**FLAG (P1)**. Authoring decision — the author moves the manuscript-state context into `BOOK_DIR/_system/manuscript-history.md` (a sibling of `enrichment-log.md`) and rewrites the chapter section to ship only the reconstructed text without the meta-prose.
+
+### Authority for challenger
+
+`podcast-challenger` Loop **B6** (manuscript-state meta-prose scan) — new check added 2026-05-21 (X14). Surface as Category B finding. Builds on the existing B2 (semantic meta-prose) family without overlapping the substring tells in `META_PROSE_TELLS`.
+
+---
+
 ## R-CROSSREF · No cross-episode references
 
 ### Rule
@@ -389,5 +427,6 @@ Same as `notebooklm-customize-prompt-rules.md` — append new rules as `## R-<NA
 
 ## Revision log
 
+- 2026-05-21 — **R-NO-MANUSCRIPT-META added (X14 framework guard).** Phase 0e enrichment must not emit paragraphs about the source manuscript's physical state (damaged folios, OCR collapse, translator's reconstruction process). Empirical: KaR ch03a draft had a `## What survives at the head of the manuscript` section with 4 noise paragraphs that NotebookLM would have voiced. Validator `assert_chapter_no_manuscript_meta` added to `build_episode_txt.py` (P1 flag). Coordinates with `notebooklm-customize-prompt-rules.md` X15+X16 additions (R-NAMEDISCIPLINE, R-DRAMATIC-ARC, R-CHALLENGER-FRICTION, R-ANALOGY-CAP, R-RECURRING-THESIS) — same 2026-05-21 audit pass surfaced both chapter-side and framing-side failure modes.
 - 2026-05-17 (later) — **Architectural pivot driven by empirical audit of 5 NotebookLM transcripts.** Replaced R-PHONETIC (inline phonetic guides) with R-PHONETICS-OUT (chapter ships clean transliteration; phonetic guidance lives in the customize prompt). Renamed R-HONORIFICS → R-HONORIFIC-ONCE with stricter language and build-script enforcement. Added R-NO-ABBREVIATION for canonical work titles. Root cause: NotebookLM reads parenthetical phonetics aloud as content, producing systematic doublings ("Sahih Sitta, sahasita") and mangled names ("tassel wolf" for *Tasawwuf*, "Najah Balala" for *Nahj al-Balagha*, "the EI" for *Ihya Ulum al-Din*).
 - 2026-05-17 — Seeded with R-NOHTML, R-NOMETAPROSE, R-CROSSREF, R-NOEMDASH, R-WORDBAND, R-ENRICH60, R-MULTITIER, R-NOSTACK, R-PHONETIC, R-HONORIFICS, R-NAMES, R-SUBSTITUTION, R-ATTRIBUTION, R-NOFABRIC, R-OPENFRAME. Extracted from SKILL.md §0 Invariants 1–5 and §6 Output Rules plus podcast-challenger Loops A–G.

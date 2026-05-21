@@ -79,6 +79,50 @@ Scan `00-framing.md` for the substring "restate", "re-cite", or an equivalent an
 
 ---
 
+## R-RECURRING-THESIS · Central settled formula appears VERBATIM at three anchor points
+
+### Rule
+
+The chapter's central settled formula — drawn from the chapter contract's `anchor_passages` field — MUST appear in the episode VERBATIM at **three** anchor points:
+
+ 1. The **open** (Beat 1 — Crisis), as the answer the listener will hear three times.
+ 2. The **pivot** (Beat 4 of R-DRAMATIC-ARC), as the move that escapes the failed answers.
+ 3. The **close** (Beat 6 — Stakes + question), as the line the listener carries away.
+
+Do NOT paraphrase. Do NOT abbreviate. Do NOT vary the wording. The verbatim repetition is the rule's whole point: the listener should be able to recite the formula by the end of the episode.
+
+R-RECURRING-THESIS coexists with R-NOREPEAT: the central thesis is the ONE thing the framing is permitted to restate, and it is restated EXACTLY THREE times. Anything else still falls under R-NOREPEAT's "do not restate".
+
+### Why
+
+Empirical (2026-05-21 audit of *Kitab al-Riyad* Ch07 transcript): the chapter's central settled formula (`contact does not require resemblance — it requires rank, receptivity, and transmitted power`) was stated once in the transcript and never returned to. The listener finished the episode without the formula lodged. The fix is structural: anchor the formula at three predictable points (open, pivot, close), each verbatim. By the close, the formula is the listener's takeaway.
+
+### Required clause in `00-framing.md`
+
+Under `## Opening directive` AND `## Three-part focus` (Beat 4 + Beat 6 / Landing):
+
+```
+R-RECURRING-THESIS. The central thesis — <verbatim formula from
+contract.anchor_passages> — MUST appear exactly three times in the episode,
+VERBATIM: once at the opening (Beat 1), once at the pivot (Beat 4), once
+at the close (Beat 6). Do not paraphrase. Do not abbreviate. Do not vary
+the wording. The listener should leave able to recite it.
+```
+
+### Auto-detect pattern
+
+If the chapter contract carries an `anchor_passages` field (or equivalent thesis-string), search the framing for that exact string. Required: ≥3 occurrences (open + pivot + close) — count occurrences in framing of the contract's verbatim thesis. If contract anchor is not available, fallback: scan for the substring `R-RECURRING-THESIS` AND the instruction to "appear … three times" / "VERBATIM" within the framing.
+
+### Auto-fix or flag
+
+**FLAG (P1)**. Authoring decision — picking the verbatim thesis line from the chapter's anchor passages is editorial.
+
+### Authority for challenger
+
+`podcast-challenger` Loop **H5** (recurring-thesis clause present AND thesis appears 3× verbatim in framing) — new check added 2026-05-21 (X16). Surface as Category H finding. Transcript-side: Loop M extends to count thesis-verbatim occurrences in the audio; <3 fires P1, >3 fires P2.
+
+---
+
 ## R-NOBACKGROUND · No irrelevant historical background
 
 ### Rule
@@ -154,6 +198,54 @@ Scan `00-framing.md` for a "Name discipline" or "Name aliases" subsection under 
 
 ---
 
+## R-NAMEDISCIPLINE · Arabic figure names appear once; rotate among English aliases thereafter
+
+### Rule
+
+Arabic figure names (`al-Kirmani`, `al-Sijistani`, `Abu Hatim al-Razi`, etc.) MUST appear in full ONLY ONCE per episode, on first mention, with an English appositive that establishes who the figure is (e.g. "Hamid al-Din Ahmad al-Kirmani, the author of Kitab al-Riyad"). Every subsequent reference rotates among **3–4 English aliases** drawn from a per-book rotation-set documented at `BOOK_DIR/_system/name-aliases.yml`. The Driver and Color hosts pick DIFFERENT aliases per turn so the same English alias does not repeat consecutively. The Arabic name does not return after the first occurrence — its second mention is what triggers NotebookLM to mangle it.
+
+Stricter than R-NAMEALIAS: R-NAMEALIAS allows the short alias to be the Arabic surname (`al-Kirmani`); R-NAMEDISCIPLINE forbids that — every post-first reference is English.
+
+### Why
+
+Empirical (2026-05-21 audit of *Kitab al-Riyad* Ch07 transcript): NotebookLM's voice model mangled `al-Kirmani` into 8+ distinct variants across a 30-minute episode (kerr-MAH-nee, al-Quraymani, al-Karmani, etc.); `al-Hayuli` into 7+ variants. The pattern: the model successfully voices the Arabic name on first mention, then drifts on every subsequent occurrence. R-NAMEALIAS told the hosts "use a short alias" without enforcing that the alias be ENGLISH; the hosts chose `al-Kirmani` itself as the short alias and triggered the drift. R-NAMEDISCIPLINE closes that gap: the second occurrence is English; the third is a different English; the fourth is a third English; rotation prevents alias-monotony.
+
+### Required clause in `00-framing.md`
+
+Under a new `## Name discipline` section (or appended to Pronunciation hooks):
+
+```
+Name discipline. Each figure named below appears in full ONCE on first
+mention, with the English appositive shown. Every subsequent reference
+ROTATES among the listed English aliases — the Driver and Color hosts
+pick different aliases per turn. The Arabic figure-name does not return
+after the first occurrence.
+
+<Figure 1>
+ - First mention: <full Arabic name>, <English appositive>
+ - Rotation: <english alias 1> / <english alias 2> / <english alias 3> / <english alias 4>
+ - Do NOT say "<Arabic name>" more than once.
+
+<Figure 2>
+ - ...
+```
+
+Rotation sets per book live in `BOOK_DIR/_system/name-aliases.yml`. A worked instance is in the v2 lab framing for KaR Ch07 (`_system/ch07-lab/v2-revised/framing.md`).
+
+### Auto-detect pattern
+
+Scan `00-framing.md` for a `## Name discipline` section (or equivalent header). Within it, look for at least one rotation set — a line containing `Rotation:` or `→` followed by 3+ English aliases separated by `/` or `,`. Absence → flag.
+
+### Auto-fix or flag
+
+**FLAG (P1)**. Authoring decision — the rotation set per figure is editorial, not deterministic.
+
+### Authority for challenger
+
+`podcast-challenger` Loop **J3** (Name discipline section present + rotation sets ≥3 aliases) — new check added 2026-05-21 (X15). Surface as Category J finding when the section is missing or any figure has fewer than 3 English aliases.
+
+---
+
 ## R-NOINTERRUPT · Host interruption avoidance
 
 ### Rule
@@ -186,6 +278,75 @@ Scan `00-framing.md` for the substring "interjection" or "talking over" or "comp
 ### Authority for challenger
 
 `podcast-challenger` Loop **K1** (interruption-avoidance clause present).
+
+---
+
+## R-CHALLENGER-FRICTION · Color host pushes back ≥3 times per episode
+
+### Rule
+
+The Color host (Host B — `scholar_companion` or `advocate_b`) MUST push back against the Driver's or the author's claims **at least three times** per episode, using genuine doubt patterns drawn from this catalog:
+
+ - "I don't buy that yet…"
+ - "That sounds like wordplay…"
+ - "Isn't this just replacing X with Y…"
+ - "How is this different from hiding the problem under a different word…"
+ - "If <X> isn't <body-category>, what is it actually?"
+
+Three is the floor; four is preferred for debate-format chapters. The Color host's role is **friction**, not chorus — the listener's representative against premature certainty.
+
+**FORBIDDEN as the Color host's first sentence in any turn**:
+
+ - "That is a remarkably precise…"
+ - "That beautifully maps…"
+ - "That is the perfect translation…"
+ - "That captures the essence…"
+ - "Exactly"
+ - "Perfect way to put it"
+ - "That is fascinating"
+ - "That is brilliant"
+
+The Color host opens with doubt, counter-citation, or counter-question — never with affirmation of the prior turn.
+
+### Why
+
+Empirical (2026-05-21 audit of *Kitab al-Riyad* Ch07 transcript): the Color host opened ≥5 distinct turns with `That is a remarkably precise…` / `That beautifully maps…` / similar agreeable framings. The transcript read as a chorus where the Color host's role was to validate the Driver's setups rather than test them. The Color host is supposed to be the listener — the one who has not yet been persuaded — but defaults to being the Driver's enthusiastic second. Naming the pushback patterns explicitly AND banning the agreeable openers as first sentences forces the model toward genuine dialectical role.
+
+### Required clause in `00-framing.md`
+
+Under `## Host dynamic` (alongside the `scholar_companion + curious_mind` declaration), AND under `## Central tensions to reach`:
+
+```
+The Color host's role in this episode is GENUINE CHALLENGER, not supportive
+explainer. The Color host MUST push back AT LEAST THREE times across the
+episode using one of these patterns (three is the floor; four preferred):
+
+ - "I don't buy that yet…"
+ - "That sounds like wordplay…"
+ - "Isn't this just replacing X with Y…"
+ - "How is this different from hiding the problem under a different word…"
+
+Per `## Central tensions to reach`, each tension carries an explicit
+*Color host pushback (required):* line modeling one of the patterns above.
+
+Forbidden as the Color host's first sentence: "That is a remarkably
+precise…", "That beautifully maps…", "That is the perfect translation…",
+"That captures the essence…", "Exactly", "Perfect way to put it",
+"That is fascinating", "That is brilliant". The Color host opens with
+doubt or counter-question, not affirmation.
+```
+
+### Auto-detect pattern
+
+Scan `## Host dynamic` OR `## Central tensions` for: (a) presence of `challenger` or `pushback` language, AND (b) at least 2 of the required pushback patterns ("I don't buy", "sounds like wordplay", "Isn't this just replacing", "How is this different"). Absence of either → flag.
+
+### Auto-fix or flag
+
+**FLAG (P1)**. Authoring decision — the per-tension pushback lines must be filled in with chapter-specific content.
+
+### Authority for challenger
+
+`podcast-challenger` Loop **K2** (challenger-friction clause + pushback-pattern catalog present) — new check added 2026-05-21 (X16). Surface as Category K finding. Transcript-side loop M extends to count forbidden-opener firings.
 
 ---
 
@@ -262,6 +423,55 @@ Scan `00-framing.md` for the substring "reset" or "single-sentence reset" within
 ### Authority for challenger
 
 `podcast-challenger` Loop **R2** (reset clause present when warranted) — new check added 2026-05-18. The challenger reads the discussion spine's beat count to determine whether R2 applies.
+
+---
+
+## R-DRAMATIC-ARC · Debate-format chapters follow a 6-beat dramatic arc
+
+### Rule
+
+Debate-format chapters' `## Three-part focus` (or equivalent host-spine section) MUST be structured as a **6-beat dramatic arc**, not as a topic-list. The beats:
+
+ 1. **Crisis (open)** — name the central tension with weight. The Color host raises it; the Driver does not reassure too quickly.
+ 2. **Failed answer A** — the first attempted answer, presented as reasonable so the listener respects it before it breaks.
+ 3. **Failed answer B** — a second attempted answer, also presented as reasonable. Both failed answers are honest attempts.
+ 4. **Pivot (verbatim thesis)** — the move that escapes both. The chapter's settled formula (from `contract.anchor_passages`) lands here VERBATIM for the second time (cf. R-RECURRING-THESIS).
+ 5. **Non-bodily correction (or domain-specific corrections)** — the body of the chapter's argument: each error in failed answers A and B is replaced with the correct relational/categorical structure.
+ 6. **Stakes + question (close)** — political, ethical, or human stakes; the chapter's recurring thesis appears VERBATIM for the third time; close on a bridge question to the next episode, NOT a recap.
+
+Each beat lands ONCE. Beat 4 carries the thesis verbatim. Non-debate chapters may use a different spine (linear exposition, biographical arc, etc.) — R-DRAMATIC-ARC applies when the chapter contract names `debate` or `dialectic` as its mode.
+
+### Why
+
+Empirical (2026-05-21 audit of *Kitab al-Riyad* Ch07 transcript): the v1 framing carried a `## Three-part focus` topic-list (Focus 1, Focus 2, Focus 3) without dramatic structure. NotebookLM produced a transcript where the central tension was named and resolved within minutes; listeners got information but no suspense. The 6-beat arc preserves dialectical tension: the listener does not know which answer wins until Beat 4, and Beats 5–6 do the structural work of replacing failed body-categories with relational ones. Topic-listing collapses this into a single declarative push.
+
+### Required clause in `00-framing.md`
+
+Under `## Three-part focus` (rename to `## Six-beat arc` if the spine is debate-format), enumerate each beat with the marker `Beat N — <name>`:
+
+```
+The chapter's argumentative spine is a 6-beat dramatic arc. Each beat lands
+once; the central thesis is repeated VERBATIM at Beat 4. Walk these in order.
+
+Beat 1 — Crisis (open). <name the crisis with weight>
+Beat 2 — Failed answer A. <attempted answer; let it be reasonable>
+Beat 3 — Failed answer B. <second attempted answer; also reasonable>
+Beat 4 — Pivot (VERBATIM THESIS). <the move that escapes both; thesis verbatim>
+Beat 5 — Non-bodily correction. <body of the argument; replacements>
+Beat 6 — Stakes + question. <human/political stakes; thesis verbatim; bridge question>
+```
+
+### Auto-detect pattern
+
+Scan `## Three-part focus` (or equivalent) for either: (a) presence of `Beat 1`, `Beat 2`, …, `Beat 6` markers (≥6 beats) for debate-format chapters; OR (b) explicit declaration of the crisis / failed-answer / pivot / correction / stakes structure (substring scan for `Crisis`, `Failed answer`, `Pivot`, `Stakes`). Absence of both for a debate-format chapter → flag.
+
+### Auto-fix or flag
+
+**FLAG (P1)**. Authoring decision — the 6 beats must be filled in with chapter-specific content.
+
+### Authority for challenger
+
+`podcast-challenger` Loop **H4** (dramatic-arc structure present for debate-format chapters) — new check added 2026-05-21 (X16). Surface as Category H finding.
 
 ---
 
@@ -442,6 +652,58 @@ Two scans:
 
 ---
 
+## R-ANALOGY-CAP · Enumerate 3–5 governing analogies upfront; no mid-episode invention
+
+### Rule
+
+The framing's `## Tone constraints` MUST enumerate **exactly 3–5 GOVERNING ANALOGIES** for the episode, declared upfront, each tied to a specific beat. Hosts MAY elaborate on these; hosts MAY NOT introduce new analogies mid-episode. Each governing analogy is named, tied to a beat, and bounded ("Use for X. Do not extend beyond Beat N.").
+
+**Soft target**: 5 for dense philosophical chapters. **Hard minimum**: 3. **Hard maximum**: 5 (above 5 produces analogy-fatigue regardless of beat-binding).
+
+Forbidden analogies (i.e. the v1 catalog from KaR Ch07) MUST be listed by name in the `## Do not` block when the framing is iterating off a prior baseline that over-used analogies — this prevents the model from reaching for the same fatigue-pattern analogies.
+
+### Why
+
+Empirical (2026-05-21 audit of *Kitab al-Riyad* Ch07 v1 transcript): NotebookLM produced **14+ distinct analogies** across a 30-minute episode (solar panels, cathedral, ladder/mountain/valley, fulcrum, pie chart, sphere, political map/border, wax-seal, plus 6 others). Each analogy individually was reasonable; cumulatively the listener experienced fatigue and lost track of which analogy mapped to which beat. The fix is structural: enumerate 3–5 analogies upfront, bind each to a beat, and forbid mid-episode invention. The v2 lab framing uses 3 (footprint, messenger, light-on-glass-and-stone), each elaborated deeply.
+
+### Required clause in `00-framing.md`
+
+Under `## Tone constraints`:
+
+```
+THREE-to-FIVE governing analogies. No mid-episode invention.
+
+This episode uses EXACTLY <N> governing analogies, declared upfront. Each
+is tied to a specific beat. Hosts may elaborate; hosts MAY NOT introduce
+new analogies mid-episode.
+
+ - Analogy 1 — <name> (Beat <n>). <description>. Use for <X>. Do not extend
+   beyond Beat <n>.
+ - Analogy 2 — <name> (Beat <n>). <description>. Use for <X>.
+ - Analogy 3 — <name> (Beat <n>). <description>. Use for <X>.
+ [- Analogy 4 — ...]
+ [- Analogy 5 — ...]
+
+Forbidden mid-episode analogies (the v1 list): <enumerate any forbidden
+analogies that the prior baseline over-used>. If a host feels the urge for
+a fresh analogy, recur to one of the <N> above, or return to the source's
+own image.
+```
+
+### Auto-detect pattern
+
+Scan `## Tone constraints` for a list of analogies — list items (`-`, `*`, or `Analogy N —`) within the section. Count the analogies. Validate: count is between 3 and 5 inclusive. Absence of any enumeration → flag. Count outside [3, 5] → flag.
+
+### Auto-fix or flag
+
+**FLAG (P1)**. Authoring decision — selecting and binding analogies to beats is editorial.
+
+### Authority for challenger
+
+`podcast-challenger` Loop **L1** (analogy-cap enumeration present AND count ∈ [3, 5]) — new check added 2026-05-21 (X16). Surface as Category L finding. Transcript-side scan: Loop M extends to count distinct analogies that appear in the audio; >5 fires P1.
+
+---
+
 ## R-NOSURPRISE · No surprise-noise loops
 
 ### Rule
@@ -607,6 +869,7 @@ When deprecating a rule:
 
 ## Revision log
 
+- 2026-05-21 — **Five new structural rules promoted from `scripts/podcast/_authoring.py` prompt strings (X14, X15, X16 framework guards).** Added R-NAMEDISCIPLINE (Arabic figure names once on first mention with English appositive; thereafter rotate among 3–4 English aliases per `BOOK_DIR/_system/name-aliases.yml` — closes the gap in R-NAMEALIAS where the Arabic surname was allowed as the alias). Added R-DRAMATIC-ARC (debate-format chapters use a 6-beat arc: crisis → failed-A → failed-B → pivot → non-bodily correction → stakes+question; topic-listing collapses dialectical tension). Added R-CHALLENGER-FRICTION (Color host MUST push back ≥3 times per episode using a fixed catalog of doubt patterns; named agreeable openers forbidden as first sentences). Added R-ANALOGY-CAP (3–5 governing analogies enumerated upfront, bound to beats; no mid-episode invention — corrects the v1 KaR Ch07 baseline's 14+ analogy fatigue). Added R-RECURRING-THESIS (chapter's settled formula from `contract.anchor_passages` appears VERBATIM at three anchor points: open, pivot, close — fixes the once-and-never-again pattern observed in KaR Ch07 v1). Each rule carries its empirical motivation from the 2026-05-21 audit of *Kitab al-Riyad* Ch07 v1 transcript. Matching validator functions added to `scripts/podcast/build_episode_txt.py` (P1 flags, not hard fails — challenger pass escalates). Coordinated with `notebooklm-source-chapter-rules.md` R-NO-MANUSCRIPT-META (chapter-side companion guarding Phase 0e enrichment against emitting manuscript-history meta-prose).
 - 2026-05-18 — **Conversation choreography rules + R-NOMODERNIZE softening.** Added R-SURPRISE-MOVE (separate-prep illusion via planted handoffs — at least one moment per episode), R-RESET (single-sentence reset between major beat-groups in spines >5 beats), R-CADENCE (short-to-medium sentence rhythm under Tone constraints), R-NOFORMAL (DENY block extension for formal-essay transitions: `Firstly`, `In conclusion`, `Moving on to`, etc.). Softened R-NOMODERNIZE: the failure mode is *naming the modern artifact* (Twitter, algorithm, etc.), not *using a contemporary parallel* — modern-life practical analogies are now explicitly permitted when they help the listener recognize a classical concept in lived experience. The DENY list of named platforms remains intact; the rule adds a positive permission paragraph. New checks in `podcast-challenger` Category R (R1–R4). Driven by a quality-baseline review showing the prior R-NOMODERNIZE formulation over-restricted analogies and suppressed pedagogical comparisons, and that the framing lacked explicit signals for the separate-prep illusion, reset moments, and cadence/transition discipline.
 - 2026-05-17 (later) — **Empirical pivot from passive lists to imperative directives.** Added R-PRONUNCIATION-IMPERATIVE (replaces passive `*term*: phonetic` pattern that empirically did not change NotebookLM behavior — see audit notes in [`worked-examples.md` §5](worked-examples.md#5--empirical-evidence-motivating-r-phonetics-out-r-nomodernize-r-nosurprise)). Added R-NOMODERNIZE (DENY list including Twitter, X, social media, algorithm, content creator, etc. — soft "do not modernize" prose was being ignored). Added R-NOSURPRISE (DENY list for "wow", "it's chilling", "it's devastating", "right?", "exactly", etc. — surprise loops appeared >40 times across the audited episodes). Added R-NO-READ-PROMPT (single-line guard against the hosts reading the prompt aloud). Deprecated R-PHONETICHOOKS.
 - 2026-05-17 — Seeded with R-WELCOME, R-NOREPEAT, R-NOBACKGROUND, R-NAMEALIAS, R-NOINTERRUPT, R-PHONETICHOOKS, R-SUMMARYTAIL, R-NOMETA. Externalized from scattered references across SKILL.md and notebooklm-best-practices.md.
