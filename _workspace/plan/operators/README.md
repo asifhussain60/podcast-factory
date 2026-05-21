@@ -4,31 +4,56 @@ The state, protocol, and per-machine resume files that let multiple Claude
 sessions on multiple physical machines work the podcast pipeline
 autonomously without stepping on each other.
 
-## Files
+## How to start a session (run this first, every time)
+
+```bash
+bash _workspace/plan/operators/start-session.sh
+```
+
+The script reads your `~/.machine-id`, pulls develop, switches to your
+assigned book branch, prints orchestrator state + next_action, exits 0
+if ready / 2 if you're IDLE (in which case it points you at the claim
+protocol in `book-queue.md`).
+
+If `start-session.sh` is missing or you need the manual equivalent, see
+[coordination-protocol.md §3](coordination-protocol.md#3-session-start-protocol-run-before-any-other-work).
+
+## Files in this folder
 
 | File                            | Writer                | Readers     | Purpose                                                                  |
 |---------------------------------|-----------------------|-------------|--------------------------------------------------------------------------|
-| `coordination-protocol.md`      | operator (Asif)       | all machines | The discipline — write rules, push rules, session-start sequence, branch policy, quota, known bugs, conventions. **Wins over per-machine files when in conflict.** |
-| `assignments.md`                | operator + machines (on reassignment events only) | all machines | Who owns which book. Read from `origin/develop` for canonical truth.     |
+| `start-session.sh`              | operator (Asif) — rarely edited | all machines run it | Per-machine session bootstrap. Executable from any branch. |
+| `index.md`                      | machines (each writes its own row) + operator (queue ordering) | all machines | Cross-machine dashboard: Mac Air ↔ Mac Studio side-by-side current state + cost/time estimates per queued book. |
+| `coordination-protocol.md`      | operator (Asif)       | all machines | The discipline — write rules, push rules, branch policy, quota, sole-write zones, known bugs, conventions. **Wins over per-machine files when in conflict.** |
 | `mac-studio-primary.md`         | Mac Studio only       | all machines | Studio's identity, current book, resume action, peer pointer.            |
 | `macbook-air-secondary.md`      | MacBook Air only      | all machines | Air's identity, current book, resume action, peer pointer.               |
+| `assignments.md`                | (vestigial — see file) | (read for history only) | Pre-v3 static assignment model. Marked informational-only; superseded by `../book-queue.md`. |
 
-## Read this in this order on session start
+## Related files in `../` (one directory up)
 
-1. `coordination-protocol.md` §3 — session-start commands you run before anything else.
-2. `assignments.md` (from `origin/develop`) — who owns what right now.
-3. `<your-machine-id>.md` on the current branch — your specific resume action.
-4. `content/podcast/library/books/<your-book>/_system/orchestrator-state.json` — authoritative phase + status.
+| File                            | Writer                | Purpose                                                                  |
+|---------------------------------|-----------------------|--------------------------------------------------------------------------|
+| `../book-queue.md`              | machines (claim-protocol) + operator (queue ordering) | Pull-on-demand work queue. The single source of truth for "what is being worked on and what's next." |
+| `../response-conventions.md`    | operator (Asif)       | The BLUF response format both Air and Studio sessions follow. Read once per session. |
 
-The first three are reference; the fourth is truth. If they conflict, trust the state file and update your operator file.
+## Reading order on session start (post-script)
+
+1. `start-session.sh` output (it reads files 2-4 for you)
+2. `index.md` — quick scan of both machines' current state
+3. `../book-queue.md` — only if you need to know what's queued or claim something
+4. `coordination-protocol.md` — only on first session per machine, or when you change conventions
+5. `<your-machine-id>.md` — your own operator file (frontmatter `next_action` is what to do)
+6. `content/podcast/library/books/<your-book>/_system/orchestrator-state.json` — authoritative phase/status (script already shows this)
+
+If files 2-5 disagree with file 6, **trust file 6** (the state file is truth; operator files are snapshots). Update operator file to match, commit.
 
 ## Adding a new machine
 
 1. Pick a slug (`<role>-<location>`, e.g. `macbook-pro-asif-home`).
-2. Place `~/.machine-id` containing that slug on the physical machine.
-3. Add a new `<slug>.md` here using `mac-studio-primary.md` as the template.
-4. Update `assignments.md` to declare the machine and assign it work (or leave it `IDLE`).
-5. Commit on `feat/podcast-w1-foundation`; merge to `develop`; merge `develop` into every active book branch.
+2. On the new physical machine: `echo <slug> > ~/.machine-id`.
+3. Create `<slug>.md` here from one of the existing operator files as template (copy `macbook-air-secondary.md` and edit frontmatter).
+4. Commit on develop; merge to every active book branch via the standard merge pattern.
+5. On the new machine, run `start-session.sh`. Expected exit code: 2 (IDLE — claim a book from `../book-queue.md`).
 
 ## Why this lives at `_workspace/plan/operators/` and not `_workspace/operators/`
 
