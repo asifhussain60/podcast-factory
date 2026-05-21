@@ -15,7 +15,7 @@ the divergence.
 ## 1. BLUF response format (the primary structure for every substantive update)
 
 Every response to Asif that reports work, surfaces a decision, or hands off
-follows this **4-part shape, in this exact order, with these exact section labels**:
+follows this **5-part shape, in this exact order, with these exact section labels**:
 
 ```
 **TL;DR:** one sentence in plain English — what happened + what to do next.
@@ -37,12 +37,22 @@ Anyone (technical or not) should understand it.
 
  DO NOT use custom section labels like "Deviation from plan", "Verification",
  "Coord doc", "Next per machine roadmap", "What changed", etc. The fixed
- structure (TL;DR / Status / Body blocks or table / Your next step) is what
- makes responses scannable across sessions and machines. Custom labels
+ structure (TL;DR / Status / Body blocks or table / Your next step / Summary)
+ is what makes responses scannable across sessions and machines. Custom labels
  fragment the format.]
 
 **Your next step:** one explicit sentence naming the file or command Asif acts on.
+
+**Summary (scan-and-skip):**
+1. <one-line restate of body section 1>
+2. <one-line restate of body section 2>
+…
+N. **Next step:** <one-line restate of "Your next step">
 ```
+
+The **Summary** is an ordered list at the very end. Each item is ONE LINE summarizing one body section (numbered sections). The final item restates the next step. Purpose: Asif can scroll to the bottom, scan 5–10 lines, and decide whether to scroll up for detail — never has to read the full response top-to-bottom to know what changed and what to do.
+
+**When to include the Summary:** any time the body has 2+ sections, or whenever the total response exceeds ~10 lines. Skip the Summary for single-issue or single-paragraph updates where it would just duplicate the TL;DR.
 
 ### Worked example — what a clean BLUF response looks like end-to-end
 
@@ -65,6 +75,11 @@ new refined-english.md verbatim, and the broken adams-law YAML self-resolved.
 - *Where:* [adams-law-and-the-prophetic-cycle.yml](content/podcast/library/books/kitab-al-riyad/chapter-contracts/adams-law-and-the-prophetic-cycle.yml)
 
 **Your next step:** authorize advancing to Phase 0e — `python3 scripts/podcast/orchestrate_book.py --resume kitab-al-riyad`.
+
+**Summary (scan-and-skip):**
+1. 14 chapter contracts regenerated cleanly against the new refined-english.md ([commit 8a34564](https://github.com/asifhussain60/Journal/commit/8a34564))
+2. Previously-broken adams-law YAML self-resolved during the re-run
+3. **Next step:** authorize Phase 0e — `python3 scripts/podcast/orchestrate_book.py --resume kitab-al-riyad`
 ```
 
 Rules:
@@ -81,6 +96,8 @@ Rules:
   ("Coord doc:", "Verification:", "Deviation from plan:") — they fragment the
   shared format and make responses harder to scan when toggling between
   machine sessions.
+- **Summary items keep clickable links** for files and commits, even though they're
+  one-liners. Asif should be able to act from the Summary without scrolling.
 
 ## 2. The Project Status block (long-running work summary)
 
