@@ -54,7 +54,10 @@ DEFAULT_TIMEOUT = 1800        # 30 min — phase 0b on a long book can take a wh
 FRAMING_TIMEOUT = 1500        # 25 min per framing (X9 2026-05-21: bumped from 900 after
                               # ch12 qada-and-qadar — 10,180-word chapter with many named
                               # figures — timed out at 900s; 25 min absorbs the densest cases)
-CHALLENGER_TIMEOUT = 900      # 15 min per challenger pass (challenger's own cap is 5 iter)
+CHALLENGER_TIMEOUT = 1500     # 25 min per challenger pass (X11 2026-05-21: bumped from 900
+                              # after EP07's iter-2 timeout — challenger reads chapter +
+                              # episode + handbook + emits findings, which exceeds 15 min
+                              # on dense chapters; 25 min mirrors FRAMING_TIMEOUT)
 FIXER_TIMEOUT = 600           # 10 min per fixer attempt
 TRAINER_TIMEOUT = 1800        # 30 min for the trainer pass
 

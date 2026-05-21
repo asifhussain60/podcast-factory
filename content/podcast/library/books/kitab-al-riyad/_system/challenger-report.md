@@ -1,9 +1,9 @@
 # Podcast Challenger Report
 
 **Book:** kitab-al-riyad
-**Run:** 2026-05-21 12:16 UTC (challenger v2.0)
-**Scope:** per-chapter motion-stillness-hyle-and-form
-**Iterations:** 1 (of 5 max; intelligent-break at iteration 1 — no auto-fixes applied, P1/P2 findings are non-deterministic authoring decisions)
+**Run:** 2026-05-21T17:53:51Z (challenger v2.0)
+**Scope:** per-chapter soul-and-spirit-one-substance-or-two
+**Iterations:** 1 (of 5 max; intelligent-break at iteration 1 — no auto-fixes applied, all P1/P2 findings are non-deterministic authoring decisions)
 **Verdict:** SHIP-WITH-CAUTION
 
 ---
@@ -12,7 +12,7 @@
 
 | Iter | Check | File | Action |
 |---|---|---|---|
-| — | — | — | No auto-fixes applied this run. All auto-fixable patterns were absent from chapter and framing; no deterministic fixes needed. |
+| — | — | — | No auto-fixes applied this run. No deterministic auto-fixable violations found. J2 (full-name repeat) and C1/N3 (phonetic gap) cannot be auto-fixed because the name is not in 05-name-alias-policy.md canonical table and the term is not in the shared manifest. |
 
 ---
 
@@ -26,64 +26,74 @@ None.
 
 ### P1 (ship-with-caution)
 
-#### F5: Discussion spine unfilled — all 8 beats are `[LLM-FILL]` placeholders
+#### F5: Discussion spine unfilled — all 14 `[LLM-FILL]` markers across all 8 beats
 
-- **File:** content/podcast/library/books/kitab-al-riyad/_system/episode-drafts/EP10-motion-stillness-hyle-and-form/04-discussion-spine.md
-- **Context:** The `04-discussion-spine.md` scaffold (8 beats) is entirely populated with `[LLM-FILL]` markers. No beat has a substantive key question, tension, anchor passage, or landing note. Per F5, the discussion spine must be well-shaped; a template-only spine signals the hidden steering layer is absent. The framing's Three-part focus covers the territory, but the spine exists as a separate authoring artifact that supports long-form episode coherence.
-- **Suggested fix:** Author fills the 8 beats using the 5 `key_tensions` and 10 `anchor_passages` from `chapter-contracts/motion-stillness-hyle-and-form.yml`. Each beat should name: the key question, the tension it surfaces, the anchor passage it anchors to, and a one-sentence landing note. This is an authoring decision; the challenger does not fill discussion spines.
+- **File:** `content/podcast/library/books/kitab-al-riyad/_system/episode-drafts/EP07-soul-and-spirit-one-substance-or-two/04-discussion-spine.md`
+- **Context:** The `04-discussion-spine.md` scaffold (8 beats) is entirely populated with `[LLM-FILL]` markers. No beat has a substantive key question, tension, anchor passage, or landing note. Per the rule catalog's F5 check, the discussion spine must be filled; a template-only spine signals the hidden steering layer is absent. The framing's Three-part focus covers the territory well, but the spine exists as a separate authoring artifact that supports long-form episode coherence (the 8-beat structure ensures the conversation does not collapse the six sub-chapters into a binary outcome).
+- **Suggested fix:** Author fills the 8 beats using the 4 `key_tensions` and 7 `anchor_passages` from `chapter-contracts/soul-and-spirit-one-substance-or-two.yml`. Each beat should name: the key question, the tension it surfaces, the anchor passage reference, and a one-sentence landing note. Natural beat boundaries: trace-not-birth doctrine (sub-ch 1); Imam Ali aphorism planted handoff (sub-ch 1 close); Soul as medium between two emissions (sub-ch 2); body-category refusals (sub-chs 3–5 compacted); no-parts, no-sides (sub-ch 3); no distance, chain by rank (sub-ch 4); no diminution in the Second (sub-ch 5); al-Nusra concession and closing image (sub-ch 6). This is an authoring decision; the challenger does not fill discussion spines.
 
-#### N3: `hyle` / `hayle` appear in chapter without a `Pronounce "hyle"` directive in the framing
+#### J2: Full name "Imam al-Mu'izz li-Din Allah" repeated at line 116 — alias required after first mention
 
-- **File:** content/podcast/library/books/kitab-al-riyad/chapters/ch10-motion-stillness-hyle-and-form.txt (lines 17, 31, 33, 85, 87, and summary sections)
-- **Context:** The English/Greek scholarly transliteration `hyle` (and variant `hayle`) appears multiple times in the chapter, including in verbatim quotations used as key steering passages ("*form and hyle: their existence together is such that neither is separable from the other*"). The framing carries `Pronounce "al-hayula"` and `Pronounce "hayula"` directives but no `Pronounce "hyle"` line. NotebookLM may render `hyle` as "HY-lee" (correct) or as a variant TTS reading. Neither `hyle` nor `hayle` is present in the shared manifest (`content/_shared/arabic/03-arabic-english-manifest.md`) or the book lexicon (`_system/source/text/_phonetics.md`), so auto-fix is not permitted; the author must propose the phonetic.
-- **Suggested fix:** (a) Add `Pronounce "hyle" as "HY-lee". Say it as one syllable.` and `Pronounce "hayle" as "HY-lee". Say it as one syllable.` to the framing's `## Pronunciation` block. (b) Optionally add both terms to `_system/source/text/_phonetics.md` for future reuse.
+- **File:** `content/podcast/library/books/kitab-al-riyad/chapters/ch07-soul-and-spirit-one-substance-or-two.txt` (line 116)
+- **Context:** "Imam al-Mu'izz li-Din Allah" first appears at line 50 (correct: full name on first mention, followed immediately by alias "Imam al-Mu'izz" within the same sentence). At line 116 the full name "Imam al-Mu'izz li-Din Allah" is used again: *"Imam al-Mu'izz li-Din Allah, in Ta'wil al-Shari'a, returns again…"*. Per R-NAMEALIAS and the name-alias policy, subsequent references must use the alias only. A third occurrence at line 143 correctly uses the alias ("Imam al-Mu'izz"). Only the line-116 instance is the violation. Auto-fix is blocked because "Imam al-Mu'izz li-Din Allah" is not in the canonical `content/_shared/arabic/05-name-alias-policy.md` aliases table (it appears in the framing's Name discipline block and in `_system/source/text/_phonetics.md`, but not in the policy manifest). This is a J2 flag requiring: (a) a manual fix to line 116 ("Imam al-Mu'izz li-Din Allah" → "Imam al-Mu'izz"), and (b) addition of this name to the canonical aliases table in `05-name-alias-policy.md` so future chapters and auto-fix can act on it without author intervention.
+- **Suggested fix:** Change line 116 to begin: *"Imam al-Mu'izz, in Ta'wil al-Shari'a, returns again…"*. Then add `| Imam al-Mu'izz li-Din Allah | Imam al-Mu'izz | i-maam al-mu-izz |` to the Ismaili tradition table in `05-name-alias-policy.md`.
+
+#### C1/N3: "Talmanic" appears in chapter (line 19) with no pronunciation directive in framing and absent from shared manifest
+
+- **File:** `content/podcast/library/books/kitab-al-riyad/chapters/ch07-soul-and-spirit-one-substance-or-two.txt` (line 19)
+- **Context:** *"the Talmanic spheres"* appears in the paraphrase of al-Nusra's argument. "Talmanic" is a scholarly transliteration of a technical cosmological term. It is absent from `content/_shared/arabic/03-arabic-english-manifest.md`, from `_system/source/text/_phonetics.md`, and from the framing's `## Pronunciation` block. Without a Pronounce directive, NotebookLM may mispronounce the term (likely "tal-MAN-ik" or "tal-MAY-nik"). Auto-fix is not permitted because the canonical phonetic is not established in any shared source. The author must propose the phonetic before it can be added.
+- **Suggested fix:** (a) Determine the canonical phonetic for "Talmanic" (likely "tal-MAA-nee" from the Arabic cosmological tradition; author verification required). (b) Add `Pronounce "Talmanic" as "tal-maa-nik". Say it as one fluent word.` to the framing's `## Pronunciation` block. (c) Optionally add to `_system/source/text/_phonetics.md` for reuse in chapters where the term appears.
 
 ---
 
 ### P2 (advisory)
 
-#### C4: `al-nafs` and `al-ruh` retained in Arabic — exemption applies but is undocumented in framing
+#### B4: 62 lines with em-dashes in chapter SOURCE file — prose em-dashes warrant review
 
-- **File:** content/podcast/library/books/kitab-al-riyad/chapters/ch10-motion-stillness-hyle-and-form.txt (lines 51, 57, 61, 181 and throughout sub-chapter three)
-- **Context:** `al-nafs` and `al-ruh` appear throughout the chapter as the central Arabic technical terms whose synonymy the chapter argues. Per C4, terms in the substitution policy §2 must either be substituted with English or have a documented justification in the framing's pronunciation hooks. The exemption clearly applies (Exception 2: the terms are explicitly contrasted and the chapter's central argument is the synonymy doctrine — substituting "soul" and "spirit" would collapse the terminological precision the chapter is built to settle). The framing's `Pronounce` lines are present but no justification note appears.
-- **Suggested fix:** Add one note to the `## Pronunciation` section: "The Arabic terms *al-nafs* and *al-ruh* are retained in Arabic throughout: sub-chapter three's argument IS the synonymy doctrine — substituting 'soul' or 'spirit' would erase the terminological distinction the chapter is settling. Exception 2 of the substitution policy applies."
+- **File:** `content/podcast/library/books/kitab-al-riyad/chapters/ch07-soul-and-spirit-one-substance-or-two.txt` (multiple lines)
+- **Context:** The chapter file contains em-dashes (`—`) across 62 lines. Three functional uses: (1) citation-attribution separators (`*text.* — (Source)` — structural, should be kept), (2) section-heading dashes (`## Sub-chapter one — the trace, not the birth` — structural, should be kept), (3) prose mid-sentence em-dashes (*"The answer the chapter builds — sub-chapter by sub-chapter — is neither."*). Per R-NOEMDASH, prose mid-sentence em-dashes confuse NotebookLM prosody; they should be commas, semicolons, or restructured sentences. Auto-fix is not applied here because the three functional types cannot be deterministically distinguished by a regex replacement without risk of breaking citation-attribution format. Two shipped chapters (EP12, EP14) also have em-dashes in prose and were accepted. Advisory: author reviews prose em-dashes and replaces with commas or sentence restructuring where prosody matters.
+- **Agent note:** If a future transcript audit shows prosody artifacts at em-dash positions, escalate to P1.
 
-#### F6: No canonical NotebookLM steering phrases from two-host-framing.md
+#### A3: Citation at line 123 omits leading "al-" from "al-Sahifa al-Sajjadiyya"
 
-- **File:** content/podcast/library/books/kitab-al-riyad/_system/episode-drafts/EP10-motion-stillness-hyle-and-form/00-framing.md
-- **Context:** The framing does not use the canonical steering vocabulary from `two-host-framing.md` ("Slow down on...", "Treat X as the central tension...", "End on a question..."). The framing's Three-part focus and Landing sections carry equivalent prose-form steering with strong specificity. Advisory only.
-- **Agent note:** No action required; the framing is well-steered. One canonical phrase at the sub-chapter seven hinge ("Treat *al-Islah's* pre-creative creativity as the chapter's P0 hinge — the *tawhid*-refusal lands here or not at all") would benefit future re-runs if steer drift is observed in transcript audits.
+- **File:** `content/podcast/library/books/kitab-al-riyad/chapters/ch07-soul-and-spirit-one-substance-or-two.txt` (line 123)
+- **Context:** The blockquote attribution reads: `— (Sahifa al-Sajjadiyya, Du'a 5; ...)`. The canonical title is `al-Sahifa al-Sajjadiyya` — the definite article "al-" is part of the title. The full title is correctly given at line 120 in the prose introduction (*"gathered as al-Sahifa al-Sajjadiyya"*). The citation attribution at line 123 omits the article. This is a minor inconsistency; the framing's Do-Not block explicitly forbids abbreviating to "the Sajjadiyya" but does not address this specific "Sahifa al-Sajjadiyya" (no leading article) form. NotebookLM will read it as "Sahifa al-Sajjadiyya" rather than "al-Sahifa al-Sajjadiyya" — minor prosodic difference.
+- **Suggested fix:** Change line 123's attribution from `(Sahifa al-Sajjadiyya, Du'a 5;` to `(al-Sahifa al-Sajjadiyya, Du'a 5;`.
+
+#### F6: Key passages `02-key-passages.md` has 7 `[LLM-FILL]` annotations on "Why this matters" fields
+
+- **File:** `content/podcast/library/books/kitab-al-riyad/_system/episode-drafts/EP07-soul-and-spirit-one-substance-or-two/02-key-passages.md`
+- **Context:** All 7 passage content blocks are well-formed and verbatim from the chapter. Only the `*Why this matters:* [LLM-FILL]` explanatory annotation per passage remains unfilled. These annotations are support material for the discussion spine — they are not read by NotebookLM. Advisory only; does not affect NotebookLM output.
+- **Agent note:** Not blocking. If the discussion spine (F5) is filled, the passage-relevance reasoning will naturally populate these annotations.
 
 ---
 
 ## Previous-run resolution log
 
-- **A6 (P0, previous run)**: RESOLVED. The chapter at line 141 explicitly marks the cross-tradition parallel: "The same protection is named in a parallel tradition, not as a single shared chain, but as two lineages converging on one tawhid." This is a clear tradition-difference annotation; A6 passes.
-- **N3 (P1, previous run)**: RESOLVED. Arabic transliteration lines removed from bilingual blockquotes; English translations with full citations retained. Chapter word count reduced from 8,644 to 8,626 words.
-- **F5 (P1, previous run)**: UNRESOLVED. Discussion spine still all `[LLM-FILL]`. Authoring decision required.
+- **F5 (P1, motion-stillness run)**: UNRESOLVED pattern. Discussion spine is all `[LLM-FILL]` for EP07 as well. Authoring decision required.
 
 ---
 
 ## Health metrics
 
-| Chapter | Words | Tier diversity | Blockquotes | Phonetic gaps | Em-dashes | Framing words | Verdict |
+| Chapter | Words | Tier diversity | Blockquotes | Phonetic gaps | Em-dash lines | Framing words | Verdict |
 |---|---|---|---|---|---|---|---|
-| ch10-motion-stillness-hyle-and-form | 8,626 | 3 tiers (Quran/Sunni/Ismaili) | 6 | 1 (hyle/hayle) | 0 | 3,351 | SHIP-WITH-CAUTION |
+| ch07-soul-and-spirit-one-substance-or-two | 7,694 | 3 tiers (Quran/Sunni/Ismaili) | 6 groups (12 lines) | 1 (Talmanic) | 62 | 3,358 | SHIP-WITH-CAUTION |
 
 **Chapter tier breakdown:**
-- Tier 1 (Quran): 4 verses cited (36:82, 16:40, 112:1–4, 42:11) — Surah name + verse number format; Pickthall named on first citation (line 99)
-- Tier 3 (Sunni hadith): 1 hadith (Sahih al-Bukhari, Book 59, Hadith 3191; narrated by Imran ibn Husayn) — correctly cited
-- Tier 4 (Ismaili/Shia): 1 (Nahj al-Balagha, Sermon 1) — correctly cited; cross-tradition annotation at line 141
+- Tier 1 (Quran): 4 citations — 91:7–9 (Surah ash-Shams), 50:16 (Surah Qaf), 17:85 (Surah al-Isra), 33:72 (inline, not blockquote)
+- Tier 3 (Sunni hadith): 1 — Sahih al-Bukhari + Sahih Muslim, Book of Tafsir on Surah al-Isra; narrated by Abdullah ibn Mas'ud
+- Tier 4 (Ismaili/Shia): 2 — al-Sahifa al-Sajjadiyya Du'a 5 (Imam Ali Zayn al-Abidin); Ghurar al-Hikam wa Durar al-Kalim (Imam Ali)
 
-**Enrichment ratio:** ~3% (approx. 300 words in blockquotes out of 8,626 chapter words — well within 60% cap)
+**Enrichment ratio:** ~3% (approx. 235 words in blockquote content out of 7,694 chapter words — well within 60% cap)
 
-**Framing word count:** 3,351 of 3,500 hard cap (95.7% capacity — within band, approaching ceiling)
+**Framing word count:** 3,358 of 3,500 hard cap (95.9% capacity — within band, approaching ceiling)
 
-**Chapter word band:** 8,626 words in Extended tier range (5,500–9,500) per `length_target: extended`; hard cap [500, 10,000]. PASSES.
+**Chapter word band:** 7,694 words in Extended tier range (5,500–9,500) per `length_target: extended`; hard cap [500, 10,500]. PASSES.
 
-**Checks that passed cleanly:** A1 (citation discipline — all Quran/hadith/Nahj citations correctly formatted), A2 (no VERIFY CITATION markers, no fabricated numbers), A3 (Pickthall named on first Quranic citation at line 99), A4 (verbatim quote integrity — blockquotes are not paraphrased), A5 (no source-shifting), A6 (cross-tradition annotation at line 141 — RESOLVED), B1 (no HTML comments), B2 (no cross-episode refs), B3 (no file-length self-refs), B4 (no translator-apparatus prefixes), B5 (zero em-dashes), B6 (no invented dialogue), C1 (phonetic coverage — all key chapter Arabic terms have framing Pronounce directives), C2 (lexicon parity), C3 (honorific discipline — each form once per figure), C4 (al-nafs/al-ruh exemption applies; P2 advisory), D1 (enrichment multi-tier — 3 distinct tiers), D2 (enrichment ratio ~3%, well under 60% cap), D3 (citations bound to chapter tensions), D4 (no quote-stacking — no 3+ consecutive blockquotes), D5 (no CONTEXT NEEDED markers), E1 (8,626 words in Extended tier band), E2 (one-sentence summarizability confirmed), E3 (beginning/middle/end arc — hook open at Where this chapter picks up; pressure-build through 9 sub-chapters; settled formula close), E4 (no verbal filler), E5 (no translation-residue awkward phrasings), F1 (framing exists), F2 (four-part structure: opening directive/background/three-part focus/host dynamic/tone/pronunciation/anti-noise/do-not), F3 (audience named concretely at line 30–31 of framing), F4 (5 specific tensions named in framing), H1 (welcome clause present — "Open the episode with a brief welcome"), H2 (summary clause present — "two-to-three sentence summary naming the source"), H3 (closing-landing clause — "Close on the unresolved tension, a question, or a single sharp line. Do not recap"), I1 (anti-repetition clause — "Do not restate the central thesis more than twice"), I2 (no-irrelevant-background clause — "Stay on the source's main content"), I3 (no adjacent-movement thesis repetition in chapter), I4 (biographical material bounded — minimal, only when argument-bearing), J1 (name discipline block in framing with 6 aliases), J2 (alias applied after first mention), J3 (alias spellings match manifest phonetics), K1 (interruption-avoidance — Conversation discipline block), K2 (filler vocabulary named: yeah/right/exactly), M1 (DENY-modernize block with full platform list), M2 (DENY-surprise block plus positive companion), N1 (zero inline phonetic parens in chapter), N2 (Pronunciation block fully in imperative form — 45 Pronounce lines), N4 (no-read-aloud guard at framing lines 141 and 169), O1 (honorific count: one each), O2 (no abbreviated work titles — framing explicitly bans "the Nahj"), R1 (conversation choreography — planted-passage example present), R2 (reset clause present; spine 8 beats > 5 threshold), R3 (cadence directive in Tone section), R4 (formal-transition DENY in Do not section), R5 (analogy-permission paragraph alongside DENY list), S1 (async-safety: ts_updated 51 min old at review time, no live process), S2 (no memoir/shared write paths in chapter or framing), G1 (contract present), G3 (contract passes meta-prose lint; no EP## refs, no Phase-leak tells)
+**Checks that passed cleanly:** A1 (citation discipline — all Quran citations include surah name + verse), A2 (no VERIFY CITATION markers), A4 (verbatim quote integrity — blockquotes not paraphrased), A5 (no source-shifting), B1 (no HTML comments in chapter or framing), B2 (no cross-episode refs), B3 (no meta-prose tells in chapter or framing), B4 (no translator-apparatus prefixes), B6 (no invented dialogue), C1 (phonetic coverage for named figures and core Arabic terms), C2 (lexicon parity — all Pronounce terms appear in chapter or framing body), C3 (honorific discipline — "peace be upon him" once for Imam Ali; "peace and blessings of Allah be upon him and his family" once for the Prophet), D1 (enrichment multi-tier — 3 distinct tiers: Quran / Sunni hadith / Ismaili-Shia), D2 (enrichment ratio ~3%, well under 60% cap), D3 (citations bound to chapter tensions — each blockquote directly serves the sub-chapter argument in play), D4 (no quote-stacking — no 3+ consecutive blockquotes), D5 (no CONTEXT NEEDED markers), E1 (7,694 words in Extended tier band), E2 (chapter summarizability: "Al-Kirmani adjudicates whether the Soul and al-Hayuli resemble the First, ruling that the First and Second are like-counterparts while al-Hayuli is the trace impressed by the Second's power — contact is real, resemblance is not its condition"), E3 (beginning/middle/end arc: Where this chapter picks up → six sub-chapter debates → settled formula close), E4 (no verbal filler), E5 (no translation-residue awkward phrasings), F1 (framing exists), F2 (four-part structure present: opening directive / background / angle / central tensions / host dynamic / three-part focus / tone constraints / pronunciation / anti-noise / do not), F3 (audience named concretely), F4 (4 specific tensions named in framing, 4 in chapter contract), F7 (no-read-aloud guard at framing lines 141 and 169), H1 (welcome clause present — "Open the episode with a brief welcome (one sentence)"), H2 (summary clause present — "two-to-three sentence summary naming the source"), H3 (closing-landing clause — "Close on the unresolved tension, a question, or a single sharp line. Do not recap"), I1 (anti-repetition clause — "Do not restate the central thesis more than twice"), I2 (no-irrelevant-background clause — "Stay on the source's main content"), I3 (no adjacent-movement thesis repetition in chapter), I4 (biographical material bounded — al-Sijistani mentioned as "author of al-Nusra" once, no biographical digression), J1 (name discipline block in framing — 7 aliases covering all long names that appear in chapter), J3 (alias spellings match manifest phonetics), K1 (interruption-avoidance — Conversation discipline block present), K2 (filler vocabulary named: yeah/right/exactly in host transition rule), M1 (DENY-modernize block present with full platform list), M2 (DENY-surprise block present plus positive companion), N1 (zero inline phonetic parens in chapter), N2 (Pronunciation block fully in imperative form — 46 Pronounce lines), N4 (no-read-aloud guard at framing lines 141 and 169), O1 (honorific count: one each per figure — Imam Ali at line 35, Prophet at line 153), O2 (no abbreviated work titles — framing bans "the Rahat", "the Ta'wil", "the Sajjadiyya", "the Ghurar" by name), R1 (conversation choreography clause present — planted handoff example: Color host raises Imam Ali aphorism before Driver reaches end of sub-ch 1), R2 (reset clause present — two specific reset sentences named for Focus 1→2 and Focus 2→3 seams), R3 (cadence directive present — "Short-to-medium sentences with varied rhythm"), R4 (formal-transition DENY present — "Firstly", "Secondly", "In conclusion", etc. banned), R5 (analogy-permission paragraph alongside DENY list), S2 (no memoir/shared write paths in chapter or framing), G1 (chapter contract present at `chapter-contracts/soul-and-spirit-one-substance-or-two.yml`), G3 (contract passes meta-prose lint; no EP## refs, no Phase-leak tells)
 
-**Checks skipped (no transcript):** M3, M4, N5, O3, R6, R7
+**Checks skipped (no transcript):** M3 (transcript modernize audit), M4 (transcript surprise audit), N5 (transcript mangle audit), O3 (transcript honorific audit), R6 (transcript formal-transition audit), R7 (transcript reset-anchor audit)
 
 **Category P:** `episode_format: deep_dive` — debate checks skipped.
 
@@ -93,14 +103,22 @@ None.
 
 ## S1 async-safety note
 
-`orchestrator-state.json` shows `phase_status: "running"` for the `per-chapter` phase, `ts_updated: 2026-05-21T11:24:27Z`. No live orchestrator process found via `pgrep`. Stale running state is consistent with the known orchestrator resume bug (documented in the state file's `reset_note`). Delta from `ts_updated` to review time is ~51 minutes — outside the 5-minute S1 halt window. Challenger proceeded.
+`orchestrator-state.json` shows `phase_status: "running"` for the `per-chapter` phase. `ts_updated: 2026-05-21T17:31:58Z`; `ts_completed: 2026-05-21T17:17:40Z` for the `per-chapter` entry. Stale `running` state is consistent with the known orchestrator resume bug (documented in `reset_note`). EP07 is not in `completed_slugs` (which contains only EP10, EP12, EP14). Delta from ts_updated to review time is approximately 22 minutes — outside the 5-minute halt window. Challenger proceeded.
 
 ---
 
 ## Score
 
-**P0:** 0 | **P1:** 2 | **P2:** 2 | **Chapters in scope:** 1 | **Auto-fixes:** 0
+**P0:** 0 | **P1:** 3 | **P2:** 3 | **Chapters in scope:** 1 | **Auto-fixes:** 0
 
-`penalty = (0×1.0 + 2×0.2 + 2×0.05) / 1 = 0.50`
-`score = max(0.0, 1.0 − 0.50) = 0.50 (Drifting)`
+`penalty = (0×1.0 + 3×0.2 + 3×0.05) / 1 = 0.75`
+`score = max(0.0, 1.0 − 0.75) = 0.25 (Unstable)`
+
+---
+
+## Fixer-pass note (2026-05-21)
+
+- **F5 (discussion spine)**: NOT FIXED — file `04-discussion-spine.md` is outside the fixer's allowed-edit scope (only `00-framing.md` is editable). Discussion spine population is an authoring decision and does not affect the NotebookLM-shipped `.txt`. Defer to author.
+- **J2 (line 116)**: FIXED — "Imam al-Mu'izz li-Din Allah" → "Imam al-Mu'izz" at chapter line 116. The canonical-table addition to `05-name-alias-policy.md` is outside the fixer's allowed-edit scope; defer to author.
+- **C1/N3 (Talmanic)**: FIXED — added `Pronounce "Talmanic" as "tal-maa-nik". Say it as one fluent word.` to framing's `## Pronunciation` block. The optional `_phonetics.md` addition is outside the fixer's allowed-edit scope; defer to author.
 
