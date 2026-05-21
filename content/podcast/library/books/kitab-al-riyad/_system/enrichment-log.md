@@ -17,3 +17,6 @@ each chapter.
 - ch10-motion-stillness-hyle-and-form: ENRICHED at 2026-05-20 21:52:15 (in-place rewrite)
 - ch11-the-sections-of-the-world: ENRICHED at 2026-05-20 22:03:25 (in-place rewrite)
 - ch12-qada-and-qadar-fate-and-destiny: ENRICHED at 2026-05-20 22:10:07 (in-place rewrite)
+- ch13a-the-shariah-of-adam-and-the-first-speaker: ENRICHED at 2026-05-20 22:34:13 (in-place rewrite)
+- ch14b-prophets-as-teachers-monotheism-and-the-ranks: ENRICHED at 2026-05-20 22:47:51 (in-place rewrite)
+- ch15-tawhid-and-the-critique-of-al-mahsul: ENRICHED at 2026-05-20 22:56:07 (in-place rewrite)

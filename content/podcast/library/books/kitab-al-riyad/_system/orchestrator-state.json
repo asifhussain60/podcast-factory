@@ -4,14 +4,10 @@
   "category": "books",
   "branch": "book/kitab-al-riyad",
   "phase": "0e",
-  "phase_status": "failed",
-  "last_completed_phase": "0d",
-  "next_phase": "0e",
-  "last_error": {
-    "phase": "0e",
-    "message": "LLM call timed out after 900s.",
-    "ts": "2026-05-21T02:25:07Z"
-  },
+  "phase_status": "completed",
+  "last_completed_phase": "0e",
+  "next_phase": "0f",
+  "last_error": null,
   "phases": {
     "pre-flight": {
       "status": "completed",
@@ -49,10 +45,10 @@
       "manual_fallback": "Resume manually via /podcast and `--resume` the orchestrator."
     },
     "0e": {
-      "status": "failed",
+      "status": "completed",
       "placeholder_note": "Temporary pre-mark so the orchestrator halts at 0f after the 0b re-run. WILL be reverted to 'pending' once Phase 0b finishes and the drift gate is evaluated.",
       "ts_started": "2026-05-21T00:35:34Z",
-      "ts_completed": "2026-05-21T02:25:07Z",
+      "ts_completed": "2026-05-21T02:56:07Z",
       "manual_fallback": "Resume manually via /podcast and `--resume` the orchestrator."
     },
     "0f": {
@@ -82,7 +78,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-05-18T22:51:13Z",
-  "ts_updated": "2026-05-21T02:25:07Z",
+  "ts_updated": "2026-05-21T02:56:07Z",
   "challenger_version": "2.0",
   "orchestrator_version": "1.1"
 }
