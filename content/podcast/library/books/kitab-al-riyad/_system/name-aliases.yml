@@ -1,0 +1,206 @@
+# Name aliases — Kitab al-Riyad
+#
+# F14 (2026-05-21): NotebookLM TTS mangles repeated Arabic names. Hosts MUST
+# use the Arabic name ONCE on first mention (with English appositive), then
+# rotate among the English aliases listed here for ALL subsequent mentions.
+#
+# Format:
+#   <key>:
+#     first_mention: "<Arabic + English appositive — used ONCE>"
+#     rotation: ["alias 1", "alias 2", "alias 3", "alias 4"]
+#     notes: (optional context)
+#
+# The framing-gen step reads this file and embeds the relevant rotation set
+# into each chapter's framing under `## Name discipline`. Hosts rotate
+# naturally across the set; never repeat the Arabic name beyond first occurrence.
+
+figures:
+  al-kirmani:
+    first_mention: "Hamid al-Din Ahmad al-Kirmani, the author of Kitab al-Riyad and the great mediator between the two schools"
+    rotation:
+      - "the author"
+      - "the master"
+      - "our author"
+      - "he"
+    notes: |
+      Central figure across all 13 episodes. NotebookLM mangled "al-Kirmani"
+      into 8+ variants in Ch07 audio; English rotation is essential.
+
+  abu-hatim-al-razi:
+    first_mention: "Abu Hatim al-Razi, the chief preacher of Rayy and the author of al-Islah (The Correction)"
+    rotation:
+      - "Abu Hatim"
+      - "the chief preacher"
+      - "the author of The Correction"
+      - "he"
+
+  al-sijistani:
+    first_mention: "Abu Ya'qub al-Sijistani, the master of the Ismaili school and the author of al-Nusra (The Defense)"
+    rotation:
+      - "the author of The Defense"
+      - "the master of the school"
+      - "the rebutter"
+      - "he"
+
+  al-nasafi:
+    first_mention: "Muhammad al-Nasafi, the author of al-Mahsul (The Harvest), the lost first book that started the chain"
+    rotation:
+      - "the author of The Harvest"
+      - "the original master"
+      - "the first author in the chain"
+      - "he"
+
+  imam-ali:
+    first_mention: "Imam Ali ibn Abi Talib, the Commander of the Faithful and cousin of the Prophet (peace be upon him)"
+    rotation:
+      - "the Commander of the Faithful"
+      - "the cousin of the Prophet"
+      - "the gate of knowledge"
+      - "the first Imam"
+    notes: |
+      User feedback 2026-05-21: explicitly requested title-based rotation
+      rather than "Imam Ali" repetition.
+
+  imam-al-muizz:
+    first_mention: "Imam al-Mu'izz li-Din Allah, the fourth Fatimid caliph"
+    rotation:
+      - "the Fatimid caliph"
+      - "the Imam of the chain"
+      - "Imam al-Mu'izz"
+      - "he"
+
+  imam-zayn:
+    first_mention: "Imam Ali Zayn al-Abidin, the fourth Imam, son of Imam Husayn"
+    rotation:
+      - "Imam Zayn"
+      - "the fourth Imam"
+      - "the son of Imam Husayn"
+      - "the supplicant of al-Sahifa"
+
+  ibn-masud:
+    first_mention: "Abdullah ibn Mas'ud, the close companion of the Prophet and transmitter of the Quran"
+    rotation:
+      - "Ibn Mas'ud"
+      - "the companion"
+      - "the transmitter"
+      - "he"
+
+  al-amidi:
+    first_mention: "Abd al-Wahid al-Amidi, the compiler of Ghurar al-Hikam"
+    rotation:
+      - "al-Amidi"
+      - "the compiler"
+      - "the editor of the Aphorisms"
+
+book_titles:
+  kitab-al-riyad:
+    first_mention: "Kitab al-Riyad (The Gardens)"
+    rotation:
+      - "The Gardens"
+      - "this book"
+      - "al-Riyad"
+
+  al-mahsul:
+    first_mention: "al-Mahsul (The Harvest), the lost first book in the four-book chain"
+    rotation:
+      - "The Harvest"
+      - "the lost book"
+      - "the first book"
+
+  al-islah:
+    first_mention: "al-Islah (The Correction)"
+    rotation:
+      - "The Correction"
+      - "Abu Hatim's book"
+      - "the corrector's book"
+
+  al-nusra:
+    first_mention: "al-Nusra (The Defense)"
+    rotation:
+      - "The Defense"
+      - "the rebuttal"
+      - "al-Sijistani's book"
+
+  rahat-al-aql:
+    first_mention: "Rahat al-'Aql (The Repose of the Intellect), al-Kirmani's architectural treatise"
+    rotation:
+      - "The Repose of the Intellect"
+      - "the architectural treatise"
+      - "the master's other book"
+
+  ghurar-al-hikam:
+    first_mention: "Ghurar al-Hikam wa Durar al-Kalim (The Brilliant Aphorisms and the Pearls of Speech), compiled by al-Amidi"
+    rotation:
+      - "The Brilliant Aphorisms"
+      - "the compendium of aphorisms"
+      - "the Ghurar"
+
+  sahifa-sajjadiyya:
+    first_mention: "al-Sahifa al-Sajjadiyya (The Psalms of Islam), the prayer-book of Imam Zayn al-Abidin"
+    rotation:
+      - "The Psalms of Islam"
+      - "the prayer-book of the fourth Imam"
+      - "the Sajjadiyya supplications"
+
+  nahj-al-balagha:
+    first_mention: "Nahj al-Balagha (The Path of Eloquence), the collected sayings of the Commander of the Faithful"
+    rotation:
+      - "The Path of Eloquence"
+      - "the collected sayings"
+      - "the Nahj"
+
+concept_words:
+  # These are concept terms, not figure-names. They CAN appear in Arabic on
+  # first mention (with English gloss), but the rotation rule still applies —
+  # hosts should not repeat the Arabic term beyond the second or third mention.
+  tawhid:
+    first_mention: "tawhid (monotheism)"
+    rotation: ["monotheism", "the unity of God", "the doctrine of one"]
+
+  hudud:
+    first_mention: "the hudud (the limits of the call — the ranks of leaders in the Ismaili da'wa)"
+    rotation: ["the limits", "the ranks", "the leaders of the call"]
+
+  dawa:
+    first_mention: "the da'wa (the call to the Ismaili faith)"
+    rotation: ["the call", "the mission", "the Ismaili call"]
+
+  tawil:
+    first_mention: "ta'wil (the inner interpretation, the esoteric reading)"
+    rotation: ["inner interpretation", "the esoteric reading", "the deeper meaning"]
+
+  natiq:
+    first_mention: "the nāṭiq (the speaker-prophet, the messenger who proclaims the law)"
+    rotation: ["the speaker-prophet", "the messenger", "the proclaimer"]
+
+  al-hayuli:
+    first_mention: "al-hayuli (prime matter, the absolute base substrate of the natural world)"
+    rotation: ["prime matter", "the substrate", "the base of nature", "matter"]
+    notes: |
+      Mangled 24+ times in Ch07 audio. "Prime matter" is the standard
+      philosophical English; should replace al-hayuli everywhere after first.
+
+  malul:
+    first_mention: "ma'lul (the effect, the caused)"
+    rotation: ["the effect", "the caused", "the dependent"]
+
+  shirk:
+    first_mention: "shirk (the association of partners with God, polytheism)"
+    rotation: ["polytheism", "the association of partners", "idolatry"]
+
+  amr:
+    first_mention: "amr (the command, the divine word)"
+    rotation: ["the command", "the divine word", "the affair"]
+
+# Usage rules — embedded into the framing's ## Name discipline section:
+#
+# 1. For every figure that appears in the chapter, list the rotation set
+#    AND the first_mention form so the hosts know the alias bridge.
+# 2. The hosts SHOULD rotate among the rotation set entries — Driver picks
+#    one for their turn, Color picks a different one for their turn.
+# 3. Never repeat the Arabic figure-name beyond first mention. If hosts
+#    forget which alias they've used recently, default to "he" / "she" /
+#    "it" or a fresh entry from the rotation set.
+# 4. Book titles: use English title for ALL mentions after the first.
+# 5. Concept-words: use English gloss after the second mention (allow one
+#    Arabic + gloss instance to anchor the term).
