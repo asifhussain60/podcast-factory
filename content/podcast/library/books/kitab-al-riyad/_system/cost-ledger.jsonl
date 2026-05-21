@@ -39,3 +39,4 @@
 {"ts": "2026-05-19T19:29:25Z", "phase": "0c", "step": "win-007", "model": "claude-opus-4-7", "input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0}
 {"ts": "2026-05-19T19:30:47Z", "phase": "0c", "step": "win-008", "model": "claude-opus-4-7", "input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0}
 {"ts": "2026-05-19T19:32:02Z", "phase": "0c", "step": "win-009", "model": "claude-opus-4-7", "input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0}
+{"ts": "2026-05-21T19:06:01Z", "phase": "per-chapter", "step": "framing/souls-as-parts-or-traces", "model": "claude-opus-4-7", "input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0}
