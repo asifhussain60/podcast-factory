@@ -188,32 +188,25 @@ Drift across 6 dimensions (top-level table; no section label):
 For each non-🟢 dimension above, one numbered body block in priority order:
 
 ### N. <Plain English action> 🟡/🔴
-- *Plain English:* what's out of sync, in one sentence
-- *Impact:* what will go wrong if you don't sync (or "no impact, just bookkeeping")
-- *Fix:* exact command(s) the operator would run, OR (if --execute-safe and it's a safe op) "AGENT EXECUTED: <what was done> at <commit hash>"
-- *Where:* [link to relevant file](path)
+<Short PROSE paragraph (2–3 sentences) describing what's out of sync, what will go wrong if it isn't synced, the exact command(s) the operator would run (or "AGENT EXECUTED: `<what>` at [commit hash](url)" if --execute-safe ran), and a link to the relevant file. NO literal `*Plain English:* / *Impact:* / *Fix:* / *Where:*` sub-bullets — those four words are guidance for what to convey, not visible markup. Weave clickable links inline.>
 
 After drift actions, **always** include the Next Action body block (extracted from operator file's `frontmatter.next_action`):
 
 ### N+1. Next action per operator file 🟢/🟡
-- *Plain English:* The operator file's `next_action` says: <verbatim first-action sentence>. <If gates apply: "Currently gated on <gate-name> — see §<X> of operator file.">
-- *Impact:* Cost: <$A-B or "unknown">. Wall-time: <X hours or "unknown">. Runnable now: <yes / no — gated on Y>.
-- *Fix:* recommended command (if extractable): `<command>`. Otherwise: "see operator file `next_action` for the full multi-step instruction."
-- *Where:* [<your-machine-id>.md frontmatter `next_action`](../../_workspace/plan/operators/<your-machine-id>.md)
+<Short PROSE paragraph stating the operator file's `next_action` (verbatim first-action sentence), noting any gates that apply, summarizing cost ($A-B or "unknown") and wall-time (X hours or "unknown") and runnability (yes / no — gated on Y), and giving the recommended command if extractable. Link to the operator file inline.>
 
 End the body with one informational block for peer state:
 
 ### N+2. Peer state 🟢/🟡
-- *Plain English:* Peer machine <peer-machine-id> is at <branch>, <book> @ <phase> (<status_tag>), last verified <timestamp>.
-- *Impact:* anything the peer is signaling that affects you (e.g., "peer paused at same gate as you", "peer signaling framework-lane work"), OR "nothing"
-- *Where:* [<peer-machine-id>.md](../../_workspace/plan/operators/<peer-machine-id>.md) (read from origin/develop snapshot)
+<Short PROSE paragraph stating the peer machine's current branch, book + phase + status_tag, last_verified timestamp, plus one clause on anything the peer is signaling that affects you (or "nothing"). Link to the peer's operator file (read from origin/develop snapshot).>
 
 ---
 
-**Next:** *Asif* — [one explicit sentence — typically EITHER (a) "execute drift action #N first, then resume per operator file's next_action: `<command>`" OR (b) "no drift; authorize the operator file's next_action: `<command>`" OR (c) (if --execute-safe ran cleanly) "agent completed N safe actions; remaining manual: M, then resume per next_action: `<command>`"]
+## Next: 👤 Asif    [or 🤖 AI if the agent's --execute-safe captured everything]
+<One explicit sentence — typically EITHER (a) "execute drift action #N first, then resume per operator file's next_action: `<command>`" OR (b) "no drift; authorize the operator file's next_action: `<command>`" OR (c) (if --execute-safe ran cleanly and only AI-owned safe ops remain) "agent will continue with the safe-op sequence; surface back at next gate".>
 ```
 
-**No custom section labels** like "Drift summary", "Proposed actions", "Peer state details" — the body uses numbered `### N.` blocks + tables only, per [coordination-protocol.md §13](../../_workspace/plan/operators/coordination-protocol.md) and [response-conventions.md §1](../../_workspace/plan/response-conventions.md). The drift table is a top-level table (allowed without a label per the format spec). The peer state IS a numbered body block (the last one, always informational). No `**TL;DR:**` opener and no trailing `## Summary (scan-and-skip)` — both deprecated 2026-05-21; the At-a-glance numbered list at the TOP replaces both.
+**No custom section labels** like "Drift summary", "Proposed actions", "Peer state details" — the body uses numbered `### N.` **PROSE blocks** + tables only, per [coordination-protocol.md §13](../../_workspace/plan/operators/coordination-protocol.md) and [response-conventions.md §1](../../_workspace/plan/response-conventions.md). **No literal `*Plain English:* / *Impact:* / *Fix:* / *Where:*` sub-bullets** — those four words are guidance to the writer; each numbered block is a SHORT PROSE paragraph that naturally weaves the four concerns with clickable links inline. The drift table is a top-level table (allowed without a label). The peer state IS a numbered body block (the last one, always informational). No `**TL;DR:**` opener and no trailing `## Summary (scan-and-skip)` — both deprecated 2026-05-21; the At-a-glance numbered list at the TOP replaces both. The `## Next: 👤 Asif` / `## Next: 🤖 AI` H2 header replaces the prior inline `**Next:**` line (same H2 visual weight as At-a-glance — bookends the response).
 
 ## SECTION 5 — Invocation patterns
 

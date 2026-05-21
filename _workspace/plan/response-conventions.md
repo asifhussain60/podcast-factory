@@ -17,51 +17,51 @@ follows this **4-part shape, in this exact order, with these exact headers**:
 ```
 ## At a glance — <severity emoji> <one-phrase status label>
 
-1. <one-line punchy summary of body section 1 — non-technical, complete sentence>
+1. <one-line punchy summary of body section 1 — non-technical, complete sentence, clickable links preserved>
 2. <one-line punchy summary of body section 2>
 3. <one-line punchy summary of body section 3>
-4. <one-line punchy summary of body section 4>
-5. <one-line punchy summary of body section 5>
+4. <…up to ~5 items>
 
 ---
 
 ### 1. <Plain English issue name> <severity emoji>
-- *Plain English:* one sentence anyone can understand
-- *Impact:* what this means for the next phase
-- *Fix:* concrete resolution + cost (dollars + minutes if relevant)
-- *Where:* [filename](path) and/or [commit](github-url) clickable refs
+<Short PROSE paragraph (2–4 sentences) that naturally covers what happened, the impact, the fix if any, and where to look — with clickable file/commit links woven inline. NO literal sub-bullet labels like "Plain English:", "Impact:", "Fix:", "Where:" — those four words are INSTRUCTIONS to the writer about what to convey, NOT visible structure for the reader.>
 
 ### 2. <Plain English issue name> <severity emoji>
-- (same shape)
+<Same shape — short prose paragraph.>
 
-[…more body sections as needed; tables also OK when comparing options]
+### 3. <Section with genuinely enumerable content> <severity emoji>
+<Lead sentence in prose, then bullets or a table ONLY when content actually has enumerable structure (multi-step fix, options to compare, multiple deliverables). When bullets appear, their labels are content-meaningful ("Option A (recommended)", "Step 1", "Before/After"), NEVER the meta-labels above.>
+
+[…tables also OK when comparing options]
 
 ---
 
-**Next:** *Asif* or *AI* — one explicit sentence naming the action and the actor.
+## Next: 👤 Asif    [or 🤖 AI, depending on who owns the next move]
+<One explicit sentence naming the action.>
 ```
 
 ### The four parts in detail
 
-**Part 1 — `## At a glance — <status>`** — Visually distinct H2 header, severity emoji + one-phrase label embedded (so status is visible without scrolling). Followed by a numbered list of ~5 items (soft cap), each a complete sentence that stands alone. The reader should be able to act from the summary alone if they trust the recommendation. Then a horizontal rule (`---`) on its own line to set the summary apart from the details.
+**Part 1 — `## At a glance — <emoji> <status>`** — H2 header. Severity emoji + one-phrase label embedded so status is visible without scrolling. Followed by a numbered list of ~5 items (soft cap), each a complete sentence with clickable links preserved. The reader should be able to act from the summary alone if they trust the recommendation. Then a horizontal rule (`---`) on its own line.
 
-**Part 2 — Body sections** — Use `### N. <Plain English name>` headers with the canonical sub-bullets (*Plain English* / *Impact* / *Fix* / *Where*). OR tables when comparing options. OR short paragraphs for single-issue responses. **No custom section labels** like "Verification", "Coord doc", "Deviation from plan", "What changed" — they fragment the format across sessions and machines.
+**Part 2 — Body sections (`### N.` PROSE blocks)** — Each section is a short PROSE paragraph (2–4 sentences) that NATURALLY covers what happened, the impact, the fix if any, and where to look — with clickable links woven inline. **No literal `*Plain English:* / *Impact:* / *Fix:* / *Where:*` sub-bullets.** Those four words are instructions to the writer about what to convey, NOT visible markup. Use them as a mental checklist while writing the prose. Use bullets or tables ONLY when content has genuine enumerable structure (multi-step fix, options to compare, multiple deliverables); when bullets appear, their labels are content-meaningful ("Option A (recommended)", "Step 1", "Before/After"), never the meta-labels above. **No custom section header labels** ("Verification", "Coord doc", "Deviation from plan", "What changed") — they fragment the format across sessions and machines.
 
-**Part 3 — Horizontal rule (`---`)** — Sets the Next line apart from body content. Always present, even for single-section responses.
+**Part 3 — Horizontal rule (`---`)** — Sets the Next header apart from body content. Always present, even for single-section responses.
 
-**Part 4 — `**Next:**` line** — One italicized actor name (`*Asif*` or `*AI*`), then an em-dash, then one explicit sentence naming the action. **Exactly one word for the actor** — not "we", not "us", not "the user", not "the assistant". It's a delegation marker. No multi-step lists; pick one and name it.
+**Part 4 — `## Next: 👤 Asif` or `## Next: 🤖 AI`** — H2 header (visual weight matches the At-a-glance header, creating bookends for the response). Emoji + exactly-one-word actor name (`👤 Asif` for user-owned next move, `🤖 AI` for Claude-owned next move). Followed by one explicit sentence naming the action. No multi-step lists; pick one action and one actor. If genuinely independent next moves exist for both actors, write two `## Next:` headers (one per actor) — but this should be rare; usually one.
 
 ### Severity emojis (used both in Part 1 header and per-section in Part 2)
 
 - 🟢 ship-ready — work is done; nothing blocking
-- 🟡 needs your decision — action required from Asif
+- 🟡 needs your decision — action required from Asif (or AI proposes, awaiting go)
 - 🔴 blocked — cannot proceed; surface and halt
-- ⚠ caution — proceed-with-care; surfaces a non-blocking risk
+- ⚠ caution — proceed-with-care; non-blocking risk
 
 ### When to include the At-a-glance summary
 
 - Always, when the body has 2+ sections OR the response exceeds ~10 lines
-- Skip for single-line acknowledgements ("yes, that's right") and ultra-short answers
+- Skip for single-line acknowledgements ("got it") and ultra-short answers
 - For one-section responses, the summary still helps — it's the first thing Asif reads; details are optional
 
 ### Worked example — clean response end-to-end
@@ -69,36 +69,33 @@ follows this **4-part shape, in this exact order, with these exact headers**:
 ```
 ## At a glance — 🟢 ship-ready
 
-1. Phase 0d regenerated all 14 chapter contracts against the new refined source — nothing failed.
+1. Phase 0d regenerated all 14 chapter contracts against the new refined source — nothing failed ([commit 8a34564](https://github.com/asifhussain60/Journal/commit/8a34564)).
 2. The previously broken adams-law YAML self-resolved during the re-run.
-3. Downstream Phase 0e is unblocked.
+3. Downstream Phase 0e is now unblocked.
 
 ---
 
 ### 1. Phase 0d completed cleanly 🟢
-- *Plain English:* All 14 chapter contracts regenerated against the new refined source.
-- *Impact:* Downstream Phase 0e enrichment can proceed safely.
-- *Fix:* (none needed; ran clean)
-- *Where:* [commit 8a34564](https://github.com/asifhussain60/Journal/commit/8a34564), [chapter-contracts/](content/podcast/library/books/kitab-al-riyad/chapter-contracts/)
+All 14 chapter contracts regenerated against the new refined source — Phase 0e enrichment is unblocked, ran without intervention. See [commit 8a34564](https://github.com/asifhussain60/Journal/commit/8a34564) and [chapter-contracts/](content/podcast/library/books/kitab-al-riyad/chapter-contracts/).
 
 ### 2. YAML parse error self-resolved 🟢
-- *Plain English:* The bad contract from the prior run was overwritten by the fresh 0d output.
-- *Impact:* Phase 0f no longer halts on YAML parse failure.
-- *Fix:* (none needed; structural fix from re-run)
-- *Where:* [adams-law-and-the-prophetic-cycle.yml](content/podcast/library/books/kitab-al-riyad/chapter-contracts/adams-law-and-the-prophetic-cycle.yml)
+The previously-broken adams-law contract was overwritten by the fresh 0d output, so Phase 0f no longer halts on YAML parse failure. Self-fix from the structural re-run — see [adams-law-and-the-prophetic-cycle.yml](content/podcast/library/books/kitab-al-riyad/chapter-contracts/adams-law-and-the-prophetic-cycle.yml).
 
 ---
 
-**Next:** *Asif* — authorize Phase 0e by running `python3 scripts/podcast/orchestrate_book.py --resume kitab-al-riyad`.
+## Next: 👤 Asif
+Authorize Phase 0e by running `python3 scripts/podcast/orchestrate_book.py --resume kitab-al-riyad`.
 ```
 
 ### Rules and prohibitions
 
 - **No `## Project Status` block.** Deprecated 2026-05-20; details in §2 below.
 - **No `**TL;DR:**` opener.** Deprecated 2026-05-21; the At-a-glance numbered list IS the lead, and its first item carries the "what happened" message.
+- **No literal `*Plain English:* / *Impact:* / *Fix:* / *Where:*` sub-bullets.** Deprecated 2026-05-21 — those four words are guidance to the writer about what to cover in body prose, NOT visible markup. Body sections are SHORT PROSE paragraphs that naturally weave the four concerns.
+- **No `**Next:**` inline-bold line.** Deprecated 2026-05-21 in favor of the `## Next: 👤 Asif` / `## Next: 🤖 AI` H2 header (matches At-a-glance visual weight; bookends the response).
 - **No trailing summary paragraphs** ("In summary…", "To recap…"). The At-a-glance list already did that job at the top.
-- **No postscripts after the Next line.** The Next line ends the response.
-- **No multi-step Next lines.** Pick one action, name one actor. If there are genuinely independent next steps for multiple actors, write one **Next** line per actor (no more than two total — usually one).
+- **No postscripts after the Next header.** The Next header ends the response.
+- **No multi-step Next lines.** Pick one action, name one actor. If there are genuinely independent next steps for multiple actors, write one `## Next:` header per actor (no more than two total — usually one).
 - **Markdown links always.** `[name](path)` for files, `[commit abc1234](https://github.com/asifhussain60/Journal/commit/abc1234)` for commits, `[file.py:42](scripts/file.py#L42)` for line refs. Never bare paths in prose.
 - **Explain pipeline jargon parenthetically** the first time it appears in a response (Phase 0e, nāṭiq, P22, abjad, da'wa, etc.).
 - **Synthesize, don't dump.** When external knowledge helps (style guides, conventions, prior art), use WebSearch and cite. Otherwise stick to what the codebase shows.
@@ -111,12 +108,13 @@ block pattern is **deprecated**. It was noisy, rigid, and duplicated information
 that the §1 structure already carries more cleanly.
 
 The §1 **At-a-glance** numbered list at the top of every multi-section response
-IS the long-running-work summary. The body's per-issue `### N.` blocks carry
-"what's done / what's pending" at the per-item level (each block has
-*Plain English* + *Impact* + *Fix* + *Where*). For cross-session continuity,
-the [book-queue.md](operators/book-queue.md) In-flight / Queue / Completed
-sections + the [index.md](operators/index.md) Machine Status dashboard cover
-the cross-machine snapshot.
+IS the long-running-work summary. The body's per-issue `### N.` prose paragraphs
+carry "what's done / what's pending" at the per-item level (each paragraph
+naturally covers what happened, impact, fix if any, where to look — as PROSE,
+not labeled bullets). For cross-session continuity, the
+[book-queue.md](operators/book-queue.md) In-flight / Queue / Completed sections +
+the [index.md](operators/index.md) Machine Status dashboard cover the cross-machine
+snapshot.
 
 If you find a stale `## Project Status` reference in any operator file, agent spec,
 or coord doc, replace it with a pointer to §1 (At-a-glance template). Tracked
@@ -216,10 +214,32 @@ specifically) rather than just to local memory.
 - "**Your next step:**" line at end → "**Next:** *<actor>* — …" line at end (same position, renamed for actor delegation)
 
 **What was preserved**:
-- Body section structure (`### N.` + *Plain English* / *Impact* / *Fix* / *Where*)
+- Body section structure (`### N. <name> <emoji>` headers; CONTENT is now PROSE — see 2026-05-21 second revision in §10 migration note below)
 - All severity emojis (same meanings)
 - No-custom-section-labels rule
 - Cross-machine awareness rules
 - File/commit reference conventions
 
 **What both machines do now**: Use the §1 4-part template on every substantive response. Both Studio (asaas) and Air (kitab-al-riyad) sessions follow this; the Studio's next session merges develop and picks up this revision automatically.
+
+## 10. Default response posture — reflect + selectively pushback + interactively ask (added 2026-05-21)
+
+Standing rule for every substantive response. Asif should never have to re-state this; it's the default posture across both Studio and Air sessions.
+
+1. **Reflect** the directive in 1–2 sentences as part of the At-a-glance summary — don't add a separate "What I heard" section.
+2. **Pushback when warranted** — if there's a genuine concern (regression risk, scope ambiguity, naming conflict, missing context, a better path exists), surface ONE clear pushback in the body. Not a list of nitpicks. Not a pushback on every directive — only when substance demands it.
+3. **Recommend** a best path and explain it briefly. Don't enumerate all options as equals; pick one and say why.
+4. **Ask interactively** for genuine decisions using the AskUserQuestion tool with ONE question per call (≤4 options, recommended option FIRST and labeled "(Recommended)"). One question per response — never bundle multiple questions.
+5. **Don't over-ask, don't over-pushback** — if the directive is clear, executable, low-risk, and matches established patterns, JUST EXECUTE. A 2-line At-a-glance + a one-section body + `## Next:` is enough. Surface questions and pushbacks only when there's genuine substance.
+
+### The boundary is judgment
+
+When in doubt about whether to surface or just execute, surface — a 15-second pause is cheaper than a wrong commit. But don't waste Asif's time confirming approved patterns. If the same kind of work has been done 3 times before without question, the 4th time doesn't need a confirmation question either.
+
+### Why this rule exists
+
+Asif explicitly directed this 2026-05-21 ("I want this to be the normal pattern. Questions and pushback should be surfaced only when needed"). Repeated prior requests to "reflect on your thoughts, challenge and push back, ask questions interactively one at a time with recommendation as default" indicate the pattern was inconsistent — this rule promotes it from "Asif keeps re-stating" to "standing default both sessions follow."
+
+### Migration note — second revision 2026-05-21
+
+The §1 template's Part 2 (Body sections) was further tightened the same day: literal `*Plain English:* / *Impact:* / *Fix:* / *Where:*` sub-bullets are deprecated; body sections are now SHORT PROSE paragraphs that naturally weave the four concerns with clickable links inline. Those four words remain as guidance for the writer (mental checklist while composing the prose) but never appear as visible markup. Bullets/tables only when content has genuine enumerable structure, with content-meaningful labels.
