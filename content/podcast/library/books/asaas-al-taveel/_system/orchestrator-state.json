@@ -9,10 +9,12 @@
   "next_phase": "0d",
   "last_error": null,
   "scheduled_launch": {
-    "scheduled_at": "2026-05-21T22:00:00Z",
-    "scheduled_for": "after 18:00 EST 2026-05-21 (Asif's Claude Code Max weekly limit reset)",
+    "scheduled_at": "2026-05-22T10:00:00Z",
+    "scheduled_for": "06:00 EDT 2026-05-22 (rescheduled from 18:01 EDT 2026-05-21 to stagger heavy LLM phases per coord-protocol §8; Air is actively running KaR Phase 0g — avoid Anthropic-quota contention by deferring asaas to morning)",
     "scheduled_by": "claude-on-mac-studio-primary",
-    "launch_command": "python3 scripts/podcast/orchestrate_book.py --resume asaas-al-taveel"
+    "launch_command": "python3 scripts/podcast/orchestrate_book.py --resume asaas-al-taveel",
+    "at_job_id": 2,
+    "previous_schedule": "2026-05-21T22:00:00Z (job #1; cancelled 2026-05-21T15:07Z after Air confirmed mid-Phase-0g)"
   },
   "previous_halt": {
     "gate": "P22-operator-transcript-review",
