@@ -3,20 +3,24 @@
   "book_slug": "asaas-al-taveel",
   "category": "books",
   "branch": "book/asaas-al-taveel",
-  "phase": "0b",
-  "phase_status": "halted-for-transcript-review",
+  "phase": "0c",
+  "phase_status": "pending",
   "last_completed_phase": "0b",
-  "next_phase": "0c",
+  "next_phase": "0d",
   "last_error": null,
-  "halt": {
+  "scheduled_launch": {
+    "scheduled_at": "2026-05-21T22:00:00Z",
+    "scheduled_for": "after 18:00 EST 2026-05-21 (Asif's Claude Code Max weekly limit reset)",
+    "scheduled_by": "claude-on-mac-studio-primary",
+    "launch_command": "python3 scripts/podcast/orchestrate_book.py --resume asaas-al-taveel"
+  },
+  "previous_halt": {
     "gate": "P22-operator-transcript-review",
     "halted_at": "2026-05-20T15:30:00Z",
     "halted_by": "claude-on-mac-studio-primary (manual; P22.impl unshipped)",
-    "artifacts": [
-      "content/podcast/library/books/asaas-al-taveel/operator-review.md",
-      "content/podcast/library/books/asaas-al-taveel/english-transcript.md"
-    ],
-    "operator_action": "fill §§1-8 of operator-review.md, signal 'resume asaas' in chat",
+    "resolved_at": "2026-05-21T13:50:00Z",
+    "resolved_by": "claude-on-mac-studio-primary (Asif approved Option A 2026-05-21; §§1-8 defaults accepted; pp. 19-27 anchors restored via semantic-alignment splice; content-range.md emitted)",
+    "operator_action_completed": "§§1-8 review approved with defaults: §2=A (win-003 splice), §3-§6 pre-seeds, §7 body 33-368, §8 Option I (resume now)",
     "resume_command": "python3 scripts/podcast/orchestrate_book.py --resume asaas-al-taveel"
   },
   "phases": {
@@ -77,7 +81,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-05-20T09:42:51Z",
-  "ts_updated": "2026-05-20T15:30:00Z",
+  "ts_updated": "2026-05-21T14:00:00Z",
   "challenger_version": "2.0",
   "orchestrator_version": "1.2",
   "config": {
