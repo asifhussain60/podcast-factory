@@ -111,3 +111,6 @@ _workspace/logs/
 
 # Local-only audit snapshots (pre-rerun copies of book artifacts for diff/review)
 _workspace/audit/
+
+# Sanitizer backups (created by scripts/podcast/sanitize_contract_yaml.py)
+*.yml.bak
