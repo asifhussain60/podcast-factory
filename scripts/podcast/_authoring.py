@@ -37,6 +37,7 @@ DESIGN NOTES
 
 from __future__ import annotations
 
+import re as _re
 import subprocess
 import sys
 from pathlib import Path
@@ -1150,7 +1151,16 @@ def author_framing(book_dir: Path, chapter_slug: str,
             manual_fallback="Run Phase 0d to produce the chapter files.",
         )
     chapter_file = chapter_files[0]
-    chap_num = chapter_file.stem.split("-", 1)[0][2:]   # "ch01" → "01"
+    # X7 (2026-05-21): strip letter suffix from ch## prefix via regex so chapters
+    # like `ch14b-...` produce `EP14-...` not `EP14b-...`. Mirrors the X3 fix in
+    # orchestrate_book.py:720-722. Without this, framing lands in EP14b/ while
+    # build_episode_txt.py validator looks at EP14/ — paths diverge and the
+    # chapter halts on R-PRONUNCIATION-IMPERATIVE (empty skeleton at the
+    # validator's path). Affects all letter-suffix chapters: ch01a, ch03a,
+    # ch04b, ch05c, ch13a, ch14b.
+    _chap_prefix = chapter_file.stem.split("-", 1)[0]              # e.g. "ch14b" or "ch10"
+    _m = _re.match(r"ch(\d+)", _chap_prefix)
+    chap_num = _m.group(1) if _m else _chap_prefix[2:]             # "14" or "10" — digits only
     draft_dir = book_dir / "_system" / "episode-drafts" / f"EP{chap_num}-{chapter_slug}"
     framing_path = draft_dir / "00-framing.md"
 
