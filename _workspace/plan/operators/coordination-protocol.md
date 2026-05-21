@@ -176,13 +176,15 @@ The cost ledger (`_system/cost-ledger.jsonl`) may silently fail on Python
 
 ---
 
-## 9. Branch policy
+## 9. Branch policy + worktree guidance
+
+### Branches
 
 | Branch                       | Purpose                                  | Direct commits? |
 |------------------------------|------------------------------------------|-----------------|
 | `main`                       | shipped to GitHub Pages                  | No — protected  |
-| `develop`                    | integration; canonical operator files    | Yes (operator)  |
-| `feat/podcast-w1-foundation` | canonical `_workspace/plan/**`; orchestrator features | Yes |
+| `develop`                    | integration; accumulates every shipped book + framework upgrades | Yes (any machine, via book→develop merges) |
+| `feat/podcast-w1-foundation` | canonical `_workspace/plan/**`; orchestrator features | Yes (rarely active; merges to develop when meaningful work lands) |
 | `book/<slug>`                | per-book working branch (one machine)    | Yes (assigned machine only) |
 
 Merge direction:
@@ -193,7 +195,40 @@ book/<slug> ──────────────────┘   (book �
 ```
 
 Always pull `develop` into a book branch before merging book → develop, to
-keep the merge fast-forwardable.
+keep the merge fast-forwardable. The standard pattern is:
+
+```bash
+git checkout book/<slug>
+git pull --ff-only origin book/<slug>
+git merge --no-ff origin/develop          # bring develop's framework upgrades onto your book branch
+# ... do your work ...
+git push origin book/<slug>
+git checkout develop
+git pull --ff-only origin develop
+git merge --no-ff book/<slug>             # ship the book's work to develop
+git push origin develop
+git checkout book/<slug>                  # back to your lane
+```
+
+### Worktrees — single-worktree-per-machine recommended
+
+One git repo, one working directory per physical machine. Each machine's
+single worktree switches between branches as needed (the `book/<slug>` your
+machine owns most of the time; `develop` only during the periodic merge
+dance above).
+
+`git worktree` lets you have a second working directory on a different
+branch, but for this project's branch-per-book model that adds visual
+sprawl without benefit (you'll see two `journal` folders on the machine
+and wonder which is real — they share the same `.git/`). If you find a
+dormant worktree (its branch is 0 commits ahead of develop), prune it:
+
+```bash
+cd <primary worktree>
+git worktree remove <dormant worktree path>
+```
+
+The branch survives; you can check it out in the primary worktree if needed.
 
 ---
 

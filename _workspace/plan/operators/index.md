@@ -6,6 +6,34 @@ Both machines read this on session start. Updated 2026-05-21 by the Air session.
 For the underlying claim/completion protocol see [book-queue.md](../book-queue.md).
 For response-format conventions both sessions follow, see [response-conventions.md](../response-conventions.md).
 
+## One repo, one worktree per machine (architecture clarification)
+
+There is **ONE git repo** shared across all machines: `https://github.com/asifhussain60/Journal`.
+Each physical machine clones it ONCE into a single working directory (e.g.,
+`~/PROJECTS/journal/` on the Air, `~/Code/Journal-book-asaas/` on the Studio).
+That single working directory switches between branches as needed —
+`develop`, `book/<slug>` per active book, occasionally `feat/*` for framework work.
+
+**Books are processed on branches, not in separate folders.** Each book lives
+on its own `book/<slug>` branch. The integration target is `develop`, which
+accumulates every shipped book. Production-ready releases promote from
+`develop` → `main`.
+
+**Git worktrees are a power feature you generally don't need here.** A worktree
+gives you a second working directory on a different branch in parallel.
+Useful if you're actively rebasing one branch while another is mid-build —
+but for this project's branch-per-book model, single-worktree-per-machine is
+cleaner. If you see a second journal folder on a machine and it's on a dormant
+branch (0 commits ahead of develop), prune it:
+
+  ```bash
+  cd ~/PROJECTS/journal   # the primary worktree
+  git worktree remove ~/PROJECTS/journal-feat
+  ```
+
+The branch itself survives the worktree removal; you can always check it out
+in the primary worktree if you need it.
+
 ---
 
 ## Machine Status (current snapshot)
