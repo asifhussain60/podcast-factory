@@ -126,6 +126,9 @@ Pronounce "ibda" as "ib-daa". Say it as one fluent word.
 Pronounce "dar al-Ibda'" as "daar al-ib-daa". Say it as two fluent words.
 Pronounce "sura" as "soo-rah". Say it as one fluent word.
 Pronounce "falsafa" as "fal-sa-fah". Say it as one fluent word.
+Pronounce "mawhumiya" as "maw-hoo-mee-yah". Say it as one fluent word.
+Pronounce "takhayyuliya" as "ta-khai-yu-lee-yah". Say it as one fluent word.
+Pronounce "nisbas" as "nis-bahs". Say it as one fluent word.
 
 Name discipline. Use each long name in full ONCE on first occurrence, then use the short alias for every subsequent reference:
  - Hamid al-Din Ahmad ibn Abdullah al-Kirmani → al-Kirmani
