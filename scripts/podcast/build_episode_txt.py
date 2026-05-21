@@ -170,8 +170,17 @@ META_PROSE_REGEX_TELLS = [
 #   1. *Term* (PHO-NE-TIC; gloss)              — italicized term followed by paren
 #   2. > (bis-mil-laah ir-rah-maan ir-ra-heem) — phonetic-only blockquote line
 INLINE_PHONETIC_PATTERNS = [
-    # *italic* ( UPPERCASE-HYPHEN-RESPELLING ...)  — e.g. *Sunnah* (SOON-nah; ...)
-    re.compile(r"\*[A-Za-z'`\-]+\*\s*\(\s*[A-Za-z]+[-][A-Za-z]+"),
+    # X5 (2026-05-21): tightened to require a 2+ uppercase respelling segment
+    # SOMEWHERE in the paren content. The prior form `[A-Za-z]+[-][A-Za-z]+`
+    # also matched scholarly transliterations like `*opposite* (al-mukhalif)`,
+    # which the IJMES/Chicago Theological Seminary convention places as
+    # English-to-Arabic bridges (not pronunciation hints). Phonetic guides keep
+    # their signature: at least one 2+-uppercase respelling segment (SOON, JAA,
+    # MOO, etc.) — that's what triggers NotebookLM to vocalize the spelling.
+    #
+    # *italic* (... HYPHEN-CONNECTED with at least one UPPERCASE 2+ segment ...)
+    #   — e.g. *Sunnah* (SOON-nah; ...), *Mujahadah* (moo-JAA-ha-dah; ...)
+    re.compile(r"\*[A-Za-z'`\-]+\*\s*\(\s*[A-Za-z\-]*[A-Z]{2,}"),
     # > (lowercase-hyphen-respelling lowercase-hyphen-respelling ...) — post-transliteration line
     re.compile(r"^>\s*\(\s*[a-z]+\-[a-z]+(?:[-\s][a-z\-]+)+", re.MULTILINE),
     # bare inline form (term) (PHO-NE-TIC) e.g. *Mujahadah* (moo-JAA-ha-dah; ...)
