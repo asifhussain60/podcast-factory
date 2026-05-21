@@ -1,13 +1,14 @@
 {
-  "ts": "2026-05-18T18:38Z",
+  "ts": "2026-05-21T12:00Z",
   "book": "kitab-al-riyad",
   "chapters_in_scope": 1,
-  "p0": 0,
-  "p1": 2,
+  "p0": 2,
+  "p1": 1,
   "p2": 1,
-  "auto_fixes": 10,
-  "score": 0.55,
-  "badge": "Drifting",
-  "verdict": "SHIP-WITH-CAUTION",
-  "challenger_version": "2.0"
+  "auto_fixes": 1,
+  "score": 0.0,
+  "badge": "Unstable",
+  "verdict": "BLOCKED",
+  "challenger_version": "2.0",
+  "scope": "per-chapter:motion-stillness-hyle-and-form"
 }

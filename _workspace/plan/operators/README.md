@@ -6,11 +6,19 @@ autonomously without stepping on each other.
 
 ## How to start a session (run this first, every time)
 
+**Auto-orientation files at repo root mean new chat sessions in either
+Claude Code or VSCode Copilot are oriented to this folder automatically:**
+
+- `CLAUDE.md` (repo root) — auto-loaded by Claude Code on every session
+- `.github/copilot-instructions.md` — auto-loaded by VSCode Copilot Chat
+
+Both files instruct the session to:
+
 ```bash
 bash _workspace/plan/operators/start-session.sh
 ```
 
-The script reads your `~/.machine-id`, pulls develop, switches to your
+That script reads your `~/.machine-id`, pulls develop, switches to your
 assigned book branch, prints orchestrator state + next_action, exits 0
 if ready / 2 if you're IDLE (in which case it points you at the claim
 protocol in `book-queue.md`).
