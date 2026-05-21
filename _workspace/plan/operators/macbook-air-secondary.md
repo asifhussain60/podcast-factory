@@ -71,10 +71,10 @@ it but never writes it. See [coordination-protocol.md §1](coordination-protocol
 
 > **State as of 2026-05-21T12:45Z** — frontmatter `current_phase_status_summary`
 > + `next_action` carry the live status. Body sections §3 and §4 below reflect
-> the 2026-05-20 baseline (pre-Phase-0g) and have NOT yet been rewritten for
-> the post-merge architecture (setup/ folder absorption + §13 multi-operator
-> mirror are deferred — see frontmatter `next_action`). Trust frontmatter +
-> `state.json` over body §3/§4 until the deferred sync commit lands.
+> the 2026-05-20 baseline (pre-Phase-0g); trust the frontmatter +
+> `state.json` over body §3/§4. Setup folder absorbed via develop merge
+> (2026-05-21); see §13 below for the multi-operator runtime-compatibility
+> summary + pointer to [setup/runtime-compatibility.md](setup/runtime-compatibility.md).
 
 ---
 
@@ -392,5 +392,25 @@ When Air finishes a phase or hits a pause:
    `next_action`, `status_tag`.
 3. `git commit -m "coord(macbook-air-secondary): update operator state @ phase <X>"`
 4. The post-commit hook auto-pushes.
-5. Write `## Project Status` back to Asif so he can decide whether to wake
-   the Studio's loop or let it continue.
+5. Write a response per [../response-conventions.md](../response-conventions.md)
+   so Asif can decide whether to wake the Studio's loop or let it continue.
+
+---
+
+## 13. Multi-operator runtime compatibility
+
+Full canonical reference at [setup/runtime-compatibility.md](setup/runtime-compatibility.md).
+The full setup-and-recreate documentation set is at [setup/](setup/) (index at
+[setup/README.md](setup/README.md)).
+
+**Summary for fast-reference:**
+
+| UI | Status | Use for pipeline? |
+|---|---|---|
+| Claude Code (VS Code / desktop / CLI) | ✅ Canonical | Yes |
+| Cowork | 🔴 INCOMPATIBLE | No — Linux sandbox, no Keychain, no `claude -p` auth (verified 2026-05-21) |
+| GitHub Copilot Chat | ❓ Untested | Probe before use |
+
+For a second operator on the same Mac: launch a second Claude Code session on a
+different worktree (variant A or B per [setup/runtime-compatibility.md](setup/runtime-compatibility.md)).
+Do NOT use Cowork.
