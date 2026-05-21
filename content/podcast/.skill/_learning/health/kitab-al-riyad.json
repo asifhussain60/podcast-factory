@@ -1,14 +1,14 @@
 {
-  "ts": "2026-05-21T17:53:51Z",
+  "ts": "2026-05-21T21:33Z",
   "book": "kitab-al-riyad",
   "chapters_in_scope": 1,
   "p0": 0,
-  "p1": 3,
-  "p2": 3,
+  "p1": 1,
+  "p2": 2,
   "auto_fixes": 0,
-  "score": 0.25,
-  "badge": "Unstable",
+  "score": 0.70,
+  "badge": "Caution",
   "verdict": "SHIP-WITH-CAUTION",
   "challenger_version": "2.0",
-  "scope": "per-chapter:soul-and-spirit-one-substance-or-two"
+  "scope": "per-chapter:the-human-as-fruit-of-the-worlds"
 }

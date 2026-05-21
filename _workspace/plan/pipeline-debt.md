@@ -110,6 +110,12 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 | F13 | Phase 0e enrichment leaks inline `(pho-net-ic — gloss)` parens into chapter txt despite R-PHONETICS-OUT; observed only in some chapters (ch15) while siblings are clean | 2026-05-21 (KaR ch15 — 18 inline phonetics on terms + 1 on people-name `Abu Hatim al-Razi`) | Medium | Open | — |
 | F14 | Chapter prose + framing repeat Arabic names many times per episode; NotebookLM TTS mangles each occurrence into multiple inconsistent garbled forms (one chapter = 8+ variants of `al-Kirmani`); listeners hear pronunciation noise instead of substance | 2026-05-21 (KaR Ch07 audio transcript review) | **High** | Triaged (X15 added per-figure rotation-set discipline to Phase 0g framing-gen prompt + KaR name-aliases.yml; takes effect on next orchestrator launch for remaining 5 chapters) | — |
 | F15 | Phase 0g framing-gen produces "two hosts unpacking" dynamic instead of "explainer vs genuine challenger"; over-explanation, premature resolution of central tension, analogy proliferation (14+ analogies in one Ch07 episode) | 2026-05-21 (independent GPT review of KaR Ch07 transcript) | **High** | Triaged (X16 added R-DRAMATIC-ARC + R-CHALLENGER-FRICTION + R-ANALOGY-CAP + R-RECURRING-THESIS to Phase 0g framing-gen prompt; takes effect on next orchestrator launch) | — |
+| F16 | Framing's `## Opening directive` announces source-book chapter number ("Chapter Three") but not the podcast episode number ("Episode 7"); listener loses series-position context | 2026-05-21 (KaR Ch07 v2 audio review — listener heard "Chapter 3" and asked why episode 7 was labeled chapter 3) | Medium | Open | — |
+| F17 | R-ANALOGY-CAP under-enforced — hosts respected the 3 governing analogies in `## Tone constraints` but ALSO introduced 5+ new analogies mid-episode (cosmic ruler, pitcher+silver cup, Venn diagram, signet ring, radio tower) despite explicit instruction | 2026-05-21 (KaR Ch07 v2 audio review) | Medium | Open | — |
+| F18 | Single-Arabic-occurrence per chapter still results in TTS mangling — even one occurrence of `al-Kirmani` per chapter generates 8+ mangled variants in audio (Quraymani, Alcure Mane, al-Khir MNA, etc.). Reduction discipline (F14) is insufficient | 2026-05-21 (KaR Ch07 v2 audio review) | **High** | Open (superseded by F20 — total removal) | — |
+| F19 | TTS-induced phonetic collisions create theological errors — "al-Qur'an Mayni" (al-Kirmani name colliding with the Quran), "Sahih al-Sajidiyya" (conflating Sahih al-Bukhari hadith collection with al-Sahifa al-Sajjadiyya supplication) | 2026-05-21 (KaR Ch07 v2 audio review) | **High** | Open (superseded by F20 — total removal eliminates this class) | — |
+| F20 | Arabic names (person, book, author) in chapter prose AND framing leak into spoken audio; NotebookLM TTS cannot reliably pronounce them; editorial principle shift: knowledge is the key, not the references | 2026-05-21 (Asif's editorial doctrine after Ch07 v2 review) | **High** | Open | — |
+| F21 | Book-title references in spoken audio need natural-language wrapping ("the book *The Harvest*") rather than bare English title ("The Harvest") to disambiguate from poems/metaphors/ideas | 2026-05-21 (Asif refinement to F20) | Medium | Open | — |
 
 ---
 
@@ -359,6 +365,101 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 **KaR-specific remediation (out-of-band):** the 7 already-shipped KaR episodes carry this defect. The 6 remaining chapters can benefit from X16 (the Phase 0g prompt patch) on next orchestrator launch. Re-doing the 7 shipped is the same Middle Path vs Full Remediation decision as F14.
 
 **Verification:** Re-author one debate-format chapter's framing with X16 in place; regenerate; transcript audit should show ≤5 distinct analogies, ≥3 challenger-pushback moments, central thesis repeated 3 times, and the 6-beat narrative arc visible in pacing.
+
+---
+
+### F16 — Framing announces source-book chapter number, not podcast episode number
+
+**Where:** `_authoring.py:author_framing()` — the `## Opening directive` section of the framing template.
+
+**What goes wrong:** The framing instructs hosts to open with "*Kitab al-Riyad*, Chapter Three" (the source-book's chapter number). The listener hears "Chapter 3" and gets confused when they're listening to "Episode 7" of the podcast. Empirical: KaR Ch07 v2 audio surfaced this — listener explicitly asked "why does the audio say chapter 3?"
+
+**Impact:** Listener loses series-position context. For a 13-episode book, knowing whether you're at episode 4 of 13 or episode 11 of 13 matters for pacing your listen-through.
+
+**Proposed fix:** Opening directive instructs hosts to announce BOTH — "Episode 7 of our walkthrough of *Kitab al-Riyad*, covering the book's Chapter Three." Order matters: episode-number first (listener's reference), source-chapter second (provenance reference). Phase 0g framing-gen prompt also gets a section reminder that `contract.episode_number` is the listener-facing reference; `contract.source_chapter_ref` is the source-tracing reference.
+
+**Verification:** re-author one chapter's framing post-fix; transcript audit should show "Episode N" announced in the open before "Chapter M of the source."
+
+---
+
+### F17 — R-ANALOGY-CAP under-enforced; hosts introduce new analogies mid-episode despite explicit instruction
+
+**Where:** `_authoring.py:author_framing()` R-ANALOGY-CAP rule (X16 addition); also the framing's `## Tone constraints` section.
+
+**What goes wrong:** X16 added R-ANALOGY-CAP, instructing the framing to enumerate 3-5 governing analogies upfront and forbidding mid-episode introduction. KaR Ch07 v2 transcript audit shows the rule was PARTIALLY honored — hosts elaborated on the 3 governing analogies (footprint, messenger, light-on-glass-and-stone) AND introduced 5+ new ones (cosmic ruler, crystal pitcher + silver cup, Venn diagram of reality, signet ring + wax, radio tower / antenna).
+
+**Impact:** v1 had 14+ analogies; v2 had 8 (3 governing + 5 invented). Improvement, but the cap discipline didn't fully take. NotebookLM apparently treats "forbidden mid-episode invention" as a soft suggestion rather than a hard rule.
+
+**Proposed fix:** Strengthen the rule. Two options: (a) make the forbidden mid-episode invention an EXPLICIT instruction in the framing's `## Three-part focus` sections — "Beat 3 MAY ONLY use the governing analogies from Tone constraints; introducing new analogies here violates R-ANALOGY-CAP and the conversation should pause and return to a governing analogy"; or (b) extend the validator (Tier 2 additions) to count distinct analogies in the framing's prose and FAIL if any beat-section contains an analogy not declared upfront.
+
+**Verification:** re-author one chapter's framing post-fix; transcript audit shows ≤5 distinct analogies and 0 mid-episode introductions.
+
+---
+
+### F18 — Single-Arabic-occurrence still mangled by TTS
+
+**Where:** R-NAMEDISCIPLINE (X15 addition) — currently allows one Arabic-name occurrence on first mention with English appositive.
+
+**What goes wrong:** Even with name-rotation discipline reducing the COUNT to ~1 per chapter, NotebookLM TTS mangles the single occurrence into multiple inconsistent garbled variants. The mangling propagates: when the host then says "the author" (the English alias), the listener has already heard 8+ garbled pronunciations and can't anchor.
+
+**Impact:** F14's count-reduction discipline was a partial fix; F18 names the deeper truth that ANY Arabic occurrence in spoken content triggers TTS unpredictability.
+
+**Status:** Open, superseded by F20 (total Arabic-name removal from spoken content) — F18 is preserved as the diagnostic step that motivated the larger F20 doctrine shift.
+
+---
+
+### F19 — TTS-induced phonetic collisions create theological errors
+
+**Where:** NotebookLM TTS engine; not directly under operator control.
+
+**What goes wrong:** Empirical Ch07 v2 audio observations:
+- "al-Kirmani" → "al-Qur'an Mayni" (the author's name collides with the Quran itself in the listener's ear)
+- "Sahih al-Sajidiyya" — the TTS conflates "Sahih al-Bukhari" (a hadith collection) with "al-Sahifa al-Sajjadiyya" (Imam Zayn's supplication). Two distinct works become one wrong work in the audio.
+
+**Impact:** These aren't pronunciation imperfections — they're THEOLOGICAL ERRORS introduced by TTS. A listener hearing "al-Qur'an Mayni argued that the Second is born from the First" hears a claim that the Quran itself argues a metaphysical proposition. That's wrong content, not just wrong pronunciation.
+
+**Status:** Open, superseded by F20 — total Arabic-name removal eliminates the collision-risk surface area entirely.
+
+---
+
+### F20 — Arabic names (person, book, author) leak into spoken audio; doctrine shift: remove entirely
+
+**Where:** `_authoring.py:author_phase_0e()` (chapter-prose enrichment) + `_authoring.py:author_framing()` (host-instruction framing).
+
+**What goes wrong:** F14 reduced the COUNT of Arabic names; F18 + F19 showed reduction is insufficient because EVEN ONE Arabic occurrence triggers TTS mangling AND phonetic collisions that create theological errors.
+
+**Editorial doctrine (Asif 2026-05-21):** "I want all Arabic names (person, book and authors) removed from all chapters. Ignoring the reference weave the quote or statement directly in the dialog generalizing it to a scholar, a Daa-ee, messenger etc. This will resolve the issue. The knowledge is the key not the references."
+
+**Proposed fix (three layers):**
+
+1. **Phase 0e — chapter prose discipline.** New rule **R-NO-ARABIC-NAMES** instructing the LLM: NEVER write Arabic person-names, book-titles, or scholar references in the chapter prose. Replace ALL person-names with generic descriptors: "a scholar", "a preacher", "a Da'i" (acceptable loanword for a role-title), "the messenger", "a transmitter", "the early reformer". Quote attributions weave the statement directly into the conversation without naming the source ("It is said that…" / "A scholar of the school argued…" / "One early transmitter recorded…").
+
+2. **Phase 0g — framing host-discipline.** The framing's `## Name discipline` section becomes `## No-name discipline` — explicitly instructs hosts to NEVER speak Arabic person-names or book-titles. The `## Pronunciation` section drops ALL figure-name entries. Concept-word loanwords that are necessary role-terms (Da'i, Imam) may stay with pronunciation guidance; figure-names cannot.
+
+3. **Show notes / book entry preserves attribution.** The audio strips all Arabic; the written companion (book entry on the journal site + per-episode `99-show-notes.md`) preserves the full bibliography with Arabic names, transliterations, English glosses, and suggested-reading list. Listener who wants deeper study has full access; listener who only consumes audio gets clean prose.
+
+**Push-back recorded:** Claude recommended specific English role-descriptors ("the Fatimid philosopher", "the chief preacher of the Persian school") instead of generic ("a scholar") to preserve figure-tracking across an episode. Asif chose generic per the simpler editorial doctrine. The trade-off accepted: listener cannot easily distinguish which-of-several-scholars-said-what; audio quality wins. Mitigation: when the same scholar is referenced multiple times in close sequence, use "the same scholar" or "the one who argued earlier" to preserve continuity within a beat.
+
+**KaR-specific remediation:** the 8 already-shipped KaR episodes carry the defect. Per the established Middle Path scope for F14/F15: accept what's shipped; apply F20's framework patch for future books. KaR Ch07 v3 could be authored as a fresh lab iteration under the new doctrine if Asif wants to test.
+
+**Verification:** apply F20 prompt patches; regenerate one chapter; transcript audit should show ZERO Arabic person-names spoken; ZERO Arabic book-titles spoken; ZERO TTS-mangle events of the F14/F18/F19 class. Show notes contain the full Arabic attribution.
+
+---
+
+### F21 — Book-title references in audio need natural-language wrapping ("the book *The Harvest*")
+
+**Where:** Phase 0e + Phase 0g — wherever book titles appear in chapter prose or framing.
+
+**What goes wrong:** F20 mandates English book titles instead of Arabic transliterations ("The Harvest" not "al-Mahsul"). But bare "The Harvest" in conversation can be heard as a poem, a metaphor, an idea, or a season — not clearly a book.
+
+**Editorial refinement (Asif 2026-05-21):** "When referencing book, mention it is a book as in 'as stated in the book *The Harvest*…'". Wrap every book reference with the role-word "book" to disambiguate.
+
+**Proposed fix:** Phase 0e + Phase 0g prompts require book references to use natural-language wrappings:
+- First mention: "the book *The Harvest*" / "a book called *The Defense*" / "in the book *The Repose of the Intellect*"
+- Subsequent in close sequence: "the book" / "that book" / "the earlier work" / "the same book"
+- Scripture is the exception: "the Quran" is already unambiguous; doesn't need "the book the Quran". Hadith collections become "the canonical hadith collection" rather than "the book *Sahih al-Bukhari*".
+
+**Verification:** apply prompt patch; transcript audit shows every English book-title is preceded or followed by the word "book" in conversation, OR uses an unambiguous descriptor ("the earlier work", "the corrective treatise").
 
 ---
 
