@@ -1,0 +1,85 @@
+chapter_ref: ch04b-soul-intellect-and-the-power-of-emanation
+slug: soul-intellect-and-the-power-of-emanation
+source_type: book-chapter
+book_slug: kitab-al-riyad
+source_chapter_ref: 2
+section_index: 2
+episode_number: 4
+title: Soul, Intellect, and the Power of Emanation
+audience: >
+  Thoughtful adult readers continuing the walk through *al-Riyad's* Chapter One
+  who have absorbed the "perfect in itself, deficient only in relation" formula
+  from episode three and now want to watch al-Sijistani try (and fail) to
+  refute the formula through ever-more-vivid analogies — the sun and moon
+  under fresh light, the wise men's intellect-is-to-soul-as-soul-is-to-body
+  schema, the Two Weighty Things hadith, the writer and the writing, and
+  the dolphins that save drowning men.
+angle: faithful_exposition
+episode_format: deep_dive
+host_dynamic: curious_mind + scholar_companion
+host_dynamic_custom: null
+debate: null
+length_target: extended
+key_tensions:
+  - >
+    Al-Sijistani is no longer making one big argument — he is throwing
+    analogies at the wall. Sun/moon, intellect/soul/body, nature-on-the-horizon,
+    incomplete-action/incomplete-doer, infinite-emanation-flattens-the-world,
+    writer/writing, builder/building. The hosts must convey both the pace of
+    the assault and al-Kirmani's patient, repeated application of the same
+    formula at each one.
+  - >
+    The Two Weighty Things hadith (sub-chapter 16) is the doctrinal climax of
+    the middle movement. It is also a famously contested hadith between Sunni
+    and Shia readings. Honor al-Kirmani's Ismaili-Fatimid reading — the Book
+    and the 'Itrah as a pair held together, neither preceding the other, like
+    the First Intellect holding the Soul and the al-Hayuli — without making
+    that the only available reading.
+  - >
+    Al-Kirmani catches al-Sijistani in a self-contradiction (sub-chapter 18 —
+    al-Sijistani's own al-Ikhtisar affirms the world's perfection, which his
+    al-Nusra denies). The hosts should let this catch breathe; it is one of
+    the great editorial moments of the book.
+  - >
+    Sub-chapter 21 — "not every act seeks benefit" — is the most beautiful
+    page of the chapter. Fire heats the wax. Sun illuminates the world.
+    Dolphins push drowning men toward shore. None of them benefit. The hosts
+    must let the natural images carry the metaphysical claim that the
+    universal Soul's action is for others, not for itself.
+tone_constraints:
+  - Walk the sub-chapters in order. Do not collapse the middle stretch into a thesis.
+  - The Two Weighty Things hadith is verbatim with attribution. The Quranic verses ("And there is nothing but praises Him"; "And We sent the winds") are verbatim with citation.
+  - Lost-work quotations (al-Islah and al-Nusra) may be paraphrased in modern English. Al-Kirmani's settled formulas, the hadith, and Quranic verses stay verbatim.
+  - Honor the rapid-fire structure of the middle movement. Each sub-chapter is one beat. Do not merge.
+  - End at the threshold of sub-chapter twenty-four (the sperm-and-man analogy), not on a closing summary. The next episode picks up there.
+  - When al-Kirmani's verdict goes against al-Sijistani — which is almost every sub-chapter — let it land. The hosts must not soften the verdict to seem balanced.
+anchor_passages:
+  - "Quran 41:37 in al-Sijistani's argument: 'And of His signs are the night, the day, the sun, and the moon.'"
+  - "The hadith of the Two Weighty Things in al-Kirmani's rendering: 'Indeed, I leave among you the two weighty things: the Book of God and my 'Itrah, a rope extended from the sky to the earth, one end of it in the hand of God and one end in your hands.'"
+  - "Quran 17:44 in al-Kirmani's rendering: 'And there is nothing but praises Him.'"
+  - "Quran 15:22 in al-Kirmani's rendering: 'And We sent the winds.'"
+  - "Al-Kirmani's 'natural acts for others, not for self' passage at sub-chapter 21: heat from fire, the sun illuminating the world, the dolphins in the Sea of Oman that push drowning men toward safety."
+adaptation_mode: faithful
+phonetic_overrides: {}
+show_notes:
+  blurb: >
+    The middle stretch of Chapter One of *Kitab al-Riyad* — sub-chapters
+    eleven through twenty-three — where al-Sijistani exhausts his attacks
+    on the perfection of the Soul through a parade of analogies, and
+    al-Kirmani holds the formula "perfect in itself, deficient only in
+    relation" at every turn. The Two Weighty Things hadith arrives at the
+    structural center; the dolphins of the Sea of Oman arrive near the end.
+    The episode closes at the threshold of the sperm-and-man analogy that
+    opens episode five.
+  related_episodes:
+    - the-perfect-and-the-perfection-of-the-soul
+    - the-soul-in-time-and-the-rejoinder-to-al-nusra
+    - the-structure-of-al-riyad-and-the-manuscript
+  references:
+    - "al-Kirmani, *Rahat al-'Aql* (The Repose of the Intellect) — the Two Weighty Things doctrine, the Intellect's foundation"
+    - "al-Kirmani, *al-Rawda* and *al-Idah* — cross-references for 'acts as agents' (the striker and the pain)"
+    - "al-Sijistani, *al-Ikhtisar* (Asif's note: variant readings give *al-Ikhtiyar*) — the book in which al-Sijistani affirms the world's perfection, contradicting his own *al-Nusra*"
+    - "Quran 41:37 (signs of the night, day, sun, moon)"
+    - "Quran 17:44 (everything praises Him)"
+    - "Quran 15:22 (We sent the winds)"
+    - "Hadith of the Two Weighty Things (Thaqalayn) — the Book of God and the Prophet's 'Itrah held as a pair"

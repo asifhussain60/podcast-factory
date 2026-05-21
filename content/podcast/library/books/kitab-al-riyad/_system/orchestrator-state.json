@@ -3,14 +3,14 @@
   "book_slug": "kitab-al-riyad",
   "category": "books",
   "branch": "book/kitab-al-riyad",
-  "phase": "0f",
+  "phase": "0d",
   "phase_status": "failed",
-  "last_completed_phase": "0b",
+  "last_completed_phase": "0c",
   "next_phase": "0c",
   "last_error": {
-    "phase": "0f",
-    "message": "chapter contract failed to parse: /Users/asifhussain/PROJECTS/journal/content/podcast/library/books/kitab-al-riyad/chapter-contracts/adams-law-and-the-prophetic-cycle.yml",
-    "ts": "2026-05-20T21:35:33Z"
+    "phase": "0d",
+    "message": "LLM call timed out after 1200s.",
+    "ts": "2026-05-21T00:06:17Z"
   },
   "phases": {
     "pre-flight": {
@@ -42,14 +42,14 @@
       "ts_completed": "2026-05-19T21:56:45Z"
     },
     "0d": {
-      "status": "completed",
+      "status": "failed",
       "ts_started": "2026-05-19T21:56:45Z",
-      "ts_completed": "2026-05-20T10:02:59Z",
-      "completion_note": "Step 1/3 (chapters-rationale.md) and step 2/3 (chapter segmentation) closed manually after the orchestrator's repeated 1200s LLM-timeouts on sc-009/sc-010. All 13 episodes authored across 10 sc chunks (sc-001 split into 3 episodes; sc-009 into 2; sc-002 through sc-008 + sc-010 single-episode). All .done markers present in _chunks/0d/. Chapter contracts present for every chapter. Resume manually proceeds to Phase 0e."
+      "completion_note": "Step 1/3 (chapters-rationale.md) and step 2/3 (chapter segmentation) closed manually after the orchestrator's repeated 1200s LLM-timeouts on sc-009/sc-010. All 13 episodes authored across 10 sc chunks (sc-001 split into 3 episodes; sc-009 into 2; sc-002 through sc-008 + sc-010 single-episode). All .done markers present in _chunks/0d/. Chapter contracts present for every chapter. Resume manually proceeds to Phase 0e.",
+      "ts_completed": "2026-05-21T00:06:17Z",
+      "manual_fallback": "Resume manually via /podcast and `--resume` the orchestrator."
     },
     "0e": {
-      "status": "completed",
-      "ts_completed": "2026-05-20T00:00:00Z",
+      "status": "pending",
       "placeholder_note": "Temporary pre-mark so the orchestrator halts at 0f after the 0b re-run. WILL be reverted to 'pending' once Phase 0b finishes and the drift gate is evaluated."
     },
     "0f": {
@@ -79,7 +79,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-05-18T22:51:13Z",
-  "ts_updated": "2026-05-20T21:35:33Z",
+  "ts_updated": "2026-05-21T00:06:17Z",
   "challenger_version": "2.0",
   "orchestrator_version": "1.1"
 }

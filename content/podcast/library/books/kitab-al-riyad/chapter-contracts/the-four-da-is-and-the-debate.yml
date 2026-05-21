@@ -1,0 +1,67 @@
+chapter_ref: ch01a-the-four-da-is-and-the-debate
+slug: the-four-da-is-and-the-debate
+source_type: book-chapter
+book_slug: kitab-al-riyad
+source_chapter_ref: 1
+section_index: 1
+episode_number: 1
+title: The Four Da'is and the Debate
+audience: >
+  Thoughtful adult readers — including those new to Fatimid-era Ismaili philosophy
+  — who want to follow the editor's chain of argument from the original spark
+  (*al-Mahsul*) through the three preachers whose books reply to one another
+  (*al-Islah*, *al-Nusra*, *al-Riyad*), with biographies and theology presented as
+  they are needed to read the debate.
+angle: faithful_exposition
+episode_format: deep_dive
+host_dynamic: curious_mind + scholar_companion
+host_dynamic_custom: null
+debate: null
+length_target: longer
+key_tensions:
+  - >
+    A philosophical debate inside the Ismaili da'wa is itself the proof of an
+    unusual intellectual freedom — and that very freedom is what produced the
+    quarrel al-Kirmani must now adjudicate.
+  - >
+    Al-Sijistani's defense of *al-Mahsul* against al-Razi reads as faithful
+    discipleship, yet al-Kirmani — al-Sijistani's own student in philosophy —
+    consistently rules against him in favor of al-Razi.
+  - >
+    The chain *al-Mahsul* → *al-Islah* → *al-Nusra* → *al-Riyad* is the form of
+    the debate: each book replies to the one before it, and two of the four are
+    now lost — we only know them through al-Kirmani's quotation.
+  - >
+    Al-Kirmani is an Ismaili da'i answering an internal quarrel, but his apparatus
+    (al-Farabi's preservation theorem, Ibn Sina on the possible and necessary,
+    and a line that anticipates Descartes on continuous creation) is the apparatus
+    of universal philosophy.
+tone_constraints:
+  - Do not flatten the three preachers into one "Ismaili" voice — name each by name and keep their positions distinct.
+  - Do not soften the disagreements. Al-Sijistani is "out of place and incorrect" in al-Kirmani's verdict; do not euphemize that.
+  - Keep the apparatus of names (*Hujjat al-Iraqayn*, *al-Mu'ayyad fi al-Din*, *Qadi al-Nu'man*) intact — this is a world of titled offices, not just authors.
+  - No modern framings ("debate club," "doctrinal Twitter," "philosophy bros"). Hold the fourth-century Hijra world.
+  - End on the threshold of the book itself, not on a takeaway about freedom of thought.
+anchor_passages:
+  - "[LLM-SELECT] al-Kirmani's mandate paragraph from chapter 1 opening (the four-book chain)."
+  - "[LLM-SELECT] Aref Tamer's framing of the Ismaili intellectual freedom that made the internal quarrel possible."
+  - "[LLM-SELECT] al-Sijistani's theology of God paragraph (no attribute, no name, no opposition)."
+  - "[LLM-SELECT] al-Sijistani's series of names for the Intellect (Pen, Throne, Decree, Hayuli, Sun) and the Soul (Tablet, King, Follower, Destiny, Image)."
+  - "[LLM-SELECT] Idris 'Imad al-Din on al-Kirmani — 'the foundation of the da'wa upon which it rests.'"
+adaptation_mode: faithful
+phonetic_overrides: {}
+show_notes:
+  blurb: >
+    The editor's overture to *Kitab al-Riyad*: the Ismaili intellectual world at
+    the turn of the fourth century AH, the four-book chain that produced an
+    in-house philosophical quarrel, and the biographies and positions of the
+    three preachers — al-Razi, al-Sijistani, al-Kirmani — whose argument the book
+    judges.
+  related_episodes:
+    - the-structure-of-al-riyad-and-the-manuscript
+  references:
+    - "Paul Kraus, *Philosophical Letters*, p. 291"
+    - "Abd al-Qahir al-Baghdadi, *al-Farq bayn al-Firaq*"
+    - "al-Farabi, *'Uyun al-Masa'il*"
+    - "Ibn Sina, *al-Isharat*"
+    - "Descartes, *Discourse on Method* §V; *Principles of Philosophy* §21"
