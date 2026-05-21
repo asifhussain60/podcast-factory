@@ -51,7 +51,7 @@ CURRENT_BRANCH_START="$(git rev-parse --abbrev-ref HEAD)"
 echo "▸ starting branch: $CURRENT_BRANCH_START"
 
 # ── 3. Sync develop (the operator file's source of truth) ────────────
-echo "▸ syncing develop from remote…"
+echo "▸ syncing develop from remote..."
 git fetch --quiet --all --prune
 git checkout --quiet develop
 git pull --quiet --ff-only origin develop
@@ -96,7 +96,7 @@ fi
 
 # ── 6. Switch to the assigned book branch ────────────────────────────
 echo ""
-echo "▸ switching to $ASSIGNED_BRANCH…"
+echo "▸ switching to $ASSIGNED_BRANCH..."
 if ! git rev-parse --verify "$ASSIGNED_BRANCH" >/dev/null 2>&1; then
   echo "  branch doesn't exist locally; checking out from origin"
   git checkout --quiet -b "$ASSIGNED_BRANCH" "origin/$ASSIGNED_BRANCH"
