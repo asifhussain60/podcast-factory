@@ -62,7 +62,12 @@ Asif uses a **4-part At-a-glance-first template** across both machines and all t
 ---
 
 ## Next: 👤 Asif    [or 🤖 AI, depending on who owns the next move]
-<One explicit sentence naming the action.>
+<Single-path: one explicit sentence. Multi-path: alphabetized list as below.>
+
+A. (Recommended) <best path — what + brief why>
+B. <alternative path>
+C. <third path if applicable>
+D. Do all of the above (A + B + C in sequence)
 ```
 
 Severity emojis: 🟢 ship-ready / 🟡 needs your decision / 🔴 blocked / ⚠ caution. Used in the At-a-glance header AND per body section. The `## Next:` header uses 👤 for Asif-owned action and 🤖 for AI-owned action.

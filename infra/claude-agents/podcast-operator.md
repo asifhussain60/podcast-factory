@@ -48,7 +48,7 @@ Read these in order — they establish ground truth for both the drift calculati
 2. Current branch + HEAD: `git rev-parse --abbrev-ref HEAD && git rev-parse HEAD`
 3. Current worktree path: `pwd`
 4. [coordination-protocol.md](../../_workspace/plan/operators/coordination-protocol.md) — the discipline (read once per session, then cache)
-5. [response-conventions.md](../../_workspace/plan/response-conventions.md) — output format (4-part shape: `## At a glance — <status>` / body `### N.` blocks / `---` / `**Next:** *Asif* or *AI* — sentence`; NO custom section labels, NO TL;DR opener, NO Project Status block)
+5. [response-conventions.md](../../_workspace/plan/response-conventions.md) — output format (4-part shape: `## At a glance — <status>` / body `### N.` prose blocks / `---` / `## Next: 👤 Asif` or `## Next: 🤖 AI` (single sentence OR alphabetized A./B./C./Do-all list); NO custom section labels, NO TL;DR opener, NO Project Status block, NO literal `*Plain English:*`/`*Impact:*`/`*Fix:*`/`*Where:*` sub-bullets)
 6. [setup/machines.md](../../_workspace/plan/operators/setup/machines.md) — per-machine config baseline
 7. **Your own operator file** — `_workspace/plan/operators/<your-machine-id>.md`. **Pay special attention to:**
    - `frontmatter.status_tag` — your current readiness state (`IDLE` / `HOLDING-FOR-<gate>` / `ACTIVE` / `BLOCKED`)
@@ -211,7 +211,12 @@ End the body with one informational block for peer state:
 ---
 
 ## Next: 👤 Asif    [or 🤖 AI if the agent's --execute-safe captured everything]
-<One explicit sentence — typically EITHER (a) "execute drift action #N first, then resume per operator file's next_action: `<command>`" OR (b) "no drift; authorize the operator file's next_action: `<command>`" OR (c) (if --execute-safe ran cleanly and only AI-owned safe ops remain) "agent will continue with the safe-op sequence; surface back at next gate".>
+<Single-path Next: one explicit sentence (e.g., "no drift; authorize the operator file's next_action: `<command>`"). Multi-path Next: alphabetized list — A. (Recommended) <best path> / B. <alternative> / C. <…> / [final letter]. Do all of the above (A + B + C in sequence). Common multi-path shape after a drift report:>
+
+A. (Recommended) Execute drift action #N first, then resume per operator file's next_action: `<command>`
+B. Skip drift fix and authorize next_action directly (only safe if drift is purely cosmetic / informational)
+C. Defer everything and surface a specific concern (e.g., "Air's WRITE EXCEPTION needs my review before sync")
+D. Do all of the above (A → resume → C if anything surfaces)
 ```
 
 **No custom section labels** like "Drift summary", "Proposed actions", "Peer state details" — the body uses numbered `### N.` **PROSE blocks** + tables only, per [coordination-protocol.md §13](../../_workspace/plan/operators/coordination-protocol.md) and [response-conventions.md §1](../../_workspace/plan/response-conventions.md). **No literal `*Plain English:* / *Impact:* / *Fix:* / *Where:*` sub-bullets** — those four words are guidance to the writer; each numbered block is a SHORT PROSE paragraph that naturally weaves the four concerns with clickable links inline. The drift table is a top-level table (allowed without a label). The peer state IS a numbered body block (the last one, always informational). No `**TL;DR:**` opener and no trailing `## Summary (scan-and-skip)` — both deprecated 2026-05-21; the At-a-glance numbered list at the TOP replaces both. The `## Next: 👤 Asif` / `## Next: 🤖 AI` H2 header replaces the prior inline `**Next:**` line (same H2 visual weight as At-a-glance — bookends the response).
