@@ -3,36 +3,38 @@ schema_version: 1
 machine_id: macbook-air-secondary
 role: secondary
 description: Secondary machine for podcast-pipeline work; currently driving kitab-al-riyad
-hostname_hint: (Air hostname — populate on first run from the Air)
+hostname_hint: Asifs-MacBook-Air.local
 operator: Asif Hussain (asifhussain60@gmail.com)
 worktree_layout:
-  - path: (TBD — the Air's repo path, e.g., /Users/asifhussain/PROJECTS/journal)
+  - path: /Users/asifhussain/PROJECTS/journal
     branch: book/kitab-al-riyad
 current_branch: book/kitab-al-riyad
 current_book: kitab-al-riyad
 current_book_dir: content/podcast/library/books/kitab-al-riyad
 authoritative_state_path: content/podcast/library/books/kitab-al-riyad/_system/orchestrator-state.json
-status_tag: ACTIVE-WITH-AUDIT-PREREQ
-current_phase: "0e"
+status_tag: HALTED-AT-0F-AWAITING-0G-GO
+current_phase: "0f"
 current_phase_status_summary: |
-  Phases 0a–0d complete; Phase 0e (enrichment) ready to start. Operator has un-held
-  the Air to resume work on kitab-al-riyad. CRITICAL prerequisite: KaR's Phase 0b
-  was completed BEFORE the P22.markers framework fix landed on Studio's branch
-  (commit 5201b54 on book/asaas-al-taveel, 2026-05-20). KaR's refined-english.md
-  may have the same systematic page-marker stripping defect that asaas exhibited
-  (58/416 markers stripped across 10 of 49 chunked refinement windows; body
-  content preserved but page-anchoring metadata lost). The Air must (a) cherry-pick
-  the framework fix into book/kitab-al-riyad, (b) run the new audit_page_markers.py
-  tool against KaR, and (c) decide whether to re-run affected Phase 0b windows
-  before advancing to Phase 0e. Step-by-step plan in §4 below.
+  Phases 0a–0f complete. KaR's series-plan.md written and committed at the 0f
+  human-review gate (commit 90a7fa6). Subsequent human-review actions also done:
+  Episode 2 removed (manuscript-history bookkeeping with minimal listener value),
+  11 of 14 episode contracts moved from default deep_dive → debate format to
+  match al-Kirmani's actual al-Islah/al-Nusra rhetorical structure (commit
+  5352d61). Framework upgrades shipped so future books get content-aware Phase 0d
+  classification + richer Phase 0f series-plan template automatically (commit
+  ad80b5a). Air merged book/kitab-al-riyad → develop (commit e122fa0) and pushed.
+  Next gate: Asif's go-ahead to advance KaR to Phase 0g (per-episode authoring of
+  14 episode scripts; estimated cost $14-42, runtime 7-14 hours wall clock).
 next_action: |
-  Run §0 session-start protocol; cherry-pick framework commit 5201b54 from
-  book/asaas-al-taveel; audit KaR Phase 0b page-marker preservation; either
-  re-run defective windows (if any) or proceed directly to --resume 0e if audit
-  clean. Detailed sequence in §4.
+  Await Asif's go-ahead to advance KaR to Phase 0g. When approved, run:
+    python3 scripts/podcast/orchestrate_book.py --resume kitab-al-riyad
+  Phase 0g is challenger-convergence per chapter (3 outer × 5 inner = 15 passes
+  max per episode). Resume-safe; surface to Asif on any per-chapter halt.
 anthropic_share: 0.5
-last_verified_at: 2026-05-20T17:30:00Z
-last_updated: 2026-05-20
+last_verified_at: 2026-05-21T10:30:00Z
+last_updated: 2026-05-21
+response_conventions: see _workspace/plan/response-conventions.md (BLUF format,
+  AskUserQuestion ordering, halt-and-surface pattern, cross-machine awareness)
 ---
 
 # MacBook Air (secondary) — operator index
