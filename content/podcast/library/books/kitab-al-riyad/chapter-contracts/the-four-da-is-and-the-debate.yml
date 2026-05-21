@@ -16,7 +16,11 @@ angle: faithful_exposition
 episode_format: deep_dive
 host_dynamic: curious_mind + scholar_companion
 host_dynamic_custom: null
+host_dynamic_rationale: "Mentor walks the listener through who the four da'is are and what the dispute is about; Scholar Companion asks the questions a newcomer would ask. No named debate happens yet — the editor is setting up the stage for what's to come."
 debate: null
+essential: optional
+essential_rationale: "Editor's introduction by Aref Tamer (1958) — sets up who the four da'is are and frames the al-Islah/al-Nusra dispute. Useful pedagogical scaffolding for newcomers; experienced listeners can skip straight to Episode 3 without losing the doctrinal thread."
+format_rationale: "Editor's narrative exposition introducing the cast and the controversy; no named opponents are being adjudicated within this chapter. Deep-dive is the correct format until the dispute proper begins at Episode 4."
 length_target: longer
 key_tensions:
   - >

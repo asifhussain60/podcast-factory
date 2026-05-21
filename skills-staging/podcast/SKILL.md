@@ -357,6 +357,37 @@ Latitude on omissions (Extended tier; documented in `chapters-rationale.md`):
 
 Trap to avoid: defaulting to the source's published chapter structure. If the source has 22 sections of wildly uneven size (60 words to 6,000 words), the right design is probably 6–8 thematic chapters that cut across those sections.
 
+#### Chapter contract schema — content-aware field assignments (2026-05-21 update)
+
+`BOOK_DIR/chapter-contracts/<slug>.yml` carries per-episode metadata. Three field families are **derived from analyzing each chapter's rhetorical structure** — the LLM in Phase 0d must NOT default these; it must look at the actual prose:
+
+**Format family — what kind of episode this is:**
+- `episode_format`: `deep_dive` | `debate` | `interview` | `narrative`
+  - `deep_dive` for exposition/narrative chapters (one position being developed)
+  - `debate` for chapters with two+ NAMED opposing voices being adjudicated ("the author of X said …, the author of Y said …, we reply …")
+  - `interview` for Q&A-structured chapters (rare in primary sources)
+  - `narrative` for pure historical/biographical exposition (no doctrinal dispute)
+- `format_rationale`: ONE sentence naming the textual evidence (e.g., "Chapter explicitly names al-Islah and al-Nusra as opponents across 18/19 sub-chapters; al-Kirmani's resolution closes")
+
+**Essentiality family — what this episode contributes to the arc:**
+- `essential`: `core` | `optional` | `bonus` | `skip`
+  - `core` for the doctrinal/argumentative arc (default; cannot be removed)
+  - `optional` for useful context the listener can skip (e.g., an editor's overview)
+  - `bonus` for scholarly bookkeeping (manuscript history, philological notes)
+  - `skip` for editorial side-matter with minimal listener value (recommend cutting)
+- `essential_rationale`: ONE sentence naming what content drives the verdict
+
+**Host family — who speaks in the customize prompt:**
+- `host_dynamic`: derive from `episode_format`:
+  - `deep_dive` → `curious_mind + scholar_companion`
+  - `debate` (3+ voices) → `advocate_a + advocate_b + arbiter`
+  - `debate` (2 voices) → `advocate + arbiter`
+  - `narrative` → `narrator + companion`
+  - `interview` → `interviewer + subject`
+- `host_dynamic_rationale`: ONE sentence naming who-plays-what for this chapter (e.g., "advocate_a voices al-Islah's gentle/dense proportion; advocate_b voices al-Nusra's structural parallel; arbiter delivers al-Kirmani's settlement that opposites do not meet in the same place")
+
+Phase 0f's `series-plan.md` template surfaces these fields in the Episode list table (columns: Format, Essential, Upload, Customize, Length cue, Hosts) and adds an Essentiality recommendations section listing every non-`core` episode for human review. Phase 0g's per-episode customize-prompt authoring should branch on `episode_format` to produce format-appropriate dialogue scaffolding.
+
 ### PHASE 0e: CHAPTER ENRICHMENT FROM OUTSIDE SOURCES
 
 Goal: each chapter is enriched beyond the source's own words with carefully chosen passages from authoritative Islamic and Ismaili tradition that illuminate the same theme. This is what turns a translated section into a substantive standalone chapter.
