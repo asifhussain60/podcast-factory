@@ -4,14 +4,10 @@
   "category": "books",
   "branch": "book/kitab-al-riyad",
   "phase": "per-chapter",
-  "phase_status": "failed",
+  "phase_status": "pending",
   "last_completed_phase": "0e",
   "next_phase": "per-chapter",
-  "last_error": {
-    "phase": "per-chapter",
-    "message": "chapter prophets-as-teachers-monotheism-and-the-ranks failed: build_episode_txt.py failed: rc=1: ERROR: episode id 'EP14b-prophets-as-teachers-monotheism-and-the-ranks' does not match EP##-<slug>. Example: EP01-frame-and-first-counsel",
-    "ts": "2026-05-21T12:33:27Z"
-  },
+  "last_error": null,
   "phases": {
     "pre-flight": {
       "status": "completed",
@@ -65,14 +61,13 @@
       "status": "pending"
     },
     "per-chapter": {
-      "status": "failed",
+      "status": "pending",
       "completed_slugs": [
         "motion-stillness-hyle-and-form"
       ],
-      "reset_note": "Previous attempt failed on Bug X1 (extract_chapter ref format) — both X1 and X2 (debate-block requirement) fixed 2026-05-21; per-chapter loop is ready to re-launch via --resume.",
+      "reset_note": "Bug X3 (2026-05-21): build_episode_txt rejected EP14b-... because of letter suffix in chapter filename. Fixed in orchestrate_book.py per_chapter_pass — strips suffix when forming episode_id. Cleaned mid-flight artifacts (duplicate ch14-... chapter file + EP14-... episode-drafts). Resume continues from chapter 2 onward; motion-stillness preserved.",
       "ts_started": "2026-05-21T11:24:27Z",
-      "ts_completed": "2026-05-21T12:33:27Z",
-      "failed_slug": "prophets-as-teachers-monotheism-and-the-ranks"
+      "ts_completed": "2026-05-21T12:33:27Z"
     },
     "trainer": {
       "status": "pending"
