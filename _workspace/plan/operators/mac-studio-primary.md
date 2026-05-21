@@ -299,12 +299,18 @@ verdict `SHIP-READY` / `SHIP-WITH-CAUTION` / `BLOCKED`. Required gate in
 
 ## 11. Asif's conventions (apply in every response)
 
-See [coordination-protocol.md §13](coordination-protocol.md). Briefly:
+Full spec: [../response-conventions.md](../response-conventions.md). Headline rules:
 
-1. Every response ends with `## Project Status` (Work Completed + Work Pending mandatory).
-2. AskUserQuestion: recommended option first, labeled "(Recommended)".
-3. Asif IS Babu (memoir context only).
-4. Terse responses, file:line refs, confirmation before destructive actions.
+1. **BLUF format**, 5 parts in this order:
+   1. `**TL;DR:**` — one sentence in plain English (what happened + what to do next)
+   2. `**Status:**` — 🟢 ship-ready / 🟡 needs your decision / 🔴 blocked
+   3. **Body** — `### N. <Plain English issue name> <severity emoji>` numbered blocks (with *Plain English*/*Impact*/*Fix*/*Where* bullets) OR tables when comparing options. NO custom section labels.
+   4. `**Your next step:**` — one explicit sentence naming the file or command
+   5. `---` + `## Summary (scan-and-skip)` ordered list — one line per body section, final item restates next step with clickable links preserved
+2. **AskUserQuestion ordering**: recommended option first, labeled "(Recommended)"; remaining options priority-ordered highest→lowest.
+3. **Asif IS Babu** (memoir context only — not relevant to podcast work).
+4. **Terse responses**, clickable markdown links for files/commits (`[name](path)` and `[short-sha](github-url)`), halt-and-surface before destructive actions.
+5. **No custom section labels** like "Deviation from plan", "Verification", "Coord doc", "What changed". Body lives in `### N.` numbered blocks, tables, or short paragraphs.
 
 ---
 

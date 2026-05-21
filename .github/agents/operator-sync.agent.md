@@ -141,7 +141,7 @@ If `--execute-safe` was NOT passed, do not execute ANY of the above. Discovery o
 
 ## SECTION 4 — Output format (mandatory)
 
-End every invocation with this BLUF report:
+End every invocation with a 5-part BLUF report per [../../_workspace/plan/response-conventions.md §1](../../_workspace/plan/response-conventions.md):
 
 ```
 **TL;DR:** [one sentence] N actions needed before [your machine] is in sync with develop / peer.
@@ -149,7 +149,8 @@ End every invocation with this BLUF report:
 
 **Status:** 🟢 in sync / 🟡 mechanical sync needed / 🔴 needs manual review
 
-### Drift summary
+Drift across 6 dimensions (table; no custom section label):
+
 | Dim | Status | One-line |
 |---|---|---|
 | D1 commits behind develop | 🟢/🟡/🔴 | N commits since [hash] |
@@ -159,8 +160,7 @@ End every invocation with this BLUF report:
 | D5 peer state surprises | 🟢/🟡 | none / peer now at [phase] |
 | D6 cross-cutting file deltas | 🟢/🟡 | none / files: [list] |
 
-### Proposed actions (if any)
-For each non-🟢 dimension above, ONE block:
+For each non-🟢 dimension above, one numbered body block in priority order:
 
 ### N. <Plain English action> 🟡/🔴
 - *Plain English:* what's out of sync, in one sentence
@@ -168,15 +168,28 @@ For each non-🟢 dimension above, ONE block:
 - *Fix:* exact command(s) the operator would run, OR (if --execute-safe and it's a safe op) "AGENT EXECUTED: <what was done> at <commit hash>"
 - *Where:* [link to relevant file](path)
 
-### Peer state (informational)
-- Peer machine: <peer-machine-id>
-- Peer's current branch: <branch>
-- Peer's current book + phase: <book> @ <phase> (<status_tag>)
-- Peer's last verified: <timestamp>
-- Anything peer is signaling that affects you: <one sentence, or "nothing">
+End the body with one informational block for peer state:
+
+### N+1. Peer state 🟢/🟡
+- *Plain English:* Peer machine <peer-machine-id> is at <branch>, <book> @ <phase> (<status_tag>), last verified <timestamp>.
+- *Impact:* anything the peer is signaling that affects you (e.g., "peer paused at same gate as you", "peer signaling framework-lane work"), OR "nothing"
+- *Where:* [<peer-machine-id>.md](../../_workspace/plan/operators/<peer-machine-id>.md) (read from origin/develop snapshot)
 
 **Your next step:** [one explicit sentence — either "review the N proposed actions above; tell me which to execute" OR (if --execute-safe ran cleanly) "agent completed N safe actions; remaining manual: M"]
+
+---
+
+## Summary (scan-and-skip)
+
+1. Drift across 6 dimensions: <one-line — e.g., "3 🟢, 2 🟡 (frontmatter stale + index drift), 1 🔴 (15 commits behind develop)">
+2. <one-line restate of action block 1, links preserved>
+3. <one-line restate of action block 2, links preserved>
+…
+N. Peer state: <one-line — e.g., "Air at book/kitab-al-riyad, Phase 0g shipping EP10–11; informational only">
+N+1. **Next step:** <one-line restate of "Your next step">
 ```
+
+**No custom section labels** like "Drift summary", "Proposed actions", "Peer state details" — the body uses numbered `### N.` blocks + tables only, per [coordination-protocol.md §13](../../_workspace/plan/operators/coordination-protocol.md) and [response-conventions.md §1](../../_workspace/plan/response-conventions.md). The drift table is a top-level table (allowed without a label per the format spec). The peer state IS a numbered body block (the last one, always informational).
 
 ## SECTION 5 — Invocation patterns
 
