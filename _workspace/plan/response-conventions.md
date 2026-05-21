@@ -15,7 +15,7 @@ the divergence.
 ## 1. BLUF response format (the primary structure for every substantive update)
 
 Every response to Asif that reports work, surfaces a decision, or hands off
-follows this 4-part shape:
+follows this **4-part shape, in this exact order, with these exact section labels**:
 
 ```
 **TL;DR:** one sentence in plain English — what happened + what to do next.
@@ -23,15 +23,48 @@ Anyone (technical or not) should understand it.
 
 **Status:** 🟢 ship-ready / 🟡 needs your decision / 🔴 blocked
 
-[Body — per-issue or per-step blocks when there are multiple items, each shaped as:
-   **N. <Plain English issue name>** <severity emoji>
+[Body — per-issue or per-step blocks when there are multiple items.
+ ALWAYS use this canonical block shape — do not invent custom section labels:
+
+   ### N. <Plain English issue name> <severity emoji>
    - *Plain English:* one sentence anyone can understand
    - *Impact:* what this means for the next phase
    - *Fix:* concrete resolution + cost (dollars + minutes if relevant)
    - *Where:* [filename](path) and/or [commit](github-url) clickable refs
-]
+
+ OR tables when comparing options / surfacing per-item state.
+ OR (for short single-issue updates) one or two short paragraphs.
+
+ DO NOT use custom section labels like "Deviation from plan", "Verification",
+ "Coord doc", "Next per machine roadmap", "What changed", etc. The fixed
+ structure (TL;DR / Status / Body blocks or table / Your next step) is what
+ makes responses scannable across sessions and machines. Custom labels
+ fragment the format.]
 
 **Your next step:** one explicit sentence naming the file or command Asif acts on.
+```
+
+### Worked example — what a clean BLUF response looks like end-to-end
+
+```
+**TL;DR:** Phase 0d re-run shipped clean; 14 chapter contracts now reference the
+new refined-english.md verbatim, and the broken adams-law YAML self-resolved.
+
+**Status:** 🟢 ship-ready
+
+### 1. Phase 0d completed cleanly 🟢
+- *Plain English:* All 14 chapter contracts regenerated against the new refined source.
+- *Impact:* Downstream Phase 0e enrichment can proceed safely.
+- *Fix:* (none needed; ran clean)
+- *Where:* [commit 8a34564](https://github.com/asifhussain60/Journal/commit/8a34564), [chapter-contracts/](content/podcast/library/books/kitab-al-riyad/chapter-contracts/)
+
+### 2. YAML parse error self-resolved 🟢
+- *Plain English:* The bad contract from the prior run was overwritten by the fresh 0d output.
+- *Impact:* Phase 0f no longer halts on YAML parse failure.
+- *Fix:* (none needed; structural fix from re-run)
+- *Where:* [adams-law-and-the-prophetic-cycle.yml](content/podcast/library/books/kitab-al-riyad/chapter-contracts/adams-law-and-the-prophetic-cycle.yml)
+
+**Your next step:** authorize advancing to Phase 0e — `python3 scripts/podcast/orchestrate_book.py --resume kitab-al-riyad`.
 ```
 
 Rules:
@@ -43,6 +76,11 @@ Rules:
   `[commit](https://github.com/asifhussain60/Journal/commit/<sha>)`.
 - Severity emojis: 🟢 ship-ready / 🟡 needs decision / 🔴 blocked / ⚠ caution.
 - Tables are encouraged when comparing options or surfacing per-item state.
+- **No custom section labels.** Body content lives inside the structured blocks
+  above, inside tables, or in short paragraphs. Never invent your own headings
+  ("Coord doc:", "Verification:", "Deviation from plan:") — they fragment the
+  shared format and make responses harder to scan when toggling between
+  machine sessions.
 
 ## 2. The Project Status block (long-running work summary)
 
