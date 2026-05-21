@@ -1,10 +1,7 @@
 # Response conventions — Claude Code sessions on this repo
 
 **Authoritative across all machines. Both Mac Air and Mac Studio sessions follow this.**
-Updated 2026-05-21 by the Air session — extracted from the Air's per-machine
-memory (`feedback_response_closing_status.md`, `feedback_askuserquestion_ordering.md`)
-and the Air's operator-prompt for the kitab-al-riyad run, so that both machines
-respond to Asif in exactly the same shape.
+Updated 2026-05-21 by the Air session — At-a-glance-first template adopted (inverts Studio's prior Summary-at-end design) per Asif's directive: read summary, scroll for details if needed, act on a single clear next-step line.
 
 If this file conflicts with a session-specific operator prompt, the operator prompt
 wins for that session, and the operator-file owner updates this doc to capture
@@ -12,63 +9,71 @@ the divergence.
 
 ---
 
-## 1. BLUF response format (the primary structure for every substantive update)
+## 1. Response shape — the 4-part template for every substantive update
 
 Every response to Asif that reports work, surfaces a decision, or hands off
-follows this **5-part shape, in this exact order, with these exact section labels**:
+follows this **4-part shape, in this exact order, with these exact headers**:
 
 ```
-**TL;DR:** one sentence in plain English — what happened + what to do next.
-Anyone (technical or not) should understand it.
+## At a glance — <severity emoji> <one-phrase status label>
 
-**Status:** 🟢 ship-ready / 🟡 needs your decision / 🔴 blocked
-
-[Body — per-issue or per-step blocks when there are multiple items.
- ALWAYS use this canonical block shape — do not invent custom section labels:
-
-   ### N. <Plain English issue name> <severity emoji>
-   - *Plain English:* one sentence anyone can understand
-   - *Impact:* what this means for the next phase
-   - *Fix:* concrete resolution + cost (dollars + minutes if relevant)
-   - *Where:* [filename](path) and/or [commit](github-url) clickable refs
-
- OR tables when comparing options / surfacing per-item state.
- OR (for short single-issue updates) one or two short paragraphs.
-
- DO NOT use custom section labels like "Deviation from plan", "Verification",
- "Coord doc", "Next per machine roadmap", "What changed", etc. The fixed
- structure (TL;DR / Status / Body blocks or table / Your next step / Summary)
- is what makes responses scannable across sessions and machines. Custom labels
- fragment the format.]
-
-**Your next step:** one explicit sentence naming the file or command Asif acts on.
+1. <one-line punchy summary of body section 1 — non-technical, complete sentence>
+2. <one-line punchy summary of body section 2>
+3. <one-line punchy summary of body section 3>
+4. <one-line punchy summary of body section 4>
+5. <one-line punchy summary of body section 5>
 
 ---
 
-## Summary (scan-and-skip)
+### 1. <Plain English issue name> <severity emoji>
+- *Plain English:* one sentence anyone can understand
+- *Impact:* what this means for the next phase
+- *Fix:* concrete resolution + cost (dollars + minutes if relevant)
+- *Where:* [filename](path) and/or [commit](github-url) clickable refs
 
-1. <one-line restate of body section 1>
-2. <one-line restate of body section 2>
-…
-N. **Next step:** <one-line restate of "Your next step">
+### 2. <Plain English issue name> <severity emoji>
+- (same shape)
+
+[…more body sections as needed; tables also OK when comparing options]
+
+---
+
+**Next:** *Asif* or *AI* — one explicit sentence naming the action and the actor.
 ```
 
-The **Summary** is an ordered list at the very end, **visually separated** from the rest of the response by:
-- A horizontal rule (`---`) on its own line, with a blank line on each side
-- An H2 header (`## Summary (scan-and-skip)`) — one level larger than the `###` body section headers, so it stands out as a distinct concluding zone (not just another body section)
-- A blank line between the header and the first list item
+### The four parts in detail
 
-Each item is ONE LINE summarizing one body section (numbered sections). The final item restates the next step, prefixed `**Next step:**` for visual anchor. Purpose: Asif can scroll to the bottom, scan 5–10 lines in a clearly-set-apart zone, and decide whether to scroll up for detail — never has to read the full response top-to-bottom to know what changed and what to do.
+**Part 1 — `## At a glance — <status>`** — Visually distinct H2 header, severity emoji + one-phrase label embedded (so status is visible without scrolling). Followed by a numbered list of ~5 items (soft cap), each a complete sentence that stands alone. The reader should be able to act from the summary alone if they trust the recommendation. Then a horizontal rule (`---`) on its own line to set the summary apart from the details.
 
-**When to include the Summary:** any time the body has 2+ sections, or whenever the total response exceeds ~10 lines. Skip the Summary for single-issue or single-paragraph updates where it would just duplicate the TL;DR.
+**Part 2 — Body sections** — Use `### N. <Plain English name>` headers with the canonical sub-bullets (*Plain English* / *Impact* / *Fix* / *Where*). OR tables when comparing options. OR short paragraphs for single-issue responses. **No custom section labels** like "Verification", "Coord doc", "Deviation from plan", "What changed" — they fragment the format across sessions and machines.
 
-### Worked example — what a clean BLUF response looks like end-to-end
+**Part 3 — Horizontal rule (`---`)** — Sets the Next line apart from body content. Always present, even for single-section responses.
+
+**Part 4 — `**Next:**` line** — One italicized actor name (`*Asif*` or `*AI*`), then an em-dash, then one explicit sentence naming the action. **Exactly one word for the actor** — not "we", not "us", not "the user", not "the assistant". It's a delegation marker. No multi-step lists; pick one and name it.
+
+### Severity emojis (used both in Part 1 header and per-section in Part 2)
+
+- 🟢 ship-ready — work is done; nothing blocking
+- 🟡 needs your decision — action required from Asif
+- 🔴 blocked — cannot proceed; surface and halt
+- ⚠ caution — proceed-with-care; surfaces a non-blocking risk
+
+### When to include the At-a-glance summary
+
+- Always, when the body has 2+ sections OR the response exceeds ~10 lines
+- Skip for single-line acknowledgements ("yes, that's right") and ultra-short answers
+- For one-section responses, the summary still helps — it's the first thing Asif reads; details are optional
+
+### Worked example — clean response end-to-end
 
 ```
-**TL;DR:** Phase 0d re-run shipped clean; 14 chapter contracts now reference the
-new refined-english.md verbatim, and the broken adams-law YAML self-resolved.
+## At a glance — 🟢 ship-ready
 
-**Status:** 🟢 ship-ready
+1. Phase 0d regenerated all 14 chapter contracts against the new refined source — nothing failed.
+2. The previously broken adams-law YAML self-resolved during the re-run.
+3. Downstream Phase 0e is unblocked.
+
+---
 
 ### 1. Phase 0d completed cleanly 🟢
 - *Plain English:* All 14 chapter contracts regenerated against the new refined source.
@@ -82,52 +87,41 @@ new refined-english.md verbatim, and the broken adams-law YAML self-resolved.
 - *Fix:* (none needed; structural fix from re-run)
 - *Where:* [adams-law-and-the-prophetic-cycle.yml](content/podcast/library/books/kitab-al-riyad/chapter-contracts/adams-law-and-the-prophetic-cycle.yml)
 
-**Your next step:** authorize advancing to Phase 0e — `python3 scripts/podcast/orchestrate_book.py --resume kitab-al-riyad`.
-
 ---
 
-## Summary (scan-and-skip)
-
-1. 14 chapter contracts regenerated cleanly against the new refined-english.md ([commit 8a34564](https://github.com/asifhussain60/Journal/commit/8a34564))
-2. Previously-broken adams-law YAML self-resolved during the re-run
-3. **Next step:** authorize Phase 0e — `python3 scripts/podcast/orchestrate_book.py --resume kitab-al-riyad`
+**Next:** *Asif* — authorize Phase 0e by running `python3 scripts/podcast/orchestrate_book.py --resume kitab-al-riyad`.
 ```
 
-Rules:
-- Explain pipeline jargon (Phase 0e, nāṭiq, P22, abjad, da'wa) in a parenthetical
-  the first time it appears in a response.
-- No mega-paragraphs. No raw `~` before text or numbers in prose (VSCode preview
-  interprets as strikethrough — use "about" instead).
-- Markdown links for files and commits: `[name](path)` and
-  `[commit](https://github.com/asifhussain60/Journal/commit/<sha>)`.
-- Severity emojis: 🟢 ship-ready / 🟡 needs decision / 🔴 blocked / ⚠ caution.
-- Tables are encouraged when comparing options or surfacing per-item state.
-- **No custom section labels.** Body content lives inside the structured blocks
-  above, inside tables, or in short paragraphs. Never invent your own headings
-  ("Coord doc:", "Verification:", "Deviation from plan:") — they fragment the
-  shared format and make responses harder to scan when toggling between
-  machine sessions.
-- **Summary items keep clickable links** for files and commits, even though they're
-  one-liners. Asif should be able to act from the Summary without scrolling.
+### Rules and prohibitions
+
+- **No `## Project Status` block.** Deprecated 2026-05-20; details in §2 below.
+- **No `**TL;DR:**` opener.** Deprecated 2026-05-21; the At-a-glance numbered list IS the lead, and its first item carries the "what happened" message.
+- **No trailing summary paragraphs** ("In summary…", "To recap…"). The At-a-glance list already did that job at the top.
+- **No postscripts after the Next line.** The Next line ends the response.
+- **No multi-step Next lines.** Pick one action, name one actor. If there are genuinely independent next steps for multiple actors, write one **Next** line per actor (no more than two total — usually one).
+- **Markdown links always.** `[name](path)` for files, `[commit abc1234](https://github.com/asifhussain60/Journal/commit/abc1234)` for commits, `[file.py:42](scripts/file.py#L42)` for line refs. Never bare paths in prose.
+- **Explain pipeline jargon parenthetically** the first time it appears in a response (Phase 0e, nāṭiq, P22, abjad, da'wa, etc.).
+- **Synthesize, don't dump.** When external knowledge helps (style guides, conventions, prior art), use WebSearch and cite. Otherwise stick to what the codebase shows.
+- **Recommend, don't enumerate.** Pick a recommended path and explain why. Asif redirects when needed — don't pre-emptively list all options as equal.
 
 ## 2. ~~Project Status block~~ — DEPRECATED 2026-05-20
 
 The pre-BLUF `## Project Status` + `### Work Completed` / `### Work Pending`
 block pattern is **deprecated**. It was noisy, rigid, and duplicated information
-that the §1 BLUF structure already carries more cleanly.
+that the §1 structure already carries more cleanly.
 
-For long-running work summaries: §1's **Part 5 — `## Summary (scan-and-skip)`**
-ordered list at the end of every multi-section response IS the long-running-work
-summary. The body's per-issue `### N.` blocks carry "what's done / what's pending"
-at the per-item level (each block has *Plain English* + *Impact* + *Fix* + *Where*).
-For cross-session continuity, the [book-queue.md](operators/../book-queue.md)
-In-flight / Queue / Completed sections + the [index.md](operators/index.md)
-Machine Status dashboard cover the cross-machine snapshot.
+The §1 **At-a-glance** numbered list at the top of every multi-section response
+IS the long-running-work summary. The body's per-issue `### N.` blocks carry
+"what's done / what's pending" at the per-item level (each block has
+*Plain English* + *Impact* + *Fix* + *Where*). For cross-session continuity,
+the [book-queue.md](operators/book-queue.md) In-flight / Queue / Completed
+sections + the [index.md](operators/index.md) Machine Status dashboard cover
+the cross-machine snapshot.
 
 If you find a stale `## Project Status` reference in any operator file, agent spec,
-or coord doc, replace it with a pointer to §1 (BLUF Part 5). Tracked stale refs as
-of 2026-05-21 are all reconciled across `_workspace/plan/operators/*` and
-`.github/agents/*`; flag any new ones at file-edit time.
+or coord doc, replace it with a pointer to §1 (At-a-glance template). Tracked
+stale refs as of 2026-05-21 are all reconciled across `_workspace/plan/operators/*`
+and `.github/agents/*`; flag any new ones at file-edit time.
 
 ## 3. AskUserQuestion conventions
 
@@ -136,6 +130,9 @@ When using the AskUserQuestion tool:
   label text
 - Remaining options ordered by priority (highest → lowest)
 - This applies to every question in every call — no exceptions
+- **Push back if there's a better path** — if the question's framing has a flaw,
+  surface that in the response BEFORE asking, then either reframe or skip the
+  question entirely.
 
 ## 4. Halt-and-surface pattern
 
@@ -160,14 +157,17 @@ Auto-fix without halting:
 
 - Match response length to task complexity. Simple question = direct answer,
   no headers and sections.
+- **Non-technical by default.** Even when the topic is technical (regex,
+  validator rules, orchestrator phases), translate to plain language in the
+  At-a-glance list. The body's `### N.` sections can carry the precise terms.
 - Don't narrate internal deliberation. User-facing text is communication, not
   commentary on your thought process.
 - Updates between events: state results and decisions directly. "Win-007 clean"
   is better than "I checked win-007 and it appears to be clean as I had hoped."
-- End-of-turn: one or two sentences. What changed + what's next. Nothing else
-  unless the BLUF format applies.
-- No emoji except the status set above and where the user has explicitly invited
-  them (e.g., commit messages he's reviewing).
+- End-of-turn: one or two sentences for trivial replies. For substantive
+  updates, the 4-part template is mandatory.
+- No emoji except the severity set (🟢 / 🟡 / 🔴 / ⚠) and where the user has
+  explicitly invited them.
 
 ## 6. File and commit references
 
@@ -204,3 +204,22 @@ If a session learns something cross-cutting (a convention the other machine
 should also follow), it commits the learning to this file (or to
 `_workspace/plan/coordination-protocol.md` if it's about coordination
 specifically) rather than just to local memory.
+
+## 9. Migration notes — 2026-05-21 inversion (Studio's Summary-at-end → Air's At-a-glance-at-top)
+
+**Why the change**: Asif's reading pattern is scan-decide-then-scroll, not narrative-then-recap. Front-loading the summary saves the cognitive cost of scrolling-to-find-the-action-line. Studio's earlier Part 5 design (Summary at end) had the right intent but the wrong position; this revision relocates and renames it.
+
+**What inverted**:
+- "## Summary (scan-and-skip)" at END → "## At a glance — <status>" at TOP
+- "**TL;DR:**" opener line → DEPRECATED (absorbed into At-a-glance item 1)
+- "**Status:** 🟢/🟡/🔴" standalone line → folded into the At-a-glance H2 header
+- "**Your next step:**" line at end → "**Next:** *<actor>* — …" line at end (same position, renamed for actor delegation)
+
+**What was preserved**:
+- Body section structure (`### N.` + *Plain English* / *Impact* / *Fix* / *Where*)
+- All severity emojis (same meanings)
+- No-custom-section-labels rule
+- Cross-machine awareness rules
+- File/commit reference conventions
+
+**What both machines do now**: Use the §1 4-part template on every substantive response. Both Studio (asaas) and Air (kitab-al-riyad) sessions follow this; the Studio's next session merges develop and picks up this revision automatically.

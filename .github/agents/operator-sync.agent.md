@@ -40,7 +40,7 @@ Read these in order — they establish ground truth for both the drift calculati
 2. Current branch + HEAD: `git rev-parse --abbrev-ref HEAD && git rev-parse HEAD`
 3. Current worktree path: `pwd`
 4. [coordination-protocol.md](../../_workspace/plan/operators/coordination-protocol.md) — the discipline (read once per session, then cache)
-5. [response-conventions.md](../../_workspace/plan/response-conventions.md) — output format (5-part BLUF: TL;DR / Status / Body / Your next step / Summary; NO custom section labels)
+5. [response-conventions.md](../../_workspace/plan/response-conventions.md) — output format (4-part shape: `## At a glance — <status>` / body `### N.` blocks / `---` / `**Next:** *Asif* or *AI* — sentence`; NO custom section labels, NO TL;DR opener, NO Project Status block)
 6. [setup/machines.md](../../_workspace/plan/operators/setup/machines.md) — per-machine config baseline
 7. **Your own operator file** — `_workspace/plan/operators/<your-machine-id>.md`. **Pay special attention to:**
    - `frontmatter.status_tag` — your current readiness state (`IDLE` / `HOLDING-FOR-<gate>` / `ACTIVE` / `BLOCKED`)
@@ -161,15 +161,20 @@ If `--execute-safe` was NOT passed, do not execute ANY of the above. Discovery o
 
 ## SECTION 4 — Output format (mandatory)
 
-End every invocation with a 5-part BLUF report per [../../_workspace/plan/response-conventions.md §1](../../_workspace/plan/response-conventions.md):
+End every invocation with the 4-part response shape per [../../_workspace/plan/response-conventions.md §1](../../_workspace/plan/response-conventions.md):
 
 ```
-**TL;DR:** [one sentence] N actions needed before [your machine] is in sync with develop / peer.
-[If 0 actions: "Already in sync with develop @ <hash> and peer at <peer last_verified_at>."]
+## At a glance — 🟢 in sync / 🟡 mechanical sync needed / 🔴 needs manual review
 
-**Status:** 🟢 in sync / 🟡 mechanical sync needed / 🔴 needs manual review
+1. <one-line state of overall drift — e.g., "3 dimensions clean, 2 need mechanical sync, 0 need manual review">
+2. <one-line restate of body action 1, links preserved>
+3. <one-line restate of body action 2, links preserved>
+4. Peer state: <one-line — e.g., "Air at book/kitab-al-riyad, Phase 0g shipping EP10–11; informational only">
+5. <one-line restate of operator file's next_action>
 
-Drift across 6 dimensions (table; no custom section label):
+---
+
+Drift across 6 dimensions (top-level table; no section label):
 
 | Dim | Status | One-line |
 |---|---|---|
@@ -203,21 +208,12 @@ End the body with one informational block for peer state:
 - *Impact:* anything the peer is signaling that affects you (e.g., "peer paused at same gate as you", "peer signaling framework-lane work"), OR "nothing"
 - *Where:* [<peer-machine-id>.md](../../_workspace/plan/operators/<peer-machine-id>.md) (read from origin/develop snapshot)
 
-**Your next step:** [one explicit sentence — typically EITHER (a) "execute drift action #N first, then resume per operator file's next_action" OR (b) "no drift; authorize the operator file's next_action: `<command>`" OR (c) (if --execute-safe ran cleanly) "agent completed N safe actions; remaining manual: M, then resume per next_action"]
-
 ---
 
-## Summary (scan-and-skip)
-
-1. Drift across 6 dimensions: <one-line — e.g., "3 🟢, 2 🟡 (frontmatter stale + index drift), 1 🔴 (15 commits behind develop)">
-2. <one-line restate of action block 1, links preserved>
-3. <one-line restate of action block 2, links preserved>
-…
-N. Peer state: <one-line — e.g., "Air at book/kitab-al-riyad, Phase 0g shipping EP10–11; informational only">
-N+1. **Next step:** <one-line restate of "Your next step">
+**Next:** *Asif* — [one explicit sentence — typically EITHER (a) "execute drift action #N first, then resume per operator file's next_action: `<command>`" OR (b) "no drift; authorize the operator file's next_action: `<command>`" OR (c) (if --execute-safe ran cleanly) "agent completed N safe actions; remaining manual: M, then resume per next_action: `<command>`"]
 ```
 
-**No custom section labels** like "Drift summary", "Proposed actions", "Peer state details" — the body uses numbered `### N.` blocks + tables only, per [coordination-protocol.md §13](../../_workspace/plan/operators/coordination-protocol.md) and [response-conventions.md §1](../../_workspace/plan/response-conventions.md). The drift table is a top-level table (allowed without a label per the format spec). The peer state IS a numbered body block (the last one, always informational).
+**No custom section labels** like "Drift summary", "Proposed actions", "Peer state details" — the body uses numbered `### N.` blocks + tables only, per [coordination-protocol.md §13](../../_workspace/plan/operators/coordination-protocol.md) and [response-conventions.md §1](../../_workspace/plan/response-conventions.md). The drift table is a top-level table (allowed without a label per the format spec). The peer state IS a numbered body block (the last one, always informational). No `**TL;DR:**` opener and no trailing `## Summary (scan-and-skip)` — both deprecated 2026-05-21; the At-a-glance numbered list at the TOP replaces both.
 
 ## SECTION 5 — Invocation patterns
 
