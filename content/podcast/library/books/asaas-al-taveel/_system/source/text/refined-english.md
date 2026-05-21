@@ -190,6 +190,7 @@ Thus did Islam mean to awaken the mind and rouse it to perform its mission, to d
 This is a brief presentation of the subject of (ta'wil) as set forth in the book (Asas al-Ta'wil) by al-Nu'man ibn Hayyun al-Tamimi. We have dealt with it in all its aspects, drawing upon our Ismaili materials enough to suffice, while keeping in mind that the legal code of the Ismaili da'wa is the only source that guides researchers to distinguish the intruders from the genuine envelopers of the tradition. Before reaching the end, I must offer a word to those who call themselves specialists in the study of Ismaili literature, history, and philosophy — those who have not yet reached the point of distinguishing between the two terms (Ismailiyya) and (Fatimiyya). To these we say: we are not convinced, because we have found no mention of the name "Fatimiyya" in our studies. We are sure that the name should be confined to the family that ruled the Ismailis — namely (the Imams) — and has nothing to do with the philosophy itself. From this it follows that the use of the word "Fatimid" should not extend beyond the Fatimid dynasty during its reign in Morocco and Egypt. The reason is well known: their wish to draw near to the Islamic world, which honors the name of Fatima al-Zahra, daughter of Muhammad, and, on the other hand, to distinguish themselves from the descendants of 'Ali by women other than Fatima. So every name applied to literature, philosophy, doctrine, or anything else pertaining to this da'wa must not stray beyond the scope of the word (Ismailiyya).
 
 
+<!-- page 19 -->
 Contents of the Book
 
 Al-Nu'man divided his book (*Asas al-Ta'wil* — The Basis of Interpretation) into six chapters, devoting one chapter to each Speaker-Prophet (*natiq*), the chief of his cycle, his preachers, and his followers. Each chapter is filled with Quranic verses concerning their stories, their era, and the events of their time. He begins with the era of Adam and ends with the era of Muhammad.
@@ -202,6 +203,7 @@ Copies of the Book
 
 I obtained two manuscripts of *Asas al-Ta'wil*. The first came from the town of Masyaf in Syria, and it was the principal manuscript adopted in the present edition; it is designated by the letter (S), and was copied in 1183 AH. The second came from manuscripts of Yemen, presented to me by my honored brother Hakim Luqman of the town of Kampala in Uganda, East Africa, during my visit to that country in 1956. It is written in the hand of Amin ibn 'Ali al-Kamenhab Dari Watana al-Shakadhakar, and was copied in 1033 AH; it is designated by the letter (e).
 
+<!-- page 20 -->
 It is worth mentioning that we have made grammatical and orthographic corrections, restored some sentences that had dropped out, and revised Quranic verses that had been corrupted in transmission. We have not noted these emendations in the margins, and they do not depart from the substance of the original. All of this was done in order to produce a sound text upon which no dust settles.
 
 In this work we have rendered a service to scholarship and discharged our duty toward our history, our literature, and Arabic philosophy.
@@ -210,6 +212,7 @@ Aref Tamer
 Beirut, Lebanon
 1960
 
+<!-- page 21 -->
 Author's Introduction
 
 In the name of God, the Most Gracious, the Most Merciful.
@@ -218,6 +221,7 @@ Praise be to Allah, Bestower [^1] of grace, and may Allah bless Muhammad, the Pr
 
 To proceed: with the support of Allah, His gratitude, His help, His bounty, and His benevolence, we have already published a book for those who respond to the call of truth, who cling to the rope of the Creator of creation, who hold fast to the trustworthy handhold, and who adhere to the straightest path — a book treating the outward knowledge of the *shari'a*. We called it *Da'a'im al-Islam* (The Pillars of Islam) [^2]. In it we set forth the limits of faith and the distinction between *iman* and *islam*, the obligation of *walaya*, the proofs of the Imams, the requirements of duty, the chapters of the lawful and the forbidden, and the questions and rulings — so that those who respond to the call might know the matter that is outward in their religion, believe in it, act by it, and neither contradict it nor abandon it. For this is the first frontier of education and the lowest degree of knowledge and understanding.
 
+<!-- page 22 -->
 The one in whom the spirit of faith and wisdom is to be inscribed must begin from this point, and must pass from the realm of darkness into the realm of light. This is the first stage for the one newly born in faith — the stage of nurture at birth, when the spirit of life is breathed into him. Just as the newborn emerges from the womb into the light of the world, and his outward form is then repaired by the cutting of the umbilical cord [^3] — which had been the link between what was and what was not yet of him — and his limbs are adjusted, his skin anointed, and he is swaddled with what strengthens and tightens him, lest his body slacken and his limbs become deformed, his joints weakened, his constitution distorted, or some other ruin overtake him —
 
 So too is the case of the one who does not repair the outward of his religion and establish it: he is on the verge of breaking his religion and ruining it. We therefore furnished those who responded to the call with what they need in order to repair and rectify themselves. We read it out to them; we put it in the hands of those who wished to copy it; and we did not deny it to those who wished to recite it in full. Each took from it according to his measure, and some — though they were few — benefited from it, in accordance with the words of the Almighty:
@@ -240,6 +244,7 @@ And:
 
 > "Among them are the believers, but most of them are transgressors."
 
+<!-- page 23 -->
 The Almighty said:
 
 > "Among them are those who lie in wait, ignorant of the light."
@@ -260,12 +265,14 @@ Had they obeyed the command of their guardians and followed the path of the nati
 
 The measure of the outward, and the share that each receives of it — though they be few of many — has not moved us to neglect them. We have resolved to raise them to the next stage of the limits of the responding initiate (*mustajib*): the stage of symbol (*ramz*) and sign (*ishara*), which is the gentlest and most accessible of its degrees.
 
+<!-- page 24 -->
 This is parallel to the raising of children and the nourishment of their bodies. After repairing their outward form at birth, they are begun on milk — because of the delicacy of their constitution before the possibility of solid food, and their inability to digest it until their bodies grow strong enough to bear it and be ready for it, taking it gradually. So too with symbols and signs: they impregnate the imaginations of the listeners [^4], who are stirred by what is symbolized to them and pointed to by wisdom, and who are eager to hear it and ready to accept it — whereas if the same content were thrust upon them all at once, without preamble, and arrived upon them suddenly when their forces of comprehension [^5] were not yet equal to it, it would harm them, just as feeding solid food to children prematurely harms them. Allah the Almighty has defined this when He said:
 
 > "And mothers shall suckle their children two full years, for those who wish to complete the suckling."
 
 Therefore, after the book *Da'a'im al-Islam*, we composed for those whom we have mentioned a book that we called *Hudud al-Ma'arifa* (The Limits of Knowledge) [^6]. In it we established the limits explaining the proof of *ta'wil* (interpretation) against the one who denied it, and of the inner sense (*batin*) against the one who rejected it, and the manner of ascending its degrees. In it we set forth those symbols and signs of the *batin* and *ta'wil* which benefit the people of intellect — those whose way is the way of acceptance, desire, withdrawal from worldly attachments, and asceticism.
 
+<!-- page 25 -->
 When we had reached a certain measure in that work, we were obliged by those who desired to attain what they deserved to compose a further book unfolding for them a degree of *ta'wil* and subtlety beyond the degree of symbol. Whoever hears anything of it that contradicts its proper limits as we have set them forth, and does not act accordingly — referring it through himself to other than what he has heard, or interpreting it without the prior explanation that has been given — his way must be the way of those we have just mentioned: those who submit themselves to those who came before them, follow in their path, stand in their footsteps, and let themselves be clothed in the religion of their judgment.
 
 > "That Allah may test those who believe and destroy the disbelievers."
@@ -278,6 +285,7 @@ The man, astonished, said: "Seven, O son of the Messenger of Allah?" He said: "Y
 
 This knowledge has been displayed in proportion to its limits, so that the one who has heard it and benefited from it may know it page by page [^8] in its degrees. This present book, which we have set forth in its foundational form — being the first of its limits — we have called *Asas al-Ta'wil* (The Basis of Interpretation). By it we mean to explain what we established in *Da'a'im al-Islam*, so that this work may serve as the foundation for the *batin*, just as that work was the foundation for the *zahir* (the outward). With Allah we seek help — there is no power and no strength except in Allah the Almighty.
 
+<!-- page 26 -->
 Chapters of Discourse on the Interpretation of Interpretation,
 and on the Inner Meaning of What Is Mentioned in Hadith and Revelation
 
@@ -285,6 +293,7 @@ In *Hudud al-Ma'arifa*, the book we have already named, we expanded at length in
 
 For every intelligible thing there must be an outward and an inward. Its outward is what the senses perceive; its inward is what it contains — the knowledge that resides within it, and the meaning that its outward form embraces. The two are each other's spouse and partner [^9]. Allah the Almighty said:
 
+<!-- page 27 -->
 > "And He has lavished upon you His blessings, outward and inward."
 
 He thereby informed His servants that He will question them concerning His blessings upon them, and said:
