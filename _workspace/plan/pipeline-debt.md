@@ -20,6 +20,8 @@ Both Air and Studio sessions write to this file (multi-writer, per `operators/co
 | F10 | Word-band rules with "~" prose use exact thresholds in code (no tolerance) | 2026-05-21 (KaR ch12/ch14b at 10180/10112) | Low | Triaged (X6 bumped chapter ceiling 10000→10500; X13 bumped framing ceiling 3500→3700) | — |
 | F11 | Iter-1 SHIP verdict + iter-2 challenger timeout treated as chapter failure even though episode already shipped | 2026-05-21 (KaR EP04/EP07/EP08 — all shipped at iter 1, all marked FAILED on iter-2 timeout) | Medium | Open | — |
 | F12 | Episode IDs derived from chapter filename digits, not from `contract.episode_number`; gaps in listener-facing numbering after chapter drops | 2026-05-21 (KaR EP04/EP07/EP10/EP12/EP14 with missing EP01-EP02 after ch01a/ch02b drops) | Medium | Open | — |
+| F13 | Phase 0e enrichment leaks inline `(pho-net-ic — gloss)` parens into chapter txt despite R-PHONETICS-OUT; observed only in some chapters (ch15) while siblings are clean | 2026-05-21 (KaR ch15 — 18 inline phonetics on terms + 1 on people-name `Abu Hatim al-Razi`) | Medium | Open | — |
+| F14 | Chapter prose + framing repeat Arabic names many times per episode; NotebookLM TTS mangles each occurrence into multiple inconsistent garbled forms (one chapter = 8+ variants of `al-Kirmani`); listeners hear pronunciation noise instead of substance | 2026-05-21 (KaR Ch07 audio transcript review) | **High** | Open | — |
 
 ---
 
@@ -192,6 +194,46 @@ Both Air and Studio sessions write to this file (multi-writer, per `operators/co
 **Verification:** Set `episode_number: 1` on chapter contract `the-perfect-and-the-perfection-of-the-soul.yml` (currently ch03a). Run the per-chapter pass on it. Confirm episode artifact lands at `episodes/EP01-the-perfect-and-the-perfection-of-the-soul.txt`.
 
 **Out-of-band KaR-specific rename:** see [series-plan.md](../../content/podcast/library/books/kitab-al-riyad/_system/series-plan.md) footer for the per-chapter rename checklist scoped to KaR. Execution waits for the orchestrator to quiesce on the current queue.
+
+---
+
+### F13 — Phase 0e enrichment leaks inline `(pho-net-ic — gloss)` parens despite R-PHONETICS-OUT
+
+**Where:** `scripts/podcast/_authoring.py` Phase 0e enrichment prompt that produces `chapters/ch##*.txt`, AND the validator pass that's supposed to enforce R-PHONETICS-OUT (per [skills-staging/podcast/SKILL.md](../../skills-staging/podcast/SKILL.md) INVARIANT 5).
+
+**What goes wrong:** R-PHONETICS-OUT (effective 2026-05-17) forbids inline `(pho-net-ic — gloss)` parens in chapter txt — phonetics belong only in the customize-prompt `## Pronunciation` block. Yet [ch15-tawhid-and-the-critique-of-al-mahsul.txt](../../content/podcast/library/books/kitab-al-riyad/chapters/ch15-tawhid-and-the-critique-of-al-mahsul.txt) shipped with 18 inline phonetics on terms (`tawhid (taw-heed — monotheism)`, `al-hayula (al-ha-yoo-laa — prime matter)`, etc.) plus 1 on a people-name (`Abu Hatim al-Razi (a-boo haa-tim ar-raa-zee)`). Sibling chapters (ch03a, ch04b, ch05c, ch06–ch09, ch10–ch14b) are all clean — only ch15 leaked. Manually stripped 2026-05-21 in the post-ship audit, but the underlying enrichment regression slipped past the validator.
+
+**Impact:** Operator audit time to catch + manually strip per affected chapter (~10 min per chapter). At-scale across queued books, R-PHONETICS-OUT violations would drift into shipped episodes if not caught. Worse, the audit shows ch15 is INCONSISTENT with its 14 siblings — the regression is non-deterministic per chapter, suggesting either a prompt-sensitivity issue (some chapters' source text triggers more LLM inline-phonetic emission than others) or a validator gap (the rule fires on some patterns and not others).
+
+**Proposed fix (two parts):**
+1. **Detector:** Add a strict R-PHONETICS-OUT validator pass over every `chapters/ch##*.txt` after Phase 0e completes. Pattern: `\(([a-z']+(-[a-z']+){1,})(\s+—\s+[^)]+)?\)` — matches hyphenated-lowercase-syllable groups inside parens, optionally followed by ` — gloss`. Whitelist legitimate transliteration parens (no hyphens between Roman-letter syllables, e.g., `(al-aimma al-bararah)` passes; `(al-a-im-mah al-ba-ra-rah)` fails). Halt Phase 0e on detection; do not advance to framing.
+2. **Auto-stripper:** When detector fires, run a deterministic strip that preserves glosses (`(taw-heed — monotheism)` → `(monotheism)`; `(al-mah-sool)` → drop parens entirely if no gloss) and emit a diff for operator review before re-running validator.
+
+**Verification:** Re-run Phase 0e on a chapter whose source text is known to elicit inline phonetics from the current prompt (any chapter where the operator previously stripped phonetics manually — e.g., ch15 source). Confirm: (a) detector fires before framing; (b) auto-stripper output matches the manual strip diff; (c) re-validator passes.
+
+**Related:** F9 (R-PHONETICS-OUT pattern #1 was over-broad — shipped as X5). F13 is the inverse problem: pattern coverage is now too narrow / not invoked at the right gate.
+
+---
+
+### F14 — Arabic names repeated dozens of times per episode; NotebookLM TTS mangles each occurrence inconsistently
+
+**Where:** Two prompts contribute: (a) `_authoring.py:author_phase_0e()` — chapter-source generation; (b) `_authoring.py:author_framing()` — customize-prompt name-discipline section.
+
+**What goes wrong:** Surfaced 2026-05-21 by listener feedback on the NotebookLM-generated audio for KaR Ch07 ("How the Soul Touches Prime Matter"). The transcript shows NotebookLM's text-to-speech mangling "al-Kirmani" into roughly eight different garbled forms in a single 30-minute episode: `al-Quraymani`, `alkyr M a knee`, `I'll carry many`, `Alcure MNE`, `al-kheir MNE`, `I'll care ma me`, `Alkur Emini`, `Alkyr a main knee`. Similar mangling on `al-Islah` (becomes `all is La H`), `al-Nusra` (`an NUS Ross` / `NUS Rob` / `an NUS raw`), `al-Hayuli` (`all how you law`, `al-hi you la`, `alayullah`), `ma'lul` (`ma. Lol`), `Ghurar al-Hikam` (`Garar al-hikm`). The listener hears pronunciation noise instead of substance.
+
+**Impact:** Every chapter ships with this defect because the chapter prose + framing both repeat Arabic names dozens of times. Each occurrence is an independent TTS attempt — NotebookLM doesn't anchor to a prior pronunciation. The framing's `## Pronunciation` block tries to fix this with imperative pronounce-as-X-as-Y lines, but in practice the TTS still drifts. The listener's grasp of the philosophical content is undermined by constantly mangled name references.
+
+**Proposed fix — three layers:**
+
+1. **Phase 0e (chapter prose).** Add to the enrichment prompt: "Use each Arabic figure name ONCE on first mention with an English role-reference appositive (e.g., `Hamid al-Din Ahmad al-Kirmani, the author of Kitab al-Riyad`). Thereafter, refer to that figure using the English role-reference or a pronoun, NOT the Arabic name. The chapter prose should contain at most 1–2 occurrences of any Arabic figure name; everything else uses English aliases." Applies to authors, scholars, transmitters; technical Arabic vocabulary (tawhid, hudud, etc.) is unaffected — those are concept-words, not figure-names.
+
+2. **Phase 0g (framing host-discipline).** Strengthen the existing "Name discipline" section in the framing template. Instead of just "use alias for subsequent mentions," enumerate a ROTATION SET of 3–4 English aliases per figure and instruct the hosts to rotate naturally among them (avoiding "the author" 20 times in a row). Example for al-Kirmani: rotation set = `{the author, the master, our author, he}`. For Imam Ali: rotation set = `{the Commander of the Faithful, the cousin of the Prophet, the gate of knowledge, the first Imam}`. The framing's `## Name discipline` section lists the rotation set for every figure that appears in the chapter.
+
+3. **Per-figure rotation-set design (book-level decision).** For each figure that recurs across multiple chapters in a book, define a fixed rotation set at the book level (in `_system/series-plan.md` or a sibling file). The framing-gen step reads this and embeds the per-figure rotation set into every chapter's framing. Ensures consistency across episodes — listener hears the same English aliases for the same figure in every chapter, building familiarity.
+
+**KaR-specific remediation (out-of-band):** the 7 already-shipped KaR episodes carry the defect in their generated audio. Options: (a) accept the cost; re-upload after a chapter-prose + framing edit pass; (b) accept what shipped and apply the framework fix to future books only. The 6 chapters still in the queue can benefit from a framing-level fix immediately — patch the framing-gen prompt with the rotation-set instructions before they run.
+
+**Verification:** Re-author one chapter's framing with the strengthened name-discipline section; have NotebookLM regenerate the episode; transcript audit should show ≤2 Arabic-name occurrences per figure and natural rotation among English aliases.
 
 ---
 
