@@ -36,12 +36,12 @@ That script tells you the current book, branch, phase, and next_action.
 
 ## Response format
 
-Asif uses a **4-part At-a-glance-first template** across both machines and all tools (Copilot, Claude Code). Inverted 2026-05-21 from the prior 5-part BLUF — Asif's read pattern is scan-summary-first, scroll-for-details, act-on-single-Next-line:
+Asif uses a **4-part At-a-glance-first template** across both machines and all tools (Copilot, Claude Code). Body sections are PROSE paragraphs that naturally cover what happened / impact / fix / where — NOT labeled sub-bullets. Updated 2026-05-21:
 
 ```
 ## At a glance — <severity emoji> <one-phrase status label>
 
-1. <one-line punchy summary of body section 1 — non-technical, complete sentence>
+1. <one-line punchy summary of body section 1 — non-technical, complete sentence, clickable links preserved>
 2. <one-line punchy summary of body section 2>
 3. <one-line punchy summary of body section 3>
 4. <…up to ~5 items>
@@ -49,26 +49,29 @@ Asif uses a **4-part At-a-glance-first template** across both machines and all t
 ---
 
 ### 1. <Plain English issue name> <severity emoji>
-- *Plain English:* one sentence anyone can understand
-- *Impact:* what this means for the next phase
-- *Fix:* concrete resolution + cost (dollars + minutes if relevant)
-- *Where:* [filename](path) and/or [commit](github-url) clickable refs
+<Short PROSE paragraph (2–4 sentences) covering what happened, the impact, the fix if any, where to look — clickable file/commit links woven inline. NO literal `*Plain English:*`/`*Impact:*`/`*Fix:*`/`*Where:*` sub-bullets — those four words are instructions to the writer, not visible markup.>
 
 ### 2. <Plain English issue name> <severity emoji>
-- (same shape)
+<Same shape — short prose paragraph.>
 
-[…more body sections as needed; tables also OK when comparing options]
+### 3. <Section with genuinely enumerable content> <emoji>
+<Lead sentence, then bullets/tables ONLY when content has structure to enumerate. When bullets appear, content-meaningful labels ("Option A (recommended)", "Step 1"), NEVER meta-labels.>
+
+[…tables also OK when comparing options]
 
 ---
 
-**Next:** *Asif* or *AI* — one explicit sentence naming the action and the actor.
+## Next: 👤 Asif    [or 🤖 AI, depending on who owns the next move]
+<One explicit sentence naming the action.>
 ```
 
-Severity emojis: 🟢 ship-ready / 🟡 needs your decision / 🔴 blocked / ⚠ caution. Used in the At-a-glance header AND per body section.
+Severity emojis: 🟢 ship-ready / 🟡 needs your decision / 🔴 blocked / ⚠ caution. Used in the At-a-glance header AND per body section. The `## Next:` header uses 👤 for Asif-owned action and 🤖 for AI-owned action.
 
-**Deprecated** (do NOT use): `**TL;DR:**` opener, standalone `**Status:**` line, trailing `## Summary (scan-and-skip)` block, `## Project Status` block — all replaced 2026-05-21. Use the 4-part shape above.
+**Default response posture (added 2026-05-21):** reflect the directive, push back ONLY when warranted (regression risk, scope ambiguity, naming conflict, missing context, better path exists), recommend a best path, ask interactively via AskUserQuestion (one question per call, recommended option FIRST) ONLY when a genuine decision is needed. **Do NOT over-ask** — if the directive is clear/low-risk/pattern-matched, JUST EXECUTE.
 
-Full spec at `_workspace/plan/response-conventions.md` §1. The non-negotiables: **no custom section labels** like "Deviation from plan", "Verification", "Coord doc", "What changed", "Summary". The fixed 4-part structure is what makes cross-machine responses scannable.
+**Deprecated** (do NOT use): `**TL;DR:**` opener, standalone `**Status:**` line, trailing `## Summary (scan-and-skip)` block, `## Project Status` block, literal `*Plain English:*` / `*Impact:*` / `*Fix:*` / `*Where:*` sub-bullets, inline `**Next:**` line — all replaced 2026-05-21.
+
+Full spec at `_workspace/plan/response-conventions.md` §1 (template) + §10 (default posture). The non-negotiables: **no custom section labels** like "Deviation from plan", "Verification", "Coord doc", "What changed", "Summary". The fixed 4-part structure with prose bodies is what makes cross-machine responses scannable.
 
 ## Authoritative state
 
