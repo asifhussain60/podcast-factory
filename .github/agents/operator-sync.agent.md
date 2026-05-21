@@ -34,21 +34,41 @@ If you are about to do something not on the explicit "DO" list, halt and surface
 
 ## SECTION 1 — Required context (read on every invocation)
 
-Read these in order — they establish ground truth for the drift calculation:
+Read these in order — they establish ground truth for both the drift calculation AND the next-action surfacing:
 
 1. `~/.machine-id` — your machine identity (one of `mac-studio-primary`, `macbook-air-secondary`, or future `<role>-<location>`)
 2. Current branch + HEAD: `git rev-parse --abbrev-ref HEAD && git rev-parse HEAD`
 3. Current worktree path: `pwd`
 4. [coordination-protocol.md](../../_workspace/plan/operators/coordination-protocol.md) — the discipline (read once per session, then cache)
-5. [response-conventions.md](../../_workspace/plan/response-conventions.md) — output format (BLUF: TL;DR / Status / Body blocks / Your next step; NO custom section labels)
+5. [response-conventions.md](../../_workspace/plan/response-conventions.md) — output format (5-part BLUF: TL;DR / Status / Body / Your next step / Summary; NO custom section labels)
 6. [setup/machines.md](../../_workspace/plan/operators/setup/machines.md) — per-machine config baseline
-7. Your own operator file: `_workspace/plan/operators/<your-machine-id>.md`
+7. **Your own operator file** — `_workspace/plan/operators/<your-machine-id>.md`. **Pay special attention to:**
+   - `frontmatter.status_tag` — your current readiness state (`IDLE` / `HOLDING-FOR-<gate>` / `ACTIVE` / `BLOCKED`)
+   - `frontmatter.current_phase` + `frontmatter.current_phase_status_summary`
+   - `frontmatter.next_action` — **THE OPERATOR'S RESUME INSTRUCTION** (what to do when work resumes; extract this verbatim for the Next Action body block in §4)
+   - Recent `last_verified_at` + any inline notes about pending operator gates
 8. Peer's operator file from `origin/develop`: `git show origin/develop:_workspace/plan/operators/<peer-machine-id>.md`
 9. [index.md](../../_workspace/plan/operators/index.md) — cross-machine dashboard (read your row + peer's row)
-10. [book-queue.md](../../_workspace/plan/book-queue.md) — what's in flight + queued
+10. [book-queue.md](../../_workspace/plan/book-queue.md) — what's in flight + queued; check for cost/time estimates against your current book in the In-flight notes column
 11. Your book's `orchestrator-state.json` (if you have an assigned book): `jq '{phase, phase_status, last_completed_phase, last_error}' content/podcast/library/books/<book>/_system/orchestrator-state.json`
 
 When operator files disagree with `orchestrator-state.json`, **state.json wins**. When [coordination-protocol.md](../../_workspace/plan/operators/coordination-protocol.md) disagrees with anything else, **coordination-protocol.md wins**. When [response-conventions.md](../../_workspace/plan/response-conventions.md) disagrees on output format, **response-conventions.md wins**.
+
+### Surfacing the next_action (mandatory every invocation)
+
+The operator file's `frontmatter.next_action` is the **operator's standing instruction for what to do when work resumes on this machine**. The agent's job is to surface it cleanly so Asif sees BOTH (a) what's drifted and (b) what the operator file is telling him to do next — in one pass.
+
+Extract these elements from `next_action` (best-effort; some may be absent depending on how the operator file was written):
+
+| Element | What to look for | If absent |
+|---|---|---|
+| **First-action sentence** | the imperative verb + object (e.g., "Operator finishes §§1-8 of operator-review.md", or "Run `python3 scripts/podcast/orchestrate_book.py --resume kitab-al-riyad`") | extract first sentence as-is |
+| **Estimated cost** | dollar amounts mentioned in the next_action OR cross-reference with `book-queue.md` In-flight row notes | "unknown — check book-queue.md" |
+| **Estimated wall-time** | hour/minute mentions OR cross-reference with `book-queue.md` In-flight row notes | "unknown" |
+| **Gates blocking execution** | mentions of "operator gate", "halt-for", "awaiting Asif" → flag these explicitly | "no gate flagged; runnable now" |
+| **Recommended command** | extract literal shell commands from the next_action | "see operator file body for context" |
+
+This goes into the Next Action body block (§4) — always the last numbered body block before peer state.
 
 ## SECTION 2 — The 6 drift dimensions
 
@@ -168,14 +188,22 @@ For each non-🟢 dimension above, one numbered body block in priority order:
 - *Fix:* exact command(s) the operator would run, OR (if --execute-safe and it's a safe op) "AGENT EXECUTED: <what was done> at <commit hash>"
 - *Where:* [link to relevant file](path)
 
+After drift actions, **always** include the Next Action body block (extracted from operator file's `frontmatter.next_action`):
+
+### N+1. Next action per operator file 🟢/🟡
+- *Plain English:* The operator file's `next_action` says: <verbatim first-action sentence>. <If gates apply: "Currently gated on <gate-name> — see §<X> of operator file.">
+- *Impact:* Cost: <$A-B or "unknown">. Wall-time: <X hours or "unknown">. Runnable now: <yes / no — gated on Y>.
+- *Fix:* recommended command (if extractable): `<command>`. Otherwise: "see operator file `next_action` for the full multi-step instruction."
+- *Where:* [<your-machine-id>.md frontmatter `next_action`](../../_workspace/plan/operators/<your-machine-id>.md)
+
 End the body with one informational block for peer state:
 
-### N+1. Peer state 🟢/🟡
+### N+2. Peer state 🟢/🟡
 - *Plain English:* Peer machine <peer-machine-id> is at <branch>, <book> @ <phase> (<status_tag>), last verified <timestamp>.
 - *Impact:* anything the peer is signaling that affects you (e.g., "peer paused at same gate as you", "peer signaling framework-lane work"), OR "nothing"
 - *Where:* [<peer-machine-id>.md](../../_workspace/plan/operators/<peer-machine-id>.md) (read from origin/develop snapshot)
 
-**Your next step:** [one explicit sentence — either "review the N proposed actions above; tell me which to execute" OR (if --execute-safe ran cleanly) "agent completed N safe actions; remaining manual: M"]
+**Your next step:** [one explicit sentence — typically EITHER (a) "execute drift action #N first, then resume per operator file's next_action" OR (b) "no drift; authorize the operator file's next_action: `<command>`" OR (c) (if --execute-safe ran cleanly) "agent completed N safe actions; remaining manual: M, then resume per next_action"]
 
 ---
 
@@ -212,19 +240,37 @@ This agent's safety contract is enforced by these rules, in order of precedence:
 
 If the agent ever proposes an action that would violate one of these, that's a bug in the proposal logic — flag it explicitly in the output, do not execute, instruct the human to file an issue against this agent spec.
 
-## SECTION 7 — How this agent reduces sync-prompt overhead
+## SECTION 7 — How this agent reduces operator overhead
 
-Before this agent existed, each cross-machine sync required:
-1. Asif (or me) crafting a 100-line bespoke prompt covering current state + gates
-2. Pasting into peer's Claude Code session
-3. Peer running 9 gates manually
-4. Peer reporting back; Asif reviewing
-5. (Repeat per direction, per sync event)
+Before this agent existed, each "where am I and what do I do" check required:
+1. Asif (or me) running `bash _workspace/plan/operators/start-session.sh` for machine ID + branch sync + next_action display
+2. Then crafting a 100-line bespoke sync prompt if cross-machine state needed reconciling
+3. Pasting into peer's Claude Code session
+4. Peer running 9 gates manually
+5. Peer reporting back; Asif reviewing
+6. (Repeat per direction, per sync event)
 
 With this agent:
-1. Either operator invokes `claude --agent operator-sync` from their session
-2. Agent reports drift + proposes specific actions in <30 sec
-3. Operator says go (with `--execute-safe`) or selects specific items to run manually
-4. Done
+1. Either operator invokes `claude --agent operator-sync` from any worktree
+2. Agent does in ONE pass:
+   - Detects machine ID via `~/.machine-id`
+   - Computes drift across 6 dimensions
+   - Reads peer state from `origin/develop`
+   - Extracts and surfaces the operator file's `next_action` with cost/time/gate metadata
+3. Asif sees in <30 sec:
+   - "Where am I?" (machine + branch + book + phase from §1)
+   - "What's drifted?" (drift table + numbered action blocks)
+   - "What should I do next?" (Next Action body block — the operator file's standing instruction)
+   - "What's the peer up to?" (Peer state body block, informational)
+4. Asif chooses: execute drift actions manually, OR pass `--execute-safe` for known-safe ops, OR authorize the next_action's pipeline command, OR explicitly defer
+5. Done
 
-The agent does NOT replace the sync-prompt for unusual situations (first-time onboarding, recovering from a destructive event, etc.) — those still warrant bespoke human-crafted prompts. But for routine "we both just want to be in sync before starting work" — the agent is the right primary mechanism.
+The agent does NOT replace bespoke sync prompts for unusual situations (first-time onboarding of a new machine, recovering from a destructive event, multi-step cross-machine coordination requiring specific reasoning). But for the routine "I sat down at my Mac; what's the state?" — this agent is the primary mechanism.
+
+### What the agent does NOT do (still requires human)
+
+- Authorize Anthropic spend or multi-hour pipeline runs (the Next Action body block surfaces them; Asif decides go)
+- Resolve merge conflicts (drift action block flags them; Asif resolves manually)
+- Push to develop or main (the agent never auto-pushes shared branches)
+- Transfer book ownership between machines (manual via [book-queue.md](../../_workspace/plan/book-queue.md) claim/completion protocol; this agent surfaces the queue state but does not edit it)
+- Reconcile WRITE EXCEPTIONs (drift action block flags them; the owning machine's session reconciles per coord-protocol §15)
