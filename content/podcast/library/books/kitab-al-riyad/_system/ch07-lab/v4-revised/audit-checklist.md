@@ -17,8 +17,9 @@ After listening to the v4 audio, run through this checklist. Mark each item PASS
 | # | Check | What to listen for | Target |
 |---|---|---|---|
 | B1 | "the author" used consistently for al-Kirmani | Same label every time. No rotation to "the master," "the speaker," "the Dai." | PASS |
-| B2 | "the first reformer" used consistently for figure A | No rotation to "the chief preacher," "a chief preacher," "the first." | PASS |
-| B3 | "the second reformer" used consistently for figure B | No rotation to "the rebutter," "the master of the school," "a master of the school." | PASS |
+| B2 | "Jonathan" used consistently for figure A | First mention adds "the earlier scholar" epithet; thereafter just "Jonathan." No rotation to "the first reformer," "the chief preacher," etc. | PASS |
+| B3 | "Samuel" used consistently for figure B | First mention adds "the later scholar who answered him" epithet; thereafter just "Samuel." No rotation to "the second reformer," "the rebutter," etc. | PASS |
+| B3a | No "first reformer" / "second reformer" anywhere | Ordinal labels caused phonetic collision with "First Intellect / Second" in v4 audio; must be fully purged | PASS |
 | B4 | "the Commander of the Faithful" used consistently | No rotation to "the cousin of the Prophet," "the first Imam," "Ali." | PASS |
 | B5 | "the fourth Imam" used consistently | No rotation to "the supplicant," "the praying Imam." | PASS |
 | B6 | Identity tracking is easy | A listener can follow who-said-what without re-bootstrapping per beat. | PASS |
@@ -27,7 +28,7 @@ After listening to the v4 audio, run through this checklist. Mark each item PASS
 
 | # | Check | What to listen for | Target |
 |---|---|---|---|
-| C1 | Footprint analogy used in Beat 2 | "A footprint is left by a foot but is not a smaller foot..." | PASS |
+| C1 | Mirror analogy used in Beat 2 (now the source-aligned Beat 2 analogy) | "the substrate receives the impression... as a mirror catches a shape..." — the source's own image, now promoted to governing-analogy status | PASS |
 | C2 | Messenger analogy used in Beat 4 | "The intellect is the messenger of the truth..." | PASS |
 | C3 | Light-on-glass-and-stone used in Beat 5 | "Glass receives it as light; stone receives it as warmth..." | PASS |
 | C4 | NO new analogies invented | If you hear "Think of it like..." for anything OTHER than the three above, that's a FAIL. | PASS |
@@ -96,8 +97,8 @@ After listening to the v4 audio, run through this checklist. Mark each item PASS
 
 | # | Check | What to listen for | Target |
 |---|---|---|---|
-| J1 | Trace-not-birth doctrine is clear | A listener who hasn't read the chapter understands the first reformer's position. | PASS |
-| J2 | Mixed-edges critique is clear | Same listener understands the second reformer's counter and why it fails. | PASS |
+| J1 | Trace-not-birth doctrine is clear | A listener who hasn't read the chapter understands Jonathan's position. | PASS |
+| J2 | Mixed-edges critique is clear | Same listener understands Samuel's counter and why it fails. | PASS |
 | J3 | The pivot is felt | The listener feels the rank/receptivity/transmitted-power formula land. | PASS |
 | J4 | The political stake lands | Authority-by-office vs authority-by-resemblance is articulated in Beat 6. | PASS |
 | J5 | The bridge to Chapter Four feels organic | "What are the partial souls?" feels like the next obvious question. | PASS |

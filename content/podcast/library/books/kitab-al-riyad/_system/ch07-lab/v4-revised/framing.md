@@ -1,17 +1,20 @@
-# Framing: Episode 7 — Soul and Spirit, One Substance or Two? (v4 FINAL)
+# Framing: Episode 7 — Soul and Spirit, One Substance or Two? (v4 FINAL — revised)
 
 ## What this document is
 
 This is the *Customize* prompt for NotebookLM. It shapes the spoken episode. Do not read any of it aloud. The text below is instruction, not content.
 
-This v4 is the FINAL lab run. It applies seven lessons from the v3 audio audit:
-1. **Pure English vocabulary** — no loanwords with apostrophes (the v3 "Da'i" was pronounced "die"; v4 drops it).
-2. **Stable role-labels per figure** — one label per figure, used every time. No rotation.
-3. **Strict analogy cap** — exactly three governing analogies. New analogies forbidden.
-4. **No modern electronics, media, or consumer products** — no televisions, no streaming, no resolution figures, no costumes/cosplay.
-5. **Honorifics with both bounds** — each honorific appears EXACTLY ONCE: not zero, not twice. Literal example given below.
-6. **Genuine challenger pushback** — at least three of four literal pushback sentences MUST appear from the Color host.
-7. **Longer pacing** — target a 50-to-60-minute conversation; do not rush; pause between beats.
+This is the v4 FINAL lab run, revised after the v4 audio audit revealed two issues: (a) phonetic collision between ordinal labels ("first reformer / second reformer") and chapter ontology ("First Intellect / Second"); (b) the chapter prose contained the mirror image, which the model rightly used but which the framing's original analogy-cap had banned. Nine lessons total are applied:
+
+1. **Pure English vocabulary** — no loanwords with apostrophes (the v3 "Da'i" was pronounced "die"; dropped).
+2. **Proper-name labels for figures without established English titles** — the two earlier scholars are **Jonathan** (earlier) and **Samuel** (later) to escape the "first / second" phonetic collision. Other figures keep their English titles (Commander of the Faithful, the Prophet, the fourth Imam, the Fatimid caliph, etc.).
+3. **Stable labels per figure** — one label per figure, used every time. No rotation. First mention adds a one-sentence role-epithet, then label alone.
+4. **Strict analogy cap with source-image carve-out** — exactly three governing analogies. Source-image analogies (those in the chapter prose) may appear in passing but may not be promoted to governing status.
+5. **No modern electronics, media, or consumer products** — no televisions, no streaming, no resolution figures, no costumes/cosplay.
+6. **Honorifics with both bounds** — each honorific appears EXACTLY ONCE: not zero, not twice. Literal example given below.
+7. **Genuine challenger pushback** — at least three of four literal pushback sentences MUST appear from the Color host.
+8. **Longer pacing** — target a 50-to-60-minute conversation; do not rush; pause between beats.
+9. **Mirror is now the Beat 2 governing analogy** (replacing footprint) because the chapter prose uses mirror, not footprint. Source-aligned.
 
 ---
 
@@ -40,8 +43,8 @@ This is the central editorial doctrine of this episode. **For each figure in the
 | The figure | The ONE label to use, always |
 |---|---|
 | The book's author (the chapter's adjudicator) | **the author** |
-| The first earlier scholar (defender of the trace-not-birth view) | **the first reformer** |
-| The second earlier scholar (the one who counter-rebuts with mixed-edges) | **the second reformer** |
+| The earlier scholar (defender of the trace-not-birth view, author of *The Correction*) | **Jonathan** (first mention: "Jonathan, the earlier scholar") |
+| The later scholar (the one who counter-rebuts with mixed-edges, author of *The Defense*) | **Samuel** (first mention: "Samuel, the later scholar who answered him") |
 | The first-century cousin of the Prophet whose aphorism is quoted | **the Commander of the Faithful** |
 | The Prophet of Islam | **the Prophet** |
 | The Fatimid-era ruler whose interpretive work is referenced | **the Fatimid caliph** |
@@ -58,8 +61,8 @@ This is the central editorial doctrine of this episode. **For each figure in the
 | The work | How to say it (first mention) | How to say it (later mentions) |
 |---|---|---|
 | The book at hand | "this book" / "the book at hand" / "the author's main work" | same |
-| The first reformer's defense | "the book *The Correction*" | "that book" / "the corrective treatise" |
-| The second reformer's rebuttal | "the book *The Defense*" | "that book" / "the rebuttal" |
+| Jonathan's defense | "the book *The Correction*" | "that book" / "the corrective treatise" |
+| Samuel's rebuttal | "the book *The Defense*" | "that book" / "the rebuttal" |
 | The author's other treatise on cosmology | "the author's other treatise" | "his earlier treatise" |
 | The aphorisms book | "the book *The Brilliant Aphorisms*" | "the collected sayings" |
 | The supplications book | "the book *The Psalms of Islam*" | "the supplication book" |
@@ -92,7 +95,7 @@ This is the central editorial doctrine of this episode. **For each figure in the
 
 ## 3. Background
 
-*Chapter Three* picks up from *Chapter Two*, which held that the First Intellect is not a body and not in motion. *Chapter Three* takes the step downward: what stands below the universal Soul? The first reformer, in the book *The Correction*, names it "prime matter" and calls it a trace of the Second. The second reformer, in the book *The Defense*, refuses the trace-not-birth picture and proposes a mixed-edges chain. Six sub-chapters, settling the architecture for the rest of the book.
+*Chapter Three* picks up from *Chapter Two*, which held that the First Intellect is not a body and not in motion. *Chapter Three* takes the step downward: what stands below the universal Soul? Jonathan, the earlier scholar, in the book *The Correction*, names it "prime matter" and calls it a trace of the Second. Samuel, the later scholar who answered him, in the book *The Defense*, refuses the trace-not-birth picture and proposes a mixed-edges chain. Six sub-chapters, settling the architecture for the rest of the book.
 
 Mention this background ONCE at the open and never return to it. Do not lecture biographies. Do not return to the dispute's history.
 
@@ -106,7 +109,7 @@ Thoughtful adult readers who have followed *Chapters One and Two*. Listeners who
 
 ## 5. Angle
 
-`faithful_exposition`. Stay in the author's register. Let the six sub-chapters land in their own order. When the author sides with the first reformer on trace-not-birth, name it. When he refuses the first reformer's auxiliary premise (that the higher world has *no* darkness in it as a starting axiom — rather than as a conclusion), name that too. Half-credit moves are the author's signature.
+`faithful_exposition`. Stay in the author's register. Let the six sub-chapters land in their own order. When the author sides with Jonathan on trace-not-birth, name it. When he refuses Jonathan's auxiliary premise (that the higher world has *no* darkness in it as a starting axiom — rather than as a conclusion), name that too. Half-credit moves are the author's signature.
 
 ---
 
@@ -114,19 +117,19 @@ Thoughtful adult readers who have followed *Chapters One and Two*. Listeners who
 
 This is the spine of the episode. Each beat lands once. The thesis is repeated VERBATIM at Beat 4. **Do not rush. Do not collapse beats. Develop each one with breathing room.** The target is a 50-to-60-minute conversation, not a 40-minute one.
 
-**Beat 1 — Crisis (opening).** The second reformer's fear of a disconnected universe. If the highest world is pure light and the lowest world is pure darkness, there is no bridge. The Color host raises the fear; the Driver does NOT reassure too quickly. Let the crisis sit.
+**Beat 1 — Crisis (opening).** Samuel's fear of a disconnected universe. If the highest world is pure light and the lowest world is pure darkness, there is no bridge. The Color host raises the fear; the Driver does NOT reassure too quickly. Let the crisis sit. (At first mention, introduce Samuel as "Samuel, the later scholar who answered Jonathan in the book *The Defense*.")
 
-**Beat 2 — Failed answer A.** Sub-chapter one, the first reformer's trace-not-birth doctrine. Presented as reasonable: the Second is born of the First; prime matter is only a trace. The Color host can give it credit before the Driver names where it breaks.
+**Beat 2 — Failed answer A.** Sub-chapter one, Jonathan's trace-not-birth doctrine. Presented as reasonable: the Second is born of the First; prime matter is only a trace. The Color host can give it credit before the Driver names where it breaks. (At first mention, introduce Jonathan as "Jonathan, the earlier scholar who wrote the book *The Correction* defending trace-not-birth.")
 
-**Beat 3 — Failed answer B.** The second reformer's mixed-edges counter, also presented as reasonable: if the worlds are absolute opposites, contact is impossible; therefore the realms must have horizons that bleed into each other. Both failed answers are honest attempts; the listener should respect both before either is refused.
+**Beat 3 — Failed answer B.** Samuel's mixed-edges counter, also presented as reasonable: if the worlds are absolute opposites, contact is impossible; therefore the realms must have horizons that bleed into each other. Both failed answers are honest attempts; the listener should respect both before either is refused.
 
 **Beat 4 — Pivot (VERBATIM THESIS).** The author delivers the move that escapes both. The settled formula — *contact does not require resemblance — it requires rank, receptivity, and transmitted power* — appears here VERBATIM for the second time. Surround it with the chapter's anchor passages: *the First and the Second are two counterparts — the mineral of honor, perfection, and elevation*; *prime matter is a trace of the Second, not its child*. Then surface the aphorism — *the intellect is the messenger of the truth* — as the image of mediation.
 
 **Beat 5 — Non-bodily correction (sub-chapters 2–5).** NO PARTS, NO SIDES (sub-chapter three): *the one possessing parts is the one possessing diameters estimated by area*. NO DISTANCE (sub-chapter four): the chain runs by rank, not by removal — anchor with the Quranic verse from the chapter Qaf, *closer than the jugular vein*. NO DIMINUTION (sub-chapter five): *perfect in self; deficient only in addition* — anchor with the fifth supplication from the book *The Psalms of Islam*, the Giver undiminished by the giving.
 
-**Beat 6 — Stakes + question.** The concession: *if there is any precedence in the discussion ... then I quote it.* Name it as recognition that the second reformer, having dropped the body-talk, has arrived at the same chain. Ground the closing in the inner interpretation of the trust (the Quranic verse seventy-two of the chapter al-Ahzab, kept brief: "the trust offered to the heavens and the earth") and the verse of the spirit (verse eighty-five of the chapter on the night journey). Repeat the thesis ONE LAST TIME, VERBATIM: *contact does not require resemblance — it requires rank, receptivity, and transmitted power*. Then bridge to *Chapter Four*: if the natural composite is prime matter informed by the Soul's power, what are the partial souls? Close on that question. Do not recap.
+**Beat 6 — Stakes + question.** The concession: *if there is any precedence in the discussion ... then I quote it.* Name it as recognition that Samuel, having dropped the body-talk, has arrived at the same chain. Ground the closing in the inner interpretation of the trust (the Quranic verse seventy-two of the chapter al-Ahzab, kept brief: "the trust offered to the heavens and the earth") and the verse of the spirit (verse eighty-five of the chapter on the night journey). Repeat the thesis ONE LAST TIME, VERBATIM: *contact does not require resemblance — it requires rank, receptivity, and transmitted power*. Then bridge to *Chapter Four*: if the natural composite is prime matter informed by the Soul's power, what are the partial souls? Close on that question. Do not recap.
 
-**Pacing — reset moments.** Insert ONE single-sentence reset between Beat 4 and Beat 5 ("So the pivot is in. Now the question becomes — what does the second reformer keep getting wrong, sub-chapter by sub-chapter?"), and ONE between Beat 5 and Beat 6 ("We've watched the body-categories fall one by one. Let me step back and ask what the second reformer recovers when he drops them."). One sentence each. No more.
+**Pacing — reset moments.** Insert ONE single-sentence reset between Beat 4 and Beat 5 ("So the pivot is in. Now the question becomes — what does Samuel keep getting wrong, sub-chapter by sub-chapter?"), and ONE between Beat 5 and Beat 6 ("We've watched the body-categories fall one by one. Let me step back and ask what Samuel recovers when he drops them."). One sentence each. No more.
 
 ---
 
@@ -136,7 +139,7 @@ This rule has the strongest enforcement in v4. **The episode uses EXACTLY three 
 
 ### The three governing analogies
 
-**Analogy 1 — Footprint** (Beat 2). A footprint is left by a foot but is not a smaller foot; the impression bears the form without sharing the substance. Use for the trace-versus-birth doctrine. Do NOT extend beyond Beat 2.
+**Analogy 1 — Mirror catching a shape** (Beat 2). This image is taken DIRECTLY from the chapter prose (the substrate "receives the impression of the Second's power... as a mirror catches a shape that does not resemble the light that casts it"). A mirror catches the shape of a light-cast image without becoming the light or sharing its substance. Use for the trace-versus-birth doctrine. Do NOT extend beyond Beat 2.
 
 **Analogy 2 — Messenger** (Beat 4). The pivot's anchor — *the intellect is the messenger of the truth*. A messenger carries a sovereign's decree without resembling either the sovereign or the parchment. Use for transmitted power without resemblance. Recur to this analogy in Beat 5 when sub-chapters 2–5 need the same logic.
 
@@ -147,7 +150,6 @@ This rule has the strongest enforcement in v4. **The episode uses EXACTLY three 
 Do NOT introduce any of the following, in any form, anywhere in the episode:
 
 - Two sealed rooms (light/dark)
-- Mirror with silver backing
 - Mail carrier with a letter or envelope
 - Television (any kind — SD, HD, 4K, streaming)
 - Data stream / server / broadcast
@@ -173,7 +175,17 @@ Do NOT introduce any of the following, in any form, anywhere in the episode:
 - I-am-a-teacher (the teaching-relation analogy)
 - "How many inches long is your nostalgia" / "how much does your epiphany weigh" — these are semantic devices but read as new analogies; do not use them
 
-If a host opens with "Think of it like a…" or "Imagine a…" or "It's like when…" — STOP. The next analogy must be one of the three approved ones, or the source's own image.
+If a host opens with "Think of it like a…" or "Imagine a…" or "It's like when…" — STOP. The next analogy must be one of the three approved governing analogies, OR a source-image carved out below.
+
+### SOURCE-IMAGE carve-out (permitted in passing only)
+
+The chapter prose contains its own analogical images. These may be quoted or referenced *in passing* — but NOT promoted to governing-analogy status (i.e., not used as the primary explanatory frame for a whole beat). The source-images:
+
+- **The seven seas of the universal Intellect** (from the author's other treatise; mentioned in chapter line 31)
+- **The speaker and the foundation** (used by the author to refuse the language of "sides"; chapter line 75)
+- **Male and female counterparts in every species** (used to anchor "like-counterpart"; chapter line 23)
+
+These are the ONLY source-images. They may appear once or twice as the chapter touches them. They MAY NOT replace the three governing analogies as primary explanatory frames.
 
 ---
 
@@ -220,7 +232,7 @@ The Color host is the listener's representative against premature certainty, not
 
 3. **(Beat 5):** *"That sounds like wordplay. If a 'proportion' isn't a side and isn't a distance, what is it actually? Aren't you just refusing every concrete category I offer?"*
 
-4. **(Beat 6):** *"How is this different from hiding the problem under a different word? After thirty pages of refusing the second reformer's picture, the author just lets the chain stand. What changed?"*
+4. **(Beat 6):** *"How is this different from hiding the problem under a different word? After thirty pages of refusing Samuel's picture, the author just lets the chain stand. What changed?"*
 
 The Driver does NOT immediately resolve these. The Driver lets each pushback sit for one or two sentences before the answer comes. The pushback is genuine doubt, not setup for a punchline.
 
