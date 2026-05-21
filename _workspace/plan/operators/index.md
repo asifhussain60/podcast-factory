@@ -47,8 +47,8 @@ in the primary worktree if you need it.
 | **Episodes (est)** | 14 (Ep 2 removed) | 15-20 (pending 0d) |
 | **Anthropic spent so far** | ~$13 estimated (cost-ledger broken — P6.5) | ~$8 estimated (Phase 0a+0b; cost-ledger broken — P6.5) |
 | **ETA to ship** | 12-14h LLM (once 0g starts) + reviews | 6-10 days (once operator gates clear) |
-| **Last verified** | 2026-05-21T10:30Z | 2026-05-21T11:10Z (Studio session, post develop @ e7e9ac5 absorbed) |
-| **Next gate** | Asif's go-ahead for Phase 0g | Operator gates: (a) Azure Text Analytics F0 + env vars (P23.azure-setup); (b) §§1-8 of operator-review.md. Then framework lane (P22.impl, P4.10, P6.5, P23) on `feat/podcast-w1-foundation` → merge → Phase 0c. |
+| **Last verified** | 2026-05-21T10:30Z | 2026-05-21T11:30Z (Studio session, Azure gate cleared) |
+| **Next gate** | Asif's go-ahead for Phase 0g | Operator gate: §§1-8 of [operator-review.md](../../../content/podcast/library/books/asaas-al-taveel/operator-review.md). (Azure F0 cleared 2026-05-21 — see [mac-studio-primary.md §13](mac-studio-primary.md).) Then framework lane (P22.impl, P4.10, P6.5, P23) on `feat/podcast-w1-foundation` → merge → Phase 0c. |
 
 ---
 

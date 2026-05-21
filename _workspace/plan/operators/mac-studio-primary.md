@@ -51,20 +51,32 @@ current_phase_status_summary: |
   files for both machines remain owned per §1 sole-write convention; no WRITE EXCEPTION
   applies to this file currently.
 
-  Awaiting (a) operator Azure setup (Text Analytics F0 resource + env vars per P23.azure-setup)
-  and (b) operator §§1-8 of operator-review.md. Framework code fixes resume once both gate.
-  Air is paused per the 2026-05-21 sync; Studio is also paused pending Asif's explicit
-  authorization to resume asaas Phase 0c (Arabic phonetic) or framework lane.
+  AZURE GATE CLEARED 2026-05-21T11:30Z: operator gate (a) — Azure Text Analytics F0 +
+  keychain wiring — is DONE. The Studio uses the existing `journal-language-market`
+  resource (Kind: TextAnalytics, tier Free F0, region eastus, in `rg-journal-ai`).
+  All three keychain entries are populated and the NER endpoint was verified live
+  (HTTP 200 on a 1-sentence probe; recognized "al-Qadi al-Numan"→Person and
+  "Cairo"→Location). Full Azure resource registry now lives in §13 of this file —
+  future sessions read §13 to avoid re-discovering the wiring. See `infra/azure/`
+  for the broader script-driven Azure stack (docintel + translator + speech already
+  in use).
+
+  Still awaiting (b) operator §§1-8 of operator-review.md. Framework code fixes
+  resume once that gate clears. Air is paused per the 2026-05-21 sync; Studio is
+  also paused pending Asif's explicit authorization to resume asaas Phase 0c
+  (Arabic phonetic) or framework lane.
 next_action: |
-  Operator (1) creates Azure Text Analytics F0 resource per P23.azure-setup, P23.azure-tier-doc-intel,
-  P23.azure-tier-translator — see docs/podcast/azure-setup.md (to be authored as part of P23.docs);
-  (2) finishes operator-review.md §§1-8 review.
+  Operator finishes §§1-8 of operator-review.md (the last remaining operator gate;
+  gate (a) Azure setup cleared 2026-05-21 — see §13 of this file).
   Claude then drives: framework code fixes (P22.impl, P4.10, P6.5, P23 client/integration/
-  tests/fallback/cost-ledger) on feat/podcast-w1-foundation; merge to book/asaas-al-taveel;
-  Phase 0b staircase re-run; Phase 0a.5 NER pre-seed integration; operator-review.md regenerated
-  from NER; resume 0c → 0d → 0e → 0f → 0g (EP01 firm halt) → EP02-06.
+  tests/fallback/cost-ledger including new LanguageCreds + get_language() resolver
+  in scripts/podcast/_azure.py, plus Language section in infra/azure/store-keychain-keys.sh
+  and azure-config.env) on feat/podcast-w1-foundation; merge to book/asaas-al-taveel;
+  Phase 0b staircase re-run; Phase 0a.5 NER pre-seed integration (now unblocked —
+  Language credential is live); operator-review.md regenerated from NER;
+  resume 0c → 0d → 0e → 0f → 0g (EP01 firm halt) → EP02-06.
 anthropic_share: 0.5
-last_verified_at: 2026-05-21T11:10:47Z
+last_verified_at: 2026-05-21T11:30:00Z
 last_updated: 2026-05-21
 ---
 
@@ -306,5 +318,85 @@ When Studio finishes a phase or hits a pause:
    `next_action`, `status_tag`.
 3. `git commit -m "coord(mac-studio-primary): update operator state @ phase <X>"`
 4. The post-commit hook auto-pushes.
-5. Write `## Project Status` back to Asif so he can decide whether to wake
-   the Air's holding loop on KaR Phase 0e or keep it paused.
+5. Write a BLUF-format response per [response-conventions.md](../response-conventions.md)
+   so Asif can decide whether to wake the Air's holding loop on KaR Phase 0e or keep it paused.
+
+---
+
+## 13. Azure resources (verified 2026-05-21)
+
+**Do NOT re-discover this wiring on every session — read this section, then jump straight to use.**
+
+The Studio drives Azure-backed phases (0a OCR + translation; 0a.5 NER pre-seed) against
+the resource group [`rg-journal-ai`](https://portal.azure.com/#@/resource/subscriptions/3440564d-c056-4173-bec6-7af92dbece77/resourceGroups/rg-journal-ai/overview)
+in subscription `Journal AI — primary` (ID `3440564d-c056-4173-bec6-7af92dbece77`),
+region `eastus`. Resource names + non-secret config live in
+[infra/azure/azure-config.env](../../../infra/azure/azure-config.env).
+
+### Resources in use
+
+| Resource | Type / SKU | Used by phase | Endpoint | Verified |
+|---|---|---|---|---|
+| `journal-docintel` | Document Intelligence | 0a (OCR) | (in azure-config.env) | in use since 2026-05-19 (Phase 0a on asaas + KaR) |
+| `journal-translator` | Translator, S1 | 0a (AR→EN) | (in azure-config.env) | in use since 2026-05-19 |
+| `journal-language-market` | Language, Kind `TextAnalytics`, tier Free F0 | 0a.5 NER pre-seed (pending framework integration) | `https://journal-language-market.cognitiveservices.azure.com/` | 2026-05-21: HTTP 200; correctly tagged "al-Qadi al-Numan"→Person, "Cairo"→Location |
+| `journalpodcaststorage` | Storage account | (ancillary; not pipeline-critical) | — | exists; not currently called |
+
+### Keychain entries on the Studio
+
+Convention from [infra/azure/store-keychain-keys.sh](../../../infra/azure/store-keychain-keys.sh):
+`azure-<app>-<resource>-<field>` with `<app>` = `journal`. Resolution priority in
+[scripts/podcast/_azure.py](../../../scripts/podcast/_azure.py) `_resolve()`: env var
+wins (for CI), Keychain is the local-Mac fallback.
+
+| Service name | Type | Value summary |
+|---|---|---|
+| `azure-journal-docintel-endpoint` | public | (pre-existing) |
+| `azure-journal-docintel-key1` | secret | (pre-existing) |
+| `azure-journal-docintel-region` | public | `eastus` |
+| `azure-journal-translator-endpoint-text` | public | (pre-existing) |
+| `azure-journal-translator-key1` | secret | (pre-existing) |
+| `azure-journal-translator-region` | public | `eastus` |
+| `azure-journal-language-endpoint` | public | `https://journal-language-market.cognitiveservices.azure.com/` |
+| `azure-journal-language-region` | public | `eastus` |
+| `azure-journal-language-key1` | secret | 84 chars (newer Base64 format; stashed 2026-05-21) |
+
+### Quick verification (no key ever echoed)
+
+```bash
+# Run from anywhere on the Studio:
+ENDPOINT=$(security find-generic-password -s azure-journal-language-endpoint -w)
+KEY=$(security find-generic-password -s azure-journal-language-key1 -w)
+curl -sS -o /dev/null -w "HTTP %{http_code}\n" \
+    -X POST "${ENDPOINT}language/:analyze-text?api-version=2023-04-01" \
+    -H "Ocp-Apim-Subscription-Key: ${KEY}" \
+    -H "Content-Type: application/json" \
+    -d '{"kind":"EntityRecognition","analysisInput":{"documents":[{"id":"1","language":"en","text":"Cairo."}]}}'
+unset KEY
+# Expect: HTTP 200
+```
+
+If this prints `HTTP 200`, all three Azure resources are reachable from the Studio's
+credentials and you can proceed to any phase that needs them.
+
+### Framework lane TODO (deferred to feat/podcast-w1-foundation)
+
+The Language credential is in the keychain but the framework doesn't read it yet. P23 includes:
+
+- Extend [scripts/podcast/_azure.py](../../../scripts/podcast/_azure.py) with
+  `LanguageCreds` dataclass + `get_language()` resolver (mirror of `get_docintel()`/`get_translator()`).
+- Extend [infra/azure/store-keychain-keys.sh](../../../infra/azure/store-keychain-keys.sh)
+  with a Language section so a fresh Mac can `bootstrap` without manual `security` commands.
+- Add `LANGUAGE_NAME="journal-language-market"` + `ENABLE_LANGUAGE="true"` to
+  [infra/azure/azure-config.env](../../../infra/azure/azure-config.env).
+- Wire `get_language()` into Phase 0a.5 NER pre-seed (proper-noun pre-population for the
+  refined-English → operator-review.md pipeline).
+
+### Operator-gate status (updated 2026-05-21)
+
+- Gate (a) Azure Text Analytics F0 + keychain wiring: ✅ DONE 2026-05-21
+- Gate (b) §§1-8 of [operator-review.md](../../../content/podcast/library/books/asaas-al-taveel/operator-review.md): pending operator
+- Framework lane (P22.impl, P4.10, P6.5, P23): pending operator's go after gate (b)
+- Phase 0b STAIRCASE re-run: pending framework lane
+- Phase 0a.5 NER pre-seed integration: pending framework lane (credential is ready)
+- Phase 0c (Arabic phonetic): pending all the above
