@@ -209,6 +209,28 @@ security find-generic-password -s azure-journal-language-endpoint -w   # If Azur
 
 If all four checks pass, you're operational. Hand off to a Claude Code session to drive the work.
 
+## Step 11 — Install the `podcast-operator` convenience aliases (optional but recommended)
+
+The `podcast-operator` agent is Asif's unified entry-point — auto-detects machine, picks up where work was left off, surfaces drift + recap in the 4-part At-a-glance template. Three ways to invoke; pick whichever fits your workflow (or install all three):
+
+```bash
+# CLI flag — works from any terminal (no setup needed; already shipped via the agent file)
+claude --agent podcast-operator
+
+# Slash command in Claude Code chat (auto-registered after scripts/install-claude-skills.sh runs)
+/podcast-operator
+
+# Bash alias — shortest, requires adding to ~/.zshrc (or ~/.bashrc)
+echo 'alias po="claude --agent podcast-operator"' >> ~/.zshrc
+echo 'alias op="claude --agent podcast-operator"' >> ~/.zshrc   # alternative shorter alias
+source ~/.zshrc
+po --report-only    # quick drift table
+po                  # full recap
+po --execute-safe   # discovery + auto-execute safe ops
+```
+
+Full contract + safety rules at [../../../.github/agents/podcast-operator.agent.md](../../../.github/agents/podcast-operator.agent.md). Distinct from `podcast-orchestrator` (autonomous pipeline driver) — see the agent's intro paragraph for the workflow split.
+
 ## Common pitfalls
 
 | Symptom | Fix |
