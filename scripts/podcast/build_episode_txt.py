@@ -87,12 +87,20 @@ from pathlib import Path
 #   Default Deep Dive  (~12–15 min): 1,800–2,800
 #   Longer Deep Dive   (~18–22 min): 2,800–4,500
 #   Extended Deep Dive (~30–45 min): 5,500–9,500   ← recommended for dense / philosophical sources
-# Hard band [500, 10,000] enforced here; soft sanity band [1,000, 9,500].
+# Hard band [500, 10,500] enforced here; soft sanity band [1,000, 9,500].
+# X6 (2026-05-21): hard ceiling bumped from 10,000 → 10,500 to match the "~10,000"
+# language in notebooklm-best-practices.md §3 (the ~ implies tolerance; KaR's
+# ch12 at 10,180 and ch14b at 10,112 were 1-2% over the round-number ceiling
+# while the underlying empirical concern — NotebookLM falling back to
+# summarization — has no sharp inflection at exactly 10k). Soft warning still
+# fires at 9,500 so editorial attention is drawn early; hard refusal now
+# only at 5% past the round-number target.
+#
 # The dead zone 4,500–5,500 produces tier-confused chapters (too dense for
 # Longer, too thin to sustain Extended) — flagged with a soft warning but
 # not refused.
 CHAPTER_WORD_MIN_HARD = 500
-CHAPTER_WORD_MAX_HARD = 10000
+CHAPTER_WORD_MAX_HARD = 10500
 CHAPTER_WORD_MIN_SOFT = 1000
 CHAPTER_WORD_MAX_SOFT = 9500
 CHAPTER_DEAD_ZONE_MIN = 4500
