@@ -108,6 +108,13 @@ _workspace/Books/*/raw/
 # Trash / soft-delete staging
 **/.trash/
 
+# Linked git worktrees grouped under worktrees/ (Repo-rooted layout, 2026-05-22):
+# the main worktree lives at podcast-factory/ root, with linked worktrees as
+# subdirs at podcast-factory/worktrees/<book-X>/. Each linked worktree is its
+# own checkout — gitignored here so the main worktree's `git status` doesn't
+# show them as untracked content.
+worktrees/
+
 # Per-trip queue + ephemeral artifacts (App writes, Cowork drains and deletes per §5.10)
 trips/*/pending.json
 trips/*/receipts/
