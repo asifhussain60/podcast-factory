@@ -4,7 +4,7 @@
   "category": "books",
   "branch": "book/kitab-al-riyad",
   "phase": "per-chapter",
-  "phase_status": "halted",
+  "phase_status": "running",
   "last_completed_phase": "trainer",
   "next_phase": "merge",
   "last_error": null,
@@ -63,9 +63,9 @@
       "ts_completed": "2026-05-22T03:52:44Z"
     },
     "per-chapter": {
-      "status": "pending",
+      "status": "running",
       "completed_slugs": [],
-      "ts_started": null,
+      "ts_started": "2026-05-22T09:31:23Z",
       "ts_completed": null
     },
     "trainer": {
@@ -88,7 +88,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-05-18T22:51:13Z",
-  "ts_updated": "2026-05-22T03:54:58Z",
+  "ts_updated": "2026-05-22T09:31:23Z",
   "challenger_version": "2.0",
   "orchestrator_version": "1.1",
   "reset_for_reemit": {
