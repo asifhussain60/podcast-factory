@@ -448,7 +448,7 @@ Always write the sidecar report (Section 6) — even on a clean run, the report 
 ### P0 (blocks ship)
 
 #### A1: Citation discipline — missing surah:verse in an EP source quote
-- **File:** content/podcast/library/<category>/<book-slug>/chapters/ch##-<slug>.txt:LINE
+- **File:** _workspace/books/<book-slug>/chapters/ch##-<slug>.txt:LINE
 - **Context:** blockquote of Quranic verse with English translation but no `(Quran X:Y)` citation line.
 - **Suggested fix:** Identify the verse, add citation on the line below the quote per enrichment-sources.md §2 format.
 
@@ -561,7 +561,7 @@ This agent calls the build script after every auto-fix iteration so the episode 
 ### Extract Mode adapter
 
 `scripts/podcast/extract_chapter.py` is the sibling structural gate for Extract Mode books. It:
-- Resolves chapter refs within `content/podcast/library/<category>/<book-slug>/chapters/` (memoir paths blocked via `PROHIBITED_PATH_PREFIXES`).
+- Resolves chapter refs within `_workspace/books/<book-slug>/chapters/` (memoir paths blocked via `PROHIBITED_PATH_PREFIXES`).
 - Reads the per-chapter contract at `BOOK_DIR/chapter-contracts/<slug>.yml`.
 - Runs `lint_contract_meta_prose` over the fields that flow into the rendered framing — same `META_PROSE_TELLS` / `META_PROSE_REGEX_TELLS` family as the build script, applied at extract time so the contract is fixed instead of a generated artifact.
 - Emits the 5-file episode-draft scaffold + chapter copy. Deterministic; same contract + same chapter → byte-identical re-run.
@@ -574,7 +574,7 @@ For Category G findings, the agent uses this script as the validator: re-run wit
 
 When invoked:
 
-1. Confirm the book-slug. If missing, ask: "Which book? (give the `<book-slug>` directory name from `content/podcast/library/<category>/`)".
+1. Confirm the book-slug. If missing, ask: "Which book? (give the `<book-slug>` directory name from `_workspace/books/`)".
 2. Confirm scope. If per-chapter, confirm the chapter slug exists.
 3. Read the cold-start files (Section 0 list).
 4. Enumerate the in-scope chapters + framings.
@@ -587,7 +587,7 @@ When invoked:
 
 ## SECTION 8 — Anti-anti-patterns (things to NOT do)
 
-- Do not run the agent on content outside `content/podcast/library/<category>/<book>/`. Memoir is out of scope; the boundary is hard.
+- Do not run the agent on content outside `_workspace/books/<book>/` (in-progress per-book state) or `library/books/<book>/` (shipped catalog). Memoir is out of scope; the boundary is hard.
 - Do not auto-fix any check not explicitly listed in Section 3's allowed set. When in doubt, flag.
 - Do not exceed the per-invocation `max_iterations` cap (frontmatter; currently 5). Failure to converge within the cap is a signal that the chapter has a structural issue — write the report at the current verdict, let the outer caller decide whether to address P0 findings and re-invoke or surface to human. **Do not silently inflate the cap to force SHIP-READY.**
 - Do not implement the outer re-invocation loop inside this agent. The agent runs once, writes the report, and exits. The caller (`/podcast` Phase 4 step 3) is responsible for reading the verdict and re-invoking after P0 fixes.

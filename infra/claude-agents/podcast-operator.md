@@ -58,7 +58,7 @@ Read these in order — they establish ground truth for both the drift calculati
 8. Peer's operator file from `origin/develop`: `git show origin/develop:_workspace/plan/operators/<peer-machine-id>.md`
 9. [index.md](../../_workspace/plan/operators/index.md) — cross-machine dashboard (read your row + peer's row)
 10. [book-queue.md](../../_workspace/plan/book-queue.md) — what's in flight + queued; check for cost/time estimates against your current book in the In-flight notes column
-11. Your book's `orchestrator-state.json` (if you have an assigned book): `jq '{phase, phase_status, last_completed_phase, last_error}' content/podcast/library/books/<book>/_system/orchestrator-state.json`
+11. Your book's `orchestrator-state.json` (if you have an assigned book): `jq '{phase, phase_status, last_completed_phase, last_error}' _workspace/books/<book>/_system/orchestrator-state.json`
 
 When operator files disagree with `orchestrator-state.json`, **state.json wins**. When [coordination-protocol.md](../../_workspace/plan/operators/coordination-protocol.md) disagrees with anything else, **coordination-protocol.md wins**. When [response-conventions.md](../../_workspace/plan/response-conventions.md) disagrees on output format, **response-conventions.md wins**.
 
@@ -104,7 +104,7 @@ grep -nE "WRITE EXCEPTION|written_by:" _workspace/plan/operators/$(cat ~/.machin
 yq '.last_verified_at' _workspace/plan/operators/$(cat ~/.machine-id).md
 # Compare frontmatter current_phase against state.json's phase
 yq '.current_phase' _workspace/plan/operators/$(cat ~/.machine-id).md
-jq -r '.phase' content/podcast/library/books/<book>/_system/orchestrator-state.json
+jq -r '.phase' _workspace/books/<book>/_system/orchestrator-state.json
 ```
 - frontmatter `last_verified_at` < 24h old AND frontmatter `current_phase` matches state.json: 🟢
 - frontmatter > 24h stale OR frontmatter `current_phase` ≠ state.json `phase`: 🟡 (refresh frontmatter)
