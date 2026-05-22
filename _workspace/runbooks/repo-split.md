@@ -33,6 +33,7 @@ History is preserved on both sides — `git filter-repo` rewrites a clone to con
 6. **Both repos retain their own history** via `git filter-repo`. The current `Journal` repo's full commit history stays as `podcast-factory`'s history; the new `journal` repo gets a filtered history containing only journal-side-touching commits. **The new `journal` repo receives only `develop` and `main` branches** — not the podcast/book branches (filter-repo's `--refs develop main` scopes the extraction to those refs only).
 7. **Execution gates:** Air's KaR orchestrator Phase 10 merge to develop MUST complete before any step in this runbook runs.
 8. **Studio-local directory layout: contained parent folder** (per Asif 2026-05-22). All Studio worktrees move under `~/Code/podcast-factory/` so the entire podcast-factory repo is one self-contained directory tree. See §2A below for the full folder structure of both repos and the worktree layout on disk.
+9. **GitHub name case-collision discovery + temp-name workaround** (discovered during 2026-05-22 execution of Phase 1.6). GitHub treats `asifhussain60/journal` (lowercase) and `asifhussain60/Journal` (current capital J) as the SAME namespace — repo names are case-insensitive at the user level. Attempting `gh repo create asifhussain60/journal` returned `Name already exists`. The runbook now creates the new repo under a TEMPORARY name `asifhussain60/journal-new` in Phase 1.6, then renames `journal-new → journal` in the new sub-phase 7.1a (right after Phase 7.1 renames `Journal → podcast-factory`, which frees the lowercase `journal` namespace). Phase 3 / Phase 4 / Phase 5 all push to and reference the temp URL throughout; Phase 7.3a updates lingering filter-clone remotes from temp → canonical post-rename.
 
 ---
 
@@ -482,7 +483,7 @@ done
 git push origin --tags
 
 # Verify tags are on origin
-echo "Tags on origin: $(git ls-remote --tags origin | grep "pre-split-$DATE" | wc -l)"   # expect ≥9
+echo "Tags on origin: $(git ls-remote --tags origin | grep "pre-split-$DATE" | wc -l)"   # expect = count of branches in the for-loop that ALSO exist on origin (some branches in the list may be local-only — those are NOT tagged here; they're captured by Layer 2 mirror + Layer 3 tar instead). On 2026-05-22 the actual count was 6 (develop, main, book/asaas-al-taveel, book/kitab-al-riyad, feat/operator-review-studio, feat/podcast-w1-foundation); 5 branches were local-only.
 echo "Map file entries: $(wc -l < $MAP_FILE)"
 
 # Sanity check — map file content
@@ -525,20 +526,27 @@ The mirror captures git-tracked content. A tar additionally captures:
 - IDE workspace files, `.vscode/` per-worktree settings
 
 ```bash
+# IMPORTANT: macOS BSD tar requires --exclude BEFORE the paths to add,
+# unlike GNU tar which accepts them anywhere. Putting --exclude after
+# paths makes BSD tar interpret the flag as a literal file path and the
+# excludes silently don't apply (the archive ends up larger than intended
+# but is still valid — discovered during the 2026-05-22 execution).
 cd ~/Code
-tar -czf ~/Backups/repo-split-$DATE/worktrees-snapshot.tar.gz \
-  Journal \
-  Journal-book-asaas \
-  Journal-book-islr \
-  Journal-feat-w1 \
-  --exclude='*/node_modules' \
-  --exclude='*/.venv' \
-  --exclude='*/_workspace/Books' \
-  --exclude='**/.DS_Store'
+tar --exclude='*/node_modules' \
+    --exclude='*/.venv' \
+    --exclude='*/_workspace/Books' \
+    --exclude='**/.DS_Store' \
+    -czf ~/Backups/repo-split-$DATE/worktrees-snapshot.tar.gz \
+    Journal \
+    Journal-book-asaas \
+    Journal-book-islr \
+    Journal-feat-w1
 
 du -sh ~/Backups/repo-split-$DATE/worktrees-snapshot.tar.gz
 ls -la ~/Backups/repo-split-$DATE/
 ```
+
+**Note on the 2026-05-22 execution**: this step ran with the (BSD-incompatible) post-path `--exclude` syntax and produced a 369MB archive that includes `node_modules/` etc. The archive is valid and comprehensive — net positive for safety; no re-run required. The corrected pre-path syntax above is what future runs should use.
 
 To restore: `cd ~/Code && tar -xzf ~/Backups/repo-split-$DATE/worktrees-snapshot.tar.gz` recreates all 4 worktree directories at their original paths.
 
@@ -598,22 +606,27 @@ gh repo view asifhussain60/journal-backup-pre-split-$DATE 2>/dev/null >/dev/null
 
 **STOP CONDITION**: if Layer 1, **Layer 1c (tag-branch map)**, Layer 2, or Layer 3 is missing, do NOT proceed to Phase 2. Layer 1c is critical because Path A restore (§14.2) reads it directly — without it, restore falls back to the more destructive NUCLEAR path. Layer 1b (tags pushed to origin) failing is recoverable by re-running the push; Layer 4 is optional.
 
-### 1.6. GitHub prep — Create new `journal` repo
+### 1.6. GitHub prep — Create new journal repo (uses TEMPORARY name `journal-new`)
+
+> ⚠️ **GitHub name-collision discovery (2026-05-22)**: `asifhussain60/journal` (lowercase) and `asifhussain60/Journal` (capital J) resolve to the SAME repo on GitHub — repo names are case-insensitive at the namespace level. Attempting `gh repo create asifhussain60/journal` returns `GraphQL: Name already exists on this account (createRepository)` until the existing `Journal` is renamed to `podcast-factory` in Phase 7.1. To unblock Phase 3 (push to journal repo) without reordering everything, Phase 1.6 creates the new repo under a TEMPORARY name `asifhussain60/journal-new`; Phase 7.1a (added below) renames it to `asifhussain60/journal` immediately after Phase 7.1 frees the lowercase namespace.
 
 Once backups are verified intact:
 
 ```bash
-gh repo create asifhussain60/journal \
-  --private \
-  --description "Asif's journal & memoir engine — split from podcast-factory $DATE"
+# Match the current Journal repo's visibility (PUBLIC per Asif's setting)
+gh repo create asifhussain60/journal-new \
+  --public \
+  --description "Asif's journal & memoir engine — split from podcast-factory $DATE (TEMPORARY name; renames to 'journal' in Phase 7.1a after the case-collision frees)"
 ```
 
-Match the current `Journal` repo's privacy setting (the current Journal is PUBLIC per `gh repo view`; set `--public` instead of `--private` if Asif wants the journal repo public too). **Do NOT** initialize with README, .gitignore, or license — we're pushing filtered history into a clean target.
+**Do NOT** initialize with README, .gitignore, or license — we're pushing filtered history into a clean target.
 
 Verify:
 ```bash
-gh repo view asifhussain60/journal --json url,visibility,defaultBranchRef
+gh repo view asifhussain60/journal-new --json url,visibility,defaultBranchRef
 ```
+
+All Phase 2 / Phase 3 / Phase 4 references push to `asifhussain60/journal-new.git` (the temporary remote URL); Phase 7.1a does the rename, and Phase 7.3a updates any lingering filter-clone remotes from the temp URL to the final `journal.git` URL.
 
 ### 1.7. Deferred — DO NOT rename `Journal` → `podcast-factory` yet
 
@@ -715,11 +728,11 @@ Absent (retired entirely OR podcast-only): `content/podcast/`, `scripts/podcast/
 
 ## 6. Phase 3 — Push to new `journal` repo
 
-3.1. Add the new remote and push **branches only — NO `--tags`**. The pre-split safety tags from Phase 1.1 belong to the podcast-factory side; the journal repo starts with a clean tag namespace.
+3.1. Add the new remote (using the TEMPORARY `journal-new` URL — see Phase 1.6 for why; Phase 7.1a renames to `journal`) and push **branches only — NO `--tags`**. The pre-split safety tags from Phase 1.1 belong to the podcast-factory side; the journal repo starts with a clean tag namespace.
 
 ```bash
 git remote remove origin
-git remote add origin https://github.com/asifhussain60/journal.git
+git remote add origin https://github.com/asifhussain60/journal-new.git
 
 # Belt-and-suspenders: delete any surviving pre-split-* tags from the filter-repo
 # clone before push, so even an accidental --tags push later wouldn't leak them.
@@ -744,11 +757,11 @@ git push origin "journal-split-$DATE"
 
 This tag is the journal repo's own restore anchor for its initial state — distinct from the pre-split tags, which live on the podcast-factory side and reference the parent-repo lineage.
 
-3.3. Verify on GitHub: `github.com/asifhussain60/journal` has develop, main, the `journal-split-$DATE` tag, and the expected file tree. NO `pre-split-*` tags should be present.
+3.3. Verify on GitHub: `github.com/asifhussain60/journal-new` has develop, main, the `journal-split-$DATE` tag, and the expected file tree. NO `pre-split-*` tags should be present. (Post-Phase-7.1a, the same data lives at `github.com/asifhussain60/journal`.)
 
 ```bash
-gh repo view asifhussain60/journal --json defaultBranchRef
-gh api repos/asifhussain60/journal/tags --jq '.[].name' | head -10
+gh repo view asifhussain60/journal-new --json defaultBranchRef
+gh api repos/asifhussain60/journal-new/tags --jq '.[].name' | head -10
 ```
 
 ---
@@ -771,11 +784,11 @@ Still in `~/Code/Journal-filter`. Make the files reflect single-purpose journal-
 - Remove `podcast-ingest`, `podcast-transcribe`, `podcast-audit`, `podcast-post-publish` targets
 - Remove `provision`, `store-keys`, `verify`, `azure-probe`, `migrate-to-keyvault` (Azure-specific, podcast-only)
 - Keep `bootstrap`, `install-skills` (if relevant to journal)
-- Add `site-dev`, `site-deploy` targets if missing
+- Add a `site-dev` target running `npx serve site` (or equivalent local-static server). **Do NOT add `site-deploy`** — Cloudflare deploy retired 2026-05-22; the journal site is local-only.
 
 4.4. Edit `package.json`:
 - `"name": "journal"` (was `"babu-journal"`)
-- `"description": "Babu memoir engine + journal site"` (drop "podcast source-bundle prep")
+- `"description": "Babu memoir engine + local-only journal site"` (drop "podcast source-bundle prep" + drop deploy framing since Cloudflare is retired)
 - `"keywords": ["journal", "memoir"]` (drop "podcast")
 
 4.5. Edit `.gitignore`:
@@ -787,7 +800,7 @@ Still in `~/Code/Journal-filter`. Make the files reflect single-purpose journal-
 
 4.7. **Tailor duplicated config files for journal-only identity.** The duplicated items came over from podcast-factory verbatim; each needs editing so it reflects what's IN journal repo only:
 
-- `.github/copilot-instructions.md`: rewrite to remove podcast references; describe journal's surface (memoir + site + server) and conventions
+- `.github/copilot-instructions.md`: rewrite to remove podcast references; describe journal's surface (memoir + local-only site; **NO server/ since it's retired 2026-05-22**) and conventions
 - `reference/skill-registry.md`: trim to list ONLY skills present in journal (clean-commit, cowork-brief, repo-surgeon, tell-me, usage-auditor, journal, css-theme-sync, ui-modernizer). Remove podcast entries.
 - `reference/cortex-challenger-framework.md`: if it has podcast-specific examples, replace with journal examples (memoir challenger, site challenger). Otherwise leave as-is — it's a general framework.
 - `reference/skill-bootstrap.md`: same — review for podcast specifics; rewrite as needed.
@@ -887,8 +900,12 @@ Update or remove as appropriate. Some references are historical commit messages 
 git add -A
 git commit -m "chore: extract journal/memoir/site into separate repo
 
-Journal repo now lives at github.com/asifhussain60/journal.
-This repo (Journal, to be renamed podcast-factory) is now podcast-only.
+Journal repo lives at github.com/asifhussain60/journal-new during Phases 1-5
+(temporary name to dodge GitHub case-collision with the existing /Journal),
+and renames to github.com/asifhussain60/journal in Phase 7.1a after Phase 7.1
+renames Journal → podcast-factory and frees the lowercase namespace.
+
+This repo (Journal, to be renamed podcast-factory in Phase 7.1) is now podcast-only.
 
 Both repos are completely separate and disconnected per the 2026-05-22 refactor:
 - General-utility skills, agents, reference materials, content/_shared/arabic/,
@@ -927,6 +944,17 @@ gh repo rename --repo asifhussain60/Journal podcast-factory
 
 Alternative (manual, equivalent): GitHub UI → `asifhussain60/Journal` → Settings → "Repository name" → enter `podcast-factory` → Rename repository.
 
+### 7.1a. Rename temporary `journal-new` → canonical `journal`
+
+Phase 7.1 frees the lowercase `journal` namespace (since `Journal` is now `podcast-factory`). Rename the temporary `journal-new` (created in Phase 1.6 to dodge the case-insensitive collision) to its canonical name:
+
+```bash
+gh repo rename --repo asifhussain60/journal-new journal
+gh repo view asifhussain60/journal --json url,visibility,defaultBranchRef
+```
+
+GitHub auto-creates a permanent redirect `github.com/asifhussain60/journal-new/*` → `github.com/asifhussain60/journal/*`, so any pre-existing clones of `journal-new` (Studio's `~/Code/Journal-filter` if still present, plus any Air-side journal clones from Phase 8.5) continue to resolve. Phase 7.3a below updates them to the canonical URL.
+
 7.2. GitHub auto-creates a permanent redirect from `github.com/asifhussain60/Journal/*` to `github.com/asifhussain60/podcast-factory/*`. Old clones continue working transparently.
 
 7.3. Update Studio's main-worktree remote (clean URL):
@@ -938,6 +966,24 @@ git remote -v   # verify
 ```
 
 Worktrees (`Journal-book-asaas`, `Journal-book-islr`, `Journal-feat-w1`) inherit the parent's remote — no per-worktree update needed.
+
+### 7.3a. Update any lingering `journal-new` remotes to `journal`
+
+If Studio's `~/Code/Journal-filter` (the temporary filter-repo workspace from Phase 2) still exists with an `origin` pointing at `journal-new`, fix its URL. Similarly any Air-side journal clone created in Phase 8.5 that targeted the temp name.
+
+```bash
+# Studio filter-clone (only if still present — typically deleted after Phase 3 + 4 push)
+if [[ -d ~/Code/Journal-filter ]]; then
+  cd ~/Code/Journal-filter
+  current_url=$(git remote get-url origin 2>/dev/null)
+  if [[ "$current_url" == *"journal-new"* ]]; then
+    git remote set-url origin https://github.com/asifhussain60/journal.git
+    git remote -v
+  fi
+fi
+```
+
+Air's journal clone (if she ran Phase 8.5 with the temp URL): she'll do the equivalent `git remote set-url origin https://github.com/asifhussain60/journal.git` on her side.
 
 7.4. **Worktree directory reorganization — MANDATORY** (Studio-local). Consolidate all 4 worktrees under a single parent folder `~/Code/podcast-factory/` so the entire podcast-factory repo is one contained tree.
 
@@ -1517,16 +1563,19 @@ This section defines restore paths for every failure point in the runbook. The r
 | Failed during | Path | What it does | Affected machines |
 |---|---|---|---|
 | Phase 1.1–1.5 (backup setup) | A | Local reset, no GitHub state changed | Studio only |
-| Phase 1.6 (journal repo created) | B | Delete journal repo, retry | Studio + GitHub |
+| Phase 1.6 (journal-new repo created) | B | Delete journal-new repo, retry | Studio + GitHub |
 | Phase 2 (filter-repo) | A | Discard sibling clone | Studio only |
-| Phase 3 (push to journal) | B | Delete journal repo + retry | Studio + GitHub |
-| Phase 4 (journal repo identity edits) | B | Delete journal repo OR keep and re-edit | Studio + GitHub |
+| Phase 3 (push to journal-new) | B | Delete journal-new repo + retry | Studio + GitHub |
+| Phase 4 (journal repo identity edits) | B | Delete journal-new repo OR keep and re-edit | Studio + GitHub |
 | Phase 5 (cleanup commit on podcast-factory) | C | Revert merge OR reset develop | Studio + GitHub |
 | Phase 6 — DELETED | — | n/a (Cloudflare retired 2026-05-22) | n/a |
-| Phase 7 (GitHub rename) | E | Rename back via `gh repo rename` | Studio + GitHub |
+| Phase 7.1 (Journal → podcast-factory rename) | E | Rename podcast-factory back to Journal | Studio + GitHub |
+| Phase 7.1a (journal-new → journal rename) | E2 | Rename journal back to journal-new | Studio + GitHub |
+| Phase 7.3 / 7.3a (remote URL updates) | E / E2 | Restore prior URLs | Studio + Air |
 | Phase 7.4 (worktree reorganization) | F | Restore from tar snapshot | Studio only |
 | Phase 8 (Air sync) | G | Air resets remote + repulls (Air-local) | Air only |
 | Phase 9 (operator-file URL/path updates) | H | Revert the operator-update commit | Studio + GitHub |
+| Phase 9.5 (library hoist + workspace move) | I | Revert library-hoist commit + restore from mirror if needed | Studio + GitHub |
 | Phase 10 reveals corruption / unknown state | NUCLEAR | Mirror restore + GitHub-side rewind | Both machines |
 
 ### 14.2 Path A — Local-only reset (no GitHub state changed)
@@ -1565,8 +1614,18 @@ No GitHub cleanup needed. Resume by re-attempting Phase 1.
 Use when: failed at Phase 1.6 / 2 / 3 / 4 (new repo exists, may have content).
 
 ```bash
-# Delete the new journal repo on GitHub
-gh repo delete asifhussain60/journal --yes
+# Delete the new journal-new repo on GitHub (pre-Phase-7.1a name)
+# If Phase 7.1a has already run, delete asifhussain60/journal instead.
+if gh repo view asifhussain60/journal-new 2>/dev/null >/dev/null; then
+  gh repo delete asifhussain60/journal-new --yes
+elif gh repo view asifhussain60/journal 2>/dev/null >/dev/null; then
+  # Sanity check: ensure this isn't the post-rename canonical journal repo
+  # with the data still present — operator confirms before delete.
+  echo "ASIF-CONFIRM: asifhussain60/journal exists. Confirm this is the post-rename target to delete:"
+  gh repo view asifhussain60/journal --json url,createdAt,pushedAt
+  read -p "Type DELETE to proceed: " confirm
+  [[ "$confirm" == "DELETE" ]] && gh repo delete asifhussain60/journal --yes
+fi
 
 # Discard local filter-repo clone
 rm -rf ~/Code/Journal-filter
@@ -1607,9 +1666,9 @@ git push origin develop
 
 > **RETIRED 2026-05-22**: Phase 6 no longer exists, so Path D no longer applies. If for some reason Cloudflare re-pointing becomes necessary again, restore the original Path D from git history before the 2026-05-22 Cloudflare-retirement edit.
 
-### 14.6 Path E — GitHub repo rename back
+### 14.6 Path E — GitHub repo rename back (Phase 7.1 rollback)
 
-Use when: failed at Phase 7 (Journal already renamed to podcast-factory).
+Use when: failed at Phase 7.1 (Journal already renamed to podcast-factory), and the journal-new → journal rename in Phase 7.1a has NOT yet run.
 
 ```bash
 # Rename back (GitHub creates an inverse redirect)
@@ -1621,6 +1680,29 @@ git remote set-url origin https://github.com/asifhussain60/Journal.git
 git remote -v   # verify
 
 # Notify Air to do the same
+```
+
+### 14.6a Path E2 — Phase 7.1a / 7.3a rollback (journal-new ↔ journal)
+
+Use when: failed at Phase 7.1a (journal-new already renamed to journal) and the rollback must restore the temp name. **Critical ordering**: if Phase 7.1 ALSO needs rolling back, run Path E AFTER this one — otherwise Path E's `Journal` rename will re-collide with the canonical `journal` name on the case-insensitive namespace.
+
+```bash
+# Step 1 — Rename journal back to journal-new (frees the lowercase `journal` namespace)
+gh repo rename --repo asifhussain60/journal journal-new
+
+# Step 2 — Restore Studio's filter-clone remote (if it exists)
+if [[ -d ~/Code/Journal-filter ]]; then
+  cd ~/Code/Journal-filter
+  git remote set-url origin https://github.com/asifhussain60/journal-new.git
+  git remote -v
+fi
+
+# Step 3 — Air's journal clone (if cloned in Phase 8.5): same `git remote set-url`
+# back to journal-new.git on her side.
+
+# Step 4 — If Phase 7.1 ALSO needs rolling back, NOW run Path E (above) to rename
+# podcast-factory → Journal. The order matters: free the lowercase `journal`
+# namespace FIRST so `Journal` can be re-created at that case-fold-equivalent position.
 ```
 
 ### 14.7 Path F — Filesystem tar restore (worktree reorg failed)
@@ -1764,7 +1846,8 @@ diff <(git for-each-ref --format='%(refname) %(objectname)' | sort) \
 
 echo "=== GitHub-side ==="
 gh repo view asifhussain60/Journal --json url,visibility 2>&1 | head -3
-gh repo view asifhussain60/journal 2>&1 | grep -q "Could not resolve" && echo "OK: journal repo does NOT exist (deleted)" || echo "WARN: journal repo still exists"
+gh repo view asifhussain60/journal 2>&1 | grep -q "Could not resolve" && echo "OK: journal repo does NOT exist (deleted or never renamed from journal-new)" || echo "WARN: journal repo still exists"
+gh repo view asifhussain60/journal-new 2>&1 | grep -q "Could not resolve" && echo "OK: journal-new repo does NOT exist (deleted, renamed, or never created)" || echo "WARN: journal-new repo still exists — should be either deleted (full rollback) or already-renamed to journal (post-7.1a)"
 gh repo view asifhussain60/podcast-factory 2>&1 | grep -q "Could not resolve" && echo "OK: podcast-factory does NOT exist (renamed back)" || echo "WARN: podcast-factory still exists"
 ```
 
@@ -1796,13 +1879,13 @@ Recommended: keep at least Layer 2 (mirror clone) indefinitely in `~/Backups/_ar
 | 4 — Journal repo identity + tailor duplicated configs | 45 min | CLAUDE/Makefile/package.json edits + skill-registry tailoring + copilot-instructions tailoring + agent reviews |
 | 5 — Podcast-factory cleanup commit + tailored configs | 35 min | git rm (journal-exclusive + reclassified + retired Cloudflare/server) + edit shared root files + tailor skill-registry/copilot-instructions for podcast-factory + PR + merge |
 | ~~6 — Cloudflare re-point~~ | — | **DELETED 2026-05-22** (Cloudflare deploy retired) |
-| 7 — GitHub rename + Studio remote update | 5 min | `gh repo rename` + one `git remote set-url` |
+| 7 — GitHub rename (Journal → podcast-factory + 7.1a journal-new → journal + 7.3 + 7.3a remote URL updates) | 10 min | Two `gh repo rename` + two `git remote set-url` (Studio main + filter-clone if present) |
 | 7.4 — Studio worktree reorganization (contained-parent layout) | 20 min | pre-checks + mv + `git worktree repair` + verify each |
 | 8 — Air sync + Air-side worktree reorg | 20 min | Air mirrors Studio's 7.4 pattern with her own worktree set |
 | 9 — Operator-file URL + path updates | 25 min | URL rewrites + `/Code/Journal` → `/Code/podcast-factory/` path rewrites |
 | 9.5 — Library structure consolidation (hoist library/ to top level + workspace rename) | 60 min | Path rename (mechanical sed) + author `ship_to_library.py` + first promotion (KaR EP10) + catalog generation + commit + PR + merge |
 | 10 — Verification | 20 min | Checklist walk-through (now includes library hoist invariants) |
-| **TOTAL** | **~4 hours 45 min** | Focused work; can be split across sessions. Phase 6 deletion (-15 min) net-against Phase 9.5 addition (+60 min) = +45 min vs prior estimate. |
+| **TOTAL** | **~4 hours 50 min** | Focused work; can be split across sessions. Phase 6 deletion (–15 min), Phase 7 sub-phase additions (+5 min for 7.1a + 7.3a), Phase 9.5 addition (+60 min) = +50 min vs prior estimate. |
 
 Plus 2–4 hour wait for Air's KaR Phase 10 merge before Phase 1 begins.
 
@@ -1999,7 +2082,7 @@ Operator on execute: Studio Mac (this machine). Air's role is passive — she cl
 | 1.3 | Tar snapshot | Claude | Bash |
 | 1.4 | Secondary GitHub backup repo | Claude | `gh repo create` + `git push --mirror` |
 | 1.5 | Backup verification | Claude | Bash |
-| 1.6 | Create new `journal` repo | Claude | `gh repo create asifhussain60/journal` |
+| 1.6 | Create new `journal-new` repo (TEMP name; renamed to `journal` in 7.1a) | Claude | `gh repo create asifhussain60/journal-new --public ...` |
 | 1.7 | (Deferred — no action) | — | — |
 | 2 | `git filter-repo` extraction | Claude | Bash (after `git-filter-repo` installed) |
 | 3 | Push to journal repo | Claude | Bash |
@@ -2007,8 +2090,10 @@ Operator on execute: Studio Mac (this machine). Air's role is passive — she cl
 | 5 | Podcast-factory cleanup commit | Claude | Bash + Edit tool |
 | ~~6~~ | **DELETED 2026-05-22** (was: Cloudflare re-point) | — | — |
 | 7.1 | `gh repo rename Journal → podcast-factory` | Claude (executes) + Asif (FRESH confirmation immediately before) | `gh repo rename`. Phase 7 green-light authorizes the phase; Step 7.1 specifically requires a separate "go" before the rename actually runs (see §10 warning + §19.4). |
+| 7.1a | `gh repo rename journal-new → journal` (frees because 7.1 vacated lowercase namespace) | Claude | `gh repo rename`. Single command; non-destructive (adds permanent redirect). No fresh re-confirmation needed beyond the Phase 7 green-light. |
 | 7.2 | Redirect auto-creates (no action) | GitHub | Automatic |
-| 7.3 | Studio remote URL update | Claude | Bash |
+| 7.3 | Studio remote URL update (podcast-factory main worktree) | Claude | Bash |
+| 7.3a | Update any lingering `journal-new` remote URLs to `journal` (Studio filter-clone, Air's journal clone) | Claude (Studio) + Asif/Air (Air-side) | Bash |
 | 7.4 | Worktree directory reorganization | Claude | Bash (mv + `git worktree repair`) |
 | 7.4g | VS Code window reopen | **Asif** | IDE-side |
 | 8.1–8.5 | Air-side sync + worktree reorg | **Asif** (or Air's Claude session) | Bash on Air |
