@@ -83,3 +83,4 @@
 {"ts": "2026-05-22T10:00:50Z", "phase": "per-chapter", "step": "fixer/motion-stillness-hyle-and-form/P0", "model": "claude-opus-4-7", "input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0}
 {"ts": "2026-05-22T10:05:34Z", "phase": "per-chapter", "step": "fixer/motion-stillness-hyle-and-form/P1", "model": "claude-opus-4-7", "input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0}
 {"ts": "2026-05-22T10:19:33Z", "phase": "per-chapter", "step": "challenger/motion-stillness-hyle-and-form", "model": "claude-opus-4-7", "input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0}
+{"ts": "2026-05-22T10:34:21Z", "phase": "per-chapter", "step": "framing/prophets-as-teachers-monotheism-and-the-ranks", "model": "claude-opus-4-7", "input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0}

@@ -12,54 +12,86 @@ current_branch: book/kitab-al-riyad
 current_book: kitab-al-riyad
 current_book_dir: content/podcast/library/books/kitab-al-riyad
 authoritative_state_path: content/podcast/library/books/kitab-al-riyad/_system/orchestrator-state.json
-status_tag: PER-CHAPTER-RUNNING
+status_tag: HALTED-BY-OPERATOR — STUDIO-DRIVING-MANUAL-FINISH
 current_phase: "per-chapter"
 current_phase_status_summary: |
-  Phases 0a–0f complete; Phase 0g (per-chapter authoring + challenger convergence)
-  in flight under Asif's direct drive.
+  Phases 0a–0f complete; per-chapter HALTED by operator 2026-05-22.
+
+  **Pivot decision (2026-05-22):** Asif decision to halt the LLM-driven per-chapter
+  re-emit and switch to archetype-driven manual finish. Rationale: EP10 cleared P0
+  via fixer pass but returned SHIP-WITH-CAUTION with 3 P1s requiring author judgment
+  (N3-a Al-hayula, N3-b al-nafs, A4 Q16:40 translator attribution). Projected remaining
+  12-chapter pipeline run: 5.5–9.5h wall + ~$50–100 LLM spend, ending in identical
+  author-judgment ceiling. Cost-conscious pivot: distill the lessons into a reusable
+  archetype, compound the spend into the next Islamic-scholastic book.
 
   Shipped this run:
-  - EP10 motion-stillness-hyle-and-form — SHIP-WITH-CAUTION (commit
-    [4ecafff](https://github.com/asifhussain60/Journal/commit/4ecafff), iter=3
-    fix=4 P0=0 P1=2 P2=2).
+  - EP10 motion-stillness-hyle-and-form — SHIP-WITH-CAUTION (P0=0, P1=3 outstanding,
+    P2=1 advisory). Episode .txt emitted, in completed_slugs[].
 
-  In-flight:
-  - EP14 prophets-as-teachers-monotheism-and-the-ranks — orchestrator PID 68721
-    started 2026-05-21T12:39Z; currently authoring framing via `claude -p`.
-    The initial attempt at 12:33Z failed because `build_episode_txt.py`
-    rejected episode_id `EP14b-...` (regex requires `EP##-<slug>`, digits only).
-    Asif fixed in commit [562b7d5](https://github.com/asifhussain60/Journal/commit/562b7d5)
-    (X3) — strip letter suffix via `ch(\d+)`. Mid-flight artifacts cleaned in
-    [b5e3f5e](https://github.com/asifhussain60/Journal/commit/b5e3f5e); state.json reset.
+  Partial-emit (mid-process when killed):
+  - EP14 prophets-as-teachers-monotheism-and-the-ranks — drafts emitted
+    (00-framing.md, 02-key-passages.md, 03-context-pack.md, 04-discussion-spine.md,
+    99-show-notes.md), episode .txt emitted (205 lines), challenger NOT run.
+    NOT in completed_slugs[]. Studio decides: keep-and-edit OR regenerate.
 
-  Six KaR chapters carry letter suffixes (ch01a, ch03a, ch04b, ch05c, ch13a, ch14b)
-  so the X3 fix unblocks all of them. Twelve episodes remain after EP14.
+  Not started:
+  - EP01-EP09, EP11-EP13 (11 chapters). Source chapter .txt files exist
+    (TTS-safe per Phase 5), no episode-drafts/ for them.
 
-  Known active orchestrator bug — cost-ledger silent fail with
-  `AttributeError("module 'datetime' has no attribute 'UTC'")` on every
-  `_run_claude_p` call. Python 3.9 vs 3.11 (`datetime.UTC` is 3.11+). Spend on
-  this run NOT tracked; estimate via wall-clock + chapter count. See
-  [coordination-protocol.md §12 P6.5].
+  **Archetype distilled at**: [content/podcast/library/archetypes/islamic-scholastic-text.md](../../content/podcast/library/archetypes/islamic-scholastic-text.md)
+  — 5,354 words, 11 sections. Captures empirically-validated Phase 0d/0e/0g doctrine
+  for Islamic scholastic texts (Quran citation discipline, hadith citation discipline,
+  R-STABLE-ROLE-LABELS, R-NO-ARABIC-NAMES, R-HONORIFIC-ONCE BOUNDED, 14-section framing
+  template, 20-row Pronunciation common-terms table, 8 P0/P1 trap catalog, forbidden
+  patterns catalog, F27 validator-to-rule map). v1.0; drift-watch in §10.
+
+  Cleanup performed on Air:
+  - Orchestrator PID 31322 + orphaned claude -p child PID 34608 + state-watcher PID 1026
+    SIGTERM'd cleanly.
+  - state.json: phase_status flipped from "running" → "halted_by_operator" with
+    halt_reason line referencing this decision. Prevents the orchestrator-resume bug
+    (stale phase_status="running" from unclean shutdown blocking --resume).
+
+  Known infra-debt carried forward (NOT chapter content):
+  - Orchestrator-resume bug: stale phase_status="running" blocks --resume; workaround
+    is --retry-phase. Real fix needs heartbeat-age check in run_resume(). See
+    [memory: project_orchestrator_resume_bug.md](../../.claude/projects/-Users-asifhussain-PROJECTS-journal/memory/project_orchestrator_resume_bug.md).
+  - cost-ledger silent fail on Python 3.9: AttributeError("module 'datetime' has no
+    attribute 'UTC'"). Fix: replace datetime.UTC with datetime.timezone.utc in
+    cost-ledger writer.
+  - No --archetype <name> flag on orchestrator (proposed enhancement; archetype must
+    be manually appended to _authoring.py Phase 0e/0g prompts for now).
+  - No Quranic-quote corpus validator (proposed F27 #8).
+  - No template-variable-corruption static check (proposed F27 #9).
 next_action: |
-  Monitor PID 68721; on quiesce read
-  `content/podcast/library/books/kitab-al-riyad/_system/orchestrator-state.json`
-  for current phase/status. Asif drives 0g manually from this point.
+  **Air is parked.** Studio drives the manual finish from here.
 
-  Pending sync tasks deferred until the orchestrator window closes (collision
-  risk during active per-chapter writes):
-    (a) merge `origin/develop` → `book/kitab-al-riyad` to absorb the new
-        `_workspace/plan/operators/setup/` folder + asaas-side coord updates
-        + Studio §13 Azure registry;
-    (b) reconcile the 2026-05-21T11:50Z WRITE EXCEPTION blockquote that arrives
-        on this file via that merge (remove block + `written_by` field);
-    (c) add permanent §13 in this file mirroring
-        [mac-studio-primary.md §14](mac-studio-primary.md): 3-row summary table +
-        pointer to `setup/runtime-compatibility.md`;
-    (d) update per-Air row of `setup/machines.md` to reflect current phase
-        (per-chapter, EP10 shipped, EP14 in flight).
-anthropic_share: 0.5
-last_verified_at: 2026-05-21T12:45:00Z
-last_updated: 2026-05-21
+  Studio reads:
+    1. [_workspace/plan/handoff-kar-archetype-pivot.md](../handoff-kar-archetype-pivot.md)
+       — comprehensive handoff briefing with 5 steps + podcast debt catalog +
+       cost discipline.
+    2. [content/podcast/library/archetypes/islamic-scholastic-text.md](../../content/podcast/library/archetypes/islamic-scholastic-text.md)
+       — the doctrine.
+
+  Studio sequence (per the handoff):
+    Step A — Read archetype (~15-20 min).
+    Step B — EP10 P1 cleanup (3 fixes detailed in handoff §3, ~30 min).
+    Step C — Decide EP14 disposition (keep partial drafts vs regenerate, ~15 min).
+    Step D — Apply archetype forward to 11 remaining chapters (~3-4h, $2-6 in LLM
+             cost via cheap one-call skeleton + heavy hand-edit hybrid).
+    Step E — Run trainer + merge + done (deterministic, no LLM, ~30 min).
+
+  Air-side pending sync tasks STILL deferred:
+    (a) merge origin/develop → book/kitab-al-riyad (post-archetype work);
+    (b) reconcile the 2026-05-21T11:50Z WRITE EXCEPTION blockquote;
+    (c) add permanent §13 mirroring mac-studio-primary.md §14;
+    (d) update per-Air row of setup/machines.md.
+
+  Air will read this file when Studio re-pushes book/kitab-al-riyad. No active polling.
+anthropic_share: 0.0
+last_verified_at: 2026-05-22T10:50:00Z
+last_updated: 2026-05-22
 response_conventions: see _workspace/plan/response-conventions.md (BLUF format,
   AskUserQuestion ordering, halt-and-surface pattern, cross-machine awareness)
 ---
