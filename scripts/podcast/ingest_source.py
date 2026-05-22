@@ -66,7 +66,7 @@ sys.path.insert(0, str(SCRIPT_DIR))
 import _azure  # noqa: E402
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-LIBRARY_DIR = REPO_ROOT / "content" / "podcast" / "library"
+LIBRARY_DIR = REPO_ROOT / "_workspace"
 
 ALLOWED_CATEGORIES = {"books", "articles", "documents", "lectures", "interviews", "letters"}
 

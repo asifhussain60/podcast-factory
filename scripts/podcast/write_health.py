@@ -52,7 +52,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 HEALTH_DIR = REPO_ROOT / "content/podcast/.skill/_learning/health"
-LIBRARY_ROOT = REPO_ROOT / "content/podcast/library"
+LIBRARY_ROOT = REPO_ROOT / "_workspace"
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _rules import CHALLENGER_VERSION  # noqa: E402

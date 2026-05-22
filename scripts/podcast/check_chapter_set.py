@@ -44,7 +44,7 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-LIBRARY_DIR = REPO_ROOT / "content" / "podcast" / "library"
+LIBRARY_DIR = REPO_ROOT / "_workspace"
 
 # Length-target → (min, max) inclusive bands. Per SKILL.md INVARIANT 6.
 # Extended Deep Dive (~30–45 min audio) is the recommended default for dense /

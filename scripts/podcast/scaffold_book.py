@@ -33,7 +33,7 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-LIBRARY_DIR = REPO_ROOT / "content" / "podcast" / "library"
+LIBRARY_DIR = REPO_ROOT / "_workspace"
 BOOKS_INDEX = REPO_ROOT / "content" / "podcast" / ".skill" / "books.md"
 
 ALLOWED_CATEGORIES = {"books", "articles", "documents", "lectures", "interviews", "letters"}

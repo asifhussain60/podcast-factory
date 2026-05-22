@@ -196,7 +196,7 @@ def _resolve_book_dir(book_slug: str, category: str) -> Path:
     """Find the book directory anchored at the repo root."""
     here = Path(__file__).resolve()
     repo_root = here.parents[2]  # scripts/podcast/audit_page_markers.py → repo
-    book_dir = repo_root / "content" / "podcast" / "library" / category / book_slug
+    book_dir = repo_root / "_workspace" / category / book_slug
     if not book_dir.exists():
         raise SystemExit(f"book directory not found: {book_dir}")
     return book_dir

@@ -35,7 +35,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[2]
 PLAN_DIR = REPO_ROOT / "_workspace" / "plan"
 ACCEPTANCE_FILE = PLAN_DIR / "acceptance-criteria.md"
-BOOKS_DIR = REPO_ROOT / "content" / "podcast" / "library" / "books"
+BOOKS_DIR = REPO_ROOT / "_workspace" / "books"
 CHALLENGER_TEST = REPO_ROOT / "scripts" / "podcast" / "test_challenger.py"
 
 # Exit codes — see module docstring + yaml P1.4 acceptance.

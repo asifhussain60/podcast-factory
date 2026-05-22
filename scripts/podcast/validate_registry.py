@@ -51,7 +51,7 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-LIBRARY_DIR = REPO_ROOT / "content" / "podcast" / "library"
+LIBRARY_DIR = REPO_ROOT / "_workspace"
 
 ALLOWED_STATUS = {"draft", "challenger-pending", "ready", "generated", "archived"}
 SLUG_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")

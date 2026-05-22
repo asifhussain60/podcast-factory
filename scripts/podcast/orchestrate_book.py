@@ -90,7 +90,7 @@ from _convergence import (  # noqa: E402
 )
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-LIBRARY_ROOT = REPO_ROOT / "content" / "podcast" / "library"
+LIBRARY_ROOT = REPO_ROOT / "_workspace"
 SCAFFOLD_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "scaffold_book.py"
 INGEST_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "ingest_source.py"
 EXTRACT_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "extract_chapter.py"

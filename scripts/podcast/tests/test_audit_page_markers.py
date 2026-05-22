@@ -169,7 +169,7 @@ class IntegrationTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             # Build a fake repo root: <tmp>/_workspace/books/<slug>/_system/source/text/
             book_slug = "tiny-test"
-            text_dir = Path(tmp) / "content" / "podcast" / "library" / "books" / book_slug / "_system" / "source" / "text"
+            text_dir = Path(tmp) / "_workspace" / "books" / book_slug / "_system" / "source" / "text"
             text_dir.mkdir(parents=True)
             (text_dir / "raw-extract.md").write_text("<!-- page 1 -->\nbody\n<!-- page 2 -->")
             (text_dir / "refined-english.md").write_text("<!-- page 1 -->\nrefined\n<!-- page 2 -->")
