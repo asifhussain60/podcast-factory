@@ -3,11 +3,15 @@
   "book_slug": "kitab-al-riyad",
   "category": "books",
   "branch": "book/kitab-al-riyad",
-  "phase": "0g",
-  "phase_status": "completed",
-  "last_completed_phase": "0g",
-  "next_phase": "per-chapter",
-  "last_error": null,
+  "phase": "merge",
+  "phase_status": "failed",
+  "last_completed_phase": "trainer",
+  "next_phase": "merge",
+  "last_error": {
+    "phase": "merge",
+    "message": "`git checkout develop` failed: error: Your local changes to the following files would be overwritten by checkout:\n\tcontent/podcast/.skill/_learning/findings.jsonl\n\tcontent/podcast/.skill/_learning/health/kitab-al-riyad.json\n\tcontent/podcast/library/books/kitab-al-riyad/_system/cost-ledger.jsonl\n\tcontent/podcast/library/books/kitab-al-riyad/_system/orchestrator-state.json\nPlease commit your changes or stash them before you switch branches.\nAborting\n",
+    "ts": "2026-05-22T03:54:58Z"
+  },
   "phases": {
     "pre-flight": {
       "status": "completed",
@@ -86,10 +90,14 @@
       "reconcile_note": "EP06 bundle shipped 2026-05-21 18:02 but on-disk draft diverged from re-extraction after X17 hand-fix (\"across prior episodes\" -> \"of the source\"); reconciled to completed_slugs 2026-05-21 with Asif explicit auth to resume on remaining 4 chapters."
     },
     "trainer": {
-      "status": "pending"
+      "status": "completed",
+      "ts_started": "2026-05-22T03:52:44Z",
+      "ts_completed": "2026-05-22T03:54:58Z"
     },
     "merge": {
-      "status": "pending"
+      "status": "failed",
+      "ts_started": "2026-05-22T03:54:58Z",
+      "ts_completed": "2026-05-22T03:54:58Z"
     },
     "done": {
       "status": "pending"
@@ -101,7 +109,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-05-18T22:51:13Z",
-  "ts_updated": "2026-05-22T03:52:44Z",
+  "ts_updated": "2026-05-22T03:54:58Z",
   "challenger_version": "2.0",
   "orchestrator_version": "1.1"
 }

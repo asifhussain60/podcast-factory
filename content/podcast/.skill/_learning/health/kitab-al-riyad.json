@@ -1,14 +1,14 @@
 {
-  "ts": "2026-05-21T21:33Z",
+  "ts": "2026-05-22T10:45:00Z",
   "book": "kitab-al-riyad",
   "chapters_in_scope": 1,
   "p0": 0,
   "p1": 1,
-  "p2": 2,
+  "p2": 0,
   "auto_fixes": 0,
-  "score": 0.70,
-  "badge": "Caution",
+  "score": 0.80,
+  "badge": "Drifting",
   "verdict": "SHIP-WITH-CAUTION",
   "challenger_version": "2.0",
-  "scope": "per-chapter:the-human-as-fruit-of-the-worlds"
+  "scope": "per-chapter:the-soul-in-time-and-the-rejoinder-to-al-nusra"
 }
