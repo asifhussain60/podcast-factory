@@ -4,7 +4,7 @@
 
 For the full conventions doc with migration notes, deprecations, and rationale, see [response-conventions.md](response-conventions.md). This file is the **bare template + rules + worked example** — what you'd paste into a system prompt or copy when bootstrapping a new session.
 
-Last updated 2026-05-22 — extracted from [response-conventions.md §1](response-conventions.md) so any pulling machine (Air or Studio) picks up the same template via `develop`.
+Last updated 2026-05-22 — extracted from [response-conventions.md §1](response-conventions.md) so any pulling machine (Air or Studio) picks up the same template via `develop`. Revised 2026-05-22 (PM): the "Do all of the above in sequence" option is now `A. (Recommended)` by default — see "Default Recommendation for multi-path Next" below.
 
 ---
 
@@ -36,13 +36,15 @@ Every response to Asif that reports work, surfaces a decision, or hands off foll
 ## Next: 👤 Asif    [or 🤖 AI, depending on who owns the next move]
 <If ONE legitimate path exists: one explicit sentence naming the action.>
 
-<If TWO OR MORE legitimate paths exist: alphabetized list, recommended option as A, final option always "Do all of the above":>
+<If TWO OR MORE legitimate paths exist: alphabetized list. The "Do all in sequence" option is ALWAYS option A (Recommended) and is the default recommended path. Individual sub-paths follow as B, C, D in priority order:>
 
-A. (Recommended) <best path — what + brief why>
-B. <alternative path>
-C. <third path if applicable>
-D. Do all of the above (A + B + C in sequence)
+A. (Recommended) Do all of the below in the order shown (B → C → D) — the work composes; choosing them together avoids re-confirming each sub-step.
+B. <highest-priority individual sub-path — what + brief why>
+C. <second sub-path>
+D. <third sub-path if applicable>
 ```
+
+**Why "Do all" defaults to A**: when multiple paths exist that all need to happen, recommending sequential execution avoids burning Asif's attention on choose-each-one micro-decisions. If a sub-path is genuinely optional or mutually exclusive with another, surface that explicitly in the sub-path's brief-why — and demote A's recommendation to just an option if "do all" isn't actually safe.
 
 ---
 
@@ -57,7 +59,7 @@ D. Do all of the above (A + B + C in sequence)
 **Part 4 — `## Next: 👤 Asif` or `## Next: 🤖 AI`** — H2 header (visual weight matches the At-a-glance header, creating bookends for the response). Emoji + exactly-one-word actor name (`👤 Asif` for user-owned next move, `🤖 AI` for Claude-owned next move).
 
 - **One legitimate path exists**: one explicit sentence naming the action.
-- **Multiple legitimate paths exist**: alphabetized list where `A.` is ALWAYS `(Recommended)`, `B./C./…` are alternatives in priority order, and the **final letter** is ALWAYS `Do all of the above (A + B + C in sequence)`.
+- **Multiple legitimate paths exist**: alphabetized list where `A.` is ALWAYS `(Recommended) Do all of the below in the order shown (B → C → D)`. The sub-paths `B./C./D.` are the individual options in priority order. This default reflects the typical case: when several next-moves all need to happen, sequencing them under one acknowledgment is cheaper than asking Asif to choose each one. **Exception**: if sub-paths are mutually exclusive (only one can run) or A is genuinely not the best choice for this context, demote A to an alternative and pick a real individual path as the new recommendation — but justify the demotion in A's brief-why.
 - **Genuinely independent next moves for both Asif AND AI** (rare): two `## Next:` headers, one per actor.
 
 ---
@@ -99,10 +101,10 @@ The previously-broken adams-law contract was overwritten by the fresh 0d output,
 ---
 
 ## Next: 👤 Asif
-A. (Recommended) Authorize Phase 0e by running `python3 scripts/podcast/orchestrate_book.py --resume kitab-al-riyad` — clean re-run unblocks all downstream enrichment.
+A. (Recommended) Do all of the below in the order shown (B → C → D) — spot-checking before authorizing catches latent YAML, then the resume unblocks Phase 0e, then any deferral decision is made cleanly after.
 B. Spot-check 2-3 chapter contracts in [chapter-contracts/](content/podcast/library/books/kitab-al-riyad/chapter-contracts/) before authorizing — adds 5 min, catches any latent YAML issues.
-C. Defer Phase 0e and finish another book's gate first — only if you have higher-priority cross-book work.
-D. Do all of the above (B → C → A in sequence).
+C. Authorize Phase 0e by running `python3 scripts/podcast/orchestrate_book.py --resume kitab-al-riyad` — clean re-run unblocks all downstream enrichment.
+D. Defer Phase 0e and finish another book's gate first — only if you have higher-priority cross-book work.
 ```
 
 ---
@@ -115,7 +117,7 @@ D. Do all of the above (B → C → A in sequence).
 - **No `**Next:**` inline-bold line.** Deprecated 2026-05-21 in favor of `## Next: 👤 Asif` / `## Next: 🤖 AI` H2.
 - **No trailing summary paragraphs** ("In summary…", "To recap…"). At-a-glance already did that job.
 - **No postscripts after the Next header.** The Next header ends the response.
-- **Multi-path Next uses alphabetized options.** `A. (Recommended) / B. / C. / [final letter]. Do all of the above`. Single-path: one sentence, no list. One actor per `## Next:` header; max two total.
+- **Multi-path Next uses alphabetized options.** `A. (Recommended) Do all of the below in the order shown (B → C → D)` / individual sub-paths as `B. / C. / D.` in priority order. Single-path: one sentence, no list. One actor per `## Next:` header; max two total. If sub-paths are mutually exclusive or "do all" is unsafe, demote A and pick a real individual recommendation, justifying the demotion inline.
 - **Markdown links always.** `[name](path)` for files, `[commit abc1234](https://github.com/asifhussain60/Journal/commit/abc1234)` for commits, `[file.py:42](scripts/file.py#L42)` for line refs. Never bare paths in prose.
 - **Explain pipeline jargon parenthetically** the first time it appears (Phase 0e, nāṭiq, P22, abjad, da'wa, etc.).
 - **Synthesize, don't dump.** When external knowledge helps, cite. Otherwise stick to what the codebase shows.

@@ -24,7 +24,7 @@ History is preserved on both sides — `git filter-repo` rewrites a clone to con
 1. **Podcast repo name:** `podcast-factory` (per Asif 2026-05-22)
 2. **Journal repo name:** `journal`
 3. **Azure resources stay `journal-*` named** — cosmetic only, no rename. **`APP_NAME` edit in [azure-config.env](../../infra/azure/azure-config.env) is a code/config LABEL change only** — it does NOT trigger any Azure-side rename. The deployed resource group `rg-journal-ai`, all `journal-*` cognitive services, the storage account, and Key Vault all keep their existing names indefinitely. Post-split documentation (CLAUDE.md in podcast-factory + a note in [primary-mac-activation.md](primary-mac-activation.md) if it lives there) must clarify this cosmetic-only stance for future operators who'd otherwise be confused by `Journal`-prefixed Azure resources serving `podcast-factory` workloads.
-4. **Cloudflare Workers stay `journal` / `journal-dev` named** — they belong with the new `journal` repo (the Worker name is independent of GitHub repo name).
+4. **Cloudflare deploy + Anthropic API proxy RETIRED entirely** (per Asif 2026-05-22): the journal app no longer needs the Anthropic API, so the `journal` / `journal-dev` Cloudflare Workers, `wrangler.toml`, `site-worker.js`, `infra/cloudflare/`, `docs/cloudflare/`, AND the `server/` proxy are deleted from the runbook entirely. They are removed from podcast-factory in Phase 5 cleanup and NOT migrated to the new `journal` repo. The journal repo retains `site/` (static memoir display) but has no deploy target attached — operators may serve it locally via `npx serve site` or wire it to a different deploy mechanism in a future runbook. The original Phase 6 (Cloudflare re-pointing) has been deleted from this runbook.
 5. **Both repos are completely separate and disconnected** (per Asif 2026-05-22 directive). Once split:
    - **No shared paths, no submodules, no symlinks, no canonical-vs-duplicate distinction.** Every file lives in exactly one repo OR in two repos as INDEPENDENT COPIES that evolve separately.
    - **General-utility skills, agents, Claude Code config, Cowork tooling, and reference materials are DUPLICATED into both repos** — see §17 inventory for the explicit "DUPLICATED to both" list.
@@ -33,6 +33,7 @@ History is preserved on both sides — `git filter-repo` rewrites a clone to con
 6. **Both repos retain their own history** via `git filter-repo`. The current `Journal` repo's full commit history stays as `podcast-factory`'s history; the new `journal` repo gets a filtered history containing only journal-side-touching commits. **The new `journal` repo receives only `develop` and `main` branches** — not the podcast/book branches (filter-repo's `--refs develop main` scopes the extraction to those refs only).
 7. **Execution gates:** Air's KaR orchestrator Phase 10 merge to develop MUST complete before any step in this runbook runs.
 8. **Studio-local directory layout: contained parent folder** (per Asif 2026-05-22). All Studio worktrees move under `~/Code/podcast-factory/` so the entire podcast-factory repo is one self-contained directory tree. See §2A below for the full folder structure of both repos and the worktree layout on disk.
+9. **GitHub name case-collision discovery + temp-name workaround** (discovered during 2026-05-22 execution of Phase 1.6). GitHub treats `asifhussain60/journal` (lowercase) and `asifhussain60/Journal` (current capital J) as the SAME namespace — repo names are case-insensitive at the user level. Attempting `gh repo create asifhussain60/journal` returned `Name already exists`. The runbook now creates the new repo under a TEMPORARY name `asifhussain60/journal-new` in Phase 1.6, then renames `journal-new → journal` in the new sub-phase 7.1a (right after Phase 7.1 renames `Journal → podcast-factory`, which frees the lowercase `journal` namespace). Phase 3 / Phase 4 / Phase 5 all push to and reference the temp URL throughout; Phase 7.3a updates lingering filter-clone remotes from temp → canonical post-rename.
 
 ---
 
@@ -99,19 +100,15 @@ podcast-factory/                       (root of the repo)
 │   └── usage-auditor/
 │
 ├── docs/
-│   ├── anthropic-api-setup.md
 │   ├── architecture/                  (HTML pipeline diagrams)
 │   ├── azure/
-│   ├── cloudflare/
 │   ├── multi-mac-runbook.md           (rewritten podcast-only)
 │   ├── podcast/
-│   ├── proxy-setup.md
 │   └── voice-refine-test-samples.md
 │
 ├── infra/
 │   ├── azure/                         (azure-config.env, provision-azure.sh, store-keychain-keys.sh, …)
 │   ├── claude-agents/
-│   ├── cloudflare/
 │   └── launchd/
 │
 ├── _workspace/
@@ -218,7 +215,7 @@ journal/                                (root of the repo)
 │       │   └── translations-glossary.md
 │       └── chapters/                  (canonical memoir chapters .txt files)
 │
-├── site/                              (deployed to journal.kashkole.com via Cloudflare)
+├── site/                              (static memoir display; no deploy target — Cloudflare retired 2026-05-22)
 │   ├── chapters/                      (mirrored from content/babu-memoir/chapters/ via scripts/site/sync_chapters.sh)
 │   ├── css/
 │   │   ├── base.css
@@ -227,16 +224,9 @@ journal/                                (root of the repo)
 │   │   └── …
 │   ├── data/
 │   ├── js/
-│   ├── index.html                     (React SPA entry point)
+│   ├── index.html                     (React SPA entry point — Anthropic API integration removed)
 │   ├── package.json
 │   └── web.config
-│
-├── server/                            (Node/Express proxy: browser → Anthropic API; binds to 127.0.0.1:3001)
-│   ├── README.md
-│   ├── scripts/
-│   ├── src/                           (index.js + handlers)
-│   ├── package.json
-│   └── package-lock.json
 │
 ├── scripts/
 │   ├── install-claude-skills.sh       (DUPLICATED from podcast-factory; installs journal's skill set)
@@ -267,13 +257,9 @@ journal/                                (root of the repo)
 │   └── copilot-instructions.md        (DUPLICATED + tailored to journal)
 │
 ├── infra/
-│   ├── claude-agents/                 (journal-only + duplicated)
-│   │   ├── journal-challenger.md
-│   │   └── refine-prompt.md           (DUPLICATED)
-│   └── cloudflare/                    (RECLASSIFIED — Cloudflare deploys journal site)
-│
-├── docs/
-│   └── cloudflare/                    (RECLASSIFIED — Cloudflare deployment docs)
+│   └── claude-agents/                 (journal-only + duplicated)
+│       ├── journal-challenger.md
+│       └── refine-prompt.md           (DUPLICATED)
 │
 ├── reference/                         (DUPLICATED — full subtree)
 │   ├── cortex-challenger-framework.md
@@ -281,8 +267,6 @@ journal/                                (root of the repo)
 │   ├── skill-overlays/
 │   └── skill-registry.md              (tailored: lists journal's skill set only)
 │
-├── wrangler.toml                      (Cloudflare Workers: name="journal" / "journal-dev")
-├── site-worker.js                     (Worker entry; assets-only static deploy)
 ├── CLAUDE.md                          (journal-only after Phase 4 rewrite)
 ├── framework.md                       (journal-only after Phase 4 rewrite)
 ├── Makefile                           (slimmed — site-dev, site-deploy, install-skills; no Azure or podcast targets)
@@ -293,7 +277,7 @@ journal/                                (root of the repo)
 
 **Annotation legend** (used in the tree above and in §17 inventory):
 - `(DUPLICATED)` — file lives in BOTH repos as independent copies; future edits do NOT cross-propagate
-- `(RECLASSIFIED)` — file was previously planned for podcast-factory but moves to journal per the 2026-05-22 refactor (site-related or Cloudflare-related)
+- `(RECLASSIFIED)` — file was previously planned for podcast-factory but moves to journal per the 2026-05-22 refactor (site/UI-related). Cloudflare-related items WERE reclassified in an earlier draft of this runbook but are now RETIRED entirely (see §17.B-RETIRED).
 - No annotation — journal-exclusive
 
 The journal repo is the smaller side (~1.4 MB tracked content) but now includes ~5–7 duplicated skills, ~5 duplicated agents, the full `reference/` subtree, the skill installer, and tailored root config files (CLAUDE.md / Makefile / package.json / .gitignore / README.md — each rewritten for journal independently of podcast-factory's versions). Full self-containment with no cross-repo dependencies.
@@ -315,11 +299,104 @@ Memoir is single-doc work — one canonical chapter set, one site that serves it
 | Worktrees | 4 (main + 3 linked) on Studio; ≥2 on Air | 1 (no worktrees) |
 | Active branches | 6 (`develop`, `main`, 4 book/feat) | 2 (`develop`, `main`) |
 | Repo size | ~18 MB tracked content + duplicated skills/agents/refs | ~1.4 MB content + duplicated skills/agents/refs |
-| Deploys to | Nothing (pipeline outputs) | `journal.kashkole.com` via Cloudflare Workers |
-| Azure dependency | Yes (Translator, Doc Intel, Speech) | No (uses local server proxy for Anthropic API) |
+| Deploys to | Nothing (pipeline outputs) | None (Cloudflare deploy retired 2026-05-22; `site/` is local-only static files, served via `npx serve site` if needed) |
+| Azure dependency | Yes (Translator, Doc Intel, Speech) | None (Anthropic API proxy via `server/` retired 2026-05-22) |
 | General-utility skills present | clean-commit, cowork-brief, repo-surgeon, tell-me, usage-auditor, podcast | clean-commit, cowork-brief, repo-surgeon, tell-me, usage-auditor, journal, css-theme-sync, ui-modernizer |
 | General-utility agents present | CORTEX, refine-prompt, reconcile, repo-surgeon, operating-contract, podcast-* | CORTEX, refine-prompt, reconcile, repo-surgeon, operating-contract, journal-* |
 | Cross-repo sharing | **NONE** — fully disconnected; duplicated items evolve independently | **NONE** — fully disconnected |
+
+### 2A.6 podcast-factory — post-Phase-9.5 final layout (library hoist applied)
+
+The trees in §2A.1–§2A.2 above show the **immediate post-split** state. **Phase 9.5 — Library structure consolidation** (see §12A) then hoists the library out of `content/podcast/` into a top-level `library/` folder containing ONLY shipped, prod-ready artifacts. The end state of the podcast-factory tree is:
+
+```
+podcast-factory/                       (root of the repo, post-Phase-9.5)
+│
+├── library/                           ← NEW top-level — SHIPPED catalog only (read-only by convention)
+│   ├── _meta/
+│   │   ├── catalog.md                 (auto-generated cross-book index — markdown table)
+│   │   └── catalog.json               (optional — same data, machine-readable for site/site-tools)
+│   ├── archetypes/                    (moved from content/podcast/library/archetypes/)
+│   │   └── islamic-scholastic-text.md
+│   ├── books/
+│   │   └── <slug>/
+│   │       ├── index.md               (book metadata: title en+ar, author, archetype, series list, ship date+verdict, episode count, cover ref)
+│   │       ├── cover.{jpg,png}        (optional — book art, if curated)
+│   │       ├── transcript/            (polished NotebookLM SOURCE — one file per chapter, clean prose)
+│   │       │   ├── 01-<chapter-slug>.md
+│   │       │   ├── 02-<chapter-slug>.md
+│   │       │   └── …
+│   │       └── podcasts/              (episode bundles organized by series; some books span multiple series)
+│   │           ├── _series-index.md   (top-level series list for this book)
+│   │           ├── series-01-<series-slug>/
+│   │           │   ├── _series.md     (series description + episode ordering)
+│   │           │   ├── EP01-<chapter-slug>/
+│   │           │   │   ├── source.txt          (the NotebookLM SOURCE upload — TTS-safe)
+│   │           │   │   ├── framing.md          (the NotebookLM CUSTOMIZE PROMPT)
+│   │           │   │   ├── challenger-report.md
+│   │           │   │   └── audio.mp3            (optional — NotebookLM-generated audio, when archived)
+│   │           │   └── …
+│   │           └── series-02-<series-slug>/
+│   ├── articles/                      (shipped articles, same per-piece pattern)
+│   ├── documents/
+│   ├── interviews/
+│   ├── lectures/
+│   │   └── kunooz-al-hikmah/
+│   └── letters/
+│
+├── content/
+│   ├── _shared/
+│   │   └── arabic/                    (unchanged — duplicated independent copy)
+│   └── podcast/
+│       ├── _README.md
+│       └── .skill/                    (handbook + _learning substrate — unchanged)
+│
+├── _workspace/                        ← EXTENDED — single root-level workspace folder per Asif 2026-05-22 directive
+│   │                                    (accessible from all worktrees/branches; structure is shared, contents are branch-specific)
+│   ├── README.md                      (unchanged)
+│   ├── _archive/                      (unchanged)
+│   ├── audit/                         (unchanged)
+│   ├── chats/                         (unchanged)
+│   ├── orchestrator-logs/             (unchanged)
+│   ├── plan/                          (unchanged — operator coord)
+│   ├── runbooks/                      (unchanged — this runbook lives here)
+│   ├── books/                         ← NEW — per-book in-progress state (moved from content/podcast/library/books/)
+│   │   ├── asaas-al-taveel/           (active work — _system/, chapter-contracts/, chapters/, episodes/, episode-drafts/, transcripts/)
+│   │   │   ├── _system/
+│   │   │   │   ├── orchestrator-state.json
+│   │   │   │   ├── challenger-report.md
+│   │   │   │   ├── series-plan.md
+│   │   │   │   └── …
+│   │   │   ├── chapter-contracts/
+│   │   │   ├── chapters/              (TTS-safe .txt source per chapter)
+│   │   │   ├── episodes/
+│   │   │   ├── episode-drafts/
+│   │   │   ├── transcripts/
+│   │   │   └── source/                (raw PDF intake — gitignored per .gitignore patterns added in Phase 9.5.3)
+│   │   ├── ayyuhal-walad/
+│   │   ├── islr-mas-i/
+│   │   ├── kitab-al-riyad/
+│   │   └── the-master-and-the-disciple/
+│   ├── articles/                      (in-progress articles — moved from content/podcast/library/articles/)
+│   ├── documents/
+│   ├── interviews/
+│   ├── lectures/
+│   ├── letters/
+│   ├── _sandbox/
+│   └── Books/                         ← LEGACY case-folded alias of books/ on macOS APFS (PDF intake convention; gitignored content)
+│
+└── (everything else from §2A.1 unchanged: scripts/, skills-staging/, docs/, infra/, .github/, reference/, root config files)
+```
+
+Key invariants of the post-Phase-9.5 layout:
+
+- **`library/` is invariantly "shipped only"** — every file inside has passed a challenger verdict (SHIP-READY or operator-approved SHIP-WITH-CAUTION) and is the canonical prod-grade output.
+- **`_workspace/books/<slug>/` is invariantly "scratch"** — orchestrator state, intermediate transcripts, draft episodes, draft framings, in-progress challenger reports all live here. The pipeline writes here freely. Per Asif's 2026-05-22 directive, the workspace is a single root-level folder accessible from every worktree/branch (structure is shared; per-branch contents are naturally branch-specific via git).
+- **Promotion is one-way and explicit** — `scripts/podcast/ship_to_library.py` (authored in Phase 9.5) is the only path from workspace → library. Manual edits to `library/` are discouraged and CI-checked.
+- **Worktrees on book branches** (e.g., `book-asaas/`, `book-islr/`) carry their own checkout of `_workspace/books/<book>/` — that's where book-specific in-progress work happens. The top-level `library/` is only meaningfully populated on `develop` and `main`.
+- **`content/podcast/library/` no longer exists** — its contents split between top-level `library/` (shipped), root `_workspace/books/` + `_workspace/<category>/` (in-progress), and `library/archetypes/` (cross-book reference). The remaining `content/podcast/` holds only `_README.md` and `.skill/` (handbook + learning substrate).
+
+This end-state is the user-visible folder model for podcast-factory; the immediate post-split layout in §2A.1–§2A.2 is a transient intermediate stage between Phases 5 and 9.5.
 
 ---
 
@@ -350,7 +427,6 @@ Before executing Phase 1:
 - [ ] **Backup disk space** — at least 2 GB free in `~/Backups/` (or wherever the backup target lives). Check: `df -h ~/Backups/ 2>/dev/null || df -h ~/`. Layers 2 + 3 together typically run ~500MB–1GB for this repo's size, but headroom matters if the run is repeated.
 - [ ] `git-filter-repo` installed: `which git-filter-repo` resolves. Install if missing: `brew install git-filter-repo`.
 - [ ] Air notified — she'll need `git remote set-url origin <new-url>` after Phase 7.
-- [ ] Cloudflare dashboard access confirmed (Asif's account).
 - [ ] GitHub admin access to `asifhussain60/Journal` confirmed.
 
 ---
@@ -407,7 +483,7 @@ done
 git push origin --tags
 
 # Verify tags are on origin
-echo "Tags on origin: $(git ls-remote --tags origin | grep "pre-split-$DATE" | wc -l)"   # expect ≥9
+echo "Tags on origin: $(git ls-remote --tags origin | grep "pre-split-$DATE" | wc -l)"   # expect = count of branches in the for-loop that ALSO exist on origin (some branches in the list may be local-only — those are NOT tagged here; they're captured by Layer 2 mirror + Layer 3 tar instead). On 2026-05-22 the actual count was 6 (develop, main, book/asaas-al-taveel, book/kitab-al-riyad, feat/operator-review-studio, feat/podcast-w1-foundation); 5 branches were local-only.
 echo "Map file entries: $(wc -l < $MAP_FILE)"
 
 # Sanity check — map file content
@@ -450,20 +526,27 @@ The mirror captures git-tracked content. A tar additionally captures:
 - IDE workspace files, `.vscode/` per-worktree settings
 
 ```bash
+# IMPORTANT: macOS BSD tar requires --exclude BEFORE the paths to add,
+# unlike GNU tar which accepts them anywhere. Putting --exclude after
+# paths makes BSD tar interpret the flag as a literal file path and the
+# excludes silently don't apply (the archive ends up larger than intended
+# but is still valid — discovered during the 2026-05-22 execution).
 cd ~/Code
-tar -czf ~/Backups/repo-split-$DATE/worktrees-snapshot.tar.gz \
-  Journal \
-  Journal-book-asaas \
-  Journal-book-islr \
-  Journal-feat-w1 \
-  --exclude='*/node_modules' \
-  --exclude='*/.venv' \
-  --exclude='*/_workspace/Books' \
-  --exclude='**/.DS_Store'
+tar --exclude='*/node_modules' \
+    --exclude='*/.venv' \
+    --exclude='*/_workspace/Books' \
+    --exclude='**/.DS_Store' \
+    -czf ~/Backups/repo-split-$DATE/worktrees-snapshot.tar.gz \
+    Journal \
+    Journal-book-asaas \
+    Journal-book-islr \
+    Journal-feat-w1
 
 du -sh ~/Backups/repo-split-$DATE/worktrees-snapshot.tar.gz
 ls -la ~/Backups/repo-split-$DATE/
 ```
+
+**Note on the 2026-05-22 execution**: this step ran with the (BSD-incompatible) post-path `--exclude` syntax and produced a 369MB archive that includes `node_modules/` etc. The archive is valid and comprehensive — net positive for safety; no re-run required. The corrected pre-path syntax above is what future runs should use.
 
 To restore: `cd ~/Code && tar -xzf ~/Backups/repo-split-$DATE/worktrees-snapshot.tar.gz` recreates all 4 worktree directories at their original paths.
 
@@ -523,22 +606,27 @@ gh repo view asifhussain60/journal-backup-pre-split-$DATE 2>/dev/null >/dev/null
 
 **STOP CONDITION**: if Layer 1, **Layer 1c (tag-branch map)**, Layer 2, or Layer 3 is missing, do NOT proceed to Phase 2. Layer 1c is critical because Path A restore (§14.2) reads it directly — without it, restore falls back to the more destructive NUCLEAR path. Layer 1b (tags pushed to origin) failing is recoverable by re-running the push; Layer 4 is optional.
 
-### 1.6. GitHub prep — Create new `journal` repo
+### 1.6. GitHub prep — Create new journal repo (uses TEMPORARY name `journal-new`)
+
+> ⚠️ **GitHub name-collision discovery (2026-05-22)**: `asifhussain60/journal` (lowercase) and `asifhussain60/Journal` (capital J) resolve to the SAME repo on GitHub — repo names are case-insensitive at the namespace level. Attempting `gh repo create asifhussain60/journal` returns `GraphQL: Name already exists on this account (createRepository)` until the existing `Journal` is renamed to `podcast-factory` in Phase 7.1. To unblock Phase 3 (push to journal repo) without reordering everything, Phase 1.6 creates the new repo under a TEMPORARY name `asifhussain60/journal-new`; Phase 7.1a (added below) renames it to `asifhussain60/journal` immediately after Phase 7.1 frees the lowercase namespace.
 
 Once backups are verified intact:
 
 ```bash
-gh repo create asifhussain60/journal \
-  --private \
-  --description "Asif's journal & memoir engine — split from podcast-factory $DATE"
+# Match the current Journal repo's visibility (PUBLIC per Asif's setting)
+gh repo create asifhussain60/journal-new \
+  --public \
+  --description "Asif's journal & memoir engine — split from podcast-factory $DATE (TEMPORARY name; renames to 'journal' in Phase 7.1a after the case-collision frees)"
 ```
 
-Match the current `Journal` repo's privacy setting (the current Journal is PUBLIC per `gh repo view`; set `--public` instead of `--private` if Asif wants the journal repo public too). **Do NOT** initialize with README, .gitignore, or license — we're pushing filtered history into a clean target.
+**Do NOT** initialize with README, .gitignore, or license — we're pushing filtered history into a clean target.
 
 Verify:
 ```bash
-gh repo view asifhussain60/journal --json url,visibility,defaultBranchRef
+gh repo view asifhussain60/journal-new --json url,visibility,defaultBranchRef
 ```
+
+All Phase 2 / Phase 3 / Phase 4 references push to `asifhussain60/journal-new.git` (the temporary remote URL); Phase 7.1a does the rename, and Phase 7.3a updates any lingering filter-clone remotes from the temp URL to the final `journal.git` URL.
 
 ### 1.7. Deferred — DO NOT rename `Journal` → `podcast-factory` yet
 
@@ -573,18 +661,17 @@ git filter-repo \
   --path scripts/site \
   --path skills-staging/journal \
   --path site \
-  --path site-worker.js \
-  --path wrangler.toml \
-  --path server \
   --path .github/agents/journal-orchestrator.agent.md \
   --path .github/agents/journal-challenger.agent.md \
   --path infra/claude-agents/journal-challenger.md \
   \
-  `# Reclassified to journal (site / Cloudflare related)` \
+  `# Reclassified to journal (site / UI-related)` \
   --path skills-staging/css-theme-sync \
   --path skills-staging/ui-modernizer \
-  --path docs/cloudflare \
-  --path infra/cloudflare \
+  \
+  `# NOTE: Cloudflare scaffold (wrangler.toml, site-worker.js, infra/cloudflare/, docs/cloudflare/)` \
+  `# AND the Anthropic API proxy (server/) are RETIRED entirely 2026-05-22 — NOT migrated to journal.` \
+  `# They are deleted from podcast-factory in Phase 5 cleanup, and never appear in the new journal repo.` \
   \
   `# DUPLICATED to both repos — kept here so journal has its own independent copies` \
   --path content/_shared/arabic \
@@ -615,10 +702,11 @@ git filter-repo \
 
 Notes:
 - All `(DUPLICATED)` paths are included here so journal gets its own historical copies; podcast-factory's copies stay in place (Phase 5 cleanup does NOT remove them).
-- All `(RECLASSIFIED)` paths (`css-theme-sync`, `ui-modernizer`, `docs/cloudflare`, `infra/cloudflare`) move to journal entirely and are removed from podcast-factory in Phase 5.
+- All `(RECLASSIFIED)` paths (`css-theme-sync`, `ui-modernizer`) move to journal entirely and are removed from podcast-factory in Phase 5.
+- **RETIRED paths (NOT migrated to journal, deleted from podcast-factory in Phase 5)**: `server/`, `wrangler.toml`, `site-worker.js`, `infra/cloudflare/`, `docs/cloudflare/`, `docs/anthropic-api-setup.md`, `docs/proxy-setup.md`. The journal app no longer needs the Anthropic API, so the Cloudflare deploy scaffold and the API proxy are both retired as of 2026-05-22.
 - Shared root files (`CLAUDE.md`, `framework.md`, `Makefile`, `package.json`, `.gitignore`, `README.md`) are kept because they have journal-touching history. Each will be REWRITTEN per repo in Phase 4 (journal) and Phase 5 (podcast-factory) — same filename, different content, no future cross-propagation.
-- Excluded (stay only in podcast-factory): `content/podcast/`, `scripts/podcast/`, `scripts/git-hooks/`, `scripts/install-git-hooks.sh`, `skills-staging/podcast/`, `infra/azure/`, `infra/launchd/`, `_workspace/`, `.github/agents/podcast-*`, `.github/agents/CORTEX-archived/` (if any), `.github/workflows/`, `docs/podcast/`, `docs/architecture/`, `docs/azure/`, `docs/multi-mac-runbook.md`, `docs/anthropic-api-setup.md`, `docs/proxy-setup.md`, `docs/voice-refine-test-samples.md`, `shared/`.
-- `shared/tag-normalize.js` is excluded by default (assumed podcast-only); add `--path shared` to the filter-repo args ONLY if Asif confirms it's used by `site/` or `server/`.
+- Excluded (stay only in podcast-factory): `content/podcast/`, `scripts/podcast/`, `scripts/git-hooks/`, `scripts/install-git-hooks.sh`, `skills-staging/podcast/`, `infra/azure/`, `infra/launchd/`, `_workspace/`, `.github/agents/podcast-*`, `.github/agents/CORTEX-archived/` (if any), `.github/workflows/`, `docs/podcast/`, `docs/architecture/`, `docs/azure/`, `docs/multi-mac-runbook.md`, `docs/voice-refine-test-samples.md`, `shared/`.
+- `shared/tag-normalize.js` is excluded by default (assumed podcast-only); add `--path shared` to the filter-repo args ONLY if Asif confirms it's used by the static `site/` (server/ is retired 2026-05-22, so it's no longer a consumer).
 
 2.3. Verify only journal-side files remain:
 
@@ -629,22 +717,22 @@ find . -type f -not -path './.git/*' | head -40
 ```
 
 Expected after filter-repo:
-- **Journal-exclusive**: `content/babu-memoir/`, `site/`, `server/`, `scripts/memoir/`, `scripts/site/`, `skills-staging/journal/`, `.github/agents/journal-*.agent.md`, `infra/claude-agents/journal-challenger.md`
-- **Reclassified**: `skills-staging/css-theme-sync/`, `skills-staging/ui-modernizer/`, `docs/cloudflare/`, `infra/cloudflare/`
+- **Journal-exclusive**: `content/babu-memoir/`, `site/`, `scripts/memoir/`, `scripts/site/`, `skills-staging/journal/`, `.github/agents/journal-*.agent.md`, `infra/claude-agents/journal-challenger.md`
+- **Reclassified**: `skills-staging/css-theme-sync/`, `skills-staging/ui-modernizer/`
 - **Duplicated** (also stay in podcast-factory): `content/_shared/arabic/`, `skills-staging/{clean-commit,cowork-brief,repo-surgeon,tell-me,usage-auditor}/`, `.github/agents/{CORTEX,refine-prompt,reconcile,repo-surgeon,operating-contract}.agent.md`, `.github/copilot-instructions.md`, `infra/claude-agents/refine-prompt.md`, `reference/`, `scripts/install-claude-skills.sh`
 - **Root config files** (rewritten per repo in Phase 4): `CLAUDE.md`, `framework.md`, `Makefile`, `package.json`, `.gitignore`, `README.md`
 
-Absent: `content/podcast/`, `scripts/podcast/`, `scripts/git-hooks/`, `scripts/install-git-hooks.sh`, `infra/azure/`, `infra/launchd/`, `_workspace/`, `.github/workflows/`, `.github/agents/podcast-*`, `docs/podcast/`, `docs/architecture/`, `docs/azure/`, `docs/multi-mac-runbook.md`, `shared/`.
+Absent (retired entirely OR podcast-only): `content/podcast/`, `scripts/podcast/`, `scripts/git-hooks/`, `scripts/install-git-hooks.sh`, `infra/azure/`, `infra/launchd/`, `infra/cloudflare/`, `_workspace/`, `.github/workflows/`, `.github/agents/podcast-*`, `docs/podcast/`, `docs/architecture/`, `docs/azure/`, `docs/cloudflare/`, `docs/multi-mac-runbook.md`, `docs/anthropic-api-setup.md`, `docs/proxy-setup.md`, `server/`, `wrangler.toml`, `site-worker.js`, `shared/`.
 
 ---
 
 ## 6. Phase 3 — Push to new `journal` repo
 
-3.1. Add the new remote and push **branches only — NO `--tags`**. The pre-split safety tags from Phase 1.1 belong to the podcast-factory side; the journal repo starts with a clean tag namespace.
+3.1. Add the new remote (using the TEMPORARY `journal-new` URL — see Phase 1.6 for why; Phase 7.1a renames to `journal`) and push **branches only — NO `--tags`**. The pre-split safety tags from Phase 1.1 belong to the podcast-factory side; the journal repo starts with a clean tag namespace.
 
 ```bash
 git remote remove origin
-git remote add origin https://github.com/asifhussain60/journal.git
+git remote add origin https://github.com/asifhussain60/journal-new.git
 
 # Belt-and-suspenders: delete any surviving pre-split-* tags from the filter-repo
 # clone before push, so even an accidental --tags push later wouldn't leak them.
@@ -669,11 +757,11 @@ git push origin "journal-split-$DATE"
 
 This tag is the journal repo's own restore anchor for its initial state — distinct from the pre-split tags, which live on the podcast-factory side and reference the parent-repo lineage.
 
-3.3. Verify on GitHub: `github.com/asifhussain60/journal` has develop, main, the `journal-split-$DATE` tag, and the expected file tree. NO `pre-split-*` tags should be present.
+3.3. Verify on GitHub: `github.com/asifhussain60/journal-new` has develop, main, the `journal-split-$DATE` tag, and the expected file tree. NO `pre-split-*` tags should be present. (Post-Phase-7.1a, the same data lives at `github.com/asifhussain60/journal`.)
 
 ```bash
-gh repo view asifhussain60/journal --json defaultBranchRef
-gh api repos/asifhussain60/journal/tags --jq '.[].name' | head -10
+gh repo view asifhussain60/journal-new --json defaultBranchRef
+gh api repos/asifhussain60/journal-new/tags --jq '.[].name' | head -10
 ```
 
 ---
@@ -696,22 +784,23 @@ Still in `~/Code/Journal-filter`. Make the files reflect single-purpose journal-
 - Remove `podcast-ingest`, `podcast-transcribe`, `podcast-audit`, `podcast-post-publish` targets
 - Remove `provision`, `store-keys`, `verify`, `azure-probe`, `migrate-to-keyvault` (Azure-specific, podcast-only)
 - Keep `bootstrap`, `install-skills` (if relevant to journal)
-- Add `site-dev`, `site-deploy` targets if missing
+- Add a `site-dev` target running `npx serve site` (or equivalent local-static server). **Do NOT add `site-deploy`** — Cloudflare deploy retired 2026-05-22; the journal site is local-only.
 
 4.4. Edit `package.json`:
 - `"name": "journal"` (was `"babu-journal"`)
-- `"description": "Babu memoir engine + journal site"` (drop "podcast source-bundle prep")
+- `"description": "Babu memoir engine + local-only journal site"` (drop "podcast source-bundle prep" + drop deploy framing since Cloudflare is retired)
 - `"keywords": ["journal", "memoir"]` (drop "podcast")
 
 4.5. Edit `.gitignore`:
 - Remove podcast-specific entries (`_workspace/Books/`, podcast chunks, orchestrator logs)
-- Keep server/node_modules, .DS_Store, .env, etc.
+- Remove `server/node_modules` entry (server/ retired 2026-05-22; the entry is now an orphaned reference)
+- Keep `.DS_Store`, `.env`, `site/node_modules` (if site/ has its own deps), etc.
 
 4.6. Edit `README.md` (if exists) to be journal-only.
 
 4.7. **Tailor duplicated config files for journal-only identity.** The duplicated items came over from podcast-factory verbatim; each needs editing so it reflects what's IN journal repo only:
 
-- `.github/copilot-instructions.md`: rewrite to remove podcast references; describe journal's surface (memoir + site + server) and conventions
+- `.github/copilot-instructions.md`: rewrite to remove podcast references; describe journal's surface (memoir + local-only site; **NO server/ since it's retired 2026-05-22**) and conventions
 - `reference/skill-registry.md`: trim to list ONLY skills present in journal (clean-commit, cowork-brief, repo-surgeon, tell-me, usage-auditor, journal, css-theme-sync, ui-modernizer). Remove podcast entries.
 - `reference/cortex-challenger-framework.md`: if it has podcast-specific examples, replace with journal examples (memoir challenger, site challenger). Otherwise leave as-is — it's a general framework.
 - `reference/skill-bootstrap.md`: same — review for podcast specifics; rewrite as needed.
@@ -748,7 +837,7 @@ git checkout -b chore/extract-journal-to-separate-repo
 
 `--ff-only` enforces the no-accidental-merge discipline used throughout the runbook. If develop has diverged locally, the pull fails loudly and the operator investigates instead of silently creating a merge commit during surgery.
 
-5.2. Remove journal-EXCLUSIVE files AND reclassified-to-journal files (site/Cloudflare). **DO NOT remove any DUPLICATED items** — those stay in podcast-factory as the repo's own independent copies (see §17.A for the duplicated list).
+5.2. Remove journal-EXCLUSIVE files, reclassified-to-journal files (site/UI), AND retired-entirely files (Cloudflare scaffold + API proxy). **DO NOT remove any DUPLICATED items** — those stay in podcast-factory as the repo's own independent copies (see §17.A for the duplicated list).
 
 ```bash
 # Journal-exclusive (only-in-journal post-split)
@@ -757,17 +846,24 @@ git rm -r scripts/memoir
 git rm -r scripts/site
 git rm -r skills-staging/journal
 git rm -r site
-git rm site-worker.js wrangler.toml
-git rm -r server
 git rm .github/agents/journal-orchestrator.agent.md
 git rm .github/agents/journal-challenger.agent.md
 git rm infra/claude-agents/journal-challenger.md
 
-# Reclassified to journal (site/Cloudflare — no longer needed in podcast-factory)
+# Reclassified to journal (site/UI — no longer needed in podcast-factory)
 git rm -r skills-staging/css-theme-sync
 git rm -r skills-staging/ui-modernizer
+
+# RETIRED entirely 2026-05-22 — NOT migrated to journal (orphaned references cleanup)
+# Cloudflare deploy scaffold: deleted from podcast-factory AND excluded from Phase 2 filter-repo
+git rm site-worker.js wrangler.toml
 git rm -r docs/cloudflare
 git rm -r infra/cloudflare
+# Anthropic API proxy: journal app no longer needs the Anthropic API
+git rm -r server
+# API/proxy-related docs that only made sense in the retired-stack context
+git rm docs/anthropic-api-setup.md 2>/dev/null || true
+git rm docs/proxy-setup.md 2>/dev/null || true
 ```
 
 **Explicitly KEEP** (stays in podcast-factory as its own independent copy — duplicated to journal in Phase 2):
@@ -804,14 +900,21 @@ Update or remove as appropriate. Some references are historical commit messages 
 git add -A
 git commit -m "chore: extract journal/memoir/site into separate repo
 
-Journal repo now lives at github.com/asifhussain60/journal.
-This repo (Journal, to be renamed podcast-factory) is now podcast-only.
+Journal repo lives at github.com/asifhussain60/journal-new during Phases 1-5
+(temporary name to dodge GitHub case-collision with the existing /Journal),
+and renames to github.com/asifhussain60/journal in Phase 7.1a after Phase 7.1
+renames Journal → podcast-factory and frees the lowercase namespace.
+
+This repo (Journal, to be renamed podcast-factory in Phase 7.1) is now podcast-only.
 
 Both repos are completely separate and disconnected per the 2026-05-22 refactor:
 - General-utility skills, agents, reference materials, content/_shared/arabic/,
   and Claude Code config are duplicated as independent copies in each repo.
-- Site/Cloudflare-related items (css-theme-sync, ui-modernizer, docs/cloudflare,
-  infra/cloudflare) reclassified to journal.
+- Site/UI-related items (css-theme-sync, ui-modernizer) reclassified to journal.
+- Cloudflare deploy scaffold (wrangler.toml, site-worker.js, infra/cloudflare/,
+  docs/cloudflare/) AND the Anthropic API proxy (server/) are RETIRED entirely
+  per Asif 2026-05-22 — the journal app no longer needs the Anthropic API.
+  These are deleted from podcast-factory and never appear in the journal repo.
 - No shared paths, no submodules, no symlinks between the two repos.
 
 Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
@@ -822,23 +925,15 @@ git push -u origin chore/extract-journal-to-separate-repo
 
 ---
 
-## 9. Phase 6 — Re-point Cloudflare deploy to new `journal` repo
+## 9. Phase 6 — DELETED (was: Re-point Cloudflare deploy to new `journal` repo)
 
-`journal.kashkole.com` is served by Cloudflare Workers from this repo's `site/`. After the journal extract, the source-of-truth for the site is the new `journal` repo.
-
-6.1. Cloudflare dashboard → Workers & Pages → `journal` project → Settings → Builds & deployments → Source → Disconnect from old GitHub integration.
-
-6.2. Re-connect: Source → GitHub → `asifhussain60/journal` repo → branch `develop` (or `main`, match current setting).
-
-6.3. Trigger a manual deploy and verify `journal.kashkole.com` still serves correctly.
-
-6.4. Repeat for `journal-dev` (preview, branch `develop`).
+> **RETIRED 2026-05-22**: per Asif's directive, the journal app no longer uses the Anthropic API, so the Cloudflare deploy scaffold AND the API proxy are deleted from the runbook entirely. No re-pointing is needed because there is no Cloudflare Workers project remaining for `journal` after Phase 5 cleanup deletes the scaffold (`wrangler.toml`, `site-worker.js`, `infra/cloudflare/`, `docs/cloudflare/`) and the API proxy (`server/`). The `journal` Worker on Cloudflare itself remains an orphaned external resource — Asif may delete it manually in the Cloudflare dashboard when convenient; no runbook step is needed for that. Phase numbering is preserved: subsequent phases remain Phase 7, Phase 8, etc., for backward compatibility with any prior cross-machine references.
 
 ---
 
 ## 10. Phase 7 — Rename GitHub repo: `Journal` → `podcast-factory`
 
-> ⚠️ **`gh repo rename` is a §19.4 destructive operation. Phase 7 green-light authorizes the phase as a whole, but Step 7.1 specifically requires a FRESH explicit confirmation from Asif immediately before the rename runs.** The rename produces durable external state visible to all collaborators (Air, anyone with bookmarks to `github.com/asifhussain60/Journal/*`, Cloudflare's GitHub integration, GitHub Apps installations). Halt and surface before running 7.1 even after Phase 7 is green-lit. Document the approval inline in the chat or operator file before executing.
+> ⚠️ **`gh repo rename` is a §19.4 destructive operation. Phase 7 green-light authorizes the phase as a whole, but Step 7.1 specifically requires a FRESH explicit confirmation from Asif immediately before the rename runs.** The rename produces durable external state visible to all collaborators (Air, anyone with bookmarks to `github.com/asifhussain60/Journal/*`, GitHub Apps installations). Halt and surface before running 7.1 even after Phase 7 is green-lit. Document the approval inline in the chat or operator file before executing.
 
 7.1. **After fresh Asif confirmation** (per the warning above), execute the rename:
 
@@ -848,6 +943,17 @@ gh repo rename --repo asifhussain60/Journal podcast-factory
 ```
 
 Alternative (manual, equivalent): GitHub UI → `asifhussain60/Journal` → Settings → "Repository name" → enter `podcast-factory` → Rename repository.
+
+### 7.1a. Rename temporary `journal-new` → canonical `journal`
+
+Phase 7.1 frees the lowercase `journal` namespace (since `Journal` is now `podcast-factory`). Rename the temporary `journal-new` (created in Phase 1.6 to dodge the case-insensitive collision) to its canonical name:
+
+```bash
+gh repo rename --repo asifhussain60/journal-new journal
+gh repo view asifhussain60/journal --json url,visibility,defaultBranchRef
+```
+
+GitHub auto-creates a permanent redirect `github.com/asifhussain60/journal-new/*` → `github.com/asifhussain60/journal/*`, so any pre-existing clones of `journal-new` (Studio's `~/Code/Journal-filter` if still present, plus any Air-side journal clones from Phase 8.5) continue to resolve. Phase 7.3a below updates them to the canonical URL.
 
 7.2. GitHub auto-creates a permanent redirect from `github.com/asifhussain60/Journal/*` to `github.com/asifhussain60/podcast-factory/*`. Old clones continue working transparently.
 
@@ -860,6 +966,24 @@ git remote -v   # verify
 ```
 
 Worktrees (`Journal-book-asaas`, `Journal-book-islr`, `Journal-feat-w1`) inherit the parent's remote — no per-worktree update needed.
+
+### 7.3a. Update any lingering `journal-new` remotes to `journal`
+
+If Studio's `~/Code/Journal-filter` (the temporary filter-repo workspace from Phase 2) still exists with an `origin` pointing at `journal-new`, fix its URL. Similarly any Air-side journal clone created in Phase 8.5 that targeted the temp name.
+
+```bash
+# Studio filter-clone (only if still present — typically deleted after Phase 3 + 4 push)
+if [[ -d ~/Code/Journal-filter ]]; then
+  cd ~/Code/Journal-filter
+  current_url=$(git remote get-url origin 2>/dev/null)
+  if [[ "$current_url" == *"journal-new"* ]]; then
+    git remote set-url origin https://github.com/asifhussain60/journal.git
+    git remote -v
+  fi
+fi
+```
+
+Air's journal clone (if she ran Phase 8.5 with the temp URL): she'll do the equivalent `git remote set-url origin https://github.com/asifhussain60/journal.git` on her side.
 
 7.4. **Worktree directory reorganization — MANDATORY** (Studio-local). Consolidate all 4 worktrees under a single parent folder `~/Code/podcast-factory/` so the entire podcast-factory repo is one contained tree.
 
@@ -1181,6 +1305,223 @@ git push
 
 ---
 
+## 12A. Phase 9.5 — Library structure consolidation
+
+**Goal**: Hoist `content/podcast/library/` to a top-level `library/` folder that contains ONLY shipped, prod-ready artifacts. The per-book in-progress workspace moves from `content/podcast/library/books/<slug>/` to the root-level `_workspace/books/<slug>/` so workspace lives in a single root folder accessible from every worktree/branch (per Asif 2026-05-22 directive). Books are processed in worktrees on book branches against `_workspace/books/<slug>/`; when a book reaches a ship verdict, its polished outputs are promoted into `library/books/<slug>/` via a one-way script. See §2A.6 for the visual reference.
+
+This phase runs **after** Phase 9 (operator-file URL/path updates) because Phase 9 only repairs `/Code/Journal` → `/Code/podcast-factory/` paths; Phase 9.5's path rewrites are a separate, content-side move (`content/podcast/library/books/` → `_workspace/books/`) that touches different files (mostly `scripts/podcast/`, `skills-staging/podcast/`, `.github/agents/podcast-*.agent.md`, and orchestrator state files inside `_workspace/books/<book>/_system/`).
+
+**Note on macOS case-folding** (APFS default): the existing `_workspace/Books/` PDF intake folder (capital B, gitignored) and the new `_workspace/books/` orchestrator workspace (lowercase b, tracked) resolve to the SAME folder on case-insensitive filesystems. That's intentional — the merged folder holds both raw PDF source (gitignored via `_workspace/books/*/source*` and `_workspace/books/*.pdf`) AND the orchestrator state (tracked). Operators on case-sensitive Linux filesystems can opt to treat them as separate; the runbook canonicalizes on lowercase `_workspace/books/` for paths in tracked content.
+
+### 12A.1 Pre-flight for Phase 9.5
+
+- [ ] Phases 1 through 9 complete on `develop`.
+- [ ] No active orchestrator run on any book — all `orchestrator-state.json` files show `phase_status` of `halted-*`, `shipped`, or `idle`. (Active runs would race with the workspace move.)
+- [ ] All 4 worktrees clean (`git status --short` empty in each).
+- [ ] Workspace location DECIDED 2026-05-22: per Asif's directive, the per-book workspace moves to root-level `_workspace/books/<slug>/` (single root folder, accessible from all worktrees/branches). The existing `_workspace/Books/` PDF intake convention merges in on case-insensitive macOS filesystems.
+
+### 12A.2 Target structure
+
+Top-level `library/` after Phase 9.5 is complete (see §2A.6 for the full tree). The four invariants:
+
+| Path | Role | Mutability |
+|---|---|---|
+| `library/books/<slug>/index.md` | Book metadata (title, author, archetype, series list, ship verdict, dates, episode count, cover ref) | Auto-generated by promotion script; manual edits discouraged |
+| `library/books/<slug>/transcript/` | Polished NotebookLM SOURCE — one clean prose file per chapter | Auto-promoted; never edited in place |
+| `library/books/<slug>/podcasts/` | Episode bundles organized by series; `_series-index.md` + `series-NN-<slug>/EP<NN>-<chapter>/{source.txt, framing.md, challenger-report.md, audio.mp3?}` | Auto-promoted; never edited in place |
+| `library/_meta/catalog.md` | Cross-book index (markdown table) | Auto-generated; manual edits discouraged |
+
+Optional additions per book:
+- `library/books/<slug>/cover.{jpg,png}` — book art if curated (manual asset, not pipeline-generated)
+- `library/books/<slug>/podcasts/series-NN-<slug>/EP<NN>-<chapter>/audio.mp3` — NotebookLM-generated audio, populated only when audio-archive integration lands (see §12A.7 open decision 2)
+
+`library/archetypes/` (currently at `content/podcast/library/archetypes/`) moves to top-level `library/archetypes/` — already a cross-book reference, doesn't belong inside the workspace.
+
+Non-book categories (`articles/`, `documents/`, `interviews/`, `lectures/`, `letters/`) follow the same hoist-to-top pattern: shipped items land in `library/<category>/<slug>/`; in-progress drafts move to `_workspace/<category>/`.
+
+### 12A.3 Move per-book workspace to root and create top-level library
+
+```bash
+cd ~/Code/podcast-factory/main
+git checkout develop
+git pull --ff-only origin develop
+git checkout -b chore/library-hoist
+
+# Move per-book in-progress state to root-level _workspace/books/
+# (On case-insensitive macOS APFS, this merges with the existing _workspace/Books/ PDF intake folder — intentional)
+git mv content/podcast/library/books _workspace/books
+
+# Move category sub-workspaces (in-progress drafts for non-book content)
+for cat in articles documents interviews lectures letters _sandbox; do
+  if [[ -d "content/podcast/library/$cat" ]]; then
+    git mv "content/podcast/library/$cat" "_workspace/$cat"
+  fi
+done
+
+# Create the empty shipped-catalog skeleton at top level
+mkdir -p library/{_meta,archetypes,books,articles,documents,interviews,lectures,letters}
+touch library/_meta/.gitkeep library/archetypes/.gitkeep \
+      library/books/.gitkeep library/articles/.gitkeep \
+      library/documents/.gitkeep library/interviews/.gitkeep \
+      library/lectures/.gitkeep library/letters/.gitkeep
+
+# Move the cross-book archetypes (finished reference material, not in-progress)
+git mv content/podcast/library/archetypes/* library/archetypes/ 2>/dev/null || true
+git rm -rf content/podcast/library/archetypes 2>/dev/null || true
+
+# Remove the now-empty content/podcast/library/ scaffold
+git rm -rf content/podcast/library 2>/dev/null || true
+
+# Update .gitignore to selectively ignore raw PDF intake inside _workspace/books/
+# (keeps orchestrator state tracked, ignores source PDFs and bulky intermediate audio)
+cat >> .gitignore <<'EOF'
+
+# Phase 9.5 — per-book workspace at _workspace/books/<slug>/
+# Track orchestrator state + chapters + episode drafts; ignore raw source intake.
+_workspace/books/*/source*
+_workspace/books/*/*.pdf
+_workspace/books/*/raw/
+_workspace/Books/*/source*
+_workspace/Books/*/*.pdf
+_workspace/Books/*/raw/
+EOF
+
+git status --short
+```
+
+### 12A.4 Update pipeline scripts to point at the new workspace location
+
+The path move breaks every hardcoded `content/podcast/library/books/` reference. Rewrite in two passes (workspace path + new shipped-library path):
+
+```bash
+# Pass 1 — per-book workspace path rewrite (mechanical)
+grep -rl "content/podcast/library/books/" \
+  scripts/podcast/ skills-staging/podcast/ \
+  _workspace/plan/operators/ .github/agents/ docs/podcast/ \
+  --include="*.py" --include="*.md" --include="*.sh" --include="*.yml" 2>/dev/null \
+  | xargs sed -i '' 's|content/podcast/library/books/|_workspace/books/|g'
+
+# Pass 2 — bare content/podcast/library/ references (archetypes, category folders)
+grep -rl "content/podcast/library/" \
+  scripts/podcast/ skills-staging/podcast/ \
+  _workspace/plan/operators/ .github/agents/ docs/podcast/ \
+  --include="*.py" --include="*.md" --include="*.sh" --include="*.yml" 2>/dev/null \
+  | xargs sed -i '' 's|content/podcast/library/archetypes/|library/archetypes/|g; s|content/podcast/library/|_workspace/|g'
+
+# Verify nothing broke obviously
+python3 -c "import ast; ast.parse(open('scripts/podcast/orchestrate_book.py').read())"
+python3 -c "import ast; ast.parse(open('scripts/podcast/_authoring.py').read())"
+python3 -c "import ast; ast.parse(open('scripts/podcast/build_episode_txt.py').read())"
+python3 -c "import ast; ast.parse(open('scripts/podcast/extract_chapter.py').read())"
+
+# Pass 3 — add the shipped-library reference to scripts that need it
+# (Only ship_to_library.py and the catalog generator; orchestrator stays workspace-only.)
+```
+
+Files most likely affected (verify with the grep above):
+- `scripts/podcast/orchestrate_book.py` — workspace path → `_workspace/books/<slug>/`
+- `scripts/podcast/_authoring.py` — workspace path
+- `scripts/podcast/build_episode_txt.py` — workspace path
+- `scripts/podcast/extract_chapter.py` — workspace path
+- `skills-staging/podcast/SKILL.md` — workspace path + new ship-to-library mention
+- `.github/agents/podcast-orchestrator.agent.md` — workspace path
+- `.github/agents/podcast-operator.agent.md` — workspace path + new ship-to-library mention
+- `_workspace/plan/operators/start-session.sh` — workspace path (resolves orchestrator-state.json at the new location)
+- `_workspace/plan/operators/coordination-protocol.md` — workspace path
+- `_workspace/plan/operators/index.md` — workspace path
+
+### 12A.5 Author the promotion script
+
+`scripts/podcast/ship_to_library.py` — the ONLY supported path from workspace → library. Behavior:
+
+```
+ship_to_library.py --book <slug> [--episode <EP-id>] [--dry-run]
+```
+
+The script:
+1. Reads `_workspace/books/<slug>/_system/orchestrator-state.json` to confirm shippable state. Halts if `phase_status` is not `shipped`, `ship-ready`, or `ship-with-caution-approved`.
+2. Reads `_workspace/books/<slug>/_system/challenger-report.md` to record the verdict.
+3. For each shipped episode:
+   - Copies `_workspace/books/<slug>/chapters/<chapter>.txt` (the TTS-safe polished SOURCE) → `library/books/<slug>/transcript/<NN>-<chapter-slug>.md` with a minimal YAML front-matter block (title, chapter-id, source-path-in-workspace, ship-date).
+   - Copies `_workspace/books/<slug>/episode-drafts/<chapter>/source.txt`, `framing.md`, `challenger-report.md` → `library/books/<slug>/podcasts/series-<NN>-<series-slug>/EP<NN>-<chapter-slug>/`.
+   - If `_workspace/books/<slug>/episode-drafts/<chapter>/audio.mp3` exists (post audio-archive integration), copies that too.
+4. Generates `library/books/<slug>/podcasts/_series-index.md` from `_workspace/books/<slug>/_system/series-plan.md`.
+5. Generates `library/books/<slug>/podcasts/series-<NN>-<series-slug>/_series.md` from `_system/series-plan.md` (per-series block).
+6. Generates `library/books/<slug>/index.md` from series-plan + challenger-report + orchestrator-state.
+7. Regenerates `library/_meta/catalog.md` (markdown table of all books with archetype, ship date, episode count, link).
+8. Optional: emits `library/_meta/catalog.json` for downstream site-tools.
+
+Idempotency: re-running the script after additional episodes ship should add/update only the new episodes; never delete from `library/`.
+
+### 12A.6 Migration of existing books
+
+Each book gets an explicit promotion decision based on current state:
+
+| Book | Current phase / verdict | Phase 9.5 action |
+|---|---|---|
+| `kitab-al-riyad` | HALTED-BY-OPERATOR; EP10 SHIP-WITH-CAUTION; EP14 partial; EP01–09 + EP11–13 TTS-safe .txt only | Promote ONLY EP10 (`--episode EP10`); leave the rest in workspace. Studio's manual archetype-driven finish promotes each chapter as it lands. |
+| `asaas-al-taveel` | Phase 0b / halted-for-transcript-review | NO promotion — not yet shipped. Stays in workspace. |
+| `islr-mas-i` | (verify with state.json) | Promote only if shipped; otherwise stays in workspace. |
+| `ayyuhal-walad` | (verify with state.json) | Promote only if shipped; otherwise stays in workspace. |
+| `the-master-and-the-disciple` | (verify with state.json) | Promote only if shipped; otherwise stays in workspace. |
+
+Verify each book's actual state before deciding:
+```bash
+for b in asaas-al-taveel ayyuhal-walad islr-mas-i kitab-al-riyad the-master-and-the-disciple; do
+  echo "=== $b ==="
+  jq '{phase, phase_status, last_completed_phase}' \
+    _workspace/books/$b/_system/orchestrator-state.json 2>/dev/null \
+    || echo "(no state.json)"
+done
+```
+
+### 12A.7 Phase 9.5 design picks (all resolved 2026-05-22)
+
+All five decisions are baked in below; the runbook now executes Phase 9.5 deterministically.
+
+1. ~~**Workspace location**~~ — **Resolved 2026-05-22**: per-book workspace moves to root-level `_workspace/books/<slug>/` (single root folder, accessible from all worktrees/branches per Asif's directive). The existing `_workspace/Books/` PDF intake folder merges in on case-insensitive macOS APFS.
+2. ~~**Audio archival in `library/books/<slug>/podcasts/.../audio.mp3`**~~ — **Resolved 2026-05-22: DEFER**. NotebookLM-audio download isn't yet automated; including it in Phase 9.5 expands scope unnecessarily. `ship_to_library.py` will copy `audio.mp3` opportunistically if the file exists in `_workspace/books/<slug>/episode-drafts/<chapter>/`, but the script does NOT block on its absence. A separate future runbook ("audio-archive integration") will add the download step.
+3. ~~**Catalog format**~~ — **Resolved 2026-05-22: markdown only initially**. `library/_meta/catalog.md` is the only auto-generated catalog file in Phase 9.5. A `library/_meta/catalog.json` companion gets added later when site-tools or downstream consumers actually need it — adding it speculatively now would create a maintenance burden with no consumer.
+4. ~~**Cover art ingestion**~~ — **Resolved 2026-05-22: manually-curated**. `library/books/<slug>/cover.{jpg,png}` is treated as a manual asset that operators drop in post-ship. `ship_to_library.py` does NOT create or fetch covers. A short `library/README.md` (also created in Phase 9.5) documents this convention so operators on other machines know where covers go.
+5. ~~**CI guard against manual `library/` edits**~~ — **Resolved 2026-05-22: ADD IT**. Phase 9.5 includes authoring `.github/workflows/library-readonly.yml` — fails any PR that touches `library/` without either (a) a commit message starting with `ship: ` (the convention used by `ship_to_library.py`), or (b) an explicit `[library-manual-edit]` marker in the commit body for one-off manual overrides (e.g., dropping cover art). The workflow runs on `pull_request` and posts an inline check failure if violated.
+
+### 12A.8 Commit + push
+
+```bash
+cd ~/Code/podcast-factory/main
+git add -A
+git commit -m "chore: library hoist — shipped catalog at library/, workspace at _workspace/books/
+
+Top-level library/ now holds only shipped, prod-ready artifacts:
+- library/books/<slug>/{index.md, transcript/, podcasts/, cover.*}
+- library/archetypes/ (moved from content/podcast/library/archetypes/)
+- library/_meta/catalog.md (auto-generated cross-book index)
+
+Per-book in-progress workspace moved from content/podcast/library/books/
+to root-level _workspace/books/<slug>/ per Asif's directive: single
+root-level workspace folder accessible from all worktrees/branches.
+On case-insensitive macOS APFS, the existing _workspace/Books/ PDF intake
+folder merges with this new path.
+
+Promotion is one-way and explicit via scripts/podcast/ship_to_library.py;
+manual edits to library/ are discouraged and CI-checked.
+
+Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
+
+git push -u origin chore/library-hoist
+```
+
+Open PR `chore/library-hoist → develop`, merge after review. Runbook then advances to Phase 10 (post-split verification), with the added verification step: `library/_meta/catalog.md` lists every shipped book; `_workspace/books/` is the only path the orchestrator reads/writes for per-book state.
+
+### 12A.9 Post-Phase-9.5 invariants to enforce
+
+- Pipeline writes per-book state ONLY to `_workspace/books/<slug>/`.
+- `ship_to_library.py` is the ONLY writer of `library/`.
+- `library/` paths appear in commit messages as `ship: <book> <episode>` (convention used by the CI guard above).
+- `start-session.sh` checks `library/_meta/catalog.md` for shipped state in addition to `_workspace/books/<slug>/_system/orchestrator-state.json`.
+
+---
+
 ## 13. Phase 10 — Post-split verification
 
 **On podcast-factory:**
@@ -1195,13 +1536,21 @@ git push
 **On journal:**
 
 - [ ] `git clone https://github.com/asifhussain60/journal.git` works
-- [ ] `cd journal && site/index.html` exists; `npx serve site` shows the page locally
-- [ ] `cd server && npm install && npm start` works (port 3001 proxy)
-- [ ] `wrangler deploy` succeeds (or Cloudflare's automatic deploy after the re-point)
-- [ ] `journal.kashkole.com` serves correctly
+- [ ] `cd journal && site/index.html` exists; `npx serve site` shows the page locally (no deploy target; local-only)
 - [ ] No leftover podcast references in [CLAUDE.md](../../CLAUDE.md), [framework.md](../../framework.md), or [package.json](../../package.json)
 - [ ] No `infra/azure/` directory present
 - [ ] No `scripts/podcast/` directory present
+- [ ] **Cloudflare/API-proxy retirement verified**: no `server/`, `wrangler.toml`, `site-worker.js`, `infra/cloudflare/`, `docs/cloudflare/`, `docs/anthropic-api-setup.md`, or `docs/proxy-setup.md` present anywhere in the repo. Run: `git ls-files | grep -E '^(server/|wrangler\.toml$|site-worker\.js$|infra/cloudflare/|docs/cloudflare/|docs/anthropic-api-setup\.md$|docs/proxy-setup\.md$)'` should return EMPTY.
+
+**Library hoist (Phase 9.5) invariants on podcast-factory:**
+
+- [ ] `library/` exists at the repo root and contains only shipped artifacts
+- [ ] `_workspace/books/` exists (moved from `content/podcast/library/books/`) and contains the in-progress per-book state; orchestrator-state.json files resolve at the new location
+- [ ] No pipeline script writes outside `_workspace/` — verify: `grep -rn "content/podcast/library/" scripts/ skills-staging/podcast/ .github/agents/podcast-*.agent.md 2>/dev/null | wc -l` returns 0
+- [ ] `content/podcast/library/` directory no longer exists — verify: `test ! -d content/podcast/library && echo OK || echo "STILL PRESENT — Phase 9.5 cleanup incomplete"`
+- [ ] `library/_meta/catalog.md` exists and lists at least the books promoted in Phase 9.5.6 (e.g., kitab-al-riyad EP10)
+- [ ] `library/archetypes/islamic-scholastic-text.md` exists (moved from prior location)
+- [ ] For each promoted book: `library/books/<slug>/{index.md, transcript/, podcasts/}` all populated
 
 ---
 
@@ -1214,16 +1563,19 @@ This section defines restore paths for every failure point in the runbook. The r
 | Failed during | Path | What it does | Affected machines |
 |---|---|---|---|
 | Phase 1.1–1.5 (backup setup) | A | Local reset, no GitHub state changed | Studio only |
-| Phase 1.6 (journal repo created) | B | Delete journal repo, retry | Studio + GitHub |
+| Phase 1.6 (journal-new repo created) | B | Delete journal-new repo, retry | Studio + GitHub |
 | Phase 2 (filter-repo) | A | Discard sibling clone | Studio only |
-| Phase 3 (push to journal) | B | Delete journal repo + retry | Studio + GitHub |
-| Phase 4 (journal repo identity edits) | B | Delete journal repo OR keep and re-edit | Studio + GitHub |
+| Phase 3 (push to journal-new) | B | Delete journal-new repo + retry | Studio + GitHub |
+| Phase 4 (journal repo identity edits) | B | Delete journal-new repo OR keep and re-edit | Studio + GitHub |
 | Phase 5 (cleanup commit on podcast-factory) | C | Revert merge OR reset develop | Studio + GitHub |
-| Phase 6 (Cloudflare re-point) | D | Re-point Cloudflare back | Studio + Cloudflare |
-| Phase 7 (GitHub rename) | E | Rename back via `gh repo rename` | Studio + GitHub |
+| Phase 6 — DELETED | — | n/a (Cloudflare retired 2026-05-22) | n/a |
+| Phase 7.1 (Journal → podcast-factory rename) | E | Rename podcast-factory back to Journal | Studio + GitHub |
+| Phase 7.1a (journal-new → journal rename) | E2 | Rename journal back to journal-new | Studio + GitHub |
+| Phase 7.3 / 7.3a (remote URL updates) | E / E2 | Restore prior URLs | Studio + Air |
 | Phase 7.4 (worktree reorganization) | F | Restore from tar snapshot | Studio only |
 | Phase 8 (Air sync) | G | Air resets remote + repulls (Air-local) | Air only |
 | Phase 9 (operator-file URL/path updates) | H | Revert the operator-update commit | Studio + GitHub |
+| Phase 9.5 (library hoist + workspace move) | I | Revert library-hoist commit + restore from mirror if needed | Studio + GitHub |
 | Phase 10 reveals corruption / unknown state | NUCLEAR | Mirror restore + GitHub-side rewind | Both machines |
 
 ### 14.2 Path A — Local-only reset (no GitHub state changed)
@@ -1262,8 +1614,18 @@ No GitHub cleanup needed. Resume by re-attempting Phase 1.
 Use when: failed at Phase 1.6 / 2 / 3 / 4 (new repo exists, may have content).
 
 ```bash
-# Delete the new journal repo on GitHub
-gh repo delete asifhussain60/journal --yes
+# Delete the new journal-new repo on GitHub (pre-Phase-7.1a name)
+# If Phase 7.1a has already run, delete asifhussain60/journal instead.
+if gh repo view asifhussain60/journal-new 2>/dev/null >/dev/null; then
+  gh repo delete asifhussain60/journal-new --yes
+elif gh repo view asifhussain60/journal 2>/dev/null >/dev/null; then
+  # Sanity check: ensure this isn't the post-rename canonical journal repo
+  # with the data still present — operator confirms before delete.
+  echo "ASIF-CONFIRM: asifhussain60/journal exists. Confirm this is the post-rename target to delete:"
+  gh repo view asifhussain60/journal --json url,createdAt,pushedAt
+  read -p "Type DELETE to proceed: " confirm
+  [[ "$confirm" == "DELETE" ]] && gh repo delete asifhussain60/journal --yes
+fi
 
 # Discard local filter-repo clone
 rm -rf ~/Code/Journal-filter
@@ -1300,30 +1662,13 @@ git push origin develop
 >
 > Halt and surface to Asif before running. Document the approval inline in the chat / operator file before executing.
 
-### 14.5 Path D — Re-point Cloudflare back
+### 14.5 Path D — DELETED (was: Re-point Cloudflare back)
 
-Use when: failed at Phase 6 (Cloudflare pointed at new journal repo, but split needs to roll back).
+> **RETIRED 2026-05-22**: Phase 6 no longer exists, so Path D no longer applies. If for some reason Cloudflare re-pointing becomes necessary again, restore the original Path D from git history before the 2026-05-22 Cloudflare-retirement edit.
 
-> ⚠️ **CRITICAL ORDER-OF-OPERATIONS**: If Phase 5's cleanup commit has already merged to `develop` (i.e., `site/` has been removed from the `Journal`/`podcast-factory` repo), re-pointing Cloudflare back to that repo will result in a broken deploy — there is no `site/` directory there anymore. **In that case, run Path C (revert cleanup commit) FIRST to restore `site/` on develop, THEN do Path D.**
->
-> Decision check before running Path D:
-> ```bash
-> # Verify the original repo still has site/ on develop
-> git -C ~/Code/Journal show origin/develop:site/index.html 2>&1 | head -1
-> # If "fatal: path 'site/index.html' does not exist" → run Path C first
-> # If the file contents print → safe to proceed with Path D
-> ```
+### 14.6 Path E — GitHub repo rename back (Phase 7.1 rollback)
 
-Manual operation by Asif in Cloudflare dashboard:
-1. Workers & Pages → `journal` project → Settings → Builds & deployments → Source
-2. Disconnect from `asifhussain60/journal`
-3. Reconnect to `asifhussain60/Journal` (the original repo — not yet renamed if rollback is happening pre-Phase-7)
-4. Repeat for `journal-dev` (preview)
-5. Trigger a deploy to verify `journal.kashkole.com` serves correctly
-
-### 14.6 Path E — GitHub repo rename back
-
-Use when: failed at Phase 7 (Journal already renamed to podcast-factory).
+Use when: failed at Phase 7.1 (Journal already renamed to podcast-factory), and the journal-new → journal rename in Phase 7.1a has NOT yet run.
 
 ```bash
 # Rename back (GitHub creates an inverse redirect)
@@ -1335,6 +1680,29 @@ git remote set-url origin https://github.com/asifhussain60/Journal.git
 git remote -v   # verify
 
 # Notify Air to do the same
+```
+
+### 14.6a Path E2 — Phase 7.1a / 7.3a rollback (journal-new ↔ journal)
+
+Use when: failed at Phase 7.1a (journal-new already renamed to journal) and the rollback must restore the temp name. **Critical ordering**: if Phase 7.1 ALSO needs rolling back, run Path E AFTER this one — otherwise Path E's `Journal` rename will re-collide with the canonical `journal` name on the case-insensitive namespace.
+
+```bash
+# Step 1 — Rename journal back to journal-new (frees the lowercase `journal` namespace)
+gh repo rename --repo asifhussain60/journal journal-new
+
+# Step 2 — Restore Studio's filter-clone remote (if it exists)
+if [[ -d ~/Code/Journal-filter ]]; then
+  cd ~/Code/Journal-filter
+  git remote set-url origin https://github.com/asifhussain60/journal-new.git
+  git remote -v
+fi
+
+# Step 3 — Air's journal clone (if cloned in Phase 8.5): same `git remote set-url`
+# back to journal-new.git on her side.
+
+# Step 4 — If Phase 7.1 ALSO needs rolling back, NOW run Path E (above) to rename
+# podcast-factory → Journal. The order matters: free the lowercase `journal`
+# namespace FIRST so `Journal` can be re-created at that case-fold-equivalent position.
 ```
 
 ### 14.7 Path F — Filesystem tar restore (worktree reorg failed)
@@ -1453,8 +1821,7 @@ Less-destructive alternative when only develop/main need rewinding (still requir
 # (No --tags; tag pollution is reversed separately if needed)
 ```
 
-**Step 3 — Cloudflare:**
-Re-point Cloudflare back to `asifhussain60/Journal` manually (see Path D).
+**Step 3 — Cloudflare:** N/A — Cloudflare deploy was retired 2026-05-22. If the runbook's Cloudflare-retirement edit (Phase 5 cleanup deleting `wrangler.toml`, `site-worker.js`, `infra/cloudflare/`, `docs/cloudflare/`, `server/`) is being rolled back as part of the nuclear restore, the mirror clone in Layer 2 already contains the pre-retirement state — `git push --mirror` (Step 2 above) restores those files automatically.
 
 **Step 4 — Air re-clones:**
 Air discards her local clone and re-clones from origin: `cd ~/Code && rm -rf Journal* && git clone https://github.com/asifhussain60/Journal.git`. Air's worktrees recreate as needed.
@@ -1479,7 +1846,8 @@ diff <(git for-each-ref --format='%(refname) %(objectname)' | sort) \
 
 echo "=== GitHub-side ==="
 gh repo view asifhussain60/Journal --json url,visibility 2>&1 | head -3
-gh repo view asifhussain60/journal 2>&1 | grep -q "Could not resolve" && echo "OK: journal repo does NOT exist (deleted)" || echo "WARN: journal repo still exists"
+gh repo view asifhussain60/journal 2>&1 | grep -q "Could not resolve" && echo "OK: journal repo does NOT exist (deleted or never renamed from journal-new)" || echo "WARN: journal repo still exists"
+gh repo view asifhussain60/journal-new 2>&1 | grep -q "Could not resolve" && echo "OK: journal-new repo does NOT exist (deleted, renamed, or never created)" || echo "WARN: journal-new repo still exists — should be either deleted (full rollback) or already-renamed to journal (post-7.1a)"
 gh repo view asifhussain60/podcast-factory 2>&1 | grep -q "Could not resolve" && echo "OK: podcast-factory does NOT exist (renamed back)" || echo "WARN: podcast-factory still exists"
 ```
 
@@ -1509,14 +1877,15 @@ Recommended: keep at least Layer 2 (mirror clone) indefinitely in `~/Backups/_ar
 | 2 — filter-repo extract | 15 min | Fresh sibling clone + filter-repo run |
 | 3 — Push to journal repo + anchor tag | 10 min | branches only (no --tags); `journal-split-$DATE` tag |
 | 4 — Journal repo identity + tailor duplicated configs | 45 min | CLAUDE/Makefile/package.json edits + skill-registry tailoring + copilot-instructions tailoring + agent reviews |
-| 5 — Podcast-factory cleanup commit + tailored configs | 35 min | git rm (journal-exclusive + reclassified) + edit shared root files + tailor skill-registry/copilot-instructions for podcast-factory + PR + merge |
-| 6 — Cloudflare re-point | 15 min | Dashboard work + deploy verify |
-| 7 — GitHub rename + Studio remote update | 5 min | `gh repo rename` + one `git remote set-url` |
+| 5 — Podcast-factory cleanup commit + tailored configs | 35 min | git rm (journal-exclusive + reclassified + retired Cloudflare/server) + edit shared root files + tailor skill-registry/copilot-instructions for podcast-factory + PR + merge |
+| ~~6 — Cloudflare re-point~~ | — | **DELETED 2026-05-22** (Cloudflare deploy retired) |
+| 7 — GitHub rename (Journal → podcast-factory + 7.1a journal-new → journal + 7.3 + 7.3a remote URL updates) | 10 min | Two `gh repo rename` + two `git remote set-url` (Studio main + filter-clone if present) |
 | 7.4 — Studio worktree reorganization (contained-parent layout) | 20 min | pre-checks + mv + `git worktree repair` + verify each |
 | 8 — Air sync + Air-side worktree reorg | 20 min | Air mirrors Studio's 7.4 pattern with her own worktree set |
 | 9 — Operator-file URL + path updates | 25 min | URL rewrites + `/Code/Journal` → `/Code/podcast-factory/` path rewrites |
-| 10 — Verification | 20 min | Checklist walk-through |
-| **TOTAL** | **~4 hours** | Focused work; can be split across sessions. Increase from prior estimate driven by Phase 4/5 tailoring of duplicated configs across both repos. |
+| 9.5 — Library structure consolidation (hoist library/ to top level + workspace rename) | 60 min | Path rename (mechanical sed) + author `ship_to_library.py` + first promotion (KaR EP10) + catalog generation + commit + PR + merge |
+| 10 — Verification | 20 min | Checklist walk-through (now includes library hoist invariants) |
+| **TOTAL** | **~4 hours 50 min** | Focused work; can be split across sessions. Phase 6 deletion (–15 min), Phase 7 sub-phase additions (+5 min for 7.1a + 7.3a), Phase 9.5 addition (+60 min) = +50 min vs prior estimate. |
 
 Plus 2–4 hour wait for Air's KaR Phase 10 merge before Phase 1 begins.
 
@@ -1590,32 +1959,54 @@ These items are general-utility — Asif uses them across both projects. Each re
 - `.github/agents/journal-challenger.agent.md`
 - `infra/claude-agents/journal-challenger.md`
 
-**Site + deploy**:
-- `site/` (full subtree)
-- `server/` (full subtree)
-- `site-worker.js`
-- `wrangler.toml`
+**Site (static memoir display; no deploy)**:
+- `site/` (full subtree — local-only after Cloudflare deploy retirement; serve via `npx serve site`)
 
 **Site/UI-related general skills (RECLASSIFIED to journal per refactor)**:
 - `skills-staging/css-theme-sync/` — theme work targets site CSS → journal
 - `skills-staging/ui-modernizer/` — UI work targets site → journal
-
-**Cloudflare integration (RECLASSIFIED to journal — Cloudflare deploys the journal site, not podcast)**:
-- `docs/cloudflare/`
-- `infra/cloudflare/`
 
 **Slimmed root files** (rewritten/tailored):
 - `Makefile` — slimmed: site-dev, site-deploy, no Azure or podcast targets
 - `package.json` — `"name": "journal"`
 - `.gitignore` — slimmed: no podcast/Azure entries
 
+### 17.B-RETIRED Retired entirely on 2026-05-22 — present in NEITHER repo post-split
+
+These items existed in the pre-split `Journal` repo but are deleted entirely by Phase 5 cleanup and NOT migrated to the new `journal` repo. Reason (per Asif 2026-05-22): the journal app no longer needs the Anthropic API, so the Cloudflare deploy scaffold and the API proxy together become orphaned references.
+
+**Cloudflare deploy scaffold**:
+- `wrangler.toml` (Cloudflare Workers config)
+- `site-worker.js` (Worker entry — assets-only static deploy)
+- `infra/cloudflare/` (Cloudflare setup scripts/config)
+- `docs/cloudflare/` (Cloudflare deployment docs)
+
+**Anthropic API proxy**:
+- `server/` (Node/Express proxy that bound to 127.0.0.1:3001 and forwarded browser requests to Anthropic)
+
+**API/proxy-specific docs that no longer apply**:
+- `docs/anthropic-api-setup.md`
+- `docs/proxy-setup.md`
+
+**External resource** (not in repo; Asif's manual cleanup):
+- The `journal` and `journal-dev` Cloudflare Workers on Cloudflare itself — orphaned external state. Asif may delete via the Cloudflare dashboard when convenient; no runbook step is required.
+
 ### 17.C Podcast-factory-only (stays in current repo, renamed)
 
-**Content**:
-- `content/podcast/` (full subtree, ~18MB)
+**Content** (post-Phase-9.5 layout — see §2A.6):
+- `library/` (TOP-LEVEL — shipped catalog only, populated by `ship_to_library.py`)
+  - `library/_meta/catalog.md` (auto-generated)
+  - `library/archetypes/` (moved from `content/podcast/library/archetypes/`)
+  - `library/books/<slug>/{index.md, cover.*, transcript/, podcasts/}`
+  - `library/{articles,documents,interviews,lectures,letters}/`
+- `_workspace/books/<slug>/` (root-level per-book workspace — orchestrator state, drafts, intermediate transcripts, raw PDF intake)
+- `_workspace/{articles,documents,interviews,lectures,letters,_sandbox}/` (root-level category sub-workspaces for non-book in-progress content)
+- `content/podcast/.skill/` (handbook + _learning substrate — unchanged)
+- `content/podcast/_README.md` (unchanged)
+- Pre-Phase-9.5 transient layout: `content/podcast/library/` (full subtree, ~18MB) — gets split across `library/` (shipped) and `_workspace/` (in-progress) in Phase 9.5
 
 **Scripts**:
-- `scripts/podcast/` (orchestrate_book, _authoring, build_episode_txt, extract_chapter, …)
+- `scripts/podcast/` (orchestrate_book, _authoring, build_episode_txt, extract_chapter, **ship_to_library** [authored in Phase 9.5 — promotes workspace → library], …)
 - `scripts/git-hooks/`
 - `scripts/install-git-hooks.sh`
 
@@ -1633,13 +2024,14 @@ These items are general-utility — Asif uses them across both projects. Each re
 - `infra/azure/` (full subtree — Translator, Doc Intel, Speech, Key Vault provisioning)
 - `infra/launchd/` (scheduled tasks for the orchestrator)
 
-**Operator + planning infrastructure (cross-machine podcast coordination)**:
-- `_workspace/` (full subtree — README, _archive, audit, chats, orchestrator-logs, plan, runbooks)
+**Operator + planning infrastructure (cross-machine podcast coordination + per-book workspace post-Phase-9.5)**:
+- `_workspace/` (full subtree — README, _archive, audit, chats, orchestrator-logs, plan, runbooks; **post-Phase-9.5 also contains `books/<slug>/` per-book workspace and `articles/`, `documents/`, `interviews/`, `lectures/`, `letters/`, `_sandbox/` category sub-workspaces**)
   - Note: this current runbook lives in `_workspace/runbooks/repo-split.md` and STAYS in podcast-factory after the split as historical reference
 - `_workspace/chats/cowork-master-disciple-instructions.md` — book-specific Cowork prompt, stays podcast-only (the cowork-brief SKILL duplicates; book-specific prompts do not)
 
 **Docs (podcast-specific)**:
-- `docs/podcast/`, `docs/architecture/` (podcast pipeline diagrams), `docs/azure/`, `docs/multi-mac-runbook.md`, `docs/anthropic-api-setup.md`, `docs/proxy-setup.md`, `docs/voice-refine-test-samples.md`
+- `docs/podcast/`, `docs/architecture/` (podcast pipeline diagrams), `docs/azure/`, `docs/multi-mac-runbook.md`, `docs/voice-refine-test-samples.md`
+- (`docs/anthropic-api-setup.md` + `docs/proxy-setup.md` — RETIRED 2026-05-22 with the Cloudflare/server retirement, see §17.B-RETIRED)
 
 **CI/CD**:
 - `.github/workflows/` (release.yml, ci.yml, podcast-e2e.yml)
@@ -1678,7 +2070,7 @@ Operator on execute: Studio Mac (this machine). Air's role is passive — she cl
 | `git` | ✅ Installed | system | Worktree commands all available. |
 | `brew` | ✅ Installed | 5.1.12 | For installing `git-filter-repo`. |
 | `az` (Azure CLI) | ✅ Installed | 2.86.0 | Not needed for the split — Azure resources untouched. |
-| `wrangler` (Cloudflare CLI) | ❌ NOT installed | — | NOT REQUIRED. Cloudflare re-pointing happens via dashboard (Phase 6). |
+| ~~`wrangler` (Cloudflare CLI)~~ | n/a | — | **Cloudflare retired 2026-05-22** — wrangler not needed. |
 | `gh repo view` permission check | ✅ ADMIN on `asifhussain60/Journal` | — | Confirms Asif can rename, set visibility, create new repos under his namespace. |
 
 ### 19.2 Automation matrix — Claude (this session) vs Asif (manual)
@@ -1690,24 +2082,29 @@ Operator on execute: Studio Mac (this machine). Air's role is passive — she cl
 | 1.3 | Tar snapshot | Claude | Bash |
 | 1.4 | Secondary GitHub backup repo | Claude | `gh repo create` + `git push --mirror` |
 | 1.5 | Backup verification | Claude | Bash |
-| 1.6 | Create new `journal` repo | Claude | `gh repo create asifhussain60/journal` |
+| 1.6 | Create new `journal-new` repo (TEMP name; renamed to `journal` in 7.1a) | Claude | `gh repo create asifhussain60/journal-new --public ...` |
 | 1.7 | (Deferred — no action) | — | — |
 | 2 | `git filter-repo` extraction | Claude | Bash (after `git-filter-repo` installed) |
 | 3 | Push to journal repo | Claude | Bash |
 | 4 | Journal repo identity edits | Claude | Edit tool (CLAUDE.md, Makefile, package.json, etc.) |
 | 5 | Podcast-factory cleanup commit | Claude | Bash + Edit tool |
-| 6.1–6.3 | **Cloudflare GitHub integration re-point** | **Asif** | **Cloudflare dashboard — no CLI available** |
-| 6.4 | Same for `journal-dev` preview | **Asif** | Cloudflare dashboard |
+| ~~6~~ | **DELETED 2026-05-22** (was: Cloudflare re-point) | — | — |
 | 7.1 | `gh repo rename Journal → podcast-factory` | Claude (executes) + Asif (FRESH confirmation immediately before) | `gh repo rename`. Phase 7 green-light authorizes the phase; Step 7.1 specifically requires a separate "go" before the rename actually runs (see §10 warning + §19.4). |
+| 7.1a | `gh repo rename journal-new → journal` (frees because 7.1 vacated lowercase namespace) | Claude | `gh repo rename`. Single command; non-destructive (adds permanent redirect). No fresh re-confirmation needed beyond the Phase 7 green-light. |
 | 7.2 | Redirect auto-creates (no action) | GitHub | Automatic |
-| 7.3 | Studio remote URL update | Claude | Bash |
+| 7.3 | Studio remote URL update (podcast-factory main worktree) | Claude | Bash |
+| 7.3a | Update any lingering `journal-new` remote URLs to `journal` (Studio filter-clone, Air's journal clone) | Claude (Studio) + Asif/Air (Air-side) | Bash |
 | 7.4 | Worktree directory reorganization | Claude | Bash (mv + `git worktree repair`) |
 | 7.4g | VS Code window reopen | **Asif** | IDE-side |
 | 8.1–8.5 | Air-side sync + worktree reorg | **Asif** (or Air's Claude session) | Bash on Air |
 | 9 | Operator-file URL/path updates | Claude | Edit tool |
-| 10 | Verification | Claude (mostly) + Asif (visual checks like `journal.kashkole.com`) | Mixed |
+| 9.5.1–9.5.4 | Library hoist: workspace rename + top-level library scaffold + script-path sed | Claude | Bash + Edit tool |
+| 9.5.5 | Author `scripts/podcast/ship_to_library.py` | Claude | Write tool |
+| 9.5.6 | First promotion runs (per-book ship-verdict decisions) | Claude (executes) + Asif (per-book SHIP/NOT-SHIP go-ahead for each book ≥ SHIP-WITH-CAUTION) | `python3 scripts/podcast/ship_to_library.py --book <slug>` |
+| 9.5.8 | Library-hoist commit + PR + merge | Claude | Bash |
+| 10 | Verification | Claude (mostly) + Asif (visual checks) | Mixed |
 
-**Bottom line**: Claude (this Studio session) can execute approximately **85% of the runbook automatically** given Asif's go-ahead at each phase boundary. The non-Claude steps are: Cloudflare dashboard re-pointing (Phase 6), VS Code window reopening (Phase 7.4g), and Air-side commands (Phase 8 — driven by Air's own Claude session or Asif running them manually on Air).
+**Bottom line**: Claude (this Studio session) can execute approximately **90% of the runbook automatically** given Asif's go-ahead at each phase boundary. The non-Claude steps are: VS Code window reopening (Phase 7.4g), Air-side commands (Phase 8 — driven by Air's own Claude session or Asif running them manually on Air), and per-book SHIP/NOT-SHIP go-aheads in Phase 9.5.6 (Asif's editorial decision for any book above SHIP-WITH-CAUTION threshold). Phase 6 (the prior Cloudflare manual step) is deleted entirely as of 2026-05-22.
 
 ### 19.3 Preparation tasks (before any execution)
 
@@ -1731,7 +2128,6 @@ Each phase boundary is an authorization checkpoint. Asif says "go Phase N" → C
 - `git reset --hard` on a branch that has been pushed
 - `rm -rf` of any directory under `~/Code/` (other than the quarantined `.BROKEN.<timestamp>` paths)
 - Any command that deletes or overwrites a backup directory under `~/Backups/`
-- **Cloudflare production deployment source change** (Workers & Pages → Builds & deployments → Source) — manual operation by Asif; affects production traffic
 
 **Allowed within a phase after the phase's green-light** (no per-operation re-approval):
 - Creating new git branches off develop / main
