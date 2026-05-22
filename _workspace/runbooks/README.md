@@ -10,6 +10,7 @@ runbook with a one-line pointer.
 | File                          | Purpose                                                                   |
 |-------------------------------|---------------------------------------------------------------------------|
 | `primary-mac-activation.md`   | Bring a primary Mac to 100% Azure activation (Translator + Doc Intel + Speech + Keychain + skills). One-time per machine. |
+| `repo-split.md`               | Split `Journal` into `podcast-factory` + `journal`; preserves history via `git filter-repo`, 4-layer backup, comprehensive restore matrix, contained-parent worktree reorg, Cloudflare handoff. One-time per repo lineage. |
 
 ## Future runbooks (anticipated)
 
