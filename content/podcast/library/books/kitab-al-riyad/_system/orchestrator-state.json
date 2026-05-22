@@ -3,9 +3,9 @@
   "book_slug": "kitab-al-riyad",
   "category": "books",
   "branch": "book/kitab-al-riyad",
-  "phase": "per-chapter",
-  "phase_status": "running",
-  "last_completed_phase": "0e",
+  "phase": "0g",
+  "phase_status": "completed",
+  "last_completed_phase": "0g",
   "next_phase": "per-chapter",
   "last_error": null,
   "phases": {
@@ -58,10 +58,12 @@
       "series_plan_path": "content/podcast/library/books/kitab-al-riyad/_system/series-plan.md"
     },
     "0g": {
-      "status": "pending"
+      "status": "completed",
+      "ts_started": "2026-05-22T03:52:44Z",
+      "ts_completed": "2026-05-22T03:52:44Z"
     },
     "per-chapter": {
-      "status": "running",
+      "status": "completed",
       "completed_slugs": [
         "motion-stillness-hyle-and-form",
         "prophets-as-teachers-monotheism-and-the-ranks",
@@ -74,11 +76,12 @@
         "the-intellect-as-the-first-creation",
         "the-perfect-and-the-perfection-of-the-soul",
         "the-sections-of-the-world",
-        "the-shariah-of-adam-and-the-first-speaker"
+        "the-shariah-of-adam-and-the-first-speaker",
+        "the-soul-in-time-and-the-rejoinder-to-al-nusra"
       ],
       "reset_note": "Bug X5 (2026-05-21): chapter files contained inline phonetic-style parens (*term* (lowercase-hyphenated; gloss)) — R-PHONETICS-OUT violations per spec. Deterministic strip applied across all 14 chapters (157 parens total stripped). Phonetics already in customize prompts via Phase 0c pronunciation block — no semantic loss. motion-stillness still in completed_slugs.",
       "ts_started": "2026-05-21T11:24:27Z",
-      "ts_completed": "2026-05-21T22:04:17Z",
+      "ts_completed": "2026-05-22T03:52:44Z",
       "failed_slug": null,
       "reconcile_note": "EP06 bundle shipped 2026-05-21 18:02 but on-disk draft diverged from re-extraction after X17 hand-fix (\"across prior episodes\" -> \"of the source\"); reconciled to completed_slugs 2026-05-21 with Asif explicit auth to resume on remaining 4 chapters."
     },
@@ -98,7 +101,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-05-18T22:51:13Z",
-  "ts_updated": "2026-05-22T03:01:36Z",
+  "ts_updated": "2026-05-22T03:52:44Z",
   "challenger_version": "2.0",
   "orchestrator_version": "1.1"
 }
