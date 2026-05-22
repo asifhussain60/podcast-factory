@@ -6,6 +6,118 @@ Both Air and Studio sessions write to this file (multi-writer, per `operators/co
 
 ---
 
+## Refactored synthesis view — as of 2026-05-22
+
+**Holistic snapshot** of F1-F29 after KaR's 3-round audio audit (v1/v3/v4-revised). The original table at the bottom of this file is preserved chronologically; this top section is the canonical operational view going forward.
+
+### Doctrine status — what's empirically locked
+
+| Doctrine | F-items | Audio audits validating | Status |
+|---|---|---|---|
+| **F20** — zero Arabic person/book/concept names in audio | F14, F18, F19, F20 | v3, v4, v4-revised | 🟢 **LOCKED** (3 audits, 0 mangling) |
+| **F21** — book-wrap convention ("the book *X*") | F21 | v3, v4, v4-revised | 🟢 **LOCKED** (3 audits) |
+| **F16** — Episode-number announcement (Episode N, not Chapter N) | F16 | v3, v4, v4-revised | 🟢 **LOCKED** |
+| **R-RECURRING-THESIS** — verbatim 3x | F15 (partial) | v3, v4, v4-revised | 🟢 **LOCKED** |
+| **R-DRAMATIC-ARC** — 6-beat structure | F15 (partial) | v3, v4, v4-revised | 🟢 **LOCKED** |
+| **R-CHALLENGER-FRICTION** — 4 literal pushback patterns | F15 (partial) | v3, v4, v4-revised | 🟢 **LOCKED** |
+| **Stable role-labels** (one per figure, proper names where needed) | new in v4-revised | v4-revised | 🟢 **LOCKED** |
+| **Mirror-as-source-aligned Beat 2** + source-image carve-out | new in v4-revised | v4-revised | 🟢 **LOCKED** |
+| **F22** — 45-60 min length target | F22 | v3=42, v4=42, v4-revised=39 | 🟡 **NOT REACHED** — structural NotebookLM pacing limit; accept ~40-45 as reality |
+| **F24** — Alqaab functional-paraphrase | F24 | not yet tested (KaR Ch07 has no novel alqaab) | ⏸ **UNTESTED** — doctrine drafted, awaits empirical test |
+| **F29** — Surah names in English meaning | F29 | v4-revised audio caught "Qaf → cough" | 🔴 **DOCTRINE NEW; CHAPTER REWRITES PENDING** |
+
+### Open items grouped by pipeline location (replaces flat F1-F29 list)
+
+| Location | Open item | Priority | Notes |
+|---|---|---|---|
+| **Phase 0d** | F4 — editorial-intro chapters reach the pipeline | P2 | KaR ch01a dropped manually; F23 is broader fix |
+| **Phase 0d** | F23 — no book-thesis coherence check | P1 | NEW from Q1 finding; ~half-day implementation |
+| **Phase 0d** | F26 — name-aliases.yml schema v2 | P1 | enables F23/F25 auto-emit per-book |
+| **Phase 0e** | F13 — inline phonetic parens leak | P1 | observed only in some chapters; prompt strengthening needed |
+| **Phase 0e** | F24 — alqaab functional-paraphrase | P0 | doctrine drafted; prompt patch pending |
+| **Phase 0e** | F29 — Arabic surah names in chapter prose | P0 | doctrine drafted; chapter rewrite needed for KaR + Phase 0e prompt patch |
+| **Phase 0g** | F17 — R-ANALOGY-CAP under-enforced | P0 | M1 confirmed 3x; needs validator-twin (F27) |
+| **Phase 0g + handbook** | v4-revised propagation | P0 | stable-role labels + source-image carve-out + bounded honorifics + literal pushback patterns + 6 prompt updates pending in `_authoring.py:author_framing()` |
+| **build_episode_txt.py** | F27 — Tier 2.5 validator burst (8 functions) | P0 | drafts ready in `f27-validator-drafts.md`; paste pending |
+| **build_episode_txt.py** | F25 — show-notes apparatus-table schema | P0 | validator + Phase 0g format change |
+| **Orchestrator** | F11 — iter-1-ships + iter-2-timeout = false-failure | P1 | observed 4+ times in KaR; needs heartbeat-age check |
+| **Orchestrator** | F12 — episode IDs from filename digits | P1 | gaps after chapter drops; KaR has missing EP01, EP02 (ch01a/ch02b dropped) |
+| **Orchestrator** | F7 — no cost projection | P2 | low impact; nice-to-have |
+| **Validator regex** | F9 — R-PHONETICS-OUT remaining patterns audit | P2 | pattern #1 fixed; rest untested |
+| **Ops** | F28 — backward-compat decision | DECIDED | Asif: re-emit all KaR episodes under v4-revised doctrine |
+
+### Closed / validated (lessons that are now framework default)
+
+| Item | What's now framework | When closed |
+|---|---|---|
+| F1 — word caps | X10 prompt self-check | 2026-05-21 |
+| F3 — manuscript-meta | X14 R-NO-MANUSCRIPT-META | 2026-05-21 (validated empirically in v3+v4 transcripts) |
+| F5 — honorific dedup | X14 strengthened Phase 0e | 2026-05-21 |
+| F6 — datetime.UTC | X13 datetime.timezone.utc | 2026-05-21 |
+| F8 — orphan episode-drafts | X13 _sweep_orphan_episode_drafts | 2026-05-21 |
+| F10 — word-band tolerance | X6 + X13 ceilings raised | 2026-05-21 |
+| F14, F18, F19 | SUPERSEDED by F20 (total removal works) | 2026-05-21 |
+| F15 | X16 (R-DRAMATIC-ARC + R-CHALLENGER-FRICTION + R-ANALOGY-CAP + R-RECURRING-THESIS) — validated in v4-revised | 2026-05-21 |
+| F2 | X10 grep-first prompt — low-impact validation pending | 2026-05-21 |
+
+### Priority order — what to land next (operational sequence)
+
+This sequence is what unlocks shipping new books under v4-revised doctrine:
+
+1. **F27** (8 validators in `build_episode_txt.py`) — P0; the M1 fix; drafts ready
+2. **v4-revised propagation** to `_authoring.py` + handbook — P0; 6 prompt updates; drafts ready
+3. **F25** (apparatus-table schema in 99-show-notes.md) — P0
+4. **F26** (name-aliases.yml schema v2) — P1; enables F23/F25 auto-emit
+5. **F29** (Phase 0e surah-name English-meaning rule + chapter rewrite) — P0
+6. **F24** (Phase 0e alqaab functional-paraphrase rule) — P0
+7. **F17** (analogy-cap validator-twin) — covered by F27
+8. **F23** (Phase 0d.5 book-coherence check) — P1; ~half-day
+9. **F11** (iter-1-ship + iter-2-timeout retry semantics) — P1
+10. **F12** (episode-id from contract.episode_number) — P1
+11. **F13** (Phase 0e inline-phonetics audit) — P1
+12. **F4** (editorial-intro chapter detection) — P2; F23 covers this broader
+13. **F22** length target — accept as structural limit; framing notes "aspirational"
+14. **F9** (remaining R-PHONETICS-OUT patterns) — P2; needs regex audit
+15. **F7** (cost projection at resume) — P2
+16. **F28** (re-emit KaR under new doctrine) — execution task; in flight
+
+### Meta-pattern status (M1-M7 from original synthesis)
+
+| Meta-pattern | Status |
+|---|---|
+| M1 — LLM ignores caps without validator | 🔴 **CONFIRMED 5+ times**; F27 is the fix; until landed, this recurs on every chapter |
+| M2 — Phase 0e under-disciplined | 🟡 **PARTIAL** — F3/F5 closed; F13/F24/F29 still open |
+| M3 — Phase 0d classification weak | 🔴 **OPEN** — F4 + F23 |
+| M4 — Orchestrator state-machine rough edges | 🟡 **PARTIAL** — F8 closed; F11/F12 open |
+| M5 — Empirical thresholds vs "~" prose | 🟡 **PARTIAL** — F10 fixed for chapter/framing; TOLERANCE_PCT generalization pending |
+| M6 — Cost tracking gaps | 🟡 **PARTIAL** — F6 closed; F7 open |
+| M7 — Rule-set drift (prose vs regex) | 🔴 **OPEN** — F9 audit pending; F17 + F27 directly tackle |
+
+### Validator coverage gap matrix (the M1 fix surface)
+
+For every R-rule in the handbook, mark whether prompt-side enforcement AND validator-side enforcement exist:
+
+| R-rule | Prompt enforcement | Validator enforcement | Gap |
+|---|---|---|---|
+| R-NO-ARABIC-NAMES (F20) | X14, X15 ✅ | F27 #1 pending | 🔴 |
+| R-BOOK-WRAP (F21) | X14 ✅ | F27 #1 (regex catches) | 🔴 |
+| R-DRAMATIC-ARC | X16 ✅ | Tier 2 validator ✅ | 🟢 |
+| R-CHALLENGER-FRICTION | X16 ✅ | Tier 2 validator ✅ | 🟢 |
+| R-ANALOGY-CAP | X16 ✅ | F27 #3 pending | 🔴 (M1 confirmed via wax-seal + costume + vault leaks) |
+| R-RECURRING-THESIS | X16 ✅ | Tier 2 validator ✅ | 🟢 |
+| R-NAMEDISCIPLINE (stable-roles) | v4-revised propagation pending | F27 pending | 🔴 |
+| R-NOMODERNIZE | X16 ✅ | F27 #4 pending | 🔴 (Frankenstein + popularity contest leaks) |
+| R-HONORIFIC-ONCE | X14 ✅ | F27 #5 pending | 🔴 (honorific misplacement in v4-revised) |
+| R-SURAH-ENGLISH-ONLY (F29) | doctrine drafted, prompt pending | F27 #6 pending | 🔴 |
+| R-ALQAAB-FUNCTIONAL-PARAPHRASE (F24) | doctrine drafted, prompt pending | F27 #7 pending | 🔴 |
+| R-NO-MANUSCRIPT-META | X14 ✅ | Tier 2 validator ✅ | 🟢 |
+| R-PHONETICS-OUT | handbook ✅ | regex partial (F9) | 🟡 |
+| R-WELCOME (opening sentence) | X16 ✅ | partial | 🟡 |
+
+**Net**: 7 of 14 R-rules have validator-side coverage. 7 are prompt-only (= M1 risk). F27 closes 6 of those 7. After F27, only R-PHONETICS-OUT remains partial.
+
+---
+
 ## Lessons learned — meta-patterns across F1–F15
 
 First-read map for new operators. The 15 individual debt items collapse into 7 recurring meta-patterns. Each pattern is what to WATCH FOR in the next book. When a defect surfaces, ask "which Mn does this look like?" — if it matches, the proposed fix shape is already in this file; if it doesn't, you've found M8.
