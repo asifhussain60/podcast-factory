@@ -87,14 +87,14 @@ This mirrors the AskUserQuestion convention (recommended first, structured optio
 ```
 ## At a glance — 🟢 ship-ready
 
-1. Phase 0d regenerated all 14 chapter contracts against the new refined source — nothing failed ([commit 8a34564](https://github.com/asifhussain60/Journal/commit/8a34564)).
+1. Phase 0d regenerated all 14 chapter contracts against the new refined source — nothing failed ([commit 8a34564](https://github.com/asifhussain60/podcast-factory/commit/8a34564)).
 2. The previously broken adams-law YAML self-resolved during the re-run.
 3. Downstream Phase 0e is now unblocked.
 
 ---
 
 ### 1. Phase 0d completed cleanly 🟢
-All 14 chapter contracts regenerated against the new refined source — Phase 0e enrichment is unblocked, ran without intervention. See [commit 8a34564](https://github.com/asifhussain60/Journal/commit/8a34564) and [chapter-contracts/](content/podcast/library/books/kitab-al-riyad/chapter-contracts/).
+All 14 chapter contracts regenerated against the new refined source — Phase 0e enrichment is unblocked, ran without intervention. See [commit 8a34564](https://github.com/asifhussain60/podcast-factory/commit/8a34564) and [chapter-contracts/](content/podcast/library/books/kitab-al-riyad/chapter-contracts/).
 
 ### 2. YAML parse error self-resolved 🟢
 The previously-broken adams-law contract was overwritten by the fresh 0d output, so Phase 0f no longer halts on YAML parse failure. Self-fix from the structural re-run — see [adams-law-and-the-prophetic-cycle.yml](content/podcast/library/books/kitab-al-riyad/chapter-contracts/adams-law-and-the-prophetic-cycle.yml).
@@ -117,7 +117,7 @@ D. Do all of the above (B → C → A in sequence).
 - **No trailing summary paragraphs** ("In summary…", "To recap…"). The At-a-glance list already did that job at the top.
 - **No postscripts after the Next header.** The Next header ends the response.
 - **Multi-path Next uses alphabetized options.** When 2+ legitimate paths exist, list them as A. (Recommended) / B. / C. / [final letter]. Do all of the above. Single-path: one sentence, no list. **One actor per `## Next:` header** — if genuinely independent next steps exist for both Asif AND AI, write two headers (no more than two total — usually one).
-- **Markdown links always.** `[name](path)` for files, `[commit abc1234](https://github.com/asifhussain60/Journal/commit/abc1234)` for commits, `[file.py:42](scripts/file.py#L42)` for line refs. Never bare paths in prose.
+- **Markdown links always.** `[name](path)` for files, `[commit abc1234](https://github.com/asifhussain60/podcast-factory/commit/abc1234)` for commits, `[file.py:42](scripts/file.py#L42)` for line refs. Never bare paths in prose.
 - **Explain pipeline jargon parenthetically** the first time it appears in a response (Phase 0e, nāṭiq, P22, abjad, da'wa, etc.).
 - **Synthesize, don't dump.** When external knowledge helps (style guides, conventions, prior art), use WebSearch and cite. Otherwise stick to what the codebase shows.
 - **Recommend, don't enumerate.** Pick a recommended path and explain why. Asif redirects when needed — don't pre-emptively list all options as equal.
@@ -219,7 +219,7 @@ Auto-fix without halting:
 ## 6. File and commit references
 
 - Always link files: `[refined-english.md](content/podcast/library/books/.../refined-english.md)`
-- Always link commits when referring to specific work: `commit [abc1234](https://github.com/asifhussain60/Journal/commit/abc1234)`
+- Always link commits when referring to specific work: `commit [abc1234](https://github.com/asifhussain60/podcast-factory/commit/abc1234)`
 - Use `file:line` form when referencing code: `[orchestrate_book.py:917](scripts/podcast/orchestrate_book.py#L917)`
 - Use backticks for inline code only — file paths in markdown links should
   not also be backticked.

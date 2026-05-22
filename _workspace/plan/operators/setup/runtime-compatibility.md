@@ -38,7 +38,7 @@ Capability probe ran **2026-05-21** via a 13-step diagnostic inside a Cowork tas
 3. **No `security` binary** → no Keychain → no Azure credential resolution
 4. `/usr/local/bin/claude` v2.1.142 exists in the sandbox but returns **"Not logged in"** — cannot inherit the Mac's Claude Code authentication
 5. Each `mcp__workspace__bash` call is independent (~45s cap, no env carryover between calls); no mechanism to supervise a 1.5–10h orchestrator across turns. `nohup` works within one call but the process dies at VM teardown
-6. Only the `dump` worktree (`/Users/ahmac/Code/Journal`) is mounted by default; live `book/<slug>` branches are invisible to Cowork even read-only
+6. Only the `dump` worktree (`/Users/ahmac/Code/podcast-factory/main`) is mounted by default; live `book/<slug>` branches are invisible to Cowork even read-only
 7. Sandbox Python is 3.10, below the 3.11 floor flagged in [../coordination-protocol.md §12](../coordination-protocol.md) (cost-ledger silently fails)
 8. Cowork memory store lives at `…/spaces/<id>/memory/`, separate from Claude Code's `~/.claude/projects/...`; no continuity
 
@@ -76,8 +76,8 @@ Both sessions identify as the same machine (e.g., `mac-studio-primary`). They co
 
 | Session | Worktree | Branch | Role |
 |---|---|---|---|
-| Session A (primary) | [/Users/ahmac/Code/Journal-book-asaas](/Users/ahmac/Code/Journal-book-asaas) | `book/asaas-al-taveel` | Pipeline driver — autonomous orchestrator runs here; owns operator-file updates |
-| Session B (auxiliary) | [/Users/ahmac/Code/Journal-feat-w1](/Users/ahmac/Code/Journal-feat-w1) | `feat/operator-review-studio` | Framework / UI work, read-only audits, parallel feat-branch development; does NOT touch coord docs |
+| Session A (primary) | [/Users/ahmac/Code/podcast-factory/book-asaas](/Users/ahmac/Code/podcast-factory/book-asaas) | `book/asaas-al-taveel` | Pipeline driver — autonomous orchestrator runs here; owns operator-file updates |
+| Session B (auxiliary) | [/Users/ahmac/Code/podcast-factory/feat-w1](/Users/ahmac/Code/podcast-factory/feat-w1) | `feat/operator-review-studio` | Framework / UI work, read-only audits, parallel feat-branch development; does NOT touch coord docs |
 
 Pros: minimal setup, both share `claude` auth + Keychain. Cons: only one session can update the operator file (collisions otherwise).
 

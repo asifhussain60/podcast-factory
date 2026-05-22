@@ -21,14 +21,14 @@ Both operator machines run the same project but with **different macOS users, di
 | Hostname hint | `Asifs-Mac-Studio.local` |
 | macOS user | `ahmac` |
 | Home directory | `/Users/ahmac` |
-| Primary worktree | [/Users/ahmac/Code/Journal-book-asaas](/Users/ahmac/Code/Journal-book-asaas) — branch `book/asaas-al-taveel` |
-| Additional worktrees | [/Users/ahmac/Code/Journal-feat-w1](/Users/ahmac/Code/Journal-feat-w1) (`feat/operator-review-studio`, 7 commits ahead of develop — active UI work); [/Users/ahmac/Code/Journal](/Users/ahmac/Code/Journal) (`dump`, 1 commit ahead — local stash branch) |
+| Primary worktree | [/Users/ahmac/Code/podcast-factory/book-asaas](/Users/ahmac/Code/podcast-factory/book-asaas) — branch `book/asaas-al-taveel` |
+| Additional worktrees | [/Users/ahmac/Code/podcast-factory/feat-w1](/Users/ahmac/Code/podcast-factory/feat-w1) (`feat/operator-review-studio`, 7 commits ahead of develop — active UI work); [/Users/ahmac/Code/podcast-factory/main](/Users/ahmac/Code/podcast-factory/main) (`dump`, 1 commit ahead — local stash branch) |
 | Role | Primary — designated for autonomous Azure-backed podcast-pipeline runs (per memory `project_primary_mac.md`, 2026-05-18) |
 | Anthropic quota share | 0.5 |
 | Currently in-flight | `book/asaas-al-taveel` (Phase 0b halted, awaiting operator gate (b)) |
 | Operator file | [../mac-studio-primary.md](../mac-studio-primary.md) |
 
-**Note on Studio's three worktrees:** [../coordination-protocol.md §9](../coordination-protocol.md) recommends single-worktree-per-machine for branch-per-book workflows. Studio currently runs three because [feat/operator-review-studio](/Users/ahmac/Code/Journal-feat-w1) is actively being developed in parallel with the asaas pipeline work. The `dump` worktree is essentially a local stash and could be pruned if not needed. Consolidation is at the operator's discretion — see [runtime-compatibility.md](runtime-compatibility.md) for the "two Claude Code sessions on one Mac" pattern which actually benefits from this layout.
+**Note on Studio's three worktrees:** [../coordination-protocol.md §9](../coordination-protocol.md) recommends single-worktree-per-machine for branch-per-book workflows. Studio currently runs three because [feat/operator-review-studio](/Users/ahmac/Code/podcast-factory/feat-w1) is actively being developed in parallel with the asaas pipeline work. The `dump` worktree is essentially a local stash and could be pruned if not needed. Consolidation is at the operator's discretion — see [runtime-compatibility.md](runtime-compatibility.md) for the "two Claude Code sessions on one Mac" pattern which actually benefits from this layout.
 
 ## MacBook Air — `macbook-air-secondary`
 
@@ -60,7 +60,7 @@ Both operator machines run the same project but with **different macOS users, di
 |---|---|---|
 | macOS user | `ahmac` | `asifhussain` |
 | Home path | `/Users/ahmac` | `/Users/asifhussain` |
-| Primary worktree path | `/Users/ahmac/Code/Journal-book-asaas` | `/Users/asifhussain/PROJECTS/journal` |
+| Primary worktree path | `/Users/ahmac/Code/podcast-factory/book-asaas` | `/Users/asifhussain/PROJECTS/journal` |
 | Worktree count | 3 | 1 |
 | Currently assigned book branch | `book/asaas-al-taveel` | `book/kitab-al-riyad` |
 | `claude` auth | separate session (logged in as `ahmac`) | separate session (logged in as `asifhussain`) |

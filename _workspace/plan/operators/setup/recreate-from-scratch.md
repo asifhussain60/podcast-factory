@@ -75,7 +75,7 @@ gh auth login --git-protocol https --hostname github.com --web
 ## Step 5 — Clone the repo and set up worktrees
 
 Pick a primary working directory. Convention so far:
-- Studio: `~/Code/Journal-book-asaas`
+- Studio: `~/Code/podcast-factory/book-asaas`
 - Air: `~/PROJECTS/journal`
 - New Mac: whatever's natural for that Mac's user
 

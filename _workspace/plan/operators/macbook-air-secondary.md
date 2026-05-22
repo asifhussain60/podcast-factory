@@ -363,7 +363,7 @@ See [coordination-protocol.md §12](coordination-protocol.md). Quick reference
 of bugs Air is most likely to hit on KaR's remaining phases (0e → 0g):
 
 1. **Phase 0b page-marker stripping (P22.markers)** — FIXED 2026-05-20 in
-   commit [`5201b54`](https://github.com/asifhussain60/Journal/commit/5201b54)
+   commit [`5201b54`](https://github.com/asifhussain60/podcast-factory/commit/5201b54)
    on `book/asaas-al-taveel`. Cherry-pick required per §4.2 above. KaR's
    existing 0b output may carry the defect; audit via
    `audit_page_markers.py` per §4.3 and remediate per §4.4 if so.

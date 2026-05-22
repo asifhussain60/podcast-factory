@@ -45,7 +45,7 @@ less content/podcast/library/archetypes/islamic-scholastic-text.md
 
 ### 1.1 What we did
 - Killed the orchestrator (was processing ch10 fixer pass + ch14 challenger) cleanly via SIGTERM.
-- Updated `orchestrator-state.json`: `phase_status` flipped from `running` → `halted_by_operator` with a `halt_reason` line naming Asif's decision (avoids the [orchestrator-resume bug](https://github.com/asifhussain60/Journal/blob/book/kitab-al-riyad/_workspace/plan/operators/macbook-air-secondary.md) blocking future `--resume`).
+- Updated `orchestrator-state.json`: `phase_status` flipped from `running` → `halted_by_operator` with a `halt_reason` line naming Asif's decision (avoids the [orchestrator-resume bug](https://github.com/asifhussain60/podcast-factory/blob/book/kitab-al-riyad/_workspace/plan/operators/macbook-air-secondary.md) blocking future `--resume`).
 - Created the Islamic Scholastic Text Archetype v1.0 at `content/podcast/library/archetypes/islamic-scholastic-text.md`.
 - Saved an Air-local memory rule (`feedback_archetype_over_rerun.md`) so future sessions halt LLM-heavy re-runs the moment a book hits SHIP-WITH-CAUTION rather than burning tokens for the same lesson 13×.
 

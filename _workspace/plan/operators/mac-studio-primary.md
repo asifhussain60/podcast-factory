@@ -12,9 +12,9 @@ worktree_layout:
   # `Journal` (`dump` branch, 1 commit ahead of develop) and `Journal-feat-w1`
   # (`feat/operator-review-studio`, 7 commits ahead of develop — active operator-review
   # UI work). Asif decides whether to consolidate.
-  - path: /Users/ahmac/Code/Journal-book-asaas
+  - path: /Users/ahmac/Code/podcast-factory/book-asaas
     branch: book/asaas-al-taveel
-  - path: /Users/ahmac/Code/Journal-feat-w1
+  - path: /Users/ahmac/Code/podcast-factory/feat-w1
     branch: feat/operator-review-studio
   - path: /Users/ahmac/Code/Journal
     branch: dump
@@ -90,7 +90,7 @@ never writes it. See [coordination-protocol.md §1](coordination-protocol.md).
 ## 0. Session start — run this first, every time
 
 ```bash
-cd /Users/ahmac/Code/Journal-book-asaas  # the asaas worktree
+cd /Users/ahmac/Code/podcast-factory/book-asaas  # the asaas worktree
 
 # Sync from remote (does not touch other worktrees)
 git fetch --all --prune
@@ -180,7 +180,7 @@ the same day).
 
 ## 4. Resume action plan
 
-Run in `/Users/ahmac/Code/Journal-book-asaas`.
+Run in `/Users/ahmac/Code/podcast-factory/book-asaas`.
 
 ```bash
 # 4.1  Session-start protocol (§0 above)
@@ -299,7 +299,7 @@ verdict `SHIP-READY` / `SHIP-WITH-CAUTION` / `BLOCKED`. Required gate in
 
 ## 11. Asif's conventions (apply in every response)
 
-Full spec: [../response-conventions.md](../response-conventions.md). Headline rules (updated 2026-05-21 — inverted At-a-glance template per Air's commit [b01b2f9](https://github.com/asifhussain60/Journal/commit/b01b2f9), shipped at Asif's direction):
+Full spec: [../response-conventions.md](../response-conventions.md). Headline rules (updated 2026-05-21 — inverted At-a-glance template per Air's commit [b01b2f9](https://github.com/asifhussain60/podcast-factory/commit/b01b2f9), shipped at Asif's direction):
 
 1. **Response template**, 4 parts in order:
    1. `## At a glance — <severity emoji> <one-phrase status>` — H2 header with status embedded + numbered list of ~5 non-technical one-liners (each a complete sentence, clickable links preserved)

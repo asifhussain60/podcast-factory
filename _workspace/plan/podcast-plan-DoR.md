@@ -133,7 +133,7 @@ So in practice: ship P1.4 first (the harness), then everything else can run in p
 
 This audit is regenerable by running the Ruby + Python verification scripts that produced it. They live in git history under commit `d986a3d` (the strip-versioning commit). To reproduce:
 ```bash
-cd /Users/ahmac/Code/Journal/_workspace/plan
+cd /Users/ahmac/Code/podcast-factory/main/_workspace/plan
 ruby -ryaml -e 'YAML.load_file("podcast-plan.yaml"); puts "L1 PASS"'
 # ... see git log for the full 12-check suite
 ```
