@@ -65,6 +65,19 @@ _workspace/**/*.zip
 _workspace/**/*.llc
 _workspace/**/*.pdf
 
+# Same raw-asset patterns applied to library/ tree. Pre-promotion source
+# audio sometimes lands under library/<category>/<slug>/_source/ or
+# library/<category>/<slug>/transcripts/<Ch##>/ as recording artifacts;
+# keep them local-only the same way they're local-only under _workspace/.
+library/**/*.mp3
+library/**/*.wav
+library/**/*.m4a
+library/**/*.mp4
+library/**/*.mov
+library/**/*.zip
+library/**/*.llc
+library/**/*.pdf
+
 # Transcript working artifacts — raw Speech-to-Text + translator output used
 # during chapter-source authoring. The final cleaned chapters/ + episodes/
 # files are committed; transcripts/ is local-only scratch.
