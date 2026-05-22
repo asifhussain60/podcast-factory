@@ -165,6 +165,62 @@ All phases pending; runners not yet wired. W2 work starts AFTER W1 acceptance is
 
 ### P7 — Heartbeat + status CLI + wait-banner
 ### P8 — Read-only Status API + browser dashboard (incl. P8.6 phase rename, P8.7 D3 view upgrade, P8.8 agent dedup)
+### P22 — Operator transcript-review gate (English-transcript halt-with-DoR)
+### P23 — Episode Format Contract (tradition-agnostic, audience_profile-gated)
+
+### P24 — podcast-blueprint (content-aware episode-structure planner) — slot 05.5-blueprint  🟢 SURFACE SHIPPED
+
+Inserted between the P22 transcript-review resume and the existing `06-phonetics` stage. Three layers — Layer 1 scan/classify (Haiku default; recommends model for Layers 2/3), Layer 2 episode planner, Layer 3 first-run-only `arc-conventions.md` emitter. Tradition-agnostic; seeds P23's `series-config.yaml` `audience_profile` + `source_tradition` via `proposed-config.yaml` patch on `--approve-blueprint`.
+
+Four LOCKED decisions (operator-set 2026-05-20 from Air session 7768a31c, not re-debated):
+1. Name = `podcast-blueprint` (NOT `podcast-arc`).
+2. Slot = phase `0b.5` (orchestrator slug `05.5-blueprint`).
+3. Layer 1 auto-upgrades the model for Layers 2–3 via `classification.recommended_model_for_layer_2`; `--force-model` overrides; cost-ledger audits both.
+4. `arc-conventions.md` is OPTIONAL on input, agent-seeded DRAFT on first run, operator-editable thereafter; Layer 3 NEVER overwrites; NO global default.
+
+#### P24.1 — Agent spec + skill scaffold + classification schema + handbook  ✅ SHIPPED 2026-05-20
+- Deliverables (all in place):
+  - [`infra/claude-agents/podcast-blueprint.md`](../../infra/claude-agents/podcast-blueprint.md)
+  - [`.github/agents/podcast-blueprint.agent.md`](../../.github/agents/podcast-blueprint.agent.md)
+  - [`skills-staging/podcast-blueprint/SKILL.md`](../../skills-staging/podcast-blueprint/SKILL.md)
+  - [`content/podcast/.skill/handbook/blueprint-protocol.md`](../../content/podcast/.skill/handbook/blueprint-protocol.md)
+  - [`content/podcast/.skill/handbook/_schemas/classification.schema.json`](../../content/podcast/.skill/handbook/_schemas/classification.schema.json)
+  - [`content/podcast/.skill/handbook/_templates/arc-conventions.template.md`](../../content/podcast/.skill/handbook/_templates/arc-conventions.template.md)
+  - [`scripts/podcast/_blueprint_schema.py`](../../scripts/podcast/_blueprint_schema.py)
+  - [`scripts/podcast/tests/test_blueprint_schema.py`](../../scripts/podcast/tests/test_blueprint_schema.py) — 28 tests green
+- Runner: [`phases/p24_1.py`](../../scripts/podcast/phases/p24_1.py) — verify-only on next launchd tick.
+- Cross-link: P23 [`episode-format-contract.md`](../../content/podcast/.skill/handbook/episode-format-contract.md) §2 now references the P24 synergy.
+
+#### P24.2 — Layer 1 (scan/classify)  🟠 BLOCKED on Air handoff
+- **Blocker:** the truncated three-layer architecture body from Air session 7768a31c (2026-05-20) ended at `### Three-layer architecture` without describing the layer prompts. Layer 1's prompt skeleton cannot be authored faithfully to Asif's design intent until that text arrives.
+- **Assumptions:** Layer 1 runs on Haiku by default (cheap scan); promotes itself if signals warrant. Cost <$0.30 per book for the 260p Kitab al-Riyad scale.
+- **Ambiguities (resolve once handoff arrives):**
+  - Should Layer 1 self-classification run in TWO passes (cheap scan → confidence score → conditional Sonnet re-scan if confidence low)? Defer to handoff body.
+  - How many signals does Layer 1 need to cite in `rationale` (one? three? all that fit in 500 chars)? Defer to handoff body.
+- **Operator action:** retransmit the truncated Air handoff section. Once received, the Layer 1 prompt skeleton can be authored against the existing `classification.schema.json` + handbook.
+
+#### P24.3 — Layer 2 (episode planner) + Layer 3 (convention emitter)  🟠 BLOCKED on Air handoff
+- **Blocker:** same as P24.2.
+- **Assumptions:** Layer 2 uses the model dictated by Layer 1 unless `--force-model` overrides. Layer 3 NEVER overwrites an existing `<book>/arc-conventions.md` — invariant enforced at the `_blueprint.py` call site (file-exists check before write).
+- **Ambiguities:**
+  - Layer 3 boilerplate for `clinical-wellness` audience_profile — does it differ from `modern-secular` beyond honorifics density? Defer to handoff body.
+  - Cross-episode anti-repetition seed count per planning_mode — empirical pick after first live run on tiny-book.
+- **Operator action:** unblocked when P24.2 unblocks.
+
+#### P24.4 — Orchestrator wiring + cost-ledger integration  🟠 PARTIALLY-LANDABLE
+- **Landable NOW (shell only):** `_phases.py` slot registration; `orchestrate_book.py` flag plumbing (`--force-model`, `--auto-approve-blueprint`, `--approve-blueprint`, `--skip-blueprint-gate`); halt-with-DoR when `_blueprint.py` not yet implemented.
+- **Blocked on P24.2/P24.3:** the slot's actual content (Layer 1/2/3 dispatch).
+- **Operator action:** P24.4 shell can land on `feat/podcast-w1-foundation` independently; merge gated by W2 done_signal.
+
+#### P24.5 — E2E test + classification stability regression  🟠 BLOCKED on P24.2 + P24.3 + P24.4
+- **Blocker:** needs all three layers + orchestrator wiring before E2E can pass.
+- **Assumptions:** tiny-book fixture (P2.1) is the cheap exercise target; Ayyuhal Walad is the medium regression target.
+- **Operator action:** unblocked when P24.4 shell + P24.2 + P24.3 ship.
+
+#### P24.6 — DoR appendix + acceptance-criteria + P23 cross-link  ✅ SHIPPED 2026-05-20
+- THIS section (P24.6.dor) ✅
+- [`acceptance-criteria.md`](./acceptance-criteria.md) P24 rows ✅
+- [`episode-format-contract.md`](../../content/podcast/.skill/handbook/episode-format-contract.md) §2 P24-synergy note ✅
 
 ---
 
@@ -209,8 +265,8 @@ All trigger-gated; promote individually as their `promote_when` conditions fire.
 
 | Category | Count | Detail |
 |---|---:|---|
-| ✅ Shipped (deliverable + runner auto-marks) | **11** | P1.1, P1.2, P1.4, P3.1, P3.2, P4.1, P4.2, P4.3, P4.4, P4.8, P5.1, P5.2, P5.4, P6.1, P6.2, P11.1 |
-| 🟡 / 🟠 / 🔴 / 🔵 Halt-with-DoR (runner halts with action prompt) | **12** | P2.1, P2.2, P2.3, P2.4, P2.5, P2.6, P4.4b, P4.5, P4.6, P4.7, P5.3, P6.3, P6.4 |
+| ✅ Shipped (deliverable + runner auto-marks) | **12** | P1.1, P1.2, P1.4, P3.1, P3.2, P4.1, P4.2, P4.3, P4.4, P4.8, P5.1, P5.2, P5.4, P6.1, P6.2, P11.1, P24.1 |
+| 🟡 / 🟠 / 🔴 / 🔵 Halt-with-DoR (runner halts with action prompt) | **15** | P2.1, P2.2, P2.3, P2.4, P2.5, P2.6, P4.4b, P4.5, P4.6, P4.7, P5.3, P6.3, P6.4, P24.2, P24.3, P24.4, P24.5 |
 | ⚪ Deferred to W2+ | several | P1.3 → P8.8; all W2/W3/W4 P12+ / W5 phases |
 
 **Every W1 phase now has either:**

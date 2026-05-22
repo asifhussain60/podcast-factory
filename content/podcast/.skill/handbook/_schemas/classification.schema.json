@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://journal.local/podcast/_schemas/classification.schema.json",
+  "title": "podcast-blueprint Layer 1 classification.json",
+  "description": "Schema for the Layer 1 (scan/classify) output of the podcast-blueprint agent. Locked by operator design 2026-05-20. The eleven required fields encode every classification signal that downstream layers (Layer 2 episode-planner, Layer 3 convention-emitter) and the orchestrator (model-upgrade decision, series-config.yaml patch for P23 Episode Format Contract) consume.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "book_slug",
+    "source_signature",
+    "classified_at",
+    "genre_primary",
+    "density_score",
+    "narrative_mode",
+    "structural_units",
+    "cross_reference_load",
+    "vocabulary_contestedness",
+    "recommended_model_for_layer_2",
+    "recommended_audience_profile",
+    "recommended_source_tradition",
+    "recommended_episode_planning_mode",
+    "rationale"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1,
+      "description": "Bumped only on schema-breaking change. Validators refuse on mismatch."
+    },
+    "book_slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$",
+      "minLength": 2,
+      "maxLength": 64,
+      "description": "Kebab-case book slug; matches the directory name under content/podcast/library/books/."
+    },
+    "source_signature": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "SHA-256 of the refined-english.md the classifier read. Caching/re-classification key."
+    },
+    "classified_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 timestamp; set by the tooling, not by the model."
+    },
+    "genre_primary": {
+      "type": "string",
+      "enum": [
+        "polemic_tribunal",
+        "memoir",
+        "self_help",
+        "essay_collection",
+        "didactic_dialogue",
+        "exegesis",
+        "epistle"
+      ],
+      "description": "The dominant genre signal. Drives recommended_episode_planning_mode."
+    },
+    "density_score": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "0.0 = sparse narrative (e.g. memoir); 1.0 = dense argumentation with high cross-reference (e.g. exegesis). Drives recommended_model_for_layer_2 (0.0–0.33 Haiku, 0.34–0.66 Sonnet, 0.67–1.0 Opus by default; classifier may override based on cross_reference_load or vocabulary_contestedness)."
+    },
+    "narrative_mode": {
+      "type": "string",
+      "enum": [
+        "first_person",
+        "third_person_omniscient",
+        "dialectical",
+        "epistolary",
+        "vignette"
+      ]
+    },
+    "structural_units": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[a-z][a-z_]*[a-z]$" },
+      "minItems": 1,
+      "maxItems": 6,
+      "description": "Ordered list of structural unit names as they appear in the source. Examples: [\"babs\", \"fasls\"] for Arabic polemics; [\"chapters\"] for memoirs; [\"letters\"] for epistolary."
+    },
+    "cross_reference_load": {
+      "type": "string",
+      "enum": ["low", "medium", "high"],
+      "description": "How much the text depends on intratextual + intertextual references. High → favors Opus for Layer 2 (cross-episode anti-repetition needs richer planning)."
+    },
+    "vocabulary_contestedness": {
+      "type": "string",
+      "enum": ["low", "medium", "high"],
+      "description": "How much technical vocabulary is contested across traditions. High → favors Opus for Layer 2 (esoteric-concept analogical framing per P23 §8 is high-stakes)."
+    },
+    "recommended_model_for_layer_2": {
+      "type": "string",
+      "enum": ["haiku", "sonnet", "opus"],
+      "description": "Layer 1's recommendation for the model used by Layers 2 + 3. Orchestrator honors unless operator passes --force-model. Default mapping: low density narrative → Haiku; standard non-fiction → Sonnet; high-density / high cross-reference / contested vocabulary → Opus."
+    },
+    "recommended_audience_profile": {
+      "type": "string",
+      "enum": ["traditional", "modern-secular", "clinical-wellness", "academic"],
+      "description": "Layer 1's recommendation for P23 audience_profile. Operator confirms via --approve-blueprint; on approval, this value is written into <book>/series-config.yaml, activating P23's Episode Format Contract."
+    },
+    "recommended_source_tradition": {
+      "type": ["string", "null"],
+      "pattern": "^[a-z][a-z0-9-]*[a-z0-9]$",
+      "description": "Tradition-slug pointing at content/_shared/traditions/<slug>.md; null if the source does not map to a known tradition. Operator can override before --approve-blueprint."
+    },
+    "recommended_episode_planning_mode": {
+      "type": "string",
+      "enum": [
+        "tribunal_arc",
+        "chronological",
+        "problem_solution",
+        "vignette_grid",
+        "dialectical_pairs"
+      ],
+      "description": "The episode-structure planning mode Layer 2 will use. tribunal_arc for polemic_tribunal; chronological for memoir; problem_solution for self_help; vignette_grid for essay_collection; dialectical_pairs for didactic_dialogue. Exegesis + epistle map to chronological by default but can use vignette_grid for non-linear sources."
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 50,
+      "maxLength": 500,
+      "description": "Why this classification. MUST cite at least one specific signal from refined-english.md (e.g., 'opens with judicial framing on §3.1 — three named accusers structuring the polemic; cross-reference load high from chained Quranic citations'). NO generic boilerplate."
+    }
+  }
+}

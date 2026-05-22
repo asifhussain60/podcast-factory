@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en" data-reader-theme="dark" data-reader-font="lato" data-reader-size="17" data-reader-line="normal" data-reader-width="medium">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Operator Review Studio — Mock v3 (CSS extracted + visual fixes)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="operator-review-studio.css">
+</head>
+<body>
+
+<!-- ============================================================== -->
+<!-- INLINE SVG ICON SPRITE                                          -->
+<!-- ============================================================== -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none;">
+  <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-theme" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 0 0 20z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></symbol>
+  <symbol id="i-page" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></symbol>
+  <symbol id="i-diff" viewBox="0 0 24 24"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></symbol>
+  <symbol id="i-chev-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="i-chev-right" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></symbol>
+  <symbol id="i-branch" viewBox="0 0 24 24"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></symbol>
+  <symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="i-keyboard" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="14" rx="2"/><line x1="6" y1="10" x2="6.01" y2="10"/><line x1="10" y1="10" x2="10.01" y2="10"/><line x1="14" y1="10" x2="14.01" y2="10"/><line x1="18" y1="10" x2="18.01" y2="10"/><line x1="6" y1="14" x2="6.01" y2="14"/><line x1="18" y1="14" x2="18.01" y2="14"/><line x1="10" y1="14" x2="14" y2="14"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></symbol>
+  <symbol id="i-cmd" viewBox="0 0 24 24"><path d="M6 6h12v12H6z" fill="none"/><circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></symbol>
+  <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l1.5 5L18 9l-5 1.5L12 15l-1-4.5L6 9l4.5-1z"/></symbol>
+  <symbol id="i-brain" viewBox="0 0 24 24"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2z"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></symbol>
+  <symbol id="i-list-tree" viewBox="0 0 24 24"><path d="M21 12h-8M21 6h-8M21 18h-8M3 6v.01M3 12v.01M3 18v.01M3 6c1 0 2 1 2 2v8c0 1 1 2 2 2"/></symbol>
+</svg>
+
+<!-- ============================================================== -->
+<!-- TOP MOCK BAR                                                    -->
+<!-- ============================================================== -->
+<div class="mock-bar">
+  <div class="mock-bar-left">
+    <span class="pill"><span class="dot" style="background:var(--accent-amber);"></span>MOCK v3 — visual fixes + external CSS + AI assist bar</span>
+    <span style="color:var(--text-tertiary);">Click anything · all interactions wired</span>
+  </div>
+  <div class="mock-bar-right">
+    <button onclick="showPage('books')" class="btn-ghost">Books list</button>
+    <button onclick="showPage('editor')" class="btn-ghost">Editor</button>
+  </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- PAGE 1: BOOKS LIST                                              -->
+<!-- ============================================================== -->
+<div class="page-shell" id="page-books">
+  <header class="books-header">
+    <div class="books-header-inner">
+      <div>
+        <div class="brand-block">
+          <div class="brand-logo">RS</div>
+          <div>
+            <div class="brand-name"><span class="accent-grad">Operator</span> Review Studio</div>
+            <div class="brand-sub">localhost:8766 · feat/operator-review-studio</div>
+          </div>
+        </div>
+        <p class="brand-meta">3 books · 1 awaiting your review · 1 in flight · 1 shipped</p>
+      </div>
+      <div class="filter-row">
+        <button class="chip">All · 3</button>
+        <button class="chip warn-active">Needs review · 1</button>
+        <button class="chip">In flight · 1</button>
+        <button class="chip">Done · 1</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="books-body scroll-thin">
+    <div class="books-body-inner">
+      <div class="worktree-header">
+        <svg class="icon"><use href="#i-branch"/></svg>
+        <span class="worktree-path">~/Code/Journal-book-asaas</span>
+        <span class="pill worktree-pill"><span class="dot" style="background:var(--accent-cyan);"></span>active worktree</span>
+      </div>
+
+      <div class="book-grid">
+        <!-- Asaas (Phase 0c per orchestrator status) -->
+        <div class="book-card" onclick="alert('In real app: navigates to status view (read-only while running).')">
+          <div class="bc-row">
+            <span class="pill bc-pill-flight"><span class="dot dot-pulse" style="background:var(--accent-purple);"></span>Phase 0c · phonetics</span>
+            <span class="bc-row-meta">2 / 19 win</span>
+          </div>
+          <div class="bc-name">asaas-al-taveel</div>
+          <div class="bc-desc">Arabic phonetic transcription · window 2 of 19</div>
+          <div class="bc-progress"><div class="bc-progress-fill purple" style="width:11%;"></div></div>
+          <div class="bc-footer">
+            <span>Started 07:16 PT</span>
+            <span>ETA ~10:50</span>
+          </div>
+        </div>
+
+        <!-- Tahdhib -->
+        <div class="book-card book-card-hot" onclick="showPage('editor')">
+          <div class="bc-badge">YOUR REVIEW →</div>
+          <div class="bc-row">
+            <span class="pill bc-pill-warn"><span class="dot" style="background:var(--accent-amber);"></span>P22 gate · halted</span>
+            <span class="bc-row-meta">186 pp</span>
+          </div>
+          <div class="bc-name">tahdhib-al-akhlaq</div>
+          <div class="bc-desc">English transcript ready · awaiting your review</div>
+          <div class="bc-progress"><div class="bc-progress-fill warn" style="width:100%;"></div></div>
+          <div class="bc-footer bc-footer-hot">
+            <span>OCR conf 92%</span>
+            <span>est. 8 min review</span>
+          </div>
+          <button class="btn-primary bc-cta">
+            <svg class="icon"><use href="#i-edit"/></svg>
+            Open review
+          </button>
+        </div>
+
+        <!-- Ayyuhal -->
+        <div class="book-card book-card-done" onclick="alert('In real app: opens read-only archive view of the shipped book.')">
+          <div class="bc-row">
+            <span class="pill bc-pill-good"><span class="dot" style="background:var(--accent-emerald);"></span>Shipped</span>
+            <span class="bc-row-meta">5 / 5 ep</span>
+          </div>
+          <div class="bc-name">ayyuhal-walad</div>
+          <div class="bc-desc">All 5 episodes shipped · 2026-05-18</div>
+          <div class="bc-progress"><div class="bc-progress-fill good" style="width:100%;"></div></div>
+          <div class="bc-footer">
+            <span>$4.21 final</span>
+            <span>30 pages</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="worktree-hint">
+        <code>~/.journal-worktrees.yaml</code> — add more worktree paths to list books across multiple branches in one view (Q3 default config).
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- PAGE 2: EDITOR                                                  -->
+<!-- ============================================================== -->
+<div class="page-shell page-hidden" id="page-editor">
+
+  <!-- Top bar -->
+  <header class="editor-topbar">
+    <div class="editor-topbar-left">
+      <button class="back-btn" onclick="showPage('books')" title="Back to books">
+        <svg class="icon"><use href="#i-arrow-left"/></svg>
+      </button>
+      <div>
+        <div class="book-title">tahdhib-al-akhlaq</div>
+        <div class="book-subtitle">186 pages · OCR confidence 92% · halted at Phase 0b</div>
+      </div>
+    </div>
+    <div class="editor-topbar-right">
+      <span class="save-indicator"><span class="dot" style="background:var(--accent-emerald);"></span>Saved · just now</span>
+      <span class="editor-meta-text">3 flags · 1 glossary · range 14–178</span>
+      <button class="btn-ghost" onclick="openHelp()" title="Keyboard shortcuts">
+        <svg class="icon"><use href="#i-keyboard"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Reading controls bar -->
+  <div class="rc-bar">
+    <span class="rc-label">Reading</span>
+    <div class="rc-quick">
+      <button class="rc-icon-btn" onclick="changeFontSize(-1)" title="Smaller (Cmd-)">
+        <svg class="icon icon-sm"><use href="#i-minus"/></svg>
+      </button>
+      <span class="rc-size-display" id="rc-size-val">17 px</span>
+      <button class="rc-icon-btn" onclick="changeFontSize(1)" title="Larger (Cmd+)">
+        <svg class="icon icon-sm"><use href="#i-plus"/></svg>
+      </button>
+    </div>
+    <span class="rc-divider"></span>
+    <button class="rc-icon-btn" onclick="cycleTheme()" title="Cycle reader theme">
+      <svg class="icon icon-sm"><use href="#i-theme"/></svg>
+    </button>
+    <span class="rc-divider"></span>
+    <div class="rc-quick">
+      <button class="rc-icon-btn" onclick="openPalette('search')" title="Search transcript (Cmd-F)">
+        <svg class="icon icon-sm"><use href="#i-search"/></svg>
+      </button>
+      <button class="rc-icon-btn" onclick="openPalette('page')" title="Jump to page (Cmd-P)">
+        <svg class="icon icon-sm"><use href="#i-page"/></svg>
+      </button>
+      <button class="rc-icon-btn" id="diff-btn" onclick="toggleDiff()" title="Diff with raw (Cmd-D)">
+        <svg class="icon icon-sm"><use href="#i-diff"/></svg>
+      </button>
+    </div>
+    <button class="rc-toggle-panel" id="rc-toggle" onclick="toggleRcPanel(); event.stopPropagation();">
+      <svg class="icon icon-sm"><use href="#i-sliders"/></svg>
+      <span>Reading controls</span>
+      <svg class="icon icon-sm icon-chev"><use href="#i-chev-down"/></svg>
+    </button>
+
+    <!-- Expanded reading-controls panel -->
+    <div class="rc-panel" id="rc-panel" onclick="event.stopPropagation();">
+      <div class="rc-panel-section">
+        <div class="rc-panel-section-title">Font family</div>
+        <div class="rc-pill-row">
+          <button class="rc-pill active" data-font="lato" onclick="setFont('lato')">Lato</button>
+          <button class="rc-pill" data-font="cormorant" onclick="setFont('cormorant')" style="font-family:'Cormorant Garamond';font-style:italic;">Cormorant</button>
+          <button class="rc-pill" data-font="lora" onclick="setFont('lora')" style="font-family:'Lora';">Lora</button>
+          <button class="rc-pill" data-font="opendyslexic" onclick="setFont('opendyslexic')">Dyslexic</button>
+        </div>
+      </div>
+
+      <div class="rc-panel-section">
+        <div class="rc-panel-section-title">Font size</div>
+        <div class="rc-slider-wrap">
+          <input type="range" min="13" max="24" value="17" class="rc-slider" id="rc-slider" oninput="setFontSize(this.value)">
+          <span class="rc-slider-value" id="rc-slider-val">17 px</span>
+        </div>
+      </div>
+
+      <div class="rc-panel-section">
+        <div class="rc-panel-section-title">Line spacing</div>
+        <div class="rc-pill-row">
+          <button class="rc-pill" data-line="tight" onclick="setLine('tight')">Tight</button>
+          <button class="rc-pill active" data-line="normal" onclick="setLine('normal')">Normal</button>
+          <button class="rc-pill" data-line="loose" onclick="setLine('loose')">Loose</button>
+        </div>
+      </div>
+
+      <div class="rc-panel-section">
+        <div class="rc-panel-section-title">Content width</div>
+        <div class="rc-pill-row">
+          <button class="rc-pill" data-width="narrow" onclick="setWidth('narrow')">Narrow</button>
+          <button class="rc-pill active" data-width="medium" onclick="setWidth('medium')">Medium</button>
+          <button class="rc-pill" data-width="wide" onclick="setWidth('wide')">Wide</button>
+        </div>
+      </div>
+
+      <div class="rc-panel-section">
+        <div class="rc-panel-section-title">Theme</div>
+        <div class="theme-row">
+          <button class="theme-swatch active" data-theme="dark" onclick="setTheme('dark')">
+            <span class="swatch-dot swatch-dark"></span>
+            <span class="swatch-label">Dark</span>
+          </button>
+          <button class="theme-swatch" data-theme="sepia" onclick="setTheme('sepia')">
+            <span class="swatch-dot swatch-sepia"></span>
+            <span class="swatch-label">Sepia</span>
+          </button>
+          <button class="theme-swatch" data-theme="light" onclick="setTheme('light')">
+            <span class="swatch-dot swatch-light"></span>
+            <span class="swatch-label">Light</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI Assist Bar (NEW v3) -->
+  <div class="ai-bar">
+    <div class="ai-bar-label">
+      <svg class="icon icon-sm"><use href="#i-sparkle"/></svg>
+      AI Assist
+    </div>
+    <div class="ai-bar-actions">
+      <button class="ai-action" onclick="aiAction('scan')">
+        <svg class="icon icon-sm"><use href="#i-search"/></svg>
+        Pre-flight scan
+      </button>
+      <button class="ai-action" onclick="aiAction('highlight-arabic')">
+        <svg class="icon icon-sm"><use href="#i-sparkle"/></svg>
+        Highlight Arabic terms
+      </button>
+      <button class="ai-action" onclick="aiAction('summarize')">
+        <svg class="icon icon-sm"><use href="#i-list-tree"/></svg>
+        Per-page summaries
+      </button>
+      <button class="ai-action" onclick="aiAction('suggest-flags')">
+        <svg class="icon icon-sm"><use href="#i-flag"/></svg>
+        Suggest flags (5)
+      </button>
+      <button class="ai-action" onclick="aiAction('episode-plan')">
+        <svg class="icon icon-sm"><use href="#i-brain"/></svg>
+        Episode plan
+      </button>
+    </div>
+    <div class="ai-status">
+      <span class="dot"></span>
+      ready · 0.34 ¢ used
+    </div>
+  </div>
+
+  <!-- Main split -->
+  <div class="editor-main">
+
+    <!-- LEFT PANE -->
+    <div class="transcript-pane">
+
+      <div class="tp-toolbar">
+        <div class="tp-toolbar-left">
+          <span class="current-page" id="current-page">page 47 / 186</span>
+          <span class="tp-toolbar-sep">·</span>
+          <span id="read-pct">25% read</span>
+          <span class="tp-toolbar-sep">·</span>
+          <span id="time-left">est. 12 min left</span>
+        </div>
+        <div class="tp-toolbar-right">
+          <span class="kbd"><svg class="icon"><use href="#i-cmd"/></svg>L</span>
+          <span>flag</span>
+        </div>
+      </div>
+
+      <div class="tp-body scroll-thin" id="tp-body" onmouseup="checkSelection(event)">
+        <div class="tp-content" id="tp-content">
+
+          <div class="page-marker" data-page="46">
+            <p>And the soul, having returned from its descent into the realm of generation, recovers the recognition of its principles. <span class="diff-toggle"><span class="raw hidden">it the recognition</span><span class="refined">it recovers the recognition</span></span> of these principles is the work of the intellect, not of the imagination. <span class="arabic-term">Al-Kirmānī</span> affirms this throughout the <span class="arabic-term">Rāḥat al-ʿAql</span>.</p>
+            <p>The seven hierarchical positions of the <span class="arabic-term">daʿwa</span>, when traced back to their epistemological foundations, mirror the seven heavenly spheres in form but not in substance. This is the central insight of the present treatise — a claim that the author defends through three converging lines of evidence drawn from earlier <span class="arabic-term">Ismāʿīlī</span> sources.</p>
+          </div>
+
+          <div class="page-marker" data-page="47">
+            <p>Concerning the matter of the <em><span class="arabic-term">jazāʾir</span></em>, the author writes:</p>
+            <p class="pull-quote">"the seven <span class="arabic-term">jazāʾir</span>, when properly understood, do not refer to geographical islands but to the seven preacher-positions that <span class="flagged">structured the daʿwa hierarchy in the Fatimid period</span>. Each <span class="arabic-term">jazīra</span> corresponded to a particular region under the spiritual jurisdiction of a single <span class="arabic-term">ḥujja</span>."</p>
+            <p><span class="arabic-term">Al-Sijistānī</span> describes this arrangement in his <span class="arabic-term">Kitāb al-Maqālīd</span>, noting that the hierarchy was originally instituted by the <span class="arabic-term">Imām</span> and was preserved through successive cycles of concealment and manifestation.</p>
+            <p>The reader should note here a subtle distinction: the <em>geographical</em> <span class="arabic-term">jazāʾir</span> of the early Arab geographers (such as <span class="arabic-term">al-Idrīsī</span>) are not what the author means. <span class="diff-toggle"><span class="raw hidden">angles fell at the wrong moment</span><span class="refined">angels appeared at the appointed moment</span></span> in the spiritual order — and so the <span class="arabic-term">daʿwa</span> was reconstituted around these new positions.</p>
+          </div>
+
+          <div class="page-marker" data-page="48">
+            <p>The second author of the treatise, whose voice shifts noticeably at this juncture, introduces the doctrine of <em><span class="arabic-term">tawḥīd al-mubdiʿ</span></em> — the unity of the Originator. This shift is grammatically marked by the change from third-person reportative ("they say...") to first-person assertive ("I affirm that...").</p>
+            <p>The doctrine itself, while consonant with the earlier sections, introduces a vocabulary not previously deployed: <em><span class="arabic-term">ibdāʿ</span></em> rather than <em><span class="arabic-term">khalq</span></em>, <em><span class="arabic-term">al-mubdaʿ al-awwal</span></em> rather than <em><span class="arabic-term">al-ʿaql al-fāʿil</span></em>. This vocabulary belongs to the <span class="arabic-term">Ismāʿīlī</span> Neoplatonic tradition of <span class="arabic-term">al-Sijistānī</span> and his successors.</p>
+            <p class="ai-suggestion">Three implications follow. First, the author distinguishes between origination and creation. Second, origination has no temporal anteriority. Third, what is originated does not require a substrate.</p>
+          </div>
+
+          <div class="page-marker" data-page="49">
+            <p>Returning to the question of the spheres, the author asserts:</p>
+            <p class="pull-quote">"the celestial spheres are intelligences, and their motions are acts of contemplation. To assign to them physical bodies, as the philosophers of Greece have done, is to miss the symbolic dimension entirely."</p>
+            <p>This reading, while idiosyncratic, is consistent with the broader <span class="arabic-term">Ismāʿīlī</span> tradition that reads the corpus of Greek natural philosophy through an esoteric lens. The <em>intellectus agens</em> of Aristotle becomes, in this tradition, the First Originated.</p>
+          </div>
+
+          <div class="page-marker" data-page="50">
+            <p>A further passage, which the OCR has handled imperfectly, reads as follows:</p>
+            <p class="pull-quote">"the human soul ascends through the same seven stages that mirror the descent of the spheres. <span class="flagged">these stages are not literal but symbolic of the soul's purification</span>."</p>
+            <p>The marginal annotations in the manuscript indicate that this passage was contested even at the time of its composition.</p>
+          </div>
+
+          <div class="page-marker" data-page="51">
+            <p>The treatise turns next to ethical practice — the cultivation of the virtues that prepare the soul for its ascent. The author lists four cardinal virtues, but renames them: <em><span class="arabic-term">al-fiṭra</span></em>, <em><span class="arabic-term">al-rawiyya</span></em>, <em><span class="arabic-term">al-ʿiffa</span></em>, and <em><span class="arabic-term">al-ʿadāla</span></em>. Note the substitution of <em><span class="arabic-term">al-fiṭra</span></em> (innate constitution) where the Greek tradition would have <em>phronēsis</em> (practical wisdom).</p>
+            <p>This substitution is doctrinally significant. The author signals that the prerequisite for virtue is not deliberation but the recovery of an original disposition that the soul has forgotten in its descent.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Floating page indicator -->
+      <div class="floating-page">
+        <span class="floating-page-label">page</span>
+        <span class="floating-page-val" id="floating-page">47</span>
+        <span class="floating-page-label">of 186</span>
+      </div>
+
+      <!-- Floating flag button -->
+      <button id="flag-button" class="flag-button hidden" onclick="flagSelection()">
+        <svg class="icon"><use href="#i-flag"/></svg>
+        Flag this passage
+      </button>
+    </div>
+
+    <!-- RIGHT PANE: REVIEW FORM -->
+    <div class="review-pane">
+      <div class="review-pane-header">
+        <span class="title">Review form</span>
+        <span class="meta">auto-save · 2 sec idle</span>
+      </div>
+
+      <div class="review-body scroll-thin">
+
+        <!-- Translation issues -->
+        <div class="section" data-section="translation">
+          <button class="section-header" onclick="toggleSection(this)">
+            <div class="section-header-left">
+              <svg class="icon icon-sm section-chev"><use href="#i-chev-down"/></svg>
+              <span class="section-title">Translation issues</span>
+              <span class="pill" style="background:rgba(245,158,11,0.12);color:var(--accent-amber);border-color:rgba(245,158,11,0.3);">
+                <span class="dot" style="background:var(--accent-amber);"></span><span>3</span>
+              </span>
+            </div>
+            <span class="section-meta">page-anchored</span>
+          </button>
+          <div class="section-body">
+            <div class="flag-row">
+              <div class="flag-row-head">
+                <span class="flag-page">page 47</span>
+                <button class="flag-close" title="Remove flag"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
+              </div>
+              <div class="flag-quote">"structured the daʿwa hierarchy in the Fatimid period"</div>
+              <textarea class="flag-input" rows="2">should be 'preacher-positions' not 'preacher positions' — hyphenation matters</textarea>
+              <label class="flag-meta">
+                <input type="checkbox"> Recurring pattern (P25.6)
+              </label>
+            </div>
+
+            <div class="flag-row">
+              <div class="flag-row-head">
+                <span class="flag-page">page 23</span>
+                <button class="flag-close"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
+              </div>
+              <div class="flag-quote">"the angles fell at the wrong moment"</div>
+              <textarea class="flag-input" rows="2">OCR scrambled 'angels' → 'angles' — fix</textarea>
+              <label class="flag-meta">
+                <input type="checkbox" checked> Recurring pattern (P25.6)
+              </label>
+            </div>
+
+            <div class="flag-row">
+              <div class="flag-row-head">
+                <span class="flag-page">page 50</span>
+                <button class="flag-close"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
+              </div>
+              <div class="flag-quote">"these stages are not literal but symbolic of the soul's purification"</div>
+              <textarea class="flag-input" rows="2" placeholder="Your note — what's wrong / what it should say"></textarea>
+            </div>
+
+            <button class="add-btn">+ Add manually (or flag from transcript)</button>
+          </div>
+        </div>
+
+        <!-- AI Suggestions section (NEW v3) -->
+        <div class="section section-ai" data-section="ai-suggestions">
+          <button class="section-header" onclick="toggleSection(this)">
+            <div class="section-header-left">
+              <svg class="icon icon-sm section-chev"><use href="#i-chev-down"/></svg>
+              <svg class="icon icon-sm" style="color:var(--accent-purple-soft);"><use href="#i-sparkle"/></svg>
+              <span class="section-title">AI suggestions</span>
+              <span class="pill" style="background:rgba(123,97,255,0.12);border-color:var(--border-accent);color:var(--accent-purple-soft);">5</span>
+            </div>
+            <span class="section-meta">click to accept · purple underlines in transcript</span>
+          </button>
+          <div class="section-body">
+            <div class="flag-row flag-row-ai">
+              <div class="flag-row-head">
+                <span class="flag-page">page 48 · medium confidence</span>
+                <div style="display:flex;gap:0.3rem;">
+                  <button class="btn-ghost" style="padding:0.15rem 0.5rem;font-size:0.68rem;">Accept</button>
+                  <button class="flag-close"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
+                </div>
+              </div>
+              <div class="flag-quote">"Three implications follow. First, the author distinguishes..."</div>
+              <p style="font-size:0.72rem;color:var(--text-tertiary);margin:0.3rem 0 0;">
+                AI noticed: voice shift to enumerated argument style after author transition on p. 48. Consider verifying second-author attribution.
+              </p>
+            </div>
+            <p style="font-size:0.7rem;color:var(--text-tertiary);text-align:center;margin:0;">
+              + 4 more suggestions · click "Suggest flags" again to refresh
+            </p>
+          </div>
+        </div>
+
+        <!-- Missing passages -->
+        <div class="section" data-section="missing">
+          <button class="section-header" onclick="toggleSection(this)">
+            <div class="section-header-left">
+              <svg class="icon icon-sm section-chev rot"><use href="#i-chev-down"/></svg>
+              <span class="section-title">Missing or scrambled passages</span>
+              <span class="pill">0</span>
+            </div>
+            <span class="section-meta">page-anchored</span>
+          </button>
+          <div class="section-body hidden">
+            <button class="add-btn">+ Add</button>
+          </div>
+        </div>
+
+        <!-- Glossary -->
+        <div class="section" data-section="glossary">
+          <button class="section-header" onclick="toggleSection(this)">
+            <div class="section-header-left">
+              <svg class="icon icon-sm section-chev rot"><use href="#i-chev-down"/></svg>
+              <span class="section-title">Glossary additions</span>
+              <span class="pill">1</span>
+            </div>
+          </button>
+          <div class="section-body hidden">
+            <div class="flag-row flag-row-glossary">
+              <input class="flag-input" value="ibdāʿ" style="margin-bottom:0.4rem;">
+              <textarea class="flag-input" rows="2">origination (vs khalq = creation) — Ismāʿīlī Neoplatonic term, NOT mere creation</textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pronunciation -->
+        <div class="section" data-section="pronunciation">
+          <button class="section-header" onclick="toggleSection(this)">
+            <div class="section-header-left">
+              <svg class="icon icon-sm section-chev rot"><use href="#i-chev-down"/></svg>
+              <span class="section-title">Pronunciation corrections</span>
+              <span class="pill">0</span>
+            </div>
+          </button>
+          <div class="section-body hidden">
+            <button class="add-btn">+ Add</button>
+          </div>
+        </div>
+
+        <!-- Free-form -->
+        <div class="section" data-section="comments">
+          <button class="section-header" onclick="toggleSection(this)">
+            <div class="section-header-left">
+              <svg class="icon icon-sm section-chev rot"><use href="#i-chev-down"/></svg>
+              <span class="section-title">Free-form comments</span>
+              <span class="pill">0</span>
+            </div>
+          </button>
+          <div class="section-body hidden">
+            <textarea class="flag-input" rows="4" placeholder="Anything that doesn't fit a category above — observations about the source, voice shifts, sections to consider rebuilding..."></textarea>
+          </div>
+        </div>
+
+        <!-- Content range -->
+        <div class="section section-good" data-section="range">
+          <div class="section-header">
+            <div class="section-header-left">
+              <svg class="icon icon-sm" style="color:var(--accent-emerald);"><use href="#i-check-circle"/></svg>
+              <span class="section-title">Content range (§7)</span>
+            </div>
+            <span class="section-meta" style="color:var(--accent-emerald);">14 → 178 · set</span>
+          </div>
+          <div class="range-grid">
+            <div>
+              <label class="range-label">Body starts at page</label>
+              <input class="range-input" value="14">
+              <span class="range-hint">heuristic suggested: 12</span>
+            </div>
+            <div>
+              <label class="range-label">Body ends at page</label>
+              <input class="range-input" value="178">
+              <span class="range-hint">heuristic suggested: 180</span>
+            </div>
+            <div class="range-explainer">
+              Pages outside this range (preface, index, biblio) are excluded from Phase 0c+ ingestion. Leave blank to ingest the whole transcript.
+            </div>
+          </div>
+        </div>
+
+        <!-- Approval -->
+        <div class="section section-approve">
+          <label class="approve-row">
+            <input type="checkbox" id="approve-check">
+            <div class="approve-row-text">
+              <div class="approve-title">I approve this transcript</div>
+              <div class="approve-sub">3 flags + 1 glossary will pass into the Phase 0c prompt as <code>&lt;operator-review&gt;</code> context</div>
+            </div>
+          </label>
+        </div>
+
+        <!-- Outline -->
+        <div class="outline-section">
+          <div class="outline-title">Outline · jump</div>
+          <button class="outline-row"><span>p. 1–13 · preface</span><span class="status-tag excluded">excluded</span></button>
+          <button class="outline-row"><span>p. 14–45 · §1 introduction</span><span class="status-tag read">read</span></button>
+          <button class="outline-row current"><span>p. 46–88 · §2 the daʿwa</span><span class="status-tag current-tag">reading</span></button>
+          <button class="outline-row"><span>p. 89–124 · §3 ascent</span><span class="status-tag unread">unread</span></button>
+          <button class="outline-row"><span>p. 125–178 · §4 virtues</span><span class="status-tag unread">unread</span></button>
+        </div>
+      </div>
+
+      <!-- Sticky approve bar -->
+      <div class="approve-bar">
+        <div class="approve-bar-meta">
+          <div class="row1">25% read · est. 12 min remaining</div>
+          <div class="row2">Auto-saved · 0 unsaved changes · last commit pending</div>
+        </div>
+        <button class="btn-primary" onclick="openApproveModal()">
+          <svg class="icon"><use href="#i-check-circle"/></svg>
+          Approve &amp; Resume
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- COMMAND PALETTE                                                 -->
+<!-- ============================================================== -->
+<div class="backdrop hidden" id="palette-backdrop" onclick="closePalette()"></div>
+<div class="palette hidden" id="palette">
+  <div class="palette-header">
+    <svg id="palette-icon" class="icon"><use href="#i-search"/></svg>
+    <input id="palette-input" class="palette-input" placeholder="Search the transcript..." oninput="updatePaletteResults()">
+    <span class="kbd">ESC</span>
+  </div>
+  <div class="palette-results scroll-thin" id="palette-results"></div>
+</div>
+
+<!-- ============================================================== -->
+<!-- APPROVE MODAL                                                   -->
+<!-- ============================================================== -->
+<div class="backdrop hidden" id="approve-backdrop" onclick="closeApproveModal()"></div>
+<div class="modal hidden" id="approve-modal">
+  <div class="modal-header">
+    <div class="modal-title">Approve &amp; Resume</div>
+    <div class="modal-subtitle">tahdhib-al-akhlaq · Phase 0b → Phase 0c</div>
+  </div>
+  <div class="modal-body">
+    <div class="summary-card">
+      <div class="summary-card-label">Review summary</div>
+      <div class="summary-row"><span>Translation issues</span><span class="v v-warn">3 flags</span></div>
+      <div class="summary-row"><span>AI-suggested flags</span><span class="v v-muted">5 (not accepted)</span></div>
+      <div class="summary-row"><span>Glossary additions</span><span class="v">1 entry</span></div>
+      <div class="summary-row"><span>Pronunciation</span><span class="v v-muted">0</span></div>
+      <div class="summary-row"><span>Free-form comments</span><span class="v v-muted">0</span></div>
+      <div class="summary-row"><span>Content range §7</span><span class="v">14 → 178</span></div>
+    </div>
+
+    <div class="mode-card">
+      <div class="mode-card-label">How to fire the resume?</div>
+      <label class="mode-radio">
+        <input type="radio" name="resume-mode" value="fire" checked>
+        <div>
+          <div class="mode-name">Fire <code>--approve-transcript</code> + stream log</div>
+          <div class="mode-desc">Subprocess starts; log drawer opens; you can cancel.</div>
+        </div>
+      </label>
+      <label class="mode-radio">
+        <input type="radio" name="resume-mode" value="copy">
+        <div>
+          <div class="mode-name">Copy command to clipboard</div>
+          <div class="mode-desc">Use when running on tmux, remote, or another worktree.</div>
+        </div>
+      </label>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-card-label">Git commit message (auto, editable)</div>
+      <input class="commit-msg-input" value="podcast(tahdhib-al-akhlaq): operator transcript review — 3 flags, 1 glossary, range 14–178">
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn-ghost" onclick="closeApproveModal()">Cancel</button>
+    <button class="btn-primary" onclick="fireResume()">Approve &amp; Resume</button>
+  </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- RESUME LOG DRAWER                                               -->
+<!-- ============================================================== -->
+<div class="backdrop hidden" id="drawer-backdrop" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-header">
+    <div>
+      <div class="drawer-title">Resume log · tahdhib-al-akhlaq</div>
+      <div class="drawer-subtitle"><span class="dot" style="background:var(--accent-emerald);"></span>streaming · pid 49213</div>
+    </div>
+    <div class="drawer-buttons">
+      <button class="btn-ghost drawer-cancel" onclick="closeDrawer()">Cancel</button>
+      <button class="btn-ghost" onclick="closeDrawer()">Minimize</button>
+    </div>
+  </div>
+  <div class="drawer-body scroll-thin">
+    <div class="log-line"><span class="log-time">[07:51:33]</span> <span class="log-phase">phase</span> 05.5-blueprint START (slot reservation; layer dispatcher stubbed)</div>
+    <div class="log-line"><span class="log-time">[07:51:33]</span> <span class="log-note">blueprint: AWAITING_AIR_HANDOFF — skipping layer dispatch, marking phase complete</span></div>
+    <div class="log-line"><span class="log-time">[07:51:34]</span> <span class="log-phase">phase</span> 06-phonetics START</div>
+    <div class="log-line"><span class="log-time">[07:51:34]</span> reading <code>refined-english.md</code> + <code>operator-review.md</code> (3 flags)</div>
+    <div class="log-line"><span class="log-time">[07:51:35]</span> chunking into 6 windows for phonetic pass</div>
+    <div class="log-line"><span class="log-time">[07:51:36]</span> <span class="log-good">win-001/6</span> claude -p sonnet → 14.2k tokens</div>
+    <div class="log-line"><span class="log-time">[07:51:54]</span> <span class="log-good">win-002/6</span> claude -p sonnet → 13.8k tokens</div>
+    <div class="log-line"><span class="log-time">[07:52:11]</span> <span class="log-warn">win-003/6</span> claude -p sonnet → 15.1k tokens (operator flag at page 47 applied)</div>
+    <div class="log-line"><span class="log-time">[07:52:28]</span> <span class="log-good">win-004/6</span> claude -p sonnet → 12.9k tokens</div>
+    <div class="log-line"><span class="log-time">[07:52:44]</span> <span class="log-note">cost so far $0.18 of $2.40 estimated</span></div>
+  </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- HELP OVERLAY                                                    -->
+<!-- ============================================================== -->
+<div class="backdrop hidden" id="help-backdrop" onclick="closeHelp()"></div>
+<div class="modal modal-narrow hidden" id="help">
+  <div class="modal-header">
+    <div class="modal-title">Keyboard shortcuts</div>
+  </div>
+  <div class="modal-body modal-body-tight">
+    <div class="kbd-row"><span>Search transcript</span><span class="kbd"><svg class="icon"><use href="#i-cmd"/></svg>F</span></div>
+    <div class="kbd-row"><span>Jump to page</span><span class="kbd"><svg class="icon"><use href="#i-cmd"/></svg>P</span></div>
+    <div class="kbd-row"><span>Diff with raw</span><span class="kbd"><svg class="icon"><use href="#i-cmd"/></svg>D</span></div>
+    <div class="kbd-row"><span>Approve &amp; resume</span><span class="kbd"><svg class="icon"><use href="#i-cmd"/></svg>↩</span></div>
+    <div class="kbd-row"><span>Flag selection</span><span class="kbd"><svg class="icon"><use href="#i-cmd"/></svg>L</span></div>
+    <div class="kbd-row"><span>AI: pre-flight scan</span><span class="kbd"><svg class="icon"><use href="#i-cmd"/></svg>K</span></div>
+    <div class="kbd-row"><span>Help</span><span class="kbd">?</span></div>
+    <div class="kbd-row"><span>Increase font size</span><span class="kbd"><svg class="icon"><use href="#i-cmd"/></svg>+</span></div>
+    <div class="kbd-row"><span>Decrease font size</span><span class="kbd"><svg class="icon"><use href="#i-cmd"/></svg>-</span></div>
+    <div class="kbd-row"><span>Close overlays</span><span class="kbd">ESC</span></div>
+  </div>
+  <div class="modal-footer">
+    <span class="modal-footer-text">Built into operator-review-studio</span>
+    <button class="btn-primary" onclick="closeHelp()">Got it</button>
+  </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- CORTEX ROBOT                                                    -->
+<!-- ============================================================== -->
+<button id="cortex-robot" onclick="alert('In real app: links to https://asifhussain60.github.io/CORTEX/ — the framework that powers this studio.')" aria-label="Built by CORTEX">
+  <div class="robot-body-wrap">
+    <div class="robot-head">
+      <div class="robot-eye"></div>
+      <div class="robot-eye"></div>
+      <div class="robot-mouth"></div>
+    </div>
+    <div class="robot-body">
+      <div class="robot-chest">CX</div>
+    </div>
+    <div class="robot-glow"></div>
+
+    <div class="robot-tooltip">
+      <div class="robot-tooltip-row"><span>Built by</span> <strong>CORTEX</strong></div>
+      <div class="robot-tooltip-sub">Cognitive Orchestration · click for info</div>
+    </div>
+  </div>
+</button>
+
+<!-- ============================================================== -->
+<!-- FEEDBACK PANEL (collapsed by default — fixes overlap issue)    -->
+<!-- ============================================================== -->
+<button class="fp-trigger" id="fp-trigger" onclick="toggleFeedbackPanel()" title="Mock feedback prompts">?</button>
+
+<div class="feedback-panel hidden" id="feedback-panel">
+  <div class="feedback-panel-head">
+    <strong>📝 Feedback prompts</strong>
+    <button class="feedback-panel-close" onclick="toggleFeedbackPanel()">
+      <svg class="icon icon-sm"><use href="#i-x"/></svg>
+    </button>
+  </div>
+  <ul>
+    <li>Try the <span class="pp">reading controls</span> top-right</li>
+    <li>Try the new <span class="pp">AI Assist bar</span> (purple, below reading controls)</li>
+    <li>Click "Highlight Arabic terms" to see the underline accent</li>
+    <li>Switch theme: dark / sepia / light</li>
+    <li>Cmd-F search · Cmd-P page jump · Cmd-D diff</li>
+    <li>Hover the <span class="pp">robot</span> bottom-left</li>
+    <li>Select text in transcript → flag button</li>
+  </ul>
+</div>
+
+<!-- ============================================================== -->
+<!-- JS                                                               -->
+<!-- ============================================================== -->
+<script>
+  // ===== Page switching =====
+  function showPage(p) {
+    document.getElementById('page-books').classList.toggle('page-hidden', p !== 'books');
+    document.getElementById('page-editor').classList.toggle('page-hidden', p !== 'editor');
+  }
+
+  // ===== Reading controls =====
+  function setFont(font) {
+    document.documentElement.dataset.readerFont = font;
+    document.querySelectorAll('.rc-pill[data-font]').forEach(p => p.classList.toggle('active', p.dataset.font === font));
+  }
+  function setLine(line) {
+    document.documentElement.dataset.readerLine = line;
+    document.querySelectorAll('.rc-pill[data-line]').forEach(p => p.classList.toggle('active', p.dataset.line === line));
+  }
+  function setWidth(width) {
+    document.documentElement.dataset.readerWidth = width;
+    document.querySelectorAll('.rc-pill[data-width]').forEach(p => p.classList.toggle('active', p.dataset.width === width));
+  }
+  function setTheme(theme) {
+    document.documentElement.dataset.readerTheme = theme;
+    document.querySelectorAll('.theme-swatch[data-theme]').forEach(p => p.classList.toggle('active', p.dataset.theme === theme));
+  }
+  function cycleTheme() {
+    const order = ['dark', 'sepia', 'light'];
+    const cur = document.documentElement.dataset.readerTheme;
+    const next = order[(order.indexOf(cur) + 1) % order.length];
+    setTheme(next);
+  }
+  function setFontSize(px) {
+    document.documentElement.style.setProperty('--reader-font-size', px + 'px');
+    document.getElementById('rc-size-val').textContent = px + ' px';
+    document.getElementById('rc-slider-val').textContent = px + ' px';
+    document.getElementById('rc-slider').value = px;
+  }
+  function changeFontSize(delta) {
+    const cur = parseInt(document.getElementById('rc-slider').value);
+    const next = Math.max(13, Math.min(24, cur + delta));
+    setFontSize(next);
+  }
+  function toggleRcPanel() {
+    document.getElementById('rc-panel').classList.toggle('open');
+    document.getElementById('rc-toggle').classList.toggle('open');
+  }
+  document.addEventListener('click', (e) => {
+    const panel = document.getElementById('rc-panel');
+    const toggle = document.getElementById('rc-toggle');
+    if (panel && toggle && !panel.contains(e.target) && !toggle.contains(e.target) && panel.classList.contains('open')) {
+      panel.classList.remove('open');
+      toggle.classList.remove('open');
+    }
+  });
+
+  // ===== Collapsible sections =====
+  function toggleSection(btn) {
+    const body = btn.nextElementSibling;
+    const chev = btn.querySelector('.section-chev');
+    body.classList.toggle('hidden');
+    chev.classList.toggle('rot');
+  }
+
+  // ===== Selection → floating flag button =====
+  function checkSelection(e) {
+    const sel = window.getSelection();
+    const text = sel.toString().trim();
+    const btn = document.getElementById('flag-button');
+    if (text.length > 4 && text.length < 300) {
+      const rect = sel.getRangeAt(0).getBoundingClientRect();
+      btn.style.top = (rect.top - 44) + 'px';
+      btn.style.left = (rect.left + rect.width / 2 - 70) + 'px';
+      btn.classList.remove('hidden');
+      btn.dataset.text = text;
+    } else {
+      btn.classList.add('hidden');
+    }
+  }
+  function flagSelection() {
+    const btn = document.getElementById('flag-button');
+    alert('In real app: pre-fills a new row in "Translation Issues" with:\n\nPage: (current scroll page)\nQuote: "' + btn.dataset.text + '"\nNote: (cursor focused here)');
+    btn.classList.add('hidden');
+    window.getSelection().removeAllRanges();
+  }
+
+  // ===== Command palette =====
+  function openPalette(mode) {
+    const p = document.getElementById('palette');
+    const bd = document.getElementById('palette-backdrop');
+    const input = document.getElementById('palette-input');
+    const iconUse = document.querySelector('#palette-icon use');
+    if (mode === 'page') {
+      input.placeholder = 'Jump to page... (number or section)';
+      iconUse.setAttribute('href', '#i-page');
+    } else {
+      input.placeholder = 'Search the transcript...';
+      iconUse.setAttribute('href', '#i-search');
+    }
+    input.value = '';
+    p.classList.remove('hidden');
+    bd.classList.remove('hidden');
+    setTimeout(() => input.focus(), 50);
+    updatePaletteResults();
+  }
+  function closePalette() {
+    document.getElementById('palette').classList.add('hidden');
+    document.getElementById('palette-backdrop').classList.add('hidden');
+  }
+  function updatePaletteResults() {
+    const q = document.getElementById('palette-input').value.toLowerCase();
+    const r = document.getElementById('palette-results');
+    const seeds = [
+      { p: 47, t: 'the seven jazāʾir, when properly understood, do not refer to geographical islands' },
+      { p: 48, t: 'second author of the treatise, whose voice shifts noticeably at this juncture' },
+      { p: 49, t: 'the celestial spheres are intelligences, and their motions are acts of contemplation' },
+      { p: 50, t: 'a passage which the OCR has handled imperfectly' },
+      { p: 51, t: 'the cultivation of the virtues that prepare the soul for its ascent' },
+    ];
+    const filtered = q ? seeds.filter(s => s.t.toLowerCase().includes(q) || String(s.p).includes(q)) : seeds;
+    r.innerHTML = filtered.map(s => `<div class="palette-result" onclick="closePalette()"><span class="page">p. ${s.p}</span><span class="snippet">${s.t}</span></div>`).join('') || '<div class="palette-empty">No matches</div>';
+  }
+
+  // ===== Diff toggle =====
+  let diffOn = false;
+  function toggleDiff() {
+    diffOn = !diffOn;
+    document.getElementById('diff-btn').classList.toggle('active', diffOn);
+    document.querySelectorAll('.diff-toggle .refined').forEach(el => el.classList.toggle('diff-changed', diffOn));
+    document.querySelectorAll('.diff-toggle .raw').forEach(el => el.classList.toggle('hidden', !diffOn));
+  }
+
+  // ===== Arabic-term highlight toggle =====
+  let arabicHighlightOn = true;
+  function toggleArabicHighlight() {
+    arabicHighlightOn = !arabicHighlightOn;
+    document.querySelectorAll('.arabic-term').forEach(el => {
+      el.style.background = arabicHighlightOn ? '' : 'transparent';
+    });
+  }
+
+  // ===== AI actions =====
+  function aiAction(kind) {
+    const msgs = {
+      'scan': 'In real app: Claude (via journal-api proxy) scans transcript for OCR errors, voice shifts, suspicious tokens. Found 8 candidate issues across pages 23–178.',
+      'highlight-arabic': arabicHighlightOn ? 'Arabic highlight OFF (toggled).' : 'Arabic highlight ON (toggled). Color matches reader theme.',
+      'summarize': 'In real app: Haiku generates 1-line summary per page (~$0.04 for 186 pages). Summaries appear above each page marker.',
+      'suggest-flags': 'In real app: Sonnet returns 5 high-confidence suggestions with page anchors. Already shown in "AI suggestions" section in the review pane.',
+      'episode-plan': 'In real app: Opens episode-plan drawer with 6 proposed episodes for this 186-page book. Editable before approving.'
+    };
+    alert(msgs[kind] || 'AI action: ' + kind);
+    if (kind === 'highlight-arabic') toggleArabicHighlight();
+  }
+
+  // ===== Approve modal =====
+  function openApproveModal() {
+    document.getElementById('approve-modal').classList.remove('hidden');
+    document.getElementById('approve-backdrop').classList.remove('hidden');
+  }
+  function closeApproveModal() {
+    document.getElementById('approve-modal').classList.add('hidden');
+    document.getElementById('approve-backdrop').classList.add('hidden');
+  }
+  function fireResume() {
+    closeApproveModal();
+    const mode = document.querySelector('input[name="resume-mode"]:checked').value;
+    if (mode === 'copy') {
+      alert('In real app: writes file + commits to git + copies "orchestrate_book.py --resume tahdhib-al-akhlaq --approve-transcript" to clipboard.');
+      return;
+    }
+    document.getElementById('drawer').classList.add('open');
+    document.getElementById('drawer-backdrop').classList.remove('hidden');
+  }
+  function closeDrawer() {
+    document.getElementById('drawer').classList.remove('open');
+    document.getElementById('drawer-backdrop').classList.add('hidden');
+  }
+
+  // ===== Help =====
+  function openHelp() {
+    document.getElementById('help').classList.remove('hidden');
+    document.getElementById('help-backdrop').classList.remove('hidden');
+  }
+  function closeHelp() {
+    document.getElementById('help').classList.add('hidden');
+    document.getElementById('help-backdrop').classList.add('hidden');
+  }
+
+  // ===== Feedback panel toggle =====
+  function toggleFeedbackPanel() {
+    document.getElementById('feedback-panel').classList.toggle('hidden');
+  }
+
+  // ===== Keyboard =====
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closePalette(); closeApproveModal(); closeDrawer(); closeHelp();
+      document.getElementById('flag-button').classList.add('hidden');
+    }
+    if ((e.metaKey || e.ctrlKey) && e.key === 'f') { e.preventDefault(); openPalette('search'); }
+    if ((e.metaKey || e.ctrlKey) && e.key === 'p') { e.preventDefault(); openPalette('page'); }
+    if ((e.metaKey || e.ctrlKey) && e.key === 'd') { e.preventDefault(); toggleDiff(); }
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); aiAction('scan'); }
+    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') { e.preventDefault(); openApproveModal(); }
+    if ((e.metaKey || e.ctrlKey) && e.key === '=') { e.preventDefault(); changeFontSize(1); }
+    if ((e.metaKey || e.ctrlKey) && e.key === '-') { e.preventDefault(); changeFontSize(-1); }
+    if (e.key === '?' && !e.metaKey && !e.ctrlKey && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+      e.preventDefault();
+      openHelp();
+    }
+  });
+
+  // ===== Floating page indicator =====
+  document.getElementById('tp-body').addEventListener('scroll', (e) => {
+    const markers = document.querySelectorAll('.page-marker');
+    let cur = 47;
+    const top = e.target.scrollTop;
+    markers.forEach(m => {
+      if (m.offsetTop - top < 100) cur = m.dataset.page;
+    });
+    document.getElementById('floating-page').textContent = cur;
+    document.getElementById('current-page').textContent = `page ${cur} / 186`;
+  });
+</script>
+</body>
+</html>

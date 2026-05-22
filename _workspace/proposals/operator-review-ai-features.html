@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Operator Review Studio — AI capabilities proposal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-canvas: #080b14;
+  --bg-canvas-alt: #0d111d;
+  --bg-elevated: #131725;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-tertiary: #94a3b8;
+  --text-muted: #64748b;
+  --accent-cyan: #00d4ff;
+  --accent-purple: #7b61ff;
+  --accent-purple-soft: #a78bfa;
+  --accent-magenta: #ba55d3;
+  --accent-emerald: #10b981;
+  --accent-rose: #f43f5e;
+  --accent-amber: #f59e0b;
+  --surface-base: rgba(30, 41, 59, 0.35);
+  --surface-elevated: rgba(19, 23, 37, 0.85);
+  --border-default: rgba(255, 255, 255, 0.1);
+  --border-soft: rgba(255, 255, 255, 0.06);
+  --border-accent: rgba(123, 97, 255, 0.35);
+  --r-md: 10px;
+  --r-lg: 14px;
+  --r-pill: 9999px;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  background: var(--bg-canvas);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 15% 0%, rgba(123, 97, 255, 0.10) 0%, transparent 35%),
+    radial-gradient(circle at 85% 30%, rgba(0, 212, 255, 0.07) 0%, transparent 35%),
+    radial-gradient(circle at 50% 90%, rgba(186, 85, 211, 0.05) 0%, transparent 40%);
+  pointer-events: none;
+  z-index: 0;
+}
+body > * { position: relative; z-index: 1; }
+::selection { background: rgba(123, 97, 255, 0.35); color: #fff; }
+
+.glass {
+  background: var(--surface-base);
+  border: 1px solid var(--border-default);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+.pill {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--r-pill);
+  font-size: 0.72rem;
+  font-weight: 500;
+  border: 1px solid var(--border-default);
+  color: var(--text-secondary);
+}
+.dot { width: 0.5rem; height: 0.5rem; border-radius: 999px; flex-shrink: 0; }
+
+nav {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(8, 11, 20, 0.7);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-default);
+}
+nav .inner {
+  max-width: 1100px; margin: 0 auto;
+  padding: 0.8rem 1.5rem;
+  display: flex; justify-content: space-between; align-items: center;
+}
+nav .brand { display: flex; align-items: center; gap: 0.55rem; font-weight: 700; }
+nav .logo {
+  width: 28px; height: 28px;
+  border-radius: 7px;
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan));
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 0.78rem;
+}
+nav .links { display: flex; gap: 1.2rem; font-size: 0.85rem; }
+nav .links a { color: var(--text-tertiary); text-decoration: none; transition: color 0.15s; }
+nav .links a:hover { color: var(--text-primary); }
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+
+header.hero { padding: 4rem 0 3rem; }
+header.hero h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  margin: 1.2rem 0 1rem;
+}
+header.hero h1 .grad {
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+header.hero p {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  max-width: 760px;
+}
+
+section { padding: 4rem 0; border-top: 1px solid var(--border-default); }
+section h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.4rem;
+}
+section .lede {
+  color: var(--text-tertiary);
+  font-size: 1.05rem;
+  margin-bottom: 2.5rem;
+  max-width: 720px;
+}
+section h2 .section-num {
+  display: inline-flex;
+  width: 2.2rem; height: 2.2rem;
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-accent);
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  margin-right: 0.85rem;
+  color: var(--accent-purple-soft);
+}
+
+/* Architecture diagram */
+.arch {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.5rem;
+  align-items: center;
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: var(--r-lg);
+  padding: 1.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  text-align: center;
+}
+.arch .node {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: var(--r-md);
+  padding: 1rem 0.8rem;
+}
+.arch .node .label { font-weight: 600; color: var(--text-primary); margin-bottom: 0.3rem; }
+.arch .node .meta { font-size: 0.7rem; color: var(--text-tertiary); }
+.arch .arrow { color: var(--accent-purple); font-size: 1.5rem; }
+.arch .hub { border-color: var(--accent-purple); box-shadow: 0 0 14px rgba(123, 97, 255, 0.25); }
+
+/* Feature cards */
+.features { display: grid; grid-template-columns: 1fr; gap: 1.2rem; margin-top: 0.5rem; }
+.feature {
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: var(--r-lg);
+  padding: 1.6rem;
+  display: grid;
+  grid-template-columns: 60px 1fr 240px;
+  gap: 1.4rem;
+  align-items: start;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.feature:hover { border-color: var(--border-accent); transform: translateY(-2px); }
+.feature.recommended { border: 2px solid var(--border-accent); box-shadow: 0 0 0 4px rgba(123, 97, 255, 0.06); }
+.feature.user-requested { border: 2px solid rgba(245, 158, 11, 0.5); box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.06); }
+
+.f-num {
+  width: 48px; height: 48px;
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple-soft));
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: white;
+}
+.feature.user-requested .f-num { background: linear-gradient(135deg, var(--accent-amber), #d97706); color: #0a0a0a; }
+
+.f-body h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0.1rem 0 0.3rem;
+  color: var(--text-primary);
+}
+.f-body .f-cat { font-size: 0.7rem; color: var(--accent-purple-soft); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.5rem; }
+.f-body p {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+.f-body .f-detail {
+  margin-top: 0.7rem;
+  font-size: 0.82rem;
+  color: var(--text-tertiary);
+  line-height: 1.55;
+}
+.f-body .pills { display: flex; gap: 0.4rem; margin-top: 0.8rem; flex-wrap: wrap; }
+.f-body .pills .pill { background: rgba(255,255,255,0.04); }
+
+.f-meta {
+  display: flex; flex-direction: column; gap: 0.55rem;
+  font-size: 0.78rem;
+}
+.f-meta .row { display: flex; justify-content: space-between; padding: 0.35rem 0; border-bottom: 1px solid var(--border-soft); }
+.f-meta .row:last-child { border: none; }
+.f-meta .label { color: var(--text-tertiary); }
+.f-meta .val { color: var(--text-primary); font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; }
+.f-meta .val.good { color: var(--accent-emerald); }
+.f-meta .val.warn { color: var(--accent-amber); }
+.f-meta .recommended-badge {
+  padding: 0.3rem 0.6rem;
+  background: rgba(123, 97, 255, 0.15);
+  border: 1px solid var(--border-accent);
+  border-radius: var(--r-pill);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--accent-purple-soft);
+  text-align: center;
+}
+.f-meta .user-badge {
+  padding: 0.3rem 0.6rem;
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  border-radius: var(--r-pill);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--accent-amber);
+  text-align: center;
+}
+
+/* Category header */
+.cat-head {
+  display: flex; align-items: center; gap: 1rem;
+  margin: 2.5rem 0 1.2rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--border-default);
+}
+.cat-head:first-of-type { margin-top: 0; }
+.cat-head .cat-num {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan));
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-weight: 700; font-family: 'Space Grotesk', sans-serif;
+}
+.cat-head h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 0;
+}
+.cat-head .cat-desc { font-size: 0.85rem; color: var(--text-tertiary); margin: 0; }
+
+/* Decision block */
+.decision-cta {
+  background: linear-gradient(135deg, rgba(123, 97, 255, 0.1), rgba(0, 212, 255, 0.05));
+  border: 1px solid var(--border-accent);
+  border-radius: var(--r-lg);
+  padding: 2rem;
+  text-align: center;
+}
+.decision-cta h2 { margin-top: 0; }
+.decision-cta .options { display: flex; gap: 0.6rem; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap; }
+.decision-cta .option {
+  padding: 0.6rem 1.2rem;
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: var(--r-pill);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--accent-cyan);
+}
+
+footer { padding: 3rem 0; text-align: center; color: var(--text-muted); font-size: 0.75rem; border-top: 1px solid var(--border-default); }
+footer code { color: var(--text-secondary); }
+
+@media (max-width: 720px) {
+  .feature { grid-template-columns: 1fr; }
+  .f-num { width: 40px; height: 40px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="inner">
+    <div class="brand">
+      <div class="logo">RS</div>
+      <span>Review Studio · AI Capabilities</span>
+      <span class="pill" style="background:rgba(245,158,11,0.1);border-color:rgba(245,158,11,0.3);color:var(--accent-amber);"><span class="dot" style="background:var(--accent-amber);"></span>Proposal · awaiting picks</span>
+    </div>
+    <div class="links">
+      <a href="#arch">Architecture</a>
+      <a href="#features">Features</a>
+      <a href="#priority">My picks</a>
+      <a href="#decide">Decide</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <span class="pill"><span class="dot" style="background:var(--accent-purple);"></span>2026-05-20 · Studio · 15 candidates</span>
+    <h1>What if reviewing a 200-page book felt like<br><span class="grad">scanning a flagged punch-list</span>?</h1>
+    <p>
+      You asked for AI intelligence inside the operator-review-studio — to help you process large transcripts faster.
+      <strong style="color:var(--text-primary);">No new API keys required.</strong> The journal already proxies Claude (Opus/Sonnet/Haiku) through your Mac's Cloudflare-tunneled Express server at <code style="color:var(--accent-cyan);font-family:'JetBrains Mono';">journal-api.kashkole.com</code> — every AI call reuses that exact pipe, authenticated via the same Cloudflare Access cookie. The model still does its real work in VS Code Claude Code; the studio's AI just helps <em>you</em> mark up faster.
+    </p>
+    <p>
+      Below: <strong style="color:var(--accent-amber);">your 2 starters</strong> + <strong style="color:var(--accent-purple-soft);">13 more I'd recommend</strong>, each tagged with model class, latency, cost-per-book, and whether I'd ship it in MVP, Phase 2, or later.
+    </p>
+  </div>
+</header>
+
+<section id="arch">
+  <div class="container">
+    <h2><span class="section-num">1</span>How AI plugs in (no new keys)</h2>
+    <p class="lede">Same architecture pattern the memoir's Voice Refiner already uses — claude-client.js fetch through the Cloudflare worker to your Mac's Express proxy. The proxy runs <code style="font-family:'JetBrains Mono';color:var(--accent-cyan);">claude -p</code> server-side, returns the result. No browser-side keys, no extra services.</p>
+
+    <div class="arch">
+      <div class="node">
+        <div class="label">Review Studio (browser)</div>
+        <div class="meta">localhost:8766 · fetch /api/ai/*</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="node hub">
+        <div class="label">FastAPI (your Mac)</div>
+        <div class="meta">scripts/podcast/review_server.py<br>spawns <code>claude -p</code> subprocess</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="node">
+        <div class="label">Claude (Sonnet/Haiku/Opus)</div>
+        <div class="meta">existing subscription · no new key</div>
+      </div>
+    </div>
+
+    <div style="margin-top:1.5rem;display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
+      <div class="glass" style="padding:1rem;border-radius:var(--r-md);">
+        <div style="color:var(--accent-emerald);font-weight:600;font-size:0.85rem;margin-bottom:0.3rem;">✓ Same auth</div>
+        <div style="font-size:0.78rem;color:var(--text-tertiary);line-height:1.5;">Cloudflare Access cookie identifies you for both the journal and the review studio.</div>
+      </div>
+      <div class="glass" style="padding:1rem;border-radius:var(--r-md);">
+        <div style="color:var(--accent-emerald);font-weight:600;font-size:0.85rem;margin-bottom:0.3rem;">✓ Same cost ledger</div>
+        <div style="font-size:0.78rem;color:var(--text-tertiary);line-height:1.5;">All claude -p calls go through scripts/podcast/_cost_ledger.py — you see AI spend in the same dashboard.</div>
+      </div>
+      <div class="glass" style="padding:1rem;border-radius:var(--r-md);">
+        <div style="color:var(--accent-emerald);font-weight:600;font-size:0.85rem;margin-bottom:0.3rem;">✓ No browser secrets</div>
+        <div style="font-size:0.78rem;color:var(--text-tertiary);line-height:1.5;">Keys never leave your Mac. Mock can't accidentally leak the Anthropic API key through Inspect tools.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="container">
+    <h2><span class="section-num">2</span>The 15 candidates</h2>
+    <p class="lede">Two categories marked <strong style="color:var(--accent-amber);">yours</strong> — the ones you suggested. Eight more I'd <strong style="color:var(--accent-purple-soft);">strongly recommend</strong> for MVP based on the bottleneck I see in your current P22 workflow. Five "nice to have" that pay off once you've shipped 3+ books.</p>
+
+    <!-- ===== CATEGORY A: Reading-time compression ===== -->
+    <div class="cat-head">
+      <div class="cat-num">A</div>
+      <div>
+        <h3>Reading-time compression</h3>
+        <p class="cat-desc">Skim instead of read. Surface the 5% that matters; let the AI tell you the rest is fine.</p>
+      </div>
+    </div>
+
+    <div class="features">
+
+      <!-- Feature 1 — Per-page summaries (RECOMMENDED MVP) -->
+      <div class="feature recommended">
+        <div class="f-num">1</div>
+        <div class="f-body">
+          <div class="f-cat">Reading-time compression · Strongly recommend MVP</div>
+          <h3>Per-page 1-line summaries</h3>
+          <p>Above each page marker in the transcript, show a 1-sentence summary: <em>"§2.3 introduces the doctrine of tawḥīd al-mubdiʿ; voice shifts to first-person."</em></p>
+          <div class="f-detail">The summary lets you SKIM. Pages whose summary matches your mental model = skip. Pages whose summary is surprising or unclear = dive in. Compresses 200 pages of dense prose to 200 line-summaries (~5 min skim).</div>
+          <div class="pills">
+            <span class="pill">Haiku</span>
+            <span class="pill">batch · async</span>
+            <span class="pill">cacheable per-page</span>
+          </div>
+        </div>
+        <div class="f-meta">
+          <div class="recommended-badge">★ MVP ship</div>
+          <div class="row"><span class="label">Model</span><span class="val">Haiku 4.5</span></div>
+          <div class="row"><span class="label">Cost / book</span><span class="val good">~$0.05</span></div>
+          <div class="row"><span class="label">Latency</span><span class="val">first sum 4s · all 30s</span></div>
+          <div class="row"><span class="label">Reuses</span><span class="val">cost-ledger</span></div>
+        </div>
+      </div>
+
+      <!-- Feature 2 — Diff-with-raw explainer -->
+      <div class="feature recommended">
+        <div class="f-num">2</div>
+        <div class="f-body">
+          <div class="f-cat">Reading-time compression · Strongly recommend MVP</div>
+          <h3>Diff-with-raw + AI explainer</h3>
+          <p>The diff toggle already exists. Add: hover any LLM-changed word/phrase → tooltip explains <em>why</em> the model changed it ("OCR'd 'angles' was nonsensical in spiritual context → corrected to 'angels'").</p>
+          <div class="f-detail">Massive reading-time win. If the AI's explanation makes sense, you accept the change implicitly by not flagging. If the explanation is wrong or shaky, you flag it. You ONLY engage with the contested 5%, not the obvious 95%.</div>
+          <div class="pills">
+            <span class="pill">Sonnet</span>
+            <span class="pill">on-demand</span>
+            <span class="pill">tooltip ergonomics</span>
+          </div>
+        </div>
+        <div class="f-meta">
+          <div class="recommended-badge">★ MVP ship</div>
+          <div class="row"><span class="label">Model</span><span class="val">Sonnet 4.6</span></div>
+          <div class="row"><span class="label">Cost / book</span><span class="val good">~$0.20</span></div>
+          <div class="row"><span class="label">Latency</span><span class="val">2s per hover</span></div>
+          <div class="row"><span class="label">Caches</span><span class="val">per-diff</span></div>
+        </div>
+      </div>
+
+      <!-- Feature 3 — Difficulty rating heatmap -->
+      <div class="feature">
+        <div class="f-num">3</div>
+        <div class="f-body">
+          <div class="f-cat">Reading-time compression · Phase 2</div>
+          <h3>Difficulty / OCR-confidence heatmap</h3>
+          <p>Color-code the transcript margins: green pages = read-clean; amber = some uncertainty; red = read carefully. Combines OCR confidence with AI's "does this make sense?" check.</p>
+          <div class="f-detail">When you see all green from p. 14–45, you know you can skim. Red blocks on p. 47–51 = where you actually focus. The book becomes a glance-able punch-list rather than a wall of text.</div>
+          <div class="pills">
+            <span class="pill">Haiku</span>
+            <span class="pill">batch</span>
+            <span class="pill">visual</span>
+          </div>
+        </div>
+        <div class="f-meta">
+          <div class="row"><span class="label">Recommendation</span><span class="val">Phase 2</span></div>
+          <div class="row"><span class="label">Model</span><span class="val">Haiku 4.5</span></div>
+          <div class="row"><span class="label">Cost / book</span><span class="val good">~$0.08</span></div>
+          <div class="row"><span class="label">Latency</span><span class="val">25s for whole book</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CATEGORY B: Quality assurance ===== -->
+    <div class="cat-head">
+      <div class="cat-num">B</div>
+      <div>
+        <h3>Quality assurance — catch errors before they bake in</h3>
+        <p class="cat-desc">The AI helps you catch OCR glitches, voice shifts, and citation drift you'd otherwise miss.</p>
+      </div>
+    </div>
+
+    <div class="features">
+
+      <!-- Feature 4 — Arabic-term highlighting (USER REQUESTED) -->
+      <div class="feature user-requested">
+        <div class="f-num">4</div>
+        <div class="f-body">
+          <div class="f-cat">Quality assurance · YOUR REQUEST · Strongly recommend MVP</div>
+          <h3>Arabic-term highlighting + click-for-context</h3>
+          <p>Auto-detect transliterated Arabic terms (jazāʾir, daʿwa, tawḥīd, ḥujja, etc.) and underline them with a subtle accent color. Click any term → side-panel shows: pronunciation, etymology, where else it appears in the book, AI-confidence of correctness.</p>
+          <div class="f-detail">Already wired in the mock visually (toggle "Highlight Arabic terms" in the AI Assist bar). With real AI: scans transcript once, flags every transliterated term, cross-references against [content/_shared/arabic/03-arabic-english-manifest.md](../../content/_shared/arabic/03-arabic-english-manifest.md). Lets you spot-check Arabic accuracy at a glance.</div>
+          <div class="pills">
+            <span class="pill">Sonnet (initial scan)</span>
+            <span class="pill">cached forever</span>
+            <span class="pill">cross-refs manifest</span>
+          </div>
+        </div>
+        <div class="f-meta">
+          <div class="user-badge">★ Your request</div>
+          <div class="row"><span class="label">Model</span><span class="val">Sonnet 4.6</span></div>
+          <div class="row"><span class="label">Cost / book</span><span class="val good">~$0.15</span></div>
+          <div class="row"><span class="label">Latency</span><span class="val">first scan 20s</span></div>
+          <div class="row"><span class="label">Reuses</span><span class="val">manifest.md</span></div>
+        </div>
+      </div>
+
+      <!-- Feature 5 — Pre-flight error scan -->
+      <div class="feature recommended">
+        <div class="f-num">5</div>
+        <div class="f-body">
+          <div class="f-cat">Quality assurance · Strongly recommend MVP</div>
+          <h3>Pre-flight error scan</h3>
+          <p>Before you start reading, the AI scans the full transcript and surfaces a punch-list of suspect passages: OCR scrambles, impossible word pairs ("angles" near "spheres"), broken citations, numeric values that don't add up.</p>
+          <div class="f-detail">Each finding has a confidence score, page anchor, and quoted text. You triage the AI's list in ~3 min instead of reading the whole book to find them yourself. The AI's misses + adds you find while skimming combine to a complete review.</div>
+          <div class="pills">
+            <span class="pill">Sonnet</span>
+            <span class="pill">whole-book pass</span>
+            <span class="pill">Cmd-K trigger</span>
+          </div>
+        </div>
+        <div class="f-meta">
+          <div class="recommended-badge">★ MVP ship</div>
+          <div class="row"><span class="label">Model</span><span class="val">Sonnet 4.6</span></div>
+          <div class="row"><span class="label">Cost / book</span><span class="val good">~$0.30</span></div>
+          <div class="row"><span class="label">Latency</span><span class="val">45s for 200pp</span></div>
+          <div class="row"><span class="label">Catches</span><span class="val">~70% of issues</span></div>
+        </div>
+      </div>
+
+      <!-- Feature 6 — Voice-shift detection -->
+      <div class="feature recommended">
+        <div class="f-num">6</div>
+        <div class="f-body">
+          <div class="f-cat">Quality assurance · Strongly recommend MVP</div>
+          <h3>Voice-shift + second-author detection</h3>
+          <p>AI flags every passage where the prose voice noticeably changes: tense shifts, register changes, dialect drift, "they say" → "I affirm" transitions. The mock shows this on page 48 (purple AI-suggestion underline).</p>
+          <div class="f-detail">For classical sources with multiple authors or editorial layers, this is GOLD. The pipeline's downstream phases (06-phonetics, 07-chapter-design, 11-per-chapter framing) make better decisions when they know where authorial seams are.</div>
+          <div class="pills">
+            <span class="pill">Sonnet</span>
+            <span class="pill">structural</span>
+            <span class="pill">feeds 06+ phases</span>
+          </div>
+        </div>
+        <div class="f-meta">
+          <div class="recommended-badge">★ MVP ship</div>
+          <div class="row"><span class="label">Model</span><span class="val">Sonnet 4.6</span></div>
+          <div class="row"><span class="label">Cost / book</span><span class="val good">~$0.18</span></div>
+          <div class="row"><span class="label">Latency</span><span class="val">30s</span></div>
+          <div class="row"><span class="label">Catches</span><span class="val">structural seams</span></div>
+        </div>
+      </div>
+
+      <!-- Feature 7 — Citation verification -->
+      <div class="feature">
+        <div class="f-num">7</div>
+        <div class="f-body">
+          <div class="f-cat">Quality assurance · Phase 2</div>
+          <h3>Citation verify (Quran, hadith, classical refs)</h3>
+          <p>AI checks every Quranic verse number, hadith reference, and classical-source citation against canonical databases — flags mismatches, typos, miscited verses.</p>
+          <div class="f-detail">Saves you from having to manually verify "Quran 17:81" actually says what the author quotes. Particularly valuable for polemics where misattribution is the whole point of finding.</div>
+          <div class="pills">
+            <span class="pill">Sonnet + tool use</span>
+            <span class="pill">external lookup</span>
+            <span class="pill">P0 issues</span>
+          </div>
+        </div>
+        <div class="f-meta">
+          <div class="row"><span class="label">Recommendation</span><span class="val">Phase 2</span></div>
+          <div class="row"><span class="label">Model</span><span class="val">Sonnet 4.6</span></div>
+          <div class="row"><span class="label">Cost / book</span><span class="val warn">~$0.50-1.00</span></div>
+          <div class="row"><span class="label">Latency</span><span class="val">2-3 min</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CATEGORY C: Episode planning ===== -->
+    <div class="cat-head">
+      <div class="cat-num">C</div>
+      <div>
+        <h3>Episode &amp; series planning</h3>
+        <p class="cat-desc">Inform your downstream pipeline decisions BEFORE 06-phonetics runs.</p>
+      </div>
+    </div>
+
+    <div class="features">
+
+      <!-- Feature 8 — Episode plan recommendation (USER REQUESTED) -->
+      <div class="feature user-requested">
+        <div class="f-num">8</div>
+        <div class="f-body">
+          <div class="f-cat">Episode planning · YOUR REQUEST · Strongly recommend MVP</div>
+          <h3>Restructure: episode breakdown + naming</h3>
+          <p>AI proposes an episode plan for the book: number of episodes, title for each, word-count targets, recap/preview cues, structural-unit mapping (which chapters → which episode).</p>
+          <div class="f-detail">Direct overlap with P24 (podcast-blueprint) — but THIS is a pre-pipeline preview the operator can edit BEFORE the chapter-design phase runs. You can see "6 episodes for this 186-page book; ep1 covers §1, ep2-3 cover §2, ep4-5 cover §3, ep6 covers §4" and adjust if you disagree. Saves the pipeline from making a bad call that costs $5+ to fix downstream.</div>
+          <div class="pills">
+            <span class="pill">Opus</span>
+            <span class="pill">one-shot</span>
+            <span class="pill">editable preview</span>
+            <span class="pill">feeds P24</span>
+          </div>
+        </div>
+        <div class="f-meta">
+          <div class="user-badge">★ Your request</div>
+          <div class="row"><span class="label">Model</span><span class="val">Opus 4.7</span></div>
+          <div class="row"><span class="label">Cost / book</span><span class="val warn">~$0.50</span></div>
+          <div class="row"><span class="label">Latency</span><span class="val">25s</span></div>
+          <div class="row"><span class="label">Replaces</span><span class="val">manual 07d</span></div>
+        </div>
+      </div>
+
+      <!-- Feature 9 — Series fit / cross-book intelligence -->
+      <div class="feature">
+        <div class="f-num">9</div>
+        <div class="f-body">
+          <div class="f-cat">Episode planning · Phase 2</div>
+          <h3>Series-fit analysis</h3>
+          <p>"This book treats X, Y, Z. Books already shipped that overlap: Ayyuhal Walad (X overlap 60%); Asaas al-Taveel (Y overlap 80%). Recommend pairing as series 'Soul's Ascent' (3 books)."</p>
+          <div class="f-detail">Once you have a corpus of shipped books, the AI can recommend cross-book series arrangements. Better than discovering the overlap after the fact.</div>
+          <div class="pills">
+            <span class="pill">Sonnet</span>
+            <span class="pill">multi-book reads</span>
+            <span class="pill">needs corpus 3+</span>
+          </div>
+        </div>
+        <div class="f-meta">
+          <div class="row"><span class="label">Recommendation</span><span class="val">Phase 3</span></div>
+          <div class="row"><span class="label">Model</span><span class="val">Sonnet 4.6</span></div>
+          <div class="row"><span class="label">Cost / call</span><span class="val good">~$0.30</span></div>
+          <div class="row"><span class="label">Latency</span><span class="val">40s</span></div>
+        </div>
+      </div>
+
+      <!-- Feature 10 — Suggested flag review -->
+      <div class="feature recommended">
+        <div class="f-num">10</div>
+        <div class="f-body">
+          <div class="f-cat">Episode planning · Strongly recommend MVP</div>
+          <h3>Suggested flags (already in mock)</h3>
+          <p>AI returns 5–10 high-confidence proposals for things you should flag, each with page + quote + reason. You triage: Accept (becomes a Translation Issue row) / Dismiss / Edit.</p>
+          <div class="f-detail">The mock shows this section in the right pane today (purple "AI suggestions" header with 5 candidates). The AI's job: surface the easy wins so your attention goes to harder calls. Coupled with #5 (pre-flight scan) — same data, different presentation.</div>
+          <div class="pills">
+            <span class="pill">Sonnet</span>
+            <span class="pill">interactive</span>
+            <span class="pill">visible now in mock</span>
+          </div>
+        </div>
+        <div class="f-meta">
+          <div class="recommended-badge">★ MVP ship</div>
+          <div class="row"><span class="label">Model</span><span class="val">Sonnet 4.6</span></div>
+          <div class="row"><span class="label">Cost / book</span><span class="val good">~$0.20</span></div>
+          <div class="row"><span class="label">Latency</span><span class="val">15s for 5 flags</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CATEGORY D: Note-taking ergonomics ===== -->
+    <div class="cat-head">
+      <div class="cat-num">D</div>
+      <div>
+        <h3>Note-taking ergonomics</h3>
+        <p class="cat-desc">Faster typing, better notes, less context-switching.</p>
+      </div>
+    </div>
+
+    <div class="features">
+
+      <!-- Feature 11 — Smart auto-complete -->
+      <div class="feature recommended">
+        <div class="f-num">11</div>
+        <div class="f-body">
+          <div class="f-cat">Note ergonomics · Strongly recommend MVP</div>
+          <h3>Smart note auto-complete</h3>
+          <p>As you type a flag note, the AI suggests common patterns: "OCR scrambled X → Y", "voice shift at this juncture", "needs source verification — Quran citation off by one verse". Tab to accept.</p>
+          <div class="f-detail">Cuts typing in half for the boilerplate cases (which are most). Learns from your prior reviews — after 3 books, it knows your patterns.</div>
+          <div class="pills">
+            <span class="pill">Haiku</span>
+            <span class="pill">in-textarea</span>
+            <span class="pill">learns from history</span>
+          </div>
+        </div>
+        <div class="f-meta">
+          <div class="recommended-badge">★ MVP ship</div>
+          <div class="row"><span class="label">Model</span><span class="val">Haiku 4.5</span></div>
+          <div class="row"><span class="label">Cost / session</span><span class="val good">~$0.02</span></div>
+          <div class="row"><span class="label">Latency</span><span class="val">200ms per suggestion</span></div>
+        </div>
+      </div>
+
+      <!-- Feature 12 — Auto-categorization -->
+      <div class="feature recommended">
+        <div class="f-num">12</div>
+        <div class="f-body">
+          <div class="f-cat">Note ergonomics · Strongly recommend MVP</div>
+          <h3>Auto-categorize the note you wrote</h3>
+          <p>You type a note in the wrong section? AI quietly suggests: "This looks like a pronunciation issue rather than translation — move to Pronunciation Corrections?" One click moves it.</p>
+          <div class="f-detail">No need to think about which bucket a note belongs in. Write the note where you're already focused; the AI routes it.</div>
+          <div class="pills">
+            <span class="pill">Haiku</span>
+            <span class="pill">passive</span>
+            <span class="pill">undo-safe</span>
+          </div>
+        </div>
+        <div class="f-meta">
+          <div class="recommended-badge">★ MVP ship</div>
+          <div class="row"><span class="label">Model</span><span class="val">Haiku 4.5</span></div>
+          <div class="row"><span class="label">Cost / book</span><span class="val good">~$0.01</span></div>
+          <div class="row"><span class="label">Latency</span><span class="val">300ms</span></div>
+        </div>
+      </div>
+
+      <!-- Feature 13 — Pattern detection across reviews -->
+      <div class="feature">
+        <div class="f-num">13</div>
+        <div class="f-body">
+          <div class="f-cat">Note ergonomics · Phase 3</div>
+          <h3>Pattern detection across reviews</h3>
+          <p>"You've flagged 'angles → angels' OCR scramble in 3 books. Promote to a recurring pattern? podcast-trainer will lift it to the challenger spec if you confirm."</p>
+          <div class="f-detail">Closes the P25.6 cross-book learning loop. The AI watches your notes accumulate, spots patterns ≥3 times, and offers to formalize as challenger rules. Your one-off notes turn into pipeline intelligence.</div>
+          <div class="pills">
+            <span class="pill">Sonnet</span>
+            <span class="pill">cross-book reads</span>
+            <span class="pill">P25.6 closing</span>
+          </div>
+        </div>
+        <div class="f-meta">
+          <div class="row"><span class="label">Recommendation</span><span class="val">Phase 3</span></div>
+          <div class="row"><span class="label">Model</span><span class="val">Sonnet 4.6</span></div>
+          <div class="row"><span class="label">Cost / scan</span><span class="val good">~$0.10</span></div>
+          <div class="row"><span class="label">Frequency</span><span class="val">weekly</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CATEGORY E: Smart operator nudges ===== -->
+    <div class="cat-head">
+      <div class="cat-num">E</div>
+      <div>
+        <h3>Smart operator nudges</h3>
+        <p class="cat-desc">The AI watches your workflow and offers gentle prompts at decision points.</p>
+      </div>
+    </div>
+
+    <div class="features">
+
+      <!-- Feature 14 — Content range nudge -->
+      <div class="feature recommended">
+        <div class="f-num">14</div>
+        <div class="f-body">
+          <div class="f-cat">Operator nudges · Strongly recommend MVP</div>
+          <h3>Content range recommender</h3>
+          <p>"Based on the transcript: body content starts at p. 14 (preface ends with 'May the One who reveals...') and ends at p. 178 (last virtue treatise paragraph). Set range accordingly?"</p>
+          <div class="f-detail">Replaces the heuristic defaults with AI-judged actual boundaries. Saves you from accidentally including the index in Phase 0c+ ingestion (which costs real money).</div>
+          <div class="pills">
+            <span class="pill">Haiku</span>
+            <span class="pill">first/last skim</span>
+            <span class="pill">replaces heuristic</span>
+          </div>
+        </div>
+        <div class="f-meta">
+          <div class="recommended-badge">★ MVP ship</div>
+          <div class="row"><span class="label">Model</span><span class="val">Haiku 4.5</span></div>
+          <div class="row"><span class="label">Cost / book</span><span class="val good">~$0.01</span></div>
+          <div class="row"><span class="label">Latency</span><span class="val">3s</span></div>
+        </div>
+      </div>
+
+      <!-- Feature 15 — Cost forecast -->
+      <div class="feature">
+        <div class="f-num">15</div>
+        <div class="f-body">
+          <div class="f-cat">Operator nudges · Phase 2</div>
+          <h3>Downstream cost forecast (pre-approve)</h3>
+          <p>"Approving this transcript will cost ~$3.20 for Phase 0c-0e + ~$1.80 per episode (estimated 6 episodes) = ~$14 total. Budget remaining: $42. Proceed?"</p>
+          <div class="f-detail">Tells you BEFORE you approve. Catches expensive surprises. If the AI sees you're approaching the cap, it suggests cuts (skip enrichment? fewer episodes? Haiku-only?).</div>
+          <div class="pills">
+            <span class="pill">Local heuristic</span>
+            <span class="pill">cost-ledger derived</span>
+            <span class="pill">no LLM</span>
+          </div>
+        </div>
+        <div class="f-meta">
+          <div class="row"><span class="label">Recommendation</span><span class="val">Phase 2</span></div>
+          <div class="row"><span class="label">Model</span><span class="val">— (rules only)</span></div>
+          <div class="row"><span class="label">Cost</span><span class="val good">$0</span></div>
+          <div class="row"><span class="label">Latency</span><span class="val">instant</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="priority">
+  <div class="container">
+    <h2><span class="section-num">3</span>What I'd ship in MVP (Phase A+B+C)</h2>
+    <p class="lede">Your 2 starters + 8 of my 13 recommendations. Total estimated cost per book review: <strong style="color:var(--accent-emerald);">~$1.20</strong>. Total dev work in P25 plan: <strong style="color:var(--accent-purple-soft);">about 1.5 extra days</strong> on top of the existing P25.1-P25.5 scope (so ~4.5 days total).</p>
+
+    <div style="display:grid;grid-template-columns:1fr;gap:0.8rem;margin-top:1.5rem;">
+      <div class="glass" style="padding:1.2rem;border-radius:var(--r-md);display:grid;grid-template-columns:60px 1fr 120px;gap:1rem;align-items:center;">
+        <div style="font-family:'Space Grotesk';font-size:1.5rem;color:var(--accent-amber);font-weight:700;">★</div>
+        <div>
+          <div style="font-weight:600;color:var(--text-primary);">Feature 4 · Arabic-term highlighting</div>
+          <div style="font-size:0.78rem;color:var(--text-tertiary);">Your request · already wired visually in mock</div>
+        </div>
+        <div style="font-family:'JetBrains Mono';font-size:0.75rem;color:var(--accent-emerald);">~$0.15</div>
+      </div>
+      <div class="glass" style="padding:1.2rem;border-radius:var(--r-md);display:grid;grid-template-columns:60px 1fr 120px;gap:1rem;align-items:center;">
+        <div style="font-family:'Space Grotesk';font-size:1.5rem;color:var(--accent-amber);font-weight:700;">★</div>
+        <div>
+          <div style="font-weight:600;color:var(--text-primary);">Feature 8 · Restructure episode plan</div>
+          <div style="font-size:0.78rem;color:var(--text-tertiary);">Your request · feeds P24 podcast-blueprint synergy</div>
+        </div>
+        <div style="font-family:'JetBrains Mono';font-size:0.75rem;color:var(--accent-amber);">~$0.50</div>
+      </div>
+      <div class="glass" style="padding:1.2rem;border-radius:var(--r-md);display:grid;grid-template-columns:60px 1fr 120px;gap:1rem;align-items:center;">
+        <div style="font-family:'Space Grotesk';font-size:1.5rem;color:var(--accent-purple-soft);font-weight:700;">★</div>
+        <div>
+          <div style="font-weight:600;color:var(--text-primary);">Feature 1 · Per-page summaries</div>
+          <div style="font-size:0.78rem;color:var(--text-tertiary);">Skim instead of read</div>
+        </div>
+        <div style="font-family:'JetBrains Mono';font-size:0.75rem;color:var(--accent-emerald);">~$0.05</div>
+      </div>
+      <div class="glass" style="padding:1.2rem;border-radius:var(--r-md);display:grid;grid-template-columns:60px 1fr 120px;gap:1rem;align-items:center;">
+        <div style="font-family:'Space Grotesk';font-size:1.5rem;color:var(--accent-purple-soft);font-weight:700;">★</div>
+        <div>
+          <div style="font-weight:600;color:var(--text-primary);">Feature 2 · Diff-with-raw explainer</div>
+          <div style="font-size:0.78rem;color:var(--text-tertiary);">Hover an LLM change → AI explains why</div>
+        </div>
+        <div style="font-family:'JetBrains Mono';font-size:0.75rem;color:var(--accent-emerald);">~$0.20</div>
+      </div>
+      <div class="glass" style="padding:1.2rem;border-radius:var(--r-md);display:grid;grid-template-columns:60px 1fr 120px;gap:1rem;align-items:center;">
+        <div style="font-family:'Space Grotesk';font-size:1.5rem;color:var(--accent-purple-soft);font-weight:700;">★</div>
+        <div>
+          <div style="font-weight:600;color:var(--text-primary);">Feature 5 · Pre-flight error scan</div>
+          <div style="font-size:0.78rem;color:var(--text-tertiary);">~70% issue catch · Cmd-K trigger</div>
+        </div>
+        <div style="font-family:'JetBrains Mono';font-size:0.75rem;color:var(--accent-amber);">~$0.30</div>
+      </div>
+      <div class="glass" style="padding:1.2rem;border-radius:var(--r-md);display:grid;grid-template-columns:60px 1fr 120px;gap:1rem;align-items:center;">
+        <div style="font-family:'Space Grotesk';font-size:1.5rem;color:var(--accent-purple-soft);font-weight:700;">★</div>
+        <div>
+          <div style="font-weight:600;color:var(--text-primary);">Feature 6 · Voice-shift detection</div>
+          <div style="font-size:0.78rem;color:var(--text-tertiary);">Catches multi-author seams · feeds 06+</div>
+        </div>
+        <div style="font-family:'JetBrains Mono';font-size:0.75rem;color:var(--accent-emerald);">~$0.18</div>
+      </div>
+      <div class="glass" style="padding:1.2rem;border-radius:var(--r-md);display:grid;grid-template-columns:60px 1fr 120px;gap:1rem;align-items:center;">
+        <div style="font-family:'Space Grotesk';font-size:1.5rem;color:var(--accent-purple-soft);font-weight:700;">★</div>
+        <div>
+          <div style="font-weight:600;color:var(--text-primary);">Feature 10 · Suggested flags (visible in mock)</div>
+          <div style="font-size:0.78rem;color:var(--text-tertiary);">5-10 candidates · accept/dismiss</div>
+        </div>
+        <div style="font-family:'JetBrains Mono';font-size:0.75rem;color:var(--accent-emerald);">~$0.20</div>
+      </div>
+      <div class="glass" style="padding:1.2rem;border-radius:var(--r-md);display:grid;grid-template-columns:60px 1fr 120px;gap:1rem;align-items:center;">
+        <div style="font-family:'Space Grotesk';font-size:1.5rem;color:var(--accent-purple-soft);font-weight:700;">★</div>
+        <div>
+          <div style="font-weight:600;color:var(--text-primary);">Feature 11 · Smart note auto-complete</div>
+          <div style="font-size:0.78rem;color:var(--text-tertiary);">Tab to accept boilerplate</div>
+        </div>
+        <div style="font-family:'JetBrains Mono';font-size:0.75rem;color:var(--accent-emerald);">~$0.02</div>
+      </div>
+      <div class="glass" style="padding:1.2rem;border-radius:var(--r-md);display:grid;grid-template-columns:60px 1fr 120px;gap:1rem;align-items:center;">
+        <div style="font-family:'Space Grotesk';font-size:1.5rem;color:var(--accent-purple-soft);font-weight:700;">★</div>
+        <div>
+          <div style="font-weight:600;color:var(--text-primary);">Feature 12 · Auto-categorize notes</div>
+          <div style="font-size:0.78rem;color:var(--text-tertiary);">Routes notes to right section</div>
+        </div>
+        <div style="font-family:'JetBrains Mono';font-size:0.75rem;color:var(--accent-emerald);">~$0.01</div>
+      </div>
+      <div class="glass" style="padding:1.2rem;border-radius:var(--r-md);display:grid;grid-template-columns:60px 1fr 120px;gap:1rem;align-items:center;">
+        <div style="font-family:'Space Grotesk';font-size:1.5rem;color:var(--accent-purple-soft);font-weight:700;">★</div>
+        <div>
+          <div style="font-weight:600;color:var(--text-primary);">Feature 14 · Content range recommender</div>
+          <div style="font-size:0.78rem;color:var(--text-tertiary);">Replaces heuristic with AI judgment</div>
+        </div>
+        <div style="font-family:'JetBrains Mono';font-size:0.75rem;color:var(--accent-emerald);">~$0.01</div>
+      </div>
+    </div>
+
+    <div style="margin-top:2rem;padding:1.5rem;background:linear-gradient(135deg,rgba(16,185,129,0.08),rgba(0,212,255,0.05));border:1px solid rgba(16,185,129,0.3);border-radius:var(--r-lg);text-align:center;">
+      <div style="font-family:'Space Grotesk';font-size:1.5rem;font-weight:700;color:var(--accent-emerald);">~$1.62 total per book review</div>
+      <div style="margin-top:0.4rem;color:var(--text-tertiary);font-size:0.85rem;">10 AI features · saves ~35 min of focused reading time per book · pays for itself if your time costs &gt;$5/hr</div>
+    </div>
+  </div>
+</section>
+
+<section id="decide">
+  <div class="container">
+    <div class="decision-cta">
+      <h2>How do you want to proceed?</h2>
+      <p style="color:var(--text-secondary);margin:0 0 0.6rem;font-size:1rem;">Reply with one of these. I'll update the P25 plan accordingly and continue iterating on the mock.</p>
+
+      <div class="options">
+        <span class="option">all 10 MVP features · ship it</span>
+        <span class="option">just your 2 (Arabic + episode plan) for now</span>
+        <span class="option">drop feature N — too expensive</span>
+        <span class="option">add feature 16 — &lt;your idea&gt;</span>
+        <span class="option">hold on AI · build CRUD first</span>
+      </div>
+
+      <p style="margin-top:1.5rem;color:var(--text-tertiary);font-size:0.78rem;">
+        Once decided, I'll add tasks <code style="color:var(--accent-cyan);font-family:'JetBrains Mono';">P25.7-AI</code> through <code style="color:var(--accent-cyan);font-family:'JetBrains Mono';">P25.16-AI</code> to <code style="color:var(--accent-cyan);font-family:'JetBrains Mono';">podcast-plan.yaml</code> with acceptance rows, halt-with-DoR runners, and cost-ledger integration.
+      </p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    Authored by Claude Opus 4.7 · Studio · 2026-05-20 · <code>_workspace/proposals/operator-review-ai-features.html</code><br>
+    Architecture proven by <code>site/js/claude-client.js</code> (memoir Voice Refiner) — same proxy, same auth, no new keys.
+  </div>
+</footer>
+
+</body>
+</html>
