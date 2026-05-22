@@ -2,12 +2,12 @@
 
 **Verdict:** SHIP-WITH-CAUTION
 **Book:** kitab-al-riyad
-**Chapter:** ch13a-the-shariah-of-adam-and-the-first-speaker
-**Episode:** EP13-the-shariah-of-adam-and-the-first-speaker
-**Run:** 2026-05-22T02:45:00Z (challenger v2.0)
-**Scope:** per-chapter: the-shariah-of-adam-and-the-first-speaker
-**Iterations:** 2 of 5 max — intelligent-break fired (iter 2 produced zero new auto-fixes; P0/P1 counts identical to post-iter-1 state)
-**Auto-fixes applied:** 7 (N3: 3 Pronounce directives added to 00-framing.md; N3: 3 Pronounce directives synced to episodes/EP13-...txt; framing Landing edit removing stale Nahj al-Balagha source claim)
+**Chapter:** ch05c-the-soul-in-time-and-the-rejoinder-to-al-nusra
+**Episode:** EP05-the-soul-in-time-and-the-rejoinder-to-al-nusra
+**Run:** 2026-05-22T10:45:00Z (challenger v2.0)
+**Scope:** per-chapter: the-soul-in-time-and-the-rejoinder-to-al-nusra
+**Iterations:** 1 of 5 max — intelligent-break fired (iter 1 produced zero auto-fixes AND no new findings beyond J2-resolved; F5 count unchanged from prior run)
+**Auto-fixes applied:** 0 this run (J2 full-name fix applied in prior fixer-pass; all B5 em-dash fixes from prior run; no new auto-fixable items)
 **P0:** 0 | **P1:** 1 | **P2:** 0
 **Score:** 0.80 (Drifting)
 
@@ -17,13 +17,12 @@
 
 | Iter | Check | File | Action |
 |---|---|---|---|
-| 1 | N3 | EP13-the-shariah-of-adam-and-the-first-speaker/00-framing.md | Added `Pronounce "al-qada" as "al-qa-daa", "al-qadar" as "al-qa-dar". Single fluent phrases.` before closing sentinel |
-| 1 | N3 | EP13-the-shariah-of-adam-and-the-first-speaker/00-framing.md | Added `Pronounce "sajda" as "saj-dah", "ruku'" as "ru-koo", "zakat" as "za-kaat". Single fluent words.` |
-| 1 | N3 | EP13-the-shariah-of-adam-and-the-first-speaker/00-framing.md | Added `Pronounce "qisas" as "qi-saas", "jihad" as "ji-haad". Single fluent words.` |
-| 1 | N3 (sync) | episodes/EP13-the-shariah-of-adam-and-the-first-speaker.txt | Mirrored all 3 Pronounce lines to episode txt (build_episode_txt.py unavailable; manual sync) |
-| 1 | framing | EP13-the-shariah-of-adam-and-the-first-speaker/00-framing.md | Landing edit: removed "from *Nahj al-Balagha*" source claim from closing aphorism directive; replaced with "The aphorism is a doctrinal composition in his voice, not a citation from a particular text — do not name a source." |
+| — | B5 (prior run) | chapters/ch05c-the-soul-in-time-and-the-rejoinder-to-al-nusra.txt | ~60 prose em-dashes replaced with commas or restructured punctuation in prior run (2026-05-22T03:15Z). 23 structural em-dashes preserved. No new prose em-dashes this run. |
+| — | J2 (fixer-pass) | chapters/ch05c-the-soul-in-time-and-the-rejoinder-to-al-nusra.txt | Full-name introductions inserted in prior fixer-pass: line 3 "Abu Ya'qub al-Sijistani" and "Hamid al-Din Ahmad al-Kirmani"; line 9 "Abu Hatim al-Razi". All three figures verified clean this run. |
 
-**Note on prior fixer passes (not counted in this invocation's auto-fix total):** A3 P0 (Quran 5:27 translator attribution) and A1 P0 (closing aphorism blockquote → doctrinal paraphrase) were resolved by author between invocations. B5 residual em-dashes and A1 al-Masabih section reference were also resolved by author between invocations. This invocation's auto-fix count reflects only N3 gap closure (7 file edits across framing + episode txt).
+**This invocation: 0 auto-fixes.** J2 was already resolved; B5 was already resolved. Intelligent-break fires at end of iteration 1: finding count changed from 2 P1 → 1 P1 (J2 resolved), no new auto-fixable items, F5 unchanged.
+
+**Structural em-dashes preserved (not auto-fixable):** All 23 remaining em-dashes are in one of three legitimate positions: (a) `## Sub-chapter NN — title` section headers, (b) blockquote attribution lines `— (source ref)`, (c) one literary trailing dash at line 199 representing an intentionally incomplete sentence. No prose em-dashes remain.
 
 ---
 
@@ -37,16 +36,23 @@ None.
 
 ### P1 (ship-with-caution)
 
-#### J2: al-Kirmani alias used throughout chapter — full name never established on first mention
+#### F5: Discussion spine scaffold entirely unfilled — all 8 beats contain [LLM-FILL] placeholders
 
-- **Signature:** `J2:full-name-never-established:al-Kirmani:ch13a`
-- **File:** `content/podcast/library/books/kitab-al-riyad/chapters/ch13a-the-shariah-of-adam-and-the-first-speaker.txt`
-- **Line:** 3 (first occurrence of "al-Kirmani")
-- **Context excerpt:** "Al-Kirmani works the dispute across nineteen sub-chapters..." — alias used without prior full-name introduction in this chapter.
-- **Rule:** J2 (chapter-side alias rule) — the full name must appear once on the figure's first chapter occurrence before alias use begins. Canonical alias per `content/_shared/arabic/05-name-alias-policy.md`: `Hamid al-Din Ahmad ibn Abdullah al-Kirmani` → alias `al-Kirmani`. The alias `al-Kirmani` appears 18 times in this chapter; the full name `Hamid al-Din Ahmad al-Kirmani` (or the canonical long form) does not appear anywhere in the chapter.
-- **Note:** The framing's `## Name discipline` block correctly defines the full name and rotation set. The chapter-side first-mention is missing. This is a chapter-file authoring fix, not a framing fix.
-- **Suggested fix:** On line 3, change "Al-Kirmani works the dispute..." to "Hamid al-Din Ahmad al-Kirmani, the author of *al-Riyad*, works the dispute..." Then continue using `al-Kirmani` as the alias throughout. The English appositive ("the author of *al-Riyad*" or "the great mediator between the two schools") is optional in the chapter (required only in the framing's name-discipline block) but recommended.
-- **Severity rationale:** P1 (not P0) — the figure is unambiguous from context; the chapter slug, contract, and framing all name al-Kirmani correctly. The alias discipline failure is a hygiene issue, not a fabrication or authenticity risk.
+- **Signature:** `F5:discussion-spine-unfilled:EP05-the-soul-in-time-and-the-rejoinder-to-al-nusra`
+- **File:** `content/podcast/library/books/kitab-al-riyad/_system/episode-drafts/EP05-the-soul-in-time-and-the-rejoinder-to-al-nusra/04-discussion-spine.md`
+- **Line:** null (whole file)
+- **Context excerpt:** All 8 beats contain `[LLM-FILL]` in every field: Key question, Tension, Anchor passage, and Landing — 14 unfilled placeholder tokens across the file.
+- **Rule:** F5 — discussion spine must have ≥6 beats with substantive Key question, Tension, Anchor passage, and Landing per beat. Beat count (8) is within the 6–12 range; content is entirely absent.
+- **Note:** The spine is a steering document for the NotebookLM host dynamic; it does NOT feed into the episode txt directly. The framing (`00-framing.md`) is fully authored and carries rich content including the Three-part focus, Central tensions, and Landing. The missing spine represents pipeline hygiene and sidecar completeness, not a quality risk to the generated audio. However, the pipeline contract requires authored spines as documentation.
+- **Severity rationale:** P1 (not P0) — the episode txt and framing are fully operational. The spine is documentation, not the operative prompt.
+
+---
+
+#### ~~J2: Three figures use aliases from line 1 of chapter without full-name introductions~~ — RESOLVED
+
+- **Signature:** `J2:no-full-name-intro:ch05c-the-soul-in-time-and-the-rejoinder-to-al-nusra`
+- **Status:** **RESOLVED** — full-name introductions were applied in the fixer-pass that followed the prior run. Verified this run: line 3 reads "Abu Ya'qub al-Sijistani ... Hamid al-Din Ahmad al-Kirmani"; line 9 reads "Abu Hatim al-Razi". All subsequent uses are aliases only. J2 PASS.
+- **Ledger record:** emitted as `resolution: auto-fixed` this run (deduplicated from prior `flagged` record by signature).
 
 ---
 
@@ -60,92 +66,106 @@ None.
 
 | Chapter | Words | Band | Band limits | In-band | Tiers | Blockquote ratio | Phonetic gaps (framing) | Framing words | Framing cap |
 |---|---|---|---|---|---|---|---|---|---|
-| ch13a-the-shariah-of-adam-and-the-first-speaker | 9,455 | extended | 5,500–9,500 soft / 10,500 hard | IN SOFT BAND | 4+ | ~7% | 0 | 3,635 | PASS (cap 3,700) |
+| ch05c-the-soul-in-time-and-the-rejoinder-to-al-nusra | 9,248 | extended | 1,000–9,500 soft / 10,500 hard | IN SOFT BAND | 4+ | ~5% | 0 | 3,461 | PASS (cap 3,500) |
 
-**Word-count note:** Chapter at 9,455 words. Per `scripts/podcast/build_episode_txt.py` CHAPTER_WORD_MAX_HARD = 10,500, extended soft band = 5,500–9,500. Chapter is within the soft band; well within the hard cap. E1 PASS. Framing at 3,635 words (post-N3 auto-fix); FRAMING_WORD_MAX = 3,700. Framing E1 PASS (65 words headroom).
+**Word-count note:** Chapter at 9,248 words post-B5-fix (was 9,358 before; word-count change negligible — commas replacing em-dashes). Per `scripts/podcast/build_episode_txt.py`: `CHAPTER_WORD_MAX_HARD = 10,500`, extended soft band = 1,000–9,500. Within the soft band; well within the hard cap. E1 PASS. Framing at 3,461 words; `FRAMING_WORD_MAX = 3,500`. E1 PASS (39 words headroom).
 
-**Tier diversity (D1):** Quran (Tier 1) — 13 citations across 7 surahs. Sahih al-Bukhari (Tier 3) — 1 hadith (Book 65, Hadith 4712, narrated by Anas ibn Malik). Imam Ali, Nahj al-Balagha Sermon 1 / Khutba al-Wasf (Tier 4) — line 45, format complete. al-Kirmani, *al-Riyad* chapters (Tier 1 — primary source under analysis) — multiple passages. al-Kirmani, *al-Masabih fi al-Imama* (Tier 1) — line 131, cited with internal cross-reference. Imam al-Mu'izz, *Ta'wil al-Shari'a* (Tier 5) — line 135 (section reference pending author research). 4+ tiers. D1 PASS.
+**Tier diversity (D1):** Quran (Tier 1) — 4 citations (Quran 12:53, 75:2, 89:27–28, 7:172) with Sahih International translator named on first occurrence (line 88). al-Kafi, Vol. 1, Hadith 1 (Tier 3) — al-Kulayni, reported from Imam Ja'far al-Sadiq (line 109); complete format. Nahj al-Balagha, Sermon 1, compiled by al-Sharif al-Radi (Tier 4) — line 226; complete format. Rumi, Mathnawi, Book 1, Verse 1; R. A. Nicholson translation (Tier 4 — secondary literary source) — line 149; complete format. al-Kirmani, *al-Riyad* (Tier 1 — primary source) — multiple paraphrased passages throughout. Lost works *al-Nusra* (al-Sijistani) and *al-Islah* (al-Razi) — referenced by title only, content paraphrased in modern English per framing tone constraints. 4+ tiers. D1 PASS.
 
-**Citation audit (current chapter state):**
-- Quran 5:27 (line 17): A1 PASS; A3 PASS — `(Quran 5:27, Sahih International)` — translator named on first occurrence.
-- Quran 22:34 (line 21): A1 PASS; A3 not required (not first occurrence). PASS.
-- Quran 2:213 (line 39): A1 PASS; "Sahih International" named. PASS.
-- Quran 7:172 (line 51): A1 PASS; "Sahih International" named. PASS.
-- Quran 2:40–43 (line 85–86): A1 PASS. Subsequent occurrence, translator not required. PASS.
-- Quran 42:13 (line 105–106): A1 PASS. PASS.
-- Quran 4:163 (line 119–120): A1 PASS. PASS.
-- Sahih al-Bukhari, Book 65, Hadith 4712, narrated by Anas ibn Malik (line 113): A1 PASS — format complete. A2 PASS.
-- Imam Ali, Nahj al-Balagha, Sermon 1 / Khutba al-Wasf (line 45): A1 PASS — complete format with sermon name.
-- al-Kirmani, *al-Masabih fi al-Imama* (line 131): A1 PASS — citation reads `— al-Kirmani, *al-Masabih fi al-Imama* (referenced from *al-Riyad*, Bāb 9, Fasl 14)`. Internal cross-reference present.
-- Imam al-Mu'izz, *Ta'wil al-Shari'a* (line 135): A1 P1 advisory — Imam and work named; section/folio reference not identified. Unchanged from prior run; requires author research.
-- Closing paragraph (line 188): author-voice doctrinal paraphrase, no source claim made. A1 PASS; A2 PASS.
+**Citation audit:**
+- Quran 12:53 (line 88): A1 PASS; A3 PASS — `(Quran 12:53; Sahih International translation)` — translator named on first Quranic occurrence. PASS.
+- Quran 75:2 (line 91): A1 PASS; subsequent Quranic occurrence, translator line not required. PASS.
+- Quran 89:27–28 (line 94): A1 PASS. PASS.
+- Quran 7:172 (line 142): A1 PASS; `(Quran 7:172; Sahih International translation)` — names translator again (consistent). PASS.
+- al-Kafi hadith (line 109): A1 PASS — format complete: vol, book title, hadith number, compiler, narrator chain. A2 PASS.
+- Rumi, Mathnawi (line 149): A1 PASS — title, book, verse, translator named. A2 PASS.
+- Nahj al-Balagha, Sermon 1 (line 226): A1 PASS — `(Nahj al-Balagha, Sermon 1; compiled by al-Sharif al-Radi)` — complete. A2 PASS.
+- *al-Nusra* and *al-Islah* passages: A1 PASS — both are paraphrased with framing authorization per tone constraints; no fabrication risk. A4 PASS.
 
 **Honorific audit (O1):**
-- Line 3: "peace be upon him" (Adam, first use). PASS.
-- Line 9: "peace and blessings of Allah be upon him" (Muhammad, first use). PASS.
-- Line 13: "peace be upon them" (speaker-prophets collectively, first use). PASS.
-- No repeated honorifics detected in non-A4-exempt prose. O1 PASS.
+- Line 33: "peace be upon him" (the Prophet, first use). PASS.
+- Line 55: "peace and blessings be upon him" (the Prophet and his family — distinct form from line 33). Per R-HONORIFIC-ONCE per-form semantics: two distinct forms, each appearing once. O1 PASS.
+- No repeated honorifics in non-citation prose. O1 PASS.
 
-**Phonetic coverage (N3):** Post-auto-fix, framing Pronunciation block covers al-qada, al-qadar, sajda, ruku', zakat, qisas, jihad (all 7 Arabic terms identified as gaps in iteration 1). 0 gaps remain. N3 PASS.
+**Phonetic coverage (N3):** Framing Pronunciation block covers 50+ terms: all figures (al-Kirmani, al-Sijistani, al-Razi, Imam Ja'far al-Sadiq, Imam Ali ibn Abi Talib, Jalal al-Din Rumi), book titles (al-Riyad, al-Nusra, al-Islah, al-Maqalid, al-Mahsul, Rahat al-'Aql, al-Kafi, Nahj al-Balagha), key Arabic terms (natiq, asas, al-nafs al-hissiyya, al-nafs al-natiqa, da'wa, ta'wil, tanzil, ibda', inbi'ath, tawhid, shari'a, rak'ah, al-Qunut, Mīthāq), Quranic verse Arabic openings, Surah names, Mathnawi Persian opening, Nahj al-Balagha Arabic opening. 0 phonetic gaps identified. N3 PASS.
+
+**C4 (substitution-policy check):** `(*al-nafs al-hissiyya*)` and `(*al-nafs al-natiqa*)` appear in the chapter (line 79) as italic-marked Arabic technical terms in parentheses. These are proper-term clarification parens (not lowercase-hyphenated phonetic-style parens of the R-PHONETICS-OUT kind). They are being explicitly contrasted and defined at the chapter's doctrinal pivot — exception #2 of §1 of `content/_shared/arabic/04-common-term-substitutions.md`. C4 PASS.
 
 **Build validator checks (manual):**
 - R-NOHTML: no HTML comments in chapter or framing. PASS.
 - Meta-prose tells: none detected. PASS.
-- R-PHONETICS-OUT (N1): no inline phonetic parens in chapter. PASS.
-- R-NO-ABBREVIATION (O2): full deny list present in `## Do not`. No abbreviations detected in chapter. PASS.
+- R-PHONETICS-OUT (N1): no inline lowercase-hyphenated phonetic parens in chapter. PASS.
+- R-NO-ABBREVIATION (O2): full deny list present in framing `## Do not`. No abbreviations detected in chapter. PASS.
 - R-PRONUNCIATION-IMPERATIVE (N2): all Pronunciation block lines begin with `Pronounce "` or `Do not`. PASS.
-- R-NO-READ-PROMPT (N4): "Do not read this prompt aloud..." present at framing close. PASS.
+- R-NO-READ-PROMPT (N4): "Do not read this prompt aloud." present at framing close. PASS.
 - R-NOMODERNIZE (M1): full platform-deny list present in `## Do not`. PASS.
 - R-NOSURPRISE (M2): full surprise-deny list present in `## Do not`. PASS.
-- R-RECURRING-THESIS: "the Shariʿah of Adam is fixed" mandated VERBATIM at 3 anchor points. PASS in framing. Chapter carries the verbatim formula at lines 27 (verdict), 184 (accumulating verdict), 188 (closing paragraph). PASS.
-- C4: concept-words block in framing justifies all retained Arabic terms. PASS.
-- K1 (interruption avoidance): present in framing. PASS.
-- R1 (separate-prep illusion): present in framing. PASS.
-- R2 (reset clause): between-Focus reset directive present. PASS.
-- R3 (cadence directive): rhythm/pace directive present. PASS.
-- R4 (formal-transition DENY): full list in `## Do not`. PASS.
-- R5 (analogy permission): modern-analogy permission clause present. PASS.
+- R-RECURRING-THESIS (H5): "The Successor is one thing. The sensual soul is another." mandated VERBATIM at 3 anchor points. Present verbatim: (1) Opening directive line 26, (2) Focus 2 pivot line 76, (3) Landing line 82. PASS.
+- R-ANALOGY-CAP (L1): exactly 5 governing analogies enumerated in `## Tone constraints`. PASS.
+- R-CHALLENGER-FRICTION (K2): Color host pushback at least 3 times using named doubt patterns. 4 explicit `*Color host pushback (required):*` lines across the 5 Central tensions (tension 5 is the closing prayer — no pushback required). PASS.
+- R-NAMEDISCIPLINE (J3): Full-name-on-first-mention discipline in framing `## Name discipline` present for all 6 figures + book titles + concept-words rotation. PASS.
+- C4: concept-words block in framing `## Name discipline` justifies all retained Arabic terms. PASS.
+- I1 (anti-repetition): present in `## Anti-noise rules`. PASS.
+- I2 (no irrelevant background): present in `## Anti-noise rules`. PASS.
+- K1 (interruption avoidance): "Each host completes a thought before the other responds. No interjections..." present in framing. PASS.
+- R1 (separate-prep illusion): framing opens with "Open with a brief welcome (one sentence) followed by..." format that prevents the "I've been preparing separately" illusion. PASS.
+- R2 (reset clause): between-Focus single-sentence resets present in `## Three-part focus` pacing block. PASS.
+- R3 (cadence directive): "Short-to-medium sentences with varied rhythm..." present in `## Tone constraints`. PASS.
+- R4 (formal-transition DENY): full deny list in `## Do not`. PASS.
+- R5 (analogy permission): "DO use modern-life practical analogies when they help..." present in `## Do not`. PASS.
+- H1/H2 (welcome): `## Opening directive` present. PASS.
+- H3 (summary tail): landing directive explicit: "Do not recap. Do not say 'so today we covered'." PASS.
+- H4 (dramatic arc): episode_format is deep_dive (not debate); H4 skipped. PASS.
 
-**Category G (Extract Mode contracts):**
-- G1: contract `the-shariah-of-adam-and-the-first-speaker.yml` present. PASS.
+**Category G (chapter contracts):**
+- G1: contract `the-soul-in-time-and-the-rejoinder-to-al-nusra.yml` present. PASS.
 - G2: `angle: faithful_exposition`, `episode_format: deep_dive`, `length_target: extended`, `debate: null` — consistent with framing. PASS.
 - G3: No EP## refs or meta-prose tells in contract key fields. PASS.
 - G4: No `derived_from:` field — not a derivative. PASS.
 
-**Category Q (chapter-set design):**
-- Q1: title "The Shariʿah of Adam and the First Speaker" — unique in 13-chapter set. PASS.
-- Q2: 44 chars (hard cap 60), 8 words (soft target 6). PASS hard gate; P2 advisory on word count (not escalated).
+**Category Q (chapter-set design, per-book checks):**
+- Q1: title "The Soul in Time and the Rejoinder to al-Nusra" — unique in 13-chapter set (checked against orchestrator-state.json completed_slugs). PASS.
+- Q2: 55 chars, 10 words — under the 60-char hard cap; over the 6-word soft target. PASS hard gate; P2 advisory on word count (not escalated — matching pattern across series).
 - Q3: Not generic. PASS.
-- Q4: 9,455 words; `length_target: extended`; within 5,500–9,500 soft band and 10,500 hard cap. E1 PASS.
+- Q4: 9,248 words; `length_target: extended`; within soft band and hard cap. E1 PASS.
 - Q5: chapter-set balance deferred to book-scope invocation.
 
-**Framing checks passed:** H1, H2, H3, F2, F3, F4, F5, I1, I2, J1, J3, K1, K2, M1, M2, N2, N3, N4, O1, O2, R1, R2, R3, R4, R5.
+**Framing checks passed:** H1, H2, H3, H5, F2, F3, F4, I1, I2, J1, J3, K1, K2, L1, M1, M2, N2, N3, N4, O1, O2, R1, R2, R3, R4, R5.
 
 **Checks skipped (no transcript):** M3, M4, N5, O3, R6, R7.
+
+**Category S (safety):** No concurrent orchestrator process detected (pgrep negative). orchestrator-state.json `phase_status: running` is stale from prior shutdown (EP05 slug not in completed_slugs — this challenger invocation is fresh). S PASS.
 
 ---
 
 ## Score
 
-**P0:** 0 | **P1:** 1 | **P2:** 0 | **Chapters in scope:** 1 | **Auto-fixes this run:** 7
+**P0:** 0 | **P1:** 1 | **P2:** 0 | **Chapters in scope:** 1 | **Auto-fixes this run:** 0 (total lifetime: 60)
 
 ```
 penalty = (0 × 1.0 + 1 × 0.2 + 0 × 0.05) / 1 = 0.20
 score   = max(0.0, 1.0 - 0.20) = 0.80  (Drifting)
 ```
 
-**Verdict: SHIP-WITH-CAUTION** — 0 P0 findings; 1 P1 finding (J2 — al-Kirmani full-name introduction missing from chapter).
+**Verdict: SHIP-WITH-CAUTION** — 0 P0 findings; 1 P1 finding remaining (F5: discussion spine unfilled). J2 resolved.
 
 **What to do before upload:**
 
-1. **J2 (chapter line 3):** Add the full name `Hamid al-Din Ahmad al-Kirmani` on first mention. Change "Al-Kirmani works the dispute..." to "Hamid al-Din Ahmad al-Kirmani, the author of *al-Riyad*, works the dispute..." This is a one-line author fix.
-2. **A1 (chapter line 135, *Ta'wil al-Shari'a*):** Carry over from prior run — identify the section/folio reference in the Dar al-Andalus or IIS edition of *Ta'wil al-Shari'a* and add to the citation. P1 advisory; does not block ship.
-3. **Build script:** Run `python3 scripts/podcast/build_episode_txt.py content/podcast/library/books/kitab-al-riyad EP13-the-shariah-of-adam-and-the-first-speaker` to re-emit `episodes/EP13-the-shariah-of-adam-and-the-first-speaker.txt` from the updated framing. The episodes file was manually synced in this invocation but may have minor divergence from the build script's concatenation logic.
+1. **J2 (RESOLVED):** Full-name introductions applied. No action needed.
+2. **F5 (04-discussion-spine.md):** Author the 8 beats of the discussion spine using the Central tensions, Three-part focus, and anchor passages from `00-framing.md` as raw material. This is a sidecar document — the episode can be generated without it, but the pipeline contract requires an authored spine. The framing's five tensions map cleanly to beats 2–6; beats 1 and 8 are the hook and unresolved-landing. **This is the sole remaining P1.**
 
-**Upload steps (two-file model):**
+**Upload steps (two-file model — SHIP-WITH-CAUTION — ready for upload; F5 spine does not block generation):**
 
-1. Open NotebookLM. Create a new notebook for *Kitab al-Riyad, Episode 13*.
-2. Upload `content/podcast/library/books/kitab-al-riyad/chapters/ch13a-the-shariah-of-adam-and-the-first-speaker.txt` as the single SOURCE.
-3. Paste the contents of `content/podcast/library/books/kitab-al-riyad/episodes/EP13-the-shariah-of-adam-and-the-first-speaker.txt` into the CUSTOMIZE PROMPT box.
+1. Open NotebookLM. Create a new notebook for *Kitab al-Riyad, Episode 5*.
+2. Upload `content/podcast/library/books/kitab-al-riyad/chapters/ch05c-the-soul-in-time-and-the-rejoinder-to-al-nusra.txt` as the single SOURCE.
+3. Paste the contents of `content/podcast/library/books/kitab-al-riyad/episodes/EP05-the-soul-in-time-and-the-rejoinder-to-al-nusra.txt` into the CUSTOMIZE PROMPT box.
 4. Choose *Deep Dive* Audio Overview format. Length: *Longer* or *Extended*.
 5. Click *Generate*.
+
+---
+
+## Change history
+
+- **2026-05-22T03:15Z (run 1):** 60 B5 auto-fixes; 2 P1 found (F5 spine, J2 no-full-name).
+- **2026-05-22 (fixer-pass):** J2 fixed — full names inserted on first chapter occurrence (lines 3, 9).
+- **2026-05-22T10:45Z (run 2, this run):** J2 verified resolved. 1 P1 remains (F5). Score improved 0.60 → 0.80. Intelligent-break at iteration 1.
