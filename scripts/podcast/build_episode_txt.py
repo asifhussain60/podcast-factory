@@ -567,6 +567,293 @@ MANUSCRIPT_META_HEADER_RE = re.compile(
 )
 
 
+# F27 — Tier 2.5 TTS-safe enforcement constants (2026-05-22).
+# Validates against Arabic transliterations, forbidden analogies, modern
+# artifacts, honorific bounds, surah names, and alqaab discipline.
+# Doctrine empirically locked across v3/v4/v4-revised audio audits.
+
+# Arabic transliteration patterns (compile once)
+ARABIC_TRANSLIT_PATTERNS = [
+    re.compile(r"\bal-[A-Z][a-zA-Z]+\b"),     # al-Kirmani, al-Shams, al-Ahzab
+    re.compile(r"\bAbu\s+[A-Z][a-zA-Z]+"),    # Abu Hatim, Abu Ya'qub
+    re.compile(r"\bIbn\s+[A-Z][a-zA-Z]+"),    # Ibn Mas'ud
+    re.compile(r"\bbint\s+[A-Z][a-zA-Z]+"),   # bint X
+    re.compile(r"\b[A-Za-z]+iyy[ah]\b"),      # -iyyah suffix (al-Sajjadiyya)
+]
+
+# TTS-safe Arabic-origin terms (verified across 3 audio audits)
+ALLOWED_ARABIC_ORIGIN_LOWER = {
+    "quran", "imam", "medina", "ismaili", "fatimid", "fatimi",
+    "yusuf ali", "muhammad",  # The Prophet's name
+    # Divine attributes (stable in English usage)
+    "al-bari", "al-mubdi", "al-wahid", "al-haqq",
+}
+
+# Surahs commonly cited in Islamic philosophy/devotional texts.
+# All forbidden in chapter/framing text; must be referenced by English meaning.
+KNOWN_SURAH_NAMES_LOWER = {
+    "al-ahzab", "al-shams", "al-isra", "al-baqarah", "al-imran",
+    "al-nisa", "al-maidah", "al-anam", "al-araf", "al-anfal",
+    "al-tawbah", "yunus", "hud", "yusuf", "al-rad", "ibrahim",
+    "al-hijr", "al-nahl", "al-kahf", "maryam", "ta-ha", "al-anbiya",
+    "al-hajj", "al-muminun", "al-nur", "al-furqan", "al-shuara",
+    "al-naml", "al-qasas", "al-ankabut", "al-rum", "luqman",
+    "al-sajdah", "saba", "fatir", "ya-sin", "al-saffat", "sad",
+    "al-zumar", "ghafir", "fussilat", "al-shura", "al-zukhruf",
+    "al-dukhan", "al-jathiyah", "al-ahqaf", "al-fath", "al-hujurat",
+    "qaf", "al-dhariyat", "al-tur", "al-najm", "al-qamar",
+    "al-rahman", "al-waqiah", "al-hadid", "al-mujadilah", "al-hashr",
+    "al-mumtahanah", "al-saff", "al-jumuah", "al-munafiqun",
+    "al-taghabun", "al-talaq", "al-tahrim", "al-mulk", "al-qalam",
+    "al-haqqah", "al-maarij", "nuh", "al-jinn", "al-muzzammil",
+    "al-muddaththir", "al-qiyamah", "al-insan", "al-mursalat",
+    "al-naba", "al-naziat", "abasa", "al-takwir", "al-infitar",
+    "al-mutaffifin", "al-inshiqaq", "al-buruj", "al-tariq", "al-ala",
+    "al-ghashiyah", "al-fajr", "al-balad", "al-layl", "al-duha",
+    "al-sharh", "al-tin", "al-alaq", "al-qadr", "al-bayyinah",
+    "al-zalzalah", "al-adiyat", "al-qariah", "al-takathur", "al-asr",
+    "al-humazah", "al-fil", "quraysh", "al-maun", "al-kawthar",
+    "al-kafirun", "al-nasr", "al-masad", "al-ikhlas", "al-falaq",
+    "al-nas",
+}
+
+# Analogies model-invented across v1-v4 audio (the M1 leak surface).
+# Framing should never introduce these; chapter prose source-images
+# are handled by a separate carve-out (see assert_framing_analogy_cap_strict).
+FORBIDDEN_ANALOGY_KEYWORDS = {
+    "sealed room", "two rooms", "two sealed",
+    "mail carrier", "mailman", "postal",
+    "television", "tv set", "tv screen",
+    "broadcast", "data stream", "streaming service",
+    "4k", "hd resolution", "sd resolution", "pixels",
+    "teacup", "tea cup",
+    "battery", "positive terminal", "negative terminal",
+    "signet ring", "wax seal", "wax-seal", "wax stamped",
+    "crystal pitcher", "silver cup",
+    "cosmic ruler",
+    "venn diagram",
+    "radio tower", "antenna",
+    "cosplay", "dress-up",
+    "campfire", "camp fire",
+    "waterfall",
+    "solar panel",
+    "cathedral",
+    "fulcrum",
+    "pie chart",
+    "tape measure",
+    "vault holding",
+    "frankenstein",
+}
+
+# Modern artifacts that fail R-NOMODERNIZE.
+FORBIDDEN_MODERN_KEYWORDS = {
+    "television", "monitor", "tablet", "computer", "laptop",
+    "broadcast", "data stream", "internet", "software",
+    "streaming",
+    "sd ", "hd ", "4k", "8k", "pixels",
+    "twitter", "tiktok", "instagram", "youtube",
+    "social media", "algorithm", "internet troll", "reply guy",
+    "cognitive behavioral therapy", "productivity framework",
+    "life hack", "self-help", "mindfulness app", "dopamine hit",
+    "attention economy",
+    "refrigerator", "lightbulb", "coffee maker",
+    "influencer", "podcaster", "blogger", "vlogger",
+    "21st century", "in our modern world", "modern listener",
+    "in today's world", "in the 1990s", "modern-day",
+    "cosplay", "hot take", "doomscroll", "deep dive",
+    "screen time", "notification",
+    "nation-state", "democracy", "parliament",
+    "frankenstein", "popularity contest", "synthetic chemistry",
+    "biological nature",
+}
+
+# Established English alqaab (TTS-safe; allowed to speak).
+ESTABLISHED_ENGLISH_ALQAAB = {
+    "commander of the faithful",
+    "lion of god",
+}
+
+# Literal-translation alqaab that damage register (the "Striker" anti-pattern).
+FORBIDDEN_LITERAL_ALQAAB = {
+    "the striker",
+    "the puller",
+    "the returner",
+    "the lion of allah",
+    "the asadullah",
+}
+
+
+def assert_no_arabic_transliteration(content: str, file_path: Path, role: str) -> None:
+    """F27 #1+#2: block Arabic transliterations in chapter prose or framing.
+
+    Detects: al-X patterns, Abu/Ibn/bint X compounds, -iyyah suffixes.
+    Whitelist: ALLOWED_ARABIC_ORIGIN_LOWER (Quran, Imam, Medina, Ismaili,
+    Fatimid, Yusuf Ali, Muhammad, divine attributes).
+    """
+    # Strip pronunciation block from framing (legitimate Arabic mentions there)
+    scan_text = content
+    if role.startswith("framing"):
+        scan_text = re.sub(
+            r"##?\s*\d*\.?\s*Pronunciation.*?(?=\n##\s|\Z)",
+            "",
+            content,
+            flags=re.DOTALL | re.IGNORECASE,
+        )
+
+    violations: list[str] = []
+    for pattern in ARABIC_TRANSLIT_PATTERNS:
+        for match in pattern.finditer(scan_text):
+            token = match.group(0)
+            if token.lower() in ALLOWED_ARABIC_ORIGIN_LOWER:
+                continue
+            if any(allowed in token.lower() for allowed in ALLOWED_ARABIC_ORIGIN_LOWER):
+                continue
+            violations.append(token)
+
+    if violations:
+        unique = sorted(set(violations))
+        sample = unique[:8]
+        _flag_p1(
+            "R-NO-ARABIC-TRANSLITERATION",
+            file_path,
+            f"{role}: {len(unique)} Arabic transliterations detected. "
+            f"Sample: {sample}. F20 doctrine: replace with English audio labels."
+        )
+
+
+def assert_framing_analogy_cap_strict(content: str, file_path: Path) -> None:
+    """F27 #3: detect forbidden analogies in framing.md.
+
+    Allows: the three governing analogies (mirror, messenger, light-on-X);
+    source-image carve-outs (seven seas, speaker-foundation, male-female).
+    Blocks: model-invented analogies across v1-v4 audio history.
+    """
+    scan_text = content.lower()
+
+    # Strip the framing's own forbidden-list section (it MENTIONS these patterns
+    # as instructions; matching them would be a false positive).
+    scan_text_scrubbed = re.sub(
+        r"###?\s+(?:explicitly\s+)?forbidden\s+analogies.*?(?=\n##\s|\n###\s|\Z)",
+        "",
+        scan_text,
+        flags=re.DOTALL,
+    )
+
+    violations = [k for k in FORBIDDEN_ANALOGY_KEYWORDS if k in scan_text_scrubbed]
+    if violations:
+        _flag_p1(
+            "R-ANALOGY-CAP-STRICT",
+            file_path,
+            f"framing: forbidden analogy patterns detected: {violations[:8]}. "
+            f"Allowed: mirror, messenger, light-on-glass-stone, source-images only."
+        )
+
+
+def assert_framing_no_modern_artifacts(content: str, file_path: Path) -> None:
+    """F27 #4: detect modern-vocabulary contamination in framing.md."""
+    scan_text = content.lower()
+
+    # Strip the framing's own ban-list section (false-positive guard)
+    scan_text_scrubbed = re.sub(
+        r"##\s+\d*\.?\s*R-NOMODERNIZE.*?(?=\n##\s|\Z)",
+        "",
+        scan_text,
+        flags=re.DOTALL,
+    )
+
+    violations = [k for k in FORBIDDEN_MODERN_KEYWORDS if k in scan_text_scrubbed]
+    if violations:
+        _flag_p1(
+            "R-NOMODERNIZE-STRICT",
+            file_path,
+            f"framing: modern artifacts detected: {violations[:8]}. "
+            f"R-NOMODERNIZE: tenth-century metaphysics — no modern vocabulary."
+        )
+
+
+def assert_framing_honorific_bounded_both_sides(content: str, file_path: Path) -> None:
+    """F27 #5: each honorific appears EXACTLY ONCE (not zero, not twice).
+
+    v3 audio dropped both honorifics to zero. v4-revised had "peace be
+    upon him" misplaced. This validator catches both failure modes.
+    """
+    scan_text_lower = content.lower()
+    # Strip pronunciation + honorific-rule sections (they MENTION the patterns)
+    scan_text_lower = re.sub(
+        r"##?\s*\d*\.?\s*R-HONORIFIC-ONCE.*?(?=\n##\s|\Z)",
+        "",
+        scan_text_lower,
+        flags=re.DOTALL,
+    )
+    scan_text_lower = re.sub(
+        r"##?\s*\d*\.?\s*Honorific\s+(?:1|2|discipline).*?(?=\n##\s|\Z)",
+        "",
+        scan_text_lower,
+        flags=re.DOTALL,
+    )
+
+    pbuh_count = scan_text_lower.count("peace be upon him")
+    pbuhf_count = scan_text_lower.count("peace and blessings of allah be upon him and his family")
+    # Subtract pbuhf occurrences from pbuh (pbuhf contains "peace be upon him" as substring? no, "be upon him" vs "be upon him and his family")
+    # Actually "peace and blessings of allah be upon him and his family" does NOT contain "peace be upon him" as substring.
+    # So counts are independent.
+
+    issues: list[str] = []
+    if pbuh_count != 1:
+        issues.append(f"'peace be upon him' occurs {pbuh_count}× (must equal 1; first mention of Commander of the Faithful)")
+    if pbuhf_count != 1:
+        issues.append(f"'peace and blessings of Allah...' occurs {pbuhf_count}× (must equal 1; first mention of the Prophet)")
+
+    if issues:
+        _flag_p1(
+            "R-HONORIFIC-BOTH-BOUNDS",
+            file_path,
+            f"framing: " + "; ".join(issues)
+        )
+
+
+def assert_no_arabic_surah_names(content: str, file_path: Path, role: str) -> None:
+    """F27 #6: detect Arabic surah names. F29 doctrine: use English meanings.
+
+    Catches the v4-revised "Qaf → cough" TTS-mangle class.
+    """
+    scan_text = content.lower()
+    # Strip framing's surah lookup-table section (false-positive guard)
+    scan_text_scrubbed = re.sub(
+        r"##?\s*\d*\.?\s*(?:R-SURAH|surah\s+(?:lookup|reference|names)).*?(?=\n##\s|\Z)",
+        "",
+        scan_text,
+        flags=re.DOTALL,
+    )
+
+    violations: list[str] = []
+    for surah in KNOWN_SURAH_NAMES_LOWER:
+        # Use word-boundary-ish check
+        if surah in scan_text_scrubbed:
+            violations.append(surah)
+
+    if violations:
+        _flag_p1(
+            "R-SURAH-ENGLISH-ONLY",
+            file_path,
+            f"{role}: Arabic surah names detected: {sorted(violations)[:8]}. "
+            f"F29 doctrine: use English meanings ('the chapter on the sun' etc.)."
+        )
+
+
+def assert_alqaab_only_established_or_paraphrased(content: str, file_path: Path, role: str) -> None:
+    """F27 #7: block awkward literal alqaab translations (the "Striker" pattern)."""
+    scan_text_lower = content.lower()
+    violations = [k for k in FORBIDDEN_LITERAL_ALQAAB if k in scan_text_lower]
+    if violations:
+        _flag_p1(
+            "R-ALQAAB-FUNCTIONAL-PARAPHRASE",
+            file_path,
+            f"{role}: literal alqaab translations detected: {violations}. "
+            f"F24 doctrine: use functional paraphrase ('one of his martial honorifics')."
+        )
+
+
 def assert_framing_has_name_discipline_section(content: str, file_path: Path) -> None:
     """R-NAMEDISCIPLINE: framing has a Name discipline section with rotation sets.
 
@@ -836,6 +1123,12 @@ def validate_chapter(chapter_path: Path, extra_tells: list[str] | None = None) -
     assert_honorifics_once_only(text, chapter_path)
     # R-NO-MANUSCRIPT-META (2026-05-21, X14) — P1 FLAG (warning, not hard fail).
     assert_chapter_no_manuscript_meta(text, chapter_path)
+    # F27 Tier 2.5 (2026-05-22) — TTS-safe enforcement. All P1 flags
+    # (warnings; doctrine drift from prompt-only rules is the M1 pattern
+    # these catch). Won't hard-fail re-emit of v3-era content.
+    assert_no_arabic_transliteration(text, chapter_path, role="chapter (SOURCE)")
+    assert_no_arabic_surah_names(text, chapter_path, role="chapter (SOURCE)")
+    assert_alqaab_only_established_or_paraphrased(text, chapter_path, role="chapter (SOURCE)")
     n = word_count(text)
     if n < CHAPTER_WORD_MIN_HARD or n > CHAPTER_WORD_MAX_HARD:
         sys.exit(
@@ -870,6 +1163,13 @@ def build_framing_episode_txt(framing_path: Path, out_path: Path,
     assert_framing_challenger_friction_lists_patterns(cleaned, framing_path)
     assert_framing_analogy_cap_declared(cleaned, framing_path)
     assert_framing_recurring_thesis_present(cleaned, framing_path, contract_anchor=None)
+    # F27 Tier 2.5 (2026-05-22) — TTS-safe enforcement on framing.
+    assert_no_arabic_transliteration(cleaned, framing_path, role="framing (CUSTOMIZE PROMPT)")
+    assert_framing_analogy_cap_strict(cleaned, framing_path)
+    assert_framing_no_modern_artifacts(cleaned, framing_path)
+    assert_framing_honorific_bounded_both_sides(cleaned, framing_path)
+    assert_no_arabic_surah_names(cleaned, framing_path, role="framing (CUSTOMIZE PROMPT)")
+    assert_alqaab_only_established_or_paraphrased(cleaned, framing_path, role="framing (CUSTOMIZE PROMPT)")
 
     n = word_count(cleaned)
     if n < FRAMING_WORD_MIN or n > FRAMING_WORD_MAX:
