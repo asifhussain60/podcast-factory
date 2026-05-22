@@ -103,17 +103,19 @@ echo
 echo "==> [2/2] Skill files (SKILL.md)"
 run "mkdir -p '$SKILLS_DST'"
 
+# Auto-discover every subdir under skills-staging/ that ships a SKILL.md.
+# Replaces the old hardcoded `for skill_dir in journal podcast` list, which
+# went stale each time a new skill landed (podcast-blueprint, clean-commit,
+# repo-surgeon, tell-me, usage-auditor, cowork-brief were all tracked but
+# never installed under the old hardcoded list).
 skill_count=0
-for skill_dir in journal podcast; do
-  src="$SKILLS_SRC/$skill_dir/SKILL.md"
-  if [ ! -f "$src" ]; then
-    echo "    SKIP $skill_dir (no $src)"
-    continue
-  fi
+for skill_path in "$SKILLS_SRC"/*/SKILL.md; do
+  [ -f "$skill_path" ] || continue
+  skill_dir=$(basename "$(dirname "$skill_path")")
   dst_dir="$SKILLS_DST/$skill_dir"
   dst="$dst_dir/SKILL.md"
   run "mkdir -p '$dst_dir'"
-  run "cp '$src' '$dst'"
+  run "cp '$skill_path' '$dst'"
   echo "    OK   $skill_dir/SKILL.md"
   skill_count=$((skill_count + 1))
 done

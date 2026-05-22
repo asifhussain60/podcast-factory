@@ -123,8 +123,17 @@ def _info(msg: str) -> None:
 
 
 def _book_dir(book_slug: str) -> Path | None:
-    """Resolve <slug> to library/<category>/<slug>/ if it exists."""
-    matches = [p for p in LIBRARY_ROOT.glob(f"*/{book_slug}") if p.is_dir()]
+    """Resolve <slug> to _workspace/<category>/<slug>/ if it exists.
+
+    Only looks under the ALLOWED_CATEGORIES subdirectories — not the whole
+    _workspace/ tree — so leftover audit/snapshot dirs like _workspace/audit/
+    <slug>/ don't trigger a false ambiguity match.
+    """
+    matches = [
+        LIBRARY_ROOT / cat / book_slug
+        for cat in ALLOWED_CATEGORIES
+        if (LIBRARY_ROOT / cat / book_slug).is_dir()
+    ]
     return matches[0] if len(matches) == 1 else None
 
 

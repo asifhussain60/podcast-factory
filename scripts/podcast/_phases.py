@@ -11,7 +11,14 @@ This is per `_workspace/plan/podcast-plan.yaml` P5.4.
 """
 from __future__ import annotations
 
-from enum import StrEnum
+import sys
+if sys.version_info >= (3, 11):
+    from enum import StrEnum
+else:
+    # Polyfill for Python <3.11 (StrEnum landed in 3.11). Air ships 3.9.6.
+    from enum import Enum
+    class StrEnum(str, Enum):
+        pass
 
 
 class Phase(StrEnum):

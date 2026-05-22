@@ -52,7 +52,8 @@ class ProposalBundle:
 
 
 def _now_iso() -> str:
-    return _dt.datetime.now(_dt.UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
+    # _dt.UTC is Python 3.11+. Use _dt.timezone.utc for 3.9 compatibility.
+    return _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def _yaml_escape(s: str) -> str:

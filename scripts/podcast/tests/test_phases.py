@@ -7,7 +7,6 @@ from __future__ import annotations
 
 import sys
 import unittest
-from enum import StrEnum
 from pathlib import Path
 
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
@@ -18,7 +17,11 @@ import _phases  # noqa: E402
 
 class PhaseEnumTests(unittest.TestCase):
     def test_phase_is_strenum(self):
-        self.assertTrue(issubclass(_phases.Phase, StrEnum))
+        # Reference StrEnum via _phases at test-run time, not at import time —
+        # if some other test reloads _phases, the StrEnum polyfill class gets
+        # rebuilt and a captured-at-import reference would no longer match
+        # Phase's new base class.
+        self.assertTrue(issubclass(_phases.Phase, _phases.StrEnum))
 
     def test_phase_has_14_values(self):
         self.assertEqual(len(list(_phases.Phase)), 14)
