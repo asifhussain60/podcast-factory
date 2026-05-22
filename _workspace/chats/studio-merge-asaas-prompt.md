@@ -5,7 +5,7 @@
 Before pasting, run this one line in the Studio terminal to confirm:
 
 ```bash
-cd /Users/ahmac/Code/Journal-book-asaas && git checkout book/asaas-al-taveel && git status
+cd /Users/ahmac/Code/podcast-factory/book-asaas && git checkout book/asaas-al-taveel && git status
 ```
 
 (Adjust path if Studio's worktree is elsewhere. The branch must be `book/asaas-al-taveel` and the working tree clean.)

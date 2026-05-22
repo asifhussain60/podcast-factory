@@ -207,15 +207,15 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 
 | ID | Title | Discovered | Severity | Status | Owner |
 |---|---|---|---|---|---|
-| F1 | Phase 0g framing-gen LLM ignores hard word-count caps | 2026-05-21 (KaR EP14) | High | Triaged ([X10](https://github.com/asifhussain60/Journal/commit/HEAD) added per-section caps + self-check in author_framing prompt) | — |
-| F2 | Phase 0g framing-gen produces unused pronunciation entries | 2026-05-21 (KaR EP14) | Medium | Triaged ([X10](https://github.com/asifhussain60/Journal/commit/HEAD) prompt now requires grep chapter for terms before generating entries) | — |
+| F1 | Phase 0g framing-gen LLM ignores hard word-count caps | 2026-05-21 (KaR EP14) | High | Triaged ([X10](https://github.com/asifhussain60/podcast-factory/commit/HEAD) added per-section caps + self-check in author_framing prompt) | — |
+| F2 | Phase 0g framing-gen produces unused pronunciation entries | 2026-05-21 (KaR EP14) | Medium | Triaged ([X10](https://github.com/asifhussain60/podcast-factory/commit/HEAD) prompt now requires grep chapter for terms before generating entries) | — |
 | F3 | Phase 0e enrichment emits manuscript-history meta-commentary that NotebookLM hosts then vocalize | 2026-05-21 (KaR ch03a et al.) | High | Triaged (X14 added R-NO-MANUSCRIPT-META instruction to Phase 0e prompt with explicit forbidden patterns) | — |
 | F4 | Phase 0d chapter design includes editorial-intro chapters that aren't substantive book content | 2026-05-21 (KaR ch01a) | Medium | Open | — |
 | F5 | Phase 0e enrichment emits repeated honorifics (glyph + text forms) per chapter; R-HONORIFIC-ONCE flags downstream | 2026-05-21 (KaR ch08/ch09/ch12/ch14b + X8 text forms) | Medium | Triaged (X14 strengthened Phase 0e prompt: enumerates glyph + 5 text forms + requires self-count before return) | — |
 | F6 | Cost-ledger silently fails on Python 3.9 due to `datetime.UTC` (3.11+ feature) | 2026-05-21 (KaR Phase 0g) | Medium | Triaged (X13 replaced `datetime.UTC` with `datetime.timezone.utc` in `_cost_ledger._now_iso`) | — |
 | F7 | Orchestrator doesn't surface multi-task cost projection before starting long runs | 2026-05-21 (KaR Phase 0g) | Low | Open | — |
 | F8 | Stale `episode-drafts/EP*` directories accumulate across X-class fix cycles; no auto-clean on resume | 2026-05-21 (KaR EP14b/EP12/EP04) | Low | Triaged (X13 added _sweep_orphan_episode_drafts() in preflight_resume + _drive_per_chapter_and_after; idempotent removal) | — |
-| F9 | R-PHONETICS-OUT pattern #1 was over-broad; suggests rule-set audit for intent/implementation alignment | 2026-05-21 (KaR EP14 first attempt) | Low | Triaged ([X5](https://github.com/asifhussain60/Journal/commit/c9424dd) fixed pattern #1; audit remaining patterns) | — |
+| F9 | R-PHONETICS-OUT pattern #1 was over-broad; suggests rule-set audit for intent/implementation alignment | 2026-05-21 (KaR EP14 first attempt) | Low | Triaged ([X5](https://github.com/asifhussain60/podcast-factory/commit/c9424dd) fixed pattern #1; audit remaining patterns) | — |
 | F10 | Word-band rules with "~" prose use exact thresholds in code (no tolerance) | 2026-05-21 (KaR ch12/ch14b at 10180/10112) | Low | Triaged (X6 bumped chapter ceiling 10000→10500; X13 bumped framing ceiling 3500→3700) | — |
 | F11 | Iter-1 SHIP verdict + iter-2 challenger timeout treated as chapter failure even though episode already shipped | 2026-05-21 (KaR EP04/EP07/EP08 — all shipped at iter 1, all marked FAILED on iter-2 timeout) | Medium | Open | — |
 | F12 | Episode IDs derived from chapter filename digits, not from `contract.episode_number`; gaps in listener-facing numbering after chapter drops | 2026-05-21 (KaR EP04/EP07/EP10/EP12/EP14 with missing EP01-EP02 after ch01a/ch02b drops) | Medium | Open | — |
@@ -303,7 +303,7 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 
 **What goes wrong:** Phase 0e generates chapter prose that uses the honorific glyph ﷺ (sallallahu alayhi wa sallam) multiple times per chapter. For KaR: ch12 had 26 occurrences, ch14b had 11, ch08 and ch09 had 3 each. The R-HONORIFIC-ONCE rule then halts the episode at Phase 0g build step because NotebookLM vocalizes every glyph as the full phrase.
 
-**Impact:** Four chapters required manual dedup. ([X6 fix](https://github.com/asifhussain60/Journal/commit/801d2fd) deduplicated KaR's chapter files but the underlying enrichment prompt still emits the repeats.)
+**Impact:** Four chapters required manual dedup. ([X6 fix](https://github.com/asifhussain60/podcast-factory/commit/801d2fd) deduplicated KaR's chapter files but the underlying enrichment prompt still emits the repeats.)
 
 **Proposed fix:** Add to the Phase 0e prompt: `"Honorific glyphs (ﷺ, peace be upon him, etc.) should appear AT MOST ONCE per figure per chapter — on first mention. Subsequent mentions use the contracted name only."`
 
@@ -357,7 +357,7 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 
 **Where:** `scripts/podcast/build_episode_txt.py:168-179` — `INLINE_PHONETIC_PATTERNS`.
 
-**What goes wrong:** Pattern #1 was over-broad — matched scholarly Arabic transliterations alongside true pronunciation guides. Fixed in [X5 commit c9424dd](https://github.com/asifhussain60/Journal/commit/c9424dd). But the other R-* rules in the validator may have similar intent-vs-implementation drift.
+**What goes wrong:** Pattern #1 was over-broad — matched scholarly Arabic transliterations alongside true pronunciation guides. Fixed in [X5 commit c9424dd](https://github.com/asifhussain60/podcast-factory/commit/c9424dd). But the other R-* rules in the validator may have similar intent-vs-implementation drift.
 
 **Status:** Triaged — X5 fixed the immediate hit. Remaining work: audit each R-* rule's regex against its handbook-defined intent, looking for false-positive risk.
 
@@ -373,7 +373,7 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 
 **What goes wrong:** The rule prose in `content/podcast/.skill/handbook/notebooklm-best-practices.md` says things like `"episodes over ~10,000 words risk..."`. The tilde is empirical-tolerance language. But the code enforced exact 10000. For KaR ch12 (10180) and ch14b (10112), the chapters were 1-2% over a round-number cap and got blocked.
 
-**Status:** Triaged — [X6](https://github.com/asifhussain60/Journal/commit/801d2fd) bumped `CHAPTER_WORD_MAX_HARD` from 10000 → 10500 (5% tolerance, aligning code with prose). `FRAMING_WORD_MAX` (3500) is still exact.
+**Status:** Triaged — [X6](https://github.com/asifhussain60/podcast-factory/commit/801d2fd) bumped `CHAPTER_WORD_MAX_HARD` from 10000 → 10500 (5% tolerance, aligning code with prose). `FRAMING_WORD_MAX` (3500) is still exact.
 
 **Proposed fix:** Apply the same alignment to `FRAMING_WORD_MAX` if its prose source carries similar "~" language. Or introduce a `TOLERANCE_PCT` constant that derives soft/hard bands from a single source-of-truth threshold.
 
@@ -765,12 +765,12 @@ For X-class fixes that have already shipped, see git log on `book/kitab-al-riyad
 
 | ID | Title | Shipped commit |
 |---|---|---|
-| X1, X2 | Earlier Phase 0g blockers + state reset | [b8a2b82](https://github.com/asifhussain60/Journal/commit/b8a2b82) |
-| X3 | Strip letter suffix from chapter filename when forming episode_id (orchestrate_book.py) | [562b7d5](https://github.com/asifhussain60/Journal/commit/562b7d5) |
-| X4 | Don't renormalize chapter filename in extract_chapter (preserve letter suffix) | [ba52d21](https://github.com/asifhussain60/Journal/commit/ba52d21) |
-| X5 | R-PHONETICS-OUT regex tightened (pattern #1 had false-positive on scholarly transliterations) | [c9424dd](https://github.com/asifhussain60/Journal/commit/c9424dd) |
-| X6 | ﷺ honorific dedup across 4 chapters + chapter word-band 10000→10500 | [801d2fd](https://github.com/asifhussain60/Journal/commit/801d2fd) |
-| X7 | Mirror X3 fix in _authoring.author_framing() (second code path) | [95c4569](https://github.com/asifhussain60/Journal/commit/95c4569) |
+| X1, X2 | Earlier Phase 0g blockers + state reset | [b8a2b82](https://github.com/asifhussain60/podcast-factory/commit/b8a2b82) |
+| X3 | Strip letter suffix from chapter filename when forming episode_id (orchestrate_book.py) | [562b7d5](https://github.com/asifhussain60/podcast-factory/commit/562b7d5) |
+| X4 | Don't renormalize chapter filename in extract_chapter (preserve letter suffix) | [ba52d21](https://github.com/asifhussain60/podcast-factory/commit/ba52d21) |
+| X5 | R-PHONETICS-OUT regex tightened (pattern #1 had false-positive on scholarly transliterations) | [c9424dd](https://github.com/asifhussain60/podcast-factory/commit/c9424dd) |
+| X6 | ﷺ honorific dedup across 4 chapters + chapter word-band 10000→10500 | [801d2fd](https://github.com/asifhussain60/podcast-factory/commit/801d2fd) |
+| X7 | Mirror X3 fix in _authoring.author_framing() (second code path) | [95c4569](https://github.com/asifhussain60/podcast-factory/commit/95c4569) |
 
 ## How to use this file
 

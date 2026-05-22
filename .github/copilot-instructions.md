@@ -1,14 +1,23 @@
-# Copilot instructions for the Journal repo
+# Copilot instructions for the `podcast-factory` repo
 
 GitHub Copilot auto-loads this file as project-wide guidance. When Asif asks
 you (in Copilot Chat in VSCode) about this repo, follow this orientation.
 
 ## What this repo is
 
-- A podcast-authoring pipeline driving scholarly Arabic books through Claude + Azure → NotebookLM Audio Overview episodes (under `scripts/podcast/`, `content/podcast/library/books/`)
-- A memoir authoring engine for Asif's life story (under `content/babu-memoir/` — Asif IS Babu, the memoir's protagonist)
-- A travel-planning skill set (under `skills-staging/trips/`)
-- A static site renderer in `site/`
+- A **podcast-authoring pipeline** driving scholarly Arabic books through Claude + Azure → NotebookLM Audio Overview episodes (under `scripts/podcast/`, `_workspace/books/<slug>/` for in-progress state, `library/books/<slug>/` for shipped catalog post-Phase-9.5)
+- The **Azure stack** that powers OCR / translation / speech (under `infra/azure/`, `infra/launchd/`)
+- **Cross-machine operator coordination** between Mac Studio + Mac Air (under `_workspace/plan/operators/`)
+- A handful of general-utility skills + agents (duplicated from the sibling `journal` repo as of the 2026-05-22 split)
+
+The memoir, the static journal site, and the Anthropic API proxy moved to (or were retired from) the sibling **[journal](https://github.com/asifhussain60/journal)** repo on 2026-05-22 — don't reach into those paths from here.
+
+## What this repo is NOT
+
+- **Memoir engine** — moved to journal. `content/babu-memoir/`, `scripts/memoir/`, `scripts/site/`, `skills-staging/journal/`, `.github/agents/journal-*` are NOT here.
+- **Journal site** — moved to journal. `site/`, `skills-staging/css-theme-sync/`, `skills-staging/ui-modernizer/` are NOT here.
+- **Anthropic API proxy** — `server/` retired 2026-05-22. Not here, not in journal.
+- **Cloudflare deploy** — `wrangler.toml`, `site-worker.js`, `infra/cloudflare/`, `docs/cloudflare/` retired 2026-05-22.
 
 ## Cross-machine model
 
@@ -32,67 +41,18 @@ That script tells you the current book, branch, phase, and next_action.
 
 **For code suggestions in `scripts/podcast/**`:** this is shared framework. Changes here affect both machines; coordinate via `develop` merges. Reference `_workspace/plan/operators/coordination-protocol.md` §6 (shared-infra zones).
 
-**For book content** (`content/podcast/library/books/<slug>/`): one book is owned by one machine at a time (see `_workspace/plan/book-queue.md` In-flight section). Don't touch a book that's not on your machine's branch.
+**For book content** (`_workspace/books/<slug>/` for in-progress; `library/books/<slug>/` for shipped): one book is owned by one machine at a time (see `_workspace/plan/book-queue.md` In-flight section). Don't touch a book that's not on your machine's branch.
 
 ## Response format
 
-Asif uses a **4-part At-a-glance-first template** across both machines and all tools (Copilot, Claude Code). Body sections are PROSE paragraphs that naturally cover what happened / impact / fix / where — NOT labeled sub-bullets. Updated 2026-05-21:
+Asif uses a **4-part At-a-glance-first template** across both tools (Copilot + Claude Code). Canonical reference: `_workspace/plan/response-template.md`. Multi-path Next blocks default to `A. (Recommended) Do all of the below in order (B → C → D)` with sub-paths.
 
-```
-## At a glance — <severity emoji> <one-phrase status label>
+Severity emojis: 🟢 ship-ready / 🟡 needs decision / 🔴 blocked / ⚠ caution.
 
-1. <one-line punchy summary of body section 1 — non-technical, complete sentence, clickable links preserved>
-2. <one-line punchy summary of body section 2>
-3. <one-line punchy summary of body section 3>
-4. <…up to ~5 items>
+## Conventions
 
----
-
-### 1. <Plain English issue name> <severity emoji>
-<Short PROSE paragraph (2–4 sentences) covering what happened, the impact, the fix if any, where to look — clickable file/commit links woven inline. NO literal `*Plain English:*`/`*Impact:*`/`*Fix:*`/`*Where:*` sub-bullets — those four words are instructions to the writer, not visible markup.>
-
-### 2. <Plain English issue name> <severity emoji>
-<Same shape — short prose paragraph.>
-
-### 3. <Section with genuinely enumerable content> <emoji>
-<Lead sentence, then bullets/tables ONLY when content has structure to enumerate. When bullets appear, content-meaningful labels ("Option A (recommended)", "Step 1"), NEVER meta-labels.>
-
-[…tables also OK when comparing options]
-
----
-
-## Next: 👤 Asif    [or 🤖 AI, depending on who owns the next move]
-<Single-path: one explicit sentence. Multi-path: alphabetized list as below.>
-
-A. (Recommended) <best path — what + brief why>
-B. <alternative path>
-C. <third path if applicable>
-D. Do all of the above (A + B + C in sequence)
-```
-
-Severity emojis: 🟢 ship-ready / 🟡 needs your decision / 🔴 blocked / ⚠ caution. Used in the At-a-glance header AND per body section. The `## Next:` header uses 👤 for Asif-owned action and 🤖 for AI-owned action.
-
-**Default response posture (added 2026-05-21):** reflect the directive, push back ONLY when warranted (regression risk, scope ambiguity, naming conflict, missing context, better path exists), recommend a best path, ask interactively via AskUserQuestion (one question per call, recommended option FIRST) ONLY when a genuine decision is needed. **Do NOT over-ask** — if the directive is clear/low-risk/pattern-matched, JUST EXECUTE.
-
-**Deprecated** (do NOT use): `**TL;DR:**` opener, standalone `**Status:**` line, trailing `## Summary (scan-and-skip)` block, `## Project Status` block, literal `*Plain English:*` / `*Impact:*` / `*Fix:*` / `*Where:*` sub-bullets, inline `**Next:**` line — all replaced 2026-05-21.
-
-Full spec at `_workspace/plan/response-conventions.md` §1 (template) + §10 (default posture). The non-negotiables: **no custom section labels** like "Deviation from plan", "Verification", "Coord doc", "What changed", "Summary". The fixed 4-part structure with prose bodies is what makes cross-machine responses scannable.
-
-## Authoritative state
-
-When in doubt about phase / status / what's done, read:
-
-```bash
-jq '{phase, phase_status, last_completed_phase, last_error}' \
-    content/podcast/library/books/<book>/_system/orchestrator-state.json
-```
-
-Operator-file frontmatter is a snapshot; `state.json` is truth.
-
-## Don't
-
-- Suggest cross-writing a peer's operator file (see WRITE EXCEPTION protocol in coord-protocol §15 for the rare legitimate case)
-- Suggest pushing to the peer's book branch
-- Suggest force-push to `main` or `develop`
-- Recommend bypassing `git status` cleanliness checks before merges
-- Use emojis in code or commits unless Asif invites them (status emojis 🟢/🟡/🔴/⚠ in chat responses are explicitly OK)
+- **No emojis in code or commits** unless invited; **DO use status emojis** in chat responses.
+- **Markdown links for files + commits** — `[name](path)` and `[abc1234](https://github.com/asifhussain60/podcast-factory/commit/abc1234)`.
+- **No force-push to `main` or `develop`.**
+- **Honor `git status` cleanliness before merges.**
+- **Don't re-create retired surfaces** (`server/`, `wrangler.toml`, `infra/cloudflare/`, etc.) without explicit user authorization.

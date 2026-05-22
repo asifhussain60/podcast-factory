@@ -195,7 +195,7 @@ Reply EXACTLY in this shape (no custom section labels):
   ### 1. Sync result 🟢
   - *Plain English:* one sentence on what merged + any conflicts you resolved
   - *Impact:* Studio now reads the same coord docs as Air
-  - *Where:* [merge commit](https://github.com/asifhussain60/Journal/commit/<sha>)
+  - *Where:* [merge commit](https://github.com/asifhussain60/podcast-factory/commit/<sha>)
 
   ### 2. Operator file 🟢
   - *Plain English:* one sentence on ownership re-assertion (if it applied) or "already clean"

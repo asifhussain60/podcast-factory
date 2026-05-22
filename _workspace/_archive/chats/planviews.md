@@ -7,7 +7,7 @@ Objective
 
 Build and organize a polished set of non-technical HTML views under:
 
-/Users/ahmac/Code/Journal/_workspace/plan/view/
+/Users/ahmac/Code/podcast-factory/main/_workspace/plan/view/
 
 The views should explain podcast agent capabilities clearly using modern, visual, self-contained HTML pages with rich diagrams, consistent styling, and reusable structure.
 
@@ -15,7 +15,7 @@ Required Files and Locations
 
 Create or update only the following areas to avoid sprawl:
 
-/Users/ahmac/Code/Journal/_workspace/plan/view/
+/Users/ahmac/Code/podcast-factory/main/_workspace/plan/view/
 
 Suggested structure:
 
@@ -38,7 +38,7 @@ Tasks
 
 Create:
 
-/Users/ahmac/Code/Journal/_workspace/plan/view/podcast-capabilities.html
+/Users/ahmac/Code/podcast-factory/main/_workspace/plan/view/podcast-capabilities.html
 
 This page should depict and explain, for non-technical users, the capabilities the podcast agent will possess.
 
@@ -78,7 +78,7 @@ Use language suitable for non-technical stakeholders.
 
 Find the current acceptance criteria markdown file and convert it into:
 
-/Users/ahmac/Code/Journal/_workspace/plan/view/acceptance-criteria.html
+/Users/ahmac/Code/podcast-factory/main/_workspace/plan/view/acceptance-criteria.html
 
 Requirements:
 
@@ -115,7 +115,7 @@ Use relative paths only.
 
 Create:
 
-/Users/ahmac/Code/Journal/_workspace/plan/view/assets/css/theme.css
+/Users/ahmac/Code/podcast-factory/main/_workspace/plan/view/assets/css/theme.css
 
 The theme should standardize all views.
 
@@ -144,7 +144,7 @@ Because the views must work over the file:// protocol, avoid relying on build to
 
 The views must work when opened directly with:
 
-file:///Users/ahmac/Code/Journal/_workspace/plan/view/index.html
+file:///Users/ahmac/Code/podcast-factory/main/_workspace/plan/view/index.html
 
 Use libraries only if they can load reliably under the file:// protocol.
 
@@ -164,7 +164,7 @@ If D3.js is unavailable, diagrams should still render using inline SVG or native
 
 Create:
 
-/Users/ahmac/Code/Journal/_workspace/plan/view/agents/view-generation-agent.md
+/Users/ahmac/Code/podcast-factory/main/_workspace/plan/view/agents/view-generation-agent.md
 
 This agent should define a reusable process for generating future views.
 

@@ -10,12 +10,12 @@
 
 | Phase | What | Commit |
 |---|---|---|
-| 1 | Working-tree state commit (post-orchestrator) | [3f0e380](https://github.com/asifhussain60/Journal/commit/3f0e380) |
-| 2 | Pipeline-debt holistic refactor + validator coverage matrix | [c3d3f29](https://github.com/asifhussain60/Journal/commit/c3d3f29) |
-| 3 | F27 Tier 2.5 validators in `build_episode_txt.py` (7 new asserts) | [3631bc0](https://github.com/asifhussain60/Journal/commit/3631bc0) |
-| 4 | v4-revised doctrine propagation to `_authoring.py` Phase 0e + 0g prompts | [23009eb](https://github.com/asifhussain60/Journal/commit/23009eb) |
-| 5 | All 13 KaR chapter sources rewritten (2,634 substitutions) | [f54c657](https://github.com/asifhussain60/Journal/commit/f54c657) |
-| 6 prep | Clear KaR artifacts + state reset for re-emit | [9ac6fab](https://github.com/asifhussain60/Journal/commit/9ac6fab) |
+| 1 | Working-tree state commit (post-orchestrator) | [3f0e380](https://github.com/asifhussain60/podcast-factory/commit/3f0e380) |
+| 2 | Pipeline-debt holistic refactor + validator coverage matrix | [c3d3f29](https://github.com/asifhussain60/podcast-factory/commit/c3d3f29) |
+| 3 | F27 Tier 2.5 validators in `build_episode_txt.py` (7 new asserts) | [3631bc0](https://github.com/asifhussain60/podcast-factory/commit/3631bc0) |
+| 4 | v4-revised doctrine propagation to `_authoring.py` Phase 0e + 0g prompts | [23009eb](https://github.com/asifhussain60/podcast-factory/commit/23009eb) |
+| 5 | All 13 KaR chapter sources rewritten (2,634 substitutions) | [f54c657](https://github.com/asifhussain60/podcast-factory/commit/f54c657) |
+| 6 prep | Clear KaR artifacts + state reset for re-emit | [9ac6fab](https://github.com/asifhussain60/podcast-factory/commit/9ac6fab) |
 | 6 run | Orchestrator running (PID 31322 on Air) | in flight |
 | 7 | Re-emit episode bundles (validators run automatically) | pending |
 | 8 | Manual eval each chapter + framing + bundle | pending |
