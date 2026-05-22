@@ -87,7 +87,7 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument(
         "--root", type=Path, default=None,
-        help="Library root. Default: content/podcast/library/",
+        help="Library root. Default: _workspace/",
     )
     args = ap.parse_args()
     library_dir = args.root or DEFAULT_LIBRARY

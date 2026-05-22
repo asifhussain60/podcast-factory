@@ -167,7 +167,7 @@ class IntegrationTests(unittest.TestCase):
 
     def test_main_exits_zero_on_clean_match(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
-            # Build a fake repo root: <tmp>/content/podcast/library/books/<slug>/_system/source/text/
+            # Build a fake repo root: <tmp>/_workspace/books/<slug>/_system/source/text/
             book_slug = "tiny-test"
             text_dir = Path(tmp) / "content" / "podcast" / "library" / "books" / book_slug / "_system" / "source" / "text"
             text_dir.mkdir(parents=True)

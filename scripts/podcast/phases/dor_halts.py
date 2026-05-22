@@ -337,7 +337,7 @@ p4_7 = _make(
     "Master & Disciple Ch-02 NotebookLM scaffolding — Numeric Disambiguation updates",
     DoR(
         blockers=(
-            "Per-book scaffolding under content/podcast/library/books/the-master-and-the-disciple/_notebooklm/. "
+            "Per-book scaffolding under _workspace/books/the-master-and-the-disciple/_notebooklm/. "
             "Files exist (8 system + 8 chapter scaffolds verified earlier) but Numeric Disambiguation "
             "content not yet woven in.",
         ),
@@ -358,8 +358,8 @@ p4_7 = _make(
         ),
     ),
     detect_files=(
-        REPO_ROOT / "content/podcast/library/books/the-master-and-the-disciple/_notebooklm/03-source-integrity-notes.md",
-        REPO_ROOT / "content/podcast/library/books/the-master-and-the-disciple/_notebooklm/ch02-scaffolding.md",
+        REPO_ROOT / "_workspace/books/the-master-and-the-disciple/_notebooklm/03-source-integrity-notes.md",
+        REPO_ROOT / "_workspace/books/the-master-and-the-disciple/_notebooklm/ch02-scaffolding.md",
     ),
     detect_markers=("Numeric/Symbolic", "Anachronism", "Twelve Jazāʾir"),
 )
@@ -368,7 +368,7 @@ p4_7 = _make(
 # ── P5.3 — kitab-al-riyad resume ────────────────────────────────────────────
 p5_3 = _make(
     "P5.3",
-    "Resume content/podcast/library/books/kitab-al-riyad — drive 05-refine-english to 09-series-plan",
+    "Resume _workspace/books/kitab-al-riyad — drive 05-refine-english to 09-series-plan",
     DoR(
         blockers=(
             "REQUIRES EXPLICIT AZURE SPEND APPROVAL. Estimated $15-25 per the YAML resume_target_kitab_al_riyad block.",
@@ -376,7 +376,7 @@ p5_3 = _make(
             "book/kitab-al-riyad must be rebased onto current develop without state.json corruption.",
         ),
         assumptions=(
-            "State.json at content/podcast/library/books/kitab-al-riyad/_system/ resumes cleanly.",
+            "State.json at _workspace/books/kitab-al-riyad/_system/ resumes cleanly.",
             "Azure DI/Translator quotas have headroom for 260p of refinement + phonetic + chapter-design + enrichment.",
             "Operator is present to monitor cost-ledger and abort if predicted cost > $50 cap.",
         ),
@@ -397,7 +397,7 @@ p5_3 = _make(
         ),
     ),
     detect_files=(
-        REPO_ROOT / "content/podcast/library/books/kitab-al-riyad/_system/source/text/refined-english.md",
+        REPO_ROOT / "_workspace/books/kitab-al-riyad/_system/source/text/refined-english.md",
     ),
 )
 

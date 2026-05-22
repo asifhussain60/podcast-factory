@@ -10,8 +10,8 @@ worktree_layout:
     branch: book/kitab-al-riyad
 current_branch: book/kitab-al-riyad
 current_book: kitab-al-riyad
-current_book_dir: content/podcast/library/books/kitab-al-riyad
-authoritative_state_path: content/podcast/library/books/kitab-al-riyad/_system/orchestrator-state.json
+current_book_dir: _workspace/books/kitab-al-riyad
+authoritative_state_path: _workspace/books/kitab-al-riyad/_system/orchestrator-state.json
 status_tag: HALTED-BY-OPERATOR — STUDIO-DRIVING-MANUAL-FINISH
 current_phase: "per-chapter"
 current_phase_status_summary: |
@@ -39,7 +39,7 @@ current_phase_status_summary: |
   - EP01-EP09, EP11-EP13 (11 chapters). Source chapter .txt files exist
     (TTS-safe per Phase 5), no episode-drafts/ for them.
 
-  **Archetype distilled at**: [content/podcast/library/archetypes/islamic-scholastic-text.md](../../content/podcast/library/archetypes/islamic-scholastic-text.md)
+  **Archetype distilled at**: [library/archetypes/islamic-scholastic-text.md](../../library/archetypes/islamic-scholastic-text.md)
   — 5,354 words, 11 sections. Captures empirically-validated Phase 0d/0e/0g doctrine
   for Islamic scholastic texts (Quran citation discipline, hadith citation discipline,
   R-STABLE-ROLE-LABELS, R-NO-ARABIC-NAMES, R-HONORIFIC-ONCE BOUNDED, 14-section framing
@@ -71,7 +71,7 @@ next_action: |
     1. [_workspace/plan/handoff-kar-archetype-pivot.md](../handoff-kar-archetype-pivot.md)
        — comprehensive handoff briefing with 5 steps + podcast debt catalog +
        cost discipline.
-    2. [content/podcast/library/archetypes/islamic-scholastic-text.md](../../content/podcast/library/archetypes/islamic-scholastic-text.md)
+    2. [library/archetypes/islamic-scholastic-text.md](../../library/archetypes/islamic-scholastic-text.md)
        — the doctrine.
 
   Studio sequence (per the handoff):
@@ -128,7 +128,7 @@ cat _workspace/plan/operators/macbook-air-secondary.md
 
 # Get authoritative phase/status
 jq '{phase, phase_status, last_completed_phase, last_error}' \
-    content/podcast/library/books/kitab-al-riyad/_system/orchestrator-state.json
+    _workspace/books/kitab-al-riyad/_system/orchestrator-state.json
 ```
 
 ---
@@ -206,7 +206,7 @@ git pull --ff-only
 
 # Authoritative phase/status
 jq '{phase, phase_status, last_completed_phase, last_error}' \
-    content/podcast/library/books/kitab-al-riyad/_system/orchestrator-state.json
+    _workspace/books/kitab-al-riyad/_system/orchestrator-state.json
 ```
 
 ### 4.2 — Cherry-pick the P22.markers framework fix + this coord update
@@ -285,7 +285,7 @@ To re-run a specific window:
 
 ```bash
 # Identify the defective window from the audit output (e.g., win-003)
-rm content/podcast/library/books/kitab-al-riyad/_system/source/text/_chunks/0b/win-003.out.md
+rm _workspace/books/kitab-al-riyad/_system/source/text/_chunks/0b/win-003.out.md
 
 # Resume — the orchestrator picks up only the missing .out.md files
 python3 scripts/podcast/orchestrate_book.py --resume kitab-al-riyad
@@ -298,9 +298,9 @@ python3 scripts/podcast/audit_page_markers.py --book kitab-al-riyad
 ### 4.5 — Verify pre-0e artifacts intact
 
 ```bash
-python3 scripts/podcast/check_chapter_set.py content/podcast/library/books/kitab-al-riyad --format text
+python3 scripts/podcast/check_chapter_set.py _workspace/books/kitab-al-riyad --format text
 python3 scripts/podcast/check_lineage.py
-python3 scripts/podcast/validate_registry.py --registry content/podcast/library/books/kitab-al-riyad/_system/registry.md
+python3 scripts/podcast/validate_registry.py --registry _workspace/books/kitab-al-riyad/_system/registry.md
 ```
 
 These must pass clean before Phase 0e.
@@ -327,7 +327,7 @@ gate should be a confirmation, not a fresh decision.
 
 ## 5. Don't touch (collision surfaces)
 
-- **`content/podcast/library/books/asaas-al-taveel/**`** — Studio owns this
+- **`_workspace/books/asaas-al-taveel/**`** — Studio owns this
 - Branch **`book/asaas-al-taveel`** — no checkout, no merge, no rebase onto
 - **`mac-studio-primary.md`** — Studio writes this; I only read it
 - **`coordination-protocol.md`** — read-only for all machines

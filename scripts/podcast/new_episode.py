@@ -64,7 +64,7 @@ def add_registry_row(registry_path: Path, n: int, title: str, slug: str) -> None
 def main() -> int:
     parser = argparse.ArgumentParser(description="Scaffold a new podcast episode draft folder.")
     parser.add_argument("book_dir", type=Path,
-                        help="Path to BOOK_DIR (e.g., content/podcast/library/<category>/<book-slug>/)")
+                        help="Path to BOOK_DIR (e.g., _workspace/<category>/<book-slug>/)")
     parser.add_argument("slug", help="kebab-case episode slug, ≤ 40 chars")
     parser.add_argument("--title", default="Untitled Episode", help="Episode title")
     parser.add_argument("--registry", type=Path, default=None,

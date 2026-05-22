@@ -1,0 +1,70 @@
+name: library-readonly
+
+# Phase 9.5 CI guard: any commit that touches library/ must either be a
+# promotion commit (subject starts with "ship: ") OR carry the marker
+# "[library-manual-edit]" in the body. This enforces the invariant that
+# scripts/podcast/ship_to_library.py is the only supported writer of library/;
+# manual edits are explicit and traceable.
+
+on:
+  pull_request:
+    branches: [develop, main]
+    paths:
+      - "library/**"
+
+jobs:
+  enforce:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Inspect commits touching library/
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          echo "Base: $BASE_SHA"
+          echo "Head: $HEAD_SHA"
+
+          # Commits in this PR that modify library/
+          mapfile -t commits < <(
+            git log --format=%H "${BASE_SHA}..${HEAD_SHA}" -- library/
+          )
+          if [[ ${#commits[@]} -eq 0 ]]; then
+            echo "No commits touch library/. Pass."
+            exit 0
+          fi
+
+          failed=0
+          for sha in "${commits[@]}"; do
+            subject=$(git log -1 --format=%s "$sha")
+            body=$(git log -1 --format=%b "$sha")
+            echo "::group::Commit $sha"
+            echo "  subject: $subject"
+            echo "::endgroup::"
+
+            if [[ "$subject" == ship:* ]]; then
+              echo "  [ok] ship: prefix on subject"
+              continue
+            fi
+            if grep -qF "[library-manual-edit]" <<< "$body"; then
+              echo "  [ok] [library-manual-edit] marker in body"
+              continue
+            fi
+            echo "::error::Commit $sha touches library/ without a 'ship: ' subject or '[library-manual-edit]' body marker."
+            failed=1
+          done
+
+          if [[ "$failed" -eq 1 ]]; then
+            echo
+            echo "library/ is auto-populated by scripts/podcast/ship_to_library.py."
+            echo "Either:"
+            echo "  1) Use 'ship: <book> <episode>' as the commit subject (the convention"
+            echo "     ship_to_library.py operators use), OR"
+            echo "  2) Add the literal string [library-manual-edit] to the commit body"
+            echo "     for one-off manual overrides (e.g. dropping cover art)."
+            exit 1
+          fi

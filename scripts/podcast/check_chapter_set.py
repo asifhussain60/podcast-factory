@@ -343,7 +343,7 @@ def run(book_dir: Path) -> tuple[list[dict], int]:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("book_dir", type=Path, help="content/podcast/library/<category>/<book-slug>/")
+    ap.add_argument("book_dir", type=Path, help="_workspace/<category>/<book-slug>/")
     ap.add_argument("--format", choices=("json", "text"), default="json")
     args = ap.parse_args()
 

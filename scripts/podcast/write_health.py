@@ -34,11 +34,11 @@ USAGE
 OUTPUTS
 
   - content/podcast/.skill/_learning/health/<book-slug>.json
-  - content/podcast/library/<category>/<book-slug>/_system/health-trend.md
+  - _workspace/<category>/<book-slug>/_system/health-trend.md
     (appended; created on first run)
 
 The script discovers the BOOK_DIR by globbing for
-`content/podcast/library/*/<book-slug>/`. If multiple matches exist, fails
+`_workspace/*/<book-slug>/`. If multiple matches exist, fails
 with a clear error so the user can disambiguate.
 """
 

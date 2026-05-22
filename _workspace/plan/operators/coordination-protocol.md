@@ -94,7 +94,7 @@ git show origin/develop:_workspace/plan/book-queue.md
 
 # 3.6  Get authoritative phase + status from orchestrator state
 jq '{phase, phase_status, last_completed_phase, last_error}' \
-    content/podcast/library/books/<my-book>/_system/orchestrator-state.json
+    _workspace/books/<my-book>/_system/orchestrator-state.json
 ```
 
 The session-start protocol is the only correct way to enter a session. Skip
@@ -114,7 +114,7 @@ assuming an identity. Never guess.
 
 ## 5. Phase / status authority
 
-`content/podcast/library/books/<book>/_system/orchestrator-state.json` is the
+`_workspace/books/<book>/_system/orchestrator-state.json` is the
 **only** authoritative source for phase + status.
 
 Operator files MUST NOT duplicate this. They may quote a `last_verified_at`
@@ -145,7 +145,7 @@ be merged consistently.
 
 **The book-to-machine mapping is dynamic — it lives in `../book-queue.md`'s
 "In-flight" section, not hardcoded here.** A machine writes only to
-`content/podcast/library/books/<book>/**` for the book(s) listed as
+`_workspace/books/<book>/**` for the book(s) listed as
 in-flight against its own machine_id. Symmetric rule applies to book
 branches (`book/<slug>`).
 

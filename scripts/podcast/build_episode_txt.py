@@ -65,7 +65,7 @@ Usage:
 
 Example:
   python3 scripts/podcast/build_episode_txt.py \\
-    content/podcast/library/<category>/<book-slug> \\
+    _workspace/<category>/<book-slug> \\
     EP##-<slug>
 
 Per-book overrides (optional, book-agnostic):

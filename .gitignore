@@ -52,29 +52,41 @@ node_modules/
 _workspace/Books/
 
 # Podcast raw-input binaries (audio, video, archives, editing-project files)
-# — large assets that live under library/<category>/<slug>/_source/. Only
+# — large assets that live under _workspace/<category>/<slug>/_source/. Only
 # derived text artifacts (refined chapters, episode txts, kept transcripts)
 # get committed. Keeps the repo small regardless of where binaries land.
-content/podcast/library/**/*.mp3
-content/podcast/library/**/*.wav
-content/podcast/library/**/*.m4a
-content/podcast/library/**/*.mp4
-content/podcast/library/**/*.mov
-content/podcast/library/**/*.zip
-content/podcast/library/**/*.llc
-content/podcast/library/**/*.pdf
+# Post-Phase-9.5: workspace lives at root-level _workspace/ (not content/podcast/library/).
+_workspace/**/*.mp3
+_workspace/**/*.wav
+_workspace/**/*.m4a
+_workspace/**/*.mp4
+_workspace/**/*.mov
+_workspace/**/*.zip
+_workspace/**/*.llc
+_workspace/**/*.pdf
 
 # Transcript working artifacts — raw Speech-to-Text + translator output used
 # during chapter-source authoring. The final cleaned chapters/ + episodes/
 # files are committed; transcripts/ is local-only scratch.
-content/podcast/library/lectures/*/transcripts/
+_workspace/lectures/*/transcripts/
 
 # Sandbox inbox — universal drop zone for raw inputs (MP3, PDF, TurboScribe
 # txt, etc.) before the podcast agent triages them into the right book dir.
 # Nothing inside should ever be committed; only the README documents the
-# contract. See content/podcast/library/_sandbox/README.md.
-content/podcast/library/_sandbox/*
-!content/podcast/library/_sandbox/README.md
+# contract. See _workspace/_sandbox/README.md.
+_workspace/_sandbox/*
+!_workspace/_sandbox/README.md
+
+# Phase 9.5 — per-book workspace at _workspace/books/<slug>/
+# Track orchestrator state + chapters + episode drafts; ignore raw source intake.
+# On case-insensitive macOS APFS, _workspace/Books/ (capital B) and _workspace/books/
+# resolve to the same directory; we list both for case-sensitive filesystems too.
+_workspace/books/*/source*
+_workspace/books/*/*.pdf
+_workspace/books/*/raw/
+_workspace/Books/*/source*
+_workspace/Books/*/*.pdf
+_workspace/Books/*/raw/
 
 # Python bytecode
 **/__pycache__/

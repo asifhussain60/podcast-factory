@@ -122,7 +122,7 @@ def main() -> int:
     parser.add_argument(
         "--book-slug",
         required=True,
-        help="Slug of the already-scaffolded book under content/podcast/library/<cat>/<slug>/.",
+        help="Slug of the already-scaffolded book under _workspace/<cat>/<slug>/.",
     )
     parser.add_argument(
         "--category",

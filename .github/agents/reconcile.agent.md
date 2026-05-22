@@ -98,7 +98,7 @@ python3 -c "import ast; [ast.parse(open(p).read()) for p in [
 ]]; print('python OK')"
 
 # Existing artefacts still build (regression baseline)
-python3 scripts/podcast/build_episode_txt.py content/podcast/library/books/ayyuhal-walad EP01-frame-and-first-counsel
+python3 scripts/podcast/build_episode_txt.py _workspace/books/ayyuhal-walad EP01-frame-and-first-counsel
 
 # Architecture HTML SVGs still parse as XML
 python3 -c "

@@ -50,7 +50,7 @@ EXIT CODES
   2   — runtime error during a phase (state.json carries the details)
   3   — halted at LLM-authoring boundary; manual --resume after /podcast
 
-DOES NOT MODIFY anything outside `content/podcast/library/<category>/<slug>/`
+DOES NOT MODIFY anything outside `_workspace/<category>/<slug>/`
 and `_workspace/Books/`. Git operations are limited to the active book
 branch; never pushes to main; never force-pushes.
 """

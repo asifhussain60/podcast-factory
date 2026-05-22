@@ -17,20 +17,20 @@ CHAPTER REF RESOLUTION
   1. Literal path (absolute or repo-relative) → used as-is.
   2. `<book-slug>/<ref>` shorthand → resolves within that book only.
   3. Bare `<ref>` → searches every
-     content/podcast/library/*/*/chapters/<ref>.txt. If more than one book
+     _workspace/*/*/chapters/<ref>.txt. If more than one book
      owns the same chapter slug, the script refuses with a disambiguation
      error rather than silently picking the alphabetically-first match.
 
 CONTRACT RESOLUTION
 
   1. --contract <path> (explicit)
-  2. content/podcast/library/<category>/<book-slug>/chapter-contracts/<chapter-slug>.yml
+  2. _workspace/<category>/<book-slug>/chapter-contracts/<chapter-slug>.yml
   3. Falls back to a generated stub at the location above, with [TODO] markers.
 
 OUTPUT (per contract.source_type)
 
-  book-chapter:  content/podcast/library/books/<book_slug>/...
-  article:       content/podcast/library/articles/<book_slug>/...
+  book-chapter:  _workspace/books/<book_slug>/...
+  article:       _workspace/articles/<book_slug>/...
 
   ├── chapters/ch##-<slug>.txt                       (chapter copy; SOURCE upload; THE refinement target)
   ├── _system/episode-drafts/EP##-<slug>/
@@ -291,7 +291,7 @@ def resolve_chapter_ref(ref: str) -> ResolvedChapter:
         literal = (REPO_ROOT / ref).resolve()
     if literal.exists() and literal.is_file():
         assert_boundary_safe(literal)
-        # Determine bucket from path (expected: content/podcast/library/<category>/<book>/chapters/<file>.txt)
+        # Determine bucket from path (expected: _workspace/<category>/<book>/chapters/<file>.txt)
         try:
             rel = literal.relative_to(CONTENT_DIR)
             parts = rel.parts
@@ -543,7 +543,7 @@ def validate_contract(c: Contract, chapter: ResolvedChapter) -> None:
         if actual_category != expected_category:
             sys.exit(
                 f"ERROR: contract.source_type {source_type!r} requires the chapter to live\n"
-                f"  under content/podcast/library/{expected_category}/<book-slug>/, but the\n"
+                f"  under _workspace/{expected_category}/<book-slug>/, but the\n"
                 f"  chapter resolved to a path under .../library/{actual_category}/.\n"
                 f"    Chapter: {chapter.path}\n"
                 f"  Fix: either move the chapter to the {expected_category}/ category, or\n"
@@ -1002,7 +1002,7 @@ def emit_bundle(chapter: ResolvedChapter, c: Contract, force: bool) -> None:
     # ancestor) would emit files in the wrong place; better to fail loud here.
     if bucket_root.parent.parent.name != "library":
         sys.exit(
-            f"ERROR: resolved chapter is not under content/podcast/library/<category>/<book>/.\n"
+            f"ERROR: resolved chapter is not under _workspace/<category>/<book>/.\n"
             f"  bucket_root={bucket_root}\n"
             f"  This usually means a legacy path resolution was used. Re-run with a\n"
             f"  chapter under the v3.5 library layout."
@@ -1149,7 +1149,7 @@ def main() -> None:
     )
     ap.add_argument("chapter_ref", help="Chapter path, slug, or basename (e.g. ch01-man).")
     ap.add_argument("--contract", type=Path, default=None,
-                    help="Explicit contract file. Default: content/podcast/library/<category>/<book>/chapter-contracts/<slug>.yml")
+                    help="Explicit contract file. Default: _workspace/<category>/<book>/chapter-contracts/<slug>.yml")
     ap.add_argument("--force", action="store_true",
                     help="Overwrite existing bundle files even if they differ.")
     args = ap.parse_args()

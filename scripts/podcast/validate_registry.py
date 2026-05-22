@@ -2,7 +2,7 @@
 """validate_registry.py — deterministic checks for per-book podcast registries.
 
 Each book carries its own registry at
-    content/podcast/library/<category>/<book-slug>/_system/registry.md
+    _workspace/<category>/<book-slug>/_system/registry.md
 
 The top-level index at content/podcast/.skill/books.md lists every book that
 has a registry. This script discovers all per-book registries via glob and
@@ -184,7 +184,7 @@ def main() -> int:
         if not registries:
             print(
                 "validate_registry: no per-book registries found under "
-                "content/podcast/library/*/*/_system/registry.md",
+                "_workspace/*/*/_system/registry.md",
                 file=sys.stderr,
             )
             return 1

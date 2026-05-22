@@ -171,7 +171,7 @@ def append_books_index_row(category: str, book_slug: str, title: str) -> bool:
     if not BOOKS_INDEX.exists():
         BOOKS_INDEX.write_text(
             "# Podcast Library Index\n\n"
-            "One row per book under `content/podcast/library/<category>/<book-slug>/`.\n\n"
+            "One row per book under `_workspace/<category>/<book-slug>/`.\n\n"
             "| Category | Book Slug | Title | Registry |\n"
             "|---|---|---|---|\n",
             encoding="utf-8",

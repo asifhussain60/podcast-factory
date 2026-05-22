@@ -66,7 +66,7 @@ The heartbeat schema (P7.1) includes a `hostname` field. The mutation API (P12) 
 
 ## State directory location
 
-All per-book state lives under `content/podcast/library/<category>/<book-slug>/_system/` on the primary Mac's local filesystem. NOT iCloud (sync conflicts), NOT shared git (binary churn).
+All per-book state lives under `_workspace/<category>/<book-slug>/_system/` on the primary Mac's local filesystem. NOT iCloud (sync conflicts), NOT shared git (binary churn).
 
 The source PDFs CAN live in iCloud (e.g., `~/Library/Mobile Documents/com~apple~CloudDocs/Books/`) since they're read-once at Phase 04-ocr-translate; the OCR'd text + all downstream artifacts are local to the primary.
 
@@ -80,7 +80,7 @@ The source PDFs CAN live in iCloud (e.g., `~/Library/Mobile Documents/com~apple~
 1. Stop the launchd agent on the current primary: `launchctl unload ~/Library/LaunchAgents/com.journal.podcast-w1.plist`
 2. Verify no in-flight runs: `python3 scripts/podcast/orchestrator_status.py --all --json | jq '[.books[] | select(.phase_status=="running")] | length'` → must return 0.
 3. Migrate Keychain entries (`infra/azure/store-keychain-keys.sh`) on the new primary.
-4. Migrate `content/podcast/library/books/` directory on the new primary (`rsync -av --partial`).
+4. Migrate `_workspace/books/` directory on the new primary (`rsync -av --partial`).
 5. Update `_workspace/plan/podcast-plan.yaml` `meta.primary_mac` doc reference (this file).
 6. Install + load the launchd agent on the new primary.
 7. Update `~/.ssh/config` on secondaries to point at the new primary's hostname.
