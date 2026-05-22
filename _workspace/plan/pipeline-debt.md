@@ -123,6 +123,7 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 | F26 | `name-aliases.yml` schema is too thin — only `canonical` + `first_mention` + `aliases[]`; needs to absorb `original_arabic`, `transliteration`, `written_display`, `role_in_argument`, `forbidden_spoken_forms[]` per figure; Phase 0d should auto-emit the richer schema (Tier 3 backlog) | 2026-05-21 (Asif recommendation doc — F23 schema integration) | Medium | Open | — |
 | F27 | TTS-safe audit is currently a manual checklist (audit-checklist.md); must become a code-side validator suite in `build_episode_txt.py` to satisfy M1 (LLM ignores prompt-only rules); validators needed: `assert_no_arabic_transliteration_in_chapter_or_framing`, `assert_alqaab_only_established_or_paraphrased`, `assert_show_notes_has_apparatus_table`, `assert_framing_no_modern_artifacts`, `assert_framing_analogy_cap_strict`, `assert_framing_honorific_bounded_both_sides` | 2026-05-21 (synthesis of v3 audit + recommendation doc) | **High** | Open (this is the Tier 2.5 validator burst, now formalized) | — |
 | F28 | Backward-compat decision needed for already-shipped episodes (EP04, 06, 07, 08, 09, 10, 12, 14, 15) once F20+F21+F24+F25 doctrine is locked; options: (a) re-emit all under new doctrine (~6.5 hrs), (b) grandfather them as v1-quality (cost: inconsistency across series); KaR-specific but template-setting for all future books | 2026-05-21 (synthesis of recommendation doc adoption sequence) | Medium | Open (decision needed) | — |
+| F29 | Arabic surah names still spoken in audio because chapter prose contains them; TTS mangles them ("Qaf" → "cough" in v4-revised audio; "al-Shams" and "al-Ahzab" also surfaced); same root cause as F20 (Arabic vocabulary in chapter prose leaks to audio); fix: chapter rewrite step replaces surah names with English meanings ("the chapter on the sun," "the chapter on the confederates") OR drops surah name entirely in favor of leading with content | 2026-05-21 (KaR Ch07 v4-revised audio audit) | **High** | Open | — |
 
 ---
 
@@ -614,6 +615,35 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 **Decision needed.** This is template-setting — what we do for KaR shapes what we do for every book that ships pre-v4 doctrine.
 
 **Asif to decide.** No verification step until decision is made.
+
+---
+
+### F29 — Arabic surah names leak to audio; TTS mangles them
+
+**Where:** Chapter prose at Phase 0e enrichment. Chapter sources contain Quranic verse citations with Arabic surah names: "the chapter al-Shams," "the chapter al-Ahzab," "the chapter Qaf." Framing instructs to use English meanings; chapter prose contains the Arabic. Model follows the source.
+
+**What goes wrong:** TTS mangles Arabic surah names. Empirically observed in KaR Ch07 v4-revised audio (2026-05-21):
+- "Qaf" → spoken as "cough" (the English noun for a respiratory expulsion). Comedic and theologically catastrophic.
+- "al-Shams" → spoken with Arabic phonemes; audible but TTS-unstable across renderings.
+- "al-Ahzab" → spoken as "al-azab" (truncated/mangled).
+
+This is the same M1 + F20 pattern: framing rule ignored because chapter source forces it. The framing said use English meanings; the model used what was in the chapter.
+
+**Editorial fix:** Phase 0e prompt patch — REWRITE Quranic verse citations in chapter prose to use English surah meanings:
+- al-Shams → "the chapter on the sun"
+- al-Ahzab → "the chapter on the confederates" / "the chapter of the clans"
+- Qaf → "the chapter Qaf" or drop and lead with verse content
+- al-Isra (the night journey) → "the chapter on the night journey"
+- al-Baqarah → "the chapter on the cow"
+
+**Allowed-list of TTS-safe surahs (verified):** None yet. All Arabic surah names are at risk; default doctrine should be "use English meaning."
+
+**Proposed fix paths:**
+1. Phase 0e prompt: enforce English surah meanings; provide a lookup table for the ~30 most-cited surahs in Islamic philosophy.
+2. Validator: `assert_no_arabic_surah_names_in_chapter_or_framing` — regex match against known surah names + Arabic phonetic patterns; fails if any survive.
+3. Per-book artifact: `surah-aliases.yml` mapping Arabic surah name → English meaning per book.
+
+**Verification:** apply prompt patch; v4-revised chapter rewrite removes "al-Shams / al-Ahzab / Qaf"; next audio render shows zero surah-name mangling.
 
 ---
 
