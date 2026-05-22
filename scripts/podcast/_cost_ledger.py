@@ -101,7 +101,10 @@ def compute_cost_usd(
 
 
 def _now_iso() -> str:
-    return _dt.datetime.now(_dt.UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
+    # F6 fix (2026-05-21): datetime.UTC is Python 3.11+. Use timezone.utc for
+    # Python 3.9 / 3.10 compatibility (Air session runs 3.9). The two are
+    # equivalent under the hood; UTC was added as an alias in 3.11.
+    return _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def append_cost_row(

@@ -4,9 +4,9 @@
   "category": "books",
   "branch": "book/kitab-al-riyad",
   "phase": "per-chapter",
-  "phase_status": "halted",
-  "last_completed_phase": "0e",
-  "next_phase": "per-chapter",
+  "phase_status": "halted_by_operator",
+  "last_completed_phase": "trainer",
+  "next_phase": "merge",
   "last_error": null,
   "phases": {
     "pre-flight": {
@@ -58,22 +58,29 @@
       "series_plan_path": "content/podcast/library/books/kitab-al-riyad/_system/series-plan.md"
     },
     "0g": {
-      "status": "pending"
+      "status": "completed",
+      "ts_started": "2026-05-22T03:52:44Z",
+      "ts_completed": "2026-05-22T03:52:44Z"
     },
     "per-chapter": {
-      "status": "halted",
+      "status": "halted_by_operator",
       "completed_slugs": [
         "motion-stillness-hyle-and-form"
       ],
-      "reset_note": "Bug X5 (2026-05-21): chapter files contained inline phonetic-style parens (*term* (lowercase-hyphenated; gloss)) — R-PHONETICS-OUT violations per spec. Deterministic strip applied across all 14 chapters (157 parens total stripped). Phonetics already in customize prompts via Phase 0c pronunciation block — no semantic loss. motion-stillness still in completed_slugs.",
-      "ts_started": "2026-05-21T11:24:27Z",
-      "ts_completed": "2026-05-21T13:06:18Z"
+      "halt_reason": "Asif decision 2026-05-22: switch from LLM-driven re-emit to archetype-driven manual finish. EP10 ship-with-caution after fixer pass; 3 P1s (N3-a, N3-b, A4) deferred to human author pass. Pipeline cost-bleed avoided on remaining 12 chapters; archetype distillation begins.",
+      "halt_ts": "2026-05-22T10:35:00Z",
+      "ts_started": "2026-05-22T09:31:23Z",
+      "ts_completed": null
     },
     "trainer": {
-      "status": "pending"
+      "status": "pending",
+      "ts_started": "2026-05-22T03:52:44Z",
+      "ts_completed": "2026-05-22T03:54:58Z"
     },
     "merge": {
-      "status": "pending"
+      "status": "pending",
+      "ts_started": "2026-05-22T03:54:58Z",
+      "ts_completed": "2026-05-22T03:54:58Z"
     },
     "done": {
       "status": "pending"
@@ -85,7 +92,12 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-05-18T22:51:13Z",
-  "ts_updated": "2026-05-21T13:06:18Z",
+  "ts_updated": "2026-05-22T10:19:33Z",
   "challenger_version": "2.0",
-  "orchestrator_version": "1.1"
+  "orchestrator_version": "1.1",
+  "reset_for_reemit": {
+    "reason": "Phase 6 of Asif 10-phase plan: re-emit all 13 KaR chapters under v4-revised doctrine after F27 validators + _authoring.py propagation",
+    "ts": "2026-05-22T09:30:32Z",
+    "authorized_by": "Asif via AskUserQuestion confirmation 2026-05-22"
+  }
 }

@@ -25,7 +25,7 @@ contract + chapter file before resuming.
 
 | # | Slug | Essential? | Why |
 |---|---|---|---|
-| 1 | `the-four-da-is-and-the-debate` | **optional** | Editor's introduction by Aref Tamer (1958) — sets up who the four da'is are and frames the al-Islah/al-Nusra dispute. Useful pedagogical scaffolding for newcomers; experienced listeners can skip straight to Episode 3 without losing the doctrinal thread. |
+| — | — | — | _(none flagged as optional after 2026-05-21 drop of `the-four-da-is-and-the-debate` — editor's-introduction chapter, no al-Kirmani content)_ |
 
 ### Episode list
 
@@ -39,7 +39,6 @@ Columns:
 
 | # | Title | Words | Tier | Format | Essential | Upload (NotebookLM source) | Customize | Length cue | Hosts |
 |---|---|---|---|---|---|---|---|---|---|
-| 1 | The Four Da'is and the Debate | 6940 | longer | **deep_dive** | optional | `chapters/ch01a-the-four-da-is-and-the-debate.txt` | `episodes/EP01-the-four-da-is-and-the-debate.txt` (TBD post-0g) | "target a 45–60 minute conversation" | Mentor + Scholar Companion |
 | 3 | The Perfect and the Perfection of the Soul | 6729 | extended | **deep_dive** | core | `chapters/ch03a-the-perfect-and-the-perfection-of-the-soul.txt` | `episodes/EP03-the-perfect-and-the-perfection-of-the-soul.txt` (TBD post-0g) | "target a 30–45 minute conversation" | Mentor + Scholar Companion |
 | 4 | Soul, Intellect, and the Power of Emanation | 8223 | extended | **debate** | core | `chapters/ch04b-soul-intellect-and-the-power-of-emanation.txt` | `episodes/EP04-soul-intellect-and-the-power-of-emanation.txt` (TBD post-0g) | "target a 30–45 minute conversation" | Advocate A + Advocate B + Arbiter |
 | 5 | The Soul in Time and the Rejoinder to al-Nusra | 9390 | extended | **debate** | core | `chapters/ch05c-the-soul-in-time-and-the-rejoinder-to-al-nusra.txt` | `episodes/EP05-the-soul-in-time-and-the-rejoinder-to-al-nusra.txt` (TBD post-0g) | "target a 30–45 minute conversation" | Advocate A + Advocate B + Arbiter |
@@ -58,7 +57,7 @@ Columns:
 
 | source chapter | source title | episode(s) | split reason |
 |---|---|---|---|
-| 1 | Editor's Introduction (Aref Tamer) | ch01a-the-four-da-is-and-the-debate.txt, ch02b-the-structure-of-al-riyad-and-the-manuscript.txt | 13026 words ~1.4x band upper (9500) and ~1.74x midpoint (7500); natural seam between the four-da'is/biographies block and the chapter-by-chapter contents-and-manuscript block yields ~6708/~6318 words, both inside band and within 7% of each other |
+| ~~1~~ | ~~Editor's Introduction (Aref Tamer)~~ | _(dropped 2026-05-21 — both ch01a + ch02b were editor's-introduction content, not al-Kirmani's prose)_ | n/a — dropped |
 | 2 | Chapter 1: On the Perfection of the Soul (38 sub-chapters) | ch03a-the-perfect-and-the-perfection-of-the-soul.txt, ch04b-soul-intellect-and-the-power-of-emanation.txt, ch05c-the-soul-in-time-and-the-rejoinder-to-al-nusra.txt | 23417 source words ~2.46x band upper bound (9500); split into three Extended episodes at sub-chapter 10 / sub-chapter 23 seams where dialectical movement turns — ep3 covers damaged-folio preamble + author's preface + book structure + sub-chapters 1–10 (6005 words, foundational formula); ep4 covers sub-chapters 11–23 (7753 words, middle movement built on Two Weighty Things hadith + dolphins-of-Oman beat); ep5 covers sub-chapters 24–38 + closing prayer (8335 words, sensual/speaking/Successor-soul triple distinction + closing prayer); all three inside Extended band (5500–9500), ratio of extremes 1.39x within the ~30% spread directive. |
 | 3 | Chapter 2: On the Intellect, the First Creation (9 sub-chapters) | ch06-the-intellect-as-the-first-creation.txt | 3624 source words sits just below band floor (5500); cannot meaningfully split a 9-sub-chapter unit whose argument is a single continuous correction; enriched with placed inline material from al-Kirmani's *Rahat al-'Aql* and the Q 17:31 / Q 4:6 anchors al-Kirmani himself cites in sub-chapter seven; lands at 6483 words, comfortably inside Extended band |
 | 4 | Chapter 3: Are the Soul and the Spirit One? (6 sub-chapters) | ch07-soul-and-spirit-one-substance-or-two.txt | 2695 source words sits well below band floor (5500); cannot meaningfully split a 6-sub-chapter unit whose argument is a single continuous adjudication of whether the Second and *al-Hayuli* are similar to the First; enriched with placed inline material from al-Kirmani's *Rahat al-'Aql* (Tier 1 cosmology of the seven seas and *dar al-Ibda'*/*dar al-Inbi'ath*), Imam al-Mu'izz li-Din Allah's *Ta'wil al-Shari'a* (Tier 5 Ismaili Tawhid framing), the Quranic anchors Q 33:72 (the trust) and Q 17:85 (the spirit as *amr*) that the *da'wa* tradition supplies when the chapter title asks about Soul and spirit, and one Imam Ali (peace be upon him) aphorism on the intellect as messenger; lands at 6642 words, comfortably mid-Extended band, source-spine ~41% (just under the 60% enrichment cap) |
@@ -83,7 +82,6 @@ faithful_exposition
 ### Host dynamic (AI-selected per chapter)
 | Chapter | Host dynamic | Rationale |
 |---|---|---|
-| `the-four-da-is-and-the-debate` | curious_mind + scholar_companion | Mentor walks the listener through who the four da'is are and what the dispute is about; Scholar Companion asks the questions a newcomer would ask. No named debate happens yet — the editor is setting up the stage for what's to come. |
 | `the-perfect-and-the-perfection-of-the-soul` | curious_mind + scholar_companion |  |
 | `soul-intellect-and-the-power-of-emanation` | advocate_a + advocate_b + arbiter |  |
 | `the-soul-in-time-and-the-rejoinder-to-al-nusra` | advocate_a + advocate_b + arbiter |  |
@@ -139,3 +137,78 @@ the desired `length_target`, then re-invoke `--resume`.
 If you want to change unit mode (chapter ↔ section ↔ auto), reset Phase 0d:
   `python3 scripts/podcast/orchestrate_book.py --resume kitab-al-riyad --retry-phase 0d`
 (then edit `_system/orchestrator-state.json` `config.unit_mode` before resuming)
+
+---
+
+## Episode renumber checklist (post-queue-quiesce)
+
+After the orchestrator finishes the current per-chapter queue (all 13 chapters
+shipped), execute this checklist to renumber the listener-facing episode IDs
+to sequential EP01–EP13. Chapter filenames stay unchanged (preserve source-
+baab provenance via the letter-suffix encoding); only the listener-facing
+episode IDs change.
+
+**Pre-condition:** orchestrator is quiesced. State.json shows phase=`per-chapter`,
+phase_status=`pending` or `halted`, `completed_slugs` includes all 13 KaR slugs.
+
+**Mapping (chapter slug → target sequential episode ID):**
+
+| # | Chapter slug | Current EP## | Target EP## |
+|---|---|---|---|
+| 1 | the-perfect-and-the-perfection-of-the-soul | EP03 | **EP01** |
+| 2 | soul-intellect-and-the-power-of-emanation | EP04 | **EP02** |
+| 3 | the-soul-in-time-and-the-rejoinder-to-al-nusra | EP05 | **EP03** |
+| 4 | the-intellect-as-the-first-creation | EP06 | **EP04** |
+| 5 | soul-and-spirit-one-substance-or-two | EP07 | **EP05** |
+| 6 | souls-as-parts-or-traces | EP08 | **EP06** |
+| 7 | the-human-as-fruit-of-the-worlds | EP09 | **EP07** |
+| 8 | motion-stillness-hyle-and-form | EP10 | **EP08** |
+| 9 | the-sections-of-the-world | EP11 | **EP09** |
+| 10 | qada-and-qadar-fate-and-destiny | EP12 | **EP10** |
+| 11 | the-shariah-of-adam-and-the-first-speaker | EP13 | **EP11** |
+| 12 | prophets-as-teachers-monotheism-and-the-ranks | EP14 | **EP12** |
+| 13 | tawhid-and-the-critique-of-al-mahsul | EP15 | **EP13** |
+
+**Steps:**
+
+1. **Update each chapter contract** under `chapter-contracts/` — set
+   `episode_number:` to the target sequential ID (1..13) per the table above.
+   This is the source-of-truth field; framework patch F12 (queued in pipeline-debt)
+   teaches the orchestrator to read this field instead of deriving from filename.
+2. **Apply F12 patch** if not yet shipped — modify `orchestrate_book.py:per_chapter_pass()`
+   and `_authoring.py:author_framing()` to use `contract.episode_number` for
+   episode_id formation instead of regex-extracting digits from the chapter
+   filename's `ch##` prefix.
+3. **Rename shipped episode files** in `episodes/` — six files currently
+   exist (EP04, EP07, EP08, EP10, EP12, EP14) and need their filenames
+   updated per the mapping. The contents of each file already reference the
+   correct slug; only the filename changes:
+   - `episodes/EP04-soul-intellect-and-the-power-of-emanation.txt` → `EP02-…`
+   - `episodes/EP07-soul-and-spirit-one-substance-or-two.txt` → `EP05-…`
+   - `episodes/EP08-souls-as-parts-or-traces.txt` → `EP06-…`
+   - `episodes/EP10-motion-stillness-hyle-and-form.txt` → `EP08-…`
+   - `episodes/EP12-qada-and-qadar-fate-and-destiny.txt` → `EP10-…`
+   - `episodes/EP14-prophets-as-teachers-monotheism-and-the-ranks.txt` → `EP12-…`
+4. **Rename episode-draft directories** in `_system/episode-drafts/` —
+   same pattern as the episodes/ rename. The framings inside reference
+   chapter slugs (not EP##), so internal content stays valid.
+5. **Update series-plan internal references** above (e.g., this file's
+   §"Episode list" customize-prompt-path column lists `episodes/EP##-…`
+   paths; update each row to the new EP##).
+6. **Update state.json** — the `completed_slugs` field uses chapter slugs
+   (not EP##), so it's already correct. No state.json edits needed.
+7. **Commit** as a single coord rename commit:
+   `podcast(kar): renumber episode IDs to sequential EP01-EP13 per F12 (chapter
+   filenames preserved with source-baab provenance)`.
+8. **Smoke-test** by re-running the validator on one renumbered episode:
+   `python3 scripts/podcast/build_episode_txt.py content/podcast/library/books/kitab-al-riyad EP01-the-perfect-and-the-perfection-of-the-soul`.
+
+**Why now and not earlier:** renaming files while the orchestrator is writing
+to `_system/orchestrator-state.json` and `episode-drafts/EP##/00-framing.md`
+would race with active writes. The post-quiesce window (after all 13 chapters
+have shipped, before merge-to-develop) is the right surgical moment.
+
+**Reversal:** if the rename causes any regression, `git revert` the rename
+commit. Chapter filenames were never changed, so the source pipeline data
+remains intact. Episode files revert to their EP## numbering tied to
+chapter-filename digits.

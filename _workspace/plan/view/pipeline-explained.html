@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How the Podcast Pipeline Works</title>
+<style>
+  :root {
+    /* Dark professional theme — slate-950 page, slate-800 cards, slate-700 borders.
+       Status colors brightened slightly for legibility on dark; "_soft" callouts
+       become dark-tinted backgrounds, "_deep" emphasis colors become light tints. */
+    --green: #22c55e;
+    --green-soft: #052e16;
+    --green-deep: #4ade80;
+    --amber: #f59e0b;
+    --amber-soft: #2a1c05;
+    --amber-deep: #fbbf24;
+    --red: #ef4444;
+    --red-soft: #450a0a;
+    --gray: #64748b;
+    --gray-soft: #1f2937;
+    --gray-line: #334155;
+    --indigo: #818cf8;
+    --indigo-soft: #1e1b4b;
+    --text: #f1f5f9;
+    --text-muted: #94a3b8;
+    --text-faint: #64748b;
+    --bg: #0f172a;
+    --card: #1e293b;
+    --border: #334155;
+  }
+
+  /* Sync the browser's native UI (scrollbars, form controls) to dark */
+  html { color-scheme: dark; }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 32px 24px 64px;
+  }
+
+  h1, h2, h3, h4 { letter-spacing: -0.01em; }
+
+  h2 {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 18px;
+    letter-spacing: -0.015em;
+  }
+
+  h3 { font-size: 16px; font-weight: 600; margin: 0 0 10px; }
+  h4 { font-size: 14px; font-weight: 600; margin: 0 0 8px; color: var(--text); }
+
+  p { margin: 0 0 12px; }
+
+  section { margin-bottom: 56px; }
+
+  a { color: var(--indigo); }
+
+  code {
+    background: var(--gray-soft);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 36px 40px;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset, 0 1px 3px rgba(0,0,0,0.3);
+  }
+
+  .hero-eyebrow {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin: 0 0 12px;
+  }
+
+  .hero-headline {
+    font-size: 34px;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+    margin: 0 0 18px;
+  }
+
+  .hero-subhead {
+    font-size: 16px;
+    color: var(--text);
+    line-height: 1.6;
+    margin: 0 0 20px;
+    max-width: 760px;
+  }
+
+  .hero-note {
+    font-size: 13px;
+    color: var(--text-muted);
+    background: var(--gray-soft);
+    padding: 12px 16px;
+    border-radius: 8px;
+    border-left: 3px solid var(--indigo);
+    line-height: 1.55;
+    max-width: 820px;
+  }
+
+  .hero-back {
+    margin-top: 22px;
+    font-size: 13px;
+  }
+  .hero-back a {
+    text-decoration: none;
+    color: var(--indigo);
+    background: var(--indigo-soft);
+    padding: 5px 12px;
+    border-radius: 999px;
+    border: 1px solid #3730a3;
+    font-weight: 500;
+  }
+
+  /* ---------- TIMELINE ---------- */
+  .timeline-wrap {
+    position: relative;
+    padding-left: 80px;
+  }
+
+  .timeline-spine {
+    position: absolute;
+    left: 32px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: var(--gray-line);
+  }
+
+  .phase-row {
+    position: relative;
+    margin-bottom: 28px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset, 0 1px 3px rgba(0,0,0,0.3);
+  }
+
+  .phase-badge {
+    position: absolute;
+    left: -80px;
+    top: 24px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    border: 3px solid var(--card);
+    box-shadow: 0 0 0 2px var(--gray-line);
+    background: var(--gray-soft);
+    color: var(--text);
+    z-index: 1;
+  }
+  .phase-badge .phase-num {
+    font-size: 17px;
+    line-height: 1;
+  }
+  .phase-badge .phase-tag {
+    font-size: 9px;
+    margin-top: 3px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .phase-badge.done {
+    background: var(--green-soft);
+    color: var(--green-deep);
+    box-shadow: 0 0 0 2px var(--green);
+  }
+  .phase-badge.flight {
+    background: var(--amber-soft);
+    color: var(--amber-deep);
+    box-shadow: 0 0 0 2px var(--amber);
+  }
+  .phase-badge.queued {
+    background: var(--gray-soft);
+    color: var(--text-muted);
+    box-shadow: 0 0 0 2px var(--gray);
+  }
+
+  .phase-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+
+  .phase-title-block {
+    flex: 1;
+    min-width: 280px;
+  }
+
+  .phase-title {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    line-height: 1.3;
+    margin: 0 0 8px;
+  }
+
+  .phase-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-muted);
+    background: var(--gray-soft);
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-right: 6px;
+  }
+  .phase-chip svg { width: 12px; height: 12px; }
+
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 5px 12px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .status-pill.done {
+    background: var(--green-soft);
+    color: var(--green-deep);
+  }
+  .status-pill.flight {
+    background: var(--amber-soft);
+    color: var(--amber-deep);
+  }
+  .status-pill.queued {
+    background: var(--gray-soft);
+    color: var(--text-muted);
+  }
+  .status-pill .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+  }
+  .status-pill.done .dot { background: var(--green); }
+  .status-pill.flight .dot { background: var(--amber); }
+  .status-pill.queued .dot { background: var(--gray); }
+
+  .phase-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin-top: 18px;
+  }
+
+  .col-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .col-label.kar { color: var(--indigo); border-bottom-color: #3730a3; }
+
+  .phase-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text);
+    margin: 0 0 14px;
+  }
+
+  .io-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 13px;
+  }
+  .io-table th, .io-table td {
+    text-align: left;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .io-table th {
+    background: var(--gray-soft);
+    font-weight: 600;
+    color: var(--text-muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    width: 38%;
+  }
+
+  /* ---------- PASSAGE TRACE (running-example thread through phases) ---------- */
+  .passage-trace {
+    margin-top: 20px;
+    padding: 14px 16px;
+    background: rgba(129, 140, 248, 0.06); /* faint indigo wash on dark */
+    border: 1px solid var(--gray-line);
+    border-left: 3px solid var(--indigo);
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .passage-trace-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--indigo);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 10px;
+  }
+  .passage-trace-content {
+    color: var(--text-muted);
+  }
+  .trace-caption {
+    font-size: 12px;
+    color: var(--text-faint);
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+  .trace-quote {
+    margin: 0 0 8px;
+    padding: 10px 12px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: ui-serif, Georgia, "Times New Roman", serif;
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+  .trace-quote.raw {
+    color: var(--text-muted);
+    font-style: italic;
+    border-left: 3px solid var(--amber);
+  }
+  .trace-quote.refined {
+    border-left: 3px solid var(--green);
+  }
+  .trace-quote.framing {
+    border-left: 3px solid var(--indigo);
+    font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    font-size: 13px;
+    font-style: normal;
+  }
+  .trace-source {
+    font-size: 11px;
+    color: var(--text-faint);
+    margin-top: 4px;
+  }
+  .trace-source code {
+    background: var(--gray-soft);
+    color: var(--text-muted);
+  }
+  .trace-future {
+    color: var(--text-muted);
+    font-size: 13px;
+    line-height: 1.6;
+    padding: 10px 12px;
+    background: var(--card);
+    border: 1px dashed var(--border);
+    border-radius: 6px;
+  }
+  .trace-phonetics, .trace-series-row {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 4px 0;
+    font-size: 12.5px;
+  }
+  .trace-phonetics th, .trace-phonetics td,
+  .trace-series-row th, .trace-series-row td {
+    padding: 6px 10px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .trace-phonetics th, .trace-series-row th {
+    color: var(--text-faint);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .trace-phonetics tr:last-child td,
+  .trace-series-row tr:last-child td {
+    border-bottom: none;
+  }
+
+  /* ---------- SECTION 2 (Phase 0g detail) ---------- */
+  .substep-flow {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 16px 0 24px;
+  }
+  .substep {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 16px 18px;
+    position: relative;
+  }
+  .substep-num {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--indigo);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+  .substep-title {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .substep-text {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin: 0;
+  }
+  .substep-arrow {
+    display: none;
+  }
+
+  .converge-note {
+    background: var(--amber-soft);
+    border: 1px solid var(--amber);
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--amber-deep);
+  }
+  .converge-note strong { color: var(--amber-deep); }
+
+  /* ---------- SECTION 3 (hosts) ---------- */
+  .host-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 14px 0 22px;
+  }
+  .host-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+  }
+  .host-card h4 {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+  .host-card.driver h4 { color: var(--indigo); }
+  .host-card.color h4 { color: var(--green-deep); }
+  .host-card p {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  .persona-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 12px 0;
+  }
+  .persona-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+  }
+  .persona-card.active {
+    border-color: var(--green);
+    background: var(--green-soft);
+  }
+  .persona-name {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .persona-desc {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    line-height: 1.45;
+    margin: 0;
+  }
+  .persona-card.active .persona-desc { color: var(--green-deep); }
+  .persona-card.active .persona-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--green-deep);
+    background: white;
+    padding: 2px 7px;
+    border-radius: 999px;
+    margin-top: 8px;
+  }
+
+  .tier-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .tier-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 13.5px;
+  }
+  .tier-card strong { display: block; margin-bottom: 4px; }
+  .tier-card.active {
+    border-color: var(--green);
+    background: var(--green-soft);
+    color: var(--green-deep);
+  }
+
+  /* ---------- SECTION 4 (pronunciation) ---------- */
+  .pronounce-flow {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    gap: 0;
+    align-items: stretch;
+    margin: 16px 0 22px;
+  }
+  .pronounce-step {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .pronounce-step .step-num {
+    font-size: 11px;
+    color: var(--indigo);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+  .pronounce-step h4 { margin-bottom: 8px; font-size: 14px; }
+  .pronounce-step p { font-size: 13px; line-height: 1.5; color: var(--text-muted); margin: 0; }
+  .pronounce-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    color: var(--gray);
+    font-weight: 700;
+    font-size: 18px;
+  }
+
+  .callout {
+    background: var(--indigo-soft);
+    border: 1px solid #3730a3;
+    border-left: 4px solid var(--indigo);
+    border-radius: 8px;
+    padding: 18px 22px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .callout h4 {
+    color: var(--indigo);
+    margin: 0 0 10px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .callout code {
+    background: white;
+    border: 1px solid #3730a3;
+  }
+
+  /* ---------- SECTION 5 (rules table) ---------- */
+  table.rules {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    font-size: 13.5px;
+  }
+  table.rules th, table.rules td {
+    text-align: left;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  table.rules th {
+    background: var(--gray-soft);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+  table.rules tr:last-child td { border-bottom: none; }
+  table.rules td:first-child {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text);
+    white-space: nowrap;
+    width: 22%;
+  }
+  table.rules td:nth-child(3) {
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  .rules-note {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 14px;
+    line-height: 1.55;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    margin-top: 64px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border);
+    font-size: 12.5px;
+    color: var(--text-muted);
+  }
+  footer .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-bottom: 10px;
+  }
+  footer strong { color: var(--text); font-weight: 600; }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 900px) {
+    .phase-columns { grid-template-columns: 1fr; gap: 18px; }
+    .substep-flow { grid-template-columns: 1fr 1fr; }
+    .persona-grid { grid-template-columns: 1fr 1fr; }
+    .pronounce-flow { grid-template-columns: 1fr; }
+    .pronounce-arrow { padding: 6px 0; transform: rotate(90deg); }
+    .host-grid { grid-template-columns: 1fr; }
+    .tier-row { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .container { padding: 16px; }
+    .hero { padding: 24px 22px; }
+    .hero-headline { font-size: 24px; }
+    .timeline-wrap { padding-left: 56px; }
+    .timeline-spine { left: 22px; }
+    .phase-badge { left: -56px; width: 44px; height: 44px; }
+    .phase-badge .phase-num { font-size: 14px; }
+    .phase-badge .phase-tag { display: none; }
+    .substep-flow { grid-template-columns: 1fr; }
+    .persona-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <p class="hero-eyebrow">Pipeline Explainer</p>
+    <h1 class="hero-headline">How the pipeline turns a 260-page Arabic book into 14 podcast episodes</h1>
+    <p class="hero-subhead">
+      The pipeline takes a scanned Arabic scholarly book in PDF form and produces a series of NotebookLM-ready
+      audio overview episodes. It does this in nine phases — first preparing the text (OCR, translation, polishing,
+      pronunciation), then designing the episode structure, then authoring each episode through an iterative
+      "challenger and rewrite" quality loop until each one is ready to upload.
+    </p>
+    <div class="hero-note">
+      <strong>Running example:</strong> this page uses Kitab al-Riyad as a concrete illustration. The
+      generic descriptions on the left of each row apply to every book the pipeline processes — Raahat al-Aqal,
+      Kitab Maqbas, Rasail Ikhwan AsSafa, and others queued behind Kitab al-Riyad.
+    </div>
+    <div class="hero-back">
+      <a href="kar-status.html">&larr; Back to Kitab al-Riyad pipeline status</a>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 1: 9 PHASES ============ -->
+  <section>
+    <h2>The 9 phases, end to end</h2>
+    <div class="timeline-wrap">
+      <div class="timeline-spine"></div>
+
+      <!-- Phase 0a -->
+      <div class="phase-row">
+        <div class="phase-badge done">
+          <span class="phase-num">0a</span>
+          <span class="phase-tag">Phase</span>
+        </div>
+        <div class="phase-header">
+          <div class="phase-title-block">
+            <h3 class="phase-title">Ingest the PDF</h3>
+            <span class="phase-chip">
+              <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 1 1 0 13 6.5 6.5 0 0 1 0-13zm0 1a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11zm0 1.5a.75.75 0 0 1 .75.75v3.69l2.53 1.46a.75.75 0 1 1-.75 1.3l-2.9-1.67A.75.75 0 0 1 7.25 8V4.75A.75.75 0 0 1 8 4z"/></svg>
+              about $1-3 &middot; 5-15 min
+            </span>
+          </div>
+          <span class="status-pill done"><span class="dot"></span> Done</span>
+        </div>
+        <div class="phase-columns">
+          <div>
+            <div class="col-label">Generic — every book</div>
+            <p class="phase-text">
+              Take the raw scanned PDF. Use Azure Document Intelligence to OCR the pages into text. If the text is in
+              Arabic (which scholarly Islamic books usually are), use Azure Translator to make a first-pass
+              Arabic-to-English translation. This is the foundation everything else builds on — if the OCR misses
+              words, downstream phases inherit the gap.
+            </p>
+            <table class="io-table">
+              <tr><th>What goes in</th><td>Scanned PDF (typically 80-900 pages)</td></tr>
+              <tr><th>What comes out</th><td>Raw text file (one continuous block, page markers preserved)</td></tr>
+            </table>
+          </div>
+          <div>
+            <div class="col-label kar">Kitab al-Riyad — concrete</div>
+            <p class="phase-text">
+              260-page Arabic manuscript. Azure OCR extracted the full text in about 10 minutes; cost was around $1.50
+              (image-density was modest). Translator pre-translated. Result: a raw text dump that needed substantial
+              refinement in the next phase, but every page marker survived intact.
+            </p>
+            <div class="passage-trace">
+              <div class="passage-trace-label">▼ Following al-Islah's gentler-denser argument at this step</div>
+              <div class="passage-trace-content">
+                <div class="trace-caption">Raw OCR + first-pass machine translation (garbled English; "hyle" mistranslated as "hallucinations"):</div>
+                <blockquote class="trace-quote raw">"And the soul is gentler than the body, and the body is thicker than the soul, and so is movement / Stillness is gentler than the hallucinations and the image, and the hallucinations and the image are more intense than / Movement and stillness, and to represent the gentler in the soul, and the densest in the body..."</blockquote>
+                <div class="trace-source">Source: <code>raw-extract.md</code> line 3468</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 0b -->
+      <div class="phase-row">
+        <div class="phase-badge done">
+          <span class="phase-num">0b</span>
+          <span class="phase-tag">Phase</span>
+        </div>
+        <div class="phase-header">
+          <div class="phase-title-block">
+            <h3 class="phase-title">Refine the English</h3>
+            <span class="phase-chip">
+              <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 1 1 0 13 6.5 6.5 0 0 1 0-13zm0 1a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11zm0 1.5a.75.75 0 0 1 .75.75v3.69l2.53 1.46a.75.75 0 1 1-.75 1.3l-2.9-1.67A.75.75 0 0 1 7.25 8V4.75A.75.75 0 0 1 8 4z"/></svg>
+              about $3-5 &middot; ~95 min
+            </span>
+          </div>
+          <span class="status-pill done"><span class="dot"></span> Done</span>
+        </div>
+        <div class="phase-columns">
+          <div>
+            <div class="col-label">Generic — every book</div>
+            <p class="phase-text">
+              The raw OCR-and-translate output is awkward English with mistranslations, garbled term boundaries, and
+              broken sentence structure. Claude reads it in roughly 3,000-word chunks and rewrites each chunk into
+              polished, faithful English — preserving every page marker so later phases can cite back to the source
+              page. The chunked approach prevents Claude from losing track over long contexts.
+            </p>
+            <table class="io-table">
+              <tr><th>What goes in</th><td>Raw Arabic-to-English first-pass text</td></tr>
+              <tr><th>What comes out</th><td>Refined English manuscript (one per book), page anchors intact</td></tr>
+            </table>
+          </div>
+          <div>
+            <div class="col-label kar">Kitab al-Riyad — concrete</div>
+            <p class="phase-text">
+              Roughly 32 chunked windows, ~3,000 words each. Output: <code>refined-english.md</code> at about 759 KB
+              (about 10,000 lines). A framework bug initially stripped page markers from some windows; that was
+              fixed (P22.markers) and the affected windows re-run.
+            </p>
+            <div class="passage-trace">
+              <div class="passage-trace-label">▼ Following al-Islah's gentler-denser argument at this step</div>
+              <div class="passage-trace-content">
+                <div class="trace-caption">Claude's polished English — "hallucinations" corrected to "hyle"; proportion now reads cleanly:</div>
+                <blockquote class="trace-quote refined">"motion and stillness are like the soul to form and hyle, because form and hyle are like the body to motion and stillness. The soul is gentler than the body, and the body is denser than the soul; likewise motion and stillness are gentler than hyle and form, and hyle and form are denser than motion and stillness."</blockquote>
+                <div class="trace-source">Source: <code>refined-english.md</code> line 1937</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 0c -->
+      <div class="phase-row">
+        <div class="phase-badge done">
+          <span class="phase-num">0c</span>
+          <span class="phase-tag">Phase</span>
+        </div>
+        <div class="phase-header">
+          <div class="phase-title-block">
+            <h3 class="phase-title">Build the Arabic pronunciation guide</h3>
+            <span class="phase-chip">
+              <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 1 1 0 13 6.5 6.5 0 0 1 0-13zm0 1a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11zm0 1.5a.75.75 0 0 1 .75.75v3.69l2.53 1.46a.75.75 0 1 1-.75 1.3l-2.9-1.67A.75.75 0 0 1 7.25 8V4.75A.75.75 0 0 1 8 4z"/></svg>
+              about $5-6 &middot; ~3 hours
+            </span>
+          </div>
+          <span class="status-pill done"><span class="dot"></span> Done</span>
+        </div>
+        <div class="phase-columns">
+          <div>
+            <div class="col-label">Generic — every book</div>
+            <p class="phase-text">
+              Scholarly Islamic books are dense with Arabic terms — names, theological vocabulary, place names.
+              NotebookLM has to read these aloud, and if the pronunciation is wrong the episode sounds amateur.
+              This phase scans the refined English for every Arabic term and authors a phonetic respelling
+              (<code>tawhid &rarr; taw-HEED</code>, <code>al-mukhalif &rarr; al-moo-KHAH-lif</code>). The phonetic
+              file is consulted later by every episode's framing.
+            </p>
+            <table class="io-table">
+              <tr><th>What goes in</th><td>Refined English manuscript</td></tr>
+              <tr><th>What comes out</th><td>Phonetic guide file (<code>_phonetics.md</code>)</td></tr>
+            </table>
+          </div>
+          <div>
+            <div class="col-label kar">Kitab al-Riyad — concrete</div>
+            <p class="phase-text">
+              Hundreds of Arabic terms mapped — Arabic words, Quranic phrases, proper names like al-Kirmani, al-Mahsul,
+              al-Nusra, al-Sadayn, and place names like Dar al-Quds. Each gets a phonetic respelling that NotebookLM's
+              voice synthesis can read naturally without parenthetical stumbles.
+            </p>
+            <div class="passage-trace">
+              <div class="passage-trace-label">▼ Following al-Islah's gentler-denser argument at this step</div>
+              <div class="passage-trace-content">
+                <div class="trace-caption">The Arabic terms in the passage get phonetic respellings NotebookLM can pronounce:</div>
+                <table class="trace-phonetics">
+                  <tr><th>Term</th><th>Phonetic</th></tr>
+                  <tr><td><em>al-Hayula</em></td><td><strong>al-ha-YOO-laa</strong></td></tr>
+                  <tr><td><em>al-Islah</em></td><td><strong>al-is-LAAH</strong></td></tr>
+                  <tr><td><em>al-Nusra</em></td><td><strong>an-NUS-rah</strong></td></tr>
+                  <tr><td><em>tawhid</em></td><td><strong>taw-HEED</strong></td></tr>
+                </table>
+                <div class="trace-source">Source: <code>_phonetics.md</code> (selected entries)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 0d -->
+      <div class="phase-row">
+        <div class="phase-badge done">
+          <span class="phase-num">0d</span>
+          <span class="phase-tag">Phase</span>
+        </div>
+        <div class="phase-header">
+          <div class="phase-title-block">
+            <h3 class="phase-title">Chapter design</h3>
+            <span class="phase-chip">
+              <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 1 1 0 13 6.5 6.5 0 0 1 0-13zm0 1a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11zm0 1.5a.75.75 0 0 1 .75.75v3.69l2.53 1.46a.75.75 0 1 1-.75 1.3l-2.9-1.67A.75.75 0 0 1 7.25 8V4.75A.75.75 0 0 1 8 4z"/></svg>
+              about $4-6 &middot; ~3 hours
+            </span>
+          </div>
+          <span class="status-pill done"><span class="dot"></span> Done</span>
+        </div>
+        <div class="phase-columns">
+          <div>
+            <div class="col-label">Generic — every book</div>
+            <p class="phase-text">
+              Decide how the book becomes episodes. Arabic scholarly books are organized into <em>abwāb</em>
+              (chapters) and <em>fusūl</em> (sub-chapters). Some abwāb are too long for a single 30-45 minute episode
+              and need splitting; some need bundling. This phase reads the structure and writes a "contract" for
+              each future episode — a YAML file declaring audience, angle, host dynamic, central tensions, and 3-4
+              verbatim anchor passages the hosts will discuss. The contract is the blueprint for per-episode
+              authoring later (Phase 0g).
+            </p>
+            <table class="io-table">
+              <tr><th>What goes in</th><td>Refined English manuscript + structural map</td></tr>
+              <tr><th>What comes out</th><td>One chapter-contract YAML per planned episode</td></tr>
+            </table>
+          </div>
+          <div>
+            <div class="col-label kar">Kitab al-Riyad — concrete</div>
+            <p class="phase-text">
+              Source has 10 abwāb. Six were too long for single episodes and got split (resulting in letter-suffix
+              naming — ch01a, ch03a, ch04b, ch05c, ch13a, ch14b indicate sub-episodes of a parent bāb). One bāb was
+              dropped from the episode list (manuscript-history bookkeeping with low listener value). Result:
+              14 episode contracts.
+            </p>
+            <div class="passage-trace">
+              <div class="passage-trace-label">▼ Following al-Islah's gentler-denser argument at this step</div>
+              <div class="passage-trace-content">
+                <div class="trace-caption">The chapter contract picks al-Kirmani's <em>verdict</em> on this argument as an anchor passage the hosts will quote verbatim:</div>
+                <blockquote class="trace-quote">"In this chapter the two of them have strayed far from representation and simile; and between us and the two of them lies a corrupt foundation upon which the proof is built — neither the proverb nor its representation is true."</blockquote>
+                <div class="trace-source">Source: <code>chapter-contracts/motion-stillness-hyle-and-form.yml</code> &rarr; <code>anchor_passages[0]</code></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 0e -->
+      <div class="phase-row">
+        <div class="phase-badge done">
+          <span class="phase-num">0e</span>
+          <span class="phase-tag">Phase</span>
+        </div>
+        <div class="phase-header">
+          <div class="phase-title-block">
+            <h3 class="phase-title">Author the chapter source files</h3>
+            <span class="phase-chip">
+              <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 1 1 0 13 6.5 6.5 0 0 1 0-13zm0 1a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11zm0 1.5a.75.75 0 0 1 .75.75v3.69l2.53 1.46a.75.75 0 1 1-.75 1.3l-2.9-1.67A.75.75 0 0 1 7.25 8V4.75A.75.75 0 0 1 8 4z"/></svg>
+              about $5-8 &middot; ~2 hours 20 min
+            </span>
+          </div>
+          <span class="status-pill done"><span class="dot"></span> Done</span>
+        </div>
+        <div class="phase-columns">
+          <div>
+            <div class="col-label">Generic — every book</div>
+            <p class="phase-text">
+              Each chapter contract gets enriched into a finished chapter source file — the artifact NotebookLM will
+              upload as its primary source. This is the substantive English prose the hosts will discuss.
+              Enrichment means: add scaffolding, anchor passages quoted verbatim, context paragraphs, transition
+              cues. The chapter source is read by NotebookLM but NOT by the hosts directly — instead, it sits in
+              NotebookLM's memory while the hosts converse about it.
+            </p>
+            <table class="io-table">
+              <tr><th>What goes in</th><td>Chapter contract YAML + relevant section of refined English</td></tr>
+              <tr><th>What comes out</th><td>One chapter source file per episode (<code>chapters/ch##-&lt;slug&gt;.txt</code>)</td></tr>
+            </table>
+          </div>
+          <div>
+            <div class="col-label kar">Kitab al-Riyad — concrete</div>
+            <p class="phase-text">
+              14 chapter source files. Word counts range from about 6,700 (ch03a — The Perfect and the Perfection of
+              the Soul) to about 10,400 (ch12 — Qada and Qadar). Each is dense, terminology-rich prose pre-shaped to
+              feed NotebookLM the right depth for an Extended-tier episode.
+            </p>
+            <div class="passage-trace">
+              <div class="passage-trace-label">▼ Following al-Islah's gentler-denser argument at this step</div>
+              <div class="passage-trace-content">
+                <div class="trace-caption">The same argument, now embedded in narrative prose — set up, attributed, and contextualized for the listener:</div>
+                <blockquote class="trace-quote">"The author of <em>al-Islah</em> opens <em>Chapter Six</em> with his clean proportion. <em>Motion and stillness are like the soul to form and hyle, because form and hyle are like the body to motion and stillness.</em> The picture is symmetric and intuitive. The soul is <em>gentler</em> than the body; the body is <em>denser</em> than the soul..."</blockquote>
+                <div class="trace-source">Source: <code>chapters/ch10-motion-stillness-hyle-and-form.txt</code> (Sub-chapter one section)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 0f -->
+      <div class="phase-row">
+        <div class="phase-badge done">
+          <span class="phase-num">0f</span>
+          <span class="phase-tag">Phase</span>
+        </div>
+        <div class="phase-header">
+          <div class="phase-title-block">
+            <h3 class="phase-title">Series plan</h3>
+            <span class="phase-chip">
+              <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 1 1 0 13 6.5 6.5 0 0 1 0-13zm0 1a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11zm0 1.5a.75.75 0 0 1 .75.75v3.69l2.53 1.46a.75.75 0 1 1-.75 1.3l-2.9-1.67A.75.75 0 0 1 7.25 8V4.75A.75.75 0 0 1 8 4z"/></svg>
+              trivial $ &middot; 30-60 min
+            </span>
+          </div>
+          <span class="status-pill done"><span class="dot"></span> Done</span>
+        </div>
+        <div class="phase-columns">
+          <div>
+            <div class="col-label">Generic — every book</div>
+            <p class="phase-text">
+              Write the master plan that sequences the episodes into a coherent listening journey. Declare the
+              persona (how the two hosts behave — Mentor+Student vs Peer+Peer vs Critic+Defender), the tier (Default
+              12-20 min or Extended 30-45 min), and the episode format default (deep_dive vs debate). The series
+              plan is also a manual-review gate where the operator can drop, merge, or reorder episodes before
+              per-episode authoring begins.
+            </p>
+            <table class="io-table">
+              <tr><th>What goes in</th><td>All 14 chapter contracts + manuscript context</td></tr>
+              <tr><th>What comes out</th><td><code>series-plan.md</code> (committed to repo)</td></tr>
+            </table>
+          </div>
+          <div>
+            <div class="col-label kar">Kitab al-Riyad — concrete</div>
+            <p class="phase-text">
+              Persona: Mentor+Student. Tier: Extended (30-45 min episodes). 11 of 14 episodes set to "debate" format
+              — al-Kirmani's text is mostly a polemic against al-Islah and al-Nusra rhetorical positions, so debate
+              format matches the source's own structure. Cost is essentially review time.
+            </p>
+            <div class="passage-trace">
+              <div class="passage-trace-label">▼ Following al-Islah's gentler-denser argument at this step</div>
+              <div class="passage-trace-content">
+                <div class="trace-caption">The series plan slots this chapter as Episode 10, debate format, with roles assigned:</div>
+                <table class="trace-series-row">
+                  <tr><th>EP</th><th>Title</th><th>Words</th><th>Tier</th><th>Format</th><th>Roles</th></tr>
+                  <tr><td>10</td><td>Motion, Stillness, <em>al-Hayula</em>, and Form</td><td>9431</td><td>extended</td><td><strong>debate</strong></td><td>Advocate A + Advocate B + Arbiter</td></tr>
+                </table>
+                <div class="trace-source">Source: <code>_system/series-plan.md</code> (EP10 row)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 0g -->
+      <div class="phase-row">
+        <div class="phase-badge flight">
+          <span class="phase-num">0g</span>
+          <span class="phase-tag">Phase</span>
+        </div>
+        <div class="phase-header">
+          <div class="phase-title-block">
+            <h3 class="phase-title">Per-episode authoring <span style="font-weight: 500; color: var(--text-muted); font-size: 14px;">— the heart of the pipeline</span></h3>
+            <span class="phase-chip">
+              <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 1 1 0 13 6.5 6.5 0 0 1 0-13zm0 1a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11zm0 1.5a.75.75 0 0 1 .75.75v3.69l2.53 1.46a.75.75 0 1 1-.75 1.3l-2.9-1.67A.75.75 0 0 1 7.25 8V4.75A.75.75 0 0 1 8 4z"/></svg>
+              $1-3 per episode &middot; 30-90 min each
+            </span>
+          </div>
+          <span class="status-pill flight"><span class="dot"></span> In flight</span>
+        </div>
+        <div class="phase-columns">
+          <div>
+            <div class="col-label">Generic — every book</div>
+            <p class="phase-text">
+              For each episode in turn: extract the chapter source, author the "framing" (the NotebookLM customize
+              prompt that tells the hosts how to talk about the chapter), build the episode <code>.txt</code> file
+              (which validates the chapter + framing against ~15 quality rules), then iteratively converge via a
+              "challenger" pass that surfaces P0/P1/P2 issues and rewrites until the episode reaches SHIP-READY or
+              SHIP-WITH-CAUTION. Each episode can take up to 3 outer × 5 inner = 15 convergence passes maximum
+              before halting for human review.
+            </p>
+            <table class="io-table">
+              <tr><th>What goes in</th><td>Chapter source + series plan + chapter contract</td></tr>
+              <tr><th>What comes out</th><td>Per-episode bundle (framing + chapter + supporting files) — ready for NotebookLM upload</td></tr>
+            </table>
+          </div>
+          <div>
+            <div class="col-label kar">Kitab al-Riyad — concrete</div>
+            <p class="phase-text">
+              1 of 14 episodes shipped (EP10 — Motion, Stillness, Hyle and Form — SHIP-WITH-CAUTION, iter 3, 4 fixes
+              applied, 2 minor P1 notes acceptable). EP14 currently in flight (halted on a script bug — X3 fix was
+              incomplete; orchestrator wrote filled framing to <code>EP14b/</code> while validator looks at
+              <code>EP14/</code>). Total projected cost: $14-42 across all 14. Total wall time: 7-21 hours.
+            </p>
+            <div class="passage-trace">
+              <div class="passage-trace-label">▼ Following al-Islah's gentler-denser argument at this step</div>
+              <div class="passage-trace-content">
+                <div class="trace-caption">The framing tells NotebookLM's hosts exactly how to handle this argument — both as a tension to reach and as a passage to quote verbatim:</div>
+                <blockquote class="trace-quote framing">
+                  <strong>From § Central tensions to reach:</strong><br>
+                  "First. The vocabulary disputes look technical — gentler-versus-denser, three sections versus three dimensions, two letters of <em>kun</em> — but the stake underneath is the integrity of <em>tawhid</em> at the top of the chain. If <em>al-Islah's</em> gentler-denser proportion held, the soul would slip back into being a body."
+                  <br><br>
+                  <strong>From § Focus 1:</strong><br>
+                  "Quote the chapter's settled formulas directly: <em>motion and stillness are two opposites that do not meet in the same place at the same time</em>; <em>form and hyle, their existence together is such that neither is separable from the other</em>."
+                </blockquote>
+                <div class="trace-source">Source: <code>episode-drafts/EP10-motion-stillness-hyle-and-form/00-framing.md</code></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 7 -->
+      <div class="phase-row">
+        <div class="phase-badge queued">
+          <span class="phase-num">7</span>
+          <span class="phase-tag">Phase</span>
+        </div>
+        <div class="phase-header">
+          <div class="phase-title-block">
+            <h3 class="phase-title">Trainer — post-authoring polish</h3>
+            <span class="phase-chip">
+              <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 1 1 0 13 6.5 6.5 0 0 1 0-13zm0 1a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11zm0 1.5a.75.75 0 0 1 .75.75v3.69l2.53 1.46a.75.75 0 1 1-.75 1.3l-2.9-1.67A.75.75 0 0 1 7.25 8V4.75A.75.75 0 0 1 8 4z"/></svg>
+              about $1-2 &middot; 30-60 min
+            </span>
+          </div>
+          <span class="status-pill queued"><span class="dot"></span> Not started</span>
+        </div>
+        <div class="phase-columns">
+          <div>
+            <div class="col-label">Generic — every book</div>
+            <p class="phase-text">
+              Once all episodes ship, the trainer phase generates per-episode training transcripts that polish tone
+              and detect last-mile issues (repeated phrasings, awkward transitions, missed anchor passages). The
+              trainer is a final-pass quality gate before the book is published.
+            </p>
+            <table class="io-table">
+              <tr><th>What goes in</th><td>All shipped episode bundles</td></tr>
+              <tr><th>What comes out</th><td>Training transcripts + ship-readiness verdict per episode</td></tr>
+            </table>
+          </div>
+          <div>
+            <div class="col-label kar">Kitab al-Riyad — concrete</div>
+            <p class="phase-text">
+              Not yet started. Will run automatically once all 14 episodes have shipped through Phase 0g. Estimated
+              cost is small relative to per-episode authoring.
+            </p>
+            <div class="passage-trace">
+              <div class="passage-trace-label">▼ Following al-Islah's gentler-denser argument at this step</div>
+              <div class="passage-trace-content">
+                <div class="trace-caption">Not yet run for Kitab al-Riyad. When this phase fires, it will:</div>
+                <div class="trace-future">Listen to the generated NotebookLM episode, score how the hosts handled this specific argument (did they quote the verbatim formulas? did the gentler-denser refusal land with weight? did the pronunciation guide hold?), and surface any P0/P1/P2 issues for a final convergence pass.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 8 -->
+      <div class="phase-row">
+        <div class="phase-badge queued">
+          <span class="phase-num">8</span>
+          <span class="phase-tag">Phase</span>
+        </div>
+        <div class="phase-header">
+          <div class="phase-title-block">
+            <h3 class="phase-title">Ship</h3>
+            <span class="phase-chip">
+              <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 1 1 0 13 6.5 6.5 0 0 1 0-13zm0 1a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11zm0 1.5a.75.75 0 0 1 .75.75v3.69l2.53 1.46a.75.75 0 1 1-.75 1.3l-2.9-1.67A.75.75 0 0 1 7.25 8V4.75A.75.75 0 0 1 8 4z"/></svg>
+              15-30 min per episode (manual)
+            </span>
+          </div>
+          <span class="status-pill queued"><span class="dot"></span> Not started</span>
+        </div>
+        <div class="phase-columns">
+          <div>
+            <div class="col-label">Generic — every book</div>
+            <p class="phase-text">
+              Final packaging step. Each episode's chapter source + customize prompt is paired into a single upload
+              bundle. The operator uploads each chapter to NotebookLM and pastes the corresponding customize prompt;
+              NotebookLM generates the audio. The book's branch is merged to <code>develop</code> (the integration
+              line), then to <code>main</code> (production), and the book is published to the listener-facing site.
+            </p>
+            <table class="io-table">
+              <tr><th>What goes in</th><td>All 14 shipped episode bundles + trainer verdict</td></tr>
+              <tr><th>What comes out</th><td>14 published episodes + book entry on the public site</td></tr>
+            </table>
+          </div>
+          <div>
+            <div class="col-label kar">Kitab al-Riyad — concrete</div>
+            <p class="phase-text">
+              Not yet started. The manual upload step takes 15-30 min per episode (Asif copies the framing into
+              NotebookLM's customize box and uploads the chapter). For Kitab al-Riyad, this is the only Asif-in-the-loop phase
+              before public release.
+            </p>
+            <div class="passage-trace">
+              <div class="passage-trace-label">▼ Following al-Islah's gentler-denser argument at this step</div>
+              <div class="passage-trace-content">
+                <div class="trace-caption">Not yet run for Kitab al-Riyad. When this phase fires, it will:</div>
+                <div class="trace-future">Package this argument's two artifacts together — <code>chapters/ch10-motion-stillness-hyle-and-form.txt</code> (the chapter source containing the al-Islah proportion) + <code>episodes/EP10-motion-stillness-hyle-and-form.txt</code> (the framing that tells the hosts how to discuss it) — into a single upload bundle. Asif then pastes the framing into NotebookLM's customize box and uploads the chapter.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ SECTION 2: Phase 0g detail ============ -->
+  <section>
+    <h2>How an episode actually gets written</h2>
+    <p style="color: var(--text-muted); max-width: 760px; margin-top: -8px;">
+      Inside Phase 0g, every episode goes through four sub-steps. The fourth — Converge — is the iterative loop
+      that does the heavy quality work.
+    </p>
+
+    <div class="substep-flow">
+      <div class="substep">
+        <div class="substep-num">Step 1</div>
+        <div class="substep-title">Extract</div>
+        <p class="substep-text">
+          Pulls the chapter source from the file system into the orchestrator's working memory. Ensures the chapter
+          is enriched (Phase 0e output) before proceeding.
+        </p>
+      </div>
+      <div class="substep">
+        <div class="substep-num">Step 2</div>
+        <div class="substep-title">Frame</div>
+        <p class="substep-text">
+          Calls Claude to author the NotebookLM customize prompt. The prompt has ~12 sections (Opening, Background,
+          Audience, Angle, Central tensions, Host dynamic, Three-part focus, Tone, Pronunciation, Anti-noise, Do not,
+          Upload checklist) — each tailored to the chapter's content and the series plan's persona/tier.
+        </p>
+      </div>
+      <div class="substep">
+        <div class="substep-num">Step 3</div>
+        <div class="substep-title">Build</div>
+        <p class="substep-text">
+          Runs the validator (<code>build_episode_txt.py</code>) against the chapter source + framing. Checks ~15
+          rules. If any "hard" rule fails, the episode halts here for a fix before moving on.
+        </p>
+      </div>
+      <div class="substep">
+        <div class="substep-num">Step 4</div>
+        <div class="substep-title">Converge</div>
+        <p class="substep-text">
+          Runs the challenger: an independent Claude pass that critiques the episode, surfaces P0/P1/P2 issues, and
+          rewrites. Loops up to 3 outer × 5 inner times. Ships at SHIP-READY (P0=0, P1=0, P2&le;2) or
+          SHIP-WITH-CAUTION (P0=0, P1&le;3).
+        </p>
+      </div>
+    </div>
+
+    <div class="converge-note">
+      <strong>Kitab al-Riyad concrete:</strong> EP10's convergence path was <code>iter=3 fix=4 P0=0 P1=2 P2=2</code>. It took 3
+      outer rounds; 4 fixes were applied across them; final state had 2 P1 issues judged acceptable; shipped
+      SHIP-WITH-CAUTION. Each episode is allowed up to 15 convergence passes before halting for human review.
+    </div>
+  </section>
+
+  <!-- ============ SECTION 3: Host roles ============ -->
+  <section>
+    <h2>Are the podcaster roles consistent?</h2>
+    <p style="max-width: 760px;">
+      <strong>Short answer:</strong> within a book, yes. Across books, deliberately variable based on audience.
+      A NotebookLM episode has two hosts. The pipeline names them <strong>Driver</strong> and <strong>Color</strong>:
+    </p>
+
+    <div class="host-grid">
+      <div class="host-card driver">
+        <h4>Driver</h4>
+        <p>Moves the conversation forward, asks the framing questions, drives toward the central tensions named in
+        the chapter contract.</p>
+      </div>
+      <div class="host-card color">
+        <h4>Color</h4>
+        <p>Provides historical and contextual richness, brings in tangents, offers analogies that make the
+        substance land for the listener.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top: 24px;">The persona defines how Driver and Color act</h3>
+    <p style="color: var(--text-muted); margin-bottom: 4px;">
+      Four common personas. Persona is chosen per book; Kitab al-Riyad uses Mentor+Student.
+    </p>
+    <div class="persona-grid">
+      <div class="persona-card active">
+        <div class="persona-name">Mentor + Student</div>
+        <p class="persona-desc">Driver is the experienced scholar, Color is the curious learner. Default for
+        content-dense scholarly works.</p>
+        <span class="persona-tag">Kitab al-Riyad uses this</span>
+      </div>
+      <div class="persona-card">
+        <div class="persona-name">Peer + Peer</div>
+        <p class="persona-desc">Both hosts at similar expertise level — conversational and exploratory.</p>
+      </div>
+      <div class="persona-card">
+        <div class="persona-name">Critic + Defender</div>
+        <p class="persona-desc">Driver challenges, Color defends. Used for polemic texts where the audience benefits
+        from seeing the argument tested.</p>
+      </div>
+      <div class="persona-card">
+        <div class="persona-name">Storyteller + Analyst</div>
+        <p class="persona-desc">Driver narrates events, Color analyzes meaning. Used for biographical or
+        historical-event-heavy books.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top: 24px;">The tier defines length</h3>
+    <div class="tier-row">
+      <div class="tier-card">
+        <strong>Default (12-20 min)</strong>
+        For shorter or less-dense chapters.
+      </div>
+      <div class="tier-card active">
+        <strong>Extended (30-45 min)</strong>
+        For chapters with substantial theological or philosophical content. <em>Kitab al-Riyad uses Extended.</em>
+      </div>
+    </div>
+
+    <p style="margin-top: 22px; font-size: 14px; color: var(--text-muted); max-width: 760px;">
+      <strong style="color: var(--text);">Consistency rule:</strong> persona + tier are declared in the series plan
+      (Phase 0f) and apply to every episode in the book. Changing them mid-book would create a jarring listener
+      experience. Across books, persona is chosen based on the book's specific audience + content type.
+    </p>
+  </section>
+
+  <!-- ============ SECTION 4: Pronunciation ============ -->
+  <section>
+    <h2>How does the pipeline get Arabic pronunciation right?</h2>
+    <p style="max-width: 760px;">
+      Three coordinated mechanisms work together. The phonetic guide is built once per book; the framing wires it
+      into the imperative form NotebookLM actually obeys; and a validator rule keeps pronunciation guides out of the
+      chapter source itself.
+    </p>
+
+    <div class="pronounce-flow">
+      <div class="pronounce-step">
+        <div class="step-num">Step 1</div>
+        <h4>Phase 0c builds the phonetic guide</h4>
+        <p>Every Arabic term gets a phonetic respelling using <code>[STRESSED]-[unstressed]</code> pattern. E.g.
+        <code>tawhid &rarr; taw-HEED</code>, <code>al-mukhalif &rarr; al-moo-KHAH-lif</code>, <code>nāṭiq &rarr;
+        NAA-tiq</code>. Targets natural English-language voice synthesis.</p>
+      </div>
+      <div class="pronounce-arrow">&rarr;</div>
+      <div class="pronounce-step">
+        <div class="step-num">Step 2</div>
+        <h4>Framing uses imperative form</h4>
+        <p>Phase 0g writes a <code>## Pronunciation</code> section with imperative lines: <em>Pronounce "tawhid" as
+        "taw-HEED". Say it as one fluent word.</em> The <code>R-PRONUNCIATION-IMPERATIVE</code> rule enforces this —
+        a passive list ("tawhid: taw-heed") would be ignored by NotebookLM.</p>
+      </div>
+      <div class="pronounce-arrow">&rarr;</div>
+      <div class="pronounce-step">
+        <div class="step-num">Step 3</div>
+        <h4>R-PHONETICS-OUT keeps guides out of source</h4>
+        <p>Pronunciation guides MUST live in the framing, not the chapter source. If they leak into the chapter
+        source, NotebookLM reads them aloud (e.g. <em>"Sunnah open-paren SOON-nah close-paren"</em>). The validator
+        rejects any inline guides.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <h4>Worked example — Kitab al-Riyad</h4>
+      A chapter on "tawhid" might include <code>Pronounce "tawhid" as "taw-HEED". Say it as one fluent word.</code>
+      in the framing's Pronunciation block. The chapter source itself just uses the word "tawhid" in prose — no
+      respelling. NotebookLM then naturally pronounces "tawhid" correctly whenever the hosts discuss it, because the
+      framing instructed them on pronunciation and the source kept clean.
+    </div>
+  </section>
+
+  <!-- ============ SECTION 5: Validator rules ============ -->
+  <section>
+    <h2>What quality checks does the pipeline run?</h2>
+    <p style="max-width: 760px;">
+      The pipeline enforces ~15 quality rules (all prefixed <code>R-</code>) at the build step. Each rule has an
+      empirical basis — it was added because a past audit found a specific NotebookLM failure mode. Five
+      representative rules:
+    </p>
+
+    <table class="rules">
+      <thead>
+        <tr>
+          <th>Rule</th>
+          <th>What it prevents</th>
+          <th>Empirical basis (why this rule exists)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>R-PHONETICS-OUT</td>
+          <td>Pronunciation guides leaking into the chapter source (NotebookLM would read them aloud).</td>
+          <td>Audited episode where <em>"Sunnah (SOON-nah)"</em> was vocalized as a parenthetical, breaking flow.</td>
+        </tr>
+        <tr>
+          <td>R-HONORIFIC-ONCE</td>
+          <td>Honorific glyphs (ﷺ) repeating multiple times in one chapter (NotebookLM vocalizes each one).</td>
+          <td>Audited episode where <em>"peace and blessings be upon him"</em> was vocalized 9 times in one episode.</td>
+        </tr>
+        <tr>
+          <td>R-PRONUNCIATION-IMPERATIVE</td>
+          <td>Pronunciation section in passive list form ("term: respelling") instead of imperative ("Pronounce X as Y").</td>
+          <td>Audited episode where hosts ignored a passive pronunciation list entirely.</td>
+        </tr>
+        <tr>
+          <td>R-WELCOME</td>
+          <td>Awkward "Welcome back to..." openings that NotebookLM tends to default to.</td>
+          <td>Audited episode where the opening felt boilerplate; specific anti-welcome phrasing instructed.</td>
+        </tr>
+        <tr>
+          <td>R-NOMETA</td>
+          <td>Hosts breaking the fourth wall ("In this episode we'll be discussing...").</td>
+          <td>Audited episode where meta-commentary cluttered the substantive content.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="rules-note">
+      Rules tighten over time. When a new NotebookLM failure mode is observed in an audit, a new <code>R-*</code>
+      rule is added. The pipeline runs every rule against every episode. Today's Kitab al-Riyad session has fixed 4 rule-engine
+      bugs (X3, X4, X5, X6) — each was a misalignment between rule intent and rule implementation, not a flaw in
+      the rules themselves.
+    </p>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <div class="meta-row">
+      <span><strong>Last updated:</strong> 2026-05-21</span>
+      <span><strong>Sister doc:</strong> <a href="kar-status.html">kar-status.html</a> — current Kitab al-Riyad shipping status</span>
+      <span><strong>Generated by:</strong> Air session (<code>macbook-air-secondary</code>)</span>
+    </div>
+    <div>
+      This explainer is reusable across every book the pipeline processes. The generic-description column applies
+      universally; the Kitab al-Riyad-concrete column changes book-to-book.
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
