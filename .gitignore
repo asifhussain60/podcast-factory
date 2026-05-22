@@ -115,6 +115,16 @@ _workspace/Books/*/raw/
 # show them as untracked content.
 worktrees/
 
+# Raw source materials drop zone (Asif decision 2026-05-22, Option C from
+# layout-reorg question). Holds PDFs, Word docs, MP3 lectures, transcripts —
+# the inputs the podcast agent ingests. Stays per-machine and local-only:
+# git would have to be git-LFS-enabled to track binaries this large
+# (some single files exceed GitHub's 100MB hard limit) and the multi-GB
+# repo bloat was judged not worth the cross-machine convenience.
+# Cross-machine distribution: iCloud Drive copy at
+# ~/Library/Mobile Documents/com~apple~CloudDocs/Books, or rsync between Macs.
+raw/
+
 # Per-trip queue + ephemeral artifacts (App writes, Cowork drains and deletes per §5.10)
 trips/*/pending.json
 trips/*/receipts/
