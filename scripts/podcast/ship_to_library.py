@@ -58,6 +58,15 @@ WORKSPACE = REPO_ROOT / "_workspace" / "books"
 # at the same depth under podcast-factory/.
 LIBRARY = REPO_ROOT.parent.parent / "library"
 
+
+def _display(path: Path) -> str:
+    """Render a path for user-facing log lines. Uses os.path.relpath so paths
+    outside REPO_ROOT (notably under LIBRARY, which is the parent-of-parent
+    of REPO_ROOT in the Option 2 layout) render as '../../library/foo.md'
+    instead of crashing the way Path.relative_to() does on cross-tree paths."""
+    import os
+    return os.path.relpath(path, REPO_ROOT)
+
 SHIPPABLE_STATUSES = {
     "shipped",
     "ship-ready",
@@ -85,7 +94,7 @@ def _die(msg: str) -> None:
 def _read_state(book_dir: Path) -> dict:
     state_path = book_dir / "_system" / "orchestrator-state.json"
     if not state_path.exists():
-        _die(f"missing orchestrator state at {state_path.relative_to(REPO_ROOT)}")
+        _die(f"missing orchestrator state at {_display(state_path)}")
     return json.loads(state_path.read_text())
 
 
@@ -104,7 +113,7 @@ def _series_plan_episodes(book_dir: Path) -> list[Episode]:
     """Parse _system/series-plan.md to extract the canonical episode list."""
     plan = book_dir / "_system" / "series-plan.md"
     if not plan.exists():
-        _die(f"missing series plan at {plan.relative_to(REPO_ROOT)}")
+        _die(f"missing series plan at {_display(plan)}")
 
     episodes: list[Episode] = []
     in_episode_table = False
@@ -162,23 +171,23 @@ def _today() -> str:
 
 def _write(path: Path, content: str, dry_run: bool) -> None:
     if dry_run:
-        print(f"  [dry-run] would write {path.relative_to(REPO_ROOT)}")
+        print(f"  [dry-run] would write {_display(path)}")
         return
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(content)
-    print(f"  wrote {path.relative_to(REPO_ROOT)}")
+    print(f"  wrote {_display(path)}")
 
 
 def _copy(src: Path, dst: Path, dry_run: bool) -> None:
     if not src.exists():
-        print(f"  [skip] source missing: {src.relative_to(REPO_ROOT)}")
+        print(f"  [skip] source missing: {_display(src)}")
         return
     if dry_run:
-        print(f"  [dry-run] would copy {src.relative_to(REPO_ROOT)} -> {dst.relative_to(REPO_ROOT)}")
+        print(f"  [dry-run] would copy {_display(src)} -> {_display(dst)}")
         return
     dst.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(src, dst)
-    print(f"  copied {dst.relative_to(REPO_ROOT)}")
+    print(f"  copied {_display(dst)}")
 
 
 def _drop_gitkeep(path: Path, dry_run: bool) -> None:
@@ -318,7 +327,7 @@ def main() -> None:
 
     book_dir = WORKSPACE / args.book
     if not book_dir.is_dir():
-        _die(f"book workspace not found: {book_dir.relative_to(REPO_ROOT)}")
+        _die(f"book workspace not found: {_display(book_dir)}")
 
     state = _read_state(book_dir)
     phase_status = state.get("phase_status", "unknown")
