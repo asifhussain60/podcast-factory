@@ -6,19 +6,26 @@ description: Primary machine for autonomous podcast-pipeline conversions
 hostname_hint: Asifs-Mac-Studio.local
 operator: Asif Hussain (asifhussain60@gmail.com)
 worktree_layout:
-  # NOTE: per index.md and coordination-protocol.md §9, single-worktree-per-machine
-  # is the convention. Post-2026-05-22 repo split + Phase 7.4 worktree reorg, the
-  # Studio holds four worktrees of `podcast-factory` under the contained-parent
-  # layout `/Users/ahmac/Code/podcast-factory/`. The book-asaas worktree remains
-  # the primary (book lane); `main` (develop) is the integration target; `book-islr`
-  # and `feat-w1` are observational/active-side lanes. The pre-split `dump` branch
-  # worktree at `/Users/ahmac/Code/Journal` was retired during Phase 7.4.
+  # NOTE: post-2026-05-22 repo split + Phase 7.4 worktree reorg, the Studio holds
+  # five worktrees of `podcast-factory` under the contained-parent layout
+  # `/Users/ahmac/Code/podcast-factory/`. The book-asaas worktree remains the
+  # primary book lane (HOLDING at Phase 0b operator gate). `book-kar` was added
+  # 2026-05-22T18:50Z after the Air's 2026-05-22 pivot transferred KaR ownership
+  # to Studio for the archetype-driven manual finish — checked out at the Air's
+  # authoritative HEAD (origin/book/kitab-al-riyad @ 50edd0a). `main` (develop)
+  # is the integration target; `book-islr` and `feat-w1` are observational/
+  # active-side lanes. The pre-split `dump` branch worktree at
+  # `/Users/ahmac/Code/Journal` was retired during Phase 7.4. Coord-protocol §9
+  # "never check out peer's book branch" still holds in steady-state; the KaR
+  # worktree is licensed by the explicit operator-issued ownership transfer.
   - path: /Users/ahmac/Code/podcast-factory/main
     branch: develop
   - path: /Users/ahmac/Code/podcast-factory/book-asaas
     branch: book/asaas-al-taveel
   - path: /Users/ahmac/Code/podcast-factory/book-islr
     branch: book/islr-mas-i
+  - path: /Users/ahmac/Code/podcast-factory/book-kar
+    branch: book/kitab-al-riyad
   - path: /Users/ahmac/Code/podcast-factory/feat-w1
     branch: feat/operator-review-studio
 current_branch: book/asaas-al-taveel
@@ -69,6 +76,27 @@ current_phase_status_summary: |
   also paused pending Asif's explicit authorization to resume asaas Phase 0c
   (Arabic phonetic) or framework lane.
 
+  KAR OWNERSHIP TRANSFERRED TO STUDIO 2026-05-22T18:50Z: per the Air's 2026-05-22
+  pivot decision (Air's frontmatter `status_tag: HALTED-BY-OPERATOR —
+  STUDIO-DRIVING-MANUAL-FINISH`), Studio now owns book/kitab-al-riyad for the
+  archetype-driven manual finish (EP01-09 + EP11-14 chapters; EP10 already
+  shipped SHIP-WITH-CAUTION). New worktree at /Users/ahmac/Code/podcast-factory/book-kar
+  checked out at origin/book/kitab-al-riyad @ [50edd0a](https://github.com/asifhussain60/podcast-factory/commit/50edd0a)
+  (Air's authoritative HEAD; Studio's local ref was 144 commits behind and got
+  force-updated as part of the worktree creation). The KaR branch carries its
+  per-book in-progress state at the pre-Phase-9.5 path `content/podcast/library/books/kitab-al-riyad/`
+  (same as book/islr-mas-i — Phase 9.5 hoist didn't apply because KaR was off on
+  its own branch when the hoist ran on develop); a per-book Phase 9.5 migration
+  is a known follow-up before KaR work resumes. KaR branch is 28 commits behind
+  develop — merge of develop into KaR predicts 1 conflict on the Air's own
+  operator file (which Studio cannot resolve under §1 sole-write rule); defer
+  that merge until the Air refreshes its operator file post-split-bookkeeping.
+
+  Status_tag remains HOLDING-FOR-OPERATOR-GATES because asaas Phase 0b operator
+  gate is the primary blocker; KaR manual-finish authoring is the parallel
+  responsibility unblocked once asaas is moving again (or whenever Asif
+  prioritizes KaR ahead of asaas).
+
   POST-SPLIT BOOKKEEPING 2026-05-22T18:27Z: the Journal→podcast-factory + journal
   repo split executed cleanly between this asaas Phase 0b gate and now — see
   [_workspace/runbooks/repo-split.md](../../runbooks/repo-split.md) (Status: EXECUTED).
@@ -97,7 +125,7 @@ next_action: |
   Language credential is live); operator-review.md regenerated from NER;
   resume 0c → 0d → 0e → 0f → 0g (EP01 firm halt) → EP02-06.
 anthropic_share: 0.5
-last_verified_at: 2026-05-22T18:27:00Z
+last_verified_at: 2026-05-22T18:50:00Z
 last_updated: 2026-05-22
 ---
 
