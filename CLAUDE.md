@@ -40,7 +40,8 @@ If `~/.machine-id` doesn't exist, the script tells you how to create it.
 
 ## Read these once per machine, or when conventions feel stale
 
-- **`_workspace/plan/response-conventions.md`** — Response template §1 (4-part shape: `## At a glance — <status>` numbered list at top / body `### N.` sections / `---` / `**Next:** *Asif* or *AI* — sentence`). **No custom section labels** like "Deviation from plan", "Verification", "Coord doc", "What changed". No `**TL;DR:**` opener, no `## Project Status` block (both deprecated 2026-05-21).
+- **`_workspace/plan/response-template.md`** — **CANONICAL response template** (4-part shape: `## At a glance — <emoji> <status>` numbered list / `### N.` PROSE body sections / `---` / `## Next: 👤 Asif` or `## Next: 🤖 AI` with `A. (Recommended) / B. / … / Do all of the above` options). Copy-paste-ready; both machines follow this verbatim.
+- **`_workspace/plan/response-conventions.md`** — Full conventions doc (migration notes, deprecations, rationale behind the template). Read once per machine, or when something feels stale. **No custom section labels** ("Deviation from plan", "Verification", "Coord doc", "What changed"); no `**TL;DR:**` opener; no `## Project Status` block (deprecated 2026-05-21).
 - **`_workspace/plan/operators/index.md`** — cross-machine dashboard (Air ↔ Studio side-by-side + queue with cost/time estimates per book).
 - **`_workspace/plan/book-queue.md`** — pull-on-demand work queue with claim + completion protocols (git-push-rejection mutex).
 - **`_workspace/plan/operators/coordination-protocol.md`** — write/push/branch/quota/concurrency discipline. Wins over per-machine files in conflict.

@@ -1,6 +1,10 @@
 # Response conventions — Claude Code sessions on this repo
 
 **Authoritative across all machines. Both Mac Air and Mac Studio sessions follow this.**
+
+> **Focused reference**: the bare 4-part template, rules, and worked example live in [response-template.md](response-template.md) — copy-paste-ready when bootstrapping a new session or system prompt. This file is the full conventions doc with migration notes, deprecations, and rationale.
+
+Updated 2026-05-22 — extracted focused template into [response-template.md](response-template.md) so any pulling machine (Air or Studio) picks up the same canonical template via `develop`.
 Updated 2026-05-21 by the Air session — At-a-glance-first template adopted (inverts Studio's prior Summary-at-end design) per Asif's directive: read summary, scroll for details if needed, act on a single clear next-step line.
 
 If this file conflicts with a session-specific operator prompt, the operator prompt
