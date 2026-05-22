@@ -65,19 +65,6 @@ _workspace/**/*.zip
 _workspace/**/*.llc
 _workspace/**/*.pdf
 
-# Same raw-asset patterns applied to library/ tree. Pre-promotion source
-# audio sometimes lands under library/<category>/<slug>/_source/ or
-# library/<category>/<slug>/transcripts/<Ch##>/ as recording artifacts;
-# keep them local-only the same way they're local-only under _workspace/.
-library/**/*.mp3
-library/**/*.wav
-library/**/*.m4a
-library/**/*.mp4
-library/**/*.mov
-library/**/*.zip
-library/**/*.llc
-library/**/*.pdf
-
 # Transcript working artifacts — raw Speech-to-Text + translator output used
 # during chapter-source authoring. The final cleaned chapters/ + episodes/
 # files are committed; transcripts/ is local-only scratch.
@@ -107,23 +94,6 @@ _workspace/Books/*/raw/
 
 # Trash / soft-delete staging
 **/.trash/
-
-# Linked git worktrees grouped under worktrees/ (Repo-rooted layout, 2026-05-22):
-# the main worktree lives at podcast-factory/ root, with linked worktrees as
-# subdirs at podcast-factory/worktrees/<book-X>/. Each linked worktree is its
-# own checkout — gitignored here so the main worktree's `git status` doesn't
-# show them as untracked content.
-worktrees/
-
-# Raw source materials drop zone (Asif decision 2026-05-22, Option C from
-# layout-reorg question). Holds PDFs, Word docs, MP3 lectures, transcripts —
-# the inputs the podcast agent ingests. Stays per-machine and local-only:
-# git would have to be git-LFS-enabled to track binaries this large
-# (some single files exceed GitHub's 100MB hard limit) and the multi-GB
-# repo bloat was judged not worth the cross-machine convenience.
-# Cross-machine distribution: iCloud Drive copy at
-# ~/Library/Mobile Documents/com~apple~CloudDocs/Books, or rsync between Macs.
-raw/
 
 # Per-trip queue + ephemeral artifacts (App writes, Cowork drains and deletes per §5.10)
 trips/*/pending.json

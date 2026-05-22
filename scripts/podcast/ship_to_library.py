@@ -52,7 +52,11 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 WORKSPACE = REPO_ROOT / "_workspace" / "books"
-LIBRARY = REPO_ROOT / "library"
+# Option 2 layout (2026-05-22): library/ lives above the worktree at
+# podcast-factory/library/, two parents up from REPO_ROOT. Works from any
+# worktree (worktrees/main/ or worktrees/book-X/) since all worktrees sit
+# at the same depth under podcast-factory/.
+LIBRARY = REPO_ROOT.parent.parent / "library"
 
 SHIPPABLE_STATUSES = {
     "shipped",

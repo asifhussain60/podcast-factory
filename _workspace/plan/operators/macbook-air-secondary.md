@@ -6,7 +6,16 @@ description: Secondary machine for podcast-pipeline work; currently driving kita
 hostname_hint: Asifs-MacBook-Air.local
 operator: Asif Hussain (asifhussain60@gmail.com)
 worktree_layout:
-  - path: /Users/asifhussain/PROJECTS/journal
+  # Option 2 container layout (2026-05-22): podcast-factory/ is the parent dir
+  # holding library/ + raw/ + worktrees/. The git repo lives under worktrees/main/;
+  # linked worktrees are siblings under worktrees/.
+  - path: /Users/asifhussain/PROJECTS/podcast-factory/worktrees/main
+    branch: develop
+  - path: /Users/asifhussain/PROJECTS/podcast-factory/worktrees/book-asaas
+    branch: book/asaas-al-taveel
+  - path: /Users/asifhussain/PROJECTS/podcast-factory/worktrees/book-islr
+    branch: book/islr-mas-i
+  - path: /Users/asifhussain/PROJECTS/podcast-factory/worktrees/book-kar
     branch: book/kitab-al-riyad
 current_branch: book/kitab-al-riyad
 current_book: kitab-al-riyad
