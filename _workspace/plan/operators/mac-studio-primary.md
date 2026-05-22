@@ -7,17 +7,20 @@ hostname_hint: Asifs-Mac-Studio.local
 operator: Asif Hussain (asifhussain60@gmail.com)
 worktree_layout:
   # NOTE: per index.md and coordination-protocol.md §9, single-worktree-per-machine
-  # is the convention. The Studio currently holds three worktrees of the same repo;
-  # `Journal-book-asaas` is the primary (book lane). The others are observational —
-  # `Journal` (`dump` branch, 1 commit ahead of develop) and `Journal-feat-w1`
-  # (`feat/operator-review-studio`, 7 commits ahead of develop — active operator-review
-  # UI work). Asif decides whether to consolidate.
+  # is the convention. Post-2026-05-22 repo split + Phase 7.4 worktree reorg, the
+  # Studio holds four worktrees of `podcast-factory` under the contained-parent
+  # layout `/Users/ahmac/Code/podcast-factory/`. The book-asaas worktree remains
+  # the primary (book lane); `main` (develop) is the integration target; `book-islr`
+  # and `feat-w1` are observational/active-side lanes. The pre-split `dump` branch
+  # worktree at `/Users/ahmac/Code/Journal` was retired during Phase 7.4.
+  - path: /Users/ahmac/Code/podcast-factory/main
+    branch: develop
   - path: /Users/ahmac/Code/podcast-factory/book-asaas
     branch: book/asaas-al-taveel
+  - path: /Users/ahmac/Code/podcast-factory/book-islr
+    branch: book/islr-mas-i
   - path: /Users/ahmac/Code/podcast-factory/feat-w1
     branch: feat/operator-review-studio
-  - path: /Users/ahmac/Code/Journal
-    branch: dump
 current_branch: book/asaas-al-taveel
 current_book: asaas-al-taveel
 current_book_dir: _workspace/books/asaas-al-taveel
@@ -65,6 +68,24 @@ current_phase_status_summary: |
   resume once that gate clears. Air is paused per the 2026-05-21 sync; Studio is
   also paused pending Asif's explicit authorization to resume asaas Phase 0c
   (Arabic phonetic) or framework lane.
+
+  POST-SPLIT BOOKKEEPING 2026-05-22T18:27Z: the Journal→podcast-factory + journal
+  repo split executed cleanly between this asaas Phase 0b gate and now — see
+  [_workspace/runbooks/repo-split.md](../../runbooks/repo-split.md) (Status: EXECUTED).
+  Landed via merge commits [f78c0cb](https://github.com/asifhussain60/podcast-factory/commit/f78c0cb)
+  (Phase 2–5: journal extraction + Cloudflare/server retirement, PR #14),
+  [ae2e794](https://github.com/asifhussain60/podcast-factory/commit/ae2e794)
+  (Phase 9: post-split operator-file URL+path rewrites, PR #15), and
+  [5a27d22](https://github.com/asifhussain60/podcast-factory/commit/5a27d22)
+  (Phase 9.5: library hoist — `library/` at root + `_workspace/books/`). The asaas
+  next_action is unchanged in substance — operator gate (b) still pending — but
+  all paths now resolve under the post-split + post-Phase-9.5 layout
+  (`_workspace/books/asaas-al-taveel/_system/…` rather than `content/podcast/library/…`).
+  Known residual: 3 Claude-agent specs under [infra/claude-agents/](../../../infra/claude-agents/)
+  still carry stale `content/podcast/library/` path strings — tracked in
+  [_workspace/runbooks/repo-split.md §13](../../runbooks/repo-split.md) under the L15
+  invariant; will be rewritten before the next podcast-operator-driven session
+  depends on those paths.
 next_action: |
   Operator finishes §§1-8 of operator-review.md (the last remaining operator gate;
   gate (a) Azure setup cleared 2026-05-21 — see §13 of this file).
@@ -76,8 +97,8 @@ next_action: |
   Language credential is live); operator-review.md regenerated from NER;
   resume 0c → 0d → 0e → 0f → 0g (EP01 firm halt) → EP02-06.
 anthropic_share: 0.5
-last_verified_at: 2026-05-21T11:30:00Z
-last_updated: 2026-05-21
+last_verified_at: 2026-05-22T18:27:00Z
+last_updated: 2026-05-22
 ---
 
 # Mac Studio (primary) — operator index

@@ -1,8 +1,8 @@
 # Runbook — Journal repo split into `podcast-factory` + `journal`
 
-**Status:** DRAFTED 2026-05-22 — execution pending Asif's authorization AND Air's `book/kitab-al-riyad` Phase 10 merge to develop. Do not execute any step in this file until both gates clear.
+**Status:** EXECUTED 2026-05-22. All phases ran on Studio with both gates cleared (Asif's authorization + Air's KaR Phase 10 merge). Landed via [f78c0cb](https://github.com/asifhussain60/podcast-factory/commit/f78c0cb) (Phase 2–5: journal extraction + Cloudflare/server retirement, PR #14), [ae2e794](https://github.com/asifhussain60/podcast-factory/commit/ae2e794) (Phase 9: post-split operator-file URL+path rewrites, PR #15), and [5a27d22](https://github.com/asifhussain60/podcast-factory/commit/5a27d22) (Phase 9.5: library hoist). The repo lives at `github.com/asifhussain60/podcast-factory` (Phase 7.1 rename); the sibling `journal` repo lives at `github.com/asifhussain60/journal` (Phase 7.1a temp→canonical rename). Phase 10 verification status recorded in §13 below.
 
-**Authored on:** `book/asaas-al-taveel` (Studio Mac). Move to `develop` (commit + push) once Asif approves the runbook.
+**Authored on:** `book/asaas-al-taveel` (Studio Mac). Moved to `develop` on 2026-05-22.
 
 ---
 
@@ -1524,33 +1524,35 @@ Open PR `chore/library-hoist → develop`, merge after review. Runbook then adva
 
 ## 13. Phase 10 — Post-split verification
 
+Verified empirically 2026-05-22T18:27Z on Studio (`mac-studio-primary`). Boxes marked `[x]` are observation-checks that pass against current disk + git + GitHub state. Boxes left `[ ]` are either operator-driven act-to-verify checks (noted inline) or known residual gaps (noted inline + tracked for follow-up).
+
 **On podcast-factory:**
 
-- [ ] All 6 active branches still resolve: `git branch -a | grep -E "book/|feat/"`
-- [ ] All 4 worktrees still functional: `git worktree list`
-- [ ] `make verify` passes (Azure stack OK — should be untouched)
-- [ ] Active orchestrator can be resumed: try `python3 scripts/podcast/orchestrate_book.py --resume <a-book>` on a benign phase
-- [ ] CI workflows pass on the next push
-- [ ] `github.com/asifhussain60/podcast-factory/issues` opens correctly; old `Journal` issue links redirect
+- [x] All 6 active branches still resolve: `git branch -a | grep -E "book/|feat/"` — resolves to `book/asaas-al-taveel`, `book/islr-mas-i`, `book/kitab-al-riyad`, `book/master-disciple-notebooklm-scaffolding`, `feat/operator-review-studio`, `feat/podcast-w1-foundation`
+- [x] All 4 worktrees still functional: `git worktree list` — `main` (develop), `book-asaas`, `book-islr`, `feat-w1` all resolve under `/Users/ahmac/Code/podcast-factory/`
+- [ ] `make verify` passes (Azure stack OK — should be untouched) — **operator-runnable; not exercised in this bookkeeping pass** (Azure stack untouched by the split, so passively expected to pass)
+- [ ] Active orchestrator can be resumed: try `python3 scripts/podcast/orchestrate_book.py --resume <a-book>` on a benign phase — **operator-runnable; deferred until asaas Phase 0c resumes** (the next planned orchestrator invocation will exercise this naturally)
+- [x] CI workflows pass on the next push — last 5 `podcast-e2e` runs on develop conclude `success` (latest [5fc3125](https://github.com/asifhussain60/podcast-factory/commit/5fc3125), 2026-05-22T18:04Z)
+- [x] `github.com/asifhussain60/podcast-factory/issues` opens correctly; old `Journal` issue links redirect — GitHub serves the canonical repo under both `Journal` and `podcast-factory` (case-insensitive namespace + post-rename redirect)
 
 **On journal:**
 
-- [ ] `git clone https://github.com/asifhussain60/journal.git` works
-- [ ] `cd journal && site/index.html` exists; `npx serve site` shows the page locally (no deploy target; local-only)
-- [ ] No leftover podcast references in [CLAUDE.md](../../CLAUDE.md), [framework.md](../../framework.md), or [package.json](../../package.json)
-- [ ] No `infra/azure/` directory present
-- [ ] No `scripts/podcast/` directory present
-- [ ] **Cloudflare/API-proxy retirement verified**: no `server/`, `wrangler.toml`, `site-worker.js`, `infra/cloudflare/`, `docs/cloudflare/`, `docs/anthropic-api-setup.md`, or `docs/proxy-setup.md` present anywhere in the repo. Run: `git ls-files | grep -E '^(server/|wrangler\.toml$|site-worker\.js$|infra/cloudflare/|docs/cloudflare/|docs/anthropic-api-setup\.md$|docs/proxy-setup\.md$)'` should return EMPTY.
+- [x] `git clone https://github.com/asifhussain60/journal.git` works — sibling clone at `/Users/ahmac/Code/journal` carries `origin = https://github.com/asifhussain60/journal.git`
+- [x] `cd journal && site/index.html` exists; `npx serve site` shows the page locally (no deploy target; local-only) — `site/index.html` exists (the `npx serve` half is operator-runnable)
+- [x] No leftover podcast references in [CLAUDE.md](../../CLAUDE.md), [framework.md](../../framework.md), or [package.json](../../package.json) — `package.json` clean (0 refs); `CLAUDE.md` (9 mentions) and `framework.md` (11 mentions) contain only **intentional back-references** documenting the disconnection (e.g., "podcast pipeline lives in the sibling podcast-factory repo, don't reach into it from here") — no leftover podcast code or path references
+- [x] No `infra/azure/` directory present — verified absent
+- [x] No `scripts/podcast/` directory present — verified absent
+- [x] **Cloudflare/API-proxy retirement verified**: no `server/`, `wrangler.toml`, `site-worker.js`, `infra/cloudflare/`, `docs/cloudflare/`, `docs/anthropic-api-setup.md`, or `docs/proxy-setup.md` present anywhere in the repo. Run: `git ls-files | grep -E '^(server/|wrangler\.toml$|site-worker\.js$|infra/cloudflare/|docs/cloudflare/|docs/anthropic-api-setup\.md$|docs/proxy-setup\.md$)'` should return EMPTY. — returns empty on both repos
 
 **Library hoist (Phase 9.5) invariants on podcast-factory:**
 
-- [ ] `library/` exists at the repo root and contains only shipped artifacts
-- [ ] `_workspace/books/` exists (moved from `content/podcast/library/books/`) and contains the in-progress per-book state; orchestrator-state.json files resolve at the new location
-- [ ] No pipeline script writes outside `_workspace/` — verify: `grep -rn "content/podcast/library/" scripts/ skills-staging/podcast/ .github/agents/podcast-*.agent.md 2>/dev/null | wc -l` returns 0
-- [ ] `content/podcast/library/` directory no longer exists — verify: `test ! -d content/podcast/library && echo OK || echo "STILL PRESENT — Phase 9.5 cleanup incomplete"`
-- [ ] `library/_meta/catalog.md` exists and lists at least the books promoted in Phase 9.5.6 (e.g., kitab-al-riyad EP10)
-- [ ] `library/archetypes/islamic-scholastic-text.md` exists (moved from prior location)
-- [ ] For each promoted book: `library/books/<slug>/{index.md, transcript/, podcasts/}` all populated
+- [x] `library/` exists at the repo root and contains only shipped artifacts — `library/{README.md, _meta, archetypes, articles, books, documents, interviews, lectures, letters}` present
+- [x] `_workspace/books/` exists (moved from `content/podcast/library/books/`) and contains the in-progress per-book state; orchestrator-state.json files resolve at the new location — `asaas-al-taveel` and `kitab-al-riyad` carry `_workspace/books/<slug>/_system/orchestrator-state.json`; `ayyuhal-walad` and `the-master-and-the-disciple` are pre-pipeline (no state.json by design)
+- [ ] No pipeline script writes outside `_workspace/` — verify: `grep -rn "content/podcast/library/" scripts/ skills-staging/podcast/ .github/agents/podcast-*.agent.md 2>/dev/null | wc -l` returns 0 — **PARTIAL: returns 13 stale references in 3 Claude-agent specs** ([infra/claude-agents/podcast-extract.md](../../infra/claude-agents/podcast-extract.md): 6 refs, [infra/claude-agents/podcast-challenger.md](../../infra/claude-agents/podcast-challenger.md): 5 refs of which line 615 is in a historical CHANGELOG entry and acceptable, [infra/claude-agents/podcast-operator.md](../../infra/claude-agents/podcast-operator.md): 2 refs in §1 read-list + §2 D3 drift check). No script under `scripts/` or `skills-staging/podcast/` contains stale paths. **Follow-up: rewrite the 3 agent specs to point at `_workspace/books/<slug>/_system/…` before the next operator agent invocation depends on the stale path** (tracked as the only known runbook residual).
+- [x] `content/podcast/library/` directory no longer exists — verified absent
+- [x] `library/_meta/catalog.md` exists and lists at least the books promoted in Phase 9.5.6 (e.g., kitab-al-riyad EP10) — present (7 lines)
+- [x] `library/archetypes/islamic-scholastic-text.md` exists (moved from prior location) — present
+- [x] For each promoted book: `library/books/<slug>/{index.md, transcript/, podcasts/}` all populated — only `kitab-al-riyad` was promoted in Phase 9.5.6 (EP10 ship); `library/books/kitab-al-riyad/{index.md, transcript/, podcasts/}` all populated
 
 ---
 
