@@ -3,15 +3,11 @@
   "book_slug": "kitab-al-riyad",
   "category": "books",
   "branch": "book/kitab-al-riyad",
-  "phase": "merge",
-  "phase_status": "failed",
+  "phase": "per-chapter",
+  "phase_status": "halted",
   "last_completed_phase": "trainer",
   "next_phase": "merge",
-  "last_error": {
-    "phase": "merge",
-    "message": "`git checkout develop` failed: error: Your local changes to the following files would be overwritten by checkout:\n\tcontent/podcast/.skill/_learning/findings.jsonl\n\tcontent/podcast/.skill/_learning/health/kitab-al-riyad.json\n\tcontent/podcast/library/books/kitab-al-riyad/_system/cost-ledger.jsonl\n\tcontent/podcast/library/books/kitab-al-riyad/_system/orchestrator-state.json\nPlease commit your changes or stash them before you switch branches.\nAborting\n",
-    "ts": "2026-05-22T03:54:58Z"
-  },
+  "last_error": null,
   "phases": {
     "pre-flight": {
       "status": "completed",
@@ -67,35 +63,18 @@
       "ts_completed": "2026-05-22T03:52:44Z"
     },
     "per-chapter": {
-      "status": "completed",
-      "completed_slugs": [
-        "motion-stillness-hyle-and-form",
-        "prophets-as-teachers-monotheism-and-the-ranks",
-        "qada-and-qadar-fate-and-destiny",
-        "soul-and-spirit-one-substance-or-two",
-        "soul-intellect-and-the-power-of-emanation",
-        "souls-as-parts-or-traces",
-        "tawhid-and-the-critique-of-al-mahsul",
-        "the-human-as-fruit-of-the-worlds",
-        "the-intellect-as-the-first-creation",
-        "the-perfect-and-the-perfection-of-the-soul",
-        "the-sections-of-the-world",
-        "the-shariah-of-adam-and-the-first-speaker",
-        "the-soul-in-time-and-the-rejoinder-to-al-nusra"
-      ],
-      "reset_note": "Bug X5 (2026-05-21): chapter files contained inline phonetic-style parens (*term* (lowercase-hyphenated; gloss)) — R-PHONETICS-OUT violations per spec. Deterministic strip applied across all 14 chapters (157 parens total stripped). Phonetics already in customize prompts via Phase 0c pronunciation block — no semantic loss. motion-stillness still in completed_slugs.",
-      "ts_started": "2026-05-21T11:24:27Z",
-      "ts_completed": "2026-05-22T03:52:44Z",
-      "failed_slug": null,
-      "reconcile_note": "EP06 bundle shipped 2026-05-21 18:02 but on-disk draft diverged from re-extraction after X17 hand-fix (\"across prior episodes\" -> \"of the source\"); reconciled to completed_slugs 2026-05-21 with Asif explicit auth to resume on remaining 4 chapters."
+      "status": "pending",
+      "completed_slugs": [],
+      "ts_started": null,
+      "ts_completed": null
     },
     "trainer": {
-      "status": "completed",
+      "status": "pending",
       "ts_started": "2026-05-22T03:52:44Z",
       "ts_completed": "2026-05-22T03:54:58Z"
     },
     "merge": {
-      "status": "failed",
+      "status": "pending",
       "ts_started": "2026-05-22T03:54:58Z",
       "ts_completed": "2026-05-22T03:54:58Z"
     },
@@ -111,5 +90,10 @@
   "ts_started": "2026-05-18T22:51:13Z",
   "ts_updated": "2026-05-22T03:54:58Z",
   "challenger_version": "2.0",
-  "orchestrator_version": "1.1"
+  "orchestrator_version": "1.1",
+  "reset_for_reemit": {
+    "reason": "Phase 6 of Asif 10-phase plan: re-emit all 13 KaR chapters under v4-revised doctrine after F27 validators + _authoring.py propagation",
+    "ts": "2026-05-22T09:30:32Z",
+    "authorized_by": "Asif via AskUserQuestion confirmation 2026-05-22"
+  }
 }
