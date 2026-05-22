@@ -19,3 +19,5 @@ Append-only trend log. One row per `podcast-challenger` run.
 | 2026-05-22T00:31:10Z | 2.0 | per-chapter:the-sections-of-the-world | 1 ch | P0:1 P1:6 P2:0 | auto:0 | score:0.00 | Unstable | BLOCKED |
 | 2026-05-22T01:00:00Z | 2.0 | per-chapter:the-sections-of-the-world | 1 ch | P0:1 P1:5 P2:1 | auto:3 | score:0.00 | Unstable | BLOCKED |
 | 2026-05-22T01:30:00Z | 2.0 | per-chapter:the-sections-of-the-world | 1 ch | P0:0 P1:3 P2:0 | auto:2 | score:0.40 | Unstable | SHIP-WITH-CAUTION |
+| 2026-05-22T02:25:00Z | 2.0 | per-chapter:the-shariah-of-adam-and-the-first-speaker | 1 ch | P0:2 P1:4 P2:0 | auto:14 | score:0.00 | Unstable | BLOCKED |
+| 2026-05-22T02:45:00Z | 2.0 | per-chapter:the-shariah-of-adam-and-the-first-speaker | 1 ch | P0:0 P1:1 P2:0 | auto:7 | score:0.80 | Drifting | SHIP-WITH-CAUTION |

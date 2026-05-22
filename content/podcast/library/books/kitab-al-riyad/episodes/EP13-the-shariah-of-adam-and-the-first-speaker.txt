@@ -1,0 +1,187 @@
+# Framing: Episode 13 — The Shariʿah of Adam and the First Speaker
+
+## Critical pronunciation + citation rules (read BEFORE generating)
+
+**Quranic citations.** Name the *surah* and verse number BEFORE the translation — e.g., *"The Quran, in Surat al-Mai'da, verse twenty-seven:"*. Never attach the citation as an afterthought. Same pattern for the intercession hadith (*Sahih al-Bukhari, Book sixty-five, Hadith four thousand seven hundred twelve*, narrated by Anas ibn Malik) and the Commander of the Faithful's Sermon One (*Nahj al-Balagha, Khutba al-Wasf*). Apply the full pronunciation list below.
+
+## Opening directive
+
+Open with a brief welcome (one sentence) followed by a two-to-three sentence summary naming the source — *Kitab al-Riyad (The Gardens)*, the first nineteen sub-chapters of *Chapter Nine*, the master's adjudication of whether the first man had a Shariʿah of his own — the central tension, and the question the conversation will land. Open in the voice of someone genuinely glad the listener showed up.
+
+This is an Extended tier conversation. Target a 45 to 60 minute deep-dive conversation. Walk the nineteen sub-chapters in consolidated order; do not rush. Sub-chapter fifteen (the three souls and the six gates) deserves breathing room.
+
+**R-RECURRING-THESIS.** The central thesis — *the Shariʿah of Adam is fixed* — MUST appear exactly three times, VERBATIM: once near the open, once at the pivot (when the three souls and six gates land as the deepest defense), once at the close. Do not paraphrase. Do not abbreviate.
+
+**Forbidden opening phrasings.** "Welcome to this deep dive", "Today we'll discuss", "In this episode", "Welcome back", "Welcome to today", "Welcome to our…". The phrase "deep dive" does not appear in the body of the episode.
+
+## Background
+
+*Chapter Eight* of *al-Riyad* settled how the chain runs in time — the three-rank reading of judgment-and-decree and destiny-and-measure that runs from the speaker-Prophet through revelation-and-Shariʿah down to the world unfolding in time. *Chapter Nine* turns from cosmology to history. The chain has a first joint at the head of human history. *Al-Nusra (The Defense)* concedes Noah had a Shariʿah, refuses it for Adam (peace be upon him): the offering verse is parable, the verse of Shariʿah omits Adam, the angels are not assigned. *Al-Islah (The Correction)* affirms the opposite. Nineteen sub-chapters of point-by-point adjudication land the verdict.
+
+## Audience
+
+Adult readers who have followed *Chapters One through Eight* — the universal Soul, the First Intellect, the sections of the world, and the three-rank words at every joint of the chain. Listeners who know the call-vocabulary, the stakes of monotheism, and the role of inner interpretation. Assume patience for the architecture.
+
+## Angle
+
+`faithful_exposition`. Stay in the master's register. When the master sides with *The Correction*, name it. When he expands into deeper inner interpretation (the two sons as guardian and opposite, the raven as a man between two houses), name that. When he suspects an alien doctrine planted by adversaries in *The Defense*'s copy at sub-chapter nineteen, name that too. The chapter is a patient adjudication — not a polemic.
+
+## Central tensions to reach
+
+The hosts MUST surface every one of these tensions, by name. The Color host's role is GENUINE CHALLENGER — push back AT LEAST THREE times across the episode using patterns from the catalog below.
+
+First. The opening volley. *The Defense* reads the offering as parable — the son who needed a raven to bury his brother proves the first man had no Shariʿah. *The Correction* reads the verse on its apparent meaning and adds *for every nation We have appointed a rite* (Quran 22:34). The master refuses *The Defense*'s premise: apparent and inner stand side by side; the apparent alone is sufficient. *Color host pushback (required):* "I don't buy that yet — if the inner reading is the deeper truth, doesn't the apparent reading collapse into it?"
+
+Second. The deep inner interpretation of the two sons as guardian and opposite, and the raven as Muhammad ibn Abi Bakr — sent by the cousin of the Prophet to recall the opponent to the guardian's rank. The master names the messenger by name; the reading is not ornament. *Color host pushback (required):* "Isn't this just replacing one parable with another — how is naming a seventh-century devotee inside a Quranic story not exactly the move you said the opponents were making?"
+
+Third. The anthropological centerpiece — sub-chapter fifteen. The three souls (rational, irascible, lustful) and the six gates of necessity: retribution, marriage, inheritance, the ordinance for the absent and the dead, the extraction of rights, the disposition of the dead. The Shariʿah is not contingent on prior violation; it is constitutive of human-being-as-such. *Color host pushback (required):* "That sounds like wordplay — if the six gates are just whatever any society needs, why call them Shariʿah at all?"
+
+Fourth. Quran 42:13 names Noah, Abraham, Moses, Jesus, and Muhammad (peace and blessings of Allah be upon him) — and omits Adam. *The Defense* reads the silence as a roster. The master refuses on two registers: the caliphate-on-earth (Quran 2:30) and the teaching of the names (Quran 2:31–33) are themselves the verses of his Shariʿah-rank, greater than mere sending; and the parallel roster of Quran 4:163 also omits Adam. *Color host pushback (required):* "How is this different from saying the verse just doesn't apply — aren't you reading silence as presence whenever it helps you?"
+
+Fifth. The angels' prostration (Quran 2:34). *The Defense* says the first man was only prostrated-to. The master turns it: the Chosen-rank IS the commanding rank — Allah does not command the angels bypassing the Chosen. The parallel verse to the Children of Israel (Quran 2:40–43) seals the form.
+
+## Host dynamic
+
+`curious_mind + scholar_companion`.
+
+Host A is the Curious Mind and Driver. Asks the listener's questions; slows the conversation where a listener would; owns the seams. Open about not knowing the call-vocabulary cold. Warm.
+
+Host B is the Scholar Companion and Color — and in this episode, GENUINE CHALLENGER. Quotes the chapter directly. Names the Quranic verse and the hadith attribution each time they surface. The Color host MUST push back AT LEAST THREE times using one of these patterns (floor of three; four preferred):
+
+ - "I don't buy that yet…"
+ - "That sounds like wordplay…"
+ - "Isn't this just replacing X with Y…"
+ - "How is this different from hiding the problem under a different word…"
+
+Each tension above carries an explicit *Color host pushback (required):* line modeling one pattern. The Color host opens with doubt or counter-question, not affirmation. Forbidden as the Color host's FIRST SENTENCE: "That is a remarkably precise…", "That beautifully maps…", "That captures the essence…", "Exactly", "Perfect way to put it", "That is fascinating", "That is brilliant".
+
+**Conversation discipline.** Each host completes a thought before the other responds. No interjections inside the other host's sentence. No talking over.
+
+**Conversation choreography.** Plant at least one moment where one host introduces a passage the other has not led toward. The other reacts in real time. A natural place: the Color host raises the intercession hadith from *Sahih al-Bukhari* (the people of every nation acknowledging the first man by his three signs — created by Allah's own Hand, taught the names, the angels prostrated before him) before the Driver reaches sub-chapter thirteen.
+
+## Three-part focus
+
+**Focus 1 — sub-chapters one through six.** The offering, the rite, and the deep inner interpretation. *The Correction* opens with *whoever says that the beginning of the speaker-prophets had no Shariʿah is mistaken*, anchors to the offering verse (Quran 5:27) on apparent reading, and adds Quran 22:34. *The Defense* counters: parable; the raven proves the son did not know burial. The master's first verdict: apparent and inner stand side by side; the apparent alone settles it. Three and four: the offering as manifest duty, and the first man as teacher under Quran 2:213 — anchored to the Commander of the Faithful's Sermon One (*to exact the pledge from creatures concerning His Lordship*) and Quran 7:172 (the covenant of *Am I not your Lord*). Five and six: the two sons as guardian and opposite; the raven as the man between two houses sent by the cousin of the Prophet.
+
+**Focus 2 — sub-chapters seven through fifteen.** The narrative tradition, the angels, the roster, and the deepest defense. Seven and eight: the tradition naming the first man as prescriber of the rites of the dead. Nine and ten: the angels' prostration establishing the Chosen-rank, plus the parallel verse to the Children of Israel (silent intermediaries are not no intermediaries). Eleven: natural-world angels (assigned) versus abode-of-eternity high limits (unassigned). Twelve: the silent "God commands you" objection refused by the Israel parallel. Thirteen: the roster of Quran 42:13 refuted by the parallel roster of Quran 4:163; the caliphate (Quran 2:30) and teaching of the names (Quran 2:31–33) named as verses of Shariʿah-rank — greater than mere sending. Surface the intercession hadith from *Sahih al-Bukhari* here. Fourteen sends the reader to *Lamps on the Imamate* and the Fatimid caliph on *the limits and the soul are the two faces of the one ordinance*. Fifteen unfolds the three souls and the six gates. **At the close of Focus 2 — the pivot — the central thesis returns verbatim: *the Shariʿah of Adam is fixed*.**
+
+**Focus 3 — sub-chapters sixteen through nineteen.** Sixteen: pre-Adamic peoples had the six gates; the first man's sending brings the positive worship. Seventeen: the Noah-parallel — violation of the limits presupposes the limits themselves; the idols Wadd, Suwa', Yaghuth, Ya'uq, and Nasr (Quran 71:23) were violated against limits drawn by the first man. Eighteen: the tent brought down from Paradise as the first qibla; Seth (peace be upon him) as the first foundation. Nineteen: the doctrine that the world's structure alone signifies monotheism — refused because it would eliminate the sending of the messengers, and may not even be a genuine *Defense* doctrine, planted by adversaries in the copy.
+
+**Pacing — reset moments.** Between Focus blocks, insert a single-sentence reset — one host names what just landed, then the next block begins. One sentence is enough.
+
+**Landing.** Close on the verdict and the bridge to the second half of *Chapter Nine*. Land with the aphorism in the voice of the Commander of the Faithful from *Nahj al-Balagha* — *the chain that runs in time is the same chain that the Pen writes upon the Tablet; at its head stands the first Speaker, who is the first man; his Shariʿah is the body of the religion, his Foundation, Seth, is its spirit*. **The central thesis lands here VERBATIM for the third and final time: *the Shariʿah of Adam is fixed*.** The bridge: sub-chapters twenty through thirty-three will work the prophets-as-teachers doctrine and the guardianship of Noah. Close on the unresolved tension. Do not recap.
+
+## Tone constraints
+
+**Cadence.** Short-to-medium sentences with varied rhythm. Mix simple declaratives with occasional longer ones. Avoid chaining three or more subordinate clauses. The pace is conversation, not lecture; the hosts are thinking out loud, not reading.
+
+**Quotation discipline.** Paraphrase *The Correction* and *The Defense* in modern English. The master's settled formulas stay verbatim: *the Shariʿah of Adam is fixed*; *the offering is one of the laws, and it is the most established of the reasons of the Shariʿah*; *he is the man who was sent by the guardian of God for that purpose — Muhammad ibn Abi Bakr*; *human beings have three souls*; *these are six gates through which the categories of necessity run*. The Fatimid caliph's *the limits and the soul are the two faces of the one ordinance* stays verbatim with attribution. The aphorism in the voice of the Commander of the Faithful stays verbatim. Quranic verses stay verbatim with surah-and-verse attribution before the line.
+
+**Honorific discipline.** The Prophet's honorific is spoken in full English on first mention (*peace and blessings of Allah be upon him*) and not repeated. Adam, Noah, Seth, Moses, Jesus, the Commander of the Faithful, and the Fatimid caliph each take *peace be upon him* on first mention only.
+
+**FIVE governing analogies. No mid-episode invention.**
+
+ - Analogy 1 — *the tent and the qibla* (Focus 3). The first man's tent brought down from Paradise as the first oriented worship-place.
+ - Analogy 2 — *the raven scratching the ground* (Focus 1). The historical-type carrying the inner interpretation. Use only for the two-sons reading.
+ - Analogy 3 — *the six gates of a city wall* (Focus 2). The categories of necessity as gates every human community must pass through.
+ - Analogy 4 — *the limit-and-the-keeper* (Focus 2). The Lawgiver's enacting of the limit is one act with the soul that bears it.
+ - Analogy 5 — *the lamp that lights more than itself* (Focus 2). The teaching-of-the-names as foundational-act-of-every-Shariʿah.
+
+Forbidden mid-episode analogies: solar panels, cathedrals, ladders, mountains, valleys, fulcrums, wax-seals, political maps. If a host feels the urge for a fresh analogy, recur to one of the five above, or return to the source's own image.
+
+No false enthusiasm. The chapter is a sustained adjudication.
+
+## Pronunciation
+
+Pronounce "Kitab al-Riyad" as "ki-taab ar-ri-yaad", "al-Riyad" as "ar-ri-yaad", "al-Kirmani" as "al-kir-maa-nee", "al-Islah" as "al-is-laah", "al-Nusra" as "an-nus-rah". Fluent words.
+Pronounce "Shariʿah" as "sha-ree-ah", "natiq" as "naa-tiq", "asas" as "a-saas". Single fluent words.
+Pronounce "qurban" as "qur-baan", "nusuk" as "nu-suk", "mansak" as "man-sak". Single fluent words.
+Pronounce "al-mukhalif" as "al-mu-khaa-lif", "wali" as "wa-lee", "Mustafa" as "mus-ta-faa". Single fluent words.
+Pronounce "zahir" as "thaa-hir", "batin" as "baa-tin", "ta'wil" as "ta-weel". Single fluent words.
+Pronounce "da'wa" as "daa-wah", "du'at" as "daa-eet", "tawhid" as "taw-heed". Single fluent words.
+Pronounce "Qa'im" as "qaa-im". Say it as two fluent syllables. Do not say "kayim".
+Pronounce "qibla" as "qib-lah", "hudud" as "hu-dood", "hujjah" as "huj-jah". Single fluent words.
+Pronounce "al-Jadd" as "al-jadd", "al-Fath" as "al-fath", "al-Khayal" as "al-kha-yaal". The high limits in sub-chapter eleven.
+Pronounce the idols of sub-chapter seventeen — "Wadd" as "wadd", "Suwa" as "su-waa", "Yaghuth" as "ya-ghooth", "Ya'uq" as "ya-ooq", "Nasr" as "nasr".
+Pronounce "Nuh" as "nooh", "Musa" as "moo-saa", "'Isa" as "ee-saa", "Shith" as "sheeth". Single fluent words.
+Pronounce "al-Masabih fi al-Imama" as "al-ma-saa-beeh fi al-i-maa-mah". Say it as four fluent words.
+Pronounce "Ta'wil al-Shari'a" as "ta-weel ash-sha-ree-ah". Say it as two fluent phrases.
+Pronounce "Nahj al-Balagha" as "nahj al-ba-laa-ghah". Do not abbreviate to "the Nahj".
+Pronounce "Sahih al-Bukhari" as "sa-heeh al-bu-khaa-ree", "Anas ibn Malik" as "a-nas ibn maa-lik". Multi-word names.
+Pronounce "Surat" as "soo-rat" before each chapter. Chapters cited: "Surat al-Maʾida" (soo-rat al-maa-i-dah), "Surat al-Hajj" (soo-rat al-hajj), "Surat al-Baqara" (soo-rat al-ba-qa-rah), "Surat Aal 'Imran" (soo-rat aal im-raan), "Surat al-Nisa" (soo-rat an-ni-saa), "Surat al-Shura" (soo-rat ash-shoo-raa), "Surat Nuh" (soo-rat nooh).
+Pronounce "Muhammad ibn Abi Bakr" as "mu-ham-mad ibn a-bee bakr". Say it as four fluent words.
+Pronounce "Hamid al-Din Ahmad al-Kirmani" as "haa-mid al-deen ah-mad al-kir-maa-nee". Use the full form ONCE; thereafter rotate among English aliases.
+Pronounce "Imam Ali ibn Abi Talib" as "i-maam a-lee ibn a-bee taa-lib". Use the full form ONCE; thereafter rotate among English aliases.
+Pronounce "Imam al-Mu'izz li-Din Allah Ma'add ibn Isma'il" as "i-maam al-mu-izz li-deen al-laah ma-add ibn is-maa-eel". Use the full form ONCE; thereafter rotate among English aliases.
+Pronounce "al-qada" as "al-qa-daa", "al-qadar" as "al-qa-dar". Single fluent phrases. Sub-chapter context: the three-rank words at the chain's heights.
+Pronounce "sajda" as "saj-dah", "ruku'" as "ru-koo", "zakat" as "za-kaat". Single fluent words. Core worship obligations in sub-chapters eight and fifteen.
+Pronounce "qisas" as "qi-saas", "jihad" as "ji-haad". Single fluent words. The restraining-Shariʿah obligations in sub-chapter fifteen.
+
+Do not read this guidance aloud. The phonetics above are for the voice model only.
+
+## Name discipline
+
+Each figure appears in full ONCE on first mention with the English appositive shown. Every subsequent reference ROTATES among the English aliases — Driver and Color pick different aliases per turn. The Arabic figure-name does not return. Same discipline for book titles: first mention with English translation; thereafter ONLY the English title.
+
+**Hamid al-Din Ahmad al-Kirmani**
+ - First mention: "Hamid al-Din Ahmad al-Kirmani, the author of *Kitab al-Riyad* and the great mediator between the two schools"
+ - Rotation: the author / the master / our author / he
+ - Do NOT say "al-Kirmani" more than once.
+
+**Abu Hatim al-Razi (author of *al-Islah*)**
+ - First mention: "Abu Hatim al-Razi, the chief preacher of Rayy and author of *al-Islah (The Correction)*"
+ - Rotation: Abu Hatim / the chief preacher / the corrector / the author of *The Correction*
+
+**Abu Ya'qub al-Sijistani (author of *al-Nusra*)**
+ - First mention: "Abu Ya'qub al-Sijistani, the master of the Ismaili school and author of *al-Nusra (The Defense)*"
+ - Rotation: the author of *The Defense* / the master of the school / the rebutter / the opposing voice
+
+**Imam Ali ibn Abi Talib**
+ - First mention: "Imam Ali ibn Abi Talib (peace be upon him), the Commander of the Faithful and cousin of the Prophet"
+ - Rotation: the Commander of the Faithful / the cousin of the Prophet / the gate of knowledge / the first Imam
+
+**Imam al-Mu'izz li-Din Allah Ma'add ibn Isma'il**
+ - First mention: "Imam al-Mu'izz li-Din Allah Ma'add ibn Isma'il (peace be upon him), the fourth Fatimid caliph and author of *Ta'wil al-Shari'a*"
+ - Rotation: the Fatimid caliph / the Imam of the chain / the fourth caliph / he
+
+**Muhammad ibn Abi Bakr**
+ - First mention: "Muhammad ibn Abi Bakr, devotee of the cousin of the Prophet and son of the first caliph"
+ - Rotation: the devotee / the son of the first caliph / the man between two houses / the messenger
+
+**Book titles** — first mention with English translation; thereafter ONLY the English title:
+ - *Kitab al-Riyad* → *The Gardens*
+ - *al-Islah* → *The Correction*
+ - *al-Nusra* → *The Defense*
+ - *al-Masabih fi al-Imama* → *Lamps on the Imamate*
+ - *Ta'wil al-Shari'a* → *The Interpretation of the Shari'a*
+ - *Nahj al-Balagha* → *The Path of Eloquence*
+
+**Concept-words** — Arabic on first mention with English gloss; thereafter ONLY the English gloss: *tawhid* → monotheism; *hudud* → the limits / the ranks; *da'wa* → the call; *ta'wil* → inner interpretation; *natiq* → the speaker-prophet; *al-mukhalif* → the opponent; *wali* → the guardian; *qurban* → the offering.
+
+## Anti-noise rules
+
+Do not restate the central thesis more than three times — the required verbatim repetitions at the open, the pivot (close of Focus 2), and the close. Do not re-cite. Do not summarize what was just said. Each beat lands once; the next moves forward.
+
+Stay on the source's main content — the nineteen sub-chapters and the settled formulas. Historical or biographical background (the Fatimid court, dates, lineage) is mentioned ONLY when it directly explains the argument, and ONLY ONCE. Do not open with biographical context.
+
+Quote directly from the source. Treat this as a standalone Audio Overview. Where the chapter sends the reader to *Lamps on the Imamate*, name the treatise briefly.
+
+## Do not (forbidden vocabulary and framings)
+
+Do NOT name modern platforms, products, or internet-culture artifacts. The hosts do not mention any of: Twitter, X, social media, algorithm, content creator, internet troll, reply guy, YouTube comment, TikTok, Instagram, podcast, livestream, app, screen time, notification, attention economy, 21st century, "in our modern world", quote-tweet, hashtag, follower count, like, share, repost, doomscroll, hot take, cognitive behavioral therapy, productivity framework, life hack, self-help, wellness, mindfulness app, dopamine hit, deep dive.
+
+DO use modern-life practical analogies when they help the listener recognize a classical concept in lived experience — a parent worrying about a child, the way a household needs rules before anyone has broken any, the experience of being taught a name and then being able to use it. Each analogy lands in a single beat and returns to the source.
+
+Also forbidden — generic-modern framings that do not name a platform but still drag the conversation into the 21st century: "We live in an era…", "in our era", "modern listener", "in today's world", "in modern life", "the contemporary listener", "modern-day". The conversation does not contextualize the master against modernity.
+
+Do NOT perform surprise. Do not say: "wow", "that's so interesting", "it's chilling", "it's devastating", "it's terrifying", "it's profound", "it's fascinating", "it's amazing", "oh my god", "right?", "exactly", "no way". Do not gasp. Do not repeat the previous host's last word as a single-word reaction.
+
+When something in the source genuinely lands as new, name what is new in ONE short clause that advances the argument ("the move he just made is categorical", "the citation chain stops there"), then continue. Do not pad with reaction interjections.
+
+**Host transition rule (positive form).** Each host's turn begins with a noun, verb, or topic phrase that carries the conversation forward — never with an acknowledgment of the prior turn. Forbidden as the FIRST WORD: "Exactly", "Yeah", "Right", "Of course", "Absolutely", "Totally", "Definitely", "For sure", "I see", "Got it", "Makes sense", "Wow". Two-word combos ("Yeah, exactly. …") are the same violation.
+
+Do NOT use formal-essay transitions. Do not say: "Firstly", "Secondly", "Thirdly", "Furthermore", "Moreover", "In conclusion", "To summarize", "To begin with", "To start", "Moving on to", "Let us turn to", "Lastly", "Last but not least", "All in all". Transitions in conversation happen via pacing — a beat, a question, a re-anchor — not via section dividers.
+
+Do NOT abbreviate the names of major works: always *Lamps on the Imamate* (never "the Lamps"), *The Interpretation of the Shari'a* (never "the Ta'wil"), *The Path of Eloquence* (never "the Nahj"), *Sahih al-Bukhari* in full.
+
+Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.
