@@ -14,22 +14,8 @@ Idempotent — safe to re-run.
 
 ## Hooks
 
-### `pre-commit`
-
-Runs `cd server && npm run validate-themes` when any staged file touches the
-theme system:
-
-- `site/css/**`
-- `site/js/theme-switcher.js`
-- `site/**/*.html`
-
-Commits with theme parity violations are blocked. The validator runs 8 checks —
-see [server/scripts/validate-theme-parity.mjs](../../server/scripts/validate-theme-parity.mjs)
-and the [css-theme-sync skill](../../skills-staging/css-theme-sync/skill.md) for
-the full list.
-
-Bypass in emergencies only:
-
-```bash
-git commit --no-verify
-```
+*No hooks currently installed.* The previous `pre-commit` theme-parity hook
+was retired 2026-05-22 along with the rest of the journal-site stack (the
+`server/` directory and the `skills-staging/css-theme-sync/` skill it
+depended on were moved out during the repo split). Add new hooks here as
+needed; the installer auto-discovers anything in this directory.

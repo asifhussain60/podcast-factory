@@ -30,5 +30,8 @@ for hook in "$SRC_DIR"/*; do
 done
 
 echo ""
-echo "$installed hook(s) installed. Test with:"
-echo "  git add <a theme-relevant file> && git commit -m 'test'"
+if [ "$installed" -eq 0 ]; then
+  echo "No hooks in $SRC_DIR — nothing installed."
+else
+  echo "$installed hook(s) installed."
+fi
