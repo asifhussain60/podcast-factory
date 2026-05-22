@@ -1,12 +1,13 @@
 # Podcast intelligence enhancements — tracking plan
 
-**Authored:** 2026-05-22 (Air machine, interactive planning session with Asif)
-**Status:** 🟡 PLANNED — **not yet implemented**. Captured for after KaR archetype-driven manual finish completes.
+**Authored:** 2026-05-22 (Air machine, interactive planning sessions with Asif)
+**Status:** 🟡 READY TO EXECUTE — spec locked across two interactive sessions; awaiting your green light to start Phase 1. KaR's currently-in-flight per-chapter work (EP04+ authoring) gets folded INTO this plan rather than running separately.
 
-This doc records the decisions made during a 2026-05-22 planning session
-on six podcast-pipeline enhancements (plus one TBD). When implementation
-starts, treat this as the authoritative spec — items already locked
-shouldn't be re-debated, only refined.
+This doc records the decisions made during 2026-05-22 planning sessions
+on six podcast-pipeline enhancements + book-intake automation. When
+implementation starts, treat this as the authoritative spec — items
+already locked shouldn't be re-debated, only refined. Section
+"§9 Final sequencing (LOCKED)" at the bottom is the day-by-day work plan.
 
 ---
 
@@ -21,8 +22,10 @@ shouldn't be re-debated, only refined.
 | 5 | Imam doctrine substitution rule | spec locked | 0.5 day + sweep |
 | 6 | Reflective-reverent emotion register | spec locked | 0.5-1 day |
 | 7 | Challenger enhancements (rollup of 1-6) | derived | interleaved |
+| 7.5 | Book-intake automation (`intake_book.py`) | spec locked | 0.5 day |
+| 7.6 | Series-plan automation | deferred — re-evaluate after first new-book run | — |
 
-Total estimated focused work: **5-7 days**.
+Total estimated focused work: **5.5-8 days** through plan completion + first new-book run.
 
 ---
 
@@ -193,29 +196,91 @@ Implementation surfaces:
 
 ---
 
-## Sequencing
+## §9 Final sequencing (LOCKED — interleaved with ch01 validation gate)
 
-Recommended implementation order (lowest blast radius → highest scaffolding work):
+Locked in second interactive session 2026-05-22. The earlier "lowest-blast-radius first, summary episodes last" linear plan was superseded by interleaved sequencing with a hard validation gate after KaR's ch01 group (EP03+EP04+EP05+EP05.5). Rationale: empirical validation of NotebookLM voice-engine behaviour (item 3) and end-to-end summary infrastructure (item 1) both need at least one full chapter-group to complete, and finding archetype bugs after 7-10 authored chapters is 4× more expensive than finding them after 3.
 
-1. **Item 5 (Imam doctrine sweep)** — quick + retroactive impact; doctrinal hygiene. **Day 1.**
-2. **Item 4 (Essential Teachings)** — small archetype rewrite; touches Landing only. **Day 1-2.**
-3. **Item 3 (Host gender lock)** — modest archetype rewrite + challenger rule + validator. Validate empirically against NotebookLM voice assignment. **Day 2-3.**
-4. **Item 6 (Emotion register)** — archetype rules + curated phrase-list for validation. **Day 3-4.**
-5. **Item 1 (Summary episodes)** — biggest scaffolding work; new orchestrator phase + new file types + ship integration. **Day 5-7.**
-6. **Item 7 (Challenger rollup)** — implementation interleaved with each item above; final consolidation pass on day 7.
+### Phase 1 — Small enhancements + challenger rollup (Days 1-3)
+
+Implement items 4, 5, 6 + their challenger checks. Apply Imam-doctrine sweep retroactively across EP03/EP10/EP14 + the 10 unauthored chapter sources. Apply Essential Teachings retroactively to EP03/EP10/EP14 framings.
+
+| Day | Work |
+|---|---|
+| Day 1 | Item 5 Imam doctrine: archetype §3 new rule, `sweep_imam_doctrine.py`, retroactive sweep across all 13 KaR chapters + 3 existing framings. Commit. |
+| Day 2 | Item 4 Essential Teachings: archetype §4.1 Landing rewrite to two-beat. Retroactive update on EP03/EP10/EP14 framings. Build_episode_txt validator R-ESSENTIAL-TEACHINGS-PRESENT. Re-emit episode .txts. |
+| Day 3 | Item 6 Reflective-reverent emotion: archetype §4 new section + curated phrase list. Item 7 first cut of challenger rollup (rules 4 + 5 + 6 implemented in `_rules.py`). Re-run challenger against EP03/EP10/EP14; expect SHIP-READY or close. |
+
+### Phase 2 — Host gender lock + empirical NotebookLM validation (Day 4)
+
+Item 3 archetype rewrite + challenger rule + validator. Upload EP03 to NotebookLM with explicit gender hints in the customize prompt; verify voice assignment is deterministic. If NotebookLM ignores the hints, downgrade R-HOST-GENDER-LOCK to advisory + log the constraint as a future-platform issue.
+
+### Phase 3 — Complete ch01 group end-to-end (Days 5-7)
+
+| Day | Work |
+|---|---|
+| Day 5 | Author EP04 (ch04b "Soul, Intellect, and the Power of Emanation") using full enhanced pipeline. `claude -p` skeleton + hand-edit, build_episode_txt verify, commit. |
+| Day 6 | Author EP05 (ch05c "The Soul in Time and the Rejoinder to al-Nusra"). Same pattern. |
+| Day 7 | Item 1 summary-episode infrastructure: new orchestrator phase `13.5-summary`, `author_summary_chapter.py`, file layout `library/books/<slug>/podcasts/series-NN/EP##.5-summary/`, `ship_to_library.py` integration. Generate EP05.5 chapter-group summary. |
+
+### Phase 4 — VALIDATION GATE (Day 8)
+
+- Full challenger pass on EP03/04/05/05.5 — must be SHIP-READY or SHIP-WITH-CAUTION with only acceptable P1/P2 advisories.
+- Asif listen-test: upload one EP + the EP05.5 summary to NotebookLM, audit the conversation quality.
+- Decision: scale to remaining chapters as-is, or fix archetype/challenger gaps first and re-run the relevant chapter(s).
+
+### Phase 5 — Scale to ch02-ch13 (Days 9-12)
+
+Batch-author the remaining 7 chapters in sequence (parallelization NOT used — LLM call is ~30-90s but human review dominates, so parallel savings are ~10% wall time, not worth the complexity):
+
+| Day | Chapters |
+|---|---|
+| Day 9 | EP06 (ch06 "The Intellect as the First Creation") + EP07 (ch07 "Soul and Spirit — One Substance or Two?") |
+| Day 10 | EP08 (ch08 "Souls — Parts of the First Truths, or Only Traces?") + EP09 (ch09 "The Human Being — Fruit of All the Worlds") |
+| Day 11 | EP11 (ch11 "The Sections of the World") + EP12 (ch12 "Qada and Qadar — Fate and Destiny") |
+| Day 12 | EP13 (ch13a "The Shariʿah of Adam and the First Speaker") + EP15 (ch15 "Tawhid and the Critique of al-Mahsul") |
+
+### Phase 6 — Book completion + KaR ship (Day 13)
+
+- Generate EP15.5 (book-end summary across all 15 EPs).
+- Final challenger pass on all 17 deliverables (15 EPs + 2 summaries).
+- Update orchestrator state.json: phase=done, completed_slugs filled.
+- `ship_to_library.py --book kitab-al-riyad` promotes everything to `library/books/kitab-al-riyad/`.
+- Update KaR catalog row; merge `book/kitab-al-riyad` → `develop`.
+
+### Phase 7 — First new-book run (Day 14)
+
+- Pick a book from `raw/`. Recommended: **Ayyuhal Walad** — smallest (146KB PDF), faster end-to-end loop for first scaling validation.
+- Run enhanced orchestrator end-to-end through Phase 0a-0g + the new summary-episode phase.
+- Measure: per-chapter hand-edit minutes vs KaR baseline; identify any friction that didn't show up in KaR's KaR-specific tuning.
+
+### Phase 7.5 — Book-intake automation (Day 14, parallel with first new-book setup)
+
+`scripts/podcast/intake_book.py <pdf-path> <book-slug>`:
+- Copies PDF from `raw/<book>.pdf` → `_workspace/books/<slug>/_source/<book>.pdf`
+- Creates workspace skeleton (`_system/`, `chapters/`, `episodes/`, `episode-drafts/`)
+- Initializes `_system/orchestrator-state.json` with phase=preflight
+- Creates the `book/<slug>` git branch
+- Prints next-action (operator runs `orchestrate_book.py --start <pdf-path> --slug <slug>`)
+
+This script runs once per new book + saves ~30 min of manual setup. Built during Phase 7's setup so it's exercised on the first new-book run.
+
+### Phase 7.6 — Series-plan automation (deferred)
+
+Re-evaluate after Phase 7 completes. If Ayyuhal Walad needed substantial manual series-plan authoring, design the LLM-assisted generator next. If the structural pattern (single-chapter book) made it trivial, defer further.
 
 ---
 
-## Roll-out (against KaR's remaining chapters)
+## Roll-out (item-by-item against KaR's chapters)
 
 | Phase | KaR target | Items rolled out |
 |---|---|---|
-| 1 | Verify on EP03 (already authored) | 4 + 5 |
-| 2 | Apply to EP04 (next chapter) | 3 |
-| 3 | Apply to EP05 | 6 |
-| 4 | After ch01 group (EP03/04/05) completes — generate EP05.5 summary | 1 (chapter-group summary) |
-| 5 | After EP15 (book complete) — generate EP15.5 book summary | 1 (book-end summary) |
-| 6 | Re-run challenger on EP03/EP10/EP14 with all new rules | 7 (rollup verification) |
+| 1 Day 1-3 | EP03/EP10/EP14 retroactive | 4 + 5 + 6 + 7 (rollup so far) |
+| 2 Day 4 | EP03 NotebookLM voice empirical test | 3 |
+| 3 Day 5-7 | EP04 + EP05 authoring, EP05.5 generation | 3 + 6 (live) + 1 (chapter-group summary infra) |
+| 4 Day 8 | ch01 group validation gate | 7 (full rollup verification) |
+| 5 Day 9-12 | EP06-EP09, EP11-EP13, EP15 batch | all items live |
+| 6 Day 13 | EP15.5 book-end summary + ship | 1 (book-end summary) |
+| 7 Day 14 | First new-book run (Ayyuhal Walad) | 7.5 (intake automation) |
 
 ---
 
@@ -230,13 +295,19 @@ Recommended implementation order (lowest blast radius → highest scaffolding wo
 
 ## How this plan was finalized
 
-Interactive planning session with Asif on 2026-05-22. Three pushbacks from Claude during the session, each accepted by Asif:
+**Two interactive planning sessions with Asif on 2026-05-22.** Five Claude pushbacks during the sessions, all accepted by Asif:
 
-1. **Q1 trigger**: Asif's initial choice was per-chapter threshold (word count + density). Claude pushed back — semantic density detection requires LLM call + dynamic episode numbering = high complexity for low marginal value. Asif accepted the structural-trigger alternative.
-2. **Q2 host shape**: Asif's spec implied 2-host (his "A is the scholar, B (female) is the curious student" example). The existing "debate" format declared 3 hosts. Claude pushed back — NotebookLM is 2-voice; 3-host declarations get collapsed. Asif accepted the 2-host simplification + retire the Arbiter role.
-3. **Q5 emotion flavor**: Asif's spec was qualitative ("balance of emotion and intelligence"). Claude offered 3 flavors (reflective-reverent / personal-stakes / hospitality). Asif accepted reflective-reverent as the best match for Islamic-scholastic content.
+1. **Q1 (summary trigger)**: Asif's initial choice was per-chapter threshold (word count + density). Claude pushed back — semantic density detection requires LLM call + dynamic episode numbering = high complexity for low marginal value. Asif accepted the structural-trigger alternative (chapter-group + book-end).
+2. **Q2 (host shape)**: Asif's spec implied 2-host (his "A is the scholar, B (female) is the curious student" example). The existing "debate" format declared 3 hosts. Claude pushed back — NotebookLM is 2-voice; 3-host declarations get collapsed. Asif accepted the 2-host simplification + retire the Arbiter role.
+3. **Q5 (emotion flavor)**: Asif's spec was qualitative ("balance of emotion and intelligence"). Claude offered 3 flavors (reflective-reverent / personal-stakes / hospitality). Asif accepted reflective-reverent as the best match for Islamic-scholastic content.
+4. **Q6 (sequencing)**: Plan-doc's strictly linear "all enhancements → all chapters → ship" had a late-discovery risk (any archetype calibration error after 7+ chapters costs 4× to fix). Claude pushed back with an interleaved sequence + hard validation gate after the ch01 group (EP03+EP04+EP05+EP05.5). Asif accepted.
+5. **Q7 (scaling automation)**: Plan-doc's 6 enhancements solve quality but not velocity; book-onboarding friction (manual PDF copy, workspace scaffolding, series-plan authoring) is the actual bottleneck for processing more books. Claude pushed back with Phase 7.5 book-intake automation. Asif accepted (and deferred series-plan automation pending first new-book run signal).
+
+**Effective optimization function**: from "ship KaR fast" → "validate the enhanced pipeline thoroughly enough that the next book runs with minimal hand-holding." The validation gate + the empirical NotebookLM voice test + the book-intake script all serve this scaling intent.
 
 Items not in scope of this plan:
-- KaR's remaining EP04-EP15 authoring (operationally in flight; archetype-driven manual finish).
 - Memoir / journal repo work (different repo).
 - General orchestrator infrastructure work (existing tasks in `podcast-plan.yaml`).
+- Pipeline parallelization within Phase 5 (rejected — ~10% wall-time savings not worth the concurrent-commit complexity once human-review is the bottleneck).
+- Multi-format archetype library for non-Islamic content (deferred — all current `raw/` books are Islamic-scholastic; revisit when a different-genre book lands).
+- Cross-book challenger learning (challenger learns from book N's failure patterns to improve book N+1) — interesting future direction; not in scope.
