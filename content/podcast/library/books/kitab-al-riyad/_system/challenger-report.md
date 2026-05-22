@@ -2,14 +2,14 @@
 
 **Verdict:** SHIP-WITH-CAUTION
 **Book:** kitab-al-riyad
-**Chapter:** ch09-the-human-as-fruit-of-the-worlds
-**Episode:** EP09-the-human-as-fruit-of-the-worlds
-**Run:** 2026-05-21 (challenger v2.0)
-**Scope:** per-chapter: the-human-as-fruit-of-the-worlds
-**Iterations:** 1 (of 5 max; intelligent-break: no auto-fixes + stable finding set; further iteration won't converge)
+**Chapter:** ch03a-the-perfect-and-the-perfection-of-the-soul
+**Episode:** EP03-the-perfect-and-the-perfection-of-the-soul
+**Run:** 2026-05-22 (challenger v2.0)
+**Scope:** per-chapter: the-perfect-and-the-perfection-of-the-soul
+**Iterations:** 1 of 5 max — intelligent-break fired (finding set stable across 2 consecutive invocations; no auto-fixes in either)
 **Auto-fixes applied:** 0
 **P0:** 0 | **P1:** 1 | **P2:** 2
-**Score:** 0.75 (Caution)
+**Score:** 0.70 (Caution)
 
 ---
 
@@ -17,7 +17,7 @@
 
 No auto-fixes were applied this run.
 
-Em-dashes are present throughout the chapter but the majority occur inside italicized verbatim source-translation passages (*italic text — with em-dashes*), which are protected by A4 (verbatim quote integrity). Section-heading em-dashes are structural separators. The few em-dashes in pure analysis prose require author rebalancing to avoid meaning loss; flagged as B5 P2 advisory.
+Em-dashes are present throughout the chapter (60 lines contain em-dashes). The majority occur inside verbatim blockquote source-translation passages protected by the verbatim-quote integrity rule, and within `### Section N — title` headings which use em-dash as a structural separator. The analysis prose em-dashes require author judgment to rebalance without meaning loss in a scholarly translation register; auto-fix is not appropriate. Flagged as B5 P2 advisory (carried, second consecutive invocation).
 
 ---
 
@@ -31,33 +31,37 @@ None.
 
 ### P1 (ship-with-caution)
 
-#### F5: Discussion spine unfilled — all 8 beats have [LLM-FILL] placeholders
+#### F5: Scaffold stubs unfilled — discussion spine, key-passages, and context-pack
 
-- **Signature:** `F5:discussion-spine-unfilled:EP09-the-human-as-fruit-of-the-worlds`
-- **File:** `content/podcast/library/books/kitab-al-riyad/_system/episode-drafts/EP09-the-human-as-fruit-of-the-worlds/04-discussion-spine.md`
-- **Line:** 1-62 (entire file)
-- **Context:** The discussion spine declares 8 beats (within the required 6-12 band) but every beat carries `[LLM-FILL]` placeholders for Key question, Tension, Anchor passage, and Landing. The spine is a scaffold only. This file is not uploaded to NotebookLM (it does not flow through `build_episode_txt.py`) and does not affect the episode txt. However, F5 requires the spine to be "present and well-shaped" — unfilled stubs do not constitute a well-shaped spine. The framing's Three-part focus section (which does flow to NotebookLM) compensates for the absent spine content with detailed beat-by-beat instructions. The practical upload risk is low; the F5 finding is procedural.
-- **Suggested fix:** Author to fill the 8 discussion spine beats with real Key questions, Tensions, Anchor passages, and Landing notes drawn from the chapter content. The framing's Three-part focus provides the content — the spine is the distilled version of that same architecture. Priority: do before the next full-book challenger sweep, not blocking for upload.
+- **Signature:** `F5:discussion-spine-unfilled:EP03-the-perfect-and-the-perfection-of-the-soul`
+- **Files:**
+  - `content/podcast/library/books/kitab-al-riyad/_system/episode-drafts/EP03-the-perfect-and-the-perfection-of-the-soul/04-discussion-spine.md` — 14 `[LLM-FILL]` placeholders (all 8 beats)
+  - `content/podcast/library/books/kitab-al-riyad/_system/episode-drafts/EP03-the-perfect-and-the-perfection-of-the-soul/02-key-passages.md` — 5 `[LLM-FILL]` "Why this matters" stubs
+  - `content/podcast/library/books/kitab-al-riyad/_system/episode-drafts/EP03-the-perfect-and-the-perfection-of-the-soul/03-context-pack.md` — 4 `[LLM-FILL]` stubs
+- **Status:** Carried — stable across 2 consecutive invocations. Finding is UNCHANGED.
+- **Context:** None of these three files flow through `build_episode_txt.py`; the episode txt is built from `00-framing.md` only and is unaffected. The framing is complete and well-authored; the unfilled scaffold stubs are pipeline-hygiene. The discussion spine declares 8 beats (within the 6–12 band) but every beat is a stub. The framing's `## Six-beat arc` and `## Central tensions to reach` sections carry the complete steering content that would normally populate the spine. Practical upload risk is zero; this is a documentation finding only.
+- **Suggested fix:** Fill the 8 spine beats from the framing's six-beat arc content (Beat 1–6 fully specified there). Fill "Why this matters" in key-passages from the chapter's argumentative function of each cited passage. Fill context-pack author/dates/tradition from the series-plan and `_system/source/`. Priority: before next full-book challenger sweep. Does not block episode upload.
 
 ---
 
 ### P2 (advisory)
 
-#### B5: Em-dashes in chapter prose require author review
+#### B5: Em-dashes in chapter analysis prose require author review
 
-- **Signature:** `B5:em-dashes-in-chapter:ch09-the-human-as-fruit-of-the-worlds`
-- **File:** `content/podcast/library/books/kitab-al-riyad/chapters/ch09-the-human-as-fruit-of-the-worlds.txt`
-- **Line:** Multiple (lines 15, 23, 51, 61, 81, 87, 95, 97, 99, 103, 111, 115, 117, 127, 131, 147, 151, 155, 157, 163, 169, 173, 175, 179, 183, 185, 187, 191, 193, 205)
-- **Context:** The chapter contains em-dashes throughout. The majority appear inside italicized passages that represent verbatim or near-verbatim translations of al-Kirmani and the reformers' texts (e.g., *the form which is prepared to receive the three souls: the vegetative, the sensitive, and the speaking.* at line 17 — em-dash inside verbatim rendering). These are protected by A4 verbatim-quote integrity and should not be auto-fixed. Section headings (lines 15, 61, 81, 111, 169) use em-dash as a structural separator. Analysis paragraphs at lines 51, 99, 103, 131, 155, 157, 163, 175, 185, 187, 191, 193 contain em-dashes in pure prose that could be replaced with commas or semicolons without semantic loss.
-- **Suggested fix (advisory):** Author review of em-dashes in analysis paragraphs. Candidates: line 51 "the bearer of a *karama* given before any work the soul has yet done on itself — the form prepared"; line 99 "*not absolutely perfect* — their perfection too lives in a rank"; line 191 "and obedience to them in knowledge and in deed — the doctrine is Imam al-Mu'izz's". These are low-priority for upload but improve prosody if fixed before NotebookLM generation.
+- **Signature:** `B5:em-dashes-in-chapter:ch03a-the-perfect-and-the-perfection-of-the-soul`
+- **File:** `content/podcast/library/books/kitab-al-riyad/chapters/ch03a-the-perfect-and-the-perfection-of-the-soul.txt`
+- **Status:** Carried — stable across 2 consecutive invocations.
+- **Lines:** 60 lines contain em-dashes. Protected: blockquotes (lines 25, 31, 83–84, 90–91, 99–100, 128–129, 135, 180–181) and section headings (lines 45, 53, 59, 69, 95, 112, 120, 140, 154, 170). Analysis prose candidates requiring author review: lines 11, 13, 15, 17, 21, 27, 37, 51, 55, 63, 65, 67, 75, 77, 79, 86, 93, 102, 114, 122, 133, 144, 152, 164, 166, 175.
+- **Context:** Faithful scholarly translation register with heavy em-dash use in both verbatim rendering and analytical connectives. Analysis prose em-dashes could be rewritten with commas, colons, or sentence splits without semantic loss, improving prosody when NotebookLM reads the chapter as a source.
+- **Suggested fix (advisory):** Author review of analysis prose em-dashes. Priority candidates: line 65 "doubly broken — because" → "doubly broken, because"; line 114 "bound up downstream — not at the same rank" → "bound up downstream, not at the same rank". Low-priority for upload; improves prosody if fixed before generation.
 
 #### F6: No canonical NotebookLM steering vocabulary from two-host-framing.md
 
-- **Signature:** `F6:no-canonical-steering-phrases:EP09-the-human-as-fruit-of-the-worlds`
-- **File:** `content/podcast/library/books/kitab-al-riyad/_system/episode-drafts/EP09-the-human-as-fruit-of-the-worlds/00-framing.md`
-- **Line:** Three-part focus section
-- **Context:** The framing is detailed and well-built (5 tensions, 3 focus sections, reset directives, choreography clause, cadence directive, DENY blocks). It does not use the exact steering vocabulary from `two-host-framing.md` — specifically "Slow down on...", "Treat X as the central tension...", "End on a question...". The framing achieves equivalent effect through specific directives ("Let the formula carry its weight without paraphrase", "Hold both anxieties at once") but misses the exact F6 trigger strings. P2 advisory; the framing is functionally complete.
-- **Suggested fix (advisory):** Optionally add one canonical steering phrase to the Three-part focus sections, e.g., "Slow down on sub-chapter six's seeking-doctrine refusal — let that beat land fully before the hosts move to sub-chapter seven." One addition satisfies F6 with minimal word-count impact.
+- **Signature:** `F6:no-canonical-steering-phrases:EP03-the-perfect-and-the-perfection-of-the-soul`
+- **File:** `content/podcast/library/books/kitab-al-riyad/_system/episode-drafts/EP03-the-perfect-and-the-perfection-of-the-soul/00-framing.md`
+- **Status:** Carried — stable across 2 consecutive invocations.
+- **Context:** The framing does not use the exact trigger vocabulary from `two-host-framing.md` — specifically "Slow down on...", "Treat X as the central tension...". The framing achieves equivalent effect with specific directives ("Let the listener respect the move before it is corrected", "The Color host raises the crisis with weight"). P2 advisory; framing is functionally complete and upload-ready.
+- **Suggested fix (advisory):** Optionally add one canonical steering phrase, e.g., "Slow down on the developing-force chain (sub-chapter three) — let the three-step bearer-borne chain land fully before moving to sub-chapter four." One addition satisfies F6 at minimal cost.
 
 ---
 
@@ -65,27 +69,42 @@ None.
 
 | Chapter | Words | Band | Band limits | In-band | Tiers | Blockquote ratio | Phonetic gaps | Framing words | Framing in-band |
 |---|---|---|---|---|---|---|---|---|---|
-| ch09-the-human-as-fruit-of-the-worlds | 9,481 | extended | 5,500–9,500 | YES | 5 | ~4% | 0 | 3,512 | YES (max 3,700) |
+| ch03a-the-perfect-and-the-perfection-of-the-soul | 6,284 | extended | 5,500–9,500 | YES | 4 | ~22% | 0 | 3,483 | YES (max 3,700) |
 
-**Word-count note:** Chapter at 9,481 words is within the Extended Deep Dive band (5,500–9,500) and well within the build script's hard cap (10,500). E1 PASS. Q4 PASS.
+**Word-count note:** Chapter at 6,284 words is within the Extended Deep Dive band (5,500–9,500). E1 PASS. Framing at 3,483 words is within the 3,700-word cap. F10 PASS.
 
-**Tier diversity (D1):** Tier 1 (al-Kirmani source), Tier 2 (Quran — 4 verses), Tier 4 (Nahj al-Balagha Imam Ali, Diwan al-Imam Ali), Tier 5 (Imam al-Mu'izz Ta'wil al-Shari'a — Ismaili), Tier 6 (Ibn Ata Allah Hikam — Sufi tradition). 5 tiers. D1 PASS.
+**Tier diversity (D1):** Tier 1 (al-Kirmani source / lost-work paraphrase), Tier 2 (Quran — 4 verses: 41:53, 91:7–10, 17:85, 36:40), Tier 3 (Nahj al-Balagha Imam Ali aphorism 71), Tier 6 (Rumi Mathnawi Book 1). 4 tiers. D1 PASS.
 
 **Citation audit:**
-- Quran 95:4-6 (at-Tin): surah+verse + Pickthall named at first occurrence. A1/A3 PASS.
-- Quran 17:70 (al-Isra): surah+verse + Pickthall. PASS.
-- Quran 41:11 (Fussilat): surah+verse + Pickthall. PASS.
-- Quran 23:115 (al-Mu'minun): surah+verse + Yusuf Ali / Sahih International. PASS.
-- Nahj al-Balagha, Sermon 1 (Imam Ali): work + sermon number. PASS.
-- Diwan al-Imam Ali ibn Abi Talib: work title + "traditionally attributed" qualifier. PASS.
-- Ibn Ata Allah al-Iskandari, Hikam, Aphorism 11: author + work + aphorism number. PASS.
-- Ta'wil al-Shari'a (Imam al-Mu'izz): work + author named. PASS.
-- Prophet hadith "Whoever knows himself knows his Lord": attributed to "Sufi and Ismaili tradition" without collection/number. A1 P1 consideration — however the chapter correctly reframes as tradition-attribution rather than canonical hadith. Flagged below for author awareness; not elevated to P1 this iteration because the non-canonical framing is unambiguous in the text.
+- Quran 41:53 (Fussilat): surah name + verse number in framing header, verbatim Arabic + English in chapter with attribution. PASS.
+- Quran 91:7–10 (Surat al-Shams): surah name + verse range in framing header, verbatim Arabic + Sahih International in chapter. PASS.
+- Quran 17:85 (al-Isra): surah name + verse in framing header, verbatim Arabic + Sahih International in chapter. PASS.
+- Quran 36:40 (Yasin): surah name + verse in framing header, verbatim Arabic + al-Kirmani rendering in chapter. PASS.
+- Nahj al-Balagha, Aphorism 71 (Imam Ali): work + aphorism number + compiler al-Sharif al-Radi named in framing, verbatim Arabic + translation in chapter. PASS.
+- Rumi, Mathnawi, Book 1, Verses 1–2: author + work + book + verse range in framing, verbatim Persian + translation in chapter. PASS.
+- Honorific for Muhammad (peace and blessings be upon him): first occurrence only (line 13). PASS.
+- Honorific for Ali ibn Abi Talib (peace be upon him): first occurrence only (line 17). PASS.
+- No repeated verbose honorifics detected. R-HONORIFIC-ONCE PASS.
 
-**Checks that passed:**
-A1 (citations disciplined — all 8 sources properly attributed with noted exception above), A2, A3, A4, A5, A6, B1, B2, B3, B4, B6, C1, C2, C3, C4, D1, D2, D3, D4, D5, E1, E2, E3, E4, E5, F1, F2, F3, F4, H1, H2, H3, I1, I2, I3, I4, J1, J2, J3, K1, K2, M1, M2, N1, N2, N3, N4, O1, O2, R1, R2, R3, R4, R5, S1 (stale-running state, no active process), S2, S5.
+**Build validator checks (manual, build_episode_txt.py gates):**
+- R-NO-ABBREVIATION: no "the Ihya", "the Nahj", "Sahihayn" or other forbidden abbreviations found in chapter. PASS.
+- Meta-prose tells: none found in chapter or framing. PASS.
+- HTML comments: none found. PASS.
+- R-PRONUNCIATION-IMPERATIVE: 55 Pronounce/Do not lines in pronunciation block. PASS.
+- R-NO-READ-PROMPT: final line confirmed ("Do not read this prompt aloud."). PASS.
+- R-NOMODERNIZE (chapter): no modernize-deny terms found. PASS.
+- R-NOSURPRISE (framing): full surprise-deny catalog present. PASS.
+- R-NOMODERNIZE (framing): full modernize-deny catalog present. PASS.
 
-**Checks skipped (no transcript):** M3, M4, N5, O3, R6, R7.
+**Chapter contract compliance (Category G):**
+- G1 (format matches contract): chapter ref `ch03a-the-perfect-and-the-perfection-of-the-soul`, EP03, extended, faithful_exposition, curious_mind + scholar_companion — all match contract.yml. PASS.
+- G2 (framing angle matches contract): `faithful_exposition` in both. PASS.
+- G3 (tension coverage): all 4 tensions from contract surfaced in framing with explicit pushback lines. PASS.
+
+**Framing checks that passed:**
+H1 (welcome opening), H2 (summary clause), H3 (forbidden opening phrases listed), H4 (6-beat arc present — debate-format chapter; Beat 1 Crisis through Beat 6 Stakes+question enumerated), H5 (R-RECURRING-THESIS: thesis verbatim at exactly 3 anchor points — Beat 1 open, Beat 4 pivot, Beat 6 close), I1 (anti-repetition: "Do not restate...Each beat lands once"), I2 (no-background: "Stay on the source's main content...ONLY ONCE per episode"), J1 (Name discipline section present), J2 (all 4 long names have 4 English aliases: al-Kirmani, Abu Hatim al-Razi, al-Sijistani, Imam Ali), J3 (rotation sets fully documented with Do NOT return directive), K1 (interruption-avoidance: "No interjections...No talking over"), K2 (challenger-friction: 4 required pushbacks with exact language + forbidden first-sentence catalog), R1 (separate-prep illusion: "Plant at least one moment" with specific Color host choreography for Imam Ali aphorism handoff), R2 (reset clause: two specific reset sentences named — Beat 3→4 and Beat 5→6), R3 (cadence: "Short-to-medium sentences...thinking out loud"), R4 (no-formal transitions: full list banned in Do not block), R5 (no-surprise vocabulary: "Do not say: 'wow'..."), N1 (pronunciation block: full Arabic phonetics for all key terms, names, and 4 complete Quranic verses + 1 Persian poem), N2 (book-title discipline: English-after-first-mention for all 6 key works), N3 (concept-word discipline: tawhid, da'wa, amr all handled).
+
+**Checks skipped (no transcript):** M3 (transcript verbatim-thesis count), M4 (forbidden-opener firing count), N5 (audio mangle detection), O3 (forbidden-analogy detection in audio).
 
 ---
 
@@ -94,16 +113,28 @@ A1 (citations disciplined — all 8 sources properly attributed with noted excep
 **P0:** 0 | **P1:** 1 | **P2:** 2 | **Chapters in scope:** 1 | **Auto-fixes this run:** 0
 
 ```
-penalty = (0 x 1.0 + 1 x 0.2 + 2 x 0.05) / 1 = 0.30
+penalty = (0 × 1.0 + 1 × 0.2 + 2 × 0.05) / 1 = 0.30
 score   = max(0.0, 1.0 - 0.30) = 0.70  (Caution)
 ```
 
-**Verdict: SHIP-WITH-CAUTION** — No P0 findings. One P1 (unfilled discussion spine scaffold — procedural, not affecting NotebookLM upload). Two P2 advisories (em-dash review, steering-phrase addition). The chapter and framing are upload-ready as-is; the P1 finding is a pipeline-hygiene item the author should close before the book-scope challenger sweep.
+**Verdict: SHIP-WITH-CAUTION** — No P0 findings. One P1 (unfilled scaffold stubs in discussion spine, key-passages, and context-pack — procedural, does not affect NotebookLM upload). Two P2 advisories (em-dash review in analysis prose; optional canonical steering phrase addition). Chapter and framing are upload-ready as-is. The framing is one of the strongest in the KaR series: 6-beat arc fully mapped, R-RECURRING-THESIS at exactly 3 verbatim anchor points, 4 required challenger pushbacks with explicit language, complete name-discipline rotation sets, full pronunciation block. Intelligent-break fired after 1 iteration — finding set is stable across two consecutive invocations.
 
 **P1 item (1 of 1):**
-1. F5: `04-discussion-spine.md` — all 8 beats have `[LLM-FILL]` placeholders. Fill before next full-book challenger sweep. Does not block episode upload.
+1. F5: `04-discussion-spine.md` — all 8 beats have `[LLM-FILL]` placeholders (14 stubs total); `02-key-passages.md` has 5 "Why this matters" stubs; `03-context-pack.md` has 4 stubs. Fill before next full-book challenger sweep. Does not block episode upload.
 
 **P2 advisory items (2):**
 1. B5: Em-dashes in analysis prose paragraphs. Author review recommended; low upload risk.
-2. F6: Add one canonical steering phrase ("Slow down on...") to Three-part focus. Optional enhancement.
+2. F6: Add one canonical steering phrase ("Slow down on...") to Six-beat arc. Optional enhancement.
+
+---
+
+## Upload confirmation
+
+Verdict is SHIP-WITH-CAUTION. Episode is upload-ready. Per-episode steps:
+
+1. Open NotebookLM. Create a notebook for *Kitab al-Riyad, Episode 3*.
+2. Upload `content/podcast/library/books/kitab-al-riyad/chapters/ch03a-the-perfect-and-the-perfection-of-the-soul.txt` as the **single source** (SOURCE).
+3. Paste `content/podcast/library/books/kitab-al-riyad/episodes/EP03-the-perfect-and-the-perfection-of-the-soul.txt` into the **Customize** prompt box (CUSTOMIZE PROMPT).
+4. Choose *Deep Dive*. Length: *Longer* or *Extended*.
+5. Click *Generate*.
 

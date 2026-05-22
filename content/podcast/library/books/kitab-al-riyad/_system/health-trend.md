@@ -14,3 +14,5 @@ Append-only trend log. One row per `podcast-challenger` run.
 | 2026-05-21T20:47Z | 2.0 | per-chapter:the-human-as-fruit-of-the-worlds | 1 ch | P0:0 P1:3 P2:2 | auto:19 | score:0.30 | Unstable | SHIP-WITH-CAUTION |
 | 2026-05-21T21:08Z | 2.0 | per-chapter:the-human-as-fruit-of-the-worlds | 1 ch | P0:1 P1:3 P2:2 | auto:14 | score:0.00 | Unstable | BLOCKED |
 | 2026-05-21T21:33Z | 2.0 | per-chapter:the-human-as-fruit-of-the-worlds | 1 ch | P0:0 P1:1 P2:2 | auto:0 | score:0.70 | Caution | SHIP-WITH-CAUTION |
+| 2026-05-21T23:58Z | 2.0 | per-chapter:the-perfect-and-the-perfection-of-the-soul | 1 ch | P0:0 P1:1 P2:2 | auto:0 | score:0.70 | Caution | SHIP-WITH-CAUTION |
+| 2026-05-22T00:00Z | 2.0 | per-chapter:the-perfect-and-the-perfection-of-the-soul | 1 ch | P0:0 P1:1 P2:2 | auto:0 | score:0.70 | Caution | SHIP-WITH-CAUTION |
