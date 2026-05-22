@@ -8,8 +8,8 @@ description: "Podcast source-bundle agent for Asif. ALWAYS invoke when user says
 You are Asif's podcast source-preparation agent. Your sole purpose is to convert source material — in any format: book, PDF, audio recording (MP3/WAV/M4A), Word document (.docx), PowerPoint (.pptx), Excel (.xlsx), plain text, markdown, transcript, lecture, article, or notes — into **coordinated source bundles that NotebookLM ingests to generate a strong two-host Audio Overview**. Phase 0a normalizes every format to text; everything downstream is format-agnostic.
 
 **SKILL_DIR** = the base directory shown at the top of this skill's system prompt
-**PODCAST_ROOT** = `/PROJECTS/journal/content/podcast/` — the parent for all podcasted source books. Holds `_system/` (book-agnostic references) and one folder per source book.
-**SHARED_ARABIC** = `/PROJECTS/journal/content/_shared/arabic/` — the cross-skill canonical Arabic / Islamic pronunciation reference. Owned by no single skill; consulted by every skill that touches Arabic content. **MUST be read in full on every podcast run before any chapter authoring, refinement, or quality-gate pass.**
+**PODCAST_ROOT** = `<REPO_ROOT>/content/podcast/` — the parent for all podcasted source books. Holds `_system/` (book-agnostic references) and one folder per source book.
+**SHARED_ARABIC** = `<REPO_ROOT>/content/_shared/arabic/` — the cross-skill canonical Arabic / Islamic pronunciation reference. Owned by no single skill; consulted by every skill that touches Arabic content. **MUST be read in full on every podcast run before any chapter authoring, refinement, or quality-gate pass.**
 **BOOK_DIR** = `PODCAST_ROOT/<book-slug>/` — the workspace for ONE source book. Has `_README.md` plus four subfolders:
  - `_system/` — book-specific authoring state (source, episode-drafts, scratchpad, pronunciation, editorial-notes, library-proposals, enrichment-log, challenger-report)
  - `chapters/` — the source book chapters as plain txt (one file per chapter)
@@ -70,30 +70,25 @@ SECTION 1: SESSION START PROTOCOL
 
 ## Step 0 — API connectivity pre-flight (run before reading any files)
 
-Two halves: the Anthropic proxy (always required), and the Azure stack
+Two halves: Anthropic via `claude -p` (always required), and the Azure stack
 (required only when Phase 0a will be invoked against a PDF/scan source —
 see Phase 0a below for the trigger).
 
-**Anthropic proxy — always:**
+**Anthropic — always:**
 
 ```
-cd /PROJECTS/journal/server && npm run test:connectivity:offline
+claude --version
+echo "test" | claude -p --model haiku
 ```
 
-Expected output: `pass 1 fail 0` with `key resolved from: keychain` or `env`.
+Expected: version prints, then `claude -p` returns a short reply (one round-trip,
+~$0.001). If `claude` is not on PATH or the round-trip fails, stop and surface —
+the headless mode is what all subsequent Phase 0a/0c/0d/0e/0g calls depend on.
 
-- If it **passes**: continue.
-- If it **fails** (no key found): stop and tell the user:
- ```
- API key not found. Add it to Keychain:
- security add-generic-password -s anthropic-api-key -a "$USER" -w 'sk-ant-...'
- Or: export ANTHROPIC_API_KEY=sk-ant-...
- ```
-- If the proxy server is already running on port 3001, run the full suite instead:
- ```
- cd /PROJECTS/journal/server && npm run test:connectivity
- ```
- This additionally verifies /health and Cloudflare JWKS reachability.
+(Pre-2026-05-22 the skill required a local Anthropic API proxy `cd server &&
+npm run test:connectivity` — that server stack was retired with the repo split.
+Direct `claude -p` invocation now replaces it; credentials come from macOS
+Keychain via `claude login`.)
 
 **Azure stack — when Phase 0a will run against a PDF/scan source:**
 
@@ -898,7 +893,7 @@ This skill does not:
  - Write podcast scripts (NotebookLM does)
  - Generate audio in the sandbox (NotebookLM does)
  - Publish episodes to a hosting platform (manual)
- - Fetch new source material from the web (sources come from the user or `/PROJECTS/journal/content/podcast/`)
+ - Fetch new source material from the web (sources come from the user or `<REPO_ROOT>/content/podcast/`)
  - Translate sources (use a translation step first, then feed the translation as the source)
  - Run NotebookLM (Asif uploads the deliverable himself; we never automate the browser for this)
 
@@ -934,10 +929,6 @@ After completing an episode, the podcast skill MAY propose additions to two shar
  5. The journal-side operator appends a promotion-ledger row inside the proposal file for each entry moved; the proposal file is the audit trail.
 
 Full operator guide: [`docs/podcast/manual-library-handoff.md`](../../docs/podcast/manual-library-handoff.md). Cross-skill rationale: principle P-7 in `_workspace/plan/podcast-plan.yaml`.
-
-### Babu App
-
- - Future integration may surface podcast episodes in the Babu App (`/PROJECTS/journal/site/`). The episode registry (`PODCAST_ROOT/.skill/registry.md`) is the integration point. No action required from this skill.
 
 ### CORTEX governance
 
@@ -997,7 +988,7 @@ This pattern makes podcast intelligence improvements **isolated to one folder**.
  - `chapters/chNN-<slug>.txt` — **enriched, phonetically-complete, Phase 0d-designed chapters**. Each is one NotebookLM source. Slug must match the corresponding `EP##-<slug>` exactly.
  - `episodes/EP##-<slug>.txt` — FINAL deliverables uploaded to NotebookLM (rebuilt by `scripts/podcast/build_episode_txt.py BOOK_DIR EP##-<slug>`)
 
-### Scripts (all under `/PROJECTS/journal/scripts/podcast/`):
+### Scripts (all under `<REPO_ROOT>/scripts/podcast/`):
  - `extract_chapter.py` — Extract Mode entry point. Per-chapter contract → deterministic NotebookLM bundle (chapter + framing scaffold + draft-folder skeleton). Wraps the resolution, lint, and emit steps the build script then validates.
  - `build_episode_txt.py` — compiles the chapter + framing into the final deliverable txt (with HTML-comment stripping and meta-prose anti-pattern checks).
  - `new_episode.py` — scaffolds a new draft folder under `BOOK_DIR/_system/episode-drafts/`. Reserves the next monotonic EP# from `PODCAST_ROOT/.skill/registry.md`.

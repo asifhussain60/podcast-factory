@@ -25,13 +25,13 @@ Read [.github/agents/operating-contract.md](operating-contract.md) end-to-end. I
 Gather only what informs anti-regression. One bash call, no recursive walks:
 
 ```
-ls -la /Users/asifhussain/PROJECTS/journal/ 2>&1 | head -40
-ls /Users/asifhussain/PROJECTS/journal/.github/agents/ 2>&1
-ls /Users/asifhussain/PROJECTS/journal/.claude/agents/ 2>&1
-ls /Users/asifhussain/PROJECTS/journal/.claude/commands/ 2>&1
-ls /Users/asifhussain/PROJECTS/journal/skills-staging/ 2>&1
-test -f /Users/asifhussain/PROJECTS/journal/CLAUDE.md && head -20 /Users/asifhussain/PROJECTS/journal/CLAUDE.md
-grep -n "^##" /Users/asifhussain/PROJECTS/journal/framework.md 2>&1 | head -30
+ls -la /Users/asifhussain/PROJECTS/podcast-factory/worktrees/main/ 2>&1 | head -40
+ls /Users/asifhussain/PROJECTS/podcast-factory/worktrees/main/.github/agents/ 2>&1
+ls /Users/asifhussain/PROJECTS/podcast-factory/worktrees/main/.claude/agents/ 2>&1
+ls /Users/asifhussain/PROJECTS/podcast-factory/worktrees/main/.claude/commands/ 2>&1
+ls /Users/asifhussain/PROJECTS/podcast-factory/worktrees/main/skills-staging/ 2>&1
+test -f /Users/asifhussain/PROJECTS/podcast-factory/worktrees/main/CLAUDE.md && head -20 /Users/asifhussain/PROJECTS/podcast-factory/worktrees/main/CLAUDE.md
+grep -n "^##" /Users/asifhussain/PROJECTS/podcast-factory/worktrees/main/framework.md 2>&1 | head -30
 ```
 
 If `package.json` exists at root, include `head -30` of it. Skip if absent.

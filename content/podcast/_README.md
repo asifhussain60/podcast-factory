@@ -2,12 +2,12 @@
 
 This folder holds source-book workspaces for podcast-bound material. Each book lives under `library/<category>/<book-slug>/`. The `/podcast` skill turns its chapters into NotebookLM-ready bundles whose Audio Overview produces a focused two-host conversation.
 
-The skill definition itself lives at `/PROJECTS/journal/skills-staging/podcast/SKILL.md` (canonical, version-controlled). This folder is the content workspace.
+The skill definition itself lives at `<REPO_ROOT>/skills-staging/podcast/SKILL.md` (canonical, version-controlled). This folder is the content workspace.
 
 ## Folder layout
 
 ```
-/PROJECTS/journal/content/podcast/
+<REPO_ROOT>/content/podcast/
 ├── _README.md this file
 ├── library/ ← the sources
 │ ├── books/ multi-chapter long-form works

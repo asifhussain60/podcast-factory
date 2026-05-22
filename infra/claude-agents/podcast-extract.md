@@ -40,7 +40,7 @@ Use `Read` on the resolved contract path.
 Single Bash call:
 
 ```
-python3 /Users/asifhussain/PROJECTS/journal/scripts/podcast/extract_chapter.py <ref>
+python3 /Users/asifhussain/PROJECTS/podcast-factory/worktrees/main/scripts/podcast/extract_chapter.py <ref>
 ```
 
 If the script's exit code is non-zero, report the full stderr verbatim and **stop**. Do not retry, do not modify the contract, do not pass `--force` unless the user explicitly requests it.

@@ -1,6 +1,6 @@
 # Podcast — <Book Title>
 
-**Source:** *<Book Title>* by <Author>. <Translator / edition note if relevant>. Original at [`_system/source/<book-title>.<ext>`](computer:///Users/asifhussain/PROJECTS/journal/content/podcast/<book-slug>/_system/source/<book-title>.<ext>).
+**Source:** *<Book Title>* by <Author>. <Translator / edition note if relevant>. Original at [`_system/source/<book-title>.<ext>`](computer:///Users/asifhussain/PROJECTS/podcast-factory/worktrees/main/content/podcast/<book-slug>/_system/source/<book-title>.<ext>).
 
 **Slug:** `<book-slug>` · **Episodes:** <count> (1:1 chapter↔episode mapping) · **Architecture:** v3.5 (chapter-as-source, phonetics in customize prompt only).
 
@@ -51,8 +51,8 @@ After NotebookLM renders the audio for an episode, the audio is transcribed via 
 
 ## Canonical references
 
-- Skill: [`skills-staging/podcast/SKILL.md`](computer:///Users/asifhussain/PROJECTS/journal/skills-staging/podcast/SKILL.md)
-- Challenger: [`.github/agents/podcast-challenger.agent.md`](computer:///Users/asifhussain/PROJECTS/journal/.github/agents/podcast-challenger.agent.md)
-- Single-chapter fast path: [`.github/agents/podcast-extract.agent.md`](computer:///Users/asifhussain/PROJECTS/journal/.github/agents/podcast-extract.agent.md)
-- Cross-series episode index: [`content/podcast/.skill/registry.md`](computer:///Users/asifhussain/PROJECTS/journal/content/podcast/.skill/registry.md)
-- Shared Arabic / phonetics authority: [`content/_shared/arabic/`](computer:///Users/asifhussain/PROJECTS/journal/content/_shared/arabic/)
+- Skill: [`skills-staging/podcast/SKILL.md`](computer:///Users/asifhussain/PROJECTS/podcast-factory/worktrees/main/skills-staging/podcast/SKILL.md)
+- Challenger: [`.github/agents/podcast-challenger.agent.md`](computer:///Users/asifhussain/PROJECTS/podcast-factory/worktrees/main/.github/agents/podcast-challenger.agent.md)
+- Single-chapter fast path: [`.github/agents/podcast-extract.agent.md`](computer:///Users/asifhussain/PROJECTS/podcast-factory/worktrees/main/.github/agents/podcast-extract.agent.md)
+- Cross-series episode index: [`content/podcast/.skill/registry.md`](computer:///Users/asifhussain/PROJECTS/podcast-factory/worktrees/main/content/podcast/.skill/registry.md)
+- Shared Arabic / phonetics authority: [`content/_shared/arabic/`](computer:///Users/asifhussain/PROJECTS/podcast-factory/worktrees/main/content/_shared/arabic/)

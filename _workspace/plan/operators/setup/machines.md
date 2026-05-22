@@ -21,8 +21,8 @@ Both operator machines run the same project but with **different macOS users, di
 | Hostname hint | `Asifs-Mac-Studio.local` |
 | macOS user | `ahmac` |
 | Home directory | `/Users/ahmac` |
-| Primary worktree | [/Users/ahmac/Code/podcast-factory/book-asaas](/Users/ahmac/Code/podcast-factory/book-asaas) — branch `book/asaas-al-taveel` |
-| Additional worktrees | [/Users/ahmac/Code/podcast-factory/feat-w1](/Users/ahmac/Code/podcast-factory/feat-w1) (`feat/operator-review-studio`, 7 commits ahead of develop — active UI work); [/Users/ahmac/Code/podcast-factory/main](/Users/ahmac/Code/podcast-factory/main) (`dump`, 1 commit ahead — local stash branch) |
+| Primary worktree | `/Users/ahmac/Code/podcast-factory/worktrees/book-asaas` — branch `book/asaas-al-taveel` (Option 2 layout 2026-05-22; container-parent at `podcast-factory/`, repo + worktrees grouped under `worktrees/`) |
+| Additional worktrees | `worktrees/main` (`develop`, integration target), `worktrees/book-islr` (`book/islr-mas-i`), `worktrees/book-kar` (`book/kitab-al-riyad` — checked out after the 2026-05-22 KaR ownership transfer, then transferred back to Air same day), `worktrees/feat-w1` (`feat/operator-review-studio` — RETIRED 2026-05-22 when the branch was merged + deleted; remove from disk if still present) |
 | Role | Primary — designated for autonomous Azure-backed podcast-pipeline runs (per memory `project_primary_mac.md`, 2026-05-18) |
 | Anthropic quota share | 0.5 |
 | Currently in-flight | `book/asaas-al-taveel` (Phase 0b halted, awaiting operator gate (b)) |
@@ -38,8 +38,8 @@ Both operator machines run the same project but with **different macOS users, di
 | Hostname hint | `Asifs-MacBook-Air.local` |
 | macOS user | `asifhussain` |
 | Home directory | `/Users/asifhussain` |
-| Primary worktree | `/Users/asifhussain/PROJECTS/journal` — branch `book/kitab-al-riyad` |
-| Additional worktrees | none |
+| Primary worktree | `/Users/asifhussain/PROJECTS/podcast-factory/worktrees/book-kar` — branch `book/kitab-al-riyad` (Option 2 layout 2026-05-22) |
+| Additional worktrees | `worktrees/main` (`develop`), `worktrees/book-asaas` (`book/asaas-al-taveel`), `worktrees/book-islr` (`book/islr-mas-i`) — all under `/Users/asifhussain/PROJECTS/podcast-factory/` |
 | Role | Secondary — currently driving `book/kitab-al-riyad`; flexes to other books per claim protocol in [../book-queue.md](../book-queue.md) |
 | Anthropic quota share | 0.5 |
 | Currently in-flight | `book/kitab-al-riyad` (Phase 0g per-chapter — EP10 shipped SHIP-WITH-CAUTION, EP14 in flight after X3/X4 fixes) |
@@ -60,8 +60,8 @@ Both operator machines run the same project but with **different macOS users, di
 |---|---|---|
 | macOS user | `ahmac` | `asifhussain` |
 | Home path | `/Users/ahmac` | `/Users/asifhussain` |
-| Primary worktree path | `/Users/ahmac/Code/podcast-factory/book-asaas` | `/Users/asifhussain/PROJECTS/journal` |
-| Worktree count | 3 | 1 |
+| Primary worktree path | `/Users/ahmac/Code/podcast-factory/worktrees/book-asaas` | `/Users/asifhussain/PROJECTS/podcast-factory/worktrees/book-kar` |
+| Worktree count | 4 (main + book-asaas + book-islr + book-kar; feat-w1 retired 2026-05-22) | 4 (main + book-asaas + book-islr + book-kar) |
 | Currently assigned book branch | `book/asaas-al-taveel` | `book/kitab-al-riyad` |
 | `claude` auth | separate session (logged in as `ahmac`) | separate session (logged in as `asifhussain`) |
 | Memory directory | `~/.claude/projects/-Users-ahmac-Code-Journal/memory/` | `~/.claude/projects/-Users-asifhussain-PROJECTS-journal/memory/` |

@@ -1,5 +1,20 @@
 # Air machine sync — Phase 8 of the repo-split runbook + ongoing-sync bootstrap
 
+> **HISTORICAL — DO NOT EXECUTE.** This runbook documents the 2026-05-22 Phase 8
+> sync from the pre-split layout to the *original* post-split layout
+> (`podcast-factory/main/` as the main worktree, linked worktrees as siblings).
+> That sync ran successfully; Air is now several layout iterations beyond what
+> this runbook describes. Current canonical layout is **Option 2 container**:
+> the main worktree lives at `podcast-factory/worktrees/main/`, with siblings
+> `podcast-factory/worktrees/{book-asaas, book-islr, book-kar}/` and
+> filesystem-only `podcast-factory/{library, raw}/` above. See
+> [`../plan/operators/setup/machines.md`](../plan/operators/setup/machines.md)
+> for the current per-machine layout and `git log` on develop for the migration
+> commits (44e339c → a130746 → 8937501 → ce92396).
+> Path references below (`podcast-factory/main`, `/PROJECTS/journal`, etc.)
+> reflect the layout that was being migrated TO at the time of writing, not
+> the current state. Kept for historical context.
+
 **Purpose:** bring Asif's MacBook Air ("Air") into sync with Studio Mac's post-split state, AND wire up the cross-machine workflow so future sessions are seamless. Paste the contents of this file from the next `---` to end-of-file into a fresh Claude Code session on Air.
 
 **Companion docs (Air's Claude can read them after Step 3 pulls develop):**
