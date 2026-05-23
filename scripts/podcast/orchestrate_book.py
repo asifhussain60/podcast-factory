@@ -58,9 +58,13 @@ branch; never pushes to main; never force-pushes.
 from __future__ import annotations
 
 import argparse
+import fcntl
+import json
+import os
 import re
 import subprocess
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 # Local imports (these live next to this script).
@@ -96,6 +100,8 @@ INGEST_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "ingest_source.py"
 EXTRACT_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "extract_chapter.py"
 BUILD_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "build_episode_txt.py"
 AZURE_PROBE = REPO_ROOT / "scripts" / "podcast" / "test_azure_connectivity.py"
+CHAPTER_SET_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "check_chapter_set.py"
+LOCKS_DIR = Path.home() / ".podcast-locks"
 
 ALLOWED_CATEGORIES = ("books", "articles", "documents", "lectures", "interviews", "letters")
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
@@ -899,6 +905,13 @@ def _drive_authoring_through_0f(book_dir: Path, title: str) -> int:
         update_phase(book_dir, phase=phase_id, status="completed")
         phase_git_commit(book_dir, f"podcast({book_slug}): {subject}")
 
+        # Phase 0d.5 — chapter-set advisory (G2 cohesion fix, 2026-05-23).
+        # Runs check_chapter_set.py as fail-soft after Phase 0d completes,
+        # so title collisions / band misfits / balance variance surface
+        # BEFORE Phase 0e enrichment + Phase 0g LLM authoring burn time.
+        if phase_id == "0d":
+            _run_chapter_set_check(book_dir, log=_info)
+
     # Phase 0f — assemble series-plan.md and halt.
     _info("phase: 0f · assembling series-plan.md for human review")
     update_phase(book_dir, phase="0f", status="running")
@@ -927,6 +940,182 @@ def _drive_authoring_through_0f(book_dir: Path, title: str) -> int:
     _info(f"  python3 scripts/podcast/orchestrate_book.py --resume {book_slug}")
     _info("─" * 72)
     return 0
+
+
+def _read_machine_id() -> str:
+    """Return the machine_id from ~/.machine-id, or 'unknown' if not present."""
+    p = Path.home() / ".machine-id"
+    if p.exists():
+        return p.read_text(encoding="utf-8").strip()
+    return "unknown"
+
+
+def _is_pid_alive(pid: int) -> bool:
+    """Probe whether `pid` is a live process via signal-0. Returns False on any error."""
+    try:
+        os.kill(pid, 0)
+    except (ProcessLookupError, PermissionError, OSError):
+        return False
+    return True
+
+
+def _acquire_book_lock(book_slug: str) -> tuple[int, Path] | None:
+    """G3 cohesion fix (2026-05-23): acquire an exclusive fcntl lock for this
+    book before mutating its state. Prevents two concurrent orchestrator runs
+    on the same book from corrupting `state.json`.
+
+    Returns (lock_fd, lock_path) on success, None on lock contention with a
+    live competitor. Stale locks (PID dead) are auto-cleaned and retried once.
+
+    The fcntl lock is tied to the OS process — if the orchestrator is killed
+    (SIGTERM, SIGKILL, crash) the OS auto-releases the lock; the next caller
+    detects the dead PID via `_is_pid_alive` and cleans up the lockfile.
+    """
+    LOCKS_DIR.mkdir(parents=True, exist_ok=True)
+    lock_path = LOCKS_DIR / f"{book_slug}.lock"
+
+    def _try_acquire() -> int | None:
+        fd = os.open(lock_path, os.O_RDWR | os.O_CREAT, 0o644)
+        try:
+            fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except (OSError, BlockingIOError):
+            os.close(fd)
+            return None
+        os.ftruncate(fd, 0)
+        body = (
+            f"pid: {os.getpid()}\n"
+            f"machine_id: {_read_machine_id()}\n"
+            f"started_at: {datetime.now(timezone.utc).isoformat(timespec='seconds')}\n"
+            f"book_slug: {book_slug}\n"
+        )
+        os.write(fd, body.encode("utf-8"))
+        os.fsync(fd)
+        return fd
+
+    fd = _try_acquire()
+    if fd is not None:
+        return fd, lock_path
+
+    try:
+        existing = lock_path.read_text(encoding="utf-8")
+    except OSError:
+        existing = ""
+    existing_pid: int | None = None
+    for ln in existing.splitlines():
+        if ln.startswith("pid:"):
+            try:
+                existing_pid = int(ln.split(":", 1)[1].strip())
+            except ValueError:
+                existing_pid = None
+            break
+
+    if existing_pid and _is_pid_alive(existing_pid):
+        _err(f"book {book_slug!r} is already locked by another orchestrator process:")
+        for ln in existing.splitlines():
+            _err(f"  {ln}")
+        _err(f"  lockfile: {lock_path}")
+        _err("  if you're sure the other process is dead, delete the lockfile and re-run.")
+        return None
+
+    _info(f"  · cleaning up stale lockfile (PID {existing_pid} not alive): {lock_path.name}")
+    try:
+        lock_path.unlink()
+    except OSError:
+        pass
+    fd = _try_acquire()
+    if fd is None:
+        _err(f"failed to acquire lock for {book_slug!r} after stale-cleanup")
+        return None
+    return fd, lock_path
+
+
+def _release_book_lock(lock_fd: int, lock_path: Path) -> None:
+    """Release the fcntl lock and remove the lockfile. Safe on partial state."""
+    try:
+        fcntl.flock(lock_fd, fcntl.LOCK_UN)
+    except OSError:
+        pass
+    try:
+        os.close(lock_fd)
+    except OSError:
+        pass
+    try:
+        lock_path.unlink()
+    except OSError:
+        pass
+
+
+def _run_chapter_set_check(book_dir: Path, log=_info) -> None:
+    """G2 cohesion fix (2026-05-23): post-Phase-0d advisory chapter-set check.
+
+    Wires check_chapter_set.py into the orchestrator as a fail-soft Phase 0d.5.
+    Catches title collisions, word-band misfits, generic titles, and
+    inter-chapter balance variance BEFORE Phase 0e + Phase 0g LLM authoring
+    burn 5-9h on a mis-segmented book.
+
+    Writes <book_dir>/_system/chapter-set-report.md. Logs a one-line summary.
+    Never raises — findings are advisory only at the orchestrator level
+    (the podcast-challenger agent applies them as ship-gates at the per-book
+    audit stage).
+    """
+    log("phase: 0d.5 · chapter-set advisory check")
+    rc, stdout, stderr = _run(
+        ["python3", str(CHAPTER_SET_SCRIPT), str(book_dir)]
+    )
+    findings: list[dict] = []
+    if stdout.strip():
+        try:
+            parsed = json.loads(stdout)
+        except json.JSONDecodeError:
+            log(f"  · chapter-set check emitted non-JSON output; rc={rc}; skipping report")
+            return
+        if isinstance(parsed, dict):
+            findings = parsed.get("findings", [])
+        elif isinstance(parsed, list):
+            findings = parsed
+
+    counts = {"P0": 0, "P1": 0, "P2": 0}
+    for f in findings:
+        sev = f.get("severity", "P2")
+        counts[sev] = counts.get(sev, 0) + 1
+
+    report_path = book_dir / "_system" / "chapter-set-report.md"
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+    ts = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    lines = [
+        f"# Chapter-set advisory report — {book_dir.name}",
+        "",
+        f"Generated: {ts}",
+        f"Source: `scripts/podcast/check_chapter_set.py` (challenger Category P)",
+        "",
+        "## Summary",
+        f"- P0 (would block ship if challenger ran): **{counts.get('P0', 0)}**",
+        f"- P1 (ship-with-caution): **{counts.get('P1', 0)}**",
+        f"- P2 (advisory): **{counts.get('P2', 0)}**",
+        "",
+    ]
+    if findings:
+        lines.append("## Findings")
+        lines.append("")
+        for f in findings:
+            check = f.get("check", "?")
+            sev = f.get("severity", "?")
+            slug = f.get("slug", "?")
+            msg = f.get("msg", "")
+            lines.append(f"- **{check}** [{sev}] `{slug}` — {msg}")
+    else:
+        lines.append("No findings. Chapter-set is clean.")
+    lines.append("")
+    report_path.write_text("\n".join(lines), encoding="utf-8")
+
+    summary = (
+        f"  · {counts.get('P0', 0)} P0 / "
+        f"{counts.get('P1', 0)} P1 / "
+        f"{counts.get('P2', 0)} P2 findings"
+    )
+    if counts.get("P0", 0) > 0:
+        log(f"  · ⚠ P0 chapter-set findings — review {report_path.relative_to(REPO_ROOT)} before Phase 0e")
+    log(summary)
 
 
 def _sweep_orphan_episode_drafts(book_dir: Path) -> int:
@@ -1316,13 +1505,28 @@ def main() -> int:
     args = build_parser().parse_args()
 
     if args.status:
-        return run_status(args)
+        return run_status(args)  # read-only; no lock required.
+
+    # G3 cohesion fix (2026-05-23): determine slug for async-safety lock
+    # before invoking any phase that mutates state.json.
     if args.resume:
-        return run_resume(args)
-    if not args.pdf_path:
+        slug_for_lock = args.resume
+    elif args.pdf_path:
+        slug_for_lock = args.slug or derive_slug(Path(args.pdf_path).resolve())
+    else:
         _err("either <pdf-path> (initial) or --resume <slug> or --status <slug> is required")
         return 1
-    return run_initial(args)
+
+    lock_result = _acquire_book_lock(slug_for_lock)
+    if lock_result is None:
+        return 4  # exit 4: lock contention (distinct from 1=usage, 2=runtime, 3=phase-fail)
+    lock_fd, lock_path = lock_result
+    try:
+        if args.resume:
+            return run_resume(args)
+        return run_initial(args)
+    finally:
+        _release_book_lock(lock_fd, lock_path)
 
 
 if __name__ == "__main__":
