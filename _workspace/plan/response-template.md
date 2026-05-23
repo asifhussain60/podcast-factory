@@ -39,8 +39,11 @@ Every response to Asif that reports work, surfaces a decision, or hands off foll
 <If TWO OR MORE legitimate paths exist: alphabetized list. The "Do all in sequence" option is ALWAYS option A (Recommended) and is the default recommended path. Individual sub-paths follow as B, C, D in priority order:>
 
 A. (Recommended) Do all of the below in the order shown (B → C → D) — the work composes; choosing them together avoids re-confirming each sub-step.
+
 B. <highest-priority individual sub-path — what + brief why>
+
 C. <second sub-path>
+
 D. <third sub-path if applicable>
 ```
 
@@ -102,8 +105,11 @@ The previously-broken adams-law contract was overwritten by the fresh 0d output,
 
 ## Next: 👤 Asif
 A. (Recommended) Do all of the below in the order shown (B → C → D) — spot-checking before authorizing catches latent YAML, then the resume unblocks Phase 0e, then any deferral decision is made cleanly after.
+
 B. Spot-check 2-3 chapter contracts in [chapter-contracts/](content/podcast/library/books/kitab-al-riyad/chapter-contracts/) before authorizing — adds 5 min, catches any latent YAML issues.
+
 C. Authorize Phase 0e by running `python3 scripts/podcast/orchestrate_book.py --resume kitab-al-riyad` — clean re-run unblocks all downstream enrichment.
+
 D. Defer Phase 0e and finish another book's gate first — only if you have higher-priority cross-book work.
 ```
 
@@ -117,7 +123,7 @@ D. Defer Phase 0e and finish another book's gate first — only if you have high
 - **No `**Next:**` inline-bold line.** Deprecated 2026-05-21 in favor of `## Next: 👤 Asif` / `## Next: 🤖 AI` H2.
 - **No trailing summary paragraphs** ("In summary…", "To recap…"). At-a-glance already did that job.
 - **No postscripts after the Next header.** The Next header ends the response.
-- **Multi-path Next uses alphabetized options.** `A. (Recommended) Do all of the below in the order shown (B → C → D)` / individual sub-paths as `B. / C. / D.` in priority order. Single-path: one sentence, no list. One actor per `## Next:` header; max two total. If sub-paths are mutually exclusive or "do all" is unsafe, demote A and pick a real individual recommendation, justifying the demotion inline.
+- **Multi-path Next uses alphabetized options.** `A. (Recommended) Do all of the below in the order shown (B → C → D)` / individual sub-paths as `B. / C. / D.` in priority order. **Each option separated by ONE blank line** (so options visually breathe — they're decision points, not a dense list). Single-path: one sentence, no list. One actor per `## Next:` header; max two total. If sub-paths are mutually exclusive or "do all" is unsafe, demote A and pick a real individual recommendation, justifying the demotion inline.
 - **Markdown links always.** `[name](path)` for files, `[commit abc1234](https://github.com/asifhussain60/podcast-factory/commit/abc1234)` for commits, `[file.py:42](scripts/file.py#L42)` for line refs. Never bare paths in prose.
 - **Explain pipeline jargon parenthetically** the first time it appears (Phase 0e, nāṭiq, P22, abjad, da'wa, etc.).
 - **Synthesize, don't dump.** When external knowledge helps, cite. Otherwise stick to what the codebase shows.
