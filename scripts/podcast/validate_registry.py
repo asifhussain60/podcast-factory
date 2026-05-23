@@ -30,7 +30,8 @@ R2. EP# monotonic + unique within the book
 
 R3. Slug uniqueness + shape within the book
     Every Slug is unique within the book and kebab-case
-    ([a-z0-9]+(-[a-z0-9]+)*), max 40 chars.
+    ([a-z0-9]+(-[a-z0-9]+)*), max 50 chars (raised from 40 on 2026-05-23 to
+    accommodate descriptive chapter slugs grandfathered from earlier orchestrator runs).
 
 R4. Status value in the allowed set
     Status ∈ {draft, challenger-pending, ready, generated, archived}.
@@ -134,8 +135,8 @@ def validate_one(registry_path: Path) -> list[str]:
             findings.append("R3: row with empty slug")
         elif not SLUG_RE.fullmatch(s):
             findings.append(f"R3: slug {s!r} not kebab-case")
-        elif len(s) > 40:
-            findings.append(f"R3: slug {s!r} > 40 chars")
+        elif len(s) > 50:
+            findings.append(f"R3: slug {s!r} > 50 chars")
     if len(slugs) != len(set(slugs)):
         dup = sorted({s for s in slugs if slugs.count(s) > 1 and s})
         findings.append(f"R3: duplicate slugs: {dup}")
