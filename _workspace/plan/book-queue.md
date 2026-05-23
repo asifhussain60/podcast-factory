@@ -30,7 +30,6 @@ For the cross-machine dashboard (Air ↔ Studio current state side-by-side
 | Book | Slug | Machine | Branch | Phase | Started | Notes |
 |---|---|---|---|---|---|---|
 | Asaas Al-Taveel | `asaas-al-taveel` | `mac-studio-primary` | `book/asaas-al-taveel` | 0c | 2026-05-19 | 416 pages; recursive scaffold (7 nāṭiqs); hardest book in the corpus. |
-| Kitab al-Riyad | `kitab-al-riyad` | `macbook-air-secondary` | `book/kitab-al-riyad` | 0f-halt | 2026-05-18 | 260 pages; awaiting Asif's go-ahead for Phase 0g (14 episodes). |
 
 ## Queue (priority order — top = next claimed)
 
@@ -50,6 +49,7 @@ For the cross-machine dashboard (Air ↔ Studio current state side-by-side
 | Book | Slug | How shipped | Notes |
 |---|---|---|---|
 | Ayyuhal Walad | `ayyuhal-walad` | manually (pre-pipeline) | 5 chapters + 5 episodes + transcripts already exist in library. Not re-running. |
+| Kitab al-Riyad | `kitab-al-riyad` | archetype-driven manual finish + overlay-merged into develop (4e26c46) + published 2026-05-23 via `publish_to_library.py` | 15 EPs sequential EP01..EP15 (incl. EP04 chapter-group summary + EP15 book-end). SHIP-WITH-CAUTION. Distilled islamic-scholastic-text archetype v1.1 as the pivot deliverable. Library at `library/books/kitab-al-riyad/` (filesystem-only). |
 | The Master and the Disciple | `the-master-and-the-disciple` | pre-refined source mode (in progress on coworker session) | Chapters frozen (hand-refined by Asif); `_notebooklm/` scaffolding being authored by parallel coworker session. Not in main pipeline queue. |
 
 ---
