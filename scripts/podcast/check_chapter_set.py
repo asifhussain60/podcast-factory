@@ -169,16 +169,21 @@ def load_other_book_signals() -> dict[str, list[str]]:
         for book in sorted(cat.iterdir()):
             if not book.is_dir():
                 continue
-            signals: list[str] = []
             mangle = book / "_system" / "mangle-map.md"
-            if mangle.exists():
-                for raw in mangle.read_text(encoding="utf-8").splitlines():
-                    line = raw.strip()
-                    if not line.startswith("|") or line.startswith("|---") or line.startswith("| Canonical"):
-                        continue
-                    cells = [c.strip() for c in line.strip("|").split("|")]
-                    if cells and cells[0]:
-                        signals.append(cells[0])
+            # Require a mangle-map to treat a directory as a book. Without this,
+            # sibling subdirs under _workspace/ (e.g. plan/view, plan/research)
+            # get added as signals by their bare name, false-positiving on
+            # ordinary English prose.
+            if not mangle.exists():
+                continue
+            signals: list[str] = []
+            for raw in mangle.read_text(encoding="utf-8").splitlines():
+                line = raw.strip()
+                if not line.startswith("|") or line.startswith("|---") or line.startswith("| Canonical"):
+                    continue
+                cells = [c.strip() for c in line.strip("|").split("|")]
+                if cells and cells[0]:
+                    signals.append(cells[0])
             # Also include the book-slug itself.
             signals.append(book.name)
             out[book.name] = sorted(set(s for s in signals if s))
