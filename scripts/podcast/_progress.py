@@ -66,6 +66,7 @@ PHASES = (
     "0f",       # Series plan halt (deterministic write + human gate)
     "0g",       # Register series (deterministic)
     "per-chapter",  # iterated across the chapter list on --resume
+    "per-chapter-slides",  # optional; gated by series.enable_slide_decks. Per-chapter slide-deck authoring + slide-deck-challenger convergence. Skipped (status="skipped") when flag is false.
     "trainer",
     "merge",
     "done",

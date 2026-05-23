@@ -33,6 +33,7 @@ class Phase(StrEnum):
     SERIES_PLAN     = "09-series-plan"
     REGISTER_SERIES = "10-register-series"
     PER_CHAPTER     = "11-per-chapter"
+    SLIDE_DECKS     = "11b-slide-decks"   # optional; gated by series.enable_slide_decks (default false). Slot between PER_CHAPTER and TRAINER so trainer's substrate scan can absorb slide-deck findings.
     TRAINER         = "12-trainer"
     MERGE           = "13-merge"
     DONE            = "14-done"

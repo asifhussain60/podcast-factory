@@ -122,6 +122,20 @@ def aggregate(records: list[dict[str, Any]]) -> str:
         f"OR ≥ {THRESHOLD_DENSITY} firings of same check in same (book, episode)"
     )
     lines.append("")
+
+    # Source breakdown — surfaces how many findings came from each Challenger.
+    # podcast-challenger (audio) and slide-deck-challenger (visual) co-tenant
+    # the same ledger; this section makes the split visible at a glance.
+    source_counts: dict[str, int] = defaultdict(int)
+    for r in records:
+        source_counts[r.get("source", "unknown")] += 1
+    if len(source_counts) > 1 or (source_counts and "unknown" not in source_counts):
+        lines.append("## By source")
+        lines.append("")
+        for src in sorted(source_counts):
+            lines.append(f"- `{src}` — {source_counts[src]} record(s)")
+        lines.append("")
+
     lines.append("## Signatures (sorted by occurrence)")
     lines.append("")
     lines.append("| Signature | Count | Books | Episodes | Severity | Check | First seen | Last seen | Proposer-eligible |")

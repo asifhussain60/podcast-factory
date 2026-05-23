@@ -30,6 +30,11 @@ vs. substring list); the canonical data itself is plain Python literals.
 # `source_version` field never drift.
 CHALLENGER_VERSION = "2.0"
 
+# ─── Slide Deck Challenger self-version (stamped into every slide-challenger-report.md
+# and every findings.jsonl record with source="slide-deck-challenger"). Independent
+# of the audio CHALLENGER_VERSION above so the two challengers can evolve separately.
+SLIDE_DECK_CHALLENGER_VERSION = "1.0"
+
 # ─── Learning substrate root (relative to repo root). Used by all four
 # learning scripts (aggregate, propose, test, health writer) and by the
 # challenger agent's report-writer to locate findings.jsonl + health/.

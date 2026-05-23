@@ -480,6 +480,38 @@ If you want to change unit mode (chapter ↔ section ↔ auto), reset Phase 0d:
 """
 
 
+def _series_flag(book_dir: Path, flag_name: str, *, default: bool = False) -> bool:
+    """Read a boolean flag from series-plan.md.
+
+    Looks for a line of the form `**<Title-Case-Flag>:** <value>` in the
+    series-plan.md, parsing common boolean spellings (true/yes/on/1 ↔ True;
+    anything else ↔ False). Missing flag returns `default`.
+
+    flag_name uses snake_case (e.g. "enable_slide_decks"); the search converts to
+    Title Case with spaces for the markdown line (e.g. "Enable Slide Decks").
+
+    Defensive: any parse error returns `default` rather than raising. This keeps
+    the orchestrator from crashing on hand-edited series-plans.
+    """
+    plan_path = book_dir / "_system" / "series-plan.md"
+    if not plan_path.exists():
+        return default
+
+    label = flag_name.replace("_", " ").title()
+    # Match `**Enable Slide Decks:** value` (markdown bold + colon + value).
+    needle_lower = f"**{label.lower()}:**"
+    try:
+        for raw in plan_path.read_text(encoding="utf-8").splitlines():
+            line = raw.strip()
+            if line.lower().startswith(needle_lower):
+                value = line[len(needle_lower):].strip().strip("`").strip("*").lower()
+                return value in {"true", "yes", "on", "1", "enabled"}
+    except OSError:
+        return default
+
+    return default
+
+
 def phase_0f_write_series_plan(book_dir: Path, title: str) -> Path:
     """Assemble the series-plan.md from the contracts + chapter files written by 0d/0e.
 
@@ -1254,6 +1286,41 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
         return 2
     update_phase(book_dir, phase="0g", status="completed")
     phase_git_commit(book_dir, f"podcast({book_slug}): phase 0g register series")
+
+    # Phase 11b — Slide-deck cohort authoring + Slide Deck Challenger convergence.
+    # OPTIONAL, gated by series-plan.md `enable_slide_decks` (default false).
+    # When false: phase is marked skipped, no slide-deck work happens, audio-side
+    # behavior is byte-identical to pre-slide-deck-enhancement orchestrator runs.
+    # When true: walks every chapter, authors slide-decks/chNN-deck-<slug>.txt +
+    # chNN-framing-<slug>.md, runs Slide Deck Challenger (max 5 iter per chapter).
+    enable_slide_decks = _series_flag(book_dir, "enable_slide_decks", default=False)
+    if enable_slide_decks:
+        _info("phase: per-chapter-slides · slide-deck cohort authoring + slide-deck-challenger")
+        update_phase(book_dir, phase="per-chapter-slides", status="running")
+        try:
+            from _slide_convergence import run_slide_convergence  # local import — module is optional
+        except ImportError as e:
+            _err(f"slide-deck integration missing: {e}; skipping phase")
+            update_phase(book_dir, phase="per-chapter-slides", status="skipped",
+                         extras={"reason": "module-not-available"})
+        else:
+            slide_outcomes: dict[str, str] = {}
+            for slug in completed_chapter_slugs:
+                _info(f"phase: per-chapter-slides[{slug}] · density gauge → author → challenge")
+                try:
+                    result = run_slide_convergence(book_dir, slug)
+                    slide_outcomes[slug] = result.verdict
+                except Exception as e:  # noqa: BLE001 — slide-deck failures NEVER block audio shipment
+                    _err(f"slide-deck convergence failed for {slug} (non-fatal): {e}")
+                    slide_outcomes[slug] = "ERROR"
+            update_phase(
+                book_dir, phase="per-chapter-slides", status="completed",
+                extras={"outcomes": slide_outcomes},
+            )
+            phase_git_commit(book_dir, f"podcast({book_slug}): phase 11b slide-deck cohort")
+    else:
+        update_phase(book_dir, phase="per-chapter-slides", status="skipped",
+                     extras={"reason": "enable_slide_decks=false"})
 
     # Trainer pass — substrate-driven rule promotion (regression-gated).
     _info("phase: trainer · invoke podcast-trainer on the book branch")
