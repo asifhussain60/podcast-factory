@@ -83,6 +83,50 @@ Step 4: Respond in the 4-part response template. No custom section labels.
 - **No emojis in code or commits** unless explicitly invited; **DO use status emojis (🟢 / 🟡 / 🔴 / ⚠)** in responses per response-template.
 - **Markdown links for files and commits** — `[name](path)` and `[abc1234](https://github.com/asifhussain60/podcast-factory/commit/abc1234)`.
 
+## Authorization tiers
+
+The default discipline is "ask before each shared-state action." Below is
+the standing relaxation — three tiers governing what you can do silently,
+what you do then surface, and what always needs an explicit go-ahead.
+When in doubt between tiers, pick the higher one. `## Do NOT` below
+overrides this section in conflict.
+
+**Tier 0 — Just do it (no per-action acknowledgement).**
+- Reads of any file in this repo and the sibling `journal` repo
+- `git status`, `git diff`, `git log`, `gh pr view`, `gh pr list`, `gh auth status`
+- Importing pipeline scripts under `/usr/bin/python3` to verify they load
+- Dry-run inspection (`--dry-run` flags, `jq` over `orchestrator-state.json`)
+- Spawning research agents (Explore, Plan, general-purpose) for read-only investigation
+- `git restore` of auto-generated artifacts under `_workspace/books/<slug>/_system/` when the artifact is reproducible by re-running its generator script
+- `security find-generic-password -s <name>` for existence checks (no `-w`)
+
+**Tier 1 — Do, then surface in the At-a-glance.**
+- Commit to my owned book branch (where "owned" = `current_branch` in `_workspace/plan/operators/<my-machine-id>.md` matches the target branch)
+- Push to my owned book branch
+- Queue-claim writes to `_workspace/plan/book-queue.md` following the claim protocol in `_workspace/plan/operators/coordination-protocol.md` §14
+- `--retry-phase <phase>` on a book I own (recovery from stale `phase_status="running"` per the known orchestrator-resume bug)
+- Phase advancement via `--resume <slug>` on an already-claimed, already-running book
+- Regenerating auto-generated state files (`chapter-set-report.md`, `challenger-report.md`, mangle-map, etc.)
+- Opening a DRAFT PR from my book branch to `develop`
+- Writing my own operator file (`_workspace/plan/operators/<my-machine-id>.md`)
+- `coord(<my-machine-id>): ...` style commits to `develop` for cross-machine state sync (matching the existing pattern at commits like `b9272ef`, `4e26c46`, `bd8020f`)
+
+**Tier 2 — Always ask. One-line ask + single-sentence Next.**
+- First-time orchestrator launch on a new book: `python3 scripts/podcast/orchestrate_book.py <slug>` (multi-hour LLM-spend gate)
+- Marking a draft PR ready, or merging any PR into `develop` or `main`
+- Force-push (any branch)
+- Deleting branches
+- Writing peer machine's operator file (e.g. `mac-studio-primary.md` from Air)
+- `--no-verify`, `--amend`, `git reset --hard`, `git clean -f`, `rm` of tracked files
+- Recreating retired surfaces (`server/`, `wrangler.toml`, `infra/cloudflare/`, `site-worker.js`)
+- Reaching into the sibling `journal` repo's paths or scripts
+
+Tier overrides: if the user says "just do it" for something in Tier 2,
+that one-shot authorizes that one action — it doesn't promote the action
+into Tier 1 for future sessions. If the user says "always" or "from now
+on" for a Tier 2 action, that's a request to edit this tier list and
+should be confirmed before the edit.
+
 ## Do NOT
 
 - Cross-write a peer's operator file (except via the formalized WRITE EXCEPTION in coord-protocol §15)
