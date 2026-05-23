@@ -1,5 +1,14 @@
 # =============================================================================
-# Podcast Pipeline — Phased Plan (CANONICAL)
+# [ARCHIVED — pre-2026-05-22 split | last-checked-against-disk: 2026-05-23]
+#
+# Authored before the repo split (2026-05-22) and Phase-9.5 library hoist.
+# Many path and script references below have been retired (~25 deleted
+# scripts per audit finding AU-A1-001, report 2026-05-23-204940).
+# Preserved for historical intent; NOT a current contract.
+# Authoritative current sources: skills-staging/podcast/SKILL.md and the
+# actual scripts/podcast/ directory. Surgical reconciliation deferred.
+# =============================================================================
+# Podcast Pipeline — Phased Plan (historical — see archive notice above)
 # =============================================================================
 # Scope: podcast agent + skill ONLY. Journal is OUT OF SCOPE.
 #

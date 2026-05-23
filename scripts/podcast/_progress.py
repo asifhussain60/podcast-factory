@@ -31,7 +31,7 @@ Schema (versioned via `schema_version`):
         "0b":         { ... },
         ...
       },
-      "cost": { "azure_usd": 0.0, "anthropic_usd": 0.0 },
+      "cost": { "azure_usd": 0.0, "anthropic_usd": 0.0, "slide_deck_usd": 0.0 },
       "wall_clock_sec": 0,
       "ts_started":  "<UTC ISO8601>",
       "ts_updated":  "<UTC ISO8601>",
@@ -114,7 +114,14 @@ def initial_state(book_slug: str, category: str) -> dict[str, Any]:
         "next_phase": "branch",
         "last_error": None,
         "phases": {p: {"status": "pending"} for p in PHASES},
-        "cost": {"azure_usd": 0.0, "anthropic_usd": 0.0},
+        # AU-S3-001 fix: `slide_deck_usd` carries Phase 11b spend separately so
+        # the orchestrator's cost view can break out slide-deck cost. State
+        # files written before this field was added remain readable — readers
+        # MUST use `.get("slide_deck_usd", 0.0)` for backward compatibility.
+        # The authoritative cost source is still `<book>/_system/cost-ledger.jsonl`
+        # (summed by `orchestrate_book.py:book_cost_usd()`); this dict is a
+        # convenience surface for `--status` rendering.
+        "cost": {"azure_usd": 0.0, "anthropic_usd": 0.0, "slide_deck_usd": 0.0},
         "wall_clock_sec": 0,
         "ts_started": now,
         "ts_updated": now,
@@ -224,9 +231,17 @@ def render_status(state: dict[str, Any]) -> str:
     lines.append(f"started:               {state.get('ts_started')}")
     lines.append(f"updated:               {state.get('ts_updated')}")
     cost = state.get("cost", {})
+    azure_usd = cost.get("azure_usd", 0.0)
+    anthropic_usd = cost.get("anthropic_usd", 0.0)
+    # AU-S3-001 fix: pull slide-deck spend with `.get` default so state files
+    # written before the field existed (no `slide_deck_usd` key) still render.
+    slide_deck_usd = cost.get("slide_deck_usd", 0.0)
+    total_usd = azure_usd + anthropic_usd + slide_deck_usd
     lines.append(
-        f"cost so far:           Azure ${cost.get('azure_usd', 0):.2f}  "
-        f"Anthropic ${cost.get('anthropic_usd', 0):.2f}"
+        f"cost so far:           Azure ${azure_usd:.2f}  "
+        f"Anthropic ${anthropic_usd:.2f}  "
+        f"Slide-deck ${slide_deck_usd:.2f}  "
+        f"(total ${total_usd:.2f})"
     )
     err = state.get("last_error")
     if err:

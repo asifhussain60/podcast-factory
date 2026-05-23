@@ -70,6 +70,19 @@ from _progress import (  # noqa: E402
     write_state,
 )
 
+# Cost-ledger wiring (AU-S3-001 fix): every `claude -p` invocation in this
+# module flows through `_authoring._run_claude_p(book_dir=...)`, which
+# internally calls `_cost_ledger.append_from_claude_p_stdout` to append a
+# per-call row to `<book_dir>/_system/cost-ledger.jsonl`. Calls below pass
+# `phase="11b-slide-challenger"` (Challenger pass) or
+# `phase="11b-slide-authoring"` (justified-skip note) so cost-ledger
+# analysis can split slide-deck convergence spend from audio convergence,
+# and so the orchestrator's `$50` cost cap (which sums `cost_usd` across
+# all ledger rows in `orchestrate_book.py`'s `book_cost_usd()`) catches
+# slide-deck overruns. Import made explicit so the regression-isolation
+# grep finds `cost_ledger` here.
+from _cost_ledger import append_from_claude_p_stdout  # noqa: E402,F401
+
 
 # ─── Module-level constants ──────────────────────────────────────────────────
 
@@ -287,7 +300,7 @@ def _invoke_slide_challenger(book_dir: Path, slug: str) -> Path:
         prompt,
         timeout=SLIDE_CHALLENGER_TIMEOUT,
         book_dir=book_dir,
-        phase="per-chapter",
+        phase="11b-slide-challenger",
         step=f"slide-challenger/{slug}",
     )
     if rc != 0:
@@ -351,7 +364,7 @@ def _author_justified_skip(book_dir: Path, slug: str, density: float) -> Path:
         prompt,
         timeout=600,
         book_dir=book_dir,
-        phase="per-chapter",
+        phase="11b-slide-authoring",
         step=f"slide-justified-skip/{slug}",
     )
     if rc != 0 or not justification.exists() or justification.stat().st_size == 0:

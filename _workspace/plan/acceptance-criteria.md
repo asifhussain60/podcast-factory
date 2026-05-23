@@ -1,3 +1,7 @@
+> **[ARCHIVED — pre-2026-05-22 split | last-checked-against-disk: 2026-05-23]**
+>
+> Companion to `podcast-plan.yaml`, which was authored before the repo split (2026-05-22) and Phase-9.5 hoist. Many path and script references below have been retired (audit finding AU-A1-001, 2026-05-23-204940). Preserved for historical context; authoritative current sources are `skills-staging/podcast/SKILL.md` and the actual `scripts/podcast/` directory.
+
 # Acceptance Criteria — Master Checklist
 
 **Companion to:** [`podcast-plan.yaml`](./podcast-plan.yaml). Version is tracked in [`./VERSION`](./VERSION) — single source of truth. This file is the SHIP/DONE oracle: every row maps to one verifiable acceptance criterion from the canonical YAML.

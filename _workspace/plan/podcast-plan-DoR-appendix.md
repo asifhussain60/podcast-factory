@@ -1,3 +1,7 @@
+> **[ARCHIVED — pre-2026-05-22 split | last-checked-against-disk: 2026-05-23]**
+>
+> Companion to `podcast-plan.yaml`, which was authored before the repo split (2026-05-22) and Phase-9.5 hoist. Path and script references below may be retired (audit finding AU-A1-001, 2026-05-23-204940). Preserved for historical context; authoritative current sources are `skills-staging/podcast/SKILL.md` and the actual `scripts/podcast/` directory.
+
 # Podcast Plan — Per-Phase DoR Appendix
 
 **Companion to:** [`podcast-plan-DoR.md`](./podcast-plan-DoR.md) (the 12-check DoR-audit summary). Where that document declares the plan-level DoR GREEN, this appendix breaks each remaining phase into its **blockers / assumptions / ambiguities / operator action**, so the autonomous loop can safely execute or safely halt.

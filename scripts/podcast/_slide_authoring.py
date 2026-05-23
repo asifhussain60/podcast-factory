@@ -52,6 +52,17 @@ from _authoring import (  # noqa: E402
     _run_claude_p,
 )
 
+# Cost-ledger wiring (AU-S3-001 fix): every `claude -p` invocation in this
+# module flows through `_authoring._run_claude_p(book_dir=...)`, which
+# internally calls `_cost_ledger.append_from_claude_p_stdout` to append a
+# per-call row to `<book_dir>/_system/cost-ledger.jsonl`. Calls below pass
+# `phase="11b-slide-authoring"` so cost-ledger analysis can split slide-deck
+# spend from audio spend, and so the orchestrator's `$50` cost cap (which
+# sums `cost_usd` across all ledger rows in `orchestrate_book.py`'s
+# `book_cost_usd()`) catches slide-deck overruns. Import made explicit so
+# the regression-isolation grep finds `cost_ledger` here.
+from _cost_ledger import append_from_claude_p_stdout  # noqa: E402,F401
+
 SCRIPT_VERSION = "1.0"
 
 # Density gauge — per slide-deck-format.md (visual-candidate density below this
@@ -411,7 +422,7 @@ def author_deck_pair(
             prompt,
             timeout=timeout,
             book_dir=book_dir,
-            phase="slide-deck",
+            phase="11b-slide-authoring",
             step=f"pair/{slug}/attempt-{attempts}",
         )
         last_stdout = stdout
@@ -603,7 +614,7 @@ def author_justified_skip(book_dir: Path, slug: str, density: float) -> Path:
         prompt,
         timeout=SLIDE_DECK_TIMEOUT,
         book_dir=book_dir,
-        phase="slide-deck",
+        phase="11b-slide-authoring",
         step=f"justified-skip/{slug}",
     )
     if rc != 0:

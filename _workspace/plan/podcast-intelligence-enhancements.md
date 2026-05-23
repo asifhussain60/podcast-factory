@@ -1,3 +1,7 @@
+> **[ARCHIVED — pre-2026-05-22 split | last-checked-against-disk: 2026-05-23]**
+>
+> Authored 2026-05-22; path and script references may have been retired by the repo split + Phase-9.5 hoist (audit finding AU-A1-001, 2026-05-23-204940). Preserved for historical context; authoritative current sources are `skills-staging/podcast/SKILL.md` and the actual `scripts/podcast/` directory.
+
 # Podcast intelligence enhancements — tracking plan
 
 **Authored:** 2026-05-22 (Air machine, interactive planning sessions with Asif)
