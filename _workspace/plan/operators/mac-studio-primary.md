@@ -28,13 +28,39 @@ worktree_layout:
     branch: book/kitab-al-riyad
   - path: /Users/ahmac/Code/podcast-factory/feat-w1
     branch: feat/operator-review-studio
-current_branch: book/asaas-al-taveel
-current_book: asaas-al-taveel
-current_book_dir: _workspace/books/asaas-al-taveel
-authoritative_state_path: _workspace/books/asaas-al-taveel/_system/orchestrator-state.json
-status_tag: HOLDING-FOR-OPERATOR-GATES
-current_phase: "0b"
+current_branch: book/islr-mas-i
+current_book: islr-mas-i
+current_book_dir: content/podcast/library/books/islr-mas-i
+authoritative_state_path: (none — ISLR runs non-orchestrated Mode-2 per integration-analysis.md §6; no orchestrator-state.json)
+status_tag: ACTIVE-ISLR-PHASE-0D
+current_phase: "0d"
+paused_book:
+  slug: asaas-al-taveel
+  branch: book/asaas-al-taveel
+  current_book_dir: _workspace/books/asaas-al-taveel
+  authoritative_state_path: _workspace/books/asaas-al-taveel/_system/orchestrator-state.json
+  phase: "0b"
+  status_tag: HOLDING-FOR-OPERATOR-GATES
+  reason: "operator-review.md §§1-8 (gate b) pending Asif's review"
+  resumes_when: "ISLR ch2-7 ship + gate-b cleared"
 current_phase_status_summary: |
+  ISLR PIVOT 2026-05-23: Asif requested processing ISLR ch1-7 through the pipeline
+  with an explicit refinement on the existing tone_constraint pattern: "explain
+  mathematical/quantitative formulas intuitively enough to understand while passively
+  listening." Studio pivots from asaas (paused at 0b gate-b) to ISLR Phase 0d
+  (chapter-contract authoring for ch2-7). Pre-existing scaffolding makes the pivot
+  cheap: enrichment-whitelist.md is already secular/actuarial (Tier 1-4 done), ch1
+  is already shipped (commit 1e3b7aa), integration-analysis.md §6 pre-decided the
+  Phase 0f gate (Default Deep Dive, 7 eps with §-exclusions, curious_mind +
+  patient_teacher, intuition-first walk-listen for MAS-I). Scope: Phase 0d contracts
+  for ch2-7 (5 commits' worth of authoring, ~$5-10 Claude spend), then HALT for
+  Asif's contract review before any per-chapter authoring (which would carry
+  orchestrator-style 3×5 convergence cost). Asaas resumes when ISLR ships + gate-b
+  cleared. ISLR uses pre-Phase-9.5 path (content/podcast/library/books/islr-mas-i/);
+  no Phase 9.5 migration needed (KaR has the same posture).
+
+  --- asaas snapshot (paused) ---
+
   Phase 0b complete 2026-05-20T13:38:21Z (refined-english.md 10329 lines / 759 KB).
   Audit revealed Phase 0b prompt-template defect: 58 of 416 page markers stripped across
   7 of 49 chunked windows (no content loss; metadata only). Plan revised to "complete
@@ -125,8 +151,8 @@ next_action: |
   Language credential is live); operator-review.md regenerated from NER;
   resume 0c → 0d → 0e → 0f → 0g (EP01 firm halt) → EP02-06.
 anthropic_share: 0.5
-last_verified_at: 2026-05-22T18:50:00Z
-last_updated: 2026-05-22
+last_verified_at: 2026-05-23T00:00:00Z
+last_updated: 2026-05-23
 ---
 
 # Mac Studio (primary) — operator index

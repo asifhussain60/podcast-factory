@@ -29,7 +29,13 @@ For the cross-machine dashboard (Air ↔ Studio current state side-by-side
 
 | Book | Slug | Machine | Branch | Phase | Started | Notes |
 |---|---|---|---|---|---|---|
-| Asaas Al-Taveel | `asaas-al-taveel` | `mac-studio-primary` | `book/asaas-al-taveel` | 0c | 2026-05-19 | 416 pages; recursive scaffold (7 nāṭiqs); hardest book in the corpus. |
+| Intro to Statistical Learning (ISL2) | `islr-mas-i` | `mac-studio-primary` | `book/islr-mas-i` | 0d | 2026-05-23 | Secular MAS-I textbook, non-orchestrated Mode-2 per [integration-analysis.md](../../content/podcast/library/books/islr-mas-i/_system/integration-analysis.md). EP01 shipped; ch2-7 contract authoring in progress under positive-framed math-intuition rule. |
+
+## Paused (held by a machine but not actively driven)
+
+| Book | Slug | Machine | Branch | Phase | Paused | Reason |
+|---|---|---|---|---|---|---|
+| Asaas Al-Taveel | `asaas-al-taveel` | `mac-studio-primary` | `book/asaas-al-taveel` | 0b | 2026-05-23 | HOLDING-FOR-OPERATOR-GATES — operator-review.md §§1-8 (gate b) still pending Asif. Studio pivots to ISLR ch2-7 while asaas waits on operator. Resumes when ISLR ships + gate-b cleared. 416 pages; recursive scaffold (7 nāṭiqs). |
 
 ## Queue (priority order — top = next claimed)
 
