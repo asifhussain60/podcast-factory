@@ -125,7 +125,7 @@ These are 🟢 (informational) unless the peer's state implies coordinated actio
 ### D6 — Cross-cutting file deltas on `develop`
 Files that BOTH machines depend on equally — if these changed on `develop`, you may need to merge to pick them up:
 - `_workspace/plan/operators/setup/**`
-- `_workspace/plan/coordination-protocol.md`
+- `_workspace/plan/operators/coordination-protocol.md`
 - `_workspace/plan/response-conventions.md`
 - `_workspace/plan/book-queue.md`
 - `_workspace/plan/operators/index.md`
@@ -140,7 +140,7 @@ Files that BOTH machines depend on equally — if these changed on `develop`, yo
 ```bash
 git diff --name-only HEAD origin/develop -- \
     _workspace/plan/operators/setup/ \
-    _workspace/plan/coordination-protocol.md \
+    _workspace/plan/operators/coordination-protocol.md \
     _workspace/plan/response-conventions.md \
     _workspace/plan/book-queue.md \
     _workspace/plan/operators/index.md \

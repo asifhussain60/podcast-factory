@@ -216,10 +216,15 @@ def main(argv: list[str] | None = None) -> int:
         ),
     )
     parser.add_argument("--book", required=True, help="book slug (e.g. asaas-al-taveel)")
+    # ALLOWED_CATEGORIES centralized in _rules.py per AU-X1-001 (audit 2026-05-23)
+    import sys as _sys
+    from pathlib import Path as _Path
+    _sys.path.insert(0, str(_Path(__file__).resolve().parent))
+    from _rules import ALLOWED_CATEGORIES
     parser.add_argument(
         "--category",
         default="books",
-        choices=["books", "articles", "documents", "lectures", "interviews", "letters"],
+        choices=list(ALLOWED_CATEGORIES),
         help="library subdirectory (default: books)",
     )
     parser.add_argument(

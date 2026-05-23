@@ -25,14 +25,13 @@ Read [.github/agents/operating-contract.md](operating-contract.md) end-to-end. I
 Gather only what informs anti-regression. One bash call, no recursive walks:
 
 ```
-REPO="$(git rev-parse --show-toplevel)"
-ls -la "$REPO/" 2>&1 | head -40
-ls "$REPO/.github/agents/" 2>&1
-ls "$REPO/.claude/agents/" 2>&1
-ls "$REPO/.claude/commands/" 2>&1
-ls "$REPO/skills-staging/" 2>&1
-test -f "$REPO/CLAUDE.md" && head -20 "$REPO/CLAUDE.md"
-grep -n "^##" "$REPO/framework.md" 2>&1 | head -30
+ls -la  2>&1 | head -40
+ls .github/agents/ 2>&1
+ls .claude/agents/ 2>&1
+ls .claude/commands/ 2>&1
+ls skills-staging/ 2>&1
+test -f CLAUDE.md && head -20 CLAUDE.md
+grep -n "^##" framework.md 2>&1 | head -30
 ```
 
 If `package.json` exists at root, include `head -30` of it. Skip if absent.

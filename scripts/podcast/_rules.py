@@ -35,6 +35,13 @@ CHALLENGER_VERSION = "2.0"
 # of the audio CHALLENGER_VERSION above so the two challengers can evolve separately.
 SLIDE_DECK_CHALLENGER_VERSION = "1.0"
 
+# ─── Canonical book-category enum. Single source of truth — previously duplicated
+# (with inconsistent type: tuple vs set vs list) across orchestrate_book.py,
+# scaffold_book.py, ingest_source.py, audit_page_markers.py per AU-X1-001 in
+# audit report 2026-05-23-204940. Consumers now `from _rules import ALLOWED_CATEGORIES`.
+# Tuple chosen for immutability + argparse `choices=` compatibility.
+ALLOWED_CATEGORIES = ("books", "articles", "documents", "lectures", "interviews", "letters")
+
 # ─── Learning substrate root (relative to repo root). Used by all four
 # learning scripts (aggregate, propose, test, health writer) and by the
 # challenger agent's report-writer to locate findings.jsonl + health/.

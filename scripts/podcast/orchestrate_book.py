@@ -103,7 +103,7 @@ AZURE_PROBE = REPO_ROOT / "scripts" / "podcast" / "test_azure_connectivity.py"
 CHAPTER_SET_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "check_chapter_set.py"
 LOCKS_DIR = Path.home() / ".podcast-locks"
 
-ALLOWED_CATEGORIES = ("books", "articles", "documents", "lectures", "interviews", "letters")
+from _rules import ALLOWED_CATEGORIES  # noqa: E402  centralized 2026-05-23 per AU-X1-001
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 
 

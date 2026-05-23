@@ -68,7 +68,7 @@ import _azure  # noqa: E402
 REPO_ROOT = Path(__file__).resolve().parents[2]
 LIBRARY_DIR = REPO_ROOT / "_workspace"
 
-ALLOWED_CATEGORIES = {"books", "articles", "documents", "lectures", "interviews", "letters"}
+from _rules import ALLOWED_CATEGORIES  # centralized 2026-05-23 per AU-X1-001 (audit report)
 
 
 def find_book_dir(book_slug: str, category: str | None) -> Path:

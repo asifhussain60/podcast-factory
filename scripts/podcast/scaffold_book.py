@@ -36,7 +36,10 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 LIBRARY_DIR = REPO_ROOT / "_workspace"
 BOOKS_INDEX = REPO_ROOT / "content" / "podcast" / ".skill" / "books.md"
 
-ALLOWED_CATEGORIES = {"books", "articles", "documents", "lectures", "interviews", "letters"}
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parent))
+from _rules import ALLOWED_CATEGORIES  # centralized 2026-05-23 per AU-X1-001 (audit report)
 
 # ─── stub bodies ──────────────────────────────────────────────────────────────
 
