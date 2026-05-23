@@ -6,6 +6,15 @@ Both Air and Studio sessions write to this file (multi-writer, per `operators/co
 
 ---
 
+## Refactored synthesis view — as of 2026-05-23
+
+**Reconciliation 2026-05-23 (Air):** F27 paste and v4-revised propagation actually LANDED in commits
+`3631bc0` (F27 7-of-8 validators) and `23009eb` (v4-revised doctrine in `_authoring.py` Phase 0e + 0g
+prompts). The synthesis view below was last refreshed pre-landing; closing items updated accordingly.
+Genuine remaining P0 framework work is now narrower than the older view suggested.
+
+---
+
 ## Refactored synthesis view — as of 2026-05-22
 
 **Holistic snapshot** of F1-F29 after KaR's 3-round audio audit (v1/v3/v4-revised). The original table at the bottom of this file is preserved chronologically; this top section is the canonical operational view going forward.
@@ -62,15 +71,16 @@ Both Air and Studio sessions write to this file (multi-writer, per `operators/co
 
 ### Priority order — what to land next (operational sequence)
 
-This sequence is what unlocks shipping new books under v4-revised doctrine:
+This sequence is what unlocks shipping new books under v4-revised doctrine.
+**2026-05-23 update**: items 1, 2, 5-prompt, 6-validator, 7, 16 have all landed in code; remaining ladder is shorter than originally drafted.
 
-1. **F27** (8 validators in `build_episode_txt.py`) — P0; the M1 fix; drafts ready
-2. **v4-revised propagation** to `_authoring.py` + handbook — P0; 6 prompt updates; drafts ready
-3. **F25** (apparatus-table schema in 99-show-notes.md) — P0
+1. ~~**F27** (8 validators in `build_episode_txt.py`) — P0; the M1 fix; drafts ready~~ → **7-of-8 LANDED 2026-05-22** (commit `3631bc0`). #8 apparatus-table validator pending F25 (no show-notes target to validate yet).
+2. ~~**v4-revised propagation** to `_authoring.py` + handbook — P0; 6 prompt updates; drafts ready~~ → **LANDED 2026-05-22** (commit `23009eb`). Verified: R-HONORIFIC-ONCE bounded (L1055/1352), R-SURAH-ENGLISH-ONLY (L1095/1363), R-STABLE-ROLE-LABELS (L1260), R-CHALLENGER-FRICTION-LITERAL (L1310). Handbook canonical updates verified separately.
+3. **F25** (apparatus-table schema + show-notes generation in Phase 0g + Validator #8 wiring) — P0; **multi-part feature**, not a single paste. Requires: schema definition (Original/Transliteration, Category, Written Form, Audio Label, First Audio Use columns), Phase 0g sub-step to emit `99-show-notes.md`, then the validator. ~1-day implementation.
 4. **F26** (name-aliases.yml schema v2) — P1; enables F23/F25 auto-emit
-5. **F29** (Phase 0e surah-name English-meaning rule + chapter rewrite) — P0
-6. **F24** (Phase 0e alqaab functional-paraphrase rule) — P0
-7. **F17** (analogy-cap validator-twin) — covered by F27
+5. **F29** (Phase 0e surah-name English-meaning rule + chapter rewrite) — **Phase 0e prompt LANDED** (in 23009eb). KaR ch07-ch15 chapter rewrites still pending; deferred since KaR is shipped (low ROI to re-author shipped content). New books inherit clean.
+6. **F24** (Phase 0e alqaab functional-paraphrase rule) — **Validator #7 LANDED** (in 3631bc0). Phase 0e prompt patch still pending (currently soft-flag only; not prompt-enforced).
+7. ~~**F17** (analogy-cap validator-twin) — covered by F27~~ → **CLOSED** by F27 #3 (commit `3631bc0`).
 8. **F23** (Phase 0d.5 book-coherence check) — P1; ~half-day
 9. **F11** (iter-1-ship + iter-2-timeout retry semantics) — P1
 10. **F12** (episode-id from contract.episode_number) — P1
@@ -79,7 +89,16 @@ This sequence is what unlocks shipping new books under v4-revised doctrine:
 13. **F22** length target — accept as structural limit; framing notes "aspirational"
 14. **F9** (remaining R-PHONETICS-OUT patterns) — P2; needs regex audit
 15. **F7** (cost projection at resume) — P2
-16. **F28** (re-emit KaR under new doctrine) — execution task; in flight
+16. ~~**F28** (re-emit KaR under new doctrine) — execution task; in flight~~ → **CLOSED 2026-05-23** by archetype-driven manual finish; KaR shipped ship-with-caution per state.json.
+
+### True remaining P0 framework debt (after 2026-05-23 reconciliation)
+
+| Item | Scope | Effort | Notes |
+|---|---|---|---|
+| **F25** | apparatus-table schema + Phase 0g show-notes generation + Validator #8 wiring | ~1 day | The remaining structural piece; multi-part. |
+| **F24 prompt** | Phase 0e alqaab functional-paraphrase prompt patch | ~30 min | Validator exists; needs Phase 0e prompt to actively produce paraphrases instead of literal translations. |
+
+Everything else on the F-list is P1/P2 quality-of-life. The framework can ship the next book under v4-revised doctrine right now.
 
 ### Meta-pattern status (M1-M7 from original synthesis)
 
@@ -93,28 +112,28 @@ This sequence is what unlocks shipping new books under v4-revised doctrine:
 | M6 — Cost tracking gaps | 🟡 **PARTIAL** — F6 closed; F7 open |
 | M7 — Rule-set drift (prose vs regex) | 🔴 **OPEN** — F9 audit pending; F17 + F27 directly tackle |
 
-### Validator coverage gap matrix (the M1 fix surface)
+### Validator coverage gap matrix (the M1 fix surface) — **updated 2026-05-23**
 
 For every R-rule in the handbook, mark whether prompt-side enforcement AND validator-side enforcement exist:
 
 | R-rule | Prompt enforcement | Validator enforcement | Gap |
 |---|---|---|---|
-| R-NO-ARABIC-NAMES (F20) | X14, X15 ✅ | F27 #1 pending | 🔴 |
-| R-BOOK-WRAP (F21) | X14 ✅ | F27 #1 (regex catches) | 🔴 |
+| R-NO-ARABIC-NAMES (F20) | X14, X15 ✅ | F27 #1 ✅ (3631bc0) | 🟢 |
+| R-BOOK-WRAP (F21) | X14 ✅ | F27 #1 regex ✅ (3631bc0) | 🟢 |
 | R-DRAMATIC-ARC | X16 ✅ | Tier 2 validator ✅ | 🟢 |
 | R-CHALLENGER-FRICTION | X16 ✅ | Tier 2 validator ✅ | 🟢 |
-| R-ANALOGY-CAP | X16 ✅ | F27 #3 pending | 🔴 (M1 confirmed via wax-seal + costume + vault leaks) |
+| R-ANALOGY-CAP | X16 ✅ | F27 #3 ✅ (3631bc0) | 🟢 (was M1 source; now closed) |
 | R-RECURRING-THESIS | X16 ✅ | Tier 2 validator ✅ | 🟢 |
-| R-NAMEDISCIPLINE (stable-roles) | v4-revised propagation pending | F27 pending | 🔴 |
-| R-NOMODERNIZE | X16 ✅ | F27 #4 pending | 🔴 (Frankenstein + popularity contest leaks) |
-| R-HONORIFIC-ONCE | X14 ✅ | F27 #5 pending | 🔴 (honorific misplacement in v4-revised) |
-| R-SURAH-ENGLISH-ONLY (F29) | doctrine drafted, prompt pending | F27 #6 pending | 🔴 |
-| R-ALQAAB-FUNCTIONAL-PARAPHRASE (F24) | doctrine drafted, prompt pending | F27 #7 pending | 🔴 |
+| R-STABLE-ROLE-LABELS (replaces R-NAMEDISCIPLINE) | v4-revised ✅ (23009eb, L1260) | partial (F26 schema needed for full coverage) | 🟡 |
+| R-NOMODERNIZE | X16 ✅ | F27 #4 ✅ (3631bc0) | 🟢 |
+| R-HONORIFIC-ONCE (bounded both sides) | v4-revised ✅ (23009eb, L1055/1352) | F27 #5 ✅ (3631bc0) | 🟢 |
+| R-SURAH-ENGLISH-ONLY (F29) | v4-revised ✅ (23009eb, L1095/1363) | F27 #6 ✅ (3631bc0) | 🟢 (prompt + validator both landed; KaR rewrites deferred) |
+| R-ALQAAB-FUNCTIONAL-PARAPHRASE (F24) | Phase 0e prompt patch pending | F27 #7 ✅ (3631bc0) | 🟡 |
 | R-NO-MANUSCRIPT-META | X14 ✅ | Tier 2 validator ✅ | 🟢 |
 | R-PHONETICS-OUT | handbook ✅ | regex partial (F9) | 🟡 |
 | R-WELCOME (opening sentence) | X16 ✅ | partial | 🟡 |
 
-**Net**: 7 of 14 R-rules have validator-side coverage. 7 are prompt-only (= M1 risk). F27 closes 6 of those 7. After F27, only R-PHONETICS-OUT remains partial.
+**Net**: 11 of 14 R-rules have full validator-side coverage (was 7 before F27/v4-revised landed). M1 risk surface reduced to 3 partials: R-STABLE-ROLE-LABELS (awaits F26 name-aliases v2), R-ALQAAB (awaits F24 Phase 0e prompt), R-PHONETICS-OUT (awaits F9 regex audit). **M1 is no longer the dominant risk pattern.**
 
 ---
 

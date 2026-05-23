@@ -21,18 +21,32 @@ current_branch: book/kitab-al-riyad
 current_book: kitab-al-riyad
 current_book_dir: _workspace/books/kitab-al-riyad
 authoritative_state_path: _workspace/books/kitab-al-riyad/_system/orchestrator-state.json
-status_tag: HALTED-BY-OPERATOR — STUDIO-DRIVING-MANUAL-FINISH
-current_phase: "per-chapter"
+status_tag: KAR-DONE-SHIP-WITH-CAUTION
+current_phase: "done"
 current_phase_status_summary: |
-  Phases 0a–0f complete; per-chapter HALTED by operator 2026-05-22.
+  KaR archetype-driven manual finish COMPLETE 2026-05-23. orchestrator-state.json:
+  phase=done / phase_status=ship-with-caution / last_completed_phase=merge. All 15
+  episodes (EP01–EP15) authored, compiled to episodes/*.txt, in completed_slugs.
+  Trainer + merge + done phases executed deterministically. KaR shipped to library
+  on develop via commits 4e26c46 (state absorb) + bd8020f (book-queue close).
 
-  **Pivot decision (2026-05-22):** Asif decision to halt the LLM-driven per-chapter
-  re-emit and switch to archetype-driven manual finish. Rationale: EP10 cleared P0
-  via fixer pass but returned SHIP-WITH-CAUTION with 3 P1s requiring author judgment
-  (N3-a Al-hayula, N3-b al-nafs, A4 Q16:40 translator attribution). Projected remaining
-  12-chapter pipeline run: 5.5–9.5h wall + ~$50–100 LLM spend, ending in identical
-  author-judgment ceiling. Cost-conscious pivot: distill the lessons into a reusable
-  archetype, compound the spend into the next Islamic-scholastic book.
+  **EP09 (motion-stillness; was EP10 pre-renumber f5dd481) P1 cleanup verified
+  in compiled .txt 2026-05-23:** Pronounce "Al-hayula" L37, Pronounce "Al-nafs"
+  L39, Q16:40 attribution → Yusuf Ali at L105. The 3 P1s from the halt are RESOLVED
+  in the shipped artifact.
+
+  **EP11 (qada-and-qadar) "truncation" was a false alarm:** 94 lines / 2095 words is
+  dense formatting, within [1500–4500] band, all 14 framing sections present.
+
+  **Residual hygiene debt (does NOT affect shipping artifacts):** EP09 + EP13 carry
+  `[LLM-FILL]` markers in working-draft scaffolding files (04-discussion-spine.md,
+  03-context-pack.md). These are NOT compiled into the episode .txt. Defer.
+
+  **Pivot decision (2026-05-22):** Asif halted the LLM-driven per-chapter re-emit
+  and switched to archetype-driven manual finish. Rationale captured in
+  [../handoff-kar-archetype-pivot.md](../handoff-kar-archetype-pivot.md) and the
+  Islamic Scholastic Text Archetype v1.0 at
+  [../../content/podcast/library/archetypes/islamic-scholastic-text.md](../../content/podcast/library/archetypes/islamic-scholastic-text.md).
 
   Shipped this run:
   - EP10 motion-stillness-hyle-and-form — SHIP-WITH-CAUTION (P0=0, P1=3 outstanding,
@@ -74,33 +88,23 @@ current_phase_status_summary: |
   - No Quranic-quote corpus validator (proposed F27 #8).
   - No template-variable-corruption static check (proposed F27 #9).
 next_action: |
-  **Air is parked.** Studio drives the manual finish from here.
+  **KaR is shipped (ship-with-caution).** Air's content work on this book is COMPLETE.
+  All framework-lane work this branch carried (F27 validators, v4-revised doctrine,
+  F24 alqaab, G2 chapter-set advisory, G3 async-safety lock, F25 validator + schema)
+  has either landed in develop on its own commits or been cherry-picked into develop
+  via this 2026-05-23 publication. See [pipeline-debt.md](../pipeline-debt.md) for
+  current open P0 list (F26 + F25-generation remain).
 
-  Studio reads:
-    1. [_workspace/plan/handoff-kar-archetype-pivot.md](../handoff-kar-archetype-pivot.md)
-       — comprehensive handoff briefing with 5 steps + podcast debt catalog +
-       cost discipline.
-    2. [library/archetypes/islamic-scholastic-text.md](../../library/archetypes/islamic-scholastic-text.md)
-       — the doctrine.
-
-  Studio sequence (per the handoff):
-    Step A — Read archetype (~15-20 min).
-    Step B — EP10 P1 cleanup (3 fixes detailed in handoff §3, ~30 min).
-    Step C — Decide EP14 disposition (keep partial drafts vs regenerate, ~15 min).
-    Step D — Apply archetype forward to 11 remaining chapters (~3-4h, $2-6 in LLM
-             cost via cheap one-call skeleton + heavy hand-edit hybrid).
-    Step E — Run trainer + merge + done (deterministic, no LLM, ~30 min).
+  Next book in queue is asaas-al-taveel (Studio's lane). Air is available for the
+  next Islamic-scholastic book once Studio resumes asaas under v4-revised doctrine.
 
   Air-side pending sync tasks STILL deferred:
-    (a) merge origin/develop → book/kitab-al-riyad (post-archetype work);
-    (b) reconcile the 2026-05-21T11:50Z WRITE EXCEPTION blockquote;
-    (c) add permanent §13 mirroring mac-studio-primary.md §14;
-    (d) update per-Air row of setup/machines.md.
-
-  Air will read this file when Studio re-pushes book/kitab-al-riyad. No active polling.
-anthropic_share: 0.0
-last_verified_at: 2026-05-22T10:50:00Z
-last_updated: 2026-05-22
+    (a) reconcile the 2026-05-21T11:50Z WRITE EXCEPTION blockquote;
+    (b) add permanent §13 mirroring mac-studio-primary.md §14;
+    (c) update per-Air row of setup/machines.md.
+anthropic_share: 0.5
+last_verified_at: 2026-05-23T00:00:00Z
+last_updated: 2026-05-23
 response_conventions: see _workspace/plan/response-conventions.md (BLUF format,
   AskUserQuestion ordering, halt-and-surface pattern, cross-machine awareness)
 ---
