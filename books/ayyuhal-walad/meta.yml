@@ -1,0 +1,31 @@
+slug: ayyuhal-walad
+title: Ayyuhā al-Walad
+short_name: ayw
+source_pdf: ../../raw/Ayyuhal Walad.pdf
+
+pipeline:
+  current_phase: partial-pre-orchestrator
+  phase_status: no_state_file
+  chapters_with_contracts: 5
+  chapters_drafted: 5
+  episodes_authored: 5
+  transcripts: 3
+  audits: 1  # audit-EP02-hatim-eight-benefits.md
+
+publication:
+  status: in_progress
+  shipped_via: scripts/podcast/ship_to_library.py
+  publication_target: ../../library/books/ayyuhal-walad/
+
+provenance:
+  canonical_source_branch: book/asaas-al-taveel
+  canonical_source_commit: 3a35aa749bc3c7420317974ad1557750f87a2291
+  canonical_source_path: content/podcast/library/books/ayyuhal-walad/
+  note: |
+    Identical 724K/45-file copies exist on all 4 worktrees (main, book-asaas,
+    book-kar, book-islr) — no canonical-source ambiguity. Copied from
+    book-asaas. No orchestrator-state.json exists for this book; partial
+    artifacts (chapters, contracts, episodes, transcripts) appear to have
+    been authored outside the orchestrator flow.
+  reshape_date: 2026-05-23
+  reshape_method: rsync from book-asaas worktree to meta-root books/

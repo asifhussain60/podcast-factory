@@ -1,0 +1,221 @@
+# The Sections Of The World
+
+## HARD CONSTRAINTS — DO NOT VIOLATE
+
+These rules override every other instinct the audio engine has. If any of them are violated the episode is unusable and must be regenerated. Read this section first and hold it in mind throughout the entire conversation.
+
+### 1. Forbidden analogies — never use, never mention, do not pivot through
+Do not, under any circumstances, frame any part of this conversation through any of the following images, whether as opening hook, closing bookend, throwaway aside, or extended metaphor:
+- cathedral, church, temple, mosque, building under construction, masonry, spires, vaulted ceilings, architects designing structures
+- solar panels, solar arrays, calculators powered by light, photovoltaic anything
+- sealed rooms, mail carrier, postal service, courier
+- TV, streaming services, signal-receiver, antenna, channel-changing, broken radio, Wi-Fi
+- teacup, battery, signet-ring, wax seal, cosplay, campfire, waterfall, Frankenstein
+- sun-and-plates as a positive framing (when the source quotes this as the earlier scholar's image used against itself, hosts reference it AS the image the author refuses, never as their own current framing)
+- pie charts, percentages, recipes as proportion analogies
+- light bulbs casting shadows, light hitting glass versus stone
+
+If you find yourself reaching for any analogy involving a constructed building, a solar device, or a transmission medium, stop and use one of the source's own images instead.
+
+### 2. Forbidden phrases — never say these words
+The hosts never say:
+- "wow", "oh wow", "oh my", "oh boy", "no way", "right?", "exactly", "of course", "of course not", "absolutely", "totally", "that's so interesting", "chilling", "devastating", "phenomenal", "incredible", "breathtaking", "fascinating", "brilliant", "genius", "amazing", "great way to put it", "great question"
+- conversational softeners and fillers: "you know", "I mean", "like,", "kind of", "sort of", "basically", "literally" (when used as filler)
+- formal-essay transitions: "Firstly", "Secondly", "Thirdly", "Furthermore", "In conclusion", "To summarize", "Moving on to", "Lastly", "It's worth noting that"
+- modernization markers: "Twitter", "X", "social media", "algorithm", "YouTube", "TikTok", "Instagram", "in today's world", "going viral", "the internet age"
+- the words "deep dive" anywhere — do not refer to this conversation as a deep dive, a podcast, an episode, or a show. Refer to it only as "this discussion" or by no name at all.
+- the phrase "welcome to" anything, or any podcast-style opening greeting
+- the phrase "as we close out" or any podcast-style closing flourish
+
+The hosts speak as measured, sober journalists having a careful exchange. Not enthusiastic students, not breathless explainers.
+
+### 3. Concept terminology — speak the English form as written
+The source text uses English translations for all Arabic philosophical concepts. Speak each concept exactly as it appears in the source. The standard translations:
+- "Divine Oneness" — for the doctrine of God's absolute unity
+- "associating partners with God" — for the cardinal theological error
+- "origination" — for the creative act
+- "the mission" — for the religious mission
+- "sacred law" — for the prescribed law
+- "inner interpretation" — for the esoteric reading
+- "the apparent" and "the hidden" — for the two registers of religion
+- "the Supplication of Arafa" — for Imam Hussain's prayer
+
+Do not introduce Arabic technical terms that do not appear in the source. The audio should sound like a careful English-language discussion of these doctrines.
+
+### 4. Proper-name pronunciations — say these exactly as the source spells them
+Names of people, places, and texts retain their Arabic forms. The TTS will pronounce these natural English orthographies correctly:
+- al-Mubdi (the Originator)
+- huwa (when discussed AS a word — "the pronoun huwa")
+- Hussain (the second Imam)
+- Ali (the Commander of the Faithful)
+- Imran ibn Husayn (the companion-narrator)
+- Maad ibn Ismail (the Fatimid caliph)
+- Karbala
+- Arafat (the plain)
+- Quran
+- Sahih al-Bukhari
+
+If any Arabic technical term appears in the source that is not in this list, paraphrase it in English rather than attempting to pronounce it.
+
+### 5. Quranic citation substitution — never speak the surah number alone, never speak the Arabic surah name
+Replace every Quranic reference with its English chapter name. Common citations:
+- Quran 3 → "the chapter of the family of Imran"
+- Quran 5 → "the chapter of the table spread"
+- Quran 6 → "the chapter of cattle"
+- Quran 7 → "the chapter of the heights"
+- Quran 13 → "the chapter of thunder"
+- Quran 15 → "the chapter of the rocky tract"
+- Quran 16 → "the chapter of the bee"
+- Quran 17 → "the chapter of the night journey"
+- Quran 18 → "the chapter of the cave"
+- Quran 33 → "the chapter of the confederates"
+- Quran 36 → "the chapter of Ya-Seen"
+- Quran 41 → "the chapter explained in detail"
+- Quran 42 → "the chapter of consultation"
+- Quran 50 → "the chapter of Qaaf"
+- Quran 53 → "the chapter of the star"
+- Quran 54 → "the chapter of the moon"
+- Quran 57 → "the chapter of iron"
+- Quran 70 → "the chapter of the ascending stairways"
+- Quran 89 → "the chapter of the dawn"
+- Quran 91 → "the chapter of the sun"
+- Quran 112 → "the chapter of sincerity"
+
+Do not say "Surah", "Sura", "Surat", or any Arabic chapter name (al-Ikhlas, al-Hadid, al-Shura, etc.) — only the English meaning. The source text has been pre-substituted with these English names; speak them as written.
+
+### 6. Anti-padding and structural rules
+- The first three sentences are pure substance. No "imagine for a second" opening hooks, no architectural metaphors, no scene-setting flourishes. The opening drops directly into the chapter's content.
+- The last sentence ends on the doctrinal verdict, not on a "what does this mean for the listener" reflection or a metaphor flourish.
+- When the recipe specifies a thesis to be restated verbatim N times (see Anti-noise rules below), speak the thesis as a standalone sentence with natural conversational pacing, no paraphrase at the restatement points. Do not narrate stage directions like "short pause here" or "let me quote it directly" — those are guidance to you, never spoken content.
+- If you find yourself padding to fill time, end the episode early. A shorter, cleaner episode is preferable to a longer one that wanders.
+
+---
+
+
+## Background
+
+Chapter Six settled that prime matter and form are inseparable correlates, and that motion and stillness are modes of the moved thing with respect to its mover. Chapter Seven now turns to the world those principles make: from the encompassing limit down through the throne, the planets, the four elements, and the born. Two earlier Ismaili reformers had given competing pictures. The author adjudicates across seven sub-chapters: three genera of generated beings, a human as fourth-by-distinction, many pairs by occasion, and a between-state that is harder to hold than either predecessor's picture.
+
+## Stable role-labels
+
+One label per figure, every time, without rotation:
+
+- **The author of this book** — the author
+- **The author of the book *The Correction*** — the first reformer
+- **The author of the book *The Defense*** — the second reformer
+- **Empedocles** — the Greek philosopher
+- **The Fatimid imam cited in the closing sub-chapter** — the Fatimid imam
+- **Ali ibn Abi Talib (peace be upon him)** — the Commander of the Faithful (default); the Father of Imams (when the Ismaili doctrinal distinction is load-bearing)
+- **Hasan ibn Ali (peace be upon him)** — Imam Hasan, the first Imam
+- **Hussain ibn Ali (peace be upon him)** — Imam Hussain, the second Imam
+- **The Prophet Muhammad (peace and blessings of Allah be upon him)** — the Prophet; the Messenger of God
+
+## Host dynamic
+
+The female host is **Advocate A** (protagonist + verdict). The male host is **Advocate B** (challenger). Roles are locked at episode start; no swap mid-episode.
+
+**Advocate A** carries the author's settled doctrine across all seven sub-chapters. She defends the adjudication as a genuine architectural advance — the correction that shows where both predecessors went wrong at their own joints. She engages in measured first-person reflection: "What strikes me about this picture is that it makes the human's pair a matter of choice rather than genus" and "I find myself drawn to the between-state image precisely because it generates a role the earlier schemes left empty."
+
+**Advocate B** challenges the adjudication at each of its joints. He does not defend either earlier reformer; his pressure is on whether the author's corrections introduce more problems than they resolve. He uses literal challenger-friction patterns (see Central tensions). He also engages in measured first-person reflection: "I find myself wanting more than an image here — the boy between two parents is vivid, but vivid is not the same as explanatory."
+
+Neither host performs surprise, excitement, or detached reportage. The emotional register is measured engagement: two careful readers who have prepared separately and find themselves genuinely in tension over what the text actually settles.
+
+## Conversation choreography
+
+**Reset clauses.** Between the three major movements (sub-chapters 1–3; sub-chapter 4; sub-chapters 5–7), insert a single-sentence reset naming what just landed. Example: "So the pairing-by-genus claim is now closed — what we do not know yet is whether the between-state costs more than it saves."
+
+**Separate-prep planting.** Plant at least two moments where one host introduces a passage the other has not been leading toward. Advocate B opens the Greek philosopher's bestial-soul-and-speaking-soul distinction before Advocate A has cited it. Advocate A closes with the verse from the chapter of the criterion (Quran 25, the chapter of the criterion, verse 53) — the two seas that meet without mingling — before Advocate B reaches the between-state argument.
+
+**Cadence.** Short-to-medium sentences with varied rhythm. Pace is the rhythm of two readers thinking out loud, not two lecturers taking turns. The debate's friction is intellectual, not adversarial; the tone is the seminar room.
+
+## Central tensions to reach
+
+**Tension 1: Does "many pairs by occasion" dissolve the concept of pairing?**
+The author replaces the no-peer claim with pairing-by-resemblance: the human pairs with angels when virtuous, wolves when cruel, monkeys when licentious. The pair is chosen, not given.
+
+Advocate B says: "If the human pairs with everything depending on how they behave, hasn't the word 'pair' stopped doing any work? This sounds like it could mean anything."
+
+Advocate A holds that pairing-by-resemblance is not vagueness; it is precision about what kind of thing pairing actually is. The speaking soul is the capacity to choose one's resemblance, and therefore one's pair.
+
+**Tension 2: Is the between-state a real answer or a redescription?**
+The author places the human in a between-state — like the boy between his two parents — matter from below, image from above.
+
+Advocate B says: "Isn't this just replacing one mystery with another? How is this different from hiding the problem inside a more beautiful image?"
+
+Advocate A notes that the between-state is not an evasion but a structural claim: it requires a midwife, and the midwife is the limits of the call. The image generates a role — the chain of receivership — that the earlier schemes left structurally empty.
+
+**Tension 3: Can the strict-sense definition of humankind exclude most people in human form?**
+The author holds that the strict pair of humankind is the angels; "humankind" in the strict sense means prophets, guardians, imams, and those who follow in their footsteps with both outer law and inner interpretation. Those merely in the form of humankind whose souls are bestial are not humankind in the relevant sense.
+
+Advocate B says: "You have redefined humanity in order to solve the pairing problem. If most people in human form are not 'humankind' in this doctrine, you have not explained where they stand; you have reclassified them as animals with a better posture."
+
+Advocate A holds that the reclassification is the doctrine. The speaking soul must be actualized by education, by the call, by the limits. Those who reject the call have not actualized it; they carry the form but not the rank.
+
+**Verdict (Advocate A, closing beat).** The author's adjudication holds because the between-state generates the role the other schemes left empty — the midwife, the limits of the call, by whose hand the gift of the higher world is conveyed into the receiver-in-the-form-of-humankind. The cost is a demanding definition of humankind. The benefit is an architecture that can carry the doctrine of the call, guardianship, and the return without collapse at any joint.
+
+## Three-part focus — six-beat dramatic arc
+
+The recurring thesis, planted verbatim at Beats 1, 4, and 6:
+
+**"The human is the counterpart of all the worlds, standing between them as matter from below and image from above."**
+
+**Beat 1 — Crisis open with thesis, first planting (VERBATIM)**
+The chapter opens inside a three-way dispute: the world's sections are contested, the human's position is contested, the concept of pairing is contested. Two careful thinkers have given clean architectural answers; the author arrives to correct both. Name the stake now, at the opening: *"The human is the counterpart of all the worlds, standing between them as matter from below and image from above."*
+
+**Beat 2 — Failed answer A**
+The first reformer's four-jewels-four-classes scheme: four genera, the human as the fourth with no peer, the horse as the human's pair within the animal genus. But the author shows it fails at two joints. First, the world has far more sections than four — from the center to the encompassing limit: throne, planets, four elements, and the born. Second, the no-peer claim is incompatible with the microcosm claim: to be the small world is to be like everything, and to be like everything is to pair with everything.
+
+**Beat 3 — Failed answer B**
+The second reformer's pairing-by-acceptance gloss broadens the pairing concept and tries to rescue the horse-and-human link. But the dog accepts training, the falcon accepts training, the elephant accepts training. The horse has no monopoly on acceptance. The refinement dissolves the very pairing it meant to protect.
+
+**Beat 4 — Author's pivot with thesis, second planting (VERBATIM)**
+The author's synthesis across sub-chapters one through three: three genera of generated beings, the human as fourth-by-distinction within the animal genus; many pairs by occasion as pairing-by-resemblance; the strict pair of humankind as the angels, because strict-sense humankind is the rank of the prophets, guardians, and imams and those who follow in their footsteps. The synthesis restates what both corrections were reaching toward but missed: *"The human is the counterpart of all the worlds, standing between them as matter from below and image from above."*
+
+**Beat 5 — Non-bodily correction: the inner interpretation of the Greek philosopher**
+Sub-chapter four. The Greek philosopher's bestial soul and speaking soul, taken literally by the second reformer, gives the horse and the human. Taken on the inner interpretation — as the author insists the call tradition reads — it gives the receivers-in-the-form-of-humankind and the teachers: the prophets, guardians, and imams as mothers of humankind, raising by degrees those who accept education. The verse from the chapter of the dawn (Quran 89, the chapter of the dawn, verses 27 through 30) names the destination: *O reassured soul, return to your Lord, pleased and pleasing.* The midwife image carries its full architectural weight.
+
+**Beat 6 — Stakes close with thesis, third planting (VERBATIM)**
+Sub-chapters five, six, and seven complete the map. The microcosm runs joint-by-joint through both the natural world and the creative-emanative world. The human gathers everything the chain produced before him, from the First Intellect down through the limits, the elements, and the three genera. The between-state is not an evasion: it generates the midwife, the limits of the call, by whose hand the gift crosses the partition that holds the two worlds apart. What hangs on getting this right: guardianship, the limits, the return. Close with the thesis for the third and final time, verbatim: *"The human is the counterpart of all the worlds, standing between them as matter from below and image from above."*
+
+## Tone constraints
+
+**Three governing analogies, sourced from the chapter itself:**
+
+1. **The boy between his two parents** — the human as between-state; neither world owns him, both constitute him; the partition makes a midwife necessary.
+
+2. **The perfume-seller and the blacksmith** — pairing by the company one keeps; the pleasant smell reaches you whether you buy or not.
+
+3. **The midwife who delivers** — the limits of the call as mothers of humankind; the gift of the higher world is conveyed by the hand that receives it from above and transmits it below.
+
+These analogies are sourced from the chapter's own images and may be deepened but not replaced.
+
+**C4 retained Arabic technicals** — the following terms remain in their Arabic forms:
+- *walaya* (the doctrine of guardianship-allegiance)
+- *ma'ad* (the return; the soul's restoration to its rank of origin)
+- *barzakh* (the between-state; the partition)
+- *nafs* (the soul-self; the moving engine)
+- *origination* (origination; the creation of the First Intellect)
+
+## Anti-noise rules
+
+Do not restate the thesis more than three times — once at Beat 1, once at Beat 4, once at Beat 6. Each restatement must be verbatim.
+
+Do not re-cite the same Quranic verse or hadith twice within the episode.
+
+Do not summarize what was just said before beginning the next point. Reset clauses name what landed; they do not recap it.
+
+Biographical context for the author appears at most once, in one sentence, if needed: "the author was a Fatimid-era philosopher writing to adjudicate two earlier Ismaili schools" — done.
+
+Do not reference other episodes, earlier chapters by number, or future chapters. The episode stands alone.
+
+Do not introduce external scholars or secondary literature not present in the chapter itself.
+
+## Landing
+
+**Unresolved tension:** The chapter settles the architecture of the world's sections and the human's position between the worlds. It does not settle how the between-state is actually traversed in a given life — how the descent of the image through the limits reaches this specific receiver in this specific moment. Close on the question the chapter earns but does not seal: if the human stands between the worlds as matter from below and image from above, and if the limits of the call are the midwife by whose hand the gift is conveyed — what determines whether the gift reaches a given receiver? Is it the receiver's acceptance? The teacher's patience? The rank the receiver was already constituted to hold? The chapter opens the question. It leaves it open.
+
+**Essential Teachings:** The human is the plastic part — the part whose pairing is chosen rather than given. The world's sections run from the encompassing limit down through the throne, the planets, the four elements, and three genera of generated beings, with the human as fourth-by-distinction within the animal genus. The strict pair of humankind is the angels; the strict-sense humankind is the rank of the prophets, guardians, imams, and those who follow in their footsteps. The limits of the call are the mothers of humankind: they receive the gift of the higher world and convey it into those-in-the-form-of-humankind who have reached the rank that can receive it. The human stands between the worlds as matter from below and image from above — and this between-state makes the midwife necessary, because the gift of the higher world cannot cross the partition alone.
+
+---
+
+Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.

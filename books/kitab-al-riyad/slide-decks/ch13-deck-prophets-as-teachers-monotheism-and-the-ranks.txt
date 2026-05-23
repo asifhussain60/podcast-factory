@@ -1,0 +1,459 @@
+# Prophets as Teachers, Monotheism, and the Ranks
+
+*The visual companion to Chapter Nine's second half. The audio chapter is the prose; this file is its architecture made structural. Same concepts, same depth, restructured for slide-deck rendering.*
+
+## Where this chapter picks up
+
+A two-row carry-forward summary from the first half of *Chapter Nine* into the second.
+
+| Half | What was settled |
+|---|---|
+| First half (sub-chapters 1-19) | Adam had a *sacred law*; Seth was his *foundation*. Worked the book *The Defense*'s nineteen objections one by one. |
+| Second half (sub-chapters 20-33) | Why prophets are sent at all; the great cycle; the *Qa'im*; the *seven lines and six aradas*; the *ark*; *every speaker has a guardian*; the *son of Noah* as the *opposite*. |
+
+The second half *expands* the first half's verdict across the architectural shape of the chain that runs in time.
+
+The nineteen objections of the first half, in compact roster, so the second half's expansions are visible against what they rest on:
+
+| Objection number | Sub-topic |
+|---|---|
+| 1-2 | The *qurban* (offering) verse on its apparent reading |
+| 3 | The raven-and-burial verse against the book *The Defense*'s misreading |
+| 4 | The deep *inner interpretation* of the two sons as the *wali* and the *opposite* |
+| 5 | The narrative tradition naming Adam as the prescriber of the rites of the dead |
+| 6 | The prostration of the angels as proof of Adam's Chosen rank |
+| 7 | The parallel verse to Israel: silent intermediaries are not no intermediaries |
+| 8 | The natural-world angels who do bear assignment |
+| 9-10 | The silent *God commands you to obey me* objection turned by the parallel to Israel |
+| 11 | The roster argument of Quran 42:13 refuted by the parallel roster of Quran 4:163 |
+| 12 | The real reason for the necessity of the sacred law: the six gates of necessity from the three souls |
+| 13 | The Noah-parallel showing that violation of the limits presupposes prior limits drawn by Adam |
+| 14 | The tent-as-first-prayer-direction and Seth as first the foundation |
+| 15-19 | The refusal of the bare-world-sufficient-for-monotheism doctrine that would eliminate the sending of messengers altogether |
+
+The second half (sub-chapters 20-33) operates as the *architectural expansion* of these settled objections.
+
+## Sub-chapter twenty: the work is for soul-correction
+
+The doctrine in compact form.
+
+| Claim | Content |
+|---|---|
+| The speakers' work | *Not only* for signifying monotheism. |
+| Furthermore | For *correction of the soul in worship*, for *emulating the highest assembly*, for acquiring *honorable morals and noble habits*. |
+| Why this matters | Without the *positive worship* (*qurban*, *sajda*, *ruku*, *zakat*), souls would perish. The sacred law is *constitutive*, not decorative. |
+
+Verbatim prophetic anchor for *teaching*, not *signs and works*, as the inheritance:
+
+> *Verily, the scholars are the heirs of the prophets. The prophets do not bequeath dinars or dirhams; they bequeath knowledge. So whoever takes hold of it has taken an abundant share.*
+> Sunan Abi Dawud, Book of Knowledge, Hadith 3641; Sunan al-Tirmidhi, Book of Knowledge, Hadith 2682.
+
+The Qur'anic anchor:
+
+> *And when your Lord said to the angels, "I am going to place a caliph on the earth," they said, "Will You place in it one who corrupts it and sheds blood, while we glorify You with praise and sanctify You?" He said, "I know what you do not know."*
+> Quran 2:30, Sahih International.
+
+## The cycles of knowledge and ignorance
+
+A process flow showing how knowledge and ignorance trade places, *force* (*quwwah*) becoming *act* (*fil*) and back again.
+
+The dynamic across cycles:
+
+```
+Cycle of ignorance reaches its end (act)
+   ↓ knowledge stands in potency
+Adam sent: knowledge emerges from potency into act
+   ↓ across the six cycles
+The six speakers carry the act of knowledge forward
+   ↓ at the seventh
+Qa'im appears: knowledge is widespread, ignorance cut off at root
+   ↓ after Qa'im
+Knowledge returns to potency; ignorance returns to act
+```
+
+The depth-reading of *I know what you do not know*:
+
+| Phrase | Names |
+|---|---|
+| *I know* | The end of ignorance in the world up to its end as act; the attainment of knowledge in the world up to its goal in strength. |
+| *What you do not know* | The necessity of teachers and guides at the turning point; the resurrection of the need for the establishment of teachers. |
+
+The natural analogue, as a contrast pair showing how *force* and *act* trade places in nature and in history.
+
+Column A: In bodies
+
+- Heat reaches its end as act
+- Cold appears, as in the melting of bodies
+- Cold reaches its end as act
+- Heat appears, as with snow that gathers and then dissolves
+- The dynamic: contraries alternate; neither stays in act forever
+
+Column B: In human history
+
+- Ignorance reaches its end as act (the world before Adam)
+- Knowledge emerges from potency (Adam is sent)
+- Knowledge reaches its end as act (the time of the Qa'im)
+- Ignorance returns from potency (after the Qa'im, knowledge withdraws)
+- The dynamic: the same alternation, on the scale of the great cycle
+
+Shared row: *Corruption is sometimes ignorance, and knowledge is powerful, in the sense that ignorance is general in the presence of its people, and ignorance is lost through the lack of its people.* The state of a population is set by which contrary is at the act-end at that moment.
+
+Even the angels needed Adam's teaching to attain perfection:
+
+> *If the angels, with the presence of the heavens and the good ordering of them, had mastered the structure of the world's assets, they would still not have known, nor would they have attained perfection, and there would be no inference from it, except for what Adam uncovered and called them to.*
+> *Kitab al-Riyad*, sub-chapter twenty.
+
+## The great cycle and the role of the Qa'im: two readings
+
+A contrast pair on the book *The Defense*'s phrase *not ignorant in the role of the Qa'im*. The phrase admits two readings; the author distinguishes them.
+
+Column A: Reading One, the interregnum before the Qa'im appears
+
+- Period named: the *the mission* preserved by successors and preachers, after the completion of the cycle of the Prophet, until the Qa'im's manifestation.
+- Qur'anic anchor: *On the day when the children will grow old* (Quran 73:17).
+- State of knowledge: knowledge has raised the beacon of his appearance; scholars are many.
+- Verdict on the book *The Defense*'s claim: *true*. The creation in this period is not ignorant of monotheism.
+
+Column B: Reading Two, the rank after the Qa'im
+
+- Period named: the *post-Qa'im* rank, owner of the seventh floor, when speech is dismissed, people of Paradise distinguished from people of Hell.
+- Door condition: door of education *closed*; repentance no longer valid.
+- State of knowledge: people are not of the people of knowledge; *the waters overflow and cover*.
+- Verdict on the book *The Defense*'s claim: *false*. The post-Qa'im rank is not a rank of not-being-ignorant.
+
+Shared row: the *role of the Qa'im* is the *turning point*; the *reading of the architecture* on either side of the turning is *opposite*. The book *The Defense* has confused the two roles.
+
+## Sub-chapter twenty-three: the three sections of Adam's call
+
+A hierarchy of the possible forms of any prophetic call, with the inference that *each form requires interpretation*.
+
+```
+Adam's prophetic call (necessarily one of three sections)
+  - Section A: encouragement (targhib)
+    - Apparent: parables of Paradise (dwellings, orchards, rivers, trees)
+    - Underneath: interpretation required
+  - Section B: intimidation (tarhib)
+    - Apparent: parables of Hell (fire, chains, scorching wind)
+    - Underneath: interpretation required
+  - Section C: both encouragement and intimidation
+    - Apparent: both sets of parables
+    - Underneath: interpretation required
+```
+
+The conclusion: on *any* of the three sections, Adam's speech *must* have an *apparent meaning* (the parables) *followed by* an *interpretation*. The very form of prophetic speech carries both *the apparent* (apparent) and *the hidden* (hidden). And the *the apparent* is, by definition, the *sacred law*.
+
+The Prophet's own teaching enacts the same architecture:
+
+> *My example and the example of the people is like that of a man who kindled a fire. When it lit up what was around him, the moths and flying insects began to fall into the fire. The man tried to prevent them, but they overcame him and plunged into it. That is your example and mine: I am holding the belt of your loin-cloths, pulling you back from the Fire, but you are slipping away from my hand.*
+> The major Sunni collections, Book of Riqaq, Hadith 6483 and Book of Virtues, Hadith 5953.
+
+The hadith carries the parable's apparent meaning (the man, the fire, the moths, the belt) and the interpretation (the Prophet's protective hand against the eschatological Fire) at once.
+
+## Sub-chapter twenty-four: knowledge and action together
+
+A named-axis 2x2 on the *two worships* that together constitute the one sacred law.
+
+Axes:
+
+- Vertical: Soul-faculty addressed (intellect, knowing) up vs (body, doing) down
+- Horizontal: Present in Adam's sacred law (yes) left vs (no) right
+
+Quadrants:
+
+| | Present | Absent |
+|---|---|---|
+| **Knowledge** (intellect) | The worship of the spirit: *inner interpretation*, the inward truth, the names taught to Adam | Impossible. A religion that claims the spirit and abandons the body is *a lie*. |
+| **Action** (body) | The worship of the body: the rite, the *qurban*, the *sajda*, the law and clear custom | Impossible. A religion that keeps the body and abandons the spirit is *dead*. |
+
+Adam is the owner of *a law that combines knowledge and action*. Either alone is insufficient.
+
+Verbatim anchor at the rank of the Fatimid caliph:
+
+> *The worship of the body and the worship of the spirit are the two faces of one obedience. The sacred law is the body; the* inner interpretation *is the spirit. He who keeps the body and abandons the spirit, his religion is dead; he who claims the spirit and abandons the body, his religion is a lie. And Adam, peace be upon him, brought both, the body of the rite and the spirit of the* inner interpretation*, as Allah taught him the names of all things.*
+> The Fatimid caliph, *The Interpretation of the Sharia*.
+
+## Sub-chapter twenty-five: the Qa'im raises the laws as completion, not abrogation
+
+A contrast pair distinguishing two readings of *the Qa'im raises the laws*.
+
+Column A: The book *The Defense*'s implied reading, *abrogation*
+
+- What the Qa'im does: annuls the sacred law at the seventh rank.
+- Implication for worship: worship is invalidated.
+- Implication for the chain: Adam's sacred law-rank is not at the head but somewhere in the middle.
+- Status: *sick*; rejected by the author.
+
+Column B: The author's reading, *completion*
+
+- What the Qa'im does: concludes the roles of the predecessors; completes what has been done in its place.
+- What passes away: the *ranks* of the limits (speaker, foundation, imam, *hujjah*, *dai*).
+- What does *not* pass away: the laws and ordinances of the works that have passed in their time.
+- Qur'anic anchor: *Are We then wearied with the first creation?* (Quran 50, the chapter of Qaaf, verse 15)
+
+Shared row: the apocalypse-verses (*When the heaven is cleft asunder, when the planets are scattered, when the sun is darkened, when the stars fall, when the mountains are removed*, composite of Quran 82:1-2 and 81:1-4) describe the *passing away of the ranks of the limits*, not the *abrogation of the sacred law*. The sacred law of Adam and the sacred law of the Prophet are the same architecture at different ranks of the one chain.
+
+## Sub-chapter twenty-six: monotheism and the high limits
+
+A taxonomy of the two routes by which *monotheism* is attained.
+
+```
+Monotheism (the destination)
+  - Route One: by innovation (the rank of origination)
+    - Who travels it: the First Intellect, the universal Soul, the high limits (Jadd, Fath, Khayal), the angels of the high assembly
+    - How: their being-originated-at-the-station-of-presence already IS their monotheism
+    - Signs and works: not required; they did not travel to it
+  - Route Two: by acquisition (the rank of the bodily intellects)
+    - Who travels it: human beings, the natural-world angels, the intellects in the world of the body
+    - How: through the teaching of obligation, knowledge, signs, and works
+    - Signs and works: required; this is the very route they must walk
+```
+
+The author's verdict on the book *The Defense*'s argument: the argument *confuses the routes*. The doctrine that *monotheism requires signs and works* applies only to the bodily intellects. The high limits are reached differently, and the book *The Defense* has conflated them.
+
+The devotional anchor at the rank of the high limits, attaining monotheism *by their originated rank*, not by acquisition:
+
+> *O God, and as for the bearers of Your Throne, who never flag in glorifying You, never weary of hallowing You, never tire of worshipping You, never prefer slackness over earnestness, and are never neglectful of fervent love for You, ... and those of them entrusted with the protection of Your servants, ... bless them and increase their portion of Your gentleness, and Your peace be upon them.*
+> *The Psalms of Islam*, Supplication 3, by the fourth Imam, the supplication on the bearers of the Throne.
+
+The *bearers of the Throne never flag, never weary, never tire* because their being-originated-at-the-station-of-presence already *is* their monotheism. The bodily intellects acquire; the high limits *are*.
+
+A side-note on cosmological correspondences: the book *The Defense*'s mention of *seven stars*, *six days of creation*, and the book *The Correction*'s interpretation of these numbers, are *Arabized translations that barely balance*. The correspondence of the cosmological architecture (seven stars of the heavens, six days of the creation) to the speakers and the cycles is itself a received *the mission* doctrine.
+
+## Sub-chapters twenty-seven and twenty-eight: the seven lines and six aradas
+
+The named architecture at the heart of the chapter. An *annotated structure* dissecting the geometric mnemonic by which the *the mission* graphs the chain of cycles.
+
+The whole: seven horizontal *lines* with six transverse *aradas* (*arad*, the "cross-line") between them.
+
+```
+Line 1  ────────────────────  (Speaker 1: Adam)
+   ╱ Arada 1 (Law 1: between Adam and Noah)
+Line 2  ────────────────────  (Speaker 2: Noah)
+   ╱ Arada 2 (Law 2: between Noah and Abraham)
+Line 3  ────────────────────  (Speaker 3: Abraham)
+   ╱ Arada 3 (Law 3: between Abraham and Moses)
+Line 4  ────────────────────  (Speaker 4: Moses)
+   ╱ Arada 4 (Law 4: between Moses and Jesus)
+Line 5  ────────────────────  (Speaker 5: Jesus)
+   ╱ Arada 5 (Law 5: between Jesus and Muhammad)
+Line 6  ────────────────────  (Speaker 6: Muhammad, peace and blessings of Allah be upon him and his family)
+   ╱ Arada 6 (Law 6: between Muhammad and the Qa'im)
+Line 7  ────────────────────  (Speaker 7: the Qa'im)
+                                no arada after Line 7 (completion, not new law)
+```
+
+The dispute is over what the lines and aradas *represent*. Three readings.
+
+Comparison matrix of the three readings:
+
+| Reading | What the lines are | What the aradas are | Verdict on Adam's sacred law |
+|---|---|---|---|
+| The book *The Correction* (as read literally) | The seven speakers | The six laws of the speakers | Adam has a law (he occupies Line 1, with Arada 1 being his law). But the literal claim that *Adam's law is not fulfilled until Noah appears* is *sick and incorrect*. |
+| The book *The Defense* | The seven higher letters (the principal letters of the *the mission*'s esoteric alphabet, each written by one speaker) | The cycles of Imams between speakers | Adam has *no* law (the symmetry: Qa'im has no Imams after him and no sacred law; Adam has no Imams before him and no sacred law). |
+| The author's correction | The seven speakers (pronouncers) | The duration of each speaker's command in the cycle | Adam has a law. The Imams *after* Adam (Seth and his descendants) entail the obligation of Adam's sacred law. |
+
+The book *The Defense*'s *symmetry argument* in compact form:
+
+```
+Qa'im rank:                          Adam rank:
+  No Imams after the Qa'im              No Imams before Adam
+       ↓ therefore                          ↓ therefore (book *The Defense* claims)
+  No sacred law after the Qa'im           No sacred law at Adam
+```
+
+The author's refutation in compact form. The book *The Correction*'s literal phrasing (*the law of the first is not fulfilled except by the appearance of the second*) is rejected: *the sacred law is a stature that does not require any increase upon it nor any decrease from it*. Each speaker's sacred law is *complete in itself* at the moment of its drawing. What the book *The Correction* *should have meant* (and on this reading the argument is consistent): the *cycle*, not the *sacred law*, is closed by the next cycle's opening speaker.
+
+The author's positive geometry permits *both* a major and a minor reading of the cycle:
+
+| Reading | Lines on | Aradas on |
+|---|---|---|
+| Major cycle | The Speakers | Duration of the Speakers' command in each cycle |
+| Minor cycle | The Imams (Seven Imams per Speaker-cycle) | Duration of the order of the Imams in each week |
+
+Both readings yield Adam's sacred law.
+
+## Sub-chapter twenty-nine: repetition and return
+
+A process flow on the cyclic architecture of *As We began the first creation, We shall repeat it* (Quran 21, the chapter of the Prophets, verse 104, Sahih International).
+
+```
+Before Adam:
+  Knowledge in potency
+  Ignorance in act (abundance)
+        ↓
+Adam sent: knowledge emerges from potency into act
+        ↓
+Six cycles run (Adam, Noah, Abraham, Moses, Jesus, the Prophet)
+  Knowledge in act, expanding
+  Ignorance in potency, retreating
+        ↓
+Qa'im appears at the seventh:
+  Knowledge widespread
+  Ignorance cut off at root
+        ↓
+After the Qa'im:
+  Knowledge returns to potency
+  Ignorance returns to act (abundance)
+        ↓
+Resembles the state before Adam
+```
+
+The arc of the seven cycles is the *one act of knowledge* between *two abundances of ignorance*.
+
+The prophetic anchor naming the *return* the verse describes:
+
+> *Verily, Allah does not take away knowledge by snatching it from the people, but He takes it away by taking away the scholars; so that when no scholar remains, the people take ignorant ones as their leaders. They are asked, and they give legal verdicts without knowledge, so they go astray and lead others astray.*
+> The major Sunni collections, Book of Knowledge, Hadith 100 and Hadith 6796.
+
+The hadith names exactly the *return*: knowledge departing with the deaths of the scholars; the people falling back into the rank of ignorance.
+
+## Sub-chapter thirty: the letters of Adam's name
+
+An annotated structure on the book *The Defense*'s etymological argument and the author's two-fold refutation.
+
+The whole: the book *The Defense* claims Adam's three-letter name signifies *no sacred law*.
+
+Parts of the argument and the author's refutation:
+
+| Element | The book *The Defense*'s reading | The author's refutation |
+|---|---|---|
+| Adam's name | Three letters: Aleef, Daal, Meem. *Uncompounded* and *not composed*; each letter stands alone. | Each letter is itself compound when *spelled out*: Alif = Alif-Lam-Fa; Dal = Dal-Alif-Lam; Mim = Mim-Ya-Mim. |
+| The other five speakers' names | Compound: Noah (Noon-Waaw-Haa), Abraham (Aleef-Baa-Raa-Haa-Yaa-Meem), Moses (Meem-Waaw-Seen-Yaa), Jesus (Ayn-Yaa-Seen-Yaa), Muhammad (Meem-Haa-Meem-Daal). The compounding signifies *sacred law-authorship*. | The argument cuts both ways: if compounding signifies sacred law, then Adam's name *at the level of its spelled letters* also signifies sacred law. |
+| Letter-count inference | More letters means more sacred law. | The Prophet's name *Muhammad* (four letters) has fewer letters than Noah, Moses, or Jesus. The inference fails. |
+
+The verdict: *It is not considered by inference like this. The sacred law for Adam is fixed.*
+
+## Sub-chapter thirty-one: the ark, the apparent law, and the mission
+
+A contrast pair on the *inner interpretation* of Noah's ark, with the author's verdict that *both readings stand*.
+
+Column A: The book *The Correction*'s reading, *ark as apparent sacred law*
+
+- What the ark is: the new sacred law Noah composed.
+- Who survives: those who entered under the rulings of the new law.
+- Who drowns: those who adhered to the first law (worshippers of *Wadd*, *Suwa*, *Yaghuth*, *Yauq*, *Nasr*).
+- Qur'anic anchor: *They were drowned in their sins, so they were made to enter the Fire* (Quran 71:25).
+
+Column B: The book *The Defense*'s reading, *ark as the appointed wali*
+
+- What the ark is: the *the mission*-with-the-guardian; the appointment of the wali.
+- Qur'anic ordering: Noah called creation to the sacred law *first*; *then* Allah commanded him *And he was making the ark* (Quran 11, the chapter of Hud, verse 38), meaning to establish the guardian.
+- Who survives: those who entered the *quiet the mission* and adhered to obedience to its foundation.
+- Who drowns: not sacred law-rejecters but *wali-rejecters*; mockers of Noah's appointment of his guardian (the *nobles* who *ridiculed him*, Quran 11:38).
+
+Shared row: the author's verdict, *both interpretations are sound*. *One is the matter of this world and the other is the matter of religion, and neither of them dispenses with the other, for each of them lifts up the head of the other.* The apparent sacred law needs the *the hiddeni* call; the *the hiddeni* call needs the apparent sacred law. The ark is both.
+
+## Sub-chapter thirty-two: every speaker has a guardian
+
+A comparison matrix establishing the doctrine that *each speaker requires a guardian*, anchored in physics and in the imam's own line.
+
+The general principle, derived from the physics of motion:
+
+```
+Every motor (muharrik) requires a necessary mover.
+   ↓ extension to the mission
+Every speaker is a source from which inspiration flows to all souls.
+   ↓ structural requirement
+There must be a movable agent from whom the course of the learner runs.
+   ↓ this agent is called
+The guardian (the wali, the foundation).
+```
+
+The speaker-and-guardian pairings across the chain:
+
+| Cycle | Speaker | Guardian |
+|---|---|---|
+| 1 | Adam | Seth |
+| 2 | Noah | His wali (named in the *the mission* tradition) |
+| 3 | Abraham | His wali |
+| 4 | Moses | His wali |
+| 5 | Jesus | His wali |
+| 6 | the Prophet, peace and blessings of Allah be upon him and his family | The Commander of the Faithful (the imam) |
+| 7 | the Qa'im | His successor in the world |
+
+The canonical anchor at the rank of the imam, fixing the speaker-and-guardian pairing as a *necessary truth*:
+
+> *O Kumayl, the earth is never empty of one who stands for Allah with proof, either appearing and known, or fearful and concealed, lest the proofs of Allah and the clear signs of His religion be invalidated. How many, and where are they? By Allah, they are the fewest in number, but the greatest with Allah in rank. Through them Allah preserves His proofs, until they entrust them to those like themselves, and sow their seed in the hearts of those like them.*
+> *The Path of Eloquence*, Aphorism 147, compiled c. 1009 CE; from the reply of the Commander of the Faithful to his pupil.
+
+The imam names two modes of the guardian:
+
+- *Appearing and known*: e.g., Seth at the rank of Adam, the foundation declared in the community.
+- *Fearful and concealed*: e.g., the imam-in-hiding, the wali in occultation when the cycle demands silence.
+
+The *speaker-and-guardian* pairing is *the joint of every cycle*.
+
+## Sub-chapter thirty-three: the son of Noah, the opposite, and the cleansing flood
+
+A narrative-as-structure unfolding the *inner interpretation* of Quran 11:42-43 as the type of the *opposite* (*al-mukhalif*) who recurs at every cycle.
+
+The Qur'anic source:
+
+> *And Noah called his son, who had separated himself, "O my son, ride with us, and do not be with the disbelievers." He said, "I will take refuge in a mountain that will protect me from the water." Noah said, "There is no preserver today from the command of Allah."*
+> Quran 11:42-43, Sahih International.
+
+The book *The Defense*'s reading of this verse: the son's ignorance of the wali-rank shows that the wali-rank was *newly established by Noah*; Adam therefore had no wali.
+
+The author's first refutation, *internal inconsistency*: the book *The Defense* has elsewhere said the *imams took up the cycle of Adam after him*, which already entails Adam had a guardian (Seth). The book contradicts itself. The author suspects copyist-error or adversary-inserted doctrine.
+
+The author's second refutation, the deeper *inner interpretation* of the *son of Noah*:
+
+```
+The son in the apparent reading: Noah's biological son
+   ↓ inner interpretation
+The son in the deep reading: NOT from Noah's loins
+   ↓ rather
+A man of great worldly station whom Noah presented
+   ↓ who
+benefited from Noah, learned what he had
+   ↓ and
+through his own influence became Noah's "son"
+   ↓ took it upon himself; people imagined he was the guardian
+   ↓ but the true guardian was appointed by Allah's command (the ark)
+   ↓ the false-son separated himself (itazala) when the true wali was named
+   ↓ he sought refuge in
+the mountain = his partisans, his chiefs, his "ilk"
+   ↓ "the water" came
+the cleansing flood: outwardly (the literal flood) AND inwardly (the mission's cleansing of the opposite-and-his-partisans)
+   ↓ only those held fast to obedience to the foundation remained
+```
+
+The narrative in the *the mission*'s political *inner interpretation*:
+
+| Element of Quran 11:42-43 | Apparent meaning | The hiddeni meaning |
+|---|---|---|
+| The son who separated | Noah's biological son | The *opposite* (*al-mukhalif*), a former follower, present in *every* cycle, including the cycle of the Prophet |
+| *Ride with us* | Board the literal vessel | Enter under the appointed wali's command; obey the foundation |
+| *I will take refuge in a mountain* | A geographical refuge | The opposite's partisans, the chiefs who strengthened his hand |
+| *That will protect me from the water* | The literal flood | The cleansing that divides itself against the force that destroys |
+| *There is no preserver today from the command of Allah* | No physical safety from the flood | If you do not yield to the appointed wali, your presidency will go and humiliation will overtake you |
+
+The closing: *Allah has mentioned such news in His Noble Book as a warning, sometimes through reference to the she-camel of Salih; sometimes through the son of Noah, to make known that the conditions of Muhammad's cycle are like the conditions of the aforementioned cycles. This is a custom carried out in the case of all the prophets and guardians, until the time of the seventh.* The type of the *opposite* recurs at the joint of every cycle, and is washed away in the cleansing flood that spreads *outwardly and inwardly*. Only one who is reckoned among the people of the *Alawi the mission* knows of the inward cleansing.
+
+## The closing settlement of Chapter Nine
+
+A two-column summary of what the fourteen sub-chapters of the second half have settled.
+
+Column A: Architectural settlements
+
+- The work of the speakers is *not only* for monotheism but for the *correction of the soul* toward the second perfection.
+- *I know what you do not know* names the cosmic turn by which knowledge emerges from potency at the end of the cycle of ignorance.
+- Adam's three-section call carries parables with both apparent meaning and interpretation; the apparent meaning is itself the sacred law.
+- The Qa'im completes rather than abrogates: ranks of the limits pass away, but the laws and ordinances of works stand.
+- The high limits attain monotheism by *innovation*, not signs and works.
+- The seven lines and six aradas graph the speaker-cycles, not the higher letters; both major (speakers) and minor (imams) readings yield Adam's sacred law.
+- The Adam-letters argument refutes itself by internal inconsistency.
+- The ark carries both readings: apparent sacred law AND the mission-with-the-wali.
+- Every speaker has a guardian: Adam had Seth, Noah his wali, and on through the chain.
+- The son of Noah is the type of the *opposite* who recurs at every cycle.
+
+Column B: Bridge to Chapter Ten
+
+The architectural question at the head of the chain: if the chain runs through speaker-and-guardian pairs at every cycle, with opposites recurring at every joint, *what is at the very head of the chain, above the First Speaker, above the First Intellect, above the universal Soul*? Chapter Ten takes up *monotheism and the critique of the book *The Harvest**, the author's settling of the nature of the First Creator against the philosophical doctrines of the *Mutazila*, of *Jonathan*, of *Samuel*, and of the lost-work the book *The Harvest* itself.
+
+## The closing verbatim anchor
+
+The architectural summary at the rank of the author's other treatise, the rank of the First Creator at the head of the chain.
+
+> *The chain that runs in time has a head, and the head has a Lord. The Lord is not the head; the Lord is above the head. The First Intellect knows the Lord by innovation; the universal Soul receives the head's writing; the speakers carry the writing into the world; the guardians preserve the writing in the community; the opposites are washed away in the cleansing of every cycle; and at the seventh, the Qa'im completes the roles and closes the door of teaching. This is the architecture of the chain that runs in time. And above the head is the Lord, of whom no description, no attribute, no opposition is permitted, the Originator of the Originated, the Innovator of the Innovated. Beyond Him there is nothing but Him.*
+> The author, *Rahat al-Aql* (*The Repose of the Intellect*), the rank of the First Creator at the head of the chain.

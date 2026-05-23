@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "book_slug": "asaas-al-taveel",
+  "category": "books",
+  "branch": "book/asaas-al-taveel",
+  "phase": "0c",
+  "phase_status": "pending",
+  "last_completed_phase": "0b",
+  "next_phase": "0d",
+  "last_error": null,
+  "scheduled_launch": {
+    "scheduled_at": "2026-05-22T10:00:00Z",
+    "scheduled_for": "06:00 EDT 2026-05-22 (rescheduled from 18:01 EDT 2026-05-21 to stagger heavy LLM phases per coord-protocol §8; Air is actively running KaR Phase 0g — avoid Anthropic-quota contention by deferring asaas to morning)",
+    "scheduled_by": "claude-on-mac-studio-primary",
+    "launch_command": "python3 scripts/podcast/orchestrate_book.py --resume asaas-al-taveel",
+    "at_job_id": 2,
+    "previous_schedule": "2026-05-21T22:00:00Z (job #1; cancelled 2026-05-21T15:07Z after Air confirmed mid-Phase-0g)"
+  },
+  "previous_halt": {
+    "gate": "P22-operator-transcript-review",
+    "halted_at": "2026-05-20T15:30:00Z",
+    "halted_by": "claude-on-mac-studio-primary (manual; P22.impl unshipped)",
+    "resolved_at": "2026-05-21T13:50:00Z",
+    "resolved_by": "claude-on-mac-studio-primary (Asif approved Option A 2026-05-21; §§1-8 defaults accepted; pp. 19-27 anchors restored via semantic-alignment splice; content-range.md emitted)",
+    "operator_action_completed": "§§1-8 review approved with defaults: §2=A (win-003 splice), §3-§6 pre-seeds, §7 body 33-368, §8 Option I (resume now)",
+    "resume_command": "python3 scripts/podcast/orchestrate_book.py --resume asaas-al-taveel"
+  },
+  "phases": {
+    "pre-flight": {
+      "status": "completed",
+      "ts_completed": "2026-05-20T09:42:51Z"
+    },
+    "branch": {
+      "status": "completed",
+      "ts_completed": "2026-05-20T09:42:51Z"
+    },
+    "scaffold": {
+      "status": "completed",
+      "ts_completed": "2026-05-20T09:42:51Z",
+      "book_dir": "content/podcast/library/books/asaas-al-taveel"
+    },
+    "0a": {
+      "status": "completed",
+      "ts_started": "2026-05-20T09:42:51Z",
+      "ts_completed": "2026-05-20T09:55:57Z"
+    },
+    "0b": {
+      "status": "completed",
+      "ts_started": "2026-05-20T09:55:57Z",
+      "ts_completed": "2026-05-20T13:38:21Z"
+    },
+    "0c": {
+      "status": "pending"
+    },
+    "0d": {
+      "status": "pending"
+    },
+    "0e": {
+      "status": "pending"
+    },
+    "0f": {
+      "status": "pending"
+    },
+    "0g": {
+      "status": "pending"
+    },
+    "per-chapter": {
+      "status": "pending"
+    },
+    "trainer": {
+      "status": "pending"
+    },
+    "merge": {
+      "status": "pending"
+    },
+    "done": {
+      "status": "pending"
+    }
+  },
+  "cost": {
+    "azure_usd": 0.0,
+    "anthropic_usd": 0.0
+  },
+  "wall_clock_sec": 0,
+  "ts_started": "2026-05-20T09:42:51Z",
+  "ts_updated": "2026-05-21T14:00:00Z",
+  "challenger_version": "2.0",
+  "orchestrator_version": "1.2",
+  "config": {
+    "length_tier": "extended",
+    "unit_mode": "auto"
+  }
+}

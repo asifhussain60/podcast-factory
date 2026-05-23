@@ -1,0 +1,3158 @@
+7
+Moving Beyond Linearity
+
+
+
+
+So far in this book, we have mostly focused on linear models. Linear models
+are relatively simple to describe and implement, and have advantages over
+other approaches in terms of interpretation and inference. However, stan-
+dard linear regression can have significant limitations in terms of predic-
+tive power. This is because the linearity assumption is almost always an
+approximation, and sometimes a poor one. In Chapter 6 we see that we can
+improve upon least squares using ridge regression, the lasso, principal com-
+ponents regression, and other techniques. In that setting, the improvement
+is obtained by reducing the complexity of the linear model, and hence the
+variance of the estimates. But we are still using a linear model, which can
+only be improved so far! In this chapter we relax the linearity assumption
+while still attempting to maintain as much interpretability as possible. We
+do this by examining very simple extensions of linear models like polyno-
+mial regression and step functions, as well as more sophisticated approaches
+such as splines, local regression, and generalized additive models.
+
+    • Polynomial regression extends the linear model by adding extra pre-
+      dictors, obtained by raising each of the original predictors to a power.
+      For example, a cubic regression uses three variables, X, X 2 , and X 3 ,
+      as predictors. This approach provides a simple way to provide a non-
+      linear fit to data.
+
+    • Step functions cut the range of a variable into K distinct regions in
+      order to produce a qualitative variable. This has the eﬀect of fitting
+      a piecewise constant function.
+
+© Springer Science+Business Media, LLC, part of Springer Nature 2021                      289
+G. James et al., An Introduction to Statistical Learning, Springer Texts in Statistics,
+https://doi.org/10.1007/978-1-0716-1418-1_7
+290       7. Moving Beyond Linearity
+
+      • Regression splines are more flexible than polynomials and step func-
+        tions, and in fact are an extension of the two. They involve dividing
+        the range of X into K distinct regions. Within each region, a poly-
+        nomial function is fit to the data. However, these polynomials are
+        constrained so that they join smoothly at the region boundaries, or
+        knots. Provided that the interval is divided into enough regions, this
+        can produce an extremely flexible fit.
+      • Smoothing splines are similar to regression splines, but arise in a
+        slightly diﬀerent situation. Smoothing splines result from minimizing
+        a residual sum of squares criterion subject to a smoothness penalty.
+      • Local regression is similar to splines, but diﬀers in an important way.
+        The regions are allowed to overlap, and indeed they do so in a very
+        smooth way.
+      • Generalized additive models allow us to extend the methods above to
+        deal with multiple predictors.
+   In Sections 7.1–7.6, we present a number of approaches for modeling the
+relationship between a response Y and a single predictor X in a flexible
+way. In Section 7.7, we show that these approaches can be seamlessly inte-
+grated in order to model a response Y as a function of several predictors
+X1 , . . . , X p .
+
+
+7.1 Polynomial Regression
+Historically, the standard way to extend linear regression to settings in
+which the relationship between the predictors and the response is non-
+linear has been to replace the standard linear model
+
+                                 yi = β 0 + β 1 x i + ϵ i
+
+with a polynomial function
+
+                yi = β0 + β1 xi + β2 x2i + β3 x3i + · · · + βd xdi + ϵi ,      (7.1)
+
+where ϵi is the error term. This approach is known as polynomial regression,
+                                                                                       polynomial
+and in fact we saw an example of this method in Section 3.3.2. For large regression
+enough degree d, a polynomial regression allows us to produce an extremely
+non-linear curve. Notice that the coeﬃcients in (7.1) can be easily estimated
+using least squares linear regression because this is just a standard linear
+model with predictors xi , x2i , x3i , . . . , xdi . Generally speaking, it is unusual
+to use d greater than 3 or 4 because for large values of d, the polynomial
+curve can become overly flexible and can take on some very strange shapes.
+This is especially true near the boundary of the X variable.
+                                                                            7.1 Polynomial Regression                                                                                                                                                                                                     291
+
+
+                                        Degree−4 Polynomial
+
+
+
+                                                                         0.20
+                                                                                                             |                     | || | || | | || | || || | || | || || | || || | || | || | | | | | || | || |                                              |
+
+
+        300
+
+
+        250
+                                                                         0.15
+
+
+
+                                                    Pr(Wage>250 | Age)
+        200
+
+ Wage                                                                    0.10
+        150
+
+
+        100                                                              0.05
+
+        50
+
+                                                                         0.00
+                                                                                ||| || || ||| ||| ||| ||| ||| ||| ||| || ||| ||| || || ||| ||| ||| ||| ||| ||| ||| ||| ||| ||| ||| ||| ||| ||| ||| ||| ||| ||| ||| ||| || ||| || ||| ||| ||| ||| ||| || ||| ||| || || || || ||| || || || || | | || || |   ||
+
+
+
+
+              20   30   40    50   60    70   80                                 20                                   30                                  40                                  50                                  60                                  70                                  80
+
+                             Age                                                                                                                                                      Age
+
+
+FIGURE 7.1. The Wage data. Left: The solid blue curve is a degree-4 polynomial
+of wage (in thousands of dollars) as a function of age, fit by least squares. The
+dashed curves indicate an estimated 95 % confidence interval. Right: We model the
+binary event wage>250 using logistic regression, again with a degree-4 polynomial.
+The fitted posterior probability of wage exceeding $250,000 is shown in blue, along
+with an estimated 95 % confidence interval.
+
+  The left-hand panel in Figure 7.1 is a plot of wage against age for the
+Wage data set, which contains income and demographic information for
+males who reside in the central Atlantic region of the United States. We
+see the results of fitting a degree-4 polynomial using least squares (solid
+blue curve). Even though this is a linear regression model like any other,
+the individual coeﬃcients are not of particular interest. Instead, we look at
+the entire fitted function across a grid of 63 values for age from 18 to 80 in
+order to understand the relationship between age and wage.
+  In Figure 7.1, a pair of dashed curves accompanies the fit; these are (2×)
+standard error curves. Let’s see how these arise. Suppose we have computed
+the fit at a particular value of age, x0 :
+                        fˆ(x0 ) = β̂0 + β̂1 x0 + β̂2 x20 + β̂3 x30 + β̂4 x40 .                                                                                                                                                                                                                  (7.2)
+What is the variance of the fit, i.e. Varfˆ(x0 )? Least squares returns variance
+estimates for each of the fitted coeﬃcients β̂j , as well as the covariances
+between pairs of coeﬃcient estimates. We can use these to compute the
+estimated variance of fˆ(x0 ).1 The estimated pointwise standard error of
+
+  1 If Ĉ is the 5 × 5 covariance matrix of the β̂ , and if ℓT = (1, x , x2 , x3 , x4 ), then
+                                                  j          0        0   0    0    0
+Var[fˆ(x0 )] = ℓT
+                0 Ĉℓ0 .
+292     7. Moving Beyond Linearity
+
+fˆ(x0 ) is the square-root of this variance. This computation is repeated
+at each reference point x0 , and we plot the fitted curve, as well as twice
+the standard error on either side of the fitted curve. We plot twice the
+standard error because, for normally distributed error terms, this quantity
+corresponds to an approximate 95 % confidence interval.
+   It seems like the wages in Figure 7.1 are from two distinct populations:
+there appears to be a high earners group earning more than $250,000 per
+annum, as well as a low earners group. We can treat wage as a binary
+variable by splitting it into these two groups. Logistic regression can then
+be used to predict this binary response, using polynomial functions of age
+as predictors. In other words, we fit the model
+
+                             exp(β0 + β1 xi + β2 x2i + · · · + βd xdi )
+      Pr(yi > 250|xi ) =                                                  .   (7.3)
+                           1 + exp(β0 + β1 xi + β2 x2i + · · · + βd xdi )
+
+The result is shown in the right-hand panel of Figure 7.1. The gray marks
+on the top and bottom of the panel indicate the ages of the high earners
+and the low earners. The solid blue curve indicates the fitted probabilities
+of being a high earner, as a function of age. The estimated 95 % confidence
+interval is shown as well. We see that here the confidence intervals are fairly
+wide, especially on the right-hand side. Although the sample size for this
+data set is substantial (n = 3,000), there are only 79 high earners, which
+results in a high variance in the estimated coeﬃcients and consequently
+wide confidence intervals.
+
+
+7.2 Step Functions
+Using polynomial functions of the features as predictors in a linear model
+imposes a global structure on the non-linear function of X. We can instead
+use step functions in order to avoid imposing such a global structure. Here step
+we break the range of X into bins, and fit a diﬀerent constant in each bin. function
+This amounts to converting a continuous variable into an ordered categorical
+variable.
+                                                                                 ordered
+  In greater detail, we create cutpoints c1 , c2 , . . . , cK in the range of X, categorical
+and then construct K + 1 new variables                                           variable
+
+                    C0 (X)         =    I(X < c1 ),
+                    C1 (X)         =    I(c1 ≤ X < c2 ),
+                    C2 (X)         =    I(c2 ≤ X < c3 ),
+                                   ..                                         (7.4)
+                                    .
+                    CK−1 (X)       =    I(cK−1 ≤ X < cK ),
+                    CK (X)         =    I(cK ≤ X),
+
+where I(·) is an indicator function that returns a 1 if the condition is true,
+                                                                                      indicator
+                                                                                      function
+                                                                                                                  7.2 Step Functions                                                                                                                                                               293
+
+
+                                          Piecewise Constant
+
+
+
+                                                                         0.20
+                                                                                                            |                    | || | | | | || || || | | || || | || | | || | | | | | | | | || | | | |                                                 |
+
+
+          300
+
+
+          250
+                                                                         0.15
+
+
+
+                                                    Pr(Wage>250 | Age)
+          200
+
+ Wage                                                                    0.10
+          150
+
+
+          100                                                            0.05
+
+          50
+
+                                                                         0.00
+                                                                                || ||| || || ||| || ||| ||| ||| || || || ||| ||| ||| ||| || ||| ||| |||||| |||||| ||| ||| ||| || ||| ||| ||| || ||| ||| ||| ||| ||| ||| ||| ||| ||| ||| ||| ||| ||| || ||| || || || || || || | || | || || | || |   ||
+
+
+
+
+                20   30   40    50   60   70   80                                20                                 30                                 40                                 50                                 60                                 70                                 80
+
+                               Age                                                                                                                                                 Age
+
+
+FIGURE 7.2. The Wage data. Left: The solid curve displays the fitted value from
+a least squares regression of wage (in thousands of dollars) using step functions
+of age. The dashed curves indicate an estimated 95 % confidence interval. Right:
+We model the binary event wage>250 using logistic regression, again using step
+functions of age. The fitted posterior probability of wage exceeding $250,000 is
+shown, along with an estimated 95 % confidence interval.
+
+and returns a 0 otherwise. For example, I(cK ≤ X) equals 1 if cK ≤ X, and
+equals 0 otherwise. These are sometimes called dummy variables. Notice
+that for any value of X, C0 (X) + C1 (X) + · · · + CK (X) = 1, since X must
+be in exactly one of the K + 1 intervals. We then use least squares to fit a
+linear model using C1 (X), C2 (X), . . . , CK (X) as predictors2 :
+                 yi = β0 + β1 C1 (xi ) + β2 C2 (xi ) + · · · + βK CK (xi ) + ϵi .                                                                                                                                                                                                         (7.5)
+For a given value of X, at most one of C1 , C2 , . . . , CK can be non-zero.
+Note that when X < c1 , all of the predictors in (7.5) are zero, so β0 can
+be interpreted as the mean value of Y for X < c1 . By comparison, (7.5)
+predicts a response of β0 +βj for cj ≤ X < cj+1 , so βj represents the average
+increase in the response for X in cj ≤ X < cj+1 relative to X < c1 .
+  An example of fitting step functions to the Wage data from Figure 7.1 is
+shown in the left-hand panel of Figure 7.2. We also fit the logistic regression
+model
+
+        2 We exclude C (X) as a predictor in (7.5) because it is redundant with the intercept.
+                      0
+This is similar to the fact that we need only two dummy variables to code a qualitative
+variable with three levels, provided that the model will contain an intercept. The decision
+to exclude C0 (X) instead of some other Ck (X) in (7.5) is arbitrary. Alternatively, we
+could include C0 (X), C1 (X), . . . , CK (X), and exclude the intercept.
+294      7. Moving Beyond Linearity
+
+
+
+
+                             exp(β0 + β1 C1 (xi ) + · · · + βK CK (xi ))
+      Pr(yi > 250|xi ) =                                                            (7.6)
+                           1 + exp(β0 + β1 C1 (xi ) + · · · + βK CK (xi ))
+
+in order to predict the probability that an individual is a high earner on the
+basis of age. The right-hand panel of Figure 7.2 displays the fitted posterior
+probabilities obtained using this approach.
+   Unfortunately, unless there are natural breakpoints in the predictors,
+piecewise-constant functions can miss the action. For example, in the left-
+hand panel of Figure 7.2, the first bin clearly misses the increasing trend
+of wage with age. Nevertheless, step function approaches are very popular
+in biostatistics and epidemiology, among other disciplines. For example,
+5-year age groups are often used to define the bins.
+
+
+
+7.3 Basis Functions
+Polynomial and piecewise-constant regression models are in fact special
+cases of a basis function approach. The idea is to have at hand a fam-
+                                                                                   basis
+ily of functions or transformations that can be applied to a variable X: function
+b1 (X), b2 (X), . . . , bK (X). Instead of fitting a linear model in X, we fit the
+model
+
+   yi = β0 + β1 b1 (xi ) + β2 b2 (xi ) + β3 b3 (xi ) + · · · + βK bK (xi ) + ϵi .   (7.7)
+
+Note that the basis functions b1 (·), b2 (·), . . . , bK (·) are fixed and known.
+(In other words, we choose the functions ahead of time.) For polynomial
+regression, the basis functions are bj (xi ) = xji , and for piecewise constant
+functions they are bj (xi ) = I(cj ≤ xi < cj+1 ). We can think of (7.7) as
+a standard linear model with predictors b1 (xi ), b2 (xi ), . . . , bK (xi ). Hence,
+we can use least squares to estimate the unknown regression coeﬃcients
+in (7.7). Importantly, this means that all of the inference tools for linear
+models that are discussed in Chapter 3, such as standard errors for the
+coeﬃcient estimates and F-statistics for the model’s overall significance,
+are available in this setting.
+  Thus far we have considered the use of polynomial functions and piece-
+wise constant functions for our basis functions; however, many alternatives
+are possible. For instance, we can use wavelets or Fourier series to construct
+basis functions. In the next section, we investigate a very common choice
+for a basis function: regression splines.
+                                                                                            regression
+                                                                                            spline
+                                                     7.4 Regression Splines      295
+
+7.4 Regression Splines
+Now we discuss a flexible class of basis functions that extends upon the
+polynomial regression and piecewise constant regression approaches that
+we have just seen.
+
+
+7.4.1 Piecewise Polynomials
+Instead of fitting a high-degree polynomial over the entire range of X, piece-
+wise polynomial regression involves fitting separate low-degree polynomials
+                                                                               piecewise
+over diﬀerent regions of X. For example, a piecewise cubic polynomial works polynomial
+by fitting a cubic regression model of the form                                regression
+
+                      yi = β0 + β1 xi + β2 x2i + β3 x3i + ϵi ,                 (7.8)
+where the coeﬃcients β0 , β1 , β2 , and β3 diﬀer in diﬀerent parts of the range
+of X. The points where the coeﬃcients change are called knots.
+                                                                                knot
+   For example, a piecewise cubic with no knots is just a standard cubic
+polynomial, as in (7.1) with d = 3. A piecewise cubic polynomial with a
+single knot at a point c takes the form
+                 =
+                   β01 + β11 xi + β21 x2i + β31 x3i + ϵi if xi < c
+            yi =
+                   β02 + β12 xi + β22 x2i + β32 x3i + ϵi if xi ≥ c.
+
+In other words, we fit two diﬀerent polynomial functions to the data, one
+on the subset of the observations with xi < c, and one on the subset of
+the observations with xi ≥ c. The first polynomial function has coeﬃcients
+β01 , β11 , β21 , and β31 , and the second has coeﬃcients β02 , β12 , β22 , and β32 .
+Each of these polynomial functions can be fit using least squares applied
+to simple functions of the original predictor.
+   Using more knots leads to a more flexible piecewise polynomial. In gen-
+eral, if we place K diﬀerent knots throughout the range of X, then we
+will end up fitting K + 1 diﬀerent cubic polynomials. Note that we do not
+need to use a cubic polynomial. For example, we can instead fit piecewise
+linear functions. In fact, our piecewise constant functions of Section 7.2 are
+piecewise polynomials of degree 0!
+   The top left panel of Figure 7.3 shows a piecewise cubic polynomial fit to
+a subset of the Wage data, with a single knot at age=50. We immediately see
+a problem: the function is discontinuous and looks ridiculous! Since each
+polynomial has four parameters, we are using a total of eight degrees of
+freedom in fitting this piecewise polynomial model.
+                                                                                        degrees of
+                                                                                        freedom
+7.4.2 Constraints and Splines
+The top left panel of Figure 7.3 looks wrong because the fitted curve is just
+too flexible. To remedy this problem, we can fit a piecewise polynomial
+296               7. Moving Beyond Linearity
+
+
+                         Piecewise Cubic                             Continuous Piecewise Cubic
+
+
+
+       250                                                250
+
+
+       200                                                200
+
+
+Wage   150                                         Wage   150
+
+
+       100                                                100
+
+
+       50                                                 50
+
+
+             20     30    40    50       60   70                20    30    40    50        60   70
+
+                               Age                                               Age
+
+
+
+                          Cubic Spline                                      Linear Spline
+
+
+
+       250                                                250
+
+
+       200                                                200
+
+
+Wage   150                                         Wage   150
+
+
+       100                                                100
+
+
+       50                                                 50
+
+
+             20     30    40    50       60   70                20    30    40    50        60   70
+
+                               Age                                               Age
+
+
+
+
+FIGURE 7.3. Various piecewise polynomials are fit to a subset of the Wage
+data, with a knot at age=50. Top Left: The cubic polynomials are unconstrained.
+Top Right: The cubic polynomials are constrained to be continuous at age=50.
+Bottom Left: The cubic polynomials are constrained to be continuous, and to
+have continuous first and second derivatives. Bottom Right: A linear spline is
+shown, which is constrained to be continuous.
+
+
+under the constraint that the fitted curve must be continuous. In other
+words, there cannot be a jump when age=50. The top right plot in Figure 7.3
+shows the resulting fit. This looks better than the top left plot, but the V-
+shaped join looks unnatural.
+  In the lower left plot, we have added two additional constraints: now both
+the first and second derivatives of the piecewise polynomials are continuous
+                                                                              derivative
+at age=50. In other words, we are requiring that the piecewise polynomial
+be not only continuous when age=50, but also very smooth. Each constraint
+that we impose on the piecewise cubic polynomials eﬀectively frees up one
+degree of freedom, by reducing the complexity of the resulting piecewise
+polynomial fit. So in the top left plot, we are using eight degrees of free-
+dom, but in the bottom left plot we imposed three constraints (continuity,
+continuity of the first derivative, and continuity of the second derivative)
+                                                        7.4 Regression Splines        297
+
+and so are left with five degrees of freedom. The curve in the bottom left
+plot is called a cubic spline.3 In general, a cubic spline with K knots uses
+                                                                                 cubic spline
+a total of 4 + K degrees of freedom.
+  In Figure 7.3, the lower right plot is a linear spline, which is continuous
+                                                                                 linear spline
+at age=50. The general definition of a degree-d spline is that it is a piecewise
+degree-d polynomial, with continuity in derivatives up to degree d − 1 at
+each knot. Therefore, a linear spline is obtained by fitting a line in each
+region of the predictor space defined by the knots, requiring continuity at
+each knot.
+  In Figure 7.3, there is a single knot at age=50. Of course, we could add
+more knots, and impose continuity at each.
+
+
+7.4.3 The Spline Basis Representation
+The regression splines that we just saw in the previous section may have
+seemed somewhat complex: how can we fit a piecewise degree-d polynomial
+under the constraint that it (and possibly its first d − 1 derivatives) be
+continuous? It turns out that we can use the basis model (7.7) to represent
+a regression spline. A cubic spline with K knots can be modeled as
+       yi = β0 + β1 b1 (xi ) + β2 b2 (xi ) + · · · + βK+3 bK+3 (xi ) + ϵi ,         (7.9)
+for an appropriate choice of basis functions b1 , b2 , . . . , bK+3 . The model
+(7.9) can then be fit using least squares.
+   Just as there were several ways to represent polynomials, there are also
+many equivalent ways to represent cubic splines using diﬀerent choices of
+basis functions in (7.9). The most direct way to represent a cubic spline
+using (7.9) is to start oﬀ with a basis for a cubic polynomial—namely,
+x, x2 , and x3 —and then add one truncated power basis function per knot.
+                                                                                 truncated
+A truncated power basis function is defined as                                   power basis
+                                      K        3
+                                        (x − ξ) if x > ξ
+                h(x, ξ) = (x − ξ)3+ =                                     (7.10)
+                                               0 otherwise,
+where ξ is the knot. One can show that adding a term of the form β4 h(x, ξ)
+to the model (7.8) for a cubic polynomial will lead to a discontinuity in
+only the third derivative at ξ; the function will remain continuous, with
+continuous first and second derivatives, at each of the knots.
+   In other words, in order to fit a cubic spline to a data set with K knots, we
+perform least squares regression with an intercept and 3 + K predictors, of
+the form X, X 2 , X 3 , h(X, ξ1 ), h(X, ξ2 ), . . . , h(X, ξK ), where ξ1 , . . . , ξK are
+the knots. This amounts to estimating a total of K + 4 regression coeﬃ-
+cients; for this reason, fitting a cubic spline with K knots uses K +4 degrees
+of freedom.
+
+   3 Cubic splines are popular because most human eyes cannot detect the discontinuity
+
+at the knots.
+298     7. Moving Beyond Linearity
+
+
+                                                 Natural Cubic Spline
+                   250                           Cubic Spline
+
+
+                   200
+
+
+            Wage   150
+
+
+                   100
+
+
+                   50
+
+
+                         20   30    40     50      60       70
+
+                                         Age
+
+
+FIGURE 7.4. A cubic spline and a natural cubic spline, with three knots, fit to
+a subset of the Wage data. The dashed lines denote the knot locations.
+
+   Unfortunately, splines can have high variance at the outer range of the
+predictors—that is, when X takes on either a very small or very large
+value. Figure 7.4 shows a fit to the Wage data with three knots. We see that
+the confidence bands in the boundary region appear fairly wild. A natu-
+ral spline is a regression spline with additional boundary constraints: the
+                                                                             natural
+function is required to be linear at the boundary (in the region where X is spline
+smaller than the smallest knot, or larger than the largest knot). This addi-
+tional constraint means that natural splines generally produce more stable
+estimates at the boundaries. In Figure 7.4, a natural cubic spline is also
+displayed as a red line. Note that the corresponding confidence intervals
+are narrower.
+
+
+7.4.4 Choosing the Number and Locations of the Knots
+When we fit a spline, where should we place the knots? The regression
+spline is most flexible in regions that contain a lot of knots, because in
+those regions the polynomial coeﬃcients can change rapidly. Hence, one
+option is to place more knots in places where we feel the function might
+vary most rapidly, and to place fewer knots where it seems more stable.
+While this option can work well, in practice it is common to place knots in
+a uniform fashion. One way to do this is to specify the desired degrees of
+freedom, and then have the software automatically place the corresponding
+number of knots at uniform quantiles of the data.
+   Figure 7.5 shows an example on the Wage data. As in Figure 7.4, we
+have fit a natural cubic spline with three knots, except this time the knot
+locations were chosen automatically as the 25th, 50th, and 75th percentiles
+of age. This was specified by requesting four degrees of freedom. The ar-
+                                                                                        7.4 Regression Splines                                                                                                                                                                                       299
+
+
+                                          Natural Cubic Spline
+
+
+
+                                                                          0.20
+                                                                                                             |                    | || | | || | || || || || | || | | || | | || | || || | || | | || || || | | ||                                          |
+
+
+          300
+
+
+          250
+                                                                          0.15
+
+
+
+                                                     Pr(Wage>250 | Age)
+          200
+
+ Wage                                                                     0.10
+          150
+
+
+          100                                                             0.05
+
+          50
+
+                                                                          0.00
+                                                                                 || || || || || ||| ||| ||| ||| || ||| ||| ||| ||| || ||| ||| || ||| ||| ||| ||| ||| ||| ||| ||| || ||| ||| ||| ||| ||| ||| ||| ||| ||| ||| ||| ||| ||| ||| ||| ||| || ||| || || || || || || || || || | || | | | |   ||
+
+
+
+
+                20   30   40    50   60   70   80                                 20                                 30                                 40                                 50                                 60                                 70                                  80
+
+                               Age                                                                                                                                                  Age
+
+
+FIGURE 7.5. A natural cubic spline function with four degrees of freedom is
+fit to the Wage data. Left: A spline is fit to wage (in thousands of dollars) as
+a function of age. Right: Logistic regression is used to model the binary event
+wage>250 as a function of age. The fitted posterior probability of wage exceeding
+$250,000 is shown. The dashed lines denote the knot locations.
+
+
+gument by which four degrees of freedom leads to three interior knots is
+somewhat technical.4
+   How many knots should we use, or equivalently how many degrees of
+freedom should our spline contain? One option is to try out diﬀerent num-
+bers of knots and see which produces the best looking curve. A somewhat
+more objective approach is to use cross-validation, as discussed in Chap-
+ters 5 and 6. With this method, we remove a portion of the data (say 10 %),
+fit a spline with a certain number of knots to the remaining data, and then
+use the spline to make predictions for the held-out portion. We repeat this
+process multiple times until each observation has been left out once, and
+then compute the overall cross-validated RSS. This procedure can be re-
+peated for diﬀerent numbers of knots K. Then the value of K giving the
+smallest RSS is chosen.
+   Figure 7.6 shows ten-fold cross-validated mean squared errors for splines
+with various degrees of freedom fit to the Wage data. The left-hand panel
+
+        4 There are actually five knots, including the two boundary knots. A cubic spline with
+
+five knots has nine degrees of freedom. But natural cubic splines have two additional
+natural constraints at each boundary to enforce linearity, resulting in 9 − 4 = 5 degrees
+of freedom. Since this includes a constant, which is absorbed in the intercept, we count
+it as four degrees of freedom.
+300                         7. Moving Beyond Linearity
+
+
+                     1680                                                                    1680
+
+
+
+
+Mean Squared Error                                                      Mean Squared Error
+                     1660                                                                    1660
+
+
+                     1640                                                                    1640
+
+
+                     1620                                                                    1620
+
+
+                     1600                                                                    1600
+
+
+                              2        4       6        8          10                                 2       4       6       8          10
+
+                            Degrees of Freedom of Natural Spline                                    Degrees of Freedom of Cubic Spline
+
+
+FIGURE 7.6. Ten-fold cross-validated mean squared errors for selecting the
+degrees of freedom when fitting splines to the Wage data. The response is wage
+and the predictor age. Left: A natural cubic spline. Right: A cubic spline.
+
+
+corresponds to a natural cubic spline and the right-hand panel to a cu-
+bic spline. The two methods produce almost identical results, with clear
+evidence that a one-degree fit (a linear regression) is not adequate. Both
+curves flatten out quickly, and it seems that three degrees of freedom for
+the natural spline and four degrees of freedom for the cubic spline are quite
+adequate.
+   In Section 7.7 we fit additive spline models simultaneously on several
+variables at a time. This could potentially require the selection of degrees
+of freedom for each variable. In cases like this we typically adopt a more
+pragmatic approach and set the degrees of freedom to a fixed number, say
+four, for all terms.
+
+
+7.4.5 Comparison to Polynomial Regression
+Figure 7.7 compares a natural cubic spline with 15 degrees of freedom to a
+degree-15 polynomial on the Wage data set. The extra flexibility in the poly-
+nomial produces undesirable results at the boundaries, while the natural
+cubic spline still provides a reasonable fit to the data. Regression splines
+often give superior results to polynomial regression. This is because unlike
+polynomials, which must use a high degree (exponent in the highest mono-
+mial term, e.g. X 15 ) to produce flexible fits, splines introduce flexibility
+by increasing the number of knots but keeping the degree fixed. Generally,
+this approach produces more stable estimates. Splines also allow us to place
+more knots, and hence flexibility, over regions where the function f seems
+to be changing rapidly, and fewer knots where f appears more stable.
+                                                7.5 Smoothing Splines       301
+
+
+                                                     Natural Cubic Spline
+                  300                                Polynomial
+
+
+                  250
+
+                  200
+           Wage
+                  150
+
+                  100
+
+                  50
+
+
+
+                        20    30   40    50     60        70        80
+
+                                        Age
+
+
+FIGURE 7.7. On the Wage data set, a natural cubic spline with 15 degrees
+of freedom is compared to a degree-15 polynomial. Polynomials can show wild
+behavior, especially near the tails.
+
+7.5 Smoothing Splines
+In the last section we discussed regression splines, which we create by spec-
+ifying a set of knots, producing a sequence of basis functions, and then
+using least squares to estimate the spline coeﬃcients. We now introduce a
+somewhat diﬀerent approach that also produces a spline.
+
+
+7.5.1 An Overview of Smoothing Splines
+In fitting a smooth curve to a set of data, what we really want to do is
+find some function,
+               )n say g(x), that fits the observed data well: that is, we
+want RSS = i=1 (yi − g(xi ))2 to be small. However, there is a problem
+with this approach. If we don’t put any constraints on g(xi ), then we can
+always make RSS zero simply by choosing g such that it interpolates all
+of the yi . Such a function would woefully overfit the data—it would be far
+too flexible. What we really want is a function g that makes RSS small,
+but that is also smooth.
+   How might we ensure that g is smooth? There are a number of ways to
+do this. A natural approach is to find the function g that minimizes
+                       0 n                   L
+                           (yi − g(xi ))2 + λ g ′′ (t)2 dt           (7.11)
+                        i=1
+
+where λ is a nonnegative tuning parameter. The function g that minimizes
+(7.11) is known as a smoothing spline.
+                                                                            smoothing
+  What does (7.11) mean? Equation 7.11 takes the “Loss+Penalty” for- spline
+mulation that we encounter in the context of ridge regression and the lasso
+302      7. Moving Beyond Linearity
+                               )n
+in Chapter 6. The term i=1 (yi − g(xi ))2 is Ma loss function that encour-
+                                                                                   loss function
+ages g to fit the data well, and the term λ g ′′ (t)2 dt is a penalty term
+that penalizes the variability in g. The notation g ′′ (t) indicates the second
+derivative of the function g. The first derivative g ′ (t) measures the slope
+of a function at t, and the second derivative corresponds to the amount by
+which the slope is changing. Hence, broadly speaking, the second derivative
+of a function is a measure of its roughness: it is large in absolute value if
+g(t) is very wiggly near t, and it is close to zero otherwise. (The second
+derivative
+       M      of a straight line is zero; note that a line is perfectly smooth.)
+The notation is an integral , which   M    we can think of as a summation over
+the range of t. In other words, g ′′ (t)2 dt is simply a measure of the total
+change in the function g ′ (t), over its Mentire range. If g is very smooth, then
+g ′ (t) will be close to constant and g ′′ (t)2 dt will take on a small value.
+Conversely,
+M ′′ 2         if g is jumpy and variable then g ′ (t) will vary significantly
+                                                                    M          and
+    g (t) dt will take on a large value. Therefore, in (7.11), λ g ′′ (t)2 dt en-
+courages g to be smooth. The larger the value of λ, the smoother g will be.
+     When λ = 0, then the penalty term in (7.11) has no eﬀect, and so the
+function g will be very jumpy and will exactly interpolate the training
+observations. When λ → ∞, g will be perfectly smooth—it will just be
+a straight line that passes as closely as possible to the training points.
+In fact, in this case, g will be the linear least squares line, since the loss
+function in (7.11) amounts to minimizing the residual sum of squares. For
+an intermediate value of λ, g will approximate the training observations
+but will be somewhat smooth. We see that λ controls the bias-variance
+trade-oﬀ of the smoothing spline.
+     The function g(x) that minimizes (7.11) can be shown to have some spe-
+cial properties: it is a piecewise cubic polynomial with knots at the unique
+values of x1 , . . . , xn , and continuous first and second derivatives at each
+knot. Furthermore, it is linear in the region outside of the extreme knots.
+In other words, the function g(x) that minimizes (7.11) is a natural cubic
+spline with knots at x1 , . . . , xn ! However, it is not the same natural cubic
+spline that one would get if one applied the basis function approach de-
+scribed in Section 7.4.3 with knots at x1 , . . . , xn —rather, it is a shrunken
+version of such a natural cubic spline, where the value of the tuning pa-
+rameter λ in (7.11) controls the level of shrinkage.
+
+
+7.5.2 Choosing the Smoothing Parameter λ
+We have seen that a smoothing spline is simply a natural cubic spline
+with knots at every unique value of xi . It might seem that a smoothing
+spline will have far too many degrees of freedom, since a knot at each data
+point allows a great deal of flexibility. But the tuning parameter λ controls
+the roughness of the smoothing spline, and hence the eﬀective degrees of
+freedom. It is possible to show that as λ increases from 0 to ∞, the eﬀective
+                                                                              eﬀective
+degrees of freedom, which we write dfλ , decrease from n to 2.                degrees of
+                                                                                    freedom
+                                                              7.5 Smoothing Splines     303
+
+   In the context of smoothing splines, why do we discuss eﬀective degrees
+of freedom instead of degrees of freedom? Usually degrees of freedom refer
+to the number of free parameters, such as the number of coeﬃcients fit in a
+polynomial or cubic spline. Although a smoothing spline has n parameters
+and hence n nominal degrees of freedom, these n parameters are heavily
+constrained or shrunk down. Hence dfλ is a measure of the flexibility of the
+smoothing spline—the higher it is, the more flexible (and the lower-bias but
+higher-variance) the smoothing spline. The definition of eﬀective degrees of
+freedom is somewhat technical. We can write
+
+                                       ĝλ = Sλ y,                                    (7.12)
+
+where ĝλ is the solution to (7.11) for a particular choice of λ—that is, it
+is an n-vector containing the fitted values of the smoothing spline at the
+training points x1 , . . . , xn . Equation 7.12 indicates that the vector of fitted
+values when applying a smoothing spline to the data can be written as a
+n × n matrix Sλ (for which there is a formula) times the response vector
+y. Then the eﬀective degrees of freedom is defined to be
+                                            n
+                                            0
+                                   dfλ =          {Sλ }ii ,                           (7.13)
+                                            i=1
+
+the sum of the diagonal elements of the matrix Sλ .
+   In fitting a smoothing spline, we do not need to select the number or
+location of the knots—there will be a knot at each training observation,
+x1 , . . . , xn . Instead, we have another problem: we need to choose the value
+of λ. It should come as no surprise that one possible solution to this problem
+is cross-validation. In other words, we can find the value of λ that makes
+the cross-validated RSS as small as possible. It turns out that the leave-
+one-out cross-validation error (LOOCV) can be computed very eﬃciently
+for smoothing splines, with essentially the same cost as computing a single
+fit, using the following formula:
+                          n
+                          0                               n 3
+                                                          0                  42
+                                       (−i)                   yi − ĝλ (xi )
+           RSScv (λ) =          (yi − ĝλ     (xi ))2 =                           .
+                          i=1                             i=1
+                                                                  1 − {Sλ }ii
+
+                 (−i)
+The notation ĝλ (xi ) indicates the fitted value for this smoothing spline
+evaluated at xi , where the fit uses all of the training observations except
+for the ith observation (xi , yi ). In contrast, ĝλ (xi ) indicates the smoothing
+spline function fit to all of the training observations and evaluated at xi .
+This remarkable formula says that we can compute each of these leave-
+one-out fits using only ĝλ , the original fit to all of the data!5 We have
+
+   5 The exact formulas for computing ĝ(x ) and S are very technical; however, eﬃcient
+                                          i       λ
+algorithms are available for computing these quantities.
+304     7. Moving Beyond Linearity
+
+
+                                      Smoothing Spline
+
+                                              16 Degrees of Freedom
+                                              6.8 Degrees of Freedom (LOOCV)
+                   300
+
+
+
+                   200
+            Wage
+
+
+
+                   50 100
+
+                   0
+
+                            20   30    40    50      60        70        80
+
+                                            Age
+
+
+FIGURE 7.8. Smoothing spline fits to the Wage data. The red curve results
+from specifying 16 eﬀective degrees of freedom. For the blue curve, λ was found
+automatically by leave-one-out cross-validation, which resulted in 6.8 eﬀective
+degrees of freedom.
+
+a very similar formula (5.2) on page 202 in Chapter 5 for least squares
+linear regression. Using (5.2), we can very quickly perform LOOCV for
+the regression splines discussed earlier in this chapter, as well as for least
+squares regression using arbitrary basis functions.
+   Figure 7.8 shows the results from fitting a smoothing spline to the Wage
+data. The red curve indicates the fit obtained from pre-specifying that we
+would like a smoothing spline with 16 eﬀective degrees of freedom. The blue
+curve is the smoothing spline obtained when λ is chosen using LOOCV; in
+this case, the value of λ chosen results in 6.8 eﬀective degrees of freedom
+(computed using (7.13)). For this data, there is little discernible diﬀerence
+between the two smoothing splines, beyond the fact that the one with 16
+degrees of freedom seems slightly wigglier. Since there is little diﬀerence
+between the two fits, the smoothing spline fit with 6.8 degrees of freedom
+is preferable, since in general simpler models are better unless the data
+provides evidence in support of a more complex model.
+
+
+
+7.6 Local Regression
+Local regression is a diﬀerent approach for fitting flexible non-linear func-
+                                                                              local
+tions, which involves computing the fit at a target point x0 using only the regression
+nearby training observations. Figure 7.9 illustrates the idea on some simu-
+lated data, with one target point near 0.4, and another near the boundary
+                                                                         7.6 Local Regression             305
+
+
+                                             Local Regression
+
+1.5                  OO                                  1.5                  OO
+                     O    O OO                                                O    O OO
+                    O O OO    O                                              O O OO    O
+            O      O         OOO
+                             O                                       O      O         OOO
+                                                                                      O
+                         O    OO O                                                O    OO O
+1.0         O        O   O                               1.0         O        O   O
+             O      O   O O OO O                                      O      O   O O OO O
+             OOO         O                                            OOO         O
+               O OO          O O
+                           OO OO                                        O OO          O O
+                                                                                    OO OO
+0.5              O OO OO O O       O
+                                   O                     0.5              O OO OO O O       O
+                                                                                            O
+         OOO
+              O             O OO O                                OOO
+                                                                       O             O OO O
+            O OO            O         O O                            O OO            O         O O
+         O                    O          O                        O                    O          O
+                                 O     O OO                                               O     O OO
+          O O                        O                             O O                        O
+0.0     O                                  O O           0.0     O                                  O O
+                                      OO                                                       OO
+        O                              O O OO O                  O                              O O OO O
+                                          OO                                                       OO
+−0.5                                       OO O O        −0.5                                       OO O O
+                                         O O                                                      O O
+
+−1.0                                           O         −1.0                                         O
+
+       0.0    0.2     0.4      0.6     0.8         1.0          0.0    0.2     0.4      0.6     0.8       1.0
+
+
+FIGURE 7.9. Local regression illustrated on some simulated data, where the
+blue curve represents f (x) from which the data were generated, and the light
+orange curve corresponds to the local regression estimate fˆ(x). The orange colored
+points are local to the target point x0 , represented by the orange vertical line.
+The yellow bell-shape superimposed on the plot indicates weights assigned to each
+point, decreasing to zero with distance from the target point. The fit fˆ(x0 ) at x0 is
+obtained by fitting a weighted linear regression (orange line segment), and using
+the fitted value at x0 (orange solid dot) as the estimate fˆ(x0 ).
+
+
+at 0.05. In this figure the blue line represents the function f (x) from which
+the data were generated, and the light orange line corresponds to the local
+regression estimate fˆ(x). Local regression is described in Algorithm 7.1.
+   Note that in Step 3 of Algorithm 7.1, the weights Ki0 will diﬀer for each
+value of x0 . In other words, in order to obtain the local regression fit at a
+new point, we need to fit a new weighted least squares regression model by
+minimizing (7.14) for a new set of weights. Local regression is sometimes
+referred to as a memory-based procedure, because like nearest-neighbors, we
+need all the training data each time we wish to compute a prediction. We
+will avoid getting into the technical details of local regression here—there
+are books written on the topic.
+   In order to perform local regression, there are a number of choices to
+be made, such as how to define the weighting function K, and whether
+to fit a linear, constant, or quadratic regression in Step 3. (Equation 7.14
+corresponds to a linear regression.) While all of these choices make some
+diﬀerence, the most important choice is the span s, which is the proportion
+of points used to compute the local regression at x0 , as defined in Step 1
+above. The span plays a role like that of the tuning parameter λ in smooth-
+ing splines: it controls the flexibility of the non-linear fit. The smaller the
+value of s, the more local and wiggly will be our fit; alternatively, a very
+large value of s will lead to a global fit to the data using all of the train-
+ing observations. We can again use cross-validation to choose s, or we can
+306     7. Moving Beyond Linearity
+
+Algorithm 7.1 Local Regression At X = x0
+   1. Gather the fraction s = k/n of training points whose xi are closest
+      to x0 .
+   2. Assign a weight Ki0 = K(xi , x0 ) to each point in this neighborhood,
+      so that the point furthest from x0 has weight zero, and the closest
+      has the highest weight. All but these k nearest neighbors get weight
+      zero.
+
+   3. Fit a weighted least squares regression of the yi on the xi using the
+      aforementioned weights, by finding β̂0 and β̂1 that minimize
+                              n
+                              0
+                                    Ki0 (yi − β0 − β1 xi )2 .             (7.14)
+                              i=1
+
+
+   4. The fitted value at x0 is given by fˆ(x0 ) = β̂0 + β̂1 x0 .
+
+
+
+specify it directly. Figure 7.10 displays local linear regression fits on the
+Wage data, using two values of s: 0.7 and 0.2. As expected, the fit obtained
+using s = 0.7 is smoother than that obtained using s = 0.2.
+   The idea of local regression can be generalized in many diﬀerent ways.
+In a setting with multiple features X1 , X2 , . . . , Xp , one very useful general-
+ization involves fitting a multiple linear regression model that is global in
+some variables, but local in another, such as time. Such varying coeﬃcient
+models are a useful way of adapting a model to the most recently gathered
+                                                                                    varying
+data. Local regression also generalizes very naturally when we want to fit coeﬃcient
+models that are local in a pair of variables X1 and X2 , rather than one. model
+We can simply use two-dimensional neighborhoods, and fit bivariate linear
+regression models using the observations that are near each target point
+in two-dimensional space. Theoretically the same approach can be imple-
+mented in higher dimensions, using linear regressions fit to p-dimensional
+neighborhoods. However, local regression can perform poorly if p is much
+larger than about 3 or 4 because there will generally be very few training
+observations close to x0 . Nearest-neighbors regression, discussed in Chap-
+ter 3, suﬀers from a similar problem in high dimensions.
+
+
+
+7.7 Generalized Additive Models
+In Sections 7.1–7.6, we present a number of approaches for flexibly predict-
+ing a response Y on the basis of a single predictor X. These approaches can
+be seen as extensions of simple linear regression. Here we explore the prob-
+                                                    7.7 Generalized Additive Models            307
+
+                                         Local Linear Regression
+
+                                                     Span is 0.2 (16.4 Degrees of Freedom)
+                                                     Span is 0.7 (5.3 Degrees of Freedom)
+                   300
+
+
+
+                   200
+            Wage
+
+
+
+                   50 100
+
+                   0
+
+                             20      30        40         50      60        70        80
+
+                                                      Age
+
+FIGURE 7.10. Local linear fits to the Wage data. The span specifies the fraction
+of the data used to compute the fit at each target point.
+
+lem of flexibly predicting Y on the basis of several predictors, X1 , . . . , Xp .
+This amounts to an extension of multiple linear regression.
+   Generalized additive models (GAMs) provide a general framework for
+                                                                                   generalized
+extending a standard linear model by allowing non-linear functions of each additive
+of the variables, while maintaining additivity. Just like linear models, GAMs model
+can be applied with both quantitative and qualitative responses. We first additivity
+examine GAMs for a quantitative response in Section 7.7.1, and then for a
+qualitative response in Section 7.7.2.
+
+
+7.7.1 GAMs for Regression Problems
+A natural way to extend the multiple linear regression model
+
+                     yi = β0 + β1 xi1 + β2 xi2 + · · · + βp xip + ϵi
+
+in order to allow for non-linear relationships between each feature and the
+response is to replace each linear component βj xij with a (smooth) non-
+linear function fj (xij ). We would then write the model as
+                                   p
+                                   0
+             yi     =       β0 +         fj (xij ) + ϵi
+                                   j=1
+                    =       β0 + f1 (xi1 ) + f2 (xi2 ) + · · · + fp (xip ) + ϵi .            (7.15)
+
+This is an example of a GAM. It is called an additive model because we
+calculate a separate fj for each Xj , and then add together all of their
+contributions.
+308                   7. Moving Beyond Linearity
+
+                                                                                                                                  <HS   HS     <Coll   Coll   >Coll
+
+                                                                 20                                                         40
+             30
+                                                                 10                                                         30
+             20
+
+
+
+
+                                                                                                           f3 (education)
+                                                                 0                                                          20
+             10
+
+ f1 (year)                                            f2 (age)
+                                                                 −10                                                        10
+             0
+                                                                 −20                                                        0
+             −10
+                                                                 −30                                                        −10
+             −20
+                                                                 −40                                                        −20
+             −30
+                                                                 −50                                                        −30
+
+                   2003   2005          2007   2009                    20   30   40    50   60   70   80
+                                                                                                                                             education
+                                 year                                                 age
+
+FIGURE 7.11. For the Wage data, plots of the relationship between each feature
+and the response, wage, in the fitted model (7.16). Each plot displays the fitted
+function and pointwise standard errors. The first two functions are natural splines
+in year and age, with four and five degrees of freedom, respectively. The third
+function is a step function, fit to the qualitative variable education.
+
+   In Sections 7.1–7.6, we discuss many methods for fitting functions to a
+single variable. The beauty of GAMs is that we can use these methods
+as building blocks for fitting an additive model. In fact, for most of the
+methods that we have seen so far in this chapter, this can be done fairly
+trivially. Take, for example, natural splines, and consider the task of fitting
+the model
+
+                     wage = β0 + f1 (year) + f2 (age) + f3 (education) + ϵ                                                                                (7.16)
+
+on the Wage data. Here year and age are quantitative variables, and education
+is a qualitative variable with five levels: <HS, HS, <Coll, Coll, >Coll, refer-
+ring to the amount of high school or college education that an individual
+has completed. We fit the first two functions using natural splines. We fit
+the third function using a separate constant for each level, via the usual
+dummy variable approach of Section 3.3.1.
+   Figure 7.11 shows the results of fitting the model (7.16) using least
+squares. This is easy to do, since as discussed in Section 7.4, natural splines
+can be constructed using an appropriately chosen set of basis functions.
+Hence the entire model is just a big regression onto spline basis variables
+and dummy variables, all packed into one big regression matrix.
+   Figure 7.11 can be easily interpreted. The left-hand panel indicates that
+holding age and education fixed, wage tends to increase slightly with year;
+this may be due to inflation. The center panel indicates that holding education
+and year fixed, wage tends to be highest for intermediate values of age, and
+lowest for the very young and very old. The right-hand panel indicates
+that holding year and age fixed, wage tends to increase with education: the
+more educated a person is, the higher their salary, on average. All of these
+findings are intuitive.
+                                                                                 7.7 Generalized Additive Models                                                309
+
+                                                                                                                                  <HS   HS     <Coll   Coll   >Coll
+                                                                 20
+                                                                                                                            40
+             30
+                                                                 10
+                                                                                                                            30
+             20
+                                                                 0
+
+
+
+
+                                                                                                           f3 (education)
+                                                                                                                            20
+             10
+
+ f1 (year)
+                                                                 −10
+
+                                                      f2 (age)
+                                                                                                                            10
+             0
+                                                                 −20                                                        0
+             −10
+                                                                 −30
+                                                                                                                            −10
+             −20
+                                                                 −40
+                                                                                                                            −20
+             −30
+                                                                 −50
+                                                                                                                            −30
+
+                   2003   2005          2007   2009                    20   30   40    50   60   70   80
+                                                                                                                                             education
+                                 year                                                 age
+
+FIGURE 7.12. Details are as in Figure 7.11, but now f1 and f2 are smoothing
+splines with four and five degrees of freedom, respectively.
+
+   Figure 7.12 shows a similar triple of plots, but this time f1 and f2 are
+smoothing splines with four and five degrees of freedom, respectively. Fit-
+ting a GAM with a smoothing spline is not quite as simple as fitting a GAM
+with a natural spline, since in the case of smoothing splines, least squares
+cannot be used. However, standard software such as the gam() function in R
+can be used to fit GAMs using smoothing splines, via an approach known
+as backfitting. This method fits a model involving multiple predictors by
+                                                                               backfitting
+repeatedly updating the fit for each predictor in turn, holding the others
+fixed. The beauty of this approach is that each time we update a function,
+we simply apply the fitting method for that variable to a partial residual.6
+   The fitted functions in Figures 7.11 and 7.12 look rather similar. In most
+situations, the diﬀerences in the GAMs obtained using smoothing splines
+versus natural splines are small.
+   We do not have to use splines as the building blocks for GAMs: we can
+just as well use local regression, polynomial regression, or any combination
+of the approaches seen earlier in this chapter in order to create a GAM.
+GAMs are investigated in further detail in the lab at the end of this chapter.
+
+Pros and Cons of GAMs
+Before we move on, let us summarize the advantages and limitations of a
+GAM.
+
+         ▲ GAMs allow us to fit a non-linear fj to each Xj , so that we can
+           automatically model non-linear relationships that standard linear re-
+           gression will miss. This means that we do not need to manually try
+           out many diﬀerent transformations on each variable individually.
+
+         6 A partial residual for X , for example, has the form r = y − f (x ) − f (x ).
+                                   3                             i   i   1 i1     2 i2
+If we know f1 and f2 , then we can fit f3 by treating this residual as a response in a
+non-linear regression on X3 .
+310     7. Moving Beyond Linearity
+
+  ▲ The non-linear fits can potentially make more accurate predictions
+    for the response Y .
+  ▲ Because the model is additive, we can examine the eﬀect of each Xj
+    on Y individually while holding all of the other variables fixed.
+  ▲ The smoothness of the function fj for the variable Xj can be sum-
+    marized via degrees of freedom.
+  ◆ The main limitation of GAMs is that the model is restricted to be
+    additive. With many variables, important interactions can be missed.
+    However, as with linear regression, we can manually add interaction
+    terms to the GAM model by including additional predictors of the
+    form Xj × Xk . In addition we can add low-dimensional interaction
+    functions of the form fjk (Xj , Xk ) into the model; such terms can
+    be fit using two-dimensional smoothers such as local regression, or
+    two-dimensional splines (not covered here).
+For fully general models, we have to look for even more flexible approaches
+such as random forests and boosting, described in Chapter 8. GAMs provide
+a useful compromise between linear and fully nonparametric models.
+
+7.7.2 GAMs for Classification Problems
+GAMs can also be used in situations where Y is qualitative. For simplicity,
+here we will assume Y takes on values zero or one, and let p(X) = Pr(Y =
+1|X) be the conditional probability (given the predictors) that the response
+equals one. Recall the logistic regression model (4.6):
+            *          +
+                p(X)
+        log               = β 0 + β 1 X1 + β 2 X2 + · · · + β p Xp .   (7.17)
+              1 − p(X)
+The left-hand side is the log of the odds of P (Y = 1|X) versus P (Y = 0|X),
+which (7.17) represents as a linear function of the predictors. A natural way
+to extend (7.17) to allow for non-linear relationships is to use the model
+          *           +
+              p(X)
+      log               = β0 + f1 (X1 ) + f2 (X2 ) + · · · + fp (Xp ). (7.18)
+            1 − p(X)
+Equation 7.18 is a logistic regression GAM. It has all the same pros and
+cons as discussed in the previous section for quantitative responses.
+  We fit a GAM to the Wage data in order to predict the probability that
+an individual’s income exceeds $250,000 per year. The GAM that we fit
+takes the form
+       *          +
+           p(X)
+   log              = β0 + β1 × year + f2 (age) + f3 (education), (7.19)
+         1 − p(X)
+where
+              p(X) = Pr(wage > 250|year, age, education).
+                                                                                     7.8 Lab: Non-linear Modeling                                              311
+
+                                                                                                                                 <HS   HS     <Coll   Coll   >Coll
+
+
+                                                                                                                          400
+             4
+
+                                                                2
+
+             2                                                                                                            200
+
+
+
+
+                                                                                                         f3 (education)
+                                                                0
+
+
+
+ f1 (year)                                           f2 (age)
+                                                                −2
+             0                                                                                                            0
+
+
+                                                                −4
+
+             −2                                                                                                           −200
+                                                                −6
+
+
+                                                                −8                                                        −400
+             −4
+
+                  2003   2005          2007   2009                   20   30   40    50   60   70   80
+                                                                                                                                            education
+                                year                                                age
+
+FIGURE 7.13. For the Wage data, the logistic regression GAM given in (7.19)
+is fit to the binary response I(wage>250). Each plot displays the fitted function
+and pointwise standard errors. The first function is linear in year, the second
+function a smoothing spline with five degrees of freedom in age, and the third a
+step function for education. There are very wide standard errors for the first
+level <HS of education.
+
+
+Once again f2 is fit using a smoothing spline with five degrees of freedom,
+and f3 is fit as a step function, by creating dummy variables for each of the
+levels of education. The resulting fit is shown in Figure 7.13. The last panel
+looks suspicious, with very wide confidence intervals for level <HS. In fact,
+no response values equal one for that category: no individuals with less than
+a high school education make more than $250,000 per year. Hence we refit
+the GAM, excluding the individuals with less than a high school education.
+The resulting model is shown in Figure 7.14. As in Figures 7.11 and 7.12,
+all three panels have similar vertical scales. This allows us to visually assess
+the relative contributions of each of the variables. We observe that age and
+education have a much larger eﬀect than year on the probability of being
+a high earner.
+
+
+
+7.8 Lab: Non-linear Modeling
+In this lab, we re-analyze the Wage data considered in the examples through-
+out this chapter, in order to illustrate the fact that many of the complex
+non-linear fitting procedures discussed can be easily implemented in R. We
+begin by loading the ISLR2 library, which contains the data.
+> library ( ISLR2 )
+> attach ( Wage )
+312                  7. Moving Beyond Linearity
+
+                                                                                                                               HS   <Coll   Coll   >Coll
+
+             4
+                                                                                                                          4
+                                                                2
+
+             2
+
+
+
+
+                                                                                                         f3 (education)
+                                                                0                                                         2
+
+
+
+ f1 (year)                                           f2 (age)
+                                                                −2
+             0
+                                                                                                                          0
+                                                                −4
+
+             −2
+                                                                −6                                                        −2
+
+
+                                                                −8
+             −4
+                                                                                                                          −4
+                  2003   2005          2007   2009                   20   30   40    50   60   70   80
+                                                                                                                                    education
+                                year                                                age
+
+FIGURE 7.14. The same model is fit as in Figure 7.13, this time excluding the
+observations for which education is <HS. Now we see that increased education
+tends to be associated with higher salaries.
+
+7.8.1 Polynomial Regression and Step Functions
+We now examine how Figure 7.1 was produced. We first fit the model using
+the following command:
+> fit <- lm ( wage ∼ poly ( age , 4) , data = Wage )
+> coef ( summary ( fit ) )
+                  Estimate Std . Error t value Pr ( >| t |)
+( Intercept )      111.704       0.729 153.28      <2e -16
+poly ( age , 4) 1 447.068       39.915    11.20    <2e -16
+poly ( age , 4) 2 -478.316      39.915   -11.98    <2e -16
+poly ( age , 4) 3 125.522       39.915     3.14    0.0017
+poly ( age , 4) 4 -77.911       39.915    -1.95    0.0510
+
+This syntax fits a linear model, using the lm() function, in order to predict
+wage using a fourth-degree polynomial in age: poly(age, 4). The poly()
+command allows us to avoid having to write out a long formula with pow-
+ers of age. The function returns a matrix whose columns are a basis of
+orthogonal polynomials, which essentially means that each column is a lin-
+                                                                              orthogonal
+ear combination of the variables age, age^2, age^3 and age^4.                 polynomial
+  However, we can also use poly() to obtain age, age^2, age^3 and age^4
+directly, if we prefer. We can do this by using the raw = TRUE argument to
+the poly() function. Later we see that this does not aﬀect the model in a
+meaningful way—though the choice of basis clearly aﬀects the coeﬃcient
+estimates, it does not aﬀect the fitted values obtained.
+> fit2 <- lm ( wage ∼ poly ( age , 4 , raw = T ) , data = Wage )
+> coef ( summary ( fit2 ) )
+                              Estimate Std . Error t value Pr ( >| t |)
+( Intercept )                -1.84 e +02 6.00 e +01   -3.07 0.002180
+poly ( age , 4 , raw = T ) 1 2.12 e +01  5.89 e +00    3.61 0.000312
+poly ( age , 4 , raw = T ) 2 -5.64 e -01 2.06 e -01   -2.74 0.006261
+poly ( age , 4 , raw = T ) 3 6.81 e -03  3.07 e -03    2.22 0.026398
+poly ( age , 4 , raw = T ) 4 -3.20 e -05 1.64 e -05   -1.95 0.051039
+                                          7.8 Lab: Non-linear Modeling     313
+
+  There are several other equivalent ways of fitting this model, which show-
+case the flexibility of the formula language in R. For example
+> fit2a <- lm ( wage ∼ age + I ( age ^2) + I ( age ^3) + I ( age ^4) ,
+     data = Wage )
+> coef ( fit2a )
+( Intercept )           age  I ( age ^2)     I ( age ^3)     I ( age ^4)
+   -1.84 e +02   2.12 e +01 -5.64 e -01      6.81 e -03    -3.20 e -05
+
+This simply creates the polynomial basis functions on the fly, taking care
+to protect terms like age^2 via the wrapper function I() (the ^ symbol has wrapper
+a special meaning in formulas).
+> fit2b <- lm ( wage ∼ cbind ( age , age ^2 , age ^3 , age ^4) ,
+    data = Wage )
+
+This does the same more compactly, using the cbind() function for building
+a matrix from a collection of vectors; any function call such as cbind() inside
+a formula also serves as a wrapper.
+   We now create a grid of values for age at which we want predictions, and
+then call the generic predict() function, specifying that we want standard
+errors as well.
+> agelims <- range ( age )
+> age . grid <- seq ( from = agelims [1] , to = agelims [2])
+> preds <- predict ( fit , newdata = list ( age = age . grid ) ,
+     se = TRUE )
+> se . bands <- cbind ( preds $ fit + 2 * preds $ se . fit ,
+     preds $ fit - 2 * preds $ se . fit )
+
+Finally, we plot the data and add the fit from the degree-4 polynomial.
+> par ( mfrow = c (1 , 2) , mar = c (4.5 , 4.5 , 1 ,   1) ,
+    oma = c (0 , 0 , 4 , 0) )
+> plot ( age , wage , xlim = agelims , cex = .5 ,      col = " darkgrey " )
+> title ( " Degree -4 Polynomial " , outer = T )
+> lines ( age . grid , preds $ fit , lwd = 2 , col =   " blue " )
+> matlines ( age . grid , se . bands , lwd = 1 , col   = " blue " , lty = 3)
+
+Here the mar and oma arguments to par() allow us to control the margins
+of the plot, and the title() function creates a figure title that spans both
+                                                                             title()
+subplots.
+   We mentioned earlier that whether or not an orthogonal set of basis func-
+tions is produced in the poly() function will not aﬀect the model obtained
+in a meaningful way. What do we mean by this? The fitted values obtained
+in either case are identical:
+> preds2 <- predict ( fit2 , newdata = list ( age = age . grid ) ,
+    se = TRUE )
+> max ( abs ( preds $ fit - preds2 $ fit ) )
+[1] 7.82 e -11
+
+  In performing a polynomial regression we must decide on the degree of
+the polynomial to use. One way to do this is by using hypothesis tests. We
+314     7. Moving Beyond Linearity
+
+now fit models ranging from linear to a degree-5 polynomial and seek to
+determine the simplest model which is suﬃcient to explain the relationship
+between wage and age. We use the anova() function, which performs an
+                                                                           anova()
+analysis of variance (ANOVA, using an F-test) in order to test the null
+                                                                           analysis of
+hypothesis that a model M1 is suﬃcient to explain the data against the variance
+alternative hypothesis that a more complex model M2 is required. In order
+to use the anova() function, M1 and M2 must be nested models: the
+predictors in M1 must be a subset of the predictors in M2 . In this case,
+we fit five diﬀerent models and sequentially compare the simpler model to
+the more complex model.
+> fit .1 <- lm ( wage ∼ age , data = Wage )
+> fit .2 <- lm ( wage ∼ poly ( age , 2) , data = Wage )
+> fit .3 <- lm ( wage ∼ poly ( age , 3) , data = Wage )
+> fit .4 <- lm ( wage ∼ poly ( age , 4) , data = Wage )
+> fit .5 <- lm ( wage ∼ poly ( age , 5) , data = Wage )
+> anova ( fit .1 , fit .2 , fit .3 , fit .4 , fit .5)
+Analysis of Variance Table
+
+Model 1: wage ∼ age
+Model 2: wage ∼ poly ( age , 2)
+Model 3: wage ∼ poly ( age , 3)
+Model 4: wage ∼ poly ( age , 4)
+Model 5: wage ∼ poly ( age , 5)
+  Res . Df     RSS Df Sum of Sq       F Pr ( > F )
+1   2998 5022216
+2   2997 4793430 1       228786 143.59 <2e -16 ***
+3   2996 4777674 1         15756  9.89 0.0017 **
+4   2995 4771604 1          6070  3.81 0.0510 .
+5   2994 4770322 1          1283  0.80 0.3697
+---
+Signif . codes : 0 ‘*** ’ 0.001 ‘** ’ 0.01 ‘* ’ 0.05 ‘. ’ 0.1 ‘ ’ 1
+
+   The p-value comparing the linear Model 1 to the quadratic Model 2 is
+essentially zero (<10−15 ), indicating that a linear fit is not suﬃcient. Sim-
+ilarly the p-value comparing the quadratic Model 2 to the cubic Model 3
+is very low (0.0017), so the quadratic fit is also insuﬃcient. The p-value
+comparing the cubic and degree-4 polynomials, Model 3 and Model 4, is ap-
+proximately 5 % while the degree-5 polynomial Model 5 seems unnecessary
+because its p-value is 0.37. Hence, either a cubic or a quartic polynomial
+appear to provide a reasonable fit to the data, but lower- or higher-order
+models are not justified.
+   In this case, instead of using the anova() function, we could have obtained
+these p-values more succinctly by exploiting the fact that poly() creates
+orthogonal polynomials.
+> coef ( summary ( fit .5) )
+                  Estimate Std . Error t value Pr ( >| t |)
+( Intercept )       111.70      0.7288 153.2780 0.000 e +00
+poly ( age , 5) 1   447.07     39.9161 11.2002 1.491 e -28
+                                          7.8 Lab: Non-linear Modeling    315
+
+poly ( age ,   5) 2   -478.32   39.9161 -11.9830 2.368 e -32
+poly ( age ,   5) 3    125.52   39.9161   3.1446 1.679 e -03
+poly ( age ,   5) 4    -77.91   39.9161  -1.9519 5.105 e -02
+poly ( age ,   5) 5    -35.81   39.9161  -0.8972 3.697 e -01
+
+Notice that the p-values are the same, and in fact the square of the
+t-statistics are equal to the F-statistics from the anova() function; for
+example:
+> ( -11.983) ^2
+[1] 143.6
+
+However, the ANOVA method works whether or not we used orthogonal
+polynomials; it also works when we have other terms in the model as well.
+For example, we can use anova() to compare these three models:
+>   fit .1 <- lm ( wage ∼ education + age , data = Wage )
+>   fit .2 <- lm ( wage ∼ education + poly ( age , 2) , data = Wage )
+>   fit .3 <- lm ( wage ∼ education + poly ( age , 3) , data = Wage )
+>   anova ( fit .1 , fit .2 , fit .3)
+
+  As an alternative to using hypothesis tests and ANOVA, we could choose
+the polynomial degree using cross-validation, as discussed in Chapter 5.
+  Next we consider the task of predicting whether an individual earns more
+than $250,000 per year. We proceed much as before, except that first we
+create the appropriate response vector, and then apply the glm() function
+using family = "binomial" in order to fit a polynomial logistic regression
+model.
+> fit <- glm ( I ( wage > 250) ∼ poly ( age , 4) , data = Wage ,
+    family = binomial )
+
+  Note that we again use the wrapper I() to create this binary response
+variable on the fly. The expression wage > 250 evaluates to a logical variable
+containing TRUEs and FALSEs, which glm() coerces to binary by setting the
+TRUEs to 1 and the FALSEs to 0.
+  Once again, we make predictions using the predict() function.
+> preds <- predict ( fit , newdata = list ( age = age . grid ) , se = T )
+
+However, calculating the confidence intervals is slightly more involved than
+in the linear regression case. The default prediction type for a glm() model
+is type = "link", which is what we use here. This means we get predictions
+for the logit, or log-odds: that is, we have fit a model of the form
+                            *                   +
+                                Pr(Y = 1|X)
+                        log                       = Xβ,
+                              1 − Pr(Y = 1|X)
+
+and the predictions given are of the form X β̂. The standard errors given
+are also for X β̂. In order to obtain confidence intervals for Pr(Y = 1|X),
+we use the transformation
+                                           exp(Xβ)
+                         Pr(Y = 1|X) =               .
+                                         1 + exp(Xβ)
+316     7. Moving Beyond Linearity
+
+> pfit <- exp ( preds $ fit ) / (1 + exp ( preds $ fit ) )
+> se . bands . logit <- cbind ( preds $ fit + 2 * preds $ se . fit ,
+     preds $ fit - 2 * preds $ se . fit )
+> se . bands <- exp ( se . bands . logit ) / (1 + exp ( se . bands . logit ) )
+
+Note that we could have directly computed the probabilities by selecting
+the type = "response" option in the predict() function.
+> preds <- predict ( fit , newdata = list ( age = age . grid ) ,
+    type = " response " , se = T )
+
+However, the corresponding confidence intervals would not have been sen-
+sible because we would end up with negative probabilities!
+   Finally, the right-hand plot from Figure 7.1 was made as follows:
+> plot ( age , I ( wage > 250) , xlim = agelims , type = " n " ,
+    ylim = c (0 , .2) )
+> points ( jitter ( age ) , I (( wage > 250) / 5) , cex = .5 , pch = " | " ,
+     col = " darkgrey " )
+> lines ( age . grid , pfit , lwd = 2 , col = " blue " )
+> matlines ( age . grid , se . bands , lwd = 1 , col = " blue " , lty = 3)
+
+We have drawn the age values corresponding to the observations with wage
+values above 250 as gray marks on the top of the plot, and those with wage
+values below 250 are shown as gray marks on the bottom of the plot. We
+used the jitter() function to jitter the age values a bit so that observations
+                                                                               jitter()
+with the same age value do not cover each other up. This is often called a
+rug plot.
+                                                                               rug plot
+  In order to fit a step function, as discussed in Section 7.2, we use the
+cut() function.
+                                                                                 cut()
+> table ( cut ( age , 4) )
+(17.9 ,33.5]       (33.5 ,49]    (49 ,64.5] (64.5 ,80.1]
+           750           1399           779           72
+> fit <- lm ( wage ∼ cut ( age , 4) , data = Wage )
+> coef ( summary ( fit ) )
+                              Estimate Std . Error t value       Pr ( >| t |)
+( Intercept )                    94.16        1.48    63.79      0.00 e +00
+cut ( age , 4) (33.5 ,49]        24.05        1.83    13.15      1.98 e -38
+cut ( age , 4) (49 ,64.5]        23.66        2.07    11.44      1.04 e -29
+cut ( age , 4) (64.5 ,80.1]       7.64        4.99     1.53      1.26 e -01
+
+Here cut() automatically picked the cutpoints at 33.5, 49, and 64.5 years
+of age. We could also have specified our own cutpoints directly using the
+breaks option. The function cut() returns an ordered categorical variable;
+the lm() function then creates a set of dummy variables for use in the re-
+gression. The age < 33.5 category is left out, so the intercept coeﬃcient of
+$94,160 can be interpreted as the average salary for those under 33.5 years
+of age, and the other coeﬃcients can be interpreted as the average addi-
+tional salary for those in the other age groups. We can produce predictions
+and plots just as we did in the case of the polynomial fit.
+                                           7.8 Lab: Non-linear Modeling    317
+
+7.8.2 Splines
+In order to fit regression splines in R, we use the splines library. In Section
+7.4, we saw that regression splines can be fit by constructing an appropriate
+matrix of basis functions. The bs() function generates the entire matrix of
+                                                                                bs()
+basis functions for splines with the specified set of knots. By default, cubic
+splines are produced. Fitting wage to age using a regression spline is simple:
+>   library ( splines )
+>   fit <- lm ( wage ∼ bs ( age , knots = c (25 , 40 , 60) ) , data = Wage )
+>   pred <- predict ( fit , newdata = list ( age = age . grid ) , se = T )
+>   plot ( age , wage , col = " gray " )
+>   lines ( age . grid , pred $ fit , lwd = 2)
+>   lines ( age . grid , pred $ fit + 2 * pred $ se , lty = " dashed " )
+>   lines ( age . grid , pred $ fit - 2 * pred $ se , lty = " dashed " )
+
+Here we have prespecified knots at ages 25, 40, and 60. This produces a
+spline with six basis functions. (Recall that a cubic spline with three knots
+has seven degrees of freedom; these degrees of freedom are used up by an
+intercept, plus six basis functions.) We could also use the df option to
+produce a spline with knots at uniform quantiles of the data.
+> dim ( bs ( age , knots = c (25 , 40 , 60) ) )
+[1] 3000         6
+> dim ( bs ( age , df = 6) )
+[1] 3000         6
+> attr ( bs ( age , df = 6) , " knots " )
+ 25% 50% 75%
+33.8 42.0 51.0
+
+In this case R chooses knots at ages 33.8, 42.0, and 51.0, which correspond
+to the 25th, 50th, and 75th percentiles of age. The function bs() also has
+a degree argument, so we can fit splines of any degree, rather than the
+default degree of 3 (which yields a cubic spline).
+  In order to instead fit a natural spline, we use the ns() function. Here
+                                                                            ns()
+we fit a natural spline with four degrees of freedom.
+> fit2 <- lm ( wage ∼ ns ( age , df = 4) , data = Wage )
+> pred2 <- predict ( fit2 , newdata = list ( age = age . grid ) ,
+     se = T )
+> lines ( age . grid , pred2 $ fit , col = " red " , lwd = 2)
+
+As with the bs() function, we could instead specify the knots directly using
+the knots option.
+  In order to fit a smoothing spline, we use the smooth.spline() function. smooth.
+Figure 7.8 was produced with the following code:                             spline()
+>   plot ( age , wage , xlim = agelims , cex = .5 , col = " darkgrey " )
+>   title ( " Smoothing Spline " )
+>   fit <- smooth . spline ( age , wage , df = 16)
+>   fit2 <- smooth . spline ( age , wage , cv = TRUE )
+>   fit2 $ df
+318     7. Moving Beyond Linearity
+
+[1] 6.8
+> lines ( fit , col = " red " , lwd = 2)
+> lines ( fit2 , col = " blue " , lwd = 2)
+> legend ( " topright " , legend = c ( " 16 DF " , " 6.8 DF " ) ,
+    col = c ( " red " , " blue " ) , lty = 1 , lwd = 2 , cex = .8)
+
+Notice that in the first call to smooth.spline(), we specified df = 16. The
+function then determines which value of λ leads to 16 degrees of freedom. In
+the second call to smooth.spline(), we select the smoothness level by cross-
+validation; this results in a value of λ that yields 6.8 degrees of freedom.
+  In order to perform local regression, we use the loess() function.
+                                                                                loess()
+> plot ( age , wage , xlim = agelims , cex = .5 , col = " darkgrey " )
+> title ( " Local Regression " )
+> fit <- loess ( wage ∼ age , span = .2 , data = Wage )
+> fit2 <- loess ( wage ∼ age , span = .5 , data = Wage )
+> lines ( age . grid , predict ( fit , data . frame ( age = age . grid ) ) ,
+    col = " red " , lwd = 2)
+> lines ( age . grid , predict ( fit2 , data . frame ( age = age . grid ) ) ,
+    col = " blue " , lwd = 2)
+> legend ( " topright " , legend = c ( " Span = 0.2 " , " Span = 0.5 " ) ,
+    col = c ( " red " , " blue " ) , lty = 1 , lwd = 2 , cex = .8)
+
+Here we have performed local linear regression using spans of 0.2 and 0.5:
+that is, each neighborhood consists of 20 % or 50 % of the observations. The
+larger the span, the smoother the fit. The locfit library can also be used
+for fitting local regression models in R.
+
+
+7.8.3 GAMs
+We now fit a GAM to predict wage using natural spline functions of year
+and age, treating education as a qualitative predictor, as in (7.16). Since
+this is just a big linear regression model using an appropriate choice of
+basis functions, we can simply do this using the lm() function.
+> gam1 <- lm ( wage ∼ ns ( year , 4) + ns ( age , 5) + education ,
+    data = Wage )
+
+   We now fit the model (7.16) using smoothing splines rather than natural
+splines. In order to fit more general sorts of GAMs, using smoothing splines
+or other components that cannot be expressed in terms of basis functions
+and then fit using least squares regression, we will need to use the gam
+library in R.
+   The s() function, which is part of the gam library, is used to indicate that
+                                                                                s()
+we would like to use a smoothing spline. We specify that the function of
+year should have 4 degrees of freedom, and that the function of age will
+have 5 degrees of freedom. Since education is qualitative, we leave it as is,
+and it is converted into four dummy variables. We use the gam() function in
+                                                                                gam()
+order to fit a GAM using these components. All of the terms in (7.16) are
+fit simultaneously, taking each other into account to explain the response.
+                                         7.8 Lab: Non-linear Modeling     319
+
+> library ( gam )
+> gam . m3 <- gam ( wage ∼ s ( year , 4) + s ( age , 5) + education ,
+    data = Wage )
+
+  In order to produce Figure 7.12, we simply call the plot() function:
+> par ( mfrow = c (1 , 3) )
+> plot ( gam . m3 , se = TRUE , col = " blue " )
+
+The generic plot() function recognizes that gam.m3 is an object of class Gam,
+and invokes the appropriate plot.Gam() method. Conveniently, even though
+                                                                              plot.Gam()
+gam1 is not of class Gam but rather of class lm, we can still use plot.Gam()
+on it. Figure 7.11 was produced using the following expression:
+> plot . Gam ( gam1 , se = TRUE , col = " red " )
+
+Notice here we had to use plot.Gam() rather than the generic plot()
+function.
+   In these plots, the function of year looks rather linear. We can perform a
+series of ANOVA tests in order to determine which of these three models is
+best: a GAM that excludes year (M1 ), a GAM that uses a linear function
+of year (M2 ), or a GAM that uses a spline function of year (M3 ).
+> gam . m1 <- gam ( wage ∼ s ( age , 5) + education , data = Wage )
+> gam . m2 <- gam ( wage ∼ year + s ( age , 5) + education ,
+    data = Wage )
+> anova ( gam . m1 , gam . m2 , gam . m3 , test = " F " )
+Analysis of Deviance Table
+
+Model 1: wage ∼ s ( age , 5) + education
+Model 2: wage ∼ year + s ( age , 5) + education
+Model 3: wage ∼ s ( year , 4) + s ( age , 5) + education
+  Resid . Df Resid . Dev Df Deviance        F Pr ( > F )
+1        2990    3711730
+2        2989    3693841 1      17889 14.5 0.00014 ***
+3        2986    3689770 3        4071 1.1 0.34857
+---
+Signif . codes : 0 ‘*** ’ 0.001 ‘** ’ 0.01 ‘* ’ 0.05 ‘. ’ 0.1 ‘ ’ 1
+
+We find that there is compelling evidence that a GAM with a linear func-
+tion of year is better than a GAM that does not include year at all
+(p-value = 0.00014). However, there is no evidence that a non-linear func-
+tion of year is needed (p-value = 0.349). In other words, based on the results
+of this ANOVA, M2 is preferred.
+   The summary() function produces a summary of the gam fit.
+> summary ( gam . m3 )
+Call : gam ( formula = wage ∼ s ( year , 4) + s ( age , 5) + education ,
+  data = Wage )
+Deviance Residuals :
+     Min        1 Q Median        3Q      Max
+-119.43    -19.70      -3.33 14.17 213.48
+320     7. Moving Beyond Linearity
+
+
+( Dispersion Parameter for gaussian family taken to be 1236)
+
+     Null Deviance : 5222086 on 2999 degrees of freedom
+Residual Deviance : 3689770 on 2986 degrees of freedom
+AIC : 29888
+
+Number of Local Scoring Iterations : 2
+
+Anova for Parametric Effects
+               Df Sum Sq Mean Sq F value        Pr ( > F )
+s ( year , 4)   1   27162   27162       22     2.9 e -06 ***
+s ( age , 5)    1 195338 195338        158     < 2e -16 ***
+education       4 1069726 267432       216     < 2e -16 ***
+Residuals 2986 3689770       1236
+---
+Signif . codes : 0 ‘*** ’ 0.001 ‘** ’ 0.01      ‘* ’ 0.05 ‘. ’ 0.1 ‘ ’ 1
+
+Anova for Nonparametric Effects
+              Npar Df Npar F Pr ( F )
+( Intercept )
+s ( year , 4)       3    1.1   0.35
+s ( age , 5)        4   32.4 <2e -16 ***
+education
+---
+Signif . codes : 0 ‘*** ’ 0.001 ‘** ’ 0.01 ‘* ’ 0.05 ‘. ’ 0.1 ‘ ’ 1
+
+The “Anova for Parametric Eﬀects” p-values clearly demonstrate that year,
+age, and education are all highly statistically significant, even when only
+assuming a linear relationship. Alternatively, the “Anova for Nonparamet-
+ric Eﬀects” p-values for year and age correspond to a null hypothesis of a
+linear relationship versus the alternative of a non-linear relationship. The
+large p-value for year reinforces our conclusion from the ANOVA test that
+a linear function is adequate for this term. However, there is very clear
+evidence that a non-linear term is required for age.
+   We can make predictions using the predict() method for the class Gam.
+Here we make predictions on the training set.
+> preds <- predict ( gam . m2 , newdata = Wage )
+
+  We can also use local regression fits as building blocks in a GAM, using
+the lo() function.
+                                                                               lo()
+> gam . lo <- gam (
+    wage ∼ s ( year , df = 4) + lo ( age , span = 0.7) + education ,
+    data = Wage
+  )
+> plot . Gam ( gam . lo , se = TRUE , col = " green " )
+
+Here we have used local regression for the age term, with a span of 0.7.
+We can also use the lo() function to create interactions before calling the
+gam() function. For example,
+                                                             7.9 Exercises   321
+
+> gam . lo . i <- gam ( wage ∼ lo ( year , age , span = 0.5) + education ,
+    data = Wage )
+
+fits a two-term model, in which the first term is an interaction between
+year and age, fit by a local regression surface. We can plot the resulting
+two-dimensional surface if we first install the akima package.
+> library ( akima )
+> plot ( gam . lo . i )
+
+   In order to fit a logistic regression GAM, we once again use the I() func-
+tion in constructing the binary response variable, and set family=binomial.
+> gam . lr <- gam (
+    I ( wage > 250) ∼ year + s ( age , df = 5) + education ,
+    family = binomial , data = Wage
+  )
+> par ( mfrow = c (1 , 3) )
+> plot ( gam . lr , se = T , col = " green " )
+
+It is easy to see that there are no high earners in the < HS category:
+> table ( education , I ( wage > 250) )
+education                 FALSE TRUE
+  1. < HS Grad              268    0
+  2. HS Grad                966    5
+  3. Some College           643    7
+  4. College Grad           663   22
+  5. Advanced Degree        381   45
+
+Hence, we fit a logistic regression GAM using all but this category. This
+provides more sensible results.
+> gam . lr . s <- gam (
+    I ( wage > 250) ∼ year + s ( age , df = 5) + education ,
+    family = binomial , data = Wage ,
+    subset = ( education != " 1. < HS Grad " )
+  )
+> plot ( gam . lr .s , se = T , col = " green " )
+
+
+
+
+7.9 Exercises
+Conceptual
+   1. It was mentioned in the chapter that a cubic regression spline with
+      one knot at ξ can be obtained using a basis of the form x, x2 , x3 ,
+      (x − ξ)3+ , where (x − ξ)3+ = (x − ξ)3 if x > ξ and equals 0 otherwise.
+      We will now show that a function of the form
+
+                     f (x) = β0 + β1 x + β2 x2 + β3 x3 + β4 (x − ξ)3+
+322     7. Moving Beyond Linearity
+
+      is indeed a cubic regression spline, regardless of the values of β0 , β1 , β2 ,
+      β3 , β 4 .
+
+       (a) Find a cubic polynomial
+
+                                f1 (x) = a1 + b1 x + c1 x2 + d1 x3
+
+           such that f (x) = f1 (x) for all x ≤ ξ. Express a1 , b1 , c1 , d1 in
+           terms of β0 , β1 , β2 , β3 , β4 .
+      (b) Find a cubic polynomial
+
+                                f2 (x) = a2 + b2 x + c2 x2 + d2 x3
+
+           such that f (x) = f2 (x) for all x > ξ. Express a2 , b2 , c2 , d2 in
+           terms of β0 , β1 , β2 , β3 , β4 . We have now established that f (x) is
+           a piecewise polynomial.
+       (c) Show that f1 (ξ) = f2 (ξ). That is, f (x) is continuous at ξ.
+      (d) Show that f1′ (ξ) = f2′ (ξ). That is, f ′ (x) is continuous at ξ.
+       (e) Show that f1′′ (ξ) = f2′′ (ξ). That is, f ′′ (x) is continuous at ξ.
+
+      Therefore, f (x) is indeed a cubic spline.
+      Hint: Parts (d) and (e) of this problem require knowledge of single-
+      variable calculus. As a reminder, given a cubic polynomial
+
+                             f1 (x) = a1 + b1 x + c1 x2 + d1 x3 ,
+
+      the first derivative takes the form
+
+                                f1′ (x) = b1 + 2c1 x + 3d1 x2
+
+      and the second derivative takes the form
+
+                                   f1′′ (x) = 2c1 + 6d1 x.
+
+  2. Suppose that a curve ĝ is computed to smoothly fit a set of n points
+     using the following formula:
+                          > n                   L 7            ?
+                           0                              82
+                                           2         (m)
+             ĝ = arg min     (yi − g(xi )) + λ     g (x) dx ,
+                         g
+                                i=1
+
+      where g (m) represents the mth derivative of g (and g (0) = g). Provide
+      example sketches of ĝ in each of the following scenarios.
+
+       (a) λ = ∞, m = 0.
+      (b) λ = ∞, m = 1.
+                                                                 7.9 Exercises        323
+
+     (c) λ = ∞, m = 2.
+     (d) λ = ∞, m = 3.
+     (e) λ = 0, m = 3.
+  3. Suppose we fit a curve with basis functions b1 (X) = X, b2 (X) =
+     (X − 1)2 I(X ≥ 1). (Note that I(X ≥ 1) equals 1 for X ≥ 1 and 0
+     otherwise.) We fit the linear regression model
+                       Y = β0 + β1 b1 (X) + β2 b2 (X) + ϵ,
+
+     and obtain coeﬃcient estimates β̂0 = 1, β̂1 = 1, β̂2 = −2. Sketch the
+     estimated curve between X = −2 and X = 2. Note the intercepts,
+     slopes, and other relevant information.
+  4. Suppose we fit a curve with basis functions b1 (X) = I(0 ≤ X ≤ 2) −
+     (X − 1)I(1 ≤ X ≤ 2), b2 (X) = (X − 3)I(3 ≤ X ≤ 4) + I(4 < X ≤ 5).
+     We fit the linear regression model
+                       Y = β0 + β1 b1 (X) + β2 b2 (X) + ϵ,
+
+     and obtain coeﬃcient estimates β̂0 = 1, β̂1 = 1, β̂2 = 3. Sketch the
+     estimated curve between X = −2 and X = 6. Note the intercepts,
+     slopes, and other relevant information.
+  5. Consider two curves, ĝ1 and ĝ2 , defined by
+                          > n                     L 7         ?
+                           0                               82
+                                             2         (3)
+            ĝ1 = arg min      (yi − g(xi )) + λ      g (x) dx ,
+                       g
+                             i=1
+                            > n                         L 7                     ?
+                             0                                            82
+            ĝ2 = arg min          (yi − g(xi ))2 + λ         g (4) (x)        dx ,
+                       g
+                             i=1
+
+     where g (m) represents the mth derivative of g.
+     (a) As λ → ∞, will ĝ1 or ĝ2 have the smaller training RSS?
+     (b) As λ → ∞, will ĝ1 or ĝ2 have the smaller test RSS?
+     (c) For λ = 0, will ĝ1 or ĝ2 have the smaller training and test RSS?
+
+
+Applied
+  6. In this exercise, you will further analyze the Wage data set considered
+     throughout this chapter.
+      (a) Perform polynomial regression to predict wage using age. Use
+          cross-validation to select the optimal degree d for the polyno-
+          mial. What degree was chosen, and how does this compare to
+          the results of hypothesis testing using ANOVA? Make a plot of
+          the resulting polynomial fit to the data.
+324    7. Moving Beyond Linearity
+
+      (b) Fit a step function to predict wage using age, and perform cross-
+          validation to choose the optimal number of cuts. Make a plot of
+          the fit obtained.
+
+  7. The Wage data set contains a number of other features not explored
+     in this chapter, such as marital status (maritl), job class (jobclass),
+     and others. Explore the relationships between some of these other
+     predictors and wage, and use non-linear fitting techniques in order to
+     fit flexible models to the data. Create plots of the results obtained,
+     and write a summary of your findings.
+
+  8. Fit some of the non-linear models investigated in this chapter to the
+     Auto data set. Is there evidence for non-linear relationships in this
+     data set? Create some informative plots to justify your answer.
+
+  9. This question uses the variables dis (the weighted mean of distances
+     to five Boston employment centers) and nox (nitrogen oxides concen-
+     tration in parts per 10 million) from the Boston data. We will treat
+     dis as the predictor and nox as the response.
+
+      (a) Use the poly() function to fit a cubic polynomial regression to
+          predict nox using dis. Report the regression output, and plot
+          the resulting data and polynomial fits.
+      (b) Plot the polynomial fits for a range of diﬀerent polynomial
+          degrees (say, from 1 to 10), and report the associated residual
+          sum of squares.
+      (c) Perform cross-validation or another approach to select the opti-
+          mal degree for the polynomial, and explain your results.
+      (d) Use the bs() function to fit a regression spline to predict nox
+          using dis. Report the output for the fit using four degrees of
+          freedom. How did you choose the knots? Plot the resulting fit.
+      (e) Now fit a regression spline for a range of degrees of freedom, and
+          plot the resulting fits and report the resulting RSS. Describe the
+          results obtained.
+      (f) Perform cross-validation or another approach in order to select
+          the best degrees of freedom for a regression spline on this data.
+          Describe your results.
+
+ 10. This question relates to the College data set.
+
+      (a) Split the data into a training set and a test set. Using out-of-state
+          tuition as the response and the other variables as the predictors,
+          perform forward stepwise selection on the training set in order
+          to identify a satisfactory model that uses just a subset of the
+          predictors.
+                                                        7.9 Exercises    325
+
+    (b) Fit a GAM on the training data, using out-of-state tuition as
+        the response and the features selected in the previous step as
+        the predictors. Plot the results, and explain your findings.
+     (c) Evaluate the model obtained on the test set, and explain the
+         results obtained.
+    (d) For which variables, if any, is there evidence of a non-linear
+        relationship with the response?
+11. In Section 7.7, it was mentioned that GAMs are generally fit using
+    a backfitting approach. The idea behind backfitting is actually quite
+    simple. We will now explore backfitting in the context of multiple
+    linear regression.
+    Suppose that we would like to perform multiple linear regression, but
+    we do not have software to do so. Instead, we only have software
+    to perform simple linear regression. Therefore, we take the following
+    iterative approach: we repeatedly hold all but one coeﬃcient esti-
+    mate fixed at its current value, and update only that coeﬃcient
+    estimate using a simple linear regression. The process is continued un-
+    til convergence—that is, until the coeﬃcient estimates stop changing.
+    We now try this out on a toy example.
+     (a) Generate a response Y and two predictors X1 and X2 , with
+         n = 100.
+    (b) Initialize β̂1 to take on a value of your choice. It does not matter
+        what value you choose.
+     (c) Keeping β̂1 fixed, fit the model
+
+                            Y − β̂1 X1 = β0 + β2 X2 + ϵ.
+
+         You can do this as follows:
+         > a <- y - beta1 * x1
+         > beta2 <- lm ( a ∼ x2 ) $ coef [2]
+
+    (d) Keeping β̂2 fixed, fit the model
+
+                            Y − β̂2 X2 = β0 + β1 X1 + ϵ.
+
+         You can do this as follows:
+         > a <- y - beta2 * x2
+         > beta1 <- lm ( a ∼ x1 ) $ coef [2]
+
+     (e) Write a for loop to repeat (c) and (d) 1,000 times. Report the
+         estimates of β̂0 , β̂1 , and β̂2 at each iteration of the for loop.
+         Create a plot in which each of these values is displayed, with β̂0 ,
+         β̂1 , and β̂2 each shown in a diﬀerent color.
+326    7. Moving Beyond Linearity
+
+      (f) Compare your answer in (e) to the results of simply performing
+          multiple linear regression to predict Y using X1 and X2 . Use
+          the abline() function to overlay those multiple linear regression
+          coeﬃcient estimates on the plot obtained in (e).
+      (g) On this data set, how many backfitting iterations were required
+          in order to obtain a “good” approximation to the multiple re-
+          gression coeﬃcient estimates?
+
+ 12. This problem is a continuation of the previous exercise. In a toy
+     example with p = 100, show that one can approximate the multiple
+     linear regression coeﬃcient estimates by repeatedly performing simple
+     linear regression in a backfitting procedure. How many backfitting
+     iterations are required in order to obtain a “good” approximation to
+     the multiple regression coeﬃcient estimates? Create a plot to justify
+     your answer.
+8
+Tree-Based Methods
+
+
+
+
+In this chapter, we describe tree-based methods for regression and classi-
+fication. These involve stratifying or segmenting the predictor space into
+a number of simple regions. In order to make a prediction for a given ob-
+servation, we typically use the mean or the mode response value for the
+training observations in the region to which it belongs. Since the set of
+splitting rules used to segment the predictor space can be summarized in
+a tree, these types of approaches are known as decision tree methods.
+                                                                            decision tree
+   Tree-based methods are simple and useful for interpretation. However,
+they typically are not competitive with the best supervised learning ap-
+proaches, such as those seen in Chapters 6 and 7, in terms of prediction
+accuracy. Hence in this chapter we also introduce bagging, random forests,
+boosting, and Bayesian additive regression trees. Each of these approaches
+involves producing multiple trees which are then combined to yield a single
+consensus prediction. We will see that combining a large number of trees
+can often result in dramatic improvements in prediction accuracy, at the
+expense of some loss in interpretation.
+
+
+
+8.1 The Basics of Decision Trees
+Decision trees can be applied to both regression and classification problems.
+We first consider regression problems, and then move on to classification.
+
+
+
+
+© Springer Science+Business Media, LLC, part of Springer Nature 2021                      327
+G. James et al., An Introduction to Statistical Learning, Springer Texts in Statistics,
+https://doi.org/10.1007/978-1-0716-1418-1_8
+328      8. Tree-Based Methods
+
+                                 Years < 4.5
+                                      |
+
+
+
+
+                                                 Hits < 117.5
+                      5.11
+
+
+
+                                          6.00                  6.74
+
+
+FIGURE 8.1. For the Hitters data, a regression tree for predicting the log
+salary of a baseball player, based on the number of years that he has played in
+the major leagues and the number of hits that he made in the previous year. At a
+given internal node, the label (of the form Xj < tk ) indicates the left-hand branch
+emanating from that split, and the right-hand branch corresponds to Xj ≥ tk .
+For instance, the split at the top of the tree results in two large branches. The
+left-hand branch corresponds to Years<4.5, and the right-hand branch corresponds
+to Years>=4.5. The tree has two internal nodes and three terminal nodes, or
+leaves. The number in each leaf is the mean of the response for the observations
+that fall there.
+
+
+8.1.1 Regression Trees
+In order to motivate regression trees, we begin with a simple example.
+                                                                                       regression
+                                                                                       tree
+Predicting Baseball Players’ Salaries Using Regression Trees
+We use the Hitters data set to predict a baseball player’s Salary based on
+Years (the number of years that he has played in the major leagues) and
+Hits (the number of hits that he made in the previous year). We first remove
+observations that are missing Salary values, and log-transform Salary so
+that its distribution has more of a typical bell-shape. (Recall that Salary
+is measured in thousands of dollars.)
+   Figure 8.1 shows a regression tree fit to this data. It consists of a series
+of splitting rules, starting at the top of the tree. The top split assigns
+observations having Years<4.5 to the left branch.1 The predicted salary
+for these players is given by the mean response value for the players in
+the data set with Years<4.5. For such players, the mean log salary is 5.107,
+and so we make a prediction of e5.107 thousands of dollars, i.e. $165,174, for
+
+   1 Both Years and Hits are integers in these data; the tree() function in R labels
+
+the splits at the midpoint between two adjacent values.
+                                       8.1 The Basics of Decision Trees     329
+
+                                                               238
+
+
+
+
+                                     R3
+
+
+
+               Hits       R1                                   117.5
+
+
+
+
+                                     R2
+
+
+                                                               1
+                      1        4.5                        24
+                                     Years
+
+
+FIGURE 8.2. The three-region partition for the Hitters data set from the re-
+gression tree illustrated in Figure 8.1.
+
+
+these players. Players with Years>=4.5 are assigned to the right branch, and
+then that group is further subdivided by Hits. Overall, the tree stratifies
+or segments the players into three regions of predictor space: players who
+have played for four or fewer years, players who have played for five or more
+years and who made fewer than 118 hits last year, and players who have
+played for five or more years and who made at least 118 hits last year. These
+three regions can be written as R1 ={X | Years<4.5}, R2 ={X | Years>=4.5,
+Hits<117.5}, and R3 ={X | Years>=4.5, Hits>=117.5}. Figure 8.2 illustrates
+the regions as a function of Years and Hits. The predicted salaries for these
+three groups are $1,000×e5.107 =$165,174, $1,000×e5.999 =$402,834, and
+$1,000×e6.740 =$845,346 respectively.
+   In keeping with the tree analogy, the regions R1 , R2 , and R3 are known
+as terminal nodes or leaves of the tree. As is the case for Figure 8.1, decision
+                                                                                 terminal
+trees are typically drawn upside down, in the sense that the leaves are at node
+the bottom of the tree. The points along the tree where the predictor space leaf
+is split are referred to as internal nodes. In Figure 8.1, the two internal
+                                                                                 internal
+nodes are indicated by the text Years<4.5 and Hits<117.5. We refer to the node
+segments of the trees that connect the nodes as branches.
+                                                                                 branch
+   We might interpret the regression tree displayed in Figure 8.1 as follows:
+Years is the most important factor in determining Salary, and players with
+less experience earn lower salaries than more experienced players. Given
+that a player is less experienced, the number of hits that he made in the
+previous year seems to play little role in his salary. But among players who
+have been in the major leagues for five or more years, the number of hits
+made in the previous year does aﬀect salary, and players who made more
+hits last year tend to have higher salaries. The regression tree shown in
+330     8. Tree-Based Methods
+
+Figure 8.1 is likely an over-simplification of the true relationship between
+Hits, Years, and Salary. However, it has advantages over other types of
+regression models (such as those seen in Chapters 3 and 6): it is easier to
+interpret, and has a nice graphical representation.
+
+Prediction via Stratification of the Feature Space
+We now discuss the process of building a regression tree. Roughly speaking,
+there are two steps.
+
+  1. We divide the predictor space — that is, the set of possible values
+     for X1 , X2 , . . . , Xp — into J distinct and non-overlapping regions,
+     R1 , R 2 , . . . , R J .
+
+  2. For every observation that falls into the region Rj , we make the same
+     prediction, which is simply the mean of the response values for the
+     training observations in Rj .
+
+For instance, suppose that in Step 1 we obtain two regions, R1 and R2 ,
+and that the response mean of the training observations in the first region
+is 10, while the response mean of the training observations in the second
+region is 20. Then for a given observation X = x, if x ∈ R1 we will predict
+a value of 10, and if x ∈ R2 we will predict a value of 20.
+   We now elaborate on Step 1 above. How do we construct the regions
+R1 , . . . , RJ ? In theory, the regions could have any shape. However, we
+choose to divide the predictor space into high-dimensional rectangles, or
+boxes, for simplicity and for ease of interpretation of the resulting predic-
+tive model. The goal is to find boxes R1 , . . . , RJ that minimize the RSS,
+given by
+                                0J 0
+                                       (yi − ŷRj )2 ,                  (8.1)
+                             j=1 i∈Rj
+
+where ŷRj is the mean response for the training observations within the
+jth box. Unfortunately, it is computationally infeasible to consider every
+possible partition of the feature space into J boxes. For this reason, we take
+a top-down, greedy approach that is known as recursive binary splitting. The
+                                                                               recursive
+approach is top-down because it begins at the top of the tree (at which point binary
+all observations belong to a single region) and then successively splits the splitting
+predictor space; each split is indicated via two new branches further down
+on the tree. It is greedy because at each step of the tree-building process,
+the best split is made at that particular step, rather than looking ahead
+and picking a split that will lead to a better tree in some future step.
+   In order to perform recursive binary splitting, we first select the pre-
+dictor Xj and the cutpoint s such that splitting the predictor space into
+the regions {X|Xj < s} and {X|Xj ≥ s} leads to the greatest possible
+reduction in RSS. (The notation {X|Xj < s} means the region of predictor
+                                        8.1 The Basics of Decision Trees      331
+
+space in which Xj takes on a value less than s.) That is, we consider all
+predictors X1 , . . . , Xp , and all possible values of the cutpoint s for each of
+the predictors, and then choose the predictor and cutpoint such that the
+resulting tree has the lowest RSS. In greater detail, for any j and s, we
+define the pair of half-planes
+
+            R1 (j, s) = {X|Xj < s} and R2 (j, s) = {X|Xj ≥ s},              (8.2)
+
+and we seek the value of j and s that minimize the equation
+                 0                       0
+                        (yi − ŷR1 )2 +         (yi − ŷR2 )2 ,             (8.3)
+               i: xi ∈R1 (j,s)            i: xi ∈R2 (j,s)
+
+
+where ŷR1 is the mean response for the training observations in R1 (j, s),
+and ŷR2 is the mean response for the training observations in R2 (j, s).
+Finding the values of j and s that minimize (8.3) can be done quite quickly,
+especially when the number of features p is not too large.
+   Next, we repeat the process, looking for the best predictor and best
+cutpoint in order to split the data further so as to minimize the RSS within
+each of the resulting regions. However, this time, instead of splitting the
+entire predictor space, we split one of the two previously identified regions.
+We now have three regions. Again, we look to split one of these three regions
+further, so as to minimize the RSS. The process continues until a stopping
+criterion is reached; for instance, we may continue until no region contains
+more than five observations.
+   Once the regions R1 , . . . , RJ have been created, we predict the response
+for a given test observation using the mean of the training observations in
+the region to which that test observation belongs.
+   A five-region example of this approach is shown in Figure 8.3.
+
+Tree Pruning
+The process described above may produce good predictions on the training
+set, but is likely to overfit the data, leading to poor test set performance.
+This is because the resulting tree might be too complex. A smaller tree
+with fewer splits (that is, fewer regions R1 , . . . , RJ ) might lead to lower
+variance and better interpretation at the cost of a little bias. One possible
+alternative to the process described above is to build the tree only so long
+as the decrease in the RSS due to each split exceeds some (high) threshold.
+This strategy will result in smaller trees, but is too short-sighted since a
+seemingly worthless split early on in the tree might be followed by a very
+good split—that is, a split that leads to a large reduction in RSS later on.
+   Therefore, a better strategy is to grow a very large tree T0 , and then
+prune it back in order to obtain a subtree. How do we determine the best prune
+way to prune the tree? Intuitively, our goal is to select a subtree that subtree
+leads to the lowest test error rate. Given a subtree, we can estimate its
+332            8. Tree-Based Methods
+
+
+
+
+                                                                                                  R5
+
+                                                                        R2                               t4
+
+
+X2                                                            X2
+                                                                                   R3
+
+                                                                   t2                             R4
+
+
+
+                                                                        R1
+
+
+
+
+                                                                              t1        t3
+
+                           X1                                                      X1
+
+
+
+
+                 X1 ≤ t1
+                       |
+
+
+     X2 ≤ t2                X1 ≤ t3
+
+
+
+
+                                  X2 ≤ t4
+
+       R1        R2        R3
+                                                                   X2
+                                                                                             X1
+
+
+
+                                       R4    R5
+
+
+
+FIGURE 8.3. Top Left: A partition of two-dimensional feature space that could
+not result from recursive binary splitting. Top Right: The output of recursive
+binary splitting on a two-dimensional example. Bottom Left: A tree corresponding
+to the partition in the top right panel. Bottom Right: A perspective plot of the
+prediction surface corresponding to that tree.
+
+test error using cross-validation or the validation set approach. However,
+estimating the cross-validation error for every possible subtree would be too
+cumbersome, since there is an extremely large number of possible subtrees.
+Instead, we need a way to select a small set of subtrees for consideration.
+  Cost complexity pruning—also known as weakest link pruning—gives us cost
+a way to do just this. Rather than considering every possible subtree, we complexity
+consider a sequence of trees indexed by a nonnegative tuning parameter α. pruning
+For each value of α there corresponds a subtree T ⊂ T0 such that              weakest link
+                                                                                                               pruning
+                                      |T |
+                                      0      0
+                                                      (yi − ŷRm )2 + α|T |                            (8.4)
+                                      m=1 i: xi ∈Rm
+                                      8.1 The Basics of Decision Trees   333
+
+Algorithm 8.1 Building a Regression Tree
+  1. Use recursive binary splitting to grow a large tree on the training
+     data, stopping only when each terminal node has fewer than some
+     minimum number of observations.
+
+  2. Apply cost complexity pruning to the large tree in order to obtain a
+     sequence of best subtrees, as a function of α.
+  3. Use K-fold cross-validation to choose α. That is, divide the training
+     observations into K folds. For each k = 1, . . . , K:
+     (a) Repeat Steps 1 and 2 on all but the kth fold of the training data.
+     (b) Evaluate the mean squared prediction error on the data in the
+     left-out kth fold, as a function of α.
+     Average the results for each value of α, and pick α to minimize the
+     average error.
+
+  4. Return the subtree from Step 2 that corresponds to the chosen value
+     of α.
+
+is as small as possible. Here |T | indicates the number of terminal nodes
+of the tree T , Rm is the rectangle (i.e. the subset of predictor space) cor-
+responding to the mth terminal node, and ŷRm is the predicted response
+associated with Rm —that is, the mean of the training observations in Rm .
+The tuning parameter α controls a trade-oﬀ between the subtree’s com-
+plexity and its fit to the training data. When α = 0, then the subtree T
+will simply equal T0 , because then (8.4) just measures the training error.
+However, as α increases, there is a price to pay for having a tree with
+many terminal nodes, and so the quantity (8.4) will tend to be minimized
+for a smaller subtree. Equation 8.4 is reminiscent of the lasso (6.7) from
+Chapter 6, in which a similar formulation was used in order to control the
+complexity of a linear model.
+   It turns out that as we increase α from zero in (8.4), branches get pruned
+from the tree in a nested and predictable fashion, so obtaining the whole
+sequence of subtrees as a function of α is easy. We can select a value of
+α using a validation set or using cross-validation. We then return to the
+full data set and obtain the subtree corresponding to α. This process is
+summarized in Algorithm 8.1.
+
+  Figures 8.4 and 8.5 display the results of fitting and pruning a regression
+tree on the Hitters data, using nine of the features. First, we randomly
+divided the data set in half, yielding 132 observations in the training set
+and 131 observations in the test set. We then built a large regression tree
+on the training data and varied α in (8.4) in order to create subtrees with
+diﬀerent numbers of terminal nodes. Finally, we performed six-fold cross-
+334          8. Tree-Based Methods
+
+                                                    Years < 4.5
+                                                         |
+
+
+
+
+                     RBI < 60.5                                               Hits < 117.5
+
+
+
+      Putouts < 82                  Years < 3.5
+              Years < 3.5
+ 5.487                            5.394     6.189
+           4.622      5.183
+                                                                Walks < 43.5                 Walks < 52.5
+                                                         Runs < 47.5                                     RBI < 80.5
+                                                                           6.407    6.549        Years < 6.5
+                                                       6.015     5.571
+                                                                                                                      7.289
+                                                                                               6.459        7.007
+
+
+FIGURE 8.4. Regression tree analysis for the Hitters data. The unpruned tree
+that results from top-down greedy splitting on the training data is shown.
+
+
+validation in order to estimate the cross-validated MSE of the trees as
+a function of α. (We chose to perform six-fold cross-validation because
+132 is an exact multiple of six.) The unpruned regression tree is shown
+in Figure 8.4. The green curve in Figure 8.5 shows the CV error as a
+function of the number of leaves,2 while the orange curve indicates the
+test error. Also shown are standard error bars around the estimated errors.
+For reference, the training error curve is shown in black. The CV error
+is a reasonable approximation of the test error: the CV error takes on its
+minimum for a three-node tree, while the test error also dips down at the
+three-node tree (though it takes on its lowest value at the ten-node tree).
+The pruned tree containing three terminal nodes is shown in Figure 8.1.
+
+
+
+
+   2 Although CV error is computed as a function of α, it is convenient to display the
+
+result as a function of |T |, the number of leaves; this is based on the relationship between
+α and |T | in the original tree grown to all the training data.
+                                                 8.1 The Basics of Decision Trees         335
+
+                              1.0                                     Training
+                                                                      Cross−Validation
+                                                                      Test
+
+                              0.8
+
+
+
+
+         Mean Squared Error
+                              0.6
+
+
+
+                              0.4
+
+
+
+                              0.2
+
+
+
+                              0.0
+
+                                    2       4            6        8               10
+
+                                                 Tree Size
+
+
+FIGURE 8.5. Regression tree analysis for the Hitters data. The training,
+cross-validation, and test MSE are shown as a function of the number of termi-
+nal nodes in the pruned tree. Standard error bands are displayed. The minimum
+cross-validation error occurs at a tree size of three.
+
+
+
+8.1.2 Classification Trees
+A classification tree is very similar to a regression tree, except that it is
+                                                                                classification
+used to predict a qualitative response rather than a quantitative one. Re- tree
+call that for a regression tree, the predicted response for an observation is
+given by the mean response of the training observations that belong to the
+same terminal node. In contrast, for a classification tree, we predict that
+each observation belongs to the most commonly occurring class of training
+observations in the region to which it belongs. In interpreting the results of
+a classification tree, we are often interested not only in the class prediction
+corresponding to a particular terminal node region, but also in the class
+proportions among the training observations that fall into that region.
+   The task of growing a classification tree is quite similar to the task of
+growing a regression tree. Just as in the regression setting, we use recursive
+binary splitting to grow a classification tree. However, in the classification
+setting, RSS cannot be used as a criterion for making the binary splits.
+A natural alternative to RSS is the classification error rate. Since we plan
+                                                                                classification
+to assign an observation in a given region to the most commonly occurring error rate
+class of training observations in that region, the classification error rate is
+simply the fraction of the training observations in that region that do not
+belong to the most common class:
+
+                                        E = 1 − max(p̂mk ).                              (8.5)
+                                                  k
+336     8. Tree-Based Methods
+
+Here p̂mk represents the proportion of training observations in the mth
+region that are from the kth class. However, it turns out that classification
+error is not suﬃciently sensitive for tree-growing, and in practice two other
+measures are preferable.
+  The Gini index is defined by
+                                                                                  Gini index
+                                K
+                                0
+                           G=         p̂mk (1 − p̂mk ),                  (8.6)
+                                k=1
+
+a measure of total variance across the K classes. It is not hard to see
+that the Gini index takes on a small value if all of the p̂mk ’s are close to
+zero or one. For this reason the Gini index is referred to as a measure of
+node purity—a small value indicates that a node contains predominantly
+observations from a single class.
+  An alternative to the Gini index is entropy, given by                       entropy
+                                  K
+                                  0
+                           D=−          p̂mk log p̂mk .                  (8.7)
+                                  k=1
+
+Since 0 ≤ p̂mk ≤ 1, it follows that 0 ≤ −p̂mk log p̂mk . One can show that
+the entropy will take on a value near zero if the p̂mk ’s are all near zero or
+near one. Therefore, like the Gini index, the entropy will take on a small
+value if the mth node is pure. In fact, it turns out that the Gini index and
+the entropy are quite similar numerically.
+  When building a classification tree, either the Gini index or the entropy
+are typically used to evaluate the quality of a particular split, since these
+two approaches are more sensitive to node purity than is the classification
+error rate. Any of these three approaches might be used when pruning the
+tree, but the classification error rate is preferable if prediction accuracy of
+the final pruned tree is the goal.
+  Figure 8.6 shows an example on the Heart data set. These data con-
+tain a binary outcome HD for 303 patients who presented with chest pain.
+An outcome value of Yes indicates the presence of heart disease based on
+an angiographic test, while No means no heart disease. There are 13 predic-
+tors including Age, Sex, Chol (a cholesterol measurement), and other heart
+and lung function measurements. Cross-validation results in a tree with six
+terminal nodes.
+  In our discussion thus far, we have assumed that the predictor vari-
+ables take on continuous values. However, decision trees can be constructed
+even in the presence of qualitative predictor variables. For instance, in the
+Heart data, some of the predictors, such as Sex, Thal (Thallium stress test),
+and ChestPain, are qualitative. Therefore, a split on one of these variables
+amounts to assigning some of the qualitative values to one branch and
+assigning the remaining to the other branch. In Figure 8.6, some of the in-
+ternal nodes correspond to splitting qualitative variables. For instance, the
+                                                                                8.1 The Basics of Decision Trees                                                        337
+
+                                                                                            Thal:a
+                                                                                              |
+
+
+
+
+                                                           Ca < 0.5                                                                Ca < 0.5
+
+
+                                                                                                         Slope < 1.5                                  Oldpeak < 1.1
+
+                                         MaxHR < 161.5                 ChestPain:bc               Age < 52               Thal:b                 RestECG < 1
+                                                                                                                             ChestPain:a                          Yes
+                                   RestBP < 157                                                                     No                          Yes     Yes
+                                                                                              Yes       No
+                            Chol < 244               No         Chol < 244      Sex < 0.5
+                   MaxHR < 156                                                                                                No     Yes
+              MaxHR < 145.5                    Yes
+                                       No
+                              No                               No      No      No     Yes
+               No     Yes
+
+
+
+
+                                                                                                                                       Thal:a
+                                                                                                                                         |
+        0.6                                              Training
+                                                         Cross−Validation
+                                                         Test
+        0.5
+
+
+        0.4
+
+
+
+Error   0.3
+
+                                                                                                                  Ca < 0.5                                   Ca < 0.5
+
+        0.2
+
+
+                                                                                                                                                       Yes              Yes
+        0.1                                                                                  MaxHR < 161.5                    ChestPain:bc
+
+
+
+
+        0.0                                                                                  No              No
+                                                                                                                             No         Yes
+                             5                10                 15
+
+                                       Tree Size
+
+
+FIGURE 8.6. Heart data. Top: The unpruned tree. Bottom Left: Cross-valida-
+tion error, training, and test error, for diﬀerent sizes of the pruned tree. Bottom
+Right: The pruned tree corresponding to the minimal cross-validation error.
+
+
+top internal node corresponds to splitting Thal. The text Thal:a indicates
+that the left-hand branch coming out of that node consists of observations
+with the first value of the Thal variable (normal), and the right-hand node
+consists of the remaining observations (fixed or reversible defects). The text
+ChestPain:bc two splits down the tree on the left indicates that the left-hand
+branch coming out of that node consists of observations with the second
+and third values of the ChestPain variable, where the possible values are
+typical angina, atypical angina, non-anginal pain, and asymptomatic.
+  Figure 8.6 has a surprising characteristic: some of the splits yield two
+terminal nodes that have the same predicted value. For instance, consider
+the split RestECG<1 near the bottom right of the unpruned tree. Regardless
+338     8. Tree-Based Methods
+
+of the value of RestECG, a response value of Yes is predicted for those ob-
+servations. Why, then, is the split performed at all? The split is performed
+because it leads to increased node purity. That is, all 9 of the observations
+corresponding to the right-hand leaf have a response value of Yes, whereas
+7/11 of those corresponding to the left-hand leaf have a response value of
+Yes. Why is node purity important? Suppose that we have a test obser-
+vation that belongs to the region given by that right-hand leaf. Then we
+can be pretty certain that its response value is Yes. In contrast, if a test
+observation belongs to the region given by the left-hand leaf, then its re-
+sponse value is probably Yes, but we are much less certain. Even though
+the split RestECG<1 does not reduce the classification error, it improves the
+Gini index and the entropy, which are more sensitive to node purity.
+
+
+8.1.3 Trees Versus Linear Models
+Regression and classification trees have a very diﬀerent flavor from the more
+classical approaches for regression and classification presented in Chapters 3
+and 4. In particular, linear regression assumes a model of the form
+                                           p
+                                           0
+                           f (X) = β0 +          Xj βj ,                  (8.8)
+                                           j=1
+
+
+whereas regression trees assume a model of the form
+
+                                   M
+                                   0
+                         f (X) =         cm · 1(X∈Rm )                    (8.9)
+                                   m=1
+
+
+where R1 , . . . , RM represent a partition of feature space, as in Figure 8.3.
+   Which model is better? It depends on the problem at hand. If the re-
+lationship between the features and the response is well approximated by
+a linear model as in (8.8), then an approach such as linear regression will
+likely work well, and will outperform a method such as a regression tree
+that does not exploit this linear structure. If instead there is a highly non-
+linear and complex relationship between the features and the response as
+indicated by model (8.9), then decision trees may outperform classical ap-
+proaches. An illustrative example is displayed in Figure 8.7. The relative
+performances of tree-based and classical approaches can be assessed by es-
+timating the test error, using either cross-validation or the validation set
+approach (Chapter 5).
+   Of course, other considerations beyond simply test error may come into
+play in selecting a statistical learning method; for instance, in certain set-
+tings, prediction using a tree may be preferred for the sake of interpretabil-
+ity and visualization.
+                                           8.1 The Basics of Decision Trees      339
+
+
+             2                                  2
+
+
+
+             1                                  1
+
+
+
+        X2   0                             X2   0
+
+
+
+             −1                                 −1
+
+
+
+             −2                                 −2
+
+                  −2   −1   0    1     2             −2   −1   0    1    2
+
+                            X1                                 X1
+
+             2                                  2
+
+
+
+             1                                  1
+
+
+
+        X2   0                             X2   0
+
+
+
+             −1                                 −1
+
+
+
+             −2                                 −2
+
+                  −2   −1   0    1     2             −2   −1   0    1    2
+
+                            X1                                 X1
+
+
+FIGURE 8.7. Top Row: A two-dimensional classification example in which the
+true decision boundary is linear, and is indicated by the shaded regions. A classical
+approach that assumes a linear boundary (left) will outperform a decision tree
+that performs splits parallel to the axes (right). Bottom Row: Here the true de-
+cision boundary is non-linear. Here a linear model is unable to capture the true
+decision boundary (left), whereas a decision tree is successful (right).
+
+
+8.1.4 Advantages and Disadvantages of Trees
+Decision trees for regression and classification have a number of advantages
+over the more classical approaches seen in Chapters 3 and 4:
+
+  ▲ Trees are very easy to explain to people. In fact, they are even easier
+    to explain than linear regression!
+
+  ▲ Some people believe that decision trees more closely mirror human
+    decision-making than do the regression and classification approaches
+    seen in previous chapters.
+
+  ▲ Trees can be displayed graphically, and are easily interpreted even by
+    a non-expert (especially if they are small).
+
+  ▲ Trees can easily handle qualitative predictors without the need to
+    create dummy variables.
+340     8. Tree-Based Methods
+
+  ▼ Unfortunately, trees generally do not have the same level of predictive
+    accuracy as some of the other regression and classification approaches
+    seen in this book.
+  ▼ Additionally, trees can be very non-robust. In other words, a small
+    change in the data can cause a large change in the final estimated
+    tree.
+  However, by aggregating many decision trees, using methods like bagging,
+random forests, and boosting, the predictive performance of trees can be
+substantially improved. We introduce these concepts in the next section.
+
+
+8.2 Bagging, Random Forests, Boosting, and
+    Bayesian Additive Regression Trees
+An ensemble method is an approach that combines many simple “building
+                                                                           ensemble
+block” models in order to obtain a single and potentially very powerful
+model. These simple building block models are sometimes known as weak
+learners, since they may lead to mediocre predictions on their own.
+                                                                           weak
+   We will now discuss bagging, random forests, boosting, and Bayesian learners
+additive regression trees. These are ensemble methods for which the simple
+building block is a regression or a classification tree.
+
+
+8.2.1 Bagging
+The bootstrap, introduced in Chapter 5, is an extremely powerful idea. It is
+used in many situations in which it is hard or even impossible to directly
+compute the standard deviation of a quantity of interest. We see here that
+the bootstrap can be used in a completely diﬀerent context, in order to
+improve statistical learning methods such as decision trees.
+  The decision trees discussed in Section 8.1 suﬀer from high variance.
+This means that if we split the training data into two parts at random,
+and fit a decision tree to both halves, the results that we get could be
+quite diﬀerent. In contrast, a procedure with low variance will yield similar
+results if applied repeatedly to distinct data sets; linear regression tends
+to have low variance, if the ratio of n to p is moderately large. Bootstrap
+aggregation, or bagging, is a general-purpose procedure for reducing the
+                                                                               bagging
+variance of a statistical learning method; we introduce it here because it is
+particularly useful and frequently used in the context of decision trees.
+  Recall that given a set of n independent observations Z1 , . . . , Zn , each
+with variance σ 2 , the variance of the mean Z̄ of the observations is given
+by σ 2 /n. In other words, averaging a set of observations reduces variance.
+Hence a natural way to reduce the variance and increase the test set ac-
+curacy of a statistical learning method is to take many training sets from
+8.2 Bagging, Random Forests, Boosting, and Bayesian Additive Regression Trees        341
+
+the population, build a separate prediction model using each training set,
+and average the resulting predictions. In other words, we could calculate
+fˆ1 (x), fˆ2 (x), . . . , fˆB (x) using B separate training sets, and average them
+in order to obtain a single low-variance statistical learning model, given by
+
+                                            B
+                                            0
+                                        1
+                            fˆavg (x) =           fˆb (x).
+                                        B
+                                            b=1
+
+
+Of course, this is not practical because we generally do not have access
+to multiple training sets. Instead, we can bootstrap, by taking repeated
+samples from the (single) training data set. In this approach we generate
+B diﬀerent bootstrapped training data sets. We then train our method on
+the bth bootstrapped training set in order to get fˆ∗b (x), and finally average
+all the predictions, to obtain
+
+                                            B
+                                            0
+                                       1
+                           fˆbag (x) =            fˆ∗b (x).
+                                       B
+                                            b=1
+
+
+This is called bagging.
+   While bagging can improve predictions for many regression methods,
+it is particularly useful for decision trees. To apply bagging to regression
+trees, we simply construct B regression trees using B bootstrapped training
+sets, and average the resulting predictions. These trees are grown deep,
+and are not pruned. Hence each individual tree has high variance, but
+low bias. Averaging these B trees reduces the variance. Bagging has been
+demonstrated to give impressive improvements in accuracy by combining
+together hundreds or even thousands of trees into a single procedure.
+   Thus far, we have described the bagging procedure in the regression
+context, to predict a quantitative outcome Y . How can bagging be extended
+to a classification problem where Y is qualitative? In that situation, there
+are a few possible approaches, but the simplest is as follows. For a given test
+observation, we can record the class predicted by each of the B trees, and
+take a majority vote: the overall prediction is the most commonly occurring
+                                                                                majority
+class among the B predictions.                                                  vote
+   Figure 8.8 shows the results from bagging trees on the Heart data. The
+test error rate is shown as a function of B, the number of trees constructed
+using bootstrapped training data sets. We see that the bagging test error
+rate is slightly lower in this case than the test error rate obtained from a
+single tree. The number of trees B is not a critical parameter with bagging;
+using a very large value of B will not lead to overfitting. In practice we
+use a value of B suﬃciently large that the error has settled down. Using
+B = 100 is suﬃcient to achieve good performance in this example.
+342           8. Tree-Based Methods
+
+
+              0.30
+
+
+
+
+              0.25
+
+
+
+
+      Error   0.20
+
+
+
+
+              0.15
+
+
+                                                              Test: Bagging
+                                                              Test: RandomForest
+                                                              OOB: Bagging
+              0.10                                            OOB: RandomForest
+
+
+                     0    50    100        150          200       250       300
+
+                                      Number of Trees
+
+
+
+FIGURE 8.8. Bagging and random forest results for the Heart data. The test
+error (black and orange) is shown as a function of B, the number of bootstrapped
+                                                               √
+training sets used. Random forests were applied with m = p. The dashed line
+indicates the test error resulting from a single classification tree. The green and
+blue traces show the OOB error, which in this case is — by chance — considerably
+lower.
+
+
+Out-of-Bag Error Estimation
+It turns out that there is a very straightforward way to estimate the test
+error of a bagged model, without the need to perform cross-validation or
+the validation set approach. Recall that the key to bagging is that trees are
+repeatedly fit to bootstrapped subsets of the observations. One can show
+that on average, each bagged tree makes use of around two-thirds of the
+observations.3 The remaining one-third of the observations not used to fit a
+given bagged tree are referred to as the out-of-bag (OOB) observations. We
+                                                                              out-of-bag
+can predict the response for the ith observation using each of the trees in
+which that observation was OOB. This will yield around B/3 predictions
+for the ith observation. In order to obtain a single prediction for the ith
+observation, we can average these predicted responses (if regression is the
+goal) or can take a majority vote (if classification is the goal). This leads
+to a single OOB prediction for the ith observation. An OOB prediction
+can be obtained in this way for each of the n observations, from which the
+
+  3 This relates to Exercise 2 of Chapter 5.
+8.2 Bagging, Random Forests, Boosting, and Bayesian Additive Regression Trees   343
+
+overall OOB MSE (for a regression problem) or classification error (for a
+classification problem) can be computed. The resulting OOB error is a valid
+estimate of the test error for the bagged model, since the response for each
+observation is predicted using only the trees that were not fit using that
+observation. Figure 8.8 displays the OOB error on the Heart data. It can
+be shown that with B suﬃciently large, OOB error is virtually equivalent
+to leave-one-out cross-validation error. The OOB approach for estimating
+the test error is particularly convenient when performing bagging on large
+data sets for which cross-validation would be computationally onerous.
+
+Variable Importance Measures
+As we have discussed, bagging typically results in improved accuracy over
+prediction using a single tree. Unfortunately, however, it can be diﬃcult to
+interpret the resulting model. Recall that one of the advantages of decision
+trees is the attractive and easily interpreted diagram that results, such as
+the one displayed in Figure 8.1. However, when we bag a large number of
+trees, it is no longer possible to represent the resulting statistical learning
+procedure using a single tree, and it is no longer clear which variables
+are most important to the procedure. Thus, bagging improves prediction
+accuracy at the expense of interpretability.
+   Although the collection of bagged trees is much more diﬃcult to interpret
+than a single tree, one can obtain an overall summary of the importance of
+each predictor using the RSS (for bagging regression trees) or the Gini index
+(for bagging classification trees). In the case of bagging regression trees, we
+can record the total amount that the RSS (8.1) is decreased due to splits
+over a given predictor, averaged over all B trees. A large value indicates
+an important predictor. Similarly, in the context of bagging classification
+trees, we can add up the total amount that the Gini index (8.6) is decreased
+by splits over a given predictor, averaged over all B trees.
+   A graphical representation of the variable importances in the Heart data
+                                                                                variable
+is shown in Figure 8.9. We see the mean decrease in Gini index for each vari- importance
+able, relative to the largest. The variables with the largest mean decrease
+in Gini index are Thal, Ca, and ChestPain.
+
+
+8.2.2 Random Forests
+Random forests provide an improvement over bagged trees by way of a
+                                                                              random
+small tweak that decorrelates the trees. As in bagging, we build a number forest
+of decision trees on bootstrapped training samples. But when building these
+decision trees, each time a split in a tree is considered, a random sample of
+m predictors is chosen as split candidates from the full set of p predictors.
+The split is allowed to use only one of those m predictors. A fresh sample of
+                                                                    √
+m predictors is taken at each split, and typically we choose m ≈ p—that
+is, the number of predictors considered at each split is approximately equal
+344     8. Tree-Based Methods
+
+
+                 Fbs
+
+             RestECG
+
+               ExAng
+
+                 Sex
+
+                Slope
+
+                 Chol
+
+                 Age
+
+              RestBP
+
+              MaxHR
+
+              Oldpeak
+
+            ChestPain
+
+                  Ca
+
+                 Thal
+
+
+
+                        0    20       40       60       80    100
+                                  Variable Importance
+
+
+
+FIGURE 8.9. A variable importance plot for the Heart data. Variable impor-
+tance is computed using the mean decrease in Gini index, and expressed relative
+to the maximum.
+
+
+
+to the square root of the total number of predictors (4 out of the 13 for the
+Heart data).
+   In other words, in building a random forest, at each split in the tree,
+the algorithm is not even allowed to consider a majority of the available
+predictors. This may sound crazy, but it has a clever rationale. Suppose
+that there is one very strong predictor in the data set, along with a num-
+ber of other moderately strong predictors. Then in the collection of bagged
+trees, most or all of the trees will use this strong predictor in the top split.
+Consequently, all of the bagged trees will look quite similar to each other.
+Hence the predictions from the bagged trees will be highly correlated. Un-
+fortunately, averaging many highly correlated quantities does not lead to
+as large of a reduction in variance as averaging many uncorrelated quanti-
+ties. In particular, this means that bagging will not lead to a substantial
+reduction in variance over a single tree in this setting.
+   Random forests overcome this problem by forcing each split to consider
+only a subset of the predictors. Therefore, on average (p − m)/p of the
+splits will not even consider the strong predictor, and so other predictors
+will have more of a chance. We can think of this process as decorrelating
+the trees, thereby making the average of the resulting trees less variable
+and hence more reliable.
+8.2 Bagging, Random Forests, Boosting, and Bayesian Additive Regression Trees               345
+
+   The main diﬀerence between bagging and random forests is the choice
+of predictor subset size m. For instance, if a random forest is built using
+m = p, then this amounts simply to bagging. On the Heart data, random
+                    √
+forests using m = p leads to a reduction in both test error and OOB error
+over bagging (Figure 8.8).
+   Using a small value of m in building a random forest will typically be
+helpful when we have a large number of correlated predictors. We applied
+random forests to a high-dimensional biological data set consisting of ex-
+pression measurements of 4,718 genes measured on tissue samples from 349
+patients. There are around 20,000 genes in humans, and individual genes
+have diﬀerent levels of activity, or expression, in particular cells, tissues,
+and biological conditions. In this data set, each of the patient samples has
+a qualitative label with 15 diﬀerent levels: either normal or 1 of 14 diﬀerent
+types of cancer. Our goal was to use random forests to predict cancer type
+based on the 500 genes that have the largest variance in the training set.
+We randomly divided the observations into a training and a test set, and
+applied random forests to the training set for three diﬀerent values of the
+number of splitting variables m. The results are shown in Figure 8.10. The
+error rate of a single tree is 45.7 %, and the null rate is 75.4 %.4 We see that
+using 400 trees is suﬃcient to give good performance, and that the choice
+      √
+m = p gave a small improvement in test error over bagging (m = p) in
+this example. As with bagging, random forests will not overfit if we increase
+B, so in practice we use a value of B suﬃciently large for the error rate to
+have settled down.
+
+
+
+
+8.2.3 Boosting
+We now discuss boosting, yet another approach for improving the predic-
+                                                                                boosting
+tions resulting from a decision tree. Like bagging, boosting is a general
+approach that can be applied to many statistical learning methods for re-
+gression or classification. Here we restrict our discussion of boosting to the
+context of decision trees.
+   Recall that bagging involves creating multiple copies of the original train-
+ing data set using the bootstrap, fitting a separate decision tree to each
+copy, and then combining all of the trees in order to create a single predic-
+tive model. Notably, each tree is built on a bootstrap data set, independent
+of the other trees. Boosting works in a similar way, except that the trees are
+grown sequentially: each tree is grown using information from previously
+grown trees. Boosting does not involve bootstrap sampling; instead each
+tree is fit on a modified version of the original data set.
+
+   4 The null rate results from simply classifying each observation to the dominant class
+
+overall, which is in this case the normal class.
+346     8. Tree-Based Methods
+
+
+                                                                                m=p
+                                                                                m=p/2
+                                        0.5                                     m= p
+
+
+
+
+            Test Classification Error
+                                        0.4
+
+
+
+                                        0.3
+
+
+
+                                        0.2
+
+
+
+                                              0   100   200        300    400     500
+
+                                                        Number of Trees
+
+
+FIGURE 8.10. Results from random forests for the 15-class gene expression
+data set with p = 500 predictors. The test error is displayed as a function of
+the number of trees. Each colored line corresponds to a diﬀerent value of m, the
+number of predictors available for splitting at each interior tree node. Random
+forests (m < p) lead to a slight improvement over bagging (m = p). A single
+classification tree has an error rate of 45.7 %.
+
+
+
+
+   Consider first the regression setting. Like bagging, boosting involves com-
+bining a large number of decision trees, fˆ1 , . . . , fˆB . Boosting is described
+in Algorithm 8.2.
+   What is the idea behind this procedure? Unlike fitting a single large deci-
+sion tree to the data, which amounts to fitting the data hard and potentially
+overfitting, the boosting approach instead learns slowly. Given the current
+model, we fit a decision tree to the residuals from the model. That is, we
+fit a tree using the current residuals, rather than the outcome Y , as the re-
+sponse. We then add this new decision tree into the fitted function in order
+to update the residuals. Each of these trees can be rather small, with just
+a few terminal nodes, determined by the parameter d in the algorithm. By
+fitting small trees to the residuals, we slowly improve fˆ in areas where it
+does not perform well. The shrinkage parameter λ slows the process down
+even further, allowing more and diﬀerent shaped trees to attack the resid-
+uals. In general, statistical learning approaches that learn slowly tend to
+perform well. Note that in boosting, unlike in bagging, the construction of
+each tree depends strongly on the trees that have already been grown.
+   We have just described the process of boosting regression trees. Boosting
+classification trees proceeds in a similar but slightly more complex way, and
+the details are omitted here.
+   Boosting has three tuning parameters:
+

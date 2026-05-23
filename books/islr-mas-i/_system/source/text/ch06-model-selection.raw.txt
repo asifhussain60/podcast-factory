@@ -1,0 +1,2785 @@
+238                                    6. Linear Model Selection and Regularization
+
+
+                            400                              Income                                400
+                                                             Limit
+
+
+
+
+Standardized Coefficients                                              Standardized Coefficients
+                            300                              Rating                                300
+                                                             Student
+                            200                                                                    200
+
+                            100                                                                    100
+
+                            0                                                                      0
+
+
+                            −100                                                                   −100
+
+
+
+
+                            −300                                                                   −300
+                               1e−02      1e+00    1e+02   1e+04                                          0.0   0.2     0.4     0.6     0.8   1.0
+
+                                                  λ                                                                   ∥β̂λR ∥2 /∥β̂∥2
+
+
+FIGURE 6.4. The standardized ridge regression coeﬃcients are displayed for
+the Credit data set, as a function of λ and ∥β̂λR ∥2 /∥β̂∥2 .
+
+each variable with the response; however, we do not want to shrink the
+intercept, which is simply a measure of the mean value of the response
+when xi1 = xi2 = . . . = xip = 0. If we assume that the variables—that is,
+the columns of the data matrix X—have been centered to have mean zero
+before ridge regression
+                    )n is performed, then the estimated intercept will take
+the form β̂0 = ȳ = i=1 yi /n.
+
+An Application to the Credit Data
+In Figure 6.4, the ridge regression coeﬃcient estimates for the Credit data
+set are displayed. In the left-hand panel, each curve corresponds to the
+ridge regression coeﬃcient estimate for one of the ten variables, plotted
+as a function of λ. For example, the black solid line represents the ridge
+regression estimate for the income coeﬃcient, as λ is varied. At the extreme
+left-hand side of the plot, λ is essentially zero, and so the corresponding
+ridge coeﬃcient estimates are the same as the usual least squares esti-
+mates. But as λ increases, the ridge coeﬃcient estimates shrink towards
+zero. When λ is extremely large, then all of the ridge coeﬃcient estimates
+are basically zero; this corresponds to the null model that contains no pre-
+dictors. In this plot, the income, limit, rating, and student variables are
+displayed in distinct colors, since these variables tend to have by far the
+largest coeﬃcient estimates. While the ridge coeﬃcient estimates tend to
+decrease in aggregate as λ increases, individual coeﬃcients, such as rating
+and income, may occasionally increase as λ increases.
+   The right-hand panel of Figure 6.4 displays the same ridge coeﬃcient
+estimates as the left-hand panel, but instead of displaying λ on the x-axis,
+we now display ∥β̂λR ∥2 /∥β̂∥2 , where β̂ denotes the vector of least squares
+coeﬃcient estimates. The notation ∥β∥2 denotes the G)ℓ2 norm (pronounced ℓ2 norm
+                                                        p     2
+“ell 2”) of a vector, and is defined as ∥β∥2 =          j=1 βj . It measures
+                                                 6.2 Shrinkage Methods      239
+
+the distance of β from zero. As λ increases, the ℓ2 norm of β̂λR will always
+decrease, and so will ∥β̂λR ∥2 /∥β̂∥2 . The latter quantity ranges from 1 (when
+λ = 0, in which case the ridge regression coeﬃcient estimate is the same
+as the least squares estimate, and so their ℓ2 norms are the same) to 0
+(when λ = ∞, in which case the ridge regression coeﬃcient estimate is a
+vector of zeros, with ℓ2 norm equal to zero). Therefore, we can think of the
+x-axis in the right-hand panel of Figure 6.4 as the amount that the ridge
+regression coeﬃcient estimates have been shrunken towards zero; a small
+value indicates that they have been shrunken very close to zero.
+   The standard least squares coeﬃcient estimates discussed in Chapter 3
+are scale equivariant: multiplying Xj by a constant c simply leads to a
+                                                                                scale
+scaling of the least squares coeﬃcient estimates by a factor of 1/c. In other equivariant
+words, regardless of how the jth predictor is scaled, Xj β̂j will remain the
+same. In contrast, the ridge regression coeﬃcient estimates can change sub-
+stantially when multiplying a given predictor by a constant. For instance,
+consider the income variable, which is measured in dollars. One could rea-
+sonably have measured income in thousands of dollars, which would result
+in a reduction in the observed values of income by a factor of 1,000. Now due
+to the sum of squared coeﬃcients term in the ridge regression formulation
+(6.5), such a change in scale will not simply cause the ridge regression co-
+eﬃcient estimate for income to change by a factor of 1,000. In other words,
+     R
+Xj β̂j,λ will depend not only on the value of λ, but also on the scaling of the
+                                             R
+jth predictor. In fact, the value of Xj β̂j,λ   may even depend on the scaling
+of the other predictors! Therefore, it is best to apply ridge regression after
+standardizing the predictors, using the formula
+                                         xij
+                        x̃ij = G )                          ,             (6.6)
+                                1  n                    2
+                                  n   i=1 (xij − xj )
+
+
+so that they are all on the same scale. In (6.6), the denominator is the
+estimated standard deviation of the jth predictor. Consequently, all of the
+standardized predictors will have a standard deviation of one. As a re-
+sult the final fit will not depend on the scale on which the predictors are
+measured. In Figure 6.4, the y-axis displays the standardized ridge regres-
+sion coeﬃcient estimates—that is, the coeﬃcient estimates that result from
+performing ridge regression using standardized predictors.
+
+Why Does Ridge Regression Improve Over Least Squares?
+Ridge regression’s advantage over least squares is rooted in the bias-variance
+trade-oﬀ. As λ increases, the flexibility of the ridge regression fit decreases,
+leading to decreased variance but increased bias. This is illustrated in the
+left-hand panel of Figure 6.5, using a simulated data set containing p = 45
+predictors and n = 50 observations. The green curve in the left-hand panel
+of Figure 6.5 displays the variance of the ridge regression predictions as a
+240                       6. Linear Model Selection and Regularization
+
+                     60                                                      60
+
+
+
+
+Mean Squared Error                                      Mean Squared Error
+                     50                                                      50
+
+                     40                                                      40
+
+                     30                                                      30
+
+                     20                                                      20
+
+                     10                                                      10
+
+                     0                                                       0
+
+                          1e−01    1e+01    1e+03                                 0.0   0.2     0.4      0.6    0.8   1.0
+
+                                      λ                                                       ∥β̂λR ∥2 /∥β̂∥2
+
+FIGURE 6.5. Squared bias (black), variance (green), and test mean squared
+error (purple) for the ridge regression predictions on a simulated data set, as a
+function of λ and ∥β̂λR ∥2 /∥β̂∥2 . The horizontal dashed lines indicate the minimum
+possible MSE. The purple crosses indicate the ridge regression models for which
+the MSE is smallest.
+
+function of λ. At the least squares coeﬃcient estimates, which correspond
+to ridge regression with λ = 0, the variance is high but there is no bias. But
+as λ increases, the shrinkage of the ridge coeﬃcient estimates leads to a
+substantial reduction in the variance of the predictions, at the expense of a
+slight increase in bias. Recall that the test mean squared error (MSE), plot-
+ted in purple, is closely related to the variance plus the squared bias. For
+values of λ up to about 10, the variance decreases rapidly, with very little
+increase in bias, plotted in black. Consequently, the MSE drops consider-
+ably as λ increases from 0 to 10. Beyond this point, the decrease in variance
+due to increasing λ slows, and the shrinkage on the coeﬃcients causes them
+to be significantly underestimated, resulting in a large increase in the bias.
+The minimum MSE is achieved at approximately λ = 30. Interestingly,
+because of its high variance, the MSE associated with the least squares
+fit, when λ = 0, is almost as high as that of the null model for which all
+coeﬃcient estimates are zero, when λ = ∞. However, for an intermediate
+value of λ, the MSE is considerably lower.
+   The right-hand panel of Figure 6.5 displays the same curves as the left-
+hand panel, this time plotted against the ℓ2 norm of the ridge regression
+coeﬃcient estimates divided by the ℓ2 norm of the least squares estimates.
+Now as we move from left to right, the fits become more flexible, and so
+the bias decreases and the variance increases.
+   In general, in situations where the relationship between the response
+and the predictors is close to linear, the least squares estimates will have
+low bias but may have high variance. This means that a small change in
+the training data can cause a large change in the least squares coeﬃcient
+estimates. In particular, when the number of variables p is almost as large
+as the number of observations n, as in the example in Figure 6.5, the
+least squares estimates will be extremely variable. And if p > n, then the
+                                                       6.2 Shrinkage Methods         241
+
+least squares estimates do not even have a unique solution, whereas ridge
+regression can still perform well by trading oﬀ a small increase in bias for a
+large decrease in variance. Hence, ridge regression works best in situations
+where the least squares estimates have high variance.
+   Ridge regression also has substantial computational advantages over best
+subset selection, which requires searching through 2p models. As we dis-
+cussed previously, even for moderate values of p, such a search can be
+computationally infeasible. In contrast, for any fixed value of λ, ridge re-
+gression only fits a single model, and the model-fitting procedure can be
+performed quite quickly. In fact, one can show that the computations re-
+quired to solve (6.5), simultaneously for all values of λ, are almost identical
+to those for fitting a model using least squares.
+
+
+6.2.2 The Lasso
+Ridge regression does have one obvious disadvantage. Unlike best subset,
+forward stepwise, and backward stepwise selection, which will generally
+select models that involve just a subset of the variables, ridge  ) regression
+will include all p predictors in the final model. The penalty λ βj2 in (6.5)
+will shrink all of the coeﬃcients towards zero, but it will not set any of them
+exactly to zero (unless λ = ∞). This may not be a problem for prediction
+accuracy, but it can create a challenge in model interpretation in settings in
+which the number of variables p is quite large. For example, in the Credit
+data set, it appears that the most important variables are income, limit,
+rating, and student. So we might wish to build a model including just
+these predictors. However, ridge regression will always generate a model
+involving all ten predictors. Increasing the value of λ will tend to reduce
+the magnitudes of the coeﬃcients, but will not result in exclusion of any of
+the variables.
+   The lasso is a relatively recent alternative to ridge regression that over-
+                                                                                lasso
+comes this disadvantage. The lasso coeﬃcients, β̂λL , minimize the quantity
+           ⎛                       ⎞2
+     n
+     0                  p
+                        0                    p
+                                             0                       p
+                                                                     0
+           ⎝yi − β0 −         βj xij ⎠ + λ         |βj | = RSS + λ         |βj |.   (6.7)
+     i=1                j=1                  j=1                     j=1
+
+
+Comparing (6.7) to (6.5), we see that the lasso and ridge regression have
+similar formulations. The only diﬀerence is that the βj2 term in the ridge
+regression penalty (6.5) has been replaced by |βj | in the lasso penalty (6.7).
+In statistical parlance, the lasso uses an ℓ1 (pronounced “ell 1”) penalty
+instead )of an ℓ2 penalty. The ℓ1 norm of a coeﬃcient vector β is given by
+∥β∥1 =      |βj |.
+   As with ridge regression, the lasso shrinks the coeﬃcient estimates to-
+wards zero. However, in the case of the lasso, the ℓ1 penalty has the eﬀect
+of forcing some of the coeﬃcient estimates to be exactly equal to zero when
+ 242                                    6. Linear Model Selection and Regularization
+
+ the tuning parameter λ is suﬃciently large. Hence, much like best subset se-
+ lection, the lasso performs variable selection. As a result, models generated
+ from the lasso are generally much easier to interpret than those produced
+ by ridge regression. We say that the lasso yields sparse models—that is, sparse
+ models that involve only a subset of the variables. As in ridge regression,
+ selecting a good value of λ for the lasso is critical; we defer this discussion
+ to Section 6.2.3, where we use cross-validation.
+    As an example, consider the coeﬃcient plots in Figure 6.6, which are gen-
+ erated from applying the lasso to the Credit data set. When λ = 0, then
+ the lasso simply gives the least squares fit, and when λ becomes suﬃciently
+ large, the lasso gives the null model in which all coeﬃcient estimates equal
+ zero. However, in between these two extremes, the ridge regression and
+ lasso models are quite diﬀerent from each other. Moving from left to right
+ in the right-hand panel of Figure 6.6, we observe that at first the lasso re-
+ sults in a model that contains only the rating predictor. Then student and
+ limit enter the model almost simultaneously, shortly followed by income.
+ Eventually, the remaining variables enter the model. Hence, depending on
+ the value of λ, the lasso can produce a model involving any number of vari-
+ ables. In contrast, ridge regression will always include all of the variables in
+ the model, although the magnitude of the coeﬃcient estimates will depend
+ on λ.
+
+
+
+                            400                                                                            400
+
+
+
+
+Standardized Coefficients                                                      Standardized Coefficients
+                            300                                                                            300
+
+                            200                                                                            200
+
+                            100                                                                            100
+
+                            0                                                                              0
+
+
+                                                                                                           −100
+                                                                                                                        Income
+                                                                                                                        Limit
+                            −200                                                                                        Rating
+                                                                                                                        Student
+                                                                                                           −300
+                                   20     50   100   200   500   2000   5000                                      0.0   0.2       0.4    0.6    0.8   1.0
+
+                                                           λ                                                                  ∥β̂λL ∥1 /∥β̂∥1
+
+
+ FIGURE 6.6. The standardized lasso coeﬃcients on the Credit data set are
+ shown as a function of λ and ∥β̂λL ∥1 /∥β̂∥1 .
+                                                  6.2 Shrinkage Methods        243
+
+Another Formulation for Ridge Regression and the Lasso
+One can show that the lasso and ridge regression coeﬃcient estimates solve
+the problems
+            ⎧     ⎛                      ⎞2 ⎫
+            ⎪
+            ⎨0 n              0p            ⎪
+                                            ⎬              0p
+   minimize       ⎝yi − β 0 −     βj xij ⎠     subject to      |βj | ≤ s
+       β    ⎪
+            ⎩ i=1                           ⎪
+                                            ⎭
+                              j=1                          j=1
+
+                                                                              (6.8)
+and
+            ⎧     ⎛                       ⎞2 ⎫
+            ⎪
+            ⎨0 n               0p            ⎪
+                                             ⎬                    p
+                                                                  0
+   minimize       ⎝y i − β 0 −     βj xij ⎠        subject to           βj2 ≤ s,
+      β     ⎪
+            ⎩ i=1                            ⎪
+                                             ⎭
+                               j=1                                j=1
+
+                                                                            (6.9)
+respectively. In other words, for every value of λ, there is some s such that
+the Equations (6.7) and (6.8) will give the same lasso coeﬃcient estimates.
+Similarly, for every value of λ there is a corresponding s such that Equa-
+tions (6.5) and (6.9) will give the same ridge regression coeﬃcient estimates.
+When p = 2, then (6.8) indicates that the lasso coeﬃcient estimates have
+the smallest RSS out of all points that lie within the diamond defined by
+|β1 | + |β2 | ≤ s. Similarly, the ridge regression estimates have the smallest
+RSS out of all points that lie within the circle defined by β12 + β22 ≤ s.
+   We can think of (6.8) as follows. When we perform the lasso we are trying
+to find the set of coeﬃcient estimates that lead to the smallest
+                                                             )p RSS, subject
+to the constraint that there is a budget s for how large j=1 |βj | can be.
+When s is extremely large, then this budget is not very restrictive, and so
+the coeﬃcient estimates can be large. In fact, if s is large enough that the
+least squares solution falls within the budget, then (6.8))will simply yield
+                                                                p
+the least squares solution. In contrast, if s is small, then j=1 |βj | must be
+small in order to avoid violating the budget. Similarly, (6.9) indicates that
+when we perform ridge regression, we seek a set of coeﬃcient estimates
+such
+)p that      the RSS is as small as possible, subject to the requirement that
+         2
+   j=1 βj not exceed the budget s.
+   The formulations (6.8) and (6.9) reveal a close connection between the
+lasso, ridge regression, and best subset selection. Consider the problem
+            ⎧     ⎛                       ⎞2 ⎫
+            ⎪
+            ⎨0 n               0p            ⎪
+                                             ⎬              0 p
+minimize          ⎝y i − β 0 −     βj xij ⎠     subject to        I(βj ̸= 0) ≤ s.
+      β     ⎪
+            ⎩ i=1                            ⎪
+                                             ⎭
+                               j=1                           j=1
+
+                                                                            (6.10)
+Here I(βj ̸= 0) is an indicator variable: it takes on a value of 1 if βj ̸= 0, and
+equals zero otherwise. Then (6.10) amounts to finding a set of coeﬃcient
+estimates such that RSS is as small as possible, subject to the constraint
+that no more than s coeﬃcients can be nonzero. The problem (6.10) is
+244      6. Linear Model Selection and Regularization
+
+
+
+
+FIGURE 6.7. Contours of the error and constraint functions for the lasso
+(left) and ridge regression (right). The solid blue areas are the constraint re-
+gions, |β1 | + |β2 | ≤ s and β12 + β22 ≤ s, while the red ellipses are the contours of
+the RSS.
+
+equivalent to best subset selection. Unfortunately, solving (6.10) is com-' (
+putationally infeasible when p is large, since it requires considering all ps
+models containing s predictors. Therefore, we can interpret ridge regression
+and the lasso as computationally feasible alternatives to best subset selec-
+tion that replace the intractable form of the budget in (6.10) with forms
+that are much easier to solve. Of course, the lasso is much more closely
+related to best subset selection, since the lasso performs feature selection
+for s suﬃciently small in (6.8), while ridge regression does not.
+
+The Variable Selection Property of the Lasso
+Why is it that the lasso, unlike ridge regression, results in coeﬃcient esti-
+mates that are exactly equal to zero? The formulations (6.8) and (6.9) can
+be used to shed light on the issue. Figure 6.7 illustrates the situation. The
+least squares solution is marked as β̂, while the blue diamond and circle
+represent the lasso and ridge regression constraints in (6.8) and (6.9), re-
+spectively. If s is suﬃciently large, then the constraint regions will contain
+β̂, and so the ridge regression and lasso estimates will be the same as the
+least squares estimates. (Such a large value of s corresponds to λ = 0 in
+(6.5) and (6.7).) However, in Figure 6.7 the least squares estimates lie out-
+side of the diamond and the circle, and so the least squares estimates are
+not the same as the lasso and ridge regression estimates.
+   Each of the ellipses centered around β̂ represents a contour: this means contour
+that all of the points on a particular ellipse have the same RSS value. As
+                                                                                                          6.2 Shrinkage Methods                245
+
+                     60                                                                        60
+
+
+
+
+Mean Squared Error                                                        Mean Squared Error
+                     50                                                                        50
+
+                     40                                                                        40
+
+                     30                                                                        30
+
+                     20                                                                        20
+
+                     10                                                                        10
+
+                     0                                                                         0
+
+                          0.02   0.10   0.50       2.00   10.00   50.00                             0.0      0.2        0.4    0.6       0.8    1.0
+
+                                               λ                                                                   R2 on Training Data
+
+
+FIGURE 6.8. Left: Plots of squared bias (black), variance (green), and test MSE
+(purple) for the lasso on a simulated data set. Right: Comparison of squared bias,
+variance, and test MSE between lasso (solid) and ridge (dotted). Both are plotted
+against their R2 on the training data, as a common form of indexing. The crosses
+in both plots indicate the lasso model for which the MSE is smallest.
+
+
+the ellipses expand away from the least squares coeﬃcient estimates, the
+RSS increases. Equations (6.8) and (6.9) indicate that the lasso and ridge
+regression coeﬃcient estimates are given by the first point at which an
+ellipse contacts the constraint region. Since ridge regression has a circular
+constraint with no sharp points, this intersection will not generally occur on
+an axis, and so the ridge regression coeﬃcient estimates will be exclusively
+non-zero. However, the lasso constraint has corners at each of the axes, and
+so the ellipse will often intersect the constraint region at an axis. When this
+occurs, one of the coeﬃcients will equal zero. In higher dimensions, many of
+the coeﬃcient estimates may equal zero simultaneously. In Figure 6.7, the
+intersection occurs at β1 = 0, and so the resulting model will only include
+β2 .
+   In Figure 6.7, we considered the simple case of p = 2. When p = 3,
+then the constraint region for ridge regression becomes a sphere, and the
+constraint region for the lasso becomes a polyhedron. When p > 3, the
+constraint for ridge regression becomes a hypersphere, and the constraint
+for the lasso becomes a polytope. However, the key ideas depicted in Fig-
+ure 6.7 still hold. In particular, the lasso leads to feature selection when
+p > 2 due to the sharp corners of the polyhedron or polytope.
+
+Comparing the Lasso and Ridge Regression
+It is clear that the lasso has a major advantage over ridge regression, in
+that it produces simpler and more interpretable models that involve only a
+subset of the predictors. However, which method leads to better prediction
+accuracy? Figure 6.8 displays the variance, squared bias, and test MSE of
+the lasso applied to the same simulated data as in Figure 6.5. Clearly the
+lasso leads to qualitatively similar behavior to ridge regression, in that as λ
+246                           6. Linear Model Selection and Regularization
+
+                     100                                                                        100
+
+
+
+
+Mean Squared Error                                                         Mean Squared Error
+                     80                                                                         80
+
+
+                     60                                                                         60
+
+
+                     40                                                                         40
+
+
+                     20                                                                         20
+
+
+                     0                                                                          0
+
+                           0.02   0.10   0.50       2.00   10.00   50.00                              0.4   0.5     0.6   0.7   0.8     0.9   1.0
+
+                                                λ                                                                 R2 on Training Data
+
+
+FIGURE 6.9. Left: Plots of squared bias (black), variance (green), and test MSE
+(purple) for the lasso. The simulated data is similar to that in Figure 6.8, except
+that now only two predictors are related to the response. Right: Comparison of
+squared bias, variance, and test MSE between lasso (solid) and ridge (dotted).
+Both are plotted against their R2 on the training data, as a common form of
+indexing. The crosses in both plots indicate the lasso model for which the MSE is
+smallest.
+
+
+
+increases, the variance decreases and the bias increases. In the right-hand
+panel of Figure 6.8, the dotted lines represent the ridge regression fits.
+Here we plot both against their R2 on the training data. This is another
+useful way to index models, and can be used to compare models with
+diﬀerent types of regularization, as is the case here. In this example, the
+lasso and ridge regression result in almost identical biases. However, the
+variance of ridge regression is slightly lower than the variance of the lasso.
+Consequently, the minimum MSE of ridge regression is slightly smaller than
+that of the lasso.
+   However, the data in Figure 6.8 were generated in such a way that all 45
+predictors were related to the response—that is, none of the true coeﬃcients
+β1 , . . . , β45 equaled zero. The lasso implicitly assumes that a number of the
+coeﬃcients truly equal zero. Consequently, it is not surprising that ridge
+regression outperforms the lasso in terms of prediction error in this setting.
+Figure 6.9 illustrates a similar situation, except that now the response is a
+function of only 2 out of 45 predictors. Now the lasso tends to outperform
+ridge regression in terms of bias, variance, and MSE.
+   These two examples illustrate that neither ridge regression nor the lasso
+will universally dominate the other. In general, one might expect the lasso
+to perform better in a setting where a relatively small number of predictors
+have substantial coeﬃcients, and the remaining predictors have coeﬃcients
+that are very small or that equal zero. Ridge regression will perform better
+when the response is a function of many predictors, all with coeﬃcients of
+roughly equal size. However, the number of predictors that is related to the
+response is never known a priori for real data sets. A technique such as
+                                                          6.2 Shrinkage Methods     247
+
+cross-validation can be used in order to determine which approach is better
+on a particular data set.
+   As with ridge regression, when the least squares estimates have exces-
+sively high variance, the lasso solution can yield a reduction in variance
+at the expense of a small increase in bias, and consequently can gener-
+ate more accurate predictions. Unlike ridge regression, the lasso performs
+variable selection, and hence results in models that are easier to interpret.
+   There are very eﬃcient algorithms for fitting both ridge and lasso models;
+in both cases the entire coeﬃcient paths can be computed with about the
+same amount of work as a single least squares fit. We will explore this
+further in the lab at the end of this chapter.
+
+A Simple Special Case for Ridge Regression and the Lasso
+In order to obtain a better intuition about the behavior of ridge regression
+and the lasso, consider a simple special case with n = p, and X a diag-
+onal matrix with 1’s on the diagonal and 0’s in all oﬀ-diagonal elements.
+To simplify the problem further, assume also that we are performing regres-
+sion without an intercept. With these assumptions, the usual least squares
+problem simplifies to finding β1 , . . . , βp that minimize
+                                   p
+                                   0
+                                         (yj − βj )2 .                            (6.11)
+                                   j=1
+
+In this case, the least squares solution is given by
+
+                                      β̂j = yj .
+
+And in this setting, ridge regression amounts to finding β1 , . . . , βp such that
+                           p
+                           0                        p
+                                                    0
+                                 (yj − βj )2 + λ          βj2                     (6.12)
+                           j=1                      j=1
+
+is minimized, and the lasso amounts to finding the coeﬃcients such that
+                           p
+                           0                       p
+                                                   0
+                                             2
+                                 (yj − βj ) + λ           |βj |                   (6.13)
+                           j=1                      j=1
+
+is minimized. One can show that in this setting, the ridge regression esti-
+mates take the form
+                           β̂jR = yj /(1 + λ),                      (6.14)
+and the lasso estimates take the form
+                          ⎧
+                          ⎪
+                          ⎨yj − λ/2              if yj > λ/2;
+                      L
+                    β̂j = yj + λ/2               if yj < −λ/2;                    (6.15)
+                          ⎪
+                          ⎩
+                            0                    if |yj | ≤ λ/2.
+248                            6. Linear Model Selection and Regularization
+
+
+                       1.5                                                                    1.5
+                                     Ridge                                                                  Lasso
+                                     Least Squares                                                          Least Squares
+
+
+
+
+Coefficient Estimate                                                   Coefficient Estimate
+                       0.5                                                                    0.5
+
+
+
+                       −0.5                                                                   −0.5
+
+
+                       −1.5                                                                   −1.5
+
+                              −1.5     −0.5 0.0      0.5   1.0   1.5                                 −1.5     −0.5 0.0      0.5   1.0   1.5
+
+                                            yj                                                                     yj
+
+FIGURE 6.10. The ridge regression and lasso coeﬃcient estimates for a simple
+setting with n = p and X a diagonal matrix with 1’s on the diagonal. Left: The
+ridge regression coeﬃcient estimates are shrunken proportionally towards zero,
+relative to the least squares estimates. Right: The lasso coeﬃcient estimates are
+soft-thresholded towards zero.
+
+   Figure 6.10 displays the situation. We can see that ridge regression and
+the lasso perform two very diﬀerent types of shrinkage. In ridge regression,
+each least squares coeﬃcient estimate is shrunken by the same proportion.
+In contrast, the lasso shrinks each least squares coeﬃcient towards zero by
+a constant amount, λ/2; the least squares coeﬃcients that are less than
+λ/2 in absolute value are shrunken entirely to zero. The type of shrink-
+age performed by the lasso in this simple setting (6.15) is known as soft-
+thresholding. The fact that some lasso coeﬃcients are shrunken entirely to
+                                                                             soft-
+zero explains why the lasso performs feature selection.                      thresholding
+   In the case of a more general data matrix X, the story is a little more
+complicated than what is depicted in Figure 6.10, but the main ideas still
+hold approximately: ridge regression more or less shrinks every dimension
+of the data by the same proportion, whereas the lasso more or less shrinks
+all coeﬃcients toward zero by a similar amount, and suﬃciently small co-
+eﬃcients are shrunken all the way to zero.
+
+Bayesian Interpretation for Ridge Regression and the Lasso
+
+
+  We now show that one can view ridge regression and the lasso through
+a Bayesian lens. A Bayesian viewpoint for regression assumes that the
+coeﬃcient vector β has some prior distribution, say p(β), where β =
+(β0 , β1 , . . . , βp )T . The likelihood of the data can be written as f (Y |X, β),
+where X = (X1 , . . . , Xp ). Multiplying the prior distribution by the likeli-
+hood gives us (up to a proportionality constant) the posterior distribution,
+                                                                                     posterior
+which takes the form                                                                 distribution
+
+                                     p(β|X, Y ) ∝ f (Y |X, β)p(β|X) = f (Y |X, β)p(β),
+                                                                 6.2 Shrinkage Methods       249
+
+
+         0.7                                              0.7
+
+         0.6                                              0.6
+
+         0.5                                              0.5
+
+         0.4                                              0.4
+g(βj )                                           g(βj )
+         0.3                                              0.3
+
+         0.2                                              0.2
+
+         0.1                                              0.1
+
+         0.0                                              0.0
+
+               −3   −2   −1   0    1   2    3                   −3   −2   −1   0    1    2   3
+
+                              βj                                               βj
+
+FIGURE 6.11. Left: Ridge regression is the posterior mode for β under a Gaus-
+sian prior. Right: The lasso is the posterior mode for β under a double-exponential
+prior.
+
+where the proportionality above follows from Bayes’ theorem, and the
+equality above follows from the assumption that X is fixed.
+  We assume the usual linear model,
+
+                               Y = β0 + X1 β1 + · · · + Xp βp + ϵ,
+
+and suppose that the errors are independent andFp drawn from a normal dis-
+tribution. Furthermore, assume that p(β) = j=1 g(βj ), for some density
+function g. It turns out that ridge regression and the lasso follow naturally
+from two special cases of g:
+         • If g is a Gaussian distribution with mean zero and standard deviation
+           a function of λ, then it follows that the posterior mode for β—that
+                                                                                    posterior
+           is, the most likely value for β, given the data—is given by the ridge mode
+           regression solution. (In fact, the ridge regression solution is also the
+           posterior mean.)
+         • If g is a double-exponential (Laplace) distribution with mean zero
+           and scale parameter a function of λ, then it follows that the posterior
+           mode for β is the lasso solution. (However, the lasso solution is not
+           the posterior mean, and in fact, the posterior mean does not yield a
+           sparse coeﬃcient vector.)
+The Gaussian and double-exponential priors are displayed in Figure 6.11.
+Therefore, from a Bayesian viewpoint, ridge regression and the lasso follow
+directly from assuming the usual linear model with normal errors, together
+with a simple prior distribution for β. Notice that the lasso prior is steeply
+peaked at zero, while the Gaussian is flatter and fatter at zero. Hence, the
+lasso expects a priori that many of the coeﬃcients are (exactly) zero, while
+ridge assumes the coeﬃcients are randomly distributed about zero.
+250                             6. Linear Model Selection and Regularization
+
+
+
+
+Cross−Validation Error                                              Standardized Coefficients
+                         25.6
+                                                                                                300
+
+
+
+                         25.4
+                                                                                                100
+
+                                                                                                0
+
+                         25.2
+                                                                                                −100
+
+
+
+                         25.0
+                                                                                                −300
+                                5e−03   5e−02       5e−01   5e+00                                      5e−03   5e−02       5e−01   5e+00
+
+                                                λ                                                                      λ
+
+FIGURE 6.12. Left: Cross-validation errors that result from applying ridge
+regression to the Credit data set with various values of λ. Right: The coeﬃcient
+estimates as a function of λ. The vertical dashed lines indicate the value of λ
+selected by cross-validation.
+
+
+6.2.3 Selecting the Tuning Parameter
+Just as the subset selection approaches considered in Section 6.1 require
+a method to determine which of the models under consideration is best,
+implementing ridge regression and the lasso requires a method for selecting
+a value for the tuning parameter λ in (6.5) and (6.7), or equivalently, the
+value of the constraint s in (6.9) and (6.8). Cross-validation provides a sim-
+ple way to tackle this problem. We choose a grid of λ values, and compute
+the cross-validation error for each value of λ, as described in Chapter 5. We
+then select the tuning parameter value for which the cross-validation error
+is smallest. Finally, the model is re-fit using all of the available observations
+and the selected value of the tuning parameter.
+   Figure 6.12 displays the choice of λ that results from performing leave-
+one-out cross-validation on the ridge regression fits from the Credit data
+set. The dashed vertical lines indicate the selected value of λ. In this case
+the value is relatively small, indicating that the optimal fit only involves a
+small amount of shrinkage relative to the least squares solution. In addition,
+the dip is not very pronounced, so there is rather a wide range of values
+that would give a very similar error. In a case like this we might simply use
+the least squares solution.
+   Figure 6.13 provides an illustration of ten-fold cross-validation applied to
+the lasso fits on the sparse simulated data from Figure 6.9. The left-hand
+panel of Figure 6.13 displays the cross-validation error, while the right-hand
+panel displays the coeﬃcient estimates. The vertical dashed lines indicate
+the point at which the cross-validation error is smallest. The two colored
+lines in the right-hand panel of Figure 6.13 represent the two predictors
+that are related to the response, while the grey lines represent the unre-
+lated predictors; these are often referred to as signal and noise variables,
+                                                                                  signal
+respectively. Not only has the lasso correctly given much larger coeﬃ-
+                                                                    6.3 Dimension Reduction Methods                                            251
+
+
+                         1400                                                                         15
+
+
+
+
+Cross−Validation Error                                                    Standardized Coefficients
+                                                                                                      10
+                         1000
+
+                                                                                                      5
+
+                         600
+                                                                                                      0
+
+
+                         200                                                                          −5
+
+                         0
+
+                                0.0   0.2     0.4   0.6     0.8   1.0                                      0.0   0.2     0.4   0.6     0.8     1.0
+
+                                            ∥β̂λL∥1/∥β̂∥1                                                              ∥β̂λL∥1/∥β̂∥1
+
+FIGURE 6.13. Left: Ten-fold cross-validation MSE for the lasso, applied to
+the sparse simulated data set from Figure 6.9. Right: The corresponding lasso
+coeﬃcient estimates are displayed. The two signal variables are shown in color,
+and the noise variables are in gray. The vertical dashed lines indicate the lasso
+fit for which the cross-validation error is smallest.
+
+
+
+cient estimates to the two signal predictors, but also the minimum cross-
+validation error corresponds to a set of coeﬃcient estimates for which only
+the signal variables are non-zero. Hence cross-validation together with the
+lasso has correctly identified the two signal variables in the model, even
+though this is a challenging setting, with p = 45 variables and only n = 50
+observations. In contrast, the least squares solution—displayed on the far
+right of the right-hand panel of Figure 6.13—assigns a large coeﬃcient
+estimate to only one of the two signal variables.
+
+
+
+
+6.3 Dimension Reduction Methods
+The methods that we have discussed so far in this chapter have controlled
+variance in two diﬀerent ways, either by using a subset of the original vari-
+ables, or by shrinking their coeﬃcients toward zero. All of these methods
+are defined using the original predictors, X1 , X2 , . . . , Xp . We now explore
+a class of approaches that transform the predictors and then fit a least
+squares model using the transformed variables. We will refer to these tech-
+niques as dimension reduction methods.
+                                                                                 dimension
+  Let Z1 , Z2 , . . . , ZM represent M < p linear combinations of our original reduction
+p predictors. That is,                                                           linear
+                                                                                                                                                      combination
+                                                                        p
+                                                                        0
+                                                             Zm =                    φjm Xj                                                  (6.16)
+                                                                        j=1
+252      6. Linear Model Selection and Regularization
+
+for some constants φ1m , φ2m . . . , φpm , m = 1, . . . , M . We can then fit the
+linear regression model
+                                   M
+                                   0
+                    yi = θ 0 +           θm zim + ϵi ,   i = 1, . . . , n,               (6.17)
+                                  m=1
+
+using least squares. Note that in (6.17), the regression coeﬃcients are given
+by θ0 , θ1 , . . . , θM . If the constants φ1m , φ2m , . . . , φpm are chosen wisely, then
+such dimension reduction approaches can often outperform least squares
+regression. In other words, fitting (6.17) using least squares can lead to
+better results than fitting (6.1) using least squares.
+   The term dimension reduction comes from the fact that this approach
+reduces the problem of estimating the p + 1 coeﬃcients β0 , β1 , . . . , βp to the
+simpler problem of estimating the M + 1 coeﬃcients θ0 , θ1 , . . . , θM , where
+M < p. In other words, the dimension of the problem has been reduced
+from p + 1 to M + 1.
+   Notice that from (6.16),
+      M
+      0                M
+                       0          p
+                                  0                 p 0
+                                                    0 M                      p
+                                                                             0
+            θm zim =         θm         φjm xij =             θm φjm xij =         βj xij ,
+      m=1              m=1        j=1               j=1 m=1                  j=1
+
+where
+                                            M
+                                            0
+                                    βj =          θm φjm .                               (6.18)
+                                            m=1
+
+Hence (6.17) can be thought of as a special case of the original linear
+regression model given by (6.1). Dimension reduction serves to constrain
+the estimated βj coeﬃcients, since now they must take the form (6.18).
+This constraint on the form of the coeﬃcients has the potential to bias the
+coeﬃcient estimates. However, in situations where p is large relative to n,
+selecting a value of M ≪ p can significantly reduce the variance of the fitted
+coeﬃcients. If M = p, and all the Zm are linearly independent, then (6.18)
+poses no constraints. In this case, no dimension reduction occurs, and so
+fitting (6.17) is equivalent to performing least squares on the original p
+predictors.
+   All dimension reduction methods work in two steps. First, the trans-
+formed predictors Z1 , Z2 , . . . , ZM are obtained. Second, the model is fit
+using these M predictors. However, the choice of Z1 , Z2 , . . . , ZM , or equiv-
+alently, the selection of the φjm ’s, can be achieved in diﬀerent ways. In this
+chapter, we will consider two approaches for this task: principal components
+and partial least squares.
+
+
+6.3.1 Principal Components Regression
+Principal components analysis (PCA) is a popular approach for deriving
+                                                                                                  principal
+                                                                                                  components
+                                                                                                  analysis
+                                                6.3 Dimension Reduction Methods     253
+
+
+                      35
+
+                      30
+
+                      25
+
+
+
+
+        Ad Spending
+                      20
+
+                      15
+
+                      10
+
+                      5
+
+                      0
+
+                           10      20      30       40       50    60      70
+
+                                                Population
+
+FIGURE 6.14. The population size (pop) and ad spending (ad) for 100 diﬀerent
+cities are shown as purple circles. The green solid line indicates the first principal
+component, and the blue dashed line indicates the second principal component.
+
+
+a low-dimensional set of features from a large set of variables. PCA is
+discussed in greater detail as a tool for unsupervised learning in Chapter 12.
+Here we describe its use as a dimension reduction technique for regression.
+
+
+
+An Overview of Principal Components Analysis
+PCA is a technique for reducing the dimension of an n × p data matrix X.
+The first principal component direction of the data is that along which the
+observations vary the most. For instance, consider Figure 6.14, which shows
+population size (pop) in tens of thousands of people, and ad spending for a
+particular company (ad) in thousands of dollars, for 100 cities5 . The green
+solid line represents the first principal component direction of the data. We
+can see by eye that this is the direction along which there is the greatest
+variability in the data. That is, if we projected the 100 observations onto
+this line (as shown in the left-hand panel of Figure 6.15), then the resulting
+projected observations would have the largest possible variance; projecting
+the observations onto any other line would yield projected observations
+with lower variance. Projecting a point onto a line simply involves finding
+the location on the line which is closest to the point.
+  The first principal component is displayed graphically in Figure 6.14, but
+how can it be summarized mathematically? It is given by the formula
+
+                           Z1 = 0.839 × (pop − pop) + 0.544 × (ad − ad).          (6.19)
+
+  5 This dataset is distinct from the Advertising data discussed in Chapter 3.
+254                6. Linear Model Selection and Regularization
+
+
+
+
+                                                  2nd Principal Component
+                                                                            10
+              30
+
+              25
+
+
+
+
+Ad Spending
+                                                                            5
+
+              20
+                                                                            0
+              15
+                                                                            −5
+              10
+
+              5                                                             −10
+
+
+                    20     30      40    50                                       −20       −10       0       10       20
+
+                            Population                                                  1st Principal Component
+
+
+FIGURE 6.15. A subset of the advertising data. The mean pop and ad budgets
+are indicated with a blue circle. Left: The first principal component direction is
+shown in green. It is the dimension along which the data vary the most, and it also
+defines the line that is closest to all n of the observations. The distances from each
+observation to the principal component are represented using the black dashed line
+segments. The blue dot represents (pop, ad). Right: The left-hand panel has been
+rotated so that the first principal component direction coincides with the x-axis.
+
+Here φ11 = 0.839 and φ21 = 0.544 are the principal component loadings,
+which define the direction referred to above. In (6.19), pop indicates the
+mean of all pop values in this data set, and ad indicates the mean of all ad-
+vertising spending. The idea is that out of every possible linear combination
+of pop and ad such that φ211 + φ221 = 1, this particular linear combination
+yields the highest variance: i.e. this is the linear combination for which
+Var(φ11 × (pop − pop) + φ21 × (ad − ad)) is maximized. It is necessary to
+consider only linear combinations of the form φ211 +φ221 = 1, since otherwise
+we could increase φ11 and φ21 arbitrarily in order to blow up the variance.
+In (6.19), the two loadings are both positive and have similar size, and so
+Z1 is almost an average of the two variables.
+   Since n = 100, pop and ad are vectors of length 100, and so is Z1 in
+(6.19). For instance,
+
+                         zi1 = 0.839 × (popi − pop) + 0.544 × (adi − ad).                                          (6.20)
+
+The values of z11 , . . . , zn1 are known as the principal component scores, and
+can be seen in the right-hand panel of Figure 6.15.
+   There is also another interpretation for PCA: the first principal compo-
+nent vector defines the line that is as close as possible to the data. For
+instance, in Figure 6.14, the first principal component line minimizes the
+sum of the squared perpendicular distances between each point and the
+line. These distances are plotted as dashed line segments in the left-hand
+panel of Figure 6.15, in which the crosses represent the projection of each
+point onto the first principal component line. The first principal component
+has been chosen so that the projected observations are as close as possible
+to the original observations.
+                                                           6.3 Dimension Reduction Methods                          255
+
+
+             60
+                                                                            30
+
+             50                                                             25
+
+
+
+
+Population                                                    Ad Spending
+                                                                            20
+             40
+
+                                                                            15
+             30
+                                                                            10
+
+             20                                                             5
+
+
+
+                    −3    −2    −1   0     1       2   3                         −3    −2    −1   0     1       2   3
+
+                         1st Principal Component                                      1st Principal Component
+
+
+FIGURE 6.16. Plots of the first principal component scores zi1 versus pop and
+ad. The relationships are strong.
+
+
+   In the right-hand panel of Figure 6.15, the left-hand panel has been
+rotated so that the first principal component direction coincides with the
+x-axis. It is possible to show that the first principal component score for
+the ith observation, given in (6.20), is the distance in the x-direction of the
+ith cross from zero. So for example, the point in the bottom-left corner of
+the left-hand panel of Figure 6.15 has a large negative principal component
+score, zi1 = −26.1, while the point in the top-right corner has a large
+positive score, zi1 = 18.7. These scores can be computed directly using
+(6.20).
+   We can think of the values of the principal component Z1 as single-
+number summaries of the joint pop and ad budgets for each location. In
+this example, if zi1 = 0.839 × (popi − pop) + 0.544 × (adi − ad) < 0,
+then this indicates a city with below-average population size and below-
+average ad spending. A positive score suggests the opposite. How well can a
+single number represent both pop and ad? In this case, Figure 6.14 indicates
+that pop and ad have approximately a linear relationship, and so we might
+expect that a single-number summary will work well. Figure 6.16 displays
+zi1 versus both pop and ad.6 The plots show a strong relationship between
+the first principal component and the two features. In other words, the first
+principal component appears to capture most of the information contained
+in the pop and ad predictors.
+   So far we have concentrated on the first principal component. In gen-
+eral, one can construct up to p distinct principal components. The second
+principal component Z2 is a linear combination of the variables that is un-
+correlated with Z1 , and has largest variance subject to this constraint. The
+second principal component direction is illustrated as a dashed blue line in
+
+             6 The principal components were calculated after first standardizing both pop and
+
+ad, a common approach. Hence, the x-axes on Figures 6.15 and 6.16 are not on the same
+scale.
+256                      6. Linear Model Selection and Regularization
+
+
+             60
+                                                                          30
+
+             50                                                           25
+
+
+
+
+Population                                                  Ad Spending
+                                                                          20
+             40
+
+                                                                          15
+             30
+                                                                          10
+
+             20                                                           5
+
+
+
+                  −1.0      −0.5     0.0    0.5       1.0                      −1.0   −0.5     0.0    0.5       1.0
+
+                            2nd Principal Component                                   2nd Principal Component
+
+
+FIGURE 6.17. Plots of the second principal component scores zi2 versus pop
+and ad. The relationships are weak.
+
+Figure 6.14. It turns out that the zero correlation condition of Z1 with Z2
+is equivalent to the condition that the direction must be perpendicular, or perpen-
+orthogonal, to the first principal component direction. The second principal dicular
+component is given by the formula                                            orthogonal
+
+                               Z2 = 0.544 × (pop − pop) − 0.839 × (ad − ad).
+Since the advertising data has two predictors, the first two principal com-
+ponents contain all of the information that is in pop and ad. However, by
+construction, the first component will contain the most information. Con-
+sider, for example, the much larger variability of zi1 (the x-axis) versus
+zi2 (the y-axis) in the right-hand panel of Figure 6.15. The fact that the
+second principal component scores are much closer to zero indicates that
+this component captures far less information. As another illustration, Fig-
+ure 6.17 displays zi2 versus pop and ad. There is little relationship between
+the second principal component and these two predictors, again suggesting
+that in this case, one only needs the first principal component in order to
+accurately represent the pop and ad budgets.
+   With two-dimensional data, such as in our advertising example, we can
+construct at most two principal components. However, if we had other
+predictors, such as population age, income level, education, and so forth,
+then additional components could be constructed. They would successively
+maximize variance, subject to the constraint of being uncorrelated with the
+preceding components.
+
+The Principal Components Regression Approach
+The principal components regression (PCR) approach involves construct-
+                                                                             principal
+ing the first M principal components, Z1 , . . . , ZM , and then using these components
+components as the predictors in a linear regression model that is fit us- regression
+ing least squares. The key idea is that often a small number of principal
+components suﬃce to explain most of the variability in the data, as well
+                                                          6.3 Dimension Reduction Methods                               257
+
+                     70
+                                                                                  150                      Squared Bias
+                     60                                                                                    Test MSE
+
+
+
+
+Mean Squared Error                                           Mean Squared Error
+                                                                                                           Variance
+                     50
+                                                                                  100
+                     40
+
+                     30
+
+                     20                                                           50
+
+                     10
+
+                     0                                                            0
+
+                          0   10     20     30       40                                 0   10     20     30       40
+
+                              Number of Components                                          Number of Components
+
+
+FIGURE 6.18. PCR was applied to two simulated data sets. In each panel, the
+horizontal dashed line represents the irreducible error. Left: Simulated data from
+Figure 6.8. Right: Simulated data from Figure 6.9.
+
+
+
+as the relationship with the response. In other words, we assume that the
+directions in which X1 , . . . , Xp show the most variation are the directions
+that are associated with Y . While this assumption is not guaranteed to be
+true, it often turns out to be a reasonable enough approximation to give
+good results.
+   If the assumption underlying PCR holds, then fitting a least squares
+model to Z1 , . . . , ZM will lead to better results than fitting a least squares
+model to X1 , . . . , Xp , since most or all of the information in the data that
+relates to the response is contained in Z1 , . . . , ZM , and by estimating only
+M ≪ p coeﬃcients we can mitigate overfitting. In the advertising data, the
+first principal component explains most of the variance in both pop and ad,
+so a principal component regression that uses this single variable to predict
+some response of interest, such as sales, will likely perform quite well.
+   Figure 6.18 displays the PCR fits on the simulated data sets from Fig-
+ures 6.8 and 6.9. Recall that both data sets were generated using n = 50
+observations and p = 45 predictors. However, while the response in the
+first data set was a function of all the predictors, the response in the sec-
+ond data set was generated using only two of the predictors. The curves are
+plotted as a function of M , the number of principal components used as
+predictors in the regression model. As more principal components are used
+in the regression model, the bias decreases, but the variance increases. This
+results in a typical U-shape for the mean squared error. When M = p = 45,
+then PCR amounts simply to a least squares fit using all of the original
+predictors. The figure indicates that performing PCR with an appropriate
+choice of M can result in a substantial improvement over least squares, es-
+pecially in the left-hand panel. However, by examining the ridge regression
+and lasso results in Figures 6.5, 6.8, and 6.9, we see that PCR does not
+perform as well as the two shrinkage methods in this example.
+258                           6. Linear Model Selection and Regularization
+
+
+                                         PCR                                                   Ridge Regression and Lasso
+
+                     70                                                             70
+                                                Squared Bias
+                     60                         Test MSE                            60
+
+
+
+
+Mean Squared Error                                             Mean Squared Error
+                                                Variance
+                     50                                                             50
+
+                     40                                                             40
+
+                     30                                                             30
+
+                     20                                                             20
+
+                     10                                                             10
+
+                     0                                                              0
+
+                          0      10     20     30       40                               0.0     0.2      0.4    0.6      0.8   1.0
+
+                                 Number of Components                                                  Shrinkage Factor
+
+
+FIGURE 6.19. PCR, ridge regression, and the lasso were applied to a simulated
+data set in which the first five principal components of X contain all the informa-
+tion about the response Y . In each panel, the irreducible error Var(ϵ) is shown as
+a horizontal dashed line. Left: Results for PCR. Right: Results for lasso (solid)
+and ridge regression (dotted). The x-axis displays the shrinkage factor of the co-
+eﬃcient estimates, defined as the ℓ2 norm of the shrunken coeﬃcient estimates
+divided by the ℓ2 norm of the least squares estimate.
+
+
+   The relatively worse performance of PCR in Figure 6.18 is a consequence
+of the fact that the data were generated in such a way that many princi-
+pal components are required in order to adequately model the response.
+In contrast, PCR will tend to do well in cases when the first few principal
+components are suﬃcient to capture most of the variation in the predictors
+as well as the relationship with the response. The left-hand panel of Fig-
+ure 6.19 illustrates the results from another simulated data set designed to
+be more favorable to PCR. Here the response was generated in such a way
+that it depends exclusively on the first five principal components. Now the
+bias drops to zero rapidly as M , the number of principal components used
+in PCR, increases. The mean squared error displays a clear minimum at
+M = 5. The right-hand panel of Figure 6.19 displays the results on these
+data using ridge regression and the lasso. All three methods oﬀer a signif-
+icant improvement over least squares. However, PCR and ridge regression
+slightly outperform the lasso.
+   We note that even though PCR provides a simple way to perform re-
+gression using M < p predictors, it is not a feature selection method. This
+is because each of the M principal components used in the regression is a
+linear combination of all p of the original features. For instance, in (6.19),
+Z1 was a linear combination of both pop and ad. Therefore, while PCR of-
+ten performs quite well in many practical settings, it does not result in the
+development of a model that relies upon a small set of the original features.
+In this sense, PCR is more closely related to ridge regression than to the
+lasso. In fact, one can show that PCR and ridge regression are very closely
+                                                                    6.3 Dimension Reduction Methods                                   259
+
+
+                            400        Income
+                                       Limit                                                  80000
+
+
+
+
+Standardized Coefficients
+                            300        Rating
+
+
+
+
+                                                                       Cross−Validation MSE
+                                       Student
+                            200
+                                                                                              60000
+                            100
+
+
+                                                                                              40000
+                            0
+
+
+                            −100
+
+                                                                                              20000
+
+
+                            −300
+                                   2       4     6      8      10                                     2     4      6      8      10
+
+                                        Number of Components                                              Number of Components
+
+
+FIGURE 6.20. Left: PCR standardized coeﬃcient estimates on the Credit data
+set for diﬀerent values of M . Right: The ten-fold cross-validation MSE obtained
+using PCR, as a function of M .
+
+related. One can even think of ridge regression as a continuous version of
+PCR!7
+   In PCR, the number of principal components, M , is typically chosen by
+cross-validation. The results of applying PCR to the Credit data set are
+shown in Figure 6.20; the right-hand panel displays the cross-validation er-
+rors obtained, as a function of M . On these data, the lowest cross-validation
+error occurs when there are M = 10 components; this corresponds to al-
+most no dimension reduction at all, since PCR with M = 11 is equivalent
+to simply performing least squares.
+   When performing PCR, we generally recommend standardizing each pre-
+dictor, using (6.6), prior to generating the principal components. This stan-
+dardization ensures that all variables are on the same scale. In the absence
+of standardization, the high-variance variables will tend to play a larger
+role in the principal components obtained, and the scale on which the vari-
+ables are measured will ultimately have an eﬀect on the final PCR model.
+However, if the variables are all measured in the same units (say, kilograms,
+or inches), then one might choose not to standardize them.
+
+
+6.3.2 Partial Least Squares
+The PCR approach that we just described involves identifying linear combi-
+nations, or directions, that best represent the predictors X1 , . . . , Xp . These
+directions are identified in an unsupervised way, since the response Y is not
+used to help determine the principal component directions. That is, the
+response does not supervise the identification of the principal components.
+
+  7 More details can be found in Section 3.5 of The Elements of Statistical Learning by
+
+Hastie, Tibshirani, and Friedman.
+260         6. Linear Model Selection and Regularization
+
+
+
+                      30
+
+
+                      25
+
+
+
+
+        Ad Spending
+                      20
+
+
+                      15
+
+
+                      10
+
+
+                      5
+
+
+
+                           20     30         40            50       60
+
+                                        Population
+
+FIGURE 6.21. For the advertising data, the first PLS direction (solid line) and
+first PCR direction (dotted line) are shown.
+
+
+
+Consequently, PCR suﬀers from a drawback: there is no guarantee that the
+directions that best explain the predictors will also be the best directions
+to use for predicting the response. Unsupervised methods are discussed
+further in Chapter 12.
+   We now present partial least squares (PLS), a supervised alternative to
+                                                                                   partial least
+PCR. Like PCR, PLS is a dimension reduction method, which first identifies squares
+a new set of features Z1 , . . . , ZM that are linear combinations of the original
+features, and then fits a linear model via least squares using these M new
+features. But unlike PCR, PLS identifies these new features in a supervised
+way—that is, it makes use of the response Y in order to identify new
+features that not only approximate the old features well, but also that are
+related to the response. Roughly speaking, the PLS approach attempts to
+find directions that help explain both the response and the predictors.
+   We now describe how the first PLS direction is computed. After stan-
+dardizing the p predictors, PLS computes the first direction Z1 by setting
+each φj1 in (6.16) equal to the coeﬃcient from the simple linear regression
+of Y onto Xj . One can show that this coeﬃcient is proportional
+                                                              )p       to the cor-
+relation between Y and Xj . Hence, in computing Z1 = j=1 φj1 Xj , PLS
+places the highest weight on the variables that are most strongly related
+to the response.
+   Figure 6.21 displays an example of PLS on a synthetic dataset with Sales
+in each of 100 regions as the response, and two predictors; Population Size
+and Advertising Spending. The solid green line indicates the first PLS di-
+rection, while the dotted line shows the first principal component direction.
+PLS has chosen a direction that has less change in the ad dimension per
+unit change in the pop dimension, relative to PCA. This suggests that pop
+is more highly correlated with the response than is ad. The PLS direction
+                                6.4 Considerations in High Dimensions     261
+
+does not fit the predictors as closely as does PCA, but it does a better job
+explaining the response.
+   To identify the second PLS direction we first adjust each of the variables
+for Z1 , by regressing each variable on Z1 and taking residuals. These resid-
+uals can be interpreted as the remaining information that has not been
+explained by the first PLS direction. We then compute Z2 using this or-
+thogonalized data in exactly the same fashion as Z1 was computed based
+on the original data. This iterative approach can be repeated M times to
+identify multiple PLS components Z1 , . . . , ZM . Finally, at the end of this
+procedure, we use least squares to fit a linear model to predict Y using
+Z1 , . . . , ZM in exactly the same fashion as for PCR.
+   As with PCR, the number M of partial least squares directions used in
+PLS is a tuning parameter that is typically chosen by cross-validation. We
+generally standardize the predictors and response before performing PLS.
+   PLS is popular in the field of chemometrics, where many variables arise
+from digitized spectrometry signals. In practice it often performs no better
+than ridge regression or PCR. While the supervised dimension reduction
+of PLS can reduce bias, it also has the potential to increase variance, so
+that the overall benefit of PLS relative to PCR is a wash.
+
+
+
+6.4 Considerations in High Dimensions
+6.4.1 High-Dimensional Data
+Most traditional statistical techniques for regression and classification are
+intended for the low-dimensional setting in which n, the number of ob-
+                                                                               low-
+servations, is much greater than p, the number of features. This is due in dimensional
+part to the fact that throughout most of the field’s history, the bulk of sci-
+entific problems requiring the use of statistics have been low-dimensional.
+For instance, consider the task of developing a model to predict a patient’s
+blood pressure on the basis of his or her age, sex, and body mass index
+(BMI). There are three predictors, or four if an intercept is included in
+the model, and perhaps several thousand patients for whom blood pressure
+and age, sex, and BMI are available. Hence n ≫ p, and so the problem is
+low-dimensional. (By dimension here we are referring to the size of p.)
+   In the past 20 years, new technologies have changed the way that data
+are collected in fields as diverse as finance, marketing, and medicine. It is
+now commonplace to collect an almost unlimited number of feature mea-
+surements (p very large). While p can be extremely large, the number of
+observations n is often limited due to cost, sample availability, or other
+considerations. Two examples are as follows:
+
+  1. Rather than predicting blood pressure on the basis of just age, sex,
+     and BMI, one might also collect measurements for half a million sin-
+262     6. Linear Model Selection and Regularization
+
+      gle nucleotide polymorphisms (SNPs; these are individual DNA mu-
+      tations that are relatively common in the population) for inclusion in
+      the predictive model. Then n ≈ 200 and p ≈ 500,000.
+
+  2. A marketing analyst interested in understanding people’s online shop-
+     ping patterns could treat as features all of the search terms entered
+     by users of a search engine. This is sometimes known as the “bag-of-
+     words” model. The same researcher might have access to the search
+     histories of only a few hundred or a few thousand search engine users
+     who have consented to share their information with the researcher.
+     For a given user, each of the p search terms is scored present (0) or
+     absent (1), creating a large binary feature vector. Then n ≈ 1,000
+     and p is much larger.
+
+   Data sets containing more features than observations are often referred
+to as high-dimensional. Classical approaches such as least squares linear
+                                                                              high-
+regression are not appropriate in this setting. Many of the issues that arise dimensional
+in the analysis of high-dimensional data were discussed earlier in this book,
+since they apply also when n > p: these include the role of the bias-variance
+trade-oﬀ and the danger of overfitting. Though these issues are always rele-
+vant, they can become particularly important when the number of features
+is very large relative to the number of observations.
+   We have defined the high-dimensional setting as the case where the num-
+ber of features p is larger than the number of observations n. But the con-
+siderations that we will now discuss certainly also apply if p is slightly
+smaller than n, and are best always kept in mind when performing super-
+vised learning.
+
+
+6.4.2 What Goes Wrong in High Dimensions?
+In order to illustrate the need for extra care and specialized techniques
+for regression and classification when p > n, we begin by examining what
+can go wrong if we apply a statistical technique not intended for the high-
+dimensional setting. For this purpose, we examine least squares regression.
+But the same concepts apply to logistic regression, linear discriminant anal-
+ysis, and other classical statistical approaches.
+   When the number of features p is as large as, or larger than, the number
+of observations n, least squares as described in Chapter 3 cannot (or rather,
+should not) be performed. The reason is simple: regardless of whether or
+not there truly is a relationship between the features and the response,
+least squares will yield a set of coeﬃcient estimates that result in a perfect
+fit to the data, such that the residuals are zero.
+   An example is shown in Figure 6.22 with p = 1 feature (plus an intercept)
+in two cases: when there are 20 observations, and when there are only
+two observations. When there are 20 observations, n > p and the least
+                                       6.4 Considerations in High Dimensions              263
+
+
+    10                                           10
+
+
+
+    5                                            5
+
+
+Y                                            Y
+    0                                            0
+
+
+
+    −5                                           −5
+
+
+
+    −10                                          −10
+          −1.5 −1.0 −0.5   0.0   0.5   1.0             −1.5 −1.0 −0.5   0.0   0.5   1.0
+
+                           X                                            X
+
+FIGURE 6.22. Left: Least squares regression in the low-dimensional setting.
+Right: Least squares regression with n = 2 observations and two parameters to be
+estimated (an intercept and a coeﬃcient).
+
+squares regression line does not perfectly fit the data; instead, the regression
+line seeks to approximate the 20 observations as well as possible. On the
+other hand, when there are only two observations, then regardless of the
+values of those observations, the regression line will fit the data exactly.
+This is problematic because this perfect fit will almost certainly lead to
+overfitting of the data. In other words, though it is possible to perfectly fit
+the training data in the high-dimensional setting, the resulting linear model
+will perform extremely poorly on an independent test set, and therefore
+does not constitute a useful model. In fact, we can see that this happened
+in Figure 6.22: the least squares line obtained in the right-hand panel will
+perform very poorly on a test set comprised of the observations in the left-
+hand panel. The problem is simple: when p > n or p ≈ n, a simple least
+squares regression line is too flexible and hence overfits the data.
+   Figure 6.23 further illustrates the risk of carelessly applying least squares
+when the number of features p is large. Data were simulated with n = 20
+observations, and regression was performed with between 1 and 20 features,
+each of which was completely unrelated to the response. As shown in the
+figure, the model R2 increases to 1 as the number of features included in the
+model increases, and correspondingly the training set MSE decreases to 0
+as the number of features increases, even though the features are completely
+unrelated to the response. On the other hand, the MSE on an independent
+test set becomes extremely large as the number of features included in the
+model increases, because including the additional predictors leads to a vast
+increase in the variance of the coeﬃcient estimates. Looking at the test
+set MSE, it is clear that the best model contains at most a few variables.
+However, someone who carelessly examines only the R2 or the training set
+MSE might erroneously conclude that the model with the greatest number
+264         6. Linear Model Selection and Regularization
+
+      1.0
+
+                                                 0.8
+      0.8                                                                               500
+
+
+
+
+                                  Training MSE
+                                                 0.6
+
+
+
+                                                                             Test MSE
+      0.6
+ R2                                                                                     50
+                                                 0.4
+      0.4
+
+                                                 0.2                                    5
+      0.2
+
+                                                 0.0                                    1
+
+               5    10    15                              5    10    15                          5    10    15
+
+            Number of Variables                        Number of Variables                    Number of Variables
+
+
+FIGURE 6.23. On a simulated example with n = 20 training observations,
+features that are completely unrelated to the outcome are added to the model.
+Left: The R2 increases to 1 as more features are included. Center: The training
+set MSE decreases to 0 as more features are included. Right: The test set MSE
+increases as more features are included.
+
+of variables is best. This indicates the importance of applying extra care
+when analyzing data sets with a large number of variables, and of always
+evaluating model performance on an independent test set.
+   In Section 6.1.3, we saw a number of approaches for adjusting the training
+set RSS or R2 in order to account for the number of variables used to fit
+a least squares model. Unfortunately, the Cp , AIC, and BIC approaches
+are not appropriate in the high-dimensional setting, because estimating σ̂ 2
+is problematic. (For instance, the formula for σ̂ 2 from Chapter 3 yields an
+estimate σ̂ 2 = 0 in this setting.) Similarly, problems arise in the application
+of adjusted R2 in the high-dimensional setting, since one can easily obtain
+a model with an adjusted R2 value of 1. Clearly, alternative approaches
+that are better-suited to the high-dimensional setting are required.
+
+
+6.4.3 Regression in High Dimensions
+It turns out that many of the methods seen in this chapter for fitting
+less flexible least squares models, such as forward stepwise selection, ridge
+regression, the lasso, and principal components regression, are particularly
+useful for performing regression in the high-dimensional setting. Essentially,
+these approaches avoid overfitting by using a less flexible fitting approach
+than least squares.
+   Figure 6.24 illustrates the performance of the lasso in a simple simulated
+example. There are p = 20, 50, or 2,000 features, of which 20 are truly
+associated with the outcome. The lasso was performed on n = 100 training
+observations, and the mean squared error was evaluated on an independent
+test set. As the number of features increases, the test set error increases.
+When p = 20, the lowest validation set error was achieved when λ in
+(6.7) was small; however, when p was larger then the lowest validation
+                                  6.4 Considerations in High Dimensions           265
+
+
+           p = 20                     p = 50                     p = 2000
+5                          5                          5
+
+
+
+4                          4                          4
+
+
+
+3                          3                          3
+
+
+
+2                          2                          2
+
+
+
+1                          1                          1
+
+
+
+0                          0                          0
+
+      1      16      21          1      28      51           1      70      111
+
+     Degrees of Freedom         Degrees of Freedom         Degrees of Freedom
+
+FIGURE 6.24. The lasso was performed with n = 100 observations and three
+values of p, the number of features. Of the p features, 20 were associated with
+the response. The boxplots show the test MSEs that result using three diﬀerent
+values of the tuning parameter λ in (6.7). For ease of interpretation, rather than
+reporting λ, the degrees of freedom are reported; for the lasso this turns out
+to be simply the number of estimated non-zero coeﬃcients. When p = 20, the
+lowest test MSE was obtained with the smallest amount of regularization. When
+p = 50, the lowest test MSE was achieved when there is a substantial amount
+of regularization. When p = 2,000 the lasso performed poorly regardless of the
+amount of regularization, due to the fact that only 20 of the 2,000 features truly
+are associated with the outcome.
+
+
+set error was achieved using a larger value of λ. In each boxplot, rather
+than reporting the values of λ used, the degrees of freedom of the resulting
+lasso solution is displayed; this is simply the number of non-zero coeﬃcient
+estimates in the lasso solution, and is a measure of the flexibility of the
+lasso fit. Figure 6.24 highlights three important points: (1) regularization
+or shrinkage plays a key role in high-dimensional problems, (2) appropriate
+tuning parameter selection is crucial for good predictive performance, and
+(3) the test error tends to increase as the dimensionality of the problem
+(i.e. the number of features or predictors) increases, unless the additional
+features are truly associated with the response.
+   The third point above is in fact a key principle in the analysis of high-
+dimensional data, which is known as the curse of dimensionality. One might
+                                                                             curse of di-
+think that as the number of features used to fit a model increases, the mensionality
+quality of the fitted model will increase as well. However, comparing the
+left-hand and right-hand panels in Figure 6.24, we see that this is not
+necessarily the case: in this example, the test set MSE almost doubles as
+p increases from 20 to 2,000. In general, adding additional signal features
+that are truly associated with the response will improve the fitted model,
+in the sense of leading to a reduction in test set error. However, adding
+266     6. Linear Model Selection and Regularization
+
+noise features that are not truly associated with the response will lead
+to a deterioration in the fitted model, and consequently an increased test
+set error. This is because noise features increase the dimensionality of the
+problem, exacerbating the risk of overfitting (since noise features may be
+assigned nonzero coeﬃcients due to chance associations with the response
+on the training set) without any potential upside in terms of improved test
+set error. Thus, we see that new technologies that allow for the collection
+of measurements for thousands or millions of features are a double-edged
+sword: they can lead to improved predictive models if these features are in
+fact relevant to the problem at hand, but will lead to worse results if the
+features are not relevant. Even if they are relevant, the variance incurred
+in fitting their coeﬃcients may outweigh the reduction in bias that they
+bring.
+
+
+
+6.4.4 Interpreting Results in High Dimensions
+When we perform the lasso, ridge regression, or other regression proce-
+dures in the high-dimensional setting, we must be quite cautious in the way
+that we report the results obtained. In Chapter 3, we learned about multi-
+collinearity, the concept that the variables in a regression might be corre-
+lated with each other. In the high-dimensional setting, the multicollinearity
+problem is extreme: any variable in the model can be written as a linear
+combination of all of the other variables in the model. Essentially, this
+means that we can never know exactly which variables (if any) truly are
+predictive of the outcome, and we can never identify the best coeﬃcients
+for use in the regression. At most, we can hope to assign large regression
+coeﬃcients to variables that are correlated with the variables that truly are
+predictive of the outcome.
+   For instance, suppose that we are trying to predict blood pressure on the
+basis of half a million SNPs, and that forward stepwise selection indicates
+that 17 of those SNPs lead to a good predictive model on the training data.
+It would be incorrect to conclude that these 17 SNPs predict blood pressure
+more eﬀectively than the other SNPs not included in the model. There are
+likely to be many sets of 17 SNPs that would predict blood pressure just
+as well as the selected model. If we were to obtain an independent data set
+and perform forward stepwise selection on that data set, we would likely
+obtain a model containing a diﬀerent, and perhaps even non-overlapping,
+set of SNPs. This does not detract from the value of the model obtained—
+for instance, the model might turn out to be very eﬀective in predicting
+blood pressure on an independent set of patients, and might be clinically
+useful for physicians. But we must be careful not to overstate the results
+obtained, and to make it clear that what we have identified is simply one
+of many possible models for predicting blood pressure, and that it must be
+further validated on independent data sets.
+                     6.5 Lab: Linear Models and Regularization Methods       267
+
+   It is also important to be particularly careful in reporting errors and
+measures of model fit in the high-dimensional setting. We have seen that
+when p > n, it is easy to obtain a useless model that has zero residu-
+als. Therefore, one should never use sum of squared errors, p-values, R2
+statistics, or other traditional measures of model fit on the training data as
+evidence of a good model fit in the high-dimensional setting. For instance,
+as we saw in Figure 6.23, one can easily obtain a model with R2 = 1 when
+p > n. Reporting this fact might mislead others into thinking that a sta-
+tistically valid and useful model has been obtained, whereas in fact this
+provides absolutely no evidence of a compelling model. It is important to
+instead report results on an independent test set, or cross-validation errors.
+For instance, the MSE or R2 on an independent test set is a valid measure
+of model fit, but the MSE on the training set certainly is not.
+
+
+
+6.5 Lab: Linear Models and Regularization
+    Methods
+6.5.1 Subset Selection Methods
+Best Subset Selection
+Here we apply the best subset selection approach to the Hitters data. We
+wish to predict a baseball player’s Salary on the basis of various statistics
+associated with performance in the previous year.
+   First of all, we note that the Salary variable is missing for some of the
+players. The is.na() function can be used to identify the missing observa-
+                                                                               is.na()
+tions. It returns a vector of the same length as the input vector, with a TRUE
+for any elements that are missing, and a FALSE for non-missing elements.
+The sum() function can then be used to count all of the missing elements.
+                                                                                   sum()
+> library ( ISLR2 )
+> View ( Hitters )
+> names ( Hitters )
+ [1] " AtBat "         " Hits "          " HmRun "    " Runs "     " RBI "
+ [6] " Walks "         " Years "         " CAtBat "   " CHits "    " CHmRun "
+[11] " CRuns "         " CRBI "          " CWalks "   " League "   " Division "
+[16] " PutOuts "       " Assists "       " Errors "   " Salary "   " NewLeague "
+> dim ( Hitters )
+[1] 322 20
+> sum ( is . na ( Hitters $ Salary ) )
+[1] 59
+
+Hence we see that Salary is missing for 59 players. The na.omit() function
+removes all of the rows that have missing values in any variable.
+> Hitters <- na . omit ( Hitters )
+> dim ( Hitters )
+[1] 263 20
+268      6. Linear Model Selection and Regularization
+
+> sum ( is . na ( Hitters ) )
+[1] 0
+
+   The regsubsets() function (part of the leaps library) performs best sub-
+                                                                            regsubsets()
+set selection by identifying the best model that contains a given number
+of predictors, where best is quantified using RSS. The syntax is the same
+as for lm(). The summary() command outputs the best set of variables for
+each model size.
+> library ( leaps )
+> regfit . full <- regsubsets ( Salary ∼ . , Hitters )
+> summary ( regfit . full )
+Subset selection object
+Call : regsubsets . formula ( Salary ∼ . , Hitters )
+19 Variables ( and intercept )
+...
+1 subsets of each size up to 8
+Selection Algorithm : exhaustive
+           AtBat Hits HmRun Runs RBI Walks Years CAtBat CHits
+1 ( 1 ) " "       " " " "       " " " " " "    " "   " "   " "
+2 ( 1 ) " "       "*" " "       " " " " " "    " "   " "   " "
+3 ( 1 ) " "       "*" " "       " " " " " "    " "   " "   " "
+4 ( 1 ) " "       "*" " "       " " " " " "    " "   " "   " "
+5 ( 1 ) "*"       "*" " "       " " " " " "    " "   " "   " "
+6 ( 1 ) "*"       "*" " "       " " " " "*"    " "   " "   " "
+7 ( 1 ) " "       "*" " "       " " " " "*"    " "   "*"   "*"
+8 ( 1 ) "*"       "*" " "       " " " " "*"    " "   " "   " "
+           CHmRun CRuns CRBI CWalks LeagueN DivisionW PutOuts
+1 ( 1 ) " "         " "     "*" " "    " "      " "      " "
+2 ( 1 ) " "         " "     "*" " "    " "      " "      " "
+3 ( 1 ) " "         " "     "*" " "    " "      " "      "*"
+4 ( 1 ) " "         " "     "*" " "    " "      "*"      "*"
+5 ( 1 ) " "         " "     "*" " "    " "      "*"      "*"
+6 ( 1 ) " "         " "     "*" " "    " "      "*"      "*"
+7 ( 1 ) "*"         " "     " " " "    " "      "*"      "*"
+8 ( 1 ) "*"         "*"     " " "*"    " "      "*"      "*"
+           Assists Errors NewLeagueN
+1 ( 1 ) " "          " "      " "
+2 ( 1 ) " "          " "      " "
+3 ( 1 ) " "          " "      " "
+4 ( 1 ) " "          " "      " "
+5 ( 1 ) " "          " "      " "
+6 ( 1 ) " "          " "      " "
+7 ( 1 ) " "          " "      " "
+8 ( 1 ) " "          " "      " "
+
+An asterisk indicates that a given variable is included in the corresponding
+model. For instance, this output indicates that the best two-variable model
+contains only Hits and CRBI. By default, regsubsets() only reports results
+up to the best eight-variable model. But the nvmax option can be used
+in order to return as many variables as are desired. Here we fit up to a
+19-variable model.
+                   6.5 Lab: Linear Models and Regularization Methods    269
+
+> regfit . full <- regsubsets ( Salary ∼ . , data = Hitters ,
+    nvmax = 19)
+> reg . summary <- summary ( regfit . full )
+
+ The summary() function also returns R2 , RSS, adjusted R2 , Cp , and BIC.
+We can examine these to try to select the best overall model.
+> names ( reg . summary )
+[1] " which " " rsq "       " rss "   " adjr2 "   " cp "    " bic "
+[7] " outmat " " obj "
+
+For instance, we see that the R2 statistic increases from 32 %, when only
+one variable is included in the model, to almost 55 %, when all variables
+are included. As expected, the R2 statistic increases monotonically as more
+variables are included.
+> reg . summary $ rsq
+ [1] 0.321 0.425 0.451 0.475 0.491 0.509 0.514 0.529 0.535
+[10] 0.540 0.543 0.544 0.544 0.545 0.545 0.546 0.546 0.546
+[19] 0.546
+
+Plotting RSS, adjusted R2 , Cp , and BIC for all of the models at once will
+help us decide which model to select. Note the type = "l" option tells R to
+connect the plotted points with lines.
+> par ( mfrow = c (2 , 2) )
+> plot ( reg . summary $ rss , xlab = " Number of Variables " ,
+    ylab = " RSS " , type = " l " )
+> plot ( reg . summary $ adjr2 , xlab = " Number of Variables " ,
+    ylab = " Adjusted RSq " , type = " l " )
+
+The points() command works like the plot() command, except that it
+                                                                           points()
+puts points on a plot that has already been created, instead of creating a
+new plot. The which.max() function can be used to identify the location of
+the maximum point of a vector. We will now plot a red dot to indicate the
+model with the largest adjusted R2 statistic.
+> which . max ( reg . summary $ adjr2 )
+[1] 11
+> points (11 , reg . summary $ adjr2 [11] , col = " red " , cex = 2 ,
+    pch = 20)
+
+In a similar fashion we can plot the Cp and BIC statistics, and indicate the
+models with the smallest statistic using which.min().
+                                                                               which.min()
+> plot ( reg . summary $ cp , xlab = " Number of Variables " ,
+    ylab = " Cp " , type = " l " )
+> which . min ( reg . summary $ cp )
+[1] 10
+> points (10 , reg . summary $ cp [10] , col = " red " , cex = 2 ,
+    pch = 20)
+> which . min ( reg . summary $ bic )
+[1] 6
+> plot ( reg . summary $ bic , xlab = " Number of Variables " ,
+    ylab = " BIC " , type = " l " )
+270       6. Linear Model Selection and Regularization
+
+> points (6 , reg . summary $ bic [6] , col = " red " , cex = 2 ,
+    pch = 20)
+
+  The regsubsets() function has a built-in plot() command which can
+be used to display the selected variables for the best model with a given
+number of predictors, ranked according to the BIC, Cp , adjusted R2 , or
+AIC. To find out more about this function, type ?plot.regsubsets.
+>   plot ( regfit . full ,   scale   =   " r2 " )
+>   plot ( regfit . full ,   scale   =   " adjr2 " )
+>   plot ( regfit . full ,   scale   =   " Cp " )
+>   plot ( regfit . full ,   scale   =   " bic " )
+
+The top row of each plot contains a black square for each variable selected
+according to the optimal model associated with that statistic. For instance,
+we see that several models share a BIC close to −150. However, the model
+with the lowest BIC is the six-variable model that contains only AtBat,
+Hits, Walks, CRBI, DivisionW, and PutOuts. We can use the coef() function
+to see the coeﬃcient estimates associated with this model.
+> coef ( regfit . full , 6)
+( Intercept )          AtBat                Hits        Walks        CRBI
+      91.512         -1.869                7.604        3.698       0.643
+   DivisionW        PutOuts
+    -122.952           0.264
+
+
+Forward and Backward Stepwise Selection
+We can also use the regsubsets() function to perform forward stepwise
+or backward stepwise selection, using the argument method = "forward" or
+method = "backward".
+> regfit . fwd <- regsubsets ( Salary ∼ . , data = Hitters ,
+    nvmax = 19 , method = " forward " )
+> summary ( regfit . fwd )
+> regfit . bwd <- regsubsets ( Salary ∼ . , data = Hitters ,
+    nvmax = 19 , method = " backward " )
+> summary ( regfit . bwd )
+
+For instance, we see that using forward stepwise selection, the best one-
+variable model contains only CRBI, and the best two-variable model ad-
+ditionally includes Hits. For this data, the best one-variable through six-
+variable models are each identical for best subset and forward selection.
+However, the best seven-variable models identified by forward stepwise se-
+lection, backward stepwise selection, and best subset selection are diﬀerent.
+> coef ( regfit . full , 7)
+( Intercept )           Hits               Walks       CAtBat       CHits
+      79.451           1.283               3.227       -0.375       1.496
+      CHmRun      DivisionW              PutOuts
+       1.442       -129.987                0.237
+> coef ( regfit . fwd , 7)
+                   6.5 Lab: Linear Models and Regularization Methods      271
+
+( Intercept )          AtBat         Hits          Walks           CRBI
+     109.787          -1.959        7.450          4.913          0.854
+      CWalks      DivisionW       PutOuts
+      -0.305       -127.122         0.253
+> coef ( regfit . bwd , 7)
+( Intercept )          AtBat         Hits          Walks          CRuns
+     105.649          -1.976        6.757          6.056          1.129
+      CWalks      DivisionW       PutOuts
+      -0.716       -116.169         0.303
+
+
+Choosing Among Models Using the Validation-Set Approach and
+Cross-Validation
+We just saw that it is possible to choose among a set of models of diﬀerent
+sizes using Cp , BIC, and adjusted R2 . We will now consider how to do this
+using the validation set and cross-validation approaches.
+   In order for these approaches to yield accurate estimates of the test
+error, we must use only the training observations to perform all aspects of
+model-fitting—including variable selection. Therefore, the determination of
+which model of a given size is best must be made using only the training
+observations. This point is subtle but important. If the full data set is used
+to perform the best subset selection step, the validation set errors and
+cross-validation errors that we obtain will not be accurate estimates of the
+test error.
+   In order to use the validation set approach, we begin by splitting the
+observations into a training set and a test set. We do this by creating
+a random vector, train, of elements equal to TRUE if the corresponding
+observation is in the training set, and FALSE otherwise. The vector test has
+a TRUE if the observation is in the test set, and a FALSE otherwise. Note the
+! in the command to create test causes TRUEs to be switched to FALSEs and
+vice versa. We also set a random seed so that the user will obtain the same
+training set/test set split.
+> set.seed (1)
+> train <- sample ( c ( TRUE , FALSE ) , nrow ( Hitters ) ,
+    replace = TRUE )
+> test <- (! train )
+
+Now, we apply regsubsets() to the training set in order to perform best
+subset selection.
+> regfit . best <- regsubsets ( Salary ∼ . ,
+    data = Hitters [ train , ] , nvmax = 19)
+
+Notice that we subset the Hitters data frame directly in the call in or-
+der to access only the training subset of the data, using the expression
+Hitters[train, ]. We now compute the validation set error for the best
+model of each model size. We first make a model matrix from the test
+data.
+272       6. Linear Model Selection and Regularization
+
+> test . mat <- model . matrix ( Salary ∼ . , data = Hitters [ test , ])
+
+The model.matrix() function is used in many regression packages for build-
+                                                                           model.matrix()
+ing an “X” matrix from data. Now we run a loop, and for each size i, we
+extract the coeﬃcients from regfit.best for the best model of that size,
+multiply them into the appropriate columns of the test model matrix to
+form the predictions, and compute the test MSE.
+> val . errors <- rep ( NA , 19)
+> for ( i in 1:19) {
++ coefi <- coef ( regfit . best , id = i )
++ pred <- test . mat [ , names ( coefi ) ] %*% coefi
++ val . errors [ i ] <- mean (( Hitters $ Salary [ test ] - pred ) ^2)
+}
+
+We find that the best model is the one that contains seven variables.
+> val . errors
+  [1] 164377 144405 152176 145198 137902 139176 126849 136191
+  [9] 132890 135435 136963 140695 140691 141951 141508 142164
+[17] 141767 142340 142238
+> which . min ( val . errors )
+[1] 7
+> coef ( regfit . best , 7)
+( Intercept )           AtBat     Hits     Walks       CRuns
+      67.109           -2.146    7.015     8.072       1.243
+      CWalks      DivisionW    PutOuts
+      -0.834        -118.436     0.253
+
+  This was a little tedious, partly because there is no predict() method
+for regsubsets(). Since we will be using this function again, we can capture
+our steps above and write our own predict method.
+>     predict . regsubsets <- function ( object , newdata , id , ...) {
++       form <- as . formula ( object $ call [[2]])
++       mat <- model . matrix ( form , newdata )
++       coefi <- coef ( object , id = id )
++       xvars <- names ( coefi )
++       mat [ , xvars ] %*% coefi
++     }
+
+Our function pretty much mimics what we did above. The only complex
+part is how we extracted the formula used in the call to regsubsets(). We
+demonstrate how we use this function below, when we do cross-validation.
+   Finally, we perform best subset selection on the full data set, and select
+the best seven-variable model. It is important that we make use of the
+full data set in order to obtain more accurate coeﬃcient estimates. Note
+that we perform best subset selection on the full data set and select the
+best seven-variable model, rather than simply using the variables that were
+obtained from the training set, because the best seven-variable model on
+the full data set may diﬀer from the corresponding model on the training
+set.
+                    6.5 Lab: Linear Models and Regularization Methods     273
+
+> regfit . best <- regsubsets ( Salary ∼ . , data = Hitters ,
+     nvmax = 19)
+> coef ( regfit . best , 7)
+( Intercept )           Hits      Walks       CAtBat        CHits
+      79.451           1.283      3.227       -0.375        1.496
+      CHmRun      DivisionW     PutOuts
+       1.442       -129.987       0.237
+
+In fact, we see that the best seven-variable model on the full data set has a
+diﬀerent set of variables than the best seven-variable model on the training
+set.
+  We now try to choose among the models of diﬀerent sizes using cross-
+validation. This approach is somewhat involved, as we must perform best
+subset selection within each of the k training sets. Despite this, we see that
+with its clever subsetting syntax, R makes this job quite easy. First, we
+create a vector that allocates each observation to one of k = 10 folds, and
+we create a matrix in which we will store the results.
+>   k <- 10
+>   n <- nrow ( Hitters )
+>   set.seed (1)
+>   folds <- sample ( rep (1: k , length = n ) )
+>   cv . errors <- matrix ( NA , k , 19 ,
+       dimnames = list ( NULL , paste (1:19) ) )
+
+Now we write a for loop that performs cross-validation. In the jth fold, the
+elements of folds that equal j are in the test set, and the remainder are in
+the training set. We make our predictions for each model size (using our new
+predict() method), compute the test errors on the appropriate subset, and
+store them in the appropriate slot in the matrix cv.errors. Note that in the
+following code R will automatically use our predict.regsubsets() function
+when we call predict() because the best.fit object has class regsubsets.
+> for ( j in 1: k ) {
++   best . fit <- regsubsets ( Salary ∼ . ,
+        data = Hitters [ folds != j , ] ,
+        nvmax = 19)
++   for ( i in 1:19) {
++      pred <- predict ( best . fit , Hitters [ folds == j , ] , id = i )
++      cv . errors [j , i ] <-
+            mean (( Hitters $ Salary [ folds == j ] - pred ) ^2)
++    }
++ }
+
+This has given us a 10×19 matrix, of which the (j, i)th element corresponds
+to the test MSE for the jth cross-validation fold for the best i-variable
+model. We use the apply() function to average over the columns of this
+                                                                            apply()
+matrix in order to obtain a vector for which the ith element is the cross-
+validation error for the i-variable model.
+> mean . cv . errors <- apply ( cv . errors , 2 , mean )
+> mean . cv . errors
+274     6. Linear Model Selection and Regularization
+
+      1         2        3       4         5  6  7    8
+143440 126817 134214 131783 130766 120383 121443 114364
+      9       10        11      12       13  14 15   16
+115163 109366 112738 113617 115558 115853 115631 116050
+    17        18        19
+116117 116419 116299
+> par ( mfrow = c (1 , 1) )
+> plot ( mean . cv . errors , type = " b " )
+
+We see that cross-validation selects a 10-variable model. We now perform
+best subset selection on the full data set in order to obtain the 10-variable
+model.
+> reg . best <- regsubsets ( Salary ∼ . , data = Hitters ,
+     nvmax = 19)
+> coef ( reg . best , 10)
+( Intercept )          AtBat       Hits        Walks        CAtBat
+     162.535          -2.169      6.918        5.773        -0.130
+        CRuns           CRBI     CWalks    DivisionW       PutOuts
+        1.408          0.774     -0.831     -112.380         0.297
+     Assists
+        0.283
+
+
+
+
+6.5.2 Ridge Regression and the Lasso
+We will use the glmnet package in order to perform ridge regression and
+the lasso. The main function in this package is glmnet(), which can be used
+                                                                            glmnet()
+to fit ridge regression models, lasso models, and more. This function has
+slightly diﬀerent syntax from other model-fitting functions that we have
+encountered thus far in this book. In particular, we must pass in an x
+matrix as well as a y vector, and we do not use the y ∼ x syntax. We will
+now perform ridge regression and the lasso in order to predict Salary on
+the Hitters data. Before proceeding ensure that the missing values have
+been removed from the data, as described in Section 6.5.1.
+> x <- model . matrix ( Salary ∼ . , Hitters ) [ , -1]
+> y <- Hitters $ Salary
+
+The model.matrix() function is particularly useful for creating x; not only
+does it produce a matrix corresponding to the 19 predictors but it also
+automatically transforms any qualitative variables into dummy variables.
+The latter property is important because glmnet() can only take numerical,
+quantitative inputs.
+
+Ridge Regression
+The glmnet() function has an alpha argument that determines what type
+of model is fit. If alpha=0 then a ridge regression model is fit, and if alpha=1
+then a lasso model is fit. We first fit a ridge regression model.
+                     6.5 Lab: Linear Models and Regularization Methods      275
+
+> library ( glmnet )
+> grid <- 10^ seq (10 , -2 , length = 100)
+> ridge . mod <- glmnet (x , y , alpha = 0 , lambda = grid )
+
+By default the glmnet() function performs ridge regression for an automati-
+cally selected range of λ values. However, here we have chosen to implement
+the function over a grid of values ranging from λ = 1010 to λ = 10−2 , es-
+sentially covering the full range of scenarios from the null model containing
+only the intercept, to the least squares fit. As we will see, we can also com-
+pute model fits for a particular value of λ that is not one of the original
+grid values. Note that by default, the glmnet() function standardizes the
+variables so that they are on the same scale. To turn oﬀ this default setting,
+use the argument standardize = FALSE.
+  Associated with each value of λ is a vector of ridge regression coeﬃcients,
+stored in a matrix that can be accessed by coef(). In this case, it is a 20×100
+matrix, with 20 rows (one for each predictor, plus an intercept) and 100
+columns (one for each value of λ).
+> dim ( coef ( ridge . mod ) )
+[1] 20 100
+
+We expect the coeﬃcient estimates to be much smaller, in terms of ℓ2 norm,
+when a large value of λ is used, as compared to when a small value of λ is
+used. These are the coeﬃcients when λ = 11,498, along with their ℓ2 norm:
+> ridge . mod $ lambda [50]
+[1] 11498
+> coef ( ridge . mod ) [ , 50]
+( Intercept )            AtBat             Hits        HmRun         Runs
+     407.356             0.037            0.138        0.525        0.231
+          RBI            Walks            Years       CAtBat        CHits
+       0.240             0.290            1.108        0.003        0.012
+      CHmRun             CRuns             CRBI       CWalks      LeagueN
+       0.088             0.023            0.024        0.025        0.085
+   DivisionW          PutOuts          Assists        Errors   NewLeagueN
+      -6.215             0.016            0.003       -0.021        0.301
+> sqrt ( sum ( coef ( ridge . mod ) [ -1 , 50]^2) )
+[1] 6.36
+
+In contrast, here are the coeﬃcients when λ = 705, along with their ℓ2
+norm. Note the much larger ℓ2 norm of the coeﬃcients associated with this
+smaller value of λ.
+> ridge . mod $ lambda [60]
+[1] 705
+> coef ( ridge . mod ) [ , 60]
+( Intercept )            AtBat           Hits          HmRun         Runs
+      54.325             0.112          0.656          1.180        0.938
+          RBI            Walks          Years         CAtBat        CHits
+       0.847             1.320          2.596          0.011        0.047
+      CHmRun             CRuns           CRBI         CWalks      LeagueN
+       0.338             0.094          0.098          0.072       13.684
+276       6. Linear Model Selection and Regularization
+
+  DivisionW           PutOuts          Assists         Errors   NewLeagueN
+    -54.659             0.119             0.016        -0.704        8.612
+> sqrt ( sum ( coef ( ridge . mod ) [ -1 , 60]^2) )
+[1] 57.1
+
+We can use the predict() function for a number of purposes. For instance,
+we can obtain the ridge regression coeﬃcients for a new value of λ, say 50:
+> predict ( ridge . mod , s = 50 , type = " coefficients " ) [1:20 , ]
+( Intercept )         AtBat          Hits        HmRun           Runs
+      48.766         -0.358         1.969       -1.278          1.146
+         RBI          Walks         Years       CAtBat          CHits
+       0.804          2.716        -6.218        0.005          0.106
+      CHmRun          CRuns          CRBI       CWalks        LeagueN
+       0.624          0.221         0.219       -0.150         45.926
+   DivisionW        PutOuts       Assists       Errors NewLeagueN
+    -118.201          0.250         0.122       -3.279         -9.497
+
+  We now split the samples into a training set and a test set in order
+to estimate the test error of ridge regression and the lasso. There are two
+common ways to randomly split a data set. The first is to produce a random
+vector of TRUE, FALSE elements and select the observations corresponding to
+TRUE for the training data. The second is to randomly choose a subset of
+numbers between 1 and n; these can then be used as the indices for the
+training observations. The two approaches work equally well. We used the
+former method in Section 6.5.1. Here we demonstrate the latter approach.
+  We first set a random seed so that the results obtained will be repro-
+ducible.
+>   set.seed (1)
+>   train <- sample (1: nrow ( x ) , nrow ( x ) / 2)
+>   test <- ( - train )
+>   y . test <- y [ test ]
+
+Next we fit a ridge regression model on the training set, and evaluate
+its MSE on the test set, using λ = 4. Note the use of the predict()
+function again. This time we get predictions for a test set, by replacing
+type="coefficients" with the newx argument.
+> ridge . mod <- glmnet ( x [ train , ] , y [ train ] , alpha = 0 ,
+    lambda = grid , thresh = 1e -12)
+> ridge . pred <- predict ( ridge . mod , s = 4 , newx = x [ test , ])
+> mean (( ridge . pred - y . test ) ^2)
+[1] 142199
+
+The test MSE is 142,199. Note that if we had instead simply fit a model
+with just an intercept, we would have predicted each test observation using
+the mean of the training observations. In that case, we could compute the
+test set MSE like this:
+> mean (( mean ( y [ train ]) - y . test ) ^2)
+[1] 224670
+                    6.5 Lab: Linear Models and Regularization Methods            277
+
+We could also get the same result by fitting a ridge regression model with
+a very large value of λ. Note that 1e10 means 1010 .
+> ridge . pred <- predict ( ridge . mod , s = 1 e10 , newx = x [ test , ])
+> mean (( ridge . pred - y . test ) ^2)
+[1] 224670
+
+So fitting a ridge regression model with λ = 4 leads to a much lower test
+MSE than fitting a model with just an intercept. We now check whether
+there is any benefit to performing ridge regression with λ = 4 instead of
+just performing least squares regression. Recall that least squares is simply
+ridge regression with λ = 0.8
+> ridge . pred <- predict ( ridge . mod , s = 0 , newx = x [ test , ] ,
+     exact = T , x = x [ train , ] , y = y [ train ])
+> mean (( ridge . pred - y . test ) ^2)
+[1] 168589
+> lm ( y ∼ x , subset = train )
+> predict ( ridge . mod , s = 0 , exact = T , type = " coefficients " ,
+     x = x [ train , ] , y = y [ train ]) [1:20 , ]
+
+In general, if we want to fit a (unpenalized) least squares model, then
+we should use the lm() function, since that function provides more useful
+outputs, such as standard errors and p-values for the coeﬃcients.
+  In general, instead of arbitrarily choosing λ = 4, it would be better to
+use cross-validation to choose the tuning parameter λ. We can do this using
+the built-in cross-validation function, cv.glmnet(). By default, the function
+                                                                              cv.glmnet()
+performs ten-fold cross-validation, though this can be changed using the
+argument nfolds. Note that we set a random seed first so our results will
+be reproducible, since the choice of the cross-validation folds is random.
+> set.seed (1)
+> cv . out <- cv . glmnet ( x [ train , ] , y [ train ] , alpha = 0)
+> plot ( cv . out )
+> bestlam <- cv . out $ lambda . min
+> bestlam
+[1] 326
+
+Therefore, we see that the value of λ that results in the smallest cross-
+validation error is 326. What is the test MSE associated with this value of
+λ?
+> ridge . pred <- predict ( ridge . mod , s = bestlam ,
+    newx = x [ test , ])
+
+
+  8 In order for glmnet() to yield the exact least squares coeﬃcients when λ = 0,
+
+we use the argument exact = T when calling the predict() function. Otherwise,
+the predict() function will interpolate over the grid of λ values used in fitting the
+glmnet() model, yielding approximate results. When we use exact = T, there remains
+a slight discrepancy in the third decimal place between the output of glmnet() when
+λ = 0 and the output of lm(); this is due to numerical approximation on the part of
+glmnet().
+278     6. Linear Model Selection and Regularization
+
+> mean (( ridge . pred - y . test ) ^2)
+[1] 139857
+
+This represents a further improvement over the test MSE that we got using
+λ = 4. Finally, we refit our ridge regression model on the full data set,
+using the value of λ chosen by cross-validation, and examine the coeﬃcient
+estimates.
+> out <- glmnet (x , y , alpha = 0)
+> predict ( out , type = " coefficients " , s = bestlam ) [1:20 , ]
+( Intercept )        AtBat         Hits         HmRun           Runs
+       15.44          0.08         0.86          0.60           1.06
+         RBI         Walks        Years        CAtBat         CHits
+        0.88          1.62         1.35          0.01           0.06
+      CHmRun         CRuns         CRBI        CWalks       LeagueN
+        0.41          0.11         0.12          0.05         22.09
+   DivisionW       PutOuts      Assists        Errors NewLeagueN
+      -79.04          0.17         0.03         -1.36           9.12
+
+As expected, none of the coeﬃcients are zero—ridge regression does not
+perform variable selection!
+
+The Lasso
+We saw that ridge regression with a wise choice of λ can outperform least
+squares as well as the null model on the Hitters data set. We now ask
+whether the lasso can yield either a more accurate or a more interpretable
+model than ridge regression. In order to fit a lasso model, we once again
+use the glmnet() function; however, this time we use the argument alpha=1.
+Other than that change, we proceed just as we did in fitting a ridge model.
+> lasso . mod <- glmnet ( x [ train , ] , y [ train ] , alpha = 1 ,
+    lambda = grid )
+> plot ( lasso . mod )
+
+We can see from the coeﬃcient plot that depending on the choice of tuning
+parameter, some of the coeﬃcients will be exactly equal to zero. We now
+perform cross-validation and compute the associated test error.
+> set.seed (1)
+> cv . out <- cv . glmnet ( x [ train , ] , y [ train ] , alpha = 1)
+> plot ( cv . out )
+> bestlam <- cv . out $ lambda . min
+> lasso . pred <- predict ( lasso . mod , s = bestlam ,
+     newx = x [ test , ])
+> mean (( lasso . pred - y . test ) ^2)
+[1] 143674
+
+This is substantially lower than the test set MSE of the null model and of
+least squares, and very similar to the test MSE of ridge regression with λ
+chosen by cross-validation.
+   However, the lasso has a substantial advantage over ridge regression in
+that the resulting coeﬃcient estimates are sparse. Here we see that 8 of the
+                  6.5 Lab: Linear Models and Regularization Methods      279
+
+19 coeﬃcient estimates are exactly zero. So the lasso model with λ chosen
+by cross-validation contains only eleven variables.
+> out <- glmnet (x , y , alpha = 1 , lambda = grid )
+> lasso . coef <- predict ( out , type = " coefficients " ,
+     s = bestlam ) [1:20 , ]
+> lasso . coef
+( Intercept )          AtBat         Hits       HmRun          Runs
+        1.27           -0.05         2.18        0.00          0.00
+          RBI          Walks        Years      CAtBat         CHits
+        0.00             2.29       -0.34        0.00          0.00
+      CHmRun           CRuns         CRBI      CWalks       LeagueN
+        0.03             0.22        0.42        0.00         20.29
+   DivisionW        PutOuts       Assists      Errors NewLeagueN
+     -116.17             0.24        0.00       -0.86          0.00
+> lasso . coef [ lasso . coef != 0]
+( Intercept )          AtBat         Hits       Walks         Years
+        1.27           -0.05         2.18        2.29         -0.34
+      CHmRun           CRuns         CRBI     LeagueN     DivisionW
+        0.03             0.22        0.42       20.29       -116.17
+     PutOuts         Errors
+        0.24           -0.86
+
+
+
+6.5.3 PCR and PLS Regression
+Principal Components Regression
+Principal components regression (PCR) can be performed using the pcr()
+                                                                            pcr()
+function, which is part of the pls library. We now apply PCR to the Hitters
+data, in order to predict Salary. Again, we ensure that the missing values
+have been removed from the data, as described in Section 6.5.1.
+> library ( pls )
+> set.seed (2)
+> pcr . fit <- pcr ( Salary ∼ . , data = Hitters , scale = TRUE ,
+    validation = " CV " )
+
+The syntax for the pcr() function is similar to that for lm(), with a few
+additional options. Setting scale = TRUE has the eﬀect of standardizing each
+predictor, using (6.6), prior to generating the principal components, so that
+the scale on which each variable is measured will not have an eﬀect. Setting
+validation = "CV" causes pcr() to compute the ten-fold cross-validation
+error for each possible value of M , the number of principal components
+used. The resulting fit can be examined using summary().
+> summary ( pcr . fit )
+Data :  X dimension : 263 19
+        Y dimension : 263 1
+Fit method : svdpc
+Number of components considered : 19
+
+VALIDATION : RMSEP
+280     6. Linear Model Selection and Regularization
+
+Cross - validated using     10 random segments .
+         ( Intercept ) 1    comps 2 comps 3 comps             4 comps
+CV                452       351.9    353.2     355.0            352.8
+adjCV             452       351.6    352.7     354.4            352.1
+...
+
+TRAINING :   % variance explained
+         1   comps 2 comps 3 comps          4 comps        5 comps
+X            38.31    60.16    70.84          79.03          84.29
+Salary       40.63    41.58    42.17          43.22          44.90
+...
+
+The CV score is provided for each possible number of components, ranging
+from M = 0 onwards. (We have printed the CV output only up to M = 4.)
+Note that pcr() reports the root mean squared error ; in order to obtain
+the usual MSE, we must square this quantity. For instance, a root mean
+squared error of 352.8 corresponds to an MSE of 352.82 = 124,468.
+   One can also plot the cross-validation scores using the validationplot()
+                                                                            validationplot()
+function. Using val.type = "MSEP" will cause the cross-validation MSE to
+be plotted.
+> vali dationpl ot ( pcr . fit , val . type = " MSEP " )
+
+We see that the smallest cross-validation error occurs when M = 18 com-
+ponents are used. This is barely fewer than M = 19, which amounts to
+simply performing least squares, because when all of the components are
+used in PCR no dimension reduction occurs. However, from the plot we
+also see that the cross-validation error is roughly the same when only one
+component is included in the model. This suggests that a model that uses
+just a small number of components might suﬃce.
+   The summary() function also provides the percentage of variance explained
+in the predictors and in the response using diﬀerent numbers of compo-
+nents. This concept is discussed in greater detail in Chapter 12. Briefly,
+we can think of this as the amount of information about the predictors or
+the response that is captured using M principal components. For example,
+setting M = 1 only captures 38.31 % of all the variance, or information, in
+the predictors. In contrast, using M = 5 increases the value to 84.29 %. If
+we were to use all M = p = 19 components, this would increase to 100 %.
+   We now perform PCR on the training data and evaluate its test set
+performance.
+> set.seed (1)
+> pcr . fit <- pcr ( Salary ∼ . , data = Hitters , subset = train ,
+    scale = TRUE , validation = " CV " )
+> vali dationpl ot ( pcr . fit , val . type = " MSEP " )
+
+Now we find that the lowest cross-validation error occurs when M = 5
+components are used. We compute the test MSE as follows.
+> pcr . pred <- predict ( pcr . fit , x [ test , ] , ncomp = 5)
+> mean (( pcr . pred - y . test ) ^2)
+                   6.5 Lab: Linear Models and Regularization Methods    281
+
+[1] 142812
+
+This test set MSE is competitive with the results obtained using ridge re-
+gression and the lasso. However, as a result of the way PCR is implemented,
+the final model is more diﬃcult to interpret because it does not perform
+any kind of variable selection or even directly produce coeﬃcient estimates.
+  Finally, we fit PCR on the full data set, using M = 5, the number of
+components identified by cross-validation.
+> pcr . fit <- pcr ( y ∼ x , scale = TRUE , ncomp = 5)
+> summary ( pcr . fit )
+Data :    X dimension : 263 19
+          Y dimension : 263 1
+Fit method : svdpc
+Number of components considered : 5
+TRAINING : % variance explained
+   1 comps 2 comps 3 comps 4 comps 5 comps
+X      38.31      60.16     70.84    79.03     84.29
+y      40.63      41.58     42.17    43.22     44.90
+
+
+Partial Least Squares
+We implement partial least squares (PLS) using the plsr() function, also
+                                                                         plsr()
+in the pls library. The syntax is just like that of the pcr() function.
+> set.seed (1)
+> pls . fit <- plsr ( Salary ∼ . , data = Hitters , subset = train ,
+     scale = TRUE , validation = " CV " )
+> summary ( pls . fit )
+Data :    X dimension : 131 19
+     Y dimension : 131 1
+Fit method : kernelpls
+Number of components considered : 19
+
+VALIDATION : RMSEP
+Cross - validated using    10 random segments .
+         ( Intercept ) 1   comps 2 comps 3 comps         4 comps
+CV              428.3      325.5    329.9     328.8        339.0
+adjCV           428.3      325.0    328.2     327.2        336.6
+...
+
+TRAINING : % variance explained
+         1 comps 2 comps 3 comps 4 comps 5 comps
+X          39.13       48.80       60.09      75.07      78.58
+Salary     46.36       50.72       52.23      53.03      54.07
+...
+> vali dationpl ot ( pls . fit , val . type = " MSEP " )
+
+The lowest cross-validation error occurs when only M = 1 partial least
+squares directions are used. We now evaluate the corresponding test set
+MSE.
+> pls . pred <- predict ( pls . fit , x [ test , ] , ncomp = 1)
+282     6. Linear Model Selection and Regularization
+
+> mean (( pls . pred - y . test ) ^2)
+[1] 151995
+
+The test MSE is comparable to, but slightly higher than, the test MSE
+obtained using ridge regression, the lasso, and PCR.
+   Finally, we perform PLS using the full data set, using M = 1, the number
+of components identified by cross-validation.
+> pls . fit <- plsr ( Salary ∼ . , data = Hitters , scale = TRUE ,
+     ncomp = 1)
+> summary ( pls . fit )
+Data :    X dimension : 263 19
+          Y dimension : 263 1
+Fit method : kernelpls
+Number of components considered : 1
+TRAINING : % variance explained
+          1 comps
+X           38.08
+Salary      43.05
+
+Notice that the percentage of variance in Salary that the one-component
+PLS fit explains, 43.05 %, is almost as much as that explained using the final
+five-component model PCR fit, 44.90 %. This is because PCR only attempts
+to maximize the amount of variance explained in the predictors, while PLS
+searches for directions that explain variance in both the predictors and the
+response.
+
+
+
+6.6 Exercises
+Conceptual
+  1. We perform best subset, forward stepwise, and backward stepwise
+     selection on a single data set. For each approach, we obtain p + 1
+     models, containing 0, 1, 2, . . . , p predictors. Explain your answers:
+
+       (a) Which of the three models with k predictors has the smallest
+           training RSS?
+       (b) Which of the three models with k predictors has the smallest
+           test RSS?
+       (c) True or False:
+              i. The predictors in the k-variable model identified by forward
+                 stepwise are a subset of the predictors in the (k +1)-variable
+                 model identified by forward stepwise selection.
+             ii. The predictors in the k-variable model identified by back-
+                 ward stepwise are a subset of the predictors in the (k + 1)-
+                 variable model identified by backward stepwise selection.
+                                                           6.6 Exercises     283
+
+        iii. The predictors in the k-variable model identified by back-
+             ward stepwise are a subset of the predictors in the (k + 1)-
+             variable model identified by forward stepwise selection.
+        iv. The predictors in the k-variable model identified by forward
+             stepwise are a subset of the predictors in the (k +1)-variable
+             model identified by backward stepwise selection.
+         v. The predictors in the k-variable model identified by best
+             subset are a subset of the predictors in the (k + 1)-variable
+             model identified by best subset selection.
+
+2. For parts (a) through (c), indicate which of i. through iv. is correct.
+   Justify your answer.
+
+    (a) The lasso, relative to least squares, is:
+          i. More flexible and hence will give improved prediction ac-
+             curacy when its increase in bias is less than its decrease in
+             variance.
+         ii. More flexible and hence will give improved prediction accu-
+             racy when its increase in variance is less than its decrease
+             in bias.
+        iii. Less flexible and hence will give improved prediction accu-
+             racy when its increase in bias is less than its decrease in
+             variance.
+        iv. Less flexible and hence will give improved prediction accu-
+             racy when its increase in variance is less than its decrease
+             in bias.
+   (b) Repeat (a) for ridge regression relative to least squares.
+    (c) Repeat (a) for non-linear methods relative to least squares.
+
+3. Suppose we estimate the regression coeﬃcients in a linear regression
+   model by minimizing
+                ⎛                       ⎞2
+          n
+          0                  p
+                             0                             p
+                                                           0
+                ⎝yi − β0 −         βj xij ⎠   subject to         |βj | ≤ s
+          i=1                j=1                           j=1
+
+
+   for a particular value of s. For parts (a) through (e), indicate which
+   of i. through v. is correct. Justify your answer.
+
+    (a) As we increase s from 0, the training RSS will:
+          i. Increase initially, and then eventually start decreasing in an
+             inverted U shape.
+         ii. Decrease initially, and then eventually start increasing in a
+             U shape.
+284     6. Linear Model Selection and Regularization
+
+           iii. Steadily increase.
+           iv. Steadily decrease.
+            v. Remain constant.
+      (b) Repeat (a) for test RSS.
+       (c) Repeat (a) for variance.
+      (d) Repeat (a) for (squared) bias.
+       (e) Repeat (a) for the irreducible error.
+  4. Suppose we estimate the regression coeﬃcients in a linear regression
+     model by minimizing
+                           ⎛                       ⎞2
+                     n
+                     0                  p
+                                        0                    p
+                                                             0
+                           ⎝yi − β0 −         βj xij ⎠ + λ         βj2
+                     i=1                j=1                  j=1
+
+
+      for a particular value of λ. For parts (a) through (e), indicate which
+      of i. through v. is correct. Justify your answer.
+
+       (a) As we increase λ from 0, the training RSS will:
+             i. Increase initially, and then eventually start decreasing in an
+                inverted U shape.
+            ii. Decrease initially, and then eventually start increasing in a
+                U shape.
+           iii. Steadily increase.
+           iv. Steadily decrease.
+            v. Remain constant.
+      (b) Repeat (a) for test RSS.
+       (c) Repeat (a) for variance.
+      (d) Repeat (a) for (squared) bias.
+       (e) Repeat (a) for the irreducible error.
+
+  5. It is well-known that ridge regression tends to give similar coeﬃcient
+     values to correlated variables, whereas the lasso may give quite dif-
+     ferent coeﬃcient values to correlated variables. We will now explore
+     this property in a very simple setting.
+      Suppose that n = 2, p = 2, x11 = x12 , x21 = x22 . Furthermore,
+      suppose that y1 + y2 = 0 and x11 + x21 = 0 and x12 + x22 = 0, so that
+      the estimate for the intercept in a least squares, ridge regression, or
+      lasso model is zero: β̂0 = 0.
+       (a) Write out the ridge regression optimization problem in this set-
+           ting.
+                                                          6.6 Exercises    285
+
+      (b) Argue that in this setting, the ridge coeﬃcient estimates satisfy
+          β̂1 = β̂2 .
+      (c) Write out the lasso optimization problem in this setting.
+      (d) Argue that in this setting, the lasso coeﬃcients β̂1 and β̂2 are
+          not unique—in other words, there are many possible solutions
+          to the optimization problem in (c). Describe these solutions.
+
+  6. We will now explore (6.12) and (6.13) further.
+
+      (a) Consider (6.12) with p = 1. For some choice of y1 and λ > 0,
+          plot (6.12) as a function of β1 . Your plot should confirm that
+          (6.12) is solved by (6.14).
+      (b) Consider (6.13) with p = 1. For some choice of y1 and λ > 0,
+          plot (6.13) as a function of β1 . Your plot should confirm that
+          (6.13) is solved by (6.15).
+
+  7. We will now derive the Bayesian connection to the lasso and ridge
+     regression discussed in Section 6.2.2.
+                                  )p
+      (a) Suppose that yi = β0 + j=1 xij βj +ϵi where ϵ1 , . . . , ϵn are inde-
+          pendent and identically distributed from a N (0, σ 2 ) distribution.
+          Write out the likelihood for the data.
+      (b) Assume the following prior for β: β1 , . . . , βp are independent
+          and identically distributed according to a double-exponential
+          distribution with mean 0 and common scale parameter b: i.e.
+                    1
+          p(β) = 2b   exp(−|β|/b). Write out the posterior for β in this
+          setting.
+      (c) Argue that the lasso estimate is the mode for β under this pos-
+          terior distribution.
+      (d) Now assume the following prior for β: β1 , . . . , βp are independent
+          and identically distributed according to a normal distribution
+          with mean zero and variance c. Write out the posterior for β in
+          this setting.
+      (e) Argue that the ridge regression estimate is both the mode and
+          the mean for β under this posterior distribution.
+
+
+Applied
+  8. In this exercise, we will generate simulated data, and will then use
+     this data to perform best subset selection.
+
+      (a) Use the rnorm() function to generate a predictor X of length
+          n = 100, as well as a noise vector ϵ of length n = 100.
+286    6. Linear Model Selection and Regularization
+
+      (b) Generate a response vector Y of length n = 100 according to
+          the model
+                         Y = β0 + β1 X + β2 X 2 + β3 X 3 + ϵ,
+          where β0 , β1 , β2 , and β3 are constants of your choice.
+      (c) Use the regsubsets() function to perform best subset selection
+          in order to choose the best model containing the predictors
+          X, X 2 , . . . , X 10 . What is the best model obtained according to
+          Cp , BIC, and adjusted R2 ? Show some plots to provide evidence
+          for your answer, and report the coeﬃcients of the best model ob-
+          tained. Note you will need to use the data.frame() function to
+          create a single data set containing both X and Y .
+      (d) Repeat (c), using forward stepwise selection and also using back-
+          wards stepwise selection. How does your answer compare to the
+          results in (c)?
+      (e) Now fit a lasso model to the simulated data, again using X, X 2 ,
+          . . . , X 10 as predictors. Use cross-validation to select the optimal
+          value of λ. Create plots of the cross-validation error as a function
+          of λ. Report the resulting coeﬃcient estimates, and discuss the
+          results obtained.
+      (f) Now generate a response vector Y according to the model
+                                  Y = β0 + β7 X 7 + ϵ,
+          and perform best subset selection and the lasso. Discuss the
+          results obtained.
+  9. In this exercise, we will predict the number of applications received
+     using the other variables in the College data set.
+      (a) Split the data set into a training set and a test set.
+      (b) Fit a linear model using least squares on the training set, and
+          report the test error obtained.
+      (c) Fit a ridge regression model on the training set, with λ chosen
+          by cross-validation. Report the test error obtained.
+      (d) Fit a lasso model on the training set, with λ chosen by cross-
+          validation. Report the test error obtained, along with the num-
+          ber of non-zero coeﬃcient estimates.
+      (e) Fit a PCR model on the training set, with M chosen by cross-
+          validation. Report the test error obtained, along with the value
+          of M selected by cross-validation.
+      (f) Fit a PLS model on the training set, with M chosen by cross-
+          validation. Report the test error obtained, along with the value
+          of M selected by cross-validation.
+                                                        6.6 Exercises    287
+
+     (g) Comment on the results obtained. How accurately can we pre-
+         dict the number of college applications received? Is there much
+         diﬀerence among the test errors resulting from these five ap-
+         proaches?
+
+10. We have seen that as the number of features used in a model increases,
+    the training error will necessarily decrease, but the test error may not.
+    We will now explore this in a simulated data set.
+
+     (a) Generate a data set with p = 20 features, n = 1,000 observa-
+         tions, and an associated quantitative response vector generated
+         according to the model
+
+                                    Y = Xβ + ϵ,
+
+         where β has some elements that are exactly equal to zero.
+     (b) Split your data set into a training set containing 100 observations
+         and a test set containing 900 observations.
+     (c) Perform best subset selection on the training set, and plot the
+         training set MSE associated with the best model of each size.
+     (d) Plot the test set MSE associated with the best model of each
+         size.
+     (e) For which model size does the test set MSE take on its minimum
+         value? Comment on your results. If it takes on its minimum value
+         for a model containing only an intercept or a model containing
+         all of the features, then play around with the way that you are
+         generating the data in (a) until you come up with a scenario in
+         which the test set MSE is minimized for an intermediate model
+         size.
+     (f) How does the model at which the test set MSE is minimized
+         compare to the true model used to generate the data? Comment
+         on the coeﬃcient values.
+                                  G)
+                                     p           r 2
+     (g) Create a plot displaying    j=1 (βj − β̂j ) for a range of values
+         of r, where β̂jr is the jth coeﬃcient estimate for the best model
+         containing r coeﬃcients. Comment on what you observe. How
+         does this compare to the test MSE plot from (d)?
+
+11. We will now try to predict per capita crime rate in the Boston data
+    set.
+
+     (a) Try out some of the regression methods explored in this chapter,
+         such as best subset selection, the lasso, ridge regression, and
+         PCR. Present and discuss results for the approaches that you
+         consider.
+288    6. Linear Model Selection and Regularization
+
+      (b) Propose a model (or set of models) that seem to perform well on
+          this data set, and justify your answer. Make sure that you are
+          evaluating model performance using validation set error, cross-
+          validation, or some other reasonable alternative, as opposed to
+          using training error.
+      (c) Does your chosen model involve all of the features in the data
+          set? Why or why not?
+7
+Moving Beyond Linearity
+
+
+
+
+So far in this book, we have mostly focused on linear models. Linear models
+are relatively simple to describe and implement, and have advantages over
+other approaches in terms of interpretation and inference. However, stan-
+dard linear regression can have significant limitations in terms of predic-
+tive power. This is because the linearity assumption is almost always an
+approximation, and sometimes a poor one. In Chapter 6 we see that we can
+improve upon least squares using ridge regression, the lasso, principal com-
+ponents regression, and other techniques. In that setting, the improvement
+is obtained by reducing the complexity of the linear model, and hence the
+variance of the estimates. But we are still using a linear model, which can
+only be improved so far! In this chapter we relax the linearity assumption
+while still attempting to maintain as much interpretability as possible. We
+do this by examining very simple extensions of linear models like polyno-
+mial regression and step functions, as well as more sophisticated approaches
+such as splines, local regression, and generalized additive models.
+
+    • Polynomial regression extends the linear model by adding extra pre-
+      dictors, obtained by raising each of the original predictors to a power.
+      For example, a cubic regression uses three variables, X, X 2 , and X 3 ,
+      as predictors. This approach provides a simple way to provide a non-
+      linear fit to data.
+
+    • Step functions cut the range of a variable into K distinct regions in
+      order to produce a qualitative variable. This has the eﬀect of fitting
+      a piecewise constant function.
+
+© Springer Science+Business Media, LLC, part of Springer Nature 2021                      289
+G. James et al., An Introduction to Statistical Learning, Springer Texts in Statistics,
+https://doi.org/10.1007/978-1-0716-1418-1_7
+

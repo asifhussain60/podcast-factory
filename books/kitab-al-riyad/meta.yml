@@ -1,0 +1,60 @@
+slug: kitab-al-riyad
+title: Kitāb al-Riyāḍ
+short_name: kar
+source_pdf: ../../raw/Kitab al-Riyad.pdf
+
+pipeline:
+  current_phase: done
+  phase_status: ship-with-caution
+  last_completed_phase: merge
+  chapters_drafted: 15
+  chapters_with_contracts: 13
+  episodes_authored: 15
+  episodes_with_audio: 14
+  transcripts: 16
+  slide_decks: 31
+
+completed_episodes:
+  - EP01-the-perfect-and-the-perfection-of-the-soul
+  - EP02-soul-intellect-and-the-power-of-emanation
+  - EP03-the-soul-in-time-and-the-rejoinder-to-al-nusra
+  - EP04-summary-perfection-of-the-soul
+  - EP05-the-intellect-as-the-first-creation
+  - EP06-soul-and-spirit-one-substance-or-two
+  - EP07-souls-as-parts-or-traces
+  - EP08-the-human-as-fruit-of-the-worlds
+  - EP09-motion-stillness-hyle-and-form
+  - EP10-the-sections-of-the-world
+  - EP11-qada-and-qadar-fate-and-destiny
+  - EP12-the-shariah-of-adam-and-the-first-speaker
+  - EP13-prophets-as-teachers-monotheism-and-the-ranks
+  - EP14-tawhid-and-the-critique-of-al-mahsul
+  - EP15-book-summary
+
+publication:
+  status: shipped
+  shipped_via: scripts/podcast/ship_to_library.py
+  publication_target: ../../library/books/kitab-al-riyad/
+
+provenance:
+  canonical_source_branch: book/kitab-al-riyad
+  canonical_source_commit: 8a5c76ab410f7d39556c487d8609ca02c5c9f7fd
+  canonical_source_path: content/podcast/library/books/kitab-al-riyad/
+  develop_workspace_path: _workspace/books/kitab-al-riyad/
+  develop_workspace_note: |
+    Develop's _workspace/books/kitab-al-riyad/ contains OLDER drafts of every
+    chapter and episode. NOT canonical. Do not merge or copy from develop
+    into this folder — the ship_to_library merge already happened on the
+    book branch and is reflected here.
+  ship_commits:
+    - 8a5c76a  # podcast(kitab-al-riyad): ship cohort — translations + slide-deck pass + transcripts
+    - 2bad3e1  # podcast(kar-phase-6-close): KaR ship complete — state=done
+    - 4e26c46  # ship(kar): absorb book/kitab-al-riyad@f5dd481 final state into _workspace/
+  reshape_date: 2026-05-23
+  reshape_method: rsync from book-kar worktree to meta-root books/
+
+notes:
+  - "Audio: 14 m4a files (EP15 audio not yet rendered as of ship date)"
+  - "Slide decks: 31 artifacts (multiple decks per episode + revisions)"
+  - "Transcripts: 16 files (includes Ch07 subdirectory with v1-baseline/v2-revised lab work)"
+  - "Chapter-contracts: 13 YAML contracts (2 episodes derived from existing contracts without new YAMLs)"

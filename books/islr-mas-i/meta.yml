@@ -1,0 +1,44 @@
+slug: islr-mas-i
+title: ISLR — Introduction to Statistical Learning (Master Series I)
+short_name: islr
+source_pdf: null  # ISLR is a course/textbook series, not a single PDF in raw/
+
+pipeline:
+  current_phase: shipping
+  phase_status: ep02-07_shipped
+  chapters_with_contracts: 7
+  chapters_drafted: 7
+  episodes_authored: 7
+  transcripts: 1
+
+completed_episodes:
+  - EP02-introduction
+  - EP03-linear-regression
+  - EP04-classification
+  - EP05-resampling
+  - EP06-model-selection
+  - EP07-nonlinear
+
+publication:
+  status: partial
+  shipped_via: scripts/podcast/ship_to_library.py
+  publication_target: ../../library/books/islr-mas-i/
+
+provenance:
+  canonical_source_branch: book/islr-mas-i
+  canonical_source_commit: d9fb1d9544de6c9df38904a721bad9ef4e2dfd06
+  canonical_source_path: content/podcast/library/books/islr-mas-i/
+  develop_workspace_path: (none — ISLR has never had a develop _workspace copy)
+  ship_commits:
+    - d9fb1d9  # cost-validation snapshot after EP02-07 ship batch
+    - 36df30c  # ship EP07 chapter + framing + episode txt — series complete
+    - 45f571e  # ship EP06
+    - d2d0093  # ship EP05
+    - 0437478  # ship EP04
+    - cb5f23f  # ship EP03
+    - 3bf1bb9  # ship EP02
+  notes:
+    - orchestrator-state.json is empty in source — pipeline ran outside of orchestrator for ISLR
+    - chapter01 (EP01) was previously shipped per earlier commits but is not listed here pending verification
+  reshape_date: 2026-05-23
+  reshape_method: rsync from book-islr worktree to meta-root books/

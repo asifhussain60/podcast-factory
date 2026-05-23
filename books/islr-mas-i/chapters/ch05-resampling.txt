@@ -1,0 +1,85 @@
+# Cross-Validation and the Bootstrap
+
+*From* An Introduction to Statistical Learning *(2nd edition, Springer 2021) by Gareth James, Daniela Witten, Trevor Hastie, and Robert Tibshirani. This is Chapter 5, the resampling chapter — the one every later chapter quietly assumed when it talked about test error, model selection, or standard errors. The MAS-I scope is the full chapter; no exclusions.*
+
+## The problem the chapter exists to solve
+
+Chapter 2 made a quiet promise. It said the right yardstick for a model is its performance on data the model has never seen — the test error — and that the training error will systematically lie about how the model will perform in the wild. What it did not say was *how*. With one dataset in hand and no oracle to consult, how do you actually measure something the model has never seen?
+
+That is the question this chapter answers. The whole chapter is a set of techniques for honestly estimating out-of-sample performance using only the data you already have. The textbook calls them **resampling methods** and groups them under two headings — cross-validation, which estimates the test error directly by holding chunks of the data out of the fitting process, and the bootstrap, which estimates the spread of any quantity by repeatedly sampling the data with replacement and refitting.
+
+Both ideas are old in spirit, young in execution. Cross-validation became practical when computers made it cheap to refit a model many times. The bootstrap is the youngest fundamental tool in the chapter — Bradley Efron introduced it in 1979, and Tibshirani, one of this textbook's authors, was his student. The chapter handles the regression case first; the same logic carries over to classification with the obvious substitution of misclassification rate for mean squared error.
+
+## The validation set approach — the simplest honest move
+
+The first idea is the simplest honest move. Split the data randomly into two parts. Fit on the first — the training set — and score on the second — the validation set, sometimes called the hold-out set. The error on the validation set is your estimate of the test error, because the model never saw those observations during fitting.
+
+The textbook illustrates this on the **Auto data set** — three hundred ninety-two cars, response miles per gallon, predictors including horsepower. Chapter 3 noted that a quadratic in horsepower fits noticeably better than a line. Split the cars in half, fit polynomials of increasing degree on one half, score on the other. The validation error drops sharply from the linear fit to the quadratic, and then plateaus — the cubic and higher terms buy nothing.
+
+The picture has two problems. The first is variance. Repeat the random split ten times and you get ten different validation curves — all of them agree the linear fit is too rigid, but they disagree on which polynomial degree wins, and on the absolute size of the error. The estimate moves around with the luck of the split. The second is the half-data penalty. The training half is by construction half the size of the full data; statistical methods perform worse on smaller samples, so the validation error systematically overestimates the test error the full-data model would have. The simplest honest move is honest, but it is wasteful and jumpy.
+
+## Leave-one-out cross-validation — every observation gets its turn
+
+The fix the textbook reaches for first is **leave-one-out cross-validation**, abbreviated **LOOCV**. The idea is to push the validation-set logic to its extreme. Instead of holding out half the data, hold out a single observation. Fit the model on the other n minus one. Score it on the one held out. Then put that observation back, hold out the next one, refit, score. Do this n times — once for every observation in the dataset — and average the n scores. That average is the LOOCV estimate of the test error.
+
+The formula is the average of n squared prediction errors, one per observation. The intuition is the entire story: every observation gets one turn as the test set, and each model fit is on nearly the full data, so each is about as accurate as the full-data model.
+
+That gives LOOCV its central virtue. It is **approximately unbiased** — each training set has n minus one observations, almost the full dataset, so the fitted models behave like the full-data model. The half-data penalty of the validation-set approach is gone. And it is **deterministic** — there is no random split to repeat, no jitter from run to run. Run LOOCV twice on the same dataset and you get exactly the same number both times.
+
+But LOOCV is **high variance**, and this is the subtler point the chapter wants the listener to carry. Because every training set differs from every other training set by exactly one observation, the n fitted models are almost identical. Averaging the squared errors of n nearly identical models does not buy you the variance reduction you would expect from averaging n independent things; the models are correlated, and the mean of many highly correlated quantities has higher variance than the mean of many less-correlated ones. The intuition is positive-framed: when the things you average are nearly the same thing, averaging them does not stabilize the answer much.
+
+LOOCV also has a cost. You have to fit the model n times. For a small dataset that is fine; for a large dataset, or a model that is slow to fit, that is painful. The textbook notes a beautiful exception for least-squares linear and polynomial regression — a closed-form shortcut, the so-called magic formula, delivers the LOOCV estimate from a single model fit using the leverage values from Chapter 3. The formula is named in the textbook and not solved on a walk. The shape of the answer is what carries: for ordinary linear regression, LOOCV is essentially free. For everything else, it costs n fits.
+
+## k-fold cross-validation — the practical sweet spot
+
+The natural compromise is **k-fold cross-validation**. Instead of holding out one observation at a time, randomly partition the data into k roughly equal groups, called **folds**. Hold out the first fold, fit on the other k minus one, score on the held-out fold. Then hold out the second fold, refit, score. Repeat k times — once per fold — and average the k scores. That average is the k-fold CV estimate.
+
+LOOCV is a special case where k equals n. The interesting cases are smaller. In practice, the conventional choices are **k equal to five** or **k equal to ten**, and the chapter is direct about why those numbers became standard.
+
+The obvious reason is computational. LOOCV requires n fits; 10-fold CV requires ten. For any model that is not least-squares regression, that is a factor-of-n speedup, and for large n it is the difference between running overnight and running over coffee.
+
+The less obvious reason is the **bias-variance trade-off for the CV estimate itself**. This is the chapter's most subtle move. LOOCV's training sets are the largest possible — n minus one observations — so LOOCV has the lowest bias of any cross-validation choice. But LOOCV's fits are the most correlated with each other, so its variance is the highest. Going down to k equal to ten makes each training set a little smaller — about ninety percent of the data — so the bias rises a touch, but the ten fits are much less correlated, so the variance falls a lot. Going down further to k equal to five trades a bit more bias for more variance reduction. The empirical finding the textbook reports is that k equal to five or ten gives estimates that suffer from neither too much bias nor too much variance — the same engineering compromise that shows up everywhere two competing costs meet.
+
+The trade-off has the shape of every other bias-variance argument in the book. LOOCV is the rigid-and-jumpy extreme; the validation-set approach is the flexible-and-biased extreme; five-fold or ten-fold sits at the sweet spot. The numbers themselves are conventional, not magical — they emerged from empirical practice and have proven robust enough that nobody argues about them anymore.
+
+## Cross-validation for classification — the same machinery, different yardstick
+
+Everything just said carries over from regression to classification with one substitution. In the regression setting, each fold's score is a mean squared error; in the classification setting, each fold's score is a misclassification rate — the fraction of held-out observations the model got wrong. Average those k rates and you have the CV estimate of the classification test error.
+
+The textbook illustrates this by fitting logistic regression to a simulated two-dimensional dataset with polynomial decision boundaries of degrees one through four. Training error keeps falling as the polynomial degree rises, because the model is gaining flexibility to chase the training points. The true test error has the familiar U-shape — flat or improving through degree three, then climbing. The 10-fold CV estimate tracks the true test error closely; it slightly underestimates the absolute level, but it picks out the right polynomial degree, which is the question that actually matters when you are choosing between models.
+
+That last point deserves emphasis. The practitioner usually does not care about the absolute number CV returns. They care about which model has the lowest CV error, because that is the model they are going to deploy. CV's job is to put the candidates in the right order, and the textbook's experiments suggest it is quite reliable at that ordering task even when it is slightly off on the absolute level. The same logic applies to k-nearest neighbors with the number of neighbors playing the role of the flexibility dial — CV is the standard tool for picking that hyperparameter too.
+
+This is the protocol that became the canonical scoring convention on **Kaggle**, the modern competitive home of predictive-modeling problems. The leaderboard you see is a held-out test set the competitors never get to see; their internal model-selection happens on cross-validated training-data scores. The discipline of cross-validation as the bridge between "fits the training data well" and "will fit new data well" is what makes the whole competition format honest.
+
+## The bootstrap — the universal standard-error machine
+
+The textbook then pivots to a different question. Cross-validation answers "how well will this model predict new data?" — the test-error question. The bootstrap answers "how precisely have I estimated this quantity?" — the standard-error question. Same machinery in spirit — repeatedly resampling the data and refitting — different problem.
+
+The motivating example is small and concrete. You have two assets with random returns. You want to split your money between them — a fraction in the first asset, the rest in the second — to minimize the variance of the total return. There is a formula for the optimal fraction in terms of the variances and the covariance of the two assets, and you can estimate that fraction from a sample of past returns. The estimate is named in the chapter and not solved on the walk; what matters is that you have a number, and the natural next question is *how good is that number?*
+
+The textbook stages the answer in two passes. The first is a thought experiment. *If* you could simulate new datasets from the true population — a hundred new pairs of returns, then another hundred, a thousand times over — you could recompute the optimal fraction on each simulated dataset and take the standard deviation of the thousand answers. That would be a clean estimate of the standard error of the original. The textbook does exactly this on simulated data. The catch is that in the real world you cannot simulate new datasets from the true population, because you do not know the true population. You only have your one sample.
+
+The bootstrap's move is to replace the unavailable population with the sample you do have. Treat your dataset as if it *were* the population, and draw new datasets from it. The entire algorithm: resample your data **with replacement** to make a new dataset the same size as the original, refit your statistic on that resample, record the answer. Do that some large number of times. The spread of the recorded answers is your bootstrap estimate of the standard error.
+
+The phrase that carries is *with replacement*. Each time you draw an observation, you put it back before drawing the next one, so the same observation can appear in your resample more than once, and some will not appear at all. There is a memorable consequence worth dropping in casually: in any given bootstrap sample of size n, about sixty-three percent of the original observations show up at least once — the other thirty-seven percent are "out of bag" for that draw. The number itself is the souvenir.
+
+On the asset-allocation example, the bootstrap estimate of the standard error is essentially identical to the one from the simulation-from-the-true-population thought experiment — same answer, different ingredients. The thought experiment needed access to the true population; the bootstrap needed only the sample. That equivalence is the whole point.
+
+## Why this matters — the bootstrap's reach
+
+The reason the bootstrap changed inference is the universality. For a quantity like the slope of a linear regression there is a textbook formula for the standard error, and Chapter 3 used it. But that formula rests on assumptions — that the model is correctly specified, the noise variance is constant, the predictors are fixed. Strip those assumptions, or pick a more complicated statistic with no clean formula, and the textbook tool runs out.
+
+The bootstrap does not. The recipe is the same regardless of what the statistic is — resample with replacement, refit, look at the spread. Median, ratio of medians, complicated nonlinear function of model parameters, prediction at a particular input — anything. The standard error falls out of the spread of the resampled answers without any parametric assumption about what the sampling distribution should look like. If you could only afford one experiment but want to know the spread of the answer, the bootstrap is the magic trick that emulates the experiments you cannot afford to run.
+
+The textbook closes the section by comparing the bootstrap-derived standard errors for the linear regression coefficients on the Auto data to the ones the software prints by default. They differ — and the textbook is candid: this is not a problem with the bootstrap. The default-software standard errors assume the linear model is correctly specified, and on the Auto data the relationship is curved, so the residuals are inflated and the standard formula's estimate of the noise variance is wrong. The bootstrap does not rely on the model being correct, so its number is probably the more trustworthy. Refit a quadratic — which actually fits the Auto data well — and the two standard errors come back into close agreement. The lesson is the assumption discipline: when your assumptions hold, the formulas work; when they do not, the bootstrap still does.
+
+## What to leave with
+
+Two pictures.
+
+Cross-validation is the discipline that lets you measure something you cannot directly observe. You have one dataset; you want to know how the model will perform on data you have not yet seen; you simulate that situation by repeatedly carving the data into a "train on this part, score on the held-out part" pattern. LOOCV does it one observation at a time and is approximately unbiased but high-variance because the n training sets are nearly identical. The validation-set approach does it once on a half-and-half split and is wasteful and jumpy. Five-fold and ten-fold cross-validation are the conventional sweet spot — the trade-off between bias and variance lands cleanly there, and that is where industrial practice settled.
+
+The bootstrap is the universal standard-error machine. Resample your data with replacement n times, refit on each resample, look at the spread of the answers. That spread is your estimate of how much the answer would have moved if you had been able to collect a fresh dataset. Efron introduced this in 1979 and it changed inference — not because the idea is mathematically deep, but because it gave a single recipe that worked for any statistic, with no parametric assumptions about what the sampling distribution should look like. Tibshirani came up under Efron's influence; both authors built much of this textbook's later chapters on cross-validation and the bootstrap as load-bearing primitives.
+
+The textbook now turns to model selection — how, with cross-validation and the bootstrap as tools, you actually pick among the many candidate models a real problem offers. Ridge regression, the lasso, principal components regression: the next walk.

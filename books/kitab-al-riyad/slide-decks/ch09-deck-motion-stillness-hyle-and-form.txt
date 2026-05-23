@@ -1,0 +1,514 @@
+# Motion, Stillness, Prime Matter, and Form
+
+*The visual companion to Chapter Nine. The audio chapter is the prose; this file is its argument made structural. Same concepts, same depth, restructured for slide-deck rendering.*
+
+## Where the chapter sits in the book
+
+A hierarchy of the chain from upper to lower, naming what each prior chapter settled and what this chapter takes up.
+
+- Level 1: The Intellect-which-is-the-Word, settled by *Chapter Four*
+  - Level 2: The divine names, synonymous according to the additions, settled by *Chapter Five*
+    - Level 3: The human being, the fruit of the worlds, settled by *Chapter Five* on the rank question
+      - Level 4: The architecture beneath the human being, *Chapter Six*, this chapter
+        - Level 5: The lower channel of bodies: *prime matter* and form
+        - Level 5: The modes of change in the moved thing: motion and stillness
+        - Level 5: The protection of *monotheism* at the highest end of the analogy
+
+The rank stood on an architecture. This chapter turns to the architecture itself, the lower channel of bodies at its first emergence from the Intellect.
+
+## The three handed-down pictures
+
+A comparison matrix of the three reformers' positions on motion, stillness, *prime matter*, and form before the author enters.
+
+| Voice | Work | Picture of motion-and-stillness relative to *prime matter*-and-form | Measure used |
+|---|---|---|---|
+| Muhammad Jonathan | *The Harvest* | Background source; carried doctrinal weight downstream | Original setting |
+| Jonathan (may God have mercy on him) | *The Correction* | Motion-and-stillness are the soul of *prime matter*-and-form, the way the soul is the soul of the body | Gentler-and-denser |
+| Samuel (may God have mercy on him) | *The Defense* | Refused gentler-and-denser as the measure; offered a structural parallel keyed to division and similarity of parts | Body has three dimensions; soul has parts that resemble each other |
+
+The author's standing verdict on both: *in this chapter the two of them have strayed far from representation and simile; and between us and the two of them lies a corrupt foundation upon which the proof is built, neither the proverb nor its representation is true.*
+
+## The nine sub-chapters at a glance
+
+A process flow of the chapter's nine sub-chapters, grouped by their work.
+
+| Sub-ch | Work | Group |
+|---|---|---|
+| 1 | The gentler-and-denser analogy refused; *prime matter*-and-form named as inseparable correlates | Soul-and-body analogy |
+| 2 | The soul is not a body; the gentler-denser vocabulary cannot reach it | Soul-and-body analogy |
+| 3 | *Al-nafs* and *the spirit* as two names for one non-bodily reality | Soul-and-body analogy |
+| 4 | What motion really is; the body divides into nine sections, not three | Positive doctrine of motion |
+| 5 | The *kun* of Allah's command as two letters; the imaginary character of *prime matter* | The *kun* analogy |
+| 6 | Two proportions: cause-ending-in-effect, effect-ending-in-cause; first-and-by-accident | The *kun* analogy |
+| 7 | The gravest error: a creativity that exists before it has appeared, refused for *monotheism* | Doctrinal climax |
+| 8 | Above the First Effect, no motion or rest of any kind | Doctrinal seal |
+| 9 | Contradictions are in the images, not in the being-bodies | Closing correction |
+
+The first three handle the soul-and-body analogy itself. The fourth delivers the positive doctrine of motion and *prime matter*-and-form as the first emanation. The fifth and sixth work the *kun* analogy. The seventh is the chapter's doctrinal climax. The eighth confirms the seal. The ninth closes on contradictions and images.
+
+## Sub-chapter one: the gentler-and-denser analogy refused
+
+A contrast pair of *The Correction* against *The Defense* on the soul-and-body analogy, with the author's verdict on both columns.
+
+Column A: *The Correction*, Jonathan
+
+- Proportion: motion and stillness are like the soul to *prime matter* and form
+- Measure: gentler-and-denser
+- Direction of representation: from the body side, the dense reads as body, the gentle reads as soul
+- *Prime matter* and form: the body of motion-and-stillness
+- Motion and stillness: the soul of *prime matter* and form
+- Concession he makes: representing whatever is gentler with the soul is premature, but the body-side reading of dense-as-body and gentle-as-soul is clear
+
+Column B: *The Defense*, Samuel
+
+- Proportion refused: gentler-and-denser cannot be the measure of soul-and-body
+- Reductio: if it were, then accidents would be souls of tangible essences, since accidents are gentler, which is absurd
+- Replacement: a structural analysis keyed to the limit of each kind
+- Limit of body: accepts the three dimensions, length, width, depth
+- Limit of soul: union of its parts in similarity, like a stream of water, fire, or air
+- Application: motion divides into three sections (from-center, to-center, around-center), so motion resembles the body; *prime matter's* parts resemble each other, so *prime matter* resembles the soul
+
+Shared row: both reformers built on the same corrupt foundation, an analogy from soul-and-body that *Chapter Six* exists to refuse.
+
+## The author's counter at sub-chapter one
+
+An annotated structure of the author's collapse of *The Correction*'s analogy, dissecting the proportion at its first rung.
+
+Whole: the proportion motion-and-stillness : *prime matter*-and-form :: soul : body
+
+Parts the author exposes:
+
+- Mover: the principle in the moved thing by which it moves
+- Engine: the self-moving principle in *The Correction's* vocabulary
+- Soul: what *The Correction* calls the engine
+- Motion: the act of the engine, which is the act of the soul
+- Stillness: the engine letting what it moves go, the same engine's not-moving
+
+Annotation per part:
+
+- The mover is the soul, in *The Correction's* own naming
+- Motion is the act of the soul, not the soul itself
+- To represent the act by the actor is no representation at all
+- Stillness is the engine not-moving, which is also the act of the soul, by negation
+- If motion-and-stillness fail to map to the soul, the whole proportion collapses
+
+The author's settled formulation:
+
+> *And if this is invalidated for motion and stillness, then it is also invalidated that motion and stillness are hyle and form.*
+> *Kitab al-Riyad*, Chapter Six, sub-chapter one.
+
+## The structural fact about each pair
+
+A contrast pair of motion-and-stillness against form-and-*prime matter*, attribute by attribute, the positive doctrine that replaces the failed analogy.
+
+Column A: motion and stillness
+
+- Relation: opposites
+- Co-occurrence: cannot meet in the same place at the same time
+- Existence: actualized in mutually exclusive states
+- Pattern of being: a moved thing is either in motion or at rest, in the same respect, never both
+- Right name for what they are: the modes in which a moved thing changes with respect to its mover
+
+Column B: form and *prime matter*
+
+- Relation: correlates
+- Co-occurrence: inseparable, wherever one is the other is
+- Existence: constituted together as a single coupling
+- Pattern of being: form acts; *al-hayula* is acted-upon; together they constitute the body
+- Right name for what they are: the first emanation of the chain from the Intellect-which-is-the-Word toward the natural composite
+
+Shared row: both pairs were misread by *The Correction's* gentler-denser proportion, which mapped opposites onto correlates and treated them as one kind of relation. The right architecture is structural, not proportional.
+
+## Sub-chapter two: the soul is not a body
+
+An annotated structure of *The Correction's* hidden conclusion, dissected.
+
+Whole: the gentler-and-denser proportion applied to the soul
+
+Parts:
+
+- Premise: density and gentleness are properties only of that which is a body
+- Example one: air is a body characterized by gentleness
+- Example two: earth is a body characterized by density
+- Required half-formula: the soul is gentler than the body
+- Hidden conclusion: the soul, being gentler, must itself be a body characterized by gentleness
+
+Annotation per part:
+
+- Body-property vocabulary cannot reach a non-body
+- The reductio is local but exact: any application of gentler-denser to the soul *makes* the soul a body
+- The categorical refusal: the soul is the soul, the proof rests on the fact that it is not embodied
+- *Chapters Two* and *Three* of *this book* had already settled this; sub-chapter two is the local enforcement
+
+The settled formulation:
+
+> *The soul cannot be embodied with density or gentleness, for density and gentleness are properties only of that which is a body.*
+> *Kitab al-Riyad*, Chapter Six, sub-chapter two.
+
+## Sub-chapter three: *al-nafs* and *the spirit* as one thing
+
+A contrast pair of the *falsafa* picture against the *the call* reading the author settles.
+
+Column A: the *falsafa* picture
+
+- *Al-nafs*: the vegetative-and-animal soul, lower in the hierarchy
+- *The spirit*: the rational-and-divine spirit, higher in the hierarchy
+- Relation: two different things at two different ranks
+- Method: split the names, locate each at a separate level
+- Result the chain would carry: a hidden duplication in the architecture of emanation
+
+Column B: the *the call* reading the author settles
+
+- *Al-nafs* and *the spirit*: two names for the same single non-bodily reality
+- Aspects, not ranks: one reality called *the soul* in one aspect and *the spirit* in another
+- Method: refuse the split at that level; preserve the synonymy
+- Result the chain holds: the architecture *Chapter Four* settled, universal Soul as first emanation, speaking souls as second emanation, holds without hidden duplication
+- Reference treatise: the author's well-known book *With Lamps* lays out the architecture in full
+
+Shared row: in both columns the soul is not a body. Where the columns part is whether *al-nafs* and *the spirit* name one thing or two.
+
+The proof for the non-bodiliness, the clean conditional:
+
+- If it were a body, it would require the nine accidents that *Chapter Two* enumerated
+- A body is what is perceived by sense
+- The senses do not register the soul
+- The nine accidents do not adhere in the soul
+- Therefore the soul is not a body
+
+## Sub-chapter four: what motion is, and the nine sections of the body
+
+An annotated structure that refuses *The Defense's* three-section parallel, then delivers the positive doctrine.
+
+Whole: *The Defense's* proposed parallel, body divides into three dimensions, motion divides into three sections, therefore motion resembles the body
+
+Parts the author exposes:
+
+- The three dimensions of a body are not themselves bodies; length, width, depth are not bodies
+- The three sections of motion are themselves motions; from-center, to-center, around-center are each motions
+- The pattern of division is structurally unlike: dimensions are non-bodies; sections of motion are motions
+- The body, in the author's settled doctrine, divides not into three but into *nine sections*, by the nine accidents catalogued in his book *Milestones of Religion*
+
+Annotation per part:
+
+- A dimension is not a body; the body has dimensions, it is not made of dimensions-as-bodies
+- A section of motion is a motion; motion does not divide into non-motions
+- Counting three against nine is a category mismatch, not an analogy
+- The whole reformers' discussion in this chapter is a *disordered disorder*
+
+The positive doctrine of motion:
+
+> *Motion is that by which the same thing changes, either by place, or by universe, or by corruption, or by increase, or by decrease, or by impossibility.*
+> *Kitab al-Riyad*, Chapter Six, sub-chapter four.
+
+A hierarchy of the six modes of change motion names:
+
+- Level 1: motion as category-name (any change in which the same thing differs)
+  - Level 2: change by place (a body moves from here to there)
+  - Level 2: change by universe (alteration in the cosmos around it)
+  - Level 2: change by corruption (decay, dissolution)
+  - Level 2: change by increase (growth)
+  - Level 2: change by decrease (diminution)
+  - Level 2: change by impossibility (cessation, passing-out-of-being)
+
+The occurrence of motion: from the mover, the principle in the thing in which the motion resides, not by width and not by any external dimension that pushes it.
+
+## The architectural turn at sub-chapter four
+
+A process flow of the chain from First Creator through the natural composite, the architecture *the author's other treatise* (*The Repose of the Intellect*) gives, applied to *prime matter* and form.
+
+```
+God Almighty
+  ↓ creates not from any thing, by origination, at a great height
+First Intellect, the Intellect-which-is-the-Word
+  ↓ overflows by the noble proportion
+Universal Soul, the Second
+  ↓ overflows
+Form and prime matter, the first emanation toward the natural world
+  ↓ together constitute
+The body, the natural composite
+  ↓ structured by the nine accidents
+The heavens, the earth, and everything between them
+```
+
+The architectural commitments:
+
+- The First Intellect is created by God *not from any thing*, by origination
+- Everything else emanates from the First Intellect by proportion of receivership
+- *Al-hayula* and form together are the first emanation toward the natural world
+- The natural composite is form-in-*prime matter*, structured by the nine accidents
+- The soul does not exist *outside* of soul-with-form in the natural world; only in its own rank above
+
+## Sub-chapter five: the *kun* analogy
+
+An annotated structure of *The Correction's* deepest analogy, dissecting the picture and naming what it can honestly bear.
+
+Whole: the analogy from the divine command *kun* (Be!) to motion-and-stillness, *prime matter*-and-form
+
+Parts of *The Correction's* picture:
+
+- First Cause: creativity
+- Creativity: the word of the Almighty
+- The word: *kun*
+- *Kun*'s two letters: the voweled *kaf* and the consonant *nun*
+- The voweled *kaf*: motion
+- The consonant *nun*: stillness
+- The two letters as letters: body of *kun*
+- The motion-and-stillness on them: soul of *kun*
+
+*The Correction's* further doctrine of the three *hyles*:
+
+- First *hyles*: motion and stillness themselves
+- Second *hyles*: the individuals, the simple bodies generated from the first *hyles*
+- Third *hyles*: the four composite mother-elements (earth, water, air, fire) that compose the second *hyles* into the world we see
+
+Annotation per part of the author's verdict:
+
+- The *hayle*s, considered as the act of the divine command, are *imaginary*, of the imagination
+- Creativity itself, considered apart from the First Creator, is imaginary
+- Creativity shows itself only in the First Creator
+- The *kun*-as-two-letters image is a *remote* analogy, however *The Correction* intended it
+- The slippage between *word* and *image* trades on an ambiguity it does not settle
+
+The two senses of *image* that the analogy slides between:
+
+| Sense | What it names | Where it belongs |
+|---|---|---|
+| Abstract image | What is above nature | Higher world, beyond bodies |
+| Image in matter | The form-in-*prime matter* | Natural world, the composite |
+
+What the analogy can honestly bear:
+
+> *If he says that creativity, which is the word of God Almighty and His command as expressed by it, consists of two letters, one of them movable and the other consonant, to indicate the union of two attributes, then this points to the noble Self and its inferred qualities.*
+> *Kitab al-Riyad*, Chapter Six, sub-chapter five.
+
+The Quranic anchors the *the call* tradition reaches for, naming the *kun* structure exactly:
+
+> *His command, when He intends a thing, is only that He says to it, "Be," and it is.*
+> Quran 36:82, in the rendering the author gives, after Pickthall.
+
+> *Our only word for a thing, when We will it, is that We say to it, "Be," and it is.*
+> Quran 16:40, Yusuf Ali.
+
+The verse names *one word*, *one intention*, *one act*. It does not invite a phonological analysis of *kun* into voweled *kaf* and consonant *nun*. The two-letter image, taken at full weight, breaks against the verse's own grammar.
+
+## Sub-chapter six: the two proportions
+
+A named-axis structure of the cause-and-effect proportions the *kun* analogy can carry, in the weakest grade of analogy, by first-and-accident.
+
+Axes:
+
+- Direction of the proportion: toward what is below, toward what is above
+- The state on each *letter* of *kun*: motion (on the voweled *kaf*), stillness (on the consonant *nun*)
+
+The mapping:
+
+| Letter of *kun* | State | Proportion of the divine Self |
+|---|---|---|
+| Voweled *kaf* | Motion ending in stillness | Cause ending in effect; the originating overflow comes to rest in what it has produced |
+| Consonant *nun* | Stillness ending in motion | Effect ending in cause; the produced thing reaches back through receivership |
+
+The two qualifications the author insists on:
+
+- The First does not have motion or stillness in itself; the language is *only* analogical
+- The analogy holds only by being *first* (by virtue of the First's pre-eminence at the head of the chain) and *by accident* (not by essential resemblance between the First and motion-and-stillness of bodies)
+
+The same architecture earlier chapters settled:
+
+| Chapter | The settled doctrine | The same shape under another aspect |
+|---|---|---|
+| *Chapter Four* | The Intellect IS the Word | One rank under two names |
+| *Chapter Five* | The divine names are *synonymous according to the additions* | One Self under multiple names by aspect |
+| *Chapter Six*, sub-ch six | Cause-toward-below and effect-toward-above are two proportions of one Self | No name is the Self; the Self is one |
+
+The principle that holds across all three: the names belong by aspect, not by sharing of substance.
+
+## Sub-chapter seven: the gravest error, refused for *monotheism*
+
+A process flow of *The Correction's* claim and the author's two-stroke refusal.
+
+```
+The Correction's premise the author accepts:
+  - First Hyle is imaginary
+  - Creativity is imaginary
+  - Creativity shows itself only in the First Creator
+       ↓
+The Correction's further step the author refuses:
+  - "This must be in the presence of the Almighty, because of His pride in it"
+  - That creativity, before it has appeared, has not yet become creative through creativity
+  - A pre-creative creativity, hovering at the side of the Almighty, awaiting its emergence
+       ↓
+The author's verdict:
+  - "This is a grave error"
+       ↓
+The author's two strokes of refusal:
+  Stroke A: The doctrine of monotheism is that other than Allah Almighty,
+            who is Creative and First, nothing has any reality in existence at all
+       ↓
+  Stroke B: If anything did, then creativity would be nothing other than
+            the Creative itself; the Creative IS the creativity
+       ↓
+The architectural protection:
+  - As the Intellect IS the Word (Chapter Four)
+  - As the divine names are synonymous according to the additions (Chapter Five)
+  - So the Creative IS the creativity (Chapter Six, sub-ch seven)
+  - Same single rank, multiple names by aspect, not multiple realities in collaboration
+```
+
+The settled formulation:
+
+> *And this is a grave error. For the doctrine and belief in monotheism is that other than Allah Almighty, who is Creative and First, nothing has any reality in existence at all; and if anything did, then creativity would be nothing other than the Creative itself.*
+> *Kitab al-Riyad*, Chapter Six, sub-chapter seven.
+
+The author's signature on the architecture:
+
+> *We have built upon this guide so that we may confine ourselves to our own letters.*
+> *Kitab al-Riyad*, Chapter Six, sub-chapter seven.
+
+The three traditional anchors that settle the same protection at the top of the chain:
+
+> *He is with everything, but not by closeness; He is other than everything, but not by separation; He acts, but not by movements or instruments.*
+> *Nahj al-Balagha*, Sermon 1, the Commander of the Faithful *Imam Ali* (peace be upon him).
+
+> *Allah was, and there was nothing else with Him.*
+> Sahih al-Bukhari, Book 59, Hadith 3191, narrated by Imran ibn Husayn, on the authority of the Prophet *Muhammad* (peace and blessings of Allah be upon him).
+
+> *Say: He is Allah, the One. Allah, the Eternal Refuge. He neither begets nor is begotten. And there is none comparable unto Him.*
+> Quran 112:1-4, Surat al-Ikhlas, in the rendering the author gives, after Pickthall.
+
+How each anchor maps to the refusal:
+
+| Anchor | What it forbids | What it protects |
+|---|---|---|
+| *Nahj al-Balagha*, Sermon 1 | Action by movements or instruments | The Creative as the creativity, not a wielder of a separate creativity |
+| Sahih al-Bukhari, Hadith 3191 | A something-else-with-Allah at the origin | No pre-creative creativity hovering before Allah's act |
+| Quran 112:1-4 | Begetting, being begotten, comparability | No derivation, no precursor, no peer at the highest rank |
+
+## Sub-chapter eight: no motion or rest above the First Effect
+
+A hierarchy of the negative doctrine, the seal of the analogy at the highest end.
+
+- Level 1: The First Creator
+  - No analogy from motion-and-stillness reaches; the First is beyond every *kamithlihi*
+- Level 2: Above the First Effect
+  - No motion, no stillness, no body-talk of any kind
+  - *Only pure creativity and complete reason*, and even those words by way of indication, not by way of essence
+- Level 3: The First Effect, the First Intellect, the universal Intellect
+  - Not a body
+  - Motion does not befit it
+  - There is no stillness in it either
+  - Settled by *Chapter Two* of *this book*
+- Level 4: The natural composite, the body
+  - Admits motion and stillness as the modes of change in the moved thing
+  - *Prime matter* and form, opposites and correlates respectively
+
+The architectural rule: motion-and-stillness vocabulary belongs at Level 4 and below. It does not reach Levels 1, 2, or 3.
+
+The Quranic anchor the *the call* tradition reaches for in settling that the First admits no body-talk:
+
+> *There is nothing like unto Him; and He is the Hearer, the Seer.*
+> Quran 42:11, Surat al-Shura, in the rendering the author gives, after Pickthall.
+
+*Laysa kamithlihi shay'un.* There is nothing like Him. The verse is the canonical seal of the negative way. No analogue, no peer, no body-twin of the First. The verse's pair, *He is the Hearer, the Seer*, holds the same negative gauge in tension with the affirmative: He acts and He perceives, but not by movements or instruments.
+
+## Sub-chapter nine: contradictions in the images, not in the being-bodies
+
+A contrast pair of *The Defense's* clean-sounding maxim against the author's precise final correction.
+
+Column A: *The Defense's* maxim
+
+- Statement: contradictions occur in bodies, not in spirits
+- Line drawn: bodies fall into contradictions; spirits do not
+- Where the line falls: at the body-spirit divide
+- Attractiveness: it seems to draw a clean distinction
+
+Column B: the author's correction
+
+- Bodies, taken purely as bodies, are objects, substrates, the *what* the nine accidents adhere to
+- As such, considered purely as objects, bodies do not differ from each other
+- A piece of wood and a piece of iron, considered as bodies, are the same kind of thing
+- Contradictions are at the *image* level, the *form* level, not the body level
+- The form of wood and the form of iron differ; that is where the contrast lives
+
+Shared row: both columns agree contradictions exist among bodies in some sense. Where they part is *where* the contradictions reside, at the body-level or the form-level.
+
+The architectural payload restated for the natural world:
+
+- Sub-chapter one settled: *prime matter* and form are inseparable, one acting and the other acted-upon
+- Sub-chapter four settled: *prime matter* and form are the first emanation
+- Sub-chapter nine settles: bodies are bodies because they are objects; differentiation among them is at the form-level, the image-level, what *prime matter* has *received*
+
+The settled formulation:
+
+> *Bodies are bodies because they are objects; there is no distinction between them as such, and no contradiction among them. The difference and the contrast lie in the images within them, what animates them, not in their being bodies.*
+> *Kitab al-Riyad*, Chapter Six, sub-chapter nine, in the author's voice.
+
+The closing line of the chapter, *The Defense's* measured last word:
+
+> *And because what is in them resembles what was already there, the matter rests upon what he said, if the very speaker is of that sort.*
+> *Kitab al-Riyad*, Chapter Six, sub-chapter nine, *The Defense* quoted.
+
+What is *in* the bodies (the images, the forms, the contents) resembles *what was already there* (the architecture of the chain above, the noble proportion of cause-and-effect). The matter rests upon the doctrine the author has just settled. The chapter closes with the qualification that doctrines of this depth land only on the rank of the listener.
+
+## The chapter's settled formula
+
+A comparison matrix of the four architectural commitments the chapter lands on, with what each refuses and what each protects.
+
+| Commitment | What it refuses | What it protects |
+|---|---|---|
+| Motion-and-stillness are opposites, not the soul of *prime matter*-and-form | *The Correction's* gentler-denser proportion | The categorical refusal of body-talk at the soul's rank |
+| *Al-hayula* and form are inseparable correlates, the first emanation | Treatment of *prime matter* and form as a body that motion-and-stillness ensoul | The architecture of emanation from the Intellect-which-is-the-Word |
+| *Al-nafs* and *the spirit* are two names for one non-bodily reality | The *falsafa* split into vegetative-animal soul and rational-divine spirit | The chain's structure without hidden duplication |
+| The body divides into nine sections, not three | *The Defense's* three-dimension parallel for motion | The body as substrate of the nine accidents |
+| The *kun*-as-two-letters image is first-and-by-accident | Phonological analysis of the divine command into voweled *kaf* and consonant *nun* | The Quranic naming of *one word*, *one intention*, *one act* |
+| The Creative IS the creativity | A pre-creative creativity hovering before its act | *Monotheism* at the highest end of the chain |
+| Above the First Effect, no motion or rest of any kind | Body-talk applied to the First Effect or to what is above it | The negative way at the top of the chain |
+| Contradictions are in the images, not in the being-bodies | The clean-line maxim that splits contradictions at the body-spirit divide | The doctrine that *prime matter* is undifferentiated, form differentiates |
+
+The political stake of the chapter, the joints the refusals protect:
+
+- If gentler-denser held, the soul would slip back into being a gentler body
+- If the structural parallel held, motion would slip into being a body-thing
+- If *kun*-as-two-letters were taken at full weight, the First would slip into being an actor *who uses an instrument*
+- If pre-creative creativity were granted, a second reality would stand alongside Allah at the very top
+- Each refusal is a joint where the chain holds against the slide into *associating partners with God*
+
+## What comes next
+
+A hierarchy of the architectural handoff to *Chapter Seven*.
+
+- Level 1: *Chapter Six* settled the doctrine of motion, stillness, *prime matter*, and form
+  - Level 2: *Chapter Seven*, seven sub-chapters, will give the order of the world that those four make
+    - Level 3: The architectural divisions of the natural-world end of the chain
+    - Level 3: The sections of the world, as *Chapter Six* settled the sections of the body
+- Level 1: The image *Chapter Six* leaves the reader
+  - The two reformers arguing across decades
+  - The author, generations later, working the same passage
+  - The Creative is the creativity; the Intellect is the Word
+  - The names belong to the ranks by aspect, not by sharing of substance
+  - *He acts, but not by movements or instruments*, the Commander of the Faithful, settling at the head of the chain the same doctrine *Chapter Six* settles all the way down
+  - The architecture holds; the chain runs; the *monotheism* the chapter is built to protect stands at every rank
+
+## Verbatim anchor quotes preserved for slide use
+
+Seven anchor passages that should appear on slides as written, with attribution.
+
+> And if this is invalidated for motion and stillness, then it is also invalidated that motion and stillness are hyle and form.
+> *Kitab al-Riyad*, Chapter Six, sub-chapter one.
+
+> Motion is that by which the same thing changes, either by place, or by universe, or by corruption, or by increase, or by decrease, or by impossibility.
+> *Kitab al-Riyad*, Chapter Six, sub-chapter four.
+
+> And this is a grave error. For the doctrine and belief in monotheism is that other than Allah Almighty, who is Creative and First, nothing has any reality in existence at all; and if anything did, then creativity would be nothing other than the Creative itself.
+> *Kitab al-Riyad*, Chapter Six, sub-chapter seven.
+
+> His command, when He intends a thing, is only that He says to it, "Be," and it is.
+> Quran 36:82.
+
+> He is with everything, but not by closeness; He is other than everything, but not by separation; He acts, but not by movements or instruments.
+> *Nahj al-Balagha*, Sermon 1.
+
+> Allah was, and there was nothing else with Him.
+> Sahih al-Bukhari, Book 59, Hadith 3191.
+
+> There is nothing like unto Him; and He is the Hearer, the Seer.
+> Quran 42:11.

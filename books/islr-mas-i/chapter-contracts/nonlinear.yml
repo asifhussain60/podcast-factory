@@ -1,0 +1,64 @@
+# Chapter contract — ISL2 / MAS-I, Episode 07.
+# Phase 0d authored 2026-05-23. Mirrors introduction.yml schema; extends
+# tone_constraints with a positive-framed math-intuition rule per Asif's
+# 2026-05-23 directive. Source of beats + scope: _system/source/text/chapters-rationale.md §EP07.
+
+chapter_ref: ch07-nonlinear
+slug: nonlinear
+source_type: book-chapter
+book_slug: islr-mas-i
+episode_number: 7
+title: Beyond Linearity (Polynomials, Splines, GAMs)
+audience: >
+  An actuarial student who has passed SOA Exams P and FM and is preparing
+  for MAS-I (Modern Actuarial Statistics I). Listening mode is a casual
+  walk — theory-heavy, qualitative, formulas referenced but never solved
+  aloud. The student has strong probability/calculus foundations and basic
+  regression exposure, but minimal machine-learning vocabulary.
+angle: personal_application
+episode_format: deep_dive
+host_dynamic: curious_mind + scholar_companion
+host_dynamic_custom: null
+debate: null
+length_target: default_deep_dive
+
+key_tensions:
+  - "Polynomial regression, step functions, splines, and local regression are all SPECIAL CASES of the same basis-function abstraction — naming the abstraction once unlocks every method in the chapter."
+  - "Natural cubic splines tame the edge wildness of regression splines; smoothing splines trade explicit knots for a wiggle penalty controlled by λ — same bias–variance dial as ridge regression, just in function space."
+  - "GAMs keep additivity (one smooth function per predictor, no interactions) and drop linearity — that's the trade that makes them interpretable AND flexible, and it's why claim-frequency curves in insurance pricing are almost always GAM fits."
+
+tone_constraints:
+  - "No aloud calculations. No 'pause and try this'. No R code recitation."
+  - "Formulas are NAMED when they matter, never solved on air."
+  - "Every formula or quantitative claim gets an intuitive one-sentence scaffold the walking listener can hold without paper: what it computes, why it exists, and what the answer's shape (sign, magnitude, monotonicity) tells you. Lead with intuition, name the formula, never solve aloud. Symbols themselves are NOT recited (no 'sigma', no 'X-bar', no 'beta-hat') — the meaning behind the symbol is what carries."
+  - "Modern analogies are welcome (Netflix, Spotify, FICO, Kaggle conventions) — but only from the book's enrichment-whitelist.md Tier 2. No religious citations, ever."
+  - "No fake enthusiasm. No 'wow', 'fascinating', 'amazing'. The student is on a walk, not in a sales pitch."
+  - "Honor the textbook's own restraint — the authors deliberately do NOT lecture. Match that posture."
+  - "Full chapter is in scope — no exclusions, no prose seams required."
+  - "The smoothing-spline 'second derivative penalty' is described as the wiggle dial: large λ means a near-straight line, small λ means a near-interpolating curve, and CV picks the middle. Do NOT recite ∫(f''(x))²dx in symbolic form — the integral is mentioned by purpose only."
+  - "GAMs' backfitting algorithm is named and described in one sentence ('iteratively fit each smooth function while holding the others fixed, looping until convergence'); do NOT derive."
+
+anchor_passages:
+  - "A cubic spline has 4 + K coefficients for K knots."
+  - "Natural cubic splines impose linearity beyond the boundary knots — that's the 4-constraint trick that tames edge wildness."
+  - "Smoothing splines minimize residual sum of squares plus λ times the integrated squared second derivative — the wiggle penalty."
+  - "GAMs originated in Hastie & Tibshirani's 1990 book — same Hastie and Tibshirani as the ISL authors."
+  - "Claim-frequency by age in insurance pricing is almost always a GAM fit — the chapter's most actuarially-relevant anchor."
+
+adaptation_mode: bridge
+
+phonetic_overrides:
+  smoothing spline: "SMOOTH-ing SPLINE"
+  LOESS: "LOH-ess"
+
+show_notes:
+  blurb: "Polynomial regression and step functions as the warm-ups, basis functions as the unifying abstraction, regression splines / natural splines / smoothing splines as the practitioner's curve-fitting toolkit, local regression (LOESS), and GAMs as the workhorse of insurance pricing. The episode that closes the seven-chapter arc."
+  related_episodes:
+    - "EP02 — bias–variance is back; the smoothing-spline λ is the same dial as Chapter 6's ridge λ, in function space."
+    - "EP03 — linear regression's failure modes (non-linearity) are why this chapter exists."
+    - "EP06 — ridge regression's λ and the smoothing spline's λ are the same idea, twice."
+    - "Series close — Chapter 8 (trees) onward is OUT of MAS-I scope; this is the final episode."
+  references:
+    - "James, G., Witten, D., Hastie, T., Tibshirani, R. — An Introduction to Statistical Learning, 2nd ed., Springer 2021, Chapter 7."
+    - "Hastie, T., Tibshirani, R. — Generalized Additive Models, Chapman and Hall, 1990."
+    - "Wood, S. — Generalized Additive Models: An Introduction with R, CRC, 2017 (the mgcv package's reference)."

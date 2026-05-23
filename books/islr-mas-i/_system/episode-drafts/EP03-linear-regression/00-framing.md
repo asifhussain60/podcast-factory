@@ -1,0 +1,145 @@
+# Framing: Episode 03: Linear Regression, Honestly
+
+## Critical pronunciation + citation rules (read BEFORE generating)
+
+**Author names — apply explicitly on first occurrence:**
+ - "James, Witten, Hastie, Tibshirani" → name them as a set in the opening; "Hastie and Tibshirani" suffices for callbacks.
+ - "Tibshirani" → **TIB-shir-AH-nee**.
+ - "Hastie" → **HAY-stee**.
+
+**Method names commonly mispronounced:**
+ - "heteroscedasticity" → **HET-er-oh-skuh-DAS-tih-see**. Single fluent word, four beats.
+ - "homoscedasticity" → **HOH-moh-skuh-DAS-tih-see**. Use only if contrasted with heteroscedasticity; otherwise refer to the constant-variance assumption.
+ - "multicollinearity" → **mull-tee-koh-lin-ee-AIR-ih-tee**. Single fluent word, five beats.
+ - "collinearity" → **koh-lin-ee-AIR-ih-tee**. Same backbone as multicollinearity, one syllable shorter.
+ - "leverage" → **LEV-er-ij**. Two syllables, stress on LEV. Not "leh-VAIR-azh".
+ - "studentized" → **STOO-den-tized**. Standard English, just unfamiliar to the ear.
+
+**Dataset names:**
+ - "Advertising data" → say "Advertising data set" — the textbook's two-hundred-market example with TV, radio, newspaper budgets predicting sales.
+ - "Credit data" → "Credit data set" — the credit-card-balance example used for qualitative predictors and collinearity.
+ - "Auto data" → "Auto data set" — the mpg-versus-horsepower example used for non-linear transformations.
+
+Citations of method anchors must be SPOKEN ("the F-statistic", "the variance inflation factor", "the residual standard error"), not glossed.
+
+## Opening directive
+
+Open the episode with a brief welcome — one sentence — followed by a two-to-three sentence summary that names this book (*An Introduction to Statistical Learning*, second edition, 2021, by James, Witten, Hastie, and Tibshirani) and lands the central frame this conversation will hold: Chapter 3 is the chapter that teaches the careful reading of a linear-regression output, from the single fitted coefficient to the practitioner's diagnostic checklist for everything that can go wrong. Do not open with "today we'll discuss". Do not open with "in this episode". Open in the voice of two analysts genuinely glad the listener showed up for the third walk. The summary should make clear that this is the third of seven episodes covering Chapters 1 through 7 of ISL, the MAS-I-relevant subset, and that this chapter is where the bias–variance vocabulary from the last walk gets concretized inside the most familiar tool on the menu.
+
+## Background
+
+This is Chapter 3 of a standard graduate textbook on statistical learning. It opens with the Advertising data set — two hundred markets, three media budgets, sales — and uses that example to walk the full apparatus a working analyst needs to fit, judge, and stress-test a linear regression. Section 3.1 covers simple linear regression — estimating the coefficients via least squares, the standard-error / confidence-interval / t-statistic / p-value gauges, and the RSE and R-squared measures of model fit. Section 3.2 covers multiple linear regression — the F-statistic for "is any predictor useful", why individual t-statistics can mislead with many predictors, a brief sketch of variable selection, and the three sources of prediction uncertainty. Section 3.3 covers extensions — qualitative predictors via dummy variables, interaction terms, non-linear transformations — and then the eight failure modes of linear regression with their diagnostic plots.
+
+Sections 3.4 (the Marketing Plan worked-case-study), 3.5 (linear regression versus K-nearest neighbors as parametric-vs-non-parametric), and 3.7 (Exercises) are OUT OF SCOPE for this episode and OMITTED. The chapter file carries an explicit prose seam at the exclusion boundary; the hosts must honor that seam and not narrate any of those three sections. Section 3.6 (the R Lab) is referenced but not narrated — walking listeners cannot follow R recitation.
+
+For the MAS-I-prep listener, this is the chapter where every later parametric method's evaluation vocabulary — standard errors, confidence intervals, p-values, R-squared, F-tests — gets named for the first time at full depth.
+
+## Audience
+
+The listener is an actuarial student who has passed SOA Exams P and FM and is preparing for MAS-I. They are quantitatively comfortable — calculus, probability, basic statistics, basic regression — but they have minimal exposure to the machine-learning vocabulary. They are listening on a walk. They are not taking notes. They are absorbing.
+
+Assume they understand random variables, expected values, variance, what a regression line is, and what a hypothesis test is in general. Do NOT assume they know what the F-statistic computes, what heteroscedasticity is, what a leverage statistic is, what the variance inflation factor measures, or what an interaction term does. Those terms will be introduced here and reinforced over the next four episodes.
+
+## Angle
+
+Intuition-first walk-listen. The textbook's Chapter 3 is the longest in the MAS-I-relevant subset and the densest with named statistics; the conversation must be the opposite — relaxed, paced, image-driven. Every formula or quantitative claim gets an intuitive one-sentence scaffold the walking listener can hold without paper: what it computes, why it exists, and what the answer's shape — sign, magnitude, monotonicity — tells you. Lead with intuition, name the formula, never solve aloud. Symbols themselves are NOT recited (no "sigma", no "X-bar", no "beta-hat") — the meaning behind the symbol is what carries.
+
+The angle is *personal application* in the sense that the listener is studying for an actual exam and will deploy these methods in actual actuarial work. When the chapter names the F-statistic, the hosts can note that this is the workhorse hypothesis test the actuarial student will reach for constantly. When the chapter discusses VIF, the hosts can name that this is the diagnostic that catches the multicollinearity insurance pricing models routinely face.
+
+## Central tensions to reach
+
+There are three named tensions in this chapter, and the conversation must reach each one.
+
+First. OLS is the line that minimizes total squared vertical distance to the points — that single picture is the entire intuition for what regression *does*; the coefficient formulas are named, never derived. The student who hears this chapter as "matrix algebra and Greek letters" needs to leave understanding that the picture, not the algebra, is what regression actually computes.
+
+Second. Standard errors, t-statistics, p-values, R-squared, and the F-statistic are the practitioner's instrument panel — each one answers a specific "is this predictor (or this model) doing anything?" question. The student should leave able to read a regression output and say in plain language what each number means, what it would look like if the predictor were truly unhelpful, and what shape the answer takes when the predictor is genuinely associated.
+
+Third. Linear regression's eight failure modes — non-linearity, correlated errors, heteroscedasticity, outliers, high-leverage points, multicollinearity, and the two qualitative-predictor pitfalls — are the practitioner's checklist. Frame this not as "things that go wrong" but as "how to spot each failure on the diagnostic plots". The residual plot, the studentized residual, the leverage statistic, and the variance inflation factor are the four instruments that catch most of what goes wrong; the student should leave with that toolkit.
+
+## Host dynamic
+
+Curious Mind and Patient Teacher.
+
+Host A is the Curious Mind. An actuarial student or recent credentialed actuary who is one or two years into their data-science deepening. Warm, plain language, knows the probability/regression basics but is still building ML vocabulary. Surfaces the listener's questions live: *if R-squared always rises when you add a predictor, why is it useful at all?*, *what's the difference between a confidence interval and a prediction interval, in one sentence?*, *when newspaper looked significant alone but vanished in the multiple regression, was the simple regression wrong?* Not naive, not unguarded — sharp, curious, on a walk.
+
+Host B is the Patient Teacher. A senior actuary who has been working with statistical learning methods for a decade. Calm, precise, anchored in the textbook. Names trade-offs before naming methods. Quotes the textbook directly when discussing key beats. Admits when something is genuinely contested. Never lectures. Respects Host A as an equal interlocutor — a colleague-in-formation, not a student to be educated.
+
+Conversation discipline. Each host completes a thought before the other responds. No interjections like "yeah" or "right" or "exactly" inside the other host's sentence. No talking over. The other host may pick up the thread after a brief pause. Cadence is short-to-medium sentences — thinking out loud rhythm, not paragraphs being read.
+
+## Tone constraints
+
+No false enthusiasm. The hosts should sound like they have read the chapter carefully and want to think out loud about it on a walk, not like they are selling it to anyone. Allow short sentences. Allow silences. Quote the textbook directly when discussing key beats; do not paraphrase the strongest lines.
+
+Walking-listen guardrail. The chapter is full of named statistics — standard errors, confidence intervals, t-statistics, p-values, RSE, R-squared, the F-statistic, the leverage statistic, the variance inflation factor. The hosts should NAME each and give the *intuitive scaffold* — what it computes, why it exists, what the shape of the answer tells you — but NEVER solve any formula aloud. The walking listener cannot follow algebra. The textbook itself names the coefficient formulas and prints them in compact form without derivation; match that posture. Do not recite symbols ("sigma", "X-bar", "beta-hat") — the meaning behind the symbol is what carries.
+
+No matrix algebra at all. Multiple regression is described in coordinate-by-coordinate intuition — one intercept, one slope per predictor, each interpreted as "holding the others fixed." Do NOT introduce X-transpose-X, the normal equations, or any matrix form. The textbook itself omits the multiple-regression formulas because they require matrix algebra; the hosts do the same.
+
+Math vocabulary discipline. When using technical terms (residual sum of squares, standard error, confidence interval, t-statistic, p-value, null hypothesis, alternative hypothesis, F-statistic, RSE, R-squared, dummy variable, interaction term, heteroscedasticity, leverage, multicollinearity, variance inflation factor), the FIRST use must include a brief in-line definition. After that, use the term naturally without re-defining. Trust the listener to remember.
+
+Section boundary discipline. The chapter has three sections inside §3.3 — qualitative predictors (§3.3.1), extensions including interactions and non-linear transformations (§3.3.2), and potential problems with the eight failure modes (§3.3.3). All three are IN SCOPE for this episode. Sections 3.4 (the Marketing Plan), 3.5 (linear regression versus KNN), and 3.7 (Exercises) are OUT OF SCOPE and OMITTED. The chapter file carries an explicit prose seam at the exclusion boundary; the hosts must honor that seam. Use the seam as written: name that ISL §3.4 walks the Marketing Plan example end to end and §3.5 compares linear regression against KNN, both outside the MAS-I scope, and stop with the §3.3 diagnostic checklist.
+
+## Permission to disagree
+
+Yes, lightly. The chapter presents the eight failure modes as a clean diagnostic checklist; in practice, real data sets often violate three or four of the assumptions at once, and the diagnostic plots can be ambiguous. If a host wants to surface that the checklist is a starting point and that experienced practitioners learn to read the plots in combination — that a funnel shape in the residuals plus a few high-leverage observations together suggest a different problem than either alone — that is allowed. Keep it brief. The point is to honor the textbook's tidy treatment while acknowledging that real practice is messier.
+
+## Three-part focus
+
+Focus 1. Simple linear regression — the line, the coefficients, the instrument panel. Land the OLS-as-the-line-that-minimizes-total-squared-vertical-distance picture as the entire intuition for what regression does. Then walk the gauges in order: standard error (the typical miss across resampling), confidence interval (the honest summary of where the slope sits), t-statistic and p-value (the hypothesis test for "does this predictor do anything"), RSE (typical residual in response units), R-squared (fraction of variance explained, between zero and one). The Advertising data is the spine — TV alone, intercept of seven, slope of 0.0475, t-statistic 17.7, R-squared 0.61. Numbers are not exam material; they anchor the picture.
+
+Focus 2. Multiple regression and the F-statistic. The multiple regression of sales on TV, radio, and newspaper is the surprise that drives the rest of the chapter: newspaper looked significant alone but vanishes once radio is in the model, because newspaper was a *surrogate* for radio. Land the "coefficients shifting when other predictors enter" intuition with the textbook's shark-attacks-and-ice-cream anchor. Then F-statistic — the answer to "is any predictor useful". Explain why individual t-statistics are insufficient with many predictors (multiple-testing problem: five percent of true nulls clear five-percent p-value by chance). Brief callouts for variable selection (forward, backward, mixed — none final, Chapter 6 picks up), the RSE-can-rise-with-useless-predictors subtlety, and the three sources of prediction uncertainty (confidence interval vs prediction interval).
+
+Focus 3. The §3.3 extensions and the eight failure modes — the practitioner's diagnostic checklist. Qualitative predictors via dummy variables; the baseline-coding choice does not affect predictions but changes coefficient interpretations. Interaction terms — additivity is convenient and often wrong; the TV-times-radio interaction lifts R-squared from 0.897 to 0.968. Non-linear transformations — the squared-predictor trick that keeps the model linear-in-coefficients. Then the eight failure modes as a checklist, each with its diagnostic: non-linearity (residual plot shape), correlated errors (tracking in time-residual plot), heteroscedasticity (funnel shape — pronounce HET-er-oh-skuh-DAS-tih-see), outliers (studentized residual > 3), high-leverage points (the leverage statistic; the 2008 financial crisis anchor for what high leverage looks like in deployed models), multicollinearity (the variance inflation factor; VIF above five or ten flags worry), and the two qualitative-predictor pitfalls (baseline coding, missing interaction). The residual plot is the first thing to look at — make sure the listener leaves with that habit.
+
+Landing. Close on the seam to the next walk. Name that §3.4 walks the Marketing Plan example end to end and §3.5 compares linear regression against K-nearest neighbors — both outside the MAS-I scope, so we stop with the §3.3 diagnostic checklist. Name that the textbook now turns to classification — the response becomes a category rather than a number, and the same picture of bias against variance extends into a new family of methods. Do not recap what was discussed. Do not say "so today we covered". The strongest closing is a single line about what the next walk will be about.
+
+## Pronunciation
+
+Pronounce "Tibshirani" as "TIB-shir-AH-nee". Say it as one fluent word. First occurrence in full; thereafter use the bare surname "Tibshirani".
+Pronounce "Hastie" as "HAY-stee". Say it as one fluent word.
+Pronounce "heteroscedasticity" as "HET-er-oh-skuh-DAS-tih-see". Say it as one fluent word, four beats.
+Pronounce "homoscedasticity" as "HOH-moh-skuh-DAS-tih-see". Say it as one fluent word, four beats. Only use if explicitly contrasting with heteroscedasticity.
+Pronounce "multicollinearity" as "mull-tee-koh-lin-ee-AIR-ih-tee". Say it as one fluent word.
+Pronounce "collinearity" as "koh-lin-ee-AIR-ih-tee". Say it as one fluent word.
+Pronounce "leverage" as "LEV-er-ij". Two syllables, stress on LEV.
+Pronounce "studentized" as "STOO-den-tized". Standard English; one fluent word.
+Pronounce "Advertising data set" as "ADD-ver-tie-zing data set". Standard English.
+Pronounce "Credit data set" as "CRED-it data set". Standard English.
+Pronounce "Auto data set" as "AW-toh data set". Standard English.
+
+Name discipline. Use each author's full last name on first reference; thereafter use the bare surname. The set is "James, Witten, Hastie, and Tibshirani" on the opening only; do not re-list all four after.
+
+Do not read this guidance aloud. The phonetics above are for the voice model only.
+
+## Do not (forbidden vocabulary and framings)
+
+Do NOT cite the Quran, hadith, Imam Ali, or any religious source. ISL is a secular textbook; religious citations are out of scope. (This rule mirrors the inverse of every other book in the library — the constraint is genre-specific.)
+
+Do NOT modernize gratuitously. The chapter does NOT name social media platforms, AI hype cycles, or 2024-era news. The hosts do not mention any of: Twitter, X, social media, content creator, internet troll, reply guy, YouTube comment, TikTok, Instagram, livestream, screen time, notification, attention economy, 21st century, quote-tweet, hashtag, follower count, doomscroll, hot take, cognitive behavioral therapy, productivity framework, life hack, self-help, wellness, mindfulness app, dopamine hit, deep dive, in our modern world, modern digital lives, platforms like. Additionally not allowed for this textbook: ChatGPT, OpenAI, generative AI, prompt engineering, AGI, large language models, transformers, foundation models, Anthropic, Claude, GPT, AlphaFold, Stable Diffusion, Sora, Midjourney, NFT, blockchain, crypto, web3, metaverse. Do NOT use formal-essay transitions: Firstly, Secondly, Furthermore, In conclusion, Moving on to, To summarize, Lastly.
+
+**ISL2-specific exception to the canonical no-modernize list.** The word "algorithm" appears throughout ISL2 as a standard technical term (e.g., "the backfitting algorithm", "the optimization algorithm"). It is NOT a social-media modernism in this context and is permitted when used in its textbook sense — referring to a computational procedure for fitting a model, not to a recommendation-engine ranking function. The hosts MAY say "algorithm" when discussing a method's computational procedure. They MUST NOT say it in the sense of "the TikTok algorithm" or "platform algorithm".
+
+Modern analogies are allowed but must come from the book's enrichment whitelist Tier 2: Netflix Prize (2006–2009), Spotify Discover Weekly, FICO credit scoring, Kaggle conventions, the 2008 financial crisis correlation breakdown, GAMs in insurance pricing. For this episode the most natural Tier 2 anchor is the 2008 financial crisis as the high-leverage-point illustration: default correlations across mortgage portfolios sat near zero through normal years and rose toward one in the crisis, and models calibrated on the pre-crisis regime saw the new observations as enormous-leverage outliers that retroactively redrew the lines. Use that beat once when introducing high-leverage points; not as a recurring motif.
+
+Do NOT perform surprise. Do not say: "wow", "that's so interesting", "fascinating", "amazing", "mind-blowing", "incredible", "right?", "exactly", "no way". Do not gasp. Do not repeat the previous host's last word as a single-word reaction. Trust the listener to register the point without being told it's profound.
+
+Do NOT lecture. The chapter does not lecture; the hosts must not either. Each beat is a thought, not a paragraph. The hosts ARE on a walk — short sentences, occasional pauses, conversational rhythm.
+
+Do NOT recite formulas. Name them (the least squares criterion, the residual sum of squares, the F-statistic, the leverage statistic, the variance inflation factor) and give the intuitive scaffold for each, but never compute them aloud and never recite symbols. The walking listener cannot follow algebra. Do not say "sigma", "X-bar", "beta-hat", "beta-zero", "beta-one", or any other symbol pronunciation. The meaning behind the symbol is what carries.
+
+Do NOT introduce matrix algebra. Multiple regression is described coordinate by coordinate — one intercept and one slope per predictor, each interpreted as "holding the others fixed". Do not mention X-transpose-X, the normal equations, the design matrix in formal form, or matrix inversion. The textbook itself does not write the multiple-regression coefficient formulas in this chapter because they require matrix algebra; honor that posture.
+
+Do NOT walk into §3.4 (the Marketing Plan), §3.5 (linear regression versus K-nearest neighbors), or §3.7 (Exercises). These sections are OUT OF SCOPE for this episode and OMITTED. The hosts may note at the exclusion seam that §3.4 walks the Marketing Plan example end to end and §3.5 compares linear regression against KNN — but they must not introduce KNN's mechanics, walk through the Marketing Plan's seven answers in detail, or work any exercise. The §3.6 R Lab is referenced but not narrated; do not recite R code or read function calls aloud.
+
+Do NOT abbreviate the book's title to "ISL" repeatedly. Say *An Introduction to Statistical Learning* in full on the opening; thereafter "the textbook" or "the book" works. The acronym ISL can appear sparingly when contrasted with ESL.
+
+Do NOT spend more than 60 seconds total on matrix algebra. The chapter references matrix algebra as the form the multiple-regression formulas take, then moves on. The hosts should do the same — name that matrix algebra is how the multiple-regression coefficients are written compactly, and that software computes them. No further matrix mention.
+
+Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.
+
+## Upload checklist
+
+1. Open NotebookLM. Create a new notebook for *ISL2, Episode 03: Linear Regression, Honestly*.
+2. Upload `content/podcast/library/books/islr-mas-i/chapters/ch03-linear-regression.txt` as the single source for the notebook.
+3. Paste the contents of `content/podcast/library/books/islr-mas-i/episodes/EP03-linear-regression.txt` into NotebookLM's *Customize* prompt box.
+4. Choose the *Deep Dive* Audio Overview format. Length: *Default*.
+5. Click *Generate*. The Audio Overview should run 12 to 15 minutes.

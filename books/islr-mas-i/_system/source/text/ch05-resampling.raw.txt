@@ -1,0 +1,2184 @@
+198     5. Resampling Methods
+
+5.1 Cross-Validation
+In Chapter 2 we discuss the distinction between the test error rate and the
+training error rate. The test error is the average error that results from using
+a statistical learning method to predict the response on a new observation—
+that is, a measurement that was not used in training the method. Given
+a data set, the use of a particular statistical learning method is warranted
+if it results in a low test error. The test error can be easily calculated if a
+designated test set is available. Unfortunately, this is usually not the case.
+In contrast, the training error can be easily calculated by applying the
+statistical learning method to the observations used in its training. But as
+we saw in Chapter 2, the training error rate often is quite diﬀerent from the
+test error rate, and in particular the former can dramatically underestimate
+the latter.
+   In the absence of a very large designated test set that can be used to
+directly estimate the test error rate, a number of techniques can be used
+to estimate this quantity using the available training data. Some methods
+make a mathematical adjustment to the training error rate in order to
+estimate the test error rate. Such approaches are discussed in Chapter 6.
+In this section, we instead consider a class of methods that estimate the
+test error rate by holding out a subset of the training observations from the
+fitting process, and then applying the statistical learning method to those
+held out observations.
+   In Sections 5.1.1–5.1.4, for simplicity we assume that we are interested
+in performing regression with a quantitative response. In Section 5.1.5 we
+consider the case of classification with a qualitative response. As we will
+see, the key concepts remain the same regardless of whether the response
+is quantitative or qualitative.
+
+
+5.1.1 The Validation Set Approach
+Suppose that we would like to estimate the test error associated with fit-
+ting a particular statistical learning method on a set of observations. The
+validation set approach, displayed in Figure 5.1, is a very simple strategy
+                                                                               validation
+for this task. It involves randomly dividing the available set of observa- set approach
+tions into two parts, a training set and a validation set or hold-out set. The
+                                                                               validation
+model is fit on the training set, and the fitted model is used to predict the set
+responses for the observations in the validation set. The resulting validation hold-out set
+set error rate—typically assessed using MSE in the case of a quantitative
+response—provides an estimate of the test error rate.
+   We illustrate the validation set approach on the Auto data set. Recall from
+Chapter 3 that there appears to be a non-linear relationship between mpg
+and horsepower, and that a model that predicts mpg using horsepower and
+horsepower2 gives better results than a model that uses only a linear term.
+It is natural to wonder whether a cubic or higher-order fit might provide
+                                                                                                      5.1 Cross-Validation                    199
+
+
+        !"#"$""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""%"
+
+
+
+
+        &""##""!$"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""'!"
+
+
+
+FIGURE 5.1. A schematic display of the validation set approach. A set of n
+observations are randomly split into a training set (shown in blue, containing
+observations 7, 22, and 13, among others) and a validation set (shown in beige,
+and containing observation 91, among others). The statistical learning method is
+fit on the training set, and its performance is evaluated on the validation set.
+
+
+even better results. We answer this question in Chapter 3 by looking at
+the p-values associated with a cubic term and higher-order polynomial
+terms in a linear regression. But we could also answer this question using
+the validation method. We randomly split the 392 observations into two
+sets, a training set containing 196 of the data points, and a validation set
+containing the remaining 196 observations. The validation set error rates
+that result from fitting various regression models on the training sample
+and evaluating their performance on the validation sample, using MSE
+as a measure of validation set error, are shown in the left-hand panel of
+Figure 5.2. The validation set MSE for the quadratic fit is considerably
+smaller than for the linear fit. However, the validation set MSE for the cubic
+fit is actually slightly larger than for the quadratic fit. This implies that
+including a cubic term in the regression does not lead to better prediction
+than simply using a quadratic term.
+   Recall that in order to create the left-hand panel of Figure 5.2, we ran-
+domly divided the data set into two parts, a training set and a validation
+set. If we repeat the process of randomly splitting the sample set into two
+parts, we will get a somewhat diﬀerent estimate for the test MSE. As an
+illustration, the right-hand panel of Figure 5.2 displays ten diﬀerent vali-
+dation set MSE curves from the Auto data set, produced using ten diﬀerent
+random splits of the observations into training and validation sets. All ten
+curves indicate that the model with a quadratic term has a dramatically
+smaller validation set MSE than the model with only a linear term. Fur-
+thermore, all ten curves indicate that there is not much benefit in including
+cubic or higher-order polynomial terms in the model. But it is worth noting
+that each of the ten curves results in a diﬀerent test MSE estimate for each
+of the ten regression models considered. And there is no consensus among
+the curves as to which model results in the smallest validation set MSE.
+Based on the variability among these curves, all that we can conclude with
+any confidence is that the linear fit is not adequate for this data.
+   The validation set approach is conceptually simple and is easy to imple-
+ment. But it has two potential drawbacks:
+200                       5. Resampling Methods
+
+
+                     28                                                         28
+
+
+
+
+Mean Squared Error                                         Mean Squared Error
+                     26                                                         26
+
+                     24                                                         24
+
+                     22                                                         22
+
+                     20                                                         20
+
+                     18                                                         18
+
+                     16                                                         16
+
+
+                           2      4       6       8   10                             2      4       6       8   10
+
+                               Degree of Polynomial                                      Degree of Polynomial
+
+
+FIGURE 5.2. The validation set approach was used on the Auto data set in
+order to estimate the test error that results from predicting mpg using polynomial
+functions of horsepower. Left: Validation error estimates for a single split into
+training and validation data sets. Right: The validation method was repeated ten
+times, each time using a diﬀerent random split of the observations into a training
+set and a validation set. This illustrates the variability in the estimated test MSE
+that results from this approach.
+
+                     1. As is shown in the right-hand panel of Figure 5.2, the validation esti-
+                        mate of the test error rate can be highly variable, depending on pre-
+                        cisely which observations are included in the training set and which
+                        observations are included in the validation set.
+
+                     2. In the validation approach, only a subset of the observations—those
+                        that are included in the training set rather than in the validation
+                        set—are used to fit the model. Since statistical methods tend to per-
+                        form worse when trained on fewer observations, this suggests that the
+                        validation set error rate may tend to overestimate the test error rate
+                        for the model fit on the entire data set.
+
+In the coming subsections, we will present cross-validation, a refinement of
+the validation set approach that addresses these two issues.
+
+
+5.1.2 Leave-One-Out Cross-Validation
+Leave-one-out cross-validation (LOOCV) is closely related to the validation
+                                                                                 leave-one-
+set approach of Section 5.1.1, but it attempts to address that method’s out
+drawbacks.                                                                       cross-
+  Like the validation set approach, LOOCV involves splitting the set of validation
+observations into two parts. However, instead of creating two subsets of
+comparable size, a single observation (x1 , y1 ) is used for the validation
+set, and the remaining observations {(x2 , y2 ), . . . , (xn , yn )} make up the
+training set. The statistical learning method is fit on the n − 1 training
+observations, and a prediction ŷ1 is made for the excluded observation,
+                                                                                                        5.1 Cross-Validation                     201
+
+
+         !"#"$"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""%"
+
+
+
+
+         !"#"$"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""%"
+
+         !"#"$"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""%"
+
+         !"#"$"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""%"
+                                                                        &"
+                                                                        &"
+                                                                        &"
+          !"#"$"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""%"
+
+
+
+FIGURE 5.3. A schematic display of LOOCV. A set of n data points is repeat-
+edly split into a training set (shown in blue) containing all but one observation,
+and a validation set that contains only that observation (shown in beige). The test
+error is then estimated by averaging the n resulting MSE’s. The first training set
+contains all but observation 1, the second training set contains all but observation
+2, and so forth.
+
+using its value x1 . Since (x1 , y1 ) was not used in the fitting process, MSE1 =
+(y1 − ŷ1 )2 provides an approximately unbiased estimate for the test error.
+But even though MSE1 is unbiased for the test error, it is a poor estimate
+because it is highly variable, since it is based upon a single observation
+(x1 , y1 ).
+  We can repeat the procedure by selecting (x2 , y2 ) for the validation
+data, training the statistical learning procedure on the n − 1 observations
+{(x1 , y1 ), (x3 , y3 ), . . . , (xn , yn )}, and computing MSE2 = (y2 −ŷ2 )2 . Repeat-
+ing this approach n times produces n squared errors, MSE1 , . . . , MSEn .
+The LOOCV estimate for the test MSE is the average of these n test error
+estimates:
+                                                    n
+                                                  10
+                                       CV(n) =         MSEi .                      (5.1)
+                                                 n i=1
+
+A schematic of the LOOCV approach is illustrated in Figure 5.3.
+   LOOCV has a couple of major advantages over the validation set ap-
+proach. First, it has far less bias. In LOOCV, we repeatedly fit the sta-
+tistical learning method using training sets that contain n − 1 observa-
+tions, almost as many as are in the entire data set. This is in contrast to
+the validation set approach, in which the training set is typically around
+half the size of the original data set. Consequently, the LOOCV approach
+tends not to overestimate the test error rate as much as the validation
+set approach does. Second, in contrast to the validation approach which
+will yield diﬀerent results when applied repeatedly due to randomness in
+the training/validation set splits, performing LOOCV multiple times will
+202                       5. Resampling Methods
+
+
+                                      LOOCV                                                                   10−fold CV
+
+
+                     28                                                               28
+
+
+
+
+Mean Squared Error                                               Mean Squared Error
+                     26                                                               26
+
+                     24                                                               24
+
+                     22                                                               22
+
+                     20                                                               20
+
+                     18                                                               18
+
+                     16                                                               16
+
+
+                           2      4       6       8     10                                   2            4         6      8   10
+
+                               Degree of Polynomial                                               Degree of Polynomial
+
+
+FIGURE 5.4. Cross-validation was used on the Auto data set in order to es-
+timate the test error that results from predicting mpg using polynomial functions
+of horsepower. Left: The LOOCV error curve. Right: 10-fold CV was run nine
+separate times, each with a diﬀerent random split of the data into ten parts. The
+figure shows the nine slightly diﬀerent CV error curves.
+
+always yield the same results: there is no randomness in the training/vali-
+dation set splits.
+   We used LOOCV on the Auto data set in order to obtain an estimate
+of the test set MSE that results from fitting a linear regression model to
+predict mpg using polynomial functions of horsepower. The results are shown
+in the left-hand panel of Figure 5.4.
+   LOOCV has the potential to be expensive to implement, since the model
+has to be fit n times. This can be very time consuming if n is large, and if
+each individual model is slow to fit. With least squares linear or polynomial
+regression, an amazing shortcut makes the cost of LOOCV the same as that
+of a single model fit! The following formula holds:
+                                                             n                  *                +2
+                                                        10                            yi − ŷi
+                                              CV(n) =                                                 ,                        (5.2)
+                                                        n i=1                         1 − hi
+
+where ŷi is the ith fitted value from the original least squares fit, and hi is
+the leverage defined in (3.37) on page 99.1 This is like the ordinary MSE,
+except the ith residual is divided by 1 − hi . The leverage lies between 1/n
+and 1, and reflects the amount that an observation influences its own fit.
+Hence the residuals for high-leverage points are inflated in this formula by
+exactly the right amount for this equality to hold.
+  LOOCV is a very general method, and can be used with any kind of
+predictive modeling. For example we could use it with logistic regression
+
+   1 In the case of multiple linear regression, the leverage takes a slightly more compli-
+
+cated form than (3.37), but (5.2) still holds.
+                                                                                                       5.1 Cross-Validation                    203
+
+
+         !"#"$""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""%"
+
+
+
+
+         !!"&'"(""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""")&"
+
+         !!"&'"(""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""")&"
+
+         !!"&'"(""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""")&"
+
+         !!"&'"(""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""")&"
+
+         !!"&'"(""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""")&"
+
+
+
+FIGURE 5.5. A schematic display of 5-fold CV. A set of n observations is
+randomly split into five non-overlapping groups. Each of these fifths acts as a
+validation set (shown in beige), and the remainder as a training set (shown in
+blue). The test error is estimated by averaging the five resulting MSE estimates.
+
+or linear discriminant analysis, or any of the methods discussed in later
+chapters. The magic formula (5.2) does not hold in general, in which case
+the model has to be refit n times.
+
+
+5.1.3    k-Fold Cross-Validation
+An alternative to LOOCV is k-fold CV. This approach involves randomly
+                                                                              k-fold CV
+dividing the set of observations into k groups, or folds, of approximately
+equal size. The first fold is treated as a validation set, and the method
+is fit on the remaining k − 1 folds. The mean squared error, MSE1 , is
+then computed on the observations in the held-out fold. This procedure is
+repeated k times; each time, a diﬀerent group of observations is treated
+as a validation set. This process results in k estimates of the test error,
+MSE1 , MSE2 , . . . , MSEk . The k-fold CV estimate is computed by averaging
+these values,
+                                          k
+                                       10
+                              CV(k) =        MSEi .                     (5.3)
+                                       k i=1
+Figure 5.5 illustrates the k-fold CV approach.
+   It is not hard to see that LOOCV is a special case of k-fold CV in which k
+is set to equal n. In practice, one typically performs k-fold CV using k = 5
+or k = 10. What is the advantage of using k = 5 or k = 10 rather than
+k = n? The most obvious advantage is computational. LOOCV requires
+fitting the statistical learning method n times. This has the potential to be
+computationally expensive (except for linear models fit by least squares,
+in which case formula (5.2) can be used). But cross-validation is a very
+general approach that can be applied to almost any statistical learning
+method. Some statistical learning methods have computationally intensive
+204                            5. Resampling Methods
+
+                     3.0                                                    3.0                                                   20
+
+
+
+                     2.5                                                    2.5
+
+                                                                                                                                  15
+
+
+
+
+Mean Squared Error                                     Mean Squared Error                                    Mean Squared Error
+                     2.0                                                    2.0
+
+
+
+                     1.5                                                    1.5                                                   10
+
+
+
+                     1.0                                                    1.0
+                                                                                                                                  5
+
+                     0.5                                                    0.5
+
+
+
+                     0.0                                                    0.0                                                   0
+
+
+                           2    5        10       20                              2   5        10       20                             2   5        10       20
+
+                                    Flexibility                                           Flexibility                                          Flexibility
+
+
+FIGURE 5.6. True and estimated test MSE for the simulated data sets in Fig-
+ures 2.9 ( left), 2.10 ( center), and 2.11 ( right). The true test MSE is shown in
+blue, the LOOCV estimate is shown as a black dashed line, and the 10-fold CV
+estimate is shown in orange. The crosses indicate the minimum of each of the
+MSE curves.
+
+
+fitting procedures, and so performing LOOCV may pose computational
+problems, especially if n is extremely large. In contrast, performing 10-fold
+CV requires fitting the learning procedure only ten times, which may be
+much more feasible. As we see in Section 5.1.4, there also can be other
+non-computational advantages to performing 5-fold or 10-fold CV, which
+involve the bias-variance trade-oﬀ.
+   The right-hand panel of Figure 5.4 displays nine diﬀerent 10-fold CV
+estimates for the Auto data set, each resulting from a diﬀerent random
+split of the observations into ten folds. As we can see from the figure, there
+is some variability in the CV estimates as a result of the variability in how
+the observations are divided into ten folds. But this variability is typically
+much lower than the variability in the test error estimates that results from
+the validation set approach (right-hand panel of Figure 5.2).
+   When we examine real data, we do not know the true test MSE, and
+so it is diﬃcult to determine the accuracy of the cross-validation estimate.
+However, if we examine simulated data, then we can compute the true
+test MSE, and can thereby evaluate the accuracy of our cross-validation
+results. In Figure 5.6, we plot the cross-validation estimates and true test
+error rates that result from applying smoothing splines to the simulated
+data sets illustrated in Figures 2.9–2.11 of Chapter 2. The true test MSE
+is displayed in blue. The black dashed and orange solid lines respectively
+show the estimated LOOCV and 10-fold CV estimates. In all three plots,
+the two cross-validation estimates are very similar. In the right-hand panel
+of Figure 5.6, the true test MSE and the cross-validation curves are almost
+identical. In the center panel of Figure 5.6, the two sets of curves are similar
+at the lower degrees of flexibility, while the CV curves overestimate the test
+set MSE for higher degrees of flexibility. In the left-hand panel of Figure 5.6,
+                                                    5.1 Cross-Validation     205
+
+the CV curves have the correct general shape, but they underestimate the
+true test MSE.
+   When we perform cross-validation, our goal might be to determine how
+well a given statistical learning procedure can be expected to perform on
+independent data; in this case, the actual estimate of the test MSE is
+of interest. But at other times we are interested only in the location of
+the minimum point in the estimated test MSE curve. This is because we
+might be performing cross-validation on a number of statistical learning
+methods, or on a single method using diﬀerent levels of flexibility, in order
+to identify the method that results in the lowest test error. For this purpose,
+the location of the minimum point in the estimated test MSE curve is
+important, but the actual value of the estimated test MSE is not. We find
+in Figure 5.6 that despite the fact that they sometimes underestimate the
+true test MSE, all of the CV curves come close to identifying the correct
+level of flexibility—that is, the flexibility level corresponding to the smallest
+test MSE.
+
+
+5.1.4 Bias-Variance Trade-Oﬀ for k-Fold Cross-Validation
+We mentioned in Section 5.1.3 that k-fold CV with k < n has a compu-
+tational advantage to LOOCV. But putting computational issues aside,
+a less obvious but potentially more important advantage of k-fold CV is
+that it often gives more accurate estimates of the test error rate than does
+LOOCV. This has to do with a bias-variance trade-oﬀ.
+   It was mentioned in Section 5.1.1 that the validation set approach can
+lead to overestimates of the test error rate, since in this approach the
+training set used to fit the statistical learning method contains only half
+the observations of the entire data set. Using this logic, it is not hard to see
+that LOOCV will give approximately unbiased estimates of the test error,
+since each training set contains n − 1 observations, which is almost as many
+as the number of observations in the full data set. And performing k-fold
+CV for, say, k = 5 or k = 10 will lead to an intermediate level of bias,
+since each training set contains approximately (k − 1)n/k observations—
+fewer than in the LOOCV approach, but substantially more than in the
+validation set approach. Therefore, from the perspective of bias reduction,
+it is clear that LOOCV is to be preferred to k-fold CV.
+   However, we know that bias is not the only source for concern in an esti-
+mating procedure; we must also consider the procedure’s variance. It turns
+out that LOOCV has higher variance than does k-fold CV with k < n. Why
+is this the case? When we perform LOOCV, we are in eﬀect averaging the
+outputs of n fitted models, each of which is trained on an almost identical
+set of observations; therefore, these outputs are highly (positively) corre-
+lated with each other. In contrast, when we perform k-fold CV with k < n,
+we are averaging the outputs of k fitted models that are somewhat less
+correlated with each other, since the overlap between the training sets in
+206     5. Resampling Methods
+
+each model is smaller. Since the mean of many highly correlated quantities
+has higher variance than does the mean of many quantities that are not
+as highly correlated, the test error estimate resulting from LOOCV tends
+to have higher variance than does the test error estimate resulting from
+k-fold CV.
+  To summarize, there is a bias-variance trade-oﬀ associated with the
+choice of k in k-fold cross-validation. Typically, given these considerations,
+one performs k-fold cross-validation using k = 5 or k = 10, as these values
+have been shown empirically to yield test error rate estimates that suﬀer
+neither from excessively high bias nor from very high variance.
+
+
+5.1.5 Cross-Validation on Classification Problems
+In this chapter so far, we have illustrated the use of cross-validation in the
+regression setting where the outcome Y is quantitative, and so have used
+MSE to quantify test error. But cross-validation can also be a very useful
+approach in the classification setting when Y is qualitative. In this setting,
+cross-validation works just as described earlier in this chapter, except that
+rather than using MSE to quantify test error, we instead use the number
+of misclassified observations. For instance, in the classification setting, the
+LOOCV error rate takes the form
+                                          n
+                                      10
+                            CV(n) =         Erri ,                        (5.4)
+                                      n i=1
+
+where Erri = I(yi ̸= ŷi ). The k-fold CV error rate and validation set error
+rates are defined analogously.
+   As an example, we fit various logistic regression models on the two-
+dimensional classification data displayed in Figure 2.13. In the top-left
+panel of Figure 5.7, the black solid line shows the estimated decision bound-
+ary resulting from fitting a standard logistic regression model to this data
+set. Since this is simulated data, we can compute the true test error rate,
+which takes a value of 0.201 and so is substantially larger than the Bayes
+error rate of 0.133. Clearly logistic regression does not have enough flexi-
+bility to model the Bayes decision boundary in this setting. We can easily
+extend logistic regression to obtain a non-linear decision boundary by using
+polynomial functions of the predictors, as we did in the regression setting in
+Section 3.3.2. For example, we can fit a quadratic logistic regression model,
+given by
+                *       +
+                     p
+            log             = β0 + β1 X1 + β2 X12 + β3 X2 + β4 X22 .     (5.5)
+                   1−p
+The top-right panel of Figure 5.7 displays the resulting decision boundary,
+which is now curved. However, the test error rate has improved only slightly,
+to 0.197. A much larger improvement is apparent in the bottom-left panel
+                                                                      5.1 Cross-Validation                 207
+
+                       Degree=1                                              Degree=2
+
+
+                      o o                                                   o o
+              o o oo o o                                            o o oo o o
+            o    oo oo o o                                        o    oo oo o o
+         o
+            o        oo oo ooo oo                              o
+                                                                  o        oo oo ooo oo
+     oo oo         oo o oooooo o                  oo       oo oo         oo o oooooo o                  oo
+   o      o oo                oo              oo         o      o oo                oo              oo
+           o      ooo o oo
+                  o               o                o             o      ooo o oo
+                                                                        o               o                o
+     oo                     ooo o                          oo                     ooo o
+     o o        o o ooo        o                           o o        o o ooo        o
+      ooo oo                                     o   o      ooo oo                                     o   o
+       o o o o ooooo oo oo o oooo o                          o o o o ooooo oo oo o oooo o
+             oo        o
+                       o o   o  o o
+                               ooo o    o      o                   oo        o
+                                                                             o o   o  o o
+                                                                                     ooo o    o      o
+      o o
+           oo o        oo o oo o       o oo
+                                                            o o
+                                                                 oo o        oo o oo o       o oo
+                        oo                                                    oo
+                    o ooo oo o o                                          o ooo oo o o
+                o o             o oooo o                              o o             o oooo o
+                        o                                                     o
+                oo         o ooo
+                               oo oo oo o                             oo         o ooo
+                                                                                     oo oo oo o
+                 o                  oo                                 o                  oo
+           o        o            o
+                            oo ooo  oooo oo                      o        o            o
+                                                                                  oo ooo  oooo oo
+            o o                  oo ooo
+                               ooo                                o o                  oo ooo
+                                                                                     ooo
+             o                    o         o                      o                    o         o
+           o                        oo o                         o                        oo o
+               o              o o                                    o              o o
+
+
+                       Degree=3                                              Degree=4
+
+
+                     o o                                                   o o
+              o o oo o o                                            o o oo o o
+           o     oo oo o o                                       o     oo oo o o
+         o
+            o       oo oo ooo oo                               o
+                                                                  o       oo oo ooo oo
+     oo oo         oo o oooooo o                 oo        oo oo         oo o oooooo o                 oo
+   o      o oo
+           o      oo  o oo oo o              oo          o      o oo
+                                                                 o      oo  o oo oo o              oo
+     oo           oo       ooo o                  o        oo           oo       ooo o                  o
+     o o        o oooo        o                            o o        o oooo        o
+      ooo oo             o o
+                           o     o  o           o o         ooo oo             o o
+                                                                                 o     o  o           o o
+       o o o o oooo oo                     o                 o o o o oooo oo                     o
+             o                        ooo                          o                        ooo
+      o o o           oo o ooooooo o o        o
+                                                            o o o           oo o ooooooo o o        o
+           oo o        oo o o o o o                              oo o        oo o o o o o
+                        o o      o    o  o                                    o o      o    o  o
+                    o oo                                                  o oo
+                o o o oo o oooo o                                     o o o oo o oooo o
+                        o            oo o                                     o            oo o
+                oo        o ooo   o
+                              oo ooo                                  oo        o ooo   o
+                                                                                    oo ooo
+                 o              o oooo o                               o              o oooo o
+           o       o       oo ooo        o                       o       o       oo ooo        o
+            o o                o
+                               o
+                               o
+                              ooo ooo                             o o                o
+                                                                                     o
+                                                                                     o
+                                                                                    ooo ooo
+             o                    oo o o                           o                    oo o o
+           o                                                     o
+               o             o o                                     o             o o
+
+
+
+FIGURE 5.7. Logistic regression fits on the two-dimensional classification data
+displayed in Figure 2.13. The Bayes decision boundary is represented using a
+purple dashed line. Estimated decision boundaries from linear, quadratic, cubic
+and quartic (degrees 1–4) logistic regressions are displayed in black. The test error
+rates for the four logistic regression fits are respectively 0.201, 0.197, 0.160, and
+0.162, while the Bayes error rate is 0.133.
+
+of Figure 5.7, in which we have fit a logistic regression model involving
+cubic polynomials of the predictors. Now the test error rate has decreased
+to 0.160. Going to a quartic polynomial (bottom-right) slightly increases
+the test error.
+  In practice, for real data, the Bayes decision boundary and the test er-
+ror rates are unknown. So how might we decide between the four logistic
+regression models displayed in Figure 5.7? We can use cross-validation in
+order to make this decision. The left-hand panel of Figure 5.8 displays in
+208                 5. Resampling Methods
+
+
+
+             0.20                                                      0.20
+
+
+             0.18                                                      0.18
+
+
+
+Error Rate                                                Error Rate
+             0.16                                                      0.16
+
+
+             0.14                                                      0.14
+
+
+             0.12                                                      0.12
+
+
+
+                     2         4       6      8      10                       0.01   0.02   0.05   0.10   0.20   0.50   1.00
+
+                         Order of Polynomials Used                                                 1/K
+
+
+FIGURE 5.8. Test error (brown), training error (blue), and 10-fold CV error
+(black) on the two-dimensional classification data displayed in Figure 5.7. Left:
+Logistic regression using polynomial functions of the predictors. The order of
+the polynomials used is displayed on the x-axis. Right: The KNN classifier with
+diﬀerent values of K, the number of neighbors used in the KNN classifier.
+
+
+
+black the 10-fold CV error rates that result from fitting ten logistic regres-
+sion models to the data, using polynomial functions of the predictors up
+to tenth order. The true test errors are shown in brown, and the training
+errors are shown in blue. As we have seen previously, the training error
+tends to decrease as the flexibility of the fit increases. (The figure indicates
+that though the training error rate doesn’t quite decrease monotonically,
+it tends to decrease on the whole as the model complexity increases.) In
+contrast, the test error displays a characteristic U-shape. The 10-fold CV
+error rate provides a pretty good approximation to the test error rate.
+While it somewhat underestimates the error rate, it reaches a minimum
+when fourth-order polynomials are used, which is very close to the min-
+imum of the test curve, which occurs when third-order polynomials are
+used. In fact, using fourth-order polynomials would likely lead to good test
+set performance, as the true test error rate is approximately the same for
+third, fourth, fifth, and sixth-order polynomials.
+   The right-hand panel of Figure 5.8 displays the same three curves us-
+ing the KNN approach for classification, as a function of the value of K
+(which in this context indicates the number of neighbors used in the KNN
+classifier, rather than the number of CV folds used). Again the training
+error rate declines as the method becomes more flexible, and so we see that
+the training error rate cannot be used to select the optimal value for K.
+Though the cross-validation error curve slightly underestimates the test
+error rate, it takes on a minimum very close to the best value for K.
+                                                          5.2 The Bootstrap    209
+
+5.2 The Bootstrap
+The bootstrap is a widely applicable and extremely powerful statistical tool
+                                                                                    bootstrap
+that can be used to quantify the uncertainty associated with a given esti-
+mator or statistical learning method. As a simple example, the bootstrap
+can be used to estimate the standard errors of the coeﬃcients from a linear
+regression fit. In the specific case of linear regression, this is not particularly
+useful, since we saw in Chapter 3 that standard statistical software such as
+R outputs such standard errors automatically. However, the power of the
+bootstrap lies in the fact that it can be easily applied to a wide range of
+statistical learning methods, including some for which a measure of vari-
+ability is otherwise diﬃcult to obtain and is not automatically output by
+statistical software.
+   In this section we illustrate the bootstrap on a toy example in which we
+wish to determine the best investment allocation under a simple model.
+In Section 5.3 we explore the use of the bootstrap to assess the variability
+associated with the regression coeﬃcients in a linear model fit.
+   Suppose that we wish to invest a fixed sum of money in two financial
+assets that yield returns of X and Y , respectively, where X and Y are
+random quantities. We will invest a fraction α of our money in X, and will
+invest the remaining 1 − α in Y . Since there is variability associated with
+the returns on these two assets, we wish to choose α to minimize the total
+risk, or variance, of our investment. In other words, we want to minimize
+Var(αX + (1 − α)Y ). One can show that the value that minimizes the risk
+is given by
+                                      σ 2 − σXY
+                             α= 2 Y 2                 ,                       (5.6)
+                                  σX + σY − 2σXY
+         2
+where σX    = Var(X), σY2 = Var(Y ), and σXY = Cov(X, Y ).
+                               2
+   In reality, the quantities σX , σY2 , and σXY are unknown. We can compute
+                                      2
+estimates for these quantities, σ̂X      , σ̂Y2 , and σ̂XY , using a data set that
+contains past measurements for X and Y . We can then estimate the value
+of α that minimizes the variance of our investment using
+
+                                       σ̂Y2 − σ̂XY
+                            α̂ =                      .                       (5.7)
+                                   σ̂X + σ̂Y2 − 2σ̂XY
+                                     2
+
+
+Figure 5.9 illustrates this approach for estimating α on a simulated data
+set. In each panel, we simulated 100 pairs of returns for the investments
+                                                 2
+X and Y . We used these returns to estimate σX     , σY2 , and σXY , which we
+then substituted into (5.7) in order to obtain estimates for α. The value of
+α̂ resulting from each simulated data set ranges from 0.532 to 0.657.
+   It is natural to wish to quantify the accuracy of our estimate of α. To
+estimate the standard deviation of α̂, we repeated the process of simu-
+lating 100 paired observations of X and Y , and estimating α using (5.7),
+1,000 times. We thereby obtained 1,000 estimates for α, which we can call
+210      5. Resampling Methods
+
+
+            2                                                       2
+
+
+
+            1                                                       1
+
+
+
+        Y   0                                                   Y   0
+
+
+            −1
+                                                                    −1
+
+
+            −2
+                                                                    −2
+
+
+
+                 −2    −1        0       1       2                            −2        −1       0           1       2
+
+                                 X                                                                   X
+
+
+
+
+            2                                                       2
+
+
+            1                                                       1
+
+
+        Y   0                                                   Y   0
+
+
+            −1                                                      −1
+
+
+            −2                                                      −2
+
+
+            −3                                                      −3
+
+                 −3   −2    −1       0       1       2                   −2        −1        0           1       2       3
+
+                                 X                                                                   X
+
+
+FIGURE 5.9. Each panel displays 100 simulated returns for investments
+X and Y . From left to right and top to bottom, the resulting estimates for α
+are 0.576, 0.532, 0.657, and 0.651.
+
+α̂1 , α̂2 , . . . , α̂1,000 . The left-hand panel of Figure 5.10 displays a histogram
+of the resulting estimates. For these simulations the parameters were set to
+  2
+σX    = 1, σY2 = 1.25, and σXY = 0.5, and so we know that the true value of
+α is 0.6. We indicated this value using a solid vertical line on the histogram.
+The mean over all 1,000 estimates for α is
+                                                         1000
+                                               1 0
+                                 ᾱ =                 α̂r = 0.5996,
+                                             1000 r=1
+
+very close to α = 0.6, and the standard deviation of the estimates is
+                    :
+                    ;           1000
+                    ;      1     0
+                    <                          2
+                                     (α̂r − ᾱ) = 0.083.
+                       1000 − 1 r=1
+
+This gives us a very good idea of the accuracy of α̂: SE(α̂) ≈ 0.083. So
+roughly speaking, for a random sample from the population, we would
+expect α̂ to diﬀer from α by approximately 0.08, on average.
+  In practice, however, the procedure for estimating SE(α̂) outlined above
+cannot be applied, because for real data we cannot generate new samples
+                                                                                                 5.2 The Bootstrap              211
+
+
+                                                                                                       0.9
+
+
+  200                                           200
+                                                                                                       0.8
+
+
+
+  150                                           150                                                    0.7
+
+
+
+                                                                                                 α     0.6
+  100                                           100
+
+
+                                                                                                       0.5
+
+  50                                            50
+                                                                                                       0.4
+
+
+  0                                             0
+                                                                                                       0.3
+
+        0.4   0.5   0.6       0.7   0.8   0.9         0.3   0.4   0.5   0.6   0.7   0.8   0.9                True   Bootstrap
+
+                          α                                             α
+
+FIGURE 5.10. Left: A histogram of the estimates of α obtained by generating
+1,000 simulated data sets from the true population. Center: A histogram of the
+estimates of α obtained from 1,000 bootstrap samples from a single data set.
+Right: The estimates of α displayed in the left and center panels are shown as
+boxplots. In each panel, the pink line indicates the true value of α.
+
+from the original population. However, the bootstrap approach allows us
+to use a computer to emulate the process of obtaining new sample sets,
+so that we can estimate the variability of α̂ without generating additional
+samples. Rather than repeatedly obtaining independent data sets from the
+population, we instead obtain distinct data sets by repeatedly sampling
+observations from the original data set.
+   This approach is illustrated in Figure 5.11 on a simple data set, which
+we call Z, that contains only n = 3 observations. We randomly select n
+observations from the data set in order to produce a bootstrap data set,
+Z ∗1 . The sampling is performed with replacement, which means that the
+                                                                                    with
+same observation can occur more than once in the bootstrap data set. In replacement
+this example, Z ∗1 contains the third observation twice, the first observation
+once, and no instances of the second observation. Note that if an observation
+is contained in Z ∗1 , then both its X and Y values are included. We can use
+Z ∗1 to produce a new bootstrap estimate for α, which we call α̂∗1 . This
+procedure is repeated B times for some large value of B, in order to produce
+B diﬀerent bootstrap data sets, Z ∗1 , Z ∗2 , . . . , Z ∗B , and B corresponding α
+estimates, α̂∗1 , α̂∗2 , . . . , α̂∗B . We can compute the standard error of these
+bootstrap estimates using the formula
+                                  :
+                                  ;            >                     ?2
+                                  ; 1 0     B
+                                                        1 0B
+               SEB (α̂) =         <              α̂∗r −       α̂∗r ′
+                                                                        .     (5.8)
+                                     B − 1 r=1          B ′
+                                                                                                r =1
+
+This serves as an estimate of the standard error of α̂ estimated from the
+original data set.
+  The bootstrap approach is illustrated in the center panel of Figure 5.10,
+which displays a histogram of 1,000 bootstrap estimates of α, each com-
+212     5. Resampling Methods
+
+
+                                           Obs   X      Y
+
+                                           3     5.3    2.8
+                                                                    α̂ *1
+                                           1     4.3    2.4
+                                  Z *1     3     5.3    2.8
+
+                                           Obs   X      Y
+         Obs   X     Y
+                                           2     2.1    1.1
+         1     4.3   2.4          Z *2
+                                 !!
+                                           3     5.3    2.8         α̂ *2
+         2     2.1   1.1
+                                 !!        1      4.3   2.4        !!
+         3     5.3   2.8                                           !!
+                                 !!              !!
+                                 !!              !!                !!
+                                 !Z
+                                    *B                             !!
+        Original Data (Z)                        !!
+                                                                   !!
+                                           Obs   X      Y
+                                                                   α̂ *B
+                                           2     2.1    1.1
+                                           2     2.1    1.1
+                                           1     4.3    2.4
+
+FIGURE 5.11. A graphical illustration of the bootstrap approach on a small
+sample containing n = 3 observations. Each bootstrap data set contains n obser-
+vations, sampled with replacement from the original data set. Each bootstrap data
+set is used to obtain an estimate of α.
+
+puted using a distinct bootstrap data set. This panel was constructed on
+the basis of a single data set, and hence could be created using real data.
+Note that the histogram looks very similar to the left-hand panel, which
+displays the idealized histogram of the estimates of α obtained by gener-
+ating 1,000 simulated data sets from the true population. In particular the
+bootstrap estimate SE(α̂) from (5.8) is 0.087, very close to the estimate
+of 0.083 obtained using 1,000 simulated data sets. The right-hand panel
+displays the information in the center and left panels in a diﬀerent way, via
+boxplots of the estimates for α obtained by generating 1,000 simulated data
+sets from the true population and using the bootstrap approach. Again, the
+boxplots have similar spreads, indicating that the bootstrap approach can
+be used to eﬀectively estimate the variability associated with α̂.
+
+
+
+5.3 Lab: Cross-Validation and the Bootstrap
+In this lab, we explore the resampling techniques covered in this chapter.
+Some of the commands in this lab may take a while to run on your com-
+puter.
+                           5.3 Lab: Cross-Validation and the Bootstrap   213
+
+5.3.1 The Validation Set Approach
+We explore the use of the validation set approach in order to estimate the
+test error rates that result from fitting various linear models on the Auto
+data set.
+   Before we begin, we use the set.seed() function in order to set a seed for
+                                                                              seed
+R’s random number generator, so that the reader of this book will obtain
+precisely the same results as those shown below. It is generally a good idea
+to set a random seed when performing an analysis such as cross-validation
+that contains an element of randomness, so that the results obtained can
+be reproduced precisely at a later time.
+   We begin by using the sample() function to split the set of observations
+                                                                              sample()
+into two halves, by selecting a random subset of 196 observations out of
+the original 392 observations. We refer to these observations as the training
+set.
+> library ( ISLR2 )
+> set.seed (1)
+> train <- sample (392 , 196)
+
+(Here we use a shortcut in the sample command; see ?sample for details.)
+We then use the subset option in lm() to fit a linear regression using only
+the observations corresponding to the training set.
+> lm . fit <- lm ( mpg ∼ horsepower , data = Auto , subset = train )
+
+We now use the predict() function to estimate the response for all 392
+observations, and we use the mean() function to calculate the MSE of the
+196 observations in the validation set. Note that the -train index below
+selects only the observations that are not in the training set.
+> attach ( Auto )
+> mean (( mpg - predict ( lm . fit , Auto ) ) [ - train ]^2)
+[1] 23.27
+
+Therefore, the estimated test MSE for the linear regression fit is 23.27. We
+can use the poly() function to estimate the test error for the quadratic and
+cubic regressions.
+> lm . fit2 <- lm ( mpg ∼ poly ( horsepower , 2) , data = Auto ,
+     subset = train )
+> mean (( mpg - predict ( lm . fit2 , Auto ) ) [ - train ]^2)
+[1] 18.72
+> lm . fit3 <- lm ( mpg ∼ poly ( horsepower , 3) , data = Auto ,
+     subset = train )
+> mean (( mpg - predict ( lm . fit3 , Auto ) ) [ - train ]^2)
+[1] 18.79
+
+These error rates are 18.72 and 18.79, respectively. If we choose a diﬀerent
+training set instead, then we will obtain somewhat diﬀerent errors on the
+validation set.
+214      5. Resampling Methods
+
+> set.seed (2)
+> train <- sample (392 , 196)
+> lm . fit <- lm ( mpg ∼ horsepower , subset = train )
+> mean (( mpg - predict ( lm . fit , Auto ) ) [ - train ]^2)
+[1] 25.73
+> lm . fit2 <- lm ( mpg ∼ poly ( horsepower , 2) , data = Auto ,
+     subset = train )
+> mean (( mpg - predict ( lm . fit2 , Auto ) ) [ - train ]^2)
+[1] 20.43
+> lm . fit3 <- lm ( mpg ∼ poly ( horsepower , 3) , data = Auto ,
+     subset = train )
+> mean (( mpg - predict ( lm . fit3 , Auto ) ) [ - train ]^2)
+[1] 20.39
+
+Using this split of the observations into a training set and a validation
+set, we find that the validation set error rates for the models with linear,
+quadratic, and cubic terms are 25.73, 20.43, and 20.39, respectively.
+   These results are consistent with our previous findings: a model that
+predicts mpg using a quadratic function of horsepower performs better than
+a model that involves only a linear function of horsepower, and there is
+little evidence in favor of a model that uses a cubic function of horsepower.
+
+
+5.3.2 Leave-One-Out Cross-Validation
+The LOOCV estimate can be automatically computed for any generalized
+linear model using the glm() and cv.glm() functions. In the lab for Chap-
+                                                                            cv.glm()
+ter 4, we used the glm() function to perform logistic regression by passing
+in the family = "binomial" argument. But if we use glm() to fit a model
+without passing in the family argument, then it performs linear regression,
+just like the lm() function. So for instance,
+> glm . fit <- glm ( mpg ∼ horsepower , data = Auto )
+> coef ( glm . fit )
+( Intercept ) horsepower
+      39.936         -0.158
+
+and
+> lm . fit <- lm ( mpg ∼ horsepower , data = Auto )
+> coef ( lm . fit )
+( Intercept ) horsepower
+       39.936        -0.158
+
+yield identical linear regression models. In this lab, we will perform linear
+regression using the glm() function rather than the lm() function because
+the former can be used together with cv.glm(). The cv.glm() function is
+part of the boot library.
+>   library ( boot )
+>   glm . fit <- glm ( mpg ∼ horsepower , data = Auto )
+>   cv . err <- cv . glm ( Auto , glm . fit )
+>   cv . err $ delta
+                          5.3 Lab: Cross-Validation and the Bootstrap     215
+
+    1     1
+24.23 24.23
+
+The cv.glm() function produces a list with several components. The two
+numbers in the delta vector contain the cross-validation results. In this
+case the numbers are identical (up to two decimal places) and correspond
+to the LOOCV statistic given in (5.1). Below, we discuss a situation in
+which the two numbers diﬀer. Our cross-validation estimate for the test
+error is approximately 24.23.
+  We can repeat this procedure for increasingly complex polynomial fits.
+To automate the process, we use the for() function to initiate a for loop
+                                                                             for()
+which iteratively fits polynomial regressions for polynomials of order i = 1 for loop
+to i = 10, computes the associated cross-validation error, and stores it in
+the ith element of the vector cv.error. We begin by initializing the vector.
+> cv . error <- rep (0 , 10)
+> for ( i in 1:10) {
++    glm . fit <- glm ( mpg ∼ poly ( horsepower , i ) , data = Auto )
++    cv . error [ i ] <- cv . glm ( Auto , glm . fit ) $ delta [1]
++ }
+> cv . error
+[1] 24.23 19.25 19.33 19.42 19.03 18.98 18.83 18.96 19.07 19.49
+
+As in Figure 5.4, we see a sharp drop in the estimated test MSE between
+the linear and quadratic fits, but then no clear improvement from using
+higher-order polynomials.
+
+
+5.3.3   k-Fold Cross-Validation
+The cv.glm() function can also be used to implement k-fold CV. Below we
+use k = 10, a common choice for k, on the Auto data set. We once again set
+a random seed and initialize a vector in which we will store the CV errors
+corresponding to the polynomial fits of orders one to ten.
+> set.seed (17)
+> cv . error .10 <- rep (0 , 10)
+> for ( i in 1:10) {
++    glm . fit <- glm ( mpg ∼ poly ( horsepower , i ) , data = Auto )
++    cv . error .10[ i ] <- cv . glm ( Auto , glm . fit , K = 10) $ delta [1]
++ }
+> cv . error .10
+[1] 24.27 19.27 19.35 19.29 19.03 18.90 19.12 19.15 18.87 20.96
+
+Notice that the computation time is shorter than that of LOOCV. (In
+principle, the computation time for LOOCV for a least squares linear model
+should be faster than for k-fold CV, due to the availability of the formula
+(5.2) for LOOCV; however, unfortunately the cv.glm() function does not
+make use of this formula.) We still see little evidence that using cubic or
+higher-order polynomial terms leads to lower test error than simply using
+a quadratic fit.
+216      5. Resampling Methods
+
+   We saw in Section 5.3.2 that the two numbers associated with delta are
+essentially the same when LOOCV is performed. When we instead perform
+k-fold CV, then the two numbers associated with delta diﬀer slightly. The
+first is the standard k-fold CV estimate, as in (5.3). The second is a bias-
+corrected version. On this data set, the two estimates are very similar to
+each other.
+
+
+5.3.4 The Bootstrap
+We illustrate the use of the bootstrap in the simple example of Section 5.2,
+as well as on an example involving estimating the accuracy of the linear
+regression model on the Auto data set.
+
+Estimating the Accuracy of a Statistic of Interest
+One of the great advantages of the bootstrap approach is that it can be
+applied in almost all situations. No complicated mathematical calculations
+are required. Performing a bootstrap analysis in R entails only two steps.
+First, we must create a function that computes the statistic of interest.
+Second, we use the boot() function, which is part of the boot library, to
+                                                                               boot()
+perform the bootstrap by repeatedly sampling observations from the data
+set with replacement.
+  The Portfolio data set in the ISLR2 package is simulated data of 100
+pairs of returns, generated in the fashion described in Section 5.2. To illus-
+trate the use of the bootstrap on this data, we must first create a function,
+alpha.fn(), which takes as input the (X, Y ) data as well as a vector indi-
+cating which observations should be used to estimate α. The function then
+outputs the estimate for α based on the selected observations.
+> alpha . fn <- function ( data , index ) {
++   X <- data $ X [ index ]
++   Y <- data $ Y [ index ]
++   ( var ( Y ) - cov (X , Y ) ) / ( var ( X ) + var ( Y ) - 2 * cov (X , Y ) )
++ }
+
+This function returns, or outputs, an estimate for α based on applying
+(5.7) to the observations indexed by the argument index. For instance, the
+following command tells R to estimate α using all 100 observations.
+> alpha . fn ( Portfolio , 1:100)
+[1] 0.576
+
+The next command uses the sample() function to randomly select 100 ob-
+servations from the range 1 to 100, with replacement. This is equivalent
+to constructing a new bootstrap data set and recomputing α̂ based on the
+new data set.
+> set.seed (7)
+> alpha . fn ( Portfolio , sample (100 , 100 , replace = T ) )
+[1] 0.539
+                           5.3 Lab: Cross-Validation and the Bootstrap     217
+
+We can implement a bootstrap analysis by performing this command many
+times, recording all of the corresponding estimates for α, and computing
+the resulting standard deviation. However, the boot() function automates
+                                                                         boot()
+this approach. Below we produce R = 1, 000 bootstrap estimates for α.
+> boot ( Portfolio , alpha . fn , R = 1000)
+
+ORDINARY NONPARAMETRIC BOOTSTRAP
+
+Call :
+boot ( data = Portfolio , statistic = alpha . fn , R = 1000)
+
+Bootstrap Statistics :
+     original      bias             std . error
+t1 * 0.5758       0.001             0.0897
+
+The final output shows that using the original data, α̂ = 0.5758, and that
+the bootstrap estimate for SE(α̂) is 0.0897.
+
+Estimating the Accuracy of a Linear Regression Model
+The bootstrap approach can be used to assess the variability of the coef-
+ficient estimates and predictions from a statistical learning method. Here
+we use the bootstrap approach in order to assess the variability of the
+estimates for β0 and β1 , the intercept and slope terms for the linear regres-
+sion model that uses horsepower to predict mpg in the Auto data set. We
+will compare the estimates obtained using the bootstrap to those obtained
+using the formulas for SE(β̂0 ) and SE(β̂1 ) described in Section 3.1.2.
+   We first create a simple function, boot.fn(), which takes in the Auto data
+set as well as a set of indices for the observations, and returns the intercept
+and slope estimates for the linear regression model. We then apply this
+function to the full set of 392 observations in order to compute the esti-
+mates of β0 and β1 on the entire data set using the usual linear regression
+coeﬃcient estimate formulas from Chapter 3. Note that we do not need the
+{ and } at the beginning and end of the function because it is only one line
+long.
+> boot . fn <- function ( data , index )
++    coef ( lm ( mpg ∼ horsepower , data = data , subset = index ) )
+> boot . fn ( Auto , 1:392)
+( Intercept ) horsepower
+    39.936     -0.158
+
+The boot.fn() function can also be used in order to create bootstrap esti-
+mates for the intercept and slope terms by randomly sampling from among
+the observations with replacement. Here we give two examples.
+> set.seed (1)
+> boot . fn ( Auto , sample (392 , 392 , replace = T ) )
+( Intercept ) horsepower
+   40.341        -0.164
+218     5. Resampling Methods
+
+> boot . fn ( Auto , sample (392 , 392 , replace = T ) )
+( Intercept ) horsepower
+   40.119        -0.158
+
+Next, we use the boot() function to compute the standard errors of 1,000
+bootstrap estimates for the intercept and slope terms.
+> boot ( Auto , boot . fn , 1000)
+
+ORDINARY NONPARAMETRIC BOOTSTRAP
+
+Call :
+boot ( data = Auto , statistic = boot . fn , R = 1000)
+
+Bootstrap Statistics :
+     original    bias         std . error
+t1 * 39.936    0.0545          0.8413
+t2 * -0.158   -0.0006          0.0073
+
+This indicates that the bootstrap estimate for SE(β̂0 ) is 0.84, and that
+the bootstrap estimate for SE(β̂1 ) is 0.0073. As discussed in Section 3.1.2,
+standard formulas can be used to compute the standard errors for the
+regression coeﬃcients in a linear model. These can be obtained using the
+summary() function.
+
+> summary ( lm ( mpg ∼ horsepower , data = Auto ) ) $ coef
+               Estimate Std . Error t value Pr ( >| t |)
+( Intercept )     39.936    0.71750     55.7 1.22 e -187
+horsepower        -0.158    0.00645    -24.5 7.03 e -81
+
+   The standard error estimates for β̂0 and β̂1 obtained using the formulas
+from Section 3.1.2 are 0.717 for the intercept and 0.0064 for the slope.
+Interestingly, these are somewhat diﬀerent from the estimates obtained
+using the bootstrap. Does this indicate a problem with the bootstrap? In
+fact, it suggests the opposite. Recall that the standard formulas given in
+Equation 3.8 on page 66 rely on certain assumptions. For example, they
+depend on the unknown parameter σ 2 , the noise variance. We then estimate
+σ 2 using the RSS. Now although the formulas for the standard errors do not
+rely on the linear model being correct, the estimate for σ 2 does. We see in
+Figure 3.8 on page 91 that there is a non-linear relationship in the data, and
+so the residuals from a linear fit will be inflated, and so will σ̂ 2 . Secondly,
+the standard formulas assume (somewhat unrealistically) that the xi are
+fixed, and all the variability comes from the variation in the errors ϵi . The
+bootstrap approach does not rely on any of these assumptions, and so it is
+likely giving a more accurate estimate of the standard errors of β̂0 and β̂1
+than is the summary() function.
+   Below we compute the bootstrap standard error estimates and the stan-
+dard linear regression estimates that result from fitting the quadratic model
+to the data. Since this model provides a good fit to the data (Figure 3.8),
+                                                        5.4 Exercises   219
+
+there is now a better correspondence between the bootstrap estimates and
+the standard estimates of SE(β̂0 ), SE(β̂1 ) and SE(β̂2 ).
+> boot . fn <- function ( data , index )
++   coef (
+       lm ( mpg ∼ horsepower + I ( horsepower ^2) ,
+          data = data , subset = index )
+    )
+> set.seed (1)
+> boot ( Auto , boot . fn , 1000)
+
+ORDINARY NONPARAMETRIC BOOTSTRAP
+
+Call :
+boot ( data = Auto , statistic = boot . fn , R = 1000)
+
+Bootstrap Statistics :
+     original    bias         std . error
+t1 * 56.9001   3.51 e -02      2.0300
+t2 * -0.4661  -7.08 e -04      0.0324
+t3 *  0.0012   2.84 e -06      0.0001
+
+> summary (
+        lm ( mpg ∼ horsepower + I ( horsepower ^2) , data = Auto )
+    ) $ coef
+                      Estimate Std . Error t value Pr ( >| t |)
+( Intercept )          56.9001      1.8004         32 1.7 e -109
+horsepower             -0.4662      0.0311       -15 2.3 e -40
+I ( horsepower ^2)      0.0012      0.0001         10 2.2 e -21
+
+
+
+
+5.4 Exercises
+Conceptual
+  1. Using basic statistical properties of the variance, as well as single-
+     variable calculus, derive (5.6). In other words, prove that α given by
+     (5.6) does indeed minimize Var(αX + (1 − α)Y ).
+  2. We will now derive the probability that a given observation is part
+     of a bootstrap sample. Suppose that we obtain a bootstrap sample
+     from a set of n observations.
+      (a) What is the probability that the first bootstrap observation is
+          not the jth observation from the original sample? Justify your
+          answer.
+      (b) What is the probability that the second bootstrap observation
+          is not the jth observation from the original sample?
+      (c) Argue that the probability that the jth observation is not in the
+          bootstrap sample is (1 − 1/n)n .
+220    5. Resampling Methods
+
+      (d) When n = 5, what is the probability that the jth observation is
+          in the bootstrap sample?
+      (e) When n = 100, what is the probability that the jth observation
+          is in the bootstrap sample?
+      (f) When n = 10, 000, what is the probability that the jth observa-
+          tion is in the bootstrap sample?
+      (g) Create a plot that displays, for each integer value of n from 1
+          to 100, 000, the probability that the jth observation is in the
+          bootstrap sample. Comment on what you observe.
+      (h) We will now investigate numerically the probability that a boot-
+          strap sample of size n = 100 contains the jth observation. Here
+          j = 4. We repeatedly create bootstrap samples, and each time
+          we record whether or not the fourth observation is contained in
+          the bootstrap sample.
+          > store <- rep ( NA , 10000)
+          > for ( i in 1:10000) {
+              store [ i ] <- sum ( sample (1:100 , rep = TRUE ) == 4) > 0
+          }
+          > mean ( store )
+
+          Comment on the results obtained.
+  3. We now review k-fold cross-validation.
+      (a) Explain how k-fold cross-validation is implemented.
+      (b) What are the advantages and disadvantages of k-fold cross-
+          validation relative to:
+            i. The validation set approach?
+           ii. LOOCV?
+  4. Suppose that we use some statistical learning method to make a pre-
+     diction for the response Y for a particular value of the predictor X.
+     Carefully describe how we might estimate the standard deviation of
+     our prediction.
+
+
+Applied
+  5. In Chapter 4, we used logistic regression to predict the probability of
+     default using income and balance on the Default data set. We will
+     now estimate the test error of this logistic regression model using the
+     validation set approach. Do not forget to set a random seed before
+     beginning your analysis.
+      (a) Fit a logistic regression model that uses income and balance to
+          predict default.
+                                                      5.4 Exercises    221
+
+   (b) Using the validation set approach, estimate the test error of this
+       model. In order to do this, you must perform the following steps:
+          i. Split the sample set into a training set and a validation set.
+         ii. Fit a multiple logistic regression model using only the train-
+             ing observations.
+        iii. Obtain a prediction of default status for each individual in
+             the validation set by computing the posterior probability of
+             default for that individual, and classifying the individual to
+             the default category if the posterior probability is greater
+             than 0.5.
+        iv. Compute the validation set error, which is the fraction of
+             the observations in the validation set that are misclassified.
+   (c) Repeat the process in (b) three times, using three diﬀerent splits
+       of the observations into a training set and a validation set. Com-
+       ment on the results obtained.
+   (d) Now consider a logistic regression model that predicts the prob-
+       ability of default using income, balance, and a dummy variable
+       for student. Estimate the test error for this model using the val-
+       idation set approach. Comment on whether or not including a
+       dummy variable for student leads to a reduction in the test error
+       rate.
+6. We continue to consider the use of a logistic regression model to
+   predict the probability of default using income and balance on the
+   Default data set. In particular, we will now compute estimates for
+   the standard errors of the income and balance logistic regression co-
+   eﬃcients in two diﬀerent ways: (1) using the bootstrap, and (2) using
+   the standard formula for computing the standard errors in the glm()
+   function. Do not forget to set a random seed before beginning your
+   analysis.
+   (a) Using the summary() and glm() functions, determine the esti-
+       mated standard errors for the coeﬃcients associated with income
+       and balance in a multiple logistic regression model that uses
+       both predictors.
+   (b) Write a function, boot.fn(), that takes as input the Default data
+       set as well as an index of the observations, and that outputs
+       the coeﬃcient estimates for income and balance in the multiple
+       logistic regression model.
+   (c) Use the boot() function together with your boot.fn() function to
+       estimate the standard errors of the logistic regression coeﬃcients
+       for income and balance.
+   (d) Comment on the estimated standard errors obtained using the
+       glm() function and using your bootstrap function.
+222    5. Resampling Methods
+
+  7. In Sections 5.3.2 and 5.3.3, we saw that the cv.glm() function can be
+     used in order to compute the LOOCV test error estimate. Alterna-
+     tively, one could compute those quantities using just the glm() and
+     predict.glm() functions, and a for loop. You will now take this ap-
+     proach in order to compute the LOOCV error for a simple logistic
+     regression model on the Weekly data set. Recall that in the context
+     of classification problems, the LOOCV error is given in (5.4).
+      (a) Fit a logistic regression model that predicts Direction using Lag1
+          and Lag2.
+      (b) Fit a logistic regression model that predicts Direction using Lag1
+          and Lag2 using all but the first observation.
+      (c) Use the model from (b) to predict the direction of the first obser-
+          vation. You can do this by predicting that the first observation
+          will go up if P (Direction = "Up"|Lag1, Lag2) > 0.5. Was this
+          observation correctly classified?
+      (d) Write a for loop from i = 1 to i = n, where n is the number of
+          observations in the data set, that performs each of the following
+          steps:
+            i. Fit a logistic regression model using all but the ith obser-
+               vation to predict Direction using Lag1 and Lag2.
+           ii. Compute the posterior probability of the market moving up
+               for the ith observation.
+          iii. Use the posterior probability for the ith observation in order
+               to predict whether or not the market moves up.
+          iv. Determine whether or not an error was made in predicting
+               the direction for the ith observation. If an error was made,
+               then indicate this as a 1, and otherwise indicate it as a 0.
+      (e) Take the average of the n numbers obtained in (d)iv in order to
+          obtain the LOOCV estimate for the test error. Comment on the
+          results.
+  8. We will now perform cross-validation on a simulated data set.
+      (a) Generate a simulated data set as follows:
+          > set.seed (1)
+          > x <- rnorm (100)
+          > y <- x - 2 * x ^2 + rnorm (100)
+
+          In this data set, what is n and what is p? Write out the model
+          used to generate the data in equation form.
+      (b) Create a scatterplot of X against Y . Comment on what you find.
+      (c) Set a random seed, and then compute the LOOCV errors that
+          result from fitting the following four models using least squares:
+                                                     5.4 Exercises    223
+
+          i. Y = β0 + β1 X + ϵ
+         ii. Y = β0 + β1 X + β2 X 2 + ϵ
+        iii. Y = β0 + β1 X + β2 X 2 + β3 X 3 + ϵ
+        iv. Y = β0 + β1 X + β2 X 2 + β3 X 3 + β4 X 4 + ϵ.
+       Note you may find it helpful to use the data.frame() function
+       to create a single data set containing both X and Y .
+   (d) Repeat (c) using another random seed, and report your results.
+       Are your results the same as what you got in (c)? Why?
+   (e) Which of the models in (c) had the smallest LOOCV error? Is
+       this what you expected? Explain your answer.
+   (f) Comment on the statistical significance of the coeﬃcient esti-
+       mates that results from fitting each of the models in (c) using
+       least squares. Do these results agree with the conclusions drawn
+       based on the cross-validation results?
+9. We will now consider the Boston housing data set, from the ISLR2
+   library.
+   (a) Based on this data set, provide an estimate for the population
+       mean of medv. Call this estimate µ̂.
+   (b) Provide an estimate of the standard error of µ̂. Interpret this
+       result.
+       Hint: We can compute the standard error of the sample mean by
+       dividing the sample standard deviation by the square root of the
+       number of observations.
+   (c) Now estimate the standard error of µ̂ using the bootstrap. How
+       does this compare to your answer from (b)?
+   (d) Based on your bootstrap estimate from (c), provide a 95 % con-
+       fidence interval for the mean of medv. Compare it to the results
+       obtained using t.test(Boston$medv).
+       Hint: You can approximate a 95 % confidence interval using the
+       formula [µ̂ − 2SE(µ̂), µ̂ + 2SE(µ̂)].
+   (e) Based on this data set, provide an estimate, µ̂med , for the median
+       value of medv in the population.
+   (f) We now would like to estimate the standard error of µ̂med . Unfor-
+       tunately, there is no simple formula for computing the standard
+       error of the median. Instead, estimate the standard error of the
+       median using the bootstrap. Comment on your findings.
+   (g) Based on this data set, provide an estimate for the tenth per-
+       centile of medv in Boston census tracts. Call this quantity µ̂0.1 .
+       (You can use the quantile() function.)
+   (h) Use the bootstrap to estimate the standard error of µ̂0.1 . Com-
+       ment on your findings.
+6
+Linear Model Selection
+and Regularization
+
+
+
+
+In the regression setting, the standard linear model
+
+                           Y = β 0 + β 1 X1 + · · · + β p Xp + ϵ                          (6.1)
+
+is commonly used to describe the relationship between a response Y and
+a set of variables X1 , X2 , . . . , Xp . We have seen in Chapter 3 that one
+typically fits this model using least squares.
+   In the chapters that follow, we consider some approaches for extending
+the linear model framework. In Chapter 7 we generalize (6.1) in order to
+accommodate non-linear, but still additive, relationships, while in Chap-
+ters 8 and 10 we consider even more general non-linear models. However,
+the linear model has distinct advantages in terms of inference and, on real-
+world problems, is often surprisingly competitive in relation to non-linear
+methods. Hence, before moving to the non-linear world, we discuss in this
+chapter some ways in which the simple linear model can be improved, by re-
+placing plain least squares fitting with some alternative fitting procedures.
+   Why might we want to use another fitting procedure instead of least
+squares? As we will see, alternative fitting procedures can yield better pre-
+diction accuracy and model interpretability.
+    • Prediction Accuracy: Provided that the true relationship between the
+      response and the predictors is approximately linear, the least squares
+      estimates will have low bias. If n ≫ p—that is, if n, the number of
+      observations, is much larger than p, the number of variables—then the
+      least squares estimates tend to also have low variance, and hence will
+      perform well on test observations. However, if n is not much larger
+
+© Springer Science+Business Media, LLC, part of Springer Nature 2021                       225
+G. James et al., An Introduction to Statistical Learning, Springer Texts in Statistics,
+https://doi.org/10.1007/978-1-0716-1418-1_6
+226       6. Linear Model Selection and Regularization
+
+        than p, then there can be a lot of variability in the least squares fit,
+        resulting in overfitting and consequently poor predictions on future
+        observations not used in model training. And if p > n, then there
+        is no longer a unique least squares coeﬃcient estimate: the variance
+        is infinite so the method cannot be used at all. By constraining or
+        shrinking the estimated coeﬃcients, we can often substantially reduce
+        the variance at the cost of a negligible increase in bias. This can
+        lead to substantial improvements in the accuracy with which we can
+        predict the response for observations not used in model training.
+      • Model Interpretability: It is often the case that some or many of the
+        variables used in a multiple regression model are in fact not associ-
+        ated with the response. Including such irrelevant variables leads to
+        unnecessary complexity in the resulting model. By removing these
+        variables—that is, by setting the corresponding coeﬃcient estimates
+        to zero—we can obtain a model that is more easily interpreted. Now
+        least squares is extremely unlikely to yield any coeﬃcient estimates
+        that are exactly zero. In this chapter, we see some approaches for au-
+        tomatically performing feature selection or variable selection—that is,
+                                                                                feature
+        for excluding irrelevant variables from a multiple regression model. selection
+  There are many alternatives, both classical and modern, to using least variable
+                                                                             selection
+squares to fit (6.1). In this chapter, we discuss three important classes of
+methods.
+      • Subset Selection. This approach involves identifying a subset of the p
+        predictors that we believe to be related to the response. We then fit
+        a model using least squares on the reduced set of variables.
+      • Shrinkage. This approach involves fitting a model involving all p pre-
+        dictors. However, the estimated coeﬃcients are shrunken towards zero
+        relative to the least squares estimates. This shrinkage (also known as
+        regularization) has the eﬀect of reducing variance. Depending on what
+        type of shrinkage is performed, some of the coeﬃcients may be esti-
+        mated to be exactly zero. Hence, shrinkage methods can also perform
+        variable selection.
+      • Dimension Reduction. This approach involves projecting the p predic-
+        tors into an M -dimensional subspace, where M < p. This is achieved
+        by computing M diﬀerent linear combinations, or projections, of the
+        variables. Then these M projections are used as predictors to fit a
+        linear regression model by least squares.
+In the following sections we describe each of these approaches in greater de-
+tail, along with their advantages and disadvantages. Although this chapter
+describes extensions and modifications to the linear model for regression
+seen in Chapter 3, the same concepts apply to other methods, such as the
+classification models seen in Chapter 4.
+                                                   6.1 Subset Selection    227
+
+6.1 Subset Selection
+In this section we consider some methods for selecting subsets of predictors.
+These include best subset and stepwise model selection procedures.
+
+
+6.1.1 Best Subset Selection
+To perform best subset selection, we fit a separate least squares regression
+                                                                                best subset
+for each possible combination of the p predictors.
+                                        'p (       That is, we fit all p models selection
+that contain exactly one predictor, all 2 = p(p − 1)/2 models that contain
+exactly two predictors, and so forth. We then look at all of the resulting
+models, with the goal of identifying the one that is best.
+   The problem of selecting the best model from among the 2p possibilities
+considered by best subset selection is not trivial. This is usually broken up
+into two stages, as described in Algorithm 6.1.
+
+Algorithm 6.1 Best subset selection
+  1. Let M0 denote the null model , which contains no predictors. This
+     model simply predicts the sample mean for each observation.
+  2. For k = 1, 2, . . . p:
+                  ' (
+      (a) Fit all kp models that contain exactly k predictors.
+                                     ' (
+      (b) Pick the best among these kp models, and call it Mk . Here best
+          is defined as having the smallest RSS, or equivalently largest R2 .
+  3. Select a single best model from among M0 , . . . , Mp using cross-
+     validated prediction error, Cp (AIC), BIC, or adjusted R2 .
+
+
+In Algorithm 6.1, Step 2 identifies the best model (on the training data)
+for each subset size, in order to reduce the problem from one of 2p possible
+models to one of p + 1 possible models. In Figure 6.1, these models form
+the lower frontier depicted in red.
+  Now in order to select a single best model, we must simply choose among
+these p + 1 options. This task must be performed with care, because the
+RSS of these p + 1 models decreases monotonically, and the R2 increases
+monotonically, as the number of features included in the models increases.
+Therefore, if we use these statistics to select the best model, then we will
+always end up with a model involving all of the variables. The problem is
+that a low RSS or a high R2 indicates a model with a low training error,
+whereas we wish to choose a model that has a low test error. (As shown
+in Chapter 2 in Figures 2.9–2.11, training error tends to be quite a bit
+smaller than test error, and a low training error by no means guarantees
+a low test error.) Therefore, in Step 3, we use cross-validated prediction
+228                                6. Linear Model Selection and Regularization
+
+
+                                                                          1.0
+                           8e+07
+
+
+
+
+ Residual Sum of Squares
+                                                                          0.8
+
+                           6e+07
+                                                                          0.6
+
+                                                                     R2
+                           4e+07
+                                                                          0.4
+
+
+
+                           2e+07                                          0.2
+
+
+                                                                          0.0
+
+                                     2     4      6      8      10              2     4      6      8      10
+
+                                         Number of Predictors                       Number of Predictors
+
+
+FIGURE 6.1. For each possible model containing a subset of the ten predictors
+in the Credit data set, the RSS and R2 are displayed. The red frontier tracks the
+best model for a given number of predictors, according to RSS and R2 . Though
+the data set contains only ten predictors, the x-axis ranges from 1 to 11, since one
+of the variables is categorical and takes on three values, leading to the creation of
+two dummy variables.
+
+
+error, Cp , BIC, or adjusted R2 in order to select among M0 , M1 , . . . , Mp .
+These approaches are discussed in Section 6.1.3.
+   An application of best subset selection is shown in Figure 6.1. Each
+plotted point corresponds to a least squares regression model fit using a
+diﬀerent subset of the 10 predictors in the Credit data set, discussed in
+Chapter 3. Here the variable region is a three-level qualitative variable,
+and so is represented by two dummy variables, which are selected sepa-
+rately in this case. Hence, there are a total of 11 possible variables which
+can be included in the model. We have plotted the RSS and R2 statistics
+for each model, as a function of the number of variables. The red curves
+connect the best models for each model size, according to RSS or R2 . The
+figure shows that, as expected, these quantities improve as the number of
+variables increases; however, from the three-variable model on, there is little
+improvement in RSS and R2 as a result of including additional predictors.
+   Although we have presented best subset selection here for least squares
+regression, the same ideas apply to other types of models, such as logistic
+regression. In the case of logistic regression, instead of ordering models by
+RSS in Step 2 of Algorithm 6.1, we instead use the deviance, a measure
+                                                                                deviance
+that plays the role of RSS for a broader class of models. The deviance is
+negative two times the maximized log-likelihood; the smaller the deviance,
+the better the fit.
+   While best subset selection is a simple and conceptually appealing ap-
+proach, it suﬀers from computational limitations. The number of possible
+models that must be considered grows rapidly as p increases. In general,
+                                                      6.1 Subset Selection      229
+
+there are 2p models that involve subsets of p predictors. So if p = 10,
+then there are approximately 1,000 possible models to be considered, and if
+p = 20, then there are over one million possibilities! Consequently, best sub-
+set selection becomes computationally infeasible for values of p greater than
+around 40, even with extremely fast modern computers. There are compu-
+tational shortcuts—so called branch-and-bound techniques—for eliminat-
+ing some choices, but these have their limitations as p gets large. They also
+only work for least squares linear regression. We present computationally
+eﬃcient alternatives to best subset selection next.
+
+
+6.1.2 Stepwise Selection
+For computational reasons, best subset selection cannot be applied with
+very large p. Best subset selection may also suﬀer from statistical problems
+when p is large. The larger the search space, the higher the chance of finding
+models that look good on the training data, even though they might not
+have any predictive power on future data. Thus an enormous search space
+can lead to overfitting and high variance of the coeﬃcient estimates.
+  For both of these reasons, stepwise methods, which explore a far more
+restricted set of models, are attractive alternatives to best subset selection.
+
+
+Forward Stepwise Selection
+Forward stepwise selection is a computationally eﬃcient alternative to best
+                                                                            forward
+subset selection. While the best subset selection procedure considers all stepwise
+ p
+2 possible models containing subsets of the p predictors, forward step- selection
+wise considers a much smaller set of models. Forward stepwise selection
+begins with a model containing no predictors, and then adds predictors
+to the model, one-at-a-time, until all of the predictors are in the model.
+In particular, at each step the variable that gives the greatest additional
+improvement to the fit is added to the model. More formally, the forward
+stepwise selection procedure is given in Algorithm 6.2.
+
+
+   Unlike best subset selection, which involved fitting 2p models, forward
+stepwise selection involves fitting one null model, along with p − k models
+in the kth iteration, for k = 0, . . . , p − 1. This amounts to a total of 1 +
+)p−1
+   k=0 (p − k) = 1 + p(p + 1)/2 models. This is a substantial diﬀerence: when
+p = 20, best subset selection requires fitting 1,048,576 models, whereas
+forward stepwise selection requires fitting only 211 models.1
+
+  1 Though forward stepwise selection considers p(p + 1)/2 + 1 models, it performs a
+
+guided search over model space, and so the eﬀective model space considered contains
+substantially more than p(p + 1)/2 + 1 models.
+230     6. Linear Model Selection and Regularization
+
+Algorithm 6.2 Forward stepwise selection
+  1. Let M0 denote the null model, which contains no predictors.
+  2. For k = 0, . . . , p − 1:
+       (a) Consider all p − k models that augment the predictors in Mk
+           with one additional predictor.
+      (b) Choose the best among these p − k models, and call it Mk+1 .
+          Here best is defined as having smallest RSS or highest R2 .
+  3. Select a single best model from among M0 , . . . , Mp using cross-
+     validated prediction error, Cp (AIC), BIC, or adjusted R2 .
+
+
+   In Step 2(b) of Algorithm 6.2, we must identify the best model from
+among those p−k that augment Mk with one additional predictor. We can
+do this by simply choosing the model with the lowest RSS or the highest
+R2 . However, in Step 3, we must identify the best model among a set of
+models with diﬀerent numbers of variables. This is more challenging, and
+is discussed in Section 6.1.3.
+   Forward stepwise selection’s computational advantage over best subset
+selection is clear. Though forward stepwise tends to do well in practice,
+it is not guaranteed to find the best possible model out of all 2p mod-
+els containing subsets of the p predictors. For instance, suppose that in a
+given data set with p = 3 predictors, the best possible one-variable model
+contains X1 , and the best possible two-variable model instead contains X2
+and X3 . Then forward stepwise selection will fail to select the best possible
+two-variable model, because M1 will contain X1 , so M2 must also contain
+X1 together with one additional variable.
+   Table 6.1, which shows the first four selected models for best subset
+and forward stepwise selection on the Credit data set, illustrates this phe-
+nomenon. Both best subset selection and forward stepwise selection choose
+rating for the best one-variable model and then include income and student
+for the two- and three-variable models. However, best subset selection re-
+places rating by cards in the four-variable model, while forward stepwise
+selection must maintain rating in its four-variable model. In this example,
+Figure 6.1 indicates that there is not much diﬀerence between the three-
+and four-variable models in terms of RSS, so either of the four-variable
+models will likely be adequate.
+   Forward stepwise selection can be applied even in the high-dimensional
+setting where n < p; however, in this case, it is possible to construct sub-
+models M0 , . . . , Mn−1 only, since each submodel is fit using least squares,
+which will not yield a unique solution if p ≥ n.
+                                                        6.1 Subset Selection       231
+
+     # Variables       Best subset                   Forward stepwise
+     One               rating                        rating
+     Two               rating, income                rating, income
+     Three             rating, income, student       rating, income, student
+     Four              cards, income                 rating, income,
+                       student, limit                student, limit
+TABLE 6.1. The first four selected models for best subset selection and forward
+stepwise selection on the Credit data set. The first three models are identical but
+the fourth models diﬀer.
+
+Backward Stepwise Selection
+Like forward stepwise selection, backward stepwise selection provides an ef-
+                                                                                backward
+ficient alternative to best subset selection. However, unlike forward stepwise stepwise
+selection, it begins with the full least squares model containing all p predic- selection
+tors, and then iteratively removes the least useful predictor, one-at-a-time.
+Details are given in Algorithm 6.3.
+
+
+Algorithm 6.3 Backward stepwise selection
+   1. Let Mp denote the full model, which contains all p predictors.
+   2. For k = p, p − 1, . . . , 1:
+       (a) Consider all k models that contain all but one of the predictors
+           in Mk , for a total of k − 1 predictors.
+       (b) Choose the best among these k models, and call it Mk−1 . Here
+           best is defined as having smallest RSS or highest R2 .
+   3. Select a single best model from among M0 , . . . , Mp using cross-
+      validated prediction error, Cp (AIC), BIC, or adjusted R2 .
+
+
+   Like forward stepwise selection, the backward selection approach searches
+through only 1 + p(p + 1)/2 models, and so can be applied in settings where
+p is too large to apply best subset selection.2 Also like forward stepwise
+selection, backward stepwise selection is not guaranteed to yield the best
+model containing a subset of the p predictors.
+   Backward selection requires that the number of samples n is larger than
+the number of variables p (so that the full model can be fit). In contrast,
+forward stepwise can be used even when n < p, and so is the only viable
+subset method when p is very large.
+
+  2 Like  forward stepwise selection, backward stepwise selection performs a guided
+search over model space, and so eﬀectively considers substantially more than 1+p(p+1)/2
+models.
+232     6. Linear Model Selection and Regularization
+
+Hybrid Approaches
+The best subset, forward stepwise, and backward stepwise selection ap-
+proaches generally give similar but not identical models. As another al-
+ternative, hybrid versions of forward and backward stepwise selection are
+available, in which variables are added to the model sequentially, in analogy
+to forward selection. However, after adding each new variable, the method
+may also remove any variables that no longer provide an improvement in
+the model fit. Such an approach attempts to more closely mimic best sub-
+set selection while retaining the computational advantages of forward and
+backward stepwise selection.
+
+
+6.1.3 Choosing the Optimal Model
+Best subset selection, forward selection, and backward selection result in
+the creation of a set of models, each of which contains a subset of the p
+predictors. To apply these methods, we need a way to determine which of
+these models is best. As we discussed in Section 6.1.1, the model containing
+all of the predictors will always have the smallest RSS and the largest R2 ,
+since these quantities are related to the training error. Instead, we wish to
+choose a model with a low test error. As is evident here, and as we show
+in Chapter 2, the training error can be a poor estimate of the test error.
+Therefore, RSS and R2 are not suitable for selecting the best model among
+a collection of models with diﬀerent numbers of predictors.
+   In order to select the best model with respect to test error, we need to
+estimate this test error. There are two common approaches:
+  1. We can indirectly estimate test error by making an adjustment to the
+     training error to account for the bias due to overfitting.
+  2. We can directly estimate the test error, using either a validation set
+     approach or a cross-validation approach, as discussed in Chapter 5.
+We consider both of these approaches below.
+
+Cp , AIC, BIC, and Adjusted R2
+We show in Chapter 2 that the training set MSE is generally an under-
+estimate of the test MSE. (Recall that MSE = RSS/n.) This is because
+when we fit a model to the training data using least squares, we specifi-
+cally estimate the regression coeﬃcients such that the training RSS (but
+not the test RSS) is as small as possible. In particular, the training error
+will decrease as more variables are included in the model, but the test error
+may not. Therefore, training set RSS and training set R2 cannot be used
+to select from among a set of models with diﬀerent numbers of variables.
+  However, a number of techniques for adjusting the training error for the
+model size are available. These approaches can be used to select among a set
+                                                                          6.1 Subset Selection                     233
+
+
+      30000                                30000                                         0.96
+
+
+                                                                                         0.94
+      25000                                25000
+                                                                                         0.92
+
+
+
+                                                                           Adjusted R2
+Cp    20000                          BIC   20000
+                                                                                         0.90
+
+
+      15000                                15000
+                                                                                         0.88
+
+
+                                                                                         0.86
+      10000                                10000
+
+              2    4   6   8   10                  2    4   6   8   10                          2    4   6   8   10
+
+              Number of Predictors                 Number of Predictors                         Number of Predictors
+
+
+FIGURE 6.2. Cp , BIC, and adjusted R2 are shown for the best models of each
+size for the Credit data set (the lower frontier in Figure 6.1). Cp and BIC are
+estimates of test MSE. In the middle plot we see that the BIC estimate of test
+error shows an increase after four variables are selected. The other two plots are
+rather flat after four variables are included.
+
+
+of models with diﬀerent numbers of variables. We now consider four such
+approaches: Cp , Akaike information criterion (AIC), Bayesian information
+                                                                              Cp
+criterion (BIC), and adjusted R2 . Figure 6.2 displays Cp , BIC, and adjusted
+                                                                              Akaike
+R2 for the best model of each size produced by best subset selection on the information
+Credit data set.                                                              criterion
+   For a fitted least squares model containing d predictors, the Cp estimate Bayesian
+of test MSE is computed using the equation                                    information
+                                                                                                                         criterion
+                                          1'             (                                                               adjusted R2
+                                     Cp =    RSS + 2dσ̂ 2 ,                                                      (6.2)
+                                          n
+
+where σ̂ 2 is an estimate of the variance of the error ϵ associated with each
+response measurement in (6.1).3 Typically σ̂ 2 is estimated using the full
+model containing all predictors. Essentially, the Cp statistic adds a penalty
+of 2dσ̂ 2 to the training RSS in order to adjust for the fact that the training
+error tends to underestimate the test error. Clearly, the penalty increases as
+the number of predictors in the model increases; this is intended to adjust
+for the corresponding decrease in training RSS. Though it is beyond the
+scope of this book, one can show that if σ̂ 2 is an unbiased estimate of σ 2 in
+(6.2), then Cp is an unbiased estimate of test MSE. As a consequence, the
+Cp statistic tends to take on a small value for models with a low test error,
+so when determining which of a set of models is best, we choose the model
+with the lowest Cp value. In Figure 6.2, Cp selects the six-variable model
+containing the predictors income, limit, rating, cards, age and student.
+
+     3 Mallow’s C                           ′          2
+                p is sometimes defined as Cp = RSS/σ̂ + 2d − n. This is equivalent to
+                                                  1 2
+the definition given above in the sense that Cp = n σ̂ (Cp′ + n), and so the model with
+smallest Cp also has smallest Cp′ .
+234      6. Linear Model Selection and Regularization
+
+   The AIC criterion is defined for a large class of models fit by maximum
+likelihood. In the case of the model (6.1) with Gaussian errors, maximum
+likelihood and least squares are the same thing. In this case AIC is given by
+                                     1'             (
+                             AIC =      RSS + 2dσ̂ 2 ,
+                                     n
+where, for simplicity, we have omitted irrelevant constants.4 Hence for least
+squares models, Cp and AIC are proportional to each other, and so only
+Cp is displayed in Figure 6.2.
+  BIC is derived from a Bayesian point of view, but ends up looking similar
+to Cp (and AIC) as well. For the least squares model with d predictors, the
+BIC is, up to irrelevant constants, given by
+                                   1'                  (
+                          BIC =       RSS + log(n)dσ̂ 2 .                        (6.3)
+                                   n
+Like Cp , the BIC will tend to take on a small value for a model with a
+low test error, and so generally we select the model that has the lowest
+BIC value. Notice that BIC replaces the 2dσ̂ 2 used by Cp with a log(n)dσ̂ 2
+term, where n is the number of observations. Since log n > 2 for any n > 7,
+the BIC statistic generally places a heavier penalty on models with many
+variables, and hence results in the selection of smaller models than Cp .
+In Figure 6.2, we see that this is indeed the case for the Credit data set;
+BIC chooses a model that contains only the four predictors income, limit,
+cards, and student. In this case the curves are very flat and so there does
+not appear to be much diﬀerence in accuracy between the four-variable and
+six-variable models.
+   The adjusted R2 statistic is another popular approach for selecting among
+a set of models that contain diﬀerent numbers of variables. Recall from
+Chapter
+)         3 that the usual R2 is defined as 1 − RSS/TSS, where TSS =
+   (yi − y)2 is the total sum of squares for the response. Since RSS always
+decreases as more variables are added to the model, the R2 always increases
+as more variables are added. For a least squares model with d variables,
+the adjusted R2 statistic is calculated as
+
+                                            RSS/(n − d − 1)
+                     Adjusted R2 = 1 −                      .                    (6.4)
+                                             TSS/(n − 1)
+
+Unlike Cp , AIC, and BIC, for which a small value indicates a model with
+a low test error, a large value of adjusted R2 indicates a model with a
+
+  4 There are two formulas for AIC for least squares regression. The formula that we
+
+provide here requires an expression for σ 2 , which we obtain using the full model con-
+taining all predictors. The second formula is appropriate when σ 2 is unknown and we do
+not want to explicitly estimate it; that formula has a log(RSS) term instead of an RSS
+term. Detailed derivations of these two formulas are outside of the scope of this book.
+                                                  6.1 Subset Selection    235
+
+small test error. Maximizing the adjusted R2 is equivalent to minimizing
+ RSS . While RSS always decreases as the number of variables in the model
+n−d−1
+            RSS may increase or decrease, due to the presence of d in the
+increases, n−d−1
+denominator.
+   The intuition behind the adjusted R2 is that once all of the correct
+variables have been included in the model, adding additional noise variables
+will lead to only a very small decrease in RSS. Since adding noise variables
+                                                                        RSS ,
+leads to an increase in d, such variables will lead to an increase in n−d−1
+and consequently a decrease in the adjusted R2 . Therefore, in theory, the
+model with the largest adjusted R2 will have only correct variables and
+no noise variables. Unlike the R2 statistic, the adjusted R2 statistic pays
+a price for the inclusion of unnecessary variables in the model. Figure 6.2
+displays the adjusted R2 for the Credit data set. Using this statistic results
+in the selection of a model that contains seven variables, adding own to the
+model selected by Cp and AIC.
+   Cp , AIC, and BIC all have rigorous theoretical justifications that are
+beyond the scope of this book. These justifications rely on asymptotic ar-
+guments (scenarios where the sample size n is very large). Despite its pop-
+ularity, and even though it is quite intuitive, the adjusted R2 is not as well
+motivated in statistical theory as AIC, BIC, and Cp . All of these measures
+are simple to use and compute. Here we have presented their formulas in
+the case of a linear model fit using least squares; however, AIC and BIC
+can also be defined for more general types of models.
+
+
+Validation and Cross-Validation
+As an alternative to the approaches just discussed, we can directly esti-
+mate the test error using the validation set and cross-validation methods
+discussed in Chapter 5. We can compute the validation set error or the
+cross-validation error for each model under consideration, and then select
+the model for which the resulting estimated test error is smallest. This pro-
+cedure has an advantage relative to AIC, BIC, Cp , and adjusted R2 , in that
+it provides a direct estimate of the test error, and makes fewer assumptions
+about the true underlying model. It can also be used in a wider range of
+model selection tasks, even in cases where it is hard to pinpoint the model
+degrees of freedom (e.g. the number of predictors in the model) or hard to
+estimate the error variance σ 2 .
+   In the past, performing cross-validation was computationally prohibitive
+for many problems with large p and/or large n, and so AIC, BIC, Cp ,
+and adjusted R2 were more attractive approaches for choosing among a
+set of models. However, nowadays with fast computers, the computations
+required to perform cross-validation are hardly ever an issue. Thus, cross-
+validation is a very attractive approach for selecting from among a number
+of models under consideration.
+236                        6. Linear Model Selection and Regularization
+
+
+                     220                                                  220                                                    220
+
+
+
+
+                                                                                                        Cross−Validation Error
+                     200                                                  200
+
+
+
+
+Square Root of BIC                                 Validation Set Error
+                                                                                                                                 200
+
+
+                     180                                                  180                                                    180
+
+
+                     160                                                  160                                                    160
+
+
+                     140                                                  140                                                    140
+
+
+                     120                                                  120                                                    120
+
+
+                     100                                                  100                                                    100
+
+                           2   4    6    8    10                                2   4    6    8    10                                  2   4    6    8    10
+
+                           Number of Predictors                                 Number of Predictors                                   Number of Predictors
+
+
+FIGURE 6.3. For the Credit data set, three quantities are displayed for the
+best model containing d predictors, for d ranging from 1 to 11. The overall best
+model, based on each of these quantities, is shown as a blue cross. Left: Square
+root of BIC. Center: Validation set errors. Right: Cross-validation errors.
+
+
+   Figure 6.3 displays, as a function of d, the BIC, validation set errors, and
+cross-validation errors on the Credit data, for the best d-variable model.
+The validation errors were calculated by randomly selecting three-quarters
+of the observations as the training set, and the remainder as the valida-
+tion set. The cross-validation errors were computed using k = 10 folds.
+In this case, the validation and cross-validation methods both result in a
+six-variable model. However, all three approaches suggest that the four-,
+five-, and six-variable models are roughly equivalent in terms of their test
+errors.
+   In fact, the estimated test error curves displayed in the center and right-
+hand panels of Figure 6.3 are quite flat. While a three-variable model clearly
+has lower estimated test error than a two-variable model, the estimated test
+errors of the 3- to 11-variable models are quite similar. Furthermore, if we
+repeated the validation set approach using a diﬀerent split of the data into
+a training set and a validation set, or if we repeated cross-validation using
+a diﬀerent set of cross-validation folds, then the precise model with the
+lowest estimated test error would surely change. In this setting, we can
+select a model using the one-standard-error rule. We first calculate the one-
+standard error of the estimated test MSE for each model size, and then standard-
+select the smallest model for which the estimated test error is within one error
+standard error of the lowest point on the curve. The rationale here is that rule
+if a set of models appear to be more or less equally good, then we might
+as well choose the simplest model—that is, the model with the smallest
+number of predictors. In this case, applying the one-standard-error rule
+to the validation set or cross-validation approach leads to selection of the
+three-variable model.
+                                                            6.2 Shrinkage Methods       237
+
+6.2 Shrinkage Methods
+The subset selection methods described in Section 6.1 involve using least
+squares to fit a linear model that contains a subset of the predictors. As an
+alternative, we can fit a model containing all p predictors using a technique
+that constrains or regularizes the coeﬃcient estimates, or equivalently, that
+shrinks the coeﬃcient estimates towards zero. It may not be immediately
+obvious why such a constraint should improve the fit, but it turns out that
+shrinking the coeﬃcient estimates can significantly reduce their variance.
+The two best-known techniques for shrinking the regression coeﬃcients
+towards zero are ridge regression and the lasso.
+
+
+6.2.1 Ridge Regression
+Recall from Chapter 3 that the least squares fitting procedure estimates
+β0 , β1 , . . . , βp using the values that minimize
+                                       ⎛                         ⎞2
+                                n
+                                0                     p
+                                                      0
+                     RSS =             ⎝y i − β 0 −         βj xij ⎠ .
+                                 i=1                  j=1
+
+
+Ridge regression is very similar to least squares, except that the coeﬃcients
+                                                                              ridge
+are estimated by minimizing a slightly diﬀerent quantity. In particular, the regression
+ridge regression coeﬃcient estimates β̂ R are the values that minimize
+             ⎛                         ⎞2
+       n
+       0                  p
+                          0                    p
+                                               0                         p
+                                                                         0
+             ⎝yi − β0 −         βj xij ⎠ + λ          βj2 = RSS + λ            βj2 ,   (6.5)
+       i=1                j=1                  j=1                       j=1
+
+
+where λ ≥ 0 is a tuning parameter, to be determined separately. Equa-
+                                                                                   tuning
+tion 6.5 trades oﬀ two diﬀerent criteria. As with least squares, ridge regres- parameter
+sion seeks coeﬃcient estimates that fit    ) the data well, by making the RSS
+small. However, the second term, λ j βj2 , called a shrinkage penalty, is
+                                                                                   shrinkage
+small when β1 , . . . , βp are close to zero, and so it has the eﬀect of shrinking penalty
+the estimates of βj towards zero. The tuning parameter λ serves to control
+the relative impact of these two terms on the regression coeﬃcient esti-
+mates. When λ = 0, the penalty term has no eﬀect, and ridge regression
+will produce the least squares estimates. However, as λ → ∞, the impact of
+the shrinkage penalty grows, and the ridge regression coeﬃcient estimates
+will approach zero. Unlike least squares, which generates only one set of co-
+eﬃcient estimates, ridge regression will produce a diﬀerent set of coeﬃcient
+estimates, β̂λR , for each value of λ. Selecting a good value for λ is critical;
+we defer this discussion to Section 6.2.3, where we use cross-validation.
+   Note that in (6.5), the shrinkage penalty is applied to β1 , . . . , βp , but
+not to the intercept β0 . We want to shrink the estimated association of
+238                                    6. Linear Model Selection and Regularization
+
+
+                            400                              Income                                400
+                                                             Limit
+
+
+
+
+Standardized Coefficients                                              Standardized Coefficients
+                            300                              Rating                                300
+                                                             Student
+                            200                                                                    200
+
+                            100                                                                    100
+
+                            0                                                                      0
+
+
+                            −100                                                                   −100
+
+
+
+
+                            −300                                                                   −300
+                               1e−02      1e+00    1e+02   1e+04                                          0.0   0.2     0.4     0.6     0.8   1.0
+
+                                                  λ                                                                   ∥β̂λR ∥2 /∥β̂∥2
+
+
+FIGURE 6.4. The standardized ridge regression coeﬃcients are displayed for
+the Credit data set, as a function of λ and ∥β̂λR ∥2 /∥β̂∥2 .
+
+each variable with the response; however, we do not want to shrink the
+intercept, which is simply a measure of the mean value of the response
+when xi1 = xi2 = . . . = xip = 0. If we assume that the variables—that is,
+the columns of the data matrix X—have been centered to have mean zero
+before ridge regression
+                    )n is performed, then the estimated intercept will take
+the form β̂0 = ȳ = i=1 yi /n.
+
+An Application to the Credit Data
+In Figure 6.4, the ridge regression coeﬃcient estimates for the Credit data
+set are displayed. In the left-hand panel, each curve corresponds to the
+ridge regression coeﬃcient estimate for one of the ten variables, plotted
+as a function of λ. For example, the black solid line represents the ridge
+regression estimate for the income coeﬃcient, as λ is varied. At the extreme
+left-hand side of the plot, λ is essentially zero, and so the corresponding
+ridge coeﬃcient estimates are the same as the usual least squares esti-
+mates. But as λ increases, the ridge coeﬃcient estimates shrink towards
+zero. When λ is extremely large, then all of the ridge coeﬃcient estimates
+are basically zero; this corresponds to the null model that contains no pre-
+dictors. In this plot, the income, limit, rating, and student variables are
+displayed in distinct colors, since these variables tend to have by far the
+largest coeﬃcient estimates. While the ridge coeﬃcient estimates tend to
+decrease in aggregate as λ increases, individual coeﬃcients, such as rating
+and income, may occasionally increase as λ increases.
+   The right-hand panel of Figure 6.4 displays the same ridge coeﬃcient
+estimates as the left-hand panel, but instead of displaying λ on the x-axis,
+we now display ∥β̂λR ∥2 /∥β̂∥2 , where β̂ denotes the vector of least squares
+coeﬃcient estimates. The notation ∥β∥2 denotes the G)ℓ2 norm (pronounced ℓ2 norm
+                                                        p     2
+“ell 2”) of a vector, and is defined as ∥β∥2 =          j=1 βj . It measures
+

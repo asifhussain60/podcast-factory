@@ -1,0 +1,65 @@
+# Chapter contract — ISL2 / MAS-I, Episode 04.
+# Phase 0d authored 2026-05-23. Mirrors introduction.yml schema; extends
+# tone_constraints with a positive-framed math-intuition rule per Asif's
+# 2026-05-23 directive. Source of beats + scope: _system/source/text/chapters-rationale.md §EP04.
+
+chapter_ref: ch04-classification
+slug: classification
+source_type: book-chapter
+book_slug: islr-mas-i
+episode_number: 4
+title: Classification (Logistic, QDA, Naive Bayes, GLMs)
+audience: >
+  An actuarial student who has passed SOA Exams P and FM and is preparing
+  for MAS-I (Modern Actuarial Statistics I). Listening mode is a casual
+  walk — theory-heavy, qualitative, formulas referenced but never solved
+  aloud. The student has strong probability/calculus foundations and basic
+  regression exposure, but minimal machine-learning vocabulary.
+angle: personal_application
+episode_format: deep_dive
+host_dynamic: curious_mind + scholar_companion
+host_dynamic_custom: null
+debate: null
+length_target: default_deep_dive
+
+key_tensions:
+  - "Linear regression breaks on classification because predicted probabilities can fall outside [0, 1] — the logistic function is the disciplined fix, and that's why logistic regression exists at all."
+  - "Discriminative classifiers (logistic regression) and generative classifiers (QDA, Naive Bayes) are two routes to the same posterior — discriminative models P(Y|X) directly; generative models P(X|Y) then inverts via Bayes' rule."
+  - "GLMs (§4.6) are the unifying family — logistic and Poisson regression are siblings, and Poisson regression on count data IS the actuarial bread-and-butter (claim-frequency modeling)."
+
+tone_constraints:
+  - "No aloud calculations. No 'pause and try this'. No R code recitation."
+  - "Formulas are NAMED when they matter, never solved on air."
+  - "Every formula or quantitative claim gets an intuitive one-sentence scaffold the walking listener can hold without paper: what it computes, why it exists, and what the answer's shape (sign, magnitude, monotonicity) tells you. Lead with intuition, name the formula, never solve aloud. Symbols themselves are NOT recited (no 'sigma', no 'X-bar', no 'beta-hat') — the meaning behind the symbol is what carries."
+  - "Modern analogies are welcome (Netflix, Spotify, FICO, Kaggle conventions) — but only from the book's enrichment-whitelist.md Tier 2. No religious citations, ever."
+  - "No fake enthusiasm. No 'wow', 'fascinating', 'amazing'. The student is on a walk, not in a sales pitch."
+  - "Honor the textbook's own restraint — the authors deliberately do NOT lecture. Match that posture."
+  - "MAS-I scope is §4.1–§4.4 (excluding LDA in §4.4.1 and §4.4.2) PLUS §4.6 (GLMs) as a coda since GLMs ARE exam-relevant. §4.5 (Method Comparison) and §4.7 (Lab) are OMITTED. LDA is OMITTED. Insert explicit prose seams at the LDA boundary and at §4.4.4 → §4.6. Acceptable LDA seam: 'ISL builds up to QDA by first introducing LDA — linear discriminant analysis — but MAS-I tests QDA and Naive Bayes rather than LDA, so we'll skip the LDA derivation and arrive at QDA directly with the per-class covariance idea already on the table.'"
+  - "No determinants, no covariance matrices, no integrals. Bayes' rule is stated in words ('posterior is prior times likelihood, normalized'). The logistic function is described as 'the S-shaped curve that squashes any real number into the (0, 1) range', NEVER as log(p/(1-p)) recited symbol-by-symbol."
+
+anchor_passages:
+  - "Linear regression of a 0/1 response can produce probabilities outside [0, 1] — that failure motivates logistic regression."
+  - "The logistic function is the S-shaped curve that turns a linear predictor into a probability."
+  - "Bayes' rule — posterior is prior times likelihood, normalized — is the engine of every generative classifier."
+  - "QDA allows each class its own covariance matrix; LDA does not (LDA omitted from this episode)."
+  - "Naive Bayes' simplifying assumption: within each class, the predictors are conditionally independent — that's what makes high-dimensional classification tractable."
+  - "Poisson regression on the Bikeshare data: Var(Y) = E(Y) is the Poisson signature, and count data (claim frequency) is its canonical actuarial home."
+
+adaptation_mode: bridge
+
+phonetic_overrides:
+  QDA: "KYOO-dee-AY"
+  Naive Bayes: "nai-EEV BAYZ"
+  Bayesian: "BAY-zee-an"
+  Poisson: "PWAH-sahn"
+  multinomial: "mull-tih-NOH-mee-al"
+
+show_notes:
+  blurb: "Why linear regression fails for classification, logistic regression as the disciplined fix, the generative-classifier route through QDA and Naive Bayes, and GLMs as the unifying family that makes Poisson regression the actuary's claim-frequency tool. LDA, §4.5, and §4.7 are out-of-scope and omitted."
+  related_episodes:
+    - "EP02 — promised this episode would return to the classification material §2.2.3 deferred."
+    - "EP03 — logistic regression is linear regression's binary-outcome sibling."
+    - "EP06 — variable selection applies to logistic regression too."
+  references:
+    - "James, G., Witten, D., Hastie, T., Tibshirani, R. — An Introduction to Statistical Learning, 2nd ed., Springer 2021, Chapter 4 (§4.1–§4.4 excluding LDA + §4.6)."
+    - "Hastie, T., Tibshirani, R., Friedman, J. — The Elements of Statistical Learning, 2nd ed., 2009, Chapter 4."

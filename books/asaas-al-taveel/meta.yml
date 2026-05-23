@@ -1,0 +1,29 @@
+slug: asaas-al-taveel
+title: Asās al-Taʾwīl
+short_name: asaas
+source_pdf: ../../raw/Asaas Al-Taveel.pdf
+
+pipeline:
+  current_phase: 0c
+  phase_status: pending
+  chapters_drafted: 0
+  chapters_with_contracts: 0
+  episodes_authored: 0
+  transcripts: 1
+
+publication:
+  status: in_progress
+  shipped_via: scripts/podcast/ship_to_library.py
+  publication_target: ../../library/books/asaas-al-taveel/
+
+provenance:
+  canonical_source_branch: book/asaas-al-taveel
+  canonical_source_commit: 3a35aa749bc3c7420317974ad1557750f87a2291
+  canonical_source_path: content/podcast/library/books/asaas-al-taveel/
+  develop_workspace_path: _workspace/books/asaas-al-taveel/
+  develop_workspace_note: |
+    Develop _workspace was older (phase 0b halted-for-transcript-review).
+    Book branch is at phase 0c with refined-english.md updated +
+    content-range.md added. Book branch is canonical.
+  reshape_date: 2026-05-23
+  reshape_method: rsync from book-asaas worktree to meta-root books/

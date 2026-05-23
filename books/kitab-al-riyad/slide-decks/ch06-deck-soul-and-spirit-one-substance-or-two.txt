@@ -1,0 +1,375 @@
+# Soul and Spirit: One Substance or Two?
+
+*The visual companion to Chapter Six. The audio chapter is the prose; this file is its argument made structural. Same concepts, same depth, restructured for slide-deck rendering of Chapter Three of* this book*.*
+
+## Where this chapter stands in the book
+
+A hierarchy of dependency. *Chapter Three* takes a step downward in the chain *Chapter Two* refused to misread.
+
+- Level 1: The First Intellect (settled in *Chapter Two*: not body, not in motion, no co-present "creativity" beside it)
+  - Level 2: The Second (the universal Soul, emitted from the First)
+    - Level 3: Prime matter (the substrate of the natural world; called "the lower soul" in some registers)
+      - Level 4: Nature (prime matter informed by the Soul's power)
+
+The question of *Chapter Three*: are the Second and prime matter "similar" to the First or not? The answer the chapter builds across six sub-chapters: neither in the sense the disputants imagined. The Second is the like-counterpart of the First. Prime matter is the trace of the Second. Contact between ranks happens by emission and power, not by resemblance.
+
+## The central dispute the chapter exists to settle
+
+A contrast pair. Two rival readings of how the higher and lower worlds connect, and what the connection requires.
+
+Column A: *The Correction* (Shaykh *Jonathan*, may God have mercy on him)
+
+- That world: light, honor, virtue, no admixture
+- This world: darkness, ignorance, no admixture
+- The Second's relation to the First: born of the First, resembles the First
+- Prime matter's relation to the Second: not born of the Second, only a trace of it
+- Why resemblance matters: born = like; trace = unlike
+- Risk *Samuel* sees: if light and dark do not resemble each other, they cannot touch at all
+
+Column B: *The Defense* (Shaykh *Samuel*, may God have mercy on him)
+
+- That world and this world: must mix at their edges, or there is no contact
+- The Soul has two extremes: one toward the intellect (luminous), one toward nature (some darkness)
+- Nature has two ends: one toward the partial soul (some light), one toward the elements (no light)
+- Prime matter is born of the Soul as the Soul is born of the First, both unlike their principles
+- The Soul has fallen into frailty by distance from the First Cause
+- Why the picture requires sides: light and dark must touch at a border to be connected
+
+Shared row: both agree the question is how the higher and lower worlds connect. Both agree the Second stands between the First and prime matter. Both agree the chain must hold.
+
+The author's verdict: the book *The Correction* has the right doctrine but states it too axiomatically. The book *The Defense* imports body-categories (sides, distance, diminution, birth-by-resemblance) into a rank where bodies cannot reach. The chapter spends six sub-chapters dismantling those categories one by one.
+
+## The author's settled formula
+
+The doctrine the whole chapter leans on, given in sub-chapter one and defended across the remaining five.
+
+| Rank | What it is | Relation to the rank above |
+|---|---|---|
+| The First | The act of origination; pure emission | None; the First is what exists pure |
+| The Second | Like-counterpart of the First; together "the mineral of honor, perfection, and elevation" | Emitted; the like-counterpart in the rank below |
+| Prime matter | The trace of the Second; the essence of this world; the essence of darkness | NOT born; impressed by the power learned from the First, operating through the Second |
+| Nature | The image of prime matter informed by the Soul's power | Brought forth by the Second's exercise of the First's power |
+
+The compact form of the doctrine, as the author writes it: *prime matter is not like the Second, nor like the First, because the existence of the Second and the First is by their emission from the First, at the lower proportion that I have shown in our earlier words and in our well-known book*the author's other treatise* (*The Repose of the Intellect*). That is enough.*
+
+The principle: resemblance is not the condition of contact. Contact is the work of the power that joins the ranks. Two adjacent regions of being do not need to share a color to share a border.
+
+## Sub-chapter one, trace, not birth
+
+A genealogy diagram showing what the disputants got wrong and what the author insists on.
+
+The book *The Defense*'s claim:
+
+```
+First → emits → Second (unlike the First, "born" of it)
+                    ↓ emits
+                Prime matter (unlike the Second, "born" of it)
+```
+
+The book *The Correction*'s refusal:
+
+```
+First → emits → Second (resembles the First, like-counterpart in lower rank)
+                    ↓ NOT a birth
+                Prime matter (a trace of the Second, not its child)
+```
+
+The author's settled chain:
+
+```
+First (act of origination)
+   ↓ emits at the lower proportion
+Second (like-counterpart; "the mineral of honor and perfection")
+   ↓ exercises the power learned from the First upon
+Prime matter (the trace, the essence of darkness in this world)
+   ↓ informed by the Soul's power becomes
+Nature (the image)
+```
+
+Three things the author refuses across the chapter:
+
+| What the book *The Defense* names | What it imports | Where the rank actually stands |
+|---|---|---|
+| "Birth" of prime matter from the Soul | A likeness-relation between parent and child | An impression of power; a trace, not a child |
+| "Sides" of the Second (luminous side toward Intellect, dark side toward nature) | Geometry; the diameters of bodies | The Second has proportions, not parts; a cause-proportion and an effect-proportion |
+| "Distance" from the First Cause | Spatial removal | Rank in the chain; the proportions of one originating act |
+
+## The author's image: the messenger of the truth
+
+A visual metaphor that anchors the doctrine of mediation-without-resemblance.
+
+> *Al-aqlu rasulu al-haqq.*
+> *The intellect is the messenger of the truth.*
+> *the book *The Brilliant Aphorisms*, compiled by Abd the One the compiler from the sayings of the Commander of the Faithful.*
+
+The metaphor mapped onto the chain:
+
+| Element in the aphorism | Element in the chain | What it shows |
+|---|---|---|
+| The truth | The First | What is to be delivered |
+| The messenger | The Second (the Intellect / Soul as messenger) | The means by which delivery happens |
+| The one who receives | Prime matter and what stands below | What the delivery reaches |
+| What the messenger carries | The power learned from the First | NOT the messenger's own substance |
+| What the messenger does NOT need to share | The form of the truth itself | Likeness is not required for delivery |
+
+The messenger is not the truth. The messenger is not like the truth. The messenger is the one through whom the truth is delivered. That, for the author, is precisely what the Second is in relation to what stands below it.
+
+## Sub-chapter two, the Soul has two aspects, neither like the First
+
+An annotated structure. The Soul is one self with two relations; "two aspects" is NOT "two halves of a divided substance."
+
+The whole: the Soul (the Second), one self, the rank at which emission meets receivership.
+
+Two aspects of the one Soul, named with their function:
+
+- Aspect upward, toward the First
+  - Position: the Soul as emitted; sharing emission with the First
+  - Function: receives from the First
+  - In what sense resembles the First: shares the principle of emission
+  - In what sense does NOT resemble the First: emission is the First's nature; for the Soul it is acquired
+
+- Aspect downward, toward what the Soul gives rise to
+  - Position: the Soul as the one through which the natural body comes to be
+  - Function: gives what nature has the capacity to receive
+  - In what sense resembles the First: as cause delivering power
+  - In what sense does NOT resemble the First: stands as the medium, not the source
+
+The shared truth across both aspects: neither aspect is the Soul cut in half. The Soul is one. Its twoness is the twoness of what stands above and below it, not the twoness of a substance divided.
+
+The Quranic figure that mirrors the structure at the rank of the particular soul:
+
+> *By the soul and Him Who fashioned it, then inspired it with its corruption and its piety. Indeed he succeeds who purifies it.*
+> Quran 91:7-9, the chapter ash-Shams; translation rendered after Yusuf Ali.
+
+The mapping from verse to doctrine:
+
+| In the verse | At the universal rank | What the mapping shows |
+|---|---|---|
+| The *nafs* is one fashioning | The Soul is one self | Twoness is not substance-twoness |
+| *Fujur* and *taqwa* are two inclinations | Upward and downward aspects | Twoness is twoness of relation |
+| The one who succeeds purifies | The Soul is wholly within the world of creativity | The Soul does not fall; prime matter falls |
+
+The light-of-Imam image the author reaches for: one light fills two chambers below it. The chambers differ in their capacity. The light does not divide.
+
+## Sub-chapter three, no parts, no sides, no diameters
+
+A refutation table. The book *The Defense* claimed the Second has two sides (luminous, dark). The author refuses by category.
+
+| The book *The Defense*'s claim | The author's refusal | Why |
+|---|---|---|
+| The Second has two sides | The Second has no sides | "Parts are the diameters of bodies." The Second is not an embodiment |
+| One side is the luminous limb on the intellect's horizon | There is no limb; there is a cause-proportion | The Second's relation upward is a proportion, not a part |
+| The other side is the dark limb on nature's horizon | There is no limb; there is an effect-proportion (*the effect*) | The Second's relation downward is a proportion, not a part |
+| "Side" / "limb" / "horizon" | "Proportion" / "rank" / "addition" | The first set is body-language; the second set is rank-language |
+
+The doctrine the author substitutes:
+
+- The Second is ONE self.
+- The Second acquires TWO proportions in addition.
+- Proportion 1: cause-proportion (the Second is what the First emits; the First's cause-proportion gives rise to the Second).
+- Proportion 2: effect-proportion (the Second is *the effect*; it stands in relation to what is below).
+- Proportions are NOT parts in space. They are differences in rank within one single self.
+
+The image the author has used since *Chapter One*: the relation of *the speaker* and *the foundation*.
+
+| Element | Function | What it shows about the Second |
+|---|---|---|
+| *The speaker* (*natiq*) | The rank whose presence in the foundation indicates the rank above | The Second is inferred from rank, not surveyed by dimension |
+| *The foundation* (*asas*) | The rank that bears existence at the lower proportion | The Second's effect-proportion is its bearing, not its limb |
+| What the speaker has and the foundation does not | The visual that the foundation does not share | The Second's relation upward is not a "side" the lower can examine |
+
+What this denies the book *The Defense*: a Second that could be split. There is no such Second. To imagine luminous and dark sides is to apply body-categories to a rank that is not embodied, the same categorical mistake *Chapter Two* exposed.
+
+## Sub-chapter four, distance is for bodies
+
+A contrast pair on what the chain is, against what the book *The Defense* imagined it to be.
+
+Column A: The book *The Defense*'s picture of "distance"
+
+- Prime matter is dark because it is FAR from the First Cause
+- The Soul fell into frailty because it is BEYOND the First
+- The chain is a line stretching outward; each rank is further than the last
+- "Distance" is the explanation for "diminution"
+- Birth at the next rank requires this falling-further
+
+Column B: The author's picture of "proportion"
+
+- Prime matter is what it is because of the proportions added to the Second
+- The Soul is what it is because of the proportions added to the First
+- The chain is concentric proportions of one single light; no line stretches outward
+- "Proportion" replaces "distance" everywhere it appeared
+- Birth is not the operation; impression by power is the operation
+
+Shared row: the ranks differ. The question is whether they differ by removal or by proportion. The author insists: by proportion.
+
+The same correction *Chapter Two* gave to "motion" now applies to "distance." Motion is for bodies that traverse space. Distance is for bodies that occupy space. The ranks of origination do nothing of either kind.
+
+The Quranic verse that refuses spatial language at the most intimate rank:
+
+> *And We have created the human being and We know what his soul whispers to him, and We are closer to him than his jugular vein.*
+> Quran 50:16, the chapter Qaf; translation rendered after Yusuf Ali.
+
+The closeness the verse names is not closeness-by-distance. It is the closeness of the One whose act is the act by which the soul whispers in the first place. If the language of distance fails between the Almighty and the human soul, it fails between the First and the Second on the same grammar.
+
+## Sub-chapter five, no deficiency in the Second
+
+A named-axis 2x2. The author distinguishes two senses of "less" that the book *The Defense* collapsed into one.
+
+Axes:
+
+- Horizontal: Where the "less" is located (Inside the rank → In the relation above it)
+- Vertical: What "less" denotes (A defect in being → A form of receiving)
+
+Quadrants:
+
+| | Inside the rank | In the relation above it |
+|---|---|---|
+| **A defect in being** | The book *The Defense*'s picture: the Second is damaged, an incomplete First. *This is what the author refuses.* | Impossible. A "defect" inside the relation is a category mistake; relations do not break, ranks do not break in their relations |
+| **A form of receiving** | Impossible. The Second considered in itself has no lack. To posit a "lack inside" is to make the Second a body with a missing part | The author's settled doctrine: the Second's lower proportion is the FORM of the gift the First gives, not a defect in the Second |
+
+The formula the author has carried since *Chapter One*, applied here: *perfect in self; deficient only in addition to what stands above.*
+
+The image of light:
+
+- The light that fills a higher chamber is not diminished when it also illumines a lower one.
+- The lower chamber receives less because its capacity is less.
+- The light has no defect.
+- The receiver, not the giver, sets the limit.
+
+The supplication of Imam the fourth Imam (peace be upon him), which names the same structural truth at the rank of the worshipper:
+
+> *O You who give to the one who asks of You; O You who give to the one who has not asked of You and the one who has not known You, out of Your tender mercy.*
+> *Sahifa* the supplications, *Du'a* 5; the supplication for himself and the people of his fold.
+
+The Giver is undiminished by the giving. The asker and the non-asker, the knower and the non-knower, receive in the measure of their capacity. The capacity is set by them, not by any withholding on the part of the Giver. To imagine the Giver as "less" because some receive less is the book *The Defense*'s mistake about the Second.
+
+## Sub-chapter six, nature is born of soul; the chain holds
+
+A process flow. The book *The Defense* offers the parallel; the author concedes the chain but renames the operation.
+
+The book *The Defense*'s parallel:
+
+```
+Intellect → births → Soul (Soul is honored, close to the First, born of the Intellect)
+                        ↓ births
+                    Nature (more like the Soul than the Soul is like the Intellect; therefore even more permissibly born)
+```
+
+The argument from the partial soul:
+
+```
+The partial soul is drawn to nature's beauty
+   ↓ requires
+Nature carries beauty back to the higher world
+   ↓ requires
+Nature is in some way the offspring of the Soul
+   ↓ if denied
+The Soul could not speak of beauty, splendor, and adornment at all
+```
+
+The author's response: *If there is any precedence in the discussion over the intellect, the soul, nature, and the existence of the above, its existence over others, and otherwise, it implies the correct statement, then I quote it; and we do not need to elaborate with certainty upon what continued the mistake in perception. And in that is enough.*
+
+The concession and the correction, side by side:
+
+| The book *The Defense*'s claim | The author's response | The corrected reading |
+|---|---|---|
+| The chain runs Intellect → Soul → Nature | Quoted; let it stand | The chain runs by the same originating power through the proportions of cause and effect |
+| Nature is "born" of the Soul | Quoted in the right sense | "Born" = the impression of the Soul's power on prime matter, not a likeness-birth |
+| Nature is more like the Soul than the Soul is like the Intellect | Not refuted here; not the question | The likeness-comparison is not what carries the chain |
+| Without birth, no beauty | Conceded that the chain must hold | The chain holds; the operation is not birth-by-resemblance |
+
+The precise sense of "born" the chapter has established:
+
+- Nature is prime matter informed by the Soul's power.
+- Prime matter is still the trace, not the offspring.
+- Nature is still the image of the trace, not the image of the Soul.
+- The chain holds because the power runs through it, not because the lower ranks resemble the higher.
+
+The Quranic verse for the spirit that refuses substrate-talk when the question is pressed:
+
+> *Wa-yas'alunaka ani al-ruh, quli al-ruhu min the divine commandi rabbi wa-ma utitum min al-ilmi illa qalila.*
+> *And they ask you about the spirit. Say: the spirit is from the affair of my Lord, and you have not been given of knowledge except a little.*
+> Quran 17:85, the chapter on the night journey; translation rendered after Yusuf Ali.
+
+The occasion of revelation, preserved by Abdullah ibn Mas'ud (may Allah be pleased with him):
+
+> *Kuntu amshi maa al-nabiyyi fi harthi al-madinati wa-huwa yatawakkau ala asib, fa-marra bi-nafarin min al-yahudi fa-qala baduhum li-bad: saluhu an al-ruh. Fa-qamu ilayhi fa-saaluhu, fa-waqafa wa-lam yujib. Fa-qultu: innahu yuha ilayh, fa-qumtu makani. Fa-lamma nazala al-wahyu tala al-ayah.*
+> *I was walking with the Prophet Muhammad (peace and blessings of Allah be upon him and his family) through the cultivated land of Medina, and he was leaning on a palm-leaf stalk. He passed by a group of the Jews. Some of them said to others: ask him about the spirit. They rose to him and asked, and he stood still and did not answer. I knew revelation was descending on him, and I stood in my place. When the revelation had come down, he recited the verse.*
+> Sahih the canonical hadith compiler, Book of Tafsir on the chapter on the night journey; also Sahih Muslim, Book of the Characteristics of the Hypocrites; narrated by Abdullah ibn Mas'ud.
+
+What the hadith establishes for the chapter:
+
+- The Prophet does not answer at once; he waits for the descent.
+- The form of the revelation IS the form of what the revelation says.
+- The spirit is not inventoried as a substance; it is named as a rank in the chain through which the divine command runs.
+- The questioners' category was substrate; the answer's category is *the divine command*.
+
+## Soul and spirit at three ranks of one chain
+
+The chapter's central naming, laid out as a comparison matrix.
+
+| Term | What it names | What rank in the chain | What it is NOT |
+|---|---|---|---|
+| The Soul (the Second) | The rank in the chain of origination just below the First | Rank 2 | Not a substance among substances; not a body; not divisible by sides |
+| The spirit (*al-ruh*) | The affair (*the divine command*) carried by the Soul; the power running through the rank | The affair of the rank | Not a separate substrate beneath or beside the Soul; not inventoriable |
+| Prime matter (the lower soul) | The trace impressed by the affair in the substrate below | Rank 3 | Not the offspring of the Soul; not born by resemblance; not what the question "what is the spirit" can answer |
+
+The author's settled refusal of the framing "Soul and spirit, one substance or two": the question presupposes substrate. The right answer is that there are three names for what happens at one continuous overflow of power from the First. The chain is one. The names mark ranks and offices within the chain.
+
+## The chapter's settled formula
+
+A two-vantage summary, the heart of all six sub-chapters.
+
+| What holds across all six sub-chapters | What does NOT hold across all six sub-chapters |
+|---|---|
+| The First and the Second are like-counterparts; "the mineral of honor and perfection" | The Second has parts or sides |
+| Prime matter is the trace of the Second | Prime matter is the child of the Second |
+| Contact between ranks is the work of power, not of resemblance | Light and darkness must touch at a border to be connected |
+| Perfect in self; deficient only in addition | Diminution is a defect inside the Second's own being |
+| Distance is for bodies; ranks differ by proportion | The Second is "far" from the First by spatial removal |
+| Nature is prime matter informed by the Soul's power | Nature is born of the Soul by likeness |
+
+The compact form: *The chain holds because the power runs through it, not because the ranks resemble each other.*
+
+## The political stake of the doctrine
+
+An annotated structure showing why the metaphysics carries a political weight in *the call* tradition.
+
+The whole: the chain of *the limits* that links every rank of guidance to its principle.
+
+The two rival pictures of the link:
+
+- Picture A: the link is by RESEMBLANCE
+  - Position: any believer who happens to resemble *the imam* in some quality could claim equivalent rank
+  - Consequence: the chain becomes negotiable; offices are imitable
+  - Why the author refuses it: this is the picture *Samuel*'s body-categories would yield
+
+- Picture B: the link is by the CHAIN OF PROPORTIONS
+  - Position: rank is determined by the proportion at which the office stands within the originating act
+  - Consequence: no amount of resemblance closes the gap; the gap is closed only by the office the rank carries
+  - Why the author insists on it: this is the picture *Chapters One through Three* have built
+
+The offices that depend on Picture B:
+
+| Office | What it is by | What it is NOT by |
+|---|---|---|
+| *The speaker-prophet* (*natiq*) | The proportion at which his rank stands in the chain | Likeness to those who came before |
+| *The wali* | The office the rank carries | Personal qualities one could imitate |
+| *The imam* | The rank's place in the originating act | Any similarity acquirable by aspiration |
+
+The closing prayer of *Chapter Two*, repeated as the warning of *Chapter Three*: *that the ranks of the limits be kept clear, so that there be no confusion about the matter of perceiving things in their realities; for such confusion would lead to the corruption of the essence of souls.*
+
+To confuse the Soul with the spirit, the Second with the First, the trace with the birth, is not an academic mistake. It corrupts the souls that hold the confusion, because it leaves them unable to distinguish what they can and cannot receive from each rank.
+
+## What comes next
+
+A timeline of the chapters ahead, each carrying the same identity-versus-rank formula into a new domain.
+
+| Chapter | Subject | What of *Chapter Three*'s formula it carries forward |
+|---|---|---|
+| *Chapter Four* (8 sub-chapters) | The partial souls: are they parts of the First Truths, or only traces of the Second? | The categories of part-and-whole are body-categories; partial souls are a trace of a trace |
+| *Chapter Five* (7 sub-chapters) | Human beings as the fruit of the world | The fruit-of-the-world is the rank that bears the deposit of the chain above it |
+| *Chapter Six* (9 sub-chapters) | Motion, stillness, and image | Motion is for bodies; the ranks of origination are not in motion |
+| *Chapter Seven* (7 sub-chapters) | The divisions of the world | The divisions are proportions, not parts in space |
+
+The image *Chapter Three* leaves the reader with: the First and the Second standing together as the mineral of honor, with no ignorance or darkness between them, and below them, prime matter, the trace, the essence of this world, receiving the impression of a power that does not resemble it. The light and the darkness do not need to look alike to be in contact. The contact is the work of the power that runs from one through the other to what stands below. That is the doctrine. That is what the chapter exists to settle. And it is settled.

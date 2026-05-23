@@ -1,0 +1,68 @@
+# Chapter contract — ISL2 / MAS-I, Episode 06.
+# Phase 0d authored 2026-05-23. Mirrors introduction.yml schema; extends
+# tone_constraints with a positive-framed math-intuition rule per Asif's
+# 2026-05-23 directive. Source of beats + scope: _system/source/text/chapters-rationale.md §EP06.
+
+chapter_ref: ch06-model-selection
+slug: model-selection
+source_type: book-chapter
+book_slug: islr-mas-i
+episode_number: 6
+title: Selection and Regularization (Ridge, Lasso, PCR, PLS)
+audience: >
+  An actuarial student who has passed SOA Exams P and FM and is preparing
+  for MAS-I (Modern Actuarial Statistics I). Listening mode is a casual
+  walk — theory-heavy, qualitative, formulas referenced but never solved
+  aloud. The student has strong probability/calculus foundations and basic
+  regression exposure, but minimal machine-learning vocabulary.
+angle: personal_application
+episode_format: deep_dive
+host_dynamic: curious_mind + scholar_companion
+host_dynamic_custom: null
+debate: null
+length_target: default_deep_dive
+
+key_tensions:
+  - "Too many predictors over-fit; too few under-fit — model selection is the principled middle path, and the choice of selection criterion (Cp, AIC, BIC, adjusted R², CV) is itself a choice."
+  - "Ridge shrinks every coefficient toward zero but never to zero; the LASSO produces exact zeros — automatic variable selection is the difference between L2 and L1 penalties, and it's why both still ship."
+  - "PCR and PLS are dimension-reduction routes — the same regression problem, attacked by first summarizing the predictors. The order matters; the choice of components matters."
+
+tone_constraints:
+  - "No aloud calculations. No 'pause and try this'. No R code recitation."
+  - "Formulas are NAMED when they matter, never solved on air."
+  - "Every formula or quantitative claim gets an intuitive one-sentence scaffold the walking listener can hold without paper: what it computes, why it exists, and what the answer's shape (sign, magnitude, monotonicity) tells you. Lead with intuition, name the formula, never solve aloud. Symbols themselves are NOT recited (no 'sigma', no 'X-bar', no 'beta-hat') — the meaning behind the symbol is what carries."
+  - "Modern analogies are welcome (Netflix, Spotify, FICO, Kaggle conventions) — but only from the book's enrichment-whitelist.md Tier 2. No religious citations, ever."
+  - "No fake enthusiasm. No 'wow', 'fascinating', 'amazing'. The student is on a walk, not in a sales pitch."
+  - "Honor the textbook's own restraint — the authors deliberately do NOT lecture. Match that posture."
+  - "Full chapter is in scope — no exclusions, no prose seams required."
+  - "The λ-tuning dial is the chapter's central image: as λ grows, ridge coefficients shrink continuously toward zero; LASSO coefficients shrink AND snap to exactly zero one by one. CV chooses λ. The 'diamond vs sphere' geometric argument for why L1 produces sparsity may be mentioned in one sentence; do NOT attempt visual description beyond that."
+  - "Cp, AIC, BIC, and adjusted R² are described by their penalty SHAPES (BIC penalizes complexity harder than AIC; adjusted R² is the friendly heuristic), NEVER by their algebraic formulas."
+
+anchor_passages:
+  - "Ridge regression adds λ × sum-of-squared-coefficients to the residual sum of squares."
+  - "The LASSO adds λ × sum-of-absolute-coefficients to the residual sum of squares — the L1 penalty produces exact zeros."
+  - "BIC penalizes model complexity more aggressively than AIC."
+  - "The 1996 LASSO paper by Tibshirani is one of the most-cited statistics papers ever — and Tibshirani co-authored ISL."
+  - "Test MSE of 151995 on the PLS labs — the kind of concrete number the chapter lands on."
+
+adaptation_mode: bridge
+
+phonetic_overrides:
+  LASSO: "LASS-oh"
+  ridge regression: "RIDJ ree-GRES-shun"
+  regularization: "REG-yoo-lar-ih-ZAY-shun"
+  Akaike: "ah-kah-EE-keh"
+  Bayesian: "BAY-zee-an"
+  Mallows's Cp: "MAL-ohz SEE-pee"
+  eigendecomposition: "EYE-gen-dee-com-poh-ZISH-un"
+
+show_notes:
+  blurb: "Why model selection matters, best-subset and stepwise as the combinatorial baselines, Cp/AIC/BIC/adjusted-R² and CV as the selection criteria, ridge and LASSO as the shrinkage methods that defined modern regression, and PCR/PLS as the dimension-reduction alternatives. The chapter that makes the bias–variance dial tunable."
+  related_episodes:
+    - "EP02 — bias–variance is the dial; ridge and LASSO are how you turn it."
+    - "EP03 — variable-selection foreshadowing from §3.3 multiple regression comes due here."
+    - "EP05 — CV is the engine that picks λ."
+  references:
+    - "James, G., Witten, D., Hastie, T., Tibshirani, R. — An Introduction to Statistical Learning, 2nd ed., Springer 2021, Chapter 6."
+    - "Tibshirani, R. — Regression shrinkage and selection via the lasso, JRSS-B, 1996."
+    - "Hastie, T., Tibshirani, R., Friedman, J. — The Elements of Statistical Learning, 2nd ed., 2009, Chapter 3."
