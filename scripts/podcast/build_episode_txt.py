@@ -854,6 +854,50 @@ def assert_alqaab_only_established_or_paraphrased(content: str, file_path: Path,
         )
 
 
+# F25 / F27 #8 (2026-05-23): apparatus-table schema for 99-show-notes.md.
+# The "Name and Title Preservation Table" gives the written-layer scholarly
+# apparatus that the TTS-safe audio layer (chapter prose + framing) deliberately
+# omits — preserves the original Arabic transliteration, category, written form,
+# the audio label the listener actually hears, and the chapter line where that
+# label first appears. Validator fires only when the file exists (silent skip
+# while F25 generation infrastructure is still pending; depends on F26
+# name-aliases.yml schema v2).
+SHOW_NOTES_TABLE_HEADER = "## Name and Title Preservation Table"
+SHOW_NOTES_REQUIRED_COLUMNS = (
+    "Original / Transliteration",
+    "Category",
+    "Written Form",
+    "Audio Label",
+    "First Audio Use",
+)
+
+
+def assert_show_notes_has_apparatus_table(content: str, file_path: Path) -> None:
+    """F27 #8 / F25: 99-show-notes.md must contain a structured apparatus table.
+
+    Catches drift in the written-layer apparatus. Soft-flags both the missing
+    section header and the missing required columns. Callers should check that
+    `file_path.exists()` before invoking (silent skip if absent — F25 generation
+    infrastructure is still pending).
+    """
+    if SHOW_NOTES_TABLE_HEADER not in content:
+        _flag_p1(
+            "F25-APPARATUS-TABLE", file_path,
+            f"no '{SHOW_NOTES_TABLE_HEADER}' section header found. "
+            f"F25 doctrine: every episode's 99-show-notes.md carries the "
+            f"written-layer apparatus (preserved Arabic / transliterations + "
+            f"audio-label crosswalk) the TTS-safe audio omits."
+        )
+        return
+    missing = [col for col in SHOW_NOTES_REQUIRED_COLUMNS if col not in content]
+    if missing:
+        _flag_p1(
+            "F25-APPARATUS-TABLE", file_path,
+            f"apparatus table missing required columns: {missing}. "
+            f"Required: {list(SHOW_NOTES_REQUIRED_COLUMNS)}."
+        )
+
+
 def assert_framing_has_name_discipline_section(content: str, file_path: Path) -> None:
     """R-NAMEDISCIPLINE: framing has a Name discipline section with rotation sets.
 
@@ -1219,6 +1263,16 @@ def build(book_dir: Path, episode_id: str) -> None:
     # 2. Build the customize-prompt-only episode txt.
     out_path = book_dir / "episodes" / f"{episode_id}.txt"
     framing_words = build_framing_episode_txt(framing_file, out_path, extra_tells)
+
+    # 3. F25 (2026-05-23): apparatus-table check on 99-show-notes.md when present.
+    # Silent skip when the file doesn't exist — F25 show-notes-generation
+    # infrastructure is still pending (depends on F26 name-aliases.yml v2).
+    show_notes_path = draft_dir / "99-show-notes.md"
+    if show_notes_path.exists():
+        assert_show_notes_has_apparatus_table(
+            show_notes_path.read_text(encoding="utf-8"),
+            show_notes_path,
+        )
 
     # Word-count warnings (band-soft, not hard).
     warnings = []

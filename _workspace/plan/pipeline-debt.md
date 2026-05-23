@@ -95,10 +95,21 @@ This sequence is what unlocks shipping new books under v4-revised doctrine.
 
 | Item | Scope | Effort | Notes |
 |---|---|---|---|
-| **F25** | apparatus-table schema + Phase 0g show-notes generation + Validator #8 wiring | ~1 day | The remaining structural piece; multi-part. |
-| **F24 prompt** | Phase 0e alqaab functional-paraphrase prompt patch | ~30 min | Validator exists; needs Phase 0e prompt to actively produce paraphrases instead of literal translations. |
+| **F25 generation** | Phase 0g show-notes auto-generation (apparatus-table rows from `name-aliases.yml v2`) | ~half-day | Schema landed ([f25-apparatus-table-schema.md](f25-apparatus-table-schema.md)). Validator #8 landed in [build_episode_txt.py](../../scripts/podcast/build_episode_txt.py) — defensive (silent skip when file absent). Generation depends on F26. |
+| **F26** | `name-aliases.yml v2` schema (figure → category / written form / audio label / first-use anchor) | ~half-day | Unblocks F25 generation + F23 book-thesis coherence checks. |
+| **F24 prompt** | Phase 0e alqaab functional-paraphrase prompt patch | ~30 min | Validator #7 exists; needs Phase 0e prompt to actively produce paraphrases instead of literal translations. |
 
-Everything else on the F-list is P1/P2 quality-of-life. The framework can ship the next book under v4-revised doctrine right now.
+Everything else on the F-list is P1/P2 quality-of-life. The framework can ship the next book under v4-revised doctrine right now; F25 + F26 + F24-prompt are remaining compounding investments.
+
+### Cohesion-audit fixes landed 2026-05-23
+
+| Item | Source | Landed in |
+|---|---|---|
+| **G2** Chapter-set advisory in orchestrator (Phase 0d.5) | [cohesion-audit-2026-05-23.md](cohesion-audit-2026-05-23.md) | `c0ab860` |
+| **G3** Async-safety lockfile (`~/.podcast-locks/<slug>.lock`) | Same | `c0ab860` |
+| **F25 validator + schema** | [f25-apparatus-table-schema.md](f25-apparatus-table-schema.md) | This commit |
+
+G1 (transcript audit) accepted as honest human-gate; G4 (Category G re-validation) verified as write-once / no real gap; G5 (word-count bands) closed as misreport.
 
 ### Meta-pattern status (M1-M7 from original synthesis)
 
