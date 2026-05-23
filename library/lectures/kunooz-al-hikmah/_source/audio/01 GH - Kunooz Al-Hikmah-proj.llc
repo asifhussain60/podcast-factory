@@ -1,0 +1,12 @@
+{
+  version: 2,
+  mediaFileName: '01 GH - Kunooz Al-Hikmah.mp3',
+  cutSegments: [
+    {
+      start: 521.480187,
+      end: 2475.157181,
+      name: '',
+      selected: true,
+    },
+  ],
+}
