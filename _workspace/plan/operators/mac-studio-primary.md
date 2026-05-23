@@ -32,8 +32,8 @@ current_branch: book/islr-mas-i
 current_book: islr-mas-i
 current_book_dir: content/podcast/library/books/islr-mas-i
 authoritative_state_path: (none — ISLR runs non-orchestrated Mode-2 per integration-analysis.md §6; no orchestrator-state.json)
-status_tag: ACTIVE-ISLR-PHASE-0D
-current_phase: "0d"
+status_tag: ISLR-SERIES-COMPLETE-AWAITING-NOTEBOOKLM-UPLOAD
+current_phase: "per-chapter-shipped"
 paused_book:
   slug: asaas-al-taveel
   branch: book/asaas-al-taveel
@@ -44,6 +44,44 @@ paused_book:
   reason: "operator-review.md §§1-8 (gate b) pending Asif's review"
   resumes_when: "ISLR ch2-7 ship + gate-b cleared"
 current_phase_status_summary: |
+  ISLR SERIES COMPLETE 2026-05-23: All 7 episodes of the ISLR-MAS-I series shipped
+  end-to-end this session under the non-orchestrated Mode-2 path documented in
+  integration-analysis.md §6. EP01 was pre-shipped (1e3b7aa, 2026-05-21); EP02-07
+  authored this session via sequential agent-per-chapter delegation. Each chapter
+  passed inline challenger review (Loops A-K per infra/claude-agents/podcast-challenger.md)
+  at iteration 1 — no fix passes required across all 6 chapters.
+
+  Ship commits (all on book/islr-mas-i, pushed to origin):
+    EP02 statistical-learning    3590543  2782w  $1.40
+    EP03 linear-regression       a55b454  2744w  $3.04
+    EP04 classification          69fa75c  2800w  $3.41
+    EP05 resampling              602e54c  2781w  $4.22
+    EP06 model-selection         7b29d60  2779w  $1.86
+    EP07 nonlinear (series end)  88da793  2696w  $2.26 (rebased on 613fa57 slide-decks push)
+    cost-validation snapshot     d9fb1d9         (cost-ledger.jsonl summary)
+
+  Total session spend: $16.17 across 19 cost-ledger rows (claude-opus-4-7 only).
+  All under 0.50% of any reasonable monthly budget. Per-chapter average $2.70.
+
+  Infrastructure added: scripts/podcast/log_chapter_cost.py (8ab2759) — thin CLI
+  around _cost_ledger.append_cost_row so non-orchestrated paths (ISLR, future
+  textbook books, ad-hoc spend tracking) write to the same JSONL ledger the
+  orchestrator uses. Consumed by cost_ledger_summary.py identically.
+
+  New tone_constraint added to all 6 contracts: "every formula gets an intuitive
+  one-sentence scaffold the walking listener can hold without paper" — the positive-
+  framed companion to ch1's "named, not solved" rule. Pre-staged Phase 0f decisions
+  from chapters-rationale.md (Default Deep Dive, 7 eps with §-exclusions, curious_mind
+  + scholar_companion, intuition-first walk-listen) honored across all 6 chapters.
+
+  Next action: operator uploads chapters/ch##-<slug>.txt files to NotebookLM as the
+  single source per episode, pastes corresponding episodes/EP##-<slug>.txt into the
+  Customize prompt box, generates audio, transcribes (https://transcripts.ai), and
+  drops transcript at transcripts/EP##-<slug>.transcript.txt. Asaas resume optional
+  — gate-b still pending operator on the asaas side.
+
+  --- prior asaas pivot context (paused — unchanged) ---
+
   ISLR PIVOT 2026-05-23: Asif requested processing ISLR ch1-7 through the pipeline
   with an explicit refinement on the existing tone_constraint pattern: "explain
   mathematical/quantitative formulas intuitively enough to understand while passively
