@@ -1,5 +1,17 @@
 #!/usr/bin/env python3
-"""Promote shipped artifacts from _workspace/books/<slug>/ to library/books/<slug>/.
+"""DEPRECATED 2026-05-23 — use `scripts/podcast/publish_to_library.py` instead.
+
+Rationale: the rich output convention of this script (transcript/, podcasts/
+series-XX/, index.md, _meta.json) was retired by Asif directive 2026-05-23 in
+favor of a minimal library/books/<slug>/ layout containing only chapters/ +
+episodes/ + README.md — the bare set NotebookLM needs to render audio.
+Invoking this script now prints a nag to stderr but still runs; remove the
+nag block and rename the file to .deprecated when ready to retire fully.
+
+============================================================================
+ORIGINAL DOCSTRING (kept for reference until file is fully retired):
+============================================================================
+Promote shipped artifacts from _workspace/books/<slug>/ to library/books/<slug>/.
 
 This is the ONLY supported writer of library/. CI enforces that any commit
 touching library/ either has a message starting with "ship: " or carries the
@@ -318,6 +330,14 @@ def _regenerate_catalog(dry_run: bool) -> None:
 
 
 def main() -> None:
+    sys.stderr.write(
+        "\n"
+        "*****************************************************************\n"
+        "* DEPRECATED: ship_to_library.py was retired 2026-05-23.        *\n"
+        "* Use:  scripts/podcast/publish_to_library.py <slug>            *\n"
+        "* See:  skills-staging/publish-podcast/SKILL.md                 *\n"
+        "*****************************************************************\n\n"
+    )
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--book", required=True, help="book slug under _workspace/books/")
     ap.add_argument("--episode", help="EP id to promote (e.g. EP10). Default: all completed_slugs in state.")
