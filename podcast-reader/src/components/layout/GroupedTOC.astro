@@ -1,0 +1,138 @@
+---
+/**
+ * Sidebar TOC — one card per topic, chapter row on top, episode row below.
+ * Uses the source/derived axis from the editorial theme:
+ *   - Chapter (source)  → amber (warm) palette
+ *   - Episode (derived) → sky (cool) palette
+ * Neutral zebra striping on the outer card so the warm/cool inner rows
+ * don't fight the alternation.
+ */
+import type { BookIndex } from '~/lib/book-content';
+import Icon from '~/components/ui/Icon.astro';
+
+interface Props {
+  worktree: string;
+  book: string;
+  index: BookIndex;
+  currentChapter?: string | null;
+  currentEpisode?: string | null;
+}
+
+const { worktree, book, index, currentChapter = null, currentEpisode = null } = Astro.props;
+
+type Row = {
+  chapter: typeof index.chapters[number];
+  episodes: typeof index.episodes;
+};
+
+const rows: Row[] = [];
+const matchedEpSlugs = new Set<string>();
+for (const ch of index.chapters) {
+  const matched = index.episodes.filter(
+    (e) => e.sourceChapterRef === ch.slug || String(e.sourceChapterRef) === String(ch.numericId)
+  );
+  matched.forEach((e) => matchedEpSlugs.add(e.slug));
+  rows.push({ chapter: ch, episodes: matched });
+}
+const orphans = index.episodes.filter((e) => !matchedEpSlugs.has(e.slug));
+---
+
+<div class="space-y-2">
+  {rows.map(({ chapter, episodes }, i) => {
+    const chActive = currentChapter === chapter.slug;
+    const epActive = episodes.some((e) => e.slug === currentEpisode);
+    const cardActive = chActive || epActive;
+
+    // Neutral zebra so warm/cool inner rows aren't muddied.
+    const oddRow = i % 2 === 0;
+
+    const cardClass = cardActive
+      ? 'rounded-lg overflow-hidden border-2 border-stone-900 shadow-md ring-1 ring-stone-300'
+      : `rounded-lg overflow-hidden border border-stone-300 hover:border-stone-500 transition-colors ${oddRow ? 'bg-white' : 'bg-stone-100/60'}`;
+    return (
+      <div class={cardClass}>
+        <a
+          href={`/${worktree}/${book}/chapter/${chapter.slug}/`}
+          class:list={[
+            'block px-3 py-2 transition-colors',
+            'border-l-[3px]',
+            chActive
+              ? 'border-l-amber-700 bg-amber-100 text-stone-900'
+              : 'border-l-amber-400 bg-amber-50/70 text-stone-800 hover:bg-amber-100/80',
+          ]}
+        >
+          <div class="flex items-start gap-2">
+            <Icon name="file-text" size={13} class="mt-0.5 shrink-0 text-amber-700" />
+            <span class="font-mono text-[11px] font-bold tracking-wide text-amber-800 shrink-0 mt-px">
+              {chapter.numericId !== null ? `Ch${String(chapter.numericId).padStart(2, '0')}` : 'Ch—'}
+            </span>
+            <span class="text-[13px] font-medium leading-snug">{chapter.title}</span>
+          </div>
+        </a>
+
+        {episodes.length === 0 ? (
+          <div class="border-t border-stone-200 border-l-[3px] border-l-stone-300 bg-stone-50 px-3 py-2">
+            <div class="flex items-baseline gap-2">
+              <span class="font-mono text-[11px] font-bold tracking-wide text-stone-400 shrink-0">E—</span>
+              <span class="font-ui text-[12px] italic text-stone-500">no episode adapts this chapter</span>
+            </div>
+          </div>
+        ) : (
+          episodes.map((ep) => {
+            const isActive = ep.slug === currentEpisode;
+            return (
+              <a
+                href={`/${worktree}/${book}/episode/${ep.slug}/`}
+                class:list={[
+                  'block border-t border-stone-200 border-l-[3px] px-3 py-2 transition-colors',
+                  isActive
+                    ? 'border-l-sky-700 bg-sky-100 text-stone-900'
+                    : 'border-l-sky-400 bg-sky-50/70 text-stone-800 hover:bg-sky-100/80',
+                ]}
+              >
+                <div class="flex items-start gap-2">
+                  <Icon name="headphones" size={13} class="mt-0.5 shrink-0 text-sky-700" />
+                  <span class="font-mono text-[11px] font-bold tracking-wide text-sky-800 shrink-0 mt-px">
+                    {ep.episodeNumber !== null ? `E${String(ep.episodeNumber).padStart(2, '0')}` : 'E—'}
+                  </span>
+                  <span class="text-[13px] font-medium leading-snug">{ep.title}</span>
+                </div>
+              </a>
+            );
+          })
+        )}
+      </div>
+    );
+  })}
+
+  {orphans.length > 0 && (
+    <div class="mt-4">
+      <div class="mb-2 px-1 font-ui text-[11px] font-bold uppercase tracking-wider text-stone-500">
+        Orphan episodes
+      </div>
+      <div class="space-y-2">
+        {orphans.map((ep) => {
+          const isActive = ep.slug === currentEpisode;
+          return (
+            <a
+              href={`/${worktree}/${book}/episode/${ep.slug}/`}
+              class:list={[
+                'block rounded-lg border border-l-[3px] px-3 py-2 transition-colors',
+                isActive
+                  ? 'border-stone-900 border-l-sky-700 bg-sky-100 text-stone-900 shadow-md ring-1 ring-stone-300'
+                  : 'border-stone-300 border-l-sky-400 bg-sky-50/70 text-stone-800 hover:border-stone-500 hover:bg-sky-100/80',
+              ]}
+            >
+              <div class="flex items-baseline gap-2">
+                <span class="font-mono text-[11px] font-bold tracking-wide text-sky-800 shrink-0">
+                  {ep.episodeNumber !== null ? `E${String(ep.episodeNumber).padStart(2, '0')}` : 'E—'}
+                </span>
+                <span class="text-[13px] font-medium leading-snug">{ep.title}</span>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  )}
+</div>

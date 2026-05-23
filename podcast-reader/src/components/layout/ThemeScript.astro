@@ -1,0 +1,20 @@
+---
+/**
+ * Inline pre-hydration script that applies the saved theme before any
+ * content renders — prevents the "flash of light theme" on dark-mode loads.
+ *
+ * Include in <head> of every page that should respect the user's saved
+ * theme. Pairs with the ThemeToggle button which writes to localStorage.
+ */
+---
+<script is:inline>
+  (function () {
+    try {
+      const saved = window.localStorage.getItem('podcast-reader-theme');
+      const theme = saved === 'dark' || saved === 'light' ? saved : 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch (_) {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+  })();
+</script>

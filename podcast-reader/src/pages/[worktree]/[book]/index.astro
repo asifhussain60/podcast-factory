@@ -1,0 +1,57 @@
+---
+import ThreePane from '~/components/layout/ThreePane.astro';
+import GroupedTOC from '~/components/layout/GroupedTOC.astro';
+import BookCover from '~/components/book/BookCover.astro';
+import { loadBookIndex } from '~/lib/book-content';
+import { loadBookMeta } from '~/data/books';
+import { getPilotBook } from '~/lib/worktree-glob';
+
+const { worktree, book } = Astro.params;
+if (!worktree || !book) {
+  return new Response('Bad request', { status: 400 });
+}
+
+const PILOT = getPilotBook();
+if (book !== PILOT) {
+  return new Response(
+    `<!doctype html><html><body style="font-family:system-ui;padding:2rem;max-width:40rem;margin:0 auto"><h1>Outside pilot scope</h1><p>The v1 pilot only surfaces <code>${PILOT}</code>. Book <code>${book}</code> exists but is deferred to v2.</p><p><a href="/">Back to worktrees</a></p></body></html>`,
+    { status: 404, headers: { 'content-type': 'text/html; charset=utf-8' } }
+  );
+}
+
+const maybeIndex = await loadBookIndex(worktree, book);
+if (!maybeIndex) {
+  return new Response(`Book "${book}" not found in worktree "${worktree}"`, { status: 404 });
+}
+const index = maybeIndex;
+
+const bookMeta = loadBookMeta(book);
+const firstEpisode = index.episodes[0];
+const firstEpisodeHref = firstEpisode ? `/${worktree}/${book}/episode/${firstEpisode.slug}/` : undefined;
+const firstChapter = index.chapters[0];
+const firstChapterHref = firstChapter ? `/${worktree}/${book}/chapter/${firstChapter.slug}/` : undefined;
+---
+
+<ThreePane
+  title={`${book} — ${worktree}`}
+  worktree={worktree}
+  book={book}
+  breadcrumb={[
+    { label: 'Worktrees', href: '/' },
+    { label: worktree, href: '/' },
+    { label: book },
+  ]}
+  showRail={false}
+>
+  <Fragment slot="toc">
+    <GroupedTOC worktree={worktree} book={book} index={index} />
+  </Fragment>
+
+  <BookCover
+    meta={bookMeta}
+    episodeCount={index.episodes.length}
+    chapterCount={index.chapters.length}
+    firstEpisodeHref={firstEpisodeHref}
+    firstChapterHref={firstChapterHref}
+  />
+</ThreePane>

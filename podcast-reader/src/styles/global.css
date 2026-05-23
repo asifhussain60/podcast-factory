@@ -1,0 +1,300 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Gentium+Plus:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+@import "tailwindcss";
+
+/* ──────────────────────────────────────────────────────────────
+   Editorial theme — single coherent palette
+   ──────────────────────────────────────────────────────────────
+   Two visual axes:
+     (1) Source vs Derived (warm amber / cool sky) — used in the
+         sidebar to distinguish chapters from episodes.
+     (2) Content categories (Quran indigo / Hadith sepia / Arabic
+         neutral) — used in body prose to identify references.
+   These axes don't share colors, so sidebar warm amber never
+   collides with body Hadith warm sepia, etc.
+   Backgrounds are restrained; refs are identified by colour +
+   per-category font + subtle underline, not saturated tints. */
+
+@theme {
+  /* Typography */
+  --font-body: "Source Serif 4", "Iowan Old Style", "Charter", Georgia, serif;
+  --font-ui: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --font-ref-quran: "EB Garamond", "Garamond", Georgia, serif;
+  --font-ref-hadith: "EB Garamond", "Garamond", Georgia, serif;
+  --font-ref-arabic: "Gentium Plus", "Gentium Book Basic", Georgia, serif;
+
+  /* Reading column constraints */
+  --reading-measure: 70ch;
+  --reading-size: 19px;
+  --reading-line-height: 1.7;
+
+  /* Surfaces — page hierarchy */
+  --color-surface-page: oklch(98.2% 0.004 75);      /* warm off-white */
+  --color-surface-raised: oklch(100% 0 0);           /* white cards */
+  --color-surface-sunken: oklch(95.5% 0.008 75);     /* sidebar tray */
+  --color-surface-zebra: oklch(96.5% 0.008 75);      /* zebra alternate */
+  --color-surface-hover: oklch(96% 0.005 75);
+  --color-surface-emphasis: oklch(20% 0.012 60);     /* dark surfaces */
+
+  /* Text hierarchy */
+  --color-ink: oklch(21% 0.012 60);                  /* primary body text */
+  --color-ink-secondary: oklch(42% 0.01 60);
+  --color-ink-tertiary: oklch(56% 0.008 60);
+  --color-ink-disabled: oklch(72% 0.005 60);
+  --color-ink-on-emphasis: oklch(98% 0.003 60);
+
+  /* Borders */
+  --color-rule-subtle: oklch(92% 0.005 60);
+  --color-rule-default: oklch(84% 0.008 60);
+  --color-rule-strong: oklch(65% 0.012 60);
+  --color-rule-emphasis: oklch(25% 0.015 60);
+
+  /* Accent — single editorial accent for active states / primary actions */
+  --color-accent: oklch(38% 0.08 250);
+  --color-accent-soft: oklch(95% 0.025 250);
+
+  /* Axis 1: Source vs Derived (sidebar nav identity) */
+  --color-source: oklch(50% 0.135 65);               /* warm amber */
+  --color-source-soft: oklch(96% 0.025 75);          /* very pale warm */
+  --color-source-medium: oklch(91% 0.05 70);
+  --color-source-bar: oklch(72% 0.13 65);            /* row-edge accent bar */
+
+  --color-derived: oklch(45% 0.10 230);              /* clear sky-teal */
+  --color-derived-soft: oklch(96% 0.018 230);
+  --color-derived-medium: oklch(91% 0.035 230);
+  --color-derived-bar: oklch(65% 0.10 230);
+
+  /* Axis 2: Content categories (body-text refs) */
+  --color-quran: oklch(34% 0.135 275);               /* deep indigo */
+  --color-quran-soft: oklch(94.5% 0.025 275);
+
+  --color-hadith: oklch(38% 0.115 45);               /* deep sepia */
+  --color-hadith-soft: oklch(94.5% 0.03 50);
+
+  --color-arabic: oklch(46% 0.018 60);               /* muted warm gray */
+  --color-arabic-soft: oklch(95% 0.006 60);
+
+  /* Editorial-magazine flourish palette (Summarize-inspired).
+     Used sparingly — for ornaments, featured ribbons, decorative rules,
+     and dark-mode accents. Do NOT use as primary surface or text colors. */
+  --color-gold: oklch(72% 0.13 80);                  /* warm editorial gold */
+  --color-gold-soft: oklch(94% 0.05 80);             /* pale gold bg */
+  --color-gold-deep: oklch(50% 0.13 70);             /* deeper gold for ribbons */
+  --color-navy: oklch(28% 0.05 250);                 /* deep navy */
+  --color-navy-soft: oklch(94% 0.02 250);            /* pale navy bg */
+  --color-cream: oklch(96% 0.012 80);                /* aged paper */
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Base
+   ────────────────────────────────────────────────────────────── */
+
+html, body {
+  font-family: var(--font-ui);
+  background: var(--color-surface-page);
+  color: var(--color-ink);
+}
+
+.reading-column {
+  font-family: var(--font-body);
+  font-size: var(--reading-size);
+  line-height: var(--reading-line-height);
+  max-width: var(--reading-measure);
+  color: var(--color-ink);
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Dark theme — proper editorial dark mode (Summarize-inspired)
+   Deep navy surfaces, cream text, brighter ref colors for contrast.
+   Triggered by `data-theme="dark"` on <html>.
+   ────────────────────────────────────────────────────────────── */
+[data-theme="dark"] {
+  /* Surfaces */
+  --color-surface-page: oklch(16% 0.02 250);
+  --color-surface-raised: oklch(20% 0.025 250);
+  --color-surface-sunken: oklch(13% 0.02 250);
+  --color-surface-zebra: oklch(22% 0.025 250);
+  --color-surface-hover: oklch(24% 0.025 250);
+  --color-surface-emphasis: oklch(94% 0.008 75);
+
+  /* Text */
+  --color-ink: oklch(94% 0.008 75);
+  --color-ink-secondary: oklch(75% 0.008 75);
+  --color-ink-tertiary: oklch(60% 0.008 75);
+  --color-ink-disabled: oklch(45% 0.005 75);
+  --color-ink-on-emphasis: oklch(15% 0.012 60);
+
+  /* Borders */
+  --color-rule-subtle: oklch(28% 0.02 250);
+  --color-rule-default: oklch(36% 0.025 250);
+  --color-rule-strong: oklch(55% 0.025 250);
+  --color-rule-emphasis: oklch(94% 0.008 75);
+
+  /* Accent */
+  --color-accent: oklch(70% 0.12 240);
+  --color-accent-soft: oklch(25% 0.05 250);
+
+  /* Source / Derived — brighter for dark-bg contrast */
+  --color-source: oklch(74% 0.12 70);
+  --color-source-soft: oklch(22% 0.04 70);
+  --color-source-medium: oklch(30% 0.07 70);
+  --color-source-bar: oklch(80% 0.13 70);
+
+  --color-derived: oklch(72% 0.10 220);
+  --color-derived-soft: oklch(22% 0.04 220);
+  --color-derived-medium: oklch(28% 0.06 220);
+  --color-derived-bar: oklch(78% 0.10 220);
+
+  /* Content categories — brighter on dark */
+  --color-quran: oklch(78% 0.14 275);
+  --color-quran-soft: oklch(25% 0.05 275);
+
+  --color-hadith: oklch(75% 0.12 50);
+  --color-hadith-soft: oklch(25% 0.04 50);
+
+  --color-arabic: oklch(74% 0.02 60);
+  --color-arabic-soft: oklch(25% 0.01 60);
+
+  /* Gold / navy flourishes — brighter for dark */
+  --color-gold: oklch(82% 0.13 80);
+  --color-gold-soft: oklch(28% 0.06 80);
+  --color-gold-deep: oklch(70% 0.13 70);
+  --color-navy: oklch(82% 0.04 250);
+}
+
+[data-theme="dark"] html,
+[data-theme="dark"] body {
+  background: var(--color-surface-page);
+  color: var(--color-ink);
+}
+[data-theme="dark"] body {
+  color-scheme: dark;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Ornaments — Summarize-inspired decorative bits
+   ────────────────────────────────────────────────────────────── */
+
+.gold-rule {
+  background: linear-gradient(to right, transparent, var(--color-gold-deep), transparent);
+  height: 1px;
+}
+.gold-hairline {
+  height: 3px;
+  background: linear-gradient(to right, transparent, var(--color-gold), transparent);
+}
+
+/* Featured-content ribbon — angled corner accent.
+   Anchor: position the parent `relative` and `overflow-hidden`; place the
+   ribbon as a child with `.ribbon` class. */
+.ribbon {
+  position: absolute;
+  top: 1.25rem;
+  right: -2.5rem;
+  width: 10rem;
+  transform: rotate(35deg);
+  background: var(--color-gold-deep);
+  color: white;
+  padding: 0.25rem 0;
+  text-align: center;
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Ref categories — highlighter mode
+   ──────────────────────────────────────────────────────────────
+   Default: refs render as plain text (no styling, no background).
+   The DOM spans exist for navigation + future comment anchoring, but
+   they're visually invisible until the user enables a category.
+   When enabled (body has `data-cat-enabled="quran arabic ..."`), the
+   matching .ref-X span gets a pastel highlight background like a
+   browser Find result or PDF highlighter. Each category has its own
+   colour so multiple categories light up distinctly when stacked. */
+
+.ref {
+  border-radius: 0.15em;
+  padding: 0 0.1em;
+  scroll-margin-top: 6rem;
+  transition: background-color 150ms ease;
+  cursor: default;
+}
+
+/* Default state: no styling at all — refs look identical to surrounding text. */
+.ref-quran,
+.ref-hadith,
+.ref-arabic {
+  color: inherit;
+  background: transparent;
+  font-family: inherit;
+  text-decoration: none;
+}
+
+/* ─── Highlighter colours ──────────────────────────────────────
+   Light pastel backgrounds (~95% lightness), dark text for contrast.
+   Mirror what's exposed as Tailwind utilities in the chip buttons so
+   the chip's bg matches the highlight it activates. */
+
+[data-cat-enabled~="quran"] .ref-quran {
+  background-color: oklch(94% 0.13 95);              /* canonical browser-yellow */
+  color: oklch(35% 0.13 80);                          /* dark amber-brown for contrast */
+  font-family: var(--font-ref-quran);
+  font-weight: 600;
+}
+
+[data-cat-enabled~="hadith"] .ref-hadith {
+  background-color: oklch(92% 0.07 40);              /* light peach */
+  color: oklch(32% 0.12 35);                          /* dark sepia */
+  font-family: var(--font-ref-hadith);
+  font-style: italic;
+}
+
+[data-cat-enabled~="arabic"] .ref-arabic {
+  background-color: oklch(93% 0.07 160);             /* light mint */
+  color: oklch(30% 0.10 155);                         /* dark green for contrast */
+  font-family: var(--font-ref-arabic);
+  font-style: italic;
+}
+
+/* Active jump-to ref pulse on keyboard nav */
+.ref.ref-active {
+  outline: 2px solid color-mix(in oklab, currentColor 60%, transparent);
+  outline-offset: 2px;
+  animation: ref-pulse 0.7s ease-out;
+}
+@keyframes ref-pulse {
+  0% { box-shadow: 0 0 0 0 currentColor; }
+  100% { box-shadow: 0 0 0 8px transparent; }
+}
+
+/* Hover: subtle darker highlight when category is enabled. */
+[data-cat-enabled~="quran"] .ref-quran:hover { background-color: oklch(90% 0.16 95); }
+[data-cat-enabled~="hadith"] .ref-hadith:hover { background-color: oklch(88% 0.10 40); }
+[data-cat-enabled~="arabic"] .ref-arabic:hover { background-color: oklch(89% 0.10 160); }
+
+/* The .ref wrapper may contain an <em> for italic content (Hadith, Arabic).
+   Inherit the highlight's text colour into nested em. */
+.ref em {
+  color: inherit;
+}
+
+/* Dark mode — slightly darker highlights with brighter text so they
+   read as highlighter colours on a navy page. */
+[data-theme="dark"] [data-cat-enabled~="quran"] .ref-quran {
+  background-color: oklch(40% 0.13 85);
+  color: oklch(95% 0.10 90);
+}
+[data-theme="dark"] [data-cat-enabled~="hadith"] .ref-hadith {
+  background-color: oklch(38% 0.10 40);
+  color: oklch(94% 0.08 50);
+}
+[data-theme="dark"] [data-cat-enabled~="arabic"] .ref-arabic {
+  background-color: oklch(38% 0.07 160);
+  color: oklch(95% 0.08 155);
+}

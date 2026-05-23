@@ -1,0 +1,169 @@
+---
+import type { ChapterContract } from '~/lib/contract-parser';
+import type { RenderedContract } from '~/lib/contract-render';
+
+interface Props {
+  contract: ChapterContract;
+  rendered: RenderedContract;
+}
+
+const { contract, rendered } = Astro.props;
+
+const metaChips = [
+  contract.angle && { label: 'Angle', value: contract.angle },
+  contract.episodeFormat && { label: 'Format', value: contract.episodeFormat },
+  contract.hostDynamic && { label: 'Hosts', value: contract.hostDynamic },
+  contract.lengthTarget && { label: 'Length', value: contract.lengthTarget },
+  contract.adaptationMode && { label: 'Adaptation', value: contract.adaptationMode },
+  contract.sourceChapterRef && { label: 'Source ch.', value: contract.sourceChapterRef },
+].filter(Boolean) as Array<{ label: string; value: string }>;
+---
+
+<article class="reading-column mx-auto">
+  <header class="not-prose mb-10 border-b border-stone-300 pb-7">
+    {contract.episodeNumber !== null && (
+      <div class="font-ui text-[10px] font-semibold uppercase tracking-[0.18em] text-sky-700">
+        Episode {String(contract.episodeNumber).padStart(2, '0')}
+      </div>
+    )}
+    <h1 class="mt-2 text-4xl font-semibold leading-[1.15] tracking-tight text-stone-900" style="font-family: 'EB Garamond', Georgia, serif;">
+      {contract.title}
+    </h1>
+    {metaChips.length > 0 && (
+      <div class="mt-5 flex flex-wrap gap-1.5">
+        {metaChips.map((m) => (
+          <span class="font-ui inline-flex items-center gap-1.5 rounded-md border border-stone-200 bg-white px-2 py-0.5 text-[11px] text-stone-700">
+            <span class="text-stone-400">{m.label}</span>
+            <span class="font-medium">{m.value}</span>
+          </span>
+        ))}
+      </div>
+    )}
+  </header>
+
+  {rendered.audience && (
+    <section class="contract-section mb-12">
+      <h2 class="not-prose font-ui mb-4 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-stone-500">
+        <span class="inline-block h-px w-6 bg-stone-300"></span>
+        Audience &amp; framing
+      </h2>
+      <div class="prose-body" set:html={rendered.audience.html} />
+    </section>
+  )}
+
+  {rendered.keyTensions.length > 0 && (
+    <section class="contract-section mb-12">
+      <h2 class="not-prose font-ui mb-4 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-stone-500">
+        <span class="inline-block h-px w-6 bg-stone-300"></span>
+        Key tensions ({rendered.keyTensions.length})
+      </h2>
+      <ol class="space-y-8">
+        {rendered.keyTensions.map((t, i) => (
+          <li class="relative pl-11">
+            <span class="not-prose font-ui absolute left-0 top-0.5 inline-flex h-7 w-7 items-center justify-center rounded-full bg-stone-800 text-[11px] font-semibold text-white">
+              {i + 1}
+            </span>
+            <div class="prose-body" set:html={t.html} />
+          </li>
+        ))}
+      </ol>
+    </section>
+  )}
+
+  {rendered.toneConstraints.length > 0 && (
+    <section class="contract-section mb-12">
+      <h2 class="not-prose font-ui mb-4 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-stone-500">
+        <span class="inline-block h-px w-6 bg-stone-300"></span>
+        Tone constraints
+      </h2>
+      <ul class="space-y-5">
+        {rendered.toneConstraints.map((t) => (
+          <li class="border-l-2 border-stone-300 pl-5 text-stone-700">
+            <div class="prose-body" set:html={t.html} />
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {rendered.anchorPassages.length > 0 && (
+    <section class="contract-section mb-12">
+      <h2 class="not-prose font-ui mb-4 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-stone-500">
+        <span class="inline-block h-px w-6 bg-stone-300"></span>
+        Anchor passages ({rendered.anchorPassages.length})
+      </h2>
+      <ul class="space-y-6">
+        {rendered.anchorPassages.map((p) => (
+          <li class="rounded-r-sm border-l-[3px] border-stone-400 bg-stone-50/70 py-4 pl-5 pr-3">
+            <div class="prose-body italic" set:html={p.rendered.html} />
+            {p.cite && (
+              <div class="font-ui mt-3 text-[11px] uppercase tracking-wider text-stone-500">— {p.cite}</div>
+            )}
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {(rendered.showNotesBlurb || rendered.showNotesBullets.length > 0) && (
+    <section class="contract-section mb-12">
+      <h2 class="not-prose font-ui mb-4 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-stone-500">
+        <span class="inline-block h-px w-6 bg-stone-300"></span>
+        Show notes
+      </h2>
+      {rendered.showNotesBlurb && (
+        <div class="prose-body" set:html={rendered.showNotesBlurb.html} />
+      )}
+      {rendered.showNotesBullets.length > 0 && (
+        <ul class="mt-4 list-disc space-y-2 pl-6">
+          {rendered.showNotesBullets.map((b) => (
+            <li><div class="prose-body inline" set:html={b.html} /></li>
+          ))}
+        </ul>
+      )}
+    </section>
+  )}
+</article>
+
+<style is:global>
+  .prose-body p {
+    margin-bottom: 1.1em;
+  }
+  .prose-body p:last-child {
+    margin-bottom: 0;
+  }
+  .prose-body em {
+    font-style: italic;
+    color: rgb(68 64 60);
+  }
+  .prose-body strong {
+    font-weight: 600;
+  }
+  .prose-body h2 {
+    font-family: var(--font-body);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+  }
+  .prose-body h3 {
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 1.25em;
+    margin-bottom: 0.5em;
+  }
+  .prose-body .md-comment {
+    font-family: var(--font-ui);
+    font-size: 0.7rem;
+    color: rgb(168 162 158);
+    margin: 1.5em 0 0.5em;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  /* When a ref-arabic or ref-hadith wraps an <em>, the inner <em>'s color rule
+     would otherwise tint the per-category color back to stone. Reset that. */
+  .ref em {
+    color: inherit;
+  }
+</style>

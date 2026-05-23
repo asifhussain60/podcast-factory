@@ -1,0 +1,96 @@
+---
+import ThreePane from '~/components/layout/ThreePane.astro';
+import GroupedTOC from '~/components/layout/GroupedTOC.astro';
+import ReaderControls from '~/components/reader/ReaderControls';
+import { loadBookIndex, loadChapterSource } from '~/lib/book-content';
+import { renderProseWithRefs } from '~/lib/render-prose';
+import { buildCategoryDescriptors } from '~/lib/contract-render';
+import { getPilotBook } from '~/lib/worktree-glob';
+
+const { worktree, book, chapter } = Astro.params;
+if (!worktree || !book || !chapter) {
+  return new Response('Bad request', { status: 400 });
+}
+
+if (book !== getPilotBook()) {
+  return new Response('Outside pilot scope', { status: 404 });
+}
+
+const index = await loadBookIndex(worktree, book);
+if (!index) {
+  return new Response(`Book "${book}" not found`, { status: 404 });
+}
+
+const ch = index.chapters.find((c) => c.slug === chapter);
+if (!ch) {
+  return new Response(`Chapter "${chapter}" not found`, { status: 404 });
+}
+
+const sourceText = await loadChapterSource(ch.filePath);
+const renderedSource = renderProseWithRefs(sourceText);
+const categoryDescriptors = buildCategoryDescriptors(renderedSource.counts);
+
+const ordered = [...index.chapters].sort((a, b) => (a.numericId ?? 999) - (b.numericId ?? 999));
+const idx = ordered.findIndex((c) => c.slug === ch.slug);
+const prev = idx > 0 ? ordered[idx - 1] : null;
+const next = idx >= 0 && idx < ordered.length - 1 ? ordered[idx + 1] : null;
+---
+
+<ThreePane
+  title={`${ch.title} — ${book} (source)`}
+  worktree={worktree}
+  book={book}
+  breadcrumb={[
+    { label: 'Worktrees', href: '/' },
+    { label: worktree, href: '/' },
+    { label: book, href: `/${worktree}/${book}/` },
+    { label: `Ch${String(ch.numericId ?? '?').padStart(2, '0')} (source)` },
+  ]}
+  showRail={true}
+>
+  <Fragment slot="toc">
+    <GroupedTOC worktree={worktree} book={book} index={index} currentChapter={ch.slug} />
+  </Fragment>
+
+  <div class="not-prose mb-8 rounded-lg border border-stone-300 bg-stone-100/70 px-4 py-3 shadow-sm">
+    <div class="flex items-start justify-between gap-4">
+      <div class="flex-1">
+        <div class="mb-2 flex items-center gap-2">
+          <span class="font-ui text-[10px] font-semibold uppercase tracking-wider text-stone-500">
+            Reference controls
+          </span>
+          <span class="text-stone-300">·</span>
+          <span class="font-ui text-[10px] text-stone-500">
+            click to toggle, or press <kbd class="rounded border border-stone-300 bg-white px-1 text-stone-700">?</kbd> for legend
+          </span>
+        </div>
+        <ReaderControls client:load categories={categoryDescriptors} />
+      </div>
+    </div>
+  </div>
+
+  <article class="reading-column mx-auto">
+    <header class="not-prose mb-8 border-b border-stone-200 pb-6">
+      <div class="font-ui text-xs font-semibold uppercase tracking-wider text-amber-700">
+        Source chapter · {ch.numericId !== null ? `#${ch.numericId}` : 'unnumbered'}
+      </div>
+      <h1 class="mt-1 text-3xl font-semibold leading-tight text-stone-900">{ch.title}</h1>
+    </header>
+    <div class="prose-body" set:html={renderedSource.html} />
+  </article>
+
+  <nav class="mt-12 flex items-center justify-between border-t border-stone-200 pt-6 text-sm">
+    {prev ? (
+      <a href={`/${worktree}/${book}/chapter/${prev.slug}/`} class="group flex flex-col text-stone-700">
+        <span class="text-xs text-stone-400">← Previous chapter</span>
+        <span class="font-medium group-hover:text-stone-900">{prev.title}</span>
+      </a>
+    ) : <span />}
+    {next ? (
+      <a href={`/${worktree}/${book}/chapter/${next.slug}/`} class="group flex flex-col text-right text-stone-700">
+        <span class="text-xs text-stone-400">Next chapter →</span>
+        <span class="font-medium group-hover:text-stone-900">{next.title}</span>
+      </a>
+    ) : <span />}
+  </nav>
+</ThreePane>
