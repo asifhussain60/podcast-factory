@@ -2,8 +2,8 @@
 
 **Verdict:** SHIP-WITH-CAUTION
 **Book:** kitab-al-riyad
-**Chapter:** ch10-motion-stillness-hyle-and-form
-**Episode:** EP10-motion-stillness-hyle-and-form
+**Chapter:** ch09-motion-stillness-hyle-and-form
+**Episode:** EP09-motion-stillness-hyle-and-form
 **Run:** 2026-05-22 (challenger v2.0)
 **Scope:** per-chapter: motion-stillness-hyle-and-form
 **Iterations:** 1 of 5 max — intelligent-break applied (0 auto-fixes; remaining findings require author resolution)
@@ -33,8 +33,8 @@
 
 #### N3-a: `*Al-hayula*` appears in chapter body without a Pronounce directive in framing
 
-- **Signature:** `N3:al-hayula-unpronounced:ch10-motion-stillness-hyle-and-form:35`
-- **File:** `content/podcast/library/books/kitab-al-riyad/chapters/ch10-motion-stillness-hyle-and-form.txt`
+- **Signature:** `N3:al-hayula-unpronounced:ch09-motion-stillness-hyle-and-form:35`
+- **File:** `content/podcast/library/books/kitab-al-riyad/chapters/ch09-motion-stillness-hyle-and-form.txt`
 - **Lines:** 35, 37, 77, 181, 185 (5 occurrences)
 - **Context excerpt:** `*Al-hayula* is the *acted-upon*. Form *informs*. *Al-hayula receives*.`
 - **Rule:** N3 — every transliterated Arabic term in the chapter must have a matching Pronounce directive in the framing Pronunciation block.
@@ -46,8 +46,8 @@
 
 #### N3-b: `*al-nafs*` appears in chapter body without a Pronounce directive in framing
 
-- **Signature:** `N3:al-nafs-unpronounced:ch10-motion-stillness-hyle-and-form:57`
-- **File:** `content/podcast/library/books/kitab-al-riyad/chapters/ch10-motion-stillness-hyle-and-form.txt`
+- **Signature:** `N3:al-nafs-unpronounced:ch09-motion-stillness-hyle-and-form:57`
+- **File:** `content/podcast/library/books/kitab-al-riyad/chapters/ch09-motion-stillness-hyle-and-form.txt`
 - **Line:** 57
 - **Context excerpt:** `*Al-nafs* and *the spirit* are two synonyms for the same thing, and that thing is not a body.`
 - **Rule:** N3 — every transliterated Arabic term in the chapter must have a matching Pronounce directive in the framing Pronunciation block.
@@ -59,8 +59,8 @@
 
 #### A4: Q16:40 translation attribution does not match Pickthall's actual rendering
 
-- **Signature:** `A4:translation-mismatch:Q16-40:Pickthall:ch10-motion-stillness-hyle-and-form:105`
-- **File:** `content/podcast/library/books/kitab-al-riyad/chapters/ch10-motion-stillness-hyle-and-form.txt`
+- **Signature:** `A4:translation-mismatch:Q16-40:Pickthall:ch09-motion-stillness-hyle-and-form:105`
+- **File:** `content/podcast/library/books/kitab-al-riyad/chapters/ch09-motion-stillness-hyle-and-form.txt`
 - **Line:** 105
 - **Context excerpt:** `> *Our only word for a thing,when We will it,is that We say to it,"Be," and it is.* (Quran 16:40,Surah the chapter of the bee; translation rendered after Pickthall)`
 - **Rule:** A4 — Quranic translations must be verbatim or clearly attributed; translator attribution must match the actual rendering used.
@@ -74,8 +74,8 @@
 
 #### F6: Canonical two-host-framing steering phrases not present verbatim
 
-- **Signature:** `F6:steering-phrases-absent:EP10-motion-stillness-hyle-and-form`
-- **File:** `content/podcast/library/books/kitab-al-riyad/_system/episode-drafts/EP10-motion-stillness-hyle-and-form/00-framing.md`
+- **Signature:** `F6:steering-phrases-absent:EP09-motion-stillness-hyle-and-form`
+- **File:** `content/podcast/library/books/kitab-al-riyad/_system/episode-drafts/EP09-motion-stillness-hyle-and-form/00-framing.md`
 - **Rule:** F6 — framing should carry at least one canonical steering phrase from two-host-framing.md ("Slow down on...", "Treat X as the central tension...", "End on a question...").
 - **Note:** The Landing section has "Close on the unresolved tension and a question, not a recap" — semantically equivalent to "End on a question." The framing's pushback scripts and six-beat arc are dense and already specific. P2 advisory only; the framing can work without exact canonical phrases.
 - **Severity:** P2 (advisory).
@@ -86,7 +86,7 @@
 
 | Chapter | Words | Band | In-band | Tiers | Blockquote ratio | Phonetic gaps | Framing words | Framing in-band |
 |---|---|---|---|---|---|---|---|---|
-| ch10-motion-stillness-hyle-and-form | 9,014 | extended (soft 5,500–9,500; hard 10,500) | YES | 4 | ~4% | 2 groups (Al-hayula ×5, al-nafs ×1) | 3,562 | PASS (cap 3,700) |
+| ch09-motion-stillness-hyle-and-form | 9,014 | extended (soft 5,500–9,500; hard 10,500) | YES | 4 | ~4% | 2 groups (Al-hayula ×5, al-nafs ×1) | 3,562 | PASS (cap 3,700) |
 
 **Citation audit summary:**
 - Quran 36:82 (line 99): A1/A3/A4 PASS — Pickthall named on first Quranic occurrence; rendering consistent.
@@ -119,8 +119,8 @@ score   = max(0.0, 1.0 - 0.65) = 0.35  (Caution)
 
 STALE_CONTENT_MARKER_DO_NOT_SHIP
 
-- **Signature:** `F5:discussion-spine-unfilled:EP10-motion-stillness-hyle-and-form`
-- **File:** `content/podcast/library/books/kitab-al-riyad/_system/episode-drafts/EP10-motion-stillness-hyle-and-form/04-discussion-spine.md`
+- **Signature:** `F5:discussion-spine-unfilled:EP09-motion-stillness-hyle-and-form`
+- **File:** `content/podcast/library/books/kitab-al-riyad/_system/episode-drafts/EP09-motion-stillness-hyle-and-form/04-discussion-spine.md`
 - **Line:** null (whole file)
 - **Context excerpt:** All 8 beats contain `[LLM-FILL]` in Key question, Tension, Anchor passage, and Landing fields.
 - **Rule:** F5 — discussion spine must have 6–12 beats with substantive content.
@@ -132,7 +132,7 @@ STALE_CONTENT_MARKER_DO_NOT_SHIP
 #### N3: Arabic surah names in chapter prose without Pronounce directives in framing
 
 - **Signature:** `N3:surah-names-unpronounced:Surat-Ya-Sin-Surat-an-Nahl:ch10:97-103`
-- **File:** `content/podcast/library/books/kitab-al-riyad/chapters/ch10-motion-stillness-hyle-and-form.txt`
+- **File:** `content/podcast/library/books/kitab-al-riyad/chapters/ch09-motion-stillness-hyle-and-form.txt`
 - **Line:** 97, 103
 - **Context excerpt:** Line 97: `runs through the *Surat Ya Sin*:` / Line 103: `*Surat an-Nahl*, where the *Be* of Allah`
 - **Rule:** N3 — every transliterated Arabic term in the chapter must have a matching `Pronounce "..."` directive in the framing's Pronunciation block.
@@ -146,7 +146,7 @@ STALE_CONTENT_MARKER_DO_NOT_SHIP
 #### N3: Arabic technical terms in chapter prose without Pronounce directives
 
 - **Signature:** `N3:mawhumiya-takhayyuliya-unpronounced:ch10:87`
-- **File:** `content/podcast/library/books/kitab-al-riyad/chapters/ch10-motion-stillness-hyle-and-form.txt`
+- **File:** `content/podcast/library/books/kitab-al-riyad/chapters/ch09-motion-stillness-hyle-and-form.txt`
 - **Line:** 87
 - **Context excerpt:** `considered as the act of the divine command, are *imaginary* (*mawhumiya*, *takhayyuliya*).`
 - **Rule:** N3 — every transliterated Arabic term in the chapter must have a matching `Pronounce "..."` directive in the framing.
@@ -158,8 +158,8 @@ STALE_CONTENT_MARKER_DO_NOT_SHIP
 
 #### J3/R-NAMEDISCIPLINE: Framing uses stable single-label approach; no rotation sets present
 
-- **Signature:** `J3:no-rotation-sets:EP10-motion-stillness-hyle-and-form`
-- **File:** `content/podcast/library/books/kitab-al-riyad/_system/episode-drafts/EP10-motion-stillness-hyle-and-form/00-framing.md`
+- **Signature:** `J3:no-rotation-sets:EP09-motion-stillness-hyle-and-form`
+- **File:** `content/podcast/library/books/kitab-al-riyad/_system/episode-drafts/EP09-motion-stillness-hyle-and-form/00-framing.md`
 - **Line:** 43–62 (`## Stable role-labels` section)
 - **Context excerpt:** `Apply R-STABLE-ROLE-LABELS strictly. Each figure gets EXACTLY ONE English label and that label is used every time. The label does not rotate.`
 - **Rule:** J3/R-NAMEDISCIPLINE — the framing must carry rotation sets (3+ English aliases per Arabic figure separated by `/`).
@@ -176,7 +176,7 @@ STALE_CONTENT_MARKER_DO_NOT_SHIP
 #### A1 (advisory): Nahj al-Balagha citation uses English title wrapper rather than canonical format
 
 - **Signature:** `A1:advisory:nahj-english-title:ch10:137`
-- **File:** `content/podcast/library/books/kitab-al-riyad/chapters/ch10-motion-stillness-hyle-and-form.txt`
+- **File:** `content/podcast/library/books/kitab-al-riyad/chapters/ch09-motion-stillness-hyle-and-form.txt`
 - **Line:** 137
 - **Context excerpt:** `(the book *The Path of Eloquence*, Sermon 1)`
 - **Rule:** A1 advisory — Imam Ali sayings should cite `(Nahj al-Balagha, Sermon/Letter/Aphorism N)`.
@@ -187,8 +187,8 @@ STALE_CONTENT_MARKER_DO_NOT_SHIP
 
 #### F3 (advisory): No explicit Audience section in framing
 
-- **Signature:** `F3:advisory:no-audience-section:EP10-motion-stillness-hyle-and-form`
-- **File:** `content/podcast/library/books/kitab-al-riyad/_system/episode-drafts/EP10-motion-stillness-hyle-and-form/00-framing.md`
+- **Signature:** `F3:advisory:no-audience-section:EP09-motion-stillness-hyle-and-form`
+- **File:** `content/podcast/library/books/kitab-al-riyad/_system/episode-drafts/EP09-motion-stillness-hyle-and-form/00-framing.md`
 - **Rule:** F3 — framing should name the audience concretely.
 - **Note:** The audience is defined in detail in `chapter-contracts/motion-stillness-hyle-and-form.yml` (`audience:` field) and the `## Background` section of the framing refers to the argumentative chain the audience has followed. There is no dedicated `## Audience` section in `00-framing.md`. This is a pipeline hygiene gap, not a quality risk to the generated audio.
 - **Severity:** P2 (advisory only).
@@ -199,7 +199,7 @@ STALE_CONTENT_MARKER_DO_NOT_SHIP
 
 | Chapter | Words | Band | Band limits | In-band | Tiers | Blockquote ratio | Phonetic gaps | Framing words | Framing cap |
 |---|---|---|---|---|---|---|---|---|---|
-| ch10-motion-stillness-hyle-and-form | 9,009 | extended | 5,500–9,500 soft / 10,500 hard | IN SOFT BAND | 4 (Quran, Sunni hadith, Imam Ali/Nahj, al-Kirmani primary) | ~4% | 2 gaps (surah names + mawhumiya/takhayyuliya) | 3,444 | PASS (cap 3,700) |
+| ch09-motion-stillness-hyle-and-form | 9,009 | extended | 5,500–9,500 soft / 10,500 hard | IN SOFT BAND | 4 (Quran, Sunni hadith, Imam Ali/Nahj, al-Kirmani primary) | ~4% | 2 gaps (surah names + mawhumiya/takhayyuliya) | 3,444 | PASS (cap 3,700) |
 
 **Word-count note (E1):** 9,009 words; `length_target: extended`; Extended soft band 5,500–9,500 words. Within soft band. `CHAPTER_WORD_MAX_HARD = 10,500`. PASS. Framing at 3,444 words; `FRAMING_WORD_MAX = 3,700`. PASS (256 words headroom).
 
@@ -283,7 +283,7 @@ score   = max(0.0, 1.0 - 2.1) = 0.00  (Unstable)
 
 ## Blocking P0 items (max 5 — all P0 items listed)
 
-1. **A2/A1 — Corrupted hadith citation** (`ch10-motion-stillness-hyle-and-form.txt`, lines 141–143): Phase 0e template variable `the canonical hadith compiler` was not resolved. Prose reads "Imam the canonical hadith compiler" and citation reads "Sahih the canonical hadith compiler". Correct both to "Imam Muhammad al-Bukhari" and "Sahih al-Bukhari" respectively.
+1. **A2/A1 — Corrupted hadith citation** (`ch09-motion-stillness-hyle-and-form.txt`, lines 141–143): Phase 0e template variable `the canonical hadith compiler` was not resolved. Prose reads "Imam the canonical hadith compiler" and citation reads "Sahih the canonical hadith compiler". Correct both to "Imam Muhammad al-Bukhari" and "Sahih al-Bukhari" respectively.
 
 **Caller contract:** Fix the P0 item above, then re-invoke the challenger. The outer loop should surface to human if two consecutive invocations produce identical P0 count.
 

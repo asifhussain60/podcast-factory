@@ -57,7 +57,7 @@ Format per row: episode → iteration → outcome + key findings. Add a row each
 
 | Episode | Iter | Outcome | Pronunciation | Citations | Doctrine | Listen | Length | Notes |
 |---|---|---|---|---|---|---|---|---|
-| EP06-the-intellect-as-the-first-creation | 1 | (pending) | ? | ? | ? | ? | ? | First test episode chosen 2026-05-21. Review when transcript audited. |
+| EP05-the-intellect-as-the-first-creation | 1 | (pending) | ? | ? | ? | ? | ? | First test episode chosen 2026-05-21. Review when transcript audited. (Renumbered EP06→EP05 on 2026-05-23 per purely-sequential directive.) |
 
 (More rows appended as iterations run.)
 

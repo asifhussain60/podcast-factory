@@ -42,14 +42,12 @@ node_modules/
 # store-keychain-keys.sh or Azure Key Vault.)
 !infra/azure/azure-config.env
 
-# _workspace/ used to be the untracked execution-plan zone. It is now tracked
-# (the contents are useful for cross-Mac handoff — see primary-mac-activation.md).
+# _workspace/ is the tracked execution-plan + per-book authoring zone.
 # .DS_Store inside it is still excluded by the OS-junk rule above.
-# Books/ inside it is the orchestrator's PDF drop zone — large binary inputs
-# that get processed into chapter txts under content/podcast/. Source PDFs
-# stay local (Asif keeps the originals in iCloud); only the derived chapters
-# get committed.
-_workspace/Books/
+# (Historical: a `_workspace/Books/` capital-B PDF drop-zone was once planned
+# but never materialized; the gitignore line was retired 2026-05-23 because
+# it silently collided with `_workspace/books/` on case-insensitive macOS,
+# eating new per-book files. PDFs live at the parent `raw/` per intake_book.py.)
 
 # Podcast raw-input binaries (audio, video, archives, editing-project files)
 # — large assets that live under _workspace/<category>/<slug>/_source/. Only
