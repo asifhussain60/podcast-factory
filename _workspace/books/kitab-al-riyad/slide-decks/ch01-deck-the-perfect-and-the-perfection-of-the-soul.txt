@@ -1,0 +1,313 @@
+# The Perfect and the Perfection of the Soul
+
+*The visual companion to Chapter One. The audio chapter is the prose; this file is its argument made structural. Same concepts, same depth, restructured for slide-deck rendering.*
+
+## The author's invocation chain
+
+A five-level lineage chain. The author begins by anchoring himself in this descent of authority. Each level is named with one-line significance.
+
+| Level | Figure | Significance for the author |
+|---|---|---|
+| 1 | God | The One above all comparison; the source of being |
+| 2 | Prophet *Muhammad* (peace and blessings be upon him) | Shattered idols, replaced polytheism with monotheism, founded the *Hanifi* religion |
+| 3 | *Imam Ali*, Commander of the Faithful | Suppressor of anger, patient under usurpation; the axis of religion, the pillar of the believers |
+| 4 | The seventh Imam | The seventh in the descent; bears the covenant under humiliation for the sake of God |
+| 5 | The ruling Imam of the author's own time | The living continuation; the family of *Taha* and *Yasin* (Quran 20:1, 36:1) |
+
+The chain runs downward: each lower level draws light from the one above and transmits it onward. The author signs his work by placing himself at the foot of this chain.
+
+## The situation that prompted the book
+
+A three-position stage. The book is born from a specific disagreement that the author judged could not be left alone.
+
+| Position | Author | Work | Stance |
+|---|---|---|---|
+| A | Shaykh *Jonathan* (may God have mercy on him) | *The Correction* (*The Reform*) | Set out to correct what he claimed had been corrupted in *The Harvest* |
+| B | Shaykh *Samuel* (may God have mercy on him) | *The Defense* (*The Support*) | Supported the author of *The Harvest*; judged *Jonathan's* statement to be correct against *The Harvest* |
+| C | The author al-Kirmani | *Kitab al-Riyad* (this book) | Saw that what they disputed was not in the branches where disagreement is permissible; saw that *Jonathan* neglected to correct certain claims in *The Harvest's* chapter on monotheism |
+
+The author's verdict on each rival reading:
+
+| Author | What he got right | What he got wrong |
+|---|---|---|
+| *Jonathan* | Held that the Soul is perfect in itself, because emitted from the Perfection that is the First Intellect | Collapsed Intellect and time into a single principle (the author corrects this in sub-chapter seven) |
+| *Samuel* | Followed natural-philosophy principles where they apply | Carried natural-realm principles onto the supra-natural; treated identity and rank as one axis when they are two |
+
+## The author's method
+
+A six-step process. The author lays this out explicitly before entering Chapter One.
+
+1. Quote each saying of *Jonathan* in *The Correction*
+2. Quote the corresponding passage of *Samuel* in *The Defense*
+3. Contrast their objects, speak about what is necessary and what is meant
+4. Identify the face by which it is correct to attribute the meanings to their authors
+5. Distinguish truth from prejudice; let the rebellious prejudices appear
+6. Then address what *Jonathan* neglected to correct in *The Harvest*, in the foundations where disagreement is not permissible
+
+Steps 1 through 5 apply across the first nine chapters: each chapter is a referee's report on a specific question the two disputants engaged. Step 6 occupies Chapter Ten alone: the author speaks in his own voice, correcting *The Harvest's* monotheism chapter directly.
+
+## The book's ten-chapter architecture
+
+Hierarchy of the whole work. The book gathers ten chapters totaling one hundred and fifty-seven sub-chapters.
+
+| Ch | Subject | Sub-chapters | Mode |
+|----|---------|--------------|------|
+| 1  | What *Jonathan* and *Samuel* said on the Soul, the first emanator | 38 | Referee's report |
+| 2  | The First Intellect, the First Creator | 9 | Referee's report |
+| 3  | The Soul and the spirit: whether they resemble the former or not | 6 | Referee's report |
+| 4  | The souls as parts and effects | 8 | Referee's report |
+| 5  | Human beings as the fruit of the world | 7 | Referee's report |
+| 6  | Motion, stillness, and image | 9 | Referee's report |
+| 7  | The divisions of the world | 7 | Referee's report |
+| 8  | *Qadr* and Destiny | 24 | Referee's report |
+| 9  | The law of *Adam* and *Nuh*, the Guardian over them, peace | 33 | Referee's report |
+| 10 | The author's own correction of *The Harvest's* chapter on monotheism and the First Creator | 16 | Author's own voice |
+| Total | | 157 | |
+
+The first nine are dialogue: three voices contending and the author refereeing. The tenth is monologue: the author alone, completing the work *Jonathan* left undone.
+
+## The central dispute: what is "perfection"?
+
+A contrast pair. *Jonathan* and *Samuel* are not arguing about the same thing, and the author's first job is to show this.
+
+Column A: *Jonathan* in *The Correction*
+
+- Soul's status: perfect in itself, because emitted from the Intellect
+- What "perfect" denotes: the cause for which the existence of the effect occurs
+- What "perfection" denotes: the effect that proceeds from the cause
+- Relation: the First Intellect is the Perfect (cause); the Soul is its perfection (effect)
+- Logical chain: that which emanates from perfection cannot itself be other than perfect
+
+Column B: *Samuel* in *The Defense*
+
+- Soul's status: subordinate to the Intellect; the Soul is the attribute, the Intellect is the described
+- What "perfect" denotes: the thing being described, the carrier
+- What "perfection" denotes: the attribute borne by the thing, the carried
+- Relation: perfection (*kamal*) is "better and more complete" than the perfect (*tamm*) because the carrier is greater than the borne
+- Logical chain: if the Soul is "perfect," then since perfection is greater than the perfect, the Intellect cannot be greater than the Soul, which is absurd
+
+Shared row: both agree that "perfect" and "perfection" are central terms. Both agree the question is about the Soul's standing relative to the First Intellect.
+
+The author's verdict on the disagreement: *Samuel* takes *Jonathan* "from where he did not mean and not from his actual intent." *Jonathan* was using "perfect" and "perfection" in the cause-and-effect register; *Samuel* attacks him in the attribute-and-described register. They are not arguing about the same axis.
+
+## The author's key clarification: identity vs rank
+
+A named-axis 2x2. The single most important conceptual move in Chapter One. The author identifies that *Jonathan* and *Samuel* are conflating two distinct axes.
+
+Axes:
+
+- Vertical: Identity (the Soul considered in its own essence) up vs Relation (the Soul set against what is above it in rank) down
+- Horizontal: Perfect (complete, lacking nothing) left vs Deficient (lacking, in need) right
+
+Quadrants:
+
+| | Perfect | Deficient |
+|---|---|---|
+| **Identity** (in itself) | The Soul as essence: finished by *taswiya* (proportioning); complete in itself; existence requires this | Impossible. By the author's proof, nothing could exist if it were deficient in itself; the deficient cannot bear the existence of itself |
+| **Relation** (to what is above) | The Soul relative to what it generates below; perfect in its own rank to its products | The Soul relative to the First Intellect: deficient in rank, but not in itself |
+
+The error of *Samuel*: treats Identity-Perfect and Relation-Deficient as a single contradictory pair. Demands *Jonathan* place the Soul on one or the other. But the Soul is on both: perfect in itself AND deficient in relation. These are not contradictions; they describe the same Soul from two different vantage points.
+
+Visual emphasis: the top-right quadrant is the impossible square. The author's whole argument rests on closing it: nothing exists if it is deficient in itself.
+
+## *Samuel's* attack architecture across the first ten sub-chapters
+
+A genealogy of *Samuel's* line of attack. He does not attack with a single argument but with a chain of four moves, each building on the last. The author dismantles each separately.
+
+```
+Move 1: terminology
+"Perfection is better than the perfect"
+   ↓ which would require
+Move 2: ordering
+"The carrier is more honorable than the carried"
+   ↓ which would require
+Move 3: emanation
+"Forms long for matter; matter has no subsistence apart from forms"
+   ↓ which would require
+Move 4: mediation
+"The Intellect is the first mean; the Soul is the second mean"
+```
+
+The author's counter at each move:
+
+| Move | *Samuel's* claim | Author's counter | Sub-ch |
+|---|---|---|---|
+| 1 | Perfection > the perfect | *Samuel* contradicts himself; by his own logic perfection would be the cause and the perfect the effect | 2-3 |
+| 2 | Carrier > carried | The principle fails even in nature (see the developing-force chain below) | 3-4 |
+| 3 | Matter longs for forms | False, even in nature: matter yearns for forms FOR THE SAKE of the forms. Carries natural-world claims into the supra-natural improperly | 8 |
+| 4 | First Intellect is a mean | A mean requires two ends; the First Intellect has none above it of its kind | 9 |
+
+Each move depends on the one above it. When the author breaks move 1 (the terminology), move 2 (ordering) loses its grip; when 2 falls, 3 has no analogy to extend; when 3 falls, 4 has no plane of mediation. The dismantling cascades.
+
+## The bearer-borne chain in living bodies
+
+A process-flow / cause-effect chain that refutes *Samuel's* general principle ("the carrier is more honorable than the carried") by showing it fails even in the natural world.
+
+The chain:
+
+```
+Power of the sting (bearer)
+   ↓ proximate cause of
+Developing force (borne, MORE noble than its bearer)
+   ↓ proximate cause of
+Sensual force (borne, MORE noble than its bearer)
+   ↓ proximate cause of
+Speaking force (borne, MORE noble than its bearer)
+```
+
+The pattern at every step:
+
+- The bearer is the cause of the existence of the borne
+- The borne is more noble than the bearer
+- Cause precedes effect in order of existence, but effect can exceed cause in dignity
+
+Implication: *Samuel's* "carrier > borne" rule does not hold even in the natural realm. Carrying it from there to the supra-natural realm of First Intellect and Soul is doubly broken: first the rule itself fails in nature, and second the categories of attribute/described do not apply at the level *Jonathan* is speaking of.
+
+## Intellect and time: the order of dependency
+
+A directed dependency chain that corrects *Jonathan's* misstep. In sub-chapter six, *Jonathan* says "the First Intellect and time are one, because the First Originator is origination, and time and perfection are the same." The author refuses this. Sub-chapter seven sets the record straight.
+
+The correct ordering (from cause to effect):
+
+```
+First Intellect
+   ↓ originates
+Celestial sphere
+   ↓ generates by its motion
+Time (= number of motions of the sphere)
+```
+
+What *Jonathan* collapsed and what the author distinguishes:
+
+| Claim | What *Jonathan* implied | What the author insists |
+|---|---|---|
+| Intellect-time relation | One principle, simultaneous | Cause-effect chain across three ranks |
+| Origin of time | Intellect is time | Time is downstream of the sphere's motion |
+| Direction of priority | Co-equal | Intellect precedes the sphere; the sphere precedes time |
+| Bound-up-ness | Identity | Downstream binding, not same-rank binding |
+
+Why the correction matters: if Intellect and time were one principle, then "perfection" and "time-bound action" would also be one, and the very distinction the author has been working toward (Soul's identity vs Soul's act-in-time) would collapse. The author's whole reading of *Jonathan* depends on keeping this distinction; so the moment *Jonathan* threatens to collapse it, even *Jonathan* must be corrected. The author cites his own earlier treatise *the author's other treatise* (*The Repose of the Intellect*) as having shown this from first principles.
+
+A note on the author's discipline: this is the seam where loyalty to *Jonathan* does not bend the truth. When *Jonathan* is wrong, the author says he is wrong. The whole rest of *Kitab al-Riyad* operates by this discipline.
+
+## Quranic anchor: identity vs rank in the Soul
+
+Three verses ground the author's distinction. Each verse is preserved in transliteration with the rendering the author gives or with the Sahih International translation, attributed.
+
+> *Sa-nurihim ayatina fi al-afaqi wa fi anfusihim hatta yatabayyana lahum annahu al-haqq.*
+> *We will show them Our signs in the horizons and in their own selves until it becomes clear to them that it is the truth.*
+> Quran 41:53, in the rendering the author gives.
+
+> *Wa nafsin wa ma sawwaha. Fa-alhamaha fujuraha wa taqwaha. Qad aflaha man zakkaha. Wa qad khaba man dassaha.*
+> *And by the soul and Him who proportioned it, who inspired it with discernment of its corruption and its righteousness. Successful is the one who purifies it, and lost is the one who corrupts it.*
+> Quran 91:7-10, Sahih International translation.
+
+> *Wa yas'alunaka 'an al-ruh. Qul al-ruhu min amri rabbi, wa ma utitum min al-'ilmi illa qalila.*
+> *And they ask you about the soul. Say: The soul is of the affair of my Lord, and mankind has not been given of knowledge except a little.*
+> Quran 17:85, Sahih International translation.
+
+How each verse maps to the author's argument:
+
+| Verse | What it anchors |
+|---|---|
+| 41:53 | God shows His signs in the horizons (outer) and in the souls (inner); the limits of God are made known through form. The Soul's structure carries the same intelligibility as the cosmos |
+| 91:7-10 | The Soul is *sawwa* (proportioned, complete) at origin. Success or failure is *aflaha* or *khaba*, named separately, in time. Identity and rank are two registers |
+| 17:85 | The Soul is *min amri rabbi* (of the affair of my Lord). The door is closed on Soul-as-substance; the soul is named by its act, not by its essence |
+
+## Section-by-section: the ten sub-chapters of Chapter One
+
+A process flow tracing the argument across the first ten sub-chapters. Each move is one sub-chapter.
+
+| Sub-ch | Move | Position |
+|---|---|---|
+| 1 | *Jonathan* opens: the Soul is perfect, because emitted from the Intellect | *Jonathan* |
+| 2 | *Samuel* attacks: "perfection is better than the perfect" | *Samuel* |
+| 3 | The author: *Samuel* contradicts himself; by his own logic, perfection would be the cause and the perfect the effect | Author |
+| 4 | The author: the attribute-described principle fails even in the natural world (the bearer-borne chain) | Author |
+| 5 | The author: defines "perfection" as a name applied to BOTH the First Cause and the First Effect; clarifies that deficiency is "in addition," not "in itself" | Author |
+| 6 | *Jonathan* opens a new front: what needs perfecting is the Soul's action, not the Soul itself; action occurs in time | *Jonathan* |
+| 7 | The author CORRECTS *Jonathan*: "Intellect and time are one" is FALSE. Time is the number of motions of the celestial sphere; the Intellect precedes time | Author |
+| 8 | *Samuel* presses: the Soul knows the Originator only by way of the First; isn't that proof of deficiency? | *Samuel* |
+| 9 | The author: no. The sun does not overtake the moon. Rank without dispossession. Each has its share | Author |
+| 10 | The author closes the opening movement: every existent is perfect in itself; deficiency arises only in addition | Author |
+
+Visual emphasis: sub-chapter 7 is where the author breaks with *Jonathan*. The author's loyalty to his cause does not bend the truth. When *Jonathan* is wrong, the author says he is wrong.
+
+## The sun-and-moon principle
+
+A visual metaphor mapping rank without identity-loss.
+
+The Quranic verse the author invokes:
+
+> *La al-shamsu yanbaghi laha an tudrika al-qamara wa la al-laylu sabiqu al-nahari wa kullun fi falakin yasbahun.*
+> *It is not for the sun to overtake the moon, nor does the night outstrip the day; and each is swimming in an orbit.*
+> Quran 36:40, in the rendering the author gives.
+
+The metaphor in spatial form, concentric within one orbit (*falak*):
+
+```
+Same orbit (one kind of being)
+  Sun (higher rank in its pair)  --- Moon (lower rank in its pair, same kind)
+  Day (higher rank in its pair)  --- Night (lower rank in its pair, same kind)
+```
+
+The mapping the author works out:
+
+| Higher rank | Lower rank | Same kind, differing rank |
+|---|---|---|
+| First Intellect | Soul | Both are of the world of unity |
+| Speaker | Foundation | Both are of one assignment |
+| Sun | Moon | Both are luminaries |
+| Day | Night | Both are durations |
+
+The principle that holds across all four pairs: difference in rank is NOT difference in kind. To call the Moon "imperfect" because it shines less than the Sun is to confuse rank with identity. The Moon is fully the Moon. The Soul is fully the Soul.
+
+## The closing formula
+
+A two-vantage summary. The heart of the first ten sub-chapters. Extended at the bottom with two cross-tradition footers: the same axis stated in the aphoristic register and in the contemplative register.
+
+| What "perfect" denotes here | What "deficient" denotes here |
+|---|---|
+| Identity: the Soul considered in itself | Relation: the Soul set against the First Intellect |
+| *Sawwa* (proportioned, finished) | *Naaqis bi-l-idafa* (deficient in addition) |
+| Existence requires this | Coexistence with another generates this |
+| Bottom-left of the 2x2 | Bottom-right of the 2x2 |
+| Aphoristic register (*Nahj al-Balagha* 71): *al-'aqlu tamma* | *al-kalam naaqis* (speech is diminished only relative to the intellect's completion) |
+| Contemplative register (Rumi, *Mathnawi* I.1-2): the reed is whole | The reed in relation to the bed it was cut from |
+
+To say the Soul is "complete" and to say the Soul is "below the First Intellect" are not contradictions. They describe the same Soul from two different vantage points. The Soul, in *Jonathan's* and the author's reading, is on both axes. There is no scale on which the Soul sits singly. The aphoristic and contemplative registers in the table's bottom rows work the same axis: *tamm* and *naaqis*, whole and severed, are not ranks on a single scale but vantages on the same Soul.
+
+## What comes next: the celestial analogies that carry the formula forward
+
+A hierarchy of paired analogies that the remaining twenty-eight sub-chapters of Chapter One will work through. Each pair carries the same identity-versus-rank formula into a domain the reader half-recognizes from the world.
+
+Pairs that will be developed in the next sub-chapters:
+
+| Higher rank | Lower rank | Domain | Carries forward |
+|---|---|---|---|
+| Sun | Moon | Celestial | Already introduced in sub-chapter nine; full development across sub-chapters eleven and twelve |
+| Day | Night | Temporal | Sub-chapters thirteen and fourteen |
+| Male | Female | Generative | Sub-chapters fifteen through eighteen, with their own internal nuances |
+| Body | Sperm | Embryological | Sub-chapter twenty-four, opening Chapter One Part Two |
+| Speaker (*natiq*) | Foundation (*asas*) | Religious office | Sub-chapter twenty-five, the most charged of the pairs |
+| Intellect | Soul | Metaphysical (the core pair) | Underlies all the above; explicit throughout |
+
+What each pair preserves:
+
+- Same kind (*jins*): both terms belong to one order of being
+- Different rank (*martaba*): one outranks the other
+- Mutual non-dispossession: the higher rank does not subtract from the lower's identity
+- Both are perfect in themselves; both are deficient only in addition
+
+The formula in compact form, to be applied to every pair the next sub-chapters introduce:
+
+```
+For any pair (Higher, Lower) of the same kind:
+  Higher is perfect in itself.
+  Lower is perfect in itself.
+  Lower is deficient only relative to Higher.
+  Higher is the cause of Lower's existence; Lower's existence does not subtract from Higher's perfection.
+  Neither name on a single scale can capture both vantages.
+```
+
+The opening ten sub-chapters established the formula. Sub-chapters eleven through thirty-eight apply it. Chapter Two takes up the First Intellect directly; the remaining eight chapters carry the formula into emanation, motion, the divisions of the world, *Qadr*, the law of *Adam* and *Nuh*, and finally the author's own correction of *The Harvest's* monotheism chapter. Every later chapter operates on the identity-vs-rank distinction set here.

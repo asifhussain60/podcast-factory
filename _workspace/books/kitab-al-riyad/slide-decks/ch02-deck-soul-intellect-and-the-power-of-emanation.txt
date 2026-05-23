@@ -1,0 +1,543 @@
+# Soul, Intellect, and the Power of Emanation
+
+*The visual companion to Chapter Two. The audio chapter is the prose; this file is its argument made structural. Same concepts, same depth, restructured for slide-deck rendering. Covers sub-chapters eleven through twenty-three of Chapter One of* this book*: the middle stretch where the perfection-of-the-soul argument moves out of abstract terminology and into the analogies, the sun and the moon, the Book and the* 'Itrah*, the writer and the writing, that make the doctrine visible.*
+
+## Where this chapter sits in the argument
+
+A process flow tracing the three movements of Chapter One of this book. The middle stretch covered by this chapter is highlighted as Movement Two.
+
+```
+Movement One (sub-chapters 1 to 10)
+  Establish the formula: every existent is perfect in itself, deficient only in relation
+   ↓
+Movement Two (sub-chapters 11 to 23, THIS CHAPTER)
+  Apply the formula across the analogies Samuel reaches for, one by one
+   ↓
+Movement Three (sub-chapters 24 to 38)
+  Open the embryological and religious-office pairs (sperm and man, Speaker and Foundation)
+```
+
+Stance of each party as Movement Two begins:
+
+| Party | Position carried in | Strategy for this stretch |
+|---|---|---|
+| *Jonathan* in the book *The Correction* | Soul is perfect, emitted from the perfect First Intellect | Hold the line; clarify what the formula does and does not claim |
+| *Samuel* in the book *The Defense* | Soul is deficient relative to the Intellect | Reach for new analogies (sun-moon, wise-men, sperm-man, writer-writing) hoping one will land |
+| *The author* of this book | Identity and rank are two axes, not one | Concede the natural-realm reading; refuse the carry-over into the supra-natural realm |
+
+## Sub-chapter eleven, the sun and the moon
+
+A contrast pair. *Samuel* reads the moon as a figure of deficiency; *the author* reads the same moon as a figure of receptive completeness.
+
+Column A: *Samuel* in the book *The Defense*
+- Reading of the moon: draws light from the sun, is lesser in light and luminance
+- What it proves: the Soul is dependent, like the moon, and therefore deficient
+- Move: takes optical lesser-light as ontological lesser-being
+
+Column B: *The author* of this book
+- Reading of the moon: receives light because it is, in itself, fit to receive
+- What it proves: receptivity is a kind of completeness; a wholly incomplete vessel cannot receive at all
+- Move: separates moon-as-receiver (perfect in itself) from moon-as-lit-by-sun (lower in rank)
+
+Shared row: both agree the moon receives from the sun and is lesser in light. The disagreement is whether lesser-in-light entails deficient-in-itself.
+
+Quranic anchor *Samuel* invokes, preserved with attribution:
+
+> *And of His signs are the night, the day, the sun, and the moon.*
+> Quran 41:37, in the rendering *Samuel* gives.
+
+Saying *the author* leans on, preserved with attribution:
+
+> *Innama al-qulubu awʿiya, fa-khayruha awʿaha.*
+> *Hearts are vessels; the best of them is the most retentive.*
+> *Nahj al-Balagha*, Saying 147, compiled by the compiler of the sermons c. 1009 CE.
+
+The author's verdict: the author of the book *The Correction* became like one wronged by being argued against in what was not from his purpose, in what he says, nor in whom he intends.
+
+## Sub-chapter twelve, the likeness of the wise men
+
+A hierarchy of nested perfections. *Samuel* invokes the wise men's chain: Intellect is to Soul as Soul is to Body.
+
+```
+Level 1: Body
+  Perfected by:
+Level 2: Soul (the body's perfection)
+  Perfected by:
+Level 3: Intellect (the soul's perfection)
+```
+
+*Samuel's* inference: if the wise men ordered the chain this way, soul stands as imperfect (relative to intellect) just as body stands as imperfect (relative to soul). Therefore deficiency of the Soul is taught by the ancients themselves.
+
+*The author's* counter, in two registers:
+
+| Register | What holds | What does not hold |
+|---|---|---|
+| Natural realm (souls in bodies, working toward second perfection) | The chain runs as the wise men describe; soul is in process, dependent on senses | Even here, "deficient in some respect" is not "deficient in itself" |
+| Supra-natural realm (the First Resurrection, the Intellects above nature) | Nothing; the chain does not apply | The chain was never about the supra-natural realm; *Samuel* has carried it where it does not reach |
+
+The author's principle: the same words can be used at two levels. A chain that names a process at one level cannot be made to name an essence at another.
+
+## Sub-chapter thirteen, nature on the horizon is not a deficiency
+
+A contrast pair on what touching darkness means.
+
+Column A: *Samuel* in the book *The Defense*
+- Picture: Intellect has Word on one side, Soul on the other; Soul has Intellect on one side, nature (dark) on the other
+- Inference: the Soul touches darkness; the Intellect does not
+- Verdict: therefore the Soul is deficient and the Intellect is perfect
+
+Column B: *The author* of this book
+- Picture: the Soul's contact with nature is an overflow downward, not a clinging to darkness
+- Inference: light does not need darkness; darkness needs light
+- Verdict: nature loves the Next, not the reverse; the Soul's competence reaches where nature cannot
+
+The author's directional principle, an annotated structure:
+
+```
+First Intellect (highest)
+   ↓ overflows toward
+Soul (the Next)
+   ↓ overflows toward
+Nature
+   ↑ moves toward, longs for, seeks
+Soul (the Next)
+```
+
+Reading: the downward arrows are overflow from the perfect. The upward arrow is longing from the dependent. To call the downward overflow a "clinging" inverts the actual flow.
+
+The author also accepts what is true on its own in *Samuel's* statement: the Intellect is not other than the Word, the self is one, the eye is one; scattered names are worthy of meanings. Truth in part is not falsehood in whole.
+
+## Sub-chapter fourteen, incomplete action does not imply incomplete doer
+
+A genealogy of *Samuel's* three-pronged attack on the *Jonathan* formula "the action is incomplete, not the soul." Each prong gets its own counter.
+
+```
+Samuel's three prongs:
+  Prong 1: deficiency of the doer itself
+     → If so, the soul (the doer) is incomplete
+  Prong 2: deficiency of the substance from which the verb is made
+     → If so, an eternal substance is being made to diminish
+  Prong 3: deficiency of both
+     → Same problems compounded
+Plus the slander:
+  Jonathan is secretly an eternalist of the kind an early teacher the physician was
+```
+
+*The author's* point-by-point reply:
+
+| Prong | *Samuel's* claim | Author's counter |
+|---|---|---|
+| 1 | If action is deficient, the doer is deficient | Action's deficiency is its effect, not the doer's essence; *Jonathan* has already clarified this |
+| 2 | An eternal substance cannot diminish | The decrease lies in the recipients, not in what is received. The sun's heat is the same heat; wax softens, stone and iron refuse, the eye sees the difference is in the receiver |
+| 3 | Both prongs combined | Falls because both prongs have already fallen |
+| Slander | *Jonathan* is an eternalist | Rejected outright; *Jonathan's* doctrine, in its own terms, requires only that the soul's second perfection occur in time. That is a different claim |
+
+The wax-and-stone analogy, an annotated structure:
+
+```
+Source: the sun (one heat, one degree)
+   ↓ acts on
+- Wax: yields, softens (high receptivity)
+- Stone: refuses (no receptivity)
+- Iron: slow (low receptivity)
+   ↓ inference
+The defect is in the receivers, not in the heat
+```
+
+Carry-over to the doctrine: the Soul's second perfection unfolds in time because the receivers (the souls in nature) unfold in time. The First Intellect's heat is one heat.
+
+## Sub-chapter fifteen, emanation does not flatten the world into uniform perfection
+
+A genealogy of *Samuel's* infinite-chain reductio, and the author's correction of the picture it claims to reduce.
+
+*Samuel's* chain as he draws it:
+
+```
+First Intellect (perfect)
+   ↓ emanates
+Soul (must therefore be perfect)
+   ↓ emanates
+Form and image (must therefore be perfect)
+   ↓ emanates
+The people (must therefore be perfect)
+   ↓ and so on
+The undivided singular: all the world is perfect, no deficiency anywhere, contrary to experience
+```
+
+The author's correction, a contrast pair between *Samuel's* picture and the actual emanation structure.
+
+Column A: *Samuel's* assumed picture
+- Shape: a single chain descending from the First Intellect through the Soul through the forms through people
+- Inheritance: perfection propagates downward, link by link
+- Reductio: everything is perfect, which is false
+
+Column B: *The author's* correct picture
+- Shape: the First Intellect emanates under two proportions, producing the Soul (the Next) and the celestial spheres together
+- Inheritance: souls of human beings and the *hayuliyyat* (the matter-receiving substrates) are emitted together with the first Soul, not from it
+- Result: the chain *Samuel* reduces was never the structure
+
+The two-proportion emanation, an annotated structure:
+
+```
+The Almighty (above all comparison, no multiplicity)
+   ↓ creates only one
+First Intellect (one being, but seen in two proportions)
+   ↓ Proportion A: cause of what is below
+      → Second Intellect (the Soul, the Next)
+   ↓ Proportion B: that it is an effect, creative and inventive
+      → Orbits of the heavens, creatures of the body world
+```
+
+Why this matters: there is no after-one-except-two. After the One in existence, there is only two; after the individual, only the husband, which is plurality. The Soul does not generate further souls in series. It stands alongside the celestial orders, both from the same First Intellect under two proportions.
+
+## Sub-chapter sixteen, the Book and the 'Itrah
+
+The doctrinal climax of the middle movement. A visual metaphor in the form of a single rope held in two hands, mapped point-for-point onto the cosmological doctrine.
+
+The Prophet's hadith preserved verbatim with attribution:
+
+> Indeed, I leave among you the two weighty things: the Book of God and my 'Itrah, a rope extended from the sky to the earth, one end of it in the hand of God and one end in your hands. Hold fast to them, and you will not go astray as long as you hold to them. I have asked my Lord to answer me concerning them at the basin.
+> Hadith of the Two Weighty Things, as the author renders it.
+
+The Quranic anchor preserved verbatim with attribution:
+
+> *Innama yuridu Allahu li-yudhhiba ʿankum al-rijsa ahl al-bayt wa yutahhirakum tathira.*
+> *Allah only intends to remove from you the impurity, O people of the household, and to purify you with thorough purification.*
+> Quran 33:33, Sahih International translation.
+
+The two-handed analogy mapped onto the cosmology, a comparison matrix:
+
+| Pair | Prophet's right hand | Prophet's left hand | Held how |
+|---|---|---|---|
+| Revelation pair | The Book of God | The Prophet's 'Itrah (the Foundation, the household) | Together, one not preceding the other; one rope |
+| Cosmological pair | The Soul (the Next, the Second Intellect) | The *Hayuli* (the matter-receiving substrates) | Emitted together from the First Intellect, one not preceding the other |
+| Function pair | What proclaims outwardly | What proclaims inwardly through interpretation (*the inner interpretation*) | The outer needs the inner to manifest; the inner needs the outer to have something to interpret |
+
+The principle the metaphor delivers: the First Intellect speaks outwardly through the Soul and inwardly through the *Hayuli*. Revelation and the line that interprets it are not a sequence in time but a single rope, one end in the hand of God and one end in the hand of the believer.
+
+The author's auxiliary point, marked in the audio: the *Hayuli* does not manifest its honor, nor does what is potentially within it manifest its strength toward the good image, except by the power of the Soul, just as the Book and the *Shari'a* do not proclaim themselves except through the interpretation of the Foundation and those who stand in his place.
+
+## Sub-chapter seventeen, the First Intellect is alone in its rank
+
+A hierarchy with one and only one node at the top level. The author argues monotheism by showing the impossibility of any analogue at the First's rank.
+
+```
+Level 1 (alone): First Intellect
+  - One in its existence
+  - Has nothing of the type of its existence alongside it
+  - Otherwise the paths of monotheism are disrupted
+Level 2 (the pair emanated together): Soul (the Next) and the Hayuli
+  - Their existence is a second existence
+  - They share kind on one side, differ in proportion on the other
+Level 3 and below: souls of human beings, celestial orbits, bodies, natures
+```
+
+The author's two-step proof that Level 1 has exactly one occupant:
+
+| Step | Claim | Why it holds |
+|---|---|---|
+| 1 | If the First had an analogue at its rank, their existence together would not be one | One does not precede the other; both would require something above them to make them two |
+| 2 | Nothing is above the First Intellect | Therefore no analogue can occupy its rank |
+
+The exclusion that follows: the Soul cannot stand as a second First. The Soul is at Level 2, not at Level 1. The author has, in his earlier treatise *The Repose of the Intellect*, shown this from first principles.
+
+## Sub-chapter eighteen, Samuel contradicts himself
+
+A contrast pair, this time internal to *Samuel*. *The author* sets *Samuel's* current position against *Samuel's* own earlier book.
+
+Column A: *Samuel* in the book *The Defense* (current position)
+- The Intellect is perfect
+- The Image and the world are deficient
+- Deficiency of the world is the evidence for deficiency of the Soul
+
+Column B: *Samuel* in *an earlier compendium* (earlier position)
+- "The image of the dispensation of the world in its entirety is nothing else, and wisdom suffices with what is in the world's totality, rich and perfect."
+- The world's totality is perfect
+
+Shared row: *Samuel* in both books treats the same object, the world as a whole.
+
+The author's resolution, a hierarchy of where deficiency actually lives:
+
+```
+Level 1: First Perfection (existence given at origin)
+  - The world as totality is perfect at this level
+  - This is what Samuel's earlier book affirmed
+Level 2: Second Perfection (acquired states of natural selves)
+  - Parts of the world differ when added to one another
+  - This is where the disparity Samuel calls "deficiency" actually lives
+  - The deficiency belongs to states-in-relation, not to the things themselves
+```
+
+The verdict: the world is perfect at the level of First Perfection. The disparity *Samuel* sees lives at the level of Second Perfection, which is a state-in-relation, not an in-itself. *Samuel* is, in another of his books, on the side of the perfect-world doctrine. The contradiction stands, even if charitably attributed to a shift in *Samuel's* views over time.
+
+## Sub-chapter nineteen, the effect need not share every condition of the cause
+
+A contrast pair on what causation requires.
+
+Column A: *Samuel's* demand
+- If the Soul emanates from the perfect Intellect, the Soul must inherit every condition the Intellect has
+- The Intellect is the first intermediate and the first creator, so the Soul must also be intermediate and creative
+- By the same logic, all the world inherits these properties
+
+Column B: *The author's* correction
+- The effect must share with the cause in some of its conditions, otherwise no cause-effect link is intelligible
+- The effect must NOT share with the cause in all of its conditions, otherwise it would be the cause
+- The Soul shares with the Intellect in being from a single principle. The Soul does not share in being the First
+
+A two-axis matrix of what is required and what is forbidden:
+
+| | The effect SHARES | The effect DOES NOT SHARE |
+|---|---|---|
+| Required for the cause-effect link | Some condition (e.g. the form of being from a single source) | None of the cause's identity-defining conditions |
+| What follows if the demand is wrong | If shares in nothing: no link, so no effect | If shares in everything: no distinction, so the effect IS the cause |
+
+The principle: an effect is an example of its cause in one face and the opposite of it in another. Not all faces. Not no faces. Some faces, and not the identity-defining ones.
+
+## Sub-chapter twenty, the partial soul and what is thought
+
+An annotated structure of the human soul, with each act of the soul named and located.
+
+The human soul as a single agent with multiple acts:
+
+| Act | Name | Direction |
+|---|---|---|
+| Reaching for realization of something | Thought (*fikr*) | Forward toward the not-yet-known |
+| Observing forms already given | Memory | Backward into what was received |
+| Engraving landmarks from inference or sense | Perception | Inward, capturing |
+| Knowing of things outside, wishing to conceive them | Will inclined toward them | Outward toward the desired |
+
+The author's logical move: the idea is an act of the human soul that does not exceed the soul itself. The idea has no existence other than the soul's own existence. It is the soul acting, not a separate thing the soul produced.
+
+A contrast pair between *Samuel's* analogy and what the analogy fails to deliver.
+
+Column A: *Samuel's* analogy
+- The partial soul in us is like the Intellect
+- The idea is like the Soul (the Next, the Universal Soul)
+- Just as the idea perceives part by part in time, so the Soul perceives in stages
+
+Column B: *The author's* refutation
+- The idea has no existence apart from the human soul; it is the soul's own act
+- The human soul knows only by senses and inference, in time, from parts to totality
+- Therefore the human-soul analogy proves nothing about the Universal Soul, which is in the realm of origination, not nature
+
+The deeper move: *Samuel* tried to argue that, since the idea has no existence apart from the soul that produces it, so the Soul (the Next) has no existence apart from the First Intellect, and therefore no perception of its own. The author flips this back on him. If the idea is not from the souls of human beings in the way *Samuel* assumes, then the Second Intellect runs the same course as the First, self-contained, even though it is second in rank. The human-soul case does not analogize to the Universal Soul.
+
+The closing inversion the author names: *Samuel* has made the cause of the honor of the First Intellect to be the Second. This is an inverted issue. The honor of what follows comes from what is ahead of it, not the reverse.
+
+## Sub-chapter twenty-one, action does not always seek benefit or repel harm
+
+One of the most beautiful pages of the chapter. A contrast pair on what "action" means.
+
+Column A: *Samuel's* doctrine of action
+- Every action draws a benefit or repels a harm
+- An agent that acts is therefore an agent that lacks
+- The Intellect, having nothing above it, does not act, and is perfect
+- The Soul, having something above it, acts, and is therefore deficient
+
+Column B: *The author's* doctrine of action
+- Some acts are for the agent's benefit; this is the human-striving case *Samuel* generalizes from
+- Some acts proceed from an agent and benefit only what the act reaches, not the agent
+- The pure abstract intellects perform the second kind of act: acts of wisdom, not acts of need
+- The Intellect's not-acting (in *Samuel's* sense) is its self-sufficiency, not its inertia
+
+A comparison matrix of the four cases *the author* puts before *Samuel*, each of which acts without benefiting itself:
+
+| Agent | Act | What the act does | Who benefits |
+|---|---|---|---|
+| Fire | Heats | Warms wax, softens it, has no effect on stone | The wax, not the fire |
+| Sun | Illuminates | Lights the world, makes plants grow | Plants and animals, not the sun |
+| Whales in the Sea of Oman ("dolphins") | Push the drowning toward shore | Save the swimmer | The swimmer, not the dolphin |
+| Human acting elevated, toward plants, animals, minerals | Cultivates and serves | Lifts those beneath | Plants, animals, minerals, not the human |
+
+The principle in compact form: the perfect act overflows beyond the agent. To insist that every act must benefit its agent is to take the small case of human striving as the model for all action. The natural world itself refutes this.
+
+A poetic echo *the author* would have known, preserved verbatim with attribution:
+
+> *Bani Adam aʿzaye yek peykarand,*
+> *Ki dar afarinesh ze yek goharand.*
+> *Cho ʿozvi be dard avarad ruzegar,*
+> *Degar ʿozvha ra namanad qarar.*
+> *The children of Adam are the limbs of one body, created from one essence. When one limb is afflicted with pain, the other limbs cannot remain at rest.*
+> Sa'di of Shiraz, *Gulistan*, Chapter 1, Tale 10.
+
+The moral picture *Sa'di* names is the structural picture the author names. An act that warms what is not the agent, that gives what the agent cannot keep, that benefits without returning to its source, is not the act of a defective agent lacking self-care.
+
+## Sub-chapter twenty-two, the act of the soul, and what is "done"
+
+A contrast pair on the writer and the writing.
+
+Column A: *Samuel's* objection
+- We never observe acts becoming subjects: writing does not become a writer, building does not become a builder
+- Therefore the soul's act cannot become the soul (cannot constitute the soul's perfection)
+- The Intellect is perfect, the Soul is in potency; the Soul becomes existent only if it gains perfection; if its act became perfect, that would be impossible
+
+Column B: *The author's* clarification of *Jonathan*
+- *Jonathan's* claim is not that the act becomes the soul
+- The claim is that the soul's second perfection is attained THROUGH the act, by what flows from the soul's side onto it
+- The soul moves from potency to act by what already exists; nothing crosses that limit by what does not exist
+
+A process flow of what the second perfection actually requires:
+
+```
+Soul in potency (already complete in its first existence)
+   ↓ act of the soul flows from it
+What overflows from the soul
+   ↓ becomes a working second perfection
+Soul in act (still the same soul, now in its acquired completeness)
+```
+
+The principle: what was in potency issues forth and attains the second perfection through acquisition. Then it is like what was given in the first existence: both share in being already existent. They share in this, though not from the same side. Two existences can be equivalent in commonality without being identical in derivation.
+
+## Sub-chapter twenty-three, when acts ARE agents
+
+One of the deepest moves in the chapter. *The author* refuses the slide from "acts do not become agents" to "acts cannot act."
+
+A comparison matrix of acts that act, the cases the author cites.
+
+| Act | Issued by | What the act does on its own |
+|---|---|---|
+| Writing | The writer | Addresses the reader, speaks to him, translates the writer's soul into form |
+| The image of a building | The builder | Conveys the form to the viewer, lets the viewer conceive what the builder conceived |
+| Striking | The striker | The act of striking is what inflicts pain; pain is the act, doing its work |
+| The wind God sent | God | The wind, one thing, performs an act through itself |
+| The praise of all things | All things | "There is in everything what praises Him"; the act, a praising, is itself an agent |
+
+Verbatim Quranic anchors, preserved with attribution:
+
+> And there is nothing but praises Him.
+> Quran 17:44, in the rendering the author gives.
+
+> And We sent the winds.
+> Quran 15:22, in the rendering the author gives.
+
+A contrast pair sharpening *Samuel's* error.
+
+Column A: *Samuel's* premise, narrow form
+- Writing has not become identical to its writer
+- Building has not become identical to its builder
+- Acts have not become identical to their agents
+
+Column B: The slide *Samuel* makes, broad form
+- Therefore acts cannot act
+- Therefore the soul's act cannot accomplish the soul's second perfection
+- Therefore *Jonathan* is refuted
+
+Shared row: the narrow premise (Column A) is correct. The author concedes it. The slide to the broad conclusion (Column B) is the error.
+
+The author threads the needle: an act does not become identical to the one from which the act issued; it is something done, similar to its doer in the existence of the act in it. The ranks differ and the relations differ. But acts have agency of their own kind, downstream of the agent that produced them.
+
+*Jonathan's* claim that the soul's action achieves the soul's second perfection rests on this very recognition: that an act has its own efficacy, distinct from the agent but referred back to the agent.
+
+## The repeating formula across the middle movement
+
+A comparison matrix gathering the analogies of this chapter under the single formula. Each row is a pair *Samuel* offered and *the author* re-read.
+
+| Pair (Higher / Lower) | *Samuel's* reading | *The author's* reading | The formula re-applied |
+|---|---|---|---|
+| Sun / Moon | Moon is deficient because it draws light | Moon is a complete vessel; receptivity is its mark of perfection | Lower-in-rank, perfect-in-itself |
+| Intellect / Soul / Body (wise men's chain) | The chain teaches deficiency of soul | The chain runs in nature; not in the realm of pure Intellects | Same words, two registers |
+| First Intellect / Soul (with nature on the Soul's horizon) | Touching darkness is deficiency | Overflow downward is competence; light does not need darkness, darkness needs light | The direction of dependence is the proof |
+| Doer / Action (the *Jonathan* defense) | Incomplete action means incomplete doer | The defect lies in the receivers, not in what is received; sun's heat is one heat | Wax softens, stone refuses, the heat is the same |
+| First Intellect / forms / image / people (the infinite chain) | If Soul is perfect, all the world is perfect | The chain *Samuel* draws was never the structure; Soul and *Hayuli* emanate together under two proportions | After the One, only two, not a falling line |
+| Book / 'Itrah | (Not directly attacked by *Samuel*; offered by *the author*) | The Two Weighty Things; one rope, two hands | Outer and inner, held together, neither preceding |
+| First Intellect / its supposed analogue | (Implicit in *Samuel's* picture) | Nothing at the First's rank; otherwise monotheism is disrupted | Level 1 has exactly one occupant |
+| Samuel's *Defense* / Samuel's *earlier compendium* | World is deficient | World is perfect (by *Samuel's* own earlier hand) | The case collapses on internal contradiction |
+| Cause / Effect inheritance | Effect inherits every condition | Effect shares some conditions, not all | Some sharing, not total inheritance |
+| Partial soul / idea | Idea is to soul as Soul is to Intellect | The idea is the soul's own act, no separate existence; the human case does not analogize to the Universal | Honor of the lower is from the higher, not the reverse |
+| Agent / action (benefit-or-harm) | All action serves the agent, so all action marks deficiency | Some acts overflow beyond the agent for the sake of others | Perfect power produces well-ordered acts that need not return |
+| Writer / writing | Acts never become agents | Writing speaks, building shows, wind sends, acts have agency of their own kind | Acts are not agents; acts ARE agents |
+
+The formula in compact form, applied across every row:
+
+```
+For any pair (Higher, Lower) raised in this chapter:
+  Lower is perfect in itself (its first perfection, given at origin).
+  Lower is deficient only in relation to Higher (its second perfection, acquired in time).
+  Receiving is a kind of completeness, not a kind of defect.
+  Overflowing downward is competence, not clinging.
+  Acting for others is wisdom, not need.
+  Inheriting from the cause requires some sharing, not all.
+```
+
+## What recurs in *Samuel's* attack across this chapter
+
+A genealogy of the four moves *Samuel* repeats with new analogies each time.
+
+```
+Move A: smuggle a natural-realm relation into the supra-natural realm
+   ↓ produces
+Move B: treat lesser-in-rank as deficient-in-itself
+   ↓ produces
+Move C: read overflow downward as clinging to what is below
+   ↓ produces
+Move D: demand the effect inherit every property of the cause
+```
+
+The author's counter-cascade, in the same shape:
+
+```
+Counter A: the natural-realm relation does hold there, but the carry-over fails at the supra-natural rank
+   ↓ shows
+Counter B: identity and rank are two axes; complete-in-itself and lower-in-rank coexist
+   ↓ shows
+Counter C: light does not need darkness; downward overflow is the perfect agent's wisdom, not its need
+   ↓ shows
+Counter D: an effect is like its cause in some face and unlike it in another; total inheritance would erase the effect
+```
+
+Every analogy *Samuel* introduces in sub-chapters eleven through twenty-three runs through this same loop. The variety of the analogies is what is new; the structure of the dispute is what is constant.
+
+## Quranic and traditional anchors of the middle movement
+
+All verbatim passages from the chapter, preserved as they should appear on slides, each with attribution.
+
+> *And of His signs are the night, the day, the sun, and the moon.*
+> Quran 41:37, in the rendering *Samuel* gives in sub-chapter eleven.
+
+> *Innama al-qulubu awʿiya, fa-khayruha awʿaha.*
+> *Hearts are vessels; the best of them is the most retentive.*
+> *Nahj al-Balagha*, Saying 147, compiled by the compiler of the sermons c. 1009 CE.
+
+> Indeed, I leave among you the two weighty things: the Book of God and my 'Itrah, a rope extended from the sky to the earth, one end of it in the hand of God and one end in your hands. Hold fast to them, and you will not go astray as long as you hold to them. I have asked my Lord to answer me concerning them at the basin.
+> Hadith of the Two Weighty Things, as the author renders it in sub-chapter sixteen.
+
+> *Innama yuridu Allahu li-yudhhiba ʿankum al-rijsa ahl al-bayt wa yutahhirakum tathira.*
+> *Allah only intends to remove from you the impurity, O people of the household, and to purify you with thorough purification.*
+> Quran 33:33, Sahih International translation, cited alongside the Two Weighty Things.
+
+> And there is nothing but praises Him.
+> Quran 17:44, in the rendering the author gives in sub-chapter twenty-three.
+
+> And We sent the winds.
+> Quran 15:22, in the rendering the author gives in sub-chapter twenty-three.
+
+> *Bani Adam aʿzaye yek peykarand, ki dar afarinesh ze yek goharand. Cho ʿozvi be dard avarad ruzegar, degar ʿozvha ra namanad qarar.*
+> *The children of Adam are the limbs of one body, created from one essence. When one limb is afflicted with pain, the other limbs cannot remain at rest.*
+> Sa'di of Shiraz, *Gulistan*, Chapter 1, Tale 10.
+
+## What comes next
+
+A process flow into the third movement of Chapter One.
+
+```
+Middle movement closes (sub-chapter 23)
+  Final clarification: acts have agency of their own kind, even though acts are not their agents
+   ↓
+Third movement opens (sub-chapter 24)
+  New analogy: the sperm and the man
+   ↓
+Sub-chapter 25 follows
+  The Speaker (the speaker-prophet) and the Foundation (the foundation): the most charged of the pairs
+   ↓
+Through sub-chapter 38
+  Embryological and religious-office pairs worked through to the end of Chapter One
+```
+
+The pair to be developed first in the next chapter:
+
+| Higher rank | Lower rank | Domain | What it will carry forward |
+|---|---|---|---|
+| Man | Sperm | Embryological | Whether the lower can be re-read as a complete vessel, the way the moon was |
+| Speaker (the speaker-prophet) | Foundation (the foundation) | Religious office | The two-handed rope of the Book and the 'Itrah, brought from cosmology back to the household |
+
+The reader carrying the formula in hand will recognize the move at each repetition. Every later sub-chapter operates on the same identity-versus-rank distinction set in the opening ten, applied through the analogies opened here.

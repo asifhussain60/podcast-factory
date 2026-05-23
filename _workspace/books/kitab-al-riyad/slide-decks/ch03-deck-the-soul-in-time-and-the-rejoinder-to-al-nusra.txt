@@ -1,0 +1,527 @@
+# The Soul in Time and the Rejoinder to the book *The Defense*
+
+*The visual companion to Chapter Three. The audio chapter is the prose; this file is its argument made structural. Same concepts, same depth, restructured for slide-deck rendering. This file covers sub-chapters twenty-four through thirty-eight, the closing stretch of Chapter One of Kitab al-Riyad.*
+
+## Where this chapter picks up
+
+A two-column contrast pair locating the chapter in the argument's arc. *Chapter One* has been running for twenty-three sub-chapters; this file picks up the last fifteen.
+
+Column A: What the first twenty-three sub-chapters established
+
+- Core formula: perfect in itself, deficient only in relation to what stands above
+- Disputes worked through: what "perfection" names, Intellect-to-Soul relation, meaning of "mean," chain of emanation, unity of the First Intellect, whether acts can act
+- *Samuel's* repeated move in *The Defense*: try to fix the Soul to a single scale where below-the-Intellect would mean deficient in itself
+- *The author's* steady refusal: rank is not identity; both vantages name the same Soul
+
+Column B: What sub-chapters twenty-four through thirty-eight do
+
+- Carry the formula through a new wave of analogies: sperm-and-man, Speaker-and-Foundation, sun-and-moon, male-and-female, bowing-and-prostration
+- Force *Samuel* into a softer landing: not the universal Soul but the human soul subject to nature
+- Distinguish the Successor Soul (universal, emanated from the First Intellect, perfect at the first instant) from the sensual soul (natural, hovering between potency and actuality)
+- Demolish the "forgetting" argument with the impossibility of accidents in the creative-world Soul
+- Close on *the author's* prayer that seals the chapter and the book's whole first movement
+
+Shared row: the formula is the same throughout. The new analogies test it; they do not replace it.
+
+## The author's name and the figures in dispute
+
+A four-row roster. Each row names a figure, expanded honorifics first use, and the function they carry in this chapter.
+
+| Figure | First-mention expansion | Function in this chapter |
+|---|---|---|
+| *Hamid al-Din Ahmad the author* | The author of *Kitab al-Riyad*; *Hamid al-Din Ahmad al-Kirmani* | Referee. Extracts what is correct from each disputant; replaces the rest with his settled doctrine |
+| *Jonathan* (may God have mercy on him) | The author of *The Correction* (*the Reform*) | Held the Successor Soul is perfect in itself, because emitted from the Perfection that is the First Intellect |
+| *Samuel* (may God have mercy on him) | The author of *The Defense* (*the Support*), *the author's* own teacher | Pressed at every turn to collapse identity and rank into a single scale on which the Soul registers as deficient |
+| *Imam Ali*, Commander of the Faithful | The first Imam | Speaks the doctrine of God-time relation in Sermon 1 of *The Path of Eloquence*, four centuries before this dispute |
+
+The author is the referee throughout. The praying-for-the-opponent-while-correcting-him gesture is constant; *Samuel* is *the author's* own teacher, and corrections do not break the bond of pedagogy.
+
+## The two Souls being conflated
+
+The single most important conceptual move in this chapter. A named-axis 2x2 separating two existents that *Samuel's* attack treats as one.
+
+Axes:
+
+- Horizontal: Locus of existence (Creative world, eternal, left) vs (Natural world, in time, right)
+- Vertical: State at first instant (Already perfect, up) vs (Hovering in potency, down)
+
+Quadrants:
+
+| | Already perfect at first instant | Hovering in potency |
+|---|---|---|
+| **Creative world (eternal)** | The Successor Soul (universal Soul, the Next, second Intellect). Emanated from the First Intellect. Perfect at the first instant of its existence. Confers perfection on the souls below | Impossible. The creative world admits no accidents; nothing in it hovers between potency and actuality |
+| **Natural world (in time)** | Impossible. To exist in the natural world is to receive existence in stages | The sensual soul (*the soul al-hissiyya*) and the speaking soul (*the soul al-the speaker-propheta*) of human beings. Receive their second perfection by acquisition through time |
+
+The error of *Samuel*: drags the obvious deficiency of the bottom-right Soul over to the top-left quadrant, then declares the top-left deficient on that basis. *The author* refuses the slide. One word, "soul," does two jobs. *Samuel* uses the second job's data to attack the first job's claim.
+
+Visual emphasis: the top-left quadrant is where *Jonathan* and *the author* stand together. The bottom-right is where *Samuel's* examples actually live. The diagonal between them is the whole engine of *Samuel's* attack.
+
+## Sub-chapter twenty-four: sperm and man, soul and intellect
+
+A contrast pair refuting *Samuel's* biological analogy.
+
+Column A: *Samuel's* analogy
+
+- The sperm is the image of the man in potency in truth
+- The sperm becomes a man in actuality
+- The Soul is likewise the image of the Intellect in truth
+- The Soul becomes perfect like the Intellect, if it benefits from the Intellect
+
+Column B: *the author's* correction
+
+- The sperm is not the image of the man; the sperm is matter prepared to receive the form of a man
+- A sperm does not contain a man in miniature; it contains the receptivity that the soul will furnish with form
+- The soul is not the image of the Intellect; the soul is a natural preparation, vacant of forms, that acquires the forms of knowledge
+- The image-of-image regress cannot start: if the soul were the Intellect's image, the Intellect would need an image of itself, which would split it; but the Intellect's essence is one and creative
+
+Shared row: the biological analogy belongs to the natural realm where bodies have images and images have images. It does not transfer to the creative realm where the original is one and indivisible.
+
+The second failure mode: *Samuel's* "image of a man in potency" trades on a confusion between an image and a vessel. They are not the same.
+
+## Sub-chapter twenty-five: Speaker and Foundation, the sacrifice of camels
+
+A comparison matrix laying out the religious-office analogy and *the author's* counter.
+
+| Row | *Samuel's* claim | *the author's* counter |
+|---|---|---|
+| Rank-pair invoked | Speaker-Prophet and the Foundation who stands in his place | Accepts the pair; reads the rank-difference as the same identity-vs-rank distinction at work everywhere |
+| Cosmic mapping | Speaker is to physical world as Intellect is to spiritual world; Foundation is as the Soul | Accepts mapping; the Foundation is perfect in his rank, with no degree left to ascend within it |
+| Inferred lesson | If *Jonathan* says Soul is perfect like Intellect, then Foundation is perfect like Speaker, which contradicts received doctrine | The Second is like the First even at a lower rank; the Foundation is like the Speaker even at a lower rank; *each is perfect in his rank* |
+| Anchoring act | Reading depends on the meaning of prayer | The Prophet's act of sacrificing camels: slaughter consists in delivering the iron to the head of the *fawad* (the heart), grounded in taking the covenant and release in the call |
+| Prayer-cycle witness | Not invoked here | The two *rak'ahs* of the dawn prayer: praise (*hamd*) in the first, *al-Qunut* in the second; the second is in the same state of perfection as the first; their distinction is in rank in existence, not in completeness |
+
+The closing formula of this sub-chapter: each *rak'ah* is perfect as a *rak'ah*. The two stand in a rank-relation, not in a perfection-relation. *Samuel's* attempt to derive deficiency from below-rank repeats the error.
+
+## Sub-chapter twenty-six: the Foundation cannot be other than perfect
+
+A short process-flow argument driving the point home from the side of obligation.
+
+```
+Premise 1: The Foundation stands in the place of the Prophet and his family
+   ↓
+Premise 2: God enjoins obedience to the Foundation
+   ↓
+Premise 3: God does not enforce obedience to one who is deficient like ordinary creatures
+   ↓
+Therefore: The Foundation cannot be deficient in self; he can only be lower in rank
+```
+
+The Foundation's standing is double:
+
+- Speaks after the Prophet (active voice from the side of teaching)
+- Is spoken for (the one in whose name obedience is enjoined)
+
+The disparity with the Speaker is in rank, not in self. *Samuel* could not invoke anything against *Jonathan* except by virtue of rank. *Jonathan's* statement that the Second is deficient stands corrected: deficient in rank, perfect in self.
+
+## Sub-chapter twenty-seven: bowing, prostration, male and female
+
+A comparison matrix taking three of *Samuel's* paired examples on the same axis.
+
+*Samuel's* setup:
+
+| Pair | Higher (Cultivator: the Greatest / the Prior) | Lower | Implication *Samuel* wants |
+|---|---|---|---|
+| Bowing supplication | Speaker (Prophet), invoked as "the Great" | Foundation, the Second | Foundation has not reached the Speaker's rank |
+| Prostration supplication | Prior / First Intellect, invoked as "the Most High" | Speaker, the Second | Speaker is at the Foundation's relation to *its* Cultivator |
+| Male/Female | Male (heaven), more complete and noble | Female (earth), more deficient | Universal pattern: lower rank = deficient in self |
+
+*The author's* three-step rejoinder:
+
+| Step | *Samuel* | *the author* |
+|---|---|---|
+| 1. Rank claim | The Prior is higher than the Second | Correct, and it is what *Jonathan* said. Below-in-rank is not deficient-in-self |
+| 2. Did the Foundation reach the Speaker's rank? | The Foundation did not reach the Speaker's rank in perfection | The Foundation, even if he did not reach that degree by himself, has reached it *by means of the Speaker*. Through the Speaker's teaching, he illumined himself and became as the moon at the full of the fourteenth night |
+| 3. Male and female | The female is deficient because she is in a lower rank | The female is complete in herself. Her existence is a complete existence. The disparity is only in the addition of one to the other |
+
+The argument by symmetry on male and female:
+
+- If the female were deficient in respect of what is exclusive to the male, then the male would equally be deficient in respect of what is exclusive to the female
+- Therefore neither is deficient in self
+- The male is complete in himself; the female is complete in herself
+- By joining one to the other, rank is rendered unequal; the female is ranked below the male
+- The disparity is in ranks, not in selves
+
+Two witnesses from the *Sunna* are folded in: the Friday sermon-then-prayer (Speaker-side) and the *Eid al-Fitr* prayer-then-sermon (Foundation-side), each showing the cycle by which the lower receives perfection from the higher without becoming the higher.
+
+## Sub-chapter twenty-eight: sensual souls are not the Successor Soul
+
+The pivotal distinction. A contrast pair separating the two senses of "soul" *Samuel* has been sliding between.
+
+Column A: the Successor Soul (universal, *Jonathan's* subject)
+
+- Locus of existence: creative world, eternal
+- State at first instant: perfect and complete; nothing remains for it to attain
+- Emanates from the First Intellect
+- Confers perfection on the souls that descend through nature
+- Cannot forget, incline, or desire; admits no accidents
+
+Column B: the sensual soul (*the soul al-hissiyya*) / speaking soul of human beings (*Samuel's* actual examples)
+
+- Locus of existence: natural world, in time
+- State at first instant: in first perfection, with a second perfection to attain
+- Subject to nature; led by natural appetite
+- Forgets the splendor of its own world
+- Persuaded only by discipline; restrained by the intellect through bonds of education
+- Hovers between potency and actuality
+
+Shared row: same word, "soul." Two distinct existents. *Samuel's* whole attack runs on letting the sensual soul's deficiency speak for the universal Soul.
+
+The Quranic anchor: the soul is named in three stages, and the stages map onto the partition.
+
+> *Inna the soula la-ammaratun bi-l-su' illa ma rahima rabbi.*
+> *Indeed, the soul is ever inclined to evil, except those upon which my Lord has mercy.*
+> Quran 12:53, Sahih International translation.
+
+> *Wa la uqsimu bi-n-nafsi al-lawwamah.*
+> *And I swear by the self-reproaching soul.*
+> Quran 75:2, Sahih International translation.
+
+> *Ya ayyatuha an-nafsu al-mutma'innah, irji'i ila rabbiki radiyatan mardiyyah.*
+> *O soul at peace, return to your Lord, well-pleased and pleasing.*
+> Quran 89:27-28, Sahih International translation.
+
+The mapping the author works:
+
+| Verse | Quranic name | State | Where it sits |
+|---|---|---|---|
+| 12:53 | *the soul al-ammara* (soul commanding to evil) | Enslaved to natural appetite | The sensual soul *Samuel* points to |
+| 75:2 | *the soul al-lawwama* (self-reproaching soul) | Under the discipline of the Intellect | The speaking soul moving from first to second perfection |
+| 89:27-28 | *the soul al-mutma'inna* (soul at peace) | Returned to its origin in peace | The natural soul perfected by the Intellect's overflow, not the universal Soul itself |
+
+Three states, one word. *Samuel* borrows the deficiency of the first and assigns it to where the third would belong. The Quran's own grammar refuses the move.
+
+## Sub-chapter twenty-nine: only the complete can confer completion
+
+A process flow tracing the proof that the conferring agent must be already actualized.
+
+```
+Observation: Existents in the natural world exist by potentiality first, then by actuality
+   ↓
+Principle: Nothing passes from potentiality into actuality except by the presence of something already actualized
+   ↓
+Therefore: There exists something already actualized whose existence is necessary
+   ↓
+Branch:
+   Path A: It is the First Intellect
+   Path B: It is not the First Intellect; then there is a Second
+   ↓
+Further constraint: The First Intellect is independent in his action; there is nothing alongside him for him to act through, since otherwise the Almighty would have become an idol worshipped
+   ↓
+Conclusion: The Second exists; the Second is what brings potentiality into actuality below; the Second's perfection is what overflows to confer perfection on the natural souls
+```
+
+The doctrinal anchor in the Imami tradition. *Al-Kulayni*, the great compiler of the school's hadith, opened *the canonical hadith collection of the school* with this report from *Imam the sixth Imam*, placing it at the head of the *Kitab al-'Aql wa al-Jahl* (the Book of Intellect and Ignorance):
+
+> *Awwal ma khalaqa Allahu al-'aqla, fa-qala lahu: aqbil, fa-aqbal, thumma qala lahu: adbir, fa-adbar. Thumma qala: wa-'izzati wa-jalali ma khalaqtu khalqan ahabba ilayya minka.*
+> *The first thing Allah created was the Intellect. He said to it: come forward, and it came forward; then He said to it: go back, and it went back. Then He said: by My might and majesty, I have not created any creation more beloved to Me than you.*
+> The canonical hadith collection of the school, Volume 1, Kitab al-'Aql wa al-Jahl, Hadith 1; reported from *Imam the sixth Imam*.
+
+The tradition images what the philosophy formulates. The Intellect's first instant of being is already perfect. It answers "come forward" and "go back" in the same self-completed motion. By such an existent, things in potency are brought into actuality.
+
+The downstream parallel:
+
+| Cosmic course | Religious course |
+|---|---|
+| First Intellect: perfect, dispenses with anything other than himself, no other for him to act through | The Prophet (peace and blessings be upon him) and his family: follow the course of the First; do not invoke greatness from outside themselves |
+| Second Intellect (Successor Soul): perfect in self, but acts only through the overflow from the First | The Foundation: highest degree of perfection, but does not act except through the revelation and *shari'a* that the Speaker brings |
+| Natural existents: in potency, brought to actuality through the Second's overflow | The community (*Ummah*): receives connection through the Foundation's call (*the callh*) |
+
+The sole follows the sole. The objection of *the owner of the book The Defense* against *the owner of the book The Correction* is therefore an impossible objection.
+
+## Sub-chapter thirty: the impossibility of "forgetting" if the soul was always knowing
+
+*Samuel's* attack and *the author's* logical disposal. A branching process flow exhausting the cases.
+
+*Samuel's* claim: the Soul is incomplete because it forgets its world and does not remember it.
+
+*the author's* opening: forgetting does not occur except after knowledge. So either the Soul knew before, or it did not.
+
+```
+Case 1: The souls existed beforehand while knowing
+   ↓
+The world they lived in is the creative world (eternal, perfect)
+   ↓
+Such a world admits no impossibility, no accident, no removal of what was had
+   ↓
+Therefore "forgetting" cannot occur there
+   ↓
+Case 1 is ruled out
+
+Case 2: The souls were granted from this lower world and came to learn
+   ↓
+At their outset either they were ignorant in themselves OR ignorant for an accident
+   ↓
+Branch 2a: Ignorant in themselves
+   → Ignorance is intrinsic to them; they could never come to know
+   → Contradicts observation (we see souls learning after not knowing)
+   → Ruled out
+Branch 2b: Ignorant for an accident
+   → Accident is from this world (natural) OR from the higher world (creative)
+   → If creative: that world admits no such accident; ruled out
+   → If natural: claim is true, but it is about the natural soul, not the universal Soul
+   ↓
+Case 2 either fails or describes a different soul
+```
+
+Verdict: the "forgetting" attack either contradicts itself (because the creative-world Soul cannot host the accident of forgetting) or describes natural human souls (which is true, but irrelevant to *Jonathan's* universal Soul).
+
+The Quranic register of "forgetting." The verse of the primordial covenant (*Mithaq*) names exactly the kind of soul to which the language of "forgetting" applies.
+
+> *Wa-idh akhadha rabbuka min bani Adama min zuhurihim dhurriyyatahum wa-ashhadahum 'ala anfusihim: a-lastu bi-rabbikum? Qalu bala shahidna, an taquluyawma al-qiyamati inna kunna 'an hadha ghafilin.*
+> *And when your Lord took from the children of Adam, from their loins, their descendants and made them testify of themselves: Am I not your Lord? They said: Yes, we have testified. Lest you should say on the Day of Resurrection: Indeed, of this we were unaware.*
+> Quran 7:172, Sahih International translation.
+
+The verse speaks of the children of Adam, the natural souls that came into being knowing and are answerable for what they then forget under the weight of nature. The verse does not say of the First Intellect, nor of the Successor Soul, that it forgot.
+
+The Sufi register of the same image. *Jalal al-Din Rumi* opens his *Mathnawi* with the figure of the reed cut from the reed-bed, complaining of separations.
+
+> *Bishnaw in nay chun shikayat mi-kunad, az juda'i-ha hikayat mi-kunad.*
+> *Listen to the reed, how it tells a tale, complaining of separations.*
+> Rumi, *Mathnawi*, Book 1, Verse 1, R. A. Nicholson translation.
+
+The reed of the *Mathnawi* is the same kind of soul *the author* has just sorted out from *Samuel's* attack. The reed remembers a higher world; the reed forgets and laments. The reed is the natural soul, not the universal Soul whose perfection was complete from the first instant of its existence.
+
+## Sub-chapter thirty-one: souls of the creative world cannot accept accidents
+
+A three-row argument crystallizing the impossibility from another angle.
+
+| Property | Creative-world Soul | Natural-world soul |
+|---|---|---|
+| Mode of existence | First of all on the side of creativity and emancipation from the highest rank | Hovering between potentiality and actuality |
+| Acceptance of accidents | Barred. Acceptance follows from hovering; the creative world does not hover | Open. Acceptance follows from the way bodily things are divided |
+| Perfection in time | Granted from the very beginning of existence, which is eternal | Attained by acquisition through time |
+
+Therefore: if forgetting is an accident, and accidents befall only that which hovers between potentiality and actuality, the creative-world Soul cannot forget. *Samuel's* claim refutes itself once the locus of his soul is held fixed.
+
+## Sub-chapter thirty-two: to whom forgetting actually applies
+
+The annotated structure of where forgetting genuinely lives.
+
+Whole: the population of souls in the natural world.
+
+Parts and annotations:
+
+| Part | Annotation |
+|---|---|
+| Souls prepared from the world of nature | Forgetting befalls them because they enter the accidents of nature according to the causes of their existence |
+| Souls contented with the legal rites | They become the richest of souls when rationally connected to the First Principle |
+| Souls connected to the First Principle | Named by the author: the Intellect, the Second Revival, the Latter, and the First Resurrection, as explained in *With Peace of Mind* |
+
+The bite: *Samuel's* own later book *al-Maqalid* contains, in its forty-fourth proposition (modeled after Euclid's forty-fourth), a proof that natural souls cannot have come from the world of intellect, which contradicts the very position *Samuel* takes in *The Defense*.
+
+*the author's* gesture in noting this:
+
+- Catches the contradiction precisely
+- Attributes the contradiction to chronological development (*al-Maqalid* came after *The Defense*)
+- Prays for *Samuel's* seat with the pure loyalists in the Holy House
+- Asks for goodness to be sealed for the religion and the world
+
+The praying-for-the-opponent-while-correcting-him gesture is constant. *Samuel* is *the author's* own teacher.
+
+## Sub-chapter thirty-three: the Intellect in its entirety does not forget
+
+A contrast pair on what the Intellect-as-a-whole admits and what it does not.
+
+Column A: the Intellect in its entirety (as *Samuel* concedes)
+
+- Does not forget its world
+- Does not incline toward nature
+- Does not desire nature
+- Higher and loftier than to have any share of the natural world
+- Connected to the natural world only by overflow, to complete what is not yet perfect
+
+Column B: souls that have acquired knowledge and works and become attached to the abode of nature
+
+- Resemble the intellects that have gone forth in perfection
+- Examples: souls of the prophets and the foundations who stand in their place
+- Also: the outgoing intellects (First, Second, Previous, Latter, Creative, Emanated)
+- *Resemble* the Intellect; are not identical with the First Intellect
+
+*the author's* answer to *Samuel's* attempted afterthought (that the Soul would not have desired to produce the natural effect if it were perfect):
+
+- *Samuel's* statement implies that nature is the effect of souls
+- But the universe of heavens, planets, natures, and births cannot be confined to human comprehension
+- The perfect does not desire its own condition in what is beneath it
+- Therefore: the existence of the natural world alongside the First Emanator must be granted as it is, without taking the Soul's desire for nature as evidence of its deficiency
+
+## Sub-chapter thirty-four: the four divisions of existence
+
+A hierarchy tree showing the Wise One's fourfold division and *the author's* corrective gloss.
+
+Level 1: All things exist in four senses
+  Level 2: In the objects of things (*al-a'yan*)
+    Level 3: Things outside the soul with a meaning in themselves, like the body with length, width, depth
+  Level 2: In the idea (*al-dhihn*)
+    Level 3: Things with no self outside the soul, present in the mind, like genus, place, the imagined circle of motion
+  Level 2: In the words (*al-lafz*)
+    Level 3: Things in speech, like affirmative and negative propositions
+  Level 2: In writing (*al-kitaba*)
+    Level 3: Things in writing, including the superabundant divine matters bestowed on the prophets and supporters
+
+The chain of representation across the four levels:
+
+```
+Object → represented by → Idea → represented by → Word → represented by → Writing
+```
+
+Each lower level is a deputy of the level above. Writing is a deputy for speech; speech is a deputy for the soul; the soul represents the things outside it by imagining them.
+
+The annotation on each level:
+
+| Level | What sits there | Annotation |
+|---|---|---|
+| Object | Body, with length, width, depth | What has a self outside the soul |
+| Idea | Genus, place, imagined circles | What is present in mind without a self outside |
+| Word | Propositions, affirmative and negative | What exists in the spoken articulation |
+| Writing | Divine matters in inscribed forms | The form's deposit; without it, the soul has no perception and the existence becomes futile |
+
+*the author's* correction: this fourfold division was meant by the Wise One as a description of how things exist for souls *in the natural world*. To turn it into a proof of the universal Soul's inferiority to the Intellect is to misread the philosopher's intent. If the words of *the owner of the book The Defense* are carried upon natural souls that have risen and become Second Emanation, *Samuel* is correct; otherwise he is not.
+
+## Sub-chapter thirty-five: the natural soul, again
+
+A short contrast pair turning the fourfold division around onto thought itself.
+
+Column A: thought as a power of the natural soul
+
+- Belongs to souls in the natural world
+- A power to acquire what the soul does not yet possess the image of
+- End-state: becoming dispensable; the soul no longer needs to think what it has already encompassed
+- Proof of perfection-by-acquisition; the soul rises in degree through thought
+
+Column B: what thought is NOT for the Intellect
+
+- The First and the Successor Soul do not need thought to acquire
+- Their perfection is granted at the first instant of existence
+- "Thought" as acquisition does not apply where there is nothing left to acquire
+
+Shared row: the next thing meant by *Jonathan* is the flood of blessings upon the world's existents, the newborns. *Jonathan* gave his power first and enriched it; the soul became richer. The partisanship of *Samuel* against *Jonathan* appears here: what *Samuel* said is true if pertained to the natural, not if it is carried into the Holy House.
+
+## Sub-chapter thirty-six: deficiency is not caused by duration
+
+A contrast pair sorting out *Samuel's* time-and-deficiency confusion.
+
+Column A: *Samuel's* attack
+
+- If deficiency lay in time, then the shorter the time the more complete the act
+- But we observe that some things are more complete in a shorter time
+- Therefore time cannot be the cause of perfection or deficiency
+- The deficiency of a thing comes from the deficiency of the doer, or the substance, or both
+
+Column B: *Jonathan's* actual claim, as *the author* reads it
+
+- *Jonathan* did NOT claim that all action-in-time is deficient
+- *Jonathan* claimed: what is implicated in meaning is attained through time; the duration is the deficiency
+- The deficiency is in the soul that follows the overflow and accepts the form only in time, days, months, and years
+- Once the meaning is obtained, the thing is complete in observation, perfect when it receives it
+
+Shared row: *Samuel* attacks a position *Jonathan* did not hold. If *Samuel's* statement is carried upon natural souls' acquisition, *Samuel* is correct; if not, the attack misses. *Samuel* wished to be an advocate for his teacher; the wish does not reach the position *Jonathan* actually held.
+
+## Sub-chapter thirty-seven: Intellect and time were created together?
+
+A four-row dispute matrix and *the author's* extraction of what is correct from each side.
+
+| Claim | *Jonathan* in *The Correction* | *Samuel* in *The Defense* | *the author's* verdict |
+|---|---|---|---|
+| What was created together | The Most High Creator (*al-Bari*) created the intellect and time together in one fell swoop | Time is the measure of motion; motion belongs only to the heavens; so the heavens and the time-from-their-motions were with the intellect at once | *Jonathan* erred. Intellect and time cannot be co-present. The corrected order: Intellect → heavens → time |
+| Powerful and corrupt beings | (Not the topic) | Permissible to say they were with the intellect at once | Rejected. Co-presence with the First Intellect is impossible |
+| Identity of intellect and time | (Implicitly collapses them) | Either two things or one thing; if one, plural names do not split the one; the intellect is itself without time | The intellect is without time; this part of *Samuel* is correct |
+| What precedes the Intellect | (Not stated) | Time does not precede the Intellect; eternity and pre-eternity precede it | *Samuel* erred here. Nothing lies ahead of the First Intellect of the kind that "preceding" names |
+
+The pattern of *the author's* method:
+
+- Both disputants are partly correct, partly mistaken
+- *Samuel's* substantive denial (Intellect and time cannot be co-present) is correct
+- *Samuel's* further claim (eternity precedes the Intellect) is wrong
+- *Jonathan's* original collapse (Intellect and time created together) is wrong
+- *the author* extracts what is correct from each and replaces the mistaken with his own settled doctrine
+
+The deeper anchor. *Imam Ali, Commander of the Faithful*, speaks the same logic in the opening sermon of *the book The Path of Eloquence*, compiled by the compiler of the sermons four centuries before *the author*.
+
+> *La tashabuhu al-awqatu wa-la tarfiduhu al-adwat, sabaqa al-awqata kawnuhu, wa-l-'adama wujuduhu, wa-l-ibtida'a azaliyyatuhu.*
+> *Times do not accompany Him, nor do instruments aid Him. His being preceded times; His existence preceded non-existence; His eternity preceded any beginning.*
+> The book *The Path of Eloquence*, Sermon 1, compiled by the compiler of the sermons.
+
+To ask whether the Intellect was *with* time, *before* time, or *after* time is to import the category of natural duration into the place where it does not apply. *the Commander of the Faithful* refuses that category. The pre-eternal is not earlier in time; it is the rank that has no earlier and no later of the kind by which times are measured.
+
+## Sub-chapter thirty-eight: closing the chapter
+
+A short contrast pair and a broader reflection.
+
+Column A: *Samuel's* final claim
+
+- The intellect became perfect because it was not subject to anything except the Almighty
+- The soul became imperfect because it was subject to nature
+- Therefore the soul is in itself less perfect than the intellect
+
+Column B: *the author's* wider response
+
+- The philosophers, even the most advanced, continued to err in many matters of intellect
+- Had they lived in the time of the *Alawite* call, they would have seen the springs of grace overflowing from the House of Revelation
+- With diligence and the traces of the One for whom God made a light in the mysteries, they would have corrected much of their belief
+- The exoteric of the Hanafi school relied on their own intellects; their opinions diverged into truth and error in measure
+- The balance of religion is the horizons and the souls (echoing Quran 41:53); whoever weighs by it finds the foregoing discourse sufficient
+
+The summary axis: it is not that the soul-vs-intellect contrast is wrong; it is that *Samuel's* reading misidentifies which soul is being compared to which intellect, and so reaches conclusions that follow the words rather than the things.
+
+## The closing prayer
+
+The seal of the whole chapter, preserved as the author wrote it.
+
+> We ask God to enlighten our intellects, to seal our affairs with happiness, and to grant us success in good words and good deeds, by virtue of His being, His kindness, and His generosity.
+> *Kitab al-Riyad*, closing of Chapter One.
+
+The trajectory the prayer rests on:
+
+- The doctrinal work has been the long extraction of one formula across thirty-eight sub-chapters
+- The formula: perfect in self, deficient only in addition; rank is not identity
+- *Jonathan's* doctrine is rescued in formulations cleaner than *Jonathan's* own
+- *Samuel's* attack is taken apart move by move, with the slippage between universal Soul and sensual soul named explicitly
+- The lived consequence: *monotheism* (monotheism) is not only a thesis to defend; it is the clarity that lets souls in the natural world move toward the second perfection that is theirs by right
+- The chapter ends as it began: with attention to the descent of authority, the prayer being a small mirror of the invocation chain that opened the book
+
+## Verbatim anchor quotes (preserved for slide use)
+
+Six anchor passages from this chapter that should appear on slides as written, with attribution.
+
+> Awwal ma khalaqa Allahu al-'aqla, fa-qala lahu: aqbil, fa-aqbal, thumma qala lahu: adbir, fa-adbar. Thumma qala: wa-'izzati wa-jalali ma khalaqtu khalqan ahabba ilayya minka.
+> The first thing Allah created was the Intellect. He said to it: come forward, and it came forward; then He said to it: go back, and it went back. Then He said: by My might and majesty, I have not created any creation more beloved to Me than you.
+> The canonical hadith collection of the school, Volume 1, Kitab al-'Aql wa al-Jahl, Hadith 1; reported from *Imam the sixth Imam*.
+
+> Inna the soula la-ammaratun bi-l-su' illa ma rahima rabbi.
+> Indeed, the soul is ever inclined to evil, except those upon which my Lord has mercy.
+> Quran 12:53, Sahih International translation.
+
+> Ya ayyatuha an-nafsu al-mutma'innah, irji'i ila rabbiki radiyatan mardiyyah.
+> O soul at peace, return to your Lord, well-pleased and pleasing.
+> Quran 89:27-28, Sahih International translation.
+
+> Wa-idh akhadha rabbuka min bani Adama min zuhurihim dhurriyyatahum wa-ashhadahum 'ala anfusihim: a-lastu bi-rabbikum?
+> And when your Lord took from the children of Adam, from their loins, their descendants and made them testify of themselves: Am I not your Lord?
+> Quran 7:172, Sahih International translation.
+
+> La tashabuhu al-awqatu wa-la tarfiduhu al-adwat, sabaqa al-awqata kawnuhu, wa-l-'adama wujuduhu, wa-l-ibtida'a azaliyyatuhu.
+> Times do not accompany Him, nor do instruments aid Him. His being preceded times; His existence preceded non-existence; His eternity preceded any beginning.
+> The book *The Path of Eloquence*, Sermon 1, compiled by the compiler of the sermons.
+
+> We ask God to enlighten our intellects, to seal our affairs with happiness, and to grant us success in good words and good deeds, by virtue of His being, His kindness, and His generosity.
+> *Kitab al-Riyad*, closing of Chapter One.
+
+## What carries into Chapter Two
+
+A short hierarchy of what the next chapter will inherit and what it will sharpen.
+
+Inherited intact:
+
+- The formula: perfect in self, deficient only in addition
+- The rank-vs-identity distinction
+- The discipline of extracting what is correct from each disputant
+- The praying-for-the-opponent-while-correcting-him gesture
+
+Narrowed and sharpened:
+
+- Chapter Two narrows from the Soul to the First Intellect, the First Creator
+- Nine sub-chapters, tighter than Chapter One's thirty-eight
+- One foot already in the explicit critique of *The Harvest* that will close the book
+- The settled doctrine on emanation from sub-chapter twenty-nine becomes the platform for direct treatment of the First Intellect's independence
+
+The soul who has heard Chapter One walks into Chapter Two already knowing: rank is not identity; only the complete confers completion; the universal Soul is not the natural soul; time is downstream of the sphere's motion; nothing lies ahead of the First Intellect of the kind that "preceding" names. The next chapter does not relitigate these; it builds on them.
