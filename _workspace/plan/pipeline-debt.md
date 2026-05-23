@@ -97,9 +97,9 @@ This sequence is what unlocks shipping new books under v4-revised doctrine.
 |---|---|---|---|
 | **F25 generation** | Phase 0g show-notes auto-generation (apparatus-table rows from `name-aliases.yml v2`) | ~half-day | Schema landed ([f25-apparatus-table-schema.md](f25-apparatus-table-schema.md)). Validator #8 landed in [build_episode_txt.py](../../scripts/podcast/build_episode_txt.py) — defensive (silent skip when file absent). Generation depends on F26. |
 | **F26** | `name-aliases.yml v2` schema (figure → category / written form / audio label / first-use anchor) | ~half-day | Unblocks F25 generation + F23 book-thesis coherence checks. |
-| **F24 prompt** | Phase 0e alqaab functional-paraphrase prompt patch | ~30 min | Validator #7 exists; needs Phase 0e prompt to actively produce paraphrases instead of literal translations. |
+| ~~**F24 prompt**~~ | ~~Phase 0e alqaab functional-paraphrase prompt patch~~ | ~~~30 min~~ | **LANDED 2026-05-22** in commit `23009eb` (v4-revised propagation). Verified 2026-05-23 in [_authoring.py:1103-1107](../../scripts/podcast/_authoring.py#L1103-L1107) (Phase 0e) and [_authoring.py:1375-1382](../../scripts/podcast/_authoring.py#L1375-L1382) (Phase 0g). Both sites carry the established-alqaab whitelist + functional-paraphrase patterns + "the Striker/Returner sound like sports nicknames" anti-pattern callout. |
 
-Everything else on the F-list is P1/P2 quality-of-life. The framework can ship the next book under v4-revised doctrine right now; F25 + F26 + F24-prompt are remaining compounding investments.
+Everything else on the F-list is P1/P2 quality-of-life. The framework can ship the next book under v4-revised doctrine right now; F25 generation + F26 are the remaining compounding investments.
 
 ### Cohesion-audit fixes landed 2026-05-23
 
