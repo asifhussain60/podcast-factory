@@ -88,15 +88,32 @@ current_phase_status_summary: |
   - No Quranic-quote corpus validator (proposed F27 #8).
   - No template-variable-corruption static check (proposed F27 #9).
 next_action: |
-  **KaR is shipped (ship-with-caution).** Air's content work on this book is COMPLETE.
-  All framework-lane work this branch carried (F27 validators, v4-revised doctrine,
-  F24 alqaab, G2 chapter-set advisory, G3 async-safety lock, F25 validator + schema)
-  has either landed in develop on its own commits or been cherry-picked into develop
-  via this 2026-05-23 publication. See [pipeline-debt.md](../pipeline-debt.md) for
-  current open P0 list (F26 + F25-generation remain).
+  **KaR is COMPLETED, SHIPPED, and PUBLISHED (confirmed 2026-05-23).**
+    - Completed: all 15 EPs in completed_slugs; per-chapter.status=completed
+    - Shipped: state.json phase=done, last_completed=merge, verdict=ship-with-caution
+    - Published (in-repo): overlay-merged to develop via commit 4e26c46
+    - Published (library): library/books/kitab-al-riyad/ filesystem-only (per Option 2 layout)
+    - Book-queue: row marked archetype-driven-manual-finish complete
 
-  Next book in queue is asaas-al-taveel (Studio's lane). Air is available for the
-  next Islamic-scholastic book once Studio resumes asaas under v4-revised doctrine.
+  All framework-lane work this branch carried has been published to develop:
+    - F27 validators (7-of-8) + v4-revised doctrine + F24 alqaab: already on develop
+      pre-session (commits 3631bc0 + 23009eb)
+    - G2 chapter-set advisory + G3 async-safety lockfile + F25 validator #8 +
+      schema doc + pipeline-debt reconciliation: cherry-picked to develop
+      2026-05-23 (develop @ 762ba84 after 5c7f0e8 → 8fbd6c8 → 4663179 → 762ba84)
+
+  Air is now AVAILABLE for the next Islamic-scholastic book once Studio decides
+  the queue. Studio's asaas-al-taveel lane is HOLDING-FOR-OPERATOR-GATES on
+  Asif's §§1-8 operator-review.md completion; do not begin asaas without
+  explicit operator authorization.
+
+  Residual hygiene (low-priority; for whoever next drives the book queue):
+    (a) KaR state.json shows trainer=pending while merge+done=completed —
+        archetype-driven manual finish skipped trainer; never-ran-but-state-says-
+        pending. Surface to F26 driver for cleanup.
+    (b) F26 name-aliases.yml v2 schema is the next P0 framework unlock; design
+        decisions required from Asif before implementation.
+    (c) F25 generation (Phase 0g show-notes auto-emit) depends on F26.
 
   Air-side pending sync tasks STILL deferred:
     (a) reconcile the 2026-05-21T11:50Z WRITE EXCEPTION blockquote;
