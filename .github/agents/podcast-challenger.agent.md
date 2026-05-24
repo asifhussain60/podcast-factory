@@ -1,7 +1,7 @@
 ---
 name: podcast-challenger
 description: "Semantic-quality challenger for podcasted-book chapters (uploaded to NotebookLM as the SOURCE) and framings/episode-txts (pasted into the NotebookLM Customize prompt box). Validates everything `build_episode_txt.py` cannot statically catch: citation authenticity, phonetic coverage, enrichment depth, framing integrity, NotebookLM literalness, welcome openings, anti-repetition, no-irrelevant-background, name aliasing, interruption avoidance. Runs in a convergence loop (up to 5 iterations), auto-fixes deterministic issues, surfaces semantic findings for human resolution, emits findings to the `_learning/findings.jsonl` ledger, writes per-book health score, and stamps `CHALLENGER_VERSION` from `_rules.py` into every report. Book-agnostic: caller supplies `<book-slug>`. Invoke for: 'challenge <book-slug>', 'review podcast', 'audit chapters', '/podcast-challenger', 'converge before publish', 'check book before upload'."
-tools: [read, edit, search, execute]
+tools: Read, Edit, Glob, Grep, Bash
 
 # Canonical challenger contract (peer with.github/agents/journal-challenger.agent.md)
 challenger_contract:
@@ -291,6 +291,23 @@ Mode dispatch: read `contract.episode_format`. When absent or `deep_dive`, skip 
 - **F4 (Central tensions named)** — debate replaces tensions with the single proposition + paired positions. F4 does not apply when `episode_format: debate`; the equivalent check is P1 (debate block populated).
 - **K1/K2 (interruption avoidance + filler-vocabulary)** — debate mode allows qualified concessions. The acknowledgment-grammar ban is softened per P11; bare affirmations remain forbidden.
 - **F6 (Steering phrases)** — the steering phrases from `two-host-framing.md` are deep-dive specific. Debate uses different steering phrases from `debate-framing.md` §NotebookLM steering for debate format.
+
+### Category Q: Host role parity book-wide (P0) — R-HOST-ROLE-PARITY — added 2026-05-24
+
+Host A (male voice) is **always** the scholar / teacher / master. Host B (female voice) is **always** the seeker / student / debater / disciple. The role assignments do **not** rotate, swap, or blur across episodes within a single book. This rule applies to every framing the pipeline emits and is gate-checked at every challenger pass (including extract-mode contract validation and per-episode framing review).
+
+Canonical role pools (from [`scripts/podcast/_rules.py`](../../scripts/podcast/_rules.py) — `HOST_A_ROLES_SCHOLAR` + `HOST_B_ROLES_SEEKER`):
+
+- Host A role ∈ `{scholar, teacher, master, alim, aalim, shaykh, sheikh, guide, expert, mentor, professor}`
+- Host B role ∈ `{seeker, student, debater, questioner, novice, disciple, ghulam, ghulaam, apprentice, interlocutor, challenger}`
+
+| ID | Check | Detection | Remediation |
+|---|---|---|---|
+| Q1 | **Host A role in framing ∈ HOST_A_ROLES_SCHOLAR** — `framing.host_a.role` (debate mode) OR the prose role declaration (deep-dive mode) matches the scholar pool. | YAML field check (debate) / regex scan of opening section (deep-dive). | Flag (P0) on mismatch. Authoring re-emit required. |
+| Q2 | **Host B role in framing ∈ HOST_B_ROLES_SEEKER** — `framing.host_b.role` OR prose role declaration matches the seeker pool. | YAML field check / regex scan. | Flag (P0) on mismatch. |
+| Q3 | **Role parity holds across all episodes of the same book** — when authoring or challenging episode N, read the prior N-1 framings (`framings/EP*-*.md` under the same book_dir). All N framings declare Host A as the same scholar-pool role and Host B as the same seeker-pool role. A role that swaps mid-book is a P0. | Read sibling framings; collect host_a.role + host_b.role; verify all equal up to pool equivalence. | Flag (P0). The first episode that diverges from the established book-wide pair is the one re-emitted, not the prior ones. |
+| Q4 | **Voice / gender pairing is declared and consistent** — `framing.notebooklm_voices` (or equivalent steering) names Host A as the male voice and Host B as the female voice. NotebookLM Audio Overview's default English voice pair is (Hannah=female, John=male); the framing must name them consistently with HOST_VOICE_GENDER. | Substring scan for the voice-gender pairing in steering / Voice constraints section. | Auto-fix (insert canonical voice-gender pairing block). |
+| Q5 | **Transcript empirical: scholar/seeker positions held** — when `transcripts/EP##-<slug>.transcript.txt` exists, scan for the female voice taking the scholar position ("Let me explain X to you" delivered by the female host) or the male voice taking the seeker position ("I have no idea, can you teach me?" delivered by the male host). The challenger uses NotebookLM speaker-attribution metadata when available, falls back to alternating-line heuristic otherwise. | Speaker-attributed scan. | Flag (P1) per role-violating turn; report counts. |
 
 ### Category R: Conversation choreography (P0/P1/P2) — added 2026-05-18
 
@@ -608,6 +625,8 @@ When invoked:
 ---
 
 ## Version
+
+v2.1 (2026-05-24). **Host role parity book-wide (P0) + episode format recommendation (P1).** Added Category Q (Host role parity book-wide) — Host A (male voice) is always the scholar/teacher pool; Host B (female voice) is always the seeker/student/debater pool; roles do not rotate, swap, or blur across episodes within a single book. Five checks: Q1 (host A role in scholar pool), Q2 (host B role in seeker pool), Q3 (role parity across all episodes of the same book — read sibling framings to verify), Q4 (voice/gender pairing declared and consistent with NotebookLM default voices via `HOST_VOICE_GENDER` in `_rules.py`), Q5 (transcript empirical: scholar/seeker positions held by the right voice). Canonical role pools live in [`scripts/podcast/_rules.py`](../../scripts/podcast/_rules.py) — `HOST_A_ROLES_SCHOLAR` (12 terms) + `HOST_B_ROLES_SEEKER` (11 terms). New R-EPISODE-FORMAT-RECOMMENDED — every chapter-contract declares `episode_format: deep_dive | debate` with rationale; missing or partial debate blocks are P1 (extract mode already validates at chapter-contract write time per Category P; this elevates the requirement to the contract-design phase via `EPISODE_FORMAT_ALLOWED` enum in `_rules.py`). `CHALLENGER_VERSION` bumped 2.0 → 2.1.
 
 v2.0 (2026-05-18, late evening). **Closed-loop learning substrate.** Added the `_learning/` substrate (READMEd at `content/podcast/.skill/_learning/README.md`) wiring four new pieces around the existing sense-stage scripts: (1) **findings ledger** — every finding this agent surfaces AND every audit_transcript.py hit appends one JSONL record to `_learning/findings.jsonl` via `emit_finding()` in `scripts/podcast/_rules.py`; (2) **aggregator** — `scripts/podcast/learn_aggregate.py` groups the ledger by signature into `_learning/patterns.md`; (3) **proposer** — `scripts/podcast/learn_propose.py` emits rule-promotion markdown proposals under `_learning/proposals/` for any signature crossing thresholds (≥2 books OR ≥3 episodes); (4) **regression harness** — `scripts/podcast/test_challenger.py` runs the deterministic auto-fix detectors against frozen `_learning/fixtures/<check-id>/` corpora and exits non-zero on any regression; bootstrap fixtures shipped for B5, O1, N1, M3, R4. New `scripts/podcast/write_health.py` writes `_learning/health/<book-slug>.json` and appends to `BOOK_DIR/_system/health-trend.md` after every challenger run; score formula `1 − (P0·1.0 + P1·0.2 + P2·0.05) / chapters`. Single-source `CHALLENGER_VERSION` constant in `_rules.py` (this is v2.0) stamped into every sidecar report and every ledger record. Cold-start file list extended (16+2 → 19 — added `_learning/README.md`, `learn_aggregate.py`, `learn_propose.py`). Section 5 sidecar report gains a mandatory ledger-emission step. Section 6 integration adds the post-SHIP-READY hook in `/podcast` Phase 4. E1 reconciled: the actual build-script hard cap is `FRAMING_WORD_MAX = 3500`, not 3,000; the prior soft-band of 200–2,000 is retained as a warning band but does NOT block insertion of mandatory R-* clauses up to 3,500.
 

@@ -1,7 +1,7 @@
 ---
 name: podcast-blueprint
 description: "Content-aware episode-structure planner for the /podcast skill. Runs in slot 05.5-blueprint between the P22 transcript-review resume and 06-phonetics. Three layers: Layer 1 (Haiku-default scan/classify → classification.json with genre, density, narrative_mode, structural_units, cross_reference_load, vocabulary_contestedness, recommended_model_for_layer_2, recommended_audience_profile, recommended_source_tradition, recommended_episode_planning_mode); Layer 2 (episode-plan.md, model dictated by Layer 1 unless --force-model overrides); Layer 3 (arc-conventions.md DRAFT, first-run only, NEVER overwrites). Tradition-agnostic; seeds P23's series-config.yaml audience_profile + source_tradition via proposed-config.yaml patch on --approve-blueprint. Anti-requirement: NO global episode template — every book is classified, every book's planning mode is genre-appropriate (tribunal_arc / chronological / problem_solution / vignette_grid / dialectical_pairs). Invoke for: 'blueprint <book-slug>', 'classify book', '/podcast-blueprint', 'plan episodes for <slug>'. Canonical tracked location."
-tools: [read, edit, search, execute]
+tools: Read, Edit, Glob, Grep, Bash
 
 # Locked decisions (operator-set 2026-05-20; NOT debatable)
 locked_decisions:
