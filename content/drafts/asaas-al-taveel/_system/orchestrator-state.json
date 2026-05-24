@@ -89,5 +89,6 @@
   "config": {
     "length_tier": "extended",
     "unit_mode": "auto"
-  }
+  },
+  "pipeline_mode": "orchestrated"
 }

@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "book_slug": "the-master-and-the-disciple",
+  "category": "books",
+  "branch": "book/the-master-and-the-disciple",
+  "phase": "0d",
+  "phase_status": "pending",
+  "last_completed_phase": "0c",
+  "next_phase": "0d",
+  "last_error": null,
+  "pipeline_mode": "orchestrated",
+  "bootstrap_provenance": {
+    "bootstrapped_at": "2026-05-24T00:00:00Z",
+    "bootstrapped_by": "claude-on-podcast-factory",
+    "reason": "Book branch existed pre-orchestrator-state (created during 2026-05-22 manual reshape from origin/develop@62b488b). Bootstrapping a fresh state.json so the orchestrator can resume from 0d. Phases 0a/0b/0c were completed manually before the state-tracking schema applied.",
+    "evidence": [
+      "_system/source/images/ contains 95 Arabic-original PNGs",
+      "_system/source/text/refined-english.md assembled from chapters/ on 2026-05-24",
+      "_system/source/ocr/{raw-extract.md,translated-en.md,drift-report.md} generated 2026-05-24",
+      "chapters/ch00..ch07.md exist (8 curated English chapters, 45,155 words total)",
+      "notebooklm/ scaffolding present (00-source-index, 01-pronunciation, 02-glossary, etc.)",
+      "audits/final-review-report.md exists from prior NotebookLM-iteration",
+      "mp3/Chapter 1..7 + intro = 8 reference NotebookLM episodes for A/B comparison"
+    ]
+  },
+  "phases": {
+    "pre-flight": {"status": "completed", "ts_completed": "2026-05-22T00:00:00Z", "note": "manual"},
+    "branch": {"status": "completed", "ts_completed": "2026-05-24T00:00:00Z", "note": "checked out via standard book/<slug> per scripts/podcast/_branching.py"},
+    "scaffold": {"status": "completed", "ts_completed": "2026-05-23T00:00:00Z", "note": "manual reshape from origin/develop@62b488b"},
+    "0a": {"status": "completed", "ts_completed": "2026-05-23T00:00:00Z", "note": "OCR re-run 2026-05-24 into _system/source/ocr/ — drift report ratio 1.53× (curator added analogies)"},
+    "0b": {"status": "completed", "ts_completed": "2026-05-23T00:00:00Z", "note": "refined-english.md assembled from curated chapters/*.md"},
+    "0c": {"status": "completed", "ts_completed": "2026-05-23T00:00:00Z", "note": "phonetic normalizations applied in-line by curator (Hujjah, Imaam, Naa-tiq, Sharee-ah, etc.)"}
+  },
+  "completed_slugs": [],
+  "cost": {"docintel_usd": 0.0, "translator_usd": 0.0, "speech_usd": 0.0, "anthropic_usd": 0.0, "total_usd": 0.0},
+  "ts_started": "2026-05-22T00:00:00Z",
+  "ts_updated": "2026-05-24T00:00:00Z",
+  "wall_clock_sec": 0,
+  "orchestrator_version": "1.2",
+  "challenger_version": "2.0"
+}

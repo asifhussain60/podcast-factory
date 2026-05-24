@@ -25,14 +25,14 @@ completed_episodes:
 
 publication:
   status: shipped_then_lost_in_restructure
-  shipped_via: scripts/podcast/ship_to_library.py
+  shipped_via: scripts/podcast/publish_to_library.py
   publication_target: ../../published/books/islr-mas-i/
   publication_note: |
     EP01–EP07 were originally shipped to content/podcast/library/books/islr-mas-i/
     on the now-deleted book/islr-mas-i branch (commits 1e3b7aa, 3bf1bb9, cb5f23f,
     0437478, d2d0093, 45f571e, 36df30c). The published copy was lost in the
     2026-05-23 restructure; content/published/books/islr-mas-i/ currently does
-    not exist. Re-publish via `scripts/podcast/ship_to_library.py islr-mas-i`
+    not exist. Re-publish via `scripts/podcast/publish_to_library.py islr-mas-i`
     when ready (verify EP01 chapter/episode txts first per provenance.notes).
 
 provenance:

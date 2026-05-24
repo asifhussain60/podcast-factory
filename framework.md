@@ -54,7 +54,7 @@ podcast-factory/
             └── _learning/                ← cross-book pattern learning substrate
 ```
 
-Promotion from workspace → library is one-way and explicit via `scripts/podcast/ship_to_library.py`; manual edits to `content/published/` are CI-checked.
+Promotion from workspace → library is one-way and explicit via `scripts/podcast/publish_to_library.py`; manual edits to `content/published/` are CI-checked.
 
 ---
 
@@ -79,13 +79,13 @@ Promotion from workspace → library is one-way and explicit via `scripts/podcas
 
 **Purpose:** Convert scholarly Arabic books into NotebookLM Audio Overview podcast series.
 
-**Owns:** `content/drafts/<slug>/` (orchestrator state + chapter contracts + chapters + episode drafts + transcripts), with promotion to `content/published/books/<slug>/` (shipped) via `ship_to_library.py`.
+**Owns:** `content/drafts/<slug>/` (orchestrator state + chapter contracts + chapters + episode drafts + transcripts), with promotion to `content/published/books/<slug>/` (shipped) via `publish_to_library.py`.
 
 **Reads:** sources Asif provides + `content/podcast/.skill/handbook/` references + `content/_shared/arabic/` (read-only).
 
 **Triggers:** `/podcast`, `/extract-chapter <ref>`, `claude --agent podcast-orchestrator`, `claude --agent podcast-operator`.
 
-**Phases:** 0a (ingest) → 0b (refine) → 0c (phonetic) → 0d (chapter design) → 0e (enrich) → 0f (review halt) → per-chapter authoring (extract + framing + build → challenger convergence) → ship via `ship_to_library.py` → trainer.
+**Phases:** 0a (ingest) → 0b (refine) → 0c (phonetic) → 0d (chapter design) → 0e (enrich) → 0f (review halt) → per-chapter authoring (extract + framing + build → challenger convergence) → ship via `publish_to_library.py` → trainer.
 
 ---
 
