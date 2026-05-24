@@ -414,8 +414,8 @@
     }
     .diagram .how-to {
       font-family: var(--font-mono);
-      font-size: 0.78rem;
-      letter-spacing: 0.1em;
+      font-size: 0.88rem;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--accent);
       text-align: center;
@@ -450,18 +450,18 @@
     .svg-node strong {
       display: block;
       font-family: var(--font-serif);
-      font-size: 1rem;
+      font-size: 1.15rem;
       font-weight: 600;
       color: var(--text);
       line-height: 1.2;
-      margin-bottom: 0.15rem;
+      margin-bottom: 0.2rem;
     }
     .svg-node .sub {
       display: block;
       font-family: var(--font-mono);
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      line-height: 1.3;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.35;
     }
     .svg-node .lg-title {
       font-family: var(--font-serif);
@@ -469,19 +469,22 @@
       font-weight: 600;
     }
 
-    /* Edge labels chip — sits over SVG paths */
+    /* Edge labels chip — sits over SVG paths. Bumped from 0.78rem to
+       0.92rem because foreignObject inside viewBox-1400 svg in a ~1320px
+       container scales text down by ~6%; 0.92rem renders as ~13.8px. */
     .svg-edge-label {
       background: var(--label-chip);
       color: var(--text);
       font-family: var(--font-mono);
-      font-size: 0.78rem;
-      padding: 0.25rem 0.55rem;
+      font-size: 0.92rem;
+      padding: 0.3rem 0.65rem;
       border-radius: 4px;
       border: 1px solid var(--line-strong);
       white-space: nowrap;
       text-align: center;
       display: inline-block;
       line-height: 1.3;
+      font-weight: 500;
     }
 
     /* SVG path styles */

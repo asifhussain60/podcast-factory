@@ -66,6 +66,22 @@ When any of these change, the page must change. Stale dates without content upda
 8. **Color usage**: editorial-modern means warm RESTRAINED palette — but "restrained" does NOT mean "low contrast." Use the existing `--accent` and `--accent-secondary` variables for emphasis. Reserve color for semantic meaning (e.g., gates use green/red for pass/fail, phases use a gradient by stage). Don't make everything the same purple-grey.
 9. **Typography on diagrams**: SVG text uses `var(--font-mono)` for technical labels (paths, slugs, function names) and `var(--font-serif)` for human-readable headings. HTML cards (sections 2, 3, 5, 6) use `var(--font-serif)` for titles (18-20px), body text 15-16px, mono accents 13-14px.
 
+### Locked minimum font-sizes (after third-run feedback 2026-05-24)
+
+When viewBox is wider than the container (typical: viewBox 1400, container ~1320px → ~0.94 scale), foreignObject HTML text gets visually scaled DOWN. To stay above the 13px on-screen floor, use these MINIMUMS:
+
+| Selector | Minimum font-size | Reason |
+|---|---|---|
+| `.svg-node strong` (title inside foreignObject) | `1.15rem` (18.4px → ~17.3px) | Headline text inside diagram nodes |
+| `.svg-node .sub` (subtitle inside foreignObject) | `0.95rem` (15.2px → ~14.3px) | Mono technical labels under titles |
+| `.svg-edge-label` (chip over SVG paths) | `0.92rem` (14.7px → ~13.8px) | Edge labels (BLOCKED, SHIP-READY, etc.) |
+| `.diagram .how-to` (interactive-diagram hint) | `0.88rem` (14.1px) | "Click any X to expand" affordance |
+| `.svg-node .sub` color | `var(--text-secondary)` NOT `--text-muted` | Higher contrast at small sizes |
+| HTML body inside HTML cards (sections 2/3/5/6) | `1rem` (16px) | Native, no scaling |
+| HTML card titles | `1.25rem` (20px) minimum | Native, no scaling |
+
+If you find yourself needing smaller text than these minimums for layout reasons, the layout is wrong — restructure to give text more room rather than shrinking it.
+
 ### Best-practice references (consulted)
 
 - **Observable / D3 community**: card-based "diagrams" should be HTML+CSS; SVG only when computed positioning is required. (Bostock's own dashboards demonstrate this.)
