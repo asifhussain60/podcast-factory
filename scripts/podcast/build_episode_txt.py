@@ -549,10 +549,16 @@ def assert_framing_pronunciation_imperative(content: str, file_path: Path) -> No
             f"  The passive list does not change NotebookLM voice-model behavior — empirically\n"
             f"  hosts said 'tassel wolf' for *Tasawwuf* across three episodes."
         )
-    # Require at least one Pronounce line
-    if "Pronounce \"" not in block and 'Pronounce "' not in block:
+    # Require at least one Pronounce line. Accept BOTH `Pronounce "Term"` and
+    # `Pronounce *Term*` (italic-term form). The LLM author tends to emit
+    # the asterisks form for term-emphasis even though the canonical example
+    # uses quotes; both are functionally identical for NotebookLM TTS, which
+    # strips markdown markers before voicing.
+    pronounce_re = re.compile(r'^\s*Pronounce\s+(?:"[^"]+"|\*[^*]+\*)\s+as\s+["\']', re.MULTILINE)
+    if not pronounce_re.search(block):
         sys.exit(
-            f"ERROR: framing's `## Pronunciation` block has no imperative `Pronounce \"...\"` lines.\n"
+            f"ERROR: framing's `## Pronunciation` block has no imperative\n"
+            f"  `Pronounce \"Term\" as \"phonetic\".` (or italic-form `Pronounce *Term* as \"phonetic\".`) lines.\n"
             f"  File: {file_path}\n"
             f"  See R-PRONUNCIATION-IMPERATIVE."
         )
@@ -806,7 +812,15 @@ def assert_framing_analogy_cap_strict(content: str, file_path: Path) -> None:
 
 
 def assert_framing_no_modern_artifacts(content: str, file_path: Path) -> None:
-    """F27 #4: detect modern-vocabulary contamination in framing.md."""
+    """F27 #4: detect modern-vocabulary contamination in framing.md.
+
+    F31 fix (2026-05-24): the canonical `## Do not (forbidden vocabulary
+    and framings)` section lists the forbidden terms EXPLICITLY as a
+    reference for the LLM (and is required by assert_framing_deny_block).
+    Without scrubbing that section, this scan flags its own canonical
+    examples — same pattern f7068bf was trying to break. Strip both the
+    R-NOMODERNIZE section AND the `## Do not` section before scanning.
+    """
     scan_text = content.lower()
 
     # Strip the framing's own ban-list section (false-positive guard)
@@ -814,6 +828,15 @@ def assert_framing_no_modern_artifacts(content: str, file_path: Path) -> None:
         r"##\s+\d*\.?\s*R-NOMODERNIZE.*?(?=\n##\s|\Z)",
         "",
         scan_text,
+        flags=re.DOTALL,
+    )
+    # Strip the canonical `## Do not (forbidden vocabulary and framings)` section
+    # — assert_framing_deny_block REQUIRES this section to list specific phrases
+    # as examples; without scrubbing it, this scan flags those very examples.
+    scan_text_scrubbed = re.sub(
+        r"##\s+do not\s*\(forbidden vocabulary.*?(?=\n##\s|\Z)",
+        "",
+        scan_text_scrubbed,
         flags=re.DOTALL,
     )
 

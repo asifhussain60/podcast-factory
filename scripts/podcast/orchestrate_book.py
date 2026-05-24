@@ -871,6 +871,36 @@ def per_chapter_pass(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
             notes=[f"framing authoring failed: {e}"],
         )
 
+    # 2.5. Pre-flight lint (2026-05-24 architecture win): run pipeline_lint
+    # against the freshly-authored framing + chapter pair. This catches
+    # structural mismatches the LLM author may have produced (missing canonical
+    # sections, format violations) BEFORE the build script's hard gates do.
+    # Lint is deterministic and $0; surfaces same P0 punch list build does,
+    # but in JSON form the orchestrator can record without rc=1 noise.
+    import re as _re2
+    _chap_prefix = chapter_file.stem.split("-", 1)[0]
+    _m = _re2.match(r"ch(\d+)", _chap_prefix)
+    _chap_num = _m.group(1) if _m else _chap_prefix[2:]
+    _episode_id = f"EP{_chap_num}-{chapter_slug}"
+    _lint_path = Path(__file__).resolve().parent / "pipeline_lint.py"
+    _lint_rc, _lint_out, _lint_err = _run(
+        [sys.executable, str(_lint_path),
+         "--book-dir", str(book_dir),
+         "--episode", _episode_id]
+    )
+    if _lint_rc == 1:
+        # P0 in lint = build will refuse anyway. Surface as authoring failure
+        # so the orchestrator's fixer pass can attempt the fix without burning
+        # the build script's hard-exit on the same finding.
+        return ChapterOutcome(
+            chapter_slug=chapter_slug,
+            final_verdict="FAILED",
+            outer_iterations=0,
+            fixer_attempts=0,
+            p0_remaining=1, p1_remaining=0, p2_remaining=0,
+            notes=[f"pipeline_lint P0: framing structural mismatch:\n{_lint_out.strip()[:600]}"],
+        )
+
     # 3. Build the episode .txt — deterministic gate. We already resolved
     #    chapter_file above; derive the EP##-<slug> id from its name.
     #    Bug X3 (2026-05-21): some chapter filenames carry a letter suffix

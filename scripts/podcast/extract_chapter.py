@@ -798,6 +798,14 @@ The hosts must NOT do the following:
 - End on a question, not a conclusion.
 - NO cross-chapter references. This episode's chapter file is the entire source NotebookLM sees. The hosts must NOT say "the previous chapter showed", "as we'll see later", "the next chapter answers", "earlier in the book", etc. Treat the chapter as a self-contained episode.
 
+## Do not (forbidden vocabulary and framings)
+
+The hosts must NOT use any of the following — these are the canonical DENY lists per `scripts/podcast/_rules.py::MODERNIZE_DENY` + `SURPRISE_DENY`. The substring scanner in `build_episode_txt.py` refuses any framing that omits this block.
+
+- Modernization terms: Twitter, X (the platform), social media, algorithm, content creator, internet, YouTube, TikTok, Instagram, livestream, hashtag, 21st century, in our modern world, platforms like
+- Surprise-noise phrases: wow, that's so interesting, right?, it's chilling, it's devastating, it's terrifying, it's profound, it's fascinating, it's amazing
+- Imitation-of-authority: rephrasings of the work's original arguments in casual / commercial / self-help register
+
 ---
 
 Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.
@@ -915,6 +923,14 @@ The hosts must NOT do the following:
 - Close on the resolution beat as specified above, not on a host paraphrase.
 - NO cross-chapter references. This episode's chapter file is the entire source NotebookLM sees. The hosts must NOT say "the previous chapter showed", "as we'll see later", "the next chapter answers", "earlier in the book", etc. Treat the chapter as a self-contained episode.
 - HOST PAIRING is locked: Host A (male voice) = scholar/teacher/advocate-for-tradition pool; Host B (female voice) = seeker/student/debater/challenger pool. Do not assign female voice to the scholar role or male voice to the debater role.
+
+## Do not (forbidden vocabulary and framings)
+
+The hosts must NOT use any of the following — these are the canonical DENY lists per `scripts/podcast/_rules.py::MODERNIZE_DENY` + `SURPRISE_DENY`. The substring scanner in `build_episode_txt.py` refuses any framing that omits this block.
+
+- Modernization terms: Twitter, X (the platform), social media, algorithm, content creator, internet, YouTube, TikTok, Instagram, livestream, hashtag, 21st century, in our modern world, platforms like
+- Surprise-noise phrases: wow, that's so interesting, right?, it's chilling, it's devastating, it's terrifying, it's profound, it's fascinating, it's amazing
+- Imitation-of-authority: rephrasings of the work's original arguments in casual / commercial / self-help register
 
 ---
 

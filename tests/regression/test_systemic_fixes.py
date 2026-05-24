@@ -116,12 +116,23 @@ class TestNoModernizeSubstringsInTemplate(unittest.TestCase):
                                "source_moves": ["m1"]},
                 }
             rendered = extract_chapter.render_framing(c, chapter, 1)
-            rendered_lc = rendered.lower()
+            # Mirror build_episode_txt's scrubbing: strip the canonical
+            # `## Do not (forbidden vocabulary and framings)` section before
+            # scanning, since that section's EXAMPLES legitimately quote the
+            # forbidden phrases as a reference list for the LLM author.
+            rendered_scrubbed = re.sub(
+                r"##\s+Do not\s*\(forbidden vocabulary.*?(?=\n##\s|\Z)",
+                "",
+                rendered,
+                flags=re.DOTALL | re.IGNORECASE,
+            )
+            rendered_lc = rendered_scrubbed.lower()
             for term in self.modernize_terms:
                 self.assertNotIn(
                     term.lower(), rendered_lc,
                     f"{mode} framing template emits MODERNIZE_DENY substring "
-                    f"{term!r} (R-NO-MODERNIZE-IN-METADATA)"
+                    f"{term!r} OUTSIDE the canonical `## Do not` section "
+                    f"(R-NO-MODERNIZE-IN-METADATA)"
                 )
 
 
@@ -351,6 +362,96 @@ class TestNoStaleHandbookPaths(unittest.TestCase):
             "(retired 2026-05-23). Either restore the tree or rewrite to "
             "current authority:\n" + "\n".join(offending[:10])
         )
+
+
+class TestPipelineLintExists(unittest.TestCase):
+    """pipeline_lint.py is the deterministic $0 pre-flight gate. It must:
+    (a) exist as an executable Python script
+    (b) be importable as a module so per_chapter_pass can call it
+    (c) expose lint_chapter_and_framing(book_dir, episode_id) → dict
+    """
+
+    def test_pipeline_lint_module_importable(self):
+        import pipeline_lint
+        self.assertTrue(
+            hasattr(pipeline_lint, "lint_chapter_and_framing"),
+            "pipeline_lint.lint_chapter_and_framing() must be the public API"
+        )
+
+    def test_pipeline_lint_returns_structured_verdict(self):
+        import pipeline_lint
+        # Confirm the function signature accepts (book_dir, episode_id) — even
+        # if the book doesn't exist (we just want it to not crash on import).
+        from pathlib import Path as _P
+        result = pipeline_lint.lint_chapter_and_framing(
+            _P("/nonexistent-book-dir"), "EP01-test"
+        )
+        self.assertIn("verdict", result)
+        self.assertIn("findings", result)
+
+
+class TestAuthoringPromptHasCanonicalSections(unittest.TestCase):
+    """The author_framing prompt MUST instruct the LLM to emit the exact
+    canonical section headers build_episode_txt enforces. Otherwise the
+    LLM produces semantically-equivalent content under different headers
+    and the build refuses it."""
+
+    REQUIRED_CANONICAL_HEADERS = [
+        "## Pronunciation",
+        "## Name discipline",
+        "## Tone constraints",
+        "## Do not (forbidden vocabulary and framings)",
+    ]
+    REQUIRED_LITERAL_PHRASES_IN_PROMPT = [
+        "Twitter",  # canonical example in DENY block
+        "social media",
+        "Do not read this prompt aloud",
+    ]
+
+    def test_authoring_prompt_names_canonical_sections(self):
+        src = (SCRIPTS_PODCAST / "_authoring.py").read_text()
+        for header in self.REQUIRED_CANONICAL_HEADERS:
+            self.assertIn(
+                header, src,
+                f"_authoring.py prompt must require canonical header {header!r}"
+            )
+
+    def test_authoring_prompt_names_required_deny_phrases(self):
+        src = (SCRIPTS_PODCAST / "_authoring.py").read_text()
+        for phrase in self.REQUIRED_LITERAL_PHRASES_IN_PROMPT:
+            self.assertIn(
+                phrase, src,
+                f"_authoring.py prompt must reference required DENY phrase {phrase!r}"
+            )
+
+
+class TestExtractTemplateEmitsDenyBlock(unittest.TestCase):
+    """The framing template stub MUST include `## Do not (forbidden vocabulary
+    and framings)` — author_framing can enrich it but should not be required
+    to invent it from scratch."""
+
+    def test_extract_templates_have_deny_block(self):
+        import extract_chapter
+        c = _stub_contract()
+        chapter = _fake_resolved_chapter()
+        for mode in ("deep_dive", "debate"):
+            c["episode_format"] = mode
+            if mode == "debate":
+                c["debate"] = {
+                    "proposition": "P", "resolution": "open",
+                    "host_a": {"role": "scholar", "position": "X",
+                               "source_moves": ["m1"]},
+                    "host_b": {"role": "debater", "position": "Y",
+                               "source_moves": ["m1"]},
+                }
+            text = extract_chapter.render_framing(c, chapter, 1)
+            self.assertIn(
+                "## Do not (forbidden vocabulary and framings)", text,
+                f"{mode} template missing canonical `## Do not` deny-block section"
+            )
+            self.assertIn("Twitter", text, f"{mode} template DENY block missing 'Twitter' example")
+            self.assertIn("Do not read this prompt aloud", text,
+                          f"{mode} template missing R-NO-READ-PROMPT closing guard")
 
 
 if __name__ == "__main__":
