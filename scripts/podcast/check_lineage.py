@@ -31,7 +31,7 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_LIBRARY = REPO_ROOT / "_workspace"
+DEFAULT_LIBRARY = REPO_ROOT / "content" / "drafts"
 
 DERIVED_FROM_RE = re.compile(r"^derived_from:\s*(.+?)\s*$", re.MULTILINE)
 

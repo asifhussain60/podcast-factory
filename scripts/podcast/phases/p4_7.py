@@ -9,7 +9,7 @@ PHASE_ID = "P4.7"
 DESCRIPTION = "Master & Disciple Ch-02 scaffolding (Numeric Disambiguation + Anachronism + §J checklist)"
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-MD_BASE = REPO_ROOT / "_workspace" / "books" / "the-master-and-the-disciple" / "_notebooklm"
+MD_BASE = REPO_ROOT / "content" / "drafts" / "the-master-and-the-disciple" / "_notebooklm"
 
 # Detect markers per acceptance row in podcast-plan.yaml P4.7:
 DETECT = (

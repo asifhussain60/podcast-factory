@@ -61,7 +61,7 @@ REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 # at the parent. Pick whichever exists.
 ARCHETYPE_FILE=""
 for candidate in \
-    "$REPO_ROOT/content/podcast/library/archetypes/islamic-scholastic-text.md" \
+    "$REPO_ROOT/content/published/archetypes/islamic-scholastic-text.md" \
     "$REPO_ROOT/../../library/archetypes/islamic-scholastic-text.md"; do
   if [ -f "$candidate" ]; then
     ARCHETYPE_FILE="$candidate"

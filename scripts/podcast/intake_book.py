@@ -38,7 +38,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-WORKSPACE_BOOKS = REPO_ROOT / "_workspace" / "books"
+WORKSPACE_BOOKS = REPO_ROOT / "content" / "drafts"
 RAW_DIR = REPO_ROOT.parent.parent / "raw"  # podcast-factory/raw/, outside the worktree
 
 SKELETON_DIRS = ["_source", "_system", "chapters", "episodes", "episode-drafts"]

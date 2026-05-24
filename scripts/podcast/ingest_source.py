@@ -66,7 +66,7 @@ sys.path.insert(0, str(SCRIPT_DIR))
 import _azure  # noqa: E402
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-LIBRARY_DIR = REPO_ROOT / "_workspace"
+LIBRARY_DIR = REPO_ROOT / "content" / "drafts"
 
 from _rules import ALLOWED_CATEGORIES  # centralized 2026-05-23 per AU-X1-001 (audit report)
 

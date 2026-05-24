@@ -24,7 +24,7 @@ from collections import defaultdict
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-BOOKS_DIR = REPO_ROOT / "_workspace" / "books"
+BOOKS_DIR = REPO_ROOT / "content" / "drafts"
 
 
 def _resolve_book_dir(book_arg: str) -> Path:
