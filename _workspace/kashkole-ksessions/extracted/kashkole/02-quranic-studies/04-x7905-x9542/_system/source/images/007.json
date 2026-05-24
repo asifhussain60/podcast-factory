@@ -1,0 +1,10 @@
+{
+  "classification": "teaching-diagram",
+  "arabic_text": "",
+  "urdu_text": "",
+  "english_text": "1 Yousuf AS has a dream; 2 His brothers plot against him; 3 Minister's wife tries to seduce Yousuf AS; 4 Elite women try to seduce Yousuf AS; 5 Yousuf AS is imprisoned; 6 The king has a dream; 7 The king's dream is interpreted; 8 Yousuf AS is freed from prison; 9 Elite women confess their crime; 10 Minister's wife confesses her crime; 11 His brothers learn their lesson; 12 Yousuf AS's dream is interpreted",
+  "suggested_citation": { "surah": 12, "ayat": null },
+  "alt_text": "Twelve-box flow diagram showing the chiastic structure of Surah Yusuf (Q12): top row 1→6 sets up the story (dream, plot, seductions, imprisonment, king's dream); bottom row 7→12 mirrors the same elements in reverse (interpretation, freedom, confessions, brothers' lesson, dream fulfilled).",
+  "confidence": 0.98,
+  "notes": "Ring composition of Surah Yusuf — classic example used in Quranic-literary analysis."
+}

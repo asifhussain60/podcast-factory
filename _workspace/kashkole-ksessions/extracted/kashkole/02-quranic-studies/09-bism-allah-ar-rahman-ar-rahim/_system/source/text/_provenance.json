@@ -1,0 +1,51 @@
+{
+  "schema": "podcast.ingest-source/v1",
+  "generated_at": "2026-05-24T19:46:19.526197+00:00",
+  "source": {
+    "kind": "sql",
+    "name": "kashkole",
+    "db": "KASHKOLE",
+    "container": "kashkole-mssql"
+  },
+  "book_slug": "bism-allah-ar-rahman-ar-rahim",
+  "book_dir": "/Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/09-bism-allah-ar-rahman-ar-rahim",
+  "source_language": "ur",
+  "extraction": {
+    "tool": "tools.source_extractor",
+    "shelf": {
+      "kind": "binder",
+      "id": 34,
+      "name": "Quranic Studies"
+    },
+    "book": {
+      "kind": "chapter",
+      "id": 163,
+      "name": "بسم اللہ الرحمن الرحیم"
+    },
+    "section_query_count": 11,
+    "stage": "finalized"
+  },
+  "outputs": {
+    "raw_extract": "_system/source/text/raw-extract.md",
+    "extraction_notes": "_system/source/text/_extraction-notes.md",
+    "audit_anchor_html": "_system/source/bism-allah-ar-rahman-ar-rahim.html",
+    "images_dir": "_system/source/images"
+  },
+  "finalize": {
+    "finalized_at": "2026-05-24T20:10:20.107942+00:00",
+    "images_classified": {
+      "001": "teaching-diagram",
+      "002": "teaching-diagram",
+      "003": "teaching-diagram",
+      "004": "teaching-diagram",
+      "005": "teaching-diagram",
+      "006": "teaching-diagram",
+      "007": "teaching-diagram",
+      "008": "quran-verse",
+      "009": "teaching-diagram",
+      "010": "teaching-diagram",
+      "011": "teaching-diagram"
+    },
+    "inline_citations_resolved": 0
+  }
+}

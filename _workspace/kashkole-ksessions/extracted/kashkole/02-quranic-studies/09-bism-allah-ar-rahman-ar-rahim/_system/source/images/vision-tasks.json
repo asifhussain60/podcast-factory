@@ -1,0 +1,122 @@
+{
+  "book": {
+    "binder_id": 34,
+    "binder_name": "Quranic Studies",
+    "chapter_id": 163,
+    "chapter_name": "بسم اللہ الرحمن الرحیم"
+  },
+  "images": [
+    {
+      "placeholder": "IMG:001",
+      "file": "_system/source/images/001.png",
+      "section_id": 5735,
+      "section_label": "Miracles of name Allah",
+      "bytes": 32496,
+      "sha256_12": "2029190f2b74",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:002",
+      "file": "_system/source/images/002.png",
+      "section_id": 5735,
+      "section_label": "Miracles of name Allah",
+      "bytes": 10315,
+      "sha256_12": "5639f7f698d3",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:003",
+      "file": "_system/source/images/003.png",
+      "section_id": 5735,
+      "section_label": "Miracles of name Allah",
+      "bytes": 71090,
+      "sha256_12": "75014014ef71",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:004",
+      "file": "_system/source/images/004.png",
+      "section_id": 5735,
+      "section_label": "Miracles of name Allah",
+      "bytes": 94974,
+      "sha256_12": "093fefaf5cfd",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:005",
+      "file": "_system/source/images/005.png",
+      "section_id": 5736,
+      "section_label": "Being and Attributes",
+      "bytes": 21551,
+      "sha256_12": "a19cbef36940",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:006",
+      "file": "_system/source/images/006.png",
+      "section_id": 5736,
+      "section_label": "Being and Attributes",
+      "bytes": 94974,
+      "sha256_12": "093fefaf5cfd",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:007",
+      "file": "_system/source/images/007.png",
+      "section_id": 5736,
+      "section_label": "Being and Attributes",
+      "bytes": 145381,
+      "sha256_12": "82f6683ec320",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:008",
+      "file": "_system/source/images/008.png",
+      "section_id": 5737,
+      "section_label": "Refraction of divine attributes in creation",
+      "bytes": 186582,
+      "sha256_12": "70e5f65e1f60",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:009",
+      "file": "_system/source/images/009.png",
+      "section_id": 5738,
+      "section_label": "Allah is Samad",
+      "bytes": 94088,
+      "sha256_12": "56e6d3161ed0",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:010",
+      "file": "_system/source/images/010.png",
+      "section_id": 5738,
+      "section_label": "Allah is Samad",
+      "bytes": 12340,
+      "sha256_12": "df8269d38950",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:011",
+      "file": "_system/source/images/011.png",
+      "section_id": 5745,
+      "section_label": "Meaning of Rehman and Raheem",
+      "bytes": 45004,
+      "sha256_12": "714ef342277e",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    }
+  ],
+  "generated_at": "2026-05-24T19:46:19.524904+00:00",
+  "instructions": "For each image in `images`, read the file via the Read tool (paths are relative to the bundle root) and write a sibling JSON file next to the PNG (same basename, .json extension) with the schema: {classification, arabic_text, urdu_text, english_text, suggested_citation: {surah, ayat} | null, alt_text, confidence, notes}. classification ∈ {quran-verse, hadith, poem-or-saying, teaching-diagram, mixed, other}. For quran-verse, propose surah+ayat from your reading; finalize validates against the adapter's Quran corpus. For teaching-diagram, give a 1-2 sentence alt_text describing what it shows."
+}

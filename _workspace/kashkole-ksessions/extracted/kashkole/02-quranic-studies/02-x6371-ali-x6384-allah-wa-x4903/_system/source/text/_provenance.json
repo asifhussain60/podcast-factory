@@ -1,0 +1,41 @@
+{
+  "schema": "podcast.ingest-source/v1",
+  "generated_at": "2026-05-24T19:45:38.829424+00:00",
+  "source": {
+    "kind": "sql",
+    "name": "kashkole",
+    "db": "KASHKOLE",
+    "container": "kashkole-mssql"
+  },
+  "book_slug": "x6371-ali-x6384-allah-wa-x4903",
+  "book_dir": "/Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/02-x6371-ali-x6384-allah-wa-x4903",
+  "source_language": "ur",
+  "extraction": {
+    "tool": "tools.source_extractor",
+    "shelf": {
+      "kind": "binder",
+      "id": 34,
+      "name": "Quranic Studies"
+    },
+    "book": {
+      "kind": "chapter",
+      "id": 156,
+      "name": "سلام علی رسول اللہ و آلہ"
+    },
+    "section_query_count": 5,
+    "stage": "finalized"
+  },
+  "outputs": {
+    "raw_extract": "_system/source/text/raw-extract.md",
+    "extraction_notes": "_system/source/text/_extraction-notes.md",
+    "audit_anchor_html": "_system/source/x6371-ali-x6384-allah-wa-x4903.html",
+    "images_dir": "_system/source/images"
+  },
+  "finalize": {
+    "finalized_at": "2026-05-24T20:09:20.171219+00:00",
+    "images_classified": {
+      "001": "hadith"
+    },
+    "inline_citations_resolved": 0
+  }
+}

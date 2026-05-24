@@ -1,0 +1,10 @@
+{
+  "classification": "teaching-diagram",
+  "arabic_text": "نفس = نف + س\nنفث = نف + ث\nنفح = نف + ح\nنفخ = نف + خ",
+  "urdu_text": "",
+  "english_text": "To Breadth (blow normally)\nTo blow very lightly\nBreeze\nTo blow forcefully",
+  "suggested_citation": null,
+  "alt_text": "Four stacked white cards showing Arabic root-letter derivations: each card displays an Arabic verb (نفس / نفث / نفح / نفخ) decomposed as 'نف +' a final letter, with an English gloss — 'To Breadth (blow normally)', 'To blow very lightly', 'Breeze', 'To blow forcefully'.",
+  "confidence": 0.95,
+  "notes": "Pedagogical Arabic morphology — how single-letter changes in the final radical shift the semantic intensity of the same root nf-."
+}
