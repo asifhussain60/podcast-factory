@@ -139,8 +139,27 @@ audience: >
   long discourse on justice, monotheism, and the description of
   religion-by-attribute.
 angle: faithful_exposition
-episode_format: deep_dive
+episode_format: debate
 format_rationale: >
+  Reclassified 2026-05-24 from `deep_dive` to `debate` per Asif's
+  override of the pipeline's initial Phase-0d analysis. The pipeline
+  emphasized the *concession-arc* (every foil-voice consents) as the
+  rhetorical pattern, treating that as a teaching-dialogue (deep_dive).
+  Asif's revised reading — backed by the reference NotebookLM episode
+  whose opener was *Welcome to the debate* — is that the chapter's
+  STRUCTURE matters more than its resolution: Salih and Abu Malik are
+  named opposing voices being adjudicated across an extended back-and-
+  forth dialogue that constitutes the majority of the chapter (~70% of
+  word count), with Abu Malik defending the fiqh-tradition's *Sharia-
+  by-narration* doctrine against Salih's *living-chain* doctrine. The
+  fact that Abu Malik concedes by the close maps to the
+  `host_b_concedes` resolution enum (challenger Category P2 explicitly
+  allows this). The chapter's content shape is debate; its outcome is
+  concession. Both can be true. Pipeline guidance updated in
+  `_authoring.py` Phase 0d Step 2 prompt to allow this combination
+  going forward. Prior pipeline rationale preserved below:
+  ───────────────────────────────────────────────────────────────────
+  PRIOR (pipeline auto-analysis):
   The chapter is a sustained primary-source narrative-with-doctrine
   developing ONE position — the *three faces of seeking* doctrine
   plus the *corruption-of-Sharia-only-religion* indictment plus the
@@ -163,6 +182,57 @@ format_rationale: >
   al-Ahbar* figure of the old creed becomes the *student* — an
   inversion of roles preserved by the same host_dynamic
   (curious_mind + scholar_companion) that has carried the book.
+debate:
+  proposition: >
+    The fiqh tradition's Sharia-by-narration — command, prohibition,
+    lawful, forbidden, Sunnah, obligations — is sufficient to constitute
+    religion in this age, and no living chain or unbroken cause connecting
+    heaven to earth is required.
+  host_a:
+    role: scholar
+    position: >
+      Religion is not exhausted by narrated rulings; it is the cause that
+      connects heaven to earth, unbroken — the loop of the firm handhold,
+      the rope of those who hold fast. A religion grounded only on
+      narration is not religion; the books are general and someone must
+      make the specific. When even the senior scholar can give a seeker
+      two opposed rulings and tell him "act on whichever you wish," the
+      Sharia-as-religion has been suspended.
+    source_moves:
+      - "*Ka'b al-Ahbar* rebuke: imitation-without-direct-knowledge is not religion"
+      - "*prophet-warner* doctrine: the warner is a prophet; the prophet is an argument from Allah for-them and against-them"
+      - "*three faces of seeking* + *money-knowledge parallel*: divine scholar / learned man / ignorant-who-knows-his-need"
+      - "*knowledge-by-report vs direct-sight*: news vs eye-witness; ignorance is a need; capacity is the breadth of knowledge"
+      - "*essence-traders* parable: knowledge is not knowledge until presented to those who know the science of heaven"
+      - "*Maqrub divorce-case* indictment: 'act on whichever of the two you wish' is the smoking gun"
+      - "*religion-equals-Sharia* logical collapse: combining them and then noting the suspension"
+      - "Positive doctrine: religion as the *cause-connecting-heaven-to-earth-unbroken* (loop, rope, ark, ship, light)"
+  host_b:
+    role: debater
+    position: >
+      Religion is the inherited fiqh tradition — command and prohibition,
+      lawful and forbidden, Sunnah and obligations — transmitted through
+      the scholars from the books and the consensus. The cutting-off of
+      revelation by the books is part of God's plan; the community now
+      lives by report (narration) and the trained interpretation of the
+      jurists. No new prophet or "living chain" is needed.
+    source_moves:
+      - "*Three-states* reasoning (gives the old creed's strongest internal case)"
+      - "*Breach* figure: religious novelty is gravely damaging, like a breach in medicine"
+      - "*Tyrants of the previous nations* warning (read AGAINST cutting off the argument-from-God)"
+      - "*Door of seeking* + *sound heart* + *reverence-before-the-statement* doctrines (as the old creed's reception protocol)"
+      - "Standard fiqh definition: *command, prohibition, lawful, forbidden, Sunnah, obligations*"
+      - "Historical-temporal objection: *we know of no prophets and messengers in our time; the revelation was cut off by the books; the nations are no longer condemned except by reports*"
+      - "*Maqrub-case* defense: pluralism of rulings is feature, not bug — the scholar gives both and lets the petitioner choose"
+  resolution: host_b_concedes
+  resolution_note: >
+    Abu Malik concedes through six successive admissions: imitation, the
+    third-face self-diagnosis, the Maqrub case, the identity of religion-
+    and-Sharia, the *I do not see that anything is left with me* zero-
+    point, and the closing seam-question into chapter six. The concession
+    is doctrinal, not theatrical: Abu Malik *crosses over* and Salih
+    receives him. The debate format honors the structure of the contest
+    while the `host_b_concedes` resolution honors the outcome.
 essential: core
 essential_rationale: >
   This is the chapter that *reveals the names* (*Salih*,

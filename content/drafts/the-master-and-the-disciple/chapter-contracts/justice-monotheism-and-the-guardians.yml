@@ -144,8 +144,24 @@ audience: >
   *quwwa*, /ˈquwːa/, as his *ḥujja*, /ˈħudʒːa/, and *bāb*, /baːb/)
   the book has spent six chapters unfolding. The book ends.
 angle: faithful_exposition
-episode_format: deep_dive
+episode_format: debate
 format_rationale: >
+  Reclassified 2026-05-24 from `deep_dive` to `debate` per Asif's
+  override of the pipeline's initial Phase-0d analysis (paired with the
+  same flip for ch05). The pipeline treated the *concession-arc* as a
+  teaching-dialogue; Asif's revised reading — backed by the reference
+  NotebookLM episode whose opener was *Welcome to the debate* — is that
+  the chapter's STRUCTURE is the long sustained adjudication of two
+  named opposing positions (Salih's necessity-of-causes-plus-chain-of-
+  guardians vs Abu Malik's classical no-prophet-after / interregnum-
+  defense / fiqh-tradition-sufficiency). The fact that Abu Malik
+  concedes by the close maps cleanly to `host_b_concedes` resolution
+  enum (challenger Category P2 explicitly allows it). Pipeline guidance
+  updated in `_authoring.py` Phase 0d Step 2 prompt to allow
+  named-opposition-with-concession-arc as a valid debate pattern going
+  forward. Prior pipeline rationale preserved below:
+  ───────────────────────────────────────────────────────────────────
+  PRIOR (pipeline auto-analysis):
   The chapter is a sustained primary-source dialogue developing
   ONE positive doctrine across three movements — *the necessity
   of causes between God and His creation*; *the chain of just
@@ -178,6 +194,83 @@ format_rationale: >
   and Abu Malik's concession-by-concession crossing-over, plus
   Salih's prayerful tears at the end and al-Bakhtari's closing
   counsel of gentleness.
+debate:
+  proposition: >
+    God's justice is exhausted by the inherited monotheistic creed plus
+    the classical no-prophet-after-our-prophet doctrine; the cutting-off
+    of revelation by the books is part of God's plan, and no ongoing
+    chain of named guardians (nāṭiq + waṣī) is required to constitute
+    religion in any age.
+  host_a:
+    role: scholar
+    position: >
+      God's justice REQUIRES an unbroken chain of named guardians as the
+      cause connecting heaven to earth. Naming Him One is insufficient
+      without the meaning behind the names; the closure of sight and
+      speech and the impossibility of direct perception derive the
+      necessity of causes from the foundations of justice itself. The
+      "interregnum" defense collapses on the historical-paradigm cases
+      (Moses fleeing Pharaoh to Shu'ayb; six prophets between Abraham
+      and Moses; seven between Moses and Jesus). The guardians' absence
+      in this age is *Taqiyya driven by the community's betrayal* —
+      "had you supported the friends of Allah, they would have appeared;
+      had you failed His enemies, they would not have prevailed" — not
+      God's interregnum. The jurists who legitimize the killers of the
+      guardians are the structural sin: "were it not for the narrations
+      of the jurists, no tyrannical king could ever be established."
+    source_moves:
+      - "*Fire-is-hot* figure on names-needing-meanings"
+      - "*Four-letters-of-Allah* exchange closing the monotheism door"
+      - "*Name-vs-named — which is worshipped?* trap"
+      - "*Analogy-from-human-makers* and its refutation by the *three-things-every-making-presupposes*"
+      - "*Glory-be-to-the-One-whom-no-determination-of-thought-can-grasp* doxology and the *sun-and-the-lights-of-the-earth* figure"
+      - "*Sight-closed-speech-closed* derivation of the necessity-of-the-bridge"
+      - "*Causes-between-Him-and-His-creation* positive doctrine"
+      - "*Virtuous-one + curious-one* (nāṭiq + waṣī) structure with the *Lot-at-Abraham's-hands* and *Ishmael-and-Isaac* paradigm cases"
+      - "*Originators-of-error-were-three-in-every-age* (devil/tyrant/hypocrite) triad"
+      - "*Magi/Torah/Gospel/this-community* four-nations indictment"
+      - "*Consensus-and-the-oppression-of-the-sultans* indictment of senior scholars"
+      - "*Six-prophets-between-Abraham-and-Moses / seven-between-Moses-and-Jesus* collapsing the interregnum defense"
+      - "*Moses-fleeing-Pharaoh-to-the-land-of-Shu'ayb* paradigm"
+      - "*Killers-and-the-jurists-who-shelter-them* indictment"
+      - "*Were-it-not-for-the-narrations-of-the-jurists-no-tyrannical-king-could-ever-be-established* line (Abu Malik's own concession turned against the school)"
+      - "*Crown-of-your-justice-on-their-stockings / robes-of-the-sacred-law-on-their-clay* triad"
+      - "*Fifteen-year-old-son-killed* question"
+      - "*Had-you-supported-the-friends-of-Allah-they-would-have-appeared* structural diagnosis of *Taqiyya*"
+  host_b:
+    role: debater
+    position: >
+      The inherited creed — God is One, nothing is like Him, just in His
+      ruling — is sufficient. The cutting-off of revelation by the books
+      is part of God's plan; the community now lives by the narrations
+      of the messengers and the testimony of the prior nations. No prophet
+      comes after our prophet ﷺ; the "interregnums" between revealed
+      messengers are part of the divine pattern. The jurists' role is to
+      transmit and interpret; they are not responsible for the actions of
+      rulers who happen to rule in their era.
+    source_moves:
+      - "Full classical monotheistic creed in one breath at the opening"
+      - "Standard fiqh definition of religion (carried over from ch05)"
+      - "*No-prophet-after-our-prophet* objection (the chapter's central foil claim)"
+      - "*Magi/Torah/Gospel* historical pattern as proof that nations are condemned by reports alone"
+      - "*Three-qualities of the prior nations' standing* (earliness, consensus, testimony-asymmetry)"
+      - "*Interregnum-defense* fallback after the first refutation"
+      - "*Openly-present-or-hidden-in-fear-veiled* clause as best-case for the chain doctrine, conditionally accepted"
+  resolution: host_b_concedes
+  resolution_note: >
+    Abu Malik concedes step-by-step across the chapter's most-pointed
+    moments: the door-of-monotheism closes before him, the name-vs-named
+    perplexity is admitted, the analogy collapses, the necessity-of-
+    causes-from-the-foundations-of-justice is conceded, the just-one-as-
+    guardian identification produces his first-breakthrough smile, the
+    interregnum-defense collapses on the historical-paradigm count, and
+    finally — most strikingly — Abu Malik names the structural sin
+    against his own school: "were it not for the narrations of the
+    jurists, no tyrannical king could ever be established." The
+    resolution closes with Abu Malik and his companions "returned to
+    their people as warners." The debate-format honors the sustained
+    structure of the contest; the `host_b_concedes` resolution honors
+    the outcome's direction.
 essential: core
 essential_rationale: >
   This is the doctrinal climax of the book and cannot be removed

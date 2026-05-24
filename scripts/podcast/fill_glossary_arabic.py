@@ -58,8 +58,14 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from build_glossary import _q  # noqa: E402
 
 CLAUDE_CMD = "claude"
-CLAUDE_TIMEOUT_S = 600  # 10 min — comfortable for ~75 terms + small OCR file
+CLAUDE_TIMEOUT_S = 1800  # 30 min — bumped 2026-05-24 after 600s proved too tight for
+                          # 75-entry / 106KB-OCR master-disciple. Sonnet streams output
+                          # slower on long context windows than the dense per-entry
+                          # processing rate suggests. 30 min absorbs the worst case.
 MODEL = "claude-sonnet-4-6"
+BATCH_SIZE = 40           # Max entries per LLM call. If a book has > BATCH_SIZE empty
+                          # entries, split into multiple calls and merge results. Keeps
+                          # each call's prompt small enough to finish within the timeout.
 
 
 def parse_glossary_yml(path: Path) -> tuple[list[dict[str, str]], dict[str, object]]:
@@ -204,37 +210,62 @@ def main() -> int:
         return 0
 
     ocr_text = ocr_path.read_text(encoding="utf-8")
-    prompt = build_prompt(empty, ocr_text)
 
     if args.dry_run:
-        print(prompt)
+        # Show the prompt for the first batch only (rest are identical structure).
+        print(build_prompt(empty[:BATCH_SIZE], ocr_text))
         return 0
 
-    print(f"calling {MODEL} for {len(empty)} entries (OCR {len(ocr_text):,} chars) …", file=sys.stderr)
-    t0 = time.monotonic()
-    try:
-        result = subprocess.run(
-            [CLAUDE_CMD, "-p", "--model", MODEL, prompt],
-            capture_output=True,
-            text=True,
-            timeout=CLAUDE_TIMEOUT_S,
-        )
-    except subprocess.TimeoutExpired:
-        sys.stderr.write(f"LLM call exceeded {CLAUDE_TIMEOUT_S}s timeout\n")
-        return 4
-    elapsed = time.monotonic() - t0
-    if result.returncode != 0:
-        sys.stderr.write(f"claude -p failed (rc={result.returncode}):\n{result.stderr[:600]}\n")
-        return 5
+    # Batch the empty entries so each LLM call's prompt stays small enough
+    # to finish within CLAUDE_TIMEOUT_S. Sonnet's streaming rate drops as the
+    # response gets longer; chunking keeps each call under the timeout.
+    batches: list[list[dict[str, str]]] = [
+        empty[i : i + BATCH_SIZE] for i in range(0, len(empty), BATCH_SIZE)
+    ]
+    print(
+        f"calling {MODEL} for {len(empty)} entries in {len(batches)} batch(es) "
+        f"of ≤{BATCH_SIZE} (OCR {len(ocr_text):,} chars per call) …",
+        file=sys.stderr,
+    )
 
-    fills = parse_llm_yaml(result.stdout)
-    print(f"  → LLM returned {len(fills)} fills in {elapsed:.1f}s", file=sys.stderr)
+    all_fills: dict[str, str] = {}
+    for i, batch in enumerate(batches, 1):
+        prompt = build_prompt(batch, ocr_text)
+        print(f"  batch {i}/{len(batches)} ({len(batch)} entries) …", file=sys.stderr)
+        t0 = time.monotonic()
+        try:
+            result = subprocess.run(
+                [CLAUDE_CMD, "-p", "--model", MODEL, prompt],
+                capture_output=True,
+                text=True,
+                timeout=CLAUDE_TIMEOUT_S,
+            )
+        except subprocess.TimeoutExpired:
+            sys.stderr.write(
+                f"  batch {i} exceeded {CLAUDE_TIMEOUT_S}s timeout — partial "
+                f"results from prior batches will still be written. Re-run "
+                f"without --force to retry only the empty entries.\n"
+            )
+            break
+        elapsed = time.monotonic() - t0
+        if result.returncode != 0:
+            sys.stderr.write(
+                f"  batch {i} claude -p failed (rc={result.returncode}):\n"
+                f"{result.stderr[:600]}\n"
+            )
+            break
+        batch_fills = parse_llm_yaml(result.stdout)
+        print(
+            f"  batch {i}/{len(batches)} → {len(batch_fills)} fills in {elapsed:.1f}s",
+            file=sys.stderr,
+        )
+        all_fills.update(batch_fills)
 
     # Merge fills into entries (preserve order, ignore unknown phonetics)
     by_phon = {r["phonetic"]: r for r in entries}
     n_filled = 0
     n_skipped_unknown = 0
-    for phon, script in fills.items():
+    for phon, script in all_fills.items():
         if phon not in by_phon:
             n_skipped_unknown += 1
             continue
