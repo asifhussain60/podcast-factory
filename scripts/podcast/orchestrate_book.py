@@ -315,10 +315,65 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
     except Exception as _e:  # noqa: BLE001 — sweep failure must not poison pre-flight
         _info(f"pre-flight sweep: skipped ({_e!r})")
 
-    # 3. Working tree clean
+    # 3. Working tree clean — but tolerate the orchestrator's own runtime
+    #    artifacts (cost-ledger.jsonl, orchestrator-state.json, episode-drafts/,
+    #    chapter-contracts/ on this book). Those files are written by the
+    #    orchestrator itself during a run; failing pre-flight on them creates a
+    #    commit-relaunch-commit-relaunch loop with zero value. Anything OUTSIDE
+    #    this book's _system + episode artifacts still blocks (genuine
+    #    untracked / modified files the user may not want overwritten).
     rc, out, _ = _git("status", "--porcelain")
-    if rc != 0 or out.strip():
-        fails.append("working tree not clean. Commit or stash first, then --resume.")
+    if rc != 0:
+        fails.append("git status failed; cannot determine working-tree state")
+    else:
+        book_runtime_prefix = f"content/drafts/{book_slug}/"
+        runtime_artifact_suffixes = (
+            "/_system/cost-ledger.jsonl",
+            "/_system/orchestrator-state.json",
+            "/_system/challenger-report.md",
+            "/_system/enrichment-log.md",
+            "/_system/chapter-set-report.md",
+            "/_system/health-trend.md",
+        )
+        runtime_artifact_dirs = (
+            f"{book_runtime_prefix}_system/episode-drafts/",
+            f"{book_runtime_prefix}_system/per-chapter-reports/",
+            f"{book_runtime_prefix}_system/slide-challenger-reports/",
+            f"{book_runtime_prefix}_system/source/text/_chunks/",
+            f"{book_runtime_prefix}chapter-contracts/",
+            f"{book_runtime_prefix}chapters/",
+            f"{book_runtime_prefix}episodes/",
+            f"{book_runtime_prefix}slide-decks/",
+            # Cross-book orchestrator outputs (challenger + trainer learning substrate;
+            # scratch workspace).
+            "content/podcast/.skill/_learning/",
+            "_workspace/tmp/",
+        )
+        # macOS filesystem is case-insensitive; git status --porcelain sometimes
+        # reports paths as `CONTENT/...` (the on-disk case at the time the file
+        # was created) while the index canonicalizes to lowercase `content/...`.
+        # Compare case-insensitively to keep the whitelist robust either way.
+        runtime_artifact_suffixes_lc = tuple(s.lower() for s in runtime_artifact_suffixes)
+        runtime_artifact_dirs_lc = tuple(d.lower() for d in runtime_artifact_dirs)
+        non_runtime: list[str] = []
+        for line in out.splitlines():
+            # status --porcelain: " M path/to/file", "?? path/to/dir/", "A  path"
+            path = line[3:] if len(line) > 3 else ""
+            if not path:
+                continue
+            path_lc = path.lower()
+            if any(path_lc.endswith(suf) for suf in runtime_artifact_suffixes_lc):
+                continue
+            if any(path_lc.startswith(d) for d in runtime_artifact_dirs_lc):
+                continue
+            non_runtime.append(line)
+        if non_runtime:
+            fails.append(
+                "working tree not clean (non-runtime files modified or untracked). "
+                "Commit or stash first, then --resume. Files:\n  "
+                + "\n  ".join(non_runtime[:10])
+                + ("\n  …" if len(non_runtime) > 10 else "")
+            )
 
     # 3. On matching branch — derive from state.json's category (new branch
     #    policy 2026-05-24; see scripts/podcast/_branching.py).
@@ -784,7 +839,14 @@ def per_chapter_pass(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
 
     # 1. Extract — scaffolds the episode-draft folder + bundle from the contract.
     rc, out, err = _run(
-        [sys.executable, str(EXTRACT_SCRIPT), chapter_ref]
+        # --force on re-extract: per-chapter loop re-runs from extract on every
+        # iteration (resume after fix, challenger-driven re-author cycle, etc.).
+        # Without --force, a stale LLM-authored framing from a prior iter
+        # blocks the deterministic re-render. author_framing follows and
+        # repopulates the Pronunciation imperatives anyway, so the cost of
+        # discarding the prior render is one LLM call we'd have paid for the
+        # re-author regardless.
+        [sys.executable, str(EXTRACT_SCRIPT), chapter_ref, "--force"]
     )
     if rc != 0:
         return ChapterOutcome(
@@ -807,6 +869,36 @@ def per_chapter_pass(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
             fixer_attempts=0,
             p0_remaining=0, p1_remaining=0, p2_remaining=0,
             notes=[f"framing authoring failed: {e}"],
+        )
+
+    # 2.5. Pre-flight lint (2026-05-24 architecture win): run pipeline_lint
+    # against the freshly-authored framing + chapter pair. This catches
+    # structural mismatches the LLM author may have produced (missing canonical
+    # sections, format violations) BEFORE the build script's hard gates do.
+    # Lint is deterministic and $0; surfaces same P0 punch list build does,
+    # but in JSON form the orchestrator can record without rc=1 noise.
+    import re as _re2
+    _chap_prefix = chapter_file.stem.split("-", 1)[0]
+    _m = _re2.match(r"ch(\d+)", _chap_prefix)
+    _chap_num = _m.group(1) if _m else _chap_prefix[2:]
+    _episode_id = f"EP{_chap_num}-{chapter_slug}"
+    _lint_path = Path(__file__).resolve().parent / "pipeline_lint.py"
+    _lint_rc, _lint_out, _lint_err = _run(
+        [sys.executable, str(_lint_path),
+         "--book-dir", str(book_dir),
+         "--episode", _episode_id]
+    )
+    if _lint_rc == 1:
+        # P0 in lint = build will refuse anyway. Surface as authoring failure
+        # so the orchestrator's fixer pass can attempt the fix without burning
+        # the build script's hard-exit on the same finding.
+        return ChapterOutcome(
+            chapter_slug=chapter_slug,
+            final_verdict="FAILED",
+            outer_iterations=0,
+            fixer_attempts=0,
+            p0_remaining=1, p1_remaining=0, p2_remaining=0,
+            notes=[f"pipeline_lint P0: framing structural mismatch:\n{_lint_out.strip()[:600]}"],
         )
 
     # 3. Build the episode .txt — deterministic gate. We already resolved
@@ -1513,7 +1605,12 @@ def run_resume(args: argparse.Namespace) -> int:
         return _drive_authoring_through_0f(book_dir, title)
 
     # If we halted mid-per-chapter, resume the loop (it tracks completed_slugs).
-    if current_phase == "per-chapter" and current_status in ("failed", "halted", "running"):
+    # `pending` is included to cover the `--retry-phase per-chapter` reset path
+    # (the retry-phase logic sets status to pending; without `pending` here, the
+    # dispatcher falls through to "No automated action" instead of resuming).
+    if current_phase == "per-chapter" and current_status in (
+        "failed", "halted", "running", "pending"
+    ):
         return _drive_per_chapter_and_after(book_dir)
 
     # If we already merged, nothing to do.

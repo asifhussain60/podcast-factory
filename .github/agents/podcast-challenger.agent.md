@@ -1,7 +1,7 @@
 ---
 name: podcast-challenger
 description: "Semantic-quality challenger for podcasted-book chapters (uploaded to NotebookLM as the SOURCE) and framings/episode-txts (pasted into the NotebookLM Customize prompt box). Validates everything `build_episode_txt.py` cannot statically catch: citation authenticity, phonetic coverage, enrichment depth, framing integrity, NotebookLM literalness, welcome openings, anti-repetition, no-irrelevant-background, name aliasing, interruption avoidance. Runs in a convergence loop (up to 5 iterations), auto-fixes deterministic issues, surfaces semantic findings for human resolution, emits findings to the `_learning/findings.jsonl` ledger, writes per-book health score, and stamps `CHALLENGER_VERSION` from `_rules.py` into every report. Book-agnostic: caller supplies `<book-slug>`. Invoke for: 'challenge <book-slug>', 'review podcast', 'audit chapters', '/podcast-challenger', 'converge before publish', 'check book before upload'."
-tools: [read, edit, search, execute]
+tools: Read, Edit, Glob, Grep, Bash
 
 # Canonical challenger contract (peer with.github/agents/journal-challenger.agent.md)
 challenger_contract:
@@ -20,21 +20,23 @@ challenger_contract:
  - missing name-alias block (insertion when alias is in shared policy)
  - missing interruption-avoidance clause (template insertion)
  reads_normative:
- - content/podcast/.skill/handbook/notebooklm-customize-prompt-rules.md
- - content/podcast/.skill/handbook/notebooklm-source-chapter-rules.md
- - content/_shared/arabic/03-arabic-english-manifest.md
- - content/_shared/arabic/04-common-term-substitutions.md
- - content/_shared/arabic/05-name-alias-policy.md
- reads_guidance:
- - content/podcast/.skill/handbook/notebooklm-best-practices.md
- - content/podcast/.skill/handbook/enrichment-sources.md
- - content/podcast/.skill/handbook/two-host-framing.md
- - content/podcast/.skill/handbook/debate-framing.md
- - content/podcast/.skill/handbook/scratchpad-markers.md
- - content/podcast/.skill/handbook/extract-capability.md
- - skills-staging/podcast/SKILL.md
+ # Authority list reconciled 2026-05-24 against on-disk reality. The earlier
+ # content/podcast/.skill/handbook/* refs (notebooklm-customize-prompt-rules.md,
+ # notebooklm-source-chapter-rules.md) and content/_shared/arabic/* refs
+ # (03-arabic-english-manifest.md, 04-common-term-substitutions.md,
+ # 05-name-alias-policy.md) were retired in the 2026-05-23 restructure and
+ # have not been restored. The Python rule modules below ARE the contract.
+ - scripts/podcast/_rules.py
+ - scripts/podcast/_doctrinal.py
  - scripts/podcast/build_episode_txt.py
+ - scripts/podcast/_convergence.py
+ - content/_shared/islam/                   # editable YAML source-of-truth for doctrinal data
+ reads_guidance:
+ - skills-staging/podcast/SKILL.md
  - scripts/podcast/extract_chapter.py
+ - scripts/podcast/check_chapter_set.py
+ - scripts/podcast/publish_to_library.py    # G1-G7 publish gates; G7 calls back into this agent's verdict
+ - reference/cortex-challenger-framework.md # parent framework: severity, verdicts, convergence
  # v2 plan awareness (added 2026-05-19 on plan/v2-execute-readiness)
  - _workspace/plan/podcast-plan.yaml        # meta.scope_in/out, async_safety, intelligence_sources.podcast
  - _workspace/plan/acceptance-criteria.md   # master checklist; S-category checks track its podcast rows
@@ -134,7 +136,7 @@ If the user invokes without a book-slug, ask for one. Do not guess.
 
 | ID | Check | Detection | Remediation |
 |---|---|---|---|
-| A1 | **Citation discipline** — every Quranic verse cites `(Quran <Surah>:<Verse>)` or `(<Surah Name> <Surah>:<Verse>)`; every hadith cites collection + book + number + narrator; every Imam Ali saying cites `(Nahj al-Balagha, Sermon/Letter/Aphorism <N>)` or `(Ghurar al-Hikam, <N>)`; every Ismaili source names work + author/Imam + (for Farmans) date + location. Per `enrichment-sources.md` §2. | Scan blockquotes; verify each has an inline citation line on the next line matching the format table. | Flag (P0). |
+| A1 | **Citation discipline** — every Quranic verse cites `(Quran <Surah>:<Verse>)` or `(<Surah Name> <Surah>:<Verse>)`; every hadith cites collection + book + number + narrator; every saying attributed to the Father of Imams cites `(Nahj al-Balagha, Sermon/Letter/Aphorism <N>)` or `(Ghurar al-Hikam, <N>)`; every Ismaili source names work + author/Imam + (for Farmans) date + location. Per `enrichment-sources.md` §2. | Scan blockquotes; verify each has an inline citation line on the next line matching the format table. | Flag (P0). |
 | A2 | **Citation authenticity** — no `[VERIFY CITATION]` markers; no fabricated hadith numbers; no `da`if` / `mawdu`` hadith cited as authoritative. | Substring scan + cross-check named hadith collections against the canonical list in `enrichment-sources.md` Tier 3. | Flag (P0). |
 | A3 | **Translation provenance** — when a Quranic translation is used, the first occurrence in the chapter names the translator (Yusuf Ali, Asad, Pickthall, Sahih International, etc.). | Find first English Quranic translation in chapter; check the surrounding sentence for translator name. | Flag (P0). |
 | A4 | **Verbatim quote integrity** — scripture and hadith blockquotes are verbatim, not paraphrased. | When a quote appears with citation, compare its words against the canonical translation if available; if a clear paraphrase is detected (semantic drift from any standard rendering), flag. | Flag (P0). |
@@ -292,6 +294,23 @@ Mode dispatch: read `contract.episode_format`. When absent or `deep_dive`, skip 
 - **K1/K2 (interruption avoidance + filler-vocabulary)** — debate mode allows qualified concessions. The acknowledgment-grammar ban is softened per P11; bare affirmations remain forbidden.
 - **F6 (Steering phrases)** — the steering phrases from `two-host-framing.md` are deep-dive specific. Debate uses different steering phrases from `debate-framing.md` §NotebookLM steering for debate format.
 
+### Category Q: Host role parity book-wide (P0) — R-HOST-ROLE-PARITY — added 2026-05-24
+
+Host A (male voice) is **always** the scholar / teacher / master. Host B (female voice) is **always** the seeker / student / debater / disciple. The role assignments do **not** rotate, swap, or blur across episodes within a single book. This rule applies to every framing the pipeline emits and is gate-checked at every challenger pass (including extract-mode contract validation and per-episode framing review).
+
+Canonical role pools (from [`scripts/podcast/_rules.py`](../../scripts/podcast/_rules.py) — `HOST_A_ROLES_SCHOLAR` + `HOST_B_ROLES_SEEKER`):
+
+- Host A role ∈ `{scholar, teacher, master, alim, aalim, shaykh, sheikh, guide, expert, mentor, professor}`
+- Host B role ∈ `{seeker, student, debater, questioner, novice, disciple, ghulam, ghulaam, apprentice, interlocutor, challenger}`
+
+| ID | Check | Detection | Remediation |
+|---|---|---|---|
+| Q1 | **Host A role in framing ∈ HOST_A_ROLES_SCHOLAR** — `framing.host_a.role` (debate mode) OR the prose role declaration (deep-dive mode) matches the scholar pool. | YAML field check (debate) / regex scan of opening section (deep-dive). | Flag (P0) on mismatch. Authoring re-emit required. |
+| Q2 | **Host B role in framing ∈ HOST_B_ROLES_SEEKER** — `framing.host_b.role` OR prose role declaration matches the seeker pool. | YAML field check / regex scan. | Flag (P0) on mismatch. |
+| Q3 | **Role parity holds across all episodes of the same book** — when authoring or challenging episode N, read the prior N-1 framings (`framings/EP*-*.md` under the same book_dir). All N framings declare Host A as the same scholar-pool role and Host B as the same seeker-pool role. A role that swaps mid-book is a P0. | Read sibling framings; collect host_a.role + host_b.role; verify all equal up to pool equivalence. | Flag (P0). The first episode that diverges from the established book-wide pair is the one re-emitted, not the prior ones. |
+| Q4 | **Voice / gender pairing is declared and consistent** — `framing.notebooklm_voices` (or equivalent steering) names Host A as the male voice and Host B as the female voice. NotebookLM Audio Overview's default English voice pair is (Hannah=female, John=male); the framing must name them consistently with HOST_VOICE_GENDER. | Substring scan for the voice-gender pairing in steering / Voice constraints section. | Auto-fix (insert canonical voice-gender pairing block). |
+| Q5 | **Transcript empirical: scholar/seeker positions held** — when `transcripts/EP##-<slug>.transcript.txt` exists, scan for the female voice taking the scholar position ("Let me explain X to you" delivered by the female host) or the male voice taking the seeker position ("I have no idea, can you teach me?" delivered by the male host). The challenger uses NotebookLM speaker-attribution metadata when available, falls back to alternating-line heuristic otherwise. | Speaker-attributed scan. | Flag (P1) per role-violating turn; report counts. |
+
 ### Category R: Conversation choreography (P0/P1/P2) — added 2026-05-18
 
 Per-episode checks that the framing's host-pacing layer, reset directives, sentence-cadence directive, and formal-transition DENY block are in place. Implements the rule batch R-SURPRISE-MOVE + R-RESET + R-CADENCE + R-NOFORMAL + the softened R-NOMODERNIZE permission paragraph.
@@ -342,13 +361,13 @@ Category S is **never auto-fixed**. Every S-finding is a safety gate; the challe
 
 ### Category T: Doctrinal accuracy (P0/P1) — added 2026-05-24
 
-Hard checks against canonical Islamic / Ismaili lineage data. The data files are the source of truth; rule logic lives in `scripts/podcast/_doctrinal.py`; the build-time hard gate sits in `scripts/podcast/build_episode_txt.py::assert_doctrinal_clean()`. Asif's tradition (Nizari/Mustaali Ismaili) treats Ali ibn Abi Talib as the **Father of Imams** (NOT Imam #1); the first Imam is Hassan. The phrase "Imam Ali" is forbidden.
+Hard checks against canonical Islamic / Ismaili lineage data. The data files are the source of truth; rule logic lives in `scripts/podcast/_doctrinal.py`; the build-time hard gate sits in `scripts/podcast/build_episode_txt.py::assert_doctrinal_clean()`. Asif's tradition (Nizari/Mustaali Ismaili) treats Ali ibn Abi Talib as the **Father of Imams** (NOT Imam #1); the first Imam is Hassan. The literal phrase pairing the leadership-title with the personal name of the Father of Imams is forbidden — see `content/_shared/islam/naming-conventions.yml::forbidden_phrases` for the exact strings (this spec deliberately does NOT quote the literal forbidden phrase here, per R-NO-LITERAL-FORBIDDEN-PHRASE-IN-GUARDS).
 
 | ID | Check | Detection | Remediation |
 |---|---|---|---|
 | T1 | **Canonical attribution.** Quotations must match the canonical source/speaker pairing in [content/_shared/islam/canonical-attributions.yml](content/_shared/islam/canonical-attributions.yml). Mis-attribution (e.g., a verse attributed to a different translator, or a saying attributed to a different Imam than canonical) is P0. | Paragraph-level scan: when a saying's signature appears, check the same paragraph for any listed forbidden attribution. | Flag (P0). Replace with `canonical_attribution`. |
-| T2 | **Imam lineage check.** When the chapter names "the Nth Imam", verify N matches the canonical lineage in [imam-lineage-ismaili.yml](content/_shared/islam/imam-lineage-ismaili.yml). Sequence violations are P0 (e.g., "the 1st Imam Ali" — Ali is NOT an Imam in this lineage; Imam #1 is Hassan). Ordinals beyond the lineage length flag P0. | Regex on ordinals + window scan for canonical_name / aliases of other Imams. | Flag (P0). Replace with the canonical name for that ordinal. |
-| T3 | **Forbidden naming-convention phrases.** Substring scan for [naming-conventions.yml::forbidden_phrases](content/_shared/islam/naming-conventions.yml) (e.g., "Imam Ali" → P0, "Imam Fatima" → P0) and [imam-lineage-ismaili.yml::forbidden_imam_titles::aliases_that_signal_violation](content/_shared/islam/imam-lineage-ismaili.yml). Deduped by `(start_offset, match)`. | Word-boundary regex with negative lookahead for valid multi-word Imam names. | Flag (P0). Replace with `replacement` from the data file. |
+| T2 | **Imam lineage check.** When the chapter names "the Nth Imam", verify N matches the canonical lineage in [imam-lineage-ismaili.yml](content/_shared/islam/imam-lineage-ismaili.yml). Sequence violations are P0 (e.g., calling the Father of Imams the "1st Imam" — the Father of Imams is NOT an Imam in this lineage; Imam #1 is Hassan). Ordinals beyond the lineage length flag P0. | Regex on ordinals + window scan for canonical_name / aliases of other Imams. | Flag (P0). Replace with the canonical name for that ordinal. |
+| T3 | **Forbidden naming-convention phrases.** Substring scan for [naming-conventions.yml::forbidden_phrases](content/_shared/islam/naming-conventions.yml) (the data file lists every variant — the canonical example pairs the leadership-title with the personal name of the Father of Imams, and the parallel forbidden pairing with Fatima → P0 each) and [imam-lineage-ismaili.yml::forbidden_imam_titles::aliases_that_signal_violation](content/_shared/islam/imam-lineage-ismaili.yml). Deduped by `(start_offset, match)`. | Word-boundary regex with negative lookahead for valid multi-word Imam names. | Flag (P0). Replace with `replacement` from the data file. |
 | T4 | **Farman date/location plausibility.** STUB — data file [content/_shared/islam/farmans.yml](content/_shared/islam/farmans.yml) reserved but not yet populated. Once populated, cross-references any Farman attribution against issuing-Imam's lifetime + accession dates. | Pending data. | Pending. |
 | T5 | **Weak/fabricated hadith.** Match against [canonical-attributions.yml::weak_or_fabricated_hadith](content/_shared/islam/canonical-attributions.yml) (empty on first commit; populated incrementally via the trainer). | Substring scan over chapter blockquotes. | Flag (P1) advisory by default; P0 if the entry's `severity` is set to P0. |
 
@@ -608,6 +627,8 @@ When invoked:
 ---
 
 ## Version
+
+v2.1 (2026-05-24). **Host role parity book-wide (P0) + episode format recommendation (P1).** Added Category Q (Host role parity book-wide) — Host A (male voice) is always the scholar/teacher pool; Host B (female voice) is always the seeker/student/debater pool; roles do not rotate, swap, or blur across episodes within a single book. Five checks: Q1 (host A role in scholar pool), Q2 (host B role in seeker pool), Q3 (role parity across all episodes of the same book — read sibling framings to verify), Q4 (voice/gender pairing declared and consistent with NotebookLM default voices via `HOST_VOICE_GENDER` in `_rules.py`), Q5 (transcript empirical: scholar/seeker positions held by the right voice). Canonical role pools live in [`scripts/podcast/_rules.py`](../../scripts/podcast/_rules.py) — `HOST_A_ROLES_SCHOLAR` (12 terms) + `HOST_B_ROLES_SEEKER` (11 terms). New R-EPISODE-FORMAT-RECOMMENDED — every chapter-contract declares `episode_format: deep_dive | debate` with rationale; missing or partial debate blocks are P1 (extract mode already validates at chapter-contract write time per Category P; this elevates the requirement to the contract-design phase via `EPISODE_FORMAT_ALLOWED` enum in `_rules.py`). `CHALLENGER_VERSION` bumped 2.0 → 2.1.
 
 v2.0 (2026-05-18, late evening). **Closed-loop learning substrate.** Added the `_learning/` substrate (READMEd at `content/podcast/.skill/_learning/README.md`) wiring four new pieces around the existing sense-stage scripts: (1) **findings ledger** — every finding this agent surfaces AND every audit_transcript.py hit appends one JSONL record to `_learning/findings.jsonl` via `emit_finding()` in `scripts/podcast/_rules.py`; (2) **aggregator** — `scripts/podcast/learn_aggregate.py` groups the ledger by signature into `_learning/patterns.md`; (3) **proposer** — `scripts/podcast/learn_propose.py` emits rule-promotion markdown proposals under `_learning/proposals/` for any signature crossing thresholds (≥2 books OR ≥3 episodes); (4) **regression harness** — `scripts/podcast/test_challenger.py` runs the deterministic auto-fix detectors against frozen `_learning/fixtures/<check-id>/` corpora and exits non-zero on any regression; bootstrap fixtures shipped for B5, O1, N1, M3, R4. New `scripts/podcast/write_health.py` writes `_learning/health/<book-slug>.json` and appends to `BOOK_DIR/_system/health-trend.md` after every challenger run; score formula `1 − (P0·1.0 + P1·0.2 + P2·0.05) / chapters`. Single-source `CHALLENGER_VERSION` constant in `_rules.py` (this is v2.0) stamped into every sidecar report and every ledger record. Cold-start file list extended (16+2 → 19 — added `_learning/README.md`, `learn_aggregate.py`, `learn_propose.py`). Section 5 sidecar report gains a mandatory ledger-emission step. Section 6 integration adds the post-SHIP-READY hook in `/podcast` Phase 4. E1 reconciled: the actual build-script hard cap is `FRAMING_WORD_MAX = 3500`, not 3,000; the prior soft-band of 200–2,000 is retained as a warning band but does NOT block insertion of mandatory R-* clauses up to 3,500.
 

@@ -14,7 +14,7 @@ pipeline:
 
 publication:
   status: in_progress
-  shipped_via: scripts/podcast/ship_to_library.py
+  shipped_via: scripts/podcast/publish_to_library.py
   publication_target: ../../published/books/ayyuhal-walad/
 
 provenance:

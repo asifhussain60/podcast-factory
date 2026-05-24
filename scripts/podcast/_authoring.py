@@ -71,8 +71,41 @@ PHASE_0C_WINDOW_TIMEOUT = 600
 
 # Map-reduce defaults for Phase 0d / 0e (per-source-chapter / per-episode-chapter loops).
 PHASE_0D_TOC_TIMEOUT = 600            # 10 min — TOC step processes whole refined-english.md once (read-mostly)
-PHASE_0D_SC_TIMEOUT = 1200            # 20 min per source chapter — writes 1-3 episode files + contracts
+PHASE_0D_SC_TIMEOUT = 1800            # 30 min per source chapter — used as the global *fallback* only;
+                                      # the actual per-SC timeout is now word-count-aware via
+                                      # _compute_sc_timeout() below. See feedback-memory
+                                      # `phase-0d-timeout-strategy` 2026-05-24.
 PHASE_0E_CHAPTER_TIMEOUT = 900        # 15 min per chapter enrichment
+
+# Word-count-aware timeout bounds for Phase 0d Step 2.
+# Formula: timeout = max(MIN, min(MAX, ceil(words * RATE + BASELINE))).
+# Calibrated against observed wall times on shipped books:
+#   - 3,000-word SC ran in ~10-12 min on Opus default
+#   - 5,289-word SC (master-disciple sc-001) finished in ~14 min
+#   - 6,651-word SC (master-disciple sc-005) needed > 20 min and timed out
+# Setting RATE=0.4 + BASELINE=600 gives the 6,651-word case a ~54 min budget
+# (vs. previous 30 min uniform), while a 3,000-word SC stays at 1,800s. The
+# 15-min floor protects very short slices from spurious timeouts on cold-start;
+# the 60-min ceiling prevents runaway cost on a pathological chapter.
+PHASE_0D_SC_TIMEOUT_MIN = 900         # 15 min floor (cold-start safety)
+PHASE_0D_SC_TIMEOUT_MAX = 3600        # 60 min ceiling (cost guard)
+PHASE_0D_SC_TIMEOUT_RATE = 0.4        # seconds per source-chapter word
+PHASE_0D_SC_TIMEOUT_BASELINE = 600    # 10 min base, regardless of length
+
+
+def _compute_sc_timeout(words: int) -> int:
+    """Word-count-aware per-source-chapter timeout in seconds.
+
+    Replaces the prior one-size-fits-all PHASE_0D_SC_TIMEOUT (which charged
+    short chapters full budget while leaving dense chapters under-allotted
+    and prone to timeout-retry-burn-spend cycles).
+
+    Bounded by PHASE_0D_SC_TIMEOUT_MIN / _MAX so neither pathologically
+    short slices spurious-fail nor pathologically long ones run away on cost.
+    """
+    import math
+    raw = math.ceil(words * PHASE_0D_SC_TIMEOUT_RATE + PHASE_0D_SC_TIMEOUT_BASELINE)
+    return max(PHASE_0D_SC_TIMEOUT_MIN, min(PHASE_0D_SC_TIMEOUT_MAX, raw))
 
 CLAUDE_CMD = "claude"         # resolved via PATH
 
@@ -101,41 +134,66 @@ def _run_claude_p(
     phase: str = "",
     step: str = "",
     model: str = DEFAULT_MODEL_LABEL,
+    model_flag: str | None = None,
 ) -> tuple[int, str, str]:
     """Run `claude -p "<prompt>"` synchronously. Return (rc, stdout, stderr).
 
     Raises AuthoringError if the `claude` binary is not on PATH or the call
     times out. Non-zero return codes are returned to the caller for handling.
 
+    `model_flag` (when set) passes `--model <flag>` to the CLI, overriding
+    Claude Code's default. Used by the Phase 0d retry policy to fall back to
+    a smaller/faster model after a first-attempt timeout. The `model`
+    parameter remains for cost-ledger labeling and stays in sync with
+    `model_flag` when the caller passes both.
+
     P6.1 cost-ledger integration: if `book_dir` is provided, also append a
     row to `<book_dir>/_system/cost-ledger.jsonl` via `_cost_ledger`. Ledger
     write failures NEVER poison the LLM call's return value — they emit a
     stderr warning and otherwise proceed silently.
     """
+    # 2026-05-24: switched to --output-format json so the cost-ledger can
+    # capture real token counts + Claude's authoritative cost_usd. Stdout
+    # becomes a single JSON object; the actual LLM text response is in
+    # `result`. We unwrap before returning so callers (which inspect stdout
+    # for the LLM's response text) continue to work.
+    argv: list[str] = [
+        CLAUDE_CMD, "-p", "--permission-mode", "acceptEdits",
+        "--output-format", "json",
+    ]
+    if model_flag:
+        argv.extend(["--model", model_flag])
+    argv.append(prompt)
     try:
         proc = subprocess.run(
-            [CLAUDE_CMD, "-p", "--permission-mode", "acceptEdits", prompt],
+            argv,
             cwd=cwd,
             capture_output=True,
             text=True,
             timeout=timeout,
         )
-        rc, stdout, stderr = proc.returncode, proc.stdout, proc.stderr
+        rc, raw_stdout, stderr = proc.returncode, proc.stdout, proc.stderr
+        # Ledger first (uses the raw JSON stdout for usage extraction)
         if book_dir is not None:
             try:
-                # Late import — module is optional in some test contexts
                 from _cost_ledger import append_from_claude_p_stdout
                 append_from_claude_p_stdout(
                     book_dir,
                     phase=phase or "(unspecified)",
                     step=step or "(unspecified)",
-                    model=model,
-                    stdout=stdout,
+                    model=model_flag or model,
+                    stdout=raw_stdout,
                 )
             except Exception as e:  # noqa: BLE001 — ledger errors must not poison the call
                 sys.stderr.write(
                     f"[_run_claude_p] cost-ledger append failed: {e!r}\n"
                 )
+        # Unwrap JSON to return only the textual response (legacy contract)
+        try:
+            from _cost_ledger import parse_text_from_json_stdout
+            stdout = parse_text_from_json_stdout(raw_stdout)
+        except Exception:
+            stdout = raw_stdout
         return rc, stdout, stderr
     except FileNotFoundError as e:
         raise AuthoringError(
@@ -152,6 +210,85 @@ def _run_claude_p(
             phase="(shellout)",
             message=f"LLM call timed out after {timeout}s.",
             manual_fallback="Resume manually via /podcast and `--resume` the orchestrator.",
+        ) from e
+
+
+def _run_claude_p_with_retry(
+    prompt: str,
+    *,
+    timeout: int,
+    book_dir: Path,
+    phase: str,
+    step: str,
+    log=print,
+    fallback_model: str = "claude-sonnet-4-6",
+    fallback_timeout_multiplier: float = 1.5,
+) -> tuple[int, str, str]:
+    """Phase 0d retry policy: timeout → single retry with fallback model → halt.
+
+    Strategy (per 2026-05-24 feedback `phase-0d-timeout-strategy`):
+      1. First attempt: caller-computed timeout + Claude Code's default model
+         (Opus on Max plan).
+      2. On TimeoutExpired: ONE retry with `fallback_model` and
+         `timeout * fallback_timeout_multiplier`. Sonnet (the default
+         fallback) is often faster on long single-shot tasks because the
+         smaller model produces tokens at a higher rate. Trading some
+         quality for completion is the right call when the alternative is
+         a second discard-and-spend-again timeout.
+      3. On second timeout: re-raise as AuthoringError with a halt-and-surface
+         message naming both attempts. The orchestrator's --resume + --retry-phase
+         path lets Asif decide what to do (manual /podcast drive, split the
+         chapter, etc.) instead of the script auto-spiraling.
+
+    Non-timeout failures (rc != 0) are returned to the caller unchanged for
+    the existing handling logic — only TimeoutExpired triggers the fallback.
+    """
+    try:
+        return _run_claude_p(
+            prompt, timeout=timeout,
+            book_dir=book_dir, phase=phase, step=step,
+        )
+    except AuthoringError as e:
+        # Identify timeout vs. other AuthoringError causes (FileNotFoundError
+        # for missing `claude` binary etc.). The timeout path constructs a
+        # message with "timed out after"; we match on that substring.
+        if "timed out after" not in str(e):
+            raise
+
+    # First-attempt timeout — try once with the fallback model + bumped timeout.
+    bumped = int(timeout * fallback_timeout_multiplier)
+    log(f"      [retry] {step}: first attempt timed out ({timeout}s); "
+        f"retrying once with model={fallback_model}, timeout={bumped}s")
+    try:
+        return _run_claude_p(
+            prompt, timeout=bumped,
+            book_dir=book_dir, phase=phase, step=f"{step}-retry-sonnet",
+            model=fallback_model, model_flag=fallback_model,
+        )
+    except AuthoringError as e:
+        if "timed out after" not in str(e):
+            raise
+        # Second timeout — halt-and-surface so Asif decides next move
+        # instead of compounding spend.
+        raise AuthoringError(
+            phase=phase,
+            message=(
+                f"{step}: BOTH attempts timed out. Default model exceeded {timeout}s; "
+                f"fallback {fallback_model} exceeded {bumped}s. No third auto-retry — "
+                f"halt-and-surface per the 2026-05-24 timeout strategy."
+            ),
+            manual_fallback=(
+                "Options to decide before re-launching:\n"
+                "  (a) Force a split: re-run --resume --retry-phase 0d with "
+                "--unit-mode section so the long source chapter becomes 2-3 "
+                "smaller episodes.\n"
+                "  (b) Manually author this source chapter's contract using "
+                "the conversational /podcast skill against the input slice at "
+                "_chunks/0d/sc-NNN.in.md, then drop sc-NNN.done.\n"
+                "  (c) Bump the per-SC timeout cap (PHASE_0D_SC_TIMEOUT_MAX) "
+                "if the chapter is genuinely an outlier — but ONLY if you "
+                "expect the cost to be worth it."
+            ),
         ) from e
 
 
@@ -437,7 +574,51 @@ def author_phase_0c(
             manual_fallback="Inspect _chunks/0c/win-*.out.md and merge manually.",
         )
 
-    return f"0c chunked: {len(out_paths)} windows merged into {out_path.name}"
+    # Baked-in (2026-05-24): every book gets a glossary.yml for the podcast-
+    # reader's Arabic-script overlay. The scaffold step is deterministic
+    # (no LLM call); the LLM-fill step is one cheap claude -p that populates
+    # arabic_script from the OCR. Both are best-effort — a failure in either
+    # does not block Phase 0c from completing.
+    glossary_msg = _bake_glossary(book_dir, log=log)
+
+    return f"0c chunked: {len(out_paths)} windows merged into {out_path.name}{glossary_msg}"
+
+
+def _bake_glossary(book_dir: Path, *, log=print) -> str:
+    """Generate BOOK_DIR/_system/glossary.yml + fill arabic_script from OCR.
+
+    Returns a short " + glossary: …" suffix for the Phase 0c return string,
+    or "" on failure. Failures are LOGGED but DO NOT raise — the glossary
+    is a podcast-reader enrichment, not a pipeline blocker.
+    """
+    here = Path(__file__).resolve().parent
+    builder = here / "build_glossary.py"
+    filler = here / "fill_glossary_arabic.py"
+    msg_parts: list[str] = []
+
+    # Step 1: build_glossary.py (deterministic; produces empty arabic_script).
+    rc, out, err = _run([sys.executable, str(builder), "--book-dir", str(book_dir), "--force"])
+    if rc == 0:
+        msg_parts.append("scaffold")
+    else:
+        log(f"  phase 0c · glossary scaffold failed (rc={rc}): {err.strip()[:200]}")
+        return ""
+
+    # Step 2: fill_glossary_arabic.py (claude -p; populates arabic_script).
+    rc, out, err = _run([sys.executable, str(filler), "--book-dir", str(book_dir)])
+    if rc == 0:
+        msg_parts.append("Arabic-fill")
+    else:
+        log(f"  phase 0c · glossary Arabic-fill skipped (rc={rc}): {err.strip()[:200]}")
+        # Scaffold still wrote successfully; reader handles empty arabic_script.
+    return f" + glossary: {' + '.join(msg_parts)}"
+
+
+def _run(argv: list[str]) -> tuple[int, str, str]:
+    """Local shellout helper; mirrors orchestrate_book._run shape."""
+    import subprocess as _sp
+    proc = _sp.run(argv, capture_output=True, text=True)
+    return proc.returncode, proc.stdout, proc.stderr
 
 
 def _merge_phonetic_tables(paths: list[Path]) -> str:
@@ -600,13 +781,26 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"INPUT:  `{in_refined}` (the refined English source)\n"
             f"OUTPUT: `{toc_path}` (machine-readable plan; valid JSON only, no markdown)\n\n"
             f"TASK:\n"
-            f"1. Read `{in_refined}` and identify the source chapters (by heading, "
-            f"thematic break, or major topic shift). Use the source author's own "
-            f"chapter breaks as the starting point.\n"
-            f"2. For each source chapter, compute its line range in `{in_refined}` "
+            f"1. Read `{in_refined}` and identify the EPISODE units that serve the\n"
+            f"   listener best — NOT the source author's chapter list. The source's own\n"
+            f"   chapter breaks are ADVISORY, not authoritative. You are reconfiguring\n"
+            f"   the material into episodes; you are not transcribing a table of contents.\n"
+            f"   Specifically, you should:\n"
+            f"   (a) MERGE adjacent source chapters whose content shares one narrative or\n"
+            f"       doctrinal arc that a listener should hear as a single unit (e.g. an\n"
+            f"       editor's preface + the opening doctrinal chapter often belong together).\n"
+            f"   (b) SPLIT a long source chapter into multiple episodes when it carries\n"
+            f"       multiple distinct teachings that would each support a full episode.\n"
+            f"   (c) DROP editorial side-matter that wouldn't make a good standalone episode\n"
+            f"       (manuscript history, philological appendices) — flag via `essential:\n"
+            f"       skip` in the per-chapter contract so Asif can confirm at Phase 0f.\n"
+            f"   (d) RE-DRAW boundaries when a thematic seam falls inside a source chapter —\n"
+            f"       cut at the seam, not at the source's heading.\n"
+            f"   Reflect your reconfiguration in `split_reason` per source chapter.\n"
+            f"2. For each output episode unit, compute its line range in `{in_refined}` "
             f"(1-indexed, inclusive — use `wc -l` style counting; lines are separated by "
             f"`\\n`). Also compute its word count (whitespace-split).\n"
-            f"3. Apply the following segmentation directive PER SOURCE CHAPTER:\n"
+            f"3. Apply the following segmentation directive PER SOURCE-OR-RECONFIGURED CHAPTER:\n"
             f"   {unit_directive}\n"
             f"4. Assign monotonically increasing episode numbers (`ep_num`) across the whole "
             f"book starting at 1. Each episode gets a short kebab-case `episode_slug` "
@@ -771,8 +965,11 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"AUTHORITY:\n"
             f"  - `{in_phonetics}` (consult for Arabic terms appearing in this slice)\n"
             f"  - `content/_shared/islam/imam-lineage-ismaili.yml` (canonical Imam lineage —\n"
-            f"    Hassan=1st; 'Imam Ali' is FORBIDDEN, use 'Father of Imams') and\n"
-            f"    `naming-conventions.yml`\n"
+            f"    Hassan=1st; the literal phrase pairing the leadership-title with the\n"
+            f"    personal name of the Father of Imams is FORBIDDEN — always say 'Father\n"
+            f"    of Imams') and `naming-conventions.yml`. Do NOT write the literal\n"
+            f"    forbidden phrase anywhere — not even inside DO-NOT-SAY guards. The\n"
+            f"    doctrinal scanner is substring-only and flags the guard itself.\n"
             f"  - Contract shape: every episode contract under `chapter-contracts/` follows\n"
             f"    the same fields seen in earlier shipped books (see `content/published/books/*/`)\n\n"
             f"PLAN FOR THIS SOURCE CHAPTER (from `{toc_path}`):\n"
@@ -804,22 +1001,33 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"CONTENT-AWARE FIELD ASSIGNMENTS — analyze the source-chapter's rhetorical "
             f"structure to set these fields. Do NOT default blindly.\n"
             f"\n"
-            f"  episode_format — one of:\n"
-            f"    * deep_dive: chapter is exposition/narrative — one position being developed.\n"
-            f"      Use for: editor's introductions, foundational chapters before disputes\n"
-            f"      kick in, architectural settlements where the author synthesizes without\n"
-            f"      a named opponent, historical/biographical narrative.\n"
-            f"    * debate: chapter contains two or more NAMED opposing voices being\n"
-            f"      adjudicated by the author. Look for explicit patterns like 'X said this,\n"
-            f"      Y said that, the truth is …' or 'the author of [WORK_A] held …, the author\n"
-            f"      of [WORK_B] held …, we reply …'. If the chapter quotes named opponents and\n"
-            f"      systematically refutes/balances them, this is debate.\n"
+            f"  episode_format — one of (decide PER CHAPTER from content; never default\n"
+            f"  to a book-wide pattern):\n"
+            f"    * deep_dive: chapter unfolds ONE position layer-by-layer. Use ONLY when\n"
+            f"      there is NO named opposing voice running through the chapter — i.e.,\n"
+            f"      editor's introductions, monological cosmology, narrative-without-dispute,\n"
+            f"      synthesis chapters that gather earlier threads without re-opening them.\n"
+            f"    * debate: chapter contains two or more NAMED voices in extended back-and-\n"
+            f"      forth on a discernible proposition. The QUALIFYING signal is sustained\n"
+            f"      NAMED-OPPOSITION-WITH-DIALOGUE (>=40% of chapter word count voiced by the\n"
+            f"      opposing party, with the chapter's spine being the contest itself).\n"
+            f"      CRITICAL: A chapter is STILL debate when one side concedes by the close.\n"
+            f"      Concession-arcs are NOT teaching dialogues — they are debates with\n"
+            f"      `resolution: host_b_concedes` (or `host_a_concedes`). The challenger's\n"
+            f"      Category P2 explicitly accepts those resolution enums. Examples:\n"
+            f"      Salih+Abu-Malik dialogues in *Master and Disciple*; al-Kirmani's named\n"
+            f"      adjudication of al-Islah vs al-Nusra. Do NOT downgrade to deep_dive just\n"
+            f"      because the foil-voice eventually consents.\n"
             f"    * interview: chapter is Q&A structured (rare in primary sources).\n"
             f"    * narrative: chapter is pure historical/biographical exposition (no\n"
             f"      doctrinal dispute, no exposition-of-position — just events).\n"
-            f"  format_rationale: ONE sentence — the textual evidence that drove the choice\n"
-            f"    (e.g., 'Chapter explicitly names al-Islah and al-Nusra as opponents across\n"
-            f"    18/19 sub-chapters; al-Kirmani's resolution appears as the closing move').\n"
+            f"  format_rationale: 2-3 sentences — name the textual evidence that drove the\n"
+            f"    choice. For debate, name (1) the opposing party, (2) the proposition under\n"
+            f"    contest, (3) the resolution enum that matches the chapter's outcome. For\n"
+            f"    deep_dive, name the one unfolding doctrine + confirm NO sustained named\n"
+            f"    opposition runs through the chapter. Do not default to a book-wide pattern;\n"
+            f"    if 5 of 7 chapters are deep_dive and 2 are debate, that diversity is the\n"
+            f"    correct answer when the content shape varies.\n"
             f"\n"
             f"  essential — one of:\n"
             f"    * core: required for the doctrinal/argumentative arc; cannot be removed\n"
@@ -858,12 +1066,28 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"Exit when every output file above exists and is non-empty."
         )
 
+        # Word-count-aware timeout per source chapter (2026-05-24 strategy).
+        # Replaces the prior global sc_timeout. Tracks slice_wc so dense
+        # chapters get the budget they need without short ones overpaying.
+        per_sc_timeout = _compute_sc_timeout(slice_wc)
         log(f"    sc {sc_idx:03d}/{len(source_chapters)} · authoring "
-            f"({episode_count} ep, {slice_wc} src words) · `{sc_title[:50]}`")
-        rc, stdout, stderr = _run_claude_p(
-            sc_prompt, timeout=sc_timeout,
-            book_dir=book_dir, phase="0d", step=f"sc-{sc_idx:03d}",
-        )
+            f"({episode_count} ep, {slice_wc} src words, timeout={per_sc_timeout}s) · "
+            f"`{sc_title[:50]}`")
+        try:
+            rc, stdout, stderr = _run_claude_p_with_retry(
+                sc_prompt, timeout=per_sc_timeout,
+                book_dir=book_dir, phase="0d", step=f"sc-{sc_idx:03d}",
+                log=log,
+            )
+        except AuthoringError as e:
+            # Halt-and-surface path: both attempts timed out. Don't continue
+            # the loop — propagate so the orchestrator surfaces the decision
+            # to the user via the standard AuthoringError flow.
+            if "BOTH attempts timed out" in str(e):
+                raise
+            # Other AuthoringError shapes (e.g. claude binary missing)
+            # also propagate — they're not transient.
+            raise
         if rc != 0:
             # Transient (network/API/quota) — log + continue; resume retries.
             # P5.2: capture stdout AND stderr in the failure record.
@@ -1047,8 +1271,11 @@ def author_phase_0e(book_dir: Path,
             f"that lived there are inlined below — proceed without trying to Read those paths):\n"
             f"  - DOCTRINAL accuracy: `content/_shared/islam/imam-lineage-ismaili.yml`,\n"
             f"    `naming-conventions.yml`, `canonical-attributions.yml` ARE source-of-truth\n"
-            f"    and DO exist on disk. 'Imam Ali' is FORBIDDEN — use 'Father of Imams'.\n"
-            f"    Hassan is the 1st Imam in the canonical lineage.\n"
+            f"    and DO exist on disk. The literal phrase pairing the leadership-title\n"
+            f"    with the personal name of the Father of Imams is FORBIDDEN — always\n"
+            f"    use 'Father of Imams'. Hassan is the 1st Imam in the canonical lineage.\n"
+            f"    Do NOT write the forbidden phrase anywhere — not even inside DO-NOT-SAY\n"
+            f"    guards. The doctrinal scanner is substring-only and flags the guard.\n"
             f"  - ENRICHMENT-SOURCE TIERS: seven tiers ranging from Quran/Nahj/Prophetic\n"
             f"    hadith (Tier 1) down to modern Ismaili scholarship (Tier 7). Each chapter\n"
             f"    should pull from at least 3 different tiers; quotations/citations together\n"
@@ -1071,7 +1298,8 @@ def author_phase_0e(book_dir: Path,
             f"`(peace and blessings be upon him)`, `(may Allah be pleased with him)`, "
             f"`(may God be pleased with him)`. On first mention of a figure, include "
             f"their honorific; on subsequent mentions, use the bare name only "
-            f"('the Prophet', 'Imam Ali', 'Moses'). Before returning the chapter file, "
+            f"('the Prophet', 'the Father of Imams', 'Moses' — NEVER the title-and-name "
+            f"pairing for the Father of Imams). Before returning the chapter file, "
             f"COUNT each honorific form's occurrences — if any form appears more than "
             f"once, trim duplicates. NotebookLM vocalizes every honorific aloud; "
             f"repetition is jarring in audio.\n"
@@ -1123,13 +1351,29 @@ def author_phase_0e(book_dir: Path,
             f"Exit when `{chapter_file}` has been rewritten in place with citations woven in."
         )
 
-        log(f"    {stem} · enriching")
+        # Word-count-aware timeout per chapter (2026-05-24 strategy, extended
+        # from Phase 0d to Phase 0e). Enrichment is heavier-write than 0d's
+        # parse-and-contract, so the same _compute_sc_timeout formula —
+        # max(900, min(3600, ceil(words*0.4 + 600))) — gives ch01 (9,645 words)
+        # 64 min vs. the prior flat 15 min. ch02 (11,143 words) would have hit
+        # the 60-min ceiling; the flat 900s explains why it timed out.
+        chapter_words = len(chapter_file.read_text(encoding="utf-8").split())
+        per_chapter_timeout = _compute_sc_timeout(chapter_words)
+        log(f"    {stem} · enriching ({chapter_words} words, timeout={per_chapter_timeout}s)")
         # Capture pre-enrichment mtime to detect that the file was actually rewritten.
         pre_mtime = chapter_file.stat().st_mtime
-        rc, stdout, stderr = _run_claude_p(
-            prompt, timeout=chapter_timeout,
-            book_dir=book_dir, phase="0e", step=stem,
-        )
+        try:
+            rc, stdout, stderr = _run_claude_p_with_retry(
+                prompt, timeout=per_chapter_timeout,
+                book_dir=book_dir, phase="0e", step=stem,
+                log=log,
+            )
+        except AuthoringError as e:
+            if "BOTH attempts timed out" in str(e):
+                # Halt-and-surface: don't continue the loop. User decides:
+                # /podcast manual drive, raise PHASE_0D_SC_TIMEOUT_MAX, or skip.
+                raise
+            raise
         if rc != 0:
             # Transient — log + continue; resume retries.
             # P5.2: capture stdout AND stderr in the failure record.
@@ -1184,11 +1428,39 @@ def author_phase_0e(book_dir: Path,
             ),
         )
 
+    # Baked-in safety net (2026-05-24): Phase 0e occasionally lets inline
+    # phonetic guides slip into chapter files (e.g. `*Maqrub* (mak-ROOB)`)
+    # despite the R-PHONETICS-OUT instruction in its prompt. The build script
+    # HARD-refuses these later, blocking per-chapter authoring on every run.
+    # Strip them deterministically here so the build is never blocked by the
+    # leak. The phonetic data is preserved in _phonetics.md and glossary.yml;
+    # the framing's Pronunciation section is the canonical surface.
+    strip_msg = _bake_strip_inline_phonetics(book_dir, log=log)
+
     return (
         f"0e per-chapter loop: {len(chapter_files)} chapters enriched "
         f"({len(already_done)} skipped as already done, "
-        f"{len(chapter_files) - len(already_done)} newly enriched)"
+        f"{len(chapter_files) - len(already_done)} newly enriched){strip_msg}"
     )
+
+
+def _bake_strip_inline_phonetics(book_dir: Path, *, log=print) -> str:
+    """Run scripts/podcast/strip_inline_phonetics.py over BOOK_DIR/chapters/.
+
+    Best-effort: failures log and skip; this is a safety net, not a
+    pipeline-blocking step. Most runs will report 0 strips (the LLM
+    usually honors R-PHONETICS-OUT); when the LLM slips, this catches it
+    BEFORE the build hard-refuses.
+    """
+    here = Path(__file__).resolve().parent
+    stripper = here / "strip_inline_phonetics.py"
+    if not stripper.exists():
+        return ""
+    rc, _out, err = _run([sys.executable, str(stripper), "--book-dir", str(book_dir)])
+    if rc != 0:
+        log(f"  phase 0e · strip_inline_phonetics skipped (rc={rc}): {err.strip()[:200]}")
+        return ""
+    return " + strip-inline-phonetics"
 
 
 # ─── Per-chapter framing authorship ──────────────────────────────────────────
@@ -1245,8 +1517,13 @@ def author_framing(book_dir: Path, chapter_slug: str,
         f"`two-host-framing.md`, and `content/_shared/arabic/05-name-alias-policy.md` were retired\n"
         f"in the 2026-05-23 restructure; the R-rules they carried are inlined in this prompt below):\n"
         f"  - DOCTRINAL: `content/_shared/islam/imam-lineage-ismaili.yml` + `naming-conventions.yml`\n"
-        f"    are the canonical sources for the Imam lineage and the 'Father of Imams' / 'Imam Ali\n"
-        f"    is forbidden' rule. THESE FILES DO exist on disk.\n"
+        f"    are the canonical sources for the Imam lineage and the 'Father of Imams' rule.\n"
+        f"    THESE FILES DO exist on disk. The literal phrase that pairs the leadership-title\n"
+        f"    with the personal name of the Father of Imams is forbidden — do NOT write that\n"
+        f"    literal phrase anywhere in the framing (including any 'DO NOT SAY' guard you\n"
+        f"    construct; the doctrinal scanner is substring-only and will flag the guard itself\n"
+        f"    as a violation). Refer to it always as 'the forbidden pairing of the title and\n"
+        f"    name' or equivalent paraphrase.\n"
         f"  - HOST ROLES: Driver (curious questioner, drives forward) vs Color (commentary,\n"
         f"    pushback, friction) — see inlined R-rules below for the steering phrases.\n"
         f"  - R-RULES: canonical Python data is `scripts/podcast/_rules.py`; rule logic is\n"
@@ -1257,6 +1534,45 @@ def author_framing(book_dir: Path, chapter_slug: str,
         f"R-PRONUNCIATION-IMPERATIVE, R-NOMODERNIZE (+ positive analogy paragraph), "
         f"R-NOSURPRISE (DENY clause + positive companion), R-NO-READ-PROMPT, "
         f"R-SUMMARYTAIL, R-NOMETA, R-CADENCE, R-NOFORMAL, R-SURPRISE-MOVE, R-RESET.\n"
+        f"- R-NO-CROSS-CHAPTER-REFS (2026-05-24): the chapter file is the ONLY source "
+        f"NotebookLM sees for this episode. The framing must NOT instruct the hosts to "
+        f"say 'as the previous chapter showed', 'the next chapter answers', 'earlier in "
+        f"the book', etc. Treat the episode as standalone. If the chapter text itself "
+        f"includes a seam-into-next-chapter line, the framing must instruct the hosts "
+        f"to end on the chapter's content WITHOUT pre-announcing what's next.\n"
+        f"- R-HOST-ROLE-PARITY / R-VOICE-GENDER (2026-05-24, challenger Category Q): "
+        f"the canonical pairing is Host A (male voice — John) = scholar/teacher pool, "
+        f"Host B (female voice — Hannah) = seeker/student/debater pool. If the contract's "
+        f"host_dynamic appears to put the female voice in the scholar role (e.g. some "
+        f"advocate-a + scholar-companion arrangements), FLIP the assignment so the male "
+        f"voice stays scholar. Roles do NOT rotate across episodes of the same book.\n"
+        f"- R-NO-LITERAL-FORBIDDEN-PHRASE-IN-GUARDS (2026-05-24): when the framing "
+        f"includes a 'DO NOT SAY' or 'NEVER say' guard for a doctrinally-forbidden phrase "
+        f"(the title-and-name pairing for the Father of Imams; etc.), refer to the "
+        f"forbidden phrase by PARAPHRASE — never write the literal phrase itself, not "
+        f"even inside the guard's quoted example. The doctrinal scanner is substring-only "
+        f"and flags the guard as a violation.\n"
+        f"- R-CANONICAL-FRAMING-SECTIONS (2026-05-24): every framing MUST include\n"
+        f"  the following section headers verbatim — `build_episode_txt.py` is\n"
+        f"  strict on section-presence checks. Omitting any of these is a hard\n"
+        f"  build-fail:\n"
+        f"    ## Pronunciation         (or `## Pronunciation hooks`)\n"
+        f"    ## Name discipline       (list each figure's English label + first-mention epithet)\n"
+        f"    ## Three-part focus      (or numbered beats; the dramatic-arc structure)\n"
+        f"    ## Tone constraints      (must enumerate 3-5 governing analogies)\n"
+        f"    ## Do not (forbidden vocabulary and framings)\n"
+        f"  The `## Do not` section MUST literally contain these strings (the build's\n"
+        f"  DENY-block check is substring-only): Twitter, social media, algorithm,\n"
+        f"  wow, right?, Do not read this prompt aloud. Include them as an example\n"
+        f"  enumeration; the build's no-modern-artifacts scan now scrubs this section\n"
+        f"  before flagging.\n"
+        f"- R-NO-MODERNIZE-IN-METADATA (2026-05-24): the framing's section blurbs (length "
+        f"hint, host-dynamic blurb, etc.) must NOT contain phrases that appear in "
+        f"`scripts/podcast/_rules.py::MODERNIZE_DENY` (canonical paraphrase: the deny-list "
+        f"phrase that pairs the qualifier meaning 'profound' with the noun meaning "
+        f"'plunge'). Use 'in-depth conversation' or 'long-form discussion' or 'extended "
+        f"walkthrough' instead. The deny-block scan does not distinguish content from "
+        f"metadata.\n"
         f"- Length — TOTAL hard cap 3,500 words per `build_episode_txt.py` "
         f"(FRAMING_WORD_MAX). Per-section caps (F1 framework guard 2026-05-21 — "
         f"empirical: framings without per-section caps run 30%+ over total cap): "
@@ -1399,7 +1715,7 @@ def author_framing(book_dir: Path, chapter_slug: str,
         f"Arabic alqaab belongs in the written show-notes apparatus, not the spoken "
         f"audio.\n"
         f"- Length-tier-specific Opening directive — if Extended tier, include the exact "
-        f"phrase: \"target a 50 to 60 minute deep-dive conversation\" (v4-revised "
+        f"phrase: \"target a 50 to 60 minute in-depth conversation\" (v4-revised "
         f"2026-05-22 — bumped from 45-60). EMPIRICAL NOTE: NotebookLM exhibits a "
         f"structural pacing tendency to produce ~40-45 min episodes regardless of "
         f"target (v3=42 min, v4=42 min, v4-revised=39 min). Treat the 50-60 target as "

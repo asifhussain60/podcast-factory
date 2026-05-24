@@ -123,7 +123,7 @@ Substitute `docintel`, `translator`, etc. for `language` to test each resource i
 | Newer Azure resources have 84-char Base64 keys instead of 32-char hex | Both formats work transparently in `_azure.py`; nothing to fix |
 | macOS prompts "Always Allow" on first key access | Choose Always Allow; subsequent reads are silent |
 | `verify-azure.sh` returns `Unauthorized` | Key rotated in Azure portal; re-run `store-keychain-keys.sh` |
-| Phase 0a `ConnectionRefused` on Translator | Known transient (see [../coordination-protocol.md §12](../coordination-protocol.md)); retry once via `--retry-phase 0a` |
+| Phase 0a `ConnectionRefused` on Translator | Known transient Azure Translator hiccup; retry once via `python3 scripts/podcast/orchestrate_book.py --resume <slug> --retry-phase 0a`. The Translator endpoint becomes flaky for ~30-60s under sustained load — single retry resolves it. |
 | Cost-ledger silently fails to append | Python < 3.11 `datetime.UTC` bug (P6.5); phases run anyway |
 | New Mac doesn't see Keychain entries | Each Mac's keychain is separate; run `store-keychain-keys.sh` on the new Mac too |
 | `ENABLE_KEYVAULT=true` but pipeline still hits Azure direct | Key Vault either unreachable or empty; check `az keyvault secret list --vault-name <name>` |

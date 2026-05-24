@@ -100,9 +100,17 @@ from pathlib import Path
 # Longer, too thin to sustain Extended) — flagged with a soft warning but
 # not refused.
 CHAPTER_WORD_MIN_HARD = 500
-CHAPTER_WORD_MAX_HARD = 10500
+CHAPTER_WORD_MAX_HARD = 12000   # bumped 2026-05-24 from 10500 to fit the
+                                # `extended` tier (5,500-9,500 band) PLUS the
+                                # ~20-30% enrichment uplift Phase 0e adds.
+                                # Master-disciple's 6 chapters land 9,645-11,142
+                                # words post-enrichment; ceiling now has ~1k
+                                # headroom over the densest case.
 CHAPTER_WORD_MIN_SOFT = 1000
-CHAPTER_WORD_MAX_SOFT = 9500
+CHAPTER_WORD_MAX_SOFT = 11000   # bumped 2026-05-24 from 9500 in lockstep with
+                                # CHAPTER_WORD_MAX_HARD; soft warning still fires
+                                # at +1k below the hard refuse so authors get
+                                # advance notice before a true ceiling crash.
 CHAPTER_DEAD_ZONE_MIN = 4500
 CHAPTER_DEAD_ZONE_MAX = 5500
 
@@ -207,7 +215,55 @@ INLINE_PHONETIC_PATTERNS = [
 import sys as _sys
 from pathlib import Path as _Path
 _sys.path.insert(0, str(_Path(__file__).parent))
-from _rules import abbreviations_for_build, HONORIFICS as _HONORIFICS_RAW
+from _rules import (
+    abbreviations_for_build,
+    HONORIFICS as _HONORIFICS_RAW,
+    HOST_A_ROLES_SCHOLAR,
+    HOST_B_ROLES_SEEKER,
+)
+
+
+def validate_host_role_parity(contract: dict) -> list[str]:
+    """R-HOST-ROLE-PARITY (Q4) — deterministic host-pairing gate.
+
+    Per `_rules.py` canonical pairing: Host A (male voice) is always in the
+    scholar pool; Host B (female voice) is always in the seeker pool. This
+    rule does NOT rotate across episodes within a single book.
+
+    Returns a list of findings (empty = clean). Reads `contract.debate.host_a.role`
+    and `contract.debate.host_b.role` (debate mode only — deep_dive uses
+    host_dynamic instead). For deep_dive episodes this validator is a no-op
+    because the role assignment is conveyed via host_dynamic prose, not
+    structured fields; the LLM challenger's Q1/Q2 catches the deep_dive case
+    semantically. The hard gate here is for debate mode where the contract
+    HAS structured roles that can be machine-checked.
+
+    Auditor 2026-05-24: the HOST_A_ROLES_SCHOLAR / HOST_B_ROLES_SEEKER
+    constants were defined in _rules.py without a Python consumer. This
+    function is the consumer. Wired into validate_chapter() so any debate
+    chapter with reversed host pairing fails the build.
+    """
+    findings: list[str] = []
+    debate = (contract or {}).get("debate") or {}
+    if not isinstance(debate, dict) or not debate:
+        # deep_dive (or contract without debate block) — semantic check only
+        return findings
+    host_a = (debate.get("host_a") or {}).get("role", "")
+    host_b = (debate.get("host_b") or {}).get("role", "")
+    if host_a and host_a.lower() not in {r.lower() for r in HOST_A_ROLES_SCHOLAR}:
+        findings.append(
+            f"R-HOST-ROLE-PARITY (Q4): contract.debate.host_a.role={host_a!r} not in "
+            f"scholar pool {HOST_A_ROLES_SCHOLAR}. Host A (male voice) must be in the "
+            f"scholar/teacher pool. If contract assigns the scholar role to Host B, "
+            f"swap the assignments so the male voice carries the scholar role."
+        )
+    if host_b and host_b.lower() not in {r.lower() for r in HOST_B_ROLES_SEEKER}:
+        findings.append(
+            f"R-HOST-ROLE-PARITY (Q4): contract.debate.host_b.role={host_b!r} not in "
+            f"seeker pool {HOST_B_ROLES_SEEKER}. Host B (female voice) must be in the "
+            f"seeker/student/debater pool."
+        )
+    return findings
 
 FORBIDDEN_ABBREVIATIONS = abbreviations_for_build()
 
@@ -326,6 +382,48 @@ def load_book_meta_prose_tells(book_dir: Path) -> list[str]:
     return tells
 
 
+def _is_rule_example_line(line: str, tell: str) -> bool:
+    """True if `tell` appears in `line` ONLY as a quoted example within a
+    rule-statement bullet — i.e., the line is a rule that BANS the tell,
+    not a real meta-prose leak.
+
+    Heuristic (added 2026-05-24): the bullet is a rule statement when it
+    starts with `- ` or `- **`; the tell is an example when it appears
+    inside double-quotes on that line. Both must hold; otherwise the tell
+    is a real leak that escaped a non-rule context.
+    """
+    stripped = line.strip()
+    if not (stripped.startswith("- ") or stripped.startswith("* ")):
+        return False
+    # Look for the tell inside double-quoted strings on this line. If every
+    # occurrence of the tell is inside `"..."`, treat as a rule example.
+    # Conservative — even one occurrence outside quotes = real leak.
+    tell_lower = tell.lower()
+    line_lower = stripped.lower()
+    in_quote = False
+    quoted_spans: list[tuple[int, int]] = []
+    span_start = -1
+    for i, ch in enumerate(stripped):
+        if ch == '"':
+            if not in_quote:
+                span_start = i + 1
+                in_quote = True
+            else:
+                quoted_spans.append((span_start, i))
+                in_quote = False
+    # Find every occurrence of the tell; check if each is inside a quoted span.
+    pos = 0
+    while True:
+        idx = line_lower.find(tell_lower, pos)
+        if idx < 0:
+            break
+        in_quoted = any(s <= idx and idx + len(tell_lower) <= e for s, e in quoted_spans)
+        if not in_quoted:
+            return False
+        pos = idx + 1
+    return True
+
+
 def assert_no_meta_prose(content: str, file_path: Path, role: str,
                          extra_tells: list[str] | None = None) -> None:
     """Refuse to build if content contains meta-prose tells.
@@ -333,10 +431,32 @@ def assert_no_meta_prose(content: str, file_path: Path, role: str,
     `role` is 'chapter (SOURCE)' or 'framing (CUSTOMIZE PROMPT)' for the error message.
     `extra_tells` are book-specific substring tells loaded via
     `load_book_meta_prose_tells`. They are checked in addition to the global list.
+
+    F31 fix (2026-05-24): a rule like `- **Cross-episode language.** No
+    "previous episode," "earlier episode," "next episode."` legitimately
+    contains the forbidden tells as quoted examples. Skip tells whose
+    every occurrence on a line is inside `"..."` within a rule-statement
+    bullet (`_is_rule_example_line`). Same pattern as the f7068bf fix
+    for "the rule that bans X contains X literally" — surfaced on EP05
+    framing's anti-noise section.
     """
     lower = content.lower()
     all_tells = META_PROSE_TELLS + list(extra_tells or [])
-    substring_hits = [tell for tell in all_tells if tell in lower]
+    lines = content.splitlines()
+
+    substring_hits: list[str] = []
+    for tell in all_tells:
+        if tell not in lower:
+            continue
+        # Check every line that contains the tell. If ALL occurrences are
+        # inside quoted examples within rule bullets, skip this tell.
+        any_real_leak = False
+        for line in lines:
+            if tell in line.lower() and not _is_rule_example_line(line, tell):
+                any_real_leak = True
+                break
+        if any_real_leak:
+            substring_hits.append(tell)
     regex_hits = []
     for pat in META_PROSE_REGEX_TELLS:
         for m in re.finditer(pat, content, flags=re.IGNORECASE):
@@ -344,11 +464,10 @@ def assert_no_meta_prose(content: str, file_path: Path, role: str,
     if not (substring_hits or regex_hits):
         return
 
-    lines = content.splitlines()
     offending = []
     for tell in substring_hits:
         for ln, line in enumerate(lines, 1):
-            if tell in line.lower():
+            if tell in line.lower() and not _is_rule_example_line(line, tell):
                 offending.append(f"  {file_path.name}:{ln}: {line.strip()[:120]}")
                 break
     for pat, matched in regex_hits[:5]:
@@ -493,10 +612,16 @@ def assert_framing_pronunciation_imperative(content: str, file_path: Path) -> No
             f"  The passive list does not change NotebookLM voice-model behavior — empirically\n"
             f"  hosts said 'tassel wolf' for *Tasawwuf* across three episodes."
         )
-    # Require at least one Pronounce line
-    if "Pronounce \"" not in block and 'Pronounce "' not in block:
+    # Require at least one Pronounce line. Accept BOTH `Pronounce "Term"` and
+    # `Pronounce *Term*` (italic-term form). The LLM author tends to emit
+    # the asterisks form for term-emphasis even though the canonical example
+    # uses quotes; both are functionally identical for NotebookLM TTS, which
+    # strips markdown markers before voicing.
+    pronounce_re = re.compile(r'^\s*Pronounce\s+(?:"[^"]+"|\*[^*]+\*)\s+as\s+["\']', re.MULTILINE)
+    if not pronounce_re.search(block):
         sys.exit(
-            f"ERROR: framing's `## Pronunciation` block has no imperative `Pronounce \"...\"` lines.\n"
+            f"ERROR: framing's `## Pronunciation` block has no imperative\n"
+            f"  `Pronounce \"Term\" as \"phonetic\".` (or italic-form `Pronounce *Term* as \"phonetic\".`) lines.\n"
             f"  File: {file_path}\n"
             f"  See R-PRONUNCIATION-IMPERATIVE."
         )
@@ -750,7 +875,15 @@ def assert_framing_analogy_cap_strict(content: str, file_path: Path) -> None:
 
 
 def assert_framing_no_modern_artifacts(content: str, file_path: Path) -> None:
-    """F27 #4: detect modern-vocabulary contamination in framing.md."""
+    """F27 #4: detect modern-vocabulary contamination in framing.md.
+
+    F31 fix (2026-05-24): the canonical `## Do not (forbidden vocabulary
+    and framings)` section lists the forbidden terms EXPLICITLY as a
+    reference for the LLM (and is required by assert_framing_deny_block).
+    Without scrubbing that section, this scan flags its own canonical
+    examples — same pattern f7068bf was trying to break. Strip both the
+    R-NOMODERNIZE section AND the `## Do not` section before scanning.
+    """
     scan_text = content.lower()
 
     # Strip the framing's own ban-list section (false-positive guard)
@@ -758,6 +891,15 @@ def assert_framing_no_modern_artifacts(content: str, file_path: Path) -> None:
         r"##\s+\d*\.?\s*R-NOMODERNIZE.*?(?=\n##\s|\Z)",
         "",
         scan_text,
+        flags=re.DOTALL,
+    )
+    # Strip the canonical `## Do not (forbidden vocabulary and framings)` section
+    # — assert_framing_deny_block REQUIRES this section to list specific phrases
+    # as examples; without scrubbing it, this scan flags those very examples.
+    scan_text_scrubbed = re.sub(
+        r"##\s+do not\s*\(forbidden vocabulary.*?(?=\n##\s|\Z)",
+        "",
+        scan_text_scrubbed,
         flags=re.DOTALL,
     )
 

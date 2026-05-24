@@ -31,7 +31,42 @@ vs. substring list); the canonical data itself is plain Python literals.
 # findings.jsonl record). Single source of truth — agent reads from here so
 # the spec frontmatter version, the report header version, and the ledger
 # `source_version` field never drift.
-CHALLENGER_VERSION = "2.0"
+#
+# 2.1 (2026-05-24): added R-HOST-ROLE-PARITY as a P0 — Host A (male voice) is
+# always scholar/teacher; Host B (female voice) is always seeker/student/
+# debater. Roles never rotate across episodes within a single book. Also
+# added R-EPISODE-FORMAT-RECOMMENDED P1 — every chapter-contract must declare
+# `episode_format: deep_dive | debate` with a one-paragraph rationale.
+CHALLENGER_VERSION = "2.1"
+
+# ─── R-HOST-ROLE-PARITY (P0 2026-05-24) — host roles are locked book-wide.
+# Host A is always the scholar/teacher. Host B is always the seeker/student/
+# debater. The role assignments do not rotate, swap, or blur across episodes.
+# Detection: scan framing.host_a.role and framing.host_b.role against the
+# canonical role pools below. Any framing where the assignments disagree with
+# the pools — or where roles swap between episodes of the same book — is a
+# P0 finding (code: HOST-ROLE-PARITY).
+HOST_A_ROLES_SCHOLAR = (
+    "scholar", "teacher", "master", "alim", "aalim", "shaykh", "sheikh",
+    "guide", "expert", "mentor", "professor",
+)
+HOST_B_ROLES_SEEKER = (
+    "seeker", "student", "debater", "questioner", "novice", "disciple",
+    "ghulam", "ghulaam", "apprentice", "interlocutor", "challenger",
+)
+# Voice → gender pairing (single source of truth; cross-references the
+# NotebookLM Audio Overview default English voices). When the
+# `notebooklm_voices` audit reads which voice spoke which line, this map
+# gates the alignment check.
+HOST_VOICE_GENDER = {"host_a": "male", "host_b": "female"}
+
+# ─── R-EPISODE-FORMAT-RECOMMENDED (P1 2026-05-24) — every chapter-contract
+# declares `episode_format` ∈ {deep_dive, debate} plus a one-paragraph
+# rationale. For debate-mode contracts, the `debate` block is fully populated
+# (proposition + host_a/host_b positions + source_moves + resolution). The
+# challenger refuses (P1) any contract where the format is missing or
+# `debate` blocks are partial.
+EPISODE_FORMAT_ALLOWED = ("deep_dive", "debate")
 
 # ─── Slide Deck Challenger self-version (stamped into every slide-challenger-report.md
 # and every findings.jsonl record with source="slide-deck-challenger"). Independent

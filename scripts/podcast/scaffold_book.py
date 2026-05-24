@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
 """scaffold_book.py — create the canonical BOOK_DIR layout for a new podcasted source.
 
-Authoritative shape: content/podcast/.skill/handbook/book-dir-layout.md. This
-script writes that shape in one shot for a new <category>/<book-slug>/ and
-appends a one-line index row to content/podcast/.skill/books.md.
+Authoritative shape: this script's own template strings + the kitab-al-riyad
+worked example under content/drafts/kitab-al-riyad/. (The prior reference
+content/podcast/.skill/handbook/book-dir-layout.md was retired in the
+2026-05-23 restructure; its shape is now inlined here.)
+
+This script writes the canonical shape in one shot for a new
+content/drafts/<book-slug>/ and registers it via the per-book meta.yml.
 
 Usage:
     python3 scripts/podcast/scaffold_book.py <category> <book-slug> "<Book Title>" \\
@@ -51,7 +55,7 @@ README_TEMPLATE = """# Podcast — {title}
 
 ## Folder layout
 
-Per `content/podcast/.skill/handbook/book-dir-layout.md`. The full tree is documented there — this README is the book-specific blurb only.
+Canonical shape is established by this script (`scripts/podcast/scaffold_book.py`) and the kitab-al-riyad worked example under `content/drafts/kitab-al-riyad/`. The full tree is reproducible from those references — this README is the book-specific blurb only.
 
 ## Upload checklist (per episode)
 
@@ -124,10 +128,7 @@ Format: one tell per line, prefixed with `- `. Match is case-insensitive substri
 
 ENRICHMENT_WHITELIST_TEMPLATE = """# Enrichment Whitelist — {title} (Tier 1, book-specific)
 
-Per `content/podcast/.skill/handbook/enrichment-sources.md` §1, Tier 1 is the
-**author's own corpus**, scoped per book. Enumerate {author_short}'s corpus here;
-citations from these works are highest-priority enrichment for any chapter in
-this book.
+Per the enrichment tier policy carried in [scripts/podcast/_authoring.py](../scripts/podcast/_authoring.py) Phase 0e prompt (formerly `content/podcast/.skill/handbook/enrichment-sources.md` §1, retired 2026-05-23), Tier 1 is the **author's own corpus**, scoped per book. Enumerate {author_short}'s corpus here; citations from these works are highest-priority enrichment for any chapter in this book.
 
 ## Works (Tier 1 for this book)
 

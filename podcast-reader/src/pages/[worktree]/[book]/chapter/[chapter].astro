@@ -2,19 +2,19 @@
 import ThreePane from '~/components/layout/ThreePane.astro';
 import GroupedTOC from '~/components/layout/GroupedTOC.astro';
 import ReaderControls from '~/components/reader/ReaderControls';
+import CopyButton from '~/components/reader/CopyButton';
 import { loadBookIndex, loadChapterSource } from '~/lib/book-content';
 import { renderProseWithRefs } from '~/lib/render-prose';
 import { buildCategoryDescriptors } from '~/lib/contract-render';
-import { getPilotBook } from '~/lib/worktree-glob';
+import { formatChapterForCopy } from '~/lib/format-for-copy';
+import { loadGlossary, wrapPhoneticTokens } from '~/lib/glossary';
 
 const { worktree, book, chapter } = Astro.params;
 if (!worktree || !book || !chapter) {
   return new Response('Bad request', { status: 400 });
 }
 
-if (book !== getPilotBook()) {
-  return new Response('Outside pilot scope', { status: 404 });
-}
+// Pilot-only gating dropped post-restructure (2026-05-24): all books surface.
 
 const index = await loadBookIndex(worktree, book);
 if (!index) {
@@ -29,6 +29,13 @@ if (!ch) {
 const sourceText = await loadChapterSource(ch.filePath);
 const renderedSource = renderProseWithRefs(sourceText);
 const categoryDescriptors = buildCategoryDescriptors(renderedSource.counts);
+const copyText = formatChapterForCopy(sourceText, ch.title);
+
+// Arabic-script overlay: load per-book glossary and wrap matched phonetic
+// tokens in the rendered HTML. Gated client-side by body[data-arabic="on"]
+// via ArabicToggle in the header. Empty glossary or zero matches is a no-op.
+const glossary = await loadGlossary(worktree, book);
+const renderedWithGlossary = wrapPhoneticTokens(renderedSource.html, glossary);
 
 const ordered = [...index.chapters].sort((a, b) => (a.numericId ?? 999) - (b.numericId ?? 999));
 const idx = ordered.findIndex((c) => c.slug === ch.slug);
@@ -41,20 +48,19 @@ const next = idx >= 0 && idx < ordered.length - 1 ? ordered[idx + 1] : null;
   worktree={worktree}
   book={book}
   breadcrumb={[
-    { label: 'Worktrees', href: '/' },
-    { label: worktree, href: '/' },
+    { label: 'Library', href: '/' },
     { label: book, href: `/${worktree}/${book}/` },
     { label: `Ch${String(ch.numericId ?? '?').padStart(2, '0')} (source)` },
   ]}
-  showRail={true}
+  showRail={false}
 >
   <Fragment slot="toc">
     <GroupedTOC worktree={worktree} book={book} index={index} currentChapter={ch.slug} />
   </Fragment>
 
   <div class="not-prose mb-8 rounded-lg border border-stone-300 bg-stone-100/70 px-4 py-3 shadow-sm">
-    <div class="flex items-start justify-between gap-4">
-      <div class="flex-1">
+    <div class="flex flex-wrap items-start justify-between gap-4">
+      <div class="flex-1 min-w-[280px]">
         <div class="mb-2 flex items-center gap-2">
           <span class="font-ui text-[10px] font-semibold uppercase tracking-wider text-stone-500">
             Reference controls
@@ -66,6 +72,9 @@ const next = idx >= 0 && idx < ordered.length - 1 ? ordered[idx + 1] : null;
         </div>
         <ReaderControls client:load categories={categoryDescriptors} />
       </div>
+      <div class="shrink-0 self-center">
+        <CopyButton client:load text={copyText} label="Copy chapter" />
+      </div>
     </div>
   </div>
 
@@ -76,7 +85,7 @@ const next = idx >= 0 && idx < ordered.length - 1 ? ordered[idx + 1] : null;
       </div>
       <h1 class="mt-1 text-3xl font-semibold leading-tight text-stone-900">{ch.title}</h1>
     </header>
-    <div class="prose-body" set:html={renderedSource.html} />
+    <div class="prose-body" set:html={renderedWithGlossary} />
   </article>
 
   <nav class="mt-12 flex items-center justify-between border-t border-stone-200 pt-6 text-sm">

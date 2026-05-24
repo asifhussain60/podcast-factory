@@ -45,7 +45,26 @@ if [ "$BEHIND" -gt 0 ]; then
   git merge --ff-only origin/develop
 fi
 
-# ── 3. Surface state ──────────────────────────────────────────────────
+# ── 3. Sync agent activation copies (caught 2026-05-24 — `.claude/agents/`
+#      was 2 weeks stale and broke per-chapter authoring silently). The
+#      sync script writes to .github/agents/ AND .claude/agents/ from the
+#      canonical infra/claude-agents/. Quiet mode: only output on drift. ─
+SYNC_OUT="$(bash scripts/podcast/sync-agent-wrappers.sh 2>&1)"
+if echo "$SYNC_OUT" | grep -q "synced\|created"; then
+  echo "▸ synced agent activation copies:"
+  echo "$SYNC_OUT" | grep -E "^(synced|created)" | sed 's/^/  /'
+fi
+
+# ── 4. Regression test gate — run the systemic-fix suite. Anything red
+#      means the codebase is in a known-broken state; surface it now
+#      before the user runs a phase that depends on the fix being live. ─
+if ! /usr/bin/python3 -m unittest discover -s tests/regression -p "test_*.py" >/dev/null 2>&1; then
+  echo
+  echo "⚠ regression tests are RED — run \`bash tests/regression/run_all.sh\` for detail." >&2
+  echo "  Continuing session anyway, but treat any pipeline failure as suspect."
+fi
+
+# ── 5. Surface state ──────────────────────────────────────────────────
 echo
 echo "▸ ready on develop"
 echo "  $(git log --oneline -1)"

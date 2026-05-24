@@ -3,14 +3,19 @@
 
 Three artifacts the blueprint agent emits at slot 05.5-blueprint:
 
-  • Classification   — Layer 1 output. Schema-locked by operator design 2026-05-20.
-                       Round-trips with content/podcast/.skill/handbook/_schemas/
-                       classification.schema.json.
+  • Classification   — Layer 1 output. Schema-locked by 2026-05-20 design.
+                       This file IS the canonical schema (Python dataclasses
+                       + frozenset enum validators). The earlier separate
+                       JSON Schema file at content/podcast/.skill/handbook/
+                       _schemas/classification.schema.json was retired in
+                       the 2026-05-23 restructure and not restored.
   • EpisodePlan      — Layer 2 output. Frontmatter dataclass; body is freeform
                        markdown that Layer 2 emits as prose.
-  • ArcConventions   — Layer 3 output. Frontmatter dataclass; body is the
-                       template at content/podcast/.skill/handbook/_templates/
-                       arc-conventions.template.md.
+  • ArcConventions   — Layer 3 output. Frontmatter dataclass; body is built
+                       from the template inlined in _blueprint.py Layer-3
+                       prompt builder (formerly at content/podcast/.skill/
+                       handbook/_templates/arc-conventions.template.md,
+                       retired 2026-05-23).
 
 The four locked design decisions (2026-05-20) are reflected here:
   1. Name = "podcast-blueprint"     → AGENT_NAME constant
@@ -42,7 +47,9 @@ AGENT_NAME = "podcast-blueprint"
 PHASE_SLUG = "05.5-blueprint"
 SCHEMA_VERSION = 1
 
-# Locked enums per content/podcast/.skill/handbook/_schemas/classification.schema.json
+# Locked enums. (The earlier external mirror at content/podcast/.skill/
+# handbook/_schemas/classification.schema.json was retired 2026-05-23; the
+# Python frozensets below are the sole source-of-truth now.)
 GENRE_PRIMARY_ENUM = frozenset({
     "polemic_tribunal",
     "memoir",
