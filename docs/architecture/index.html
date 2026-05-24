@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<!-- generated from 6202c853d35cd44a9830f6240274c6f1689407e7 at 2026-05-24 by infra/claude-agents/docs-updater.md -->
-<!-- Third regeneration (2026-05-24, PM): readability rewrite.
-     - Sections 2/3/5(table)/6 converted from SVG to pure HTML/CSS cards.
-     - Sections 4/7/8/9 keep SVG for graph layout but use <foreignObject>
-       for all node content so text renders at native CSS size.
-     - SVG <text> elements (edge labels only) use font-size 18+ to clear
-       the viewBox-scaling threshold for legibility.
-     - Minimum on-screen text size: 13px after any scaling. Body 16px. -->
+<!-- generated from 68cb2c261da49d9b9e5d3ef3fa65515b8ccdca95 at 2026-05-24 by infra/claude-agents/docs-updater.md -->
+<!-- Fourth regeneration (2026-05-24, evening): plain-English voice rewrite.
+     - Body prose now reads for a senior non-engineer (the "VP coffee test").
+     - File paths, script names, function names removed from narrative text.
+     - Roles replace implementation names: "the orchestrator", "the editor",
+       "the publisher", "the working copy", "the public library".
+     - Phase tags (0a, 0b, ...) and verdict strings (SHIP-READY,
+       SHIP-WITH-CAUTION, BLOCKED) STAY verbatim — those are labels the
+       reader will see in actual reports.
+     - CSS, layout, SVG diagram topology unchanged. Only prose changed. -->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -578,62 +580,60 @@
   <div class="page">
 
     <nav class="topnav-sections" id="topnav-sections" aria-label="Sections">
-      <a href="#what" data-section="what"><span class="num">01</span>What this repo is</a>
-      <a href="#lifecycle" data-section="lifecycle"><span class="num">02</span>Content lifecycle</a>
-      <a href="#phases" data-section="phases"><span class="num">03</span>Pipeline phases</a>
-      <a href="#convergence" data-section="convergence"><span class="num">04</span>Convergence loop</a>
-      <a href="#branches" data-section="branches"><span class="num">05</span>Branch policy</a>
-      <a href="#gates" data-section="gates"><span class="num">06</span>Publish gates</a>
-      <a href="#doctrinal" data-section="doctrinal"><span class="num">07</span>Doctrinal checks</a>
-      <a href="#agents" data-section="agents"><span class="num">08</span>Agent surface</a>
-      <a href="#azure" data-section="azure"><span class="num">09</span>Azure stack</a>
+      <a href="#what" data-section="what"><span class="num">01</span>What this is</a>
+      <a href="#lifecycle" data-section="lifecycle"><span class="num">02</span>How content moves</a>
+      <a href="#phases" data-section="phases"><span class="num">03</span>The eleven steps</a>
+      <a href="#convergence" data-section="convergence"><span class="num">04</span>Quality review</a>
+      <a href="#branches" data-section="branches"><span class="num">05</span>Working copies</a>
+      <a href="#gates" data-section="gates"><span class="num">06</span>Seven safety checks</a>
+      <a href="#doctrinal" data-section="doctrinal"><span class="num">07</span>Theology checks</a>
+      <a href="#agents" data-section="agents"><span class="num">08</span>The team of helpers</a>
+      <a href="#azure" data-section="azure"><span class="num">09</span>Outside services</a>
     </nav>
 
     <section class="hero">
       <span class="eyebrow">architecture · 2026-05-24</span>
       <h1>The <em>podcast-factory</em> pipeline</h1>
       <p class="lede">
-        A long-scrolling tour of how a scholarly Arabic PDF becomes a two-host
-        NotebookLM audio overview — the rooms it moves through, the phases that
-        edit it, the gates that bless it, and the agents that drive the whole thing.
+        A walk-through of how a scholarly Arabic book becomes a two-host
+        podcast episode — the rooms the content moves through, the editing
+        steps that polish it, the safety checks that bless it, and the team
+        of AI helpers that runs the whole thing while you walk away from your desk.
       </p>
     </section>
 
     <main>
 
       <!-- ════════════════════════════════════════════════════════════════
-           SECTION 1 — What this repo is
+           SECTION 1 — What this is
            ════════════════════════════════════════════════════════════════ -->
       <section id="what" class="architecture-section">
         <div class="section-head">
           <div class="label">01 — THE HOOK</div>
-          <h2>What this repo is</h2>
+          <h2>What this is</h2>
           <p class="sub">One paragraph. No diagram. The shape of the whole thing.</p>
         </div>
         <div class="prose">
           <p class="lead">
-            <strong>podcast-factory</strong> is the pipeline and reader app for turning
-            scholarly Arabic books (Ismaili tradition, primarily) into two-host audio
-            overviews via <em>Google's NotebookLM</em>. Source PDFs land in a per-book
-            workshop under <code>content/drafts/&lt;slug&gt;/</code>; the pipeline runs a
-            sequence of <strong>phases</strong> — Azure OCR + translation, English
-            refinement, phonetic extraction, chapter design, enrichment, then per-chapter
-            authoring under a challenger convergence loop — and shipped output moves to
-            <code>content/published/books/&lt;slug&gt;/</code> after passing seven named
-            gates. A small set of Claude agents (<em>orchestrator</em>, <em>challenger</em>,
-            <em>extract</em>, <em>blueprint</em>, <em>publisher</em>, <em>trainer</em>,
-            <em>auditor</em>, <em>slide-deck-challenger</em>) authors, validates, and ships.
-            The repo is <strong>machine-agnostic</strong> since 2026-05-23 — one repo, one
-            working branch (<code>develop</code>), promotion to <code>main</code> only on
-            explicit operator approval.
+            This is a factory that turns scholarly Arabic books — mostly from
+            the Ismaili tradition — into two-host podcast episodes for
+            <em>Google's NotebookLM</em> (the tool that produces the actual audio).
+            You hand the factory a PDF. The factory makes a private working
+            copy so it can edit safely. It runs through a sequence of editing
+            and review steps. At one point in the middle it pauses so you can
+            review the chapter plan; otherwise it runs without you. When every
+            quality check passes, the finished bundle moves from the private
+            workshop into a public library where readers can see it.
           </p>
           <p>
-            The <strong>podcast-reader</strong> Astro app under <code>podcast-reader/</code>
-            reads from <code>content/drafts/&lt;slug&gt;/chapter-contracts/</code> and lets
-            the operator annotate chapter contracts in the browser before they go to
-            NotebookLM. The <strong>memoir engine</strong> ("What I Wish Babu Taught Me")
-            moved to a sibling repo at <code>~/PROJECTS/journal/</code> on 2026-05-22 — that
-            is a fully disconnected concern. <strong>This page is about the pipeline only.</strong>
+            There's also a small browser app that lets you read and comment on
+            chapter drafts before they go to NotebookLM. That's the
+            <strong>reader app</strong>. It's part of this same project.
+            (The unrelated memoir project — "What I Wish Babu Taught Me" —
+            lives in a separate place; this page is about the podcast factory
+            only.) Everything described here is machine-agnostic since
+            2026-05-23: one project, one main working line, and a one-step
+            human-approved promotion before anything goes live.
           </p>
         </div>
       </section>
@@ -643,71 +643,71 @@
            ════════════════════════════════════════════════════════════════ -->
       <section id="lifecycle" class="architecture-section">
         <div class="section-head">
-          <div class="label">02 — CONTENT LIFECYCLE</div>
-          <h2>From PDF on disk to published audio bundle</h2>
-          <p class="sub">Three rooms — Source, Workshop, Published. Two scripts move material between them.</p>
+          <div class="label">02 — HOW CONTENT MOVES</div>
+          <h2>From a PDF on your desk to a published episode</h2>
+          <p class="sub">Three rooms. The content visits each one in order.</p>
         </div>
         <div class="prose">
           <p>
-            Every piece of content lives in one of three places at any time. The
-            <strong>Source</strong> is the raw PDF (or DOCX, or audio file) somebody hands
-            us — it sits anywhere on disk, untouched by the pipeline. The
-            <strong>Workshop</strong> at <code>content/drafts/&lt;slug&gt;/</code> is where
-            the pipeline reads and writes — every intermediate artifact, every chapter
-            contract, every challenger report. The <strong>Published</strong> tree at
-            <code>content/published/books/&lt;slug&gt;/</code> is the audience-facing
-            catalog and is written <em>only</em> by <code>publish_to_library.py</code>
-            after gates G1–G7 pass.
+            Every piece of content lives in one of three rooms at any given moment.
+            The <strong>source room</strong> holds the original PDF (or document,
+            or audio file) somebody gave us — it sits wherever it lives on disk
+            and the factory never modifies it. The <strong>workshop</strong> is
+            where the factory does its work: every draft, every chapter plan,
+            every review note. Nothing in the workshop is ever shown to readers.
+            The <strong>public library</strong> is what readers actually see — and
+            the only way content reaches it is if every one of the seven safety
+            checks in Section 6 says yes.
           </p>
         </div>
 
         <div class="lifecycle-row">
           <div class="lifecycle-card source">
             <div class="tag">01 · SOURCE</div>
-            <h4>Source PDF</h4>
-            <span class="path">anywhere on disk</span>
+            <h4>The original</h4>
+            <span class="path">somewhere on your computer</span>
             <ul>
-              <li>Arabic PDF, DOCX, or audio</li>
-              <li>Untouched by pipeline</li>
-              <li>Operator hands to intake</li>
-              <li>Off the git tree</li>
+              <li>An Arabic book, document, or recording</li>
+              <li>The factory never edits it</li>
+              <li>You hand it to the intake step</li>
+              <li>Sits outside the project tracking</li>
             </ul>
           </div>
           <div class="lifecycle-arrow">
-            <span class="label">intake_source.py</span>
+            <span class="label">intake</span>
             <span class="glyph">→</span>
           </div>
           <div class="lifecycle-card workshop">
             <div class="tag">02 · WORKSHOP</div>
-            <h4>Drafts workshop</h4>
-            <span class="path">content/drafts/&lt;slug&gt;/</span>
+            <h4>Private working copy</h4>
+            <span class="path">where all the drafts live</span>
             <ul>
-              <li>All pipeline intermediates</li>
-              <li>Chapter contracts, framings</li>
-              <li>Episode .txt + challenger reports</li>
-              <li>Tracked on a typed branch</li>
+              <li>Every editing pass writes here</li>
+              <li>Chapter plans and per-chapter reviews</li>
+              <li>Every revision is kept</li>
+              <li>Each book has its own working area</li>
             </ul>
           </div>
           <div class="lifecycle-arrow">
-            <span class="label">publish_to_library.py</span>
+            <span class="label">publish</span>
             <span class="glyph">→</span>
           </div>
           <div class="lifecycle-card published">
-            <div class="tag">03 · PUBLISHED</div>
-            <h4>Published catalog</h4>
-            <span class="path">content/published/books/&lt;slug&gt;/</span>
+            <div class="tag">03 · PUBLIC LIBRARY</div>
+            <h4>What readers see</h4>
+            <span class="path">audience-facing catalog</span>
             <ul>
-              <li>Minimal: chapters/ + episodes/ + README.md</li>
-              <li>NotebookLM-ready</li>
-              <li>Written only after G1–G7 pass</li>
-              <li>Regenerable; not git-tracked</li>
+              <li>The clean finished bundle, nothing else</li>
+              <li>Ready to upload to NotebookLM</li>
+              <li>Only reached after all checks pass</li>
+              <li>Can be regenerated from the workshop</li>
             </ul>
           </div>
         </div>
 
         <p style="text-align:center;color:var(--text-muted);font-size:0.95rem;margin-top:1rem;">
-          The Workshop column does all the work. Source is read-only; Published is write-only.
-          Everything else lives in <code>content/drafts/&lt;slug&gt;/</code> on its own typed branch.
+          The workshop is where everything actually happens. The source is read-only;
+          the public library is write-only — and only the publisher gets to write to it.
         </p>
       </section>
 
@@ -716,18 +716,21 @@
            ════════════════════════════════════════════════════════════════ -->
       <section id="phases" class="architecture-section">
         <div class="section-head">
-          <div class="label">03 — PIPELINE PHASES</div>
-          <h2>Eleven phases from PDF to shipped audio bundle</h2>
-          <p class="sub">Click any phase to see what it reads, what it writes, and how it fails.</p>
+          <div class="label">03 — THE ELEVEN STEPS</div>
+          <h2>Eleven small steps, from raw PDF to finished episode</h2>
+          <p class="sub">Click any step to see what it does, what it costs, and how it can go wrong.</p>
         </div>
         <div class="prose">
           <p>
-            The orchestrator at <code>scripts/podcast/orchestrate_book.py</code> drives a
-            book through eleven phases — first six are <em>book-level</em> (run once over
-            the whole PDF), the last few are <em>per-chapter</em> (run N times, once per
-            extracted chapter). There is exactly <strong>one human gate</strong>, at Phase
-            0f, where the operator reviews the chapter list and either authorizes the rest
-            of the run or fixes the design before continuing.
+            The factory marches every book through eleven steps in order.
+            The first six work on the whole book at once (translation, polishing,
+            chapter design). The last several work one chapter at a time
+            (writing the host conversation, reviewing it, publishing it).
+            There is exactly <strong>one human pause</strong>, near the middle.
+            At that pause you review the proposed chapter list — does this look
+            like the right way to break the book into episodes? — and either
+            approve it or fix it before the factory burns real money on the
+            per-chapter work.
           </p>
         </div>
 
@@ -736,14 +739,14 @@
           <div class="phase-row s-azure" data-phase="0a">
             <div class="phase-tag">0a</div>
             <div>
-              <h4>Azure OCR + Translation</h4>
-              <p class="blurb">PDF goes to Azure Document Intelligence for OCR; the Arabic text is then translated to English via Azure Translator. Output is a raw bilingual artifact.</p>
+              <h4>Read the source</h4>
+              <p class="blurb">The factory scans every page of the Arabic PDF and produces a first-pass English draft. This is the only step that talks to an outside service (Microsoft's text-recognition and translation tools).</p>
               <div class="phase-detail">
                 <dl>
-                  <dt>Reads</dt><dd>The source PDF dropped at the operator-supplied path.</dd>
-                  <dt>Writes</dt><dd><code>_system/source/raw-ar.txt</code> + <code>raw-en.txt</code> in the workshop.</dd>
-                  <dt>Cost</dt><dd>Azure metered — low single-digit dollars per typical 200-page book.</dd>
-                  <dt>Fails when</dt><dd>Azure credentials missing (run <code>store-keychain-keys.sh</code>); Translator transient — retry with <code>--retry-phase 0a</code>.</dd>
+                  <dt>What it does</dt><dd>Reads the printed Arabic page-by-page, then converts that Arabic into rough English.</dd>
+                  <dt>What it produces</dt><dd>A raw Arabic transcript and a first-draft English version, both stored in the working copy.</dd>
+                  <dt>Cost</dt><dd>Low single-digit dollars for a typical 200-page book — the cheapest step that touches an outside service.</dd>
+                  <dt>How it fails</dt><dd>Either the Microsoft credentials are missing, or the network glitches mid-translation. Both are fixed by re-running this one step.</dd>
                 </dl>
               </div>
             </div>
@@ -753,14 +756,13 @@
           <div class="phase-row s-llm" data-phase="0b">
             <div class="phase-tag">0b</div>
             <div>
-              <h4>English refinement (chunked)</h4>
-              <p class="blurb">An LLM authoring pass rewrites the machine-translated English into readable, voice-consistent prose. Runs chunk-by-chunk so context windows stay sane.</p>
+              <h4>Polish the English</h4>
+              <p class="blurb">An AI writer rewrites the rough machine translation into readable, voice-consistent English. It works in chunks so it never tries to read a 400-page document in one go.</p>
               <div class="phase-detail">
                 <dl>
-                  <dt>Reads</dt><dd><code>raw-en.txt</code> from Phase 0a.</dd>
-                  <dt>Writes</dt><dd><code>_system/source/refined-english.md</code>.</dd>
-                  <dt>Cost</dt><dd>Highest-cost LLM phase; budget $5-$20 per book depending on length.</dd>
-                  <dt>Fails when</dt><dd>Chunk boundary lands mid-sentence; usually self-recovers on next chunk.</dd>
+                  <dt>What it does</dt><dd>Takes the rough English from the previous step and rewrites it as something a human would actually want to read.</dd>
+                  <dt>Cost</dt><dd>This is the most expensive single step — budget five to twenty dollars per book depending on how long the book is.</dd>
+                  <dt>How it fails</dt><dd>Occasionally a chunk break lands mid-sentence. It usually self-corrects on the next chunk.</dd>
                 </dl>
               </div>
             </div>
@@ -770,14 +772,13 @@
           <div class="phase-row s-llm" data-phase="0c">
             <div class="phase-tag">0c</div>
             <div>
-              <h4>Phonetic pass (chunked)</h4>
-              <p class="blurb">Identifies Arabic names, terms, and quotations that need phonetic guidance for NotebookLM's two hosts to pronounce correctly.</p>
+              <h4>Pronunciation guide</h4>
+              <p class="blurb">The factory spots Arabic names, technical terms, and quoted passages that will appear in the audio — and writes a pronunciation hint for each one so the two NotebookLM hosts say them correctly.</p>
               <div class="phase-detail">
                 <dl>
-                  <dt>Reads</dt><dd>The refined English from 0b.</dd>
-                  <dt>Writes</dt><dd><code>_system/phonetics-map.md</code> (term → IPA-ish hint).</dd>
-                  <dt>Cost</dt><dd>Moderate — single chunked pass.</dd>
-                  <dt>Fails when</dt><dd>LLM hallucinates names not in the source; auditor catches these post-hoc.</dd>
+                  <dt>What it does</dt><dd>Pulls the names and terms that need careful pronunciation out of the polished English and pairs each one with a written hint.</dd>
+                  <dt>Cost</dt><dd>Moderate — one careful pass over the book.</dd>
+                  <dt>How it fails</dt><dd>The AI occasionally invents a name that isn't actually in the source. A later check catches this.</dd>
                 </dl>
               </div>
             </div>
@@ -787,14 +788,14 @@
           <div class="phase-row s-design" data-phase="0d">
             <div class="phase-tag">0d</div>
             <div>
-              <h4>Chapter design</h4>
-              <p class="blurb">Decides how the source partitions into chapters (the unit of one NotebookLM episode). Writes one chapter contract YAML per chapter.</p>
+              <h4>Decide the chapters</h4>
+              <p class="blurb">The factory decides how the book divides into chapters — each chapter becomes one NotebookLM episode. It writes a short plan describing what each chapter is about.</p>
               <div class="phase-detail">
                 <dl>
-                  <dt>Reads</dt><dd>Refined English + phonetics map.</dd>
-                  <dt>Writes</dt><dd><code>chapter-contracts/&lt;slug&gt;.yml</code> + <code>chapters/ch##-&lt;slug&gt;.txt</code>.</dd>
-                  <dt>Followed by</dt><dd>Phase 0d.5 chapter-set advisory (catches duplicates, gaps).</dd>
-                  <dt>Fails when</dt><dd>YAML parse fails on any contract — the rest of the pipeline halts until fixed.</dd>
+                  <dt>What it does</dt><dd>Looks at the polished English plus the pronunciation guide and decides where the natural breaks are.</dd>
+                  <dt>What it produces</dt><dd>A short plan per chapter, plus the actual text of each chapter cut from the source.</dd>
+                  <dt>Then what</dt><dd>A quick automated check follows immediately to spot duplicates or gaps before anyone reviews the plan.</dd>
+                  <dt>How it fails</dt><dd>If any chapter plan is malformed, the whole factory halts until you fix it — there's no point continuing on a broken plan.</dd>
                 </dl>
               </div>
             </div>
@@ -804,14 +805,13 @@
           <div class="phase-row s-llm" data-phase="0e">
             <div class="phase-tag">0e</div>
             <div>
-              <h4>Enrichment</h4>
-              <p class="blurb">Weaves approved-source quotations and cross-references from a curated tier list into each chapter — citations added to a draft essay.</p>
+              <h4>Add the supporting quotes</h4>
+              <p class="blurb">The factory weaves in citations and cross-references from a curated list of trusted sources. The two hosts of the eventual podcast will draw on these to add depth to the conversation.</p>
               <div class="phase-detail">
                 <dl>
-                  <dt>Reads</dt><dd>Chapter contracts + the 7-tier source whitelist.</dd>
-                  <dt>Writes</dt><dd>Enriched fields back into each chapter contract.</dd>
-                  <dt>Cost</dt><dd>Per-chapter LLM cost; scales linearly with chapter count.</dd>
-                  <dt>Fails when</dt><dd>A cited source isn't on the whitelist — challenger catches it later as a P0.</dd>
+                  <dt>What it does</dt><dd>For each chapter, finds approved supporting quotes from a tiered list of trusted sources and weaves them into the chapter plan.</dd>
+                  <dt>Cost</dt><dd>Per-chapter AI cost — it scales with how many chapters the book has.</dd>
+                  <dt>How it fails</dt><dd>Occasionally cites a source that isn't on the approved list. The editor (Section 4) catches this later as a serious block.</dd>
                 </dl>
               </div>
             </div>
@@ -821,14 +821,13 @@
           <div class="phase-row s-halt" data-phase="0f">
             <div class="phase-tag">0f</div>
             <div>
-              <h4>Series-plan halt (human gate)</h4>
-              <p class="blurb">Assembles a human-readable <code>series-plan.md</code> showing chapter count + episode lengths and exits. Operator reviews and runs <code>--resume</code> to continue.</p>
+              <h4>Stop and let you review</h4>
+              <p class="blurb">This is the one human pause. The factory writes a readable plan summary — chapter count, episode lengths, structure — and then stops. You read it. If you like it, you tell the factory to keep going. If not, you fix the plan first.</p>
               <div class="phase-detail">
                 <dl>
-                  <dt>Reads</dt><dd>All chapter contracts written by 0d/0e.</dd>
-                  <dt>Writes</dt><dd><code>_system/series-plan.md</code>.</dd>
-                  <dt>Action</dt><dd>Operator inspects → <code>orchestrate_book.py --resume &lt;slug&gt;</code>.</dd>
-                  <dt>Why it exists</dt><dd>The only multi-hour-spend decision in the whole pipeline; cheaper to halt than to course-correct after.</dd>
+                  <dt>What it does</dt><dd>Assembles a single readable summary of the whole proposed series and then waits for you.</dd>
+                  <dt>Your job</dt><dd>Spend ten minutes reading it. Decide whether the chapter plan makes sense. Then tell the factory to resume.</dd>
+                  <dt>Why this pause exists</dt><dd>Everything after this pause costs real money. Catching a bad chapter plan now is a hundred times cheaper than fixing it after fifteen chapters have already been written.</dd>
                 </dl>
               </div>
             </div>
@@ -838,12 +837,12 @@
           <div class="phase-row s-chapter" data-phase="extract">
             <div class="phase-tag">B1</div>
             <div>
-              <h4>Per-chapter extract</h4>
-              <p class="blurb">For each chapter: builds the NotebookLM upload bundle (the chapter as the SOURCE file).</p>
+              <h4>Per chapter: prepare the upload</h4>
+              <p class="blurb">For each chapter, the factory builds the file that NotebookLM will actually ingest as the source material for the episode.</p>
               <div class="phase-detail">
                 <dl>
-                  <dt>Script</dt><dd><code>scripts/podcast/extract_chapter.py</code>.</dd>
-                  <dt>Writes</dt><dd><code>chapters/ch##-&lt;slug&gt;.txt</code> (the NotebookLM source upload).</dd>
+                  <dt>What it does</dt><dd>Cuts the right slice of the book for this chapter and packages it as a clean upload-ready file.</dd>
+                  <dt>What it produces</dt><dd>One chapter file per chapter, ready to drop into NotebookLM.</dd>
                 </dl>
               </div>
             </div>
@@ -853,11 +852,12 @@
           <div class="phase-row s-chapter" data-phase="frame">
             <div class="phase-tag">B2</div>
             <div>
-              <h4>Per-chapter framing</h4>
-              <p class="blurb">LLM writes the framing — angle, host dynamic, beats — that becomes the NotebookLM Customize prompt.</p>
+              <h4>Per chapter: write the steering notes</h4>
+              <p class="blurb">An AI writes "steering notes" for this chapter — the angle, who the two hosts should be, what beats they should hit. These notes go in the NotebookLM customize box, which is how you control the eventual conversation.</p>
               <div class="phase-detail">
                 <dl>
-                  <dt>Writes</dt><dd><code>_system/episode-drafts/EP##-&lt;slug&gt;/00-framing.md</code>.</dd>
+                  <dt>What it does</dt><dd>Decides the framing of the episode — the angle, the host dynamic, the conversational arc.</dd>
+                  <dt>What it produces</dt><dd>A short framing document per chapter that becomes the steering prompt you paste into NotebookLM.</dd>
                 </dl>
               </div>
             </div>
@@ -867,13 +867,12 @@
           <div class="phase-row s-chapter" data-phase="build">
             <div class="phase-tag">B3</div>
             <div>
-              <h4>Build episode .txt</h4>
-              <p class="blurb">Assembles the per-episode CUSTOMIZE prompt text. Static gate: scrubs forbidden names ("Imam Ali" etc.) before any chapter ships.</p>
+              <h4>Per chapter: assemble the episode file</h4>
+              <p class="blurb">The factory assembles the full text that will steer NotebookLM's conversation. Before saving it, an automated check sweeps for forbidden phrases — most importantly the theological mistakes the next section is about.</p>
               <div class="phase-detail">
                 <dl>
-                  <dt>Script</dt><dd><code>scripts/podcast/build_episode_txt.py</code>.</dd>
-                  <dt>Writes</dt><dd><code>episodes/EP##-&lt;slug&gt;.txt</code>.</dd>
-                  <dt>Fails when</dt><dd>P0 doctrinal phrase detected — halts the chapter loop until fixed.</dd>
+                  <dt>What it does</dt><dd>Combines the chapter, the steering notes, and the standard rules into the single text bundle that drives NotebookLM.</dd>
+                  <dt>Hard stop</dt><dd>If a forbidden theological phrase (see Section 7) is detected, the chapter loop halts immediately until you fix it. Nothing ships with that phrase still in.</dd>
                 </dl>
               </div>
             </div>
@@ -883,13 +882,13 @@
           <div class="phase-row s-chapter" data-phase="converge">
             <div class="phase-tag">B4</div>
             <div>
-              <h4>Challenger convergence</h4>
-              <p class="blurb">The convergence loop (see Section 4): up to 3 outer × 5 inner iterations of challenger-then-fixer until SHIP-READY or HALT.</p>
+              <h4>Per chapter: editor review</h4>
+              <p class="blurb">An AI editor reviews the chapter against a long checklist and gives a verdict — ready to ship, ready with caveats, or blocked. If there are problems, an AI rewriter takes a swing. The two go back and forth up to three rounds. After three rounds it stops trying and tells you.</p>
               <div class="phase-detail">
                 <dl>
-                  <dt>Driver</dt><dd><code>scripts/podcast/_convergence.py</code>.</dd>
-                  <dt>Hard cap</dt><dd>$50 per book, 24h wall time.</dd>
-                  <dt>Outcomes</dt><dd>SHIP-READY (no findings) · SHIP-WITH-CAUTION (P1s only) · FAILED (unresolved P0 after 3 outer iter).</dd>
+                  <dt>What it does</dt><dd>Drives the full quality-review loop described in detail in Section 4.</dd>
+                  <dt>Hard cap</dt><dd>Fifty dollars per book and twenty-four hours of wall time — whichever comes first stops the loop.</dd>
+                  <dt>Possible verdicts</dt><dd>SHIP-READY (no issues) · SHIP-WITH-CAUTION (minor things, ships anyway) · FAILED (the loop ran out of attempts on a serious issue).</dd>
                 </dl>
               </div>
             </div>
@@ -899,11 +898,11 @@
           <div class="phase-row s-design" data-phase="0g">
             <div class="phase-tag">0g</div>
             <div>
-              <h4>Register the series</h4>
-              <p class="blurb">After all chapters ship, registers the series in the cross-book registry. Deterministic — no LLM cost.</p>
+              <h4>Register the finished series</h4>
+              <p class="blurb">After all chapters ship, the factory adds the finished series to a master list of all books that have ever been produced. No AI cost — just bookkeeping.</p>
               <div class="phase-detail">
                 <dl>
-                  <dt>Why deferred</dt><dd>The series-level metadata depends on every chapter's converged contract; can't compute until convergence.</dd>
+                  <dt>Why this comes last</dt><dd>It needs every chapter's final state to compute the series-wide totals, so it can't run until convergence finishes.</dd>
                 </dl>
               </div>
             </div>
@@ -918,25 +917,29 @@
            ════════════════════════════════════════════════════════════════ -->
       <section id="convergence" class="architecture-section">
         <div class="section-head">
-          <div class="label">04 — CONVERGENCE LOOP</div>
-          <h2>How one chapter passes (or fails) quality review</h2>
-          <p class="sub">3 outer iterations × 5 inner challenger iterations = 15 passes maximum per chapter, then HALT.</p>
+          <div class="label">04 — QUALITY REVIEW</div>
+          <h2>How a single chapter passes (or fails) its quality review</h2>
+          <p class="sub">The editor reviews. The rewriter revises. Repeat up to three rounds. Then either ship or surface to you.</p>
         </div>
         <div class="prose">
           <p>
-            Every chapter goes through the same convergence loop: <code>challenger</code>
-            reads the chapter + framing + episode and renders a verdict —
-            <strong>SHIP-READY</strong>, <strong>SHIP-WITH-CAUTION</strong>, or
-            <strong>BLOCKED</strong>. SHIP-READY ships. SHIP-WITH-CAUTION ships only at
-            iter ≥ 2 (one round of P1 fixer first). BLOCKED triggers the fixer agent on
-            P0 findings, then re-runs challenger. After 3 outer iterations with anything
-            unresolved, the loop <strong>halts the orchestrator</strong> and surfaces the
-            failure — no silent downgrades to ship.
+            Every chapter goes through the same review dance. An AI editor
+            reads the chapter, the framing, and the steering notes, then issues
+            a verdict: <strong>SHIP-READY</strong> means no issues found,
+            <strong>SHIP-WITH-CAUTION</strong> means minor stylistic concerns
+            but nothing blocking, <strong>BLOCKED</strong> means at least one
+            serious problem the chapter must not ship with. A SHIP-READY
+            verdict ships immediately. A SHIP-WITH-CAUTION verdict ships once
+            the rewriter has had one round to address the minor concerns.
+            A BLOCKED verdict triggers the rewriter to attempt fixes, then the
+            editor re-reviews. After three full rounds with anything still
+            unresolved, the loop <strong>halts and tells you</strong> —
+            it never quietly downgrades a BLOCKED verdict and ships anyway.
           </p>
         </div>
 
         <div class="diagram">
-          <div class="how-to">Read top-to-bottom · arrows are state transitions</div>
+          <div class="how-to">Read top-to-bottom · arrows are what happens next</div>
           <svg viewBox="0 0 1400 760" preserveAspectRatio="xMidYMid meet">
             <defs>
               <marker id="arrow-conv" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
@@ -956,8 +959,8 @@
             <!-- Row 1: START -->
             <foreignObject x="560" y="20" width="280" height="80">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node">
-                <strong class="lg-title">Per-chapter loop START</strong>
-                <span class="sub">outer iter = 1</span>
+                <strong class="lg-title">Start: one chapter</strong>
+                <span class="sub">attempt 1 of 3</span>
               </div>
             </foreignObject>
 
@@ -966,8 +969,8 @@
             <!-- Row 2: BUILD episode -->
             <foreignObject x="540" y="150" width="320" height="80">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node">
-                <strong>extract → frame → build episode.txt</strong>
-                <span class="sub">B1 → B2 → B3 (per-chapter phases)</span>
+                <strong>Prepare, frame, and assemble</strong>
+                <span class="sub">the three per-chapter setup steps</span>
               </div>
             </foreignObject>
 
@@ -976,9 +979,9 @@
             <!-- Row 3: CHALLENGER -->
             <foreignObject x="540" y="280" width="320" height="100">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-rose">
-                <strong>invoke_challenger()</strong>
-                <span class="sub">≤ 5 inner iterations</span>
-                <span class="sub">writes _system/challenger-report.md</span>
+                <strong>Editor reviews the chapter</strong>
+                <span class="sub">up to 5 internal checks per review</span>
+                <span class="sub">writes a review report</span>
               </div>
             </foreignObject>
 
@@ -1001,25 +1004,25 @@
             <!-- Row 4 left: SHIP -->
             <foreignObject x="60" y="460" width="320" height="100">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-success">
-                <strong>SHIP-READY → ship</strong>
-                <span class="sub">break out of loop</span>
-                <span class="sub">advance to next chapter</span>
+                <strong>Clean pass — ship it</strong>
+                <span class="sub">no issues found</span>
+                <span class="sub">move on to next chapter</span>
               </div>
             </foreignObject>
 
             <!-- Row 4 middle: P1 decision -->
             <foreignObject x="540" y="460" width="320" height="100">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-warning">
-                <strong>iter ≥ 2 ?</strong>
-                <span class="sub">YES → ship-with-flag · NO → fixer(P1)</span>
+                <strong>Second attempt or later?</strong>
+                <span class="sub">YES → ship with caveats · NO → rewriter takes a swing</span>
               </div>
             </foreignObject>
 
             <!-- Row 4 right: FIXER P0 -->
             <foreignObject x="980" y="460" width="340" height="100">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-error">
-                <strong>invoke_fixer(severity="P0")</strong>
-                <span class="sub">max 3 fixer attempts per outer iter</span>
+                <strong>Rewriter addresses blockers</strong>
+                <span class="sub">up to 3 rewriter swings before giving up</span>
               </div>
             </foreignObject>
 
@@ -1029,15 +1032,15 @@
 
             <foreignObject x="540" y="600" width="320" height="80">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node">
-                <strong>outer iter += 1 — retry challenger</strong>
-                <span class="sub">unless outer iter == 3 → HALT</span>
+                <strong>Attempt +1 — editor reviews again</strong>
+                <span class="sub">unless attempt 3 → HALT and tell you</span>
               </div>
             </foreignObject>
 
             <foreignObject x="980" y="600" width="340" height="80">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node">
-                <strong>outer iter += 1 — retry challenger</strong>
-                <span class="sub">unless outer iter == 3 → HALT (FAILED)</span>
+                <strong>Attempt +1 — editor reviews again</strong>
+                <span class="sub">unless attempt 3 → HALT as FAILED</span>
               </div>
             </foreignObject>
 
@@ -1047,13 +1050,15 @@
           </svg>
           <div class="legend">
             <span class="legend-chip"><span class="swatch" style="background:var(--success)"></span>SHIP-READY · ships immediately</span>
-            <span class="legend-chip"><span class="swatch" style="background:var(--warning)"></span>SHIP-WITH-CAUTION · ships at iter ≥ 2</span>
-            <span class="legend-chip"><span class="swatch" style="background:var(--error)"></span>BLOCKED · fixer attempts, then retry</span>
+            <span class="legend-chip"><span class="swatch" style="background:var(--warning)"></span>SHIP-WITH-CAUTION · ships on attempt 2 or later</span>
+            <span class="legend-chip"><span class="swatch" style="background:var(--error)"></span>BLOCKED · rewriter tries, then editor re-reviews</span>
           </div>
           <p class="caption">
-            The dashed arrows are the retry loop. At outer iteration 3, any unresolved
-            verdict halts the orchestrator. Prior behavior silently downgraded BLOCKED to
-            FORCE-SHIP-CAUTION; that bypass was closed alongside publish gate G7.
+            The dashed arrows are the retry path. On the third attempt, anything
+            still unresolved halts the whole factory and surfaces to you for a
+            human call. An older version used to silently downgrade BLOCKED to a
+            cautious ship — that backdoor was closed. Nothing slips through
+            quietly anymore.
           </p>
         </div>
       </section>
@@ -1063,27 +1068,30 @@
            ════════════════════════════════════════════════════════════════ -->
       <section id="branches" class="architecture-section">
         <div class="section-head">
-          <div class="label">05 — BRANCH POLICY</div>
-          <h2>One typed branch per piece of content</h2>
-          <p class="sub">Single source of truth: <code>scripts/podcast/_branching.py</code>.</p>
+          <div class="label">05 — WORKING COPIES</div>
+          <h2>Every new piece of content gets its own isolated working copy</h2>
+          <p class="sub">One book, one working copy. Nothing disturbs anything else.</p>
         </div>
         <div class="prose">
           <p>
-            Every new piece of content is processed on its own typed branch off
-            <code>develop</code>. The branch is created at intake time and merged back to
-            <code>develop</code> only after publish completes. The prefix is determined by
-            the content's <strong>category</strong> field. Slugs are always the full
-            kebab-cased name — never abbreviate (so <code>book/kitab-al-riyad</code>, never
-            <code>book/KaR</code>).
+            Every new piece of content the factory takes in gets its own isolated
+            working copy. Think of it as a private branch of the project where
+            all the in-progress edits happen, so two books being worked on in
+            parallel never step on each other. The working copy is created when
+            intake starts and is merged back into the main project line only
+            after publishing succeeds. The naming pattern tells you at a glance
+            what kind of content it is — a book, a single document, a lecture,
+            an article, a letter, an interview. If the category can't be figured
+            out, it falls back to a generic "draft" label.
           </p>
         </div>
 
         <table class="branch-table">
           <thead>
             <tr>
-              <th style="width:18%">Branch prefix</th>
-              <th style="width:18%">Category</th>
-              <th>Example branch name</th>
+              <th style="width:18%">Working-copy prefix</th>
+              <th style="width:18%">Content type</th>
+              <th>What it looks like in practice</th>
             </tr>
           </thead>
           <tbody>
@@ -1119,17 +1127,19 @@
             </tr>
             <tr>
               <td class="prefix">draft/</td>
-              <td class="category"><em>(fallback — category unknown)</em></td>
+              <td class="category"><em>(unknown — fallback)</em></td>
               <td class="example">draft/pending-classification</td>
             </tr>
           </tbody>
         </table>
 
         <p style="color:var(--text-muted);font-size:0.95rem;text-align:center;">
-          The <code>draft/</code> prefix is the fallback when category is missing or
-          unrecognized — it keeps the branch trackable while signaling that classification
-          is pending. Promotion to <code>develop</code> happens only after publish; promotion
-          to <code>main</code> needs explicit operator approval (GitHub ruleset enforces).
+          The "draft/" prefix is the fallback when nobody has told the factory
+          what kind of thing this is yet — it keeps the work organized while
+          signaling that the classification is still open. Working copies merge
+          back into the main line only after publishing succeeds. And the
+          final promotion to the truly-live line always needs your explicit
+          green light — the project is set up to enforce that.
         </p>
       </section>
 
@@ -1138,18 +1148,20 @@
            ════════════════════════════════════════════════════════════════ -->
       <section id="gates" class="architecture-section">
         <div class="section-head">
-          <div class="label">06 — PUBLISH GATES</div>
-          <h2>Seven gates that must pass before content ships</h2>
-          <p class="sub">Click any gate to see what it checks, what failure means, and how to recover.</p>
+          <div class="label">06 — SEVEN SAFETY CHECKS</div>
+          <h2>Seven safety checks that must all say yes before publishing</h2>
+          <p class="sub">Click any check to see what it verifies, what failure means, and how to recover.</p>
         </div>
         <div class="prose">
           <p>
-            <code>scripts/podcast/publish_to_library.py</code> runs seven gates in order.
-            Any failure aborts the publish — nothing reaches
-            <code>content/published/books/&lt;slug&gt;/</code> until every gate is green.
-            G7 (challenger convergence) was added 2026-05-24 to close the bypass that
-            previously let non-orchestrated books reach the audience without ever clearing
-            the convergence loop.
+            Before any chapter reaches the public library, it has to clear
+            seven safety checks in order. If any one of them says no, the
+            publish stops — nothing reaches readers. The checks range from
+            simple ("the chapter files actually exist") to subtle ("the
+            editor signed off on this content"). The last check was added
+            on 2026-05-24 specifically to close a loophole where some content
+            was sneaking into the library without ever going through the
+            editor review described in Section 4.
           </p>
         </div>
 
@@ -1158,11 +1170,11 @@
           <div class="gate-row" data-gate="g1">
             <div class="gate-id">G1</div>
             <div>
-              <h4>Required structure</h4>
-              <p class="check"><code>chapters/*.txt</code> and <code>episodes/*.txt</code> both exist and are non-empty.</p>
+              <h4>Do the files actually exist?</h4>
+              <p class="check">Both the chapter text files and the matching episode files are present and non-empty.</p>
               <div class="gate-detail">
-                <strong>Why:</strong> No point doing anything else if the raw artifacts aren't on disk.
-                <br><br><span class="fail">FAIL</span> means a phase didn't run or wrote nothing. Re-run the relevant phase via <code>--retry-phase</code>.
+                <strong>Why:</strong> No point doing anything else if the actual content isn't on disk yet.
+                <br><br><span class="fail">FAIL</span> means one of the earlier steps didn't run or wrote nothing. Re-run the missing step.
               </div>
             </div>
             <div class="toggle">▶</div>
@@ -1171,11 +1183,11 @@
           <div class="gate-row" data-gate="g2">
             <div class="gate-id">G2</div>
             <div>
-              <h4>Pair completeness</h4>
-              <p class="check">Every <code>EP##-&lt;slug&gt;.txt</code> has a matching <code>ch##-&lt;slug&gt;.txt</code>, and vice versa.</p>
+              <h4>Do the chapters and episodes line up?</h4>
+              <p class="check">Every episode file has a matching chapter file, and vice versa — no orphans on either side.</p>
               <div class="gate-detail">
-                <strong>Why:</strong> Episodes and chapters travel as pairs to NotebookLM; an orphan on either side means the bundle is incomplete.
-                <br><br><span class="fail">FAIL</span> usually points to a manual edit gone wrong; check the orchestrator-state.json for the chapter index.
+                <strong>Why:</strong> Each NotebookLM upload needs both pieces. An orphan means a manual edit broke the pairing.
+                <br><br><span class="fail">FAIL</span> usually points to a manual edit gone wrong; the project state file shows which chapter is the odd one out.
               </div>
             </div>
             <div class="toggle">▶</div>
@@ -1184,11 +1196,11 @@
           <div class="gate-row" data-gate="g3">
             <div class="gate-id">G3</div>
             <div>
-              <h4>Sequential numbering</h4>
-              <p class="check">Chapter + episode numbers are purely sequential 1..N — no letter suffixes (<code>ch14a</code>), no decimals (<code>ch3.5</code>).</p>
+              <h4>Are the chapters numbered 1, 2, 3, …?</h4>
+              <p class="check">Chapter and episode numbers are a clean unbroken sequence — no "Chapter 14a", no "Chapter 3.5", no gaps.</p>
               <div class="gate-detail">
-                <strong>Why:</strong> The reader app + catalog assume contiguous numbering. Mirrors the future <code>S-EPISODE-SEQUENTIAL</code> challenger check, inlined here.
-                <br><br><span class="fail">FAIL</span> means a phase 0d rerun left a gap; reset and re-run via <code>--retry-phase 0d</code>.
+                <strong>Why:</strong> Both the reader app and the future catalog assume contiguous numbering — a gap or a suffix breaks the listing.
+                <br><br><span class="fail">FAIL</span> means a chapter-design rerun left a gap. Re-run that step.
               </div>
             </div>
             <div class="toggle">▶</div>
@@ -1197,11 +1209,11 @@
           <div class="gate-row" data-gate="g4">
             <div class="gate-id">G4</div>
             <div>
-              <h4>Build-clean (P0=0)</h4>
-              <p class="check">Running <code>build_episode_txt.py</code> on every episode returns zero P0 flags. P1 advisories warn-only by default; <code>--strict</code> elevates P1 to blocking.</p>
+              <h4>Are there zero serious blockers?</h4>
+              <p class="check">Re-running the assembly step against every episode turns up zero serious blockers. Minor advisories are warnings only by default; a strict mode can elevate them to blocking.</p>
               <div class="gate-detail">
-                <strong>Why:</strong> Even after challenger convergence, a doctrinal P0 (forbidden phrase, lineage swap) must not slip past the static builder.
-                <br><br><span class="fail">FAIL</span> means an "Imam Ali"-class phrase leaked back in. Run the doctrinal checks from Section 7 to localize.
+                <strong>Why:</strong> Even after the editor signed off, a serious theological error must not slip past the final assembly.
+                <br><br><span class="fail">FAIL</span> means a forbidden phrase (see Section 7) leaked back in somehow. The theology checks in the next section show you where to look.
               </div>
             </div>
             <div class="toggle">▶</div>
@@ -1210,11 +1222,11 @@
           <div class="gate-row" data-gate="g5">
             <div class="gate-id">G5</div>
             <div>
-              <h4>State checkpoint</h4>
-              <p class="check"><code>orchestrator-state.json</code> shows <code>phase=done</code> OR <code>phase=per-chapter</code> with a shippable phase_status.</p>
+              <h4>Did the factory finish this book cleanly?</h4>
+              <p class="check">The project's bookkeeping says this book is either fully done, or in the per-chapter phase with a clean status — not mid-step.</p>
               <div class="gate-detail">
-                <strong>Why:</strong> Don't publish a book the orchestrator thinks is still in flight; the state.json is the source of truth.
-                <br><br><span class="fail">FAIL</span> usually means an unclean shutdown left phase_status=running (the known orchestrator-resume bug). Bypass with <code>--force</code> only after manual review.
+                <strong>Why:</strong> Don't publish a book the factory still thinks it's working on. The bookkeeping is the source of truth.
+                <br><br><span class="fail">FAIL</span> usually means a previous run was interrupted and left the status marked "in progress". A force-publish flag exists for when you've manually confirmed it's actually done.
               </div>
             </div>
             <div class="toggle">▶</div>
@@ -1223,11 +1235,11 @@
           <div class="gate-row" data-gate="g6">
             <div class="gate-id">G6</div>
             <div>
-              <h4>Library-target sane</h4>
-              <p class="check">Target <code>content/published/books/&lt;slug&gt;/</code> either doesn't exist (we create) or <code>--overwrite</code> (default) wipes and recreates. <code>--no-wipe</code> coexists.</p>
+              <h4>Is the publishing destination safe to write to?</h4>
+              <p class="check">The destination folder either doesn't exist yet (the factory creates it) or is safe to overwrite — never a symlink, never outside the library tree.</p>
               <div class="gate-detail">
-                <strong>Why:</strong> Don't blow away a target that turns out to be a symlink or outside the library tree.
-                <br><br><span class="fail">FAIL</span> when target is a symlink (refuses wipe) — investigate before continuing.
+                <strong>Why:</strong> Don't accidentally blow away something that turns out to be a shortcut to somewhere else on disk.
+                <br><br><span class="fail">FAIL</span> when the destination is a symlink — investigate before continuing.
               </div>
             </div>
             <div class="toggle">▶</div>
@@ -1236,11 +1248,11 @@
           <div class="gate-row" data-gate="g7">
             <div class="gate-id">G7</div>
             <div>
-              <h4>Challenger convergence</h4>
-              <p class="check">Book's pipeline_mode is NOT in the non-converged set, AND <code>challenger-report.md</code> verdict is in {SHIP-READY, SHIP-WITH-CAUTION}.</p>
+              <h4>Did the editor sign off?</h4>
+              <p class="check">The book went through the full editor review described in Section 4, and the final verdict is either SHIP-READY or SHIP-WITH-CAUTION — not missing, not blocked.</p>
               <div class="gate-detail">
-                <strong>Why:</strong> Closes the bypass where non-orchestrated books or N/A reports reached the audience without ever clearing convergence. Sibling closure to the silent-downgrade fix in <code>_convergence.py</code>.
-                <br><br><span class="fail">FAIL</span> means either pipeline_mode=non_orchestrated_mode_2 or verdict missing. Use <code>--allow-mode-2</code> only after manual challenger pass.
+                <strong>Why:</strong> Closes the backdoor where some books were sneaking past the editor entirely. A bypass flag exists for the rare case where the editor was run manually outside the normal flow.
+                <br><br><span class="fail">FAIL</span> means either the book never went through the editor at all, or the editor report is missing. Use the bypass flag only after a real manual review.
               </div>
             </div>
             <div class="toggle">▶</div>
@@ -1254,28 +1266,33 @@
            ════════════════════════════════════════════════════════════════ -->
       <section id="doctrinal" class="architecture-section">
         <div class="section-head">
-          <div class="label">07 — DOCTRINAL ACCURACY</div>
-          <h2>Category T — five checks for Ismaili-tradition correctness</h2>
-          <p class="sub">Each chapter walks through T1 → T5; P0 findings block, P1 findings flag.</p>
+          <div class="label">07 — THEOLOGY CHECKS</div>
+          <h2>Five theology checks that catch attribution and lineage mistakes</h2>
+          <p class="sub">Each chapter walks through T1 through T5; serious findings block, lesser ones flag.</p>
         </div>
         <div class="prose">
           <p>
-            The <code>_doctrinal.py</code> module runs five checks against every chapter +
-            framing + episode. Data backing the checks lives in
-            <code>content/_shared/islam/</code> (imam lineage, naming conventions, canonical
-            attributions). T4 and T5 are stubs reserved for future datasets — the rule-id
-            taxonomy stays complete so the trainer can wire them later without a renumbering.
+            Think of this as a spell-checker for theology. Five different checks
+            (named T1 through T5) run against every chapter to catch errors
+            specific to the Ismaili tradition — quoting someone the wrong way,
+            putting the wrong name on a specific Imam in the lineage, using
+            phrases that signal a different tradition than the one these books
+            come from. Two of the five (T4 and T5) are placeholders for future
+            data we haven't built up yet — they're wired in but currently inert,
+            so when we add the data later nothing has to be renumbered.
           </p>
           <p>
-            Note on lineage: in this tradition, Ali ibn Abi Talib is the <em>Father of the
-            Imams</em>, not the first Imam. The first Imam is Hassan. The phrase
-            "Imam Ali" is therefore P0 forbidden — it reflects the Twelver convention, not
-            the framing of these books.
+            One specific bit of background that matters: in this tradition, Ali
+            ibn Abi Talib is the <em>Father of the Imams</em>, not the first
+            Imam himself. The first Imam is Hassan. So the phrase "Imam Ali" is
+            a serious red flag — it reflects a different tradition's convention,
+            not the one these books are written in. Whenever it appears, the
+            factory blocks the chapter from shipping until it's fixed.
           </p>
         </div>
 
         <div class="diagram">
-          <div class="how-to">A chapter enters at the top · cleared chapters exit at the bottom-left</div>
+          <div class="how-to">A chapter enters at the top · clean chapters exit on the left · problems exit on the right</div>
           <svg viewBox="0 0 1400 880" preserveAspectRatio="xMidYMid meet">
             <defs>
               <marker id="arrow-doc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
@@ -1292,8 +1309,8 @@
             <!-- Input -->
             <foreignObject x="560" y="20" width="280" height="80">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node">
-                <strong class="lg-title">Chapter text</strong>
-                <span class="sub">enters run_doctrinal_checks()</span>
+                <strong class="lg-title">Chapter text enters</strong>
+                <span class="sub">runs through all five checks</span>
               </div>
             </foreignObject>
 
@@ -1302,8 +1319,8 @@
             <!-- T1 -->
             <foreignObject x="540" y="140" width="320" height="100">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-rose">
-                <strong>T1 — Canonical attribution</strong>
-                <span class="sub">Forbidden attributions next to known signatures → P0</span>
+                <strong>T1 — Right person, right quote?</strong>
+                <span class="sub">A quote attributed to the wrong figure is a serious block.</span>
               </div>
             </foreignObject>
             <path class="edge-accent" d="M 700 240 L 700 280" marker-end="url(#arrow-doc)"/>
@@ -1311,8 +1328,8 @@
             <!-- T2 -->
             <foreignObject x="540" y="280" width="320" height="100">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-rose">
-                <strong>T2 — Imam lineage</strong>
-                <span class="sub">"the Nth Imam" pairs with the right name → P0 if not</span>
+                <strong>T2 — Right Imam at the right position?</strong>
+                <span class="sub">"The third Imam" must be paired with the actual third Imam's name.</span>
               </div>
             </foreignObject>
             <path class="edge-accent" d="M 700 380 L 700 420" marker-end="url(#arrow-doc)"/>
@@ -1321,7 +1338,7 @@
             <foreignObject x="540" y="420" width="320" height="100">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-error">
                 <strong>T3 — Forbidden phrases</strong>
-                <span class="sub">"Imam Ali", "Imam Fatima" → P0 (build-time HARD gate)</span>
+                <span class="sub">"Imam Ali", "Imam Fatima" → hard block, even at the very last step.</span>
               </div>
             </foreignObject>
             <path class="edge-accent" d="M 700 520 L 700 560" marker-end="url(#arrow-doc)"/>
@@ -1329,8 +1346,8 @@
             <!-- T4 -->
             <foreignObject x="540" y="560" width="320" height="100">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-warning">
-                <strong>T4 — Farman plausibility (STUB)</strong>
-                <span class="sub">Reserved for date/location dataset (not yet populated)</span>
+                <strong>T4 — Farman dates and places (placeholder)</strong>
+                <span class="sub">Reserved for a future dataset of pronouncements with their dates and locations.</span>
               </div>
             </foreignObject>
             <path class="edge-accent" d="M 700 660 L 700 700" marker-end="url(#arrow-doc)"/>
@@ -1338,8 +1355,8 @@
             <!-- T5 -->
             <foreignObject x="540" y="700" width="320" height="100">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-warning">
-                <strong>T5 — Weak hadith (STUB until populated)</strong>
-                <span class="sub">Trainer adds matn fragments as patterns emerge → P1</span>
+                <strong>T5 — Weak hadith fragments (placeholder)</strong>
+                <span class="sub">Reserved — patterns will be added as the editor encounters them.</span>
               </div>
             </foreignObject>
 
@@ -1347,25 +1364,27 @@
             <path class="edge-ok" d="M 540 470 L 220 470" stroke="var(--success)" stroke-width="2.5" fill="none" marker-end="url(#arrow-doc-ok)"/>
             <foreignObject x="60" y="430" width="200" height="80">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-success">
-                <strong>findings = []</strong>
-                <span class="sub">chapter clears → ship</span>
+                <strong>All clean — ship</strong>
+                <span class="sub">chapter clears all five checks</span>
               </div>
             </foreignObject>
 
             <path class="edge-error" d="M 860 470 L 1180 470" marker-end="url(#arrow-doc-err)"/>
             <foreignObject x="1180" y="430" width="200" height="80">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-error">
-                <strong>any P0 → BLOCK</strong>
-                <span class="sub">challenger raises P0; fixer attempts</span>
+                <strong>Any serious block</strong>
+                <span class="sub">editor blocks; rewriter takes a swing</span>
               </div>
             </foreignObject>
           </svg>
           <p class="caption">
-            The decision tree runs T1 → T5 in sequence on every chapter. A clean walk (no
-            findings) ships left; any P0 ships right into the convergence loop's BLOCKED
-            branch. The seven valid Imams in the lineage are Hassan, Hussain, Ali Zayn
-            al-Abidin, Muhammad al-Baqir, Ja'far al-Sadiq, Isma'il ibn Ja'far, and Muhammad
-            ibn Isma'il.
+            The chapter runs through T1 through T5 in sequence. A clean walk
+            (no findings at all) exits on the left and ships. Any serious
+            finding kicks the chapter into the editor's BLOCKED branch of the
+            review loop in Section 4. The seven canonical Imams in this
+            tradition are Hassan, Hussain, Ali Zayn al-Abidin, Muhammad
+            al-Baqir, Ja'far al-Sadiq, Isma'il ibn Ja'far, and Muhammad ibn
+            Isma'il.
           </p>
         </div>
       </section>
@@ -1375,24 +1394,28 @@
            ════════════════════════════════════════════════════════════════ -->
       <section id="agents" class="architecture-section">
         <div class="section-head">
-          <div class="label">08 — AGENT SURFACE</div>
-          <h2>Ten Claude agents, one orchestrator at the center</h2>
-          <p class="sub">Orchestrator is the only agent that drives the others; the rest are leaves.</p>
+          <div class="label">08 — THE TEAM OF HELPERS</div>
+          <h2>One conductor, eight specialists, and two outside helpers</h2>
+          <p class="sub">The conductor sits in the middle and calls on each specialist when its turn comes.</p>
         </div>
         <div class="prose">
           <p>
-            The pipeline ships with ten Claude agents under
-            <code>infra/claude-agents/</code>. <strong>podcast-orchestrator</strong> sits
-            at the center — it drives every other agent at the appropriate phase. The
-            <strong>refine-prompt</strong> and <strong>docs-updater</strong> agents are
-            tooling agents not invoked by the orchestrator; they live on the edge of the
-            graph. Layout below is deterministic (no force-simulation random seed) — anchor
-            in the middle, leaves radiate.
+            The factory is run by a small team of AI helpers. One of them is
+            the <strong>conductor</strong> — it sits in the middle of the
+            diagram and drives the whole show. You hand the conductor a PDF
+            and walk away; it works through the eleven steps in order, pauses
+            once in the middle for your review, then resumes and runs every
+            per-chapter helper at the right moment. The other helpers are
+            specialists — each does one job and only one job. The two helpers
+            in the top-left and (offstage) bottom of the diagram are
+            <strong>tooling helpers</strong>, used by you directly when you
+            need to refine a request or refresh this very page; the conductor
+            doesn't call them.
           </p>
         </div>
 
         <div class="diagram">
-          <div class="how-to">Center node is the only driver · arrows point to invocation targets</div>
+          <div class="how-to">The center is the conductor · arrows point to the specialist it calls</div>
           <svg viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid meet">
             <defs>
               <marker id="arrow-agent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
@@ -1413,73 +1436,73 @@
             <!-- Center: orchestrator -->
             <foreignObject x="540" y="380" width="320" height="140">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-rose" style="border-width:3px;">
-                <strong class="lg-title">podcast-orchestrator</strong>
-                <span class="sub">Drives orchestrate_book.py end-to-end</span>
-                <span class="sub">Halts only at Phase 0f human gate</span>
+                <strong class="lg-title">The conductor</strong>
+                <span class="sub">runs the whole factory end-to-end</span>
+                <span class="sub">pauses only for your chapter-plan review</span>
               </div>
             </foreignObject>
 
             <!-- Top: blueprint -->
             <foreignObject x="540" y="50" width="320" height="120">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-gold">
-                <strong>podcast-blueprint</strong>
-                <span class="sub">Classifies the book (genre, density, narrative mode); proposes audience + planning mode</span>
+                <strong>The book classifier</strong>
+                <span class="sub">Reads the book and decides what kind of thing it is — dense reference, narrative arc, sermon — then suggests audience and pacing.</span>
               </div>
             </foreignObject>
 
             <!-- Top-right: extract -->
             <foreignObject x="1040 " y="110" width="300" height="120">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-mint">
-                <strong>podcast-extract</strong>
-                <span class="sub">Single-chapter → NotebookLM bundle. Used per-chapter in B1.</span>
+                <strong>The packager</strong>
+                <span class="sub">Cuts one chapter into a clean NotebookLM-ready bundle. Called once per chapter.</span>
               </div>
             </foreignObject>
 
             <!-- Right: challenger -->
             <foreignObject x="1190" y="380" width="320" height="140">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-rose">
-                <strong>podcast-challenger</strong>
-                <span class="sub">Convergence-loop validator. 5 inner iterations per pass; emits SHIP-READY / WITH-CAUTION / BLOCKED.</span>
+                <strong>The editor</strong>
+                <span class="sub">Reviews each chapter against a long quality checklist and gives a verdict: SHIP-READY, SHIP-WITH-CAUTION, or BLOCKED.</span>
               </div>
             </foreignObject>
 
             <!-- Bottom-right: trainer -->
             <foreignObject x="1040" y="630" width="300" height="120">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-gold">
-                <strong>podcast-trainer</strong>
-                <span class="sub">Cross-book pattern learner. Proposes spec edits; gates them through regression.</span>
+                <strong>The trainer</strong>
+                <span class="sub">Looks for patterns across many shipped books and proposes improvements to the editor's checklist — gated by regression tests.</span>
               </div>
             </foreignObject>
 
             <!-- Bottom: publisher -->
             <foreignObject x="540" y="740" width="320" height="120">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-mint">
-                <strong>podcast-publisher</strong>
-                <span class="sub">Drives publish_to_library.py (gates G1–G7). Last agent called by orchestrator.</span>
+                <strong>The publisher</strong>
+                <span class="sub">Runs the seven safety checks from Section 6 and moves the finished bundle into the public library. Last helper the conductor calls.</span>
               </div>
             </foreignObject>
 
             <!-- Bottom-left: slide-deck-challenger -->
             <foreignObject x="60" y="630" width="300" height="120">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-rose">
-                <strong>slide-deck-challenger</strong>
-                <span class="sub">Visual-quality challenger for deck bundles. Peer of audio challenger.</span>
+                <strong>The slide-deck editor</strong>
+                <span class="sub">The visual-quality counterpart to the audio editor. Reviews slide-deck bundles when those get made.</span>
               </div>
             </foreignObject>
 
             <!-- Left: auditor -->
             <foreignObject x="60" y="380" width="320" height="140">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-warning">
-                <strong>podcast-auditor</strong>
-                <span class="sub">Repo-level health audit. Identify-only in v1.0 — drift / regression / gap report.</span>
+                <strong>The repo auditor</strong>
+                <span class="sub">Runs a whole-factory health check. Spots drift, dead code, and gaps — but only reports them; it doesn't fix anything yet.</span>
               </div>
             </foreignObject>
 
             <!-- Top-left: refine-prompt -->
             <foreignObject x="60" y="110" width="300" height="120">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-sky">
-                <strong>refine-prompt</strong>
-                <span class="sub">Tooling agent — refines raw operator requests into one compact instruction-paragraph. NOT invoked by orchestrator.</span>
+                <strong>The prompt refiner (tooling)</strong>
+                <span class="sub">Helps you turn a rough request into a tight one-paragraph instruction. Used by you directly — the conductor never calls it.</span>
               </div>
             </foreignObject>
 
@@ -1489,11 +1512,12 @@
             </foreignObject>
           </svg>
           <p class="caption">
-            Eight agents radiate from <code>podcast-orchestrator</code>. The
-            <strong>refine-prompt</strong> agent (top-left) is operator tooling and lives
-            off the invocation graph. The <strong>docs-updater</strong> agent that
-            regenerated this very page is also operator tooling — it reads the repo, never
-            modifies pipeline state.
+            Eight specialists radiate out from the conductor. The prompt
+            refiner in the top-left is a tooling helper you use directly when
+            cleaning up a request before handing it off. The docs writer that
+            generated this very page is another tooling helper — it reads the
+            project and rewrites this page, but never changes any actual
+            factory state.
           </p>
         </div>
       </section>
@@ -1503,25 +1527,26 @@
            ════════════════════════════════════════════════════════════════ -->
       <section id="azure" class="architecture-section">
         <div class="section-head">
-          <div class="label">09 — AZURE STACK</div>
-          <h2>Four Azure resources, one phase per resource</h2>
-          <p class="sub">All keys in macOS Keychain; <code>infra/azure/azure-config.env</code> is tracked non-secret config.</p>
+          <div class="label">09 — OUTSIDE SERVICES</div>
+          <h2>Four Microsoft services do the work the factory can't do itself</h2>
+          <p class="sub">All passwords live in macOS Keychain. Nothing sensitive ever lands in tracked files.</p>
         </div>
         <div class="prose">
           <p>
-            The pipeline uses four Azure Cognitive Services resources for OCR, translation,
-            and named-entity recognition. Resource group <code>rg-journal-ai</code> in
-            region <code>eastus</code>. Secrets live in macOS Keychain (one entry per
-            field — endpoint, key, region), populated by
-            <code>infra/azure/store-keychain-keys.sh</code>. <code>_azure.py</code>
-            resolves credentials in order: env var first (for CI), then Keychain (local
-            Mac). Speech is feature-flagged on (currently used for Urdu lecture
-            transcription on the <code>kunooz-al-hikmah</code> project).
+            The factory leans on four Microsoft Azure services for the things
+            AI models can't do well on their own: reading the text off a scanned
+            page, translating Arabic to English, and spotting named entities
+            (people, places, terms). They all live in one resource group in
+            Microsoft's eastern-US region. The passwords for each one are
+            stored in your Mac's built-in Keychain — never in any file that
+            gets shared. There's a fifth service, Azure Speech, that's
+            switched off by default and only turns on for the audio-lecture
+            project; everything else uses the four core services.
           </p>
         </div>
 
         <div class="diagram">
-          <div class="how-to">Pipeline phases call out left → right to Azure services</div>
+          <div class="how-to">Pipeline steps on the left call out to Microsoft services on the right</div>
           <svg viewBox="0 0 1400 580" preserveAspectRatio="xMidYMid meet">
             <defs>
               <marker id="arrow-az" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
@@ -1532,29 +1557,29 @@
             <!-- Phase column (left) -->
             <foreignObject x="40" y="60" width="280" height="100">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-rose">
-                <strong>Phase 0a</strong>
-                <span class="sub">OCR + Translation</span>
+                <strong>0a — Read the source</strong>
+                <span class="sub">Scan and translate the PDF</span>
               </div>
             </foreignObject>
 
             <foreignObject x="40" y="200" width="280" height="100">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-rose">
-                <strong>Phase 0a.5</strong>
-                <span class="sub">NER pre-seed (pending wiring)</span>
+                <strong>0a.5 — Spot named entities</strong>
+                <span class="sub">Wired but not yet active</span>
               </div>
             </foreignObject>
 
             <foreignObject x="40" y="340" width="280" height="100">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-rose">
-                <strong>Speech phase (opt-in)</strong>
-                <span class="sub">Urdu lecture transcription</span>
+                <strong>Audio lecture step (opt-in)</strong>
+                <span class="sub">Transcribes Urdu lectures</span>
               </div>
             </foreignObject>
 
             <foreignObject x="40" y="460" width="280" height="80">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node">
-                <strong>Ancillary</strong>
-                <span class="sub">misc pipeline storage</span>
+                <strong>Miscellaneous</strong>
+                <span class="sub">non-pipeline-critical storage</span>
               </div>
             </foreignObject>
 
@@ -1568,51 +1593,53 @@
             <!-- Azure resources (right column) -->
             <foreignObject x="700" y="60" width="340" height="100">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-azure">
-                <strong>journal-docintel</strong>
-                <span class="sub">Document Intelligence · OCR engine</span>
+                <strong>Azure Document Intelligence</strong>
+                <span class="sub">Reads printed text off a scanned page</span>
               </div>
             </foreignObject>
 
             <foreignObject x="700" y="200" width="340" height="100">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-azure">
-                <strong>journal-translator</strong>
-                <span class="sub">Translator S1 · AR → EN</span>
+                <strong>Azure Translator</strong>
+                <span class="sub">Arabic → English machine translation</span>
               </div>
             </foreignObject>
 
             <foreignObject x="700" y="340" width="340" height="100">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-azure">
-                <strong>journal-language-market</strong>
-                <span class="sub">Cognitive Services Language F0 · NER</span>
+                <strong>Azure Language (named-entity)</strong>
+                <span class="sub">Finds people, places, terms in text</span>
               </div>
             </foreignObject>
 
             <foreignObject x="700" y="480" width="340" height="80">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-azure">
-                <strong>journal-speech</strong>
-                <span class="sub">Speech · ENABLE_SPEECH=true</span>
+                <strong>Azure Speech (opt-in)</strong>
+                <span class="sub">Audio → text for spoken lectures</span>
               </div>
             </foreignObject>
 
             <foreignObject x="1060" y="460" width="320" height="80">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node">
-                <strong>journalpodcaststorage</strong>
-                <span class="sub">Storage account · ancillary</span>
+                <strong>Azure Storage</strong>
+                <span class="sub">Bulk file storage, ancillary</span>
               </div>
             </foreignObject>
 
             <!-- Region / RG banner -->
             <foreignObject x="380" y="20" width="660" height="32">
               <div xmlns="http://www.w3.org/1999/xhtml" class="svg-edge-label" style="font-family:var(--font-mono);font-size:0.85rem;padding:0.35rem 0.75rem;">
-                Resource group: rg-journal-ai · Region: eastus · Subscription: Journal AI — primary
+                One resource group · US East region · billed to a single subscription
               </div>
             </foreignObject>
           </svg>
           <p class="caption">
-            Phase 0a fans out to both Doc Intelligence and Translator. Phase 0a.5 (NER
-            pre-seed) is wired but framework integration is pending. Speech is opt-in via
-            <code>ENABLE_SPEECH=true</code> in <code>azure-config.env</code>. All edges are
-            authenticated by keys resolved through the Keychain.
+            The "Read the source" step is the busy one — it calls both
+            Document Intelligence (to read the text off the page) and
+            Translator (to convert Arabic to English). The named-entity step
+            is wired but not yet active in the pipeline. Speech only turns on
+            for the Urdu-lecture project. Every connection is authenticated
+            with passwords pulled out of your Mac's Keychain at runtime.
           </p>
         </div>
       </section>
@@ -1623,11 +1650,13 @@
       <section class="architecture-section">
         <div class="section-head">
           <div class="label">FOOTER — RECENT ACTIVITY</div>
-          <h2>What's new on develop</h2>
+          <h2>What's new in the project</h2>
           <p class="sub">Last 30 commits — what changed since the previous regeneration.</p>
         </div>
         <div class="commits">
           <ul>
+            <li><span class="sha">68cb2c2</span><span>docs(architecture): bump SVG-node typography to clear the 13px floor</span></li>
+            <li><span class="sha">9a597de</span><span>docs(architecture): redesign for readability — HTML cards + foreignObject SVG</span></li>
             <li><span class="sha">6202c85</span><span>docs(architecture): regenerate with horizontal nav + solid-fill diagrams</span></li>
             <li><span class="sha">08717ee</span><span>docs(architecture): consolidate to single D3-rendered view + docs-updater agent</span></li>
             <li><span class="sha">94e1e06</span><span>cleanup(repo): start-clean + restore content-branch policy + publisher agent</span></li>
@@ -1656,8 +1685,6 @@
             <li><span class="sha">ab867a9</span><span>podcast(auditor-fixes): sync challenger wrapper after AU-A1-003 edit</span></li>
             <li><span class="sha">76403a9</span><span>podcast(auditor-fixes): all remaining P0s (items 4-5 + AU-A1-003/004)</span></li>
             <li><span class="sha">5bc7c9a</span><span>podcast(auditor-fixes): items 1-3 from inaugural audit</span></li>
-            <li><span class="sha">97b7504</span><span>podcast(auditor): introduce v1.0 + first run</span></li>
-            <li><span class="sha">5fd9945</span><span>docs(response-template): blank line between Next options</span></li>
           </ul>
         </div>
       </section>
@@ -1666,9 +1693,16 @@
 
     <footer class="footer">
       Generated by <a href="../../infra/claude-agents/docs-updater.md">docs-updater</a>
-      from <code>6202c85</code> on 2026-05-24.
+      from <code>68cb2c2</code> on 2026-05-24.
       <div class="footer-secondary">
-        Idempotent — running the agent again on the same repo state produces the same file.
+        Idempotent — running the agent again on the same project state produces the same file.
+        Engineers looking for file paths and script names: the source-of-truth files
+        are <code>scripts/podcast/orchestrate_book.py</code> (the conductor),
+        <code>scripts/podcast/_convergence.py</code> (the editor loop),
+        <code>scripts/podcast/publish_to_library.py</code> (the publisher and its seven gates),
+        <code>scripts/podcast/_doctrinal.py</code> (the theology checks),
+        <code>scripts/podcast/_branching.py</code> (the working-copy naming),
+        and <code>infra/claude-agents/*.md</code> (every helper's full spec).
       </div>
     </footer>
   </div>

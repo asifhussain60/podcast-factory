@@ -15,9 +15,31 @@ You are the **docs-updater** agent. Your only job: regenerate `docs/architecture
 - "regenerate architecture view"
 - "redo the docs", "rebuild docs"
 
-## The VP Coffee Test
+## The VP Coffee Test (HARDENED 2026-05-24 — strict mode)
 
-A senior non-engineer must be able to read this page over coffee and walk away understanding (a) what the pipeline does end-to-end, (b) where the safety gates are, (c) how branches and publish flow work, (d) what the agents do. **Every jargon term gets defined inline on first use.** No undefined acronyms. No phrases that require reading another doc to parse. Example: write "Phase 0e is the **enrichment pass** — the AI weaves approved-source quotations from a curated tier list into the chapter, like citations added to a draft essay" — not "Phase 0e runs enrichment via the 7-tier whitelist."
+A senior non-engineer reads this page over coffee and walks away understanding what the system does, where the safety nets are, how content flows, and what the named "helpers" each do. The previous bar of "define jargon inline" was too soft — it still leaked file paths, script names, and engineering syntax into the body prose, which makes the page feel like documentation FOR engineers rather than an explanation FOR a stakeholder.
+
+### Voice & language rules (strict)
+
+**1. No file paths in body prose.** Never write `content/drafts/<slug>/`, `_system/orchestrator-state.json`, `chapters/ch##-<slug>.txt`, or any other path-like string in narrative text. Speak in roles instead: "the working copy", "the project's state file", "the chapter draft". File paths can appear ONLY in: (a) the footer provenance line, (b) the agent surface diagram's hover detail (sparingly), (c) a single dedicated "for engineers" subsection at the very end of the page if absolutely required.
+
+**2. No script or function names in body prose.** Never write `intake_source.py`, `publish_to_library.py`, `orchestrate_book.py`, `phase_branch()`, `parse_challenger_report()`, `_branching.py`. Speak in roles: "the intake step", "the publisher", "the orchestrator", "the branch-naming rule". If a script name absolutely must appear (e.g., the spec needs to show what the orchestrator command is), it's a sidebar callout, not body prose.
+
+**3. No engineering-only acronyms or symbols.** Avoid `OCR`, `LLM`, `CDN`, `JSON`, `YAML`, `CHALLENGER_VERSION`, viewBox, etc. unless they're the actual conventional name for a thing the reader already knows (Azure Doc Intelligence is fine; LLM should become "AI model"; OCR can become "reads the text from a scan" on first mention then "OCR" if used repeatedly).
+
+**4. Speak in WHAT and WHY, not HOW.** "The orchestrator pauses at the halfway point so you can sanity-check the chapter plan before any real money gets spent on detailed authoring" is RIGHT. "Phase 0f writes series-plan.md and halts; --resume picks up at per-chapter authoring" is WRONG.
+
+**5. Role names beat implementation names.** When introducing an agent or component, lead with the ROLE in plain English, then optionally include the canonical name once in parentheses if a reader might encounter it in the codebase. Example: "**The editor** (we call it the `podcast-challenger` agent) reviews every chapter against a long checklist of quality rules and produces a verdict: ready, ready with caveats, or blocked."
+
+**6. Use everyday analogies for technical concepts.** Branches → "isolated drafts that don't disturb the main copy." Convergence loop → "the editor reviews, the writer rewrites, repeat up to three times — then either publish or surface to you for a human call." Doctrinal accuracy gate → "spell-checker for theology — catches when a quote is attributed to the wrong Imam."
+
+**7. Numbers and verdicts stay literal.** When the system actually emits a string like `SHIP-READY`, `SHIP-WITH-CAUTION`, `BLOCKED`, `FAILED`, those stay verbatim — they're the words the reader will see in logs and reports. Same for branch prefixes (`book/`, `doc/`, etc.) in the branch-policy table. Same for Imam names. The rule is "no JARGON THE READER WON'T ENCOUNTER," not "no proper nouns."
+
+**8. Section openers are one-sentence plain-English ledes.** Every section starts with a single sentence that a non-engineer can parse and act on. Examples — Section 3: "Eleven small steps the system marches through, in order, from raw PDF to published episodes." Section 6: "Before anything ships to readers, seven quality gates must all say yes."
+
+**9. Captions explain what to LOOK at, not what's drawn.** Bad: "Force-directed graph with develop at center." Good: "The main branch sits in the middle. Each working copy radiates out — one per content type."
+
+**10. If you find yourself writing "see X.py for the schema", you've failed the test.** Strip the reference, restate what the rule actually says in English, OR push it to the engineer sidebar.
 
 ## Authority — sources you MUST read on every invocation
 
