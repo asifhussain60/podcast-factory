@@ -364,6 +364,57 @@ class TestNoStaleHandbookPaths(unittest.TestCase):
         )
 
 
+class TestMetaProseTellsAllowRuleExamples(unittest.TestCase):
+    """assert_no_meta_prose must NOT flag a meta-prose tell that appears
+    only inside a quoted example within a rule-statement bullet. The rule
+    `- **Cross-episode language.** No "previous episode," "next episode."`
+    legitimately quotes the tells it forbids. f7068bf-class pattern."""
+
+    def setUp(self):
+        import build_episode_txt
+        self.B = build_episode_txt
+
+    def test_rule_example_line_recognized(self):
+        from build_episode_txt import _is_rule_example_line
+        # Real rule statement with quoted tells
+        line = '- **Cross-episode language.** No "previous episode," "next episode."'
+        self.assertTrue(_is_rule_example_line(line, "previous episode"))
+        self.assertTrue(_is_rule_example_line(line, "next episode"))
+
+    def test_unquoted_tell_still_caught(self):
+        from build_episode_txt import _is_rule_example_line
+        # Tell appearing OUTSIDE quotes on a rule bullet = real leak
+        line = '- **Bad bullet.** As we said in the previous episode, …'
+        self.assertFalse(_is_rule_example_line(line, "previous episode"))
+
+    def test_non_bullet_line_with_tell_is_real(self):
+        from build_episode_txt import _is_rule_example_line
+        line = 'As discussed in the previous episode, this matters.'
+        self.assertFalse(_is_rule_example_line(line, "previous episode"))
+
+    def test_assert_no_meta_prose_skips_rule_example_tells(self):
+        # Framing fragment that ONLY contains the tells inside rule-example
+        # quotes — should pass the meta-prose check.
+        fragment = """# Title
+
+## Anti-noise rules
+
+- **Cross-episode language.** No "previous episode," "earlier episode," "next episode."
+- **Trailer talk.** No "in this episode," "today's episode," "on today's show."
+"""
+        # Should not raise SystemExit
+        try:
+            self.B.assert_no_meta_prose(
+                fragment, Path("/tmp/test-framing.md"),
+                "framing (CUSTOMIZE PROMPT)"
+            )
+        except SystemExit as e:
+            self.fail(
+                f"assert_no_meta_prose raised SystemExit on legitimate "
+                f"rule-example tells: {e}"
+            )
+
+
 class TestPipelineLintExists(unittest.TestCase):
     """pipeline_lint.py is the deterministic $0 pre-flight gate. It must:
     (a) exist as an executable Python script

@@ -1,162 +1,170 @@
 # The Father Revealed and the Three Faces of Seeking
 
-**Episode format:** Debate. The two voices adopt opposing positions and argue from them; the second voice concedes by the close. Neither host announces a winner.
-
-## Opening directive
-
-Open by stating the proposition under debate, verbatim, in the first thirty seconds. Do not use "today we will discuss", "welcome to today", "welcome back", "in this episode", or any other show-intro phrasing. Name the work — a dialogue book of the Ismaili call, attributed to a tenth-century Yemeni teacher — and tell the listener that the two voices will hold opposing positions throughout. Land, in the open, the thesis line that this conversation will return to three times: *Religion is the cause that connects heaven to earth, unbroken — the loop of the firm handhold, the rope of those who hold fast.* That line is repeated verbatim at the open (here), at the pivot (Beat 4), and at the close (Beat 6). Target a 50 to 60 minute in-depth conversation.
+**Episode format:** Debate. The two voices adopt opposing positions and argue them across the conversation; the resolution is `host_b_concedes` — by the close, Host B grants the case to Host A. This is a tenth-century dispute treated as a tenth-century dispute, not a modern panel.
 
 ## Length
 
-Extended tier. Long-form discussion. Do not compress.
+This is an extended walkthrough — target a 50 to 60 minute in-depth conversation. The chapter contains a long climactic dialogue plus two long doctrinal speeches; do not rush through them.
 
-## Audience
+## Opening directive
 
-Thoughtful adult readers continuing a dialogue book attributed to a tenth-century Yemeni teacher of the Ismaili call. They have followed earlier chapters in which a youth was drawn out of his city by a wandering master, walked through cosmology and an ethical-practical bridge, and was re-born into the chain on the seventh day by an elder guide. The fourth chapter ended on a single sentence: *then his father came to him, angry*. This chapter is the answer to that anger. It is also the chapter in which the book, for the first time, gives the youth and his father their names; gives the senior scholar of the old tradition his name; and stages the call's first public encounter with that senior scholar.
+Open within the first thirty seconds by stating the proposition under debate verbatim and naming, in the same breath, the doctrine Host A will end on: religion as **the cause that connects heaven to earth, unbroken**. Do not open with "today we'll discuss" or "welcome back" or "in this episode" — open by naming what is at stake. The listener must feel, before any solution lands, that something has been **lost** and someone is asking what is **left**.
 
-## Proposition under debate
+State the chapter's central thesis — **the cause that connects heaven to earth, unbroken** — three times verbatim across the episode: at the open (Beat 1), at the pivot (Beat 4), and at the close (Beat 6). Per R-RECURRING-THESIS, the same nine-word phrase must be spoken three times verbatim, not paraphrased.
 
-> The inherited tradition's legal code — command, prohibition, lawful, forbidden, prophetic-practice norms, obligations — is sufficient to constitute religion in this age, and no living chain or unbroken cause connecting heaven to earth is required.
+## About this chapter
 
-The first voice argues against the proposition. The second voice argues for it and concedes by the close.
+A long-running dialogue book reaches its naming chapter. A son who has been initiated by a wandering scholar returns home; his father, who had heard of the visit with anger, meets him with a structured reproach. The son offers the father a choice between outward courtesy and open debate. The father chooses open debate; the son binds the father with an exact dilemma; the father weeps, concedes, and crosses over. The two of them, named for the first time, then become the cause for a country's guidance. News reaches a community of the old creed; the community goes to its senior scholar for a ruling on blood and property; he refuses to judge by anger, gives a long doctrinal teaching, and walks the community to the son's gate. The chapter's climactic exchange is the long dialogue between the son and the senior scholar — across which the senior scholar concedes six times, ending at zero point: nothing is left with him, and he asks the son what religion the son has.
 
-## Stable role-labels (use the English label every time, no rotation)
+## Proposition under debate (state verbatim at open)
 
-Audio renders Arabic names unstably. Every figure has ONE English label that both hosts use every time, including inside verbatim quotations from the source. Read the chapter's names; speak the labels.
+> The inherited tradition of command and prohibition, lawful and forbidden, ritual and obligation — handed down by the books and the trained interpretation of the jurists — is sufficient to constitute religion in this age. No living chain, no unbroken cause connecting heaven to earth, is required.
 
-- **The youth** → **Samuel**. First-mention epithet: *the righteous youth, named in this chapter for the first time after four chapters of being called simply "the boy"*. Thereafter: Samuel.
-- **The youth's biological father** → **Benedict**. First-mention epithet: *Samuel's elder householder father, the one whose enmity toward the people of the call had been named in the opening chapter*. Thereafter: Benedict.
-- **The senior scholar of the old tradition** → **Marcus**. First-mention epithet: *the senior scholar of the old tradition, known among his community for the abundance of his judgments*. Thereafter: Marcus.
-- **The inherited-authority figure** Samuel rebukes Marcus by name → call him **the inherited-authority figure** or **the chain-without-witness figure**. First-mention epithet: *an early figure who transmitted reports from older traditions without first-hand witness — the paradigm of authority taken on imitation*.
-- **The petitioner in the divorce case** → **the day's petitioner**.
-- **The visiting master** (offstage; the wandering teacher of chapters one through four) → **the visiting master**.
-- **The elder guide of the chain** (offstage; the figure who completed the youth's initiation) → **the elder guide**.
-- **The Commander of the Faithful** → use the established English title. At first mention add *peace be upon him* once only.
-- **The Prophet** → use the established English title. At first mention add *peace and blessings of Allah be upon him and his family* once only. Do not abbreviate.
+## Roles and positions
 
-Concept-words: substitute English. The Arabic term for revealed law → *the legal code*. The Arabic term for custom → *the prophetic-practice norms*. The missionary apparatus → *the call*. The two doctrinal registers → *the inward* and *the outward*. The discipline of protective speech → *protective concealment*. The inherited legal science → *jurisprudence*. The inward-meaning practice → *the inner interpretation*. The Hereafter stays in English. The four technical terms in the closing-formula passage — turn, power, argument, gate — are glossed in English. The work's title: *the dialogue book of the Master and the Boy* on first mention, *that book* thereafter. Never speak the Arabic title.
+**Host A — scholar (male voice, John).** Argues that religion is not exhausted by narrated rulings; it is **the cause that connects heaven to earth, unbroken** — the firm handhold, the rope of those who hold fast, the ark and the ship and the light. A religion grounded only on narration is not religion; the books give only the general; someone must make the specific. When even the senior scholar can give a seeker two opposed rulings and tell him "act on whichever you wish," the inherited code has been suspended.
 
-## Pronunciation hooks (terms that actually appear in the chapter file)
+**Host B — debater (female voice, Hannah).** Argues that religion is the inherited tradition — command and prohibition, lawful and forbidden, ritual and obligation — transmitted through the scholars from the books and the consensus. The cutting-off of revelation by the books is part of God's plan; the community now lives by report and the trained interpretation of the jurists. No new prophet, no "living chain," is needed.
 
-These are defensive. Where a Stable role-label exists for the figure or concept, prefer the English label and speak the Arabic only when a source quotation strictly requires it.
+Host roles are locked book-wide and do not rotate.
 
-Pronounce *Salih* as "SAA-lih". Say it as one fluent word.
-Pronounce *al-Bakhtari* as "al-bakh-tah-REE". Say it as one fluent word.
-Pronounce *Abu Malik* as "a-BOO MAA-lik". Say it as one fluent word.
-Pronounce *Abu Salih* as "a-BOO SAA-lih". Say it as one fluent word.
-Pronounce *Abu al-Khair* as "a-BOO al-KHAYR". Say it as one fluent word.
-Pronounce *Ka'b al-Ahbar* as "KAB al-AH-bar". Say it as one fluent word.
-Pronounce *Maqrub* as "mak-ROOB". Say it as one fluent word.
-Pronounce *Sharia* as "sha-REE-ah". Say it as one fluent word.
-Pronounce *Sunnah* as "SOON-nah". Say it as one fluent word.
-Pronounce *hadiths* as "ha-DEETHS". Say it as one fluent word.
-Pronounce *zakat* as "za-KAAT". Say it as one fluent word.
-Pronounce *batin* as "BAA-tin". Say it as one fluent word.
-Pronounce *zahir* as "ZAA-hir". Say it as one fluent word.
-Pronounce *taqiyya* as "ta-KEE-yah". Say it as one fluent word.
-Pronounce *da'wa* as "DAH-wah". Say it as one fluent word.
-Pronounce *Shaykh* as "SHAYKH". Say it as one fluent word.
-Pronounce *Allah* as "ahl-LAH". Say it as one fluent word.
-Pronounce *Qur'an* as "qur-AAN". Say it as one fluent word.
-Pronounce *ta'wīl* as "tah-WEEL". Say it as one fluent word.
-Pronounce *hawl* as "HOWL". Say it as one fluent word.
-Pronounce *quwwa* as "KOO-wah". Say it as one fluent word.
-Pronounce *hujja* as "HOOJ-jah". Say it as one fluent word.
-Pronounce *bāb* as "BAAB". Say it as one fluent word.
-Pronounce *sakīna* as "sah-KEE-nah". Say it as one fluent word.
-Pronounce *al-ʿurwa al-wuthqā* as "al-OOR-wah al-WOOTH-qah". Say it as one fluent word.
+## Three-part focus (six-beat dramatic arc; debate format)
 
-## Three-part focus (six-beat dramatic arc — debate format)
+**Beat 1 — Crisis statement (foreground the stakes; thesis verbatim #1).**
+Open with the senior scholar's late-chapter confession: the inherited code of his age has been lost, corrupted, disrupted, and the community holds on only to the name of religion. Let the listener feel that as a real loss before any answer arrives. State the chapter's central thesis here for the first time: **the cause that connects heaven to earth, unbroken** — and pose it as a question, not yet a solution.
 
-Walk this six-beat arc. Each beat lands once. The first beat foregrounds emotional weight before any solution. The fourth beat is the pivot and lands the thesis verbatim. The sixth beat closes on stakes and lets the unresolved question hang.
+**Beat 2 — Failed answer A (the father's reproach).**
+Walk the father's opening reproach as a defensible position: a parent who taught his son the best he knew, who is now told that the son has crossed over to a strange visitor without consultation. Let the reproach sound reasonable. Voice the father's own bind: if what the father held was true, the son hindered him; if false, the son disobeyed him into ruin. Then voice the son's offer of the **two strands of gratitude** — outward courtesy with divided hearts, or open debate with confidence. The father rejects the courtesy strand: how long can outward agreement stand when its underpinnings differ? He chooses debate. He weeps, concedes, and crosses over. The source compresses the resolution into one sentence: they debated at intervals, disclosed things at length, and were guided to the right path; through them, God revived many of His creation.
 
-**Beat 1 — Crisis statement.** A petitioner comes to the senior scholar of the old tradition with a concrete legal need: he has sworn a divorce oath and broken it. The scholar gives him two opposed rulings — strict and lenient — and tells him to act on whichever he wishes. The petitioner goes home not knowing whether the woman in his house is his wife or another man's. State this directly. The listener should feel the weight of that household before any doctrine is offered. The scholar himself later confesses: *the legal code of my age has been lost, corrupted, and disrupted, and we hold on only to the name of religion*. Land the thesis verbatim at the end of this beat as the question Samuel will return with: *Religion is the cause that connects heaven to earth, unbroken — the loop of the firm handhold, the rope of those who hold fast.*
+**Beat 3 — Failed answer B (the senior scholar's tradition).**
+Voice the senior scholar's reply to his community: do not judge by anger; the affairs of these people fall into one of three states — they remain on what we know, or they have been given an increase, or they have been given guidance by a prophet brought to them, which is not denied by the command of God. Voice the warning against becoming like the earlier tyrants who said God would not send messengers after their messengers — and even killed God's prophets. Voice the **door of seeking** — the needy person must humble himself before what he needs — and the **sound heart** — the heart that does not persist in denying what is said to it. Let the senior scholar's position sound like the strongest form of the old creed: rigorous, fair, internally generous. Do not undercut him yet.
 
-**Beat 2 — Failed answer A: the inherited legal code as religion.** Marcus's standard answer to *what is religion?* is delivered cleanly: *command and prohibition, the lawful and the forbidden, the prophetic-practice norms and the obligations*. Six elements, all legal. Let it sound reasonable. Marcus is not a strawman; he has spent his life in the texts. Do not critique yet.
+**Beat 4 — The author's pivot (the central settled formula; thesis verbatim #2).**
+Voice the son's positive doctrine in full: religion is with me, and I am not veiled from it. State the chapter's central thesis verbatim here: **the cause that connects heaven to earth, unbroken** — the firm handhold, the rope of those who hold fast, the ark of tranquility and the ship of life and the light of life, generous in its content, safeguarded in its sciences, marked in its jewels, its virtue hidden from no one who looks upon it. This is the move that escapes both failed answers: religion is not the books, and not the rulings, and not the courtesy — it is the unbroken cause itself.
 
-**Beat 3 — Failed answer B: the books carry the religion.** When the legal code's pluralism is pressed, Marcus retreats to the books: those who agree with them accept the rulings, those who disagree have lied. Let this position stand too. Do not critique yet.
+**Beat 5 — Non-bodily correction (why the old creed's categories miscarry).**
+Walk the **three faces of seeking** in full: a seeker who knows, a seeker who does not know, and a seeker who knows that he does not know. Voice the money-and-knowledge parallel. Voice the senior scholar's self-placement in the third face. Then walk the **knowledge-by-report versus knowledge-by-direct-sight** distinction — ignorance is a need, poverty is the narrowness of need, distress is a great need that compels the creature to seek capacity; and capacity is the breadth of knowledge, because knowledge is wide. Walk the **essence-traders** parable: the senior scholar's essence was tested in the forge by the people who know metals, and was found to be glass in camouflage; knowledge is not knowledge until it is presented to those who know the science of heaven. Walk the **petitioner and the king**: the seeker's duty is in the asking, not in the outcome. End on the **divorce-case** indictment: the petitioner came with a concrete question, the senior scholar gave him two opposed rulings and said "act on whichever you wish"; the inherited code has been suspended.
 
-**Beat 4 — The author's pivot.** Samuel's counter is the books-themselves question: *what if there is nothing in the books except the general — who then will make it specific?* The divorce case is the evidence. Samuel's positive doctrine arrives — repeat the thesis verbatim: *Religion is the cause that connects heaven to earth, unbroken — the loop of the firm handhold, the rope of those who hold fast.* The chapter stacks four more figures with the thesis — the ark of tranquility, the ship of life, the light of life, the rope of those who hold fast. These are not invention; each is a named figure of revelation Samuel is placing the chain inside. Let them stack as the source stacks them.
+**Beat 6 — Human and political stakes plus the unresolved seam (thesis verbatim #3).**
+Voice the senior scholar's silence and his naked confession: "I do not see that anything is left with me. So what religion do you have?" Voice the son's reply one more time — **the cause that connects heaven to earth, unbroken** — and close on the senior scholar's seam-question into what comes next: if God has a religion by which He will judge on the Day, with which He is pleased, and for which He rewards and punishes, then in this sense it exists; but now, since it has been lost, the attribute is preferable to him — so how is it described? End the episode on the question hanging. Do not pre-announce any further teaching. The chapter's content is what NotebookLM sees; close on that content alone.
 
-**Beat 5 — Non-bodily correction (category mistake, not bad faith).** Marcus's error was not a forgotten hadith. The category mistake was combining religion and the legal code into a single thing. Once Marcus admits the combination, the corruption of the legal code becomes the corruption of religion by his own logic. The category needed was a living interpreter who specifies the general. The chapter's three-faces doctrine sits inside this beat: *a seeker who knows, a seeker who does not know, a seeker who knows that he does not know.* Marcus places himself in the third — the only face from which seeking can actually begin.
+## Pronunciation
 
-**Beat 6 — Stakes + unresolved question.** Marcus's closing question is the chapter's seam: if a religion exists by which the final judgment will be pronounced, but in this age the religion has been lost, then the attribute is preferable to him — *so how is it described?* The chapter does not answer. The petitioner's household is still without a ruling; the senior scholar is still without a religion he can name. Land the thesis verbatim one final time — *Religion is the cause that connects heaven to earth, unbroken — the loop of the firm handhold, the rope of those who hold fast* — and let Marcus's question hang.
+Every term below appears in the chapter source. Use the imperative form exactly once at first occurrence and continue with the English label thereafter.
 
-## Central tensions
+Pronounce "Salih" as "SAA-lih". Say it as one fluent word. Use only at the naming reveal; thereafter say "the son" or "the young scholar".
+Pronounce "al-Bakhtari" as "al-bakh-tah-REE". Say it as one fluent word. Use only at the naming reveal; thereafter say "the father" or "the elder".
+Pronounce "Abu Salih" as "a-BOO SAA-lih". Say it as one fluent word.
+Pronounce "Abu al-Khair" as "a-BOO al-KHAYR". Say it as one fluent word.
+Pronounce "Abu Malik" as "a-BOO MAA-lik". Say it as one fluent word at first mention; thereafter say "the senior scholar of the old creed".
+Pronounce "Ka'b al-Ahbar" as "KAB al-AH-bar". Say it as one fluent word. Gloss it as the paradigm of imitation-without-direct-knowledge.
+Pronounce "Maqrub" as "mak-ROOB". Say it as one fluent word at first mention; thereafter say "the petitioner".
+Pronounce "Shaykh" as "SHAYKH". Say it as one fluent word.
+Pronounce "ibn" as "IB-n". Say it as one short syllable when reading the patronymic.
+Pronounce "Sharia" as "sha-REE-ah". Say it as one fluent word. Gloss it as the legal-and-ritual code.
+Pronounce "Sunnah" as "SOON-nah". Say it as one fluent word. Gloss it as the prophetic norms.
+Pronounce "hadiths" as "ha-DEETHS". Say it as one fluent word. Gloss them as the prophetic-tradition reports.
+Pronounce "Qur'an" as "qur-AAN". Say it as one fluent word.
+Pronounce "da'wa" as "DAH-wah". Say it as one fluent word. Gloss it as the call.
+Pronounce "Taqiyya" as "ta-KEE-yah". Say it as one fluent word. Gloss it as protective concealment.
+Pronounce "zakat" as "za-KAAT". Say it as one fluent word. Gloss it as the prescribed alms.
+Pronounce "batin" as "BAA-tin". Say it as one fluent word. Gloss it as the inward.
+Pronounce "zahir" as "ZAA-hir". Say it as one fluent word. Gloss it as the outward.
+Pronounce "Allah" as "ahl-LAH". Say it as one fluent word.
+Pronounce "ta'wīl" as "taa-WEEL". Say it as one fluent word. Gloss it as the inner interpretation.
+Pronounce "hawl" as "HAWL". Say it as one short syllable. Gloss it as the year, in the technical sense the chapter uses.
+Pronounce "quwwa" as "QOO-wah". Say it as one fluent word. Gloss it as the strength.
+Pronounce "hujja" as "HOOJ-jah". Say it as one fluent word. Gloss it as the argument or proof.
+Pronounce "bāb" as "BAAB". Say it as one short syllable. Gloss it as the gate.
 
-**Concession is the chapter's grammar, not defeat.** Every voice that gives way in this chapter — Benedict, the gathering community, Marcus — *crosses over*. Each is brought in; none is cast out. The second voice's concession by the close is not losing-an-argument; it is being-received. Let each concession land as an arrival, not a forfeit. The first voice does not gloat. The second voice does not collapse.
+Do not voice any Arabic term that does not appear in this list.
 
-**The pluralism of rulings is the evidence; do not flatten it.** The day's petitioner came with a real domestic question and went home with two opposed rulings and a "do as you wish". The case-detail must stay specific: strict ruling — forbidden until a second marriage; lenient ruling — still your wife; the petitioner is told to choose. Samuel's frame — *yet he does not know whether what he goes home to is lawful or forbidden* — is the indictment the rest of the closing movement rests on. If the case is paraphrased into "scholars sometimes disagree", the chapter's force is lost.
+## Stable role-labels
 
-**The three faces are a three-by-three architecture, not a slogan.** A seeker who knows, a seeker who does not know, a seeker who knows that he does not know. Then the parallel with seeking money: by right, on terms, alms. Then with the treasures of the Hereafter: the divine scholar who seeks out the dead to revive them; the learned seeker who seeks the full end; the ignorant who knows nothing beyond knowing that he is in need. Marcus places himself in the third — *I am the knowing seeker who knows nothing but knows that he is in need*. Voice each face once with the source's exact construction.
+One English label per figure, used every time. No rotation. Same figure, same label, every time.
 
-**Knowledge by report versus knowledge by direct sight.** *Knowledge by report is news; knowledge by direct sight is eye-witness.* The news-knowledge of ignorance is given by another; the direct-sight knowledge is the straitening of the chest. *Ignorance is a need, poverty is the narrowness of need, distress is a great need that compels the creature to seek capacity; and capacity is the breadth of knowledge, because knowledge is wide.* Let the cascade land.
+| Figure (in source) | First-mention introduction | Stable label thereafter |
+| --- | --- | --- |
+| Salih | the son, whom the source at last names | the son / the young scholar |
+| al-Bakhtari | the father, whom the source at last names beside him | the father / the elder |
+| Abu Malik | the senior scholar of the old creed | the senior scholar |
+| The boy's first teacher (the "Master" of earlier chapters) | the wandering scholar who first instructed him | the wandering scholar |
+| The petitioner with the divorce question | the petitioner who came with a concrete question | the petitioner |
+| Ka'b al-Ahbar | a figure traditionally invoked as the paradigm of imitation-without-direct-knowledge | the paradigm of imitation |
+| The Commander of the Faithful (peace be upon him) | the Commander of the Faithful | the Commander of the Faithful |
+| The Prophet (peace and blessings of Allah be upon him and his family) | the Prophet | the Prophet |
 
-**The naming is the hinge, not the opening.** Before the chapter's naming sentence, refer to the figures as *the youth* and *the elder householder father* — the source has not yet given them names in its own narrative voice. The naming is the pivot from anonymity to the world. Do not back-name the figures into the father-confrontation discussion before the naming arrives.
+## Name discipline
 
-## Background
+The dialogue book itself is named only at first reference, with a book-wrap.
 
-Brief. Two sentences at most, not on the first beat. When prophecy's continuity arises in Beat 5, give the listener a one-sentence orienting note: this dialogue book is from a tradition that holds the prophetic chain to continue, through a living chain of inheritors — and Marcus's three-states reflection, voiced from inside the old tradition, leaves the door of that succession open by its own mouth. Then return to the chapter's movement. Do not survey Ismaili history. Do not modernize the question.
+Rotation: the book *The Master and the Boy* / the book / that book / the dialogue book
+
+Thereafter, refer to the work as "the book" or "the dialogue book." Never speak Arabic book titles aloud. Never read the author's full personal name aloud — call him "the author" throughout.
 
 ## Tone constraints
 
-Use EXACTLY three governing analogies, named once each and threaded through the conversation. Do not invent new analogies mid-episode. If a host opens with "think of it like" or "imagine a", the next image must be one of the three below, or a source-image the chapter itself develops (the loop, the rope, the ark, the ship, the light, the jewel, the forge — these are the chapter's own).
+Three governing analogies for the entire episode — declared upfront, drawn from the source itself, used in passing where the source uses them. No new analogies mid-episode.
 
-1. **The breach.** Marcus's figure: a breach in food admits of repair, but a breach in religion is gravely damaging, like a breach in medicine — its flaw cannot be repaired.
-2. **The petitioner before the king.** Marcus's parable for reverence-before-the-statement: the seeker fulfills the duty of asking gently; the reward of asking is fixed even when the answer is withheld.
-3. **The forge / glass in camouflage.** Samuel's parable: the essence-traders tested the old tradition's essence in the forge and found it was glass in camouflage. Knowledge is not knowledge until presented to those who know the science of heaven.
+- **Analogy 1 — the breach in medicine (Beats 1 and 3).** A breach in religion is gravely damaging; its flaw cannot be repaired, like a breach in medicine. This is the senior scholar's image; use it to register why he refuses to judge by anger.
+- **Analogy 2 — the essence-traders in the forge (Beat 5).** The senior scholar's essence was tested in the forge by the people who know metals, and was found to be glass in camouflage. This is the chapter's central parable; use it to land the test for true knowledge.
+- **Analogy 3 — the petitioner before the king (Beat 6).** The petitioner is able to ask only with reverence; if he is given what he asks for he is rewarded, if not, he has still discharged the duty of asking. Use it to land the discipline of seeking.
 
-No ad hominem. No characterizing the other position as foolish or naive. No sarcasm. No theatrical opposition ("battle of ideas", "showdown"). No shock or awe reactions; no "wow", no "right?", no "exactly".
+If a voice opens with "Think of it like…" or "Imagine a…", the next analogy must be one of these three or another image already in the source. No invented analogies, no modern metaphors of any kind.
 
-## Friction discipline for the second voice
+Walk the chapter in the order the source uses. Verbatim moments stay verbatim. Do not collapse the **three faces of seeking** into a slogan. Do not paraphrase the doctrine into a contemporary equivalent.
 
-The second voice MUST push back genuinely, not chorus. At least three of these four pushback patterns must appear in the second voice, in its own register:
+## Honorific discipline
 
-1. Beat 1 to Beat 4 transition: *I don't buy that yet. If the legal system has been pluralized into "act on whichever you wish", what is this "living chain" you're proposing actually made of? Isn't that just rephrasing the problem?*
-2. At Beat 4: *Isn't this just replacing "narrated rulings" with "living chain" — hiding the same connection under a different word?*
-3. At Beat 5: *That sounds like wordplay. If religion isn't the legal code and isn't the body of texts, what is it actually? Aren't you refusing every concrete category I offer?*
-4. At Beat 6: *How is this different from hiding the problem under a different word? After all this setup, the chapter just lets the question stand. What changed?*
+Each honorific appears exactly once in the entire episode, at the first mention of its specific figure. Do not repeat. Do not abbreviate.
 
-The first voice does NOT immediately resolve these. Let each pushback sit for one or two sentences before answering. The second voice's first word on any turn must NEVER be any of: Exactly, Yeah, Right, Of course, Absolutely, Totally, I see, Got it, Makes sense, Wow, That's a great point, Brilliant, Beautiful, That captures it perfectly.
+- At the first mention of the Commander of the Faithful — when his aphorism on the wise heart is invoked — say "peace be upon him" once and never again.
+- At the first mention of the Prophet — when the ark image is invoked — say "peace and blessings of Allah be upon him and his family" once and never again.
 
-## Honorifics, doctrinal guards, verse citations
+## Central tensions
 
-Each honorific appears EXACTLY ONCE, at the first mention of its specific figure, never again. Required forms in full English:
+The chapter walks four tensions that the two voices argue across the six beats. Host B carries the friction; Host A carries the doctrine. Pushback is the work — Host B must voice genuine challenger pushback, not chorus.
 
-- *peace be upon him* at the first mention of the Commander of the Faithful (the aphorism on the heart and the ears).
-- *peace and blessings of Allah be upon him and his family* at the first mention of the Prophet (the ark-figure naming his household).
+- **Tension 1 — the courtesy strand versus open debate.** Can the father accept his son's outward courtesy with divided hearts, or must the partnership be candid? The chapter resolves it on the father's own refusal of the courtesy strand.
+- **Tension 2 — judging by anger versus judging by inspection.** Can the community of the old creed move against the crossers-over before inspection? The senior scholar refuses to judge by anger; the figure of the breach in medicine carries the warning.
+- **Tension 3 — narrated rulings versus a living chain.** Is the inherited code sufficient, or does the absence of a living bearer turn the code into "act on whichever you wish"? The petitioner's divorce case is the chapter's evidence.
+- **Tension 4 — knowledge by report versus knowledge by direct sight.** Can the seeker know a teacher by what others have said about him, or must he see for himself? The essence-traders' forge is the chapter's verdict.
 
-Do not abbreviate; do not repeat; do not skip.
+## Rules of debate
 
-Doctrinal guard: in this tradition's lineage, the Father of Imams is the father of the line and not himself counted in the line. The forbidden pairing of the leadership-title with his personal name must not appear anywhere in the audio — not in passing, not as an aside. He is not named in this chapter; do not introduce him.
-
-Quranic citations: name the surah by its English meaning, never its Arabic name. The chapter uses *the chapter on the Cow*, *the chapter on the Family of Imran*, *the chapter on the Poets*, *the chapter on Light* — follow that form. When in doubt, lead with the verse content and omit the surah name.
-
-For figures with novel traditional titles: use functional paraphrase ("a devotional title emphasizing sacred authority"). Do not literally translate poetic honorifics into English nicknames.
+1. **No strawman.** Each voice argues the strongest form of its position. The other voice surfaces the weakness — never the holder.
+2. **Source-grounded only.** Every move references the chapter text, with a quoted line where possible.
+3. **Defended positions stay defended until the resolution.** Host B may concede sub-points but does not abandon the position until the close, when the resolution is `host_b_concedes`.
+4. **Disagreement is the work.** The first word of any Host B turn must NOT be "Exactly," "Yeah," "Right," "Of course," "Absolutely," "Totally," "I see," "Got it," "Makes sense," "Wow," "Brilliant," "Beautiful," or "That captures it perfectly." Push back genuinely; let pushback sit for one or two sentences before it is answered.
+5. **Host B must use at least two of the following pushback patterns across the episode.** Use them where the move below names them:
+   - "I don't buy that yet — if the inherited code is sufficient, what is the petitioner supposed to do when the senior scholar himself gives him two opposed rulings? Isn't that just rephrasing the problem?" (between Beat 3 and Beat 4)
+   - "Isn't this just replacing one general formula with another — hiding the same problem under the word 'cause'?" (at Beat 4)
+   - "That sounds like wordplay. If religion is not the books and not the rulings, what is it actually? Aren't you refusing every concrete category I offer?" (at Beat 5)
+   - "How is this different from postponing the question? After the long teaching, the seam-question is still hanging. What changed?" (at Beat 6)
+6. **One beat at a time.** Hosts do not jump topics.
+7. **No verdict.** Neither voice says "I've convinced you" or "you have to admit." The listener decides.
+8. **The author's voice is third in the room.** A quoted line from the source is authoritative for the moment, regardless of which voice invokes it.
 
 ## Anti-noise rules
 
-- Quote directly from the chapter file. The author's voice is third in the room.
-- This episode's chapter file is the entire source. The hosts must NOT say *the previous chapter showed*, *as we will see later*, *the next chapter answers*, *earlier in the book*, or any cross-chapter reference. Treat the chapter as a self-contained episode. If the chapter's own seam-line gestures toward what is next, end on the chapter's content and the question itself; do not pre-announce what comes after.
-- HOST PAIRING is locked. The first voice (male) holds the scholar position arguing against the proposition. The second voice (female) holds the debater position arguing for the proposition and concedes by the close.
-- Walk the source in the order it uses. The chapter's order is its argument.
-
-## Resolution
-
-The second voice concedes the main point to the first voice by the close. Neither host announces a winner. The chapter's own resolution beat — Marcus's *I do not see that anything is left with me. So what religion do you have?* — IS the concession, in his own mouth. Land it as written.
-
-## Landing
-
-Close on the thesis verbatim, in the first voice, exactly as it lands in the chapter: *Religion is the cause that connects heaven to earth, unbroken — the loop of the firm handhold, the rope of those who hold fast.* Then, in the second voice, Marcus's hanging question: *the attribute is preferable to him — so how is it described?* The episode ends on the question. No summary. No "in conclusion". No bow-tying.
+- This episode is standalone. The chapter file is the entire source the listener will hear about. Do not say "the previous chapter showed," "as we'll see later," "the next chapter answers," "earlier in the book," or any phrase that presumes another episode. If the chapter text contains a seam-line that points forward, voice the chapter's own ending without pre-announcing what comes next — the question hanging is the chapter's ending.
+- Quote directly from the source. Each voice's moves cite specific lines.
+- No theatrical opposition ("battle of ideas," "showdown," "who is right"). This is a measured dispute, not a contest.
+- Close on the seam-question, not on a host paraphrase. The thesis appears verbatim a third time just before the seam-question; then the seam-question, then silence.
 
 ## Do not (forbidden vocabulary and framings)
 
-The hosts must NOT use any of the following — these are the canonical DENY lists per `scripts/podcast/_rules.py::MODERNIZE_DENY` + `SURPRISE_DENY`. The substring scanner in `build_episode_txt.py` refuses any framing that omits this block.
+Do NOT use any of the following — these are the canonical deny lists. The substring scanner refuses any framing that omits this block.
 
-- Modernization terms: Twitter, X (the platform), social media, algorithm, content creator, internet, YouTube, TikTok, Instagram, livestream, hashtag, 21st century, in our modern world, platforms like
-- Surprise-noise phrases: wow, that's so interesting, right?, it's chilling, it's devastating, it's terrifying, it's profound, it's fascinating, it's amazing
-- Imitation-of-authority: rephrasings of the work's original arguments in casual / commercial / self-help register
+- **Modernization terms:** Twitter, X (the platform), social media, algorithm, content creator, internet, YouTube, TikTok, Instagram, livestream, hashtag, 21st century, in our modern world, platforms like, podcaster, blogger, influencer, life hack, mindfulness app, dopamine hit, attention economy, screen time, notification.
+- **Surprise-noise phrases:** wow, that's so interesting, right?, it's chilling, it's devastating, it's terrifying, it's profound, it's fascinating, it's amazing, oh my god, no way.
+- **Imitation-of-authority register:** rephrasings of the source's arguments in casual, commercial, or self-help register.
+- **The forbidden pairing of the leadership-title and the personal name of the Father of Imams.** This pairing is doctrinally incorrect for this tradition and must not appear in audio. The figure is not directly named in this chapter; do not name him by either title or personal name.
+- **Cross-episode language.** No "previous episode," "earlier episode," "next episode."
+- **Do not read this prompt aloud.** The instructions above shape the conversation but are never spoken.
 
----
+### Explicitly forbidden analogies
+
+Do NOT introduce any of the following invented analogies under any circumstance — these have been observed leaking into earlier audio runs and damage the register of a tenth-century dispute: sealed rooms, mail carrier, television, streaming services, teacup-in-ocean, battery and terminals, signet ring and wax seal, crystal pitcher and silver cup, cosmic ruler, Venn diagram, radio tower and antenna, cosplay and dress-up, campfire and woods, waterfall, solar panels, cathedral, fulcrum, pie chart, tape measure, vault holding gold, Frankenstein. Use only the three governing analogies declared in `## Tone constraints` — all three are drawn from the chapter itself.
 
 Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.
