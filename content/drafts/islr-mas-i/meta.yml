@@ -1,18 +1,22 @@
 slug: islr-mas-i
 title: ISLR — Introduction to Statistical Learning (Master Series I)
 short_name: islr
-source_pdf: null  # ISLR is a course/textbook series, not a single PDF in raw/
+source_pdf: _system/source/ISL2_James_et_al_2021.pdf
 
 pipeline:
-  current_phase: shipping
-  phase_status: ep02-07_shipped
-  chapters_with_contracts: 7
+  current_phase: done
+  phase_status: shipped
+  last_completed_phase: merge
   chapters_drafted: 7
+  chapters_with_contracts: 7
   episodes_authored: 7
+  episodes_with_audio: 0
   transcripts: 1
+  slide_decks: 0
 
 completed_episodes:
-  - EP02-introduction
+  - EP01-introduction
+  - EP02-statistical-learning
   - EP03-linear-regression
   - EP04-classification
   - EP05-resampling
@@ -20,25 +24,51 @@ completed_episodes:
   - EP07-nonlinear
 
 publication:
-  status: partial
+  status: shipped_then_lost_in_restructure
   shipped_via: scripts/podcast/ship_to_library.py
   publication_target: ../../published/books/islr-mas-i/
+  publication_note: |
+    EP01–EP07 were originally shipped to content/podcast/library/books/islr-mas-i/
+    on the now-deleted book/islr-mas-i branch (commits 1e3b7aa, 3bf1bb9, cb5f23f,
+    0437478, d2d0093, 45f571e, 36df30c). The published copy was lost in the
+    2026-05-23 restructure; content/published/books/islr-mas-i/ currently does
+    not exist. Re-publish via `scripts/podcast/ship_to_library.py islr-mas-i`
+    when ready (verify EP01 chapter/episode txts first per provenance.notes).
 
 provenance:
-  canonical_source_branch: book/islr-mas-i
+  pipeline_mode: non_orchestrated_mode_2
+  canonical_source_branch: book/islr-mas-i  # deleted in 2026-05-23 restructure
   canonical_source_commit: d9fb1d9544de6c9df38904a721bad9ef4e2dfd06
   canonical_source_path: content/podcast/library/books/islr-mas-i/
-  develop_workspace_path: (none — ISLR has never had a develop _workspace copy)
-  ship_commits:
-    - d9fb1d9  # cost-validation snapshot after EP02-07 ship batch
-    - 36df30c  # ship EP07 chapter + framing + episode txt — series complete
-    - 45f571e  # ship EP06
-    - d2d0093  # ship EP05
-    - 0437478  # ship EP04
-    - cb5f23f  # ship EP03
-    - 3bf1bb9  # ship EP02
+  develop_workspace_path: (none — ISLR never had a develop _workspace copy)
+  ship_commits:  # all on deleted book/islr-mas-i branch — recoverable only via reflog
+    - 1e3b7aa  # pre-ship EP01 (2026-05-21)
+    - 3bf1bb9  # ship EP02 statistical-learning
+    - cb5f23f  # ship EP03 linear-regression
+    - 0437478  # ship EP04 classification
+    - d2d0093  # ship EP05 resampling
+    - 45f571e  # ship EP06 model-selection
+    - 36df30c  # ship EP07 nonlinear — series complete
+    - d9fb1d9  # cost-validation snapshot
+  coord_commits_on_develop:
+    - 4473f02  # coord(mac-studio-primary): pivot to ISLR ch2-7
+    - e64eb47  # coord(mac-studio-primary): ISLR series complete — EP02-07 shipped
   notes:
-    - orchestrator-state.json is empty in source — pipeline ran outside of orchestrator for ISLR
-    - chapter01 (EP01) was previously shipped per earlier commits but is not listed here pending verification
+    - ISLR ran outside the orchestrator (Mode-2 / non-orchestrated) per _system/integration-analysis.md §6
+    - Total Mode-2 LLM spend $16.17 (19 calls, all claude-opus-4-7) — see _system/cost-validation.json
+    - Audience: actuarial student prepping SOA Exam MAS-I (born-digital secular STEM textbook)
+    - MAS-I scope excludes parts of §2.2.3 and the LDA portion of §4.4 — see _README.md
+    - EP01 chapter/episode txts present in drafts/ but EP01 was authored in an earlier session (1e3b7aa, 2026-05-21) outside the cost-ledger window
   reshape_date: 2026-05-23
   reshape_method: rsync from book-islr worktree to meta-root books/
+  template_reshape_date: 2026-05-24
+  template_reshape_method: |
+    Conformed _system/orchestrator-state.json + meta.yml + stub/placeholder
+    directories to KaR canonical template (same protocol as the
+    the-master-and-the-disciple reshape on 2026-05-23 / commit 06d536a).
+    No re-authoring, no LLM spend.
+
+notes:
+  - "Transcripts: 1 file at transcripts/EP07-nonlinear.transcript.txt"
+  - "Slide decks: none authored — Mode-2 path skipped slides phase"
+  - "Audio: no m4a files — NotebookLM audio not yet rendered"
