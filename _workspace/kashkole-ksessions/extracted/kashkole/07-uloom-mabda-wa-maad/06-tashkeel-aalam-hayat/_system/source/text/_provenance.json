@@ -1,0 +1,43 @@
+{
+  "schema": "podcast.ingest-source/v1",
+  "generated_at": "2026-05-24T17:58:35.838828+00:00",
+  "source": {
+    "kind": "sql",
+    "name": "kashkole",
+    "db": "KASHKOLE",
+    "container": "kashkole-mssql"
+  },
+  "book_slug": "tashkeel-aalam-hayat",
+  "book_dir": "/Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksessions/extracted/kashkole/07-uloom-mabda-wa-maad/06-tashkeel-aalam-hayat",
+  "source_language": "ur",
+  "extraction": {
+    "tool": "tools.source_extractor",
+    "shelf": {
+      "kind": "binder",
+      "id": 1,
+      "name": "علوم مبدا و معاد"
+    },
+    "book": {
+      "kind": "chapter",
+      "id": 78,
+      "name": "تشکیل عالم حیات"
+    },
+    "section_query_count": 7,
+    "stage": "finalized"
+  },
+  "outputs": {
+    "raw_extract": "_system/source/text/raw-extract.md",
+    "extraction_notes": "_system/source/text/_extraction-notes.md",
+    "audit_anchor_html": "_system/source/tashkeel-aalam-hayat.html",
+    "images_dir": "_system/source/images"
+  },
+  "finalize": {
+    "finalized_at": "2026-05-24T18:05:44.787413+00:00",
+    "images_classified": {
+      "001": "teaching-diagram",
+      "002": "teaching-diagram",
+      "003": "teaching-diagram"
+    },
+    "inline_citations_resolved": 5
+  }
+}

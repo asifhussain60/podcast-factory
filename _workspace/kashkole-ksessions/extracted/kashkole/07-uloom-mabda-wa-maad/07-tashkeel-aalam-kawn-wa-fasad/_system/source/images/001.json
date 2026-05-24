@@ -1,0 +1,10 @@
+{
+  "classification": "teaching-diagram",
+  "arabic_text": "الفرادی حیثیت\nمجمع کیفیت",
+  "urdu_text": "",
+  "english_text": "Individual Aspect\nComposite Quality",
+  "suggested_citation": null,
+  "alt_text": "Classic three-circle Venn diagram with yellow, magenta, and cyan overlapping circles. Red arrows from each individual circle point upward to the label 'الفرادی حیثیت' (Individual Aspect). A yellow arrow from the central intersection points downward to the label 'مجمع کیفیت' (Composite Quality).",
+  "confidence": 0.97,
+  "notes": "Teaching diagram using additive/subtractive color theory as a metaphor for how individual aspects combine into a composite whole."
+}

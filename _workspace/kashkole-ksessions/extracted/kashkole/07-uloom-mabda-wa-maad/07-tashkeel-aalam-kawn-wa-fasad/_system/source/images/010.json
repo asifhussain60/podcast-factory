@@ -1,0 +1,10 @@
+{
+  "classification": "teaching-diagram",
+  "arabic_text": "کرۃ النار\nحرارت + یبوست\nکرۃ الھوا\nحرارت + رطوبت\nکرۃ المآء\nبرودت + رطوبت\nکرۃ الأرض\nبرودت + یبوست",
+  "urdu_text": "",
+  "english_text": "Sphere of Fire — Extreme Heat + Extreme Dryness\nSphere of Air — Moderate Heat + Moderate Moisture\nSphere of Water — Moderate Cold + Moderate Moisture\nSphere of Earth — Extreme Cold + Extreme Dryness",
+  "suggested_citation": null,
+  "alt_text": "A 2×2 table mapping the four elemental spheres to their qualitative pairs. Top-right cell: کرۃ النار (Fire) = حرارت + یبوست (Extreme Heat + Extreme Dryness). Top-left: کرۃ الھوا (Air) = حرارت + رطوبت (Moderate Heat + Moderate Moisture). Bottom-right: کرۃ المآء (Water) = برودت + رطوبت (Moderate Cold + Moderate Moisture). Bottom-left: کرۃ الأرض (Earth) = برودت + یبوست (Extreme Cold + Extreme Dryness).",
+  "confidence": 0.99,
+  "notes": "Compact reference table of the qualitative profile of each elemental sphere. Distinguishes 'Extreme' vs 'Moderate' degrees for each hot/cold and dry/wet pair."
+}

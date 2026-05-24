@@ -1,0 +1,10 @@
+{
+  "classification": "teaching-diagram",
+  "arabic_text": "آدم\nنوح\nابراہیم\nموسیٰ\nعیسیٰ\nمحمد\nعبد اللہ\nباب عبد اللہ\nاحمد\nباب احمد\nحسینؐ\nباب حسین\nمحمد\nاسماعیل\nجعفر\nمحمد\nعلی\nحسین\nحسن\nمہدیؐ",
+  "urdu_text": "",
+  "english_text": "Adam — 7 Imams\nNoah — 7 Imams (incl. Adam)\nAbraham — 7 Imams\nMusa — 7 Imams\nIsa — 7 Imams\nMuhammad — 7 Imams (incl. Hasan, Husayn, Ali, Muhammad, Ja'far, Isma'il, Muhammad)\nMahdi — final\nAbdullah\nBaab Abdullah\nAhmad\nBaab Ahmad\nHusayn\nBaab Husayn",
+  "suggested_citation": null,
+  "alt_text": "A 7-column grid table mapping the 7 successive prophets to their respective 7 Imams. Rows top-to-bottom: Adam → 7 Imams; Noah → 7 Imams (Adam included as Imam 1 in some readings); Abraham → 7 Imams; Musa → 7 Imams; Isa → 7 Imams; Muhammad → 7 Imams (Hasan, Husayn, Ali, Muhammad, Ja'far, Isma'il, Muhammad). Final row: Mahdi with the Baab figures (Baab Abdullah, Baab Ahmad, Baab Husayn). The right column lists the prophet name (yellow highlight), middle columns show Imam (1) through Imam (6) labels, the leftmost column gives the next prophet (yellow highlight) — signaling that each prophet's 7th Imam transitions to the next prophet.",
+  "confidence": 0.90,
+  "notes": "Classic Ismaili cyclical-prophethood table: each of the 7 prophets has 7 Imams whose 7th Imam ascends to become the next prophet. For Muhammad, the 7 Imams are named explicitly (Hasan, Husayn, Ali, Muhammad, Ja'far, Isma'il, Muhammad). The final Mahdi row identifies the Baab figures for the post-Muhammadan cycle."
+}

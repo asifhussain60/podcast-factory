@@ -1,0 +1,42 @@
+{
+  "schema": "podcast.ingest-source/v1",
+  "generated_at": "2026-05-24T18:27:19.245715+00:00",
+  "source": {
+    "kind": "sql",
+    "name": "kashkole",
+    "db": "KASHKOLE",
+    "container": "kashkole-mssql"
+  },
+  "book_slug": "nufoos-aur-in-ki-aqsam",
+  "book_dir": "/Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksessions/extracted/kashkole/07-uloom-mabda-wa-maad/09-nufoos-aur-in-ki-aqsam",
+  "source_language": "ur",
+  "extraction": {
+    "tool": "tools.source_extractor",
+    "shelf": {
+      "kind": "binder",
+      "id": 1,
+      "name": "علوم مبدا و معاد"
+    },
+    "book": {
+      "kind": "chapter",
+      "id": 81,
+      "name": "نفوس اور ان کی اقسام"
+    },
+    "section_query_count": 8,
+    "stage": "finalized"
+  },
+  "outputs": {
+    "raw_extract": "_system/source/text/raw-extract.md",
+    "extraction_notes": "_system/source/text/_extraction-notes.md",
+    "audit_anchor_html": "_system/source/nufoos-aur-in-ki-aqsam.html",
+    "images_dir": "_system/source/images"
+  },
+  "finalize": {
+    "finalized_at": "2026-05-24T18:27:34.580349+00:00",
+    "images_classified": {
+      "001": "teaching-diagram",
+      "002": "teaching-diagram"
+    },
+    "inline_citations_resolved": 3
+  }
+}
