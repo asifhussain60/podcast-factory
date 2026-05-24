@@ -349,15 +349,22 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
             "content/podcast/.skill/_learning/",
             "_workspace/tmp/",
         )
+        # macOS filesystem is case-insensitive; git status --porcelain sometimes
+        # reports paths as `CONTENT/...` (the on-disk case at the time the file
+        # was created) while the index canonicalizes to lowercase `content/...`.
+        # Compare case-insensitively to keep the whitelist robust either way.
+        runtime_artifact_suffixes_lc = tuple(s.lower() for s in runtime_artifact_suffixes)
+        runtime_artifact_dirs_lc = tuple(d.lower() for d in runtime_artifact_dirs)
         non_runtime: list[str] = []
         for line in out.splitlines():
             # status --porcelain: " M path/to/file", "?? path/to/dir/", "A  path"
             path = line[3:] if len(line) > 3 else ""
             if not path:
                 continue
-            if any(path.endswith(suf) for suf in runtime_artifact_suffixes):
+            path_lc = path.lower()
+            if any(path_lc.endswith(suf) for suf in runtime_artifact_suffixes_lc):
                 continue
-            if any(path.startswith(d) for d in runtime_artifact_dirs):
+            if any(path_lc.startswith(d) for d in runtime_artifact_dirs_lc):
                 continue
             non_runtime.append(line)
         if non_runtime:
