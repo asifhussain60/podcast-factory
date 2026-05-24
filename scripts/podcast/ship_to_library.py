@@ -63,12 +63,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-WORKSPACE = REPO_ROOT / "_workspace" / "books"
-# Option 2 layout (2026-05-22): content/published/ lives above the worktree at
-# podcast-factory/content/published/, two parents up from REPO_ROOT. Works from any
-# worktree (worktrees/main/ or worktrees/book-X/) since all worktrees sit
-# at the same depth under podcast-factory/.
-LIBRARY = REPO_ROOT.parent.parent / "library"
+# 2026-05-23 restructure: workshop moved from _workspace/books/ to content/drafts/,
+# published catalog moved from out-of-repo library/ to in-repo content/published/.
+# Note: this script is DEPRECATED in favor of publish_to_library.py.
+WORKSPACE = REPO_ROOT / "content" / "drafts"
+LIBRARY = REPO_ROOT / "content" / "published"
 
 
 def _display(path: Path) -> str:

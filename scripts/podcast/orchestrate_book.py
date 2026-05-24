@@ -94,7 +94,12 @@ from _convergence import (  # noqa: E402
 )
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-LIBRARY_ROOT = REPO_ROOT / "_workspace"
+# 2026-05-23 restructure: per-book workshop moved from _workspace/<category>/<slug>/
+# to content/drafts/<slug>/ (flat — no category subdir, since all current content
+# is books). For non-book categories that may be added in the future, fallback
+# to category-prefixed paths (content/drafts/<cat>/<slug>/) is preserved in
+# the _book_dir lookup logic below.
+LIBRARY_ROOT = REPO_ROOT / "content" / "drafts"
 SCAFFOLD_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "scaffold_book.py"
 INGEST_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "ingest_source.py"
 EXTRACT_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "extract_chapter.py"
@@ -128,13 +133,33 @@ def _info(msg: str) -> None:
     print(msg)
 
 
-def _book_dir(book_slug: str) -> Path | None:
-    """Resolve <slug> to _workspace/<category>/<slug>/ if it exists.
+def _resolve_book_path(category: str, slug: str) -> Path:
+    """Return the canonical content/drafts path for a book.
 
-    Only looks under the ALLOWED_CATEGORIES subdirectories — not the whole
-    _workspace/ tree — so leftover audit/snapshot dirs like _workspace/audit/
-    <slug>/ don't trigger a false ambiguity match.
+    Post-2026-05-23 restructure: 'books' category is flat at
+    content/drafts/<slug>/. Other categories use the nested layout
+    content/drafts/<cat>/<slug>/ (for future articles, lectures, etc.).
     """
+    if category == "books":
+        return LIBRARY_ROOT / slug
+    return _resolve_book_path(category, slug)
+
+
+def _book_dir(book_slug: str) -> Path | None:
+    """Resolve <slug> to content/drafts/<slug>/ (flat books layout, 2026-05-23
+    restructure), with fallback to content/drafts/<category>/<slug>/ for any
+    future non-book categories.
+
+    Post-restructure: books live flat under content/drafts/ with no category
+    subdir (since all current content is books). For non-book categories
+    that might be added later, the per-category subdir layout is still
+    recognized.
+    """
+    # Primary lookup: flat books layout
+    flat_path = LIBRARY_ROOT / book_slug
+    if flat_path.is_dir():
+        return flat_path
+    # Fallback: per-category layout (for future articles/lectures/etc.)
     matches = [
         LIBRARY_ROOT / cat / book_slug
         for cat in ALLOWED_CATEGORIES
@@ -166,7 +191,7 @@ def _in_preflight_artifacts_mode(slug: str, category: str) -> bool:
     `is-on-develop`, `dir-not-exists`, `remote-not-exists` gates would block
     legitimate first runs. Detect the mode here and relax those gates.
     """
-    book_dir = LIBRARY_ROOT / category / slug
+    book_dir = _resolve_book_path(category, slug)
     registry = book_dir / "_system" / "registry.md"
     state    = book_dir / "_system" / "orchestrator-state.json"
     # Preflight-artifacts mode = curated registry present, but pipeline never ran
@@ -222,10 +247,10 @@ def preflight_initial(pdf_path: Path, slug: str, category: str) -> list[str]:
     #      a fresh initial run (not a stale partial state).
     if not SLUG_RE.match(slug):
         fails.append(f"slug invalid: {slug!r} (lowercase, hyphens, alphanumerics only)")
-    elif (LIBRARY_ROOT / category / slug).exists() and not preflight_mode:
+    elif (_resolve_book_path(category, slug)).exists() and not preflight_mode:
         fails.append(
             f"slug collides with existing book at "
-            f"{(LIBRARY_ROOT / category / slug).relative_to(REPO_ROOT)}. "
+            f"{(_resolve_book_path(category, slug)).relative_to(REPO_ROOT)}. "
             "Use --resume or pick a different slug."
         )
 
@@ -343,7 +368,7 @@ def phase_scaffold(category: str, book_slug: str, title: str, author: str | None
     rc, out, err = _run(cmd)
     if rc != 0:
         raise RuntimeError(f"scaffold_book.py failed (rc={rc}):\n{err}\n{out}")
-    book_dir = LIBRARY_ROOT / category / book_slug
+    book_dir = _resolve_book_path(category, book_slug)
     if not book_dir.is_dir():
         raise RuntimeError(f"scaffold did not create {book_dir}")
     return book_dir

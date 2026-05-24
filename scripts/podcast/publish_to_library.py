@@ -71,10 +71,10 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-WORKSPACE = REPO_ROOT / "_workspace" / "books"
-# Option 2 layout: content/published/ lives above the worktree at <podcast-factory>/content/published/,
-# two parents up from REPO_ROOT. Works from any worktree.
-LIBRARY = REPO_ROOT.parent.parent / "library"
+# 2026-05-23 restructure: workshop moved from _workspace/books/ to content/drafts/,
+# published catalog moved from out-of-repo library/ to in-repo content/published/.
+WORKSPACE = REPO_ROOT / "content" / "drafts"
+LIBRARY = REPO_ROOT / "content" / "published"
 
 SHIPPABLE_STATUSES = {"shipped", "ship-ready", "ship-with-caution",
                       "ship-with-caution-approved", "halted_by_operator"}
