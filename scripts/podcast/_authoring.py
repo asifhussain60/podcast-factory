@@ -71,7 +71,10 @@ PHASE_0C_WINDOW_TIMEOUT = 600
 
 # Map-reduce defaults for Phase 0d / 0e (per-source-chapter / per-episode-chapter loops).
 PHASE_0D_TOC_TIMEOUT = 600            # 10 min — TOC step processes whole refined-english.md once (read-mostly)
-PHASE_0D_SC_TIMEOUT = 1200            # 20 min per source chapter — writes 1-3 episode files + contracts
+PHASE_0D_SC_TIMEOUT = 1800            # 30 min per source chapter — writes 1-3 episode files + contracts
+                                      # (bumped from 1200 on 2026-05-24 after master-disciple sc-005
+                                      # — 6,651 word source chapter, the densest in the book —
+                                      # timed out at 1200s. 30 min absorbs the densest cases.)
 PHASE_0E_CHAPTER_TIMEOUT = 900        # 15 min per chapter enrichment
 
 CLAUDE_CMD = "claude"         # resolved via PATH
@@ -437,7 +440,51 @@ def author_phase_0c(
             manual_fallback="Inspect _chunks/0c/win-*.out.md and merge manually.",
         )
 
-    return f"0c chunked: {len(out_paths)} windows merged into {out_path.name}"
+    # Baked-in (2026-05-24): every book gets a glossary.yml for the podcast-
+    # reader's Arabic-script overlay. The scaffold step is deterministic
+    # (no LLM call); the LLM-fill step is one cheap claude -p that populates
+    # arabic_script from the OCR. Both are best-effort — a failure in either
+    # does not block Phase 0c from completing.
+    glossary_msg = _bake_glossary(book_dir, log=log)
+
+    return f"0c chunked: {len(out_paths)} windows merged into {out_path.name}{glossary_msg}"
+
+
+def _bake_glossary(book_dir: Path, *, log=print) -> str:
+    """Generate BOOK_DIR/_system/glossary.yml + fill arabic_script from OCR.
+
+    Returns a short " + glossary: …" suffix for the Phase 0c return string,
+    or "" on failure. Failures are LOGGED but DO NOT raise — the glossary
+    is a podcast-reader enrichment, not a pipeline blocker.
+    """
+    here = Path(__file__).resolve().parent
+    builder = here / "build_glossary.py"
+    filler = here / "fill_glossary_arabic.py"
+    msg_parts: list[str] = []
+
+    # Step 1: build_glossary.py (deterministic; produces empty arabic_script).
+    rc, out, err = _run([sys.executable, str(builder), "--book-dir", str(book_dir), "--force"])
+    if rc == 0:
+        msg_parts.append("scaffold")
+    else:
+        log(f"  phase 0c · glossary scaffold failed (rc={rc}): {err.strip()[:200]}")
+        return ""
+
+    # Step 2: fill_glossary_arabic.py (claude -p; populates arabic_script).
+    rc, out, err = _run([sys.executable, str(filler), "--book-dir", str(book_dir)])
+    if rc == 0:
+        msg_parts.append("Arabic-fill")
+    else:
+        log(f"  phase 0c · glossary Arabic-fill skipped (rc={rc}): {err.strip()[:200]}")
+        # Scaffold still wrote successfully; reader handles empty arabic_script.
+    return f" + glossary: {' + '.join(msg_parts)}"
+
+
+def _run(argv: list[str]) -> tuple[int, str, str]:
+    """Local shellout helper; mirrors orchestrate_book._run shape."""
+    import subprocess as _sp
+    proc = _sp.run(argv, capture_output=True, text=True)
+    return proc.returncode, proc.stdout, proc.stderr
 
 
 def _merge_phonetic_tables(paths: list[Path]) -> str:
