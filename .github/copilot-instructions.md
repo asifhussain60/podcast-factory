@@ -19,29 +19,27 @@ The memoir, the static journal site, and the Anthropic API proxy moved to (or we
 - **Anthropic API proxy** — `server/` retired 2026-05-22. Not here, not in journal.
 - **Cloudflare deploy** — `wrangler.toml`, `site-worker.js`, `infra/cloudflare/`, `docs/cloudflare/` retired 2026-05-22.
 
-## Cross-machine model
+## Machine-agnostic — single-machine model (2026-05-23)
 
-Two physical machines (Mac Studio + Mac Air) coordinate via:
-- **ONE shared git repo, ONE working directory per machine**
-- Books processed on `book/<slug>` branches; integration via `develop`
-- Each machine carries `~/.machine-id` (`mac-studio-primary` or `macbook-air-secondary`)
-- Per-machine operator files at `_workspace/plan/operators/<machine-id>.md`
+The repo runs on any machine with `python3`, `git`, and the Azure credentials installed. Most work is done by Anthropic + Azure remotely — no host-machine specialness. The earlier two-machine model (operator files, `~/.machine-id` routing, per-machine book branches, book-queue mutex) was retired 2026-05-23.
 
-The full discipline lives in `_workspace/plan/operators/coordination-protocol.md`.
+- **ONE working branch: `develop`.** New books land in `content/drafts/<slug>/` directly on `develop`.
+- Production releases: `develop` → `main` (requires Asif's explicit approval; never auto-promoted).
+- Feature branches are optional throwaways for risky changes.
 
 ## When Asif asks you for help
 
-**For pipeline / orchestration / coord questions:** point him at running the session-starter, OR if he's already running it, work from its output:
+**For pipeline / orchestration questions:** point him at running the session-starter, OR if he's already running it, work from its output:
 
 ```bash
-bash _workspace/plan/operators/start-session.sh
+bash scripts/start-session.sh
 ```
 
-That script tells you the current book, branch, phase, and next_action.
+That script syncs origin/develop and lists in-flight books + the most common next-action commands.
 
-**For code suggestions in `scripts/podcast/**`:** this is shared framework. Changes here affect both machines; coordinate via `develop` merges. Reference `_workspace/plan/operators/coordination-protocol.md` §6 (shared-infra zones).
+**For code suggestions in `scripts/podcast/**`:** this is the pipeline framework. Test changes against `pytest scripts/podcast/tests/` before committing. Atomic commits to `develop` directly; force-push prohibited.
 
-**For book content** (`content/drafts/<slug>/` for in-progress; `content/published/books/<slug>/` for shipped): one book is owned by one machine at a time (see `_workspace/plan/book-queue.md` In-flight section). Don't touch a book that's not on your machine's branch.
+**For book content** (`content/drafts/<slug>/` for in-progress; `content/published/books/<slug>/` for shipped): publishing flows one-way via `scripts/podcast/publish_to_library.py <slug>`. Never edit `content/published/` by hand — it's the publishing-agent's output.
 
 ## Response format
 

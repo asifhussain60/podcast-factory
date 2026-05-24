@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+# start-session.sh — single-machine session bootstrap.
+#
+# Replaces the previous multi-machine version that read ~/.machine-id,
+# routed to assigned book branches, and surfaced cross-machine queue state.
+# Post-2026-05-23 single-machine model: develop is the working branch,
+# new books just land at content/drafts/<slug>/ directly.
+#
+# Usage:
+#   bash scripts/start-session.sh
+#
+# Exit codes:
+#   0 = ready (synced with origin, working tree clean)
+#   1 = pre-flight failed (working tree dirty or not in a git repo)
+
+set -uo pipefail
+
+REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null)" || {
+  echo "ERROR: not inside a git repo" >&2
+  exit 1
+}
+cd "$REPO_ROOT"
+
+# ── 1. Working tree must be clean before sync ─────────────────────────
+if [ -n "$(git status --porcelain)" ]; then
+  echo "ERROR: working tree is dirty. Commit or stash first." >&2
+  echo "  Branch: $(git rev-parse --abbrev-ref HEAD)" >&2
+  git status --short >&2
+  exit 1
+fi
+
+# ── 2. Fetch + fast-forward develop ───────────────────────────────────
+echo "▸ fetching origin"
+git fetch --all --prune --quiet
+
+CURRENT="$(git rev-parse --abbrev-ref HEAD)"
+if [ "$CURRENT" != "develop" ]; then
+  echo "▸ switching to develop (was: $CURRENT)"
+  git checkout --quiet develop
+fi
+
+BEHIND="$(git rev-list --count develop..origin/develop)"
+if [ "$BEHIND" -gt 0 ]; then
+  echo "▸ fast-forwarding $BEHIND commit(s) from origin/develop"
+  git merge --ff-only origin/develop
+fi
+
+# ── 3. Surface state ──────────────────────────────────────────────────
+echo
+echo "▸ ready on develop"
+echo "  $(git log --oneline -1)"
+echo
+echo "▸ books in flight:"
+ls content/drafts/ 2>/dev/null | sed 's/^/  - /'
+echo
+echo "▸ next actions (pick any):"
+echo "  - new book:        python3 scripts/podcast/orchestrate_book.py <pdf-path>"
+echo "  - resume book:     python3 scripts/podcast/orchestrate_book.py --resume <slug>"
+echo "  - check a book:    python3 scripts/podcast/orchestrate_book.py --status <slug>"
+echo "  - publish a book:  python3 scripts/podcast/publish_to_library.py <slug> --dry-run"
+echo "  - run reader:      cd podcast-reader && npm run dev"
+
+exit 0

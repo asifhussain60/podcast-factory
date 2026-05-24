@@ -3,7 +3,7 @@
 **Version:** 4.0 (repo-split — renamed from `Journal` on 2026-05-22)
 **Last updated:** 2026-05-22
 
-This document governs the **`podcast-factory`** repo: the multi-phase podcast pipeline that converts scholarly Arabic books into NotebookLM-driven podcast series, the Azure stack that powers OCR / translation / speech, the cross-machine operator coordination, and the agents/skills that support podcast authoring. Memoir + site work moved to the sibling **[journal](https://github.com/asifhussain60/journal)** repo as of the 2026-05-22 split. The Anthropic API proxy (`server/`) and the Cloudflare deploy scaffold were retired the same day — see §"Retired" below.
+This document governs the **`podcast-factory`** repo: the multi-phase podcast pipeline that converts scholarly Arabic books into NotebookLM-driven podcast series, the Azure stack that powers OCR / translation / speech, and the agents/skills that support podcast authoring. Memoir + site work moved to the sibling **[journal](https://github.com/asifhussain60/journal)** repo as of the 2026-05-22 split. The Anthropic API proxy (`server/`) and the Cloudflare deploy scaffold were retired the same day — see §"Retired" below. The previous cross-machine coordination model (operator files, machine-id detection, per-machine book branches) was retired 2026-05-23 — see §"Single-machine model" below.
 
 ---
 
@@ -39,7 +39,8 @@ podcast-factory/
 │       └── {articles,documents,interviews,lectures,letters}/
 │
 └── _workspace/                                     ← operational docs only (NO books/ here anymore)
-    ├── plan/                                       ← cross-machine operator coordination
+    ├── plan/                                       ← response template + design plans + proposals
+    ├── setup/                                      ← azure-stack.md + machine bootstrap docs
     ├── orchestrator-logs/
     ├── runbooks/                                   ← incl. repo-split.md historical reference
     └── _archive/, audit/, chats/, proposals/
@@ -88,16 +89,13 @@ Promotion from workspace → library is one-way and explicit via `scripts/podcas
 
 ---
 
-## Cross-machine model
+## Single-machine model
 
-Two physical machines (Mac Studio + Mac Air) coordinate via:
+The pipeline is **machine-agnostic**. Most work is done by Anthropic + Azure remotely (LLM calls, OCR, translation, speech), so the host machine carries no special-snowflake configuration. The repo runs the same way on any Mac with `python3`, `git`, and the Azure stack credentials (per [_workspace/setup/azure-stack.md](_workspace/setup/azure-stack.md)).
 
-- **ONE shared git repo, ONE working directory per machine**
-- Books processed on `book/<slug>` branches; integration via `develop`
-- Each machine carries `~/.machine-id` (`mac-studio-primary` or `macbook-air-secondary`)
-- Per-machine operator files at `_workspace/plan/operators/<machine-id>.md`
-
-The full discipline lives in `_workspace/plan/operators/coordination-protocol.md`.
+- **ONE working branch: `develop`.** New books land in `content/drafts/<slug>/` directly on `develop`. Feature branches are optional throwaways for risky changes.
+- **No per-machine coordination.** The earlier two-machine model (book/* branches as work assignments, operator files, `~/.machine-id` detection, book-queue mutex, coordination-protocol §15) was retired 2026-05-23.
+- **`scripts/start-session.sh`** is the simplified session bootstrap — fetches origin, fast-forwards develop, surfaces in-flight books + next-action commands.
 
 ---
 

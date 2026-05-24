@@ -128,7 +128,7 @@ The probes are organized by axis. Each finding cites file:line and proposes a fi
 
 **AU-S2: Single-machine assumptions** (P0)
 - Detect: hardcoded paths to `/Users/asifhussain/...` outside of test fixtures or operator state files
-- Method: grep for absolute path patterns; whitelist known-good locations (`~/.machine-id`, operator files)
+- Method: grep for absolute path patterns; whitelist known-good locations
 - Citation required: file:line + the absolute path + recommendation (replace with `pathlib.Path(__file__).resolve().parents[N]` or environment variable)
 
 **AU-S3: Cost-cap leakage** (P1)
