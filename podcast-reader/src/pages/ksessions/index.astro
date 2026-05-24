@@ -1,0 +1,118 @@
+---
+/**
+ * KSessions placeholder.
+ *
+ * The KSESSIONS adapter under tools/source_extractor/adapters/ksessions.py
+ * is currently a structural stub that raises NotImplementedError. No
+ * bundles have been produced.
+ *
+ * Single-panel view will use the same layout component as Kashkole, but
+ * with the right Urdu panel suppressed (English-only).
+ */
+import '~/styles/global.css';
+import Icon from '~/components/ui/Icon.astro';
+import ThemeScript from '~/components/layout/ThemeScript.astro';
+import ThemeToggle from '~/components/layout/ThemeToggle.astro';
+import { discoverBundles } from '~/lib/source-extractor';
+
+const all = await discoverBundles();
+const ksessions = all.find((s) => s.source === 'ksessions');
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>KSessions · Podcast Reader</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <ThemeScript />
+  </head>
+  <body class="min-h-screen antialiased" style="background: var(--color-surface-page); color: var(--color-ink);">
+    <div class="fixed top-4 right-4 z-40"><ThemeToggle /></div>
+
+    <header class="border-b" style="border-color: var(--color-rule-default); background: var(--color-surface-raised);">
+      <div class="gold-hairline absolute inset-x-0 top-0" aria-hidden></div>
+      <div class="mx-auto max-w-5xl px-8 py-10">
+        <nav class="font-ui flex items-center gap-2 text-[11px] uppercase tracking-[0.18em]" style="color: var(--color-ink-tertiary);">
+          <a href="/" class="hover:underline">Library</a>
+          <Icon name="chevron-right" size={11} />
+          <span style="color: var(--color-derived);">KSessions</span>
+        </nav>
+        <div class="mt-5">
+          <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg" style="background: var(--color-derived); color: var(--color-ink-on-emphasis); opacity: 0.92;">
+            <Icon name="mic" size={26} />
+          </div>
+          <h1 class="text-5xl font-semibold tracking-tight" style="font-family: 'EB Garamond', Georgia, serif; color: var(--color-ink);">
+            KSessions
+          </h1>
+          <div class="font-ui mt-1.5 text-[11px] uppercase tracking-[0.18em]" style="color: var(--color-ink-tertiary);">
+            English Lecture Corpus
+          </div>
+          <p class="mt-5 max-w-2xl text-base italic leading-relaxed" style="font-family: 'EB Garamond', Georgia, serif; color: var(--color-ink-secondary);">
+            Single-panel English reader for the KSESSIONS source database. Will use the same panel component as Kashkole's English column (no Urdu pair).
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-5xl px-8 py-14">
+      {ksessions && ksessions.chapterCount > 0 ? (
+        <div class="rounded-lg border px-6 py-12" style="border-color: var(--color-rule-default); background: var(--color-surface-raised);">
+          <h2 class="text-2xl font-semibold" style="font-family: 'EB Garamond', Georgia, serif;">
+            {ksessions.chapterCount} chapters available
+          </h2>
+          <p class="mt-2 font-ui text-[13px]" style="color: var(--color-ink-secondary);">
+            Single-panel view component will mount here once the KSessions extraction has run.
+          </p>
+        </div>
+      ) : (
+        <div class="rounded-lg border-2 border-dashed p-10" style="border-color: var(--color-rule-default); background: var(--color-surface-raised);">
+          <div class="flex items-start gap-5">
+            <div class="shrink-0 rounded-lg p-3" style="background: var(--color-derived-soft); color: var(--color-derived);">
+              <Icon name="info" size={22} />
+            </div>
+            <div class="min-w-0">
+              <h2 class="text-2xl font-semibold tracking-tight" style="font-family: 'EB Garamond', Georgia, serif; color: var(--color-ink);">
+                KSessions adapter is scaffolded but not yet implemented
+              </h2>
+              <p class="mt-3" style="font-family: 'EB Garamond', Georgia, serif; color: var(--color-ink-secondary); font-size: 16px; line-height: 1.7;">
+                The KSESSIONS source database exists in the Docker MSSQL container and the
+                adapter structural shell is in place at <code class="rounded px-1 py-0.5 text-[13px]" style="font-family: var(--font-mono); background: var(--color-surface-sunken);">tools/source_extractor/adapters/ksessions.py</code>,
+                but the schema-specific extraction methods still raise <code class="rounded px-1 py-0.5 text-[13px]" style="font-family: var(--font-mono); background: var(--color-surface-sunken);">NotImplementedError</code>.
+              </p>
+
+              <div class="mt-6 grid gap-3 sm:grid-cols-2">
+                <div class="rounded-md border px-4 py-3" style="border-color: var(--color-rule-subtle); background: var(--color-surface-page);">
+                  <div class="font-ui text-[10px] font-bold uppercase tracking-wider" style="color: var(--color-derived);">DB Status</div>
+                  <div class="mt-1 font-ui text-[12px]" style="color: var(--color-ink-secondary);">Container <code style="font-family: var(--font-mono);">kashkole-mssql</code> hosts KSESSIONS</div>
+                </div>
+                <div class="rounded-md border px-4 py-3" style="border-color: var(--color-rule-subtle); background: var(--color-surface-page);">
+                  <div class="font-ui text-[10px] font-bold uppercase tracking-wider" style="color: var(--color-derived);">Adapter</div>
+                  <div class="mt-1 font-ui text-[12px]" style="color: var(--color-ink-secondary);">Stub — Group → Category → Session</div>
+                </div>
+                <div class="rounded-md border px-4 py-3" style="border-color: var(--color-rule-subtle); background: var(--color-surface-page);">
+                  <div class="font-ui text-[10px] font-bold uppercase tracking-wider" style="color: var(--color-derived);">Challenger</div>
+                  <div class="mt-1 font-ui text-[12px]" style="color: var(--color-ink-secondary);">TBD (per user spec)</div>
+                </div>
+                <div class="rounded-md border px-4 py-3" style="border-color: var(--color-rule-subtle); background: var(--color-surface-page);">
+                  <div class="font-ui text-[10px] font-bold uppercase tracking-wider" style="color: var(--color-derived);">View</div>
+                  <div class="mt-1 font-ui text-[12px]" style="color: var(--color-ink-secondary);">Single-panel English (reuses Kashkole panel)</div>
+                </div>
+              </div>
+
+              <div class="mt-7 rounded-md border p-4" style="border-color: var(--color-derived); background: var(--color-derived-soft);">
+                <div class="font-ui text-[10px] font-bold uppercase tracking-wider" style="color: var(--color-derived);">Next steps</div>
+                <ol class="font-ui mt-2 list-decimal pl-4 text-[13px]" style="color: var(--color-ink);">
+                  <li class="mt-1">Implement <code style="font-family: var(--font-mono);">KsessionsAdapter.resolve_book / get_book_sections</code> against the KSESSIONS schema</li>
+                  <li class="mt-1">Run <code style="font-family: var(--font-mono);">prepare ksessions --group N --category M</code> on a representative session</li>
+                  <li class="mt-1">Validate with the <code style="font-family: var(--font-mono);">English</code>ReviewAdapter (typos-only) from <code style="font-family: var(--font-mono);">tools/content_reviewer/</code></li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </main>
+  </body>
+</html>
