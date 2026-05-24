@@ -1,0 +1,62 @@
+{
+  "book": {
+    "binder_id": 24,
+    "binder_name": "توحید مبدع تعالی",
+    "chapter_id": 71,
+    "chapter_name": "اسلام اور ایمان"
+  },
+  "images": [
+    {
+      "placeholder": "IMG:001",
+      "file": "_system/source/images/001.png",
+      "section_id": 1008,
+      "section_label": "ایمان کو علم پر فضیلت حاصل ہے",
+      "bytes": 43532,
+      "sha256_12": "d39e5fcf9a69",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:002",
+      "file": "_system/source/images/002.png",
+      "section_id": 1396,
+      "section_label": "اسلام اور ایمان کا فرق",
+      "bytes": 15115,
+      "sha256_12": "d7bb1ff59c59",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:003",
+      "file": "_system/source/images/003.png",
+      "section_id": 1080,
+      "section_label": "اسلامی دعوت کا اصل مقصد کیا تھا؟",
+      "bytes": 5268,
+      "sha256_12": "132f0e0b034b",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:004",
+      "file": "_system/source/images/004.png",
+      "section_id": 1203,
+      "section_label": "اسلام و ایمان کا انبعاث",
+      "bytes": 8826,
+      "sha256_12": "b478244e261c",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:005",
+      "file": "_system/source/images/005.png",
+      "section_id": 1203,
+      "section_label": "اسلام و ایمان کا انبعاث",
+      "bytes": 14005,
+      "sha256_12": "3fa74e4b34bf",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    }
+  ],
+  "generated_at": "2026-05-24T19:49:20.874905+00:00",
+  "instructions": "For each image in `images`, read the file via the Read tool (paths are relative to the bundle root) and write a sibling JSON file next to the PNG (same basename, .json extension) with the schema: {classification, arabic_text, urdu_text, english_text, suggested_citation: {surah, ayat} | null, alt_text, confidence, notes}. classification ∈ {quran-verse, hadith, poem-or-saying, teaching-diagram, mixed, other}. For quran-verse, propose surah+ayat from your reading; finalize validates against the adapter's Quran corpus. For teaching-diagram, give a 1-2 sentence alt_text describing what it shows."
+}
