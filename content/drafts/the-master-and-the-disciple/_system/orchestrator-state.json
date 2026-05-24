@@ -9,8 +9,8 @@
   "next_phase": "0f",
   "last_error": {
     "phase": "per-chapter",
-    "message": "chapter father-revealed-and-the-faces-of-seeking failed: extract_chapter.py failed for 'the-master-and-the-disciple/ch05-father-revealed-and-the-faces-of-seeking': rc=1: ERROR: could not resolve chapter ref 'the-master-and-the-disciple/ch05-father-revealed-and-the-faces-of-seeking'.\n  Tried:\n    /Users/asifhussain/PROJECTS/podcast-factory/the-master-and-the-disciple/c",
-    "ts": "2026-05-24T18:43:50Z"
+    "message": "chapter father-revealed-and-the-faces-of-seeking failed: build_episode_txt.py failed: rc=1: ERROR: chapter (SOURCE) file contains inline phonetic guides.\n  Hits (5 found; first 10 shown):\n  ch05-father-revealed-and-the-faces-of-seeking.txt:9: Chapter five is the *resolution* of that anger — a resolution that ends, against all expectation, with the *biological f\n  ch05-father-revealed-and-t",
+    "ts": "2026-05-24T18:56:57Z"
   },
   "pipeline_mode": "orchestrated",
   "bootstrap_provenance": {
@@ -77,7 +77,7 @@
     "per-chapter": {
       "status": "failed",
       "ts_started": "2026-05-24T18:43:50Z",
-      "ts_completed": "2026-05-24T18:43:50Z",
+      "ts_completed": "2026-05-24T18:56:57Z",
       "completed_slugs": [],
       "failed_slug": "father-revealed-and-the-faces-of-seeking"
     }
@@ -91,7 +91,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-05-22T00:00:00Z",
-  "ts_updated": "2026-05-24T18:43:50Z",
+  "ts_updated": "2026-05-24T18:56:57Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0"

@@ -80,3 +80,7 @@ The hosts must NOT do the following:
 - Treat this as a standalone Audio Overview. Do not reference other Audio Overviews.
 - Do not abbreviate honorifics; speak them in full.
 - Close on the resolution beat as specified above, not on a host paraphrase.
+
+---
+
+Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.

@@ -28,3 +28,4 @@
 {"ts": "2026-05-24T18:01:19Z", "phase": "0e", "step": "ch04-the-greater-shaykh-and-the-naming", "model": "claude-opus-4-7", "input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0}
 {"ts": "2026-05-24T18:08:59Z", "phase": "0e", "step": "ch05-father-revealed-and-the-faces-of-seeking", "model": "claude-opus-4-7", "input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0}
 {"ts": "2026-05-24T18:21:58Z", "phase": "0e", "step": "ch06-justice-monotheism-and-the-guardians", "model": "claude-opus-4-7", "input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0}
+{"ts": "2026-05-24T18:56:57Z", "phase": "per-chapter", "step": "framing/father-revealed-and-the-faces-of-seeking", "model": "claude-opus-4-7", "input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0}

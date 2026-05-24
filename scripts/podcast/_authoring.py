@@ -1407,11 +1407,39 @@ def author_phase_0e(book_dir: Path,
             ),
         )
 
+    # Baked-in safety net (2026-05-24): Phase 0e occasionally lets inline
+    # phonetic guides slip into chapter files (e.g. `*Maqrub* (mak-ROOB)`)
+    # despite the R-PHONETICS-OUT instruction in its prompt. The build script
+    # HARD-refuses these later, blocking per-chapter authoring on every run.
+    # Strip them deterministically here so the build is never blocked by the
+    # leak. The phonetic data is preserved in _phonetics.md and glossary.yml;
+    # the framing's Pronunciation section is the canonical surface.
+    strip_msg = _bake_strip_inline_phonetics(book_dir, log=log)
+
     return (
         f"0e per-chapter loop: {len(chapter_files)} chapters enriched "
         f"({len(already_done)} skipped as already done, "
-        f"{len(chapter_files) - len(already_done)} newly enriched)"
+        f"{len(chapter_files) - len(already_done)} newly enriched){strip_msg}"
     )
+
+
+def _bake_strip_inline_phonetics(book_dir: Path, *, log=print) -> str:
+    """Run scripts/podcast/strip_inline_phonetics.py over BOOK_DIR/chapters/.
+
+    Best-effort: failures log and skip; this is a safety net, not a
+    pipeline-blocking step. Most runs will report 0 strips (the LLM
+    usually honors R-PHONETICS-OUT); when the LLM slips, this catches it
+    BEFORE the build hard-refuses.
+    """
+    here = Path(__file__).resolve().parent
+    stripper = here / "strip_inline_phonetics.py"
+    if not stripper.exists():
+        return ""
+    rc, _out, err = _run([sys.executable, str(stripper), "--book-dir", str(book_dir)])
+    if rc != 0:
+        log(f"  phase 0e · strip_inline_phonetics skipped (rc={rc}): {err.strip()[:200]}")
+        return ""
+    return " + strip-inline-phonetics"
 
 
 # ─── Per-chapter framing authorship ──────────────────────────────────────────

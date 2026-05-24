@@ -792,6 +792,10 @@ The hosts must NOT do the following:
 - Treat this as a standalone Audio Overview. Do not reference other Audio Overviews — they are not in NotebookLM's context.
 - Do not abbreviate honorifics; speak them in full.
 - End on a question, not a conclusion.
+
+---
+
+Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.
 """
 
 
@@ -904,6 +908,10 @@ The hosts must NOT do the following:
 - Treat this as a standalone Audio Overview. Do not reference other Audio Overviews.
 - Do not abbreviate honorifics; speak them in full.
 - Close on the resolution beat as specified above, not on a host paraphrase.
+
+---
+
+Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.
 """
 
 
