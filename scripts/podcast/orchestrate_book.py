@@ -1425,12 +1425,13 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
     phase_git_commit(book_dir, f"podcast({book_slug}): phase 0g register series")
 
     # Phase 11b — Slide-deck cohort authoring + Slide Deck Challenger convergence.
-    # OPTIONAL, gated by series-plan.md `enable_slide_decks` (default false).
+    # Default TRUE — slide decks are required output alongside chapters and episodes.
+    # Override to false only via series-plan.md `enable_slide_decks: false`.
     # When false: phase is marked skipped, no slide-deck work happens, audio-side
     # behavior is byte-identical to pre-slide-deck-enhancement orchestrator runs.
     # When true: walks every chapter, authors slide-decks/chNN-deck-<slug>.txt +
     # chNN-framing-<slug>.md, runs Slide Deck Challenger (max 5 iter per chapter).
-    enable_slide_decks = _series_flag(book_dir, "enable_slide_decks", default=False)
+    enable_slide_decks = _series_flag(book_dir, "enable_slide_decks", default=True)
     if enable_slide_decks:
         _info("phase: per-chapter-slides · slide-deck cohort authoring + slide-deck-challenger")
         update_phase(book_dir, phase="per-chapter-slides", status="running")
