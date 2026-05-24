@@ -112,6 +112,64 @@ chmod +x .git/hooks/post-commit
 
 Verify by editing your (eventual) operator file: a commit there should trigger an auto-push line in the output.
 
+## Step 5c — Materialize any in-flight content worktrees (only if joining work in progress)
+
+Per [CLAUDE.md "Worktree workflow"](../../CLAUDE.md), every in-flight content branch lives in its own sibling worktree at `<projects-root>/git-worktrees/<slug>/` — NOT in the primary clone. The primary clone stays on `develop`; each content branch gets its own working directory.
+
+**Projects-root convention**:
+- Mac Air → `~/PROJECTS/git-worktrees/`
+- Mac Studio → `~/Code/git-worktrees/`
+
+(The auto-detection in `scripts/start-content-worktree.sh` resolves the right one from where the primary clone lives, so the same command works on both machines.)
+
+### Pulling an existing content branch (joining another machine's work)
+
+List what's in flight on the remote:
+
+```bash
+git -C <primary-clone> branch -r | \
+    grep -E 'origin/(book|doc|lecture|article|letter|interview|draft)/' | \
+    sed 's|origin/||'
+```
+
+For each branch you want to work on locally:
+
+```bash
+# Mac Air paths shown; substitute ~/Code on Mac Studio.
+PRIMARY=~/PROJECTS/podcast-factory
+SLUG=kitab-al-riyad                  # example
+REF=book/kitab-al-riyad              # full <prefix>/<slug>
+
+git -C "$PRIMARY" fetch origin --prune
+git -C "$PRIMARY" worktree add ~/PROJECTS/git-worktrees/"$SLUG" "origin/$REF"
+git -C ~/PROJECTS/git-worktrees/"$SLUG" branch --unset-upstream
+git -C ~/PROJECTS/git-worktrees/"$SLUG" branch --set-upstream-to="origin/$REF"
+```
+
+The `--unset-upstream` then explicit `--set-upstream-to` dance fixes the upstream that `worktree add` sets to the source ref (`origin/develop` by default). After this, `git push` from the worktree pushes the content branch correctly, not `develop`.
+
+### Starting a new piece of content
+
+Use the helper — never hand-roll `git worktree add` for new content branches:
+
+```bash
+cd <primary-clone>
+scripts/start-content-worktree.sh <category> <slug>
+# Examples:
+scripts/start-content-worktree.sh books   kitab-al-riyad
+scripts/start-content-worktree.sh letters ayyuhal-walad
+```
+
+The helper fetches origin/develop, creates the typed branch via the prefix map in [scripts/podcast/_branching.py](../../scripts/podcast/_branching.py), creates the worktree at `<projects-root>/git-worktrees/<slug>/`, and unsets the upstream foot-gun. Idempotent — re-running for an existing branch prints where it's already checked out.
+
+### Listing and cleanup
+
+```bash
+git worktree list                              # from any checkout, shows them all
+git worktree remove <path>                     # after the branch is shipped/merged
+git worktree prune                             # garbage-collect stale .git/worktrees entries
+```
+
 ## Step 6 — Assign machine identity
 
 Pick a machine slug. Convention: `<role>-<location>` (`mac-studio-primary`, `macbook-air-secondary`, `macbook-pro-asif-home`).
