@@ -4,20 +4,14 @@ import GroupedTOC from '~/components/layout/GroupedTOC.astro';
 import BookCover from '~/components/book/BookCover.astro';
 import { loadBookIndex } from '~/lib/book-content';
 import { loadBookMeta } from '~/data/books';
-import { getPilotBook } from '~/lib/worktree-glob';
 
 const { worktree, book } = Astro.params;
 if (!worktree || !book) {
   return new Response('Bad request', { status: 400 });
 }
 
-const PILOT = getPilotBook();
-if (book !== PILOT) {
-  return new Response(
-    `<!doctype html><html><body style="font-family:system-ui;padding:2rem;max-width:40rem;margin:0 auto"><h1>Outside pilot scope</h1><p>The v1 pilot only surfaces <code>${PILOT}</code>. Book <code>${book}</code> exists but is deferred to v2.</p><p><a href="/">Back to worktrees</a></p></body></html>`,
-    { status: 404, headers: { 'content-type': 'text/html; charset=utf-8' } }
-  );
-}
+// Pilot-only gating dropped post-restructure (2026-05-24): all books under
+// content/drafts/ are surfaced. Unknown books still 404 below via loadBookIndex.
 
 const maybeIndex = await loadBookIndex(worktree, book);
 if (!maybeIndex) {
@@ -37,8 +31,7 @@ const firstChapterHref = firstChapter ? `/${worktree}/${book}/chapter/${firstCha
   worktree={worktree}
   book={book}
   breadcrumb={[
-    { label: 'Worktrees', href: '/' },
-    { label: worktree, href: '/' },
+    { label: 'Library', href: '/' },
     { label: book },
   ]}
   showRail={false}

@@ -3,19 +3,18 @@ import ThreePane from '~/components/layout/ThreePane.astro';
 import GroupedTOC from '~/components/layout/GroupedTOC.astro';
 import ContractView from '~/components/reader/ContractView.astro';
 import ReaderControls from '~/components/reader/ReaderControls';
+import CopyButton from '~/components/reader/CopyButton';
 import { loadBookIndex } from '~/lib/book-content';
 import { loadChapterContract } from '~/lib/contract-parser';
 import { renderContract, buildCategoryDescriptors } from '~/lib/contract-render';
-import { getPilotBook } from '~/lib/worktree-glob';
+import { formatContractForCopy } from '~/lib/format-for-copy';
 
 const { worktree, book, episode } = Astro.params;
 if (!worktree || !book || !episode) {
   return new Response('Bad request', { status: 400 });
 }
 
-if (book !== getPilotBook()) {
-  return new Response('Outside pilot scope', { status: 404 });
-}
+// Pilot-only gating dropped post-restructure (2026-05-24): all books surface.
 
 const index = await loadBookIndex(worktree, book);
 if (!index) {
@@ -30,6 +29,7 @@ if (!ep) {
 const contract = await loadChapterContract(ep.filePath);
 const rendered = renderContract(contract);
 const categoryDescriptors = buildCategoryDescriptors(rendered.counts);
+const copyText = formatContractForCopy(contract);
 
 // Resolve adjacent episodes for prev/next nav
 const orderedEps = [...index.episodes].sort((a, b) => (a.episodeNumber ?? 999) - (b.episodeNumber ?? 999));
@@ -44,20 +44,19 @@ const next = idx >= 0 && idx < orderedEps.length - 1 ? orderedEps[idx + 1] : nul
   worktree={worktree}
   book={book}
   breadcrumb={[
-    { label: 'Worktrees', href: '/' },
-    { label: worktree, href: '/' },
+    { label: 'Library', href: '/' },
     { label: book, href: `/${worktree}/${book}/` },
     { label: `E${String(contract.episodeNumber ?? '?').padStart(2, '0')}` },
   ]}
-  showRail={true}
+  showRail={false}
 >
   <Fragment slot="toc">
     <GroupedTOC worktree={worktree} book={book} index={index} currentEpisode={ep.slug} />
   </Fragment>
 
   <div class="not-prose mb-8 rounded-lg border border-stone-300 bg-stone-100/70 px-4 py-3 shadow-sm">
-    <div class="flex items-start justify-between gap-4">
-      <div class="flex-1">
+    <div class="flex flex-wrap items-start justify-between gap-4">
+      <div class="flex-1 min-w-[280px]">
         <div class="mb-2 flex items-center gap-2">
           <span class="font-ui text-[10px] font-semibold uppercase tracking-wider text-stone-500">
             Reference controls
@@ -68,6 +67,9 @@ const next = idx >= 0 && idx < orderedEps.length - 1 ? orderedEps[idx + 1] : nul
           </span>
         </div>
         <ReaderControls client:load categories={categoryDescriptors} />
+      </div>
+      <div class="shrink-0 self-center">
+        <CopyButton client:load text={copyText} label="Copy episode" />
       </div>
     </div>
   </div>

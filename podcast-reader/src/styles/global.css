@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Gentium+Plus:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Aref+Ruqaa:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Gentium+Plus:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,500;0,600;1,400&display=swap');
 @import "tailwindcss";
 
 /* ──────────────────────────────────────────────────────────────
@@ -22,6 +22,12 @@
   --font-ref-quran: "EB Garamond", "Garamond", Georgia, serif;
   --font-ref-hadith: "EB Garamond", "Garamond", Georgia, serif;
   --font-ref-arabic: "Gentium Plus", "Gentium Book Basic", Georgia, serif;
+
+  /* Arabic script fonts — Aref Ruqaa for calligraphic display (book covers,
+     large titles); Amiri for naskh body (inline references, smaller sizes
+     where readability outranks ornament). */
+  --font-arabic-display: "Aref Ruqaa", "Amiri", "Scheherazade New", serif;
+  --font-arabic-body: "Amiri", "Scheherazade New", "Aref Ruqaa", serif;
 
   /* Reading column constraints */
   --reading-measure: 70ch;
@@ -99,8 +105,51 @@ html, body {
   font-family: var(--font-body);
   font-size: var(--reading-size);
   line-height: var(--reading-line-height);
-  max-width: var(--reading-measure);
+  /* No max-width — match the Reference Controls bar (max-w-5xl outer container).
+     The --reading-measure token is kept defined for future opt-in. */
   color: var(--color-ink);
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Prose body — shared rules for episode contract sections AND
+   chapter source rendering. Applied to any element with the
+   .prose-body class (ContractView sections + chapter article).
+   ────────────────────────────────────────────────────────────── */
+
+.prose-body p {
+  margin-bottom: 1.75em;
+}
+.prose-body p:last-child {
+  margin-bottom: 0;
+}
+.prose-body em {
+  font-style: italic;
+  color: var(--color-ink-secondary);
+}
+.prose-body strong {
+  font-weight: 600;
+}
+.prose-body h2 {
+  font-family: var(--font-body);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+.prose-body h3 {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 1.25em;
+  margin-bottom: 0.5em;
+}
+.prose-body .md-comment {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  color: var(--color-ink-tertiary);
+  margin: 1.5em 0 0.5em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 /* ──────────────────────────────────────────────────────────────
@@ -297,4 +346,43 @@ html, body {
 [data-theme="dark"] [data-cat-enabled~="arabic"] .ref-arabic {
   background-color: oklch(38% 0.07 160);
   color: oklch(95% 0.08 155);
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Arabic-script overlay — gated on body[data-arabic="on"].
+   Spans are emitted by lib/glossary.ts wrapPhoneticTokens():
+     <span class="ar-overlay" data-script="حُجَّة">Hujjah</span>
+   When the toggle is OFF, the span renders just its text (Hujjah)
+   with no decoration. When ON, ::after injects the Arabic script
+   inline after the phonetic form: "Hujjah حُجَّة".
+   ────────────────────────────────────────────────────────────── */
+
+.ar-overlay {
+  /* Carry the phonetic word as-is; ::after handles the script.
+     A subtle underline hints there's an overlay available. */
+  text-decoration: underline dotted;
+  text-decoration-color: var(--color-ink-tertiary);
+  text-underline-offset: 3px;
+  cursor: help;
+}
+
+body[data-arabic="on"] .ar-overlay::after {
+  content: " " attr(data-script);
+  font-family: var(--font-arabic-body);
+  font-size: 1.05em;
+  color: var(--color-ink-secondary);
+  direction: rtl;
+  unicode-bidi: isolate;
+  margin-inline-start: 0.3em;
+}
+
+/* When toggle is OFF, hide the script entirely and drop the underline so the
+   reading column is visually identical to today. */
+body[data-arabic="off"] .ar-overlay {
+  text-decoration: none;
+  cursor: text;
+}
+
+[data-theme="dark"] body[data-arabic="on"] .ar-overlay::after {
+  color: oklch(85% 0.06 80);
 }
