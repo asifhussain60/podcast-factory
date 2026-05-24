@@ -1,0 +1,39 @@
+{
+  "schema": "podcast.ingest-source/v1",
+  "generated_at": "2026-05-24T19:56:32.821344+00:00",
+  "source": {
+    "kind": "sql",
+    "name": "kashkole",
+    "db": "KASHKOLE",
+    "container": "kashkole-mssql"
+  },
+  "book_slug": "x8263-x1281",
+  "book_dir": "/Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksessions/extracted/kashkole/16-daaim-al-islam-as-sawm/03-x8263-x1281",
+  "source_language": "ur",
+  "extraction": {
+    "tool": "tools.source_extractor",
+    "shelf": {
+      "kind": "binder",
+      "id": 29,
+      "name": "دعائم الاسلام : الصوم"
+    },
+    "book": {
+      "kind": "chapter",
+      "id": 135,
+      "name": "لیالی الفاضلۃ"
+    },
+    "section_query_count": 12,
+    "stage": "finalized"
+  },
+  "outputs": {
+    "raw_extract": "_system/source/text/raw-extract.md",
+    "extraction_notes": "_system/source/text/_extraction-notes.md",
+    "audit_anchor_html": "_system/source/x8263-x1281.html",
+    "images_dir": "_system/source/images"
+  },
+  "finalize": {
+    "finalized_at": "2026-05-24T20:32:23.395493+00:00",
+    "images_classified": {},
+    "inline_citations_resolved": 3
+  }
+}
