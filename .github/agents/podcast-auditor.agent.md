@@ -67,7 +67,7 @@ prompt: read infra/claude-agents/podcast-auditor.md and execute the full
 - `skills-staging/podcast/SKILL.md`
 - `skills-staging/podcast/references/**.md`
 - `infra/claude-agents/**.md` (all agent specs)
-- `_workspace/plan/**.md` (operator + planning docs)
+- `_workspace/plan/**.md` (planning + response-template docs)
 - `_workspace/runbooks/**.md` (runbook docs if present)
 - Root: `CLAUDE.md`, `README.md` (if present)
 - The four worktrees' divergence (compare `develop` with `book/*` branches via `git log` + `git diff --stat`)
@@ -127,7 +127,7 @@ The probes are organized by axis. Each finding cites file:line and proposes a fi
 - Citation required: file:line + the literal + recommendation (move to a `_config.py` central module OR accept as local with rationale comment)
 
 **AU-S2: Single-machine assumptions** (P0)
-- Detect: hardcoded paths to `/Users/asifhussain/...` outside of test fixtures or operator state files
+- Detect: hardcoded paths to `/Users/asifhussain/...` outside of test fixtures or per-book `_system/orchestrator-state.json` provenance fields
 - Method: grep for absolute path patterns; whitelist known-good locations
 - Citation required: file:line + the absolute path + recommendation (replace with `pathlib.Path(__file__).resolve().parents[N]` or environment variable)
 

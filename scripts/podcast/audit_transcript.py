@@ -46,8 +46,9 @@ import sys
 from pathlib import Path
 from collections import Counter
 
-# Canonical rule lists live in _rules.py (mirrored from the handbook normative
-# copy at content/podcast/.skill/handbook/notebooklm-customize-prompt-rules.md).
+# Canonical rule lists live in _rules.py. (The prior mirror in
+# content/podcast/.skill/handbook/notebooklm-customize-prompt-rules.md was
+# retired 2026-05-23; _rules.py is the sole source of truth now.)
 sys.path.insert(0, str(Path(__file__).parent))
 from _rules import (
     MODERNIZE_DENY,
@@ -61,7 +62,10 @@ from _rules import (
 
 # Version tag stamped into every finding record this script emits.
 # v1.2 (2026-05-18) — generic mangle map externalized to
-# `content/podcast/.skill/handbook/_mangle-map.md`; ledger emission added.
+# `content/podcast/.skill/handbook/_mangle-map.md`. That handbook file was
+# retired in the 2026-05-23 restructure; load_generic_mangle_map() handles
+# the missing-file case by returning an empty dict, so per-book overrides
+# at BOOK_DIR/_system/mangle-map.md continue to work. Pending restoration.
 AUDIT_TRANSCRIPT_VERSION = "1.2"
 
 # Repo root resolution: this script lives at <repo>/scripts/podcast/.
@@ -72,11 +76,12 @@ FORBIDDEN_ABBREVIATIONS = abbreviations_for_audit()
 
 # Names commonly mangled by NotebookLM TTS (observed empirically).
 #
-# The generic, cross-book mangle map now lives at
+# The generic, cross-book mangle map formerly lived at
 # `content/podcast/.skill/handbook/_mangle-map.md` (loaded at audit time via
-# `load_generic_mangle_map()`). Per-book overrides live at
-# `BOOK_DIR/_system/mangle-map.md` and win on conflict (merged by
-# `load_book_mangle_map`).
+# `load_generic_mangle_map()`); that file was retired 2026-05-23 and the
+# loader gracefully returns {} when it's missing. Per-book overrides live at
+# `BOOK_DIR/_system/mangle-map.md` and continue to be the working path
+# (loaded by `load_book_mangle_map`).
 #
 # `Hadith Qudsi` mangling is detected by the adjacent-repetition heuristic in
 # `detect_phonetic_doublings`, not the lookup map — leaving it out of the
