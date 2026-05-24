@@ -100,9 +100,17 @@ from pathlib import Path
 # Longer, too thin to sustain Extended) — flagged with a soft warning but
 # not refused.
 CHAPTER_WORD_MIN_HARD = 500
-CHAPTER_WORD_MAX_HARD = 10500
+CHAPTER_WORD_MAX_HARD = 12000   # bumped 2026-05-24 from 10500 to fit the
+                                # `extended` tier (5,500-9,500 band) PLUS the
+                                # ~20-30% enrichment uplift Phase 0e adds.
+                                # Master-disciple's 6 chapters land 9,645-11,142
+                                # words post-enrichment; ceiling now has ~1k
+                                # headroom over the densest case.
 CHAPTER_WORD_MIN_SOFT = 1000
-CHAPTER_WORD_MAX_SOFT = 9500
+CHAPTER_WORD_MAX_SOFT = 11000   # bumped 2026-05-24 from 9500 in lockstep with
+                                # CHAPTER_WORD_MAX_HARD; soft warning still fires
+                                # at +1k below the hard refuse so authors get
+                                # advance notice before a true ceiling crash.
 CHAPTER_DEAD_ZONE_MIN = 4500
 CHAPTER_DEAD_ZONE_MAX = 5500
 
