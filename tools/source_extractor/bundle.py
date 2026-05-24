@@ -127,7 +127,7 @@ def write_bundle_yml(
         f"# is intake's call (it must check for collisions in content/drafts/).",
         f"pipeline_hints:",
         f"  suggested_slug: {meta.source_name}-{meta.shelf_slug}-{meta.book_slug}",
-        f"  suggested_branch_prefix: lecture",
+        f"  suggested_category: lectures",
         f"counts:",
         f"  sections: {len(sections_meta)}",
         f"  sections_with_content: "
