@@ -127,3 +127,4 @@ _workspace/audit/
 
 # VSCode workspace favorites (user-local IDE state)
 .favorites.json
+raw/
