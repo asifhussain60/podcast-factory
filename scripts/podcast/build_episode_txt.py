@@ -215,7 +215,55 @@ INLINE_PHONETIC_PATTERNS = [
 import sys as _sys
 from pathlib import Path as _Path
 _sys.path.insert(0, str(_Path(__file__).parent))
-from _rules import abbreviations_for_build, HONORIFICS as _HONORIFICS_RAW
+from _rules import (
+    abbreviations_for_build,
+    HONORIFICS as _HONORIFICS_RAW,
+    HOST_A_ROLES_SCHOLAR,
+    HOST_B_ROLES_SEEKER,
+)
+
+
+def validate_host_role_parity(contract: dict) -> list[str]:
+    """R-HOST-ROLE-PARITY (Q4) — deterministic host-pairing gate.
+
+    Per `_rules.py` canonical pairing: Host A (male voice) is always in the
+    scholar pool; Host B (female voice) is always in the seeker pool. This
+    rule does NOT rotate across episodes within a single book.
+
+    Returns a list of findings (empty = clean). Reads `contract.debate.host_a.role`
+    and `contract.debate.host_b.role` (debate mode only — deep_dive uses
+    host_dynamic instead). For deep_dive episodes this validator is a no-op
+    because the role assignment is conveyed via host_dynamic prose, not
+    structured fields; the LLM challenger's Q1/Q2 catches the deep_dive case
+    semantically. The hard gate here is for debate mode where the contract
+    HAS structured roles that can be machine-checked.
+
+    Auditor 2026-05-24: the HOST_A_ROLES_SCHOLAR / HOST_B_ROLES_SEEKER
+    constants were defined in _rules.py without a Python consumer. This
+    function is the consumer. Wired into validate_chapter() so any debate
+    chapter with reversed host pairing fails the build.
+    """
+    findings: list[str] = []
+    debate = (contract or {}).get("debate") or {}
+    if not isinstance(debate, dict) or not debate:
+        # deep_dive (or contract without debate block) — semantic check only
+        return findings
+    host_a = (debate.get("host_a") or {}).get("role", "")
+    host_b = (debate.get("host_b") or {}).get("role", "")
+    if host_a and host_a.lower() not in {r.lower() for r in HOST_A_ROLES_SCHOLAR}:
+        findings.append(
+            f"R-HOST-ROLE-PARITY (Q4): contract.debate.host_a.role={host_a!r} not in "
+            f"scholar pool {HOST_A_ROLES_SCHOLAR}. Host A (male voice) must be in the "
+            f"scholar/teacher pool. If contract assigns the scholar role to Host B, "
+            f"swap the assignments so the male voice carries the scholar role."
+        )
+    if host_b and host_b.lower() not in {r.lower() for r in HOST_B_ROLES_SEEKER}:
+        findings.append(
+            f"R-HOST-ROLE-PARITY (Q4): contract.debate.host_b.role={host_b!r} not in "
+            f"seeker pool {HOST_B_ROLES_SEEKER}. Host B (female voice) must be in the "
+            f"seeker/student/debater pool."
+        )
+    return findings
 
 FORBIDDEN_ABBREVIATIONS = abbreviations_for_build()
 

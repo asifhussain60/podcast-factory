@@ -469,7 +469,7 @@ def validate_contract(c: Contract, chapter: ResolvedChapter) -> None:
         loc = c.path or "(stub)"
         sys.exit(
             f"ERROR: contract at {loc} is missing required fields: {', '.join(missing)}.\n"
-            f"  See content/podcast/.skill/handbook/chapter-contract.template.yml for the full schema."
+            f"  See scripts/podcast/extract_chapter.py::stub_contract() for the canonical schema."
         )
     if c.get("slug") != chapter.chapter_slug:
         sys.exit(
@@ -533,7 +533,7 @@ def validate_contract(c: Contract, chapter: ResolvedChapter) -> None:
     if episode_format not in valid_formats:
         sys.exit(
             f"ERROR: contract.episode_format {episode_format!r} not in {valid_formats}.\n"
-            f"  See content/podcast/.skill/handbook/debate-framing.md for the debate spec."
+            f"  See infra/claude-agents/podcast-challenger.md Category P for the debate spec."
         )
     if episode_format == "debate":
         debate = c.get("debate")
@@ -754,7 +754,7 @@ def _render_framing_deep_dive(c: Contract, chapter: ResolvedChapter, ep_num: int
 
     return f"""# {title}
 
-**Episode format:** Deep Dive (two hosts walk through the source). See `.skill/handbook/two-host-framing.md` for the format spec; if this should be a debate instead, set `contract.episode_format: debate` and see `.skill/handbook/debate-framing.md`.
+**Episode format:** `deep_dive` (two-host walkthrough). If this should be a debate instead, set `contract.episode_format: debate`. See [infra/claude-agents/podcast-challenger.md](../../../infra/claude-agents/podcast-challenger.md) Categories F + P for the format-specific constraints.
 
 ## Opening directive
 
@@ -766,7 +766,7 @@ In the first ten seconds, the hosts should name the work and the question this e
 
 ## Angle
 
-`{angle}` — see content/podcast/.skill/handbook/source-distillation.md for what this lens commits the hosts to.
+`{angle}` — the chosen lens. Faithful exposition = follow source authorial voice; comparative = bring in cross-tradition context; etc. The framing's other sections (Central tensions, Tone constraints) lock the lens into per-episode specifics.
 
 ## Length
 
@@ -884,7 +884,7 @@ Source moves available to Host B:
 1. **No strawman.** Each host argues the strongest form of their position. The OTHER host names the weaknesses, never the host holding it.
 2. **Source-grounded only.** Every move references the source text, a passage from the same author's larger corpus, or an established tradition the position is anchored in. No appeals to modern common sense.
 3. **Defended positions stay defended.** A host may concede a sub-point with qualification ("That's a fair point on X, but...") but does not abandon their named position unless the resolution is `host_X_concedes`.
-4. **Disagreement is the work.** Acknowledgment grammar ("Exactly", "Yeah, exactly") that is forbidden in Deep Dive is softened here: a host may concede a sub-point but the concession is qualified and followed by a return to the host's main position. Bare affirmations remain forbidden.
+4. **Disagreement is the work.** Acknowledgment grammar ("Exactly", "Yeah, exactly") that is forbidden in `deep_dive` mode is softened here: a host may concede a sub-point but the concession is qualified and followed by a return to the host's main position. Bare affirmations remain forbidden.
 5. **One position at a time.** Each beat surfaces one part of the argument. Hosts do not jump topics.
 6. **The proposition is named at open and at close.** Resolution is announced at the close per the contract's `resolution` field; no host announces a winner.
 7. **No verdict from the host.** Neither host says "I've convinced you" or "you have to admit". The listener decides.
@@ -1097,7 +1097,9 @@ def emit_bundle(chapter: ResolvedChapter, c: Contract, force: bool) -> None:
     chapter_text = chapter.path.read_text(encoding="utf-8")
 
     # Word-count band check — surfaces collisions with NotebookLM's Audio Overview limits
-    # at extract time, not at build time. See content/podcast/.skill/handbook/notebooklm-best-practices.md §3.
+    # at extract time, not at build time. The retired handbook file (notebooklm-best-practices.md)
+    # carried the underlying rationale; current authority is `build_episode_txt.py`'s
+    # CHAPTER_WORD_MIN_HARD / CHAPTER_WORD_MAX_HARD / CHAPTER_WORD_MAX_SOFT constants.
     word_count = len(chapter_text.split())
     band_warnings: list[str] = []
     # Soft warning fires at 9,500 words (above this NotebookLM starts to
