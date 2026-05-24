@@ -547,5 +547,70 @@ class TestCostLedgerJsonParsing(unittest.TestCase):
         self.assertEqual(_cost_ledger.parse_text_from_json_stdout(plain), plain)
 
 
+# ─── Phase-chain pin (split-publish refactor, 2026-05-24) ──────────────────
+
+class PhaseChainPinTest(unittest.TestCase):
+    """Pin the canonical orchestrator phase order so the finalize/publish
+    split can't silently regress. The publish phase must follow finalize
+    (read-only G1-G7) and precede trainer + merge. Reordering these
+    breaks the human-review gate that sits between SHIP-READY validation
+    and the file-copy to content/published/.
+    """
+
+    EXPECTED_PHASES = (
+        "pre-flight", "branch", "scaffold",
+        "0a", "0b", "0c", "0d", "0e", "0f", "0g",
+        "per-chapter", "per-chapter-slides",
+        "finalize", "publish", "trainer", "merge", "done",
+    )
+
+    def test_canonical_phase_tuple_intact(self):
+        orch = (SCRIPTS_PODCAST / "orchestrate_book.py").read_text()
+        # Collapse all whitespace to single spaces so multi-line tuple literals match.
+        flat = re.sub(r"\s+", " ", orch)
+        joined = ", ".join(f'"{p}"' for p in self.EXPECTED_PHASES)
+        self.assertIn(joined, flat,
+                      f"canonical phase order drifted; expected: {self.EXPECTED_PHASES}")
+
+    def test_finalize_precedes_publish(self):
+        i_fin = self.EXPECTED_PHASES.index("finalize")
+        i_pub = self.EXPECTED_PHASES.index("publish")
+        self.assertLess(i_fin, i_pub,
+                        "finalize MUST come before publish (read-only gate before file-copy)")
+
+    def test_publish_precedes_trainer_and_merge(self):
+        i_pub = self.EXPECTED_PHASES.index("publish")
+        i_tr = self.EXPECTED_PHASES.index("trainer")
+        i_mg = self.EXPECTED_PHASES.index("merge")
+        self.assertLess(i_pub, i_tr)
+        self.assertLess(i_tr, i_mg)
+
+
+class ValidateShipReadyExistsTest(unittest.TestCase):
+    """The split introduces a read-only G1-G7 runner. Pin its existence
+    + CLI shape so the orchestrator's finalize phase keeps working.
+    """
+
+    def test_validate_ship_ready_script_present(self):
+        script = SCRIPTS_PODCAST / "validate_ship_ready.py"
+        self.assertTrue(script.exists(), "validate_ship_ready.py removed/renamed")
+        body = script.read_text()
+        # Must import gate fns from publish_to_library (read-only delegation).
+        self.assertIn("import publish_to_library", body)
+        for gate in ("gate_g1_structure", "gate_g2_pairs", "gate_g3_sequential",
+                     "gate_g4_build_clean", "gate_g5_state", "gate_g6_target",
+                     "gate_g7_challenger_convergence"):
+            self.assertIn(gate, body, f"validate_ship_ready missing {gate}")
+
+    def test_validate_ship_ready_never_writes(self):
+        """Defensive: the validator must not call shutil.copy / write_text /
+        Path.write_* / publish_to_library.main(). Pure gate evaluation only."""
+        body = (SCRIPTS_PODCAST / "validate_ship_ready.py").read_text()
+        for forbidden in ("shutil.copy", "shutil.move", ".write_text(",
+                          ".write_bytes(", "publish_to_library.main("):
+            self.assertNotIn(forbidden, body,
+                             f"validate_ship_ready performs writes: {forbidden}")
+
+
 if __name__ == "__main__":
     unittest.main()
