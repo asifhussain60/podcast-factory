@@ -1,0 +1,10 @@
+{
+  "classification": "quran-verse",
+  "arabic_text": "وَلَا تَقْتُلُوا أَوْلَدَكُم مِّنْ إِمْلَقٍ ۖ نَّحْنُ نَرْزُقُكُمْ وَإِيَّاهُمْ\nوَلَا تَقْتُلُوا أَوْلَدَكُمْ خَشْيَةَ إِمْلَقٍ ۖ نَّحْنُ نَرْزُقُهُمْ وَإِيَّاكُمْ",
+  "urdu_text": "",
+  "english_text": "(6:151) Do not kill your children because of poverty — we provide for you all (parents) and them (children)\n(17:31) Do not kill your children out of fear of poverty — we provide for them (children) and you all (parents)",
+  "suggested_citation": { "surah": 6, "ayat": 151 },
+  "alt_text": "Side-by-side comparison of two Quran verses (6:151 and 17:31) with annotated translations, showing the subtle inversion: '…because of poverty / we provide for you and them' vs. '…out of fear of poverty / we provide for them and you'.",
+  "confidence": 0.98,
+  "notes": "Quran 6:151 vs 17:31 — classical exemplar of Quranic precision: when poverty is present (6:151) parents are mentioned first; when fear of future poverty is anticipated (17:31) children are mentioned first. Citation marks both verses."
+}

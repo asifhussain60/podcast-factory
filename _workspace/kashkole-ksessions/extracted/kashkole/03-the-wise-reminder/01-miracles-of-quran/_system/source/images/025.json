@@ -1,0 +1,10 @@
+{
+  "classification": "quran-verse",
+  "arabic_text": "لَا الشَّمْسُ يَنبَغِي لَهَا أَن تُدْرِكَ الْقَمَرَ وَلَا اللَّيْلُ سَابِقُ النَّهَارِ ۚ وَكُلٌّ فِي فَلَكٍ يَسْبَحُونَ\nک ل ف ی ف ل ک — یسبحون",
+  "urdu_text": "",
+  "english_text": "It is not permissible for the sun to reach the moon, nor does the night overtake the day, but each, in an orbit, is rotating.",
+  "suggested_citation": { "surah": 36, "ayat": 40 },
+  "alt_text": "Quran 36:40 (Sura Ya-Sin) with English translation. Below: a decomposition of the phrase 'كُلٌّ فِي فَلَكٍ يَسْبَحُونَ' showing the letters ک ل ف ی ف ل ک as a palindromic pattern around the letter ی, labelled 'ROTATION' to highlight the linguistic mimesis of the verse's meaning.",
+  "confidence": 0.98,
+  "notes": "Quran 36:40 — celebrated example of Quranic linguistic mimesis: the phrase 'each in an orbit' (kullun fi falakin) is itself a palindrome reading the same forward and backward."
+}
