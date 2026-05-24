@@ -6,6 +6,7 @@
 **Orchestrator:** v1.2
 **Unit mode:** `auto`
 **Status:** AWAITING HUMAN APPROVAL
+**enable_slide_decks:** true
 
 ---
 
