@@ -1,0 +1,39 @@
+{
+  "schema": "podcast.ingest-source/v1",
+  "generated_at": "2026-05-24T19:58:51.885168+00:00",
+  "source": {
+    "kind": "sql",
+    "name": "kashkole",
+    "db": "KASHKOLE",
+    "container": "kashkole-mssql"
+  },
+  "book_slug": "x4751-wa-x9519",
+  "book_dir": "/Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksessions/extracted/kashkole/21-muntakhab-duaaon-ka-majmua/01-x4751-wa-x9519",
+  "source_language": "ur",
+  "extraction": {
+    "tool": "tools.source_extractor",
+    "shelf": {
+      "kind": "binder",
+      "id": 16,
+      "name": "منتخب دعاؤں کا مجموعۃ"
+    },
+    "book": {
+      "kind": "chapter",
+      "id": 41,
+      "name": "دعا و مناجات"
+    },
+    "section_query_count": 7,
+    "stage": "finalized"
+  },
+  "outputs": {
+    "raw_extract": "_system/source/text/raw-extract.md",
+    "extraction_notes": "_system/source/text/_extraction-notes.md",
+    "audit_anchor_html": "_system/source/x4751-wa-x9519.html",
+    "images_dir": "_system/source/images"
+  },
+  "finalize": {
+    "finalized_at": "2026-05-24T20:35:24.980239+00:00",
+    "images_classified": {},
+    "inline_citations_resolved": 0
+  }
+}
