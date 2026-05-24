@@ -152,7 +152,15 @@ def _run_claude_p(
     write failures NEVER poison the LLM call's return value — they emit a
     stderr warning and otherwise proceed silently.
     """
-    argv: list[str] = [CLAUDE_CMD, "-p", "--permission-mode", "acceptEdits"]
+    # 2026-05-24: switched to --output-format json so the cost-ledger can
+    # capture real token counts + Claude's authoritative cost_usd. Stdout
+    # becomes a single JSON object; the actual LLM text response is in
+    # `result`. We unwrap before returning so callers (which inspect stdout
+    # for the LLM's response text) continue to work.
+    argv: list[str] = [
+        CLAUDE_CMD, "-p", "--permission-mode", "acceptEdits",
+        "--output-format", "json",
+    ]
     if model_flag:
         argv.extend(["--model", model_flag])
     argv.append(prompt)
@@ -164,22 +172,28 @@ def _run_claude_p(
             text=True,
             timeout=timeout,
         )
-        rc, stdout, stderr = proc.returncode, proc.stdout, proc.stderr
+        rc, raw_stdout, stderr = proc.returncode, proc.stdout, proc.stderr
+        # Ledger first (uses the raw JSON stdout for usage extraction)
         if book_dir is not None:
             try:
-                # Late import — module is optional in some test contexts
                 from _cost_ledger import append_from_claude_p_stdout
                 append_from_claude_p_stdout(
                     book_dir,
                     phase=phase or "(unspecified)",
                     step=step or "(unspecified)",
-                    model=model,
-                    stdout=stdout,
+                    model=model_flag or model,
+                    stdout=raw_stdout,
                 )
             except Exception as e:  # noqa: BLE001 — ledger errors must not poison the call
                 sys.stderr.write(
                     f"[_run_claude_p] cost-ledger append failed: {e!r}\n"
                 )
+        # Unwrap JSON to return only the textual response (legacy contract)
+        try:
+            from _cost_ledger import parse_text_from_json_stdout
+            stdout = parse_text_from_json_stdout(raw_stdout)
+        except Exception:
+            stdout = raw_stdout
         return rc, stdout, stderr
     except FileNotFoundError as e:
         raise AuthoringError(

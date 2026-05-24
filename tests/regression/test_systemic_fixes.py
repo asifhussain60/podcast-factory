@@ -505,5 +505,47 @@ class TestExtractTemplateEmitsDenyBlock(unittest.TestCase):
                           f"{mode} template missing R-NO-READ-PROMPT closing guard")
 
 
+class TestCostLedgerJsonParsing(unittest.TestCase):
+    """The cost-ledger now reads `claude -p --output-format json` stdout
+    and extracts real token counts + Claude's authoritative total_cost_usd.
+    Without this, every ledger row read $0 and the orchestrator's $50/book
+    cap couldn't enforce itself."""
+
+    SAMPLE_JSON = (
+        '{"type":"result","result":"Hello there",'
+        '"total_cost_usd":0.13248325,'
+        '"usage":{"input_tokens":6,"output_tokens":10,'
+        '"cache_creation_input_tokens":19565,"cache_read_input_tokens":19844}}'
+    )
+
+    def test_parse_usage_extracts_json_usage(self):
+        import _cost_ledger
+        usage = _cost_ledger.parse_usage_from_stdout(self.SAMPLE_JSON)
+        self.assertEqual(usage["input"], 6)
+        self.assertEqual(usage["output"], 10)
+        self.assertEqual(usage["cache_read"], 19844)
+        self.assertEqual(usage["cache_create"], 19565)
+        self.assertAlmostEqual(usage["cost_usd"], 0.13248325)
+
+    def test_parse_text_from_json_returns_result_field(self):
+        import _cost_ledger
+        text = _cost_ledger.parse_text_from_json_stdout(self.SAMPLE_JSON)
+        self.assertEqual(text, "Hello there")
+
+    def test_parse_usage_legacy_text_still_works(self):
+        """Older callers may still feed text-format stdout. Don't regress."""
+        import _cost_ledger
+        legacy = "Tokens: 1234 in, 567 out, cache: 100 read, 50 create"
+        usage = _cost_ledger.parse_usage_from_stdout(legacy)
+        self.assertEqual(usage["input"], 1234)
+        self.assertEqual(usage["output"], 567)
+
+    def test_parse_text_passthrough_for_non_json(self):
+        """If stdout isn't JSON, parse_text returns it unchanged."""
+        import _cost_ledger
+        plain = "This is plain LLM text response."
+        self.assertEqual(_cost_ledger.parse_text_from_json_stdout(plain), plain)
+
+
 if __name__ == "__main__":
     unittest.main()
