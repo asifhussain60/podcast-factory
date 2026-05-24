@@ -1575,7 +1575,12 @@ def run_resume(args: argparse.Namespace) -> int:
         return _drive_authoring_through_0f(book_dir, title)
 
     # If we halted mid-per-chapter, resume the loop (it tracks completed_slugs).
-    if current_phase == "per-chapter" and current_status in ("failed", "halted", "running"):
+    # `pending` is included to cover the `--retry-phase per-chapter` reset path
+    # (the retry-phase logic sets status to pending; without `pending` here, the
+    # dispatcher falls through to "No automated action" instead of resuming).
+    if current_phase == "per-chapter" and current_status in (
+        "failed", "halted", "running", "pending"
+    ):
         return _drive_per_chapter_and_after(book_dir)
 
     # If we already merged, nothing to do.
