@@ -91,17 +91,20 @@ def main() -> None:
     extract_root = args.extract_root
 
     if args.cmd == "prepare":
-        stem = prepare_book(adapter, ids, extract_root)
-        print(f"PREPARED: {stem}.*")
-        print(f"  draft:  {stem}.md.draft")
-        print(f"  meta:   {stem}.meta.yml")
-        print(f"  images: {stem}-images/")
-        tasks_path = Path(f"{stem}-images/vision-tasks.json")
+        bundle_root = prepare_book(adapter, ids, extract_root)
+        print(f"PREPARED: {bundle_root}/")
+        print(f"  bundle.yml:                {bundle_root}/bundle.yml")
+        print(f"  raw-extract (draft):       "
+              f"{bundle_root}/_system/source/text/raw-extract.md.draft")
+        print(f"  images:                    "
+              f"{bundle_root}/_system/source/images/")
+        tasks_path = bundle_root / "_system" / "source" / "images" / "vision-tasks.json"
         if tasks_path.exists():
             with tasks_path.open() as f:
                 tasks = json.load(f)
             print(
-                f"  vision tasks: {len(tasks['images'])} images awaiting processing"
+                f"  vision tasks: {len(tasks['images'])} "
+                f"images awaiting processing"
             )
     elif args.cmd == "finalize":
         final = finalize_book(adapter, ids, extract_root)

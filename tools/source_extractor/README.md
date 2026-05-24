@@ -51,20 +51,31 @@ tools/source_extractor/
     finalize.py          ← Stage C (adapter-generic)
 ```
 
-## Output (current — flat shape, matching Phase 1 proof)
+## Output — BOOK_DIR bundle (Phase B)
 
 ```
-<extract-root>/<source>/<NN-shelf>/
-  <MM-book>.md                ← final markdown (after finalize)
-  <MM-book>.meta.yml          ← metadata (source_language, shelf/book, sections, citations)
-  <MM-book>-images/
-    001.png                    ← decoded image bytes
-    001.json                   ← Stage B sidecar (classification + OCR + citation)
-    vision-tasks.json
+<extract-root>/<source>/<NN-shelf>/<MM-book>/
+  _README.md                              ← human-readable summary
+  bundle.yml                              ← manifest read by intake_book.py --from-bundle
+  _system/
+    source/
+      <book-slug>.html                    ← audit anchor: concatenated raw HTML
+      text/
+        raw-extract.md                    ← Phase 0a output (source language)
+        _extraction-notes.md              ← skipped sections + caveats
+        _provenance.json                  ← podcast.ingest-source/v1 (source.kind=sql)
+      images/
+        001.png, 001.json                 ← decoded bytes + Stage B sidecar
+        002.png, 002.json
+        ...
+        vision-tasks.json                 ← Stage B work queue
 ```
 
-The future BOOK_DIR shape (matching `intake_book.py`'s `content/drafts/<slug>/_system/`
-layout) lands in Phase B.
+The pipeline-side `intake_book.py --from-bundle <dir>` (Phase D) reads
+`bundle.yml`, creates the content branch, copies `_system/source/` into
+`content/drafts/<slug>/_system/source/`, and marks Phase 0a complete. If
+`source_language != en`, the orchestrator runs the new Phase 0a-translate
+step (Phase E, deferred).
 
 ## Independence
 

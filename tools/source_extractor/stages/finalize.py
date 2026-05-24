@@ -1,23 +1,32 @@
 """Stage C — substitute {{IMG:NNN}} placeholders, run adapter inline-citation
-cleanup, append per-section curated-citation footers, produce the final .md.
+cleanup, append per-section curated-citation footers, produce the final
+raw-extract.md (no .draft suffix).
 
-Generic: works against any SourceAdapter. The adapter supplies the (optional)
-Quran corpus, inline-citation cleanup logic, and curated-citation footer
-rendering.
+Generic: works against any SourceAdapter. The adapter supplies the optional
+Quran corpus, inline-citation cleanup, and curated-citation footer rendering.
 
 Stage B (in-conversation Claude vision) happens between prepare and finalize.
-It writes per-image JSON sidecars at images_dir/NNN.json which this stage
-substitutes into the draft.
+It writes per-image JSON sidecars at _system/source/images/NNN.json which this
+stage substitutes into the draft.
 """
 from __future__ import annotations
 import json, re
-from datetime import datetime, timezone
 from pathlib import Path
 
 from ..adapters.base import SourceAdapter, BookIds
+from ..bundle import (
+    bundle_paths,
+    update_bundle_yml_stage,
+    update_provenance_finalize,
+)
 
 
-def _render_image_block(sidecar: dict, images_dirname: str, image_index: str) -> str:
+# Image refs in raw-extract.md are relative to text/, which sits next to
+# images/ under _system/source/. So images live at "../images/NNN.png".
+_IMG_REL_PREFIX = "../images"
+
+
+def _render_image_block(sidecar: dict, image_index: str) -> str:
     cls = sidecar.get("classification", "other")
     alt = (sidecar.get("alt_text") or "").strip()
     arabic = (sidecar.get("arabic_text") or "").strip()
@@ -26,7 +35,7 @@ def _render_image_block(sidecar: dict, images_dirname: str, image_index: str) ->
     notes = (sidecar.get("notes") or "").strip()
     citation = sidecar.get("suggested_citation")
 
-    rel = f"{images_dirname}/{image_index}.png"
+    rel = f"{_IMG_REL_PREFIX}/{image_index}.png"
 
     if cls == "teaching-diagram":
         parts = [
@@ -54,7 +63,7 @@ def _render_image_block(sidecar: dict, images_dirname: str, image_index: str) ->
         s, a = citation["surah"], citation.get("ayat")
         out.append(
             f"> — **Quran {s}:{a}** "
-            f"*(from image; see meta.yml for validation)*"
+            f"*(from image; see _provenance.json for validation)*"
         )
     else:
         label = {
@@ -82,50 +91,39 @@ def finalize_book(
     ids: BookIds,
     extract_root: Path,
 ) -> Path:
-    """Stage C entry point. Returns the final .md path."""
+    """Stage C entry point. Returns the final raw-extract.md path."""
     meta = adapter.resolve_book(ids)
+    paths = bundle_paths(extract_root, meta)
 
-    shelf_dir = (
-        extract_root / meta.source_name
-        / f"{meta.shelf_prefix:02d}-{meta.shelf_slug}"
-    )
-    book_stem = f"{meta.book_prefix:02d}-{meta.book_slug}"
-
-    draft_path = shelf_dir / f"{book_stem}.md.draft"
-    meta_path = shelf_dir / f"{book_stem}.meta.yml"
-    images_dir = shelf_dir / f"{book_stem}-images"
-    vision_tasks_path = images_dir / "vision-tasks.json"
-
-    draft = draft_path.read_text(encoding="utf-8")
-    vision_tasks = json.loads(vision_tasks_path.read_text(encoding="utf-8"))
+    draft = paths.raw_extract_draft.read_text(encoding="utf-8")
+    vision_tasks = json.loads(paths.vision_tasks.read_text(encoding="utf-8"))
 
     corpus = adapter.get_quran_corpus()
 
     # 1. Substitute {{IMG:NNN}} placeholders with rendered image blocks
-    images_dirname = images_dir.name
     image_index_results: dict[str, dict] = {}
     for img in vision_tasks["images"]:
         ph = img["placeholder"]
         if not ph.startswith("IMG:"):
             continue
         idx = ph.split(":", 1)[1]
-        sidecar_path = images_dir / f"{idx}.json"
+        sidecar_path = paths.images_dir / f"{idx}.json"
         if sidecar_path.exists():
             sidecar = json.loads(sidecar_path.read_text(encoding="utf-8"))
-            block = _render_image_block(sidecar, images_dirname, idx)
+            block = _render_image_block(sidecar, idx)
             draft = draft.replace(f"{{{{IMG:{idx}}}}}", block)
             image_index_results[idx] = sidecar
         else:
             placeholder_note = (
                 f"\n[image {idx}: AI vision pending — "
-                f"see {images_dirname}/{idx}.png]\n"
+                f"see {_IMG_REL_PREFIX}/{idx}.png]\n"
             )
             draft = draft.replace(f"{{{{IMG:{idx}}}}}", placeholder_note)
 
-    # 2. Adapter-specific inline citation cleanup (e.g., KAHSKOLE Quran widgets)
+    # 2. Adapter-specific inline citation cleanup
     draft, citation_replacements = adapter.cleanup_inline_citations(draft, corpus)
 
-    # 3. Per-section curated-citation footer (e.g., KAHSKOLE TopicAyats)
+    # 3. Per-section curated-citation footers
     matches = list(_SECTION_MARKER_RE.finditer(draft))
     if matches:
         new_parts: list[str] = []
@@ -154,60 +152,43 @@ def finalize_book(
         new_parts.append(draft[last_end:])
         draft = "".join(new_parts)
 
-    # 4. Tidy whitespace
+    # 4. Tidy whitespace, write final raw-extract.md
     draft = re.sub(r"\n{3,}", "\n\n", draft).strip() + "\n"
+    paths.raw_extract_final.write_text(draft, encoding="utf-8")
 
-    # 5. Write final .md
-    final_md = shelf_dir / f"{book_stem}.md"
-    final_md.write_text(draft, encoding="utf-8")
+    # 5. Update bundle.yml: stage -> finalized, append finalize block
+    finalize_block = {
+        "inline_citations_resolved": len(citation_replacements),
+        "inline_citation_refs": [
+            {
+                "surah": r["surah"],
+                "start": r["start_ayat"],
+                "end": r["end_ayat"],
+            }
+            for r in citation_replacements
+        ],
+        "images": [
+            {
+                "placeholder": f"IMG:{idx}",
+                "classification": sc.get("classification", "?"),
+                "confidence": sc.get("confidence"),
+            }
+            for idx, sc in sorted(image_index_results.items())
+        ],
+    }
+    update_bundle_yml_stage(paths, "finalized", finalize_block)
 
-    # 6. Update meta.yml
-    meta_yaml = meta_path.read_text(encoding="utf-8")
-    meta_lines = meta_yaml.splitlines()
-    new_meta_lines = []
-    for line in meta_lines:
-        if line.startswith("stage: "):
-            new_meta_lines.append("stage: finalized")
-        else:
-            new_meta_lines.append(line)
-    new_meta_lines.append("")
-    new_meta_lines.append("finalize:")
-    new_meta_lines.append(
-        f"  finalized_at: {datetime.now(timezone.utc).isoformat()}"
+    # 6. Update _provenance.json
+    update_provenance_finalize(
+        paths,
+        image_classifications={
+            idx: sc.get("classification", "?")
+            for idx, sc in image_index_results.items()
+        },
+        citation_replacements=len(citation_replacements),
     )
-    new_meta_lines.append(
-        f"  quran_widgets_resolved: {len(citation_replacements)}"
-    )
-    if citation_replacements:
-        new_meta_lines.append(f"  quran_widget_refs:")
-        for r in citation_replacements:
-            new_meta_lines.append(
-                f"    - {{ surah: {r['surah']}, start: {r['start_ayat']}, "
-                f"end: {r['end_ayat']} }}"
-            )
-    else:
-        new_meta_lines.append("  quran_widget_refs: []")
-    new_meta_lines.append(f"  images:")
-    if image_index_results:
-        for idx, sidecar in sorted(image_index_results.items()):
-            cls = sidecar.get("classification", "?")
-            conf = sidecar.get("confidence")
-            new_meta_lines.append(f"    - placeholder: 'IMG:{idx}'")
-            new_meta_lines.append(f"      file: {images_dirname}/{idx}.png")
-            new_meta_lines.append(f"      classification: {cls}")
-            new_meta_lines.append(f"      confidence: {conf}")
-            if sidecar.get("suggested_citation"):
-                c = sidecar["suggested_citation"]
-                if c.get("surah") is not None:
-                    new_meta_lines.append(
-                        f"      suggested_citation: "
-                        f"{{ surah: {c['surah']}, ayat: {c.get('ayat')} }}"
-                    )
-    else:
-        new_meta_lines.append("    []")
-    meta_path.write_text("\n".join(new_meta_lines) + "\n", encoding="utf-8")
 
-    # 7. Delete the .md.draft (only kept it for development)
-    draft_path.unlink()
+    # 7. Delete the .draft (only kept during development)
+    paths.raw_extract_draft.unlink()
 
-    return final_md
+    return paths.raw_extract_final
