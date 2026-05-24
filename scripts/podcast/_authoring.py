@@ -71,11 +71,41 @@ PHASE_0C_WINDOW_TIMEOUT = 600
 
 # Map-reduce defaults for Phase 0d / 0e (per-source-chapter / per-episode-chapter loops).
 PHASE_0D_TOC_TIMEOUT = 600            # 10 min — TOC step processes whole refined-english.md once (read-mostly)
-PHASE_0D_SC_TIMEOUT = 1800            # 30 min per source chapter — writes 1-3 episode files + contracts
-                                      # (bumped from 1200 on 2026-05-24 after master-disciple sc-005
-                                      # — 6,651 word source chapter, the densest in the book —
-                                      # timed out at 1200s. 30 min absorbs the densest cases.)
+PHASE_0D_SC_TIMEOUT = 1800            # 30 min per source chapter — used as the global *fallback* only;
+                                      # the actual per-SC timeout is now word-count-aware via
+                                      # _compute_sc_timeout() below. See feedback-memory
+                                      # `phase-0d-timeout-strategy` 2026-05-24.
 PHASE_0E_CHAPTER_TIMEOUT = 900        # 15 min per chapter enrichment
+
+# Word-count-aware timeout bounds for Phase 0d Step 2.
+# Formula: timeout = max(MIN, min(MAX, ceil(words * RATE + BASELINE))).
+# Calibrated against observed wall times on shipped books:
+#   - 3,000-word SC ran in ~10-12 min on Opus default
+#   - 5,289-word SC (master-disciple sc-001) finished in ~14 min
+#   - 6,651-word SC (master-disciple sc-005) needed > 20 min and timed out
+# Setting RATE=0.4 + BASELINE=600 gives the 6,651-word case a ~54 min budget
+# (vs. previous 30 min uniform), while a 3,000-word SC stays at 1,800s. The
+# 15-min floor protects very short slices from spurious timeouts on cold-start;
+# the 60-min ceiling prevents runaway cost on a pathological chapter.
+PHASE_0D_SC_TIMEOUT_MIN = 900         # 15 min floor (cold-start safety)
+PHASE_0D_SC_TIMEOUT_MAX = 3600        # 60 min ceiling (cost guard)
+PHASE_0D_SC_TIMEOUT_RATE = 0.4        # seconds per source-chapter word
+PHASE_0D_SC_TIMEOUT_BASELINE = 600    # 10 min base, regardless of length
+
+
+def _compute_sc_timeout(words: int) -> int:
+    """Word-count-aware per-source-chapter timeout in seconds.
+
+    Replaces the prior one-size-fits-all PHASE_0D_SC_TIMEOUT (which charged
+    short chapters full budget while leaving dense chapters under-allotted
+    and prone to timeout-retry-burn-spend cycles).
+
+    Bounded by PHASE_0D_SC_TIMEOUT_MIN / _MAX so neither pathologically
+    short slices spurious-fail nor pathologically long ones run away on cost.
+    """
+    import math
+    raw = math.ceil(words * PHASE_0D_SC_TIMEOUT_RATE + PHASE_0D_SC_TIMEOUT_BASELINE)
+    return max(PHASE_0D_SC_TIMEOUT_MIN, min(PHASE_0D_SC_TIMEOUT_MAX, raw))
 
 CLAUDE_CMD = "claude"         # resolved via PATH
 
@@ -104,20 +134,31 @@ def _run_claude_p(
     phase: str = "",
     step: str = "",
     model: str = DEFAULT_MODEL_LABEL,
+    model_flag: str | None = None,
 ) -> tuple[int, str, str]:
     """Run `claude -p "<prompt>"` synchronously. Return (rc, stdout, stderr).
 
     Raises AuthoringError if the `claude` binary is not on PATH or the call
     times out. Non-zero return codes are returned to the caller for handling.
 
+    `model_flag` (when set) passes `--model <flag>` to the CLI, overriding
+    Claude Code's default. Used by the Phase 0d retry policy to fall back to
+    a smaller/faster model after a first-attempt timeout. The `model`
+    parameter remains for cost-ledger labeling and stays in sync with
+    `model_flag` when the caller passes both.
+
     P6.1 cost-ledger integration: if `book_dir` is provided, also append a
     row to `<book_dir>/_system/cost-ledger.jsonl` via `_cost_ledger`. Ledger
     write failures NEVER poison the LLM call's return value — they emit a
     stderr warning and otherwise proceed silently.
     """
+    argv: list[str] = [CLAUDE_CMD, "-p", "--permission-mode", "acceptEdits"]
+    if model_flag:
+        argv.extend(["--model", model_flag])
+    argv.append(prompt)
     try:
         proc = subprocess.run(
-            [CLAUDE_CMD, "-p", "--permission-mode", "acceptEdits", prompt],
+            argv,
             cwd=cwd,
             capture_output=True,
             text=True,
@@ -155,6 +196,85 @@ def _run_claude_p(
             phase="(shellout)",
             message=f"LLM call timed out after {timeout}s.",
             manual_fallback="Resume manually via /podcast and `--resume` the orchestrator.",
+        ) from e
+
+
+def _run_claude_p_with_retry(
+    prompt: str,
+    *,
+    timeout: int,
+    book_dir: Path,
+    phase: str,
+    step: str,
+    log=print,
+    fallback_model: str = "claude-sonnet-4-6",
+    fallback_timeout_multiplier: float = 1.5,
+) -> tuple[int, str, str]:
+    """Phase 0d retry policy: timeout → single retry with fallback model → halt.
+
+    Strategy (per 2026-05-24 feedback `phase-0d-timeout-strategy`):
+      1. First attempt: caller-computed timeout + Claude Code's default model
+         (Opus on Max plan).
+      2. On TimeoutExpired: ONE retry with `fallback_model` and
+         `timeout * fallback_timeout_multiplier`. Sonnet (the default
+         fallback) is often faster on long single-shot tasks because the
+         smaller model produces tokens at a higher rate. Trading some
+         quality for completion is the right call when the alternative is
+         a second discard-and-spend-again timeout.
+      3. On second timeout: re-raise as AuthoringError with a halt-and-surface
+         message naming both attempts. The orchestrator's --resume + --retry-phase
+         path lets Asif decide what to do (manual /podcast drive, split the
+         chapter, etc.) instead of the script auto-spiraling.
+
+    Non-timeout failures (rc != 0) are returned to the caller unchanged for
+    the existing handling logic — only TimeoutExpired triggers the fallback.
+    """
+    try:
+        return _run_claude_p(
+            prompt, timeout=timeout,
+            book_dir=book_dir, phase=phase, step=step,
+        )
+    except AuthoringError as e:
+        # Identify timeout vs. other AuthoringError causes (FileNotFoundError
+        # for missing `claude` binary etc.). The timeout path constructs a
+        # message with "timed out after"; we match on that substring.
+        if "timed out after" not in str(e):
+            raise
+
+    # First-attempt timeout — try once with the fallback model + bumped timeout.
+    bumped = int(timeout * fallback_timeout_multiplier)
+    log(f"      [retry] {step}: first attempt timed out ({timeout}s); "
+        f"retrying once with model={fallback_model}, timeout={bumped}s")
+    try:
+        return _run_claude_p(
+            prompt, timeout=bumped,
+            book_dir=book_dir, phase=phase, step=f"{step}-retry-sonnet",
+            model=fallback_model, model_flag=fallback_model,
+        )
+    except AuthoringError as e:
+        if "timed out after" not in str(e):
+            raise
+        # Second timeout — halt-and-surface so Asif decides next move
+        # instead of compounding spend.
+        raise AuthoringError(
+            phase=phase,
+            message=(
+                f"{step}: BOTH attempts timed out. Default model exceeded {timeout}s; "
+                f"fallback {fallback_model} exceeded {bumped}s. No third auto-retry — "
+                f"halt-and-surface per the 2026-05-24 timeout strategy."
+            ),
+            manual_fallback=(
+                "Options to decide before re-launching:\n"
+                "  (a) Force a split: re-run --resume --retry-phase 0d with "
+                "--unit-mode section so the long source chapter becomes 2-3 "
+                "smaller episodes.\n"
+                "  (b) Manually author this source chapter's contract using "
+                "the conversational /podcast skill against the input slice at "
+                "_chunks/0d/sc-NNN.in.md, then drop sc-NNN.done.\n"
+                "  (c) Bump the per-SC timeout cap (PHASE_0D_SC_TIMEOUT_MAX) "
+                "if the chapter is genuinely an outlier — but ONLY if you "
+                "expect the cost to be worth it."
+            ),
         ) from e
 
 
@@ -905,12 +1025,28 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"Exit when every output file above exists and is non-empty."
         )
 
+        # Word-count-aware timeout per source chapter (2026-05-24 strategy).
+        # Replaces the prior global sc_timeout. Tracks slice_wc so dense
+        # chapters get the budget they need without short ones overpaying.
+        per_sc_timeout = _compute_sc_timeout(slice_wc)
         log(f"    sc {sc_idx:03d}/{len(source_chapters)} · authoring "
-            f"({episode_count} ep, {slice_wc} src words) · `{sc_title[:50]}`")
-        rc, stdout, stderr = _run_claude_p(
-            sc_prompt, timeout=sc_timeout,
-            book_dir=book_dir, phase="0d", step=f"sc-{sc_idx:03d}",
-        )
+            f"({episode_count} ep, {slice_wc} src words, timeout={per_sc_timeout}s) · "
+            f"`{sc_title[:50]}`")
+        try:
+            rc, stdout, stderr = _run_claude_p_with_retry(
+                sc_prompt, timeout=per_sc_timeout,
+                book_dir=book_dir, phase="0d", step=f"sc-{sc_idx:03d}",
+                log=log,
+            )
+        except AuthoringError as e:
+            # Halt-and-surface path: both attempts timed out. Don't continue
+            # the loop — propagate so the orchestrator surfaces the decision
+            # to the user via the standard AuthoringError flow.
+            if "BOTH attempts timed out" in str(e):
+                raise
+            # Other AuthoringError shapes (e.g. claude binary missing)
+            # also propagate — they're not transient.
+            raise
         if rc != 0:
             # Transient (network/API/quota) — log + continue; resume retries.
             # P5.2: capture stdout AND stderr in the failure record.
