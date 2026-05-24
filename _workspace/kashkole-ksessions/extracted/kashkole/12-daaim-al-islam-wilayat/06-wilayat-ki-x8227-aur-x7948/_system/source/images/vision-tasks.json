@@ -1,0 +1,182 @@
+{
+  "book": {
+    "binder_id": 19,
+    "binder_name": "دعائم الاسلام : ولایت",
+    "chapter_id": 122,
+    "chapter_name": "ولایت کی اہمیت اور اوصاف"
+  },
+  "images": [
+    {
+      "placeholder": "IMG:001",
+      "file": "_system/source/images/001.png",
+      "section_id": 1179,
+      "section_label": "محبت کی حقیقت کیا ہے؟",
+      "bytes": 26489,
+      "sha256_12": "86ce86fdae9d",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:002",
+      "file": "_system/source/images/002.png",
+      "section_id": 1427,
+      "section_label": "قانون الف - الفت کا قانون",
+      "bytes": 27831,
+      "sha256_12": "1d4396dd52e1",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:003",
+      "file": "_system/source/images/003.png",
+      "section_id": 953,
+      "section_label": "ولایت کے متعلق ائمہ کے اقوال",
+      "bytes": 15699,
+      "sha256_12": "b0f64aa30e5f",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:004",
+      "file": "_system/source/images/004.png",
+      "section_id": 973,
+      "section_label": "اللہ سے محبت اور دوستی",
+      "bytes": 15309,
+      "sha256_12": "cfc879d2509a",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:005",
+      "file": "_system/source/images/005.png",
+      "section_id": 973,
+      "section_label": "اللہ سے محبت اور دوستی",
+      "bytes": 5524,
+      "sha256_12": "ab714543a583",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:006",
+      "file": "_system/source/images/006.png",
+      "section_id": 821,
+      "section_label": "ولایت کی اہمیت",
+      "bytes": 4722,
+      "sha256_12": "35db854cd915",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:007",
+      "file": "_system/source/images/007.png",
+      "section_id": 821,
+      "section_label": "ولایت کی اہمیت",
+      "bytes": 8460,
+      "sha256_12": "7e32157d542b",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:008",
+      "file": "_system/source/images/008.png",
+      "section_id": 821,
+      "section_label": "ولایت کی اہمیت",
+      "bytes": 6297,
+      "sha256_12": "e11715e255cd",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:009",
+      "file": "_system/source/images/009.png",
+      "section_id": 821,
+      "section_label": "ولایت کی اہمیت",
+      "bytes": 10601,
+      "sha256_12": "65c72a576bdf",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:010",
+      "file": "_system/source/images/010.png",
+      "section_id": 821,
+      "section_label": "ولایت کی اہمیت",
+      "bytes": 5005,
+      "sha256_12": "cc17ea7be526",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:011",
+      "file": "_system/source/images/011.png",
+      "section_id": 821,
+      "section_label": "ولایت کی اہمیت",
+      "bytes": 4302,
+      "sha256_12": "382af8769120",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:012",
+      "file": "_system/source/images/012.png",
+      "section_id": 821,
+      "section_label": "ولایت کی اہمیت",
+      "bytes": 12081,
+      "sha256_12": "1dc8cd4f414b",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:013",
+      "file": "_system/source/images/013.png",
+      "section_id": 821,
+      "section_label": "ولایت کی اہمیت",
+      "bytes": 13068,
+      "sha256_12": "3be1c7c7de9e",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:014",
+      "file": "_system/source/images/014.png",
+      "section_id": 821,
+      "section_label": "ولایت کی اہمیت",
+      "bytes": 12931,
+      "sha256_12": "5ccb202d954c",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:015",
+      "file": "_system/source/images/015.png",
+      "section_id": 821,
+      "section_label": "ولایت کی اہمیت",
+      "bytes": 7201,
+      "sha256_12": "961dbc7b2a75",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:016",
+      "file": "_system/source/images/016.png",
+      "section_id": 821,
+      "section_label": "ولایت کی اہمیت",
+      "bytes": 39800,
+      "sha256_12": "deb40eabf837",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:017",
+      "file": "_system/source/images/017.png",
+      "section_id": 971,
+      "section_label": "اپنے زمانے کے امام کی معرفت",
+      "bytes": 12123,
+      "sha256_12": "21dabb99724f",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    }
+  ],
+  "generated_at": "2026-05-24T19:54:34.755179+00:00",
+  "instructions": "For each image in `images`, read the file via the Read tool (paths are relative to the bundle root) and write a sibling JSON file next to the PNG (same basename, .json extension) with the schema: {classification, arabic_text, urdu_text, english_text, suggested_citation: {surah, ayat} | null, alt_text, confidence, notes}. classification ∈ {quran-verse, hadith, poem-or-saying, teaching-diagram, mixed, other}. For quran-verse, propose surah+ayat from your reading; finalize validates against the adapter's Quran corpus. For teaching-diagram, give a 1-2 sentence alt_text describing what it shows."
+}
