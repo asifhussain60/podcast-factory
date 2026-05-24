@@ -1,0 +1,35 @@
+slug: the-master-and-the-disciple
+title: The Master and the Disciple
+short_name: master-disciple
+original_title: Kitāb al-ʿĀlim wa-l-Ghulām
+source_pdf: ../../../raw/Kitaab_Al-aalim_wal_Ghulam_Chapters/
+source_audio: ../../../raw/Kitaab_Al-aalim_wal_Ghulam_Chapters/Podcast/00 - The Master And The Disciple.mp3
+
+pipeline:
+  current_phase: 0c
+  next_phase: 0d
+  chapters_drafted: 8
+  chapters_with_contracts: 0
+  episodes_shipped: 0
+
+publication:
+  status: in_progress
+  shipped_via: scripts/podcast/ship_to_library.py
+  publication_target: ../../published/books/the-master-and-the-disciple/
+
+provenance:
+  canonical_source_branch: develop
+  canonical_source_commit: 62b488bc18272f98b852e37187a692e5e24b8d4e
+  canonical_source_path: content/podcast/library/books/the-master-and-the-disciple/
+  restored_via: git checkout 62b488b -- content/podcast/library/books/the-master-and-the-disciple/
+  note: |
+    The earlier reshape (slug-cased chapters, _system/source/images/, assembled
+    refined-english.md) ran against the now-deleted ~/PROJECTS/podcast-data/
+    sibling location and was lost when that data was nuked alongside the
+    container-layout teardown. This meta.yml describes the as-restored state
+    (Ch-00..Ch-07 .txt/.md drafts at root, book-images/ with 95 PNGs,
+    _notebooklm/ with 15 files, original Final Review Report.md + Source and
+    Editorial Notes.md). Future re-reshape would convert this into the
+    consistent template (slug-cased chapters/, _system/source/images/).
+  reshape_date: 2026-05-23
+  reshape_method: git restore from origin/develop; structure preserved as-is
