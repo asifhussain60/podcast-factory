@@ -37,11 +37,55 @@ Every new piece of content is processed on its own typed branch off `develop`. T
 Source of truth for the prefix map: [scripts/podcast/_branching.py](scripts/podcast/_branching.py) — every script that computes a branch name imports `branch_name(category, slug)` from there. Never hardcode `book/<slug>` anywhere.
 
 **Lifecycle**:
-1. `intake_book.py` creates `<prefix>/<slug>` from `develop` and copies the PDF/source.
-2. Pipeline phases (0a → 0f → per-chapter → authoring → publish) all run on that branch.
+1. `intake_book.py` creates `<prefix>/<slug>` from `develop` AS A WORKTREE (see "Worktree workflow" below) and copies the PDF/source into it.
+2. Pipeline phases (0a → 0f → per-chapter → authoring → publish) all run on that branch, inside that worktree.
 3. `publish_to_library.py` (via the `podcast-publisher` agent) moves `content/drafts/<slug>/` → `content/published/books/<slug>/` after gates G1–G7 pass.
 4. The orchestrator merges `<prefix>/<slug>` → `develop` with `--no-ff` after publish completes.
 5. `develop` → `main` for production releases requires Asif's explicit approval (unchanged).
+
+## Worktree workflow — one piece of content, one worktree (locked 2026-05-24)
+
+Every new piece of content lives in its own `git worktree` so multiple books/letters/lectures can be in flight in parallel without stash-and-switch contention. The primary clone stays on `develop` (or whatever non-content branch you're working on); each content branch gets a sibling working directory.
+
+**Where worktrees live**:
+- **Mac Air**: `~/PROJECTS/git-worktrees/<slug>/`
+- **Mac Studio**: `~/Code/git-worktrees/<slug>/`
+
+Detection is automatic — the helper script resolves the projects-root from the primary clone's actual location (`~/PROJECTS/podcast-factory` vs `~/Code/podcast-factory`), so the same command works on both machines.
+
+**How to create one** — always use the helper, never hand-roll `git worktree add`:
+
+```bash
+scripts/start-content-worktree.sh <category> <slug>
+# e.g.
+scripts/start-content-worktree.sh books   kitab-al-riyad
+scripts/start-content-worktree.sh letters ayyuhal-walad
+```
+
+The helper does three things `git worktree add` alone won't: (1) fetches `origin/develop` so the new branch starts from latest, (2) creates the typed branch via the prefix map in [scripts/podcast/_branching.py](scripts/podcast/_branching.py), and (3) **unsets the auto-set upstream** — without that step, `git push` from the new worktree would silently push your content commits onto `origin/develop`. The helper is idempotent: if the branch already exists at another worktree, it tells you where.
+
+**For pulling machines** (Mac Studio joining an in-flight book that Mac Air started, etc.):
+
+```bash
+# Already-cloned primary repo on develop:
+cd ~/Code/podcast-factory
+git fetch origin --prune
+
+# Pull the remote branch into a local worktree:
+git worktree add ~/Code/git-worktrees/<slug> origin/<prefix>/<slug>
+git -C ~/Code/git-worktrees/<slug> branch --unset-upstream
+git -C ~/Code/git-worktrees/<slug> branch --set-upstream-to=origin/<prefix>/<slug>
+```
+
+(The intake helper isn't used here because the branch already exists upstream; we're just materializing a local worktree against it.)
+
+**When NOT to use a worktree**:
+- Hotfixes, doc edits, infra changes targeting `develop` directly → use the primary checkout, commit, push.
+- Anything that doesn't merit its own content branch.
+
+The rule applies to *new content branches* (`book/`, `doc/`, `lecture/`, `article/`, `letter/`, `interview/`, `draft/`), not to every change.
+
+**Inspecting worktrees**: `git worktree list` from any checkout shows all of them and the branch each is on.
 
 ## Run this on session start
 
