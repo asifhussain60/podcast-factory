@@ -79,6 +79,15 @@ LIBRARY = REPO_ROOT / "content" / "published"
 SHIPPABLE_STATUSES = {"shipped", "ship-ready", "ship-with-caution",
                       "ship-with-caution-approved", "halted_by_operator"}
 
+# Books may only be published if a real challenger convergence pass produced
+# one of these verdicts. Anything else (including "unknown" or N/A reports)
+# blocks publish unless --allow-mode-2 is passed.
+ALLOWED_SHIP_VERDICTS = {"SHIP-READY", "SHIP-WITH-CAUTION"}
+
+# Books whose state.json pipeline_mode is in this set never ran the
+# orchestrator's convergence loop and require explicit --allow-mode-2.
+NON_CONVERGED_PIPELINE_MODES = {"non_orchestrated_mode_2"}
+
 CH_PATTERN = re.compile(r"^ch(\d+)-([a-z0-9][a-z0-9-]*)\.txt$")
 EP_PATTERN = re.compile(r"^EP(\d+)-([a-z0-9][a-z0-9-]*)\.txt$")
 
@@ -230,6 +239,56 @@ def gate_g5_state(workspace: Path, force: bool) -> bool:
                 f"(phase={phase}, phase_status={phase_status}). "
                 f"Use --force to bypass.")
     return False
+
+
+def gate_g7_challenger_convergence(workspace: Path, allow_mode_2: bool) -> bool:
+    """Refuse to publish unless the book passed a real challenger convergence
+    pass — or the operator explicitly opted in with --allow-mode-2.
+
+    Closes the bypass that lets non-orchestrated books (pipeline_mode=
+    non_orchestrated_mode_2) and challenger-N/A reports reach the audience
+    without ever clearing the convergence gate. See _convergence.py for the
+    sibling change that removes the silent FORCE-SHIP-CAUTION downgrade.
+    """
+    state_path = workspace / "_system" / "orchestrator-state.json"
+    report_path = workspace / "_system" / "challenger-report.md"
+
+    state = {}
+    if state_path.exists():
+        state = json.loads(state_path.read_text())
+    pipeline_mode = state.get("pipeline_mode")
+    convergence_skipped = pipeline_mode in NON_CONVERGED_PIPELINE_MODES
+
+    verdict = "unknown"
+    if report_path.exists():
+        for line in report_path.read_text().splitlines()[:20]:
+            m = re.match(r"\*\*Verdict:\*\*\s*(\S+)", line.strip())
+            if m:
+                verdict = m.group(1).strip().rstrip("*").rstrip(".")
+                break
+    verdict_recognized = verdict in ALLOWED_SHIP_VERDICTS
+
+    if convergence_skipped or not verdict_recognized:
+        if allow_mode_2:
+            _warn(f"G7 ⚠ MODE-2 SHIP: challenger convergence not satisfied "
+                  f"(pipeline_mode={pipeline_mode!r}, verdict={verdict!r}). "
+                  f"--allow-mode-2 honored; downstream catalog will mark this "
+                  f"book as 'challenger_convergence: skipped_mode_2'.")
+            return True
+        reasons = []
+        if convergence_skipped:
+            reasons.append(f"pipeline_mode={pipeline_mode!r} skipped convergence loop")
+        if not verdict_recognized:
+            reasons.append(
+                f"verdict={verdict!r} not in {sorted(ALLOWED_SHIP_VERDICTS)} "
+                f"(challenger-report.md missing, malformed, or marked N/A)"
+            )
+        _fail("G7", "; ".join(reasons) +
+              ". Run challenger to convergence OR rerun with --allow-mode-2.")
+        return False
+
+    _ok("G7", f"challenger verdict={verdict}, pipeline_mode={pipeline_mode!r}")
+    return True
 
 
 def gate_g6_target(target: Path, no_wipe: bool) -> bool:
@@ -394,6 +453,8 @@ def publish(slug: str, args: argparse.Namespace) -> int:
         return 1
     if not gate_g6_target(target, args.no_wipe):
         return 1
+    if not gate_g7_challenger_convergence(workspace, args.allow_mode_2):
+        return 1
 
     _info("")
     _info("=== Plan ===")
@@ -451,6 +512,13 @@ def main() -> int:
                         help="Skip wipe step; coexist with prior content.")
     parser.add_argument("--dry-run", action="store_true",
                         help="Run gates + print plan; do not write.")
+    parser.add_argument(
+        "--allow-mode-2", action="store_true",
+        help=("Bypass G7: permit publishing a book that did NOT run the "
+              "challenger convergence loop (pipeline_mode="
+              "non_orchestrated_mode_2 or verdict not in {SHIP-READY, "
+              "SHIP-WITH-CAUTION}). Use only after manual review."),
+    )
     parser.add_argument("--force", action="store_true",
                         help="Skip G5 state-checkpoint gate.")
     args = parser.parse_args()

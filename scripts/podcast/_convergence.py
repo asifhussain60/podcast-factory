@@ -22,7 +22,12 @@ Decision rule (per chapter, per outer iteration):
     SHIP-WITH-CAUTION, iter < 2                     → fixer on P1s, retry
     BLOCKED (any P0)                                → fixer on P0s (max 3
                                                        fixer attempts), retry
-    iter == 3 still BLOCKED                         → force-ship SHIP-CAUTION
+    iter == 3 still BLOCKED or SHIP-WITH-CAUTION    → HALT (FAILED) — surface
+                                                       to orchestrator/user
+                                                       with full finding carry-
+                                                       over; never silently
+                                                       downgrade a BLOCKED
+                                                       verdict to a ship-state.
 
 Returns a `ChapterOutcome` dataclass naming the verdict + iteration count
 + any P0/P1 carry-over for the orchestrator's log.
@@ -52,7 +57,7 @@ CONVERGENCE_VERSION = "1.0"
 class ChapterOutcome:
     """The verdict-and-state of one chapter's convergence pass."""
     chapter_slug: str
-    final_verdict: str               # "SHIP-READY" | "SHIP-WITH-CAUTION" | "FORCE-SHIP-CAUTION" | "FAILED"
+    final_verdict: str               # "SHIP-READY" | "SHIP-WITH-CAUTION" | "FAILED"
     outer_iterations: int
     fixer_attempts: int
     p0_remaining: int
@@ -206,11 +211,18 @@ def converge_chapter(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
         outcome.final_verdict = "FAILED"
         return outcome
 
-    # Cap reached
+    # Cap reached with unresolved findings — HALT, do not ship.
+    # Prior behavior silently downgraded BLOCKED → FORCE-SHIP-CAUTION here,
+    # which let chapters with unresolved P0 findings reach the audience.
+    # Now: surface the failure to the orchestrator (which halts the per-chapter
+    # loop at orchestrate_book.py:1267) and propagate the finding counts so
+    # the user can decide whether to fix manually or relax a rule with intent.
     outcome.notes.append(
-        f"iter {MAX_OUTER_ITERATIONS} cap reached; force-ship SHIP-CAUTION"
+        f"iter {MAX_OUTER_ITERATIONS} cap reached with unresolved findings "
+        f"(P0={outcome.p0_remaining} P1={outcome.p1_remaining}); HALT — "
+        f"user review required, no silent ship."
     )
-    outcome.final_verdict = "FORCE-SHIP-CAUTION"
+    outcome.final_verdict = "FAILED"
     return outcome
 
 

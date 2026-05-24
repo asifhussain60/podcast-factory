@@ -1154,6 +1154,51 @@ def assert_framing_deny_block(content: str, file_path: Path) -> None:
         )
 
 
+def assert_doctrinal_clean(text: str, file_path: Path) -> None:
+    """Category T hard gate. Runs T3 forbidden-phrase checks (Imam Ali,
+    Imam Fatima, etc.) plus T1/T2/T5 advisory checks. P0 findings exit the
+    build; P1 findings emit as FLAG (P1) lines for the challenger's
+    convergence loop to surface.
+
+    Lives next to validate_chapter() so the rule wiring is visible from one
+    place. See scripts/podcast/_doctrinal.py for the rule implementations.
+    """
+    # Local import: _doctrinal isn't needed at module-import time, and keeping
+    # it lazy avoids forcing the YAML files to exist for every callsite that
+    # only uses build_episode_txt's other gates.
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from _doctrinal import run_doctrinal_checks   # noqa: E402
+
+    findings = run_doctrinal_checks(text)
+    p0_findings = [f for f in findings if f.severity == "P0"]
+    p1_findings = [f for f in findings if f.severity == "P1"]
+
+    for f in p1_findings:
+        _flag_p1(
+            f.check_id,
+            file_path,
+            f"{f.signature} — {f.reason[:140]} "
+            f"(context: …{f.context_excerpt[:80]}…)"
+            + (f" — use: {f.replacement}" if f.replacement else ""),
+        )
+
+    if p0_findings:
+        lines = ["ERROR: doctrinal-accuracy P0 violations in chapter:"]
+        for f in p0_findings:
+            lines.append(
+                f"  [{f.check_id}] {f.signature}"
+                + (f" → use '{f.replacement}'" if f.replacement else "")
+            )
+            lines.append(f"    context: …{f.context_excerpt[:200]}…")
+            if f.reason:
+                lines.append(f"    reason: {f.reason[:200]}")
+        lines.append(
+            f"  See content/_shared/islam/ for the canonical data and "
+            f"scripts/podcast/_doctrinal.py for the rule logic."
+        )
+        sys.exit("\n".join(lines))
+
+
 def validate_chapter(chapter_path: Path, extra_tells: list[str] | None = None) -> int:
     """Validate the chapter file. Returns word count. Exits on any error."""
     text = chapter_path.read_text(encoding="utf-8")
@@ -1165,6 +1210,11 @@ def validate_chapter(chapter_path: Path, extra_tells: list[str] | None = None) -
     assert_no_abbreviations(text, chapter_path)
     # R-HONORIFIC-ONCE (2026-05-17)
     assert_honorifics_once_only(text, chapter_path)
+    # Category T — doctrinal accuracy (T3 forbidden phrases). Hard gate;
+    # blocks ship on any P0 violation (e.g. "Imam Ali" when source-correct
+    # is "Father of Imams"). See scripts/podcast/_doctrinal.py and
+    # content/_shared/islam/*.yml for the canonical data.
+    assert_doctrinal_clean(text, chapter_path)
     # R-NO-MANUSCRIPT-META (2026-05-21, X14) — P1 FLAG (warning, not hard fail).
     assert_chapter_no_manuscript_meta(text, chapter_path)
     # F27 Tier 2.5 (2026-05-22) — TTS-safe enforcement. All P1 flags

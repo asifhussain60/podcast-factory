@@ -1,0 +1,7 @@
+{
+  "check_id": "surprise_positive_companion",
+  "detector": "surprise_positive_companion",
+  "hits": [
+    "MISSING:surprise-positive-companion"
+  ]
+}

@@ -1,0 +1,11 @@
+The lineage continues. After the first mention of Abu Hatim Ahmad ibn
+Hamdan al-Razi as a plain reference, the chapter later carries this header:
+
+**Abu Hatim Ahmad ibn Hamdan al-Razi and his epistemic legacy**
+
+Followed later by another:
+
+**Hamid al-Din Ahmad ibn Abdullah al-Kirmani on the divine attributes**
+
+Both should trip J2 because the long names appear as bold headers after
+their initial plain-text mention.

@@ -86,6 +86,17 @@ SHIPPABLE_STATUSES = {
     "halted_by_operator",
 }
 
+# A book may only ship if its challenger ran a real convergence pass and
+# arrived at one of these verdicts. "unknown" or any other string blocks ship
+# unless --allow-mode-2 is explicitly passed (and even then a loud banner is
+# printed and a marker is added to the published artifact).
+ALLOWED_SHIP_VERDICTS = {"SHIP-READY", "SHIP-WITH-CAUTION"}
+
+# Books whose state file records pipeline_mode in this set never ran the
+# orchestrator's challenger convergence loop. They must opt in via
+# --allow-mode-2 before shipping; otherwise ship halts.
+NON_CONVERGED_PIPELINE_MODES = {"non_orchestrated_mode_2"}
+
 
 @dataclass
 class Episode:
@@ -342,6 +353,18 @@ def main() -> None:
     ap.add_argument("--episode", help="EP id to promote (e.g. EP10). Default: all completed_slugs in state.")
     ap.add_argument("--dry-run", action="store_true", help="report what would happen; touch no files.")
     ap.add_argument("--force", action="store_true", help="bypass phase_status gate.")
+    ap.add_argument(
+        "--allow-mode-2",
+        action="store_true",
+        help=(
+            "Permit shipping a book that did NOT run the orchestrator's "
+            "challenger convergence loop (state.pipeline_mode in "
+            "non_orchestrated_mode_2, or verdict not in {SHIP-READY, "
+            "SHIP-WITH-CAUTION}). Use only after manual review; a loud "
+            "warning is printed and the published frontmatter is marked "
+            "'challenger_convergence: skipped_mode_2'."
+        ),
+    )
     args = ap.parse_args()
 
     book_dir = WORKSPACE / args.book
@@ -355,6 +378,40 @@ def main() -> None:
              "rerun with --force to override")
 
     verdict = _read_verdict(book_dir)
+    pipeline_mode = state.get("pipeline_mode")
+    convergence_skipped = pipeline_mode in NON_CONVERGED_PIPELINE_MODES
+    verdict_recognized = verdict in ALLOWED_SHIP_VERDICTS
+
+    # Hard gate: a book may not ship unless (a) it ran a real challenger
+    # convergence pass and reached an allowed verdict, OR (b) the operator
+    # explicitly opts in via --allow-mode-2 (and accepts the audit marker
+    # that gets stamped into the published frontmatter).
+    if (convergence_skipped or not verdict_recognized) and not args.allow_mode_2:
+        reasons = []
+        if convergence_skipped:
+            reasons.append(f"pipeline_mode={pipeline_mode!r} skipped the challenger convergence loop")
+        if not verdict_recognized:
+            reasons.append(
+                f"challenger verdict={verdict!r} not in {sorted(ALLOWED_SHIP_VERDICTS)} "
+                f"(challenger-report.md missing, malformed, or marked N/A)"
+            )
+        _die(
+            "refusing to ship — convergence gate failed: "
+            + "; ".join(reasons)
+            + ". Either (1) run the challenger to convergence on this book, or "
+            "(2) rerun with --allow-mode-2 after manual review."
+        )
+
+    if (convergence_skipped or not verdict_recognized) and args.allow_mode_2:
+        print(
+            "ship_to_library: ⚠ MODE-2 SHIP — challenger convergence was NOT run "
+            "on this book. Published artifacts will be stamped "
+            "'challenger_convergence: skipped_mode_2' for downstream auditors."
+        )
+        # Replace the verdict string so frontmatter is honest about the bypass.
+        if not verdict_recognized:
+            verdict = f"MODE-2-BYPASS ({verdict})"
+
     ship_date = _today()
     all_eps = _series_plan_episodes(book_dir)
     targets = _select_episodes(all_eps, state, args.episode)

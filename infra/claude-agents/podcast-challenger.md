@@ -67,32 +67,25 @@ Both files must be reviewed under each pass: the chapter for content authenticit
 
 The podcast skill itself is marked OUT OF SCOPE for CORTEX gates because *artifact quality is judged by the human listener*. This agent covers only the *automatable* slice: citations, phonetics, word counts, structural patterns, framing integrity. The remaining quality dimensions (host dynamic, conversation feel, listener experience) still rest with Asif after upload.
 
-Before any review pass, read **all 18 files** in this order. The two normative rule files (1 + 2 below) are the **authority** — they win over the guidance files when they disagree.
+Before any review pass, read the files listed below — these are the authorities that actually exist on disk today. The list was last reconciled 2026-05-24 after an audit found that an earlier 19-file authority list referenced files that had been moved / never landed / are pending restoration. When the handbook tree at `content/podcast/.skill/handbook/` is restored (tracked work), those files re-enter this list and the agent's source-of-truth surface expands accordingly. Until then, the Python rule modules ARE the contract.
 
-**Normative (must-read, contract-bearing):**
+**Normative (must-read, contract-bearing — code is authority):**
 
-1. `content/podcast/.skill/handbook/notebooklm-source-chapter-rules.md` — chapter-as-source contract (Loops B + C + D + E authority)
-2. `content/podcast/.skill/handbook/notebooklm-customize-prompt-rules.md` — customize-prompt contract (Loops F + H + I + J + K authority)
-3. `content/_shared/arabic/03-arabic-english-manifest.md` — canonical Arabic→English→phonetic lookup (Loop C1 + C2)
-4. `content/_shared/arabic/04-common-term-substitutions.md` — substitution policy (Loop C4)
-5. `content/_shared/arabic/05-name-alias-policy.md` — long-name → short-alias policy (Loops J1 + J2)
+1. [scripts/podcast/_rules.py](scripts/podcast/_rules.py) — `CHALLENGER_VERSION`, `MODERNIZE_DENY`, `SURPRISE_DENY`, `WELCOME_COLD`, `ABBREVIATIONS_MAP`, `HONORIFICS`, `FILLER_INTERJECTIONS`, `emit_finding()`. The canonical Python data for Categories B/H/I/K/M/N/O.
+2. [scripts/podcast/_doctrinal.py](scripts/podcast/_doctrinal.py) + [content/_shared/islam/](content/_shared/islam/) — Category T (doctrinal accuracy). The YAML files in `content/_shared/islam/` are the editable source of truth; the Python module loads and enforces them.
+3. [scripts/podcast/build_episode_txt.py](scripts/podcast/build_episode_txt.py) — the hard build-time gate. Every `assert_*` in `validate_chapter()` defines the contract the chapter must satisfy before any episode is shipped. Categories B (meta-prose), C/N (phonetics), O (honorifics, abbreviations), and T (doctrinal) are enforced here as `sys.exit`-on-violation gates.
+4. [scripts/podcast/_convergence.py](scripts/podcast/_convergence.py) — the convergence-loop contract (max 3 outer iterations, HALT on iter-3 BLOCKED, never silently downgrade verdicts).
 
 **Guidance (must-read, explains why):**
 
-6. `content/_shared/arabic/00-README.md` — index of the cross-skill Arabic / Islamic pronunciation reference
-7. `content/_shared/arabic/01-tts-pronunciation-key.md` — TTS engineering rules
-8. `content/podcast/.skill/handbook/notebooklm-best-practices.md` — the canonical guidance reference (superseded by 1 + 2 above where they overlap)
-9. `content/podcast/.skill/handbook/enrichment-sources.md` — the Tier 1–7 whitelist + citation formats + enrichment principles + anti-patterns
-10. `content/podcast/.skill/handbook/scratchpad-markers.md` — the `@@` marker vocabulary
-11. `content/podcast/.skill/handbook/extract-capability.md` — Extract Mode spec + splitting policy + `derived_from:` lineage rules
-12. `content/podcast/.skill/handbook/chapter-contract.template.yml` — per-chapter contract schema (the I/O surface for Extract Mode)
-13. `content/podcast/.skill/handbook/book-dir-layout.md` — canonical per-book BOOK_DIR shape (Category Q authority)
-14. `content/podcast/.skill/handbook/worked-examples.md` — illustrative-only blocks (one book's concrete instances); read for shape, never to constrain
-15. `skills-staging/podcast/SKILL.md` — the producing skill's contract
-16. `scripts/podcast/build_episode_txt.py` + `scripts/podcast/extract_chapter.py` + `scripts/podcast/check_chapter_set.py` — the structural gates this agent complements (the `META_PROSE_TELLS` / `META_PROSE_REGEX_TELLS` / `CONTRACT_META_PROSE_TELLS` lists, plus the Q-check computation)
-17. `content/podcast/.skill/handbook/arabic-tts-protocol.md` — Arabic TTS protocol (Track A, **forward state**). Describes the Conversational vs Classical mode distinction, the `## Phonetic Key (TTS Pronunciation)` section name, and the TTS engineering rules promotion. Until B1–B8 land in the named rule files, this document is **advisory** — do not enforce its target-state rules against current framings, but use its mode distinction to inform any pronunciation guidance the challenger suggests in `notes:` blocks of the sidecar report.
-18. `content/podcast/.skill/ROADMAP.md` — consolidated state-of-the-skill ledger. Names everything in flight (Section B), recently shipped (Section A), and rejected from external proposals (Section D). Consulted to decide whether a finding is consistent with the skill's current direction, and to surface "this is already in flight" notes when reviewers find an issue the roadmap already tracks.
-19. `content/podcast/.skill/_learning/README.md` — learning-substrate contract. Names the findings.jsonl schema, aggregate/propose/test/promote stages, health-score formula and badges, and the proposal template. Read on every invocation because the ledger-emission step (Section 5 below) writes records via `emit_finding()` and the health-write step at end-of-run uses the formula from this README.
+5. [skills-staging/podcast/SKILL.md](skills-staging/podcast/SKILL.md) — the producing skill's contract.
+6. [scripts/podcast/extract_chapter.py](scripts/podcast/extract_chapter.py) + [scripts/podcast/check_chapter_set.py](scripts/podcast/check_chapter_set.py) — the structural gates this agent complements (Category G + Q).
+7. [reference/cortex-challenger-framework.md](reference/cortex-challenger-framework.md) — the parent framework (severity taxonomy, verdict-state contract, sidecar template).
+8. [scripts/podcast/publish_to_library.py](scripts/podcast/publish_to_library.py) — the publish-time gate (G1–G7). G7 (added 2026-05-24) refuses to publish books whose `pipeline_mode` skipped convergence or whose verdict is not in `{SHIP-READY, SHIP-WITH-CAUTION}`.
+
+**Pending restoration (referenced by older agent versions; do NOT rely on these existing):**
+
+The earlier authority list named 17 handbook + Arabic-reference files under `content/podcast/.skill/handbook/`, `content/_shared/arabic/`, and `content/podcast/.skill/_learning/`. As of 2026-05-24 those files are missing from disk — likely a side-effect of the 2026-05-23 restructure. When they are restored (or rebuilt from `_rules.py` + this agent's prose), they re-enter the normative list above. Until then, treat any reference in this agent's body to a `content/podcast/.skill/handbook/*` path as advisory documentation, not a hard authority.
 
 You do NOT review:
 - Anything under `content/babu-memoir/` — memoir is out of scope per SKILL.md §9 (these belong to the journal skill).
@@ -347,6 +340,22 @@ These checks enforce the v2 plan's boundary contract and async-safety rules. The
 
 Category S is **never auto-fixed**. Every S-finding is a safety gate; the challenger surfaces, the human resolves. S1 + S3 + S5 are HALT-BLOCKING — they cause the pass to short-circuit before any other category runs. S2, S4, S6 are reported but do not halt.
 
+### Category T: Doctrinal accuracy (P0/P1) — added 2026-05-24
+
+Hard checks against canonical Islamic / Ismaili lineage data. The data files are the source of truth; rule logic lives in `scripts/podcast/_doctrinal.py`; the build-time hard gate sits in `scripts/podcast/build_episode_txt.py::assert_doctrinal_clean()`. Asif's tradition (Nizari/Mustaali Ismaili) treats Ali ibn Abi Talib as the **Father of Imams** (NOT Imam #1); the first Imam is Hassan. The phrase "Imam Ali" is forbidden.
+
+| ID | Check | Detection | Remediation |
+|---|---|---|---|
+| T1 | **Canonical attribution.** Quotations must match the canonical source/speaker pairing in [content/_shared/islam/canonical-attributions.yml](content/_shared/islam/canonical-attributions.yml). Mis-attribution (e.g., a verse attributed to a different translator, or a saying attributed to a different Imam than canonical) is P0. | Paragraph-level scan: when a saying's signature appears, check the same paragraph for any listed forbidden attribution. | Flag (P0). Replace with `canonical_attribution`. |
+| T2 | **Imam lineage check.** When the chapter names "the Nth Imam", verify N matches the canonical lineage in [imam-lineage-ismaili.yml](content/_shared/islam/imam-lineage-ismaili.yml). Sequence violations are P0 (e.g., "the 1st Imam Ali" — Ali is NOT an Imam in this lineage; Imam #1 is Hassan). Ordinals beyond the lineage length flag P0. | Regex on ordinals + window scan for canonical_name / aliases of other Imams. | Flag (P0). Replace with the canonical name for that ordinal. |
+| T3 | **Forbidden naming-convention phrases.** Substring scan for [naming-conventions.yml::forbidden_phrases](content/_shared/islam/naming-conventions.yml) (e.g., "Imam Ali" → P0, "Imam Fatima" → P0) and [imam-lineage-ismaili.yml::forbidden_imam_titles::aliases_that_signal_violation](content/_shared/islam/imam-lineage-ismaili.yml). Deduped by `(start_offset, match)`. | Word-boundary regex with negative lookahead for valid multi-word Imam names. | Flag (P0). Replace with `replacement` from the data file. |
+| T4 | **Farman date/location plausibility.** STUB — data file [content/_shared/islam/farmans.yml](content/_shared/islam/farmans.yml) reserved but not yet populated. Once populated, cross-references any Farman attribution against issuing-Imam's lifetime + accession dates. | Pending data. | Pending. |
+| T5 | **Weak/fabricated hadith.** Match against [canonical-attributions.yml::weak_or_fabricated_hadith](content/_shared/islam/canonical-attributions.yml) (empty on first commit; populated incrementally via the trainer). | Substring scan over chapter blockquotes. | Flag (P1) advisory by default; P0 if the entry's `severity` is set to P0. |
+
+Category T fixtures live under `content/podcast/.skill/_learning/fixtures/doctrinal/`. The hard gate fires at build time (before any episode txt is written), so doctrinally-broken chapters never reach NotebookLM upload. The challenger also re-runs T1–T5 during convergence so the report carries a stable record of what was caught + auto-fixed.
+
+**Authority chain**: human-readable policy → [content/_shared/islam/*.yml](content/_shared/islam/) (source of truth) → loaded by [_doctrinal.py](scripts/podcast/_doctrinal.py) → enforced by [build_episode_txt.py::assert_doctrinal_clean()](scripts/podcast/build_episode_txt.py) (hard gate) + re-run by this agent during convergence. When the policy changes, edit the YAML; the code follows automatically.
+
 ---
 
 ## SECTION 3 — Auto-fix vs flag rules
@@ -448,7 +457,7 @@ Always write the sidecar report (Section 6) — even on a clean run, the report 
 ### P0 (blocks ship)
 
 #### A1: Citation discipline — missing surah:verse in an EP source quote
-- **File:** content/drafts/<book-slug>/chapters/ch##-<slug>.txt:LINE
+- **File:** _workspace/books/<book-slug>/chapters/ch##-<slug>.txt:LINE
 - **Context:** blockquote of Quranic verse with English translation but no `(Quran X:Y)` citation line.
 - **Suggested fix:** Identify the verse, add citation on the line below the quote per enrichment-sources.md §2 format.
 
@@ -561,7 +570,7 @@ This agent calls the build script after every auto-fix iteration so the episode 
 ### Extract Mode adapter
 
 `scripts/podcast/extract_chapter.py` is the sibling structural gate for Extract Mode books. It:
-- Resolves chapter refs within `content/drafts/<book-slug>/chapters/` (memoir paths blocked via `PROHIBITED_PATH_PREFIXES`).
+- Resolves chapter refs within `_workspace/books/<book-slug>/chapters/` (memoir paths blocked via `PROHIBITED_PATH_PREFIXES`).
 - Reads the per-chapter contract at `BOOK_DIR/chapter-contracts/<slug>.yml`.
 - Runs `lint_contract_meta_prose` over the fields that flow into the rendered framing — same `META_PROSE_TELLS` / `META_PROSE_REGEX_TELLS` family as the build script, applied at extract time so the contract is fixed instead of a generated artifact.
 - Emits the 5-file episode-draft scaffold + chapter copy. Deterministic; same contract + same chapter → byte-identical re-run.
@@ -574,7 +583,7 @@ For Category G findings, the agent uses this script as the validator: re-run wit
 
 When invoked:
 
-1. Confirm the book-slug. If missing, ask: "Which book? (give the `<book-slug>` directory name from `content/drafts/`)".
+1. Confirm the book-slug. If missing, ask: "Which book? (give the `<book-slug>` directory name from `_workspace/books/`)".
 2. Confirm scope. If per-chapter, confirm the chapter slug exists.
 3. Read the cold-start files (Section 0 list).
 4. Enumerate the in-scope chapters + framings.
@@ -587,7 +596,7 @@ When invoked:
 
 ## SECTION 8 — Anti-anti-patterns (things to NOT do)
 
-- Do not run the agent on content outside `content/drafts/<book>/` (in-progress per-book state) or `content/published/books/<book>/` (shipped catalog). Memoir is out of scope; the boundary is hard.
+- Do not run the agent on content outside `_workspace/books/<book>/` (in-progress per-book state) or `library/books/<book>/` (shipped catalog). Memoir is out of scope; the boundary is hard.
 - Do not auto-fix any check not explicitly listed in Section 3's allowed set. When in doubt, flag.
 - Do not exceed the per-invocation `max_iterations` cap (frontmatter; currently 5). Failure to converge within the cap is a signal that the chapter has a structural issue — write the report at the current verdict, let the outer caller decide whether to address P0 findings and re-invoke or surface to human. **Do not silently inflate the cap to force SHIP-READY.**
 - Do not implement the outer re-invocation loop inside this agent. The agent runs once, writes the report, and exits. The caller (`/podcast` Phase 4 step 3) is responsible for reading the verdict and re-invoking after P0 fixes.
@@ -599,8 +608,6 @@ When invoked:
 ---
 
 ## Version
-
-> **Note (added 2026-05-23, per AU-A1-003):** Path references in changelog entries below describe the workspace layout as it existed at the time each version landed. The repo split (2026-05-22) and Phase-9.5 hoist retired several of those paths. Current source-of-truth locations: per-book registries at `_workspace/<slug>/_system/registry.md`; cross-book index at `content/podcast/.skill/books.md`. Entries below are historical and intentionally preserved.
 
 v2.0 (2026-05-18, late evening). **Closed-loop learning substrate.** Added the `_learning/` substrate (READMEd at `content/podcast/.skill/_learning/README.md`) wiring four new pieces around the existing sense-stage scripts: (1) **findings ledger** — every finding this agent surfaces AND every audit_transcript.py hit appends one JSONL record to `_learning/findings.jsonl` via `emit_finding()` in `scripts/podcast/_rules.py`; (2) **aggregator** — `scripts/podcast/learn_aggregate.py` groups the ledger by signature into `_learning/patterns.md`; (3) **proposer** — `scripts/podcast/learn_propose.py` emits rule-promotion markdown proposals under `_learning/proposals/` for any signature crossing thresholds (≥2 books OR ≥3 episodes); (4) **regression harness** — `scripts/podcast/test_challenger.py` runs the deterministic auto-fix detectors against frozen `_learning/fixtures/<check-id>/` corpora and exits non-zero on any regression; bootstrap fixtures shipped for B5, O1, N1, M3, R4. New `scripts/podcast/write_health.py` writes `_learning/health/<book-slug>.json` and appends to `BOOK_DIR/_system/health-trend.md` after every challenger run; score formula `1 − (P0·1.0 + P1·0.2 + P2·0.05) / chapters`. Single-source `CHALLENGER_VERSION` constant in `_rules.py` (this is v2.0) stamped into every sidecar report and every ledger record. Cold-start file list extended (16+2 → 19 — added `_learning/README.md`, `learn_aggregate.py`, `learn_propose.py`). Section 5 sidecar report gains a mandatory ledger-emission step. Section 6 integration adds the post-SHIP-READY hook in `/podcast` Phase 4. E1 reconciled: the actual build-script hard cap is `FRAMING_WORD_MAX = 3500`, not 3,000; the prior soft-band of 200–2,000 is retained as a warning band but does NOT block insertion of mandatory R-* clauses up to 3,500.
 

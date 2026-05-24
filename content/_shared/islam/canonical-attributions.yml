@@ -1,0 +1,43 @@
+# Canonical-attribution dictionary — sayings/quotations frequently mis-cited.
+#
+# Source of truth for Category T1 (canonical attribution check) in the
+# podcast-challenger. Each entry pairs a saying's lookup signature (a short,
+# stable string drawn from the saying itself) with its canonical attribution.
+# Mismatches between a quotation's attribution-in-chapter and the canonical
+# attribution here are P0 findings.
+#
+# This dictionary is INTENTIONALLY sparse on first commit — populate
+# incrementally as patterns surface in real chapters. The trainer skill
+# (scripts/podcast/learn_propose.py) is the long-term path for promotion.
+#
+# Schema: list of entries, each with
+#   signature:   short fragment from the saying (used for fuzzy match)
+#   source:      the canonical source/text (e.g. "Nahj al-Balagha, Sermon 1")
+#   canonical_attribution: the canonical speaker/author
+#   forbidden_attributions: list of common wrong attributions seen in the wild
+#   reason: human-readable explanation
+
+attributions:
+  # PLACEHOLDER for the Pickthall mis-attribution caught in the KaR
+  # challenger report 2026-05-24 — left in canonical form as a worked example.
+  - signature: "Q16:40 — when We will a thing, We say to it 'Be' and it is"
+    source: "Quran 16:40"
+    canonical_attribution: "Quran (translator: Yusuf Ali — most common rendering)"
+    forbidden_attributions: ["Pickthall translation (Pickthall renders this verse differently)"]
+    reason: |
+      Asif's KaR draft cited a paraphrase of Q16:40 as Pickthall's
+      translation, but the actual Pickthall rendering of the verse differs;
+      the wording in chapter is closer to Yusuf Ali. Generalize this entry
+      as more verse-translator mis-attributions surface.
+
+  # NOTE for editors: add real entries here as they arise. Skeleton example —
+  # do NOT activate without verified canonical attribution.
+  # - signature: "knowledge is better than wealth, knowledge guards you"
+  #   source: "Nahj al-Balagha, Saying 147"
+  #   canonical_attribution: "Ali ibn Abi Talib (Father of Imams)"
+  #   forbidden_attributions: ["Imam Ali", "Prophet Muhammad"]
+  #   reason: Common mis-attribution from popular collections.
+
+# Known-weak / known-fabricated hadith (Category T5).
+# Empty on first commit — populate as the trainer surfaces patterns.
+weak_or_fabricated_hadith: []
