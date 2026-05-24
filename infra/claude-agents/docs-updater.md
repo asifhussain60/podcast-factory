@@ -49,14 +49,29 @@ When any of these change, the page must change. Stale dates without content upda
 - **Main column padding**: comfortable on desktop (~32px sides), but never compress below 1100px usable. Diagram canvases (`<svg>`) MUST set `viewBox` AND `preserveAspectRatio="xMidYMid meet"` so they scale to container width.
 - **Sticky nav pills**: each pill is a short label (≤24 chars), `position: sticky; top: 0`, smooth scroll on click, active state when its section enters viewport.
 
-### Contrast & readability rules (locked 2026-05-24)
+### Contrast & readability rules (locked 2026-05-24, hardened after second-run feedback)
 
-- **Diagram nodes/boxes use SOLID fills, not glass-morphism.** A washed-out semi-transparent fill on a dark background is unreadable. Use the palette: dark background (`var(--bg)`), solid card fill (`var(--panel)` or warmer accent), strong border (`var(--line)` at 1px), text on cards must be `var(--text-primary)` (high contrast, not muted).
-- **Labels that sit OVER lines or diagram edges get a contrasting background rect.** Use a small `<rect>` behind text with the page background color and a few px of padding so the label is legible regardless of what's underneath. Never let label text overlap line text.
-- **Force-directed simulations MUST include collision detection.** Use `d3.forceCollide().radius(<node-bounding-radius>)` so labels don't overlap. Run the simulation enough ticks (200+) to fully settle, or run synchronously before render. If labels still risk overlap, use rotation or radial offset.
-- **Diagram captions**: bold, accent color, positioned UNDER the SVG, never overlapping it.
-- **Color usage**: editorial-modern means warm RESTRAINED palette — but "restrained" does NOT mean "low contrast." Use the existing `--accent` and `--accent-secondary` variables for emphasis. Reserve color for semantic meaning (e.g., gates use green/red for pass/fail, phases use a gradient by stage). Don't make everything the same purple-grey.
-- **Typography on diagrams**: SVG text uses `var(--font-mono)` for technical labels (paths, slugs, function names) and `var(--font-serif)` for human-readable headings (section anchors). Minimum 13px for any text inside a diagram.
+**Foundational principle (most-violated rule from prior runs)**: SVG `<text>` elements render at viewBox units, which get scaled to display pixels. If viewBox is 1600 wide and the container is 1200px, a `font-size="14"` SVG text renders at ~10.5 display px — unreadable. The fix is NOT to tweak colors; it's to redesign so:
+
+1. **Card-based sections use pure HTML/CSS, NOT SVG.** Sections 2 (lifecycle), 3 (pipeline phases), 5 (branch policy table), and 6 (publish gates) are LISTS OF CARDS with optional connecting lines — they should be HTML grids with arrow glyphs (▶ / →) or a thin background SVG just for lines. Text renders at native CSS size (16px body, 18-20px titles). No viewBox scaling problem.
+2. **SVG is reserved for true graph/tree/network layouts** where positioning math is required: section 4 (convergence state diagram with branching), section 7 (doctrinal decision tree), section 8 (agent force-directed network), section 9 (Azure dataflow). For these, use:
+   - **`<foreignObject>` to embed HTML inside SVG nodes** — text renders at native CSS size, respects font-family, supports line-wrapping, accessible.
+   - OR **viewBox sized to MATCH expected display width** (e.g., `viewBox="0 0 1200 600"` when rendered in a ~1200px container) so SVG font-size = display font-size.
+   - SVG `<text>` minimum: 16px (not 14, not 13). At typical 1.3× viewBox scaling, that renders as 12px — barely readable. Aim for 18px in SVG to render as ~14px on screen.
+3. **Diagram nodes/boxes use SOLID fills, not glass-morphism.** Solid card fill (`var(--panel)`), strong border (`var(--line)` at 2px), text `var(--text-primary)` (high contrast).
+4. **Labels that sit OVER lines or diagram edges get a contrasting background rect.** Use a small `<rect>` behind text with the page background color and a few px of padding so the label is legible regardless of what's underneath. Never let label text overlap line text.
+5. **Force-directed simulations MUST include collision detection.** Use `d3.forceCollide().radius(<node-bounding-radius>)` so labels don't overlap. Run the simulation enough ticks (300+) to fully settle synchronously before render. Pin "anchor" nodes (e.g., `podcast-orchestrator` in section 8) via `fx, fy`.
+6. **Small fixed-set diagrams (≤8 nodes) use DETERMINISTIC layout, not force-simulation.** Section 5 (7 branches around `develop`) is a radial layout with computed positions: `theta = (i / 7) * 2π`, `cx + r*cos(theta)`. No simulation, no overlap-possible.
+7. **Diagram captions**: bold, accent color, positioned UNDER the diagram, never overlapping it.
+8. **Color usage**: editorial-modern means warm RESTRAINED palette — but "restrained" does NOT mean "low contrast." Use the existing `--accent` and `--accent-secondary` variables for emphasis. Reserve color for semantic meaning (e.g., gates use green/red for pass/fail, phases use a gradient by stage). Don't make everything the same purple-grey.
+9. **Typography on diagrams**: SVG text uses `var(--font-mono)` for technical labels (paths, slugs, function names) and `var(--font-serif)` for human-readable headings. HTML cards (sections 2, 3, 5, 6) use `var(--font-serif)` for titles (18-20px), body text 15-16px, mono accents 13-14px.
+
+### Best-practice references (consulted)
+
+- **Observable / D3 community**: card-based "diagrams" should be HTML+CSS; SVG only when computed positioning is required. (Bostock's own dashboards demonstrate this.)
+- **Mermaid.js**: uses `foreignObject` with embedded HTML for all text content in SVG to preserve native rendering.
+- **Excalidraw**: pure SVG with explicit large font sizes (16-24px in viewBox units) and tight viewBox sizing.
+- **Stripe Press / MIT Press editorial design**: minimal ornament, strong typography hierarchy, generous whitespace, semantic color use only.
 
 ## The 9 sections (top to bottom)
 

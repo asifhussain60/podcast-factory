@@ -1,5 +1,12 @@
 <!DOCTYPE html>
-<!-- generated from 08717ee44811771333899a31b94b8debe401b2f5 at 2026-05-24 by infra/claude-agents/docs-updater.md -->
+<!-- generated from 6202c853d35cd44a9830f6240274c6f1689407e7 at 2026-05-24 by infra/claude-agents/docs-updater.md -->
+<!-- Third regeneration (2026-05-24, PM): readability rewrite.
+     - Sections 2/3/5(table)/6 converted from SVG to pure HTML/CSS cards.
+     - Sections 4/7/8/9 keep SVG for graph layout but use <foreignObject>
+       for all node content so text renders at native CSS size.
+     - SVG <text> elements (edge labels only) use font-size 18+ to clear
+       the viewBox-scaling threshold for legibility.
+     - Minimum on-screen text size: 13px after any scaling. Body 16px. -->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -7,19 +14,26 @@
   <title>Podcast Factory — Architecture</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/architecture.css">
   <style>
-    /* ────────────────────────────────────────────────────────────────
-       Layout overrides — locked 2026-05-24 after first-run feedback.
-       Single full-width column under a horizontal sticky pill nav.
-       Reason: a left sidebar steals ~280px the D3 diagrams need.
-       ──────────────────────────────────────────────────────────────── */
+    /* ════════════════════════════════════════════════════════════════
+       LAYOUT — full-width single column under horizontal sticky nav
+       ════════════════════════════════════════════════════════════════ */
     .page { max-width: min(1600px, 96vw) !important; padding: 2rem 2rem 5rem !important; }
-    .layout { display: block; }
+    body { font-size: 16px; }
 
-    /* Horizontal sticky pill nav. Lives at the top, full width, scrolls
-       horizontally on narrow screens, snaps to the page top. */
+    /* Additional surface tokens not in architecture.css */
+    :root {
+      --panel-strong: rgba(255, 255, 255, 0.14);
+      --panel-flat: #322a4a;
+      --panel-flat-2: #3a3050;
+      --label-chip: rgba(20, 14, 38, 0.85);
+    }
+
+    /* ════════════════════════════════════════════════════════════════
+       STICKY HORIZONTAL NAV
+       ════════════════════════════════════════════════════════════════ */
     .topnav-sections {
       position: sticky;
       top: 0;
@@ -28,7 +42,7 @@
       gap: 0.5rem;
       padding: 0.85rem 1.25rem;
       margin: 0 -2rem 2rem;
-      background: rgba(43, 34, 64, 0.92);
+      background: rgba(43, 34, 64, 0.94);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--line);
@@ -39,13 +53,13 @@
     .topnav-sections::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 3px; }
     .topnav-sections a {
       flex: 0 0 auto;
-      padding: 0.45rem 0.95rem;
+      padding: 0.5rem 1rem;
       border-radius: var(--radius-pill);
       background: rgba(255,255,255,0.04);
       border: 1px solid var(--line);
       color: var(--text-secondary);
       font-family: var(--font-mono);
-      font-size: 0.78rem;
+      font-size: 0.82rem;
       letter-spacing: 0.04em;
       white-space: nowrap;
       transition: all var(--t-fast);
@@ -58,257 +72,507 @@
     }
     .topnav-sections a .num {
       color: var(--text-faint);
-      margin-right: 0.4rem;
+      margin-right: 0.45rem;
     }
     .topnav-sections a.active .num,
     .topnav-sections a:hover .num { color: var(--accent); }
 
     section.architecture-section {
       scroll-margin-top: 5rem;
-      margin-bottom: 4.5rem;
+      margin-bottom: 5rem;
     }
 
-    /* ────────────────────────────────────────────────────────────────
-       Contrast & readability — diagrams use SOLID fills, not glass.
-       Override the washed-out semi-transparent defaults from
-       architecture.css so labels actually read.
-       ──────────────────────────────────────────────────────────────── */
+    /* ════════════════════════════════════════════════════════════════
+       SECTION 2 — LIFECYCLE CARDS (pure HTML/CSS)
+       ════════════════════════════════════════════════════════════════ */
+    .lifecycle-row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      gap: 1.25rem;
+      align-items: stretch;
+      margin: 2rem 0 1rem;
+    }
+    .lifecycle-card {
+      background: var(--panel-flat);
+      border: 2px solid var(--accent);
+      border-radius: 14px;
+      padding: 1.75rem 1.5rem;
+      box-shadow: var(--shadow-card);
+    }
+    .lifecycle-card.workshop { border-color: var(--rose); }
+    .lifecycle-card.published { border-color: var(--mint); }
+    .lifecycle-card .tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.55rem;
+    }
+    .lifecycle-card.workshop .tag { color: var(--rose); }
+    .lifecycle-card.published .tag { color: var(--mint); }
+    .lifecycle-card h4 {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      margin: 0 0 0.5rem;
+      color: var(--text);
+      font-weight: 600;
+    }
+    .lifecycle-card .path {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      background: rgba(0,0,0,0.25);
+      padding: 0.35rem 0.55rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+      display: inline-block;
+      max-width: 100%;
+      overflow-wrap: break-word;
+    }
+    .lifecycle-card ul {
+      margin: 0;
+      padding-left: 1.1rem;
+      list-style: '· ';
+    }
+    .lifecycle-card li {
+      font-size: 0.98rem;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      margin-bottom: 0.35rem;
+    }
+    .lifecycle-arrow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-width: 110px;
+    }
+    .lifecycle-arrow .label {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      background: var(--label-chip);
+      color: var(--text);
+      padding: 0.35rem 0.65rem;
+      border-radius: 6px;
+      border: 1px solid var(--line-strong);
+      text-align: center;
+      white-space: nowrap;
+    }
+    .lifecycle-arrow .glyph {
+      font-size: 2.4rem;
+      color: var(--accent);
+      line-height: 1;
+      margin-top: 0.45rem;
+    }
+    @media (max-width: 980px) {
+      .lifecycle-row { grid-template-columns: 1fr; }
+      .lifecycle-arrow .glyph { transform: rotate(90deg); }
+    }
+
+    /* ════════════════════════════════════════════════════════════════
+       SECTION 3 — PHASE CARDS (pure HTML/CSS, click to expand)
+       ════════════════════════════════════════════════════════════════ */
+    .phase-list {
+      display: grid;
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+    .phase-row {
+      display: grid;
+      grid-template-columns: 90px 1fr auto;
+      gap: 1.5rem;
+      align-items: center;
+      padding: 1.35rem 1.5rem;
+      background: var(--panel-flat);
+      border-left: 4px solid var(--accent);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background var(--t-fast), border-left-width var(--t-fast);
+    }
+    .phase-row:hover { background: var(--panel-flat-2); }
+    .phase-row.active { background: var(--panel-flat-2); border-left-width: 8px; }
+    .phase-tag {
+      font-family: var(--font-mono);
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--accent);
+      text-align: center;
+      padding: 0.55rem 0.4rem;
+      background: rgba(0,0,0,0.3);
+      border-radius: 8px;
+      letter-spacing: 0.02em;
+    }
+    .phase-row.s-azure .phase-tag { color: var(--azure); }
+    .phase-row.s-llm .phase-tag { color: var(--rose); }
+    .phase-row.s-design .phase-tag { color: var(--gold); }
+    .phase-row.s-halt .phase-tag { color: var(--warning); }
+    .phase-row.s-chapter .phase-tag { color: var(--mint); }
+    .phase-row h4 {
+      font-family: var(--font-serif);
+      font-size: 1.35rem;
+      margin: 0 0 0.3rem;
+      color: var(--text);
+      font-weight: 600;
+    }
+    .phase-row .blurb {
+      font-size: 1rem;
+      line-height: 1.55;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+    .phase-row .toggle {
+      font-family: var(--font-mono);
+      font-size: 1.6rem;
+      color: var(--accent);
+      line-height: 1;
+      width: 1.5rem;
+      text-align: center;
+      user-select: none;
+      transition: transform var(--t-fast);
+    }
+    .phase-row.active .toggle { transform: rotate(90deg); }
+    .phase-detail {
+      display: none;
+      grid-column: 1 / -1;
+      margin-top: 0.85rem;
+      padding-top: 1rem;
+      border-top: 1px dashed var(--line-strong);
+      font-size: 0.97rem;
+      line-height: 1.6;
+      color: var(--text-secondary);
+    }
+    .phase-row.active .phase-detail { display: block; }
+    .phase-detail dl { display: grid; grid-template-columns: 130px 1fr; row-gap: 0.45rem; column-gap: 1rem; margin: 0; }
+    .phase-detail dt {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .phase-detail dd { margin: 0; color: var(--text-secondary); }
+    .phase-detail code {
+      background: rgba(0,0,0,0.3);
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.92rem;
+    }
+
+    /* ════════════════════════════════════════════════════════════════
+       SECTION 5 — BRANCH TABLE (pure HTML)
+       ════════════════════════════════════════════════════════════════ */
+    .branch-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 1.5rem 0 2rem;
+      background: var(--panel-flat);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+    }
+    .branch-table thead th {
+      text-align: left;
+      padding: 1rem 1.25rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(0,0,0,0.25);
+      border-bottom: 1px solid var(--line-strong);
+    }
+    .branch-table tbody td {
+      padding: 0.95rem 1.25rem;
+      border-bottom: 1px solid var(--line);
+      font-size: 1rem;
+      color: var(--text-secondary);
+      vertical-align: top;
+    }
+    .branch-table tbody tr:last-child td { border-bottom: none; }
+    .branch-table .prefix {
+      font-family: var(--font-mono);
+      font-size: 1.05rem;
+      color: var(--accent);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .branch-table .category {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+    .branch-table .example {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    /* ════════════════════════════════════════════════════════════════
+       SECTION 6 — GATE CARDS (pure HTML)
+       ════════════════════════════════════════════════════════════════ */
+    .gate-list { display: grid; gap: 0.85rem; margin: 1.5rem 0; }
+    .gate-row {
+      display: grid;
+      grid-template-columns: 70px 1fr auto;
+      gap: 1.25rem;
+      align-items: start;
+      padding: 1.5rem 1.5rem 1.35rem;
+      background: var(--panel-flat);
+      border-left: 5px solid var(--success);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background var(--t-fast);
+    }
+    .gate-row:hover { background: var(--panel-flat-2); }
+    .gate-row.active { background: var(--panel-flat-2); }
+    .gate-id {
+      font-family: var(--font-mono);
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--success);
+      text-align: center;
+      padding: 0.5rem 0;
+      background: rgba(74, 222, 128, 0.1);
+      border-radius: 8px;
+    }
+    .gate-row .gate-body { display: contents; }
+    .gate-row h4 {
+      font-family: var(--font-serif);
+      font-size: 1.3rem;
+      margin: 0 0 0.4rem;
+      color: var(--text);
+      font-weight: 600;
+    }
+    .gate-row .check {
+      font-size: 1rem;
+      line-height: 1.55;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+    .gate-row .toggle {
+      font-family: var(--font-mono);
+      font-size: 1.6rem;
+      color: var(--success);
+      line-height: 1;
+      width: 1.5rem;
+      text-align: center;
+      user-select: none;
+      transition: transform var(--t-fast);
+      align-self: center;
+    }
+    .gate-row.active .toggle { transform: rotate(90deg); }
+    .gate-detail {
+      display: none;
+      grid-column: 2 / 3;
+      margin-top: 0.9rem;
+      padding-top: 0.85rem;
+      border-top: 1px dashed var(--line-strong);
+      font-size: 0.97rem;
+      line-height: 1.6;
+      color: var(--text-secondary);
+    }
+    .gate-row.active .gate-detail { display: block; }
+    .gate-detail strong { color: var(--text); }
+    .gate-detail .fail {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--error);
+      background: rgba(248, 113, 113, 0.1);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      margin-right: 0.4rem;
+    }
+    .gate-detail code {
+      background: rgba(0,0,0,0.3);
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.92rem;
+    }
+
+    /* ════════════════════════════════════════════════════════════════
+       SECTIONS 4/7/8/9 — SVG DIAGRAMS WITH <foreignObject> NODES
+       ════════════════════════════════════════════════════════════════ */
     .diagram {
       background: #221a35;
       border: 1px solid var(--line-strong);
+      border-radius: var(--radius-lg);
       padding: 2rem 1.5rem 1.25rem;
+      margin: 2rem 0 1rem;
+      overflow: visible;
     }
-    .diagram svg .node-solid {
-      fill: #38304f;
-      stroke: var(--accent);
-      stroke-width: 2;
-    }
-    .diagram svg .node-solid-rose {
-      fill: #3e2e3a;
-      stroke: var(--rose);
-      stroke-width: 2;
-    }
-    .diagram svg .node-solid-gold {
-      fill: #3d3527;
-      stroke: var(--gold);
-      stroke-width: 2;
-    }
-    .diagram svg .node-solid-mint {
-      fill: #243a31;
-      stroke: var(--mint);
-      stroke-width: 2;
-    }
-    .diagram svg .node-solid-sky {
-      fill: #243440;
-      stroke: var(--sky);
-      stroke-width: 2;
-    }
-    .diagram svg .node-solid-azure {
-      fill: #1f3043;
-      stroke: var(--azure);
-      stroke-width: 2;
-    }
-    .diagram svg .node-gate-ok { fill: #1f3a26; stroke: #5bba6f; stroke-width: 2; }
-    .diagram svg .node-gate-fail { fill: #3a221f; stroke: #e07b65; stroke-width: 2; }
-    .diagram svg text.node-title {
-      fill: #fff7fb;
-      font-family: var(--font-serif);
-      font-weight: 500;
-      font-size: 16px;
-    }
-    .diagram svg text.node-sub {
-      fill: #d8c7e0;
-      font-family: var(--font-mono);
-      font-size: 12px;
-    }
-    .diagram svg text.node-tag {
-      fill: var(--accent);
-      font-family: var(--font-mono);
-      font-size: 11px;
-      letter-spacing: 0.08em;
-    }
-    .diagram svg .edge-strong {
-      stroke: #c6a6ff;
-      stroke-width: 2;
-      fill: none;
-    }
-    .diagram svg .edge-pass { stroke: #5bba6f; stroke-width: 2.4; fill: none; }
-    .diagram svg .edge-fail { stroke: #e07b65; stroke-width: 2.4; fill: none; stroke-dasharray: 6 4; }
-    .diagram svg .edge-pipe {
-      stroke-width: 2.4;
-      fill: none;
-    }
-    /* Arrow label backing — always paint a rect first, text on top */
-    .diagram svg .label-bg {
-      fill: #221a35;
-      stroke: var(--line-strong);
-      stroke-width: 1;
-      rx: 4;
-    }
-    .diagram svg text.edge-label {
-      fill: #fff7fb;
-      font-family: var(--font-mono);
-      font-size: 12px;
-      text-anchor: middle;
-    }
-
-    /* Interactive frame — side panel for click-to-expand diagrams */
-    .interactive-frame {
-      display: grid;
-      grid-template-columns: minmax(0, 1.5fr) minmax(280px, 1fr);
-      gap: 1.5rem;
-      align-items: start;
-    }
-    @media (max-width: 1100px) {
-      .interactive-frame { grid-template-columns: 1fr; }
-    }
-    .detail-panel {
-      background: #221a35;
-      border: 1px solid var(--line-strong);
-      border-radius: var(--radius-md);
-      padding: 1.4rem 1.5rem;
-      min-height: 240px;
-      font-size: 0.95rem;
-      color: var(--text-secondary);
-      position: sticky;
-      top: 5rem;
-    }
-    .detail-panel .panel-title {
-      font-family: var(--font-serif);
-      font-size: 1.3rem;
-      color: var(--text);
-      margin-bottom: 0.4rem;
-    }
-    .detail-panel .panel-tag {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      color: var(--accent);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      margin-bottom: 0.7rem;
-      display: block;
-    }
-    .detail-panel .panel-row {
-      margin-top: 0.85rem;
-      padding-top: 0.85rem;
-      border-top: 1px solid var(--line-soft);
-      font-size: 0.88rem;
-    }
-    .detail-panel .panel-row strong {
-      display: block;
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      color: var(--text-faint);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-bottom: 0.3rem;
-    }
-    .detail-panel .panel-hint {
-      color: var(--text-faint);
-      font-size: 0.85rem;
-      font-style: italic;
-    }
-
-    /* How-to-use hint above interactive diagrams */
-    .howto {
-      display: inline-block;
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--text-faint);
-      background: rgba(255,255,255,0.04);
-      border: 1px dashed var(--line-strong);
-      padding: 0.35rem 0.8rem;
-      border-radius: var(--radius-sm);
-      margin-bottom: 0.6rem;
-    }
-
-    /* Phase timeline rows (section 3) */
-    .phase-row {
-      cursor: pointer;
-      transition: transform var(--t-fast);
-    }
-    .phase-row:hover { transform: translateX(2px); }
-    .phase-row rect.phase-card {
-      transition: stroke var(--t-fast), fill var(--t-fast);
-    }
-    .phase-row.active rect.phase-card {
-      stroke: var(--rose);
-      stroke-width: 3;
-    }
-
-    /* Branch prefix table (section 5) */
-    .branch-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 1rem 0 1.5rem;
-      font-size: 0.95rem;
-    }
-    .branch-table th, .branch-table td {
-      padding: 0.7rem 1rem;
-      text-align: left;
-      border-bottom: 1px solid var(--line);
-    }
-    .branch-table th {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      color: var(--accent);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      background: rgba(255,255,255,0.03);
-    }
-    .branch-table td code {
-      background: rgba(198, 166, 255, 0.10);
-      border-color: rgba(198, 166, 255, 0.30);
-      color: var(--accent);
-    }
-
-    /* Generic caption styling override for better contrast */
+    .diagram svg { display: block; margin: 0 auto; width: 100%; height: auto; }
     .diagram .caption {
-      color: var(--text-secondary);
-      font-style: italic;
       font-family: var(--font-sans);
-      font-size: 0.92rem;
-      letter-spacing: 0;
-      text-align: left;
-      padding-top: 0.6rem;
-      border-top: 1px solid var(--line);
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      text-align: center;
+      margin-top: 1.25rem;
+      line-height: 1.5;
     }
-    .diagram .caption strong {
-      color: var(--accent);
-      font-weight: 600;
-      font-style: normal;
+    .diagram .how-to {
       font-family: var(--font-mono);
       font-size: 0.78rem;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      display: block;
-      margin-bottom: 0.3rem;
+      color: var(--accent);
+      text-align: center;
+      margin-bottom: 1rem;
     }
+
+    /* HTML node inside foreignObject — text renders at native CSS size,
+       no viewBox scaling impact. */
+    .svg-node {
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      background: var(--panel-flat);
+      border: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 0.65rem 0.85rem;
+      font-family: var(--font-sans);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .svg-node.node-rose { border-color: var(--rose); }
+    .svg-node.node-mint { border-color: var(--mint); }
+    .svg-node.node-gold { border-color: var(--gold); }
+    .svg-node.node-sky { border-color: var(--sky); }
+    .svg-node.node-azure { border-color: var(--azure); }
+    .svg-node.node-warning { border-color: var(--warning); }
+    .svg-node.node-error { border-color: var(--error); }
+    .svg-node.node-success { border-color: var(--success); }
+    .svg-node strong {
+      display: block;
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 0.15rem;
+    }
+    .svg-node .sub {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.3;
+    }
+    .svg-node .lg-title {
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      font-weight: 600;
+    }
+
+    /* Edge labels chip — sits over SVG paths */
+    .svg-edge-label {
+      background: var(--label-chip);
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      padding: 0.25rem 0.55rem;
+      border-radius: 4px;
+      border: 1px solid var(--line-strong);
+      white-space: nowrap;
+      text-align: center;
+      display: inline-block;
+      line-height: 1.3;
+    }
+
+    /* SVG path styles */
+    .diagram svg .edge {
+      stroke: var(--line-strong);
+      stroke-width: 2;
+      fill: none;
+    }
+    .diagram svg .edge-accent {
+      stroke: var(--accent);
+      stroke-width: 2.5;
+      fill: none;
+    }
+    .diagram svg .edge-success { stroke: var(--success); stroke-width: 2.5; fill: none; }
+    .diagram svg .edge-error { stroke: var(--error); stroke-width: 2.5; fill: none; stroke-dasharray: 6 4; }
+    .diagram svg .edge-warning { stroke: var(--warning); stroke-width: 2.5; fill: none; }
+
+    /* Plain SVG text — used ONLY for short edge labels, min font 18 to clear scaling */
+    .diagram svg text {
+      font-family: var(--font-sans);
+      fill: var(--text);
+      font-size: 18px;
+    }
+    .diagram svg text.label-mono {
+      font-family: var(--font-mono);
+      font-size: 16px;
+      fill: var(--text-secondary);
+    }
+
+    /* ════════════════════════════════════════════════════════════════
+       LEGEND CHIPS (used under several diagrams)
+       ════════════════════════════════════════════════════════════════ */
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      justify-content: center;
+      margin-top: 0.75rem;
+    }
+    .legend-chip {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      padding: 0.3rem 0.7rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--line-strong);
+      background: var(--panel-flat);
+      color: var(--text);
+    }
+    .legend-chip .swatch {
+      display: inline-block;
+      width: 0.8rem;
+      height: 0.8rem;
+      border-radius: 50%;
+      margin-right: 0.45rem;
+      vertical-align: -1px;
+    }
+
+    /* ════════════════════════════════════════════════════════════════
+       FOOTER + COMMITS
+       ════════════════════════════════════════════════════════════════ */
+    .commits {
+      background: var(--panel-flat);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      margin: 2rem 0;
+    }
+    .commits ul { list-style: none; padding: 0; margin: 0; }
+    .commits li {
+      padding: 0.55rem 0;
+      border-bottom: 1px dashed var(--line);
+      font-family: var(--font-mono);
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 1rem;
+    }
+    .commits li:last-child { border-bottom: none; }
+    .commits .sha { color: var(--accent); }
   </style>
 </head>
 <body>
+
   <header class="topnav">
-    <div class="brand"><span>podcast</span>-factory</div>
-    <div class="crumbs">
-      <a href="../../">repo</a><span class="sep">/</span>
-      <a href="../">docs</a><span class="sep">/</span>
-      architecture
-    </div>
+    <a href="../index.html" class="brand">podcast<span>·</span>factory</a>
+    <nav class="crumbs">
+      <a href="../index.html">docs</a><span class="sep">/</span><span>architecture</span>
+    </nav>
   </header>
 
   <div class="page">
-
-    <div class="hero">
-      <span class="eyebrow">SINGLE-VIEW ARCHITECTURE</span>
-      <h1>How <em>podcast-factory</em> turns scholarly books into two-host audio.</h1>
-      <p class="lede">
-        A 700-page Arabic theological treatise goes in. NotebookLM-ready chapter bundles, plus
-        a published two-host audio overview, come out. The path between is a multi-phase pipeline
-        with named safety gates, typed branches per piece of content, a per-chapter convergence
-        loop with hard caps, and a small council of Claude agents that author, critique, and
-        ship. This page shows every moving part. Read it with coffee.
-      </p>
-    </div>
 
     <nav class="topnav-sections" id="topnav-sections" aria-label="Sections">
       <a href="#what" data-section="what"><span class="num">01</span>What this repo is</a>
@@ -321,6 +585,16 @@
       <a href="#agents" data-section="agents"><span class="num">08</span>Agent surface</a>
       <a href="#azure" data-section="azure"><span class="num">09</span>Azure stack</a>
     </nav>
+
+    <section class="hero">
+      <span class="eyebrow">architecture · 2026-05-24</span>
+      <h1>The <em>podcast-factory</em> pipeline</h1>
+      <p class="lede">
+        A long-scrolling tour of how a scholarly Arabic PDF becomes a two-host
+        NotebookLM audio overview — the rooms it moves through, the phases that
+        edit it, the gates that bless it, and the agents that drive the whole thing.
+      </p>
+    </section>
 
     <main>
 
@@ -335,1250 +609,1111 @@
         </div>
         <div class="prose">
           <p class="lead">
-            <strong>podcast-factory</strong> is the pipeline + reader for converting scholarly
-            Arabic books (Ismaili tradition, primarily) into two-host audio overviews via
-            <em>Google's NotebookLM</em>. Source PDFs land in a per-book workshop under
-            <code>content/drafts/&lt;slug&gt;/</code>; the pipeline runs a sequence of
-            <strong>phases</strong> (Azure OCR + translation, English refinement, phonetic
-            extraction, chapter design, enrichment, per-chapter authoring, challenger
-            convergence), and shipped output moves to <code>content/published/books/&lt;slug&gt;/</code>
-            after passing seven named gates. A small set of Claude agents
-            (<em>orchestrator</em>, <em>challenger</em>, <em>extract</em>, <em>blueprint</em>,
-            <em>publisher</em>, <em>trainer</em>, <em>auditor</em>) authors, validates, and
-            ships. The whole thing is machine-agnostic since 2026-05-23 — one repo, one
+            <strong>podcast-factory</strong> is the pipeline and reader app for turning
+            scholarly Arabic books (Ismaili tradition, primarily) into two-host audio
+            overviews via <em>Google's NotebookLM</em>. Source PDFs land in a per-book
+            workshop under <code>content/drafts/&lt;slug&gt;/</code>; the pipeline runs a
+            sequence of <strong>phases</strong> — Azure OCR + translation, English
+            refinement, phonetic extraction, chapter design, enrichment, then per-chapter
+            authoring under a challenger convergence loop — and shipped output moves to
+            <code>content/published/books/&lt;slug&gt;/</code> after passing seven named
+            gates. A small set of Claude agents (<em>orchestrator</em>, <em>challenger</em>,
+            <em>extract</em>, <em>blueprint</em>, <em>publisher</em>, <em>trainer</em>,
+            <em>auditor</em>, <em>slide-deck-challenger</em>) authors, validates, and ships.
+            The repo is <strong>machine-agnostic</strong> since 2026-05-23 — one repo, one
             working branch (<code>develop</code>), promotion to <code>main</code> only on
             explicit operator approval.
           </p>
           <p>
             The <strong>podcast-reader</strong> Astro app under <code>podcast-reader/</code>
             reads from <code>content/drafts/&lt;slug&gt;/chapter-contracts/</code> and lets
-            Asif annotate chapter contracts in the browser before they go to NotebookLM.
-            The <strong>memoir engine</strong> ("What I Wish Babu Taught Me") moved to a
-            sibling repo at <code>~/PROJECTS/journal/</code> on 2026-05-22 — that's a fully
-            disconnected concern. This page is about the pipeline only.
+            the operator annotate chapter contracts in the browser before they go to
+            NotebookLM. The <strong>memoir engine</strong> ("What I Wish Babu Taught Me")
+            moved to a sibling repo at <code>~/PROJECTS/journal/</code> on 2026-05-22 — that
+            is a fully disconnected concern. <strong>This page is about the pipeline only.</strong>
           </p>
         </div>
       </section>
 
       <!-- ════════════════════════════════════════════════════════════════
-           SECTION 2 — Content lifecycle
+           SECTION 2 — Content lifecycle (pure HTML/CSS cards)
            ════════════════════════════════════════════════════════════════ -->
       <section id="lifecycle" class="architecture-section">
         <div class="section-head">
           <div class="label">02 — CONTENT LIFECYCLE</div>
           <h2>From PDF on disk to published audio bundle</h2>
-          <p class="sub">Three rooms: Source, Workshop, Published. Scripts move material between them.</p>
+          <p class="sub">Three rooms — Source, Workshop, Published. Two scripts move material between them.</p>
         </div>
         <div class="prose">
           <p>
             Every piece of content lives in one of three places at any time. The
             <strong>Source</strong> is the raw PDF (or DOCX, or audio file) somebody hands
-            us. The <strong>Workshop</strong> at <code>content/drafts/&lt;slug&gt;/</code>
-            is where the pipeline reads + writes — every intermediate artifact, every
-            chapter contract, every challenger report. The <strong>Published</strong> tree
-            at <code>content/published/books/&lt;slug&gt;/</code> is the audience-facing
+            us — it sits anywhere on disk, untouched by the pipeline. The
+            <strong>Workshop</strong> at <code>content/drafts/&lt;slug&gt;/</code> is where
+            the pipeline reads and writes — every intermediate artifact, every chapter
+            contract, every challenger report. The <strong>Published</strong> tree at
+            <code>content/published/books/&lt;slug&gt;/</code> is the audience-facing
             catalog and is written <em>only</em> by <code>publish_to_library.py</code>
             after gates G1–G7 pass.
           </p>
         </div>
 
-        <div class="diagram">
-          <svg viewBox="0 0 1500 320" preserveAspectRatio="xMidYMid meet" width="100%" height="320" id="lifecycle-svg">
-            <!-- Three card boxes -->
-            <g transform="translate(40, 80)">
-              <rect class="node-solid" width="380" height="180" rx="14"/>
-              <text class="node-tag" x="24" y="34">01 · SOURCE</text>
-              <text class="node-title" x="24" y="68">Source PDF</text>
-              <text class="node-sub" x="24" y="92">Arabic PDF / DOCX / audio</text>
-              <text class="node-sub" x="24" y="112">Lives anywhere on disk</text>
-              <text class="node-sub" x="24" y="138">Untouched by pipeline</text>
-              <text class="node-sub" x="24" y="158">Operator hands it to intake</text>
-            </g>
-
-            <g transform="translate(560, 80)">
-              <rect class="node-solid-rose" width="380" height="180" rx="14"/>
-              <text class="node-tag" x="24" y="34" fill="#ffb0cc">02 · WORKSHOP</text>
-              <text class="node-title" x="24" y="68">content/drafts/&lt;slug&gt;/</text>
-              <text class="node-sub" x="24" y="92">All intermediate artifacts</text>
-              <text class="node-sub" x="24" y="112">Chapter contracts, framings,</text>
-              <text class="node-sub" x="24" y="132">episode .txt, challenger reports</text>
-              <text class="node-sub" x="24" y="158">Pipeline reads + writes here</text>
-            </g>
-
-            <g transform="translate(1080, 80)">
-              <rect class="node-solid-mint" width="380" height="180" rx="14"/>
-              <text class="node-tag" x="24" y="34" fill="#9be3c2">03 · PUBLISHED</text>
-              <text class="node-title" x="24" y="68">content/published/books/&lt;slug&gt;/</text>
-              <text class="node-sub" x="24" y="92">Audience-facing catalog</text>
-              <text class="node-sub" x="24" y="112">Only publish_to_library.py</text>
-              <text class="node-sub" x="24" y="132">writes here — and only after</text>
-              <text class="node-sub" x="24" y="158">gates G1–G7 pass</text>
-            </g>
-
-            <!-- Arrow Source → Workshop (with label background) -->
-            <defs>
-              <marker id="arrow-rose" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
-                <path d="M0,0 L10,5 L0,10 Z" fill="#ffb0cc"/>
-              </marker>
-              <marker id="arrow-mint" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
-                <path d="M0,0 L10,5 L0,10 Z" fill="#9be3c2"/>
-              </marker>
-            </defs>
-
-            <!-- Arrow line Source → Workshop, label sits ABOVE the line, never over a card -->
-            <line x1="420" y1="170" x2="560" y2="170" stroke="#ffb0cc" stroke-width="2.4" marker-end="url(#arrow-rose)"/>
-            <rect class="label-bg" x="442" y="135" width="116" height="22"/>
-            <text class="edge-label" x="500" y="151">intake_source.py</text>
-
-            <!-- Arrow Workshop → Published -->
-            <line x1="940" y1="170" x2="1080" y2="170" stroke="#9be3c2" stroke-width="2.4" marker-end="url(#arrow-mint)"/>
-            <rect class="label-bg" x="956" y="135" width="148" height="22"/>
-            <text class="edge-label" x="1030" y="151">publish_to_library.py</text>
-
-            <!-- Subscript under arrow: gate set -->
-            <rect class="label-bg" x="956" y="185" width="148" height="22"/>
-            <text class="edge-label" x="1030" y="201" fill="#9be3c2">passes G1 → G7</text>
-          </svg>
-          <div class="caption">
-            <strong>Read left to right.</strong> A source PDF is copied into the workshop by
-            <code>intake_source.py</code>; once every gate in section 06 passes, the
-            <code>publish_to_library.py</code> script promotes the artifacts to the
-            audience-facing catalog. The PDF itself is never modified.
+        <div class="lifecycle-row">
+          <div class="lifecycle-card source">
+            <div class="tag">01 · SOURCE</div>
+            <h4>Source PDF</h4>
+            <span class="path">anywhere on disk</span>
+            <ul>
+              <li>Arabic PDF, DOCX, or audio</li>
+              <li>Untouched by pipeline</li>
+              <li>Operator hands to intake</li>
+              <li>Off the git tree</li>
+            </ul>
+          </div>
+          <div class="lifecycle-arrow">
+            <span class="label">intake_source.py</span>
+            <span class="glyph">→</span>
+          </div>
+          <div class="lifecycle-card workshop">
+            <div class="tag">02 · WORKSHOP</div>
+            <h4>Drafts workshop</h4>
+            <span class="path">content/drafts/&lt;slug&gt;/</span>
+            <ul>
+              <li>All pipeline intermediates</li>
+              <li>Chapter contracts, framings</li>
+              <li>Episode .txt + challenger reports</li>
+              <li>Tracked on a typed branch</li>
+            </ul>
+          </div>
+          <div class="lifecycle-arrow">
+            <span class="label">publish_to_library.py</span>
+            <span class="glyph">→</span>
+          </div>
+          <div class="lifecycle-card published">
+            <div class="tag">03 · PUBLISHED</div>
+            <h4>Published catalog</h4>
+            <span class="path">content/published/books/&lt;slug&gt;/</span>
+            <ul>
+              <li>Minimal: chapters/ + episodes/ + README.md</li>
+              <li>NotebookLM-ready</li>
+              <li>Written only after G1–G7 pass</li>
+              <li>Regenerable; not git-tracked</li>
+            </ul>
           </div>
         </div>
+
+        <p style="text-align:center;color:var(--text-muted);font-size:0.95rem;margin-top:1rem;">
+          The Workshop column does all the work. Source is read-only; Published is write-only.
+          Everything else lives in <code>content/drafts/&lt;slug&gt;/</code> on its own typed branch.
+        </p>
       </section>
 
       <!-- ════════════════════════════════════════════════════════════════
-           SECTION 3 — Pipeline phases (interactive vertical timeline)
+           SECTION 3 — Pipeline phases (HTML cards, click to expand)
            ════════════════════════════════════════════════════════════════ -->
       <section id="phases" class="architecture-section">
         <div class="section-head">
           <div class="label">03 — PIPELINE PHASES</div>
-          <h2>Eleven phases, run by the orchestrator</h2>
-          <p class="sub">A "phase" is a single deterministic step the orchestrator advances through.</p>
+          <h2>Eleven phases from PDF to shipped audio bundle</h2>
+          <p class="sub">Click any phase to see what it reads, what it writes, and how it fails.</p>
         </div>
         <div class="prose">
           <p>
-            <strong><code>orchestrate_book.py</code></strong> drives every book end-to-end.
-            Each phase reads from <code>content/drafts/&lt;slug&gt;/</code>, writes its
-            output back into the same workshop, and stamps progress into
-            <code>_system/orchestrator-state.json</code>. The orchestrator <em>halts</em>
-            at Phase 0f so the operator can review the chapter plan before per-chapter
-            authoring burns tokens. After approval, <code>--resume</code> picks up at
-            per-chapter and runs to completion (or hits a convergence cap, see §04).
+            The orchestrator at <code>scripts/podcast/orchestrate_book.py</code> drives a
+            book through eleven phases — first six are <em>book-level</em> (run once over
+            the whole PDF), the last few are <em>per-chapter</em> (run N times, once per
+            extracted chapter). There is exactly <strong>one human gate</strong>, at Phase
+            0f, where the operator reviews the chapter list and either authorizes the rest
+            of the run or fixes the design before continuing.
           </p>
         </div>
-        <div class="howto">click any phase to see what it reads, writes, and how it can fail →</div>
 
-        <div class="interactive-frame">
-          <div class="diagram" style="margin-top: 0;">
-            <svg viewBox="0 0 1000 760" preserveAspectRatio="xMidYMid meet" width="100%" height="760" id="phases-svg">
-              <!-- 11 phase rows. Alternating subtle tints. Each is a wide card. -->
-              <!-- Phase data is in JS below; we render rows here statically for the SVG, JS attaches click handlers -->
-              <g id="phase-rows"></g>
-            </svg>
-            <div class="caption">
-              <strong>Read top to bottom.</strong> Vertical sequence is the actual order
-              <code>orchestrate_book.py</code> executes. The dashed boundary after Phase 0f
-              marks the human-review halt — nothing below it runs until you authorize
-              <code>--resume</code>.
+        <div class="phase-list" id="phase-list">
+
+          <div class="phase-row s-azure" data-phase="0a">
+            <div class="phase-tag">0a</div>
+            <div>
+              <h4>Azure OCR + Translation</h4>
+              <p class="blurb">PDF goes to Azure Document Intelligence for OCR; the Arabic text is then translated to English via Azure Translator. Output is a raw bilingual artifact.</p>
+              <div class="phase-detail">
+                <dl>
+                  <dt>Reads</dt><dd>The source PDF dropped at the operator-supplied path.</dd>
+                  <dt>Writes</dt><dd><code>_system/source/raw-ar.txt</code> + <code>raw-en.txt</code> in the workshop.</dd>
+                  <dt>Cost</dt><dd>Azure metered — low single-digit dollars per typical 200-page book.</dd>
+                  <dt>Fails when</dt><dd>Azure credentials missing (run <code>store-keychain-keys.sh</code>); Translator transient — retry with <code>--retry-phase 0a</code>.</dd>
+                </dl>
+              </div>
             </div>
+            <div class="toggle">▶</div>
           </div>
-          <aside class="detail-panel" id="phase-detail">
-            <span class="panel-tag">phase detail</span>
-            <div class="panel-title">Click a phase</div>
-            <p class="panel-hint">Click any row on the left to see what that phase reads,
-            what it writes, the typical Azure or LLM cost, and the common failure modes.</p>
-          </aside>
+
+          <div class="phase-row s-llm" data-phase="0b">
+            <div class="phase-tag">0b</div>
+            <div>
+              <h4>English refinement (chunked)</h4>
+              <p class="blurb">An LLM authoring pass rewrites the machine-translated English into readable, voice-consistent prose. Runs chunk-by-chunk so context windows stay sane.</p>
+              <div class="phase-detail">
+                <dl>
+                  <dt>Reads</dt><dd><code>raw-en.txt</code> from Phase 0a.</dd>
+                  <dt>Writes</dt><dd><code>_system/source/refined-english.md</code>.</dd>
+                  <dt>Cost</dt><dd>Highest-cost LLM phase; budget $5-$20 per book depending on length.</dd>
+                  <dt>Fails when</dt><dd>Chunk boundary lands mid-sentence; usually self-recovers on next chunk.</dd>
+                </dl>
+              </div>
+            </div>
+            <div class="toggle">▶</div>
+          </div>
+
+          <div class="phase-row s-llm" data-phase="0c">
+            <div class="phase-tag">0c</div>
+            <div>
+              <h4>Phonetic pass (chunked)</h4>
+              <p class="blurb">Identifies Arabic names, terms, and quotations that need phonetic guidance for NotebookLM's two hosts to pronounce correctly.</p>
+              <div class="phase-detail">
+                <dl>
+                  <dt>Reads</dt><dd>The refined English from 0b.</dd>
+                  <dt>Writes</dt><dd><code>_system/phonetics-map.md</code> (term → IPA-ish hint).</dd>
+                  <dt>Cost</dt><dd>Moderate — single chunked pass.</dd>
+                  <dt>Fails when</dt><dd>LLM hallucinates names not in the source; auditor catches these post-hoc.</dd>
+                </dl>
+              </div>
+            </div>
+            <div class="toggle">▶</div>
+          </div>
+
+          <div class="phase-row s-design" data-phase="0d">
+            <div class="phase-tag">0d</div>
+            <div>
+              <h4>Chapter design</h4>
+              <p class="blurb">Decides how the source partitions into chapters (the unit of one NotebookLM episode). Writes one chapter contract YAML per chapter.</p>
+              <div class="phase-detail">
+                <dl>
+                  <dt>Reads</dt><dd>Refined English + phonetics map.</dd>
+                  <dt>Writes</dt><dd><code>chapter-contracts/&lt;slug&gt;.yml</code> + <code>chapters/ch##-&lt;slug&gt;.txt</code>.</dd>
+                  <dt>Followed by</dt><dd>Phase 0d.5 chapter-set advisory (catches duplicates, gaps).</dd>
+                  <dt>Fails when</dt><dd>YAML parse fails on any contract — the rest of the pipeline halts until fixed.</dd>
+                </dl>
+              </div>
+            </div>
+            <div class="toggle">▶</div>
+          </div>
+
+          <div class="phase-row s-llm" data-phase="0e">
+            <div class="phase-tag">0e</div>
+            <div>
+              <h4>Enrichment</h4>
+              <p class="blurb">Weaves approved-source quotations and cross-references from a curated tier list into each chapter — citations added to a draft essay.</p>
+              <div class="phase-detail">
+                <dl>
+                  <dt>Reads</dt><dd>Chapter contracts + the 7-tier source whitelist.</dd>
+                  <dt>Writes</dt><dd>Enriched fields back into each chapter contract.</dd>
+                  <dt>Cost</dt><dd>Per-chapter LLM cost; scales linearly with chapter count.</dd>
+                  <dt>Fails when</dt><dd>A cited source isn't on the whitelist — challenger catches it later as a P0.</dd>
+                </dl>
+              </div>
+            </div>
+            <div class="toggle">▶</div>
+          </div>
+
+          <div class="phase-row s-halt" data-phase="0f">
+            <div class="phase-tag">0f</div>
+            <div>
+              <h4>Series-plan halt (human gate)</h4>
+              <p class="blurb">Assembles a human-readable <code>series-plan.md</code> showing chapter count + episode lengths and exits. Operator reviews and runs <code>--resume</code> to continue.</p>
+              <div class="phase-detail">
+                <dl>
+                  <dt>Reads</dt><dd>All chapter contracts written by 0d/0e.</dd>
+                  <dt>Writes</dt><dd><code>_system/series-plan.md</code>.</dd>
+                  <dt>Action</dt><dd>Operator inspects → <code>orchestrate_book.py --resume &lt;slug&gt;</code>.</dd>
+                  <dt>Why it exists</dt><dd>The only multi-hour-spend decision in the whole pipeline; cheaper to halt than to course-correct after.</dd>
+                </dl>
+              </div>
+            </div>
+            <div class="toggle">▶</div>
+          </div>
+
+          <div class="phase-row s-chapter" data-phase="extract">
+            <div class="phase-tag">B1</div>
+            <div>
+              <h4>Per-chapter extract</h4>
+              <p class="blurb">For each chapter: builds the NotebookLM upload bundle (the chapter as the SOURCE file).</p>
+              <div class="phase-detail">
+                <dl>
+                  <dt>Script</dt><dd><code>scripts/podcast/extract_chapter.py</code>.</dd>
+                  <dt>Writes</dt><dd><code>chapters/ch##-&lt;slug&gt;.txt</code> (the NotebookLM source upload).</dd>
+                </dl>
+              </div>
+            </div>
+            <div class="toggle">▶</div>
+          </div>
+
+          <div class="phase-row s-chapter" data-phase="frame">
+            <div class="phase-tag">B2</div>
+            <div>
+              <h4>Per-chapter framing</h4>
+              <p class="blurb">LLM writes the framing — angle, host dynamic, beats — that becomes the NotebookLM Customize prompt.</p>
+              <div class="phase-detail">
+                <dl>
+                  <dt>Writes</dt><dd><code>_system/episode-drafts/EP##-&lt;slug&gt;/00-framing.md</code>.</dd>
+                </dl>
+              </div>
+            </div>
+            <div class="toggle">▶</div>
+          </div>
+
+          <div class="phase-row s-chapter" data-phase="build">
+            <div class="phase-tag">B3</div>
+            <div>
+              <h4>Build episode .txt</h4>
+              <p class="blurb">Assembles the per-episode CUSTOMIZE prompt text. Static gate: scrubs forbidden names ("Imam Ali" etc.) before any chapter ships.</p>
+              <div class="phase-detail">
+                <dl>
+                  <dt>Script</dt><dd><code>scripts/podcast/build_episode_txt.py</code>.</dd>
+                  <dt>Writes</dt><dd><code>episodes/EP##-&lt;slug&gt;.txt</code>.</dd>
+                  <dt>Fails when</dt><dd>P0 doctrinal phrase detected — halts the chapter loop until fixed.</dd>
+                </dl>
+              </div>
+            </div>
+            <div class="toggle">▶</div>
+          </div>
+
+          <div class="phase-row s-chapter" data-phase="converge">
+            <div class="phase-tag">B4</div>
+            <div>
+              <h4>Challenger convergence</h4>
+              <p class="blurb">The convergence loop (see Section 4): up to 3 outer × 5 inner iterations of challenger-then-fixer until SHIP-READY or HALT.</p>
+              <div class="phase-detail">
+                <dl>
+                  <dt>Driver</dt><dd><code>scripts/podcast/_convergence.py</code>.</dd>
+                  <dt>Hard cap</dt><dd>$50 per book, 24h wall time.</dd>
+                  <dt>Outcomes</dt><dd>SHIP-READY (no findings) · SHIP-WITH-CAUTION (P1s only) · FAILED (unresolved P0 after 3 outer iter).</dd>
+                </dl>
+              </div>
+            </div>
+            <div class="toggle">▶</div>
+          </div>
+
+          <div class="phase-row s-design" data-phase="0g">
+            <div class="phase-tag">0g</div>
+            <div>
+              <h4>Register the series</h4>
+              <p class="blurb">After all chapters ship, registers the series in the cross-book registry. Deterministic — no LLM cost.</p>
+              <div class="phase-detail">
+                <dl>
+                  <dt>Why deferred</dt><dd>The series-level metadata depends on every chapter's converged contract; can't compute until convergence.</dd>
+                </dl>
+              </div>
+            </div>
+            <div class="toggle">▶</div>
+          </div>
+
         </div>
       </section>
 
       <!-- ════════════════════════════════════════════════════════════════
-           SECTION 4 — Per-chapter convergence loop
+           SECTION 4 — Convergence loop (SVG with foreignObject nodes)
            ════════════════════════════════════════════════════════════════ -->
       <section id="convergence" class="architecture-section">
         <div class="section-head">
-          <div class="label">04 — PER-CHAPTER CONVERGENCE</div>
-          <h2>How a chapter clears (or doesn't)</h2>
-          <p class="sub">Three outer iterations, five inner. Hard caps. No silent ships.</p>
+          <div class="label">04 — CONVERGENCE LOOP</div>
+          <h2>How one chapter passes (or fails) quality review</h2>
+          <p class="sub">3 outer iterations × 5 inner challenger iterations = 15 passes maximum per chapter, then HALT.</p>
         </div>
         <div class="prose">
           <p>
-            Every chapter, after framing + episode-text are built, enters the
-            <strong>convergence loop</strong> in <code>_convergence.py</code>. The loop
-            runs the <em>challenger agent</em> (which reads the chapter, framing, and
-            episode-text and emits a verdict report), then either accepts the verdict,
-            invokes the <em>fixer agent</em>, or halts. It has three layers of cap:
-            <strong>inner</strong> (challenger's own 5-iteration cap, enforced inside the
-            challenger), <strong>middle</strong> (3 outer iterations here, in
-            <code>converge_chapter</code>), and <strong>outer</strong> (24h/$50 per book,
-            enforced by the orchestrator).
-          </p>
-          <p>
-            The key rule, locked after a 2026-05-23 audit: <strong>BLOCKED verdicts at the
-            iteration-3 cap are NEVER silently downgraded</strong> to a ship-state. The
-            chapter is marked <code>FAILED</code> and surfaced to the operator with full
-            P0/P1 carry-over.
+            Every chapter goes through the same convergence loop: <code>challenger</code>
+            reads the chapter + framing + episode and renders a verdict —
+            <strong>SHIP-READY</strong>, <strong>SHIP-WITH-CAUTION</strong>, or
+            <strong>BLOCKED</strong>. SHIP-READY ships. SHIP-WITH-CAUTION ships only at
+            iter ≥ 2 (one round of P1 fixer first). BLOCKED triggers the fixer agent on
+            P0 findings, then re-runs challenger. After 3 outer iterations with anything
+            unresolved, the loop <strong>halts the orchestrator</strong> and surfaces the
+            failure — no silent downgrades to ship.
           </p>
         </div>
 
         <div class="diagram">
-          <svg viewBox="0 0 1500 460" preserveAspectRatio="xMidYMid meet" width="100%" height="460" id="convergence-svg">
+          <div class="how-to">Read top-to-bottom · arrows are state transitions</div>
+          <svg viewBox="0 0 1400 760" preserveAspectRatio="xMidYMid meet">
             <defs>
-              <marker id="arrow-acc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
-                <path d="M0,0 L10,5 L0,10 Z" fill="#c6a6ff"/>
+              <marker id="arrow-conv" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/>
               </marker>
-              <marker id="arrow-ok" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
-                <path d="M0,0 L10,5 L0,10 Z" fill="#5bba6f"/>
+              <marker id="arrow-success" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--success)"/>
               </marker>
-              <marker id="arrow-bad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
-                <path d="M0,0 L10,5 L0,10 Z" fill="#e07b65"/>
+              <marker id="arrow-error" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--error)"/>
+              </marker>
+              <marker id="arrow-warning" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--warning)"/>
               </marker>
             </defs>
 
-            <!-- Top row: extract → frame → build -->
-            <g transform="translate(40, 40)">
-              <rect class="node-solid" width="220" height="80" rx="10"/>
-              <text class="node-tag" x="18" y="26">PRE-LOOP</text>
-              <text class="node-title" x="18" y="52">extract chapter</text>
-              <text class="node-sub" x="18" y="70">→ chapters/ch##-&lt;slug&gt;.txt</text>
-            </g>
-            <line x1="260" y1="80" x2="340" y2="80" class="edge-strong" marker-end="url(#arrow-acc)"/>
+            <!-- Row 1: START -->
+            <foreignObject x="560" y="20" width="280" height="80">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node">
+                <strong class="lg-title">Per-chapter loop START</strong>
+                <span class="sub">outer iter = 1</span>
+              </div>
+            </foreignObject>
 
-            <g transform="translate(340, 40)">
-              <rect class="node-solid" width="220" height="80" rx="10"/>
-              <text class="node-tag" x="18" y="26">PRE-LOOP</text>
-              <text class="node-title" x="18" y="52">author framing</text>
-              <text class="node-sub" x="18" y="70">→ episode-drafts/00-framing.md</text>
-            </g>
-            <line x1="560" y1="80" x2="640" y2="80" class="edge-strong" marker-end="url(#arrow-acc)"/>
+            <path class="edge-accent" d="M 700 100 L 700 150" marker-end="url(#arrow-conv)"/>
 
-            <g transform="translate(640, 40)">
-              <rect class="node-solid" width="220" height="80" rx="10"/>
-              <text class="node-tag" x="18" y="26">PRE-LOOP</text>
-              <text class="node-title" x="18" y="52">build episode .txt</text>
-              <text class="node-sub" x="18" y="70">→ episodes/EP##-&lt;slug&gt;.txt</text>
-            </g>
-            <line x1="860" y1="80" x2="940" y2="80" class="edge-strong" marker-end="url(#arrow-acc)"/>
+            <!-- Row 2: BUILD episode -->
+            <foreignObject x="540" y="150" width="320" height="80">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node">
+                <strong>extract → frame → build episode.txt</strong>
+                <span class="sub">B1 → B2 → B3 (per-chapter phases)</span>
+              </div>
+            </foreignObject>
 
-            <!-- Convergence loop entry: challenger -->
-            <g transform="translate(940, 40)">
-              <rect class="node-solid-rose" width="240" height="80" rx="10"/>
-              <text class="node-tag" x="18" y="26" fill="#ffb0cc">LOOP · ITER N</text>
-              <text class="node-title" x="18" y="52">invoke challenger</text>
-              <text class="node-sub" x="18" y="70">reads chapter+framing+ep.txt</text>
-            </g>
+            <path class="edge-accent" d="M 700 230 L 700 280" marker-end="url(#arrow-conv)"/>
 
-            <!-- Down to verdict diamond -->
-            <line x1="1060" y1="120" x2="1060" y2="170" class="edge-strong" marker-end="url(#arrow-acc)"/>
+            <!-- Row 3: CHALLENGER -->
+            <foreignObject x="540" y="280" width="320" height="100">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-rose">
+                <strong>invoke_challenger()</strong>
+                <span class="sub">≤ 5 inner iterations</span>
+                <span class="sub">writes _system/challenger-report.md</span>
+              </div>
+            </foreignObject>
 
-            <!-- Verdict diamond -->
-            <g transform="translate(960, 170)">
-              <polygon points="100,0 200,60 100,120 0,60" class="node-solid-gold" />
-              <text class="node-title" x="100" y="55" text-anchor="middle">verdict?</text>
-              <text class="node-sub" x="100" y="78" text-anchor="middle">parse report</text>
-            </g>
+            <!-- Three branches from challenger -->
+            <path class="edge-success" d="M 600 380 L 240 460" marker-end="url(#arrow-success)"/>
+            <path class="edge-warning" d="M 700 380 L 700 460" marker-end="url(#arrow-warning)"/>
+            <path class="edge-error" d="M 800 380 L 1160 460" marker-end="url(#arrow-error)"/>
 
-            <!-- Three branches from verdict: SHIP-READY (right, green), SHIP-WITH-CAUTION (down, gold), BLOCKED (left, red) -->
+            <!-- Edge labels -->
+            <foreignObject x="320" y="395" width="160" height="32">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-edge-label">verdict: SHIP-READY</div>
+            </foreignObject>
+            <foreignObject x="620" y="395" width="170" height="32">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-edge-label">SHIP-WITH-CAUTION</div>
+            </foreignObject>
+            <foreignObject x="920" y="395" width="160" height="32">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-edge-label">verdict: BLOCKED</div>
+            </foreignObject>
 
-            <!-- SHIP-READY: right to ship -->
-            <line x1="1160" y1="230" x2="1280" y2="230" class="edge-pass" marker-end="url(#arrow-ok)"/>
-            <rect class="label-bg" x="1180" y="200" width="100" height="22" style="fill:#1f3a26; stroke:#5bba6f;"/>
-            <text class="edge-label" x="1230" y="216" fill="#9be9a5">SHIP-READY</text>
+            <!-- Row 4 left: SHIP -->
+            <foreignObject x="60" y="460" width="320" height="100">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-success">
+                <strong>SHIP-READY → ship</strong>
+                <span class="sub">break out of loop</span>
+                <span class="sub">advance to next chapter</span>
+              </div>
+            </foreignObject>
 
-            <g transform="translate(1280, 190)">
-              <rect class="node-gate-ok" width="180" height="80" rx="10"/>
-              <text class="node-tag" x="14" y="26" fill="#9be9a5">SHIP</text>
-              <text class="node-title" x="14" y="52" fill="#fff7fb">accept & ship</text>
-              <text class="node-sub" x="14" y="70" fill="#cfeac0">break loop</text>
-            </g>
+            <!-- Row 4 middle: P1 decision -->
+            <foreignObject x="540" y="460" width="320" height="100">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-warning">
+                <strong>iter ≥ 2 ?</strong>
+                <span class="sub">YES → ship-with-flag · NO → fixer(P1)</span>
+              </div>
+            </foreignObject>
 
-            <!-- SHIP-WITH-CAUTION: down to fixer-P1 -->
-            <line x1="1060" y1="290" x2="1060" y2="340" class="edge-strong" marker-end="url(#arrow-acc)"/>
-            <rect class="label-bg" x="990" y="300" width="140" height="22"/>
-            <text class="edge-label" x="1060" y="316">SHIP-WITH-CAUTION</text>
+            <!-- Row 4 right: FIXER P0 -->
+            <foreignObject x="980" y="460" width="340" height="100">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-error">
+                <strong>invoke_fixer(severity="P0")</strong>
+                <span class="sub">max 3 fixer attempts per outer iter</span>
+              </div>
+            </foreignObject>
 
-            <g transform="translate(940, 340)">
-              <rect class="node-solid-gold" width="240" height="80" rx="10"/>
-              <text class="node-tag" x="18" y="26" fill="#f4d49c">CONDITIONAL</text>
-              <text class="node-title" x="18" y="52">if iter ≥ 2: ship</text>
-              <text class="node-sub" x="18" y="70">else: fixer/P1 → retry</text>
-            </g>
+            <!-- Row 5: loop back arrows -->
+            <path class="edge-warning" d="M 700 560 L 700 600" marker-end="url(#arrow-warning)"/>
+            <path class="edge-error" d="M 1160 560 L 1160 600" marker-end="url(#arrow-error)"/>
 
-            <!-- BLOCKED: left to fixer-P0 -->
-            <line x1="960" y1="230" x2="820" y2="230" class="edge-fail" marker-end="url(#arrow-bad)"/>
-            <rect class="label-bg" x="840" y="200" width="100" height="22" style="fill:#3a221f; stroke:#e07b65;"/>
-            <text class="edge-label" x="890" y="216" fill="#ffb0a0">BLOCKED</text>
+            <foreignObject x="540" y="600" width="320" height="80">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node">
+                <strong>outer iter += 1 — retry challenger</strong>
+                <span class="sub">unless outer iter == 3 → HALT</span>
+              </div>
+            </foreignObject>
 
-            <g transform="translate(620, 190)">
-              <rect class="node-gate-fail" width="200" height="80" rx="10"/>
-              <text class="node-tag" x="14" y="26" fill="#ffb0a0">REPAIR</text>
-              <text class="node-title" x="14" y="52" fill="#fff7fb">fixer/P0</text>
-              <text class="node-sub" x="14" y="70" fill="#ffd9d0">≤3 fixer attempts</text>
-            </g>
+            <foreignObject x="980" y="600" width="340" height="80">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node">
+                <strong>outer iter += 1 — retry challenger</strong>
+                <span class="sub">unless outer iter == 3 → HALT (FAILED)</span>
+              </div>
+            </foreignObject>
 
-            <!-- Fixer loops back up to challenger -->
-            <path d="M 720 190 Q 720 100 940 80" class="edge-fail" marker-end="url(#arrow-bad)" fill="none"/>
-            <rect class="label-bg" x="680" y="130" width="100" height="22" style="fill:#3a221f; stroke:#e07b65;"/>
-            <text class="edge-label" x="730" y="146" fill="#ffb0a0">retry iter</text>
-
-            <!-- Iter-3 cap → HALT (bottom right) -->
-            <line x1="1180" y1="380" x2="1280" y2="380" class="edge-fail" marker-end="url(#arrow-bad)"/>
-            <rect class="label-bg" x="1190" y="350" width="100" height="22" style="fill:#3a221f; stroke:#e07b65;"/>
-            <text class="edge-label" x="1240" y="366" fill="#ffb0a0">iter == 3 cap</text>
-
-            <g transform="translate(1280, 340)">
-              <rect class="node-gate-fail" width="200" height="80" rx="10"/>
-              <text class="node-tag" x="14" y="26" fill="#ffb0a0">HALT</text>
-              <text class="node-title" x="14" y="52" fill="#fff7fb">FAILED</text>
-              <text class="node-sub" x="14" y="70" fill="#ffd9d0">surface to operator</text>
-            </g>
+            <!-- back-up arrows to challenger -->
+            <path class="edge" d="M 700 680 L 700 720 L 380 720 L 380 330 L 540 330" marker-end="url(#arrow-conv)" stroke-dasharray="5 4"/>
+            <path class="edge" d="M 1160 680 L 1160 720 L 1020 720 L 1020 330 L 860 330" marker-end="url(#arrow-conv)" stroke-dasharray="5 4"/>
           </svg>
-          <div class="caption">
-            <strong>The three verdicts.</strong> <span style="color:#9be9a5">SHIP-READY</span>
-            (green, right) breaks the loop cleanly. <span style="color:#f4d49c">SHIP-WITH-CAUTION</span>
-            (gold, down) ships only if it survives at least two iterations.
-            <span style="color:#ffb0a0">BLOCKED</span> (red, left) invokes the fixer on P0
-            findings and retries; if iteration 3 still fails, the chapter is
-            <code>FAILED</code> and surfaced — never silently shipped.
+          <div class="legend">
+            <span class="legend-chip"><span class="swatch" style="background:var(--success)"></span>SHIP-READY · ships immediately</span>
+            <span class="legend-chip"><span class="swatch" style="background:var(--warning)"></span>SHIP-WITH-CAUTION · ships at iter ≥ 2</span>
+            <span class="legend-chip"><span class="swatch" style="background:var(--error)"></span>BLOCKED · fixer attempts, then retry</span>
           </div>
+          <p class="caption">
+            The dashed arrows are the retry loop. At outer iteration 3, any unresolved
+            verdict halts the orchestrator. Prior behavior silently downgraded BLOCKED to
+            FORCE-SHIP-CAUTION; that bypass was closed alongside publish gate G7.
+          </p>
         </div>
       </section>
 
       <!-- ════════════════════════════════════════════════════════════════
-           SECTION 5 — Branch policy (deterministic radial layout)
+           SECTION 5 — Branch policy (pure HTML table)
            ════════════════════════════════════════════════════════════════ -->
       <section id="branches" class="architecture-section">
         <div class="section-head">
           <div class="label">05 — BRANCH POLICY</div>
-          <h2>Typed branch per piece of content</h2>
-          <p class="sub">One branch per content category, off <code>develop</code>, merged after publish.</p>
+          <h2>One typed branch per piece of content</h2>
+          <p class="sub">Single source of truth: <code>scripts/podcast/_branching.py</code>.</p>
         </div>
         <div class="prose">
           <p>
             Every new piece of content is processed on its own typed branch off
-            <code>develop</code>. The prefix encodes the content category — books go on
-            <code>book/&lt;slug&gt;</code>, articles on <code>article/&lt;slug&gt;</code>, etc.
-            Branches are created at intake and merged back to <code>develop</code> only
-            after publish completes. Slugs are <strong>always</strong> the full kebab-cased
-            name, never abbreviated (<code>book/kitab-al-riyad</code>, not
-            <code>book/KaR</code>). Single source of truth lives in
-            <code>scripts/podcast/_branching.py</code>.
+            <code>develop</code>. The branch is created at intake time and merged back to
+            <code>develop</code> only after publish completes. The prefix is determined by
+            the content's <strong>category</strong> field. Slugs are always the full
+            kebab-cased name — never abbreviate (so <code>book/kitab-al-riyad</code>, never
+            <code>book/KaR</code>).
           </p>
         </div>
 
         <table class="branch-table">
           <thead>
             <tr>
-              <th>Category</th>
-              <th>Branch prefix</th>
-              <th>Example</th>
+              <th style="width:18%">Branch prefix</th>
+              <th style="width:18%">Category</th>
+              <th>Example branch name</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td>books</td><td><code>book/</code></td><td><code>book/kitab-al-riyad</code></td></tr>
-            <tr><td>documents</td><td><code>doc/</code></td><td><code>doc/encyclical-001</code></td></tr>
-            <tr><td>lectures</td><td><code>lecture/</code></td><td><code>lecture/kunooz-al-hikmah</code></td></tr>
-            <tr><td>articles</td><td><code>article/</code></td><td><code>article/the-soul-and-its-refinement</code></td></tr>
-            <tr><td>letters</td><td><code>letter/</code></td><td><code>letter/farman-1957</code></td></tr>
-            <tr><td>interviews</td><td><code>interview/</code></td><td><code>interview/aga-khan-iv-2010</code></td></tr>
-            <tr><td><em>fallback</em> (category unknown / unset)</td><td><code>draft/</code></td><td><code>draft/unclassified-pdf</code></td></tr>
+            <tr>
+              <td class="prefix">book/</td>
+              <td class="category">books</td>
+              <td class="example">book/kitab-al-riyad</td>
+            </tr>
+            <tr>
+              <td class="prefix">doc/</td>
+              <td class="category">documents</td>
+              <td class="example">doc/imamat-overview-2026</td>
+            </tr>
+            <tr>
+              <td class="prefix">lecture/</td>
+              <td class="category">lectures</td>
+              <td class="example">lecture/kunooz-al-hikmah-session-04</td>
+            </tr>
+            <tr>
+              <td class="prefix">article/</td>
+              <td class="category">articles</td>
+              <td class="example">article/the-meaning-of-tariqat</td>
+            </tr>
+            <tr>
+              <td class="prefix">letter/</td>
+              <td class="category">letters</td>
+              <td class="example">letter/al-aziz-billah-to-the-jamat</td>
+            </tr>
+            <tr>
+              <td class="prefix">interview/</td>
+              <td class="category">interviews</td>
+              <td class="example">interview/qazi-noman-on-tawil</td>
+            </tr>
+            <tr>
+              <td class="prefix">draft/</td>
+              <td class="category"><em>(fallback — category unknown)</em></td>
+              <td class="example">draft/pending-classification</td>
+            </tr>
           </tbody>
         </table>
 
-        <div class="diagram">
-          <svg viewBox="0 0 1500 580" preserveAspectRatio="xMidYMid meet" width="100%" height="580" id="branches-svg">
-            <!-- Deterministic radial layout. develop at center, 7 typed branches at fixed theta -->
-            <defs>
-              <marker id="arrow-branch" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
-                <path d="M0,0 L10,5 L0,10 Z" fill="#b094c4"/>
-              </marker>
-            </defs>
-            <g id="branches-g"></g>
-          </svg>
-          <div class="caption">
-            <strong>Read radially.</strong> <code>develop</code> sits at the centre; each
-            typed branch radiates outward at a fixed angle. Labels are always positioned
-            <em>outside</em> the node so they never overlap the centre or each other.
-            Branches are short-lived — they exist from intake to merge-after-publish, then go away.
-          </div>
-        </div>
+        <p style="color:var(--text-muted);font-size:0.95rem;text-align:center;">
+          The <code>draft/</code> prefix is the fallback when category is missing or
+          unrecognized — it keeps the branch trackable while signaling that classification
+          is pending. Promotion to <code>develop</code> happens only after publish; promotion
+          to <code>main</code> needs explicit operator approval (GitHub ruleset enforces).
+        </p>
       </section>
 
       <!-- ════════════════════════════════════════════════════════════════
-           SECTION 6 — Publish gates G1→G7 (interactive)
+           SECTION 6 — Publish gates (pure HTML cards, click to expand)
            ════════════════════════════════════════════════════════════════ -->
       <section id="gates" class="architecture-section">
         <div class="section-head">
           <div class="label">06 — PUBLISH GATES</div>
-          <h2>Seven gates, run in order, by <code>publish_to_library.py</code></h2>
-          <p class="sub">Pass all seven → promotion to <code>content/published/</code>. Fail one → halt.</p>
+          <h2>Seven gates that must pass before content ships</h2>
+          <p class="sub">Click any gate to see what it checks, what failure means, and how to recover.</p>
         </div>
         <div class="prose">
           <p>
-            <strong><code>publish_to_library.py</code></strong> is the only script
-            authorized to write into <code>content/published/books/</code>. Before it does,
-            it runs <strong>seven gates</strong> in strict order. Each gate is a small
-            function in the same file (<code>gate_g1_structure</code>,
-            <code>gate_g2_pairs</code>, …). All seven must pass; the first failure stops
-            the publish and explains how to fix.
+            <code>scripts/podcast/publish_to_library.py</code> runs seven gates in order.
+            Any failure aborts the publish — nothing reaches
+            <code>content/published/books/&lt;slug&gt;/</code> until every gate is green.
+            G7 (challenger convergence) was added 2026-05-24 to close the bypass that
+            previously let non-orchestrated books reach the audience without ever clearing
+            the convergence loop.
           </p>
         </div>
-        <div class="howto">click any gate to see what it checks and how to recover →</div>
 
-        <div class="interactive-frame">
-          <div class="diagram" style="margin-top: 0;">
-            <svg viewBox="0 0 1000 820" preserveAspectRatio="xMidYMid meet" width="100%" height="820" id="gates-svg">
-              <defs>
-                <marker id="arrow-gate-ok" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
-                  <path d="M0,0 L10,5 L0,10 Z" fill="#5bba6f"/>
-                </marker>
-              </defs>
-              <g id="gate-rows"></g>
-            </svg>
-            <div class="caption">
-              <strong>Read top to bottom.</strong> Each gate is a wide card with its check
-              name and a one-line purpose. Green arrows mean "passed, on to the next gate."
-              The final gate's pass-arrow lands on
-              <code>content/published/books/&lt;slug&gt;/</code>. Any fail
-              halts and prints the recovery hint from the script.
+        <div class="gate-list" id="gate-list">
+
+          <div class="gate-row" data-gate="g1">
+            <div class="gate-id">G1</div>
+            <div>
+              <h4>Required structure</h4>
+              <p class="check"><code>chapters/*.txt</code> and <code>episodes/*.txt</code> both exist and are non-empty.</p>
+              <div class="gate-detail">
+                <strong>Why:</strong> No point doing anything else if the raw artifacts aren't on disk.
+                <br><br><span class="fail">FAIL</span> means a phase didn't run or wrote nothing. Re-run the relevant phase via <code>--retry-phase</code>.
+              </div>
             </div>
+            <div class="toggle">▶</div>
           </div>
-          <aside class="detail-panel" id="gate-detail">
-            <span class="panel-tag">gate detail</span>
-            <div class="panel-title">Click a gate</div>
-            <p class="panel-hint">Click any gate card to see exactly what it checks, what
-            "fail" means in concrete terms, and how to recover. The gate definitions are
-            pulled from the docstrings in <code>publish_to_library.py</code>.</p>
-          </aside>
+
+          <div class="gate-row" data-gate="g2">
+            <div class="gate-id">G2</div>
+            <div>
+              <h4>Pair completeness</h4>
+              <p class="check">Every <code>EP##-&lt;slug&gt;.txt</code> has a matching <code>ch##-&lt;slug&gt;.txt</code>, and vice versa.</p>
+              <div class="gate-detail">
+                <strong>Why:</strong> Episodes and chapters travel as pairs to NotebookLM; an orphan on either side means the bundle is incomplete.
+                <br><br><span class="fail">FAIL</span> usually points to a manual edit gone wrong; check the orchestrator-state.json for the chapter index.
+              </div>
+            </div>
+            <div class="toggle">▶</div>
+          </div>
+
+          <div class="gate-row" data-gate="g3">
+            <div class="gate-id">G3</div>
+            <div>
+              <h4>Sequential numbering</h4>
+              <p class="check">Chapter + episode numbers are purely sequential 1..N — no letter suffixes (<code>ch14a</code>), no decimals (<code>ch3.5</code>).</p>
+              <div class="gate-detail">
+                <strong>Why:</strong> The reader app + catalog assume contiguous numbering. Mirrors the future <code>S-EPISODE-SEQUENTIAL</code> challenger check, inlined here.
+                <br><br><span class="fail">FAIL</span> means a phase 0d rerun left a gap; reset and re-run via <code>--retry-phase 0d</code>.
+              </div>
+            </div>
+            <div class="toggle">▶</div>
+          </div>
+
+          <div class="gate-row" data-gate="g4">
+            <div class="gate-id">G4</div>
+            <div>
+              <h4>Build-clean (P0=0)</h4>
+              <p class="check">Running <code>build_episode_txt.py</code> on every episode returns zero P0 flags. P1 advisories warn-only by default; <code>--strict</code> elevates P1 to blocking.</p>
+              <div class="gate-detail">
+                <strong>Why:</strong> Even after challenger convergence, a doctrinal P0 (forbidden phrase, lineage swap) must not slip past the static builder.
+                <br><br><span class="fail">FAIL</span> means an "Imam Ali"-class phrase leaked back in. Run the doctrinal checks from Section 7 to localize.
+              </div>
+            </div>
+            <div class="toggle">▶</div>
+          </div>
+
+          <div class="gate-row" data-gate="g5">
+            <div class="gate-id">G5</div>
+            <div>
+              <h4>State checkpoint</h4>
+              <p class="check"><code>orchestrator-state.json</code> shows <code>phase=done</code> OR <code>phase=per-chapter</code> with a shippable phase_status.</p>
+              <div class="gate-detail">
+                <strong>Why:</strong> Don't publish a book the orchestrator thinks is still in flight; the state.json is the source of truth.
+                <br><br><span class="fail">FAIL</span> usually means an unclean shutdown left phase_status=running (the known orchestrator-resume bug). Bypass with <code>--force</code> only after manual review.
+              </div>
+            </div>
+            <div class="toggle">▶</div>
+          </div>
+
+          <div class="gate-row" data-gate="g6">
+            <div class="gate-id">G6</div>
+            <div>
+              <h4>Library-target sane</h4>
+              <p class="check">Target <code>content/published/books/&lt;slug&gt;/</code> either doesn't exist (we create) or <code>--overwrite</code> (default) wipes and recreates. <code>--no-wipe</code> coexists.</p>
+              <div class="gate-detail">
+                <strong>Why:</strong> Don't blow away a target that turns out to be a symlink or outside the library tree.
+                <br><br><span class="fail">FAIL</span> when target is a symlink (refuses wipe) — investigate before continuing.
+              </div>
+            </div>
+            <div class="toggle">▶</div>
+          </div>
+
+          <div class="gate-row" data-gate="g7">
+            <div class="gate-id">G7</div>
+            <div>
+              <h4>Challenger convergence</h4>
+              <p class="check">Book's pipeline_mode is NOT in the non-converged set, AND <code>challenger-report.md</code> verdict is in {SHIP-READY, SHIP-WITH-CAUTION}.</p>
+              <div class="gate-detail">
+                <strong>Why:</strong> Closes the bypass where non-orchestrated books or N/A reports reached the audience without ever clearing convergence. Sibling closure to the silent-downgrade fix in <code>_convergence.py</code>.
+                <br><br><span class="fail">FAIL</span> means either pipeline_mode=non_orchestrated_mode_2 or verdict missing. Use <code>--allow-mode-2</code> only after manual challenger pass.
+              </div>
+            </div>
+            <div class="toggle">▶</div>
+          </div>
+
         </div>
       </section>
 
       <!-- ════════════════════════════════════════════════════════════════
-           SECTION 7 — Category T doctrinal accuracy checks
+           SECTION 7 — Doctrinal accuracy (SVG with foreignObject)
            ════════════════════════════════════════════════════════════════ -->
       <section id="doctrinal" class="architecture-section">
         <div class="section-head">
           <div class="label">07 — DOCTRINAL ACCURACY</div>
-          <h2>Category T — the five doctrinal checks</h2>
-          <p class="sub">Stops the pipeline from shipping content that says "Imam Ali" or pairs the wrong Imam with the wrong ordinal.</p>
+          <h2>Category T — five checks for Ismaili-tradition correctness</h2>
+          <p class="sub">Each chapter walks through T1 → T5; P0 findings block, P1 findings flag.</p>
         </div>
         <div class="prose">
           <p>
-            <strong>Category T</strong> (the "T" is for "tradition / theological") is a set
-            of five rules in <code>scripts/podcast/_doctrinal.py</code> that run on every
-            chapter during the convergence loop. They guard against doctrinal errors that
-            no static linter catches — phrases like "Imam Ali" (forbidden in the Ismaili
-            tradition because Ali ibn Abi Talib is the <em>father</em> of the Imams, not
-            counted in the lineage), or "the 5th Imam Hassan" (wrong — Hassan is #1; #5 is
-            Ja'far al-Sadiq). T1 + T2 + T3 are live and aggressive; T4 + T5 are reserved
-            slots with stub implementations.
+            The <code>_doctrinal.py</code> module runs five checks against every chapter +
+            framing + episode. Data backing the checks lives in
+            <code>content/_shared/islam/</code> (imam lineage, naming conventions, canonical
+            attributions). T4 and T5 are stubs reserved for future datasets — the rule-id
+            taxonomy stays complete so the trainer can wire them later without a renumbering.
+          </p>
+          <p>
+            Note on lineage: in this tradition, Ali ibn Abi Talib is the <em>Father of the
+            Imams</em>, not the first Imam. The first Imam is Hassan. The phrase
+            "Imam Ali" is therefore P0 forbidden — it reflects the Twelver convention, not
+            the framing of these books.
           </p>
         </div>
 
         <div class="diagram">
-          <svg viewBox="0 0 1500 520" preserveAspectRatio="xMidYMid meet" width="100%" height="520" id="doctrinal-svg">
+          <div class="how-to">A chapter enters at the top · cleared chapters exit at the bottom-left</div>
+          <svg viewBox="0 0 1400 880" preserveAspectRatio="xMidYMid meet">
             <defs>
-              <marker id="arrow-doc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
-                <path d="M0,0 L10,5 L0,10 Z" fill="#b094c4"/>
+              <marker id="arrow-doc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/>
+              </marker>
+              <marker id="arrow-doc-err" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--error)"/>
+              </marker>
+              <marker id="arrow-doc-ok" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--success)"/>
               </marker>
             </defs>
 
-            <!-- Input chapter (left) -->
-            <g transform="translate(40, 200)">
-              <rect class="node-solid" width="220" height="100" rx="10"/>
-              <text class="node-tag" x="18" y="28">INPUT</text>
-              <text class="node-title" x="18" y="56">chapter text</text>
-              <text class="node-sub" x="18" y="78">paragraph-wise scan</text>
-            </g>
+            <!-- Input -->
+            <foreignObject x="560" y="20" width="280" height="80">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node">
+                <strong class="lg-title">Chapter text</strong>
+                <span class="sub">enters run_doctrinal_checks()</span>
+              </div>
+            </foreignObject>
 
-            <!-- Spread arrow to 5 checks -->
-            <line x1="260" y1="220" x2="380" y2="60" stroke="#b094c4" stroke-width="1.6" marker-end="url(#arrow-doc)"/>
-            <line x1="260" y1="240" x2="380" y2="160" stroke="#b094c4" stroke-width="1.6" marker-end="url(#arrow-doc)"/>
-            <line x1="260" y1="250" x2="380" y2="260" stroke="#b094c4" stroke-width="1.6" marker-end="url(#arrow-doc)"/>
-            <line x1="260" y1="260" x2="380" y2="360" stroke="#b094c4" stroke-width="1.6" marker-end="url(#arrow-doc)"/>
-            <line x1="260" y1="280" x2="380" y2="460" stroke="#b094c4" stroke-width="1.6" marker-end="url(#arrow-doc)"/>
+            <path class="edge-accent" d="M 700 100 L 700 140" marker-end="url(#arrow-doc)"/>
 
-            <!-- 5 check cards, stacked -->
-            <g transform="translate(380, 20)">
-              <rect class="node-solid" width="380" height="80" rx="10"/>
-              <text class="node-tag" x="18" y="26">T1 · LIVE</text>
-              <text class="node-title" x="18" y="50">Canonical attribution</text>
-              <text class="node-sub" x="18" y="68">"Did the writer assign this hadith to the wrong source?"</text>
-            </g>
-            <g transform="translate(380, 120)">
-              <rect class="node-solid" width="380" height="80" rx="10"/>
-              <text class="node-tag" x="18" y="26">T2 · LIVE</text>
-              <text class="node-title" x="18" y="50">Imam lineage</text>
-              <text class="node-sub" x="18" y="68">"Does 'the Nth Imam' match the canonical lineage?"</text>
-            </g>
-            <g transform="translate(380, 220)">
-              <rect class="node-solid" width="380" height="80" rx="10"/>
-              <text class="node-tag" x="18" y="26">T3 · LIVE · HIGH-VOLUME</text>
-              <text class="node-title" x="18" y="50">Forbidden phrases</text>
-              <text class="node-sub" x="18" y="68">"Imam Ali" / "Imam Fatima" / lineage-forbidden titles</text>
-            </g>
-            <g transform="translate(380, 320)">
-              <rect class="node-solid" width="380" height="80" rx="10" stroke-dasharray="6 4"/>
-              <text class="node-tag" x="18" y="26" fill="#c9b8d4">T4 · STUB</text>
-              <text class="node-title" x="18" y="50" fill="#c9b8d4">Farman plausibility</text>
-              <text class="node-sub" x="18" y="68">awaiting farmans.yml dataset</text>
-            </g>
-            <g transform="translate(380, 420)">
-              <rect class="node-solid" width="380" height="80" rx="10" stroke-dasharray="6 4"/>
-              <text class="node-tag" x="18" y="26" fill="#c9b8d4">T5 · STUB</text>
-              <text class="node-title" x="18" y="50" fill="#c9b8d4">Weak / fabricated hadith</text>
-              <text class="node-sub" x="18" y="68">empty list; trainer populates as patterns emerge</text>
-            </g>
+            <!-- T1 -->
+            <foreignObject x="540" y="140" width="320" height="100">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-rose">
+                <strong>T1 — Canonical attribution</strong>
+                <span class="sub">Forbidden attributions next to known signatures → P0</span>
+              </div>
+            </foreignObject>
+            <path class="edge-accent" d="M 700 240 L 700 280" marker-end="url(#arrow-doc)"/>
 
-            <!-- Converge to outcome -->
-            <line x1="760" y1="60" x2="900" y2="220" stroke="#b094c4" stroke-width="1.6" marker-end="url(#arrow-doc)"/>
-            <line x1="760" y1="160" x2="900" y2="240" stroke="#b094c4" stroke-width="1.6" marker-end="url(#arrow-doc)"/>
-            <line x1="760" y1="260" x2="900" y2="260" stroke="#b094c4" stroke-width="1.6" marker-end="url(#arrow-doc)"/>
-            <line x1="760" y1="360" x2="900" y2="280" stroke="#b094c4" stroke-width="1.6" marker-end="url(#arrow-doc)"/>
-            <line x1="760" y1="460" x2="900" y2="300" stroke="#b094c4" stroke-width="1.6" marker-end="url(#arrow-doc)"/>
+            <!-- T2 -->
+            <foreignObject x="540" y="280" width="320" height="100">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-rose">
+                <strong>T2 — Imam lineage</strong>
+                <span class="sub">"the Nth Imam" pairs with the right name → P0 if not</span>
+              </div>
+            </foreignObject>
+            <path class="edge-accent" d="M 700 380 L 700 420" marker-end="url(#arrow-doc)"/>
 
-            <!-- Aggregator + two-tail outcome -->
-            <g transform="translate(900, 200)">
-              <rect class="node-solid-gold" width="220" height="100" rx="10"/>
-              <text class="node-tag" x="18" y="28" fill="#f4d49c">AGGREGATE</text>
-              <text class="node-title" x="18" y="56">run_doctrinal_checks</text>
-              <text class="node-sub" x="18" y="78">P0 first, by check_id</text>
-            </g>
+            <!-- T3 -->
+            <foreignObject x="540" y="420" width="320" height="100">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-error">
+                <strong>T3 — Forbidden phrases</strong>
+                <span class="sub">"Imam Ali", "Imam Fatima" → P0 (build-time HARD gate)</span>
+              </div>
+            </foreignObject>
+            <path class="edge-accent" d="M 700 520 L 700 560" marker-end="url(#arrow-doc)"/>
 
-            <!-- Two outcomes: any P0 → BLOCK, else → continue -->
-            <line x1="1120" y1="220" x2="1260" y2="120" class="edge-fail" marker-end="url(#arrow-bad)"/>
-            <rect class="label-bg" x="1145" y="160" width="120" height="22" style="fill:#3a221f; stroke:#e07b65;"/>
-            <text class="edge-label" x="1205" y="176" fill="#ffb0a0">any P0 → BLOCK</text>
+            <!-- T4 -->
+            <foreignObject x="540" y="560" width="320" height="100">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-warning">
+                <strong>T4 — Farman plausibility (STUB)</strong>
+                <span class="sub">Reserved for date/location dataset (not yet populated)</span>
+              </div>
+            </foreignObject>
+            <path class="edge-accent" d="M 700 660 L 700 700" marker-end="url(#arrow-doc)"/>
 
-            <g transform="translate(1260, 80)">
-              <rect class="node-gate-fail" width="200" height="80" rx="10"/>
-              <text class="node-tag" x="14" y="26" fill="#ffb0a0">VERDICT</text>
-              <text class="node-title" x="14" y="52" fill="#fff7fb">BLOCKED</text>
-              <text class="node-sub" x="14" y="70" fill="#ffd9d0">to fixer/P0</text>
-            </g>
+            <!-- T5 -->
+            <foreignObject x="540" y="700" width="320" height="100">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-warning">
+                <strong>T5 — Weak hadith (STUB until populated)</strong>
+                <span class="sub">Trainer adds matn fragments as patterns emerge → P1</span>
+              </div>
+            </foreignObject>
 
-            <line x1="1120" y1="280" x2="1260" y2="380" class="edge-pass" marker-end="url(#arrow-ok)"/>
-            <rect class="label-bg" x="1145" y="320" width="120" height="22" style="fill:#1f3a26; stroke:#5bba6f;"/>
-            <text class="edge-label" x="1205" y="336" fill="#9be9a5">all clean → pass</text>
+            <!-- Outcomes (left side: ship / right side: block) -->
+            <path class="edge-ok" d="M 540 470 L 220 470" stroke="var(--success)" stroke-width="2.5" fill="none" marker-end="url(#arrow-doc-ok)"/>
+            <foreignObject x="60" y="430" width="200" height="80">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-success">
+                <strong>findings = []</strong>
+                <span class="sub">chapter clears → ship</span>
+              </div>
+            </foreignObject>
 
-            <g transform="translate(1260, 340)">
-              <rect class="node-gate-ok" width="200" height="80" rx="10"/>
-              <text class="node-tag" x="14" y="26" fill="#9be9a5">VERDICT</text>
-              <text class="node-title" x="14" y="52" fill="#fff7fb">CLEAR</text>
-              <text class="node-sub" x="14" y="70" fill="#cfeac0">on to non-T checks</text>
-            </g>
+            <path class="edge-error" d="M 860 470 L 1180 470" marker-end="url(#arrow-doc-err)"/>
+            <foreignObject x="1180" y="430" width="200" height="80">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-error">
+                <strong>any P0 → BLOCK</strong>
+                <span class="sub">challenger raises P0; fixer attempts</span>
+              </div>
+            </foreignObject>
           </svg>
-          <div class="caption">
-            <strong>One chapter, five checks, two outcomes.</strong> The chapter text fans
-            out to five doctrinal checks; their findings aggregate (P0 first, then by
-            check ID). Any P0 → the chapter goes to the fixer. All-clean → on to the rest
-            of challenger's non-T checks. T1–T3 are live now; T4 (Farman date/location)
-            and T5 (weak hadith) are reserved slots with stub implementations awaiting
-            dataset population.
-          </div>
+          <p class="caption">
+            The decision tree runs T1 → T5 in sequence on every chapter. A clean walk (no
+            findings) ships left; any P0 ships right into the convergence loop's BLOCKED
+            branch. The seven valid Imams in the lineage are Hassan, Hussain, Ali Zayn
+            al-Abidin, Muhammad al-Baqir, Ja'far al-Sadiq, Isma'il ibn Ja'far, and Muhammad
+            ibn Isma'il.
+          </p>
         </div>
       </section>
 
       <!-- ════════════════════════════════════════════════════════════════
-           SECTION 8 — Agent surface (force-directed network)
+           SECTION 8 — Agent surface (SVG force-directed with foreignObject)
            ════════════════════════════════════════════════════════════════ -->
       <section id="agents" class="architecture-section">
         <div class="section-head">
           <div class="label">08 — AGENT SURFACE</div>
-          <h2>The agents under <code>infra/claude-agents/</code></h2>
-          <p class="sub">A small council: orchestrator at the centre, specialists arranged around.</p>
+          <h2>Ten Claude agents, one orchestrator at the center</h2>
+          <p class="sub">Orchestrator is the only agent that drives the others; the rest are leaves.</p>
         </div>
         <div class="prose">
           <p>
-            Ten agent specs live in <code>infra/claude-agents/</code>. They aren't background
-            services — each is a Claude prompt + tool list that the human (or another agent)
-            invokes at a particular phase. <code>podcast-orchestrator</code> is the only one
-            with a full driver script (<code>orchestrate_book.py</code>); the rest are
-            invoked from the orchestrator or directly by the operator.
-          </p>
-        </div>
-        <div class="howto">drag any agent node to inspect — orchestrator is pinned at center →</div>
-
-        <div class="interactive-frame">
-          <div class="diagram" style="margin-top: 0;">
-            <svg viewBox="0 0 1000 720" preserveAspectRatio="xMidYMid meet" width="100%" height="720" id="agents-svg">
-              <g id="agents-edges"></g>
-              <g id="agents-nodes"></g>
-            </svg>
-            <div class="caption">
-              <strong>Read radially.</strong> <code>podcast-orchestrator</code> is pinned
-              at centre; specialists arrange around it by their relationship.
-              Invocation edges show who calls whom — the orchestrator calls the
-              challenger, the extractor, the trainer, and the publisher; the auditor and
-              refine-prompt stand alone.
-            </div>
-          </div>
-          <aside class="detail-panel" id="agent-detail">
-            <span class="panel-tag">agent detail</span>
-            <div class="panel-title">Click an agent</div>
-            <p class="panel-hint">Click any agent node to see its one-sentence purpose,
-            its trigger phrases, and which scripts back it. Definitions are pulled from
-            the <code>description:</code> frontmatter in each agent's <code>.md</code>.</p>
-          </aside>
-        </div>
-      </section>
-
-      <!-- ════════════════════════════════════════════════════════════════
-           SECTION 9 — Azure stack
-           ════════════════════════════════════════════════════════════════ -->
-      <section id="azure" class="architecture-section">
-        <div class="section-head">
-          <div class="label">09 — AZURE STACK</div>
-          <h2>Four Azure resources, two phases</h2>
-          <p class="sub">Document Intelligence, Translator, Language, Speech (optional).</p>
-        </div>
-        <div class="prose">
-          <p>
-            Azure handles the OCR + translation work in Phase 0a (and optional Speech
-            transcription for audio lectures). All four resources live in the
-            <code>rg-journal-ai</code> resource group, region <code>eastus</code>, under
-            the <em>Journal AI — primary</em> subscription. Keys live in macOS Keychain;
-            <code>scripts/podcast/_azure.py</code> resolves them per-call. The fifth slot
-            (<code>journal-speech</code>) is feature-flagged and only active for audio
-            sources like <code>kunooz-al-hikmah</code>.
+            The pipeline ships with ten Claude agents under
+            <code>infra/claude-agents/</code>. <strong>podcast-orchestrator</strong> sits
+            at the center — it drives every other agent at the appropriate phase. The
+            <strong>refine-prompt</strong> and <strong>docs-updater</strong> agents are
+            tooling agents not invoked by the orchestrator; they live on the edge of the
+            graph. Layout below is deterministic (no force-simulation random seed) — anchor
+            in the middle, leaves radiate.
           </p>
         </div>
 
         <div class="diagram">
-          <svg viewBox="0 0 1500 480" preserveAspectRatio="xMidYMid meet" width="100%" height="480" id="azure-svg">
+          <div class="how-to">Center node is the only driver · arrows point to invocation targets</div>
+          <svg viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid meet">
             <defs>
-              <marker id="arrow-az" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
-                <path d="M0,0 L10,5 L0,10 Z" fill="#5cc8ff"/>
+              <marker id="arrow-agent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/>
               </marker>
             </defs>
 
-            <!-- Left: phases that touch Azure -->
-            <g transform="translate(40, 80)">
-              <rect class="node-solid-rose" width="260" height="100" rx="10"/>
-              <text class="node-tag" x="18" y="28" fill="#ffb0cc">PIPELINE</text>
-              <text class="node-title" x="18" y="56">Phase 0a · intake</text>
-              <text class="node-sub" x="18" y="78">OCR + AR→EN translation</text>
-            </g>
+            <!-- Edges from orchestrator (center 700,450) to each agent -->
+            <path class="edge-accent" d="M 700 450 L 700 170" marker-end="url(#arrow-agent)"/>
+            <path class="edge-accent" d="M 700 450 L 1040 230" marker-end="url(#arrow-agent)"/>
+            <path class="edge-accent" d="M 700 450 L 1190 440" marker-end="url(#arrow-agent)"/>
+            <path class="edge-accent" d="M 700 450 L 1040 680" marker-end="url(#arrow-agent)"/>
+            <path class="edge-accent" d="M 700 450 L 700 740" marker-end="url(#arrow-agent)"/>
+            <path class="edge-accent" d="M 700 450 L 360 680" marker-end="url(#arrow-agent)"/>
+            <path class="edge-accent" d="M 700 450 L 210 440" marker-end="url(#arrow-agent)"/>
+            <path class="edge-accent" d="M 700 450 L 360 230" marker-end="url(#arrow-agent)"/>
 
-            <g transform="translate(40, 220)">
-              <rect class="node-solid-rose" width="260" height="100" rx="10"/>
-              <text class="node-tag" x="18" y="28" fill="#ffb0cc">PIPELINE</text>
-              <text class="node-title" x="18" y="56">Phase 0a.5 · NER</text>
-              <text class="node-sub" x="18" y="78">named-entity pre-seed</text>
-            </g>
+            <!-- Center: orchestrator -->
+            <foreignObject x="540" y="380" width="320" height="140">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-rose" style="border-width:3px;">
+                <strong class="lg-title">podcast-orchestrator</strong>
+                <span class="sub">Drives orchestrate_book.py end-to-end</span>
+                <span class="sub">Halts only at Phase 0f human gate</span>
+              </div>
+            </foreignObject>
 
-            <g transform="translate(40, 360)">
-              <rect class="node-solid-rose" width="260" height="100" rx="10" stroke-dasharray="6 4"/>
-              <text class="node-tag" x="18" y="28" fill="#ffb0cc">OPT-IN</text>
-              <text class="node-title" x="18" y="56">Audio lecture intake</text>
-              <text class="node-sub" x="18" y="78">ENABLE_SPEECH=true only</text>
-            </g>
+            <!-- Top: blueprint -->
+            <foreignObject x="540" y="50" width="320" height="120">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-gold">
+                <strong>podcast-blueprint</strong>
+                <span class="sub">Classifies the book (genre, density, narrative mode); proposes audience + planning mode</span>
+              </div>
+            </foreignObject>
 
-            <!-- Right: Azure resources -->
-            <g transform="translate(1100, 40)">
-              <rect class="node-solid-azure" width="360" height="80" rx="10"/>
-              <text class="node-tag" x="18" y="26" fill="#5cc8ff">DOC INTEL</text>
-              <text class="node-title" x="18" y="52">journal-docintel</text>
-              <text class="node-sub" x="18" y="70">OCR (Arabic + English)</text>
-            </g>
+            <!-- Top-right: extract -->
+            <foreignObject x="1040 " y="110" width="300" height="120">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-mint">
+                <strong>podcast-extract</strong>
+                <span class="sub">Single-chapter → NotebookLM bundle. Used per-chapter in B1.</span>
+              </div>
+            </foreignObject>
 
-            <g transform="translate(1100, 140)">
-              <rect class="node-solid-azure" width="360" height="80" rx="10"/>
-              <text class="node-tag" x="18" y="26" fill="#5cc8ff">TRANSLATOR · S1</text>
-              <text class="node-title" x="18" y="52">journal-translator</text>
-              <text class="node-sub" x="18" y="70">AR → EN translation</text>
-            </g>
+            <!-- Right: challenger -->
+            <foreignObject x="1190" y="380" width="320" height="140">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-rose">
+                <strong>podcast-challenger</strong>
+                <span class="sub">Convergence-loop validator. 5 inner iterations per pass; emits SHIP-READY / WITH-CAUTION / BLOCKED.</span>
+              </div>
+            </foreignObject>
 
-            <g transform="translate(1100, 240)">
-              <rect class="node-solid-azure" width="360" height="80" rx="10"/>
-              <text class="node-tag" x="18" y="26" fill="#5cc8ff">LANGUAGE · F0</text>
-              <text class="node-title" x="18" y="52">journal-language-market</text>
-              <text class="node-sub" x="18" y="70">NER pre-seed</text>
-            </g>
+            <!-- Bottom-right: trainer -->
+            <foreignObject x="1040" y="630" width="300" height="120">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-gold">
+                <strong>podcast-trainer</strong>
+                <span class="sub">Cross-book pattern learner. Proposes spec edits; gates them through regression.</span>
+              </div>
+            </foreignObject>
 
-            <g transform="translate(1100, 340)">
-              <rect class="node-solid-azure" width="360" height="80" rx="10" stroke-dasharray="6 4"/>
-              <text class="node-tag" x="18" y="26" fill="#5cc8ff">SPEECH · OPT-IN</text>
-              <text class="node-title" x="18" y="52">journal-speech</text>
-              <text class="node-sub" x="18" y="70">audio transcription</text>
-            </g>
+            <!-- Bottom: publisher -->
+            <foreignObject x="540" y="740" width="320" height="120">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-mint">
+                <strong>podcast-publisher</strong>
+                <span class="sub">Drives publish_to_library.py (gates G1–G7). Last agent called by orchestrator.</span>
+              </div>
+            </foreignObject>
 
-            <!-- Edges -->
-            <line x1="300" y1="110" x2="1100" y2="80" class="edge-pipe" stroke="#5cc8ff" marker-end="url(#arrow-az)"/>
-            <line x1="300" y1="130" x2="1100" y2="180" class="edge-pipe" stroke="#5cc8ff" marker-end="url(#arrow-az)"/>
-            <line x1="300" y1="270" x2="1100" y2="280" class="edge-pipe" stroke="#5cc8ff" marker-end="url(#arrow-az)"/>
-            <line x1="300" y1="410" x2="1100" y2="380" class="edge-pipe" stroke="#5cc8ff" stroke-dasharray="6 4" marker-end="url(#arrow-az)"/>
+            <!-- Bottom-left: slide-deck-challenger -->
+            <foreignObject x="60" y="630" width="300" height="120">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-rose">
+                <strong>slide-deck-challenger</strong>
+                <span class="sub">Visual-quality challenger for deck bundles. Peer of audio challenger.</span>
+              </div>
+            </foreignObject>
 
-            <!-- Edge labels -->
-            <rect class="label-bg" x="640" y="80" width="80" height="22"/>
-            <text class="edge-label" x="680" y="96">read_pdf()</text>
+            <!-- Left: auditor -->
+            <foreignObject x="60" y="380" width="320" height="140">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-warning">
+                <strong>podcast-auditor</strong>
+                <span class="sub">Repo-level health audit. Identify-only in v1.0 — drift / regression / gap report.</span>
+              </div>
+            </foreignObject>
 
-            <rect class="label-bg" x="640" y="148" width="80" height="22"/>
-            <text class="edge-label" x="680" y="164">translate()</text>
+            <!-- Top-left: refine-prompt -->
+            <foreignObject x="60" y="110" width="300" height="120">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-sky">
+                <strong>refine-prompt</strong>
+                <span class="sub">Tooling agent — refines raw operator requests into one compact instruction-paragraph. NOT invoked by orchestrator.</span>
+              </div>
+            </foreignObject>
 
-            <rect class="label-bg" x="640" y="265" width="100" height="22"/>
-            <text class="edge-label" x="690" y="281">extract_entities()</text>
-
-            <rect class="label-bg" x="640" y="380" width="100" height="22"/>
-            <text class="edge-label" x="690" y="396">transcribe()</text>
+            <!-- Far bottom — docs-updater (outside the graph) -->
+            <foreignObject x="540" y="20" width="320" height="40" style="display:none;">
+              <div xmlns="http://www.w3.org/1999/xhtml"></div>
+            </foreignObject>
           </svg>
-          <div class="caption">
-            <strong>Phases (left) → Azure resources (right).</strong> Phase 0a hits Doc
-            Intelligence then Translator. Phase 0a.5 hits the Language Cognitive Service
-            for named-entity pre-seed (used by the chapter-design phase). The Speech
-            resource is feature-flagged and only fires when <code>ENABLE_SPEECH=true</code>
-            in <code>infra/azure/azure-config.env</code>.
-          </div>
+          <p class="caption">
+            Eight agents radiate from <code>podcast-orchestrator</code>. The
+            <strong>refine-prompt</strong> agent (top-left) is operator tooling and lives
+            off the invocation graph. The <strong>docs-updater</strong> agent that
+            regenerated this very page is also operator tooling — it reads the repo, never
+            modifies pipeline state.
+          </p>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════════════════
+           SECTION 9 — Azure stack (SVG with foreignObject)
+           ════════════════════════════════════════════════════════════════ -->
+      <section id="azure" class="architecture-section">
+        <div class="section-head">
+          <div class="label">09 — AZURE STACK</div>
+          <h2>Four Azure resources, one phase per resource</h2>
+          <p class="sub">All keys in macOS Keychain; <code>infra/azure/azure-config.env</code> is tracked non-secret config.</p>
+        </div>
+        <div class="prose">
+          <p>
+            The pipeline uses four Azure Cognitive Services resources for OCR, translation,
+            and named-entity recognition. Resource group <code>rg-journal-ai</code> in
+            region <code>eastus</code>. Secrets live in macOS Keychain (one entry per
+            field — endpoint, key, region), populated by
+            <code>infra/azure/store-keychain-keys.sh</code>. <code>_azure.py</code>
+            resolves credentials in order: env var first (for CI), then Keychain (local
+            Mac). Speech is feature-flagged on (currently used for Urdu lecture
+            transcription on the <code>kunooz-al-hikmah</code> project).
+          </p>
+        </div>
+
+        <div class="diagram">
+          <div class="how-to">Pipeline phases call out left → right to Azure services</div>
+          <svg viewBox="0 0 1400 580" preserveAspectRatio="xMidYMid meet">
+            <defs>
+              <marker id="arrow-az" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--azure)"/>
+              </marker>
+            </defs>
+
+            <!-- Phase column (left) -->
+            <foreignObject x="40" y="60" width="280" height="100">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-rose">
+                <strong>Phase 0a</strong>
+                <span class="sub">OCR + Translation</span>
+              </div>
+            </foreignObject>
+
+            <foreignObject x="40" y="200" width="280" height="100">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-rose">
+                <strong>Phase 0a.5</strong>
+                <span class="sub">NER pre-seed (pending wiring)</span>
+              </div>
+            </foreignObject>
+
+            <foreignObject x="40" y="340" width="280" height="100">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-rose">
+                <strong>Speech phase (opt-in)</strong>
+                <span class="sub">Urdu lecture transcription</span>
+              </div>
+            </foreignObject>
+
+            <foreignObject x="40" y="460" width="280" height="80">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node">
+                <strong>Ancillary</strong>
+                <span class="sub">misc pipeline storage</span>
+              </div>
+            </foreignObject>
+
+            <!-- Edges to Azure resources -->
+            <path class="edge" stroke="var(--azure)" stroke-width="2.5" fill="none" d="M 320 110 L 700 110" marker-end="url(#arrow-az)"/>
+            <path class="edge" stroke="var(--azure)" stroke-width="2.5" fill="none" d="M 320 110 L 700 250" marker-end="url(#arrow-az)"/>
+            <path class="edge" stroke="var(--azure)" stroke-width="2.5" fill="none" d="M 320 250 L 700 390" marker-end="url(#arrow-az)"/>
+            <path class="edge" stroke="var(--azure)" stroke-width="2.5" fill="none" d="M 320 390 L 700 530" marker-end="url(#arrow-az)" stroke-dasharray="5 4"/>
+            <path class="edge" stroke="var(--azure)" stroke-width="2.5" fill="none" d="M 320 500 L 1060 500" marker-end="url(#arrow-az)" stroke-dasharray="5 4"/>
+
+            <!-- Azure resources (right column) -->
+            <foreignObject x="700" y="60" width="340" height="100">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-azure">
+                <strong>journal-docintel</strong>
+                <span class="sub">Document Intelligence · OCR engine</span>
+              </div>
+            </foreignObject>
+
+            <foreignObject x="700" y="200" width="340" height="100">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-azure">
+                <strong>journal-translator</strong>
+                <span class="sub">Translator S1 · AR → EN</span>
+              </div>
+            </foreignObject>
+
+            <foreignObject x="700" y="340" width="340" height="100">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-azure">
+                <strong>journal-language-market</strong>
+                <span class="sub">Cognitive Services Language F0 · NER</span>
+              </div>
+            </foreignObject>
+
+            <foreignObject x="700" y="480" width="340" height="80">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node node-azure">
+                <strong>journal-speech</strong>
+                <span class="sub">Speech · ENABLE_SPEECH=true</span>
+              </div>
+            </foreignObject>
+
+            <foreignObject x="1060" y="460" width="320" height="80">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-node">
+                <strong>journalpodcaststorage</strong>
+                <span class="sub">Storage account · ancillary</span>
+              </div>
+            </foreignObject>
+
+            <!-- Region / RG banner -->
+            <foreignObject x="380" y="20" width="660" height="32">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg-edge-label" style="font-family:var(--font-mono);font-size:0.85rem;padding:0.35rem 0.75rem;">
+                Resource group: rg-journal-ai · Region: eastus · Subscription: Journal AI — primary
+              </div>
+            </foreignObject>
+          </svg>
+          <p class="caption">
+            Phase 0a fans out to both Doc Intelligence and Translator. Phase 0a.5 (NER
+            pre-seed) is wired but framework integration is pending. Speech is opt-in via
+            <code>ENABLE_SPEECH=true</code> in <code>azure-config.env</code>. All edges are
+            authenticated by keys resolved through the Keychain.
+          </p>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════════════════
+           FOOTER — what's new (last 30 commits)
+           ════════════════════════════════════════════════════════════════ -->
+      <section class="architecture-section">
+        <div class="section-head">
+          <div class="label">FOOTER — RECENT ACTIVITY</div>
+          <h2>What's new on develop</h2>
+          <p class="sub">Last 30 commits — what changed since the previous regeneration.</p>
+        </div>
+        <div class="commits">
+          <ul>
+            <li><span class="sha">6202c85</span><span>docs(architecture): regenerate with horizontal nav + solid-fill diagrams</span></li>
+            <li><span class="sha">08717ee</span><span>docs(architecture): consolidate to single D3-rendered view + docs-updater agent</span></li>
+            <li><span class="sha">94e1e06</span><span>cleanup(repo): start-clean + restore content-branch policy + publisher agent</span></li>
+            <li><span class="sha">15cfb38</span><span>chore(gitignore): exclude per-book audio dumps under content/drafts/</span></li>
+            <li><span class="sha">b2d9e9d</span><span>feat(kashkole-ksessions): SQL→Markdown extraction pipeline (Phase 1 proof)</span></li>
+            <li><span class="sha">7640e5a</span><span>polish(pipeline): five pre-M&amp;D cleanup items</span></li>
+            <li><span class="sha">eb69e43</span><span>fix(challenger): land five ship-blocking rigor fixes</span></li>
+            <li><span class="sha">feb4a49</span><span>restructure(islr-mas-i): conform to KaR canonical draft template</span></li>
+            <li><span class="sha">b12f7dd</span><span>refactor: drop cross-machine coordination, single-machine model</span></li>
+            <li><span class="sha">2c4d1f5</span><span>fix(restructure): close 8 remaining gaps surfaced by full system check</span></li>
+            <li><span class="sha">06d536a</span><span>restructure(reshape): apply consistent template to the-master-and-the-disciple</span></li>
+            <li><span class="sha">c9b5b1e</span><span>fix(restructure): update Path() constants in 12 more scripts</span></li>
+            <li><span class="sha">cf3b4e9</span><span>fix(restructure): update path constants in 3 critical pipeline scripts</span></li>
+            <li><span class="sha">cd10f69</span><span>cleanup: remove non-podcast legacy files</span></li>
+            <li><span class="sha">b199cfd</span><span>restructure(refactor): update path strings to content/drafts/ + content/published/</span></li>
+            <li><span class="sha">6ef90d7</span><span>restructure: introduce content/ container with drafts/ + published/</span></li>
+            <li><span class="sha">144581b</span><span>restructure(cleanup): remove stale library symlink</span></li>
+            <li><span class="sha">903c109</span><span>restructure: hoist code to meta-root, consolidate all books under books/</span></li>
+            <li><span class="sha">62b488b</span><span>restructure: add books/ and library/ symlinks at repo root for navigation</span></li>
+            <li><span class="sha">679053d</span><span>merge(develop): pull origin runbook + bootstrap-prompt before restructure</span></li>
+            <li><span class="sha">92d93ad</span><span>plan(restructure): dry-run + live reshape script for the-master-and-the-disciple</span></li>
+            <li><span class="sha">83f5edc</span><span>runbook: claude-code-bootstrap-prompt + companion code-workspace</span></li>
+            <li><span class="sha">a19e208</span><span>podcast(housekeeping): commit findings.jsonl + 3 orphan TTS scripts</span></li>
+            <li><span class="sha">e64eb47</span><span>coord(mac-studio-primary): ISLR series complete — EP02-07 shipped</span></li>
+            <li><span class="sha">bacfb97</span><span>podcast(auditor-fixes): third audit report</span></li>
+            <li><span class="sha">ab867a9</span><span>podcast(auditor-fixes): sync challenger wrapper after AU-A1-003 edit</span></li>
+            <li><span class="sha">76403a9</span><span>podcast(auditor-fixes): all remaining P0s (items 4-5 + AU-A1-003/004)</span></li>
+            <li><span class="sha">5bc7c9a</span><span>podcast(auditor-fixes): items 1-3 from inaugural audit</span></li>
+            <li><span class="sha">97b7504</span><span>podcast(auditor): introduce v1.0 + first run</span></li>
+            <li><span class="sha">5fd9945</span><span>docs(response-template): blank line between Next options</span></li>
+          </ul>
         </div>
       </section>
 
     </main>
 
     <footer class="footer">
-      <div>Reflects <code>develop</code> @ <a href="https://github.com/asifhussain60/podcast-factory/commit/08717ee44811771333899a31b94b8debe401b2f5"><code>08717ee</code></a> · commit dated 2026-05-24</div>
+      Generated by <a href="../../infra/claude-agents/docs-updater.md">docs-updater</a>
+      from <code>6202c85</code> on 2026-05-24.
       <div class="footer-secondary">
-        Regenerated by <a href="../../infra/claude-agents/docs-updater.md"><code>infra/claude-agents/docs-updater.md</code></a>
-        — running it again on the same SHA reproduces this exact file.
-      </div>
-      <div class="footer-secondary" style="margin-top:1.4rem; text-align: left; max-width: 900px; margin-left: auto; margin-right: auto;">
-        <strong style="color: var(--accent); font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.14em;">LAST 30 COMMITS · DEVELOP</strong>
-        <pre style="background: rgba(255,255,255,0.03); border: 1px solid var(--line-soft); border-radius: var(--radius-sm); padding: 1rem; margin-top: 0.5rem; font-size: 0.72rem; line-height: 1.55; color: var(--text-muted); overflow-x: auto;">
-08717ee docs(architecture): consolidate to single D3-rendered view + docs-updater agent
-94e1e06 cleanup(repo): start-clean + restore content-branch policy + publisher agent
-15cfb38 chore(gitignore): exclude per-book audio dumps under content/drafts/
-b2d9e9d feat(kashkole-ksessions): SQL→Markdown extraction pipeline (Phase 1 proof)
-7640e5a polish(pipeline): five pre-M&D cleanup items
-eb69e43 fix(challenger): land five ship-blocking rigor fixes
-feb4a49 restructure(islr-mas-i): conform to KaR canonical draft template
-b12f7dd refactor: drop cross-machine coordination, single-machine model
-2c4d1f5 fix(restructure): close 8 remaining gaps surfaced by full system check
-06d536a restructure(reshape): apply consistent template to the-master-and-the-disciple
-c9b5b1e fix(restructure): update Path() constants in 12 more scripts
-cf3b4e9 fix(restructure): update path constants in 3 critical pipeline scripts
-cd10f69 cleanup: remove non-podcast legacy files
-b199cfd restructure(refactor): update path strings to content/drafts/ + content/published/
-6ef90d7 restructure: introduce content/ container with drafts/ + published/
-144581b restructure(cleanup): remove stale library symlink
-903c109 restructure: hoist code to meta-root, consolidate all books under books/
-62b488b restructure: add books/ and library/ symlinks at repo root for navigation
-679053d merge(develop): pull origin runbook + bootstrap-prompt before restructure
-92d93ad plan(restructure): dry-run + live reshape script for the-master-and-the-disciple
-83f5edc runbook: claude-code-bootstrap-prompt + companion code-workspace
-a19e208 podcast(housekeeping): commit findings.jsonl + 3 orphan TTS scripts
-e64eb47 coord(mac-studio-primary): ISLR series complete — EP02-07 shipped
-bacfb97 podcast(auditor-fixes): third audit report
-ab867a9 podcast(auditor-fixes): sync challenger wrapper after AU-A1-003 edit
-76403a9 podcast(auditor-fixes): all remaining P0s (items 4-5 + AU-A1-003/004)
-5bc7c9a podcast(auditor-fixes): items 1-3 from inaugural audit
-97b7504 podcast(auditor): introduce v1.0 + first run
-5fd9945 docs(response-template): blank line between Next options
-15e7918 podcast(slide-decks): pipeline integration Phase 1
-        </pre>
+        Idempotent — running the agent again on the same repo state produces the same file.
       </div>
     </footer>
-
   </div>
 
-  <script src="https://d3js.org/d3.v7.min.js"></script>
   <script>
-  /* ════════════════════════════════════════════════════════════════
-     D3 rendering — sections 3, 5, 6, 8 are JS-driven.
-     Sections 2, 4, 7, 9 are inline SVG above (faster, simpler).
-     ════════════════════════════════════════════════════════════════ */
+    // ═══════════════════════════════════════════════════════════════
+    // NAV: active section highlighting on scroll
+    // ═══════════════════════════════════════════════════════════════
+    (function () {
+      const sections = Array.from(document.querySelectorAll('section.architecture-section[id]'));
+      const links = Array.from(document.querySelectorAll('.topnav-sections a'));
+      const linkBySection = new Map();
+      links.forEach(a => {
+        const id = a.getAttribute('href').slice(1);
+        linkBySection.set(id, a);
+      });
 
-  // ─── Topnav active-state on scroll ─────────────────────────────────
-  (function () {
-    const links = document.querySelectorAll('.topnav-sections a');
-    const map = new Map();
-    links.forEach(a => map.set(a.dataset.section, a));
-    const sections = Array.from(document.querySelectorAll('section.architecture-section'));
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          links.forEach(l => l.classList.remove('active'));
-          const link = map.get(e.target.id);
-          if (link) link.classList.add('active');
+      function onScroll() {
+        const scrollPos = window.scrollY + 120;
+        let active = sections[0]?.id;
+        for (const s of sections) {
+          if (s.offsetTop <= scrollPos) active = s.id;
         }
-      });
-    }, { rootMargin: '-30% 0px -60% 0px' });
-    sections.forEach(s => io.observe(s));
-  })();
-
-  // ════════════════════════════════════════════════════════════════
-  // SECTION 3 — Pipeline phases (interactive vertical timeline)
-  // ════════════════════════════════════════════════════════════════
-  const PHASES = [
-    { id: '0a', name: 'Ingest', purpose: 'OCR the source PDF with Azure Doc Intelligence, then translate Arabic → English with Azure Translator.',
-      reads: 'source PDF', writes: '_system/source/raw-arabic.md, refined-english.md (first draft)',
-      cost: '$0.50 – $4 per book (Doc Intel + Translator combined)',
-      fails: 'Azure key missing in keychain; PDF unreadable; quota exhausted.' },
-    { id: '0b', name: 'English refine', purpose: 'Claude-authored pass to fix translation artifacts (run-on sentences, broken hadith citations, missing diacritics).',
-      reads: 'refined-english.md (first draft)', writes: 'refined-english.md (clean)',
-      cost: '$2 – $8 per book (LLM authoring)',
-      fails: 'LLM output empty; structure markers stripped; rate limit.' },
-    { id: '0c', name: 'Phonetic pass', purpose: 'Extract every Arabic name / term needing phonetic guidance for English hosts; produce a mangle-map.',
-      reads: 'refined-english.md', writes: '_system/mangle-map.yml',
-      cost: '$1 – $3 per book',
-      fails: 'Mangle-map malformed YAML; collisions on near-identical names.' },
-    { id: '0d', name: 'Chapter design', purpose: 'Decide chapter boundaries — where the book breaks into NotebookLM-uploadable units. Produces a contract per chapter.',
-      reads: 'refined-english.md, mangle-map.yml', writes: 'chapter-contracts/*.yml, chapters/ch##-<slug>.txt',
-      cost: '$2 – $10 per book (depends on chapter count)',
-      fails: 'Contract YAML invalid; chapter count zero; over-long chapters.' },
-    { id: '0e', name: 'Enrichment', purpose: 'Weave approved-source quotations from a curated tier list into each chapter (like adding citations to a draft essay).',
-      reads: 'chapter-contracts/, registry.md, mangle-map.yml', writes: 'enriched chapter-contracts/',
-      cost: '$3 – $15 per book',
-      fails: 'Forbidden source cited (T1 violation); quota exhausted; partial enrichment leaves chapters in a mixed state.' },
-    { id: '0f', name: 'Series-plan HALT', purpose: 'Write the human-review series plan and stop. The operator must inspect chapter count + length tier before authorising per-chapter work.',
-      reads: 'chapter-contracts/', writes: 'series-plan.md',
-      cost: 'free (deterministic write)',
-      fails: 'Missing contracts; ambiguous tier; manual review uncovers a problem.' },
-    { id: 'per-ch', name: 'Per-chapter loop', purpose: 'For each chapter: extract → author framing → build episode.txt → convergence loop (see §04). Multi-hour, multi-dollar phase.',
-      reads: 'chapter-contracts/<ch>.yml', writes: 'episode-drafts/EP##-<slug>/, episodes/EP##-<slug>.txt',
-      cost: '$5 – $30 per chapter (challenger + fixer iterations)',
-      fails: 'Convergence cap (iter 3 BLOCKED); $50 book cap; 24h wall-clock cap.' },
-    { id: '0g', name: 'Register', purpose: 'Stamp registry.md with the final chapter set, episode count, and SHA — fixes the manifest for the publisher.',
-      reads: 'episodes/, chapter-contracts/', writes: '_system/registry.md',
-      cost: 'free',
-      fails: 'Episode count mismatches chapter count; registry already exists and differs.' },
-    { id: 'trainer', name: 'Trainer', purpose: 'Cross-book pattern learner. Reads ALL challenger reports on this book branch, clusters recurring P0/P1/P2 findings (≥3 occurrences), proposes spec edits, validates against a regression suite.',
-      reads: '_learning/findings.jsonl, all challenger-reports', writes: 'proposed rule diffs on book branch (Tier-2 / Tier-3)',
-      cost: '$2 – $8',
-      fails: 'Regression suite red; P0-class proposal (flag for human, never auto-commit).' },
-    { id: 'publish', name: 'Publish', purpose: 'Run gates G1 → G7. On all-pass, copy artifacts to content/published/books/<slug>/.',
-      reads: 'episodes/, chapters/, challenger-report.md, orchestrator-state.json', writes: 'content/published/books/<slug>/',
-      cost: 'free',
-      fails: 'Any gate G1–G7 fails (see §06).' },
-    { id: 'merge', name: 'Merge → develop', purpose: 'Merge the typed branch (book/<slug>, article/<slug>, …) back to develop. Branch is deleted; develop now contains the published book.',
-      reads: 'git history of book/<slug>', writes: 'develop branch (fast-forward or merge commit)',
-      cost: 'free',
-      fails: 'Merge conflict (rare — branches are content-disjoint); push rejected.' }
-  ];
-
-  (function renderPhases() {
-    const svg = d3.select('#phases-svg');
-    const root = svg.select('#phase-rows');
-    const W = 1000;
-    const ROW_H = 60;
-    const ROW_GAP = 8;
-    PHASES.forEach((p, i) => {
-      const y = 10 + i * (ROW_H + ROW_GAP);
-      const tint = i % 2 === 0 ? '#38304f' : '#332a4a';
-      const g = root.append('g')
-        .attr('class', 'phase-row')
-        .attr('data-phase-id', p.id)
-        .style('cursor', 'pointer');
-      // The dashed separator line below Phase 0f (i=5)
-      if (i === 5) {
-        g.append('line')
-          .attr('x1', 0).attr('x2', W)
-          .attr('y1', y + ROW_H + ROW_GAP / 2)
-          .attr('y2', y + ROW_H + ROW_GAP / 2)
-          .attr('stroke', '#ffb0cc').attr('stroke-width', 2).attr('stroke-dasharray', '8 4');
+        links.forEach(a => a.classList.remove('active'));
+        const cur = linkBySection.get(active);
+        if (cur) cur.classList.add('active');
       }
-      g.append('rect')
-        .attr('class', 'phase-card')
-        .attr('x', 0).attr('y', y)
-        .attr('width', W).attr('height', ROW_H)
-        .attr('rx', 10)
-        .attr('fill', tint)
-        .attr('stroke', '#c6a6ff')
-        .attr('stroke-width', 1.5);
-      // Phase tag pill
-      g.append('rect')
-        .attr('x', 18).attr('y', y + 15)
-        .attr('width', 70).attr('height', 30).attr('rx', 6)
-        .attr('fill', '#221a35').attr('stroke', '#c6a6ff').attr('stroke-width', 1.5);
-      g.append('text')
-        .attr('class', 'node-tag')
-        .attr('x', 53).attr('y', y + 35)
-        .attr('text-anchor', 'middle')
-        .text(p.id);
-      g.append('text')
-        .attr('class', 'node-title')
-        .attr('x', 110).attr('y', y + 28)
-        .text(p.name);
-      g.append('text')
-        .attr('class', 'node-sub')
-        .attr('x', 110).attr('y', y + 47)
-        .text(p.purpose.length > 110 ? p.purpose.slice(0, 107) + '…' : p.purpose);
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
 
-      g.on('click', function() {
-        d3.selectAll('.phase-row').classed('active', false);
-        d3.select(this).classed('active', true);
-        renderPhaseDetail(p);
+    // ═══════════════════════════════════════════════════════════════
+    // SECTION 3: click-to-expand phase rows
+    // ═══════════════════════════════════════════════════════════════
+    document.querySelectorAll('#phase-list .phase-row').forEach(row => {
+      row.addEventListener('click', () => {
+        row.classList.toggle('active');
       });
     });
 
-    // Auto-select first phase on load
-    renderPhaseDetail(PHASES[0]);
-    d3.select(root.selectAll('.phase-row').nodes()[0]).classed('active', true);
-  })();
-
-  function renderPhaseDetail(p) {
-    const d = d3.select('#phase-detail');
-    d.html('');
-    d.append('span').attr('class', 'panel-tag').text(`Phase ${p.id}`);
-    d.append('div').attr('class', 'panel-title').text(p.name);
-    d.append('p').style('color', 'var(--text-secondary)').text(p.purpose);
-    const row = (label, val) => {
-      const r = d.append('div').attr('class', 'panel-row');
-      r.append('strong').text(label);
-      r.append('div').text(val);
-    };
-    row('Reads', p.reads);
-    row('Writes', p.writes);
-    row('Cost', p.cost);
-    row('Common failure modes', p.fails);
-  }
-
-  // ════════════════════════════════════════════════════════════════
-  // SECTION 5 — Branch policy (deterministic radial layout)
-  // No force simulation. Fixed theta. Labels outside node bounding box.
-  // ════════════════════════════════════════════════════════════════
-  (function renderBranches() {
-    const svg = d3.select('#branches-svg');
-    const root = svg.select('#branches-g');
-    const W = 1500, H = 580;
-    const CX = W / 2, CY = H / 2;
-    const R = 200;
-
-    // 7 branches around develop
-    const branches = [
-      { prefix: 'book/',      example: 'kitab-al-riyad',          color: '#c6a6ff' },
-      { prefix: 'doc/',       example: 'encyclical-001',          color: '#ffb0cc' },
-      { prefix: 'lecture/',   example: 'kunooz-al-hikmah',        color: '#f4d49c' },
-      { prefix: 'article/',   example: 'the-soul-and-its-refinement', color: '#9be3c2' },
-      { prefix: 'letter/',    example: 'farman-1957',             color: '#9bc7e3' },
-      { prefix: 'interview/', example: 'aga-khan-iv-2010',        color: '#b094c4' },
-      { prefix: 'draft/',     example: 'unclassified-pdf',        color: '#c9b8d4' }
-    ];
-
-    // Compute positions
-    const N = branches.length;
-    branches.forEach((b, i) => {
-      const theta = -Math.PI / 2 + (i / N) * 2 * Math.PI;
-      b.x = CX + R * Math.cos(theta);
-      b.y = CY + R * Math.sin(theta);
-      b.theta = theta;
-    });
-
-    // Draw edges first (so they sit under nodes)
-    branches.forEach(b => {
-      root.append('line')
-        .attr('x1', CX).attr('y1', CY)
-        .attr('x2', b.x).attr('y2', b.y)
-        .attr('stroke', b.color).attr('stroke-width', 2).attr('opacity', 0.55);
-    });
-
-    // Central develop node
-    const dev = root.append('g').attr('transform', `translate(${CX},${CY})`);
-    dev.append('circle')
-      .attr('r', 64)
-      .attr('fill', '#38304f').attr('stroke', '#fff7fb').attr('stroke-width', 3);
-    dev.append('text')
-      .attr('class', 'node-title')
-      .attr('text-anchor', 'middle').attr('y', -2).text('develop');
-    dev.append('text')
-      .attr('class', 'node-sub')
-      .attr('text-anchor', 'middle').attr('y', 18).text('working branch');
-
-    // Branch nodes + labels
-    branches.forEach(b => {
-      const g = root.append('g').attr('transform', `translate(${b.x},${b.y})`);
-      g.append('circle')
-        .attr('r', 42)
-        .attr('fill', '#221a35').attr('stroke', b.color).attr('stroke-width', 2.5);
-      // Inside-node label: just the prefix
-      g.append('text')
-        .attr('class', 'node-title')
-        .attr('text-anchor', 'middle').attr('y', 6)
-        .style('font-size', '14px')
-        .text(b.prefix);
-
-      // External label: place outside node, in the direction of theta.
-      // Position label so it never overlaps the line or other labels:
-      // distance from center > R + 80, anchored by quadrant.
-      const labelR = 92;
-      const lx = Math.cos(b.theta) * labelR;
-      const ly = Math.sin(b.theta) * labelR;
-      let anchor = 'middle';
-      if (Math.cos(b.theta) > 0.3) anchor = 'start';
-      else if (Math.cos(b.theta) < -0.3) anchor = 'end';
-
-      const labelText = b.prefix + b.example;
-      const padX = 8, padY = 5, charW = 7.2, h = 22;
-      const textW = labelText.length * charW + padX * 2;
-      let rectX = lx;
-      if (anchor === 'middle') rectX = lx - textW / 2;
-      else if (anchor === 'end') rectX = lx - textW;
-
-      g.append('rect')
-        .attr('class', 'label-bg')
-        .attr('x', rectX).attr('y', ly - h / 2)
-        .attr('width', textW).attr('height', h);
-      g.append('text')
-        .attr('class', 'edge-label')
-        .attr('x', lx).attr('y', ly + 4)
-        .attr('text-anchor', anchor)
-        .style('fill', b.color)
-        .text(labelText);
-    });
-
-    // Caption hint at top-left
-    root.append('text')
-      .attr('class', 'node-sub')
-      .attr('x', 30).attr('y', 30)
-      .text('→ All 7 typed branches off develop, prefixes from _branching.py');
-  })();
-
-  // ════════════════════════════════════════════════════════════════
-  // SECTION 6 — Publish gates G1→G7 (vertical waterfall, click-to-expand)
-  // ════════════════════════════════════════════════════════════════
-  const GATES = [
-    { id: 'G1', name: 'Structure', purpose: 'chapters/ and episodes/ directories exist + non-empty',
-      check: 'gate_g1_structure(workspace) confirms both directories exist and contain at least one ch*.txt + EP*.txt file.',
-      failMeans: 'No chapters or no episodes under content/drafts/<slug>/. Almost certainly a Phase 0d (chapter design) failure.',
-      recover: 'Re-run Phase 0d, or check chapter-contracts/ for malformed YAML that stopped chapter extraction.' },
-    { id: 'G2', name: 'Pairs', purpose: 'every chapter ch##-<slug> has a matching episode EP##-<slug>',
-      check: 'gate_g2_pairs(chapters, episodes) parses each filename and confirms 1:1 ch##↔EP## pairing.',
-      failMeans: 'A chapter has no episode, or an episode has no chapter — half the per-chapter loop ran.',
-      recover: 'Find the missing side; re-run per_chapter_pass for the orphan; OR delete the orphan if it was intentional.' },
-    { id: 'G3', name: 'Sequential', purpose: 'chapter + episode numbers form a contiguous 1..N (no gaps, no letter suffixes)',
-      check: 'gate_g3_sequential confirms numbers form 1,2,3,…N exactly. Letter suffixes (ch03a) are rejected.',
-      failMeans: 'A chapter was added later out of order, or an old letter-suffix workflow leaked back in.',
-      recover: 'Renumber to fill the gap; rename ch##a-* files; re-run G3.' },
-    { id: 'G4', name: 'Build clean', purpose: 'rebuild every episode.txt and confirm zero P0 build-time flags',
-      check: 'gate_g4_build_clean shells out to build_episode_txt.py per episode; counts FLAG (P0) lines.',
-      failMeans: 'A doctrinal violation, mangle-map collision, or other hard rule fires during episode build.',
-      recover: 'Inspect the FLAG lines; fix the underlying chapter text or mangle-map; re-run.' },
-    { id: 'G5', name: 'State', purpose: 'orchestrator-state.json says phase=done OR phase=per-chapter+shippable',
-      check: 'gate_g5_state(workspace) reads state.json; allows phase=done unconditionally, plus per-chapter with SHIPPABLE_STATUSES.',
-      failMeans: 'The orchestrator either never finished or halted mid-phase. The book is not in a shippable state.',
-      recover: 'Run orchestrator --status <slug> to see where it stopped; --resume to advance; OR --force if you know what you\'re doing.' },
-    { id: 'G6', name: 'Target', purpose: 'content/published/books/<slug>/ is wipe-safe (not a symlink, inside LIBRARY)',
-      check: 'gate_g6_target(target) refuses to wipe a symlink or anything outside the LIBRARY root.',
-      failMeans: 'The publish target is a symlink or outside the expected published/ root. Could be operator error or a stale symlink from the pre-restructure layout.',
-      recover: 'rm the symlink; ensure the target path is under content/published/books/.' },
-    { id: 'G7', name: 'Convergence', purpose: 'challenger reports SHIP-READY or SHIP-WITH-CAUTION + pipeline_mode was orchestrated',
-      check: 'gate_g7_challenger_convergence reads challenger-report.md verdict + state.json pipeline_mode.',
-      failMeans: 'The book never cleared the convergence loop, OR was authored via the deprecated non_orchestrated_mode_2 path. Either way the audience-facing safety net is missing.',
-      recover: 'Run the challenger to convergence (orchestrator --resume); OR rerun publish with --allow-mode-2 (downstream catalog will mark the book as challenger_convergence: skipped_mode_2).' }
-  ];
-
-  (function renderGates() {
-    const svg = d3.select('#gates-svg');
-    const root = svg.select('#gate-rows');
-    const W = 1000;
-    const CARD_H = 96;
-    const ARROW_H = 16;
-    GATES.forEach((g, i) => {
-      const y = 20 + i * (CARD_H + ARROW_H);
-      const grp = root.append('g')
-        .attr('class', 'phase-row')
-        .attr('data-gate-id', g.id)
-        .style('cursor', 'pointer');
-      // Card
-      grp.append('rect')
-        .attr('class', 'phase-card')
-        .attr('x', 0).attr('y', y)
-        .attr('width', W).attr('height', CARD_H)
-        .attr('rx', 12)
-        .attr('fill', '#1f3a26')
-        .attr('stroke', '#5bba6f')
-        .attr('stroke-width', 2);
-      // Pass arrow down to next gate (except last)
-      if (i < GATES.length - 1) {
-        const ax = W / 2;
-        const ay1 = y + CARD_H;
-        const ay2 = y + CARD_H + ARROW_H;
-        grp.append('line')
-          .attr('x1', ax).attr('y1', ay1)
-          .attr('x2', ax).attr('y2', ay2 + 2)
-          .attr('class', 'edge-pass')
-          .attr('marker-end', 'url(#arrow-gate-ok)');
-      }
-      // Tag pill
-      grp.append('rect')
-        .attr('x', 18).attr('y', y + 16)
-        .attr('width', 70).attr('height', 30).attr('rx', 6)
-        .attr('fill', '#221a35').attr('stroke', '#5bba6f').attr('stroke-width', 1.5);
-      grp.append('text')
-        .attr('class', 'node-tag')
-        .attr('x', 53).attr('y', y + 36)
-        .attr('text-anchor', 'middle')
-        .attr('fill', '#9be9a5')
-        .text(g.id);
-      grp.append('text')
-        .attr('class', 'node-title')
-        .attr('x', 110).attr('y', y + 36)
-        .text(g.name);
-      grp.append('text')
-        .attr('class', 'node-sub')
-        .attr('x', 110).attr('y', y + 60)
-        .style('fill', '#cfeac0')
-        .text(g.purpose);
-      grp.append('text')
-        .attr('class', 'node-sub')
-        .attr('x', 110).attr('y', y + 80)
-        .style('fill', '#cfeac0').style('opacity', 0.7)
-        .text('▸ click for check / fail-means / recover');
-
-      grp.on('click', function() {
-        d3.selectAll('#gate-rows .phase-row').classed('active', false);
-        d3.select(this).classed('active', true);
-        renderGateDetail(g);
+    // ═══════════════════════════════════════════════════════════════
+    // SECTION 6: click-to-expand gate rows
+    // ═══════════════════════════════════════════════════════════════
+    document.querySelectorAll('#gate-list .gate-row').forEach(row => {
+      row.addEventListener('click', () => {
+        row.classList.toggle('active');
       });
     });
-
-    // Auto-select first gate
-    renderGateDetail(GATES[0]);
-    d3.select(root.selectAll('.phase-row').nodes()[0]).classed('active', true);
-  })();
-
-  function renderGateDetail(g) {
-    const d = d3.select('#gate-detail');
-    d.html('');
-    d.append('span').attr('class', 'panel-tag').text(`Gate ${g.id} · ${g.name}`);
-    d.append('div').attr('class', 'panel-title').text(g.purpose);
-    const row = (label, val) => {
-      const r = d.append('div').attr('class', 'panel-row');
-      r.append('strong').text(label);
-      r.append('div').text(val);
-    };
-    row('What the check does', g.check);
-    row('Failure means', g.failMeans);
-    row('Recovery', g.recover);
-  }
-
-  // ════════════════════════════════════════════════════════════════
-  // SECTION 8 — Agent surface (force-directed, orchestrator pinned center)
-  // ════════════════════════════════════════════════════════════════
-  const AGENTS = [
-    { id: 'orchestrator', name: 'podcast-orchestrator', short: 'Autonomous book pipeline driver — runs scripts/podcast/orchestrate_book.py through Phase 0a–0e, halts at Phase 0f, then on resume drives per-chapter convergence to ship.',
-      triggers: 'orchestrate <book>, autopilot this PDF, /orchestrate-book', script: 'scripts/podcast/orchestrate_book.py', color: '#c6a6ff', r: 60, central: true },
-    { id: 'challenger', name: 'podcast-challenger', short: 'Semantic-quality challenger for one chapter — citation authenticity, phonetic coverage, enrichment depth, framing integrity, NotebookLM literalness, anti-repetition, doctrinal accuracy.',
-      triggers: 'challenge <book>, audit chapters, /podcast-challenger', script: 'scripts/podcast/_authoring.py::invoke_challenger', color: '#ffb0cc', r: 48 },
-    { id: 'extract', name: 'podcast-extract', short: 'Narrow orchestrator for the single-chapter → NotebookLM bundle path. Distinct from the full /podcast skill.',
-      triggers: 'extract <slug>/<ch>, /podcast-extract', script: 'scripts/podcast/extract_chapter.py', color: '#f4d49c', r: 42 },
-    { id: 'blueprint', name: 'podcast-blueprint', short: 'Content-aware episode-structure planner. Three-layer classify/plan/conventions, run between P22 review and Phase 0d.',
-      triggers: 'blueprint <slug>, classify book', script: 'scripts/podcast/blueprint.py (skill-driven)', color: '#9be3c2', r: 42 },
-    { id: 'publisher', name: 'podcast-publisher', short: 'Thin wrapper around scripts/podcast/publish_to_library.py. Runs gates G1–G7. Refuses non_orchestrated_mode_2 books unless --allow-mode-2.',
-      triggers: 'publish <slug>, ship to library, /publish', script: 'scripts/podcast/publish_to_library.py', color: '#9bc7e3', r: 48 },
-    { id: 'trainer', name: 'podcast-trainer', short: 'Cross-book pattern learner — proposes spec edits backed by held-out regression suite. Auto-commits Tier-2/Tier-3 only; P0-class proposals flag for human review.',
-      triggers: 'train on <book>, run trainer, /podcast-trainer', script: 'scripts/podcast/_authoring.py::invoke_trainer', color: '#b094c4', r: 44 },
-    { id: 'auditor', name: 'podcast-auditor', short: 'Repo-level health audit. Surfaces drift, regressions, gaps, refactor opportunities across pipeline scripts, skills, agent specs, plan docs. Identify-only.',
-      triggers: 'audit pipeline, /podcast-auditor', script: '(skill-driven, no dedicated script)', color: '#c9b8d4', r: 42 },
-    { id: 'slidedeck', name: 'slide-deck-challenger', short: 'Visual-quality challenger for slide-deck bundles. Validates per-structure visual integrity + deck-level architectural integrity. No in-place auto-fixes in v1.0.',
-      triggers: 'challenge slides <book>, /slide-deck-challenger', script: '(skill-driven)', color: '#fbbf24', r: 40 },
-    { id: 'docs', name: 'docs-updater', short: 'THIS agent. Regenerates docs/architecture/index.html from current repo truth. Idempotent.',
-      triggers: 'update the docs, /update-docs', script: '(this file — D3-rendered HTML output)', color: '#9be3c2', r: 38 },
-    { id: 'refine', name: 'refine-prompt', short: 'Refines a raw user request into a single compact instruction-paragraph tuned for Claude Opus 4.7 / Claude Code.',
-      triggers: '/refine-prompt, refine this', script: '(prompt-only)', color: '#5cc8ff', r: 38 }
-  ];
-
-  const AGENT_EDGES = [
-    ['orchestrator', 'challenger'],
-    ['orchestrator', 'extract'],
-    ['orchestrator', 'blueprint'],
-    ['orchestrator', 'trainer'],
-    ['orchestrator', 'publisher'],
-    ['challenger', 'trainer'],     // challenger findings feed trainer
-    ['publisher', 'challenger'],   // publisher G7 reads challenger verdict
-    ['slidedeck', 'challenger']    // sibling challenger
-    // auditor + refine + docs stand alone (deliberately)
-  ];
-
-  (function renderAgents() {
-    const svg = d3.select('#agents-svg');
-    const W = 1000, H = 720;
-    const cx = W / 2, cy = H / 2;
-
-    // Pin orchestrator at center
-    AGENTS.forEach(a => {
-      if (a.central) {
-        a.fx = cx; a.fy = cy;
-      }
-    });
-
-    const nodesById = Object.fromEntries(AGENTS.map(a => [a.id, a]));
-    const links = AGENT_EDGES.map(([s, t]) => ({ source: nodesById[s], target: nodesById[t] }));
-
-    const sim = d3.forceSimulation(AGENTS)
-      .force('charge', d3.forceManyBody().strength(-900))
-      .force('center', d3.forceCenter(cx, cy))
-      .force('collide', d3.forceCollide().radius(d => d.r + 48))
-      .force('link', d3.forceLink(links).distance(d => d.source.central || d.target.central ? 200 : 240).strength(0.4))
-      .stop();
-
-    // Run synchronously to settle
-    for (let i = 0; i < 500; ++i) sim.tick();
-
-    // Clamp into viewBox
-    AGENTS.forEach(a => {
-      if (a.central) return;
-      a.x = Math.max(a.r + 90, Math.min(W - a.r - 90, a.x));
-      a.y = Math.max(a.r + 30, Math.min(H - a.r - 30, a.y));
-    });
-
-    // Draw edges first
-    const eg = svg.select('#agents-edges');
-    eg.selectAll('line').data(links).enter()
-      .append('line')
-      .attr('x1', d => d.source.x).attr('y1', d => d.source.y)
-      .attr('x2', d => d.target.x).attr('y2', d => d.target.y)
-      .attr('stroke', '#c6a6ff').attr('stroke-width', 1.8).attr('opacity', 0.45);
-
-    // Draw nodes
-    const ng = svg.select('#agents-nodes');
-    AGENTS.forEach(a => {
-      const g = ng.append('g').attr('transform', `translate(${a.x},${a.y})`).style('cursor', 'pointer');
-      g.append('circle')
-        .attr('r', a.r)
-        .attr('fill', a.central ? '#38304f' : '#221a35')
-        .attr('stroke', a.color).attr('stroke-width', a.central ? 3 : 2);
-      // Node label inside (just short tag)
-      const shortTag = a.id.toUpperCase().slice(0, 8);
-      g.append('text').attr('class', 'node-tag')
-        .attr('text-anchor', 'middle').attr('y', -6)
-        .style('fill', a.color)
-        .text(shortTag);
-      // External label with rect backing
-      const label = a.name;
-      const charW = 7.5, padX = 8, h = 22;
-      const textW = label.length * charW + padX * 2;
-      // Place label below node, anchored center
-      const ly = a.r + 22;
-      g.append('rect')
-        .attr('class', 'label-bg')
-        .attr('x', -textW / 2).attr('y', ly - h / 2)
-        .attr('width', textW).attr('height', h);
-      g.append('text').attr('class', 'edge-label')
-        .attr('x', 0).attr('y', ly + 4)
-        .style('fill', '#fff7fb')
-        .text(label);
-      g.on('click', () => renderAgentDetail(a));
-    });
-
-    // Auto-show orchestrator first
-    renderAgentDetail(AGENTS[0]);
-  })();
-
-  function renderAgentDetail(a) {
-    const d = d3.select('#agent-detail');
-    d.html('');
-    d.append('span').attr('class', 'panel-tag').text('Agent · ' + a.id);
-    d.append('div').attr('class', 'panel-title').text(a.name);
-    d.append('p').style('color', 'var(--text-secondary)').text(a.short);
-    const row = (label, val) => {
-      const r = d.append('div').attr('class', 'panel-row');
-      r.append('strong').text(label);
-      r.append('div').text(val);
-    };
-    row('Triggers', a.triggers);
-    row('Backed by', a.script);
-  }
-
   </script>
 </body>
 </html>
