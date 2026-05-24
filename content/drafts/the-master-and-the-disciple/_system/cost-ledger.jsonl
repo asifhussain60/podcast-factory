@@ -23,3 +23,8 @@
 {"ts": "2026-05-24T16:48:19Z", "phase": "0d", "step": "sc-005", "model": "claude-opus-4-7", "input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0}
 {"ts": "2026-05-24T17:11:14Z", "phase": "0d", "step": "sc-006", "model": "claude-opus-4-7", "input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0}
 {"ts": "2026-05-24T17:20:31Z", "phase": "0e", "step": "ch01-the-call-and-the-covenant", "model": "claude-opus-4-7", "input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0}
+{"ts": "2026-05-24T17:40:48Z", "phase": "0e", "step": "ch02-will-command-and-the-seven", "model": "claude-opus-4-7", "input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0}
+{"ts": "2026-05-24T17:51:14Z", "phase": "0e", "step": "ch03-world-hereafter-and-the-right-of-wealth", "model": "claude-opus-4-7", "input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0}
+{"ts": "2026-05-24T18:01:19Z", "phase": "0e", "step": "ch04-the-greater-shaykh-and-the-naming", "model": "claude-opus-4-7", "input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0}
+{"ts": "2026-05-24T18:08:59Z", "phase": "0e", "step": "ch05-father-revealed-and-the-faces-of-seeking", "model": "claude-opus-4-7", "input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0}
+{"ts": "2026-05-24T18:21:58Z", "phase": "0e", "step": "ch06-justice-monotheism-and-the-guardians", "model": "claude-opus-4-7", "input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0}
