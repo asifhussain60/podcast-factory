@@ -110,10 +110,13 @@ The default discipline is "ask before each shared-state action." Below is the st
 - Phase advancement via `--resume <slug>` on an in-progress book
 - Regenerating auto-generated state files (`chapter-set-report.md`, `challenger-report.md`, mangle-map, etc.)
 - Opening a DRAFT PR from a feature branch to `develop`
+- Orchestrator's automatic `book/<slug>` → `develop` merge after the `publish` phase completes successfully — this is in-pipeline and not a separate gate
+- Running `validate_ship_ready.py <slug>` (read-only G1-G7 gate runner — never writes files)
 
 **Tier 2 — Always ask. One-line ask + single-sentence Next.**
 - First-time orchestrator launch on a new book: `python3 scripts/podcast/orchestrate_book.py <pdf>` (multi-hour LLM-spend gate)
-- Marking a draft PR ready, or merging any PR into `develop` or `main`
+- `publish_to_library.py <slug>` — copying the finalized book from `content/drafts/` to `content/published/books/` (the audience-facing catalog). The orchestrator's new `finalize` phase halts BEFORE publish so Asif can review the clean version in podcast-reader and run post-pipeline analyses (A/B transcription, etc.); resuming the orchestrator after that human review is what authorizes publish.
+- Opening a `develop` → `main` PR, marking it ready, or merging it (production release gate — never auto-promoted)
 - Force-push (any branch)
 - Deleting branches
 - `--no-verify`, `--amend`, `git reset --hard`, `git clean -f`, `rm` of tracked files

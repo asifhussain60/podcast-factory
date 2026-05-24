@@ -1459,7 +1459,71 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
         update_phase(book_dir, phase="per-chapter-slides", status="skipped",
                      extras={"reason": "enable_slide_decks=false"})
 
-    # Trainer pass — substrate-driven rule promotion (regression-gated).
+    # Finalize phase (added 2026-05-24 per Asif's split-publish refactor):
+    # run G1-G7 quality gates read-only. If all pass, HALT for human review.
+    # If any fail, halt-and-surface for remediation. The actual publish
+    # (file copy to content/published/books/<slug>/) is a separate
+    # human-authorized phase that fires on the next `--resume` after review.
+    _info("phase: finalize · run G1-G7 gates via validate_ship_ready.py")
+    update_phase(book_dir, phase="finalize", status="running")
+    validate_script = Path(__file__).resolve().parent / "validate_ship_ready.py"
+    rc, vout, verr = _run([sys.executable, str(validate_script), book_slug])
+    print(vout)
+    if rc != 0:
+        update_phase(book_dir, phase="finalize", status="failed",
+                     error="G1-G7 gates failed; see stdout for the failing gate",
+                     extras={"validator_stdout": vout[-2000:], "validator_stderr": verr[-1000:]})
+        _err("finalize halt — at least one G1-G7 gate failed. "
+             "Fix the cause, then re-invoke `orchestrate_book.py --resume`.")
+        return 2
+    update_phase(book_dir, phase="finalize", status="halted",
+                 extras={"verdict": "SHIP-READY"})
+    _info("")
+    _info("─" * 72)
+    _info("Phase finalize complete · halted for human review (SHIP-READY).")
+    _info("")
+    _info("Review the clean version in the podcast-reader app:")
+    _info("  cd podcast-reader && npm run dev")
+    _info("  open http://localhost:4321/develop/" + book_slug + "/")
+    _info("")
+    _info("Optional: run A/B transcription analysis against reference MP3s if any:")
+    _info("  python3 scripts/podcast/ab_compare_episode.py --book-dir "
+          + str(book_dir) + " --episode EP##-<slug> --reference-transcript ...")
+    _info("")
+    _info("When satisfied, authorize publish + trainer + merge:")
+    _info(f"  python3 scripts/podcast/orchestrate_book.py --resume {book_slug}")
+    _info("─" * 72)
+    return 0
+
+
+def _drive_publish_through_done(book_dir: Path) -> int:
+    """Phases that fire after the finalize halt: publish → trainer → merge → done.
+
+    Split out 2026-05-24 so the finalize halt is a clean review checkpoint;
+    --resume after the halt enters this function and runs each phase in
+    sequence. Failure at any phase halts the orchestrator with state
+    pointing at the failing phase.
+    """
+    book_slug = book_dir.name
+
+    # Publish — file copy to content/published/books/<slug>/.
+    _info("phase: publish · copy clean chapters + episodes to published/")
+    update_phase(book_dir, phase="publish", status="running")
+    publish_script = Path(__file__).resolve().parent / "publish_to_library.py"
+    rc, pout, perr = _run([sys.executable, str(publish_script), book_slug])
+    print(pout)
+    if rc != 0:
+        update_phase(book_dir, phase="publish", status="failed",
+                     error="publish_to_library.py rc != 0; gates re-ran defensively",
+                     extras={"publisher_stdout": pout[-2000:], "publisher_stderr": perr[-1000:]})
+        _err("publish failed — defensive gate re-run blocked the copy. "
+             "Investigate and re-invoke `orchestrate_book.py --resume`.")
+        return 2
+    update_phase(book_dir, phase="publish", status="completed")
+    phase_git_commit(book_dir, f"podcast({book_slug}): published to library")
+
+    # Trainer pass — runs on the POST-publish substrate so its spec edits
+    # are validated against the version that actually shipped.
     _info("phase: trainer · invoke podcast-trainer on the book branch")
     update_phase(book_dir, phase="trainer", status="running")
     try:
@@ -1490,9 +1554,6 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
     _info("")
     _info("─" * 72)
     _info(f"Book {book_slug}: SHIPPED.")
-    _info("Per-chapter outcomes:")
-    for o in outcomes:
-        _info(render_outcome(o))
     _info("─" * 72)
     return 0
 
@@ -1539,7 +1600,8 @@ def run_resume(args: argparse.Namespace) -> int:
                     lb.pop("ts_completed", None)
         # last_completed_phase walks back to the predecessor.
         canonical = ("pre-flight", "branch", "scaffold", "0a", "0b", "0c", "0d", "0e",
-                     "0f", "0g", "per-chapter", "trainer", "merge", "done")
+                     "0f", "0g", "per-chapter", "per-chapter-slides", "finalize",
+                     "publish", "trainer", "merge", "done")
         if retry_phase in canonical:
             i = canonical.index(retry_phase)
             state["last_completed_phase"] = canonical[i - 1] if i > 0 else None
@@ -1612,6 +1674,22 @@ def run_resume(args: argparse.Namespace) -> int:
         "failed", "halted", "running", "pending"
     ):
         return _drive_per_chapter_and_after(book_dir)
+
+    # Finalize halt (added 2026-05-24): G1-G7 gates passed; human reviews in
+    # podcast-reader then re-invokes --resume to authorize publish.
+    if current_phase == "finalize" and current_status == "halted":
+        _info("Phase finalize gate cleared (human approved by re-invoking --resume).")
+        return _drive_publish_through_done(book_dir)
+    if current_phase == "finalize" and current_status in ("failed", "pending"):
+        # Re-run finalize (re-validate gates after a fix).
+        return _drive_per_chapter_and_after(book_dir)
+
+    # Publish / trainer / merge halt-and-resume: re-enter the publish-through-done
+    # driver. Each step is idempotent enough to resume from the last failure.
+    if current_phase in ("publish", "trainer", "merge") and current_status in (
+        "failed", "running", "pending"
+    ):
+        return _drive_publish_through_done(book_dir)
 
     # If we already merged, nothing to do.
     if current_phase == "done":
