@@ -35,7 +35,7 @@ This is a **review-and-edit companion**, not a study reader.
 
 ```
 Astro (Vite) + Tailwind + React islands
-├─ Live glob from ~/PROJECTS/podcast-factory/worktrees/*/content/podcast/library/books/
+├─ Live glob from ~/PROJECTS/podcast-factory/content/drafts/
 ├─ Chapter-contract YAML as primary content surface
 ├─ refined-english.md / english-transcript.md as "view source" secondary
 ├─ Pagefind for search (current-book scope default)
@@ -154,7 +154,7 @@ A book has TWO related axes the reader surfaces:
 
 The book index page (`/<worktree>/<book>/`) presents both axes side-by-side: a "Source chapters" list on one side, an "Episodes" list on the other, with cross-links between them (an episode card shows which source chapter it adapts; a source chapter card shows which episodes derive from it).
 
-Live glob walks `~/PROJECTS/podcast-factory/worktrees/*/content/podcast/library/books/<book>/`. The worktree name (e.g. `book-kar`, `book-asaas`, `book-islr`, `main`) becomes the first URL segment. The book slug is the second.
+Live glob walks `~/PROJECTS/podcast-factory/content/drafts/<book>/`. The worktree name (e.g. `book-kar`, `book-asaas`, `book-islr`, `main`) becomes the first URL segment. The book slug is the second.
 
 **v1 scope:** `kitab-al-riyad` only. Other books (`asaas-al-taveel`, etc.) and library categories (`letters/`, `articles/`, `lectures/`, `interviews/`, `documents/`, `archetypes/`) are deferred. The pilot exists to validate the reading + scanning + comment UX on real content before broadening surface area.
 
@@ -321,7 +321,7 @@ All fonts are OFL-licensed and bundled in `public/fonts/`. No external font CDN 
 ```json
 {
   "version": 1,
-  "contractPath": "worktrees/book-kar/content/podcast/library/books/kitab-al-riyad/chapter-contracts/qada-and-qadar-fate-and-destiny.yml",
+  "contractPath": "content/drafts/kitab-al-riyad/chapter-contracts/qada-and-qadar-fate-and-destiny.yml",
   "comments": [
     {
       "id": "c_01HXYZ...",

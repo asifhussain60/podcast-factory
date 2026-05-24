@@ -12,7 +12,7 @@ Design locked 2026-05-23. Implementation pending (Phase 0 bootstrap not yet star
 
 - **Purpose:** review chapter-contracts (`*.yml`) across worktrees with Quran/Hadith/Arabic auto-highlighted, jump-key navigation, and inline comments that flow back to Claude Code.
 - **Stack:** Astro + Tailwind + React islands + Pagefind.
-- **Content source:** live glob from `~/PROJECTS/podcast-factory/worktrees/*/content/podcast/library/books/`.
+- **Content source:** live glob from `~/PROJECTS/podcast-factory/content/drafts/`.
 - **Prefs:** on-disk JSON at `~/.config/podcast-reader/prefs.json`.
 - **Comments:** sidecar JSON next to each contract (`<contract>.yml.review.json`).
 

@@ -6,7 +6,7 @@
  * an entry render a slug-derived placeholder.
  *
  * To add a new book: append a key + BookMeta entry. The slug must match
- * the directory name under `<worktree>/content/podcast/library/books/`.
+ * the directory name under `content/drafts/`.
  *
  * `isPilot: true` marks the v1 in-scope book that has full reader routes
  * wired up. Others render in the home-page list but are visibly deferred.

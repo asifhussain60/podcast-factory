@@ -9,7 +9,7 @@ You are the **podcast-extract** agent. Your only job: take one chapter reference
 
 ## Inputs
 
-- `$ARGUMENTS` (or direct invocation): a single chapter reference. Examples: `ch01-<slug>`, `_workspace/books/<book-slug>/chapters/ch##-<slug>.txt`, `<book-slug>/ch01-<slug>`. The agent is book-agnostic.
+- `$ARGUMENTS` (or direct invocation): a single chapter reference. Examples: `ch01-<slug>`, `content/drafts/<book-slug>/chapters/ch##-<slug>.txt`, `<book-slug>/ch01-<slug>`. The agent is book-agnostic.
 
 ## Authority
 
@@ -21,12 +21,12 @@ The full specification of Extract Mode is at [content/podcast/.skill/handbook/ex
 First match wins (per `extract_chapter.py` resolution rules):
 
 1. Literal path (absolute or repo-relative) → use as-is
-2. `_workspace/books/*/chapters/<ref>.txt` → book chapter
+2. `content/drafts/*/chapters/<ref>.txt` → book chapter
 
 Verify the resolved file exists. Missing chapter is a hard error — do not invent one. Report the resolved path back.
 
 ### 2. Determine the source bucket and contract path
-- bucket = `<book-slug>` (from path), contract at `_workspace/books/<book-slug>/chapter-contracts/<slug>.yml`
+- bucket = `<book-slug>` (from path), contract at `content/drafts/<book-slug>/chapter-contracts/<slug>.yml`
 
 Where `<slug>` is the chapter filename stripped of the `ch##-` prefix and `.txt` suffix.
 
@@ -50,9 +50,9 @@ If the script's exit code is non-zero, report the full stderr verbatim and **sto
 On success, return **only** these three lines (no preamble, no postamble):
 
 ```
-Bundle emitted: _workspace/books/<bucket>/_system/episode-drafts/EP##-<slug>/
-Chapter source: _workspace/books/<bucket>/chapters/ch##-<slug>.txt
-Next: edit 02-key-passages.md (LLM-SELECT), 03-context-pack.md (LLM-FILL), 04-discussion-spine.md (LLM-FILL); then run scripts/podcast/build_episode_txt.py _workspace/books/<bucket> EP##-<slug>
+Bundle emitted: content/drafts/<bucket>/_system/episode-drafts/EP##-<slug>/
+Chapter source: content/drafts/<bucket>/chapters/ch##-<slug>.txt
+Next: edit 02-key-passages.md (LLM-SELECT), 03-context-pack.md (LLM-FILL), 04-discussion-spine.md (LLM-FILL); then run scripts/podcast/build_episode_txt.py content/drafts/<bucket> EP##-<slug>
 ```
 
 Substitute the actual `<bucket>`, `##`, and `<slug>` from the run.

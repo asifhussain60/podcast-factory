@@ -23,8 +23,11 @@ class PhaseEnumTests(unittest.TestCase):
         # Phase's new base class.
         self.assertTrue(issubclass(_phases.Phase, _phases.StrEnum))
 
-    def test_phase_has_14_values(self):
-        self.assertEqual(len(list(_phases.Phase)), 14)
+    def test_phase_has_15_values(self):
+        # 14 base phases + 11b-slide-decks (optional; gated by series.enable_slide_decks).
+        # Updated 2026-05-23 — original test was authored when 11b-slide-decks
+        # didn't yet exist; the phase was added but the test counter was missed.
+        self.assertEqual(len(list(_phases.Phase)), 15)
 
     def test_phase_order_matches_canonical_sequence(self):
         expected = (
@@ -39,6 +42,7 @@ class PhaseEnumTests(unittest.TestCase):
             "09-series-plan",
             "10-register-series",
             "11-per-chapter",
+            "11b-slide-decks",
             "12-trainer",
             "13-merge",
             "14-done",
