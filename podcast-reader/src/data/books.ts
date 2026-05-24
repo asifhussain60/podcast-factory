@@ -80,6 +80,21 @@ export const BOOKS: Record<string, BookMeta> = {
     description:
       "A short letter al-Ghazali wrote to a former student who asked for the distilled essence of decades of study. The reply: knowledge without action is a debt; the saved are those whose hearts are sound; companions, sincerity, and conduct outrank cleverness. A pocket-sized work that distils al-Ghazali's pedagogical project — Iḥyāʾ ʿUlūm al-Dīn compressed into a handful of pages addressed to one young man.",
   },
+  'islr-mas-i': {
+    slug: 'islr-mas-i',
+    titleEn: 'An Introduction to Statistical Learning',
+    subtitle: 'Master Series I — applications in R / Python',
+    author: {
+      name: 'James · Witten · Hastie · Tibshirani',
+      titles: ['Statisticians, Stanford University & Cambridge'],
+      era: '2nd ed. 2021',
+    },
+    publisher: 'Springer',
+    series: 'Springer Texts in Statistics',
+    tradition: 'Statistical learning',
+    description:
+      "The standard contemporary introduction to statistical learning — linear regression, classification, resampling, tree-based methods, support vector machines, unsupervised learning. Written by four of the field's foundational authors as the accessible companion to The Elements of Statistical Learning. The Master Series I adaptation walks the first seven chapters in detail, with code examples and conceptual scaffolding.",
+  },
   'the-master-and-the-disciple': {
     slug: 'the-master-and-the-disciple',
     titleEn: 'The Master and the Disciple',

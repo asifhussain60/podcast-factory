@@ -86,7 +86,10 @@ ALLOWED_SHIP_VERDICTS = {"SHIP-READY", "SHIP-WITH-CAUTION"}
 
 # Books whose state.json pipeline_mode is in this set never ran the
 # orchestrator's convergence loop and require explicit --allow-mode-2.
-NON_CONVERGED_PIPELINE_MODES = {"non_orchestrated_mode_2"}
+# Added 2026-05-24: `pre_orchestrator_authored` (ayyuhal-walad, B-P0-04) —
+# the book was authored before the orchestrator existed; verdict is
+# `ship-with-caution` based on manual review, not a convergence pass.
+NON_CONVERGED_PIPELINE_MODES = {"non_orchestrated_mode_2", "pre_orchestrator_authored"}
 
 CH_PATTERN = re.compile(r"^ch(\d+)-([a-z0-9][a-z0-9-]*)\.txt$")
 EP_PATTERN = re.compile(r"^EP(\d+)-([a-z0-9][a-z0-9-]*)\.txt$")

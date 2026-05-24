@@ -125,45 +125,6 @@ const metaChips = [
   )}
 </article>
 
-<style is:global>
-  .prose-body p {
-    margin-bottom: 1.1em;
-  }
-  .prose-body p:last-child {
-    margin-bottom: 0;
-  }
-  .prose-body em {
-    font-style: italic;
-    color: rgb(68 64 60);
-  }
-  .prose-body strong {
-    font-weight: 600;
-  }
-  .prose-body h2 {
-    font-family: var(--font-body);
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-top: 1.5em;
-    margin-bottom: 0.5em;
-  }
-  .prose-body h3 {
-    font-family: var(--font-body);
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-top: 1.25em;
-    margin-bottom: 0.5em;
-  }
-  .prose-body .md-comment {
-    font-family: var(--font-ui);
-    font-size: 0.7rem;
-    color: rgb(168 162 158);
-    margin: 1.5em 0 0.5em;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  /* When a ref-arabic or ref-hadith wraps an <em>, the inner <em>'s color rule
-     would otherwise tint the per-category color back to stone. Reset that. */
-  .ref em {
-    color: inherit;
-  }
-</style>
+<!-- .prose-body rules moved to global.css so they apply on chapter pages too
+     (which don't import ContractView but use class="prose-body"). -->
+

@@ -74,7 +74,50 @@ from typing import Any
 REPO_ROOT = Path(__file__).resolve().parents[2]
 CONTENT_DIR = REPO_ROOT / "content"
 PODCAST_DIR = CONTENT_DIR / "podcast"
-LIBRARY_DIR = PODCAST_DIR / "library"
+LIBRARY_DIR = PODCAST_DIR / "library"  # legacy (retired 2026-05-23); kept for any
+                                       # stragglers under the old tree.
+
+# Post-restructure 2026-05-23: in-flight books live at content/drafts/<book>/
+# and shipped books at content/published/books/<book>/. resolve_chapter_ref()
+# checks these locations first, then falls back to the legacy LIBRARY_DIR.
+DRAFTS_DIR = CONTENT_DIR / "drafts"
+PUBLISHED_BOOKS_DIR = CONTENT_DIR / "published" / "books"
+
+
+def _chapter_lookup_roots() -> list[Path]:
+    """The directories under which to search for `<book>/chapters/<ref>.txt`.
+
+    Listed in resolution priority. The first non-empty match wins; ambiguity
+    across roots is treated as an error (drafts and published may both carry
+    the same slug only mid-promotion — surface it).
+    """
+    return [DRAFTS_DIR, PUBLISHED_BOOKS_DIR, LIBRARY_DIR]
+
+
+def _book_glob(book_slug: str, bare_ref: str) -> list[Path]:
+    """Glob `<root>/<book_slug>/chapters/<bare_ref>.txt` across all known roots.
+
+    Also matches `<root>/<category>/<book_slug>/chapters/<bare_ref>.txt` so
+    the legacy LIBRARY_DIR shape (which puts books under a category dir) still
+    resolves. New content/drafts and content/published/books are flat.
+    """
+    out: list[Path] = []
+    for root in _chapter_lookup_roots():
+        flat = root / book_slug / "chapters" / f"{bare_ref}.txt"
+        if flat.exists():
+            out.append(flat)
+        out.extend(root.glob(f"*/{book_slug}/chapters/{bare_ref}.txt"))
+    return out
+
+
+def _all_chapter_paths(ref: str) -> list[Path]:
+    """Find every `<root>/<book>/chapters/<ref>.txt` and
+    `<root>/<category>/<book>/chapters/<ref>.txt`."""
+    out: list[Path] = []
+    for root in _chapter_lookup_roots():
+        out.extend(p for p in root.glob(f"*/chapters/{ref}.txt") if p.is_file())
+        out.extend(p for p in root.glob(f"*/*/chapters/{ref}.txt") if p.is_file())
+    return out
 HANDBOOK_DIR = PODCAST_DIR / ".skill" / "handbook"
 
 # Boundary enforcement — any read that resolves into one of these is fatal.
@@ -309,7 +352,7 @@ def resolve_chapter_ref(ref: str) -> ResolvedChapter:
     # 2. `<book-slug>/<ref>` shorthand: explicit book scoping.
     if "/" in ref and not ref.startswith("/"):
         book_slug, bare_ref = ref.split("/", 1)
-        candidates = list(LIBRARY_DIR.glob(f"*/{book_slug}/chapters/{bare_ref}.txt"))
+        candidates = _book_glob(book_slug, bare_ref)
         if len(candidates) == 1:
             cand = candidates[0]
             assert_boundary_safe(cand)
@@ -317,17 +360,15 @@ def resolve_chapter_ref(ref: str) -> ResolvedChapter:
             return ResolvedChapter(cand, book_slug, num, slug)
         if len(candidates) > 1:
             sys.exit(
-                f"ERROR: book-slug {book_slug!r} resolves to multiple paths under "
-                f"{LIBRARY_DIR}/*/{book_slug}/. Found:\n"
+                f"ERROR: book-slug {book_slug!r} resolves to multiple paths. Found:\n"
                 + "\n".join(f"    {c}" for c in candidates)
             )
         # 0 matches under the explicit book — fall through to bare-ref resolution
         # so the caller sees the standard "could not resolve" message with all
         # paths tried.
 
-    # 3. Bare `<ref>`: search every library/<category>/<book>/chapters/.
-    matches = [bc / f"{ref}.txt" for bc in sorted(LIBRARY_DIR.glob("*/*/chapters"))
-               if (bc / f"{ref}.txt").exists()]
+    # 3. Bare `<ref>`: search every {drafts,published,legacy-library}/<book>/chapters/.
+    matches = _all_chapter_paths(ref)
     if len(matches) == 1:
         cand = matches[0]
         assert_boundary_safe(cand)
@@ -351,7 +392,10 @@ def resolve_chapter_ref(ref: str) -> ResolvedChapter:
         f"ERROR: could not resolve chapter ref {ref!r}.\n"
         f"  Tried:\n"
         f"    {literal}\n"
-        f"    {LIBRARY_DIR}/*/*/chapters/{ref}.txt\n"
+        f"    {DRAFTS_DIR}/*/chapters/{ref}.txt\n"
+        f"    {DRAFTS_DIR}/*/*/chapters/{ref}.txt\n"
+        f"    {PUBLISHED_BOOKS_DIR}/*/chapters/{ref}.txt\n"
+        f"    {LIBRARY_DIR}/*/*/chapters/{ref}.txt   (legacy)\n"
     )
 
 
@@ -425,7 +469,7 @@ def validate_contract(c: Contract, chapter: ResolvedChapter) -> None:
         loc = c.path or "(stub)"
         sys.exit(
             f"ERROR: contract at {loc} is missing required fields: {', '.join(missing)}.\n"
-            f"  See content/podcast/.skill/handbook/chapter-contract.template.yml for the full schema."
+            f"  See scripts/podcast/extract_chapter.py::stub_contract() for the canonical schema."
         )
     if c.get("slug") != chapter.chapter_slug:
         sys.exit(
@@ -489,7 +533,7 @@ def validate_contract(c: Contract, chapter: ResolvedChapter) -> None:
     if episode_format not in valid_formats:
         sys.exit(
             f"ERROR: contract.episode_format {episode_format!r} not in {valid_formats}.\n"
-            f"  See content/podcast/.skill/handbook/debate-framing.md for the debate spec."
+            f"  See infra/claude-agents/podcast-challenger.md Category P for the debate spec."
         )
     if episode_format == "debate":
         debate = c.get("debate")
@@ -538,17 +582,32 @@ def validate_contract(c: Contract, chapter: ResolvedChapter) -> None:
         "interview":    "interviews",
         "letter":       "letters",
     }[source_type]
+    # Post-restructure 2026-05-23: in-flight books live at content/drafts/<book>/
+    # (NOT content/drafts/<category>/<book>/) and shipped books at
+    # content/published/books/<book>/. The category check below only fires for
+    # the legacy library/<category>/<book>/ layout. For the new layout, the
+    # source_type → category mapping is irrelevant because the layout is flat
+    # under drafts/ and published/books/ (no per-category subdirectory).
     try:
-        actual_category = chapter.path.parents[2].name
-        if actual_category != expected_category:
-            sys.exit(
-                f"ERROR: contract.source_type {source_type!r} requires the chapter to live\n"
-                f"  under _workspace/{expected_category}/<book-slug>/, but the\n"
-                f"  chapter resolved to a path under .../library/{actual_category}/.\n"
-                f"    Chapter: {chapter.path}\n"
-                f"  Fix: either move the chapter to the {expected_category}/ category, or\n"
-                f"  change contract.source_type to match the {actual_category}/ category."
-            )
+        parents = chapter.path.parents
+        # Legacy layout: <root>/<category>/<book>/chapters/<file>.txt → parents[2].name = <category>
+        # New layout (drafts):    content/drafts/<book>/chapters/<file>.txt → parents[2].name = "content"
+        # New layout (published): content/published/books/<book>/chapters/<file>.txt → parents[2].name = "published"
+        # We only flag a mismatch when the resolved root contains a real category dir.
+        actual_category = parents[2].name
+        if actual_category in ("books", "articles", "documents", "lectures", "interviews", "letters"):
+            if actual_category != expected_category:
+                sys.exit(
+                    f"ERROR: contract.source_type {source_type!r} requires the chapter to live\n"
+                    f"  under <root>/{expected_category}/<book-slug>/, but the\n"
+                    f"  chapter resolved to a path under .../{actual_category}/.\n"
+                    f"    Chapter: {chapter.path}\n"
+                    f"  Fix: either move the chapter to the {expected_category}/ category, or\n"
+                    f"  change contract.source_type to match the {actual_category}/ category."
+                )
+        # else: new flat layout under content/drafts/ or content/published/books/.
+        # The category dimension is collapsed in the new layout; the source_type
+        # field on the contract is the sole declaration of category.
     except IndexError:
         # Chapter resolved via a non-standard path (legacy literal-path fallback);
         # skip the category check rather than crashing.
@@ -672,7 +731,11 @@ def _render_framing_deep_dive(c: Contract, chapter: ResolvedChapter, ep_num: int
         "brief": "Target ~6–10 min Audio Overview. Tight, single argument.",
         "default_deep_dive": "Target ~12–15 min Audio Overview. One coherent theme, two-to-three connected ideas, room for dialogue.",
         "longer": "Target ~22–40 min Audio Overview. Multi-thematic; let the conversation breathe.",
+        "extended": "Target ~50-60 min Audio Overview. Dense doctrinal material — let the hosts unfold layer by layer without rushing.",
     }.get(length, "Target ~12–15 min Audio Overview.")
+    # IMPORTANT: do NOT include literal "deep dive" / "deep-dive" in this template
+    # body — those substrings are on `MODERNIZE_DENY` in _rules.py and any framing
+    # carrying them fails build_episode_txt.py's deny-block scan.
 
     phonetics = c.get("phonetic_overrides") or {}
     if phonetics:
@@ -691,7 +754,7 @@ def _render_framing_deep_dive(c: Contract, chapter: ResolvedChapter, ep_num: int
 
     return f"""# {title}
 
-**Episode format:** Deep Dive (two hosts walk through the source). See `.skill/handbook/two-host-framing.md` for the format spec; if this should be a debate instead, set `contract.episode_format: debate` and see `.skill/handbook/debate-framing.md`.
+**Episode format:** `deep_dive` (two-host walkthrough). If this should be a debate instead, set `contract.episode_format: debate`. See [infra/claude-agents/podcast-challenger.md](../../../infra/claude-agents/podcast-challenger.md) Categories F + P for the format-specific constraints.
 
 ## Opening directive
 
@@ -703,7 +766,7 @@ In the first ten seconds, the hosts should name the work and the question this e
 
 ## Angle
 
-`{angle}` — see content/podcast/.skill/handbook/source-distillation.md for what this lens commits the hosts to.
+`{angle}` — the chosen lens. Faithful exposition = follow source authorial voice; comparative = bring in cross-tradition context; etc. The framing's other sections (Central tensions, Tone constraints) lock the lens into per-episode specifics.
 
 ## Length
 
@@ -711,7 +774,7 @@ In the first ten seconds, the hosts should name the work and the question this e
 
 ## Host dynamic
 
-`{host_dynamic}`. See content/podcast/.skill/handbook/two-host-framing.md for default personas.
+`{host_dynamic}`. NotebookLM's default English voice pair is John (male) for Host A and Hannah (female) for Host B. The CANONICAL pairing this skill enforces (per R-HOST-ROLE-PARITY in scripts/podcast/_rules.py, challenger Category Q): Host A (male) is the scholar / teacher / master / shaykh / guide role; Host B (female) is the seeker / student / debater / questioner / novice role. This pairing does NOT rotate across episodes within a book. If the contract's `host_dynamic` reverses this (e.g. `advocate_b + scholar_companion` putting Host B in the scholar role), the framing author MUST flip the host_a / host_b assignment so the male voice stays in the scholar pool.
 
 ## Central tensions to reach
 
@@ -733,6 +796,19 @@ The hosts must NOT do the following:
 - Treat this as a standalone Audio Overview. Do not reference other Audio Overviews — they are not in NotebookLM's context.
 - Do not abbreviate honorifics; speak them in full.
 - End on a question, not a conclusion.
+- NO cross-chapter references. This episode's chapter file is the entire source NotebookLM sees. The hosts must NOT say "the previous chapter showed", "as we'll see later", "the next chapter answers", "earlier in the book", etc. Treat the chapter as a self-contained episode.
+
+## Do not (forbidden vocabulary and framings)
+
+The hosts must NOT use any of the following — these are the canonical DENY lists per `scripts/podcast/_rules.py::MODERNIZE_DENY` + `SURPRISE_DENY`. The substring scanner in `build_episode_txt.py` refuses any framing that omits this block.
+
+- Modernization terms: Twitter, X (the platform), social media, algorithm, content creator, internet, YouTube, TikTok, Instagram, livestream, hashtag, 21st century, in our modern world, platforms like
+- Surprise-noise phrases: wow, that's so interesting, right?, it's chilling, it's devastating, it's terrifying, it's profound, it's fascinating, it's amazing
+- Imitation-of-authority: rephrasings of the work's original arguments in casual / commercial / self-help register
+
+---
+
+Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.
 """
 
 
@@ -785,7 +861,7 @@ def _render_framing_debate(c: Contract, chapter: ResolvedChapter, ep_num: int) -
 
 ## Opening directive
 
-In the first twenty seconds, the hosts name the work, state the proposition under debate verbatim, and tell the listener that they will hold opposing positions through the conversation. Do not open with "today we'll discuss" or "welcome to this deep dive". Open by stating the proposition.
+In the first twenty seconds, the hosts name the work, state the proposition under debate verbatim, and tell the listener that they will hold opposing positions through the conversation. Do not open with "today we'll discuss" or formulaic show-intro phrasing. Open by stating the proposition.
 
 ## Audience
 
@@ -816,7 +892,7 @@ Source moves available to Host B:
 1. **No strawman.** Each host argues the strongest form of their position. The OTHER host names the weaknesses, never the host holding it.
 2. **Source-grounded only.** Every move references the source text, a passage from the same author's larger corpus, or an established tradition the position is anchored in. No appeals to modern common sense.
 3. **Defended positions stay defended.** A host may concede a sub-point with qualification ("That's a fair point on X, but...") but does not abandon their named position unless the resolution is `host_X_concedes`.
-4. **Disagreement is the work.** Acknowledgment grammar ("Exactly", "Yeah, exactly") that is forbidden in Deep Dive is softened here: a host may concede a sub-point but the concession is qualified and followed by a return to the host's main position. Bare affirmations remain forbidden.
+4. **Disagreement is the work.** Acknowledgment grammar ("Exactly", "Yeah, exactly") that is forbidden in `deep_dive` mode is softened here: a host may concede a sub-point but the concession is qualified and followed by a return to the host's main position. Bare affirmations remain forbidden.
 5. **One position at a time.** Each beat surfaces one part of the argument. Hosts do not jump topics.
 6. **The proposition is named at open and at close.** Resolution is announced at the close per the contract's `resolution` field; no host announces a winner.
 7. **No verdict from the host.** Neither host says "I've convinced you" or "you have to admit". The listener decides.
@@ -845,6 +921,20 @@ The hosts must NOT do the following:
 - Treat this as a standalone Audio Overview. Do not reference other Audio Overviews.
 - Do not abbreviate honorifics; speak them in full.
 - Close on the resolution beat as specified above, not on a host paraphrase.
+- NO cross-chapter references. This episode's chapter file is the entire source NotebookLM sees. The hosts must NOT say "the previous chapter showed", "as we'll see later", "the next chapter answers", "earlier in the book", etc. Treat the chapter as a self-contained episode.
+- HOST PAIRING is locked: Host A (male voice) = scholar/teacher/advocate-for-tradition pool; Host B (female voice) = seeker/student/debater/challenger pool. Do not assign female voice to the scholar role or male voice to the debater role.
+
+## Do not (forbidden vocabulary and framings)
+
+The hosts must NOT use any of the following — these are the canonical DENY lists per `scripts/podcast/_rules.py::MODERNIZE_DENY` + `SURPRISE_DENY`. The substring scanner in `build_episode_txt.py` refuses any framing that omits this block.
+
+- Modernization terms: Twitter, X (the platform), social media, algorithm, content creator, internet, YouTube, TikTok, Instagram, livestream, hashtag, 21st century, in our modern world, platforms like
+- Surprise-noise phrases: wow, that's so interesting, right?, it's chilling, it's devastating, it's terrifying, it's profound, it's fascinating, it's amazing
+- Imitation-of-authority: rephrasings of the work's original arguments in casual / commercial / self-help register
+
+---
+
+Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.
 """
 
 
@@ -993,19 +1083,27 @@ def emit_bundle(chapter: ResolvedChapter, c: Contract, force: bool) -> None:
     bucket = chapter.source_bucket
     if c.get("source_type") == "book-chapter" and c.get("book_slug"):
         bucket = c.get("book_slug")
-    # bucket_root derived from the resolved chapter path so the category folder
-    # (books/, articles/, etc.) is honored — chapter is at
-    # library/<category>/<book>/chapters/<file>.txt; parents[1] is the book dir.
+    # bucket_root derived from the resolved chapter path. Chapter file is at:
+    #   - legacy:    library/<category>/<book>/chapters/<file>.txt → parents[1] = <book>
+    #   - drafts:    content/drafts/<book>/chapters/<file>.txt    → parents[1] = <book>
+    #   - published: content/published/books/<book>/chapters/<file>.txt → parents[1] = <book>
+    # All three layouts have the same parents[1] semantics (the book dir).
     bucket_root = chapter.path.parents[1]
-    # Defense-in-depth: confirm the resolved bucket_root really sits under
-    # library/<category>/<book>/. A legacy-fallback resolution (no library/
-    # ancestor) would emit files in the wrong place; better to fail loud here.
-    if bucket_root.parent.parent.name != "library":
+    # Defense-in-depth: confirm the resolved bucket_root really sits under one
+    # of the canonical roots. A literal-path resolution outside these roots
+    # would emit files in the wrong place; better to fail loud here.
+    valid_root_ancestors = {"library", "drafts", "books"}  # 'books' under published/
+    if bucket_root.parent.name not in valid_root_ancestors:
         sys.exit(
-            f"ERROR: resolved chapter is not under _workspace/<category>/<book>/.\n"
+            f"ERROR: resolved chapter is not under a canonical root.\n"
             f"  bucket_root={bucket_root}\n"
-            f"  This usually means a legacy path resolution was used. Re-run with a\n"
-            f"  chapter under the v3.5 library layout."
+            f"  bucket_root.parent.name={bucket_root.parent.name!r}\n"
+            f"  Expected one of: {sorted(valid_root_ancestors)} (which means the\n"
+            f"  chapter must live at content/drafts/<book>/chapters/, content/\n"
+            f"  published/books/<book>/chapters/, or the legacy content/podcast/\n"
+            f"  library/<category>/<book>/chapters/).\n"
+            f"  This usually means a literal-path resolution outside the canonical\n"
+            f"  layout. Move the chapter to one of the supported roots."
         )
 
     ep_num = c.get("episode_number") or chapter.chapter_number or next_episode_number(bucket_root)
@@ -1015,18 +1113,26 @@ def emit_bundle(chapter: ResolvedChapter, c: Contract, force: bool) -> None:
     chapter_text = chapter.path.read_text(encoding="utf-8")
 
     # Word-count band check — surfaces collisions with NotebookLM's Audio Overview limits
-    # at extract time, not at build time. See content/podcast/.skill/handbook/notebooklm-best-practices.md §3.
+    # at extract time, not at build time. The retired handbook file (notebooklm-best-practices.md)
+    # carried the underlying rationale; current authority is `build_episode_txt.py`'s
+    # CHAPTER_WORD_MIN_HARD / CHAPTER_WORD_MAX_HARD / CHAPTER_WORD_MAX_SOFT constants.
     word_count = len(chapter_text.split())
     band_warnings: list[str] = []
-    if word_count > 5500:
+    # Soft warning fires at 9,500 words (above this NotebookLM starts to
+    # summarize aggressively); hard refuse from build_episode_txt.py is at
+    # CHAPTER_WORD_MAX_HARD (currently 12,000 post-2026-05-24 bump for the
+    # `extended` tier). Authors get 2.5k words of headroom between the soft
+    # warning and the hard refuse to decide whether to trim or accept.
+    if word_count > 9500:
         band_warnings.append(
-            f"  WARN: chapter is {word_count} words — over the 5,500 word ceiling.\n"
-            f"        NotebookLM will summarize away content past this. Canon says split.\n"
-            f"        build_episode_txt.py will REFUSE this chapter.\n"
+            f"  WARN: chapter is {word_count} words — over the 9,500 word soft ceiling.\n"
+            f"        NotebookLM starts summarizing aggressively past this point.\n"
+            f"        build_episode_txt.py HARD-refuses chapters > 12,000 words.\n"
             f"        Paths: (a) refine the chapter file ({chapter.path.name}) in place\n"
-            f"        down to ≤4,500 words; (b) split into two derivative chapters\n"
-            f"        with distinct slugs; (c) explicitly raise CHAPTER_WORD_MAX_HARD\n"
-            f"        in build_episode_txt.py (against canon — only do this knowingly)."
+            f"        down to ≤9,500 words; (b) split into two derivative chapters\n"
+            f"        with distinct slugs; (c) accept the summarization tradeoff —\n"
+            f"        appropriate for `extended` tier dense doctrinal chapters where\n"
+            f"        density matters more than precise length."
         )
     elif word_count > 4500 and c.get("length_target") != "longer":
         band_warnings.append(

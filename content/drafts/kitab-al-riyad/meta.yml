@@ -33,7 +33,7 @@ completed_episodes:
 
 publication:
   status: shipped
-  shipped_via: scripts/podcast/ship_to_library.py
+  shipped_via: scripts/podcast/publish_to_library.py
   publication_target: ../../published/books/kitab-al-riyad/
 
 provenance:
@@ -44,7 +44,7 @@ provenance:
   develop_workspace_note: |
     Develop's _workspace/books/kitab-al-riyad/ contains OLDER drafts of every
     chapter and episode. NOT canonical. Do not merge or copy from develop
-    into this folder — the ship_to_library merge already happened on the
+    into this folder — the publish_to_library merge already happened on the
     book branch and is reflected here.
   ship_commits:
     - 8a5c76a  # podcast(kitab-al-riyad): ship cohort — translations + slide-deck pass + transcripts

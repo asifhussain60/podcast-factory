@@ -1,0 +1,16 @@
+{
+  "script": "ocr_image_pages.py",
+  "started_at": "2026-05-24T13:47:25Z",
+  "ended_at": "2026-05-24T13:55:58Z",
+  "elapsed_s": 513.6,
+  "images_dir": "/Users/asifhussain/PROJECTS/podcast-factory/content/drafts/the-master-and-the-disciple/_system/source/images",
+  "pages_in": 95,
+  "stitched_pdf_bytes_total": 10216404,
+  "n_chunks": 48,
+  "raw_extract_chars": 106085,
+  "translated_chars": 173769,
+  "src_lang": "ar",
+  "translate_skipped": false,
+  "docintel_api_version": "2023-07-31",
+  "docintel_model": "prebuilt-read"
+}
