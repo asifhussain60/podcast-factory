@@ -1306,13 +1306,29 @@ def author_phase_0e(book_dir: Path,
             f"Exit when `{chapter_file}` has been rewritten in place with citations woven in."
         )
 
-        log(f"    {stem} · enriching")
+        # Word-count-aware timeout per chapter (2026-05-24 strategy, extended
+        # from Phase 0d to Phase 0e). Enrichment is heavier-write than 0d's
+        # parse-and-contract, so the same _compute_sc_timeout formula —
+        # max(900, min(3600, ceil(words*0.4 + 600))) — gives ch01 (9,645 words)
+        # 64 min vs. the prior flat 15 min. ch02 (11,143 words) would have hit
+        # the 60-min ceiling; the flat 900s explains why it timed out.
+        chapter_words = len(chapter_file.read_text(encoding="utf-8").split())
+        per_chapter_timeout = _compute_sc_timeout(chapter_words)
+        log(f"    {stem} · enriching ({chapter_words} words, timeout={per_chapter_timeout}s)")
         # Capture pre-enrichment mtime to detect that the file was actually rewritten.
         pre_mtime = chapter_file.stat().st_mtime
-        rc, stdout, stderr = _run_claude_p(
-            prompt, timeout=chapter_timeout,
-            book_dir=book_dir, phase="0e", step=stem,
-        )
+        try:
+            rc, stdout, stderr = _run_claude_p_with_retry(
+                prompt, timeout=per_chapter_timeout,
+                book_dir=book_dir, phase="0e", step=stem,
+                log=log,
+            )
+        except AuthoringError as e:
+            if "BOTH attempts timed out" in str(e):
+                # Halt-and-surface: don't continue the loop. User decides:
+                # /podcast manual drive, raise PHASE_0D_SC_TIMEOUT_MAX, or skip.
+                raise
+            raise
         if rc != 0:
             # Transient — log + continue; resume retries.
             # P5.2: capture stdout AND stderr in the failure record.
