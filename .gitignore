@@ -64,6 +64,16 @@ _workspace/**/*.wav
 _workspace/**/*.m4a
 _workspace/**/*.mp4
 _workspace/**/*.mov
+
+# Post-2026-05-23 restructure: per-book audio dumps live under
+# content/drafts/<slug>/mp3/ (NotebookLM downloads that we Azure-transcribe).
+# Same policy as _workspace audio above — keep the repo small.
+content/drafts/**/mp3/
+content/drafts/**/*.mp3
+content/drafts/**/*.wav
+content/drafts/**/*.m4a
+content/drafts/**/*.mp4
+content/drafts/**/*.mov
 _workspace/**/*.zip
 _workspace/**/*.llc
 _workspace/**/*.pdf
