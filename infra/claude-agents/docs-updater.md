@@ -40,7 +40,23 @@ When any of these change, the page must change. Stale dates without content upda
 
 ## Output — a single file
 
-`docs/architecture/index.html` — one long-scrolling HTML page, no height limit, with a sticky left-side nav for jumping between sections. Consume the existing CSS at `docs/architecture/css/architecture.css` for visual consistency (editorial-modern: warm restrained palette, strong serif typography, minimal ornament). Add D3.js via CDN (`https://d3js.org/d3.v7.min.js`).
+`docs/architecture/index.html` — one long-scrolling HTML page, no height limit. Consume the existing CSS at `docs/architecture/css/architecture.css` as a starting point, but the inline `<style>` block at the top of `index.html` MUST override `.page` max-width and the layout grid per the layout rules below. Add D3.js via CDN (`https://d3js.org/d3.v7.min.js`).
+
+### Layout rules (locked 2026-05-24 after first-run feedback)
+
+- **Top horizontal sticky nav, NOT left sidebar.** Section pills run across the top in a horizontal strip; main content uses the full page width below. Reason: the left sidebar wastes ~280 px of horizontal real estate that the D3 diagrams need to be readable.
+- **Page max-width: `min(1600px, 96vw)`.** Override the 1180px default from `architecture.css`. Diagrams need room to breathe; cramped force-directed graphs overlap labels.
+- **Main column padding**: comfortable on desktop (~32px sides), but never compress below 1100px usable. Diagram canvases (`<svg>`) MUST set `viewBox` AND `preserveAspectRatio="xMidYMid meet"` so they scale to container width.
+- **Sticky nav pills**: each pill is a short label (≤24 chars), `position: sticky; top: 0`, smooth scroll on click, active state when its section enters viewport.
+
+### Contrast & readability rules (locked 2026-05-24)
+
+- **Diagram nodes/boxes use SOLID fills, not glass-morphism.** A washed-out semi-transparent fill on a dark background is unreadable. Use the palette: dark background (`var(--bg)`), solid card fill (`var(--panel)` or warmer accent), strong border (`var(--line)` at 1px), text on cards must be `var(--text-primary)` (high contrast, not muted).
+- **Labels that sit OVER lines or diagram edges get a contrasting background rect.** Use a small `<rect>` behind text with the page background color and a few px of padding so the label is legible regardless of what's underneath. Never let label text overlap line text.
+- **Force-directed simulations MUST include collision detection.** Use `d3.forceCollide().radius(<node-bounding-radius>)` so labels don't overlap. Run the simulation enough ticks (200+) to fully settle, or run synchronously before render. If labels still risk overlap, use rotation or radial offset.
+- **Diagram captions**: bold, accent color, positioned UNDER the SVG, never overlapping it.
+- **Color usage**: editorial-modern means warm RESTRAINED palette — but "restrained" does NOT mean "low contrast." Use the existing `--accent` and `--accent-secondary` variables for emphasis. Reserve color for semantic meaning (e.g., gates use green/red for pass/fail, phases use a gradient by stage). Don't make everything the same purple-grey.
+- **Typography on diagrams**: SVG text uses `var(--font-mono)` for technical labels (paths, slugs, function names) and `var(--font-serif)` for human-readable headings (section anchors). Minimum 13px for any text inside a diagram.
 
 ## The 9 sections (top to bottom)
 
