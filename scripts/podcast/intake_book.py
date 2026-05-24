@@ -118,9 +118,13 @@ def main() -> int:
     state_path.write_text(json.dumps(state, indent=2) + "\n")
     _info(f"    state.json: phase=preflight, phase_status=pending")
 
-    # Create book branch
+    # Create content branch (typed prefix per category — see _branching.py)
     if not args.no_branch:
-        branch = f"book/{args.slug}"
+        import sys as _sys
+        from pathlib import Path as _Path
+        _sys.path.insert(0, str(_Path(__file__).resolve().parent))
+        from _branching import branch_name as _branch_name   # noqa: E402
+        branch = _branch_name(args.category, args.slug)
         result = subprocess.run(
             ["git", "rev-parse", "--verify", branch],
             cwd=REPO_ROOT, capture_output=True, text=True
@@ -140,7 +144,7 @@ def main() -> int:
 
     _info("")
     _info(f"==> DONE. Next steps:")
-    _info(f"    1. (optional) git checkout book/{args.slug}")
+    _info(f"    1. (optional) git checkout {branch if not args.no_branch else _branch_name(args.category, args.slug)}")
     _info(f"    2. python3 scripts/podcast/orchestrate_book.py --start {dst_pdf.relative_to(REPO_ROOT)} --slug {args.slug}")
     _info(f"    3. Watch Phase 0a (OCR) run; advance through 0b/0c/0d as gates clear.")
     return 0

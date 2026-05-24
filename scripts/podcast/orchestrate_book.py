@@ -228,13 +228,15 @@ def preflight_initial(pdf_path: Path, slug: str, category: str) -> list[str]:
     #      (operator pre-cut the per-book branch).
     rc, branch, _ = _git("rev-parse", "--abbrev-ref", "HEAD")
     branch = branch.strip() if rc == 0 else ""
+    from _branching import branch_name as _branch_name
+    expected_content_branch = _branch_name(category, slug)
     valid_branches = {"develop"}
     if preflight_mode:
-        valid_branches |= {"feat/podcast-w1-foundation", f"book/{slug}"}
+        valid_branches |= {"feat/podcast-w1-foundation", expected_content_branch}
     if branch not in valid_branches:
         fails.append(
             f"current branch is '{branch}'; expected one of {sorted(valid_branches)}. "
-            "Run: git checkout " + (sorted(valid_branches)[0] if not preflight_mode else f"book/{slug}")
+            "Run: git checkout " + (sorted(valid_branches)[0] if not preflight_mode else expected_content_branch)
         )
 
     # 4. PDF exists + readable
@@ -262,14 +264,14 @@ def preflight_initial(pdf_path: Path, slug: str, category: str) -> list[str]:
     #    - Preflight-artifacts mode: accept remote book/<slug> only if it points
     #      at the same commit as the local branch (operator pre-pushed).
     if SLUG_RE.match(slug):
-        rc, out, _ = _git("ls-remote", "--heads", "origin", f"book/{slug}")
+        rc, out, _ = _git("ls-remote", "--heads", "origin", expected_content_branch)
         if rc == 0 and out.strip():
             remote_sha = out.split()[0] if out else ""
-            rc2, local_sha, _ = _git("rev-parse", f"book/{slug}")
+            rc2, local_sha, _ = _git("rev-parse", expected_content_branch)
             local_sha = local_sha.strip() if rc2 == 0 else ""
             if not (preflight_mode and remote_sha and local_sha and remote_sha == local_sha):
                 fails.append(
-                    f"remote branch 'book/{slug}' already exists. "
+                    f"remote branch {expected_content_branch!r} already exists. "
                     "Either pick a different slug or use --resume."
                 )
 
@@ -318,13 +320,18 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
     if rc != 0 or out.strip():
         fails.append("working tree not clean. Commit or stash first, then --resume.")
 
-    # 3. On matching branch
+    # 3. On matching branch — derive from state.json's category (new branch
+    #    policy 2026-05-24; see scripts/podcast/_branching.py).
+    from _branching import branch_name as _branch_name
+    expected_branch = (state or {}).get("branch") or _branch_name(
+        (state or {}).get("category"), book_slug
+    )
     rc, branch, _ = _git("rev-parse", "--abbrev-ref", "HEAD")
     branch = branch.strip() if rc == 0 else ""
-    if branch != f"book/{book_slug}":
+    if branch != expected_branch:
         fails.append(
-            f"current branch is {branch!r}; expected 'book/{book_slug}'. "
-            f"Run: git checkout book/{book_slug}"
+            f"current branch is {branch!r}; expected {expected_branch!r}. "
+            f"Run: git checkout {expected_branch}"
         )
 
     return book_dir, fails
@@ -333,11 +340,17 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
 # ─── phase runners ───────────────────────────────────────────────────────────
 
 
-def phase_branch(book_slug: str) -> None:
-    """Create + push the book branch. Idempotent on already-on-branch."""
+def phase_branch(book_slug: str, category: str) -> None:
+    """Create + push the content branch. Idempotent on already-on-branch.
+
+    Branch name follows the category-typed convention from
+    scripts/podcast/_branching.py (e.g., book/<slug>, doc/<slug>,
+    lecture/<slug>, with draft/<slug> as fallback).
+    """
+    from _branching import branch_name as _branch_name
     rc, branch, _ = _git("rev-parse", "--abbrev-ref", "HEAD")
     branch = branch.strip() if rc == 0 else ""
-    target = f"book/{book_slug}"
+    target = _branch_name(category, book_slug)
     if branch == target:
         _info(f"  already on {target}, skipping branch creation")
         return
@@ -346,7 +359,7 @@ def phase_branch(book_slug: str) -> None:
         raise RuntimeError(f"`git checkout -b {target}` failed: {err}")
     rc, _, err = _git("push", "-u", "origin", target)
     if rc != 0:
-        # Non-fatal — remote push can be retried; book branch is local-valid.
+        # Non-fatal — remote push can be retried; content branch is local-valid.
         _err(f"`git push -u origin {target}` failed: {err}\n  (continuing with local-only branch)")
 
 
@@ -675,10 +688,11 @@ def phase_0f_write_series_plan(book_dir: Path, title: str) -> Path:
     else:
         source_map_section = ""
 
+    from _branching import branch_name as _branch_name
     body = SERIES_PLAN_TEMPLATE.format(
         title=title,
         book_slug=book_slug,
-        branch=state.get("branch", f"book/{book_slug}"),
+        branch=state.get("branch") or _branch_name(state.get("category"), book_slug),
         ts=datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ"),
         orch_version=ORCHESTRATOR_VERSION,
         unit_mode=unit_mode,
@@ -825,9 +839,19 @@ def per_chapter_pass(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
 # ─── Phase Merge — book/<slug> → develop ─────────────────────────────────────
 
 
-def phase_merge_to_develop(book_slug: str) -> None:
-    """Fast-forward develop + merge book branch with --no-ff. Never touches main."""
-    branch = f"book/{book_slug}"
+def phase_merge_to_develop(book_slug: str, category: str | None = None) -> None:
+    """Fast-forward develop + merge content branch with --no-ff. Never touches main.
+
+    Branch name is derived from category via scripts/podcast/_branching.py.
+    If category is omitted (legacy callers), reads it from state.json.
+    """
+    from _branching import branch_name as _branch_name
+    if category is None:
+        bd = _book_dir(book_slug)
+        if bd is not None:
+            st = read_state(bd) or {}
+            category = st.get("category")
+    branch = _branch_name(category, book_slug)
     rc, _, err = _git("checkout", "develop")
     if rc != 0:
         raise RuntimeError(f"`git checkout develop` failed: {err}")
@@ -869,9 +893,11 @@ def run_initial(args: argparse.Namespace) -> int:
 
     # Create the BOOK_DIR (scaffold), then write initial state into it.
     _info("pre-flight: OK")
-    _info(f"phase: branch · creating book/{slug}")
+    from _branching import branch_name as _branch_name
+    _expected = _branch_name(category, slug)
+    _info(f"phase: branch · creating {_expected}")
     try:
-        phase_branch(slug)
+        phase_branch(slug, category)
     except RuntimeError as e:
         _err(str(e))
         return 2
@@ -1002,14 +1028,6 @@ def _drive_authoring_through_0f(book_dir: Path, title: str) -> int:
     return 0
 
 
-def _read_machine_id() -> str:
-    """Return the machine_id from ~/.machine-id, or 'unknown' if not present."""
-    p = Path.home() / ".machine-id"
-    if p.exists():
-        return p.read_text(encoding="utf-8").strip()
-    return "unknown"
-
-
 def _is_pid_alive(pid: int) -> bool:
     """Probe whether `pid` is a live process via signal-0. Returns False on any error."""
     try:
@@ -1044,7 +1062,6 @@ def _acquire_book_lock(book_slug: str) -> tuple[int, Path] | None:
         os.ftruncate(fd, 0)
         body = (
             f"pid: {os.getpid()}\n"
-            f"machine_id: {_read_machine_id()}\n"
             f"started_at: {datetime.now(timezone.utc).isoformat(timespec='seconds')}\n"
             f"book_slug: {book_slug}\n"
         )

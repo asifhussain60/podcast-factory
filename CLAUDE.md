@@ -8,15 +8,40 @@ every session in this directory; treat it as your standing brief.
 ## What this repo contains
 
 - **Podcast pipeline** (`scripts/podcast/`, `content/drafts/<slug>/` for per-book in-progress state, `content/published/books/<slug>/` for shipped catalog, `skills-staging/podcast/`) — multi-phase Claude+Azure pipeline that converts scholarly Arabic books into NotebookLM-driven podcast series. Phases 0a (ingest) → 0b (refine) → 0c (phonetic) → 0d (chapter design) → 0e (enrich) → 0f (review halt) → per-chapter authoring → trainer → ship.
-- **Content container** (`content/`) — single tree holding both `content/drafts/` (workshop, where the pipeline reads + writes) and `content/published/` (audience-facing catalog, populated exclusively by `scripts/podcast/ship_to_library.py`). The 2026-05-23 restructure flattened the prior multi-worktree container, consolidated all in-flight books into `content/drafts/`, and renamed the old `library/` to `content/published/`. The `podcast-reader/` Astro app reads from `content/drafts/`; the future `podcast-viewer/` will read from `content/published/`.
+- **Content container** (`content/`) — single tree holding both `content/drafts/` (workshop, where the pipeline reads + writes) and `content/published/` (audience-facing catalog, populated exclusively by `scripts/podcast/publish_to_library.py` invoked via the `podcast-publisher` agent). The 2026-05-23 restructure flattened the prior multi-worktree container, consolidated all in-flight books into `content/drafts/`, and renamed the old `library/` to `content/published/`. The `podcast-reader/` Astro app reads from `content/drafts/`; the future `podcast-viewer/` will read from `content/published/`.
 
 The memoir engine (Asif IS Babu), the static `journal` site, the Anthropic API proxy (`server/`), and the Cloudflare deploy scaffold all moved to (or were retired from) the sibling **[journal](https://github.com/asifhussain60/journal)** repo as of 2026-05-22. See §"Disconnected from journal" below.
 
 ## Machine-agnostic — single-machine model
 
-Post-2026-05-23: this app is **machine-agnostic**. Most work is done by Anthropic + Azure remotely, so there's no cost difference between hosts. The repo has **one working branch (`develop`)**; new books are ingested directly into `content/drafts/<slug>/` on `develop`. Production releases go `develop` → `main` (requires Asif's explicit approval; never auto-promoted).
+Post-2026-05-23: this app is **machine-agnostic**. Most work is done by Anthropic + Azure remotely, so there's no cost difference between hosts. Production releases go `develop` → `main` (requires Asif's explicit approval; never auto-promoted).
 
-The earlier cross-machine coordination model (operator files at `_workspace/plan/operators/`, `~/.machine-id` detection, per-machine book branch assignments, `book-queue.md` mutex, coordination-protocol §15) was retired 2026-05-23. If you encounter references to operator files, book branches as work assignments, or "the peer machine" anywhere, treat them as stale documentation pending cleanup.
+The earlier cross-machine coordination model (operator files at `_workspace/plan/operators/`, `~/.machine-id` detection, `book-queue.md` mutex, coordination-protocol §15) was retired 2026-05-23. If you encounter references to operator files or "the peer machine" anywhere, treat them as stale documentation pending cleanup.
+
+## Branch policy — content branches per piece of content (locked 2026-05-24)
+
+Every new piece of content is processed on its own typed branch off `develop`. The branch is created at intake time and merged back to `develop` ONLY after the publish step completes. This isolates in-flight work from `develop`, preserves a clean per-content ledger, and lets multiple books be in flight without cross-contamination.
+
+**Branch naming** is category-typed, with the **full kebab-cased slug** always (never abbreviated):
+
+| Category | Prefix | Example |
+|---|---|---|
+| `books` | `book/` | `book/kitab-al-riyad` |
+| `documents` | `doc/` | `doc/fatimid-decree-922` |
+| `lectures` | `lecture/` | `lecture/kunooz-al-hikmah-01` |
+| `articles` | `article/` | `article/cross-tradition-method` |
+| `letters` | `letter/` | `letter/ayyuhal-walad` |
+| `interviews` | `interview/` | `interview/asif-with-amir` |
+| (unknown / unset) | `draft/` | `draft/some-unclassified-thing` |
+
+Source of truth for the prefix map: [scripts/podcast/_branching.py](scripts/podcast/_branching.py) — every script that computes a branch name imports `branch_name(category, slug)` from there. Never hardcode `book/<slug>` anywhere.
+
+**Lifecycle**:
+1. `intake_book.py` creates `<prefix>/<slug>` from `develop` and copies the PDF/source.
+2. Pipeline phases (0a → 0f → per-chapter → authoring → publish) all run on that branch.
+3. `publish_to_library.py` (via the `podcast-publisher` agent) moves `content/drafts/<slug>/` → `content/published/books/<slug>/` after gates G1–G7 pass.
+4. The orchestrator merges `<prefix>/<slug>` → `develop` with `--no-ff` after publish completes.
+5. `develop` → `main` for production releases requires Asif's explicit approval (unchanged).
 
 ## Run this on session start
 

@@ -103,11 +103,15 @@ def initial_state(book_slug: str, category: str) -> dict[str, Any]:
     except Exception:
         challenger_version = "unknown"
 
+    # Branch naming is category-typed (book/, doc/, lecture/, article/, etc.;
+    # `draft/` for unclassified). See scripts/podcast/_branching.py for policy.
+    from _branching import branch_name as _branch_name   # noqa: E402
+
     return {
         "schema_version": SCHEMA_VERSION,
         "book_slug": book_slug,
         "category": category,
-        "branch": f"book/{book_slug}",
+        "branch": _branch_name(category, book_slug),
         "phase": "pre-flight",
         "phase_status": "running",
         "last_completed_phase": None,

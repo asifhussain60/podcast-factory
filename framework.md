@@ -93,9 +93,9 @@ Promotion from workspace → library is one-way and explicit via `scripts/podcas
 
 The pipeline is **machine-agnostic**. Most work is done by Anthropic + Azure remotely (LLM calls, OCR, translation, speech), so the host machine carries no special-snowflake configuration. The repo runs the same way on any Mac with `python3`, `git`, and the Azure stack credentials (per [_workspace/setup/azure-stack.md](_workspace/setup/azure-stack.md)).
 
-- **ONE working branch: `develop`.** New books land in `content/drafts/<slug>/` directly on `develop`. Feature branches are optional throwaways for risky changes.
-- **No per-machine coordination.** The earlier two-machine model (book/* branches as work assignments, operator files, `~/.machine-id` detection, book-queue mutex, coordination-protocol §15) was retired 2026-05-23.
-- **`scripts/start-session.sh`** is the simplified session bootstrap — fetches origin, fast-forwards develop, surfaces in-flight books + next-action commands.
+- **Per-content branches (locked 2026-05-24).** Every new piece of content (book, document, lecture, article, letter, interview, or generic draft) is processed on its own typed branch off `develop`. The branch name is `<prefix>/<full-slug>` where `<prefix>` derives from the content's `category` field via [scripts/podcast/_branching.py](scripts/podcast/_branching.py): `book/`, `doc/`, `lecture/`, `article/`, `letter/`, `interview/`, or `draft/` (fallback). Slugs are always full kebab-case (never abbreviated). Branches merge back to `develop` only after `podcast-publisher` ships the artifacts to `content/published/`.
+- **No per-machine coordination.** The earlier two-machine model (operator files, `~/.machine-id` detection, book-queue mutex, coordination-protocol §15) was retired 2026-05-23. The cross-machine assignment layer is gone; content branches now serve only as isolation, not as work assignment.
+- **`scripts/start-session.sh`** is the simplified session bootstrap — fetches origin, fast-forwards develop, surfaces in-flight content branches + next-action commands.
 
 ---
 
