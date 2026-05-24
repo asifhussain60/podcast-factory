@@ -88,6 +88,14 @@ When any of these change, the page must change. Stale dates without content upda
 8. **Color usage**: editorial-modern means warm RESTRAINED palette — but "restrained" does NOT mean "low contrast." Use the existing `--accent` and `--accent-secondary` variables for emphasis. Reserve color for semantic meaning (e.g., gates use green/red for pass/fail, phases use a gradient by stage). Don't make everything the same purple-grey.
 9. **Typography on diagrams**: SVG text uses `var(--font-mono)` for technical labels (paths, slugs, function names) and `var(--font-serif)` for human-readable headings. HTML cards (sections 2, 3, 5, 6) use `var(--font-serif)` for titles (18-20px), body text 15-16px, mono accents 13-14px.
 
+### SVG diagram typography contract (locked 2026-05-24)
+
+**Single font family across all SVG overlays**: Lato. Driven by the CSS variable `--font-svg: 'Lato', 'Inter', system-ui, sans-serif;` so swapping families later is one edit. Lato chosen for: (a) excellent legibility at small sizes from its open apertures, (b) consistent x-height with the rest of the Inter-based body, (c) no licensing friction (Open Font License, hosted by Google Fonts).
+
+**Standardized padding via variables**: `--svg-node-pad-y: 0.9rem` / `--svg-node-pad-x: 1.15rem`. Every `.svg-node` consumes these. Edge-label chips use `0.35rem 0.7rem` — proportionally smaller. NEVER hand-tune padding per-section; if a section needs different padding, the layout is wrong (widen the foreignObject instead).
+
+**Text wrapping mandate**: `.svg-node` has `word-wrap: break-word; overflow-wrap: break-word; white-space: normal;`. Long content wraps to multiple lines instead of clipping. If wrapping isn't enough (text still overflows the foreignObject), the fix is to enlarge the foreignObject's `height` attribute, not to shrink the text.
+
 ### Locked minimum font-sizes (after third-run feedback 2026-05-24)
 
 When viewBox is wider than the container (typical: viewBox 1400, container ~1320px → ~0.94 scale), foreignObject HTML text gets visually scaled DOWN. To stay above the 13px on-screen floor, use these MINIMUMS:
