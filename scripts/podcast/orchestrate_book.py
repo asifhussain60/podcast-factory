@@ -784,7 +784,14 @@ def per_chapter_pass(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
 
     # 1. Extract — scaffolds the episode-draft folder + bundle from the contract.
     rc, out, err = _run(
-        [sys.executable, str(EXTRACT_SCRIPT), chapter_ref]
+        # --force on re-extract: per-chapter loop re-runs from extract on every
+        # iteration (resume after fix, challenger-driven re-author cycle, etc.).
+        # Without --force, a stale LLM-authored framing from a prior iter
+        # blocks the deterministic re-render. author_framing follows and
+        # repopulates the Pronunciation imperatives anyway, so the cost of
+        # discarding the prior render is one LLM call we'd have paid for the
+        # re-author regardless.
+        [sys.executable, str(EXTRACT_SCRIPT), chapter_ref, "--force"]
     )
     if rc != 0:
         return ChapterOutcome(
