@@ -7,8 +7,8 @@ every session in this directory; treat it as your standing brief.
 
 ## What this repo contains
 
-- **Podcast pipeline** (`scripts/podcast/`, `_workspace/books/<slug>/` for per-book in-progress state post-Phase-9.5, `library/books/<slug>/` for shipped catalog, `skills-staging/podcast/`) — multi-phase Claude+Azure pipeline that converts scholarly Arabic books into NotebookLM-driven podcast series. Phases 0a (ingest) → 0b (refine) → 0c (phonetic) → 0d (chapter design) → 0e (enrich) → 0f (review halt) → per-chapter authoring → trainer → ship.
-- **Shipped library** (`library/`) — top-level catalog containing ONLY production-ready artifacts (transcripts, podcasts, archetypes, catalog). Hoisted from `content/podcast/library/` in Phase 9.5; populated exclusively by `scripts/podcast/ship_to_library.py`.
+- **Podcast pipeline** (`scripts/podcast/`, `content/drafts/<slug>/` for per-book in-progress state, `content/published/books/<slug>/` for shipped catalog, `skills-staging/podcast/`) — multi-phase Claude+Azure pipeline that converts scholarly Arabic books into NotebookLM-driven podcast series. Phases 0a (ingest) → 0b (refine) → 0c (phonetic) → 0d (chapter design) → 0e (enrich) → 0f (review halt) → per-chapter authoring → trainer → ship.
+- **Content container** (`content/`) — single tree holding both `content/drafts/` (workshop, where the pipeline reads + writes) and `content/published/` (audience-facing catalog, populated exclusively by `scripts/podcast/ship_to_library.py`). The 2026-05-23 restructure flattened the prior `worktrees/` container, consolidated four books from book/* branches into `content/drafts/`, and renamed the old `library/` to `content/published/`. The `podcast-reader/` Astro app reads from `content/drafts/`; the future `podcast-viewer/` will read from `content/published/`.
 
 The memoir engine (Asif IS Babu), the static `journal` site, the Anthropic API proxy (`server/`), and the Cloudflare deploy scaffold all moved to (or were retired from) the sibling **[journal](https://github.com/asifhussain60/journal)** repo as of 2026-05-22. See §"Disconnected from journal" below.
 
@@ -58,7 +58,7 @@ file wins:
 
 ```bash
 jq '{phase, phase_status, last_completed_phase, last_error}' \
-    _workspace/books/<book>/_system/orchestrator-state.json
+    content/drafts/<book>/_system/orchestrator-state.json
 ```
 
 Operator-file frontmatter is a snapshot for human eyes; `state.json` is the truth for any decision.
@@ -97,7 +97,7 @@ overrides this section in conflict.
 - Importing pipeline scripts under `/usr/bin/python3` to verify they load
 - Dry-run inspection (`--dry-run` flags, `jq` over `orchestrator-state.json`)
 - Spawning research agents (Explore, Plan, general-purpose) for read-only investigation
-- `git restore` of auto-generated artifacts under `_workspace/books/<slug>/_system/` when the artifact is reproducible by re-running its generator script
+- `git restore` of auto-generated artifacts under `content/drafts/<slug>/_system/` when the artifact is reproducible by re-running its generator script
 - `security find-generic-password -s <name>` for existence checks (no `-w`)
 
 **Tier 1 — Do, then surface in the At-a-glance.**

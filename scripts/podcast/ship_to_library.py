@@ -3,7 +3,7 @@
 
 Rationale: the rich output convention of this script (transcript/, podcasts/
 series-XX/, index.md, _meta.json) was retired by Asif directive 2026-05-23 in
-favor of a minimal library/books/<slug>/ layout containing only chapters/ +
+favor of a minimal content/published/books/<slug>/ layout containing only chapters/ +
 episodes/ + README.md — the bare set NotebookLM needs to render audio.
 Invoking this script now prints a nag to stderr but still runs; remove the
 nag block and rename the file to .deprecated when ready to retire fully.
@@ -11,42 +11,42 @@ nag block and rename the file to .deprecated when ready to retire fully.
 ============================================================================
 ORIGINAL DOCSTRING (kept for reference until file is fully retired):
 ============================================================================
-Promote shipped artifacts from _workspace/books/<slug>/ to library/books/<slug>/.
+Promote shipped artifacts from content/drafts/<slug>/ to content/published/books/<slug>/.
 
-This is the ONLY supported writer of library/. CI enforces that any commit
-touching library/ either has a message starting with "ship: " or carries the
+This is the ONLY supported writer of content/published/. CI enforces that any commit
+touching content/published/ either has a message starting with "ship: " or carries the
 `[library-manual-edit]` marker in its body (see .github/workflows/library-readonly.yml).
 
 Behavior (Phase 9.5):
-  * Reads _workspace/books/<slug>/_system/orchestrator-state.json to confirm
+  * Reads content/drafts/<slug>/_system/orchestrator-state.json to confirm
     a shippable phase_status. Halts unless one of:
       shipped | ship-ready | ship-with-caution | halted_by_operator
     (the last because the operator-halt path in KaR's archetype-driven manual
     finish is the same as a per-chapter ship). --force overrides.
-  * Reads _workspace/books/<slug>/_system/challenger-report.md for the verdict
+  * Reads content/drafts/<slug>/_system/challenger-report.md for the verdict
     and per-episode header. Falls back to verdict="unknown" if absent.
   * For each --episode (or every chapter in _system/orchestrator-state.json's
     `completed_slugs` when --episode is omitted):
-      - Copies _workspace/books/<slug>/chapters/ch<NN>-<slug>.txt
-        -> library/books/<slug>/transcript/<NN>-<slug>.md
+      - Copies content/drafts/<slug>/chapters/ch<NN>-<slug>.txt
+        -> content/published/books/<slug>/transcript/<NN>-<slug>.md
         with a minimal YAML front-matter block (title, chapter-id,
         source-path-in-workspace, ship-date, ship-verdict).
       - Copies the same chapters/ file (verbatim, as NotebookLM SOURCE upload)
-        -> library/books/<slug>/podcasts/series-01-<book-slug>/EP<NN>-<slug>/source.txt
-      - Copies _workspace/books/<slug>/episodes/EP<NN>-<slug>.txt
+        -> content/published/books/<slug>/podcasts/series-01-<book-slug>/EP<NN>-<slug>/source.txt
+      - Copies content/drafts/<slug>/episodes/EP<NN>-<slug>.txt
         (the NotebookLM CUSTOMIZE prompt)
-        -> library/books/<slug>/podcasts/series-01-<book-slug>/EP<NN>-<slug>/framing.md
-      - Copies _workspace/books/<slug>/_system/challenger-report.md
-        -> library/books/<slug>/podcasts/series-01-<book-slug>/EP<NN>-<slug>/challenger-report.md
-      - If _workspace/books/<slug>/episode-drafts/<chapter>/audio.mp3 exists,
+        -> content/published/books/<slug>/podcasts/series-01-<book-slug>/EP<NN>-<slug>/framing.md
+      - Copies content/drafts/<slug>/_system/challenger-report.md
+        -> content/published/books/<slug>/podcasts/series-01-<book-slug>/EP<NN>-<slug>/challenger-report.md
+      - If content/drafts/<slug>/episode-drafts/<chapter>/audio.mp3 exists,
         copies it too. (Audio archival is opt-in per Phase 9.5 design pick 2.)
-  * Generates library/books/<slug>/podcasts/_series-index.md from series-plan.md.
-  * Generates library/books/<slug>/podcasts/series-01-<slug>/_series.md per-series.
-  * Generates library/books/<slug>/index.md from series-plan + state + verdict.
-  * Regenerates library/_meta/catalog.md (markdown table of all books).
+  * Generates content/published/books/<slug>/podcasts/_series-index.md from series-plan.md.
+  * Generates content/published/books/<slug>/podcasts/series-01-<slug>/_series.md per-series.
+  * Generates content/published/books/<slug>/index.md from series-plan + state + verdict.
+  * Regenerates content/published/_meta/catalog.md (markdown table of all books).
 
 Idempotency: re-running adds/updates only files for the requested episodes;
-does not delete anything from library/.
+does not delete anything from content/published/.
 
 Usage:
   ship_to_library.py --book <slug> [--episode EP<NN>] [--dry-run] [--force]
@@ -64,8 +64,8 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 WORKSPACE = REPO_ROOT / "_workspace" / "books"
-# Option 2 layout (2026-05-22): library/ lives above the worktree at
-# podcast-factory/library/, two parents up from REPO_ROOT. Works from any
+# Option 2 layout (2026-05-22): content/published/ lives above the worktree at
+# podcast-factory/content/published/, two parents up from REPO_ROOT. Works from any
 # worktree (worktrees/main/ or worktrees/book-X/) since all worktrees sit
 # at the same depth under podcast-factory/.
 LIBRARY = REPO_ROOT.parent.parent / "library"
@@ -74,7 +74,7 @@ LIBRARY = REPO_ROOT.parent.parent / "library"
 def _display(path: Path) -> str:
     """Render a path for user-facing log lines. Uses os.path.relpath so paths
     outside REPO_ROOT (notably under LIBRARY, which is the parent-of-parent
-    of REPO_ROOT in the Option 2 layout) render as '../../library/foo.md'
+    of REPO_ROOT in the Option 2 layout) render as '../../content/published/foo.md'
     instead of crashing the way Path.relative_to() does on cross-tree paths."""
     import os
     return os.path.relpath(path, REPO_ROOT)
@@ -222,7 +222,7 @@ def _promote_episode(book_slug: str, ep: Episode, verdict: str, ship_date: str, 
         f"chapter_id: \"{ep.chapter_basename}\"\n"
         f"episode: \"EP{ep.ep_num}\"\n"
         f"book: \"{book_slug}\"\n"
-        f"source_in_workspace: \"_workspace/books/{book_slug}/chapters/{ep.chapter_basename}.txt\"\n"
+        f"source_in_workspace: \"content/drafts/{book_slug}/chapters/{ep.chapter_basename}.txt\"\n"
         f"ship_date: \"{ship_date}\"\n"
         f"ship_verdict: \"{verdict}\"\n"
         "---\n\n"
@@ -288,7 +288,7 @@ def _write_book_index(book_slug: str, all_eps: list[Episode], state: dict,
         "## Series\n\n"
         f"- [series-01-{book_slug}](./podcasts/series-01-{book_slug}/_series.md)\n\n"
         "## Source\n\n"
-        f"In-progress workspace: `_workspace/books/{book_slug}/`  \n"
+        f"In-progress workspace: `content/drafts/{book_slug}/`  \n"
         f"Shipped transcripts: [./transcript/](./transcript/)  \n"
         f"Shipped podcasts: [./podcasts/](./podcasts/)\n"
     )
@@ -320,7 +320,7 @@ def _regenerate_catalog(dry_run: bool) -> None:
                 f"{meta.get('orchestrator_phase_status', '—')} |"
             )
     body = (
-        "# library/ — shipped catalog\n\n"
+        "# content/published/ — shipped catalog\n\n"
         "Auto-generated by `scripts/podcast/ship_to_library.py`. Manual edits "
         "to this file are discouraged and CI-checked.\n\n"
         + "\n".join(rows) + "\n"
@@ -339,7 +339,7 @@ def main() -> None:
         "*****************************************************************\n\n"
     )
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--book", required=True, help="book slug under _workspace/books/")
+    ap.add_argument("--book", required=True, help="book slug under content/drafts/")
     ap.add_argument("--episode", help="EP id to promote (e.g. EP10). Default: all completed_slugs in state.")
     ap.add_argument("--dry-run", action="store_true", help="report what would happen; touch no files.")
     ap.add_argument("--force", action="store_true", help="bypass phase_status gate.")

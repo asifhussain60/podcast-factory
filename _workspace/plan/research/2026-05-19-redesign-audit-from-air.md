@@ -25,10 +25,10 @@
 
 **Change C — Asaas preflight artifacts**
 
-- [chapters-rationale.md](content/podcast/library/books/asaas-al-taveel/_system/source/text/chapters-rationale.md): all six natiq page ranges match the appendix table exactly (Adam 33–75, Nūḥ 76–106, Ibrāhīm 107–178, Mūsā 179–298, ʿĪsā 299–314, Muḥammad 315–368, Qāʾim unwritten). Editor's note p. 21 cited. The "Why Phase 0d does NOT auto-re-segment Asaas" section makes the Pattern-5-reuse argument crisply. ✓
+- [chapters-rationale.md](content/drafts/asaas-al-taveel/_system/source/text/chapters-rationale.md): all six natiq page ranges match the appendix table exactly (Adam 33–75, Nūḥ 76–106, Ibrāhīm 107–178, Mūsā 179–298, ʿĪsā 299–314, Muḥammad 315–368, Qāʾim unwritten). Editor's note p. 21 cited. The "Why Phase 0d does NOT auto-re-segment Asaas" section makes the Pattern-5-reuse argument crisply. ✓
 - 6-episode preset preserved verbatim (EP01 "The Hidden Code" → EP06 "The Seventh Silence"). Mūsā split across EP03/EP04 with same Yūshaʿ → Yūnus chapter-4 sub-cycle reasoning. ✓
 - "Provenance" footer correctly logs MacBook Air authorship, 2026-05-19, multimodal PDF read-only pass. ✓
-- [concept-glossary.md](content/podcast/library/books/asaas-al-taveel/_system/concept-glossary.md): 29 entries across 7 domains (Cosmology 7 / Hermeneutics 6 / Neoplatonic 4 / Doctrinal 5 / Honorific 3 / Editorial 2 / Closure 2). Above the ≥20 floor; matches the "~25-30" estimate.
+- [concept-glossary.md](content/drafts/asaas-al-taveel/_system/concept-glossary.md): 29 entries across 7 domains (Cosmology 7 / Hermeneutics 6 / Neoplatonic 4 / Doctrinal 5 / Honorific 3 / Editorial 2 / Closure 2). Above the ≥20 floor; matches the "~25-30" estimate.
 - All proposal-named foundational terms present: nāṭiq, asās, ḥujja, taʾwīl, ẓāhir, bāṭin, mubdaʿ, ʿaql awwal, nafs kulliyya. ✓
 - Closure terms present: qāʾim, ghayba, intiẓār + the operator-asked al-sābiʿ and sukūt al-muʾallif. ✓
 - Hamza on Qāʾim rendered consistently as `qāʾim` (ʾ glyph) in both files. ✓

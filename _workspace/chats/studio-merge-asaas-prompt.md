@@ -79,7 +79,7 @@ GATE 2 — Dry-run merge for conflict surface (no writes that persist)
 
 Expected conflicts: `_workspace/plan/operators/macbook-air-secondary.md` (always)
 and possibly `_workspace/plan/operators/mac-studio-primary.md`. Any conflict on
-OTHER files (especially scripts/podcast/*, content/podcast/library/books/asaas-al-taveel/*,
+OTHER files (especially scripts/podcast/*, content/drafts/asaas-al-taveel/*,
 or content/podcast/.skill/*) is unexpected — HALT and surface the full conflict
 list. Do NOT proceed without Asif's decision on those.
 

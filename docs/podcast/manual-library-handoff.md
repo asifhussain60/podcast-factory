@@ -23,7 +23,7 @@ _workspace/<category>/<book-slug>/_system/episode-drafts/<episode-id>/proposed-l
 
 For example, after authoring Episode 2 of Ayyuhal Walad:
 ```
-_workspace/books/ayyuhal-walad/_system/episode-drafts/EP02-hatim-eight-benefits/proposed-library-entries.md
+content/drafts/ayyuhal-walad/_system/episode-drafts/EP02-hatim-eight-benefits/proposed-library-entries.md
 ```
 
 ### 1.2 Schema (version 1)
@@ -96,7 +96,7 @@ When the operator wants to promote entries:
 find content/podcast/library -name "proposed-library-entries.md" -type f
 
 # 2. Review a specific proposal
-cat _workspace/books/<slug>/_system/episode-drafts/<ep>/proposed-library-entries.md
+cat content/drafts/<slug>/_system/episode-drafts/<ep>/proposed-library-entries.md
 
 # 3. Promote selected entries:
 #    a. Open content/babu-memoir/_system/quotes-library.txt

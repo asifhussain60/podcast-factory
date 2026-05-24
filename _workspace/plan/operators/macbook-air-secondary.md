@@ -19,8 +19,8 @@ worktree_layout:
     branch: book/kitab-al-riyad
 current_branch: book/kitab-al-riyad
 current_book: kitab-al-riyad
-current_book_dir: _workspace/books/kitab-al-riyad
-authoritative_state_path: _workspace/books/kitab-al-riyad/_system/orchestrator-state.json
+current_book_dir: content/drafts/kitab-al-riyad
+authoritative_state_path: content/drafts/kitab-al-riyad/_system/orchestrator-state.json
 status_tag: KAR-DONE-SHIP-WITH-CAUTION
 current_phase: "done"
 current_phase_status_summary: |
@@ -92,7 +92,7 @@ next_action: |
     - Completed: all 15 EPs in completed_slugs; per-chapter.status=completed
     - Shipped: state.json phase=done, last_completed=merge, verdict=ship-with-caution
     - Published (in-repo): overlay-merged to develop via commit 4e26c46
-    - Published (library): library/books/kitab-al-riyad/ filesystem-only (per Option 2 layout)
+    - Published (library): content/published/books/kitab-al-riyad/ filesystem-only (per Option 2 layout)
     - Book-queue: row marked archetype-driven-manual-finish complete
 
   All framework-lane work this branch carried has been published to develop:
@@ -158,7 +158,7 @@ cat _workspace/plan/operators/macbook-air-secondary.md
 
 # Get authoritative phase/status
 jq '{phase, phase_status, last_completed_phase, last_error}' \
-    _workspace/books/kitab-al-riyad/_system/orchestrator-state.json
+    content/drafts/kitab-al-riyad/_system/orchestrator-state.json
 ```
 
 ---
@@ -236,7 +236,7 @@ git pull --ff-only
 
 # Authoritative phase/status
 jq '{phase, phase_status, last_completed_phase, last_error}' \
-    _workspace/books/kitab-al-riyad/_system/orchestrator-state.json
+    content/drafts/kitab-al-riyad/_system/orchestrator-state.json
 ```
 
 ### 4.2 — Cherry-pick the P22.markers framework fix + this coord update
@@ -315,7 +315,7 @@ To re-run a specific window:
 
 ```bash
 # Identify the defective window from the audit output (e.g., win-003)
-rm _workspace/books/kitab-al-riyad/_system/source/text/_chunks/0b/win-003.out.md
+rm content/drafts/kitab-al-riyad/_system/source/text/_chunks/0b/win-003.out.md
 
 # Resume — the orchestrator picks up only the missing .out.md files
 python3 scripts/podcast/orchestrate_book.py --resume kitab-al-riyad
@@ -328,9 +328,9 @@ python3 scripts/podcast/audit_page_markers.py --book kitab-al-riyad
 ### 4.5 — Verify pre-0e artifacts intact
 
 ```bash
-python3 scripts/podcast/check_chapter_set.py _workspace/books/kitab-al-riyad --format text
+python3 scripts/podcast/check_chapter_set.py content/drafts/kitab-al-riyad --format text
 python3 scripts/podcast/check_lineage.py
-python3 scripts/podcast/validate_registry.py --registry _workspace/books/kitab-al-riyad/_system/registry.md
+python3 scripts/podcast/validate_registry.py --registry content/drafts/kitab-al-riyad/_system/registry.md
 ```
 
 These must pass clean before Phase 0e.
@@ -357,7 +357,7 @@ gate should be a confirmation, not a fresh decision.
 
 ## 5. Don't touch (collision surfaces)
 
-- **`_workspace/books/asaas-al-taveel/**`** — Studio owns this
+- **`content/drafts/asaas-al-taveel/**`** — Studio owns this
 - Branch **`book/asaas-al-taveel`** — no checkout, no merge, no rebase onto
 - **`mac-studio-primary.md`** — Studio writes this; I only read it
 - **`coordination-protocol.md`** — read-only for all machines

@@ -10,7 +10,7 @@
 #       <book-dir> <ep-num> <chapter-filename> <format>
 #
 # Args:
-#   book-dir         — e.g. content/podcast/library/books/kitab-al-riyad
+#   book-dir         — e.g. content/drafts/kitab-al-riyad
 #                      (the directory containing chapters/, _system/, episodes/)
 #   ep-num           — e.g. "06" or "11" (no "EP" prefix; will be added)
 #   chapter-filename — e.g. ch06-the-intellect-as-the-first-creation.txt

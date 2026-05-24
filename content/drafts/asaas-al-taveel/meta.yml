@@ -1,7 +1,7 @@
 slug: asaas-al-taveel
 title: Asās al-Taʾwīl
 short_name: asaas
-source_pdf: ../../raw/Asaas Al-Taveel.pdf
+source_pdf: ../../../raw/Asaas Al-Taveel.pdf
 
 pipeline:
   current_phase: 0c
@@ -14,7 +14,7 @@ pipeline:
 publication:
   status: in_progress
   shipped_via: scripts/podcast/ship_to_library.py
-  publication_target: ../../library/books/asaas-al-taveel/
+  publication_target: ../../published/books/asaas-al-taveel/
 
 provenance:
   canonical_source_branch: book/asaas-al-taveel

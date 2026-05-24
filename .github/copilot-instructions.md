@@ -5,7 +5,7 @@ you (in Copilot Chat in VSCode) about this repo, follow this orientation.
 
 ## What this repo is
 
-- A **podcast-authoring pipeline** driving scholarly Arabic books through Claude + Azure → NotebookLM Audio Overview episodes (under `scripts/podcast/`, `_workspace/books/<slug>/` for in-progress state, `library/books/<slug>/` for shipped catalog post-Phase-9.5)
+- A **podcast-authoring pipeline** driving scholarly Arabic books through Claude + Azure → NotebookLM Audio Overview episodes (under `scripts/podcast/`, `content/drafts/<slug>/` for in-progress state, `content/published/books/<slug>/` for shipped catalog post-Phase-9.5)
 - The **Azure stack** that powers OCR / translation / speech (under `infra/azure/`, `infra/launchd/`)
 - **Cross-machine operator coordination** between Mac Studio + Mac Air (under `_workspace/plan/operators/`)
 - A handful of general-utility skills + agents (duplicated from the sibling `journal` repo as of the 2026-05-22 split)
@@ -41,7 +41,7 @@ That script tells you the current book, branch, phase, and next_action.
 
 **For code suggestions in `scripts/podcast/**`:** this is shared framework. Changes here affect both machines; coordinate via `develop` merges. Reference `_workspace/plan/operators/coordination-protocol.md` §6 (shared-infra zones).
 
-**For book content** (`_workspace/books/<slug>/` for in-progress; `library/books/<slug>/` for shipped): one book is owned by one machine at a time (see `_workspace/plan/book-queue.md` In-flight section). Don't touch a book that's not on your machine's branch.
+**For book content** (`content/drafts/<slug>/` for in-progress; `content/published/books/<slug>/` for shipped): one book is owned by one machine at a time (see `_workspace/plan/book-queue.md` In-flight section). Don't touch a book that's not on your machine's branch.
 
 ## Response format
 

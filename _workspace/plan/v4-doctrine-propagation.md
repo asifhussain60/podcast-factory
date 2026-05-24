@@ -4,7 +4,7 @@
 
 **Scope**: propagate the empirically-validated v4-revised doctrine to the framework so every future book inherits it on round 1.
 
-**Source of truth**: [Ch07 v4-revised lab](content/podcast/library/books/kitab-al-riyad/_system/ch07-lab/v4-revised/) + audit findings from v4 + v4-revised transcripts.
+**Source of truth**: [Ch07 v4-revised lab](content/drafts/kitab-al-riyad/_system/ch07-lab/v4-revised/) + audit findings from v4 + v4-revised transcripts.
 
 ---
 

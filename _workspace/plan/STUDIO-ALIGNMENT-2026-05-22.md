@@ -75,7 +75,7 @@ See `_workspace/plan/pipeline-debt.md` top section ("Refactored synthesis view")
 While Air's orchestrator is running on `book/kitab-al-riyad`:
 
 1. **Do NOT** run any orchestrator command against KaR.
-2. **Do NOT** touch any file under `content/podcast/library/books/kitab-al-riyad/`.
+2. **Do NOT** touch any file under `content/drafts/kitab-al-riyad/`.
 3. **Do NOT** push to `book/kitab-al-riyad` from Studio.
 4. **Do NOT** merge anything to `develop` while KaR re-emit is in flight (will conflict with Phase 10).
 5. **Do NOT** force-push to any branch.
@@ -118,7 +118,7 @@ When you have time (in priority order):
 1. `_workspace/plan/pipeline-debt.md` — top section "Refactored synthesis view" (the doctrine + validator + open-debt matrix).
 2. `_workspace/plan/v4-doctrine-propagation.md` — the 6 _authoring.py prompt updates + handbook updates planned.
 3. `_workspace/plan/f27-validator-drafts.md` — the 8 validator drafts (Phase 3 landed 7 of 8; #8 apparatus-table deferred).
-4. `content/podcast/library/books/kitab-al-riyad/_system/ch07-lab/v4-revised/` — the canonical doctrine reference (chapter.txt, framing.md, audit-checklist.md).
+4. `content/drafts/kitab-al-riyad/_system/ch07-lab/v4-revised/` — the canonical doctrine reference (chapter.txt, framing.md, audit-checklist.md).
 5. `scripts/podcast/build_episode_txt.py` lines ~570-820 — the F27 validator implementations.
 6. `scripts/podcast/_authoring.py` `author_phase_0e()` + `author_framing()` — the prompt-side enforcement.
 

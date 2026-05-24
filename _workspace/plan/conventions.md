@@ -29,7 +29,7 @@ Before recommending or executing the next action, the assistant enumerates **req
 
 **The operator never has to remember which file goes where.** When they say `what's next` and the next action needs an artifact that isn't on disk, the assistant asks for it. Examples:
 
-- Operator on Mac Studio after fresh checkout of `feat/podcast-w1-foundation`, says `what's next`. Assistant detects Asaas preflight artifacts present, source PDF missing. Asks: *"To launch Asaas Phase 0a, I need the source PDF. Where is it? Either paste the full path and I'll copy it to `content/podcast/library/books/asaas-al-taveel/_system/source/`, or drop it there yourself and reply 'done'."*
+- Operator on Mac Studio after fresh checkout of `feat/podcast-w1-foundation`, says `what's next`. Assistant detects Asaas preflight artifacts present, source PDF missing. Asks: *"To launch Asaas Phase 0a, I need the source PDF. Where is it? Either paste the full path and I'll copy it to `content/drafts/asaas-al-taveel/_system/source/`, or drop it there yourself and reply 'done'."*
 
 - Operator on Mac Air, branch is `book/kitab-al-riyad`, state shows `phase=0f, phase_status=halted`. Assistant asks: *"Phase 0f gate. Three decisions needed: (a) persona override; (b) tier; (c) episode count + boundaries. Want to do them interactively now or paste a series-plan.md you already drafted?"*
 

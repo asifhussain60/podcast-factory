@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
-"""publish_to_library.py — on-demand publish from `_workspace/books/<slug>/`
-to `library/books/<slug>/`. Minimal output: chapters/ + episodes/ + README.md.
+"""publish_to_library.py — on-demand publish from `content/drafts/<slug>/`
+to `content/published/books/<slug>/`. Minimal output: chapters/ + episodes/ + README.md.
 
-This script is the canonical writer of `library/books/<slug>/`. It supersedes
+This script is the canonical writer of `content/published/books/<slug>/`. It supersedes
 the older `ship_to_library.py` (now deprecated — see top of that file).
 
-Library output is **filesystem-only** at `<repo-parent>/library/` and is
+Library output is **filesystem-only** at `<repo-parent>/content/published/` and is
 deliberately NOT git-tracked. The published copy is a derived artifact —
-deletable + regeneratable from `_workspace/books/<slug>/` at any time.
+deletable + regeneratable from `content/drafts/<slug>/` at any time.
 
 GATES (all 6 must pass under default mode; failures block publish):
 
-  G1  Required structure  : _workspace/books/<slug>/chapters/*.txt and
-                            _workspace/books/<slug>/episodes/*.txt both
+  G1  Required structure  : content/drafts/<slug>/chapters/*.txt and
+                            content/drafts/<slug>/episodes/*.txt both
                             exist and non-empty.
   G2  Pair completeness   : every EP##-<slug>.txt has a matching
                             ch##-<slug>.txt and vice versa.
@@ -23,22 +23,22 @@ GATES (all 6 must pass under default mode; failures block publish):
   G4  Build-clean         : running build_episode_txt.py on every episode
                             returns P0=0. P1 advisories are WARN-only in
                             default mode; --strict elevates P1 to blocking.
-  G5  State checkpoint    : _workspace/books/<slug>/_system/orchestrator-
+  G5  State checkpoint    : content/drafts/<slug>/_system/orchestrator-
                             state.json shows phase=done OR (phase=per-chapter
                             AND phase_status=ship-with-caution|ship-ready).
-  G6  Library-target sane : library/books/<slug>/ either doesn't exist or
+  G6  Library-target sane : content/published/books/<slug>/ either doesn't exist or
                             --overwrite (default) wipe-and-recreates it.
                             --no-wipe coexists with prior content.
 
-OUTPUT under library/books/<slug>/:
+OUTPUT under content/published/books/<slug>/:
 
-  chapters/                 — copied verbatim from _workspace/books/<slug>/chapters/
-  episodes/                 — copied verbatim from _workspace/books/<slug>/episodes/
+  chapters/                 — copied verbatim from content/drafts/<slug>/chapters/
+  episodes/                 — copied verbatim from content/drafts/<slug>/episodes/
   README.md                 — generated; lists episode count, publish timestamp,
                               source git SHA (develop tip), EP→chapter pair table,
                               NotebookLM upload instructions.
 
-The `library/_meta/catalog.md` row for <slug> is updated (or appended).
+The `content/published/_meta/catalog.md` row for <slug> is updated (or appended).
 
 USAGE:
 
@@ -48,7 +48,7 @@ OPTIONS:
 
   --strict      Elevate P1 advisories to blocking (default: P1 is warn-only).
   --no-wipe     Skip the wipe step; coexist with prior content at
-                library/books/<slug>/.
+                content/published/books/<slug>/.
   --dry-run     Run all gates + print the would-copy file list; do not write.
   --force       Skip G5 state-checkpoint gate (the per-chapter halts can leave
                 state.json mid-flight; use cautiously).
@@ -72,7 +72,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 WORKSPACE = REPO_ROOT / "_workspace" / "books"
-# Option 2 layout: library/ lives above the worktree at <podcast-factory>/library/,
+# Option 2 layout: content/published/ lives above the worktree at <podcast-factory>/content/published/,
 # two parents up from REPO_ROOT. Works from any worktree.
 LIBRARY = REPO_ROOT.parent.parent / "library"
 
@@ -270,7 +270,7 @@ def render_readme(slug: str, chapters: list[Path], episodes: list[Path],
     )
     return f"""# {slug} — published podcast assets
 
-Published from `_workspace/books/{slug}/` to this directory on **{ts}**.
+Published from `content/drafts/{slug}/` to this directory on **{ts}**.
 
 - **Source git ref:** `{source_branch}@{source_sha}`
 - **Episode count:** {len(episodes)}
@@ -301,7 +301,7 @@ This directory is **filesystem-only** and **not git-tracked**. It can be deleted
 scripts/podcast/publish_to_library.py {slug}
 ```
 
-from any worktree on the `podcast-factory` repo (the script resolves `library/` from `<repo-parent>/library/`).
+from any worktree on the `podcast-factory` repo (the script resolves `content/published/` from `<repo-parent>/content/published/`).
 """
 
 
@@ -311,7 +311,7 @@ def update_catalog(slug: str, episode_count: int, source_sha: str) -> None:
     ts = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     new_row = (f"| [{slug}](../books/{slug}/README.md) | {episode_count} | "
                f"{ts} | `{source_sha}` |")
-    header = ("# library/ — published catalog\n\n"
+    header = ("# content/published/ — published catalog\n\n"
               "Auto-updated by `scripts/podcast/publish_to_library.py`. Each row\n"
               "tracks one published book. Republish a book to refresh its row.\n\n"
               "| Book | Episodes | Latest publish date | Source git SHA |\n"
@@ -441,7 +441,7 @@ def publish(slug: str, args: argparse.Namespace) -> int:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="On-demand publish from _workspace/books/<slug>/ to library/books/<slug>/.",
+        description="On-demand publish from content/drafts/<slug>/ to content/published/books/<slug>/.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument("slug", help="Book slug (e.g. kitab-al-riyad).")

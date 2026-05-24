@@ -52,7 +52,7 @@ If `start-session.sh` is missing or you need the manual equivalent, see
 3. `../book-queue.md` — only if you need to know what's queued or claim something
 4. `coordination-protocol.md` — only on first session per machine, or when you change conventions
 5. `<your-machine-id>.md` — your own operator file (frontmatter `next_action` is what to do)
-6. `_workspace/books/<your-book>/_system/orchestrator-state.json` — authoritative phase/status (script already shows this)
+6. `content/drafts/<your-book>/_system/orchestrator-state.json` — authoritative phase/status (script already shows this)
 
 If files 2-5 disagree with file 6, **trust file 6** (the state file is truth; operator files are snapshots). Update operator file to match, commit.
 

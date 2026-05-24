@@ -36,7 +36,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-BOOK_DIR = Path("content/podcast/library/books/kitab-al-riyad")
+BOOK_DIR = Path("content/drafts/kitab-al-riyad")
 
 # Each entry: (slug, old_ch_prefix, new_ch_prefix, old_ep_id, new_ep_id, source_ch_ref, section_index)
 RENAME_MAP = [

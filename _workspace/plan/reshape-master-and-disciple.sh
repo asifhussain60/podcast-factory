@@ -16,15 +16,15 @@ set -euo pipefail
 
 DRY_RUN="${DRY_RUN:-1}"
 
-SRC="/Users/asifhussain/PROJECTS/podcast-factory/worktrees/main/_workspace/books/the-master-and-the-disciple"
+SRC="/Users/asifhussain/PROJECTS/podcast-factory/worktrees/main/content/drafts/the-master-and-the-disciple"
 DST="/Users/asifhussain/PROJECTS/podcast-data/books/the-master-and-the-disciple"
 
 # Stale duplicates that should be removed AFTER reshape verifies clean.
 STALE_DUPLICATES=(
-  "/Users/asifhussain/PROJECTS/podcast-factory/worktrees/main/content/podcast/library/books/the-master-and-the-disciple"
-  "/Users/asifhussain/PROJECTS/podcast-factory/worktrees/book-islr/_workspace/books/the-master-and-the-disciple"
-  "/Users/asifhussain/PROJECTS/podcast-factory/worktrees/book-kar/content/podcast/library/books/the-master-and-the-disciple"
-  "/Users/asifhussain/PROJECTS/podcast-factory/worktrees/book-asaas/content/podcast/library/books/the-master-and-the-disciple"
+  "/Users/asifhussain/PROJECTS/podcast-factory/worktrees/main/content/drafts/the-master-and-the-disciple"
+  "/Users/asifhussain/PROJECTS/podcast-factory/worktrees/book-islr/content/drafts/the-master-and-the-disciple"
+  "/Users/asifhussain/PROJECTS/podcast-factory/worktrees/book-kar/content/drafts/the-master-and-the-disciple"
+  "/Users/asifhussain/PROJECTS/podcast-factory/worktrees/book-asaas/content/drafts/the-master-and-the-disciple"
 )
 
 # ─── helpers ──────────────────────────────────────────────────────────────────
@@ -188,7 +188,7 @@ pipeline:
   episodes_shipped: 0
 
 provenance:
-  reshaped_from: worktrees/main/_workspace/books/the-master-and-the-disciple/
+  reshaped_from: worktrees/main/content/drafts/the-master-and-the-disciple/
   reshape_date: 2026-05-23
 ───────────────────────────────────────────────────────
 YAML
@@ -209,7 +209,7 @@ pipeline:
   episodes_shipped: 0
 
 provenance:
-  reshaped_from: worktrees/main/_workspace/books/the-master-and-the-disciple/
+  reshaped_from: worktrees/main/content/drafts/the-master-and-the-disciple/
   reshape_date: 2026-05-23
 YAML
   echo "[exec]    meta.yml written"

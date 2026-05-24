@@ -1,7 +1,7 @@
 slug: ayyuhal-walad
 title: Ayyuhā al-Walad
 short_name: ayw
-source_pdf: ../../raw/Ayyuhal Walad.pdf
+source_pdf: ../../../raw/Ayyuhal Walad.pdf
 
 pipeline:
   current_phase: partial-pre-orchestrator
@@ -15,7 +15,7 @@ pipeline:
 publication:
   status: in_progress
   shipped_via: scripts/podcast/ship_to_library.py
-  publication_target: ../../library/books/ayyuhal-walad/
+  publication_target: ../../published/books/ayyuhal-walad/
 
 provenance:
   canonical_source_branch: book/asaas-al-taveel

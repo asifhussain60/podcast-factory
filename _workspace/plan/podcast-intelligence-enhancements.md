@@ -54,7 +54,7 @@ Total estimated focused work: **5.5-8 days** through plan completion + first new
 - New orchestrator phase between `trainer` and `merge` (or as a sub-step within `merge`): `13.5-summary` or similar.
 - New script `scripts/podcast/author_summary_chapter.py` — LLM-assisted summary authoring; takes the chapter-group's existing EP framings + source chapters as input, emits the summary chapter + framing.
 - Series-plan author (`scripts/podcast/series_plan.py` or wherever) computes the summary-EP set up-front from the chapter→EP mapping.
-- New file locations: `library/books/<slug>/podcasts/series-NN/EP##.5-summary/{source.txt, framing.md, ...}`.
+- New file locations: `content/published/books/<slug>/podcasts/series-NN/EP##.5-summary/{source.txt, framing.md, ...}`.
 - `ship_to_library.py` extended to handle the `.5-summary` EP variants.
 
 ### Open questions
@@ -224,7 +224,7 @@ Item 3 archetype rewrite + challenger rule + validator. Upload EP03 to NotebookL
 |---|---|
 | Day 5 | Author EP04 (ch04b "Soul, Intellect, and the Power of Emanation") using full enhanced pipeline. `claude -p` skeleton + hand-edit, build_episode_txt verify, commit. |
 | Day 6 | Author EP05 (ch05c "The Soul in Time and the Rejoinder to al-Nusra"). Same pattern. |
-| Day 7 | Item 1 summary-episode infrastructure: new orchestrator phase `13.5-summary`, `author_summary_chapter.py`, file layout `library/books/<slug>/podcasts/series-NN/EP##.5-summary/`, `ship_to_library.py` integration. Generate EP05.5 chapter-group summary. |
+| Day 7 | Item 1 summary-episode infrastructure: new orchestrator phase `13.5-summary`, `author_summary_chapter.py`, file layout `content/published/books/<slug>/podcasts/series-NN/EP##.5-summary/`, `ship_to_library.py` integration. Generate EP05.5 chapter-group summary. |
 
 ### Phase 4 — VALIDATION GATE (Day 8)
 
@@ -248,7 +248,7 @@ Batch-author the remaining 7 chapters in sequence (parallelization NOT used — 
 - Generate EP15.5 (book-end summary across all 15 EPs).
 - Final challenger pass on all 17 deliverables (15 EPs + 2 summaries).
 - Update orchestrator state.json: phase=done, completed_slugs filled.
-- `ship_to_library.py --book kitab-al-riyad` promotes everything to `library/books/kitab-al-riyad/`.
+- `ship_to_library.py --book kitab-al-riyad` promotes everything to `content/published/books/kitab-al-riyad/`.
 - Update KaR catalog row; merge `book/kitab-al-riyad` → `develop`.
 
 ### Phase 7 — First new-book run (Day 14)
@@ -260,7 +260,7 @@ Batch-author the remaining 7 chapters in sequence (parallelization NOT used — 
 ### Phase 7.5 — Book-intake automation (Day 14, parallel with first new-book setup)
 
 `scripts/podcast/intake_book.py <pdf-path> <book-slug>`:
-- Copies PDF from `raw/<book>.pdf` → `_workspace/books/<slug>/_source/<book>.pdf`
+- Copies PDF from `raw/<book>.pdf` → `content/drafts/<slug>/_source/<book>.pdf`
 - Creates workspace skeleton (`_system/`, `chapters/`, `episodes/`, `episode-drafts/`)
 - Initializes `_system/orchestrator-state.json` with phase=preflight
 - Creates the `book/<slug>` git branch

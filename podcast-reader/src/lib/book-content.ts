@@ -1,9 +1,12 @@
 /**
- * Discover the chapters and episodes for a given book in a worktree.
+ * Discover the chapters and episodes for a given book.
  *
- * In kitab-al-riyad (the v1 pilot), the layout is:
+ * Post-2026-05-23 restructure: books live at <repo-root>/content/drafts/<book>/
+ * (was: <worktree>/content/podcast/library/books/<book>/). All five books are
+ * surfaced (v1 kitab-al-riyad-only pilot scope reopened).
  *
- *   <worktree>/content/podcast/library/books/<book>/
+ * Per-book layout:
+ *   content/drafts/<book>/
  *   ├── chapters/                  # source book chapters (.txt, markdown-flavoured)
  *   │   └── ch01-the-perfect-...txt
  *   ├── chapter-contracts/         # podcast episode contracts (.yml)
@@ -49,7 +52,12 @@ export interface BookIndex {
 }
 
 function bookRoot(worktree: string, book: string): string {
-  return join(getWorktreesRoot(), worktree, 'content', 'podcast', 'library', 'books', book);
+  // After 2026-05-23 restructure: books live at <repo-root>/content/drafts/<book>/.
+  // The `worktree` argument is kept for callsite API compatibility but no
+  // longer affects the path (there is only one canonical location now —
+  // worktrees collapsed into a flat repo).
+  void worktree;
+  return join(getWorktreesRoot(), 'content', 'drafts', book);
 }
 
 export async function loadBookIndex(worktree: string, book: string): Promise<BookIndex | null> {

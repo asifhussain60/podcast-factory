@@ -44,7 +44,7 @@ Usage:
 
 Example:
   python3 scripts/podcast/build_slide_deck.py \\
-    _workspace/books/kitab-al-riyad \\
+    content/drafts/kitab-al-riyad \\
     ch01-the-perfect-and-the-perfection-of-the-soul
 
   (the `chNN-` prefix is auto-discovered from `chapters/`)
@@ -439,7 +439,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "book_dir",
         type=Path,
-        help="Path to the book root (e.g. _workspace/books/kitab-al-riyad).",
+        help="Path to the book root (e.g. content/drafts/kitab-al-riyad).",
     )
     parser.add_argument(
         "slug",

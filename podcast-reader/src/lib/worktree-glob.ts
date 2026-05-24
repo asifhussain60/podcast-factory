@@ -1,73 +1,68 @@
 /**
- * Discover worktrees and their books under ~/PROJECTS/podcast-factory/worktrees/.
- * v1 pilot scope: only books named `kitab-al-riyad` are surfaced as reachable;
- * other books are listed in the count but no routes are generated yet.
+ * Discover books under ~/PROJECTS/podcast-factory/content/drafts/.
  *
- * The worktree root is resolvable via the PODCAST_FACTORY_ROOT env var, falling
- * back to the canonical path. This keeps the reader portable across machines
- * where the path convention may differ.
+ * History note: this file was originally named worktree-glob.ts when the
+ * repo used the Option 2 container layout (podcast-factory/worktrees/<branch>/).
+ * That layout was retired 2026-05-23 in favor of a single flat repo where
+ * books live at content/drafts/<slug>/. The Worktree interface name is kept
+ * for backward compatibility with downstream callers; treat the single
+ * synthetic "worktree" as a stand-in for the develop branch.
+ *
+ * Resolvable via PODCAST_FACTORY_ROOT env var, defaulting to ~/PROJECTS/podcast-factory.
  */
 
 import { readdir, stat } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
 
-const DEFAULT_ROOT = join(homedir(), 'PROJECTS', 'podcast-factory', 'worktrees');
-const PILOT_BOOK = 'kitab-al-riyad';
+const DEFAULT_REPO_ROOT = join(homedir(), 'PROJECTS', 'podcast-factory');
+const SYNTHETIC_WORKTREE_NAME = 'develop';  // single source — no more multi-branch worktrees
 
 export interface Worktree {
-  name: string;          // 'book-kar', 'book-asaas', etc.
-  path: string;          // absolute path to the worktree
-  books: string[];       // book slugs found under content/podcast/library/books/
+  name: string;          // always 'develop' now — kept for backward compat
+  path: string;          // absolute path to the repo root
+  books: string[];       // book slugs found under content/drafts/
 }
 
+export function getRepoRoot(): string {
+  return process.env.PODCAST_FACTORY_ROOT ?? DEFAULT_REPO_ROOT;
+}
+
+/** @deprecated Use getRepoRoot() — kept for any existing callers. */
 export function getWorktreesRoot(): string {
-  return process.env.PODCAST_FACTORY_ROOT ?? DEFAULT_ROOT;
+  return getRepoRoot();
 }
 
 export function getPilotBook(): string {
-  return PILOT_BOOK;
+  // v1 pilot scope is reopened: surface all books, not just kitab-al-riyad.
+  // Callers that still respect this constant get the same behavior; new
+  // callers should iterate Worktree.books instead.
+  return 'kitab-al-riyad';
 }
 
 export async function discoverWorktrees(): Promise<Worktree[]> {
-  const root = getWorktreesRoot();
-  let entries: string[];
+  const repoRoot = getRepoRoot();
+  const draftsRoot = join(repoRoot, 'content', 'drafts');
+
+  let books: string[] = [];
   try {
-    entries = await readdir(root);
-  } catch {
-    return [];
-  }
-
-  const worktrees: Worktree[] = [];
-  for (const name of entries) {
-    if (name.startsWith('.')) continue;
-    const path = join(root, name);
-    try {
-      const s = await stat(path);
-      if (!s.isDirectory()) continue;
-    } catch {
-      continue;
-    }
-
-    const booksRoot = join(path, 'content', 'podcast', 'library', 'books');
-    let books: string[] = [];
-    try {
-      const bookEntries = await readdir(booksRoot);
-      for (const b of bookEntries) {
-        if (b.startsWith('.') || b.startsWith('_')) continue;
-        try {
-          const bs = await stat(join(booksRoot, b));
-          if (bs.isDirectory()) books.push(b);
-        } catch {
-          // ignore
-        }
+    const entries = await readdir(draftsRoot);
+    for (const b of entries) {
+      if (b.startsWith('.') || b.startsWith('_')) continue;
+      try {
+        const bs = await stat(join(draftsRoot, b));
+        if (bs.isDirectory()) books.push(b);
+      } catch {
+        // ignore
       }
-    } catch {
-      // no books dir in this worktree — skip silently
     }
-
-    worktrees.push({ name, path, books: books.sort() });
+  } catch {
+    return [];  // no content/drafts/ found
   }
 
-  return worktrees.sort((a, b) => a.name.localeCompare(b.name));
+  return [{
+    name: SYNTHETIC_WORKTREE_NAME,
+    path: repoRoot,
+    books: books.sort(),
+  }];
 }

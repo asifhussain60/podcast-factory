@@ -1,8 +1,8 @@
 ---
 name: publish-podcast
-description: "On-demand publisher of completed podcast assets from `_workspace/books/<slug>/` to the filesystem-only `library/books/<slug>/`. Minimal output: `chapters/` + `episodes/` + `README.md`. The chapter file is what gets uploaded to Google NotebookLM as the SOURCE; the episode file is what gets pasted into NotebookLM's Customize prompt box. ALWAYS invoke when user says 'publish <book-slug>', 'publish kar', '/publish-podcast', '@publish-podcast', 'ship to library', 'publish to library'. Six readiness gates run before any file copies: (G1) chapters/+episodes/ structure, (G2) chapter↔episode pair completeness, (G3) purely-sequential 01..N numbering with no letter suffixes or .5 decimals, (G4) build_episode_txt.py P0=0 on every episode (P1 warn-only by default, blocking under --strict), (G5) orchestrator-state.json shows phase=done OR ship-with-caution|ship-ready|halted_by_operator, (G6) target either doesn't exist OR is safe to wipe (inside library/, not a symlink). Defaults to wipe-and-recreate; --no-wipe coexists; --dry-run prints the plan without writing. The Python script `scripts/podcast/publish_to_library.py` does the deterministic work; this skill is its trigger surface."
+description: "On-demand publisher of completed podcast assets from `content/drafts/<slug>/` to the filesystem-only `content/published/books/<slug>/`. Minimal output: `chapters/` + `episodes/` + `README.md`. The chapter file is what gets uploaded to Google NotebookLM as the SOURCE; the episode file is what gets pasted into NotebookLM's Customize prompt box. ALWAYS invoke when user says 'publish <book-slug>', 'publish kar', '/publish-podcast', '@publish-podcast', 'ship to library', 'publish to library'. Six readiness gates run before any file copies: (G1) chapters/+episodes/ structure, (G2) chapter↔episode pair completeness, (G3) purely-sequential 01..N numbering with no letter suffixes or .5 decimals, (G4) build_episode_txt.py P0=0 on every episode (P1 warn-only by default, blocking under --strict), (G5) orchestrator-state.json shows phase=done OR ship-with-caution|ship-ready|halted_by_operator, (G6) target either doesn't exist OR is safe to wipe (inside library/, not a symlink). Defaults to wipe-and-recreate; --no-wipe coexists; --dry-run prints the plan without writing. The Python script `scripts/podcast/publish_to_library.py` does the deterministic work; this skill is its trigger surface."
 locked_decisions:
-  - "library/books/<slug>/ contains ONLY chapters/ + episodes/ + README.md (no index.md, no podcasts/, no transcripts/, no _meta.json)"
+  - "content/published/books/<slug>/ contains ONLY chapters/ + episodes/ + README.md (no index.md, no podcasts/, no transcripts/, no _meta.json)"
   - "library/ is filesystem-only at <repo-parent>/library/; NOT git-tracked"
   - "wipe-and-recreate is the default; --no-wipe is the escape hatch for coexistence"
   - "ship_to_library.py is deprecated; publish-podcast is the canonical writer of library/"
@@ -17,9 +17,9 @@ This skill takes a completed book's workspace and publishes the minimal Notebook
 ## What this skill DOES
 
 1. **Validates** the workspace against 6 readiness gates (see SKILL frontmatter `description` for the full gate list).
-2. **Copies** `_workspace/books/<slug>/chapters/*.txt` → `library/books/<slug>/chapters/`.
-3. **Copies** `_workspace/books/<slug>/episodes/*.txt` → `library/books/<slug>/episodes/`.
-4. **Writes** `library/books/<slug>/README.md` — human-readable manifest with publish timestamp, source git SHA, EP→chapter pair table, NotebookLM upload instructions.
+2. **Copies** `content/drafts/<slug>/chapters/*.txt` → `content/published/books/<slug>/chapters/`.
+3. **Copies** `content/drafts/<slug>/episodes/*.txt` → `content/published/books/<slug>/episodes/`.
+4. **Writes** `content/published/books/<slug>/README.md` — human-readable manifest with publish timestamp, source git SHA, EP→chapter pair table, NotebookLM upload instructions.
 5. **Updates** `library/_meta/catalog.md` — one row per published book (`<slug>` | episode count | publish date | git SHA).
 
 ## What this skill does NOT do
@@ -42,7 +42,7 @@ Options:
 | Flag | Behavior |
 |---|---|
 | `--strict` | Elevate P1 advisories to blocking. Default: P1 warn-only. |
-| `--no-wipe` | Skip the wipe step. Coexist with prior content at `library/books/<slug>/`. |
+| `--no-wipe` | Skip the wipe step. Coexist with prior content at `content/published/books/<slug>/`. |
 | `--dry-run` | Run all 6 gates + print the would-copy file list. Do not write. |
 | `--force` | Skip the G5 state-checkpoint gate (e.g., when state.json is mid-flight from a halt). |
 
@@ -61,8 +61,8 @@ The `--force` flag bypasses G5 only. G5 exists because some pipeline halts leave
 ```
 $ scripts/podcast/publish_to_library.py kitab-al-riyad --dry-run
 ==> publish_to_library: kitab-al-riyad
-    workspace: _workspace/books/kitab-al-riyad
-    target:    /Users/.../library/books/kitab-al-riyad
+    workspace: content/drafts/kitab-al-riyad
+    target:    /Users/.../content/published/books/kitab-al-riyad
     mode:      dry-run
 
 === Gates ===
@@ -71,7 +71,7 @@ OK    [G2] 15 chapter/episode pairs match
 OK    [G3] chapters 1..15 + episodes 1..15 purely sequential
 OK    [G4] P0=0 across 15 episodes (P1=23, warn-only)
 OK    [G5] state.json phase=done
-OK    [G6] target /Users/.../library/books/kitab-al-riyad exists; wipe-and-recreate authorized
+OK    [G6] target /Users/.../content/published/books/kitab-al-riyad exists; wipe-and-recreate authorized
 
 === Plan ===
     would copy 15 chapter(s) → .../chapters/

@@ -179,13 +179,13 @@ test ! -d scripts/memoir      && echo "OK: scripts/memoir removed"         || ec
 
 # Phase 9.5 hoist landed
 test -d library                              && echo "OK: library/ at top level"        || echo "WARN: library/ missing"
-test -d _workspace/books                     && echo "OK: _workspace/books/ workspace"  || echo "WARN: _workspace/books/ missing"
+test -d _workspace/books                     && echo "OK: content/drafts/ workspace"  || echo "WARN: content/drafts/ missing"
 test ! -d content/podcast/library            && echo "OK: content/podcast/library gone" || echo "WARN: content/podcast/library still present"
 test -f scripts/podcast/ship_to_library.py   && echo "OK: ship_to_library.py present"   || echo "WARN: ship_to_library.py missing"
 test -f .github/workflows/library-readonly.yml && echo "OK: library-readonly CI present" || echo "WARN: library-readonly CI missing"
 
 # First promotion landed
-test -f library/books/kitab-al-riyad/index.md && echo "OK: KaR EP10 promotion present" || echo "WARN: KaR EP10 promotion missing"
+test -f content/published/books/kitab-al-riyad/index.md && echo "OK: KaR EP10 promotion present" || echo "WARN: KaR EP10 promotion missing"
 cat library/_meta/catalog.md 2>/dev/null
 
 # Book + feat branches still resolve

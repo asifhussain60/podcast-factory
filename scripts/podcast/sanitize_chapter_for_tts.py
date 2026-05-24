@@ -21,13 +21,13 @@ PURPOSE
 USAGE
 
   # Single file (writes back in place):
-  python3 scripts/podcast/sanitize_chapter_for_tts.py library/books/kitab-al-riyad/chapters/ch01-the-perfect-and-the-perfection-of-the-soul.txt
+  python3 scripts/podcast/sanitize_chapter_for_tts.py content/published/books/kitab-al-riyad/chapters/ch01-the-perfect-and-the-perfection-of-the-soul.txt
 
   # Directory of chapters (writes each back in place):
-  python3 scripts/podcast/sanitize_chapter_for_tts.py library/books/kitab-al-riyad/chapters/
+  python3 scripts/podcast/sanitize_chapter_for_tts.py content/published/books/kitab-al-riyad/chapters/
 
   # Dry run — print report without modifying files:
-  python3 scripts/podcast/sanitize_chapter_for_tts.py --dry-run library/books/kitab-al-riyad/chapters/
+  python3 scripts/podcast/sanitize_chapter_for_tts.py --dry-run content/published/books/kitab-al-riyad/chapters/
 
 IDEMPOTENCY
 

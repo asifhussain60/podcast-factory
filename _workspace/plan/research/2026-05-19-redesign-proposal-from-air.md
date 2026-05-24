@@ -112,7 +112,7 @@ Purely additive — does not invalidate any existing spine.
 
 Before P9.5 fires, drop a chapter-rationale stub at:
 
-`content/podcast/library/books/asaas-al-taveel/_system/source/text/chapters-rationale.md`
+`content/drafts/asaas-al-taveel/_system/source/text/chapters-rationale.md`
 
 Normally a Phase 0d output; for Asaas the section map already exists (read-only product of this session — see appendix). Pre-seeding gives the orchestrator ground truth at Phase 0d and gives the operator a concrete object at the Phase 09-series-plan gate.
 
@@ -186,8 +186,8 @@ This makes:
 ### Phases — modify
 
 - **P9.5 acceptance row** (in `acceptance-criteria.md` Wave 3 group): add three sub-rows:
-  - 📊 P9.5.pre1 — `content/podcast/library/books/asaas-al-taveel/_system/source/text/chapters-rationale.md` exists with the 6-chapter natiq map BEFORE `run_wave.py 3 --book asaas-al-taveel` fires
-  - 📊 P9.5.pre2 — `content/podcast/library/books/asaas-al-taveel/_system/concept-glossary.md` exists with ≥20 glossary entries BEFORE the run fires
+  - 📊 P9.5.pre1 — `content/drafts/asaas-al-taveel/_system/source/text/chapters-rationale.md` exists with the 6-chapter natiq map BEFORE `run_wave.py 3 --book asaas-al-taveel` fires
+  - 📊 P9.5.pre2 — `content/drafts/asaas-al-taveel/_system/concept-glossary.md` exists with ≥20 glossary entries BEFORE the run fires
   - 📊 P9.5.pre3 — series-plan operator gate (Phase 09) reviewed against the proposed 6-episode preset (operator confirms or amends)
 
 - **P17.1 acceptance rows**: update `promote_when` from "first non-Arabic-PDF source arrives OR user explicitly opts in" to "PROMOTED 2026-05-19 — operator opted in for folder-ingestion + Asaas chapter-map preflight". Existing P17.1 rows remain valid (Protocol conformance + Arabic PDF adapter + boundary check + cost-ledger). Add Change-D extension rows under a new `P17.1.ext` sub-group:
@@ -273,7 +273,7 @@ P17.1 promotion: move from W5 (deferred, terminal wave) to a new sub-wave **W3.5
 
 **This proposal (Changes A + B + C) can land BEFORE the current kitab-al-riyad orchestrator hits its Phase 0f gate** (~2.5 hours from status update). Justification:
 
-1. Running orchestrator's writes are scoped to `content/podcast/library/books/kitab-al-riyad/_system/` — disjoint from this proposal's touch surface.
+1. Running orchestrator's writes are scoped to `content/drafts/kitab-al-riyad/_system/` — disjoint from this proposal's touch surface.
 2. Boundary check is read-only to the orchestrator and won't be confused by additions outside its scope.
 3. Handbook entries (A + B) are appends. Asaas preflight (C) creates files under a directory the running orchestrator does not touch.
 4. `_phases.py` not modified; no `schema_version` bump; no migration.
@@ -283,7 +283,7 @@ P17.1 promotion: move from W5 (deferred, terminal wave) to a new sub-wave **W3.5
 
 > **Actual integration outcome (primary-Mac assistant, 2026-05-19):** Landed as a single commit `efdf323` on `feat/podcast-w1-foundation`. Included Changes A + B + C plus operator-added Changes E (P21 — cross-book learning store) and F (P22 — operator-review gate after Phase 0a/0b). Change D scoped under P17.1's `extension_change_d` block for landing AFTER P9.5.
 
-**What MUST wait until after kitab-al-riyad ships:** any code edit to `scripts/podcast/`, P8.6 phase rename, any change under `content/podcast/library/books/kitab-al-riyad/`. This proposal's A+B+C make none.
+**What MUST wait until after kitab-al-riyad ships:** any code edit to `scripts/podcast/`, P8.6 phase rename, any change under `content/drafts/kitab-al-riyad/`. This proposal's A+B+C make none.
 
 **What MUST wait until just before P9.5 fires** (i.e. the W3 corpus invocation specifically for Asaas):
 
@@ -370,7 +370,7 @@ Operator's ~5 minutes of review attention happens BEFORE the heavy LLM cycles (p
 
 `promote_when: PROMOTED 2026-05-19 — operator opted in`. See P22 in `podcast-plan.yaml` for the full halt-point heuristic, spec, and acceptance criteria.
 
-**First manual exercise of P22 workflow (2026-05-19):** KaR orchestrator manually halted at the Phase 0b → 0c boundary via SIGINT + SIGTERM. `english-transcript.md` + `operator-review.md` scaffolded under `content/podcast/library/books/kitab-al-riyad/`. Operator review in progress at time of this document being written. Manual halt is the precursor; P22 code lands later to automate.
+**First manual exercise of P22 workflow (2026-05-19):** KaR orchestrator manually halted at the Phase 0b → 0c boundary via SIGINT + SIGTERM. `english-transcript.md` + `operator-review.md` scaffolded under `content/drafts/kitab-al-riyad/`. Operator review in progress at time of this document being written. Manual halt is the precursor; P22 code lands later to automate.
 
 ---
 
@@ -396,5 +396,5 @@ Front/back matter: PDF 1–4 cover+blanks · printed 5–24 editor's intro · pr
 
 - Plan: [`../podcast-plan.yaml`](../podcast-plan.yaml) — see P9.5, P17.1, P21, P22
 - Acceptance: [`../acceptance-criteria.md`](../acceptance-criteria.md) — see P9.5.pre1-3, P17.1.ext.1-8, P21 group, P22 group, P4.9
-- Asaas preflight artifacts: [`../../../content/podcast/library/books/asaas-al-taveel/`](../../../content/podcast/library/books/asaas-al-taveel/) (on the same branch `feat/podcast-w1-foundation`)
-- KaR halt artifacts: `content/podcast/library/books/kitab-al-riyad/{english-transcript,operator-review}.md` on branch `book/kitab-al-riyad`
+- Asaas preflight artifacts: [`../../../content/drafts/asaas-al-taveel/`](../../../content/drafts/asaas-al-taveel/) (on the same branch `feat/podcast-w1-foundation`)
+- KaR halt artifacts: `content/drafts/kitab-al-riyad/{english-transcript,operator-review}.md` on branch `book/kitab-al-riyad`

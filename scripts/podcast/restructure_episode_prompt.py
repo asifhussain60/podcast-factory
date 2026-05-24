@@ -26,9 +26,9 @@ PURPOSE
 
 USAGE
 
-  python3 scripts/podcast/restructure_episode_prompt.py library/books/kitab-al-riyad/episodes/EP01-the-perfect-and-the-perfection-of-the-soul.txt
-  python3 scripts/podcast/restructure_episode_prompt.py library/books/kitab-al-riyad/episodes/
-  python3 scripts/podcast/restructure_episode_prompt.py --dry-run library/books/kitab-al-riyad/episodes/
+  python3 scripts/podcast/restructure_episode_prompt.py content/published/books/kitab-al-riyad/episodes/EP01-the-perfect-and-the-perfection-of-the-soul.txt
+  python3 scripts/podcast/restructure_episode_prompt.py content/published/books/kitab-al-riyad/episodes/
+  python3 scripts/podcast/restructure_episode_prompt.py --dry-run content/published/books/kitab-al-riyad/episodes/
 
 IDEMPOTENCY
 

@@ -80,7 +80,7 @@ The source PDFs CAN live in iCloud (e.g., `~/Library/Mobile Documents/com~apple~
 1. Stop the launchd agent on the current primary: `launchctl unload ~/Library/LaunchAgents/com.journal.podcast-w1.plist`
 2. Verify no in-flight runs: `python3 scripts/podcast/orchestrator_status.py --all --json | jq '[.books[] | select(.phase_status=="running")] | length'` → must return 0.
 3. Migrate Keychain entries (`infra/azure/store-keychain-keys.sh`) on the new primary.
-4. Migrate `_workspace/books/` directory on the new primary (`rsync -av --partial`).
+4. Migrate `content/drafts/` directory on the new primary (`rsync -av --partial`).
 5. Update `_workspace/plan/podcast-plan.yaml` `meta.primary_mac` doc reference (this file).
 6. Install + load the launchd agent on the new primary.
 7. Update `~/.ssh/config` on secondaries to point at the new primary's hostname.

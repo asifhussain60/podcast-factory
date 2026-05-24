@@ -358,7 +358,7 @@ system_check:
       source_verified: 2026-05-19
       page_count:    30
       bytes_per_page: 4900               # 146 KB / 30 p — clean text PDF
-      pipeline_history: "shipped (Phase 14-done); see content/podcast/library/books/ayyuhal-walad/"
+      pipeline_history: "shipped (Phase 14-done); see content/drafts/ayyuhal-walad/"
       use_for:
         - "W1 + W2 dev-loop iteration"
         - "P2.1 tiny-book fixture seed (synthetic fixture stays minimal; real-book exercise on this slug)"
@@ -554,7 +554,7 @@ intelligence_sources:
       - {path: "skills-staging/podcast/SKILL.md",                     when: "every session start",         staleness_signal: "git diff vs branch HEAD"}
       - {path: "scripts/podcast/orchestrate_book.py",                 when: "any state-machine change",    staleness_signal: "phase_map / state schema drift"}
       - {path: "scripts/podcast/_progress.py",                        when: "any state-schema edit",       staleness_signal: "schema_version constant out of sync with state.json"}
-      - {path: "content/podcast/library/books/*/_system/orchestrator-state.json", when: "before resume / retry-phase", staleness_signal: "phase_status=running with stale ts_updated"}
+      - {path: "content/drafts/*/_system/orchestrator-state.json", when: "before resume / retry-phase", staleness_signal: "phase_status=running with stale ts_updated"}
       - {path: "_workspace/plan/podcast-plan.yaml",                   when: "every multi-step task",       staleness_signal: "meta.restructured date >7d old AND active wave changed"}
       - {path: "_workspace/plan/research/findings.md",                when: "any architecture decision",   staleness_signal: "linked URL HTTP 404"}
       - {path: "_workspace/plan/numeric-symbolic-disambiguation-plan.md", when: "any per-book scaffolding for Islamic source material", staleness_signal: "ambiguity register stale relative to chapter list"}
@@ -1057,10 +1057,10 @@ phases:
       - id: P4.7
         title: "Apply protocol to Master & Disciple as the worked-example book"
         files:
-          - content/podcast/library/books/the-master-and-the-disciple/_notebooklm/02-glossary.md
-          - content/podcast/library/books/the-master-and-the-disciple/_notebooklm/03-source-integrity-notes.md
-          - content/podcast/library/books/the-master-and-the-disciple/_notebooklm/ch02-scaffolding.md
-          - content/podcast/library/books/the-master-and-the-disciple/_notebooklm/06-human-review-checklist.md
+          - content/drafts/the-master-and-the-disciple/_notebooklm/02-glossary.md
+          - content/drafts/the-master-and-the-disciple/_notebooklm/03-source-integrity-notes.md
+          - content/drafts/the-master-and-the-disciple/_notebooklm/ch02-scaffolding.md
+          - content/drafts/the-master-and-the-disciple/_notebooklm/06-human-review-checklist.md
         spec: |
           Apply the full Ch-02 ambiguity register per
           _workspace/plan/numeric-symbolic-disambiguation-plan.md §3:
@@ -1884,9 +1884,9 @@ phases:
         title: "Large: Asaas Al-Taveel (416p)"
         source_material_risk: "high"
         preflight_required:
-          - "P9.5.pre1 ✅ content/podcast/library/books/asaas-al-taveel/_system/source/text/chapters-rationale.md exists with the 6-chapter natiq map (Adam/Nuh/Ibrahim/Musa/Isa/Muhammad + the unwritten Qa'im) BEFORE run_wave.py 3 --book asaas-al-taveel fires"
-          - "P9.5.pre2 ✅ content/podcast/library/books/asaas-al-taveel/_system/concept-glossary.md exists with ≥20 entries across cosmology, hermeneutics, neoplatonic emanation, and Fatimid doctrinal terms BEFORE the run fires"
-          - "P9.5.pre3 ✅ content/podcast/library/books/asaas-al-taveel/_system/registry.md exists with series_pattern: recursive_scaffold declared at series level (without this declaration, Pattern 5's discussion-spine author silently defaults to None and Ep2–6 re-teach the template — wasted LLM cost + worse quality)"
+          - "P9.5.pre1 ✅ content/drafts/asaas-al-taveel/_system/source/text/chapters-rationale.md exists with the 6-chapter natiq map (Adam/Nuh/Ibrahim/Musa/Isa/Muhammad + the unwritten Qa'im) BEFORE run_wave.py 3 --book asaas-al-taveel fires"
+          - "P9.5.pre2 ✅ content/drafts/asaas-al-taveel/_system/concept-glossary.md exists with ≥20 entries across cosmology, hermeneutics, neoplatonic emanation, and Fatimid doctrinal terms BEFORE the run fires"
+          - "P9.5.pre3 ✅ content/drafts/asaas-al-taveel/_system/registry.md exists with series_pattern: recursive_scaffold declared at series level (without this declaration, Pattern 5's discussion-spine author silently defaults to None and Ep2–6 re-teach the template — wasted LLM cost + worse quality)"
           - "P9.5.pre4 🔒 Operator-recommended 6-episode preset reviewed at Phase 0f operator gate (Mentor+Student persona; series_pattern=recursive_scaffold; long-form tier)"
         acceptance:
           - "P9.5.acc1 📊 Full pipeline; metrics recorded; Loop N clean"
@@ -3317,7 +3317,7 @@ phases:
       A bug could write asaas-al-taveel's operator-review.md to kitab-al-riyad's
       book directory.
       Mitigated by: every endpoint validates that the book slug exists in the
-      worktree's expected layout (content/podcast/library/books/<slug>/)
+      worktree's expected layout (content/drafts/<slug>/)
       BEFORE any write; backend refuses writes to paths outside its configured
       worktree roots; integration test exercises the leakage scenario.
 
@@ -3652,7 +3652,7 @@ phases:
       - "P25.c-shipped ✅ Phase C complete (approve modal + SSE resume drawer + cancellable subprocess + git commit-on-approve)"
       - "P25.persistence 🔒 operator-review.md remains the single source of truth; external edits detected via mtime polling; no silent overwrites"
       - "P25.zero-pipeline-impact 🔒 Pipeline behavior unchanged: --approve-transcript reads operator-review.md exactly as today; --skip-transcript-gate continues to work; orchestrator integration is read-only on existing artifacts"
-      - "P25.boundary 🔒 P25 touches only site/operator-review/, scripts/podcast/, _workspace/plan/, and reads (never writes outside of) content/podcast/library/books/<slug>/"
+      - "P25.boundary 🔒 P25 touches only site/operator-review/, scripts/podcast/, _workspace/plan/, and reads (never writes outside of) content/drafts/<slug>/"
       - "P25.dogfood ✅ asaas-al-taveel P22 halt (ETA ~09:33 PT 2026-05-20) reviewed via Studio app as first real test"
       - "P25.ai-layer ✅ P25.7 AI assist layer ships 10 helper features via claude -p subprocess; no new keys; ~$1.62 budget/book; cost-ledger captures every call"
 

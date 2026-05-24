@@ -3,9 +3,9 @@
 for a new book in the podcast pipeline (Phase 7.5 of the intelligence-enhancements plan).
 
 What it does:
-  1. Copies the source PDF from raw/<pdf-name> → _workspace/books/<slug>/_source/<pdf-name>.
+  1. Copies the source PDF from raw/<pdf-name> → content/drafts/<slug>/_source/<pdf-name>.
   2. Creates the workspace skeleton:
-       _workspace/books/<slug>/
+       content/drafts/<slug>/
          _source/        — raw inputs (.pdf, .mp3, .docx, .txt)
          _system/        — orchestrator state + per-book references
          chapters/       — author-emitted chapter source texts

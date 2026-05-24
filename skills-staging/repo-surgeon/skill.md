@@ -357,7 +357,7 @@ grep -rnE '(open\([^)]*content/babu-memoir|open\([^)]*content/_shared|open\([^)]
 
 # L6: async safety
 ACTIVE=$(pgrep -fl 'orchestrate_book|claude -p|extract_chapter|build_episode' 2>/dev/null)
-RUNNING_STATES=$(find content/podcast/library/books/*/_system/orchestrator-state.json -type f 2>/dev/null | xargs -I{} grep -l '"phase_status": "running"' {} 2>/dev/null)
+RUNNING_STATES=$(find content/drafts/*/_system/orchestrator-state.json -type f 2>/dev/null | xargs -I{} grep -l '"phase_status": "running"' {} 2>/dev/null)
 if [ -n "$ACTIVE" ] && [ -n "$RUNNING_STATES" ]; then
   echo "ASYNC ACTIVE — emit wait banner from meta.async_safety.wait_banner_format and HALT."
 fi

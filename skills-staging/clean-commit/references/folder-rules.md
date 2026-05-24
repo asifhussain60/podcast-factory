@@ -57,13 +57,13 @@ journal/
 |---|---|---|
 | Memoir chapter files (.txt) | `content/babu-memoir/chapters/` | Named ch{NN}-{slug}.txt |
 | Memoir workflow + reference | `content/babu-memoir/_system/` | journal-workflow-v2.md, voice-fingerprint.md, quotes-library.txt, etc. |
-| Podcast book chapters (in flight) | `_workspace/books/<slug>/chapters/` | Named ch{NN}-{slug}.txt; uploaded to NotebookLM as SOURCE |
-| Podcast book chapters (shipped) | `library/books/<slug>/chapters/` | Hoisted from `_workspace/` on ship (Phase 9.5) |
-| Podcast episode prompts | `_workspace/books/<slug>/episodes/` or `library/books/<slug>/episodes/` | Built from 00-framing.md by build_episode_txt.py |
-| Slide-deck deliverables | `_workspace/books/<slug>/slide-decks/` | chNN-deck-<slug>.txt + chNN-framing-<slug>.md pairs (slide-deck enhancement 2026-05-23) |
-| Per-chapter Extract contracts | `_workspace/books/<slug>/chapter-contracts/` | YAML schema in `content/podcast/.skill/handbook/chapter-contract.template.yml` |
-| Skill handbook refs (podcast) | `content/podcast/.skill/handbook/` | Book-agnostic; book-bound = `_workspace/books/<slug>/_system/` |
-| Per-book registry | `_workspace/books/<slug>/_system/registry.md` | Validated by `scripts/podcast/validate_registry.py` |
+| Podcast book chapters (in flight) | `content/drafts/<slug>/chapters/` | Named ch{NN}-{slug}.txt; uploaded to NotebookLM as SOURCE |
+| Podcast book chapters (shipped) | `content/published/books/<slug>/chapters/` | Hoisted from `_workspace/` on ship (Phase 9.5) |
+| Podcast episode prompts | `content/drafts/<slug>/episodes/` or `content/published/books/<slug>/episodes/` | Built from 00-framing.md by build_episode_txt.py |
+| Slide-deck deliverables | `content/drafts/<slug>/slide-decks/` | chNN-deck-<slug>.txt + chNN-framing-<slug>.md pairs (slide-deck enhancement 2026-05-23) |
+| Per-chapter Extract contracts | `content/drafts/<slug>/chapter-contracts/` | YAML schema in `content/podcast/.skill/handbook/chapter-contract.template.yml` |
+| Skill handbook refs (podcast) | `content/podcast/.skill/handbook/` | Book-agnostic; book-bound = `content/drafts/<slug>/_system/` |
+| Per-book registry | `content/drafts/<slug>/_system/registry.md` | Validated by `scripts/podcast/validate_registry.py` |
 | Top-level book index | `content/podcast/.skill/books.md` | One row per book pointing at its per-book registry (no cross-book monotonic index per the 2026-05-17 workspace restructure) |
 | Skill source-of-truth | `skills-staging/<skill>/SKILL.md` | Tracked in git; install copies go to Claude Code per-machine |
 | Agent definitions | `.github/agents/<name>.agent.md` | Plus a thin wrapper at `.claude/agents/<name>.md` for per-machine load |

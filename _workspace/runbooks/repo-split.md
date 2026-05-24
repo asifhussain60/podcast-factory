@@ -360,7 +360,7 @@ podcast-factory/                       (root of the repo, post-Phase-9.5)
 │   ├── orchestrator-logs/             (unchanged)
 │   ├── plan/                          (unchanged — operator coord)
 │   ├── runbooks/                      (unchanged — this runbook lives here)
-│   ├── books/                         ← NEW — per-book in-progress state (moved from content/podcast/library/books/)
+│   ├── books/                         ← NEW — per-book in-progress state (moved from content/drafts/)
 │   │   ├── asaas-al-taveel/           (active work — _system/, chapter-contracts/, chapters/, episodes/, episode-drafts/, transcripts/)
 │   │   │   ├── _system/
 │   │   │   │   ├── orchestrator-state.json
@@ -391,10 +391,10 @@ podcast-factory/                       (root of the repo, post-Phase-9.5)
 Key invariants of the post-Phase-9.5 layout:
 
 - **`library/` is invariantly "shipped only"** — every file inside has passed a challenger verdict (SHIP-READY or operator-approved SHIP-WITH-CAUTION) and is the canonical prod-grade output.
-- **`_workspace/books/<slug>/` is invariantly "scratch"** — orchestrator state, intermediate transcripts, draft episodes, draft framings, in-progress challenger reports all live here. The pipeline writes here freely. Per Asif's 2026-05-22 directive, the workspace is a single root-level folder accessible from every worktree/branch (structure is shared; per-branch contents are naturally branch-specific via git).
+- **`content/drafts/<slug>/` is invariantly "scratch"** — orchestrator state, intermediate transcripts, draft episodes, draft framings, in-progress challenger reports all live here. The pipeline writes here freely. Per Asif's 2026-05-22 directive, the workspace is a single root-level folder accessible from every worktree/branch (structure is shared; per-branch contents are naturally branch-specific via git).
 - **Promotion is one-way and explicit** — `scripts/podcast/ship_to_library.py` (authored in Phase 9.5) is the only path from workspace → library. Manual edits to `library/` are discouraged and CI-checked.
-- **Worktrees on book branches** (e.g., `book-asaas/`, `book-islr/`) carry their own checkout of `_workspace/books/<book>/` — that's where book-specific in-progress work happens. The top-level `library/` is only meaningfully populated on `develop` and `main`.
-- **`content/podcast/library/` no longer exists** — its contents split between top-level `library/` (shipped), root `_workspace/books/` + `_workspace/<category>/` (in-progress), and `library/archetypes/` (cross-book reference). The remaining `content/podcast/` holds only `_README.md` and `.skill/` (handbook + learning substrate).
+- **Worktrees on book branches** (e.g., `book-asaas/`, `book-islr/`) carry their own checkout of `content/drafts/<book>/` — that's where book-specific in-progress work happens. The top-level `library/` is only meaningfully populated on `develop` and `main`.
+- **`content/podcast/library/` no longer exists** — its contents split between top-level `library/` (shipped), root `content/drafts/` + `_workspace/<category>/` (in-progress), and `library/archetypes/` (cross-book reference). The remaining `content/podcast/` holds only `_README.md` and `.skill/` (handbook + learning substrate).
 
 This end-state is the user-visible folder model for podcast-factory; the immediate post-split layout in §2A.1–§2A.2 is a transient intermediate stage between Phases 5 and 9.5.
 
@@ -1307,18 +1307,18 @@ git push
 
 ## 12A. Phase 9.5 — Library structure consolidation
 
-**Goal**: Hoist `content/podcast/library/` to a top-level `library/` folder that contains ONLY shipped, prod-ready artifacts. The per-book in-progress workspace moves from `content/podcast/library/books/<slug>/` to the root-level `_workspace/books/<slug>/` so workspace lives in a single root folder accessible from every worktree/branch (per Asif 2026-05-22 directive). Books are processed in worktrees on book branches against `_workspace/books/<slug>/`; when a book reaches a ship verdict, its polished outputs are promoted into `library/books/<slug>/` via a one-way script. See §2A.6 for the visual reference.
+**Goal**: Hoist `content/podcast/library/` to a top-level `library/` folder that contains ONLY shipped, prod-ready artifacts. The per-book in-progress workspace moves from `content/drafts/<slug>/` to the root-level `content/drafts/<slug>/` so workspace lives in a single root folder accessible from every worktree/branch (per Asif 2026-05-22 directive). Books are processed in worktrees on book branches against `content/drafts/<slug>/`; when a book reaches a ship verdict, its polished outputs are promoted into `content/published/books/<slug>/` via a one-way script. See §2A.6 for the visual reference.
 
-This phase runs **after** Phase 9 (operator-file URL/path updates) because Phase 9 only repairs `/Code/Journal` → `/Code/podcast-factory/` paths; Phase 9.5's path rewrites are a separate, content-side move (`content/podcast/library/books/` → `_workspace/books/`) that touches different files (mostly `scripts/podcast/`, `skills-staging/podcast/`, `.github/agents/podcast-*.agent.md`, and orchestrator state files inside `_workspace/books/<book>/_system/`).
+This phase runs **after** Phase 9 (operator-file URL/path updates) because Phase 9 only repairs `/Code/Journal` → `/Code/podcast-factory/` paths; Phase 9.5's path rewrites are a separate, content-side move (`content/drafts/` → `content/drafts/`) that touches different files (mostly `scripts/podcast/`, `skills-staging/podcast/`, `.github/agents/podcast-*.agent.md`, and orchestrator state files inside `content/drafts/<book>/_system/`).
 
-**Note on macOS case-folding** (APFS default): the existing `_workspace/Books/` PDF intake folder (capital B, gitignored) and the new `_workspace/books/` orchestrator workspace (lowercase b, tracked) resolve to the SAME folder on case-insensitive filesystems. That's intentional — the merged folder holds both raw PDF source (gitignored via `_workspace/books/*/source*` and `_workspace/books/*.pdf`) AND the orchestrator state (tracked). Operators on case-sensitive Linux filesystems can opt to treat them as separate; the runbook canonicalizes on lowercase `_workspace/books/` for paths in tracked content.
+**Note on macOS case-folding** (APFS default): the existing `_workspace/Books/` PDF intake folder (capital B, gitignored) and the new `content/drafts/` orchestrator workspace (lowercase b, tracked) resolve to the SAME folder on case-insensitive filesystems. That's intentional — the merged folder holds both raw PDF source (gitignored via `content/drafts/*/source*` and `content/drafts/*.pdf`) AND the orchestrator state (tracked). Operators on case-sensitive Linux filesystems can opt to treat them as separate; the runbook canonicalizes on lowercase `content/drafts/` for paths in tracked content.
 
 ### 12A.1 Pre-flight for Phase 9.5
 
 - [ ] Phases 1 through 9 complete on `develop`.
 - [ ] No active orchestrator run on any book — all `orchestrator-state.json` files show `phase_status` of `halted-*`, `shipped`, or `idle`. (Active runs would race with the workspace move.)
 - [ ] All 4 worktrees clean (`git status --short` empty in each).
-- [ ] Workspace location DECIDED 2026-05-22: per Asif's directive, the per-book workspace moves to root-level `_workspace/books/<slug>/` (single root folder, accessible from all worktrees/branches). The existing `_workspace/Books/` PDF intake convention merges in on case-insensitive macOS filesystems.
+- [ ] Workspace location DECIDED 2026-05-22: per Asif's directive, the per-book workspace moves to root-level `content/drafts/<slug>/` (single root folder, accessible from all worktrees/branches). The existing `_workspace/Books/` PDF intake convention merges in on case-insensitive macOS filesystems.
 
 ### 12A.2 Target structure
 
@@ -1326,14 +1326,14 @@ Top-level `library/` after Phase 9.5 is complete (see §2A.6 for the full tree).
 
 | Path | Role | Mutability |
 |---|---|---|
-| `library/books/<slug>/index.md` | Book metadata (title, author, archetype, series list, ship verdict, dates, episode count, cover ref) | Auto-generated by promotion script; manual edits discouraged |
-| `library/books/<slug>/transcript/` | Polished NotebookLM SOURCE — one clean prose file per chapter | Auto-promoted; never edited in place |
-| `library/books/<slug>/podcasts/` | Episode bundles organized by series; `_series-index.md` + `series-NN-<slug>/EP<NN>-<chapter>/{source.txt, framing.md, challenger-report.md, audio.mp3?}` | Auto-promoted; never edited in place |
+| `content/published/books/<slug>/index.md` | Book metadata (title, author, archetype, series list, ship verdict, dates, episode count, cover ref) | Auto-generated by promotion script; manual edits discouraged |
+| `content/published/books/<slug>/transcript/` | Polished NotebookLM SOURCE — one clean prose file per chapter | Auto-promoted; never edited in place |
+| `content/published/books/<slug>/podcasts/` | Episode bundles organized by series; `_series-index.md` + `series-NN-<slug>/EP<NN>-<chapter>/{source.txt, framing.md, challenger-report.md, audio.mp3?}` | Auto-promoted; never edited in place |
 | `library/_meta/catalog.md` | Cross-book index (markdown table) | Auto-generated; manual edits discouraged |
 
 Optional additions per book:
-- `library/books/<slug>/cover.{jpg,png}` — book art if curated (manual asset, not pipeline-generated)
-- `library/books/<slug>/podcasts/series-NN-<slug>/EP<NN>-<chapter>/audio.mp3` — NotebookLM-generated audio, populated only when audio-archive integration lands (see §12A.7 open decision 2)
+- `content/published/books/<slug>/cover.{jpg,png}` — book art if curated (manual asset, not pipeline-generated)
+- `content/published/books/<slug>/podcasts/series-NN-<slug>/EP<NN>-<chapter>/audio.mp3` — NotebookLM-generated audio, populated only when audio-archive integration lands (see §12A.7 open decision 2)
 
 `library/archetypes/` (currently at `content/podcast/library/archetypes/`) moves to top-level `library/archetypes/` — already a cross-book reference, doesn't belong inside the workspace.
 
@@ -1347,7 +1347,7 @@ git checkout develop
 git pull --ff-only origin develop
 git checkout -b chore/library-hoist
 
-# Move per-book in-progress state to root-level _workspace/books/
+# Move per-book in-progress state to root-level content/drafts/
 # (On case-insensitive macOS APFS, this merges with the existing _workspace/Books/ PDF intake folder — intentional)
 git mv content/podcast/library/books _workspace/books
 
@@ -1361,7 +1361,7 @@ done
 # Create the empty shipped-catalog skeleton at top level
 mkdir -p library/{_meta,archetypes,books,articles,documents,interviews,lectures,letters}
 touch library/_meta/.gitkeep library/archetypes/.gitkeep \
-      library/books/.gitkeep library/articles/.gitkeep \
+      content/published/books/.gitkeep library/articles/.gitkeep \
       library/documents/.gitkeep library/interviews/.gitkeep \
       library/lectures/.gitkeep library/letters/.gitkeep
 
@@ -1372,15 +1372,15 @@ git rm -rf content/podcast/library/archetypes 2>/dev/null || true
 # Remove the now-empty content/podcast/library/ scaffold
 git rm -rf content/podcast/library 2>/dev/null || true
 
-# Update .gitignore to selectively ignore raw PDF intake inside _workspace/books/
+# Update .gitignore to selectively ignore raw PDF intake inside content/drafts/
 # (keeps orchestrator state tracked, ignores source PDFs and bulky intermediate audio)
 cat >> .gitignore <<'EOF'
 
-# Phase 9.5 — per-book workspace at _workspace/books/<slug>/
+# Phase 9.5 — per-book workspace at content/drafts/<slug>/
 # Track orchestrator state + chapters + episode drafts; ignore raw source intake.
-_workspace/books/*/source*
-_workspace/books/*/*.pdf
-_workspace/books/*/raw/
+content/drafts/*/source*
+content/drafts/*/*.pdf
+content/drafts/*/raw/
 _workspace/Books/*/source*
 _workspace/Books/*/*.pdf
 _workspace/Books/*/raw/
@@ -1391,15 +1391,15 @@ git status --short
 
 ### 12A.4 Update pipeline scripts to point at the new workspace location
 
-The path move breaks every hardcoded `content/podcast/library/books/` reference. Rewrite in two passes (workspace path + new shipped-library path):
+The path move breaks every hardcoded `content/drafts/` reference. Rewrite in two passes (workspace path + new shipped-library path):
 
 ```bash
 # Pass 1 — per-book workspace path rewrite (mechanical)
-grep -rl "content/podcast/library/books/" \
+grep -rl "content/drafts/" \
   scripts/podcast/ skills-staging/podcast/ \
   _workspace/plan/operators/ .github/agents/ docs/podcast/ \
   --include="*.py" --include="*.md" --include="*.sh" --include="*.yml" 2>/dev/null \
-  | xargs sed -i '' 's|content/podcast/library/books/|_workspace/books/|g'
+  | xargs sed -i '' 's|content/drafts/|content/drafts/|g'
 
 # Pass 2 — bare content/podcast/library/ references (archetypes, category folders)
 grep -rl "content/podcast/library/" \
@@ -1419,7 +1419,7 @@ python3 -c "import ast; ast.parse(open('scripts/podcast/extract_chapter.py').rea
 ```
 
 Files most likely affected (verify with the grep above):
-- `scripts/podcast/orchestrate_book.py` — workspace path → `_workspace/books/<slug>/`
+- `scripts/podcast/orchestrate_book.py` — workspace path → `content/drafts/<slug>/`
 - `scripts/podcast/_authoring.py` — workspace path
 - `scripts/podcast/build_episode_txt.py` — workspace path
 - `scripts/podcast/extract_chapter.py` — workspace path
@@ -1439,15 +1439,15 @@ ship_to_library.py --book <slug> [--episode <EP-id>] [--dry-run]
 ```
 
 The script:
-1. Reads `_workspace/books/<slug>/_system/orchestrator-state.json` to confirm shippable state. Halts if `phase_status` is not `shipped`, `ship-ready`, or `ship-with-caution-approved`.
-2. Reads `_workspace/books/<slug>/_system/challenger-report.md` to record the verdict.
+1. Reads `content/drafts/<slug>/_system/orchestrator-state.json` to confirm shippable state. Halts if `phase_status` is not `shipped`, `ship-ready`, or `ship-with-caution-approved`.
+2. Reads `content/drafts/<slug>/_system/challenger-report.md` to record the verdict.
 3. For each shipped episode:
-   - Copies `_workspace/books/<slug>/chapters/<chapter>.txt` (the TTS-safe polished SOURCE) → `library/books/<slug>/transcript/<NN>-<chapter-slug>.md` with a minimal YAML front-matter block (title, chapter-id, source-path-in-workspace, ship-date).
-   - Copies `_workspace/books/<slug>/episode-drafts/<chapter>/source.txt`, `framing.md`, `challenger-report.md` → `library/books/<slug>/podcasts/series-<NN>-<series-slug>/EP<NN>-<chapter-slug>/`.
-   - If `_workspace/books/<slug>/episode-drafts/<chapter>/audio.mp3` exists (post audio-archive integration), copies that too.
-4. Generates `library/books/<slug>/podcasts/_series-index.md` from `_workspace/books/<slug>/_system/series-plan.md`.
-5. Generates `library/books/<slug>/podcasts/series-<NN>-<series-slug>/_series.md` from `_system/series-plan.md` (per-series block).
-6. Generates `library/books/<slug>/index.md` from series-plan + challenger-report + orchestrator-state.
+   - Copies `content/drafts/<slug>/chapters/<chapter>.txt` (the TTS-safe polished SOURCE) → `content/published/books/<slug>/transcript/<NN>-<chapter-slug>.md` with a minimal YAML front-matter block (title, chapter-id, source-path-in-workspace, ship-date).
+   - Copies `content/drafts/<slug>/episode-drafts/<chapter>/source.txt`, `framing.md`, `challenger-report.md` → `content/published/books/<slug>/podcasts/series-<NN>-<series-slug>/EP<NN>-<chapter-slug>/`.
+   - If `content/drafts/<slug>/episode-drafts/<chapter>/audio.mp3` exists (post audio-archive integration), copies that too.
+4. Generates `content/published/books/<slug>/podcasts/_series-index.md` from `content/drafts/<slug>/_system/series-plan.md`.
+5. Generates `content/published/books/<slug>/podcasts/series-<NN>-<series-slug>/_series.md` from `_system/series-plan.md` (per-series block).
+6. Generates `content/published/books/<slug>/index.md` from series-plan + challenger-report + orchestrator-state.
 7. Regenerates `library/_meta/catalog.md` (markdown table of all books with archetype, ship date, episode count, link).
 8. Optional: emits `library/_meta/catalog.json` for downstream site-tools.
 
@@ -1470,7 +1470,7 @@ Verify each book's actual state before deciding:
 for b in asaas-al-taveel ayyuhal-walad islr-mas-i kitab-al-riyad the-master-and-the-disciple; do
   echo "=== $b ==="
   jq '{phase, phase_status, last_completed_phase}' \
-    _workspace/books/$b/_system/orchestrator-state.json 2>/dev/null \
+    content/drafts/$b/_system/orchestrator-state.json 2>/dev/null \
     || echo "(no state.json)"
 done
 ```
@@ -1479,10 +1479,10 @@ done
 
 All five decisions are baked in below; the runbook now executes Phase 9.5 deterministically.
 
-1. ~~**Workspace location**~~ — **Resolved 2026-05-22**: per-book workspace moves to root-level `_workspace/books/<slug>/` (single root folder, accessible from all worktrees/branches per Asif's directive). The existing `_workspace/Books/` PDF intake folder merges in on case-insensitive macOS APFS.
-2. ~~**Audio archival in `library/books/<slug>/podcasts/.../audio.mp3`**~~ — **Resolved 2026-05-22: DEFER**. NotebookLM-audio download isn't yet automated; including it in Phase 9.5 expands scope unnecessarily. `ship_to_library.py` will copy `audio.mp3` opportunistically if the file exists in `_workspace/books/<slug>/episode-drafts/<chapter>/`, but the script does NOT block on its absence. A separate future runbook ("audio-archive integration") will add the download step.
+1. ~~**Workspace location**~~ — **Resolved 2026-05-22**: per-book workspace moves to root-level `content/drafts/<slug>/` (single root folder, accessible from all worktrees/branches per Asif's directive). The existing `_workspace/Books/` PDF intake folder merges in on case-insensitive macOS APFS.
+2. ~~**Audio archival in `content/published/books/<slug>/podcasts/.../audio.mp3`**~~ — **Resolved 2026-05-22: DEFER**. NotebookLM-audio download isn't yet automated; including it in Phase 9.5 expands scope unnecessarily. `ship_to_library.py` will copy `audio.mp3` opportunistically if the file exists in `content/drafts/<slug>/episode-drafts/<chapter>/`, but the script does NOT block on its absence. A separate future runbook ("audio-archive integration") will add the download step.
 3. ~~**Catalog format**~~ — **Resolved 2026-05-22: markdown only initially**. `library/_meta/catalog.md` is the only auto-generated catalog file in Phase 9.5. A `library/_meta/catalog.json` companion gets added later when site-tools or downstream consumers actually need it — adding it speculatively now would create a maintenance burden with no consumer.
-4. ~~**Cover art ingestion**~~ — **Resolved 2026-05-22: manually-curated**. `library/books/<slug>/cover.{jpg,png}` is treated as a manual asset that operators drop in post-ship. `ship_to_library.py` does NOT create or fetch covers. A short `library/README.md` (also created in Phase 9.5) documents this convention so operators on other machines know where covers go.
+4. ~~**Cover art ingestion**~~ — **Resolved 2026-05-22: manually-curated**. `content/published/books/<slug>/cover.{jpg,png}` is treated as a manual asset that operators drop in post-ship. `ship_to_library.py` does NOT create or fetch covers. A short `library/README.md` (also created in Phase 9.5) documents this convention so operators on other machines know where covers go.
 5. ~~**CI guard against manual `library/` edits**~~ — **Resolved 2026-05-22: ADD IT**. Phase 9.5 includes authoring `.github/workflows/library-readonly.yml` — fails any PR that touches `library/` without either (a) a commit message starting with `ship: ` (the convention used by `ship_to_library.py`), or (b) an explicit `[library-manual-edit]` marker in the commit body for one-off manual overrides (e.g., dropping cover art). The workflow runs on `pull_request` and posts an inline check failure if violated.
 
 ### 12A.8 Commit + push
@@ -1490,15 +1490,15 @@ All five decisions are baked in below; the runbook now executes Phase 9.5 determ
 ```bash
 cd ~/Code/podcast-factory/main
 git add -A
-git commit -m "chore: library hoist — shipped catalog at library/, workspace at _workspace/books/
+git commit -m "chore: library hoist — shipped catalog at library/, workspace at content/drafts/
 
 Top-level library/ now holds only shipped, prod-ready artifacts:
-- library/books/<slug>/{index.md, transcript/, podcasts/, cover.*}
+- content/published/books/<slug>/{index.md, transcript/, podcasts/, cover.*}
 - library/archetypes/ (moved from content/podcast/library/archetypes/)
 - library/_meta/catalog.md (auto-generated cross-book index)
 
-Per-book in-progress workspace moved from content/podcast/library/books/
-to root-level _workspace/books/<slug>/ per Asif's directive: single
+Per-book in-progress workspace moved from content/drafts/
+to root-level content/drafts/<slug>/ per Asif's directive: single
 root-level workspace folder accessible from all worktrees/branches.
 On case-insensitive macOS APFS, the existing _workspace/Books/ PDF intake
 folder merges with this new path.
@@ -1511,14 +1511,14 @@ Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
 git push -u origin chore/library-hoist
 ```
 
-Open PR `chore/library-hoist → develop`, merge after review. Runbook then advances to Phase 10 (post-split verification), with the added verification step: `library/_meta/catalog.md` lists every shipped book; `_workspace/books/` is the only path the orchestrator reads/writes for per-book state.
+Open PR `chore/library-hoist → develop`, merge after review. Runbook then advances to Phase 10 (post-split verification), with the added verification step: `library/_meta/catalog.md` lists every shipped book; `content/drafts/` is the only path the orchestrator reads/writes for per-book state.
 
 ### 12A.9 Post-Phase-9.5 invariants to enforce
 
-- Pipeline writes per-book state ONLY to `_workspace/books/<slug>/`.
+- Pipeline writes per-book state ONLY to `content/drafts/<slug>/`.
 - `ship_to_library.py` is the ONLY writer of `library/`.
 - `library/` paths appear in commit messages as `ship: <book> <episode>` (convention used by the CI guard above).
-- `start-session.sh` checks `library/_meta/catalog.md` for shipped state in addition to `_workspace/books/<slug>/_system/orchestrator-state.json`.
+- `start-session.sh` checks `library/_meta/catalog.md` for shipped state in addition to `content/drafts/<slug>/_system/orchestrator-state.json`.
 
 ---
 
@@ -1547,12 +1547,12 @@ Verified empirically 2026-05-22T18:27Z on Studio (`mac-studio-primary`). Boxes m
 **Library hoist (Phase 9.5) invariants on podcast-factory:**
 
 - [x] `library/` exists at the repo root and contains only shipped artifacts — `library/{README.md, _meta, archetypes, articles, books, documents, interviews, lectures, letters}` present
-- [x] `_workspace/books/` exists (moved from `content/podcast/library/books/`) and contains the in-progress per-book state; orchestrator-state.json files resolve at the new location — `asaas-al-taveel` and `kitab-al-riyad` carry `_workspace/books/<slug>/_system/orchestrator-state.json`; `ayyuhal-walad` and `the-master-and-the-disciple` are pre-pipeline (no state.json by design)
+- [x] `content/drafts/` exists (moved from `content/drafts/`) and contains the in-progress per-book state; orchestrator-state.json files resolve at the new location — `asaas-al-taveel` and `kitab-al-riyad` carry `content/drafts/<slug>/_system/orchestrator-state.json`; `ayyuhal-walad` and `the-master-and-the-disciple` are pre-pipeline (no state.json by design)
 - [x] No pipeline script or agent spec writes outside `_workspace/` — verify (widened scope): `grep -rn "content/podcast/library/" scripts/ skills-staging/podcast/ .github/agents/podcast-*.agent.md infra/claude-agents/podcast-*.md 2>/dev/null | grep -v 'podcast-challenger.md:615:' | wc -l` returns 0. The widened grep adds `infra/claude-agents/podcast-*.md` (Claude-agent specs) on top of the original scope; the literal-original grep also returns 0. The only excluded match is [podcast-challenger.md line 615](../../infra/claude-agents/podcast-challenger.md), a v1.5 CHANGELOG entry describing the prior 2026-05-17 migration that established the now-deprecated `content/podcast/library/<category>/<book>/` path — kept verbatim as historical record. Active stale references (13 in 3 agent specs as of 2026-05-22T18:35Z) were rewritten in the L15 closeout commit.
 - [x] `content/podcast/library/` directory no longer exists — verified absent
 - [x] `library/_meta/catalog.md` exists and lists at least the books promoted in Phase 9.5.6 (e.g., kitab-al-riyad EP10) — present (7 lines)
 - [x] `library/archetypes/islamic-scholastic-text.md` exists (moved from prior location) — present
-- [x] For each promoted book: `library/books/<slug>/{index.md, transcript/, podcasts/}` all populated — only `kitab-al-riyad` was promoted in Phase 9.5.6 (EP10 ship); `library/books/kitab-al-riyad/{index.md, transcript/, podcasts/}` all populated
+- [x] For each promoted book: `content/published/books/<slug>/{index.md, transcript/, podcasts/}` all populated — only `kitab-al-riyad` was promoted in Phase 9.5.6 (EP10 ship); `content/published/books/kitab-al-riyad/{index.md, transcript/, podcasts/}` all populated
 
 ---
 
@@ -1999,9 +1999,9 @@ These items existed in the pre-split `Journal` repo but are deleted entirely by 
 - `library/` (TOP-LEVEL — shipped catalog only, populated by `ship_to_library.py`)
   - `library/_meta/catalog.md` (auto-generated)
   - `library/archetypes/` (moved from `content/podcast/library/archetypes/`)
-  - `library/books/<slug>/{index.md, cover.*, transcript/, podcasts/}`
+  - `content/published/books/<slug>/{index.md, cover.*, transcript/, podcasts/}`
   - `library/{articles,documents,interviews,lectures,letters}/`
-- `_workspace/books/<slug>/` (root-level per-book workspace — orchestrator state, drafts, intermediate transcripts, raw PDF intake)
+- `content/drafts/<slug>/` (root-level per-book workspace — orchestrator state, drafts, intermediate transcripts, raw PDF intake)
 - `_workspace/{articles,documents,interviews,lectures,letters,_sandbox}/` (root-level category sub-workspaces for non-book in-progress content)
 - `content/podcast/.skill/` (handbook + _learning substrate — unchanged)
 - `content/podcast/_README.md` (unchanged)

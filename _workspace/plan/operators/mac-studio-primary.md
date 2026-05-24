@@ -30,15 +30,15 @@ worktree_layout:
     branch: feat/operator-review-studio
 current_branch: book/islr-mas-i
 current_book: islr-mas-i
-current_book_dir: content/podcast/library/books/islr-mas-i
+current_book_dir: content/drafts/islr-mas-i
 authoritative_state_path: (none — ISLR runs non-orchestrated Mode-2 per integration-analysis.md §6; no orchestrator-state.json)
 status_tag: ISLR-SERIES-COMPLETE-AWAITING-NOTEBOOKLM-UPLOAD
 current_phase: "per-chapter-shipped"
 paused_book:
   slug: asaas-al-taveel
   branch: book/asaas-al-taveel
-  current_book_dir: _workspace/books/asaas-al-taveel
-  authoritative_state_path: _workspace/books/asaas-al-taveel/_system/orchestrator-state.json
+  current_book_dir: content/drafts/asaas-al-taveel
+  authoritative_state_path: content/drafts/asaas-al-taveel/_system/orchestrator-state.json
   phase: "0b"
   status_tag: HOLDING-FOR-OPERATOR-GATES
   reason: "operator-review.md §§1-8 (gate b) pending Asif's review"
@@ -94,7 +94,7 @@ current_phase_status_summary: |
   for ch2-7 (5 commits' worth of authoring, ~$5-10 Claude spend), then HALT for
   Asif's contract review before any per-chapter authoring (which would carry
   orchestrator-style 3×5 convergence cost). Asaas resumes when ISLR ships + gate-b
-  cleared. ISLR uses pre-Phase-9.5 path (content/podcast/library/books/islr-mas-i/);
+  cleared. ISLR uses pre-Phase-9.5 path (content/drafts/islr-mas-i/);
   no Phase 9.5 migration needed (KaR has the same posture).
 
   --- asaas snapshot (paused) ---
@@ -148,7 +148,7 @@ current_phase_status_summary: |
   checked out at origin/book/kitab-al-riyad @ [50edd0a](https://github.com/asifhussain60/podcast-factory/commit/50edd0a)
   (Air's authoritative HEAD; Studio's local ref was 144 commits behind and got
   force-updated as part of the worktree creation). The KaR branch carries its
-  per-book in-progress state at the pre-Phase-9.5 path `content/podcast/library/books/kitab-al-riyad/`
+  per-book in-progress state at the pre-Phase-9.5 path `content/drafts/kitab-al-riyad/`
   (same as book/islr-mas-i — Phase 9.5 hoist didn't apply because KaR was off on
   its own branch when the hoist ran on develop); a per-book Phase 9.5 migration
   is a known follow-up before KaR work resumes. KaR branch is 28 commits behind
@@ -169,10 +169,10 @@ current_phase_status_summary: |
   [ae2e794](https://github.com/asifhussain60/podcast-factory/commit/ae2e794)
   (Phase 9: post-split operator-file URL+path rewrites, PR #15), and
   [5a27d22](https://github.com/asifhussain60/podcast-factory/commit/5a27d22)
-  (Phase 9.5: library hoist — `library/` at root + `_workspace/books/`). The asaas
+  (Phase 9.5: library hoist — `library/` at root + `content/drafts/`). The asaas
   next_action is unchanged in substance — operator gate (b) still pending — but
   all paths now resolve under the post-split + post-Phase-9.5 layout
-  (`_workspace/books/asaas-al-taveel/_system/…` rather than `content/podcast/library/…`).
+  (`content/drafts/asaas-al-taveel/_system/…` rather than `content/podcast/library/…`).
   Known residual: 3 Claude-agent specs under [infra/claude-agents/](../../../infra/claude-agents/)
   still carry stale `content/podcast/library/` path strings — tracked in
   [_workspace/runbooks/repo-split.md §13](../../runbooks/repo-split.md) under the L15
@@ -217,7 +217,7 @@ cat _workspace/plan/operators/mac-studio-primary.md
 
 # Get authoritative phase/status — never trust the frontmatter above for decisions
 jq '{phase, phase_status, last_completed_phase, last_error}' \
-    _workspace/books/asaas-al-taveel/_system/orchestrator-state.json
+    content/drafts/asaas-al-taveel/_system/orchestrator-state.json
 ```
 
 If `phase_status=running` and no orchestrator process is alive, the lock
@@ -302,12 +302,12 @@ pgrep -fa orchestrate_book.py    # should return nothing
 
 # 4.3  If phase_status is still 'running', flip to 'failed'
 jq '.phase_status = "failed" | .phases."0b".status = "failed"' \
-    _workspace/books/asaas-al-taveel/_system/orchestrator-state.json \
+    content/drafts/asaas-al-taveel/_system/orchestrator-state.json \
     > /tmp/o.json && mv /tmp/o.json \
-    _workspace/books/asaas-al-taveel/_system/orchestrator-state.json
+    content/drafts/asaas-al-taveel/_system/orchestrator-state.json
 
 # 4.4  Commit the lock reset
-git add _workspace/books/asaas-al-taveel/_system/orchestrator-state.json
+git add content/drafts/asaas-al-taveel/_system/orchestrator-state.json
 git commit -m "podcast(asaas-al-taveel): clear stale 0b running lock"
 
 # 4.5  Resume
@@ -322,7 +322,7 @@ KaR's 0b took ~1.5h of wall-clock total.
 
 ## 5. Don't touch (collision surfaces)
 
-- **`_workspace/books/kitab-al-riyad/**`** — Air owns this
+- **`content/drafts/kitab-al-riyad/**`** — Air owns this
 - Branch **`book/kitab-al-riyad`** — no checkout, no merge, no rebase onto
 - **`macbook-air-secondary.md`** — Air writes this; I only read it
 - **`coordination-protocol.md`** — read-only for all machines
@@ -518,7 +518,7 @@ The Language credential is in the keychain but the framework doesn't read it yet
 ### Operator-gate status (updated 2026-05-21)
 
 - Gate (a) Azure Text Analytics F0 + keychain wiring: ✅ DONE 2026-05-21
-- Gate (b) §§1-8 of [operator-review.md](../../../_workspace/books/asaas-al-taveel/operator-review.md): pending operator
+- Gate (b) §§1-8 of [operator-review.md](../../../content/drafts/asaas-al-taveel/operator-review.md): pending operator
 - Framework lane (P22.impl, P4.10, P6.5, P23): pending operator's go after gate (b)
 - Phase 0b STAIRCASE re-run: pending framework lane
 - Phase 0a.5 NER pre-seed integration: pending framework lane (credential is ready)

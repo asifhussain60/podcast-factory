@@ -295,11 +295,11 @@ P24 inserts a content-aware classifier + episode planner between the P22 transcr
 
 KaR is the **pilot / dogfooding** run that exercises the pipeline ahead of the formal W3 corpus (P9.1–P9.7). Tracking it here for two reasons: (1) it surfaces real bugs (the stale-running-status bug — see project-orchestrator-resume-bug memory) and proof-points (Pattern 5 series_pattern in registry.md; content-range.md authoring at P22 gate) that the W3 corpus is supposed to validate, so its acceptance evidence is reusable; (2) the operator deserves visibility on what's in flight without having to grep state files. Severity markers reflect **per-book ship-gate** semantics, not pipeline-tooling acceptance.
 
-- [x] **P9.0.scaffold** ✅ `content/podcast/library/books/kitab-al-riyad/` tree exists per book-dir-layout; `_README.md`, `_system/registry.md`, `_system/pronunciation.md`, `_system/mangle-map.md`, `_system/meta-prose-tells.md`, `_system/enrichment-whitelist.md`, `_system/enrichment-log.md` all present (shipped 2026-05-18)
+- [x] **P9.0.scaffold** ✅ `content/drafts/kitab-al-riyad/` tree exists per book-dir-layout; `_README.md`, `_system/registry.md`, `_system/pronunciation.md`, `_system/mangle-map.md`, `_system/meta-prose-tells.md`, `_system/enrichment-whitelist.md`, `_system/enrichment-log.md` all present (shipped 2026-05-18)
 - [x] **P9.0.phase-0a** ✅ Phase 0a (Azure OCR + translate) complete; `_system/source/text/raw-extract.md` written (~462 KB) with `<!-- page N -->` breadcrumbs across 254 PDF pages (completed 2026-05-19 05:25 UTC)
 - [x] **P9.0.phase-0b** ✅ Phase 0b (English refinement, chunked across 5 windows) complete; `_system/source/text/refined-english.md` written (3,709 lines / 485 KB); top-level mirror `english-transcript.md` written via paginator passthrough (completed 2026-05-19 19:06 UTC)
 - [x] **P9.0.review-gate** ✅ P22-style operator transcript review completed manually 2026-05-19: §6 Bāb N · §M naming chosen; §7 content range 52–232 confirmed (preface in, TOC out); §8 approved. `operator-review.md` checked + git-tracked at book top level. First exercise of the P22 workflow.
-- [x] **P9.0.content-range** ✅ `content/podcast/library/books/kitab-al-riyad/_system/source/text/content-range.md` shipped 2026-05-19 declaring `body_starts_at_page: 52`, `body_ends_at_page: 232`. Forward-looking artifact — honored by P4.10 code when shipped; current run processes whole transcript (~$3-5 extra LLM cost; Loop N may spuriously flag editor's 25-work bibliography).
+- [x] **P9.0.content-range** ✅ `content/drafts/kitab-al-riyad/_system/source/text/content-range.md` shipped 2026-05-19 declaring `body_starts_at_page: 52`, `body_ends_at_page: 232`. Forward-looking artifact — honored by P4.10 code when shipped; current run processes whole transcript (~$3-5 extra LLM cost; Loop N may spuriously flag editor's 25-work bibliography).
 - [x] **P9.0.phase-0c** ✅ Phase 0c (Arabic phonetic pass, chunked across 13 windows) complete 2026-05-19; `_system/source/text/_phonetics.md` populated; no claude -p refusals (committed on `book/kitab-al-riyad` @ `29e7f85`)
 - [ ] **P9.0.phase-0d** 🟡 Phase 0d (chapter segmentation) — step 1/3 (TOC + segmentation) ✅; step 2/3 reached sc 004/10 before sc 005/10 timeout (1200s LLM call hung). 6 chapter files + 5 contracts emitted; `chapters/chNN-bab-N-*.txt` slugs honor operator's Bāb/§ preference organically. Partial commit on `book/kitab-al-riyad` @ `b59b4d8`. Resume attempt in flight (task `becvcttj8`).
 - [ ] **P9.0.phase-0e** 📊 Phase 0e (enrichment) complete; enrichment-log.md populated per chapter; bāb + fasl added as concept-glossary entries
@@ -317,9 +317,9 @@ KaR is the **pilot / dogfooding** run that exercises the pipeline ahead of the f
 - [ ] **P9.2** 📊 Masaail searchable (81p): full pipeline; token/cost/wall-clock recorded
 - [ ] **P9.3** 📊 Majalis Moyyada (139p): full pipeline; metrics recorded; **P4 numeric-disambiguation-register.md populated for ≥3 chapters; Loop N raises no P0 findings post-convergence**
 - [ ] **P9.4** 📊 Kitab Maqbas (392p): full pipeline; chapter contracts hold; Loop N clean
-- [x] **P9.5.pre1** ✅ `content/podcast/library/books/asaas-al-taveel/_system/source/text/chapters-rationale.md` exists with the 6-chapter natiq map (Adam/Nuh/Ibrahim/Musa/Isa/Muhammad + the unwritten Qa'im) — shipped 2026-05-19
-- [x] **P9.5.pre2** ✅ `content/podcast/library/books/asaas-al-taveel/_system/concept-glossary.md` exists with ≥20 entries across cosmology, hermeneutics, neoplatonic emanation, Fatimid doctrinal terms — shipped 2026-05-19
-- [x] **P9.5.pre3** ✅ `content/podcast/library/books/asaas-al-taveel/_system/registry.md` exists with `series_pattern: recursive_scaffold` declared at series level + 6-episode skeleton — shipped 2026-05-19 (closes audit Gap 5: Pattern 5 gating would otherwise silently no-op when P9.5 runs)
+- [x] **P9.5.pre1** ✅ `content/drafts/asaas-al-taveel/_system/source/text/chapters-rationale.md` exists with the 6-chapter natiq map (Adam/Nuh/Ibrahim/Musa/Isa/Muhammad + the unwritten Qa'im) — shipped 2026-05-19
+- [x] **P9.5.pre2** ✅ `content/drafts/asaas-al-taveel/_system/concept-glossary.md` exists with ≥20 entries across cosmology, hermeneutics, neoplatonic emanation, Fatimid doctrinal terms — shipped 2026-05-19
+- [x] **P9.5.pre3** ✅ `content/drafts/asaas-al-taveel/_system/registry.md` exists with `series_pattern: recursive_scaffold` declared at series level + 6-episode skeleton — shipped 2026-05-19 (closes audit Gap 5: Pattern 5 gating would otherwise silently no-op when P9.5 runs)
 - [ ] **P9.5.pre4** 🔒 Operator-recommended 6-episode preset reviewed at Phase 0f gate (Mentor+Student persona; `series_pattern=recursive_scaffold`; long-form tier)
 - [ ] **P9.5** 📊 Asaas Al-Taveel (416p): full pipeline; metrics recorded; Loop N clean
 - [ ] **P9.5** ✅ Episode 6 (The Seventh Silence) honors the unwritten Qa'im chapter as content — not silently skipped
@@ -518,7 +518,7 @@ KaR is the **pilot / dogfooding** run that exercises the pipeline ahead of the f
 ### Boundary integrity (enforced by journal-challenger Category B + podcast-challenger Category S + repo-surgeon Pass 5 L4/L5)
 
 - [ ] **B1/S2** ✅ No file under `scripts/podcast/` writes to `content/babu-memoir/**`, `content/_shared/**` (except whitelisted `content/_shared/arabic/06-abjad-numerals.md`), `scripts/memoir/**`, `scripts/site/**` (verified by `_boundary_check.py` AND Pass 5 L5)
-- [ ] **B2** ✅ Memoir chapters contain no content sourced from `content/podcast/library/books/*/chapters/` without explicit `// source:` comment AND human review
+- [ ] **B2** ✅ Memoir chapters contain no content sourced from `content/drafts/*/chapters/` without explicit `// source:` comment AND human review
 - [ ] **B3/S3** ✅ Every `proposed-library-entries.md` carries schema_version=1 frontmatter; every promoted entry has a ledger row
 - [ ] **B4/S5** ✅ Journal authoring sessions never edit files under `content/podcast/**` or `scripts/podcast/**`
 

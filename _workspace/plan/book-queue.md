@@ -29,7 +29,7 @@ For the cross-machine dashboard (Air ↔ Studio current state side-by-side
 
 | Book | Slug | Machine | Branch | Phase | Started | Notes |
 |---|---|---|---|---|---|---|
-| Intro to Statistical Learning (ISL2) | `islr-mas-i` | `mac-studio-primary` | `book/islr-mas-i` | 0d | 2026-05-23 | Secular MAS-I textbook, non-orchestrated Mode-2 per [integration-analysis.md](../../content/podcast/library/books/islr-mas-i/_system/integration-analysis.md). EP01 shipped; ch2-7 contract authoring in progress under positive-framed math-intuition rule. |
+| Intro to Statistical Learning (ISL2) | `islr-mas-i` | `mac-studio-primary` | `book/islr-mas-i` | 0d | 2026-05-23 | Secular MAS-I textbook, non-orchestrated Mode-2 per [integration-analysis.md](../../content/drafts/islr-mas-i/_system/integration-analysis.md). EP01 shipped; ch2-7 contract authoring in progress under positive-framed math-intuition rule. |
 
 ## Paused (held by a machine but not actively driven)
 
@@ -55,7 +55,7 @@ For the cross-machine dashboard (Air ↔ Studio current state side-by-side
 | Book | Slug | How shipped | Notes |
 |---|---|---|---|
 | Ayyuhal Walad | `ayyuhal-walad` | manually (pre-pipeline) | 5 chapters + 5 episodes + transcripts already exist in library. Not re-running. |
-| Kitab al-Riyad | `kitab-al-riyad` | archetype-driven manual finish + overlay-merged into develop (4e26c46) + published 2026-05-23 via `publish_to_library.py` | 15 EPs sequential EP01..EP15 (incl. EP04 chapter-group summary + EP15 book-end). SHIP-WITH-CAUTION. Distilled islamic-scholastic-text archetype v1.1 as the pivot deliverable. Library at `library/books/kitab-al-riyad/` (filesystem-only). |
+| Kitab al-Riyad | `kitab-al-riyad` | archetype-driven manual finish + overlay-merged into develop (4e26c46) + published 2026-05-23 via `publish_to_library.py` | 15 EPs sequential EP01..EP15 (incl. EP04 chapter-group summary + EP15 book-end). SHIP-WITH-CAUTION. Distilled islamic-scholastic-text archetype v1.1 as the pivot deliverable. Library at `content/published/books/kitab-al-riyad/` (filesystem-only). |
 | The Master and the Disciple | `the-master-and-the-disciple` | pre-refined source mode (in progress on coworker session) | Chapters frozen (hand-refined by Asif); `_notebooklm/` scaffolding being authored by parallel coworker session. Not in main pipeline queue. |
 
 ---

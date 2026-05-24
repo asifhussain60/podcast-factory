@@ -94,16 +94,16 @@ This mirrors the AskUserQuestion convention (recommended first, structured optio
 ---
 
 ### 1. Phase 0d completed cleanly 🟢
-All 14 chapter contracts regenerated against the new refined source — Phase 0e enrichment is unblocked, ran without intervention. See [commit 8a34564](https://github.com/asifhussain60/podcast-factory/commit/8a34564) and [chapter-contracts/](content/podcast/library/books/kitab-al-riyad/chapter-contracts/).
+All 14 chapter contracts regenerated against the new refined source — Phase 0e enrichment is unblocked, ran without intervention. See [commit 8a34564](https://github.com/asifhussain60/podcast-factory/commit/8a34564) and [chapter-contracts/](content/drafts/kitab-al-riyad/chapter-contracts/).
 
 ### 2. YAML parse error self-resolved 🟢
-The previously-broken adams-law contract was overwritten by the fresh 0d output, so Phase 0f no longer halts on YAML parse failure. Self-fix from the structural re-run — see [adams-law-and-the-prophetic-cycle.yml](content/podcast/library/books/kitab-al-riyad/chapter-contracts/adams-law-and-the-prophetic-cycle.yml).
+The previously-broken adams-law contract was overwritten by the fresh 0d output, so Phase 0f no longer halts on YAML parse failure. Self-fix from the structural re-run — see [adams-law-and-the-prophetic-cycle.yml](content/drafts/kitab-al-riyad/chapter-contracts/adams-law-and-the-prophetic-cycle.yml).
 
 ---
 
 ## Next: 👤 Asif
 A. (Recommended) Authorize Phase 0e by running `python3 scripts/podcast/orchestrate_book.py --resume kitab-al-riyad` — clean re-run unblocks all downstream enrichment.
-B. Spot-check 2-3 chapter contracts in [chapter-contracts/](content/podcast/library/books/kitab-al-riyad/chapter-contracts/) before authorizing — adds 5 min, catches any latent YAML issues.
+B. Spot-check 2-3 chapter contracts in [chapter-contracts/](content/drafts/kitab-al-riyad/chapter-contracts/) before authorizing — adds 5 min, catches any latent YAML issues.
 C. Defer Phase 0e and finish another book's gate first — only if you have higher-priority cross-book work.
 D. Do all of the above (B → C → A in sequence).
 ```
@@ -218,7 +218,7 @@ Auto-fix without halting:
 
 ## 6. File and commit references
 
-- Always link files: `[refined-english.md](content/podcast/library/books/.../refined-english.md)`
+- Always link files: `[refined-english.md](content/drafts/.../refined-english.md)`
 - Always link commits when referring to specific work: `commit [abc1234](https://github.com/asifhussain60/podcast-factory/commit/abc1234)`
 - Use `file:line` form when referencing code: `[orchestrate_book.py:917](scripts/podcast/orchestrate_book.py#L917)`
 - Use backticks for inline code only — file paths in markdown links should

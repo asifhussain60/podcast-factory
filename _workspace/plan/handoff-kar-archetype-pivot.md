@@ -26,7 +26,7 @@ git pull --ff-only origin book/kitab-al-riyad
 jq '{phase, phase_status, last_completed_phase,
      "per_chapter_completed": (.phases["per-chapter"].completed_slugs | length),
      "halt_reason": .phases["per-chapter"].halt_reason}' \
-    _workspace/books/kitab-al-riyad/_system/orchestrator-state.json
+    content/drafts/kitab-al-riyad/_system/orchestrator-state.json
 
 # Should show:
 #   phase: "per-chapter"
@@ -82,10 +82,10 @@ Sit with [`content/podcast/library/archetypes/islamic-scholastic-text.md`](../..
 If anything feels wrong or missing, flag it BEFORE doing Step B (the archetype is v1.0, not infallible).
 
 **Step B — EP10 P1 cleanup** (~30 min). Validates the archetype against real output before you spend 12 chapters of effort on it. Three fixes (see §4 below for exact text):
-1. N3-a — Add Pronounce directive for `Al-hayula` to [EP10 framing](../../_workspace/books/kitab-al-riyad/_system/episode-drafts/EP10-motion-stillness-hyle-and-form/00-framing.md)
+1. N3-a — Add Pronounce directive for `Al-hayula` to [EP10 framing](../../content/drafts/kitab-al-riyad/_system/episode-drafts/EP10-motion-stillness-hyle-and-form/00-framing.md)
 2. N3-b — Add Pronounce directive for `Al-nafs` to same framing
-3. A4 — Fix Q16:40 translator attribution (Pickthall → Yusuf Ali) in [ch10 chapter](../../_workspace/books/kitab-al-riyad/chapters/ch10-motion-stillness-hyle-and-form.txt)
-After fixes: run `python3 scripts/podcast/build_episode_txt.py _workspace/books/kitab-al-riyad EP10-motion-stillness-hyle-and-form` to re-emit the episode .txt. Then re-run the challenger to confirm P0=0/P1=0 (or just N3-a/N3-b/A4 cleared).
+3. A4 — Fix Q16:40 translator attribution (Pickthall → Yusuf Ali) in [ch10 chapter](../../content/drafts/kitab-al-riyad/chapters/ch10-motion-stillness-hyle-and-form.txt)
+After fixes: run `python3 scripts/podcast/build_episode_txt.py content/drafts/kitab-al-riyad EP10-motion-stillness-hyle-and-form` to re-emit the episode .txt. Then re-run the challenger to confirm P0=0/P1=0 (or just N3-a/N3-b/A4 cleared).
 
 **Step C — Decide EP14 disposition** (~15 min). Inspect the 5 draft files in `_system/episode-drafts/EP14-prophets-as-teachers-monotheism-and-the-ranks/`. Options:
 - **(Recommended)** Keep them as starting drafts and apply archetype edits — they were generated under v4-revised doctrine prompts which mostly align with the archetype. Faster than regenerating.
@@ -99,7 +99,7 @@ For each of the 11 remaining chapters (NOT including EP10 and EP14 if you keep E
    - Picking 3 governing analogies from the chapter's own images
    - Stating the central thesis verbatim for R-RECURRING-THESIS
    - Populating the Pronunciation block from the chapter's transliterated terms
-3. Run `python3 scripts/podcast/build_episode_txt.py _workspace/books/kitab-al-riyad EP##-<slug>` to emit episode .txt.
+3. Run `python3 scripts/podcast/build_episode_txt.py content/drafts/kitab-al-riyad EP##-<slug>` to emit episode .txt.
 4. (Optional, per-chapter) Run the challenger to confirm SHIP-READY or SHIP-WITH-CAUTION. Skip BLOCKED only — don't auto-fixer-loop.
 
 **Estimated cost for Step D**: 11 chapters × ~$0.10–0.50 per skeleton call = ~$1.10–5.50 total. Versus the ~$50–100+ the orchestrator would have spent for the same outcome.
@@ -112,9 +112,9 @@ Once all 13 episode .txts exist:
 jq '.phase_status = "completed_by_operator" |
     .phases["per-chapter"].status = "completed" |
     .phases["per-chapter"].ts_completed = (now | todate)' \
-    _workspace/books/kitab-al-riyad/_system/orchestrator-state.json \
+    content/drafts/kitab-al-riyad/_system/orchestrator-state.json \
     > /tmp/state.tmp && mv /tmp/state.tmp \
-    _workspace/books/kitab-al-riyad/_system/orchestrator-state.json
+    content/drafts/kitab-al-riyad/_system/orchestrator-state.json
 
 # Then resume for trainer + merge + done (all deterministic, no LLM):
 python3 scripts/podcast/orchestrate_book.py --resume kitab-al-riyad
@@ -133,7 +133,7 @@ python3 scripts/podcast/orchestrate_book.py --resume kitab-al-riyad
 
 ### 3.1 N3-a: Add `Al-hayula` Pronounce directive
 
-**File:** `_workspace/books/kitab-al-riyad/_system/episode-drafts/EP10-motion-stillness-hyle-and-form/00-framing.md`
+**File:** `content/drafts/kitab-al-riyad/_system/episode-drafts/EP10-motion-stillness-hyle-and-form/00-framing.md`
 **Action:** Locate the `## Pronunciation` section. Add the following line near the related entries (after the existing `hayle` directive if present, otherwise near `Quran` / `Imam` / other established terms):
 
 ```
@@ -155,7 +155,7 @@ Pronounce "Al-nafs" as "al-NAFS". Say it as two fluent syllables; this is the Ar
 
 ### 3.3 A4: Fix Q16:40 translator attribution
 
-**File:** `_workspace/books/kitab-al-riyad/chapters/ch10-motion-stillness-hyle-and-form.txt`
+**File:** `content/drafts/kitab-al-riyad/chapters/ch10-motion-stillness-hyle-and-form.txt`
 **Line:** 105
 **Current text:**
 ```
@@ -188,7 +188,7 @@ After the three fixes:
 ```bash
 # Re-emit EP10 episode txt
 python3 scripts/podcast/build_episode_txt.py \
-    _workspace/books/kitab-al-riyad \
+    content/drafts/kitab-al-riyad \
     EP10-motion-stillness-hyle-and-form
 
 # Re-run challenger to confirm P0/P1 clear

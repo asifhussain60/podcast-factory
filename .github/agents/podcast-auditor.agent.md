@@ -116,7 +116,7 @@ The probes are organized by axis. Each finding cites file:line and proposes a fi
 
 **AU-A3: Registry ↔ disk drift** (P0)
 - Detect: per-book `_system/registry.md` rows whose `Slug` doesn't match any `chapters/ch##-<slug>.txt` file on disk; conversely, chapter files with no registry row
-- Method: for each book under `_workspace/books/*/` and `content/podcast/library/books/*/`, parse the registry table, list chapter files, diff
+- Method: for each book under `content/drafts/*/` and `content/drafts/*/`, parse the registry table, list chapter files, diff
 - Citation required: book + which side has the orphan + recommendation (realign registry vs delete orphan file)
 
 ### Axis C: Scalability

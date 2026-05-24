@@ -1,7 +1,7 @@
 slug: kitab-al-riyad
 title: Kitāb al-Riyāḍ
 short_name: kar
-source_pdf: ../../raw/Kitab al-Riyad.pdf
+source_pdf: ../../../raw/Kitab al-Riyad.pdf
 
 pipeline:
   current_phase: done
@@ -34,7 +34,7 @@ completed_episodes:
 publication:
   status: shipped
   shipped_via: scripts/podcast/ship_to_library.py
-  publication_target: ../../library/books/kitab-al-riyad/
+  publication_target: ../../published/books/kitab-al-riyad/
 
 provenance:
   canonical_source_branch: book/kitab-al-riyad

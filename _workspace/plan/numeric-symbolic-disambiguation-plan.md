@@ -6,7 +6,7 @@
 
 **Status:** PLAN ONLY. Not executed. Awaits explicit go-ahead per file.
 **Date:** 2026-05-19 (created); folded into canonical plan as P4 on 2026-05-19.
-**Concrete example used throughout:** *The Master and the Disciple* / *Kitāb al-ʿĀlim wa'l-Ghulām*, Chapter 2 — Oath and Cosmic Origins (`content/podcast/library/books/the-master-and-the-disciple/Ch-02-Oath and Cosmic Origins - Refined.md` and the iCloud original at `~/Library/Mobile Documents/com~apple~CloudDocs/Books/Kitaab_Al-aalim_wal_Ghulam_Chapters/Ch-02-Oath and Cosmic Origins.txt`).
+**Concrete example used throughout:** *The Master and the Disciple* / *Kitāb al-ʿĀlim wa'l-Ghulām*, Chapter 2 — Oath and Cosmic Origins (`content/drafts/the-master-and-the-disciple/Ch-02-Oath and Cosmic Origins - Refined.md` and the iCloud original at `~/Library/Mobile Documents/com~apple~CloudDocs/Books/Kitaab_Al-aalim_wal_Ghulam_Chapters/Ch-02-Oath and Cosmic Origins.txt`).
 
 ---
 
@@ -467,10 +467,10 @@ This is the **detection** step. Resolution happens in Phase 3 (framing) and at t
 If the plan is approved for execution:
 
 **UPDATE (Phase 2 — book-specific):**
-- `content/podcast/library/books/the-master-and-the-disciple/_notebooklm/02-glossary.md`
-- `content/podcast/library/books/the-master-and-the-disciple/_notebooklm/03-source-integrity-notes.md`
-- `content/podcast/library/books/the-master-and-the-disciple/_notebooklm/ch02-scaffolding.md`
-- `content/podcast/library/books/the-master-and-the-disciple/_notebooklm/06-human-review-checklist.md`
+- `content/drafts/the-master-and-the-disciple/_notebooklm/02-glossary.md`
+- `content/drafts/the-master-and-the-disciple/_notebooklm/03-source-integrity-notes.md`
+- `content/drafts/the-master-and-the-disciple/_notebooklm/ch02-scaffolding.md`
+- `content/drafts/the-master-and-the-disciple/_notebooklm/06-human-review-checklist.md`
 
 **CREATE (Phase 2 — shared):**
 - `content/_shared/arabic/06-abjad-numerals.md`

@@ -114,7 +114,7 @@ Once you have a NotebookLM Audio Overview MP3 to test against:
 ```sh
 # 7. Full post-publication pipeline: transcribe → audit → challenger next-step
 make podcast-post-publish \
- BOOK_DIR=content/podcast/library/books/ayyuhal-walad \
+ BOOK_DIR=content/drafts/ayyuhal-walad \
  EP=EP02-hatim-eight-benefits \
  AUDIO=path/to/EP02-hatim-eight-benefits.mp3
 

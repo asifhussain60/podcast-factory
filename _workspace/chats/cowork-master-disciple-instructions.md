@@ -36,7 +36,7 @@ If `book/the-master-and-the-disciple` doesn't exist on remote yet, branch it fro
 
 | Path | Notes |
 |---|---|
-| `content/podcast/library/books/the-master-and-the-disciple/**` | Your entire scope. Chapter prose, scaffolding, _notebooklm/, any new analysis files. |
+| `content/drafts/the-master-and-the-disciple/**` | Your entire scope. Chapter prose, scaffolding, _notebooklm/, any new analysis files. |
 | `_workspace/audit/the-master-and-the-disciple/` | Use this for local scratch — diffs, drafts, comparison files. Already gitignored. |
 | Your own session-scratch in your worktree's local-only paths | Anything you create in `_workspace/logs/`, `_workspace/orchestrator-logs/`, `_workspace/audit/` is gitignored. |
 
@@ -55,8 +55,8 @@ If `book/the-master-and-the-disciple` doesn't exist on remote yet, branch it fro
 
 | Path | Reason |
 |---|---|
-| `content/podcast/library/books/kitab-al-riyad/**` | Active book on a peer session. Any write collides. |
-| `content/podcast/library/books/asaas-al-taveel/**` | Studio's book. Same reason. |
+| `content/drafts/kitab-al-riyad/**` | Active book on a peer session. Any write collides. |
+| `content/drafts/asaas-al-taveel/**` | Studio's book. Same reason. |
 | Branches `book/kitab-al-riyad` and `book/asaas-al-taveel` | Hands off entirely. |
 | `~/.claude/projects/-Users-asifhussain-PROJECTS-journal/memory/**` | Cross-session memory store (if applicable to your machine). |
 
@@ -121,7 +121,7 @@ The KaR session will halt at the 0f gate. After that, quota contention drops. Ch
 
 This book is in **Pre-Refined Source Mode** (per `skills-staging/podcast/SKILL.md` §198) — Asif has already refined the chapter prose by hand. The pipeline's Phase 0a-0e MUST NOT be re-run on it (the orchestrator would re-refine + re-segment and destroy the editorial work).
 
-- Canonical prose: `content/podcast/library/books/the-master-and-the-disciple/Ch-*-Refined.md` (frozen)
+- Canonical prose: `content/drafts/the-master-and-the-disciple/Ch-*-Refined.md` (frozen)
 - Scaffolding: `_notebooklm/ch##-scaffolding.md` (this is where new authoring lands)
 - Pronunciation: `_notebooklm/01-pronunciation-guide.md` (standing reference uploaded to NotebookLM)
 - Per-episode customize prompts go in `_notebooklm/` or `episodes/` per the skill's pre-refined-source-mode spec
@@ -142,7 +142,7 @@ git rev-parse --abbrev-ref HEAD       # → book/the-master-and-the-disciple
 pwd                                    # → e.g., /Users/asifhussain/PROJECTS/journal-master-disciple
 
 # 3. The path I'm about to write is in my lane
-echo "$TARGET_PATH" | grep -E '^(content/podcast/library/books/the-master-and-the-disciple|_workspace/audit/the-master-and-the-disciple)/' \
+echo "$TARGET_PATH" | grep -E '^(content/drafts/the-master-and-the-disciple|_workspace/audit/the-master-and-the-disciple)/' \
   || echo "STOP — write target is outside my lane"
 ```
 

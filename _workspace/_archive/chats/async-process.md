@@ -27,11 +27,11 @@ Read [](file:///Users/asifhussain/PROJECTS/journal/scripts/podcast/orchestrate_b
 
 Ran terminal command:  git status && echo "---" && git branch --show-current
 
-Read [](file:///Users/asifhussain/PROJECTS/journal/content/podcast/library/books/kitab-al-riyad)
+Read [](file:///Users/asifhussain/PROJECTS/journal/content/drafts/kitab-al-riyad)
 
-Read [](file:///Users/asifhussain/PROJECTS/journal/content/podcast/library/books/kitab-al-riyad/_system/orchestrator-state.json)
+Read [](file:///Users/asifhussain/PROJECTS/journal/content/drafts/kitab-al-riyad/_system/orchestrator-state.json)
 
-Ran terminal command:  wc -l content/podcast/library/books/kitab-al-riyad/_system/source/text/raw-extract.md && wc -w content/podcast/library/books/kitab-al-riyad/_system/source/text/raw-extract.md && ls content/podcast/library/books/kitab-al-riyad/_system/source/text/
+Ran terminal command:  wc -l content/drafts/kitab-al-riyad/_system/source/text/raw-extract.md && wc -w content/drafts/kitab-al-riyad/_system/source/text/raw-extract.md && ls content/drafts/kitab-al-riyad/_system/source/text/
 
 Read [](file:///Users/asifhussain/PROJECTS/journal/scripts/podcast/_authoring.py#1-1), lines 1 to 400
 
@@ -41,7 +41,7 @@ Searched for regex `chunk|window|split` (`**/scripts/podcast/_*.py`), 30 results
 
 Read [](file:///Users/asifhussain/PROJECTS/journal/scripts/podcast/_authoring.py#400-400), lines 400 to 599
 
-Read [](file:///Users/asifhussain/PROJECTS/journal/content/podcast/library/books/kitab-al-riyad/_system/source/text/raw-extract.md#1-1), lines 1 to 100
+Read [](file:///Users/asifhussain/PROJECTS/journal/content/drafts/kitab-al-riyad/_system/source/text/raw-extract.md#1-1), lines 1 to 100
 
 I have everything I need. Now let me implement. The diagnosis is clear:
 
@@ -171,7 +171,7 @@ Ran terminal command:  python3 scripts/podcast/orchestrate_book.py --help 2>&1 |
 Ran terminal command:  python3 -c "
 import sys; sys.path.insert(0, 'scripts/podcast')
 from _chunking import iter_windows
-text = open('content/podcast/library/books/kitab-al-riyad/_system/source/text/raw-extract.md').read()
+text = open('content/drafts/kitab-al-riyad/_system/source/text/raw-extract.md').read()
 windows = list(iter_windows(text, target_words=3000, overlap_words=120))
 print(f'total windows: {len(windows)}')
 for i, w in enumerate(windows[:3] + windows[-2:], start=1 if False else 1):
@@ -190,7 +190,7 @@ Ran terminal command:  python3 << 'PY'
 import sys, statistics
 sys.path.insert(0, 'scripts/podcast')
 from _chunking import iter_windows, _merge_phonetic_tables, concat_outputs
-text = open('content/podcast/library/books/kitab-al-riyad/_system/source/text/raw-extract.md').read()
+text = open('content/drafts/kitab-al-riyad/_system/source/text/raw-extract.md').read()
 windows = list(iter_windows(text, target_words=3000, overlap_words=120))
 print(f'total windows: {len(windows)}')
 wcs = [len(w.split()) for w in windows]
@@ -207,7 +207,7 @@ Ran terminal command:  python3 << 'PY'
 import sys, statistics
 sys.path.insert(0, 'scripts/podcast')
 from _chunking import iter_windows
-text = open('content/podcast/library/books/kitab-al-riyad/_system/source/text/raw-extract.md').read()
+text = open('content/drafts/kitab-al-riyad/_system/source/text/raw-extract.md').read()
 windows = list(iter_windows(text, target_words=3000, overlap_words=120))
 print(f'total windows: {len(windows)}')
 wcs = [len(w.split()) for w in windows]
@@ -368,7 +368,7 @@ Read [](file:///Users/asifhussain/PROJECTS/journal/_workspace/Books)
 
 Read [](file:///Users/asifhussain/PROJECTS/journal/content/podcast/library/books)
 
-Read [](file:///Users/asifhussain/PROJECTS/journal/content/podcast/library/books/kitab-al-riyad)
+Read [](file:///Users/asifhussain/PROJECTS/journal/content/drafts/kitab-al-riyad)
 
 podcast skill regression-proofing recon
 
@@ -418,29 +418,29 @@ Read [](file:///Users/asifhussain/PROJECTS/journal/scripts/podcast/validate_regi
 
 Read [](file:///Users/asifhussain/PROJECTS/journal/scripts/podcast/check_chapter_set.py#1-1), lines 1 to 100
 
-Read [](file:///Users/asifhussain/PROJECTS/journal/content/podcast/library/books/kitab-al-riyad)
+Read [](file:///Users/asifhussain/PROJECTS/journal/content/drafts/kitab-al-riyad)
 
-Read [](file:///Users/asifhussain/PROJECTS/journal/content/podcast/library/books/ayyuhal-walad)
+Read [](file:///Users/asifhussain/PROJECTS/journal/content/drafts/ayyuhal-walad)
 
-Read [](file:///Users/asifhussain/PROJECTS/journal/content/podcast/library/books/the-master-and-the-disciple)
+Read [](file:///Users/asifhussain/PROJECTS/journal/content/drafts/the-master-and-the-disciple)
 
-Read [](file:///Users/asifhussain/PROJECTS/journal/content/podcast/library/books/kitab-al-riyad/_system)
+Read [](file:///Users/asifhussain/PROJECTS/journal/content/drafts/kitab-al-riyad/_system)
 
-Read [](file:///Users/asifhussain/PROJECTS/journal/content/podcast/library/books/ayyuhal-walad/_system)
+Read [](file:///Users/asifhussain/PROJECTS/journal/content/drafts/ayyuhal-walad/_system)
 
-Read [](file:///Users/asifhussain/PROJECTS/journal/content/podcast/library/books/kitab-al-riyad/_system/orchestrator-state.json#1-1), lines 1 to 50
+Read [](file:///Users/asifhussain/PROJECTS/journal/content/drafts/kitab-al-riyad/_system/orchestrator-state.json#1-1), lines 1 to 50
 
-Read [](file:///Users/asifhussain/PROJECTS/journal/content/podcast/library/books/kitab-al-riyad/_system/source)
+Read [](file:///Users/asifhussain/PROJECTS/journal/content/drafts/kitab-al-riyad/_system/source)
 
-Read [](file:///Users/asifhussain/PROJECTS/journal/content/podcast/library/books/ayyuhal-walad/_system/source)
+Read [](file:///Users/asifhussain/PROJECTS/journal/content/drafts/ayyuhal-walad/_system/source)
 
-Read [](file:///Users/asifhussain/PROJECTS/journal/content/podcast/library/books/kitab-al-riyad/_system/source/text)
+Read [](file:///Users/asifhussain/PROJECTS/journal/content/drafts/kitab-al-riyad/_system/source/text)
 
-Read [](file:///Users/asifhussain/PROJECTS/journal/content/podcast/library/books/ayyuhal-walad/_system/source/text)
+Read [](file:///Users/asifhussain/PROJECTS/journal/content/drafts/ayyuhal-walad/_system/source/text)
 
 Searched for text `source-chapter-map.md` (`journal` · `content/podcast/library/books`), no results
 
-Read [](file:///Users/asifhussain/PROJECTS/journal/content/podcast/library/books/kitab-al-riyad/_system/source/text/raw-extract.md#1-1), lines 1 to 1
+Read [](file:///Users/asifhussain/PROJECTS/journal/content/drafts/kitab-al-riyad/_system/source/text/raw-extract.md#1-1), lines 1 to 1
 
 Read [](file:///Users/asifhussain/PROJECTS/journal/scripts/podcast/_authoring.py#1-1), lines 1 to 100
 
@@ -468,19 +468,19 @@ Read [](file:///Users/asifhussain/PROJECTS/journal/scripts/podcast/_rules.py#1-1
 
 Read memory
 
-Searched for regex `page` (`journal` · `content/podcast/library/books/kitab-al-riyad/_system/source/text/raw-extract.md`), 20 results
+Searched for regex `page` (`journal` · `content/drafts/kitab-al-riyad/_system/source/text/raw-extract.md`), 20 results
 
-Searched for regex `page` (`journal` · `content/podcast/library/books/ayyuhal-walad/_system/source/text/raw-extract.md`), 20 results
+Searched for regex `page` (`journal` · `content/drafts/ayyuhal-walad/_system/source/text/raw-extract.md`), 20 results
 
-Searched for regex `page` (`journal` · `content/podcast/library/books/the-master-and-the-disciple/_system/source/text/raw-extract.md`), no results
+Searched for regex `page` (`journal` · `content/drafts/the-master-and-the-disciple/_system/source/text/raw-extract.md`), no results
 
-Searched for regex `page|PAGE` (`journal` · `content/podcast/library/books/the-master-and-the-disciple`), no results
+Searched for regex `page|PAGE` (`journal` · `content/drafts/the-master-and-the-disciple`), no results
 
 Created memory file [](file:///Users/asifhussain/Library/Application%20Support/Code/User/workspaceStorage/ba0af58aa5e8432ecfbb45077a9b74e8/GitHub.copilot-chat/memory-tool/memories/NmNlZjJhNWQtZjM5YS00ZGY2LTg3MzMtYmVmYzcxNmRhYTc4/podcast-recon.md)
 
 Read [](file:///Users/asifhussain/PROJECTS/journal/scripts/podcast/_chunking.py#100-100), lines 100 to 345
 
-Searched for text `orchestrator-state` (`journal` · `content/podcast/library/books/ayyuhal-walad/_system`), no results
+Searched for text `orchestrator-state` (`journal` · `content/drafts/ayyuhal-walad/_system`), no results
 
 Read [](file:///Users/asifhussain/Library/Application%20Support/Code/User/workspaceStorage/ba0af58aa5e8432ecfbb45077a9b74e8/GitHub.copilot-chat/chat-session-resources/6cef2a5d-f39a-4df6-8733-befc716daa78/toolu_vrtx_0185zDqf4B8nsFVen2JVE56S__vscode-1779179516459/content.txt#1-1), lines 1 to 400
 
@@ -491,19 +491,19 @@ Let me verify the real numbers (the agent estimated word counts but didn't compu
 Ran terminal command:  echo "=== kitab-al-riyad ===" 
 PDFP=/Users/asifhussain/PROJECTS/journal/_workspace/Books/Kitab-al-Riyad.pdf
 [ -f "$PDFP" ] && echo "PDF size: $(ls -lh $PDFP | awk '{print $5}')"
-RAW=content/podcast/library/books/kitab-al-riyad/_system/source/text/raw-extract.md
+RAW=content/drafts/kitab-al-riyad/_system/source/text/raw-extract.md
 [ -f "$RAW" ] && echo "raw-extract.md: $(wc -lw < $RAW) lines/words; $(grep -c '<!-- page' $RAW) page markers"
 echo "=== ayyuhal-walad ==="
-RAW=content/podcast/library/books/ayyuhal-walad/_system/source/text/raw-extract.md
-REF=content/podcast/library/books/ayyuhal-walad/_system/source/text/refined-english.md
+RAW=content/drafts/ayyuhal-walad/_system/source/text/raw-extract.md
+REF=content/drafts/ayyuhal-walad/_system/source/text/refined-english.md
 [ -f "$RAW" ] && echo "raw-extract.md: $(wc -lw < $RAW); pages: $(grep -c -i '<!-- page\|^# PAGE' $RAW)"
 [ -f "$REF" ] && echo "refined-english.md: $(wc -lw < $REF)"
-ls content/podcast/library/books/ayyuhal-walad/chapters/ 2>/dev/null | head
+ls content/drafts/ayyuhal-walad/chapters/ 2>/dev/null | head
 echo "=== the-master-and-the-disciple ==="
-ls content/podcast/library/books/the-master-and-the-disciple/_system/source/text/ 2>/dev/null
+ls content/drafts/the-master-and-the-disciple/_system/source/text/ 2>/dev/null
 echo
 echo "=== checking ayyuhal-walad state ==="
-ls -la content/podcast/library/books/ayyuhal-walad/_system/orchestrator-state.json 2>&1
+ls -la content/drafts/ayyuhal-walad/_system/orchestrator-state.json 2>&1
 echo "=== _workspace/Books contents ==="
 ls -lh _workspace/Books/
 
@@ -582,11 +582,11 @@ Read [](file:///Users/asifhussain/PROJECTS/journal/scripts/podcast/_chunking.py#
 
 Read [](file:///Users/asifhussain/PROJECTS/journal/scripts/podcast/_chunking.py#100-100), lines 100 to 344
 
-Ran terminal command:  ls content/podcast/library/books/ayyuhal-walad/_system/source/text/ 2>/dev/null
+Ran terminal command:  ls content/drafts/ayyuhal-walad/_system/source/text/ 2>/dev/null
 echo "---"
-head -40 content/podcast/library/books/kitab-al-riyad/_system/source/text/raw-extract.md
+head -40 content/drafts/kitab-al-riyad/_system/source/text/raw-extract.md
 echo "---"
-grep -nE '^#{1,3} ' content/podcast/library/books/kitab-al-riyad/_system/source/text/raw-extract.md | head -30
+grep -nE '^#{1,3} ' content/drafts/kitab-al-riyad/_system/source/text/raw-extract.md | head -30
 
 Good context. Refined text won't have reliable headings, so I'll use line ranges to deterministically slice. Let me implement now.
 
@@ -744,7 +744,7 @@ User: review this chat history and collect any pending work into your todo list.
 
 GitHub Copilot: Let me check actual state and phase coverage before answering. 
 
-Ran terminal command:  cat content/podcast/library/books/kitab-al-riyad/_system/orchestrator-state.json 2>/dev/null | head -60; echo ---PHASES---; grep -nE 'PHASES\s*=|"0[a-z]"' scripts/podcast/_progress.py | head -20
+Ran terminal command:  cat content/drafts/kitab-al-riyad/_system/orchestrator-state.json 2>/dev/null | head -60; echo ---PHASES---; grep -nE 'PHASES\s*=|"0[a-z]"' scripts/podcast/_progress.py | head -20
 
 Read [](file:///Users/asifhussain/PROJECTS/journal/scripts/podcast/_progress.py#57-57), lines 57 to 85
 
@@ -777,7 +777,7 @@ Created 8 todos
 | per-chapter (framing → build → challenger) | untouched | medium (last run before chunking) |
 | trainer / merge | untouched | medium |
 
-**Recommended next action:** resume kitab-al-riyad — `python3 orchestrate_book.py --resume content/podcast/library/books/kitab-al-riyad` — and watch 0b → 0c → 0d → 0e land. The map-reduce code is checkpointed at every step, so a mid-loop failure costs minutes, not the whole book.
+**Recommended next action:** resume kitab-al-riyad — `python3 orchestrate_book.py --resume content/drafts/kitab-al-riyad` — and watch 0b → 0c → 0d → 0e land. The map-reduce code is checkpointed at every step, so a mid-loop failure costs minutes, not the whole book.
 
 **Outstanding risk:** I did not run a real-data smoke test because it costs many `claude -p` invocations and hours of wall time — that's a decision for you.
 
@@ -785,7 +785,7 @@ User: proceed
 
 GitHub Copilot: Kicking off the end-to-end resume on `kitab-al-riyad` in async mode. This will run 0b → 0c → 0d → 0e and halt at the 0f human gate. Expect hours of wall time and many `claude -p` calls.  
 
-Ran terminal command:  mkdir -p _workspace/orchestrator-logs && LOG=_workspace/orchestrator-logs/kitab-al-riyad-$(date +%Y%m%d-%H%M%S).log && echo "logging to $LOG" && .venv/bin/python scripts/podcast/orchestrate_book.py --resume content/podcast/library/books/kitab-al-riyad 2>&1 | tee "$LOG"
+Ran terminal command:  mkdir -p _workspace/orchestrator-logs && LOG=_workspace/orchestrator-logs/kitab-al-riyad-$(date +%Y%m%d-%H%M%S).log && echo "logging to $LOG" && .venv/bin/python scripts/podcast/orchestrate_book.py --resume content/drafts/kitab-al-riyad 2>&1 | tee "$LOG"
 
 It wants just the slug, not the path.  
 
@@ -813,7 +813,7 @@ User: while this is running can you do other tasks?
 
 GitHub Copilot: Yes. The orchestrator runs as an async subprocess — I can do unrelated work in parallel as long as I don't:
 
-1. Touch files the orchestrator is writing: `content/podcast/library/books/kitab-al-riyad/**`, especially `_system/source/text/refined-english.md`, `_phonetics.md`, `_chunks/**`, `chapters/**`, `chapter-contracts/**`, `_system/orchestrator-state.json`, `_system/enrichment-log.md`.
+1. Touch files the orchestrator is writing: `content/drafts/kitab-al-riyad/**`, especially `_system/source/text/refined-english.md`, `_phonetics.md`, `_chunks/**`, `chapters/**`, `chapter-contracts/**`, `_system/orchestrator-state.json`, `_system/enrichment-log.md`.
 2. Make the git tree dirty in a way that breaks `--resume`'s pre-flight check (the orchestrator only re-checks on next resume, so commits during the run are fine; mid-run uncommitted edits to tracked files are also fine — pre-flight only runs at startup).
 3. Run another `claude -p`-heavy script in parallel — they'd compete for the same CLI rate-limits/quotas.
 4. Kill the terminal or restart the shell.
@@ -859,7 +859,7 @@ GitHub Copilot: Here are 5 banner designs, ranked by what I think serves you bes
 ║  NEXT GATE   │ Phase 0f human review (series plan)               ║
 ║  ETA         │ hours (no firm estimate)                          ║
 ║  SAFE WORK   │ memoir/, site/, docs/, skills-staging/            ║
-║  DO NOT      │ touch content/podcast/library/books/kitab-al-…/   ║
+║  DO NOT      │ touch content/drafts/kitab-al-…/   ║
 ╚══════════════════════════════════════════════════════════════════╝
 ```
 **Why:** maximum scannability; explicit safe/unsafe zones; terminal ID surfaced so you can `tail -f` yourself.
@@ -877,7 +877,7 @@ GitHub Copilot: Here are 5 banner designs, ranked by what I think serves you bes
   BRANCH   book/kitab-al-riyad
   PHASE    0b → 0c → 0d → 0e → halt at 0f
   TERM     7f0a1de3   LOG  _workspace/orchestrator-logs/…050018.log
-  SAFE     edit anything outside content/podcast/library/books/…
+  SAFE     edit anything outside content/drafts/…
 ═══════════════════════════════════════════════════════════════════
 ```
 **Why:** all the info, half the height. Good if waits are frequent.
@@ -896,7 +896,7 @@ GitHub Copilot: Here are 5 banner designs, ranked by what I think serves you bes
 > | **Running** | orchestrator — terminal `7f0a1de3` |
 > | **Phase** | 0b chunked refinement → halt at 0f |
 > | **Log** | `_workspace/orchestrator-logs/…050018.log` |
-> | **Safe to edit** | anywhere except `content/podcast/library/books/kitab-al-riyad/**` |
+> | **Safe to edit** | anywhere except `content/drafts/kitab-al-riyad/**` |
 > | **Next gate** | Phase 0f human review |
 
 **Why:** prettiest rendering in the chat surface, copy-pasteable.
@@ -913,7 +913,7 @@ GitHub Copilot: Here are 5 banner designs, ranked by what I think serves you bes
    🌿  book/kitab-al-riyad
    ⚙️   orchestrator (term 7f0a1de3) → phases 0b→0e
    📝  _workspace/orchestrator-logs/…050018.log
-   ⛔  do NOT touch content/podcast/library/books/kitab-al-riyad/
+   ⛔  do NOT touch content/drafts/kitab-al-riyad/
    ✅  safe: memoir, site, docs, skills-staging, other books
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ```
@@ -927,7 +927,7 @@ GitHub Copilot: Here are 5 banner designs, ranked by what I think serves you bes
 ─── ⏸ WAITING ──────────────────────────────────────────────────────
    Kitab al-Riyad · 260 pp · book/kitab-al-riyad
    orchestrator → 0b…0e (halt at 0f) · term 7f0a1de3
-   ✅ safe: anywhere ≠ content/podcast/library/books/kitab-al-riyad
+   ✅ safe: anywhere ≠ content/drafts/kitab-al-riyad
 ────────────────────────────────────────────────────────────────────
 ```
 **Why:** tiny footprint, all essentials. Good if you trust me to keep the safe/unsafe rule simple.
@@ -1041,9 +1041,9 @@ recon only. do research and get my approval to ONLY add to todo list not execute
 
 GitHub Copilot: Safe — pure read of files the orchestrator owns (read-only inspection doesn't interfere with writes).  
 
-Ran terminal command:  cd /Users/asifhussain/PROJECTS/journal && echo "=== current state ==="; cat content/podcast/library/books/kitab-al-riyad/_system/orchestrator-state.json | python3 -m json.tool | head -80
+Ran terminal command:  cd /Users/asifhussain/PROJECTS/journal && echo "=== current state ==="; cat content/drafts/kitab-al-riyad/_system/orchestrator-state.json | python3 -m json.tool | head -80
 echo
-echo "=== chunks dir ==="; ls content/podcast/library/books/kitab-al-riyad/_system/source/text/_chunks/ 2>/dev/null
+echo "=== chunks dir ==="; ls content/drafts/kitab-al-riyad/_system/source/text/_chunks/ 2>/dev/null
 echo
 echo "=== latest log tail ==="; tail -30 _workspace/orchestrator-logs/kitab-al-riyad-20260519-050018.log 2>/dev/null
 echo
@@ -1107,7 +1107,7 @@ GitHub Copilot: Checking async first, then reordering.
 
 Ran terminal command:  cd /Users/asifhussain/PROJECTS/journal && echo "=== state ==="; python3 -c "
 import json, datetime as dt
-s = json.load(open('content/podcast/library/books/kitab-al-riyad/_system/orchestrator-state.json'))
+s = json.load(open('content/drafts/kitab-al-riyad/_system/orchestrator-state.json'))
 print(f"phase={s['phase']} status={s['phase_status']} started={s.get('phases',{}).get(s['phase'],{}).get('ts_started','?')}")
 started = s.get('phases',{}).get(s['phase'],{}).get('ts_started')
 if started:
@@ -1115,8 +1115,8 @@ if started:
     print(f'elapsed in phase: {el/60:.1f} min')
 "
 echo
-echo "=== 0b chunk progress ==="; ls content/podcast/library/books/kitab-al-riyad/_system/source/text/_chunks/0b/ 2>/dev/null | wc -l | awk '{print $1, "files (each window: 2 files: .in + .out)"}'
-ls content/podcast/library/books/kitab-al-riyad/_system/source/text/_chunks/0b/*.out.md 2>/dev/null | wc -l | awk '{print $1, "completed windows"}'
+echo "=== 0b chunk progress ==="; ls content/drafts/kitab-al-riyad/_system/source/text/_chunks/0b/ 2>/dev/null | wc -l | awk '{print $1, "files (each window: 2 files: .in + .out)"}'
+ls content/drafts/kitab-al-riyad/_system/source/text/_chunks/0b/*.out.md 2>/dev/null | wc -l | awk '{print $1, "completed windows"}'
 echo
 echo "=== log tail ==="; tail -15 _workspace/orchestrator-logs/kitab-al-riyad-20260519-050018.log 2>/dev/null
 echo
@@ -1142,7 +1142,7 @@ echo "=== process check ==="; pgrep -fl orchestrate_book.py | head -5
 ║  NEXT GATE  │ Phase 0f human review (series plan)                ║
 ║  ETA        │ hours (first 0b window not yet returned)           ║
 ║  SAFE WORK  │ memoir/, site/, docs/, skills-staging/, .github/   ║
-║  DO NOT     │ touch content/podcast/library/books/kitab-al-…/   ║
+║  DO NOT     │ touch content/drafts/kitab-al-…/   ║
 ╚══════════════════════════════════════════════════════════════════╝
 ```
 
@@ -1201,7 +1201,7 @@ User: what's the status of the async process?
 
 GitHub Copilot: Ran terminal command:  echo "=== state ==="; python3 -c "
 import json, datetime as dt
-s = json.load(open('content/podcast/library/books/kitab-al-riyad/_system/orchestrator-state.json'))
+s = json.load(open('content/drafts/kitab-al-riyad/_system/orchestrator-state.json'))
 ph = s['phase']
 print(f"phase={ph} status={s['phase_status']}")
 started = s.get('phases',{}).get(ph,{}).get('ts_started')
@@ -1210,9 +1210,9 @@ if started:
     print(f'elapsed in phase: {el/60:.1f} min')
 "
 echo; echo "=== 0b chunks ==="
-ls content/podcast/library/books/kitab-al-riyad/_system/source/text/_chunks/0b/ 2>/dev/null
+ls content/drafts/kitab-al-riyad/_system/source/text/_chunks/0b/ 2>/dev/null
 echo; echo "=== completed .out.md ==="
-ls content/podcast/library/books/kitab-al-riyad/_system/source/text/_chunks/0b/*.out.md 2>/dev/null | wc -l
+ls content/drafts/kitab-al-riyad/_system/source/text/_chunks/0b/*.out.md 2>/dev/null | wc -l
 echo; echo "=== log tail ==="
 tail -20 _workspace/orchestrator-logs/kitab-al-riyad-20260519-050018.log 2>/dev/null
 echo; echo "=== process ==="
@@ -1286,7 +1286,7 @@ Read memory [](file:///Users/asifhussain/Library/Application%20Support/Code/User
 
 Killed. Now diagnose, then design. 
 
-Ran terminal command:  cd content/podcast/library/books/kitab-al-riyad/_system/source/text/_chunks/0b && ls -la && echo "---" && echo "win-001.in.md head:" && head -20 win-001.in.md && echo "---" && wc -w win-*.in.md
+Ran terminal command:  cd content/drafts/kitab-al-riyad/_system/source/text/_chunks/0b && ls -la && echo "---" && echo "win-001.in.md head:" && head -20 win-001.in.md && echo "---" && wc -w win-*.in.md
 
  
 
@@ -1371,7 +1371,7 @@ Plan before executing (calling out two safety concerns):
 
 Executing: 
 
-Ran terminal command:  git checkout -- content/podcast/library/books/kitab-al-riyad/_system/orchestrator-state.json && echo "--- reverted state.json ---" && git status --short
+Ran terminal command:  git checkout -- content/drafts/kitab-al-riyad/_system/orchestrator-state.json && echo "--- reverted state.json ---" && git status --short
 
  
 

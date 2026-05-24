@@ -56,7 +56,7 @@ Plus `RawText` dataclass, `REGISTRY: dict[str, type[SourceAdapter]]`, `dispatch(
 ### (e) At least one test fixture for end-to-end exercise
 **PASS — two fixtures:**
 1. **Tiny-book fixture** (P2.1) — 3-chapter ~5k-word synthetic source with ≥1 Arabic phrase + ≥1 numeric claim. Cost <$0.50 per full pass. Lives at `scripts/podcast/tests/e2e/fixtures/tiny-book/` once W1 P2 ships.
-2. **Ayyuhal Walad PDF** — the dev-iteration target. 30p / 146 KB. Verified present at `/Users/ahmac/Library/Mobile Documents/com~apple~CloudDocs/Books/Ayyuhal Walad.pdf`. Also already through the full pipeline once (5 chapters, 5 episodes, transcripts/, challenger-report at [content/podcast/library/books/ayyuhal-walad/](../../content/podcast/library/books/ayyuhal-walad/)). This is the W1+W2 dev-loop target.
+2. **Ayyuhal Walad PDF** — the dev-iteration target. 30p / 146 KB. Verified present at `/Users/ahmac/Library/Mobile Documents/com~apple~CloudDocs/Books/Ayyuhal Walad.pdf`. Also already through the full pipeline once (5 chapters, 5 episodes, transcripts/, challenger-report at [content/drafts/ayyuhal-walad/](../../content/drafts/ayyuhal-walad/)). This is the W1+W2 dev-loop target.
 3. **Kitab al-Riyad PDF** — the resume-validation target. 260p / 4.4 MB. Verified present at iCloud path. Paused at `04-ocr-translate` → `05-refine-english`. P5.3 is the one-shot resume proof, not a dev-iteration target. Eventually slots into the W3 corpus run.
 
 ### (f) Measurable acceptance criteria for podcast quality

@@ -22,7 +22,7 @@ completed_episodes:
 publication:
   status: partial
   shipped_via: scripts/podcast/ship_to_library.py
-  publication_target: ../../library/books/islr-mas-i/
+  publication_target: ../../published/books/islr-mas-i/
 
 provenance:
   canonical_source_branch: book/islr-mas-i

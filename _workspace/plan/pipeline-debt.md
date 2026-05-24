@@ -437,7 +437,7 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 
 **Verification:** Set `episode_number: 1` on chapter contract `the-perfect-and-the-perfection-of-the-soul.yml` (currently ch03a). Run the per-chapter pass on it. Confirm episode artifact lands at `episodes/EP01-the-perfect-and-the-perfection-of-the-soul.txt`.
 
-**Out-of-band KaR-specific rename:** see [series-plan.md](../../content/podcast/library/books/kitab-al-riyad/_system/series-plan.md) footer for the per-chapter rename checklist scoped to KaR. Execution waits for the orchestrator to quiesce on the current queue.
+**Out-of-band KaR-specific rename:** see [series-plan.md](../../content/drafts/kitab-al-riyad/_system/series-plan.md) footer for the per-chapter rename checklist scoped to KaR. Execution waits for the orchestrator to quiesce on the current queue.
 
 ---
 
@@ -445,7 +445,7 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 
 **Where:** `scripts/podcast/_authoring.py` Phase 0e enrichment prompt that produces `chapters/ch##*.txt`, AND the validator pass that's supposed to enforce R-PHONETICS-OUT (per [skills-staging/podcast/SKILL.md](../../skills-staging/podcast/SKILL.md) INVARIANT 5).
 
-**What goes wrong:** R-PHONETICS-OUT (effective 2026-05-17) forbids inline `(pho-net-ic — gloss)` parens in chapter txt — phonetics belong only in the customize-prompt `## Pronunciation` block. Yet [ch15-tawhid-and-the-critique-of-al-mahsul.txt](../../content/podcast/library/books/kitab-al-riyad/chapters/ch15-tawhid-and-the-critique-of-al-mahsul.txt) shipped with 18 inline phonetics on terms (`tawhid (taw-heed — monotheism)`, `al-hayula (al-ha-yoo-laa — prime matter)`, etc.) plus 1 on a people-name (`Abu Hatim al-Razi (a-boo haa-tim ar-raa-zee)`). Sibling chapters (ch03a, ch04b, ch05c, ch06–ch09, ch10–ch14b) are all clean — only ch15 leaked. Manually stripped 2026-05-21 in the post-ship audit, but the underlying enrichment regression slipped past the validator.
+**What goes wrong:** R-PHONETICS-OUT (effective 2026-05-17) forbids inline `(pho-net-ic — gloss)` parens in chapter txt — phonetics belong only in the customize-prompt `## Pronunciation` block. Yet [ch15-tawhid-and-the-critique-of-al-mahsul.txt](../../content/drafts/kitab-al-riyad/chapters/ch15-tawhid-and-the-critique-of-al-mahsul.txt) shipped with 18 inline phonetics on terms (`tawhid (taw-heed — monotheism)`, `al-hayula (al-ha-yoo-laa — prime matter)`, etc.) plus 1 on a people-name (`Abu Hatim al-Razi (a-boo haa-tim ar-raa-zee)`). Sibling chapters (ch03a, ch04b, ch05c, ch06–ch09, ch10–ch14b) are all clean — only ch15 leaked. Manually stripped 2026-05-21 in the post-ship audit, but the underlying enrichment regression slipped past the validator.
 
 **Impact:** Operator audit time to catch + manually strip per affected chapter (~10 min per chapter). At-scale across queued books, R-PHONETICS-OUT violations would drift into shipped episodes if not caught. Worse, the audit shows ch15 is INCONSISTENT with its 14 siblings — the regression is non-deterministic per chapter, suggesting either a prompt-sensitivity issue (some chapters' source text triggers more LLM inline-phonetic emission than others) or a validator gap (the rule fires on some patterns and not others).
 
@@ -682,7 +682,7 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 
 ### F26 — `name-aliases.yml` schema evolution
 
-**Where:** `content/podcast/library/books/<book>/_system/name-aliases.yml` per book; consumed by Phase 0g framing-gen.
+**Where:** `content/drafts/<book>/_system/name-aliases.yml` per book; consumed by Phase 0g framing-gen.
 
 **Current schema:**
 ```yaml
@@ -744,7 +744,7 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 
 ### F28 — Backward-compat decision for shipped episodes
 
-**Where:** All shipped episodes in `content/podcast/library/books/<book>/episodes/`.
+**Where:** All shipped episodes in `content/drafts/<book>/episodes/`.
 
 **What goes wrong:** Once F20+F21+F24+F25+F26+F27 doctrine is locked, the 9 already-shipped KaR episodes (EP04, 06, 07, 08, 09, 10, 12, 14, 15) will fail the new validators. Future books will pass; shipped books will sit at v1-quality.
 

@@ -9,35 +9,40 @@ This document governs the **`podcast-factory`** repo: the multi-phase podcast pi
 
 ## Content tree
 
-Post-Phase-9.5 (library hoist), the content split is:
+Post-2026-05-23 restructure (one flat repo, content container with drafts + published children):
 
 ```
 podcast-factory/
-├── library/                              ← TOP-LEVEL shipped catalog (read-only by convention)
-│   ├── _meta/catalog.md                  ← auto-generated cross-book index
-│   ├── archetypes/                       ← cross-book reference (e.g., islamic-scholastic-text.md)
-│   ├── books/<slug>/                     ← shipped per-book outputs
-│   │   ├── index.md                      ← book metadata
-│   │   ├── transcript/                   ← polished NotebookLM SOURCE per chapter
-│   │   └── podcasts/                     ← episode bundles organized by series
-│   └── {articles,documents,interviews,lectures,letters}/
-├── _workspace/                           ← per-book in-progress workspace (per Asif 2026-05-22 directive)
-│   ├── books/<slug>/                     ← orchestrator state, drafts, intermediate transcripts
-│   │   ├── _system/
-│   │   │   ├── orchestrator-state.json
-│   │   │   ├── challenger-report.md
-│   │   │   ├── series-plan.md
-│   │   │   └── …
-│   │   ├── chapter-contracts/
-│   │   ├── chapters/                     ← TTS-safe source per chapter
-│   │   ├── episodes/
-│   │   ├── episode-drafts/
-│   │   └── transcripts/
-│   ├── {articles,documents,interviews,lectures,letters,_sandbox}/
-│   ├── plan/                             ← cross-machine operator coordination
-│   ├── orchestrator-logs/
-│   ├── runbooks/                         ← incl. repo-split.md historical reference
-│   └── _archive/, audit/, chats/
+├── content/                                        ← CONTENT CONTAINER
+│   ├── drafts/                                     ← WORKSHOP (was: _workspace/books/ + per-branch content/podcast/library/books/)
+│   │   └── <slug>/                                 ← per-book in-progress state
+│   │       ├── _system/
+│   │       │   ├── orchestrator-state.json
+│   │       │   ├── challenger-report.md
+│   │       │   ├── series-plan.md
+│   │       │   └── …
+│   │       ├── chapter-contracts/
+│   │       ├── chapters/                           ← TTS-safe source per chapter
+│   │       ├── episodes/
+│   │       ├── transcripts/
+│   │       ├── m4a/                                ← rendered audio (when present)
+│   │       ├── slide-decks/                        ← internal slide artifacts
+│   │       └── meta.yml                            ← book-level state + provenance
+│   │
+│   └── published/                                  ← PUBLISHED CATALOG (was: library/, read-only by convention)
+│       ├── _meta/catalog.md                        ← auto-generated cross-book index
+│       ├── archetypes/                             ← cross-book reference (e.g., islamic-scholastic-text.md)
+│       ├── books/<slug>/                           ← shipped per-book outputs
+│       │   ├── index.md                            ← book metadata
+│       │   ├── transcript/                         ← polished NotebookLM SOURCE per chapter
+│       │   └── podcasts/                           ← episode bundles organized by series
+│       └── {articles,documents,interviews,lectures,letters}/
+│
+└── _workspace/                                     ← operational docs only (NO books/ here anymore)
+    ├── plan/                                       ← cross-machine operator coordination
+    ├── orchestrator-logs/
+    ├── runbooks/                                   ← incl. repo-split.md historical reference
+    └── _archive/, audit/, chats/, proposals/
 └── content/
     ├── _shared/arabic/                   ← independent copy of cross-utility data (journal has its own)
     └── podcast/
@@ -48,7 +53,7 @@ podcast-factory/
             └── _learning/                ← cross-book pattern learning substrate
 ```
 
-Promotion from workspace → library is one-way and explicit via `scripts/podcast/ship_to_library.py`; manual edits to `library/` are CI-checked.
+Promotion from workspace → library is one-way and explicit via `scripts/podcast/ship_to_library.py`; manual edits to `content/published/` are CI-checked.
 
 ---
 
@@ -73,7 +78,7 @@ Promotion from workspace → library is one-way and explicit via `scripts/podcas
 
 **Purpose:** Convert scholarly Arabic books into NotebookLM Audio Overview podcast series.
 
-**Owns:** `_workspace/books/<slug>/` (orchestrator state + chapter contracts + chapters + episode drafts + transcripts), with promotion to `library/books/<slug>/` (shipped) via `ship_to_library.py`.
+**Owns:** `content/drafts/<slug>/` (orchestrator state + chapter contracts + chapters + episode drafts + transcripts), with promotion to `content/published/books/<slug>/` (shipped) via `ship_to_library.py`.
 
 **Reads:** sources Asif provides + `content/podcast/.skill/handbook/` references + `content/_shared/arabic/` (read-only).
 
