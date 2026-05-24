@@ -32,6 +32,13 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 CANONICAL_DIR="${REPO_ROOT}/infra/claude-agents"
 WRAPPER_DIR="${REPO_ROOT}/.github/agents"
+# Per-repo activation copy that Claude Code reads at runtime. gitignored.
+# Until 2026-05-24 this was the user's responsibility to keep current; now
+# the sync script writes here too, so canonical edits propagate to the
+# version Claude Code actually invokes. Without this, a stale .claude/agents/
+# copy was silently used (e.g. broken `tools: [read,edit,search,execute]`
+# lowercase form survived multiple sync runs).
+ACTIVATION_DIR="${REPO_ROOT}/.claude/agents"
 
 mode="${1:-sync}"
 case "${mode}" in
@@ -81,6 +88,23 @@ for canonical in "${CANONICAL_DIR}"/*.md; do
     else
       cp "$canonical" "$wrapper"
       echo "synced   ${wrapper#${REPO_ROOT}/}"
+    fi
+  fi
+
+  # Also sync to the per-repo activation copy under .claude/agents/. This is
+  # what Claude Code actually reads at runtime when invoking the agent via
+  # Agent(subagent_type=...). Without this sync, edits to the canonical
+  # /infra/claude-agents/ copy never reach the runtime — silently using the
+  # stale activation file.
+  activation="${ACTIVATION_DIR}/${name}.md"
+  mkdir -p "${ACTIVATION_DIR}"
+  if [[ ! -f "$activation" ]] || ! cmp -s "$canonical" "$activation"; then
+    if [[ "$mode" == "check" ]]; then
+      echo "DRIFT:   ${activation#${REPO_ROOT}/} (activation copy)" >&2
+      drift_count=$((drift_count + 1))
+    else
+      cp "$canonical" "$activation"
+      echo "synced   ${activation#${REPO_ROOT}/}"
     fi
   fi
 done
