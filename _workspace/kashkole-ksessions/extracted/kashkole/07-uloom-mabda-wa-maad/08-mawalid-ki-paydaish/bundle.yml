@@ -3,7 +3,7 @@
 bundle_schema_version: 1
 source: kashkole
 source_language: ur
-stage: finalized
+stage: reviewed
 shelf:
   kind: binder
   id: 1
@@ -96,3 +96,19 @@ finalize:
     - { surah: 23, start: 12, end: 14 }
   images:
     - { placeholder: "IMG:001", classification: teaching-diagram, confidence: 0.92 }
+
+review:
+  generated_at: 2026-05-24T20:37:54.693738+00:00
+  adapter_language: ur
+  total: 104
+  by_type:
+    typo: 0
+    quran-uncited: 0
+    glossary: 103
+    sentence-completion: 0
+    needs-human-review: 1
+  by_confidence:
+    high: 95
+    medium: 8
+    low: 1
+needs_human_review: true

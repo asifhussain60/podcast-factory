@@ -3,7 +3,7 @@
 bundle_schema_version: 1
 source: kashkole
 source_language: ur
-stage: finalized
+stage: reviewed
 shelf:
   kind: binder
   id: 1
@@ -378,3 +378,19 @@ finalize:
     - { placeholder: "IMG:040", classification: quran-verse, confidence: 1.0 }
     - { placeholder: "IMG:041", classification: quran-verse, confidence: 1.0 }
     - { placeholder: "IMG:042", classification: teaching-diagram, confidence: 0.97 }
+
+review:
+  generated_at: 2026-05-24T20:38:12.573327+00:00
+  adapter_language: ur
+  total: 552
+  by_type:
+    typo: 3
+    quran-uncited: 7
+    glossary: 540
+    sentence-completion: 0
+    needs-human-review: 2
+  by_confidence:
+    high: 512
+    medium: 38
+    low: 2
+needs_human_review: true
