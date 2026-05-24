@@ -3,10 +3,10 @@
   "book_slug": "the-master-and-the-disciple",
   "category": "books",
   "branch": "book/the-master-and-the-disciple",
-  "phase": "0b",
+  "phase": "0c",
   "phase_status": "completed",
-  "last_completed_phase": "0b",
-  "next_phase": "0c",
+  "last_completed_phase": "0c",
+  "next_phase": "0d",
   "last_error": null,
   "pipeline_mode": "orchestrated",
   "bootstrap_provenance": {
@@ -48,6 +48,11 @@
       "status": "completed",
       "ts_started": "2026-05-24T14:38:57Z",
       "ts_completed": "2026-05-24T15:11:40Z"
+    },
+    "0c": {
+      "status": "completed",
+      "ts_started": "2026-05-24T15:11:40Z",
+      "ts_completed": "2026-05-24T15:17:20Z"
     }
   },
   "completed_slugs": [],
@@ -59,7 +64,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-05-22T00:00:00Z",
-  "ts_updated": "2026-05-24T15:11:40Z",
+  "ts_updated": "2026-05-24T15:17:20Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0"

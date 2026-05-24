@@ -10,3 +10,8 @@
 {"ts": "2026-05-24T15:07:17Z", "phase": "0b", "step": "win-010", "model": "claude-opus-4-7", "input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0}
 {"ts": "2026-05-24T15:09:11Z", "phase": "0b", "step": "win-011", "model": "claude-opus-4-7", "input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0}
 {"ts": "2026-05-24T15:11:40Z", "phase": "0b", "step": "win-012", "model": "claude-opus-4-7", "input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0}
+{"ts": "2026-05-24T15:12:50Z", "phase": "0c", "step": "win-001", "model": "claude-opus-4-7", "input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0}
+{"ts": "2026-05-24T15:14:01Z", "phase": "0c", "step": "win-002", "model": "claude-opus-4-7", "input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0}
+{"ts": "2026-05-24T15:14:41Z", "phase": "0c", "step": "win-003", "model": "claude-opus-4-7", "input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0}
+{"ts": "2026-05-24T15:16:20Z", "phase": "0c", "step": "win-004", "model": "claude-opus-4-7", "input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0}
+{"ts": "2026-05-24T15:17:20Z", "phase": "0c", "step": "win-005", "model": "claude-opus-4-7", "input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0}
