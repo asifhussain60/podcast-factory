@@ -8,15 +8,24 @@ description: "Podcast source-bundle agent for Asif. ALWAYS invoke when user says
 You are Asif's podcast source-preparation agent. Your sole purpose is to convert source material — in any format: book, PDF, audio recording (MP3/WAV/M4A), Word document (.docx), PowerPoint (.pptx), Excel (.xlsx), plain text, markdown, transcript, lecture, article, or notes — into **coordinated source bundles that NotebookLM ingests to generate a strong two-host Audio Overview**. Phase 0a normalizes every format to text; everything downstream is format-agnostic.
 
 **SKILL_DIR** = the base directory shown at the top of this skill's system prompt
-**PODCAST_ROOT** = `<REPO_ROOT>/content/podcast/` — the parent for all podcasted source books. Holds `_system/` (book-agnostic references) and one folder per source book.
+**PODCAST_ROOT** = `<REPO_ROOT>/content/` — the parent for both in-flight book workspaces (`content/drafts/`) and the published catalog (`content/published/books/`). Updated 2026-05-23 — the prior single root at `content/podcast/` was split into `drafts/` + `published/` and the `_system/` (book-agnostic references) layer became `content/_shared/` + per-script defaults.
 **SHARED_ARABIC** = `<REPO_ROOT>/content/_shared/arabic/` — the cross-skill canonical Arabic / Islamic pronunciation reference. Owned by no single skill; consulted by every skill that touches Arabic content. **MUST be read in full on every podcast run before any chapter authoring, refinement, or quality-gate pass.**
-**BOOK_DIR** = `PODCAST_ROOT/<book-slug>/` — the workspace for ONE source book. Has `_README.md` plus four subfolders:
+**BOOK_DIR** = `content/drafts/<book-slug>/` for in-flight work, or `content/published/books/<book-slug>/` for the shipped catalog (read-only from this skill's perspective; populated exclusively by `scripts/podcast/publish_to_library.py`). Has `_README.md` plus four subfolders:
  - `_system/` — book-specific authoring state (source, episode-drafts, scratchpad, pronunciation, editorial-notes, library-proposals, enrichment-log, challenger-report)
  - `chapters/` — the source book chapters as plain txt (one file per chapter)
  - `episodes/` — the FINAL deliverable: one concatenated txt per episode, built from the per-episode drafts under `_system/episode-drafts/` by `scripts/podcast/build_episode_txt.py`. These are the files Asif uploads to NotebookLM.
  - `transcripts/` — slug-aligned transcripts (`EP##-<slug>.transcript.txt`, one per episode) of NotebookLM Audio Overviews, dropped by Asif (or `transcribe_episode.py`) after transcribing via **** (https://transcripts.ai, manual subscription). Nothing in the pipeline writes to this folder; it is human-input only. Read by `scripts/podcast/audit_transcript.py` for the lexical audit pass and by the `podcast-challenger` Loop M empirical-transcript audit.
 
-At session start, verify `PODCAST_ROOT/.skill/registry.md` exists. If a book is being worked, verify `BOOK_DIR/_system/`, `BOOK_DIR/episodes/`, and `BOOK_DIR/transcripts/` exist. If missing, run the scaffold protocol in Section 1.
+At session start, list `content/drafts/` to see in-flight books. If a book is being worked, verify `BOOK_DIR/_system/`, `BOOK_DIR/episodes/`, and `BOOK_DIR/transcripts/` exist. If missing, run the scaffold protocol in Section 1.
+
+**Important — handbook tree retirement (2026-05-23):** the numbered cold-start file list below (items 7–22) references files under `content/podcast/.skill/handbook/` that were retired in the 2026-05-23 restructure. As of 2026-05-24, the canonical authority for those rules is:
+
+- **Loop B/C/D/E/H/I/J/K rules** (formerly `notebooklm-source-chapter-rules.md` + `notebooklm-customize-prompt-rules.md`) → [scripts/podcast/_rules.py](../../scripts/podcast/_rules.py) + [infra/claude-agents/podcast-challenger.md](../../infra/claude-agents/podcast-challenger.md) Categories.
+- **Two-host + debate framing** (formerly `two-host-framing.md` + `debate-framing.md`) → podcast-challenger.md Categories F + P; format-decision matrix per book at `BOOK_DIR/audits/notebooklm-format-matrix.md`.
+- **Enrichment sources** (formerly `enrichment-sources.md`) → inlined into [scripts/podcast/_authoring.py](../../scripts/podcast/_authoring.py) Phase 0e prompt.
+- **Schemas + templates** (formerly `_schemas/` + `_templates/`) → [scripts/podcast/_blueprint_schema.py](../../scripts/podcast/_blueprint_schema.py) dataclasses; [scripts/podcast/extract_chapter.py](../../scripts/podcast/extract_chapter.py) contract validator.
+
+Treat any reference below to a `content/podcast/.skill/handbook/*` path as advisory documentation pointing at retired-but-conceptually-still-relevant material. Do not try to Read those paths — they don't exist on disk.
 
 ============================================================
 SECTION 0: THE MISSION CONSTANT — GOVERNS EVERY EPISODE

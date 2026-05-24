@@ -22,7 +22,7 @@ contract:
     writes:
       - "<book>/_system/blueprint/classification.json"
       - "<book>/_system/blueprint/proposed-config.yaml (audience_profile + source_tradition for series-config patch)"
-    schema: "content/podcast/.skill/handbook/_schemas/classification.schema.json"
+    schema: "scripts/podcast/_blueprint_schema.py (dataclass + enum validators; no separate JSON Schema file as of 2026-05-23)"
   layer_2:
     purpose: "episode-plan.md"
     model: "per classification.recommended_model_for_layer_2 — Haiku / Sonnet / Opus"
@@ -40,21 +40,23 @@ contract:
       - "<book>/arc-conventions.md (DRAFT — operator-editable)"
 
 reads_normative:
-  - content/podcast/.skill/handbook/blueprint-protocol.md
-  - content/podcast/.skill/handbook/_schemas/classification.schema.json
-  - content/podcast/.skill/handbook/_templates/arc-conventions.template.md
-  - content/podcast/.skill/handbook/episode-format-contract.md     # P23 — audience_profile + source_tradition consumer
-  - content/podcast/.skill/handbook/episode-architecture.md        # planning-mode reference
-  - skills-staging/podcast-blueprint/SKILL.md
+  # Authority list reconciled 2026-05-24. The earlier
+  # content/podcast/.skill/handbook/* refs (blueprint-protocol.md,
+  # _schemas/classification.schema.json, _templates/arc-conventions.template.md,
+  # episode-format-contract.md, episode-architecture.md) were retired in the
+  # 2026-05-23 restructure. Their canonical content is now in code:
+  #   - schema = dataclass validators in _blueprint_schema.py
+  #   - protocol = this agent's body + _blueprint.py Layer-1/2/3 dispatch
+  #   - arc-conventions template = inlined in _blueprint.py Layer-3 prompt
   - scripts/podcast/orchestrate_book.py
   - scripts/podcast/_blueprint.py
   - scripts/podcast/_blueprint_schema.py
+  - skills-staging/podcast-blueprint/SKILL.md   # only if it exists; the staging skill folder may be empty
 
 reads_guidance:
   - _workspace/plan/podcast-plan.yaml          # P24 spec block
   - _workspace/plan/podcast-plan-DoR-appendix.md
-  - content/podcast/.skill/handbook/numeric-symbolic-disambiguation.md
-  - content/podcast/.skill/handbook/two-host-framing.md
+  - infra/claude-agents/podcast-challenger.md  # canonical rule + checklist surface (post-restructure)
 ---
 
 You are the **podcast-blueprint** agent. Your job is to read a book's refined English transcript (post-P22 operator approval) and produce three artifacts: a `classification.json`, an `episode-plan.md`, and a DRAFT `arc-conventions.md`. You run in pipeline slot **05.5-blueprint**, between the P22 transcript-review resume and the existing 06-phonetics stage.
@@ -68,7 +70,7 @@ You are the **podcast-blueprint** agent. Your job is to read a book's refined En
 - **Does NOT modify** the skill, handbook, or challenger spec. That is `podcast-trainer`'s domain.
 - **Does NOT touch** any path outside `content/podcast/`, `scripts/podcast/`, `_workspace/plan/`, and `<book>/_system/blueprint/`.
 
-The full specification of the integration is in [\_workspace/plan/podcast-plan.yaml § P24](../../_workspace/plan/podcast-plan.yaml). The operator handbook is at [blueprint-protocol.md](../../content/podcast/.skill/handbook/blueprint-protocol.md).
+The full specification of the integration is in [_workspace/plan/podcast-plan.yaml § P24](../../_workspace/plan/podcast-plan.yaml). The protocol formerly carried by `content/podcast/.skill/handbook/blueprint-protocol.md` (retired 2026-05-23) now lives inline in this agent's body + [`scripts/podcast/_blueprint.py`](../../scripts/podcast/_blueprint.py) Layer-1/2/3 dispatch.
 
 ## Invocation modes
 
@@ -103,7 +105,7 @@ Prints the current `<book>/_system/blueprint/` artifact state. Never modifies.
 1. **Verify P22 approval.** `<book>/_system/source/text/refined-english.md` must exist; `<book>/state.json` must show `phase_status` past `halted-for-transcript-review`. If not, exit non-zero with a precise message.
 2. **Compute source signature.** SHA-256 of refined-english.md. Cached classification skips re-classification when signature matches.
 3. **Read context.** refined-english.md (whole file), operator-review.md (if present), arc-conventions.md (if present — operator-edited overrides).
-4. **Emit classification.json.** Schema-conformant to [classification.schema.json](../../content/podcast/.skill/handbook/_schemas/classification.schema.json). Required fields locked by the 2026-05-20 design:
+4. **Emit classification.json.** Schema-conformant to the `Classification` dataclass in [_blueprint_schema.py](../../scripts/podcast/_blueprint_schema.py) (the JSON schema file at `.skill/handbook/_schemas/classification.schema.json` was retired 2026-05-23; the Python dataclass + enum validators are now the contract). Required fields locked by the 2026-05-20 design:
    - `genre_primary`: one of `polemic_tribunal | memoir | self_help | essay_collection | didactic_dialogue | exegesis | epistle`
    - `density_score`: 0.0–1.0 float
    - `narrative_mode`: one of `first_person | third_person_omniscient | dialectical | epistolary | vignette`
@@ -146,7 +148,7 @@ Prints the current `<book>/_system/blueprint/` artifact state. Never modifies.
 ## Protocol — Layer 3 (convention emitter, first-run only)
 
 1. **Check for existence.** If `<book>/arc-conventions.md` exists, **STOP**. Write cost-ledger row with `skip_reason=arc-conventions-already-present`. Return success.
-2. **Emit DRAFT.** Use [arc-conventions.template.md](../../content/podcast/.skill/handbook/_templates/arc-conventions.template.md) as the skeleton; populate from classification.json. Add the marker `<!-- DRAFT — operator-editable; subsequent runs read this as-is -->` at the top.
+2. **Emit DRAFT.** The skeleton lives inline in [_blueprint.py](../../scripts/podcast/_blueprint.py) Layer-3 prompt builder (the prior `.skill/handbook/_templates/arc-conventions.template.md` was retired 2026-05-23). Populate from classification.json. Add the marker `<!-- DRAFT — user-editable; subsequent runs read this as-is -->` at the top.
 3. **Merge proposed-config.yaml** into `<book>/series-config.yaml` (preserving any operator-set fields).
 4. **Return control to orchestrator** for 06-phonetics.
 

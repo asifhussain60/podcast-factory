@@ -20,21 +20,23 @@ challenger_contract:
  - missing name-alias block (insertion when alias is in shared policy)
  - missing interruption-avoidance clause (template insertion)
  reads_normative:
- - content/podcast/.skill/handbook/notebooklm-customize-prompt-rules.md
- - content/podcast/.skill/handbook/notebooklm-source-chapter-rules.md
- - content/_shared/arabic/03-arabic-english-manifest.md
- - content/_shared/arabic/04-common-term-substitutions.md
- - content/_shared/arabic/05-name-alias-policy.md
- reads_guidance:
- - content/podcast/.skill/handbook/notebooklm-best-practices.md
- - content/podcast/.skill/handbook/enrichment-sources.md
- - content/podcast/.skill/handbook/two-host-framing.md
- - content/podcast/.skill/handbook/debate-framing.md
- - content/podcast/.skill/handbook/scratchpad-markers.md
- - content/podcast/.skill/handbook/extract-capability.md
- - skills-staging/podcast/SKILL.md
+ # Authority list reconciled 2026-05-24 against on-disk reality. The earlier
+ # content/podcast/.skill/handbook/* refs (notebooklm-customize-prompt-rules.md,
+ # notebooklm-source-chapter-rules.md) and content/_shared/arabic/* refs
+ # (03-arabic-english-manifest.md, 04-common-term-substitutions.md,
+ # 05-name-alias-policy.md) were retired in the 2026-05-23 restructure and
+ # have not been restored. The Python rule modules below ARE the contract.
+ - scripts/podcast/_rules.py
+ - scripts/podcast/_doctrinal.py
  - scripts/podcast/build_episode_txt.py
+ - scripts/podcast/_convergence.py
+ - content/_shared/islam/                   # editable YAML source-of-truth for doctrinal data
+ reads_guidance:
+ - skills-staging/podcast/SKILL.md
  - scripts/podcast/extract_chapter.py
+ - scripts/podcast/check_chapter_set.py
+ - scripts/podcast/publish_to_library.py    # G1-G7 publish gates; G7 calls back into this agent's verdict
+ - reference/cortex-challenger-framework.md # parent framework: severity, verdicts, convergence
  # v2 plan awareness (added 2026-05-19 on plan/v2-execute-readiness)
  - _workspace/plan/podcast-plan.yaml        # meta.scope_in/out, async_safety, intelligence_sources.podcast
  - _workspace/plan/acceptance-criteria.md   # master checklist; S-category checks track its podcast rows
