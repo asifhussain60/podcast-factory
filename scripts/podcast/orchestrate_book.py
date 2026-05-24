@@ -315,10 +315,54 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
     except Exception as _e:  # noqa: BLE001 — sweep failure must not poison pre-flight
         _info(f"pre-flight sweep: skipped ({_e!r})")
 
-    # 3. Working tree clean
+    # 3. Working tree clean — but tolerate the orchestrator's own runtime
+    #    artifacts (cost-ledger.jsonl, orchestrator-state.json, episode-drafts/,
+    #    chapter-contracts/ on this book). Those files are written by the
+    #    orchestrator itself during a run; failing pre-flight on them creates a
+    #    commit-relaunch-commit-relaunch loop with zero value. Anything OUTSIDE
+    #    this book's _system + episode artifacts still blocks (genuine
+    #    untracked / modified files the user may not want overwritten).
     rc, out, _ = _git("status", "--porcelain")
-    if rc != 0 or out.strip():
-        fails.append("working tree not clean. Commit or stash first, then --resume.")
+    if rc != 0:
+        fails.append("git status failed; cannot determine working-tree state")
+    else:
+        book_runtime_prefix = f"content/drafts/{book_slug}/"
+        runtime_artifact_suffixes = (
+            "/_system/cost-ledger.jsonl",
+            "/_system/orchestrator-state.json",
+            "/_system/challenger-report.md",
+            "/_system/enrichment-log.md",
+            "/_system/chapter-set-report.md",
+            "/_system/health-trend.md",
+        )
+        runtime_artifact_dirs = (
+            f"{book_runtime_prefix}_system/episode-drafts/",
+            f"{book_runtime_prefix}_system/per-chapter-reports/",
+            f"{book_runtime_prefix}_system/slide-challenger-reports/",
+            f"{book_runtime_prefix}_system/source/text/_chunks/",
+            f"{book_runtime_prefix}chapter-contracts/",
+            f"{book_runtime_prefix}chapters/",
+            f"{book_runtime_prefix}episodes/",
+            f"{book_runtime_prefix}slide-decks/",
+        )
+        non_runtime: list[str] = []
+        for line in out.splitlines():
+            # status --porcelain: " M path/to/file", "?? path/to/dir/", "A  path"
+            path = line[3:] if len(line) > 3 else ""
+            if not path:
+                continue
+            if any(path.endswith(suf) for suf in runtime_artifact_suffixes):
+                continue
+            if any(path.startswith(d) for d in runtime_artifact_dirs):
+                continue
+            non_runtime.append(line)
+        if non_runtime:
+            fails.append(
+                "working tree not clean (non-runtime files modified or untracked). "
+                "Commit or stash first, then --resume. Files:\n  "
+                + "\n  ".join(non_runtime[:10])
+                + ("\n  …" if len(non_runtime) > 10 else "")
+            )
 
     # 3. On matching branch — derive from state.json's category (new branch
     #    policy 2026-05-24; see scripts/podcast/_branching.py).

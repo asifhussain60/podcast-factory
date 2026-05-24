@@ -50,6 +50,23 @@ _PAT2 = re.compile(r"^>\s*\(\s*[a-z]+\-[a-z]+(?:[-\s][a-z\-]+)+\s*\)\s*$\n?", re
 # Pattern 3: bare `(PHO-NE-TIC)` paren without a preceding italic — fallback for
 # enrichment that drops the italic but keeps the phonetic.
 _PAT3 = re.compile(r"\(\s*[A-Z]{2,}[\-][A-Z][A-Z\-]+[a-z\-]*\b[^)]*\)")
+# Pattern 4 (added 2026-05-24 from ch05 archetype): IPA-style paren `(/foo/)` —
+# slash-delimited phonetic that's no less of an R-PHONETICS-OUT violation. The
+# NotebookLM TTS treats slashes as character cues and reads them aloud.
+_PAT4 = re.compile(r"\(\s*/[^/)]{2,}/(?:[^)]*)\)")
+# Pattern 5 (added 2026-05-24 from ch05 archetype): full-paren phonetic with a
+# semicolon-prefixed gloss like `(sha-REE-ah, the legal-and-ritual code)`.
+# Same RESPELLING + GLOSS shape as PAT1 but no preceding italic; bare in prose.
+_PAT5 = re.compile(r"\(\s*[a-z]+\-[a-z]+(?:[-\s][a-z\-]+){1,}\s*,\s*[a-z][^)]*\)")
+# Pattern 6 (added 2026-05-24 from ch05 archetype): mid-prose `Sunnah, SOON-nah,`
+# or `Sunnah (SOON-nah)` shape that's a phonetic FOLLOWING the term with no
+# italic. The detector looks for `<Term>, <ALL-CAPS-RESPELLING>,`.
+_PAT6 = re.compile(r",\s+[A-Z]{2,}\-[a-z\-]+\b,")
+# Pattern 7 (added 2026-05-24 from ch05 archetype): bare ALL-CAPS phonetic
+# prefix tokens like `ZAA-hir`, `BAA-tin` standing alone in prose. These
+# typically appear right after an italicized term that's already on the page
+# and want a "as in" gloss inline. Just strip the standalone phonetic token.
+_PAT7 = re.compile(r"\b[A-Z]{2,}\-[a-z]+(?:\-[a-z]+)*\b")
 
 
 def strip_chapter(text: str) -> tuple[str, int]:
@@ -61,8 +78,21 @@ def strip_chapter(text: str) -> tuple[str, int]:
     n += k
     new, k = _PAT3.subn("", new)
     n += k
-    # Collapse any double-spaces left behind by paren removal.
+    new, k = _PAT4.subn("", new)   # IPA `(/foo/)` shape
+    n += k
+    new, k = _PAT5.subn("", new)   # bare `(phon, gloss)` shape
+    n += k
+    # PAT6: `Term, PHON-tic,` → `Term,` (drop the phonetic between commas)
+    new, k = _PAT6.subn(",", new)
+    n += k
+    # PAT7: standalone ALL-CAPS phonetic prefix tokens (ZAA-hir). Aggressive —
+    # only strip when preceded by `,` `(` ` ` and followed by ` ` `,` `.` `)`.
+    new, k = _PAT7.subn("", new)
+    n += k
+    # Collapse double/triple spaces and any stranded leading-comma whitespace
+    # left by aggressive PAT7 strips.
     new = re.sub(r"  +", " ", new)
+    new = re.sub(r"\s+([,\.;:\)])", r"\1", new)
     # Collapse any "*Term* ." or "*Term* ," that lost their space normalization.
     new = re.sub(r"(\*[^*]+\*)\s+([,\.;:])", r"\1\2", new)
     return new, n

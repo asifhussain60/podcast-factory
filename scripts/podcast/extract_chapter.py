@@ -731,7 +731,11 @@ def _render_framing_deep_dive(c: Contract, chapter: ResolvedChapter, ep_num: int
         "brief": "Target ~6–10 min Audio Overview. Tight, single argument.",
         "default_deep_dive": "Target ~12–15 min Audio Overview. One coherent theme, two-to-three connected ideas, room for dialogue.",
         "longer": "Target ~22–40 min Audio Overview. Multi-thematic; let the conversation breathe.",
+        "extended": "Target ~50-60 min Audio Overview. Dense doctrinal material — let the hosts unfold layer by layer without rushing.",
     }.get(length, "Target ~12–15 min Audio Overview.")
+    # IMPORTANT: do NOT include literal "deep dive" / "deep-dive" in this template
+    # body — those substrings are on `MODERNIZE_DENY` in _rules.py and any framing
+    # carrying them fails build_episode_txt.py's deny-block scan.
 
     phonetics = c.get("phonetic_overrides") or {}
     if phonetics:
@@ -770,7 +774,7 @@ In the first ten seconds, the hosts should name the work and the question this e
 
 ## Host dynamic
 
-`{host_dynamic}`. See content/podcast/.skill/handbook/two-host-framing.md for default personas.
+`{host_dynamic}`. NotebookLM's default English voice pair is John (male) for Host A and Hannah (female) for Host B. The CANONICAL pairing this skill enforces (per R-HOST-ROLE-PARITY in scripts/podcast/_rules.py, challenger Category Q): Host A (male) is the scholar / teacher / master / shaykh / guide role; Host B (female) is the seeker / student / debater / questioner / novice role. This pairing does NOT rotate across episodes within a book. If the contract's `host_dynamic` reverses this (e.g. `advocate_b + scholar_companion` putting Host B in the scholar role), the framing author MUST flip the host_a / host_b assignment so the male voice stays in the scholar pool.
 
 ## Central tensions to reach
 
@@ -792,6 +796,7 @@ The hosts must NOT do the following:
 - Treat this as a standalone Audio Overview. Do not reference other Audio Overviews — they are not in NotebookLM's context.
 - Do not abbreviate honorifics; speak them in full.
 - End on a question, not a conclusion.
+- NO cross-chapter references. This episode's chapter file is the entire source NotebookLM sees. The hosts must NOT say "the previous chapter showed", "as we'll see later", "the next chapter answers", "earlier in the book", etc. Treat the chapter as a self-contained episode.
 
 ---
 
@@ -848,7 +853,7 @@ def _render_framing_debate(c: Contract, chapter: ResolvedChapter, ep_num: int) -
 
 ## Opening directive
 
-In the first twenty seconds, the hosts name the work, state the proposition under debate verbatim, and tell the listener that they will hold opposing positions through the conversation. Do not open with "today we'll discuss" or "welcome to this deep dive". Open by stating the proposition.
+In the first twenty seconds, the hosts name the work, state the proposition under debate verbatim, and tell the listener that they will hold opposing positions through the conversation. Do not open with "today we'll discuss" or formulaic show-intro phrasing. Open by stating the proposition.
 
 ## Audience
 
@@ -908,6 +913,8 @@ The hosts must NOT do the following:
 - Treat this as a standalone Audio Overview. Do not reference other Audio Overviews.
 - Do not abbreviate honorifics; speak them in full.
 - Close on the resolution beat as specified above, not on a host paraphrase.
+- NO cross-chapter references. This episode's chapter file is the entire source NotebookLM sees. The hosts must NOT say "the previous chapter showed", "as we'll see later", "the next chapter answers", "earlier in the book", etc. Treat the chapter as a self-contained episode.
+- HOST PAIRING is locked: Host A (male voice) = scholar/teacher/advocate-for-tradition pool; Host B (female voice) = seeker/student/debater/challenger pool. Do not assign female voice to the scholar role or male voice to the debater role.
 
 ---
 

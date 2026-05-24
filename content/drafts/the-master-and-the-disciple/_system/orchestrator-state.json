@@ -4,7 +4,7 @@
   "category": "books",
   "branch": "book/the-master-and-the-disciple",
   "phase": "per-chapter",
-  "phase_status": "failed",
+  "phase_status": "running",
   "last_completed_phase": "0e",
   "next_phase": "0f",
   "last_error": {
@@ -75,7 +75,7 @@
       "series_plan_path": "content/drafts/the-master-and-the-disciple/_system/series-plan.md"
     },
     "per-chapter": {
-      "status": "failed",
+      "status": "running",
       "ts_started": "2026-05-24T18:43:50Z",
       "ts_completed": "2026-05-24T19:18:31Z",
       "completed_slugs": [],
@@ -91,7 +91,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-05-22T00:00:00Z",
-  "ts_updated": "2026-05-24T19:18:31Z",
+  "ts_updated": "2026-05-24T19:20:38Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0"
