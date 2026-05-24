@@ -89,6 +89,38 @@ const pilotCount = allBooks.filter((b) => b.slug === pilotBook).length;
       </div>
     </header>
 
+    <!-- ─── Workshop tools ─────────────────────────────────────────
+         A separate, low-key panel sitting between the hero and the
+         book Library. Does NOT touch the book-card design below. -->
+    <section class="mx-auto max-w-5xl px-6 pt-10">
+      <a
+        href="/source-extractor/"
+        class="group flex items-stretch gap-5 overflow-hidden rounded-lg border bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+        style="border-color: var(--color-rule-default); color: var(--color-ink);"
+      >
+        <div class="flex w-28 shrink-0 items-center justify-center" style="background: var(--color-gold-soft); color: var(--color-gold-deep);">
+          <Icon name="folder" size={26} />
+        </div>
+        <div class="flex-1 p-5">
+          <div class="font-ui text-[10px] font-bold uppercase tracking-[0.22em]" style="color: var(--color-gold-deep);">
+            Workshop · Generated text
+          </div>
+          <h3 class="mt-1 text-xl font-semibold leading-tight" style="font-family: 'EB Garamond', Georgia, serif; color: var(--color-ink);">
+            Source-extractor review
+          </h3>
+          <p class="font-ui mt-1 text-[13px] leading-snug" style="color: var(--color-ink-secondary);">
+            Browse the raw-extract markdown for every chapter the pipeline tool generated. Urdu Nastaliq + Arabic naskh rendering for review-quality reading.
+          </p>
+        </div>
+        <div class="flex items-center pr-5">
+          <span class="font-ui inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-semibold transition" style="background: var(--color-ink); color: var(--color-ink-on-emphasis);">
+            Open
+            <Icon name="arrow-right" size={13} />
+          </span>
+        </div>
+      </a>
+    </section>
+
     <!-- ─── Library ──────────────────────────────────────────────── -->
     <main class="mx-auto max-w-5xl px-6 py-14">
       {worktreeBooks.length === 0 ? (
