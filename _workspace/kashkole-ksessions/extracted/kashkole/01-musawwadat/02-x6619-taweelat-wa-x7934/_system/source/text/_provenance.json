@@ -1,0 +1,41 @@
+{
+  "schema": "podcast.ingest-source/v1",
+  "generated_at": "2026-05-24T19:36:50.860171+00:00",
+  "source": {
+    "kind": "sql",
+    "name": "kashkole",
+    "db": "KASHKOLE",
+    "container": "kashkole-mssql"
+  },
+  "book_slug": "x6619-taweelat-wa-x7934",
+  "book_dir": "/Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/02-x6619-taweelat-wa-x7934",
+  "source_language": "ur",
+  "extraction": {
+    "tool": "tools.source_extractor",
+    "shelf": {
+      "kind": "binder",
+      "id": 28,
+      "name": "مسودے"
+    },
+    "book": {
+      "kind": "chapter",
+      "id": 117,
+      "name": "دیگر تاویلات و حقائق"
+    },
+    "section_query_count": 4,
+    "stage": "finalized"
+  },
+  "outputs": {
+    "raw_extract": "_system/source/text/raw-extract.md",
+    "extraction_notes": "_system/source/text/_extraction-notes.md",
+    "audit_anchor_html": "_system/source/x6619-taweelat-wa-x7934.html",
+    "images_dir": "_system/source/images"
+  },
+  "finalize": {
+    "finalized_at": "2026-05-24T19:43:29.567847+00:00",
+    "images_classified": {
+      "001": "teaching-diagram"
+    },
+    "inline_citations_resolved": 2
+  }
+}

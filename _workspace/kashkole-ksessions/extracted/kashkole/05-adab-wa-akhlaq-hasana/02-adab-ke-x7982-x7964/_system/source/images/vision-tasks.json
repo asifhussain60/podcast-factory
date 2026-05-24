@@ -1,0 +1,52 @@
+{
+  "book": {
+    "binder_id": 27,
+    "binder_name": "آداب و اخلاق حسنۃ",
+    "chapter_id": 14,
+    "chapter_name": "آداب کے متعلق اقوال"
+  },
+  "images": [
+    {
+      "placeholder": "IMG:001",
+      "file": "_system/source/images/001.png",
+      "section_id": 347,
+      "section_label": "اچھے انسان کی پہچان",
+      "bytes": 11475,
+      "sha256_12": "e2c9655cbff7",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:002",
+      "file": "_system/source/images/002.png",
+      "section_id": 347,
+      "section_label": "اچھے انسان کی پہچان",
+      "bytes": 9155,
+      "sha256_12": "aad36c8f68c5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:003",
+      "file": "_system/source/images/003.png",
+      "section_id": 350,
+      "section_label": "حقوق والدین اور حقوق العباد",
+      "bytes": 8588,
+      "sha256_12": "e39f5d2fa6b0",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:004",
+      "file": "_system/source/images/004.png",
+      "section_id": 362,
+      "section_label": "استغفار اور اسے طلب کرنے کا طریقۃ",
+      "bytes": 14771,
+      "sha256_12": "48b8db6e97fe",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    }
+  ],
+  "generated_at": "2026-05-24T19:48:38.951745+00:00",
+  "instructions": "For each image in `images`, read the file via the Read tool (paths are relative to the bundle root) and write a sibling JSON file next to the PNG (same basename, .json extension) with the schema: {classification, arabic_text, urdu_text, english_text, suggested_citation: {surah, ayat} | null, alt_text, confidence, notes}. classification ∈ {quran-verse, hadith, poem-or-saying, teaching-diagram, mixed, other}. For quran-verse, propose surah+ayat from your reading; finalize validates against the adapter's Quran corpus. For teaching-diagram, give a 1-2 sentence alt_text describing what it shows."
+}

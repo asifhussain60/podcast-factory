@@ -1,0 +1,10 @@
+{
+  "classification": "teaching-diagram",
+  "arabic_text": "ظاہر\nباطن\nابتدا\nانتہا",
+  "urdu_text": "",
+  "english_text": "",
+  "suggested_citation": null,
+  "alt_text": "Two diagrams. Left: a circle with blue arrows running around the outside labelled 'ظاہر' (zahir, manifest, outer) at the top and 'باطن' (batin, hidden, inner) at the bottom; a red inner circle marks the inner trajectory; the left and right intersection points are labelled 'ابتدا' (beginning) and 'انتہا' (end). Right: a small green dome with a single dot at the base, suggesting a starting point.",
+  "confidence": 0.85,
+  "notes": "Visualises the zahir/batin cycle: outer and inner circumferences sharing the same beginning and end. Pedagogical for Ismaili esoteric exegesis."
+}

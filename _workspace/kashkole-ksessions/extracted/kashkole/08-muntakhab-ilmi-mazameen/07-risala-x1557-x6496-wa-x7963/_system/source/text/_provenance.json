@@ -1,0 +1,39 @@
+{
+  "schema": "podcast.ingest-source/v1",
+  "generated_at": "2026-05-24T19:50:37.731895+00:00",
+  "source": {
+    "kind": "sql",
+    "name": "kashkole",
+    "db": "KASHKOLE",
+    "container": "kashkole-mssql"
+  },
+  "book_slug": "risala-x1557-x6496-wa-x7963",
+  "book_dir": "/Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksessions/extracted/kashkole/08-muntakhab-ilmi-mazameen/07-risala-x1557-x6496-wa-x7963",
+  "source_language": "ur",
+  "extraction": {
+    "tool": "tools.source_extractor",
+    "shelf": {
+      "kind": "binder",
+      "id": 23,
+      "name": "منتخب علمی مضامین"
+    },
+    "book": {
+      "kind": "chapter",
+      "id": 59,
+      "name": "رسالۃ الماھیۃ الزۃ و الالم"
+    },
+    "section_query_count": 1,
+    "stage": "finalized"
+  },
+  "outputs": {
+    "raw_extract": "_system/source/text/raw-extract.md",
+    "extraction_notes": "_system/source/text/_extraction-notes.md",
+    "audit_anchor_html": "_system/source/risala-x1557-x6496-wa-x7963.html",
+    "images_dir": "_system/source/images"
+  },
+  "finalize": {
+    "finalized_at": "2026-05-24T20:24:30.907036+00:00",
+    "images_classified": {},
+    "inline_citations_resolved": 0
+  }
+}

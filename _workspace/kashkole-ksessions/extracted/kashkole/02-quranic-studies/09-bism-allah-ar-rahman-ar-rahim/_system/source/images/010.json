@@ -1,0 +1,10 @@
+{
+  "classification": "teaching-diagram",
+  "arabic_text": "صمد\nاحد\nلا اله الا الله",
+  "urdu_text": "",
+  "english_text": "134\n13\n12 = 1+3+4 + 1+3\n12 Letters",
+  "suggested_citation": null,
+  "alt_text": "Numerological teaching diagram: two green boxes show 'صمد' (with abjad value 134) and 'احد' (with value 13). Below: '12 = 1+3+4 + 1+3'. A blue double-arrow at the bottom contains 'لا اله الا الله / 12 Letters', tying the digit-sums to the kalima's 12-letter count.",
+  "confidence": 0.92,
+  "notes": "Numerological link: digit-sums of al-Samad (134→1+3+4=8) and al-Ahad (13→1+3=4), totaling 12 — equal to the kalima's letter count."
+}

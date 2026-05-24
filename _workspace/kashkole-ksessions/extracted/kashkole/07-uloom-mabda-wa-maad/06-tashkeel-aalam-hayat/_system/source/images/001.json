@@ -1,0 +1,10 @@
+{
+  "classification": "teaching-diagram",
+  "arabic_text": "نسبت اعلی\nنسبت ادنی\nعلی\nمحبت\nمحمد\nامام",
+  "urdu_text": "",
+  "english_text": "Higher relation\nLower relation\nAli\nLove\nMuhammad\nImam",
+  "suggested_citation": null,
+  "alt_text": "A two-panel diagram showing relationships between figures (labeled Ali, Muhammad, Love) and a cluster of Imam-labeled pink circles on the right. Each panel is divided into higher (نسبت اعلی) and lower (نسبت ادنی) relations.",
+  "confidence": 0.78,
+  "notes": "Esoteric Ismaili teaching diagram about higher/lower spiritual relationships in the hierarchy of imams and wasis. Small labels difficult to read at native resolution; Phase 0b refinement may need to consult the original chapter text for exact term mapping."
+}

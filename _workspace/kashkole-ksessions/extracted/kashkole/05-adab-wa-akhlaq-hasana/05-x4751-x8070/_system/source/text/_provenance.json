@@ -1,0 +1,39 @@
+{
+  "schema": "podcast.ingest-source/v1",
+  "generated_at": "2026-05-24T19:48:57.148469+00:00",
+  "source": {
+    "kind": "sql",
+    "name": "kashkole",
+    "db": "KASHKOLE",
+    "container": "kashkole-mssql"
+  },
+  "book_slug": "x4751-x8070",
+  "book_dir": "/Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksessions/extracted/kashkole/05-adab-wa-akhlaq-hasana/05-x4751-x8070",
+  "source_language": "ur",
+  "extraction": {
+    "tool": "tools.source_extractor",
+    "shelf": {
+      "kind": "binder",
+      "id": 27,
+      "name": "آداب و اخلاق حسنۃ"
+    },
+    "book": {
+      "kind": "chapter",
+      "id": 128,
+      "name": "ضرب الحکم"
+    },
+    "section_query_count": 5,
+    "stage": "finalized"
+  },
+  "outputs": {
+    "raw_extract": "_system/source/text/raw-extract.md",
+    "extraction_notes": "_system/source/text/_extraction-notes.md",
+    "audit_anchor_html": "_system/source/x4751-x8070.html",
+    "images_dir": "_system/source/images"
+  },
+  "finalize": {
+    "finalized_at": "2026-05-24T20:22:05.810560+00:00",
+    "images_classified": {},
+    "inline_citations_resolved": 4
+  }
+}

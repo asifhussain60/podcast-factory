@@ -1,0 +1,142 @@
+{
+  "book": {
+    "binder_id": 1,
+    "binder_name": "علوم مبدا و معاد",
+    "chapter_id": 80,
+    "chapter_name": "تشکیل عالم کون و فساد"
+  },
+  "images": [
+    {
+      "placeholder": "IMG:001",
+      "file": "_system/source/images/001.png",
+      "section_id": 1123,
+      "section_label": "حرکت اول : طول عرض عمق",
+      "bytes": 6829,
+      "sha256_12": "d932b522908d",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:002",
+      "file": "_system/source/images/002.png",
+      "section_id": 1124,
+      "section_label": "ھیولی اولی اور ھیولی ثانی",
+      "bytes": 61948,
+      "sha256_12": "ada0db9897a3",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:003",
+      "file": "_system/source/images/003.png",
+      "section_id": 1125,
+      "section_label": "حرکت ثانی : تجادب القطبین",
+      "bytes": 231134,
+      "sha256_12": "6cb4a37c370d",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:004",
+      "file": "_system/source/images/004.png",
+      "section_id": 1420,
+      "section_label": "مدبرین افلاک و بروج",
+      "bytes": 20600,
+      "sha256_12": "0535341ac7ec",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:005",
+      "file": "_system/source/images/005.png",
+      "section_id": 1126,
+      "section_label": "حرکت ثالث : افلاک کی پیدائش",
+      "bytes": 22052,
+      "sha256_12": "3a335c1a7e8f",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:006",
+      "file": "_system/source/images/006.png",
+      "section_id": 1130,
+      "section_label": "حرکت خامس : اصداف اور امھات کی خلقت",
+      "bytes": 4031,
+      "sha256_12": "c96077fe3668",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:007",
+      "file": "_system/source/images/007.png",
+      "section_id": 1130,
+      "section_label": "حرکت خامس : اصداف اور امھات کی خلقت",
+      "bytes": 298621,
+      "sha256_12": "84712aa02226",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:008",
+      "file": "_system/source/images/008.png",
+      "section_id": 1130,
+      "section_label": "حرکت خامس : اصداف اور امھات کی خلقت",
+      "bytes": 134486,
+      "sha256_12": "acf75ef328e5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:009",
+      "file": "_system/source/images/009.png",
+      "section_id": 1130,
+      "section_label": "حرکت خامس : اصداف اور امھات کی خلقت",
+      "bytes": 63529,
+      "sha256_12": "60873f7402e0",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:010",
+      "file": "_system/source/images/010.png",
+      "section_id": 1130,
+      "section_label": "حرکت خامس : اصداف اور امھات کی خلقت",
+      "bytes": 9030,
+      "sha256_12": "feb628471435",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:011",
+      "file": "_system/source/images/011.png",
+      "section_id": 1130,
+      "section_label": "حرکت خامس : اصداف اور امھات کی خلقت",
+      "bytes": 13413,
+      "sha256_12": "ee7061a0c6a8",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:012",
+      "file": "_system/source/images/012.png",
+      "section_id": 1137,
+      "section_label": "مدتیں : دور، کور، طور، مور",
+      "bytes": 13768,
+      "sha256_12": "07aabac5f856",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:013",
+      "file": "_system/source/images/013.png",
+      "section_id": 1137,
+      "section_label": "مدتیں : دور، کور، طور، مور",
+      "bytes": 16061,
+      "sha256_12": "41f97c53a042",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    }
+  ],
+  "generated_at": "2026-05-24T17:58:45.191186+00:00",
+  "instructions": "For each image in `images`, read the file via the Read tool (paths are relative to the bundle root) and write a sibling JSON file next to the PNG (same basename, .json extension) with the schema: {classification, arabic_text, urdu_text, english_text, suggested_citation: {surah, ayat} | null, alt_text, confidence, notes}. classification ∈ {quran-verse, hadith, poem-or-saying, teaching-diagram, mixed, other}. For quran-verse, propose surah+ayat from your reading; finalize validates against the adapter's Quran corpus. For teaching-diagram, give a 1-2 sentence alt_text describing what it shows."
+}

@@ -1,0 +1,42 @@
+{
+  "schema": "podcast.ingest-source/v1",
+  "generated_at": "2026-05-24T19:36:45.939033+00:00",
+  "source": {
+    "kind": "sql",
+    "name": "kashkole",
+    "db": "KASHKOLE",
+    "container": "kashkole-mssql"
+  },
+  "book_slug": "x8114-musawwadat",
+  "book_dir": "/Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/01-x8114-musawwadat",
+  "source_language": "ur",
+  "extraction": {
+    "tool": "tools.source_extractor",
+    "shelf": {
+      "kind": "binder",
+      "id": 28,
+      "name": "مسودے"
+    },
+    "book": {
+      "kind": "chapter",
+      "id": 115,
+      "name": "[مسودۃ] مسودے"
+    },
+    "section_query_count": 16,
+    "stage": "finalized"
+  },
+  "outputs": {
+    "raw_extract": "_system/source/text/raw-extract.md",
+    "extraction_notes": "_system/source/text/_extraction-notes.md",
+    "audit_anchor_html": "_system/source/x8114-musawwadat.html",
+    "images_dir": "_system/source/images"
+  },
+  "finalize": {
+    "finalized_at": "2026-05-24T19:43:21.497874+00:00",
+    "images_classified": {
+      "001": "teaching-diagram",
+      "002": "teaching-diagram"
+    },
+    "inline_citations_resolved": 3
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "classification": "teaching-diagram",
+  "arabic_text": "",
+  "urdu_text": "",
+  "english_text": "1 2 4 0 0 0\n(1 + 2 + 4 + 0 + 0 + 0 = 7)",
+  "suggested_citation": null,
+  "alt_text": "A small purple-on-white numerology display showing the digit sequence '1 2 4 0 0 0' on the top line and the equation '(1 + 2 + 4 + 0 + 0 + 0 = 7)' on the bottom line.",
+  "confidence": 0.99,
+  "notes": "Numerological / place-value teaching aid. The digits 1, 2, 4 (powers-of-two-style) plus padding zeros sum to 7 — likely referencing a seven-rank structure in the chapter on ranks."
+}

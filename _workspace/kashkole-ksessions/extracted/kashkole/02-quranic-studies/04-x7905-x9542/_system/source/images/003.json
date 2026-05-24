@@ -1,0 +1,10 @@
+{
+  "classification": "teaching-diagram",
+  "arabic_text": "",
+  "urdu_text": "",
+  "english_text": "A B C D C B A\nR A C E C A R",
+  "suggested_citation": null,
+  "alt_text": "Two parallel chiastic-structure diagrams: top row spells 'A B C D C B A' around a central dark-blue 'D'; bottom row spells 'R A C E C A R' (the palindromic 'RACE CAR') around a central dark-blue 'E'. Purple arrows on each side show inward symmetry.",
+  "confidence": 0.95,
+  "notes": "Illustrates ring composition by analogy with the English palindrome 'racecar' — common in lectures on Quranic literary structure."
+}

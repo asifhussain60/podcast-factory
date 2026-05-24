@@ -1,0 +1,65 @@
+{
+  "schema": "podcast.ingest-source/v1",
+  "generated_at": "2026-05-24T19:52:20.034606+00:00",
+  "source": {
+    "kind": "sql",
+    "name": "kashkole",
+    "db": "KASHKOLE",
+    "container": "kashkole-mssql"
+  },
+  "book_slug": "x9633-x6530-alayhi-as-salam-ki-taweel",
+  "book_dir": "/Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksessions/extracted/kashkole/10-kalimat-rabbani-ki-taweelat/02-x9633-x6530-alayhi-as-salam-ki-taweel",
+  "source_language": "ur",
+  "extraction": {
+    "tool": "tools.source_extractor",
+    "shelf": {
+      "kind": "binder",
+      "id": 8,
+      "name": "کلمات ربانی کی تاویلات"
+    },
+    "book": {
+      "kind": "chapter",
+      "id": 9,
+      "name": "احادیث نبوی علیہ السلام کی تاویل"
+    },
+    "section_query_count": 28,
+    "stage": "finalized"
+  },
+  "outputs": {
+    "raw_extract": "_system/source/text/raw-extract.md",
+    "extraction_notes": "_system/source/text/_extraction-notes.md",
+    "audit_anchor_html": "_system/source/x9633-x6530-alayhi-as-salam-ki-taweel.html",
+    "images_dir": "_system/source/images"
+  },
+  "finalize": {
+    "finalized_at": "2026-05-24T20:26:36.642236+00:00",
+    "images_classified": {
+      "001": "other",
+      "002": "other",
+      "003": "other",
+      "004": "other",
+      "005": "other",
+      "006": "other",
+      "007": "other",
+      "008": "other",
+      "009": "other",
+      "010": "other",
+      "011": "other",
+      "012": "other",
+      "013": "other",
+      "014": "other",
+      "015": "other",
+      "016": "other",
+      "017": "other",
+      "018": "other",
+      "019": "other",
+      "020": "other",
+      "021": "other",
+      "022": "other",
+      "023": "other",
+      "024": "other",
+      "025": "other"
+    },
+    "inline_citations_resolved": 11
+  }
+}

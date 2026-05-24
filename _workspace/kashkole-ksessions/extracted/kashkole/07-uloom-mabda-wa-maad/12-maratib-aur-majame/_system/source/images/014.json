@@ -1,0 +1,10 @@
+{
+  "classification": "teaching-diagram",
+  "arabic_text": "دور کشف\nقائم دور کشف",
+  "urdu_text": "",
+  "english_text": "Cycle of Revelation (Daur Kashf)\nQa'im of the Cycle of Revelation\n50,000 Years = 7000 × 7 = 49,000 + 1,000\n42,000\n7000",
+  "suggested_citation": null,
+  "alt_text": "Identical to image 010: six numbered chairs (1-6) labeled 7000 each, totaling 42,000, with arrows pointing to a seventh chair labeled '7' (7000) below — captioned 'قائم دور کشف' (Qa'im of the Cycle of Revelation). Math at top: 50,000 Years = 7000 × 7 = 49,000 + 1,000.",
+  "confidence": 0.96,
+  "notes": "Duplicate of image 010 — the source HTML embedded the same diagram twice. The tool faithfully extracts each inline base64 occurrence. Phase 0b refinement could dedupe if appropriate, but for provenance fidelity we keep both."
+}

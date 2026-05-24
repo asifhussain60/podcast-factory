@@ -1,0 +1,42 @@
+{
+  "book": {
+    "binder_id": 6,
+    "binder_name": "علی ابن ابی طالب علیہ السلام",
+    "chapter_id": 51,
+    "chapter_name": "سلونی قبل ان تفقدونی"
+  },
+  "images": [
+    {
+      "placeholder": "IMG:001",
+      "file": "_system/source/images/001.png",
+      "section_id": 877,
+      "section_label": "کیف اصبحت؟",
+      "bytes": 26107,
+      "sha256_12": "9f93961b871c",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:002",
+      "file": "_system/source/images/002.png",
+      "section_id": 877,
+      "section_label": "کیف اصبحت؟",
+      "bytes": 59355,
+      "sha256_12": "2c4da313fc82",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:003",
+      "file": "_system/source/images/003.png",
+      "section_id": 879,
+      "section_label": "لا شئی کا سوال",
+      "bytes": 11668,
+      "sha256_12": "7d1a01a41ae2",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    }
+  ],
+  "generated_at": "2026-05-24T19:58:08.097273+00:00",
+  "instructions": "For each image in `images`, read the file via the Read tool (paths are relative to the bundle root) and write a sibling JSON file next to the PNG (same basename, .json extension) with the schema: {classification, arabic_text, urdu_text, english_text, suggested_citation: {surah, ayat} | null, alt_text, confidence, notes}. classification ∈ {quran-verse, hadith, poem-or-saying, teaching-diagram, mixed, other}. For quran-verse, propose surah+ayat from your reading; finalize validates against the adapter's Quran corpus. For teaching-diagram, give a 1-2 sentence alt_text describing what it shows."
+}

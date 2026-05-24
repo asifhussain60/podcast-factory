@@ -1,0 +1,76 @@
+{
+  "schema": "podcast.ingest-source/v1",
+  "generated_at": "2026-05-24T19:48:25.724176+00:00",
+  "source": {
+    "kind": "sql",
+    "name": "kashkole",
+    "db": "KASHKOLE",
+    "container": "kashkole-mssql"
+  },
+  "book_slug": "islam",
+  "book_dir": "/Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksessions/extracted/kashkole/04-islam-iman-ihsan/03-islam",
+  "source_language": "ur",
+  "extraction": {
+    "tool": "tools.source_extractor",
+    "shelf": {
+      "kind": "binder",
+      "id": 36,
+      "name": "ISLAM IMAN IHSAN"
+    },
+    "book": {
+      "kind": "chapter",
+      "id": 175,
+      "name": "ISLAM"
+    },
+    "section_query_count": 19,
+    "stage": "finalized"
+  },
+  "outputs": {
+    "raw_extract": "_system/source/text/raw-extract.md",
+    "extraction_notes": "_system/source/text/_extraction-notes.md",
+    "audit_anchor_html": "_system/source/islam.html",
+    "images_dir": "_system/source/images"
+  },
+  "finalize": {
+    "finalized_at": "2026-05-24T20:21:19.929292+00:00",
+    "images_classified": {
+      "001": "other",
+      "002": "other",
+      "003": "other",
+      "004": "other",
+      "005": "other",
+      "006": "other",
+      "007": "other",
+      "008": "other",
+      "009": "other",
+      "010": "other",
+      "011": "other",
+      "012": "other",
+      "013": "other",
+      "014": "other",
+      "015": "other",
+      "016": "other",
+      "017": "other",
+      "018": "other",
+      "019": "other",
+      "020": "other",
+      "021": "other",
+      "022": "other",
+      "023": "other",
+      "024": "other",
+      "025": "other",
+      "026": "other",
+      "027": "other",
+      "028": "other",
+      "029": "other",
+      "030": "other",
+      "031": "other",
+      "032": "other",
+      "033": "other",
+      "034": "other",
+      "035": "other",
+      "036": "other"
+    },
+    "inline_citations_resolved": 0
+  }
+}
