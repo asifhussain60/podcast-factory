@@ -49,6 +49,13 @@ from _azure import (  # noqa: E402
     load_speech_creds,
     transcribe_audio,
 )
+from _mp3_chunk import chunk_mp3_bytes  # noqa: E402
+
+# Azure Speech Fast Transcription practical ceiling: ~25 min / ~12 MB
+# returns content reliably; longer payloads either time out or return
+# empty `combinedPhrases`. Chunk anything bigger.
+CHUNK_THRESHOLD_BYTES = 10_000_000
+CHUNK_MAX_BYTES = 9_500_000
 
 
 def _safe_stem(name: str) -> str:
@@ -100,7 +107,18 @@ def main() -> int:
         print(f"[{i}/{len(audios)}] transcribing {audio.name} …", file=sys.stderr)
         t_start = time.monotonic()
         audio_bytes = audio.read_bytes()
-        text = transcribe_audio(creds, audio_bytes, audio.name, locale=args.locale)
+        if audio.suffix.lower() == ".mp3" and len(audio_bytes) > CHUNK_THRESHOLD_BYTES:
+            chunks = chunk_mp3_bytes(audio_bytes, max_bytes=CHUNK_MAX_BYTES)
+            print(f"      ↻ chunked into {len(chunks)} pieces (synchronous endpoint can't handle full file)", file=sys.stderr)
+            parts: list[str] = []
+            for j, chunk in enumerate(chunks, 1):
+                print(f"      · chunk {j}/{len(chunks)} ({len(chunk):,} bytes) …", file=sys.stderr)
+                chunk_name = f"{audio.stem}.part{j:02d}.mp3"
+                part_text = transcribe_audio(creds, chunk, chunk_name, locale=args.locale)
+                parts.append(part_text)
+            text = "\n\n".join(p for p in parts if p)
+        else:
+            text = transcribe_audio(creds, audio_bytes, audio.name, locale=args.locale)
         elapsed = time.monotonic() - t_start
         out_path.write_text(text, encoding="utf-8")
         print(
