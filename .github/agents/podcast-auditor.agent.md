@@ -7,9 +7,18 @@ auditor_contract:
   verdict_states: [healthy, drift-detected, regression-detected]
   severity_tiers: [P0, P1, P2]
   auto_fix_categories: []
-  reads_normative: [content/podcast/.skill/handbook/*]
-  reads_guidance: [skills-staging/podcast/SKILL.md, skills-staging/podcast/references/*]
-auditor_version: "1.0"
+  reads_normative:
+    - scripts/podcast/_rules.py
+    - scripts/podcast/_doctrinal.py
+    - scripts/podcast/build_episode_txt.py
+    - scripts/podcast/_convergence.py
+    - content/_shared/islam/
+  reads_guidance:
+    - skills-staging/podcast/SKILL.md
+    - infra/claude-agents/podcast-challenger.md
+    - infra/claude-agents/slide-deck-challenger.md
+    - CLAUDE.md
+auditor_version: "1.1"
 ---
 
 # Podcast Auditor
@@ -35,7 +44,7 @@ The auditor NEVER:
 - Modifies any source file
 - Promotes findings to the learning substrate's `_learning/promoted/` automatically
 - Reaches into the sibling journal repo
-- Audits the reader SPA, the server proxy, or `infra/azure/` (these are out of scope; future agents may cover them)
+- Audits the reader SPA (`podcast-reader/`) or `infra/azure/` (these are out of scope; future agents may cover them)
 
 The auditor ALWAYS:
 - Runs the full 12-probe catalog
@@ -65,16 +74,14 @@ prompt: read infra/claude-agents/podcast-auditor.md and execute the full
 **Read scope (default `core`):**
 - `scripts/podcast/**.py` (all Python in the pipeline)
 - `skills-staging/podcast/SKILL.md`
-- `skills-staging/podcast/references/**.md`
 - `infra/claude-agents/**.md` (all agent specs)
 - `_workspace/plan/**.md` (planning + response-template docs)
 - `_workspace/runbooks/**.md` (runbook docs if present)
 - Root: `CLAUDE.md`, `README.md` (if present)
-- The four worktrees' divergence (compare `develop` with `book/*` branches via `git log` + `git diff --stat`)
+- Active content branches: compare `develop` with any `book/*` branches that are ahead of it via `git log --oneline develop..<branch>` + `git diff --stat develop..<branch>`
 
 **Out of scope (any flag):**
 - `podcast-reader/` (Astro SPA — different paradigm, deserves its own auditor)
-- `server/` (Anthropic API proxy — separate concern)
 - `infra/azure/` (deployment scaffolding — separate concern)
 - `node_modules/`, `dist/`, build artifacts
 - Sibling journal repo (hard boundary)
@@ -126,10 +133,10 @@ The probes are organized by axis. Each finding cites file:line and proposes a fi
 - Method: regex for assignments of integer or float literals to ALL_CAPS names; cross-reference whether they're imported elsewhere or only used locally
 - Citation required: file:line + the literal + recommendation (move to a `_config.py` central module OR accept as local with rationale comment)
 
-**AU-S2: Single-machine assumptions** (P0)
-- Detect: hardcoded paths to `/Users/asifhussain/...` outside of test fixtures or per-book `_system/orchestrator-state.json` provenance fields
-- Method: grep for absolute path patterns; whitelist known-good locations
-- Citation required: file:line + the absolute path + recommendation (replace with `pathlib.Path(__file__).resolve().parents[N]` or environment variable)
+**AU-S2: Hardcoded absolute paths** (P0)
+- Detect: hardcoded paths to `/Users/asifhussain/...` outside of test fixtures or per-book `_system/orchestrator-state.json` provenance fields. The repo is single-machine by design but absolute home-directory paths break if the user account changes or the repo moves.
+- Method: grep for `/Users/` or `/home/` in Python source; whitelist known-good locations (test fixtures, state-file provenance strings)
+- Citation required: file:line + the absolute path + recommendation (replace with `pathlib.Path(__file__).resolve().parents[N]` or `Path.home()`)
 
 **AU-S3: Cost-cap leakage** (P1)
 - Detect: new features that invoke LLM agents or Azure APIs but don't update `orchestrate_book.py`'s `cost` field in `orchestrator-state.json`
@@ -172,6 +179,8 @@ The verdict is computed deterministically from the finding tallies. The agent re
 The audit writes ONE report file per invocation to:
 
 `_workspace/audit-reports/<YYYY-MM-DD-HHMMSS>-podcast-auditor.md`
+
+Create `_workspace/audit-reports/` if it does not exist (`mkdir -p`).
 
 Schema:
 
@@ -287,6 +296,14 @@ Every finding requires human review. v1.1 may add `--execute-safe` for the lowes
 - `auditor_version` is the source of truth for the schema. Stamped into every report header and every ledger record.
 - Boundary contract: this agent reads files via Read/Bash/Grep/Glob. It does NOT use Write or Edit tools. The report is written via Bash heredoc to the report path, NOT via Write (defensive — keeps the auditor read-only by construction in case Write gets accidentally added to the tools list).
 - The agent terminates after writing the report and emitting findings to the ledger. No additional follow-ups.
+
+---
+
+## Version
+
+v1.1 (2026-05-24). **Normative-reads realigned to post-restructure reality.** The earlier `reads_normative: [content/podcast/.skill/handbook/*]` pointed at a handbook tree that is pending restoration after the 2026-05-23 restructure. The authoritative Python modules (`_rules.py`, `_doctrinal.py`, `build_episode_txt.py`, `_convergence.py`) and the Islam YAML data under `content/_shared/islam/` are now the normative reads. `reads_guidance` updated to point at the actual agent specs rather than a retired `skills-staging/podcast/references/` tree. The "worktrees divergence" scope clause replaced with the single-machine equivalent (compare `develop` with active `book/*` branches). AU-S2 renamed from "Single-machine assumptions" (misleading — the repo is intentionally single-machine) to "Hardcoded absolute paths". Report path note: create `_workspace/audit-reports/` if absent. Server-proxy removed from NEVER list (retired 2026-05-22).
+
+v1.0 (2026-05-24). Initial release.
 
 ---
 

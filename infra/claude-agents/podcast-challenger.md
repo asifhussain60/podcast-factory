@@ -327,20 +327,20 @@ Per-episode checks that the framing's host-pacing layer, reset directives, sente
 
 Category R is **partially auto-fixable**: R1–R5 framing-side checks are deterministic insertions when the parent section exists. R6–R7 transcript-empirical checks are flag-only — the audio cannot be rewritten.
 
-### Category Q: Chapter-set design quality (book-scope; per INVARIANT 6) — added 2026-05-18
+### Category CS: Chapter-set design quality (book-scope; per INVARIANT 6) — added 2026-05-18, renamed from Q to CS in v2.2
 
-Mode dispatch: always runs **once per invocation at book scope**, regardless of per-chapter scope flags. The chapter-set is a property of the book; per-chapter checks alone cannot detect a duplicated title, a band-fit mismatch, or a series whose chapter sizes don't balance. All Category Q computation lives in `scripts/podcast/check_chapter_set.py` — the challenger invokes that script once via Bash, parses the JSON, and folds findings into the sidecar report.
+Mode dispatch: always runs **once per invocation at book scope**, regardless of per-chapter scope flags. The chapter-set is a property of the book; per-chapter checks alone cannot detect a duplicated title, a band-fit mismatch, or a series whose chapter sizes don't balance. All Category CS computation lives in `scripts/podcast/check_chapter_set.py` — the challenger invokes that script once via Bash, parses the JSON, and folds findings into the sidecar report.
 
 | ID | Check | Detection | Remediation |
 |---|---|---|---|
-| Q1 | **Chapter titles unique within the book** (case-insensitive). Per INVARIANT 6, every chapter has a distinct working title; duplicates indicate a design failure where two chapters cover the same theme. | `check_chapter_set.py` Q1 — scans all `chapter-contracts/<slug>.yml` titles. | Flag (P0). Authoring decision — rename one of the colliding chapters. |
-| Q2 | **Title concise** — ≤60 chars hard cap; ≤6 words soft target. | `check_chapter_set.py` Q2 — `len(title)` and `len(title.split())`. | Flag (P0) when over 60 chars. Flag (P2 advisory) when over 6 words. Authoring decision — tighten the title. |
-| Q3 | **Title not generic** — does not match `Chapter \d`, `Introduction continued`, `Untitled`, or `[TODO]`-prefixed. Author-name-only titles (`<Author> on …`) are also caught at this stage. | `check_chapter_set.py` Q3 — regex match against generic patterns. | Flag (P1). Authoring decision. |
-| Q4 | **Word count matches declared length band** — each chapter's actual word count lands inside the band declared in `contract.length_target` (Brief 1000–1800; Default Deep Dive 1800–2800; Longer 2800–4500). | `check_chapter_set.py` Q4 — word count vs band. | Flag (P0). Either rewrite to fit the band OR honestly relabel `length_target` to match the content. |
-| Q5 | **Chapter-set balance** — ≤30% word-count variance across the book's chapters: `(max − min) / max ≤ 0.30`. | `check_chapter_set.py` Q5. | Flag (P1). Authoring decision — resegment or rebalance. |
-| Q6 | **No cross-book name/slug bleed** — chapter text contains no canonical name (from another book's `_system/mangle-map.md`) or book-slug from any OTHER book. Backstops the per-book externalization done in commit ad1cc37. | `check_chapter_set.py` Q6 — case-insensitive word-boundary substring scan. | Flag (P2 advisory). False positives are possible on common words; the agent surfaces the hit for human review, never auto-strips chapter content. |
+| CS1 | **Chapter titles unique within the book** (case-insensitive). Per INVARIANT 6, every chapter has a distinct working title; duplicates indicate a design failure where two chapters cover the same theme. | `check_chapter_set.py` CS1 — scans all `chapter-contracts/<slug>.yml` titles. | Flag (P0). Authoring decision — rename one of the colliding chapters. |
+| CS2 | **Title concise** — ≤60 chars hard cap; ≤6 words soft target. | `check_chapter_set.py` CS2 — `len(title)` and `len(title.split())`. | Flag (P0) when over 60 chars. Flag (P2 advisory) when over 6 words. Authoring decision — tighten the title. |
+| CS3 | **Title not generic** — does not match `Chapter \d`, `Introduction continued`, `Untitled`, or `[TODO]`-prefixed. Author-name-only titles (`<Author> on …`) are also caught at this stage. | `check_chapter_set.py` CS3 — regex match against generic patterns. | Flag (P1). Authoring decision. |
+| CS4 | **Word count matches declared length band** — each chapter's actual word count lands inside the band declared in `contract.length_target` (Brief 1000–1800; Default Deep Dive 1800–2800; Longer 2800–4500). | `check_chapter_set.py` CS4 — word count vs band. | Flag (P0). Either rewrite to fit the band OR honestly relabel `length_target` to match the content. |
+| CS5 | **Chapter-set balance** — ≤30% word-count variance across the book's chapters: `(max − min) / max ≤ 0.30`. | `check_chapter_set.py` CS5. | Flag (P1). Authoring decision — resegment or rebalance. |
+| CS6 | **No cross-book name/slug bleed** — chapter text contains no canonical name (from another book's `_system/mangle-map.md`) or book-slug from any OTHER book. | `check_chapter_set.py` CS6 — case-insensitive word-boundary substring scan. | Flag (P2 advisory). False positives are possible on common words; the agent surfaces the hit for human review, never auto-strips chapter content. |
 
-Category Q is **never auto-fixed**. Every Q-finding is an authoring decision; the challenger flags and the author resolves. Q-findings on a book with **zero chapters** (a freshly scaffolded book) emit one INFO/P2 line and exit — there is nothing to validate yet.
+Category CS is **never auto-fixed**. Every CS-finding is an authoring decision; the challenger flags and the author resolves. CS-findings on a book with **zero chapters** (a freshly scaffolded book) emit one INFO/P2 line and exit — there is nothing to validate yet.
 
 ---
 
@@ -402,7 +402,7 @@ Category T fixtures live under `content/podcast/.skill/_learning/fixtures/doctri
 - **R4 (formal-transition DENY)**: extend the `## Do not` block with the canonical R-NOFORMAL clause when the block exists
 - **R5 (R-NOMODERNIZE softened — analogy permission)**: insert the "DO use modern-life practical analogies" paragraph when the negative `## Do not` block exists but the permission half is absent
 
-**Category Q (chapter-set design) is never auto-fixed** — every Q-finding is an authoring decision (rename a chapter, rebalance the set, relabel the length band). Category R **framing-side** checks (R1–R5) auto-fix per the matrix above; Category R **transcript-empirical** checks (R6, R7) are flag-only (the audio is already rendered).
+**Category CS (chapter-set design) is never auto-fixed** — every CS-finding is an authoring decision (rename a chapter, rebalance the set, relabel the length band). Category R **framing-side** checks (R1–R5) auto-fix per the matrix above; Category R **transcript-empirical** checks (R6, R7) are flag-only (the audio is already rendered).
 
 **Everything else is flagged**, not auto-fixed. The agent never:
 - Adds, removes, or changes citations (authoring decision).
@@ -440,7 +440,7 @@ After loop:
  - Else → SHIP-READY verdict.
 ```
 
-**Category Q runs once per invocation at book scope** — invoke `python3 scripts/podcast/check_chapter_set.py <BOOK_DIR>` once (not per-iteration), parse the JSON output, and fold the findings into the report alongside the per-chapter findings. Q-findings are never auto-fixed, so re-running them per iteration adds no value.
+**Category CS runs once per invocation at book scope** — invoke `python3 scripts/podcast/check_chapter_set.py <BOOK_DIR>` once (not per-iteration), parse the JSON output, and fold the findings into the report alongside the per-chapter findings. CS-findings are never auto-fixed, so re-running them per iteration adds no value.
 
 The per-invocation cap is a circuit-breaker — it bounds runtime in a single shot. The **outer re-invocation loop is the caller's responsibility** (the `/podcast` skill's Phase 4 step 3 drives it: read this report's `Verdict:` line, address P0 findings if not SHIP-READY, re-invoke). Two consecutive outer invocations with identical (verdict, p0_count, p1_count) → outer stall surfaced to human. This agent is not responsible for that outer accounting — it just writes the report.
 
@@ -462,6 +462,8 @@ Always write the sidecar report (Section 6) — even on a clean run, the report 
 **Scope:** <per-book | per-chapter <chapter-slug>>
 **Iterations:** N (of 3 max)
 **Verdict:** SHIP-READY | SHIP-WITH-CAUTION | BLOCKED
+
+> The `CHALLENGER_VERSION` value comes from `scripts/podcast/_rules.py` — read it at run time and stamp it into the report header, do not hard-code a version string.
 
 ## Auto-fixes applied (iteration-by-iteration)
 
@@ -572,7 +574,7 @@ If `verdict == BLOCKED`: list the P0 items inline (max 5) and stop. Do not attem
 
 ### Orchestrator
 
-`journal-orchestrator.agent.md`'s skill-routing table includes triggers for this agent (see that file for the current set). The orchestrator should refuse to route any "ready for upload" / "publish" / "ship the podcast" intent until the most recent challenger run for the affected book shows `SHIP-READY`. Read the sidecar report's `Verdict:` line.
+`scripts/podcast/orchestrate_book.py` drives this agent during the per-chapter convergence loop and again as the G7 gate inside `validate_ship_ready.py`. The orchestrator refuses to advance a book past the `finalize` phase until the most recent challenger run for every chapter shows `SHIP-READY` or `SHIP-WITH-CAUTION`. Read the sidecar report's `Verdict:` line.
 
 ### Podcast skill
 
@@ -589,7 +591,7 @@ This agent calls the build script after every auto-fix iteration so the episode 
 ### Extract Mode adapter
 
 `scripts/podcast/extract_chapter.py` is the sibling structural gate for Extract Mode books. It:
-- Resolves chapter refs within `_workspace/books/<book-slug>/chapters/` (memoir paths blocked via `PROHIBITED_PATH_PREFIXES`).
+- Resolves chapter refs within `content/drafts/<book-slug>/chapters/` and `content/published/books/<book-slug>/chapters/` (memoir paths blocked via `PROHIBITED_PATH_PREFIXES`).
 - Reads the per-chapter contract at `BOOK_DIR/chapter-contracts/<slug>.yml`.
 - Runs `lint_contract_meta_prose` over the fields that flow into the rendered framing — same `META_PROSE_TELLS` / `META_PROSE_REGEX_TELLS` family as the build script, applied at extract time so the contract is fixed instead of a generated artifact.
 - Emits the 5-file episode-draft scaffold + chapter copy. Deterministic; same contract + same chapter → byte-identical re-run.
@@ -602,11 +604,11 @@ For Category G findings, the agent uses this script as the validator: re-run wit
 
 When invoked:
 
-1. Confirm the book-slug. If missing, ask: "Which book? (give the `<book-slug>` directory name from `_workspace/books/`)".
-2. Confirm scope. If per-chapter, confirm the chapter slug exists.
+1. Confirm the book-slug. If missing, ask: "Which book? (give the `<book-slug>` directory name from `content/drafts/`)".
+2. Confirm scope. If per-chapter, confirm the chapter slug exists under `content/drafts/<book-slug>/chapters/`.
 3. Read the cold-start files (Section 0 list).
 4. Enumerate the in-scope chapters + framings.
-5. Announce: "podcast-challenger: starting iteration 1 of up to 3 for <book-slug>" and begin.
+5. Announce: "podcast-challenger: starting iteration 1 of up to 5 for <book-slug>" and begin.
 6. Execute the convergence loop (Section 4).
 7. Write the sidecar report.
 8. Emit the chat summary (Section 5).
@@ -615,7 +617,7 @@ When invoked:
 
 ## SECTION 8 — Anti-anti-patterns (things to NOT do)
 
-- Do not run the agent on content outside `_workspace/books/<book>/` (in-progress per-book state) or `library/books/<book>/` (shipped catalog). Memoir is out of scope; the boundary is hard.
+- Do not run the agent on content outside `content/drafts/<book-slug>/` (in-progress per-book state) or `content/published/books/<book-slug>/` (shipped catalog). Memoir is out of scope; the boundary is hard.
 - Do not auto-fix any check not explicitly listed in Section 3's allowed set. When in doubt, flag.
 - Do not exceed the per-invocation `max_iterations` cap (frontmatter; currently 5). Failure to converge within the cap is a signal that the chapter has a structural issue — write the report at the current verdict, let the outer caller decide whether to address P0 findings and re-invoke or surface to human. **Do not silently inflate the cap to force SHIP-READY.**
 - Do not implement the outer re-invocation loop inside this agent. The agent runs once, writes the report, and exits. The caller (`/podcast` Phase 4 step 3) is responsible for reading the verdict and re-invoking after P0 fixes.
@@ -627,6 +629,8 @@ When invoked:
 ---
 
 ## Version
+
+v2.2 (2026-05-24). **Category Q collision resolved; stale paths corrected.** The v2.1 release added "Category Q: Host role parity book-wide" without noticing that v1.8 had already used "Category Q" for chapter-set design quality (CS1–CS6). The duplicate was silently producing two conflicting Q-check families with overlapping IDs (Q1–Q5 vs Q1–Q6). Fixed by renaming the older chapter-set-design category to **Category CS** (CS1–CS6) throughout: check catalog, Section 3 auto-fix note, Section 4 scope statement. Host role parity retains the Category Q label (Q1–Q5). Additional corrections: stale `_workspace/books/` path references replaced with `content/drafts/<slug>/` + `content/published/books/<slug>/`; cold-start iteration count corrected from "up to 3" to "up to 5" (was fixed in v1.4 but not reflected in cold-start prose); Section 6 Orchestrator reference updated from retired `journal-orchestrator.agent.md` to `orchestrate_book.py` + `validate_ship_ready.py`; Extract Mode adapter stale path corrected; sidecar report template now instructs the agent to read `CHALLENGER_VERSION` from `_rules.py` at run time rather than hard-coding "v1.0"; `auditor_version` in frontmatter bumped to reflect post-restructure reality.
 
 v2.1 (2026-05-24). **Host role parity book-wide (P0) + episode format recommendation (P1).** Added Category Q (Host role parity book-wide) — Host A (male voice) is always the scholar/teacher pool; Host B (female voice) is always the seeker/student/debater pool; roles do not rotate, swap, or blur across episodes within a single book. Five checks: Q1 (host A role in scholar pool), Q2 (host B role in seeker pool), Q3 (role parity across all episodes of the same book — read sibling framings to verify), Q4 (voice/gender pairing declared and consistent with NotebookLM default voices via `HOST_VOICE_GENDER` in `_rules.py`), Q5 (transcript empirical: scholar/seeker positions held by the right voice). Canonical role pools live in [`scripts/podcast/_rules.py`](../../scripts/podcast/_rules.py) — `HOST_A_ROLES_SCHOLAR` (12 terms) + `HOST_B_ROLES_SEEKER` (11 terms). New R-EPISODE-FORMAT-RECOMMENDED — every chapter-contract declares `episode_format: deep_dive | debate` with rationale; missing or partial debate blocks are P1 (extract mode already validates at chapter-contract write time per Category P; this elevates the requirement to the contract-design phase via `EPISODE_FORMAT_ALLOWED` enum in `_rules.py`). `CHALLENGER_VERSION` bumped 2.0 → 2.1.
 
