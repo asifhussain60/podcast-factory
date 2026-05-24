@@ -134,15 +134,18 @@ def _info(msg: str) -> None:
 
 
 def _resolve_book_path(category: str, slug: str) -> Path:
-    """Return the canonical content/drafts path for a book.
+    """Return the canonical content/drafts path for a piece of content.
 
     Post-2026-05-23 restructure: 'books' category is flat at
     content/drafts/<slug>/. Other categories use the nested layout
     content/drafts/<cat>/<slug>/ (for future articles, lectures, etc.).
+
+    Prior version called itself recursively on the non-book branch, blowing
+    the stack on any category other than 'books'. Fixed 2026-05-24.
     """
     if category == "books":
         return LIBRARY_ROOT / slug
-    return _resolve_book_path(category, slug)
+    return LIBRARY_ROOT / category / slug
 
 
 def _book_dir(book_slug: str) -> Path | None:

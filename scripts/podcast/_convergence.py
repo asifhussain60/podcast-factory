@@ -68,8 +68,15 @@ class ChapterOutcome:
 
 # ─── Verdict parsing ─────────────────────────────────────────────────────────
 
+# Tolerant of two shapes the challenger LLM emits in real reports:
+#   `**Verdict:** SHIP-READY`           ← canonical top-of-file form
+#   `**Verdict: SHIP-WITH-CAUTION** —`  ← in-body per-iteration summary form
+# Falling back to BLOCKED on unparseable verdicts (the prior behavior) is safe
+# but expensive — convergence then exhausts the iteration cap re-running an
+# already-passing chapter. This regex accepts either shape without falsely
+# matching prose containing the word "verdict".
 VERDICT_LINE_RE = re.compile(
-    r"^\*\*Verdict:\*\*\s*(SHIP-READY|SHIP-WITH-CAUTION|BLOCKED)",
+    r"^\*\*Verdict:?\s*\*?\*?\s*:?\s*(SHIP-READY|SHIP-WITH-CAUTION|BLOCKED)",
     re.MULTILINE | re.IGNORECASE,
 )
 FINDING_COUNT_RE = re.compile(

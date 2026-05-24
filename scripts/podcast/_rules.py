@@ -4,10 +4,13 @@ from pathlib import Path
 
 """Canonical rule data shared across the podcast scripts.
 
-These lists are mirrored from `content/podcast/.skill/handbook/notebooklm-customize-prompt-rules.md`
-(the NORMATIVE contract). When a rule changes, edit BOTH this file and the handbook
-normative copy together. The handbook is the source of truth for humans; this file
-is the source of truth for code.
+This file IS the source of truth for the rule lists. An earlier version of
+this docstring named `content/podcast/.skill/handbook/notebooklm-customize-
+prompt-rules.md` as the normative human-readable counterpart; that handbook
+tree was removed in the 2026-05-23 restructure and has not been restored.
+Until it is, this file (plus content/_shared/islam/*.yml for doctrinal data)
+holds the contract for both humans and code. See infra/claude-agents/
+podcast-challenger.md Section 0 for the current authority list.
 
 Consumers:
   - scripts/podcast/build_episode_txt.py — uses ABBREVIATIONS_MAP + HONORIFICS to

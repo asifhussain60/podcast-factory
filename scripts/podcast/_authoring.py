@@ -349,7 +349,8 @@ def author_phase_0c(
     """Add phonetic transcription for every Arabic / non-English term — windowed.
 
     Reads:  BOOK_DIR/_system/source/text/refined-english.md
-            content/_shared/arabic/03-arabic-english-manifest.md (authoritative)
+            (the prior canonical Arabic-manifest at content/_shared/arabic/
+            was retired 2026-05-23; phonetics are now derived per-book)
     Writes: BOOK_DIR/_system/source/text/_phonetics.md
             BOOK_DIR/_system/source/text/_chunks/0c/win-NNN.{in,out}.md
 
@@ -378,10 +379,11 @@ def author_phase_0c(
             f"on book-slug `{book_slug}`, **window {idx} of {total}**. Read the canonical "
             f"procedure from `skills-staging/podcast/SKILL.md` (search `### PHASE 0c`).\n\n"
             f"INPUT  (read this window): `{win_in}`\n"
-            f"AUTHORITY (consult before adding new entries):\n"
-            f"  - `content/_shared/arabic/03-arabic-english-manifest.md` (canonical — WINS)\n"
-            f"  - `content/_shared/arabic/01-tts-pronunciation-key.md` (TTS rules)\n"
-            f"  - `content/_shared/arabic/05-name-alias-policy.md` (long-name → short alias)\n"
+            f"AUTHORITY (the Arabic-manifest and name-alias handbook tree was retired in the\n"
+            f"2026-05-23 restructure; if `content/_shared/arabic/*` exists in this repo it is\n"
+            f"advisory only — otherwise rely on the rules inlined below and on this window's\n"
+            f"own Arabic terms. For doctrinal naming (Imam lineage, 'Father of Imams', etc.)\n"
+            f"see `content/_shared/islam/imam-lineage-ismaili.yml` and `naming-conventions.yml`).\n"
             f"OUTPUT (write the phonetic table for THIS window only): `{win_out}`\n\n"
             f"Output FORMAT — a markdown pipe table with EXACTLY this header:\n"
             f"```\n"
@@ -768,8 +770,11 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"  · word_count: {slice_wc}  ·  source_line_range: {start_line}-{end_line}\n"
             f"AUTHORITY:\n"
             f"  - `{in_phonetics}` (consult for Arabic terms appearing in this slice)\n"
-            f"  - `content/_shared/arabic/03-arabic-english-manifest.md`\n"
-            f"  - `skills-staging/podcast/handbook/chapter-contract.template.yml` (contract shape)\n\n"
+            f"  - `content/_shared/islam/imam-lineage-ismaili.yml` (canonical Imam lineage —\n"
+            f"    Hassan=1st; 'Imam Ali' is FORBIDDEN, use 'Father of Imams') and\n"
+            f"    `naming-conventions.yml`\n"
+            f"  - Contract shape: every episode contract under `chapter-contracts/` follows\n"
+            f"    the same fields seen in earlier shipped books (see `content/published/books/*/`)\n\n"
             f"PLAN FOR THIS SOURCE CHAPTER (from `{toc_path}`):\n"
             f"  unit_mode: {sc_unit_mode}\n"
             f"  episode_count: {episode_count}\n"
@@ -984,8 +989,9 @@ def author_phase_0e(book_dir: Path,
     receives one row per chapter as each completes.
 
     Reads:  every BOOK_DIR/chapters/ch*.txt
-            content/podcast/.skill/handbook/enrichment-sources.md
-            content/_shared/arabic/03-arabic-english-manifest.md
+            content/_shared/islam/*.yml (doctrinal lineage + naming + canonical attributions)
+            (the prior enrichment-sources.md handbook tree was retired 2026-05-23;
+            the 7-tier source hierarchy is now inlined in this function's LLM prompt)
     Writes: enriched BOOK_DIR/chapters/ch*.txt (in place)
             BOOK_DIR/_system/enrichment-log.md (per-chapter status)
     """
@@ -1036,12 +1042,19 @@ def author_phase_0e(book_dir: Path,
             f"the canonical procedure from `skills-staging/podcast/SKILL.md` "
             f"(search `### PHASE 0e`) and apply it to THIS ONE chapter.\n\n"
             f"INPUT (the chapter file to enrich in place): `{chapter_file}`\n"
-            f"AUTHORITY:\n"
-            f"  - `content/podcast/.skill/handbook/enrichment-sources.md` (seven-tier "
-            f"whitelist + 60% cap + tier-diversity rule)\n"
-            f"  - `content/_shared/arabic/03-arabic-english-manifest.md`\n"
-            f"  - `content/podcast/.skill/handbook/notebooklm-source-chapter-rules.md` "
-            f"(R-rules)\n\n"
+            f"AUTHORITY (the prior `content/podcast/.skill/handbook/` tree was retired in the\n"
+            f"2026-05-23 restructure; the R-rules, tier-diversity rule, and Arabic manifest\n"
+            f"that lived there are inlined below — proceed without trying to Read those paths):\n"
+            f"  - DOCTRINAL accuracy: `content/_shared/islam/imam-lineage-ismaili.yml`,\n"
+            f"    `naming-conventions.yml`, `canonical-attributions.yml` ARE source-of-truth\n"
+            f"    and DO exist on disk. 'Imam Ali' is FORBIDDEN — use 'Father of Imams'.\n"
+            f"    Hassan is the 1st Imam in the canonical lineage.\n"
+            f"  - ENRICHMENT-SOURCE TIERS: seven tiers ranging from Quran/Nahj/Prophetic\n"
+            f"    hadith (Tier 1) down to modern Ismaili scholarship (Tier 7). Each chapter\n"
+            f"    should pull from at least 3 different tiers; quotations/citations together\n"
+            f"    should not exceed 60% of total wordcount; no consecutive blockquote stacks.\n"
+            f"  - R-RULES: see the rule lists inlined below in this prompt; the canonical\n"
+            f"    Python data lives in `scripts/podcast/_rules.py`.\n\n"
             f"OUTPUTS (write ONLY these — do NOT touch any other file):\n"
             f"  - `{chapter_file}` (enriched in place)\n\n"
             f"Constraints:\n"
@@ -1185,7 +1198,8 @@ def author_framing(book_dir: Path, chapter_slug: str,
 
     Reads:  BOOK_DIR/chapter-contracts/<slug>.yml
             BOOK_DIR/chapters/ch##-<slug>.txt
-            content/podcast/.skill/handbook/notebooklm-customize-prompt-rules.md
+            (rule data: scripts/podcast/_rules.py — the prior
+            notebooklm-customize-prompt-rules.md handbook was retired 2026-05-23)
     Writes: BOOK_DIR/_system/episode-drafts/EP##-<slug>/00-framing.md
     """
     book_slug = book_dir.name
@@ -1223,16 +1237,20 @@ def author_framing(book_dir: Path, chapter_slug: str,
     prompt = (
         f"You are authoring the framing (NotebookLM customize prompt) for episode "
         f"`EP{chap_num}-{chapter_slug}` of book `{book_slug}`. Read the canonical "
-        f"procedure from `skills-staging/podcast/SKILL.md` PHASE 3 (Structure) and "
-        f"`content/podcast/.skill/handbook/notebooklm-customize-prompt-rules.md` "
-        f"(the framing's authority).\n\n"
+        f"procedure from `skills-staging/podcast/SKILL.md` PHASE 3 (Structure).\n\n"
         f"INPUT:\n"
         f"  - `{contract}` (chapter contract — audience, angle, host_dynamic, tensions, anchors)\n"
         f"  - `{chapter_file}` (the enriched chapter that NotebookLM uploads as SOURCE)\n"
-        f"AUTHORITY:\n"
-        f"  - `content/podcast/.skill/handbook/notebooklm-customize-prompt-rules.md`\n"
-        f"  - `content/podcast/.skill/handbook/two-host-framing.md` (Driver vs Color roles)\n"
-        f"  - `content/_shared/arabic/05-name-alias-policy.md`\n"
+        f"AUTHORITY (the prior `content/podcast/.skill/handbook/notebooklm-customize-prompt-rules.md`,\n"
+        f"`two-host-framing.md`, and `content/_shared/arabic/05-name-alias-policy.md` were retired\n"
+        f"in the 2026-05-23 restructure; the R-rules they carried are inlined in this prompt below):\n"
+        f"  - DOCTRINAL: `content/_shared/islam/imam-lineage-ismaili.yml` + `naming-conventions.yml`\n"
+        f"    are the canonical sources for the Imam lineage and the 'Father of Imams' / 'Imam Ali\n"
+        f"    is forbidden' rule. THESE FILES DO exist on disk.\n"
+        f"  - HOST ROLES: Driver (curious questioner, drives forward) vs Color (commentary,\n"
+        f"    pushback, friction) — see inlined R-rules below for the steering phrases.\n"
+        f"  - R-RULES: canonical Python data is `scripts/podcast/_rules.py`; rule logic is\n"
+        f"    inlined into this prompt below — do not try to Read external rule docs.\n"
         f"OUTPUT: `{framing_path}` (the customize prompt — pasted into NotebookLM's Customize box)\n\n"
         f"Constraints (per `notebooklm-customize-prompt-rules.md`):\n"
         f"- R-WELCOME, R-NOREPEAT, R-NOBACKGROUND, R-NAMEALIAS, R-NOINTERRUPT, "
