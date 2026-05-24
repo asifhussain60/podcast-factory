@@ -1,8 +1,11 @@
 # Azure Pipeline — Operator's Guide
 
-This directory is the field guide for the Azure side of the Journal app:
-how it's wired, how to bring it up from scratch, how to keep it running, and
-what to do when it breaks. Mirrors the layout of `docs/cloudflare/`.
+This directory is the field guide for the Azure side of the podcast-factory
+pipeline: how it's wired, how to bring it up from scratch, how to keep it
+running, and what to do when it breaks. The architecture overview at
+[docs/architecture/index.html#azure](../architecture/index.html#azure) shows
+how Azure fits into the larger pipeline; this directory carries the deep
+operational detail.
 
 ## What lives where
 

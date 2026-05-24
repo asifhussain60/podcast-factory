@@ -3,7 +3,7 @@
 
 The autonomous orchestrator's per-chapter loop, lifted into its own module so
 `orchestrate_book.py` stays focused on phase sequencing. Per the v2 spec
-(`docs/architecture/podcast-orchestrator.html` §4), each chapter goes through:
+(`docs/architecture/index.html#convergence`), each chapter goes through:
 
     extract → author framing → build episode .txt → CONVERGENCE LOOP → ship
 

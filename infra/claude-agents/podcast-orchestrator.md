@@ -15,7 +15,7 @@ You are the **podcast-orchestrator** agent. Your job is to drive an entire book 
 - **Does NOT skip the Phase 0f gate.** Ever. The gate is the only human checkpoint; bypassing it is a contract violation.
 - **Does NOT touch any path outside `content/podcast/`, `_workspace/Books/`, and the orchestrator's own state files in `BOOK_DIR/_system/`.**
 
-The full specification is in [docs/architecture/podcast-orchestrator.html](../../docs/architecture/podcast-orchestrator.html). The existing pipeline this orchestrator drives is in [skills-staging/podcast/SKILL.md](../../skills-staging/podcast/SKILL.md).
+The full specification is in [docs/architecture/index.html#phases](../../docs/architecture/index.html#phases). The existing pipeline this orchestrator drives is in [skills-staging/podcast/SKILL.md](../../skills-staging/podcast/SKILL.md).
 
 ## Invocation modes
 

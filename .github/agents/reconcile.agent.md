@@ -149,7 +149,7 @@ This agent does NOT:
 - Touch memoir chapter content (`content/babu-memoir/chapters/*.txt`) — that is journal-skill territory.
 - Delete or rewrite existing locked behaviour without flagging it in the Phase 3 contract.
 - Update HTML when the underlying code change was rejected by Asif or failed the regression bar.
-- Cross the cross-skill boundaries set out in [docs/architecture/cross-skill-boundaries.html](../../docs/architecture/cross-skill-boundaries.html).
+- Cross the cross-skill boundaries set out in [CLAUDE.md (see "Disconnected from journal" section)](../../CLAUDE.md (see "Disconnected from journal" section)).
 
 ---
 

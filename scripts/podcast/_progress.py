@@ -3,7 +3,7 @@
 
 The state file at `<BOOK_DIR>/_system/orchestrator-state.json` is the
 **single source of truth** for the autonomous orchestrator. Per the v2
-spec (docs/architecture/podcast-orchestrator.html), there is no committed
+spec (docs/architecture/index.html#phases), there is no committed
 `PROGRESS.md` artifact — this file is read by `orchestrate-book --status`
 to render a human view on demand.
 

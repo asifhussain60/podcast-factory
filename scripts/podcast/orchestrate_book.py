@@ -5,7 +5,7 @@ PURPOSE
 
   Deterministic Python driver for the `podcast-orchestrator` agent. v2 plan
   shipped Phases A + B + C in a single coherent landing (see
-  docs/architecture/podcast-orchestrator.html §10):
+  docs/architecture/index.html#phases):
 
     Phase A · Driver pre-flight → Phase 0a (Azure ingest)
     Phase B · Per-chapter convergence loop (3 outer × 5 inner = 15 max)

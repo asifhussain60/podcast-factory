@@ -1,289 +1,1654 @@
 <!DOCTYPE html>
+<!-- generated from 94e1e06ca759af30ef21662c7a9eb0da3b2522d7 at 2026-05-24 by infra/claude-agents/docs-updater.md -->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Architecture — Journal & Podcast Skills</title>
+  <title>Podcast Factory — Architecture</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/architecture.css">
+  <style>
+    /* Page-specific layout: sticky left nav + flowing main column. */
+    .layout {
+      display: grid;
+      grid-template-columns: 240px minmax(0, 1fr);
+      gap: 3rem;
+      max-width: 1380px;
+      margin: 0 auto;
+      padding: 3rem 1.75rem 6rem;
+    }
+    @media (max-width: 980px) {
+      .layout { grid-template-columns: 1fr; gap: 1rem; }
+      .sidenav { position: static; max-height: none; }
+    }
+    .sidenav {
+      position: sticky;
+      top: 5.5rem;
+      align-self: start;
+      max-height: calc(100vh - 6.5rem);
+      overflow-y: auto;
+      padding: 1.25rem 1rem;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+    }
+    .sidenav .nav-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .sidenav ol {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      counter-reset: nav;
+    }
+    .sidenav li {
+      counter-increment: nav;
+      margin: 0;
+    }
+    .sidenav a {
+      display: block;
+      padding: 0.55rem 0.65rem;
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+      line-height: 1.35;
+      border-radius: var(--radius-sm);
+      transition: background var(--t-fast), color var(--t-fast);
+    }
+    .sidenav a::before {
+      content: counter(nav, decimal-leading-zero) "  ";
+      color: var(--text-faint);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+    }
+    .sidenav a:hover,
+    .sidenav a.active {
+      background: var(--accent-soft);
+      color: var(--text);
+    }
+    section.architecture-section {
+      scroll-margin-top: 6rem;
+      margin-bottom: 4.5rem;
+    }
+    /* Interactive-diagram side panel (used by phase timeline, gates, agents, convergence). */
+    .interactive-frame {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 1.5rem;
+    }
+    @media (max-width: 980px) {
+      .interactive-frame { grid-template-columns: 1fr; }
+    }
+    .detail-panel {
+      background: var(--bg-2);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 1.4rem 1.5rem;
+      min-height: 200px;
+      font-size: 0.96rem;
+      color: var(--text-secondary);
+    }
+    .detail-panel .panel-title {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+    .detail-panel .panel-meta {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.85rem;
+    }
+    .detail-panel dl { margin: 0.6rem 0 0; }
+    .detail-panel dt {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 0.7rem;
+    }
+    .detail-panel dd {
+      margin: 0.25rem 0 0;
+      color: var(--text-secondary);
+    }
+    .detail-panel .empty {
+      color: var(--text-faint);
+      font-style: italic;
+    }
+    .how-to {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.07em;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+    .how-to::before {
+      content: "▸ ";
+      color: var(--accent);
+    }
+    /* Table styling — used by branch policy + Azure */
+    table.kv {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.94rem;
+      margin: 1.25rem 0;
+    }
+    table.kv th, table.kv td {
+      padding: 0.7rem 0.9rem;
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+    }
+    table.kv th {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border-bottom: 1px solid var(--line-strong);
+    }
+    table.kv td code { font-size: 0.86em; }
+    /* D3 interactive cues */
+    .diagram svg .clickable { cursor: pointer; }
+    .diagram svg .clickable:hover .node-bg,
+    .diagram svg .clickable.selected .node-bg {
+      fill: var(--accent-soft);
+      stroke: var(--accent);
+    }
+    .diagram svg .clickable.selected .node-bg {
+      stroke-width: 2;
+    }
+    .diagram svg .arrowhead { fill: var(--line-strong); }
+    .diagram svg .arrowhead-accent { fill: var(--accent); }
+    /* What's-new footer commit list */
+    .changelog {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      text-align: left;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .changelog li {
+      padding: 0.3rem 0;
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .changelog code {
+      color: var(--accent);
+      background: transparent;
+      border: none;
+      padding: 0;
+    }
+  </style>
 </head>
 <body>
 
 <nav class="topnav">
-  <div class="brand">Babu <span>·</span> Architecture</div>
-  <div class="crumbs">overview map</div>
+  <div class="brand">Podcast Factory <span>·</span> Architecture</div>
+  <div class="crumbs">single source of truth · regenerated by <code>docs-updater</code></div>
 </nav>
 
-<main class="page">
+<header class="hero" style="max-width: 880px; margin: 0 auto; padding: 3.5rem 1.75rem 1.5rem;">
+  <span class="eyebrow">map · regenerated from develop · 94e1e06</span>
+  <h1>How the <em>podcast factory</em> actually works</h1>
+  <p class="lede">
+    A scholarly Arabic book goes in. A NotebookLM-ready coordinated source
+    bundle for every chapter comes out. Between those two points sit nine
+    deterministic phases, a per-chapter quality loop with hard stop-on-failure,
+    seven gates before anything publishes, and a small constellation of agents
+    that drive each step. This page is the single architectural view — scroll
+    through, hover and click the diagrams, and you should be able to brief a
+    skeptical VP over coffee.
+  </p>
+</header>
 
-  <header class="hero">
-    <span class="eyebrow">map · v1.5 · 2026-05-18 · autonomous orchestrator + closed-loop learning substrate added</span>
-    <h1>How the writing rooms <em>actually work</em></h1>
-    <p class="lede">
-      Two skills (one for the memoir, one for the podcast) share a single brain
-      for Arabic pronunciation. Two infrastructure pillars (Cloudflare for the
-      public app, Azure for OCR and translation) carry traffic and compute.
-      Twelve views in total — pick a starting point. <strong>2026-05-17:</strong>
-      podcast architecture pivoted to v3.5 after a 5-transcript empirical audit
-      of <em>Ayyuhal Walad</em>; phonetic guidance now lives in the customize
-      prompt, never inline. <strong>2026-05-18:</strong> conversation
-      choreography (Driver vs Color roles), R-NOMODERNIZE softened with a "DO
-      use modern-life analogies" paragraph, <code>scaffold_book.py</code>,
-      per-chapter <code>chapter-contracts/&lt;slug&gt;.yml</code>, Category Q
-      cross-book-bleed checks, a debate episode format. <strong>2026-05-18 (later):</strong>
-      a <strong>closed-loop learning substrate</strong> at
-      <code>content/podcast/.skill/_learning/</code> turns every challenger and
-      audit finding into a single append-only JSONL ledger, a regression-gated
-      proposals lifecycle, and a per-book health score; a
-      <strong>podcast-orchestrator</strong> agent drives an entire PDF through the
-      pipeline with exactly one human gate at Phase 0f, then invokes a
-      <strong>podcast-trainer</strong> agent that promotes rule changes on the
-      book branch only when seven frozen fixtures stay green. Arabic TTS
-      protocol and the skill ROADMAP loaded by every producer and challenger
-      run. <strong>Infrastructure pillars</strong>: Cloudflare tunnel for public
-      access without inbound ports, and the Azure stack
-      (<code>rg-journal-ai</code>) for Arabic OCR + English translation — both
-      scripted, idempotent, and parameterized for future apps.
-    </p>
-  </header>
+<div class="layout">
 
-  <!-- ── Map SVG — vertical orientation, four layers ──────────── -->
-  <div class="diagram">
-    <svg viewBox="0 0 720 1320" role="img" aria-labelledby="map-title">
-      <title id="map-title">Vertical map of architecture views — content layer over infrastructure layer</title>
+  <aside class="sidenav" aria-label="Section navigation">
+    <div class="nav-label">Sections</div>
+    <ol>
+      <li><a href="#repo">What this repo is</a></li>
+      <li><a href="#lifecycle">Content lifecycle</a></li>
+      <li><a href="#phases">Pipeline phases</a></li>
+      <li><a href="#convergence">Per-chapter convergence loop</a></li>
+      <li><a href="#branches">Branch policy</a></li>
+      <li><a href="#gates">Publish gates G1 to G7</a></li>
+      <li><a href="#doctrinal">Category T doctrinal accuracy</a></li>
+      <li><a href="#agents">Agent surface</a></li>
+      <li><a href="#azure">Azure stack</a></li>
+    </ol>
+  </aside>
 
-      <!-- Title strip -->
-      <g>
-        <text x="360" y="40" text-anchor="middle" class="label-mono" style="font-size:13px;fill:var(--accent);letter-spacing:.2em">·· THE ARCHITECTURE ··</text>
-        <text x="360" y="70" text-anchor="middle" class="label-display" style="font-size:22px">Two writing rooms · one shared brain · two infrastructure pillars</text>
-      </g>
+  <main>
 
-      <!-- Shared Arabic at the top -->
-      <g>
-        <rect x="180" y="110" width="360" height="100" rx="14" class="node-gold" />
-        <text x="360" y="140" text-anchor="middle" class="label-mono" style="fill:var(--gold);font-size:13px">·· SHARED · CROSS-SKILL ··</text>
-        <text x="360" y="168" text-anchor="middle" class="label-strong">Arabic pronunciation brain</text>
-        <text x="360" y="192" text-anchor="middle" class="label-mono">4 files · read by every skill on every run</text>
-      </g>
-
-      <!-- Connectors down to two skills -->
-      <path class="edge-accent" d="M280,210 Q 200,260 200,310" />
-      <path class="edge-accent" d="M440,210 Q 520,260 520,310" />
-
-      <!-- Two skill blocks side-by-side -->
-      <!-- Journal block -->
-      <g>
-        <rect x="40" y="310" width="320" height="320" rx="16" class="node-rose" />
-        <text x="200" y="345" text-anchor="middle" class="label-mono" style="fill:var(--rose);font-size:13px">·· JOURNAL · MEMOIR ··</text>
-        <text x="200" y="375" text-anchor="middle" class="label-display" style="fill:var(--rose)">Babu's voice</text>
-
-        <!-- 3 view chips -->
-        <rect x="65" y="405" width="270" height="58" rx="10" class="node" />
-        <text x="200" y="428" text-anchor="middle" class="label-strong">01 · Overview</text>
-        <text x="200" y="450" text-anchor="middle" class="label-mono">who · what · why</text>
-
-        <rect x="65" y="478" width="270" height="58" rx="10" class="node" />
-        <text x="200" y="501" text-anchor="middle" class="label-strong">02 · Pipeline (end-to-end)</text>
-        <text x="200" y="523" text-anchor="middle" class="label-mono">session → chapter delivered</text>
-
-        <rect x="65" y="551" width="270" height="58" rx="10" class="node" />
-        <text x="200" y="574" text-anchor="middle" class="label-strong">03 · Quality system</text>
-        <text x="200" y="596" text-anchor="middle" class="label-mono">5 loops · delta · voice DNA · challenger</text>
-      </g>
-
-      <!-- Podcast block — extended 2026-05-18 to fit a 4th chip (orchestrator + trainer) -->
-      <g>
-        <rect x="380" y="310" width="320" height="395" rx="16" class="node-mint" />
-        <text x="540" y="345" text-anchor="middle" class="label-mono" style="fill:var(--mint);font-size:13px">·· PODCAST · NOTEBOOKLM ··</text>
-        <text x="540" y="375" text-anchor="middle" class="label-display" style="fill:var(--mint)">Source steering</text>
-
-        <rect x="405" y="405" width="270" height="58" rx="10" class="node" />
-        <text x="540" y="428" text-anchor="middle" class="label-strong">01 · Overview</text>
-        <text x="540" y="450" text-anchor="middle" class="label-mono">the two-file deliverable</text>
-
-        <rect x="405" y="478" width="270" height="58" rx="10" class="node" />
-        <text x="540" y="501" text-anchor="middle" class="label-strong">02 · Pipeline (end-to-end)</text>
-        <text x="540" y="523" text-anchor="middle" class="label-mono">any source → 2 files in NotebookLM</text>
-
-        <rect x="405" y="551" width="270" height="58" rx="10" class="node" />
-        <text x="540" y="574" text-anchor="middle" class="label-strong">03 · Quality system</text>
-        <text x="540" y="596" text-anchor="middle" class="label-mono">7 loops · _learning/ substrate · trainer</text>
-
-        <rect x="405" y="624" width="270" height="58" rx="10" class="node-accent" />
-        <text x="540" y="647" text-anchor="middle" class="label-strong" style="fill:var(--accent)">04 · Orchestrator + trainer</text>
-        <text x="540" y="669" text-anchor="middle" class="label-mono">autonomous · one human gate · v2 plan</text>
-      </g>
-
-      <!-- Bridge between the two -->
-      <g>
-        <path class="edge-soft" d="M360,470 L380,470" />
-        <text x="370" y="465" text-anchor="middle" class="label-mono" style="font-size:11px">extract</text>
-      </g>
-
-      <!-- Boundaries layer -->
-      <path class="edge" d="M200,630 Q 200,680 200,720" />
-      <path class="edge" d="M540,705 L540,720" />
-
-      <g>
-        <rect x="80" y="720" width="560" height="100" rx="14" class="node-sky" />
-        <text x="360" y="750" text-anchor="middle" class="label-mono" style="fill:var(--sky);font-size:13px">·· BOUNDARIES + CROSSING POINTS ··</text>
-        <text x="360" y="778" text-anchor="middle" class="label-strong">What each room can touch</text>
-        <text x="360" y="802" text-anchor="middle" class="label-mono">memoir reads · podcast reads · the one door · the shared brain</text>
-      </g>
-
-      <!-- INFRASTRUCTURE LAYER — new -->
-      <text x="360" y="858" text-anchor="middle" class="label-mono" style="font-size:13px;fill:var(--text-muted);letter-spacing:.18em">·· — INFRASTRUCTURE LAYER — ··</text>
-
-      <!-- Connectors from skills down to infra -->
-      <path class="edge-soft" d="M200,820 L200,890" />
-      <path class="edge-soft" d="M540,820 L540,890" />
-
-      <!-- Cloudflare pillar -->
-      <g>
-        <rect x="40" y="890" width="320" height="140" rx="16" class="node-cloudflare" />
-        <text x="200" y="922" text-anchor="middle" class="label-mono" style="fill:var(--cloudflare);font-size:13px">·· CLOUDFLARE · PUBLIC WIRE ··</text>
-        <text x="200" y="950" text-anchor="middle" class="label-display" style="fill:var(--cloudflare)">Tunnel + Access</text>
-        <text x="200" y="978" text-anchor="middle" class="label-mono">journal.kashkole.com</text>
-        <text x="200" y="998" text-anchor="middle" class="label-mono">journal-api.kashkole.com</text>
-        <text x="200" y="1018" text-anchor="middle" class="label-mono" style="fill:var(--text-muted)">no inbound ports · email PIN gate</text>
-      </g>
-
-      <!-- Azure pillar -->
-      <g>
-        <rect x="380" y="890" width="320" height="140" rx="16" class="node-azure" />
-        <text x="540" y="922" text-anchor="middle" class="label-mono" style="fill:var(--azure);font-size:13px">·· AZURE · OCR + TRANSLATE ··</text>
-        <text x="540" y="950" text-anchor="middle" class="label-display" style="fill:var(--azure)">rg-journal-ai</text>
-        <text x="540" y="978" text-anchor="middle" class="label-mono">Translator · Document Intelligence</text>
-        <text x="540" y="998" text-anchor="middle" class="label-mono">Storage · 3 blob containers</text>
-        <text x="540" y="1018" text-anchor="middle" class="label-mono" style="fill:var(--text-muted)">$50/mo cap · parameterized scripts</text>
-      </g>
-
-      <!-- Reading order at the bottom -->
-      <g>
-        <rect x="80" y="1080" width="560" height="200" rx="14" class="node" />
-        <text x="360" y="1112" text-anchor="middle" class="label-mono" style="fill:var(--accent);font-size:13px">·· READING ORDER ··</text>
-
-        <text x="360" y="1150" text-anchor="middle" class="label-strong" style="fill:var(--rose)">VPs &amp; execs</text>
-        <text x="360" y="1172" text-anchor="middle" class="label-mono">start with both Overviews — 8 minutes total</text>
-
-        <text x="360" y="1200" text-anchor="middle" class="label-strong" style="fill:var(--mint)">Builders</text>
-        <text x="360" y="1222" text-anchor="middle" class="label-mono">jump to the two Pipeline pages — the diagrams are the spec</text>
-
-        <text x="360" y="1250" text-anchor="middle" class="label-strong" style="fill:var(--cloudflare)">Operators &amp; new Macs</text>
-        <text x="360" y="1272" text-anchor="middle" class="label-mono">infrastructure tiles — same scripts, different config</text>
-      </g>
-
-    </svg>
-    <div class="caption">Four layers · shared brain at top, two skills, boundaries, and the two infrastructure pillars that carry it all</div>
-  </div>
-
-  <div class="callout">
-    <div class="callout-eyebrow">·· two end-to-end pipeline views ··</div>
-    <p>The <a href="journal-pipeline.html"><strong>Journal pipeline</strong></a> and the <a href="podcast-pipeline.html"><strong>Podcast pipeline</strong></a> are the deepest views in this set. Each one shows <strong>every</strong> file read, every agent invoked, every challenger pass, every script that runs — top-to-bottom, in order, with the names of the moving parts. Start there if you want to understand the whole system in one read.</p>
-  </div>
-
-  <!-- ── Section: the 12 views, grouped by layer ─────────────── -->
-  <section>
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- 1. WHAT THIS REPO IS                                              -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <section id="repo" class="architecture-section">
     <div class="section-head">
-      <div class="label">·· catalogue ··</div>
-      <h2>The twelve views</h2>
-      <div class="sub">Twelve self-contained pages in four bands — content skills, the shared brain, the boundaries between rooms, and the infrastructure underneath. Start with whichever band you care about.</div>
+      <div class="label">Section 1</div>
+      <h2>What this repo is</h2>
+      <div class="sub">One paragraph, no diagram — the hook.</div>
     </div>
-
-    <!-- Content skills row -->
-    <div class="grid grid-3">
-
-      <a href="journal-overview.html" class="nav-card">
-        <div class="nav-tag" style="color:var(--rose)">Journal · 01</div>
-        <h3>Overview</h3>
-        <p>What this skill is and who it serves. The 54-year-old narrator writing the father he wished he had.</p>
-      </a>
-
-      <a href="journal-pipeline.html" class="nav-card">
-        <div class="nav-tag" style="color:var(--rose)">Journal · 02</div>
-        <h3>Pipeline</h3>
-        <p>Session start → rebuild → interactive review → finalize. Where the words actually move.</p>
-      </a>
-
-      <a href="journal-quality-system.html" class="nav-card">
-        <div class="nav-tag" style="color:var(--rose)">Journal · 03</div>
-        <h3>Quality system</h3>
-        <p>Five quality loops, six humour patterns, the delta protection that keeps Asif's own edits sacred.</p>
-      </a>
-
-      <a href="podcast-overview.html" class="nav-card">
-        <div class="nav-tag" style="color:var(--mint)">Podcast · 01</div>
-        <h3>Overview</h3>
-        <p>We do not write podcast scripts. We hand NotebookLM a perfectly steered packet of source material.</p>
-      </a>
-
-      <a href="podcast-pipeline.html" class="nav-card">
-        <div class="nav-tag" style="color:var(--mint)">Podcast · 02</div>
-        <h3>Pipeline</h3>
-        <p>From any source (PDF, audio, Word, PPT, Excel, transcript) to two files uploaded into NotebookLM. The journey through Phase 0.</p>
-      </a>
-
-      <a href="podcast-quality-system.html" class="nav-card">
-        <div class="nav-tag" style="color:var(--mint)">Podcast · 03</div>
-        <h3>Quality system</h3>
-        <p>Seven quality loops, a seven-tier enrichment pyramid, twelve challenger categories (A–O plus Q for cross-book bleed), the <code>audit_transcript.py</code> empirical-feedback loop, and the closed-loop <code>_learning/</code> substrate with the <code>podcast-trainer</code> agent that promotes rule changes under a regression gate.</p>
-      </a>
-
-      <a href="podcast-orchestrator.html" class="nav-card">
-        <div class="nav-tag" style="color:var(--mint)">Podcast · 04</div>
-        <h3>Autonomous orchestrator + trainer</h3>
-        <p>Drop a PDF, walk away. One human gate at Phase 0f (chapter list + tier only). Bounded per-chapter convergence loop, then the <code>podcast-trainer</code> reads the <code>_learning/</code> substrate and proposes rule diffs under regression gating. v2 plan reflects the substrate reconciliation.</p>
-      </a>
-
-    </div>
-
-    <!-- Shared & boundaries row -->
-    <div class="grid grid-2" style="margin-top:1.5rem">
-
-      <a href="shared-arabic-reference.html" class="nav-card">
-        <div class="nav-tag" style="color:var(--gold)">Shared brain</div>
-        <h3>Arabic pronunciation</h3>
-        <p>The cross-skill brain for every Arabic term. Authority order, decision flow, who reads what.</p>
-      </a>
-
-      <a href="cross-skill-boundaries.html" class="nav-card">
-        <div class="nav-tag" style="color:var(--sky)">Boundaries</div>
-        <h3>What each room owns</h3>
-        <p>The walls that keep the memoir room separate from the podcast room, and the one door between them.</p>
-      </a>
-
-    </div>
-
-    <!-- Infrastructure row — new -->
-    <div class="grid grid-2" style="margin-top:1.5rem">
-
-      <a href="cloudflare.html" class="nav-card">
-        <div class="nav-tag" style="color:var(--cloudflare)">Infrastructure · CF</div>
-        <h3>Cloudflare tunnel</h3>
-        <p>How the iPad on the couch reaches Asif's Mac. TLS termination, email-PIN Access gate, outbound-only tunnel. No inbound ports. <code>install-journal-tunnel.sh</code> does the whole setup.</p>
-      </a>
-
-      <a href="azure.html" class="nav-card">
-        <div class="nav-tag" style="color:var(--azure)">Infrastructure · Azure</div>
-        <h3>Azure stack</h3>
-        <p>Where scanned Arabic books turn into English. Translator + Document Intelligence + Storage + budget cap. Three idempotent scripts, one config file, fully parameterized for future apps.</p>
-      </a>
-
+    <div class="prose">
+      <p class="lead">
+        <strong>podcast-factory</strong> is the Python + Claude + Azure pipeline that
+        turns scholarly Arabic books into NotebookLM podcast series. A PDF lands
+        in <code>content/drafts/&lt;slug&gt;/</code> and walks through a fixed
+        sequence: Azure does OCR and Arabic-to-English translation; Claude does
+        English refinement, phonetic markup for Arabic terms, chapter design,
+        and enrichment with approved-source quotations; then a per-chapter
+        convergence loop runs the chapter through a <em>challenger</em> agent
+        (a quality reviewer that emits P0 / P1 / P2 findings, where P0 is
+        ship-blocking) and a <em>fixer</em> until the chapter is either
+        SHIP-READY or it hits a hard stop. When all chapters clear the loop and
+        seven publish gates pass, the artifacts move from
+        <code>content/drafts/</code> to <code>content/published/</code>. The
+        repo is machine-agnostic (most work is remote Claude + Azure calls),
+        runs from a single working branch (<code>develop</code>), and uses a
+        per-content typed branch (<code>book/</code>, <code>doc/</code>,
+        <code>lecture/</code>, etc.) to isolate each piece of work until it
+        publishes. The memoir engine and static site moved to the sibling
+        <code>journal</code> repo on 2026-05-22 and are not part of this view.
+      </p>
     </div>
   </section>
 
-  <!-- ── The promise ─────────────────────────────────────────── -->
-  <div class="callout">
-    <div class="callout-eyebrow">·· the promise ··</div>
-    <p>Every page passes the <strong>coffee-with-a-VP test</strong>: clear English, no jargon, the diagrams do the heavy lifting. You should be able to describe the system back to a colleague after one read.</p>
-  </div>
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- 2. CONTENT LIFECYCLE                                              -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <section id="lifecycle" class="architecture-section">
+    <div class="section-head">
+      <div class="label">Section 2</div>
+      <h2>Content lifecycle</h2>
+      <div class="sub">From a PDF on disk to a publishable bundle.</div>
+    </div>
+    <div class="prose">
+      <p>
+        Content moves through three regions on disk. <strong>Sources</strong>
+        live anywhere the operator drops them (typically
+        <code>_workspace/Books/</code>). <strong>Workshop</strong> is
+        <code>content/drafts/&lt;slug&gt;/</code> — every script in the
+        pipeline reads and writes here. <strong>Published</strong> is
+        <code>content/published/books/&lt;slug&gt;/</code> — populated only
+        by <code>publish_to_library.py</code> via the
+        <code>podcast-publisher</code> agent, never edited by hand. The
+        published tree is filesystem-only and intentionally not git-tracked,
+        because it is a derived artifact — deletable and re-generatable from
+        the workshop at any time.
+      </p>
+    </div>
 
+    <div class="diagram">
+      <svg id="lifecycle-svg" viewBox="0 0 920 280" preserveAspectRatio="xMidYMid meet"></svg>
+      <div class="caption">A PDF (left) is copied into the workshop, walks the pipeline in-place, then a one-way promotion lands the bundle in the published catalog.</div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- 3. PIPELINE PHASES                                                -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <section id="phases" class="architecture-section">
+    <div class="section-head">
+      <div class="label">Section 3</div>
+      <h2>Pipeline phases</h2>
+      <div class="sub">The deterministic sequence the orchestrator drives.</div>
+    </div>
+    <div class="prose">
+      <p>
+        The <code>orchestrate_book.py</code> driver runs phases in order, each
+        a discrete checkpoint that writes a named artifact under the
+        workshop's <code>_system/</code> directory and updates
+        <code>orchestrator-state.json</code> atomically. Phase 0a is
+        <em>ingest</em> (Azure OCR + Arabic-to-English translation). 0b
+        through 0e are LLM-authored passes (refinement, phonetic markup,
+        chapter design, enrichment). 0f is the single <em>human halt</em> —
+        the orchestrator writes <code>series-plan.md</code> and stops; the
+        operator reviews it and runs <code>--resume</code> to continue. On
+        resume, the per-chapter convergence loop runs (see Section 4), then
+        0g registers the series, the publisher publishes, the trainer learns
+        from findings, and the content branch merges back to
+        <code>develop</code>.
+      </p>
+      <p class="how-to" style="margin-top: 1rem;">Click any phase below to see what it reads, what it writes, typical LLM cost, and known failure modes.</p>
+    </div>
+
+    <div class="diagram">
+      <div class="interactive-frame">
+        <div>
+          <svg id="phases-svg" viewBox="0 0 560 720" preserveAspectRatio="xMidYMid meet"></svg>
+        </div>
+        <div id="phases-detail" class="detail-panel">
+          <div class="panel-meta">Select a phase</div>
+          <div class="panel-title">Click any node in the timeline</div>
+          <p>Each phase node opens its contract: inputs, outputs, where the cost lives, and how it fails. The first phase (0a — ingest) is selected on page load.</p>
+        </div>
+      </div>
+      <div class="caption">Vertical timeline of the eleven pipeline steps including the single Phase 0f human halt. Color-coding: blue = Azure, purple = Claude LLM, gold = halt, rose = per-chapter loop, mint = deterministic Python.</div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- 4. PER-CHAPTER CONVERGENCE LOOP                                   -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <section id="convergence" class="architecture-section">
+    <div class="section-head">
+      <div class="label">Section 4</div>
+      <h2>Per-chapter convergence loop</h2>
+      <div class="sub">The quality gate that runs on every chapter before publish.</div>
+    </div>
+    <div class="prose">
+      <p>
+        After Phase 0f human review, each chapter walks an isolated
+        convergence pass. The <em>challenger</em> (a Claude-driven semantic
+        reviewer at <code>infra/claude-agents/podcast-challenger.md</code>)
+        reads the chapter and emits a verdict — <strong>SHIP-READY</strong>,
+        <strong>SHIP-WITH-CAUTION</strong>, or <strong>BLOCKED</strong> —
+        alongside finding counts by severity (P0 blocks ship, P1 is an
+        advisory, P2 is informational). On any non-SHIP-READY verdict, a
+        <em>fixer</em> Claude call edits the chapter to address the listed
+        findings and the loop runs again. The loop is capped at three outer
+        iterations. SHIP-WITH-CAUTION is only accepted at iteration 2 or
+        later (so a first-pass caution still triggers a fix-and-retry). If
+        iteration 3 still has unresolved P0s, the loop HALTS as FAILED and
+        surfaces to the orchestrator — there is no silent downgrade. The cap
+        constants live in <code>scripts/podcast/_convergence.py</code>:
+        <code>MAX_OUTER_ITERATIONS = 3</code>,
+        <code>MAX_FIXER_ATTEMPTS_PER_P0 = 3</code>,
+        <code>SHIP_WITH_CAUTION_MIN_ITER = 2</code>.
+      </p>
+      <p class="how-to" style="margin-top: 1rem;">Click any state to see what triggers it, what the loop does next, and which constant in the code controls the transition.</p>
+    </div>
+
+    <div class="diagram">
+      <div class="interactive-frame">
+        <div>
+          <svg id="converge-svg" viewBox="0 0 560 540" preserveAspectRatio="xMidYMid meet"></svg>
+        </div>
+        <div id="converge-detail" class="detail-panel">
+          <div class="panel-meta">Select a state</div>
+          <div class="panel-title">Click any state above</div>
+          <p>Each state shows its trigger, the next action the loop takes, and the constant in <code>_convergence.py</code> that decides the transition.</p>
+        </div>
+      </div>
+      <div class="caption">State diagram of one chapter's convergence pass. Mint = ship-state (loop exits OK), gold = caution (ships at iter ≥ 2), rose = ship-blocked, gray = FAILED halt at iteration 3.</div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- 5. BRANCH POLICY                                                  -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <section id="branches" class="architecture-section">
+    <div class="section-head">
+      <div class="label">Section 5</div>
+      <h2>Branch policy</h2>
+      <div class="sub">One typed branch per piece of content, off <code>develop</code>.</div>
+    </div>
+    <div class="prose">
+      <p>
+        Every new piece of content gets its own branch off
+        <code>develop</code>. The prefix is decided by the content's
+        <code>category</code> field through
+        <code>scripts/podcast/_branching.py</code>'s
+        <code>branch_name(category, slug)</code> — never hardcode
+        <code>book/&lt;slug&gt;</code> anywhere else. The branch is cut at
+        intake (<code>intake_book.py</code>), the entire pipeline runs on it,
+        and only after the publish step completes does it merge back to
+        <code>develop</code> with <code>--no-ff</code>. This isolates
+        in-flight work, gives a clean per-content ledger, and lets several
+        books be in flight at once without cross-contamination. Slugs are
+        always the full kebab-cased name (never <code>book/KaR</code> — only
+        <code>book/kitab-al-riyad</code>).
+      </p>
+    </div>
+
+    <table class="kv">
+      <thead>
+        <tr><th>Category</th><th>Prefix</th><th>Example</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>books</td><td><code>book/</code></td><td><code>book/kitab-al-riyad</code></td></tr>
+        <tr><td>documents</td><td><code>doc/</code></td><td><code>doc/fatimid-decree-922</code></td></tr>
+        <tr><td>lectures</td><td><code>lecture/</code></td><td><code>lecture/kunooz-al-hikmah-01</code></td></tr>
+        <tr><td>articles</td><td><code>article/</code></td><td><code>article/cross-tradition-method</code></td></tr>
+        <tr><td>letters</td><td><code>letter/</code></td><td><code>letter/ayyuhal-walad</code></td></tr>
+        <tr><td>interviews</td><td><code>interview/</code></td><td><code>interview/asif-with-amir</code></td></tr>
+        <tr><td>(unknown / unset — fallback)</td><td><code>draft/</code></td><td><code>draft/some-unclassified-thing</code></td></tr>
+      </tbody>
+    </table>
+
+    <div class="diagram">
+      <svg id="branches-svg" viewBox="0 0 760 460" preserveAspectRatio="xMidYMid meet"></svg>
+      <div class="caption">Force-directed sketch with <code>develop</code> at center and one typed branch radiating per category. Edges represent the lifecycle: cut at intake (out), merge at publish (back in).</div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- 6. PUBLISH GATES G1 to G7                                         -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <section id="gates" class="architecture-section">
+    <div class="section-head">
+      <div class="label">Section 6</div>
+      <h2>Publish gates G1 to G7</h2>
+      <div class="sub">Seven sequential checks; any failure aborts the publish.</div>
+    </div>
+    <div class="prose">
+      <p>
+        <code>scripts/podcast/publish_to_library.py</code> runs the gates
+        strictly in order. Every gate must return OK or the script exits with
+        code 1 and writes nothing to the published catalog. G1 through G3
+        check structure on disk (chapters and episodes exist, pair up, are
+        sequentially numbered). G4 runs <code>build_episode_txt.py</code> on
+        every episode and requires zero P0 flags. G5 reads the orchestrator
+        state file and only proceeds if the pipeline is in a shippable phase.
+        G6 confirms the target directory is safe to wipe-and-recreate. G7
+        refuses to publish anything that did not pass a real challenger
+        convergence pass — closing the historical bypass where
+        non-orchestrated books could reach the audience without the quality
+        loop.
+      </p>
+      <p class="how-to" style="margin-top: 1rem;">Click any gate bar to expand what it checks, what failure means, and how to recover.</p>
+    </div>
+
+    <div class="diagram">
+      <div class="interactive-frame">
+        <div>
+          <svg id="gates-svg" viewBox="0 0 560 540" preserveAspectRatio="xMidYMid meet"></svg>
+        </div>
+        <div id="gates-detail" class="detail-panel">
+          <div class="panel-meta">Select a gate</div>
+          <div class="panel-title">Click any gate bar</div>
+          <p>Each gate shows its check, the typical failure mode, and the recovery action. Gates are sequential: the first failure short-circuits the rest.</p>
+        </div>
+      </div>
+      <div class="caption">Waterfall of the seven publish gates. The left column shows the gate; the right column expands the contract.</div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- 7. CATEGORY T — DOCTRINAL ACCURACY                                -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <section id="doctrinal" class="architecture-section">
+    <div class="section-head">
+      <div class="label">Section 7</div>
+      <h2>Category T — doctrinal accuracy</h2>
+      <div class="sub">Five checks that protect the religious-tradition integrity of every chapter.</div>
+    </div>
+    <div class="prose">
+      <p>
+        Category T checks (T1 through T5, implemented in
+        <code>scripts/podcast/_doctrinal.py</code>) catch doctrinal slips
+        that an English-trained LLM tends to make on Ismaili Shia material —
+        notably the phrase <em>"Imam Ali"</em>, which is the Twelver Shia
+        convention but doctrinally incorrect here (Ali ibn Abi Talib is the
+        <em>Father</em> of the Imams, not the first Imam). The data lives in
+        <code>content/_shared/islam/imam-lineage-ismaili.yml</code> (the
+        canonical seven-Imam Ismaili lineage and the forbidden-title list)
+        and <code>content/_shared/islam/naming-conventions.yml</code> (the
+        forbidden-phrase scrub). The checks are wired into
+        <code>build_episode_txt.py</code> as a hard gate, so a chapter
+        containing <em>"Imam Ali"</em> cannot ship. T4 and T5 are reserved
+        rule IDs — T4 needs a Farman dataset that does not exist yet, T5
+        scans for weak or fabricated hadith and is currently a stub awaiting
+        the trainer to populate patterns.
+      </p>
+    </div>
+
+    <div class="diagram">
+      <svg id="doctrinal-svg" viewBox="0 0 920 540" preserveAspectRatio="xMidYMid meet"></svg>
+      <div class="caption">Decision tree: a chapter enters at top, splits across the five Category-T checks, and exits as a P0 (ship-blocking), P1 (advisory), or pass. The two reserved-but-stubbed checks (T4, T5) sit in gray.</div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- 8. AGENT SURFACE                                                  -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <section id="agents" class="architecture-section">
+    <div class="section-head">
+      <div class="label">Section 8</div>
+      <h2>Agent surface</h2>
+      <div class="sub">The ten agents under <code>infra/claude-agents/</code>, how they compose.</div>
+    </div>
+    <div class="prose">
+      <p>
+        Each agent lives as a markdown spec under
+        <code>infra/claude-agents/</code> with YAML frontmatter declaring its
+        triggers and tool permissions. The <code>podcast-orchestrator</code>
+        sits at the center — it drives the full PDF-to-merged-branch flow by
+        invoking the other agents at the right step. The <em>challengers</em>
+        (one for audio, one for slide decks) judge quality. The
+        <em>publisher</em> moves shipped content to the catalog. The
+        <em>trainer</em> closes the loop by mining cross-book findings into
+        spec edits. The <em>auditor</em> and <em>blueprint</em> agents are
+        support: the auditor checks repo-level health, blueprint classifies a
+        book's genre and proposes an episode plan. <em>refine-prompt</em>
+        and <em>docs-updater</em> are operator utilities — the first turns
+        raw notes into a Claude Code instruction-paragraph, the second
+        regenerated this very page.
+      </p>
+      <p class="how-to" style="margin-top: 1rem;">Click any agent node to see its one-sentence role; drag any node to rearrange the graph. The orchestrator at center is selected on load.</p>
+    </div>
+
+    <div class="diagram">
+      <div class="interactive-frame">
+        <div>
+          <svg id="agents-svg" viewBox="0 0 620 620" preserveAspectRatio="xMidYMid meet"></svg>
+        </div>
+        <div id="agents-detail" class="detail-panel">
+          <div class="panel-meta">Select an agent</div>
+          <div class="panel-title">Click any node</div>
+          <p>The orchestrator (center, purple) invokes the others. Edges show invocation relationships, not data flow.</p>
+        </div>
+      </div>
+      <div class="caption">Force-directed network of the ten agents. Drag any node to rearrange; the graph re-settles. Selected node highlights in accent purple.</div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- 9. AZURE STACK                                                    -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <section id="azure" class="architecture-section">
+    <div class="section-head">
+      <div class="label">Section 9</div>
+      <h2>Azure stack</h2>
+      <div class="sub">Four Cognitive Services plus storage. Phase-by-phase wiring.</div>
+    </div>
+    <div class="prose">
+      <p>
+        Azure runs the work that does not belong in a Python or Claude
+        process: OCR of scanned Arabic PDFs (Document Intelligence),
+        Arabic-to-English translation (Translator), named-entity recognition
+        on the refined English (Language / TextAnalytics), and optionally
+        Urdu / Arabic speech-to-text for lecture content (Speech, behind
+        feature flag). Credentials resolve through environment variables
+        first (for CI) and fall back to macOS Keychain entries under the
+        <code>azure-journal-*</code> naming convention — see
+        <code>_workspace/setup/azure-stack.md</code> for the full keychain
+        map and the recreate-from-scratch procedure. Resource group is
+        <code>rg-journal-ai</code> (kept from the pre-rename
+        <code>journal</code> repo); the resources themselves were never
+        renamed because the rename was a config-label change only.
+      </p>
+    </div>
+
+    <div class="diagram">
+      <svg id="azure-svg" viewBox="0 0 920 520" preserveAspectRatio="xMidYMid meet"></svg>
+      <div class="caption">Service graph: each Azure resource (left) connects to the pipeline phases it powers (right). The Storage + Speech rows are ancillary — Speech is feature-flagged.</div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- FOOTER                                                            -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
   <footer class="footer">
-    Architecture docs · journal repo · maintained by the team
+    <div>Reflects <code>develop</code> @ <code>94e1e06</code> · commit dated 2026-05-24</div>
+    <div class="footer-secondary">Regenerated by <code>infra/claude-agents/docs-updater.md</code> from CLAUDE.md, framework.md, scripts/podcast/_branching.py, _rules.py, _doctrinal.py, _convergence.py, publish_to_library.py, orchestrate_book.py, every agent spec under infra/claude-agents/, the doctrinal YAMLs under content/_shared/islam/, and _workspace/setup/azure-stack.md. Diagrams pull data programmatically from those sources — re-running the agent produces the same file when the sources have not changed.</div>
+
+    <div style="margin-top: 2.5rem;">
+      <div style="font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem;">Last 30 commits on develop</div>
+      <ul class="changelog">
+        <li><code>94e1e06</code> cleanup(repo): start-clean + restore content-branch policy + publisher agent</li>
+        <li><code>15cfb38</code> chore(gitignore): exclude per-book audio dumps under content/drafts/</li>
+        <li><code>b2d9e9d</code> feat(kashkole-ksessions): SQL→Markdown extraction pipeline (Phase 1 proof)</li>
+        <li><code>7640e5a</code> polish(pipeline): five pre-M&amp;D cleanup items</li>
+        <li><code>eb69e43</code> fix(challenger): land five ship-blocking rigor fixes</li>
+        <li><code>feb4a49</code> restructure(islr-mas-i): conform to KaR canonical draft template</li>
+        <li><code>b12f7dd</code> refactor: drop cross-machine coordination, single-machine model</li>
+        <li><code>2c4d1f5</code> fix(restructure): close 8 remaining gaps surfaced by full system check</li>
+        <li><code>06d536a</code> restructure(reshape): apply consistent template to the-master-and-the-disciple</li>
+        <li><code>c9b5b1e</code> fix(restructure): update Path() constants in 12 more scripts</li>
+        <li><code>cf3b4e9</code> fix(restructure): update path constants in 3 critical pipeline scripts</li>
+        <li><code>cd10f69</code> cleanup: remove non-podcast legacy files</li>
+        <li><code>b199cfd</code> restructure(refactor): update path strings to content/drafts/ + content/published/</li>
+        <li><code>6ef90d7</code> restructure: introduce content/ container with drafts/ + published/</li>
+        <li><code>144581b</code> restructure(cleanup): remove stale library symlink</li>
+        <li><code>903c109</code> restructure: hoist code to meta-root, consolidate all books under books/</li>
+        <li><code>62b488b</code> restructure: add books/ and library/ symlinks at repo root for navigation</li>
+        <li><code>679053d</code> merge(develop): pull origin runbook + bootstrap-prompt before restructure</li>
+        <li><code>92d93ad</code> plan(restructure): dry-run + live reshape script for the-master-and-the-disciple</li>
+        <li><code>83f5edc</code> runbook: claude-code-bootstrap-prompt + companion code-workspace</li>
+        <li><code>a19e208</code> podcast(housekeeping): commit findings.jsonl + 3 orphan TTS scripts</li>
+        <li><code>e64eb47</code> coord(mac-studio-primary): ISLR series complete — EP02-07 shipped</li>
+        <li><code>bacfb97</code> podcast(auditor-fixes): third audit report</li>
+        <li><code>ab867a9</code> podcast(auditor-fixes): sync challenger wrapper after AU-A1-003 edit</li>
+        <li><code>76403a9</code> podcast(auditor-fixes): all remaining P0s (items 4-5 + AU-A1-003/004)</li>
+        <li><code>5bc7c9a</code> podcast(auditor-fixes): items 1-3 from inaugural audit</li>
+        <li><code>97b7504</code> podcast(auditor): introduce v1.0 + first run</li>
+        <li><code>5fd9945</code> docs(response-template): blank line between Next options</li>
+        <li><code>15e7918</code> podcast(slide-decks): pipeline integration Phase 1</li>
+        <li><code>c0356ea</code> ship(kar): absorb slide-deck cohort into _workspace/</li>
+      </ul>
+    </div>
   </footer>
 
-</main>
+  </main>
+</div>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+/* ════════════════════════════════════════════════════════════════════
+   Data — extracted from source files at regeneration time. Not invented.
+   Sources are named in code comments below.
+   ════════════════════════════════════════════════════════════════════ */
+
+// ─── PHASES (Section 3) ────────────────────────────────────────────────
+// Pulled from scripts/podcast/orchestrate_book.py phase_* runners and
+// the phase_map in _drive_authoring_through_0f (lines 962–967), plus the
+// per-chapter + 0g + publish + trainer + merge sequence in
+// _drive_per_chapter_and_after.
+const PHASES = [
+  {
+    id: "0a", label: "0a · Ingest", kind: "azure",
+    summary: "Azure OCR + Arabic-to-English translation on the source PDF.",
+    reads: "PDF dropped in _workspace/Books/ (or any path).",
+    writes: "_system/source/text/raw-extract.md (non-empty, asserted).",
+    cost: "Azure Document Intelligence + Translator API charges; one-shot per book.",
+    fails: "Azure connectivity failure (run test_azure_connectivity.py); empty raw-extract.md (orchestrator hard-fails)."
+  },
+  {
+    id: "0b", label: "0b · English refinement", kind: "claude",
+    summary: "Chunked Claude pass cleans up OCR artifacts and tightens the English translation.",
+    reads: "_system/source/text/raw-extract.md.",
+    writes: "_system/source/text/refined-english.md.",
+    cost: "Claude Opus tokens, chunked — typical mid-size book is dozens of dollars.",
+    fails: "AuthoringError if Claude returns malformed output; orchestrator halts (exit 3) with manual_fallback hint."
+  },
+  {
+    id: "0c", label: "0c · Phonetic pass", kind: "claude",
+    summary: "Marks Arabic terms with phonetic spellings NotebookLM hosts can pronounce.",
+    reads: "_system/source/text/refined-english.md.",
+    writes: "_system/source/text/phoneticized.md.",
+    cost: "Claude Opus tokens, chunked.",
+    fails: "Same as 0b — AuthoringError surfaces with manual --resume guidance."
+  },
+  {
+    id: "0d", label: "0d · Chapter design", kind: "claude",
+    summary: "Splits the source into episode-shaped chapter contracts (length tier, episode format, host dynamic).",
+    reads: "_system/source/text/phoneticized.md.",
+    writes: "chapter-contracts/*.yml + chapters/ch##-<slug>.txt for every episode.",
+    cost: "Claude Opus tokens; followed by a fail-soft chapter-set advisory check (check_chapter_set.py) at Phase 0d.5.",
+    fails: "Missing contracts under chapter-contracts/ blocks Phase 0f; chapter-set advisory surfaces collisions / band misfits BEFORE 0e burn."
+  },
+  {
+    id: "0e", label: "0e · Enrichment", kind: "claude",
+    summary: "Weaves approved-source quotations (Quran, hadith, Imam sayings) into each chapter, like citations added to a draft essay.",
+    reads: "chapters/ch##-<slug>.txt + chapter-contracts/*.yml.",
+    writes: "Updated chapters/ in place with cited enrichments.",
+    cost: "Claude Opus tokens, per-chapter — typically the most expensive phase.",
+    fails: "AuthoringError per-chapter; the orchestrator captures it and halts, leaving partial progress recoverable via --resume."
+  },
+  {
+    id: "0f", label: "0f · Human halt", kind: "halt",
+    summary: "Writes series-plan.md and stops. The operator reviews the chapter list, length tier, and essentiality recommendations.",
+    reads: "chapter-contracts/*.yml + chapters/.",
+    writes: "_system/series-plan.md (status: AWAITING HUMAN APPROVAL).",
+    cost: "Zero LLM cost — pure assembly.",
+    fails: "If contracts are missing or YAML parse fails, RuntimeError surfaces with the file path."
+  },
+  {
+    id: "per-ch", label: "per-chapter · Convergence", kind: "loop",
+    summary: "After --resume, every chapter walks extract → frame → build → challenger convergence (see Section 4).",
+    reads: "chapters/ch##-<slug>.txt + chapter-contracts/<slug>.yml.",
+    writes: "_system/episode-drafts/EP##-<slug>/00-framing.md + episodes/EP##-<slug>.txt + _system/challenger-report.md.",
+    cost: "Up to 3 outer iterations × 5 inner challenger passes per chapter — dominant cost of the back-half.",
+    fails: "Iteration 3 still BLOCKED → ChapterOutcome.final_verdict='FAILED', orchestrator halts the per-chapter loop (no silent ship)."
+  },
+  {
+    id: "0g", label: "0g · Register", kind: "deterministic",
+    summary: "Appends episode rows to the cross-book registry at content/podcast/.skill/registry.md (idempotent).",
+    reads: "chapter-contracts/*.yml.",
+    writes: "content/podcast/.skill/registry.md (append-only).",
+    cost: "Zero LLM cost — pure YAML to markdown append.",
+    fails: "Silently no-ops if the registry file is missing."
+  },
+  {
+    id: "publish", label: "publish · Library promotion", kind: "deterministic",
+    summary: "Runs gates G1–G7 (see Section 6); on pass, copies chapters/ + episodes/ from content/drafts/<slug>/ to content/published/books/<slug>/.",
+    reads: "content/drafts/<slug>/{chapters,episodes,_system/orchestrator-state.json,_system/challenger-report.md}.",
+    writes: "content/published/books/<slug>/{chapters,episodes,README.md} + catalog row.",
+    cost: "Zero LLM cost.",
+    fails: "Any of G1–G7 fails → exit 1, nothing written."
+  },
+  {
+    id: "trainer", label: "trainer · Cross-book learning", kind: "claude",
+    summary: "Reads all challenger reports across shipped books, clusters recurring findings (≥3 occurrences), proposes spec edits, gates them through a regression suite.",
+    reads: "Every challenger-report.md on the book branch + handbook + _learning/findings.jsonl.",
+    writes: "Spec diffs on the book branch (Tier-2 single-genre, Tier-3 cross-genre); P0-class proposals flagged for human review.",
+    cost: "Claude Opus tokens for clustering + regression validation.",
+    fails: "Regression failure on the held-out fixtures → proposal rejected, no commit."
+  },
+  {
+    id: "merge", label: "merge · Back to develop", kind: "deterministic",
+    summary: "After trainer completes, merges the content branch into develop with --no-ff and the standard commit subject.",
+    reads: "Active content branch (book/<slug>, doc/<slug>, etc.).",
+    writes: "develop ref advances; --no-ff merge commit on develop.",
+    cost: "Zero LLM cost.",
+    fails: "Refuses to force-push or bypass git status; non-clean tree aborts the merge."
+  }
+];
+
+// ─── CONVERGENCE STATES (Section 4) ────────────────────────────────────
+// Pulled from scripts/podcast/_convergence.py constants + converge_chapter()
+// state machine (lines 50–53, 153–233).
+const CONVERGE_STATES = [
+  {
+    id: "challenger", label: "Challenger pass", kind: "neutral",
+    trigger: "Outer iteration starts (max 3 outer iterations: MAX_OUTER_ITERATIONS=3).",
+    next: "Reads chapter, emits verdict + P0/P1/P2 counts; result decides which branch runs.",
+    constant: "MAX_OUTER_ITERATIONS = 3 (in _convergence.py)."
+  },
+  {
+    id: "ship-ready", label: "SHIP-READY", kind: "ok",
+    trigger: "Challenger returns SHIP-READY with zero P0 / zero P1 above threshold.",
+    next: "Loop exits cleanly. ChapterOutcome.final_verdict = 'SHIP-READY'. Chapter advances to publish.",
+    constant: "Direct break in converge_chapter() (no further iterations)."
+  },
+  {
+    id: "ship-caution", label: "SHIP-WITH-CAUTION", kind: "warn",
+    trigger: "Challenger returns SHIP-WITH-CAUTION (zero P0, but P1 findings present).",
+    next: "If iter ≥ 2: accept verdict, exit with SHIP-WITH-CAUTION. If iter < 2: invoke fixer on P1s and retry.",
+    constant: "SHIP_WITH_CAUTION_MIN_ITER = 2 — guarantees at least one fix-and-retry pass before caution ships."
+  },
+  {
+    id: "blocked", label: "BLOCKED", kind: "block",
+    trigger: "Challenger returns BLOCKED (any P0 findings present, or unparseable verdict).",
+    next: "Invoke fixer on P0s (up to MAX_FIXER_ATTEMPTS_PER_P0=3 attempts per outer iteration); also clean P1s on success; retry.",
+    constant: "MAX_FIXER_ATTEMPTS_PER_P0 = 3 — bounded fixer attempts within one outer pass."
+  },
+  {
+    id: "failed", label: "FAILED (HALT)", kind: "fail",
+    trigger: "Iteration 3 reached with verdict still BLOCKED or SHIP-WITH-CAUTION below ship threshold.",
+    next: "Loop terminates with final_verdict='FAILED'. NO silent downgrade — surfaces to orchestrator with P0/P1 carry-over for user review.",
+    constant: "No constant — this is the cap behavior at MAX_OUTER_ITERATIONS exhausted."
+  }
+];
+
+// ─── BRANCH PREFIXES (Section 5) ───────────────────────────────────────
+// Pulled verbatim from scripts/podcast/_branching.py::_CATEGORY_TO_PREFIX
+// and _FALLBACK_PREFIX.
+const BRANCH_PREFIXES = [
+  { category: "books",      prefix: "book",      example: "book/kitab-al-riyad" },
+  { category: "documents",  prefix: "doc",       example: "doc/fatimid-decree-922" },
+  { category: "lectures",   prefix: "lecture",   example: "lecture/kunooz-al-hikmah-01" },
+  { category: "articles",   prefix: "article",   example: "article/cross-tradition-method" },
+  { category: "letters",    prefix: "letter",    example: "letter/ayyuhal-walad" },
+  { category: "interviews", prefix: "interview", example: "interview/asif-with-amir" },
+  { category: "(fallback)", prefix: "draft",     example: "draft/some-unclassified-thing" }
+];
+
+// ─── PUBLISH GATES (Section 6) ─────────────────────────────────────────
+// Pulled from scripts/podcast/publish_to_library.py gate_g1_* through
+// gate_g7_* functions and the module docstring (lines 13–32).
+const GATES = [
+  {
+    id: "G1", label: "G1 · Required structure",
+    check: "content/drafts/<slug>/chapters/*.txt and content/drafts/<slug>/episodes/*.txt both exist and are non-empty.",
+    fails: "Missing or empty chapters/ or episodes/ directory.",
+    recover: "Re-run the per-chapter pipeline (extract + build_episode_txt.py) to regenerate the missing files."
+  },
+  {
+    id: "G2", label: "G2 · Pair completeness",
+    check: "Every EP##-<slug>.txt has a matching ch##-<slug>.txt and vice versa (same number, same slug).",
+    fails: "Chapter without episode, or episode without chapter — typically caused by a partial regeneration.",
+    recover: "Delete the orphan file or regenerate its pair; then re-run publish_to_library.py."
+  },
+  {
+    id: "G3", label: "G3 · Sequential numbering",
+    check: "Chapter and episode numbers are purely sequential 1..N — no letter suffixes (ch03a), no decimals.",
+    fails: "Numbering gap, duplicate, or letter-suffix slipping through Phase 0d.",
+    recover: "Renumber the contracts in chapter-contracts/*.yml and regenerate; mirrors the future S-EPISODE-SEQUENTIAL challenger check."
+  },
+  {
+    id: "G4", label: "G4 · Build-clean",
+    check: "Running build_episode_txt.py on every episode returns P0=0. P1 advisories are warn-only by default; --strict elevates P1 to blocking.",
+    fails: "Any P0 flag from the build script (broken honorific rule, abbreviation, modernize-deny phrase, doctrinal violation, etc.).",
+    recover: "Re-run the challenger convergence on the affected chapter to fix P0s, then republish."
+  },
+  {
+    id: "G5", label: "G5 · State checkpoint",
+    check: "_system/orchestrator-state.json shows phase=done OR (phase=per-chapter AND phase_status in {ship-ready, ship-with-caution, ship-with-caution-approved, shipped, halted_by_operator}).",
+    fails: "State.json missing, or pipeline stuck mid-flight in a non-shippable phase.",
+    recover: "Resume the orchestrator (--resume <slug>) until it lands in a shippable phase, or pass --force to bypass cautiously."
+  },
+  {
+    id: "G6", label: "G6 · Library-target sane",
+    check: "content/published/books/<slug>/ either does not exist, or it is a safe directory inside LIBRARY to wipe-and-recreate (not a symlink, not outside the catalog root).",
+    fails: "Target is a symlink (refuses wipe), or target path escapes content/published/.",
+    recover: "Remove the symlink manually, or pass --no-wipe to coexist with prior content."
+  },
+  {
+    id: "G7", label: "G7 · Challenger convergence",
+    check: "Book passed a real challenger convergence pass — verdict in {SHIP-READY, SHIP-WITH-CAUTION} AND pipeline_mode is NOT in {non_orchestrated_mode_2}.",
+    fails: "Challenger report missing / malformed / N/A, OR pipeline_mode shows the convergence loop was skipped entirely.",
+    recover: "Run the challenger to convergence on every chapter, OR pass --allow-mode-2 to acknowledge the bypass (catalog will mark the book 'challenger_convergence: skipped_mode_2')."
+  }
+];
+
+// ─── CATEGORY T CHECKS (Section 7) ─────────────────────────────────────
+// Pulled from scripts/podcast/_doctrinal.py check_t1_* through check_t5_*
+// functions, plus content/_shared/islam/imam-lineage-ismaili.yml and
+// content/_shared/islam/naming-conventions.yml for the canonical data.
+const DOCTRINAL_CHECKS = [
+  {
+    id: "T1", label: "T1 · Canonical attribution",
+    desc: "If a famous quote signature appears in the text, scan the same paragraph for forbidden mis-attributions. P0 on match.",
+    data: "content/_shared/islam/canonical-attributions.yml (attributions list).",
+    severity: "P0",
+    stub: false
+  },
+  {
+    id: "T2", label: "T2 · Imam lineage",
+    desc: "If the text names 'the Nth Imam', verify the name in the 120-char window matches the canonical Ismaili lineage. P0 on swap (e.g., 'the 3rd Imam, Hassan').",
+    data: "content/_shared/islam/imam-lineage-ismaili.yml (seven Imams from Hassan to Muhammad ibn Isma'il).",
+    severity: "P0",
+    stub: false
+  },
+  {
+    id: "T3", label: "T3 · Forbidden phrases",
+    desc: "Substring scan for entries in naming-conventions.yml::forbidden_phrases (notably 'Imam Ali', 'Imam Fatima'). Highest-volume check; wired as a HARD gate in build_episode_txt.py.",
+    data: "naming-conventions.yml + imam-lineage-ismaili.yml::forbidden_imam_titles.",
+    severity: "P0",
+    stub: false
+  },
+  {
+    id: "T4", label: "T4 · Farman plausibility",
+    desc: "Reserved for cross-referencing Farman attributions against issue date / location / Imam dataset. Not active — the Farman dataset does not exist yet.",
+    data: "(future) content/_shared/islam/farmans.yml.",
+    severity: "—",
+    stub: true
+  },
+  {
+    id: "T5", label: "T5 · Weak/fabricated hadith",
+    desc: "Scans for matn fragments of known-weak or known-fabricated hadith. List is empty on first commit — trainer populates patterns as they emerge.",
+    data: "canonical-attributions.yml::weak_or_fabricated_hadith (currently empty).",
+    severity: "P1",
+    stub: true
+  }
+];
+
+// ─── AGENTS (Section 8) ────────────────────────────────────────────────
+// Pulled from infra/claude-agents/*.md frontmatter (description field).
+const AGENTS = [
+  {
+    id: "podcast-orchestrator", label: "podcast-orchestrator", center: true,
+    desc: "Autonomous book-to-NotebookLM pipeline driver. Drives orchestrate_book.py from PDF intake through Phase 0a–0e, halts at Phase 0f, then on --resume drives the per-chapter loop, invokes trainer, and merges back to develop.",
+    invokes: ["podcast-challenger", "podcast-extract", "podcast-trainer", "podcast-publisher", "slide-deck-challenger", "podcast-blueprint"]
+  },
+  {
+    id: "podcast-challenger", label: "podcast-challenger",
+    desc: "Semantic-quality challenger for chapters and framings. Validates everything build_episode_txt.py cannot statically catch — citation authenticity, phonetic coverage, enrichment depth, NotebookLM literalness. Runs in a convergence loop (up to 5 inner iterations), emits findings to the learning ledger, stamps CHALLENGER_VERSION (currently 2.0)."
+  },
+  {
+    id: "podcast-extract", label: "podcast-extract",
+    desc: "Narrow single-chapter fast path. Resolves a chapter reference, ensures its contract exists, drives extract_chapter.py, returns bundle paths with a 3-line upload checklist."
+  },
+  {
+    id: "podcast-trainer", label: "podcast-trainer",
+    desc: "Cross-book pattern learner. Reads all challenger reports + transcripts, clusters recurring findings (≥3 occurrences), proposes spec edits, validates them against a regression suite, commits only Tier-2/3 refinements that pass."
+  },
+  {
+    id: "podcast-publisher", label: "podcast-publisher",
+    desc: "Thin wrapper around publish_to_library.py. Drives gates G1 through G7; refuses to publish books whose pipeline_mode is non_orchestrated_mode_2 or whose verdict is not in {SHIP-READY, SHIP-WITH-CAUTION} unless --allow-mode-2 is passed."
+  },
+  {
+    id: "slide-deck-challenger", label: "slide-deck-challenger",
+    desc: "Visual-quality challenger for slide-deck bundles. Validates per-structure visual integrity and deck-level architectural integrity. Runs in a convergence loop (max 5 iterations); surfaces findings for re-authoring rather than auto-fixing (v1.0 design — too semantic to mutate safely)."
+  },
+  {
+    id: "podcast-blueprint", label: "podcast-blueprint",
+    desc: "Content-aware episode-structure planner. Three layers: classify (genre, density, narrative mode); plan episodes (model dictated by Layer 1); emit arc-conventions draft. Seeds the audience profile and source tradition for downstream phases."
+  },
+  {
+    id: "podcast-auditor", label: "podcast-auditor",
+    desc: "Repo-level health audit for podcast-factory. Surfaces drift, regressions, gaps, refactor opportunities. Identify-only in v1.0 — produces a severity-ranked report."
+  },
+  {
+    id: "docs-updater", label: "docs-updater",
+    desc: "Regenerates the single architecture view at docs/architecture/index.html (this page) from current repo truth. Idempotent — same SHA, same output."
+  },
+  {
+    id: "refine-prompt", label: "refine-prompt",
+    desc: "Refines a raw user request into a single compact instruction-paragraph tuned for Claude Opus 4.7 / Claude Code. Inventories the repo for anti-regression hints; emits exactly one paragraph."
+  }
+];
+
+// Edges represent invocation relationships (not data flow). Orchestrator is the hub.
+const AGENT_EDGES = [
+  { source: "podcast-orchestrator", target: "podcast-challenger" },
+  { source: "podcast-orchestrator", target: "podcast-extract" },
+  { source: "podcast-orchestrator", target: "podcast-trainer" },
+  { source: "podcast-orchestrator", target: "podcast-publisher" },
+  { source: "podcast-orchestrator", target: "slide-deck-challenger" },
+  { source: "podcast-orchestrator", target: "podcast-blueprint" },
+  { source: "podcast-auditor",      target: "podcast-orchestrator" },
+  { source: "podcast-trainer",      target: "podcast-challenger" },
+  { source: "docs-updater",         target: "podcast-orchestrator" },
+  { source: "refine-prompt",        target: "podcast-orchestrator" }
+];
+
+// ─── AZURE SERVICES (Section 9) ────────────────────────────────────────
+// Pulled from _workspace/setup/azure-stack.md "Resource inventory" table
+// (lines 18–24) + optional resources (lines 25–28).
+const AZURE_SERVICES = [
+  {
+    id: "docintel", name: "journal-docintel", kind: "Document Intelligence",
+    phase: "0a (OCR)", flagged: false,
+    desc: "Recognizes Arabic + English text from scanned PDFs. First step of every book."
+  },
+  {
+    id: "translator", name: "journal-translator", kind: "Translator (S1)",
+    phase: "0a (translation)", flagged: false,
+    desc: "Translates the OCR'd Arabic into English. Output feeds Phase 0b refinement."
+  },
+  {
+    id: "language", name: "journal-language-market", kind: "Language / TextAnalytics (F0)",
+    phase: "0a.5 (NER pre-seed)", flagged: false,
+    desc: "Named-entity recognition pre-seed. Pending framework wiring — present but not consumed yet."
+  },
+  {
+    id: "storage", name: "journalpodcaststorage", kind: "Storage account",
+    phase: "ancillary", flagged: false,
+    desc: "Not pipeline-critical. Holds artifacts when needed; pipeline phases do not gate on it."
+  },
+  {
+    id: "speech", name: "journal-speech", kind: "Speech",
+    phase: "(feature-flag) lecture transcription", flagged: true,
+    desc: "Enabled for Urdu lecture transcription on kunooz-al-hikmah (2026-05-18). ENABLE_SPEECH=true."
+  },
+  {
+    id: "keyvault", name: "Key Vault", kind: "(optional)",
+    phase: "(future) multi-Mac key sharing", flagged: true,
+    desc: "ENABLE_KEYVAULT=false until multi-Mac migration kicks off. Single rotation point when active."
+  }
+];
+
+/* ════════════════════════════════════════════════════════════════════
+   Helpers
+   ════════════════════════════════════════════════════════════════════ */
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;"
+  }[c]));
+}
+
+function setDetailPanel(panelId, html) {
+  document.getElementById(panelId).innerHTML = html;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   Section 2 — Content lifecycle (static SVG)
+   ════════════════════════════════════════════════════════════════════ */
+(function renderLifecycle() {
+  const svg = d3.select("#lifecycle-svg");
+  const W = 920, H = 280;
+  const boxW = 220, boxH = 110;
+  const stages = [
+    { x: 30,  label: "Source PDF",   sub: "anywhere on disk", className: "node" },
+    { x: 350, label: "Workshop",     sub: "content/drafts/<slug>/", className: "node-accent" },
+    { x: 670, label: "Published",    sub: "content/published/books/<slug>/", className: "node-mint" }
+  ];
+
+  // Arrows
+  svg.append("defs").append("marker")
+    .attr("id", "arrow-life")
+    .attr("viewBox", "0 0 10 10")
+    .attr("refX", 8).attr("refY", 5)
+    .attr("markerWidth", 8).attr("markerHeight", 8)
+    .attr("orient", "auto-start-reverse")
+    .append("path").attr("d", "M0,0 L10,5 L0,10 Z").attr("class", "arrowhead-accent");
+
+  // Edges
+  for (let i = 0; i < stages.length - 1; i++) {
+    const x1 = stages[i].x + boxW;
+    const x2 = stages[i + 1].x;
+    svg.append("line")
+      .attr("x1", x1 + 8).attr("y1", H / 2)
+      .attr("x2", x2 - 12).attr("y2", H / 2)
+      .attr("class", "edge-accent")
+      .attr("marker-end", "url(#arrow-life)");
+  }
+  // Edge labels
+  svg.append("text").attr("x", (stages[0].x + boxW + stages[1].x) / 2).attr("y", H / 2 - 14)
+    .attr("text-anchor", "middle").attr("class", "label-mono")
+    .text("intake_book.py · cut typed branch · copy PDF");
+  svg.append("text").attr("x", (stages[1].x + boxW + stages[2].x) / 2).attr("y", H / 2 - 14)
+    .attr("text-anchor", "middle").attr("class", "label-mono")
+    .text("publish_to_library.py · gates G1–G7");
+
+  // Stages
+  const g = svg.selectAll("g.stage")
+    .data(stages).enter().append("g").attr("class", "stage");
+  g.append("rect")
+    .attr("x", d => d.x).attr("y", H / 2 - boxH / 2)
+    .attr("width", boxW).attr("height", boxH)
+    .attr("rx", 10).attr("class", d => d.className);
+  g.append("text").attr("x", d => d.x + boxW / 2).attr("y", H / 2 - 8)
+    .attr("text-anchor", "middle").attr("class", "label-display").text(d => d.label);
+  g.append("text").attr("x", d => d.x + boxW / 2).attr("y", H / 2 + 22)
+    .attr("text-anchor", "middle").attr("class", "label-mono").text(d => d.sub);
+
+  // Footer note
+  svg.append("text").attr("x", W / 2).attr("y", H - 18)
+    .attr("text-anchor", "middle").attr("class", "label-mono")
+    .text("workshop is git-tracked · published catalog is filesystem-only (regeneratable from workshop)");
+})();
+
+/* ════════════════════════════════════════════════════════════════════
+   Section 3 — Pipeline phases (interactive timeline)
+   ════════════════════════════════════════════════════════════════════ */
+(function renderPhases() {
+  const svg = d3.select("#phases-svg");
+  const W = 560, H = 720;
+  const padTop = 30, padBottom = 30;
+  const rowH = (H - padTop - padBottom) / PHASES.length;
+  const boxW = 380, boxX = 60, boxH = rowH - 14;
+
+  const kindClass = {
+    azure: "node-azure",
+    claude: "node-accent",
+    halt: "node-gold",
+    loop: "node-rose",
+    deterministic: "node-mint"
+  };
+
+  // Vertical connecting line
+  svg.append("line")
+    .attr("x1", boxX - 22).attr("y1", padTop + rowH / 2)
+    .attr("x2", boxX - 22).attr("y2", padTop + (PHASES.length - 0.5) * rowH)
+    .attr("class", "edge-soft");
+
+  const g = svg.selectAll("g.phase")
+    .data(PHASES).enter().append("g")
+    .attr("class", "clickable")
+    .attr("transform", (d, i) => `translate(0, ${padTop + i * rowH})`)
+    .on("click", function (event, d) {
+      d3.selectAll("#phases-svg .clickable").classed("selected", false);
+      d3.select(this).classed("selected", true);
+      renderPhaseDetail(d);
+    });
+
+  // Dot on the timeline
+  g.append("circle")
+    .attr("cx", boxX - 22).attr("cy", rowH / 2).attr("r", 6)
+    .attr("class", d => kindClass[d.kind] || "node");
+
+  // Row box
+  g.append("rect")
+    .attr("class", d => "node-bg " + (kindClass[d.kind] || "node"))
+    .attr("x", boxX).attr("y", 8)
+    .attr("width", boxW).attr("height", boxH)
+    .attr("rx", 8);
+
+  g.append("text")
+    .attr("x", boxX + 16).attr("y", boxH / 2 + 6)
+    .attr("class", "label-strong")
+    .text(d => d.label);
+
+  g.append("text")
+    .attr("x", boxX + boxW - 16).attr("y", boxH / 2 + 6)
+    .attr("text-anchor", "end")
+    .attr("class", "label-mono")
+    .text(d => d.kind);
+
+  function renderPhaseDetail(d) {
+    setDetailPanel("phases-detail", `
+      <div class="panel-meta">Phase · ${escapeHtml(d.kind)}</div>
+      <div class="panel-title">${escapeHtml(d.label)}</div>
+      <p>${escapeHtml(d.summary)}</p>
+      <dl>
+        <dt>Reads</dt><dd>${escapeHtml(d.reads)}</dd>
+        <dt>Writes</dt><dd>${escapeHtml(d.writes)}</dd>
+        <dt>Cost</dt><dd>${escapeHtml(d.cost)}</dd>
+        <dt>Failure modes</dt><dd>${escapeHtml(d.fails)}</dd>
+      </dl>
+    `);
+  }
+
+  // Initial selection
+  d3.select(svg.selectAll(".clickable").nodes()[0]).classed("selected", true);
+  renderPhaseDetail(PHASES[0]);
+})();
+
+/* ════════════════════════════════════════════════════════════════════
+   Section 4 — Per-chapter convergence loop (state diagram)
+   ════════════════════════════════════════════════════════════════════ */
+(function renderConvergence() {
+  const svg = d3.select("#converge-svg");
+  const W = 560, H = 540;
+
+  const kindFill = {
+    neutral: "node-accent",
+    ok: "node-mint",
+    warn: "node-gold",
+    block: "node-rose",
+    fail: "node"
+  };
+
+  // Hand-placed layout — clearer than force-directed for a state machine of 5 states.
+  const positions = {
+    challenger:  { x: 280, y: 100 },
+    "ship-ready":   { x: 80,  y: 280 },
+    "ship-caution": { x: 280, y: 280 },
+    blocked:        { x: 480, y: 280 },
+    failed:         { x: 280, y: 450 }
+  };
+
+  // Define edges (state transitions)
+  const edges = [
+    { from: "challenger", to: "ship-ready",   label: "verdict = SHIP-READY" },
+    { from: "challenger", to: "ship-caution", label: "verdict = SHIP-WITH-CAUTION" },
+    { from: "challenger", to: "blocked",      label: "verdict = BLOCKED" },
+    { from: "ship-caution", to: "challenger", label: "iter < 2 · fixer P1 + retry", curve: true },
+    { from: "blocked", to: "challenger",      label: "fixer P0 (max 3) + retry", curve: true },
+    { from: "blocked", to: "failed",          label: "iter = 3 cap" },
+    { from: "ship-caution", to: "failed",     label: "iter = 3 cap (below ship)" }
+  ];
+
+  svg.append("defs").append("marker")
+    .attr("id", "arrow-conv")
+    .attr("viewBox", "0 0 10 10")
+    .attr("refX", 9).attr("refY", 5)
+    .attr("markerWidth", 8).attr("markerHeight", 8)
+    .attr("orient", "auto-start-reverse")
+    .append("path").attr("d", "M0,0 L10,5 L0,10 Z").attr("class", "arrowhead");
+
+  // Edges first (so nodes draw on top)
+  edges.forEach(e => {
+    const p1 = positions[e.from], p2 = positions[e.to];
+    let path;
+    if (e.curve) {
+      const cx = (p1.x + p2.x) / 2 + (p1.x < p2.x ? 70 : -70);
+      const cy = (p1.y + p2.y) / 2;
+      path = `M${p1.x},${p1.y} Q${cx},${cy} ${p2.x},${p2.y}`;
+    } else {
+      path = `M${p1.x},${p1.y} L${p2.x},${p2.y}`;
+    }
+    svg.append("path")
+      .attr("d", path)
+      .attr("class", "edge")
+      .attr("marker-end", "url(#arrow-conv)");
+    svg.append("text")
+      .attr("x", (p1.x + p2.x) / 2 + (e.curve ? (p1.x < p2.x ? 30 : -30) : 0))
+      .attr("y", (p1.y + p2.y) / 2 - 6)
+      .attr("text-anchor", "middle")
+      .attr("class", "label-mono")
+      .text(e.label);
+  });
+
+  // Nodes
+  const g = svg.selectAll("g.state")
+    .data(CONVERGE_STATES).enter().append("g")
+    .attr("class", "clickable")
+    .attr("transform", d => `translate(${positions[d.id].x}, ${positions[d.id].y})`)
+    .on("click", function (event, d) {
+      d3.selectAll("#converge-svg .clickable").classed("selected", false);
+      d3.select(this).classed("selected", true);
+      renderConvergeDetail(d);
+    });
+
+  g.append("rect")
+    .attr("class", d => "node-bg " + (kindFill[d.kind] || "node"))
+    .attr("x", -90).attr("y", -28)
+    .attr("width", 180).attr("height", 56)
+    .attr("rx", 10);
+
+  g.append("text")
+    .attr("text-anchor", "middle")
+    .attr("y", 6)
+    .attr("class", "label-strong")
+    .text(d => d.label);
+
+  function renderConvergeDetail(d) {
+    setDetailPanel("converge-detail", `
+      <div class="panel-meta">State · ${escapeHtml(d.kind)}</div>
+      <div class="panel-title">${escapeHtml(d.label)}</div>
+      <dl>
+        <dt>Triggered when</dt><dd>${escapeHtml(d.trigger)}</dd>
+        <dt>Next action</dt><dd>${escapeHtml(d.next)}</dd>
+        <dt>Controlling constant</dt><dd><code>${escapeHtml(d.constant)}</code></dd>
+      </dl>
+    `);
+  }
+
+  d3.select(svg.selectAll(".clickable").nodes()[0]).classed("selected", true);
+  renderConvergeDetail(CONVERGE_STATES[0]);
+})();
+
+/* ════════════════════════════════════════════════════════════════════
+   Section 5 — Branch policy (force-directed sketch)
+   ════════════════════════════════════════════════════════════════════ */
+(function renderBranches() {
+  const svg = d3.select("#branches-svg");
+  const W = 760, H = 460;
+  const cx = W / 2, cy = H / 2;
+  const R = 170;
+
+  const orbits = BRANCH_PREFIXES.map((b, i) => {
+    const angle = (i / BRANCH_PREFIXES.length) * 2 * Math.PI - Math.PI / 2;
+    return {
+      id: b.prefix,
+      label: `${b.prefix}/<slug>`,
+      sub: b.example,
+      x: cx + Math.cos(angle) * R,
+      y: cy + Math.sin(angle) * R
+    };
+  });
+
+  // Edges (develop ↔ each branch)
+  orbits.forEach(o => {
+    svg.append("line")
+      .attr("x1", cx).attr("y1", cy)
+      .attr("x2", o.x).attr("y2", o.y)
+      .attr("class", "edge-soft");
+  });
+
+  // Each branch node
+  orbits.forEach(o => {
+    const g = svg.append("g").attr("transform", `translate(${o.x}, ${o.y})`);
+    g.append("rect")
+      .attr("x", -86).attr("y", -22)
+      .attr("width", 172).attr("height", 44)
+      .attr("rx", 8).attr("class", "node");
+    g.append("text")
+      .attr("text-anchor", "middle").attr("y", -2)
+      .attr("class", "label-strong").text(o.label);
+    g.append("text")
+      .attr("text-anchor", "middle").attr("y", 14)
+      .attr("class", "label-tiny").text(o.sub);
+  });
+
+  // Center node (develop) — drawn last so it's on top
+  const c = svg.append("g").attr("transform", `translate(${cx}, ${cy})`);
+  c.append("circle").attr("r", 54).attr("class", "node-accent");
+  c.append("text").attr("text-anchor", "middle").attr("y", -2)
+    .attr("class", "label-display").text("develop");
+  c.append("text").attr("text-anchor", "middle").attr("y", 18)
+    .attr("class", "label-mono").text("working branch");
+})();
+
+/* ════════════════════════════════════════════════════════════════════
+   Section 6 — Publish gates G1→G7 (interactive waterfall)
+   ════════════════════════════════════════════════════════════════════ */
+(function renderGates() {
+  const svg = d3.select("#gates-svg");
+  const W = 560, H = 540;
+  const padTop = 24;
+  const rowH = (H - padTop * 2) / GATES.length;
+  const boxW = 460, boxX = 50, boxH = rowH - 14;
+
+  // Vertical connector
+  svg.append("line")
+    .attr("x1", boxX - 18).attr("y1", padTop + rowH / 2)
+    .attr("x2", boxX - 18).attr("y2", padTop + (GATES.length - 0.5) * rowH)
+    .attr("class", "edge-soft");
+
+  svg.append("defs").append("marker")
+    .attr("id", "arrow-gate")
+    .attr("viewBox", "0 0 10 10")
+    .attr("refX", 8).attr("refY", 5)
+    .attr("markerWidth", 6).attr("markerHeight", 6)
+    .attr("orient", "auto-start-reverse")
+    .append("path").attr("d", "M0,0 L10,5 L0,10 Z").attr("class", "arrowhead");
+
+  // Down-arrows between gates
+  for (let i = 0; i < GATES.length - 1; i++) {
+    const y1 = padTop + (i + 0.5) * rowH + boxH / 2 - 2;
+    const y2 = padTop + (i + 1.5) * rowH - boxH / 2 + 2;
+    svg.append("line")
+      .attr("x1", boxX - 18).attr("y1", y1)
+      .attr("x2", boxX - 18).attr("y2", y2)
+      .attr("class", "edge")
+      .attr("marker-end", "url(#arrow-gate)");
+  }
+
+  const g = svg.selectAll("g.gate")
+    .data(GATES).enter().append("g")
+    .attr("class", "clickable")
+    .attr("transform", (d, i) => `translate(0, ${padTop + i * rowH})`)
+    .on("click", function (event, d) {
+      d3.selectAll("#gates-svg .clickable").classed("selected", false);
+      d3.select(this).classed("selected", true);
+      renderGateDetail(d);
+    });
+
+  g.append("circle")
+    .attr("cx", boxX - 18).attr("cy", rowH / 2).attr("r", 6)
+    .attr("class", "node-mint");
+
+  g.append("rect")
+    .attr("class", "node-bg node")
+    .attr("x", boxX).attr("y", 8)
+    .attr("width", boxW).attr("height", boxH)
+    .attr("rx", 8);
+
+  g.append("text")
+    .attr("x", boxX + 16).attr("y", boxH / 2 + 6)
+    .attr("class", "label-strong")
+    .text(d => d.label);
+
+  function renderGateDetail(d) {
+    setDetailPanel("gates-detail", `
+      <div class="panel-meta">Gate · ${escapeHtml(d.id)}</div>
+      <div class="panel-title">${escapeHtml(d.label.replace(/^G\d+ · /, ""))}</div>
+      <dl>
+        <dt>Check</dt><dd>${escapeHtml(d.check)}</dd>
+        <dt>If it fails</dt><dd>${escapeHtml(d.fails)}</dd>
+        <dt>How to recover</dt><dd>${escapeHtml(d.recover)}</dd>
+      </dl>
+    `);
+  }
+
+  d3.select(svg.selectAll(".clickable").nodes()[0]).classed("selected", true);
+  renderGateDetail(GATES[0]);
+})();
+
+/* ════════════════════════════════════════════════════════════════════
+   Section 7 — Category T doctrinal accuracy (decision tree)
+   ════════════════════════════════════════════════════════════════════ */
+(function renderDoctrinal() {
+  const svg = d3.select("#doctrinal-svg");
+  const W = 920, H = 540;
+
+  // Root at top, five branches fan downward
+  const root = { x: W / 2, y: 60, label: "Chapter text" };
+  const branchY = 220;
+  const leafY = 410;
+  const colW = W / (DOCTRINAL_CHECKS.length + 1);
+
+  // Root node
+  const rootG = svg.append("g").attr("transform", `translate(${root.x}, ${root.y})`);
+  rootG.append("rect")
+    .attr("x", -100).attr("y", -28).attr("width", 200).attr("height", 56)
+    .attr("rx", 10).attr("class", "node-accent");
+  rootG.append("text").attr("text-anchor", "middle").attr("y", 6)
+    .attr("class", "label-strong").text(root.label);
+
+  // Branch arrows
+  svg.append("defs").append("marker")
+    .attr("id", "arrow-doc")
+    .attr("viewBox", "0 0 10 10")
+    .attr("refX", 8).attr("refY", 5)
+    .attr("markerWidth", 7).attr("markerHeight", 7)
+    .attr("orient", "auto-start-reverse")
+    .append("path").attr("d", "M0,0 L10,5 L0,10 Z").attr("class", "arrowhead");
+
+  DOCTRINAL_CHECKS.forEach((c, i) => {
+    const x = colW * (i + 1);
+    // Edge from root to check node
+    svg.append("path")
+      .attr("d", `M${root.x},${root.y + 28} Q${root.x},${branchY - 50} ${x},${branchY - 32}`)
+      .attr("class", c.stub ? "edge-soft" : "edge")
+      .attr("fill", "none")
+      .attr("marker-end", "url(#arrow-doc)");
+
+    // Check node
+    const checkG = svg.append("g").attr("transform", `translate(${x}, ${branchY})`);
+    const cls = c.stub ? "node" : (c.severity.startsWith("P0") ? "node-rose" : "node-gold");
+    checkG.append("rect")
+      .attr("x", -78).attr("y", -32).attr("width", 156).attr("height", 64)
+      .attr("rx", 8).attr("class", cls);
+    checkG.append("text").attr("text-anchor", "middle").attr("y", -8)
+      .attr("class", "label-strong").text(c.id);
+    checkG.append("text").attr("text-anchor", "middle").attr("y", 12)
+      .attr("class", "label-tiny")
+      .text(c.stub ? "STUB · reserved" : "active");
+
+    // Leaf: outcome
+    svg.append("line")
+      .attr("x1", x).attr("y1", branchY + 32)
+      .attr("x2", x).attr("y2", leafY - 24)
+      .attr("class", c.stub ? "edge-soft" : "edge");
+
+    const leafG = svg.append("g").attr("transform", `translate(${x}, ${leafY})`);
+    const leafCls = c.stub ? "node" : (c.severity.startsWith("P0") ? "node-rose" : "node-gold");
+    leafG.append("rect")
+      .attr("x", -88).attr("y", -22).attr("width", 176).attr("height", 44)
+      .attr("rx", 6).attr("class", leafCls);
+    leafG.append("text").attr("text-anchor", "middle").attr("y", -2)
+      .attr("class", "label").text(c.stub ? "no finding" : c.severity);
+    leafG.append("text").attr("text-anchor", "middle").attr("y", 14)
+      .attr("class", "label-tiny")
+      .text(c.label.replace(/^T\d+ · /, "").substring(0, 30));
+  });
+
+  // Column captions (truncated description text)
+  DOCTRINAL_CHECKS.forEach((c, i) => {
+    const x = colW * (i + 1);
+    svg.append("foreignObject")
+      .attr("x", x - 110).attr("y", leafY + 30)
+      .attr("width", 220).attr("height", 90)
+      .append("xhtml:div")
+      .style("color", "var(--text-muted)")
+      .style("font-family", "var(--font-mono)")
+      .style("font-size", "11px")
+      .style("text-align", "center")
+      .style("line-height", "1.4")
+      .html(escapeHtml(c.desc.substring(0, 140) + (c.desc.length > 140 ? "…" : "")));
+  });
+})();
+
+/* ════════════════════════════════════════════════════════════════════
+   Section 8 — Agent surface (interactive force-directed network)
+   ════════════════════════════════════════════════════════════════════ */
+(function renderAgents() {
+  const svg = d3.select("#agents-svg");
+  const W = 620, H = 620;
+
+  // Build node/link arrays for d3.forceSimulation
+  const nodes = AGENTS.map(a => Object.assign({}, a));
+  const links = AGENT_EDGES.map(e => Object.assign({}, e));
+
+  const sim = d3.forceSimulation(nodes)
+    .force("link", d3.forceLink(links).id(d => d.id).distance(d => {
+      // Shorter links from orchestrator (the hub)
+      return d.source.id === "podcast-orchestrator" || d.target.id === "podcast-orchestrator" ? 130 : 170;
+    }).strength(0.55))
+    .force("charge", d3.forceManyBody().strength(-580))
+    .force("center", d3.forceCenter(W / 2, H / 2))
+    .force("collide", d3.forceCollide().radius(58));
+
+  // Pin the orchestrator at center to keep visual stability
+  const center = nodes.find(n => n.center);
+  if (center) { center.fx = W / 2; center.fy = H / 2; }
+
+  svg.append("defs").append("marker")
+    .attr("id", "arrow-agent")
+    .attr("viewBox", "0 0 10 10")
+    .attr("refX", 22).attr("refY", 5)
+    .attr("markerWidth", 7).attr("markerHeight", 7)
+    .attr("orient", "auto-start-reverse")
+    .append("path").attr("d", "M0,0 L10,5 L0,10 Z").attr("class", "arrowhead");
+
+  const link = svg.append("g").attr("class", "links")
+    .selectAll("line").data(links).enter().append("line")
+    .attr("class", "edge")
+    .attr("marker-end", "url(#arrow-agent)");
+
+  const node = svg.append("g").attr("class", "nodes")
+    .selectAll("g").data(nodes).enter().append("g")
+    .attr("class", "clickable")
+    .call(d3.drag()
+      .on("start", (event, d) => {
+        if (!event.active) sim.alphaTarget(0.3).restart();
+        d.fx = d.x; d.fy = d.y;
+      })
+      .on("drag", (event, d) => { d.fx = event.x; d.fy = event.y; })
+      .on("end", (event, d) => {
+        if (!event.active) sim.alphaTarget(0);
+        // Keep orchestrator pinned; release others
+        if (!d.center) { d.fx = null; d.fy = null; }
+      }))
+    .on("click", function (event, d) {
+      d3.selectAll("#agents-svg .clickable").classed("selected", false);
+      d3.select(this).classed("selected", true);
+      renderAgentDetail(d);
+    });
+
+  node.append("circle")
+    .attr("class", d => "node-bg " + (d.center ? "node-accent" : "node"))
+    .attr("r", d => d.center ? 50 : 40);
+
+  node.append("text")
+    .attr("text-anchor", "middle")
+    .attr("y", 4)
+    .attr("class", "label")
+    .style("font-size", d => d.center ? "13px" : "11px")
+    .style("pointer-events", "none")
+    .each(function (d) {
+      // Wrap long names across two lines on the first hyphen
+      const idx = d.label.indexOf("-");
+      const txt = d3.select(this);
+      if (idx > 0 && d.label.length > 12) {
+        txt.text("");
+        txt.append("tspan").attr("x", 0).attr("dy", "-0.35em").text(d.label.substring(0, idx + 1));
+        txt.append("tspan").attr("x", 0).attr("dy", "1.1em").text(d.label.substring(idx + 1));
+      } else {
+        txt.text(d.label);
+      }
+    });
+
+  sim.on("tick", () => {
+    link
+      .attr("x1", d => d.source.x).attr("y1", d => d.source.y)
+      .attr("x2", d => d.target.x).attr("y2", d => d.target.y);
+    node.attr("transform", d => `translate(${d.x}, ${d.y})`);
+  });
+
+  function renderAgentDetail(d) {
+    setDetailPanel("agents-detail", `
+      <div class="panel-meta">Agent · infra/claude-agents/${escapeHtml(d.id)}.md</div>
+      <div class="panel-title">${escapeHtml(d.label)}</div>
+      <p>${escapeHtml(d.desc)}</p>
+      ${d.invokes ? `<dl><dt>Invokes</dt><dd>${d.invokes.map(x => `<code>${escapeHtml(x)}</code>`).join(", ")}</dd></dl>` : ""}
+    `);
+  }
+
+  // Initial selection — orchestrator
+  setTimeout(() => {
+    const orch = node.filter(d => d.center);
+    orch.classed("selected", true);
+    renderAgentDetail(center);
+  }, 50);
+})();
+
+/* ════════════════════════════════════════════════════════════════════
+   Section 9 — Azure stack (static service graph)
+   ════════════════════════════════════════════════════════════════════ */
+(function renderAzure() {
+  const svg = d3.select("#azure-svg");
+  const W = 920, H = 520;
+  const padLeft = 60, padRight = 60;
+  const serviceCol = padLeft;
+  const phaseCol = W - padRight - 200;
+  const colW = 240, rowH = 70;
+
+  // Phases on right side that Azure connects to
+  const azurePhases = [
+    { id: "0a-ocr",     label: "0a · OCR",          y: 80 },
+    { id: "0a-trans",   label: "0a · Translation",  y: 170 },
+    { id: "0a5-ner",    label: "0a.5 · NER",        y: 260 },
+    { id: "lecture",    label: "(flag) lecture TX", y: 350 },
+    { id: "ancillary",  label: "ancillary / future",y: 440 }
+  ];
+
+  const serviceToPhase = {
+    docintel: "0a-ocr",
+    translator: "0a-trans",
+    language: "0a5-ner",
+    storage: "ancillary",
+    speech: "lecture",
+    keyvault: "ancillary"
+  };
+
+  // Layout services in a vertical column on left
+  const serviceY = AZURE_SERVICES.map((s, i) => 80 + i * rowH);
+
+  svg.append("defs").append("marker")
+    .attr("id", "arrow-az")
+    .attr("viewBox", "0 0 10 10")
+    .attr("refX", 8).attr("refY", 5)
+    .attr("markerWidth", 7).attr("markerHeight", 7)
+    .attr("orient", "auto-start-reverse")
+    .append("path").attr("d", "M0,0 L10,5 L0,10 Z").attr("class", "arrowhead");
+
+  // Edges
+  AZURE_SERVICES.forEach((s, i) => {
+    const phase = azurePhases.find(p => p.id === serviceToPhase[s.id]);
+    if (!phase) return;
+    svg.append("line")
+      .attr("x1", serviceCol + colW).attr("y1", serviceY[i] + 26)
+      .attr("x2", phaseCol).attr("y2", phase.y + 26)
+      .attr("class", s.flagged ? "edge-soft" : "edge-azure")
+      .attr("marker-end", "url(#arrow-az)");
+  });
+
+  // Service nodes (left)
+  AZURE_SERVICES.forEach((s, i) => {
+    const g = svg.append("g").attr("transform", `translate(${serviceCol}, ${serviceY[i]})`);
+    g.append("rect")
+      .attr("width", colW).attr("height", 54).attr("rx", 8)
+      .attr("class", s.flagged ? "node" : "node-azure");
+    g.append("text").attr("x", 14).attr("y", 22)
+      .attr("class", "label-strong").text(s.name);
+    g.append("text").attr("x", 14).attr("y", 40)
+      .attr("class", "label-mono").text(s.kind + (s.flagged ? "  · flagged" : ""));
+  });
+
+  // Phase nodes (right)
+  azurePhases.forEach(p => {
+    const g = svg.append("g").attr("transform", `translate(${phaseCol}, ${p.y})`);
+    g.append("rect")
+      .attr("width", 200).attr("height", 54).attr("rx", 8)
+      .attr("class", "node");
+    g.append("text").attr("x", 16).attr("y", 22)
+      .attr("class", "label-strong").text(p.label);
+    g.append("text").attr("x", 16).attr("y", 40)
+      .attr("class", "label-mono").text("pipeline touch-point");
+  });
+
+  // Column labels
+  svg.append("text").attr("x", serviceCol).attr("y", 50)
+    .attr("class", "label-mono").text("Azure resource");
+  svg.append("text").attr("x", phaseCol).attr("y", 50)
+    .attr("class", "label-mono").text("Where it is used");
+})();
+
+/* ════════════════════════════════════════════════════════════════════
+   Sticky nav active-section highlight (intersection observer)
+   ════════════════════════════════════════════════════════════════════ */
+(function watchSections() {
+  const sections = document.querySelectorAll("section.architecture-section");
+  const links = document.querySelectorAll(".sidenav a");
+  const linkById = {};
+  links.forEach(l => { linkById[l.getAttribute("href").substring(1)] = l; });
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove("active"));
+        const id = entry.target.id;
+        if (linkById[id]) linkById[id].classList.add("active");
+      }
+    });
+  }, { rootMargin: "-30% 0px -55% 0px", threshold: 0 });
+
+  sections.forEach(s => observer.observe(s));
+})();
+</script>
+
 </body>
 </html>
