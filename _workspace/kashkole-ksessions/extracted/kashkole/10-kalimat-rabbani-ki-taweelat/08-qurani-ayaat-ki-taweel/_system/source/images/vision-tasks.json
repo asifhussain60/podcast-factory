@@ -1,0 +1,1222 @@
+{
+  "book": {
+    "binder_id": 8,
+    "binder_name": "کلمات ربانی کی تاویلات",
+    "chapter_id": 18,
+    "chapter_name": "قرآنی آیات کی تاویل"
+  },
+  "images": [
+    {
+      "placeholder": "IMG:001",
+      "file": "_system/source/images/001.png",
+      "section_id": 278,
+      "section_label": "وَلَقَدْ ءَاتَيْنَكَ سَبْعًۭا مِّنَ ٱلْمَثَانِى وَٱلْقُرْءَانَ ٱلْعَظِيمَ ",
+      "bytes": 3295,
+      "sha256_12": "4c140cc90dc4",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:002",
+      "file": "_system/source/images/002.png",
+      "section_id": 279,
+      "section_label": "فَأُو۟لَٓئِكَ يُبَدِّلُ ٱللَّهُ سَيِّـَٔاتِهِمْ حَسَنَتٍۢ",
+      "bytes": 18585,
+      "sha256_12": "b792a597e987",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:003",
+      "file": "_system/source/images/003.png",
+      "section_id": 824,
+      "section_label": "واذا قیل لھم آمنو کمآ امن الناس قالو انؤمن کما امن السفھاء",
+      "bytes": 8158,
+      "sha256_12": "4231a60f9d62",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:004",
+      "file": "_system/source/images/004.png",
+      "section_id": 824,
+      "section_label": "واذا قیل لھم آمنو کمآ امن الناس قالو انؤمن کما امن السفھاء",
+      "bytes": 6865,
+      "sha256_12": "53b4510e919f",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:005",
+      "file": "_system/source/images/005.png",
+      "section_id": 824,
+      "section_label": "واذا قیل لھم آمنو کمآ امن الناس قالو انؤمن کما امن السفھاء",
+      "bytes": 5554,
+      "sha256_12": "ce6e8ef13244",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:006",
+      "file": "_system/source/images/006.png",
+      "section_id": 824,
+      "section_label": "واذا قیل لھم آمنو کمآ امن الناس قالو انؤمن کما امن السفھاء",
+      "bytes": 6319,
+      "sha256_12": "f617fd735c26",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:007",
+      "file": "_system/source/images/007.png",
+      "section_id": 824,
+      "section_label": "واذا قیل لھم آمنو کمآ امن الناس قالو انؤمن کما امن السفھاء",
+      "bytes": 7753,
+      "sha256_12": "ff228cbfef2a",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:008",
+      "file": "_system/source/images/008.png",
+      "section_id": 824,
+      "section_label": "واذا قیل لھم آمنو کمآ امن الناس قالو انؤمن کما امن السفھاء",
+      "bytes": 13469,
+      "sha256_12": "3d598ce2641e",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:009",
+      "file": "_system/source/images/009.png",
+      "section_id": 824,
+      "section_label": "واذا قیل لھم آمنو کمآ امن الناس قالو انؤمن کما امن السفھاء",
+      "bytes": 8992,
+      "sha256_12": "45a0a14752a8",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:010",
+      "file": "_system/source/images/010.png",
+      "section_id": 824,
+      "section_label": "واذا قیل لھم آمنو کمآ امن الناس قالو انؤمن کما امن السفھاء",
+      "bytes": 13691,
+      "sha256_12": "16a312799e1b",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:011",
+      "file": "_system/source/images/011.png",
+      "section_id": 824,
+      "section_label": "واذا قیل لھم آمنو کمآ امن الناس قالو انؤمن کما امن السفھاء",
+      "bytes": 8115,
+      "sha256_12": "c51fa7342779",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:012",
+      "file": "_system/source/images/012.png",
+      "section_id": 824,
+      "section_label": "واذا قیل لھم آمنو کمآ امن الناس قالو انؤمن کما امن السفھاء",
+      "bytes": 8330,
+      "sha256_12": "9ce614c5ed2b",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:013",
+      "file": "_system/source/images/013.png",
+      "section_id": 824,
+      "section_label": "واذا قیل لھم آمنو کمآ امن الناس قالو انؤمن کما امن السفھاء",
+      "bytes": 7201,
+      "sha256_12": "224b59284d8b",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:014",
+      "file": "_system/source/images/014.png",
+      "section_id": 824,
+      "section_label": "واذا قیل لھم آمنو کمآ امن الناس قالو انؤمن کما امن السفھاء",
+      "bytes": 13555,
+      "sha256_12": "05d2178c7290",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:015",
+      "file": "_system/source/images/015.png",
+      "section_id": 824,
+      "section_label": "واذا قیل لھم آمنو کمآ امن الناس قالو انؤمن کما امن السفھاء",
+      "bytes": 11038,
+      "sha256_12": "6e46a91ec995",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:016",
+      "file": "_system/source/images/016.png",
+      "section_id": 824,
+      "section_label": "واذا قیل لھم آمنو کمآ امن الناس قالو انؤمن کما امن السفھاء",
+      "bytes": 5554,
+      "sha256_12": "b17481cd0988",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:017",
+      "file": "_system/source/images/017.png",
+      "section_id": 824,
+      "section_label": "واذا قیل لھم آمنو کمآ امن الناس قالو انؤمن کما امن السفھاء",
+      "bytes": 13542,
+      "sha256_12": "b81835f70c8b",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:018",
+      "file": "_system/source/images/018.png",
+      "section_id": 827,
+      "section_label": "مثلھم کمثل الذی استوقد نارا فلما أضآئت ما حولہ",
+      "bytes": 7326,
+      "sha256_12": "a5e12cd82ea6",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:019",
+      "file": "_system/source/images/019.png",
+      "section_id": 827,
+      "section_label": "مثلھم کمثل الذی استوقد نارا فلما أضآئت ما حولہ",
+      "bytes": 12178,
+      "sha256_12": "84dafd953cf9",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:020",
+      "file": "_system/source/images/020.png",
+      "section_id": 827,
+      "section_label": "مثلھم کمثل الذی استوقد نارا فلما أضآئت ما حولہ",
+      "bytes": 12208,
+      "sha256_12": "7043e5072a85",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:021",
+      "file": "_system/source/images/021.png",
+      "section_id": 827,
+      "section_label": "مثلھم کمثل الذی استوقد نارا فلما أضآئت ما حولہ",
+      "bytes": 12313,
+      "sha256_12": "174cee560f3e",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:022",
+      "file": "_system/source/images/022.png",
+      "section_id": 827,
+      "section_label": "مثلھم کمثل الذی استوقد نارا فلما أضآئت ما حولہ",
+      "bytes": 12298,
+      "sha256_12": "be2dad1f4635",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:023",
+      "file": "_system/source/images/023.png",
+      "section_id": 827,
+      "section_label": "مثلھم کمثل الذی استوقد نارا فلما أضآئت ما حولہ",
+      "bytes": 11863,
+      "sha256_12": "41f0b98e254d",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:024",
+      "file": "_system/source/images/024.png",
+      "section_id": 835,
+      "section_label": "الذی جعل لکم الارض فراشا والسمآء بنآء و أنزل من السمآء مآء",
+      "bytes": 10112,
+      "sha256_12": "fbc50b3a418b",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:025",
+      "file": "_system/source/images/025.png",
+      "section_id": 835,
+      "section_label": "الذی جعل لکم الارض فراشا والسمآء بنآء و أنزل من السمآء مآء",
+      "bytes": 13150,
+      "sha256_12": "d37181fd79fb",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:026",
+      "file": "_system/source/images/026.png",
+      "section_id": 835,
+      "section_label": "الذی جعل لکم الارض فراشا والسمآء بنآء و أنزل من السمآء مآء",
+      "bytes": 13417,
+      "sha256_12": "d9fe3c343181",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:027",
+      "file": "_system/source/images/027.png",
+      "section_id": 835,
+      "section_label": "الذی جعل لکم الارض فراشا والسمآء بنآء و أنزل من السمآء مآء",
+      "bytes": 9161,
+      "sha256_12": "bcc38350e40a",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:028",
+      "file": "_system/source/images/028.png",
+      "section_id": 835,
+      "section_label": "الذی جعل لکم الارض فراشا والسمآء بنآء و أنزل من السمآء مآء",
+      "bytes": 10828,
+      "sha256_12": "25c585943b44",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:029",
+      "file": "_system/source/images/029.png",
+      "section_id": 835,
+      "section_label": "الذی جعل لکم الارض فراشا والسمآء بنآء و أنزل من السمآء مآء",
+      "bytes": 13261,
+      "sha256_12": "2efade299057",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:030",
+      "file": "_system/source/images/030.png",
+      "section_id": 835,
+      "section_label": "الذی جعل لکم الارض فراشا والسمآء بنآء و أنزل من السمآء مآء",
+      "bytes": 8762,
+      "sha256_12": "171b7d2c2680",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:031",
+      "file": "_system/source/images/031.png",
+      "section_id": 835,
+      "section_label": "الذی جعل لکم الارض فراشا والسمآء بنآء و أنزل من السمآء مآء",
+      "bytes": 13250,
+      "sha256_12": "0eec2a206803",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:032",
+      "file": "_system/source/images/032.png",
+      "section_id": 838,
+      "section_label": "وان کنتم فی ریب مما نزلنا علی عبدنا فأتو بسورۃ من مثلہ",
+      "bytes": 7936,
+      "sha256_12": "9ee129859038",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:033",
+      "file": "_system/source/images/033.png",
+      "section_id": 838,
+      "section_label": "وان کنتم فی ریب مما نزلنا علی عبدنا فأتو بسورۃ من مثلہ",
+      "bytes": 6335,
+      "sha256_12": "773bbb944f92",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:034",
+      "file": "_system/source/images/034.png",
+      "section_id": 838,
+      "section_label": "وان کنتم فی ریب مما نزلنا علی عبدنا فأتو بسورۃ من مثلہ",
+      "bytes": 7680,
+      "sha256_12": "3862dd8048ca",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:035",
+      "file": "_system/source/images/035.png",
+      "section_id": 838,
+      "section_label": "وان کنتم فی ریب مما نزلنا علی عبدنا فأتو بسورۃ من مثلہ",
+      "bytes": 12103,
+      "sha256_12": "66207f2a5407",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:036",
+      "file": "_system/source/images/036.png",
+      "section_id": 838,
+      "section_label": "وان کنتم فی ریب مما نزلنا علی عبدنا فأتو بسورۃ من مثلہ",
+      "bytes": 8438,
+      "sha256_12": "f302b0697f35",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:037",
+      "file": "_system/source/images/037.png",
+      "section_id": 838,
+      "section_label": "وان کنتم فی ریب مما نزلنا علی عبدنا فأتو بسورۃ من مثلہ",
+      "bytes": 8818,
+      "sha256_12": "60046856edca",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:038",
+      "file": "_system/source/images/038.png",
+      "section_id": 838,
+      "section_label": "وان کنتم فی ریب مما نزلنا علی عبدنا فأتو بسورۃ من مثلہ",
+      "bytes": 8015,
+      "sha256_12": "13dfaeb4ca8c",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:039",
+      "file": "_system/source/images/039.png",
+      "section_id": 838,
+      "section_label": "وان کنتم فی ریب مما نزلنا علی عبدنا فأتو بسورۃ من مثلہ",
+      "bytes": 8049,
+      "sha256_12": "ab4c593e18b6",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:040",
+      "file": "_system/source/images/040.png",
+      "section_id": 838,
+      "section_label": "وان کنتم فی ریب مما نزلنا علی عبدنا فأتو بسورۃ من مثلہ",
+      "bytes": 7746,
+      "sha256_12": "6b1ef4c0acc4",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:041",
+      "file": "_system/source/images/041.png",
+      "section_id": 838,
+      "section_label": "وان کنتم فی ریب مما نزلنا علی عبدنا فأتو بسورۃ من مثلہ",
+      "bytes": 17841,
+      "sha256_12": "303a996adb4e",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:042",
+      "file": "_system/source/images/042.png",
+      "section_id": 838,
+      "section_label": "وان کنتم فی ریب مما نزلنا علی عبدنا فأتو بسورۃ من مثلہ",
+      "bytes": 2627,
+      "sha256_12": "0ee9246c678e",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:043",
+      "file": "_system/source/images/043.png",
+      "section_id": 838,
+      "section_label": "وان کنتم فی ریب مما نزلنا علی عبدنا فأتو بسورۃ من مثلہ",
+      "bytes": 11954,
+      "sha256_12": "90ee7da3a05d",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:044",
+      "file": "_system/source/images/044.png",
+      "section_id": 838,
+      "section_label": "وان کنتم فی ریب مما نزلنا علی عبدنا فأتو بسورۃ من مثلہ",
+      "bytes": 5033,
+      "sha256_12": "f79363863088",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:045",
+      "file": "_system/source/images/045.png",
+      "section_id": 838,
+      "section_label": "وان کنتم فی ریب مما نزلنا علی عبدنا فأتو بسورۃ من مثلہ",
+      "bytes": 6387,
+      "sha256_12": "67727ec32565",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:046",
+      "file": "_system/source/images/046.png",
+      "section_id": 838,
+      "section_label": "وان کنتم فی ریب مما نزلنا علی عبدنا فأتو بسورۃ من مثلہ",
+      "bytes": 11066,
+      "sha256_12": "c7dcad043787",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:047",
+      "file": "_system/source/images/047.png",
+      "section_id": 838,
+      "section_label": "وان کنتم فی ریب مما نزلنا علی عبدنا فأتو بسورۃ من مثلہ",
+      "bytes": 12718,
+      "sha256_12": "fe9b5ab545e1",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:048",
+      "file": "_system/source/images/048.png",
+      "section_id": 838,
+      "section_label": "وان کنتم فی ریب مما نزلنا علی عبدنا فأتو بسورۃ من مثلہ",
+      "bytes": 10947,
+      "sha256_12": "7405881ecc9c",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:049",
+      "file": "_system/source/images/049.png",
+      "section_id": 840,
+      "section_label": "وبشر الذین امنو و عملوا الصلحت ان لھم جنت تجری من تحتھا الانھار",
+      "bytes": 6015,
+      "sha256_12": "3487b44c54c7",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:050",
+      "file": "_system/source/images/050.png",
+      "section_id": 840,
+      "section_label": "وبشر الذین امنو و عملوا الصلحت ان لھم جنت تجری من تحتھا الانھار",
+      "bytes": 3321,
+      "sha256_12": "aafad2257f35",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:051",
+      "file": "_system/source/images/051.png",
+      "section_id": 840,
+      "section_label": "وبشر الذین امنو و عملوا الصلحت ان لھم جنت تجری من تحتھا الانھار",
+      "bytes": 9699,
+      "sha256_12": "38fdf85e971c",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:052",
+      "file": "_system/source/images/052.png",
+      "section_id": 484,
+      "section_label": "ولا تقولو لمن یقتل فی سبیل اللہ اموات بل أحیآء ولکن لا تشعرون",
+      "bytes": 6120,
+      "sha256_12": "e4b220c55fb0",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:053",
+      "file": "_system/source/images/053.png",
+      "section_id": 795,
+      "section_label": "یأیھا الذین امنو لا تبطلو صدقتکم بالمن والاذی",
+      "bytes": 16021,
+      "sha256_12": "eeb350995935",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:054",
+      "file": "_system/source/images/054.png",
+      "section_id": 795,
+      "section_label": "یأیھا الذین امنو لا تبطلو صدقتکم بالمن والاذی",
+      "bytes": 17488,
+      "sha256_12": "f7900e37c61e",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:055",
+      "file": "_system/source/images/055.png",
+      "section_id": 795,
+      "section_label": "یأیھا الذین امنو لا تبطلو صدقتکم بالمن والاذی",
+      "bytes": 17749,
+      "sha256_12": "8b94f20cf028",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:056",
+      "file": "_system/source/images/056.png",
+      "section_id": 795,
+      "section_label": "یأیھا الذین امنو لا تبطلو صدقتکم بالمن والاذی",
+      "bytes": 12274,
+      "sha256_12": "598eb370f5ff",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:057",
+      "file": "_system/source/images/057.png",
+      "section_id": 795,
+      "section_label": "یأیھا الذین امنو لا تبطلو صدقتکم بالمن والاذی",
+      "bytes": 13561,
+      "sha256_12": "80fec9132536",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:058",
+      "file": "_system/source/images/058.png",
+      "section_id": 795,
+      "section_label": "یأیھا الذین امنو لا تبطلو صدقتکم بالمن والاذی",
+      "bytes": 13733,
+      "sha256_12": "7772b6317af4",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:059",
+      "file": "_system/source/images/059.png",
+      "section_id": 795,
+      "section_label": "یأیھا الذین امنو لا تبطلو صدقتکم بالمن والاذی",
+      "bytes": 13950,
+      "sha256_12": "6af39362e5a1",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:060",
+      "file": "_system/source/images/060.png",
+      "section_id": 829,
+      "section_label": "وما یعلم تأویلہ الا اللہ والرسخون فی العلم",
+      "bytes": 13051,
+      "sha256_12": "0396a2e3daee",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:061",
+      "file": "_system/source/images/061.png",
+      "section_id": 829,
+      "section_label": "وما یعلم تأویلہ الا اللہ والرسخون فی العلم",
+      "bytes": 18294,
+      "sha256_12": "a682c1dd65cb",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:062",
+      "file": "_system/source/images/062.png",
+      "section_id": 829,
+      "section_label": "وما یعلم تأویلہ الا اللہ والرسخون فی العلم",
+      "bytes": 10483,
+      "sha256_12": "447f30d736b0",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:063",
+      "file": "_system/source/images/063.png",
+      "section_id": 829,
+      "section_label": "وما یعلم تأویلہ الا اللہ والرسخون فی العلم",
+      "bytes": 20342,
+      "sha256_12": "6d214f3f02ae",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:064",
+      "file": "_system/source/images/064.png",
+      "section_id": 829,
+      "section_label": "وما یعلم تأویلہ الا اللہ والرسخون فی العلم",
+      "bytes": 9414,
+      "sha256_12": "b48fcdb991c2",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:065",
+      "file": "_system/source/images/065.png",
+      "section_id": 829,
+      "section_label": "وما یعلم تأویلہ الا اللہ والرسخون فی العلم",
+      "bytes": 8187,
+      "sha256_12": "2843f13a1c46",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:066",
+      "file": "_system/source/images/066.png",
+      "section_id": 829,
+      "section_label": "وما یعلم تأویلہ الا اللہ والرسخون فی العلم",
+      "bytes": 8495,
+      "sha256_12": "c5e538cdccec",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:067",
+      "file": "_system/source/images/067.png",
+      "section_id": 481,
+      "section_label": "أن اول بیت وضع للناس للذی ببکۃ مبارکا وھدی للعلمین",
+      "bytes": 7199,
+      "sha256_12": "1b8a538b1b77",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:068",
+      "file": "_system/source/images/068.png",
+      "section_id": 481,
+      "section_label": "أن اول بیت وضع للناس للذی ببکۃ مبارکا وھدی للعلمین",
+      "bytes": 5596,
+      "sha256_12": "166fb4a6b693",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:069",
+      "file": "_system/source/images/069.png",
+      "section_id": 797,
+      "section_label": "خلق السموات والارض وجعل الظلمت والنور",
+      "bytes": 8430,
+      "sha256_12": "3d38b2c2e559",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:070",
+      "file": "_system/source/images/070.png",
+      "section_id": 820,
+      "section_label": "ان الذین کذبوا بأیتنا واستکبروا عنھا لا تفتح لھم ابواب السمآء",
+      "bytes": 10760,
+      "sha256_12": "62a056435108",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:071",
+      "file": "_system/source/images/071.png",
+      "section_id": 820,
+      "section_label": "ان الذین کذبوا بأیتنا واستکبروا عنھا لا تفتح لھم ابواب السمآء",
+      "bytes": 7051,
+      "sha256_12": "6a9034e63e8a",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:072",
+      "file": "_system/source/images/072.png",
+      "section_id": 820,
+      "section_label": "ان الذین کذبوا بأیتنا واستکبروا عنھا لا تفتح لھم ابواب السمآء",
+      "bytes": 6946,
+      "sha256_12": "a74bfd804bd0",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:073",
+      "file": "_system/source/images/073.png",
+      "section_id": 820,
+      "section_label": "ان الذین کذبوا بأیتنا واستکبروا عنھا لا تفتح لھم ابواب السمآء",
+      "bytes": 16907,
+      "sha256_12": "d3f0ae1ec5a1",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:074",
+      "file": "_system/source/images/074.png",
+      "section_id": 820,
+      "section_label": "ان الذین کذبوا بأیتنا واستکبروا عنھا لا تفتح لھم ابواب السمآء",
+      "bytes": 18306,
+      "sha256_12": "744d99292a96",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:075",
+      "file": "_system/source/images/075.png",
+      "section_id": 820,
+      "section_label": "ان الذین کذبوا بأیتنا واستکبروا عنھا لا تفتح لھم ابواب السمآء",
+      "bytes": 18281,
+      "sha256_12": "ca458b846d2e",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:076",
+      "file": "_system/source/images/076.png",
+      "section_id": 820,
+      "section_label": "ان الذین کذبوا بأیتنا واستکبروا عنھا لا تفتح لھم ابواب السمآء",
+      "bytes": 18383,
+      "sha256_12": "156ce368583d",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:077",
+      "file": "_system/source/images/077.png",
+      "section_id": 820,
+      "section_label": "ان الذین کذبوا بأیتنا واستکبروا عنھا لا تفتح لھم ابواب السمآء",
+      "bytes": 12789,
+      "sha256_12": "65985929b721",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:078",
+      "file": "_system/source/images/078.png",
+      "section_id": 820,
+      "section_label": "ان الذین کذبوا بأیتنا واستکبروا عنھا لا تفتح لھم ابواب السمآء",
+      "bytes": 9420,
+      "sha256_12": "df76dd9dd00d",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:079",
+      "file": "_system/source/images/079.png",
+      "section_id": 692,
+      "section_label": "وترھم ینظرون الیک وھم لا یبصرون",
+      "bytes": 7592,
+      "sha256_12": "cdcade5f465a",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:080",
+      "file": "_system/source/images/080.png",
+      "section_id": 837,
+      "section_label": "الم یر الذین کفرو ان السموت والارض کانتا رتقا ففتقنھما",
+      "bytes": 8491,
+      "sha256_12": "035456943b00",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:081",
+      "file": "_system/source/images/081.png",
+      "section_id": 837,
+      "section_label": "الم یر الذین کفرو ان السموت والارض کانتا رتقا ففتقنھما",
+      "bytes": 12108,
+      "sha256_12": "e6e39854a1d7",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:082",
+      "file": "_system/source/images/082.png",
+      "section_id": 837,
+      "section_label": "الم یر الذین کفرو ان السموت والارض کانتا رتقا ففتقنھما",
+      "bytes": 5003,
+      "sha256_12": "6ed13286408b",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:083",
+      "file": "_system/source/images/083.png",
+      "section_id": 837,
+      "section_label": "الم یر الذین کفرو ان السموت والارض کانتا رتقا ففتقنھما",
+      "bytes": 9788,
+      "sha256_12": "c735031055cd",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:084",
+      "file": "_system/source/images/084.png",
+      "section_id": 833,
+      "section_label": "لا الہ الا ھو کل شئی ھالک الا وجھہ",
+      "bytes": 7732,
+      "sha256_12": "c3540a78ce76",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:085",
+      "file": "_system/source/images/085.png",
+      "section_id": 833,
+      "section_label": "لا الہ الا ھو کل شئی ھالک الا وجھہ",
+      "bytes": 9691,
+      "sha256_12": "7ed5da4d47e7",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:086",
+      "file": "_system/source/images/086.png",
+      "section_id": 580,
+      "section_label": "وکل فی فلک یسبحون",
+      "bytes": 6419,
+      "sha256_12": "1da244b14130",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:087",
+      "file": "_system/source/images/087.png",
+      "section_id": 580,
+      "section_label": "وکل فی فلک یسبحون",
+      "bytes": 8824,
+      "sha256_12": "61699aa20ee4",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:088",
+      "file": "_system/source/images/088.png",
+      "section_id": 482,
+      "section_label": "قل لا أسئلکم علیہ أجرا الا المودۃ فی القربی",
+      "bytes": 16340,
+      "sha256_12": "8337dcab141b",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:089",
+      "file": "_system/source/images/089.png",
+      "section_id": 482,
+      "section_label": "قل لا أسئلکم علیہ أجرا الا المودۃ فی القربی",
+      "bytes": 7365,
+      "sha256_12": "8d6845954a95",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:090",
+      "file": "_system/source/images/090.png",
+      "section_id": 482,
+      "section_label": "قل لا أسئلکم علیہ أجرا الا المودۃ فی القربی",
+      "bytes": 14222,
+      "sha256_12": "6a550d924574",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:091",
+      "file": "_system/source/images/091.png",
+      "section_id": 482,
+      "section_label": "قل لا أسئلکم علیہ أجرا الا المودۃ فی القربی",
+      "bytes": 7481,
+      "sha256_12": "e9b2b979eb0d",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:092",
+      "file": "_system/source/images/092.png",
+      "section_id": 648,
+      "section_label": "لیغفر لک اللہ ما تقدم من ذنبک وما تأخر",
+      "bytes": 9312,
+      "sha256_12": "124d236fb676",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:093",
+      "file": "_system/source/images/093.png",
+      "section_id": 648,
+      "section_label": "لیغفر لک اللہ ما تقدم من ذنبک وما تأخر",
+      "bytes": 21185,
+      "sha256_12": "1d5ccf9ccb92",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:094",
+      "file": "_system/source/images/094.png",
+      "section_id": 648,
+      "section_label": "لیغفر لک اللہ ما تقدم من ذنبک وما تأخر",
+      "bytes": 10078,
+      "sha256_12": "8287bc1567d1",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:095",
+      "file": "_system/source/images/095.png",
+      "section_id": 796,
+      "section_label": "و نحن أقرب الیہ من حبل الورید",
+      "bytes": 7604,
+      "sha256_12": "07cc33febea4",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:096",
+      "file": "_system/source/images/096.png",
+      "section_id": 483,
+      "section_label": "لا یمسہ الا المطھرون",
+      "bytes": 9497,
+      "sha256_12": "c751f1585e43",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:097",
+      "file": "_system/source/images/097.png",
+      "section_id": 483,
+      "section_label": "لا یمسہ الا المطھرون",
+      "bytes": 6081,
+      "sha256_12": "95c55ec5afa1",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:098",
+      "file": "_system/source/images/098.png",
+      "section_id": 483,
+      "section_label": "لا یمسہ الا المطھرون",
+      "bytes": 5076,
+      "sha256_12": "8582fa18d673",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:099",
+      "file": "_system/source/images/099.png",
+      "section_id": 483,
+      "section_label": "لا یمسہ الا المطھرون",
+      "bytes": 6280,
+      "sha256_12": "3a47596c6c0d",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:100",
+      "file": "_system/source/images/100.png",
+      "section_id": 483,
+      "section_label": "لا یمسہ الا المطھرون",
+      "bytes": 13364,
+      "sha256_12": "3378abdd7f05",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:101",
+      "file": "_system/source/images/101.png",
+      "section_id": 483,
+      "section_label": "لا یمسہ الا المطھرون",
+      "bytes": 5196,
+      "sha256_12": "3b6d47ba3b0c",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:102",
+      "file": "_system/source/images/102.png",
+      "section_id": 483,
+      "section_label": "لا یمسہ الا المطھرون",
+      "bytes": 11155,
+      "sha256_12": "3068641dfe5e",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:103",
+      "file": "_system/source/images/103.png",
+      "section_id": 483,
+      "section_label": "لا یمسہ الا المطھرون",
+      "bytes": 6489,
+      "sha256_12": "178d8d722fa1",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:104",
+      "file": "_system/source/images/104.png",
+      "section_id": 483,
+      "section_label": "لا یمسہ الا المطھرون",
+      "bytes": 11248,
+      "sha256_12": "9c59877b2435",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:105",
+      "file": "_system/source/images/105.png",
+      "section_id": 483,
+      "section_label": "لا یمسہ الا المطھرون",
+      "bytes": 10780,
+      "sha256_12": "7de4e1b89f8a",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:106",
+      "file": "_system/source/images/106.png",
+      "section_id": 483,
+      "section_label": "لا یمسہ الا المطھرون",
+      "bytes": 18897,
+      "sha256_12": "05ffa35a3f46",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:107",
+      "file": "_system/source/images/107.png",
+      "section_id": 483,
+      "section_label": "لا یمسہ الا المطھرون",
+      "bytes": 4794,
+      "sha256_12": "ec05697d541b",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:108",
+      "file": "_system/source/images/108.png",
+      "section_id": 483,
+      "section_label": "لا یمسہ الا المطھرون",
+      "bytes": 15679,
+      "sha256_12": "d3105242a96d",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:109",
+      "file": "_system/source/images/109.png",
+      "section_id": 483,
+      "section_label": "لا یمسہ الا المطھرون",
+      "bytes": 9793,
+      "sha256_12": "3751080b1226",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:110",
+      "file": "_system/source/images/110.png",
+      "section_id": 483,
+      "section_label": "لا یمسہ الا المطھرون",
+      "bytes": 7197,
+      "sha256_12": "9de13bc0a762",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:111",
+      "file": "_system/source/images/111.png",
+      "section_id": 641,
+      "section_label": "والشمس وضحھا والقمر اذا تلھا",
+      "bytes": 4839,
+      "sha256_12": "74920c8660b6",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:112",
+      "file": "_system/source/images/112.png",
+      "section_id": 655,
+      "section_label": "ولسوف یعطیک ربک فترضی",
+      "bytes": 4452,
+      "sha256_12": "2fedda9617d1",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:113",
+      "file": "_system/source/images/113.png",
+      "section_id": 655,
+      "section_label": "ولسوف یعطیک ربک فترضی",
+      "bytes": 7166,
+      "sha256_12": "767b3399a39b",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:114",
+      "file": "_system/source/images/114.png",
+      "section_id": 866,
+      "section_label": "لیس علی الذین أمنوا وعملوا الصلحت جناح فیما طعموا أذا ما التقوا أمنوا",
+      "bytes": 13286,
+      "sha256_12": "752c32be941f",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:115",
+      "file": "_system/source/images/115.png",
+      "section_id": 1184,
+      "section_label": "ولل آخرۃ خیر لک من الاولی",
+      "bytes": 6653,
+      "sha256_12": "b5cd73f17fad",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:116",
+      "file": "_system/source/images/116.png",
+      "section_id": 1184,
+      "section_label": "ولل آخرۃ خیر لک من الاولی",
+      "bytes": 10939,
+      "sha256_12": "aff4426dd1b7",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:117",
+      "file": "_system/source/images/117.png",
+      "section_id": 822,
+      "section_label": "چھ دن کی خلقت اور اللہ کا عرش پر بیٹھنا",
+      "bytes": 6657,
+      "sha256_12": "c093c47c5295",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:118",
+      "file": "_system/source/images/118.png",
+      "section_id": 822,
+      "section_label": "چھ دن کی خلقت اور اللہ کا عرش پر بیٹھنا",
+      "bytes": 15209,
+      "sha256_12": "0f3b34c75859",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:119",
+      "file": "_system/source/images/119.png",
+      "section_id": 822,
+      "section_label": "چھ دن کی خلقت اور اللہ کا عرش پر بیٹھنا",
+      "bytes": 12709,
+      "sha256_12": "76a780f98905",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:120",
+      "file": "_system/source/images/120.png",
+      "section_id": 822,
+      "section_label": "چھ دن کی خلقت اور اللہ کا عرش پر بیٹھنا",
+      "bytes": 8485,
+      "sha256_12": "31e469f81779",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:121",
+      "file": "_system/source/images/121.png",
+      "section_id": 822,
+      "section_label": "چھ دن کی خلقت اور اللہ کا عرش پر بیٹھنا",
+      "bytes": 12223,
+      "sha256_12": "c7b6904abde6",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    }
+  ],
+  "generated_at": "2026-05-24T19:53:20.047762+00:00",
+  "instructions": "For each image in `images`, read the file via the Read tool (paths are relative to the bundle root) and write a sibling JSON file next to the PNG (same basename, .json extension) with the schema: {classification, arabic_text, urdu_text, english_text, suggested_citation: {surah, ayat} | null, alt_text, confidence, notes}. classification ∈ {quran-verse, hadith, poem-or-saying, teaching-diagram, mixed, other}. For quran-verse, propose surah+ayat from your reading; finalize validates against the adapter's Quran corpus. For teaching-diagram, give a 1-2 sentence alt_text describing what it shows."
+}

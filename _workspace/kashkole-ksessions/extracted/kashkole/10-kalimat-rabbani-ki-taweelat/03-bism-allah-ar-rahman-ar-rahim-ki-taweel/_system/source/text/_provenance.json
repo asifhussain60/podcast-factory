@@ -1,0 +1,49 @@
+{
+  "schema": "podcast.ingest-source/v1",
+  "generated_at": "2026-05-24T19:52:29.675419+00:00",
+  "source": {
+    "kind": "sql",
+    "name": "kashkole",
+    "db": "KASHKOLE",
+    "container": "kashkole-mssql"
+  },
+  "book_slug": "bism-allah-ar-rahman-ar-rahim-ki-taweel",
+  "book_dir": "/Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksessions/extracted/kashkole/10-kalimat-rabbani-ki-taweelat/03-bism-allah-ar-rahman-ar-rahim-ki-taweel",
+  "source_language": "ur",
+  "extraction": {
+    "tool": "tools.source_extractor",
+    "shelf": {
+      "kind": "binder",
+      "id": 8,
+      "name": "کلمات ربانی کی تاویلات"
+    },
+    "book": {
+      "kind": "chapter",
+      "id": 24,
+      "name": "بسم اللہ الرحمن الرحیم کی تاویل"
+    },
+    "section_query_count": 17,
+    "stage": "finalized"
+  },
+  "outputs": {
+    "raw_extract": "_system/source/text/raw-extract.md",
+    "extraction_notes": "_system/source/text/_extraction-notes.md",
+    "audit_anchor_html": "_system/source/bism-allah-ar-rahman-ar-rahim-ki-taweel.html",
+    "images_dir": "_system/source/images"
+  },
+  "finalize": {
+    "finalized_at": "2026-05-24T20:26:49.364459+00:00",
+    "images_classified": {
+      "001": "other",
+      "002": "other",
+      "003": "other",
+      "004": "other",
+      "005": "other",
+      "006": "other",
+      "007": "other",
+      "008": "other",
+      "009": "other"
+    },
+    "inline_citations_resolved": 2
+  }
+}
