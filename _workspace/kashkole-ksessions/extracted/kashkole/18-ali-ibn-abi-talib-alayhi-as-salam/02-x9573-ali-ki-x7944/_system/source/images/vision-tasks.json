@@ -1,0 +1,372 @@
+{
+  "book": {
+    "binder_id": 6,
+    "binder_name": "علی ابن ابی طالب علیہ السلام",
+    "chapter_id": 46,
+    "chapter_name": "مولانا علی کی فضائل"
+  },
+  "images": [
+    {
+      "placeholder": "IMG:001",
+      "file": "_system/source/images/001.png",
+      "section_id": 1474,
+      "section_label": "محمد و علی کے ناموں میں مشترکہ خوبی",
+      "bytes": 8826,
+      "sha256_12": "b478244e261c",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:002",
+      "file": "_system/source/images/002.png",
+      "section_id": 1474,
+      "section_label": "محمد و علی کے ناموں میں مشترکہ خوبی",
+      "bytes": 14005,
+      "sha256_12": "3fa74e4b34bf",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:003",
+      "file": "_system/source/images/003.png",
+      "section_id": 1474,
+      "section_label": "محمد و علی کے ناموں میں مشترکہ خوبی",
+      "bytes": 3480,
+      "sha256_12": "f87f601e981b",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:004",
+      "file": "_system/source/images/004.png",
+      "section_id": 1474,
+      "section_label": "محمد و علی کے ناموں میں مشترکہ خوبی",
+      "bytes": 2674,
+      "sha256_12": "d15fbb02f1ad",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:005",
+      "file": "_system/source/images/005.png",
+      "section_id": 821,
+      "section_label": "ولایت کی اہمیت",
+      "bytes": 4722,
+      "sha256_12": "35db854cd915",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:006",
+      "file": "_system/source/images/006.png",
+      "section_id": 821,
+      "section_label": "ولایت کی اہمیت",
+      "bytes": 8460,
+      "sha256_12": "7e32157d542b",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:007",
+      "file": "_system/source/images/007.png",
+      "section_id": 821,
+      "section_label": "ولایت کی اہمیت",
+      "bytes": 6297,
+      "sha256_12": "e11715e255cd",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:008",
+      "file": "_system/source/images/008.png",
+      "section_id": 821,
+      "section_label": "ولایت کی اہمیت",
+      "bytes": 10601,
+      "sha256_12": "65c72a576bdf",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:009",
+      "file": "_system/source/images/009.png",
+      "section_id": 821,
+      "section_label": "ولایت کی اہمیت",
+      "bytes": 5005,
+      "sha256_12": "cc17ea7be526",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:010",
+      "file": "_system/source/images/010.png",
+      "section_id": 821,
+      "section_label": "ولایت کی اہمیت",
+      "bytes": 4302,
+      "sha256_12": "382af8769120",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:011",
+      "file": "_system/source/images/011.png",
+      "section_id": 821,
+      "section_label": "ولایت کی اہمیت",
+      "bytes": 12081,
+      "sha256_12": "1dc8cd4f414b",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:012",
+      "file": "_system/source/images/012.png",
+      "section_id": 821,
+      "section_label": "ولایت کی اہمیت",
+      "bytes": 13068,
+      "sha256_12": "3be1c7c7de9e",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:013",
+      "file": "_system/source/images/013.png",
+      "section_id": 821,
+      "section_label": "ولایت کی اہمیت",
+      "bytes": 12931,
+      "sha256_12": "5ccb202d954c",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:014",
+      "file": "_system/source/images/014.png",
+      "section_id": 821,
+      "section_label": "ولایت کی اہمیت",
+      "bytes": 7201,
+      "sha256_12": "961dbc7b2a75",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:015",
+      "file": "_system/source/images/015.png",
+      "section_id": 821,
+      "section_label": "ولایت کی اہمیت",
+      "bytes": 39800,
+      "sha256_12": "deb40eabf837",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:016",
+      "file": "_system/source/images/016.png",
+      "section_id": 853,
+      "section_label": "اشھد ان مولانا علی ولی اللہ",
+      "bytes": 16274,
+      "sha256_12": "3c646c563382",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:017",
+      "file": "_system/source/images/017.png",
+      "section_id": 853,
+      "section_label": "اشھد ان مولانا علی ولی اللہ",
+      "bytes": 9401,
+      "sha256_12": "83823b2daca0",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:018",
+      "file": "_system/source/images/018.png",
+      "section_id": 888,
+      "section_label": "علی خیر البشر کے قرآنی دلائل",
+      "bytes": 12437,
+      "sha256_12": "510850a8a73f",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:019",
+      "file": "_system/source/images/019.png",
+      "section_id": 888,
+      "section_label": "علی خیر البشر کے قرآنی دلائل",
+      "bytes": 6004,
+      "sha256_12": "afe04321391b",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:020",
+      "file": "_system/source/images/020.png",
+      "section_id": 888,
+      "section_label": "علی خیر البشر کے قرآنی دلائل",
+      "bytes": 12072,
+      "sha256_12": "8dd95bb2a0aa",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:021",
+      "file": "_system/source/images/021.png",
+      "section_id": 888,
+      "section_label": "علی خیر البشر کے قرآنی دلائل",
+      "bytes": 10237,
+      "sha256_12": "fc421029f43b",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:022",
+      "file": "_system/source/images/022.png",
+      "section_id": 888,
+      "section_label": "علی خیر البشر کے قرآنی دلائل",
+      "bytes": 3821,
+      "sha256_12": "b8c5162b74f2",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:023",
+      "file": "_system/source/images/023.png",
+      "section_id": 888,
+      "section_label": "علی خیر البشر کے قرآنی دلائل",
+      "bytes": 7212,
+      "sha256_12": "15925f9353b2",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:024",
+      "file": "_system/source/images/024.png",
+      "section_id": 888,
+      "section_label": "علی خیر البشر کے قرآنی دلائل",
+      "bytes": 8576,
+      "sha256_12": "c741d16e3eb0",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:025",
+      "file": "_system/source/images/025.png",
+      "section_id": 888,
+      "section_label": "علی خیر البشر کے قرآنی دلائل",
+      "bytes": 7893,
+      "sha256_12": "1831b9078219",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:026",
+      "file": "_system/source/images/026.png",
+      "section_id": 888,
+      "section_label": "علی خیر البشر کے قرآنی دلائل",
+      "bytes": 7200,
+      "sha256_12": "281fff0998dc",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:027",
+      "file": "_system/source/images/027.png",
+      "section_id": 888,
+      "section_label": "علی خیر البشر کے قرآنی دلائل",
+      "bytes": 15222,
+      "sha256_12": "04f611d662dc",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:028",
+      "file": "_system/source/images/028.png",
+      "section_id": 888,
+      "section_label": "علی خیر البشر کے قرآنی دلائل",
+      "bytes": 6149,
+      "sha256_12": "2b4e879c70ec",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:029",
+      "file": "_system/source/images/029.png",
+      "section_id": 888,
+      "section_label": "علی خیر البشر کے قرآنی دلائل",
+      "bytes": 5360,
+      "sha256_12": "dca66c04dfe6",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:030",
+      "file": "_system/source/images/030.png",
+      "section_id": 888,
+      "section_label": "علی خیر البشر کے قرآنی دلائل",
+      "bytes": 6359,
+      "sha256_12": "92c444b11770",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:031",
+      "file": "_system/source/images/031.png",
+      "section_id": 888,
+      "section_label": "علی خیر البشر کے قرآنی دلائل",
+      "bytes": 8162,
+      "sha256_12": "64e7038aa1d1",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:032",
+      "file": "_system/source/images/032.png",
+      "section_id": 888,
+      "section_label": "علی خیر البشر کے قرآنی دلائل",
+      "bytes": 10717,
+      "sha256_12": "608761e8ff76",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:033",
+      "file": "_system/source/images/033.png",
+      "section_id": 854,
+      "section_label": "رسول کی رسالت کے دو گواہ",
+      "bytes": 7610,
+      "sha256_12": "b602469061c3",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:034",
+      "file": "_system/source/images/034.png",
+      "section_id": 868,
+      "section_label": "چوتھے خلیفہ: علی ابن ابی طالب",
+      "bytes": 4632,
+      "sha256_12": "ead70647fe4c",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:035",
+      "file": "_system/source/images/035.png",
+      "section_id": 868,
+      "section_label": "چوتھے خلیفہ: علی ابن ابی طالب",
+      "bytes": 4542,
+      "sha256_12": "9ac34ed700a6",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:036",
+      "file": "_system/source/images/036.png",
+      "section_id": 868,
+      "section_label": "چوتھے خلیفہ: علی ابن ابی طالب",
+      "bytes": 5108,
+      "sha256_12": "4ed7553b992c",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    }
+  ],
+  "generated_at": "2026-05-24T19:57:00.128059+00:00",
+  "instructions": "For each image in `images`, read the file via the Read tool (paths are relative to the bundle root) and write a sibling JSON file next to the PNG (same basename, .json extension) with the schema: {classification, arabic_text, urdu_text, english_text, suggested_citation: {surah, ayat} | null, alt_text, confidence, notes}. classification ∈ {quran-verse, hadith, poem-or-saying, teaching-diagram, mixed, other}. For quran-verse, propose surah+ayat from your reading; finalize validates against the adapter's Quran corpus. For teaching-diagram, give a 1-2 sentence alt_text describing what it shows."
+}
