@@ -6,7 +6,7 @@
 #   1. Copies `infra/claude-agents/*.md` (excluding _README.md) into
 #      `.claude/agents/<name>.md` so Claude Code can invoke each agent via
 #      `subagent_type=<name>`.
-#   2. Mirrors `skills-staging/{journal,podcast}/SKILL.md` into the Claude Code
+#   2. Mirrors `skills-staging/podcast/SKILL.md` into the Claude Code
 #      runtime skills directory (default `~/Library/Application Support/
 #      Claude/skills/<name>/SKILL.md`; override with $CLAUDE_SKILLS_DIR).
 #
