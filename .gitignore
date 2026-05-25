@@ -126,6 +126,7 @@ trips/*/snapshots/
 # Wrangler local cache (regenerated per invocation)
 .wrangler/
 _workspace/orchestrator-logs/
+_workspace/scratch/
 
 # Per-session chat scratch notes — now tracked for cross-Mac handoff
 # (was local-only until 2026-05-19; tracked thereafter per user directive).

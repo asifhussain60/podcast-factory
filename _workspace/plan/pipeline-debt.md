@@ -266,6 +266,7 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 | F27 | TTS-safe audit is currently a manual checklist (audit-checklist.md); must become a code-side validator suite in `build_episode_txt.py` to satisfy M1 (LLM ignores prompt-only rules); validators needed: `assert_no_arabic_transliteration_in_chapter_or_framing`, `assert_alqaab_only_established_or_paraphrased`, `assert_show_notes_has_apparatus_table`, `assert_framing_no_modern_artifacts`, `assert_framing_analogy_cap_strict`, `assert_framing_honorific_bounded_both_sides` | 2026-05-21 (synthesis of v3 audit + recommendation doc) | **High** | Open (this is the Tier 2.5 validator burst, now formalized) | — |
 | F28 | Backward-compat decision needed for already-shipped episodes (EP04, 06, 07, 08, 09, 10, 12, 14, 15) once F20+F21+F24+F25 doctrine is locked; options: (a) re-emit all under new doctrine (~6.5 hrs), (b) grandfather them as v1-quality (cost: inconsistency across series); KaR-specific but template-setting for all future books | 2026-05-21 (synthesis of recommendation doc adoption sequence) | Medium | Open (decision needed) | — |
 | F29 | Arabic surah names still spoken in audio because chapter prose contains them; TTS mangles them ("Qaf" → "cough" in v4-revised audio; "al-Shams" and "al-Ahzab" also surfaced); same root cause as F20 (Arabic vocabulary in chapter prose leaks to audio); fix: chapter rewrite step replaces surah names with English meanings ("the chapter on the sun," "the chapter on the confederates") OR drops surah name entirely in favor of leading with content | 2026-05-21 (KaR Ch07 v4-revised audio audit) | **High** | Open | — |
+| F30 | Bundle-level NotebookLM-readiness audit has no operational path; Gemini-Gem auditor design exists ([prompts/gemini-bundle-auditor.md](../../prompts/gemini-bundle-auditor.md)) and the consolidation packer ([scripts/podcast/pack_bundle_for_gemini.py](../../scripts/podcast/pack_bundle_for_gemini.py)) and the Claude-native mirror ([scripts/podcast/audit_bundle.py](../../scripts/podcast/audit_bundle.py)) are built and verified, BUT the actual Gemini Gem has not yet been created in the Gemini UI — any operator workflow that targets the Gem must first prompt for Gem creation (paste the BEGIN/END block from the prompt file into the Gem's Instructions box) before invoking the consolidate-and-upload path. Also: this audit is currently a manual operator gate, not an orchestrator phase; intended future slot is optional phase 0g audit between enrich and the review halt | 2026-05-25 (Asif Gem-design session — Gemini rejected the original zip approach due to 10-file / 100 MB / no-audio-video limits) | Medium | Open (Gem creation pending in Gemini UI; orchestrator integration pending) | — |
 
 ---
 
@@ -786,6 +787,63 @@ This is the same M1 + F20 pattern: framing rule ignored because chapter source f
 3. Per-book artifact: `surah-aliases.yml` mapping Arabic surah name → English meaning per book.
 
 **Verification:** apply prompt patch; v4-revised chapter rewrite removes "al-Shams / al-Ahzab / Qaf"; next audio render shows zero surah-name mangling.
+
+---
+
+### F30 — Bundle-level NotebookLM-readiness audit (Gemini Gem + Claude mirror) has no operational path until the Gem is created
+
+**Where:** Three new artifacts that together compose a bundle auditor, none of which is yet wired into the pipeline or activated in Gemini:
+
+| Artifact | Path | Status |
+|---|---|---|
+| Consolidation packer (bundle dir → single Gemini-friendly .md with `<!-- FILE: ... -->` virtual-path delimiters) | [scripts/podcast/pack_bundle_for_gemini.py](../../scripts/podcast/pack_bundle_for_gemini.py) | Built + verified 2026-05-25 against `content/published/books/kitab-al-riyad` (20 files, 0.76 MB) and `content/drafts/kitab-al-riyad` (170 files, 4.34 MB) |
+| Canonical Gem prompt (single source of truth; BEGIN/END markers wrap the prompt body) | [prompts/gemini-bundle-auditor.md](../../prompts/gemini-bundle-auditor.md) | Built 2026-05-25 |
+| Claude-native auditor mirror (shells `claude -p` with the Gem prompt + packed bundle; emits same `claude-code-fixes` JSON shape) | [scripts/podcast/audit_bundle.py](../../scripts/podcast/audit_bundle.py) | Built + syntax-verified 2026-05-25; not yet run end-to-end against a real bundle |
+
+**What goes wrong (today):**
+
+1. **The Gemini Gem itself does not exist.** The prompt file is ready to paste, but the Gem in the Gemini UI has not been created. Any documentation that says "upload the packed file to the Bundle Auditor Gem" silently assumes a Gem that an operator has not yet built. The first operator to attempt the Gem path will hit a dead end. **The original zip-based upload approach failed against Gemini's hard limits (10 files max inside a zip, 100 MB total, no audio/video) — the consolidate-to-one-markdown path is the chosen workaround, but it presupposes the Gem.**
+
+2. **No orchestrator integration.** `audit_bundle.py` runs only when an operator invokes it manually. There is no Phase 0g audit step in [_phases.py](../../scripts/podcast/_phases.py); the intended slot (between enrich and the review halt) is not wired.
+
+3. **No "Gem exists?" guard in operator workflows.** The audit-loop instructions in [prompts/gemini-bundle-auditor.md](../../prompts/gemini-bundle-auditor.md) under "How to use this Gem" assume the Gem is live. They do not explicitly say "create the Gem first." A future skill or runbook that drives this audit must prompt the operator to confirm Gem creation before kicking off the consolidate-and-upload path.
+
+4. **No fix-application back-channel.** Once the Gem (or `audit_bundle.py`) emits the `claude-code-fixes` JSON array, there is no `audit_bundle.py --apply-fixes <json>` subcommand yet. The JSON has to be hand-fed to Claude Code. Stub mentioned in the prompt file's operator notes, not implemented.
+
+**Impact:**
+- Bundle quality issues (Arabic-token mispronunciation risk, missing pronunciation/citation appendices, banned crutch phrases, multi-thesis framings, missing 'skip the intro' instruction, host-role-drift) are caught today only by post-render audio review, after Azure speech spend.
+- Catching the same issues at bundle time (before NotebookLM ingestion) saves the per-episode TTS spend and the operator's audio-review hour.
+- Without the Gem operational guard, future operator instructions silently assume a Gem that doesn't exist and stall on the first attempt.
+
+**Proposed fix paths:**
+
+1. **Stand up the Gem.** Open Gemini → Gems → Create. Name: "Podcast Bundle Auditor." Paste the contents between `## BEGIN GEM PROMPT` and `## END GEM PROMPT` from [prompts/gemini-bundle-auditor.md](../../prompts/gemini-bundle-auditor.md) into the Instructions box. Save. Note the Gem URL/ID for the runbook. **This is the unblocking step; everything else assumes it.**
+
+2. **Add a Gem-existence guard to the audit-loop instructions.** Update the "How to use this Gem" section in [prompts/gemini-bundle-auditor.md](../../prompts/gemini-bundle-auditor.md) and any future operator runbook (e.g., `_workspace/runbooks/bundle-audit.md`) to make step 0 explicit: "Confirm the Gemini Gem 'Podcast Bundle Auditor' exists in your Gemini workspace. If it does not, create it now using the BEGIN/END block in this file before proceeding." Any agent or skill that drives the audit must check for Gem URL/ID configuration and prompt the operator if missing.
+
+3. **Wire `audit_bundle.py` into the orchestrator as optional Phase 0g.** Add `phase_0g_audit` to [_phases.py](../../scripts/podcast/_phases.py); call `audit_bundle()` from `_authoring.py` after Phase 0e enrich and before the Phase 0f review halt. Gate severity P0 findings as halt-and-surface; P1/P2 as informational. Off by default until two clean runs against published bundles establish a baseline.
+
+4. **Implement `--apply-fixes <json>` on `audit_bundle.py`.** Takes the `claude-code-fixes` JSON array and applies each fix to the named file via `claude -p` (per-fix prompts, scoped to the named file + anchor + fix instruction). Same shell-out pattern as `_authoring.py`. Idempotent re-runs against the same JSON skip already-applied fixes.
+
+5. **Cross-validate.** Once the Gem is live, audit the same bundle through both paths (Gem and `audit_bundle.py`); diff the JSON arrays. Persistent disagreement on a finding is a signal that the bundle has genuinely ambiguous prose, not that one auditor is wrong. Track diffs under `_workspace/audit-reports/bundle-cross-check/`.
+
+**Cross-references:**
+
+- [scripts/podcast/pack_bundle_for_gemini.py](../../scripts/podcast/pack_bundle_for_gemini.py) — the consolidation packer; bundle directory → single .md with `<!-- FILE: <rel-path> START -->` / `<!-- FILE: <rel-path> END -->` delimiters. Caps output at 90 MB (Gemini's hard ceiling is 100). Skips audio/video/images/archives/bytecode by default. PDFs become path-only stubs unless `--include-pdfs` is set.
+- [prompts/gemini-bundle-auditor.md](../../prompts/gemini-bundle-auditor.md) — canonical Gem prompt with `## BEGIN GEM PROMPT` / `## END GEM PROMPT` markers. Single source of truth for both the Gemini UI Gem (paste between markers) and the Claude-native auditor (which reads the markers programmatically). All audit rules from the original spec preserved verbatim: severity tiers, articulation style, NotebookLM pitfalls, host-role consistency, the `claude-code-fixes` JSON schema.
+- [scripts/podcast/audit_bundle.py](../../scripts/podcast/audit_bundle.py) — Claude-native mirror. `python3 scripts/podcast/audit_bundle.py <bundle_dir>` → audit.md + JSON. `--json-only` pipes JSON to stdout. `--packed <file.packed.md>` skips the packer step. Exit codes: 0 = success, 1 = invalid input, 2 = `claude -p` shell-out failure, 3 = output parse failure.
+
+**Verification (to be done after the Gem exists):**
+
+1. Pack a known-good bundle (e.g., `content/published/books/kitab-al-riyad`); upload to the Gem; confirm the Gem emits a `claude-code-fixes` JSON array with no P0 findings and only expected P2 polish items.
+2. Pack a known-bad bundle (e.g., a draft with bullet lists in chapter prose, missing pronunciation appendix, multi-thesis framing); confirm Gem flags all expected categories (`articulation`, `pronunciation`, `format`).
+3. Run `audit_bundle.py` against the same two bundles; diff JSON arrays against Gem output; agreement on at least ~80% of P0/P1 findings.
+
+**Lessons captured here (for future meta-pattern synthesis):**
+
+- *Vendor constraints matter at design time, not implementation time.* The zip approach was natural-fit until it hit Gemini's hard limits. Cost of catching this late: one full Gem prompt design that had to be reworked to consume a consolidated format. Future: check vendor upload limits (file count, size, type) before committing to a delivery shape.
+- *Single source of truth for prompts.* The Gem prompt lives in [prompts/gemini-bundle-auditor.md](../../prompts/gemini-bundle-auditor.md) with explicit `BEGIN GEM PROMPT` / `END GEM PROMPT` markers so the same file feeds both the Gemini UI (human-paste) and `audit_bundle.py` (programmatic read). Duplicating the prompt between the Gemini Gem UI and a Python string literal is exactly the M7 (rule-set drift) pattern this debt file already tracks for R-rules.
+- *Operator guards are part of the design.* Any external-tool dependency (Gem, MCP, third-party API key) needs a "does this exist? prompt the operator if not" check baked into the runbook, not assumed-live.
 
 ---
 
