@@ -585,6 +585,44 @@ If you want to change unit mode (chapter ↔ section ↔ auto), reset Phase 0d:
 """
 
 
+def _resolve_episode_id(book_dir: Path, chapter_file: Path, chapter_slug: str) -> str:
+    """F12 (2026-05-25): resolve episode ID preferring contract.episode_number.
+
+    Phase 0d may re-sequence episodes (chronological/dialectical pairings) so
+    a chapter at file `ch07-soul-and-spirit.txt` could be EP04 in the series.
+    Read the chapter contract YAML and use its `episode_number` field when
+    present; fall back to filename digits when the contract is missing or
+    lacks the field (legacy and brand-new chapters).
+
+    Returns: `EP{NN}-{chapter_slug}` (two-digit NN if int, raw str otherwise).
+    """
+    contract_path = book_dir / "chapter-contracts" / f"{chapter_slug}.yml"
+    ep_num: int | str | None = None
+    if contract_path.exists():
+        try:
+            import yaml as _yaml
+            with contract_path.open("r", encoding="utf-8") as f:
+                data = _yaml.safe_load(f) or {}
+            ep_num = data.get("episode_number")
+        except (ImportError, OSError, _yaml.YAMLError) if False else (OSError,):
+            ep_num = None
+        except Exception:
+            ep_num = None
+    if ep_num is None:
+        # Fall back to chapter filename digits (legacy path).
+        # Bug X3 (2026-05-21): strip letter suffix (ch14b → 14) for build gate.
+        chap_prefix = chapter_file.stem.split("-", 1)[0]
+        m = re.match(r"ch(\d+)", chap_prefix)
+        ep_num = m.group(1) if m else chap_prefix[2:]
+    if isinstance(ep_num, int):
+        return f"EP{ep_num:02d}-{chapter_slug}"
+    # String fallback path; ensure 2-digit zero-padding if numeric-string.
+    s = str(ep_num)
+    if s.isdigit():
+        return f"EP{int(s):02d}-{chapter_slug}"
+    return f"EP{s}-{chapter_slug}"
+
+
 def _series_numeric(book_dir: Path, flag_name: str, *, default: float) -> float:
     """F35-second (2026-05-25): read a numeric flag from series-plan.md.
 
@@ -1096,11 +1134,11 @@ def per_chapter_pass(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
     # sections, format violations) BEFORE the build script's hard gates do.
     # Lint is deterministic and $0; surfaces same P0 punch list build does,
     # but in JSON form the orchestrator can record without rc=1 noise.
-    import re as _re2
-    _chap_prefix = chapter_file.stem.split("-", 1)[0]
-    _m = _re2.match(r"ch(\d+)", _chap_prefix)
-    _chap_num = _m.group(1) if _m else _chap_prefix[2:]
-    _episode_id = f"EP{_chap_num}-{chapter_slug}"
+    # F12 (2026-05-25): prefer chapter contract's episode_number over chapter
+    # filename digits. Phase 0d may re-sequence episodes (ep_num != chap_num)
+    # for chronological/dialectical pairings. Fall back to filename only when
+    # the contract is missing or lacks the field.
+    _episode_id = _resolve_episode_id(book_dir, chapter_file, chapter_slug)
     _lint_path = Path(__file__).resolve().parent / "pipeline_lint.py"
     _lint_rc, _lint_out, _lint_err = _run(
         [sys.executable, str(_lint_path),
@@ -1127,11 +1165,9 @@ def per_chapter_pass(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
     #    episodes). The suffix belongs to chapter-set bookkeeping but NOT
     #    to the episode id — build_episode_txt.py validates strict `EP##-<slug>`
     #    (digits only). Strip the trailing letter(s) before forming the id.
-    import re as _re
-    chap_prefix = chapter_file.stem.split("-", 1)[0]            # e.g. "ch14b" or "ch10"
-    m = _re.match(r"ch(\d+)", chap_prefix)
-    chap_num = m.group(1) if m else chap_prefix[2:]              # "14" or "10"
-    episode_id = f"EP{chap_num}-{chapter_slug}"
+    # F12 (2026-05-25): _resolve_episode_id() prefers chapter contract's
+    # episode_number when present (Phase 0d may re-sequence ep_num != chap_num).
+    episode_id = _resolve_episode_id(book_dir, chapter_file, chapter_slug)
     rc, out, err = _run([sys.executable, str(BUILD_SCRIPT), str(book_dir), episode_id])
     if rc != 0:
         return ChapterOutcome(

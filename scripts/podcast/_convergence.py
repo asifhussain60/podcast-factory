@@ -201,12 +201,39 @@ def converge_chapter(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
     # P0-EPISODE-STALE on the following challenger invocation.
     episode_id = _find_episode_id(book_dir, chapter_slug)
 
+    # F11 (2026-05-25): track best verdict seen across iterations. If a later
+    # challenger pass times out / errors AFTER a prior iteration recorded a
+    # ship-eligible verdict, fall back to that verdict rather than marking
+    # the chapter FAILED (which loses the iter-1 ship signal even though
+    # the episode artifact is intact on disk).
+    best_verdict_so_far: str | None = None
+    best_verdict_at_iter: int = 0
     for outer in range(1, MAX_OUTER_ITERATIONS + 1):
         outcome.outer_iterations = outer
         try:
             invoke_challenger(book_dir, chapter_slug)
         except AuthoringError as e:
             outcome.notes.append(f"iter {outer}: challenger invocation failed — {e}")
+            # F11: if a prior iteration already established a ship-eligible
+            # verdict at iter >= SHIP_WITH_CAUTION_MIN_ITER (2), preserve it.
+            # SHIP-READY at any iter is also preserved. Only mark FAILED when
+            # we have no prior ship signal to fall back on.
+            if best_verdict_so_far == "SHIP-READY":
+                outcome.final_verdict = "SHIP-READY"
+                outcome.notes.append(
+                    f"iter {outer}: preserved SHIP-READY from iter {best_verdict_at_iter} "
+                    f"(later challenger timeout did not invalidate the prior ship signal)"
+                )
+                return outcome
+            if (best_verdict_so_far == "SHIP-WITH-CAUTION"
+                    and best_verdict_at_iter >= SHIP_WITH_CAUTION_MIN_ITER):
+                outcome.final_verdict = "SHIP-WITH-CAUTION"
+                outcome.notes.append(
+                    f"iter {outer}: preserved SHIP-WITH-CAUTION from iter "
+                    f"{best_verdict_at_iter} (later challenger timeout did not "
+                    f"invalidate the prior ship signal)"
+                )
+                return outcome
             outcome.final_verdict = "FAILED"
             return outcome
 
@@ -217,6 +244,12 @@ def converge_chapter(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
         outcome.notes.append(
             f"iter {outer}: verdict={verdict} P0={p0} P1={p1} P2={p2}"
         )
+
+        # F11: record the best verdict seen so far for timeout-fallback above.
+        if verdict in ("SHIP-READY", "SHIP-WITH-CAUTION"):
+            if best_verdict_so_far != "SHIP-READY":  # SHIP-READY dominates
+                best_verdict_so_far = verdict
+                best_verdict_at_iter = outer
 
         if verdict == "SHIP-READY":
             outcome.final_verdict = "SHIP-READY"

@@ -1786,6 +1786,67 @@ def author_framing(book_dir: Path, chapter_slug: str,
             f"3. Re-invoke orchestrate-book --resume."
         ),
     )
+
+    # F1 (2026-05-25): post-authoring word-count guard. The framing prompt asks
+    # the LLM to self-count and trim to <=3500 words, but empirically the LLM
+    # ignores this ~15% of the time. When it does, build_episode_txt.py would
+    # later hard-fail with FRAMING_OVER_WORDS, marking the chapter FAILED in
+    # the orchestrator. Catch the over-cap here and invoke ONE focused
+    # compression re-author before the build gate sees it. If the compression
+    # also runs over, let the build gate handle it (orchestrator's
+    # FAILED→graceful-degrade per F33-second handles the rest).
+    try:
+        from build_episode_txt import FRAMING_WORD_MAX
+    except ImportError:
+        FRAMING_WORD_MAX = 3700  # match build script default
+    framing_text = framing_path.read_text(encoding="utf-8")
+    framing_words = len(framing_text.split())
+    if framing_words > FRAMING_WORD_MAX:
+        overrun = framing_words - FRAMING_WORD_MAX
+        print(
+            f"[F1] framing/{chapter_slug}: {framing_words} words > {FRAMING_WORD_MAX} "
+            f"cap (overrun={overrun}); invoking compression re-author",
+            flush=True,
+        )
+        compress_prompt = (
+            f"Edit `{framing_path}` IN PLACE to bring total word count from "
+            f"{framing_words} down to <= {FRAMING_WORD_MAX - 100} (target leaves "
+            f"100-word buffer below the cap).\n\n"
+            f"Trim priority (delete content from these sections first, in order):\n"
+            f"  1. ## Pronunciation — drop entries for terms appearing <2x in chapter; "
+            f"keep imperative form for remaining entries.\n"
+            f"  2. ## Three-part focus — compress each beat to 1-2 short sentences; "
+            f"preserve every beat label and ordering.\n"
+            f"  3. ## Central tensions — drop redundant or weakly-distinguished tensions.\n"
+            f"  4. ## Background — strip biographical detail not required for episode "
+            f"navigation.\n\n"
+            f"DO NOT change section headers, ordering, or core doctrine (R-NO-ARABIC-NAMES, "
+            f"R-HOST-ROLE-PARITY, ## Stable role-labels, ## Anti-noise rules). DO NOT "
+            f"add new analogies. After editing, COUNT words again and report the new "
+            f"total. The chapter source at `{chapter_file}` and all other framing "
+            f"rules from the original framing-author prompt still apply.\n\n"
+            f"Exit when the framing word count is <= {FRAMING_WORD_MAX - 100}."
+        )
+        rc2, out2, err2 = _run_claude_p(
+            compress_prompt, timeout=600,
+            book_dir=book_dir, phase="per-chapter",
+            step=f"framing-compress/{chapter_slug}",
+        )
+        framing_text2 = framing_path.read_text(encoding="utf-8")
+        framing_words2 = len(framing_text2.split())
+        if framing_words2 > FRAMING_WORD_MAX:
+            print(
+                f"[F1] framing/{chapter_slug}: compression returned "
+                f"{framing_words2} words (still over {FRAMING_WORD_MAX}); "
+                f"build gate will handle if needed",
+                flush=True,
+            )
+        else:
+            print(
+                f"[F1] framing/{chapter_slug}: compression OK "
+                f"({framing_words} → {framing_words2} words)",
+                flush=True,
+            )
     return stdout
 
 
