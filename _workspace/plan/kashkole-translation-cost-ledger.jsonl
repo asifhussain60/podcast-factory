@@ -11,3 +11,6 @@
 {"binder_id": 12, "chapter_id": 36, "phase": "translate", "cost_usd": 0.15298, "completed_at": "2026-05-25T08:54:15.176375+00:00"}
 {"binder_id": 12, "chapter_id": 138, "phase": "translate", "cost_usd": 0.00172, "completed_at": "2026-05-25T08:54:17.110762+00:00"}
 {"binder_id": 12, "chapter_id": 143, "phase": "translate", "cost_usd": 0.00165, "completed_at": "2026-05-25T08:54:19.060807+00:00"}
+{"binder_id": 5, "chapter_id": 50, "phase": "translate", "cost_usd": 0.03597, "completed_at": "2026-05-25T08:54:22.480276+00:00"}
+{"binder_id": 5, "chapter_id": 13, "phase": "passthrough", "cost_usd": 0.0, "completed_at": "2026-05-25T08:54:23.986557+00:00"}
+{"binder_id": 5, "chapter_id": 12, "phase": "translate", "cost_usd": 0.01033, "completed_at": "2026-05-25T08:54:26.810610+00:00"}
