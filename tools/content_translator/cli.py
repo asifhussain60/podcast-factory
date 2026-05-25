@@ -134,7 +134,16 @@ def main() -> None:
     cmd = ap.add_subparsers(dest="cmd", required=True)
 
     # translate
-    for cmd_name in ("translate", "adapt"):
+    for cmd_name in ("translate", "adapt", "adapt-auto"):
+        c = cmd.add_parser(cmd_name)
+        c.add_argument("--dry-run", action="store_true", default=False)
+        c_sub = c.add_subparsers(dest="adapter", required=True)
+        for name in ("kashkole", "ksessions"):
+            sp = c_sub.add_parser(name)
+            _add_ids_args(sp, name)
+
+    # challenge
+    for cmd_name in ("challenge",):
         c = cmd.add_parser(cmd_name)
         c.add_argument("--dry-run", action="store_true", default=False)
         c_sub = c.add_subparsers(dest="adapter", required=True)
@@ -198,6 +207,51 @@ def main() -> None:
 
     elif args.cmd == "adapt":
         surface_adapt_brief(bundle_root, binder_id=ids.shelf_id, chapter_id=ids.book_id)
+
+    elif args.cmd == "adapt-auto":
+        from .stages.adapt_auto import adapt_bundle_auto
+        result = adapt_bundle_auto(
+            bundle_root,
+            binder_id=ids.shelf_id,
+            chapter_id=ids.book_id,
+            dry_run=args.dry_run,
+        )
+        if result.get("skipped"):
+            print(f"SKIPPED (already {result['stage']}): {bundle_root}")
+        elif result.get("dry_run"):
+            print(f"DRY-RUN ({result.get('mode','?')}): {bundle_root}")
+            print(f"  raw_bytes: {result['raw_bytes']:,}")
+            print(f"  chunks:   {result['chunks']}")
+        else:
+            mode = result.get("mode", "llm")
+            print(f"ADAPTED [{mode}]: {bundle_root}")
+            print(f"  chunks:     {result['chunks']}")
+            print(f"  citations:  {result['citations']}")
+            if mode != "deterministic":
+                print(f"  tokens in:  {result['input_tokens']:,}")
+                print(f"  tokens out: {result['output_tokens']:,}")
+            print(f"  cost:       ${result['cost_usd']:.4f}")
+            print(f"  output:     {result['output_path']}")
+
+    elif args.cmd == "challenge":
+        from tools.content_challenger.kashkole.challenge_auto import challenge_bundle
+        result = challenge_bundle(
+            bundle_root,
+            binder_id=ids.shelf_id,
+            chapter_id=ids.book_id,
+            dry_run=args.dry_run,
+        )
+        if result.get("skipped"):
+            print(f"SKIPPED (already {result['stage']}): {bundle_root}")
+        elif result.get("dry_run"):
+            print(f"DRY-RUN challenge: {bundle_root}")
+            for line in result.get("validator", []):
+                print(f"  {line}")
+        else:
+            print(f"CHALLENGED [{result['verdict']}]: {bundle_root}")
+            print(f"  validator: {result['validator_p0']} P0, {result['validator_p1']} P1")
+            print(f"  cost:      ${result['cost_usd']:.4f}")
+            print(f"  report:    {result['report_path']}")
 
     elif args.cmd == "seal":
         result = seal_stage(bundle_root, target_stage=args.stage)
