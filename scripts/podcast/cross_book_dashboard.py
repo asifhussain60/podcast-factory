@@ -113,6 +113,29 @@ def _chapter_progress(book_dir: Path) -> str:
     return f"{completed}/{total}"
 
 
+def _chapter_timing_stats(book_dir: Path) -> str:
+    """F37 (2026-05-25): return 'mean Ns / N chapters' from chapter_timings dict.
+
+    Reads orchestrator-state.json's phases.per-chapter.chapter_timings (added in
+    F37) and computes the mean duration_sec across completed chapters. Returns
+    '—' when no timing data is present (older books pre-F37).
+    """
+    state = _read_state(book_dir)
+    timings = (
+        state.get("phases", {}).get("per-chapter", {}).get("chapter_timings", {})
+    )
+    durations = [
+        t["duration_sec"] for t in timings.values()
+        if isinstance(t, dict) and t.get("duration_sec") is not None
+    ]
+    if not durations:
+        return "—"
+    mean = sum(durations) / len(durations)
+    if mean >= 3600:
+        return f"{mean / 3600:.1f}h × {len(durations)}"
+    return f"{mean / 60:.1f}m × {len(durations)}"
+
+
 def _category_label(book_dir: Path) -> str:
     """Best-effort: 'in-flight' for drafts/, 'shipped' for published/books/."""
     if str(book_dir).startswith(str(DRAFTS)):
@@ -147,6 +170,7 @@ def collect_fleet(since: datetime | None) -> list[dict]:
                 "status": status,
                 "last_completed": last_phase,
                 "chapters": _chapter_progress(entry),
+                "ch_mean_time": _chapter_timing_stats(entry),
                 "cost_usd": round(total, 2),
                 "ledger_rows": rows,
                 "last_cost_ts": last_ts,
@@ -163,19 +187,19 @@ def render_markdown(fleet: list[dict], since_label: str) -> str:
         "",
         f"Books tracked: **{len(fleet)}**.",
         "",
-        "| Book | Category | Phase | Status | Last completed | Chapters | Cost (USD) | Ledger rows | Last activity |",
-        "|---|---|---|---|---|---|---|---|---|",
+        "| Book | Category | Phase | Status | Last completed | Chapters | Ch time | Cost (USD) | Ledger rows | Last activity |",
+        "|---|---|---|---|---|---|---|---|---|---|",
     ]
     total_usd = 0.0
     for b in fleet:
         lines.append(
             f"| `{b['book']}` | {b['category']} | {b['phase']} | {b['status']} | "
-            f"{b['last_completed']} | {b['chapters']} | ${b['cost_usd']:.2f} | "
-            f"{b['ledger_rows']} | {b['last_cost_ts'] or '—'} |"
+            f"{b['last_completed']} | {b['chapters']} | {b.get('ch_mean_time', '—')} | "
+            f"${b['cost_usd']:.2f} | {b['ledger_rows']} | {b['last_cost_ts'] or '—'} |"
         )
         total_usd += b['cost_usd']
     lines.append(
-        f"| **TOTAL** | — | — | — | — | — | **${total_usd:.2f}** | — | — |"
+        f"| **TOTAL** | — | — | — | — | — | — | **${total_usd:.2f}** | — | — |"
     )
     lines.append("")
     in_flight = [b for b in fleet if b['category'] == 'in-flight']

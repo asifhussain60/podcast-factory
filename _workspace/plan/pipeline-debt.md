@@ -361,6 +361,8 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 
 **Verification:** Re-run any Phase that calls `_run_claude_p` on Python 3.9 and confirm `cost-ledger.jsonl` gets appended successfully.
 
+**Status:** **CLOSED (shipped 2026-05-21).** `_now_iso()` in [_cost_ledger.py:103-107](../../scripts/podcast/_cost_ledger.py) uses `datetime.timezone.utc` (compat with 3.9+). Inline comment documents the F6 fix.
+
 ---
 
 ### F7 — Orchestrator doesn't surface multi-task cost projection
@@ -388,6 +390,8 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 **Proposed fix:** At per-chapter loop start, scan `_system/episode-drafts/` for any directory whose name doesn't match the expected `EP##-<slug>` for the chapters in `chapters/`. Either delete (aggressive) or warn (conservative).
 
 **Verification:** Trigger an X-class bug scenario, then run resume; confirm stale directories are cleaned (or surfaced for cleanup).
+
+**Status:** **CLOSED (shipped).** `_sweep_orphan_episode_drafts(book_dir)` lives in [orchestrate_book.py](../../scripts/podcast/orchestrate_book.py) and is invoked from 3 call-sites (per-chapter loop start, preflight_resume, finalize). Deletes any `EP*` subdir whose name isn't in the expected slug set.
 
 ---
 
@@ -562,7 +566,7 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 
 **Impact:** F14's count-reduction discipline was a partial fix; F18 names the deeper truth that ANY Arabic occurrence in spoken content triggers TTS unpredictability.
 
-**Status:** Open, superseded by F20 (total Arabic-name removal from spoken content) — F18 is preserved as the diagnostic step that motivated the larger F20 doctrine shift.
+**Status:** **CLOSED (superseded by F20 — also closed).** Doctrine shift to total Arabic-name removal eliminated F18's surface entirely. F18 preserved as the diagnostic step that motivated F20.
 
 ---
 
@@ -576,7 +580,7 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 
 **Impact:** These aren't pronunciation imperfections — they're THEOLOGICAL ERRORS introduced by TTS. A listener hearing "al-Qur'an Mayni argued that the Second is born from the First" hears a claim that the Quran itself argues a metaphysical proposition. That's wrong content, not just wrong pronunciation.
 
-**Status:** Open, superseded by F20 — total Arabic-name removal eliminates the collision-risk surface area entirely.
+**Status:** **CLOSED (superseded by F20 — also closed).** TTS-collision risk eliminated by removing Arabic personal names from spoken content entirely. F19 preserved as the empirical evidence motivating F20.
 
 ---
 
@@ -601,6 +605,8 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 **KaR-specific remediation:** the 8 already-shipped KaR episodes carry the defect. Per the established Middle Path scope for F14/F15: accept what's shipped; apply F20's framework patch for future books. KaR Ch07 v3 could be authored as a fresh lab iteration under the new doctrine if Asif wants to test.
 
 **Verification:** apply F20 prompt patches; regenerate one chapter; transcript audit should show ZERO Arabic person-names spoken; ZERO Arabic book-titles spoken; ZERO TTS-mangle events of the F14/F18/F19 class. Show notes contain the full Arabic attribution.
+
+**Status:** **CLOSED (shipped).** R-NO-ARABIC-NAMES doctrine codified in [_authoring.py:1316+](../../scripts/podcast/_authoring.py) (`F20 doctrine 2026-05-22; empirically locked …`). Framing-author prompt now instructs functional paraphrase + English role-descriptors instead of Arabic person/book names. Verified on the-master-and-the-disciple's 6 shipped episodes.
 
 ---
 
@@ -658,6 +664,8 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 
 **Verification:** validator `assert_alqaab_only_established_or_paraphrased` scans framing + chapter for any unfamiliar transliterated alqaab; passes only if every honorific is either on the allowed list OR is a functional paraphrase.
 
+**Status:** **CLOSED (shipped).** R-ALQAAB-FUNCTIONAL-PARAPHRASE doctrine codified in [_authoring.py:1344+](../../scripts/podcast/_authoring.py) framing-author prompt. Functional paraphrase required for novel alqaab; established forms (Commander of the Faithful, Lion of God) explicitly allowed; literal Arabic alqaab routed to show-notes apparatus only.
+
 ---
 
 ### F25 — Show-notes apparatus-table schema
@@ -685,6 +693,8 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 **Proposed fix:** Phase 0g emits the apparatus table as the head of `99-show-notes.md`; validator `assert_show_notes_has_apparatus_table` checks for the table header + at least N rows per chapter.
 
 **Verification:** for KaR, the apparatus-table should have ~25 rows per episode (author + 2 reformers + 4 Imams + 3 books + 8 concept-words + 5 honorifics + ~2 surahs).
+
+**Status:** **CLOSED (shipped).** `F25-APPARATUS-TABLE` validator wired in [build_episode_txt.py:1018+](../../scripts/podcast/build_episode_txt.py); silent-skip when 99-show-notes.md absent so legacy bundles don't break. Per-book apparatus emission per Phase 0g flow. Followups (per-row schema enrichment) tracked under F26.
 
 ---
 
@@ -748,6 +758,8 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 
 **Verification:** run on KaR Ch07 v4 lab; should pass all validators if v4 doctrine holds. Run on Ch07 v3 lab; should FAIL on alqaab + modern-artifacts + analogy-cap (which is exactly what the v3 audio audit found by ear).
 
+**Status:** **CLOSED (shipped).** Tier 2.5 validator suite landed in [build_episode_txt.py:695+](../../scripts/podcast/build_episode_txt.py) under F27 banner — 8 deterministic hard-gate checks wired (F27 #1-#8) covering Arabic-transliteration block in chapter/framing, forbidden analogies, modern-vocab contamination, honorific count, Arabic surah names (F27 #6 / F29), awkward alqaab literal-translation (F27 #7), and apparatus-table presence (F27 #8 / F25). 11 explicit F27/Tier-2.5 references across the file.
+
 ---
 
 ### F28 — Backward-compat decision for shipped episodes
@@ -794,6 +806,8 @@ This is the same M1 + F20 pattern: framing rule ignored because chapter source f
 3. Per-book artifact: `surah-aliases.yml` mapping Arabic surah name → English meaning per book.
 
 **Verification:** apply prompt patch; v4-revised chapter rewrite removes "al-Shams / al-Ahzab / Qaf"; next audio render shows zero surah-name mangling.
+
+**Status:** **CLOSED (shipped).** R-SURAH-ENGLISH-ONLY doctrine codified in [_authoring.py:1336+,1697+](../../scripts/podcast/_authoring.py) framing-author prompt with the verified surah→English-meaning table. Reinforced by R-NO-AI-CLICHE / R-NO-ESSENTIALISM-EXTERNAL surrounding doctrine. Validator (F27 #6) at [build_episode_txt.py:958](../../scripts/podcast/build_episode_txt.py).
 
 ---
 
@@ -1003,6 +1017,8 @@ First FAILED chapter immediately halts the entire book. Subsequent chapters in t
 
 **Verification:** Run a 4-chapter book where ch02's contract has a known systemic P0 (inject one). Confirm ch03 and ch04 complete successfully. Confirm state.json shows `failed_slugs: ["ch02-slug"]` and `completed_slugs: ["ch01-slug", "ch03-slug", "ch04-slug"]`. Confirm `--retry-phase per-chapter` re-runs only ch02.
 
+**Status:** **CLOSED (shipped 2026-05-25).** [orchestrate_book.py:_drive_per_chapter_and_after()](../../scripts/podcast/orchestrate_book.py) now graceful-degrades: failed chapters added to `failed_chapter_slugs` set, loop continues to next chapter, state writes `failed_slugs` list each iteration. End-of-loop check: if ≥1 failures, phase marked `failed` with summary error (X of Y failed, list of slugs, hint to triage or raise cost cap and `--resume`). Skipped slugs on next resume: both `completed_slugs` and `failed_slugs` are honored as skip sets at the top of the loop (operator uses `--retry-chapter` to re-attempt). Default behavior — no flag needed.
+
 ---
 
 ### F34 — Phase 0b and 0d windows run sequentially; 3× wall-clock speedup available
@@ -1058,6 +1074,8 @@ Phase 0b ordering constraint: windows with overlap must be processed in chunks w
 **Why not just rely on the iter cap?** The iter cap (3 outer × 5 inner) is a *count* ceiling, not a *cost* ceiling. A chapter that takes 6 challenger passes and no fixers burns less than one that takes 3 challenger passes and 9 fixer-of-fixer passes. The cost ceiling is a budget guard independent of iteration count.
 
 **Verification:** Set `--chapter-cost-cap 5` and run a chapter known to require 2+ challenger passes. Confirm the loop aborts after the first or second pass when the cap is reached. Confirm state.json shows `reason=cost_cap_exceeded` and the operator can resume with a higher cap.
+
+**Status:** **CLOSED (shipped 2026-05-25).** Implemented per-chapter cap via series-plan.md flag `per_chapter_cost_cap_usd` (default $5.00) rather than CLI flag — fits the existing `_series_flag/_series_numeric` pattern. Loop reads `_chapter_cost_so_far(book_dir, slug)` from cost-ledger.jsonl before and after each `per_chapter_pass()`; if delta exceeds cap, marks chapter `FAILED` with note "COST-CAPPED: chapter spent $X.XX > cap $Y.YY". Composes with F33-second graceful-degrade: cost-capped chapter halts loop with summary; raise cap in series-plan.md and `--resume` to retry.
 
 ---
 
@@ -1119,6 +1137,8 @@ update_phase(book_dir, phase="per-chapter", status="running", extras={
 The heartbeat script reads `chapter_timings` and computes `avg` from completed (non-retried) chapters only, giving an accurate ETA for the remaining chapters.
 
 **Verification:** Complete a 4-chapter run. Confirm `orchestrator-state.json.phases.per-chapter.chapter_timings` has 4 entries with accurate timestamps and call counts. Confirm heartbeat `avg/ch` shows per-chapter breakdown on demand.
+
+**Status:** **CLOSED (shipped 2026-05-25).** [orchestrate_book.py:_drive_per_chapter_and_after()](../../scripts/podcast/orchestrate_book.py) now writes `phases.per-chapter.chapter_timings` with per-slug `{started_ts, completed_ts, duration_sec, verdict, cost_usd}` (cost from F35-second). Cross-book dashboard ([cross_book_dashboard.py](../../scripts/podcast/cross_book_dashboard.py)) surfaces mean chapter duration in the fleet table. Future heartbeat ETA can compute from clean-chapter timings only (excluding cost-capped/FAILED), giving accurate remaining-time estimates.
 
 ---
 

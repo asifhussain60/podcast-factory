@@ -585,6 +585,57 @@ If you want to change unit mode (chapter ↔ section ↔ auto), reset Phase 0d:
 """
 
 
+def _series_numeric(book_dir: Path, flag_name: str, *, default: float) -> float:
+    """F35-second (2026-05-25): read a numeric flag from series-plan.md.
+
+    Mirrors _series_flag but parses the value as float instead of bool. Used by
+    F35-second per-chapter cost ceiling: looks for `**Per Chapter Cost Cap Usd:** 5.0`
+    in series-plan.md. Returns `default` if missing or unparseable.
+    """
+    plan_path = book_dir / "_system" / "series-plan.md"
+    if not plan_path.exists():
+        return default
+    label = flag_name.replace("_", " ").title()
+    needle_lower = f"**{label.lower()}:**"
+    try:
+        for raw in plan_path.read_text(encoding="utf-8").splitlines():
+            line = raw.strip()
+            if line.lower().startswith(needle_lower):
+                value = line[len(needle_lower):].strip().strip("`").strip("*").strip("$")
+                return float(value)
+    except (OSError, ValueError):
+        return default
+    return default
+
+
+def _chapter_cost_so_far(book_dir: Path, chapter_slug: str) -> float:
+    """F35-second (2026-05-25): sum cost-ledger.jsonl rows tagged with this chapter.
+
+    Reads <book_dir>/_system/cost-ledger.jsonl and sums cost_usd across rows
+    whose `step` field contains the chapter slug (the per-chapter authoring
+    convention emits step like 'framing/<slug>', 'build/<slug>',
+    'convergence/<slug>'). Returns 0.0 if ledger missing or unreadable.
+    """
+    ledger = book_dir / "_system" / "cost-ledger.jsonl"
+    if not ledger.exists():
+        return 0.0
+    total = 0.0
+    try:
+        for raw in ledger.read_text(encoding="utf-8").splitlines():
+            if not raw.strip() or chapter_slug not in raw:
+                continue
+            try:
+                rec = json.loads(raw)
+            except json.JSONDecodeError:
+                continue
+            step = str(rec.get("step", ""))
+            if chapter_slug in step:
+                total += float(rec.get("cost_usd", 0) or 0)
+    except OSError:
+        return 0.0
+    return round(total, 4)
+
+
 def _series_flag(book_dir: Path, flag_name: str, *, default: bool = False) -> bool:
     """Read a boolean flag from series-plan.md.
 
@@ -1536,27 +1587,86 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
 
     update_phase(book_dir, phase="per-chapter", status="running")
     outcomes: list[ChapterOutcome] = []
+    # F37 (2026-05-25): per-chapter timing dict, persisted into state.extras so
+    # cross_book_dashboard.py and the heartbeat card can surface throughput.
+    # Keyed by slug → {started_ts, completed_ts, duration_sec, verdict}.
+    chapter_timings: dict[str, dict] = {}
+    prior_state = read_state(book_dir) or {}
+    chapter_timings.update(
+        prior_state.get("phases", {}).get("per-chapter", {}).get("chapter_timings", {})
+    )
+    # F33-second (2026-05-25): track failed chapters separately. Independent
+    # chapters should not block each other — graceful-degrade past FAILED
+    # verdicts and let the operator triage the failed set at end.
+    failed_chapter_slugs: set[str] = set(
+        prior_state.get("phases", {}).get("per-chapter", {}).get("failed_slugs", [])
+    )
+    # F35-second (2026-05-25): per-chapter LLM cost ceiling from series-plan.md.
+    # Default $5/chapter; CHAPTER-COST-CAPPED chapters are flagged FAILED and
+    # surfaced at end. Cost is computed from cost-ledger.jsonl rows tagged with
+    # the chapter slug in their step field.
+    per_chapter_cost_cap_usd = _series_numeric(
+        book_dir, "per_chapter_cost_cap_usd", default=5.0,
+    )
+    if per_chapter_cost_cap_usd > 0:
+        _info(f"per-chapter cost cap: ${per_chapter_cost_cap_usd:.2f} (per series-plan)")
     for slug in chapter_slugs:
         if slug in completed_chapter_slugs:
             _info(f"phase: per-chapter[{slug}] · already shipped, skipping")
             continue
+        if slug in failed_chapter_slugs:
+            _info(f"phase: per-chapter[{slug}] · prior FAILED, skipping (use --retry-chapter to re-attempt)")
+            continue
         _info(f"phase: per-chapter[{slug}] · extract → frame → build → converge")
+        _t_start = datetime.now(timezone.utc)
+        _cost_at_start = _chapter_cost_so_far(book_dir, slug)
+        chapter_timings[slug] = {
+            "started_ts": _t_start.strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "completed_ts": None,
+            "duration_sec": None,
+            "verdict": None,
+            "cost_usd": None,
+        }
         outcome = per_chapter_pass(book_dir, slug)
+        _t_end = datetime.now(timezone.utc)
+        _cost_end = _chapter_cost_so_far(book_dir, slug)
+        _chapter_cost = round(_cost_end - _cost_at_start, 4)
+        chapter_timings[slug]["completed_ts"] = _t_end.strftime("%Y-%m-%dT%H:%M:%SZ")
+        chapter_timings[slug]["duration_sec"] = round((_t_end - _t_start).total_seconds(), 1)
+        chapter_timings[slug]["verdict"] = outcome.final_verdict
+        chapter_timings[slug]["cost_usd"] = _chapter_cost
+        # F35-second: check cost cap. If exceeded, override verdict to FAILED
+        # with a clear COST-CAPPED note so the operator can decide to raise
+        # the cap and resume, or accept the partial-quality chapter.
+        if per_chapter_cost_cap_usd > 0 and _chapter_cost > per_chapter_cost_cap_usd:
+            cost_msg = (
+                f"COST-CAPPED: chapter spent ${_chapter_cost:.2f} > cap "
+                f"${per_chapter_cost_cap_usd:.2f}"
+            )
+            _err(f"  [{slug}] {cost_msg}")
+            outcome.notes.append(cost_msg)
+            outcome.final_verdict = "FAILED"
+            chapter_timings[slug]["verdict"] = "FAILED-COST-CAPPED"
         outcomes.append(outcome)
         _info(render_outcome(outcome))
         if outcome.final_verdict == "FAILED":
+            # F33-second graceful-degrade: record the failure but CONTINUE to
+            # the next chapter. Prior behavior (halt on first FAILED) blocked
+            # independent later chapters and forced manual --retry-chapter
+            # sequencing. New behavior: collect all failures, surface at end.
+            failed_chapter_slugs.add(slug)
             update_phase(
                 book_dir,
                 phase="per-chapter",
-                status="failed",
-                error=f"chapter {slug} failed: {'; '.join(outcome.notes[-3:])}",
+                status="running",
                 extras={
                     "completed_slugs": sorted(completed_chapter_slugs),
-                    "failed_slug": slug,
+                    "failed_slugs": sorted(failed_chapter_slugs),
+                    "chapter_timings": chapter_timings,
                 },
             )
-            _err(f"chapter {slug} failed; halting per-chapter loop.")
-            return 2
+            _err(f"chapter {slug} failed; continuing to next chapter (F33-second graceful-degrade).")
+            continue
 
         completed_chapter_slugs.add(slug)
         # Commit the chapter's chunk of work on the book branch.
@@ -1570,14 +1680,49 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
             book_dir,
             phase="per-chapter",
             status="running",
-            extras={"completed_slugs": sorted(completed_chapter_slugs)},
+            extras={
+                "completed_slugs": sorted(completed_chapter_slugs),
+                "chapter_timings": chapter_timings,
+            },
         )
+
+    # F33-second (2026-05-25): if any chapter FAILED during the graceful-
+    # degrade loop, surface the partial-completion state and halt for
+    # operator triage. The completed chapters are durable; the failed
+    # ones can be re-attempted via --retry-chapter or by raising the
+    # F35-second cost cap.
+    if failed_chapter_slugs:
+        update_phase(
+            book_dir,
+            phase="per-chapter",
+            status="failed",
+            error=(
+                f"{len(failed_chapter_slugs)} chapter(s) failed: "
+                f"{', '.join(sorted(failed_chapter_slugs))}. "
+                f"{len(completed_chapter_slugs)} chapter(s) completed. "
+                f"Triage failures or raise per_chapter_cost_cap_usd and --resume."
+            ),
+            extras={
+                "completed_slugs": sorted(completed_chapter_slugs),
+                "failed_slugs": sorted(failed_chapter_slugs),
+                "chapter_timings": chapter_timings,
+            },
+        )
+        _err(
+            f"per-chapter loop: {len(failed_chapter_slugs)} failed, "
+            f"{len(completed_chapter_slugs)} completed. Halting for triage."
+        )
+        return 2
 
     update_phase(
         book_dir,
         phase="per-chapter",
         status="completed",
-        extras={"completed_slugs": sorted(completed_chapter_slugs)},
+        extras={
+            "completed_slugs": sorted(completed_chapter_slugs),
+            "failed_slugs": [],
+            "chapter_timings": chapter_timings,
+        },
     )
 
     # Phase 0g — register the series + dual-auditor bundle sweep (F30).
