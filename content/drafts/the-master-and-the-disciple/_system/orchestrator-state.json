@@ -4,13 +4,13 @@
   "category": "books",
   "branch": "book/the-master-and-the-disciple",
   "phase": "per-chapter",
-  "phase_status": "running",
+  "phase_status": "failed",
   "last_completed_phase": "0g",
   "next_phase": "0f",
   "last_error": {
     "phase": "per-chapter",
-    "message": "chapter father-revealed-and-the-faces-of-seeking failed: build_episode_txt.py failed: rc=1: FLAG (P1) [R-NO-ARABIC-TRANSLITERATION] ch05-father-revealed-and-the-faces-of-seeking.txt: chapter (SOURCE): 10 Arabic transliterations detected. Sample: ['Abu Malik', 'Abu Salih', 'Ilmiyya', 'al-Ahbar', 'al-Arabia', 'al-Bakhtari', 'al-Ilmiyya', 'al-Khair']. F20 doctrine: replace with English audio ",
-    "ts": "2026-05-24T21:38:55Z"
+    "message": "chapter the-greater-shaykh-and-the-naming failed: framing authoring failed: LLM call timed out after 1500s.",
+    "ts": "2026-05-25T09:14:12Z"
   },
   "pipeline_mode": "orchestrated",
   "bootstrap_provenance": {
@@ -75,13 +75,15 @@
       "series_plan_path": "content/drafts/the-master-and-the-disciple/_system/series-plan.md"
     },
     "per-chapter": {
-      "status": "running",
+      "status": "failed",
       "ts_started": "2026-05-24T18:43:50Z",
       "completed_slugs": [
         "father-revealed-and-the-faces-of-seeking",
-        "justice-monotheism-and-the-guardians"
+        "justice-monotheism-and-the-guardians",
+        "the-call-and-the-covenant"
       ],
-      "failed_slug": "father-revealed-and-the-faces-of-seeking"
+      "failed_slug": "the-greater-shaykh-and-the-naming",
+      "ts_completed": "2026-05-25T09:14:12Z"
     }
   },
   "completed_slugs": [],
@@ -93,7 +95,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-05-22T00:00:00Z",
-  "ts_updated": "2026-05-25T08:07:02Z",
+  "ts_updated": "2026-05-25T09:14:12Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0"
