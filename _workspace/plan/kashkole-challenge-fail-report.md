@@ -1,18 +1,12 @@
 # KAHSKOLE Challenge Results
 
-Generated: 2026-05-25T09:40:14.572447+00:00
+Generated: 2026-05-25T12:51:22.312123+00:00
 
-## WARNs (4)
-- b36/c174
-- b36/c173
-- b12/c143
-- b5/c50
+## WARNs (1)
+- b6/c144
 
-## FAILs (6) — require re-adaptation
-- b12/c138
-- b5/c13
-- b16/c41
-- b16/c42
-- b16/c44
-- b18/c147
+## FAILs (3) — require re-adaptation
+- b28/c161
+- b6/c11
+- b6/c16
 

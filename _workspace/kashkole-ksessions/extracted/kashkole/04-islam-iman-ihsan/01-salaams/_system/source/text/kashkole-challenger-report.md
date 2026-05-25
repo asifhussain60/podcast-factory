@@ -1,42 +1,30 @@
 # KAHSKOLE Challenger Report
-*Generated: 2026-05-25T09:38:38.916972+00:00 | Model: claude-haiku-4-5-20251001*
+*Generated: 2026-05-25T14:17:23.520337+00:00 | Model: claude-haiku-4-5-20251001*
 
 ## Deterministic Validator
-Validator: 0 P0 errors, 1 P1 warnings
-  ⚠ [V6] 8 citation(s) reference non-allowlisted authors
-      cite-1: Ḥamīd al-Dīn al-Kirmānī
-      cite-2: Ḥamīd al-Dīn al-Kirmānī
-      cite-3: Ḥamīd al-Dīn al-Kirmānī
+Validator: 0 P0 errors, 0 P1 warnings
+  ✅ All checks passed
 
-# Challenge Report — Salaams
-
-**Date:** 2025-05-25  
-**Verdict:** WARN
-
----
+## Challenge Report — SALAAMS
+**Date:** 2026-05-25  
+**Verdict:** PASS
 
 ### Checks
 
-- **Prose quality:** Excellent. The English is scholarly, graceful, and readable throughout. Transliteration is consistent and diacritics are properly applied. The translation preserves the devotional register of the original Arabic.
+- **Prose quality:** The English is consistently scholarly and readable. Transliterations flow naturally within sentences; archaic forms ("Verily," "Thou") appropriately match the liturgical register. No machine-translation artifacts detected. Sentences vary in length and structure.
 
-- **Terminology:** Ismaili and Islamic technical terms are appropriately handled. Key terms such as *amīr al-muʾminīn* (Commander of the Faithful), *wasī* (successor/executor), and *khalīfah* appear with clear glosses on first occurrence or in context. No Ismaili-specific jargon requiring special glossing was overlooked.
+- **Terminology:** Core Ismaili/Islamic terms are correctly transliterated with diacritics (amīr al-muʾminīn, ʿAlī, Muḥammad, Qurʾān). First-occurrence glosses are present where needed (e.g., "Commander of the Faithful (amīr al-muʾminīn)"). No terminological errors or inconsistencies noted.
 
-- **Faithfulness:** The adapted content faithfully conveys the doctrinal and liturgical substance of the source. The opening praises emphasize God's absolute transcendence and creatorship from nothingness—core Ismaili metaphysical doctrine. The testimony to ʿAlī's station as *wasī* and *wazīr* is theologically central. No material omissions or distortions detected.
+- **Faithfulness:** The adaptation faithfully conveys the devotional and theological content. The structure preserves the original's layered invocations: praise of God → prophecy and succession → testimony of faith → supplicatory prayers. The inclusion of ʿAlī's succession (waṣiyyah) is doctrinally consistent with Ismaili practice. No significant omissions or unauthorized additions detected.
 
-- **Citations:** **P1 WARNING.** The validator flags 8 citations referencing Ḥamīd al-Dīn al-Kirmānī as non-allowlisted authors. While al-Kirmānī (d. 411/1020) is a canonical Fatimid Ismaili philosopher whose works (*Raḥat al-ʿAql*, *al-Riyāḍ*) are historically authentic and authoritative, the allowlist restriction suggests institutional policy may require additional vetting or alternative primary sources. The confidence levels are marked "high" and training-grounded, but the systematic flagging indicates a compliance gap that should be resolved before publication.
+- **Citations:** Three citations sampled (al-Kirmānī's *Rahat al-ʿAql* and *al-Riyād*) are high-confidence and appropriate to the theological content (divine providence, prophetic finality). Sources are plausible for an Ismaili doctrinal work. No obvious anachronisms or unsupported attributions.
 
-- **Section structure:** Headings are meaningful and well-organized. The progression from opening *taḥmīd* (praise) through testimony (*shahāda*) to supplication (*duʿāʾ*) and Qurʾānic invocation is liturgically coherent and clearly demarcated.
-
----
+- **Section structure:** The single major heading "Al-Ḥamdu lillāh Khāliq al-Wujūd min al-ʿAdam" is meaningful and accurately reflects the opening invocation. The prose flows logically through distinct thematic blocks (creation theology → prophecy → testimony → supplication) without artificial breaks. Clear demarcation between quoted Arabic and translation aids navigation.
 
 ### Findings
 
-- **P1:** Eight citations to Ḥamīd al-Dīn al-Kirmānī flagged as non-allowlisted. Requires author approval or substitution with allowlisted Ismaili sources before final clearance.
-- No P0 errors detected.
-- No prose, terminology, or faithfulness issues identified.
-
----
+None found.
 
 ### Verdict rationale
 
-The chapter demonstrates exemplary scholarly and liturgical quality with faithful doctrinal content, but the systematic citation allowlist violation must be resolved to proceed to publication.
+All deterministic validation passed; prose meets scholarly standards; terminology is accurate with appropriate glossing; content is faithful to source doctrine; citations are high-confidence and well-sourced; and structure supports readability without errors or gaps.

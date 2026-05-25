@@ -92,6 +92,6 @@ adaptation:
   adapt_cost_usd: 0.057982
 challenge:
   engine: claude-haiku-4-5-20251001
-  verdict: WARN
-  completed_at: 2026-05-25T09:38:38.916972+00:00
-  challenge_cost_usd: 0.005465
+  verdict: PASS
+  completed_at: 2026-05-25T14:17:23.520337+00:00
+  challenge_cost_usd: 0.004954

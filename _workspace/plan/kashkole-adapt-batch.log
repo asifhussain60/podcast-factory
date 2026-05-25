@@ -1,0 +1,1936 @@
+
+============================================================
+Binder 35 — The Wise Reminder (2 chapters)
+  Session cost so far: $0.07
+============================================================
+  ch 176: already adapted — skip
+  ch 177: adapting... [feature/kashkole-translation ca337d7] feat(kashkole-adapt): binder 35 — The Wise Reminder (1 chapters adapted, $0.00 Anthropic)
+ 10 files changed, 4328 insertions(+), 3 deletions(-)
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/03-the-wise-reminder/01-miracles-of-quran/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/03-the-wise-reminder/01-miracles-of-quran/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/03-the-wise-reminder/02-the-human-spirit/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/03-the-wise-reminder/02-the-human-spirit/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/19-daat-aur-x9691-ki-seerah-wa-waqiat/01-x6355-x6441/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/19-daat-aur-x9691-ki-seerah-wa-waqiat/01-x6355-x6441/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/plan/kashkole-adapt-cost-ledger.jsonl
+✅ $0.00 (1.4s)
+
+  Binder 35 done: 1 adapted, 1 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 32 — Al-Ghazali — Kimiya (2 chapters)
+  Session cost so far: $0.07
+============================================================
+  ch 139: adapting... ✅ $0.00 (1.6s)
+  ch 146: adapting... [feature/kashkole-translation dc35b7a] feat(kashkole-adapt): binder 32 — Al-Ghazali — Kimiya (2 chapters adapted, $0.05 Anthropic)
+ 9 files changed, 803 insertions(+), 3 deletions(-)
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/09-ghazali-kimiya-as-saadah/01-disciplining-the-soul/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/09-ghazali-kimiya-as-saadah/01-disciplining-the-soul/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/09-ghazali-kimiya-as-saadah/02-controlling-lust-for-food-and-sex/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/09-ghazali-kimiya-as-saadah/02-controlling-lust-for-food-and-sex/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/19-daat-aur-x9691-ki-seerah-wa-waqiat/01-x6355-x6441/_system/source/text/kashkole-challenger-report.md
+✅ $0.0519 (112.9s)
+
+  Binder 32 done: 2 adapted, 0 skipped, 0 failed
+  Binder cost: $0.0519
+
+============================================================
+Binder 36 — Islam Iman Ihsan (3 chapters)
+  Session cost so far: $0.12
+============================================================
+  ch 174: adapting... ✅ $0.0580 (113.1s)
+  ch 173: adapting... ✅ $0.0571 (138.6s)
+  ch 175: adapting... [feature/kashkole-translation c5c7397] feat(kashkole-adapt): binder 36 — Islam Iman Ihsan (3 chapters adapted, $0.12 Anthropic)
+ 7 files changed, 3224 insertions(+), 2 deletions(-)
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/04-islam-iman-ihsan/02-introduction/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/04-islam-iman-ihsan/02-introduction/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/04-islam-iman-ihsan/03-islam/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/04-islam-iman-ihsan/03-islam/_system/source/text/adapted-extract.en.md
+✅ $0.00 (1.6s)
+
+  Binder 36 done: 3 adapted, 0 skipped, 0 failed
+  Binder cost: $0.1151
+
+============================================================
+Binder 12 — Duʿāt Lives (3 chapters)
+  Session cost so far: $0.24
+============================================================
+  ch 36: already challenged — skip
+  ch 138: adapting... ✅ $0.0013 (3.1s)
+  ch 143: adapting... [feature/kashkole-translation 1b6c18e] feat(kashkole-adapt): binder 12 — Duʿāt Lives (2 chapters adapted, $0.00 Anthropic)
+ 7 files changed, 26 insertions(+), 2 deletions(-)
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/19-daat-aur-x9691-ki-seerah-wa-waqiat/02-seerah-x2871/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/19-daat-aur-x9691-ki-seerah-wa-waqiat/02-seerah-x2871/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/19-daat-aur-x9691-ki-seerah-wa-waqiat/03-x9652/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/19-daat-aur-x9691-ki-seerah-wa-waqiat/03-x9652/_system/source/text/adapted-extract.en.md
+✅ $0.0014 (3.3s)
+
+  Binder 12 done: 2 adapted, 1 skipped, 0 failed
+  Binder cost: $0.0027
+
+============================================================
+Binder 5 — Devotional Poetry (3 chapters)
+  Session cost so far: $0.24
+============================================================
+  ch 50: adapting... ✅ $0.0105 (22.1s)
+  ch 13: adapting... ✅ $0.0028 (4.0s)
+  ch 12: adapting... [feature/kashkole-translation 3cca708] feat(kashkole-adapt): binder 5 — Devotional Poetry (3 chapters adapted, $0.02 Anthropic)
+ 10 files changed, 196 insertions(+), 3 deletions(-)
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/20-muntakhab-ashaar/01-x7970-x7964/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/20-muntakhab-ashaar/01-x7970-x7964/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/20-muntakhab-ashaar/02-x6494-ke-ashaar/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/20-muntakhab-ashaar/02-x6494-ke-ashaar/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/20-muntakhab-ashaar/03-x6370-aur-x8248-x6360-x6514/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/20-muntakhab-ashaar/03-x6370-aur-x8248-x6360-x6514/_system/source/text/adapted-extract.en.md
+✅ $0.0076 (10.2s)
+
+  Binder 5 done: 3 adapted, 0 skipped, 0 failed
+  Binder cost: $0.0209
+
+============================================================
+Binder 16 — Selected Duʿāʾs (3 chapters)
+  Session cost so far: $0.26
+============================================================
+  ch 41: adapting... ✅ $0.0038 (5.1s)
+  ch 42: adapting... ✅ $0.0019 (3.9s)
+  ch 44: adapting... [feature/kashkole-translation c945f17] feat(kashkole-adapt): binder 16 — Selected Duʿāʾs (3 chapters adapted, $0.01 Anthropic)
+ 10 files changed, 112 insertions(+), 3 deletions(-)
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/21-muntakhab-duaaon-ka-majmua/01-x4751-wa-x9519/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/21-muntakhab-duaaon-ka-majmua/01-x4751-wa-x9519/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/21-muntakhab-duaaon-ka-majmua/02-x4766-ke-x4752-ki-x9787/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/21-muntakhab-duaaon-ka-majmua/02-x4766-ke-x4752-ki-x9787/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/21-muntakhab-duaaon-ka-majmua/03-x9689-ki-x3170-x9787/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/21-muntakhab-duaaon-ka-majmua/03-x9689-ki-x3170-x9787/_system/source/text/adapted-extract.en.md
+✅ $0.0027 (6.2s)
+
+  Binder 16 done: 3 adapted, 0 skipped, 0 failed
+  Binder cost: $0.0084
+
+============================================================
+Binder 18 — Prophet Stories (5 chapters)
+  Session cost so far: $0.27
+============================================================
+  ch 131: adapting... ✅ $0.0346 (83.5s)
+  ch 147: adapting... ✅ $0.0012 (3.4s)
+  ch 52: adapting... ✅ $0.2052 (463.9s)
+  ch 137: adapting... ✅ $0.0196 (45.5s)
+  ch 168: adapting... [feature/kashkole-translation e12157a] feat(kashkole-adapt): binder 18 — Prophet Stories (5 chapters adapted, $0.26 Anthropic)
+ 10 files changed, 1316 insertions(+), 3 deletions(-)
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/11-qurani-qisas-al-anbiya-ke-x7934/03-x6334-x4758-alayhi-as-salam/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/11-qurani-qisas-al-anbiya-ke-x7934/03-x6334-x4758-alayhi-as-salam/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/11-qurani-qisas-al-anbiya-ke-x7934/04-x6334-x6660-alayhi-as-salam/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/11-qurani-qisas-al-anbiya-ke-x7934/04-x6334-x6660-alayhi-as-salam/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/11-qurani-qisas-al-anbiya-ke-x7934/05-x6334-x4795-alayhi-as-salam/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/11-qurani-qisas-al-anbiya-ke-x7934/05-x6334-x4795-alayhi-as-salam/_system/source/text/adapted-extract.en.md
+✅ $0.00 (1.7s)
+
+  Binder 18 done: 5 adapted, 0 skipped, 0 failed
+  Binder cost: $0.2606
+
+============================================================
+Binder 25 — Daʿāʾim: Ṭahāra (5 chapters)
+  Session cost so far: $0.53
+============================================================
+  ch 88: adapting... ✅ $0.0185 (42.1s)
+  ch 89: adapting... ✅ $0.0602 (134.0s)
+  ch 90: adapting... ✅ $0.0366 (88.4s)
+  ch 91: adapting... ✅ $0.0590 (140.4s)
+  ch 92: adapting... [feature/kashkole-translation c9c984a] feat(kashkole-adapt): binder 25 — Daʿāʾim: Ṭahāra (5 chapters adapted, $0.21 Anthropic)
+ 16 files changed, 1104 insertions(+), 5 deletions(-)
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/13-daaim-al-islam-taharat/01-taharat-se-x7982-x1549/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/13-daaim-al-islam-taharat/01-taharat-se-x7982-x1549/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/13-daaim-al-islam-taharat/02-taharat-ka-x6497/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/13-daaim-al-islam-taharat/02-taharat-ka-x6497/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/13-daaim-al-islam-taharat/03-x7926-se-taharat/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/13-daaim-al-islam-taharat/03-x7926-se-taharat/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/13-daaim-al-islam-taharat/04-x8046-x4806-ke-x8088-x6544/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/13-daaim-al-islam-taharat/04-x8046-x4806-ke-x8088-x6544/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/13-daaim-al-islam-taharat/05-x4785-ka-x6497/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/13-daaim-al-islam-taharat/05-x4785-ka-x6497/_system/source/text/adapted-extract.en.md
+✅ $0.0393 (97.6s)
+
+  Binder 25 done: 5 adapted, 0 skipped, 0 failed
+  Binder cost: $0.2136
+
+============================================================
+Binder 27 — Ādāb wa-Akhlāq (6 chapters)
+  Session cost so far: $0.75
+============================================================
+  ch 56: adapting... ✅ $0.0368 (115.1s)
+  ch 14: adapting... ✅ $0.0770 (187.0s)
+  ch 17: adapting... ✅ $0.0858 (211.2s)
+  ch 127: adapting... ✅ $0.0132 (28.5s)
+  ch 128: adapting... ✅ $0.0389 (94.5s)
+  ch 140: adapting... [feature/kashkole-translation c41a246] feat(kashkole-adapt): binder 27 — Ādāb wa-Akhlāq (6 chapters adapted, $0.26 Anthropic)
+ 19 files changed, 1603 insertions(+), 6 deletions(-)
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/05-adab-wa-akhlaq-hasana/01-kitab-x8087-x8082/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/05-adab-wa-akhlaq-hasana/01-kitab-x8087-x8082/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/05-adab-wa-akhlaq-hasana/02-adab-ke-x7982-x7964/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/05-adab-wa-akhlaq-hasana/02-adab-ke-x7982-x7964/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/05-adab-wa-akhlaq-hasana/03-wilayat-se-x7982-mazameen/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/05-adab-wa-akhlaq-hasana/03-wilayat-se-x7982-mazameen/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/05-adab-wa-akhlaq-hasana/04-x7964-al-hikmah/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/05-adab-wa-akhlaq-hasana/04-x7964-al-hikmah/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/05-adab-wa-akhlaq-hasana/05-x4751-x8070/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/05-adab-wa-akhlaq-hasana/05-x4751-x8070/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/05-adab-wa-akhlaq-hasana/06-seerah-x4922-alayhi-as-salam/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/05-adab-wa-akhlaq-hasana/06-seerah-x4922-alayhi-as-salam/_system/source/text/adapted-extract.en.md
+✅ $0.0073 (13.3s)
+
+  Binder 27 done: 6 adapted, 0 skipped, 0 failed
+  Binder cost: $0.2590
+
+============================================================
+Binder 29 — Daʿāʾim: Ṣawm (4 chapters)
+  Session cost so far: $1.00
+============================================================
+  ch 133: adapting... ✅ $0.0632 (139.3s)
+  ch 134: adapting... ✅ $0.0754 (171.3s)
+  ch 135: adapting... ✅ $0.0721 (155.8s)
+  ch 136: adapting... [feature/kashkole-translation fa8f8c6] feat(kashkole-adapt): binder 29 — Daʿāʾim: Ṣawm (4 chapters adapted, $0.27 Anthropic)
+ 10 files changed, 1077 insertions(+), 3 deletions(-)
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/16-daaim-al-islam-as-sawm/02-x1349-x9818/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/16-daaim-al-islam-as-sawm/02-x1349-x9818/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/16-daaim-al-islam-as-sawm/03-x8263-x1281/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/16-daaim-al-islam-as-sawm/03-x8263-x1281/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/16-daaim-al-islam-as-sawm/04-x6532-x1442/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/16-daaim-al-islam-as-sawm/04-x6532-x1442/_system/source/text/adapted-extract.en.md
+✅ $0.0612 (147.9s)
+
+  Binder 29 done: 4 adapted, 0 skipped, 0 failed
+  Binder cost: $0.2719
+
+============================================================
+Binder 1 — Sciences of Origin/Return (12 chapters)
+  Session cost so far: $1.28
+============================================================
+  ch 73: adapting... ✅ $0.0607 (136.2s)
+  ch 74: adapting... ✅ $0.0787 (169.9s)
+  ch 125: adapting... ✅ $0.0478 (108.3s)
+  ch 75: adapting... ✅ $0.0417 (97.9s)
+  ch 76: adapting... ✅ $0.0727 (173.3s)
+  ch 78: adapting... ✅ $0.0574 (144.9s)
+  ch 80: adapting... ✅ $0.1407 (328.3s)
+  ch 84: adapting... ✅ $0.0662 (173.5s)
+  ch 81: adapting... ✅ $0.0545 (119.3s)
+  ch 82: adapting... ✅ $0.1523 (358.0s)
+  ch 20: adapting... ✅ $0.1136 (284.9s)
+  ch 21: adapting... [feature/kashkole-translation d0d6cd9] feat(kashkole-adapt): binder 1 — Sciences of Origin/Return (12 chapters adapted, $1.17 Anthropic)
+ 4 files changed, 1571 insertions(+), 1 deletion(-)
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/07-uloom-mabda-wa-maad/12-maratib-aur-majame/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/07-uloom-mabda-wa-maad/12-maratib-aur-majame/_system/source/text/adapted-extract.en.md
+✅ $0.2836 (628.7s)
+
+  Binder 1 done: 12 adapted, 0 skipped, 0 failed
+  Binder cost: $1.1699
+
+============================================================
+Binder 24 — Tawḥīd (7 chapters)
+  Session cost so far: $2.45
+============================================================
+  ch 130: adapting... ✅ $0.0020 (3.9s)
+  ch 2: adapting... ✅ $0.0772 (169.4s)
+  ch 71: adapting... ✅ $0.1653 (343.3s)
+  ch 1: adapting... ✅ $0.0220 (55.8s)
+  ch 121: adapting... ✅ $0.1420 (325.6s)
+  ch 118: adapting... ✅ $0.0792 (163.0s)
+  ch 67: adapting... [feature/kashkole-translation 5e2ded7] feat(kashkole-adapt): binder 24 — Tawḥīd (7 chapters adapted, $0.51 Anthropic)
+ 16 files changed, 1888 insertions(+), 5 deletions(-)
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/06-tawheed-mubdi-taala/03-x7946-aur-x8101/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/06-tawheed-mubdi-taala/03-x7946-aur-x8101/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/06-tawheed-mubdi-taala/04-x6379-mubdi-ki-x9682/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/06-tawheed-mubdi-taala/04-x6379-mubdi-ki-x9682/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/06-tawheed-mubdi-taala/05-tawheed-ka-x6360/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/06-tawheed-mubdi-taala/05-tawheed-ka-x6360/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/06-tawheed-mubdi-taala/06-x6643-x1270-ke-x7970-x7910/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/06-tawheed-mubdi-taala/06-x6643-x1270-ke-x7970-x7910/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/06-tawheed-mubdi-taala/07-x6645-x1270-ki-x3562-x1413/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/06-tawheed-mubdi-taala/07-x6645-x1270-ki-x3562-x1413/_system/source/text/adapted-extract.en.md
+✅ $0.0195 (37.9s)
+
+  Binder 24 done: 7 adapted, 0 skipped, 0 failed
+  Binder cost: $0.5072
+
+============================================================
+Binder 26 — Daʿāʾim: Ṣalāt (8 chapters)
+  Session cost so far: $2.95
+============================================================
+  ch 93: adapting... ✅ $0.0340 (74.0s)
+  ch 94: adapting... ✅ $0.0415 (97.1s)
+  ch 95: adapting... ✅ $0.0233 (49.2s)
+  ch 96: adapting... ✅ $0.0174 (40.0s)
+  ch 97: adapting... ✅ $0.0210 (46.2s)
+  ch 98: adapting... ✅ $0.0772 (173.4s)
+  ch 99: adapting... ✅ $0.00 (1.6s)
+  ch 100: adapting... [feature/kashkole-translation 0933070] feat(kashkole-adapt): binder 26 — Daʿāʾim: Ṣalāt (8 chapters adapted, $0.27 Anthropic)
+ 25 files changed, 4266 insertions(+), 8 deletions(-)
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/14-daaim-al-islam-salawat/01-x6372-se-x7982-x9633/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/14-daaim-al-islam-salawat/01-x6372-se-x7982-x9633/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/14-daaim-al-islam-salawat/02-x6372-ka-x6497/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/14-daaim-al-islam-salawat/02-x6372-ka-x6497/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/14-daaim-al-islam-salawat/03-x7930-ka-x6497/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/14-daaim-al-islam-salawat/03-x7930-ka-x6497/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/14-daaim-al-islam-salawat/04-x6372-ke-x7938/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/14-daaim-al-islam-salawat/04-x6372-ke-x7938/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/14-daaim-al-islam-salawat/05-x6335-wa-x7935/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/14-daaim-al-islam-salawat/05-x6335-wa-x7935/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/14-daaim-al-islam-salawat/06-x6372-ki-x8036-ke-x1155/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/14-daaim-al-islam-salawat/06-x6372-ki-x8036-ke-x1155/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/14-daaim-al-islam-salawat/07-x8046-x6372-ke-x1155/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/14-daaim-al-islam-salawat/07-x8046-x6372-ke-x1155/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/14-daaim-al-islam-salawat/08-x8046-x6495-ki-x9834/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/14-daaim-al-islam-salawat/08-x8046-x6495-ki-x9834/_system/source/text/adapted-extract.en.md
+✅ $0.0509 (107.6s)
+
+  Binder 26 done: 8 adapted, 0 skipped, 0 failed
+  Binder cost: $0.2653
+
+============================================================
+Binder 19 — Daʿāʾim: Wilāya (7 chapters)
+  Session cost so far: $3.22
+============================================================
+  ch 86: adapting... ✅ $0.0296 (73.7s)
+  ch 71: adapting... ✅ $0.1646 (334.7s)
+  ch 123: adapting... ✅ $0.0713 (164.4s)
+  ch 64: adapting... ✅ $0.2856 (640.1s)
+  ch 54: adapting... ✅ $0.1422 (343.0s)
+  ch 122: adapting... ✅ $0.1465 (366.5s)
+  ch 10: adapting... [feature/kashkole-translation b4acd4c] feat(kashkole-adapt): binder 19 — Daʿāʾim: Wilāya (7 chapters adapted, $0.84 Anthropic)
+ 13 files changed, 2244 insertions(+), 4 deletions(-)
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/12-daaim-al-islam-wilayat/04-x6360-ki-x9657-aur-x7944/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/12-daaim-al-islam-wilayat/04-x6360-ki-x9657-aur-x7944/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/12-daaim-al-islam-wilayat/05-wilayat-x4908-x4894/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/12-daaim-al-islam-wilayat/05-wilayat-x4908-x4894/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/12-daaim-al-islam-wilayat/06-wilayat-ki-x8227-aur-x7948/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/12-daaim-al-islam-wilayat/06-wilayat-ki-x8227-aur-x7948/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/12-daaim-al-islam-wilayat/07-x1195-x8084-ki-taweel/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/12-daaim-al-islam-wilayat/07-x1195-x8084-ki-taweel/_system/source/text/adapted-extract.en.md
+✅ $0.0052 (8.2s)
+
+  Binder 19 done: 7 adapted, 0 skipped, 0 failed
+  Binder cost: $0.8450
+
+============================================================
+Binder 34 — Quranic Studies (14 chapters)
+  Session cost so far: $4.06
+============================================================
+  ch 155: adapting... ✅ $0.0512 (136.3s)
+  ch 156: adapting... ✅ $0.0535 (119.2s)
+  ch 157: adapting... ✅ $0.00 (1.5s)
+  ch 153: adapting... ✅ $0.00 (1.5s)
+  ch 154: adapting... ✅ $0.00 (1.6s)
+  ch 160: adapting... ✅ $0.00 (1.6s)
+  ch 158: adapting... ✅ $0.00 (1.5s)
+  ch 162: adapting... ✅ $0.00 (1.6s)
+  ch 163: adapting... ✅ $0.00 (1.5s)
+  ch 164: adapting... ✅ $0.00 (1.5s)
+  ch 167: adapting... ✅ $0.00 (1.5s)
+  ch 165: adapting... ✅ $0.00 (1.5s)
+  ch 166: adapting... ✅ $0.00 (1.6s)
+  ch 159: adapting... [feature/kashkole-translation 4ca40db] feat(kashkole-adapt): binder 34 — Quranic Studies (14 chapters adapted, $0.10 Anthropic)
+ 40 files changed, 18488 insertions(+), 13 deletions(-)
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/02-x6371-ali-x6384-allah-wa-x4903/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/02-x6371-ali-x6384-allah-wa-x4903/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/03-x6325-aur-x7954/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/03-x6325-aur-x7954/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/04-x7905-x9542/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/04-x7905-x9542/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/05-aql/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/05-aql/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/06-x4929-aur-x7929/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/06-x4929-aur-x7929/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/07-surah-x1246/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/07-surah-x1246/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/08-x1224/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/08-x1224/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/09-bism-allah-ar-rahman-ar-rahim/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/09-bism-allah-ar-rahman-ar-rahim/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/10-x7948-x4937-x3161-x1328/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/10-x7948-x4937-x3161-x1328/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/11-ar-rahman-ar-rahim/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/11-ar-rahman-ar-rahim/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/12-x6489-x4953-x8108/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/12-x6489-x4953-x8108/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/13-x6595-x6358-wa-x9519/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/13-x6595-x6358-wa-x9519/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/14-misconceptions-arguments/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/14-misconceptions-arguments/_system/source/text/adapted-extract.en.md
+✅ $0.00 (1.5s)
+
+  Binder 34 done: 14 adapted, 0 skipped, 0 failed
+  Binder cost: $0.1047
+
+============================================================
+Binder 28 — Drafts (10 chapters)
+  Session cost so far: $4.17
+============================================================
+  ch 115: adapting... ✅ $0.1129 (269.0s)
+  ch 117: adapting... ✅ $0.0306 (68.0s)
+  ch 119: adapting... ✅ $0.0515 (118.7s)
+  ch 172: adapting... ✅ $0.0529 (137.5s)
+  ch 124: adapting... ✅ $0.0281 (68.2s)
+  ch 126: adapting... ✅ $0.0039 (8.9s)
+  ch 145: adapting... ✅ $0.0769 (176.8s)
+  ch 149: adapting... ✅ $0.4397 (1115.9s)
+  ch 150: adapting... ✅ $0.0528 (128.0s)
+  ch 161: adapting... [feature/kashkole-translation 6403925] feat(kashkole-adapt): binder 28 — Drafts (10 chapters adapted, $0.85 Anthropic)
+ 10 files changed, 18928 insertions(+), 3 deletions(-)
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/08-sunday-sessions/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/08-sunday-sessions/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/09-sunday-sessions-breakups/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/09-sunday-sessions-breakups/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/10-x4784-x7920-x8219-mazameen/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/10-x4784-x7920-x8219-mazameen/_system/source/text/adapted-extract.en.md
+✅ $0.00 (1.6s)
+
+  Binder 28 done: 10 adapted, 0 skipped, 0 failed
+  Binder cost: $0.8493
+
+============================================================
+Binder 6 — Imam ʿAlī (9 chapters)
+  Session cost so far: $5.02
+============================================================
+  ch 11: adapting... ✅ $0.0044 (6.5s)
+  ch 46: adapting... ✅ $0.1904 (406.4s)
+  ch 47: adapting... ✅ $0.0088 (17.2s)
+  ch 144: adapting... ✅ $0.0634 (146.4s)
+  ch 16: adapting... ✅ $0.0189 (31.0s)
+  ch 141: adapting... Traceback (most recent call last):
+  File "/Users/ahmac/Code/podcast-factory/_workspace/plan/_drivers/kashkole_adapt_all.py", line 243, in <module>
+    main()
+    ~~~~^^
+  File "/Users/ahmac/Code/podcast-factory/_workspace/plan/_drivers/kashkole_adapt_all.py", line 211, in main
+    cost = _adapt_chapter(binder_id, ch_id, args.dry_run)
+  File "/Users/ahmac/Code/podcast-factory/_workspace/plan/_drivers/kashkole_adapt_all.py", line 118, in _adapt_chapter
+    result = subprocess.run(cmd, capture_output=True, text=True, cwd=REPO, timeout=1200)
+  File "/Users/ahmac/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 557, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ahmac/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ahmac/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 2154, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ahmac/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1268, in _check_timeout
+    raise TimeoutExpired(
+    ...<2 lines>...
+            stderr=b''.join(stderr_seq) if stderr_seq else None)
+subprocess.TimeoutExpired: Command '['/Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksessions/.venv/bin/python', '-m', 'tools.content_translator', 'adapt-auto', 'kashkole', '--binder', '6', '--chapter', '141']' timed out after 1200 seconds
+[feature/kashkole-translation 8e7dba3] feat(kashkole-adapt): binder 35 — The Wise Reminder (0 chapters adapted, $0.00 Anthropic)
+ 1 file changed, 5 insertions(+)
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+============================================================
+Binder 35 — The Wise Reminder (2 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 176: already challenged — skip
+  ch 177: already challenged — skip
+
+  Binder 35 done: 0 adapted, 2 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 32 — Al-Ghazali — Kimiya (2 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 139: already challenged — skip
+  ch 146: already challenged — skip
+
+  Binder 32 done: 0 adapted, 2 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 36 — Islam Iman Ihsan (3 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 174: already challenged — skip
+  ch 173: already challenged — skip
+  ch 175: already challenged — skip
+
+  Binder 36 done: 0 adapted, 3 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 12 — Duʿāt Lives (3 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 36: already challenged — skip
+  ch 138: already challenged — skip
+  ch 143: already challenged — skip
+
+  Binder 12 done: 0 adapted, 3 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 5 — Devotional Poetry (3 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 50: already challenged — skip
+  ch 13: already challenged — skip
+  ch 12: already adapted — skip
+
+  Binder 5 done: 0 adapted, 3 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 16 — Selected Duʿāʾs (3 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 41: already challenged — skip
+  ch 42: already challenged — skip
+  ch 44: already challenged — skip
+
+  Binder 16 done: 0 adapted, 3 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 18 — Prophet Stories (5 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 131: already adapted — skip
+  ch 147: already challenged — skip
+  ch 52: already adapted — skip
+  ch 137: already adapted — skip
+  ch 168: already challenged — skip
+
+  Binder 18 done: 0 adapted, 5 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 25 — Daʿāʾim: Ṭahāra (5 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 88: already challenged — skip
+  ch 89: already adapted — skip
+  ch 90: already challenged — skip
+  ch 91: already challenged — skip
+  ch 92: already adapted — skip
+
+  Binder 25 done: 0 adapted, 5 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 27 — Ādāb wa-Akhlāq (6 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 56: already challenged — skip
+  ch 14: already adapted — skip
+  ch 17: already challenged — skip
+  ch 127: already challenged — skip
+  ch 128: already adapted — skip
+  ch 140: already adapted — skip
+
+  Binder 27 done: 0 adapted, 6 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 29 — Daʿāʾim: Ṣawm (4 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 133: already adapted — skip
+  ch 134: already challenged — skip
+  ch 135: already challenged — skip
+  ch 136: already challenged — skip
+
+  Binder 29 done: 0 adapted, 4 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 1 — Sciences of Origin/Return (12 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 73: already adapted — skip
+  ch 74: already challenged — skip
+  ch 125: already challenged — skip
+  ch 75: already challenged — skip
+  ch 76: already challenged — skip
+  ch 78: already adapted — skip
+  ch 80: already challenged — skip
+  ch 84: already adapted — skip
+  ch 81: already challenged — skip
+  ch 82: already adapted — skip
+  ch 20: already adapted — skip
+  ch 21: already adapted — skip
+
+  Binder 1 done: 0 adapted, 12 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 24 — Tawḥīd (7 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 130: already challenged — skip
+  ch 2: already challenged — skip
+  ch 71: already adapted — skip
+  ch 1: already challenged — skip
+  ch 121: already adapted — skip
+  ch 118: already challenged — skip
+  ch 67: already adapted — skip
+
+  Binder 24 done: 0 adapted, 7 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 26 — Daʿāʾim: Ṣalāt (8 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 93: already challenged — skip
+  ch 94: already challenged — skip
+  ch 95: already challenged — skip
+  ch 96: already challenged — skip
+  ch 97: already challenged — skip
+  ch 98: already challenged — skip
+  ch 99: already challenged — skip
+  ch 100: already challenged — skip
+
+  Binder 26 done: 0 adapted, 8 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 19 — Daʿāʾim: Wilāya (7 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 86: already challenged — skip
+  ch 71: already adapted — skip
+  ch 123: already adapted — skip
+  ch 64: already adapted — skip
+  ch 54: already adapted — skip
+  ch 122: already adapted — skip
+  ch 10: already challenged — skip
+
+  Binder 19 done: 0 adapted, 7 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 34 — Quranic Studies (14 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 155: already adapted — skip
+  ch 156: already adapted — skip
+  ch 157: already challenged — skip
+  ch 153: already challenged — skip
+  ch 154: already challenged — skip
+  ch 160: already challenged — skip
+  ch 158: already challenged — skip
+  ch 162: already challenged — skip
+  ch 163: already challenged — skip
+  ch 164: already challenged — skip
+  ch 167: already challenged — skip
+  ch 165: already challenged — skip
+  ch 166: already challenged — skip
+  ch 159: already challenged — skip
+
+  Binder 34 done: 0 adapted, 14 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 28 — Drafts (10 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 115: already adapted — skip
+  ch 117: already adapted — skip
+  ch 119: already adapted — skip
+  ch 172: already adapted — skip
+  ch 124: already adapted — skip
+  ch 126: already adapted — skip
+  ch 145: already adapted — skip
+  ch 149: already adapted — skip
+  ch 150: already adapted — skip
+  ch 161: already challenged — skip
+
+  Binder 28 done: 0 adapted, 10 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 6 — Imam ʿAlī (9 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 11: already challenged — skip
+  ch 46: already adapted — skip
+  ch 47: already adapted — skip
+  ch 144: already challenged — skip
+  ch 16: already challenged — skip
+  ch 141: adapting... Traceback (most recent call last):
+  File "/Users/ahmac/Code/podcast-factory/_workspace/plan/_drivers/kashkole_adapt_all.py", line 243, in <module>
+    main()
+    ~~~~^^
+  File "/Users/ahmac/Code/podcast-factory/_workspace/plan/_drivers/kashkole_adapt_all.py", line 211, in main
+    cost = _adapt_chapter(binder_id, ch_id, args.dry_run)
+  File "/Users/ahmac/Code/podcast-factory/_workspace/plan/_drivers/kashkole_adapt_all.py", line 118, in _adapt_chapter
+    result = subprocess.run(cmd, capture_output=True, text=True, cwd=REPO, timeout=1200)
+  File "/Users/ahmac/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 557, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ahmac/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ahmac/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 2154, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ahmac/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1268, in _check_timeout
+    raise TimeoutExpired(
+    ...<2 lines>...
+            stderr=b''.join(stderr_seq) if stderr_seq else None)
+subprocess.TimeoutExpired: Command '['/Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksessions/.venv/bin/python', '-m', 'tools.content_translator', 'adapt-auto', 'kashkole', '--binder', '6', '--chapter', '141']' timed out after 1200 seconds
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+============================================================
+Binder 35 — The Wise Reminder (2 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 176: already challenged — skip
+  ch 177: already challenged — skip
+
+  Binder 35 done: 0 adapted, 2 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 32 — Al-Ghazali — Kimiya (2 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 139: already challenged — skip
+  ch 146: already challenged — skip
+
+  Binder 32 done: 0 adapted, 2 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 36 — Islam Iman Ihsan (3 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 174: already challenged — skip
+  ch 173: already challenged — skip
+  ch 175: already challenged — skip
+
+  Binder 36 done: 0 adapted, 3 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 12 — Duʿāt Lives (3 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 36: already challenged — skip
+  ch 138: already challenged — skip
+  ch 143: already challenged — skip
+
+  Binder 12 done: 0 adapted, 3 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 5 — Devotional Poetry (3 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 50: already challenged — skip
+  ch 13: already challenged — skip
+  ch 12: already adapted — skip
+
+  Binder 5 done: 0 adapted, 3 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 16 — Selected Duʿāʾs (3 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 41: already challenged — skip
+  ch 42: already challenged — skip
+  ch 44: already challenged — skip
+
+  Binder 16 done: 0 adapted, 3 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 18 — Prophet Stories (5 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 131: already adapted — skip
+  ch 147: already challenged — skip
+  ch 52: already adapted — skip
+  ch 137: already adapted — skip
+  ch 168: already challenged — skip
+
+  Binder 18 done: 0 adapted, 5 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 25 — Daʿāʾim: Ṭahāra (5 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 88: already challenged — skip
+  ch 89: already adapted — skip
+  ch 90: already challenged — skip
+  ch 91: already challenged — skip
+  ch 92: already adapted — skip
+
+  Binder 25 done: 0 adapted, 5 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 27 — Ādāb wa-Akhlāq (6 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 56: already challenged — skip
+  ch 14: already adapted — skip
+  ch 17: already challenged — skip
+  ch 127: already challenged — skip
+  ch 128: already adapted — skip
+  ch 140: already adapted — skip
+
+  Binder 27 done: 0 adapted, 6 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 29 — Daʿāʾim: Ṣawm (4 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 133: already adapted — skip
+  ch 134: already challenged — skip
+  ch 135: already challenged — skip
+  ch 136: already challenged — skip
+
+  Binder 29 done: 0 adapted, 4 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 1 — Sciences of Origin/Return (12 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 73: already adapted — skip
+  ch 74: already challenged — skip
+  ch 125: already challenged — skip
+  ch 75: already challenged — skip
+  ch 76: already challenged — skip
+  ch 78: already adapted — skip
+  ch 80: already challenged — skip
+  ch 84: already adapted — skip
+  ch 81: already challenged — skip
+  ch 82: already adapted — skip
+  ch 20: already adapted — skip
+  ch 21: already adapted — skip
+
+  Binder 1 done: 0 adapted, 12 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 24 — Tawḥīd (7 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 130: already challenged — skip
+  ch 2: already challenged — skip
+  ch 71: already adapted — skip
+  ch 1: already challenged — skip
+  ch 121: already adapted — skip
+  ch 118: already challenged — skip
+  ch 67: already adapted — skip
+
+  Binder 24 done: 0 adapted, 7 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 26 — Daʿāʾim: Ṣalāt (8 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 93: already challenged — skip
+  ch 94: already challenged — skip
+  ch 95: already challenged — skip
+  ch 96: already challenged — skip
+  ch 97: already challenged — skip
+  ch 98: already challenged — skip
+  ch 99: already challenged — skip
+  ch 100: already challenged — skip
+
+  Binder 26 done: 0 adapted, 8 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 19 — Daʿāʾim: Wilāya (7 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 86: already challenged — skip
+  ch 71: already adapted — skip
+  ch 123: already adapted — skip
+  ch 64: already adapted — skip
+  ch 54: already adapted — skip
+  ch 122: already adapted — skip
+  ch 10: already challenged — skip
+
+  Binder 19 done: 0 adapted, 7 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 34 — Quranic Studies (14 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 155: already adapted — skip
+  ch 156: already adapted — skip
+  ch 157: already challenged — skip
+  ch 153: already challenged — skip
+  ch 154: already challenged — skip
+  ch 160: already challenged — skip
+  ch 158: already challenged — skip
+  ch 162: already challenged — skip
+  ch 163: already challenged — skip
+  ch 164: already challenged — skip
+  ch 167: already challenged — skip
+  ch 165: already challenged — skip
+  ch 166: already challenged — skip
+  ch 159: already challenged — skip
+
+  Binder 34 done: 0 adapted, 14 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 28 — Drafts (10 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 115: already adapted — skip
+  ch 117: already adapted — skip
+  ch 119: already adapted — skip
+  ch 172: already adapted — skip
+  ch 124: already adapted — skip
+  ch 126: already adapted — skip
+  ch 145: already adapted — skip
+  ch 149: already adapted — skip
+  ch 150: already adapted — skip
+  ch 161: already challenged — skip
+
+  Binder 28 done: 0 adapted, 10 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 6 — Imam ʿAlī (9 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 11: already challenged — skip
+  ch 46: already adapted — skip
+  ch 47: already adapted — skip
+  ch 144: already challenged — skip
+  ch 16: already challenged — skip
+  ch 141: adapting... Traceback (most recent call last):
+  File "/Users/ahmac/Code/podcast-factory/_workspace/plan/_drivers/kashkole_adapt_all.py", line 243, in <module>
+    main()
+    ~~~~^^
+  File "/Users/ahmac/Code/podcast-factory/_workspace/plan/_drivers/kashkole_adapt_all.py", line 211, in main
+    cost = _adapt_chapter(binder_id, ch_id, args.dry_run)
+  File "/Users/ahmac/Code/podcast-factory/_workspace/plan/_drivers/kashkole_adapt_all.py", line 118, in _adapt_chapter
+    result = subprocess.run(cmd, capture_output=True, text=True, cwd=REPO, timeout=1200)
+  File "/Users/ahmac/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 557, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ahmac/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ahmac/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 2154, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ahmac/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1268, in _check_timeout
+    raise TimeoutExpired(
+    ...<2 lines>...
+            stderr=b''.join(stderr_seq) if stderr_seq else None)
+subprocess.TimeoutExpired: Command '['/Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksessions/.venv/bin/python', '-m', 'tools.content_translator', 'adapt-auto', 'kashkole', '--binder', '6', '--chapter', '141']' timed out after 1200 seconds
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/kashkole-challenge-fail-report.md
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-adapt-batch.log
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-gate-report.md
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+============================================================
+Binder 35 — The Wise Reminder (2 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 176: already challenged — skip
+  ch 177: already challenged — skip
+
+  Binder 35 done: 0 adapted, 2 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 32 — Al-Ghazali — Kimiya (2 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 139: already challenged — skip
+  ch 146: already challenged — skip
+
+  Binder 32 done: 0 adapted, 2 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 36 — Islam Iman Ihsan (3 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 174: already challenged — skip
+  ch 173: already challenged — skip
+  ch 175: already challenged — skip
+
+  Binder 36 done: 0 adapted, 3 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 12 — Duʿāt Lives (3 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 36: already challenged — skip
+  ch 138: already challenged — skip
+  ch 143: already challenged — skip
+
+  Binder 12 done: 0 adapted, 3 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 5 — Devotional Poetry (3 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 50: already challenged — skip
+  ch 13: already challenged — skip
+  ch 12: already adapted — skip
+
+  Binder 5 done: 0 adapted, 3 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 16 — Selected Duʿāʾs (3 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 41: already challenged — skip
+  ch 42: already challenged — skip
+  ch 44: already challenged — skip
+
+  Binder 16 done: 0 adapted, 3 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 18 — Prophet Stories (5 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 131: already adapted — skip
+  ch 147: already challenged — skip
+  ch 52: already adapted — skip
+  ch 137: already adapted — skip
+  ch 168: already challenged — skip
+
+  Binder 18 done: 0 adapted, 5 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 25 — Daʿāʾim: Ṭahāra (5 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 88: already challenged — skip
+  ch 89: already adapted — skip
+  ch 90: already challenged — skip
+  ch 91: already challenged — skip
+  ch 92: already adapted — skip
+
+  Binder 25 done: 0 adapted, 5 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 27 — Ādāb wa-Akhlāq (6 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 56: already challenged — skip
+  ch 14: already adapted — skip
+  ch 17: already challenged — skip
+  ch 127: already challenged — skip
+  ch 128: already adapted — skip
+  ch 140: already adapted — skip
+
+  Binder 27 done: 0 adapted, 6 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 29 — Daʿāʾim: Ṣawm (4 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 133: already adapted — skip
+  ch 134: already challenged — skip
+  ch 135: already challenged — skip
+  ch 136: already challenged — skip
+
+  Binder 29 done: 0 adapted, 4 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 1 — Sciences of Origin/Return (12 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 73: already adapted — skip
+  ch 74: already challenged — skip
+  ch 125: already challenged — skip
+  ch 75: already challenged — skip
+  ch 76: already challenged — skip
+  ch 78: already adapted — skip
+  ch 80: already challenged — skip
+  ch 84: already adapted — skip
+  ch 81: already challenged — skip
+  ch 82: already adapted — skip
+  ch 20: already adapted — skip
+  ch 21: already adapted — skip
+
+  Binder 1 done: 0 adapted, 12 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 24 — Tawḥīd (7 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 130: already challenged — skip
+  ch 2: already challenged — skip
+  ch 71: already adapted — skip
+  ch 1: already challenged — skip
+  ch 121: already adapted — skip
+  ch 118: already challenged — skip
+  ch 67: already adapted — skip
+
+  Binder 24 done: 0 adapted, 7 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 26 — Daʿāʾim: Ṣalāt (8 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 93: already challenged — skip
+  ch 94: already challenged — skip
+  ch 95: already challenged — skip
+  ch 96: already challenged — skip
+  ch 97: already challenged — skip
+  ch 98: already challenged — skip
+  ch 99: already challenged — skip
+  ch 100: already challenged — skip
+
+  Binder 26 done: 0 adapted, 8 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 19 — Daʿāʾim: Wilāya (7 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 86: already challenged — skip
+  ch 71: already adapted — skip
+  ch 123: already adapted — skip
+  ch 64: already adapted — skip
+  ch 54: already adapted — skip
+  ch 122: already adapted — skip
+  ch 10: already challenged — skip
+
+  Binder 19 done: 0 adapted, 7 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 34 — Quranic Studies (14 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 155: already adapted — skip
+  ch 156: already adapted — skip
+  ch 157: already challenged — skip
+  ch 153: already challenged — skip
+  ch 154: already challenged — skip
+  ch 160: already challenged — skip
+  ch 158: already challenged — skip
+  ch 162: already challenged — skip
+  ch 163: already challenged — skip
+  ch 164: already challenged — skip
+  ch 167: already challenged — skip
+  ch 165: already challenged — skip
+  ch 166: already challenged — skip
+  ch 159: already challenged — skip
+
+  Binder 34 done: 0 adapted, 14 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 28 — Drafts (10 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 115: already adapted — skip
+  ch 117: already adapted — skip
+  ch 119: already adapted — skip
+  ch 172: already adapted — skip
+  ch 124: already adapted — skip
+  ch 126: already adapted — skip
+  ch 145: already adapted — skip
+  ch 149: already adapted — skip
+  ch 150: already adapted — skip
+  ch 161: already challenged — skip
+
+  Binder 28 done: 0 adapted, 10 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+Binder 6 — Imam ʿAlī (9 chapters)
+  Session cost so far: $5.30
+============================================================
+  ch 11: already challenged — skip
+  ch 46: already adapted — skip
+  ch 47: already adapted — skip
+  ch 144: already challenged — skip
+  ch 16: already challenged — skip
+  ch 141: adapting... Traceback (most recent call last):
+  File "/Users/ahmac/Code/podcast-factory/_workspace/plan/_drivers/kashkole_adapt_all.py", line 243, in <module>
+    main()
+    ~~~~^^
+  File "/Users/ahmac/Code/podcast-factory/_workspace/plan/_drivers/kashkole_adapt_all.py", line 211, in main
+    cost = _adapt_chapter(binder_id, ch_id, args.dry_run)
+  File "/Users/ahmac/Code/podcast-factory/_workspace/plan/_drivers/kashkole_adapt_all.py", line 118, in _adapt_chapter
+    result = subprocess.run(cmd, capture_output=True, text=True, cwd=REPO, timeout=1200)
+  File "/Users/ahmac/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 557, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ahmac/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ahmac/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 2154, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ahmac/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1268, in _check_timeout
+    raise TimeoutExpired(
+    ...<2 lines>...
+            stderr=b''.join(stderr_seq) if stderr_seq else None)
+subprocess.TimeoutExpired: Command '['/Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksessions/.venv/bin/python', '-m', 'tools.content_translator', 'adapt-auto', 'kashkole', '--binder', '6', '--chapter', '141']' timed out after 1200 seconds
