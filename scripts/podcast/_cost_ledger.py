@@ -256,10 +256,22 @@ def append_cost_row(
         cache_create=int(cache_create),
         cost_usd=cost,
     )
+    # F34-second (2026-05-25): fcntl LOCK_EX critical section around append.
+    # When run_windowed runs with max_workers > 1, parallel threads append
+    # cost rows to the SAME cost-ledger.jsonl file. Single-line writes under
+    # PIPE_BUF (4 KiB) are atomic on POSIX, but JSON serialization can exceed
+    # PIPE_BUF when token counts are large. The lock costs ~1 ms per emit
+    # (negligible vs the LLM call that produced it).
+    import fcntl as _fcntl
     ledger = book_dir / "_system" / "cost-ledger.jsonl"
     ledger.parent.mkdir(parents=True, exist_ok=True)
     with ledger.open("a", encoding="utf-8") as f:
-        f.write(json.dumps(asdict(row)) + "\n")
+        _fcntl.flock(f.fileno(), _fcntl.LOCK_EX)
+        try:
+            f.write(json.dumps(asdict(row)) + "\n")
+            f.flush()
+        finally:
+            _fcntl.flock(f.fileno(), _fcntl.LOCK_UN)
     return row
 
 

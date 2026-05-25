@@ -427,7 +427,14 @@ def author_phase_0b(
         win_in = win_out.with_suffix("").with_suffix(".in.md")  # win-NNN.in.md
         return build_phase_0b_window_prompt(book_slug, idx, total, win_in, win_out)
 
-    log("  phase 0b · chunked refinement")
+    # F34-second (2026-05-25): run windows in parallel (default 3 workers).
+    # Phase 0b refinement windows are independent (no cross-window context
+    # beyond the overlap suffix in each prompt), so they parallelize cleanly.
+    # ~3x wall-clock speedup on 9-window books (typical) at no extra cost.
+    # Override via PHASE_0B_MAX_WORKERS env var (1 = sequential, fallback path).
+    import os as _os
+    _max_workers = int(_os.environ.get("PHASE_0B_MAX_WORKERS", "3"))
+    log(f"  phase 0b · chunked refinement (parallel max_workers={_max_workers})")
     try:
         out_paths = run_windowed(
             text=raw_text,
@@ -439,6 +446,7 @@ def author_phase_0b(
             log=lambda m: log(m),
             book_dir=book_dir,
             phase="0b",
+            max_workers=_max_workers,
         )
     except ChunkingError as e:
         raise AuthoringError(
@@ -539,7 +547,10 @@ def author_phase_0c(
             f"emit just the header if the window has no Arabic terms)."
         )
 
-    log("  phase 0c · chunked phonetic extraction")
+    # F34-second (2026-05-25): same parallel-windows pattern as Phase 0b.
+    import os as _os
+    _max_workers = int(_os.environ.get("PHASE_0C_MAX_WORKERS", "3"))
+    log(f"  phase 0c · chunked phonetic extraction (parallel max_workers={_max_workers})")
     try:
         out_paths = run_windowed(
             text=refined_text,
@@ -551,6 +562,7 @@ def author_phase_0c(
             log=lambda m: log(m),
             book_dir=book_dir,
             phase="0c",
+            max_workers=_max_workers,
         )
     except ChunkingError as e:
         raise AuthoringError(
