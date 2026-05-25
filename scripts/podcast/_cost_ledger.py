@@ -107,6 +107,118 @@ def _now_iso() -> str:
     return _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
+# F36 (2026-05-25): Azure service pricing — USD per unit. Used by
+# append_azure_docintel_cost / append_azure_translator_cost / append_azure_speech_cost
+# below. Update these constants when Azure changes pricing (Azure quietly
+# trims prices; check https://azure.microsoft.com/en-us/pricing/details/).
+AZURE_PRICING_USD: dict[str, float] = {
+    "docintel_prebuilt_read_per_page": 0.0015,   # Doc Intelligence prebuilt-read
+    "translator_text_per_char": 0.00001,         # Translator Text (S1 tier)
+    "speech_neural_tts_per_char": 0.000016,      # Neural TTS standard voices
+}
+
+
+def append_azure_docintel_cost(
+    book_dir: Path,
+    *,
+    phase: str,
+    step: str,
+    pages: int,
+    ts: str | None = None,
+) -> CostRow:
+    """F36: append a cost row for an Azure Document Intelligence call.
+
+    Computes cost = pages * AZURE_PRICING_USD['docintel_prebuilt_read_per_page'].
+    Uses model='azure-docintel-prebuilt-read' so cost_ledger_summary.py and
+    cross_book_dashboard.py surface Azure spend separately from LLM spend.
+
+    Stores `pages` in the `input_tokens` field (it's the natural counter for
+    this service); `output_tokens=0`. The CostRow.model field disambiguates.
+    """
+    cost = round(pages * AZURE_PRICING_USD["docintel_prebuilt_read_per_page"], 6)
+    row = CostRow(
+        ts=ts or _now_iso(),
+        phase=phase,
+        step=step,
+        model="azure-docintel-prebuilt-read",
+        input_tokens=int(pages),
+        output_tokens=0,
+        cache_read=0,
+        cache_create=0,
+        cost_usd=cost,
+    )
+    ledger = book_dir / "_system" / "cost-ledger.jsonl"
+    ledger.parent.mkdir(parents=True, exist_ok=True)
+    with ledger.open("a", encoding="utf-8") as f:
+        f.write(json.dumps(asdict(row)) + "\n")
+    return row
+
+
+def append_azure_translator_cost(
+    book_dir: Path,
+    *,
+    phase: str,
+    step: str,
+    char_count: int,
+    ts: str | None = None,
+) -> CostRow:
+    """F36: append a cost row for an Azure Translator Text call.
+
+    Computes cost = char_count * AZURE_PRICING_USD['translator_text_per_char'].
+    Uses model='azure-translator-text'. Stores char_count in input_tokens.
+    """
+    cost = round(char_count * AZURE_PRICING_USD["translator_text_per_char"], 6)
+    row = CostRow(
+        ts=ts or _now_iso(),
+        phase=phase,
+        step=step,
+        model="azure-translator-text",
+        input_tokens=int(char_count),
+        output_tokens=0,
+        cache_read=0,
+        cache_create=0,
+        cost_usd=cost,
+    )
+    ledger = book_dir / "_system" / "cost-ledger.jsonl"
+    ledger.parent.mkdir(parents=True, exist_ok=True)
+    with ledger.open("a", encoding="utf-8") as f:
+        f.write(json.dumps(asdict(row)) + "\n")
+    return row
+
+
+def append_azure_speech_cost(
+    book_dir: Path,
+    *,
+    phase: str,
+    step: str,
+    char_count: int,
+    ts: str | None = None,
+) -> CostRow:
+    """F36: append a cost row for an Azure Speech (Neural TTS) call.
+
+    Computes cost = char_count * AZURE_PRICING_USD['speech_neural_tts_per_char'].
+    Speech is currently unused by the pipeline (NotebookLM handles TTS) but the
+    helper exists for forward-compat with future direct-synthesis paths.
+    """
+    cost = round(char_count * AZURE_PRICING_USD["speech_neural_tts_per_char"], 6)
+    row = CostRow(
+        ts=ts or _now_iso(),
+        phase=phase,
+        step=step,
+        model="azure-speech-neural-tts",
+        input_tokens=int(char_count),
+        output_tokens=0,
+        cache_read=0,
+        cache_create=0,
+        cost_usd=cost,
+    )
+    ledger = book_dir / "_system" / "cost-ledger.jsonl"
+    ledger.parent.mkdir(parents=True, exist_ok=True)
+    with ledger.open("a", encoding="utf-8") as f:
+        f.write(json.dumps(asdict(row)) + "\n")
+    return row
+
+
 def append_cost_row(
     book_dir: Path,
     *,

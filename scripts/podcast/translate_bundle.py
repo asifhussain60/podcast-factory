@@ -161,6 +161,16 @@ def translate_bundle(slug: str, *, dry_run: bool = False) -> int:
     )
     elapsed = time.monotonic() - t0
     _info(f"    translation done: {len(translated_protected):,} chars, {elapsed:.1f}s")
+    # F36 (2026-05-25): record Azure Translator spend in cost-ledger.jsonl.
+    try:
+        from _cost_ledger import append_azure_translator_cost
+        cost_row = append_azure_translator_cost(
+            book_dir=book_dir, phase="0b", step="translate-bundle/translator",
+            char_count=len(protected),
+        )
+        _info(f"    Azure cost (translator): ${cost_row.cost_usd:.4f} for {len(protected):,} input chars")
+    except Exception as _e:
+        _info(f"    WARN: cost-ledger append failed: {_e}")
 
     translated = _restore_markers(translated_protected, markers)
     restored_count = len(_PLACEHOLDER_RE.findall(translated_protected)) - \

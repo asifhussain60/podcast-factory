@@ -291,6 +291,10 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 
 **Verification:** Re-run framing-gen for one over-budget chapter (e.g., ch14b) and confirm output ≤ 3500 words without manual trim.
 
+**Status:** **CLOSED (shipped 2026-05-25).** Two-layer defense:
+1. Framing-author prompt at [_authoring.py:1576-1585](../../scripts/podcast/_authoring.py) carries explicit per-section word caps (Pronunciation 800, Central tensions 500, Three-part focus 500, etc.) plus the self-count-before-return instruction.
+2. Post-authoring guard at [_authoring.py:1791+](../../scripts/podcast/_authoring.py): `author_framing()` reads the freshly-written framing, counts words; if > FRAMING_WORD_MAX (3700), invokes ONE focused compression re-author with trim priority (Pronunciation first, then Three-part focus, Central tensions, Background). Composes with F33-second graceful-degrade — if compression also runs over, build gate handles the rest.
+
 ---
 
 ### F2 — Phase 0g framing-gen produces unused pronunciation entries
@@ -435,6 +439,8 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 
 **Verification:** Run on a chapter known to produce SHIP-WITH-CAUTION at iter 1 (e.g., KaR ch08). Confirm chapter advances to next slug even if iter-2 challenger times out.
 
+**Status:** **CLOSED (shipped 2026-05-25).** [_convergence.py:converge_chapter()](../../scripts/podcast/_convergence.py) now tracks `best_verdict_so_far` and `best_verdict_at_iter` across iterations. When a later challenger pass raises `AuthoringError` (timeout, crash, parse failure), the loop checks the prior ship signal: if iter-N produced SHIP-READY (any iter) or SHIP-WITH-CAUTION at iter >= SHIP_WITH_CAUTION_MIN_ITER, the verdict is PRESERVED rather than wiped to FAILED. Notes record "preserved SHIP-* from iter N (later challenger timeout did not invalidate the prior ship signal)" so the operator can see why the chapter shipped despite a downstream error.
+
 ---
 
 ### F12 — Episode IDs derived from chapter filename digits, not from `contract.episode_number`
@@ -450,6 +456,8 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 **Verification:** Set `episode_number: 1` on chapter contract `the-perfect-and-the-perfection-of-the-soul.yml` (currently ch03a). Run the per-chapter pass on it. Confirm episode artifact lands at `episodes/EP01-the-perfect-and-the-perfection-of-the-soul.txt`.
 
 **Out-of-band KaR-specific rename:** see [series-plan.md](../../content/drafts/kitab-al-riyad/_system/series-plan.md) footer for the per-chapter rename checklist scoped to KaR. Execution waits for the orchestrator to quiesce on the current queue.
+
+**Status:** **CLOSED (shipped 2026-05-25).** New helper `_resolve_episode_id(book_dir, chapter_file, chapter_slug)` in [orchestrate_book.py](../../scripts/podcast/orchestrate_book.py) reads `chapter-contracts/<slug>.yml` and prefers `episode_number` from the contract over filename digits. Both callsites in `per_chapter_pass()` (pre-flight lint, build) now use this helper. Falls back to filename digits (X3 letter-strip logic preserved) when contract is missing or lacks the field. Smoke-tested on the-master-and-the-disciple/ch01.
 
 ---
 
@@ -1102,6 +1110,8 @@ All zeros on every book. The pipeline never calls any `update_state(cost=...)` a
 4. Heartbeat card shows the Azure cost as the running total from state.json (already does this — will auto-populate once fields are written).
 
 **Verification:** Run Phase 0a on a 50-page test PDF. Confirm `orchestrator-state.json.cost.docintel_usd` shows ~$0.75 after the phase completes.
+
+**Status:** **CLOSED (shipped 2026-05-25).** Three new helpers in [_cost_ledger.py](../../scripts/podcast/_cost_ledger.py): `append_azure_docintel_cost(book_dir, phase, step, pages)`, `append_azure_translator_cost(book_dir, phase, step, char_count)`, `append_azure_speech_cost(book_dir, phase, step, char_count)`. Pricing constants in `AZURE_PRICING_USD` dict at top of module. Callsites wired: [ingest_source.py](../../scripts/podcast/ingest_source.py) appends after `docintel_analyze_pdf` and `translate_text`; [translate_bundle.py](../../scripts/podcast/translate_bundle.py) appends after Phase 0c translation. Rows carry `model='azure-docintel-prebuilt-read' / 'azure-translator-text' / 'azure-speech-neural-tts'` so cross_book_dashboard.py shows Azure spend in the same cost_usd column as LLM spend (separable by model field). Cost-ledger append wrapped in try/except so a ledger failure never fails the intake.
 
 ---
 

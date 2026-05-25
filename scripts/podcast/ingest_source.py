@@ -192,6 +192,16 @@ def main() -> int:
     page_count = len(analyze.get("pages") or [])
     ocr_text = _azure.docintel_pages_to_markdown(result)
     print(f"    OCR done: {page_count} pages, {len(ocr_text):,} chars, {di_elapsed:.1f}s")
+    # F36 (2026-05-25): record Azure Doc Intelligence spend in cost-ledger.jsonl.
+    try:
+        from _cost_ledger import append_azure_docintel_cost
+        cost_row = append_azure_docintel_cost(
+            book_dir=book_dir, phase="0a", step="ingest/docintel",
+            pages=page_count,
+        )
+        print(f"    Azure cost (docintel): ${cost_row.cost_usd:.4f} for {page_count} pages")
+    except Exception as _e:  # never fail intake on cost-ledger trouble
+        print(f"    WARN: cost-ledger append failed: {_e}", file=sys.stderr)
 
     # ── Translator (optional) ────────────────────────────────────────────
     if args.no_translate:
@@ -212,6 +222,17 @@ def main() -> int:
         tr_elapsed = time.monotonic() - t0
         tr_region = translator.region
         print(f"    Translation done: {len(final_text):,} chars, {tr_elapsed:.1f}s")
+        # F36 (2026-05-25): record Azure Translator spend in cost-ledger.jsonl.
+        # Translator pricing is per INPUT char; ocr_text is the input.
+        try:
+            from _cost_ledger import append_azure_translator_cost
+            cost_row = append_azure_translator_cost(
+                book_dir=book_dir, phase="0a", step="ingest/translator",
+                char_count=len(ocr_text),
+            )
+            print(f"    Azure cost (translator): ${cost_row.cost_usd:.4f} for {len(ocr_text):,} input chars")
+        except Exception as _e:
+            print(f"    WARN: cost-ledger append failed: {_e}", file=sys.stderr)
 
     # ── Persist ──────────────────────────────────────────────────────────
     raw_path.write_text(final_text, encoding="utf-8")
