@@ -1678,6 +1678,14 @@ def run_resume(args: argparse.Namespace) -> int:
     ):
         return _drive_per_chapter_and_after(book_dir)
 
+    # If we're mid-slide-deck cohort (crashed or stale-running), re-enter the
+    # per-chapter driver. It skips already-completed chapters and per-chapter-slides
+    # resumes from the slide cohort. `pending` covers the `--retry-phase` reset path.
+    if current_phase == "per-chapter-slides" and current_status in (
+        "failed", "running", "pending"
+    ):
+        return _drive_per_chapter_and_after(book_dir)
+
     # Finalize halt (added 2026-05-24): G1-G7 gates passed; human reviews in
     # podcast-reader then re-invokes --resume to authorize publish.
     if current_phase == "finalize" and current_status == "halted":

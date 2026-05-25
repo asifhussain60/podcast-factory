@@ -105,7 +105,7 @@ if [[ "$WATCHDOG_FOUND" -eq 0 ]]; then
 fi
 
 echo "▸ next actions (pick any):"
-echo "  - new book:        bash scripts/podcast/watch_orchestrator.sh <slug>  (after orchestrate_book.py --new)"
+echo "  - new book:        python3 scripts/podcast/orchestrate_book.py <pdf>  (initial launch; watchdog auto-spawns on first --resume)"
 echo "  - resume book:     bash scripts/podcast/watch_orchestrator.sh <slug>"
 echo "  - check a book:    python3 scripts/podcast/orchestrate_book.py --status <slug>"
 echo "  - publish a book:  python3 scripts/podcast/publish_to_library.py <slug> --dry-run"
