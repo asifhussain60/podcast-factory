@@ -1791,6 +1791,43 @@ def build_parser() -> argparse.ArgumentParser:
     return p
 
 
+def _maybe_relaunch_under_watchdog(slug: str) -> None:
+    """Auto-spawn watch_orchestrator.sh when --resume is called without it.
+
+    The watchdog sets PODCAST_WATCHDOG=1 in the child environment so we
+    don't recurse. When NOT under the watchdog, we spawn it in the
+    background, print the log path, and exit — the watchdog owns the run
+    from here. This fires automatically so the caller (Claude or a human)
+    never has to remember to use the watchdog explicitly.
+    """
+    if os.environ.get("PODCAST_WATCHDOG"):
+        return  # already under watchdog — proceed normally
+
+    watchdog = Path(__file__).resolve().parent / "watch_orchestrator.sh"
+    if not watchdog.exists():
+        _err("watch_orchestrator.sh not found — running WITHOUT self-healing watchdog")
+        return  # fall through; better to run unguarded than not at all
+
+    log_dir = Path(__file__).resolve().parents[2] / "_workspace" / "logs"
+    log_dir.mkdir(parents=True, exist_ok=True)
+    log_path = log_dir / f"orchestrator-{slug}.log"
+
+    print(f"  [watchdog] auto-spawning watch_orchestrator.sh for {slug}")
+    print(f"  [watchdog] log: {log_path}")
+    print(f"  [watchdog] this process exits; watchdog owns the run from here.")
+
+    import subprocess
+    with open(log_path, "a") as log_fh:
+        subprocess.Popen(
+            ["/bin/bash", str(watchdog), slug],
+            stdout=log_fh,
+            stderr=subprocess.STDOUT,
+            # Detach from our process group so it survives our exit.
+            start_new_session=True,
+        )
+    sys.exit(0)
+
+
 def main() -> int:
     args = build_parser().parse_args()
 
@@ -1806,6 +1843,12 @@ def main() -> int:
     else:
         _err("either <pdf-path> (initial) or --resume <slug> or --status <slug> is required")
         return 1
+
+    # Auto-watchdog: every --resume goes through watch_orchestrator.sh unless
+    # already running under it. Protects multi-hour runs from silent process
+    # death without the caller having to remember to use the watchdog.
+    if args.resume:
+        _maybe_relaunch_under_watchdog(slug_for_lock)
 
     lock_result = _acquire_book_lock(slug_for_lock)
     if lock_result is None:

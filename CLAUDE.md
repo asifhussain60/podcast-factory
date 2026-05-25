@@ -112,11 +112,10 @@ The default discipline is "ask before each shared-state action." Below is the st
 - Opening a DRAFT PR from a feature branch to `develop`
 - Orchestrator's automatic `book/<slug>` → `develop` merge after the `publish` phase completes successfully — this is in-pipeline and not a separate gate
 - Running `validate_ship_ready.py <slug>` (read-only G1-G7 gate runner — never writes files)
-- Launching `watch_orchestrator.sh <slug>` for any long-running book phase (self-healing; survives session close)
-- Arming a `CronCreate` 5-minute heartbeat (in-session visibility) whenever `watch_orchestrator.sh` is launched
+- Arming a `CronCreate` 5-minute heartbeat (in-session visibility) after any orchestrator resume — `orchestrate_book.py --resume` auto-spawns the watchdog itself; the CronCreate is the in-session progress layer on top
 
 **Tier 2 — Always ask. One-line ask + single-sentence Next.**
-- First-time orchestrator launch on a new book: `python3 scripts/podcast/orchestrate_book.py <pdf>` followed immediately by `bash scripts/podcast/watch_orchestrator.sh <slug>` + a `CronCreate` 5-min heartbeat (multi-hour LLM-spend gate; always launch via watchdog so the run self-heals)
+- First-time orchestrator launch on a new book: `python3 scripts/podcast/orchestrate_book.py <pdf>` (multi-hour LLM-spend gate). The orchestrator auto-spawns the watchdog on every subsequent `--resume`; no manual watchdog launch needed. Always arm a `CronCreate` 5-min heartbeat after any resume for in-session visibility.
 - `publish_to_library.py <slug>` — copying the finalized book from `content/drafts/` to `content/published/books/` (the audience-facing catalog). The orchestrator's new `finalize` phase halts BEFORE publish so Asif can review the clean version in podcast-reader and run post-pipeline analyses (A/B transcription, etc.); resuming the orchestrator after that human review is what authorizes publish.
 - Opening a `develop` → `main` PR, marking it ready, or merging it (production release gate — never auto-promoted)
 - Force-push (any branch)

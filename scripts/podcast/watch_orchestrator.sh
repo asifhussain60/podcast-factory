@@ -78,6 +78,10 @@ for attempt in $(seq 1 "$MAX_RETRIES"); do
 
     _log "--- attempt $attempt/$MAX_RETRIES · phase=$PHASE · status=$STATUS ---"
 
+    # PODCAST_WATCHDOG=1 tells orchestrate_book.py not to auto-relaunch
+    # (preventing an infinite spawn loop).
+    export PODCAST_WATCHDOG=1
+
     # Stale-running guard: orchestrator crashed while phase_status was "running".
     # --retry-phase clears the stale flag so --resume can proceed.
     if [[ "$STATUS" == "running" ]]; then
