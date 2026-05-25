@@ -85,7 +85,7 @@ After Asif provided a clearer screenshot, a second pass surfaced more issues. Th
 **Three pushbacks before execution:**
 
 1. The Arabic toggle and paragraph margin are bugs, not features. ~30 lines of CSS combined. Ship them in the first commit regardless of the rest.
-2. **AI provider split: Gemini for fast inline calls (term definitions, TTS), Claude for nuanced work (section summaries, ask-the-book).** Your pipeline already runs Claude over this exact content with doctrinal context; routing the deeper queries to Claude reuses that competence. Gemini-only is acceptable but reduces nuance on Ismaili doctrine.
+2. **AI provider routing: Gemini Flash (via keychain key) for fast term popovers; Claude via `claude -p` (Max subscription, $0 marginal cost) for section summaries and Ask-this-chapter; Azure Speech (already provisioned) for read-aloud.** All four features call Astro server endpoints — no API keys in the browser, no new keychain entries, no new billing surface. This routing follows the existing pipeline's cross-vendor pattern (Claude-primary, Gemini-second-opinion auditor). See [infra/llm-apis/README.md](../../infra/llm-apis/README.md) — source of truth, reconciled 2026-05-25.
 3. **Sequence: bug fixes → settings panel → AI.** The AI panel needs the settings chrome (popover/sheet pattern, persisted state, theming variables) as scaffolding. Building AI first means rebuilding the surrounding UX twice.
 
 ---
@@ -95,40 +95,61 @@ After Asif provided a clearer screenshot, a second pass surfaced more issues. Th
 **Estimate:** ~1 day (grew from half a day after the second-pass audit added markdown-parser gaps and layout fixes).
 **Files touched:** `podcast-reader/src/styles/global.css`, `podcast-reader/src/lib/markdown.ts`, `podcast-reader/src/pages/[worktree]/[book]/chapter/[chapter].astro`, `podcast-reader/src/components/layout/ThreePane.astro`.
 
-### 1.1 Arabic overlay CSS
+### 1.1 Arabic overlay CSS — REPLACE mode
 
-Add CSS gated on `body[data-arabic="on"]` that renders the `data-script` attribute next to each `.ar-overlay` span using the `--font-arabic-naskh` stack already loaded at the top of `global.css` (Amiri + Scheherazade New + Noto Naskh Arabic):
+**Asif's spec (clarified 2026-05-25):** the toggle should *convert* / *switch* the transliterated English into Arabic script in Amiri — not append it. So `Hujjah` becomes `حُجَّة` in place, not `Hujjah حُجَّة` beside it.
+
+Add CSS gated on `body[data-arabic="on"]` that hides the transliterated text inside each `.ar-overlay` span and renders the `data-script` value via `::before`, using the `--font-arabic-naskh` stack (Amiri + Scheherazade New + Noto Naskh Arabic — already loaded in `global.css`):
 
 ```css
-.ar-overlay::after {
-  content: "";
+.ar-overlay { transition: color 120ms ease; }
+body[data-arabic="on"] .ar-overlay {
+  font-size: 0;       /* hide the English transliteration */
+  letter-spacing: 0;
 }
-body[data-arabic="on"] .ar-overlay::after {
-  content: " " attr(data-script);
+body[data-arabic="on"] .ar-overlay::before {
+  content: attr(data-script);
   font-family: var(--font-arabic-naskh);
-  font-size: 1.05em;
+  font-size: var(--reading-size);  /* explicit because parent is 0 */
   font-style: normal;
   font-weight: 500;
-  color: var(--color-arabic);
+  line-height: var(--reading-line-height);
+  color: var(--color-ink);
   unicode-bidi: isolate;
   direction: rtl;
-  padding-left: 0.15em;
   letter-spacing: 0.01em;
 }
-/* Suppress inside Quranic refs — EB Garamond on .ref-quran fights the script. */
-body[data-arabic="on"] .ref-quran .ar-overlay::after {
-  content: "";
+/* On hover when overlay is OFF, underline the term so users discover it's interactive */
+body[data-arabic="off"] .ar-overlay:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--color-gold);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  cursor: help;
 }
-/* Dark mode contrast */
-[data-theme="dark"] body[data-arabic="on"] .ar-overlay::after {
-  color: var(--color-gold);
-}
+/* Suppress replacement inside Quranic refs — EB Garamond on .ref-quran fights the script. */
+body[data-arabic="on"] .ref-quran .ar-overlay { font-size: inherit; }
+body[data-arabic="on"] .ref-quran .ar-overlay::before { content: ""; }
+/* Theme adjustments */
+[data-theme="dark"] body[data-arabic="on"] .ar-overlay::before { color: var(--color-gold); }
+[data-theme="sepia"] body[data-arabic="on"] .ar-overlay::before { color: oklch(32% 0.08 40); }
 ```
 
+**Why `font-size: 0` + `::before`:** the original English text needs to disappear without removing the span from the layout (it's anchored for highlight-rendering and future comment-anchoring). Setting the parent's `font-size` to 0 collapses the text glyphs to nothing while the pseudo-element renders at explicit `var(--reading-size)`. The Arabic word takes the slot the English word occupied in the inline flow. RTL bidi isolation keeps the surrounding LTR line intact.
+
+**Toggle button — make it discoverable.** Replace today's small "Show A…" pill in the header with a prominent pill-button:
+
+- 2px gold border
+- Amiri "ع" glyph + "Arabic script" label + "OFF"/"ON" state badge
+- 1.8s pulse animation on first page load to draw attention
+- Hover lift effect
+- Also exposed in the Settings panel under "Overlays"
+
 **Edge cases verified:**
-- `unicode-bidi: isolate` prevents the RTL glyphs from breaking the surrounding LTR line (the existing `.se-prose .ar` rule uses the same pattern).
+- `unicode-bidi: isolate` prevents the RTL glyphs from breaking the surrounding LTR line (same pattern as `.se-prose .ar`).
 - Suppression inside `.ref-quran` avoids the EB Garamond font conflict.
-- Dark-mode contrast handled.
+- Dark-mode and Sepia contrast both handled.
+- Hover affordance reveals interactivity even when the toggle is off — users discover terms are clickable.
 
 ### 1.2 Paragraph margin and prose rhythm
 
@@ -289,28 +310,50 @@ Each is ~10 lines. Together ~40 lines added to `markdown.ts`. Test against ch01 
 
 | Control | Options | Default | CSS variable |
 |---|---|---|---|
-| Font family | Source Serif 4, EB Garamond, Iowan Old Style, Charter, Inter (sans) | Source Serif 4 | `--font-body` (override) |
-| Font size | 16 / 18 / 19 / 21 / 23 px (5-stop slider) | 19px | `--reading-size` |
+| Font family | Source Serif 4, EB Garamond, Iowan Old Style, Inter (sans), **OpenDyslexic ♿︎** | Source Serif 4 | `--font-body` (override) |
+| Font size | 16 / 18 / 19 / 21 / 23 px (5 chips) | 19px | `--reading-size` |
 | Line height | Compact 1.5, Comfortable 1.7, Airy 1.9 | 1.7 | `--reading-line-height` |
-| Reading width | Narrow 60ch, Medium 70ch, Wide 80ch, Full | 70ch | `--reading-measure` |
+| Reading width | Narrow 620px, Medium 760px, Wide 900px, Full | Wide | `--reader-width` |
 | Theme | Light, Sepia, Dark, High contrast | Light | `data-theme` attribute |
-| Reset | Button | — | — |
+| Arabic overlay | Off / On (replace transliteration with Arabic script) | Off | `body[data-arabic]` |
+| Drop cap | Off / On | On | `body[data-dropcap]` |
+| Reset | Button (clears localStorage and re-applies defaults) | — | — |
+
+**On the dyslexic font.** OpenDyslexic is the recognized "dyslexia font" — letters have weighted bottoms to reduce mirror-confusion (b/d, p/q). Loaded from `https://fonts.cdnfonts.com/css/opendyslexic` (CDN, no local hosting needed). Worth noting: current reading-comprehension research (Microsoft, British Dyslexia Association) finds **Lexend** measurably faster for reading proficiency, even though OpenDyslexic is more recognizable. Both fonts are loaded in the mock. If you prefer Lexend as the actual accessibility choice (with OpenDyslexic as a font-family fallback in the same chip), the trade-off is: keep the "Dyslexic" label users search for, get the research-backed font behind it. Easy swap — flag at execution time.
 
 ### 2.2 Storage shape
 
+All reader controls persist to a single localStorage blob, applied on every page load via the early-running `ThemeScript.astro` (so there's no FOUC).
+
 ```ts
-// localStorage["podcast-reader:reader-settings"]
-{
-  schemaVersion: 1,
-  font: "source-serif-4" | "eb-garamond" | "iowan" | "charter" | "inter",
-  size: 16 | 18 | 19 | 21 | 23,
-  lineHeight: 1.5 | 1.7 | 1.9,
-  width: 60 | 70 | 80 | -1,  // -1 = Full
-  theme: "light" | "sepia" | "dark" | "high-contrast"
+// localStorage["podcast-reader:settings"]
+interface ReaderSettings {
+  schemaVersion: 1;
+  font: "source-serif" | "eb-garamond" | "iowan" | "inter" | "opendyslexic";
+  size: 16 | 18 | 19 | 21 | 23;
+  lineHeight: 1.5 | 1.7 | 1.9;
+  width: "narrow" | "medium" | "wide" | "full";
+  theme: "light" | "sepia" | "dark" | "hc";
+  arabicOverlay: boolean;
+  dropCap: boolean;
 }
 ```
 
-Existing localStorage keys are preserved (`podcast-reader-theme`, `podcast-reader:arabic-overlay`) for backward compatibility — Phase 2 reads them on first load and migrates into the new blob.
+**Persistence semantics:**
+- Every chip click writes immediately to localStorage (no Save button); ~50ms flash of "✓ Saved" in the panel corner gives confirmation.
+- Schema-version check on load — if it doesn't match, fall back to defaults (lets us evolve the shape later without breaking existing users).
+- `Reset to defaults` button: `localStorage.removeItem(SETTINGS_KEY)` + apply defaults.
+- Settings persist globally across all books (one reader, one preference).
+
+**Migration from existing localStorage keys.** Legacy keys read once on first load and merged into the new blob, then deleted:
+
+| Legacy key | Maps to | Then |
+|---|---|---|
+| `podcast-reader-theme` | `theme` | delete legacy key |
+| `podcast-reader:arabic-overlay` | `arabicOverlay` | delete legacy key |
+| `podcast-reader:reader-settings` (if it was ever written under this older proposed name) | merge as-is | delete legacy key |
+
+This guarantees Asif's existing dark-mode preference doesn't reset when Phase 2 ships.
 
 ### 2.3 UI placement
 
@@ -369,7 +412,27 @@ To absorb the rest of the second-pass-audit chrome findings:
 ## Phase 3 — AI reading layer
 
 **Estimate:** ~1.5 days.
-**Provider split:** Gemini Flash for fast inline (definitions, TTS). Claude Haiku for short nuanced calls (section summaries). Claude Sonnet for deeper conversations (ask-this-chapter). All optional; all behind explicit user action; no background calls.
+**Provider routing (per [infra/llm-apis/README.md](../../infra/llm-apis/README.md) source of truth, last reconciled 2026-05-25):**
+
+| Feature | Provider | Auth model | Marginal cost |
+|---|---|---|---|
+| Term popover | Gemini Flash | Keychain `gemini_api_key` → server endpoint | Counts against $10/mo Google Cloud cap |
+| Section summary | Claude Haiku via `claude -p` | Max subscription OAuth (no API key) | $0 — covered by Max |
+| Ask this chapter | Claude Sonnet/Opus via `claude -p` | Max subscription OAuth (no API key) | $0 — covered by Max |
+| Read aloud | Azure Speech | Keychain `azure-podcast-speech-*` → server endpoint | Pay-as-you-go Azure (already provisioned) |
+
+**Architectural rule (new — supersedes the earlier "API keys in localStorage" plan):**
+- No API keys ever live in the browser.
+- All four features hit Astro server endpoints under `src/pages/api/*.ts`.
+- Server endpoints read keys from macOS keychain via `security find-generic-password` (the same pattern `scripts/podcast/audit_bundle_gemini.py` uses today).
+- Claude calls shell out to `claude -p` via Node `child_process` — the pipeline already does this in `scripts/podcast/_authoring.py`, so the pattern is proven.
+- All optional; all behind explicit user action; no background calls.
+
+**Why this is better than the previous draft:**
+- Claude is **free** on this Mac (Max covers Sonnet 4.6 / Haiku 4.5 / Opus 4.7 unlimited). My earlier plan worried about per-token cost on Claude — that worry is gone.
+- No new API keys for Asif to manage; the keychain entries the pipeline already uses are exactly what the reader needs.
+- Azure Speech replaces the proposed Google Cloud TTS because Azure is already provisioned for the pipeline's translator/speech stack.
+- The "Cloudflare Worker proxy follow-up" I had flagged as deferred is now unnecessary — Astro's Node adapter is the proxy.
 
 ### 3.1 Term-definition popover (Gemini Flash)
 
@@ -393,27 +456,29 @@ To absorb the rest of the second-pass-audit chrome findings:
 **Behavior:** User types a question in a small chat box. Claude Sonnet answers, grounded in the current chapter's full text. Citations are inline links back to anchors in the chapter. Conversation persists for the session; cleared on chapter change.
 **Why Claude Sonnet:** longest context, best citation discipline, best nuance on scholarly text.
 
-### 3.4 Read-aloud (Google Cloud TTS — Studio voices)
+### 3.4 Read-aloud (Azure Speech — already provisioned)
 
 **Location:** Sticky bottom playback bar (collapsible).
-**Controls:** Play/pause, speed (0.75x / 1x / 1.25x / 1.5x), voice picker (Studio voices — Neural2-G, etc.).
+**Controls:** Play/pause, speed (0.75x / 1x / 1.25x / 1.5x), voice picker (Azure Neural voices — `en-US-JennyNeural`, `en-US-GuyNeural`, etc.).
 **Behavior:** Reads from current scroll position. Optional auto-scroll highlights the currently-spoken sentence. Phonetic Arabic terms get pronounced using the `audio_phonetic` field already in `glossary.yml` (e.g. "JAH-far ibn man-SOOR al-YAH-man") — we feed TTS the audio_phonetic instead of the written phonetic so prosody is right.
-**Why Google here:** Studio voices are the best in the industry for English at this price point.
+**Why Azure here:** Azure Speech is already provisioned for this account (`azure-podcast-speech-endpoint`, `azure-podcast-speech-key1`, `azure-podcast-speech-region` in keychain). The pipeline's existing translator/speech stack already uses it. No new provider, no new billing surface.
 
 ### 3.5 Implementation
 
-**LLM routing.** Single `src/lib/ai-client.ts`:
+**Server-side routing via Astro endpoints.** The reader app is Astro with the Node adapter, so it already has server-side endpoints. We add four:
 
-```ts
-export async function geminiFast(prompt: string, opts?): Promise<string>
-export async function claudeHaiku(prompt: string, opts?): Promise<string>
-export async function claudeSonnet(prompt: string, opts?): Promise<string>
-export async function tts(text: string, voice: string): Promise<Blob>
-```
+- `src/pages/api/ai/define-term.ts` — Gemini Flash, POST `{phonetic, context}` → `{definition}`. Reads `gemini_api_key` from keychain via `security find-generic-password -s gemini_api_key -a $USER -w`. Cached in localStorage on the browser side.
+- `src/pages/api/ai/summarize-section.ts` — Claude Haiku via `claude -p`, POST `{sectionText}` → `{summary}`. Spawns `claude -p` as a child process; no API key needed (Max subscription OAuth).
+- `src/pages/api/ai/ask-chapter.ts` — Claude Sonnet via `claude -p` (streaming), POST `{chapterText, question}` → SSE stream of tokens.
+- `src/pages/api/tts.ts` — Azure Speech, POST `{text, voice}` → audio Blob. Reads `azure-podcast-speech-key1` + endpoint + region from keychain.
 
-Each function reads its API key from `localStorage["podcast-reader:api-keys"]`, calls the provider's HTTP API directly from the browser, and logs the call to a local debug console (no telemetry leaves the machine).
+**Client-side helper:** Single `src/lib/ai-client.ts` exports four thin fetch wrappers — `defineTerm()`, `summarizeSection()`, `askChapter()` (returns AsyncIterable for streaming), `tts()`. Browser code never sees a key.
 
-**API key storage.** First iteration: user pastes Gemini and Claude keys into a "Keys" tab in the settings panel; stored in localStorage. Acknowledged risk: keys are in cleartext in the browser. **Follow-up (out of scope here):** proxy through a Cloudflare Worker so keys live server-side. CLAUDE.md retired the previous Worker scaffold, so this needs its own decision.
+**Cache layer.** `src/lib/ai-cache.ts` — localStorage cache for term definitions (forever) and section summaries (until section-text hash changes). Reduces repeat API costs to zero and gives instant warm-cache responses.
+
+**Debug telemetry.** Each AI endpoint logs `{provider, feature, ms, success}` to a local debug console accessible via `localStorage["podcast-reader:ai-debug"]=true`. No telemetry leaves the machine.
+
+**Budget guardrail.** Gemini call rate-limited at the endpoint to prevent runaway loops (the $10/mo Google Cloud cap is the hard tripwire, but the endpoint adds a soft 100-calls/hour limit per term-cache miss).
 
 **New files:**
 - `src/components/reader/TermPopover.tsx`
@@ -458,11 +523,12 @@ These were considered and consciously left out:
 
 ## Open decisions (flagged, not blocking)
 
-1. **Gemini API key location.** Where do you keep your Gemini key today? If it's in a `.env` somewhere I can read it in dev; production needs the Worker proxy follow-up.
-2. **Claude API key.** Do you want me to add Claude routes (recommended for sections (3.2) and (3.3)) or stay Gemini-only? If Gemini-only, those features work but with weaker nuance on doctrinal content.
+1. ~~Gemini API key location.~~ **Resolved 2026-05-25:** keychain entry `gemini_api_key` per [infra/llm-apis/README.md](../../infra/llm-apis/README.md). Server endpoint reads it via `security find-generic-password`.
+2. ~~Claude API key.~~ **Resolved 2026-05-25:** no API key — `claude -p` via Max subscription OAuth, $0 marginal cost. Same pattern as `scripts/podcast/_authoring.py` and `scripts/podcast/audit_bundle.py`.
 3. **Sepia palette.** I'll pick warm cream `oklch(95% 0.04 75)` with sepia ink `oklch(28% 0.04 50)` unless you have a specific palette in mind.
 4. **Mobile breakpoint.** Bottom sheet kicks in below `md` (768px). Confirm this works for iPad reading.
-5. **API key follow-up: Cloudflare Worker proxy.** CLAUDE.md retired the previous Worker scaffold. Decision needed on whether to re-introduce a small proxy for AI keys.
+5. ~~API key follow-up: Cloudflare Worker proxy.~~ **Resolved 2026-05-25:** unnecessary. Astro Node adapter's server endpoints replace the Worker proxy concept. Keys never reach the browser.
+6. **Production deployment.** The reader runs as `astro dev` locally today. If you want the AI features on a deployed instance later, the keychain-on-Mac pattern needs to translate to a server secret store (1Password, Vault, env vars on the deploy host). Out of scope here; flagged for whenever you decide to publish the reader beyond `localhost:4321`.
 
 ---
 

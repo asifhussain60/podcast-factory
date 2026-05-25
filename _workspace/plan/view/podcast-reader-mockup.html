@@ -6,7 +6,8 @@
 <title>Podcast Reader — proposed polish mockup</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Source+Serif+4:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=Amiri:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Source+Serif+4:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=Amiri:wght@400;500;700&family=Lexend:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.cdnfonts.com/css/opendyslexic">
 <style>
 /* ──────────────────────────────────────────────────────────────
    Mockup CSS — represents Phase 1 + Phase 2 + Phase 3 affordances.
@@ -135,13 +136,50 @@ body {
 .icon-btn:hover { color: var(--color-ink); border-color: var(--color-ink-tertiary); }
 .icon-btn[aria-pressed="true"] { background: oklch(94% 0.05 80); border-color: var(--color-gold); color: oklch(35% 0.13 60); }
 
+/* Prominent Arabic toggle — the headline interaction */
+.arabic-toggle-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 9px 16px; border-radius: 999px;
+  border: 2px solid var(--color-gold-deep);
+  background: oklch(96% 0.045 80);
+  color: oklch(35% 0.14 65);
+  font-size: 13px; font-weight: 600; font-family: var(--font-ui);
+  cursor: pointer; transition: all 150ms ease;
+  box-shadow: 0 1px 0 oklch(85% 0.10 80) inset;
+}
+.arabic-toggle-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px oklch(80% 0.10 75); }
+.arabic-toggle-btn[aria-pressed="true"] {
+  background: var(--color-gold-deep);
+  color: white;
+  border-color: var(--color-gold-deep);
+}
+.arabic-toggle-btn .ar-glyph { font-family: "Amiri", serif; font-size: 18px; line-height: 1; }
+.arabic-toggle-btn .state {
+  font-family: var(--font-ui); font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  padding: 2px 7px; border-radius: 999px;
+  background: oklch(100% 0 0 / 0.4);
+  color: inherit;
+}
+.arabic-toggle-btn[aria-pressed="true"] .state {
+  background: oklch(0% 0 0 / 0.18);
+}
+
+/* Pulse animation to draw attention to the toggle on first load */
+@keyframes pulse-attention {
+  0%, 100% { box-shadow: 0 0 0 0 oklch(72% 0.13 80 / 0.6); }
+  50% { box-shadow: 0 0 0 10px oklch(72% 0.13 80 / 0); }
+}
+.arabic-toggle-btn.pulse { animation: pulse-attention 1.8s ease-in-out 3; }
+
 /* ── Content area ──────────────────────────────────────────────── */
 .content-wrap {
   max-width: 1080px; width: 100%; margin: 0 auto;
   padding: 24px;
   display: grid; grid-template-columns: 1fr 220px; gap: 32px;
 }
-.content { min-width: 0; }
+.content { min-width: 0; max-width: var(--reader-width, none); }
+:root { --reader-width: none; }
 .right-rail { font-family: var(--font-ui); font-size: 12px; }
 .right-rail-section { margin-bottom: 24px; }
 .right-rail-title { text-transform: uppercase; letter-spacing: 0.12em; font-size: 10px; font-weight: 600; color: var(--color-ink-tertiary); margin-bottom: 8px; }
@@ -232,7 +270,7 @@ body {
 .prose-body blockquote p { margin: 0.3em 0; }
 .prose-body blockquote cite { display: block; font-style: normal; font-family: var(--font-ui); font-size: 12px; color: var(--color-ink-tertiary); margin-top: 6px; }
 .prose-body strong { font-weight: 600; }
-.prose-body > p:first-of-type::first-letter {
+body[data-dropcap="on"] .prose-body > p:first-of-type::first-letter {
   font-family: var(--font-ref-quran);
   font-size: 3.4em;
   float: left;
@@ -242,21 +280,38 @@ body {
   font-weight: 500;
 }
 
-/* ── Arabic overlay — THE PHASE 1 FIX ──────────────────────────── */
-.ar-overlay { position: relative; }
-body[data-arabic="on"] .ar-overlay::after {
-  content: " " attr(data-script);
-  font-family: var(--font-arabic-naskh);
-  font-size: 1.05em;
+/* ── Arabic overlay — REPLACE mode (Hujjah → حُجَّة) ───────────── */
+/* When off, .ar-overlay shows its plain text content (the transliteration).
+   When on, the original text is hidden and the ::before pseudo-element
+   renders the data-script value in Amiri (naskh) at the same inline position. */
+.ar-overlay { position: relative; transition: color 120ms ease; }
+body[data-arabic="on"] .ar-overlay {
+  font-size: 0;       /* hide the English transliteration */
+  letter-spacing: 0;
+}
+body[data-arabic="on"] .ar-overlay::before {
+  content: attr(data-script);
+  font-family: "Amiri", "Scheherazade New", serif;
+  font-size: 19px;    /* explicit because parent is 0 */
   font-style: normal;
   font-weight: 500;
-  color: var(--color-arabic);
+  line-height: var(--reading-line-height);
+  color: var(--color-ink);
   unicode-bidi: isolate;
   direction: rtl;
-  padding-left: 0.18em;
   letter-spacing: 0.01em;
 }
-[data-theme="dark"] body[data-arabic="on"] .ar-overlay::after { color: var(--color-gold); }
+/* On hover when overlay is OFF, underline the term subtly so users know it's interactive */
+body[data-arabic="off"] .ar-overlay:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--color-gold);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  cursor: help;
+}
+/* In dark mode, the Arabic glyphs need a slightly different ink */
+[data-theme="dark"] body[data-arabic="on"] .ar-overlay::before { color: var(--color-gold); }
+[data-theme="sepia"] body[data-arabic="on"] .ar-overlay::before { color: oklch(32% 0.08 40); }
 
 /* ── AI affordances (Phase 3) — inline buttons in the gutter ───── */
 .section-with-ai { position: relative; }
@@ -358,7 +413,7 @@ body[data-arabic="on"] .ar-overlay::after {
 }
 </style>
 </head>
-<body data-arabic="off">
+<body data-arabic="off" data-dropcap="on">
 
 <!-- Reading-progress sliver -->
 <div class="progress"></div>
@@ -397,8 +452,10 @@ body[data-arabic="on"] .ar-overlay::after {
           <span class="current">Ch02 (source)</span>
         </nav>
         <div class="icon-row">
-          <button class="icon-btn" id="arabic-toggle" aria-pressed="false" onclick="toggleArabic()">
-            <span style="font-family: serif;">ع</span> Arabic
+          <button class="arabic-toggle-btn pulse" id="arabic-toggle" aria-pressed="false" onclick="toggleArabic()" title="Switch transliterated terms (Hujjah) into Arabic script (حُجَّة)">
+            <span class="ar-glyph">ع</span>
+            <span>Arabic script</span>
+            <span class="state" id="arabic-state">OFF</span>
           </button>
           <button class="icon-btn" onclick="toggleSettings()" title="Reader settings (cmd+,)">
             <strong style="font-family: serif;">Aa</strong> Settings
@@ -430,6 +487,11 @@ body[data-arabic="on"] .ar-overlay::after {
           <hr class="gold-hairline" />
         </header>
 
+        <!-- Mockup hint banner — would be omitted in real prod -->
+        <div style="margin-bottom: 24px; padding: 12px 16px; background: oklch(96% 0.04 80); border: 1px dashed var(--color-gold); border-radius: 8px; font-size: 13px; color: oklch(35% 0.10 65); font-family: var(--font-ui);">
+          <strong>Try it:</strong> click <strong style="border-bottom: 2px solid var(--color-gold-deep);">ع Arabic script</strong> in the header above to switch the highlighted terms below from transliteration (<em>God</em>, <em>Ismaili</em>, <em>"Be"</em>, <em>arguments</em>) into their original Arabic in Amiri font.
+        </div>
+
         <div class="prose-body">
 
           <div class="section-with-ai">
@@ -442,7 +504,7 @@ body[data-arabic="on"] .ar-overlay::after {
 
             <!-- Phase 3: Section summary (toggled visible here for demo) -->
             <div class="ai-summary">
-              <div class="ai-label">✦ AI Summary · Claude Haiku</div>
+              <div class="ai-label">✦ AI Summary · Claude Haiku (via Max)</div>
               The chapter begins immediately after the disciple's binding to the covenant. The author shifts from explaining the <em>outer</em> mechanics of initiation to walking the disciple through the cosmological <em>architecture</em> behind it — the doctrines of will/command/saying, the parallel between the seven heavens and the seven prophets, and the three layers of knowledge — all presented as a single ordered structure rather than separate teachings.
             </div>
           </div>
@@ -512,7 +574,7 @@ body[data-arabic="on"] .ar-overlay::after {
         <div class="right-rail-section">
           <div class="right-rail-title">✦ Ask this chapter</div>
           <div class="ask-box">
-            <div class="ask-prompt">Grounded in this chapter only. Powered by Claude Sonnet.</div>
+            <div class="ask-prompt">Grounded in this chapter only. Powered by Claude (via Max subscription).</div>
             <input class="ask-input" placeholder="Ask a question…" />
           </div>
         </div>
@@ -520,7 +582,7 @@ body[data-arabic="on"] .ar-overlay::after {
         <div class="right-rail-section">
           <div class="right-rail-title">🔊 Read aloud</div>
           <button class="icon-btn" style="width: 100%; justify-content: center;">▶︎ Play from top</button>
-          <div style="font-size: 11px; color: var(--color-ink-tertiary); margin-top: 6px; text-align: center;">Google Studio voice</div>
+          <div style="font-size: 11px; color: var(--color-ink-tertiary); margin-top: 6px; text-align: center;">Azure Speech (already provisioned)</div>
         </div>
       </aside>
 
@@ -551,41 +613,42 @@ body[data-arabic="on"] .ar-overlay::after {
 
   <div class="settings-group">
     <div class="settings-label">Font</div>
-    <div class="settings-row">
-      <button class="setting-chip active" style="font-family: 'Source Serif 4', serif;">Source</button>
-      <button class="setting-chip" style="font-family: 'EB Garamond', serif;">Garamond</button>
-      <button class="setting-chip" style="font-family: 'Iowan Old Style', Georgia, serif;">Iowan</button>
-      <button class="setting-chip" style="font-family: Inter, sans-serif;">Sans</button>
+    <div class="settings-row" style="flex-wrap: wrap;">
+      <button class="setting-chip" data-setting="font" data-value="source-serif" style="font-family: 'Source Serif 4', serif;">Source</button>
+      <button class="setting-chip" data-setting="font" data-value="eb-garamond" style="font-family: 'EB Garamond', serif;">Garamond</button>
+      <button class="setting-chip" data-setting="font" data-value="iowan" style="font-family: 'Iowan Old Style', Georgia, serif;">Iowan</button>
+      <button class="setting-chip" data-setting="font" data-value="inter" style="font-family: Inter, sans-serif;">Sans</button>
+      <button class="setting-chip" data-setting="font" data-value="opendyslexic" style="font-family: 'OpenDyslexic', sans-serif; flex: 1 0 100%; margin-top: 4px;" title="OpenDyslexic — weighted bottom letters reduce confusion for dyslexic readers">♿︎ Dyslexic (OpenDyslexic)</button>
     </div>
   </div>
 
   <div class="settings-group">
     <div class="settings-label">Font size</div>
     <div class="settings-row">
-      <button class="setting-chip">16</button>
-      <button class="setting-chip">18</button>
-      <button class="setting-chip active">19</button>
-      <button class="setting-chip">21</button>
-      <button class="setting-chip">23</button>
+      <button class="setting-chip" data-setting="size" data-value="16">16</button>
+      <button class="setting-chip" data-setting="size" data-value="18">18</button>
+      <button class="setting-chip" data-setting="size" data-value="19">19</button>
+      <button class="setting-chip" data-setting="size" data-value="21">21</button>
+      <button class="setting-chip" data-setting="size" data-value="23">23</button>
     </div>
   </div>
 
   <div class="settings-group">
     <div class="settings-label">Line height</div>
     <div class="settings-row">
-      <button class="setting-chip">Compact</button>
-      <button class="setting-chip active">Comfortable</button>
-      <button class="setting-chip">Airy</button>
+      <button class="setting-chip" data-setting="lineHeight" data-value="1.5">Compact</button>
+      <button class="setting-chip" data-setting="lineHeight" data-value="1.7">Comfortable</button>
+      <button class="setting-chip" data-setting="lineHeight" data-value="1.9">Airy</button>
     </div>
   </div>
 
   <div class="settings-group">
     <div class="settings-label">Reading width</div>
     <div class="settings-row">
-      <button class="setting-chip">Narrow</button>
-      <button class="setting-chip">Medium</button>
-      <button class="setting-chip active">Wide</button>
-      <button class="setting-chip">Full</button>
+      <button class="setting-chip" data-setting="width" data-value="narrow">Narrow</button>
+      <button class="setting-chip" data-setting="width" data-value="medium">Medium</button>
+      <button class="setting-chip" data-setting="width" data-value="wide">Wide</button>
+      <button class="setting-chip" data-setting="width" data-value="full">Full</button>
     </div>
   </div>
 
@@ -593,54 +656,175 @@ body[data-arabic="on"] .ar-overlay::after {
     <div class="settings-label">Overlays</div>
     <div class="settings-row">
       <button class="setting-chip" id="settings-arabic" onclick="toggleArabic()">Arabic script</button>
-      <button class="setting-chip">Drop cap</button>
+      <button class="setting-chip" data-setting="dropCap" data-value="toggle" onclick="toggleDropCap()" id="settings-dropcap">Drop cap</button>
     </div>
   </div>
 
-  <button class="icon-btn" style="width: 100%; justify-content: center; margin-top: 8px;">Reset to defaults</button>
+  <button class="icon-btn" style="width: 100%; justify-content: center; margin-top: 8px;" onclick="resetSettings()">Reset to defaults</button>
+  <div id="save-toast" style="position: absolute; bottom: 12px; right: 16px; font-size: 11px; color: oklch(50% 0.15 145); opacity: 0; transition: opacity 300ms; font-family: var(--font-ui);">✓ Saved to localStorage</div>
 </div>
 
 <!-- Mockup annotation -->
 <div class="annotation" style="top: 8px;">MOCKUP — proposed post-Phase-1+2 view (Phase 3 AI affordances shown)</div>
 
 <script>
-function toggleArabic() {
+/* ──────────────────────────────────────────────────────────────
+   Reader settings — single localStorage blob, applied via
+   CSS custom properties + data-* attributes. Mirrors the
+   schema specced in §2.2 of the plan.
+   ────────────────────────────────────────────────────────────── */
+const SETTINGS_KEY = 'podcast-reader:settings';
+const SCHEMA_VERSION = 1;
+const DEFAULTS = {
+  schemaVersion: SCHEMA_VERSION,
+  font: 'source-serif',
+  size: 19,
+  lineHeight: 1.7,
+  width: 'wide',
+  theme: 'light',
+  arabicOverlay: false,
+  dropCap: true,
+};
+const FONTS = {
+  'source-serif':  '"Source Serif 4", Georgia, serif',
+  'eb-garamond':   '"EB Garamond", Georgia, serif',
+  'iowan':         '"Iowan Old Style", Georgia, serif',
+  'inter':         '"Inter", system-ui, sans-serif',
+  'opendyslexic':  '"OpenDyslexic", "Lexend", system-ui, sans-serif',
+};
+const WIDTHS = { narrow: '620px', medium: '760px', wide: '900px', full: 'none' };
+
+function loadSettings() {
+  try {
+    const raw = JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}');
+    if (raw.schemaVersion !== SCHEMA_VERSION) return { ...DEFAULTS };
+    return { ...DEFAULTS, ...raw };
+  } catch { return { ...DEFAULTS }; }
+}
+
+function saveSettings(patch) {
+  const next = { ...loadSettings(), ...patch, schemaVersion: SCHEMA_VERSION };
+  try {
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(next));
+    flashSaved();
+  } catch { /* private-mode: ignore */ }
+  applySettings(next);
+  return next;
+}
+
+function applySettings(s) {
+  const root = document.documentElement;
   const body = document.body;
-  const on = body.dataset.arabic !== 'on';
-  body.dataset.arabic = on ? 'on' : 'off';
-  document.getElementById('arabic-toggle').setAttribute('aria-pressed', on);
-  const s = document.getElementById('settings-arabic');
-  if (s) s.classList.toggle('active', on);
+  root.style.setProperty('--font-body', FONTS[s.font] || FONTS['source-serif']);
+  root.style.setProperty('--reading-size', s.size + 'px');
+  root.style.setProperty('--reading-line-height', s.lineHeight);
+  root.style.setProperty('--reader-width', WIDTHS[s.width] || 'none');
+
+  // Theme
+  const themeMap = { light: 'light', sepia: 'sepia', dark: 'dark', hc: 'light' };
+  root.setAttribute('data-theme', themeMap[s.theme] || 'light');
+  if (s.theme === 'hc') {
+    root.style.setProperty('--color-surface-page', 'white');
+    root.style.setProperty('--color-ink', 'black');
+    root.style.setProperty('--color-rule-default', 'black');
+  } else {
+    root.style.removeProperty('--color-surface-page');
+    root.style.removeProperty('--color-ink');
+    root.style.removeProperty('--color-rule-default');
+  }
+
+  // Arabic + drop-cap
+  body.dataset.arabic = s.arabicOverlay ? 'on' : 'off';
+  body.dataset.dropcap = s.dropCap ? 'on' : 'off';
+
+  refreshUI(s);
+}
+
+function refreshUI(s) {
+  // Settings panel chips
+  document.querySelectorAll('.setting-chip[data-setting]').forEach(el => {
+    const setting = el.dataset.setting;
+    const value = el.dataset.value;
+    let active = false;
+    if (setting === 'size') active = +value === s.size;
+    else if (setting === 'lineHeight') active = +value === s.lineHeight;
+    else active = value === String(s[setting]);
+    el.classList.toggle('active', active);
+  });
+
+  // Theme chips
+  document.querySelectorAll('.setting-chip.theme-light, .setting-chip.theme-sepia, .setting-chip.theme-dark, .setting-chip.theme-hc').forEach(el => el.classList.remove('active'));
+  document.querySelector('.setting-chip.theme-' + s.theme)?.classList.add('active');
+
+  // Arabic toggle button state
+  const arabicBtn = document.getElementById('arabic-toggle');
+  if (arabicBtn) {
+    arabicBtn.setAttribute('aria-pressed', s.arabicOverlay);
+    const stateEl = document.getElementById('arabic-state');
+    if (stateEl) stateEl.textContent = s.arabicOverlay ? 'ON' : 'OFF';
+  }
+  document.getElementById('settings-arabic')?.classList.toggle('active', s.arabicOverlay);
+  document.getElementById('settings-dropcap')?.classList.toggle('active', s.dropCap);
+}
+
+function flashSaved() {
+  const toast = document.getElementById('save-toast');
+  if (!toast) return;
+  toast.style.opacity = '1';
+  clearTimeout(window.__saveToast);
+  window.__saveToast = setTimeout(() => { toast.style.opacity = '0'; }, 900);
+}
+
+/* Public actions — wired from inline onclick */
+function toggleArabic() {
+  const cur = loadSettings();
+  const btn = document.getElementById('arabic-toggle');
+  if (btn) btn.classList.remove('pulse');
+  saveSettings({ arabicOverlay: !cur.arabicOverlay });
+}
+function toggleDropCap() {
+  const cur = loadSettings();
+  saveSettings({ dropCap: !cur.dropCap });
 }
 function toggleSettings() {
   document.getElementById('settings').classList.toggle('open');
 }
 function setTheme(t) {
-  const map = { light: 'light', sepia: 'sepia', dark: 'dark', hc: 'light' };
-  document.documentElement.setAttribute('data-theme', map[t] || 'light');
-  if (t === 'hc') {
-    document.documentElement.style.setProperty('--color-surface-page', 'white');
-    document.documentElement.style.setProperty('--color-ink', 'black');
-    document.documentElement.style.setProperty('--color-rule-default', 'black');
-  } else {
-    document.documentElement.style.removeProperty('--color-surface-page');
-    document.documentElement.style.removeProperty('--color-ink');
-    document.documentElement.style.removeProperty('--color-rule-default');
-  }
-  document.querySelectorAll('.setting-chip.theme-light, .setting-chip.theme-sepia, .setting-chip.theme-dark, .setting-chip.theme-hc').forEach(el => el.classList.remove('active'));
-  document.querySelector('.setting-chip.theme-' + t)?.classList.add('active');
+  saveSettings({ theme: t });
 }
-// keyboard shortcut: cmd+,
+function resetSettings() {
+  localStorage.removeItem(SETTINGS_KEY);
+  applySettings(DEFAULTS);
+  flashSaved();
+}
+
+/* Wire every data-attributed chip exactly once */
+document.querySelectorAll('.setting-chip[data-setting]').forEach(el => {
+  el.addEventListener('click', () => {
+    const setting = el.dataset.setting;
+    let value = el.dataset.value;
+    if (setting === 'size') value = +value;
+    if (setting === 'lineHeight') value = +value;
+    if (setting === 'dropCap') return; // handled by toggleDropCap onclick
+    saveSettings({ [setting]: value });
+  });
+});
+
+/* Keyboard shortcuts */
 window.addEventListener('keydown', (e) => {
   if ((e.metaKey || e.ctrlKey) && e.key === ',') { e.preventDefault(); toggleSettings(); }
   if (e.key === 'Escape') document.getElementById('settings').classList.remove('open');
 });
-// reading progress (mock — drives the gold bar from scroll)
+
+/* Reading progress sliver — drives the gold bar from scroll */
 window.addEventListener('scroll', () => {
   const h = document.documentElement;
   const pct = h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight);
   document.querySelector('.progress').style.transform = `scaleX(${pct})`;
 });
+
+/* Initial paint — apply persisted settings on load */
+applySettings(loadSettings());
 </script>
 
 </body>

@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "last_updated": null,
+  "counts": {
+    "quran": 0,
+    "hadith": 0,
+    "quote": 0,
+    "etymology": 0,
+    "definition": 0
+  },
+  "books_contributed": 0,
+  "top_cited_atoms": [],
+  "_note": "Updated automatically by the Librarian. Wave 1 ships quran + hadith only."
+}
