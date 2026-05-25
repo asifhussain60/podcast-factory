@@ -106,6 +106,8 @@ EXTRACT_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "extract_chapter.py"
 BUILD_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "build_episode_txt.py"
 AZURE_PROBE = REPO_ROOT / "scripts" / "podcast" / "test_azure_connectivity.py"
 CHAPTER_SET_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "check_chapter_set.py"
+AUDIT_BUNDLE_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "audit_bundle.py"
+AUDIT_BUNDLE_GEMINI_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "audit_bundle_gemini.py"
 LOCKS_DIR = Path.home() / ".podcast-locks"
 
 from _rules import ALLOWED_CATEGORIES  # noqa: E402  centralized 2026-05-23 per AU-X1-001
@@ -815,6 +817,165 @@ def phase_0g_register(book_dir: Path) -> None:
             f.write("\n".join(new_lines) + "\n")
 
 
+# ─── Phase 0g — dual-auditor bundle sweep (F30) ─────────────────────────────
+
+
+def _gemini_key_available() -> bool:
+    """Check whether Gemini API key exists in macOS keychain."""
+    try:
+        proc = subprocess.run(
+            ["security", "find-generic-password", "-s", "gemini_api_key"],
+            capture_output=True, text=True, check=False,
+        )
+        return proc.returncode == 0
+    except FileNotFoundError:
+        return False
+
+
+def phase_0g_audit_bundles(book_dir: Path, chapter_slugs: list[str]) -> dict:
+    """Run the dual auditor (Claude + Gemini) against every per-chapter bundle.
+
+    For each completed chapter EP##-<slug>, locates the bundle at
+    BOOK_DIR/_system/episode-drafts/EP##-<slug>/, packs it via the shared
+    Gemini-friendly consolidator, then shells out to both audit_bundle.py
+    and audit_bundle_gemini.py in parallel. Audit reports land in
+    BOOK_DIR/audits/<EP-slug>.audit.{claude,gemini}.md alongside a
+    machine-readable findings JSON.
+
+    Idempotent: skip a chapter if both audit reports already exist and are
+    newer than the bundle's framing.md.
+
+    Returns a per-chapter outcome dict for the summary write.
+    """
+    drafts_dir = book_dir / "_system" / "episode-drafts"
+    audits_dir = book_dir / "audits"
+    audits_dir.mkdir(parents=True, exist_ok=True)
+    gemini_ok = _gemini_key_available()
+    if not gemini_ok:
+        _info(
+            "  gemini key not found in keychain (service=gemini_api_key); "
+            "skipping Gemini auditor (Claude auditor still runs)."
+        )
+
+    outcomes: dict[str, dict] = {}
+    # Resolve each chapter's bundle dir by EP-prefix match.
+    for slug in chapter_slugs:
+        bundle_dir = next(
+            (d for d in sorted(drafts_dir.glob("EP*")) if d.name.endswith(f"-{slug}")),
+            None,
+        )
+        if bundle_dir is None or not bundle_dir.is_dir():
+            outcomes[slug] = {"status": "missing-bundle", "p0": 0, "p1": 0, "p2": 0}
+            _info(f"  [{slug}] no bundle dir under {drafts_dir.relative_to(book_dir)} — skipped")
+            continue
+
+        ep_label = bundle_dir.name  # e.g. EP01-the-call-and-the-covenant
+        claude_audit = audits_dir / f"{ep_label}.audit.claude.md"
+        gemini_audit = audits_dir / f"{ep_label}.audit.gemini.md"
+
+        # Idempotency — if both reports exist and are newer than framing.md, skip.
+        framing = bundle_dir / "00-framing.md"
+        framing_mtime = framing.stat().st_mtime if framing.exists() else 0.0
+        both_fresh = (
+            claude_audit.exists() and claude_audit.stat().st_mtime > framing_mtime
+            and (not gemini_ok or (gemini_audit.exists() and gemini_audit.stat().st_mtime > framing_mtime))
+        )
+        if both_fresh:
+            _info(f"  [{slug}] audits up-to-date, skipping")
+            outcomes[slug] = {"status": "skipped-fresh"}
+            continue
+
+        _info(f"  [{slug}] auditing bundle {bundle_dir.name}/ (Claude{' + Gemini' if gemini_ok else ''})")
+
+        # Launch both auditors in parallel — each writes its own report.
+        # Both scripts accept <bundle_dir> --out <path> and pack inline.
+        procs: list[tuple[str, subprocess.Popen]] = []
+        procs.append((
+            "claude",
+            subprocess.Popen(
+                [sys.executable, str(AUDIT_BUNDLE_SCRIPT), str(bundle_dir),
+                 "--out", str(claude_audit)],
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+            ),
+        ))
+        if gemini_ok:
+            procs.append((
+                "gemini",
+                subprocess.Popen(
+                    [sys.executable, str(AUDIT_BUNDLE_GEMINI_SCRIPT), str(bundle_dir),
+                     "--out", str(gemini_audit)],
+                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+                ),
+            ))
+
+        per_auditor: dict[str, dict] = {}
+        for name, p in procs:
+            try:
+                out, err = p.communicate(timeout=900)
+            except subprocess.TimeoutExpired:
+                p.kill()
+                per_auditor[name] = {"rc": -1, "error": "timeout-900s"}
+                continue
+            per_auditor[name] = {"rc": p.returncode, "stderr": err.strip()[-400:] if err else ""}
+
+        # Tally severities by parsing the claude-code-fixes JSON out of each report.
+        sev_total = {"p0": 0, "p1": 0, "p2": 0}
+        for name, report_path in (("claude", claude_audit), ("gemini", gemini_audit)):
+            if name not in per_auditor or per_auditor[name].get("rc") != 0 or not report_path.exists():
+                continue
+            try:
+                text = report_path.read_text(encoding="utf-8")
+                m = re.search(r"```claude-code-fixes\s*\n(.*?)\n```", text, re.DOTALL)
+                if not m:
+                    continue
+                fixes = json.loads(m.group(1).strip())
+                for f in fixes:
+                    sev = str(f.get("severity", "")).lower()
+                    if sev in ("p0", "critical"):
+                        sev_total["p0"] += 1
+                    elif sev in ("p1", "high"):
+                        sev_total["p1"] += 1
+                    elif sev in ("p2", "medium", "low"):
+                        sev_total["p2"] += 1
+            except (json.JSONDecodeError, OSError):
+                continue
+
+        outcomes[slug] = {
+            "status": "audited",
+            "ep_label": ep_label,
+            "claude_rc": per_auditor.get("claude", {}).get("rc"),
+            "gemini_rc": per_auditor.get("gemini", {}).get("rc"),
+            **sev_total,
+        }
+        _info(
+            f"  [{slug}] done · P0={sev_total['p0']} P1={sev_total['p1']} P2={sev_total['p2']}"
+        )
+
+    # Write a human-readable summary at audits/0g-audit-summary.md.
+    summary = audits_dir / "0g-audit-summary.md"
+    lines = [
+        f"# Phase 0g bundle-audit summary — {book_dir.name}",
+        "",
+        "Dual-auditor sweep (Claude + Gemini) over every per-chapter NotebookLM bundle.",
+        "Findings are informational at this phase — review at the finalize halt before publish.",
+        "",
+        "| Episode | Status | Claude rc | Gemini rc | P0 | P1 | P2 |",
+        "|---|---|---|---|---|---|---|",
+    ]
+    for slug, o in outcomes.items():
+        if o.get("status") != "audited":
+            lines.append(f"| `{slug}` | {o.get('status')} | — | — | — | — | — |")
+            continue
+        lines.append(
+            f"| `{o['ep_label']}` | audited | {o.get('claude_rc')} | "
+            f"{o.get('gemini_rc') if o.get('gemini_rc') is not None else '—'} | "
+            f"{o.get('p0', 0)} | {o.get('p1', 0)} | {o.get('p2', 0)} |"
+        )
+    summary.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    _info(f"  wrote audit summary: {summary.relative_to(book_dir)}")
+    return outcomes
+
+
 # ─── Phase Per-chapter — extract + frame + build + converge ──────────────────
 
 
@@ -1419,7 +1580,12 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
         extras={"completed_slugs": sorted(completed_chapter_slugs)},
     )
 
-    # Phase 0g — register the series in the cross-book registry.
+    # Phase 0g — register the series + dual-auditor bundle sweep (F30).
+    # Two sub-steps run sequentially under one phase: (1) append episode rows
+    # to the cross-book registry.md (deterministic; fast), (2) sweep every
+    # per-chapter bundle through audit_bundle.py + audit_bundle_gemini.py in
+    # parallel and persist reports under BOOK_DIR/audits/. Findings are
+    # informational; finalize halt is the human-review gate.
     # Guard: skip if already completed from a prior run (idempotency for re-entry).
     _0g_done = (
         (read_state(book_dir) or {})
@@ -1430,16 +1596,24 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
     if _0g_done:
         _info("phase: 0g · already completed, skipping")
     else:
-        _info("phase: 0g · register series in registry.md")
+        _info("phase: 0g · register series + dual-auditor bundle sweep")
         update_phase(book_dir, phase="0g", status="running")
         try:
             phase_0g_register(book_dir)
+            _info("phase: 0g · register done; starting per-chapter audit sweep")
+            audit_outcomes = phase_0g_audit_bundles(book_dir, sorted(completed_chapter_slugs))
         except RuntimeError as e:
             update_phase(book_dir, phase="0g", status="failed", error=str(e))
             _err(str(e))
             return 2
-        update_phase(book_dir, phase="0g", status="completed")
-        phase_git_commit(book_dir, f"podcast({book_slug}): phase 0g register series")
+        update_phase(
+            book_dir, phase="0g", status="completed",
+            extras={"audit_outcomes": audit_outcomes},
+        )
+        phase_git_commit(
+            book_dir,
+            f"podcast({book_slug}): phase 0g register series + dual-auditor bundle sweep",
+        )
 
     # Phase 11b — Slide-deck cohort authoring + Slide Deck Challenger convergence.
     # Default TRUE — slide decks are required output alongside chapters and episodes.
