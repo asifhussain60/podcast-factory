@@ -37,7 +37,16 @@ vs. substring list); the canonical data itself is plain Python literals.
 # debater. Roles never rotate across episodes within a single book. Also
 # added R-EPISODE-FORMAT-RECOMMENDED P1 — every chapter-contract must declare
 # `episode_format: deep_dive | debate` with a one-paragraph rationale.
-CHALLENGER_VERSION = "2.1"
+#
+# 2.2 (2026-05-25): scholarly-conversation rubric landed — adds four new
+# deterministic rules (R-NO-AI-CLICHE, R-NO-FAUX-PROFUNDITY-OPENING,
+# R-NO-PREMATURE-CLOSURE, R-NO-DEEP-DIVE-SELF-REFERENCE) plus the
+# tradition-conditional R-NO-ESSENTIALISM-EXTERNAL (active only when
+# series-config.yaml.source_tradition != the episode's subject tradition).
+# The LLM-grade rubric extension (§3 religious literacy, §4 philosophical
+# rigor, §6 interfaith) lives in prompts/gemini-bundle-auditor.md so both
+# auditors see it. See F30 / scholarly-rubric integration trail on develop.
+CHALLENGER_VERSION = "2.2"
 
 # ─── R-HOST-ROLE-PARITY (P0 2026-05-24) — host roles are locked book-wide.
 # Host A is always the scholar/teacher. Host B is always the seeker/student/
@@ -153,6 +162,88 @@ HONORIFICS = [
     "peace and blessings be upon him",
     "peace be upon him",
     "ﷺ",
+]
+
+# ─── R-NO-AI-CLICHE (P0 2026-05-25, v2.2 scholarly-rubric §1)
+# Banned phrases that fingerprint unsupervised LLM "podcast voice." These
+# are substrings to scan in chapter prose AND framing.md. Severity P0 in
+# 99-show-notes.md and framing.md; downgraded to P1 if found only in
+# operator-facing scaffolding files (00-source-index.md, etc.) where the
+# audience is human and the term is being discussed, not voiced.
+AI_CLICHE_DENY = [
+    "deep dive", "deep-dive",
+    "let's dive in", "let's dive into",
+    "today's episode", "today we'll explore", "today, we'll explore",
+    "today we'll discuss", "today, we'll discuss",
+    "in this episode", "in this conversation",
+    "join us as we", "buckle up",
+    "without further ado", "let's get started",
+    "fasten your seatbelts",
+    "journey through", "journey into",
+    "fascinating world of", "fascinating world",
+    "mind blown", "mind-blown", "blew my mind",
+    "what a journey", "what a ride",
+]
+
+# ─── R-NO-FAUX-PROFUNDITY-OPENING (P0 2026-05-25, v2.2 scholarly-rubric §1)
+# Banned opening shapes — rhetorical questions that gesture at meaning without
+# committing to a thesis. Applied to the FIRST 200 characters of framing.md
+# `## Opening` section and to the first paragraph of any chapter file.
+FAUX_PROFUNDITY_OPENING_PATTERNS = [
+    r"can we find meaning",
+    r"what does it (truly )?mean to be human",
+    r"what does this (truly )?say about",
+    r"is there meaning (in|to)",
+    r"in a world where",
+    r"in an (?:age|era) (?:of|where)",
+    r"have you ever (?:wondered|stopped to)",
+    r"imagine (?:a world|for a moment)",
+    r"picture this[:.]",
+]
+
+# ─── R-NO-PREMATURE-CLOSURE (P1 2026-05-25, v2.2 scholarly-rubric §5)
+# Banned closing shapes that pretend hard questions got resolved. Scanned in
+# the LAST 600 characters of framing.md `## Closing` section and in beat
+# landings of 04-discussion-spine.md. Permitted closing: "we didn't settle
+# this — here's where the live disagreement sits".
+PREMATURE_CLOSURE_PATTERNS = [
+    r"and that(?:'s| is)(?:,| )?\s*ultimately(?:,)?\s*what",
+    r"what (?:the soul|the self|truth|reality|god|allah|the divine) (?:really|truly) is",
+    r"the (?:answer|key) (?:turns out to be|is|lies in)",
+    r"so (?:in the end|ultimately|at last),?\s*we (?:see|find|understand)",
+    r"and that(?:'s| is) (?:the|how) (?:the )?(?:whole )?(?:story|point|truth)",
+]
+
+# ─── R-NO-DEEP-DIVE-SELF-REFERENCE (P0 2026-05-25, v2.2 scholarly-rubric §1)
+# Forbid the conversation describing itself as a "deep dive", "journey", or
+# "exploration" — get into the material instead. Stricter sibling of
+# R-NO-AI-CLICHE that targets only self-referential framings.
+DEEP_DIVE_SELF_REFERENCE_PATTERNS = [
+    r"(?:our|this|today's) (?:deep dive|journey|exploration|conversation)",
+    r"we(?:'re| are) (?:going to|gonna) (?:dive|explore|unpack|dig)",
+    r"let(?:'s| us) (?:dive|explore|unpack|dig) into",
+    r"we(?:'ll| will) (?:dive|explore|unpack|dig) into",
+]
+
+# ─── R-NO-ESSENTIALISM-EXTERNAL (P0 2026-05-25, v2.2 scholarly-rubric §3)
+# Blanket-tradition claims ("Muslims believe X", "Hindus think Y", "Buddhists
+# hold Z") are FORBIDDEN when the episode discusses a tradition that is NOT
+# the book's own source_tradition. They are PERMITTED (with internal
+# qualification) when the episode is internal to one tradition.
+# Detection: scan chapter prose + framing.md for these stem patterns. The
+# series-config.yaml.source_tradition gates whether to flag — internal episodes
+# get a P2 nudge to qualify ("classical Twelver Shia tradition emphasizes..."),
+# external episodes get P0.
+ESSENTIALISM_STEM_PATTERNS = [
+    r"\bMuslims (?:believe|think|hold|teach|say)\b",
+    r"\bHindus (?:believe|think|hold|teach|say)\b",
+    r"\bBuddhists (?:believe|think|hold|teach|say)\b",
+    r"\bChristians (?:believe|think|hold|teach|say)\b",
+    r"\bJews (?:believe|think|hold|teach|say)\b",
+    r"\bSikhs (?:believe|think|hold|teach|say)\b",
+    r"\b(?:In|For) (?:Islam|Hinduism|Buddhism|Christianity|Judaism|Sikhism),\s+",
+    r"\bthe (?:Islamic|Hindu|Buddhist|Christian|Jewish|Sikh) (?:view|position|teaching|tradition) (?:is|holds|states)\b",
+    r"\b(?:real|true) (?:Muslims|Hindus|Buddhists|Christians|Jews|Sikhs) (?:would|don't|do not|never)\b",  # No-True-Scotsman
 ]
 
 # ─── Filler-interjection scrub (host TTS prosody artifacts)

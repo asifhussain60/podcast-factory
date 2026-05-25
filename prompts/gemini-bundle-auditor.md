@@ -180,7 +180,213 @@ l) Single-thesis discipline. The framing must name one thesis in one sentence.
    Multi-thesis framings produce sprawling 20-plus-minute audio. Flag and
    request a thesis cut.
 
-#### 4) Output Format
+#### 4) Scholarly Conversation Quality (per chapter + per episode)
+
+This rubric extension applies to every two-host scholarly podcast bundle.
+Each smell below is mapped to a severity. Where a smell is partially
+machine-checkable, [scripts/podcast/_rules.py](../scripts/podcast/_rules.py)
+contains the deterministic patterns; the auditor's job is the semantic
+half (the part regex cannot catch).
+
+**Precedence with TTS-safety doctrine:** when this section conflicts with
+the locked TTS-safety doctrine in §2 (R-NO-ARABIC-NAMES F20, honorific
+discipline F27, alqaab paraphrase F24, surah English-only F29), the
+TTS-safety doctrine wins. The scholarly-rubric concern is then noted as
+an Open Question for the human reviewer, not raised as a P0.
+
+**Tradition-precedence rule:** the bundle's series-config.yaml declares a
+`source_tradition` (e.g. ismaili, sunni, mahayana, catholic). When the
+episode is INTERNAL to one tradition (the source_tradition itself), the
+essentialism rule below is RELAXED to P2 — internal qualification
+("the classical Ismaili reading is…") is the positive practice, not
+silence. When the episode is EXTERNAL (discussing a tradition that is
+NOT the source_tradition), essentialism is P0.
+
+##### a) AI-cliché smells (P0 — these alone disqualify a bundle)
+
+These are the fingerprints of an unsupervised LLM imitating "podcast
+voice." A scholarly conversation has none of them.
+
+- **Gushing exuberance equality.** Both hosts identically excited about
+  every point. Real scholarly conversation has asymmetric engagement —
+  one host more invested in segment A, the other in segment B. P0.
+- **Deep-dive self-reference.** Do not call the conversation a deep dive,
+  a journey, an exploration, or "today's episode." Get into the material.
+  P0. (Deterministic patterns in `_rules.py` R-NO-DEEP-DIVE-SELF-REFERENCE.)
+- **Faux-profundity openings or closings.** "Can we find meaning in the
+  seemingly meaningless?" "What does this say about what it means to be
+  human?" P0. (Deterministic patterns in `_rules.py`
+  R-NO-FAUX-PROFUNDITY-OPENING.)
+- **Reflexive validation interjections** used as filler ("Right!"
+  "Exactly!" "Wow." "That's fascinating." "Mind blown.") with no
+  substantive follow-up. P1 in framing's example exchanges; P0 in
+  chapter prose meant for hosts to voice.
+- **Forced metaphors and corporate proverbs** ("It's like Andy Warhol's
+  soup cans, isn't it?" "Work smarter not harder." "It's a whole new
+  ballgame.") If the metaphor doesn't illuminate, cut. P1.
+- **Hook-then-takeaway sandwich** that ignores the middle: arc must
+  follow the material, not the podcast template. P1.
+
+##### b) Epistemic smells (P0)
+
+- **Hallucinated quotes or citations.** Never let hosts voice a passage,
+  date, scholar name, council, fatwa, sutra reference, dharma name, or
+  page number that is not present in the bundle. The auditor's check:
+  every quoted passage in 02-key-passages.md and every cited authority
+  in 00-framing.md must trace to text in 01-source.md or to a citation
+  in the chapter contract. P0.
+- **Hallucinated tradition claims.** "The Catholic Church teaches…"
+  "Buddhism holds that…" "In Islam…" with no underlying source. Either
+  ground in the bundle or cut. P0.
+- **Confident assertion of contested scholarship as settled.** Dating of
+  Q source, historicity of named figures, authorship of disputed texts,
+  esoteric-vs-exoteric readings. Hosts must signal contested status.
+  P1 (P0 if the contested claim is load-bearing for the episode's thesis).
+- **Back-half glazing.** If the source is 60 pages, the back 30 must be
+  represented in the discussion spine in rough proportion to their
+  weight. Flag a spine that concentrates 80% of beats in the first 30%
+  of the source. P1.
+- **Editorializing past the sources.** Hosts may interpret, but cannot
+  introduce factual claims, historical events, or doctrinal positions
+  that aren't in the bundle. P0.
+
+##### c) Religious-literacy smells
+
+Severity here is gated by the tradition-precedence rule above.
+
+- **(P0 external / P2 internal) Essentialism.** "Muslims believe X."
+  "Hindus think Y." Use internally-qualified phrasing: "Many Sunni
+  jurists hold X; classical Twelver Shia tradition emphasizes Y; the
+  Ismaili tariqah reads it as Z." Tradition is a noun with internal
+  diversity, not a hive mind. (Deterministic patterns in `_rules.py`
+  R-NO-ESSENTIALISM-EXTERNAL.)
+- **(P0) No-True-Scotsman.** "Real Christians would never…" "That's
+  not actually Buddhism." Hosts may describe orthodox positions and
+  mainstream consensus, but cannot excommunicate practitioners from
+  their own tradition in passing.
+- **(P0) Orientalism.** Framing Eastern, indigenous, or esoteric
+  traditions as inherently mystical, timeless, intuitive, or Other
+  against an implicit rational Western default. Said (1978) and King
+  (1999) apply.
+- **(P1) Tradition-as-static.** Treating any living tradition as fixed
+  since founding. Every tradition has internal reform movements,
+  schools, schisms, reinterpretations. Acknowledge them.
+- **(P1) Leader-equals-tradition conflation.** What the Pope, Dalai
+  Lama, Aga Khan, or a televangelist says is not automatically what
+  "the tradition" holds. Distinguish institutional voice / lived
+  practice / textual tradition / individual interpretation.
+- **(P1) Lived-religion blindness.** Doctrine on paper vs. how
+  adherents actually practice. Both belong in scholarly conversation.
+- **(P1) Anachronism.** Reading modern liberal or modern conservative
+  categories back into pre-modern texts.
+
+##### d) Philosophical-rigor smells
+
+- **(P0) Strawmanning.** Presenting the weakest version of an opposing
+  view. Violates the principle of charity (Davidson 1973; Blackburn;
+  Quine 1960). Hosts must steelman before critique.
+- **(P0) Manufactured disagreement** for dramatic tension when the
+  sources actually agree. Equally bad as manufactured consensus.
+- **(P0) False balance / bothsidesism.** Granting equal time and
+  weight to fringe vs. scholarly consensus to appear "fair" (Boykoff
+  & Boykoff 2004; Rapp & Imundo 2022). Acknowledge the minority view,
+  locate it on the spectrum, do not pretend it's 50/50.
+- **(P1) Equivocation on key terms.** "Faith," "God," "self," "soul,"
+  "truth," "knowledge" must be defined when they shift meaning between
+  traditions or thinkers. A pause for definition is a feature.
+- **(P1) Genetic fallacy.** Dismissing an argument because of who made
+  it or where it came from.
+- **(P1) Descriptive-normative conflation.** "X tradition does Y" is
+  not "X tradition is right to do Y."
+- **(P1) Sloppy quote attribution.** If unsure, do not quote —
+  paraphrase and flag the source as uncertain.
+
+##### e) Conversation-craft smells
+
+- **(P1) The stooge host.** One host exists only to feed setups. Both
+  hosts must occasionally know something the other doesn't, push
+  back, or change their mind. NOTE: this complements R-HOST-ROLE-PARITY
+  (locked book-wide roles) — within those roles, both hosts must show
+  asymmetric expertise across beats, not within a beat.
+- **(P1) Premature closure.** Wrap-ups that pretend the hard
+  questions got resolved when they didn't. Permitted ending: "We
+  didn't settle this. Here's where the live disagreement sits."
+  Forbidden ending: "And that, ultimately, is what the soul really
+  is." (Deterministic patterns in `_rules.py`
+  R-NO-PREMATURE-CLOSURE.)
+- **(P1) Hot-take coda** that contradicts the nuance just developed,
+  added for shareability.
+- **(P1) Sources avoided because they're hard.** If the bundle
+  contains a difficult passage central to the topic, the spine cannot
+  skip it.
+- **(P2) No host ever concedes a point.** Real scholarly
+  conversations contain real concessions. Engineer at least one per
+  episode where honest.
+- **(P2) Untranslated technical vocabulary** without on-ramp:
+  shahada, tariqah, satori, sunyata, prajna, dasein, telos, qua, sui
+  generis. Either gloss inline (English meaning first, term in
+  parentheses) or replace.
+
+##### f) Interfaith / comparative smells
+
+When the episode compares two or more traditions:
+
+- **(P0) Hierarchical framing.** Implicit ranking of one tradition
+  above another via tone, time allotment, or which gets steelman
+  treatment.
+- **(P0) Stealth proselytizing.** Framing the comparison so one
+  tradition emerges as the right answer (Berkley Center; WCC
+  dialogue guidelines).
+- **(P1) False-equivalence syncretism.** "All religions are really
+  saying the same thing." They aren't. Respect real differences.
+- **(P1) Asymmetric source quality.** Steelmanning tradition A from
+  primary texts while critiquing tradition B from hostile secondary
+  sources.
+- **(P1) Power-blindness.** Ignoring which tradition is dominant
+  vs. minoritized in the listener's likely context.
+
+##### g) Positive practices (the dos — required moves)
+
+A passing bundle demonstrates the following moves explicitly. Their
+absence is a P1 finding under the relevant subsection above.
+
+1. **Name positionality where it matters** ("This is the mainstream
+   Sunni reading; Shia and Ismaili readings diverge here.")
+2. **Quote primary sources verbatim, with attribution** — only when
+   the bundle contains the quote. Paraphrase otherwise.
+3. **Mark uncertainty in band** ("scholars disagree," "the dating is
+   contested," "this is one reading among several.")
+4. **Distinguish four registers**: (i) what the text says, (ii) what
+   the tradition has historically held, (iii) what practitioners do
+   today, (iv) what this individual scholar argues. Do not collapse
+   them.
+5. **Steelman before critique**, every time, on every position
+   discussed.
+6. **Allow genuine open questions to remain open** at episode close.
+7. **Engineer at least one real concession** between hosts per episode.
+8. **Pause for definitions** when a term carries weight.
+9. **Use lived-religion framing** alongside doctrinal claims when the
+   topic touches practice.
+10. **Specificity over generality** — name the council, the school,
+    the jurist, the dynasty, the century. "Medieval Islam" is rarely
+    the right resolution.
+
+##### Sources informing §4
+
+- Davidson, "Radical Interpretation" (1973); Blackburn on principle of charity
+- Quine, *Word and Object* (1960) on charitable translation
+- Said, *Orientalism* (1978); King, *Orientalism and Religion* (1999)
+- Boykoff & Boykoff (2004) on false balance in climate journalism
+- Rapp & Imundo (2022), Journal of Applied Research in Memory and Cognition,
+  on bothsidesism and consensus perception
+- SORAPS Project, "Guidelines on Prejudices and Stereotypes in Religions" (2019)
+- ING, "Escaping Essentialism" on Islam as lived religion
+- World Council of Churches, "Guidelines for dialogue and relations with
+  people of other religions"
+- Berkley Center (Georgetown), "The Challenges of Interfaith Dialogue"
+- Religions journal (MDPI 2018), "Bad Religion as False Religion"
+
+#### 5) Output Format
 
 Produce the audit as plain markdown, structured exactly as follows so Claude
 Code can parse it without ambiguity:
