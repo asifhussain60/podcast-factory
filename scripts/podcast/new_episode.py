@@ -27,9 +27,13 @@ STUB_FILES = {
     # BOOK_DIR/chapters/ch??-{slug}.txt. The chapter must be authored under Phase 0
     # (extract → English refinement → Arabic phonetic pass → chapter design →
     # enrichment) before this draft can compile to an episode txt.
-    "02-key-passages.md": "# Key Passages — {title}\n\n_Verbatim quotes from the chapter (including enrichments), in chapter order. Each passage in a blockquote with attribution. This file is an authoring scaffold and does NOT upload to NotebookLM._\n",
-    "03-context-pack.md": "# Context Pack — {title}\n\n## Author\n\n## Tradition\n\n## Historical Moment\n\n## Related Works\n\n## Why Now\n",
-    "04-discussion-spine.md": "# Discussion Spine — Episode {n}: {title}\n\n_6–12 beats. Each beat: Key question, Tension, Anchor passage, Landing._\n",
+    # 02/03/04 scaffolds RETIRED 2026-05-25 (F30 scholarly-rubric triage —
+    # see extract_chapter.py for the canonical decision trail). The post-
+    # retirement bundle shape is 00-framing.md + 99-show-notes.md plus the
+    # chapter source at book_dir/chapters/ch??-{slug}.txt. The framing already
+    # contains spine structure, context, pronunciation, and name discipline;
+    # the deprecated scaffolds were empty [LLM-FILL] templates that produced
+    # ~38 P0 dual-auditor findings per book with no remediation path.
     "99-show-notes.md": "# Show Notes — Episode {n}: {title}\n\n## Blurb\n\n## Listening Time\n\n## Sources\n\n## References Mentioned\n\n## Related Episodes\n",
 }
 
