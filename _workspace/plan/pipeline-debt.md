@@ -361,6 +361,8 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 
 **Verification:** Re-run any Phase that calls `_run_claude_p` on Python 3.9 and confirm `cost-ledger.jsonl` gets appended successfully.
 
+**Status:** **CLOSED (shipped 2026-05-21).** `_now_iso()` in [_cost_ledger.py:103-107](../../scripts/podcast/_cost_ledger.py) uses `datetime.timezone.utc` (compat with 3.9+). Inline comment documents the F6 fix.
+
 ---
 
 ### F7 — Orchestrator doesn't surface multi-task cost projection
@@ -1015,6 +1017,8 @@ First FAILED chapter immediately halts the entire book. Subsequent chapters in t
 
 **Verification:** Run a 4-chapter book where ch02's contract has a known systemic P0 (inject one). Confirm ch03 and ch04 complete successfully. Confirm state.json shows `failed_slugs: ["ch02-slug"]` and `completed_slugs: ["ch01-slug", "ch03-slug", "ch04-slug"]`. Confirm `--retry-phase per-chapter` re-runs only ch02.
 
+**Status:** **CLOSED (shipped 2026-05-25).** [orchestrate_book.py:_drive_per_chapter_and_after()](../../scripts/podcast/orchestrate_book.py) now graceful-degrades: failed chapters added to `failed_chapter_slugs` set, loop continues to next chapter, state writes `failed_slugs` list each iteration. End-of-loop check: if ≥1 failures, phase marked `failed` with summary error (X of Y failed, list of slugs, hint to triage or raise cost cap and `--resume`). Skipped slugs on next resume: both `completed_slugs` and `failed_slugs` are honored as skip sets at the top of the loop (operator uses `--retry-chapter` to re-attempt). Default behavior — no flag needed.
+
 ---
 
 ### F34 — Phase 0b and 0d windows run sequentially; 3× wall-clock speedup available
@@ -1070,6 +1074,8 @@ Phase 0b ordering constraint: windows with overlap must be processed in chunks w
 **Why not just rely on the iter cap?** The iter cap (3 outer × 5 inner) is a *count* ceiling, not a *cost* ceiling. A chapter that takes 6 challenger passes and no fixers burns less than one that takes 3 challenger passes and 9 fixer-of-fixer passes. The cost ceiling is a budget guard independent of iteration count.
 
 **Verification:** Set `--chapter-cost-cap 5` and run a chapter known to require 2+ challenger passes. Confirm the loop aborts after the first or second pass when the cap is reached. Confirm state.json shows `reason=cost_cap_exceeded` and the operator can resume with a higher cap.
+
+**Status:** **CLOSED (shipped 2026-05-25).** Implemented per-chapter cap via series-plan.md flag `per_chapter_cost_cap_usd` (default $5.00) rather than CLI flag — fits the existing `_series_flag/_series_numeric` pattern. Loop reads `_chapter_cost_so_far(book_dir, slug)` from cost-ledger.jsonl before and after each `per_chapter_pass()`; if delta exceeds cap, marks chapter `FAILED` with note "COST-CAPPED: chapter spent $X.XX > cap $Y.YY". Composes with F33-second graceful-degrade: cost-capped chapter halts loop with summary; raise cap in series-plan.md and `--resume` to retry.
 
 ---
 
@@ -1131,6 +1137,8 @@ update_phase(book_dir, phase="per-chapter", status="running", extras={
 The heartbeat script reads `chapter_timings` and computes `avg` from completed (non-retried) chapters only, giving an accurate ETA for the remaining chapters.
 
 **Verification:** Complete a 4-chapter run. Confirm `orchestrator-state.json.phases.per-chapter.chapter_timings` has 4 entries with accurate timestamps and call counts. Confirm heartbeat `avg/ch` shows per-chapter breakdown on demand.
+
+**Status:** **CLOSED (shipped 2026-05-25).** [orchestrate_book.py:_drive_per_chapter_and_after()](../../scripts/podcast/orchestrate_book.py) now writes `phases.per-chapter.chapter_timings` with per-slug `{started_ts, completed_ts, duration_sec, verdict, cost_usd}` (cost from F35-second). Cross-book dashboard ([cross_book_dashboard.py](../../scripts/podcast/cross_book_dashboard.py)) surfaces mean chapter duration in the fleet table. Future heartbeat ETA can compute from clean-chapter timings only (excluding cost-capped/FAILED), giving accurate remaining-time estimates.
 
 ---
 
