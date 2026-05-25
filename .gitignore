@@ -16,6 +16,11 @@ Thumbs.db
 *.swp
 *.swo
 *~
+*.code-workspace
+
+# Stray scratch dirs (large binary outputs — m4a is audio rendering)
+/m4a/
+/content/m4a/
 
 # Python virtual environment
 .venv/
