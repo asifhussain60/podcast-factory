@@ -91,7 +91,7 @@ _SECTION_MARKER_RE = re.compile(
 )
 
 
-def _call_claude_p(user_content: str, timeout: int = 600) -> tuple[str, int, int]:
+def _call_claude_p(user_content: str, timeout: int = 1800) -> tuple[str, int, int]:
     """Shell out to `claude -p` (Max subscription — no API key, no quota).
 
     Combines SYSTEM_PROMPT + user_content into one prompt string, matching the
@@ -101,7 +101,11 @@ def _call_claude_p(user_content: str, timeout: int = 600) -> tuple[str, int, int
     """
     full_prompt = SYSTEM_PROMPT + "\n\n---\n\n" + user_content
     result = subprocess.run(
-        ["claude", "-p", full_prompt],
+        [
+            "claude", "-p", full_prompt,
+            "--tools", "",
+            "--no-session-persistence",
+        ],
         capture_output=True,
         text=True,
         timeout=timeout,

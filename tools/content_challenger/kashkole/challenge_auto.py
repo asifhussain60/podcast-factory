@@ -52,7 +52,7 @@ One sentence on why you assigned PASS / WARN / FAIL.\
 """
 
 
-def _call_claude_p(user_content: str, timeout: int = 120) -> tuple[str, int, int]:
+def _call_claude_p(user_content: str, timeout: int = 300) -> tuple[str, int, int]:
     """Shell out to `claude -p` (Max subscription — no API key, no quota).
 
     Returns (response_text, 0, 0) — token counts unavailable via claude -p;
@@ -60,7 +60,11 @@ def _call_claude_p(user_content: str, timeout: int = 120) -> tuple[str, int, int
     """
     full_prompt = CHALLENGE_SYSTEM_PROMPT + "\n\n---\n\n" + user_content
     result = subprocess.run(
-        ["claude", "-p", full_prompt],
+        [
+            "claude", "-p", full_prompt,
+            "--tools", "",
+            "--no-session-persistence",
+        ],
         capture_output=True,
         text=True,
         timeout=timeout,
