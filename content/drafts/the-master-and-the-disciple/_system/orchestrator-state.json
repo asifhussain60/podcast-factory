@@ -78,10 +78,10 @@
       "status": "running",
       "ts_started": "2026-05-24T18:43:50Z",
       "completed_slugs": [
-        "father-revealed-and-the-faces-of-seeking"
+        "father-revealed-and-the-faces-of-seeking",
+        "justice-monotheism-and-the-guardians"
       ],
-      "failed_slug": "father-revealed-and-the-faces-of-seeking",
-      "ts_completed": "2026-05-24T21:38:55Z"
+      "failed_slug": "father-revealed-and-the-faces-of-seeking"
     }
   },
   "completed_slugs": [],
@@ -93,7 +93,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-05-22T00:00:00Z",
-  "ts_updated": "2026-05-24T22:24:59Z",
+  "ts_updated": "2026-05-25T08:07:02Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0"
