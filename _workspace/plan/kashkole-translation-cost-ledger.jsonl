@@ -68,3 +68,17 @@
 {"binder_id": 19, "chapter_id": 54, "phase": "translate", "cost_usd": 0.77847, "completed_at": "2026-05-25T08:59:06.690577+00:00"}
 {"binder_id": 19, "chapter_id": 122, "phase": "translate", "cost_usd": 0.88809, "completed_at": "2026-05-25T08:59:16.851708+00:00"}
 {"binder_id": 19, "chapter_id": 10, "phase": "translate", "cost_usd": 0.00859, "completed_at": "2026-05-25T08:59:20.124789+00:00"}
+{"binder_id": 34, "chapter_id": 155, "phase": "translate", "cost_usd": 0.07494, "completed_at": "2026-05-25T08:59:23.171358+00:00"}
+{"binder_id": 34, "chapter_id": 156, "phase": "translate", "cost_usd": 0.07354, "completed_at": "2026-05-25T08:59:25.393075+00:00"}
+{"binder_id": 34, "chapter_id": 157, "phase": "passthrough", "cost_usd": 0.0, "completed_at": "2026-05-25T08:59:26.924893+00:00"}
+{"binder_id": 34, "chapter_id": 153, "phase": "passthrough", "cost_usd": 0.0, "completed_at": "2026-05-25T08:59:28.467762+00:00"}
+{"binder_id": 34, "chapter_id": 154, "phase": "passthrough", "cost_usd": 0.0, "completed_at": "2026-05-25T08:59:29.990233+00:00"}
+{"binder_id": 34, "chapter_id": 160, "phase": "passthrough", "cost_usd": 0.0, "completed_at": "2026-05-25T08:59:31.513300+00:00"}
+{"binder_id": 34, "chapter_id": 158, "phase": "passthrough", "cost_usd": 0.0, "completed_at": "2026-05-25T08:59:33.038591+00:00"}
+{"binder_id": 34, "chapter_id": 162, "phase": "passthrough", "cost_usd": 0.0, "completed_at": "2026-05-25T08:59:34.568912+00:00"}
+{"binder_id": 34, "chapter_id": 163, "phase": "passthrough", "cost_usd": 0.0, "completed_at": "2026-05-25T08:59:36.093279+00:00"}
+{"binder_id": 34, "chapter_id": 164, "phase": "passthrough", "cost_usd": 0.0, "completed_at": "2026-05-25T08:59:37.612420+00:00"}
+{"binder_id": 34, "chapter_id": 167, "phase": "passthrough", "cost_usd": 0.0, "completed_at": "2026-05-25T08:59:39.142929+00:00"}
+{"binder_id": 34, "chapter_id": 165, "phase": "passthrough", "cost_usd": 0.0, "completed_at": "2026-05-25T08:59:40.669904+00:00"}
+{"binder_id": 34, "chapter_id": 166, "phase": "passthrough", "cost_usd": 0.0, "completed_at": "2026-05-25T08:59:42.189167+00:00"}
+{"binder_id": 34, "chapter_id": 159, "phase": "passthrough", "cost_usd": 0.0, "completed_at": "2026-05-25T08:59:43.638688+00:00"}
