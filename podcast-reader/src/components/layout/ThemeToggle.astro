@@ -55,7 +55,16 @@
       const cur = document.documentElement.getAttribute('data-theme');
       const next = cur === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', next);
-      try { window.localStorage.setItem('podcast-reader-theme', next); } catch (_) {}
+      // Write to the unified settings blob so the migration in ThemeScript
+      // doesn't blow it away on next paint.
+      try {
+        const KEY = 'podcast-reader:settings';
+        const raw = window.localStorage.getItem(KEY);
+        const s = raw ? JSON.parse(raw) : { schemaVersion: 1 };
+        s.schemaVersion = 1;
+        s.theme = next;
+        window.localStorage.setItem(KEY, JSON.stringify(s));
+      } catch (_) {}
     });
   })();
 </script>
