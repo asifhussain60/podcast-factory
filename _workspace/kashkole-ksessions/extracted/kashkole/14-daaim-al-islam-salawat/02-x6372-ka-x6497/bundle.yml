@@ -3,7 +3,7 @@
 bundle_schema_version: 1
 source: kashkole
 source_language: ur
-stage: reviewed
+stage: translated
 shelf:
   kind: binder
   id: 26
@@ -136,3 +136,9 @@ review:
     medium: 2
     low: 0
 needs_human_review: false
+translation:
+  engine: azure-translator-v3
+  completed_at: 2026-05-25T08:58:05.045318+00:00
+  sections_translated: 10
+  char_count: 22641
+  azure_cost_usd: 0.226410
