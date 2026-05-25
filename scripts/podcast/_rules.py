@@ -294,11 +294,20 @@ def emit_finding(
 ) -> None:
     """Append one JSONL record to the learning-substrate findings ledger.
 
-    Atomic single-line append (writes are < PIPE_BUF so concurrent emitters
-    interleave safely on POSIX). The ledger lives at
-    `<repo_root>/content/podcast/.skill/_learning/findings.jsonl` and is
-    append-only. Callers MUST NOT emit duplicates within a single run.
+    Multi-book concurrency safety (added 2026-05-25 per F31 forward-looking
+    audit): wraps the append in an fcntl LOCK_EX critical section. On macOS
+    + Linux, single-line writes under PIPE_BUF (4 KiB) are atomic at the
+    syscall level, BUT our line_out can exceed PIPE_BUF when context_excerpt
+    is near its 300-char cap with multi-byte UTF-8. Without the lock,
+    concurrent N-book orchestrators emitting findings at the same instant
+    could interleave bytes within a single record. The lock costs ~1 ms per
+    emit, negligible vs the LLM-call latencies that produced the finding.
+
+    The ledger lives at `<repo_root>/content/podcast/.skill/_learning/
+    findings.jsonl` and is append-only. Callers MUST NOT emit duplicates
+    within a single run.
     """
+    import fcntl as _fcntl
     import json as _json
     from datetime import datetime, timezone
 
@@ -322,7 +331,12 @@ def emit_finding(
     }
     line_out = _json.dumps(record, ensure_ascii=False, sort_keys=True) + "\n"
     with ledger.open("a", encoding="utf-8") as f:
-        f.write(line_out)
+        _fcntl.flock(f.fileno(), _fcntl.LOCK_EX)
+        try:
+            f.write(line_out)
+            f.flush()
+        finally:
+            _fcntl.flock(f.fileno(), _fcntl.LOCK_UN)
 
 
 def abbreviations_for_build() -> dict[str, str]:
