@@ -51,7 +51,7 @@ export default function ChapterMiniTOC() {
                 'block py-0.5 transition-colors line-clamp-2 ' +
                 (active === it.id
                   ? 'font-medium text-amber-700 dark:text-amber-300'
-                  : 'text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-100')
+                  : 'text-stone-700 hover:text-stone-900 dark:text-stone-300 dark:hover:text-stone-100')
               }
               title={it.text}
             >

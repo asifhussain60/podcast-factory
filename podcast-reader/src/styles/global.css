@@ -5,6 +5,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Cairo:wght@400;500;600;700&family=Markazi+Text:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
+/* ──────────────────────────────────────────────────────────────
+   Dark-mode variant — fires ONLY when the app's data-theme="dark"
+   is set on <html> (not on OS prefers-color-scheme). Without this
+   override Tailwind's default `dark:` follows the OS, so users on
+   OS dark mode with the app in light theme saw a dark right rail.
+   ────────────────────────────────────────────────────────────── */
+@custom-variant dark (&:where([data-theme="dark"] *, [data-theme="dark"]));
+
 /* Quran-popover specific design language */
 .quran-popover {
   background:
