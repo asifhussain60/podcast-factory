@@ -3,7 +3,7 @@
 bundle_schema_version: 1
 source: kashkole
 source_language: ur
-stage: adapted
+stage: challenged
 shelf:
   kind: binder
   id: 1
@@ -125,3 +125,8 @@ adaptation:
   engine: claude-haiku-4-5-20251001
   completed_at: 2026-05-25T15:45:42.493386+00:00
   adapt_cost_usd: 0.071253
+challenge:
+  engine: claude-haiku-4-5-20251001
+  verdict: WARN
+  completed_at: 2026-05-25T15:50:24.869938+00:00
+  challenge_cost_usd: 0.005076
