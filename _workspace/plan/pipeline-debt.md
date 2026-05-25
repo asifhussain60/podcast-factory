@@ -924,8 +924,7 @@ This is the same M1 + F20 pattern: framing rule ignored because chapter source f
 
 **Severity:** P0 — blocks running ANY non-Islamic book end-to-end without false-positive or silent-no-op failures.
 
-**Status:** Open. Identified 2026-05-25 forward-looking audit. Not yet scheduled; awaits explicit authorization (multi-day refactor).
-
+**Status:** **PARTIALLY CLOSED 2026-05-25 — registry foundation shipped.** [_doctrinal.py](../../scripts/podcast/_doctrinal.py) now exposes `tradition_pack_dir(slug)` and `load_doctrinal_pack(slug)` registry helpers. `TRADITION_DATA_ROOT = content/_shared/` with per-tradition subdirectories; aliases ismaili/shia/sunni/twelver/sufi → islam. Existing Islamic data is the seed pack. `load_doctrinal_pack(unknown_tradition)` returns `{_pack_missing: True}` so callers can emit T-NO-PACK info findings. **Still open (real refactor):** derive HONORIFICS / ESSENTIALISM_STEM_PATTERNS / ABBREVIATIONS_MAP from a `traditions.yml` registry; parameterize Phase 0c phonetic prompt with `source_scripts`. Foundation does NOT yet rewire those data files — that requires fixture content (non-Islamic book) to validate against. The skeleton makes the full migration mechanical when content arrives.
 ---
 
 ### F32 — Pipeline overfit to `books` category (genre generalization)
@@ -946,8 +945,7 @@ This is the same M1 + F20 pattern: framing rule ignored because chapter source f
 
 **Severity:** P0 — blocks running ANY non-book category end-to-end. Letters/articles/lectures all sit at the gate.
 
-**Status:** Open. Identified 2026-05-25 forward-looking audit. Awaits explicit authorization (multi-day refactor; cleanly separable from F31).
-
+**Status:** **PARTIALLY CLOSED 2026-05-25 — format enum extended, intake refactor deferred.** [_rules.py](../../scripts/podcast/_rules.py) `EPISODE_FORMAT_ALLOWED` now carries 7 values (deep_dive, debate, walkthrough, monologue, interview, recap, narrative) — was 2. New constant `EPISODE_FORMAT_FULLY_WIRED = (deep_dive, debate)` distinguishes downstream-tested formats from the new entries which are accepted at contract-write but emit P1 best-effort warnings if used. **Still open (real refactor):** _intake_from_audio / _intake_from_text / _intake_from_docx siblings to _intake_from_pdf; per-category phase plans (`letter` skips 0d; `lecture` routes audio → transcription → single-chapter pipeline); audience/host_dynamic defaults derived from category. Enum extension was cheap; intake + per-category phase plans need a non-book test artifact (e.g., a lecture MP3) to validate against.
 ---
 
 ### F33 — Cross-book observability gap
@@ -977,8 +975,7 @@ Outstanding (deferred to a later session): fleet-level heartbeat that auto-switc
 
 **Severity:** P0 once a non-Islamic book runs; P3 (informational) until then.
 
-**Status:** Open. Blocked on F31.
-
+**Status:** **CLOSED 2026-05-25 (foundation; full pack-dispatch follows F31 pack content).** [build_episode_txt.py:assert_doctrinal_clean()](../../scripts/podcast/build_episode_txt.py) now resolves the book's `source_tradition` via `_resolve_book_tradition(file_path)` (walks up from chapter file to find series-config.yaml). If the tradition's pack directory doesn't exist under content/_shared/<tradition>/, the Islamic doctrinal checks are SKIPPED with a visible T-NO-PACK info line on stderr. Non-Islamic books no longer silently no-op the gate; the info finding makes their pack absence visible. When a non-Islamic pack ships (per F31), `assert_doctrinal_clean` will dispatch to it via load_doctrinal_pack. Today the dispatch defaults to 'islam' (legacy behavior preserved for all currently-shipped books).
 ---
 
 ### F35 — `findings.jsonl` concurrent-append race condition
