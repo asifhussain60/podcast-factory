@@ -291,6 +291,7 @@ def emit_finding(
     line: int | None = None,
     context_excerpt: str = "",
     resolution: str = "flagged",
+    bypassed_gate: str = "",
 ) -> None:
     """Append one JSONL record to the learning-substrate findings ledger.
 
@@ -328,6 +329,12 @@ def emit_finding(
         "line": line,
         "context_excerpt": context_excerpt[:300],
         "resolution": resolution,
+        # F33 (2026-05-25): post-publish findings that should have been caught
+        # earlier in the pipeline carry the gate name they bypassed (e.g.
+        # "G3-sequential-numbering", "Tier-2.5-build-validator"). Empty for
+        # in-pipeline findings. The trainer computes per-gate false-negative
+        # rate by grouping findings on this field.
+        "bypassed_gate": bypassed_gate,
     }
     line_out = _json.dumps(record, ensure_ascii=False, sort_keys=True) + "\n"
     with ledger.open("a", encoding="utf-8") as f:

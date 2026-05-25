@@ -927,10 +927,12 @@ This is the same M1 + F20 pattern: framing rule ignored because chapter source f
 
 **What goes wrong:** at 5+ in-flight books simultaneously, the operator has no single-pane-of-glass for burn rate, throughput, or rule-firing patterns. Decisions like "is dual-auditor still worth the cost across all books" are unanswerable.
 
-**Status:** **PARTIALLY ADDRESSED 2026-05-25** by [cross_book_dashboard.py](../../scripts/podcast/cross_book_dashboard.py) (fleet-level phase/status/cost table). Outstanding:
-- `learn_aggregate.py --since 30d --by-check-id` for rule-firing telemetry.
-- Fleet-level heartbeat replacing per-book heartbeat when N≥2 books in flight.
-- `bypassed_gate` tagging on post-publish findings so G1-G7 false-negative rate becomes measurable.
+**Status:** **CLOSED 2026-05-25.** Three pieces shipped:
+- [cross_book_dashboard.py](../../scripts/podcast/cross_book_dashboard.py) — fleet-level phase/status/cost/chapter-timing table. Survives 5+ in-flight books cleanly.
+- [learn_aggregate.py](../../scripts/podcast/learn_aggregate.py) `--by-check-id --since <window>` — rule-firing telemetry histogram (top 50 ranked, P0/P1/P2 split, books-affected count, top-book attribution per check_id). New `_parse_since` accepts `7d / 30d / 4w / 2m / 24h`.
+- [_rules.py:emit_finding](../../scripts/podcast/_rules.py) now carries `bypassed_gate: str` field so post-publish findings tag which G1-G7 gate they slipped past. Trainer can compute per-gate false-negative rate. Empty for in-pipeline findings.
+
+Outstanding (deferred to a later session): fleet-level heartbeat that auto-switches from per-book card to combined card when N≥2 books in flight — implementation is mechanical (heartbeat prompt drives the switch, no new code needed; just a documentation discipline in memory).
 
 **Severity:** P1 — friction at 2+ books, painful at 5+.
 
@@ -1061,6 +1063,8 @@ Phase 0b ordering constraint: windows with overlap must be processed in chunks w
 **Rate-limit safety:** claude-opus-4-7 API tier supports concurrent calls. The per-window 10-min timeout provides natural back-pressure. If a rate-limit error occurs, fall back to sequential for the failed window and retry.
 
 **Verification:** Run Phase 0b on a 12-window book with parallelism enabled. Confirm output is byte-identical to sequential run. Confirm wall-clock time is ~3× shorter. Confirm cost-ledger entries match (same total token count).
+
+**Status:** **CLOSED (shipped 2026-05-25).** [_chunking.py:run_windowed()](../../scripts/podcast/_chunking.py) gains a `max_workers: int = 1` parameter (default = sequential, prior behavior). When > 1, work items are dispatched via `concurrent.futures.ThreadPoolExecutor`; threads release the GIL inside `subprocess.run()` so claude -p calls run in true parallel. Resume-skip logic (already-done windows) runs before queue dispatch so resumed runs are still cheap. Cost-ledger appends are protected by fcntl LOCK_EX (shared with F35 findings-ledger lock pattern). Failures + fatal_error use a `threading.Lock`. P5.1 (rc=0 + no artifact) raises fatal — pending futures cancelled. Defaults: PHASE_0B_MAX_WORKERS=3 (set via env), PHASE_0C_MAX_WORKERS=3. Phase 0d uses its own dispatch pattern (per-SC subprocess pool) and is unchanged.
 
 ---
 

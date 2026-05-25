@@ -227,6 +227,7 @@ def run_windowed(
     book_dir: Path | None = None,
     phase: str = "",
     model: str = "claude-opus-4-7",
+    max_workers: int = 1,
 ) -> list[Path]:
     """Drive `claude -p` once per window with checkpointing.
 
@@ -242,6 +243,16 @@ def run_windowed(
                             cost-ledger row per window via `_cost_ledger` (P6.1).
       phase               — (optional) phase label for ledger rows (e.g., "0b").
       model               — model name label for ledger rows.
+      max_workers         — F34-second (2026-05-25): if > 1, runs window
+                            shellouts in a ThreadPoolExecutor of size
+                            max_workers; each thread runs claude -p
+                            synchronously but the pool processes multiple
+                            windows in parallel. Threads are I/O-bound
+                            (waiting for subprocess.run) so the GIL is
+                            released — true wall-clock speedup. cost-ledger
+                            and the failures list are protected by fcntl +
+                            Python lock respectively. Default 1 = prior
+                            sequential behavior.
 
     Returns the ordered list of out_path objects (one per window, in order).
     Raises ChunkingError if the claude binary is missing or every window fails.
@@ -252,24 +263,40 @@ def run_windowed(
         raise ChunkingError("no windows produced — input text is empty")
 
     total = len(windows)
-    log(f"    chunking: {total} windows · target={target_words} words · overlap={overlap_words}")
+    if max_workers > 1:
+        log(f"    chunking: {total} windows · target={target_words} words · overlap={overlap_words} · parallel={max_workers}")
+    else:
+        log(f"    chunking: {total} windows · target={target_words} words · overlap={overlap_words}")
 
+    # Build (idx, body, out_path) tuples up-front so the worker function is
+    # self-contained and can run in any order.
     out_paths: list[Path] = []
-    failures: list[tuple[int, str]] = []
-
+    work_items: list[tuple[int, str, Path]] = []
     for idx, body in enumerate(windows, start=1):
         in_path = chunks_dir / f"win-{idx:03d}.in.md"
         out_path = chunks_dir / f"win-{idx:03d}.out.md"
         out_paths.append(out_path)
-
-        # Resume: if the output already exists and is non-empty, skip.
+        # Resume: if the output already exists and is non-empty, skip queueing.
         if out_path.exists() and out_path.stat().st_size > 0:
             log(f"    win {idx:03d}/{total} · skip (already done, {out_path.stat().st_size} bytes)")
             continue
+        work_items.append((idx, body, out_path))
 
+    if not work_items:
+        # All windows already done from a prior run; nothing to do.
+        return out_paths
+
+    # Shared-state guards for the worker function.
+    import threading as _threading
+    failures: list[tuple[int, str]] = []
+    fatal_error: list[ChunkingError] = []  # use list as mutable holder for first fatal
+    state_lock = _threading.Lock()
+
+    def _process_window(idx: int, body: str, out_path: Path) -> None:
+        """Worker — runs one window. Safe to call in a thread."""
+        in_path = chunks_dir / f"win-{idx:03d}.in.md"
         # Write the input chunk for provenance.
         _atomic_write(in_path, body)
-
         prompt = prompt_builder(body, idx, total, out_path)
         log(f"    win {idx:03d}/{total} · invoking claude -p ({_word_count(body)} words in)")
         try:
@@ -283,18 +310,21 @@ def run_windowed(
             stdout = proc.stdout or ""
             stderr = proc.stderr or ""
         except FileNotFoundError as e:
-            raise ChunkingError(
-                f"`{CLAUDE_CMD}` not found on PATH.",
-                manual_fallback="Install Claude Code CLI or add to PATH.",
-            ) from e
+            # CLAUDE_CMD missing is a fatal config error — fail fast.
+            with state_lock:
+                if not fatal_error:
+                    fatal_error.append(ChunkingError(
+                        f"`{CLAUDE_CMD}` not found on PATH.",
+                        manual_fallback="Install Claude Code CLI or add to PATH.",
+                    ))
+            return
         except subprocess.TimeoutExpired:
-            failures.append((idx, f"timed out after {timeout_per_window}s"))
+            with state_lock:
+                failures.append((idx, f"timed out after {timeout_per_window}s"))
             log(f"    win {idx:03d}/{total} · TIMEOUT")
-            continue
+            return
 
-        # P6.1 cost-ledger integration — record EVERY claude -p call's usage
-        # (rc=0 OR rc!=0), since the API call cost is real regardless of artifact
-        # success. Ledger failure must NOT poison the chunking flow.
+        # Cost-ledger append (already fcntl-LOCK_EX-protected per F34-second).
         if book_dir is not None:
             try:
                 from _cost_ledger import append_from_claude_p_stdout
@@ -309,49 +339,60 @@ def run_windowed(
                 sys.stderr.write(f"[run_windowed] cost-ledger append failed: {e!r}\n")
 
         if rc != 0:
-            # Transient (network / API / quota) failures: log and continue;
-            # resume will retry. P5.2 hardening: capture stdout AND stderr so
-            # the post-mortem has both. The truncation cap is generous enough
-            # to include the typical refusal preamble + the first error line.
-            failures.append(
-                (
-                    idx,
-                    f"rc={rc}: stderr={stderr.strip()[:300]} | stdout={stdout.strip()[:300]}",
+            with state_lock:
+                failures.append(
+                    (idx,
+                     f"rc={rc}: stderr={stderr.strip()[:300]} | stdout={stdout.strip()[:300]}")
                 )
-            )
             log(f"    win {idx:03d}/{total} · FAILED rc={rc}")
-            continue
+            return
 
-        # The window prompt instructs claude to write directly to out_path.
-        # P5.2: rc=0-but-no-artifact is THE P5.1 failure class. After P5.1
-        # (--permission-mode acceptEdits), this should not recur. If it does,
-        # the cause is downstream (content filter, quota, prompt issue) and
-        # not retryable — RAISE FATALLY with full stdout/stderr captured so
-        # the operator can diagnose. Silent continuation is the bug v3 P5.2
-        # explicitly eradicates.
         if not out_path.exists() or out_path.stat().st_size == 0:
-            raise ChunkingError(
-                (
-                    f"win {idx:03d}/{total} returned rc=0 but produced no artifact "
-                    f"at {out_path}. This is the P5.1 failure class — the LLM "
-                    f"call exited cleanly but did not write the expected file. "
-                    f"After --permission-mode acceptEdits, recurrence indicates "
-                    f"a content-filter refusal, quota hit, or prompt issue."
-                ),
-                manual_fallback=(
-                    f"1. Inspect the stdout/stderr attached to this error to "
-                    f"identify the refusal reason.\n"
-                    f"2. If the prompt needs adjusting, edit and resume.\n"
-                    f"3. If it's a transient quota issue, retry the same window.\n"
-                    f"4. Drive the window manually via the /podcast skill if needed; "
-                    f"place output as `{out_path.name}` then re-resume.\n"
-                    f"5. DO NOT silently advance past this error."
-                ),
-                stdout=stdout,
-                stderr=stderr,
-            )
+            # P5.1 failure class — fatal, not retryable.
+            with state_lock:
+                if not fatal_error:
+                    fatal_error.append(ChunkingError(
+                        (
+                            f"win {idx:03d}/{total} returned rc=0 but produced no artifact "
+                            f"at {out_path}. This is the P5.1 failure class — the LLM "
+                            f"call exited cleanly but did not write the expected file. "
+                            f"After --permission-mode acceptEdits, recurrence indicates "
+                            f"a content-filter refusal, quota hit, or prompt issue."
+                        ),
+                        manual_fallback=(
+                            f"1. Inspect the stdout/stderr attached to this error to "
+                            f"identify the refusal reason.\n"
+                            f"2. If the prompt needs adjusting, edit and resume.\n"
+                            f"3. If it's a transient quota issue, retry the same window.\n"
+                            f"4. Drive the window manually via the /podcast skill if needed; "
+                            f"place output as `{out_path.name}` then re-resume.\n"
+                            f"5. DO NOT silently advance past this error."
+                        ),
+                        stdout=stdout,
+                        stderr=stderr,
+                    ))
+            return
 
         log(f"    win {idx:03d}/{total} · OK ({out_path.stat().st_size} bytes)")
+
+    # Dispatch — sequential (max_workers==1) or parallel (>1).
+    if max_workers <= 1:
+        for idx, body, out_path in work_items:
+            _process_window(idx, body, out_path)
+            if fatal_error:
+                raise fatal_error[0]
+    else:
+        from concurrent.futures import ThreadPoolExecutor, as_completed
+        with ThreadPoolExecutor(max_workers=max_workers) as ex:
+            futures = [ex.submit(_process_window, idx, body, out_path)
+                       for idx, body, out_path in work_items]
+            for f in as_completed(futures):
+                _ = f.result()  # surface any worker exception
+                if fatal_error:
+                    # Cancel pending futures; raise the fatal.
+                    for pf in futures:
+                        pf.cancel()
+                    raise fatal_error[0]
 
     if failures and len(failures) == total:
         raise ChunkingError(
