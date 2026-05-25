@@ -1420,16 +1420,26 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
     )
 
     # Phase 0g — register the series in the cross-book registry.
-    _info("phase: 0g · register series in registry.md")
-    update_phase(book_dir, phase="0g", status="running")
-    try:
-        phase_0g_register(book_dir)
-    except RuntimeError as e:
-        update_phase(book_dir, phase="0g", status="failed", error=str(e))
-        _err(str(e))
-        return 2
-    update_phase(book_dir, phase="0g", status="completed")
-    phase_git_commit(book_dir, f"podcast({book_slug}): phase 0g register series")
+    # Guard: skip if already completed from a prior run (idempotency for re-entry).
+    _0g_done = (
+        (read_state(book_dir) or {})
+        .get("phases", {})
+        .get("0g", {})
+        .get("status") == "completed"
+    )
+    if _0g_done:
+        _info("phase: 0g · already completed, skipping")
+    else:
+        _info("phase: 0g · register series in registry.md")
+        update_phase(book_dir, phase="0g", status="running")
+        try:
+            phase_0g_register(book_dir)
+        except RuntimeError as e:
+            update_phase(book_dir, phase="0g", status="failed", error=str(e))
+            _err(str(e))
+            return 2
+        update_phase(book_dir, phase="0g", status="completed")
+        phase_git_commit(book_dir, f"podcast({book_slug}): phase 0g register series")
 
     # Phase 11b — Slide-deck cohort authoring + Slide Deck Challenger convergence.
     # Default TRUE — slide decks are required output alongside chapters and episodes.
@@ -1709,6 +1719,12 @@ def run_resume(args: argparse.Namespace) -> int:
     # to finalize without re-running slides.
     if current_phase == "per-chapter-slides" and current_status == "completed":
         _info("Phase per-chapter-slides already completed — advancing to finalize.")
+        return _drive_per_chapter_and_after(book_dir)
+
+    # 0g completed but orchestrator exited before advancing to finalize.
+    # Same pattern as per-chapter-slides/completed above.
+    if current_phase == "0g" and current_status == "completed":
+        _info("Phase 0g already completed — advancing to finalize.")
         return _drive_per_chapter_and_after(book_dir)
 
     # Finalize halt (added 2026-05-24): G1-G7 gates passed; human reviews in
