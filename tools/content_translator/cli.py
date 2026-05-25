@@ -185,6 +185,10 @@ def main() -> None:
         )
         if result.get("skipped"):
             print(f"SKIPPED (already {result['stage']}): {bundle_root}")
+        elif result.get("passthrough"):
+            print(f"PASSTHROUGH (English source): {bundle_root}")
+            print(f"  cost:     $0.0000")
+            print(f"  output:   {result['output_path']}")
         else:
             print(f"TRANSLATED: {bundle_root}")
             print(f"  sections: {result['sections_translated']}")
