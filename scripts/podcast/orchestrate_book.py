@@ -334,6 +334,7 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
             "/_system/enrichment-log.md",
             "/_system/chapter-set-report.md",
             "/_system/health-trend.md",
+            "/_system/watchdog.json",   # watch_orchestrator.sh sentinel; written at launch
         )
         runtime_artifact_dirs = (
             f"{book_runtime_prefix}_system/episode-drafts/",
@@ -345,9 +346,10 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
             f"{book_runtime_prefix}episodes/",
             f"{book_runtime_prefix}slide-decks/",
             # Cross-book orchestrator outputs (challenger + trainer learning substrate;
-            # scratch workspace).
+            # scratch workspace + watchdog logs).
             "content/podcast/.skill/_learning/",
             "_workspace/tmp/",
+            "_workspace/logs/",
         )
         # macOS filesystem is case-insensitive; git status --porcelain sometimes
         # reports paths as `CONTENT/...` (the on-disk case at the time the file
