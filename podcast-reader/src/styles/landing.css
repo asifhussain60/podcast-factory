@@ -668,15 +668,14 @@
   flex: 1;
   position: relative;
   display: flex; flex-direction: column;
-  padding: 26px 22px 22px;
+  padding: 32px 26px 24px;
   background:
-    radial-gradient(ellipse at top left, rgba(255,255,255,0.07), transparent 50%),
-    radial-gradient(ellipse at bottom right, rgba(0,0,0,0.22), transparent 60%),
-    repeating-linear-gradient(45deg, rgba(255,255,255,0.025) 0 2px, transparent 2px 4px),
-    var(--cover-base, #5a2a2a);
-  color: var(--cover-ink, #f4e4b8);
+    /* very subtle paper grain, almost invisible */
+    repeating-linear-gradient(45deg, rgba(0,0,0,0.012) 0 1px, transparent 1px 3px),
+    var(--cover-base, #f1e8d6);
+  color: var(--cover-ink, #2a2218);
   border-radius: 4px 6px 6px 4px;
-  border-left: 1px solid rgba(0,0,0,0.25);
+  border-left: 1px solid rgba(0,0,0,0.10);
   overflow: hidden;
 }
 .book-tile-frame {
@@ -698,31 +697,30 @@
 }
 .book-tile-publisher {
   position: relative; z-index: 1;
-  margin: 6px 0 12px;
+  margin: 8px 0 28px;
   font-family: var(--font-ui);
   font-size: 9px; font-weight: 700;
-  letter-spacing: 0.22em; text-transform: uppercase;
+  letter-spacing: 0.28em; text-transform: uppercase;
   text-align: center;
-  color: var(--cover-foil, #d4af5f); opacity: 0.85;
+  color: var(--cover-foil, #8a6b2c); opacity: 0.75;
 }
 .book-tile-title {
   position: relative; z-index: 1;
-  margin: 26px 0 6px;
+  margin: 18px 0 8px;
   font-family: 'EB Garamond', Georgia, serif;
-  font-size: 26px; font-weight: 600;
+  font-size: 30px; font-weight: 500;
   line-height: 1.08; letter-spacing: -0.005em;
   text-align: center;
-  color: var(--cover-foil, #d4af5f);
-  text-shadow: 0 1px 0 rgba(0,0,0,0.4);
+  color: var(--cover-ink, #2a2218);
   text-wrap: balance;
 }
 .book-tile-title-ar {
   position: relative; z-index: 1;
-  margin: 8px 0 0;
+  margin: 10px 0 0;
   font-family: 'Markazi Text', 'Cairo', 'Amiri', serif;
   font-size: 22px; font-weight: 500;
   line-height: 1.4; text-align: center;
-  color: var(--cover-foil, #d4af5f); opacity: 0.88;
+  color: var(--cover-ink, #2a2218); opacity: 0.7;
   direction: rtl; unicode-bidi: isolate;
 }
 .book-tile-divider {
@@ -730,56 +728,44 @@
   display: flex; align-items: center; justify-content: center;
   gap: 10px; margin: 18px auto;
 }
-.book-tile-divider .seg { display: inline-block; width: 24px; height: 1px;
-  background: var(--cover-foil, #d4af5f); opacity: 0.55; }
-.book-tile-divider .gem { color: var(--cover-foil, #d4af5f); font-size: 9px; opacity: 0.85; }
+.book-tile-divider .seg { display: inline-block; width: 28px; height: 1px;
+  background: var(--cover-foil, #8a6b2c); opacity: 0.45; }
+.book-tile-divider .gem { color: var(--cover-foil, #8a6b2c); font-size: 8px; opacity: 0.7; }
 .book-tile-author {
   position: relative; z-index: 1;
   font-family: 'EB Garamond', Georgia, serif;
-  font-size: 13px; font-style: italic;
-  text-align: center; line-height: 1.35;
-  color: var(--cover-ink, #f4e4b8); opacity: 0.88;
+  font-size: 13.5px; font-style: italic;
+  text-align: center; line-height: 1.4;
+  color: var(--cover-ink, #2a2218); opacity: 0.78;
   margin: 0 8px;
 }
 .book-tile-era {
   position: relative; z-index: 1;
-  margin-top: 4px;
+  margin-top: 6px;
   font-family: var(--font-ui);
   font-size: 8.5px; font-weight: 700;
-  letter-spacing: 0.16em; text-transform: uppercase;
+  letter-spacing: 0.2em; text-transform: uppercase;
   text-align: center;
-  color: var(--cover-foil, #d4af5f); opacity: 0.7;
+  color: var(--cover-ink, #2a2218); opacity: 0.45;
 }
-.book-tile-description {
-  position: relative; z-index: 1;
-  margin: 18px 4px 0;
-  font-family: 'EB Garamond', Georgia, serif;
-  font-size: 12.5px; line-height: 1.55;
-  text-align: center;
-  color: var(--cover-ink, #f4e4b8); opacity: 0.78;
-  flex: 1;
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
+.book-tile-spacer { flex: 1; }
 .book-tile-foot {
   position: relative; z-index: 1;
   display: flex; align-items: center; justify-content: space-between;
-  margin-top: 18px; padding-top: 14px;
-  border-top: 1px solid color-mix(in oklab, var(--cover-foil, #d4af5f) 30%, transparent);
+  margin-top: 22px; padding-top: 14px;
+  border-top: 1px solid color-mix(in oklab, var(--cover-ink, #2a2218) 14%, transparent);
 }
 .book-tile-icons {
-  display: inline-flex; align-items: center; gap: 10px;
-  color: var(--cover-foil, #d4af5f);
-  font-size: 11px; opacity: 0.9;
+  display: inline-flex; align-items: center; gap: 12px;
+  color: var(--cover-ink, #2a2218);
+  font-size: 11px; opacity: 0.55;
 }
 .book-tile-icons i { line-height: 1; }
 .book-tile-open {
   font-family: var(--font-ui);
   font-size: 10px; font-weight: 700;
-  letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--cover-foil, #d4af5f);
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--cover-foil, #8a6b2c);
   display: inline-flex; align-items: center; gap: 6px;
   transition: gap 200ms;
 }
@@ -788,20 +774,51 @@
 .book-tile:hover .book-tile-open i { transform: translateX(3px); }
 .book-tile-ribbon {
   position: absolute;
-  top: 14px; right: 14px; z-index: 2;
-  padding: 3px 10px;
-  background: color-mix(in oklab, var(--cover-foil, #d4af5f) 92%, transparent);
-  color: var(--cover-base, #5a2a2a);
+  top: 16px; right: 16px; z-index: 2;
+  padding: 3px 9px;
+  background: color-mix(in oklab, var(--cover-ink, #2a2218) 8%, transparent);
+  color: var(--cover-ink, #2a2218);
   font-family: var(--font-ui);
-  font-size: 8.5px; font-weight: 700;
-  letter-spacing: 0.14em; text-transform: uppercase;
+  font-size: 8.5px; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
   border-radius: 9999px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+  opacity: 0.75;
 }
-.book-tile[data-cover="1"] { --cover-base: oklch(28% 0.11 22);  --cover-ink: oklch(94% 0.04 75);  --cover-foil: oklch(78% 0.13 80); }
-.book-tile[data-cover="2"] { --cover-base: oklch(24% 0.08 250); --cover-ink: oklch(96% 0.012 80); --cover-foil: oklch(78% 0.13 80); }
-.book-tile[data-cover="3"] { --cover-base: oklch(28% 0.07 155); --cover-ink: oklch(95% 0.03 75);  --cover-foil: oklch(80% 0.13 85); }
-.book-tile[data-cover="4"] { --cover-base: oklch(58% 0.13 75);  --cover-ink: oklch(20% 0.04 50);  --cover-foil: oklch(28% 0.10 50); }
-.book-tile[data-cover="5"] { --cover-base: oklch(27% 0.10 320); --cover-ink: oklch(95% 0.03 75);  --cover-foil: oklch(78% 0.13 85); }
-.book-tile[data-cover="6"] { --cover-base: oklch(45% 0.07 60);  --cover-ink: oklch(96% 0.04 75);  --cover-foil: oklch(86% 0.12 80); }
-.book-tile[data-cover="7"] { --cover-base: oklch(20% 0.012 60); --cover-ink: oklch(94% 0.04 75);  --cover-foil: oklch(80% 0.13 80); }
+/* Softened paper-leaning palettes — title-page restraint, not leather-bound saturation.
+   Each carries a paper-toned base, a dark ink for type, and a muted gold/foil accent
+   for the publisher banner + Open chip. */
+.book-tile[data-cover="1"] { /* aged ivory */
+  --cover-base: oklch(95% 0.025 75);
+  --cover-ink:  oklch(22% 0.012 60);
+  --cover-foil: oklch(48% 0.13 60);
+}
+.book-tile[data-cover="2"] { /* dusty blue */
+  --cover-base: oklch(89% 0.025 240);
+  --cover-ink:  oklch(24% 0.06 250);
+  --cover-foil: oklch(38% 0.10 250);
+}
+.book-tile[data-cover="3"] { /* soft sage */
+  --cover-base: oklch(91% 0.025 155);
+  --cover-ink:  oklch(24% 0.05 150);
+  --cover-foil: oklch(38% 0.10 145);
+}
+.book-tile[data-cover="4"] { /* pale ochre */
+  --cover-base: oklch(92% 0.035 80);
+  --cover-ink:  oklch(26% 0.06 60);
+  --cover-foil: oklch(48% 0.13 65);
+}
+.book-tile[data-cover="5"] { /* dusty rose */
+  --cover-base: oklch(90% 0.025 25);
+  --cover-ink:  oklch(28% 0.07 20);
+  --cover-foil: oklch(42% 0.11 20);
+}
+.book-tile[data-cover="6"] { /* warm fog (taupe-grey) */
+  --cover-base: oklch(89% 0.012 60);
+  --cover-ink:  oklch(24% 0.012 60);
+  --cover-foil: oklch(45% 0.10 70);
+}
+.book-tile[data-cover="7"] { /* soft slate */
+  --cover-base: oklch(89% 0.012 240);
+  --cover-ink:  oklch(22% 0.012 240);
+  --cover-foil: oklch(40% 0.06 240);
+}
