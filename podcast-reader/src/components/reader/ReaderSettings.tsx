@@ -73,15 +73,26 @@ export default function ReaderSettingsPanel() {
       const next = (e as CustomEvent<ReaderSettings>).detail;
       if (next) setS(next);
     };
+    const onDocPointer = (e: MouseEvent) => {
+      if (!open) return;
+      const t = e.target as HTMLElement;
+      if (!t) return;
+      // Close when clicking outside the panel AND outside the trigger button.
+      if (panelRef.current?.contains(t)) return;
+      if (t.closest('[aria-label="Reader settings"]')) return;
+      setOpen(false);
+    };
     window.addEventListener('reader-settings:open', onOpen);
     window.addEventListener('keydown', onKey);
     window.addEventListener('reader-settings-changed', onChanged as EventListener);
+    document.addEventListener('mousedown', onDocPointer);
     return () => {
       window.removeEventListener('reader-settings:open', onOpen);
       window.removeEventListener('keydown', onKey);
       window.removeEventListener('reader-settings-changed', onChanged as EventListener);
+      document.removeEventListener('mousedown', onDocPointer);
     };
-  }, []);
+  }, [open]);
 
   const patch = (p: Partial<ReaderSettings>) => {
     const next = saveSettings(p);

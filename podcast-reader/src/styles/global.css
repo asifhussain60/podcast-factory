@@ -2,7 +2,144 @@
 @import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Scheherazade+New:wght@400;500;600;700&family=Noto+Nastaliq+Urdu:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.cdnfonts.com/css/opendyslexic');
+@import url('https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Cairo:wght@400;500;600;700&family=Markazi+Text:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
+
+/* Quran-popover specific design language */
+.quran-popover {
+  background:
+    radial-gradient(ellipse at top right, color-mix(in oklab, var(--color-gold) 25%, transparent) 0%, transparent 60%),
+    radial-gradient(ellipse at bottom left, color-mix(in oklab, var(--color-gold-deep) 12%, transparent) 0%, transparent 55%),
+    linear-gradient(to bottom, color-mix(in oklab, var(--color-cream) 90%, transparent), color-mix(in oklab, var(--color-surface-raised) 95%, transparent));
+  border: 1px solid color-mix(in oklab, var(--color-gold-deep) 35%, transparent);
+  box-shadow:
+    0 1px 0 0 rgba(255, 255, 255, 0.55) inset,
+    0 24px 56px -24px rgba(80, 50, 0, 0.45),
+    0 8px 18px -8px rgba(80, 50, 0, 0.25);
+  border-radius: 16px;
+  overflow: hidden;
+  animation: popup-rise 220ms cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+.quran-popover::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(to right, transparent 5%, var(--color-gold-deep) 22%, var(--color-gold) 50%, var(--color-gold-deep) 78%, transparent 95%);
+}
+.quran-popover::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(to right, transparent, color-mix(in oklab, var(--color-gold-deep) 50%, transparent), transparent);
+}
+.quran-popover-header {
+  padding: 14px 18px 10px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border-bottom: 1px solid color-mix(in oklab, var(--color-gold-deep) 18%, transparent);
+}
+.quran-popover-surah-en {
+  font-family: 'Cairo', var(--font-ui);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: color-mix(in oklab, var(--color-gold-deep) 90%, var(--color-ink));
+}
+.quran-popover-surah-ar {
+  font-family: 'Cairo', 'Amiri', serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: color-mix(in oklab, var(--color-gold-deep) 85%, var(--color-ink));
+}
+.quran-popover-verse-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 22px;
+  padding: 0 8px;
+  margin-left: 8px;
+  background: color-mix(in oklab, var(--color-gold-deep) 18%, transparent);
+  color: color-mix(in oklab, var(--color-gold-deep) 95%, var(--color-ink));
+  border: 1px solid color-mix(in oklab, var(--color-gold-deep) 35%, transparent);
+  border-radius: 9999px;
+  font-family: 'Cairo', var(--font-ui);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.quran-popover-body { padding: 16px 18px 14px; }
+.quran-arabic {
+  font-family: 'Amiri Quran', 'Amiri', 'Scheherazade New', serif;
+  font-size: 26px;
+  line-height: 2.1;
+  text-align: right;
+  direction: rtl;
+  color: oklch(22% 0.05 60);
+  margin: 0 0 14px;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+  unicode-bidi: isolate;
+}
+.quran-translation {
+  font-family: 'EB Garamond', 'Markazi Text', Georgia, serif;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--color-ink-secondary);
+  font-style: italic;
+  padding-top: 12px;
+  border-top: 1px dashed color-mix(in oklab, var(--color-gold-deep) 25%, transparent);
+}
+.quran-translation .translation-attribution {
+  display: block;
+  margin-top: 6px;
+  font-family: 'Cairo', var(--font-ui);
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-style: normal;
+  color: var(--color-ink-tertiary);
+}
+.quran-popover-footer {
+  padding: 8px 18px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Cairo', var(--font-ui);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-ink-tertiary);
+}
+.quran-popover-footer a {
+  color: color-mix(in oklab, var(--color-gold-deep) 90%, var(--color-ink));
+  text-decoration: none;
+  transition: color 100ms;
+}
+.quran-popover-footer a:hover { color: var(--color-gold-deep); text-decoration: underline; }
+
+[data-theme="dark"] .quran-popover {
+  background:
+    radial-gradient(ellipse at top right, color-mix(in oklab, var(--color-gold) 18%, transparent) 0%, transparent 60%),
+    linear-gradient(to bottom, oklch(22% 0.04 65), oklch(18% 0.03 65));
+}
+[data-theme="dark"] .quran-arabic { color: oklch(94% 0.04 75); }
+[data-theme="dark"] .quran-popover-surah-ar,
+[data-theme="dark"] .quran-popover-surah-en { color: var(--color-gold); }
+
+/* Ref-quran hover affordance — make it discoverable as interactive */
+.prose-body .ref-quran {
+  cursor: pointer;
+  border-bottom: 1px dotted color-mix(in oklab, var(--color-gold-deep) 50%, transparent);
+  transition: background 120ms, border-color 120ms;
+}
+.prose-body .ref-quran:hover {
+  background: color-mix(in oklab, var(--color-gold) 14%, transparent);
+  border-bottom-color: var(--color-gold-deep);
+  border-radius: 3px;
+}
 
 /* ──────────────────────────────────────────────────────────────
    Editorial theme — single coherent palette
