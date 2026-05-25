@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Podcast Reader — proposed polish mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Source+Serif+4:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=Amiri:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ──────────────────────────────────────────────────────────────
+   Mockup CSS — represents Phase 1 + Phase 2 + Phase 3 affordances.
+   Not the final production CSS — values mirror the real plan but
+   are inlined here for visual review.
+   ────────────────────────────────────────────────────────────── */
+:root {
+  --font-body: "Source Serif 4", "Iowan Old Style", "Charter", Georgia, serif;
+  --font-ui: "Inter", system-ui, -apple-system, sans-serif;
+  --font-arabic-naskh: "Amiri", "Scheherazade New", "Noto Naskh Arabic", "Traditional Arabic", serif;
+  --font-ref-quran: "EB Garamond", "Garamond", Georgia, serif;
+
+  --reading-size: 19px;
+  --reading-line-height: 1.7;
+
+  --color-surface-page: oklch(98.2% 0.004 75);
+  --color-surface-raised: oklch(100% 0 0);
+  --color-surface-sunken: oklch(95.5% 0.008 75);
+  --color-ink: oklch(21% 0.012 60);
+  --color-ink-secondary: oklch(42% 0.01 60);
+  --color-ink-tertiary: oklch(56% 0.008 60);
+  --color-rule-subtle: oklch(92% 0.005 60);
+  --color-rule-default: oklch(84% 0.008 60);
+  --color-gold: oklch(72% 0.13 80);
+  --color-gold-deep: oklch(50% 0.13 70);
+  --color-arabic: oklch(46% 0.018 60);
+}
+
+/* Sepia theme — NEW in Phase 2 */
+html[data-theme="sepia"] {
+  --color-surface-page: oklch(95% 0.04 75);
+  --color-surface-raised: oklch(97% 0.03 75);
+  --color-surface-sunken: oklch(92% 0.045 75);
+  --color-ink: oklch(28% 0.04 50);
+  --color-ink-secondary: oklch(40% 0.04 50);
+  --color-rule-default: oklch(82% 0.05 70);
+}
+
+/* Dark theme — exists today */
+html[data-theme="dark"] {
+  --color-surface-page: oklch(16% 0.02 250);
+  --color-surface-raised: oklch(20% 0.025 250);
+  --color-surface-sunken: oklch(22% 0.025 250);
+  --color-ink: oklch(94% 0.008 75);
+  --color-ink-secondary: oklch(75% 0.008 75);
+  --color-rule-default: oklch(36% 0.025 250);
+  --color-gold: oklch(82% 0.13 80);
+  --color-gold-deep: oklch(70% 0.13 70);
+  --color-arabic: oklch(80% 0.04 60);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--font-ui);
+  background: var(--color-surface-page);
+  color: var(--color-ink);
+  min-height: 100vh;
+  transition: background 200ms ease, color 200ms ease;
+}
+
+/* ── Reading progress sliver (Phase 1) ─────────────────────────── */
+.progress {
+  position: fixed; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(to right, var(--color-gold-deep), var(--color-gold));
+  z-index: 60;
+  transform: scaleX(0.35); transform-origin: 0 50%;
+}
+
+/* ── Layout shell ──────────────────────────────────────────────── */
+.shell { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 280px; flex-shrink: 0;
+  background: var(--color-surface-sunken);
+  border-right: 1px solid var(--color-rule-default);
+  display: flex; flex-direction: column;
+}
+.sidebar-head {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--color-rule-default);
+  background: var(--color-surface-raised);
+}
+.sidebar-back { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-ink-tertiary); text-decoration: none; }
+.sidebar-title { font-family: "EB Garamond", serif; font-size: 17px; font-weight: 600; color: var(--color-ink); margin-top: 6px; display: flex; align-items: center; gap: 6px; }
+.sidebar-meta { font-size: 11px; color: var(--color-ink-tertiary); margin-top: 4px; }
+
+.toc { padding: 12px; flex: 1; overflow-y: auto; }
+.toc-row {
+  padding: 10px 12px; border-radius: 6px; margin-bottom: 4px;
+  font-size: 13px; color: var(--color-ink-secondary);
+  display: flex; gap: 10px; align-items: flex-start; cursor: pointer;
+  transition: background 120ms ease;
+}
+.toc-row:hover { background: var(--color-surface-raised); }
+.toc-row.active { background: oklch(94% 0.04 80); border-left: 3px solid var(--color-gold-deep); padding-left: 9px; }
+.toc-num { font-family: var(--font-ui); font-size: 10px; font-weight: 600; color: var(--color-gold-deep); width: 28px; }
+.toc-row.episode .toc-num { color: oklch(50% 0.10 230); }
+
+.main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.topbar {
+  position: sticky; top: 0; z-index: 30;
+  background: color-mix(in srgb, var(--color-surface-page) 88%, transparent);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--color-rule-subtle);
+}
+.topbar-inner {
+  max-width: 1080px; margin: 0 auto;
+  padding: 12px 24px; display: flex; align-items: center; justify-content: space-between;
+}
+.crumb { font-size: 13px; color: var(--color-ink-secondary); display: flex; align-items: center; gap: 6px; }
+.crumb a { color: var(--color-ink-secondary); text-decoration: none; }
+.crumb a:hover { color: var(--color-ink); }
+.crumb .sep { color: var(--color-ink-tertiary); }
+.crumb .current { color: var(--color-ink); font-weight: 500; }
+
+.icon-row { display: flex; gap: 8px; }
+.icon-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 11px; border-radius: 6px;
+  border: 1px solid var(--color-rule-default);
+  background: var(--color-surface-raised);
+  color: var(--color-ink-secondary);
+  font-size: 12px; font-weight: 500; font-family: var(--font-ui);
+  cursor: pointer; transition: all 120ms ease;
+}
+.icon-btn:hover { color: var(--color-ink); border-color: var(--color-ink-tertiary); }
+.icon-btn[aria-pressed="true"] { background: oklch(94% 0.05 80); border-color: var(--color-gold); color: oklch(35% 0.13 60); }
+
+/* ── Content area ──────────────────────────────────────────────── */
+.content-wrap {
+  max-width: 1080px; width: 100%; margin: 0 auto;
+  padding: 24px;
+  display: grid; grid-template-columns: 1fr 220px; gap: 32px;
+}
+.content { min-width: 0; }
+.right-rail { font-family: var(--font-ui); font-size: 12px; }
+.right-rail-section { margin-bottom: 24px; }
+.right-rail-title { text-transform: uppercase; letter-spacing: 0.12em; font-size: 10px; font-weight: 600; color: var(--color-ink-tertiary); margin-bottom: 8px; }
+.mini-toc a {
+  display: block; padding: 6px 10px; border-left: 2px solid transparent;
+  color: var(--color-ink-secondary); text-decoration: none; font-size: 12.5px;
+  line-height: 1.45; margin-bottom: 2px;
+}
+.mini-toc a:hover { background: var(--color-surface-sunken); color: var(--color-ink); }
+.mini-toc a.active { border-left-color: var(--color-gold-deep); color: var(--color-ink); font-weight: 500; background: oklch(96% 0.03 80); }
+
+/* Ask sidebar — Phase 3 affordance */
+.ask-box { border: 1px solid var(--color-rule-default); border-radius: 8px; background: var(--color-surface-raised); padding: 12px; }
+.ask-box .ask-prompt { color: var(--color-ink-tertiary); font-style: italic; font-size: 12px; }
+.ask-box .ask-input {
+  width: 100%; margin-top: 8px; padding: 8px 10px;
+  border: 1px solid var(--color-rule-default); border-radius: 6px;
+  font-family: var(--font-ui); font-size: 12.5px;
+  background: var(--color-surface-page); color: var(--color-ink);
+}
+
+/* ── Reference Controls bar ────────────────────────────────────── */
+.refbar {
+  background: var(--color-surface-sunken);
+  border: 1px solid var(--color-rule-default);
+  border-radius: 10px; padding: 12px 16px; margin-bottom: 24px;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
+}
+.refbar-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--color-ink-tertiary); }
+.refchip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 11px; border-radius: 999px;
+  border: 1px solid var(--color-rule-default);
+  background: var(--color-surface-raised);
+  font-size: 12px; color: var(--color-ink-secondary); cursor: pointer;
+}
+.refchip.empty { opacity: 0.4; cursor: not-allowed; }
+.refchip kbd { font-family: var(--font-ui); font-size: 10px; padding: 1px 5px; border: 1px solid var(--color-rule-default); border-radius: 3px; color: var(--color-ink-tertiary); margin-left: 2px; }
+.refbar-spacer { flex: 1; }
+
+/* ── Chapter header ────────────────────────────────────────────── */
+.chapter-header { margin-bottom: 32px; padding-bottom: 16px; }
+.chapter-kicker { font-family: var(--font-ui); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; color: var(--color-gold-deep); }
+.chapter-title {
+  font-family: var(--font-body);
+  font-size: 38px; font-weight: 600; line-height: 1.15;
+  margin: 8px 0 14px; color: var(--color-ink);
+  text-wrap: balance;
+}
+.gold-hairline { height: 2px; border: none; background: linear-gradient(to right, transparent, var(--color-gold), transparent); margin: 0; }
+
+/* ── Prose body (Phase 1 — the missing rules) ──────────────────── */
+.prose-body {
+  font-family: var(--font-body);
+  font-size: var(--reading-size);
+  line-height: var(--reading-line-height);
+  color: var(--color-ink);
+}
+.prose-body p { margin: 0 0 1.1em; }
+.prose-body p:last-child { margin-bottom: 0; }
+.prose-body > p:first-of-type { margin-top: 0.4em; }
+.prose-body h2 {
+  font-family: var(--font-body);
+  font-size: 1.45em; font-weight: 600;
+  margin: 1.8em 0 0.55em; line-height: 1.3;
+  color: var(--color-ink); letter-spacing: -0.005em;
+  text-wrap: balance;
+}
+.prose-body h3 {
+  font-family: var(--font-body);
+  font-size: 1.2em; font-weight: 600;
+  margin: 1.5em 0 0.4em; line-height: 1.35;
+  color: var(--color-ink);
+}
+.prose-body em {
+  font-style: italic;
+  color: oklch(38% 0.04 60);
+}
+[data-theme="dark"] .prose-body em { color: oklch(85% 0.04 70); }
+[data-theme="sepia"] .prose-body em { color: oklch(35% 0.07 50); }
+.prose-body blockquote {
+  border-left: 3px solid var(--color-gold-deep);
+  padding: 4px 0 4px 18px;
+  margin: 1.3em 0;
+  font-style: italic;
+  color: var(--color-ink-secondary);
+}
+.prose-body blockquote p { margin: 0.3em 0; }
+.prose-body blockquote cite { display: block; font-style: normal; font-family: var(--font-ui); font-size: 12px; color: var(--color-ink-tertiary); margin-top: 6px; }
+.prose-body strong { font-weight: 600; }
+.prose-body > p:first-of-type::first-letter {
+  font-family: var(--font-ref-quran);
+  font-size: 3.4em;
+  float: left;
+  line-height: 0.88;
+  padding: 0.05em 0.1em 0 0;
+  color: var(--color-gold-deep);
+  font-weight: 500;
+}
+
+/* ── Arabic overlay — THE PHASE 1 FIX ──────────────────────────── */
+.ar-overlay { position: relative; }
+body[data-arabic="on"] .ar-overlay::after {
+  content: " " attr(data-script);
+  font-family: var(--font-arabic-naskh);
+  font-size: 1.05em;
+  font-style: normal;
+  font-weight: 500;
+  color: var(--color-arabic);
+  unicode-bidi: isolate;
+  direction: rtl;
+  padding-left: 0.18em;
+  letter-spacing: 0.01em;
+}
+[data-theme="dark"] body[data-arabic="on"] .ar-overlay::after { color: var(--color-gold); }
+
+/* ── AI affordances (Phase 3) — inline buttons in the gutter ───── */
+.section-with-ai { position: relative; }
+.section-with-ai .ai-trigger {
+  position: absolute; left: -38px; top: 8px;
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 1px solid var(--color-rule-default);
+  background: var(--color-surface-raised);
+  color: var(--color-gold-deep);
+  font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity 200ms ease;
+}
+.section-with-ai:hover .ai-trigger { opacity: 1; }
+.ai-summary {
+  margin: 12px 0 20px; padding: 14px 18px;
+  border-left: 3px solid var(--color-gold);
+  background: oklch(96% 0.03 80);
+  font-family: var(--font-ui); font-size: 14px; line-height: 1.55;
+  color: var(--color-ink-secondary); border-radius: 0 6px 6px 0;
+}
+[data-theme="dark"] .ai-summary { background: oklch(24% 0.04 70); color: var(--color-ink-secondary); }
+[data-theme="sepia"] .ai-summary { background: oklch(92% 0.06 70); }
+.ai-summary .ai-label { display: inline-flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--color-gold-deep); margin-bottom: 6px; }
+
+/* ── Term popover affordance (Phase 3) — underline on hover ────── */
+.ar-overlay { text-decoration: underline; text-decoration-color: transparent; text-decoration-thickness: 1px; text-underline-offset: 3px; transition: text-decoration-color 120ms; cursor: help; }
+.ar-overlay:hover { text-decoration-color: var(--color-gold); }
+
+/* ── Floating bottom action bar (Phase 2) ──────────────────────── */
+.float-bar {
+  position: fixed; bottom: 20px; right: 24px; z-index: 40;
+  display: flex; gap: 8px; padding: 6px;
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-rule-default);
+  border-radius: 999px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+.float-btn {
+  width: 38px; height: 38px; border-radius: 50%; border: none; cursor: pointer;
+  background: transparent; color: var(--color-ink-secondary);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-family: var(--font-ui);
+  transition: background 120ms ease;
+}
+.float-btn:hover { background: var(--color-surface-sunken); color: var(--color-ink); }
+.float-btn.primary { background: var(--color-gold-deep); color: white; }
+.float-btn.primary:hover { background: oklch(45% 0.14 65); }
+
+/* ── Settings panel (Phase 2) ──────────────────────────────────── */
+.settings {
+  position: fixed; top: 64px; right: 24px; z-index: 50;
+  width: 340px; padding: 18px;
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-rule-default);
+  border-radius: 14px;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.12);
+  display: none;
+  font-family: var(--font-ui);
+}
+.settings.open { display: block; }
+.settings h3 { margin: 0 0 16px; font-size: 14px; font-weight: 600; color: var(--color-ink); display: flex; justify-content: space-between; align-items: center; }
+.settings .close { background: none; border: none; color: var(--color-ink-tertiary); cursor: pointer; font-size: 18px; }
+.settings-group { margin-bottom: 14px; }
+.settings-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-ink-tertiary); margin-bottom: 6px; }
+.settings-row { display: flex; gap: 6px; }
+.setting-chip {
+  flex: 1; padding: 7px 8px; border-radius: 6px;
+  border: 1px solid var(--color-rule-default); background: var(--color-surface-page);
+  font-family: var(--font-ui); font-size: 12px; color: var(--color-ink-secondary);
+  cursor: pointer; text-align: center;
+}
+.setting-chip.active { background: var(--color-gold-deep); color: white; border-color: var(--color-gold-deep); }
+.setting-chip.theme-light { background: oklch(98% 0.004 75); color: oklch(21% 0.012 60); }
+.setting-chip.theme-sepia { background: oklch(95% 0.04 75); color: oklch(28% 0.04 50); }
+.setting-chip.theme-dark { background: oklch(16% 0.02 250); color: oklch(94% 0.008 75); }
+.setting-chip.theme-hc { background: white; color: black; border-color: black; }
+
+/* ── Footer prev/next ──────────────────────────────────────────── */
+.footer-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--color-rule-default); }
+.nav-card {
+  padding: 14px 16px; border: 1px solid var(--color-rule-default); border-radius: 10px;
+  background: var(--color-surface-raised); text-decoration: none; color: inherit;
+  display: flex; gap: 14px; align-items: center;
+}
+.nav-card.next { justify-content: flex-end; text-align: right; }
+.nav-card:hover { border-color: var(--color-gold); }
+.nav-badge { font-family: var(--font-ui); font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 999px; background: oklch(94% 0.04 80); color: oklch(38% 0.13 65); white-space: nowrap; }
+.nav-meta { font-family: var(--font-ui); font-size: 11px; color: var(--color-ink-tertiary); text-transform: uppercase; letter-spacing: 0.08em; }
+.nav-title { font-family: var(--font-body); font-size: 14px; font-weight: 500; color: var(--color-ink); margin-top: 2px; }
+
+/* ── Annotations on the mockup ─────────────────────────────────── */
+.annotation {
+  position: fixed; right: 12px; padding: 8px 12px;
+  background: oklch(48% 0.18 30); color: white;
+  font-family: var(--font-ui); font-size: 11px; font-weight: 600;
+  border-radius: 6px; letter-spacing: 0.05em;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  pointer-events: none; z-index: 100;
+}
+</style>
+</head>
+<body data-arabic="off">
+
+<!-- Reading-progress sliver -->
+<div class="progress"></div>
+
+<div class="shell">
+
+  <!-- ── Left sidebar (book TOC) ─────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-head">
+      <a class="sidebar-back" href="#">← PODCAST READER</a>
+      <div class="sidebar-title">📘 the-master-and-the-disciple</div>
+      <div class="sidebar-meta">📁 worktree · develop</div>
+    </div>
+    <nav class="toc">
+      <div class="toc-row"><span class="toc-num">Ch01</span><span>The Master's Call and the Disciple's Covenant</span></div>
+      <div class="toc-row episode"><span class="toc-num">E01</span><span>The Master's Call and the Disciple's Covenant</span></div>
+      <div class="toc-row active"><span class="toc-num">Ch02</span><span>The Architecture of Creation: Will, Command, and the Seven</span></div>
+      <div class="toc-row episode"><span class="toc-num">E02</span><span>The Architecture of Creation: Will, Command, and the Seven</span></div>
+      <div class="toc-row"><span class="toc-num">Ch03</span><span>World, Hereafter, and the Right of Wealth</span></div>
+      <div class="toc-row episode"><span class="toc-num">E03</span><span>World, Hereafter, and the Right of Wealth</span></div>
+      <div class="toc-row"><span class="toc-num">Ch04</span><span>The Greater Shaykh and the Seventh-Day Naming</span></div>
+      <div class="toc-row episode"><span class="toc-num">E04</span><span>The Greater Shaykh and the Seventh-Day Naming</span></div>
+    </nav>
+  </aside>
+
+  <!-- ── Main pane ───────────────────────────────────────────── -->
+  <div class="main">
+
+    <header class="topbar">
+      <div class="topbar-inner">
+        <nav class="crumb">
+          <a href="#">Library</a>
+          <span class="sep">›</span>
+          <a href="#">the-master-and-the-disciple</a>
+          <span class="sep">›</span>
+          <span class="current">Ch02 (source)</span>
+        </nav>
+        <div class="icon-row">
+          <button class="icon-btn" id="arabic-toggle" aria-pressed="false" onclick="toggleArabic()">
+            <span style="font-family: serif;">ع</span> Arabic
+          </button>
+          <button class="icon-btn" onclick="toggleSettings()" title="Reader settings (cmd+,)">
+            <strong style="font-family: serif;">Aa</strong> Settings
+          </button>
+          <button class="icon-btn" title="Legend (?)">ⓘ Legend</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="content-wrap">
+
+      <!-- ── Center column (content) ─────────────────────────── -->
+      <article class="content">
+
+        <!-- Reference Controls bar -->
+        <div class="refbar">
+          <span class="refbar-label">REFS:</span>
+          <span class="refchip empty">📖 Quran <span>0</span><kbd>n</kbd></span>
+          <span class="refchip">📜 Hadith <span>3</span><kbd>h</kbd></span>
+          <span class="refchip">ع Arabic <span>33</span><kbd>a</kbd></span>
+          <span style="font-size: 11px; color: var(--color-ink-tertiary);">36 total</span>
+          <span class="refbar-spacer"></span>
+          <button class="icon-btn">📋 Copy chapter</button>
+        </div>
+
+        <header class="chapter-header">
+          <div class="chapter-kicker">Source chapter · #2</div>
+          <h1 class="chapter-title">The Architecture of Creation: Will, Command, and the Seven</h1>
+          <hr class="gold-hairline" />
+        </header>
+
+        <div class="prose-body">
+
+          <div class="section-with-ai">
+            <button class="ai-trigger" title="✦ Summarize this section">✦</button>
+            <h2 id="s1">Where this chapter picks up</h2>
+
+            <p>The boy has just been bound. When the author had recited the covenant of <span class="ar-overlay" data-script="الله">God</span> to him, the boy wept until his tears poured down, he understood that he had become part of the Party of God and of the company of His friends, and <em>he fell silent in his composure</em>. The author <em>began to expound and explain</em>. This is the first long expounding. Where an earlier teaching walked the boy through the <em>outer</em> of the call — <em>who</em> may receive it, <em>how</em> it is given, <em>under what conditions</em> — this exposition walks him through the <em>architecture of creation itself</em>. The bond has been struck; now the architecture inside the bond is shown.</p>
+
+            <p>The exposition is, in form, a sustained master-and-boy dialogue, but the proportion has shifted. In the earlier teaching the boy spoke half the lines; here the master speaks most of them. The boy is a prompter rather than an interlocutor — he asks short, structurally placed questions, and the master replies in long architectural answers. The substance is what later <span class="ar-overlay" data-script="إسماعيلي">Ismaili</span> philosophical literature will call the <em>cosmology</em> of the call: the doctrine of will, command, and saying; the doctrine of the <em>seven principles</em> and the <em>twelve constellations</em>; the doctrine of the <em>parallel</em> between the seven heavens above and the seven speaker-prophets below; the doctrine of the apparent and the inward; and the doctrine of the <em>three layers of knowledge</em>. The doctrines are not separate teachings; they are <em>one architecture</em>, and the chapter's force is in the way the master walks the boy down through each layer in order, never skipping a step.</p>
+
+            <!-- Phase 3: Section summary (toggled visible here for demo) -->
+            <div class="ai-summary">
+              <div class="ai-label">✦ AI Summary · Claude Haiku</div>
+              The chapter begins immediately after the disciple's binding to the covenant. The author shifts from explaining the <em>outer</em> mechanics of initiation to walking the disciple through the cosmological <em>architecture</em> behind it — the doctrines of will/command/saying, the parallel between the seven heavens and the seven prophets, and the three layers of knowledge — all presented as a single ordered structure rather than separate teachings.
+            </div>
+          </div>
+
+          <div class="section-with-ai">
+            <button class="ai-trigger" title="✦ Summarize this section">✦</button>
+            <h2 id="s2">The three words: will, command, saying</h2>
+
+            <p>The master begins exactly where the call's literature insists every teaching must begin — at the origin. <em>God is the Creator of things and the One who composes them.</em> He is not <em>the first of every first created thing</em>, the first of a series that begins with Him as the first member. He is <em>the First of all firsts and the Inheritor of every thing</em> — outside the series altogether, the One who <em>inherits</em> every thing because everything returns to Him.</p>
+
+            <p>The Commander of the Faithful, in the canonical compilation <em>The Path of Eloquence</em>, opens his great sermon on creation with the same negation:</p>
+
+            <blockquote>
+              <p>Praise be to God whose worth no describer can attain, whose blessings no counter can number, whose due no exertion can discharge — whom heights of intellectual courage cannot reach, and depths of sagacity cannot fathom. For His description there is no limit fixed, no eulogy existing, no time appointed, no duration set.</p>
+              <cite>— The Path of Eloquence, Sermon 1, trans. Reza (Tehran: WOFIS, 1980), p. 35.</cite>
+            </blockquote>
+
+            <p>Then the structural claim. <em>He began the creation of what was created out of light, from which three words branched.</em> The doctrine of the <em>primordial light</em> is the doctrine the rest of the architecture rests on. Before the seven, before the heavens, before the earth, there is <em>light</em> — and from that light <em>three words</em> branch. The order is precise:</p>
+
+            <blockquote>
+              <p>The first of them is the will; from the will branched the command; and the command is divided into "saying" — that He says <span class="ar-overlay" data-script="كن">"Be"</span> to what He wills, and it is. So the first creation is the will, then the command, then the saying.</p>
+            </blockquote>
+
+            <p>The three words are <em>will</em>, <em>command</em>, <em>saying</em>. The will is the first; from the will the command branches; from the command the saying is <em>divided</em>. The saying is the divine fiat — <span class="ar-overlay" data-script="كن فيكون">Be, and it shall be</span> — the Quranic formula by which God creates whatever He wishes.</p>
+          </div>
+
+          <div class="section-with-ai">
+            <button class="ai-trigger" title="✦ Summarize this section">✦</button>
+            <h2 id="s3">The seven principles and the twelve constellations</h2>
+
+            <p>From the three words, the architecture cascades. <em>From the saying branched seven principles, and from each principle branched twelve.</em> The seven and the twelve are the structural numbers the rest of the cosmology runs on — seven heavens above, seven earths below, twelve constellations above, twelve <span class="ar-overlay" data-script="الحجج">arguments</span> below. The macrocosm and the microcosm are held in strict parallel; the figures above are <em>likenesses</em> of the figures below, and the meaning of each is the same.</p>
+          </div>
+
+        </div>
+
+        <!-- Footer prev/next -->
+        <nav class="footer-nav">
+          <a class="nav-card" href="#">
+            <span class="nav-badge">Ch 01</span>
+            <div>
+              <div class="nav-meta">← Previous chapter</div>
+              <div class="nav-title">The Master's Call and the Disciple's Covenant</div>
+            </div>
+          </a>
+          <a class="nav-card next" href="#">
+            <div>
+              <div class="nav-meta">Next chapter →</div>
+              <div class="nav-title">World, Hereafter, and the Right of Wealth</div>
+            </div>
+            <span class="nav-badge">Ch 03</span>
+          </a>
+        </nav>
+
+      </article>
+
+      <!-- ── Right rail ──────────────────────────────────────── -->
+      <aside class="right-rail">
+        <div class="right-rail-section">
+          <div class="right-rail-title">In this chapter</div>
+          <nav class="mini-toc">
+            <a href="#s1" class="active">Where this chapter picks up</a>
+            <a href="#s2">The three words: will, command, saying</a>
+            <a href="#s3">The seven principles and the twelve constellations</a>
+          </nav>
+        </div>
+
+        <div class="right-rail-section">
+          <div class="right-rail-title">✦ Ask this chapter</div>
+          <div class="ask-box">
+            <div class="ask-prompt">Grounded in this chapter only. Powered by Claude Sonnet.</div>
+            <input class="ask-input" placeholder="Ask a question…" />
+          </div>
+        </div>
+
+        <div class="right-rail-section">
+          <div class="right-rail-title">🔊 Read aloud</div>
+          <button class="icon-btn" style="width: 100%; justify-content: center;">▶︎ Play from top</button>
+          <div style="font-size: 11px; color: var(--color-ink-tertiary); margin-top: 6px; text-align: center;">Google Studio voice</div>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</div>
+
+<!-- ── Floating bottom action bar (Phase 2) ──────────────────── -->
+<div class="float-bar">
+  <button class="float-btn" title="Scroll to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+  <button class="float-btn" title="Copy chapter">📋</button>
+  <button class="float-btn primary" title="Settings (cmd+,)" onclick="toggleSettings()">Aa</button>
+</div>
+
+<!-- ── Settings panel (Phase 2) ──────────────────────────────── -->
+<div id="settings" class="settings">
+  <h3>Reader settings <button class="close" onclick="toggleSettings()">×</button></h3>
+
+  <div class="settings-group">
+    <div class="settings-label">Theme</div>
+    <div class="settings-row">
+      <button class="setting-chip theme-light active" onclick="setTheme('light')">Light</button>
+      <button class="setting-chip theme-sepia" onclick="setTheme('sepia')">Sepia</button>
+      <button class="setting-chip theme-dark" onclick="setTheme('dark')">Dark</button>
+      <button class="setting-chip theme-hc" onclick="setTheme('hc')">HC</button>
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <div class="settings-label">Font</div>
+    <div class="settings-row">
+      <button class="setting-chip active" style="font-family: 'Source Serif 4', serif;">Source</button>
+      <button class="setting-chip" style="font-family: 'EB Garamond', serif;">Garamond</button>
+      <button class="setting-chip" style="font-family: 'Iowan Old Style', Georgia, serif;">Iowan</button>
+      <button class="setting-chip" style="font-family: Inter, sans-serif;">Sans</button>
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <div class="settings-label">Font size</div>
+    <div class="settings-row">
+      <button class="setting-chip">16</button>
+      <button class="setting-chip">18</button>
+      <button class="setting-chip active">19</button>
+      <button class="setting-chip">21</button>
+      <button class="setting-chip">23</button>
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <div class="settings-label">Line height</div>
+    <div class="settings-row">
+      <button class="setting-chip">Compact</button>
+      <button class="setting-chip active">Comfortable</button>
+      <button class="setting-chip">Airy</button>
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <div class="settings-label">Reading width</div>
+    <div class="settings-row">
+      <button class="setting-chip">Narrow</button>
+      <button class="setting-chip">Medium</button>
+      <button class="setting-chip active">Wide</button>
+      <button class="setting-chip">Full</button>
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <div class="settings-label">Overlays</div>
+    <div class="settings-row">
+      <button class="setting-chip" id="settings-arabic" onclick="toggleArabic()">Arabic script</button>
+      <button class="setting-chip">Drop cap</button>
+    </div>
+  </div>
+
+  <button class="icon-btn" style="width: 100%; justify-content: center; margin-top: 8px;">Reset to defaults</button>
+</div>
+
+<!-- Mockup annotation -->
+<div class="annotation" style="top: 8px;">MOCKUP — proposed post-Phase-1+2 view (Phase 3 AI affordances shown)</div>
+
+<script>
+function toggleArabic() {
+  const body = document.body;
+  const on = body.dataset.arabic !== 'on';
+  body.dataset.arabic = on ? 'on' : 'off';
+  document.getElementById('arabic-toggle').setAttribute('aria-pressed', on);
+  const s = document.getElementById('settings-arabic');
+  if (s) s.classList.toggle('active', on);
+}
+function toggleSettings() {
+  document.getElementById('settings').classList.toggle('open');
+}
+function setTheme(t) {
+  const map = { light: 'light', sepia: 'sepia', dark: 'dark', hc: 'light' };
+  document.documentElement.setAttribute('data-theme', map[t] || 'light');
+  if (t === 'hc') {
+    document.documentElement.style.setProperty('--color-surface-page', 'white');
+    document.documentElement.style.setProperty('--color-ink', 'black');
+    document.documentElement.style.setProperty('--color-rule-default', 'black');
+  } else {
+    document.documentElement.style.removeProperty('--color-surface-page');
+    document.documentElement.style.removeProperty('--color-ink');
+    document.documentElement.style.removeProperty('--color-rule-default');
+  }
+  document.querySelectorAll('.setting-chip.theme-light, .setting-chip.theme-sepia, .setting-chip.theme-dark, .setting-chip.theme-hc').forEach(el => el.classList.remove('active'));
+  document.querySelector('.setting-chip.theme-' + t)?.classList.add('active');
+}
+// keyboard shortcut: cmd+,
+window.addEventListener('keydown', (e) => {
+  if ((e.metaKey || e.ctrlKey) && e.key === ',') { e.preventDefault(); toggleSettings(); }
+  if (e.key === 'Escape') document.getElementById('settings').classList.remove('open');
+});
+// reading progress (mock — drives the gold bar from scroll)
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight);
+  document.querySelector('.progress').style.transform = `scaleX(${pct})`;
+});
+</script>
+
+</body>
+</html>
