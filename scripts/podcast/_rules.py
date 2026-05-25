@@ -70,12 +70,34 @@ HOST_B_ROLES_SEEKER = (
 HOST_VOICE_GENDER = {"host_a": "male", "host_b": "female"}
 
 # ─── R-EPISODE-FORMAT-RECOMMENDED (P1 2026-05-24) — every chapter-contract
-# declares `episode_format` ∈ {deep_dive, debate} plus a one-paragraph
-# rationale. For debate-mode contracts, the `debate` block is fully populated
-# (proposition + host_a/host_b positions + source_moves + resolution). The
-# challenger refuses (P1) any contract where the format is missing or
-# `debate` blocks are partial.
-EPISODE_FORMAT_ALLOWED = ("deep_dive", "debate")
+# declares `episode_format` plus a one-paragraph rationale. For debate-mode
+# contracts, the `debate` block is fully populated (proposition + host_a/
+# host_b positions + source_moves + resolution). The challenger refuses (P1)
+# any contract where the format is missing or `debate` blocks are partial.
+#
+# F32 (2026-05-25): extended from the original two-valued enum (deep_dive,
+# debate) to seven values. The new values (walkthrough, monologue, interview,
+# recap, narrative) are needed for non-book categories per _branching.py
+# (letters, articles, lectures, interviews). Phase 0d author picks per
+# chapter from this list; downstream framing-author + R-HOST-ROLE-PARITY
+# rules need parallel extensions (deferred — current rules assume
+# deep_dive/debate). When a chapter declares a not-yet-wired format,
+# build_episode_txt.py emits a P1 warning "format X not yet fully wired
+# downstream; expect best-effort author behavior" rather than blocking.
+EPISODE_FORMAT_ALLOWED = (
+    "deep_dive",      # one position unfolded layer-by-layer (most book chapters)
+    "debate",         # two named voices in extended back-and-forth (concession arcs OK)
+    "walkthrough",    # step-by-step exposition (articles, technical chapters)
+    "monologue",      # single-host explanatory; secondary host as ambient interlocutor
+    "interview",      # Q&A structured (rare in primary sources; common in lecture-of-X)
+    "recap",          # mid-book summary episode (every Nth chapter for long books)
+    "narrative",      # pure historical/biographical exposition, no doctrinal dispute
+)
+
+# F32 (2026-05-25): map of which formats are currently fully wired downstream.
+# Formats outside this set still validate at contract-write time but emit a
+# P1 warning at build time noting they may exhibit best-effort author behavior.
+EPISODE_FORMAT_FULLY_WIRED = ("deep_dive", "debate")
 
 # ─── Slide Deck Challenger self-version (stamped into every slide-challenger-report.md
 # and every findings.jsonl record with source="slide-deck-challenger"). Independent

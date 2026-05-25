@@ -1296,11 +1296,44 @@ def assert_framing_deny_block(content: str, file_path: Path) -> None:
         )
 
 
+def _resolve_book_tradition(file_path: Path) -> str:
+    """F34 (2026-05-25): walk up from `file_path` to find series-config.yaml
+    and read `source_tradition`. Returns lowercase tradition slug, or 'islam'
+    if not declared (legacy default — the only books shipped pre-F34 are
+    Islamic, so this preserves their behavior).
+    """
+    cursor = file_path.resolve()
+    for _ in range(8):  # walk up at most 8 levels
+        cursor = cursor.parent
+        cfg = cursor / "series-config.yaml"
+        if cfg.exists():
+            try:
+                text = cfg.read_text(encoding="utf-8")
+                for line in text.splitlines():
+                    line = line.strip()
+                    if line.startswith("source_tradition:"):
+                        return line.split(":", 1)[1].strip().strip("'\"").lower() or "islam"
+            except OSError:
+                pass
+            break  # found a config but no tradition field
+        if cursor == cursor.parent:
+            break
+    return "islam"  # legacy default
+
+
 def assert_doctrinal_clean(text: str, file_path: Path) -> None:
     """Category T hard gate. Runs T3 forbidden-phrase checks (Imam Ali,
     Imam Fatima, etc.) plus T1/T2/T5 advisory checks. P0 findings exit the
     build; P1 findings emit as FLAG (P1) lines for the challenger's
     convergence loop to surface.
+
+    F34 (2026-05-25): now tradition-gated. If the book's series-config.yaml
+    declares source_tradition != 'islam' (and aliases ismaili/shia/sunni/
+    twelver/sufi), the Islamic doctrinal pack does NOT run — instead emits
+    a single T-NO-PACK info line so the silence is visible. When a Buddhist
+    /Christian/Hindu pack is added under content/_shared/<tradition>/, this
+    function will dispatch to it via load_doctrinal_pack(); for now those
+    books pass the gate trivially with a visible info note.
 
     Lives next to validate_chapter() so the rule wiring is visible from one
     place. See scripts/podcast/_doctrinal.py for the rule implementations.
@@ -1309,7 +1342,20 @@ def assert_doctrinal_clean(text: str, file_path: Path) -> None:
     # it lazy avoids forcing the YAML files to exist for every callsite that
     # only uses build_episode_txt's other gates.
     sys.path.insert(0, str(Path(__file__).resolve().parent))
-    from _doctrinal import run_doctrinal_checks   # noqa: E402
+    from _doctrinal import run_doctrinal_checks, tradition_pack_dir   # noqa: E402
+
+    # F34: tradition-gate. Skip Islamic doctrinal checks for non-Islamic books.
+    tradition = _resolve_book_tradition(file_path)
+    pack_dir = tradition_pack_dir(tradition)
+    if not pack_dir.is_dir():
+        print(
+            f"INFO: T-NO-PACK — book's source_tradition={tradition!r} has no doctrinal "
+            f"data pack at {pack_dir}. "
+            f"Skipping Category T checks. Add a tradition pack under "
+            f"content/_shared/<tradition>/ to enable doctrinal gating for this book.",
+            file=sys.stderr,
+        )
+        return
 
     findings = run_doctrinal_checks(text)
     p0_findings = [f for f in findings if f.severity == "P0"]

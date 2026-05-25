@@ -28,7 +28,61 @@ from dataclasses import dataclass
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-ISLAM_DATA = REPO_ROOT / "content" / "_shared" / "islam"
+# F31 (2026-05-25): tradition-pack registry. The original pipeline pinned
+# `ISLAM_DATA = content/_shared/islam/`; that single hardcoded path silently
+# no-ops the doctrinal gates for non-Islamic books and risks false-positives
+# when a Twelver-Shia or Sufi book uses Ismaili-specific lineage data. The
+# new pattern: each tradition gets its own subdirectory under content/_shared/
+# with the same YAML schema. `load_doctrinal_pack(tradition)` returns the
+# data dict for the named tradition; if the directory doesn't exist, it
+# returns an empty pack so callers can emit a T-NO-PACK info finding
+# (silence isn't mistaken for cleanliness).
+ISLAM_DATA = REPO_ROOT / "content" / "_shared" / "islam"   # legacy alias kept for back-compat
+TRADITION_DATA_ROOT = REPO_ROOT / "content" / "_shared"
+
+
+def tradition_pack_dir(tradition: str) -> Path:
+    """F31: resolve the data directory for a named tradition slug.
+
+    `tradition` is the lowercase slug declared in series-config.yaml
+    `source_tradition` (e.g. 'islam', 'ismaili', 'mahayana', 'catholic').
+    Returns the path even if it doesn't exist — callers use .exists().
+    Aliases like 'ismaili'/'shia'/'sunni'/'twelver'/'sufi' resolve to
+    'islam' since the data files under content/_shared/islam/ cover the
+    broader Islamic tradition.
+    """
+    alias = {"ismaili": "islam", "shia": "islam", "sunni": "islam",
+             "twelver": "islam", "sufi": "islam"}.get(tradition.lower(), tradition.lower())
+    return TRADITION_DATA_ROOT / alias
+
+
+def load_doctrinal_pack(tradition: str) -> dict:
+    """F31: load the YAML data pack for `tradition`; return empty pack if absent.
+
+    Loads imam-lineage-*.yml, naming-conventions.yml, canonical-attributions.yml
+    from the tradition's directory. Returns:
+      {'_pack_missing': bool, 'tradition': str,
+       'lineage': {sub_key: dict, ...}, 'naming': dict, 'attributions': dict}
+
+    When the tradition dir doesn't exist, `_pack_missing=True` so callers
+    (build_episode_txt.py, podcast-challenger) can emit a T-NO-PACK info
+    finding rather than silently passing all doctrinal checks.
+    """
+    pack_dir = tradition_pack_dir(tradition)
+    if not pack_dir.is_dir():
+        return {"_pack_missing": True, "tradition": tradition,
+                "lineage": {}, "naming": {}, "attributions": {}}
+    out: dict = {"_pack_missing": False, "tradition": tradition,
+                 "lineage": {}, "naming": {}, "attributions": {}}
+    for lineage_path in sorted(pack_dir.glob("imam-lineage-*.yml")):
+        out["lineage"][lineage_path.stem.replace("imam-lineage-", "")] = _load_yaml(lineage_path)
+    naming_path = pack_dir / "naming-conventions.yml"
+    if naming_path.exists():
+        out["naming"] = _load_yaml(naming_path)
+    attr_path = pack_dir / "canonical-attributions.yml"
+    if attr_path.exists():
+        out["attributions"] = _load_yaml(attr_path)
+    return out
 
 
 @dataclass
