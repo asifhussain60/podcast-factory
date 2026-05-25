@@ -3,10 +3,10 @@
   "book_slug": "the-master-and-the-disciple",
   "category": "books",
   "branch": "book/the-master-and-the-disciple",
-  "phase": "per-chapter-slides",
+  "phase": "0g",
   "phase_status": "completed",
-  "last_completed_phase": "per-chapter-slides",
-  "next_phase": "trainer",
+  "last_completed_phase": "0g",
+  "next_phase": "per-chapter",
   "last_error": null,
   "pipeline_mode": "orchestrated",
   "bootstrap_provenance": {
@@ -82,12 +82,12 @@
         "world-hereafter-and-the-right-of-wealth"
       ],
       "failed_slug": "will-command-and-the-seven",
-      "ts_completed": "2026-05-25T13:58:10Z"
+      "ts_completed": "2026-05-25T17:21:53Z"
     },
     "0g": {
       "status": "completed",
       "ts_started": "2026-05-25T13:58:10Z",
-      "ts_completed": "2026-05-25T13:58:10Z"
+      "ts_completed": "2026-05-25T17:21:53Z"
     },
     "per-chapter-slides": {
       "status": "completed",
@@ -112,7 +112,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-05-22T00:00:00Z",
-  "ts_updated": "2026-05-25T16:46:47Z",
+  "ts_updated": "2026-05-25T17:21:53Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0",
