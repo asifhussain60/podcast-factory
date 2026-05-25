@@ -30,3 +30,5 @@
 {"binder_id": 1, "chapter_id": 76, "phase": "challenge", "cost_usd": 0.005319, "completed_at": "2026-05-25T10:34:50.113532+00:00", "model": "claude-haiku-4-5-20251001"}
 {"binder_id": 1, "chapter_id": 80, "phase": "challenge", "cost_usd": 0.005327, "completed_at": "2026-05-25T10:35:03.146715+00:00", "model": "claude-haiku-4-5-20251001"}
 {"binder_id": 1, "chapter_id": 81, "phase": "challenge", "cost_usd": 0.005214, "completed_at": "2026-05-25T10:51:48.044490+00:00", "model": "claude-haiku-4-5-20251001"}
+{"binder_id": 24, "chapter_id": 130, "phase": "challenge", "cost_usd": 0.002019, "completed_at": "2026-05-25T11:06:46.060269+00:00", "model": "claude-haiku-4-5-20251001"}
+{"binder_id": 24, "chapter_id": 2, "phase": "challenge", "cost_usd": 0.005162, "completed_at": "2026-05-25T11:06:57.206414+00:00", "model": "claude-haiku-4-5-20251001"}
