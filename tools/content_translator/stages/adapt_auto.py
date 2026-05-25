@@ -253,6 +253,47 @@ def _read_stage(bundle_yml: Path) -> str:
     return ""
 
 
+def _read_sections_with_content(bundle_yml: Path) -> int:
+    """Return sections_with_content from bundle.yml counts block, or -1 if not present."""
+    text = bundle_yml.read_text(encoding="utf-8")
+    in_counts = False
+    for line in text.splitlines():
+        if line == "counts:":
+            in_counts = True
+        elif in_counts and line.startswith("  sections_with_content:"):
+            try:
+                return int(line.split(":", 1)[1].strip())
+            except ValueError:
+                return -1
+        elif in_counts and line and not line.startswith(" "):
+            in_counts = False
+    return -1
+
+
+def _adapt_empty_chapter_deterministic(raw_text: str) -> str:
+    """For chapters with no source content, produce a minimal valid adapted file.
+
+    Preserves all section markers with the required *(no content in source)* note
+    so the validator passes V1/V2/V3 cleanly and the challenger can record the
+    empty-chapter verdict without spending LLM budget.
+    """
+    lines = raw_text.splitlines()
+    out: list[str] = []
+    for line in lines:
+        out.append(line)
+        if _SECTION_MARKER_RE.match(line.strip()):
+            label_m = re.search(r"-->\s*(.+?)\s*$", line.rstrip())
+            heading = label_m.group(1).strip() if label_m else "Section"
+            if any(ord(c) > 0x600 for c in heading):
+                heading = "Section"
+            out.append("")
+            out.append(f"## {heading}")
+            out.append("")
+            out.append("*(no content in source)*")
+            out.append("")
+    return "\n".join(out)
+
+
 def _update_stage(bundle_yml: Path, new_stage: str) -> None:
     text = bundle_yml.read_text(encoding="utf-8")
     lines = [
@@ -333,6 +374,30 @@ def adapt_bundle_auto(
         return {"skipped": True, "stage": stage}
     if stage != "translated":
         raise RuntimeError(f"Unexpected stage '{stage}' — expected 'translated'.")
+
+    # Empty-chapter gate: skip LLM entirely when source has no content sections.
+    # Writes a deterministic stub so the challenger can record the verdict at $0 cost.
+    sections_with_content = _read_sections_with_content(bundle_yml)
+    if sections_with_content == 0:
+        if not dry_run:
+            raw_text_for_stub = raw_extract_en.read_text(encoding="utf-8")
+            stub_md = _adapt_empty_chapter_deterministic(raw_text_for_stub)
+            completed_at = datetime.now(timezone.utc).isoformat()
+            adapted_extract.write_text(stub_md, encoding="utf-8")
+            citations_file.write_text("", encoding="utf-8")
+            _append_adapt_block(bundle_yml, "empty-chapter-stub", 0.0, completed_at)
+            _update_stage(bundle_yml, "adapted")
+            _append_cost_ledger(binder_id, chapter_id, 0.0, completed_at)
+        return {
+            "skipped": False,
+            "mode": "empty-chapter-stub",
+            "chunks": 0,
+            "citations": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "cost_usd": 0.0,
+            "dry_run": dry_run,
+        }
 
     raw_text = raw_extract_en.read_text(encoding="utf-8")
     raw_bytes = len(raw_text.encode("utf-8"))
