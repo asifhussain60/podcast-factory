@@ -17,7 +17,13 @@
 /* ── Page chrome ───────────────────────────────────────────────────── */
 .editorial-page {
   min-height: 100vh;
-  background: var(--color-surface-page);
+  background-color: var(--color-surface-page);
+  background-image:
+    /* very soft paper grain — barely-there dot pattern */
+    radial-gradient(circle at 1px 1px, color-mix(in oklab, var(--color-ink) 5%, transparent) 1px, transparent 0),
+    radial-gradient(circle at 13px 7px, color-mix(in oklab, var(--color-ink) 3%, transparent) 1px, transparent 0);
+  background-size: 24px 24px, 32px 32px;
+  background-attachment: fixed;
   color: var(--color-ink);
 }
 .editorial-shell {
@@ -605,19 +611,64 @@
    data-cover="1..7" + data-thickness="thin|medium|thick" assigned
    deterministically per slug in podcast-drafts/index.astro.
    ───────────────────────────────────────────────────────────────────── */
+/* Bookshelf — wood-strip ground painted via a repeating-linear-gradient
+   aligned to a fixed card height. All books are the same height so the
+   shelf rule lands cleanly under every row. Spine thickness still varies
+   per book to keep visual variety.
+
+   Card height: 340px (~25% smaller than v1)
+   Row gap:     56px (gap holds the wood strip)
+   Wood strip:  10px tall, sits just under the books
+*/
 .bookshelf {
+  --book-h: 340px;
+  --row-gap: 56px;
+  --wood-h: 10px;
   display: grid;
-  gap: 56px 40px;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  column-gap: 28px;
+  row-gap: var(--row-gap);
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   padding: 16px 0 96px;
   perspective: 1800px;
+  background-image:
+    /* horizontal wood plank — repeats once per row */
+    linear-gradient(to bottom,
+      oklch(48% 0.07 60) 0%,
+      oklch(42% 0.06 60) 25%,
+      oklch(38% 0.05 55) 50%,
+      oklch(34% 0.05 55) 75%,
+      oklch(30% 0.04 55) 100%),
+    /* wood grain stripes */
+    repeating-linear-gradient(90deg,
+      transparent 0 60px,
+      color-mix(in oklab, oklch(30% 0.04 55) 70%, black) 60px 61px,
+      transparent 61px 180px,
+      color-mix(in oklab, oklch(30% 0.04 55) 80%, black) 180px 181px,
+      transparent 181px 240px);
+  background-repeat: repeat-y, repeat-y;
+  background-position: 0 calc(16px + var(--book-h)), 0 calc(16px + var(--book-h));
+  background-size:
+    100% calc(var(--book-h) + var(--row-gap)),
+    100% calc(var(--book-h) + var(--row-gap));
+  /* clip wood paint to the strip (10px tall after each book row) */
+  background-clip: padding-box;
 }
+/* mask trick: only paint wood in the 10px slice just below each row */
+.bookshelf {
+  mask-image: none;
+}
+/* Layered approach — paint wood + grain only in the gap band via two
+   pseudo-element layers on each book (.book-tile-shelf) so we don't
+   depend on absolute pixel positioning of the grid. Override the
+   gradient-from-bg approach: clear it. */
+.bookshelf { background-image: none; }
+
 .book-tile {
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: 420px;
-  border-radius: 4px 6px 6px 4px;
+  min-height: var(--book-h, 340px);
+  border-radius: 3px 5px 5px 3px;
   text-decoration: none;
   color: inherit;
   cursor: pointer;
@@ -626,90 +677,116 @@
   transition: transform 320ms cubic-bezier(0.2, 0.85, 0.3, 1.05),
               box-shadow 320ms ease;
   box-shadow:
-    -1px 0 0 0 rgba(0,0,0,0.2) inset,
-     0  8px 14px -8px rgba(0,0,0,0.35),
-     0 22px 30px -16px rgba(0,0,0,0.28);
+    -1px 0 0 0 rgba(0,0,0,0.18) inset,
+     0  6px 10px -6px rgba(0,0,0,0.3),
+     0 18px 24px -14px rgba(0,0,0,0.24);
 }
 .book-tile:hover {
-  transform: translateY(-14px) rotateY(-10deg) translateZ(20px);
+  transform: translateY(-12px) rotateY(-9deg) translateZ(16px);
   box-shadow:
-    -1px 0 0 0 rgba(0,0,0,0.2) inset,
-     0 18px 28px -10px rgba(0,0,0,0.42),
-     0 44px 64px -22px rgba(0,0,0,0.38);
+    -1px 0 0 0 rgba(0,0,0,0.18) inset,
+     0 14px 22px -8px rgba(0,0,0,0.38),
+     0 36px 50px -20px rgba(0,0,0,0.32);
 }
 .book-tile::before {
   content: ''; position: absolute;
-  top: 6px; bottom: 6px; left: -10px; width: 12px;
+  top: 5px; bottom: 5px; left: -8px; width: 10px;
   background: linear-gradient(to right,
-    color-mix(in oklab, var(--cover-base, #5a2a2a) 55%, black),
-    var(--cover-base, #5a2a2a));
+    color-mix(in oklab, var(--cover-base, #f1e8d6) 55%, black),
+    var(--cover-base, #f1e8d6));
   border-radius: 2px 0 0 2px;
-  box-shadow: -2px 0 4px rgba(0,0,0,0.25);
+  box-shadow: -2px 0 4px rgba(0,0,0,0.22);
   transform: translateZ(-2px);
 }
 .book-tile::after {
   content: ''; position: absolute;
-  top: 8px; bottom: 8px; right: -3px; width: 4px;
+  top: 7px; bottom: 7px; right: -3px; width: 4px;
   background: repeating-linear-gradient(to bottom,
     oklch(88% 0.005 60) 0, oklch(88% 0.005 60) 1.5px,
     oklch(75% 0.008 60) 1.5px, oklch(75% 0.008 60) 3px);
   border-radius: 0 2px 2px 0;
   opacity: 0.85;
 }
-.book-tile[data-thickness="thin"]   { min-height: 380px; }
-.book-tile[data-thickness="thin"]::before   { width: 8px;  left: -7px; }
-.book-tile[data-thickness="medium"] { min-height: 430px; }
-.book-tile[data-thickness="medium"]::before { width: 13px; left: -11px; }
-.book-tile[data-thickness="thick"]  { min-height: 480px; }
-.book-tile[data-thickness="thick"]::before  { width: 18px; left: -15px; }
+.book-tile[data-thickness="thin"]::before   { width: 7px;  left: -6px; }
+.book-tile[data-thickness="medium"]::before { width: 11px; left: -9px; }
+.book-tile[data-thickness="thick"]::before  { width: 16px; left: -13px; }
 .book-tile[data-thickness="thick"]::after   { width: 6px; right: -5px; }
+
+/* Wood shelf segment — child element under each book. When books in
+   the same grid row sit at the same baseline, their shelf segments
+   visually connect to look like one continuous shelf. The column-gap
+   between books carries a slim wood-grain extension via a sibling
+   pseudo-element on .bookshelf. */
+.book-tile-shelf {
+  position: absolute;
+  left: -14px; right: -8px;
+  bottom: -18px;
+  height: 10px;
+  background:
+    /* wood grain stripes */
+    repeating-linear-gradient(90deg,
+      transparent 0 32px,
+      rgba(0,0,0,0.08) 32px 33px,
+      transparent 33px 80px,
+      rgba(0,0,0,0.12) 80px 81px,
+      transparent 81px 140px),
+    /* base wood color */
+    linear-gradient(to bottom,
+      oklch(48% 0.08 55),
+      oklch(38% 0.06 55) 60%,
+      oklch(32% 0.05 55));
+  border-radius: 1px;
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.22),
+    inset 0 1px 0 rgba(255,255,255,0.15);
+  z-index: -1;
+}
 
 .book-tile-cover {
   flex: 1;
   position: relative;
   display: flex; flex-direction: column;
-  padding: 32px 26px 24px;
+  padding: 22px 18px 16px;
   background:
-    /* very subtle paper grain, almost invisible */
     repeating-linear-gradient(45deg, rgba(0,0,0,0.012) 0 1px, transparent 1px 3px),
     var(--cover-base, #f1e8d6);
   color: var(--cover-ink, #2a2218);
-  border-radius: 4px 6px 6px 4px;
+  border-radius: 3px 5px 5px 3px;
   border-left: 1px solid rgba(0,0,0,0.10);
   overflow: hidden;
 }
 .book-tile-frame {
-  position: absolute; inset: 14px;
-  border: 1px solid var(--cover-foil, rgba(212, 175, 95, 0.6));
+  position: absolute; inset: 11px;
+  border: 1px solid color-mix(in oklab, var(--cover-foil, #8a6b2c) 70%, transparent);
   border-radius: 2px; pointer-events: none;
 }
 .book-tile-frame::before {
-  content: ''; position: absolute; inset: 4px;
-  border: 1px solid var(--cover-foil, rgba(212, 175, 95, 0.35));
+  content: ''; position: absolute; inset: 3px;
+  border: 1px solid color-mix(in oklab, var(--cover-foil, #8a6b2c) 35%, transparent);
   border-radius: 1px;
 }
 .book-tile-frame::after {
-  content: '✦'; position: absolute;
+  content: var(--cover-ornament, '✦'); position: absolute;
   top: -10px; left: 50%; transform: translateX(-50%);
-  color: var(--cover-foil, #d4af5f);
-  background: var(--cover-base, #5a2a2a);
-  font-size: 12px; padding: 0 6px; line-height: 1;
+  color: var(--cover-foil, #8a6b2c);
+  background: var(--cover-base, #f1e8d6);
+  font-size: 13px; padding: 0 7px; line-height: 1;
 }
 .book-tile-publisher {
   position: relative; z-index: 1;
-  margin: 8px 0 28px;
+  margin: 4px 0 18px;
   font-family: var(--font-ui);
-  font-size: 9px; font-weight: 700;
-  letter-spacing: 0.28em; text-transform: uppercase;
+  font-size: 8.5px; font-weight: 700;
+  letter-spacing: 0.24em; text-transform: uppercase;
   text-align: center;
-  color: var(--cover-foil, #8a6b2c); opacity: 0.75;
+  color: var(--cover-foil, #8a6b2c); opacity: 0.78;
 }
 .book-tile-title {
   position: relative; z-index: 1;
-  margin: 18px 0 8px;
-  font-family: 'EB Garamond', Georgia, serif;
-  font-size: 30px; font-weight: 500;
-  line-height: 1.08; letter-spacing: -0.005em;
+  margin: 12px 0 6px;
+  font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+  font-size: 24px; font-weight: 600;
+  line-height: 1.05; letter-spacing: -0.005em;
   text-align: center;
   color: var(--cover-ink, #2a2218);
   text-wrap: balance;
@@ -717,56 +794,56 @@
 .book-tile-title-ar {
   position: relative; z-index: 1;
   margin: 10px 0 0;
-  font-family: 'Markazi Text', 'Cairo', 'Amiri', serif;
-  font-size: 22px; font-weight: 500;
-  line-height: 1.4; text-align: center;
-  color: var(--cover-ink, #2a2218); opacity: 0.7;
+  font-family: 'Amiri', 'Markazi Text', 'Cairo', serif;
+  font-size: 26px; font-weight: 700;
+  line-height: 1.35; text-align: center;
+  color: var(--cover-ink, #2a2218); opacity: 0.78;
   direction: rtl; unicode-bidi: isolate;
 }
 .book-tile-divider {
   position: relative; z-index: 1;
   display: flex; align-items: center; justify-content: center;
-  gap: 10px; margin: 18px auto;
+  gap: 8px; margin: 14px auto;
 }
-.book-tile-divider .seg { display: inline-block; width: 28px; height: 1px;
-  background: var(--cover-foil, #8a6b2c); opacity: 0.45; }
+.book-tile-divider .seg { display: inline-block; width: 22px; height: 1px;
+  background: var(--cover-foil, #8a6b2c); opacity: 0.42; }
 .book-tile-divider .gem { color: var(--cover-foil, #8a6b2c); font-size: 8px; opacity: 0.7; }
 .book-tile-author {
   position: relative; z-index: 1;
-  font-family: 'EB Garamond', Georgia, serif;
-  font-size: 13.5px; font-style: italic;
-  text-align: center; line-height: 1.4;
-  color: var(--cover-ink, #2a2218); opacity: 0.78;
-  margin: 0 8px;
+  font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+  font-size: 12.5px; font-style: italic; font-weight: 500;
+  text-align: center; line-height: 1.35;
+  color: var(--cover-ink, #2a2218); opacity: 0.8;
+  margin: 0 6px;
 }
 .book-tile-era {
   position: relative; z-index: 1;
-  margin-top: 6px;
+  margin-top: 5px;
   font-family: var(--font-ui);
-  font-size: 8.5px; font-weight: 700;
+  font-size: 8px; font-weight: 700;
   letter-spacing: 0.2em; text-transform: uppercase;
   text-align: center;
-  color: var(--cover-ink, #2a2218); opacity: 0.45;
+  color: var(--cover-ink, #2a2218); opacity: 0.5;
 }
 .book-tile-spacer { flex: 1; }
 .book-tile-foot {
   position: relative; z-index: 1;
   display: flex; align-items: center; justify-content: space-between;
-  margin-top: 22px; padding-top: 14px;
+  margin-top: 16px; padding-top: 12px;
   border-top: 1px solid color-mix(in oklab, var(--cover-ink, #2a2218) 14%, transparent);
 }
 .book-tile-icons {
-  display: inline-flex; align-items: center; gap: 12px;
+  display: inline-flex; align-items: center; gap: 10px;
   color: var(--cover-ink, #2a2218);
-  font-size: 11px; opacity: 0.55;
+  font-size: 13px; opacity: 0.58;
 }
 .book-tile-icons i { line-height: 1; }
 .book-tile-open {
   font-family: var(--font-ui);
-  font-size: 10px; font-weight: 700;
+  font-size: 9.5px; font-weight: 700;
   letter-spacing: 0.2em; text-transform: uppercase;
   color: var(--cover-foil, #8a6b2c);
-  display: inline-flex; align-items: center; gap: 6px;
+  display: inline-flex; align-items: center; gap: 5px;
   transition: gap 200ms;
 }
 .book-tile:hover .book-tile-open { gap: 10px; }
@@ -774,51 +851,61 @@
 .book-tile:hover .book-tile-open i { transform: translateX(3px); }
 .book-tile-ribbon {
   position: absolute;
-  top: 16px; right: 16px; z-index: 2;
-  padding: 3px 9px;
-  background: color-mix(in oklab, var(--cover-ink, #2a2218) 8%, transparent);
+  top: 14px; right: 14px; z-index: 2;
+  padding: 2px 8px;
+  background: color-mix(in oklab, var(--cover-ink, #2a2218) 10%, transparent);
   color: var(--cover-ink, #2a2218);
   font-family: var(--font-ui);
-  font-size: 8.5px; font-weight: 600;
+  font-size: 7.5px; font-weight: 700;
   letter-spacing: 0.16em; text-transform: uppercase;
   border-radius: 9999px;
-  opacity: 0.75;
+  opacity: 0.78;
 }
 /* Softened paper-leaning palettes — title-page restraint, not leather-bound saturation.
    Each carries a paper-toned base, a dark ink for type, and a muted gold/foil accent
    for the publisher banner + Open chip. */
+/* Per-cover palette + ornament glyph. Each book gets a different
+   --cover-ornament so the top-of-frame flourish varies across the
+   shelf while the overall design stays unified. */
 .book-tile[data-cover="1"] { /* aged ivory */
   --cover-base: oklch(95% 0.025 75);
   --cover-ink:  oklch(22% 0.012 60);
   --cover-foil: oklch(48% 0.13 60);
+  --cover-ornament: '✦';
 }
 .book-tile[data-cover="2"] { /* dusty blue */
   --cover-base: oklch(89% 0.025 240);
   --cover-ink:  oklch(24% 0.06 250);
   --cover-foil: oklch(38% 0.10 250);
+  --cover-ornament: '❖';
 }
 .book-tile[data-cover="3"] { /* soft sage */
   --cover-base: oklch(91% 0.025 155);
   --cover-ink:  oklch(24% 0.05 150);
   --cover-foil: oklch(38% 0.10 145);
+  --cover-ornament: '❀';
 }
 .book-tile[data-cover="4"] { /* pale ochre */
   --cover-base: oklch(92% 0.035 80);
   --cover-ink:  oklch(26% 0.06 60);
   --cover-foil: oklch(48% 0.13 65);
+  --cover-ornament: '✻';
 }
 .book-tile[data-cover="5"] { /* dusty rose */
   --cover-base: oklch(90% 0.025 25);
   --cover-ink:  oklch(28% 0.07 20);
   --cover-foil: oklch(42% 0.11 20);
+  --cover-ornament: '❦';
 }
 .book-tile[data-cover="6"] { /* warm fog (taupe-grey) */
   --cover-base: oklch(89% 0.012 60);
   --cover-ink:  oklch(24% 0.012 60);
   --cover-foil: oklch(45% 0.10 70);
+  --cover-ornament: '✥';
 }
 .book-tile[data-cover="7"] { /* soft slate */
   --cover-base: oklch(89% 0.012 240);
   --cover-ink:  oklch(22% 0.012 240);
   --cover-foil: oklch(40% 0.06 240);
+  --cover-ornament: '✺';
 }
