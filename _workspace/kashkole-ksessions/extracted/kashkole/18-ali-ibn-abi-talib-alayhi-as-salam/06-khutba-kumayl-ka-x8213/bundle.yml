@@ -471,5 +471,5 @@ translation:
   azure_cost_usd: 3.460500
 adaptation:
   engine: claude-haiku-4-5-20251001
-  completed_at: 2026-05-25T14:49:13.999741+00:00
-  adapt_cost_usd: 0.617872
+  completed_at: 2026-05-25T14:58:36.554043+00:00
+  adapt_cost_usd: 0.607780
