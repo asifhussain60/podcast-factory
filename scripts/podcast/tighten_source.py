@@ -817,11 +817,17 @@ def render_report(
     lines.append("")
 
     for r in sorted(results, key=lambda x: x.chapter):
-        lines.append(f"## {r.chapter}")
+        ratio = (r.proposed_words_removed / r.original_words) if r.original_words else 0
+        flag_marker = " 🔴 RED-FLAG" if ratio > threshold else ""
+        lines.append(f"## {r.chapter}{flag_marker}")
         lines.append("")
         lines.append(f"- file: `{r.chapter_path.relative_to(book_dir.parent)}`")
         lines.append(f"- original words: **{r.original_words:,}**")
-        lines.append(f"- proposed cut: **{r.proposed_words_removed:,}** ({(100.0*r.proposed_words_removed/r.original_words if r.original_words else 0):.1f}%)")
+        lines.append(f"- proposed cut: **{r.proposed_words_removed:,}** ({ratio*100:.1f}%)")
+        if ratio > threshold:
+            lines.append(f"- 🔴 **drastic-reduction threshold exceeded** "
+                         f"({ratio*100:.1f}% > {threshold*100:.0f}%) — "
+                         f"scrutinise each candidate before accepting; the goal is tightening, not shortening.")
         if r.cached:
             lines.append(f"- _result loaded from cache_")
         if r.error:
@@ -832,9 +838,11 @@ def render_report(
             lines.append("")
             continue
         for i, c in enumerate(r.candidates, 1):
-            lines.append(f"### {r.chapter}.{i} `[{c.category}]` — lines {c.line_start}-{c.line_end}")
+            # Stable candidate ID — used by --apply to match checkbox to cut.
+            cid = f"{r.chapter}-{i:02d}"
+            lines.append(f"### {cid} `[{c.category}]` — lines {c.line_start}-{c.line_end}")
             lines.append("")
-            lines.append(f"- [ ] accept this cut")
+            lines.append(f"- [ ] accept this cut <!-- cid: {cid} -->")
             lines.append(f"- confidence: **{c.confidence:.2f}** · est. words removed: **{c.est_words_removed}**")
             if c.cohesion_warning:
                 lines.append(f"- ⚠ **cohesion warning:** {c.cohesion_warning}")
