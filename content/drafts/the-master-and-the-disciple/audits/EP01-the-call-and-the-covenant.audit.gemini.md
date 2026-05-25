@@ -1,12 +1,12 @@
 ## Inventory
 
 -   **Chapter/Episode:** EP01: The Master's Call and the Disciple's Covenant
-    -   **Framing:** `00-framing.md` (present)
-    -   **Primary Source:** (missing)
-    -   **Key Passages:** `02-key-passages.md` (present, but empty template)
-    -   **Context Pack:** `03-context-pack.md` (present, but empty template)
-    -   **Discussion Spine:** `04-discussion-spine.md` (present, but empty template)
-    -   **Show Notes:** `99-show-notes.md` (present)
+    -   `00-framing.md` (present)
+    -   `01-source.md` (**MISSING**)
+    -   `02-key-passages.md` (present, but empty)
+    -   `03-context-pack.md` (present, but empty)
+    -   `04-discussion-spine.md` (present, but empty)
+    -   `99-show-notes.md` (present)
 
 ## Chapter Findings
 
@@ -14,9 +14,8 @@
 
 | Severity | File | Anchor | Problem | Fix |
 | :--- | :--- | :--- | :--- | :--- |
-| P0 | n/a | Manifest | The primary source text for the chapter is missing from the bundle. | Add the primary source file (e.g., `01-primary-source.md`) to the bundle and update the manifest. |
-| P2 | `00-framing.md` | ## Host dynamic | The framing document uses bold markdown for emphasis on role-labels like **the Master**. | Remove all bold markdown formatting from the file; use plain text only. |
-| P2 | `00-framing.md` | ## Audience | The text inconsistently uses 'God' and 'Allah'; house style requires 'Allah'. | Replace all instances of 'God' with 'Allah' (e.g., 'Party of Allah', 'Allah was waiting at the mirage'). |
+| P0 | (missing) | Bundle Manifest | The primary source file `01-source.md` is missing. The bundle is non-functional without the chapter text. | This is a fatal error requiring human intervention. The full text of the chapter must be added to the bundle as `01-source.md`. |
+| P2 | 99-show-notes.md | Blurb | The blurb uses transliterated Arabic (`Kitab al-'Alim wa-l-Ghulam`, `da'wa`, `sheikh`) instead of Arabic script as required by the articulation style guide. | Replace transliterated terms with their Arabic script equivalents, or remove them if the script is unavailable. |
 
 ## Episode Findings
 
@@ -24,86 +23,85 @@
 
 | Severity | File | Anchor | Problem | Fix |
 | :--- | :--- | :--- | :--- | :--- |
-| P0 | `02-key-passages.md` | # Key passages | The key passages file is an empty template with `[LLM-FILL]` placeholders. | Populate the file with verbatim quotes from the primary source, one for each beat in the discussion spine. |
-| P0 | `03-context-pack.md` | # Context pack | The context pack file is an empty template with `[LLM-FILL]` placeholders. | Populate the file with the required author, lineage, and background context to ground the hosts. |
-| P0 | `04-discussion-spine.md` | # Discussion spine | The discussion spine is an empty template with `[LLM-FILL]` placeholders. | Populate all beats with a key question, tension, and anchor passage reference, following the 6-beat structure from `00-framing.md`. |
-| P1 | `04-discussion-spine.md` | # Discussion spine | The spine template has 8 beats, but the framing document specifies a 6-beat structure. | Remove 'Beat 7' and 'Beat 8' sections and ensure the remaining six beats align with the narrative flow in `00-framing.md`. |
-| P1 | `00-framing.md` | ## Length | The target length is 50-60 minutes, but the source volume cannot be verified as the primary source is missing. | This finding is blocked by the missing primary source. Once added, re-evaluate if the source text volume can support a 50-60 minute discussion. |
-| P1 | `00-framing.md` | ## Pronunciation | Pronunciation guidance is embedded in the framing file, not in a separate, referenced appendix as required for the pipeline. | Create a separate `05-pronunciation-appendix.md` file with all required terms and replace the current `## Pronunciation` section with a reference to it. |
-| P2 | `00-framing.md` | ## Pronunciation | No spoken-form appendix for Quran citations is present or referenced. | Add a directive to generate a `06-citation-spoken-form.md` file and reference it from the framing, to be used if the primary source contains Q\|S:V citations. |
-| P2 | `99-show-notes.md` | ## Related episodes | The 'Related episodes' section uses a bulleted list, which can be read awkwardly by NotebookLM hosts. | Convert the bulleted list of related episodes into a single prose sentence, e.g., "Related episodes include 'will-command-and-the-seven', 'world-hereafter-and-the-right-of-wealth', and others." |
+| P0 | 04-discussion-spine.md | File-level | The discussion spine is an empty template filled with `[LLM-FILL]` placeholders. NotebookLM cannot generate a conversation without it. | Populate the discussion spine with content for each beat, following the detailed six-beat structure laid out in `00-framing.md`. |
+| P0 | 02-key-passages.md | File-level | The key passages file is an empty template. There are no verbatim quotes for the hosts to retrieve and discuss. | Populate this file with key verbatim quotes from the primary source, corresponding to the beats in the discussion spine. |
+| P0 | 03-context-pack.md | File-level | The context pack is an empty template. No background information is available for retrieval grounding. | Populate this file with the author, lineage, and context details as prompted by the template headers. |
+| P1 | 04-discussion-spine.md | File-level | The discussion spine template contains 8 beats, which contradicts the explicit six-beat structure detailed in `00-framing.md`. | Replace the 8-beat template with a 6-beat structure that directly maps to the "Three-part focus" section in `00-framing.md`. |
+| P1 | 00-framing.md | ## Pronunciation | The pronunciation guide is incomplete. Terms used in `99-show-notes.md` (`da'wa`, `sheikh`) are not included, risking mispronunciation. | Add pronunciation guidance for `da'wa` and `sheikh` to the pronunciation list. |
+| P2 | 00-framing.md | ## Stable role-labels | The file uses bolding for emphasis on role labels, which violates the "no bold" articulation style rule. | Remove all bold markdown (`**`) from the file. |
+| P2 | 00-framing.md | Throughout | The text inconsistently uses "God" (e.g., "Party of God") and "Allah" (in an honorific). The house style prefers "Allah". | Standardize all instances of "God" to "Allah" where it does not alter the meaning of a direct quote or established term from the source text. |
 
 ## Cross-Bundle Patterns
 
-The bundle is critically incomplete. While the `00-framing.md` file provides an exceptionally detailed and well-structured plan, it is a plan for a house that has not been built. The primary source text is entirely missing, and the core content artifacts (`02-key-passages.md`, `03-context-pack.md`, `04-discussion-spine.md`) are empty templates. This indicates a systemic failure in the content generation stage of the pipeline; the template was scaffolded, but the content-fill step failed or was skipped. The bundle is non-functional in its current state.
+The bundle is a well-designed but incomplete skeleton. The `00-framing.md` file is exceptionally detailed, providing a robust blueprint for a high-quality scholarly conversation that avoids common AI-driven failure modes. However, all content-bearing artifacts (`01-source.md`, `02-key-passages.md`, `03-context-pack.md`, `04-discussion-spine.md`) are either missing or empty templates. The immediate priority is to populate these files with the actual source material and derived content as specified in the framing document. Without this, the bundle is entirely non-functional.
 
 ## Claude Code Instruction Block
 
 ```claude-code-fixes
 [
   {
+    "file": "04-discussion-spine.md",
+    "anchor": "File-level",
+    "severity": "P0",
+    "problem": "The discussion spine is an empty template filled with '[LLM-FILL]' placeholders.",
+    "fix": "Replace the entire file content with a populated six-beat discussion spine, deriving the key question, tension, and landing for each beat from the 'Three-part focus' section in '00-framing.md'.",
+    "category": "spine"
+  },
+  {
     "file": "02-key-passages.md",
-    "anchor": "# Key passages",
+    "anchor": "File-level",
     "severity": "P0",
     "problem": "The key passages file is an empty template.",
-    "fix": "Based on the 6-beat structure in `00-framing.md` and the (currently missing) primary source text, populate this file with at least six distinct, verbatim passages, each under a `### Passage N` heading.",
+    "fix": "This file cannot be populated without the primary source. Replace the entire file content with a single comment: '# ERROR: Primary source (01-source.md) is missing. Cannot populate key passages.'",
     "category": "notebooklm"
   },
   {
     "file": "03-context-pack.md",
-    "anchor": "# Context pack",
+    "anchor": "File-level",
     "severity": "P0",
-    "problem": "The context pack file is an empty template.",
-    "fix": "Populate the 'Author / narrator', 'What this chapter is responding to', 'Tradition / lineage', and 'Related works' sections with concise, factual background information based on the source text's context.",
+    "problem": "The context pack is an empty template.",
+    "fix": "This file cannot be populated without the primary source. Replace the entire file content with a single comment: '# ERROR: Primary source (01-source.md) is missing. Cannot populate context pack.'",
     "category": "notebooklm"
   },
   {
     "file": "04-discussion-spine.md",
-    "anchor": "# Discussion spine",
-    "severity": "P0",
-    "problem": "The discussion spine is an empty template.",
-    "fix": "Populate all six beats of the discussion spine. For each beat, define the 'Key question', 'Tension', and 'Anchor passage' by referencing the corresponding passage number from `02-key-passages.md`.",
-    "category": "spine"
-  },
-  {
-    "file": "04-discussion-spine.md",
-    "anchor": "### Beat 7: [LLM-FILL] Beat 7",
+    "anchor": "File-level",
     "severity": "P1",
-    "problem": "The discussion spine template contains 8 beats, but the episode framing specifies a 6-beat structure.",
-    "fix": "Delete the entire sections for '### Beat 7' and '### Beat 8' from the file.",
+    "problem": "The discussion spine template contains 8 beats, which contradicts the explicit six-beat structure detailed in '00-framing.md'.",
+    "fix": "Ensure the populated discussion spine (per the P0 fix) has exactly six beats, mapping directly to the structure in the 'Three-part focus' section of '00-framing.md'.",
     "category": "spine"
   },
   {
     "file": "00-framing.md",
     "anchor": "## Pronunciation",
     "severity": "P1",
-    "problem": "Pronunciation guidance is embedded directly in the framing file instead of being in a separate, required appendix.",
-    "fix": "Replace the entire '## Pronunciation' section and its contents with a single line: 'See `05-pronunciation-appendix.md` for all pronunciation guidance.' The pipeline must then generate this file.",
+    "problem": "The pronunciation guide is incomplete and does not cover terms used in the show notes.",
+    "fix": "Add the following lines to the pronunciation list under the '## Pronunciation' heading: 'Pronounce \"da'wa\" as \"DAH-wah\".' and 'Pronounce \"sheikh\" as \"SHAYKH\".'",
     "category": "pronunciation"
   },
   {
-    "file": "00-framing.md",
-    "anchor": "## Host dynamic",
-    "severity": "P2",
-    "problem": "The file uses bold markdown for emphasis on role-labels, which violates the 'prose only' articulation style.",
-    "fix": "Remove all double-asterisk (bold) markdown characters from the file. For example, change '**the Master**' to 'the Master'.",
-    "category": "articulation"
-  },
-  {
-    "file": "00-framing.md",
-    "anchor": "## Audience",
-    "severity": "P2",
-    "problem": "The text uses 'God' in several places, which is inconsistent with the house style requirement to use 'Allah'.",
-    "fix": "Perform a case-sensitive search and replace for the word 'God' and replace all instances with 'Allah'.",
-    "category": "articulation"
-  },
-  {
     "file": "99-show-notes.md",
-    "anchor": "## Related episodes",
+    "anchor": "The opening chapter of Kitab al-'Alim wa-l-Ghulam",
     "severity": "P2",
-    "problem": "The 'Related episodes' section uses a bulleted list, which can cause awkward phrasing when read by the audio model.",
-    "fix": "Rewrite the bulleted list under '## Related episodes' as a single prose sentence. For example: 'Related episodes include will-command-and-the-seven, world-hereafter-and-the-right-of-wealth, the-greater-shaykh-and-the-naming, father-revealed-and-the-faces-of-seeking, and justice-monotheism-and-the-guardians.'",
-    "category": "notebooklm"
+    "problem": "The blurb uses transliterated Arabic instead of Arabic script.",
+    "fix": "In the blurb, replace 'Kitab al-'Alim wa-l-Ghulam' with 'كتاب العالم والغلام', replace 'da'wa' with 'دعوة', and replace 'sheikh' with 'شيخ'.",
+    "category": "articulation"
+  },
+  {
+    "file": "00-framing.md",
+    "anchor": "## Stable role-labels",
+    "severity": "P2",
+    "problem": "The file uses bold markdown for emphasis, violating the house style.",
+    "fix": "Remove all bold markdown markers (`**`) from the entire file.",
+    "category": "articulation"
+  },
+  {
+    "file": "00-framing.md",
+    "anchor": "Party of God",
+    "severity": "P2",
+    "problem": "The text inconsistently uses 'God' and 'Allah'.",
+    "fix": "Throughout the file, replace instances of 'God' with 'Allah', except where it is part of a proper noun or direct title from the source text like 'Party of God' or 'religion of God's friends'. Apply this change to 'servant of God' -> 'servant of Allah'.",
+    "category": "articulation"
   }
 ]
 ```

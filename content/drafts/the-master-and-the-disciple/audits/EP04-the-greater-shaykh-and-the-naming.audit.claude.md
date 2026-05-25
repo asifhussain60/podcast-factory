@@ -1,35 +1,33 @@
 ## Inventory
 
-- **Bundle**: `EP04-the-greater-shaykh-and-the-naming` (single bundle, single chapter, single episode).
-- **Chapter / Episode**: EP04 — "The Greater Shaykh and the Seventh-Day Naming".
-- **Artifacts present (with content)**: `00-framing.md` (complete), `99-show-notes.md` (complete blurb).
-- **Artifacts present as stubs (no usable content)**: `02-key-passages.md`, `03-context-pack.md`, `04-discussion-spine.md`.
-- **Artifacts missing entirely**: primary-source chapter file (no `01-*.md` or equivalent). NotebookLM has no source body to ingest.
-
----
+- **EP04 — The Greater Shaykh and the Seventh-Day Naming** (bundle root `EP04-the-greater-shaykh-and-the-naming/`)
+  - Framing (`00-framing.md`): present, substantive
+  - Primary source (`01-source.md`): **MISSING**
+  - Key passages (`02-key-passages.md`): stub only — body is `> >` and `*Why this matters:* [LLM-FILL]`
+  - Context pack (`03-context-pack.md`): present but ALL fields are `[LLM-FILL]` placeholders
+  - Discussion spine (`04-discussion-spine.md`): present but ALL 8 beats are `[LLM-FILL]` placeholders
+  - Show notes (`99-show-notes.md`): present, substantive
 
 ## Chapter Findings
 
-### Chapter 1: The Greater Shaykh and the Seventh-Day Naming
+### Chapter EP04: The Greater Shaykh and the Seventh-Day Naming
 
 | Severity | File | Anchor | Problem | Fix |
 |---|---|---|---|---|
-| P0 | (bundle root) | (no primary-source file) | The bundle ships no chapter prose — NotebookLM has nothing to upload as the source corpus. Framing references "the chapter file is the entire source" but that file is absent. | Author or restore `01-primary-source.md` (or the project's standard primary-source filename) containing the full chapter prose in articulation style. Without it, the episode cannot be generated. |
-| P0 | 02-key-passages.md | Passage 1 | File contains a single empty blockquote (`> >`) and `[LLM-FILL]`. The framing demands ~14 verbatim quotes (announcement, brotherly recognition, doxology, chain of rights, naming dialogue, veiled transmission, Hajj figure, eight-clause blessing, five negatives, six qualities, interpretation key, closing line). None are present. | Populate each numbered passage with the verbatim quote referenced in the framing's "Quote verbatim for" list. Each passage gets its English text, source location, and a one-sentence "Why this matters" tied to the beat it serves. |
-| P0 | 04-discussion-spine.md | Beat 1: Opening hook | Every beat 1–8 is `[LLM-FILL]`. The spine is the hidden steering layer; an empty spine produces a free-associating episode regardless of framing quality. | Write all 8 beats. Map them to the framing's 6 narrative beats (Yellowing, Council, Two discourses, Naming dialogue, Veiled transmission, Farewell) plus an opening-hook beat and the silent-landing beat. Each beat states its key question, the tension drawn from a specific passage in `02-key-passages.md`, an anchor-passage reference, and a one-line landing. |
-| P0 | 04-discussion-spine.md | Beat 1: Opening hook | Host-role assignment (male=scholar/elder, female=seeker) is declared only in `00-framing.md` and not seeded inside the spine itself. NotebookLM follows the spine more reliably than the framing for turn-by-turn role inheritance. | At Beat 1, add a seed exchange that explicitly labels Host A as the elder/scholar voice and Host B as the seeker voice, with one example pushback Host B will use (drawn from the framing's three pushback turns). Re-affirm the role at Beat 4 (naming dialogue) where the framing requires the second pushback. |
-| P0 | 03-context-pack.md | Author / narrator | Every retrieval slot (author/dates, what the chapter answers, tradition/lineage, related works) is `[LLM-FILL]`. Hosts have no grounded background to retrieve when a beat asks "why this chapter matters". This invites hallucination on origin, tradition, and lineage. | Populate the four required sections from the framing's `## Background` paragraph and the chapter's known attribution (tenth-century Fatimid Yemen, attributed to a son of one of the founding Yemeni callers, fourteen-section dialogue treatise ending in the testament of the dying Master). Leave "Why this lands now" empty per the comment. |
-| P1 | 00-framing.md | Pronunciation | Pronunciation directives sit INLINE in the framing rather than in a separate appendix referenced from the framing. The spec requires the appendix to be a discrete artifact, not woven into the steering prose. | Extract every "Pronounce X as Y" line into a new file `05-pronunciation.md` formatted as a two-column appendix (term → phonetic). Replace the inline block in `00-framing.md` with a single sentence pointing NotebookLM to `05-pronunciation.md`. |
-| P1 | 99-show-notes.md | Blurb | The blurb is one ~800-word unbroken paragraph — well past the ~400-word breath-limit. Even though show notes are not voiced, they get scraped into NotebookLM's context as a high-weight summary; a wall-of-text blurb forces the hosts to over-compress in the opening. | Segment the blurb into 4–6 short paragraphs at natural seams (announcement → council → two discourses → naming dialogue → veiled transmission + Hajj figure → farewell + close). No bullets — keep prose. |
-| P1 | 99-show-notes.md | Blurb | Arabic terms are transliterated throughout (*Kitab al-'Alim wa-l-Ghulam*, *batin*, *da'wa*, *Ubayd Allah, son of Abd Allah*, *ihram*, *Sa'd*, *Imam's permission*). Articulation style mandates Arabic script with parenthesized English meaning, never transliteration. | Replace every transliterated Arabic term with its Arabic-script form preceded by the English gloss, e.g., "the inner (الباطن)", "the call (الدعوة)", "the consecrated state (الإحرام)". For the book title, follow the framing's role-label rule: *the book "The Master and the Boy"*. Strip the Arabic personal name *Ubayd Allah, son of Abd Allah* from the blurb entirely — the framing restricts that name to the Beat-4 verbatim quote only. |
-| P1 | 99-show-notes.md | Blurb | The blurb uses heavy italic emphasis on almost every key phrase, plus em-dash chains and parenthetical stacking. Italics confuse retrieval weighting and the dash chains will produce voice glitches if any of this gets read aloud. | Remove all italics. Convert em-dash chains to short sentences. Keep parentheticals to one per sentence. |
-| P1 | 99-show-notes.md | References | The References block contains a single empty `>` blockquote. Either it should list grounded references in plain prose, or the section should be removed. | Either populate with the chapter's grounded inter-text references (the Treatise on Rights, the Psalms of Islam, the Path of Eloquence — already named in the framing's role-labels) in prose form, or delete the heading and the empty blockquote. |
-| P2 | 00-framing.md | Stable role-labels | The Commander of the Faithful's "*peace be upon him* spoken IN FULL at first mention only" rule and the forbidden-pairing prohibition are clearly stated, but the spine has no enforcement hook. If the spine populates and a beat-author re-introduces the title at a later beat, the honorific will be repeated. | When authoring `04-discussion-spine.md`, mark in Beat 3 (the two opening discourses) that the title's full honorific is voiced exactly once and add a note to NotebookLM: subsequent mentions use the title alone. |
-| P2 | 00-framing.md | Host dynamic | The three required pushback turns are listed by beat-seam but none specify a NotebookLM-style prompt the female host can reach for if she defaults to assent. They risk being soft-pedalled or skipped. | Strengthen each pushback with a verbatim opener that is permitted (not on the forbidden first-word list), e.g., "I don't follow yet — …" or "Let me push on that — …". Keep them in `00-framing.md` under `## Host dynamic`. |
-| P2 | 00-framing.md | Pronunciation | The Quran is listed but the framing also instructs hosts to "refer to surahs by their English meaning". There are no Quran citations in `Q|S:V` form to spoken-form-map, so no citation appendix is required for this episode. | Add a single line under `## Pronunciation` stating that no Q|S:V citations appear in this chapter and the spoken-form appendix is therefore not needed (so a downstream check does not flag it as missing). |
-| P2 | 00-framing.md | (whole file) | Cohesion: clean. Single-thesis discipline: clean. Format declaration (`deep_dive`): clean. Skip-the-intro instruction: clean. Banter suppression / anti-noise rules: clean. Length target (50–60 min): stated but cannot be calibrated until the primary-source file exists. | Re-verify length calibration once `01-primary-source.md` is populated: chapter word count divided by ~140 wpm should land in the 50–60 min band; if short, trim the spine to five beats. |
-
----
+| P0 | `00-framing.md` | `## Background` | Framing asserts "the chapter file is the entire source," but no `01-source.md` exists in the bundle — NotebookLM will hallucinate the entire chapter from framing alone. | Author `01-source.md` containing the full verbatim chapter text (the re-birth chapter from *Kitab al-ʿAlim wa-l-Ghulam*) before NotebookLM ingestion. |
+| P0 | `02-key-passages.md` | `### Passage 1` | File contains only `> >` and `*Why this matters:* [LLM-FILL]`. The retrieval layer is empty; hosts will paraphrase or invent every quoted passage. | Populate verbatim quotes the framing explicitly demands: the announcement, the brotherly recognition, the doxology on justice-as-middle, the chain-of-rights, the full naming dialogue, the veiled-transmission disclosure, the Hajj-by-the-great-sign figure, the eight-clause blessing, the five negatives, the six qualities, the interpretation key, and the closing line *then his father came to him, angry*. Each with a `*Why this matters:*` line tying it to a specific beat. |
+| P0 | `03-context-pack.md` | `## Author / narrator` | All four populated headings remain `[LLM-FILL]` — hosts have no grounding for tradition, author, or related works and will fabricate. | Fill all four headings using the framing's own `## Background` paragraph plus the source-tradition (Ismaili, tenth-century Fatimid Yemen) and lineage placement. |
+| P0 | `04-discussion-spine.md` | `### Beat 1: Opening hook` | The entire steering layer is `[LLM-FILL]` placeholders — NotebookLM has no beat structure, no anchor passages, no landings. The episode WILL drift. | Author all beats with explicit key-question / tension / anchor-passage / landing fields, drawn directly from framing's `## Three-part focus`. |
+| P0 | `04-discussion-spine.md` | Beat count | Spine declares **8 beats** but framing's `## Three-part focus` declares **6 beats** ("Six beats walking the chapter in narrative order. Each beat lands once and only once. Do not double back; do not jump forward."). Direct contradiction — whichever NotebookLM follows, the other is violated. | Rewrite spine to exactly **6 beats** matching framing: (1) Yellowing and announcement, (2) Council and brotherly recognition, (3) Two opening discourses, (4) Seventh-day naming dialogue (pivot), (5) Seventh day, veiled transmission, inner pilgrimage, (6) Farewell, interpretation key, unresolved close. Remove Beats 7 and 8. |
+| P0 | `99-show-notes.md` | `**Blurb:**` | Show-notes blurb voices the forbidden full Arabic personal name *Ubayd Allah, son of Abd Allah* OUTSIDE the framing's permitted window (framing locks this name to the Beat-4 verbatim quote ONLY; before and after, "refer to the figure as the seeker"). If NotebookLM is given this blurb, the name leaks. | Replace the two instances of *Ubayd Allah, son of Abd Allah* in the blurb with *the seeker* (or *the youth*). The name appears once only, inside the quoted naming-dialogue exchange. |
+| P1 | `99-show-notes.md` | `**Blurb:**` | Pervasive transliterated Arabic — *Kitab al-ʿAlim wa-l-Ghulam*, *da'wa*, *batin*, *ihram*, *Shaykh*, *Hajj*, *Sa'd*, *Ubayd Allah*, *Abd Allah*. Articulation rule: Arabic terms in Arabic script only, never transliterated; English first with Arabic in parentheses. | Convert all transliterated terms to either English-only (the chain, the call, the innermost inward, the consecrated state, the elder, the pilgrimage) or English-with-Arabic-script-parenthetical for the first mention of canonical terms (the inner [الباطن], pilgrimage [الحج]). |
+| P1 | `99-show-notes.md` | `**Blurb:**` | Heavy italic emphasis across dozens of phrases (*yellowed*, *seventh-day naming*, *greater Shaykh*, *highest transmission*, etc.). Articulation rule: no bold, no italics. | Strip all `*...*` italic markup. Quotation marks for verbatim passages; plain prose for everything else. |
+| P1 | `99-show-notes.md` | `**Blurb:**` | The blurb is a single ~1,000-word unbroken paragraph — NotebookLM will compress to summary and lose the seven-beat narrative. | Split into 3–4 paragraphs aligned to framing beats (announcement / council and discourses / naming and veiled transmission / farewell and unresolved close). |
+| P1 | `00-framing.md` | `## Pronunciation` | The framing carries pronunciation directives inline in prose form, but no separate, retrievable pronunciation appendix exists in the bundle for the spoken-form citations the framing demands the hosts produce. NotebookLM will mis-voice *ihram*, *Sa'd*, *Hajj* without an explicit map. | Add a `## Pronunciation appendix` block (or `06-pronunciation.md`) mapping each term to its phonetic spelling exactly as framing already supplies: Quran → qur-AAN; Sinai → SEE-nigh; Hajj → HAJ; ihram → ih-RAAM; Sa'd → SAHD; Ubayd Allah → oo-BAYD ah-LAH; Abd Allah → AB-d ah-LAH. Reference from `00-framing.md`. |
+| P1 | `99-show-notes.md` | `## References` | References field is `>` placeholder. The blurb makes many specific source claims; hosts will be unable to ground them. | Replace `>` with the actual citation list (chapter, edition, translator) for *Kitab al-ʿAlim wa-l-Ghulam* plus the secondary works framing names (*the book "The Psalms of Islam"*, *the book "The Treatise on Rights"*, *the book "The Path of Eloquence"*). |
+| P2 | `00-framing.md` | `## Host dynamic` | Pushback example #3 ("That sounds like wordplay…") opens with *That sounds like wordplay* — fine — but example #2 risks reading as a quasi-rhetorical question chain that invites NotebookLM to extend the chain rather than answer. | Tighten example #2 to a single pointed sentence; remove the trailing "Aren't you just refusing every category I offer?" rhetorical extension. |
+| P2 | `00-framing.md` | `## Anti-noise rules` | Framing instructs the recurring thesis is spoken three times verbatim. The articulation rule "no claim restated more than twice" must be explicitly exempted in framing so downstream auditors do not flag it. | Add one line under `## Anti-noise rules` (R-NOREPEAT): *Exception: the recurring thesis (R-RECURRING-THESIS) is spoken three times verbatim by design and is exempt from R-NOREPEAT.* |
+| P2 | `99-show-notes.md` | `## Related episodes` | Related episodes list four sibling slugs but uses kebab-case slugs not titles; if NotebookLM ever surfaces this, it reads as broken metadata. | Replace slugs with display titles (or remove the list and let the audience-facing layer render related episodes from `series-config.yaml`). |
 
 ## Episode Findings
 
@@ -37,144 +35,144 @@
 
 | Severity | File | Anchor | Problem | Fix |
 |---|---|---|---|---|
-| P0 | 04-discussion-spine.md | Beat 1: Opening hook | Spine is entirely `[LLM-FILL]` — none of the required beats exist (opening hook, 3–5 discussion beats, bridging tension, closing reflection that returns to the hook). Without a populated spine the episode has no steering layer and the framing alone cannot hold a 50–60 min conversation. | Author all eight beats per the framing's six narrative beats plus opening-hook and silent-landing. Bridge tension lives at the seam between Beat 3 (chain of rights) and Beat 4 (naming dialogue) — this is also the R-RESET site the framing names. |
-| P0 | 04-discussion-spine.md | Beat 1: Opening hook | Host roles not seeded in the spine. | See Chapter Findings row above. |
-| P0 | 04-discussion-spine.md | Beat 4: [LLM-FILL] Beat 4 | The veiled-transmission discipline (HONOR THE VEIL — never invent content) lives only in the framing. NotebookLM will improvise transmission content unless the spine repeats the constraint at the Beat-5 anchor. | At Beat 5 (the veiled transmission), write the landing as "Name what kind of matters these are (innermost inward; what the source guards under pious dissimulation) and why the source veils. Do not invent specifics. Hold the silence." |
-| P0 | 02-key-passages.md | Passage 1 | The framing requires verbatim quotation for ~14 distinct passages including the recurring thesis (spoken three times). With zero passages provided, the hosts cannot quote verbatim and will paraphrase — collapsing the chapter's settled formula and the R-NOREPEAT verbatim-thrice rule. | Populate at minimum: the announcement, the brotherly recognition, the doxology on justice, the chain of rights, the naming dialogue, the recurring thesis ("The name belongs to you…"), the veiled-transmission disclosure, the Hajj-by-the-great-sign figure, the eight-clause blessing, the five negatives, the six qualities, the interpretation key, and the closing line ("then his father came to him, angry"). |
-| P0 | 00-framing.md | Pronunciation | Pronunciation appendix is inline, not a separate referenced artifact. Arabic terms exist in the source. Per spec, inline-only equals "absent appendix" → P0. | See Chapter Findings — extract to `05-pronunciation.md`. |
-| P1 | 99-show-notes.md | Related episodes | The related-episodes list points to neighboring chapter slugs in the same book, which is the correct pattern. Clean as a structure — but the framing's `R-NOBACKGROUND` and "Treat this chapter as self-contained" rules mean hosts should not be primed to cross-reference. The show-notes-driven related-episodes block is not voiced; it is a NotebookLM retrieval surface that will leak into context. | Add a one-line preamble to `## Related episodes` stating these slugs are publication-only metadata and must not be referenced in spoken dialogue. |
-| P1 | 00-framing.md | Length | 50–60 min target is declared, but source volume cannot be verified — primary-source file is missing. If the source is thinner than the framing's six-beat density implies, the hosts will pad with repetition. | Re-calibrate after `01-primary-source.md` exists. If word count is below ~6,000, drop to a 35–45 min target and collapse Beat 6's eight-clause blessing + five negatives + six qualities into one landing rather than three. |
-| P1 | 00-framing.md | Host dynamic | The single-name discipline forbids voicing the seeker's birth-name *Ubayd Allah, son of Abd Allah* outside the Beat-4 verbatim quote. The pronunciation appendix teaches the pronunciation. NotebookLM will read the appendix and then statistically reuse the name elsewhere. | In `05-pronunciation.md` (once created), gate the two birth-name entries with an explicit constraint: "These names appear ONLY inside the Beat-4 naming-dialogue verbatim quote. Do not speak them at any other moment of the episode. Refer to the figure as the seeker before and after." |
-| P2 | 00-framing.md | Anti-noise rules | Format-suitability: clean (deep_dive matches a six-beat narrative walkthrough). Single-thesis: clean. Cliffhanger discipline: clean (chapter ending is explicit, no "we'll explore later"). Forbidden first-words enumerated. | No fix required for this row. |
-| P2 | 00-framing.md | Pronunciation | "Surah names spoken in English meaning" is correct but does not name which surahs are touched. If the chapter cites verses (e.g., "Allah does not burden a soul beyond its capacity" — the framing already gestures here), the hosts may not know which surah they are paraphrasing. | Add a short table under `## Pronunciation` mapping each verse paraphrase the chapter uses to its surah's English meaning (e.g., "the chapter on the cow" for Q 2:286). |
-
----
+| P0 | `04-discussion-spine.md` | All beats | Spine is unauthored — host-role consistency, beat completeness, format suitability cannot be checked because there is no content to check. | See chapter finding above — author all 6 beats with explicit host-role attribution (Host A scholar, Host B seeker) per framing's `## Host dynamic`. |
+| P0 | `00-framing.md` | `## Host dynamic` | Host roles correctly assigned (male = scholar/teacher, female = seeker/student) and seeded with three explicit Host B pushback examples — but the spine, where these roles must be operationalized, is empty. The role assignment is stranded. | Once spine is authored, every beat must name which host opens, which pushes back, and where the three seeded pushbacks land (seam 3→4; Beat 4 naming; Beat 5 veiled transmission; Beat 6 closing). |
+| P1 | `00-framing.md` | `## Length` | Length target is "50 to 60 minute in-depth conversation" but the bundle has no source file and empty spine — the host pair cannot sustain 50 min on framing alone and will pad with repetition. | Either ingest the full chapter as `01-source.md` AND author the spine, OR reduce length target to a range the populated source can actually support. Do not generate audio at this length without source. |
+| P1 | `00-framing.md` | `## Opening directive` | "Skip the intro" instruction is present in functional form ("Do not open with *today we'll discuss* or *welcome back*. Start in the middle of the question.") — clean on this dimension. | clean |
+| P2 | `00-framing.md` | `## Three-part focus` (Beat 5) | Veiled transmission is correctly framed as veil-honoring with explicit "may not invent content or speculate" — strong. The seam where Host B's third pushback lands ("How is this different from refusing to answer?") risks pulling Host A into specifics if the spine doesn't pre-stage Host A's permitted answer (name *what kind* of matters; name *why* the source veils). | When authoring spine Beat 5, pre-stage Host A's allowed responses to the veil-pushback: (a) name the register of matters (the innermost inward, what the source guards under pious dissimulation); (b) name the reason for the veil (doctrine, not omission); (c) point to the Hajj-by-the-great-sign figure as the chapter's signal. |
+| P2 | `00-framing.md` | `## Anti-noise rules` (R-NOSURPRISE) | Framing requires "exactly one separate-prep illusion (R-SURPRISE-MOVE)" at the seventh-day rite. Without an authored spine, this directive has no anchor. | Spine Beat 5 must encode the separate-prep moment — Host B introduces the seventh-day rite image (bathing, purest garments, *the day of Sa'd*) BEFORE Host A leads toward it. |
+| P2 | `00-framing.md` | `## Host dynamic` | Format declared: `deep_dive`. Appropriate for source density once source is populated. | clean |
+| — | `00-framing.md` | `## Do not` | Forbidden vocabulary block present, comprehensive, includes the forbidden leadership-title/personal-name pairing rule. | clean |
 
 ## Cross-Bundle Patterns
 
-Only one bundle is present, so cross-bundle pattern analysis is limited. The single dominant pattern is that the bundle is half-built: `00-framing.md` and `99-show-notes.md` are mature, while the three retrieval artifacts (`02-key-passages.md`, `03-context-pack.md`, `04-discussion-spine.md`) and the primary source file are either stubs or absent. NotebookLM weighs the framing as instruction and the source/key-passages as retrieval ground; with the retrieval ground empty, the framing's careful discipline (the recurring thesis spoken three times verbatim, the eight-clause blessing voiced in order, the veiled-transmission held under doctrine rather than improvised) cannot be enforced. The episode cannot generate cleanly until those four files are populated.
+The bundle is a **two-file episode**: `00-framing.md` (highly engineered, dense, articulation-disciplined) and `99-show-notes.md` (verbose, transliteration-heavy, italic-heavy, single-paragraph blob). The three middle artifacts — key passages, context pack, discussion spine — are scaffolds with `[LLM-FILL]` placeholders, and `01-source.md` is absent. This is the signature of a bundle where the framing author paused after `00-framing.md` and never returned to populate the retrieval and steering layers. NotebookLM will read the framing as instructions, find no source to ground them in, find no spine to follow, find no passages to quote, and synthesize the episode from the framing's *descriptions* of what should be quoted — guaranteeing fabrication. Show-notes prose violates the same articulation discipline the framing painstakingly enforces (transliteration, italics, monolithic paragraph) — the two files were written by different conventions and one must be brought into line with the other before any of this reaches NotebookLM.
 
-A second pattern: the framing exhibits very high articulation discipline (script-script Arabic, role-label substitutions, R-rule citations, forbidden-vocabulary lists), but the show-notes blurb does not inherit it — it freely transliterates Arabic, italicizes for emphasis, and stacks dashes. The tone gap between `00-framing.md` and `99-show-notes.md` is the single largest articulation drift in the bundle and should be closed before generation.
-
-A third pattern: pronunciation guidance is inline-in-framing rather than appendix-as-artifact. If the project ships multiple episodes this way, the audit should treat the pattern as a project-wide template issue, not a per-episode one.
-
----
+A structural risk: the framing's 6-beat narrative spine and the discussion-spine file's 8-beat template directly disagree. This is not stylistic — it is a count mismatch that will cause one of the two documents to be ignored. Resolve by editing the spine file to exactly the 6 beats framing names.
 
 ## Claude Code Instruction Block
 
 ```claude-code-fixes
 [
   {
+    "file": "00-framing.md",
+    "anchor": "## Background",
+    "severity": "P0",
+    "problem": "Bundle is missing 01-source.md; framing claims the chapter file is the entire source but no source artifact exists.",
+    "fix": "Author 01-source.md in this bundle containing the full verbatim chapter text of the re-birth chapter from Kitab al-Alim wa-l-Ghulam (the chapter whose closing line is 'then his father came to him, angry'). Do not paraphrase; include every passage the framing and key-passages files reference.",
+    "category": "cohesion"
+  },
+  {
     "file": "02-key-passages.md",
-    "anchor": "Passage 1",
+    "anchor": "### Passage 1",
     "severity": "P0",
-    "problem": "File is an empty stub containing only an empty blockquote and an [LLM-FILL] tag; the framing requires fourteen verbatim quotes that NotebookLM has nothing to retrieve.",
-    "fix": "Populate the file with numbered verbatim passages for: the announcement, the brotherly recognition, the doxology on justice as the middle between two extremes (with the spread-out-hands figure), the chain of rights (thought to obedience), the full naming dialogue, the recurring thesis 'The name belongs to you, and you belong to the name. So it does not appear except within your limit, and it travels with your duration.', the veiled-transmission disclosure, the Hajj-by-the-great-sign figure, the eight-clause blessing, the five negatives on safeguarding the father, the six qualities, the interpretation key, and the closing line 'then his father came to him, angry.' Each passage gets the verbatim English text and a one-sentence 'Why this matters' tying it to the beat it anchors.",
-    "category": "spine"
-  },
-  {
-    "file": "04-discussion-spine.md",
-    "anchor": "Beat 1: Opening hook",
-    "severity": "P0",
-    "problem": "Every beat from 1 through 8 is [LLM-FILL]; the spine has no key questions, tensions, anchor passages, or landings, so the episode has no steering layer.",
-    "fix": "Author all eight beats. Map them to the framing's six narrative beats (Yellowing/announcement, Council/brotherly recognition, Two discourses, Naming dialogue, Veiled transmission/Hajj figure, Farewell/interpretation key) plus Beat 1 as the opening hook in the middle of the question and Beat 8 as the silent landing. For each beat write: key question (one line), tension (one line, drawn from a specific passage in 02-key-passages.md), anchor passage (reference passage N from 02-key-passages.md), landing (one line naming what residue this beat leaves).",
-    "category": "spine"
-  },
-  {
-    "file": "04-discussion-spine.md",
-    "anchor": "Beat 1: Opening hook",
-    "severity": "P0",
-    "problem": "Host-role assignment (Host A male = elder/scholar voice, Host B female = seeker/questioner voice) is declared only in 00-framing.md and not seeded in the spine; NotebookLM follows the spine more reliably than the framing for turn-by-turn role inheritance.",
-    "fix": "At Beat 1 add a seed exchange labeling Host A as the elder/scholar voice and Host B as the seeker voice, with one example pushback Host B will use (draw verbatim from the framing's three pushback turns under '## Host dynamic'). Re-affirm the role at Beat 4 where the naming dialogue lands.",
-    "category": "host-role"
-  },
-  {
-    "file": "04-discussion-spine.md",
-    "anchor": "Beat 4: [LLM-FILL] Beat 4",
-    "severity": "P0",
-    "problem": "The 'HONOR THE VEIL — never invent content' discipline lives only in 00-framing.md; without it repeated at the Beat-5 anchor, NotebookLM will improvise transmission content.",
-    "fix": "Write Beat 5's landing as: 'Name what kind of matters these are — the innermost inward, what the source guards under pious dissimulation — and name why the source veils. Do not invent specifics. Both hosts hold the silence before moving to the Hajj-by-the-great-sign figure.'",
-    "category": "spine"
+    "problem": "File body contains only an empty blockquote and an LLM-FILL placeholder; the retrieval layer is empty.",
+    "fix": "Replace the stub with twelve verbatim passages drawn from 01-source.md, one per framing requirement: (1) the announcement (mercy cast into the heart of the one who has charge of him); (2) the brotherly recognition exchange (the boy we used to hear about / the one whose remembrance is sweet); (3) the doxology on justice as the middle between two extremes including the spread-out hands figure; (4) the chain of rights (thought, good manners, knowledge, action, obedience); (5) the full naming dialogue from name-asked through 'how can a thing know that which has no name' to 'until the completion of seven days, for the dignity of the newborn'; (6) the recurring thesis 'the name belongs to you, and you belong to the name. So it does not appear except within your limit, and it travels with your duration'; (7) the seventh-day preparation (bathing, purest garments, the day of Sa'd); (8) the veiled-transmission disclosure (matters upon which no fancy had ever descended); (9) the Hajj-by-the-great-sign figure; (10) the eight-clause blessing; (11) the five negatives on the father; (12) the interpretation key (whatever in it is praiseworthy is like the truth and its people). Each passage block must end with a *Why this matters:* line that names the framing beat it anchors.",
+    "category": "cohesion"
   },
   {
     "file": "03-context-pack.md",
-    "anchor": "Author / narrator",
+    "anchor": "## Author / narrator",
     "severity": "P0",
-    "problem": "Author/narrator, what-this-chapter-is-responding-to, tradition/lineage, and related-works are all [LLM-FILL]; hosts have no retrieval-grounded background and will hallucinate origin and lineage.",
-    "fix": "Populate the four required sections from 00-framing.md's '## Background' paragraph: a tenth-century dialogue treatise composed in early Fatimid Yemen, attributed by long tradition to a son of one of the founding-generation Yemeni callers, fourteen sections of dialogue ending in the testament of the dying Master; the chapter is the chapter of initiation following the chapter-three deferral on the elder's permission. Use prose, no bullets. Leave 'Why this lands now' empty per its comment.",
+    "problem": "All four populated headings are LLM-FILL placeholders; the hosts have no grounding context.",
+    "fix": "Populate Author/narrator with the attribution from framing (tenth-century Fatimid Yemen, attributed by long tradition to a son of one of the great Yemeni callers of the founding generation), What this chapter is responding to with the chapter-three deferral on the Imam's permission and the chapter's positioning as the chapter of initiation, Tradition/lineage with the Ismaili tariqah and the early Ismaili da'wa context expressed in the framing's English vocabulary (the call, the chain, the inner interpretation), and Related works with the three companion books framing names (the book of psalms, the book of the treatise on rights, the book of the path of eloquence). Leave 'Why this lands now' as marked not-required.",
+    "category": "cohesion"
+  },
+  {
+    "file": "04-discussion-spine.md",
+    "anchor": "### Beat 1: Opening hook",
+    "severity": "P0",
+    "problem": "All eight beats are LLM-FILL placeholders; the steering layer NotebookLM follows is empty.",
+    "fix": "Rewrite the file as exactly 6 beats matching framing's three-part focus (delete Beat 7 and Beat 8). For each beat, populate Key question, Tension (drawn from the named passage in 02-key-passages.md), Anchor passage (reference passage N from 02-key-passages.md), and Landing. Beat 1 anchors to the announcement; Beat 2 to the brotherly recognition; Beat 3 to the chain of rights and justice-as-middle; Beat 4 (pivot) to the full naming dialogue and the recurring thesis (second VERBATIM utterance lands here); Beat 5 to the veiled transmission and the Hajj-by-the-great-sign figure with explicit veil-honoring guard; Beat 6 to the eight-clause blessing, interpretation key, recurring thesis (third VERBATIM utterance), and closing line 'then his father came to him, angry'. Each beat names which host opens and where the seeded Host B pushbacks land.",
     "category": "spine"
   },
   {
-    "file": "00-framing.md",
-    "anchor": "Pronunciation",
+    "file": "04-discussion-spine.md",
+    "anchor": "### Beat 7",
     "severity": "P0",
-    "problem": "Pronunciation directives sit inline in 00-framing.md instead of as a separate appendix referenced from the framing; per the audit spec, an inline-only pronunciation block counts as an absent appendix when the source contains Arabic terms.",
-    "fix": "Create a new file 05-pronunciation.md as a two-column appendix (Arabic term in Arabic script — phonetic spelling), one row per term currently in the inline block (Quran, Sinai, Hajj, ihram, Sa'd, Ubayd Allah, Abd Allah). In 00-framing.md, replace the inline pronunciation paragraph with a single sentence: 'NotebookLM should consult 05-pronunciation.md for every Arabic term before voicing it.' Inside 05-pronunciation.md, gate the two birth-name rows with the constraint that those names are voiced only inside the Beat-4 naming-dialogue verbatim quote.",
-    "category": "pronunciation"
+    "problem": "Spine declares 8 beats but framing declares exactly 6 beats; the count contradicts framing's 'each beat lands once and only once. Do not double back; do not jump forward'.",
+    "fix": "Delete Beat 7 and Beat 8 entirely. Rename the existing 'Beat 8: Landing' content (closing on a question or unresolved tension) into the Beat 6 Landing field. The spine ends at Beat 6.",
+    "category": "spine"
   },
   {
     "file": "99-show-notes.md",
-    "anchor": "Blurb",
-    "severity": "P1",
-    "problem": "The blurb is a single ~800-word unbroken paragraph that exceeds the ~400-word breath limit and forces oversimplification when retrieved into NotebookLM's opening context.",
-    "fix": "Split the blurb into 4 to 6 short prose paragraphs at natural narrative seams (announcement; council and brotherly recognition; the two discourses; the seventh-day naming dialogue; the veiled transmission and Hajj-by-the-great-sign; farewell, interpretation key, and the father's anger). Keep prose only; no bullets, no headings inside the blurb.",
-    "category": "length"
-  },
-  {
-    "file": "99-show-notes.md",
-    "anchor": "Blurb",
-    "severity": "P1",
-    "problem": "Arabic terms throughout the blurb are transliterated (Kitab al-'Alim wa-l-Ghulam, batin, da'wa, ihram, Sa'd, Ubayd Allah son of Abd Allah, Imam's permission) instead of appearing in Arabic script with a parenthesized English gloss, violating articulation style.",
-    "fix": "Replace each transliterated term with its English gloss followed by the Arabic-script form in parentheses, e.g., 'the inner (الباطن)', 'the call (الدعوة)', 'the consecrated state (الإحرام)'. For the book title use the framing's role-label form: the book 'The Master and the Boy'. Remove the personal name 'Ubayd Allah, son of Abd Allah' from the blurb entirely; the framing restricts that name to the Beat-4 verbatim quote only.",
+    "anchor": "**Blurb:**",
+    "severity": "P0",
+    "problem": "Blurb voices the full Arabic personal name 'Ubayd Allah, son of Abd Allah' outside framing's permitted Beat-4 verbatim-quote window; framing locks this name to that single moment and requires 'the seeker' before and after.",
+    "fix": "Find both instances of 'Ubayd Allah, son of Abd Allah' in the blurb and replace each with 'the seeker'. The name appears nowhere in the show-notes blurb.",
     "category": "articulation"
   },
   {
     "file": "99-show-notes.md",
-    "anchor": "Blurb",
+    "anchor": "**Blurb:**",
     "severity": "P1",
-    "problem": "The blurb uses italic emphasis on most key phrases, stacked em-dashes, and dense parentheticals, which fragment retrieval weighting and break audio cadence if scraped into context.",
-    "fix": "Remove every italic span. Convert em-dash chains to short sentences. Keep at most one parenthetical per sentence.",
+    "problem": "Blurb is saturated with transliterated Arabic (Kitab al-Alim wa-l-Ghulam, da'wa, batin, ihram, Shaykh, Hajj, Sa'd) violating the articulation rule that Arabic appears in Arabic script only, with English translation preceding when used.",
+    "fix": "Replace every transliterated Arabic term in the blurb with its English equivalent from the framing's `## Stable role-labels` and `## Tone constraints`: Kitab al-Alim wa-l-Ghulam → the book 'The Master and the Boy'; da'wa → the call or the method of the call; batin → the inner or the innermost inward; ihram → the consecrated state; Shaykh → the elder of the chain (first mention) then the elder or the master of the house; Hajj → the pilgrimage; Sa'd → leave inside the verbatim quote 'the day of Sa'd, and the guardian of Sa'd' only. Imam → the fourth Imam to whom the supplications are attributed (first mention) then the same Imam.",
     "category": "articulation"
   },
   {
     "file": "99-show-notes.md",
-    "anchor": "References",
+    "anchor": "**Blurb:**",
     "severity": "P1",
-    "problem": "The References section contains only an empty blockquote (`>`), so the heading promises grounded references and delivers none.",
-    "fix": "Either populate the References section in prose with the chapter's grounded inter-text references (the book 'The Treatise on Rights', the book 'The Psalms of Islam', the book 'The Path of Eloquence' as already named in the framing's stable-role-labels), or remove the '## References' heading and the empty blockquote line together.",
+    "problem": "Blurb uses pervasive italic emphasis (`*yellowed*`, `*seventh-day naming*`, `*greater Shaykh*`, dozens of others) violating articulation rule 'no bold, no italics'.",
+    "fix": "Strip every `*...*` italic pair from the blurb. For verbatim quoted passages, use straight quotation marks. For emphasis, rely on word choice and sentence order — no markup.",
     "category": "articulation"
   },
   {
     "file": "99-show-notes.md",
-    "anchor": "Related episodes",
+    "anchor": "**Blurb:**",
     "severity": "P1",
-    "problem": "The related-episodes list is correct structurally but, because the framing's R-NOBACKGROUND rule forbids cross-chapter references in spoken dialogue, the list will leak into NotebookLM's context and prime the hosts to cross-reference.",
-    "fix": "Add a one-line preamble directly under '## Related episodes' stating: 'These slugs are publication-only metadata. They must not be referenced in spoken dialogue. The chapter is self-contained per R-NOBACKGROUND.'",
+    "problem": "Blurb is a single unbroken ~1,000-word paragraph; NotebookLM will compress it to a summary, losing the chapter's six-beat narrative shape.",
+    "fix": "Split the blurb into four paragraphs aligned to framing beats: paragraph 1 covers the yellowing and the announcement (Beats 1-2); paragraph 2 covers the two opening discourses (Beat 3); paragraph 3 covers the naming dialogue and the seventh-day deferral (Beat 4); paragraph 4 covers the veiled transmission, the inner pilgrimage, the farewell with eight-clause blessing and interpretation key, and the unresolved close on the father's anger (Beats 5-6). One blank line between paragraphs.",
     "category": "notebooklm"
   },
   {
     "file": "00-framing.md",
-    "anchor": "Length",
+    "anchor": "## Pronunciation",
     "severity": "P1",
-    "problem": "The 50–60 minute length target cannot be calibrated because the primary-source chapter file is missing from the bundle; if the source is thinner than the framing's six-beat density implies, the hosts will pad with repetition.",
-    "fix": "After the primary-source file is restored (see the separate primary-source fix), recompute word count divided by ~140 wpm. If the result falls below 50 minutes, drop the target to 35–45 minutes and collapse Beat 6's eight-clause blessing, five negatives, and six qualities into a single landing rather than three sequential ones. Update the '## Length' paragraph in 00-framing.md to match.",
-    "category": "length"
+    "problem": "Pronunciation directives are buried in prose inside framing; no retrievable appendix exists that NotebookLM can surface when it encounters Arabic terms in source.",
+    "fix": "Add a new file 06-pronunciation.md in this bundle containing a clean map: 'Quran → qur-AAN', 'Sinai → SEE-nigh', 'Hajj → HAJ', 'ihram → ih-RAAM', 'Sa'd → SAHD', 'Ubayd Allah → oo-BAYD ah-LAH', 'Abd Allah → AB-d ah-LAH'. One term per line. Reference this file from 00-framing.md '## Pronunciation' section with a single sentence: 'See 06-pronunciation.md for the spoken-form map.'",
+    "category": "pronunciation"
+  },
+  {
+    "file": "99-show-notes.md",
+    "anchor": "## References",
+    "severity": "P1",
+    "problem": "References field is a placeholder `>`; the blurb makes specific quoted claims that need source attribution.",
+    "fix": "Replace the placeholder `>` with the actual reference list: the edition and translator of Kitab al-Alim wa-l-Ghulam used as source; the book 'The Psalms of Islam' (al-Sahifa al-Sajjadiyya) edition; the book 'The Treatise on Rights' (Risalat al-Huquq) edition; the book 'The Path of Eloquence' (Nahj al-Balagha) edition — each by title and translator only, with no transliteration of the Arabic titles in the visible field.",
+    "category": "citation"
   },
   {
     "file": "00-framing.md",
-    "anchor": "Host dynamic",
+    "anchor": "## Anti-noise rules",
     "severity": "P2",
-    "problem": "The three required pushback turns are listed by beat-seam but each opens mid-stream without a permitted opener; the female host's default-assent tendency may soft-pedal them.",
-    "fix": "Prefix each of the three pushback turns under '## Host dynamic' with a permitted opener that is not on the forbidden-first-words list, for example 'I don't follow yet — …' or 'Let me push on that — …'. Keep the bullet-list structure of the section as is.",
+    "problem": "Framing engineers three verbatim utterances of the recurring thesis but the anti-noise rule (R-NOREPEAT) elsewhere caps any claim at two restatements; downstream auditors will flag this engineered exception as a violation.",
+    "fix": "Append one sentence to the `## Anti-noise rules` R-NOREPEAT line: 'Exception: the recurring thesis (R-RECURRING-THESIS) is spoken three times verbatim by design — at the open, at the Beat 4 pivot, and at the close in Landing — and is the sole exempt repetition.'",
+    "category": "articulation"
+  },
+  {
+    "file": "00-framing.md",
+    "anchor": "## Host dynamic",
+    "severity": "P2",
+    "problem": "Pushback example #2 ('That sounds like wordplay...') ends with a rhetorical-question chain ('Aren't you just refusing every category I offer?') that risks inviting NotebookLM to extend the chain rather than letting Host A answer.",
+    "fix": "Trim example #2's trailing sentence. Keep: 'That sounds like wordplay. If the seeker is not the servant-name, is not free, and cannot be newborn, what is he ACTUALLY?' End there.",
     "category": "host-role"
   },
   {
-    "file": "00-framing.md",
-    "anchor": "Pronunciation",
+    "file": "99-show-notes.md",
+    "anchor": "## Related episodes",
     "severity": "P2",
-    "problem": "The framing instructs hosts to refer to surahs by their English meaning but does not enumerate which surahs the chapter touches, so the hosts may not know which surah a paraphrase points to.",
-    "fix": "Under '## Pronunciation' add a short prose paragraph listing the surahs the chapter draws from (at minimum the chapter on the cow for the verse 'Allah does not burden a soul beyond its capacity') and the English-meaning form to use for each. Also state explicitly that no Q|S:V citations appear in the chapter, so the spoken-form-citation appendix is not required for this episode.",
-    "category": "citation"
+    "problem": "Related-episodes list shows kebab-case slugs (the-call-and-the-covenant, will-command-and-the-seven, etc.) rather than display titles; if surfaced verbatim by NotebookLM or by any downstream reader, reads as broken metadata.",
+    "fix": "Either replace each slug with its display title (e.g., 'EP01 — The Call and the Covenant'), or remove the `## Related episodes` block entirely and rely on series-config.yaml to render related-episode links in the audience layer.",
+    "category": "format"
+  },
+  {
+    "file": "00-framing.md",
+    "anchor": "## Length",
+    "severity": "P1",
+    "problem": "Length target is 50-60 minutes but the bundle currently has no source, no key passages, and no spine — the hosts cannot sustain 50 minutes on framing instructions alone and will pad or hallucinate.",
+    "fix": "Do not submit this bundle to NotebookLM until 01-source.md is authored, 02-key-passages.md is fully populated with the twelve passages listed above, and 04-discussion-spine.md is rewritten to the six framing-aligned beats. After those three fixes, the length target is supportable; before them, generation will fail.",
+    "category": "length"
   }
 ]
 ```
