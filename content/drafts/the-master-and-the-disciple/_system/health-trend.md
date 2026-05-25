@@ -13,3 +13,7 @@
 | 2026-05-25 08:38 | per-chapter:ch01 | 5 | 2 | 1 | 1 | 0.00 | Critical | SHIP-WITH-CAUTION |
 | 2026-05-25 10:52 | per-chapter:ch04 | 5 | 2 | 2 | 0 | 0.00 | Critical | SHIP-WITH-CAUTION |
 | 2026-05-25 11:05 | per-chapter:ch04 (re-validation) | 5 | 2 | 2 | 0 | 0.00 | Critical | SHIP-WITH-CAUTION |
+| 2026-05-25 11:30 | per-chapter:ch02 | 3 | 0 | 2 | 0 | 0.00 | Critical | BLOCKED |
+| 2026-05-25 12:00 | per-chapter:ch02 (re-validation) | 1 | 1 | 2 | 0 | 0.00 | Unstable | BLOCKED |
+| 2026-05-25 12:00 | per-chapter:ch02 (re-validation 3rd) | 1 | 0 | 2 | 0 | 0.00 | Unstable | BLOCKED |
+| 2026-05-25 13:30 | per-chapter:ch02 (re-validation 4th) | 0 | 0 | 2 | 1 | 0.90 | SHIP-READY | SHIP-READY |
