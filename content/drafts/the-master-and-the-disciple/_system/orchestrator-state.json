@@ -4,13 +4,13 @@
   "category": "books",
   "branch": "book/the-master-and-the-disciple",
   "phase": "per-chapter",
-  "phase_status": "running",
+  "phase_status": "failed",
   "last_completed_phase": "0g",
   "next_phase": "0f",
   "last_error": {
     "phase": "per-chapter",
-    "message": "chapter the-greater-shaykh-and-the-naming failed: framing authoring failed: claude -p exited rc=1 for Phase framing/the-greater-shaykh-and-the-naming.",
-    "ts": "2026-05-25T09:23:13Z"
+    "message": "chapter the-greater-shaykh-and-the-naming failed: iter 1: challenger invocation failed — claude -p (challenger) exited rc=1",
+    "ts": "2026-05-25T10:11:00Z"
   },
   "pipeline_mode": "orchestrated",
   "bootstrap_provenance": {
@@ -75,7 +75,7 @@
       "series_plan_path": "content/drafts/the-master-and-the-disciple/_system/series-plan.md"
     },
     "per-chapter": {
-      "status": "running",
+      "status": "failed",
       "ts_started": "2026-05-24T18:43:50Z",
       "completed_slugs": [
         "father-revealed-and-the-faces-of-seeking",
@@ -83,7 +83,7 @@
         "the-call-and-the-covenant"
       ],
       "failed_slug": "the-greater-shaykh-and-the-naming",
-      "ts_completed": "2026-05-25T09:23:13Z"
+      "ts_completed": "2026-05-25T10:11:00Z"
     }
   },
   "completed_slugs": [],
@@ -95,7 +95,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-05-22T00:00:00Z",
-  "ts_updated": "2026-05-25T09:23:15Z",
+  "ts_updated": "2026-05-25T10:11:00Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0"

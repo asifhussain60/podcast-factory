@@ -336,6 +336,7 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
             "/_system/health-trend.md",
             "/_system/watchdog.json",   # watch_orchestrator.sh sentinel; written at launch
             "scripts/podcast/tighten_source.py",  # actively-developed utility; edits never affect per-chapter authoring
+            ".code-workspace",          # VS Code workspace files; user-local, never pipeline-relevant
         )
         runtime_artifact_dirs = (
             f"{book_runtime_prefix}_system/episode-drafts/",
@@ -351,6 +352,9 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
             "content/podcast/.skill/_learning/",
             "_workspace/tmp/",
             "_workspace/logs/",
+            # Audio output directory — M4A files generated from NotebookLM; large
+            # binaries that are never committed.
+            "content/m4a/",
         )
         # macOS filesystem is case-insensitive; git status --porcelain sometimes
         # reports paths as `CONTENT/...` (the on-disk case at the time the file
