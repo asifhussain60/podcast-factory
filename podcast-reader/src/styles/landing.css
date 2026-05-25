@@ -596,3 +596,212 @@
   letter-spacing: 0.18em;
   color: var(--color-ink-tertiary);
 }
+
+/* ─────────────────────────────────────────────────────────────────────
+   Bookshelf — face-up hardcover books on a display.
+   Each .book-tile renders as a real book: spine on the left, page-
+   stack on the right, ornamental gold-foil cover frame, varied
+   palette + thickness per book. Hover lifts and tilts.
+   data-cover="1..7" + data-thickness="thin|medium|thick" assigned
+   deterministically per slug in podcast-drafts/index.astro.
+   ───────────────────────────────────────────────────────────────────── */
+.bookshelf {
+  display: grid;
+  gap: 56px 40px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  padding: 16px 0 96px;
+  perspective: 1800px;
+}
+.book-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 420px;
+  border-radius: 4px 6px 6px 4px;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transform-origin: left center;
+  transition: transform 320ms cubic-bezier(0.2, 0.85, 0.3, 1.05),
+              box-shadow 320ms ease;
+  box-shadow:
+    -1px 0 0 0 rgba(0,0,0,0.2) inset,
+     0  8px 14px -8px rgba(0,0,0,0.35),
+     0 22px 30px -16px rgba(0,0,0,0.28);
+}
+.book-tile:hover {
+  transform: translateY(-14px) rotateY(-10deg) translateZ(20px);
+  box-shadow:
+    -1px 0 0 0 rgba(0,0,0,0.2) inset,
+     0 18px 28px -10px rgba(0,0,0,0.42),
+     0 44px 64px -22px rgba(0,0,0,0.38);
+}
+.book-tile::before {
+  content: ''; position: absolute;
+  top: 6px; bottom: 6px; left: -10px; width: 12px;
+  background: linear-gradient(to right,
+    color-mix(in oklab, var(--cover-base, #5a2a2a) 55%, black),
+    var(--cover-base, #5a2a2a));
+  border-radius: 2px 0 0 2px;
+  box-shadow: -2px 0 4px rgba(0,0,0,0.25);
+  transform: translateZ(-2px);
+}
+.book-tile::after {
+  content: ''; position: absolute;
+  top: 8px; bottom: 8px; right: -3px; width: 4px;
+  background: repeating-linear-gradient(to bottom,
+    oklch(88% 0.005 60) 0, oklch(88% 0.005 60) 1.5px,
+    oklch(75% 0.008 60) 1.5px, oklch(75% 0.008 60) 3px);
+  border-radius: 0 2px 2px 0;
+  opacity: 0.85;
+}
+.book-tile[data-thickness="thin"]   { min-height: 380px; }
+.book-tile[data-thickness="thin"]::before   { width: 8px;  left: -7px; }
+.book-tile[data-thickness="medium"] { min-height: 430px; }
+.book-tile[data-thickness="medium"]::before { width: 13px; left: -11px; }
+.book-tile[data-thickness="thick"]  { min-height: 480px; }
+.book-tile[data-thickness="thick"]::before  { width: 18px; left: -15px; }
+.book-tile[data-thickness="thick"]::after   { width: 6px; right: -5px; }
+
+.book-tile-cover {
+  flex: 1;
+  position: relative;
+  display: flex; flex-direction: column;
+  padding: 26px 22px 22px;
+  background:
+    radial-gradient(ellipse at top left, rgba(255,255,255,0.07), transparent 50%),
+    radial-gradient(ellipse at bottom right, rgba(0,0,0,0.22), transparent 60%),
+    repeating-linear-gradient(45deg, rgba(255,255,255,0.025) 0 2px, transparent 2px 4px),
+    var(--cover-base, #5a2a2a);
+  color: var(--cover-ink, #f4e4b8);
+  border-radius: 4px 6px 6px 4px;
+  border-left: 1px solid rgba(0,0,0,0.25);
+  overflow: hidden;
+}
+.book-tile-frame {
+  position: absolute; inset: 14px;
+  border: 1px solid var(--cover-foil, rgba(212, 175, 95, 0.6));
+  border-radius: 2px; pointer-events: none;
+}
+.book-tile-frame::before {
+  content: ''; position: absolute; inset: 4px;
+  border: 1px solid var(--cover-foil, rgba(212, 175, 95, 0.35));
+  border-radius: 1px;
+}
+.book-tile-frame::after {
+  content: '✦'; position: absolute;
+  top: -10px; left: 50%; transform: translateX(-50%);
+  color: var(--cover-foil, #d4af5f);
+  background: var(--cover-base, #5a2a2a);
+  font-size: 12px; padding: 0 6px; line-height: 1;
+}
+.book-tile-publisher {
+  position: relative; z-index: 1;
+  margin: 6px 0 12px;
+  font-family: var(--font-ui);
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  text-align: center;
+  color: var(--cover-foil, #d4af5f); opacity: 0.85;
+}
+.book-tile-title {
+  position: relative; z-index: 1;
+  margin: 26px 0 6px;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 26px; font-weight: 600;
+  line-height: 1.08; letter-spacing: -0.005em;
+  text-align: center;
+  color: var(--cover-foil, #d4af5f);
+  text-shadow: 0 1px 0 rgba(0,0,0,0.4);
+  text-wrap: balance;
+}
+.book-tile-title-ar {
+  position: relative; z-index: 1;
+  margin: 8px 0 0;
+  font-family: 'Markazi Text', 'Cairo', 'Amiri', serif;
+  font-size: 22px; font-weight: 500;
+  line-height: 1.4; text-align: center;
+  color: var(--cover-foil, #d4af5f); opacity: 0.88;
+  direction: rtl; unicode-bidi: isolate;
+}
+.book-tile-divider {
+  position: relative; z-index: 1;
+  display: flex; align-items: center; justify-content: center;
+  gap: 10px; margin: 18px auto;
+}
+.book-tile-divider .seg { display: inline-block; width: 24px; height: 1px;
+  background: var(--cover-foil, #d4af5f); opacity: 0.55; }
+.book-tile-divider .gem { color: var(--cover-foil, #d4af5f); font-size: 9px; opacity: 0.85; }
+.book-tile-author {
+  position: relative; z-index: 1;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 13px; font-style: italic;
+  text-align: center; line-height: 1.35;
+  color: var(--cover-ink, #f4e4b8); opacity: 0.88;
+  margin: 0 8px;
+}
+.book-tile-era {
+  position: relative; z-index: 1;
+  margin-top: 4px;
+  font-family: var(--font-ui);
+  font-size: 8.5px; font-weight: 700;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  text-align: center;
+  color: var(--cover-foil, #d4af5f); opacity: 0.7;
+}
+.book-tile-description {
+  position: relative; z-index: 1;
+  margin: 18px 4px 0;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 12.5px; line-height: 1.55;
+  text-align: center;
+  color: var(--cover-ink, #f4e4b8); opacity: 0.78;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.book-tile-foot {
+  position: relative; z-index: 1;
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 18px; padding-top: 14px;
+  border-top: 1px solid color-mix(in oklab, var(--cover-foil, #d4af5f) 30%, transparent);
+}
+.book-tile-icons {
+  display: inline-flex; align-items: center; gap: 10px;
+  color: var(--cover-foil, #d4af5f);
+  font-size: 11px; opacity: 0.9;
+}
+.book-tile-icons i { line-height: 1; }
+.book-tile-open {
+  font-family: var(--font-ui);
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--cover-foil, #d4af5f);
+  display: inline-flex; align-items: center; gap: 6px;
+  transition: gap 200ms;
+}
+.book-tile:hover .book-tile-open { gap: 10px; }
+.book-tile-open i { transition: transform 200ms; }
+.book-tile:hover .book-tile-open i { transform: translateX(3px); }
+.book-tile-ribbon {
+  position: absolute;
+  top: 14px; right: 14px; z-index: 2;
+  padding: 3px 10px;
+  background: color-mix(in oklab, var(--cover-foil, #d4af5f) 92%, transparent);
+  color: var(--cover-base, #5a2a2a);
+  font-family: var(--font-ui);
+  font-size: 8.5px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  border-radius: 9999px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+}
+.book-tile[data-cover="1"] { --cover-base: oklch(28% 0.11 22);  --cover-ink: oklch(94% 0.04 75);  --cover-foil: oklch(78% 0.13 80); }
+.book-tile[data-cover="2"] { --cover-base: oklch(24% 0.08 250); --cover-ink: oklch(96% 0.012 80); --cover-foil: oklch(78% 0.13 80); }
+.book-tile[data-cover="3"] { --cover-base: oklch(28% 0.07 155); --cover-ink: oklch(95% 0.03 75);  --cover-foil: oklch(80% 0.13 85); }
+.book-tile[data-cover="4"] { --cover-base: oklch(58% 0.13 75);  --cover-ink: oklch(20% 0.04 50);  --cover-foil: oklch(28% 0.10 50); }
+.book-tile[data-cover="5"] { --cover-base: oklch(27% 0.10 320); --cover-ink: oklch(95% 0.03 75);  --cover-foil: oklch(78% 0.13 85); }
+.book-tile[data-cover="6"] { --cover-base: oklch(45% 0.07 60);  --cover-ink: oklch(96% 0.04 75);  --cover-foil: oklch(86% 0.12 80); }
+.book-tile[data-cover="7"] { --cover-base: oklch(20% 0.012 60); --cover-ink: oklch(94% 0.04 75);  --cover-foil: oklch(80% 0.13 80); }
