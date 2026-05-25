@@ -1,0 +1,79 @@
+# Fatimid-era sources allowlist for KAHSKOLE adaptation citations.
+# Only works listed here may appear in adaptation-citations.jsonl.
+# All citations must be training-grounded (no WebFetch). High confidence only.
+
+sources:
+
+  - author: "Hamid al-Din al-Kirmani"
+    authority: "Fatimid Dāʿī, d. ~1020 CE"
+    works:
+      - "Rahat al-ʿAql"
+      - "al-Riyad"
+      - "al-Masabih fi Ithbat al-Imama"
+      - "Tanbih al-Hadi wa-l-Muhtadi"
+      - "al-Aqwal al-Dhahabiyya"
+
+  - author: "Al-Muʾayyad fi al-Din al-Shirazi"
+    authority: "Fatimid Chief Dāʿī, d. 1078 CE"
+    works:
+      - "al-Majalis al-Muʾayyadiyya"
+      - "Diwan al-Muʾayyad"
+
+  - author: "Qadi al-Nuʿman ibn Muhammad"
+    authority: "Fatimid Chief Qadi, d. 974 CE"
+    works:
+      - "Daʿaʾim al-Islam"
+      - "Taʾwil al-Daʿaʾim"
+      - "Asas al-Taʾwil"
+      - "al-Iqtisar"
+      - "Ikhtilaf Usul al-Madhahib"
+
+  - author: "Abu Yaʿqub al-Sijistani"
+    authority: "Fatimid Dāʿī, d. ~971 CE"
+    works:
+      - "Kitab al-Yanabiʿ"
+      - "al-Iftikhar"
+      - "Ithbat al-Nubuwwat"
+      - "Kashf al-Mahjub"
+
+  - author: "Nasir-i Khusraw"
+    authority: "Fatimid Dāʿī and poet, d. ~1088 CE"
+    works:
+      - "Jamiʿ al-Hikmatayn"
+      - "Khwan al-Ikhwan"
+      - "Wajh-i Din"
+      - "Zad al-Musafirin"
+
+  - author: "Jaʿfar ibn Mansur al-Yaman"
+    authority: "Early Fatimid Dāʿī, d. ~957 CE"
+    works:
+      - "Kitab al-ʿAlim wa-l-Ghulam"
+      - "Asrar al-Nutaqaʾ"
+      - "al-Kashf"
+      - "Saraʾir wa-Asrar al-Nutaqaʾ"
+
+  - author: "Sayyidna Ibrahim al-Hamidi"
+    authority: "Tayyibi Dāʿī al-Mutlaq (Yemen), d. 1162 CE"
+    works:
+      - "Kanz al-Walad"
+
+  - author: "Sayyidna ʿAli ibn Muhammad ibn al-Walid"
+    authority: "Tayyibi Dāʿī al-Mutlaq (Yemen), d. 1215 CE"
+    works:
+      - "Taj al-ʿAqaʾid wa-Maʿdan al-Fawaʾid"
+
+  - author: "al-Sharif al-Radi (compiler)"
+    authority: "Shia scholar, d. 1016 CE"
+    works:
+      - "Nahj al-Balagha"
+
+  - author: "Imam Zayn al-ʿAbidin (attributed)"
+    authority: "Fourth Imam, d. 713 CE"
+    works:
+      - "al-Sahifa al-Sajjadiyya"
+
+  - author: "Various / Prophetic tradition"
+    authority: "Agreed-upon Hadith collections"
+    works:
+      - "Sahih al-Bukhari"
+      - "Sahih Muslim"
