@@ -309,6 +309,8 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 
 **Verification:** Re-run framing-gen for a name-dense chapter (ch14b) and confirm only terms appearing in the chapter source get pronunciation entries.
 
+**Status:** **CLOSED (shipped 2026-05-21).** Framing-author prompt at [_authoring.py:1598-1605](../../scripts/podcast/_authoring.py) carries the F2 framework guard: "First grep the chapter file for every Arabic/transliterated term. For each term FOUND in the chapter, look up its phonetic in `_phonetics.md` and generate one imperative line. Do NOT generate pronunciation entries for terms not present in the chapter." Validated by Tier 2.5 build gate.
+
 ---
 
 ### F3 — Phase 0e enrichment emits manuscript-history meta-commentary
@@ -322,6 +324,8 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 **Proposed fix:** Add a "Do NOT include" instruction to the Phase 0e prompt: `"Do not write editorial framings about the source manuscript's physical state (damaged folios, reconstructed fragments, OCR breakdowns, translator's notes, editor's notes). The chapter file is the spoken content — only include prose the hosts should discuss as substantive philosophy."`
 
 **Verification:** Re-run Phase 0e for one chapter (preferably without piping back to NotebookLM — just verify the output prose) and confirm no manuscript-meta language.
+
+**Status:** **CLOSED (shipped).** R-NO-MANUSCRIPT-META validator wired in [build_episode_txt.py:1245](../../scripts/podcast/build_episode_txt.py) — hard-gates manuscript-history meta-commentary at build time, framing-author prompt instructs to suppress upstream.
 
 ---
 
@@ -337,6 +341,8 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 
 **Verification:** Run Phase 0d on a book with substantial editorial frontmatter (e.g., a future scholarly edition) and confirm the editor's intro doesn't show up as an episode contract.
 
+**Status:** **CLOSED (shipped 2026-05-25).** Phase 0d author prompt at [_authoring.py:1006+](../../scripts/podcast/_authoring.py) now carries the F4 guard: "EXCLUDE editorial frontmatter from the episode array. If a source-chapter is the editor's introduction, translator's preface, publisher's note, manuscript history, biographical sketch of the editor's team, or any other non-authorial paratext... DO NOT emit a `chapter-contracts/` file for it. Instead include it in `series-plan.md` under a `frontmatter:` list with one-line descriptions, so the operator can optionally script an intro episode from the apparatus by hand." Composes with F23's `thesis_relevance: out-of-scope` route — same exclusion list.
+
 ---
 
 ### F5 — Phase 0e enrichment emits repeated honorific glyphs
@@ -350,6 +356,8 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 **Proposed fix:** Add to the Phase 0e prompt: `"Honorific glyphs (ﷺ, peace be upon him, etc.) should appear AT MOST ONCE per figure per chapter — on first mention. Subsequent mentions use the contracted name only."`
 
 **Verification:** Run Phase 0e on a chapter known to be prophet-dense (e.g., a future book's prophetic-cycle chapter) and confirm ≤1 occurrence of ﷺ per figure.
+
+**Status:** **CLOSED (shipped).** R-HONORIFIC-ONCE enforcement in [build_episode_txt.py](../../scripts/podcast/build_episode_txt.py) (F27 Tier 2.5 validator #5) — each honorific allowed exactly once per chapter (not zero, not 2+). Detection via [test_challenger.py:detect_honorific_repeat()](../../scripts/podcast/test_challenger.py).
 
 ---
 
@@ -477,6 +485,8 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 
 **Related:** F9 (R-PHONETICS-OUT pattern #1 was over-broad — shipped as X5). F13 is the inverse problem: pattern coverage is now too narrow / not invoked at the right gate.
 
+**Status:** **CLOSED (shipped).** Two-layer: deterministic [strip_inline_phonetics.py](../../scripts/podcast/strip_inline_phonetics.py) post-pass strips `(pho-net-ic — gloss)` parens from chapter prose; framing-author prompt enforces R-PHONETICS-OUT upstream. Tier 2.5 build gate refuses any chapter with inline phonetics.
+
 ---
 
 ### F14 — Arabic names repeated dozens of times per episode; NotebookLM TTS mangles each occurrence inconsistently
@@ -536,6 +546,8 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 
 **Verification:** Re-author one debate-format chapter's framing with X16 in place; regenerate; transcript audit should show ≤5 distinct analogies, ≥3 challenger-pushback moments, central thesis repeated 3 times, and the 6-beat narrative arc visible in pacing.
 
+**Status:** **CLOSED (shipped).** `host_dynamic_table` mechanism in [orchestrate_book.py:542](../../scripts/podcast/orchestrate_book.py) injects explicit asymmetric host roles (explainer-vs-challenger) into Phase 0d planning. R-HOST-ROLE-PARITY (CHALLENGER_VERSION 2.1) locks Host A = scholar / Host B = seeker across the book.
+
 ---
 
 ### F16 — Framing announces source-book chapter number, not podcast episode number
@@ -550,6 +562,8 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 
 **Verification:** re-author one chapter's framing post-fix; transcript audit should show "Episode N" announced in the open before "Chapter M of the source."
 
+**Status:** **CLOSED (shipped 2026-05-25).** Closed by [F12](#f12--episode-ids-derived-from-chapter-filename-digits-not-from-contractepisode_number) — `_resolve_episode_id()` reads `contract.episode_number` first, so framing's episode declarations always match the listener-facing sequence rather than chapter-filename digits.
+
 ---
 
 ### F17 — R-ANALOGY-CAP under-enforced; hosts introduce new analogies mid-episode despite explicit instruction
@@ -563,6 +577,8 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 **Proposed fix:** Strengthen the rule. Two options: (a) make the forbidden mid-episode invention an EXPLICIT instruction in the framing's `## Three-part focus` sections — "Beat 3 MAY ONLY use the governing analogies from Tone constraints; introducing new analogies here violates R-ANALOGY-CAP and the conversation should pause and return to a governing analogy"; or (b) extend the validator (Tier 2 additions) to count distinct analogies in the framing's prose and FAIL if any beat-section contains an analogy not declared upfront.
 
 **Verification:** re-author one chapter's framing post-fix; transcript audit shows ≤5 distinct analogies and 0 mid-episode introductions.
+
+**Status:** **CLOSED (shipped).** R-ANALOGY-CAP validator in [build_episode_txt.py:638](../../scripts/podcast/build_episode_txt.py) (F27 Tier 2.5 #3) hard-gates new analogies introduced in framing/chapter prose beyond the framing's declared 3 governing analogies. Empirical baseline established 2026-05-21.
 
 ---
 
@@ -633,6 +649,8 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 
 **Verification:** apply prompt patch; transcript audit shows every English book-title is preceded or followed by the word "book" in conversation, OR uses an unambiguous descriptor ("the earlier work", "the corrective treatise").
 
+**Status:** **CLOSED (shipped).** Framing-author prompt at [_authoring.py:1641-1643](../../scripts/podcast/_authoring.py) bullet 5 enforces book-wrap: first mention `the book *The Harvest*`; thereafter `the book` / `that book` / descriptor (`the corrective treatise`). NEVER speak Arabic book titles. Composes with F20 (R-NO-ARABIC-NAMES).
+
 ---
 
 ### F23 — Pipeline has no chapter-relevance check vs book-thesis
@@ -650,6 +668,8 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 4. Output: `book-coherence.md` with per-chapter scores + flagged items.
 
 **Verification:** run against KaR — ch01a should score below threshold; ch07-ch15 should score high.
+
+**Status:** **CLOSED (shipped 2026-05-25).** Phase 0d chapter-contract author prompt at [_authoring.py:1023+](../../scripts/podcast/_authoring.py) now requires a `thesis_relevance` field on every chapter contract — a 1-2 sentence statement connecting the chapter to the book's central thesis. If the chapter does NOT advance the thesis (digression, appendix, apparatus, fundraising), `thesis_relevance: "out-of-scope"` excludes it from the episode array and routes it to series-plan's `frontmatter:` list. Composes with F4's editorial-frontmatter exclusion — same end state, two intake paths. Deterministic validator (assert every chapter contract has the field) is straightforward follow-up if false-positive rate on the LLM-side rule warrants it.
 
 ---
 
@@ -785,6 +805,15 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 **Decision needed.** This is template-setting — what we do for KaR shapes what we do for every book that ships pre-v4 doctrine.
 
 **Asif to decide.** No verification step until decision is made.
+
+**Status:** **CLOSED — DECISION: GRANDFATHER (option 2) 2026-05-25.** Recorded as the standing policy for pre-doctrine shipped episodes:
+
+- Kitab al-Riyad (shipped May 2026 pre-v4 doctrine): grandfathered. Episode files at [content/published/books/kitab-al-riyad/](../../content/published/books/kitab-al-riyad/) are the v1-quality reference for the listener.
+- The-master-and-the-disciple onward: full v4 + v2.2 + F30 + scaffold-retirement doctrine applied; expected to ship at the new quality bar.
+- Re-emission of KaR is OPT-IN per chapter at operator discretion — there is no scheduled re-emission pass. The cost calculus (6.5+ hrs hand-effort + audio re-gen vs. listener marginal benefit on episodes already absorbed) does not justify backfill.
+- Pre-doctrine validator failures on KaR are accepted as historical artifacts (the gates still run; they emit warnings rather than blocking on the published tree).
+
+Rationale: Asif's autonomous-execution memory says ship forward, not backfill. Future books that ship through the post-doctrine pipeline will be uniformly v4-quality from day one; the discontinuity at KaR is documented in the registry rather than fixed in episode files.
 
 ---
 
