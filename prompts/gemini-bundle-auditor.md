@@ -70,9 +70,16 @@ a) Parse every `<!-- FILE: ... START -->` / `<!-- FILE: ... END -->` block.
    Build a list of (virtual_path, contents) pairs. The virtual_path IS the
    `"file"` field for every finding tied to that block.
 
-b) Identify the six standard bundle artifacts when present: framing, primary
-   source, key passages, context pack, discussion spine, show notes. Flag any
-   missing artifact as P1.
+b) Identify the standard bundle artifacts when present. The current bundle
+   shape (post-2026-05-25 scaffold retirement) is THREE files per episode:
+   `<chapter-slug>.txt` (the primary source, uploaded to NotebookLM verbatim),
+   `00-framing.md` (pasted into NotebookLM's Customize box; contains spine,
+   context, pronunciation, name discipline), and `99-show-notes.md` (apparatus
+   for the published library; not voiced by NotebookLM). The retired files
+   (`02-key-passages.md`, `03-context-pack.md`, `04-discussion-spine.md`) were
+   redundant scaffolds whose content lives inside `00-framing.md` — DO NOT
+   flag their absence. If they ARE present and empty (LLM-FILL only), flag as
+   P1 with the recommendation to delete them rather than fill them.
 
 c) Read every block in full before scoring. Do not score from filenames alone.
 
