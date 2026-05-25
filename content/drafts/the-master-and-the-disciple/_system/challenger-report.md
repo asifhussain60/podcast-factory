@@ -1,29 +1,26 @@
 # Podcast Challenger Report
 
 **Book:** the-master-and-the-disciple
-**Run:** 2026-05-25 (challenger v2.1)
-**Scope:** per-chapter `will-command-and-the-seven` (chapter + framing + episode txt)
-**Iterations:** 2 (of 5 max) -- intelligent break after iteration 2 (zero new findings, identical P0/P1 counts as iter 1 after auto-fix applied)
+**Run:** 2026-05-25 09:52 (challenger v2.1)
+**Scope:** per-chapter `world-hereafter-and-the-right-of-wealth` (chapter + framing + contract)
+**Iterations:** 1 (of 5 max) — intelligent break: zero P0, zero P1, zero auto-fixes needed on first pass
 **Verdict:** SHIP-READY
 
 ---
 
 ## At a glance
 
-1. **Verdict flipped to SHIP-READY** -- the single remaining P0 from the prior 2026-05-25 12:00 UTC run (stale episode.txt with cross-chapter literal refs at framing line 11 / episode line 11) has been auto-fixed in this run. The framing Audience line 11 phrase "continuing the tenth-century dialogue treatise opened in the prior chapter" has been rewritten to "entering a tenth-century dialogue treatise at the point where the Boy has just been bound by the covenant"; the same edit was mirrored deterministically into episodes/EP02-will-command-and-the-seven.txt line 11 since the episode txt is a HTML-comment-stripped 1-to-1 copy of the framing.
-2. **All build-time hard gates clean.** No HTML comments, no inline phonetic parens (N1), no forbidden abbreviations (O2), no honorific repetitions, no doctrinal violations (zero Imam-Ali / Imam-Fatima pairings; Father of Imams + Commander of the Faithful both used in isolation; no individual Imam enumerated), no formal-essay transitions (R-NOFORMAL), no modernization terms (R-NOMODERNIZE), no VERIFY/CONTEXT-NEEDED/TODO markers, no Arabic transliterations remaining in chapter prose (R-PHONETICS-OUT clean -- the previously-flagged enumeration of the seven speaker-prophets by name at chapter line 86 has been removed; the chapter now delivers the form of the seven without the enumeration).
-3. **Framing carries every required R-* clause and architectural gate.** 14 H2 sections present: Opening directive, Audience, Length, Host dynamic, Stable role-labels, Name discipline, Three-part focus, Central tensions, Background, Pronunciation, Tone constraints, Anti-noise rules, Landing, Do not. Imperatives present: R-WELCOME, R-NOREPEAT, R-NOBACKGROUND, R-RESET, R-CADENCE, R-NOINTERRUPT, R-NOMODERNIZE (both halves -- DENY list + modern-life analogy permission), R-NOSURPRISE, R-NOFORMAL, R-SURPRISE-MOVE, R-NO-READ-PROMPT, R-RECURRING-THESIS, three governing analogies (body-and-soul, the air encompassing all, the hidden egg).
-4. **Host role parity Q1-Q4 clean.** Host A is the male voice (John) assigned to the scholar / Master pool; Host B is the female voice (Hannah) assigned to the curious-seeker / Boy pool. Pairing is declared explicitly at framing line 19 and is consistent with the four sibling framings in this book.
-5. **Two P2 advisories carry forward**: em-dash density of 78 across 10,797 chapter words (one per 138 words -- within the advisory band), and the framing modernize-DENY block names 14 of the canonical MODERNIZE_DENY entries but could be extended. Both are non-blocking.
+1. **SHIP-READY on first pass.** Zero P0 findings, zero P1 findings; only two P2 advisories carried forward (em-dash density and discussion-spine scaffold stubs). Both are non-blocking per spec.
+2. **All build-time hard gates clean.** No HTML comments, no inline phonetic parens (N1), no forbidden abbreviations (O2), no repeated honorific expansions (O1 — `(peace and blessings be upon him)` appears once at the canonical Prophet first-mention site, line 205), no forbidden Imam-Ali / Imam-Fatima pairings (T3 clean — chapter uses Commander of the Faithful and Father of Imams consistently; framing's guard wording uses periphrastic form per R-NO-LITERAL-FORBIDDEN-PHRASE-IN-GUARDS), no doctrinal lineage violations (T2), no VERIFY/CONTEXT-NEEDED/TODO/LLM-FILL markers, no formal-essay transitions (R-NOFORMAL clean), no modernization terms (R-NOMODERNIZE clean), no surprise-noise tells (R-NOSURPRISE clean).
+3. **Framing carries every required R-* clause and architectural gate.** 14 H2 sections: Opening directive, Audience, Length, Host dynamic, Stable role-labels, Name discipline, Three-part focus, Central tensions, Background, Pronunciation, Tone constraints, Anti-noise rules, Landing, Do not. Imperatives present and verified: R-WELCOME (negative form — "start in the middle of the question"), R-NOREPEAT, R-NOBACKGROUND, R-RESET (named at Beat 4→5 seam), R-CADENCE, R-NOINTERRUPT, R-NOMODERNIZE (both halves — DENY list at line 138 + analogy permission at line 146), R-NOSURPRISE (line 139), R-NOFORMAL (line 144), R-SURPRISE-MOVE (line 128 — Master's beaming/weeping at Beat 4 is the planted site), R-NO-READ-PROMPT (line 150), R-RECURRING-THESIS (two-eyes aphorism, three spoken-verbatim instances). Three governing analogies declared (the sower, the archers, the two eyes).
+4. **Host role parity Q1–Q4 clean.** Host A is the male voice (John) assigned to the scholar / Master pool; Host B is the female voice (Hannah) assigned to the curious-seeker / Boy pool. Pairing declared at framing line 19 and is consistent with the five sibling framings (EP01, EP02, EP04, EP05, EP06) in this book.
+5. **Word counts inside hard bands.** Chapter 10,548 words (hard band 500–12,000; soft band 1,000–11,000 → soft-clean by 452 words margin). Framing 3,685 words (hard cap 3,700 → soft-clean by 15 words; within F10 5% tolerance band).
 
 ---
 
 ## Auto-fixes applied (iteration-by-iteration)
 
-| Iter | Check | File | Action |
-|---|---|---|---|
-| 2 | B2 (cross-episode references) | _system/episode-drafts/EP02-will-command-and-the-seven/00-framing.md:11 | Rewrote "continuing the tenth-century dialogue treatise opened in the prior chapter" -> "entering a tenth-century dialogue treatise at the point where the Boy has just been bound by the covenant"; same trailing edit "the rest of the book reads" -> "the rest of the dialogue reads". Deterministic source-anchored rewrite per B2 auto-fix rule. |
-| 2 | B2 (episode txt 1-to-1 sync) | episodes/EP02-will-command-and-the-seven.txt:11 | Mirrored the identical edit since the episode txt is a HTML-comment-stripped 1-to-1 copy of the framing. The build_episode_txt.py invocation is sandbox-blocked in this challenger session, but the mechanical mirror keeps the customize-prompt artifact in sync with the framing source. |
+_None this run._ The chapter + framing + contract triple converged on first pass with no deterministic-auto-fixable findings detected.
 
 ---
 
@@ -40,64 +37,51 @@ _None._
 ### P2 (advisory, non-blocking)
 
 #### P2-B5: em-dash density (advisory only)
-- **File:** content/drafts/the-master-and-the-disciple/chapters/ch02-will-command-and-the-seven.txt
-- **Count:** 78 em-dashes (U+2014) across 10,797 words = one per 138 words
-- **Signature:** B5:em-dash-density:ch02-will-command-and-the-seven.txt:78
-- **Context:** Em-dashes confuse NotebookLM prosody (per challenger catalog B5). The chapter has already shed 69 dashes from prior runs (147 -> 78). Mass-replacement at this density is not advised -- the remaining dashes carry parenthetical clauses tightly woven into the chapter argumentative spine.
-- **Suggested fix:** No action required. Chapter is within the advisory band.
+- **File:** content/drafts/the-master-and-the-disciple/chapters/ch03-world-hereafter-and-the-right-of-wealth.txt
+- **Count:** 70 em-dashes (U+2014) across 10,548 words = one per 151 words
+- **Signature:** B5:em-dash-density:ch03-world-hereafter-and-the-right-of-wealth.txt:70
+- **Context:** Em-dashes confuse NotebookLM prosody (per challenger catalog B5). The deterministic auto-fix swaps em-dash for comma, but at this density (parenthetical clauses tightly woven into the chapter's argumentative spine — the Master's qualifications, the two-eye verdicts, the rope-of-the-rope distinction) wholesale mass-replacement is not advised. The prior ch02 run shed em-dashes from 147 → 78 and held the line; this chapter is already within the comparable advisory band.
+- **Suggested fix:** No action required. Advisory only.
 
-#### P2-R5: framing modernize-DENY block partial coverage (advisory only)
-- **File:** content/drafts/the-master-and-the-disciple/_system/episode-drafts/EP02-will-command-and-the-seven/00-framing.md
-- **Line:** 130
-- **Signature:** R5:modernize-deny-partial:EP02-framing:line130
-- **Context:** Names 14 of MODERNIZE_DENY. Could additionally name reply guy, quote tweet, doomscroll, hot take, cognitive behavioral therapy, productivity framework, life hack, dopamine hit, modern digital lives. Coverage is sufficient for tenth-century cosmology content.
-- **Suggested fix:** Optionally extend with missing canonical entries for belt-and-suspenders coverage. Non-blocking.
+#### P2-F5: discussion-spine scaffold contains `[LLM-FILL]` stubs
+- **File:** content/drafts/the-master-and-the-disciple/_system/episode-drafts/EP03-world-hereafter-and-the-right-of-wealth/04-discussion-spine.md
+- **Count:** Beats 2–7 are stubs (only Beat 1 "Opening hook" and Beat 8 "Landing" are authored); 8 beats total is within the F5 6–12 band.
+- **Signature:** F5:llm-fill-stubs:EP03-world-hereafter-and-the-right-of-wealth/04-discussion-spine.md
+- **Context:** Per spec §0, the `04-discussion-spine.md` scaffold does NOT flow to NotebookLM (it is authoring context only). The framing's `## Three-part focus` section already carries six fully-authored beats with verbatim quote requirements and dramatic-arc detail. The discussion-spine stubs are a workflow artifact, not a NotebookLM-facing defect.
+- **Suggested fix:** No action required for ship. The author may optionally fill out the discussion-spine stubs for future reference but this is not a NotebookLM contract requirement.
 
-#### CS: book-scope chapter-set check deferred
-- **Context:** Sandbox blocks execution of check_chapter_set.py from the challenger session. Non-blocking for per-chapter verdict.
+#### P2-N3: chapter contains italicized Arabic terms not enumerated in framing Pronunciation (advisory)
+- **File:** content/drafts/the-master-and-the-disciple/chapters/ch03-world-hereafter-and-the-right-of-wealth.txt
+- **Terms detected in chapter (italicized) without explicit `Pronounce` directive:** `hujja`, `ta'wīl`, `nāṭiq`, `al-Khidr`, `awliyāʾ`, `al-ʿuṣba`, `Yūsuf`, `zakat`, `quwwa`, `ḥawl`, `yuḥawwil`, `da'wa`, `taqiyya`, `batin`, `zahir`, `dā'īs`, `khums` (~17 terms).
+- **Signature:** N3:framing-pronunciation-gap:EP03-world-hereafter-and-the-right-of-wealth
+- **Context:** The framing's Pronunciation block intentionally carries only 8 directives (Quran, imam, Allah, Adam, Joseph, Sinai, Islam, hadith) and adds the directive "Do not voice Arabic terms beyond the list above. All figures are referred to by their stable English labels. Use English equivalents for concept-words." This is the architecturally-preferred R-PHONETICS-OUT compliance strategy: instruct NotebookLM to substitute English rather than mangle Arabic. The risk that NotebookLM nonetheless tries to vocalize the italicized terms in the source blockquotes (the inner-interpretation passages where `*hujja*`, `*ta'wīl*`, `*quwwa*`, `*ḥawl*`, `*al-ʿuṣba*` are doctrinally load-bearing) is bounded by the substitution rule but not eliminated.
+- **Suggested fix:** No P0/P1 escalation. The English-substitution strategy is canonical. If a future transcript audit (Loop M) surfaces empirical mangling of these terms, the framing's Pronunciation block can be extended with directives like `Pronounce "hujja" as "HOO-jah". Say it as one fluent word.` at that time. The contract's `tone_constraints` already lists every phonetic that would be inserted.
 
 ---
 
 ## Health metrics
 
-| Field | Value |
-|---|---|
-| Chapter word count | 10,797 (within build hard band 500-12,000) |
-| Framing word count | 3,496 (within hard cap <= 3,700; extended-tier soft 3,500) |
-| Episode txt word count | 3,496 (matches framing exactly -- 1-to-1 sync verified) |
-| Episode txt freshness | mtime 09:17:52 (newer than chapter 09:06:27 and framing 09:16:56 -- clean) |
-| Blockquotes | 2 (~125 words = 1.2% of chapter) |
-| Citation hits | 19 (Daftary x5, Hollenberg x3, Corbin x4, Halm x1, Walker x3, Asad x5, Reza x1, Fyzee-Poonawala x1) |
-| Tier diversity | 4+ tiers |
-| Phonetic gaps | 0 (R-PHONETICS-OUT clean) |
-| Honorific repeats (chapter) | 0 |
-| Inline phonetic parens | 0 (N1 clean) |
-| Forbidden abbreviations | 0 |
-| Forbidden doctrinal phrases | 0 |
-| Forbidden meta-prose tells | 0 (after B2 auto-fix) |
-| Cross-chapter literal refs (chapter) | 0 |
-| Cross-chapter literal refs (framing) | 2 guards only (anti-noise scaffold + name-discipline directive) |
-| Cross-chapter literal refs (episode txt) | 2 guards only (mirror of framing) |
-| Opening italics meta-summary | 0 |
-| HTML comments | 0 |
-| Em-dashes (chapter) | 78 (P2 advisory; -69 since prior run) |
-| Formal-essay transitions (R-NOFORMAL) | 0 |
-| Modernization terms (R-NOMODERNIZE) | 0 |
-| Host role parity (Q1-Q4) | Clean across all 5 sibling framings |
-| Framing structure | 14 H2 sections present |
-| Required clauses | ALL present |
-| Score | max(0, 1 - (0*1.0 + 0*0.2 + 2*0.05) / 1) = 0.90 -> badge: SHIP-READY |
+| Asset | Words | Notes |
+|---|---|---|
+| ch03-world-hereafter-and-the-right-of-wealth.txt | 10,548 | Within hard 500-12,000; within soft 1,000-11,000 (452-word margin) |
+| EP03 framing (00-framing.md) | 3,685 | Within hard cap 3,700 (15-word margin); F10 tolerance band) |
+| EP03 episode.txt (customize prompt) | 3,685 | Already built; in sync with framing |
+| Citations (translator-attributed) | 11 | Yusuf Ali (4×), Muhsin Khan, Siddiqi, Reza (3×), Fyzee (2×) |
+| Tier diversity | 5 tiers | Tier 1 (Quran), Tier 3 (canonical hadith), Tier 5 (Path of Eloquence sermons), academic histories (Walker, Halm, Daftary, Hollenberg, Corbin), Persian moralist (Sa'di) |
+| Blockquotes | 26 | Mix of source-chapter verbatim + Quranic verses + canonical hadith |
+| Honorific count (full-form) | 1 | `(peace and blessings be upon him)` at line 205, first/only Prophet mention |
+| Em-dashes | 70 | Advisory only; density 1/151 words |
+| Doctrinal violations (T1/T2/T3) | 0 | Father of Imams + Commander of the Faithful used in isolation; no `Imam Ali`/`Imam Fatima`; no individual Imam enumerated |
+| Inline phonetic parens (N1) | 0 | R-PHONETICS-OUT clean |
+| Repeated honorifics (O1) | 0 | First-mention discipline held |
+| Forbidden abbreviations (O2) | 0 | No `the Ihya` / `EI` / `the Nahj` / `Sahihayn` |
+| Cross-episode references (B2) | 0 | No `EP\d\d`, no "previous episode"/"next episode"/"earlier episode" |
+| Meta-prose tells (B1) | 0 | No "this chapter is" / "in a few thousand words" / Phase-0x leaks / VERIFY markers |
+| Modernization terms (R-NOMODERNIZE) in chapter | 0 | Tenth-century register held throughout |
+| Surprise-noise phrases (R-NOSURPRISE) in chapter | 0 | No "wow"/"interesting"/"chilling"/"exactly"/"right?" |
+| Welcome/landing/anti-repetition clauses (H1/H2/H3/I1/I2) | All present | Framing carries all required clauses |
+| Host role parity (Q1–Q4) | Clean | Host A scholar; Host B seeker; pairing consistent across all 6 episodes |
+| `episode_format` declared | `deep_dive` | With format_rationale |
+| `length_target` declared | `extended` | Matches actual chapter length |
+| Convergence iterations | 1 | Zero auto-fixes applied; intelligent-break on iter 1 (no findings, no edits) |
 
----
-
-## Convergence record
-
-- **Iter 1**: Initial scan against the 30 check IDs across Categories A-T. Surfaced 1 P0 (B2 cross-episode reference at framing line 11 / episode line 11 -- "the prior chapter"), 0 P1, 2 P2 carryforward advisories.
-- **Iter 2**: B2 auto-fix applied to framing line 11 and mirrored deterministically to episode txt line 11. Final scan confirms zero new findings; P0=0, P1=0, P2=2 (unchanged). Intelligent break triggered.
-- **Comparison to prior run** (2026-05-25 12:00 UTC re-validation): prior P0=1 (stale episode.txt + "prior chapter" residue), prior P1=0, prior P2=2. Current P0=0, P1=0, P2=2.
-
----
-
-## Operator handoff
-
-The book orchestrator-state.json carries phase: per-chapter with phase_status: running from an unclean orchestrator shutdown (known resume-bug per feedback_orchestrator_resume_bug). No live orchestrator process is currently running. The episode.txt is current; no operator-side build_episode_txt.py invocation is required to clear this chapter.

@@ -81,7 +81,8 @@
         "father-revealed-and-the-faces-of-seeking",
         "justice-monotheism-and-the-guardians",
         "the-call-and-the-covenant",
-        "the-greater-shaykh-and-the-naming"
+        "the-greater-shaykh-and-the-naming",
+        "will-command-and-the-seven"
       ],
       "failed_slug": "will-command-and-the-seven"
     }
@@ -95,7 +96,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-05-22T00:00:00Z",
-  "ts_updated": "2026-05-25T13:06:27Z",
+  "ts_updated": "2026-05-25T13:26:49Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0"
