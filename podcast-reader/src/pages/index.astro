@@ -1,12 +1,14 @@
 ---
 /**
- * Reader landing page — three navigational paths.
+ * Reader landing page — two navigational paths.
  *
- *   /kashkole/         — bilingual (English + Urdu) view of the KAHSKOLE corpus
- *   /ksessions/        — placeholder; KSESSIONS adapter is a stub
+ *   /kashkole/         — bilingual (English + Urdu) view of the KASHKOLE corpus
  *   /podcast-drafts/   — books in pipeline workshop at content/drafts/<slug>/
+ *                        tiles route to the rich /<branch>/<slug>/ viewer.
  *
- * The original worktree/library landing page moved to /library/.
+ * Legacy /library/, /ksessions/, /source-extractor/ pages removed
+ * 2026-05-25 — superseded by the canonical viewer at
+ * /[worktree]/[book]/chapter/[chapter]/.
  */
 import '~/styles/global.css';
 import Icon from '~/components/ui/Icon.astro';
@@ -25,9 +27,6 @@ const [bundles, drafts, r2Status] = await Promise.all([
 const kashkoleSource = bundles.find((s) => s.source === 'kashkole');
 const kashkoleChapters = kashkoleSource?.chapterCount ?? 0;
 const kashkoleShelves = kashkoleSource?.shelves.length ?? 0;
-
-const ksessionsSource = bundles.find((s) => s.source === 'ksessions');
-const ksessionsChapters = ksessionsSource?.chapterCount ?? 0;
 
 const draftsCount = drafts.length;
 const refinedDrafts = drafts.filter((d) => d.hasRefinedEnglish);
@@ -64,23 +63,6 @@ const paths: NavPath[] = [
     status: 'partial',
     statusLabel: 'R1 + R2 partial',
     accentColor: 'var(--color-gold-deep)',
-  },
-  {
-    slug: 'ksessions',
-    href: '/ksessions/',
-    title: 'KSessions',
-    subtitle: 'English Lecture Corpus',
-    description:
-      'Single-panel English view of the KSESSIONS source database (lectures + Q&A). ' +
-      'Adapter is structurally scaffolded; extraction has not yet run.',
-    icon: 'mic',
-    stats: [
-      { value: ksessionsChapters || 0, label: 'Chapters' },
-      { value: '—', label: 'Status' },
-    ],
-    status: 'stub',
-    statusLabel: 'Scaffolded',
-    accentColor: 'var(--color-derived)',
   },
   {
     slug: 'podcast-drafts',
@@ -142,7 +124,7 @@ const paths: NavPath[] = [
 
     <!-- Path cards -->
     <main class="mx-auto max-w-7xl px-8 py-14">
-      <div class="grid gap-6 lg:grid-cols-3">
+      <div class="grid gap-6 lg:grid-cols-2">
         {paths.map((p) => (
           <a
             href={p.href}
@@ -203,25 +185,6 @@ const paths: NavPath[] = [
         ))}
       </div>
 
-      <section class="mt-16 border-t pt-8" style="border-color: var(--color-rule-default);">
-        <div class="font-ui mb-4 text-[10px] font-bold uppercase tracking-[0.2em]" style="color: var(--color-ink-tertiary);">
-          Other entrypoints
-        </div>
-        <ul class="flex flex-wrap gap-3 font-ui text-[12px]">
-          <li>
-            <a href="/library/" class="inline-flex items-center gap-1.5 rounded-md border px-3 py-1.5 transition hover:-translate-y-px" style="border-color: var(--color-rule-default); background: var(--color-surface-raised); color: var(--color-ink-secondary);">
-              <Icon name="folder" size={12} />
-              Worktree library (original landing)
-            </a>
-          </li>
-          <li>
-            <a href="/source-extractor/" class="inline-flex items-center gap-1.5 rounded-md border px-3 py-1.5 transition hover:-translate-y-px" style="border-color: var(--color-rule-default); background: var(--color-surface-raised); color: var(--color-ink-secondary);">
-              <Icon name="file-text" size={12} />
-              Source-extractor (legacy Urdu-only view)
-            </a>
-          </li>
-        </ul>
-      </section>
     </main>
 
     <footer class="mt-12 border-t py-8" style="border-color: var(--color-rule-default);">
