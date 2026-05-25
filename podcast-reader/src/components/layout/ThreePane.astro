@@ -2,9 +2,9 @@
 import '~/styles/global.css';
 import Legend from '~/components/reader/Legend';
 import ArabicToggle from '~/components/reader/ArabicToggle';
+import ReaderSettings from '~/components/reader/ReaderSettings';
 import Icon from '~/components/ui/Icon.astro';
 import ThemeScript from '~/components/layout/ThemeScript.astro';
-import ThemeToggle from '~/components/layout/ThemeToggle.astro';
 
 interface Props {
   title: string;
@@ -47,7 +47,6 @@ const { title, worktree, book, breadcrumb = [], showRail = true } = Astro.props;
               <Icon name="folder" size={11} />
               <span>worktree · {worktree}</span>
             </div>
-            <ThemeToggle />
           </div>
         </div>
         <nav class="flex-1 overflow-y-auto p-3">
@@ -74,7 +73,10 @@ const { title, worktree, book, breadcrumb = [], showRail = true } = Astro.props;
                 </>
               ))}
             </nav>
-            <ArabicToggle client:load />
+            <div class="flex items-center gap-2">
+              <ArabicToggle client:load />
+              <ReaderSettings client:load />
+            </div>
           </div>
         </header>
         <main class="mx-auto w-full max-w-5xl flex-1 px-6 py-8 lg:px-10">
@@ -82,14 +84,10 @@ const { title, worktree, book, breadcrumb = [], showRail = true } = Astro.props;
         </main>
       </div>
 
-      <!-- Right rail (density / comments — placeholder in Phase 1) -->
+      <!-- Right rail (chapter mini-TOC + future Ask sidebar) -->
       {showRail && (
-        <aside class="sticky top-0 hidden h-screen w-12 shrink-0 self-start border-l border-stone-200 bg-white xl:block">
-          <div class="p-2 text-center text-[10px] uppercase tracking-wider text-stone-400">
-            <slot name="rail">
-              <div class="rotate-90 origin-left translate-y-12 whitespace-nowrap">density rail · Phase 2</div>
-            </slot>
-          </div>
+        <aside class="sticky top-0 hidden h-screen w-64 shrink-0 self-start overflow-y-auto border-l border-stone-200 bg-white px-4 py-6 xl:block dark:border-stone-700 dark:bg-stone-900">
+          <slot name="rail" />
         </aside>
       )}
     </div>
