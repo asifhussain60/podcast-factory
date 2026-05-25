@@ -5,6 +5,7 @@ import ContractView from '~/components/reader/ContractView.astro';
 import ReaderControls from '~/components/reader/ReaderControls';
 import CopyButton from '~/components/reader/CopyButton';
 import { loadBookIndex } from '~/lib/book-content';
+import { loadBookMeta } from '~/data/books';
 import { loadChapterContract } from '~/lib/contract-parser';
 import { renderContract, buildCategoryDescriptors } from '~/lib/contract-render';
 import { formatContractForCopy } from '~/lib/format-for-copy';
@@ -20,6 +21,7 @@ const index = await loadBookIndex(worktree, book);
 if (!index) {
   return new Response(`Book "${book}" not found`, { status: 404 });
 }
+const bookMeta = loadBookMeta(book);
 
 const ep = index.episodes.find((e) => e.slug === episode);
 if (!ep) {
@@ -45,8 +47,9 @@ const next = idx >= 0 && idx < orderedEps.length - 1 ? orderedEps[idx + 1] : nul
   book={book}
   breadcrumb={[
     { label: 'Library', href: '/' },
-    { label: book, href: `/${worktree}/${book}/` },
-    { label: `E${String(contract.episodeNumber ?? '?').padStart(2, '0')}` },
+    { label: 'Bookshelf', href: '/podcast-drafts/' },
+    { label: bookMeta?.titleEn ?? book, href: `/${worktree}/${book}/` },
+    { label: `E${String(contract.episodeNumber ?? '?').padStart(2, '0')} · ${ep.title}` },
   ]}
   showRail={false}
 >

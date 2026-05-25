@@ -11,6 +11,7 @@ import AskChapter from '~/components/reader/AskChapter';
 import ChapterEditor from '~/components/reader/ChapterEditor';
 import QuranPopover from '~/components/reader/QuranPopover';
 import { loadBookIndex, loadChapterSource } from '~/lib/book-content';
+import { loadBookMeta } from '~/data/books';
 import { renderProseWithRefs } from '~/lib/render-prose';
 import { buildCategoryDescriptors } from '~/lib/contract-render';
 import { formatChapterForCopy } from '~/lib/format-for-copy';
@@ -22,6 +23,7 @@ if (!worktree || !book || !chapter) {
 }
 
 const index = await loadBookIndex(worktree, book);
+const bookMeta = loadBookMeta(book);
 if (!index) return new Response(`Book "${book}" not found`, { status: 404 });
 
 const ch = index.chapters.find((c) => c.slug === chapter);
@@ -51,8 +53,9 @@ const readMinutes = Math.max(1, Math.round(wordCount / 220));
   book={book}
   breadcrumb={[
     { label: 'Library', href: '/' },
-    { label: book, href: `/${worktree}/${book}/` },
-    { label: `Ch${String(ch.numericId ?? '?').padStart(2, '0')}` },
+    { label: 'Bookshelf', href: '/podcast-drafts/' },
+    { label: bookMeta?.titleEn ?? book, href: `/${worktree}/${book}/` },
+    { label: `Ch${String(ch.numericId ?? '?').padStart(2, '0')} · ${ch.title}` },
   ]}
   showRail={true}
 >

@@ -31,9 +31,9 @@ const { title, worktree, book, breadcrumb = [], showRail = true } = Astro.props;
       <!-- Left TOC sidebar (sticky so it stays in view while scrolling content) -->
       <aside class="sticky top-0 hidden h-screen w-80 shrink-0 self-start overflow-hidden border-r lg:flex lg:flex-col" style="background: var(--color-surface-sunken); border-color: var(--color-rule-default);">
         <div class="border-b px-4 py-3" style="background: var(--color-surface-raised); border-color: var(--color-rule-default);">
-          <a href="/" class="font-ui inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-stone-500 hover:text-stone-900">
+          <a href="/podcast-drafts/" class="font-ui inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-stone-500 hover:text-stone-900">
             <Icon name="arrow-left" size={12} />
-            Podcast Reader
+            Back to bookshelf
           </a>
           <div class="mt-2 flex items-center gap-2">
             <Icon name="book-marked" size={18} class="shrink-0 text-amber-700" />

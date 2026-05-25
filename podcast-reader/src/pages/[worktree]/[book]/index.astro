@@ -32,7 +32,8 @@ const firstChapterHref = firstChapter ? `/${worktree}/${book}/chapter/${firstCha
   book={book}
   breadcrumb={[
     { label: 'Library', href: '/' },
-    { label: book },
+    { label: 'Bookshelf', href: '/podcast-drafts/' },
+    { label: bookMeta?.titleEn ?? book },
   ]}
   showRail={false}
 >
