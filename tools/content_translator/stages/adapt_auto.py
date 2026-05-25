@@ -25,7 +25,7 @@ CLASSIFIER_DATA = REPO_ROOT / "tools" / "content_classifier" / "data"
 ADAPT_COST_LEDGER = REPO_ROOT / "_workspace" / "plan" / "kashkole-adapt-cost-ledger.jsonl"
 
 MODEL = "claude-haiku-4-5-20251001"
-MAX_CHUNK_BYTES = 55_000   # chunk threshold — below this: single API call
+MAX_CHUNK_BYTES = 25_000   # chunk threshold — reduced from 55K; claude -p needs <30min/chunk
 MAX_ADAPT_RETRIES = 3      # per-chunk retry limit when markers are dropped
 # Passthrough chapters (English origin) use deterministic adaptation for sections > this size
 PASSTHROUGH_LLM_THRESHOLD = 40_000  # bytes — above this: skip LLM for passthrough, use deterministic
