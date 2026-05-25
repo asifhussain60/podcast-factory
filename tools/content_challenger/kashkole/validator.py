@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import json
 import re
+import unicodedata
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -45,6 +46,14 @@ _ALLOWED_AUTHORS = {
     "al-Muʾayyad al-Shīrāzī",
     "Majālis al-Muʾayyadiyya",
 }
+
+
+def _norm(s: str) -> str:
+    """Normalize diacritics: 'Ḥamīd al-Dīn al-Kirmānī' → 'hamid al-din al-kirmani'."""
+    return unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode().lower()
+
+
+_NORM_ALLOWED = {_norm(a) for a in _ALLOWED_AUTHORS}
 
 
 @dataclass
@@ -174,9 +183,12 @@ def validate_bundle(bundle_root: Path) -> ValidatorResult:
                     try:
                         c = json.loads(line)
                         author = c.get("source_author", "")
-                        # Check if any allowed author substring matches
-                        if author and not any(a.lower() in author.lower() or author.lower() in a.lower()
-                                              for a in _ALLOWED_AUTHORS):
+                        # Check if any allowed author substring matches (diacritic-normalized)
+                        norm_author = _norm(author)
+                        if author and not any(
+                            a in norm_author or norm_author in a
+                            for a in _NORM_ALLOWED
+                        ):
                             unlisted.append(f"{c.get('cite_id', '?')}: {author}")
                     except json.JSONDecodeError:
                         pass

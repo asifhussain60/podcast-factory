@@ -1,0 +1,12 @@
+[2026-05-25T09:39:38.699724+00:00] challenge failed binder=5 chapter=12: challenge failed: gs
+  ❌ [V1] 10 section marker(s) missing from adapted
+      <!-- section 1 (id=333, raw_sort=1): Nanhe Se Mujahid Ali Asghar -->
+      <!-- section 2 (id=1355, raw_sort=2): ائے حسین -->
+      <!-- section 3 (id=334, raw_sort=3): Salaam Aye Khatm-E-Kaar-E-Nubuwat As-Salaam -->
+  ⚠ [V6] 3 citation(s) reference non-allowlisted authors
+      cite-1: Unknown
+      cite-2: Unknown
+      cite-3: Unknown
+
+[2026-05-25T09:40:01.701793+00:00] challenge failed binder=18 chapter=131: challenge failed:  وَأَنَّكُمْ إِلَيْنَا لَا تُرْجَعُونَ ‎⟫ ⟪ar:‏ أَلَمْ أَعْهَدْ إِلَيْكُمْ يَبَنِىٓ آدَمَ أَن لَّا تَعْبُدُوا۟ ٱلشَّيْطَنَ ۖ إِنَّهُۥ لَكُمْ عَدُوٌّۭ مُّبِينٌۭ ‎⟫ ⟪ar:’جن‘⟫ ⟪ar:‏وَكَذَلِكَ جَعَلْنَا لِكُلِّ نَبِىٍّ عَدُوًّۭا شَيَطِينَ ٱلْإِنسِ وَٱلْجِنِّ يُوحِى بَعْضُهُمْ إِلَىٰ بَعْضٍۢ زُخْرُفَ ٱلْقَوْلِ غُرُورًۭا ۚ وَلَوْ شَآءَ رَبُّكَ مَا فَعَلُوهُ ۖ فَذَرْهُمْ وَمَا يَفْتَرُونَ ‎⟫ ⟪ar:’أنس‘⟫
+
