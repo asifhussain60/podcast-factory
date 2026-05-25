@@ -854,6 +854,88 @@ This is the same M1 + F20 pattern: framing rule ignored because chapter source f
 
 ---
 
+### F31 — Pipeline overfit to Islamic / Arabic / Ismaili content (tradition-pack refactor)
+
+**Where:** Tradition-specific data and rules are spread across [_doctrinal.py](../../scripts/podcast/_doctrinal.py) (pins `ISLAM_DATA = REPO_ROOT/"content"/"_shared"/"islam"`), [_rules.py](../../scripts/podcast/_rules.py) (HONORIFICS, ABBREVIATIONS_MAP, ESSENTIALISM_STEM_PATTERNS all Islamic-only or 6-tradition hardcoded), [_authoring.py:486+](../../scripts/podcast/_authoring.py) (Phase 0c phonetic pass explicitly named "Arabic Phonetic Transcription Pass"). No tradition-pack resolver; no per-script transliteration scheme handling for Devanagari, Greek, Hebrew, Pali, IAST.
+
+**What goes wrong:**
+1. A Buddhist sutra commentary (or Christian patristic, Hindu philosophical, Daoist, indigenous, secular philosophy book) entering the pipeline silently no-ops T1-T5 doctrinal checks (wrong tradition's data loaded) AND mis-runs Phase 0c (Arabic-only prompt against non-Arabic source).
+2. R-HONORIFIC-ONCE doesn't fire on "Bhagavan Buddha" / "Sri Sri Ravi Shankar" / "Saint Augustine" repetition — non-Islamic honorific patterns are unguarded.
+3. R-NO-ABBREVIATION only knows Ihya/Nahj/Sahihayn; doesn't catch Lotus Sutra (LS), Summa Theologiae (ST), Brahma Sutras (BS).
+4. `R-SURAH-ENGLISH-ONLY` has no parallel R-SUTTA-TITLE / R-PSALM-NUMBERED / R-UPANISHAD-IAST.
+
+**Proposed fix paths:**
+1. Refactor `_doctrinal.py` into `_doctrinal/{tradition}/...yml` registry; `load_doctrinal_pack(tradition)` dispatch.
+2. `traditions.yml` registry with `{slug, demonym, adjective, scripts: [...], honorific_patterns: [...]}`; derive ESSENTIALISM_STEM_PATTERNS, HONORIFICS, etc. from it.
+3. Parameterize Phase 0c prompt with `source_scripts: [arabic, devanagari, greek, hebrew, pali, ...]` from `series-config.yaml`; per-script transliteration scheme hints.
+4. `build_episode_txt.py` reads `source_tradition` and only invokes the matching doctrinal pack's gates.
+5. Emit `T-NO-PACK` informational finding when a tradition lacks a pack yet (so silence isn't mistaken for cleanliness).
+
+**Severity:** P0 — blocks running ANY non-Islamic book end-to-end without false-positive or silent-no-op failures.
+
+**Status:** Open. Identified 2026-05-25 forward-looking audit. Not yet scheduled; awaits explicit authorization (multi-day refactor).
+
+---
+
+### F32 — Pipeline overfit to `books` category (genre generalization)
+
+**Where:** [_branching.py:39-46](../../scripts/podcast/_branching.py) advertises 6 categories (books, articles, documents, lectures, interviews, letters) but only `books` has tested end-to-end paths. [intake_book.py:124-132](../../scripts/podcast/intake_book.py) hardcodes `source_kind: "pdf"`. [_rules.py:78](../../scripts/podcast/_rules.py) `EPISODE_FORMAT_ALLOWED = ("deep_dive", "debate")` cannot accept walkthrough / monologue / interview / recap. Phase 0d/0e/0f/per-chapter authoring all assume multi-chapter long-form.
+
+**What goes wrong:**
+1. A `letter/<slug>` would run Phase 0d chapter-design pointlessly — a letter is one episode.
+2. A lecture MP3 has no intake path (`_intake_from_audio` doesn't exist); the `import_transcript.py` workaround handles only one case.
+3. An interview's natural format (co-host conversation) doesn't fit deep_dive/debate; R-HOST-ROLE-PARITY's scholar/seeker asymmetry doesn't apply.
+4. The `audience` and `host_dynamic` defaults in [extract_chapter.py:450+](../../scripts/podcast/extract_chapter.py) presume scholar-companion + mentor-student framing — wrong for catechist-novice or peer-peer contexts.
+
+**Proposed fix paths:**
+1. Extend `EPISODE_FORMAT_ALLOWED` to include `walkthrough, monologue, interview, recap`; gate which formats are valid per category in a `category → allowed_formats` table.
+2. Add `_intake_from_audio(mp3_path)`, `_intake_from_text(txt_path)`, `_intake_from_docx(docx_path)` siblings to `_intake_from_pdf`; dispatch by extension.
+3. Per-category phase plan: `letter` skips 0d entirely; `lecture` routes audio → transcription → single-chapter pipeline; `interview` uses peer-peer host dynamic.
+4. Audience/host_dynamic defaults derived from category, not hardcoded.
+
+**Severity:** P0 — blocks running ANY non-book category end-to-end. Letters/articles/lectures all sit at the gate.
+
+**Status:** Open. Identified 2026-05-25 forward-looking audit. Awaits explicit authorization (multi-day refactor; cleanly separable from F31).
+
+---
+
+### F33 — Cross-book observability gap
+
+**Where:** [_cost_ledger.py](../../scripts/podcast/_cost_ledger.py) emits per-book `_system/cost-ledger.jsonl`. [cost_ledger_summary.py](../../scripts/podcast/cost_ledger_summary.py) reads ONE book at a time. Heartbeat card is per-in-flight-book. `findings.jsonl` is shared substrate but only the trainer reads it; no dashboard surfaces "which check fires most in the last 30 days."
+
+**What goes wrong:** at 5+ in-flight books simultaneously, the operator has no single-pane-of-glass for burn rate, throughput, or rule-firing patterns. Decisions like "is dual-auditor still worth the cost across all books" are unanswerable.
+
+**Status:** **PARTIALLY ADDRESSED 2026-05-25** by [cross_book_dashboard.py](../../scripts/podcast/cross_book_dashboard.py) (fleet-level phase/status/cost table). Outstanding:
+- `learn_aggregate.py --since 30d --by-check-id` for rule-firing telemetry.
+- Fleet-level heartbeat replacing per-book heartbeat when N≥2 books in flight.
+- `bypassed_gate` tagging on post-publish findings so G1-G7 false-negative rate becomes measurable.
+
+**Severity:** P1 — friction at 2+ books, painful at 5+.
+
+---
+
+### F34 — Doctrine-collision hazards in build-time gates
+
+**Where:** [build_episode_txt.py](../../scripts/podcast/build_episode_txt.py) wires the doctrinal checks from [_doctrinal.py](../../scripts/podcast/_doctrinal.py) as universal hard gates regardless of `source_tradition`. T3_FORBIDDEN_IMAM_TITLES, T2 imam-lineage checks, etc. all run against every book.
+
+**What goes wrong:** for a Buddhist or Christian book, the Islamic doctrinal gates no-op silently (no matches) — but the architecture is wrong: doctrinal checks should be tradition-conditional. Conversely, future tradition packs (Buddhist, Christian) would NOT be reached by the build gate even when present.
+
+**Proposed fix:** dispatch build-time doctrinal gates through `load_doctrinal_pack(tradition)` (F31 prerequisite). Until F31 lands, document the no-op behavior so future operators know why their non-Islamic book "passed" doctrinal gates trivially.
+
+**Severity:** P0 once a non-Islamic book runs; P3 (informational) until then.
+
+**Status:** Open. Blocked on F31.
+
+---
+
+### F35 — `findings.jsonl` concurrent-append race condition
+
+**Where:** [_rules.py:emit_finding](../../scripts/podcast/_rules.py) appended to a shared `content/podcast/.skill/_learning/findings.jsonl` from multiple concurrent orchestrators without file locking. Single-line writes under PIPE_BUF (4 KiB) are atomic on POSIX, but the JSONL record can exceed PIPE_BUF when `context_excerpt` is near its 300-char cap with multi-byte UTF-8.
+
+**Status:** **CLOSED 2026-05-25.** `emit_finding` now wraps the append in an `fcntl.LOCK_EX` critical section with `flush()` before release. Cost ~1 ms per emit, negligible vs LLM-call latencies.
+
+---
+
 ## Closed / shipped (historical)
 
 For X-class fixes that have already shipped, see git log on `book/kitab-al-riyad`. As of 2026-05-21:
