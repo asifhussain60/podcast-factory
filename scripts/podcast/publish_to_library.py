@@ -238,6 +238,13 @@ def gate_g5_state(workspace: Path, force: bool) -> bool:
     if phase == "per-chapter" and phase_status in SHIPPABLE_STATUSES:
         _ok("G5", f"state.json phase=per-chapter phase_status={phase_status}")
         return True
+    # finalize/running: the orchestrator sets this before calling validate_ship_ready.py,
+    # so G5 sees this exact state when invoked from within the finalize phase.
+    # finalize/halted: the post-finalize state when all G1-G7 gates passed and the
+    # orchestrator is waiting for human review before publish.
+    if phase == "finalize" and phase_status in ("running", "halted"):
+        _ok("G5", f"state.json phase=finalize phase_status={phase_status}")
+        return True
     _fail("G5", f"state.json not in shippable state "
                 f"(phase={phase}, phase_status={phase_status}). "
                 f"Use --force to bypass.")
