@@ -103,24 +103,25 @@ export async function loadGlossary(worktree: string, book: string): Promise<Glos
 
 /**
  * Wrap occurrences of each glossary entry's `phonetic` form in the HTML
- * with a span that carries the Arabic script. Case-insensitive,
- * word-boundary match. First-match-wins within a chunk to avoid nested
- * wraps.
+ * with a span carrying both the English (transliterated) form and the
+ * Arabic script as sibling spans. CSS gated on body[data-arabic="on"]
+ * decides which sibling renders. Copy-paste preserves the visible form
+ * in both modes (font-size:0 trick breaks selection).
  *
- * The output span:
- *   <span class="ar-overlay" data-script="حُجَّة">Hujjah</span>
+ *   <span class="ar-overlay"
+ *         data-script="حُجَّة"
+ *         data-audio="HUJ-jah"
+ *         data-transliteration="Ḥujjah">
+ *     <span class="ar-en">Hujjah</span>
+ *     <span class="ar-script" aria-hidden="true" lang="ar" dir="rtl">حُجَّة</span>
+ *   </span>
  *
- * CSS in global.css controls whether `data-script` renders inline,
- * gated by body[data-arabic="on"].
+ * Sorted by phonetic length DESC so longer multi-word forms win over
+ * their substrings.
  */
 export function wrapPhoneticTokens(html: string, entries: GlossaryEntry[]): string {
   if (!entries.length) return html;
-  // Sort by phonetic length DESC so longer multi-word forms win over
-  // their single-word substrings (e.g. "Ja'far ibn Mansur al-Yaman"
-  // before "Allah").
   const sorted = [...entries].sort((a, b) => b.phonetic.length - a.phonetic.length);
-  // Split on existing tags so we don't wrap inside attribute values
-  // or break already-rendered HTML structure.
   const parts = html.split(/(<[^>]+>)/g);
   for (let i = 0; i < parts.length; i++) {
     if (parts[i].startsWith('<')) continue;
@@ -129,9 +130,11 @@ export function wrapPhoneticTokens(html: string, entries: GlossaryEntry[]): stri
       const esc = e.phonetic.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       const re = new RegExp(`\\b(${esc})\\b`, 'g');
       const scriptAttr = e.arabic_script.replace(/"/g, '&quot;');
+      const audioAttr = (e.audio_phonetic || '').replace(/"/g, '&quot;');
+      const trAttr = (e.transliteration || e.phonetic).replace(/"/g, '&quot;');
       chunk = chunk.replace(
         re,
-        `<span class="ar-overlay" data-script="${scriptAttr}">$1</span>`,
+        `<span class="ar-overlay" data-script="${scriptAttr}" data-audio="${audioAttr}" data-transliteration="${trAttr}" data-phonetic="$1"><span class="ar-en">$1</span><span class="ar-script" aria-hidden="true" lang="ar" dir="rtl">${e.arabic_script}</span></span>`,
       );
     }
     parts[i] = chunk;

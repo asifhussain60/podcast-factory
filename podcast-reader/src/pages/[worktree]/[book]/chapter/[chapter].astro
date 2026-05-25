@@ -2,7 +2,14 @@
 import ThreePane from '~/components/layout/ThreePane.astro';
 import GroupedTOC from '~/components/layout/GroupedTOC.astro';
 import ReaderControls from '~/components/reader/ReaderControls';
-import CopyButton from '~/components/reader/CopyButton';
+import ChapterMiniTOC from '~/components/reader/ChapterMiniTOC';
+import ChapterInstructionPanel from '~/components/reader/ChapterInstructionPanel';
+import FloatingActions from '~/components/reader/FloatingActions';
+import TermPopover from '~/components/reader/TermPopover';
+import SectionSummaries from '~/components/reader/SectionSummaries';
+import AskChapter from '~/components/reader/AskChapter';
+import ReadAloud from '~/components/reader/ReadAloud';
+import ChapterEditor from '~/components/reader/ChapterEditor';
 import { loadBookIndex, loadChapterSource } from '~/lib/book-content';
 import { renderProseWithRefs } from '~/lib/render-prose';
 import { buildCategoryDescriptors } from '~/lib/contract-render';
@@ -14,26 +21,17 @@ if (!worktree || !book || !chapter) {
   return new Response('Bad request', { status: 400 });
 }
 
-// Pilot-only gating dropped post-restructure (2026-05-24): all books surface.
-
 const index = await loadBookIndex(worktree, book);
-if (!index) {
-  return new Response(`Book "${book}" not found`, { status: 404 });
-}
+if (!index) return new Response(`Book "${book}" not found`, { status: 404 });
 
 const ch = index.chapters.find((c) => c.slug === chapter);
-if (!ch) {
-  return new Response(`Chapter "${chapter}" not found`, { status: 404 });
-}
+if (!ch) return new Response(`Chapter "${chapter}" not found`, { status: 404 });
 
 const sourceText = await loadChapterSource(ch.filePath);
 const renderedSource = renderProseWithRefs(sourceText);
 const categoryDescriptors = buildCategoryDescriptors(renderedSource.counts);
 const copyText = formatChapterForCopy(sourceText, ch.title);
 
-// Arabic-script overlay: load per-book glossary and wrap matched phonetic
-// tokens in the rendered HTML. Gated client-side by body[data-arabic="on"]
-// via ArabicToggle in the header. Empty glossary or zero matches is a no-op.
 const glossary = await loadGlossary(worktree, book);
 const renderedWithGlossary = wrapPhoneticTokens(renderedSource.html, glossary);
 
@@ -41,6 +39,10 @@ const ordered = [...index.chapters].sort((a, b) => (a.numericId ?? 999) - (b.num
 const idx = ordered.findIndex((c) => c.slug === ch.slug);
 const prev = idx > 0 ? ordered[idx - 1] : null;
 const next = idx >= 0 && idx < ordered.length - 1 ? ordered[idx + 1] : null;
+
+// Best-effort word count + read-time estimate (220 wpm).
+const wordCount = sourceText.split(/\s+/).filter(Boolean).length;
+const readMinutes = Math.max(1, Math.round(wordCount / 220));
 ---
 
 <ThreePane
@@ -50,15 +52,24 @@ const next = idx >= 0 && idx < ordered.length - 1 ? ordered[idx + 1] : null;
   breadcrumb={[
     { label: 'Library', href: '/' },
     { label: book, href: `/${worktree}/${book}/` },
-    { label: `Ch${String(ch.numericId ?? '?').padStart(2, '0')} (source)` },
+    { label: `Ch${String(ch.numericId ?? '?').padStart(2, '0')}` },
   ]}
-  showRail={false}
+  showRail={true}
 >
   <Fragment slot="toc">
     <GroupedTOC worktree={worktree} book={book} index={index} currentChapter={ch.slug} />
   </Fragment>
 
-  <div class="not-prose mb-8 rounded-lg border border-stone-300 bg-stone-100/70 px-4 py-3 shadow-sm">
+  <Fragment slot="rail">
+    <ChapterMiniTOC client:idle />
+    <ChapterInstructionPanel client:idle />
+    <AskChapter client:idle book={book} chapterTitle={ch.title} chapterText={sourceText} />
+  </Fragment>
+
+  <!-- Scroll progress sliver (CSS scroll-driven; no JS) -->
+  <div class="reading-progress" aria-hidden="true" />
+
+  <div class="not-prose mb-6 rounded-lg border border-stone-200 bg-stone-50/80 px-4 py-3 shadow-sm dark:border-stone-700 dark:bg-stone-800/40">
     <div class="flex flex-wrap items-start justify-between gap-4">
       <div class="flex-1 min-w-[280px]">
         <div class="mb-2 flex items-center gap-2">
@@ -72,34 +83,90 @@ const next = idx >= 0 && idx < ordered.length - 1 ? ordered[idx + 1] : null;
         </div>
         <ReaderControls client:load categories={categoryDescriptors} />
       </div>
-      <div class="shrink-0 self-center">
-        <CopyButton client:load text={copyText} label="Copy chapter" />
-      </div>
     </div>
   </div>
 
-  <article class="reading-column mx-auto">
-    <header class="not-prose mb-8 border-b border-stone-200 pb-6">
-      <div class="font-ui text-xs font-semibold uppercase tracking-wider text-amber-700">
+  <article class="reading-column reading-column--wide mx-auto">
+    <header class="not-prose mb-8">
+      <div class="font-ui text-xs font-semibold uppercase tracking-wider text-amber-700 dark:text-amber-300">
         Source chapter · {ch.numericId !== null ? `#${ch.numericId}` : 'unnumbered'}
+        <span class="ml-2 text-stone-400">·</span>
+        <span class="ml-2 font-normal normal-case tracking-normal text-stone-500">
+          {wordCount.toLocaleString()} words · ~{readMinutes} min read
+        </span>
       </div>
-      <h1 class="mt-1 text-3xl font-semibold leading-tight text-stone-900">{ch.title}</h1>
+      <h1 class="chapter-title mt-1">{ch.title}</h1>
+      <hr class="gold-hairline-thin" />
     </header>
+
     <div class="prose-body" set:html={renderedWithGlossary} />
   </article>
 
-  <nav class="mt-12 flex items-center justify-between border-t border-stone-200 pt-6 text-sm">
+  <nav class="mx-auto mt-14 grid max-w-5xl grid-cols-1 gap-3 sm:grid-cols-2">
     {prev ? (
-      <a href={`/${worktree}/${book}/chapter/${prev.slug}/`} class="group flex flex-col text-stone-700">
-        <span class="text-xs text-stone-400">← Previous chapter</span>
-        <span class="font-medium group-hover:text-stone-900">{prev.title}</span>
+      <a href={`/${worktree}/${book}/chapter/${prev.slug}/`} class="group rounded-lg border border-stone-200 bg-white p-4 transition hover:border-amber-400 hover:shadow-sm dark:border-stone-700 dark:bg-stone-800/40 dark:hover:border-amber-500">
+        <div class="font-ui text-[10px] font-semibold uppercase tracking-wider text-stone-500">← Previous · Ch{String(prev.numericId ?? '?').padStart(2, '0')}</div>
+        <div class="mt-1 font-serif text-[15px] font-semibold text-stone-900 group-hover:text-amber-700 dark:text-stone-100 dark:group-hover:text-amber-300" style="font-family: var(--font-body);">{prev.title}</div>
       </a>
-    ) : <span />}
+    ) : <span class="hidden sm:block" />}
     {next ? (
-      <a href={`/${worktree}/${book}/chapter/${next.slug}/`} class="group flex flex-col text-right text-stone-700">
-        <span class="text-xs text-stone-400">Next chapter →</span>
-        <span class="font-medium group-hover:text-stone-900">{next.title}</span>
+      <a href={`/${worktree}/${book}/chapter/${next.slug}/`} class="group rounded-lg border border-stone-200 bg-white p-4 text-right transition hover:border-amber-400 hover:shadow-sm dark:border-stone-700 dark:bg-stone-800/40 dark:hover:border-amber-500">
+        <div class="font-ui text-[10px] font-semibold uppercase tracking-wider text-stone-500">Next · Ch{String(next.numericId ?? '?').padStart(2, '0')} →</div>
+        <div class="mt-1 font-serif text-[15px] font-semibold text-stone-900 group-hover:text-amber-700 dark:text-stone-100 dark:group-hover:text-amber-300" style="font-family: var(--font-body);">{next.title}</div>
       </a>
-    ) : <span />}
+    ) : <span class="hidden sm:block" />}
   </nav>
+
+  <FloatingActions client:idle copyText={copyText} />
+  <TermPopover client:idle book={book} />
+  <SectionSummaries client:idle book={book} />
+  <ReadAloud client:idle />
+  <ChapterEditor client:idle book={book} chapterSlug={ch.slug} chapterTitle={ch.title} sourceText={sourceText} />
 </ThreePane>
+
+<script>
+  // Keyboard shortcuts — j/k paragraph nav, g g top, G bottom,
+  // / focus reference-control search-ish (no-op until Phase 2), ? legend.
+  (() => {
+    let lastG = 0;
+    document.addEventListener('keydown', (e) => {
+      const tag = (e.target as HTMLElement)?.tagName?.toLowerCase();
+      if (tag === 'input' || tag === 'textarea' || (e.target as HTMLElement)?.isContentEditable) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      const paras = Array.from(document.querySelectorAll('.prose-body > p, .prose-body > h2, .prose-body > h3')) as HTMLElement[];
+      const viewportMid = window.innerHeight * 0.3;
+      const currentIdx = paras.findIndex((p) => {
+        const r = p.getBoundingClientRect();
+        return r.top >= viewportMid - 50;
+      });
+      if (e.key === 'j') {
+        e.preventDefault();
+        const target = paras[Math.max(0, currentIdx)] ?? paras[0];
+        if (target) {
+          const nx = paras[paras.indexOf(target) + 1] ?? target;
+          nx.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      } else if (e.key === 'k') {
+        e.preventDefault();
+        const target = paras[Math.max(0, currentIdx)] ?? paras[0];
+        if (target) {
+          const px = paras[paras.indexOf(target) - 1] ?? target;
+          px.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      } else if (e.key === 'g') {
+        const now = Date.now();
+        if (now - lastG < 500) {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          lastG = 0;
+        } else { lastG = now; }
+      } else if (e.key === 'G') {
+        window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
+      } else if (e.key === 'f') {
+        document.documentElement.setAttribute(
+          'data-focus-mode',
+          document.documentElement.getAttribute('data-focus-mode') === 'on' ? 'off' : 'on',
+        );
+      }
+    });
+  })();
+</script>
