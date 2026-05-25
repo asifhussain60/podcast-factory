@@ -8,6 +8,7 @@ import TermPopover from '~/components/reader/TermPopover';
 import SectionSummaries from '~/components/reader/SectionSummaries';
 import AskChapter from '~/components/reader/AskChapter';
 import ReadAloud from '~/components/reader/ReadAloud';
+import ChapterEditor from '~/components/reader/ChapterEditor';
 import { loadBookIndex, loadChapterSource } from '~/lib/book-content';
 import { renderProseWithRefs } from '~/lib/render-prose';
 import { buildCategoryDescriptors } from '~/lib/contract-render';
@@ -118,6 +119,7 @@ const readMinutes = Math.max(1, Math.round(wordCount / 220));
   <TermPopover client:idle book={book} />
   <SectionSummaries client:idle book={book} />
   <ReadAloud client:idle />
+  <ChapterEditor client:idle book={book} chapterSlug={ch.slug} chapterTitle={ch.title} sourceText={sourceText} />
 </ThreePane>
 
 <script>
