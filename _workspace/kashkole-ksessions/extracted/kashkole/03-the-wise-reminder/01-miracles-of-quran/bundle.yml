@@ -3,7 +3,7 @@
 bundle_schema_version: 1
 source: kashkole
 source_language: ur
-stage: adapted
+stage: challenged
 shelf:
   kind: binder
   id: 35
@@ -163,3 +163,8 @@ adaptation:
   engine: deterministic-passthrough
   completed_at: 2026-05-25T09:25:30.624719+00:00
   adapt_cost_usd: 0.000000
+challenge:
+  engine: claude-haiku-4-5-20251001
+  verdict: WARN
+  completed_at: 2026-05-25T09:32:30.353430+00:00
+  challenge_cost_usd: 0.003816
