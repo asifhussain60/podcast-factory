@@ -528,12 +528,28 @@ def validate_contract(c: Contract, chapter: ResolvedChapter) -> None:
 
     # episode_format validation + mode-conditional required fields.
     # Default to deep_dive when absent (backward compat with pre-v3.6 contracts).
+    # F32 (2026-05-25): valid_formats now read from _rules.EPISODE_FORMAT_ALLOWED
+    # (7 values post-extension). Formats outside EPISODE_FORMAT_FULLY_WIRED emit
+    # a P1 warning rather than hard-fail — they're accepted but downstream
+    # framing-author/R-HOST-ROLE-PARITY rules may exhibit best-effort behavior.
     episode_format = c.get("episode_format") or "deep_dive"
-    valid_formats = {"deep_dive", "debate"}
-    if episode_format not in valid_formats:
+    from _rules import EPISODE_FORMAT_ALLOWED, EPISODE_FORMAT_FULLY_WIRED
+    if episode_format not in EPISODE_FORMAT_ALLOWED:
         sys.exit(
-            f"ERROR: contract.episode_format {episode_format!r} not in {valid_formats}.\n"
-            f"  See infra/claude-agents/podcast-challenger.md Category P for the debate spec."
+            f"ERROR: contract.episode_format {episode_format!r} not in "
+            f"{EPISODE_FORMAT_ALLOWED}.\n"
+            f"  See infra/claude-agents/podcast-challenger.md Category P for the debate spec.\n"
+            f"  F32 extended this enum 2026-05-25; if you're using a brand-new format, "
+            f"  check _rules.EPISODE_FORMAT_ALLOWED for the current allowed set."
+        )
+    if episode_format not in EPISODE_FORMAT_FULLY_WIRED:
+        print(
+            f"WARNING: contract.episode_format {episode_format!r} is in "
+            f"EPISODE_FORMAT_ALLOWED but NOT in EPISODE_FORMAT_FULLY_WIRED "
+            f"({EPISODE_FORMAT_FULLY_WIRED}). Downstream framing-author + "
+            f"R-HOST-ROLE-PARITY rules will exhibit best-effort behavior. "
+            f"This is a P1 warning per F32 plan; not a build blocker.",
+            file=sys.stderr,
         )
     if episode_format == "debate":
         debate = c.get("debate")

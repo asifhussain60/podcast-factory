@@ -256,6 +256,34 @@ def main() -> int:
             f"      → {translated.name} ({translated_chars:,} chars)",
             file=sys.stderr,
         )
+        # F36 (2026-05-25): record Azure Translator spend in cost-ledger.jsonl.
+        # ocr_image_pages.py operates on raw images outside the standard book
+        # tree; if out_dir is inside a content/drafts/<book>/ tree, use that as
+        # book_dir; otherwise the cost row lands at out_dir.parent (best-effort
+        # — operator can post-hoc move it).
+        try:
+            from _cost_ledger import append_azure_translator_cost
+            # Heuristic book_dir resolution: walk up from out_dir looking for a
+            # directory whose parent is "drafts" or "books" (the standard book
+            # roots). Fall back to out_dir.
+            _book = out_dir
+            for _ in range(6):
+                if _book.parent.name in ("drafts", "books"):
+                    break
+                _book = _book.parent
+                if _book == _book.parent:
+                    _book = out_dir
+                    break
+            cost_row = append_azure_translator_cost(
+                book_dir=_book, phase="0a", step="ocr-image-pages/translator",
+                char_count=len(md),
+            )
+            print(
+                f"      Azure cost (translator): ${cost_row.cost_usd:.4f} for {len(md):,} input chars",
+                file=sys.stderr,
+            )
+        except Exception as _e:
+            print(f"      WARN: cost-ledger append failed: {_e}", file=sys.stderr)
     elif not args.no_translate:
         # Source is already English (master-disciple case): copy raw → translated
         # so downstream diff has a single canonical artifact to compare against.

@@ -604,9 +604,10 @@ def _resolve_episode_id(book_dir: Path, chapter_file: Path, chapter_slug: str) -
             with contract_path.open("r", encoding="utf-8") as f:
                 data = _yaml.safe_load(f) or {}
             ep_num = data.get("episode_number")
-        except (ImportError, OSError, _yaml.YAMLError) if False else (OSError,):
+        except (OSError, ImportError):
             ep_num = None
         except Exception:
+            # YAML parse error or anything else — fall back to filename digits.
             ep_num = None
     if ep_num is None:
         # Fall back to chapter filename digits (legacy path).
