@@ -1901,6 +1901,15 @@ def run_resume(args: argparse.Namespace) -> int:
         _info("Phase 0g already completed — advancing to finalize.")
         return _drive_per_chapter_and_after(book_dir)
 
+    # 0g failed / running / pending — re-enter _drive_per_chapter_and_after,
+    # which re-evaluates the 0g guard internally and resumes from the audit
+    # sweep (idempotent: skips bundles whose audit reports are newer than
+    # the bundle's 00-framing.md). Added 2026-05-25 to close the resume-
+    # dispatcher gap surfaced by the post-merge holistic audit.
+    if current_phase == "0g" and current_status in ("failed", "running", "pending"):
+        _info(f"Phase 0g status={current_status!r} — re-entering per-chapter-and-after driver.")
+        return _drive_per_chapter_and_after(book_dir)
+
     # Finalize halt (added 2026-05-24): G1-G7 gates passed; human reviews in
     # podcast-reader then re-invokes --resume to authorize publish.
     if current_phase == "finalize" and current_status == "halted":

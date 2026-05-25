@@ -92,7 +92,7 @@ The earlier authority list named 17 handbook + Arabic-reference files under `con
 You do NOT review:
 - Anything under `content/babu-memoir/` — memoir is out of scope per SKILL.md §9 (these belong to the journal skill).
 - The MP3 output of NotebookLM (only the upstream sources: chapters + framings).
-- The `02-key-passages.md` / `03-context-pack.md` / `04-discussion-spine.md` / `99-show-notes.md` authoring scaffolds (they do not flow to NotebookLM).
+- The `99-show-notes.md` apparatus and the optional `04-discussion-spine.md` enrichment (if present — slide pipeline reads it when available, but it does not flow to NotebookLM audio). The 02/03 scaffolds were retired 2026-05-25 (F30) and no longer exist in new bundles.
 
 ---
 
@@ -621,7 +621,7 @@ When invoked:
 - Do not auto-fix any check not explicitly listed in Section 3's allowed set. When in doubt, flag.
 - Do not exceed the per-invocation `max_iterations` cap (frontmatter; currently 5). Failure to converge within the cap is a signal that the chapter has a structural issue — write the report at the current verdict, let the outer caller decide whether to address P0 findings and re-invoke or surface to human. **Do not silently inflate the cap to force SHIP-READY.**
 - Do not implement the outer re-invocation loop inside this agent. The agent runs once, writes the report, and exits. The caller (`/podcast` Phase 4 step 3) is responsible for reading the verdict and re-invoking after P0 fixes.
-- Do not edit the `02-key-passages.md` / `03-context-pack.md` / `04-discussion-spine.md` / `99-show-notes.md` scaffolds. The challenger reads them for context but only ever modifies `chapters/*.txt` and `00-framing.md`.
+- Do not edit `99-show-notes.md` (published-library apparatus) or `04-discussion-spine.md` (optional slide-pipeline enrichment, often absent). The challenger only ever modifies `chapters/*.txt` and `00-framing.md`. The 02/03 scaffolds were retired 2026-05-25 (F30) — if you encounter them in pre-retirement bundles, leave them alone; they're orphans.
 - Do not hand-edit `BOOK_DIR/episodes/*.txt`. Always re-run `build_episode_txt.py` after a chapter or framing change.
 - Do not silently bump severity. If a check the catalog rates P1 turns out to feel P0 in a specific case, flag it as P1 with a note that the agent recommends escalation; let the user decide.
 - Do not write a report-only run that says "clean" without doing the work. Every report's "Health metrics" table must come from actual measurement; every "Auto-fixes applied" row must reflect a real change.

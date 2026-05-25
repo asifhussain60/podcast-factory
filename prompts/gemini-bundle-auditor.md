@@ -239,9 +239,10 @@ voice." A scholarly conversation has none of them.
 - **Hallucinated quotes or citations.** Never let hosts voice a passage,
   date, scholar name, council, fatwa, sutra reference, dharma name, or
   page number that is not present in the bundle. The auditor's check:
-  every quoted passage in 02-key-passages.md and every cited authority
-  in 00-framing.md must trace to text in 01-source.md or to a citation
-  in the chapter contract. P0.
+  every quoted passage embedded in 00-framing.md (or 99-show-notes.md)
+  and every cited authority must trace to text in the chapter source
+  file (`<chapter-slug>.txt` at book root, uploaded to NotebookLM
+  verbatim) or to a citation in the chapter contract. P0.
 - **Hallucinated tradition claims.** "The Catholic Church teaches…"
   "Buddhism holds that…" "In Islam…" with no underlying source. Either
   ground in the bundle or cut. P0.
@@ -377,6 +378,54 @@ absence is a P1 finding under the relevant subsection above.
 10. **Specificity over generality** — name the council, the school,
     the jurist, the dynasty, the century. "Medieval Islam" is rarely
     the right resolution.
+
+##### Deterministic pattern reference (for LLM pattern-matching when scanning prose)
+
+The Python rule data lives in [scripts/podcast/_rules.py](../scripts/podcast/_rules.py)
+but the auditor LLM cannot import that file at audit time. Inlined below
+so both Claude and Gemini auditors can pattern-match directly. These
+lists are the v2.2 source of truth — if you see a substring or pattern
+match below in chapter prose, framing, or show-notes, flag at the
+indicated severity.
+
+**R-NO-AI-CLICHE (P0 in voiced files; P1 in scaffolding):**
+"deep dive", "deep-dive", "let's dive in", "let's dive into", "today's episode",
+"today we'll explore", "today we'll discuss", "in this episode",
+"in this conversation", "join us as we", "buckle up", "without further ado",
+"let's get started", "fasten your seatbelts", "journey through",
+"journey into", "fascinating world of", "fascinating world", "mind blown",
+"mind-blown", "blew my mind", "what a journey", "what a ride".
+
+**R-NO-DEEP-DIVE-SELF-REFERENCE (P0):** any of "our/this/today's deep dive
+/ journey / exploration / conversation", "we're going to dive/explore/
+unpack/dig", "let's dive/explore/unpack/dig into", "we'll dive/explore/
+unpack/dig into".
+
+**R-NO-FAUX-PROFUNDITY-OPENING (P0, applies to first ~200 chars of
+00-framing.md `## Opening` and first paragraph of chapter prose):**
+"can we find meaning", "what does it (truly) mean to be human",
+"what does this (truly) say about", "is there meaning in/to",
+"in a world where", "in an age/era of/where", "have you ever wondered/
+stopped to", "imagine a world / for a moment", "picture this:".
+
+**R-NO-PREMATURE-CLOSURE (P1, applies to last ~600 chars of `## Closing`
+and beat landings):** "and that(s)? ultimately what...", "what the soul
+/ self / truth / reality / god / allah / the divine really/truly is",
+"the answer/key turns out to be / is / lies in", "so in the end /
+ultimately / at last, we see/find/understand", "and that(s)? the/how
+the (whole) story/point/truth". PERMITTED alternative: "we didn't
+settle this — here's where the live disagreement sits."
+
+**R-NO-ESSENTIALISM-EXTERNAL (P0 when the discussed tradition ≠ the
+book's source_tradition; P2 when internal-qualified):** "Muslims/Hindus/
+Buddhists/Christians/Jews/Sikhs believe/think/hold/teach/say…",
+"In/For Islam/Hinduism/Buddhism/Christianity/Judaism/Sikhism, …",
+"the Islamic/Hindu/Buddhist/Christian/Jewish/Sikh view/position/
+teaching/tradition is/holds/states…", "real/true Muslims/Hindus/
+Buddhists/Christians/Jews/Sikhs would/don't/never…" (No-True-Scotsman).
+Use internally-qualified phrasing instead: "Many Sunni jurists hold X;
+classical Twelver Shia tradition emphasizes Y; the Ismaili tariqah reads
+it as Z."
 
 ##### Sources informing §4
 
