@@ -102,6 +102,7 @@ The default discipline is "ask before each shared-state action." Below is the st
 - Spawning research agents (Explore, Plan, general-purpose) for read-only investigation
 - `git restore` of auto-generated artifacts under `content/drafts/<slug>/_system/` when the artifact is reproducible by re-running its generator script
 - `security find-generic-password -s <name>` for existence checks (no `-w`)
+- **Re-arming the `/loop` heartbeat monitor** after any orchestrator resume or retry-phase action — this is MANDATORY and automatic, never requires user instruction. Use `ScheduleWakeup` at 270s with the standard monitoring prompt (see [Heartbeat card format](~/.claude/projects/-Users-asifhussain-PROJECTS-podcast-factory/memory/feedback_heartbeat_format.md)). Do NOT wait for Asif to ask. If a session resumes and a book is in-flight (orchestrator alive OR `phase_status=running/failed`), re-arm immediately.
 
 **Tier 1 — Do, then surface in the At-a-glance.**
 - Commit to `develop`
@@ -110,10 +111,14 @@ The default discipline is "ask before each shared-state action." Below is the st
 - Phase advancement via `--resume <slug>` on an in-progress book
 - Regenerating auto-generated state files (`chapter-set-report.md`, `challenger-report.md`, mangle-map, etc.)
 - Opening a DRAFT PR from a feature branch to `develop`
+- Orchestrator's automatic `book/<slug>` → `develop` merge after the `publish` phase completes successfully — this is in-pipeline and not a separate gate
+- Running `validate_ship_ready.py <slug>` (read-only G1-G7 gate runner — never writes files)
+- The `/loop` heartbeat re-arms automatically (Tier 0 above) — no separate Tier 1 action needed
 
 **Tier 2 — Always ask. One-line ask + single-sentence Next.**
-- First-time orchestrator launch on a new book: `python3 scripts/podcast/orchestrate_book.py <pdf>` (multi-hour LLM-spend gate)
-- Marking a draft PR ready, or merging any PR into `develop` or `main`
+- First-time orchestrator launch on a new book: `python3 scripts/podcast/orchestrate_book.py <pdf>` (multi-hour LLM-spend gate). The orchestrator auto-spawns the watchdog on every subsequent `--resume`; no manual watchdog launch needed. The `/loop` heartbeat re-arms automatically (Tier 0) — no separate step required.
+- `publish_to_library.py <slug>` — copying the finalized book from `content/drafts/` to `content/published/books/` (the audience-facing catalog). The orchestrator's new `finalize` phase halts BEFORE publish so Asif can review the clean version in podcast-reader and run post-pipeline analyses (A/B transcription, etc.); resuming the orchestrator after that human review is what authorizes publish.
+- Opening a `develop` → `main` PR, marking it ready, or merging it (production release gate — never auto-promoted)
 - Force-push (any branch)
 - Deleting branches
 - `--no-verify`, `--amend`, `git reset --hard`, `git clean -f`, `rm` of tracked files

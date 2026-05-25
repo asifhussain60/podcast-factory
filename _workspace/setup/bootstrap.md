@@ -84,6 +84,18 @@ python3 scripts/podcast/test_azure_connectivity.py
 
 Expect 5 PASS lines (Translator creds + Doc Intel creds + Translator live + Doc Intel reachable + Speech creds). Speech is optional and prints `PASS (skipped)` if the credentials aren't yet provisioned — that's fine if you don't plan to transcribe audio yet.
 
+## Step 5.5 — Wire LLM APIs (Claude + Gemini)
+
+Anthropic Claude runs off the Max subscription (no API key on this Mac). Google Gemini needs an API key stored in keychain. Full reference: [infra/llm-apis/README.md](../../infra/llm-apis/README.md).
+
+```bash
+cd ~/PROJECTS/podcast-factory
+bash infra/llm-apis/bootstrap-llm-apis.sh   # Prompts you to paste the Gemini key (silent)
+bash infra/llm-apis/verify-llm-apis.sh      # Confirms both providers reachable
+```
+
+To get the Gemini key value: open [aistudio.google.com/apikey](https://aistudio.google.com/apikey), find the `podcast-factory` row, click the copy icon.
+
 ## Step 6 — Run the session-starter
 
 ```bash
@@ -114,4 +126,5 @@ If you see references to any of these in older docs, treat them as historical an
 - [CLAUDE.md](../../CLAUDE.md) — the project's standing brief; auto-loaded into every Claude Code session in this repo
 - [framework.md](../../framework.md) — the pipeline framework spec
 - [_workspace/setup/azure-stack.md](azure-stack.md) — full Azure resource reference + recreate-from-scratch
+- [infra/llm-apis/README.md](../../infra/llm-apis/README.md) — Anthropic + Google API accounts, keys, budgets
 - [scripts/start-session.sh](../../scripts/start-session.sh) — what runs every session start

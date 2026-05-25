@@ -334,6 +334,9 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
             "/_system/enrichment-log.md",
             "/_system/chapter-set-report.md",
             "/_system/health-trend.md",
+            "/_system/watchdog.json",   # watch_orchestrator.sh sentinel; written at launch
+            "scripts/podcast/tighten_source.py",  # actively-developed utility; edits never affect per-chapter authoring
+            ".code-workspace",          # VS Code workspace files; user-local, never pipeline-relevant
         )
         runtime_artifact_dirs = (
             f"{book_runtime_prefix}_system/episode-drafts/",
@@ -345,9 +348,13 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
             f"{book_runtime_prefix}episodes/",
             f"{book_runtime_prefix}slide-decks/",
             # Cross-book orchestrator outputs (challenger + trainer learning substrate;
-            # scratch workspace).
+            # scratch workspace + watchdog logs).
             "content/podcast/.skill/_learning/",
             "_workspace/tmp/",
+            "_workspace/logs/",
+            # Audio output directory — M4A files generated from NotebookLM; large
+            # binaries that are never committed.
+            "content/m4a/",
         )
         # macOS filesystem is case-insensitive; git status --porcelain sometimes
         # reports paths as `CONTENT/...` (the on-disk case at the time the file
@@ -1413,25 +1420,48 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
     )
 
     # Phase 0g — register the series in the cross-book registry.
-    _info("phase: 0g · register series in registry.md")
-    update_phase(book_dir, phase="0g", status="running")
-    try:
-        phase_0g_register(book_dir)
-    except RuntimeError as e:
-        update_phase(book_dir, phase="0g", status="failed", error=str(e))
-        _err(str(e))
-        return 2
-    update_phase(book_dir, phase="0g", status="completed")
-    phase_git_commit(book_dir, f"podcast({book_slug}): phase 0g register series")
+    # Guard: skip if already completed from a prior run (idempotency for re-entry).
+    _0g_done = (
+        (read_state(book_dir) or {})
+        .get("phases", {})
+        .get("0g", {})
+        .get("status") == "completed"
+    )
+    if _0g_done:
+        _info("phase: 0g · already completed, skipping")
+    else:
+        _info("phase: 0g · register series in registry.md")
+        update_phase(book_dir, phase="0g", status="running")
+        try:
+            phase_0g_register(book_dir)
+        except RuntimeError as e:
+            update_phase(book_dir, phase="0g", status="failed", error=str(e))
+            _err(str(e))
+            return 2
+        update_phase(book_dir, phase="0g", status="completed")
+        phase_git_commit(book_dir, f"podcast({book_slug}): phase 0g register series")
 
     # Phase 11b — Slide-deck cohort authoring + Slide Deck Challenger convergence.
-    # OPTIONAL, gated by series-plan.md `enable_slide_decks` (default false).
+    # Default TRUE — slide decks are required output alongside chapters and episodes.
+    # Override to false only via series-plan.md `enable_slide_decks: false`.
     # When false: phase is marked skipped, no slide-deck work happens, audio-side
     # behavior is byte-identical to pre-slide-deck-enhancement orchestrator runs.
     # When true: walks every chapter, authors slide-decks/chNN-deck-<slug>.txt +
     # chNN-framing-<slug>.md, runs Slide Deck Challenger (max 5 iter per chapter).
-    enable_slide_decks = _series_flag(book_dir, "enable_slide_decks", default=False)
-    if enable_slide_decks:
+    enable_slide_decks = _series_flag(book_dir, "enable_slide_decks", default=True)
+    # Guard: skip slides block entirely if a prior run already completed it.
+    # This handles the case where the orchestrator exits cleanly after the
+    # phase_git_commit and the watchdog re-enters _drive_per_chapter_and_after
+    # via the `per-chapter-slides/completed` dispatcher path.
+    _slides_already_done = (
+        (read_state(book_dir) or {})
+        .get("phases", {})
+        .get("per-chapter-slides", {})
+        .get("status") in ("completed", "skipped")
+    )
+    if _slides_already_done:
+        _info("phase: per-chapter-slides · already completed/skipped, advancing to finalize")
+    elif enable_slide_decks:
         _info("phase: per-chapter-slides · slide-deck cohort authoring + slide-deck-challenger")
         update_phase(book_dir, phase="per-chapter-slides", status="running")
         try:
@@ -1459,7 +1489,71 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
         update_phase(book_dir, phase="per-chapter-slides", status="skipped",
                      extras={"reason": "enable_slide_decks=false"})
 
-    # Trainer pass — substrate-driven rule promotion (regression-gated).
+    # Finalize phase (added 2026-05-24 per Asif's split-publish refactor):
+    # run G1-G7 quality gates read-only. If all pass, HALT for human review.
+    # If any fail, halt-and-surface for remediation. The actual publish
+    # (file copy to content/published/books/<slug>/) is a separate
+    # human-authorized phase that fires on the next `--resume` after review.
+    _info("phase: finalize · run G1-G7 gates via validate_ship_ready.py")
+    update_phase(book_dir, phase="finalize", status="running")
+    validate_script = Path(__file__).resolve().parent / "validate_ship_ready.py"
+    rc, vout, verr = _run([sys.executable, str(validate_script), book_slug])
+    print(vout)
+    if rc != 0:
+        update_phase(book_dir, phase="finalize", status="failed",
+                     error="G1-G7 gates failed; see stdout for the failing gate",
+                     extras={"validator_stdout": vout[-2000:], "validator_stderr": verr[-1000:]})
+        _err("finalize halt — at least one G1-G7 gate failed. "
+             "Fix the cause, then re-invoke `orchestrate_book.py --resume`.")
+        return 2
+    update_phase(book_dir, phase="finalize", status="halted",
+                 extras={"verdict": "SHIP-READY"})
+    _info("")
+    _info("─" * 72)
+    _info("Phase finalize complete · halted for human review (SHIP-READY).")
+    _info("")
+    _info("Review the clean version in the podcast-reader app:")
+    _info("  cd podcast-reader && npm run dev")
+    _info("  open http://localhost:4321/develop/" + book_slug + "/")
+    _info("")
+    _info("Optional: run A/B transcription analysis against reference MP3s if any:")
+    _info("  python3 scripts/podcast/ab_compare_episode.py --book-dir "
+          + str(book_dir) + " --episode EP##-<slug> --reference-transcript ...")
+    _info("")
+    _info("When satisfied, authorize publish + trainer + merge:")
+    _info(f"  python3 scripts/podcast/orchestrate_book.py --resume {book_slug}")
+    _info("─" * 72)
+    return 0
+
+
+def _drive_publish_through_done(book_dir: Path) -> int:
+    """Phases that fire after the finalize halt: publish → trainer → merge → done.
+
+    Split out 2026-05-24 so the finalize halt is a clean review checkpoint;
+    --resume after the halt enters this function and runs each phase in
+    sequence. Failure at any phase halts the orchestrator with state
+    pointing at the failing phase.
+    """
+    book_slug = book_dir.name
+
+    # Publish — file copy to content/published/books/<slug>/.
+    _info("phase: publish · copy clean chapters + episodes to published/")
+    update_phase(book_dir, phase="publish", status="running")
+    publish_script = Path(__file__).resolve().parent / "publish_to_library.py"
+    rc, pout, perr = _run([sys.executable, str(publish_script), book_slug])
+    print(pout)
+    if rc != 0:
+        update_phase(book_dir, phase="publish", status="failed",
+                     error="publish_to_library.py rc != 0; gates re-ran defensively",
+                     extras={"publisher_stdout": pout[-2000:], "publisher_stderr": perr[-1000:]})
+        _err("publish failed — defensive gate re-run blocked the copy. "
+             "Investigate and re-invoke `orchestrate_book.py --resume`.")
+        return 2
+    update_phase(book_dir, phase="publish", status="completed")
+    phase_git_commit(book_dir, f"podcast({book_slug}): published to library")
+
+    # Trainer pass — runs on the POST-publish substrate so its spec edits
+    # are validated against the version that actually shipped.
     _info("phase: trainer · invoke podcast-trainer on the book branch")
     update_phase(book_dir, phase="trainer", status="running")
     try:
@@ -1490,9 +1584,6 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
     _info("")
     _info("─" * 72)
     _info(f"Book {book_slug}: SHIPPED.")
-    _info("Per-chapter outcomes:")
-    for o in outcomes:
-        _info(render_outcome(o))
     _info("─" * 72)
     return 0
 
@@ -1539,7 +1630,8 @@ def run_resume(args: argparse.Namespace) -> int:
                     lb.pop("ts_completed", None)
         # last_completed_phase walks back to the predecessor.
         canonical = ("pre-flight", "branch", "scaffold", "0a", "0b", "0c", "0d", "0e",
-                     "0f", "0g", "per-chapter", "trainer", "merge", "done")
+                     "0f", "0g", "per-chapter", "per-chapter-slides", "finalize",
+                     "publish", "trainer", "merge", "done")
         if retry_phase in canonical:
             i = canonical.index(retry_phase)
             state["last_completed_phase"] = canonical[i - 1] if i > 0 else None
@@ -1612,6 +1704,44 @@ def run_resume(args: argparse.Namespace) -> int:
         "failed", "halted", "running", "pending"
     ):
         return _drive_per_chapter_and_after(book_dir)
+
+    # If we're mid-slide-deck cohort (crashed or stale-running), re-enter the
+    # per-chapter driver. It skips already-completed chapters and per-chapter-slides
+    # resumes from the slide cohort. `pending` covers the `--retry-phase` reset path.
+    if current_phase == "per-chapter-slides" and current_status in (
+        "failed", "running", "pending"
+    ):
+        return _drive_per_chapter_and_after(book_dir)
+
+    # per-chapter-slides completed normally but orchestrator exited before advancing
+    # to finalize (e.g. clean exit after a git commit, watchdog re-launched and saw
+    # completed status which was not in the handled set above). Advance directly
+    # to finalize without re-running slides.
+    if current_phase == "per-chapter-slides" and current_status == "completed":
+        _info("Phase per-chapter-slides already completed — advancing to finalize.")
+        return _drive_per_chapter_and_after(book_dir)
+
+    # 0g completed but orchestrator exited before advancing to finalize.
+    # Same pattern as per-chapter-slides/completed above.
+    if current_phase == "0g" and current_status == "completed":
+        _info("Phase 0g already completed — advancing to finalize.")
+        return _drive_per_chapter_and_after(book_dir)
+
+    # Finalize halt (added 2026-05-24): G1-G7 gates passed; human reviews in
+    # podcast-reader then re-invokes --resume to authorize publish.
+    if current_phase == "finalize" and current_status == "halted":
+        _info("Phase finalize gate cleared (human approved by re-invoking --resume).")
+        return _drive_publish_through_done(book_dir)
+    if current_phase == "finalize" and current_status in ("failed", "pending"):
+        # Re-run finalize (re-validate gates after a fix).
+        return _drive_per_chapter_and_after(book_dir)
+
+    # Publish / trainer / merge halt-and-resume: re-enter the publish-through-done
+    # driver. Each step is idempotent enough to resume from the last failure.
+    if current_phase in ("publish", "trainer", "merge") and current_status in (
+        "failed", "running", "pending"
+    ):
+        return _drive_publish_through_done(book_dir)
 
     # If we already merged, nothing to do.
     if current_phase == "done":
@@ -1710,6 +1840,43 @@ def build_parser() -> argparse.ArgumentParser:
     return p
 
 
+def _maybe_relaunch_under_watchdog(slug: str) -> None:
+    """Auto-spawn watch_orchestrator.sh when --resume is called without it.
+
+    The watchdog sets PODCAST_WATCHDOG=1 in the child environment so we
+    don't recurse. When NOT under the watchdog, we spawn it in the
+    background, print the log path, and exit — the watchdog owns the run
+    from here. This fires automatically so the caller (Claude or a human)
+    never has to remember to use the watchdog explicitly.
+    """
+    if os.environ.get("PODCAST_WATCHDOG"):
+        return  # already under watchdog — proceed normally
+
+    watchdog = Path(__file__).resolve().parent / "watch_orchestrator.sh"
+    if not watchdog.exists():
+        _err("watch_orchestrator.sh not found — running WITHOUT self-healing watchdog")
+        return  # fall through; better to run unguarded than not at all
+
+    log_dir = Path(__file__).resolve().parents[2] / "_workspace" / "logs"
+    log_dir.mkdir(parents=True, exist_ok=True)
+    log_path = log_dir / f"orchestrator-{slug}.log"
+
+    print(f"  [watchdog] auto-spawning watch_orchestrator.sh for {slug}")
+    print(f"  [watchdog] log: {log_path}")
+    print(f"  [watchdog] this process exits; watchdog owns the run from here.")
+
+    import subprocess
+    with open(log_path, "a") as log_fh:
+        subprocess.Popen(
+            ["/bin/bash", str(watchdog), slug],
+            stdout=log_fh,
+            stderr=subprocess.STDOUT,
+            # Detach from our process group so it survives our exit.
+            start_new_session=True,
+        )
+    sys.exit(0)
+
+
 def main() -> int:
     args = build_parser().parse_args()
 
@@ -1725,6 +1892,12 @@ def main() -> int:
     else:
         _err("either <pdf-path> (initial) or --resume <slug> or --status <slug> is required")
         return 1
+
+    # Auto-watchdog: every --resume goes through watch_orchestrator.sh unless
+    # already running under it. Protects multi-hour runs from silent process
+    # death without the caller having to remember to use the watchdog.
+    if args.resume:
+        _maybe_relaunch_under_watchdog(slug_for_lock)
 
     lock_result = _acquire_book_lock(slug_for_lock)
     if lock_result is None:

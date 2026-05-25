@@ -36,6 +36,7 @@ Returns a `ChapterOutcome` dataclass naming the verdict + iteration count
 from __future__ import annotations
 
 import re
+import subprocess
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -46,6 +47,9 @@ from _authoring import (   # noqa: E402
     invoke_challenger,
     invoke_fixer,
 )
+
+# Path to build_episode_txt.py (same directory as this module).
+_BUILD_EPISODE_TXT = Path(__file__).resolve().parent / "build_episode_txt.py"
 
 MAX_OUTER_ITERATIONS = 3
 MAX_FIXER_ATTEMPTS_PER_P0 = 3
@@ -64,6 +68,48 @@ class ChapterOutcome:
     p1_remaining: int
     p2_remaining: int
     notes: list[str] = field(default_factory=list)
+
+
+# ─── Episode-txt rebuild helper ──────────────────────────────────────────────
+
+def _find_episode_id(book_dir: Path, chapter_slug: str) -> str | None:
+    """Derive the EP##-<slug> id from the episode-drafts directory.
+
+    Looks for a subdirectory of ``BOOK_DIR/_system/episode-drafts/`` whose
+    name ends with ``-<chapter_slug>``.  Returns the directory name (e.g.
+    ``EP02-will-command-and-the-seven``) or None if not found.
+    """
+    ep_root = book_dir / "_system" / "episode-drafts"
+    if not ep_root.exists():
+        return None
+    for d in ep_root.iterdir():
+        if d.is_dir() and d.name.endswith(f"-{chapter_slug}"):
+            return d.name
+    return None
+
+
+def _rebuild_episode_txt(book_dir: Path, episode_id: str) -> bool:
+    """Re-emit episodes/<episode_id>.txt from the current framing.
+
+    Called after every invoke_fixer() pass so that episode.txt is never stale
+    relative to the framing — which would cause the challenger to emit
+    P0-EPISODE-STALE on the very next invocation, burning an outer iteration
+    on a finding that is purely mechanical to fix.
+
+    Returns True on success, False on any error (non-fatal: the convergence
+    loop continues; the next challenger invocation may surface the staleness
+    as a P0, which the fixer will handle in the following iteration).
+    """
+    try:
+        result = subprocess.run(
+            [sys.executable, str(_BUILD_EPISODE_TXT), str(book_dir), episode_id],
+            capture_output=True,
+            text=True,
+            timeout=120,
+        )
+        return result.returncode == 0
+    except Exception:
+        return False
 
 
 # ─── Verdict parsing ─────────────────────────────────────────────────────────
@@ -150,6 +196,11 @@ def converge_chapter(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
     )
     report = book_dir / "_system" / "challenger-report.md"
 
+    # Resolve the episode id once. Used to rebuild episode.txt after each
+    # fixer pass so it stays in sync with the framing and never causes
+    # P0-EPISODE-STALE on the following challenger invocation.
+    episode_id = _find_episode_id(book_dir, chapter_slug)
+
     for outer in range(1, MAX_OUTER_ITERATIONS + 1):
         outcome.outer_iterations = outer
         try:
@@ -188,6 +239,10 @@ def converge_chapter(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
                 # Don't abort the whole loop on a fixer failure — try another
                 # outer iteration; the next challenger pass will surface the
                 # same findings and we'll converge or hit the cap.
+            # Rebuild episode.txt — fixer may have updated 00-framing.md.
+            # Without this, the next challenger invocation flags P0-EPISODE-STALE.
+            if episode_id:
+                _rebuild_episode_txt(book_dir, episode_id)
             continue
 
         if verdict == "BLOCKED":
@@ -208,6 +263,11 @@ def converge_chapter(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
                     outcome.fixer_attempts += 1
                 except AuthoringError:
                     pass
+                # Rebuild episode.txt — P0/P1 fixer may have updated 00-framing.md.
+                # Without this, next challenger invocation sees stale episode.txt
+                # and emits P0-EPISODE-STALE, burning the outer iteration cap.
+                if episode_id:
+                    _rebuild_episode_txt(book_dir, episode_id)
                 break  # fixer attempt OK; let next outer iteration re-validate
             continue
 

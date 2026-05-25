@@ -266,6 +266,14 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 | F27 | TTS-safe audit is currently a manual checklist (audit-checklist.md); must become a code-side validator suite in `build_episode_txt.py` to satisfy M1 (LLM ignores prompt-only rules); validators needed: `assert_no_arabic_transliteration_in_chapter_or_framing`, `assert_alqaab_only_established_or_paraphrased`, `assert_show_notes_has_apparatus_table`, `assert_framing_no_modern_artifacts`, `assert_framing_analogy_cap_strict`, `assert_framing_honorific_bounded_both_sides` | 2026-05-21 (synthesis of v3 audit + recommendation doc) | **High** | Open (this is the Tier 2.5 validator burst, now formalized) | — |
 | F28 | Backward-compat decision needed for already-shipped episodes (EP04, 06, 07, 08, 09, 10, 12, 14, 15) once F20+F21+F24+F25 doctrine is locked; options: (a) re-emit all under new doctrine (~6.5 hrs), (b) grandfather them as v1-quality (cost: inconsistency across series); KaR-specific but template-setting for all future books | 2026-05-21 (synthesis of recommendation doc adoption sequence) | Medium | Open (decision needed) | — |
 | F29 | Arabic surah names still spoken in audio because chapter prose contains them; TTS mangles them ("Qaf" → "cough" in v4-revised audio; "al-Shams" and "al-Ahzab" also surfaced); same root cause as F20 (Arabic vocabulary in chapter prose leaks to audio); fix: chapter rewrite step replaces surah names with English meanings ("the chapter on the sun," "the chapter on the confederates") OR drops surah name entirely in favor of leading with content | 2026-05-21 (KaR Ch07 v4-revised audio audit) | **High** | Open | — |
+| F30 | Bundle-level NotebookLM-readiness audit has no operational path; Gemini-Gem auditor design exists ([prompts/gemini-bundle-auditor.md](../../prompts/gemini-bundle-auditor.md)) and the consolidation packer ([scripts/podcast/pack_bundle_for_gemini.py](../../scripts/podcast/pack_bundle_for_gemini.py)) and the Claude-native mirror ([scripts/podcast/audit_bundle.py](../../scripts/podcast/audit_bundle.py)) are built and verified, BUT the actual Gemini Gem has not yet been created in the Gemini UI — any operator workflow that targets the Gem must first prompt for Gem creation (paste the BEGIN/END block from the prompt file into the Gem's Instructions box) before invoking the consolidate-and-upload path. Also: this audit is currently a manual operator gate, not an orchestrator phase; intended future slot is optional phase 0g audit between enrich and the review halt | 2026-05-25 (Asif Gem-design session — Gemini rejected the original zip approach due to 10-file / 100 MB / no-audio-video limits) | Medium | Open (Gem creation pending in Gemini UI; orchestrator integration pending) | — |
+| F32 | Framing re-runs from scratch on every per_chapter_pass() restart — even when prior framing was already good. Code-confirmed: `per_chapter_pass()` always calls `extract → author_framing → build → converge` top-to-bottom. When the watchdog restarts after a crash, convergence failure, or iter-cap halt, framing re-runs regardless of whether it was the cause of failure. Empirical cost: `father-revealed-and-the-faces-of-seeking` had 7 framing calls × avg $3.12 = ~$22 in redundant framings for one chapter. Fix: write a `framing_done` flag to per-chapter state after first successful framing. On resume, if flag exists and `00-framing.md` is non-empty and the prior failure was not a framing-structural P0, skip re-framing and enter the convergence loop directly at the prior checkpoint. | 2026-05-25 (cost ledger analysis — 17 framings for 6 chapters; father-revealed=7, the-greater-shaykh=5, will-command=2) | **High** | Open | — |
+| F33 | Book halts on first per-chapter failure, blocking all subsequent independent chapters. Code-confirmed: `orchestrate_book.py:1394-1401` — when `outcome.final_verdict == "FAILED"`, the loop calls `return 2` immediately, leaving all unstarted chapters unprocessed. For a 14-chapter book (Kitab al-Riyad), a stuck ch03 would have left ch04-ch14 unstarted for the entire human-review cycle. Fix: add `continue_on_failure` mode (flag `--continue-on-failure` or default-True for books with >4 chapters): collect failed chapters into a `failures[]` list, continue the loop for independent chapters, surface all failures together at the end. Watchdog then retries failed slugs individually. | 2026-05-25 (code review of orchestrate_book.py:1390-1405 + watchdog `_is_iter_cap_halt()`) | **High** | Open | — |
+| F34 | Phase 0b refinement windows and Phase 0d source-chapter processing run sequentially in a Python for-loop — no parallelism. Code-confirmed: `_authoring.py` Phase 0b and 0d both iterate `for sc in source_chapters:` and call `_run_claude_p()` synchronously per window. For a 12-window Phase 0b, windows are independent (each processes a discrete text chunk with a 120-word overlap tail for continuity — output files don't share mutable state). A ThreadPoolExecutor with 3 concurrent workers would cut wall-clock time by ~3× for these phases. Rate-limit risk is low: claude-opus-4-7's API tier easily handles 3 concurrent calls; the per-window 10-min timeout provides natural back-pressure. Phase 0d source chapters are also independent: each chapter contract is generated from its own slice. Same fix applies. | 2026-05-25 (code review of _authoring.py Phase 0b loop + Phase 0d sc loop) | **High** | Open | — |
+| F35 | No per-chapter LLM cost ceiling — a stuck chapter can exhaust the convergence loop's max iterations (3 outer × 5 inner = 15 challenger passes + 9 fixer passes) at avg $3.47/challenger + $0.36/fixer ≈ $55 per chapter before halting. There is no circuit breaker. Fix: add `--chapter-cost-cap N` (default $20): track per-chapter accumulated cost from the cost ledger (filter by chapter slug + session ERROR_TS); if cost exceeds cap before convergence, abort that chapter's loop, mark it `FAILED` with `reason=cost_cap_exceeded`, and let the watchdog surface it for human review. Operator can re-run with `--chapter-cost-cap 40` to allow more spend on a known-difficult chapter. | 2026-05-25 (cost ledger analysis: will-command-and-the-seven had framing=2 + challenger=4 + fixer=6 passes before failing) | **High** | Open | — |
+| F36 | Azure costs not tracked during Phase 0a (Document Intelligence) and Phase 0c (Speech/Translator). Code-confirmed: `orchestrator-state.json` has the right fields (`docintel_usd`, `translator_usd`, `speech_usd`) but all are $0.00 — nothing writes to them. The pipeline calls Azure Document Intelligence for PDF parsing (Phase 0a) and Azure Translator/Speech for phonetics (Phase 0c) but never writes cost back to state. For a 200-page PDF like master-and-the-disciple, Document Intelligence costs ~$3-4 (invisible to operator). Fix: in `_azure.py:docintel_analyze_pdf()`, estimate cost from page count (`pages × $0.015`); in Phase 0c's TTS/translator calls, accumulate character count and compute cost at phase end; write back to `orchestrator-state.json.cost.*_usd` fields via `update_phase()`. | 2026-05-25 (state file inspection: all cost fields $0.00; confirmed live on master-and-the-disciple run) | Medium | Open | — |
+| F37 | No per-chapter timing data in orchestrator state — operators cannot see which chapters are slow, ETAs are coarse averages, and post-mortem diagnosis of cost outliers requires manual ledger analysis. Code-confirmed: state.json tracks only `phases.per-chapter.ts_started` (one timestamp for the whole phase), not per-chapter start/end. The heartbeat loop computes `avg_s = elapsed_s / done` which is inflated by retry cycles (father-revealed's 7 framings inflate avg by ~45 min). Fix: add `chapter_timings: {slug: {started, completed, framing_calls, challenger_calls, fixer_calls, cost_usd}}` to the per-chapter state extras after each chapter completes. Heartbeat can then show per-chapter duration and flag outliers. Also unblocks F35's cost-ceiling implementation. | 2026-05-25 (heartbeat avg/ch analysis: avg showing 3h 49m vs expected ~2h 20m for clean chapters, inflated by retry cycles) | Medium | Open | — |
+| F31 | No mid-book inter-chapter quality signal propagation — the trainer runs post-publish only; completed chapters' P0/P1 findings never feed forward into subsequent chapters' framing prompts during the same book run. Code-confirmed: `author_framing()` reads only the chapter contract + chapter file + static rules; the per-chapter loop in `orchestrate_book.py:1372-1419` passes zero quality state from completed chapters to the next framing invocation; `invoke_trainer()` fires only in the `publish → trainer → merge → done` pipeline, after ALL chapters ship. Result: if ch01 produces a systemic P0 (e.g. welcome-sentence missing, analogy cap blown), ch02-ch06 framing authors repeat the same mistake — the snowball effect runs backwards. Fix: add a lightweight "inter-chapter flash brief" step between `completed_chapter_slugs.add(slug)` and the next slug's `author_framing()` call — extract P1+/P0 finding IDs from the just-completed chapter's `challenger-report.md`, inject as a ≤5-bullet "prior chapter lessons" block into the next framing prompt. No spec edits, no regression gate — just runtime signal injection within the same book run. Distinct from the trainer (which edits the spec post-hoc across books). | 2026-05-25 (Asif observation confirmed by code review of `_authoring.py:author_framing()` + `orchestrate_book.py:1372-1419` during master-and-the-disciple run) | **High** | Open | — |
 
 ---
 
@@ -789,6 +797,63 @@ This is the same M1 + F20 pattern: framing rule ignored because chapter source f
 
 ---
 
+### F30 — Bundle-level NotebookLM-readiness audit (Gemini Gem + Claude mirror) has no operational path until the Gem is created
+
+**Where:** Three new artifacts that together compose a bundle auditor, none of which is yet wired into the pipeline or activated in Gemini:
+
+| Artifact | Path | Status |
+|---|---|---|
+| Consolidation packer (bundle dir → single Gemini-friendly .md with `<!-- FILE: ... -->` virtual-path delimiters) | [scripts/podcast/pack_bundle_for_gemini.py](../../scripts/podcast/pack_bundle_for_gemini.py) | Built + verified 2026-05-25 against `content/published/books/kitab-al-riyad` (20 files, 0.76 MB) and `content/drafts/kitab-al-riyad` (170 files, 4.34 MB) |
+| Canonical Gem prompt (single source of truth; BEGIN/END markers wrap the prompt body) | [prompts/gemini-bundle-auditor.md](../../prompts/gemini-bundle-auditor.md) | Built 2026-05-25 |
+| Claude-native auditor mirror (shells `claude -p` with the Gem prompt + packed bundle; emits same `claude-code-fixes` JSON shape) | [scripts/podcast/audit_bundle.py](../../scripts/podcast/audit_bundle.py) | Built + syntax-verified 2026-05-25; not yet run end-to-end against a real bundle |
+
+**What goes wrong (today):**
+
+1. **The Gemini Gem itself does not exist.** The prompt file is ready to paste, but the Gem in the Gemini UI has not been created. Any documentation that says "upload the packed file to the Bundle Auditor Gem" silently assumes a Gem that an operator has not yet built. The first operator to attempt the Gem path will hit a dead end. **The original zip-based upload approach failed against Gemini's hard limits (10 files max inside a zip, 100 MB total, no audio/video) — the consolidate-to-one-markdown path is the chosen workaround, but it presupposes the Gem.**
+
+2. **No orchestrator integration.** `audit_bundle.py` runs only when an operator invokes it manually. There is no Phase 0g audit step in [_phases.py](../../scripts/podcast/_phases.py); the intended slot (between enrich and the review halt) is not wired.
+
+3. **No "Gem exists?" guard in operator workflows.** The audit-loop instructions in [prompts/gemini-bundle-auditor.md](../../prompts/gemini-bundle-auditor.md) under "How to use this Gem" assume the Gem is live. They do not explicitly say "create the Gem first." A future skill or runbook that drives this audit must prompt the operator to confirm Gem creation before kicking off the consolidate-and-upload path.
+
+4. **No fix-application back-channel.** Once the Gem (or `audit_bundle.py`) emits the `claude-code-fixes` JSON array, there is no `audit_bundle.py --apply-fixes <json>` subcommand yet. The JSON has to be hand-fed to Claude Code. Stub mentioned in the prompt file's operator notes, not implemented.
+
+**Impact:**
+- Bundle quality issues (Arabic-token mispronunciation risk, missing pronunciation/citation appendices, banned crutch phrases, multi-thesis framings, missing 'skip the intro' instruction, host-role-drift) are caught today only by post-render audio review, after Azure speech spend.
+- Catching the same issues at bundle time (before NotebookLM ingestion) saves the per-episode TTS spend and the operator's audio-review hour.
+- Without the Gem operational guard, future operator instructions silently assume a Gem that doesn't exist and stall on the first attempt.
+
+**Proposed fix paths:**
+
+1. **Stand up the Gem.** Open Gemini → Gems → Create. Name: "Podcast Bundle Auditor." Paste the contents between `## BEGIN GEM PROMPT` and `## END GEM PROMPT` from [prompts/gemini-bundle-auditor.md](../../prompts/gemini-bundle-auditor.md) into the Instructions box. Save. Note the Gem URL/ID for the runbook. **This is the unblocking step; everything else assumes it.**
+
+2. **Add a Gem-existence guard to the audit-loop instructions.** Update the "How to use this Gem" section in [prompts/gemini-bundle-auditor.md](../../prompts/gemini-bundle-auditor.md) and any future operator runbook (e.g., `_workspace/runbooks/bundle-audit.md`) to make step 0 explicit: "Confirm the Gemini Gem 'Podcast Bundle Auditor' exists in your Gemini workspace. If it does not, create it now using the BEGIN/END block in this file before proceeding." Any agent or skill that drives the audit must check for Gem URL/ID configuration and prompt the operator if missing.
+
+3. **Wire `audit_bundle.py` into the orchestrator as optional Phase 0g.** Add `phase_0g_audit` to [_phases.py](../../scripts/podcast/_phases.py); call `audit_bundle()` from `_authoring.py` after Phase 0e enrich and before the Phase 0f review halt. Gate severity P0 findings as halt-and-surface; P1/P2 as informational. Off by default until two clean runs against published bundles establish a baseline.
+
+4. **Implement `--apply-fixes <json>` on `audit_bundle.py`.** Takes the `claude-code-fixes` JSON array and applies each fix to the named file via `claude -p` (per-fix prompts, scoped to the named file + anchor + fix instruction). Same shell-out pattern as `_authoring.py`. Idempotent re-runs against the same JSON skip already-applied fixes.
+
+5. **Cross-validate.** Once the Gem is live, audit the same bundle through both paths (Gem and `audit_bundle.py`); diff the JSON arrays. Persistent disagreement on a finding is a signal that the bundle has genuinely ambiguous prose, not that one auditor is wrong. Track diffs under `_workspace/audit-reports/bundle-cross-check/`.
+
+**Cross-references:**
+
+- [scripts/podcast/pack_bundle_for_gemini.py](../../scripts/podcast/pack_bundle_for_gemini.py) — the consolidation packer; bundle directory → single .md with `<!-- FILE: <rel-path> START -->` / `<!-- FILE: <rel-path> END -->` delimiters. Caps output at 90 MB (Gemini's hard ceiling is 100). Skips audio/video/images/archives/bytecode by default. PDFs become path-only stubs unless `--include-pdfs` is set.
+- [prompts/gemini-bundle-auditor.md](../../prompts/gemini-bundle-auditor.md) — canonical Gem prompt with `## BEGIN GEM PROMPT` / `## END GEM PROMPT` markers. Single source of truth for both the Gemini UI Gem (paste between markers) and the Claude-native auditor (which reads the markers programmatically). All audit rules from the original spec preserved verbatim: severity tiers, articulation style, NotebookLM pitfalls, host-role consistency, the `claude-code-fixes` JSON schema.
+- [scripts/podcast/audit_bundle.py](../../scripts/podcast/audit_bundle.py) — Claude-native mirror. `python3 scripts/podcast/audit_bundle.py <bundle_dir>` → audit.md + JSON. `--json-only` pipes JSON to stdout. `--packed <file.packed.md>` skips the packer step. Exit codes: 0 = success, 1 = invalid input, 2 = `claude -p` shell-out failure, 3 = output parse failure.
+
+**Verification (to be done after the Gem exists):**
+
+1. Pack a known-good bundle (e.g., `content/published/books/kitab-al-riyad`); upload to the Gem; confirm the Gem emits a `claude-code-fixes` JSON array with no P0 findings and only expected P2 polish items.
+2. Pack a known-bad bundle (e.g., a draft with bullet lists in chapter prose, missing pronunciation appendix, multi-thesis framing); confirm Gem flags all expected categories (`articulation`, `pronunciation`, `format`).
+3. Run `audit_bundle.py` against the same two bundles; diff JSON arrays against Gem output; agreement on at least ~80% of P0/P1 findings.
+
+**Lessons captured here (for future meta-pattern synthesis):**
+
+- *Vendor constraints matter at design time, not implementation time.* The zip approach was natural-fit until it hit Gemini's hard limits. Cost of catching this late: one full Gem prompt design that had to be reworked to consume a consolidated format. Future: check vendor upload limits (file count, size, type) before committing to a delivery shape.
+- *Single source of truth for prompts.* The Gem prompt lives in [prompts/gemini-bundle-auditor.md](../../prompts/gemini-bundle-auditor.md) with explicit `BEGIN GEM PROMPT` / `END GEM PROMPT` markers so the same file feeds both the Gemini UI (human-paste) and `audit_bundle.py` (programmatic read). Duplicating the prompt between the Gemini Gem UI and a Python string literal is exactly the M7 (rule-set drift) pattern this debt file already tracks for R-rules.
+- *Operator guards are part of the design.* Any external-tool dependency (Gem, MCP, third-party API key) needs a "does this exist? prompt the operator if not" check baked into the runbook, not assumed-live.
+
+---
+
 ## Closed / shipped (historical)
 
 For X-class fixes that have already shipped, see git log on `book/kitab-al-riyad`. As of 2026-05-21:
@@ -801,6 +866,221 @@ For X-class fixes that have already shipped, see git log on `book/kitab-al-riyad
 | X5 | R-PHONETICS-OUT regex tightened (pattern #1 had false-positive on scholarly transliterations) | [c9424dd](https://github.com/asifhussain60/podcast-factory/commit/c9424dd) |
 | X6 | ﷺ honorific dedup across 4 chapters + chapter word-band 10000→10500 | [801d2fd](https://github.com/asifhussain60/podcast-factory/commit/801d2fd) |
 | X7 | Mirror X3 fix in _authoring.author_framing() (second code path) | [95c4569](https://github.com/asifhussain60/podcast-factory/commit/95c4569) |
+
+### F32 — Framing re-runs from scratch on every per_chapter_pass() restart
+
+**Where:** `scripts/podcast/orchestrate_book.py:per_chapter_pass()` — the chapter pipeline always runs `extract → author_framing → build → converge` top-to-bottom, with no checkpoint between framing and convergence.
+
+**Code confirmation:** `per_chapter_pass()` calls `author_framing(book_dir, chapter_slug)` unconditionally on every invocation. No state check, no skip condition. When the watchdog restarts the orchestrator after a crash or iter-cap halt, `per_chapter_pass()` re-runs from the top for the failed chapter — including a fresh `author_framing()` call even if the prior framing was structurally fine and the failure was a content finding in the convergence loop.
+
+**Empirical cost (master-and-the-disciple, 2026-05-25):**
+
+| Chapter | Framing calls | Challenger calls | Fixer calls |
+|---|---|---|---|
+| father-revealed-and-the-faces-of-seeking | 7 | 5 | 4 |
+| the-greater-shaykh-and-the-naming | 5 | 4 | 1 |
+| will-command-and-the-seven | 2 | 4 | 6 |
+| justice-monotheism-and-the-guardians | 1 | 2 | 1 |
+| the-call-and-the-covenant | 1 | 2 | 1 |
+| world-hereafter-and-the-right-of-wealth | 1 | 1 | 0 |
+
+`father-revealed` had 7 framing calls at avg $3.12 = ~$22 in framing for one chapter. The convergence loop itself (`_convergence.py`) never calls `author_framing()` — the re-runs all came from watchdog restarts triggering fresh `per_chapter_pass()` invocations. Each restart discarded a potentially-valid framing and paid $3.12 to regenerate it.
+
+**Impact:** Across the 6 chapters, 17 framing calls should have been ~6-8 (one per chapter, one retry for will-command). The extra 9-11 calls cost ~$28-34 unnecessarily. For a 14-chapter book with multiple restarts, this compounds to $70-100+ in redundant framings.
+
+**Proposed fix:** After `author_framing()` succeeds, write a `"framing_done": true` flag and framing file mtime to the chapter's per-chapter state extras. On `per_chapter_pass()` entry, check: if `framing_done` is set AND `00-framing.md` exists AND is non-empty AND the prior failure was not a framing-structural finding (check `challenger-report.md` for `P0-FRAMING-*` finding IDs) → skip `author_framing()` and jump directly into `converge_chapter()`. This saves one $3.12 LLM call per restart per chapter.
+
+**Verification:** Induce a watchdog restart mid-convergence (kill the orchestrator after challenge pass 1). Confirm the resumed `per_chapter_pass()` skips framing and continues at the convergence loop, with the same `00-framing.md` on disk. Confirm cost ledger shows no new `framing/<slug>` entry for the resumed pass.
+
+---
+
+### F33 — Book halts on first per-chapter failure, blocking independent subsequent chapters
+
+**Where:** `scripts/podcast/orchestrate_book.py:_drive_per_chapter_and_after()` — lines 1394-1401.
+
+**Code confirmation:**
+```python
+if outcome.final_verdict == "FAILED":
+    update_phase(book_dir, phase="per-chapter", status="failed", ...)
+    _err(f"chapter {slug} failed; halting per-chapter loop.")
+    return 2
+```
+First FAILED chapter immediately halts the entire book. Subsequent chapters in the queue never start.
+
+**Impact at scale:** For Kitab al-Riyad (14 chapters), if ch03 hits the iter-cap halt with a systemic P0, ch04-ch14 never start. The operator fixes ch03, resumes, ch04-ch14 finally begin. Wall-clock delay: the full fix-and-resume cycle (human review + fix + re-run ch03) may take 2-6 hours — during which 11 other chapters sit idle despite being fully independent. For a 14-chapter book where each chapter takes ~2h, this halt serializes what could overlap.
+
+**Nuance:** Chapters must be processed sequentially within a book (the orchestrator commits after each chapter; parallel chapter authoring risks git conflicts on shared state files). But a failed chapter does not need to block SUBSEQUENT chapters that have not yet started. The correct behavior is: mark the failed chapter, skip it, continue the remaining queue, surface all failures at the end.
+
+**Proposed fix:**
+
+1. Add `--continue-on-failure` flag (default `True` for books with ≥4 chapters, `False` for ≤3 where the overhead isn't worth it).
+2. When a chapter fails: add it to a `failures[]` list, update state with `failed_slugs: [slug1, slug2, ...]`, continue the loop.
+3. After all non-failed chapters complete: update phase to `per-chapter/partial` (new status), log a summary of failures, return code 3 (new code = partial completion).
+4. Watchdog: treat rc=3 as a human-review gate (not a crash) — stops retrying, surfaces the failed chapters list.
+5. `--retry-phase per-chapter` re-runs only the `failed_slugs`, skipping already-completed slugs as before.
+
+**Verification:** Run a 4-chapter book where ch02's contract has a known systemic P0 (inject one). Confirm ch03 and ch04 complete successfully. Confirm state.json shows `failed_slugs: ["ch02-slug"]` and `completed_slugs: ["ch01-slug", "ch03-slug", "ch04-slug"]`. Confirm `--retry-phase per-chapter` re-runs only ch02.
+
+---
+
+### F34 — Phase 0b and 0d windows run sequentially; 3× wall-clock speedup available
+
+**Where:** `scripts/podcast/_authoring.py` — Phase 0b loop over windows (calls `run_windowed()` sequentially per window); Phase 0d loop `for sc in source_chapters:` (processes each source chapter slice sequentially).
+
+**Code confirmation:** Both phases use `for` loops over independent work units. Each unit calls `_run_claude_p()` (a blocking subprocess.run call). No threads, no async, no concurrency.
+
+**Why independence holds:**
+- Phase 0b windows: each window writes to its own `win-###.md` output file. The only coupling is the 120-word overlap tail (context from prior window's output), but this is read from the prior window's output file after it completes — ordering must be maintained for the overlap, but N-2 and N+1 windows are independent. Batches of non-adjacent windows can parallelize safely.
+- Phase 0d source chapters: each chapter contract is generated from its own text slice with no cross-slice dependencies. All N source chapters can run concurrently.
+
+**Projected speedup:**
+- Phase 0b: master-and-the-disciple had 12 windows. At 10-min per window sequential = 120 min. With 3 concurrent workers = ~45 min (3× speedup). For a 20-chapter book with 20 windows: 200 min → 70 min.
+- Phase 0d: 6 source chapters. At 30-min per chapter sequential = 180 min. With 3 concurrent = 70 min.
+- Combined savings per book: ~2-3 hours of wall-clock time. For Kitab al-Riyad (14 chapters, 20+ Phase 0b windows), this is the difference between a 12-hour pipeline and an 8-hour pipeline.
+
+**Proposed fix:**
+```python
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
+# Phase 0b — replace sequential loop with batched parallel:
+with ThreadPoolExecutor(max_workers=3) as pool:
+    futures = {pool.submit(_run_window, window_args): idx for idx, window_args in enumerate(windows)}
+    for future in as_completed(futures):
+        rc, out, err = future.result()
+        # log + check rc; abort pool on failure
+```
+
+Phase 0b ordering constraint: windows with overlap must be processed in chunks where window N must complete before window N+1 reads its tail. Solution: process windows in batches of `max_workers` with a barrier between batches, or use a pipeline where each window's tail is computed from its input rather than its output (avoiding the dependency entirely).
+
+**Rate-limit safety:** claude-opus-4-7 API tier supports concurrent calls. The per-window 10-min timeout provides natural back-pressure. If a rate-limit error occurs, fall back to sequential for the failed window and retry.
+
+**Verification:** Run Phase 0b on a 12-window book with parallelism enabled. Confirm output is byte-identical to sequential run. Confirm wall-clock time is ~3× shorter. Confirm cost-ledger entries match (same total token count).
+
+---
+
+### F35 — No per-chapter LLM cost ceiling
+
+**Where:** `scripts/podcast/_convergence.py:converge_chapter()` and `scripts/podcast/orchestrate_book.py:per_chapter_pass()` — no cost check anywhere in the per-chapter pipeline.
+
+**Worst case budget:** 3 outer iterations × 5 inner challenger iterations + 3 fixer attempts per outer = up to 15 challenger calls + 9 fixer calls per chapter. At avg $3.47 challenger + $0.36 fixer = $52.05 + $3.24 = **$55.29 per chapter at full iteration burn.** For a 14-chapter book, this is $774 if every chapter hits max iterations — with no operator warning.
+
+**Empirical evidence (master-and-the-disciple, will-command-and-the-seven):** challenger=4 + fixer=6 + framing=2. Even before hitting the cap, this chapter burned ~$15-18. With 7 restarts on father-revealed, total chapter spend was ~$28-35.
+
+**Proposed fix:**
+1. Add `--chapter-cost-cap N` flag (default: $25).
+2. At the start of each outer convergence iteration, query the cost ledger: sum all entries where `step` starts with `challenger/<slug>` or `fixer/<slug>` or `framing/<slug>` since the chapter started.
+3. If accumulated cost exceeds cap: abort the convergence loop, mark chapter `FAILED` with `reason=cost_cap_exceeded`, surface to orchestrator.
+4. Orchestrator logs the cap breach with the accumulated cost; watchdog surfaces to operator.
+5. Operator can retry with `--chapter-cost-cap 40` if the chapter is worth more spend, or fix the systemic issue and retry at default cap.
+
+**Why not just rely on the iter cap?** The iter cap (3 outer × 5 inner) is a *count* ceiling, not a *cost* ceiling. A chapter that takes 6 challenger passes and no fixers burns less than one that takes 3 challenger passes and 9 fixer-of-fixer passes. The cost ceiling is a budget guard independent of iteration count.
+
+**Verification:** Set `--chapter-cost-cap 5` and run a chapter known to require 2+ challenger passes. Confirm the loop aborts after the first or second pass when the cap is reached. Confirm state.json shows `reason=cost_cap_exceeded` and the operator can resume with a higher cap.
+
+---
+
+### F36 — Azure costs not tracked; docintel/translator/speech fields always $0.00
+
+**Where:** `scripts/podcast/_azure.py` — Azure API calls for Document Intelligence (Phase 0a), Translator, and Speech TTS. `content/drafts/<slug>/_system/orchestrator-state.json` — `cost` object has the right fields but is never populated.
+
+**Code confirmation:** `orchestrator-state.json` cost object:
+```json
+{"docintel_usd": 0.0, "translator_usd": 0.0, "speech_usd": 0.0, "anthropic_usd": 0.0, "total_usd": 0.0}
+```
+All zeros on every book. The pipeline never calls any `update_state(cost=...)` after Azure API calls.
+
+**Actual Azure costs incurred (estimated for master-and-the-disciple):**
+- Document Intelligence: ~200 pages × $0.015/page = ~$3.00 (Phase 0a)
+- Azure Translator (Phase 0c): ~50,000 characters × $0.000015/char = ~$0.75
+- Azure Speech TTS (if used): not used in this pipeline (NotebookLM handles TTS)
+- **Total uncaptured: ~$3-4 per book** — invisible to operator
+
+**Proposed fix:**
+1. In `_azure.py:docintel_analyze_pdf()`: after the API response, read `result['pages']` count. Compute `cost = pages × 0.015`. Call `update_phase(book_dir, cost_delta={"docintel_usd": cost})`.
+2. In Phase 0c translator calls: accumulate character count across all windows. After phase completes, compute `cost = chars × 0.000015`. Write to `cost.translator_usd`.
+3. Add `update_phase(cost_delta={...})` to update state: read current cost, add delta, write back.
+4. Heartbeat card shows the Azure cost as the running total from state.json (already does this — will auto-populate once fields are written).
+
+**Verification:** Run Phase 0a on a 50-page test PDF. Confirm `orchestrator-state.json.cost.docintel_usd` shows ~$0.75 after the phase completes.
+
+---
+
+### F37 — No per-chapter timing data in orchestrator state
+
+**Where:** `scripts/podcast/orchestrate_book.py:_drive_per_chapter_and_after()` — state updates track only `phases.per-chapter.ts_started` (one timestamp for the whole phase). No per-chapter start/end timestamps.
+
+**Impact:**
+- Heartbeat `avg/ch` is computed as `elapsed_s / done` — inflated by retry cycles. For master-and-the-disciple: 19h elapsed / 5 done = 3h 49m avg, but clean chapters (the-call, justice) took ~1h 20m each; the 3h 49m avg is dominated by father-revealed's 7-restart cycle.
+- No way to identify which chapters are slow without manually grepping the cost ledger.
+- F35's cost ceiling implementation needs per-chapter cost tracking as its data source.
+- ETA estimates are wrong when retry cycles inflate the average: "~3h 49m remaining" when the final chapter (a clean one) will likely take ~1h 20m.
+
+**Proposed fix:** After `completed_chapter_slugs.add(slug)`, write per-chapter timing to state extras:
+```python
+update_phase(book_dir, phase="per-chapter", status="running", extras={
+    "completed_slugs": sorted(completed_chapter_slugs),
+    "chapter_timings": {
+        **prior_timings,
+        slug: {
+            "started": chapter_start_iso,
+            "completed": now_iso(),
+            "duration_s": elapsed,
+            "framing_calls": outcome.fixer_attempts,  # extend ChapterOutcome
+            "challenger_calls": outcome.outer_iterations,
+            "fixer_calls": outcome.fixer_attempts,
+            "cost_usd": chapter_cost_from_ledger,
+        }
+    }
+})
+```
+
+The heartbeat script reads `chapter_timings` and computes `avg` from completed (non-retried) chapters only, giving an accurate ETA for the remaining chapters.
+
+**Verification:** Complete a 4-chapter run. Confirm `orchestrator-state.json.phases.per-chapter.chapter_timings` has 4 entries with accurate timestamps and call counts. Confirm heartbeat `avg/ch` shows per-chapter breakdown on demand.
+
+---
+
+### F31 — No mid-book inter-chapter quality signal propagation
+
+**Where:** `scripts/podcast/orchestrate_book.py` — the per-chapter loop (`_drive_per_chapter_and_after()`, lines ~1372-1419) and `scripts/podcast/_authoring.py:author_framing()` — the framing prompt builder.
+
+**Code confirmation:** `author_framing()` reads exactly three inputs: `BOOK_DIR/chapter-contracts/<slug>.yml`, `BOOK_DIR/chapters/ch##-<slug>.txt`, and static rules from `scripts/podcast/_rules.py`. It reads no prior-chapter challenger findings, no health trend, no `_learning/findings.jsonl`. The per-chapter loop in `orchestrate_book.py` tracks `completed_chapter_slugs` (a set of slug strings) but passes nothing from completed chapters to the next slug's framing invocation — `author_framing(book_dir, slug)` is called with just `book_dir` and `slug`, no context bag. `invoke_trainer()` fires only after all chapters ship in the `publish → trainer → merge → done` pipeline — far too late to help in-flight chapters.
+
+**What goes wrong:** When ch01 produces systemic P0/P1 findings (e.g., welcome-sentence missing every time, analogy cap always blown, framing word count always over), ch02–ch06's framing authors start from scratch with the same static prompt. The challenger on ch02 surfaces the same findings. The fixer addresses them per-chapter at full LLM cost. This pattern repeats across every chapter — paying the convergence loop's full price for the same mistake repeatedly instead of eliminating the root cause after the first chapter surfaces it.
+
+**Concrete example (master-and-the-disciple):** If ch01 (the-call-and-the-covenant) produced a P1 for framing structure and ch02 (will-command-and-the-seven) repeated it, nothing in the pipeline notified ch03's (world-hereafter...) framing author to avoid the same structure. The failure mode compound linearly with chapter count: for a 14-chapter book (Kitab al-Riyad), a systemic P1 costs 14 challenger + 14 fixer passes that could have been 1 challenger + 1 framing-prompt fix.
+
+**Distinction from the trainer:** The trainer (`invoke_trainer()`) runs post-publish, edits the spec (`_rules.py`, SKILL.md), and requires a regression gate — it's a cross-book learning mechanism that changes future books' rules. F31's fix is intra-book and runtime — no spec changes, no regression gate, just reading the prior chapter's finding IDs and injecting a brief "avoid these patterns" signal into the next framing prompt.
+
+**Proposed fix — inter-chapter flash brief:**
+
+In `_drive_per_chapter_and_after()`, after `completed_chapter_slugs.add(slug)` and before the next slug's `per_chapter_pass()`, add a 3-step flash brief:
+
+```python
+# After slug N completes:
+prior_findings = _extract_prior_chapter_findings(book_dir, completed_chapter_slugs)
+# prior_findings = list of (finding_id, severity, one-line-description) from last N chapters' challenger-report.md
+# Inject into next chapter's author_framing() call via a new `prior_lessons` kwarg:
+author_framing(book_dir, next_slug, prior_lessons=prior_findings)
+```
+
+`author_framing()` appends a ≤5-bullet block to the framing prompt:
+
+```
+Prior chapter lessons (apply to this framing, do not repeat these patterns):
+- [P1-WELCOME-MISSING] ch01: opening sentence was not a direct question from Host A. Start with Host A's question.
+- [P0-WORD-BAND] ch02: framing was 3,820 words — over the 3,500 hard cap. Self-check word count before returning.
+```
+
+The flash brief is capped at the top 5 P0+P1 findings from the most recent 2 completed chapters (more than that risks prompt bloat). It is advisory — the framing author may override with explicit justification. It is NOT a spec change.
+
+**Second mechanism (parallel, simpler):** A systemic-P0 early-halt: if the SAME finding ID appears in ≥2 consecutive completed chapters, pause the per-chapter loop, surface the pattern to the operator, and offer a one-shot prompt fix before continuing. This is the signal the user described as "snowball effect" — catching a pattern after chapter 2 saves chapters 3-N.
+
+**Priority:** High — the gap compounds linearly with book length. A 14-chapter book with one systemic P1 wastes 13 unnecessary fixer passes. At ~$8/fixer pass, that's ~$100 of avoidable spend per systemic finding per book.
+
+**Verification:** Run a 4-chapter test book where ch01's framing deliberately violates the analogy cap (>5 analogies). Confirm ch02's framing prompt includes the flash brief mentioning the analogy cap violation. Confirm ch02's first challenger pass does NOT flag analogy cap (finding eliminated by the brief).
+
+---
 
 ## How to use this file
 
