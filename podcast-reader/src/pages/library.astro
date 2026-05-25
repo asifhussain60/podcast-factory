@@ -1,0 +1,343 @@
+---
+import '~/styles/global.css';
+import Icon from '~/components/ui/Icon.astro';
+import Legend from '~/components/reader/Legend';
+import ThemeScript from '~/components/layout/ThemeScript.astro';
+import ThemeToggle from '~/components/layout/ThemeToggle.astro';
+import { discoverWorktrees, getPilotBook } from '~/lib/worktree-glob';
+import { loadBookMeta } from '~/data/books';
+
+const worktrees = await discoverWorktrees();
+const pilotBook = getPilotBook();
+
+const worktreeBooks = worktrees.map((w) => ({
+  ...w,
+  bookEntries: w.books.map((slug) => ({ slug, meta: loadBookMeta(slug) })),
+}));
+
+// Stats for the hero band
+const allBooks = worktreeBooks.flatMap((w) => w.bookEntries);
+const uniqueBookSlugs = new Set(allBooks.map((b) => b.slug));
+const pilotCount = allBooks.filter((b) => b.slug === pilotBook).length;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Podcast Reader · The Library</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <ThemeScript />
+  </head>
+  <body class="min-h-screen text-stone-900 antialiased" style="background: var(--color-surface-page); color: var(--color-ink);">
+    <Legend client:load />
+    <div class="fixed top-4 left-4 z-40">
+      <ThemeToggle />
+    </div>
+
+    <!-- ─── Hero band ─────────────────────────────────────────────── -->
+    <header class="relative overflow-hidden border-b border-stone-300 bg-gradient-to-b from-white via-amber-50/30 to-stone-50">
+      <!-- gold editorial hairline -->
+      <div class="gold-hairline absolute inset-x-0 top-0" aria-hidden></div>
+
+      <!-- faint diagonal flourish — subtle paper texture -->
+      <div class="pointer-events-none absolute inset-0 opacity-[0.025]" aria-hidden style="background-image: repeating-linear-gradient(45deg, currentColor 0, currentColor 1px, transparent 1px, transparent 20px); color: var(--color-source);"></div>
+
+      <div class="relative mx-auto max-w-4xl px-6 py-20 text-center">
+        <!-- eyebrow: small-caps label between ornamental gold rules -->
+        <div class="font-ui mb-5 inline-flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.32em]" style="color: var(--color-gold-deep);">
+          <span class="h-px w-12" style="background: var(--color-gold-deep); opacity: 0.6;"></span>
+          <Icon name="library" size={12} />
+          <span>Podcast Factory · Review Companion</span>
+          <Icon name="library" size={12} />
+          <span class="h-px w-12" style="background: var(--color-gold-deep); opacity: 0.6;"></span>
+        </div>
+
+        <h1 class="text-6xl font-semibold leading-[1.05] tracking-tight text-stone-900" style="font-family: 'EB Garamond', Georgia, serif;">
+          The Library
+        </h1>
+
+        <p class="mx-auto mt-5 max-w-2xl text-lg italic leading-relaxed text-stone-600" style="font-family: 'EB Garamond', Georgia, serif;">
+          A local-first reading and review companion for classical Islamic philosophical translations and the podcast episodes that adapt them.
+        </p>
+
+        <!-- ornamental gold divider -->
+        <div class="mx-auto mt-8 flex items-center justify-center gap-3" aria-hidden>
+          <span class="h-px w-16" style="background: linear-gradient(to right, transparent, var(--color-gold-deep));"></span>
+          <span style="color: var(--color-gold-deep);">✦</span>
+          <span class="h-px w-16" style="background: linear-gradient(to left, transparent, var(--color-gold-deep));"></span>
+        </div>
+
+        <!-- stats line -->
+        <div class="mx-auto mt-8 inline-flex items-stretch gap-0 rounded-lg border border-stone-300 bg-white/60 backdrop-blur">
+          <div class="min-w-32 px-5 py-3 text-center">
+            <div class="text-[28px] font-semibold leading-none text-stone-900" style="font-family: 'EB Garamond', Georgia, serif;">{worktreeBooks.length}</div>
+            <div class="font-ui mt-1 text-[10px] font-bold uppercase tracking-[0.15em] text-stone-500">Worktrees</div>
+          </div>
+          <div class="w-px self-stretch bg-stone-300"></div>
+          <div class="min-w-32 px-5 py-3 text-center">
+            <div class="text-[28px] font-semibold leading-none text-stone-900" style="font-family: 'EB Garamond', Georgia, serif;">{uniqueBookSlugs.size}</div>
+            <div class="font-ui mt-1 text-[10px] font-bold uppercase tracking-[0.15em] text-stone-500">Unique books</div>
+          </div>
+          <div class="w-px self-stretch bg-stone-300"></div>
+          <div class="min-w-32 px-5 py-3 text-center">
+            <div class="text-[28px] font-semibold leading-none text-emerald-700" style="font-family: 'EB Garamond', Georgia, serif;">{pilotCount}</div>
+            <div class="font-ui mt-1 text-[10px] font-bold uppercase tracking-[0.15em] text-emerald-700">In pilot</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ─── Workshop tools ─────────────────────────────────────────
+         A separate, low-key panel sitting between the hero and the
+         book Library. Does NOT touch the book-card design below. -->
+    <section class="mx-auto max-w-5xl px-6 pt-10">
+      <a
+        href="/source-extractor/"
+        class="group flex items-stretch gap-5 overflow-hidden rounded-lg border bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+        style="border-color: var(--color-rule-default); color: var(--color-ink);"
+      >
+        <div class="flex w-28 shrink-0 items-center justify-center" style="background: var(--color-gold-soft); color: var(--color-gold-deep);">
+          <Icon name="folder" size={26} />
+        </div>
+        <div class="flex-1 p-5">
+          <div class="font-ui text-[10px] font-bold uppercase tracking-[0.22em]" style="color: var(--color-gold-deep);">
+            Workshop · Generated text
+          </div>
+          <h3 class="mt-1 text-xl font-semibold leading-tight" style="font-family: 'EB Garamond', Georgia, serif; color: var(--color-ink);">
+            Source-extractor review
+          </h3>
+          <p class="font-ui mt-1 text-[13px] leading-snug" style="color: var(--color-ink-secondary);">
+            Browse the raw-extract markdown for every chapter the pipeline tool generated. Urdu Nastaliq + Arabic naskh rendering for review-quality reading.
+          </p>
+        </div>
+        <div class="flex items-center pr-5">
+          <span class="font-ui inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-semibold transition" style="background: var(--color-ink); color: var(--color-ink-on-emphasis);">
+            Open
+            <Icon name="arrow-right" size={13} />
+          </span>
+        </div>
+      </a>
+    </section>
+
+    <!-- ─── Library ──────────────────────────────────────────────── -->
+    <main class="mx-auto max-w-5xl px-6 py-14">
+      {worktreeBooks.length === 0 ? (
+        <div class="rounded-lg border border-stone-300 bg-white px-6 py-12 text-center text-stone-600">
+          <Icon name="folder" size={36} class="mx-auto text-stone-400" />
+          <p class="mt-3 text-sm">
+            No worktrees found under <code class="text-xs">~/PROJECTS/podcast-factory/worktrees/</code>.
+          </p>
+        </div>
+      ) : (
+        <div class="space-y-14">
+          {worktreeBooks.map((w) => (
+            <section>
+              <!-- Worktree section header with gold ornament -->
+              <div class="mb-6 flex items-center gap-3">
+                <Icon name="folder" size={14} class="text-stone-500 shrink-0" />
+                <h2 class="font-ui text-[10px] font-bold uppercase tracking-[0.22em] text-stone-700">
+                  Worktree · {w.name}
+                </h2>
+                <span style="color: var(--color-gold-deep); opacity: 0.5;" class="text-[10px]">✦</span>
+                <div class="h-px flex-1 bg-stone-300"></div>
+                <span class="font-ui text-[10px] uppercase tracking-wider text-stone-500">
+                  {w.books.length} book{w.books.length === 1 ? '' : 's'}
+                </span>
+              </div>
+
+              {w.bookEntries.length === 0 ? (
+                <p class="font-ui rounded-lg border border-dashed border-stone-300 bg-white px-4 py-6 text-center text-xs italic text-stone-500">
+                  No books in this worktree.
+                </p>
+              ) : (
+                <div class="grid gap-6 md:grid-cols-2">
+                  {w.bookEntries.map(({ slug, meta }) => {
+                    const isPilot = slug === pilotBook;
+                    const href = isPilot ? `/${w.name}/${slug}/` : null;
+                    const Tag: 'a' | 'div' = isPilot ? 'a' : 'div';
+
+                    // Featured pilot — spans both columns, horizontal layout (cover left, metadata right)
+                    if (isPilot && href) {
+                      return (
+                        <Tag
+                          href={href}
+                          class="group relative col-span-1 md:col-span-2 flex flex-col overflow-hidden rounded-lg border-2 border-stone-300 bg-white shadow-md transition hover:-translate-y-0.5 hover:border-stone-700 hover:shadow-xl md:flex-row"
+                        >
+                          <!-- Featured ribbon (angled, gold) -->
+                          <div class="ribbon">★ Currently in pilot</div>
+
+                          <!-- Cover (left half on desktop, top on mobile) -->
+                          <div class="relative isolate flex min-h-[16rem] flex-col items-center justify-center overflow-hidden border-b-2 border-amber-300 bg-gradient-to-br from-amber-50 via-amber-100/70 to-stone-100 px-8 py-8 text-center md:w-1/2 md:min-h-0 md:border-b-0 md:border-r-2">
+                            <!-- top ornament -->
+                            <div class="mb-3 text-lg" style="color: var(--color-gold-deep); opacity: 0.55;" aria-hidden>✦</div>
+
+                            <!-- title -->
+                            <h3 class="text-3xl font-semibold leading-tight text-stone-900" style="font-family: 'EB Garamond', Georgia, serif;">
+                              {meta.titleEn}
+                            </h3>
+
+                            <!-- Arabic title -->
+                            {meta.titleAr && (
+                              <div class="mt-2 text-2xl text-stone-700" style="font-family: 'Amiri', 'Scheherazade New', serif; direction: rtl;" lang="ar">
+                                {meta.titleAr}
+                              </div>
+                            )}
+
+                            <!-- subtitle -->
+                            {meta.subtitle && (
+                              <p class="mt-4 max-w-[30ch] text-[14px] italic leading-snug text-stone-600" style="font-family: 'EB Garamond', Georgia, serif;">
+                                {meta.subtitle}
+                              </p>
+                            )}
+
+                            <!-- bottom gold mini-divider -->
+                            <div class="mt-5 flex items-center gap-2" style="color: var(--color-gold-deep); opacity: 0.5;" aria-hidden>
+                              <span class="h-px w-10 bg-current"></span>
+                              <span class="text-[10px]">✦</span>
+                              <span class="h-px w-10 bg-current"></span>
+                            </div>
+                          </div>
+
+                          <!-- Metadata (right half on desktop, below on mobile) -->
+                          <div class="flex flex-1 flex-col p-7">
+                            <div class="font-ui text-[10px] font-bold uppercase tracking-[0.18em]" style="color: var(--color-gold-deep);">
+                              Featured · v1 pilot
+                            </div>
+
+                            <!-- author -->
+                            <div class="mt-3 flex items-start gap-2">
+                              <Icon name="user" size={14} class="mt-1 shrink-0 text-stone-400" />
+                              <div class="flex-1 min-w-0">
+                                <div class="text-[15px] font-medium leading-snug text-stone-900" style="font-family: 'EB Garamond', Georgia, serif;">
+                                  {meta.author.name}
+                                </div>
+                                {meta.author.titles && meta.author.titles.length > 0 && (
+                                  <div class="font-ui mt-0.5 text-[11px] italic text-stone-500">
+                                    {meta.author.titles.join(' · ')}
+                                  </div>
+                                )}
+                                {meta.author.era && (
+                                  <div class="font-ui mt-0.5 text-[10px] uppercase tracking-[0.12em] text-stone-400">
+                                    {meta.author.era}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+
+                            <p class="mt-4 flex-1 text-[14px] leading-relaxed text-stone-700">
+                              {meta.description}
+                            </p>
+
+                            <div class="mt-5 flex items-center justify-between border-t border-stone-200 pt-4">
+                              {meta.tradition && (
+                                <span class="font-ui rounded border border-stone-300 px-2 py-0.5 text-[10px] uppercase tracking-wider text-stone-600">
+                                  {meta.tradition}
+                                </span>
+                              )}
+                              <span class="font-ui inline-flex items-center gap-1.5 rounded-md bg-stone-900 px-4 py-2 text-xs font-semibold text-white group-hover:bg-stone-700 group-hover:gap-2 transition-all">
+                                Open
+                                <Icon name="arrow-right" size={13} />
+                              </span>
+                            </div>
+                          </div>
+                        </Tag>
+                      );
+                    }
+
+                    // Standard book card (1-col, vertical)
+                    return (
+                      <Tag
+                        {...(href ? { href } : {})}
+                        class:list={[
+                          'group relative flex flex-col overflow-hidden rounded-lg border bg-white shadow-sm transition',
+                          isPilot
+                            ? 'border-stone-300 hover:-translate-y-0.5 hover:border-stone-700 hover:shadow-lg cursor-pointer'
+                            : 'border-stone-200 opacity-80',
+                        ]}
+                      >
+                        <!-- Typographic cover -->
+                        <div class="relative isolate flex h-56 flex-col items-center justify-center overflow-hidden border-b border-stone-200 bg-gradient-to-br from-stone-50 to-stone-100 px-6 py-6 text-center">
+                          <div class="absolute top-3 right-3 font-ui text-[9px] font-bold uppercase tracking-[0.25em] text-stone-500">
+                            deferred · v2
+                          </div>
+                          <div class="mb-2 text-base text-stone-400/50" aria-hidden>◆</div>
+                          <h3 class="text-2xl font-semibold leading-tight text-stone-900" style="font-family: 'EB Garamond', Georgia, serif;">
+                            {meta.titleEn}
+                          </h3>
+                          {meta.titleAr && (
+                            <div class="mt-1 text-xl text-stone-700" style="font-family: 'Amiri', 'Scheherazade New', serif; direction: rtl;" lang="ar">
+                              {meta.titleAr}
+                            </div>
+                          )}
+                          {meta.subtitle && (
+                            <p class="mt-3 line-clamp-2 max-w-[28ch] text-[13px] italic leading-snug text-stone-600" style="font-family: 'EB Garamond', Georgia, serif;">
+                              {meta.subtitle}
+                            </p>
+                          )}
+                          <div class="mt-4 flex items-center gap-2 text-stone-400/40" aria-hidden>
+                            <span class="h-px w-8 bg-current"></span>
+                            <span class="text-[10px]">◇</span>
+                            <span class="h-px w-8 bg-current"></span>
+                          </div>
+                        </div>
+
+                        <!-- Metadata -->
+                        <div class="flex flex-1 flex-col p-5">
+                          <div class="flex items-start gap-2">
+                            <Icon name="user" size={12} class="mt-1 shrink-0 text-stone-400" />
+                            <div class="flex-1 min-w-0">
+                              <div class="text-[13px] font-medium leading-snug text-stone-900" style="font-family: 'EB Garamond', Georgia, serif;">
+                                {meta.author.name}
+                              </div>
+                              {meta.author.titles && meta.author.titles.length > 0 && (
+                                <div class="font-ui mt-0.5 text-[10px] italic text-stone-500">
+                                  {meta.author.titles.join(' · ')}
+                                </div>
+                              )}
+                              {meta.author.era && (
+                                <div class="font-ui mt-0.5 text-[10px] uppercase tracking-[0.12em] text-stone-400">
+                                  {meta.author.era}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                          <p class="mt-4 line-clamp-4 flex-1 text-[13px] leading-relaxed text-stone-700">
+                            {meta.description}
+                          </p>
+                          <div class="mt-4 flex items-center justify-between border-t border-stone-200 pt-3">
+                            {meta.tradition ? (
+                              <span class="font-ui rounded border border-stone-300 px-2 py-0.5 text-[10px] uppercase tracking-wider text-stone-600">
+                                {meta.tradition}
+                              </span>
+                            ) : <span></span>}
+                          </div>
+                        </div>
+                      </Tag>
+                    );
+                  })}
+                </div>
+              )}
+            </section>
+          ))}
+        </div>
+      )}
+
+      <footer class="mt-16 border-t border-stone-200 pt-6">
+        <div class="flex flex-wrap items-center justify-between gap-3 font-ui text-[11px] text-stone-500">
+          <div class="flex items-center gap-2">
+            <Icon name="info" size={11} class="text-stone-400" />
+            <span>
+              Press <kbd class="rounded border border-stone-300 bg-white px-1 font-bold text-stone-700">?</kbd> for the reader legend
+            </span>
+          </div>
+          <div class="text-[10px] uppercase tracking-wider text-stone-400">
+            Build · Phase 0–2 shipped
+          </div>
+        </div>
+      </footer>
+    </main>
+  </body>
+</html>
+

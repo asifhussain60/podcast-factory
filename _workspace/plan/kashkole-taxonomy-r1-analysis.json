@@ -1,0 +1,6384 @@
+{
+  "version": 1,
+  "kashkole_topic_count": 1337,
+  "images": {
+    "total_pngs": 764,
+    "unique_shas": 688,
+    "exact_dupe_clusters": [
+      {
+        "sha": "9013fc6039f5a098",
+        "size": 40,
+        "paths": [
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/002.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/003.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/004.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/005.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/006.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/007.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/008.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/009.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/010.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/011.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/012.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/013.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/014.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/015.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/016.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/017.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/018.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/019.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/020.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/021.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/022.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/023.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/024.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/025.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/026.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/027.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/028.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/029.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/030.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/031.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/032.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/033.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/034.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/035.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/036.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/037.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/038.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/039.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/040.png",
+          "01-musawwadat/07-initial-12-sessions/_system/source/images/041.png"
+        ]
+      },
+      {
+        "sha": "720ddae5c99c6b54",
+        "size": 2,
+        "paths": [
+          "02-quranic-studies/04-x7905-x9542/_system/source/images/002.png",
+          "03-the-wise-reminder/01-miracles-of-quran/_system/source/images/017.png"
+        ]
+      },
+      {
+        "sha": "ed10a7ad8f019d5e",
+        "size": 2,
+        "paths": [
+          "02-quranic-studies/04-x7905-x9542/_system/source/images/005.png",
+          "03-the-wise-reminder/01-miracles-of-quran/_system/source/images/019.png"
+        ]
+      },
+      {
+        "sha": "eefd64d42dd55b8c",
+        "size": 2,
+        "paths": [
+          "02-quranic-studies/04-x7905-x9542/_system/source/images/006.png",
+          "03-the-wise-reminder/01-miracles-of-quran/_system/source/images/020.png"
+        ]
+      },
+      {
+        "sha": "8075048741c42ee1",
+        "size": 2,
+        "paths": [
+          "02-quranic-studies/04-x7905-x9542/_system/source/images/007.png",
+          "03-the-wise-reminder/01-miracles-of-quran/_system/source/images/021.png"
+        ]
+      },
+      {
+        "sha": "017b6a2fb6bbb714",
+        "size": 2,
+        "paths": [
+          "02-quranic-studies/05-aql/_system/source/images/008.png",
+          "03-the-wise-reminder/02-the-human-spirit/_system/source/images/008.png"
+        ]
+      },
+      {
+        "sha": "cee87c88514b1b2d",
+        "size": 2,
+        "paths": [
+          "02-quranic-studies/05-aql/_system/source/images/009.png",
+          "03-the-wise-reminder/02-the-human-spirit/_system/source/images/009.png"
+        ]
+      },
+      {
+        "sha": "9bd6d7e7f537439b",
+        "size": 2,
+        "paths": [
+          "02-quranic-studies/05-aql/_system/source/images/010.png",
+          "03-the-wise-reminder/02-the-human-spirit/_system/source/images/010.png"
+        ]
+      },
+      {
+        "sha": "e7e8774586329079",
+        "size": 2,
+        "paths": [
+          "02-quranic-studies/05-aql/_system/source/images/012.png",
+          "03-the-wise-reminder/02-the-human-spirit/_system/source/images/011.png"
+        ]
+      },
+      {
+        "sha": "2029190f2b740c89",
+        "size": 2,
+        "paths": [
+          "02-quranic-studies/09-bism-allah-ar-rahman-ar-rahim/_system/source/images/001.png",
+          "03-the-wise-reminder/02-the-human-spirit/_system/source/images/001.png"
+        ]
+      },
+      {
+        "sha": "093fefaf5cfd02bc",
+        "size": 2,
+        "paths": [
+          "02-quranic-studies/09-bism-allah-ar-rahman-ar-rahim/_system/source/images/004.png",
+          "02-quranic-studies/09-bism-allah-ar-rahman-ar-rahim/_system/source/images/006.png"
+        ]
+      },
+      {
+        "sha": "708809555876321b",
+        "size": 2,
+        "paths": [
+          "03-the-wise-reminder/02-the-human-spirit/_system/source/images/002.png",
+          "04-islam-iman-ihsan/02-introduction/_system/source/images/001.png"
+        ]
+      },
+      {
+        "sha": "274955fae07aeba7",
+        "size": 2,
+        "paths": [
+          "04-islam-iman-ihsan/03-islam/_system/source/images/002.png",
+          "04-islam-iman-ihsan/03-islam/_system/source/images/031.png"
+        ]
+      },
+      {
+        "sha": "77d85cfccd8c716e",
+        "size": 2,
+        "paths": [
+          "04-islam-iman-ihsan/03-islam/_system/source/images/004.png",
+          "04-islam-iman-ihsan/03-islam/_system/source/images/033.png"
+        ]
+      },
+      {
+        "sha": "6cc8b339b89e163b",
+        "size": 2,
+        "paths": [
+          "04-islam-iman-ihsan/03-islam/_system/source/images/026.png",
+          "08-muntakhab-ilmi-mazameen/02-x6478-wa-batin-ka-izdiwaj/_system/source/images/002.png"
+        ]
+      },
+      {
+        "sha": "d39e5fcf9a691678",
+        "size": 2,
+        "paths": [
+          "06-tawheed-mubdi-taala/03-x7946-aur-x8101/_system/source/images/001.png",
+          "12-daaim-al-islam-wilayat/02-x7946-aur-x8101/_system/source/images/001.png"
+        ]
+      },
+      {
+        "sha": "d7bb1ff59c59d033",
+        "size": 2,
+        "paths": [
+          "06-tawheed-mubdi-taala/03-x7946-aur-x8101/_system/source/images/002.png",
+          "12-daaim-al-islam-wilayat/02-x7946-aur-x8101/_system/source/images/002.png"
+        ]
+      },
+      {
+        "sha": "132f0e0b034bc62d",
+        "size": 2,
+        "paths": [
+          "06-tawheed-mubdi-taala/03-x7946-aur-x8101/_system/source/images/003.png",
+          "12-daaim-al-islam-wilayat/02-x7946-aur-x8101/_system/source/images/003.png"
+        ]
+      },
+      {
+        "sha": "b478244e261c97f5",
+        "size": 3,
+        "paths": [
+          "06-tawheed-mubdi-taala/03-x7946-aur-x8101/_system/source/images/004.png",
+          "12-daaim-al-islam-wilayat/02-x7946-aur-x8101/_system/source/images/004.png",
+          "18-ali-ibn-abi-talib-alayhi-as-salam/02-x9573-ali-ki-x7944/_system/source/images/001.png"
+        ]
+      },
+      {
+        "sha": "3fa74e4b34bf1de0",
+        "size": 3,
+        "paths": [
+          "06-tawheed-mubdi-taala/03-x7946-aur-x8101/_system/source/images/005.png",
+          "12-daaim-al-islam-wilayat/02-x7946-aur-x8101/_system/source/images/005.png",
+          "18-ali-ibn-abi-talib-alayhi-as-salam/02-x9573-ali-ki-x7944/_system/source/images/002.png"
+        ]
+      },
+      {
+        "sha": "022d5f44b2f44ab4",
+        "size": 2,
+        "paths": [
+          "07-uloom-mabda-wa-maad/12-maratib-aur-majame/_system/source/images/010.png",
+          "07-uloom-mabda-wa-maad/12-maratib-aur-majame/_system/source/images/014.png"
+        ]
+      },
+      {
+        "sha": "cc73953d0cd891e2",
+        "size": 3,
+        "paths": [
+          "10-kalimat-rabbani-ki-taweelat/03-bism-allah-ar-rahman-ar-rahim-ki-taweel/_system/source/images/002.png",
+          "10-kalimat-rabbani-ki-taweelat/03-bism-allah-ar-rahman-ar-rahim-ki-taweel/_system/source/images/004.png",
+          "10-kalimat-rabbani-ki-taweelat/03-bism-allah-ar-rahman-ar-rahim-ki-taweel/_system/source/images/005.png"
+        ]
+      },
+      {
+        "sha": "e46fd77e1eb1de3b",
+        "size": 2,
+        "paths": [
+          "10-kalimat-rabbani-ki-taweelat/05-x7904-aur-x9544-ki-taweel-wa-x7934/_system/source/images/013.png",
+          "10-kalimat-rabbani-ki-taweelat/05-x7904-aur-x9544-ki-taweel-wa-x7934/_system/source/images/028.png"
+        ]
+      },
+      {
+        "sha": "46d8ae48bbf15369",
+        "size": 2,
+        "paths": [
+          "10-kalimat-rabbani-ki-taweelat/05-x7904-aur-x9544-ki-taweel-wa-x7934/_system/source/images/075.png",
+          "10-kalimat-rabbani-ki-taweelat/05-x7904-aur-x9544-ki-taweel-wa-x7934/_system/source/images/076.png"
+        ]
+      },
+      {
+        "sha": "35db854cd9155f90",
+        "size": 2,
+        "paths": [
+          "12-daaim-al-islam-wilayat/06-wilayat-ki-x8227-aur-x7948/_system/source/images/006.png",
+          "18-ali-ibn-abi-talib-alayhi-as-salam/02-x9573-ali-ki-x7944/_system/source/images/005.png"
+        ]
+      },
+      {
+        "sha": "7e32157d542b616b",
+        "size": 2,
+        "paths": [
+          "12-daaim-al-islam-wilayat/06-wilayat-ki-x8227-aur-x7948/_system/source/images/007.png",
+          "18-ali-ibn-abi-talib-alayhi-as-salam/02-x9573-ali-ki-x7944/_system/source/images/006.png"
+        ]
+      },
+      {
+        "sha": "e11715e255cd06f6",
+        "size": 2,
+        "paths": [
+          "12-daaim-al-islam-wilayat/06-wilayat-ki-x8227-aur-x7948/_system/source/images/008.png",
+          "18-ali-ibn-abi-talib-alayhi-as-salam/02-x9573-ali-ki-x7944/_system/source/images/007.png"
+        ]
+      },
+      {
+        "sha": "65c72a576bdfeff4",
+        "size": 2,
+        "paths": [
+          "12-daaim-al-islam-wilayat/06-wilayat-ki-x8227-aur-x7948/_system/source/images/009.png",
+          "18-ali-ibn-abi-talib-alayhi-as-salam/02-x9573-ali-ki-x7944/_system/source/images/008.png"
+        ]
+      },
+      {
+        "sha": "cc17ea7be5260862",
+        "size": 2,
+        "paths": [
+          "12-daaim-al-islam-wilayat/06-wilayat-ki-x8227-aur-x7948/_system/source/images/010.png",
+          "18-ali-ibn-abi-talib-alayhi-as-salam/02-x9573-ali-ki-x7944/_system/source/images/009.png"
+        ]
+      },
+      {
+        "sha": "382af87691208e13",
+        "size": 2,
+        "paths": [
+          "12-daaim-al-islam-wilayat/06-wilayat-ki-x8227-aur-x7948/_system/source/images/011.png",
+          "18-ali-ibn-abi-talib-alayhi-as-salam/02-x9573-ali-ki-x7944/_system/source/images/010.png"
+        ]
+      },
+      {
+        "sha": "1dc8cd4f414b01d2",
+        "size": 2,
+        "paths": [
+          "12-daaim-al-islam-wilayat/06-wilayat-ki-x8227-aur-x7948/_system/source/images/012.png",
+          "18-ali-ibn-abi-talib-alayhi-as-salam/02-x9573-ali-ki-x7944/_system/source/images/011.png"
+        ]
+      },
+      {
+        "sha": "3be1c7c7de9e2fdb",
+        "size": 2,
+        "paths": [
+          "12-daaim-al-islam-wilayat/06-wilayat-ki-x8227-aur-x7948/_system/source/images/013.png",
+          "18-ali-ibn-abi-talib-alayhi-as-salam/02-x9573-ali-ki-x7944/_system/source/images/012.png"
+        ]
+      },
+      {
+        "sha": "5ccb202d954cf465",
+        "size": 2,
+        "paths": [
+          "12-daaim-al-islam-wilayat/06-wilayat-ki-x8227-aur-x7948/_system/source/images/014.png",
+          "18-ali-ibn-abi-talib-alayhi-as-salam/02-x9573-ali-ki-x7944/_system/source/images/013.png"
+        ]
+      },
+      {
+        "sha": "961dbc7b2a758ac7",
+        "size": 2,
+        "paths": [
+          "12-daaim-al-islam-wilayat/06-wilayat-ki-x8227-aur-x7948/_system/source/images/015.png",
+          "18-ali-ibn-abi-talib-alayhi-as-salam/02-x9573-ali-ki-x7944/_system/source/images/014.png"
+        ]
+      },
+      {
+        "sha": "deb40eabf8376a89",
+        "size": 2,
+        "paths": [
+          "12-daaim-al-islam-wilayat/06-wilayat-ki-x8227-aur-x7948/_system/source/images/016.png",
+          "18-ali-ibn-abi-talib-alayhi-as-salam/02-x9573-ali-ki-x7944/_system/source/images/015.png"
+        ]
+      }
+    ],
+    "perceptual_near_dupe_clusters": [
+      {
+        "shas": [
+          "4529ef0a5dc51875",
+          "784392ba49a210ef"
+        ],
+        "size": 2,
+        "paths": [
+          "02-quranic-studies/05-aql/_system/source/images/005.png",
+          "04-islam-iman-ihsan/03-islam/_system/source/images/017.png"
+        ]
+      },
+      {
+        "shas": [
+          "1bcbe60d4b3ff01b",
+          "274e0ec587487f6b"
+        ],
+        "size": 2,
+        "paths": [
+          "02-quranic-studies/10-x7948-x4937-x3161-x1328/_system/source/images/002.png",
+          "04-islam-iman-ihsan/03-islam/_system/source/images/012.png"
+        ]
+      },
+      {
+        "shas": [
+          "9e72fd555a2074e5",
+          "e478dfb231f929d2"
+        ],
+        "size": 2,
+        "paths": [
+          "03-the-wise-reminder/02-the-human-spirit/_system/source/images/006.png",
+          "03-the-wise-reminder/02-the-human-spirit/_system/source/images/015.png"
+        ]
+      },
+      {
+        "shas": [
+          "bcfeacb11451747d",
+          "cc423bde0e5609ff"
+        ],
+        "size": 2,
+        "paths": [
+          "03-the-wise-reminder/02-the-human-spirit/_system/source/images/014.png",
+          "03-the-wise-reminder/02-the-human-spirit/_system/source/images/016.png"
+        ]
+      },
+      {
+        "shas": [
+          "cd6c579caf03b749",
+          "d2335657e00ea48b"
+        ],
+        "size": 2,
+        "paths": [
+          "04-islam-iman-ihsan/03-islam/_system/source/images/020.png",
+          "04-islam-iman-ihsan/03-islam/_system/source/images/032.png"
+        ]
+      },
+      {
+        "shas": [
+          "df76dd9dd00d6fb2",
+          "e2c9655cbff76293"
+        ],
+        "size": 2,
+        "paths": [
+          "05-adab-wa-akhlaq-hasana/02-adab-ke-x7982-x7964/_system/source/images/001.png",
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/078.png"
+        ]
+      },
+      {
+        "shas": [
+          "e39f5d2fa6b09bff",
+          "efc0e70dcdc05980"
+        ],
+        "size": 2,
+        "paths": [
+          "05-adab-wa-akhlaq-hasana/02-adab-ke-x7982-x7964/_system/source/images/003.png",
+          "10-kalimat-rabbani-ki-taweelat/04-surah-x1246-ki-taweel/_system/source/images/009.png"
+        ]
+      },
+      {
+        "shas": [
+          "4c140cc90dc427f8",
+          "71a11c6ae4d78f6c",
+          "86d9f6594282e658",
+          "c64330d009090072"
+        ],
+        "size": 4,
+        "paths": [
+          "05-adab-wa-akhlaq-hasana/03-wilayat-se-x7982-mazameen/_system/source/images/004.png",
+          "10-kalimat-rabbani-ki-taweelat/05-x7904-aur-x9544-ki-taweel-wa-x7934/_system/source/images/015.png",
+          "10-kalimat-rabbani-ki-taweelat/05-x7904-aur-x9544-ki-taweel-wa-x7934/_system/source/images/042.png",
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/001.png"
+        ]
+      },
+      {
+        "shas": [
+          "11c8155a1cdcc03a",
+          "de18d83daf7b6141"
+        ],
+        "size": 2,
+        "paths": [
+          "06-tawheed-mubdi-taala/06-x6643-x1270-ke-x7970-x7910/_system/source/images/013.png",
+          "06-tawheed-mubdi-taala/06-x6643-x1270-ke-x7970-x7910/_system/source/images/014.png"
+        ]
+      },
+      {
+        "shas": [
+          "e413cc8be44250bb",
+          "e9fad490c982cfcd"
+        ],
+        "size": 2,
+        "paths": [
+          "06-tawheed-mubdi-taala/07-x6645-x1270-ki-x3562-x1413/_system/source/images/006.png",
+          "06-tawheed-mubdi-taala/07-x6645-x1270-ki-x3562-x1413/_system/source/images/011.png"
+        ]
+      },
+      {
+        "shas": [
+          "5eb9f91f61580f3c",
+          "6d59c36bb5460791",
+          "e5bdcb2d6d8bd8da"
+        ],
+        "size": 3,
+        "paths": [
+          "06-tawheed-mubdi-taala/07-x6645-x1270-ki-x3562-x1413/_system/source/images/010.png",
+          "06-tawheed-mubdi-taala/07-x6645-x1270-ki-x3562-x1413/_system/source/images/012.png",
+          "06-tawheed-mubdi-taala/07-x6645-x1270-ki-x3562-x1413/_system/source/images/013.png"
+        ]
+      },
+      {
+        "shas": [
+          "03e8593bf880841e",
+          "61b1869055cd597a"
+        ],
+        "size": 2,
+        "paths": [
+          "07-uloom-mabda-wa-maad/01-tashkeel-aalam-ruhani/_system/source/images/001.png",
+          "07-uloom-mabda-wa-maad/04-saat-uqool/_system/source/images/002.png"
+        ]
+      },
+      {
+        "shas": [
+          "6b0dae871c535b7e",
+          "b9c89bc0c048b1c8"
+        ],
+        "size": 2,
+        "paths": [
+          "07-uloom-mabda-wa-maad/12-maratib-aur-majame/_system/source/images/001.png",
+          "07-uloom-mabda-wa-maad/12-maratib-aur-majame/_system/source/images/002.png"
+        ]
+      },
+      {
+        "shas": [
+          "1d87ed27a140f00e",
+          "ac29f1ca66a27547",
+          "c7ee437efc534948"
+        ],
+        "size": 3,
+        "paths": [
+          "07-uloom-mabda-wa-maad/12-maratib-aur-majame/_system/source/images/008.png",
+          "07-uloom-mabda-wa-maad/12-maratib-aur-majame/_system/source/images/016.png",
+          "07-uloom-mabda-wa-maad/12-maratib-aur-majame/_system/source/images/024.png"
+        ]
+      },
+      {
+        "shas": [
+          "022d5f44b2f44ab4",
+          "903f47d6ce7f5d3f"
+        ],
+        "size": 3,
+        "paths": [
+          "07-uloom-mabda-wa-maad/12-maratib-aur-majame/_system/source/images/010.png",
+          "07-uloom-mabda-wa-maad/12-maratib-aur-majame/_system/source/images/014.png",
+          "07-uloom-mabda-wa-maad/12-maratib-aur-majame/_system/source/images/020.png"
+        ]
+      },
+      {
+        "shas": [
+          "a555b35cb9a1a839",
+          "b3dec683c78eaa54"
+        ],
+        "size": 2,
+        "paths": [
+          "07-uloom-mabda-wa-maad/12-maratib-aur-majame/_system/source/images/011.png",
+          "08-muntakhab-ilmi-mazameen/08-kitab-misbah-al-shariah/_system/source/images/004.png"
+        ]
+      },
+      {
+        "shas": [
+          "7c8ef6bcc0f44cf8",
+          "d89a4e45baf8d364",
+          "dc06e57b62eae05b",
+          "edf8eb398766b0f7",
+          "fab29b603d78df8a"
+        ],
+        "size": 5,
+        "paths": [
+          "07-uloom-mabda-wa-maad/12-maratib-aur-majame/_system/source/images/028.png",
+          "07-uloom-mabda-wa-maad/12-maratib-aur-majame/_system/source/images/037.png",
+          "07-uloom-mabda-wa-maad/12-maratib-aur-majame/_system/source/images/038.png",
+          "10-kalimat-rabbani-ki-taweelat/03-bism-allah-ar-rahman-ar-rahim-ki-taweel/_system/source/images/008.png",
+          "12-daaim-al-islam-wilayat/05-wilayat-x4908-x4894/_system/source/images/004.png"
+        ]
+      },
+      {
+        "shas": [
+          "03f9742b5b8e49ca",
+          "c84a6e522aea320a"
+        ],
+        "size": 2,
+        "paths": [
+          "08-muntakhab-ilmi-mazameen/08-kitab-misbah-al-shariah/_system/source/images/009.png",
+          "08-muntakhab-ilmi-mazameen/08-kitab-misbah-al-shariah/_system/source/images/010.png"
+        ]
+      },
+      {
+        "shas": [
+          "2e271d26ad6f3922",
+          "9e858960a2539f2d"
+        ],
+        "size": 2,
+        "paths": [
+          "08-muntakhab-ilmi-mazameen/08-kitab-misbah-al-shariah/_system/source/images/014.png",
+          "10-kalimat-rabbani-ki-taweelat/02-x9633-x6530-alayhi-as-salam-ki-taweel/_system/source/images/001.png"
+        ]
+      },
+      {
+        "shas": [
+          "8e316d33748383a0",
+          "b9fad66bbf207337"
+        ],
+        "size": 2,
+        "paths": [
+          "09-ghazali-kimiya-as-saadah/01-disciplining-the-soul/_system/source/images/001.png",
+          "09-ghazali-kimiya-as-saadah/01-disciplining-the-soul/_system/source/images/003.png"
+        ]
+      },
+      {
+        "shas": [
+          "5f2c2cbdc111567a",
+          "6a1cc7923a73621c"
+        ],
+        "size": 2,
+        "paths": [
+          "10-kalimat-rabbani-ki-taweelat/02-x9633-x6530-alayhi-as-salam-ki-taweel/_system/source/images/007.png",
+          "13-daaim-al-islam-taharat/04-x8046-x4806-ke-x8088-x6544/_system/source/images/003.png"
+        ]
+      },
+      {
+        "shas": [
+          "732ff761fc9ab901",
+          "e7771b4447e2c3c7"
+        ],
+        "size": 2,
+        "paths": [
+          "10-kalimat-rabbani-ki-taweelat/02-x9633-x6530-alayhi-as-salam-ki-taweel/_system/source/images/016.png",
+          "10-kalimat-rabbani-ki-taweelat/02-x9633-x6530-alayhi-as-salam-ki-taweel/_system/source/images/023.png"
+        ]
+      },
+      {
+        "shas": [
+          "a5e12cd82ea6907b",
+          "fb63ddc2d12159ca"
+        ],
+        "size": 2,
+        "paths": [
+          "10-kalimat-rabbani-ki-taweelat/04-surah-x1246-ki-taweel/_system/source/images/003.png",
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/018.png"
+        ]
+      },
+      {
+        "shas": [
+          "2fedda9617d1765a",
+          "414ca183a0a92cbb",
+          "ac03306844d53732",
+          "b75e259909df0543"
+        ],
+        "size": 4,
+        "paths": [
+          "10-kalimat-rabbani-ki-taweelat/04-surah-x1246-ki-taweel/_system/source/images/008.png",
+          "10-kalimat-rabbani-ki-taweelat/04-surah-x1246-ki-taweel/_system/source/images/016.png",
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/112.png",
+          "12-daaim-al-islam-wilayat/05-wilayat-x4908-x4894/_system/source/images/008.png"
+        ]
+      },
+      {
+        "shas": [
+          "6aaf0d11f240164d",
+          "a44999770c95bfb5",
+          "cad4a9e08dad32e6"
+        ],
+        "size": 3,
+        "paths": [
+          "10-kalimat-rabbani-ki-taweelat/04-surah-x1246-ki-taweel/_system/source/images/017.png",
+          "10-kalimat-rabbani-ki-taweelat/05-x7904-aur-x9544-ki-taweel-wa-x7934/_system/source/images/040.png",
+          "10-kalimat-rabbani-ki-taweelat/05-x7904-aur-x9544-ki-taweel-wa-x7934/_system/source/images/041.png"
+        ]
+      },
+      {
+        "shas": [
+          "4abbb5bdc320c35b",
+          "95870646eda070c7"
+        ],
+        "size": 2,
+        "paths": [
+          "10-kalimat-rabbani-ki-taweelat/05-x7904-aur-x9544-ki-taweel-wa-x7934/_system/source/images/012.png",
+          "10-kalimat-rabbani-ki-taweelat/05-x7904-aur-x9544-ki-taweel-wa-x7934/_system/source/images/027.png"
+        ]
+      },
+      {
+        "shas": [
+          "8ab6bd91cf41eff5",
+          "cb80a4d138162d7e"
+        ],
+        "size": 2,
+        "paths": [
+          "10-kalimat-rabbani-ki-taweelat/05-x7904-aur-x9544-ki-taweel-wa-x7934/_system/source/images/016.png",
+          "10-kalimat-rabbani-ki-taweelat/05-x7904-aur-x9544-ki-taweel-wa-x7934/_system/source/images/019.png"
+        ]
+      },
+      {
+        "shas": [
+          "8a9f11eaa4ebf34c",
+          "97f21292277900ba"
+        ],
+        "size": 2,
+        "paths": [
+          "10-kalimat-rabbani-ki-taweelat/05-x7904-aur-x9544-ki-taweel-wa-x7934/_system/source/images/048.png",
+          "10-kalimat-rabbani-ki-taweelat/05-x7904-aur-x9544-ki-taweel-wa-x7934/_system/source/images/049.png"
+        ]
+      },
+      {
+        "shas": [
+          "2d09896e5c7bb5d5",
+          "7dbd2c2bb703ea81"
+        ],
+        "size": 2,
+        "paths": [
+          "10-kalimat-rabbani-ki-taweelat/05-x7904-aur-x9544-ki-taweel-wa-x7934/_system/source/images/052.png",
+          "10-kalimat-rabbani-ki-taweelat/05-x7904-aur-x9544-ki-taweel-wa-x7934/_system/source/images/053.png"
+        ]
+      },
+      {
+        "shas": [
+          "ac55bb419f6b665d",
+          "b7057d2fe37aa0f6"
+        ],
+        "size": 2,
+        "paths": [
+          "10-kalimat-rabbani-ki-taweelat/05-x7904-aur-x9544-ki-taweel-wa-x7934/_system/source/images/065.png",
+          "10-kalimat-rabbani-ki-taweelat/05-x7904-aur-x9544-ki-taweel-wa-x7934/_system/source/images/066.png"
+        ]
+      },
+      {
+        "shas": [
+          "1b0cdd9d8285b1d9",
+          "d774669d87c277ac"
+        ],
+        "size": 2,
+        "paths": [
+          "10-kalimat-rabbani-ki-taweelat/05-x7904-aur-x9544-ki-taweel-wa-x7934/_system/source/images/067.png",
+          "10-kalimat-rabbani-ki-taweelat/05-x7904-aur-x9544-ki-taweel-wa-x7934/_system/source/images/069.png"
+        ]
+      },
+      {
+        "shas": [
+          "382af87691208e13",
+          "549b642d06ea868f"
+        ],
+        "size": 3,
+        "paths": [
+          "10-kalimat-rabbani-ki-taweelat/05-x7904-aur-x9544-ki-taweel-wa-x7934/_system/source/images/077.png",
+          "12-daaim-al-islam-wilayat/06-wilayat-ki-x8227-aur-x7948/_system/source/images/011.png",
+          "18-ali-ibn-abi-talib-alayhi-as-salam/02-x9573-ali-ki-x7944/_system/source/images/010.png"
+        ]
+      },
+      {
+        "shas": [
+          "b792a597e9879b71",
+          "dc9d60cb7dd99726"
+        ],
+        "size": 2,
+        "paths": [
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/002.png",
+          "13-daaim-al-islam-taharat/04-x8046-x4806-ke-x8088-x6544/_system/source/images/002.png"
+        ]
+      },
+      {
+        "shas": [
+          "1da244b14130252c",
+          "53b4510e919fe12f"
+        ],
+        "size": 2,
+        "paths": [
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/004.png",
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/086.png"
+        ]
+      },
+      {
+        "shas": [
+          "ab4c593e18b662f0",
+          "ff228cbfef2a94b4"
+        ],
+        "size": 2,
+        "paths": [
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/007.png",
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/039.png"
+        ]
+      },
+      {
+        "shas": [
+          "3d598ce2641eee30",
+          "b81835f70c8bffa4"
+        ],
+        "size": 2,
+        "paths": [
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/008.png",
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/017.png"
+        ]
+      },
+      {
+        "shas": [
+          "174cee560f3e379c",
+          "84dafd953cf9d934",
+          "be2dad1f46351fde"
+        ],
+        "size": 3,
+        "paths": [
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/019.png",
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/021.png",
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/022.png"
+        ]
+      },
+      {
+        "shas": [
+          "0eec2a20680381b7",
+          "d37181fd79fb6cbc",
+          "d9fe3c34318131fd"
+        ],
+        "size": 3,
+        "paths": [
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/025.png",
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/026.png",
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/031.png"
+        ]
+      },
+      {
+        "shas": [
+          "66207f2a5407c5ec",
+          "90ee7da3a05d742c"
+        ],
+        "size": 2,
+        "paths": [
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/035.png",
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/043.png"
+        ]
+      },
+      {
+        "shas": [
+          "7e32157d542b616b",
+          "c5e538cdccec65cf",
+          "f302b0697f35e650"
+        ],
+        "size": 4,
+        "paths": [
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/036.png",
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/066.png",
+          "12-daaim-al-islam-wilayat/06-wilayat-ki-x8227-aur-x7948/_system/source/images/007.png",
+          "18-ali-ibn-abi-talib-alayhi-as-salam/02-x9573-ali-ki-x7944/_system/source/images/006.png"
+        ]
+      },
+      {
+        "shas": [
+          "13dfaeb4ca8c59dc",
+          "2843f13a1c46ee82"
+        ],
+        "size": 2,
+        "paths": [
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/038.png",
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/065.png"
+        ]
+      },
+      {
+        "shas": [
+          "303a996adb4e2fcf",
+          "dca031f307f38fbf"
+        ],
+        "size": 2,
+        "paths": [
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/041.png",
+          "18-ali-ibn-abi-talib-alayhi-as-salam/09-ali-ke-x1314/_system/source/images/006.png"
+        ]
+      },
+      {
+        "shas": [
+          "7405881ecc9c6e05",
+          "c7dcad043787a61e"
+        ],
+        "size": 2,
+        "paths": [
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/046.png",
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/048.png"
+        ]
+      },
+      {
+        "shas": [
+          "aafad2257f35f673",
+          "be1c04ab4c3398fb"
+        ],
+        "size": 2,
+        "paths": [
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/050.png",
+          "18-ali-ibn-abi-talib-alayhi-as-salam/09-ali-ke-x1314/_system/source/images/001.png"
+        ]
+      },
+      {
+        "shas": [
+          "6af39362e5a1fa3b",
+          "8b94f20cf028ddd6",
+          "f7900e37c61eae48"
+        ],
+        "size": 3,
+        "paths": [
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/054.png",
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/055.png",
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/059.png"
+        ]
+      },
+      {
+        "shas": [
+          "598eb370f5ff5ab5",
+          "6a9034e63e8a2496"
+        ],
+        "size": 2,
+        "paths": [
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/056.png",
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/071.png"
+        ]
+      },
+      {
+        "shas": [
+          "7772b6317af49361",
+          "80fec9132536e378"
+        ],
+        "size": 2,
+        "paths": [
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/057.png",
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/058.png"
+        ]
+      },
+      {
+        "shas": [
+          "1b8a538b1b776f6c",
+          "8d6845954a95148f"
+        ],
+        "size": 2,
+        "paths": [
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/067.png",
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/089.png"
+        ]
+      },
+      {
+        "shas": [
+          "62a0564351089b4e",
+          "744d99292a96f4ef",
+          "ca458b846d2ecb9f"
+        ],
+        "size": 3,
+        "paths": [
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/070.png",
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/074.png",
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/075.png"
+        ]
+      },
+      {
+        "shas": [
+          "6ed13286408b30eb",
+          "cc17ea7be5260862"
+        ],
+        "size": 3,
+        "paths": [
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/082.png",
+          "12-daaim-al-islam-wilayat/06-wilayat-ki-x8227-aur-x7948/_system/source/images/010.png",
+          "18-ali-ibn-abi-talib-alayhi-as-salam/02-x9573-ali-ki-x7944/_system/source/images/009.png"
+        ]
+      },
+      {
+        "shas": [
+          "3c646c5633828243",
+          "8337dcab141b071c"
+        ],
+        "size": 2,
+        "paths": [
+          "10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/images/088.png",
+          "18-ali-ibn-abi-talib-alayhi-as-salam/02-x9573-ali-ki-x7944/_system/source/images/016.png"
+        ]
+      },
+      {
+        "shas": [
+          "71b01ad2c3e46973",
+          "a1851dfb10d6c4ed"
+        ],
+        "size": 2,
+        "paths": [
+          "12-daaim-al-islam-wilayat/05-wilayat-x4908-x4894/_system/source/images/002.png",
+          "14-daaim-al-islam-salawat/02-x6372-ka-x6497/_system/source/images/014.png"
+        ]
+      },
+      {
+        "shas": [
+          "21dabb99724fb39e",
+          "510850a8a73f4593"
+        ],
+        "size": 2,
+        "paths": [
+          "12-daaim-al-islam-wilayat/06-wilayat-ki-x8227-aur-x7948/_system/source/images/017.png",
+          "18-ali-ibn-abi-talib-alayhi-as-salam/02-x9573-ali-ki-x7944/_system/source/images/018.png"
+        ]
+      },
+      {
+        "shas": [
+          "244101d986af0e48",
+          "5d9b80035ff2aab1"
+        ],
+        "size": 2,
+        "paths": [
+          "13-daaim-al-islam-taharat/04-x8046-x4806-ke-x8088-x6544/_system/source/images/004.png",
+          "13-daaim-al-islam-taharat/05-x4785-ka-x6497/_system/source/images/001.png"
+        ]
+      },
+      {
+        "shas": [
+          "3d91fa3d3ace4a23",
+          "4cd24e172bebe43b",
+          "e4a45c6a0dd6bc40"
+        ],
+        "size": 3,
+        "paths": [
+          "16-daaim-al-islam-as-sawm/04-x6532-x1442/_system/source/images/004.png",
+          "16-daaim-al-islam-as-sawm/04-x6532-x1442/_system/source/images/006.png",
+          "16-daaim-al-islam-as-sawm/04-x6532-x1442/_system/source/images/007.png"
+        ]
+      }
+    ]
+  },
+  "topic_content": {
+    "exact_html_dupe_clusters": [
+      {
+        "sha": "18d2d9a8e7f81d4b",
+        "size": 2,
+        "topics": [
+          {
+            "binder_id": 6,
+            "chapter_id": 46,
+            "topic_id": 821,
+            "topic_name": "ولایت کی اہمیت",
+            "binder_name": "علی ابن ابی طالب علیہ السلام",
+            "chapter_name": "مولانا علی کی فضائل"
+          },
+          {
+            "binder_id": 19,
+            "chapter_id": 122,
+            "topic_id": 821,
+            "topic_name": "ولایت کی اہمیت",
+            "binder_name": "دعائم الاسلام : ولایت",
+            "chapter_name": "ولایت کی اہمیت اور اوصاف"
+          }
+        ]
+      },
+      {
+        "sha": "776795930443cf99",
+        "size": 2,
+        "topics": [
+          {
+            "binder_id": 8,
+            "chapter_id": 18,
+            "topic_id": 3553,
+            "topic_name": "جسمانی و نفسانی بیمار اور اس کا علاج",
+            "binder_name": "کلمات ربانی کی تاویلات",
+            "chapter_name": "قرآنی آیات کی تاویل"
+          },
+          {
+            "binder_id": 23,
+            "chapter_id": 87,
+            "topic_id": 3553,
+            "topic_name": "جسمانی و نفسانی بیمار اور اس کا علاج",
+            "binder_name": "منتخب علمی مضامین",
+            "chapter_name": "کتاب العالم والغلام"
+          }
+        ]
+      },
+      {
+        "sha": "abc9e462c95892bc",
+        "size": 2,
+        "topics": [
+          {
+            "binder_id": 8,
+            "chapter_id": 24,
+            "topic_id": 599,
+            "topic_name": "پانی پر بسم اللہ پڑھ کر دم کرنے کی روایت",
+            "binder_name": "کلمات ربانی کی تاویلات",
+            "chapter_name": "بسم اللہ الرحمن الرحیم کی تاویل"
+          },
+          {
+            "binder_id": 8,
+            "chapter_id": 9,
+            "topic_id": 599,
+            "topic_name": "پانی پر بسم اللہ پڑھ کر دم کرنے کی روایت",
+            "binder_name": "کلمات ربانی کی تاویلات",
+            "chapter_name": "احادیث نبوی علیہ السلام کی تاویل"
+          }
+        ]
+      },
+      {
+        "sha": "bfa51fec269948b4",
+        "size": 2,
+        "topics": [
+          {
+            "binder_id": 8,
+            "chapter_id": 9,
+            "topic_id": 9,
+            "topic_name": "من عرف نفسہ فقد عرف ربہ",
+            "binder_name": "کلمات ربانی کی تاویلات",
+            "chapter_name": "احادیث نبوی علیہ السلام کی تاویل"
+          },
+          {
+            "binder_id": 24,
+            "chapter_id": 121,
+            "topic_id": 9,
+            "topic_name": "من عرف نفسہ فقد عرف ربہ",
+            "binder_name": "توحید مبدع تعالی",
+            "chapter_name": "توحید کا تصور"
+          }
+        ]
+      },
+      {
+        "sha": "d5d7a66e9b48f09b",
+        "size": 2,
+        "topics": [
+          {
+            "binder_id": 19,
+            "chapter_id": 71,
+            "topic_id": 1393,
+            "topic_name": "ایمان کیا ہے؟",
+            "binder_name": "دعائم الاسلام : ولایت",
+            "chapter_name": "اسلام اور ایمان"
+          },
+          {
+            "binder_id": 24,
+            "chapter_id": 71,
+            "topic_id": 1393,
+            "topic_name": "ایمان کیا ہے؟",
+            "binder_name": "توحید مبدع تعالی",
+            "chapter_name": "اسلام اور ایمان"
+          }
+        ]
+      },
+      {
+        "sha": "3ddf622e41bf9eea",
+        "size": 2,
+        "topics": [
+          {
+            "binder_id": 19,
+            "chapter_id": 71,
+            "topic_id": 1405,
+            "topic_name": "دل، زبان اور جسم کا ایمان",
+            "binder_name": "دعائم الاسلام : ولایت",
+            "chapter_name": "اسلام اور ایمان"
+          },
+          {
+            "binder_id": 24,
+            "chapter_id": 71,
+            "topic_id": 1405,
+            "topic_name": "دل، زبان اور جسم کا ایمان",
+            "binder_name": "توحید مبدع تعالی",
+            "chapter_name": "اسلام اور ایمان"
+          }
+        ]
+      },
+      {
+        "sha": "67acb34245e1e6b9",
+        "size": 2,
+        "topics": [
+          {
+            "binder_id": 19,
+            "chapter_id": 71,
+            "topic_id": 839,
+            "topic_name": "ایمان اور مومنین کی ۳ اقسام",
+            "binder_name": "دعائم الاسلام : ولایت",
+            "chapter_name": "اسلام اور ایمان"
+          },
+          {
+            "binder_id": 24,
+            "chapter_id": 71,
+            "topic_id": 839,
+            "topic_name": "ایمان اور مومنین کی ۳ اقسام",
+            "binder_name": "توحید مبدع تعالی",
+            "chapter_name": "اسلام اور ایمان"
+          }
+        ]
+      },
+      {
+        "sha": "39f8b6332d570b06",
+        "size": 2,
+        "topics": [
+          {
+            "binder_id": 19,
+            "chapter_id": 71,
+            "topic_id": 1395,
+            "topic_name": "ایمان کے ۸ طبقات کا بیان",
+            "binder_name": "دعائم الاسلام : ولایت",
+            "chapter_name": "اسلام اور ایمان"
+          },
+          {
+            "binder_id": 24,
+            "chapter_id": 71,
+            "topic_id": 1395,
+            "topic_name": "ایمان کے ۸ طبقات کا بیان",
+            "binder_name": "توحید مبدع تعالی",
+            "chapter_name": "اسلام اور ایمان"
+          }
+        ]
+      },
+      {
+        "sha": "8d1278c6665bf27d",
+        "size": 2,
+        "topics": [
+          {
+            "binder_id": 19,
+            "chapter_id": 71,
+            "topic_id": 1406,
+            "topic_name": "صاحب ایمان کے خصائل",
+            "binder_name": "دعائم الاسلام : ولایت",
+            "chapter_name": "اسلام اور ایمان"
+          },
+          {
+            "binder_id": 24,
+            "chapter_id": 71,
+            "topic_id": 1406,
+            "topic_name": "صاحب ایمان کے خصائل",
+            "binder_name": "توحید مبدع تعالی",
+            "chapter_name": "اسلام اور ایمان"
+          }
+        ]
+      },
+      {
+        "sha": "4bb3850a86fdb164",
+        "size": 2,
+        "topics": [
+          {
+            "binder_id": 19,
+            "chapter_id": 71,
+            "topic_id": 1394,
+            "topic_name": "ایمان میں سباقیت اور درجات",
+            "binder_name": "دعائم الاسلام : ولایت",
+            "chapter_name": "اسلام اور ایمان"
+          },
+          {
+            "binder_id": 24,
+            "chapter_id": 71,
+            "topic_id": 1394,
+            "topic_name": "ایمان میں سباقیت اور درجات",
+            "binder_name": "توحید مبدع تعالی",
+            "chapter_name": "اسلام اور ایمان"
+          }
+        ]
+      },
+      {
+        "sha": "0b88631af10fc201",
+        "size": 2,
+        "topics": [
+          {
+            "binder_id": 19,
+            "chapter_id": 71,
+            "topic_id": 803,
+            "topic_name": "ظاھری اور باطنی ایمان",
+            "binder_name": "دعائم الاسلام : ولایت",
+            "chapter_name": "اسلام اور ایمان"
+          },
+          {
+            "binder_id": 24,
+            "chapter_id": 71,
+            "topic_id": 803,
+            "topic_name": "ظاھری اور باطنی ایمان",
+            "binder_name": "توحید مبدع تعالی",
+            "chapter_name": "اسلام اور ایمان"
+          }
+        ]
+      },
+      {
+        "sha": "600a656ed085bc31",
+        "size": 2,
+        "topics": [
+          {
+            "binder_id": 19,
+            "chapter_id": 71,
+            "topic_id": 1008,
+            "topic_name": "ایمان کو علم پر فضیلت حاصل ہے",
+            "binder_name": "دعائم الاسلام : ولایت",
+            "chapter_name": "اسلام اور ایمان"
+          },
+          {
+            "binder_id": 24,
+            "chapter_id": 71,
+            "topic_id": 1008,
+            "topic_name": "ایمان کو علم پر فضیلت حاصل ہے",
+            "binder_name": "توحید مبدع تعالی",
+            "chapter_name": "اسلام اور ایمان"
+          }
+        ]
+      },
+      {
+        "sha": "5c51e953e5e889c0",
+        "size": 2,
+        "topics": [
+          {
+            "binder_id": 19,
+            "chapter_id": 71,
+            "topic_id": 1396,
+            "topic_name": "اسلام اور ایمان کا فرق",
+            "binder_name": "دعائم الاسلام : ولایت",
+            "chapter_name": "اسلام اور ایمان"
+          },
+          {
+            "binder_id": 24,
+            "chapter_id": 71,
+            "topic_id": 1396,
+            "topic_name": "اسلام اور ایمان کا فرق",
+            "binder_name": "توحید مبدع تعالی",
+            "chapter_name": "اسلام اور ایمان"
+          }
+        ]
+      },
+      {
+        "sha": "3c5163c0834c042e",
+        "size": 2,
+        "topics": [
+          {
+            "binder_id": 19,
+            "chapter_id": 71,
+            "topic_id": 1397,
+            "topic_name": "ایمان ، شرک و گمراہی کی ادنی ترین شرائط",
+            "binder_name": "دعائم الاسلام : ولایت",
+            "chapter_name": "اسلام اور ایمان"
+          },
+          {
+            "binder_id": 24,
+            "chapter_id": 71,
+            "topic_id": 1397,
+            "topic_name": "ایمان ، شرک و گمراہی کی ادنی ترین شرائط",
+            "binder_name": "توحید مبدع تعالی",
+            "chapter_name": "اسلام اور ایمان"
+          }
+        ]
+      },
+      {
+        "sha": "88a276e1288eb5b6",
+        "size": 2,
+        "topics": [
+          {
+            "binder_id": 19,
+            "chapter_id": 71,
+            "topic_id": 1080,
+            "topic_name": "اسلامی دعوت کا اصل مقصد کیا تھا؟",
+            "binder_name": "دعائم الاسلام : ولایت",
+            "chapter_name": "اسلام اور ایمان"
+          },
+          {
+            "binder_id": 24,
+            "chapter_id": 71,
+            "topic_id": 1080,
+            "topic_name": "اسلامی دعوت کا اصل مقصد کیا تھا؟",
+            "binder_name": "توحید مبدع تعالی",
+            "chapter_name": "اسلام اور ایمان"
+          }
+        ]
+      },
+      {
+        "sha": "384cb95958a685b3",
+        "size": 2,
+        "topics": [
+          {
+            "binder_id": 19,
+            "chapter_id": 71,
+            "topic_id": 1398,
+            "topic_name": "اسلامی و ایمانی جنت",
+            "binder_name": "دعائم الاسلام : ولایت",
+            "chapter_name": "اسلام اور ایمان"
+          },
+          {
+            "binder_id": 24,
+            "chapter_id": 71,
+            "topic_id": 1398,
+            "topic_name": "اسلامی و ایمانی جنت",
+            "binder_name": "توحید مبدع تعالی",
+            "chapter_name": "اسلام اور ایمان"
+          }
+        ]
+      },
+      {
+        "sha": "80e17635bcf717bb",
+        "size": 2,
+        "topics": [
+          {
+            "binder_id": 19,
+            "chapter_id": 71,
+            "topic_id": 1203,
+            "topic_name": "اسلام و ایمان کا انبعاث",
+            "binder_name": "دعائم الاسلام : ولایت",
+            "chapter_name": "اسلام اور ایمان"
+          },
+          {
+            "binder_id": 24,
+            "chapter_id": 71,
+            "topic_id": 1203,
+            "topic_name": "اسلام و ایمان کا انبعاث",
+            "binder_name": "توحید مبدع تعالی",
+            "chapter_name": "اسلام اور ایمان"
+          }
+        ]
+      },
+      {
+        "sha": "70fe6cdb0578fe0f",
+        "size": 2,
+        "topics": [
+          {
+            "binder_id": 34,
+            "chapter_id": 156,
+            "topic_id": 5679,
+            "topic_name": "الحمد للہ الذی لہ ملک السموات والارض یحی و یمیت",
+            "binder_name": "Quranic Studies",
+            "chapter_name": "سلام علی رسول اللہ و آلہ"
+          },
+          {
+            "binder_id": 36,
+            "chapter_id": 174,
+            "topic_id": 5679,
+            "topic_name": "الحمد للہ الذی لہ ملک السموات والارض یحی و یمیت",
+            "binder_name": "ISLAM IMAN IHSAN",
+            "chapter_name": "SALAAMS"
+          }
+        ]
+      },
+      {
+        "sha": "f8ec280c6521f8a0",
+        "size": 2,
+        "topics": [
+          {
+            "binder_id": 34,
+            "chapter_id": 156,
+            "topic_id": 5680,
+            "topic_name": "لا یبلغ مدحتہ القائلون ",
+            "binder_name": "Quranic Studies",
+            "chapter_name": "سلام علی رسول اللہ و آلہ"
+          },
+          {
+            "binder_id": 36,
+            "chapter_id": 174,
+            "topic_id": 5680,
+            "topic_name": "لا یبلغ مدحتہ القائلون ",
+            "binder_name": "ISLAM IMAN IHSAN",
+            "chapter_name": "SALAAMS"
+          }
+        ]
+      },
+      {
+        "sha": "1a94d7e14c3ef89a",
+        "size": 2,
+        "topics": [
+          {
+            "binder_id": 34,
+            "chapter_id": 156,
+            "topic_id": 5681,
+            "topic_name": "الحمد للہ خالق الوجود من العدم",
+            "binder_name": "Quranic Studies",
+            "chapter_name": "سلام علی رسول اللہ و آلہ"
+          },
+          {
+            "binder_id": 36,
+            "chapter_id": 174,
+            "topic_id": 5681,
+            "topic_name": "الحمد للہ خالق الوجود من العدم",
+            "binder_name": "ISLAM IMAN IHSAN",
+            "chapter_name": "SALAAMS"
+          }
+        ]
+      },
+      {
+        "sha": "c466637361a74f00",
+        "size": 2,
+        "topics": [
+          {
+            "binder_id": 34,
+            "chapter_id": 156,
+            "topic_id": 5683,
+            "topic_name": "الحمد للہِ صَانِعِ الخَلقِ عَلی أکمَلِ نِظَام",
+            "binder_name": "Quranic Studies",
+            "chapter_name": "سلام علی رسول اللہ و آلہ"
+          },
+          {
+            "binder_id": 36,
+            "chapter_id": 174,
+            "topic_id": 5683,
+            "topic_name": "الحمد للہِ صَانِعِ الخَلقِ عَلی أکمَلِ نِظَام",
+            "binder_name": "ISLAM IMAN IHSAN",
+            "chapter_name": "SALAAMS"
+          }
+        ]
+      }
+    ],
+    "exact_normalized_dupe_clusters": [
+      {
+        "sha": "610c35ce19ab75f3",
+        "size": 2,
+        "topics": [
+          {
+            "binder_id": 8,
+            "chapter_id": 85,
+            "topic_id": 1191,
+            "topic_name": "سورۃ اخلاص کا چارٹ",
+            "binder_name": "کلمات ربانی کی تاویلات",
+            "chapter_name": "سورۃ الأخلاص کی تاویل"
+          },
+          {
+            "binder_id": 8,
+            "chapter_id": 23,
+            "topic_id": 608,
+            "topic_name": "سورۃ الفاتحۃ کی خلافتیں",
+            "binder_name": "کلمات ربانی کی تاویلات",
+            "chapter_name": "سورۃ الفاتحۃ کی تاویل"
+          }
+        ]
+      },
+      {
+        "sha": "b41864eeb41e163b",
+        "size": 2,
+        "topics": [
+          {
+            "binder_id": 19,
+            "chapter_id": 122,
+            "topic_id": 1425,
+            "topic_name": "ولایت دل پر کیوں فرض کی گئی ہے؟",
+            "binder_name": "دعائم الاسلام : ولایت",
+            "chapter_name": "ولایت کی اہمیت اور اوصاف"
+          },
+          {
+            "binder_id": 28,
+            "chapter_id": 150,
+            "topic_id": 4660,
+            "topic_name": "معاذ تمہیں سارے دین کا خلاصہ بتاؤں؟",
+            "binder_name": "مسودے",
+            "chapter_name": "Sunday Sessions - breakups"
+          }
+        ]
+      }
+    ],
+    "near_dupe_clusters": []
+  },
+  "quran_citations": {
+    "total_unique_verses_cited": 616,
+    "top_verses": [
+      {
+        "surah": 3,
+        "ayat": 18,
+        "occurrences": 9,
+        "first_3_refs": [
+          {
+            "binder_id": 1,
+            "chapter_id": 73,
+            "topic_id": 42,
+            "chapter_name": "تشکیل عالم روحانی"
+          },
+          {
+            "binder_id": 1,
+            "chapter_id": 21,
+            "topic_id": 545,
+            "chapter_name": "مراتب اور مجامع"
+          },
+          {
+            "binder_id": 1,
+            "chapter_id": 125,
+            "topic_id": 1091,
+            "chapter_name": "منبعثین"
+          }
+        ]
+      },
+      {
+        "surah": 89,
+        "ayat": 27,
+        "occurrences": 7,
+        "first_3_refs": [
+          {
+            "binder_id": 1,
+            "chapter_id": 76,
+            "topic_id": 1100,
+            "chapter_name": "عاشر کی دعوت"
+          },
+          {
+            "binder_id": 1,
+            "chapter_id": 82,
+            "topic_id": 1156,
+            "chapter_name": "معاد محمود"
+          },
+          {
+            "binder_id": 6,
+            "chapter_id": 141,
+            "topic_id": 3600,
+            "chapter_name": "خطبہ کمیل کا تجزیہ"
+          }
+        ]
+      },
+      {
+        "surah": 51,
+        "ayat": 56,
+        "occurrences": 6,
+        "first_3_refs": [
+          {
+            "binder_id": 1,
+            "chapter_id": 73,
+            "topic_id": 42,
+            "chapter_name": "تشکیل عالم روحانی"
+          },
+          {
+            "binder_id": 1,
+            "chapter_id": 73,
+            "topic_id": 44,
+            "chapter_name": "تشکیل عالم روحانی"
+          },
+          {
+            "binder_id": 1,
+            "chapter_id": 74,
+            "topic_id": 1083,
+            "chapter_name": "عقل اول"
+          }
+        ]
+      },
+      {
+        "surah": 58,
+        "ayat": 11,
+        "occurrences": 6,
+        "first_3_refs": [
+          {
+            "binder_id": 1,
+            "chapter_id": 82,
+            "topic_id": 1166,
+            "chapter_name": "معاد محمود"
+          },
+          {
+            "binder_id": 19,
+            "chapter_id": 71,
+            "topic_id": 1394,
+            "chapter_name": "اسلام اور ایمان"
+          },
+          {
+            "binder_id": 19,
+            "chapter_id": 71,
+            "topic_id": 1008,
+            "chapter_name": "اسلام اور ایمان"
+          }
+        ]
+      },
+      {
+        "surah": 41,
+        "ayat": 53,
+        "occurrences": 6,
+        "first_3_refs": [
+          {
+            "binder_id": 6,
+            "chapter_id": 141,
+            "topic_id": 3577,
+            "chapter_name": "خطبہ کمیل کا تجزیہ"
+          },
+          {
+            "binder_id": 6,
+            "chapter_id": 141,
+            "topic_id": 3602,
+            "chapter_name": "خطبہ کمیل کا تجزیہ"
+          },
+          {
+            "binder_id": 6,
+            "chapter_id": 141,
+            "topic_id": 5722,
+            "chapter_name": "خطبہ کمیل کا تجزیہ"
+          }
+        ]
+      },
+      {
+        "surah": 4,
+        "ayat": 59,
+        "occurrences": 6,
+        "first_3_refs": [
+          {
+            "binder_id": 6,
+            "chapter_id": 141,
+            "topic_id": 3582,
+            "chapter_name": "خطبہ کمیل کا تجزیہ"
+          },
+          {
+            "binder_id": 19,
+            "chapter_id": 71,
+            "topic_id": 839,
+            "chapter_name": "اسلام اور ایمان"
+          },
+          {
+            "binder_id": 19,
+            "chapter_id": 64,
+            "topic_id": 1039,
+            "chapter_name": "امام کی واجبیت اور فضائل"
+          }
+        ]
+      },
+      {
+        "surah": 89,
+        "ayat": 28,
+        "occurrences": 5,
+        "first_3_refs": [
+          {
+            "binder_id": 1,
+            "chapter_id": 76,
+            "topic_id": 1100,
+            "chapter_name": "عاشر کی دعوت"
+          },
+          {
+            "binder_id": 1,
+            "chapter_id": 82,
+            "topic_id": 1156,
+            "chapter_name": "معاد محمود"
+          },
+          {
+            "binder_id": 6,
+            "chapter_id": 141,
+            "topic_id": 3594,
+            "chapter_name": "خطبہ کمیل کا تجزیہ"
+          }
+        ]
+      },
+      {
+        "surah": 53,
+        "ayat": 14,
+        "occurrences": 5,
+        "first_3_refs": [
+          {
+            "binder_id": 1,
+            "chapter_id": 125,
+            "topic_id": 1096,
+            "chapter_name": "منبعثین"
+          },
+          {
+            "binder_id": 28,
+            "chapter_id": 149,
+            "topic_id": 4634,
+            "chapter_name": "sunday sessions"
+          },
+          {
+            "binder_id": 28,
+            "chapter_id": 119,
+            "topic_id": 1390,
+            "chapter_name": "مبدا و معاد"
+          }
+        ]
+      },
+      {
+        "surah": 53,
+        "ayat": 15,
+        "occurrences": 5,
+        "first_3_refs": [
+          {
+            "binder_id": 1,
+            "chapter_id": 125,
+            "topic_id": 1096,
+            "chapter_name": "منبعثین"
+          },
+          {
+            "binder_id": 28,
+            "chapter_id": 149,
+            "topic_id": 4634,
+            "chapter_name": "sunday sessions"
+          },
+          {
+            "binder_id": 28,
+            "chapter_id": 119,
+            "topic_id": 1390,
+            "chapter_name": "مبدا و معاد"
+          }
+        ]
+      },
+      {
+        "surah": 28,
+        "ayat": 88,
+        "occurrences": 5,
+        "first_3_refs": [
+          {
+            "binder_id": 1,
+            "chapter_id": 74,
+            "topic_id": 1079,
+            "chapter_name": "عقل اول"
+          },
+          {
+            "binder_id": 6,
+            "chapter_id": 141,
+            "topic_id": 3581,
+            "chapter_name": "خطبہ کمیل کا تجزیہ"
+          },
+          {
+            "binder_id": 6,
+            "chapter_id": 141,
+            "topic_id": 3601,
+            "chapter_name": "خطبہ کمیل کا تجزیہ"
+          }
+        ]
+      },
+      {
+        "surah": 89,
+        "ayat": 29,
+        "occurrences": 4,
+        "first_3_refs": [
+          {
+            "binder_id": 1,
+            "chapter_id": 76,
+            "topic_id": 1100,
+            "chapter_name": "عاشر کی دعوت"
+          },
+          {
+            "binder_id": 1,
+            "chapter_id": 82,
+            "topic_id": 1156,
+            "chapter_name": "معاد محمود"
+          },
+          {
+            "binder_id": 6,
+            "chapter_id": 141,
+            "topic_id": 3594,
+            "chapter_name": "خطبہ کمیل کا تجزیہ"
+          }
+        ]
+      },
+      {
+        "surah": 53,
+        "ayat": 13,
+        "occurrences": 4,
+        "first_3_refs": [
+          {
+            "binder_id": 1,
+            "chapter_id": 125,
+            "topic_id": 1096,
+            "chapter_name": "منبعثین"
+          },
+          {
+            "binder_id": 28,
+            "chapter_id": 149,
+            "topic_id": 4634,
+            "chapter_name": "sunday sessions"
+          },
+          {
+            "binder_id": 28,
+            "chapter_id": 119,
+            "topic_id": 1197,
+            "chapter_name": "مبدا و معاد"
+          }
+        ]
+      },
+      {
+        "surah": 53,
+        "ayat": 8,
+        "occurrences": 4,
+        "first_3_refs": [
+          {
+            "binder_id": 1,
+            "chapter_id": 78,
+            "topic_id": 1113,
+            "chapter_name": "تشکیل عالم حیات"
+          },
+          {
+            "binder_id": 28,
+            "chapter_id": 149,
+            "topic_id": 4634,
+            "chapter_name": "sunday sessions"
+          },
+          {
+            "binder_id": 28,
+            "chapter_id": 119,
+            "topic_id": 1197,
+            "chapter_name": "مبدا و معاد"
+          }
+        ]
+      },
+      {
+        "surah": 53,
+        "ayat": 9,
+        "occurrences": 4,
+        "first_3_refs": [
+          {
+            "binder_id": 1,
+            "chapter_id": 78,
+            "topic_id": 1113,
+            "chapter_name": "تشکیل عالم حیات"
+          },
+          {
+            "binder_id": 28,
+            "chapter_id": 149,
+            "topic_id": 4634,
+            "chapter_name": "sunday sessions"
+          },
+          {
+            "binder_id": 28,
+            "chapter_id": 119,
+            "topic_id": 1197,
+            "chapter_name": "مبدا و معاد"
+          }
+        ]
+      },
+      {
+        "surah": 53,
+        "ayat": 3,
+        "occurrences": 4,
+        "first_3_refs": [
+          {
+            "binder_id": 6,
+            "chapter_id": 141,
+            "topic_id": 3579,
+            "chapter_name": "خطبہ کمیل کا تجزیہ"
+          },
+          {
+            "binder_id": 6,
+            "chapter_id": 141,
+            "topic_id": 5713,
+            "chapter_name": "خطبہ کمیل کا تجزیہ"
+          },
+          {
+            "binder_id": 28,
+            "chapter_id": 149,
+            "topic_id": 4634,
+            "chapter_name": "sunday sessions"
+          }
+        ]
+      },
+      {
+        "surah": 53,
+        "ayat": 4,
+        "occurrences": 4,
+        "first_3_refs": [
+          {
+            "binder_id": 6,
+            "chapter_id": 141,
+            "topic_id": 3579,
+            "chapter_name": "خطبہ کمیل کا تجزیہ"
+          },
+          {
+            "binder_id": 6,
+            "chapter_id": 141,
+            "topic_id": 5713,
+            "chapter_name": "خطبہ کمیل کا تجزیہ"
+          },
+          {
+            "binder_id": 28,
+            "chapter_id": 149,
+            "topic_id": 4634,
+            "chapter_name": "sunday sessions"
+          }
+        ]
+      },
+      {
+        "surah": 3,
+        "ayat": 31,
+        "occurrences": 4,
+        "first_3_refs": [
+          {
+            "binder_id": 6,
+            "chapter_id": 141,
+            "topic_id": 3580,
+            "chapter_name": "خطبہ کمیل کا تجزیہ"
+          },
+          {
+            "binder_id": 6,
+            "chapter_id": 141,
+            "topic_id": 5713,
+            "chapter_name": "خطبہ کمیل کا تجزیہ"
+          },
+          {
+            "binder_id": 19,
+            "chapter_id": 122,
+            "topic_id": 1179,
+            "chapter_name": "ولایت کی اہمیت اور اوصاف"
+          }
+        ]
+      },
+      {
+        "surah": 29,
+        "ayat": 64,
+        "occurrences": 4,
+        "first_3_refs": [
+          {
+            "binder_id": 6,
+            "chapter_id": 141,
+            "topic_id": 3581,
+            "chapter_name": "خطبہ کمیل کا تجزیہ"
+          },
+          {
+            "binder_id": 6,
+            "chapter_id": 141,
+            "topic_id": 3604,
+            "chapter_name": "خطبہ کمیل کا تجزیہ"
+          },
+          {
+            "binder_id": 6,
+            "chapter_id": 141,
+            "topic_id": 5713,
+            "chapter_name": "خطبہ کمیل کا تجزیہ"
+          }
+        ]
+      },
+      {
+        "surah": 2,
+        "ayat": 143,
+        "occurrences": 4,
+        "first_3_refs": [
+          {
+            "binder_id": 19,
+            "chapter_id": 71,
+            "topic_id": 1405,
+            "chapter_name": "اسلام اور ایمان"
+          },
+          {
+            "binder_id": 19,
+            "chapter_id": 64,
+            "topic_id": 1043,
+            "chapter_name": "امام کی واجبیت اور فضائل"
+          },
+          {
+            "binder_id": 19,
+            "chapter_id": 64,
+            "topic_id": 1403,
+            "chapter_name": "امام کی واجبیت اور فضائل"
+          }
+        ]
+      },
+      {
+        "surah": 7,
+        "ayat": 24,
+        "occurrences": 3,
+        "first_3_refs": [
+          {
+            "binder_id": 1,
+            "chapter_id": 78,
+            "topic_id": 1103,
+            "chapter_name": "تشکیل عالم حیات"
+          },
+          {
+            "binder_id": 18,
+            "chapter_id": 52,
+            "topic_id": 1462,
+            "chapter_name": "حضرت آدم علیہ السلام"
+          },
+          {
+            "binder_id": 18,
+            "chapter_id": 52,
+            "topic_id": 1463,
+            "chapter_name": "حضرت آدم علیہ السلام"
+          }
+        ]
+      },
+      {
+        "surah": 71,
+        "ayat": 17,
+        "occurrences": 3,
+        "first_3_refs": [
+          {
+            "binder_id": 1,
+            "chapter_id": 84,
+            "topic_id": 1140,
+            "chapter_name": "موالید کی پیدائش"
+          },
+          {
+            "binder_id": 1,
+            "chapter_id": 84,
+            "topic_id": 1141,
+            "chapter_name": "موالید کی پیدائش"
+          },
+          {
+            "binder_id": 28,
+            "chapter_id": 119,
+            "topic_id": 1411,
+            "chapter_name": "مبدا و معاد"
+          }
+        ]
+      },
+      {
+        "surah": 2,
+        "ayat": 37,
+        "occurrences": 3,
+        "first_3_refs": [
+          {
+            "binder_id": 1,
+            "chapter_id": 76,
+            "topic_id": 1100,
+            "chapter_name": "عاشر کی دعوت"
+          },
+          {
+            "binder_id": 18,
+            "chapter_id": 52,
+            "topic_id": 886,
+            "chapter_name": "حضرت آدم علیہ السلام"
+          },
+          {
+            "binder_id": 18,
+            "chapter_id": 52,
+            "topic_id": 1462,
+            "chapter_name": "حضرت آدم علیہ السلام"
+          }
+        ]
+      },
+      {
+        "surah": 89,
+        "ayat": 30,
+        "occurrences": 3,
+        "first_3_refs": [
+          {
+            "binder_id": 1,
+            "chapter_id": 76,
+            "topic_id": 1100,
+            "chapter_name": "عاشر کی دعوت"
+          },
+          {
+            "binder_id": 1,
+            "chapter_id": 82,
+            "topic_id": 1156,
+            "chapter_name": "معاد محمود"
+          },
+          {
+            "binder_id": 23,
+            "chapter_id": 60,
+            "topic_id": 1000,
+            "chapter_name": "رسالۃ حکمت الموت"
+          }
+        ]
+      },
+      {
+        "surah": 23,
+        "ayat": 12,
+        "occurrences": 3,
+        "first_3_refs": [
+          {
+            "binder_id": 1,
+            "chapter_id": 84,
+            "topic_id": 1141,
+            "chapter_name": "موالید کی پیدائش"
+          },
+          {
+            "binder_id": 1,
+            "chapter_id": 84,
+            "topic_id": 1143,
+            "chapter_name": "موالید کی پیدائش"
+          },
+          {
+            "binder_id": 24,
+            "chapter_id": 118,
+            "topic_id": 39,
+            "chapter_name": "کلمہ التوحید کے مختلف ابواب"
+          }
+        ]
+      },
+      {
+        "surah": 4,
+        "ayat": 136,
+        "occurrences": 3,
+        "first_3_refs": [
+          {
+            "binder_id": 1,
+            "chapter_id": 78,
+            "topic_id": 1112,
+            "chapter_name": "تشکیل عالم حیات"
+          },
+          {
+            "binder_id": 19,
+            "chapter_id": 71,
+            "topic_id": 839,
+            "chapter_name": "اسلام اور ایمان"
+          },
+          {
+            "binder_id": 24,
+            "chapter_id": 71,
+            "topic_id": 839,
+            "chapter_name": "اسلام اور ایمان"
+          }
+        ]
+      },
+      {
+        "surah": 23,
+        "ayat": 14,
+        "occurrences": 3,
+        "first_3_refs": [
+          {
+            "binder_id": 1,
+            "chapter_id": 84,
+            "topic_id": 1143,
+            "chapter_name": "موالید کی پیدائش"
+          },
+          {
+            "binder_id": 23,
+            "chapter_id": 70,
+            "topic_id": 825,
+            "chapter_name": "عقل اور علم"
+          },
+          {
+            "binder_id": 24,
+            "chapter_id": 118,
+            "topic_id": 39,
+            "chapter_name": "کلمہ التوحید کے مختلف ابواب"
+          }
+        ]
+      },
+      {
+        "surah": 2,
+        "ayat": 35,
+        "occurrences": 3,
+        "first_3_refs": [
+          {
+            "binder_id": 1,
+            "chapter_id": 76,
+            "topic_id": 1105,
+            "chapter_name": "عاشر کی دعوت"
+          },
+          {
+            "binder_id": 18,
+            "chapter_id": 52,
+            "topic_id": 1478,
+            "chapter_name": "حضرت آدم علیہ السلام"
+          },
+          {
+            "binder_id": 18,
+            "chapter_id": 52,
+            "topic_id": 1460,
+            "chapter_name": "حضرت آدم علیہ السلام"
+          }
+        ]
+      },
+      {
+        "surah": 6,
+        "ayat": 112,
+        "occurrences": 3,
+        "first_3_refs": [
+          {
+            "binder_id": 1,
+            "chapter_id": 20,
+            "topic_id": 522,
+            "chapter_name": "معاد مزموم"
+          },
+          {
+            "binder_id": 18,
+            "chapter_id": 131,
+            "topic_id": 1481,
+            "chapter_name": "نطقا کا بیان"
+          },
+          {
+            "binder_id": 18,
+            "chapter_id": 52,
+            "topic_id": 1461,
+            "chapter_name": "حضرت آدم علیہ السلام"
+          }
+        ]
+      },
+      {
+        "surah": 16,
+        "ayat": 43,
+        "occurrences": 3,
+        "first_3_refs": [
+          {
+            "binder_id": 1,
+            "chapter_id": 74,
+            "topic_id": 1084,
+            "chapter_name": "عقل اول"
+          },
+          {
+            "binder_id": 19,
+            "chapter_id": 64,
+            "topic_id": 1043,
+            "chapter_name": "امام کی واجبیت اور فضائل"
+          },
+          {
+            "binder_id": 23,
+            "chapter_id": 70,
+            "topic_id": 1068,
+            "chapter_name": "عقل اور علم"
+          }
+        ]
+      },
+      {
+        "surah": 23,
+        "ayat": 2,
+        "occurrences": 3,
+        "first_3_refs": [
+          {
+            "binder_id": 1,
+            "chapter_id": 82,
+            "topic_id": 1165,
+            "chapter_name": "معاد محمود"
+          },
+          {
+            "binder_id": 19,
+            "chapter_id": 71,
+            "topic_id": 1405,
+            "chapter_name": "اسلام اور ایمان"
+          },
+          {
+            "binder_id": 24,
+            "chapter_id": 71,
+            "topic_id": 1405,
+            "chapter_name": "اسلام اور ایمان"
+          }
+        ]
+      }
+    ]
+  },
+  "chapters": {
+    "chapters": [
+      {
+        "binder_id": 1,
+        "binder_name": "علوم مبدا و معاد",
+        "chapter_id": 73,
+        "chapter_name": "تشکیل عالم روحانی",
+        "topic_count": 8,
+        "topic_labels": [
+          "الاہیت اور خلقت کا فرق",
+          "روحانی عالم کی تخلیق",
+          "عالم روحانی کے ۷ نام",
+          "کمال اول",
+          "کمال ثانی",
+          "کیا کمال ثانی کی عصمت جبری ہے؟",
+          "کمال اول اور کمال ثانی کا فرق",
+          "عالم جسمانی کے جواہر"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 53866
+      },
+      {
+        "binder_id": 1,
+        "binder_name": "علوم مبدا و معاد",
+        "chapter_id": 20,
+        "chapter_name": "معاد مزموم",
+        "topic_count": 20,
+        "topic_labels": [
+          "مزموم نفوس [لوامۃ اور أمارۃ بالسوء]",
+          "نفس کی ذبیحت اور عقر",
+          "مؤمن مقاصر کی موت اور معاد",
+          "حرام اعمال کی سزا کیسے ملتی ہے؟",
+          "صلحا کی موت اور معاد",
+          "غیر مومن کی موت اور اس کا معاد",
+          "خبیث صورات کی جولانی",
+          "خبیث صورات ہی مقامات کی ضد بنتے ہیں",
+          "منکر و نکیر (صورت خبیث)",
+          "عذابات ادنی",
+          "صورات مستخدمۃ",
+          "عذابات وسطی",
+          "عذابات اطراف سے پلٹ",
+          "عذاب کبری",
+          "عذاب ادنی اور عذاب اکبر کے اہل کون لوگ ہونگے؟",
+          "سقرا کی تفصیل",
+          "سقرا سے پلٹ",
+          "اضداد ائمہ کو عذابات کس طرح دئے جائینگے؟",
+          "کیا اہل عذاب جانتے ہیں کہ وہ کبھی قامت الفیہ میں تھے؟",
+          "ملائکہ رضوان اور ملائکہ غضبان"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 86518
+      },
+      {
+        "binder_id": 1,
+        "binder_name": "علوم مبدا و معاد",
+        "chapter_id": 21,
+        "chapter_name": "مراتب اور مجامع",
+        "topic_count": 39,
+        "topic_labels": [
+          "مراتب روحانیۃ",
+          "جثہ ابدائیۃ اور شخص فاضل",
+          "شخص فاضل کی خلافت کلی",
+          "جثوں کی ترتیب",
+          "افق عاشر",
+          "ایک لاکھ چوبیس ہزار صورات",
+          "جد فتح خیال",
+          "محمد و علی کے جد، فتح، خیال",
+          "خدیجۃ و علی کا اسلام",
+          "مولاتنا فاطمۃ الزھرا",
+          "ثلاثۃ سفرا",
+          "قیامتیں اور قوائم",
+          "قائم دور کشف",
+          "قائم دور کشف و ستر",
+          "دور ستر کے ۶ مستودع امام",
+          "قائم دور - چار لاکھ برس کا قائم",
+          "کشف و ستر کی چکی",
+          "نون",
+          "قائم المنتظر کی ھیکل",
+          "کشف و ستر کے اجتماعات",
+          "سورۃ الاخلاص اور صور",
+          "چار مراتب کی تقسیم",
+          "باب الابواب اور قلب ھیکل",
+          "یوم غدیر کی ترقیات",
+          "ناطق اور نطق الہی کے مراتب",
+          "موسی اور رسول اللہ ﷺ",
+          "مجمع صغار",
+          "پنجتن کے مراتب",
+          "امام علی زین العابدین",
+          "بعثت کلی",
+          "قائم علیہ السلام کی خلافتیں",
+          "مولانا محمد بن اسماعیل",
+          "عین عظیمۃ",
+          "ثلاثہ مجاری",
+          "آیت الکرسی سے پہلے کی تسبیح",
+          "آیت الکرسی",
+          "نبی کو رسالت 40 برس پر کیوں دی گئی",
+          "الاسلام : تسلیم الصور",
+          "سلام کی مختلف توجیھات"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "",
+          "Ayat Al-Kursi",
+          null,
+          "",
+          ""
+        ],
+        "total_content_chars": 2479757
+      },
+      {
+        "binder_id": 1,
+        "binder_name": "علوم مبدا و معاد",
+        "chapter_id": 74,
+        "chapter_name": "عقل اول",
+        "topic_count": 12,
+        "topic_labels": [
+          "عقل اول کی توحید تجرید تنزیہ",
+          "عقل اول کی کمیت اور لمیت",
+          "کمال ثانی اور علم ما کان سیکون",
+          "عقل اول کی ذات اور صورت",
+          "عقل اول کی مسرتوں کے غلاف",
+          "عقل اول کی دو مسرتیں",
+          "عقل اول کی دو عبادتیں",
+          "عقل اول کی الھیت اور سرداری",
+          "عقل اول کے اسمآء الحسنی",
+          "عقل اول کو کلمۃ کیوں کہا گیا؟",
+          "حرکت اور سکون",
+          "کلام عقل اول : انوار ذکریہ"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 64248
+      },
+      {
+        "binder_id": 1,
+        "binder_name": "علوم مبدا و معاد",
+        "chapter_id": 125,
+        "chapter_name": "منبعثین",
+        "topic_count": 8,
+        "topic_labels": [
+          "منبعثین",
+          "وجود، دروس، انبعاث",
+          "منبعثین کی نظروں کا فرق",
+          "اولین کی شھادتوں کا فرق",
+          "منبعث اول کا حضیرۃ القدس",
+          "عقل کل اور نفس کل",
+          "علامت معرفۃ: الف اور لام",
+          "دوات قلم اور لوح"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          "",
+          null,
+          ""
+        ],
+        "total_content_chars": 107888
+      },
+      {
+        "binder_id": 1,
+        "binder_name": "علوم مبدا و معاد",
+        "chapter_id": 75,
+        "chapter_name": "سات عقول",
+        "topic_count": 5,
+        "topic_labels": [
+          "روحانی دعوت اور سات عقول",
+          "دائرہ اور اس کا مرکز",
+          "عقول کے دوائر",
+          "توحید میں کلمہ کے جوہر",
+          "شھد اللہ انہ لا الہ الا ھو"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 128306
+      },
+      {
+        "binder_id": 1,
+        "binder_name": "علوم مبدا و معاد",
+        "chapter_id": 76,
+        "chapter_name": "عاشر کی دعوت",
+        "topic_count": 11,
+        "topic_labels": [
+          "منبعث ثانی کی توبہ",
+          "کلمات کے ذریعے توبہ کی قبولیت",
+          "توبہ میں کلمہ کے جوہر",
+          "عاشر کی دعوت",
+          "ابلیس روحانی کی دعوت",
+          "تین فرقوں کا وجود",
+          "قرآن میں عاشر کا ذکر",
+          "فسنیسرہ للیسری فسنیسرہ للعسری",
+          "عاشر کا دعائم الاسلام بنانا",
+          "عاشر کی خلافتیں",
+          "اس وقت عاشر کون ہے؟"
+        ],
+        "topic_labels_en": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "total_content_chars": 54011
+      },
+      {
+        "binder_id": 1,
+        "binder_name": "علوم مبدا و معاد",
+        "chapter_id": 78,
+        "chapter_name": "تشکیل عالم حیات",
+        "topic_count": 7,
+        "topic_labels": [
+          "خطائھم کلمم : ذرا سی بھول",
+          "تشکیل عالم حیات",
+          "آدم ابدائیۃ، ائمۃ مستقرین و مستودعین",
+          "کلمم والوں کی دعوت اور مراتب",
+          "کلمم والوں کی درجہ بندی",
+          "محتجب اور حجاب",
+          "عمود نور"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 996747
+      },
+      {
+        "binder_id": 1,
+        "binder_name": "علوم مبدا و معاد",
+        "chapter_id": 80,
+        "chapter_name": "تشکیل عالم کون و فساد",
+        "topic_count": 20,
+        "topic_labels": [
+          "عاشر کے تین قصد",
+          "چھ دنوں میں کائنات کی خلقت",
+          "حرکت اول : طول عرض عمق",
+          "ھیولی اولی اور ھیولی ثانی",
+          "گرتے ہوئے نادمین کی دعا",
+          "حرکت ثانی : تجادب القطبین",
+          "مدبرین افلاک و بروج",
+          "حرکت ثالث : افلاک کی پیدائش",
+          "زمان و مکان کی پیدائش",
+          "حرکت رابع : کواکب اور سقرا کی خلقت",
+          "نحسین : زحل اور مریخ",
+          "حرکت خامس : اصداف اور امھات کی خلقت",
+          "امھات کی ۴ طبعیتوں کا ازدواج",
+          "جوزھر ، عقدتین ، راس اور زنب",
+          "جنت اور جہنم کے دروازے",
+          "حسیۃ الکبری اور نامیۃ الکبری",
+          "مزاج ممتزج",
+          "حرکت سادس : تدبیرات الافلاک",
+          "مدتیں : دور، کور، طور، مور",
+          "دور کشف و ستر کے حالات"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 1298930
+      },
+      {
+        "binder_id": 1,
+        "binder_name": "علوم مبدا و معاد",
+        "chapter_id": 82,
+        "chapter_name": "معاد محمود",
+        "topic_count": 17,
+        "topic_labels": [
+          "مؤمن صادق کی معاد",
+          "مبشر و بشیر (صورت شریف)",
+          "صورت روحانی کی پلٹ",
+          "باب ظاھر باب باطن",
+          "ریحیات کی پلٹ : بقایۃ النامیۃ",
+          "لاہوت اور ناسوت کا اجتماع",
+          "فضلات کی پلٹ",
+          "مومنین کے سخت ہڈیوں کی پلٹ",
+          "دعات کی سخت ہڈیوں کی پلٹ",
+          "امام کے نواسیت کی اقسام",
+          "ذات امام کے حصے",
+          "اگلے کرات میں مومن کا کیا درجہ ہوگا؟",
+          "درجات کے متعلق بیان",
+          "ناسوت امام کا بٹوارا",
+          "ائمہ کے انضمامات",
+          "مومن کے پاس کا مجمع",
+          "قبر اور صاحب قبر کا رشتہ"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 1147766
+      },
+      {
+        "binder_id": 1,
+        "binder_name": "علوم مبدا و معاد",
+        "chapter_id": 81,
+        "chapter_name": "نفوس اور ان کی اقسام",
+        "topic_count": 8,
+        "topic_labels": [
+          "نفوس کیا ہیں اور کیسے ابھرتے ہیں؟",
+          "نفوس کی اقسام",
+          "نفس نامیۃ",
+          "نفس حسیۃ",
+          "نفس ناطقۃ",
+          "نفس کلیۃ",
+          "چاروں نفوس کا معاد کہاں ہے؟",
+          "نفس حسیۃ اصل نفس ہے"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 41935
+      },
+      {
+        "binder_id": 1,
+        "binder_name": "علوم مبدا و معاد",
+        "chapter_id": 84,
+        "chapter_name": "موالید کی پیدائش",
+        "topic_count": 7,
+        "topic_labels": [
+          "افلاک کی خلقتیں",
+          "گڑہوں سے انسان کی پیدائشیں",
+          "پیدائشوں کی دو قسمیں",
+          "جنین کی پیدائش میں افلاک کی تدبیرات",
+          "جنین کی پیدائش کے مدارج",
+          "حواس اور دماغ کی قوتیں",
+          "انسان اس کائنات کا خلاصہ ہے"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 87853
+      },
+      {
+        "binder_id": 5,
+        "binder_name": "منتخب اشعار",
+        "chapter_id": 13,
+        "chapter_name": "عربی کے اشعار",
+        "topic_count": 5,
+        "topic_labels": [
+          "Amar Ibn-E-A'as Poem For Ali",
+          "Extemporary Poem By Farazdaq",
+          "Khutba Of Imam Ali Zainulabideen",
+          "Reply Of Maulana Qambar",
+          "Naseeruddin Tusi's Poem For Ali"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 0
+      },
+      {
+        "binder_id": 5,
+        "binder_name": "منتخب اشعار",
+        "chapter_id": 12,
+        "chapter_name": "نوحا اور مرسیۃ امام حسین",
+        "topic_count": 10,
+        "topic_labels": [
+          "Nanhe Se Mujahid Ali Asghar",
+          "ائے حسین",
+          "Salaam Aye Khatm-E-Kaar-E-Nubuwat As-Salaam",
+          "Fasana Hussain Ka",
+          "Hamraz Yeh Fasana-E-Aah-O-Fughan Na Pooch",
+          "Imam Hussain Ke Bachpan Ke Do Mo'jize",
+          "Salam-E-Aakhir (Imam Hussain)",
+          "Marhaba Sayyad-E-Abrar Hussain Ibn-E-Ali",
+          "Mehzar-E-Qatl-E-Hussain",
+          "Main Rahoon Ya Na Rahoon"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 627
+      },
+      {
+        "binder_id": 5,
+        "binder_name": "منتخب اشعار",
+        "chapter_id": 50,
+        "chapter_name": "مختلف مناقب",
+        "topic_count": 9,
+        "topic_labels": [
+          "عبادت",
+          "غالب کے اشعار علی کی شان میں",
+          "Madh-E-Abbas Madh-E-Haider Hai",
+          "Main Hoon Abbas-E-Ali",
+          "Main Hussain Hoon",
+          "Hazrat Abbas-E-Namdar",
+          "Waqif-E-Martaba-E-Aal-E-Payambar Na Mila",
+          "Khallaq-E-Karbala Maula Hussain Hai",
+          "Ghar Fatima Zehra Ka Ajab Shan Ka Ghar Hai"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 4701
+      },
+      {
+        "binder_id": 6,
+        "binder_name": "علی ابن ابی طالب علیہ السلام",
+        "chapter_id": 11,
+        "chapter_name": "مناقب",
+        "topic_count": 14,
+        "topic_labels": [
+          "Ali Haider Ali Safdar",
+          "Sirf Ek Baar",
+          "Ali Ali Hai",
+          "Allah Hu (Chand Taron Ki Shan-E-Jamali Main Tu)",
+          "Yeh Maula Ali Hai",
+          "Haider Hoon Main Haider",
+          "Main To Panjatan Ka Ghulam Hoon",
+          "Mimbar Jaane Haider Jaane",
+          "Hum Aan-E-Ali, Jaan-E-Ali, Shan-E-Ali Hain",
+          "Ali Ke Sath Hai Zehra Ki Shadi",
+          "La Fata Illa Ali La Saif Illa Zulfiqar",
+          "Mere Maula Main Likhoon Teri Fazeelat Kaise",
+          "Janab-E-Ameer Al-Momineen",
+          "Wiladat Aur Shahadat-E-Ali"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 0
+      },
+      {
+        "binder_id": 6,
+        "binder_name": "علی ابن ابی طالب علیہ السلام",
+        "chapter_id": 46,
+        "chapter_name": "مولانا علی کی فضائل",
+        "topic_count": 21,
+        "topic_labels": [
+          "Zarrar bin Zamrahs recollection of Ali",
+          "فضائل علی ابن ابی طالب",
+          "مسجد کوفہ کا خطبہ",
+          "سورۃ کوثر سے علی کی بشارت",
+          "فضائل علی من آیات القرآن",
+          "محمد و علی کے ناموں میں مشترکہ خوبی",
+          "رسول اللہ کا وصی کون ہے؟",
+          "ولایت کی اہمیت",
+          "اشھد ان مولانا علی ولی اللہ",
+          "علی خیر البشر کے قرآنی دلائل",
+          "رسول کی رسالت کے دو گواہ",
+          "ذوالقرنین",
+          "الانزع البطین",
+          "علی کے غلام مولانا قمبر",
+          "علی کی سخاوت",
+          "چوتھے خلیفہ: علی ابن ابی طالب",
+          "علی کے نام بزبان خود",
+          "اس شخص کو میں نہیں جانتا",
+          "علی کے لئے سلمان فارسی کا سجدہ",
+          "اونٹ کی چوری کا الزام",
+          "مٹھاس یا کڑواہٹ"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 561903
+      },
+      {
+        "binder_id": 6,
+        "binder_name": "علی ابن ابی طالب علیہ السلام",
+        "chapter_id": 141,
+        "chapter_name": "خطبہ کمیل کا تجزیہ",
+        "topic_count": 25,
+        "topic_labels": [
+          "عقل اور توحید",
+          "عقل اور استدلال کا فرق",
+          "علی کا کمیل ابن زیاد کو خطاب",
+          "علم اور بصیرت",
+          " یقین کی روح",
+          "دنیا میں رہتے ہوئے آخرت کی زندگی",
+          "وہ چیز جو آسان بھی ہے اور مشکل بھی",
+          "عدل کا فلسفہ ",
+          "مالک اشتر کے نام خط",
+          "عدل چیزوں کو ان کے صحیح مقام پر رکھنے کا نام ہے",
+          "عدل اور ظلم",
+          "روحانیت اور اخلاق",
+          "کبر اور غرور سے بچنے کی نصیحت",
+          "شرک خفی",
+          "اخلاقی و روحانی ضمیر",
+          "عدل اور ہمدردی",
+          "اللہ کے بارے میں خوش گمانی",
+          "شہر اور معاشرا",
+          "نیت کی اہمیت",
+          "عبادت کی فضیلت",
+          "ذکر اللہ",
+          "ذکر اللہ عبادت کی معراج ہے",
+          "ذکر اللہ کی حقیقت",
+          "The Spirit Of The Intellect",
+          "The Discourse To Kumayl"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 656319
+      },
+      {
+        "binder_id": 6,
+        "binder_name": "علی ابن ابی طالب علیہ السلام",
+        "chapter_id": 144,
+        "chapter_name": "نہج البلاغۃ فی العربیۃ",
+        "topic_count": 1,
+        "topic_labels": [
+          "Praise is due to Allah whose worth cannot be described"
+        ],
+        "topic_labels_en": [
+          null
+        ],
+        "total_content_chars": 25408
+      },
+      {
+        "binder_id": 6,
+        "binder_name": "علی ابن ابی طالب علیہ السلام",
+        "chapter_id": 47,
+        "chapter_name": "علی کے خطوط",
+        "topic_count": 3,
+        "topic_labels": [
+          "مالک اشتر کے نام خط",
+          "حضرت سلمان فارسی کے نام خط",
+          "معاویہ کے نام خط"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 7156
+      },
+      {
+        "binder_id": 6,
+        "binder_name": "علی ابن ابی طالب علیہ السلام",
+        "chapter_id": 48,
+        "chapter_name": "علی کے مخلافین",
+        "topic_count": 4,
+        "topic_labels": [
+          "علی اور قرآن پر مختلف بھتان",
+          "کیا علی خلافت حاصل کرنے سے عاجز تھے؟",
+          "مامون رشید کا چالیس علماء کے ساتھ مناظرہ",
+          "مولانا محمد الباقر اور حروری کا مناظرہ"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 218783
+      },
+      {
+        "binder_id": 6,
+        "binder_name": "علی ابن ابی طالب علیہ السلام",
+        "chapter_id": 37,
+        "chapter_name": "لو کشف الغطا ما الزدت یقینا",
+        "topic_count": 19,
+        "topic_labels": [
+          "یقین کے تین مدارج",
+          "زندہ شخص کی نماز جنازہ",
+          "علی کا فیصلوں میں جلدی کرنا",
+          "کبوتر اور کبوتری کا واقعہ",
+          "استاد جبرئیل",
+          "اس وقت جبرئیل کہاں ہے؟",
+          "سونے کی دیوار",
+          "معاویہ کی علی کے دربار میں حاضری",
+          "مردے کی گواہی",
+          "رد شمس : سورج کا پلٹنا",
+          "جنگ عہد کا واقعہ",
+          "نوح کی کشتی میں سوراخ",
+          "بیر علم کا واقعہ",
+          "لسان اللہ کے معجزات",
+          "یا فارس الحجاز ادرکنی",
+          "امام مستعلی اور ان کے دلائل امامت",
+          "امام عامر باللہ اور قالین کا شیر",
+          "امام جعفر الصادق کے پیٹھ کھجانے کا واقعہ",
+          "امام حاکم کی شان میں غستاخی"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 45379
+      },
+      {
+        "binder_id": 6,
+        "binder_name": "علی ابن ابی طالب علیہ السلام",
+        "chapter_id": 51,
+        "chapter_name": "سلونی قبل ان تفقدونی",
+        "topic_count": 10,
+        "topic_labels": [
+          "علی سے مختلف سوالات",
+          "کیف اصبحت؟",
+          "جانور جو بچے یا انڈے دیتے ہیں",
+          "لا شئی کا سوال",
+          "کتے کی اولاد یا بکری کی؟",
+          "علی سے اللہ کے متعلق سوالات",
+          "علی سے معاویہ کے سوالات",
+          "علی سے عمر کے تین سوالات",
+          "دس چیزیں جو ایک دوسرے سے سخت ہیں",
+          "دنیا کے امور کا بٹوارا"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 156445
+      },
+      {
+        "binder_id": 6,
+        "binder_name": "علی ابن ابی طالب علیہ السلام",
+        "chapter_id": 16,
+        "chapter_name": "نحج البلاغۃ کے خطبے",
+        "topic_count": 73,
+        "topic_labels": [
+          "اللہ کب سے ہے، کیسا ہے، کہاں ہے؟",
+          "اسلام سے پہلے کا حال",
+          "منافقوں کے بارے میں",
+          "مصیبت اور بلا واپس آگئے",
+          "گمراہی میں پڑا ہوا حاکم",
+          "غریبوں کو نہ بھولو",
+          "جنت یا دوزخ",
+          "دنیا ایک امتحان ہے",
+          "تم کیوں پیدا کئے گئے ہو",
+          "اس سے بڑھ کر کوئی نہیں",
+          "دنیا سے دل لگانے والے لوگ",
+          "روشن مثالوں سے کچھ سیکھو",
+          "انہیں سب کچھ سمجھا دیا گیا ہے",
+          "وہ جس نے سچائی کا راستہ دیکھ لیا",
+          "نبی کس وقت بھیجے گئے",
+          "اللہ سے کچھ چھپا ہوا نہیں",
+          "پوچھنے والے سن",
+          "پیغمبر اور اہل بیت کے فضائل",
+          "دنیا سے دل نہ لگانا",
+          "یہ سب مٹ جائیگا",
+          "اسلام کیا ہے",
+          "ائے اللہ دنیا تجھے کیا جانے؟",
+          "اللہ کے قریب کیسے پہنچا جائے",
+          "دنیا سے خبردار",
+          "دین زبانی جمع خرچ بن کر رہ گیا ہے",
+          "گزری ہوئی عمر پلٹ کر نہیں آئیگی",
+          "خدایا ان گھٹاؤں کو برسا دے",
+          "وہ جو تم نہیں جانتے",
+          "کنجوسی کی مذمت",
+          "اہل بیت کی شان",
+          "دولت کی تقسیم میں برابری",
+          "نیک بندے کہاں چلے گئے",
+          "امام کیسا ہونا چاہئے",
+          "ایک حقیقت ایک سچ",
+          "دنیا سے آگے بھی تو دیکھو",
+          "دوسروں کو برا نہ کہو",
+          "دولت کا استعمال",
+          "کسی کی برائی نہ سنو",
+          "ائے اللہ ہماری پیاس بجھا دے",
+          "نیا اور پرانا دین",
+          "آنے والا زمانہ",
+          "آخری باتیں",
+          "وہ دور جو آنے والا ہے",
+          "فتنوں سے ہوشیار",
+          "ابھرنے والا ابھر چکا ہے",
+          "پانچ باتیں جن سے توبہ کرو",
+          "ہم رسول سے کس طرح قریب ہیں",
+          "چمگادڑ کیسا عجیب و غریب ہے",
+          "آنے والے فتنے",
+          "آخرت کی تیاری",
+          "اچھا پڑوشی",
+          "اللہ کی تعریف",
+          "پیغمبر کی باتیں",
+          "تمہیں میری نصیحت ہے",
+          "عجیب و غریب پرندہ",
+          "یہ باتیں یاد رکھو",
+          "مسلمان کون ہے؟",
+          "مجھے سب کچھ بتا دیا گیا ہے",
+          "فرشتے کس پر اترتے ہیں",
+          "میری گواہی سنو",
+          "اسے ذرہ ذرہ کی خبر ہے",
+          "جو چاہو پوچھ لو",
+          "اپنے بندوں سے اللہ کا مطالبہ",
+          "ذرا سی چونٹی، چھوٹی سی ٹڈی",
+          "توحید کا کیا مطلب ہے",
+          "برے دن آنے والے ہیں",
+          "میری وصیت سنو",
+          "اس سے پہلے کے میں نہ رہوں",
+          "موت سے پہلے کیا لازم ہے",
+          "وہ جن پر نہ آسمان رویا نہ زمین",
+          "شیطان مقابلے پر آگیا ہے",
+          "حکمرانوں اور عوام کے حقوق",
+          "خطبہ شقشقیۃ"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 0
+      },
+      {
+        "binder_id": 8,
+        "binder_name": "کلمات ربانی کی تاویلات",
+        "chapter_id": 18,
+        "chapter_name": "قرآنی آیات کی تاویل",
+        "topic_count": 34,
+        "topic_labels": [
+          "ذالک الکتاب لا ریب فیہ",
+          "الذین یؤمنون بالغیب و یقیمون الصلوۃ ",
+          "أن الذین کفرو سواء علیھم أانذرتھم ام لم تنذرھم لا یؤمنون",
+          "ختم اللہ علی قلوبھم و علی سمعھم",
+          "جسمانی و نفسانی بیمار اور اس کا علاج",
+          "واذا قیل لھم لا تفسدو فیل الارض",
+          "وَلَقَدْ ءَاتَيْنَكَ سَبْعًۭا مِّنَ ٱلْمَثَانِى وَٱلْقُرْءَانَ ٱلْعَظِيمَ ",
+          "فَأُو۟لَٓئِكَ يُبَدِّلُ ٱللَّهُ سَيِّـَٔاتِهِمْ حَسَنَتٍۢ",
+          "واذا قیل لھم آمنو کمآ امن الناس قالو انؤمن کما امن السفھاء",
+          "مثلھم کمثل الذی استوقد نارا فلما أضآئت ما حولہ",
+          "الذی جعل لکم الارض فراشا والسمآء بنآء و أنزل من السمآء مآء",
+          "وان کنتم فی ریب مما نزلنا علی عبدنا فأتو بسورۃ من مثلہ",
+          "وبشر الذین امنو و عملوا الصلحت ان لھم جنت تجری من تحتھا الانھار",
+          "ولا تقولو لمن یقتل فی سبیل اللہ اموات بل أحیآء ولکن لا تشعرون",
+          "یأیھا الذین امنو لا تبطلو صدقتکم بالمن والاذی",
+          "وما یعلم تأویلہ الا اللہ والرسخون فی العلم",
+          "أن اول بیت وضع للناس للذی ببکۃ مبارکا وھدی للعلمین",
+          "خلق السموات والارض وجعل الظلمت والنور",
+          "ان الذین کذبوا بأیتنا واستکبروا عنھا لا تفتح لھم ابواب السمآء",
+          "وترھم ینظرون الیک وھم لا یبصرون",
+          "الم یر الذین کفرو ان السموت والارض کانتا رتقا ففتقنھما",
+          "لا الہ الا ھو کل شئی ھالک الا وجھہ",
+          "وکل فی فلک یسبحون",
+          "قل لا أسئلکم علیہ أجرا الا المودۃ فی القربی",
+          "لیغفر لک اللہ ما تقدم من ذنبک وما تأخر",
+          "و نحن أقرب الیہ من حبل الورید",
+          "لا یمسہ الا المطھرون",
+          "والفجر ولیال عشر والشفع والوتر والیل اذا یسر",
+          "والشمس وضحھا والقمر اذا تلھا",
+          "ولسوف یعطیک ربک فترضی",
+          "لیس علی الذین أمنوا وعملوا الصلحت جناح فیما طعموا أذا ما التقوا أمنوا",
+          "ولل آخرۃ خیر لک من الاولی",
+          "ولیس البر ان تاتو البیوت من ظھورھا",
+          "چھ دن کی خلقت اور اللہ کا عرش پر بیٹھنا"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 1878902
+      },
+      {
+        "binder_id": 8,
+        "binder_name": "کلمات ربانی کی تاویلات",
+        "chapter_id": 132,
+        "chapter_name": "قرآن الکریم و الفرقان الحمید",
+        "topic_count": 2,
+        "topic_labels": [
+          "قرآن الکریم",
+          "نزول قرآن"
+        ],
+        "topic_labels_en": [
+          null,
+          null
+        ],
+        "total_content_chars": 12332
+      },
+      {
+        "binder_id": 8,
+        "binder_name": "کلمات ربانی کی تاویلات",
+        "chapter_id": 25,
+        "chapter_name": "اعراب اور مقطعات کی تاویل و حقائق",
+        "topic_count": 26,
+        "topic_labels": [
+          "حکمت الاعراب",
+          "شمسی و قمری حروف",
+          "نورانی و ظلمانی حروف",
+          "حروف معجم اور کلمۃ اخلاص",
+          "قرآن کے چار حروف",
+          "حروف علت : الف واو یا",
+          "عربی کے قواعد",
+          "عربی کے قواعد اور عالم روحانی",
+          "نماز اور اعراب",
+          "آگ کی تین کیفیتیں",
+          "اعراب : عالم روحانی، جرمانی ، جسمانی",
+          "اعراب : محتجب و حجاب",
+          "مختلف دوائر میں اعراب کے ممثولات",
+          "اعراب : ثلاثۃ سفرا",
+          "اعراب : ثلاثۃ مجاری",
+          "مد، جزم، تشدید، تنوین",
+          "نورانی اور ظلمانی حروف",
+          "حرف الف",
+          "مقطعات",
+          "نصف اول کے ۹ مقطعات",
+          "نصف ثانی کے ۲۰ مقطعات",
+          "نصف اول اور نصف ثانی کی آیات کلیۃ",
+          "قرآن میں مقطعات کی گنتی",
+          "انوار خمسہ کا مجمع",
+          "نطقا کے ناموں میں حروف نورانی و ظلمانی",
+          "مقطعات میں ۱۹ کی حکمت"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "total_content_chars": 928716
+      },
+      {
+        "binder_id": 8,
+        "binder_name": "کلمات ربانی کی تاویلات",
+        "chapter_id": 24,
+        "chapter_name": "بسم اللہ الرحمن الرحیم کی تاویل",
+        "topic_count": 17,
+        "topic_labels": [
+          "بسم اللہ الرحمن الرحیم کی فضیلت",
+          "بسم اللہ الرحمن الرحیم کے معنی",
+          "بسم اللہ میں حروف کی ترتیب",
+          "اللہ کے نام سے کیا مراد ہے؟",
+          "بسم اللہ کے چار ابواب",
+          "بسم اللہ کے چار کلمات کی تاویل",
+          "بسم اللہ میں ۱۹ کا جوہر",
+          "بسم اللہ میں پنجتن کا وسیلہ",
+          "بسم اللہ پڑھتے ہوئے چہرے پر ہاتھ پھرانا",
+          "پانی پر بسم اللہ پڑھ کر دم کرنے کی روایت",
+          "بسم اللہ کے ممثولات: آدم اور سلیمان",
+          "سیدنا سلیمان اور بسم اللہ الرحمن الرحیم",
+          "بسم اللہ اور ولایت علی",
+          "با بسم اللہ لاسق بنا ہوا ہے",
+          "علی ہی کے ذریعے ترقی ممکن ہے",
+          "ب : امام کا حجاب اعلی و ادنی",
+          "ب : میم اور عین"
+        ],
+        "topic_labels_en": [
+          null,
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "total_content_chars": 198565
+      },
+      {
+        "binder_id": 8,
+        "binder_name": "کلمات ربانی کی تاویلات",
+        "chapter_id": 85,
+        "chapter_name": "سورۃ الأخلاص کی تاویل",
+        "topic_count": 6,
+        "topic_labels": [
+          "سورۃ الاخلاص کے معنی",
+          "سورۃ اخلاص ایک تھائی قرآن ہے",
+          "سورۃ اخلاص کا چارٹ",
+          "صاحبان اسبوعین اور سورۃ الاخلاص",
+          "سورۃ اخلاص کے حروف اور نقاط",
+          "سورۃ اخلاص اور علی ابن ابو طالب"
+        ],
+        "topic_labels_en": [
+          "Esoteric Meaning Of Surah Ikhlaas",
+          "Surah Ikhlaas Is 1/3 Quran",
+          "Chart Of Surah Ikhlaas",
+          "Surah Ikhlaas Representing Ashaabe Usbooain",
+          "Letters And Dots In Surah Ikhlaas",
+          "Surah Ikhlaas Representing Ali Ibne Abu Talib"
+        ],
+        "total_content_chars": 67290
+      },
+      {
+        "binder_id": 8,
+        "binder_name": "کلمات ربانی کی تاویلات",
+        "chapter_id": 9,
+        "chapter_name": "احادیث نبوی علیہ السلام کی تاویل",
+        "topic_count": 28,
+        "topic_labels": [
+          "حُبُّ عَلِی حَسَنَتٌ لا تَضُرُّ مَنَحَھَا سَیِّئۃٌ",
+          "أنا الاول أنا الآخر",
+          "أنا الظاھر أنا الباطن",
+          "أنا الاول أنا الآخر أنا الظاھر و أنا الباطن",
+          "أنا بکل شئی علیم",
+          "أنا الذی رفعت سمائھا و أنا الذی دحوت ارضھا",
+          "أَعمَارُ اُمَّتِی بَیْنَ السِّتِّیْنَ وَالسَّبعِیْن",
+          "یَشْھَدُ نُبُوَّتِی کُلَّ حَجَرٍ وَ مَدَرٍ",
+          "فَمَنْ ماَتَ لَہُ ثَلاَثَۃً اَلمَوَالِیْدِ فاَحْسَبَھُمْ حَجِیوَہ مِنَ النَّار",
+          "اَلمُؤمِنُ یَأکُلِ فِی مِعاَءٍ وَاحِدْ وَالکاَفِرِ یَأکُلِ فِی سَبْعَۃٍ مِعاَء",
+          "نِیَّتُ اَلمُؤمِنُ خَیرٌ مِن عَمَلِہِ",
+          "اَلمُؤمِنُ کَمِثلِ النَّحَلِ ھُوَ یَأکُلُ الطِّیبَا وَ یَخرِجُ الطِّیبَا",
+          "اَوَّلُ ماَ یُوْضِعُ فِی الْمِیْزَانِ اَلخُلُقِ الحَسَنَ",
+          "مَن کَثَرَ صَلوٰاتَہُ بِالَّیلِ حَسَنَ وَجھَہُ بِالنَّھاَرِ ",
+          "مَن بُنٰی مَسجِداً وَلَو مَثلَ فَفحَص قِطاَۃٍ بُنٰی اَللّٰہ لَہُ بَیتاً فِی الجَنَّۃ",
+          "ماَ تَرَکتُ مِن بَعدِی فِتنَۃً اَضَرَّ عَلیَ اَلرِّجاَلَ مِنَ النِّساَءِ ",
+          "لاَ تَقُومُ السَّاعَۃَ حَتّٰی یَقلَ الرِّجاَلُ وَتَکثُر اَلنِّساَءً",
+          "تَمسَحُو بِالاَرضِ فَاِنَّھُم بِکُم بِرَّۃٌ",
+          "اَقَلَّ سَاکِنِی اَلجَنَّۃَ اَلنِّساَءِ",
+          "اِنَّ عَذاَبَ ھٰذَا اَلاُمَّۃِ جَعَلَ فِی دُنیَاھَا",
+          "من عرف نفسہ فقد عرف ربہ",
+          "من عرف نفسہ فقد عرف ربہ | جسم نفس اور عقل کے مراکز",
+          "اَلقَبرُ اَمَّا رَوضَۃُ مِن رِیاَض اَلجَنَّۃ",
+          "بَینَ قَبرِی وَ مِنبَرِی رَوضَۃٌ مِن رِیاَض اَلجَنَّۃ",
+          "فَعَلَیکُم بِالقُرآنَ فَاِنَّہُ شاَفِعَ مُشَفِّع",
+          "مَثَلُ اَھلِ بَیتِی کَمَثَلِ سَفِینَۃُ النُّوح",
+          "تصویر اور مجسموں کو زندہ کرنے کی حدیث",
+          "پانی پر بسم اللہ پڑھ کر دم کرنے کی روایت"
+        ],
+        "topic_labels_en": [
+          "Ali's Love Is Such A Good That No Evil Can Then Harm One",
+          null,
+          null,
+          null,
+          null,
+          null,
+          "The Age Of My Nation Is Between 60 And 70",
+          "Every Stone And Pebble Testifies For My Prophethood",
+          "For He Who Remained Patient After Losing 3 Children, His Late Children Will Protect Him From Fire",
+          "A Momin Eats With One Intestine While A Kafir Eats With Seven",
+          "Intention Of A Momin Is Greater Than His Action",
+          "A Momin Eats Good And Excretes Good",
+          "Good Manners Is The First Thing That Will Be Weighed In The Balance",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "The One Who Recognizes Himself Recognizes His Lord - Direct And Indirect Creation",
+          "The One Who Recognizes Himself Recognizes His Lord - Centers Of Body, Soul And Intellect",
+          "Grave Is Either A Bed Of Flowers From Heaven Or A Ditch From Hell",
+          "Between My Grave And Pulpit Is A Bed Of Flowers From Heaven",
+          "Read Quran For It Is An Intercessor...",
+          "Example Of My Progeny Is Like The Arc Of Noah...",
+          "On The Day Of Judgment Allah Will Ask Sculptors To Give Life To Their Sculptures",
+          ""
+        ],
+        "total_content_chars": 748243
+      },
+      {
+        "binder_id": 8,
+        "binder_name": "کلمات ربانی کی تاویلات",
+        "chapter_id": 22,
+        "chapter_name": "قرآنی سوروں کی تاویل",
+        "topic_count": 5,
+        "topic_labels": [
+          "سورۃ الناس",
+          "سورۃ التکاثر",
+          "سورۃ التین",
+          "سورۃ النازعۃ",
+          "سورۃ القدر"
+        ],
+        "topic_labels_en": [
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "total_content_chars": 170821
+      },
+      {
+        "binder_id": 8,
+        "binder_name": "کلمات ربانی کی تاویلات",
+        "chapter_id": 23,
+        "chapter_name": "سورۃ الفاتحۃ کی تاویل",
+        "topic_count": 20,
+        "topic_labels": [
+          "سورۃ الفاتحۃ کی فضیلت",
+          "سورۃ الفاتحہ کے دس نام",
+          "سورۃ الفاتحۃ کے جواہر",
+          "سورۃ الفاتحۃ کی تاویل",
+          "سورۃ الفاتحۃ کے لہجوں کے سات اضداد",
+          "آدم اور ان کی ضد",
+          "رسول اللہ کے اضداد دعوت",
+          "سورۃ الفاتحۃ شفع کا باعث ہے",
+          "سورۃ الفاتحۃ میں دعوت کی نشست",
+          "خالق اور رب میں فرق",
+          "الحمد للہ رب العالمین کی تاویل",
+          "الرحمن الرحیم کی تاویل",
+          "مالک یوم الدین کی تاویل",
+          "سورۃ الفاتحۃ میں تین راستوں کی وضاحت",
+          "سورۃ الفاتحۃ کے ۲۵ حروف",
+          "سورۃ الفاتحۃ کی سات آیات",
+          "عین اولۃ اور عین آخرۃ",
+          "سورۃ الفاتحۃ میں با اور نون کا نقطہ",
+          "سورۃ الفاتحۃ با سے شروع اور نون پر ختم",
+          "سورۃ الفاتحۃ کی خلافتیں"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 259385
+      },
+      {
+        "binder_id": 12,
+        "binder_name": "دعات اور مناصیب کی سیرت و واقعات",
+        "chapter_id": 36,
+        "chapter_name": "حدود کبار",
+        "topic_count": 5,
+        "topic_labels": [
+          "مالک بن حارث الاشتر النخعی",
+          "اویث قرنی",
+          "سیدنا مؤید الشیرازی اعلی اللہ قدسہ",
+          "امام مستنصر کے نام سیدنا مؤید کے اشعار اور امام کا جواب",
+          "شھداء کربلا کے اسمآء حسنی"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          "",
+          "",
+          null
+        ],
+        "total_content_chars": 17265
+      },
+      {
+        "binder_id": 12,
+        "binder_name": "دعات اور مناصیب کی سیرت و واقعات",
+        "chapter_id": 138,
+        "chapter_name": "سیرت المناصیب",
+        "topic_count": 1,
+        "topic_labels": [
+          "سیرت"
+        ],
+        "topic_labels_en": [
+          null
+        ],
+        "total_content_chars": 0
+      },
+      {
+        "binder_id": 12,
+        "binder_name": "دعات اور مناصیب کی سیرت و واقعات",
+        "chapter_id": 143,
+        "chapter_name": "شخصیات",
+        "topic_count": 1,
+        "topic_labels": [
+          "نانا ملا شفقت حسین صاحب"
+        ],
+        "topic_labels_en": [
+          null
+        ],
+        "total_content_chars": 0
+      },
+      {
+        "binder_id": 16,
+        "binder_name": "منتخب دعاؤں کا مجموعۃ",
+        "chapter_id": 42,
+        "chapter_name": "فجر کے بعد کی دعائیں",
+        "topic_count": 3,
+        "topic_labels": [
+          "Dua-E-Raatib",
+          "Dua-E-Hajaat",
+          "F A J A R"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 0
+      },
+      {
+        "binder_id": 16,
+        "binder_name": "منتخب دعاؤں کا مجموعۃ",
+        "chapter_id": 44,
+        "chapter_name": "روزانہ کی دس دعائیں",
+        "topic_count": 4,
+        "topic_labels": [
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 0
+      },
+      {
+        "binder_id": 16,
+        "binder_name": "منتخب دعاؤں کا مجموعۃ",
+        "chapter_id": 41,
+        "chapter_name": "دعا و مناجات",
+        "topic_count": 7,
+        "topic_labels": [
+          "Dua Isteftah (Imam Jaffar Al-Sadiq)",
+          "Dua Tanveer Al-Qalb",
+          "Talabe Afu Wal Maghfirah (Imam Ali Zainul Abideen)",
+          "Dua Hayaat Qaaf",
+          "Talab Ilm Wal Hafiza",
+          "Dua Farj (By Nabi Pbuh)",
+          "Dua Of Syedna Abul Barkaat"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 0
+      },
+      {
+        "binder_id": 18,
+        "binder_name": "قرآنی قصص الانبیا کے حقائق",
+        "chapter_id": 168,
+        "chapter_name": "حضرت نوح علیہ السلام",
+        "topic_count": 1,
+        "topic_labels": [
+          "Nooh"
+        ],
+        "topic_labels_en": [
+          null
+        ],
+        "total_content_chars": 91053
+      },
+      {
+        "binder_id": 18,
+        "binder_name": "قرآنی قصص الانبیا کے حقائق",
+        "chapter_id": 137,
+        "chapter_name": "حضرت عیسی علیہ السلام",
+        "topic_count": 1,
+        "topic_labels": [
+          "مولانا علی اور حضرت عیسی کا تقابلہ"
+        ],
+        "topic_labels_en": [
+          null
+        ],
+        "total_content_chars": 10535
+      },
+      {
+        "binder_id": 18,
+        "binder_name": "قرآنی قصص الانبیا کے حقائق",
+        "chapter_id": 147,
+        "chapter_name": "ظاہری واقعات",
+        "topic_count": 1,
+        "topic_labels": [
+          "بسم"
+        ],
+        "topic_labels_en": [
+          null
+        ],
+        "total_content_chars": 0
+      },
+      {
+        "binder_id": 18,
+        "binder_name": "قرآنی قصص الانبیا کے حقائق",
+        "chapter_id": 52,
+        "chapter_name": "حضرت آدم علیہ السلام",
+        "topic_count": 18,
+        "topic_labels": [
+          "آدم علیہ السلام کا ظاہری قصہ",
+          "آدم صفی اللہ علیہ السلام",
+          "آدم کی جنت",
+          "ملائکہ کا امتحان",
+          "وأعلم ما تبدون و ماکنتم تکتمون کی تفسیر",
+          "ملائکہ کا استغفار",
+          "ملائکہ سے غلظی کیسے ممکن ہے؟",
+          "ابلیس کی تکبری اور انکار",
+          "حوا کی پیدائش اور ازدواج",
+          "ابلیس کا اللہ کو چیلنج",
+          "شیطان مقابلے پر آگیا ہے",
+          "آدم کا فریب کھانا",
+          "آدم کا جنت سے نکالا جانا",
+          "آدم اور حوا کا استغفار",
+          "جنت سے زمین پر اتارا جانا",
+          "قابیل کا حسد اور ھابیل کی شھادت",
+          "آدم : بسم اللہ کے ممثول",
+          "اللہ کی رحمت  سے مایوسی گناہ ہے"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 161817
+      },
+      {
+        "binder_id": 18,
+        "binder_name": "قرآنی قصص الانبیا کے حقائق",
+        "chapter_id": 131,
+        "chapter_name": "نطقا کا بیان",
+        "topic_count": 5,
+        "topic_labels": [
+          "صاحب شریعت رسول",
+          "پیدائش عالم کی ۴ علتیں",
+          "شیطان کا انسان پر غالب ہونے اور اس کو گمراہ کرنے کا راز:",
+          "گنہ گار اور نافرمانوں کی ۳ قسمیں",
+          "داؤد نبی کا حکیمانہ قول"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 21074
+      },
+      {
+        "binder_id": 19,
+        "binder_name": "دعائم الاسلام : ولایت",
+        "chapter_id": 54,
+        "chapter_name": "ولایت اہل بیت",
+        "topic_count": 19,
+        "topic_labels": [
+          "رسول اللہ کا علی پر نص کرنا",
+          "علی کی ظاہری خلافت",
+          "پنجتن کی ولایت اور معرفت",
+          "اللہ کے نورانی ذوات",
+          "محاسبۃ النفس",
+          "زلیخا کی ولایت",
+          "رسول اللہ اور ابوزر کی گفتگو",
+          "سیاہ کنیز کی ولایت",
+          "علی کی نورانی حیثیت سے معرفت",
+          "مولاتنا فاطمہ فی المحشر",
+          "علی اور بطول کے فضائل",
+          "محمد و علی کا باہمی اتحاد",
+          "امام باقر علیہ السلام اور شیخ",
+          "اللہ تعالی بڑا غفور الرحیم ہے",
+          "آل محمد سے دوستی",
+          "خدا کی مضبوط رسی",
+          "قبر میں چھ صورتیں",
+          "اطاعت کے بغیر قرب ممکن نہیں",
+          "عظمت پیغمبر علیہ السلام"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "",
+          null,
+          "",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 214682
+      },
+      {
+        "binder_id": 19,
+        "binder_name": "دعائم الاسلام : ولایت",
+        "chapter_id": 71,
+        "chapter_name": "اسلام اور ایمان",
+        "topic_count": 13,
+        "topic_labels": [
+          "ایمان کیا ہے؟",
+          "دل، زبان اور جسم کا ایمان",
+          "ایمان اور مومنین کی ۳ اقسام",
+          "ایمان کے ۸ طبقات کا بیان",
+          "صاحب ایمان کے خصائل",
+          "ایمان میں سباقیت اور درجات",
+          "ظاھری اور باطنی ایمان",
+          "ایمان کو علم پر فضیلت حاصل ہے",
+          "اسلام اور ایمان کا فرق",
+          "ایمان ، شرک و گمراہی کی ادنی ترین شرائط",
+          "اسلامی دعوت کا اصل مقصد کیا تھا؟",
+          "اسلامی و ایمانی جنت",
+          "اسلام و ایمان کا انبعاث"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "",
+          null,
+          ""
+        ],
+        "total_content_chars": 253178
+      },
+      {
+        "binder_id": 19,
+        "binder_name": "دعائم الاسلام : ولایت",
+        "chapter_id": 123,
+        "chapter_name": "ایمان کی خصلتیں",
+        "topic_count": 8,
+        "topic_labels": [
+          "اخلاص",
+          "اخلاص کس طرح پیدا ہوتا ہے؟",
+          "تقوی",
+          "صبر",
+          "توکل علی اللہ",
+          "اذا کان الصبر رجل لکان رجل صالحا",
+          "زھد و پرہیزگاری",
+          "زکاوۃ النفس اور معارف"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 74169
+      },
+      {
+        "binder_id": 19,
+        "binder_name": "دعائم الاسلام : ولایت",
+        "chapter_id": 122,
+        "chapter_name": "ولایت کی اہمیت اور اوصاف",
+        "topic_count": 17,
+        "topic_labels": [
+          "شعیہ کی تعریف",
+          "متقی مؤمن کے اوصاف",
+          "مومن کے صفات",
+          "محبت کی حقیقت کیا ہے؟",
+          "قانون الف - الفت کا قانون",
+          "محب اہل بیت کی علامتیں",
+          "اہل بیت کی ولایت کے متعلق اقوال",
+          "ولایت کے متعلق ائمہ کے اقوال",
+          "اللہ سے محبت اور دوستی",
+          "ولایت کی اہمیت",
+          "ولایت دل پر کیوں فرض کی گئی ہے؟",
+          "اپنے زمانے کے امام کی معرفت",
+          "اللہ کی خاص عبادت",
+          "خوف اور امید کے درمیان زندگی",
+          "دنیا کی حقیقت",
+          "امام جعفر الصادق کی نصیحت",
+          "تمام فرائض کی علت اولۃ اور علت ثانیۃ"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          ""
+        ],
+        "total_content_chars": 402906
+      },
+      {
+        "binder_id": 19,
+        "binder_name": "دعائم الاسلام : ولایت",
+        "chapter_id": 64,
+        "chapter_name": "امام کی واجبیت اور فضائل",
+        "topic_count": 14,
+        "topic_labels": [
+          "رسالت خاص اور رسالت عام",
+          "رسولوں کی ضرورت کیوں ہے؟",
+          "اوصیا کی ضرورت کیوں ہے؟",
+          "رسول ثانی سے اتصال مشکل کیوں ہوتا ہے؟",
+          "روحانی والدین اور ان کی طاعت",
+          "امام کے وجود کی دلیل",
+          "امام چننے کا حق کس کو ہے؟",
+          "قرآنی آیتوں میں امام کی طرف اشارہ",
+          "آل محمد سے کون مراد ہے؟",
+          "آل محمد کے زمرہ میں شمار",
+          "امت محمدی کون ہیں؟",
+          "امام کی پاکی اور معصومیت",
+          "وکل شئی احصینہ فی امام مبین",
+          "کتاب الاثبات الامامۃ"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 349094
+      },
+      {
+        "binder_id": 19,
+        "binder_name": "دعائم الاسلام : ولایت",
+        "chapter_id": 86,
+        "chapter_name": "دعائم الاسلام کے معنی",
+        "topic_count": 2,
+        "topic_labels": [
+          "دعائم الاسلام کے باطنی معنی",
+          "بکرے کی ذبیحت اور عہد شریف"
+        ],
+        "topic_labels_en": [
+          null,
+          null
+        ],
+        "total_content_chars": 57320
+      },
+      {
+        "binder_id": 19,
+        "binder_name": "دعائم الاسلام : ولایت",
+        "chapter_id": 10,
+        "chapter_name": "احکامات شریعت کی تاویل",
+        "topic_count": 14,
+        "topic_labels": [
+          "نکاح اور سفاح کا فرق",
+          "مومنین پر حق واجبات کی تاویل",
+          "رسول اور ان کی آل پر صلواۃ کی واجبیت",
+          "اہل کتاب پر جزیہ کی تاویل",
+          "انا للہ و انا الیہ راجعون",
+          "استبرا کی تاویل",
+          "لا حول ولا قوت الا باللہ العلی العظیم",
+          "اس امر کے بارے میں کہ مردار جانور سور کے گوشت کی طرح حرام ہے",
+          "غلطی سے قتل کا خون بھا",
+          "دجال اور اس کے فتنے کے وجود کا اثبات",
+          "ہمجنس کو سنگسار کرنے کی تاویل",
+          "زانی کو سنگسار کرنے کی تاویل",
+          "گناہ کبیرۃ کی شرح",
+          "مردوں کے لئے زری اور ریشمی لباس میں نماز پڑھنا منع ہے"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 0
+      },
+      {
+        "binder_id": 23,
+        "binder_name": "منتخب علمی مضامین",
+        "chapter_id": 83,
+        "chapter_name": "مستفید کے خواص",
+        "topic_count": 10,
+        "topic_labels": [
+          "مستفید کیسا ہونا چاہئے؟",
+          "مستفید کی فکر اور سوالات",
+          "مستفید کے نفس پر علم کا اثر",
+          "خالص و ناقص مستفید",
+          "پیاس اور خوف",
+          "طالب علم اور مستفید کا فرق",
+          "مستفید کی حجرت",
+          "مستفید کا سوال اور مفید کا جواب",
+          "کس سے سوالات کرنے چاہئے؟",
+          "میرے مفید کا مجھ پر احسان عظیم"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 33131
+      },
+      {
+        "binder_id": 23,
+        "binder_name": "منتخب علمی مضامین",
+        "chapter_id": 38,
+        "chapter_name": "کتاب مصباح الشریعۃ",
+        "topic_count": 98,
+        "topic_labels": [
+          "عبودیت",
+          "نظریں جھکانا",
+          "پیدل چلنا",
+          "علم",
+          "فیصلہ کرنا",
+          "نیکی کا حکم کرنا اور برائی سے روکنا",
+          "علما کس طرح برباد ہوتے ہیں",
+          "حفاظت نفس",
+          "شکرگزاری",
+          "گھر سے باہر نکلنے پر",
+          "Reciting The Quran",
+          "Dress",
+          "Showing Off",
+          "Truthfulness",
+          "Sincerity",
+          "Precaution",
+          "Fearing Allah",
+          "Social Interactions",
+          "Sleep",
+          "Pilgrimage",
+          "Charity",
+          "Intention",
+          "اللہ کا ذکر",
+          "Ruin Of The Recitors",
+          "Clarification Of Truth And Falsehood",
+          "Gnosis Of The Prophets",
+          "Recognition Of The Companions",
+          "Honor And Sanctity Of Believers",
+          "Dutifulness To Parents",
+          "Humility",
+          "Ignorance",
+          "Eating",
+          "Evil Whispering",
+          "Pride",
+          "Generosity",
+          "Self Reckoning",
+          "Opening The Prayer",
+          "Bowing In Prayer",
+          "Prostration In Prayer",
+          "Tashahhud",
+          "Tasleem In Prayers",
+          "Repentance",
+          "Retreat",
+          "Silence",
+          "Intellect And Passion",
+          "Envy",
+          "Greed",
+          "Corruption",
+          "Wellbeing",
+          "Worship",
+          "Reflection",
+          "Rest",
+          "Avarice",
+          "Clarification",
+          "Judgments",
+          "Miswaak",
+          "Using The Lavatory",
+          "Purification",
+          "Entering The Mosque",
+          "Supplication",
+          "Fasting",
+          "Abstinence",
+          "Description Of The World",
+          "Reluctance For Good Acts",
+          "Delusion",
+          "Description Of Hypocrite",
+          "Proper Social Transaction",
+          "Taking And Giving",
+          "Brotherhood",
+          "Consultation",
+          "Forbearance",
+          "Following Anothers Example",
+          "Pardon",
+          "Exhoration",
+          "Advice",
+          "Trustful Reliance",
+          "Respect For One's Brothers",
+          "Striving And Discipline",
+          "Contemplation Of Death",
+          "Good Opinion",
+          "Entrusting Oneslef To Allah",
+          "یقین",
+          "Fear And Hope",
+          "قناعت",
+          "Affliction",
+          "Patience",
+          "Sorrow",
+          "Modesty",
+          "Gnosis (Ma'rifat)",
+          "Love Of Allah",
+          "اللہ سے محبت",
+          "Love For The Sake Of Allah",
+          "Yearning",
+          "Wisdom",
+          "Making Claims",
+          "Taking Heed",
+          "Contentment",
+          "Slander"
+        ],
+        "topic_labels_en": [
+          "Bondage",
+          "Lowering One's Gaze",
+          "Walking",
+          "Knowledge",
+          "Passing Judgment",
+          "",
+          "",
+          "",
+          "",
+          "",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "Remembrance",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 345808
+      },
+      {
+        "binder_id": 23,
+        "binder_name": "منتخب علمی مضامین",
+        "chapter_id": 55,
+        "chapter_name": "کتاب حکایات بنی اسرائیل",
+        "topic_count": 43,
+        "topic_labels": [
+          "شیطان کا مکر اور عابد کی عبادت پر اس کا اثر",
+          "بادشاہ اور ولی",
+          "کتنی نیکیاں برائی کی شکل میں آتی ہیں",
+          "مومن متقی کا عذاب دنیا میں ہی ہے",
+          "عبد نافرمان کی بخشش",
+          "جھوٹا کبھی عابد نہیں ہو سکتا",
+          "شرم سار بندہ",
+          "پڑوسی کو پناہ",
+          "خود پسند نجات نہ پائیگا",
+          "صدقہ موت کو ٹال دیتی ہے",
+          "عمل میں خلوص باعث نجات ہے",
+          "شراب تمام برائیوں کی جڑ ہے",
+          "جنت ماں کے قدموں کے نیچے ہے",
+          "محنت کی کمائی ھزار بخششوں سے افضل ہے",
+          "خود پسندی اور غرور اللہ پسند نہیں کرتا",
+          "محنت سے حلال روزی کمانے والے نبی سے افضل ہیں",
+          "خلوص نیت سے ایمان حاصل ہوتا ہے",
+          "شھدا کے طفیل سے دعائیں قبول ہوتی ہیں",
+          "علم شیطان کے بھکاوے کے لئے ڈھال ہے",
+          "صدقہ سے موت ٹل جاتی ہے",
+          "صدقہ سے موت ٹل جاتی ہے",
+          "صدقہ سے گناہ کبیرہ بھی معاف ہوتے ہیں",
+          "شوہر کی اطاعت سے بیوی کی نجات",
+          "قدرت کا کوئی عمل خیر و حکمت سے خالی نہیں",
+          "نیک کام اور دنیا طلبی",
+          "اللہ کے پاس دیر ہے اندھیر نہیں",
+          "ندامت ، عبادت سے بہتر ہے",
+          "قبضے کی زمین پر عبادت جائز نہیں",
+          "خود غرض کی عبادت قبول نہیں ہوتی",
+          "ماں کا احترام",
+          "عاجزانہ توبہ سے عذاب دور ہوتا ہے",
+          "عذاب جہنم کا خوف",
+          "بدکاروں کی چشم پوشی بڑا گناہ ہے",
+          "ترک عمل سے انسان بے امید ہو جاتا ہے",
+          "نذر اور عہد پورا کرنے کی برکت",
+          "اللہ پر بھروسہ اور غیبت نہ کرنے کی جزا",
+          "مومن اور کافر کی خواہشات",
+          "مومن اور کافر کی خواہشات",
+          "ندامت بڑے سے بڑا گناہ معاف کروا دیتی ہے",
+          "جنتی اور ان کی پہچان",
+          "اللہ کی فطرت میں تبدیلی نہیں ہوتی",
+          "انسان مصیبت اپنے ہی ہاتھ سے کماتا ہے",
+          "حرام کاری سے بچنے پر اللہ کا نیک اجر"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 75676
+      },
+      {
+        "binder_id": 23,
+        "binder_name": "منتخب علمی مضامین",
+        "chapter_id": 59,
+        "chapter_name": "رسالۃ الماھیۃ الزۃ و الالم",
+        "topic_count": 1,
+        "topic_labels": [
+          "لزت اور تکلیف کی ماھیت"
+        ],
+        "topic_labels_en": [
+          null
+        ],
+        "total_content_chars": 7826
+      },
+      {
+        "binder_id": 23,
+        "binder_name": "منتخب علمی مضامین",
+        "chapter_id": 60,
+        "chapter_name": "رسالۃ حکمت الموت",
+        "topic_count": 10,
+        "topic_labels": [
+          "وجود انسان سے حکمت الموت",
+          "موت کا مقصد",
+          "حیات کی ماھیت",
+          "جزو اور کل",
+          "اندھے اور معزور کی حکایت",
+          "نفس کی ترقی",
+          "نفس کی سیاست",
+          "جسم اور نفس کا جوڑ",
+          "جسم کافر اور یھودی ہے",
+          "نفس اور جسم کی حقیقت"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 91378
+      },
+      {
+        "binder_id": 23,
+        "binder_name": "منتخب علمی مضامین",
+        "chapter_id": 69,
+        "chapter_name": "ظاھر و باطن کا ازدواج",
+        "topic_count": 12,
+        "topic_labels": [
+          "ہر ظاہر کے پیچھے باطن ہے",
+          "مثل و ممثول کی اہمیت",
+          "مثل اور مثال کے درمیان کا رشتہ",
+          "مثل الاعلی",
+          "قرآن کے ظاہری و باطنی معنی",
+          "سعد اور نحس ایام",
+          "سال کے مہینوں کی ازدواجیت",
+          "سال میں نظر اشرف اور نظر ادون",
+          "شریعت کے دو حصے",
+          "نطقا اور ان کی شریعتوں کا فرق",
+          "ناطق اور ناموس کی تدوین",
+          "تاویل اور ممثولات کے دوائر"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 255595
+      },
+      {
+        "binder_id": 23,
+        "binder_name": "منتخب علمی مضامین",
+        "chapter_id": 70,
+        "chapter_name": "عقل اور علم",
+        "topic_count": 8,
+        "topic_labels": [
+          "دنیا میں عقل اور علم کا مقام",
+          "عقل کا حقیقی مقصد",
+          "علم کے ساتھ عمل کا جوڑ",
+          "علم اور عمل کی رفتار کا فرق",
+          "علم کی نماز پر فوقیت",
+          "کون سے علوم جاننا واجب ہیں؟",
+          "حق اور گمان",
+          "انسان اور اس کی نفسانی ترقی"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 168957
+      },
+      {
+        "binder_id": 23,
+        "binder_name": "منتخب علمی مضامین",
+        "chapter_id": 72,
+        "chapter_name": "قضا قدر اور قصاص",
+        "topic_count": 11,
+        "topic_labels": [
+          "قصاصات کے معاملات",
+          "لولاک لما خلقت الافلاک",
+          "مالک کا اپنے غلام کی خدمت کرنا",
+          "قضا و قدر کے معاملات",
+          "داؤد علیہ السلام اور قضا آخرۃ",
+          "قصاصات اور ائمہ کا حد جاری کرنا",
+          "ائمہ و دعات کا پیشن گوئی کرنا",
+          "خنزیر اور بچوں کا واقعہ",
+          "قرآن سامت و ناطق کے قصاصات",
+          "فضت و رب الکعبۃ",
+          "امام حسین کی شہادت"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "",
+          null,
+          null
+        ],
+        "total_content_chars": 42129
+      },
+      {
+        "binder_id": 23,
+        "binder_name": "منتخب علمی مضامین",
+        "chapter_id": 148,
+        "chapter_name": "مفاتیح الحکمۃ",
+        "topic_count": 3,
+        "topic_labels": [
+          "سرکس کے جانور",
+          "وحشی جانوروں کی لڑائی",
+          "طوطے کا تماشا"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 5171
+      },
+      {
+        "binder_id": 23,
+        "binder_name": "منتخب علمی مضامین",
+        "chapter_id": 87,
+        "chapter_name": "کتاب العالم والغلام",
+        "topic_count": 16,
+        "topic_labels": [
+          "کتاب العالم والغلام [عربی]",
+          "The Master And The Disciple",
+          "جسمانی و نفسانی بیمار اور اس کا علاج",
+          "Master meets the slave",
+          "The outer and inner signs of Allah",
+          "The three levels of knowledge",
+          "There is no power or strength except Him",
+          "Is this world illicit for the believers?",
+          "Reasons For Spiritual Differences",
+          "Regarding effort of the soul",
+          "Meeting the Sheikh",
+          "Slaves return to his family",
+          "Meeting with Abu Malik",
+          "Abu Malik meets Salih",
+          "How To Assess True Knowledge",
+          "Tawheed and Justice"
+        ],
+        "topic_labels_en": [
+          "",
+          "The Master And The Disciple",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 623718
+      },
+      {
+        "binder_id": 23,
+        "binder_name": "منتخب علمی مضامین",
+        "chapter_id": 63,
+        "chapter_name": "ضروری معلومات",
+        "topic_count": 2,
+        "topic_labels": [
+          "علم العدد",
+          "أسمآء اللہ الحسنی"
+        ],
+        "topic_labels_en": [
+          null,
+          null
+        ],
+        "total_content_chars": 7984
+      },
+      {
+        "binder_id": 24,
+        "binder_name": "توحید مبدع تعالی",
+        "chapter_id": 130,
+        "chapter_name": "توحید فی النحج البلاغۃ",
+        "topic_count": 4,
+        "topic_labels": [
+          "اس سے بڑھ کر کوئی نہیں",
+          "اللہ کی تعریف",
+          "اسے ذرہ ذرہ کی خبر ہے",
+          "توحید کا کیا مطلب ہے"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 0
+      },
+      {
+        "binder_id": 24,
+        "binder_name": "توحید مبدع تعالی",
+        "chapter_id": 71,
+        "chapter_name": "اسلام اور ایمان",
+        "topic_count": 13,
+        "topic_labels": [
+          "ایمان کیا ہے؟",
+          "دل، زبان اور جسم کا ایمان",
+          "ایمان اور مومنین کی ۳ اقسام",
+          "ایمان کے ۸ طبقات کا بیان",
+          "صاحب ایمان کے خصائل",
+          "ایمان میں سباقیت اور درجات",
+          "ظاھری اور باطنی ایمان",
+          "ایمان کو علم پر فضیلت حاصل ہے",
+          "اسلام اور ایمان کا فرق",
+          "ایمان ، شرک و گمراہی کی ادنی ترین شرائط",
+          "اسلامی دعوت کا اصل مقصد کیا تھا؟",
+          "اسلامی و ایمانی جنت",
+          "اسلام و ایمان کا انبعاث"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "",
+          null,
+          ""
+        ],
+        "total_content_chars": 253178
+      },
+      {
+        "binder_id": 24,
+        "binder_name": "توحید مبدع تعالی",
+        "chapter_id": 121,
+        "chapter_name": "توحید کا تصور",
+        "topic_count": 18,
+        "topic_labels": [
+          "اسلام سے پہلے کے حالات",
+          "معرفت کے ۳ طریقے",
+          "مبدع تعالی کی معرفت کیا ہے؟",
+          "منطقی دلائل سے مبدع تعالی کی معرفت",
+          "توحید اور اخلاص",
+          "من عرف نفسہ فقد عرف ربہ",
+          "نفس سے رب کی معرفت کا سفر",
+          "توحید، تنزیح، تجرید",
+          "توحید کی تعریف",
+          "حد عالی اور حد دانی",
+          "حد کسے کہتے ہیں؟",
+          "معرفت ظاہرۃ و باطنۃ",
+          "مکاسر : رتبہ ملکوتیہ کی پہلی حد",
+          "تجرید کی تعریف",
+          "تنزیح کی تعریف",
+          "الہ اور اللہ کا فرق",
+          "مبدع تعالی کی توحید تجرید تنزیہ",
+          "حد عالی کی توحید تجرید تنزیہ"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          "The One Who Recognizes Himself Recognizes His Lord - Direct And Indirect Creation",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 274964
+      },
+      {
+        "binder_id": 24,
+        "binder_name": "توحید مبدع تعالی",
+        "chapter_id": 2,
+        "chapter_name": "کلمۃ التوحید کی معرفت",
+        "topic_count": 9,
+        "topic_labels": [
+          "اسلام کی دعوت",
+          "کلمہ توحید لا الہ الا اللہ کی فضیلت ",
+          "ہر نئی دعوت سے مجمع بکھرتا ہے",
+          "من قال لا الہ الا اللہ مخلصا دخل الجنۃ",
+          "کلمہ شھادت کی معرفت کی اہمیت",
+          "اولو العظم انبیاؤں کی دعوتوں کا اصل",
+          "کلمہ توحید اور بسم اللہ الرحمن الرحیم",
+          "کلمہ توحید میں اللہ کی نشانیاں",
+          "محمد رسول اللہ کے ممثولات"
+        ],
+        "topic_labels_en": [
+          null,
+          "",
+          "",
+          "",
+          null,
+          "",
+          "",
+          "",
+          ""
+        ],
+        "total_content_chars": 84401
+      },
+      {
+        "binder_id": 24,
+        "binder_name": "توحید مبدع تعالی",
+        "chapter_id": 118,
+        "chapter_name": "کلمہ التوحید کے مختلف ابواب",
+        "topic_count": 13,
+        "topic_labels": [
+          "کلمہ توحید کے پانچ ابواب",
+          "کلمہ کے دو جزو کی توجیہ",
+          "باب اول : نفی و اثبات",
+          "باب ثانی : تین جواہر",
+          "باب ثالث : چار کلمات",
+          "جنت کی چار نہریں",
+          "باب رابع : سات فصول",
+          "الاسلام اور کلمہ اخلاص کے سات فصول",
+          "باب خامس : بارہ حروف",
+          "کلمہ اخلاص میں پانچ اور دس کا حساب",
+          "لا الہ کے ممثولات",
+          "الا اللہ کے ممثولات",
+          "جواہر کی ترتیب کے ممثولات"
+        ],
+        "topic_labels_en": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "total_content_chars": 323874
+      },
+      {
+        "binder_id": 24,
+        "binder_name": "توحید مبدع تعالی",
+        "chapter_id": 67,
+        "chapter_name": "کلمۃ التوحید کی ۲۸ نشانیاں",
+        "topic_count": 17,
+        "topic_labels": [
+          "سماوات کے ۲۸ حدود",
+          "ارض  کے ۲۸ حدود",
+          "بسم اللہ الرحمن الرحیم  کے ۲۸ حدود",
+          "اسلام  کے ۲۸ حدود",
+          "زمانے  کے ۲۸ حدود",
+          "انسان  کے ۲۸ حدود",
+          "امام  کے ۲۸ حدود",
+          "عالم روحانی  کے ۲۸ حدود",
+          "ولایت  کے ۲۸ حدود",
+          "طھارت  کے ۲۸ حدود",
+          "صلوۃ  کے ۲۸ حدود",
+          "زکواۃ  کے ۲۸ حدود",
+          "صوم  کے ۲۸ حدود",
+          "حج  کے ۲۸ حدود",
+          "کعبہ  کے ۲۸ حدود",
+          "جہاد  کے ۲۸ حدود",
+          "لفظ اللہ  کے ۲۸ حدود"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 696899
+      },
+      {
+        "binder_id": 24,
+        "binder_name": "توحید مبدع تعالی",
+        "chapter_id": 1,
+        "chapter_name": "وجود مبدع کی حقانیت",
+        "topic_count": 5,
+        "topic_labels": [
+          "امام جعفر کی دھریہ سے گفتگو",
+          "اللہ کب سے ہے، کیسا ہے، کہاں ہے؟",
+          "اس سے بڑھ کر کوئی نہیں",
+          "ابھرنے والا ابھر چکا ہے",
+          "صانع کے وجود پر منتقی دلائل"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 15495
+      },
+      {
+        "binder_id": 25,
+        "binder_name": "دعائم الاسلام : طہارت",
+        "chapter_id": 88,
+        "chapter_name": "طہارت سے متعلق روایتیں",
+        "topic_count": 5,
+        "topic_labels": [
+          "سوتے ہوئے کو نیند سے جگانا",
+          "زمین کے سوراخوں میں پیشاب نہ کرنا",
+          "قائد الغر المحجلین",
+          "تین چیزوں میں ملائکہ کا جھگڑا",
+          "رسول اللہ کا بلی کو پانی پلانا"
+        ],
+        "topic_labels_en": [
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "total_content_chars": 11225
+      },
+      {
+        "binder_id": 25,
+        "binder_name": "دعائم الاسلام : طہارت",
+        "chapter_id": 89,
+        "chapter_name": "طہارت کا بیان",
+        "topic_count": 12,
+        "topic_labels": [
+          " طہارت کا بیان",
+          "کامل وضو: ہر رکن کو ۳ مرتبہ دہرانا",
+          "وضو کے ارکان اور ان کی ترتیب",
+          "وضو کے ۷ فرائض اور ۱۲ سنتیں",
+          "پاک پانی سے طہارت",
+          "پانی، ڈول اور برتن",
+          "انما یرید اللہ لیذھب عنکم الرجس اھل البیت و یطھرکم تطھیرا",
+          "آسمان، زمین اور پاک پانی",
+          "بادل اور بارش",
+          "دھونے اور مسح کا فرق",
+          "پگڑی اور موزوں پر مسح",
+          "مٹی سے تیمم"
+        ],
+        "topic_labels_en": [
+          "",
+          null,
+          "",
+          "",
+          "",
+          null,
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "total_content_chars": 182758
+      },
+      {
+        "binder_id": 25,
+        "binder_name": "دعائم الاسلام : طہارت",
+        "chapter_id": 92,
+        "chapter_name": "غسل کا بیان",
+        "topic_count": 7,
+        "topic_labels": [
+          "غسل کا بیان",
+          "طہارت : یوم الجمعۃ",
+          "غسل الجنابۃ و الاحتلام",
+          "وضو اور غسل کا پانی",
+          "عالم اسلام و ایمان کی نیکیاں",
+          "عورت کا حیض اور غسل حیض",
+          "حیض کیوں پیدا ہوا؟"
+        ],
+        "topic_labels_en": [
+          "",
+          "",
+          "",
+          "",
+          null,
+          "",
+          null
+        ],
+        "total_content_chars": 168060
+      },
+      {
+        "binder_id": 25,
+        "binder_name": "دعائم الاسلام : طہارت",
+        "chapter_id": 91,
+        "chapter_name": "ارکان وضو کے باطنی معنی",
+        "topic_count": 11,
+        "topic_labels": [
+          "استنجا کی تاویل",
+          "ہاتھوں کو دھونے کی تاویل",
+          "نیت کی تاویل",
+          "کلی اور مسواک کی تاویل",
+          "ناک میں پانی کی تاویل",
+          "چہرہ دھونے کی تاویل",
+          "چہرے کے پانچ حواس",
+          "ہاتھوں کو کوہنیوں تک دھونا",
+          "سر، کان اور گردن کا مسح",
+          "جنت کی خوشبو اور ندا",
+          "دونوں پیروں کا مسح"
+        ],
+        "topic_labels_en": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          null,
+          "",
+          "",
+          null,
+          ""
+        ],
+        "total_content_chars": 224128
+      },
+      {
+        "binder_id": 25,
+        "binder_name": "دعائم الاسلام : طہارت",
+        "chapter_id": 90,
+        "chapter_name": "نجاست سے طہارت",
+        "topic_count": 7,
+        "topic_labels": [
+          "کافرین و مشرکین کی نجاست",
+          "بول و براز اور نیند",
+          "نجاستوں کا اصل: امھات معاصی",
+          "نجاست سے پاکی",
+          "بیت الخلا",
+          "بیت الخلا کے ۱۲ آداب",
+          "امت محمدی کے مجوسی"
+        ],
+        "topic_labels_en": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          null
+        ],
+        "total_content_chars": 101178
+      },
+      {
+        "binder_id": 26,
+        "binder_name": "دعائم الاسلام : صلواۃ",
+        "chapter_id": 93,
+        "chapter_name": "نماز سے متعلق احادیث",
+        "topic_count": 14,
+        "topic_labels": [
+          "اذآن و اقامت کے درمیان وقفہ",
+          "اذآن سن کر مسجد سے نکلنے والا منافق ہے",
+          "مؤذن فصیح و بلیغ ہونا چاہئے",
+          "اندھا شخص اذآن دے سکتا ہے",
+          "مقتدی اور امام",
+          "عشا اور فجر کی نماز کی اہمیت",
+          "اصباغ الوضو اور صلوۃ بعد الصلوۃ",
+          "مردوں اور عورتوں کی صفیں",
+          "حائضہ روزے قضا کرے لیکن نمازیں نہیں",
+          "حائضہ سے مباشرت کی رخصت",
+          "حائضہ سے مباشرت پر گناہ",
+          "اونٹ اور بھیڑ کے باڑے میں نماز",
+          "سونے اور چاندی کی انگوٹھی",
+          "نماز سے متعلق دیگر تاویلات"
+        ],
+        "topic_labels_en": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "total_content_chars": 16212
+      },
+      {
+        "binder_id": 26,
+        "binder_name": "دعائم الاسلام : صلواۃ",
+        "chapter_id": 95,
+        "chapter_name": "مساجد کا بیان",
+        "topic_count": 3,
+        "topic_labels": [
+          "مسجد اور بیت الخلا",
+          "مساجد کے ثوابات کی تاویل",
+          "مسجد کے آداب"
+        ],
+        "topic_labels_en": [
+          "",
+          "",
+          ""
+        ],
+        "total_content_chars": 68108
+      },
+      {
+        "binder_id": 26,
+        "binder_name": "دعائم الاسلام : صلواۃ",
+        "chapter_id": 96,
+        "chapter_name": "نماز کے اوقات",
+        "topic_count": 3,
+        "topic_labels": [
+          "نماز کے اوقات کی تاویل",
+          "نماز کے اوقات",
+          "نماز کے پانچ اوقات"
+        ],
+        "topic_labels_en": [
+          "",
+          "",
+          ""
+        ],
+        "total_content_chars": 88837
+      },
+      {
+        "binder_id": 26,
+        "binder_name": "دعائم الاسلام : صلواۃ",
+        "chapter_id": 99,
+        "chapter_name": "ارکان نماز کے ممثولات",
+        "topic_count": 16,
+        "topic_labels": [
+          "نماز کے ارکان",
+          "نماز میں سورے بغیر اعوذ باللہ کے پڑھنا",
+          "دعا بڑھ کر ہے یا نماز",
+          "دعا پڑھ کر چہرے پر مسح کرنا",
+          "انت المقدم و انت المؤخر",
+          "نیت اور تکبیرۃ الاحرام",
+          "قیام",
+          "الفاتحہ کے ساتھ دوسرا سورۃ پڑھنا",
+          "خشوع و خضوع",
+          "رکوع و سجود",
+          "تشھد اور سلام",
+          "نماز کی ۱۲ سنتیں",
+          "سورۃ الفاتحہ اور نماز کے ارکان",
+          "ربنا لک الحمد",
+          "تسبیح الفاطمۃ",
+          "Majmooah Tarbiyah - Yasmeen Apa"
+        ],
+        "topic_labels_en": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          null
+        ],
+        "total_content_chars": 295295
+      },
+      {
+        "binder_id": 26,
+        "binder_name": "دعائم الاسلام : صلواۃ",
+        "chapter_id": 98,
+        "chapter_name": "نماز کی رکعات کے ممثولات",
+        "topic_count": 20,
+        "topic_labels": [
+          "نماز کے اقسام کی تاویل",
+          "تطوعات نمازوں کے ممثولات",
+          "پانچ نمازوں کے ممثولات",
+          "نمازوں کی رکعات کے نزول کی ترتیب",
+          "نماز کے حدود",
+          "نماز کی رکعات کی توجیھات",
+          "صلواۃ الظھر کے ممثولات",
+          "صلواۃ الظھر فی یوم الجمعۃ",
+          "ظھر اور عصر کی ۱۸ رکعات",
+          "عصر کے ممثولات",
+          "عصر کی ۸ رکعات اور اونچے ممثولات",
+          "مغرب کے ممثولات",
+          "صلواۃ المغرب کا تطوع",
+          "عشا کے ممثولات",
+          "شفع، وتر، جلوس کے ممثولات",
+          "فجر کے ممثولات",
+          "نمازیں ملا کر پڑھنے کی توجیھات",
+          "فجر کا شمار دن اور رات میں ہے",
+          "شفع وتر جلوس کے ممثولات حصہ دوم",
+          "شفع و فجر کا قنوت"
+        ],
+        "topic_labels_en": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "total_content_chars": 138026
+      },
+      {
+        "binder_id": 26,
+        "binder_name": "دعائم الاسلام : صلواۃ",
+        "chapter_id": 97,
+        "chapter_name": "اذآن و اقامت",
+        "topic_count": 4,
+        "topic_labels": [
+          "اذآن",
+          "اقامت",
+          "اذآن و اقامت کا فرق",
+          "اشھد ان محمد عبدہ و رسولہ"
+        ],
+        "topic_labels_en": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "total_content_chars": 8631
+      },
+      {
+        "binder_id": 26,
+        "binder_name": "دعائم الاسلام : صلواۃ",
+        "chapter_id": 100,
+        "chapter_name": "مبارک ایام کی نمازیں",
+        "topic_count": 5,
+        "topic_labels": [
+          "صلواۃ النصف الشعبان",
+          "لیلۃ النصف الشعبان",
+          "شھر الرجب الحرام",
+          "رجب الحرام کی ۱۹ فضیلتیں",
+          "رجب الحرام کا پہلا جمعۃ"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 88394
+      },
+      {
+        "binder_id": 26,
+        "binder_name": "دعائم الاسلام : صلواۃ",
+        "chapter_id": 94,
+        "chapter_name": "نماز کا بیان",
+        "topic_count": 10,
+        "topic_labels": [
+          "نماز کے چار واجبات",
+          "عبادت کیا ہوتی ہے؟",
+          "نماز دین کا چہرہ ہے",
+          "تمام اعمال تکلیفیۃ کا کیا مقصد ہے",
+          "عبادت کے لئے وسیلے",
+          "نماز : مستودع اور مستقر کا ملاپ",
+          "نماز اور کلمات کا وسیلہ",
+          "نماز کی تین قسمیں",
+          "نماز اور ۱۹ کا عدد",
+          "الذین ھم عن صلاتھم ساھون"
+        ],
+        "topic_labels_en": [
+          null,
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "total_content_chars": 291751
+      },
+      {
+        "binder_id": 27,
+        "binder_name": "آداب و اخلاق حسنۃ",
+        "chapter_id": 56,
+        "chapter_name": "کتاب وصایا ابلیس",
+        "topic_count": 4,
+        "topic_labels": [
+          "ظاہر پرستی بھترین ہتھیار ہے",
+          "تصور اور حقیقت",
+          "انسان انست لینے والا جانور ہے",
+          "سیدھی اور صاف بات"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 30780
+      },
+      {
+        "binder_id": 27,
+        "binder_name": "آداب و اخلاق حسنۃ",
+        "chapter_id": 17,
+        "chapter_name": "ولایت سے متعلق مضامین",
+        "topic_count": 13,
+        "topic_labels": [
+          "عہد شریف نامہ",
+          "کوفہ چھوڑتے ہوئے اہل کوفہ کو عبد اللہ ابن مسعود کا پیغام",
+          "ایک رند لاؤ بالی کا حال",
+          "پیغمبر کی وحی کی تصدیق",
+          "یقین کامل",
+          "منافق اور مرتد",
+          "اللہ تعالی کی رحمت",
+          "انسان اشرف المخلوقات ہے",
+          "تشت، شھد اور بال",
+          "زبان کی عظمت و حفاظت",
+          "اسما بنت یزید انصاری کا سوال",
+          "علامات ظھور امام مہدی علیہ السلام",
+          "عید اور شخصیت مہدی علیہ السلام"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          ""
+        ],
+        "total_content_chars": 203420
+      },
+      {
+        "binder_id": 27,
+        "binder_name": "آداب و اخلاق حسنۃ",
+        "chapter_id": 14,
+        "chapter_name": "آداب کے متعلق اقوال",
+        "topic_count": 13,
+        "topic_labels": [
+          "رسول اللہ کی علی کو وصیتیں",
+          "اقوال زریں",
+          "اخوت اور غیبت",
+          "احکام خداوندی",
+          "اچھے انسان کی پہچان",
+          "حقوق والدین اور حقوق العباد",
+          "استغفار اور اسے طلب کرنے کا طریقۃ",
+          "دو چیزیں ایسی ہیں",
+          "رسول اللہ سے سوالات اور ان کے جوابات",
+          "امھات معاصی : کبر حسد حرص",
+          "صدقہ",
+          "عقل مند انسان کی پہچان",
+          "حضرت اسحق صاحب سے سوالات و جوابات"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 153300
+      },
+      {
+        "binder_id": 27,
+        "binder_name": "آداب و اخلاق حسنۃ",
+        "chapter_id": 127,
+        "chapter_name": "اقوال الحکمۃ",
+        "topic_count": 4,
+        "topic_labels": [
+          "اقوال اہل بیت",
+          "اقوال علی علیہ السلام",
+          "غیر مستحق پر خرچ کرنا",
+          "صبر"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 6487
+      },
+      {
+        "binder_id": 27,
+        "binder_name": "آداب و اخلاق حسنۃ",
+        "chapter_id": 128,
+        "chapter_name": "ضرب الحکم",
+        "topic_count": 5,
+        "topic_labels": [
+          "دیگر اقوال حکمت",
+          "اربعۃ جواہر فی جسم بنی أٓدم",
+          "القلب ثلاثہ",
+          "عارف باللہ لبیب",
+          "مولاتنا فاطمۃ کو دفناتے ہوئے علی کے اشعار"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 22328
+      },
+      {
+        "binder_id": 27,
+        "binder_name": "آداب و اخلاق حسنۃ",
+        "chapter_id": 140,
+        "chapter_name": "سیرت نبی علیہ السلام",
+        "topic_count": 1,
+        "topic_labels": [
+          "طفیل بن عامر کا اسلام"
+        ],
+        "topic_labels_en": [
+          null
+        ],
+        "total_content_chars": 2982
+      },
+      {
+        "binder_id": 28,
+        "binder_name": "مسودے",
+        "chapter_id": 115,
+        "chapter_name": "[مسودۃ] مسودے",
+        "topic_count": 16,
+        "topic_labels": [
+          "مسودۃ",
+          "مولانا معد",
+          "علم العدد اور محمد",
+          "لڑکی کا طواف اور جنید بغدادی",
+          "موسی کی ماں کی دعا",
+          "مولاتنا فاطمہ کا مرتبہ",
+          "اقوال",
+          "صبر و شکر",
+          "kashkole Temp",
+          "رسول اﷲ کی کمیت و لمیت",
+          "بھشت اور اس کا دروازہ",
+          "علم نجوم کی تشکیل",
+          "علم کی حقیقت",
+          "Illusion vs Delusion",
+          "Fake Currency",
+          "Sunday Sabaq"
+        ],
+        "topic_labels_en": [
+          "Draft",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 209754
+      },
+      {
+        "binder_id": 28,
+        "binder_name": "مسودے",
+        "chapter_id": 117,
+        "chapter_name": "دیگر تاویلات و حقائق",
+        "topic_count": 4,
+        "topic_labels": [
+          "منحوس دن اور تاریخیں",
+          "جنت کے ۸ دروازوں کے نام",
+          "سال کبیثۃ - ذوالحجۃ کی دوہری کیفیت",
+          "عدد کے چار حصے"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 157235
+      },
+      {
+        "binder_id": 28,
+        "binder_name": "مسودے",
+        "chapter_id": 119,
+        "chapter_name": "مبدا و معاد",
+        "topic_count": 6,
+        "topic_labels": [
+          "مختلف مضامین",
+          "اسلام و ایمان کا فرق",
+          "ھیکل امامی، ناسوت و لاہوت",
+          "صاحبان اموار، اکوار، جثث",
+          "سدرۃ المنتھی اور جنت الماوی",
+          "نافرمان ٹولا"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          "",
+          null
+        ],
+        "total_content_chars": 58884
+      },
+      {
+        "binder_id": 28,
+        "binder_name": "مسودے",
+        "chapter_id": 126,
+        "chapter_name": "دعائم الاسلام - نماز",
+        "topic_count": 1,
+        "topic_labels": [
+          "جنرل"
+        ],
+        "topic_labels_en": [
+          null
+        ],
+        "total_content_chars": 297
+      },
+      {
+        "binder_id": 28,
+        "binder_name": "مسودے",
+        "chapter_id": 124,
+        "chapter_name": "دعائم الاسلام - صوم",
+        "topic_count": 5,
+        "topic_labels": [
+          "صوم",
+          "روزے بیماریوں کو دور کرتے ہیں",
+          "چار لوگ جن کے روزے قبول نہیں ہوتے",
+          "سات فرائض اور بارہ سنتوں کے روزے",
+          "لیلۃ عید الفتر کی تکبیریں"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 21270
+      },
+      {
+        "binder_id": 28,
+        "binder_name": "مسودے",
+        "chapter_id": 145,
+        "chapter_name": "Initial 12 Sessions",
+        "topic_count": 14,
+        "topic_labels": [
+          "شروع کا سلام",
+          "اللہ کے ہم سے سوالات",
+          "اللہ کون ہے؟",
+          "اللہ  کی معرفت مزید",
+          "اللہ کی فطرت عدل ہے",
+          "اللہ کا عدل",
+          "اپنی مخلوق سے اپنے خالق کو پہچاننا",
+          "اللہ کس بات سے خوش ہوتا ہے",
+          "اللہ کا نظام",
+          "کربلا کا پیغام",
+          "دنیا کی حقیقت",
+          "عبدیت",
+          "موت",
+          "محبت کی وجہ سے خلقت"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 1010817
+      },
+      {
+        "binder_id": 28,
+        "binder_name": "مسودے",
+        "chapter_id": 150,
+        "chapter_name": "Sunday Sessions - breakups",
+        "topic_count": 11,
+        "topic_labels": [
+          "اللہ نے رسول کی قسمیں کھائی ہیں",
+          "حضرت فاطمہ کی بیماری میں حال پوچھنے کا واقعہ",
+          "حضرت ابراھیم اور اسماعیل کی زبیحت",
+          "طائف میں رسول کا پتھر کھانا",
+          "رسول اللہ کی قسمیں",
+          "حضرت آمنہ کا انتقال",
+          "سر فی دیارھم",
+          "جنید بغدادی اور لڑکی کا طواف",
+          "بحیرا راہب کا واقعہ",
+          "رسول اللہ اور ہرن کا واقعہ",
+          "معاذ تمہیں سارے دین کا خلاصہ بتاؤں؟"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 128612
+      },
+      {
+        "binder_id": 28,
+        "binder_name": "مسودے",
+        "chapter_id": 161,
+        "chapter_name": "ملا اسحاق ضیائی مضامین",
+        "topic_count": 5,
+        "topic_labels": [
+          "پہلا باب",
+          "باب ۲",
+          "باب ثالث",
+          "باب رابع",
+          "باب الخامس"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 1163306
+      },
+      {
+        "binder_id": 28,
+        "binder_name": "مسودے",
+        "chapter_id": 172,
+        "chapter_name": "دعائم",
+        "topic_count": 1,
+        "topic_labels": [
+          "اسلام کی ۵ بنیادیں"
+        ],
+        "topic_labels_en": [
+          null
+        ],
+        "total_content_chars": 34741
+      },
+      {
+        "binder_id": 28,
+        "binder_name": "مسودے",
+        "chapter_id": 149,
+        "chapter_name": "sunday sessions",
+        "topic_count": 12,
+        "topic_labels": [
+          "quranic miracles",
+          "اسلام کی ترز زندگی",
+          "عدل پر دنیا قائم ہے",
+          "oslow norway 5th Sep",
+          "way of life",
+          "26 July 2014 new bayan",
+          "نقصان عظیم",
+          "New Rare 14 August 2014 Dewsbury",
+          "اللہ رب ہے",
+          "Identity",
+          "بے نمازی کا انجام",
+          "Bayat at Fast University"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 278226
+      },
+      {
+        "binder_id": 29,
+        "binder_name": "دعائم الاسلام : الصوم",
+        "chapter_id": 133,
+        "chapter_name": "صوم",
+        "topic_count": 9,
+        "topic_labels": [
+          "ظاہری و باطنی روزہ",
+          "چاند دیکھ کر افطار کرنے کی روایت",
+          "شھر الرمضان علی ہیں",
+          "سال کا نواں مہینہ: اساس",
+          "سال کا نواں مہینہ: ممثول رسول اللہ",
+          "تیس دن کے ممثولات",
+          "دینی شمس و قمر",
+          "ایک روزے کا کفارہ ۶۰ روزے",
+          "تین داھیکے"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 54235
+      },
+      {
+        "binder_id": 29,
+        "binder_name": "دعائم الاسلام : الصوم",
+        "chapter_id": 134,
+        "chapter_name": "الکواکب الدریۃ",
+        "topic_count": 11,
+        "topic_labels": [
+          "شھر رمضان کی برکات",
+          "رزق اور عمر کی تقسیمات",
+          "شھر اللّٰہ میں ایک نیکی کا ثواب",
+          "شھر اللہ میں افتار کروانے کا ثواب",
+          "شھر اللہ کے ۳۰ دن اور راتیں",
+          "شھر اللہ کے ۳ داھیکے",
+          "ثلاثۃ سفرا : ۳ داھیکے",
+          "شھر اللّٰہ میں مغفرت کی اہمیت",
+          "تین چیزیں اللہ خوشنودی سے ہیں",
+          "رسول اﷲ کا بستر اور کمر بند",
+          "یا أم ابیھا"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 61636
+      },
+      {
+        "binder_id": 29,
+        "binder_name": "دعائم الاسلام : الصوم",
+        "chapter_id": 135,
+        "chapter_name": "لیالی الفاضلۃ",
+        "topic_count": 12,
+        "topic_labels": [
+          "شھر اللہ کی ۴ مبارک راتیں",
+          "شھر اللّٰہ کی ۱۷ ویں رات",
+          "شھر اللّٰہ کی ۱۹ ویں رات",
+          "شھر اللّٰہ کی ۲۱ ویں رات",
+          "شھر اللّٰہ کی ۲۳ ویں رات",
+          "عین عظمیۃ کی چار عظیم حجتیں",
+          "چار حجت عظمیٰ کی تدبیرات",
+          "علی اور فاطمۃ کا ناسوت خاص",
+          "استخلاف قبۃ المحمدیۃ",
+          "مولاتنا فاطمۃ : مجمعالأوصیاء",
+          "مولاتنا فاطمۃ : لیلۃ المبارکۃ",
+          "لیلۃ القدر الکبریٰ"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 34571
+      },
+      {
+        "binder_id": 29,
+        "binder_name": "دعائم الاسلام : الصوم",
+        "chapter_id": 136,
+        "chapter_name": "صلوۃ العیدین",
+        "topic_count": 11,
+        "topic_labels": [
+          "صلواۃ الوداع (ناموں کی رات)",
+          "سال کی ۴ مبارک راتیں",
+          "یوم العیدین",
+          "رسول کیوں عید کی نماز کے بعد مختلف راستہ سے پلٹتے تھے؟",
+          "عید کی نماز چھت اور گھر میں نہ پڑھنے کی وجہ",
+          "صلوۃ العید الفتر",
+          "صلوۃ العید الضحیٰ",
+          "صلوۃ العیدین کی تکبیریں اور قنوت",
+          "کیوں پانچ کے بغیر نماز نہیں",
+          "مسافر",
+          "عید : پلٹ کر آنا"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 100618
+      },
+      {
+        "binder_id": 32,
+        "binder_name": "غزالی - کیمیائی السعادۃ",
+        "chapter_id": 139,
+        "chapter_name": "Disciplining The Soul",
+        "topic_count": 12,
+        "topic_labels": [
+          "Introduction",
+          "Merit Of Good Character",
+          "What Is Good And Bad Character",
+          "Can character be changed?",
+          "How can good character be acquired?",
+          "Methods of refining character",
+          "Symptoms of the disease of heart and its restoration",
+          "How can we identify the faults of our soul?",
+          "Renouncing Desires",
+          "Taming the soul",
+          "Examples of Good Character",
+          "Struggling On The Path Of Discipline"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 161178
+      },
+      {
+        "binder_id": 32,
+        "binder_name": "غزالی - کیمیائی السعادۃ",
+        "chapter_id": 146,
+        "chapter_name": "Controlling Lust For Food and Sex",
+        "topic_count": 3,
+        "topic_labels": [
+          "Virtue and Spiritual Reward of Hunger ",
+          "Benefits of Hunger and the Afflictions of Satiety",
+          "Examples Of Saints"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 21172
+      },
+      {
+        "binder_id": 34,
+        "binder_name": "Quranic Studies",
+        "chapter_id": 155,
+        "chapter_name": "مسودہ",
+        "topic_count": 6,
+        "topic_labels": [
+          "Beautiful Quotes",
+          "Definitions",
+          "احادیث",
+          "description of hell in quran",
+          "Clips to add to Fateha",
+          "من ضرب بسیفین"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 33619
+      },
+      {
+        "binder_id": 34,
+        "binder_name": "Quranic Studies",
+        "chapter_id": 156,
+        "chapter_name": "سلام علی رسول اللہ و آلہ",
+        "topic_count": 5,
+        "topic_labels": [
+          "منصوب داعی کی فاتحۃ",
+          "الحمد للہ الذی لہ ملک السموات والارض یحی و یمیت",
+          "لا یبلغ مدحتہ القائلون ",
+          "الحمد للہ خالق الوجود من العدم",
+          "الحمد للہِ صَانِعِ الخَلقِ عَلی أکمَلِ نِظَام"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 585337
+      },
+      {
+        "binder_id": 34,
+        "binder_name": "Quranic Studies",
+        "chapter_id": 157,
+        "chapter_name": "آغاز اور مقاصد",
+        "topic_count": 3,
+        "topic_labels": [
+          "ابتدا",
+          "Purpose Of Sessions",
+          "Clarification"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 88481
+      },
+      {
+        "binder_id": 34,
+        "binder_name": "Quranic Studies",
+        "chapter_id": 158,
+        "chapter_name": "سورۃ الفاتحۃ",
+        "topic_count": 2,
+        "topic_labels": [
+          "مسودۃ",
+          "سورۃ الفاتحۃ"
+        ],
+        "topic_labels_en": [
+          null,
+          null
+        ],
+        "total_content_chars": 127057
+      },
+      {
+        "binder_id": 34,
+        "binder_name": "Quranic Studies",
+        "chapter_id": 164,
+        "chapter_name": "الحمد للہ رب العلمین",
+        "topic_count": 11,
+        "topic_labels": [
+          "DRAFT",
+          "Creation is a sign",
+          "Meaning of Rabb",
+          "Relationship of Rabb and Abd",
+          "Gratitude TO Allah",
+          "Gratitude through intermediaries",
+          "Does Allah need our praise",
+          "Kausar and Salaah",
+          "Knowledge",
+          "Grammatical Analysis of AlHamdu Lillah",
+          "الحمد للہ رب العلمین"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 949417
+      },
+      {
+        "binder_id": 34,
+        "binder_name": "Quranic Studies",
+        "chapter_id": 160,
+        "chapter_name": "دین اور سائنس",
+        "topic_count": 3,
+        "topic_labels": [
+          "God Soul Afterlife",
+          "definitions",
+          "Proof of god"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 528802
+      },
+      {
+        "binder_id": 34,
+        "binder_name": "Quranic Studies",
+        "chapter_id": 154,
+        "chapter_name": "عقل",
+        "topic_count": 5,
+        "topic_labels": [
+          "Intellect",
+          "Intellect - Choices",
+          "Intellect - Restraint",
+          "Restraint - Ramadan",
+          "Intellect vs Heart"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 1678591
+      },
+      {
+        "binder_id": 34,
+        "binder_name": "Quranic Studies",
+        "chapter_id": 165,
+        "chapter_name": "مالک یوم الدین",
+        "topic_count": 3,
+        "topic_labels": [
+          "MALIK-E-YAUM Al-DEEN",
+          "World is the womb of afterlife",
+          "مالک یوم الدین: سورۃ النبا"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 198516
+      },
+      {
+        "binder_id": 34,
+        "binder_name": "Quranic Studies",
+        "chapter_id": 159,
+        "chapter_name": "Misconceptions Arguments",
+        "topic_count": 6,
+        "topic_labels": [
+          "Misconception about sulemaniyat",
+          "Game versus Player",
+          "How to call peple to Islam",
+          "Practice what you preach",
+          "Science and religion",
+          "Islam is religion of hate"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 123185
+      },
+      {
+        "binder_id": 34,
+        "binder_name": "Quranic Studies",
+        "chapter_id": 166,
+        "chapter_name": "ایاک نعبد و الصراط",
+        "topic_count": 5,
+        "topic_labels": [
+          "ایاک نعبد و ایاک نستعین",
+          "اھدنا الصراط المستقیم",
+          "صراط الذین انعمت علیھم",
+          "غیر المغضوب علیھم ولا الضالین",
+          "CONCLUSION"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 133195
+      },
+      {
+        "binder_id": 34,
+        "binder_name": "Quranic Studies",
+        "chapter_id": 167,
+        "chapter_name": "الرحمن الرحیم",
+        "topic_count": 3,
+        "topic_labels": [
+          "REHMAN RAHEEM",
+          "17 Benifits of Tribulation",
+          "Why Do Bad Things Happen to Good People"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 236300
+      },
+      {
+        "binder_id": 34,
+        "binder_name": "Quranic Studies",
+        "chapter_id": 153,
+        "chapter_name": "أعجاز القرآن",
+        "topic_count": 11,
+        "topic_labels": [
+          "How the Qur'an Was Revealed and Compiled",
+          "Quran Miracle - Arabic linguistics",
+          "Quran Miracle - Challenges",
+          "Quran Miracle - Speaker Speech Stylez",
+          "Quran - Miracles started",
+          "Scientific Miracles",
+          "Linguistic Miracles - Order",
+          "Imaginations",
+          "Miscellaneous",
+          "The Ring Composition",
+          "Symmetrical Miracles"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 2281786
+      },
+      {
+        "binder_id": 34,
+        "binder_name": "Quranic Studies",
+        "chapter_id": 162,
+        "chapter_name": "استعاذۃ",
+        "topic_count": 10,
+        "topic_labels": [
+          "DRAFT",
+          "ISTIAAZA: I seek refuge from Shaytan",
+          "MAO'ZATAIN",
+          "SUAH Al-FALAQ",
+          "استعاذۃ: سورۃ الفلق خلاصہ",
+          "SUAH Al-NAAS",
+          "Chest of Man",
+          "Allah created me from fire and him from clay",
+          "Iblees plan to misguide",
+          "Iblees is very patient"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 495213
+      },
+      {
+        "binder_id": 34,
+        "binder_name": "Quranic Studies",
+        "chapter_id": 163,
+        "chapter_name": "بسم اللہ الرحمن الرحیم",
+        "topic_count": 11,
+        "topic_labels": [
+          "Meaning of the word Allah",
+          "Miracles of name Allah",
+          "Being and Attributes",
+          "Refraction of divine attributes in creation",
+          "Surah Ikhlaas",
+          "Allah is Samad",
+          "Heart",
+          "Meaning of Rehman and Raheem",
+          "Akhlaaq - Silatur Reham",
+          "Ism",
+          "بسم اللہ الرحمن الرحیم"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 1549345
+      },
+      {
+        "binder_id": 35,
+        "binder_name": "The Wise Reminder",
+        "chapter_id": 176,
+        "chapter_name": "Miracles of Quran",
+        "topic_count": 11,
+        "topic_labels": [
+          "Is Quran Human Or Divine Speech",
+          "Height of Arabic linguistics",
+          "What is a miracle",
+          "Speaker Content Style",
+          "Effectiveness of style on 3 people",
+          "Miracle - Order and Choice of words",
+          "Miracle of Conciseness",
+          "Perfection of AlHAMDULILLAHI",
+          "Science, preservation and rhyme scheme",
+          "Miracle of the book",
+          "Structural Miracle"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 5215387
+      },
+      {
+        "binder_id": 35,
+        "binder_name": "The Wise Reminder",
+        "chapter_id": 177,
+        "chapter_name": "The Human Spirit",
+        "topic_count": 7,
+        "topic_labels": [
+          "Introduction",
+          "Components",
+          "The Spirit (RUH)",
+          "Mind - QALB",
+          "MIND - AQL",
+          "The Soul (NFS)",
+          "3 NUFOOS"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 2154416
+      },
+      {
+        "binder_id": 36,
+        "binder_name": "ISLAM IMAN IHSAN",
+        "chapter_id": 173,
+        "chapter_name": "Introduction",
+        "topic_count": 1,
+        "topic_labels": [
+          "ADAB & 10 Foundations"
+        ],
+        "topic_labels_en": [
+          null
+        ],
+        "total_content_chars": 57490
+      },
+      {
+        "binder_id": 36,
+        "binder_name": "ISLAM IMAN IHSAN",
+        "chapter_id": 175,
+        "chapter_name": "ISLAM",
+        "topic_count": 19,
+        "topic_labels": [
+          "Islam as an experience",
+          "Linguistic Meaning of ISLAM",
+          "Pillars Of ISLAM",
+          "Linguistic menaing of IMAAN",
+          "Witnessing of the heart",
+          "Articulation of the tongue",
+          "Action with the limbs",
+          "COMPLETE REVIEW",
+          "Tree and Root Structure",
+          "3 Levels Of Existence",
+          "3 levels Of Knowledge",
+          "Taveel examples",
+          "Review of ISLAM",
+          "Review of IMAN",
+          "Review of Pillars",
+          "One who says LA ILAH enters paradise",
+          "Childish vs Childlike",
+          "TAVEEL OF SURAH TEEN",
+          "Friendship and love"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 5677639
+      },
+      {
+        "binder_id": 36,
+        "binder_name": "ISLAM IMAN IHSAN",
+        "chapter_id": 174,
+        "chapter_name": "SALAAMS",
+        "topic_count": 4,
+        "topic_labels": [
+          "الحمد للہ خالق الوجود من العدم",
+          "لا یبلغ مدحتہ القائلون ",
+          "الحمد للہ الذی لہ ملک السموات والارض یحی و یمیت",
+          "الحمد للہِ صَانِعِ الخَلقِ عَلی أکمَلِ نِظَام"
+        ],
+        "topic_labels_en": [
+          null,
+          null,
+          null,
+          null
+        ],
+        "total_content_chars": 20897
+      }
+    ]
+  }
+}

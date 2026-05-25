@@ -1,0 +1,10 @@
+{
+  "classification": "teaching-diagram",
+  "arabic_text": "شعلہ\nآگ کا کرہ\nہوا کا کرہ\nپانی کا کرہ\nمٹی کا کرہ",
+  "urdu_text": "",
+  "english_text": "Flame\nSphere of Fire (FIRE)\nSphere of Air (AIR)\nSphere of Water (WATER)\nSphere of Earth (EARTH)\nHeat",
+  "suggested_citation": null,
+  "alt_text": "A vertical diagram of the four elemental spheres beneath a moon at the top, with each elemental sphere labeled in Urdu and English. From top to bottom: شعلہ/Flame (a small fire at the moon's edge), آگ کا کرہ/Sphere of FIRE (orange band), ہوا کا کرہ/Sphere of AIR (light blue band), پانی کا کرہ/Sphere of WATER (light grey band), مٹی کا کرہ/Sphere of EARTH (dark brown band at the base). A red-to-blue vertical heat-scale gradient on the right shows decreasing heat from top to bottom.",
+  "confidence": 0.96,
+  "notes": "Vertical arrangement of the four elements with the moon (and flame) at the apex, illustrating that fire/heat is highest and earth/cold is lowest in the natural ordering of the elements."
+}

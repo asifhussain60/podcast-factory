@@ -1,0 +1,41 @@
+{
+  "schema": "podcast.ingest-source/v1",
+  "generated_at": "2026-05-24T19:53:46.861127+00:00",
+  "source": {
+    "kind": "sql",
+    "name": "kashkole",
+    "db": "KASHKOLE",
+    "container": "kashkole-mssql"
+  },
+  "book_slug": "x6334-x4795-alayhi-as-salam",
+  "book_dir": "/Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksessions/extracted/kashkole/11-qurani-qisas-al-anbiya-ke-x7934/05-x6334-x4795-alayhi-as-salam",
+  "source_language": "ur",
+  "extraction": {
+    "tool": "tools.source_extractor",
+    "shelf": {
+      "kind": "binder",
+      "id": 18,
+      "name": "قرآنی قصص الانبیا کے حقائق"
+    },
+    "book": {
+      "kind": "chapter",
+      "id": 168,
+      "name": "حضرت نوح علیہ السلام"
+    },
+    "section_query_count": 1,
+    "stage": "finalized"
+  },
+  "outputs": {
+    "raw_extract": "_system/source/text/raw-extract.md",
+    "extraction_notes": "_system/source/text/_extraction-notes.md",
+    "audit_anchor_html": "_system/source/x6334-x4795-alayhi-as-salam.html",
+    "images_dir": "_system/source/images"
+  },
+  "finalize": {
+    "finalized_at": "2026-05-24T20:28:37.048363+00:00",
+    "images_classified": {
+      "001": "other"
+    },
+    "inline_citations_resolved": 0
+  }
+}

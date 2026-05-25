@@ -337,6 +337,7 @@ def translate_text(
     *,
     src_lang: str,
     tgt_lang: str = "en",
+    text_type: str = "plain",
 ) -> str:
     """Translate `text` from src_lang to tgt_lang using Azure Translator v3.
 
@@ -345,6 +346,10 @@ def translate_text(
     because Translator preserves XML/HTML tags by default with `textType=plain`
     behaviour (comments aren't tags, so they translate as plain text — we strip
     and re-insert them around chunk boundaries to keep them intact).
+
+    Pass `text_type="html"` to preserve HTML tags (incl. self-closing void
+    elements like `<x id="1"/>`). Callers use this to protect inline markers
+    by tokenizing them as HTML void elements before translation.
     """
     chunks = _chunk_for_translate(text, TRANSLATOR_MAX_CHARS_PER_REQUEST)
     if not chunks:
@@ -353,6 +358,7 @@ def translate_text(
         f"{creds.endpoint}/translate"
         f"?api-version={TRANSLATOR_API_VERSION}"
         f"&from={src_lang}&to={tgt_lang}"
+        f"&textType={text_type}"
     )
     headers = {
         "Ocp-Apim-Subscription-Key": creds.key,

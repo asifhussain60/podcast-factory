@@ -1,0 +1,39 @@
+{
+  "schema": "podcast.ingest-source/v1",
+  "generated_at": "2026-05-24T19:46:41.346880+00:00",
+  "source": {
+    "kind": "sql",
+    "name": "kashkole",
+    "db": "KASHKOLE",
+    "container": "kashkole-mssql"
+  },
+  "book_slug": "x6595-x6358-wa-x9519",
+  "book_dir": "/Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/13-x6595-x6358-wa-x9519",
+  "source_language": "ur",
+  "extraction": {
+    "tool": "tools.source_extractor",
+    "shelf": {
+      "kind": "binder",
+      "id": 34,
+      "name": "Quranic Studies"
+    },
+    "book": {
+      "kind": "chapter",
+      "id": 166,
+      "name": "ایاک نعبد و الصراط"
+    },
+    "section_query_count": 5,
+    "stage": "finalized"
+  },
+  "outputs": {
+    "raw_extract": "_system/source/text/raw-extract.md",
+    "extraction_notes": "_system/source/text/_extraction-notes.md",
+    "audit_anchor_html": "_system/source/x6595-x6358-wa-x9519.html",
+    "images_dir": "_system/source/images"
+  },
+  "finalize": {
+    "finalized_at": "2026-05-24T20:10:52.875585+00:00",
+    "images_classified": {},
+    "inline_citations_resolved": 0
+  }
+}

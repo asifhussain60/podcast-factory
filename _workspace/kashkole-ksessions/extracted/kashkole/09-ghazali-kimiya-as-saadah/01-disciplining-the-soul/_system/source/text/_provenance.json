@@ -1,0 +1,43 @@
+{
+  "schema": "podcast.ingest-source/v1",
+  "generated_at": "2026-05-24T19:51:57.547698+00:00",
+  "source": {
+    "kind": "sql",
+    "name": "kashkole",
+    "db": "KASHKOLE",
+    "container": "kashkole-mssql"
+  },
+  "book_slug": "disciplining-the-soul",
+  "book_dir": "/Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksessions/extracted/kashkole/09-ghazali-kimiya-as-saadah/01-disciplining-the-soul",
+  "source_language": "ur",
+  "extraction": {
+    "tool": "tools.source_extractor",
+    "shelf": {
+      "kind": "binder",
+      "id": 32,
+      "name": "غزالی - کیمیائی السعادۃ"
+    },
+    "book": {
+      "kind": "chapter",
+      "id": 139,
+      "name": "Disciplining The Soul"
+    },
+    "section_query_count": 12,
+    "stage": "finalized"
+  },
+  "outputs": {
+    "raw_extract": "_system/source/text/raw-extract.md",
+    "extraction_notes": "_system/source/text/_extraction-notes.md",
+    "audit_anchor_html": "_system/source/disciplining-the-soul.html",
+    "images_dir": "_system/source/images"
+  },
+  "finalize": {
+    "finalized_at": "2026-05-24T20:26:04.849996+00:00",
+    "images_classified": {
+      "001": "other",
+      "002": "other",
+      "003": "other"
+    },
+    "inline_citations_resolved": 0
+  }
+}

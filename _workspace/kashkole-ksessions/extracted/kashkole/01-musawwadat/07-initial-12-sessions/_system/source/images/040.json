@@ -1,0 +1,10 @@
+{
+  "classification": "other",
+  "arabic_text": "",
+  "urdu_text": "",
+  "english_text": "",
+  "suggested_citation": null,
+  "alt_text": "Black circular icon containing the standard two-bar 'pause' glyph — a UI artifact from the original KAHSKOLE web content (audio-player pause button), not pedagogical content.",
+  "confidence": 0.99,
+  "notes": "UI artifact (pause-button icon). Appears throughout the KAHSKOLE database wherever an audio playback widget was embedded inline. Carries no scholarly content; should be ignored downstream."
+}

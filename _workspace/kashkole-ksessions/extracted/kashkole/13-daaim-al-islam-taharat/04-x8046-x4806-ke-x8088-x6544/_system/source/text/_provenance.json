@@ -1,0 +1,45 @@
+{
+  "schema": "podcast.ingest-source/v1",
+  "generated_at": "2026-05-24T19:55:09.933965+00:00",
+  "source": {
+    "kind": "sql",
+    "name": "kashkole",
+    "db": "KASHKOLE",
+    "container": "kashkole-mssql"
+  },
+  "book_slug": "x8046-x4806-ke-x8088-x6544",
+  "book_dir": "/Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksessions/extracted/kashkole/13-daaim-al-islam-taharat/04-x8046-x4806-ke-x8088-x6544",
+  "source_language": "ur",
+  "extraction": {
+    "tool": "tools.source_extractor",
+    "shelf": {
+      "kind": "binder",
+      "id": 25,
+      "name": "دعائم الاسلام : طہارت"
+    },
+    "book": {
+      "kind": "chapter",
+      "id": 91,
+      "name": "ارکان وضو کے باطنی معنی"
+    },
+    "section_query_count": 11,
+    "stage": "finalized"
+  },
+  "outputs": {
+    "raw_extract": "_system/source/text/raw-extract.md",
+    "extraction_notes": "_system/source/text/_extraction-notes.md",
+    "audit_anchor_html": "_system/source/x8046-x4806-ke-x8088-x6544.html",
+    "images_dir": "_system/source/images"
+  },
+  "finalize": {
+    "finalized_at": "2026-05-24T20:30:29.215228+00:00",
+    "images_classified": {
+      "001": "other",
+      "002": "other",
+      "003": "other",
+      "004": "other",
+      "005": "other"
+    },
+    "inline_citations_resolved": 0
+  }
+}

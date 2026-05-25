@@ -1,0 +1,54 @@
+{
+  "schema": "podcast.ingest-source/v1",
+  "generated_at": "2026-05-24T19:55:31.900756+00:00",
+  "source": {
+    "kind": "sql",
+    "name": "kashkole",
+    "db": "KASHKOLE",
+    "container": "kashkole-mssql"
+  },
+  "book_slug": "x6372-ka-x6497",
+  "book_dir": "/Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksessions/extracted/kashkole/14-daaim-al-islam-salawat/02-x6372-ka-x6497",
+  "source_language": "ur",
+  "extraction": {
+    "tool": "tools.source_extractor",
+    "shelf": {
+      "kind": "binder",
+      "id": 26,
+      "name": "دعائم الاسلام : صلواۃ"
+    },
+    "book": {
+      "kind": "chapter",
+      "id": 94,
+      "name": "نماز کا بیان"
+    },
+    "section_query_count": 10,
+    "stage": "finalized"
+  },
+  "outputs": {
+    "raw_extract": "_system/source/text/raw-extract.md",
+    "extraction_notes": "_system/source/text/_extraction-notes.md",
+    "audit_anchor_html": "_system/source/x6372-ka-x6497.html",
+    "images_dir": "_system/source/images"
+  },
+  "finalize": {
+    "finalized_at": "2026-05-24T20:30:58.100593+00:00",
+    "images_classified": {
+      "001": "other",
+      "002": "other",
+      "003": "other",
+      "004": "other",
+      "005": "other",
+      "006": "other",
+      "007": "other",
+      "008": "other",
+      "009": "other",
+      "010": "other",
+      "011": "other",
+      "012": "other",
+      "013": "other",
+      "014": "other"
+    },
+    "inline_citations_resolved": 0
+  }
+}

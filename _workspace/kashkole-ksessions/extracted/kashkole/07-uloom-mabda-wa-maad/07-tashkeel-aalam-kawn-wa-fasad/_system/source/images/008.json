@@ -1,0 +1,10 @@
+{
+  "classification": "teaching-diagram",
+  "arabic_text": "کرۃ النار\nکرۃ الھوا\nکرۃ المآء\nکرۃ الأرض",
+  "urdu_text": "",
+  "english_text": "Sphere of Fire\nSphere of Air\nSphere of Water\nSphere of Earth\nEXOSPHERE\nLITHOSPHERE\nATMOSPHERE\nHYDROSPHERE\nOzone Layer",
+  "suggested_citation": null,
+  "alt_text": "A diagram of Earth's atmospheric layers with both modern English and classical Arabic terminology. Altitude markers at 16 km, 48 km, 80 km, and 483 km (300 mi). English labels: HYDROSPHERE (with Ozone Layer noted), ATMOSPHERE, LITHOSPHERE, EXOSPHERE. Arabic labels for the corresponding elemental spheres: کرۃ النار (Sphere of Fire), کرۃ الھوا (Sphere of Air), کرۃ المآء (Sphere of Water), کرۃ الأرض (Sphere of Earth). Red arrows connect the elemental sphere names to the modern atmospheric layers.",
+  "confidence": 0.94,
+  "notes": "Bridges classical Islamic cosmology with modern atmospheric science by mapping the four elemental spheres onto contemporary Earth-system layers."
+}

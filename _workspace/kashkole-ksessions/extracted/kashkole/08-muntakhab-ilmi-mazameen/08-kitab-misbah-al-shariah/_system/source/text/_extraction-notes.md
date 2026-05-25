@@ -1,0 +1,84 @@
+# Extraction notes — کتاب مصباح الشریعۃ
+Generated 2026-05-24T19:51:16.635721+00:00.
+- Topic T703 (Reciting The Quran) at order 11 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T704 (Dress) at order 12 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T705 (Showing Off) at order 13 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T706 (Truthfulness) at order 14 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T707 (Sincerity) at order 15 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T708 (Precaution) at order 16 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T709 (Fearing Allah) at order 17 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T710 (Social Interactions) at order 18 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T712 (Pilgrimage) at order 20 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T713 (Charity) at order 21 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T714 (Intention) at order 22 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T716 (Ruin Of The Recitors) at order 24 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T717 (Clarification Of Truth And Falsehood) at order 25 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T718 (Gnosis Of The Prophets) at order 26 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T719 (Recognition Of The Companions) at order 27 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T720 (Honor And Sanctity Of Believers) at order 28 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T721 (Dutifulness To Parents) at order 29 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T722 (Humility) at order 30 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T723 (Ignorance) at order 31 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T724 (Eating) at order 32 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T726 (Pride) at order 34 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T727 (Generosity) at order 35 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T728 (Self Reckoning) at order 36 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T729 (Opening The Prayer) at order 37 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T730 (Bowing In Prayer) at order 38 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T731 (Prostration In Prayer) at order 39 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T732 (Tashahhud) at order 40 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T733 (Tasleem In Prayers) at order 41 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T734 (Repentance) at order 42 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T735 (Retreat) at order 43 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T736 (Silence) at order 44 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T737 (Intellect And Passion) at order 45 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T738 (Envy) at order 46 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T739 (Greed) at order 47 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T740 (Corruption) at order 48 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T741 (Wellbeing) at order 49 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T742 (Worship) at order 50 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T743 (Reflection) at order 51 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T744 (Rest) at order 52 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T745 (Avarice) at order 53 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T746 (Clarification) at order 54 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T747 (Judgments) at order 55 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T748 (Miswaak) at order 56 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T749 (Using The Lavatory) at order 57 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T750 (Purification) at order 58 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T751 (Entering The Mosque) at order 59 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T752 (Supplication) at order 60 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T753 (Fasting) at order 61 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T754 (Abstinence) at order 62 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T755 (Description Of The World) at order 63 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T756 (Reluctance For Good Acts) at order 64 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T757 (Delusion) at order 65 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T758 (Description Of Hypocrite) at order 66 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T759 (Proper Social Transaction) at order 67 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T760 (Taking And Giving) at order 68 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T761 (Brotherhood) at order 69 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T762 (Consultation) at order 70 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T763 (Forbearance) at order 71 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T764 (Following Anothers Example) at order 72 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T765 (Pardon) at order 73 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T766 (Exhoration) at order 74 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T767 (Advice) at order 75 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T768 (Trustful Reliance) at order 76 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T769 (Respect For One's Brothers) at order 77 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T770 (Striving And Discipline) at order 78 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T771 (Contemplation Of Death) at order 79 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T772 (Good Opinion) at order 80 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T773 (Entrusting Oneslef To Allah) at order 81 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T775 (Fear And Hope) at order 83 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T777 (Affliction) at order 85 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T778 (Patience) at order 86 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T779 (Sorrow) at order 87 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T780 (Modesty) at order 88 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T781 (Gnosis (Ma'rifat)) at order 89 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T782 (Love Of Allah) at order 90 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T783 (Love For The Sake Of Allah) at order 92 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T784 (Yearning) at order 93 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T785 (Wisdom) at order 94 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T786 (Making Claims) at order 95 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T787 (Taking Heed) at order 96 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T788 (Contentment) at order 97 has no Unicode content (image-only or empty). Section emitted empty.
+- Topic T789 (Slander) at order 98 has no Unicode content (image-only or empty). Section emitted empty.

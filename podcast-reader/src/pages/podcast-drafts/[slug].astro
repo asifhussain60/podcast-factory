@@ -1,0 +1,120 @@
+---
+/**
+ * Single-panel draft view. Shows refined English (preferred) or raw extract.
+ */
+import '~/styles/global.css';
+import Icon from '~/components/ui/Icon.astro';
+import ThemeScript from '~/components/layout/ThemeScript.astro';
+import ThemeToggle from '~/components/layout/ThemeToggle.astro';
+import {
+  findDraft,
+  loadDraftRefinedEnglish,
+  loadDraftRawExtract,
+} from '~/lib/drafts';
+import { renderSourceMarkdown } from '~/lib/source-render';
+
+const { slug } = Astro.params;
+if (!slug) return new Response('Missing slug', { status: 400 });
+
+const draft = await findDraft(slug);
+if (!draft) return new Response(`Draft not found: ${slug}`, { status: 404 });
+
+const showRefined = draft.hasRefinedEnglish;
+const refined = await loadDraftRefinedEnglish(draft);
+const raw = await loadDraftRawExtract(draft);
+const md = (showRefined ? refined : raw) ?? '';
+const html = renderSourceMarkdown(md);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{draft.displayTitle} · Podcast Drafts</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <ThemeScript />
+    <style>
+      .se-prose {
+        font-family: 'EB Garamond', Georgia, serif;
+        font-size: 18px;
+        line-height: 1.75;
+        color: var(--color-ink);
+      }
+      .se-prose p { margin: 0.85em 0; }
+      .se-prose h1, .se-prose h2, .se-prose h3 {
+        margin-top: 1.5em;
+        font-weight: 600;
+      }
+      .se-prose h1 { font-size: 1.6em; }
+      .se-prose h2 { font-size: 1.35em; }
+      .se-prose h3 { font-size: 1.15em; }
+      .se-prose blockquote {
+        margin: 1.2rem 0;
+        padding: 0.5em 1.25em;
+        border-left: 3px solid var(--color-accent);
+        background: var(--color-accent-soft);
+        border-radius: 0 6px 6px 0;
+        font-style: italic;
+      }
+      .se-prose code { font-family: var(--font-mono); font-size: 0.92em; }
+      .se-prose .ar {
+        font-family: var(--font-arabic-naskh);
+        direction: rtl;
+        unicode-bidi: embed;
+      }
+      .se-prose .quran-cite {
+        display: inline-block;
+        padding: 0.06em 0.5em;
+        margin: 0 0.15em;
+        background: var(--color-quran-soft);
+        color: var(--color-quran);
+        border-radius: 3px;
+        font-family: var(--font-ui);
+        font-size: 0.78em;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen antialiased" style="background: var(--color-surface-page); color: var(--color-ink);">
+    <div class="fixed top-4 right-4 z-40"><ThemeToggle /></div>
+
+    <header class="border-b" style="border-color: var(--color-rule-default); background: var(--color-surface-raised);">
+      <div class="gold-hairline absolute inset-x-0 top-0" aria-hidden></div>
+      <div class="mx-auto max-w-4xl px-8 py-8">
+        <nav class="font-ui flex items-center gap-2 text-[11px] uppercase tracking-[0.16em]" style="color: var(--color-ink-tertiary);">
+          <a href="/" class="hover:underline">Library</a>
+          <Icon name="chevron-right" size={11} />
+          <a href="/podcast-drafts/" class="hover:underline">Drafts</a>
+          <Icon name="chevron-right" size={11} />
+          <span style="color: var(--color-accent);">{draft.displayTitle}</span>
+        </nav>
+        <div class="mt-4 flex items-end justify-between gap-4">
+          <div>
+            <h1 class="text-4xl font-semibold tracking-tight" style="font-family: 'EB Garamond', Georgia, serif; color: var(--color-ink);">
+              {draft.displayTitle}
+            </h1>
+            <code class="mt-1 text-[12px]" style="font-family: var(--font-mono); color: var(--color-ink-tertiary);">{draft.slug}</code>
+          </div>
+          <div class="flex shrink-0 gap-1.5">
+            {draft.hasRefinedEnglish && (
+              <span class="font-ui rounded px-2 py-1 text-[10px] uppercase tracking-wider" style="background: var(--color-accent-soft); color: var(--color-accent);">Refined English</span>
+            )}
+            {!showRefined && draft.hasRawExtract && (
+              <span class="font-ui rounded px-2 py-1 text-[10px] uppercase tracking-wider border" style="border-color: var(--color-rule-default); color: var(--color-ink-tertiary);">Raw extract</span>
+            )}
+          </div>
+        </div>
+        {showRefined && draft.hasRawExtract && (
+          <div class="font-ui mt-3 text-[11px]" style="color: var(--color-ink-tertiary);">
+            Showing <span class="font-semibold" style="color: var(--color-accent);">refined English</span>. Raw extract is also available at <code style="font-family: var(--font-mono);">content/drafts/{draft.slug}/_system/source/text/raw-extract.md</code>.
+          </div>
+        )}
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-4xl px-8 py-12">
+      <article class="se-prose" set:html={html}></article>
+    </main>
+  </body>
+</html>

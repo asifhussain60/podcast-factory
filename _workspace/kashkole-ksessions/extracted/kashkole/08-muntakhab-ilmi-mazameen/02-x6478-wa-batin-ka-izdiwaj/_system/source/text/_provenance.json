@@ -1,0 +1,44 @@
+{
+  "schema": "podcast.ingest-source/v1",
+  "generated_at": "2026-05-24T19:50:06.097433+00:00",
+  "source": {
+    "kind": "sql",
+    "name": "kashkole",
+    "db": "KASHKOLE",
+    "container": "kashkole-mssql"
+  },
+  "book_slug": "x6478-wa-batin-ka-izdiwaj",
+  "book_dir": "/Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksessions/extracted/kashkole/08-muntakhab-ilmi-mazameen/02-x6478-wa-batin-ka-izdiwaj",
+  "source_language": "ur",
+  "extraction": {
+    "tool": "tools.source_extractor",
+    "shelf": {
+      "kind": "binder",
+      "id": 23,
+      "name": "منتخب علمی مضامین"
+    },
+    "book": {
+      "kind": "chapter",
+      "id": 69,
+      "name": "ظاھر و باطن کا ازدواج"
+    },
+    "section_query_count": 12,
+    "stage": "finalized"
+  },
+  "outputs": {
+    "raw_extract": "_system/source/text/raw-extract.md",
+    "extraction_notes": "_system/source/text/_extraction-notes.md",
+    "audit_anchor_html": "_system/source/x6478-wa-batin-ka-izdiwaj.html",
+    "images_dir": "_system/source/images"
+  },
+  "finalize": {
+    "finalized_at": "2026-05-24T20:23:43.928970+00:00",
+    "images_classified": {
+      "001": "other",
+      "002": "other",
+      "003": "other",
+      "004": "other"
+    },
+    "inline_citations_resolved": 11
+  }
+}

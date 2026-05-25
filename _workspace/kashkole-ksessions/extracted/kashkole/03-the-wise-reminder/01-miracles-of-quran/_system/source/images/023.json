@@ -1,0 +1,10 @@
+{
+  "classification": "quran-verse",
+  "arabic_text": "قُلْ يَا أَيُّهَا الْكَافِرُونَ ﴿١﴾ لَا أَعْبُدُ مَا تَعْبُدُونَ ﴿٢﴾ وَلَا أَنتُمْ عَابِدُونَ مَا أَعْبُدُ ﴿٣﴾ وَلَا أَنَا عَابِدٌ مَّا عَبَدتُّمْ ﴿٤﴾ وَلَا أَنتُمْ عَابِدُونَ مَا أَعْبُدُ ﴿٥﴾ لَكُمْ دِينُكُمْ وَلِيَ دِينِ ﴿٦﴾",
+  "urdu_text": "",
+  "english_text": "",
+  "suggested_citation": { "surah": 109, "ayat": null },
+  "alt_text": "Sura al-Kafirun (Q109) six verses arranged in two columns with red arrows showing the chiastic pairing of verses 1↔6, 2↔5, and 3↔4.",
+  "confidence": 0.98,
+  "notes": "Sura al-Kafirun chiastic structure (1↔6, 2↔5, 3↔4)."
+}

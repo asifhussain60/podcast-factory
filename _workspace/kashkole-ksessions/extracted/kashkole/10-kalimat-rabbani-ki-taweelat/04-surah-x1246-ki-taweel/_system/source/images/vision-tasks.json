@@ -1,0 +1,192 @@
+{
+  "book": {
+    "binder_id": 8,
+    "binder_name": "کلمات ربانی کی تاویلات",
+    "chapter_id": 23,
+    "chapter_name": "سورۃ الفاتحۃ کی تاویل"
+  },
+  "images": [
+    {
+      "placeholder": "IMG:001",
+      "file": "_system/source/images/001.png",
+      "section_id": 583,
+      "section_label": "سورۃ الفاتحۃ کے جواہر",
+      "bytes": 12685,
+      "sha256_12": "cbed418fd699",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:002",
+      "file": "_system/source/images/002.png",
+      "section_id": 583,
+      "section_label": "سورۃ الفاتحۃ کے جواہر",
+      "bytes": 14113,
+      "sha256_12": "fd61f7930d7d",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:003",
+      "file": "_system/source/images/003.png",
+      "section_id": 603,
+      "section_label": "سورۃ الفاتحۃ کے لہجوں کے سات اضداد",
+      "bytes": 7772,
+      "sha256_12": "fb63ddc2d121",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:004",
+      "file": "_system/source/images/004.png",
+      "section_id": 603,
+      "section_label": "سورۃ الفاتحۃ کے لہجوں کے سات اضداد",
+      "bytes": 6043,
+      "sha256_12": "19f2966fb163",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:005",
+      "file": "_system/source/images/005.png",
+      "section_id": 604,
+      "section_label": "آدم اور ان کی ضد",
+      "bytes": 7476,
+      "sha256_12": "3f2ec37171af",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:006",
+      "file": "_system/source/images/006.png",
+      "section_id": 604,
+      "section_label": "آدم اور ان کی ضد",
+      "bytes": 13637,
+      "sha256_12": "9b4131717504",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:007",
+      "file": "_system/source/images/007.png",
+      "section_id": 604,
+      "section_label": "آدم اور ان کی ضد",
+      "bytes": 5341,
+      "sha256_12": "32a45c6de6e8",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:008",
+      "file": "_system/source/images/008.png",
+      "section_id": 605,
+      "section_label": "رسول اللہ کے اضداد دعوت",
+      "bytes": 4045,
+      "sha256_12": "b75e259909df",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:009",
+      "file": "_system/source/images/009.png",
+      "section_id": 605,
+      "section_label": "رسول اللہ کے اضداد دعوت",
+      "bytes": 7139,
+      "sha256_12": "efc0e70dcdc0",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:010",
+      "file": "_system/source/images/010.png",
+      "section_id": 606,
+      "section_label": "سورۃ الفاتحۃ شفع کا باعث ہے",
+      "bytes": 12284,
+      "sha256_12": "233c9eb9f841",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:011",
+      "file": "_system/source/images/011.png",
+      "section_id": 588,
+      "section_label": "الرحمن الرحیم کی تاویل",
+      "bytes": 5074,
+      "sha256_12": "525bb2b7d693",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:012",
+      "file": "_system/source/images/012.png",
+      "section_id": 589,
+      "section_label": "مالک یوم الدین کی تاویل",
+      "bytes": 8821,
+      "sha256_12": "8bf7ddc80bed",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:013",
+      "file": "_system/source/images/013.png",
+      "section_id": 590,
+      "section_label": "سورۃ الفاتحۃ میں تین راستوں کی وضاحت",
+      "bytes": 7762,
+      "sha256_12": "8fd2f5cf511f",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:014",
+      "file": "_system/source/images/014.png",
+      "section_id": 590,
+      "section_label": "سورۃ الفاتحۃ میں تین راستوں کی وضاحت",
+      "bytes": 13173,
+      "sha256_12": "db7cf3fe212a",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:015",
+      "file": "_system/source/images/015.png",
+      "section_id": 593,
+      "section_label": "عین اولۃ اور عین آخرۃ",
+      "bytes": 14421,
+      "sha256_12": "8e66ec27c7df",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:016",
+      "file": "_system/source/images/016.png",
+      "section_id": 593,
+      "section_label": "عین اولۃ اور عین آخرۃ",
+      "bytes": 4125,
+      "sha256_12": "ac03306844d5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:017",
+      "file": "_system/source/images/017.png",
+      "section_id": 595,
+      "section_label": "سورۃ الفاتحۃ با سے شروع اور نون پر ختم",
+      "bytes": 4613,
+      "sha256_12": "cad4a9e08dad",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:018",
+      "file": "_system/source/images/018.png",
+      "section_id": 608,
+      "section_label": "سورۃ الفاتحۃ کی خلافتیں",
+      "bytes": 8372,
+      "sha256_12": "abb16d8a5196",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    }
+  ],
+  "generated_at": "2026-05-24T19:52:40.286391+00:00",
+  "instructions": "For each image in `images`, read the file via the Read tool (paths are relative to the bundle root) and write a sibling JSON file next to the PNG (same basename, .json extension) with the schema: {classification, arabic_text, urdu_text, english_text, suggested_citation: {surah, ayat} | null, alt_text, confidence, notes}. classification ∈ {quran-verse, hadith, poem-or-saying, teaching-diagram, mixed, other}. For quran-verse, propose surah+ayat from your reading; finalize validates against the adapter's Quran corpus. For teaching-diagram, give a 1-2 sentence alt_text describing what it shows."
+}

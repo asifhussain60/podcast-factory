@@ -1,0 +1,39 @@
+{
+  "schema": "podcast.ingest-source/v1",
+  "generated_at": "2026-05-24T19:52:06.480263+00:00",
+  "source": {
+    "kind": "sql",
+    "name": "kashkole",
+    "db": "KASHKOLE",
+    "container": "kashkole-mssql"
+  },
+  "book_slug": "x6363-x9814-wa-x1149-x9688",
+  "book_dir": "/Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksessions/extracted/kashkole/10-kalimat-rabbani-ki-taweelat/01-x6363-x9814-wa-x1149-x9688",
+  "source_language": "ur",
+  "extraction": {
+    "tool": "tools.source_extractor",
+    "shelf": {
+      "kind": "binder",
+      "id": 8,
+      "name": "کلمات ربانی کی تاویلات"
+    },
+    "book": {
+      "kind": "chapter",
+      "id": 132,
+      "name": "قرآن الکریم و الفرقان الحمید"
+    },
+    "section_query_count": 2,
+    "stage": "finalized"
+  },
+  "outputs": {
+    "raw_extract": "_system/source/text/raw-extract.md",
+    "extraction_notes": "_system/source/text/_extraction-notes.md",
+    "audit_anchor_html": "_system/source/x6363-x9814-wa-x1149-x9688.html",
+    "images_dir": "_system/source/images"
+  },
+  "finalize": {
+    "finalized_at": "2026-05-24T20:26:19.869139+00:00",
+    "images_classified": {},
+    "inline_citations_resolved": 6
+  }
+}

@@ -1,0 +1,152 @@
+{
+  "book": {
+    "binder_id": 24,
+    "binder_name": "توحید مبدع تعالی",
+    "chapter_id": 118,
+    "chapter_name": "کلمہ التوحید کے مختلف ابواب"
+  },
+  "images": [
+    {
+      "placeholder": "IMG:001",
+      "file": "_system/source/images/001.png",
+      "section_id": 26,
+      "section_label": "کلمہ توحید کے پانچ ابواب",
+      "bytes": 52431,
+      "sha256_12": "0ea42ecc0805",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:002",
+      "file": "_system/source/images/002.png",
+      "section_id": 31,
+      "section_label": "کلمہ کے دو جزو کی توجیہ",
+      "bytes": 10083,
+      "sha256_12": "b453031680fe",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:003",
+      "file": "_system/source/images/003.png",
+      "section_id": 31,
+      "section_label": "کلمہ کے دو جزو کی توجیہ",
+      "bytes": 4533,
+      "sha256_12": "fa55ed17ebe7",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:004",
+      "file": "_system/source/images/004.png",
+      "section_id": 31,
+      "section_label": "کلمہ کے دو جزو کی توجیہ",
+      "bytes": 15768,
+      "sha256_12": "77cc20652742",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:005",
+      "file": "_system/source/images/005.png",
+      "section_id": 32,
+      "section_label": "باب ثانی : تین جواہر",
+      "bytes": 11695,
+      "sha256_12": "7b5fe9402102",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:006",
+      "file": "_system/source/images/006.png",
+      "section_id": 32,
+      "section_label": "باب ثانی : تین جواہر",
+      "bytes": 7291,
+      "sha256_12": "be446a529103",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:007",
+      "file": "_system/source/images/007.png",
+      "section_id": 1347,
+      "section_label": "جنت کی چار نہریں",
+      "bytes": 5396,
+      "sha256_12": "3f5c2d3d65eb",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:008",
+      "file": "_system/source/images/008.png",
+      "section_id": 1347,
+      "section_label": "جنت کی چار نہریں",
+      "bytes": 13431,
+      "sha256_12": "860aa81abb2f",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:009",
+      "file": "_system/source/images/009.png",
+      "section_id": 35,
+      "section_label": "الاسلام اور کلمہ اخلاص کے سات فصول",
+      "bytes": 8658,
+      "sha256_12": "cf5eaedbacf1",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:010",
+      "file": "_system/source/images/010.png",
+      "section_id": 38,
+      "section_label": "لا الہ کے ممثولات",
+      "bytes": 5067,
+      "sha256_12": "9bc87b4efeb3",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:011",
+      "file": "_system/source/images/011.png",
+      "section_id": 38,
+      "section_label": "لا الہ کے ممثولات",
+      "bytes": 3634,
+      "sha256_12": "38aa1e4ddfad",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:012",
+      "file": "_system/source/images/012.png",
+      "section_id": 41,
+      "section_label": "جواہر کی ترتیب کے ممثولات",
+      "bytes": 12062,
+      "sha256_12": "042f27ee31aa",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:013",
+      "file": "_system/source/images/013.png",
+      "section_id": 41,
+      "section_label": "جواہر کی ترتیب کے ممثولات",
+      "bytes": 6996,
+      "sha256_12": "11c8155a1cdc",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:014",
+      "file": "_system/source/images/014.png",
+      "section_id": 41,
+      "section_label": "جواہر کی ترتیب کے ممثولات",
+      "bytes": 21415,
+      "sha256_12": "de18d83daf7b",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    }
+  ],
+  "generated_at": "2026-05-24T19:49:44.145501+00:00",
+  "instructions": "For each image in `images`, read the file via the Read tool (paths are relative to the bundle root) and write a sibling JSON file next to the PNG (same basename, .json extension) with the schema: {classification, arabic_text, urdu_text, english_text, suggested_citation: {surah, ayat} | null, alt_text, confidence, notes}. classification ∈ {quran-verse, hadith, poem-or-saying, teaching-diagram, mixed, other}. For quran-verse, propose surah+ayat from your reading; finalize validates against the adapter's Quran corpus. For teaching-diagram, give a 1-2 sentence alt_text describing what it shows."
+}

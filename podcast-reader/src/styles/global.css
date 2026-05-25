@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Aref+Ruqaa:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Gentium+Plus:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Gentium+Plus:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Scheherazade+New:wght@400;500;600;700&family=Noto+Nastaliq+Urdu:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 /* ──────────────────────────────────────────────────────────────
@@ -22,12 +23,9 @@
   --font-ref-quran: "EB Garamond", "Garamond", Georgia, serif;
   --font-ref-hadith: "EB Garamond", "Garamond", Georgia, serif;
   --font-ref-arabic: "Gentium Plus", "Gentium Book Basic", Georgia, serif;
-
-  /* Arabic script fonts — Aref Ruqaa for calligraphic display (book covers,
-     large titles); Amiri for naskh body (inline references, smaller sizes
-     where readability outranks ornament). */
-  --font-arabic-display: "Aref Ruqaa", "Amiri", "Scheherazade New", serif;
-  --font-arabic-body: "Amiri", "Scheherazade New", "Aref Ruqaa", serif;
+  /* RTL fonts — for the source-extractor review view */
+  --font-urdu: "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", "Nafees Nastaleeq", "Nafees", "Amiri", serif;
+  --font-arabic-naskh: "Amiri", "Scheherazade New", "Noto Naskh Arabic", "Traditional Arabic", serif;
 
   /* Reading column constraints */
   --reading-measure: 70ch;
@@ -105,51 +103,8 @@ html, body {
   font-family: var(--font-body);
   font-size: var(--reading-size);
   line-height: var(--reading-line-height);
-  /* No max-width — match the Reference Controls bar (max-w-5xl outer container).
-     The --reading-measure token is kept defined for future opt-in. */
+  max-width: var(--reading-measure);
   color: var(--color-ink);
-}
-
-/* ──────────────────────────────────────────────────────────────
-   Prose body — shared rules for episode contract sections AND
-   chapter source rendering. Applied to any element with the
-   .prose-body class (ContractView sections + chapter article).
-   ────────────────────────────────────────────────────────────── */
-
-.prose-body p {
-  margin-bottom: 1.75em;
-}
-.prose-body p:last-child {
-  margin-bottom: 0;
-}
-.prose-body em {
-  font-style: italic;
-  color: var(--color-ink-secondary);
-}
-.prose-body strong {
-  font-weight: 600;
-}
-.prose-body h2 {
-  font-family: var(--font-body);
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-top: 1.5em;
-  margin-bottom: 0.5em;
-}
-.prose-body h3 {
-  font-family: var(--font-body);
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-top: 1.25em;
-  margin-bottom: 0.5em;
-}
-.prose-body .md-comment {
-  font-family: var(--font-ui);
-  font-size: 0.7rem;
-  color: var(--color-ink-tertiary);
-  margin: 1.5em 0 0.5em;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
 }
 
 /* ──────────────────────────────────────────────────────────────
@@ -349,40 +304,169 @@ html, body {
 }
 
 /* ──────────────────────────────────────────────────────────────
-   Arabic-script overlay — gated on body[data-arabic="on"].
-   Spans are emitted by lib/glossary.ts wrapPhoneticTokens():
-     <span class="ar-overlay" data-script="حُجَّة">Hujjah</span>
-   When the toggle is OFF, the span renders just its text (Hujjah)
-   with no decoration. When ON, ::after injects the Arabic script
-   inline after the phonetic form: "Hujjah حُجَّة".
-   ────────────────────────────────────────────────────────────── */
+   Source-extractor review view — Urdu Nastaliq + Arabic naskh
+   ──────────────────────────────────────────────────────────────
+   The source-extractor bundles ship raw-extract.md in source language
+   (Urdu for KAHSKOLE). Render:
+     • Default prose → Urdu Nastaliq (RTL)
+     • ⟪ar:…⟫ inline markers → Arabic naskh, still RTL
+     • ⟪ar-quote:…⟫ → Arabic naskh quoted style
+     • ⟪quran X:Y⟫ → small editorial chip
+   Scoped under `.se-prose` so this never touches the existing book-review
+   reading-column styles. */
 
-.ar-overlay {
-  /* Carry the phonetic word as-is; ::after handles the script.
-     A subtle underline hints there's an overlay available. */
-  text-decoration: underline dotted;
-  text-decoration-color: var(--color-ink-tertiary);
-  text-underline-offset: 3px;
-  cursor: help;
-}
-
-body[data-arabic="on"] .ar-overlay::after {
-  content: " " attr(data-script);
-  font-family: var(--font-arabic-body);
-  font-size: 1.05em;
-  color: var(--color-ink-secondary);
+.se-prose {
+  font-family: var(--font-urdu);
   direction: rtl;
+  text-align: right;
+  line-height: 2.1;
+  font-size: 19px;
+  color: var(--color-ink);
+}
+.se-prose * {
+  /* Force directionality on every descendant so mixed Arabic/Urdu/Latin
+     stays right-anchored. */
+  direction: rtl;
+}
+.se-prose h1,
+.se-prose h2,
+.se-prose h3,
+.se-prose h4,
+.se-prose h5,
+.se-prose h6 {
+  font-family: var(--font-urdu);
+  font-weight: 600;
+  margin: 1.5em 0 0.6em;
+  line-height: 1.5;
+  color: var(--color-ink);
+}
+.se-prose h1 { font-size: 2.0em; }
+.se-prose h2 { font-size: 1.55em; }
+.se-prose h3 { font-size: 1.25em; }
+.se-prose p { margin: 0.9em 0; }
+.se-prose strong { font-weight: 700; }
+.se-prose em { font-style: italic; }
+
+/* Inline Arabic marker — switch to naskh, keep direction RTL, lift slightly */
+.se-prose .ar {
+  font-family: var(--font-arabic-naskh);
+  font-style: normal;
+  font-size: 1.04em;
+  line-height: 1.85;
+  color: var(--color-ink);
+  background: var(--color-arabic-soft);
+  padding: 0 0.25em;
+  border-radius: 0.2em;
+  margin: 0 0.15em;
   unicode-bidi: isolate;
-  margin-inline-start: 0.3em;
+}
+.se-prose .ar-quote {
+  font-family: var(--font-arabic-naskh);
+  font-style: normal;
+  display: block;
+  padding: 0.4em 0.8em;
+  background: var(--color-arabic-soft);
+  border-right: 3px solid var(--color-arabic);
+  margin: 0.5em 0;
+  border-radius: 0.2em;
+  unicode-bidi: isolate;
+}
+.se-prose .quran-cite {
+  display: inline-block;
+  font-family: var(--font-ui);
+  direction: ltr;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: var(--color-quran-soft);
+  color: var(--color-quran);
+  padding: 0.15em 0.5em;
+  border-radius: 0.25em;
+  margin: 0 0.3em;
+  vertical-align: middle;
 }
 
-/* When toggle is OFF, hide the script entirely and drop the underline so the
-   reading column is visually identical to today. */
-body[data-arabic="off"] .ar-overlay {
-  text-decoration: none;
-  cursor: text;
+/* Section marker (formerly an HTML comment) — small editorial divider */
+.se-prose .se-section-marker {
+  font-family: var(--font-ui);
+  direction: ltr;
+  text-align: left;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-ink-tertiary);
+  border-top: 1px solid var(--color-rule-default);
+  padding-top: 0.6em;
+  margin: 1.8em 0 0.4em;
 }
 
-[data-theme="dark"] body[data-arabic="on"] .ar-overlay::after {
-  color: oklch(85% 0.06 80);
+.se-prose blockquote {
+  border-right: 3px solid var(--color-gold-deep);
+  border-left: none;
+  background: var(--color-surface-sunken);
+  padding: 0.6em 1em;
+  margin: 1em 0;
+  border-radius: 0 0.25em 0.25em 0;
+  font-size: 0.98em;
+  color: var(--color-ink-secondary);
+}
+.se-prose blockquote .ar {
+  background: transparent;
+  padding: 0;
+}
+.se-prose blockquote p { margin: 0.3em 0; }
+.se-prose blockquote em { color: var(--color-ink-secondary); }
+
+.se-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1em 0;
+  font-family: var(--font-urdu);
+  font-size: 0.95em;
+}
+.se-prose th, .se-prose td {
+  border: 1px solid var(--color-rule-default);
+  padding: 0.55em 0.7em;
+  text-align: right;
+  vertical-align: top;
+}
+.se-prose thead { background: var(--color-surface-sunken); }
+.se-prose th { font-weight: 600; }
+.se-prose ul, .se-prose ol { margin: 0.8em 1.6em 0.8em 0; }
+.se-prose li { margin: 0.3em 0; }
+.se-prose hr {
+  border: none;
+  border-top: 1px solid var(--color-rule-default);
+  margin: 1.5em 0;
+}
+.se-prose code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  background: var(--color-surface-sunken);
+  padding: 0.1em 0.3em;
+  border-radius: 0.2em;
+}
+.se-prose a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+/* When the chapter is English (e.g. KSESSIONS) — flip directionality back */
+.se-prose[data-lang="en"] {
+  font-family: var(--font-body);
+  direction: ltr;
+  text-align: left;
+  line-height: 1.7;
+}
+.se-prose[data-lang="en"] * { direction: ltr; }
+.se-prose[data-lang="en"] th, .se-prose[data-lang="en"] td { text-align: left; }
+.se-prose[data-lang="en"] ul, .se-prose[data-lang="en"] ol { margin: 0.8em 0 0.8em 1.6em; }
+.se-prose[data-lang="en"] blockquote {
+  border-right: none;
+  border-left: 3px solid var(--color-gold-deep);
+  border-radius: 0.25em 0 0 0.25em;
 }

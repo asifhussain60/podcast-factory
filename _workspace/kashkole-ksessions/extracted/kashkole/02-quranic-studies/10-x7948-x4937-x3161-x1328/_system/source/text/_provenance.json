@@ -1,0 +1,43 @@
+{
+  "schema": "podcast.ingest-source/v1",
+  "generated_at": "2026-05-24T19:46:27.017046+00:00",
+  "source": {
+    "kind": "sql",
+    "name": "kashkole",
+    "db": "KASHKOLE",
+    "container": "kashkole-mssql"
+  },
+  "book_slug": "x7948-x4937-x3161-x1328",
+  "book_dir": "/Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/10-x7948-x4937-x3161-x1328",
+  "source_language": "ur",
+  "extraction": {
+    "tool": "tools.source_extractor",
+    "shelf": {
+      "kind": "binder",
+      "id": 34,
+      "name": "Quranic Studies"
+    },
+    "book": {
+      "kind": "chapter",
+      "id": 164,
+      "name": "الحمد للہ رب العلمین"
+    },
+    "section_query_count": 11,
+    "stage": "finalized"
+  },
+  "outputs": {
+    "raw_extract": "_system/source/text/raw-extract.md",
+    "extraction_notes": "_system/source/text/_extraction-notes.md",
+    "audit_anchor_html": "_system/source/x7948-x4937-x3161-x1328.html",
+    "images_dir": "_system/source/images"
+  },
+  "finalize": {
+    "finalized_at": "2026-05-24T20:10:30.369461+00:00",
+    "images_classified": {
+      "001": "poem-or-saying",
+      "002": "teaching-diagram",
+      "003": "teaching-diagram"
+    },
+    "inline_citations_resolved": 0
+  }
+}
