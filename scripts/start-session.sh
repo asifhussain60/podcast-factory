@@ -69,12 +69,44 @@ echo
 echo "▸ ready on develop"
 echo "  $(git log --oneline -1)"
 echo
-echo "▸ books in flight:"
-ls content/drafts/ 2>/dev/null | sed 's/^/  - /'
-echo
+
+# ── 5a. Watchdog status — surface any running or recently-stopped watchdogs ──
+WATCHDOG_FOUND=0
+for sentinel in content/drafts/*/_system/watchdog.json; do
+  [[ -f "$sentinel" ]] || continue
+  WATCHDOG_FOUND=1
+  WD_SLUG=$(jq -r '.slug' "$sentinel" 2>/dev/null)
+  WD_PID=$(jq -r '.pid' "$sentinel" 2>/dev/null)
+  WD_START=$(jq -r '.started' "$sentinel" 2>/dev/null)
+  WD_DIR="$(dirname "$sentinel")"
+  WD_PHASE=$(jq -r '.phase' "$WD_DIR/orchestrator-state.json" 2>/dev/null)
+  WD_STATUS=$(jq -r '.phase_status' "$WD_DIR/orchestrator-state.json" 2>/dev/null)
+  WD_DONE=$(jq -r '.phases."per-chapter".completed_slugs | length' "$WD_DIR/orchestrator-state.json" 2>/dev/null)
+  WD_TOTAL=$(ls "$(dirname "$WD_DIR")/chapter-contracts/" 2>/dev/null | wc -l | tr -d ' ')
+  if kill -0 "$WD_PID" 2>/dev/null; then
+    echo "▸ watchdog RUNNING: $WD_SLUG"
+    echo "  PID $WD_PID · phase=$WD_PHASE/$WD_STATUS · ${WD_DONE}/${WD_TOTAL} chapters done"
+    echo "  log: _workspace/logs/orchestrator-$WD_SLUG.log"
+  else
+    echo "▸ watchdog STOPPED: $WD_SLUG (PID $WD_PID gone · started $WD_START)"
+    echo "  phase=$WD_PHASE/$WD_STATUS · ${WD_DONE}/${WD_TOTAL} chapters done"
+    if [[ "$WD_PHASE" != "done" ]] && ! { [[ "$WD_PHASE" == "finalize" ]] && [[ "$WD_STATUS" == "halted" ]]; }; then
+      echo "  ⚠ book not yet complete — relaunch: bash scripts/podcast/watch_orchestrator.sh $WD_SLUG"
+    else
+      echo "  ✓ complete"
+    fi
+  fi
+  echo
+done
+if [[ "$WATCHDOG_FOUND" -eq 0 ]]; then
+  echo "▸ books in flight:"
+  ls content/drafts/ 2>/dev/null | sed 's/^/  - /'
+  echo
+fi
+
 echo "▸ next actions (pick any):"
-echo "  - new book:        python3 scripts/podcast/orchestrate_book.py <pdf-path>"
-echo "  - resume book:     python3 scripts/podcast/orchestrate_book.py --resume <slug>"
+echo "  - new book:        bash scripts/podcast/watch_orchestrator.sh <slug>  (after orchestrate_book.py --new)"
+echo "  - resume book:     bash scripts/podcast/watch_orchestrator.sh <slug>"
 echo "  - check a book:    python3 scripts/podcast/orchestrate_book.py --status <slug>"
 echo "  - publish a book:  python3 scripts/podcast/publish_to_library.py <slug> --dry-run"
 echo "  - run reader:      cd podcast-reader && npm run dev"
