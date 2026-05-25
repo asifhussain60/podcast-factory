@@ -72,38 +72,40 @@ const readMinutes = Math.max(1, Math.round(wordCount / 220));
   <!-- Scroll progress sliver (CSS scroll-driven; no JS) -->
   <div class="reading-progress" aria-hidden="true" />
 
-  <div class="not-prose mb-6 rounded-lg border border-stone-200 bg-stone-50/80 px-4 py-3 shadow-sm dark:border-stone-700 dark:bg-stone-800/40">
-    <div class="flex flex-wrap items-start justify-between gap-4">
-      <div class="flex-1 min-w-[280px]">
-        <div class="mb-2 flex items-center gap-2">
-          <span class="font-ui text-[10px] font-semibold uppercase tracking-wider text-stone-500">
-            Reference controls
-          </span>
-          <span class="text-stone-300">·</span>
-          <span class="font-ui text-[10px] text-stone-500">
-            click to toggle, or press <kbd class="rounded border border-stone-300 bg-white px-1 text-stone-700">?</kbd> for legend
-          </span>
+  <section class="chapter-page">
+    <div class="not-prose mb-6 rounded-lg border border-stone-200 bg-stone-50/70 px-4 py-3">
+      <div class="flex flex-wrap items-start justify-between gap-4">
+        <div class="flex-1 min-w-[280px]">
+          <div class="mb-2 flex items-center gap-2">
+            <span class="font-ui text-[12px] font-semibold tracking-wide text-stone-600">
+              Reference controls
+            </span>
+            <span class="text-stone-300">·</span>
+            <span class="font-ui text-[11px] text-stone-500">
+              click to toggle, or press <kbd class="rounded border border-stone-300 bg-white px-1 text-stone-700">?</kbd> for legend
+            </span>
+          </div>
+          <ReaderControls client:load categories={categoryDescriptors} />
         </div>
-        <ReaderControls client:load categories={categoryDescriptors} />
       </div>
     </div>
-  </div>
 
-  <article class="reading-column reading-column--wide mx-auto">
-    <header class="not-prose mb-8">
-      <div class="font-ui text-xs font-semibold uppercase tracking-wider text-amber-700 dark:text-amber-300">
-        Source chapter · {ch.numericId !== null ? `#${ch.numericId}` : 'unnumbered'}
-        <span class="ml-2 text-stone-400">·</span>
-        <span class="ml-2 font-normal normal-case tracking-normal text-stone-500">
-          {wordCount.toLocaleString()} words · ~{readMinutes} min read
-        </span>
-      </div>
-      <h1 class="chapter-title mt-1">{ch.title}</h1>
-      <hr class="gold-hairline-thin" />
-    </header>
+    <article class="reading-column reading-column--wide mx-auto">
+      <header class="not-prose mb-8">
+        <div class="font-ui text-[12px] font-semibold tracking-wide text-amber-700 dark:text-amber-300">
+          Source chapter · {ch.numericId !== null ? `#${ch.numericId}` : 'unnumbered'}
+          <span class="ml-2 text-stone-400">·</span>
+          <span class="ml-2 font-normal text-stone-500">
+            {wordCount.toLocaleString()} words · ~{readMinutes} min read
+          </span>
+        </div>
+        <h1 class="chapter-title mt-1">{ch.title}</h1>
+        <hr class="gold-hairline-thin" />
+      </header>
 
-    <div class="prose-body" set:html={renderedWithGlossary} />
-  </article>
+      <div class="prose-body" set:html={renderedWithGlossary} />
+    </article>
+  </section>
 
   <nav class="mx-auto mt-14 grid max-w-5xl grid-cols-1 gap-3 sm:grid-cols-2">
     {prev ? (

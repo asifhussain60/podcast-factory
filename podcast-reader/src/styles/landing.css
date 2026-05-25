@@ -14,6 +14,244 @@
      Arabic UI  : "Cairo"             — small Arabic chrome (subtitles, tags)
    ───────────────────────────────────────────────────────────────────── */
 
+/* ─────────────────────────────────────────────────────────────────────
+   Three-pane reader layout — left sidebar, center column, right rail.
+   Sidebar is collapsible via [data-sidebar="collapsed"] on <html>.
+   ───────────────────────────────────────────────────────────────────── */
+.three-pane {
+  display: flex;
+  min-height: 100vh;
+}
+.left-rail {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 320px;
+  flex-shrink: 0;
+  align-self: flex-start;
+  border-right: 1px solid var(--color-rule-default);
+  background: var(--color-surface-sunken);
+  display: none;
+  flex-direction: column;
+  transition: width 200ms ease;
+  overflow: hidden;
+}
+@media (min-width: 1024px) { .left-rail { display: flex; } }
+html[data-sidebar="collapsed"] .left-rail {
+  width: 44px;
+}
+html[data-sidebar="collapsed"] .left-rail .left-rail-back-label,
+html[data-sidebar="collapsed"] .left-rail .left-rail-book,
+html[data-sidebar="collapsed"] .left-rail .left-rail-meta,
+html[data-sidebar="collapsed"] .left-rail .left-rail-nav {
+  display: none;
+}
+html[data-sidebar="collapsed"] .left-rail .left-rail-collapse-icon {
+  transform: rotate(180deg);
+}
+html[data-sidebar="collapsed"] .left-rail .left-rail-head {
+  padding: 10px 0;
+  align-items: center;
+}
+html[data-sidebar="collapsed"] .left-rail .left-rail-head-row {
+  justify-content: center;
+}
+html[data-sidebar="collapsed"] .left-rail .left-rail-back {
+  padding: 0;
+}
+
+.left-rail-head {
+  padding: 14px 18px 12px;
+  border-bottom: 1px solid var(--color-rule-default);
+  background: var(--color-surface-raised);
+}
+.left-rail-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.left-rail-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-ink-tertiary);
+  text-decoration: none;
+  transition: color 120ms;
+}
+.left-rail-back:hover { color: var(--color-gold-deep); }
+.left-rail-collapse {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--color-rule-default);
+  border-radius: 6px;
+  background: var(--color-surface-raised);
+  color: var(--color-ink-tertiary);
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: background 120ms, color 120ms, border-color 120ms;
+}
+.left-rail-collapse:hover {
+  border-color: var(--color-gold-deep);
+  color: var(--color-gold-deep);
+}
+.left-rail-collapse-icon {
+  display: inline-block;
+  transition: transform 200ms;
+}
+.left-rail-book {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.left-rail-book-icon { color: var(--color-gold-deep); flex-shrink: 0; }
+.left-rail-book-title {
+  font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--color-ink);
+  line-height: 1.2;
+  word-break: break-word;
+}
+.left-rail-meta {
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  color: var(--color-ink-tertiary);
+}
+.left-rail-nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+}
+.left-rail-nav-fallback {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-ink-tertiary);
+}
+.left-rail-nav-empty {
+  margin-top: 8px;
+  font-family: 'Source Serif 4', serif;
+  font-size: 13px;
+  color: var(--color-ink-tertiary);
+}
+
+.center-col {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+.center-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid var(--color-rule-subtle);
+  background: color-mix(in oklab, var(--color-surface-raised) 85%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.center-header-inner {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.center-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--color-ink-secondary);
+  flex-wrap: wrap;
+}
+.center-breadcrumb a {
+  color: var(--color-ink-secondary);
+  text-decoration: none;
+  transition: color 120ms;
+}
+.center-breadcrumb a:hover { color: var(--color-gold-deep); }
+.center-breadcrumb .here {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+.center-breadcrumb-sep {
+  color: var(--color-rule-strong);
+  display: inline-flex;
+  align-items: center;
+}
+.center-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.center-main {
+  max-width: 64rem;
+  margin: 0 auto;
+  width: 100%;
+  flex: 1;
+  padding: 32px 24px 64px;
+}
+@media (min-width: 1024px) { .center-main { padding-left: 40px; padding-right: 40px; } }
+
+.right-rail {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 320px;
+  flex-shrink: 0;
+  align-self: flex-start;
+  border-left: 1px solid var(--color-rule-default);
+  background: var(--color-surface-raised);
+  padding: 20px 18px;
+  display: none;
+  overflow-y: auto;
+}
+@media (min-width: 1280px) { .right-rail { display: block; } }
+
+/* Chapter page — white "printed page" card behind the content. */
+.chapter-page {
+  position: relative;
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-rule-subtle);
+  border-radius: 10px;
+  padding: 48px 56px 56px;
+  box-shadow:
+    0 1px 0 0 color-mix(in oklab, white 70%, transparent) inset,
+    0 4px 12px -4px rgba(0,0,0,0.05),
+    0 18px 36px -18px rgba(0,0,0,0.18);
+}
+.chapter-page::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 24px; right: 24px;
+  height: 2px;
+  background: linear-gradient(to right, transparent 10%, var(--color-gold-deep) 35%, var(--color-gold) 50%, var(--color-gold-deep) 65%, transparent 90%);
+  border-radius: 2px;
+}
+@media (max-width: 768px) {
+  .chapter-page { padding: 32px 24px; }
+}
+
 /* ── Page chrome ───────────────────────────────────────────────────── */
 .editorial-page {
   min-height: 100vh;

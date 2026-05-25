@@ -16,10 +16,17 @@ export default function ChapterMiniTOC() {
   const [active, setActive] = useState<string>('');
 
   useEffect(() => {
+    // Read heading text from the leading text nodes only — SectionSummaries
+    // appends a ✦ summarize button into each h2 that we must NOT include.
+    const headingText = (h: HTMLElement): string => {
+      const clone = h.cloneNode(true) as HTMLElement;
+      clone.querySelectorAll('button, .edit-block-actions, [contenteditable="false"]').forEach((n) => n.remove());
+      return (clone.textContent || '').replace(/\s+/g, ' ').trim();
+    };
     const headings = Array.from(document.querySelectorAll('.prose-body h2, .prose-body h3')) as HTMLElement[];
     const collected: TOCItem[] = headings
       .filter((h) => h.id)
-      .map((h) => ({ id: h.id, text: h.textContent || '', level: h.tagName === 'H2' ? 2 : 3 }));
+      .map((h) => ({ id: h.id, text: headingText(h), level: h.tagName === 'H2' ? 2 : 3 }));
     setItems(collected);
 
     if (collected.length === 0) return;
@@ -39,22 +46,26 @@ export default function ChapterMiniTOC() {
 
   return (
     <nav className="text-[13.5px] leading-snug">
-      <div className="mb-2 font-ui text-[10px] font-semibold uppercase tracking-wider text-stone-500">
+      <div className="mb-3 font-ui text-[11px] font-semibold tracking-wide text-stone-500">
         In this chapter
       </div>
-      <ul className="max-h-[38vh] space-y-1 overflow-y-auto border-l border-stone-200 pl-3 pr-1 dark:border-stone-700">
+      <ul className="max-h-[42vh] space-y-1.5 overflow-y-auto border-l border-stone-200 pl-3 pr-1 dark:border-stone-700">
         {items.map((it) => (
-          <li key={it.id} className={it.level === 3 ? 'pl-3' : ''}>
+          <li key={it.id} className={'relative ' + (it.level === 3 ? 'pl-4' : '')}>
             <a
               href={`#${it.id}`}
               className={
-                'block py-0.5 transition-colors line-clamp-2 ' +
+                'block py-0.5 pl-4 transition-colors line-clamp-2 relative ' +
                 (active === it.id
                   ? 'font-medium text-amber-700 dark:text-amber-300'
                   : 'text-stone-700 hover:text-stone-900 dark:text-stone-300 dark:hover:text-stone-100')
               }
               title={it.text}
             >
+              <span className={
+                'absolute left-0 top-[0.55em] inline-block h-1.5 w-1.5 rounded-full transition-colors ' +
+                (active === it.id ? 'bg-amber-600' : 'bg-stone-300 dark:bg-stone-600')
+              } aria-hidden="true" />
               {it.text}
             </a>
           </li>

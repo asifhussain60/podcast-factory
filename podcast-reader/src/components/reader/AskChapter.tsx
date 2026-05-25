@@ -93,7 +93,7 @@ export default function AskChapter({ book, chapterTitle, chapterText }: Props) {
     <div className="mt-6 border-t border-stone-200 pt-4 dark:border-stone-700">
       <button
         onClick={() => setOpen((v) => !v)}
-        className="mb-3 flex w-full items-center justify-between font-ui text-[10px] font-semibold uppercase tracking-wider text-stone-500 hover:text-amber-700"
+        className="mb-3 flex w-full items-center justify-between font-ui text-[12px] font-semibold tracking-wide text-stone-600 hover:text-amber-700"
         aria-expanded={open}
       >
         <span>Ask this chapter</span>
