@@ -1,22 +1,22 @@
 # KAHSKOLE Pipeline — GATE Report
-*Generated: 2026-05-25 14:17 UTC*
+*Generated: 2026-05-25 15:04 UTC*
 
 ## At a Glance
 
 | Metric | Value |
 |---|---|
 | Total chapters | 122 |
-| Challenged (Phase 3 complete) | 62 |
-| Adapted (Phase 2 complete) | 37 |
-| Translated only (Phase 1) | 23 |
+| Challenged (Phase 3 complete) | 70 |
+| Adapted (Phase 2 complete) | 52 |
+| Translated only (Phase 1) | 0 |
 | GATE ready | ❌ NOT YET |
 
 ## Challenge Results
 
 | Verdict | Count |
 |---|---|
-| PASS | 8 |
-| WARN | 37 |
+| PASS | 9 |
+| WARN | 44 |
 | FAIL | 17 |
 
 ## Cost Summary
@@ -24,9 +24,9 @@
 | Phase | Cost (USD) |
 |---|---|
 | Phase 1 — Azure translate | $38.37 |
-| Phase 2 — Adaptation (Anthropic) | $5.30 |
-| Phase 3 — Challenge (Anthropic) | $0.27 |
-| **Total** | **$43.95** |
+| Phase 2 — Adaptation (Anthropic) | $8.31 |
+| Phase 3 — Challenge (Anthropic) | $0.31 |
+| **Total** | **$46.99** |
 
 ## ❌ FAIL — Require Re-adaptation (17)
 
@@ -48,7 +48,7 @@
 - b16/c842: فجر کے بعد کی دعائیں
 - b16/c851: روزانہ کی دس دعائیں
 
-## ⚠ WARN — Review Before Proceeding (37)
+## ⚠ WARN — Review Before Proceeding (44)
 
 These chapters passed validation but the LLM challenger raised concerns.
 Review challenger reports before signing off.
@@ -75,6 +75,12 @@ Review challenger reports before signing off.
 - b1/c1098: سات عقول
 - b1/c1138: تشکیل عالم کون و فساد
 - b1/c1153: نفوس اور ان کی اقسام
+- b23/c825: عقل اور علم
+- b23/c1174: قضا قدر اور قصاص
+- b23/c996: رسالۃ الماھیۃ الزۃ و الالم
+- b23/c3613: کتاب العالم والغلام
+- b23/c942: کتاب حکایات بنی اسرائیل
+- b23/c4631: مفاتیح الحکمۃ
 - b32/c4616: Controlling Lust For Food and Sex
 - b18/c5741: حضرت نوح علیہ السلام
 - b25/c1227: طہارت سے متعلق روایتیں
@@ -87,6 +93,7 @@ Review challenger reports before signing off.
 - b26/c1351: مبارک ایام کی نمازیں
 - b29/c2509: الکواکب الدریۃ
 - b6/c3598: نہج البلاغۃ فی العربیۃ
+- b6/c885: سلونی قبل ان تفقدونی
 - b12/c799: حدود کبار
 - b12/c3586: شخصیات
 - b5/c328: مختلف مناقب
