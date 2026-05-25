@@ -77,7 +77,19 @@ _is_human_review_gate() {
     return 1
 }
 
-# ── Short-circuit if already done or at a human-review gate ──────────────────
+_is_iter_cap_halt() {
+    # True when the per-chapter loop has exhausted its 3-iteration convergence cap
+    # with unresolved P0/P1 findings. The orchestrator sets phase=per-chapter,
+    # phase_status=failed intentionally. Retrying without human intervention will
+    # reproduce the same finding and exhaust the watchdog's attempt budget.
+    local phase status
+    phase="$(_state '.phase')"
+    status="$(_state '.phase_status')"
+    if [[ "$phase" == "per-chapter" && "$status" == "failed" ]]; then return 0; fi
+    return 1
+}
+
+# ── Short-circuit if already done, at a human-review gate, or at iter-cap halt ─
 if _is_done; then
     _log "Already complete (phase=$(_state '.phase') status=$(_state '.phase_status')) — nothing to do."
     rm -f "$SENTINEL"
@@ -86,6 +98,13 @@ fi
 if _is_human_review_gate; then
     _log "At human-review gate (phase=$(_state '.phase') status=$(_state '.phase_status')) — watchdog pausing."
     _log "Review the series plan, then re-run: bash scripts/podcast/watch_orchestrator.sh $SLUG"
+    rm -f "$SENTINEL"
+    exit 0
+fi
+if _is_iter_cap_halt; then
+    _log "At iter-cap halt (per-chapter/failed) — human review required. Watchdog will not retry."
+    _log "Check findings: jq '.last_error' content/drafts/$SLUG/_system/orchestrator-state.json"
+    _log "Fix the unresolved P0/P1, then re-run: python3 scripts/podcast/orchestrate_book.py --resume $SLUG --retry-phase per-chapter"
     rm -f "$SENTINEL"
     exit 0
 fi
@@ -126,6 +145,31 @@ for attempt in $(seq 1 "$MAX_RETRIES"); do
         _log "Review the series plan, then re-run: bash scripts/podcast/watch_orchestrator.sh $SLUG"
         rm -f "$SENTINEL"
         exit 0
+    fi
+
+    if _is_iter_cap_halt; then
+        # Bug fix (2026-05-25): per-chapter/failed is an intentional HALT, not a crash.
+        # The orchestrator exhausted its 3-iteration convergence cap with unresolved
+        # findings. Retrying blindly will reproduce the same finding 20×, burning the
+        # watchdog's attempt budget for zero gain. Stop here and tell the user what to do.
+        _log "=== ITER-CAP HALT: $SLUG per-chapter/failed — human review required. ==="
+        _log "Unresolved finding(s) blocked convergence. Do NOT re-run watchdog without fixing first."
+        _log "1. Check: jq '.last_error' content/drafts/$SLUG/_system/orchestrator-state.json"
+        _log "2. Read:  content/drafts/$SLUG/_system/challenger-report.md (P0 section)"
+        _log "3. Fix the P0, then: python3 scripts/podcast/orchestrate_book.py --resume $SLUG --retry-phase per-chapter"
+        rm -f "$SENTINEL"
+        exit 0
+    fi
+
+    if [[ "$RC" -eq 1 ]]; then
+        # rc=1 = pre-flight failure (see orchestrate_book.py exit code table).
+        # Pre-flight exits before changing any state; retrying will fail identically.
+        # Common causes: dirty working tree (untracked/modified non-runtime files).
+        _log "=== PRE-FLIGHT FAILURE (rc=1): working tree dirty or required config missing. ==="
+        _log "Fix the issue (commit or stash untracked/modified files), then re-run:"
+        _log "  bash scripts/podcast/watch_orchestrator.sh $SLUG"
+        rm -f "$SENTINEL"
+        exit 1
     fi
 
     if [[ "$RC" -eq 0 ]]; then
