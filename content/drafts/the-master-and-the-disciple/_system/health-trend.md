@@ -11,3 +11,5 @@
 | 2026-05-24 23:16 | per-chapter:ch06 | 0 | 3 | 1 | 0 | 0.35 | Cautious | SHIP-WITH-CAUTION |
 | 2026-05-25 08:22 | per-chapter:ch01 | 0 | 2 | 1 | 0 | 0.55 | Cautious | SHIP-WITH-CAUTION |
 | 2026-05-25 08:38 | per-chapter:ch01 | 5 | 2 | 1 | 1 | 0.00 | Critical | SHIP-WITH-CAUTION |
+| 2026-05-25 10:52 | per-chapter:ch04 | 5 | 2 | 2 | 0 | 0.00 | Critical | SHIP-WITH-CAUTION |
+| 2026-05-25 11:05 | per-chapter:ch04 (re-validation) | 5 | 2 | 2 | 0 | 0.00 | Critical | SHIP-WITH-CAUTION |
