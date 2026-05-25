@@ -1166,9 +1166,23 @@ def emit_bundle(chapter: ResolvedChapter, c: Contract, force: bool) -> None:
     write_if_needed(chapter_out, chapter_text, force, written, skipped)
 
     write_if_needed(draft_dir / "00-framing.md", render_framing(c, chapter, ep_num), force, written, skipped)
-    write_if_needed(draft_dir / "02-key-passages.md", render_key_passages(c, chapter), force, written, skipped)
-    write_if_needed(draft_dir / "03-context-pack.md", render_context_pack(c, chapter), force, written, skipped)
-    write_if_needed(draft_dir / "04-discussion-spine.md", render_discussion_spine(c, chapter), force, written, skipped)
+    # 02-/03-/04- scaffolds RETIRED 2026-05-25 (F30 scholarly-rubric triage).
+    # The original bundle design extruded four extra files (02-key-passages.md,
+    # 03-context-pack.md, 04-discussion-spine.md, 99-show-notes.md) as "hidden
+    # steering layer" inputs. In current operational reality, NotebookLM ingests
+    # only the chapter source (upload) + 00-framing.md (paste into Customize),
+    # and the framing itself already contains the spine structure (## Three-part
+    # focus → six beats), context (## Background, ## Tone constraints, ## Anti-
+    # noise rules), and key-passage discipline (## Pronunciation, ## Name
+    # discipline). The empty 02/03/04 stubs were producing 38 P0 dual-auditor
+    # findings per book ("scaffold collapse" — see content/drafts/the-master-
+    # and-the-disciple/audits/v2.2-vs-v2.1-diff.md). render_key_passages /
+    # render_context_pack / render_discussion_spine are kept in this file so a
+    # future "revive steering layer" decision can re-enable them by un-commenting
+    # the three lines below — but no caller invokes them today.
+    # write_if_needed(draft_dir / "02-key-passages.md", render_key_passages(c, chapter), force, written, skipped)
+    # write_if_needed(draft_dir / "03-context-pack.md", render_context_pack(c, chapter), force, written, skipped)
+    # write_if_needed(draft_dir / "04-discussion-spine.md", render_discussion_spine(c, chapter), force, written, skipped)
     write_if_needed(draft_dir / "99-show-notes.md", render_show_notes(c, chapter, ep_num), force, written, skipped)
 
     # If contract was stub-generated, persist it so the user can edit it.
