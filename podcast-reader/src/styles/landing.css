@@ -1,0 +1,598 @@
+/* ─────────────────────────────────────────────────────────────────────
+   landing.css — editorial design system for landing surfaces.
+
+   Defines the shared vocabulary for /, /podcast-drafts/, and the
+   per-book cover. Every class here is theme-aware (driven by the
+   --color-* variables in global.css), no inline styles allowed in
+   the consuming Astro pages.
+
+   Type stack
+     Display    : "EB Garamond"      — book covers and editorial heroes
+     Body       : "Source Serif 4"   — long-form reading + descriptions
+     UI         : "Inter"             — eyebrows, badges, labels, stats labels
+     Arabic     : "Markazi Text"     — title-line Arabic (modern, calligraphic)
+     Arabic UI  : "Cairo"             — small Arabic chrome (subtitles, tags)
+   ───────────────────────────────────────────────────────────────────── */
+
+/* ── Page chrome ───────────────────────────────────────────────────── */
+.editorial-page {
+  min-height: 100vh;
+  background: var(--color-surface-page);
+  color: var(--color-ink);
+}
+.editorial-shell {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+.editorial-shell--narrow { max-width: 900px; }
+
+/* ── Top utility bar (theme toggle, breadcrumb pill) ─────────────── */
+.editorial-topbar {
+  position: absolute;
+  top: 18px;
+  right: 24px;
+  z-index: 30;
+}
+
+/* ── Hero ───────────────────────────────────────────────────────────── */
+.editorial-hero {
+  position: relative;
+  padding: 88px 0 56px;
+  border-bottom: 1px solid var(--color-rule-default);
+}
+.editorial-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: linear-gradient(to right, transparent 8%, var(--color-gold-deep) 30%, var(--color-gold) 50%, var(--color-gold-deep) 70%, transparent 92%);
+}
+
+.editorial-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--font-ui);
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  color: var(--color-gold-deep);
+  margin-bottom: 28px;
+}
+.editorial-eyebrow .rule {
+  display: inline-block;
+  height: 1px;
+  width: 36px;
+  background: var(--color-gold-deep);
+  opacity: 0.65;
+}
+
+.editorial-breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--color-ink-tertiary);
+  margin-bottom: 24px;
+}
+.editorial-breadcrumb a {
+  color: var(--color-ink-tertiary);
+  text-decoration: none;
+  transition: color 120ms;
+}
+.editorial-breadcrumb a:hover { color: var(--color-gold-deep); }
+.editorial-breadcrumb .sep { opacity: 0.45; }
+.editorial-breadcrumb .here { color: var(--color-ink); }
+
+.editorial-title {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: clamp(56px, 7.5vw, 96px);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.018em;
+  color: var(--color-ink);
+  margin: 0 0 24px;
+  text-wrap: balance;
+}
+.editorial-title em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--color-gold-deep);
+}
+
+.editorial-deck {
+  font-family: 'Source Serif 4', Charter, Georgia, serif;
+  font-size: 19px;
+  line-height: 1.55;
+  color: var(--color-ink-secondary);
+  max-width: 680px;
+  margin: 0;
+}
+.editorial-deck code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--color-surface-sunken);
+  border: 1px solid var(--color-rule-subtle);
+  padding: 1px 7px;
+  border-radius: 4px;
+}
+
+/* ── Section header (used between hero and card grid) ────────────── */
+.editorial-section-head {
+  padding: 56px 0 24px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.editorial-section-head h2 {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 28px;
+  font-weight: 500;
+  font-style: italic;
+  color: var(--color-ink);
+  margin: 0;
+}
+.editorial-section-head .meta {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--color-ink-tertiary);
+}
+
+/* ── Card grids ────────────────────────────────────────────────────── */
+.editorial-grid {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  padding-bottom: 64px;
+}
+.editorial-grid--two { grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 760px) {
+  .editorial-grid--two { grid-template-columns: 1fr; }
+}
+
+/* ── Editorial card (the reusable tile) ──────────────────────────── */
+.editorial-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 32px 28px 28px;
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-rule-default);
+  border-radius: 6px;
+  text-decoration: none;
+  color: var(--color-ink);
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+  overflow: hidden;
+}
+.editorial-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 3px;
+  background: var(--color-gold-deep);
+  opacity: 0;
+  transition: opacity 200ms;
+}
+.editorial-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--color-gold-deep);
+  box-shadow: 0 20px 40px -22px color-mix(in oklab, var(--color-ink) 30%, transparent),
+              0 6px 14px -8px color-mix(in oklab, var(--color-ink) 18%, transparent);
+}
+.editorial-card:hover::before { opacity: 0.65; }
+
+.editorial-card-num {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--color-gold-deep);
+  margin-bottom: 14px;
+  display: inline-block;
+}
+
+.editorial-card-title {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.05;
+  color: var(--color-ink);
+  margin: 0 0 4px;
+  letter-spacing: -0.005em;
+}
+.editorial-card-title-arabic {
+  font-family: 'Markazi Text', 'Cairo', 'Amiri', serif;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--color-ink-secondary);
+  margin: 4px 0 0;
+  direction: rtl;
+  unicode-bidi: isolate;
+}
+
+.editorial-card-sub {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--color-ink-tertiary);
+  letter-spacing: 0.01em;
+  margin: 8px 0 20px;
+}
+
+.editorial-card-body {
+  font-family: 'Source Serif 4', Charter, Georgia, serif;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--color-ink-secondary);
+  margin: 0 0 24px;
+  flex: 1;
+}
+
+.editorial-card-stats {
+  display: flex;
+  gap: 32px;
+  padding-top: 20px;
+  margin-top: auto;
+  border-top: 1px solid var(--color-rule-subtle);
+}
+.editorial-card-stat .v {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--color-ink);
+}
+.editorial-card-stat .v.accent { color: var(--color-gold-deep); }
+.editorial-card-stat .l {
+  font-family: var(--font-ui);
+  font-size: 9.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--color-ink-tertiary);
+  margin-top: 6px;
+}
+
+.editorial-card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 20px;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--color-gold-deep);
+  transition: gap 180ms;
+}
+.editorial-card:hover .editorial-card-cta { gap: 10px; }
+
+/* Compact card variant (used for the book tiles in podcast-drafts) */
+.editorial-card--compact {
+  padding: 24px 22px 20px;
+}
+.editorial-card--compact .editorial-card-title { font-size: 22px; line-height: 1.15; margin-bottom: 2px; }
+.editorial-card--compact .editorial-card-num { font-size: 9.5px; margin-bottom: 10px; }
+.editorial-card--compact .editorial-card-body { font-size: 13.5px; margin-bottom: 16px; }
+.editorial-card--compact .editorial-card-stats { gap: 18px; padding-top: 14px; }
+.editorial-card--compact .editorial-card-stat .v { font-size: 22px; }
+
+/* Status pill (Reader-ready / Pre-translation / Live / etc.) */
+.editorial-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  background: var(--color-surface-sunken);
+  border: 1px solid var(--color-rule-default);
+  border-radius: 9999px;
+  font-family: var(--font-ui);
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--color-ink-tertiary);
+  white-space: nowrap;
+}
+.editorial-pill .dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-ink-tertiary);
+}
+.editorial-pill--gold {
+  background: var(--color-gold-soft);
+  border-color: color-mix(in oklab, var(--color-gold-deep) 40%, transparent);
+  color: var(--color-gold-deep);
+}
+.editorial-pill--gold .dot { background: var(--color-gold-deep); }
+.editorial-pill--live {
+  background: color-mix(in oklab, var(--color-accent-soft) 80%, transparent);
+  border-color: color-mix(in oklab, var(--color-accent) 40%, transparent);
+  color: var(--color-accent);
+}
+.editorial-pill--live .dot {
+  background: var(--color-accent);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-accent) 20%, transparent);
+}
+
+.editorial-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+.editorial-card-tag-stack { display: inline-flex; gap: 4px; flex-shrink: 0; }
+
+/* Small monogram tag (EN / RAW / PHON style) */
+.editorial-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 7px;
+  border: 1px solid var(--color-rule-default);
+  border-radius: 3px;
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--color-ink-tertiary);
+  text-transform: uppercase;
+  background: var(--color-surface-page);
+}
+.editorial-tag--gold {
+  border-color: color-mix(in oklab, var(--color-gold-deep) 40%, transparent);
+  color: var(--color-gold-deep);
+  background: var(--color-gold-soft);
+}
+
+.editorial-card-slug {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-ink-tertiary);
+  margin: 2px 0 0;
+}
+
+/* ── Wordmark / brand ──────────────────────────────────────────────── */
+.editorial-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+.editorial-brand-mark {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+.editorial-brand-mark .stroke { stroke: var(--color-gold-deep); }
+.editorial-brand-mark .fill { fill: var(--color-gold-deep); }
+.editorial-brand-words {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 19px;
+  font-style: italic;
+  font-weight: 500;
+  color: var(--color-ink);
+  letter-spacing: -0.005em;
+}
+.editorial-brand-words .em { color: var(--color-gold-deep); font-weight: 600; }
+
+/* ── Footer ────────────────────────────────────────────────────────── */
+.editorial-footer {
+  border-top: 1px solid var(--color-rule-default);
+  margin-top: 64px;
+  padding: 32px 0 56px;
+}
+.editorial-footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  color: var(--color-ink-tertiary);
+}
+.editorial-footer code {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  background: var(--color-surface-sunken);
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+/* ── BookCover (per-book hero) — refactored from inline styles ───── */
+.book-cover {
+  position: relative;
+  isolation: isolate;
+  margin: 0 auto 48px;
+  max-width: 880px;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid var(--color-rule-default);
+  background: var(--color-surface-raised);
+  box-shadow: 0 18px 40px -28px color-mix(in oklab, var(--color-ink) 35%, transparent);
+}
+.book-cover::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: linear-gradient(to right, transparent 8%, var(--color-gold-deep) 30%, var(--color-gold) 50%, var(--color-gold-deep) 70%, transparent 92%);
+  z-index: 1;
+}
+.book-cover-inner {
+  position: relative;
+  padding: 64px 56px;
+  text-align: center;
+}
+.book-cover-series {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  color: var(--color-gold-deep);
+}
+.book-cover-title {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: clamp(40px, 5vw, 56px);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.012em;
+  color: var(--color-ink);
+  margin: 20px 0 0;
+  text-wrap: balance;
+}
+.book-cover-title-ar {
+  font-family: 'Markazi Text', 'Cairo', 'Amiri', serif;
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--color-ink);
+  margin: 18px 0 0;
+  direction: rtl;
+  unicode-bidi: isolate;
+}
+.book-cover-subtitle {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 16.5px;
+  line-height: 1.5;
+  color: var(--color-ink-secondary);
+  margin: 22px auto 0;
+  max-width: 540px;
+}
+.book-cover-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 36px auto;
+}
+.book-cover-divider .seg {
+  display: inline-block;
+  height: 1px;
+  width: 44px;
+  background: color-mix(in oklab, var(--color-gold-deep) 40%, transparent);
+}
+.book-cover-divider .gem {
+  color: var(--color-gold-deep);
+  font-size: 10px;
+}
+.book-cover-author {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 18px;
+  color: var(--color-ink);
+}
+.book-cover-author-titles {
+  margin-top: 6px;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 12.5px;
+  color: var(--color-ink-tertiary);
+}
+.book-cover-author-era {
+  margin-top: 4px;
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--color-ink-tertiary);
+}
+.book-cover-description {
+  margin: 36px auto 0;
+  max-width: 560px;
+  font-family: 'Source Serif 4', Charter, Georgia, serif;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--color-ink-secondary);
+  text-align: left;
+}
+.book-cover-imprint {
+  margin: 36px auto 0;
+  max-width: 460px;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  color: var(--color-ink-tertiary);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+}
+.book-cover-imprint .tradition {
+  margin-top: 10px;
+  padding: 3px 10px;
+  border: 1px solid var(--color-rule-default);
+  border-radius: 3px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 10px;
+  color: var(--color-ink-secondary);
+}
+.book-cover-actions {
+  margin: 44px auto 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  max-width: 480px;
+}
+.book-cover-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 18px;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: transform 120ms, box-shadow 120ms, background 120ms, color 120ms;
+}
+.book-cover-cta--primary {
+  background: var(--color-gold-deep);
+  color: white;
+  border: 1px solid var(--color-gold-deep);
+}
+.book-cover-cta--primary:hover {
+  background: color-mix(in oklab, var(--color-gold-deep) 85%, black);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px -10px color-mix(in oklab, var(--color-gold-deep) 60%, transparent);
+}
+.book-cover-cta--ghost {
+  background: var(--color-surface-raised);
+  color: var(--color-ink);
+  border: 1px solid var(--color-rule-default);
+}
+.book-cover-cta--ghost:hover {
+  border-color: var(--color-gold-deep);
+  color: var(--color-gold-deep);
+  transform: translateY(-1px);
+}
+.book-cover-hint {
+  margin-top: 12px;
+  width: 100%;
+  text-align: center;
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--color-ink-tertiary);
+}

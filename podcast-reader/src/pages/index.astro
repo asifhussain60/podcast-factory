@@ -1,17 +1,11 @@
 ---
 /**
- * Reader landing page — two navigational paths.
+ * Library landing — editorial-modern, matches the book-cover and
+ * chapter-viewer aesthetic.
  *
- *   /kashkole/         — bilingual (English + Urdu) view of the KASHKOLE corpus
- *   /podcast-drafts/   — books in pipeline workshop at content/drafts/<slug>/
- *                        tiles route to the rich /<branch>/<slug>/ viewer.
- *
- * Legacy /library/, /ksessions/, /source-extractor/ pages removed
- * 2026-05-25 — superseded by the canonical viewer at
- * /[worktree]/[book]/chapter/[chapter]/.
+ * All styling lives in styles/landing.css; this file is markup only.
  */
 import '~/styles/global.css';
-import Icon from '~/components/ui/Icon.astro';
 import ThemeScript from '~/components/layout/ThemeScript.astro';
 import ThemeToggle from '~/components/layout/ThemeToggle.astro';
 import { discoverBundles } from '~/lib/source-extractor';
@@ -25,63 +19,11 @@ const [bundles, drafts, r2Status] = await Promise.all([
 ]);
 
 const kashkoleSource = bundles.find((s) => s.source === 'kashkole');
-const kashkoleChapters = kashkoleSource?.chapterCount ?? 0;
-const kashkoleShelves = kashkoleSource?.shelves.length ?? 0;
-
+const kashkoleChapters = kashkoleSource?.chapterCount ?? 122;
+const kashkoleShelves = kashkoleSource?.shelves.length ?? 19;
 const draftsCount = drafts.length;
-const refinedDrafts = drafts.filter((d) => d.hasRefinedEnglish);
-
-interface NavPath {
-  slug: string;
-  href: string;
-  title: string;
-  subtitle: string;
-  description: string;
-  icon: 'book-marked' | 'library' | 'mic' | 'book-open';
-  stats: Array<{ value: number | string; label: string; accent?: boolean }>;
-  status: 'live' | 'partial' | 'stub';
-  statusLabel: string;
-  accentColor: string;
-}
-
-const paths: NavPath[] = [
-  {
-    slug: 'kashkole',
-    href: '/kashkole/',
-    title: 'Kashkole',
-    subtitle: 'کشکول · Esoteric Ismaili Compendium',
-    description:
-      'Tayyibi philosophical, theological, and jurisprudential treatises. ' +
-      'Bilingual reader pairs each topic of the original Urdu with the proposed ' +
-      'English title and translation (when available), side by side.',
-    icon: 'library',
-    stats: [
-      { value: kashkoleShelves || 19, label: 'Binders' },
-      { value: kashkoleChapters || 122, label: 'Chapters', accent: true },
-      { value: r2Status ? `${r2Status.covered}/${r2Status.covered + r2Status.deferred}` : '9/19', label: 'Topic-retitled binders' },
-    ],
-    status: 'partial',
-    statusLabel: 'R1 + R2 partial',
-    accentColor: 'var(--color-gold-deep)',
-  },
-  {
-    slug: 'podcast-drafts',
-    href: '/podcast-drafts/',
-    title: 'Podcast Drafts',
-    subtitle: 'Books in the Pipeline Workshop',
-    description:
-      'In-flight books at content/drafts/<slug>/ — post-intake, pre-publish. ' +
-      'Refined English text where the pipeline has produced it; raw extracts where it has not.',
-    icon: 'book-open',
-    stats: [
-      { value: draftsCount, label: 'Drafts' },
-      { value: refinedDrafts.length, label: 'With refined English', accent: true },
-    ],
-    status: 'live',
-    statusLabel: 'Live',
-    accentColor: 'var(--color-accent)',
-  },
-];
+const refinedDrafts = drafts.filter((d) => d.hasRefinedEnglish).length;
+const r2Cov = r2Status ? `${r2Status.covered}/${r2Status.covered + r2Status.deferred}` : '9/19';
 ---
 
 <!doctype html>
@@ -89,111 +31,122 @@ const paths: NavPath[] = [
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>Podcast Reader · Library</title>
+    <title>Podcast Reader · A Reading Room for the Corpus</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <ThemeScript />
   </head>
-  <body class="min-h-screen antialiased" style="background: var(--color-surface-page); color: var(--color-ink);">
-    <div class="fixed top-4 right-4 z-40"><ThemeToggle /></div>
+  <body class="editorial-page antialiased">
+    <div class="editorial-topbar"><ThemeToggle /></div>
 
-    <!-- Hero band -->
-    <header class="relative overflow-hidden border-b" style="border-color: var(--color-rule-default); background: linear-gradient(to bottom, var(--color-surface-raised), var(--color-surface-page));">
-      <div class="gold-hairline absolute inset-x-0 top-0" aria-hidden></div>
-      <div class="absolute -top-32 -right-32 h-96 w-96 rounded-full opacity-[0.04]" style="background: radial-gradient(circle, var(--color-gold-deep) 0%, transparent 60%);" aria-hidden></div>
-
-      <div class="relative mx-auto max-w-7xl px-8 py-16">
-        <div class="font-ui mb-6 inline-flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.32em]" style="color: var(--color-gold-deep);">
-          <span class="h-px w-12" style="background: var(--color-gold-deep); opacity: 0.6;"></span>
-          <Icon name="library" size={12} />
-          <span>Podcast Reader · Library</span>
-          <span class="h-px w-12" style="background: var(--color-gold-deep); opacity: 0.6;"></span>
+    <header class="editorial-hero">
+      <div class="editorial-shell">
+        <div class="editorial-brand">
+          <svg class="editorial-brand-mark" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+            <rect x="4" y="7" width="13" height="22" class="fill" opacity="0.92"/>
+            <rect x="17" y="7" width="15" height="22" fill="none" class="stroke" stroke-width="1.6"/>
+            <line x1="17" y1="7" x2="17" y2="29" class="stroke" stroke-width="1.6"/>
+            <circle cx="24.5" cy="18" r="2" class="fill"/>
+          </svg>
+          <span class="editorial-brand-words">Podcast<span class="em"> · </span>Reader</span>
         </div>
 
-        <h1 class="text-6xl font-semibold leading-[1.02] tracking-tight" style="font-family: 'EB Garamond', Georgia, serif; color: var(--color-ink);">
-          A reading room for the
-          <span style="color: var(--color-gold-deep); font-style: italic;">corpus</span>.
-        </h1>
+        <div class="editorial-eyebrow">
+          <span class="rule"></span>
+          <span>The Library</span>
+          <span class="rule"></span>
+        </div>
 
-        <p class="mt-5 max-w-3xl text-lg leading-relaxed" style="font-family: 'EB Garamond', Georgia, serif; color: var(--color-ink-secondary);">
-          Three navigational paths into the materials currently flowing through the
-          <code class="rounded px-1.5 py-0.5 text-sm" style="font-family: var(--font-mono); background: var(--color-surface-sunken);">podcast-factory</code>
-          pipeline — the source corpus (Kashkole), its sibling lecture archive (KSessions), and the books currently in the workshop being shaped into podcast episodes.
+        <h1 class="editorial-title">A reading room<br/>for the <em>corpus</em>.</h1>
+
+        <p class="editorial-deck">
+          Two navigational paths into the materials flowing through the
+          <code>podcast-factory</code> pipeline — the source corpus, and the books currently in the
+          workshop being shaped into episodes.
         </p>
       </div>
     </header>
 
-    <!-- Path cards -->
-    <main class="mx-auto max-w-7xl px-8 py-14">
-      <div class="grid gap-6 lg:grid-cols-2">
-        {paths.map((p) => (
-          <a
-            href={p.href}
-            class="group relative flex flex-col rounded-xl border p-8 transition-all duration-200 hover:-translate-y-1 hover:shadow-xl"
-            style={`border-color: var(--color-rule-default); background: var(--color-surface-raised); color: var(--color-ink);`}
-          >
-            <div class="absolute left-0 top-6 h-12 w-1 rounded-r" style={`background: ${p.accentColor};`} aria-hidden></div>
-
-            <div class="absolute right-6 top-6">
-              <span
-                class="font-ui inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-[0.12em]"
-                style={p.status === 'live'
-                  ? `border-color: var(--color-accent); color: var(--color-accent);`
-                  : p.status === 'partial'
-                  ? `border-color: var(--color-gold-deep); color: var(--color-gold-deep); background: var(--color-gold-soft);`
-                  : `border-color: var(--color-ink-tertiary); color: var(--color-ink-tertiary);`}
-              >
-                <span class="h-1.5 w-1.5 rounded-full" style={`background: ${p.accentColor};`}></span>
-                {p.statusLabel}
-              </span>
-            </div>
-
-            <div class="pl-3">
-              <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-lg" style={`background: ${p.accentColor}; color: var(--color-ink-on-emphasis); opacity: 0.92;`}>
-                <Icon name={p.icon} size={26} />
-              </div>
-
-              <h2 class="text-3xl font-semibold tracking-tight" style="font-family: 'EB Garamond', Georgia, serif; color: var(--color-ink);">
-                {p.title}
-              </h2>
-              <div class="font-ui mt-1 text-[11px] uppercase tracking-[0.18em]" style="color: var(--color-ink-tertiary);">
-                {p.subtitle}
-              </div>
-
-              <p class="mt-5 text-[15px] leading-relaxed" style="font-family: 'EB Garamond', Georgia, serif; color: var(--color-ink-secondary);">
-                {p.description}
-              </p>
-
-              <div class="mt-7 flex items-end gap-5 border-t pt-4" style="border-color: var(--color-rule-subtle);">
-                {p.stats.map((s) => (
-                  <div>
-                    <div class="text-[28px] font-semibold leading-none tabular-nums" style={`font-family: 'EB Garamond', Georgia, serif; color: ${s.accent ? p.accentColor : 'var(--color-ink)'};`}>
-                      {s.value}
-                    </div>
-                    <div class="font-ui mt-1 text-[10px] font-medium uppercase tracking-[0.15em]" style={`color: ${s.accent ? p.accentColor : 'var(--color-ink-tertiary)'};`}>
-                      {s.label}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div class="mt-7 flex items-center gap-2 font-ui text-[11px] font-semibold uppercase tracking-[0.18em] transition-all group-hover:gap-3" style={`color: ${p.accentColor};`}>
-                <span>Enter the path</span>
-                <Icon name="arrow-right" size={13} />
-              </div>
-            </div>
-          </a>
-        ))}
+    <main class="editorial-shell">
+      <div class="editorial-section-head">
+        <h2>Choose a path</h2>
+        <span class="meta">2 paths · live</span>
       </div>
 
+      <div class="editorial-grid editorial-grid--two">
+
+        <a href="/kashkole/" class="editorial-card">
+          <div class="editorial-card-header">
+            <div>
+              <span class="editorial-card-num">№ 01 · Source corpus</span>
+              <h3 class="editorial-card-title">Kashkole</h3>
+              <div class="editorial-card-title-arabic" lang="ar" dir="rtl">کشکول</div>
+            </div>
+            <span class="editorial-pill editorial-pill--gold">
+              <span class="dot"></span>R1 + R2 Partial
+            </span>
+          </div>
+          <p class="editorial-card-sub">Esoteric Ismaili Compendium</p>
+          <p class="editorial-card-body">
+            Tayyibi philosophical, theological, and jurisprudential treatises. A bilingual reader
+            pairs each topic of the original Urdu with the proposed English title and translation,
+            side by side.
+          </p>
+          <div class="editorial-card-stats">
+            <div class="editorial-card-stat">
+              <div class="v">{kashkoleShelves}</div>
+              <div class="l">Binders</div>
+            </div>
+            <div class="editorial-card-stat">
+              <div class="v accent">{kashkoleChapters}</div>
+              <div class="l">Chapters</div>
+            </div>
+            <div class="editorial-card-stat">
+              <div class="v">{r2Cov}</div>
+              <div class="l">Retitled</div>
+            </div>
+          </div>
+          <span class="editorial-card-cta">Enter the corpus →</span>
+        </a>
+
+        <a href="/podcast-drafts/" class="editorial-card">
+          <div class="editorial-card-header">
+            <div>
+              <span class="editorial-card-num">№ 02 · The Workshop</span>
+              <h3 class="editorial-card-title">Podcast Drafts</h3>
+            </div>
+            <span class="editorial-pill editorial-pill--live">
+              <span class="dot"></span>Live
+            </span>
+          </div>
+          <p class="editorial-card-sub">Books in the pipeline · content/drafts/</p>
+          <p class="editorial-card-body">
+            Books currently in the workshop, post-intake and pre-publish. Refined English text
+            where the pipeline has produced it; raw extracts where it has not.
+          </p>
+          <div class="editorial-card-stats">
+            <div class="editorial-card-stat">
+              <div class="v">{draftsCount}</div>
+              <div class="l">Drafts</div>
+            </div>
+            <div class="editorial-card-stat">
+              <div class="v accent">{refinedDrafts}</div>
+              <div class="l">Reader-ready</div>
+            </div>
+          </div>
+          <span class="editorial-card-cta">Enter the workshop →</span>
+        </a>
+
+      </div>
     </main>
 
-    <footer class="mt-12 border-t py-8" style="border-color: var(--color-rule-default);">
-      <div class="mx-auto max-w-7xl px-8 font-ui text-[11px]" style="color: var(--color-ink-tertiary);">
-        <div class="flex flex-wrap items-center justify-between gap-2">
-          <div>Local reader · reads from this checkout's <code style="font-family: var(--font-mono);">_workspace/</code> + <code style="font-family: var(--font-mono);">content/</code> trees.</div>
-          <div class="flex items-center gap-3">
-            {r2Status && (<span>R2 status: {r2Status.batch}</span>)}
-          </div>
+    <footer class="editorial-footer">
+      <div class="editorial-shell">
+        <div class="editorial-footer-inner">
+          <span>
+            Local reader · reads from
+            <code>_workspace/</code> and <code>content/</code>
+          </span>
+          {r2Status && <span>R2 batch: {r2Status.batch}</span>}
         </div>
       </div>
     </footer>

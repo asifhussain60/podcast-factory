@@ -1,8 +1,7 @@
 ---
 /**
- * Title-cover landing for a book — designed to feel like an actual book
- * title page (centred serif typography, Arabic title, author with
- * honorifics, description, editor + publisher line).
+ * Title-cover landing for a book — designed to feel like a real book
+ * title page. All styling in styles/landing.css (`.book-cover-*`).
  *
  * Mounted at the top of the book index page above the grouped table.
  */
@@ -20,90 +19,54 @@ interface Props {
 const { meta, episodeCount, chapterCount, firstEpisodeHref, firstChapterHref } = Astro.props;
 ---
 
-<section class="relative isolate mx-auto mb-12 max-w-4xl overflow-hidden rounded-xl border border-stone-300 bg-white shadow-sm">
-  <!-- decorative top hairline accent in the source/chapter colour -->
-  <div class="absolute inset-x-0 top-0 h-[3px] bg-stone-800" aria-hidden></div>
+<section class="book-cover">
+  <div class="book-cover-inner">
+    {meta.series && <div class="book-cover-series">{meta.series}</div>}
 
-  <div class="relative px-10 py-16 text-center">
-    {meta.series && (
-      <div class="font-ui text-[10px] font-semibold uppercase tracking-[0.22em] text-stone-500">
-        {meta.series}
-      </div>
-    )}
-
-    <h1 class="mt-5 text-5xl font-semibold leading-[1.05] tracking-tight text-stone-900" style="font-family: 'EB Garamond', 'Garamond', Georgia, serif;">
-      {meta.titleEn}
-    </h1>
+    <h1 class="book-cover-title">{meta.titleEn}</h1>
 
     {meta.titleAr && (
-      <div class="mt-4 text-4xl leading-[1.4] text-stone-800" style="font-family: var(--font-arabic-display); direction: rtl;" lang="ar">
-        {meta.titleAr}
-      </div>
+      <div class="book-cover-title-ar" lang="ar" dir="rtl">{meta.titleAr}</div>
     )}
 
-    {meta.subtitle && (
-      <p class="mx-auto mt-5 max-w-xl text-base italic text-stone-600" style="font-family: 'EB Garamond', Georgia, serif;">
-        {meta.subtitle}
-      </p>
-    )}
+    {meta.subtitle && <p class="book-cover-subtitle">{meta.subtitle}</p>}
 
-    <!-- minimal divider -->
-    <div class="mx-auto my-9 flex items-center justify-center gap-3" aria-hidden>
-      <span class="h-px w-10 bg-stone-300"></span>
-      <span class="text-[10px] text-stone-400">◆</span>
-      <span class="h-px w-10 bg-stone-300"></span>
+    <div class="book-cover-divider" aria-hidden="true">
+      <span class="seg"></span>
+      <span class="gem">◆</span>
+      <span class="seg"></span>
     </div>
 
-    <div class="text-lg text-stone-800" style="font-family: 'EB Garamond', Georgia, serif;">
-      {meta.author.name}
-    </div>
+    <div class="book-cover-author">{meta.author.name}</div>
     {meta.author.titles && meta.author.titles.length > 0 && (
-      <div class="mt-1.5 font-ui text-[11px] italic text-stone-500">
-        {meta.author.titles.join(' · ')}
-      </div>
+      <div class="book-cover-author-titles">{meta.author.titles.join(' · ')}</div>
     )}
-    {meta.author.era && (
-      <div class="mt-1 font-ui text-[10px] uppercase tracking-[0.15em] text-stone-400">
-        {meta.author.era}
-      </div>
-    )}
+    {meta.author.era && <div class="book-cover-author-era">{meta.author.era}</div>}
 
-    <p class="mx-auto mt-9 max-w-xl text-left text-[15px] leading-[1.7] text-stone-700" style="font-family: 'Source Serif 4', Georgia, serif;">
-      {meta.description}
-    </p>
+    <p class="book-cover-description">{meta.description}</p>
 
     {(meta.editor || meta.publisher || meta.tradition) && (
-      <div class="mx-auto mt-10 max-w-md space-y-1 font-ui text-[11px] text-stone-500">
+      <div class="book-cover-imprint">
         {meta.editor && <div>{meta.editor}</div>}
         {meta.publisher && <div>{meta.publisher}</div>}
-        {meta.tradition && (
-          <div class="mt-3 inline-block rounded-sm border border-stone-200 px-2 py-0.5 font-medium uppercase tracking-wider text-[10px]">
-            {meta.tradition}
-          </div>
-        )}
+        {meta.tradition && <div class="tradition">{meta.tradition}</div>}
       </div>
     )}
 
-    <div class="mx-auto mt-12 flex max-w-md flex-wrap items-center justify-center gap-2.5 font-ui text-xs">
+    <div class="book-cover-actions">
       {firstEpisodeHref && (
-        <a
-          href={firstEpisodeHref}
-          class="inline-flex items-center gap-2 rounded-md bg-stone-900 px-4 py-2 font-medium text-white transition hover:bg-stone-700"
-        >
+        <a href={firstEpisodeHref} class="book-cover-cta book-cover-cta--primary">
           <Icon name="play" size={14} />
           Begin with Episode 1
         </a>
       )}
       {firstChapterHref && (
-        <a
-          href={firstChapterHref}
-          class="inline-flex items-center gap-2 rounded-md border border-stone-300 bg-white px-4 py-2 font-medium text-stone-700 transition hover:border-stone-500 hover:text-stone-900"
-        >
+        <a href={firstChapterHref} class="book-cover-cta book-cover-cta--ghost">
           <Icon name="book-open" size={14} />
           Read source chapter 1
         </a>
       )}
-      <div class="mt-2 w-full text-center font-ui text-[10px] uppercase tracking-wider text-stone-400">
+      <div class="book-cover-hint">
         Or pick from {chapterCount} chapters &amp; {episodeCount} episodes in the sidebar →
       </div>
     </div>
