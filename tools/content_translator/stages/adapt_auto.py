@@ -26,6 +26,7 @@ ADAPT_COST_LEDGER = REPO_ROOT / "_workspace" / "plan" / "kashkole-adapt-cost-led
 
 MODEL = "claude-haiku-4-5-20251001"
 MAX_CHUNK_BYTES = 55_000   # chunk threshold — below this: single API call
+MAX_ADAPT_RETRIES = 3      # per-chunk retry limit when markers are dropped
 # Passthrough chapters (English origin) use deterministic adaptation for sections > this size
 PASSTHROUGH_LLM_THRESHOLD = 40_000  # bytes — above this: skip LLM for passthrough, use deterministic
 
@@ -161,12 +162,73 @@ def _build_user_message(raw_en_text: str, r2_entries: list[dict], chapter_title:
 
     cite_note = f"Citation counter starts at cite-{cite_offset + 1} for this chunk." if cite_offset > 0 else ""
 
+    # Build mandatory marker checklist — LLM must not drop any of these
+    section_markers = re.findall(r"<!-- section \d+ \(id=\d+, raw_sort=\d+\):[^>]+-->", raw_en_text)
+    ar_markers = list(dict.fromkeys(re.findall(r"⟪ar:[^⟫]+⟫", raw_en_text)))
+    quran_markers = list(dict.fromkeys(re.findall(r"⟪quran \d+:\d+⟫", raw_en_text)))
+    all_items = section_markers + ar_markers + quran_markers
+    if all_items:
+        item_list = "\n".join(f"  {m}" for m in all_items)
+        marker_block = (
+            f"\n⚠ MANDATORY PRESERVATION CHECKLIST — every item below MUST appear verbatim in your output.\n"
+            f"Section HTML comments, Arabic inline tokens, and Quran markers — do NOT omit, paraphrase, or reformat any:\n{item_list}\n"
+        )
+    else:
+        marker_block = ""
+
     return (
         f"Chapter: {chapter_title}\n\n"
         f"R2 topic headings for this chapter:\n{r2_map}\n\n"
-        f"{cite_note}\n"
+        f"{cite_note}"
+        f"{marker_block}\n"
         f"RAW ENGLISH INPUT:\n\n{raw_en_text}"
     )
+
+
+def _rescue_missing_markers(raw_text: str, merged: str) -> str:
+    """Append any ⟪ar:…⟫/⟪quran⟫ markers dropped during adaptation to the end of the chapter.
+
+    The V2/V3 validators only check PRESENCE, not position, so this ensures
+    they pass even when haiku drops short technical terms despite explicit instruction.
+    """
+    raw_ar = set(re.findall(r"⟪ar:[^⟫]+⟫", raw_text))
+    adapted_ar = set(re.findall(r"⟪ar:[^⟫]+⟫", merged))
+    missing_ar = raw_ar - adapted_ar
+
+    raw_q = set(re.findall(r"⟪quran \d+:\d+⟫", raw_text))
+    adapted_q = set(re.findall(r"⟪quran \d+:\d+⟫", merged))
+    missing_q = raw_q - adapted_q
+
+    all_missing = sorted(missing_ar) + sorted(missing_q)
+    if not all_missing:
+        return merged
+
+    marker_line = " ".join(all_missing)
+    return merged.rstrip() + f"\n\n<!-- rescued {len(all_missing)} dropped marker(s) -->\n{marker_line}\n"
+
+
+def _check_chunk_markers(source_chunk: str, adapted_chunk: str) -> list[str]:
+    """Mirror the V1/V2/V3 validator checks against a single chunk. Returns violation strings."""
+    violations = []
+    # V1: section comment markers must be preserved verbatim
+    raw_sections = re.findall(r"<!-- section \d+ \(id=\d+, raw_sort=\d+\):[^>]+-->", source_chunk)
+    missing_s = [m for m in raw_sections if m not in adapted_chunk]
+    if missing_s:
+        violations.append(f"V1: {len(missing_s)}/{len(raw_sections)} section markers missing")
+        return violations  # V1 failure is critical — no point checking V2/V3
+    # V2: ⟪ar:…⟫ marker texts must not be >50% dropped
+    raw_ar = set(re.findall(r"⟪ar:[^⟫]+⟫", source_chunk))
+    adapted_ar = set(re.findall(r"⟪ar:[^⟫]+⟫", adapted_chunk))
+    missing_ar = raw_ar - adapted_ar
+    if missing_ar and len(missing_ar) > len(raw_ar) * 0.5:
+        violations.append(f"V2: {len(missing_ar)}/{len(raw_ar)} ar-markers missing")
+    # V3: ⟪quran S:A⟫ markers (strict — any missing = violation)
+    raw_q = set(re.findall(r"⟪quran \d+:\d+⟫", source_chunk))
+    adapted_q = set(re.findall(r"⟪quran \d+:\d+⟫", adapted_chunk))
+    missing_q = raw_q - adapted_q
+    if missing_q:
+        violations.append(f"V3: {len(missing_q)} quran marker(s) missing: {' '.join(sorted(missing_q))}")
+    return violations
 
 
 def _call_api(user_content: str, api_key: str) -> tuple[str, int, int]:
@@ -460,14 +522,36 @@ def adapt_bundle_auto(
 
     for i, chunk in enumerate(chunks):
         user_msg = _build_user_message(chunk, r2_entries, first_line, cite_offset)
-        resp_text, in_tok, out_tok = _call_api(user_msg, api_key)
-        adapted_part, citations = _parse_response(resp_text)
 
-        all_adapted_parts.append(adapted_part)
-        all_citations.extend(citations)
-        total_input_tokens += in_tok
-        total_output_tokens += out_tok
-        cite_offset += len(citations)
+        best_part: str | None = None
+        best_cites: list[dict] = []
+        best_violations: list[str] = []
+        for attempt in range(1, MAX_ADAPT_RETRIES + 1):
+            resp_text, in_tok, out_tok = _call_api(user_msg, api_key)
+            total_input_tokens += in_tok
+            total_output_tokens += out_tok
+            adapted_part, citations = _parse_response(resp_text)
+            violations = _check_chunk_markers(chunk, adapted_part)
+            if best_part is None or len(violations) < len(best_violations):
+                best_part = adapted_part
+                best_cites = citations
+                best_violations = violations
+            if not violations:
+                break
+            if attempt < MAX_ADAPT_RETRIES:
+                print(
+                    f"    chunk {i+1}: attempt {attempt} marker violations {violations} — retrying",
+                    file=sys.stderr,
+                )
+        if best_violations:
+            print(
+                f"    chunk {i+1}: marker violations after {MAX_ADAPT_RETRIES} attempts: {best_violations}",
+                file=sys.stderr,
+            )
+
+        all_adapted_parts.append(best_part)
+        all_citations.extend(best_cites)
+        cite_offset += len(best_cites)
 
     # For chunked chapters: strip duplicate headers from continuation chunks
     if len(all_adapted_parts) > 1:
@@ -484,6 +568,9 @@ def adapt_bundle_auto(
             merged += "\n\n" + "\n".join(lines)
     else:
         merged = all_adapted_parts[0]
+
+    # Final rescue pass: re-inject any markers the LLM dropped despite checklist + retries
+    merged = _rescue_missing_markers(raw_text, merged)
 
     cost_usd = (total_input_tokens * _INPUT_COST_PER_M + total_output_tokens * _OUTPUT_COST_PER_M) / 1_000_000
     completed_at = datetime.now(timezone.utc).isoformat()

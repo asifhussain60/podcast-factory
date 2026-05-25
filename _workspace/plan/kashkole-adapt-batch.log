@@ -2521,3 +2521,504 @@ Binder 8 — Taʾwīl of Divine Words (8 chapters)
 All binders processed.
 Session spend: $0.9982  |  Corpus total: $6.3021
 ============================================================
+[feature/kashkole-translation 3eff874] feat(kashkole-adapt): binder 8 — Taʾwīl of Divine Words (1 chapters adapted, $0.39 Anthropic)
+ 4 files changed, 950 insertions(+), 953 deletions(-)
+On branch feature/kashkole-translation
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _workspace/plan/_drivers/kashkole_adapt_all.py
+	modified:   _workspace/plan/kashkole-adapt-batch.log
+	modified:   _workspace/plan/kashkole-challenge-failures.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_workspace/plan/kashkole-challenge-b32.log
+	_workspace/plan/kashkole-challenge-b35.log
+	_workspace/plan/kashkole-podcast-scope.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+✅ $0.3867 (897.6s)
+
+  Binder 8 done: 1 adapted, 7 skipped, 0 failed
+  Binder cost: $0.3867
+
+============================================================
+Binder 23 — Selected Scholarly Treatises (11 chapters)
+  Session cost so far: $6.72
+============================================================
+  ch 63: already adapted — skip
+  ch 69: already adapted — skip
+  ch 70: already challenged — skip
+  ch 72: already challenged — skip
+  ch 83: already adapted — skip
+  ch 60: already adapted — skip
+  ch 59: already challenged — skip
+  ch 38: already adapted — skip
+  ch 87: already challenged — skip
+  ch 55: already challenged — skip
+  ch 148: already challenged — skip
+
+  Binder 23 done: 0 adapted, 11 skipped, 0 failed
+  Binder cost: $0.0000
+
+============================================================
+All binders processed.
+Session spend: $0.9945  |  Corpus total: $6.7176
+============================================================
+
+============================================================
+Binder 1 — Sciences of Origin/Return (12 chapters)
+  Session cost so far: $8.70
+============================================================
+  ch 73: adapting... 
+============================================================
+Binder 5 — Devotional Poetry (3 chapters)
+  Session cost so far: $8.70
+============================================================
+  ch 50: already challenged — skip
+  ch 13: already challenged — skip
+  ch 12: adapting... 
+============================================================
+Binder 25 — Daʿāʾim: Ṭahāra (5 chapters)
+  Session cost so far: $8.70
+============================================================
+  ch 88: already challenged — skip
+  ch 89: adapting... 
+============================================================
+Binder 28 — Drafts (10 chapters)
+  Session cost so far: $8.70
+============================================================
+  ch 115: adapting... 
+============================================================
+Binder 34 — Quranic Studies (14 chapters)
+  Session cost so far: $8.70
+============================================================
+  ch 155: adapting... 
+============================================================
+Binder 19 — Daʿāʾim: Wilāya (7 chapters)
+  Session cost so far: $8.70
+============================================================
+  ch 86: already challenged — skip
+  ch 71: adapting... 
+============================================================
+Binder 18 — Prophet Stories (5 chapters)
+  Session cost so far: $8.70
+============================================================
+  ch 131: adapting... 
+============================================================
+Binder 27 — Ādāb wa-Akhlāq (6 chapters)
+  Session cost so far: $8.70
+============================================================
+  ch 56: already challenged — skip
+  ch 14: adapting... 
+============================================================
+Binder 29 — Daʿāʾim: Ṣawm (4 chapters)
+  Session cost so far: $8.70
+============================================================
+  ch 133: adapting... 
+============================================================
+Binder 23 — Selected Scholarly Treatises (11 chapters)
+  Session cost so far: $8.70
+============================================================
+  ch 63: adapting... 
+============================================================
+Binder 24 — Tawḥīd (7 chapters)
+  Session cost so far: $8.70
+============================================================
+  ch 130: already challenged — skip
+  ch 2: already challenged — skip
+  ch 71: adapting... 
+============================================================
+Binder 8 — Taʾwīl of Divine Words (8 chapters)
+  Session cost so far: $8.70
+============================================================
+  ch 132: adapting... 
+============================================================
+Binder 6 — Imam ʿAlī (9 chapters)
+  Session cost so far: $8.70
+============================================================
+  ch 11: already challenged — skip
+  ch 46: adapting... [feature/kashkole-translation 0107369] feat(kashkole-adapt): binder 5 — Devotional Poetry (1 chapters adapted, $0.01 Anthropic)
+ 157 files changed, 86 insertions(+), 25772 deletions(-)
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/01-x8114-musawwadat/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/01-x8114-musawwadat/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/02-x6619-taweelat-wa-x7934/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/02-x6619-taweelat-wa-x7934/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/03-mabda-wa-maad/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/03-mabda-wa-maad/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/04-daaim/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/04-daaim/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/05-daaim-al-islam-x4802/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/05-daaim-al-islam-x4802/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/06-daaim-al-islam-x6372/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/06-daaim-al-islam-x6372/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/07-initial-12-sessions/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/07-initial-12-sessions/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/08-sunday-sessions/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/08-sunday-sessions/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/09-sunday-sessions-breakups/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/09-sunday-sessions-breakups/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/01-x8112/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/01-x8112/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/02-x6371-ali-x6384-allah-wa-x4903/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/02-x6371-ali-x6384-allah-wa-x4903/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/05-adab-wa-akhlaq-hasana/02-adab-ke-x7982-x7964/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/05-adab-wa-akhlaq-hasana/02-adab-ke-x7982-x7964/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/05-adab-wa-akhlaq-hasana/05-x4751-x8070/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/05-adab-wa-akhlaq-hasana/05-x4751-x8070/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/05-adab-wa-akhlaq-hasana/06-seerah-x4922-alayhi-as-salam/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/05-adab-wa-akhlaq-hasana/06-seerah-x4922-alayhi-as-salam/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/06-tawheed-mubdi-taala/03-x7946-aur-x8101/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/06-tawheed-mubdi-taala/03-x7946-aur-x8101/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/06-tawheed-mubdi-taala/05-tawheed-ka-x6360/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/06-tawheed-mubdi-taala/05-tawheed-ka-x6360/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/06-tawheed-mubdi-taala/07-x6645-x1270-ki-x3562-x1413/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/06-tawheed-mubdi-taala/07-x6645-x1270-ki-x3562-x1413/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/07-uloom-mabda-wa-maad/01-tashkeel-aalam-ruhani/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/07-uloom-mabda-wa-maad/01-tashkeel-aalam-ruhani/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/07-uloom-mabda-wa-maad/06-tashkeel-aalam-hayat/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/07-uloom-mabda-wa-maad/06-tashkeel-aalam-hayat/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/07-uloom-mabda-wa-maad/08-mawalid-ki-paydaish/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/07-uloom-mabda-wa-maad/08-mawalid-ki-paydaish/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/07-uloom-mabda-wa-maad/10-maad-mahmood/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/07-uloom-mabda-wa-maad/10-maad-mahmood/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/07-uloom-mabda-wa-maad/11-maad-mazmoom/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/07-uloom-mabda-wa-maad/11-maad-mazmoom/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/07-uloom-mabda-wa-maad/12-maratib-aur-majame/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/07-uloom-mabda-wa-maad/12-maratib-aur-majame/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/08-muntakhab-ilmi-mazameen/01-zaroori-maloomat/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/08-muntakhab-ilmi-mazameen/01-zaroori-maloomat/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/08-muntakhab-ilmi-mazameen/02-x6478-wa-batin-ka-izdiwaj/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/08-muntakhab-ilmi-mazameen/02-x6478-wa-batin-ka-izdiwaj/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/08-muntakhab-ilmi-mazameen/05-mustafid-ke-khawas/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/08-muntakhab-ilmi-mazameen/05-mustafid-ke-khawas/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/08-muntakhab-ilmi-mazameen/06-risala-hikmat-al-mawt/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/08-muntakhab-ilmi-mazameen/06-risala-hikmat-al-mawt/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/08-muntakhab-ilmi-mazameen/08-kitab-misbah-al-shariah/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/08-muntakhab-ilmi-mazameen/08-kitab-misbah-al-shariah/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/10-kalimat-rabbani-ki-taweelat/01-x6363-x9814-wa-x1149-x9688/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/10-kalimat-rabbani-ki-taweelat/01-x6363-x9814-wa-x1149-x9688/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/10-kalimat-rabbani-ki-taweelat/02-x9633-x6530-alayhi-as-salam-ki-taweel/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/10-kalimat-rabbani-ki-taweelat/02-x9633-x6530-alayhi-as-salam-ki-taweel/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/10-kalimat-rabbani-ki-taweelat/03-bism-allah-ar-rahman-ar-rahim-ki-taweel/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/10-kalimat-rabbani-ki-taweelat/03-bism-allah-ar-rahman-ar-rahim-ki-taweel/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/10-kalimat-rabbani-ki-taweelat/04-surah-x1246-ki-taweel/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/10-kalimat-rabbani-ki-taweelat/04-surah-x1246-ki-taweel/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/10-kalimat-rabbani-ki-taweelat/05-x7904-aur-x9544-ki-taweel-wa-x7934/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/10-kalimat-rabbani-ki-taweelat/05-x7904-aur-x9544-ki-taweel-wa-x7934/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/10-kalimat-rabbani-ki-taweelat/07-qurani-x8110-ki-taweel/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/10-kalimat-rabbani-ki-taweelat/07-qurani-x8110-ki-taweel/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/11-qurani-qisas-al-anbiya-ke-x7934/01-x6374-ka-x6497/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/11-qurani-qisas-al-anbiya-ke-x7934/01-x6374-ka-x6497/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/11-qurani-qisas-al-anbiya-ke-x7934/03-x6334-x4758-alayhi-as-salam/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/11-qurani-qisas-al-anbiya-ke-x7934/03-x6334-x4758-alayhi-as-salam/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/11-qurani-qisas-al-anbiya-ke-x7934/04-x6334-x6660-alayhi-as-salam/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/11-qurani-qisas-al-anbiya-ke-x7934/04-x6334-x6660-alayhi-as-salam/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/12-daaim-al-islam-wilayat/02-x7946-aur-x8101/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/12-daaim-al-islam-wilayat/02-x7946-aur-x8101/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/12-daaim-al-islam-wilayat/03-x8101-ki-x9815/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/12-daaim-al-islam-wilayat/03-x8101-ki-x9815/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/12-daaim-al-islam-wilayat/04-x6360-ki-x9657-aur-x7944/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/12-daaim-al-islam-wilayat/04-x6360-ki-x9657-aur-x7944/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/12-daaim-al-islam-wilayat/05-wilayat-x4908-x4894/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/12-daaim-al-islam-wilayat/05-wilayat-x4908-x4894/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/12-daaim-al-islam-wilayat/06-wilayat-ki-x8227-aur-x7948/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/12-daaim-al-islam-wilayat/06-wilayat-ki-x8227-aur-x7948/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/13-daaim-al-islam-taharat/02-taharat-ka-x6497/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/13-daaim-al-islam-taharat/02-taharat-ka-x6497/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/13-daaim-al-islam-taharat/05-x4785-ka-x6497/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/13-daaim-al-islam-taharat/05-x4785-ka-x6497/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/16-daaim-al-islam-as-sawm/01-x4802/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/16-daaim-al-islam-as-sawm/01-x4802/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/18-ali-ibn-abi-talib-alayhi-as-salam/02-x9573-ali-ki-x7944/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/18-ali-ibn-abi-talib-alayhi-as-salam/02-x9573-ali-ki-x7944/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/18-ali-ibn-abi-talib-alayhi-as-salam/03-ali-ke-x6372/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/18-ali-ibn-abi-talib-alayhi-as-salam/03-ali-ke-x6372/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/18-ali-ibn-abi-talib-alayhi-as-salam/06-khutba-kumayl-ka-x8213/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/18-ali-ibn-abi-talib-alayhi-as-salam/06-khutba-kumayl-ka-x8213/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/18-ali-ibn-abi-talib-alayhi-as-salam/07-x3212-x4894-x7939-x3180-x7926-x8263/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/18-ali-ibn-abi-talib-alayhi-as-salam/07-x3212-x4894-x7939-x3180-x7926-x8263/_system/source/text/adapted-extract.en.md
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/18-ali-ibn-abi-talib-alayhi-as-salam/09-ali-ke-x1314/_system/source/text/adaptation-citations.jsonl
+ delete mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/18-ali-ibn-abi-talib-alayhi-as-salam/09-ali-ke-x1314/_system/source/text/adapted-extract.en.md
+✅ $0.0070 (11.4s)
+
+  Binder 5 done: 1 adapted, 2 skipped, 0 failed
+  Binder cost: $0.0070
+
+============================================================
+All binders processed.
+Session spend: $0.0070  |  Corpus total: $8.7033
+============================================================
+✅ $0.0093 (17.0s)
+  ch 69: adapting... ✅ $0.0179 (34.3s)
+  ch 9: adapting... ✅ $0.0326 (78.3s)
+  ch 147: already challenged — skip
+  ch 52: adapting... ✅ $0.0611 (100.9s)
+  ch 117: adapting... ✅ $0.0487 (128.2s)
+  ch 156: adapting... ✅ $0.0650 (135.8s)
+  ch 74: already challenged — skip
+  ch 125: already challenged — skip
+  ch 75: already challenged — skip
+  ch 76: already challenged — skip
+  ch 78: adapting... ✅ $0.0671 (146.4s)
+  ch 90: already challenged — skip
+  ch 91: already challenged — skip
+  ch 92: adapting... [feature/kashkole-translation f20cab3] feat(kashkole-adapt): binder 29 — Daʿāʾim: Ṣawm (1 chapters adapted, $0.07 Anthropic)
+ 25 files changed, 1533 insertions(+), 24 deletions(-)
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/01-x8114-musawwadat/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/01-x8114-musawwadat/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/01-x8112/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/01-x8112/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/07-uloom-mabda-wa-maad/01-tashkeel-aalam-ruhani/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/07-uloom-mabda-wa-maad/01-tashkeel-aalam-ruhani/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/08-muntakhab-ilmi-mazameen/01-zaroori-maloomat/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/08-muntakhab-ilmi-mazameen/01-zaroori-maloomat/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/10-kalimat-rabbani-ki-taweelat/01-x6363-x9814-wa-x1149-x9688/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/10-kalimat-rabbani-ki-taweelat/01-x6363-x9814-wa-x1149-x9688/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/11-qurani-qisas-al-anbiya-ke-x7934/01-x6374-ka-x6497/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/11-qurani-qisas-al-anbiya-ke-x7934/01-x6374-ka-x6497/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/13-daaim-al-islam-taharat/02-taharat-ka-x6497/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/13-daaim-al-islam-taharat/02-taharat-ka-x6497/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/16-daaim-al-islam-as-sawm/01-x4802/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/16-daaim-al-islam-as-sawm/01-x4802/_system/source/text/adapted-extract.en.md
+✅ $0.0692 (150.0s)
+  ch 134: already challenged — skip
+  ch 135: already challenged — skip
+  ch 136: already challenged — skip
+
+  Binder 29 done: 1 adapted, 3 skipped, 0 failed
+  Binder cost: $0.0692
+
+============================================================
+All binders processed.
+Session spend: $0.0692  |  Corpus total: $8.7655
+============================================================
+✅ $0.0306 (68.8s)
+  ch 119: adapting... ✅ $0.0823 (166.3s)
+  ch 70: already challenged — skip
+  ch 72: already challenged — skip
+  ch 83: adapting... ✅ $0.0776 (185.8s)
+  ch 17: already challenged — skip
+  ch 127: already challenged — skip
+  ch 128: adapting... [feature/kashkole-translation c18b9dd] feat(kashkole-adapt): binder 34 — Quranic Studies (2 chapters adapted, $0.10 Anthropic)
+ 13 files changed, 1572 insertions(+), 12 deletions(-)
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/02-x6619-taweelat-wa-x7934/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/02-x6619-taweelat-wa-x7934/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/02-x6371-ali-x6384-allah-wa-x4903/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/02-quranic-studies/02-x6371-ali-x6384-allah-wa-x4903/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/05-adab-wa-akhlaq-hasana/02-adab-ke-x7982-x7964/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/05-adab-wa-akhlaq-hasana/02-adab-ke-x7982-x7964/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/08-muntakhab-ilmi-mazameen/02-x6478-wa-batin-ka-izdiwaj/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/08-muntakhab-ilmi-mazameen/02-x6478-wa-batin-ka-izdiwaj/_system/source/text/adapted-extract.en.md
+✅ $0.0562 (120.4s)
+  ch 157: already challenged — skip
+  ch 153: already challenged — skip
+  ch 154: already challenged — skip
+  ch 160: already challenged — skip
+  ch 158: already challenged — skip
+  ch 162: already challenged — skip
+  ch 163: already challenged — skip
+  ch 164: already challenged — skip
+  ch 167: already challenged — skip
+  ch 165: already challenged — skip
+  ch 166: already challenged — skip
+  ch 159: already challenged — skip
+
+  Binder 34 done: 2 adapted, 12 skipped, 0 failed
+  Binder cost: $0.1049
+
+============================================================
+All binders processed.
+Session spend: $0.1049  |  Corpus total: $8.8012
+============================================================
+[feature/kashkole-translation c2409a1] feat(kashkole-adapt): binder 25 — Daʿāʾim: Ṭahāra (2 chapters adapted, $0.11 Anthropic)
+ 4 files changed, 211 insertions(+), 3 deletions(-)
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/13-daaim-al-islam-taharat/05-x4785-ka-x6497/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/13-daaim-al-islam-taharat/05-x4785-ka-x6497/_system/source/text/adapted-extract.en.md
+✅ $0.0463 (112.3s)
+
+  Binder 25 done: 2 adapted, 3 skipped, 0 failed
+  Binder cost: $0.1134
+
+============================================================
+All binders processed.
+Session spend: $0.1134  |  Corpus total: $8.8097
+============================================================
+✅ $0.0438 (97.2s)
+  ch 140: adapting... ✅ $0.0528 (115.2s)
+  ch 172: adapting... ✅ $0.0713 (160.3s)
+  ch 80: already challenged — skip
+  ch 84: adapting... [feature/kashkole-translation d8b2824] feat(kashkole-adapt): binder 27 — Ādāb wa-Akhlāq (3 chapters adapted, $0.13 Anthropic)
+ 13 files changed, 637 insertions(+), 12 deletions(-)
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/03-mabda-wa-maad/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/03-mabda-wa-maad/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/05-adab-wa-akhlaq-hasana/05-x4751-x8070/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/05-adab-wa-akhlaq-hasana/05-x4751-x8070/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/05-adab-wa-akhlaq-hasana/06-seerah-x4922-alayhi-as-salam/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/05-adab-wa-akhlaq-hasana/06-seerah-x4922-alayhi-as-salam/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/07-uloom-mabda-wa-maad/06-tashkeel-aalam-hayat/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/07-uloom-mabda-wa-maad/06-tashkeel-aalam-hayat/_system/source/text/adapted-extract.en.md
+✅ $0.0078 (14.7s)
+
+  Binder 27 done: 3 adapted, 3 skipped, 0 failed
+  Binder cost: $0.1292
+
+============================================================
+All binders processed.
+Session spend: $0.1292  |  Corpus total: $8.8255
+============================================================
+✅ $0.0480 (115.2s)
+  ch 60: adapting... ✅ $0.1786 (335.0s)
+  ch 1: already challenged — skip
+  ch 121: adapting... ✅ $0.1787 (339.6s)
+  ch 123: adapting... ✅ $0.2081 (417.1s)
+  ch 47: adapting... ✅ $0.0573 (138.4s)
+  ch 124: adapting... ✅ $0.0088 (16.8s)
+  ch 144: already challenged — skip
+  ch 16: already challenged — skip
+  ch 141: adapting... ✅ $0.1900 (404.9s)
+  ch 24: adapting... ✅ $0.0760 (176.4s)
+  ch 81: already challenged — skip
+  ch 82: adapting... ✅ $0.0353 (84.1s)
+  ch 126: adapting... ✅ $0.0784 (171.2s)
+  ch 64: adapting... ✅ $0.0033 (7.7s)
+  ch 145: adapting... ✅ $0.1076 (236.9s)
+  ch 59: already challenged — skip
+  ch 38: adapting... ✅ $0.2191 (470.7s)
+  ch 137: adapting... [feature/kashkole-translation 936b43f] feat(kashkole-adapt): binder 18 — Prophet Stories (3 chapters adapted, $0.27 Anthropic)
+ 4 files changed, 74 insertions(+), 3 deletions(-)
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/11-qurani-qisas-al-anbiya-ke-x7934/04-x6334-x6660-alayhi-as-salam/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/11-qurani-qisas-al-anbiya-ke-x7934/04-x6334-x6660-alayhi-as-salam/_system/source/text/adapted-extract.en.md
+✅ $0.0227 (48.0s)
+  ch 168: already challenged — skip
+
+  Binder 18 done: 3 adapted, 2 skipped, 0 failed
+  Binder cost: $0.2744
+
+============================================================
+All binders processed.
+Session spend: $0.2744  |  Corpus total: $8.9707
+============================================================
+✅ $0.0847 (161.9s)
+  ch 23: adapting... ✅ $0.1515 (331.7s)
+  ch 118: already challenged — skip
+  ch 67: adapting... [feature/kashkole-translation ae9192f] feat(kashkole-adapt): binder 23 — Selected Scholarly Treatises (5 chapters adapted, $0.32 Anthropic)
+ 6 files changed, 785 insertions(+), 4 deletions(-)
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/08-muntakhab-ilmi-mazameen/02-x6478-wa-batin-ka-izdiwaj/_system/source/text/kashkole-challenger-report.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/08-muntakhab-ilmi-mazameen/08-kitab-misbah-al-shariah/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/08-muntakhab-ilmi-mazameen/08-kitab-misbah-al-shariah/_system/source/text/adapted-extract.en.md
+✅ $0.0710 (149.3s)
+  ch 87: already challenged — skip
+  ch 55: already challenged — skip
+  ch 148: already challenged — skip
+
+  Binder 23 done: 5 adapted, 6 skipped, 0 failed
+  Binder cost: $0.3182
+
+============================================================
+All binders processed.
+Session spend: $0.3182  |  Corpus total: $9.0145
+============================================================
+[feature/kashkole-translation f9fcbeb] feat(kashkole-adapt): binder 24 — Tawḥīd (3 chapters adapted, $0.35 Anthropic)
+ 6 files changed, 186 insertions(+), 4 deletions(-)
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/06-tawheed-mubdi-taala/07-x6645-x1270-ki-x3562-x1413/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/06-tawheed-mubdi-taala/07-x6645-x1270-ki-x3562-x1413/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/08-muntakhab-ilmi-mazameen/05-mustafid-ke-khawas/_system/source/text/kashkole-challenger-report.md
+✅ $0.0165 (29.7s)
+
+  Binder 24 done: 3 adapted, 4 skipped, 0 failed
+  Binder cost: $0.3466
+
+============================================================
+All binders processed.
+Session spend: $0.3466  |  Corpus total: $9.0429
+============================================================
+✅ $0.0799 (182.2s)
+  ch 149: adapting... ✅ $0.0752 (173.1s)
+  ch 25: adapting... ✅ $0.1675 (370.3s)
+  ch 20: adapting... ✅ $0.1464 (321.3s)
+  ch 85: already challenged — skip
+  ch 22: adapting... ✅ $0.3053 (608.1s)
+  ch 54: adapting... ✅ $0.1238 (289.4s)
+  ch 21: adapting... ✅ $0.0483 (113.0s)
+  ch 18: adapting... ✅ $0.1469 (341.7s)
+  ch 122: adapting... [feature/kashkole-translation d731df0] feat(kashkole-adapt): binder 1 — Sciences of Origin/Return (6 chapters adapted, $0.80 Anthropic)
+ 4 files changed, 1562 insertions(+), 3 deletions(-)
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/07-uloom-mabda-wa-maad/12-maratib-aur-majame/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/07-uloom-mabda-wa-maad/12-maratib-aur-majame/_system/source/text/adapted-extract.en.md
+✅ $0.2916 (649.7s)
+
+  Binder 1 done: 6 adapted, 6 skipped, 0 failed
+  Binder cost: $0.7952
+
+============================================================
+All binders processed.
+Session spend: $0.7952  |  Corpus total: $9.4915
+============================================================
+✅ $0.4483 (1138.4s)
+  ch 150: adapting... [feature/kashkole-translation 03c033c] feat(kashkole-adapt): binder 19 — Daʿāʾim: Wilāya (5 chapters adapted, $0.87 Anthropic)
+ 7 files changed, 3011 insertions(+), 6 deletions(-)
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/08-sunday-sessions/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/08-sunday-sessions/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/12-daaim-al-islam-wilayat/06-wilayat-ki-x8227-aur-x7948/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/12-daaim-al-islam-wilayat/06-wilayat-ki-x8227-aur-x7948/_system/source/text/adapted-extract.en.md
+✅ $0.1617 (387.4s)
+  ch 10: already challenged — skip
+
+  Binder 19 done: 5 adapted, 2 skipped, 0 failed
+  Binder cost: $0.8710
+
+============================================================
+All binders processed.
+Session spend: $0.8710  |  Corpus total: $9.5673
+============================================================
+✅ $0.6542 (1450.1s)
+  ch 37: adapting... [feature/kashkole-translation fbb9fb3] feat(kashkole-adapt): binder 28 — Drafts (9 chapters adapted, $0.81 Anthropic)
+ 7 files changed, 2097 insertions(+), 6 deletions(-)
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/09-sunday-sessions-breakups/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/09-sunday-sessions-breakups/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/18-ali-ibn-abi-talib-alayhi-as-salam/06-khutba-kumayl-ka-x8213/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/18-ali-ibn-abi-talib-alayhi-as-salam/06-khutba-kumayl-ka-x8213/_system/source/text/adapted-extract.en.md
+✅ $0.0460 (112.2s)
+  ch 161: already challenged — skip
+
+  Binder 28 done: 9 adapted, 1 skipped, 0 failed
+  Binder cost: $0.8146
+
+============================================================
+All binders processed.
+Session spend: $0.8146  |  Corpus total: $9.5109
+============================================================
+✅ $0.0670 (165.7s)
+  ch 51: already challenged — skip
+  ch 48: adapting... [feature/kashkole-translation cc3fa8e] feat(kashkole-adapt): binder 8 — Taʾwīl of Divine Words (7 chapters adapted, $0.97 Anthropic)
+ 7 files changed, 2053 insertions(+), 6 deletions(-)
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/10-kalimat-rabbani-ki-taweelat/08-qurani-ayaat-ki-taweel/_system/source/text/adapted-extract.en.md
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/18-ali-ibn-abi-talib-alayhi-as-salam/07-x3212-x4894-x7939-x3180-x7926-x8263/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/18-ali-ibn-abi-talib-alayhi-as-salam/07-x3212-x4894-x7939-x3180-x7926-x8263/_system/source/text/adapted-extract.en.md
+✅ $0.4125 (891.0s)
+
+  Binder 8 done: 7 adapted, 1 skipped, 0 failed
+  Binder cost: $0.9750
+
+============================================================
+All binders processed.
+Session spend: $0.9750  |  Corpus total: $9.6713
+============================================================
+[feature/kashkole-translation 36f1460] feat(kashkole-adapt): binder 6 — Imam ʿAlī (5 chapters adapted, $1.02 Anthropic)
+ 4 files changed, 746 insertions(+), 3 deletions(-)
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/18-ali-ibn-abi-talib-alayhi-as-salam/09-ali-ke-x1314/_system/source/text/adaptation-citations.jsonl
+ create mode 100644 _workspace/kashkole-ksessions/extracted/kashkole/18-ali-ibn-abi-talib-alayhi-as-salam/09-ali-ke-x1314/_system/source/text/adapted-extract.en.md
+✅ $0.0815 (173.9s)
+
+  Binder 6 done: 5 adapted, 4 skipped, 0 failed
+  Binder cost: $1.0196
+
+============================================================
+All binders processed.
+Session spend: $1.0196  |  Corpus total: $9.7159
+============================================================

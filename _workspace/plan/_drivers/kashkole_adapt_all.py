@@ -115,7 +115,7 @@ def _adapt_chapter(binder_id: int, chapter_id: int, dry_run: bool) -> float:
         cmd.append("--dry-run")
     cmd += ["kashkole", "--binder", str(binder_id), "--chapter", str(chapter_id)]
 
-    result = subprocess.run(cmd, capture_output=True, text=True, cwd=REPO, timeout=1200)
+    result = subprocess.run(cmd, capture_output=True, text=True, cwd=REPO, timeout=7200)
     output = result.stdout + result.stderr
 
     if result.returncode != 0:
