@@ -3,9 +3,9 @@
   "book_slug": "the-master-and-the-disciple",
   "category": "books",
   "branch": "book/the-master-and-the-disciple",
-  "phase": "finalize",
-  "phase_status": "halted",
-  "last_completed_phase": "per-chapter",
+  "phase": "publish",
+  "phase_status": "completed",
+  "last_completed_phase": "publish",
   "next_phase": "per-chapter-slides",
   "last_error": null,
   "pipeline_mode": "orchestrated",
@@ -42,7 +42,7 @@
     "0a": {
       "status": "completed",
       "ts_completed": "2026-05-24T00:00:00Z",
-      "note": "OCR via scripts/podcast/ocr_image_pages.py (95 PNGs → Doc Intel → Translator ar→en); raw-extract.md sourced from _system/source/ocr/translated-en.md. Curator's pre-existing chapters/*.md and refined-english.md archived to chapters/_curator-archive/ and text/_curator-refined-english.md.archive respectively, preserved for A/B reference but NOT pipeline inputs (per book-processing-pattern memory 2026-05-24)."
+      "note": "OCR via scripts/podcast/ocr_image_pages.py (95 PNGs \u2192 Doc Intel \u2192 Translator ar\u2192en); raw-extract.md sourced from _system/source/ocr/translated-en.md. Curator's pre-existing chapters/*.md and refined-english.md archived to chapters/_curator-archive/ and text/_curator-refined-english.md.archive respectively, preserved for A/B reference but NOT pipeline inputs (per book-processing-pattern memory 2026-05-24)."
     },
     "0b": {
       "status": "completed",
@@ -106,9 +106,27 @@
       "status": "halted",
       "ts_started": "2026-05-25T17:26:33Z",
       "ts_completed": "2026-05-25T17:28:23Z",
-      "validator_stdout": "==> validate_ship_ready: the-master-and-the-disciple\n    workspace: content/drafts/the-master-and-the-disciple\n    target:    /Users/asifhussain/PROJECTS/podcast-factory/content/published/books/the-master-and-the-disciple (read-only check)\n\n=== Gates ===\nOK    [G1] 6 chapters + 6 episodes present\nOK    [G2] 6 chapter/episode pairs match\nOK    [G3] chapters 1..6 + episodes 1..6 purely sequential\nOK    [G4] P0=0 across 6 episodes (P1=23, warn-only)\n\n✗ BLOCKED — G5 state-shippable failed\n  Remediation: see the failing gate's reason above.\n",
+      "validator_stdout": "==> validate_ship_ready: the-master-and-the-disciple\n    workspace: content/drafts/the-master-and-the-disciple\n    target:    /Users/asifhussain/PROJECTS/podcast-factory/content/published/books/the-master-and-the-disciple (read-only check)\n\n=== Gates ===\nOK    [G1] 6 chapters + 6 episodes present\nOK    [G2] 6 chapter/episode pairs match\nOK    [G3] chapters 1..6 + episodes 1..6 purely sequential\nOK    [G4] P0=0 across 6 episodes (P1=23, warn-only)\n\n\u2717 BLOCKED \u2014 G5 state-shippable failed\n  Remediation: see the failing gate's reason above.\n",
       "validator_stderr": "WARN  G4 EP01-the-call-and-the-covenant: 1 P1 advisory (warn-only)\nWARN  G4 EP02-will-command-and-the-seven: 2 P1 advisories (warn-only)\nWARN  G4 EP03-world-hereafter-and-the-right-of-wealth: 3 P1 advisories (warn-only)\nWARN  G4 EP04-the-greater-shaykh-and-the-naming: 5 P1 advisories (warn-only)\nWARN  G4 EP05-father-revealed-and-the-faces-of-seeking: 8 P1 advisories (warn-only)\nWARN  G4 EP06-justice-monotheism-and-the-guardians: 4 P1 advisories (warn-only)\nFAIL  [G5] state.json not in shippable state (phase=finalize, phase_status=running). Use --force to bypass.\n",
       "verdict": "SHIP-READY"
+    },
+    "publish": {
+      "status": "completed",
+      "ts": "2026-05-25T21:24:00Z",
+      "extras": {
+        "published_to": "content/published/books/the-master-and-the-disciple",
+        "gates_passed": [
+          "G1",
+          "G2",
+          "G3",
+          "G4",
+          "G5",
+          "G6",
+          "G7"
+        ],
+        "episodes_shipped": 6,
+        "doctrine": "v4 + v2.2 + F30 + scaffold-retirement"
+      }
     }
   },
   "completed_slugs": [],
