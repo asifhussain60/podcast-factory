@@ -350,14 +350,19 @@ html[data-edit-highlight="violet"]  { --edit-highlight: oklch(72% 0.14 295); --e
 
 .prose-body [data-editor-id] {
   position: relative;
-  border-radius: 4px;
-  transition: background-color 140ms ease, box-shadow 140ms ease;
+  border-radius: 6px;
+  transition: background-color 160ms ease, box-shadow 160ms ease, padding 160ms ease, margin 160ms ease;
 }
 .prose-body [data-editor-id]:hover:not([contenteditable="true"]) {
-  background: color-mix(in oklab, var(--color-ink) 3%, transparent);
-  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 8%, transparent),
-              -10px 0 0 -8px color-mix(in oklab, var(--edit-highlight) 50%, transparent);
-  cursor: text;
+  background: color-mix(in oklab, var(--edit-highlight) 4%, transparent);
+  box-shadow:
+    0 0 0 2px var(--edit-highlight),
+    0 0 16px -2px color-mix(in oklab, var(--edit-highlight) 55%, transparent),
+    0 0 32px -8px color-mix(in oklab, var(--edit-highlight) 40%, transparent);
+  padding: 0.35em 0.7em;
+  margin-left: -0.7em;
+  margin-right: -0.7em;
+  cursor: pointer;
 }
 .prose-body [data-editor-id][contenteditable="true"] {
   background: color-mix(in oklab, var(--edit-highlight) 7%, transparent);
