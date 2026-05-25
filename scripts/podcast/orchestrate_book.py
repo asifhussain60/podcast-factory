@@ -1439,7 +1439,19 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
     # When true: walks every chapter, authors slide-decks/chNN-deck-<slug>.txt +
     # chNN-framing-<slug>.md, runs Slide Deck Challenger (max 5 iter per chapter).
     enable_slide_decks = _series_flag(book_dir, "enable_slide_decks", default=True)
-    if enable_slide_decks:
+    # Guard: skip slides block entirely if a prior run already completed it.
+    # This handles the case where the orchestrator exits cleanly after the
+    # phase_git_commit and the watchdog re-enters _drive_per_chapter_and_after
+    # via the `per-chapter-slides/completed` dispatcher path.
+    _slides_already_done = (
+        (read_state(book_dir) or {})
+        .get("phases", {})
+        .get("per-chapter-slides", {})
+        .get("status") in ("completed", "skipped")
+    )
+    if _slides_already_done:
+        _info("phase: per-chapter-slides · already completed/skipped, advancing to finalize")
+    elif enable_slide_decks:
         _info("phase: per-chapter-slides · slide-deck cohort authoring + slide-deck-challenger")
         update_phase(book_dir, phase="per-chapter-slides", status="running")
         try:
@@ -1689,6 +1701,14 @@ def run_resume(args: argparse.Namespace) -> int:
     if current_phase == "per-chapter-slides" and current_status in (
         "failed", "running", "pending"
     ):
+        return _drive_per_chapter_and_after(book_dir)
+
+    # per-chapter-slides completed normally but orchestrator exited before advancing
+    # to finalize (e.g. clean exit after a git commit, watchdog re-launched and saw
+    # completed status which was not in the handled set above). Advance directly
+    # to finalize without re-running slides.
+    if current_phase == "per-chapter-slides" and current_status == "completed":
+        _info("Phase per-chapter-slides already completed — advancing to finalize.")
         return _drive_per_chapter_and_after(book_dir)
 
     # Finalize halt (added 2026-05-24): G1-G7 gates passed; human reviews in
