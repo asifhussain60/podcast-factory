@@ -1,46 +1,48 @@
 ## Inventory
 
--   **Chapter/Episode 1: The Architecture of Creation: Will, Command, and the Seven**
-    -   `00-framing.md`: Present
-    -   `01-primary-source.md`: **Missing**
-    -   `02-key-passages.md`: Present (template only)
-    -   `03-context-pack.md`: Present (template only)
-    -   `04-discussion-spine.md`: Present (template only)
-    -   `99-show-notes.md`: Present
+One podcast bundle, "EP02-will-command-and-the-seven", was detected.
+
+*   **Chapter/Episode:** The Architecture of Creation: Will, Command, and the Seven
+    *   `00-framing.md`: **Present**
+    *   `01-primary-source.md`: **Missing**
+    *   `02-key-passages.md`: **Present (empty placeholder)**
+    *   `03-context-pack.md`: **Present (empty placeholder)**
+    *   `04-discussion-spine.md`: **Present (empty placeholder)**
+    *   `99-show-notes.md`: **Present**
 
 ## Chapter Findings
 
-No primary source file (`01-primary-source.md`) was provided for audit. Chapter-level findings are based on the `99-show-notes.md` file, which summarizes the chapter content.
+The primary source chapter file (`01-source.md`) is missing from the bundle. Audits for cohesion, duplication, and NotebookLM readability cannot be performed on the source text. The following findings pertain to `99-show-notes.md`, the only substantive prose file provided besides the framing.
 
-### Chapter 1: The Architecture of Creation: Will, Command, and the Seven
+### Chapter: The Architecture of Creation: Will, Command, and the Seven
 
 | Severity | File | Anchor | Problem | Fix |
 | :--- | :--- | :--- | :--- | :--- |
-| P0 | `99-show-notes.md` | The cosmological foundation of *Kitab al-'Alim wa-l-Ghulam* | Articulation style violation: uses transliterated Arabic with diacritics instead of Arabic script or the English equivalents mandated by the framing. | Replace all transliterated Arabic terms (`Kitab al-'Alim wa-l-Ghulam`, `nāṭiqs`, `ḥujaj`, `nuqabā'`, `du'āt`, `zahir`, `batin`, `al-Imām al-Nāṭiq`, `bāb`, `waṣī`) with their English equivalents as defined in `00-framing.md`. |
-| P1 | `99-show-notes.md` | proven from Q 7:26's three garments | Citation format does not follow the required `Q|S:V` standard. | Change `Q 7:26` to `Q|7:26` and ensure a spoken-form appendix is created for it. |
-| P2 | `99-show-notes.md` | The cosmological foundation of *Kitab al-'Alim wa-l-Ghulam* | Articulation style violation: uses italics for a book title and for emphasis. | Remove all markdown italics from the file. |
-| P2 | `99-show-notes.md` | The cosmological foundation of *Kitab al-'Alim wa-l-Ghulam* | The main blurb is a single, dense paragraph over 400 words, which is difficult for hosts to parse for audio. | Break the paragraph into 3-4 smaller paragraphs at logical topic shifts (e.g., after the seven principles, after the great parallel, after the verdict on the world). |
+| P1 | 99-show-notes.md | The cosmological foundation of *Kitab al-'Alim wa-l-Ghulam*... | The text is filled with transliterated Arabic terms, violating the 'Arabic script only' rule. | Replace all transliterated terms (e.g., `Kitab al-'Alim wa-l-Ghulam`, `nāṭiqs`, `ḥujaj`, `zahir`, `batin`) with their English equivalents as defined in `00-framing.md`. |
+| P1 | 99-show-notes.md | the world without knowledge of its soul, God | The text uses 'God' instead of the required 'Allah'. | Replace all instances of 'God' with 'Allah'. |
+| P2 | 99-show-notes.md | The cosmological foundation of *Kitab al-'Alim wa-l-Ghulam*... | The main blurb is a single, unbroken paragraph over 400 words long. | Break the main blurb into 3-4 smaller paragraphs to improve readability and support audio pacing. |
+| P2 | 99-show-notes.md | The cosmological foundation of *Kitab al-'Alim wa-l-Ghulam*... | The text uses markdown italics for emphasis and titles, violating the articulation style guide. | Remove all markdown `*` characters used for italics. |
+| P2 | 99-show-notes.md | ## Related episodes | The file contains a bulleted list, which is a non-prose structure unsuitable for audio. | Convert the bulleted list of related episodes into a simple comma-separated sentence. |
 
 ## Episode Findings
 
-### Episode 1: The Architecture of Creation: Will, Command, and the Seven
+### Episode: The Architecture of Creation: Will, Command, and the Seven
 
 | Severity | File | Anchor | Problem | Fix |
 | :--- | :--- | :--- | :--- | :--- |
-| P1 | (bundle-wide) | N/A | The primary source chapter text is missing from the bundle. | Add the missing `01-primary-source.md` file containing the full chapter text that this episode is based on. |
-| P0 | `04-discussion-spine.md` | Beat 1: Opening hook | The discussion spine is an unfilled template, which will cause NotebookLM to generate a generic, unstructured conversation. | Populate all 6 beats of the discussion spine with key questions, tensions, and anchor passage references, matching the structure defined in `00-framing.md`. |
-| P0 | `02-key-passages.md` | Passage 1 | The key passages file is an unfilled template, leaving the hosts with no verbatim quotes to retrieve. | Extract the verbatim quotes required by the framing (the three-words formula, the great parallel, the body-and-soul figure, the egg parable, etc.) into this file, one per passage. |
-| P0 | `00-framing.md` | ## Pronunciation | The pronunciation guide is incomplete and contradicts the show notes, creating a high risk of mispronunciation. | Create a comprehensive pronunciation appendix mapping every Arabic term used in the show notes (e.g., `nāṭiqs`, `ḥujaj`) to a simple phonetic spelling, and update the show notes to use the English equivalents per the framing's own rules. |
-| P1 | `03-context-pack.md` | Author / narrator | The context pack is an unfilled template, increasing the risk of host hallucination. | Populate the context pack with brief, non-airtime notes on the author, tradition, and context to ground the hosts. |
-| P1 | `04-discussion-spine.md` | # Discussion spine | The spine template has 8 beats, but the framing document specifies a 6-beat structure, creating a structural conflict. | Reduce the discussion spine from 8 beats to the 6 beats described in `00-framing.md`. |
-| P1 | `00-framing.md` | ## Pronunciation | No spoken-form appendix exists for Quran citations, which will cause citations like `Q|7:26` to be read literally. | Create a citation appendix mapping machine-readable citations (e.g., 'Q|7:26') to natural spoken forms (e.g., 'Quran, chapter seven, verse twenty-six') and reference it from the framing. |
-| P2 | `00-framing.md` | Episode format: in-depth walkthrough | The episode format is described but not explicitly declared using a standard label. | Add a line to the framing: `**Format declaration:** Deep Dive`. |
+| P0 | 04-discussion-spine.md | # Discussion spine | The discussion spine is an empty template and provides no structure for the hosts. | Replace the template with a fully populated 6-beat discussion spine that follows the detailed structure in the 'Three-part focus' section of `00-framing.md`. |
+| P0 | 02-key-passages.md | # Key passages | The key passages file is an empty placeholder, creating a high risk of hosts hallucinating quotes. | Populate this file with verbatim quotes from the primary source, corresponding to the six beats described in `00-framing.md`. |
+| P1 | (bundle) | Manifest | The primary source file (`01-source.md`) is missing, making it impossible for NotebookLM to ground the conversation. | Add the full, clean text of the chapter to the bundle as `01-source.md`. |
+| P1 | 03-context-pack.md | # Context pack | The context pack is an empty placeholder, depriving hosts of grounding information. | Populate the Author, Tradition, and 'What this chapter is responding to' sections with concise facts for host retrieval. |
+| P1 | 00-framing.md | ## Pronunciation | A spoken-form appendix for Quran citations is absent. | Add a new section '## Citation Spoken Form' mapping any `Q|X:Y` citations to natural speech (e.g., 'Q|7:26' -> 'from the Quran, chapter seven, verse twenty-six'). |
+| P1 | 04-discussion-spine.md | # Discussion spine | The template has 8 beats, which mismatches the 6-beat structure defined in the framing document. | Ensure the populated spine has exactly six beats plus an opening hook and landing, matching the structure in `00-framing.md`. |
+| P2 | 00-framing.md | **Episode format:** in-depth walkthrough... | The episode format is described but not explicitly declared from the standard list (Deep Dive, Brief, etc.). | Add a line explicitly stating: `**Format declaration:** Deep Dive`. |
 
 ## Cross-Bundle Patterns
 
-The primary systemic issue is that this bundle is a "scaffold" or "template" rather than a complete, production-ready artifact. The high-level framing (`00-framing.md`) is detailed and well-constructed, but the core content files that drive the NotebookLM conversation—`01-primary-source.md` (missing), `02-key-passages.md`, `03-context-pack.md`, and `04-discussion-spine.md`—are either absent or empty templates. This guarantees a failed audio generation.
+The bundle is a "scaffolding-only" draft. It contains a highly detailed and well-structured framing document (`00-framing.md`) but lacks all the corresponding content files needed to execute it. The primary source, key passages, context pack, and discussion spine are either missing or empty templates. This is a systemic failure state; the bundle is not runnable.
 
-There is also a significant articulation style contradiction. The framing document correctly forbids transliterated Arabic, while the show notes file (`99-show-notes.md`) uses it extensively. This indicates a process gap where different components of the bundle were generated under conflicting rules.
+The show notes (`99-show-notes.md`) violate the articulation style rules laid out in the framing document, particularly regarding the use of transliterated Arabic instead of English equivalents. This suggests the show notes were generated by a different process or before the framing rules were finalized.
 
 ## Claude Code Instruction Block
 
@@ -48,99 +50,75 @@ There is also a significant articulation style contradiction. The framing docume
 [
   {
     "file": "04-discussion-spine.md",
-    "anchor": "Beat 1: Opening hook",
+    "anchor": "# Discussion spine",
     "severity": "P0",
-    "problem": "The discussion spine is an unfilled template.",
-    "fix": "Populate all 6 beats of the discussion spine with key questions, tensions, and anchor passage references, matching the detailed structure defined in `00-framing.md`.",
+    "problem": "The discussion spine is an empty template, providing no structure for the hosts.",
+    "fix": "Replace the entire file content with a fully populated 6-beat discussion spine that follows the structure detailed in the 'Three-part focus' section of 00-framing.md.",
     "category": "spine"
   },
   {
     "file": "02-key-passages.md",
-    "anchor": "Passage 1",
+    "anchor": "# Key passages",
     "severity": "P0",
-    "problem": "The key passages file is an unfilled template.",
-    "fix": "Extract the verbatim quotes required by the framing (the three-words formula, the great parallel, the body-and-soul figure, the six-limits-and-a-seventh formula, the air-as-highest-proof line, and the parable of the egg) into this file, each under its own passage heading.",
-    "category": "spine"
-  },
-  {
-    "file": "99-show-notes.md",
-    "anchor": "The cosmological foundation of *Kitab al-'Alim wa-l-Ghulam*",
-    "severity": "P0",
-    "problem": "The show notes use transliterated Arabic with diacritics, which violates articulation style and risks severe mispronunciation.",
-    "fix": "Replace all transliterated Arabic terms (`Kitab al-'Alim wa-l-Ghulam`, `nāṭiqs`, `ḥujaj`, `nuqabā'`, `du'āt`, `zahir`, `batin`, `al-Imām al-Nāṭiq`, `bāb`, `waṣī`) with their English equivalents as defined in the `## Stable role-labels` section of `00-framing.md`.",
-    "category": "articulation"
-  },
-  {
-    "file": "00-framing.md",
-    "anchor": "## Pronunciation",
-    "severity": "P0",
-    "problem": "The pronunciation guide is incomplete for terms used elsewhere in the bundle.",
-    "fix": "Create a comprehensive pronunciation appendix mapping every Arabic term used in the source material to a simple phonetic spelling and reference this appendix from the framing document.",
-    "category": "pronunciation"
-  },
-  {
-    "file": "(bundle-wide)",
-    "anchor": "N/A",
-    "severity": "P1",
-    "problem": "The primary source chapter text is missing from the bundle.",
-    "fix": "Add the missing `01-primary-source.md` file containing the full chapter text that this episode is based on.",
-    "category": "cohesion"
+    "problem": "File is a placeholder and contains no key passages, creating a high risk of hallucinated quotes.",
+    "fix": "Replace the placeholder content with verbatim quotes from the primary source, corresponding to the six beats described in 00-framing.md. Each passage should be under its own H3 heading.",
+    "category": "notebooklm"
   },
   {
     "file": "03-context-pack.md",
-    "anchor": "Author / narrator",
+    "anchor": "# Context pack",
     "severity": "P1",
-    "problem": "The context pack is an unfilled template.",
-    "fix": "Populate the context pack with brief, non-airtime notes on the author, tradition, and context to ground the hosts and prevent hallucination.",
-    "category": "spine"
-  },
-  {
-    "file": "04-discussion-spine.md",
-    "anchor": "# Discussion spine",
-    "severity": "P1",
-    "problem": "The spine template has 8 beats, but the framing document specifies a 6-beat structure.",
-    "fix": "Reduce the discussion spine from 8 beats to the 6 beats described in `00-framing.md`.",
-    "category": "spine"
+    "problem": "The context pack is an empty placeholder, depriving hosts of grounding information.",
+    "fix": "Replace the placeholder content by populating the 'Author / narrator', 'What this chapter is responding to', and 'Tradition / lineage' sections with concise, grounded information for host retrieval.",
+    "category": "notebooklm"
   },
   {
     "file": "99-show-notes.md",
-    "anchor": "proven from Q 7:26's three garments",
+    "anchor": "The cosmological foundation of *Kitab al-'Alim wa-l-Ghulam*",
     "severity": "P1",
-    "problem": "Quran citation 'Q 7:26' does not follow the required 'Q|S:V' format.",
-    "fix": "Change 'Q 7:26' to 'Q|7:26'.",
-    "category": "citation"
+    "problem": "Show notes use transliterated Arabic instead of English equivalents or Arabic script, violating house style.",
+    "fix": "In the main blurb, replace all transliterated Arabic terms (e.g., Kitab al-'Alim wa-l-Ghulam, Kun, fa-yakun, sunna, nāṭiqs, ḥujaj, nuqabā', du'āt, zahir, batin, al-Imām al-Nāṭiq, bāb, waṣī) with their English equivalents as specified in 00-framing.md (e.g., 'The Book of the Master and the Boy', 'speakers', 'arguments', 'apparent', 'inward').",
+    "category": "articulation"
+  },
+  {
+    "file": "99-show-notes.md",
+    "anchor": "the world without knowledge of its soul, God",
+    "severity": "P1",
+    "problem": "The text uses 'God' instead of the required 'Allah'.",
+    "fix": "Globally replace 'God' with 'Allah' throughout the file.",
+    "category": "articulation"
   },
   {
     "file": "00-framing.md",
     "anchor": "## Pronunciation",
     "severity": "P1",
-    "problem": "No spoken-form appendix exists for Quran citations.",
-    "fix": "Create a new section in the framing document titled 'Citation Spoken-Form Appendix' and add an entry mapping 'Q|7:26' to its natural spoken form: 'Quran, chapter seven, verse twenty-six'.",
+    "problem": "Bundle lacks a spoken-form appendix for Quran citations.",
+    "fix": "After the '## Pronunciation' section, add a new section: '## Citation Spoken Form'. In it, provide a mapping for any 'Q|X:Y' citations from the source text to natural speech (e.g., 'Q|7:26' -> 'from the Quran, chapter seven, verse twenty-six').",
     "category": "citation"
   },
   {
-    "file": "00-framing.md",
-    "anchor": "Episode format: in-depth walkthrough of a single foundational chapter.",
+    "file": "99-show-notes.md",
+    "anchor": "The cosmological foundation of *Kitab al-'Alim wa-l-Ghulam*",
     "severity": "P2",
-    "problem": "The episode format is described but not explicitly declared using a standard label.",
-    "fix": "Add a new line immediately after the 'Episode format' line: `**Format declaration:** Deep Dive`.",
-    "category": "format"
+    "problem": "The main blurb is a single, very long paragraph, which is difficult to parse.",
+    "fix": "Break the main blurb into 3-4 smaller paragraphs, using the major movements described in the framing document (e.g., origin/three words, the great parallel, the world question, the egg) as logical break points.",
+    "category": "notebooklm"
   },
   {
     "file": "99-show-notes.md",
     "anchor": "The cosmological foundation of *Kitab al-'Alim wa-l-Ghulam*",
     "severity": "P2",
-    "problem": "The show notes use markdown italics for a book title and for emphasis.",
-    "fix": "Remove all markdown asterisks used for italics from the file.",
+    "problem": "Show notes use markdown italics for emphasis and titles, which is against articulation style.",
+    "fix": "Remove all markdown `*` characters used for italics from the show notes blurb.",
     "category": "articulation"
   },
   {
-    "file": "99-show-notes.md",
-    "anchor": "The cosmological foundation of *Kitab al-'Alim wa-l-Ghulam*",
+    "file": "00-framing.md",
+    "anchor": "**Episode format:** in-depth walkthrough",
     "severity": "P2",
-    "problem": "The main blurb is a single, dense paragraph over 400 words.",
-    "fix": "Break the paragraph into 3-4 smaller paragraphs at logical topic shifts.",
-    "category": "notebooklm"
+    "problem": "The episode format is described but not explicitly declared from the standard list.",
+    "fix": "Below the 'Episode format' line, add a new line: '**Format declaration:** Deep Dive'.",
+    "category": "format"
   }
 ]
 ```

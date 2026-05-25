@@ -1,110 +1,146 @@
 ## Inventory
 
-- **Bundle:** EP05 — The Father Revealed and the Three Faces of Seeking (one episode, single chapter)
-  - `00-framing.md` — present, fully authored
-  - `02-key-passages.md` — present but **empty stub** (single `> >` line + one `[LLM-FILL]`)
-  - `03-context-pack.md` — present but **all five sections are `[LLM-FILL]`**
-  - `04-discussion-spine.md` — present but **all 8 beats are `[LLM-FILL]`** including key question, tension, anchor passage
-  - `99-show-notes.md` — present, fully authored
+- **EP05 — The Father Revealed and the Three Faces of Seeking** (single chapter / single episode bundle)
+  - Present: `00-framing.md` (22 KB, fully authored), `02-key-passages.md` (185 B, stub only), `03-context-pack.md` (544 B, all `[LLM-FILL]`), `04-discussion-spine.md` (2.5 KB, all `[LLM-FILL]`), `99-show-notes.md` (7.2 KB, fully authored)
+  - **Missing: `01-source.md`** (the primary chapter source — declared dropped=0 in manifest, so it was never created)
+  - **Effectively missing** (stub-only): `02-key-passages.md`, `03-context-pack.md`, `04-discussion-spine.md`
+  - Pronunciation guidance: present inline inside `00-framing.md ## Pronunciation` (no separate appendix file)
+  - Citation spoken-form guidance: handled by surah-name English-only directive inside `00-framing.md`; no separate citation appendix
 
 ## Chapter Findings
 
-### Chapter EP05: The Father Revealed and the Three Faces of Seeking
+### Chapter 5: The Father Revealed and the Three Faces of Seeking
 
 | Severity | File | Anchor | Problem | Fix |
 |---|---|---|---|---|
-| P0 | `02-key-passages.md` | `### Passage 1` | File is an unfilled scaffold — single `> >` blockquote and one `[LLM-FILL]`. NotebookLM will retrieve nothing when the spine references passage anchors. | Populate with at least 6–8 verbatim quotes drawn from the chapter (the father's reproach, the boy's bind, the divorce-oath ruling, the breach-in-medicine figure, the three-states reasoning, the testing-forge parable, the zero-point confession, the closing seam-question), each followed by a `*Why this matters:*` one-sentence ground line. |
-| P0 | `03-context-pack.md` | `## Author / narrator` | All five subsections are `[LLM-FILL]`. Hosts have no grounding for author, chapter-question, lineage, or related works. | Fill all five sections with the tenth-century Yemeni dialogue-book context already implicit in the framing's `## Background` and `## Audience` blocks — author identification, the father-reproach inheritance from chapter four, the Ismā'īlī da'wa-pedagogy lineage, and the four prior chapters as related works. Mark `## Why this lands now` `Not required` per the existing template note. |
-| P1 | `99-show-notes.md` | `**Blurb:**` | Blurb is a single ~900-word unbroken paragraph with stacked parentheticals (`(SHAYKH)`, `(SAA-lih)`, `(al-bakh-tah-REE)`, `(KAB al-AH-bar)`, etc.) — exceeds the ~400-word breath limit and saturates with parenthetical phonetics that read as voice-glitch fuel if NotebookLM ingests it. | Split blurb into 3–4 paragraphs at the natural beat-boundaries (father-and-boy / senior-scholar-arrives / Salih–Abu-Malik dialogue / closing seam-question). Strip the inline phonetic parens — pronunciation belongs in the framing's `## Pronunciation` block, not the blurb. |
-| P2 | `00-framing.md` | `## Stable role-labels` | Bulleted list of nine label rules — articulation rule says "bulleted lists in the prose are deviations." Framing is meta-instruction (not spoken), so this is acceptable, but flag for stylistic consistency. | Acceptable as a framing directive; no fix required unless the house-style enforcement extends to framing prose itself. If it does, convert the nine bullets to a numbered prose paragraph keyed by figure. |
-| Cohesion | — | — | clean |
-| Duplication | — | — | clean (the three-times thesis repetition is intentional, governed, and within R-NOREPEAT) |
+| P0 | `01-source.md` | (file missing) | Primary chapter source is absent from the bundle. NotebookLM has no document to retrieve from; hosts will hallucinate every passage stipulated as verbatim. The framing quotes `act on whichever of the two you wish`, `is this the reward of sons to their fathers?`, `I do not see that anything is left with me`, the three-states reasoning, the breach-in-medicine figure, and the recurring thesis — none of these have a source for NotebookLM to ground on. | Generate `01-source.md` from the corresponding chapter of the tenth-century dialogue book (the chapter answering the father's anger from Chapter 4, widening into Salih ↔ Abu Malik) as a single prose document. Keep all the verbatim lines the framing names. |
+| P0 | `02-key-passages.md` | `### Passage 1` | Only one stub passage exists, with quote body `> >` (empty) and `*Why this matters:* [LLM-FILL]`. NotebookLM has no anchor quotes for the discussion spine to retrieve against. | Author 6–8 verbatim passages drawn from the chapter source, each as a block quote with a one-sentence `Why this matters` line, covering: the father's reproach, the boy's bind, the divorce-oath ruling `act on whichever of the two you wish`, the breach-in-medicine figure, the three-states reasoning, the senior scholar's confession `I do not see that anything is left with me`, the recurring thesis (`the cause that connects heaven to earth, unbroken …`), and the closing seam-question. |
+| P0 | `03-context-pack.md` | `## Author / narrator` (and every other heading) | Every heading body is `[LLM-FILL]`. No author, no tradition, no what-this-answers, no related-works. Hosts have no grounding context, increasing hallucination of dates, names, and tradition claims. | Fill each section: author = the tenth-century Yemeni author of the dialogue book; tradition = classical Ismaili dialogue genre; what this chapter is responding to = the father's anger at the boy's initiation in Chapter 4, then the wider question of whether inherited fiqh alone constitutes religion; related works = Chapters 1–4 of the same book (already referenced in show-notes). Leave `Why this lands now` empty as marked. |
+| P0 | `04-discussion-spine.md` | every `### Beat N` | All eight beats are `[LLM-FILL]`. The hidden steering layer NotebookLM follows is empty; the hosts will improvise an arc rather than walk the chapter's six-beat structure spelled out in `00-framing.md ## Three-part focus`. | Replace the 8-beat template with the 6-beat structure the framing prescribes (crisis → first answer → historical-temporal objection → pivot/recurring-thesis-2 → non-bodily correction / three faces → human stakes + unresolved question). For each beat, fill Key question, Tension (from the matching verbatim passage), Anchor passage (reference its number in `02-key-passages.md` once that file is authored), and Landing. Force the recurring thesis to appear in Beats 1, 4, and 6 word-for-word. |
+| P1 | `00-framing.md` | `## Opening directive` | Articulation rule says no bold and no italics. The framing uses asterisk-bold for header labels (`**Episode format:**`, `**Host A …**`, `**Audience**`) and asterisk-italics for every verbatim quotation and inline directive. NotebookLM does not voice markdown emphasis but downstream linting and the house style both reject it. | Convert all `**…**` and `*…*` to plain text. Where italics carry verbatim-quote weight, wrap in double quotes instead. Where bold carries section-label weight, drop and rely on heading hierarchy. |
+| P1 | `99-show-notes.md` | `**Blurb:**` | Same articulation deviation as framing: heavy italics (asterisks) on every Arabic term, every verbatim quote, and every doctrinal phrase. The entire blurb is one paragraph of roughly 1,200 words — far past the 400-word breath ceiling — and is dense with parenthetical stacking and em-dash chains, both flagged as voice-glitch risks if any portion is ingested by NotebookLM. | Rewrite the blurb as three to four short prose paragraphs (≤ 200 words each), drop all italic emphasis, and split em-dash chains into separate sentences. |
+| P1 | `99-show-notes.md` | `**Blurb:**` ("the boy's name was Salih") | Show notes voice Arabic personal names with phonetics — `Salih (SAA-lih)`, `al-Bakhtari (al-bakh-tah-REE)`, `Abu Malik (a-BOO MAA-lik)`, `Ka'b al-Ahbar (KAB al-AH-bar)`, `Abu Salih (a-BOO SAA-lih)`, `Maqrub (mak-ROOB)` — directly contradicting the framing's R-NO-ARABIC-NAMES doctrine which mandates the boy, the father, the senior scholar, the petitioner, the early figure of report-without-witness. If NotebookLM ingests show-notes alongside framing the hosts will receive conflicting naming instructions. | Replace every Arabic personal name in the blurb with the framing's English stable label. Keep the meaning-of-name aside (`a name meaning the righteous one`) as the only naming moment, exactly as the framing prescribes. |
+| P1 | `99-show-notes.md` | `**Blurb:**` ("Through them, God revived many of His creation") | Show notes paraphrases material the framing tells the hosts NOT to cross-reference — Chapters 1–4 are recapped at length, and the chapter's positive doctrine is summarized rather than reserved for in-episode landing. Pre-stating the recurring thesis here drains its three-times-in-episode pacing weight. | Cut the recap of prior chapters down to one sentence ("Chapter 4 ended on the father's anger; this chapter answers it and then widens"). Do not quote the recurring thesis in the blurb — let it land only inside the episode. |
+| P2 | `99-show-notes.md` | `## References` | `References` lists only the literal placeholder `>`. No real reference is present. | Replace with a single line citing the dialogue book (author and chapter), or remove the section. |
+| P2 | `00-framing.md` | `## Pronunciation` | The pronunciation block is inline inside the framing rather than a separate appendix as the bundle pattern requires. Functional for NotebookLM but inconsistent with the architecture. | Either accept as-designed (single-file framing carries the pronunciation map) and document the choice, or factor out into `05-pronunciation.md` and reference from framing. |
 
 ## Episode Findings
 
-### Episode EP05: The Father Revealed and the Three Faces of Seeking
+### EP05 — The Father Revealed and the Three Faces of Seeking
 
 | Severity | File | Anchor | Problem | Fix |
 |---|---|---|---|---|
-| P0 | `04-discussion-spine.md` | `### Beat 1: Opening hook` through `### Beat 8: Landing` | All 8 beats unfilled (`[LLM-FILL]` for key question, tension, anchor passage). The spine is the hidden steering layer — without it the framing's six-beat arc has no retrievable counterpart, and NotebookLM will improvise structure. | Author all 8 beats. Map to the framing's six narrative beats: Beat 1 → divorce-oath crisis; Beat 2 → breach-in-medicine + three-states; Beat 3 → historical-temporal objection (revelation cut off); Beat 4 → pivot + first verbatim thesis recurrence; Beat 5 → testing-forge + three faces of seeking; Beat 6 → zero-point + third thesis recurrence; Beat 7 → senior scholar's concession; Beat 8 → closing seam-question. Each beat's anchor passage must reference a real entry from a populated `02-key-passages.md`. |
-| P0 | `04-discussion-spine.md` | `### Beat 1: Opening hook` Tension line | Tension fields all read `[LLM-FILL — must draw from: >]` — the source-extract pointer is also empty, so the build pipeline had nothing to inject. Indicates an upstream extraction failure, not just authoring drift. | Re-run `extract_chapter.py` for this bundle so the tension-extract injector has source text to draw from, then re-template the spine. Verify the chapter contract's `length_target` and `key_quotes` are populated in `_system/chapter-contracts/`. |
-| P1 | `00-framing.md` | `## Pronunciation` | Pronunciation guidance is embedded inline in the framing rather than carried in a dedicated appendix file referenced from the framing. Audit rule §3f requires a separate referenced appendix. | Either accept the framing-embedded form as the bundle's convention (no fix), or extract `## Pronunciation` into `05-pronunciation-appendix.md` and replace the framing block with a one-line reference. Recommend keeping inline — the appendix-file split adds an upload artifact for marginal NotebookLM benefit. |
-| P1 | bundle | citation spoken-form | Chapter's source body invokes multiple surahs (the Cow, Family of Imran, Light, Poets) but no Q\|Surah:Verse citations and no spoken-form appendix exist. Framing handles this by instructing English surah-naming, which is functionally equivalent but does not satisfy the house Quran-citation format. | If verbatim verses are quoted in the source, add a `06-citation-spoken-form.md` appendix mapping each `Q\|S:V` to its natural-speech form. If no verbatim citations appear (only surah-by-theme references), document the exemption in framing under `## Pronunciation` as a one-sentence note. |
-| Host-role | `00-framing.md` | `## Roles + positions` | clean — male=scholar, female=senior-scholar-of-old-creed conceding; explicit seed exchange in Beat 1 |
-| Length | `00-framing.md` | `## Length` | clean — 50–60 min stated; source supports it |
-| Format | `00-framing.md` | `**Episode format:**` | clean — "Debate with concession" declared on line 1 |
-| Banter suppression | `00-framing.md` | `## Tone constraints` + `## Do not` | clean — explicit R-NOINTERRUPT, forbidden first-words list, surprise-noise DENY |
-| Cliffhanger | `00-framing.md` | `## Anti-noise rules` | clean — explicit prohibition on cross-chapter references and pre-announcement |
-| Single-thesis | `00-framing.md` | `## Opening directive` | clean — one settled formula, spoken three times verbatim |
-| Skip-the-intro | `00-framing.md` | `## Opening directive` | clean — "Do not open with formulaic show-intro phrasing" is the functional equivalent |
+| P0 | `04-discussion-spine.md` | `### Beat 1` through `### Beat 8` | Spine is the hidden steering layer; with every beat empty, NotebookLM will follow the framing prose loosely and is likely to skip the recurring-thesis pacing (open/pivot/close), the Beat 5 testing-forge parable, and the closing seam-question — the very beats the framing depends on. | Author the spine with 6 beats matching the framing's `## Three-part focus`, not 8. Replace the existing 8-beat skeleton with: 1 Crisis, 2 First answer (breach + three-states), 3 Historical-temporal objection, 4 Pivot (recurring thesis #2), 5 Non-bodily correction + three faces, 6 Human stakes + unresolved question. |
+| P0 | `02-key-passages.md` | `### Passage 1` | Discussion spine cannot reference passages that do not exist; the testing-forge parable, the divorce-oath case, the senior scholar's confession, and the recurring thesis all need anchor quotes. Without them the hosts will reword the verbatim lines the framing stipulates as verbatim. | (See chapter-finding above; same fix.) |
+| P1 | `00-framing.md` | `## Stable role-labels` ("→ **the senior scholar of the old creed**") | The framing locks Host A male = scholar / teacher and Host B female = student / learner, but `## Roles + positions` casts Host B as **the senior scholar of the old creed** — a teacher role. The female voice is simultaneously labeled the senior scholar (teacher) and assigned the learner concession arc. NotebookLM will be unsure which register to voice. | Reconcile by explicit framing: Host B carries the senior-scholar's voice as a position she defends but ends by conceding it, returning to learner register at Beat 5–6. Add one sentence to `## Roles + positions` clarifying that the female voice carries the old-creed argument from inside the chapter, not as her own teaching authority. |
+| P1 | `00-framing.md` | `## Length` | Target is 50–60 minutes; primary source (`01-source.md`) is missing so the length cannot be calibrated against actual source volume. A 50–60 minute target with a thin source forces padding; with a dense source forces summarization. | Once `01-source.md` is authored, verify word count supports 50–60 minutes (rule of thumb ~6,500–8,500 source words for a debate-with-concession at NotebookLM Long pacing). Adjust target if mismatched. |
+| P2 | `00-framing.md` | (file root) | No explicit NotebookLM Length-setting directive (`Default` vs `Long`). The framing's 50–60 minute target implies Long but does not state it for the upload table the operator builds. | Add a one-line `NotebookLM Length: Long` to the top of the framing. |
+| — | `00-framing.md` | `## Audience` | Skip-the-intro discipline present (framing instructs no `today we'll discuss` / `welcome back`). | clean |
+| — | `00-framing.md` | `## Tone constraints` | Banter suppression present (R-NOINTERRUPT, forbidden-first-words list, banned modernizations, banned surprise-noise phrases). | clean |
+| — | `00-framing.md` | `## Anti-noise rules` | Cliffhanger handling is engineered: the chapter's closing seam-question is preserved as an end-on-unresolved beat by design. | clean |
+| — | `00-framing.md` | `## Proposition under debate` | Single-thesis discipline holds: one thesis in one sentence, Host B argues it, Host A argues against, concession at Beat 6. | clean |
+| — | `00-framing.md` | `## Pronunciation` | Pronunciation appendix present and referenced; covers every Arabic term the chapter uses. | clean |
+| — | `00-framing.md` | `## Roles + positions` | Steelman discipline present: framing tells Host B to argue "GENUINELY", not as a foil; has the chapter's strongest internal-case lines; defends with senior-teacher weight. Engineered concession at Beat 6 satisfies the §4(g)(7) positive-practice rule. | clean |
 
 ## Cross-Bundle Patterns
 
-Three of the five bundle files are unfilled scaffolds (`02`, `03`, `04`), while the two narrative-authored files (`00`, `99`) are exhaustively rich. This is the signature of a partial pipeline run — the LLM-authoring phase completed framing and show-notes but never executed against the spine, key-passages, and context-pack templates. The fix is upstream (re-run the spine/passages/context-pack authoring phase for this bundle), not file-by-file remediation.
+The single bundle audited shows a sharp split between authoring effort and pipeline mechanics. `00-framing.md` and `99-show-notes.md` are densely authored; the three middle artifacts that NotebookLM actually retrieves against — source, key passages, context pack, discussion spine — are either missing or pure `[LLM-FILL]`. The pattern suggests an authoring pass that prioritized the high-touch framing and the human-facing show notes but skipped the machine-facing retrieval layer entirely. Because NotebookLM grounds primarily on the source document and uses the spine as a hidden retrieval ladder, the bundle in its current state will produce a heavily improvised episode no matter how well-engineered the framing is.
 
-The framing's pronunciation block, the show-notes blurb's inline phonetics, and an absent dedicated pronunciation appendix together suggest the bundle treats pronunciation as a framing concern only. That is a defensible convention provided it is consistent across the book — but if other bundles in `the-master-and-the-disciple/` use a separate appendix file, EP05 drifts from the series shape.
+A second pattern is the doctrinal conflict between framing and show-notes on Arabic personal names. The framing carries the locked R-NO-ARABIC-NAMES doctrine and assigns English stable labels; the show-notes blurb voices every Arabic personal name with phonetics, treating the show-notes as if NotebookLM will not see it. If show-notes is uploaded with framing, the hosts will receive contradictory naming guidance. Either the show-notes must conform to the framing's English-labels-only discipline, or the bundle architecture must explicitly mark show-notes as operator-facing and never uploaded.
 
-The framing is exceptionally disciplined on host-role, anti-noise, anti-repetition, forbidden-vocabulary, and the verbatim-thesis-three-times mechanic. None of those need touching. The audit weight is entirely on the unfilled scaffolds and the show-notes blurb-segmentation.
+A third pattern, smaller: the discussion-spine template ships with 8 beats while the framing's `## Three-part focus` specifies 6 beats. The template skeleton in this repo appears to predate the content-aware-format work; spine-template length should be driven by `episode-plan` per chapter, not hard-coded at 8.
 
 ## Claude Code Instruction Block
 
 ```claude-code-fixes
 [
   {
+    "file": "01-source.md",
+    "anchor": "(file missing)",
+    "severity": "P0",
+    "problem": "Primary chapter source is absent from the bundle. NotebookLM has no document to ground retrieval on; every verbatim line the framing stipulates as quoted (the divorce-oath ruling, the breach figure, the three-states reasoning, the recurring thesis, the closing seam-question) will be hallucinated.",
+    "fix": "Create 01-source.md as a prose document containing the full chapter text the framing references: the father's confrontation at the door, the boy's two-strands offer, the father's rejection of taqiyya and choice of debate, the boy's bind, the weeping concession, the naming of Salih and al-Bakhtari, the community's approach to the senior scholar, the breach-in-medicine figure, the three-states reasoning, the long Salih-Abu Malik dialogue including the Maqrub divorce case, the senior scholar's confession, the recurring thesis, and the chapter's closing seam-question.",
+    "category": "notebooklm"
+  },
+  {
     "file": "02-key-passages.md",
     "anchor": "### Passage 1",
     "severity": "P0",
-    "problem": "File is an unfilled scaffold containing a single empty blockquote and one [LLM-FILL] marker; NotebookLM has no verbatim passages to retrieve when the spine references anchor passages.",
-    "fix": "Populate the file with 6 to 8 verbatim quotes from the chapter: the father's reproach (is this the reward of sons to their fathers?), the boy's bind (either you are a scholar or you are ignorant), the divorce-oath ruling (act on whichever of the two you wish), the breach-in-medicine figure, the three-states reasoning, the testing-forge / glass-in-camouflage parable, the zero-point confession (I do not see that anything is left with me), and the closing seam-question (the attribute is preferable to him — so how is it described?). After each passage add a one-sentence 'Why this matters:' ground line.",
-    "category": "spine"
+    "problem": "Only one stub passage exists with empty quote body and [LLM-FILL] rationale. The discussion spine has no verbatim anchor quotes to retrieve against, and the framing's stipulated verbatim moments have no source binding.",
+    "fix": "Replace with 6 to 8 verbatim passages drawn from 01-source.md once authored. Required passages: the father's reproach 'is this the reward of sons to their fathers?', the boy's bind 'either you are a scholar … or you are ignorant', the divorce-oath ruling 'act on whichever of the two you wish', the breach-in-medicine figure, the three-states reasoning, the senior scholar's confession 'the inherited code of my age has been lost, corrupted, and disrupted', the zero-point line 'I do not see that anything is left with me', the recurring thesis 'the cause that connects heaven to earth, unbroken — the loop of the firm handhold, the rope of those who hold fast, the ark of tranquility and the ship of life and the light of life', and the closing seam-question 'the attribute is preferable to him — so how is it described?'. Each passage gets a one-sentence Why this matters line.",
+    "category": "notebooklm"
   },
   {
     "file": "03-context-pack.md",
     "anchor": "## Author / narrator",
     "severity": "P0",
-    "problem": "All five context-pack sections are [LLM-FILL] placeholders, leaving hosts with no grounding for author, chapter question, lineage, or related works.",
-    "fix": "Fill Author/narrator with the tenth-century Yemeni dialogue-book author identification. Fill 'What this chapter is responding to' with the father-reproach inheritance from chapter four. Fill Tradition/lineage with the Ismaili da'wa pedagogical chain context. Fill Related works with the four prior chapters (the-call-and-the-covenant, will-command-and-the-seven, world-hereafter-and-the-right-of-wealth, the-greater-shaykh-and-the-naming) already listed in 99-show-notes.md Related episodes. Leave 'Why this lands now' as 'Not required for this adaptation mode.' per the existing template note.",
-    "category": "spine"
+    "problem": "Every heading body is [LLM-FILL]. Hosts have no grounding for author identity, tradition, or what the chapter is responding to, increasing hallucination of dates and tradition claims.",
+    "fix": "Fill ## Author / narrator with the tenth-century Yemeni author of the dialogue book; ## What this chapter is responding to with the father's anger at the boy's initiation in Chapter 4 widening into the inherited-fiqh-versus-living-chain debate; ## Tradition / lineage with classical Ismaili dialogue genre, internally qualified per the source-tradition precedence rule; ## Related works with Chapters 1–4 of the same book (slugs already listed in 99-show-notes.md ## Related episodes); leave ## Why this lands now as marked 'Not required for this adaptation mode'.",
+    "category": "notebooklm"
   },
   {
     "file": "04-discussion-spine.md",
     "anchor": "### Beat 1: Opening hook",
     "severity": "P0",
-    "problem": "All 8 spine beats are unfilled — key question, tension, and anchor passage are [LLM-FILL] in every beat, leaving NotebookLM's hidden steering layer empty.",
-    "fix": "Author all 8 beats mapped to the framing's six-beat arc: Beat 1 = divorce-oath crisis; Beat 2 = breach-in-medicine plus three-states; Beat 3 = historical-temporal objection that revelation was cut off by the books; Beat 4 = pivot plus first verbatim recurrence of the cause-that-connects-heaven-to-earth thesis; Beat 5 = testing-forge parable plus three-faces-of-seeking; Beat 6 = zero-point confession plus third verbatim recurrence of the thesis; Beat 7 = senior scholar's doctrinal concession; Beat 8 = closing seam-question 'how is it described?' held unresolved. Each beat must cite a real anchor passage from the populated 02-key-passages.md by passage number.",
-    "category": "spine"
-  },
-  {
-    "file": "04-discussion-spine.md",
-    "anchor": "Tension fields across all beats",
-    "severity": "P0",
-    "problem": "Every Tension line ends 'must draw from: >' — the source-extract injection is empty, indicating the upstream extract_chapter pipeline did not deliver source text into the templating step.",
-    "fix": "Re-run scripts/podcast/extract_chapter.py for this bundle so the tension-extract injector has source text available, then re-template 04-discussion-spine.md. Before authoring beats by hand, verify _system/chapter-contracts/ for this chapter has populated key_quotes and length_target fields; if not, regenerate the contract first.",
+    "problem": "All eight beats are [LLM-FILL]. The hidden steering layer is empty, so NotebookLM has no enforced arc — the recurring-thesis triple-landing, the testing-forge parable, the three faces of seeking, and the closing seam-question are unanchored.",
+    "fix": "Rewrite 04-discussion-spine.md to carry exactly 6 beats, replacing the 8-beat template. Beat 1: Crisis — open on the divorce-oath case; Host A speaks the recurring thesis for the first time. Beat 2: First answer — Host B unfolds the breach-in-medicine figure and the three-states reasoning. Beat 3: Second answer — Host B presses the historical-temporal objection that revelation was cut off by the books. Beat 4: Pivot — Host A speaks the recurring thesis for the second time, word-for-word; argues that a religion grounded only on narration is not religion. Beat 5: Non-bodily correction — Host A unfolds the testing-forge parable and the three faces of seeking; Host B places herself in the third face. Beat 6: Human stakes — Host A speaks the recurring thesis for the third time, word-for-word; Host B voices the chapter's closing seam-question 'how is it described?'. For each beat, fill Key question, Tension drawn from the matching passage in 02-key-passages.md, Anchor passage reference, and Landing.",
     "category": "spine"
   },
   {
     "file": "99-show-notes.md",
     "anchor": "**Blurb:**",
     "severity": "P1",
-    "problem": "Blurb is a single unbroken paragraph of roughly 900 words with stacked inline phonetic parentheticals ((SHAYKH), (SAA-lih), (al-bakh-tah-REE), (KAB al-AH-bar), (mak-ROOB), (a-BOO MAA-lik)) that exceed the ~400-word breath limit and create parenthetical-stacking voice-glitch risk.",
-    "fix": "Split the blurb into 4 paragraphs at natural beat boundaries: paragraph 1 = the father-and-boy reconciliation and naming; paragraph 2 = the senior scholar (Abu Malik) arriving with the breach-and-three-states answer; paragraph 3 = the Salih-and-Abu-Malik dialogue (three faces of seeking, essence-traders parable, divorce-oath case); paragraph 4 = the zero-point confession and closing seam-question. Strip every inline phonetic parenthetical from the blurb body — pronunciation guidance already lives in 00-framing.md ## Pronunciation and does not belong duplicated in the show-notes prose.",
-    "category": "notebooklm"
-  },
-  {
-    "file": "00-framing.md",
-    "anchor": "## Pronunciation",
-    "severity": "P2",
-    "problem": "Pronunciation directives live inline in the framing rather than in a dedicated appendix file referenced from the framing — defensible as a bundle convention, but a drift if other bundles in this book use a separate appendix.",
-    "fix": "Check sibling bundles under content/drafts/the-master-and-the-disciple/_system/episode-drafts/ for whether they use a separate pronunciation appendix or inline ## Pronunciation in framing. If sibling bundles use a separate file, extract this block into 05-pronunciation-appendix.md and replace the framing block with a one-line cross-reference. If sibling bundles are also inline, leave as-is.",
+    "problem": "Blurb voices Arabic personal names with phonetics — Salih, al-Bakhtari, Abu Malik, Ka'b al-Ahbar, Abu Salih, Maqrub — directly contradicting the framing's locked R-NO-ARABIC-NAMES doctrine which mandates the boy, the father, the senior scholar, the petitioner, the early figure of report-without-witness. If NotebookLM ingests show-notes with framing the hosts receive conflicting naming guidance.",
+    "fix": "Replace every Arabic personal name in the blurb with the framing's English stable label. Preserve only the naming-moment aside ('a name meaning the righteous one', no Arabic) exactly as the framing prescribes. Remove the phonetic parenthetical for every personal name; keep phonetic parentheticals only for technical Arabic terms that already appear in the pronunciation map.",
     "category": "pronunciation"
   },
   {
-    "file": "00-framing.md",
-    "anchor": "## Pronunciation",
+    "file": "99-show-notes.md",
+    "anchor": "**Blurb:**",
     "severity": "P1",
-    "problem": "No citation spoken-form appendix exists, even though the chapter's source body invokes multiple surahs. Framing handles surahs by English-meaning naming, which is functionally equivalent but does not document the citation policy for the bundle.",
-    "fix": "If any verbatim Quran verses are quoted in the source body, add a 06-citation-spoken-form.md appendix mapping each Q|Surah:Verse to its natural-speech form. If only English-meaning surah references appear (no verbatim verses), add one sentence to the ## Pronunciation block stating that surahs are spoken by English-meaning name and no Q|S:V citations appear in this chapter.",
+    "problem": "The blurb is one paragraph of roughly 1,200 words containing dense parenthetical stacking and em-dash chains. It exceeds the 400-word breath ceiling and the framing's no-bold-no-italics articulation rule (asterisk italics on every quote and term).",
+    "fix": "Rewrite the blurb as three to four short prose paragraphs of no more than 200 words each. Drop every asterisk-italic and asterisk-bold. Split em-dash chains into separate sentences. Cut the Chapters 1–4 recap down to one sentence ('Chapter 4 ended on the father's anger; this chapter answers it and then widens to a senior scholar sent to judge the boy'). Do not pre-state the recurring thesis in the blurb — let it land only inside the episode.",
+    "category": "articulation"
+  },
+  {
+    "file": "99-show-notes.md",
+    "anchor": "## References",
+    "severity": "P2",
+    "problem": "References section contains only the literal placeholder character '>'.",
+    "fix": "Replace with a single reference line citing the tenth-century dialogue book by author and chapter, or remove the ## References section entirely if no canonical citation is available.",
     "category": "citation"
+  },
+  {
+    "file": "00-framing.md",
+    "anchor": "## Opening directive",
+    "severity": "P1",
+    "problem": "Framing uses asterisk-bold for section labels (**Episode format:**, **Host A …**, **Audience**, **Length**) and asterisk-italics for every verbatim quotation and inline directive, violating the house articulation rule of no bold and no italics.",
+    "fix": "Convert every **…** to plain text (rely on heading hierarchy for emphasis). Convert every *…* to double-quoted text when the asterisks carry verbatim-quote weight. Leave heading markup intact.",
+    "category": "articulation"
+  },
+  {
+    "file": "00-framing.md",
+    "anchor": "## Roles + positions",
+    "severity": "P1",
+    "problem": "Host B is simultaneously framed as the female voice in the male-scholar / female-learner role pairing AND as 'the senior scholar of the old creed' who carries doctrinal teaching authority. The two assignments conflict on which register the female voice should hold.",
+    "fix": "Add one paragraph to ## Roles + positions clarifying that the female voice carries the senior-scholar's argument from inside the chapter as a position she defends and ends by conceding, not as her own teaching authority. The learner register returns at Beats 5 and 6 once she concedes and asks 'so how is it described?'.",
+    "category": "host-role"
+  },
+  {
+    "file": "00-framing.md",
+    "anchor": "(top of file, before ## Opening directive)",
+    "severity": "P2",
+    "problem": "No explicit NotebookLM Length-setting directive. The framing's 50–60 minute target implies Long pacing but does not state it for the operator's upload table.",
+    "fix": "Add a one-line directive at the top of the framing: 'NotebookLM Length: Long.' Place it immediately after the title heading.",
+    "category": "format"
+  },
+  {
+    "file": "00-framing.md",
+    "anchor": "## Length",
+    "severity": "P2",
+    "problem": "Length target of 50–60 minutes cannot be calibrated against source volume because 01-source.md is missing.",
+    "fix": "After 01-source.md is authored, verify its word count supports 50–60 minutes at NotebookLM Long pacing (~6,500–8,500 source words). If the source is thinner, drop the target to 40–50 minutes; if denser, raise to 60–70 minutes.",
+    "category": "length"
   }
 ]
 ```
