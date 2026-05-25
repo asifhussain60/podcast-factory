@@ -1301,10 +1301,17 @@ def _resolve_book_tradition(file_path: Path) -> str:
     and read `source_tradition`. Returns lowercase tradition slug, or 'islam'
     if not declared (legacy default — the only books shipped pre-F34 are
     Islamic, so this preserves their behavior).
+
+    Edge case (audit A4 follow-up): if `file_path` happens to be a directory
+    that contains series-config.yaml directly, the original walk would skip
+    the config by calling .parent first. Fixed by checking file_path's own
+    containing directory BEFORE walking up.
     """
-    cursor = file_path.resolve()
+    resolved = file_path.resolve()
+    # If file_path is a file, start search at its parent directory.
+    # If it's already a directory, start search at file_path itself.
+    cursor = resolved if resolved.is_dir() else resolved.parent
     for _ in range(8):  # walk up at most 8 levels
-        cursor = cursor.parent
         cfg = cursor / "series-config.yaml"
         if cfg.exists():
             try:
@@ -1318,6 +1325,7 @@ def _resolve_book_tradition(file_path: Path) -> str:
             break  # found a config but no tradition field
         if cursor == cursor.parent:
             break
+        cursor = cursor.parent
     return "islam"  # legacy default
 
 
