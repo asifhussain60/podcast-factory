@@ -3,7 +3,7 @@
 bundle_schema_version: 1
 source: kashkole
 source_language: ur
-stage: translated
+stage: adapted
 shelf:
   kind: binder
   id: 32
@@ -145,3 +145,7 @@ translation:
   sections_translated: 0
   char_count: 0
   azure_cost_usd: 0.000000
+adaptation:
+  engine: deterministic-passthrough
+  completed_at: 2026-05-25T09:27:45.647690+00:00
+  adapt_cost_usd: 0.000000
