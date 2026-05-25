@@ -1,0 +1,15 @@
+{
+  "check_id": "R-NO-FAUX-PROFUNDITY-OPENING",
+  "detector": "faux_profundity",
+  "severity": "P0",
+  "rubric_version": "2.2",
+  "applies_to": ["first_200_chars_of_opening_section", "first_paragraph_of_chapter"],
+  "hits": [
+    "can we find meaning",
+    "have you ever wondered",
+    "imagine for a moment",
+    "in an age",
+    "picture this:",
+    "what it truly means to be human"
+  ]
+}

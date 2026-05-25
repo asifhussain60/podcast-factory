@@ -1,0 +1,9 @@
+{
+  "check_id": "R-NO-ESSENTIALISM-EXTERNAL",
+  "detector": "essentialism",
+  "severity": "clean",
+  "rubric_version": "2.2",
+  "tradition_context": "internal_qualified",
+  "note": "When the book's source_tradition IS the tradition being discussed AND every claim is internally-qualified (school, jurist, century, institutional voice), the essentialism rule is satisfied. This fixture is a NEGATIVE example — it should NOT trip R-NO-ESSENTIALISM-EXTERNAL.",
+  "hits": []
+}

@@ -1,0 +1,20 @@
+{
+  "check_id": "R-NO-AI-CLICHE",
+  "detector": "ai_cliche",
+  "severity": "P0",
+  "rubric_version": "2.2",
+  "hits": [
+    "buckle up",
+    "deep dive",
+    "fascinating world",
+    "join us as we",
+    "journey into",
+    "journey through",
+    "let's dive in",
+    "let's get started",
+    "mind blown",
+    "today's episode",
+    "today we'll discuss",
+    "without further ado"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "check_id": "R-NO-ESSENTIALISM-EXTERNAL",
+  "detector": "essentialism",
+  "severity": "P0",
+  "rubric_version": "2.2",
+  "tradition_context": "external",
+  "note": "Severity P0 because the book's source_tradition (e.g. ismaili) is NOT the tradition being characterized (christianity, buddhism, hinduism, islam in non-ismaili register).",
+  "hits": [
+    "Buddhists believe",
+    "Christian view holds",
+    "Hindus think",
+    "In Christianity,",
+    "Islamic view states",
+    "Real Buddhists would never"
+  ]
+}
