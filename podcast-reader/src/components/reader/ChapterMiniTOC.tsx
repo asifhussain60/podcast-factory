@@ -38,7 +38,7 @@ export default function ChapterMiniTOC() {
   if (items.length < 2) return null;
 
   return (
-    <nav className="text-[12px] leading-snug">
+    <nav className="text-[13.5px] leading-snug">
       <div className="mb-2 font-ui text-[10px] font-semibold uppercase tracking-wider text-stone-500">
         In this chapter
       </div>

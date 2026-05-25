@@ -1,6 +1,5 @@
 ---
 import '~/styles/global.css';
-import Legend from '~/components/reader/Legend';
 import ArabicToggle from '~/components/reader/ArabicToggle';
 import ReaderSettings from '~/components/reader/ReaderSettings';
 import Icon from '~/components/ui/Icon.astro';
@@ -26,14 +25,12 @@ const { title, worktree, book, breadcrumb = [], showRail = true } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <ThemeScript />
   </head>
-  <body class="min-h-screen bg-stone-50 text-stone-900 antialiased">
-    <!-- Legend button is fixed top-right of viewport so it can't be missed -->
-    <Legend client:load />
+  <body class="min-h-screen antialiased" style="background: var(--color-surface-page); color: var(--color-ink);">
 
     <div class="flex min-h-screen">
       <!-- Left TOC sidebar (sticky so it stays in view while scrolling content) -->
-      <aside class="sticky top-0 hidden h-screen w-80 shrink-0 self-start overflow-hidden border-r border-stone-300 bg-stone-50 lg:flex lg:flex-col">
-        <div class="border-b border-stone-300 bg-white px-4 py-3">
+      <aside class="sticky top-0 hidden h-screen w-80 shrink-0 self-start overflow-hidden border-r lg:flex lg:flex-col" style="background: var(--color-surface-sunken); border-color: var(--color-rule-default);">
+        <div class="border-b px-4 py-3" style="background: var(--color-surface-raised); border-color: var(--color-rule-default);">
           <a href="/" class="font-ui inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-stone-500 hover:text-stone-900">
             <Icon name="arrow-left" size={12} />
             Podcast Reader
@@ -59,7 +56,7 @@ const { title, worktree, book, breadcrumb = [], showRail = true } = Astro.props;
 
       <!-- Center reading column -->
       <div class="relative flex flex-1 flex-col">
-        <header class="sticky top-0 z-10 border-b border-stone-200 bg-white/85 backdrop-blur">
+        <header class="sticky top-0 z-10 border-b backdrop-blur" style="background: color-mix(in oklab, var(--color-surface-raised) 85%, transparent); border-color: var(--color-rule-subtle);">
           <div class="mx-auto flex max-w-5xl items-center justify-between px-6 py-3 text-sm text-stone-600">
             <nav class="flex items-center gap-2">
               {breadcrumb.map((b, i) => (
@@ -86,7 +83,7 @@ const { title, worktree, book, breadcrumb = [], showRail = true } = Astro.props;
 
       <!-- Right rail (chapter mini-TOC + instruction panel + Ask sidebar) -->
       {showRail && (
-        <aside class="sticky top-0 hidden h-screen w-80 shrink-0 self-start overflow-y-auto border-l border-stone-200 bg-white px-4 py-5 xl:block dark:border-stone-700 dark:bg-stone-900">
+        <aside class="sticky top-0 hidden h-screen w-80 shrink-0 self-start overflow-y-auto border-l px-4 py-5 xl:block" style="background: var(--color-surface-raised); border-color: var(--color-rule-default);">
           <slot name="rail" />
         </aside>
       )}
