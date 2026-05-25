@@ -1,8 +1,8 @@
 # the-master-and-the-disciple — published podcast assets
 
-Published from `content/drafts/the-master-and-the-disciple/` to this directory on **2026-05-25T21:24:06Z**.
+Published from `content/drafts/the-master-and-the-disciple/` to this directory on **2026-05-25T21:39:00Z**.
 
-- **Source git ref:** `book/the-master-and-the-disciple@3577670f9d8d`
+- **Source git ref:** `develop@a664c7c94eef`
 - **Episode count:** 6
 - **NotebookLM mode:** 2-voice Extended Deep Dive
 

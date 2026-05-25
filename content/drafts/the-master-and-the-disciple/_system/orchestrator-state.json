@@ -112,7 +112,7 @@
     },
     "publish": {
       "status": "completed",
-      "ts": "2026-05-25T21:24:00Z",
+      "ts": "2026-05-25T21:45:00Z",
       "extras": {
         "published_to": "content/published/books/the-master-and-the-disciple",
         "gates_passed": [
@@ -125,7 +125,8 @@
           "G7"
         ],
         "episodes_shipped": 6,
-        "doctrine": "v4 + v2.2 + F30 + scaffold-retirement"
+        "show_notes_shipped": 6,
+        "doctrine": "v4 + v2.2 + F30 + scaffold-retirement + show-notes-polish-2026-05-25"
       }
     }
   },

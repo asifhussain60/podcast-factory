@@ -503,6 +503,27 @@ def publish(slug: str, args: argparse.Namespace) -> int:
         shutil.copy2(ep, target / "episodes" / ep.name)
     _info(f"    copied {len(episodes)} episode(s)")
 
+    # 2026-05-25 enhancement: ship the per-chapter show-notes apparatus too.
+    # 99-show-notes.md lives in drafts/<slug>/_system/episode-drafts/EP##-<slug>/
+    # and IS what listener-facing library readers (podcast-reader) display
+    # alongside the episode. Previously these stayed in drafts only, which made
+    # the polish work invisible to the audience. Now each EP## ships its
+    # show-notes file as published/books/<slug>/show-notes/EP##-<slug>.md.
+    # Silent-skip per chapter when no show-notes file exists (back-compat).
+    show_notes_count = 0
+    drafts_dir = workspace / "_system" / "episode-drafts"
+    if drafts_dir.is_dir():
+        sn_target = target / "show-notes"
+        sn_target.mkdir(exist_ok=True)
+        for ep in episodes:
+            ep_stem = ep.stem  # EP01-the-call-and-the-covenant
+            sn_src = drafts_dir / ep_stem / "99-show-notes.md"
+            if sn_src.exists():
+                shutil.copy2(sn_src, sn_target / f"{ep_stem}.md")
+                show_notes_count += 1
+        if show_notes_count:
+            _info(f"    copied {show_notes_count} show-notes file(s)")
+
     sha = git_sha()
     branch = git_branch()
     readme = render_readme(slug, chapters, episodes, sha, branch)
