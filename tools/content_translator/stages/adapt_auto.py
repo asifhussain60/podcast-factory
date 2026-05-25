@@ -91,18 +91,27 @@ _SECTION_MARKER_RE = re.compile(
 )
 
 
-def _load_api_key() -> str:
+def _call_claude_p(user_content: str, timeout: int = 600) -> tuple[str, int, int]:
+    """Shell out to `claude -p` (Max subscription — no API key, no quota).
+
+    Combines SYSTEM_PROMPT + user_content into one prompt string, matching the
+    pattern used by _authoring.py and audit_bundle.py throughout the pipeline.
+    Returns (response_text, 0, 0) — token counts are unavailable via claude -p;
+    cost is $0.00 (covered by Max subscription).
+    """
+    full_prompt = SYSTEM_PROMPT + "\n\n---\n\n" + user_content
     result = subprocess.run(
-        ["security", "find-generic-password", "-s", "anthropic-api-key", "-a", "anthropic", "-w"],
-        capture_output=True, text=True,
+        ["claude", "-p", full_prompt],
+        capture_output=True,
+        text=True,
+        timeout=timeout,
+        check=False,
     )
-    if result.returncode == 0 and result.stdout.strip():
-        return result.stdout.strip()
-    import os
-    key = os.environ.get("ANTHROPIC_API_KEY", "")
-    if key:
-        return key
-    raise RuntimeError("Anthropic API key not found. Check keychain entry 'anthropic-api-key'.")
+    if result.returncode != 0:
+        raise RuntimeError(
+            f"claude -p exited {result.returncode}.\nstderr: {result.stderr[:400]}"
+        )
+    return result.stdout.strip(), 0, 0
 
 
 def _find_r2_entries(binder_id: int, chapter_id: int) -> list[dict]:
@@ -230,19 +239,6 @@ def _check_chunk_markers(source_chunk: str, adapted_chunk: str) -> list[str]:
         violations.append(f"V3: {len(missing_q)} quran marker(s) missing: {' '.join(sorted(missing_q))}")
     return violations
 
-
-def _call_api(user_content: str, api_key: str) -> tuple[str, int, int]:
-    """Call Anthropic API. Returns (response_text, input_tokens, output_tokens)."""
-    import anthropic  # available in venv
-    client = anthropic.Anthropic(api_key=api_key)
-    response = client.messages.create(
-        model=MODEL,
-        max_tokens=16000,
-        system=SYSTEM_PROMPT,
-        messages=[{"role": "user", "content": user_content}],
-    )
-    text = response.content[0].text
-    return text, response.usage.input_tokens, response.usage.output_tokens
 
 
 def _parse_response(response_text: str) -> tuple[str, list[dict]]:
@@ -512,8 +508,6 @@ def adapt_bundle_auto(
     else:
         chunks = [raw_text]
 
-    api_key = _load_api_key()
-
     all_adapted_parts: list[str] = []
     all_citations: list[dict] = []
     total_input_tokens = 0
@@ -527,7 +521,7 @@ def adapt_bundle_auto(
         best_cites: list[dict] = []
         best_violations: list[str] = []
         for attempt in range(1, MAX_ADAPT_RETRIES + 1):
-            resp_text, in_tok, out_tok = _call_api(user_msg, api_key)
+            resp_text, in_tok, out_tok = _call_claude_p(user_msg)
             total_input_tokens += in_tok
             total_output_tokens += out_tok
             adapted_part, citations = _parse_response(resp_text)

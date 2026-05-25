@@ -5971,3 +5971,26 @@ anthropic.BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type':
   ❌ [V3] 12 ⟪quran S:A⟫ marker(s) lost in adaptation
       ⟪quran 30:25⟫ ⟪quran 30:21⟫ ⟪quran 30:22⟫ ⟪quran 30:24⟫ ⟪quran 20:25⟫
 
+[2026-05-25T19:12:44.106168+00:00] challenge failed binder=1 chapter=82: challenge failed: ومن کے پاس کا مجمع -->
+      <!-- section 17 (id=1170, raw_sort=17): قبر اور صاحب قبر کا رشتہ -->
+  ⚠ [V2] 80 ⟪ar:…⟫ marker(s) absent or form-changed in adapted
+      ⟪ar:’مدبِر‘⟫ ⟪ar:’مطہرات ‘⟫ ⟪ar:‏ يَٓأَيُّهَا ٱلنَّاسُ أَنتُمُ ٱلْفُقَرَآءُ إِلَى ٱللَّهِۖ وَٱللَّهُ هُوَ ٱلْغَنِىُّ ٱلْحَمِيدُ ‎⟫ ⟪ar:’الا اللہ‘⟫ ⟪ar:’سلطان‘⟫
+  ❌ [V3] 1 ⟪quran S:A⟫ marker(s) lost in adaptation
+      ⟪quran 35:15⟫
+
+[2026-05-25T19:12:45.630735+00:00] challenge failed binder=1 chapter=21: challenge failed:  رَبِّى هَـٰذَآ أَكْبَرُ ۖ فَلَمَّآ أَفَلَتْ قَالَ يَـٰقَوْمِ إِنِّى بَرِىٓءٌۭ مِّمَّا تُشْرِكُونَ⟫ ⟪ar:‏وَمِنْ آيَتِهِۦٓ أَن تَقُومَ ٱلسَّمَآءُ وَٱلْأَرْضُ بِأَمْرِهِۦ ۚ ثُمَّ إِذَا دَعَاكُمْ دَعْوَةًۭ مِّنَ ٱلْأَرْضِ إِذَآ أَنتُمْ تَخْرُجُونَ ‎⟫ ⟪ar:ابراھیم خلیل اللہ⟫
+  ❌ [V3] 12 ⟪quran S:A⟫ marker(s) lost in adaptation
+      ⟪quran 30:23⟫ ⟪quran 94:1⟫ ⟪quran 20:25⟫ ⟪quran 30:25⟫ ⟪quran 66:6⟫
+
+[2026-05-25T19:13:11.567485+00:00] challenge failed binder=1 chapter=82: challenge failed: aw_sort=15): ائمہ کے انضمامات -->
+      <!-- section 16 (id=1169, raw_sort=16): مومن کے پاس کا مجمع -->
+      <!-- section 17 (id=1170, raw_sort=17): قبر اور صاحب قبر کا رشتہ -->
+  ⚠ [V2] 80 ⟪ar:…⟫ marker(s) absent or form-changed in adapted
+      ⟪ar:’مَقَامَ رَبِّہ‘⟫ ⟪ar:’جَنَّتاَنِ‘⟫ ⟪ar:قائمی صورت⟫ ⟪ar:’فتح ‘⟫ ⟪ar:’حیدر‘⟫
+  ❌ [V3] 1 ⟪quran S:A⟫ marker(s) lost in adaptation
+      ⟪quran 35:15⟫
+
+[2026-05-25T19:13:13.072103+00:00] challenge failed binder=1 chapter=21: challenge failed: لُونَ مَا يُؤْمَرُونَ ‎⟫ ⟪ar:‏وَمِنْ آيَتِهِۦٓ أَن تَقُومَ ٱلسَّمَآءُ وَٱلْأَرْضُ بِأَمْرِهِۦ ۚ ثُمَّ إِذَا دَعَاكُمْ دَعْوَةًۭ مِّنَ ٱلْأَرْضِ إِذَآ أَنتُمْ تَخْرُجُونَ ‎⟫ ⟪ar:‏سَلَمٌ هِىَ حَتَّىٰ مَطْلَعِ ٱلْفَجْرِ ‎⟫ ⟪ar:’حضرات‘⟫ ⟪ar:### آیت تطھیر کا درمیانی نقطۃ:⟫
+  ❌ [V3] 12 ⟪quran S:A⟫ marker(s) lost in adaptation
+      ⟪quran 30:25⟫ ⟪quran 30:24⟫ ⟪quran 30:23⟫ ⟪quran 30:46⟫ ⟪quran 30:21⟫
+

@@ -52,18 +52,25 @@ One sentence on why you assigned PASS / WARN / FAIL.\
 """
 
 
-def _load_api_key() -> str:
+def _call_claude_p(user_content: str, timeout: int = 120) -> tuple[str, int, int]:
+    """Shell out to `claude -p` (Max subscription — no API key, no quota).
+
+    Returns (response_text, 0, 0) — token counts unavailable via claude -p;
+    cost is $0.00 (covered by Max subscription).
+    """
+    full_prompt = CHALLENGE_SYSTEM_PROMPT + "\n\n---\n\n" + user_content
     result = subprocess.run(
-        ["security", "find-generic-password", "-s", "anthropic-api-key", "-a", "anthropic", "-w"],
-        capture_output=True, text=True,
+        ["claude", "-p", full_prompt],
+        capture_output=True,
+        text=True,
+        timeout=timeout,
+        check=False,
     )
-    if result.returncode == 0 and result.stdout.strip():
-        return result.stdout.strip()
-    import os
-    key = os.environ.get("ANTHROPIC_API_KEY", "")
-    if key:
-        return key
-    raise RuntimeError("Anthropic API key not found.")
+    if result.returncode != 0:
+        raise RuntimeError(
+            f"claude -p exited {result.returncode}.\nstderr: {result.stderr[:400]}"
+        )
+    return result.stdout.strip(), 0, 0
 
 
 def _read_stage(bundle_yml: Path) -> str:
@@ -118,18 +125,6 @@ def _append_cost_ledger(binder_id: Optional[int], chapter_id: Optional[int], cos
     with CHALLENGE_COST_LEDGER.open("a", encoding="utf-8") as f:
         f.write(json.dumps(entry, ensure_ascii=False) + "\n")
 
-
-def _call_api(user_content: str, api_key: str) -> tuple[str, int, int]:
-    import anthropic
-    client = anthropic.Anthropic(api_key=api_key)
-    response = client.messages.create(
-        model=MODEL,
-        max_tokens=1024,
-        system=CHALLENGE_SYSTEM_PROMPT,
-        messages=[{"role": "user", "content": user_content}],
-    )
-    text = response.content[0].text
-    return text, response.usage.input_tokens, response.usage.output_tokens
 
 
 def _extract_verdict(report_text: str) -> str:
@@ -190,8 +185,6 @@ def challenge_bundle(
             "cost_usd": 0.0,
         }
 
-    api_key = _load_api_key()
-
     # Build challenge input: first 8KB of adapted + validator findings
     adapted_text = adapted.read_text(encoding="utf-8") if adapted.exists() else ""
     raw_text = raw_en.read_text(encoding="utf-8") if raw_en.exists() else ""
@@ -216,7 +209,7 @@ def challenge_bundle(
         f"CITATIONS SAMPLE:\n{citations_sample}"
     )
 
-    report_text, in_tok, out_tok = _call_api(user_content, api_key)
+    report_text, in_tok, out_tok = _call_claude_p(user_content)
     verdict = _extract_verdict(report_text)
     cost_usd = (in_tok * _INPUT_COST_PER_M + out_tok * _OUTPUT_COST_PER_M) / 1_000_000
     completed_at = datetime.now(timezone.utc).isoformat()
