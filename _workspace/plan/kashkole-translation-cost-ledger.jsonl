@@ -107,3 +107,14 @@
 {"binder_id": 8, "chapter_id": 85, "phase": "translate", "cost_usd": 0.12832, "completed_at": "2026-05-25T09:02:12.504532+00:00"}
 {"binder_id": 8, "chapter_id": 22, "phase": "translate", "cost_usd": 0.28533, "completed_at": "2026-05-25T09:02:16.535928+00:00"}
 {"binder_id": 8, "chapter_id": 18, "phase": "translate", "cost_usd": 2.38353, "completed_at": "2026-05-25T09:02:39.718166+00:00"}
+{"binder_id": 23, "chapter_id": 63, "phase": "translate", "cost_usd": 0.03358, "completed_at": "2026-05-25T09:02:42.364715+00:00"}
+{"binder_id": 23, "chapter_id": 69, "phase": "translate", "cost_usd": 0.37113, "completed_at": "2026-05-25T09:02:48.412584+00:00"}
+{"binder_id": 23, "chapter_id": 70, "phase": "translate", "cost_usd": 0.38642, "completed_at": "2026-05-25T09:02:53.681826+00:00"}
+{"binder_id": 23, "chapter_id": 72, "phase": "translate", "cost_usd": 0.3223, "completed_at": "2026-05-25T09:02:59.300062+00:00"}
+{"binder_id": 23, "chapter_id": 83, "phase": "translate", "cost_usd": 0.25247, "completed_at": "2026-05-25T09:03:04.700411+00:00"}
+{"binder_id": 23, "chapter_id": 60, "phase": "translate", "cost_usd": 0.56346, "completed_at": "2026-05-25T09:03:11.009920+00:00"}
+{"binder_id": 23, "chapter_id": 59, "phase": "translate", "cost_usd": 0.06783, "completed_at": "2026-05-25T09:03:13.277652+00:00"}
+{"binder_id": 23, "chapter_id": 38, "phase": "translate", "cost_usd": 0.40863, "completed_at": "2026-05-25T09:03:30.286531+00:00"}
+{"binder_id": 23, "chapter_id": 87, "phase": "passthrough", "cost_usd": 0.0, "completed_at": "2026-05-25T09:03:31.862662+00:00"}
+{"binder_id": 23, "chapter_id": 55, "phase": "translate", "cost_usd": 0.70664, "completed_at": "2026-05-25T09:03:46.331887+00:00"}
+{"binder_id": 23, "chapter_id": 148, "phase": "translate", "cost_usd": 0.0492, "completed_at": "2026-05-25T09:03:49.013560+00:00"}
