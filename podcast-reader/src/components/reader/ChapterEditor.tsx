@@ -1,22 +1,27 @@
 /**
- * ChapterEditor — review-mode editor over the rendered chapter.
+ * ChapterEditor — ambient inline review-editor.
  *
- * One toggle (pencil icon in header or `e` key) turns every block in
- * .prose-body into a contenteditable region. On mount we snapshot the
- * original plain text of each block keyed by a stable id derived from
- * tag + position. As edits happen we diff current-vs-original; the
- * right-rail panel lists every change with one-click revert.
+ * No edit-mode toggle. Every block in .prose-body is always click-to-
+ * edit: hover surfaces a subtle ring, click promotes the block to a
+ * carved-border editor, click outside (blur) commits + visually marks
+ * changes in the user-chosen edit-highlight color.
  *
- * "Copy patch" emits a parseable markdown patch including base-sha so
- * Claude can apply it cleanly to the source .txt and refuse if the
- * source has drifted since the snapshot.
+ * Per-block hover chips (↺ revert / ✕ delete / ✦ rewrite) appear on
+ * changed blocks so no panel trip is needed for common operations.
  *
- * Annotations: select text + ⌘⇧A drops a margin note that travels in
- * the patch as `## note#N` without changing the prose.
+ * Annotations: select + ⌘⇧A drops a margin note. Quoted selection
+ * preserved. Uses the shared PopupCard modal.
  *
- * AI-assist: with edit mode ON, selecting text reveals a sparkle
- * button. Click → Gemini Flash returns 3 rewrite options as cards;
- * accept replaces the selection, reject discards.
+ * AI rewrite: selecting >12 chars surfaces a floating sparkle button
+ * with mode picker. Click → Gemini Flash returns 3 cards in a
+ * PopupCard.
+ *
+ * AI instruction: a separate ChapterInstructionPanel (right rail)
+ * dispatches `chapter-editor:apply-edits` events that this island
+ * consumes to apply block-level edits with a flash animation.
+ *
+ * Copy-patch: floating bottom-left panel summarises changes + emits
+ * a base-sha-stamped markdown patch to the clipboard.
  */
 
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -25,16 +30,16 @@ interface Props {
   book: string;
   chapterSlug: string;
   chapterTitle: string;
-  /** Raw source .txt content. Used for base-sha and for the patch header. */
   sourceText: string;
 }
 
 interface BlockSnapshot {
   id: string;
-  tag: string;       // p, h2, h3, li, blockquote
+  tag: string;
   original: string;
   current: string;
   deleted: boolean;
+  source: 'user' | 'ai';
 }
 
 interface Annotation {
@@ -44,7 +49,7 @@ interface Annotation {
   note: string;
 }
 
-interface RewriteSuggestion {
+interface RewriteState {
   rect: DOMRect;
   selection: string;
   blockId: string;
@@ -60,123 +65,164 @@ async function sha1Hex(s: string): Promise<string> {
   return Array.from(new Uint8Array(hash)).map((b) => b.toString(16).padStart(2, '0')).join('');
 }
 
+function plainText(el: HTMLElement): string {
+  return (el.innerText || '').replace(/\s+/g, ' ').trim();
+}
+
 function assignBlockIds(): HTMLElement[] {
   const article = document.querySelector('.prose-body');
   if (!article) return [];
   const blocks = Array.from(article.querySelectorAll('p, h1, h2, h3, h4, li, blockquote')) as HTMLElement[];
   const counters: Record<string, number> = {};
-  const headingStack: string[] = [];
+  let currentHeading = 'top';
   blocks.forEach((el) => {
     const tag = el.tagName.toLowerCase();
     if (tag === 'h1' || tag === 'h2' || tag === 'h3' || tag === 'h4') {
       const slug = el.id || el.textContent?.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40) || tag;
       el.dataset.editorId = `${tag}:${slug}`;
-      headingStack.length = 0;
-      headingStack.push(slug);
+      currentHeading = slug;
       return;
     }
     counters[tag] = (counters[tag] ?? 0) + 1;
-    const ctx = headingStack[0] ?? 'top';
-    el.dataset.editorId = `${tag}:${ctx}#${counters[tag]}`;
+    el.dataset.editorId = `${tag}:${currentHeading}#${counters[tag]}`;
   });
   return blocks;
 }
 
-function plainText(el: HTMLElement): string {
-  return (el.innerText || '').replace(/\s+/g, ' ').trim();
+function collectBlocksForAI(): { id: string; tag: string; text: string }[] {
+  const blocks = Array.from(document.querySelectorAll<HTMLElement>('.prose-body [data-editor-id]'));
+  return blocks.map((b) => ({ id: b.dataset.editorId!, tag: b.tagName.toLowerCase(), text: plainText(b) }));
 }
 
 export default function ChapterEditor({ book, chapterSlug, chapterTitle, sourceText }: Props) {
-  const [editing, setEditing] = useState(false);
   const [snapshots, setSnapshots] = useState<Map<string, BlockSnapshot>>(new Map());
   const [annotations, setAnnotations] = useState<Annotation[]>([]);
-  const [panelOpen, setPanelOpen] = useState(true);
-  const [baseSha, setBaseSha] = useState<string>('');
+  const [panelOpen, setPanelOpen] = useState(false);
+  const [baseSha, setBaseSha] = useState('');
   const [copied, setCopied] = useState(false);
   const [annotateBlockId, setAnnotateBlockId] = useState<string | null>(null);
   const [annotateText, setAnnotateText] = useState('');
   const [annotateSelection, setAnnotateSelection] = useState('');
-  const [rewrite, setRewrite] = useState<RewriteSuggestion | null>(null);
+  const [rewrite, setRewrite] = useState<RewriteState | null>(null);
   const [rewriteMode, setRewriteMode] = useState<'clarify' | 'tighten' | 'simplify' | 'formal'>('clarify');
-  const observerRef = useRef<MutationObserver | null>(null);
+  const hintShownRef = useRef(false);
 
-  // Compute base sha once.
-  useEffect(() => {
-    sha1Hex(sourceText).then((h) => setBaseSha(h.slice(0, 12)));
-  }, [sourceText]);
+  // base sha
+  useEffect(() => { sha1Hex(sourceText).then((h) => setBaseSha(h.slice(0, 12))); }, [sourceText]);
 
-  // Init snapshots + assign ids on mount.
+  // assign ids + take snapshots
   useEffect(() => {
     const blocks = assignBlockIds();
     const map = new Map<string, BlockSnapshot>();
     blocks.forEach((b) => {
       const id = b.dataset.editorId!;
-      const txt = plainText(b);
-      map.set(id, { id, tag: b.tagName.toLowerCase(), original: txt, current: txt, deleted: false });
+      const t = plainText(b);
+      map.set(id, { id, tag: b.tagName.toLowerCase(), original: t, current: t, deleted: false, source: 'user' });
     });
     setSnapshots(map);
   }, []);
 
-  // Toggle contenteditable + ring class on blocks when editing flips.
+  // Ambient click-to-edit: install once on the article.
   useEffect(() => {
-    const blocks = Array.from(document.querySelectorAll<HTMLElement>('.prose-body [data-editor-id]'));
-    blocks.forEach((b) => {
-      if (editing) {
-        b.setAttribute('contenteditable', 'true');
-        b.classList.add('editor-block');
-        b.setAttribute('spellcheck', 'true');
-      } else {
-        b.removeAttribute('contenteditable');
-        b.classList.remove('editor-block', 'editor-block-changed', 'editor-block-deleted');
-        b.removeAttribute('spellcheck');
-      }
-    });
-    document.documentElement.classList.toggle('chapter-editor-on', editing);
-    return () => {
-      blocks.forEach((b) => b.removeAttribute('contenteditable'));
-    };
-  }, [editing]);
-
-  // Live diff via input events + MutationObserver. We listen at the
-  // article level once so adding/removing blocks doesn't lose state.
-  useEffect(() => {
-    if (!editing) return;
-    const article = document.querySelector('.prose-body');
+    const article = document.querySelector('.prose-body') as HTMLElement | null;
     if (!article) return;
 
-    const onInput = (e: Event) => {
-      const target = (e.target as HTMLElement).closest('[data-editor-id]') as HTMLElement | null;
-      if (!target) return;
-      const id = target.dataset.editorId!;
-      const text = plainText(target);
+    const onClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const block = target.closest('[data-editor-id]') as HTMLElement | null;
+      if (!block || block.getAttribute('contenteditable') === 'true') return;
+      // Don't intercept clicks on glossary spans (term popover handles those)
+      if (target.closest('.ar-overlay')) return;
+      // Don't intercept clicks on hover-chips
+      if (target.closest('.edit-block-actions') || target.closest('.edit-block-chip')) return;
+      block.setAttribute('contenteditable', 'true');
+      block.setAttribute('spellcheck', 'true');
+      // Place caret where user clicked, if possible
+      const sel = window.getSelection();
+      if (sel && sel.rangeCount > 0) {
+        // browser already set caret at click point
+      } else {
+        block.focus();
+      }
+    };
+
+    const onBlur = (e: FocusEvent) => {
+      const block = e.target as HTMLElement;
+      if (!block.matches?.('[data-editor-id][contenteditable="true"]')) return;
+      const id = block.dataset.editorId!;
+      block.removeAttribute('contenteditable');
+      block.removeAttribute('spellcheck');
       setSnapshots((prev) => {
         const next = new Map(prev);
         const snap = next.get(id);
         if (!snap) return prev;
-        const changed = text !== snap.original;
-        target.classList.toggle('editor-block-changed', changed);
-        next.set(id, { ...snap, current: text });
+        const txt = plainText(block);
+        const changed = txt !== snap.original;
+        block.classList.toggle('edit-block-changed', changed && !snap.deleted);
+        next.set(id, { ...snap, current: txt });
         return next;
       });
     };
-    article.addEventListener('input', onInput);
-    return () => article.removeEventListener('input', onInput);
-  }, [editing]);
 
-  // Keyboard: e toggles, ⌘⇧A annotates selection.
+    const onInput = (e: Event) => {
+      const block = (e.target as HTMLElement).closest('[data-editor-id][contenteditable="true"]') as HTMLElement | null;
+      if (!block) return;
+      const id = block.dataset.editorId!;
+      const txt = plainText(block);
+      setSnapshots((prev) => {
+        const next = new Map(prev);
+        const snap = next.get(id);
+        if (!snap) return prev;
+        next.set(id, { ...snap, current: txt });
+        return next;
+      });
+    };
+
+    article.addEventListener('click', onClick);
+    article.addEventListener('blur', onBlur, true);  // capture for blur (doesn't bubble)
+    article.addEventListener('input', onInput);
+    return () => {
+      article.removeEventListener('click', onClick);
+      article.removeEventListener('blur', onBlur, true);
+      article.removeEventListener('input', onInput);
+    };
+  }, []);
+
+  // First-visit hint
+  useEffect(() => {
+    if (hintShownRef.current) return;
+    if (sessionStorage.getItem('podcast-reader:edit-hint-seen')) return;
+    hintShownRef.current = true;
+    setTimeout(() => {
+      sessionStorage.setItem('podcast-reader:edit-hint-seen', '1');
+    }, 5000);
+  }, []);
+
+  // Selection-driven rewrite sparkle
+  useEffect(() => {
+    const onSelChange = () => {
+      const sel = window.getSelection();
+      if (!sel || sel.isCollapsed) { setRewrite((r) => r && !r.options.length ? null : r); return; }
+      const text = sel.toString().trim();
+      if (text.length < 12) return;
+      const anchorEl = sel.anchorNode?.parentElement?.closest('[data-editor-id]') as HTMLElement | null;
+      if (!anchorEl) return;
+      const range = sel.getRangeAt(0).cloneRange();
+      const rect = range.getBoundingClientRect();
+      setRewrite({ rect, selection: text, blockId: anchorEl.dataset.editorId!, range, loading: false, options: [] });
+    };
+    document.addEventListener('selectionchange', onSelChange);
+    return () => document.removeEventListener('selectionchange', onSelChange);
+  }, []);
+
+  // ⌘⇧A annotation
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      const tag = (e.target as HTMLElement)?.tagName?.toLowerCase();
-      const inEditable = tag === 'input' || tag === 'textarea' || (e.target as HTMLElement)?.isContentEditable;
-      if (!inEditable && e.key === 'e' && !e.metaKey && !e.ctrlKey && !e.altKey) {
-        e.preventDefault();
-        setEditing((v) => !v);
-      }
       if ((e.metaKey || e.ctrlKey) && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
         e.preventDefault();
         const sel = window.getSelection();
         if (!sel || sel.isCollapsed) return;
-        const block = (sel.anchorNode?.parentElement?.closest('[data-editor-id]')) as HTMLElement | null;
+        const block = sel.anchorNode?.parentElement?.closest('[data-editor-id]') as HTMLElement | null;
         if (!block) return;
         setAnnotateBlockId(block.dataset.editorId!);
         setAnnotateSelection(sel.toString().slice(0, 200));
@@ -187,40 +233,69 @@ export default function ChapterEditor({ book, chapterSlug, chapterTitle, sourceT
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
-  // Show floating sparkle on selection (edit mode only).
+  // Listen for AI-instruction edits dispatched by the instruction panel
   useEffect(() => {
-    if (!editing) return;
-    const onSelChange = () => {
-      const sel = window.getSelection();
-      if (!sel || sel.isCollapsed) { setRewrite(null); return; }
-      const text = sel.toString().trim();
-      if (text.length < 12) return;
-      const anchorEl = sel.anchorNode?.parentElement?.closest('[data-editor-id]') as HTMLElement | null;
-      if (!anchorEl) return;
-      const range = sel.getRangeAt(0).cloneRange();
-      const rect = range.getBoundingClientRect();
-      setRewrite({
-        rect,
-        selection: text,
-        blockId: anchorEl.dataset.editorId!,
-        range,
-        loading: false,
-        options: [],
-      });
+    const onApply = (e: Event) => {
+      const detail = (e as CustomEvent).detail as { edits: { block_id: string; action: string; new_text?: string }[] };
+      if (!detail?.edits) return;
+      applyEdits(detail.edits, 'ai');
     };
-    document.addEventListener('selectionchange', onSelChange);
-    return () => document.removeEventListener('selectionchange', onSelChange);
-  }, [editing]);
+    window.addEventListener('chapter-editor:apply-edits', onApply);
+    return () => window.removeEventListener('chapter-editor:apply-edits', onApply);
+  }, []);
+
+  const applyEdits = (edits: { block_id: string; action: string; new_text?: string }[], source: 'user' | 'ai') => {
+    setSnapshots((prev) => {
+      const next = new Map(prev);
+      edits.forEach((ed) => {
+        const block = document.querySelector<HTMLElement>(`[data-editor-id="${cssEscape(ed.block_id)}"]`);
+        if (!block) return;
+        const snap = next.get(ed.block_id);
+        if (!snap) return;
+
+        if (ed.action === 'replace' && typeof ed.new_text === 'string') {
+          block.textContent = ed.new_text;
+          block.classList.add('edit-block-changed');
+          if (source === 'ai') {
+            block.classList.add('edit-block-ai-flash');
+            setTimeout(() => block.classList.remove('edit-block-ai-flash'), 700);
+          }
+          next.set(ed.block_id, { ...snap, current: plainText(block), deleted: false, source });
+        } else if (ed.action === 'delete') {
+          block.classList.add('edit-block-deleted', 'edit-block-changed');
+          if (source === 'ai') {
+            block.classList.add('edit-block-ai-flash');
+            setTimeout(() => block.classList.remove('edit-block-ai-flash'), 700);
+          }
+          next.set(ed.block_id, { ...snap, deleted: true, source });
+        } else if (ed.action === 'insert_after' && typeof ed.new_text === 'string') {
+          // Build a new block element matching the referenced block's tag.
+          const newEl = document.createElement(snap.tag === 'h2' || snap.tag === 'h3' ? 'p' : snap.tag);
+          newEl.textContent = ed.new_text;
+          const counter = Date.now().toString(36).slice(-4);
+          const newId = `${snap.tag}:${ed.block_id.split('#')[0].split(':')[1] ?? 'ins'}#new-${counter}`;
+          newEl.dataset.editorId = newId;
+          newEl.classList.add('edit-block-changed');
+          if (source === 'ai') {
+            newEl.classList.add('edit-block-ai-flash');
+            setTimeout(() => newEl.classList.remove('edit-block-ai-flash'), 700);
+          }
+          block.insertAdjacentElement('afterend', newEl);
+          next.set(newId, { id: newId, tag: snap.tag, original: '', current: ed.new_text, deleted: false, source });
+        }
+      });
+      return next;
+    });
+  };
 
   const askRewrite = async () => {
     if (!rewrite) return;
-    setRewrite({ ...rewrite, loading: true, options: [] });
+    setRewrite({ ...rewrite, loading: true });
     try {
-      const block = document.querySelector(`[data-editor-id="${rewrite.blockId}"]`) as HTMLElement | null;
+      const block = document.querySelector(`[data-editor-id="${cssEscape(rewrite.blockId)}"]`) as HTMLElement | null;
       const context = block ? plainText(block) : '';
       const res = await fetch('/api/ai/rewrite', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
+        method: 'POST', headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ text: rewrite.selection, mode: rewriteMode, context }),
       });
       const data = await res.json();
@@ -236,10 +311,21 @@ export default function ChapterEditor({ book, chapterSlug, chapterTitle, sourceT
     try {
       rewrite.range.deleteContents();
       rewrite.range.insertNode(document.createTextNode(opt));
-    } catch { /* range invalidated */ }
-    // Trigger input event manually so snapshots update.
-    const block = document.querySelector(`[data-editor-id="${rewrite.blockId}"]`) as HTMLElement | null;
-    if (block) block.dispatchEvent(new InputEvent('input', { bubbles: true }));
+    } catch { /* ignore */ }
+    const block = document.querySelector(`[data-editor-id="${cssEscape(rewrite.blockId)}"]`) as HTMLElement | null;
+    if (block) {
+      const id = block.dataset.editorId!;
+      const txt = plainText(block);
+      setSnapshots((prev) => {
+        const next = new Map(prev);
+        const snap = next.get(id);
+        if (!snap) return prev;
+        block.classList.add('edit-block-changed', 'edit-block-ai-flash');
+        setTimeout(() => block.classList.remove('edit-block-ai-flash'), 700);
+        next.set(id, { ...snap, current: txt, source: 'ai' });
+        return next;
+      });
+    }
     setRewrite(null);
     window.getSelection()?.removeAllRanges();
   };
@@ -247,14 +333,20 @@ export default function ChapterEditor({ book, chapterSlug, chapterTitle, sourceT
   const revert = (id: string) => {
     const snap = snapshots.get(id);
     if (!snap) return;
-    const block = document.querySelector<HTMLElement>(`[data-editor-id="${id}"]`);
+    const block = document.querySelector<HTMLElement>(`[data-editor-id="${cssEscape(id)}"]`);
     if (block) {
-      block.textContent = snap.original;
-      block.classList.remove('editor-block-changed', 'editor-block-deleted');
+      if (snap.original === '') {
+        // inserted block — remove from DOM
+        block.remove();
+      } else {
+        block.textContent = snap.original;
+        block.classList.remove('edit-block-changed', 'edit-block-deleted');
+      }
     }
     setSnapshots((prev) => {
       const n = new Map(prev);
-      n.set(id, { ...snap, current: snap.original, deleted: false });
+      if (snap.original === '') n.delete(id);
+      else n.set(id, { ...snap, current: snap.original, deleted: false });
       return n;
     });
   };
@@ -263,8 +355,11 @@ export default function ChapterEditor({ book, chapterSlug, chapterTitle, sourceT
     const snap = snapshots.get(id);
     if (!snap) return;
     const willDelete = !snap.deleted;
-    const block = document.querySelector<HTMLElement>(`[data-editor-id="${id}"]`);
-    if (block) block.classList.toggle('editor-block-deleted', willDelete);
+    const block = document.querySelector<HTMLElement>(`[data-editor-id="${cssEscape(id)}"]`);
+    if (block) {
+      block.classList.toggle('edit-block-deleted', willDelete);
+      block.classList.add('edit-block-changed');
+    }
     setSnapshots((prev) => {
       const n = new Map(prev);
       n.set(id, { ...snap, deleted: willDelete });
@@ -280,14 +375,46 @@ export default function ChapterEditor({ book, chapterSlug, chapterTitle, sourceT
       selection: annotateSelection,
       note: annotateText.trim(),
     }]);
-    setAnnotateBlockId(null);
-    setAnnotateText('');
-    setAnnotateSelection('');
+    setAnnotateBlockId(null); setAnnotateText(''); setAnnotateSelection('');
   };
 
-  const changes = useMemo(() => {
-    return Array.from(snapshots.values()).filter((s) => s.deleted || s.current !== s.original);
-  }, [snapshots]);
+  // Render hover-chips for every changed block (one floating element
+  // appended into each, via a portal effect).
+  useEffect(() => {
+    const blocks = Array.from(document.querySelectorAll<HTMLElement>('.prose-body [data-editor-id]'));
+    blocks.forEach((b) => {
+      const id = b.dataset.editorId!;
+      const snap = snapshots.get(id);
+      const changed = snap && (snap.deleted || snap.current !== snap.original);
+      let actions = b.querySelector(':scope > .edit-block-actions') as HTMLElement | null;
+      if (changed) {
+        if (!actions) {
+          actions = document.createElement('span');
+          actions.className = 'edit-block-actions';
+          actions.contentEditable = 'false';
+          actions.innerHTML = `
+            <span class="edit-block-chip" data-action="revert" title="Revert to original">↺ Revert</span>
+            <span class="edit-block-chip" data-action="delete" title="${snap?.deleted ? 'Restore' : 'Mark deleted'}">${snap?.deleted ? '+ Restore' : '✕ Delete'}</span>
+          `;
+          actions.addEventListener('click', (ev) => {
+            const t = (ev.target as HTMLElement).closest('[data-action]') as HTMLElement | null;
+            if (!t) return;
+            ev.stopPropagation();
+            const action = t.dataset.action;
+            if (action === 'revert') revert(id);
+            else if (action === 'delete') toggleDelete(id);
+          });
+          b.appendChild(actions);
+        }
+      } else if (actions) {
+        actions.remove();
+      }
+    });
+  });
+
+  const changes = useMemo(() =>
+    Array.from(snapshots.values()).filter((s) => s.deleted || s.current !== s.original),
+    [snapshots]);
 
   const buildPatch = (): string => {
     const lines: string[] = [];
@@ -300,10 +427,13 @@ export default function ChapterEditor({ book, chapterSlug, chapterTitle, sourceT
     for (const c of changes) {
       n += 1;
       if (c.deleted) {
-        lines.push(`## edit#${n} — block "${c.id}" (${c.tag}) — DELETE`);
+        lines.push(`## edit#${n} — block "${c.id}" (${c.tag}) — DELETE${c.source === 'ai' ? ' (AI)' : ''}`);
         lines.push('- ' + c.original.replace(/\n/g, ' '));
+      } else if (c.original === '') {
+        lines.push(`## edit#${n} — block "${c.id}" (${c.tag}) — INSERT${c.source === 'ai' ? ' (AI)' : ''}`);
+        lines.push('+ ' + c.current.replace(/\n/g, ' '));
       } else {
-        lines.push(`## edit#${n} — block "${c.id}" (${c.tag})`);
+        lines.push(`## edit#${n} — block "${c.id}" (${c.tag})${c.source === 'ai' ? ' (AI)' : ''}`);
         lines.push('- ' + c.original.replace(/\n/g, ' '));
         lines.push('+ ' + c.current.replace(/\n/g, ' '));
       }
@@ -321,51 +451,40 @@ export default function ChapterEditor({ book, chapterSlug, chapterTitle, sourceT
   };
 
   const copyPatch = async () => {
-    const patch = buildPatch();
     try {
-      await navigator.clipboard.writeText(patch);
+      await navigator.clipboard.writeText(buildPatch());
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
     } catch { /* ignore */ }
   };
 
+  // Expose blocks-for-AI to the docked instruction panel
+  useEffect(() => {
+    (window as any).__chapterEditor = {
+      collectBlocks: collectBlocksForAI,
+      bookContext: book,
+      chapterTitle,
+    };
+    return () => { delete (window as any).__chapterEditor; };
+  }, [book, chapterTitle]);
+
   return (
     <>
-      {/* Header toggle — fixed top-right under the existing legend pill */}
-      <button
-        type="button"
-        onClick={() => setEditing((v) => !v)}
-        className={
-          'fixed top-3 right-[78px] z-40 inline-flex items-center gap-1.5 rounded-full border-2 px-3 py-1.5 text-[12px] font-medium shadow-sm transition ' +
-          (editing
-            ? 'border-emerald-500 bg-emerald-50 text-emerald-900 dark:bg-emerald-900/30 dark:text-emerald-100'
-            : 'border-stone-300 bg-white text-stone-700 hover:border-emerald-400 hover:text-emerald-700 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-200')
-        }
-        title="Toggle edit mode (e)"
-        aria-pressed={editing}
-      >
-        <span aria-hidden>✎</span>
-        <span>{editing ? 'Editing' : 'Edit'}</span>
-        {editing && changes.length > 0 && (
-          <span className="rounded-full bg-emerald-600 px-1.5 py-0 text-[9px] font-bold uppercase tracking-wider text-white">
-            {changes.length}{annotations.length ? `+${annotations.length}` : ''}
-          </span>
-        )}
-      </button>
-
-      {/* Floating sparkle near selection (edit mode only) */}
-      {editing && rewrite && rewrite.options.length === 0 && !rewrite.loading && (
+      {/* Floating sparkle on selection */}
+      {rewrite && rewrite.options.length === 0 && !rewrite.loading && !rewrite.error && (
         <button
           onClick={askRewrite}
-          className="fixed z-50 inline-flex items-center gap-1 rounded-full border border-amber-400 bg-white px-2 py-1 text-[11px] font-medium text-amber-800 shadow-lg hover:bg-amber-50 dark:bg-stone-800 dark:text-amber-200"
-          style={{ top: rewrite.rect.top + window.scrollY - 36, left: rewrite.rect.left + window.scrollX }}
+          className="fixed z-50 inline-flex items-center gap-1 rounded-full border border-amber-400 bg-white/90 px-2.5 py-1 text-[11px] font-medium text-amber-800 shadow-lg backdrop-blur hover:bg-amber-50 dark:bg-stone-800/90 dark:text-amber-200"
+          style={{ top: rewrite.rect.top + window.scrollY - 38, left: rewrite.rect.left + window.scrollX }}
           title="Suggest rewrites (Gemini)"
+          onMouseDown={(e) => e.preventDefault()}
         >
           <span>✦</span> Rewrite
           <select
             value={rewriteMode}
             onChange={(e) => { e.stopPropagation(); setRewriteMode(e.target.value as any); }}
             onClick={(e) => e.stopPropagation()}
+            onMouseDown={(e) => e.stopPropagation()}
             className="ml-1 rounded border border-amber-300 bg-white px-1 py-0 text-[10px]"
           >
             <option value="clarify">clarify</option>
@@ -376,83 +495,88 @@ export default function ChapterEditor({ book, chapterSlug, chapterTitle, sourceT
         </button>
       )}
 
-      {/* Rewrite options card */}
-      {editing && rewrite && (rewrite.loading || rewrite.options.length > 0 || rewrite.error) && (
+      {/* Rewrite results card */}
+      {rewrite && (rewrite.loading || rewrite.options.length > 0 || rewrite.error) && (
         <div
-          className="fixed z-50 w-[440px] rounded-lg border border-stone-200 bg-white p-3 shadow-2xl dark:border-stone-700 dark:bg-stone-800"
-          style={{ top: rewrite.rect.bottom + window.scrollY + 8, left: Math.min(rewrite.rect.left + window.scrollX, window.scrollX + window.innerWidth - 460) }}
+          className="popup-card fixed z-50 w-[460px]"
+          style={{ top: rewrite.rect.bottom + window.scrollY + 8, left: Math.min(rewrite.rect.left + window.scrollX, window.scrollX + window.innerWidth - 480) }}
+          onMouseDown={(e) => e.stopPropagation()}
         >
-          <div className="mb-2 flex items-center justify-between">
-            <div className="font-ui text-[10px] font-semibold uppercase tracking-wider text-stone-500">Rewrite · {rewriteMode}</div>
-            <button onClick={() => setRewrite(null)} className="text-stone-400 hover:text-stone-900 dark:hover:text-stone-100">✕</button>
+          <div className="popup-card-header">
+            <span>Rewrite · {rewriteMode}</span>
+            <button className="popup-card-close" onClick={() => setRewrite(null)} aria-label="Close">✕</button>
           </div>
-          {rewrite.loading && <div className="text-[12px] text-stone-500">Asking Gemini Flash…</div>}
-          {rewrite.error && <div className="text-[12px] text-rose-600">Failed: {rewrite.error}</div>}
-          <div className="space-y-2">
-            {rewrite.options.map((opt, i) => (
-              <div key={i} className="rounded border border-stone-200 bg-stone-50/60 p-2 text-[13px] leading-snug dark:border-stone-700 dark:bg-stone-900/40">
-                <div className="text-stone-800 dark:text-stone-100">{opt}</div>
-                <button onClick={() => acceptRewrite(opt)} className="mt-1.5 rounded bg-amber-600 px-2 py-0.5 text-[10px] font-semibold text-white hover:bg-amber-700">
-                  Accept
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Annotation composer */}
-      {annotateBlockId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-stone-900/30" onClick={(e) => { if (e.target === e.currentTarget) setAnnotateBlockId(null); }}>
-          <div className="w-[460px] rounded-lg border border-stone-200 bg-white p-4 shadow-2xl dark:border-stone-700 dark:bg-stone-800">
-            <div className="mb-2 font-ui text-[10px] font-semibold uppercase tracking-wider text-stone-500">Annotation</div>
-            {annotateSelection && (
-              <div className="mb-2 rounded border-l-2 border-amber-400 bg-amber-50 px-2 py-1 text-[12px] italic text-stone-700 dark:bg-amber-900/20 dark:text-stone-200">
-                "{annotateSelection}"
-              </div>
-            )}
-            <textarea
-              value={annotateText}
-              onChange={(e) => setAnnotateText(e.target.value)}
-              autoFocus
-              rows={3}
-              placeholder="e.g. is 'Sayyidina' the right transliteration here?"
-              className="w-full rounded border border-stone-300 bg-white px-2 py-1 text-[13px] focus:border-amber-400 focus:outline-none dark:border-stone-600 dark:bg-stone-900"
-            />
-            <div className="mt-2 flex justify-end gap-2">
-              <button onClick={() => setAnnotateBlockId(null)} className="rounded px-3 py-1 text-[12px] text-stone-500 hover:text-stone-900">Cancel</button>
-              <button onClick={saveAnnotation} className="rounded bg-emerald-600 px-3 py-1 text-[12px] font-semibold text-white hover:bg-emerald-700">Save note</button>
+          <div className="popup-card-body">
+            {rewrite.loading && <div className="text-[12px] text-stone-500">Asking Gemini Flash…</div>}
+            {rewrite.error && <div className="text-[12px] text-rose-600">Failed: {rewrite.error}</div>}
+            <div className="space-y-2">
+              {rewrite.options.map((opt, i) => (
+                <div key={i} className="rounded-lg border border-stone-200 bg-white/60 p-2 text-[13px] leading-snug dark:border-stone-700 dark:bg-stone-900/40">
+                  <div className="text-stone-800 dark:text-stone-100">{opt}</div>
+                  <button onClick={() => acceptRewrite(opt)} className="mt-1.5 rounded-md bg-amber-600 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white hover:bg-amber-700">
+                    Accept
+                  </button>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       )}
 
-      {/* Changes panel — bottom-left floating, only in edit mode */}
-      {editing && (
-        <div className="fixed bottom-6 left-6 z-30 w-[340px] rounded-xl border border-stone-200 bg-white shadow-2xl dark:border-stone-700 dark:bg-stone-800">
+      {/* Annotation modal */}
+      {annotateBlockId && (
+        <div className="popup-modal-backdrop" onClick={(e) => { if (e.target === e.currentTarget) setAnnotateBlockId(null); }}>
+          <div className="popup-card w-[480px] max-w-full">
+            <div className="popup-card-header">
+              <span>Margin note</span>
+              <button className="popup-card-close" onClick={() => setAnnotateBlockId(null)} aria-label="Close">✕</button>
+            </div>
+            <div className="popup-card-body">
+              {annotateSelection && (
+                <div className="mb-2 rounded-md border-l-2 border-amber-400 bg-amber-50/70 px-2 py-1 text-[12px] italic text-stone-700 dark:bg-amber-900/20 dark:text-stone-200">
+                  "{annotateSelection}"
+                </div>
+              )}
+              <textarea
+                value={annotateText}
+                onChange={(e) => setAnnotateText(e.target.value)}
+                autoFocus rows={3}
+                placeholder="e.g. is 'Sayyidina' the right transliteration here?"
+                className="w-full rounded-md border border-stone-300 bg-white px-2 py-1.5 text-[13px] focus:border-amber-400 focus:outline-none dark:border-stone-600 dark:bg-stone-900"
+              />
+              <div className="mt-2 flex justify-end gap-2">
+                <button onClick={() => setAnnotateBlockId(null)} className="rounded px-3 py-1 text-[12px] text-stone-500 hover:text-stone-900">Cancel</button>
+                <button onClick={saveAnnotation} className="rounded-md bg-emerald-600 px-3 py-1 text-[12px] font-semibold text-white hover:bg-emerald-700">Save note</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Changes panel — floats bottom-left when there are any */}
+      {(changes.length > 0 || annotations.length > 0) && (
+        <div className="popup-card fixed bottom-6 left-6 z-30 w-[340px]">
           <button
             onClick={() => setPanelOpen((v) => !v)}
-            className="flex w-full items-center justify-between rounded-t-xl border-b border-stone-200 px-3 py-2 font-ui text-[11px] font-semibold uppercase tracking-wider text-stone-600 dark:border-stone-700 dark:text-stone-300"
+            className="popup-card-header w-full"
+            style={{ cursor: 'pointer' }}
           >
-            <span>Changes <span className="ml-1 rounded bg-emerald-100 px-1.5 py-0 text-[10px] text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-200">{changes.length}</span>{annotations.length > 0 && <span className="ml-1 rounded bg-amber-100 px-1.5 py-0 text-[10px] text-amber-800 dark:bg-amber-900/40 dark:text-amber-200">{annotations.length} notes</span>}</span>
+            <span>Changes <span className="ml-1 rounded bg-emerald-100 px-1.5 py-0 text-[10px] text-emerald-800">{changes.length}</span>{annotations.length > 0 && <span className="ml-1 rounded bg-amber-100 px-1.5 py-0 text-[10px] text-amber-800">{annotations.length} notes</span>}</span>
             <span>{panelOpen ? '−' : '+'}</span>
           </button>
           {panelOpen && (
-            <div className="max-h-[40vh] overflow-y-auto p-3 text-[12px]">
-              {changes.length === 0 && annotations.length === 0 && (
-                <div className="text-stone-400">
-                  Click any paragraph and edit. Select text + <kbd className="rounded border px-1">⌘⇧A</kbd> to drop a note. Select text in edit mode for a Gemini rewrite.
-                </div>
-              )}
+            <div className="popup-card-body max-h-[40vh] overflow-y-auto text-[12px]">
               {changes.map((c) => (
-                <div key={c.id} className="mb-2 border-l-2 border-emerald-400 pl-2">
-                  <div className="font-ui text-[9px] uppercase tracking-wider text-stone-500">{c.tag} · {c.id}</div>
+                <div key={c.id} className="mb-2 border-l-2 pl-2" style={{ borderColor: 'var(--edit-highlight)' }}>
+                  <div className="font-ui text-[9px] uppercase tracking-wider text-stone-500">{c.tag} · {c.id}{c.source === 'ai' ? ' · AI' : ''}</div>
                   {c.deleted ? (
-                    <div className="text-stone-500 line-through">{c.original.slice(0, 100)}{c.original.length > 100 ? '…' : ''}</div>
+                    <div className="text-stone-500 line-through">{c.original.slice(0, 100)}…</div>
+                  ) : c.original === '' ? (
+                    <div className="text-emerald-700 dark:text-emerald-300">+ {c.current.slice(0, 100)}</div>
                   ) : (
                     <>
-                      <div className="text-rose-700 dark:text-rose-300">− {c.original.slice(0, 70)}{c.original.length > 70 ? '…' : ''}</div>
-                      <div className="text-emerald-700 dark:text-emerald-300">+ {c.current.slice(0, 70)}{c.current.length > 70 ? '…' : ''}</div>
+                      <div className="text-rose-700 dark:text-rose-300 line-through opacity-60">{c.original.slice(0, 70)}…</div>
+                      <div className="text-emerald-700 dark:text-emerald-300">{c.current.slice(0, 70)}…</div>
                     </>
                   )}
                   <div className="mt-0.5 flex gap-2 text-[10px]">
@@ -471,48 +595,21 @@ export default function ChapterEditor({ book, chapterSlug, chapterTitle, sourceT
               ))}
             </div>
           )}
-          {(changes.length > 0 || annotations.length > 0) && (
-            <div className="border-t border-stone-200 p-3 dark:border-stone-700">
-              <button
-                onClick={copyPatch}
-                className="w-full rounded bg-emerald-600 px-3 py-2 text-[12px] font-semibold text-white hover:bg-emerald-700"
-              >
-                {copied ? '✓ Copied — paste back to Claude' : `Copy patch (${changes.length} edit${changes.length === 1 ? '' : 's'}${annotations.length ? `, ${annotations.length} notes` : ''})`}
-              </button>
-              <div className="mt-1 font-ui text-[10px] text-stone-400">base-sha: {baseSha}</div>
-            </div>
-          )}
+          <div className="border-t border-stone-200/60 p-3 dark:border-stone-700/60">
+            <button
+              onClick={copyPatch}
+              className="w-full rounded-md bg-emerald-600 px-3 py-2 text-[12px] font-semibold text-white shadow-sm hover:bg-emerald-700"
+            >
+              {copied ? '✓ Copied — paste back to Claude' : `Copy patch (${changes.length} edit${changes.length === 1 ? '' : 's'}${annotations.length ? `, ${annotations.length} notes` : ''})`}
+            </button>
+            <div className="mt-1 text-center font-ui text-[10px] text-stone-400">base-sha: {baseSha}</div>
+          </div>
         </div>
       )}
-
-      <style>{`
-        html.chapter-editor-on .prose-body [data-editor-id] {
-          outline: 1px dashed transparent;
-          outline-offset: 4px;
-          border-radius: 3px;
-          transition: outline-color 120ms, background-color 120ms;
-        }
-        html.chapter-editor-on .prose-body [data-editor-id]:hover {
-          outline-color: rgba(180, 140, 50, 0.35);
-          cursor: text;
-        }
-        html.chapter-editor-on .prose-body [data-editor-id]:focus {
-          outline: 2px solid #b58a2a;
-          outline-offset: 4px;
-          background: rgba(180, 140, 50, 0.04);
-        }
-        .editor-block-changed {
-          background: linear-gradient(to right, rgba(16, 185, 129, 0.08), rgba(16, 185, 129, 0.02));
-          border-left: 2px solid #10b981;
-          padding-left: 0.6em;
-          margin-left: -0.6em;
-        }
-        .editor-block-deleted {
-          opacity: 0.45;
-          text-decoration: line-through;
-          text-decoration-color: rgba(225, 29, 72, 0.6);
-        }
-      `}</style>
     </>
   );
+}
+
+function cssEscape(s: string): string {
+  return s.replace(/(["\\#:.\[\]])/g, '\\$1');
 }

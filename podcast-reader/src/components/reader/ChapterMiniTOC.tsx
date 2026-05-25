@@ -42,17 +42,18 @@ export default function ChapterMiniTOC() {
       <div className="mb-2 font-ui text-[10px] font-semibold uppercase tracking-wider text-stone-500">
         In this chapter
       </div>
-      <ul className="space-y-1.5 border-l border-stone-200 pl-3 dark:border-stone-700">
+      <ul className="max-h-[38vh] space-y-1 overflow-y-auto border-l border-stone-200 pl-3 pr-1 dark:border-stone-700">
         {items.map((it) => (
           <li key={it.id} className={it.level === 3 ? 'pl-3' : ''}>
             <a
               href={`#${it.id}`}
               className={
-                'block py-0.5 transition-colors ' +
+                'block py-0.5 transition-colors line-clamp-2 ' +
                 (active === it.id
                   ? 'font-medium text-amber-700 dark:text-amber-300'
                   : 'text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-100')
               }
+              title={it.text}
             >
               {it.text}
             </a>

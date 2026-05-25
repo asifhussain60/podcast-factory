@@ -84,9 +84,9 @@ const { title, worktree, book, breadcrumb = [], showRail = true } = Astro.props;
         </main>
       </div>
 
-      <!-- Right rail (chapter mini-TOC + future Ask sidebar) -->
+      <!-- Right rail (chapter mini-TOC + instruction panel + Ask sidebar) -->
       {showRail && (
-        <aside class="sticky top-0 hidden h-screen w-64 shrink-0 self-start overflow-y-auto border-l border-stone-200 bg-white px-4 py-6 xl:block dark:border-stone-700 dark:bg-stone-900">
+        <aside class="sticky top-0 hidden h-screen w-80 shrink-0 self-start overflow-y-auto border-l border-stone-200 bg-white px-4 py-5 xl:block dark:border-stone-700 dark:bg-stone-900">
           <slot name="rail" />
         </aside>
       )}

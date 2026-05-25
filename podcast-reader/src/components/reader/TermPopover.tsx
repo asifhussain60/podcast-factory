@@ -118,47 +118,49 @@ export default function TermPopover({ book }: Props) {
     <div
       data-term-popover
       ref={popoverRef}
-      className="absolute z-50 w-[320px] rounded-lg border border-stone-200 bg-white p-3 shadow-xl dark:border-stone-700 dark:bg-stone-800"
+      className="popup-card absolute z-50 w-[340px]"
       style={{ top, left }}
       role="dialog"
       aria-label={`Definition of ${state.phonetic}`}
     >
-      <div className="flex items-baseline justify-between gap-2">
-        <div>
-          <div className="font-serif text-[15px] font-semibold text-stone-900 dark:text-stone-100">{state.transliteration}</div>
-          {state.audio && <div className="font-ui text-[10px] uppercase tracking-wider text-stone-500">/{state.audio}/</div>}
+      <div className="popup-card-header">
+        <span>Glossary · via Gemini</span>
+        <button className="popup-card-close" onClick={() => setState(null)} aria-label="Close">✕</button>
+      </div>
+      <div className="popup-card-body">
+        <div className="flex items-baseline justify-between gap-3">
+          <div>
+            <div className="font-serif text-[16px] font-semibold leading-tight text-stone-900 dark:text-stone-100" style={{ fontFamily: 'var(--font-body)' }}>{state.transliteration}</div>
+            {state.audio && <div className="mt-0.5 font-ui text-[10px] uppercase tracking-wider text-stone-500">/{state.audio}/</div>}
+          </div>
+          {state.script && (
+            <div className="text-[22px] leading-none text-amber-700 dark:text-amber-300" style={{ fontFamily: 'Amiri, serif' }} lang="ar" dir="rtl">
+              {state.script}
+            </div>
+          )}
         </div>
-        {state.script && (
-          <div className="font-arabic text-[20px] text-amber-700 dark:text-amber-300" style={{ fontFamily: 'Amiri, serif' }} lang="ar" dir="rtl">
-            {state.script}
+        <hr className="my-2 border-stone-200/70 dark:border-stone-700/70" />
+        {state.loading && !state.def && (
+          <div className="font-ui text-[12px] text-stone-500">
+            <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-amber-500" /> Looking up…
           </div>
         )}
-      </div>
-      <hr className="my-2 border-stone-200 dark:border-stone-700" />
-      {state.loading && !state.def && (
-        <div className="font-ui text-[12px] text-stone-500">
-          <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-amber-500" /> Looking up…
-        </div>
-      )}
-      {state.error && !state.def && (
-        <div className="font-ui text-[12px] text-rose-600">Could not load: {state.error}</div>
-      )}
-      {state.def?.definition && (
-        <p className="text-[13px] leading-snug text-stone-700 dark:text-stone-200">{state.def.definition}</p>
-      )}
-      {state.def?.etymology && (
-        <p className="mt-2 text-[11px] italic text-stone-500">{state.def.etymology}</p>
-      )}
-      {state.def?.related && state.def.related.length > 0 && (
-        <div className="mt-2 flex flex-wrap gap-1">
-          {state.def.related.map((r) => (
-            <span key={r} className="rounded-full bg-amber-50 px-2 py-0.5 text-[10px] text-amber-800 dark:bg-amber-900/30 dark:text-amber-200">{r}</span>
-          ))}
-        </div>
-      )}
-      <div className="mt-2 flex justify-between text-[10px] text-stone-400">
-        <span>via Gemini</span>
-        <button onClick={() => setState(null)} className="hover:text-stone-700">close (esc)</button>
+        {state.error && !state.def && (
+          <div className="font-ui text-[12px] text-rose-600">Could not load: {state.error}</div>
+        )}
+        {state.def?.definition && (
+          <p className="text-[13px] leading-snug text-stone-700 dark:text-stone-200">{state.def.definition}</p>
+        )}
+        {state.def?.etymology && (
+          <p className="mt-2 text-[11px] italic text-stone-500">{state.def.etymology}</p>
+        )}
+        {state.def?.related && state.def.related.length > 0 && (
+          <div className="mt-2 flex flex-wrap gap-1">
+            {state.def.related.map((r) => (
+              <span key={r} className="rounded-full bg-amber-50/80 px-2 py-0.5 text-[10px] font-medium text-amber-800 dark:bg-amber-900/30 dark:text-amber-200">{r}</span>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -17,7 +17,16 @@ import {
   type ThemeName,
   type FontName,
   type WidthName,
+  type EditHighlight,
 } from '~/lib/reader-settings';
+
+const EDIT_SWATCHES: { id: EditHighlight; label: string; color: string }[] = [
+  { id: 'emerald', label: 'Emerald', color: 'oklch(76% 0.14 145)' },
+  { id: 'amber',   label: 'Amber',   color: 'oklch(78% 0.14 70)' },
+  { id: 'sky',     label: 'Sky',     color: 'oklch(74% 0.12 235)' },
+  { id: 'rose',    label: 'Rose',    color: 'oklch(74% 0.14 15)' },
+  { id: 'violet',  label: 'Violet',  color: 'oklch(72% 0.14 295)' },
+];
 
 const FONTS: { id: FontName; label: string; sample: string; note?: string }[] = [
   { id: 'source-serif', label: 'Source Serif',   sample: 'Aa' },
@@ -186,6 +195,24 @@ export default function ReaderSettingsPanel() {
                 {WIDTHS.map((w) => (
                   <button key={w.id} onClick={() => patch({ width: w.id })} className={chip(s.width === w.id)} aria-pressed={s.width === w.id}>
                     {w.label}
+                  </button>
+                ))}
+              </div>
+            </Section>
+
+            {/* Edit highlight swatch */}
+            <Section label="Edit highlight">
+              <div className="grid grid-cols-5 gap-1.5">
+                {EDIT_SWATCHES.map((sw) => (
+                  <button
+                    key={sw.id}
+                    onClick={() => patch({ editHighlight: sw.id })}
+                    className={chip(s.editHighlight === sw.id) + ' flex flex-col items-center gap-1 py-2'}
+                    aria-pressed={s.editHighlight === sw.id}
+                    title={sw.label}
+                  >
+                    <span className="block h-5 w-5 rounded-full border border-stone-300" style={{ background: sw.color }} />
+                    <span className="text-[9px] font-ui uppercase tracking-wider text-stone-500">{sw.label.slice(0,3)}</span>
                   </button>
                 ))}
               </div>

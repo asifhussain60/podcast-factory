@@ -24,6 +24,7 @@
       arabicOverlay: false,
       dropCap: true,
       focusMode: false,
+      editHighlight: 'emerald',
     };
     var s = defaults;
     try {
@@ -50,6 +51,7 @@
     h.setAttribute('data-reader-width', s.width);
     h.setAttribute('data-dropcap', s.dropCap ? 'on' : 'off');
     h.setAttribute('data-focus-mode', s.focusMode ? 'on' : 'off');
+    h.setAttribute('data-edit-highlight', s.editHighlight || 'emerald');
     h.style.setProperty('--reading-size', s.size + 'px');
     h.style.setProperty('--reading-line-height', String(s.lineHeight));
     // Body attribute used by Arabic overlay CSS.

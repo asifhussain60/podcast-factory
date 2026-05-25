@@ -314,6 +314,193 @@ body[data-arabic="on"] .ref-quran .ar-overlay .ar-script { display: none; }
 [data-theme="hc"] .prose-body a { text-decoration-thickness: 2px; }
 
 /* ──────────────────────────────────────────────────────────────
+   Chapter title — explicit selector to avoid class collisions.
+   Suppresses the duplicate h1 that markdown emits when the source
+   .txt begins with `# Title` (the page already renders the title in
+   its own header).
+   ────────────────────────────────────────────────────────────── */
+.chapter-title {
+  font-family: var(--font-body);
+  font-size: 2.4em;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--color-ink);
+  -webkit-text-fill-color: var(--color-ink);
+  text-wrap: balance;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+.reading-column .prose-body > h1:first-child { display: none; }
+
+/* ──────────────────────────────────────────────────────────────
+   Ambient inline editor — every block in .prose-body is hover-
+   highlighted and click-to-edit. No mode toggle, no panel needed
+   to start editing. Discoverability via the subtle hover ring.
+   ────────────────────────────────────────────────────────────── */
+:root {
+  --edit-highlight: oklch(76% 0.14 145);             /* emerald */
+  --edit-highlight-soft: oklch(95% 0.05 145);
+  --edit-highlight-ink: oklch(30% 0.12 145);
+}
+html[data-edit-highlight="emerald"] { --edit-highlight: oklch(76% 0.14 145); --edit-highlight-soft: oklch(95% 0.05 145); --edit-highlight-ink: oklch(30% 0.12 145); }
+html[data-edit-highlight="amber"]   { --edit-highlight: oklch(78% 0.14 70);  --edit-highlight-soft: oklch(96% 0.05 70);  --edit-highlight-ink: oklch(38% 0.13 60); }
+html[data-edit-highlight="sky"]     { --edit-highlight: oklch(74% 0.12 235); --edit-highlight-soft: oklch(95% 0.04 235); --edit-highlight-ink: oklch(34% 0.12 235); }
+html[data-edit-highlight="rose"]    { --edit-highlight: oklch(74% 0.14 15);  --edit-highlight-soft: oklch(96% 0.04 15);  --edit-highlight-ink: oklch(36% 0.13 15); }
+html[data-edit-highlight="violet"]  { --edit-highlight: oklch(72% 0.14 295); --edit-highlight-soft: oklch(96% 0.04 295); --edit-highlight-ink: oklch(34% 0.13 295); }
+
+.prose-body [data-editor-id] {
+  position: relative;
+  border-radius: 4px;
+  transition: background-color 140ms ease, box-shadow 140ms ease;
+}
+.prose-body [data-editor-id]:hover:not([contenteditable="true"]) {
+  background: color-mix(in oklab, var(--color-ink) 3%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 8%, transparent),
+              -10px 0 0 -8px color-mix(in oklab, var(--edit-highlight) 50%, transparent);
+  cursor: text;
+}
+.prose-body [data-editor-id][contenteditable="true"] {
+  background: color-mix(in oklab, var(--edit-highlight) 7%, transparent);
+  box-shadow: inset 0 0 0 2px var(--edit-highlight),
+              0 8px 24px -12px color-mix(in oklab, var(--edit-highlight) 50%, transparent);
+  outline: none;
+  padding: 0.2em 0.6em;
+  margin-left: -0.6em;
+  margin-right: -0.6em;
+  caret-color: var(--edit-highlight-ink);
+}
+.prose-body [data-editor-id].edit-block-changed:not([contenteditable="true"]) {
+  background: linear-gradient(to right, var(--edit-highlight-soft), color-mix(in oklab, var(--edit-highlight-soft) 50%, transparent));
+  box-shadow: inset 3px 0 0 var(--edit-highlight);
+  padding-left: 0.6em;
+  margin-left: -0.6em;
+  color: var(--edit-highlight-ink);
+}
+.prose-body [data-editor-id].edit-block-deleted {
+  opacity: 0.4;
+  text-decoration: line-through;
+  text-decoration-color: color-mix(in oklab, var(--edit-highlight) 70%, transparent);
+  text-decoration-thickness: 2px;
+}
+.prose-body [data-editor-id].edit-block-ai-flash {
+  animation: ai-edit-flash 600ms ease-out;
+}
+@keyframes ai-edit-flash {
+  0%   { background: color-mix(in oklab, var(--color-gold) 30%, transparent); }
+  100% { background: var(--edit-highlight-soft); }
+}
+
+/* Per-block hover actions (revert / delete chip) */
+.prose-body .edit-block-actions {
+  position: absolute;
+  top: -10px;
+  right: -4px;
+  display: none;
+  gap: 4px;
+  z-index: 5;
+}
+.prose-body [data-editor-id].edit-block-changed:hover .edit-block-actions {
+  display: inline-flex;
+}
+.prose-body .edit-block-chip {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 9999px;
+  background: white;
+  border: 1px solid var(--edit-highlight);
+  color: var(--edit-highlight-ink);
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  box-shadow: 0 2px 6px -2px rgba(0,0,0,0.15);
+  transition: background 100ms;
+}
+.prose-body .edit-block-chip:hover {
+  background: var(--edit-highlight-soft);
+}
+[data-theme="dark"] .prose-body .edit-block-chip {
+  background: var(--color-surface-raised);
+}
+
+/* ──────────────────────────────────────────────────────────────
+   PopupCard — shared design language for hovers + modals.
+   Glassy frosted backdrop, gold-accent top edge, soft shadow,
+   smooth open/close. Used by TermPopover, rewrite cards,
+   annotation composer, instruction confirmations.
+   ────────────────────────────────────────────────────────────── */
+.popup-card {
+  position: relative;
+  background: color-mix(in oklab, var(--color-surface-raised) 92%, transparent);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid color-mix(in oklab, var(--color-ink) 12%, transparent);
+  border-radius: 14px;
+  box-shadow:
+    0 1px 0 0 color-mix(in oklab, white 60%, transparent) inset,
+    0 18px 40px -20px rgba(0, 0, 0, 0.35),
+    0 6px 12px -6px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+  animation: popup-rise 180ms cubic-bezier(0.2, 0.9, 0.3, 1);
+  transform-origin: top center;
+}
+.popup-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 12px; right: 12px;
+  height: 2px;
+  background: linear-gradient(to right, transparent, var(--color-gold-deep), transparent);
+  border-radius: 2px;
+}
+.popup-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px 6px;
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-ink-tertiary);
+  border-bottom: 1px solid color-mix(in oklab, var(--color-ink) 6%, transparent);
+}
+.popup-card-body { padding: 12px 14px; }
+.popup-card-close {
+  background: transparent;
+  border: 0;
+  color: var(--color-ink-tertiary);
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  padding: 2px 6px;
+  border-radius: 6px;
+  transition: background 100ms;
+}
+.popup-card-close:hover { background: color-mix(in oklab, var(--color-ink) 8%, transparent); color: var(--color-ink); }
+@keyframes popup-rise {
+  from { opacity: 0; transform: translateY(6px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.popup-modal-backdrop {
+  position: fixed; inset: 0; z-index: 60;
+  background: color-mix(in oklab, var(--color-surface-emphasis) 30%, transparent);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  animation: backdrop-in 160ms ease-out;
+}
+@keyframes backdrop-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ──────────────────────────────────────────────────────────────
    Dark theme — proper editorial dark mode (Summarize-inspired)
    Deep navy surfaces, cream text, brighter ref colors for contrast.
    Triggered by `data-theme="dark"` on <html>.

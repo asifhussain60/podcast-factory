@@ -21,6 +21,7 @@ export const SETTINGS_KEY = 'podcast-reader:settings';
 export type ThemeName = 'light' | 'sepia' | 'dark' | 'hc';
 export type FontName  = 'source-serif' | 'eb-garamond' | 'iowan' | 'inter' | 'lexend' | 'opendyslexic';
 export type WidthName = 'narrow' | 'medium' | 'wide' | 'full';
+export type EditHighlight = 'emerald' | 'amber' | 'sky' | 'rose' | 'violet';
 
 export interface ReaderSettings {
   schemaVersion: 1;
@@ -32,6 +33,7 @@ export interface ReaderSettings {
   arabicOverlay: boolean;
   dropCap: boolean;
   focusMode: boolean;
+  editHighlight: EditHighlight;
 }
 
 export const defaultSettings: ReaderSettings = {
@@ -44,6 +46,7 @@ export const defaultSettings: ReaderSettings = {
   arabicOverlay: false,
   dropCap: true,
   focusMode: false,
+  editHighlight: 'emerald',
 };
 
 export function loadSettings(): ReaderSettings {
@@ -84,6 +87,7 @@ export function applySettings(s: ReaderSettings): void {
   h.setAttribute('data-reader-width', s.width);
   h.setAttribute('data-dropcap', s.dropCap ? 'on' : 'off');
   h.setAttribute('data-focus-mode', s.focusMode ? 'on' : 'off');
+  h.setAttribute('data-edit-highlight', s.editHighlight);
   h.style.setProperty('--reading-size', `${s.size}px`);
   h.style.setProperty('--reading-line-height', String(s.lineHeight));
   document.body.setAttribute('data-arabic', s.arabicOverlay ? 'on' : 'off');
