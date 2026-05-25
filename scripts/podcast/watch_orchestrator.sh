@@ -54,8 +54,9 @@ echo "{\"slug\":\"$SLUG\",\"pid\":$$,\"started\":\"$(date -u +%Y-%m-%dT%H:%M:%SZ
 
 _log "=== watchdog start: $SLUG (max $MAX_RETRIES retries, ${RETRY_DELAY_S}s backoff) ==="
 
-# ── Helper: are we done? ──────────────────────────────────────────────────────
+# ── Helpers: terminal and human-review states ─────────────────────────────────
 _is_done() {
+    # True when the book has reached a terminal success state (ship-ready or done).
     local phase status
     phase="$(_state '.phase')"
     status="$(_state '.phase_status')"
@@ -64,9 +65,27 @@ _is_done() {
     return 1
 }
 
-# ── Short-circuit if already done ─────────────────────────────────────────────
+_is_human_review_gate() {
+    # True when the orchestrator has halted at a phase that requires human sign-off
+    # before proceeding. The watchdog stops here — the human re-invokes --resume
+    # (which auto-spawns a fresh watchdog) to advance past the gate.
+    local phase status
+    phase="$(_state '.phase')"
+    status="$(_state '.phase_status')"
+    # 0f: series-plan written; human must review before per-chapter authoring begins.
+    if [[ "$phase" == "0f" && "$status" == "halted" ]]; then return 0; fi
+    return 1
+}
+
+# ── Short-circuit if already done or at a human-review gate ──────────────────
 if _is_done; then
     _log "Already complete (phase=$(_state '.phase') status=$(_state '.phase_status')) — nothing to do."
+    rm -f "$SENTINEL"
+    exit 0
+fi
+if _is_human_review_gate; then
+    _log "At human-review gate (phase=$(_state '.phase') status=$(_state '.phase_status')) — watchdog pausing."
+    _log "Review the series plan, then re-run: bash scripts/podcast/watch_orchestrator.sh $SLUG"
     rm -f "$SENTINEL"
     exit 0
 fi
@@ -98,6 +117,13 @@ for attempt in $(seq 1 "$MAX_RETRIES"); do
 
     if _is_done; then
         _log "=== COMPLETE: $SLUG reached $PHASE/$STATUS ==="
+        rm -f "$SENTINEL"
+        exit 0
+    fi
+
+    if _is_human_review_gate; then
+        _log "=== HUMAN GATE: $SLUG halted at $PHASE/$STATUS — watchdog pausing. ==="
+        _log "Review the series plan, then re-run: bash scripts/podcast/watch_orchestrator.sh $SLUG"
         rm -f "$SENTINEL"
         exit 0
     fi
