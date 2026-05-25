@@ -375,6 +375,27 @@ Category T fixtures live under `content/podcast/.skill/_learning/fixtures/doctri
 
 **Authority chain**: human-readable policy → [content/_shared/islam/*.yml](content/_shared/islam/) (source of truth) → loaded by [_doctrinal.py](scripts/podcast/_doctrinal.py) → enforced by [build_episode_txt.py::assert_doctrinal_clean()](scripts/podcast/build_episode_txt.py) (hard gate) + re-run by this agent during convergence. When the policy changes, edit the YAML; the code follows automatically.
 
+**F31 / F34 tradition-pack dispatch (2026-05-25):** the build-time hard gate at [build_episode_txt.py:assert_doctrinal_clean](scripts/podcast/build_episode_txt.py) now resolves the book's `source_tradition` from `series-config.yaml` (walking up from the chapter file). If the tradition's pack directory doesn't exist at `content/_shared/<tradition>/`, the Islamic doctrinal checks are SKIPPED with a visible `T-NO-PACK` info line on stderr — the silence is intentional but visible. Tradition aliases `ismaili` / `shia` / `sunni` / `twelver` / `sufi` all resolve to the `islam` pack. When a non-Islamic pack ships (Buddhist, Christian, Hindu), the dispatch becomes per-tradition automatically via [_doctrinal.py:load_doctrinal_pack(tradition)](scripts/podcast/_doctrinal.py). Until then, non-Islamic books pass the gate trivially with the T-NO-PACK info. The narration above ("Asif's tradition (Nizari/Mustaali Ismaili)…") is correct for the current `islam` pack and will be parameterized by tradition_pack_id when a second pack lands.
+
+---
+
+### Category U: Scholarly-conversation rubric v2.2 (P0/P1) — added 2026-05-25
+
+The v2.2 scholarly-conversation rubric supplements the existing Categories B (no-meta-prose), F (host-role), Q (host-role-parity), and R (conversation choreography) with five new deterministic R-* rule families covering AI-cliché smells, religious-literacy errors, philosophical-rigor lapses, and conversation-craft anti-patterns. Pattern lists are inlined into [prompts/gemini-bundle-auditor.md §4](prompts/gemini-bundle-auditor.md) so both Claude and Gemini auditors pattern-match against them; the Python literals are in [_rules.py](scripts/podcast/_rules.py).
+
+| ID | Check | Detection | Remediation |
+|---|---|---|---|
+| U1 | **R-NO-AI-CLICHE** — banned phrases that fingerprint unsupervised LLM "podcast voice" ("deep dive", "today's episode", "buckle up", "mind blown", "fascinating world of", etc.). | Substring scan via `_rules.AI_CLICHE_DENY` (25 entries). | Flag (P0) in framing.md + chapter prose + 99-show-notes.md (voiced files). |
+| U2 | **R-NO-FAUX-PROFUNDITY-OPENING** — rhetorical-question openings ("Can we find meaning…", "In an age where…", "Have you ever wondered…"). | Regex over `_rules.FAUX_PROFUNDITY_OPENING_PATTERNS` against first 200 chars of `## Opening` and first paragraph of chapter. | Flag (P0). |
+| U3 | **R-NO-PREMATURE-CLOSURE** — wrap-ups that pretend hard questions got resolved ("and that, ultimately, is what X really is"). | Regex over `_rules.PREMATURE_CLOSURE_PATTERNS` against last 600 chars of `## Closing` and beat landings. | Flag (P1). Permitted alternative: "we didn't settle this — here's where the live disagreement sits." |
+| U4 | **R-NO-DEEP-DIVE-SELF-REFERENCE** — conversation describing itself ("our deep dive", "we're going to unpack…"). | Regex over `_rules.DEEP_DIVE_SELF_REFERENCE_PATTERNS`. | Flag (P0). |
+| U5 | **R-NO-ESSENTIALISM-EXTERNAL** — blanket-tradition claims for traditions NOT this book's `source_tradition` ("Muslims believe X", "Christians hold Y", "Real Buddhists never…"). | Regex over `_rules.ESSENTIALISM_STEM_PATTERNS`; severity gated by tradition-precedence rule (P0 external, P2 internal). | Flag (P0) external / (P2) internal nudge to qualify ("classical Twelver Shia tradition emphasizes…"). |
+| U6 | **Concession-arc resolution** — when `contract.episode_format: debate` declares `resolution: host_b_concedes` (or `host_a_concedes`), the framing's `## Three-part focus` final beat MUST show the named host conceding with text drawn from the source. Concession-arcs are NOT teaching dialogues — they are debates with explicit resolution. | YAML check on contract.resolution + framing-prose scan for concession language in the final beat. | Flag (P1) when resolution declared but final-beat concession missing. Per `feedback_content_aware_format_and_reconfig.md` memory. |
+
+**Tradition-precedence rule:** when Category U conflicts with locked TTS-safety doctrine (F20 R-NO-ARABIC-NAMES, F24 R-ALQAAB-FUNCTIONAL-PARAPHRASE, F27 R-HONORIFIC-ONCE, F29 R-SURAH-ENGLISH-ONLY), TTS-safety wins. The scholarly concern is recorded as an Open Question for human review, NOT raised as a P0.
+
+**Six matched fixtures** live at [content/podcast/.skill/_learning/fixtures/](content/podcast/.skill/_learning/fixtures/): `ai_cliche/`, `faux_profundity/`, `premature_closure/`, `deep_dive_self_reference/`, `essentialism_external/`, `essentialism_internal_qualified/` (negative — must NOT trip stem patterns). Each has `input.txt` + `expected.json`.
+
 ---
 
 ## SECTION 3 — Auto-fix vs flag rules

@@ -66,9 +66,34 @@ The script does: `git fetch --all --prune`, switches to `develop` if needed, fas
 The orchestrator's state file is the source of truth for any book's pipeline state:
 
 ```bash
+# Pre-F33-second / pre-F37 minimal probe:
 jq '{phase, phase_status, last_completed_phase, last_error}' \
     content/drafts/<book>/_system/orchestrator-state.json
+
+# Post-2026-05-25 wave full probe (recommended — surfaces graceful-degrade + timing + cost):
+jq '{
+    phase, phase_status, last_completed_phase, last_error,
+    completed_slugs: .phases."per-chapter".completed_slugs,
+    failed_slugs:    .phases."per-chapter".failed_slugs,
+    chapter_timings: .phases."per-chapter".chapter_timings,
+    audit_outcomes:  .phases."0g".audit_outcomes
+}' content/drafts/<book>/_system/orchestrator-state.json
 ```
+
+`phase=finalize, phase_status=halted` means "ready for publish review" — run [scripts/podcast/cross_book_dashboard.py](scripts/podcast/cross_book_dashboard.py) for the fleet view, then `python3 scripts/podcast/publish_to_library.py <slug>` (Tier 2 — always ask) when satisfied.
+
+## Standing operator rules (mirror of AI memory)
+
+These are recoverable on disk so a fresh Claude session without memory state can pick them up. The AI memory at `~/.claude/projects/-Users-asifhussain-PROJECTS-podcast-factory/memory/feedback_*.md` is the authoritative copy; this section is the durable backup.
+
+- **Heartbeat re-arm is MANDATORY (Tier 0).** After any orchestrator `--resume`, `--retry-phase`, or restart — and on session start if any book is in-flight — re-arm a 270s ScheduleWakeup heartbeat. Never wait for user instruction. Per `feedback_loop_rearm_mandatory.md`.
+- **Watchdog active liveness.** Every heartbeat tick MUST verify parent PID alive + subprocesses progressing (mtime/size growth + per-PID elapsed); kill early on hang/stall to avoid wasting LLM spend. Per `feedback_watchdog_active_liveness.md`.
+- **Heartbeat card format.** Structured card per tick: book title, metrics table (progress/cost/phase/last-ledger-entry/systemic-loop/watchdog-fixes), Orchestrator + Watchdog status lines with PIDs, chapter list with ✅/🔄/⏳ icons, EST timestamps, top + bottom dividers. Per `feedback_heartbeat_format.md`.
+- **Post-merge holistic audit.** Every merge into `develop` triggers a `podcast-auditor` agent regression sweep before the next merge/push. For multi-merge chains in one session, audit ONCE at end of chain. Per `feedback_post_merge_audit.md`. **Docs-sweep sub-rule (2026-05-25):** any merge touching `_rules.py` (new R-* constants) OR `orchestrate_book.py` (new state fields) MUST also touch `SKILL.md` + `framework.md` + `podcast-challenger.md` Category catalog as part of the same merge.
+- **Autonomous recommendation execution.** When Asif accepts a recommended option, chain through follow-up recommendations to completion without re-asking AskUserQuestion. Stop only for genuine blockers, Tier-2 destructive actions, or end-of-chain final-state report. Per `feedback_autonomous_recommendation_execution.md`.
+- **AskUserQuestion format.** Every AskUserQuestion lead with `(Recommended)` option A + brief reasoning in the question text; remaining options descend by value/scope so Asif can authorize the biggest high-value chunk first. Never enumerate as equals. Per `feedback_ask_user_question_format.md`.
+- **Systemic-fixes-from-chapter-archetype.** When the first per-chapter challenger run surfaces P0s from templates/regex/data (not chapter content), HALT and fix at root before letting the loop burn cost on remaining chapters with the same findings. Detection signal: ≥3 challenger + ≥2 fixer passes on the same P0 IDs. Per `feedback_systemic_fixes_from_chapter_archetype.md`.
+- **NotebookLM upload table format.** Whenever giving Asif instructions to begin NotebookLM generation, ALWAYS include a per-episode table with EP / Title / Format / NotebookLM Format setting / Length setting columns. Per `feedback_notebooklm_instructions_format.md`.
 
 ## Disconnected from `journal` (2026-05-22 split)
 
