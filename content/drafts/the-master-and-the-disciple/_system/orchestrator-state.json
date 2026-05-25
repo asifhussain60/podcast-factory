@@ -3,10 +3,10 @@
   "book_slug": "the-master-and-the-disciple",
   "category": "books",
   "branch": "book/the-master-and-the-disciple",
-  "phase": "0g",
+  "phase": "per-chapter-slides",
   "phase_status": "completed",
-  "last_completed_phase": "0g",
-  "next_phase": "per-chapter",
+  "last_completed_phase": "per-chapter-slides",
+  "next_phase": "trainer",
   "last_error": null,
   "pipeline_mode": "orchestrated",
   "bootstrap_provenance": {
@@ -88,6 +88,19 @@
       "status": "completed",
       "ts_started": "2026-05-25T13:58:10Z",
       "ts_completed": "2026-05-25T13:58:10Z"
+    },
+    "per-chapter-slides": {
+      "status": "completed",
+      "ts_started": "2026-05-25T13:58:10Z",
+      "ts_completed": "2026-05-25T16:46:47Z",
+      "outcomes": {
+        "the-greater-shaykh-and-the-naming": "SKIPPED",
+        "the-call-and-the-covenant": "SKIPPED",
+        "justice-monotheism-and-the-guardians": "SKIPPED",
+        "will-command-and-the-seven": "BLOCKED",
+        "world-hereafter-and-the-right-of-wealth": "SKIPPED",
+        "father-revealed-and-the-faces-of-seeking": "BLOCKED"
+      }
     }
   },
   "completed_slugs": [],
@@ -99,8 +112,40 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-05-22T00:00:00Z",
-  "ts_updated": "2026-05-25T13:58:10Z",
+  "ts_updated": "2026-05-25T16:46:47Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
-  "challenger_version": "2.0"
+  "challenger_version": "2.0",
+  "slide_decks": {
+    "the-greater-shaykh-and-the-naming": {
+      "slide_deck_phase": "skipped",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "SKIPPED"
+    },
+    "the-call-and-the-covenant": {
+      "slide_deck_phase": "skipped",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "SKIPPED"
+    },
+    "justice-monotheism-and-the-guardians": {
+      "slide_deck_phase": "skipped",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "SKIPPED"
+    },
+    "will-command-and-the-seven": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "world-hereafter-and-the-right-of-wealth": {
+      "slide_deck_phase": "skipped",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "SKIPPED"
+    },
+    "father-revealed-and-the-faces-of-seeking": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "BLOCKED"
+    }
+  }
 }
