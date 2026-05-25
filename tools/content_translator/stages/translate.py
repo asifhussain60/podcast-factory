@@ -60,8 +60,10 @@ def _protect_markers(text: str) -> tuple[str, dict[str, str]]:
 
 
 def _restore_markers(text: str, placeholders: dict[str, str]) -> str:
-    for pid, original in placeholders.items():
-        text = text.replace(f'<x id="{pid}"/>', original)
+    # Restore in reverse insertion order: outer placeholders (higher ID, created last)
+    # are replaced first, exposing inner placeholders embedded in their content.
+    for pid in reversed(list(placeholders.keys())):
+        text = text.replace(f'<x id="{pid}"/>', placeholders[pid])
     return text
 
 
