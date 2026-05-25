@@ -335,6 +335,8 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
             "/_system/chapter-set-report.md",
             "/_system/health-trend.md",
             "/_system/watchdog.json",   # watch_orchestrator.sh sentinel; written at launch
+            "scripts/podcast/tighten_source.py",  # actively-developed utility; edits never affect per-chapter authoring
+            ".code-workspace",          # VS Code workspace files; user-local, never pipeline-relevant
         )
         runtime_artifact_dirs = (
             f"{book_runtime_prefix}_system/episode-drafts/",
@@ -350,6 +352,9 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
             "content/podcast/.skill/_learning/",
             "_workspace/tmp/",
             "_workspace/logs/",
+            # Audio output directory — M4A files generated from NotebookLM; large
+            # binaries that are never committed.
+            "content/m4a/",
         )
         # macOS filesystem is case-insensitive; git status --porcelain sometimes
         # reports paths as `CONTENT/...` (the on-disk case at the time the file
@@ -1415,16 +1420,26 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
     )
 
     # Phase 0g — register the series in the cross-book registry.
-    _info("phase: 0g · register series in registry.md")
-    update_phase(book_dir, phase="0g", status="running")
-    try:
-        phase_0g_register(book_dir)
-    except RuntimeError as e:
-        update_phase(book_dir, phase="0g", status="failed", error=str(e))
-        _err(str(e))
-        return 2
-    update_phase(book_dir, phase="0g", status="completed")
-    phase_git_commit(book_dir, f"podcast({book_slug}): phase 0g register series")
+    # Guard: skip if already completed from a prior run (idempotency for re-entry).
+    _0g_done = (
+        (read_state(book_dir) or {})
+        .get("phases", {})
+        .get("0g", {})
+        .get("status") == "completed"
+    )
+    if _0g_done:
+        _info("phase: 0g · already completed, skipping")
+    else:
+        _info("phase: 0g · register series in registry.md")
+        update_phase(book_dir, phase="0g", status="running")
+        try:
+            phase_0g_register(book_dir)
+        except RuntimeError as e:
+            update_phase(book_dir, phase="0g", status="failed", error=str(e))
+            _err(str(e))
+            return 2
+        update_phase(book_dir, phase="0g", status="completed")
+        phase_git_commit(book_dir, f"podcast({book_slug}): phase 0g register series")
 
     # Phase 11b — Slide-deck cohort authoring + Slide Deck Challenger convergence.
     # Default TRUE — slide decks are required output alongside chapters and episodes.
@@ -1434,7 +1449,19 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
     # When true: walks every chapter, authors slide-decks/chNN-deck-<slug>.txt +
     # chNN-framing-<slug>.md, runs Slide Deck Challenger (max 5 iter per chapter).
     enable_slide_decks = _series_flag(book_dir, "enable_slide_decks", default=True)
-    if enable_slide_decks:
+    # Guard: skip slides block entirely if a prior run already completed it.
+    # This handles the case where the orchestrator exits cleanly after the
+    # phase_git_commit and the watchdog re-enters _drive_per_chapter_and_after
+    # via the `per-chapter-slides/completed` dispatcher path.
+    _slides_already_done = (
+        (read_state(book_dir) or {})
+        .get("phases", {})
+        .get("per-chapter-slides", {})
+        .get("status") in ("completed", "skipped")
+    )
+    if _slides_already_done:
+        _info("phase: per-chapter-slides · already completed/skipped, advancing to finalize")
+    elif enable_slide_decks:
         _info("phase: per-chapter-slides · slide-deck cohort authoring + slide-deck-challenger")
         update_phase(book_dir, phase="per-chapter-slides", status="running")
         try:
@@ -1684,6 +1711,20 @@ def run_resume(args: argparse.Namespace) -> int:
     if current_phase == "per-chapter-slides" and current_status in (
         "failed", "running", "pending"
     ):
+        return _drive_per_chapter_and_after(book_dir)
+
+    # per-chapter-slides completed normally but orchestrator exited before advancing
+    # to finalize (e.g. clean exit after a git commit, watchdog re-launched and saw
+    # completed status which was not in the handled set above). Advance directly
+    # to finalize without re-running slides.
+    if current_phase == "per-chapter-slides" and current_status == "completed":
+        _info("Phase per-chapter-slides already completed — advancing to finalize.")
+        return _drive_per_chapter_and_after(book_dir)
+
+    # 0g completed but orchestrator exited before advancing to finalize.
+    # Same pattern as per-chapter-slides/completed above.
+    if current_phase == "0g" and current_status == "completed":
+        _info("Phase 0g already completed — advancing to finalize.")
         return _drive_per_chapter_and_after(book_dir)
 
     # Finalize halt (added 2026-05-24): G1-G7 gates passed; human reviews in
