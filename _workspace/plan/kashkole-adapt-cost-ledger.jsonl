@@ -176,3 +176,6 @@
 {"binder_id": 8, "chapter_id": 18, "phase": "adapt", "cost_usd": 0.41251, "completed_at": "2026-05-25T16:15:45.949924+00:00", "model": "claude-haiku-4-5-20251001"}
 {"binder_id": 6, "chapter_id": 48, "phase": "adapt", "cost_usd": 0.081481, "completed_at": "2026-05-25T16:17:50.111210+00:00", "model": "claude-haiku-4-5-20251001"}
 {"binder_id": 5, "chapter_id": 12, "phase": "adapt", "cost_usd": 0.006394, "completed_at": "2026-05-25T16:40:37.051823+00:00", "model": "claude-haiku-4-5-20251001"}
+{"binder_id": 18, "chapter_id": 131, "phase": "adapt", "cost_usd": 0.031776, "completed_at": "2026-05-25T16:41:56.344516+00:00", "model": "claude-haiku-4-5-20251001"}
+{"binder_id": 18, "chapter_id": 52, "phase": "adapt", "cost_usd": 0.661536, "completed_at": "2026-05-25T17:05:47.693332+00:00", "model": "claude-haiku-4-5-20251001"}
+{"binder_id": 18, "chapter_id": 137, "phase": "adapt", "cost_usd": 0.066956, "completed_at": "2026-05-25T17:08:04.100143+00:00", "model": "claude-haiku-4-5-20251001"}
