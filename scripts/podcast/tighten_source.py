@@ -860,23 +860,58 @@ def render_report(
 
 # --- apply mode ------------------------------------------------------------
 
+def parse_accepted_cids(report_path: Path) -> set[str]:
+    """Parse tighten-report.md and return the set of candidate IDs whose
+    checkbox is marked `- [x]` (case-insensitive). Lines look like:
+
+        - [x] accept this cut <!-- cid: ch07-03 -->
+
+    Returns an empty set if the report does not exist or has no marks.
+    """
+    if not report_path.exists():
+        return set()
+    pat = re.compile(r"-\s*\[\s*[xX]\s*\]\s*accept this cut\s*<!--\s*cid:\s*([\w\-.]+)\s*-->")
+    out: set[str] = set()
+    for line in report_path.read_text(encoding="utf-8").splitlines():
+        m = pat.search(line)
+        if m:
+            out.add(m.group(1))
+    return out
+
+
 def apply_cuts(
     book_dir: Path,
     chapter_slugs: list[str],
     results: list[ChapterResult],
 ) -> list[Path]:
     """For each requested chapter slug (e.g. 'ch07'), write a .tightened.txt
-    sibling that removes ALL candidates listed in the report for that chapter.
+    sibling that removes ONLY the candidates whose checkbox is marked `- [x]`
+    in tighten-report.md.
 
-    NOTE: This applies every candidate in the cache for the chapter. The
-    expected workflow is: the operator edits the .tightened.txt to taste, or
-    edits the cache JSON to remove rejected candidates before running --apply.
+    CHECKBOX-DRIVEN APPROVAL:
+      - Default state of every checkbox is `- [ ]` (unchecked = NOT accepted).
+      - The operator reviews the report and manually flips boxes to `- [x]`.
+      - This function reads ONLY the marked boxes and applies only those cuts.
+      - If no boxes are marked for a requested chapter, the function skips it
+        and prints a warning. Doing nothing in the report = nothing is cut.
+
+    Originals are NEVER overwritten. Output goes to <ch>.tightened.txt.
     """
     written = []
     chapters_dir = book_dir / "chapters"
+    report_path = book_dir / "_system" / "tighten-report.md"
+    accepted_cids = parse_accepted_cids(report_path)
+    if not accepted_cids:
+        print(
+            f"[tighten] --apply: no candidates are marked `- [x]` in {report_path}. "
+            "Edit the report to mark cuts you accept, then re-run --apply.",
+            file=sys.stderr,
+        )
+        return []
+    print(f"[tighten] --apply: {len(accepted_cids)} candidate(s) marked accepted in report.", file=sys.stderr)
+
     for slug in chapter_slugs:
         slug = slug.strip()
-        # find matching ChapterResult
         match = next((r for r in results if r.chapter.startswith(slug)), None)
         if match is None:
             print(f"[tighten] --apply: no chapter matching '{slug}'", file=sys.stderr)
@@ -884,10 +919,18 @@ def apply_cuts(
         if not match.candidates:
             print(f"[tighten] --apply: {match.chapter} has no candidates to apply", file=sys.stderr)
             continue
+        # Filter candidates to those the operator accepted.
+        accepted_for_chapter = [
+            (i, c) for i, c in enumerate(match.candidates, 1)
+            if f"{match.chapter}-{i:02d}" in accepted_cids
+        ]
+        if not accepted_for_chapter:
+            print(f"[tighten] --apply: {match.chapter} — 0 of {len(match.candidates)} candidates marked accepted; skipping.", file=sys.stderr)
+            continue
         text_lines = match.chapter_path.read_text(encoding="utf-8").splitlines()
         # build a set of (line_idx) to drop; line_start/end are 1-indexed inclusive
         drop = set()
-        for c in match.candidates:
+        for _, c in accepted_for_chapter:
             for i in range(c.line_start - 1, c.line_end):
                 if 0 <= i < len(text_lines):
                     drop.add(i)
@@ -895,7 +938,9 @@ def apply_cuts(
         out_path = chapters_dir / f"{match.chapter}.tightened.txt"
         out_path.write_text("\n".join(kept) + "\n", encoding="utf-8")
         written.append(out_path)
-        print(f"[tighten] wrote {out_path.relative_to(book_dir.parent)}")
+        n_accepted = len(accepted_for_chapter)
+        n_total = len(match.candidates)
+        print(f"[tighten] wrote {out_path.relative_to(book_dir.parent)} ({n_accepted}/{n_total} cuts applied)")
     return written
 
 
