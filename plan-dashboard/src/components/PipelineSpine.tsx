@@ -1,7 +1,6 @@
 import { useState, useMemo } from 'react';
 import AgentCard from './AgentCard';
-
-type Kind = 'agentic' | 'mechanical' | 'hybrid';
+import AgentHoverBadge from './AgentHoverBadge';
 
 interface Phase {
   id: string;
@@ -40,17 +39,10 @@ interface Props {
   agents: Agent[];
 }
 
-const ROW_H = 130;
-const SPINE_X = 380;
-const STATION_R = 18;
-const VIEW_W = 760;
-const CARD_W = 280;
-const CARD_H = 92;
-
-const KIND_LABEL: Record<string, string> = {
-  agentic: 'Agent',
-  mechanical: 'Mechanical',
-  hybrid: 'Hybrid',
+const KIND_META: Record<string, { label: string; icon: string }> = {
+  agentic:    { label: 'Agent',      icon: 'robot' },
+  hybrid:     { label: 'Hybrid',     icon: 'shuffle' },
+  mechanical: { label: 'Mechanical', icon: 'gear' },
 };
 
 export default function PipelineSpine({ phases, modules, agents }: Props) {
@@ -68,7 +60,6 @@ export default function PipelineSpine({ phases, modules, agents }: Props) {
     return m;
   }, [agents]);
 
-  const viewH = phases.length * ROW_H + 80;
   const activePhase = phases.find((p) => p.id === active) ?? phases[0];
   const activeModules = (activePhase?.modules ?? []).map((id) => moduleMap.get(id)).filter(Boolean) as Module[];
   const activeAgent = activePhase?.agent ? agentMap.get(activePhase.agent) : null;
@@ -77,102 +68,121 @@ export default function PipelineSpine({ phases, modules, agents }: Props) {
     <div className="stack">
       <div className="spine-legend">
         <span className="kind-badge kind-agentic"><i className="fa-solid fa-robot" aria-hidden="true"></i> Agent-driven</span>
-        <span className="kind-badge kind-hybrid"><i className="fa-solid fa-shuffle" aria-hidden="true"></i> Hybrid — agent plus a vendor service</span>
+        <span className="kind-badge kind-hybrid"><i className="fa-solid fa-shuffle" aria-hidden="true"></i> Hybrid — agent + vendor service</span>
         <span className="kind-badge kind-mechanical"><i className="fa-solid fa-gear" aria-hidden="true"></i> Mechanical script</span>
       </div>
 
       <div className="spine-layout">
-        <svg className="svg-host" viewBox={`0 0 ${VIEW_W} ${viewH}`} role="img" aria-label="Pipeline stations from top to bottom">
-          <line className="spine" x1={SPINE_X} y1={40} x2={SPINE_X} y2={viewH - 40} />
+        <div className="spine-grid">
+          <div className="spine-line" aria-hidden="true"></div>
 
           {phases.map((p, i) => {
-            const y = 60 + i * ROW_H;
             const isActive = p.id === active;
             const leftSide = i % 2 === 0;
-            const cardX = leftSide ? 40 : SPINE_X + 60;
-            const connectorStart = leftSide ? cardX + CARD_W : cardX;
-            const connectorEnd = SPINE_X + (leftSide ? -STATION_R : STATION_R);
-            const tickDirection = leftSide ? -1 : 1;
-            const kindClass = `kind-${p.kind}-card`;
-            const pillBgClass = `kind-pill-bg-${p.kind}`;
-            const pillTxClass = `kind-pill-tx-${p.kind}`;
-            const pillX = cardX + CARD_W - 78;
-            const cardY = y - CARD_H / 2;
+            const kindMeta = KIND_META[p.kind] ?? KIND_META.mechanical;
+            const agent = p.agent ? agentMap.get(p.agent) : null;
+            const phaseModules = p.modules.map((m) => moduleMap.get(m)).filter(Boolean) as Module[];
 
             return (
-              <g key={p.id} onClick={() => setActive(p.id)} role="button" aria-label={`Focus station ${p.name}`}>
-                <line className={`edge ${isActive ? 'is-strong' : ''}`} x1={connectorStart} y1={y} x2={connectorEnd} y2={y} />
+              <div
+                key={p.id}
+                className={`spine-row ${leftSide ? 'is-left' : 'is-right'} ${isActive ? 'is-active' : ''}`}
+              >
+                <div className="spine-row-card-wrap">
+                  <button
+                    type="button"
+                    className={`station-card kind-${p.kind} ${isActive ? 'is-active' : ''}`}
+                    onClick={() => setActive(p.id)}
+                    aria-pressed={isActive}
+                  >
+                    <header className="station-card-head">
+                      <span className={`kind-badge kind-${p.kind}`}>
+                        <i className={`fa-solid fa-${kindMeta.icon}`} aria-hidden="true"></i>
+                        {kindMeta.label}
+                      </span>
+                      <span className="station-meta">{p.id} · {p.duration_minutes} min</span>
+                    </header>
 
-                {p.modules.map((_, k) => (
-                  <circle key={k} cx={connectorEnd + tickDirection * (10 + k * 12)} cy={y} r={3} className="module-tick" />
-                ))}
+                    <h4 className="station-name">{p.name}</h4>
 
-                <rect className={`node-card ${kindClass} ${isActive ? 'is-active' : ''}`} x={cardX} y={cardY} width={CARD_W} height={CARD_H} rx={8} />
+                    {phaseModules.length > 0 && (
+                      <div className="station-chips">
+                        {phaseModules.map((m) => (
+                          <span key={m.id} className="chip" title={m.plain}>
+                            <i className="fa-solid fa-puzzle-piece" aria-hidden="true"></i>
+                            {m.name}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </button>
 
-                {/* kind pill in top-right of card */}
-                <rect className={pillBgClass} x={pillX} y={cardY + 8} width={70} height={16} rx={8} />
-                <text x={pillX + 35} y={cardY + 19} className={pillTxClass} textAnchor="middle">{KIND_LABEL[p.kind]}</text>
+                  {agent && (
+                    <div className="station-agent-line">
+                      <AgentHoverBadge agent={agent} />
+                    </div>
+                  )}
+                </div>
 
-                <text x={cardX + 14} y={cardY + 18} className="label-eyebrow">{p.id} · {p.duration_minutes} min</text>
-                <text x={cardX + 14} y={cardY + 42} className="t-title">{p.name}</text>
-                <text x={cardX + 14} y={cardY + 62} className="label-sm">{p.modules.length} module{p.modules.length === 1 ? '' : 's'} plug in</text>
+                <div className="spine-marker-cell">
+                  <div className={`spine-marker ${isActive ? 'is-active' : ''}`}>
+                    <span>{i + 1}</span>
+                  </div>
+                </div>
 
-                {p.agent && (
-                  <g>
-                    <rect className={`agent-badge ${agentMap.get(p.agent)?.tone === 'gold' ? 'tone-gold' : ''}`} x={cardX + 14} y={cardY + CARD_H - 24} width={CARD_W - 28} height={18} rx={9} />
-                    <text x={cardX + 24} y={cardY + CARD_H - 11} className="agent-badge-text">
-                      <tspan className={`agent-badge-icon ${agentMap.get(p.agent)?.tone === 'gold' ? 'tone-gold' : ''}`}>● </tspan>
-                      Driven by {agentMap.get(p.agent)?.name ?? p.agent}
-                    </text>
-                  </g>
-                )}
-
-                <circle className="station-ring" cx={SPINE_X} cy={y} r={STATION_R} />
-                <text x={SPINE_X} y={y + 4} className="t-station-num">{i + 1}</text>
-              </g>
+                <div className="spine-row-card-wrap"></div>
+              </div>
             );
           })}
 
-          <text x={SPINE_X} y={20} className="label-eyebrow spine-cap">A book enters</text>
-          <text x={SPINE_X} y={viewH - 14} className="label-eyebrow spine-cap">A podcast leaves</text>
-        </svg>
+          <div className="spine-cap top"><span className="eyebrow">A book enters</span></div>
+          <div className="spine-cap bottom"><span className="eyebrow">A podcast leaves</span></div>
+        </div>
 
-        <div className="stack focus-pane">
-          <div className="card">
-            <div className="row-between">
-              <span className="eyebrow">Station {activePhase?.id} — {activePhase?.duration_minutes} minutes</span>
-              <span className={`kind-badge kind-${activePhase?.kind}`}>
-                <i className={`fa-solid fa-${activePhase?.kind === 'agentic' ? 'robot' : activePhase?.kind === 'hybrid' ? 'shuffle' : 'gear'}`} aria-hidden="true"></i>
-                {' '}{KIND_LABEL[activePhase?.kind ?? 'mechanical']}
+        <aside className="focus-pane">
+          <div className={`focus-card kind-tone-${activePhase?.kind}`}>
+            <div className="focus-card-head">
+              <span className="focus-card-eyebrow">
+                Station {activePhase?.id} · {activePhase?.duration_minutes} minutes
+              </span>
+              <span className={`kind-badge kind-${activePhase?.kind} is-lg`}>
+                <i className={`fa-solid fa-${(KIND_META[activePhase?.kind ?? 'mechanical']).icon}`} aria-hidden="true"></i>
+                {(KIND_META[activePhase?.kind ?? 'mechanical']).label}
               </span>
             </div>
-            <h3 className="card-title">{activePhase?.name}</h3>
-            <p>{activePhase?.plain}</p>
+            <h3 className="focus-card-title">{activePhase?.name}</h3>
+            <p className="focus-card-lede">{activePhase?.plain}</p>
+
+            {activeModules.length > 0 && (
+              <div className="focus-modules">
+                <span className="eyebrow">Modules at this station</span>
+                <div className="focus-module-grid">
+                  {activeModules.map((m) => (
+                    <div key={m.id} className="focus-module">
+                      <div className="focus-module-head">
+                        <i className="fa-solid fa-puzzle-piece" aria-hidden="true"></i>
+                        <strong>{m.name}</strong>
+                      </div>
+                      <p className="small muted">{m.plain}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {activeAgent && <AgentCard agent={activeAgent} />}
 
           {!activeAgent && activePhase?.kind === 'mechanical' && (
-            <div className="card card-tight">
-              <p className="muted small">
-                <i className="fa-solid fa-gear" aria-hidden="true"></i>{' '}
-                This station is mechanical — no agent, no reasoning. A deterministic script runs the same way for every book.
-              </p>
+            <div className="focus-empty">
+              <i className="fa-solid fa-gear focus-empty-icon" aria-hidden="true"></i>
+              <div>
+                <strong>No agent here.</strong>
+                <p className="small muted">A deterministic script does this work the same way for every book.</p>
+              </div>
             </div>
           )}
-
-          {activeModules.length > 0 && (
-            <div className="stack-tight">
-              <span className="eyebrow">Modules plugged into this station</span>
-              {activeModules.map((m) => (
-                <div key={m.id} className="card card-tight">
-                  <strong>{m.name}</strong>
-                  <p className="small muted">{m.plain}</p>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+        </aside>
       </div>
     </div>
   );

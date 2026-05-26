@@ -21,7 +21,7 @@ export default function StackFlow() {
     { x: 1140, label: 'Output', vendor: 'output' as const, name: 'Published podcast', services: ['Catalog + RSS'] },
   ];
 
-  const LANE_W = 200, LANE_H = 260, CARD_X_OFFSET = -LANE_W / 2;
+  const LANE_W = 200, CARD_X_OFFSET = -LANE_W / 2;
   const LANE_Y = 60;
   const CONNECT_Y = LANE_Y + 110;
 

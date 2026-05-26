@@ -312,9 +312,193 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 .svg-host .agent-badge-text { font-size: 9px; font-weight: 700; fill: var(--c-ink-dim); }
 
 .spine-legend { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-bottom: var(--sp-3); }
-.spine-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--sp-5); align-items: start; }
-.focus-pane { position: sticky; top: 80px; }
-@media (max-width: 1100px) { .spine-layout { grid-template-columns: 1fr; } .focus-pane { position: static; } }
+.spine-layout { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: var(--sp-6); align-items: start; }
+@media (max-width: 1100px) { .spine-layout { grid-template-columns: 1fr; } }
+
+/* ── Spine grid (HTML cards on either side of a CSS spine line) ── */
+
+.spine-grid {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  padding: var(--sp-5) 0;
+}
+.spine-line {
+  position: absolute;
+  top: 24px; bottom: 24px; left: 50%;
+  width: 3px; transform: translateX(-50%);
+  background: linear-gradient(to bottom, transparent, var(--c-ink) 24px, var(--c-ink) calc(100% - 24px), transparent);
+  border-radius: 2px;
+  z-index: 0;
+}
+.spine-row {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 64px 1fr;
+  align-items: center;
+  gap: var(--sp-3);
+}
+.spine-row.is-left .spine-row-card-wrap:first-child { display: flex; flex-direction: column; gap: var(--sp-2); justify-self: end; min-width: 0; max-width: 320px; width: 100%; }
+.spine-row.is-right .spine-row-card-wrap:last-child { display: flex; flex-direction: column; gap: var(--sp-2); justify-self: start; min-width: 0; max-width: 320px; width: 100%; }
+.spine-row.is-left .spine-row-card-wrap:last-child,
+.spine-row.is-right .spine-row-card-wrap:first-child { display: none; }
+
+.spine-marker-cell { display: flex; align-items: center; justify-content: center; }
+.spine-marker {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--c-bg-card);
+  border: 2.5px solid var(--c-ink);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 13px; color: var(--c-ink);
+  transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+.spine-marker.is-active {
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+  box-shadow: 0 0 0 6px color-mix(in oklab, var(--c-accent) 14%, transparent);
+  transform: scale(1.08);
+}
+
+.spine-cap {
+  position: relative;
+  display: flex; justify-content: center;
+  padding: var(--sp-1) 0;
+  z-index: 1;
+}
+.spine-cap.top { order: -1; }
+.spine-cap span { background: var(--c-bg); padding: 0 var(--sp-3); }
+
+/* ── Station card (the HTML card per phase) ───────────────────── */
+
+.station-card {
+  text-align: left;
+  display: flex; flex-direction: column; gap: var(--sp-2);
+  width: 100%;
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-md);
+  padding: var(--sp-3) var(--sp-4);
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  font-family: inherit; color: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.12s;
+  position: relative;
+}
+.station-card:hover { border-color: var(--c-accent-soft); box-shadow: var(--shadow-hover); transform: translateY(-1px); }
+.station-card:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+.station-card.is-active { border-color: var(--c-accent); box-shadow: 0 0 0 3px color-mix(in oklab, var(--c-accent) 14%, transparent), var(--shadow-hover); }
+
+.station-card.kind-agentic { border-top: 3px solid var(--c-accent); }
+.station-card.kind-hybrid { border-top: 3px solid var(--c-gold); }
+.station-card.kind-mechanical { border-top: 3px solid var(--c-ink-muted); }
+
+.station-card-head { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2); }
+.station-meta { font-size: 11px; color: var(--c-ink-muted); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700; font-variant-numeric: tabular-nums; }
+.station-name { font-size: 15px; font-weight: 800; color: var(--c-ink); margin: 0; line-height: 1.3; }
+
+.station-chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: var(--sp-1); }
+.chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--c-bg-sunken);
+  color: var(--c-ink-dim);
+  font-size: 11px; font-weight: 600;
+  border: 1px solid var(--c-rule-soft);
+}
+.chip .fa-solid { font-size: 9px; color: var(--c-accent-soft); }
+
+/* ── Agent pin (button under each agentic/hybrid station card) ── */
+
+.station-agent-line { display: flex; justify-content: center; }
+.agent-pin {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 10px;
+  background: var(--c-bg-card);
+  border: 1px solid color-mix(in oklab, var(--c-accent) 40%, var(--c-rule));
+  border-radius: 999px;
+  color: var(--c-accent);
+  font-family: inherit;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 0.02em;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(31,29,24,0.06);
+  transition: background 0.12s, transform 0.12s, box-shadow 0.12s;
+}
+.agent-pin:hover { background: color-mix(in oklab, var(--c-accent) 10%, var(--c-bg-card)); transform: translateY(-1px); box-shadow: var(--shadow-hover); }
+.agent-pin.tone-gold { color: var(--c-gold); border-color: color-mix(in oklab, var(--c-gold) 40%, var(--c-rule)); }
+.agent-pin.tone-gold:hover { background: color-mix(in oklab, var(--c-gold) 10%, var(--c-bg-card)); }
+.agent-pin .fa-solid { font-size: 10px; }
+.agent-pin-name { font-weight: 700; }
+.agent-pin-hint { opacity: 0.55; font-size: 9px; }
+
+/* Radix HoverCard popover container */
+.agent-popover {
+  width: min(420px, 92vw);
+  z-index: 200;
+  animation: popIn 0.16s ease-out;
+}
+.agent-popover-arrow { fill: var(--c-bg-card); }
+@keyframes popIn {
+  from { opacity: 0; transform: translateY(4px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ── Focus pane (right side) ──────────────────────────────────── */
+
+.focus-pane {
+  position: sticky; top: 88px;
+  display: flex; flex-direction: column; gap: var(--sp-4);
+}
+@media (max-width: 1100px) { .focus-pane { position: static; } }
+
+.focus-card {
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-lg);
+  padding: var(--sp-5);
+  box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
+}
+.focus-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 6px;
+  background: var(--c-accent-soft);
+}
+.focus-card.kind-tone-agentic::before { background: linear-gradient(to right, var(--c-accent), color-mix(in oklab, var(--c-accent) 40%, var(--c-bg-card))); }
+.focus-card.kind-tone-hybrid::before { background: linear-gradient(to right, var(--c-gold), color-mix(in oklab, var(--c-gold) 40%, var(--c-bg-card))); }
+.focus-card.kind-tone-mechanical::before { background: linear-gradient(to right, var(--c-ink-muted), color-mix(in oklab, var(--c-ink-muted) 30%, var(--c-bg-card))); }
+
+.focus-card-head { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); margin-bottom: var(--sp-2); }
+.focus-card-eyebrow { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-ink-muted); font-weight: 700; }
+.focus-card-title { font-size: 22px; font-weight: 900; color: var(--c-ink); margin: 0 0 var(--sp-3) 0; letter-spacing: -0.01em; }
+.focus-card-lede { font-size: var(--fs-base); color: var(--c-ink-dim); margin: 0; }
+
+.focus-modules { margin-top: var(--sp-4); padding-top: var(--sp-4); border-top: 1px solid var(--c-rule-soft); }
+.focus-module-grid { display: flex; flex-direction: column; gap: var(--sp-2); margin-top: var(--sp-2); }
+.focus-module {
+  background: var(--c-bg-sunken);
+  border-radius: var(--r-sm);
+  padding: var(--sp-2) var(--sp-3);
+}
+.focus-module-head { display: flex; align-items: center; gap: 6px; margin-bottom: 2px; }
+.focus-module-head .fa-solid { color: var(--c-accent); font-size: 10px; }
+
+.focus-empty {
+  display: flex; gap: var(--sp-3); align-items: center;
+  background: var(--c-bg-card);
+  border: 1px dashed var(--c-rule);
+  border-radius: var(--r-md);
+  padding: var(--sp-3) var(--sp-4);
+}
+.focus-empty-icon { font-size: 22px; color: var(--c-ink-muted); }
+
+/* Larger kind badge variant for focus pane */
+.kind-badge.is-lg { font-size: 11px; padding: 4px 10px; }
+.kind-badge.is-lg .fa-solid, .kind-badge.is-lg .fa-regular { font-size: 10px; }
 
 /* ── Infrastructure view ───────────────────────────────────────── */
 
