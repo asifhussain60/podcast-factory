@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-26T20:45:53.851Z",
-  "source_commit": "edf2b21",
+  "generated_at": "2026-05-26T22:18:19.733Z",
+  "source_commit": "7f984bb",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -417,6 +417,46 @@
   ],
   "recent_commits": [
     {
+      "sha": "7f984bb",
+      "subject": "dash: three-layer progressive disclosure — tier badges, hover cards, structured expand panels",
+      "date": "2026-05-26"
+    },
+    {
+      "sha": "a33323d",
+      "subject": "plan: A5 version-stamp guard — catch both header labels and versioned filenames, with exclusion list",
+      "date": "2026-05-26"
+    },
+    {
+      "sha": "f24a734",
+      "subject": "plan: A4 acceptance signal — in-progress books resume cleanly, no manual fix required",
+      "date": "2026-05-26"
+    },
+    {
+      "sha": "5292bc2",
+      "subject": "plan: lock house-style tradition check — fast structural filter here, Claude-powered contradiction check in enrichment step",
+      "date": "2026-05-26"
+    },
+    {
+      "sha": "a3f9604",
+      "subject": "plan: capture A3 tradition guard decisions — Ismaili primary, Sunni/Sufi adjacent, two-pass check",
+      "date": "2026-05-26"
+    },
+    {
+      "sha": "4ba138c",
+      "subject": "dashboard: enrich Wave B step descriptions with database + intelligence detail",
+      "date": "2026-05-26"
+    },
+    {
+      "sha": "d42d903",
+      "subject": "dashboard: commit auto-modified data snapshots",
+      "date": "2026-05-26"
+    },
+    {
+      "sha": "260fe47",
+      "subject": "dashboard: left rail — no internal scroll, fits all 11 steps sticky",
+      "date": "2026-05-26"
+    },
+    {
       "sha": "edf2b21",
       "subject": "dashboard: expand-on-click step detail, pill font fix, border-radius tokens",
       "date": "2026-05-26"
@@ -424,46 +464,6 @@
     {
       "sha": "64c6069",
       "subject": "dashboard: executor labels (Claude/Python/Azure), rectangular corners",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "b29f8ef",
-      "subject": "dashboard: raise type scale to 16px floor, 18px body — comprehensive readability pass",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "52cb8ba",
-      "subject": "dashboard: replace kind-badge jargon with actual vendor labels",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "803cf88",
-      "subject": "dashboard: add interactive service chips to pipeline station cards",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "fdf463b",
-      "subject": "dashboard: add styled hero container to 'How it works' page title",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "ce9923b",
-      "subject": "dashboard: enforce 16px min font globally — all hardcoded sizes → tokens",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "0208df0",
-      "subject": "plan: resolve 3 pre-execution conflicts + raise dashboard font to 16px",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "db6bed0",
-      "subject": "refactor(A2): add SQL schema migration files for knowledge.db",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "4d1bb19",
-      "subject": "copilot-handoff: bootstrap Copilot to drive the pipeline refactor while Asif is out of Claude tokens",
       "date": "2026-05-26"
     }
   ],
