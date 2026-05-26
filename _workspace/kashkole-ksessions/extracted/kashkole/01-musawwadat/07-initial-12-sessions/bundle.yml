@@ -3,7 +3,7 @@
 bundle_schema_version: 1
 source: kashkole
 source_language: ur
-stage: translated
+stage: adapted
 shelf:
   kind: binder
   id: 28
@@ -236,5 +236,5 @@ translation:
   azure_cost_usd: 0.379640
 adaptation:
   engine: claude-haiku-4-5-20251001
-  completed_at: 2026-05-25T15:52:23.767769+00:00
-  adapt_cost_usd: 0.079866
+  completed_at: 2026-05-26T06:43:27.091819+00:00
+  adapt_cost_usd: 0.000000
