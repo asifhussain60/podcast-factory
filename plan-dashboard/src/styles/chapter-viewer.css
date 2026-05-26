@@ -150,15 +150,9 @@ html[data-reader-page][data-edit-highlight="violet"]  { --edit-highlight: oklch(
   background: var(--color-surface-sunken);
   display: none;
   flex-direction: column;
-  transition: width 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
   overflow: hidden;
 }
 @media (min-width: 1024px) { .left-rail { display: flex; } }
-html[data-sidebar="collapsed"] .left-rail { width: 0; min-width: 0; }
-html[data-sidebar="collapsed"] .left-rail .left-rail-back-label,
-html[data-sidebar="collapsed"] .left-rail .left-rail-book,
-html[data-sidebar="collapsed"] .left-rail .left-rail-nav,
-html[data-sidebar="collapsed"] .left-rail .left-rail-head { display: none; }
 
 .left-rail-head {
   padding: 18px 20px 14px;
@@ -175,9 +169,9 @@ html[data-sidebar="collapsed"] .left-rail .left-rail-head { display: none; }
   text-decoration: none;
   transition: color 120ms;
 }
-.left-rail-back:hover { color: var(--color-gold-deep); }
+.left-rail-back:hover { color: var(--color-ink); }
 .left-rail-book { margin-top: 12px; display: flex; align-items: center; gap: 8px; }
-.left-rail-book-icon { color: var(--color-gold-deep); flex-shrink: 0; }
+.left-rail-book-icon { color: var(--color-ink-secondary); flex-shrink: 0; }
 .left-rail-book-title {
   font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
   font-size: 17px;
@@ -204,9 +198,9 @@ html[data-sidebar="collapsed"] .left-rail .left-rail-head { display: none; }
   -webkit-backdrop-filter: blur(10px);
 }
 .center-header-inner {
-  max-width: 64rem;
-  margin: 0 auto;
-  padding: 12px 24px;
+  max-width: none;
+  margin: 0;
+  padding: 14px 32px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -222,18 +216,19 @@ html[data-sidebar="collapsed"] .left-rail .left-rail-head { display: none; }
   flex-wrap: wrap;
 }
 .center-breadcrumb a { color: var(--color-ink-secondary); text-decoration: none; transition: color 120ms; }
-.center-breadcrumb a:hover { color: var(--color-gold-deep); }
+.center-breadcrumb a:hover { color: var(--color-ink); }
 .center-breadcrumb .here { font-weight: 600; color: var(--color-ink); }
 .center-breadcrumb-sep { color: var(--color-rule-strong); display: inline-flex; align-items: center; }
 .center-header-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 .center-main {
-  max-width: 64rem;
-  margin: 0 auto;
+  /* Fills all the space center-col gives it. The chapter-page card
+     inside sets its own max-width for comfortable reading. */
+  max-width: none;
   width: 100%;
   flex: 1;
-  padding: 32px 24px 64px;
+  padding: 32px 32px 64px;
 }
-@media (min-width: 1024px) { .center-main { padding-left: 40px; padding-right: 40px; } }
+@media (min-width: 1024px) { .center-main { padding: 32px 48px 64px; } }
 
 .right-rail {
   position: sticky;
@@ -255,84 +250,77 @@ html[data-right-rail="collapsed"] .right-rail { width: 0; padding: 0; overflow: 
 html[data-right-rail="collapsed"] .right-rail .right-rail-content { display: none; }
 .right-rail-content { display: flex; flex-direction: column; }
 
-/* ── Vertical pull-bar handles (replaces corner toggle buttons) ─── */
+/* ── Right-rail toggle (chevron pull-tab) ────────────────────── */
 
+/* Modern minimal toggle: a small chevron-bearing tab fixed vertically
+   centered on the right rail's outer edge. Sits flush against the rail
+   when open; sticks out from the viewport edge when the rail is
+   collapsed. Pure neutral palette — no gold. */
 .rail-pull {
   position: fixed;
   top: 50%;
   transform: translateY(-50%);
-  width: 14px;
-  height: 84px;
-  border: none;
-  background: transparent;
+  width: 22px;
+  height: 56px;
+  border: 1px solid var(--color-rule-default);
+  border-right: none;
+  background: var(--color-surface-raised);
+  color: var(--color-ink-tertiary);
   cursor: pointer;
   padding: 0;
   z-index: 25;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 8px 0 0 8px;
+  box-shadow: -2px 0 6px -3px rgba(0,0,0,0.08);
+  transition: right 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
+              color 140ms ease,
+              background 140ms ease;
+  right: calc(340px + 64px);
+}
+html[data-right-rail="collapsed"] .rail-pull { right: 64px; }
+.rail-pull:hover { color: var(--color-ink); background: var(--color-surface-hover); }
+.rail-pull:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 2px; }
+.rail-pull-chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   transition: transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
-.rail-pull-handle {
-  display: block;
-  width: 5px;
-  height: 100%;
-  background: var(--color-rule-default);
-  border-radius: 999px;
-  transition: background 160ms ease, width 160ms ease, height 160ms ease;
-}
-.rail-pull:hover .rail-pull-handle {
-  background: var(--color-gold-deep);
-  width: 6px;
-  height: 108px;
-}
-.rail-pull:focus-visible { outline: 2px solid var(--color-gold-deep); outline-offset: 4px; border-radius: 8px; }
+html[data-right-rail="collapsed"] .rail-pull-chevron { transform: rotate(180deg); }
 
-/* Left handle: sits at the inner (right) edge of the left rail.
-   Position aligned with the rail's right edge; when collapsed,
-   snaps to the screen's left edge. */
-.rail-pull--left { left: calc(320px - 7px); }
-html[data-sidebar="collapsed"] .rail-pull--left { left: 0; }
-
-/* Right handle: sits at the inner (left) edge of the right rail.
-   When collapsed, inset 64px so the handle clears the Speechify widget
-   that lives on the viewport's right edge. */
-.rail-pull--right { right: calc(340px - 7px); }
-html[data-right-rail="collapsed"] .rail-pull--right { right: 64px; }
-
-/* Below the 1024px threshold the rails themselves are hidden, so hide
-   the handles too. */
-@media (max-width: 1023px) {
-  .rail-pull { display: none; }
-}
+@media (max-width: 1023px) { .rail-pull { display: none; } }
 
 /* ── Chapter page (white printed-page card) ─────────────────── */
 
 .chapter-page {
   position: relative;
+  max-width: 980px;
+  margin: 0 auto;
   background: var(--color-surface-raised);
   border: 1px solid var(--color-rule-subtle);
   border-radius: 10px;
-  padding: 48px 56px 56px;
+  padding: 56px 64px 64px;
   box-shadow:
     0 1px 0 0 color-mix(in oklab, white 70%, transparent) inset,
-    0 4px 12px -4px rgba(0,0,0,0.05),
-    0 18px 36px -18px rgba(0,0,0,0.18);
+    0 1px 3px rgba(0,0,0,0.04),
+    0 8px 20px -10px rgba(0,0,0,0.10);
 }
 @media (max-width: 768px) { .chapter-page { padding: 32px 24px; } }
 
-.chapter-header { display: flex; flex-direction: column; gap: 8px; padding-bottom: 16px; }
+.chapter-header { display: flex; flex-direction: column; gap: 12px; padding-bottom: 24px; }
 .chapter-eyebrow {
   font-family: var(--font-ui);
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-gold-deep);
+  color: var(--color-ink-tertiary);
 }
 .chapter-eyebrow-meta {
   color: var(--color-ink-tertiary);
-  font-weight: 500;
+  font-weight: 400;
   text-transform: none;
   letter-spacing: normal;
   margin-left: 8px;
@@ -343,16 +331,16 @@ html[data-right-rail="collapsed"] .rail-pull--right { right: 64px; }
   font-weight: 700;
   line-height: 1.15;
   color: var(--color-ink);
-  -webkit-text-fill-color: var(--color-ink);
   text-wrap: balance;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
   margin: 0;
 }
 .gold-hairline-thin {
-  height: 2px;
-  background: linear-gradient(to right, var(--color-gold-deep), transparent 60%);
-  margin: 0.6em 0 0;
+  height: 1px;
+  background: var(--color-rule-subtle);
+  margin: 4px 0 0;
   border: 0;
+  width: 64px;
 }
 .chapter-toolbar {
   display: flex;
@@ -407,7 +395,7 @@ html[data-reader-font="opendyslexic"] .reading-column { font-family: "OpenDyslex
 .prose-body h3 { font-size: 1.2em; font-weight: 600; line-height: 1.35; margin: 1.6em 0 0.4em; }
 .prose-body h4 { font-size: 1.05em; font-weight: 600; line-height: 1.4; margin: 1.4em 0 0.3em; }
 .prose-body blockquote {
-  border-left: 3px solid var(--color-gold-deep);
+  border-left: 3px solid var(--color-rule-strong);
   padding: 0.3em 0 0.3em 1.1em;
   margin: 1.3em 0;
   font-style: italic;
@@ -423,13 +411,13 @@ html[data-reader-font="opendyslexic"] .reading-column { font-family: "OpenDyslex
   margin: 2em 0;
 }
 .prose-body a {
-  color: var(--color-gold-deep);
+  color: var(--color-ink);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
-  text-decoration-color: color-mix(in oklab, var(--color-gold-deep) 40%, transparent);
+  text-decoration-color: color-mix(in oklab, var(--color-ink) 40%, transparent);
 }
-.prose-body a:hover { text-decoration-color: var(--color-gold-deep); }
+.prose-body a:hover { text-decoration-color: var(--color-ink); }
 .prose-body ul, .prose-body ol { margin: 0.8em 0 0.8em 1.7em; }
 .prose-body li { margin: 0.35em 0; }
 .prose-body code {
@@ -451,15 +439,16 @@ html[data-reader-font="opendyslexic"] .reading-column { font-family: "OpenDyslex
   opacity: 0.7;
 }
 
-/* Drop-cap + focus-mode (data-driven) */
+/* Drop-cap (data-driven, opt-in via reader settings). Neutral ink color
+   to fit the modern minimal palette — no gold flourish. */
 html[data-dropcap="on"] .prose-body > p:first-of-type::first-letter {
-  font-family: "EB Garamond", Georgia, serif;
+  font-family: var(--font-body);
   font-size: 3.4em;
   float: left;
   line-height: 0.88;
-  padding: 0.06em 0.1em 0 0;
-  color: var(--color-gold-deep);
-  font-weight: 500;
+  padding: 0.06em 0.12em 0 0;
+  color: var(--color-ink);
+  font-weight: 600;
 }
 html[data-focus-mode="on"] .prose-body p,
 html[data-focus-mode="on"] .prose-body li {
@@ -532,7 +521,7 @@ body[data-arabic="on"] .ref-quran .ar-overlay .ar-script { display: none; }
 
 .reading-progress {
   position: fixed; inset: 0 0 auto 0; height: 2px;
-  background: var(--color-gold-deep);
+  background: var(--color-ink);
   transform-origin: 0 50%;
   transform: scaleX(0);
   z-index: 60;
@@ -568,7 +557,7 @@ body[data-arabic="on"] .ref-quran .ar-overlay .ar-script { display: none; }
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 .chapter-nav-link:hover {
-  border-color: var(--color-gold-deep);
+  border-color: var(--color-ink);
   box-shadow: 0 2px 6px -2px rgba(0,0,0,0.08);
 }
 .chapter-nav-link.is-next { text-align: right; }
@@ -590,76 +579,54 @@ body[data-arabic="on"] .ref-quran .ar-overlay .ar-script { display: none; }
   font-weight: 600;
   color: var(--color-ink);
 }
-.chapter-nav-link:hover .chapter-nav-title { color: var(--color-gold-deep); }
+.chapter-nav-link:hover .chapter-nav-title { color: var(--color-ink); }
 
 /* ── Grouped TOC ────────────────────────────────────────────── */
 
-.toc-stack { display: flex; flex-direction: column; gap: 8px; }
+.toc-stack { display: flex; flex-direction: column; gap: 6px; }
 .toc-card {
-  border: 1px solid var(--color-rule-default);
+  border: 1px solid var(--color-rule-subtle);
   border-radius: 8px;
   overflow: hidden;
   background: var(--color-surface-raised);
   transition: border-color 0.12s ease;
 }
-.toc-card.is-even { background: var(--color-surface-zebra); }
-.toc-card:hover { border-color: var(--color-rule-strong); }
-.toc-card.is-active {
-  border: 2px solid var(--color-ink);
-  box-shadow: 0 2px 4px -1px rgba(0,0,0,0.1);
-}
+.toc-card:hover { border-color: var(--color-rule-default); }
+.toc-card.is-active { border-color: var(--color-ink); }
 .toc-row {
   display: flex;
   align-items: flex-start;
-  gap: 8px;
-  padding: 8px 12px;
+  gap: 10px;
+  padding: 10px 14px;
   text-decoration: none;
-  color: inherit;
-  border-left: 3px solid transparent;
-  transition: background 0.1s ease;
+  color: var(--color-ink-secondary);
+  transition: background 0.12s ease, color 0.12s ease;
   font-family: var(--font-ui);
   font-size: 13px;
   line-height: 1.4;
 }
 .toc-row + .toc-row { border-top: 1px solid var(--color-rule-subtle); }
-.toc-row-chapter {
-  border-left-color: var(--color-source-bar);
-  background: var(--color-source-soft);
-  color: var(--color-ink);
-}
-.toc-row-chapter.is-active {
-  border-left-color: var(--color-source);
-  background: var(--color-source-medium);
-  color: var(--color-ink);
-}
-.toc-row-chapter:hover { background: color-mix(in oklab, var(--color-source) 12%, var(--color-source-soft)); }
-.toc-row-episode {
-  border-left-color: var(--color-derived-bar);
-  background: var(--color-derived-soft);
-}
-.toc-row-episode.is-active {
-  border-left-color: var(--color-derived);
-  background: var(--color-derived-medium);
-}
-.toc-row-episode:hover { background: color-mix(in oklab, var(--color-derived) 12%, var(--color-derived-soft)); }
-.toc-row-episode.is-empty {
-  border-left-color: var(--color-rule-default);
-  background: var(--color-surface-sunken);
+.toc-row:hover { background: var(--color-surface-hover); color: var(--color-ink); }
+.toc-row.is-active { background: var(--color-surface-sunken); color: var(--color-ink); font-weight: 500; }
+.toc-row.is-empty {
+  background: transparent;
   cursor: default;
+  color: var(--color-ink-tertiary);
 }
-.toc-row-icon { flex-shrink: 0; margin-top: 2px; color: var(--color-source); }
-.toc-row-episode .toc-row-icon { color: var(--color-derived); }
+.toc-row-icon { flex-shrink: 0; margin-top: 2px; color: var(--color-ink-tertiary); }
+.toc-row.is-active .toc-row-icon { color: var(--color-ink); }
 .toc-row-num {
   font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 700;
+  font-size: 10.5px;
+  font-weight: 600;
   letter-spacing: 0.02em;
   flex-shrink: 0;
-  color: var(--color-source);
+  color: var(--color-ink-tertiary);
+  padding-top: 1px;
 }
-.toc-row-episode .toc-row-num { color: var(--color-derived); }
-.toc-row-num.is-muted { color: var(--color-ink-tertiary); }
-.toc-row-title { font-weight: 500; }
+.toc-row.is-active .toc-row-num { color: var(--color-ink); }
+.toc-row-num.is-muted { color: var(--color-ink-disabled); }
+.toc-row-title { font-weight: inherit; }
 .toc-row-empty-label { font-style: italic; color: var(--color-ink-tertiary); font-size: 12px; }
 .toc-orphans { margin-top: 16px; }
 .toc-section-label {
@@ -703,7 +670,7 @@ body[data-arabic="on"] .ref-quran .ar-overlay .ar-script { display: none; }
   font-size: 12.5px;
 }
 .mini-toc-link:hover { color: var(--color-ink); }
-.mini-toc-link.is-active { color: var(--color-gold-deep); font-weight: 600; }
+.mini-toc-link.is-active { color: var(--color-ink); font-weight: 600; }
 .mini-toc-dot {
   position: absolute;
   left: 0;
@@ -714,7 +681,7 @@ body[data-arabic="on"] .ref-quran .ar-overlay .ar-script { display: none; }
   background: var(--color-rule-default);
   transition: background 0.1s ease;
 }
-.mini-toc-link.is-active .mini-toc-dot { background: var(--color-gold-deep); }
+.mini-toc-link.is-active .mini-toc-dot { background: var(--color-ink); }
 
 /* ── Right-rail panels ──────────────────────────────────────── */
 
@@ -724,7 +691,7 @@ body[data-arabic="on"] .ref-quran .ar-overlay .ar-script { display: none; }
   margin-top: 16px;
 }
 .rail-panel-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-.rail-panel-icon { color: var(--color-gold-deep); }
+.rail-panel-icon { color: var(--color-ink-tertiary); }
 .rail-panel-label {
   font-family: var(--font-ui);
   font-size: 12px;
@@ -747,7 +714,7 @@ body[data-arabic="on"] .ref-quran .ar-overlay .ar-script { display: none; }
   padding: 0;
   margin-bottom: 12px;
 }
-.rail-panel-toggle:hover { color: var(--color-gold-deep); }
+.rail-panel-toggle:hover { color: var(--color-ink); }
 .rail-panel-toggle-icon { font-size: 14px; }
 .rail-textarea {
   width: 100%;
@@ -763,8 +730,8 @@ body[data-arabic="on"] .ref-quran .ar-overlay .ar-script { display: none; }
 }
 .rail-textarea:focus {
   outline: none;
-  border-color: var(--color-gold-deep);
-  box-shadow: 0 0 0 2px color-mix(in oklab, var(--color-gold-deep) 18%, transparent);
+  border-color: var(--color-ink);
+  box-shadow: 0 0 0 2px color-mix(in oklab, var(--color-ink) 14%, transparent);
 }
 .rail-row { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
 .rail-hint { font-family: var(--font-ui); font-size: 10px; color: var(--color-ink-tertiary); }
@@ -783,13 +750,13 @@ body[data-arabic="on"] .ref-quran .ar-overlay .ar-script { display: none; }
   cursor: pointer;
 }
 .rail-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-.rail-btn:hover:not(:disabled) { border-color: var(--color-gold-deep); }
+.rail-btn:hover:not(:disabled) { border-color: var(--color-ink); }
 .rail-btn-primary {
-  background: var(--color-gold-deep);
-  color: white;
-  border-color: var(--color-gold-deep);
+  background: var(--color-ink);
+  color: var(--color-surface-raised);
+  border-color: var(--color-ink);
 }
-.rail-btn-primary:hover:not(:disabled) { background: color-mix(in oklab, var(--color-gold-deep) 88%, black); }
+.rail-btn-primary:hover:not(:disabled) { background: color-mix(in oklab, var(--color-ink) 85%, white); }
 
 .rail-history { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }
 .rail-history-label {
@@ -871,7 +838,7 @@ body[data-arabic="on"] .ref-quran .ar-overlay .ar-script { display: none; }
   background: var(--color-surface-raised);
   color: var(--color-ink);
 }
-.ask-chapter-input:focus { outline: none; border-color: var(--color-gold-deep); }
+.ask-chapter-input:focus { outline: none; border-color: var(--color-ink); }
 .ask-chapter-clear {
   background: transparent;
   border: none;
@@ -1036,37 +1003,40 @@ body[data-arabic="on"] .ref-quran .ar-overlay .ar-script { display: none; }
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 4px 12px;
+  padding: 5px 12px;
   border-radius: 999px;
-  border: 2px solid var(--color-gold);
+  border: 1px solid var(--color-rule-default);
   background: var(--color-surface-raised);
   font-family: var(--font-ui);
   font-size: 12px;
   font-weight: 500;
   color: var(--color-ink-secondary);
   cursor: pointer;
-  transition: all 200ms ease;
+  transition: background 200ms ease, border-color 200ms ease, color 200ms ease;
 }
-.arabic-toggle.is-on { background: var(--color-gold-soft); border-color: var(--color-gold); color: var(--color-gold-deep); }
-.arabic-toggle.is-off:hover { background: color-mix(in oklab, var(--color-gold-soft) 60%, transparent); transform: translateY(-1px); }
+.arabic-toggle.is-on { background: var(--color-ink); border-color: var(--color-ink); color: var(--color-surface-raised); }
+.arabic-toggle.is-off:hover { border-color: var(--color-ink); color: var(--color-ink); }
 .arabic-toggle.is-pulsing { animation: arabic-pulse 1.8s ease-in-out 2; }
 @keyframes arabic-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0); }
-  50%      { box-shadow: 0 0 0 6px rgba(217, 119, 6, 0.25); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(31, 29, 24, 0); }
+  50%      { box-shadow: 0 0 0 6px rgba(31, 29, 24, 0.18); }
 }
 .arabic-toggle-glyph { font-family: var(--font-arabic-naskh); font-size: 18px; line-height: 1; }
 .arabic-toggle-badge {
   display: inline-block;
-  padding: 0 4px;
+  padding: 0 5px;
   border-radius: 999px;
   font-size: 9px;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   background: var(--color-surface-sunken);
-  color: var(--color-ink-secondary);
+  color: var(--color-ink-tertiary);
 }
-.arabic-toggle.is-on .arabic-toggle-badge { background: var(--color-gold); color: white; }
+.arabic-toggle.is-on .arabic-toggle-badge {
+  background: color-mix(in oklab, var(--color-surface-raised) 22%, transparent);
+  color: var(--color-surface-raised);
+}
 @media (max-width: 600px) { .arabic-toggle-label { display: none; } }
 
 /* ── ReaderControls ─────────────────────────────────────────── */
@@ -1104,10 +1074,13 @@ body[data-arabic="on"] .ref-quran .ar-overlay .ar-script { display: none; }
 .reader-chip:hover { border-color: var(--color-rule-strong); color: var(--color-ink); }
 .reader-chip.is-empty { color: var(--color-ink-disabled); cursor: not-allowed; background: var(--color-surface-sunken); }
 .reader-chip.is-on {
-  box-shadow: 0 0 0 1px var(--color-gold-deep);
-  border-color: var(--color-gold-deep);
-  color: var(--color-ink);
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+  color: var(--color-surface-raised);
 }
+.reader-chip.is-on .reader-chip-count,
+.reader-chip.is-on .reader-chip-kbd { color: color-mix(in oklab, var(--color-surface-raised) 75%, transparent); }
+.reader-chip.is-on .reader-chip-kbd { border-color: color-mix(in oklab, var(--color-surface-raised) 30%, transparent); }
 .reader-chip-glyph { font-size: 13px; }
 .reader-chip-count { color: var(--color-ink-tertiary); font-variant-numeric: tabular-nums; }
 .reader-chip-kbd {
@@ -1127,9 +1100,8 @@ body[data-arabic="on"] .ref-quran .ar-overlay .ar-script { display: none; }
 }
 .reader-chip:hover .reader-chip-kbd { opacity: 1; }
 @media (max-width: 600px) { .reader-chip-kbd { display: none; } }
-.reader-chip.reader-chip--yellow.is-on  { background: color-mix(in oklab, var(--color-quran)  18%, var(--color-surface-raised)); }
-.reader-chip.reader-chip--orange.is-on  { background: color-mix(in oklab, var(--color-hadith) 18%, var(--color-surface-raised)); }
-.reader-chip.reader-chip--emerald.is-on { background: color-mix(in oklab, var(--color-arabic) 18%, var(--color-surface-raised)); }
+/* Per-category overrides removed — neutral ink is consistent across
+   ref chips. Color signal lives on the ref spans inside the prose. */
 
 /* ── ReaderSettings ─────────────────────────────────────────── */
 
@@ -1148,7 +1120,7 @@ body[data-arabic="on"] .ref-quran .ar-overlay .ar-script { display: none; }
   color: var(--color-ink-secondary);
   cursor: pointer;
 }
-.reader-settings-trigger:hover { border-color: var(--color-gold-deep); color: var(--color-gold-deep); }
+.reader-settings-trigger:hover { border-color: var(--color-ink); color: var(--color-ink); }
 .reader-settings-overlay { position: fixed; inset: 0; z-index: 50; }
 @media (max-width: 640px) { .reader-settings-overlay { background: rgba(0,0,0,0.3); } }
 .reader-settings-panel {
@@ -1216,9 +1188,9 @@ body[data-arabic="on"] .ref-quran .ar-overlay .ar-script { display: none; }
 }
 .reader-settings-chip:hover { border-color: var(--color-rule-strong); color: var(--color-ink); }
 .reader-settings-chip.is-active {
-  border-color: var(--color-gold-deep);
-  background: var(--color-gold-soft);
-  color: var(--color-gold-deep);
+  border-color: var(--color-ink);
+  background: var(--color-ink);
+  color: var(--color-surface-raised);
 }
 .reader-settings-chip.is-stacked { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px; }
 .reader-settings-chip-label { font-family: var(--font-ui); font-size: 11px; }
@@ -1282,7 +1254,7 @@ body[data-arabic="on"] .ref-quran .ar-overlay .ar-script { display: none; }
   cursor: pointer;
   transition: background 0.15s ease;
 }
-.reader-settings-switch.is-on  { background: var(--color-gold-deep); }
+.reader-settings-switch.is-on  { background: var(--color-ink); }
 .reader-settings-switch.is-off { background: var(--color-rule-default); }
 .reader-settings-switch-knob {
   position: absolute;
@@ -1314,7 +1286,7 @@ body[data-arabic="on"] .ref-quran .ar-overlay .ar-script { display: none; }
   text-decoration: underline;
   text-underline-offset: 2px;
 }
-.reader-settings-reset:hover { color: var(--color-gold-deep); }
+.reader-settings-reset:hover { color: var(--color-ink); }
 .reader-settings-hint { font-family: var(--font-ui); font-size: 10px; color: var(--color-ink-tertiary); }
 
 /* ── FloatingActions + CopyButton ───────────────────────────── */
@@ -1346,7 +1318,7 @@ body[data-arabic="on"] .ref-quran .ar-overlay .ar-script { display: none; }
   font-family: var(--font-ui);
   font-size: 16px;
 }
-.floating-action-btn:hover { color: var(--color-gold-deep); transform: translateY(-1px); }
+.floating-action-btn:hover { color: var(--color-ink); transform: translateY(-1px); }
 .floating-action-btn.is-flash { background: oklch(76% 0.14 145); color: white; }
 .floating-action-btn.is-serif { font-family: var(--font-body); font-weight: 600; }
 
@@ -1383,24 +1355,24 @@ body[data-arabic="on"] .ref-quran .ar-overlay .ar-script { display: none; }
   height: 1.6em;
   border-radius: 50%;
   background: transparent;
-  color: var(--color-gold);
+  color: var(--color-ink-tertiary);
   border: none;
   font-size: 0.9em;
   cursor: pointer;
   opacity: 0;
-  transition: opacity 150ms ease, background 150ms ease;
+  transition: opacity 150ms ease, background 150ms ease, color 150ms ease;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: inherit;
 }
 .h2-with-summarize:hover .section-summarize-btn { opacity: 1; }
-.section-summarize-btn:hover { background: color-mix(in oklab, var(--color-gold) 12%, transparent); }
+.section-summarize-btn:hover { background: var(--color-surface-sunken); color: var(--color-ink); }
 .section-summary-callout {
   margin: 0.6em 0 1.2em;
   padding: 0.7em 1em;
-  border-left: 3px solid var(--color-gold);
-  background: color-mix(in oklab, var(--color-gold) 5%, transparent);
+  border-left: 3px solid var(--color-rule-strong);
+  background: var(--color-surface-sunken);
   border-radius: 0 4px 4px 0;
   font-size: 0.92em;
   font-style: italic;
@@ -1411,11 +1383,12 @@ body[data-arabic="on"] .ref-quran .ar-overlay .ar-script { display: none; }
 .section-summary-body { font-style: italic; }
 .section-summary-keypoints { margin-top: 0.5em; display: flex; flex-wrap: wrap; gap: 0.3em; font-style: normal; }
 .section-summary-chip {
-  background: color-mix(in oklab, var(--color-gold) 14%, transparent);
-  color: var(--color-gold-deep);
+  background: var(--color-surface-sunken);
+  color: var(--color-ink-secondary);
   padding: 0.1em 0.55em;
   border-radius: 999px;
   font-size: 0.82em;
+  border: 1px solid var(--color-rule-subtle);
 }
 .section-summary-attr {
   margin-top: 0.4em;
@@ -1425,6 +1398,7 @@ body[data-arabic="on"] .ref-quran .ar-overlay .ar-script { display: none; }
   letter-spacing: 0.08em;
   color: var(--color-ink-tertiary);
   font-style: normal;
+  font-weight: 500;
 }
 
 /* ── ChapterEditor (inline editor) ─────────────────────────── */

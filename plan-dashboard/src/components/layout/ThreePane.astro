@@ -18,10 +18,10 @@ const { bookSlug, breadcrumb = [], showRail = true } = Astro.props;
 ---
 
 <script is:inline>
-  // Restore sidebar collapsed state before paint to avoid flicker.
+  // Restore right-rail collapsed state before paint to avoid flicker.
   try {
-    if (localStorage.getItem('pf-reader:sidebar-collapsed') === '1') {
-      document.documentElement.setAttribute('data-sidebar', 'collapsed');
+    if (localStorage.getItem('pf-reader:right-rail-collapsed') === '1') {
+      document.documentElement.setAttribute('data-right-rail', 'collapsed');
     }
   } catch (_) {}
 </script>
@@ -43,9 +43,6 @@ const { bookSlug, breadcrumb = [], showRail = true } = Astro.props;
         <p class="left-rail-nav-empty">No navigation provided.</p>
       </slot>
     </nav>
-    <button id="sidebar-toggle" class="rail-pull rail-pull--left" type="button" aria-label="Collapse left panel" title="Collapse left panel (s)">
-      <span class="rail-pull-handle"></span>
-    </button>
   </aside>
 
   <div class="center-col">
@@ -74,52 +71,42 @@ const { bookSlug, breadcrumb = [], showRail = true } = Astro.props;
   </div>
 
   {showRail && (
-    <aside class="right-rail">
-      <button id="right-rail-toggle" class="rail-pull rail-pull--right" type="button" aria-label="Collapse right panel" title="Collapse right panel (r)">
-        <span class="rail-pull-handle"></span>
+    <>
+      <aside class="right-rail">
+        <div class="right-rail-content">
+          <slot name="rail" />
+        </div>
+      </aside>
+      <button id="right-rail-toggle" class="rail-pull" type="button" aria-label="Toggle right panel" title="Toggle right panel (r)">
+        <span class="rail-pull-chevron" aria-hidden="true">
+          <svg viewBox="0 0 12 18" width="12" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="8.5,3 3,9 8.5,15"></polyline>
+          </svg>
+        </span>
       </button>
-      <div class="right-rail-content">
-        <slot name="rail" />
-      </div>
-    </aside>
+    </>
   )}
 </div>
 
 <script is:inline>
-  /* Left/right rail collapse — both persist independently via localStorage,
-     both restorable on load, both keyboard-toggleable (s = left, r = right). */
+  /* Right-rail collapse only — persists in localStorage, keyboard `r`.
+     Left rail is fixed (no collapse) per design decision 2025-05-26. */
   (function () {
     var h = document.documentElement;
-
-    try {
-      if (localStorage.getItem('pf-reader:sidebar-collapsed') === '1') h.setAttribute('data-sidebar', 'collapsed');
-      if (localStorage.getItem('pf-reader:right-rail-collapsed') === '1') h.setAttribute('data-right-rail', 'collapsed');
-    } catch (_) {}
-
-    function setLeft(collapsed) {
-      if (collapsed) h.setAttribute('data-sidebar', 'collapsed'); else h.removeAttribute('data-sidebar');
-      try { localStorage.setItem('pf-reader:sidebar-collapsed', collapsed ? '1' : '0'); } catch (_) {}
-    }
     function setRight(collapsed) {
-      if (collapsed) h.setAttribute('data-right-rail', 'collapsed'); else h.removeAttribute('data-right-rail');
+      if (collapsed) h.setAttribute('data-right-rail', 'collapsed');
+      else h.removeAttribute('data-right-rail');
       try { localStorage.setItem('pf-reader:right-rail-collapsed', collapsed ? '1' : '0'); } catch (_) {}
     }
-
-    var leftBtn = document.getElementById('sidebar-toggle');
-    if (leftBtn) leftBtn.addEventListener('click', function () {
-      setLeft(h.getAttribute('data-sidebar') !== 'collapsed');
-    });
     var rightBtn = document.getElementById('right-rail-toggle');
     if (rightBtn) rightBtn.addEventListener('click', function () {
       setRight(h.getAttribute('data-right-rail') !== 'collapsed');
     });
-
     document.addEventListener('keydown', function (e) {
       if (e.metaKey || e.ctrlKey || e.altKey) return;
       var t = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : '';
       if (t === 'input' || t === 'textarea' || (e.target && e.target.isContentEditable)) return;
-      if (e.key === 's') setLeft(h.getAttribute('data-sidebar') !== 'collapsed');
-      else if (e.key === 'r') setRight(h.getAttribute('data-right-rail') !== 'collapsed');
+      if (e.key === 'r') setRight(h.getAttribute('data-right-rail') !== 'collapsed');
     });
   })();
 </script>

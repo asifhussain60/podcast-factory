@@ -44,7 +44,7 @@ export const defaultSettings: ReaderSettings = {
   width: 'wide',
   theme: 'light',
   arabicOverlay: false,
-  dropCap: true,
+  dropCap: false,
   focusMode: false,
   editHighlight: 'emerald',
 };
