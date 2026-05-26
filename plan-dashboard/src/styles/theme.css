@@ -532,9 +532,7 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 .pipeline-rail { position: relative; height: 100%; }
 .pipeline-rail-sticky {
   position: sticky; top: 88px;
-  display: flex; flex-direction: column; gap: var(--sp-3);
-  max-height: calc(100vh - 110px);
-  overflow-y: auto;
+  display: flex; flex-direction: column; gap: var(--sp-2);
   padding: var(--sp-3);
   background: linear-gradient(180deg, var(--c-bg-card), var(--c-bg-elev));
   border: 1px solid var(--c-rule);
@@ -543,22 +541,20 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
     0 1px 2px rgba(31, 29, 24, 0.04),
     0 12px 32px -16px rgba(31, 29, 24, 0.18);
 }
-.pipeline-rail-sticky::-webkit-scrollbar { width: 6px; }
-.pipeline-rail-sticky::-webkit-scrollbar-thumb { background: var(--c-rule); border-radius: 999px; }
 
 .rail-eyebrow { padding: 0 var(--sp-2) var(--sp-1); }
 
 .rail-list {
   list-style: none; padding: 0; margin: 0;
   display: flex; flex-direction: column;
-  gap: 6px;
+  gap: 4px;
 }
 .rail-item { position: relative; }
 
 .rail-link {
   display: flex; align-items: center; gap: var(--sp-3);
   width: 100%;
-  padding: 10px 12px;
+  padding: 7px 10px;
   border-radius: var(--r-md);
   background: var(--c-bg-card);
   border: 1px solid var(--c-rule-soft);
@@ -580,12 +576,12 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 .rail-link:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
 
 .rail-dot {
-  flex: 0 0 34px; width: 34px; height: 34px;
+  flex: 0 0 28px; width: 28px; height: 28px;
   border-radius: 50%;
   background: var(--c-bg-elev);
   border: 1.5px solid var(--c-rule);
   display: flex; align-items: center; justify-content: center;
-  font-size: var(--fs-2xs);
+  font-size: var(--fs-label);
   color: var(--c-ink-muted);
   transition: background 0.18s, border-color 0.18s, color 0.18s, box-shadow 0.18s;
 }
@@ -594,7 +590,7 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 
 .rail-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
 .rail-meta { font-size: var(--fs-2xs); text-transform: uppercase; letter-spacing: 0.06em; color: var(--c-ink-muted); font-weight: 700; }
-.rail-name { font-size: var(--fs-base); font-weight: 600; color: var(--c-ink-dim); line-height: 1.2; }
+.rail-name { font-size: var(--fs-sm); font-weight: 600; color: var(--c-ink-dim); line-height: 1.2; }
 
 .rail-item.is-active .rail-link {
   background: linear-gradient(180deg, var(--c-bg-elev), color-mix(in oklab, var(--c-accent) 6%, var(--c-bg-elev)));
