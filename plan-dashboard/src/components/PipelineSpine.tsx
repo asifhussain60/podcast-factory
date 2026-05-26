@@ -44,10 +44,148 @@ const KIND_META: Record<string, { label: string; icon: string }> = {
   mechanical: { label: 'Mechanical', icon: 'gear' },
 };
 
+// ── Service chip definitions ────────────────────────────────────────────────
+
+type VendorKey = 'anthropic' | 'azure' | 'google' | 'internal';
+
+interface SvcChip {
+  id: string;
+  vendor: VendorKey;
+  icon: string;          // font-awesome solid name
+  label: string;         // short e.g. "Document Intelligence"
+  sublabel: string;      // e.g. "Azure AI" or agent friendly name
+  resource?: string;     // exact Azure resource / model / product name
+  detail: string;        // tooltip body
+  cost?: string;
+}
+
+const VENDOR_META: Record<VendorKey, { color: string; wordmark: string }> = {
+  anthropic: { color: 'var(--c-vendor-anthropic)', wordmark: 'Anthropic' },
+  azure:     { color: 'var(--c-vendor-azure)',     wordmark: 'Azure AI' },
+  google:    { color: 'var(--c-vendor-google)',    wordmark: 'Google' },
+  internal:  { color: 'var(--c-ink-dim)',           wordmark: 'Internal' },
+};
+
+const AZURE_MODULE_CHIPS: Record<string, Omit<SvcChip, 'id'>> = {
+  'azure-document-intelligence': {
+    vendor: 'azure', icon: 'file-lines',
+    label: 'Document Intelligence',
+    sublabel: 'Azure AI',
+    resource: 'journal-docintel',
+    detail: 'Reads every page of the source PDF using Azure AI Document Intelligence — recognizes Arabic script, headings, tables, and footnotes with full layout awareness.',
+    cost: 'Charged per page analyzed',
+  },
+  'azure-translator': {
+    vendor: 'azure', icon: 'language',
+    label: 'Translator',
+    sublabel: 'Azure AI',
+    resource: 'journal-translator',
+    detail: 'Translates recognized Arabic text to an English working copy using Azure AI Translator. The original Arabic is preserved alongside it for reference.',
+    cost: 'Charged per million characters',
+  },
+};
+
+const PHASE_EXTRA_CHIPS: Record<string, Omit<SvcChip, 'id'>[]> = {
+  P10: [{
+    vendor: 'google', icon: 'headphones',
+    label: 'NotebookLM',
+    sublabel: 'Google',
+    resource: 'Audio Overview',
+    detail: 'The finished episode bundle is uploaded to Google NotebookLM. Its Audio Overview feature generates the two-host podcast conversation from the source material.',
+    cost: 'Per-episode generation',
+  }],
+};
+
+function buildChips(p: Phase, agent: Agent | null): SvcChip[] {
+  const chips: SvcChip[] = [];
+
+  // Azure chips from module IDs
+  p.modules.forEach((mid, i) => {
+    const def = AZURE_MODULE_CHIPS[mid];
+    if (def) chips.push({ id: `${p.id}-az-${i}`, ...def });
+  });
+
+  // Anthropic chip for all agent-driven phases
+  if ((p.kind === 'agentic' || p.kind === 'hybrid') && agent) {
+    chips.push({
+      id: `${p.id}-claude`,
+      vendor: 'anthropic', icon: 'robot',
+      label: 'Claude',
+      sublabel: agent.name,
+      resource: 'claude-3-5-sonnet',
+      detail: `${agent.role}. ${agent.plain}`,
+      cost: agent.cost_profile,
+    });
+  }
+
+  // Per-phase extras (NotebookLM at P10)
+  (PHASE_EXTRA_CHIPS[p.id] ?? []).forEach((def, i) =>
+    chips.push({ id: `${p.id}-extra-${i}`, ...def })
+  );
+
+  return chips;
+}
+
+// ── ServiceChip component ───────────────────────────────────────────────────
+
+function ServiceChip({ chip, open, onToggle }: {
+  chip: SvcChip;
+  open: boolean;
+  onToggle: () => void;
+}) {
+  const meta = VENDOR_META[chip.vendor];
+  return (
+    <div className={`svc-chip vendor-${chip.vendor} ${open ? 'is-open' : ''}`}>
+      <button
+        type="button"
+        className="svc-chip-pill"
+        aria-expanded={open}
+        onClick={onToggle}
+        title={`${chip.label} — click for details`}
+      >
+        <span className="svc-chip-dot" style={{ background: meta.color }} aria-hidden="true" />
+        <span className="svc-chip-label">{chip.label}</span>
+        <i className={`fa-solid fa-chevron-${open ? 'up' : 'down'} svc-chip-caret`} aria-hidden="true" />
+      </button>
+      {open && (
+        <div className="svc-chip-popover" role="tooltip">
+          <div className="svc-chip-pop-head">
+            <i className={`fa-solid fa-${chip.icon}`} aria-hidden="true" style={{ color: meta.color }} />
+            <div>
+              <strong className="svc-chip-pop-title">{chip.label}</strong>
+              <span className="svc-chip-pop-wordmark">{meta.wordmark}</span>
+            </div>
+          </div>
+          {chip.sublabel && (
+            <div className="svc-chip-pop-row">
+              <span className="svc-chip-pop-key">Role</span>
+              <span className="svc-chip-pop-val">{chip.sublabel}</span>
+            </div>
+          )}
+          {chip.resource && (
+            <div className="svc-chip-pop-row">
+              <span className="svc-chip-pop-key">{chip.vendor === 'azure' ? 'Resource' : chip.vendor === 'anthropic' ? 'Model' : 'Product'}</span>
+              <code className="svc-chip-pop-code">{chip.resource}</code>
+            </div>
+          )}
+          <p className="svc-chip-pop-detail">{chip.detail}</p>
+          {chip.cost && (
+            <div className="svc-chip-pop-cost">
+              <i className="fa-solid fa-coins" aria-hidden="true" />
+              {chip.cost}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 const sectionId = (id: string) => `station-${id}`;
 
 export default function PipelineSpine({ phases, modules, agents }: Props) {
   const [active, setActive] = useState<string>(phases[0]?.id ?? '');
+  const [openChip, setOpenChip] = useState<string | null>(null);
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
 
   const moduleMap = useMemo(() => {
@@ -81,6 +219,17 @@ export default function PipelineSpine({ phases, modules, agents }: Props) {
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, [phases]);
+
+  // Close chip popover when clicking outside
+  useEffect(() => {
+    if (!openChip) return;
+    const handler = (e: MouseEvent) => {
+      const t = e.target as HTMLElement;
+      if (!t.closest('.svc-chip')) setOpenChip(null);
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [openChip]);
 
   const jumpTo = (id: string) => {
     const el = sectionRefs.current[id];
@@ -125,6 +274,7 @@ export default function PipelineSpine({ phases, modules, agents }: Props) {
           const agent = p.agent ? agentMap.get(p.agent) : null;
           const phaseModules = p.modules.map((m) => moduleMap.get(m)).filter(Boolean) as Module[];
           const isActive = p.id === active;
+          const chips = buildChips(p, agent ?? null);
 
           return (
             <section
@@ -146,6 +296,18 @@ export default function PipelineSpine({ phases, modules, agents }: Props) {
                     </span>
                   </div>
                   <h2 className="station-section-title">{p.name}</h2>
+                  {chips.length > 0 && (
+                    <div className="svc-chips-row">
+                      {chips.map((chip) => (
+                        <ServiceChip
+                          key={chip.id}
+                          chip={chip}
+                          open={openChip === chip.id}
+                          onToggle={() => setOpenChip(openChip === chip.id ? null : chip.id)}
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
               </header>
 
