@@ -222,13 +222,14 @@ html[data-reader-page][data-edit-highlight="violet"]  { --edit-highlight: oklch(
 .center-header-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 .center-main {
   /* Fills all the space center-col gives it. The chapter-page card
-     inside sets its own max-width for comfortable reading. */
+     inside sets its own max-width for comfortable reading. Tight
+     side padding so the card sits close to the rails. */
   max-width: none;
   width: 100%;
   flex: 1;
-  padding: 32px 32px 64px;
+  padding: 24px 12px 64px;
 }
-@media (min-width: 1024px) { .center-main { padding: 32px 48px 64px; } }
+@media (min-width: 1024px) { .center-main { padding: 28px 16px 64px; } }
 
 .right-rail {
   position: sticky;
@@ -296,18 +297,19 @@ html[data-right-rail="collapsed"] .rail-pull-chevron { transform: rotate(180deg)
 
 .chapter-page {
   position: relative;
-  max-width: 980px;
+  max-width: 1100px;
   margin: 0 auto;
   background: var(--color-surface-raised);
   border: 1px solid var(--color-rule-subtle);
   border-radius: 10px;
-  padding: 56px 64px 64px;
+  padding: 48px 40px 56px;
   box-shadow:
     0 1px 0 0 color-mix(in oklab, white 70%, transparent) inset,
     0 1px 3px rgba(0,0,0,0.04),
     0 8px 20px -10px rgba(0,0,0,0.10);
 }
-@media (max-width: 768px) { .chapter-page { padding: 32px 24px; } }
+@media (min-width: 1280px) { .chapter-page { padding: 56px 56px 64px; } }
+@media (max-width: 768px)  { .chapter-page { padding: 32px 20px; } }
 
 .chapter-header { display: flex; flex-direction: column; gap: 12px; padding-bottom: 24px; }
 .chapter-eyebrow {

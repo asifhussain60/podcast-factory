@@ -71,28 +71,52 @@ export async function loadGlossary(slug: string): Promise<GlossaryEntry[]> {
 }
 
 /**
- * Wrap phonetic tokens in HTML with an Arabic-script overlay span. CSS toggled
- * via body[data-arabic="on"] controls visibility. See chapter-viewer styles.
+ * Wrap phonetic tokens in HTML with an Arabic-script overlay span.
+ *
+ * BUG FIX 2025-05-26: the prior loop split HTML once outside the entries
+ * loop, then applied every entry's regex to the SAME chunks — so later
+ * (shorter) entries would match inside the data-* attributes of already-
+ * inserted ar-overlay spans, corrupting the HTML (raw attribute text
+ * leaked into the page). Fix: re-split after each entry so subsequent
+ * matches only see text-not-tags. Also escape `&` and `<` in attribute
+ * values + the arabic_script inner HTML.
  */
+function escapeAttr(s: string): string {
+  return s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+}
+function escapeHtml(s: string): string {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
 export function wrapPhoneticTokens(html: string, entries: GlossaryEntry[]): string {
   if (!entries.length) return html;
   const sorted = [...entries].sort((a, b) => b.phonetic.length - a.phonetic.length);
-  const parts = html.split(/(<[^>]+>)/g);
-  for (let i = 0; i < parts.length; i++) {
-    if (parts[i].startsWith('<')) continue;
-    let chunk = parts[i];
-    for (const e of sorted) {
-      const esc = e.phonetic.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      const re = new RegExp(`\\b(${esc})\\b`, 'g');
-      const scriptAttr = e.arabic_script.replace(/"/g, '&quot;');
-      const audioAttr = (e.audio_phonetic || '').replace(/"/g, '&quot;');
-      const trAttr = (e.transliteration || e.phonetic).replace(/"/g, '&quot;');
-      chunk = chunk.replace(
-        re,
-        `<span class="ar-overlay" data-script="${scriptAttr}" data-audio="${audioAttr}" data-transliteration="${trAttr}" data-phonetic="$1"><span class="ar-en">$1</span><span class="ar-script" aria-hidden="true" lang="ar" dir="rtl">${e.arabic_script}</span></span>`,
-      );
+
+  let current = html;
+  for (const e of sorted) {
+    const esc = e.phonetic.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const re = new RegExp(`\\b(${esc})\\b`, 'g');
+    const scriptAttr = escapeAttr(e.arabic_script);
+    const audioAttr  = escapeAttr(e.audio_phonetic || '');
+    const trAttr     = escapeAttr(e.transliteration || e.phonetic);
+    const scriptInner = escapeHtml(e.arabic_script);
+
+    // Re-split BEFORE each entry — newly-inserted ar-overlay spans from
+    // the previous entry's pass become tag-only parts that we skip.
+    const parts = current.split(/(<[^>]+>)/g);
+    let touched = false;
+    for (let i = 0; i < parts.length; i++) {
+      if (parts[i].startsWith('<')) continue;
+      const replaced = parts[i].replace(re, (_m, p1) => {
+        const phoneticAttr = escapeAttr(p1);
+        return `<span class="ar-overlay" data-script="${scriptAttr}" data-audio="${audioAttr}" data-transliteration="${trAttr}" data-phonetic="${phoneticAttr}"><span class="ar-en">${escapeHtml(p1)}</span><span class="ar-script" aria-hidden="true" lang="ar" dir="rtl">${scriptInner}</span></span>`;
+      });
+      if (replaced !== parts[i]) {
+        parts[i] = replaced;
+        touched = true;
+      }
     }
-    parts[i] = chunk;
+    if (touched) current = parts.join('');
   }
-  return parts.join('');
+  return current;
 }
