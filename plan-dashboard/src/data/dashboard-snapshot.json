@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-26T19:45:53.792Z",
-  "source_commit": "db6bed0",
+  "generated_at": "2026-05-26T20:45:53.851Z",
+  "source_commit": "edf2b21",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -322,6 +322,46 @@
   ],
   "recent_commits": [
     {
+      "sha": "edf2b21",
+      "subject": "dashboard: expand-on-click step detail, pill font fix, border-radius tokens",
+      "date": "2026-05-26"
+    },
+    {
+      "sha": "64c6069",
+      "subject": "dashboard: executor labels (Claude/Python/Azure), rectangular corners",
+      "date": "2026-05-26"
+    },
+    {
+      "sha": "b29f8ef",
+      "subject": "dashboard: raise type scale to 16px floor, 18px body — comprehensive readability pass",
+      "date": "2026-05-26"
+    },
+    {
+      "sha": "52cb8ba",
+      "subject": "dashboard: replace kind-badge jargon with actual vendor labels",
+      "date": "2026-05-26"
+    },
+    {
+      "sha": "803cf88",
+      "subject": "dashboard: add interactive service chips to pipeline station cards",
+      "date": "2026-05-26"
+    },
+    {
+      "sha": "fdf463b",
+      "subject": "dashboard: add styled hero container to 'How it works' page title",
+      "date": "2026-05-26"
+    },
+    {
+      "sha": "ce9923b",
+      "subject": "dashboard: enforce 16px min font globally — all hardcoded sizes → tokens",
+      "date": "2026-05-26"
+    },
+    {
+      "sha": "0208df0",
+      "subject": "plan: resolve 3 pre-execution conflicts + raise dashboard font to 16px",
+      "date": "2026-05-26"
+    },
+    {
       "sha": "db6bed0",
       "subject": "refactor(A2): add SQL schema migration files for knowledge.db",
       "date": "2026-05-26"
@@ -329,46 +369,6 @@
     {
       "sha": "4d1bb19",
       "subject": "copilot-handoff: bootstrap Copilot to drive the pipeline refactor while Asif is out of Claude tokens",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "ff5f1ab",
-      "subject": "plan-dashboard: keep snapshots live on every plan-file edit (standing rule + catch-up regen)",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "968636f",
-      "subject": "plan(refactor): resolve C1 (Rasāʾil PDF) + harden C3 (live citation verify); defer C4",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "23a5b8d",
-      "subject": "Merge remote-tracking branch 'origin/develop' into develop",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "05c7e27",
-      "subject": "chore(prompts): add Luum onboarding source-bundle bootstrap prompt",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "f2729f5",
-      "subject": "fix(reader): chevron direction, tighter margins/padding, glossary HTML bleed",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "266e19a",
-      "subject": "fix(reader): modernize palette, fix collapse, remove left-rail toggle",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "dafed44",
-      "subject": "fix(reader): vertical pull-bar handles + clear Speechify + reduce rules",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "e68d43e",
-      "subject": "fix(reader): show right rail above 1024px (was 1280px)",
       "date": "2026-05-26"
     }
   ],
