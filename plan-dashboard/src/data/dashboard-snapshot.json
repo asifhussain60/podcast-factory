@@ -66,7 +66,7 @@
       "depends_on": [
         "A5"
       ],
-      "plain": "Reads each processed chapter and pulls out structured knowledge: Quran verse references, hadith citations, technical terms, and key concepts. Saves them in a searchable form so future books can benefit from what earlier ones established."
+      "plain": "Reads each processed chapter and pulls out knowledge atoms — the smallest verifiable facts: Quran verse references (surah, ayah, translation), hadith citations (narrator chain, text, grade), and key scholarly concepts. Wave 1 captures Quran + hadith only. Atoms are saved to a SQLite database in WAL mode so other scripts can read concurrently while a write is in progress."
     },
     {
       "id": "B2",
@@ -77,7 +77,7 @@
       "depends_on": [
         "B1"
       ],
-      "plain": "Takes the knowledge items extracted from every book and merges them into a shared library — detecting when two books describe the same hadith in slightly different ways and raising a conflict for you to resolve before it compounds."
+      "plain": "The librarian: merges newly extracted atoms into the shared knowledge database after each book's enrichment run. On a conflict — same hadith reference, different wording from two books — it quarantines the conflict for Asif to resolve rather than silently overwriting. Accepted atoms are immutable. Wave 2 will extend this with embedding-based de-duplication so near-identical concepts from different wordings are recognised as the same."
     },
     {
       "id": "B3",
@@ -88,7 +88,7 @@
       "depends_on": [
         "B2"
       ],
-      "plain": "When the library holds enough verified material, automatically enriches new chapters with sourced citations from it — so the third book inherits how the first two cited the same Quran verse, staying consistent without any manual lookup."
+      "plain": "The augmenter: queries the knowledge library during enrichment of a new chapter and injects verified citations — so every book inherits how previous books cited the same Quran verse or hadith, keeping style consistent across the catalog. Two safety rails: it stays disabled until a quality gate confirms the library is clean enough to trust, and it strips Arabic script from all injected atoms before they reach NotebookLM (which can't process Arabic text)."
     },
     {
       "id": "B4",
@@ -99,7 +99,7 @@
       "depends_on": [
         "B3"
       ],
-      "plain": "Connects the three new intelligence pieces (extract → store → enrich) into the production line so they run in the right order as part of every new book's processing — not as a separate manual step you have to remember."
+      "plain": "Wires extract → library → augment into the pipeline's enrichment phase so all three run in the correct sequence for every new book. Also connects the quality gate that controls when the augmenter is permitted to fire — it stays off until the library holds atoms from at least one complete book and the librarian reports zero unresolved conflicts."
     },
     {
       "id": "C1",
@@ -264,7 +264,7 @@
     {
       "id": "B",
       "name": "Intelligence",
-      "plain": "Three new pieces that read, remember, and enrich — the brain that makes the factory smarter over time."
+      "plain": "Builds the factory's long-term memory: a knowledge database that accumulates verified Quran citations, hadith, and key concepts across every processed book — so each new book benefits from everything that came before."
     },
     {
       "id": "C",
