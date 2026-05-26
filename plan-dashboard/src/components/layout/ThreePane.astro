@@ -29,15 +29,10 @@ const { bookSlug, breadcrumb = [], showRail = true } = Astro.props;
 <div class="three-pane">
   <aside class="left-rail">
     <div class="left-rail-head">
-      <div class="left-rail-head-row">
-        <a href={`/library/${bookSlug}`} class="left-rail-back">
-          <Icon name="arrow-left" size={12} />
-          <span class="left-rail-back-label">Back to overview</span>
-        </a>
-        <button id="sidebar-toggle" class="left-rail-collapse" type="button" aria-label="Collapse sidebar" title="Collapse sidebar (s)">
-          <span class="left-rail-collapse-icon">‹</span>
-        </button>
-      </div>
+      <a href={`/library/${bookSlug}`} class="left-rail-back">
+        <Icon name="arrow-left" size={12} />
+        <span class="left-rail-back-label">Back to overview</span>
+      </a>
       <div class="left-rail-book">
         <Icon name="book-marked" size={18} class="left-rail-book-icon" />
         <span class="left-rail-book-title">{bookSlug}</span>
@@ -48,6 +43,9 @@ const { bookSlug, breadcrumb = [], showRail = true } = Astro.props;
         <p class="left-rail-nav-empty">No navigation provided.</p>
       </slot>
     </nav>
+    <button id="sidebar-toggle" class="rail-pull rail-pull--left" type="button" aria-label="Collapse left panel" title="Collapse left panel (s)">
+      <span class="rail-pull-handle"></span>
+    </button>
   </aside>
 
   <div class="center-col">
@@ -77,8 +75,8 @@ const { bookSlug, breadcrumb = [], showRail = true } = Astro.props;
 
   {showRail && (
     <aside class="right-rail">
-      <button id="right-rail-toggle" class="right-rail-collapse" type="button" aria-label="Collapse right panel" title="Collapse right panel (r)">
-        <span class="right-rail-collapse-icon">›</span>
+      <button id="right-rail-toggle" class="rail-pull rail-pull--right" type="button" aria-label="Collapse right panel" title="Collapse right panel (r)">
+        <span class="rail-pull-handle"></span>
       </button>
       <div class="right-rail-content">
         <slot name="rail" />

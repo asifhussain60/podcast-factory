@@ -43,7 +43,6 @@ export default function FloatingActions({ copyText }: Props) {
   };
 
   const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
-  const openSettings = () => window.dispatchEvent(new CustomEvent('reader-settings:open'));
 
   return (
     <div className={`floating-actions ${visible ? 'is-visible' : 'is-hidden'}`}>
@@ -64,14 +63,6 @@ export default function FloatingActions({ copyText }: Props) {
         aria-label="Copy chapter"
       >
         {copied ? <span aria-hidden>✓</span> : <span aria-hidden>⧉</span>}
-      </button>
-      <button
-        onClick={openSettings}
-        title="Reader settings (Aa)"
-        className="floating-action-btn is-serif"
-        aria-label="Open reader settings"
-      >
-        Aa
       </button>
     </div>
   );

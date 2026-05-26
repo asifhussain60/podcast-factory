@@ -147,33 +147,22 @@ html[data-reader-page][data-edit-highlight="violet"]  { --edit-highlight: oklch(
   width: 320px;
   flex-shrink: 0;
   align-self: flex-start;
-  border-right: 1px solid var(--color-rule-default);
   background: var(--color-surface-sunken);
   display: none;
   flex-direction: column;
-  transition: width 200ms ease;
+  transition: width 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
   overflow: hidden;
 }
 @media (min-width: 1024px) { .left-rail { display: flex; } }
-html[data-sidebar="collapsed"] .left-rail { width: 44px; }
+html[data-sidebar="collapsed"] .left-rail { width: 0; min-width: 0; }
 html[data-sidebar="collapsed"] .left-rail .left-rail-back-label,
 html[data-sidebar="collapsed"] .left-rail .left-rail-book,
-html[data-sidebar="collapsed"] .left-rail .left-rail-nav { display: none; }
-html[data-sidebar="collapsed"] .left-rail .left-rail-collapse-icon { transform: rotate(180deg); }
-html[data-sidebar="collapsed"] .left-rail .left-rail-head { padding: 10px 0; align-items: center; }
-html[data-sidebar="collapsed"] .left-rail .left-rail-head-row { justify-content: center; }
-html[data-sidebar="collapsed"] .left-rail .left-rail-back { padding: 0; }
+html[data-sidebar="collapsed"] .left-rail .left-rail-nav,
+html[data-sidebar="collapsed"] .left-rail .left-rail-head { display: none; }
 
 .left-rail-head {
-  padding: 14px 18px 12px;
-  border-bottom: 1px solid var(--color-rule-default);
+  padding: 18px 20px 14px;
   background: var(--color-surface-raised);
-}
-.left-rail-head-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
 }
 .left-rail-back {
   display: inline-flex;
@@ -187,25 +176,7 @@ html[data-sidebar="collapsed"] .left-rail .left-rail-back { padding: 0; }
   transition: color 120ms;
 }
 .left-rail-back:hover { color: var(--color-gold-deep); }
-.left-rail-collapse {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  border: 1px solid var(--color-rule-default);
-  border-radius: 6px;
-  background: var(--color-surface-raised);
-  color: var(--color-ink-tertiary);
-  cursor: pointer;
-  font-size: 14px;
-  line-height: 1;
-  flex-shrink: 0;
-  transition: background 120ms, color 120ms, border-color 120ms;
-}
-.left-rail-collapse:hover { border-color: var(--color-gold-deep); color: var(--color-gold-deep); }
-.left-rail-collapse-icon { display: inline-block; transition: transform 200ms; }
-.left-rail-book { margin-top: 10px; display: flex; align-items: center; gap: 8px; }
+.left-rail-book { margin-top: 12px; display: flex; align-items: center; gap: 8px; }
 .left-rail-book-icon { color: var(--color-gold-deep); flex-shrink: 0; }
 .left-rail-book-title {
   font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
@@ -228,8 +199,7 @@ html[data-sidebar="collapsed"] .left-rail .left-rail-back { padding: 0; }
   position: sticky;
   top: 0;
   z-index: 10;
-  border-bottom: 1px solid var(--color-rule-subtle);
-  background: color-mix(in oklab, var(--color-surface-raised) 85%, transparent);
+  background: color-mix(in oklab, var(--color-surface-raised) 92%, transparent);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
@@ -272,46 +242,68 @@ html[data-sidebar="collapsed"] .left-rail .left-rail-back { padding: 0; }
   width: 340px;
   flex-shrink: 0;
   align-self: flex-start;
-  border-left: 1px solid var(--color-rule-default);
   background: var(--color-surface-raised);
-  padding: 20px 18px;
+  /* 56px right padding clears the Speechify floating widget that lives on
+     the viewport's right edge. */
+  padding: 20px 56px 20px 18px;
   display: none;
   overflow-y: auto;
-  transition: width 200ms ease;
-  position: relative;
+  transition: width 220ms cubic-bezier(0.22, 0.61, 0.36, 1), padding 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 @media (min-width: 1024px) { .right-rail { display: block; } }
-html[data-right-rail="collapsed"] .right-rail { width: 44px; padding: 12px 0; overflow: hidden; }
+html[data-right-rail="collapsed"] .right-rail { width: 0; padding: 0; overflow: hidden; }
 html[data-right-rail="collapsed"] .right-rail .right-rail-content { display: none; }
 .right-rail-content { display: flex; flex-direction: column; }
 
-.right-rail-collapse {
-  position: absolute;
-  top: 12px;
-  left: 8px;
-  display: inline-flex;
+/* ── Vertical pull-bar handles (replaces corner toggle buttons) ─── */
+
+.rail-pull {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 84px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  z-index: 25;
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
-  border: 1px solid var(--color-rule-default);
-  border-radius: 6px;
-  background: var(--color-surface-raised);
-  color: var(--color-ink-tertiary);
-  cursor: pointer;
-  font-size: 14px;
-  line-height: 1;
-  z-index: 2;
-  transition: background 120ms, color 120ms, border-color 120ms;
+  transition: transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
-.right-rail-collapse:hover { border-color: var(--color-gold-deep); color: var(--color-gold-deep); }
-.right-rail-collapse-icon { display: inline-block; transition: transform 200ms; }
-html[data-right-rail="collapsed"] .right-rail-collapse-icon { transform: rotate(180deg); }
-html[data-right-rail="collapsed"] .right-rail-collapse {
-  position: absolute;
-  top: 12px;
-  left: 50%;
-  transform: translateX(-50%);
+.rail-pull-handle {
+  display: block;
+  width: 5px;
+  height: 100%;
+  background: var(--color-rule-default);
+  border-radius: 999px;
+  transition: background 160ms ease, width 160ms ease, height 160ms ease;
+}
+.rail-pull:hover .rail-pull-handle {
+  background: var(--color-gold-deep);
+  width: 6px;
+  height: 108px;
+}
+.rail-pull:focus-visible { outline: 2px solid var(--color-gold-deep); outline-offset: 4px; border-radius: 8px; }
+
+/* Left handle: sits at the inner (right) edge of the left rail.
+   Position aligned with the rail's right edge; when collapsed,
+   snaps to the screen's left edge. */
+.rail-pull--left { left: calc(320px - 7px); }
+html[data-sidebar="collapsed"] .rail-pull--left { left: 0; }
+
+/* Right handle: sits at the inner (left) edge of the right rail.
+   When collapsed, inset 64px so the handle clears the Speechify widget
+   that lives on the viewport's right edge. */
+.rail-pull--right { right: calc(340px - 7px); }
+html[data-right-rail="collapsed"] .rail-pull--right { right: 64px; }
+
+/* Below the 1024px threshold the rails themselves are hidden, so hide
+   the handles too. */
+@media (max-width: 1023px) {
+  .rail-pull { display: none; }
 }
 
 /* ── Chapter page (white printed-page card) ─────────────────── */
@@ -326,14 +318,6 @@ html[data-right-rail="collapsed"] .right-rail-collapse {
     0 1px 0 0 color-mix(in oklab, white 70%, transparent) inset,
     0 4px 12px -4px rgba(0,0,0,0.05),
     0 18px 36px -18px rgba(0,0,0,0.18);
-}
-.chapter-page::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 24px; right: 24px;
-  height: 2px;
-  background: linear-gradient(to right, transparent 10%, var(--color-gold-deep) 35%, var(--color-gold) 50%, var(--color-gold-deep) 65%, transparent 90%);
-  border-radius: 2px;
 }
 @media (max-width: 768px) { .chapter-page { padding: 32px 24px; } }
 
@@ -374,11 +358,10 @@ html[data-right-rail="collapsed"] .right-rail-collapse {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  padding: 12px 0;
-  border-top: 1px solid var(--color-rule-subtle);
+  padding: 0 0 16px;
   border-bottom: 1px solid var(--color-rule-subtle);
   align-items: center;
-  margin: 16px 0 32px;
+  margin: 0 0 32px;
 }
 
 /* ── Reading column + prose ─────────────────────────────────── */
@@ -1133,13 +1116,16 @@ body[data-arabic="on"] .ref-quran .ar-overlay .ar-script { display: none; }
   justify-content: center;
   font-family: var(--font-mono);
   font-size: 9px;
-  font-weight: 700;
+  font-weight: 600;
   padding: 0 4px;
-  border: 1px solid var(--color-rule-default);
+  border: 1px solid var(--color-rule-subtle);
   border-radius: 3px;
-  background: var(--color-surface-sunken);
-  color: var(--color-ink-tertiary);
+  background: transparent;
+  color: var(--color-ink-disabled);
+  margin-left: 2px;
+  opacity: 0.7;
 }
+.reader-chip:hover .reader-chip-kbd { opacity: 1; }
 @media (max-width: 600px) { .reader-chip-kbd { display: none; } }
 .reader-chip.reader-chip--yellow.is-on  { background: color-mix(in oklab, var(--color-quran)  18%, var(--color-surface-raised)); }
 .reader-chip.reader-chip--orange.is-on  { background: color-mix(in oklab, var(--color-hadith) 18%, var(--color-surface-raised)); }
