@@ -2,7 +2,7 @@ import { useState } from 'react';
 import SpendChart from './SpendChart';
 
 interface RoadmapStep {
-  id: string; wave: string; title: string; status: string; tier: string; depends_on: string[]; last_touched?: string;
+  id: string; wave: string; title: string; status: string; tier: string; depends_on: string[]; last_touched?: string; plain?: string;
 }
 interface Wave { id: string; name: string; plain: string; }
 interface Debt { id: string; title: string; severity: string; plain: string; }
@@ -58,7 +58,9 @@ export default function DashboardTabs(props: Props) {
 }
 
 function RoadmapTab({ waves, roadmap }: { waves: Wave[]; roadmap: RoadmapStep[] }) {
+  const [expanded, setExpanded] = useState<string | null>(null);
   const byWave = (id: string) => roadmap.filter((s) => s.wave === id);
+  const toggle = (id: string) => setExpanded((prev) => (prev === id ? null : id));
   return (
     <div className="stack">
       <p>
@@ -78,11 +80,23 @@ function RoadmapTab({ waves, roadmap }: { waves: Wave[]; roadmap: RoadmapStep[] 
             <p className="small muted">{w.plain}</p>
             <div className="stack-tight wave-steps">
               {steps.map((s) => (
-                <div key={s.id} className="step-row">
-                  <span className="step-id">Step {s.id}</span>
-                  <span className="step-title">{s.title}</span>
-                  <span className={`pill ${STATUS_PILL[s.status] ?? 'is-future'}`}>{STATUS_LABEL[s.status] ?? s.status}</span>
-                  <span className="small muted step-touched">{s.last_touched ?? '—'}</span>
+                <div key={s.id} className={`step-row ${expanded === s.id ? 'is-expanded' : ''}`}>
+                  <button
+                    className="step-row-header"
+                    aria-expanded={expanded === s.id}
+                    onClick={() => toggle(s.id)}
+                  >
+                    <span className="step-id">Step {s.id}</span>
+                    <span className="step-title">{s.title}</span>
+                    <span className={`pill ${STATUS_PILL[s.status] ?? 'is-future'}`}>{STATUS_LABEL[s.status] ?? s.status}</span>
+                    <span className="small muted step-touched">{s.last_touched ?? '—'}</span>
+                    <span className="step-chevron" aria-hidden="true">{expanded === s.id ? '▲' : '▼'}</span>
+                  </button>
+                  {expanded === s.id && s.plain && (
+                    <div className="step-detail">
+                      {s.plain}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

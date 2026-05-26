@@ -10,7 +10,8 @@
       "status": "complete",
       "tier": "T1",
       "depends_on": [],
-      "last_touched": "2026-05-26"
+      "last_touched": "2026-05-26",
+      "plain": "Reorganises the planning folder — removes old duplicate files and sets up the neat structure every other part of the plan points to. Think of it as clearing the desk before starting a big project."
     },
     {
       "id": "A2",
@@ -20,7 +21,8 @@
       "tier": "T1",
       "depends_on": [
         "A1"
-      ]
+      ],
+      "plain": "Creates three shared building blocks every script relies on: a central file-path registry (so nothing hard-codes where things live), a database connection module, and a content-type lookup that tells every script whether it's working on a book, lecture, or letter."
     },
     {
       "id": "A3",
@@ -30,7 +32,8 @@
       "tier": "T1",
       "depends_on": [
         "A2"
-      ]
+      ],
+      "plain": "Adds the craft guardrails: prevents the Imam's name from being written in an incorrect style, flags when two incompatible scholarly traditions are accidentally mixed, and gives every script a shared citation formatter so references look the same in every chapter."
     },
     {
       "id": "A4",
@@ -40,7 +43,8 @@
       "tier": "T1",
       "depends_on": [
         "A3"
-      ]
+      ],
+      "plain": "The pipeline's main script has grown to over 2 000 lines — too large to read or change safely. This step splits it into smaller specialist files, one per production station, each under the 600-line limit. Changes to one station no longer risk breaking another."
     },
     {
       "id": "A5",
@@ -50,7 +54,8 @@
       "tier": "T1",
       "depends_on": [
         "A4"
-      ]
+      ],
+      "plain": "Removes old 'Version: 2.3' style headers from source files and installs a guard that permanently rejects any future commit trying to add them. The git log is the version record — we don't need numbers inside files."
     },
     {
       "id": "B1",
@@ -60,7 +65,8 @@
       "tier": "T1",
       "depends_on": [
         "A5"
-      ]
+      ],
+      "plain": "Reads each processed chapter and pulls out structured knowledge: Quran verse references, hadith citations, technical terms, and key concepts. Saves them in a searchable form so future books can benefit from what earlier ones established."
     },
     {
       "id": "B2",
@@ -70,7 +76,8 @@
       "tier": "T1",
       "depends_on": [
         "B1"
-      ]
+      ],
+      "plain": "Takes the knowledge items extracted from every book and merges them into a shared library — detecting when two books describe the same hadith in slightly different ways and raising a conflict for you to resolve before it compounds."
     },
     {
       "id": "B3",
@@ -80,7 +87,8 @@
       "tier": "T1",
       "depends_on": [
         "B2"
-      ]
+      ],
+      "plain": "When the library holds enough verified material, automatically enriches new chapters with sourced citations from it — so the third book inherits how the first two cited the same Quran verse, staying consistent without any manual lookup."
     },
     {
       "id": "B4",
@@ -90,7 +98,8 @@
       "tier": "T1",
       "depends_on": [
         "B3"
-      ]
+      ],
+      "plain": "Connects the three new intelligence pieces (extract → store → enrich) into the production line so they run in the right order as part of every new book's processing — not as a separate manual step you have to remember."
     },
     {
       "id": "C1",
@@ -100,7 +109,8 @@
       "tier": "T1",
       "depends_on": [
         "B4"
-      ]
+      ],
+      "plain": "Teaches the factory three new book types it currently can't process: play-style dialogues (like The Master and the Disciple), lecture series, and large encyclopedic works. Each type gets its own voice, structure rules, and episode format."
     },
     {
       "id": "C2",
@@ -110,7 +120,8 @@
       "tier": "T1",
       "depends_on": [
         "C1"
-      ]
+      ],
+      "plain": "Builds a closing-chapter writer that produces a summary episode for any book, and for large encyclopedic works, a second deeper-distillation episode that draws only on the highest-insight moments — keeping chapter-level details out of the synthesis."
     },
     {
       "id": "C3",
@@ -120,7 +131,8 @@
       "tier": "T1",
       "depends_on": [
         "C2"
-      ]
+      ],
+      "plain": "For books that benefit from it, adds an optional step that surfaces contemporary research, recent scientific findings, and modern scholarly debates that connect to the book's ideas — and verifies every external link is real before it's used."
     },
     {
       "id": "C4.0",
@@ -130,7 +142,8 @@
       "tier": "T2",
       "depends_on": [
         "C3"
-      ]
+      ],
+      "plain": "Runs a small 2–3 chapter pilot through NotebookLM's slide-generation feature on one real book to see whether the output is consistent enough to enforce as a quality requirement. Costs roughly $30 and answers the question before committing to the full rollout."
     },
     {
       "id": "C4",
@@ -140,7 +153,8 @@
       "tier": "T1",
       "depends_on": [
         "C4.0"
-      ]
+      ],
+      "plain": "Adds slide-deck quality checks to the publish gate: classifies every diagram as a real diagram or a disguised bullet-list, and flags any content that a human must verify before it can ship. Nothing marked for review slips through automatically."
     },
     {
       "id": "C5",
@@ -150,7 +164,8 @@
       "tier": "T2",
       "depends_on": [
         "C4"
-      ]
+      ],
+      "plain": "For books with fifty or more planned episodes, introduces a staged-approval model — you review and sign off on one section before the next section starts processing. Prevents a compounding cost mistake from running silently across the entire work."
     },
     {
       "id": "D1",
@@ -158,7 +173,8 @@
       "title": "Set up the design tokens and the dashboard app shell",
       "status": "in_progress",
       "tier": "T1",
-      "depends_on": []
+      "depends_on": [],
+      "plain": "Sets up the shared design tokens — colours, font sizes, spacing — and the dashboard app shell that all four views (overview, architecture, infrastructure, live progress) hang off. One place to change a colour and it updates everywhere."
     },
     {
       "id": "D2",
@@ -168,7 +184,8 @@
       "tier": "T1",
       "depends_on": [
         "D1"
-      ]
+      ],
+      "plain": "Builds the dashboard landing page: the project summary, the three top-level navigation paths, and the consistent header and footer that wraps every view. The entry point you see when you open the dashboard."
     },
     {
       "id": "D3",
@@ -178,7 +195,8 @@
       "tier": "T1",
       "depends_on": [
         "D2"
-      ]
+      ],
+      "plain": "Builds the architecture and infrastructure views: the pipeline backbone diagram showing each production station, the service-provider breakdown, and the agent registry showing what each AI agent does and which model it runs on."
     },
     {
       "id": "D4",
@@ -188,7 +206,8 @@
       "tier": "T1",
       "depends_on": [
         "D3"
-      ]
+      ],
+      "plain": "Connects the dashboard to live data: real book-processing progress, cost tracking, refactor step status, and health metrics. The roadmap tab you're reading right now is part of this step."
     },
     {
       "id": "E1",
@@ -198,7 +217,8 @@
       "tier": "T1",
       "depends_on": [
         "B4"
-      ]
+      ],
+      "plain": "Updates every previously-shipped book's configuration file to match the new unified format so they all behave consistently and can use the new quality-gate features — without re-processing any existing episodes."
     },
     {
       "id": "E2",
@@ -208,7 +228,8 @@
       "tier": "T2",
       "depends_on": [
         "E1"
-      ]
+      ],
+      "plain": "Creates a new closing episode for Kitab al-Riyad — a distillation of the deepest insights across all fourteen chapters — without re-running or altering any of the fourteen existing episodes already in the catalog."
     },
     {
       "id": "E3",
@@ -218,7 +239,8 @@
       "tier": "T2",
       "depends_on": [
         "E1"
-      ]
+      ],
+      "plain": "Creates a missing EP00 introduction episode for The Master and the Disciple and runs the new play-novel quality checks across its six existing episodes to confirm they still meet current standards."
     },
     {
       "id": "E4",
@@ -229,7 +251,8 @@
       "depends_on": [
         "E2",
         "E3"
-      ]
+      ],
+      "plain": "Adds five new automatic checks to the publish gate: confirms the closing-chapter style matches the book type, verifies all diagrams meet quality standards, and ensures every human-review flag has been cleared before a book can ship."
     }
   ],
   "waves": [
