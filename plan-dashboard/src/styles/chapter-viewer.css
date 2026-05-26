@@ -280,7 +280,7 @@ html[data-sidebar="collapsed"] .left-rail .left-rail-back { padding: 0; }
   transition: width 200ms ease;
   position: relative;
 }
-@media (min-width: 1280px) { .right-rail { display: block; } }
+@media (min-width: 1024px) { .right-rail { display: block; } }
 html[data-right-rail="collapsed"] .right-rail { width: 44px; padding: 12px 0; overflow: hidden; }
 html[data-right-rail="collapsed"] .right-rail .right-rail-content { display: none; }
 .right-rail-content { display: flex; flex-direction: column; }
