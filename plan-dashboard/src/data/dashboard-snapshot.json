@@ -33,7 +33,7 @@
       "depends_on": [
         "A2"
       ],
-      "plain": "Adds the house-style guardrails. Tradition guard: books are primarily Ismaili (Fatimid Imams, progeny of Ali and Fatima). Sunni and Sufi citations are adjacent and acceptable, but a two-pass check applies — Pass 1 rejects non-adjacent traditions fast via tradition_adjacency.yml config; Pass 2 flags citations that may contradict the source author's position (semantic check, handled by the augmenter in Wave B). The author's voice always leads. Also adds: Imam name-style validator, shared citation formatter, and an authenticated Islamic source whitelist (al-islam.org, sunnah.com, islamweb.net and others confirmed at delivery)."
+      "plain": "Adds the house-style guardrails. Tradition guard: books are primarily Ismaili (Fatimid Imams, progeny of Ali and Fatima). Sunni and Sufi citations are adjacent and acceptable, but a fast structural filter runs first — it rejects citations from clearly non-adjacent traditions using a config file. The deeper check (whether a citation quietly contradicts what the Ismaili author actually wrote) is handled by Claude during the enrichment step, not here. The author's voice always leads. Also adds: Imam name-style validator, shared citation formatter, and an authenticated Islamic source whitelist (al-islam.org, sunnah.com, islamweb.net and others confirmed at delivery)."
     },
     {
       "id": "A4",
