@@ -55,7 +55,7 @@
       "depends_on": [
         "A4"
       ],
-      "plain": "Removes old 'Version: 2.3' style headers from source files and installs a guard that permanently rejects any future commit trying to add them. The git log is the version record — we don't need numbers inside files."
+      "plain": "Removes old 'Version: 2.3' style headers from source files and installs a guard that permanently rejects any future commit trying to add them. The guard catches both patterns: version labels inside file headers and version numbers embedded in filenames (e.g. spec-v3.md). An exclusion list handles any third-party files that legitimately carry version fields. The git log is the version record — we don't need numbers inside files or filenames."
     },
     {
       "id": "B1",
