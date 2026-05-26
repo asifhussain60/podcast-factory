@@ -161,8 +161,8 @@ function MetricsTab({ burn30d, phaseTime, convergeAvg, shipFirstTry }: { burn30d
   const total30 = burn30d.reduce((a, b) => a + b, 0);
   return (
     <div className="stack">
-      <section className="stack">
-        <h3>Combined spend, last thirty days</h3>
+      <section className="stack spend-hero">
+        <span className="eyebrow">Combined spend, last thirty days</span>
         <p className="small muted">Daily total across every outside service. Empty days are days nothing ran.</p>
         <SpendChart values={burn30d} />
         <p className="small muted">${total30.toFixed(2)} over the last 30 days · ${(total30 / 30).toFixed(2)} per day on average</p>
