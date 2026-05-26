@@ -184,3 +184,30 @@ export async function findChapter(
 export async function loadChapterMarkdown(c: ChapterRecord): Promise<string> {
   return readFile(join(c.bookDir, '_system', 'source', 'text', 'raw-extract.md'), 'utf-8');
 }
+
+export interface EnglishMarkdownResult {
+  content: string;
+  /** True if content came from adapted-extract.en.md (Phase 2 polished). */
+  isAdapted: boolean;
+}
+
+/**
+ * Load the English translation for a chapter. Prefers adapted-extract.en.md
+ * (Phase 2 polished) over raw-extract.en.md (Phase 1 machine translation).
+ * Returns null if neither file exists.
+ */
+export async function loadChapterMarkdownEnglish(c: ChapterRecord): Promise<EnglishMarkdownResult | null> {
+  const textDir = join(c.bookDir, '_system', 'source', 'text');
+  try {
+    const content = await readFile(join(textDir, 'adapted-extract.en.md'), 'utf-8');
+    return { content, isAdapted: true };
+  } catch {
+    // adapted not present yet — fall back to raw machine translation
+  }
+  try {
+    const content = await readFile(join(textDir, 'raw-extract.en.md'), 'utf-8');
+    return { content, isAdapted: false };
+  } catch {
+    return null;
+  }
+}

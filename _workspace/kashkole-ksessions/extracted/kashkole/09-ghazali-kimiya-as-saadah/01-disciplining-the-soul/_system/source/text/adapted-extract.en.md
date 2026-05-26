@@ -1,0 +1,564 @@
+# Disciplining The Soul
+*Source: KASHKOLE, Binder 32 (غزالی - کیمیائی السعادۃ), Chapter 139. 12 topics. Language: ur.*
+
+<!-- section 1 (id=3558, raw_sort=1): Introduction -->
+
+## Introduction — Al-Ghazālī on the Discipline of the Soul
+
+In the Name of Allah, Most compassionate and Merciful
+
+PRAISED BE ALLAH, Who has disposed all matters through His arrangement thereof, who has equitably composed His creation and given it excellent form. Who has adorned the aspect of man by granting him good stature and proportion, safeguarding him from increase and decline in his aspect and measurements; Who has assigned the improvement of character to the effort and labor of His bondsmen, urging them thereto, by inspiring in them fear and trepidation. For the elect among them, He has made this improvement easy by His providence and facilitation, blessing them with the easing of the difficulties and hardships which lie therein. AND MAY BIÆSSINGS AND SALUTATIONS BE INVOKED upon Muhammad, the Bondsman of Allah, His Prophet, loved one and chosen one, who was His bearer of good tidings and His warner. From the lines of whose brow the radiance of Prophet-hood shone forth; through whose signs and announcements the reality of the True God was discerned. May there be numerous blessings upon him and his family and Companions, who rendered the countenance of Islam clean of the darkness and shadows of unbelief, who uprooted falsehood, and were not polluted by it in any way even to the slightest degree.
+
+To proceed. Goodness of character was the attribute of the Master of the Messengers, and was ever the most righteous action of the Truthful Saints (Siddiqeen). In reality, it constitutes half the Faith, and is the fruit of the austerities (sternness) of the pious and the self-discipline of the people of constant worship. Bad character is a mortal poison and a sure path to perdition (eternal punishment) and humiliating disgrace, open vices and foul practices, which set a distance between man and the proximity of the Lord of the Worlds, and induce him to follow the path of Satan the accursed. It forms gates, opening into God’s stoked-up fire, which rises over the hearts of men. Similarly good characteristics form gates, opening from the heart into the delights of Heaven’s gardens, and presence of the Most Compassionate. Foul characteristics are the very sicknesses of hearts and the diseases of souls, constituting an illness which deprives man of everlasting life. This disease stands in no comparison with an illness which causes the loss of the corporeal life alone. For however carefully the physicians may establish the principles by which the body is cured, the ailments with which the person deal, will eventually lead to the loss of his *transient* life! It is therefore a matter of greater priority to lay down the rules and principles by which the illnesses of hearts are treated, as they result in the loss of the *eternal* life. To learn this form of medicine is incumbent upon all sensible men, since there is not a single heart which is free of diseases, which, were they to be neglected, would double in strength, leading to disorders still more frequent and powerful.
+
+A bondsman thus needs to meditate in such a way as to learn the origins and causes of these sicknesses, and then to roll up his sleeves to treat them and see them aright. It is this treatment which Allah (Exalted is He!) indicates when He says, successfully is he who purifies it and this neglect to which He refers when He says, Thwarted is he who that shuns it.
+
+<!-- section 2 (id=3559, raw_sort=2): Merit Of Good Character -->
+
+## The Merit of Good Character (Faḍīlat al-Khulq al-Ḥasan)
+
+Allah (Exalted is He!) said to His Prophet and loved one, praising him, in order to manifest His blessing upon him,
+
+⟪ar:وَإِنَّكَ لَعَلَىٰ خُلُقٍ عَظِيمٍۢ⟫
+
+Assuredly, thou art of a tremendous character.
+
+And Aysha said, ‘The character of the Emissary of Allah (may Allah bless him and grant him peace) was the Quran!
+
+A man once asked the Emissary of Allah (may Allah bless him and grant him peace) regarding good character, he recited the verse: Hold to forgiveness, and enjoin kindness, and turn aside from the ignorant ones.’ Then he said,  ‘It is that you should seek reconciliation with those who avoid you, give to those who withhold from you, and forgive those who deal with you unjustly’. And he said, ‘I was sent only to perfect the noble qualities of character’. And he said, ‘The heaviest things to be placed in the scales on the day of judgment shall be the fear of Allah and good character’.
+
+A man once approached the Emissary of Allah (may Allah bless him and grant him peace) from in front of him, and asked, ‘O Emissary of Allah! What is religion?’ ‘*Good character!*’, he replied. He then approached him from his right side, and asked, ‘What is religion?’ ‘*Good character*!’, he replied again. He then approached him from his left, and asked, ‘What is religion?’ to be told, ‘*Good character!*’ He then came to him from behind, and asked, ‘What is religion?’ at which he replied, ‘*Have you not grasped it yet? It is that you do not get angry*’.
+
+He was once asked, ‘O Emissary of Allah! What is inauspiciousness [⟪ar:شوم⟫]?’ And he replied, ‘*Bad character!*’
+
+A man said to the Emissary of Allah (may Allah bless him and grant him peace), ‘Give me some advice’. ‘*Fear Allah,*’ he replied, ‘*wherever you may be.*’ ‘Give me more’, he said. ‘*Follow a sin with a good deed*,’ he replied, ‘*and you will erase it*’. ‘Give me more’, the man said, and he replied, ‘*When you deal with people, do so with a good character*’.
+
+He was asked (may Allah bless him and grant him peace) which was the best of deeds, to which he replied, ‘*To have a good character*’. He said, ‘*Allah shall never make good, the character*[⟪ar:خُلق⟫]*and created form*[⟪ar:خَلق⟫]*of a man and then allow him to be devoured by Hell*’
+
+Said al-Fudayl, ‘The Emissary of Allah (may Allah bless him and grant him peace) was once told that a certain woman fasted all day and prayed all night, but was possessed of a bad character, so that she injured people with her words. ‘*There is no good in her*,’ he said, ‘*she is amongst the people of Hell*’.
+
+Said Abu’l-Darda’, ‘I once heard Allah’s Emissary (may Allah bless him and grant him peace) say, “*The very first thing that will be weighed in the scales shall be good character and generosity. When Allah created faith [⟪ar:ایمان⟫], it said, ‘O Lord! strengthen me!’ and He strengthened it with good character and generosity. And when He created disbelief [⟪ar:کفر⟫], it said, ‘O Lord! strengthen me!’ and He strengthened it with avarice and bad character*’. And he said, ‘*Verily, Allah has chosen this religion for Himself. Therefore nothing is more appropriate for your religion than generosity and good character. Ornament your religion with them!’. He said, ‘Goodness of character is Allah’s greatest creation*’.
+
+He was once asked, ‘O Emissary of Allah! Which believer is the best in faith?’ and he replied, ‘*He who has the best character*'. And he said (may Allah bless him and grant him peace), ‘*You will not be able to suffice all people with your wealth; therefore sufice them with a cheerful face and a good character*’. He also said (may Allah bless him and grant him peace), ‘*Bad character corrupts one’s deeds just as vinegar corrupts honey*’.
+
+It is related on the authority of Jarir ibn Abdullah that he said (may Allah bless him and grant him peace), ‘*You are a man whose form Allah has made excellent; therefore make your character excellent as well*’.
+
+Said alBara’ ibn Azib, ‘The Emissary of Allah (May Allah bless him and grant him peace) was of all men, the most beautiful of face and the most noble of character’.
+
+Said Abu Masood Al-Badri, ‘The Emissary of Allah (May Allah bless him and grant him peace) used to say during his prayers, “*O Allah! You have made good my creation*[⟪ar:خَلقی⟫]*, therefore make good my character* [⟪ar:خُلقی⟫]
+⟪ar:اللھم کما حسنت خلقی فحسن خلقی⟫
+
+Said Abdullah IbneUmar, ‘The Emissary of Allah (May Allah bless him and grant him peace) used to frequently pray: “*O Lord! I ask Thee for health, contentment with my lot, and good character*.”
+
+It is related on the authority of Abu Hurayra (may Allah be pleased with him) that the Prophet (May Allah bless him and grant him peace) said, ‘*The honor of a Muslim is his religion, his lineage is his good character, and his Virtue is his intellect*.
+
+Said Usama Ibne Sharik, ‘I once witnessed the Bedouins asking the Prophet (May Allah bless him and grant him peace), “What is the best thing that a bondsman can be given?” And he replied, “*Good character*”. And he said (may Allah bless him and grant him peace), ‘*The most beloved of you to me on the Day of Arising, and the ones who shall sit closest to me, will be the best of you in character*’.
+
+Said Ibn Abbs, ‘The Emissary of Allah (may Allah bless him and grant him peace) once said, “*There are three things which, when they are all absent from a man, should lead you to take no account of his works: a piety which restrains him from disobedience to Allah, a clemency (mercy) which prevents him from harming the foolish, and a noble character with which he lives among men*”. ‘ One of his supplications (may Allah bless him and grant him peace) started with, ‘*O Allah! Guide me to the better traits of character, for assuredly, no-one guides to the better traits of character but Thee. And preserve me from the bad traits of character, for assuredly, no one may protects me from them but Thee*.’
+
+Said Anas, ‘One day, when we were with the Emissary of Allah (May Allah bless him and grant him peace), he said, “*Good character melts away sin just as the sun melts ice*” And he said (may Allah bless him and grant him peace), ‘Good character is part of man’s saving felicity [intense happiness]. And he said (may Allah bless him and grant him peace), ‘Good character is auspiciousness [⟪ar:یُوم⟫]. He said (May Allah bless him and grant him peace) to Abu Zarr Ghaffari, There is no intelligence like foresight, and no lineage like good character’.
+
+It is related on the authority of Anas that Umme Habiba once said to the Emissary of Allah (may Allah bless him and grant him peace), ‘O Emissary of Allah! What if a woman had had two husbands in this world, and she died, and they died also, and all were received into Heaven. Whose wife would she then be?’ And he replied, ‘*The wife of the one whose character was the best when he was in the world! O Umni Habiba! Good character brings all that is good in this world and the next*.’ And he said (may Allah bless him and grant him peace), ‘*The rightly-guided Muslim attains the ranks of him, who fasts and prays at length merely through his good character and noble nature*’.
+
+Said Abdul-Rehman ibn Samura, ‘we were once with Allah’s Emissary (May Allah bless him and grant him peace) when he said, “*Yesterday I beheld a remarkable thing. I saw a man from my nation, crouching on his knees, being divided from Allah by a veil. Then his good character came, and brought him into Allah’s presence*.
+
+Said Anas, ‘The Emissary of Allah (May Allah bless him and grant him peace) said, “*A bondsman may attain through his good character high and noble degrees in the Afterlife, even if he was feeble in his worship*”
+
+It is related that Umar once asked permission to enter the Prophet's home (May Allah bless him and grant him peace), who had with him some women of Quraysh who were talking to him in voices, loud enough to drown out his own. When Umar asked permission to enter, they rushed behind a screen. And when he entered, Allah’s Emissary (May Allah bless him and grant him peace) was laughing, so he asked, ‘What has made you laugh, may my father and mother be your ransom?’ And the Prophet replied, ‘*I was surprised at those women who were with me, and who, when they heard your voice, rushed behind the screen!*’ Umar declared ‘It would be more proper for them to hold you in awe, O Emissary of Allah,’ then he went over to them and said, ‘You are enemies of your own selves! Are you awed by me and not by Allah’s Emissary (may Allah bless him and grant him peace)?’ And they replied, ‘Yes! You are stern, and harsher than him’. And the Prophet said (May Allah bless him and grant him peace), ‘*O lbn al-Khatab! By Him in whose hand lies my soul, ‘Bad character is an unpardonable sin, and assuming the worst is a transgression which produces evil*. And he said (May Allah bless him and grant him peace), ‘*Through his bad character a man can sink to the lowest tier of Hell*.’
+
+Luqman the Wise once asked his father, ‘Father, what is the finest single trait in a man?’ ‘Religion’, he replied. Then he asked, ‘And what are the finest two traits?’ ‘Religion and wealth,’ said he. ‘And the finest three?’ ‘Religion, wealth and modesty.’ ‘And if they should be four?’ ‘Religion, wealth, modesty and good character’. ‘And if they should be five?’ And he replied, ‘Religion, wealth, modesty, good character and generosity’. ‘And if they should be six?’ ‘O my son’, he replied, ‘When these five traits come together in a man, then he is pious and pure, one of Allah’s saints, and is free of Satan’.
+
+Imam Hassan (peace be upon him) said, ‘A man of bad character punishes his own soul’
+
+Anas ibn Malik said, ‘A bondsman can reach the very highest rank in heaven through his good character, without being a man of much worship, and can fall to the lowest region of the Inferno through his bad character, even though he worshipped abundantly’.
+
+Said Yahya ibn Mudb, ‘In an expansive character, lie the treasures of provision’.
+
+Said Wahb ibn Munabbih, ‘The man of bad character is like a piece of broken pottery, which can neither be patched up nor returned to clay’.
+
+Said al-Fudayl, ‘The Company of an irreligious man of good character is preferable to me to that of an ill-natured man, much given to worship’.
+
+Ibn Al-Mubarak was once accompanied on a journey by a man of bad character, and treated him with forbearance and politeness. When they parted [Ibn al-Mubarak] wept. Upon being asked why he did so, he replied, ‘I weep out of compassion for him: I have left him, but his character is still with him, and has not departed from his company’.
+
+Said Al-Junayd, ‘four things lift a man up to the highest degrees, even should his knowledge and deeds be insubstantial: forbearance, modesty, generosity and good character. By these things faith is made complete.’
+
+Said Yabya ibn Muadh, ‘Bad character is a sin in the presence of which, abundant good deeds are of no avail; while good character is a virtue in the presence of which many sins can do no harm’.
+
+lbn Abbãs was asked, ‘What is nobility [⟪ar:کرم⟫]?’ and he replied, ‘that which Allah has mentioned in His mighty Book: Assuredly, the most noble of you in Allah’s sight are the most pious’. And he was asked, ‘What is good lineage?’ and replied, ‘The man with the best character has the best lineage’. It has been said that ‘every building has a foundation, and the foundation of lslam is good character’.
+
+Said Ibn Al-Ata, ‘those who have reached lofty ranks have done so only through good character, the perfection of which has been attained solely by the Chosen One (may Allah bless him and grant him peace). The nearest of all creatures to Allah are those who follow in his footsteps through [assuming the traits of] his noble character.’
+
+<!-- section 3 (id=3560, raw_sort=3): What Is Good And Bad Character -->
+
+## Defining Good and Bad Character
+
+People have discoursed upon the true nature of good character and what it constitutes, but they have in fact only touched the fruit of the tree, and not its roots (reality). In fact, they have not even grasped the entirety of its fruit! There are many quotes on the subject of good character, but most do not explain the reality of what a truly good character is, and what its fundamental components are. There is for example the saying that ‘Good character is a cheerful face, magnanimity, and doing no harm’.
+
+Ali (may God ennoble his face) said, ‘Good character is three traits:
+
+    1. Avoiding that which is forbidden
+
+    2. Seeking that which is permitted
+
+    3. Being generous to one’s family
+
+Imam Hussain (Peace be upon him) said,  ‘It is that you should not be affected by the harshness of mankind after having beheld the truth’.
+
+Al-Wasiti said, ‘It is that one should not argue with anyone or be argued with by anyone because of one’s firm knowledge of Allah. He also said that ' It is to please people secretly and publicly'.
+
+Shah Al-Kirmani said, ‘It is to do no harm, but to endure harm instead’
+
+Someone said, ‘It is that one should be friendly to people but remain a stranger in their midst.
+
+Abu Uthman, ‘It is to be content with the will of Allah’.
+
+When Sahl al-Tustari was asked about good character, he replied, ‘Its least degree is tolerance, seeking, compassion and pity for the wrongdoer, and asking Allah's forgiveness for him. It is that you do not direct accusations at your Lord concerning your sustenance, and that you lay your complete trust in Him with the confidence that He shall provide what He has guaranteed. It is that you obey Him and do not transgress against Him in any of your affairs, be it between you and Him, or those that take place between you and mankind’.
+
+Abu Saeed Al Kharraz said, ‘it is that you should have no concern but for Allah’.
+
+‘Creation’ [khalq] and ‘Character’ [Khulq] are two expressions which may be used simultaneously. We say, for example, that a person is good in his creation and in his character, meaning that both his outward and inward aspects are good. "Creation" refers to the external aspect, while "Character" represents the internal form. Man is composed of a body that perceives with ocular vision [basarat]  and a spirit [nafs] and a soul [ruh] which perceives with inner sight [baseerat]. Each of these have an aspect and a form which is either ugly or pleasant. Furthermore, the soul which perceives with inner sight is of greater worth than the body which sees only with ocular vision. This is why Allah stressed its importance by ascribing it to His statement: I shall create a man from clay; and when I have fashioned him, and have breathed into him something of my spirit, then fall ye down before him in prostration!
+
+In this verse, the body is ascribed to clay, but the spirit is ascribed to the Lord of the Worlds [Rabbul Aalameen].  A character trait then, is a firmly established condition of the soul from which actions proceed easily without any forethought or planning. If this condition is disposed towards the production of beautiful and praiseworthy deeds, as acknowledged by the Law [shareeah] and the intellect, it is termed a ‘good character trait’. If however, foul acts proceed from it, the condition is known as a ‘bad character trait’. We describe this condition as *firmly established* [rasikh] because the character of a man who gives some of his wealth rarely and under transient circumstances cannot be described as generous. This is because the attribute of generosity is not yet firmly established and fixed in his soul.  Such acts must flow out from a man naturally, easily, and without thought. A man who acts with forethought and an effort, making a show of generosity, or remaining silent when angry, cannot be called generous, or of a mild of character.
+
+Four things are therefore involved.
+
+    1. The act of something pleasant or foul
+
+    2. The ability to act
+
+    3. Cognition of the act
+
+    4. The inclination of the soul towards one side or another which renders the pleasant or foul act easy for him to execute
+
+Character, therefore, is not the same as action. There are many people of generous character who do not donate from their wealth, either because they have none, or by reason of some other obstacle. Similarly there are people whose character is avaricious but who distribute their wealth for some personal motive, or out of ostentation and in the interests of upholding their reputation.
+
+Neither is character the same as ability, as it does not differ in whether it is ascribed to withholding or giving, or to any two opposite traits. Every man has been created to be, by disposition [fitrat], capable of withholding and giving, yet this does not necessarily bring about an avaricious or a generous character.
+
+Character is yet not the same as one’s cognition of the act, for cognition pertains to both pleasant and the foul in the same way.
+
+Instead it is to be identified with the fourth sense, namely, the condition through which the soul prepares itself for the decision of ‘giving or ‘withholding’. Therefore Character is a term, for the inner condition of the soul.
+
+Just as one’s external appearance cannot be considered beautiful when only the eyes are beautiful, but the nose, mouth, cheeks and other external features are not. All features must be beautiful if one’s outward aspect is to be called beautiful.
+
+There are four faculties that when exist in balance, and in correct proportion to each other create good character. These are :
+
+    1. The Rational faculty (Aqaliyah),
+
+    2. The Irascible faculty (Ghazabiyyah),
+
+    3. The Appetitive faculty (Shehwaniya), and
+
+    4. The faculty that creates a just Equilibrium (Meezaan) between the above three.
+
+The Rational faculty is sound when it is easily able to discriminate, for example, distinguish honesty from lies in speech; truth from falsehood in questions of belief, and beauty from ugliness in actions. When this faculty is sound, it bears fruit in the form of Wisdom, which is the chief of all the good traits of a character, and regarding which Allah has said, And whosoever is granted wisdom has truly been granted abundant good“
+
+The Irascible and the Appetitive faculties, are sound when its movements lie within the boundaries defined by Wisdom (which in term is dictated by the commands of Shariah and interact).
+
+The faculty of equilibrium sets desire and anger under the command of the intellect and the Law. The intellect has the role of a guidance counsellor, while the faculty for equilibrium is the actualizing power, and has the role of someone who carries out its orders. The same command is then also carried out by the irascible faculty, which is like a hunting dog that needs to be trained before its unleashing. It creates restraint and can conform to orders rather than to outburst the desires of the soul. In turn, desire is like a horse which one rides during a chase, and which sometimes is tractable, and well-disciplined, and at other times endeavors to bolt. Therefore, the person in which these characteristics are sound and balanced is possessed of a good character under all circumstances, while the person in which some of these are balanced and others are not, is of a good character only in proportion to his balanced traits. He is similar to the person who only has some handsome facial features.
+
+The irascible faculty, when sound and balanced, is called ‘Courage’ [Shuja]. Similarly, the appetitive faculty, when sound and balanced, is known as Temperance [Iffa].
+
+Should the irascible faculty lose its balance and incline towards excess it is called ‘recklessness’ [tahawwur]; should it incline towards weakness and insufficiency it is termed cowardice [Jubun] and languor [khur]’.
+
+Should the appetitive faculty move to the point of excess it is called ‘cupidity’ [sharah]; and should it incline to defect it is known as ‘indifference’ [jumud]. The mean and balanced state is praiseworthy and constitutes virtue, while the two extremes are blameworthy vices.
+
+The faculty for just Equilibrium, however, when in disorder, has no extremes of excess and defect. Rather it has one opposite, which is Tyranny [jur/zulm].
+
+As for Wisdom, when it exceeds its bounds and is used for corruption, is called ‘swindling’ and ‘fraud’,” while its insufficient application is termed ‘stupidity’ [balah]. Again, it is the mean of the two to which the word ‘Wisdom’ is applied.
+
+Therefore the fundamental good traits of character are four:
+
+    1. Wisdom
+
+        A condition of the soul by which it distinguishes truth from falsehood in all volitional acts
+
+    2. Courage
+
+        Subjection of the irascible faculty to the intellect
+
+    3. Temperance
+
+        Disciplining of the appetitive faculty by the intellect and the Law
+
+    4. Justice
+
+        A condition of the soul by which it controls the expansion and contraction of anger and desire as directed by Wisdom
+
+It is from the equilibrium of these four principles that all the good traits of character proceed. When the intellect is balanced it will bring forth discretion [husn-al-tadbeer] and excellence of discernment [jawdat Al-zehen], penetration of thought [thaqabat al-rai] and correctness of conjecture [Isbaat al zann], and an understanding of the subtle implications of actions and the hidden defects of the soul. When unbalanced in the direction of excess, cunning, swindling, deception and slyness will result; and when unbalanced in the direction of defect, it will result in stupidity [balah], inexperience [ghimara], foolishness [hamq], heedlessness and insanity.
+
+   
+
+> — *Image text (from image 001; citation unverified)*
+  (image preserved at ../images/001.png)
+  *Note:* AUTONOMOUS_STUB — placeholder sidecar. The chapter is sealed with needs_human_review=true. Human reviewer to revisit and replace with a real classification.
+
+    Inexperience means an insuflicient experience which is nonetheless combined with sound understanding. A man may be inexperienced in one matter and not in another. The difference between foolishness and insanity is that the intention of the foolish man is sound. Only his means of realizing it are defective. He does not possess the correct understanding of how to follow the way leading to his goal. The madman, on the other hand, chooses that which should not be chosen, so that the basis of his decisions and preferences is flawed.
+
+The trait of Courage gives rise to nobility [karam], intrepidity [najda], manliness [shahama], greatness of soul , endurance, [ihtimal], clemency [hilm], steadfastness [thabat], suppression of rage [kazm al-ghay], dignity [waqar], affection, and other such praiseworthy qualities. When unbalanced on the side of excess, it creates recklessness, leads to arrogance [salaf], conceit [badhkh], short temper [Istishata], pride [takabbur] and vanity [ujub], and when on the side of defect, to ignominy [mahanal], self-abasement [zilla], cowardice [jaza] meanness [khasasa], lack of resolution [sighaar al-nafs], and holding oneself back from doing that which is right and obligatory.
+
+   
+
+> — *Image text (from image 002; citation unverified)*
+  (image preserved at ../images/002.png)
+  *Note:* AUTONOMOUS_STUB — placeholder sidecar. The chapter is sealed with needs_human_review=true. Human reviewer to revisit and replace with a real classification.
+
+As for the quality of Temperance, this gives rise to generosity [sakha], modesty [haya], patience [sabr], tolerance [musamaha], contentment with one’s lot [qina], scrupulousness, wit, helping others  [musaada], cheerfulness [zarf] and absence of craving [qillat al-tama]. When it deviates towards excess or defect, greed [hirs], cupidity [sharah] and obscenity [waqaha] result, as do spite [khubth], extravagance [tabdhir], stinginess [taqir], ostentation [riya], immorality [hutka], obscenity [majana], triviality [abath], flattery [malq], envy [hasad], malice [shamta], self-abasement before the rich, disdain for the poor, and so forth.
+
+> — *Image text (from image 003; citation unverified)*
+  (image preserved at ../images/003.png)
+  *Note:* AUTONOMOUS_STUB — placeholder sidecar. The chapter is sealed with needs_human_review=true. Human reviewer to revisit and replace with a real classification.
+
+The fundamental noble traits of character are therefore these four virtues, namely Wisdom, Courage, Temperance and Justice. All other traits constitute branches of these traits. A perfectly just equilibrium in these four has been attained by no one but the Emissary of God (peace be upon him); and his Trustee (Wasi) Ali Ibne Abi Talib. All others poses varying degrees of proximity and distance from them. Thus a man is close to Allah in proportion to his closeness to His Emissary (peace be upon him), and he is as close to Allah's Emissary, as he is in proximity with his trustee Ali Ibne Abi Talib.
+
+He who combines within himself all of these traits is worthy of being a powerful king among men. Someone that all creatures must submit to and follow in all their deeds. They should be emulated and drawn close to. Similarly, he who is divested of all these qualities and acquires their opposites, deserves to be exiled from land and people, for he has become close to the accursed and banished devil, and therefore should be banished just as he was banished.
+
+The Emissary of God (peace be upon him) was sent only to perfect the noble qualities of character, as he himself said. The Quran has referred to these qualities when describing the moral qualities of the believers. Allah has said, ‘The believers are only those who have faith in Allah and His Emissary, and do not doubt, and who strive with their wealth and theirs lives in the path of Allah. Such are the sincere.  Therefore, faith in Allah and His Emissary, which is free from all doubt, is certainly powerful and is the fruit of the intellect and the utmost boundaries of Wisdom.
+
+Striving with one’s wealth is generosity, which comes from controlling the appetitive faculty, while striving with one’s self is Courage, which proceeds from the use of the irascible faculty under the control of the intellect and with just moderation. And in describing the wasi of the Emissary, Allah said, Severe against the unbelievers, compassionate amongst themselves,” indicating that severity and compassion both have their valid place. Perfection is not found through severity or compassion in every situation.
+
+<!-- section 4 (id=3561, raw_sort=4): Can character be changed? -->
+
+## Can Character Be Changed? — Al-Ghazālī's Argument
+
+A man who is dominated by sloth will consider any spiritual struggle, discipline, purification of soul, and refinement of character unpleasant. This is because the deficiencies in his nature and soul will not permit him to undertake such a journey. Such a man therefore will claim that the traits of a man’s character cannot conceivably be altered, and that human nature is immutable. He adduces two statements in support of his claim.
+
+First, he says that "character" [khuluq] is an inward form, just as "creation" [khatq] is the outward form of man. No matter how hard one tries, one can never alter his external appearance. For example, a short man cannot make himself tall, nor can an ugly man render himself handsome. Such is the case with inward ugliness, that it remains unaltered. Secondly, he asserts that goodness of character proceeds from suppressing one’s desire and anger, and that after practicing this discipline by means of a long inward struggle he has realized that desire and anger are inherent parts of one's character and nature, and that they can never be separated from him. Therefore any struggle towards reforming ones character is a profitless effort and a waste of time. He claims that such an endeavor requires barring the heart from all inclinations of this fleeting world which is practically impossible.
+
+To such objections we would argue, that were the traits of character not susceptible to change, there would be no value in counsels, sermons and discipline, and the Prophet (Peace be upon him) would not have said, ‘Improve your characters!’ Furthermore, how can one deny reform of human character, when we see that it is possible to improve the character of even an animal! A falcon can be transformed from savagery to tameness; a dog from mere lust of food to good behavior and self-restraint, a horse from defiance to docility and obedience. For all of these constitute a change in character. Then, how is it possible that man, who is the leader and the best form of all creation [Ashraful Makhlooqat], cannot change his character?
+
+In order to further unveil the nature of this subject we would say that all creation is divided into two parts. First, is the essence of creation, on which man and his will have no effect. These are the heavens, the earths, the stars, and even the outer (features) and inner parts (organs) of the human body. In short, everything which is already complete and perfect in its creation cannot be altered. In contrast, there exist those which are incomplete and imperfect in their existence and form, but possess the potential and ability to be perfected. For example, a seed is not an apple tree or a date-palm. It has however been created with the potential of becoming one when properly nurtured.
+
+Therefore, just as a seed has the potential of acquiring certain qualities and not others, similarly anger and desire can be controlled and channeled in proper direction, should we so desire, by means of self-discipline and struggle. In fact, we have been commanded to do so by Allah, for it constitutes the means of our salvation and our nearness to Him. We cannot, however, suppress and dominate anger and desire entirely or destroy every trace of them.
+
+Human temperaments vary. Some accept change rapidly, while others do not, and there are two factors responsible for this disparity.
+
+"Instinct" [Ghariziya] is the first factor, which lies at the root of one's temperament in all human beings. Along with it reside desire, anger and pride. Of these, the most difficult to deal with, and the least susceptible to change is "desire", which is the oldest capacity in man. It is the first thing to be created in a child, followed by (after seven years), anger, and finally the power of discretion.
+
+The second factor is Repetition. A certain trait of a character can be reinforced by means of repetition in accordance with what is considered acceptable and satisfactory. In this regard, people are of four degrees.
+
+1. First is the innocent being that has no sense of discernment. Because of the absence of guiding doctrines, he cannot distinguish truth from falsehood, or a pleasant act from a foul one. His desires, however, were never aroused through pursuit of pleasures. Such a man will respond rapidly to spiritual education, and simply needs the instruction of a guide and a motivator to spur him on the path to spiritual enlightenment. Such a person's character gets reformed in the shortest possible time
+2. Second is the man who recognizes foul acts for what they are, but is not in the habit of acting righteously. His evil actions have become pleasant to him and he commits them under the influence of his desires that have taken control of him, and have deflected him from his better judgment. He is however aware of the fact that he is not acting as he should. Such a person has a heavier burden laid on him should he desire reform. He must first uproot the deep seeded evil habits from his soul and then sow the habits of righteousness therein.
+3. Third is the man who considers his foul traits of character, obligatory, preferable, and pleasant due to his upbringing. The treatment of such a man is very difficult.
+4. Fourth is the man who has been raised to believe in the works of corruption. He believes that merit lies in immorality, corruption and crime. He believes that such acts are required to raise his status. Reforming such a person is impossible, and for him is said that 'Improving an old man is hardship itself, while reforming a wolf is torture'.
+
+Thus, the first of these (four men) is simply ignorant, while the second is ignorant and misguided, the third is ignorant, misguided and corrupt, while the fourth is ignorant, misguided, corrupt and evil. Then there is the second statement that anger, desire, worldliness and the other such traits cannot be torn from human nature for as long as one lives. This is an erroneous belief, imagined by a faction of people that assume the purpose of spiritual struggle is the complete suppression and eradication of these attributes. Such a view is absurd, for desire has been created for a purpose, and is an indispensable part of human nature. Should the desire for food cease man would die; should the desire for sexual intercourse cease a man's race would die out; and should man feel no anger he would not be able to defend himself from the things that threaten his life. As long as the basis of desire remains, the love of property must also necessarily remain, which encourages one to guard it. What is required is not the total extirpation of these traits, but rather the restoration of their balance and moderation, which is the middle point between excess and defect. As for the trait of anger, again, what is needed is a sound balance, which lies in the avoidance of both recklessness and cowardice, yet be strong in its existence and under the control of the intellect.
+
+It is for this reason that Allah has said, Severe against the unbelievers, compassionate amongst themselves, describing the believers as 'severe'. Severity can only arise from anger, and were there no anger, there could be no Jihad against the unbelievers. And how could one intend to uproot anger and desire entirely when the Prophets themselves were not void of them? Allah's Emissary (peace be upon him) once said, 'I am a man, and, like other men, I become angry'. People used to say things in his presence that he disliked, and he would become angry to the point that his cheeks would become red, yet he would never say anything but the truth. His anger never caused him to diverge from him true path. Allah also said, And those that suppress their rage, and are forgiving toward people" rather than 'those that have no rage! Restoring rage and anger to a position of moderation, whereat they do not overcome and subdue the intellect, but instead submit to its control and authority, is therefore a possibility, and it is this to which we refer when we speak of 'reforming the character'.
+
+A man may be so dominated by desire that his intellect is unable to restrain his desire from evil actions, yet he may, by means of self-discipline, restore it to the position of moderation. For example, generosity is a trait which the Law deems praiseworthy, and constitutes a middle point between the two extremes of avarice and extravagance. Allah has praised this moderation by saying: And those who, when they spend, are neither exrravagant nor grudging; and there is ever a middle point between the two. And He has said Let not thy hand be chained to thy neck, nor open it completely. Similarly, for desire of food moderation should prevail,  rather than greed or indifference. Allah has said, Eat and drink, but be not extravagant, for Allah loves not the extravagant. And in the matter of anger He has said Severe against the unbelievers, compassionate amongst themselves.
+
+The Prophet (peace be upon him) said, 'The best of affairs is the middle course ' There is a deeper meaning and explanation of this hadees. Felicity or bliss is predicated on the salvation of the heart from the vicissitudes of this world. Allah said, Save him who comes to Allah with a sound heart' Avarice is one of these vicissitudes, and so is extravagance'. Ideally, the heart should be safely between the two extremes of indifference to money and the eagerness to spend or withhold it all. For the heart who is zealous to spend, or to withhold it, is distracted by these two inclinations. His heart cannot be whole until he is purified of both extremes. Just as tepid water is neither hot nor cold, but exists in a middle state between the two, possessing both qualities, yet free of both qualities, similarly generosity lies between extravagance and avarice, and courage between cowardice and recklessness, and temperance between lust and indifference; and such is the case with all the other traits of character.
+
+In conclusion, it is the extreme state of any act that is reprehensible.
+
+<!-- section 5 (id=3562, raw_sort=5): How can good character be acquired? -->
+
+## How Good Character Can Be Acquired
+
+We have established that good character proceeds from an equilibrium between the "Rational", "Irascible" and "Appetitive" faculties by their submission to the intellect and the Law (Shareeat). This equilibrium may come about in two ways. First of these, is through Divine grace [Fazl], and completeness of innate disposition [kamaal al-fitra], whereby a man is born and created with a sound intellect and a good character. Desire and anger exist in moderation within him, and remain submissive to his intellect and the Law, thus preserving him for their defects. Such a person becomes learned without an instructor; and disciplined without being subjected to any form of external discipline, as was the case with Eisa, the son of Maryam, and Yahya, the son of Zakariya, and all the other prophets (may the blessings of Allah be upon them).
+
+The second form of equilibrium is established through the acquisition of good traits, by means of spiritual struggle and discipline. This includes disciplining the soul to act in ways that would instinctively proceed from the desired traits. For example, a man who desires to be generous must force himself to act generously. He must continuously and consistently give the best of what he owns, until his nature conforms to it and it becomes easy for him to give, at which time he becomes a generous person. Similarly an arrogant man, who desires modesty, should persist for a lengthy period of time imitating the behavior of the modest, and in doing so struggle against his soul in disciplining it, until modesty becomes one of his traits and part of his nature, and he can carry out modest acts easily.
+
+Every quality praised by the Law (Shareeat) is acquired, one after the other, in such a manner, resulting in pleasure. For the generous man is he, who takes pleasure in the act of giving; not one who gives away reluctantly. Similarly the modest man finds modesty delightful. Religious traits of good character can only take root in the soul, when it has grown accustomed to every good habit and renounced every evil habit. Such a man takes pleasure in beautiful deeds, and loathes ugly acts. As Allah's Emissary (Peace be upon him) said: "Prayer has been made my delight!". As long as worship and the renunciation of forbidden acts are felt unpleasant and burdensome, their performance will remain defective, and will not lead one to complete felicity.
+
+It is praiseworthy to struggle and persevere in acquiring a good trait in order to abandon a bad one. It is in this context that Allah said, Seek help in perseverance and in prayer, and truly it is hard, except for the humble-minded.  And His Emissary (Peace be upon him) said, ‘Worship Allah with pleasure, and if you cannot do so, then worship him with perseverance, for perseverance in something you dislike, contains much good.  
+
+However, to willingly, consistently and constantly act with pleasure, is of a much higher rank. For such a man, the longer he lives, the more perfect and complete his virtues becomes. This is why the Prophet (Peace be upon him) replied, when asked about felicity: ‘it is a long life, spent in the obedience of Allah!’. This is also why the Prophets and the Saints disliked death, for ‘this world is the sowing ground for the next. The more acts of worship one performs throughout a long life in this world, the greater will be his reward in the next; the clearer will be his soul, and the stronger and more deeply rooted will be his good traits of character. For the sole purpose of worship is to influence the heart, which only grows stronger when acts of worship are persistently repeated. The purpose of such traits of character is to uproot the love of this world from the soul and to set firmly therein the love of Allah (Exalted is He), so that one longs for nothing more than meeting Him. Such a man will then employ his wealth only in ways which will bring him closer to Allah. He will constantly weigh his anger and desire in the scales of his intellect and submit them to its command and the Law, and remain content and happy with them.
+
+This world of distractions and temptations shows us wondrous paradoxical visions. We see kings and the extremely rich, in constant misery; and a joyful bankrupt gambler while gambling, such that it forces one to imagine that there could be no other means of gaining such pleasure except by gambling, even though he has lost everything he owns and has become penniless. Similarly the man whose hobby is pigeons, stands all day in the hot sun without feeling any discomfort, overcome by his pleasure in his birds, their movements and their flight in the sky. And then there is the criminal who boasts of the blows and stabs he receives, and of his steadfastness under the whip, and who goes up to the cross or the gibbet bragging about his endurance of such punishments, considering this to be a source of pride. We may see him denying his crime, even when getting torn limb from limb during a confession. He pays no heed to the punishments, as he is overcome by his joy of what he considers his courage and virility. And there is no condition more ugly and despicable than that of an effeminate man, who imitates women by plucking out his hair, tattooing his face, and keeping  their company, such that you see him rejoicing in his state and boasting of the perfection of his effeminacy to other such men.’ Even the sweepers can be seen boasting to one another just as much as the kings and scholars. All these are the result of habit and persistence in one's ways, for a long period of time, the soul's familiarity with the act, and the witnessing of similar acts in one’s acquaintances.
+
+When we see that the soul commonly takes pleasure in vain acts and inclines towards ugliness, then how could it not take pleasure in the truth were it to be restored?  A soul’s inclination to such disgusting acts is unnatural, and resembles an inclination towards eating mud, while the inclination towards wisdom, love of Allah, knowledge and worship, resembles the inclination towards food and drink. Such acts are the expression of a heart’s true nature, and is a divine command; while an inclination to the demands of one’s desires is alien and not part of ones true nature. The heart’s food is wisdom, knowledge and the love of Allah (Exalted is He!), and it only diverges from the demands of its nature when afflicted by some disease, just as the stomach, when afflicted by an illness, does not desire food and drink which is the source of its life. Thus every man’s heart which inclines to anything but the love of Allah is afflicted by a disease in direct proportion to his inclination.
+
+Therefore good traits of character may be acquired through self-discipline, by initially imitating the actions that would be produced by the trait he seeks to acquire, culminating in that trait becoming a firm part of his nature. This is one of the wonders of the relationship between the heart and the members [jawarih], by which I mean the soul and the body. The effect of every attribute which appears in the heart must emanate onto the members, such that they will move only in conformity to it. Similarly, every act performed by the members has an effect which makes its way up to the heart, thereby constituting a form of circular movement. The following examples may help explain this metaphor.  
+
+A man who wishes to acquire the trait of skilful calligraphy in a desire to become a calligrapher by nature and disposition, must act with his members (hands) in a way that a calligrapher does. He must devote himself assiduously to this art for a very long time. During this time he imitates the calligrapher by copying his fine script. He continues to persevere in this until it becomes a firmly rooted attribute in his soul, and he finally comes to write naturally with a beautiful script, whereas he had earlier done so artificially. Through a difficult simulation at first, of fine calligraphy, he rendered his own calligraphy fine. The effects of his efforts, rose from his members (hands) to his heart and then descended again from the heart to his member, enabling him to write well naturally. Similar is the case of a man who wishes to become a sage. He is obliged to perform the actions that sages do, namely, a constant application to sagacity, until the traits of a sage take root in his heart and he himself becomes a sage.
+
+Similar is the case of the man who wishes to become generous, content, clement and unassuming is identical. He must first perform the actions associated with these qualities until they become part of his habitual nature. And just as the one who desires to become a sage does not despair of achieving his goal, if one night is wasted, but instead continues his efforts for many nights, similarly the one who desires to purify and perfect his soul and to adorn it with good qualities will neither achieve his goal by worshipping for one day, nor be barred from it just because he committed a sin on one day. One mortal sin does not necessarily lead to eternal damnation. However, one day of idleness will invite the next, and then, little by little, his soul will start taking pleasure in laziness and abandon studying altogether, and the merits attached to sagacity will pass him by. Similarly, one venial sin (*denoting a sin that is not regarded as depriving the soul of divine grace*) leads to  another, until the basis for salvation is lost through the destruction of the basis of faith at the moment of death. The growth and accumulation of both, good and bad acts is similar to that of the body and its height. It is imperceptible, yet present, and suddenly manifests itself in the form of a child becoming a boy, and a boy becoming a man. Similarly acts of devotion towards purification and cleansing of the soul is not immediately perceptible, yet each has an effect, slowly increasing in number, until the person finds himself firm in it and can visibly see its reward or punishments clearly. All great acts of devotion are a composition of numerous small acts, and all great acts of rebellion are a composition of numerous small acts.
+
+There have been many sages and scholars who deemed wasting of a day and a night a thing of minor consequence. They continued to procrastinate day after day until at last their natures departed from them and they were reduced to nothing. Similar is the case of the man who underestimates small sins, and procrastinates and delays his repentance day after day, until such time as death suddenly seizes him, or the darkness of his sins builds up in his heart to the point that he is unable to repent. His heart gets shackled with desires from which he is unable to release himself. This is what is meant by the ‘closing of the gate of repentance, and by Allah's statement And We have set a barrier before them and a barrier behind them. Maulana Ali (may Allah ennoble his face) said, ‘Faith (Emaan) appears in the heart as a white gleam. As faith grows, so does its whiteness, until, when the bondsman’s faith is complete, the whiteness covers his entire heart. And disbelief [Kufr] appears as a black speck, the blackness of which grows in proportion to it, until, when the it becomes complete, the heart becomes entirely black’.
+
+You have now come to know that good character proceeds sometimes from one’s nature and innate disposition and sometimes from disciplining oneself to beautiful acts, and keeping the company of people who perform them. For one nature can acquire both, good and evil from one another. The man who is virtuous by nature, by habituation and by education possesses the supreme virtue and is the closest to Allah. The man who is ignoble by nature, chances or chooses to fall in with bad company from which he learns, and for whom the means of evil acts are readily available, grows wicked and becomes the most distant from Allah. Between these two extremes lie people of disparate participation in these three aspects, each of whom is possessed of a degree of proximity or remoteness in accordance with his quality and state. As Allah stated: He who acts an atom's weight of good shall see it, and he who acts an atom's weight of evil shall see it. He also said And Allah wronged them not; rather they wronged themselves
+
+<!-- section 6 (id=3563, raw_sort=6): Methods of refining character -->
+
+## Methods for Refining Character
+
+You have now learnt that an equilibrium in the traits of character makes the soul healthy, while any deviation from this equilibrium creates a sickness and a disorder within it. This is similar to the fact that as long as the four humors of the body are in balance, it remains healthy, and any imbalance in them makes the body sick. Let us therefore take the human body as our metaphor, and proceed with our discourse as follows.
+
+A soul that is cleansed of unwanted traits and adorned with virtuous and beautiful ones, is like a body, that has been cured from all diseases restoring it to complete health. Every basic constitution naturally exists in equilibrium. It is then transformed to disorder when external sources such as food, air and other circumstances act upon it to create an imbalance. Similarly every child is born in equilibrium with a sound and innate disposition. It his parents who make of him a Jew, Christian or Zoroastrian. This is why the prophet (Peace be upon him) said that Every child is born a Muslim. His parents then make him a Christian or a Jew. The child acquires unwanted and ugly traits through familiarity and education from external sources. Also, just as the body is not created in its adult form, but rather it must gradually move towards completion and strength through its phases of growth, nourishment, and upbringing, similarly the soul is also created deficient, with its completion and perfection existing in a latent form, that can only be perfected through training [tarbiya], refinement of character, and nourishment with knowledge. When the body is healthy, a person follows certain rules to maintain his health; and when it is ill, he tries to restore it to health. Similarly, when the soul is pure, clean and of good character one should strive to maintain its purity, strengthen and purify it further; and when it is not, one should struggle to make it so.
+
+And just as a physical disorder that corrupts the body’s equilibrium causing it to fall sick can only be treated through its opposite, (if it proceeds from heat then through something cool, and vice versa); similarly, the ugliness of traits, which is the heart’s sickness, can only be treated with its opposite. Therefore the disease of ignorance is treated by knowledge, avarice by generosity, pride by self-effacement, arrogance by humility, and greed by restraint. Also, just as the treatment of a sick body requires that one endures the bitter taste of medicine and persevere in his treatment in order to eliminate the disease, similarly for curing the ailment of the heart one must endure the bitterness of struggle and steadfastness. One should realize that treating the soul is way more important than curing physical ailments, because no matter what level of good health one maintains, the body will eventually die, eliminating its sickness with it. The soul however lives on forever along with its illness.
+
+Now, a cooling medicine will not be sufficient to cure a disorder caused by heat, unless it is administered in a certain measure, that varies according to the severity or mildness of the complaint and the length of time for which it has been present. It is therefore essential that there be a standard measure for his medicine, for if it is administered in the wrong amount, the disorder will exacerbate. Additionally, the physician also needs to consider the pre-existing conditions of the body, the patient's age, gender etc. before suggesting the appropriate medication. If the physician attempts to treat every patient with a single medicine, he will surely kill most of them. Similarly the religious guide (Shaikh) should take into consideration the aspirants age, level of piety,  knowledge, surroundings, the length and source of his spiritual disease before suggesting a discipline. If the aspirant is a beginner, and is ignorant of the provisions of the Law (Shareeat), he should first be educated in ritual purity, prayer and other external acts of worship. If he earns his living through forbidden means, or is regularly perpetrating evil act, he should be asked to forsake those. When his external acts become beautiful through acts of worship, and his members are purified from external transgressions, the Shaikh should then observe the subtleties of his existing state to ascertain areas of improvement and then suggest disciplines and exercises accordingly.
+
+    For example, someone who constantly adorns his clothes and collects colored prayer-mats for his worship is no different from a bride who spends the entire day decorating herself. There is no difference between a man who worships himself and the one who worships an idol. Therefore, anyone who pays too much attention to his clothing, apart from its being from a legitimate source and ritually pure, in a way that turns his heart towards it, is occupied with his own self.
+
+If the Shaikh feels that the aspirant is not capable of renouncing a certain evil trait completely, he should move him from one blameworthy trait of character to a less harmful one, like the man who washes off blood with urine, and then rinses off the urine with water. He should gradually keep moving him from darkness to light until the evil trait is completely eliminated.
+
+Should the Shaikh find the aspirant under the influence of gluttony, he should ask him to fast and to reduce the amount he eats. Next, he should instruct him to prepare delicious meals and serve them to others without tasting it himself, until his soul becomes stronger, and he develops the forbearance to subjugate his greed. Should he find the aspirant of an aggressive nature, he should discipline him to be gentle and quiet, and make him keep the company of ill-mannered people in order to train his soul to tolerate them. One of the Sufis disciplined his soul to mildness and freed himself from excessive anger by hiring a man to insult him in public. He forced himself to bear the insults and suppress his anger until his nature became gentle. Another felt the presence of cowardice and faint heartedness in his soul, and, in order to develop bravery, made it a practice to go out to sea in the winters when the swell was at its roughest. The ascetics of India treat laziness in worship by standing up on pillars all night. And one of the Sheikhs on realizing that his soul was lazy during his night devotions, forced himself to stand on his head all night so that his soul would willingly accept standing on his feet. Another treated his love of wealth by selling all that he owned and throwing the proceeds into the sea, fearing that if he gave it to others he would be afflicted by self satisfaction and a desire for praise.
+
+These are some of the more extreme paths that people have chosen to discipline their soul. The general technique is to act in the opposite manner of everything that the soul inclines to and craves. Allah has summed up all of these things in His statement:  And whosoever fears the standing before his lord, and forbids his soul its whim, for him Heaven shall be the place of resort.
+
+The most important principle in spiritual struggle is to carry out what one has determined for himself with conviction. When one is determined, his means to pursue what he seeks becomes easy. If one makes it a habit to violate his own resolution the soul starts taking pleasure in it and eventually gets corrupted.
+
+<!-- section 7 (id=3564, raw_sort=7): Symptoms of the disease of heart and its restoration -->
+
+## Symptoms of the Diseases of the Heart and Their Restoration
+
+Know that each member of your body has been created for a particular function. The member is considered ill if it can no longer perform the act for which it was created. The hand is considered ill when it can no longer strike, and the eye, when it can no longer see. Such is the case with the heart, when it can no longer acquire knowledge, wisdom, gnosis (Ma'rifat); and no longer feels the love of Allah, His worship, His remembrance; and prefers materialistic things over His company. Allah states I created jinn and mankind only to worship Me. It is this very function of the heart that separates a man from a beast, for he is superior, not in his capacity to eat, mate, see etc. but rather his gnosis of the true nature of things, their origin, and their originator. Should he learn about every thing that exists in this world, but not know his God, it would be equivalent to his not knowing anything. The sign of Allah's gnosis is "love", for whoever knows Him, loves Him; and the proof of His love is that one prefers nothing over Him. As Allah said, Say: If your fathers, and your sons, and your brothers, and your wives, and your tribe, and the wealth you have acquired and the trade you fear may not prosper, and the dwellings you desire, are dearer to you than Allah and His Messenger and striving in His way, then wait until God brings His command to pass.
+
+Thus whoever loves something more than Allah is harboring a sickness in his heart. He is similar to the man who loves eating mud and has lost his desire for bread and water. These are the symptoms of the disease, by which we learn that every heart is sick, except those few that Allah has rescued. Yet man is ignorant of this fact and thus remains heedless. He cannot persevere in opposing his desires. Opposing his desires feel similar to the torment of the extraction of soul and the agonies of death. If he does find the strength in him, he may be unable to find a physician of such insight to treat him. For we see the physicians, who have cloaked themselves as scholars are also afflicted by this same disorder, and treatment is rarely sought from a physician who is unwell. It is for this reason that this disease has become chronic to the point that some people altogether deny the existence of a medicine, while others deny the disease itself. Instead, men have given themselves over to this world and its activities which appear as acts of worship, but in reality are no more than customs and acts performed when others are watching.
+
+The symptoms which indicate that a person has returned to health after treatment, can be perceived by scrutinizing the illness which was being treated. If one was treating the disease of avarice, with generous charity, the sign of health is that he has established a balance between the two extremes. If not, and the person is now found squandering money, it would indicate another disorder. Such illness resembles the case of a man who treats cold with heat, until that very heat, whose extreme is also a disorder, becomes predominant. True health lies in the center of every two extremes. This middle point can be identified by considering the actions that imminently result from either of the two extreme traits. If traits of either extreme become more pleasurable than it's counterpart, know that a disorder exists. For instance, should you find the acquisition and retention of money easier and more enjoyable than giving it to those who may deserve it, then you should realize that avarice is a dominant characteristic in you. However, by constantly giving, if you reach a stage where giving to an undeserving recipient becomes easier and more enjoyable than withholding it legitimately, then prodigality has assumed the dominant place. In that case return to the practice of withholding your wealth, and constantly watch over your soul and draw inferences about your character from the evidence of deeds that it finds easy or hard, until the connection between your heart and money is broken, and you incline neither towards giving it nor withholding it. It should become like water, that when you give or withhold it, you do so for a needful purpose, and giving money no longer seems preferable than its retention.
+
+Every heart that acquires such equilibrium returns to Allah with ease. In this very center (of two extremes), lies peace and no desire of this world. This very trait makes ones transition to the next world easy, as the heart no longer holds any attachments to this world and therefore no longer yearns for it. It can then freely return to its Lord, at peace, content in His good pleasure, having entered among His bondsmen who are close to His presence. These are the Prophets, the Saints, the Martyrs and the Righteous, and indeed the very best of company they are!
+
+However, this authentic mean between the two extremes is exceedingly obscure. It is thinner than a hair strand, and sharper than the blade of a sword. Indeed the man who keeps to the Straight Path [Siraat al-mustaqim] in this world shall cross the Traverse [Al-siraat] in the next.  Allah the exalted said, There is not one of you that shall not come to it. This is a fixed ordinance of thy Lord. Then shall We save those that were God-fearing. In this verse he refers to those who remain closer, rather than distant from the Straight Path.
+
+Yet it is very rare for a man to be free of all deviation from this Straight Path, and free from all inclinations to one side or the other. This straight path (the mean), is the path leading to heaven, surrounded by the blaze of hell on both sides. Seeing the bright shine and glory of the fire, the enticing dance of its flames, man deviates from the straight path and walks towards it (desires of this world). Yet the closer he gets, the more he feels its heat, until it completely consumes him and burns him. It is because of this difficulty of persevering and maintaining rectitude [Istiqama] that every one of Allah's bondsmen must pray for Allah's guidance to the Straight Path seventeen times each day. This is why the recitation of the Opening Surah has been made an obligatory part of every raka.
+
+It is narrated that a man once saw the Emissary of Allah (PBUH) in a dream. ‘O Emissary of God!’ he said, ‘Why did you declare that “Hud” had turned your hair grey?’ And he replied, ‘Because of the statement of Allah the exalted, Practice rectitude as you have been commanded.’ Thus treading on the Straight Path with due rectitude is something extremely obscure! Nevertheless, a bondsman, should he be unable to act on this command entirely, must at least strive to keep in its vicinity. Whosoever wishes for salvation can only win it by means of righteous acts, which proceed solely from good traits of character. Therefore let every bondsman look towards and reckon his attributes and qualities, and devote his energy to treating them one after the other. And we ask Allah, the Generous, to render us among the devout.
+
+<!-- section 8 (id=3565, raw_sort=8): How can we identify the faults of our soul? -->
+
+## How to Identify the Faults of One's Own Soul
+
+Know that when Allah blesses his bondsmen, He grants them insight into the faults of their soul. The faults of an insightful man are never hidden from him, and whoever identifies his faults, is in a position to treat them. Most people, however, are ignorant of the faults that lie in their soul. They notice the tiniest mote in their brother’s eye but not the hill that lies in their own. There are four ways in which a man can identify the faults of his soul:
+
+The first and the best method, is to find the company of a Shaikh who has deep insight into the faults and hidden weaknesses of the soul, and put him in command over his soul; and then struggle in following his instructions to the letter to free himself of the faults he identified for him. However, such a Shaykh is almost impossible to find in this age.
+
+The second method is that he may seek out a true, perceptive and religious friend, and appoint him as guardian over his soul. A friend, who after carefully observing his deeds in the context of his circumstances, brings to his attention the inner and outer faults, acts and traits which he finds reprehensible in him. This was the practice of the wise men and the great leaders of the Faith. Such a friend, however, is also impossible to find in this day and age.  Few indeed are friends, who do not resort to flattery but instead reveal the faults they find. Today the people we consider friends, harbor jealousy in their hearts, and with their ulterior motives deem something a fault for us, when in fact it is not; or flatter and conceal our defects from us. It was for this reason that Daud Al-Tai  renounced all human company. When asked why, he replied ‘What am I to do with the company of people who hide my faults from me?’ Truly sincere people always desired that their faults be revealed to them, and they were most grateful when someone pointed out their shortcomings. Today however, the most hateful among the people we know are those who counsel us and draw our attention to our defects. This is almost expressive of a weakness in our faith.
+
+Bad traits of character are vipers and stinging scorpions, and if someone informed us that under our clothes lurks a scorpion, we would account this as a great favor, and be delighted, and would occupy ourselves with removing and killing that scorpion. What we do not realize is that the injury and pain that the sting of a scorpion would cause to the body would last no more than a day, yet ugly traits of character injure the very core of our hearts which will endure even after death for thousands of years. Nevertheless, we are not delighted when someone brings such bad traits to our notice, nor do we occupy ourselves with removing them. Instead we repay the one who counsels us by saying, ‘What about you? You too do this, that and the other.’ Our resentment against him distracts us from gaining any profit from his advice. Such hardness of the heart is produced by various sins, which in turn are the consequence of weak faith. Therefore we ask Allah that through His grace and generosity, He inspire us with true guidance; show us the faults of our souls, and help us occupy ourselves with treating them, and guide us to thank and be grateful to those who reveal such weaknesses to us.
+
+The third way of identifying the faults of one’s soul is by paying careful attention to the statements of one’s enemies, for a hostile eye notices every tiny defect. It's possible for a man to gain more from an enemy who reminds him of his faults, than from a dissimulating friend who praises and speaks highly of him, hiding his faults from him. Although human nature is inclined to disbelieve an enemy and to interpret his statements as the fruit of envy, yet a man of insight heeds his enemies words, and profits from them.
+
+The fourth way is to mingle with people, and attribute to oneself every blameworthy trait he finds in them. For believers are the true mirrors of one another’. They recognize their own faults, in the faults of others, knowing that temperaments are similar in the pursuit of desires, and that every attribute in a man must be shared by his associate to some degree; thus one will come to scrutinize one’s own soul and cleanse it of everything he finds blameworthy in others. This constitutes the highest
+
+degree of self-discipline. Were all people only to renounce the things they dislike in others they would not need anyone to discipline them. Jesus (Peace be upon him) was once asked, ‘Who taught you?’ I was taught by no one,’ he replied. ‘I perceived the ignorance of the ignorant, and avoided it!'.
+
+Everything mentioned above are tools which may be used by those who cannot seek the company and counsel of an intelligent and compassionate Sheikh, who having completed the refinement of his own soul, occupies himself with counselling and refining the souls of other bondsmen of Allah. Whoever finds such a man has found his true physician, and should stay with him, for it is he who will deliver him from his sickness and from the destruction that lies before him.
+
+<!-- section 9 (id=3567, raw_sort=9): Renouncing Desires -->
+
+## Renouncing the Desires (Tark al-Shahawāt)
+
+If you contemplate on what has been said, your understanding will be brightened, and the diseases and remedies of your hearts will be unveiled to you through the light of knowledge and certitude. If, however, you feel incapable of acting on what's been explained, you should atleast strive to believe, and have faith and confidence on the knowledge and imitation of those who deserve to be imitated. For faith and knowledge are two distinct ranks, in which faith preceeds knowledge, and knowledge comes after faith because of its lofty nature. The holy Quran says, Allah exalts those among you that have faith, and those that have knowledge, to high ranks.’ . This ayah proves that ranks are attained through faith and knowledge and not action (without knowledge). Thus whosoever believes that the path to Allah lies in resisting his desires, but has not grasped its cause and secrets, is among those who have faith; while those who recognize the profundities and secrets of their desires are among those that have knowledge. And Allah has promised the best to both. There are various texts of the Quran, the Sunna and the statements of the scholars which credit this fact.
+
+Allah says 'he who restrains his soul from its whims, for him heaven is  the place of resort.' And He said 'They are those whose hearts Allah hath proven unto piety (meaning, 'He divested them of love for their desires'
+
+The Emissary of Allah (PBUH) said, 'Every believer is beset with five afflictions:
+1. A believer who envies him
+2. A hypocrite who hates him
+3. An unbeliever who wages war against him
+4. The devil who misguides him
+5. A soul that struggles against him
+
+Said Ali (AS), 'Whoever desires heaven will forget the desires of this world'.
+
+Imam al-Hassan (AS) said, 'There is not an unruly beast that is in greater need of a strong bridle, than your soul'.
+
+It is said that Allah revealed to Dawood (AS) 'O Dawood! Warn and caution your companions against indulging in desires, for hearts which are attached to wordly desires are veiled from Me'.
+
+And Eisa (AS) said, 'Blessed is he who renounces a present desire, for the sake of something promised which he has not yet beheld.'
+
+And our Prophet (PBUH) said to a group after returning from Jihad, 'Indeed we are returning from a lesser Jihad to a greater one'. When asked about this greater Jihad, he replied, 'It’s the jihad against your soul'. He further said, 'A true mujahid is he who wages war against himself for the sake of Allah'. And he said, 'Refrain from harming your own soul, and do not follow its whims into disobedience of Allah. Remain fearful of the day of judgment, when your soul will dispute with you, such that one part will curse the other, unless Allah grants you His forgiveness and protection'.
+
+Said Sufyan al-Thawri, 'Never have I dealt with anything more treachorous than my soul, which sometimes helps me, and sometimes opposes me'.
+
+Abu'l Abbas al-Mawsili  used to say to his soul, 'O soul! Neither do you revel in this world with the sons of kings, nor do you struggle for the afterlife with the ascetics. It is as though you have imprisoned me between heaven and hell. O soul! Are you not ashamed?'
+
+Said Yahya ibn Muadh al-Rizi, 'Fight your soul with these four swords of self-discipline:
+1. Eating little
+2. Sleeping briefly
+3. Speaking only when necessary, and
+4. Tolerating the wrongs done to you by men.
+
+For eating little slays desire, sleeping briefly purifies aspirations, speaking little protects from afllictions, and tolerating the wrong doings of others leads one to his true goal. Indeed, the hardest task for man is to be mild when snubbed, and tolerate the wrongs done against him. And when the wish to indulge your desires and commit a sin stirs in your soul, and the delight of superfluous discourse is aroused, draw the sword of eating little from the sheath of midnight prayer in sleepless nights, and strike those desires with the fists of obscurity and silence until they cease to oppress you, and you become safe from their vicissitudes, and cleanse your soul from the darkness of its desires. When you accomplish this you will become a spiritual being, and a radiance without weight. You shall roam the field of heavens, travelling the road of obedience to Allah like a swift horse galloping in the field, and will live like a king relaxing in his garden.'
+
+He also said, 'Man has three enemies:
+1. This world
+2. The devil
+3. His soul
+
+Be on your guard against the world by renouncing it; against the devil by disobeying him; and against your soul by abandoning desire'.
+
+A sage once said, 'The man who is ruled by his soul is a prisoner of war in the well of his desires, and is incarcerated in the goal of his whims. These golas command him, and lead him wherever they want by means of a halter in their hand, so that his heart is denied all benefit. '
+
+Said Jaffar ibn Mubarnmad, 'The scholars and the sages all concur that pleasure cannot be gained, except through the renunciation of pleasure'
+
+Said Abu Yahya al-Warraq, 'Whoever gratifies his members by indulging in desire has planted a tree of regret in his heart.'
+
+Said Wuhayb ibn al-Ward, 'Whoever inclines toward the desires of this world should prepare himself for humiliation.' It is related that after Yousuf (PBUH) had been set in charge of the storehouses of the land, during a state procession in which he rode with twelve thousand nobles of his kingdom, Zulekha, who was seated on a nearby eminence saw him and said, 'Glory be to Him who enslaves disobedient kings, and turns obedient slaves into kings! O Yousuf! It is greed and desire that turns kings into slaves, while steadfastness and piety that bring forth kings from slaves'. And Yousuf replied, as Allah has said, ' Whoever has piety and steadfastness; Allah shall not waste the reward of those who do good'.
+
+Yazid al-Ruqashi said, 'Keep cold water away from me in this world, so that it is not deined to me in the next.'
+
+A man once enquired of Umar Ibn Abd al-Aziz, 'When should I speak?' He replied, 'Whenever you wish to remain silent'. 'And when should I be silent?' the man asked, and Umar replied, 'Whenever you wish to speak'
+
+Malik ibn Dinar used to roam the marketplace, and, whenever he saw something that he desired, he would say to his soul, 'Be patient! for I swear by Allah that I deny you this desire out of the high esteem in which I hold you'.
+
+All scholars and sages agree that there is no path to bliss in the after life except through the denial of the soul's whims and desires. The essence and secret of self discipline is that the soul should not take pleasure in anything which will not be present with him in the grave, apart from that which cannot be dispensed with in matters of food, marriage, clothing, accommodation, and all else that one needs. One should restrict the soul to what is absolutely necessary and indispensable. Once the soul starts taking pleasure in something, it will grow familiar with it, and, upon death, will wish to return to the world on its account; and no-one wishes to return to this world except he who has no share in the next. The only road to salvation is for the heart to be occupied with the knowledge, love, meditation and devotion to Allah, the strength for which can be derived from Him alone.
+
+<!-- section 10 (id=3568, raw_sort=10): Taming the soul -->
+
+## Taming the Soul (Riyāḍat al-Nafs)
+
+The man who is unable to act perfectly should at least make an effort towards perfection. There are four classes of people in this regard who strive:
+
+First, there is the man whose heart is so engrossed in the remembrance of Allah that he pays no attention to the world apart from the bare necessities of life. He is one of the Truthful Saints [Saadiqun]. It is only through long discipline and patient abstinence from one's desires that one can attain such a rank.
+
+Second, there is the man whose heart is engrossed in this world. He remembers Allah mechanically with his tongue rather than his heart. Such a man will surely be destroyed.
+
+Third, there is the one whose heart is occupied with both, religion and this world, but the love of religion dominates his heart. This man, while he must necessarily come to hell, shall be delivered rapidly from it in proportion to the preponderance of Allah's remembrance in his heart.
+
+Finally there is the man whose heart, although occupied with both, is dominated by this world. He will remain in Hell for a long time, but will ultimately emerge from it because of the power of the remembrance of Allah which, despite the magnitute of his worldly concerns, had established itself in his heart.
+
+O Lord! We seek refuge in Thee from disgrace, for truly Thou art the place of refuge!"
+
+An objection may be raised, that since the enjoyment of lawful activities is permitted, these cannot be a cause of remoteness from Allah. This, however, is a frail notion, for 'the love of this world is the source of every sin and it invalidates every good deed." Any permitted action that is in excess of one's needs, also belongs to this world and therefore is a source of remoteness from Allah.  This is why when a dessert made from milk was presented to Hazrat Ali (AS), he dipped one finger in it to taste it and then refused the rest. When reminded, that this dessert has been made from halaal earnings, he replied that I am afraid that it will waken the desire of this world in my heart. And Saeed al-Sari said, 'For forty years my soul has been begging me to dip my bread into some treacle (to soften it), yet I have not done so.'
+
+Thus it is impossible to reform the heart to the point that it completely follows the path of the afterlife, until one has prevented the soul from taking pleasures in what is permitted. For the soul, because of its nature, if allowed pleasure in one lawful activity or substance, will eventually desire others which are forbidden. Therefore a man who wishes to protect his tongue from backbiting and useless chatter should remain silent in all activities other than the remembrance of Allah and the duties of his religion. He should continue to do so till his desire for speech dies. Henceforth he will only speak in ways that are proper, such that both his silence and his speech will become forms of worship. Similarly, for as long as the eye is accustomed to seeing all that is beautiful it will not restrain itself from gazing upon that which is forbidden. And such is the case with all other desires! This is because the faculties with which one desires the permissible is the same as that with which one desires the prohibited. If the soul is not accustomed to being confined to bare essentials, its desires grow and eventually take control. It starts taking pleasure in the enjoyment of this world, and inclines towards it, attracted by its exuberance and vanity, until it becomes completely intoxicated like the drunk who never wakes up from his inebriation. Rejoicing in the world is a deadly poison which runs in a man's veins, removing from the heart all fear and sadness, all remembrance of death and of the terrors of the Day of the Arising. It therefore kills the heart!
+
+Allah has said, They desire the life of the world, and feel secure And they rejoice in the life of the world, where as the life of the world is but a [brief] comfort compared to the afterlife. And He said, Know that the life of this world is but play and idle talk, pageantry, and boasting amongst yourselves, and rivalry of wealth and children. All such verses constitutes a condemnation of the world, and we ask Allah for His safekeeping.
+
+The resolute Sufis have tested their hearts during preriods of jubilation in the world, and found them to be hard, wanton, and slow to receive the remembrance of Allah and the last day. They have also tested their hearts in the state of sadness, and found them to be soft, delicate, pure, and receptive to the effects of His remembrance. Hence they learnt that salvation lies in constant sadness, and in distance from all sources of arrogance and joy. Then they weaned their souls from things they found delightful, and made resolute renunciation of their desires a permanent habit for both permitted and forbidden things, knowing they would be held accountable for the former, and punished for the latter, and reproached for that which was ambiguous. This is how they salvaged their souls from torments, and delivered themselves from the imprisonment and slavery of their desires. Then through intimate familiarity with the remembrance of Allah and obedience to Him, gained freedom and abiding power in this world and the next.
+
+They treated their souls as they were wild falcons to be tamed and transformed them from a state of savagery and wildness to that of obedience and discipline. For a falcon must first be hooded in a dark chamber until it forgets its free roving nature and forgets how it used to fly unrestricted in the sky, and then should be tamed slowly until it becomes familiar with its owner, and docile to that point that when it hears his voice, wherever it may be, return to him. Similarly the soul does not tame iteself before its Lord or enjoy His remembrance until it is weaned from its old habits; first through enduring isolation and retreat; and then by cultivating the habits of praise, remembrance and prayer while still in a state of retreat, until it becomes dominated by familiarity with Allah's remembrance rather than with the world and its desires.
+
+This is a heavy burden for an aspirant initially, but ultimately becomes a source of pleasure. It is similar to an infant who finds the weaning from his mother's breast a hardship, and cries bitterly and with anguish, and is repelled by the food which is set before him as a substitute for his mother's milk. However, if he is completely denied the milk, he finds his abstinence extremely exhausting, and, when hunger overcomes him, he finally eats the food before him. Even though this is an effort at first, in due course it becomes second nature to him and he starts enjoying it and realizes that the food before him is way more rich and delectable then his mother's milk. At that point if he was returned to the breast he would leave it alone and dislike its milk having acquired a familiarity with, and taste for real food.
+
+Similarly, a riding-beast initially shies away from a saddle and bridle, and refuses to be ridden. It has to be forced to endure, and must be restrained with chains and ropes from roaming at will. Later it becomes so familiar with these, that even when left untethered, stands still.
+
+The disciplining of the soul is similar to that of birds and riding beasts. It is first denied exuberance, arrogance, pleasure of this world, and everything which it must leave at the time of its death. As Allah said to his beloved prophet (PBUH), 'Love whatsoever you will, for you shall surely leave it'. When the soul realizes, that a man who must lose something he loves, will certainly suffer, it occupies itself with the love of that which it shall never lose, which is the remembrance of Allah; which shall accompany him into his grave and never depart from him. This is however achieved by means of endurance, which lasts but a few days, since this life is very short in comparison to the life that is to come. There is not a single intelligent man who is not happy to endure the hardships of travel and of learning a trade for a month, in order to enjoy himself for a year, or for the rest of his life. When compared with eternity, the entire life of the most aged person is less than a month of one's life. Therefore struggle and endure! As Maulana Ali (AS) said 'In the morning people praise the one who traveled by night, when the blindnesses of slumber departs from them'.
+
+<!-- section 11 (id=3569, raw_sort=11): Examples of Good Character -->
+
+## Examples of Good Character (from the Prophets and Saints)
+
+Allah has mentioned the traits of believers and hypocrites in his book, which are in turn fruits of good or bad character. He says, "The faithful have triumphed! Who are humble in their prayers, shun vain talk, pay tithe, guard their private parts - save from their wives or those whom their right hands possess; but whoever desires what is beyond that are the transgressors. And who observe their pledge and their covenant, and who pay heed to their prayers; such are the inheritors.
+
+And He has said, They are those who repent, who worship, who praise, who fast, who bow, who prostrate, who enjoin what is right and forbid what is evil, and keep within the limits ordained by Allah. Give good tidings to the believers!
+
+And He has said, Those whose hearts feel fear when Allah is mentioned, and who, when the verses of Allah are recited to them, grow in faith, and who trust in their Lord, those who establish prayer and spend of that which we have bestowed upon them. Such are the true believers.
+
+Similarly, He has said, The bondsmen of the All-Merciful are they who walk gently upon the earth, and who, when the foolish address them, reply "Peace".
+
+To judge one's present condition, a man should measure himself against these verses. The presence of all these aforementioned attributes constitute a good character. Their complete absence indicates a bad one. And the presence of only a few, indicate a partially good character. Such a man should occupy himself with acquiring the traits he lacks, while preserving the ones he possesses.
+
+The Emissary of Allah (PBUH) attributed many of Allah's traits to a believer, and referred to their totality as good character [Mahasin Al-Akhlaaq]. He (PBUH) said, 'The believer loves for his brother that which he loves for himself ; And he (PBUH) said, 'Whoever believes in Allah and the Last Day should honor his guest' and 'Whoever believes in Allah and the Last Day should honor his neighbor', and, 'Whoever believes in Allah and the Last Day should say something good, or remain silent' . He declared that the qualities of believers are the best of qualities: 'The believer with the perfect faith is he who has the finest character'. And he said (PBUH), 'If you see a believer who is quiet and dignified, then draw closer to him, for he has been bestowed with wisdom' And he said (PBUH), 'The man who is made joyful by his good deeds and miserable by his transgressions is a believer'. And he said (PBUH), 'It is not permissible for a believer to look at his brother in a manner that hurts him' And he said (PBUH), 'A Muslim should not frighten another Muslim' And he said (PBUH), 'When two people sit together they are under a trust established by Allah; therefore let neither of them speak about his brother afterwards in a way that he would dislike'
+
+It is related that Hazrat Ali (AS) once called a slave-boy to him. When he failed to respond he called him a second time, and then a third, but he still did not respond. Finally he arose and went to him, and found him lying down. 'Did you not hear me?' he asked. 'Yes I did,' he replied. 'Then why did you not respond?' 'I have complete faith in your forgiveness and I knew that you would not punish me,' he said, 'therefore I was lazy'. 'Depart from me,' he said, 'I set you free for the sake of Allah!'
+
+A man once summed up the signs of good character by saying, 'It is to be abundantly modest, to avoid harming others, to be righteous, truthful in speech, and of little discourse. It is to act abundantly and err infrequently. It is to avoid excess, to be loyal, friendly, dignified, patient, grateful, satisfied, forbearing, charitable, chaste and merciful. It is to not curse or insult people, or backbite or slander them, and to avoid haste, hatred, meanness, and jealousy. It is to be cheerful and kind, to love good and hate evil for the sake of Allah, to be well-pleased with Him and angry for His sake. Such is the man of a good character'.
+
+The Emissary of Allah (PBUH) was once asked about the distinguishing marks of the believer and the hypocrite. He replied, 'The believer's concern is for prayer, fasting and worship, while the hypocrite, like an animal, is concerned only with food and drink' .
+
+Hatim al-Asamm said,
+
+    • The believer is occupied with meditation and perseverance, while the hypocrite is occupied with greed and his hopes.
+
+    • The believer has despaired of everyone but Allah, while the hypocrite has set his hopes in everyone except Allah.
+
+    • The believer feels safe from everyone except Allah, while the hypocrite fears everyone but Allah.
+
+    • The believer sets his religion before money, while the hypocrite sets money before his religion.
+
+    • The believer does good, and weeps, while the hypocrite does evil, and laughs.
+
+    • The believer loves solitude and isolation, while the hypocrite loves company and assemblies.
+
+    • The believer sows, and fears that his crop will be spoilt; while the hypocrite uproots his crop, and hopes to harvest it.
+
+    • The believer orders and prohibits for the sake of good government and succeeds in setting things right, while the hypocrite orders and prohibits for the sake of power, and causes corruption.'
+
+The finest thing through which good character can be put to the test is steadfastness in the face of suffering, and enduring the harshness of others; for whosoever complains of the bad character of another man has revealed the faults and weakness of his own character, for good character is to endure the offense.
+
+Allah's Emissary (PBUH) was once walking with Anas when one of the nomads came up to him and pulled violently at his thick edged Najrani cloak. Anas says 'The nomad tugged so violently at his cloak that it left a mark on his neck.' Then the nomad said, "O Muhammad! Give me some of Allah's money which you have!" The Emissary of Allah (PBUH) turned to face him, and laughed, and ordered that he be given some money'. And when Quraysh assailed him with injuries and blows, he said, 'O Allah! Forgive my people, for truly they do not know'. It was for this, and numerous other reason that Allah said, Assuredly, thou art of a tremendous character!
+
+It is said that Ibrahim ibn Adham went out one day into the desert. There he met a soldier, who asked him, 'Are you a slave?' to which he replied that he was. 'Where is the inhabited country?' the soldier asked, and Ibrahim pointed to a cemetery. 'I meant the inhabited country!' said the soldier. Ibrahim replied, 'The cemetery is the inhabited country'. At this reply the soldier lost his temper and struck Ibrahim's head with his goad, cracking his skull. When the soldier reached town, he mentioned the incident to his companions. They informed him that the person he struck was Ibrahim ibn Adharn. When he found out, he set out searching for Ibrahim. When he found him, the soldier dismounted, and kissed his hands and feet, and tendered his apologies.
+
+Later on, Ibrahim was asked why he had called himself a slave? Ibrahim replied, 'He did not ask me whose slave I was. He merely asked me if I was one, and I said yes, for I am a slave of Allah. And when he struck my head I asked Allah to admit him into Heaven'. 'But he did you an injustice! ' someone said. 'How could you pray for such a thing?' Ibrahim replied, 'l knew that I would be rewarded (for my forbearance), and did not want to come by something good because of him, and have him gain something evil because of me'
+
+    Ibrahim Ibn Adham was born into the Arab community of Balkh as the king of the area in around 730 C.E, but he abandoned the throne to become an ascetic. He received a warning from God, through Khidr who appeared to him twice, and, abdicated his throne to take up the ascetic life in Syria
+
+It is related that Abu Uthman was once riding in the street when a pot of ashes was thrown down upon him. He dismounted, and prostrated himself to Allah in gratitude, and then brushed the ashes from his clothes without saying a word. 'Shall you not rebuke them?' he was asked, to which he replied, ' It would not be fair for a man deserving hell fire to get angry on receiving ashes'
+
+Yusufi bin Asbat said, 'Good character has ten signs:
+
+    1. Reluctance to argue
+
+    2. Justice (A'dal)
+
+    3. Never hoping others make mistakes
+
+    4. Searching for a good interpretation of other people's misdeeds
+
+    5. Finding (kind) excuses for them
+
+    6. Enduring harm
+
+    7. Blaming oneself
+
+    8. Knowing one's own faults and not those of others
+
+    9. Meeting young and old alike with a cheerful face
+
+    10. Speaking kindly to those who are superior or more humble than oneself
+
+Sahl was once asked about good character, and said, 'Its least degree is to tolerate the wrongs done to you and not seek compensation. It is to have compassion and pity for the one who wrongs you and to ask Allah to forgive them'.
+
+Whenever children pelted Uways al-Qarani with stones he would say to them, 'Brothers! If you must throw stones at me, then do so with little ones, so that my legs do not bleed, for when they do, I cannot perform my prayers.
+
+Yahya ibn Ziyad al-Harithi had an ill-mannered slave-boy. 'Why do you keep him?' people asked, to which he replied, 'Because he is teaching me forbearance.'
+
+These souls were made humble through discipline, so that their qualities reached an equilibrium and their inner aspects were cleansed of all dishonesty, rancor and ill-will. This resulted in contentment with Allah's decree, which is the highest form of good character, since the man who dislikes the actions of Allah is discontent with Him. Such an attitude is the most ignoble of all traits. The signs mentioned above appeared in the external aspects of these men. Whoever does not find in himself these traits should not feel pleased with himself and think that he possesses good character. Instead he should occupy himself with self-discipline and struggle until he attains such an exalted degree, which is attained only by the ones close to Allah [al-Muqarrabun] and the Truthful Saints [Al-Siddiqun]
+
+<!-- section 12 (id=3572, raw_sort=12): Struggling On The Path Of Discipline -->
+
+## Struggling on the Path of Discipline (Mujāhadat al-Nafs)
+
+Know that the one who has beheld the harvest of the afterlife with certainty in his heart, will long for it and make an effort to acquire it. The path leading to it requires despising the pleasures and delights of this world. For the man who has a bauble will lose all desire for it once he witnesses a precious gem, and will long to make an exchange. Lack of desire for the harvest of the afterlife and the reunion with Allah stems from a lack of faith in Him and in the last day. By faith I do not mean the "discourse of the soul'" and the movement of the tongue when stating the two testimonies in a way devoid of all sincerity and single heartedness. That would be equivalent to believing that the precious gem is better than the bauble, only by knowledge of its name alone, and not its reality. Such a believer will not renounce the bauble because of his acquaintance and familiarity with it, and will harbor no passionate yearning for the gem. The obstacle that prevents us from attaining Allah's pleasure is our own lack of way fare [sulook], which in turn proceeds from a lack of hope, caused by an absence of faith.
+
+Mankind is in a state of heedlessness, having plunged into the desires of this world and fallen deep into slumber. The true path is laid with barriers and veils, as Allah says: And We have set a barrier before them and a barrier behind them, and have covered them so that they cannot see. There are four such barriers:
+
+1. Wealth
+
+The veil of wealth is lifted only by generosity and retention of what is absolutely necessary for his survival. For as long as a man retains a single dirham (unnecessarily) to which his heart inclines, he will be tied to it and veiled from Allah
+
+2. Status
+
+The veil of status is only lifted through modesty, a preference for insignificance, fleeing from fame and distancing oneself from circumstances that reinforce it
+
+3. Imitation
+
+The veil of imitation can only be removed by renouncing one's fervor for the school of thought that he subscribes to and believing that 'there is no deity but Allah,' and that 'Muhammad is the Emissary of Allah'. He should declare this with true faith and sincerity by dismissing all material, concrete, abstract, theoretical or conceptual objects of worship apart from Allah, the most powerful being his desire.
+
+4. Sin
+
+This veil can only be removed through repentance, renunciation of wrong deeds, a resolute intention never to repeat any transgression one might have committed, genuine sorrow over past sins, and making amends to satisfy those one has wronged. For the man who does not soundly repent and renounce his visible sins, is similar to the one who wishes to discover the secrets of Quran without learning Arabic.
+
+The one who strips himself of these four veils is similar to the one who has removed himself from his state of defilement by completing the ritual ablutions and has become fit for prayer. He will then need a righteous Imam to follow under every circumstance in order to be guided to the straight path [Siraat Al-Mustaqeem]. The path of religion is obscure, tangled by the paths of Satan. The one who is not led by a righteous guide is certainly led by the Satan. A tree that grows without any husbandry soon dries up even if it manages to survive for a while and put out leaves, but it will never bear fruit. He should therefore adhere to his guide like a blind man clutches at his guide on a riverbank, putting himself entirely in his hands and never disobeying his instructions. He must believe that he will benefit more for his guides mistake, than the right action which proceeds from his own soul.
+
+When a man has found such a refuge it is incumbent upon him to cherish and protect his guide and keep him safe in an impregnable fortress which is built of four things:
+
+1. Hunger
+
+Hunger reduces the quantity of blood in the heart, and lightens its color, illuminating it, by melting away the fat around it, making it tender, which is the key to every unveiling, just as hardening of the heart is the source of every veil. When the volume of blood in the heart is reduced, the paths available to the enemy will be blocked, for his passage lie in the veins which are full of desires. Eisa (AS) once said, 'My disciples! Make your stomachs hungry, so that your hearts may behold your Lord!'
+
+2. Sleeplessness.
+
+Sleeplessness clears, purifies and illuminates the heart. When this is added to the clarity brought by hunger, the heart becomes a shining star, and a polished mirror in which the beauty of truth intensities. A man is then able to behold the exalted ranks of the afterlife and the vileness and vices of this world. Sleeplessness is also a consequence of hunger, for it is impossible to stay awake at night on a full stomach. Sleep hardens and kills the heart, unless done in the needful amounts. It has been said describing the pious that they eat only what they need, sleep only when overcome, and speak only when necessary."
+
+3. Silence
+
+Man possesses a tremendous need for speech, for it relaxes the soul, but in turn distracts the heart. Speech becomes burdensome when not applied exclusively to contemplation and the remembrance of Allah. Silence, which is facilitated by isolation, brings about a richness in the intellect and makes it conducive to righteousness [wara], and instructs one in piety.
+
+4. Solitude
+
+Solitude enables the heart to behold the love of his lord and become fit for his proximity. The advantage of entering a retreat is that it dispels distractions and enables one to control one's hearing and sight, which are gateways to the heart. The heart is like a lake in which foul and turbid water pours from the rivers of the senses. The purpose of spiritual discipline is to empty this lake of the water and mud which it carried in with it, so that from the bottom of the lake clean and pure water may well up. How could such water be removed from the lake when these rivers continue to open into it, muddying it more rapidly than it can be drained away? There exists no alternate way of controlling the senses and protecting them except by way of retreat.
+
+These four together create a shield and fortress with the aid of which one may deflect the desires of this fleeting world. The path of struggle [Jehad] requires the opposing of desire and the disobedience of all whims. When they have been destroyed, or weakened by virtue of struggle, whereby not a single attachment remains, one must unceasingly occupy his heart with some form of Allah's remembrance, the most effective being the regular and supererogatory prayers. Such dedication can come about only when a man's intention is true and his heart is so overwhelmed by the love of Allah that he becomes like a passionate lover who has only one concern.
+
+A preference for the life of this world is man's dormant trait:. Allah has said, Yet do you prefer the life of this world, while the afterlife is finer and eternal? Then He states that Evil is an ancient part of human nature, and that this was mentioned in the earlier scriptures: This was in the former scrolls; even the scrolls of Abraham and Moses.
+
+The most powerful of desires are the ones associated with eating, sexuality, speech, and anger. To the extent that a man loves and takes pleasure in his greed and his lust he will love the things of this world; which he can only acquire when he has money and a reputation; which will then lead to pride, self-satisfaction and authority. When he reaches this final state his soul will not allow him to renounce the world. Even within the realm of religion, he will hold fast to those aspects of religion which involve leadership, and will be overcome by self-delusion.
