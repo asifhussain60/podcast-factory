@@ -558,8 +558,7 @@ export default function ChapterEditor({ book, chapterSlug, chapterTitle, sourceT
         <div className="popup-card fixed bottom-6 left-6 z-30 w-[340px]">
           <button
             onClick={() => setPanelOpen((v) => !v)}
-            className="popup-card-header w-full"
-            style={{ cursor: 'pointer' }}
+            className="popup-card-header w-full edit-changes-toggle"
           >
             <span>Changes <span className="ml-1 rounded bg-emerald-100 px-1.5 py-0 text-[10px] text-emerald-800">{changes.length}</span>{annotations.length > 0 && <span className="ml-1 rounded bg-amber-100 px-1.5 py-0 text-[10px] text-amber-800">{annotations.length} notes</span>}</span>
             <span>{panelOpen ? '−' : '+'}</span>
@@ -567,7 +566,7 @@ export default function ChapterEditor({ book, chapterSlug, chapterTitle, sourceT
           {panelOpen && (
             <div className="popup-card-body max-h-[40vh] overflow-y-auto text-[12px]">
               {changes.map((c) => (
-                <div key={c.id} className="mb-2 border-l-2 pl-2" style={{ borderColor: 'var(--edit-highlight)' }}>
+                <div key={c.id} className="mb-2 border-l-2 pl-2 edit-change-row">
                   <div className="font-ui text-[9px] uppercase tracking-wider text-stone-500">{c.tag} · {c.id}{c.source === 'ai' ? ' · AI' : ''}</div>
                   {c.deleted ? (
                     <div className="text-stone-500 line-through">{c.original.slice(0, 100)}…</div>

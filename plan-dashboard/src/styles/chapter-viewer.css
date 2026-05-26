@@ -70,6 +70,19 @@ html[data-reader-page] .topnav {
   border-bottom: 1px solid var(--color-rule-subtle);
 }
 
+/* On chapter pages, Base.astro's .page container would otherwise cap
+   width at 1240px and add padding — kill both so the three-pane spreads
+   edge-to-edge. */
+html[data-reader-page] main.page {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+html[data-reader-page] footer.page {
+  max-width: var(--maxw-page);
+  margin: 0 auto;
+}
+
 /* ── Theme variants ──────────────────────────────────────────── */
 
 html[data-reader-page][data-theme="sepia"] {
@@ -256,7 +269,7 @@ html[data-sidebar="collapsed"] .left-rail .left-rail-back { padding: 0; }
   position: sticky;
   top: 0;
   height: 100vh;
-  width: 320px;
+  width: 340px;
   flex-shrink: 0;
   align-self: flex-start;
   border-left: 1px solid var(--color-rule-default);
@@ -264,8 +277,42 @@ html[data-sidebar="collapsed"] .left-rail .left-rail-back { padding: 0; }
   padding: 20px 18px;
   display: none;
   overflow-y: auto;
+  transition: width 200ms ease;
+  position: relative;
 }
 @media (min-width: 1280px) { .right-rail { display: block; } }
+html[data-right-rail="collapsed"] .right-rail { width: 44px; padding: 12px 0; overflow: hidden; }
+html[data-right-rail="collapsed"] .right-rail .right-rail-content { display: none; }
+.right-rail-content { display: flex; flex-direction: column; }
+
+.right-rail-collapse {
+  position: absolute;
+  top: 12px;
+  left: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--color-rule-default);
+  border-radius: 6px;
+  background: var(--color-surface-raised);
+  color: var(--color-ink-tertiary);
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  z-index: 2;
+  transition: background 120ms, color 120ms, border-color 120ms;
+}
+.right-rail-collapse:hover { border-color: var(--color-gold-deep); color: var(--color-gold-deep); }
+.right-rail-collapse-icon { display: inline-block; transition: transform 200ms; }
+html[data-right-rail="collapsed"] .right-rail-collapse-icon { transform: rotate(180deg); }
+html[data-right-rail="collapsed"] .right-rail-collapse {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+}
 
 /* ── Chapter page (white printed-page card) ─────────────────── */
 
@@ -1393,3 +1440,96 @@ body[data-arabic="on"] .ref-quran .ar-overlay .ar-script { display: none; }
   color: var(--color-ink-tertiary);
   font-style: normal;
 }
+
+/* ── ChapterEditor (inline editor) ─────────────────────────── */
+
+.edit-changes-toggle { cursor: pointer; }
+.edit-change-row { border-color: var(--edit-highlight); }
+
+/* Ambient inline editor — block-level hover + edit affordance.
+   Mirrors the reader's CSS for .prose-body [data-editor-id]. */
+.prose-body [data-editor-id] {
+  position: relative;
+  border-radius: 6px;
+  transition: background-color 160ms ease, box-shadow 160ms ease, padding 160ms ease, margin 160ms ease;
+}
+.prose-body [data-editor-id]:hover:not([contenteditable="true"]) {
+  background: color-mix(in oklab, var(--edit-highlight) 4%, transparent);
+  box-shadow:
+    0 0 0 2px var(--edit-highlight),
+    0 0 16px -2px color-mix(in oklab, var(--edit-highlight) 55%, transparent),
+    0 0 32px -8px color-mix(in oklab, var(--edit-highlight) 40%, transparent);
+  padding: 0.35em 0.7em;
+  margin-left: -0.7em;
+  margin-right: -0.7em;
+  cursor: pointer;
+}
+.prose-body [data-editor-id][contenteditable="true"] {
+  background: color-mix(in oklab, var(--edit-highlight) 7%, transparent);
+  box-shadow:
+    inset 0 0 0 2px var(--edit-highlight),
+    0 8px 24px -12px color-mix(in oklab, var(--edit-highlight) 50%, transparent);
+  outline: none;
+  padding: 0.2em 0.6em;
+  margin-left: -0.6em;
+  margin-right: -0.6em;
+}
+.prose-body [data-editor-id].edit-block-changed:not([contenteditable="true"]) {
+  background: linear-gradient(to right, var(--edit-highlight-soft), color-mix(in oklab, var(--edit-highlight-soft) 50%, transparent));
+  box-shadow: inset 3px 0 0 var(--edit-highlight);
+  padding-left: 0.6em;
+  margin-left: -0.6em;
+}
+.prose-body [data-editor-id].edit-block-deleted {
+  opacity: 0.4;
+  text-decoration: line-through;
+}
+.prose-body [data-editor-id].edit-block-ai-flash {
+  animation: edit-ai-flash 1.4s ease-out;
+}
+@keyframes edit-ai-flash {
+  0%   { background: color-mix(in oklab, var(--edit-highlight) 35%, transparent); }
+  100% { background: transparent; }
+}
+
+/* Hover chip stack (↺ revert / ✕ delete / ✦ rewrite). */
+.prose-body .edit-block-actions {
+  position: absolute;
+  top: 0.2em;
+  right: -2.4em;
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 4;
+}
+.prose-body [data-editor-id]:hover .edit-block-actions,
+.prose-body [data-editor-id].edit-block-changed .edit-block-actions {
+  display: flex;
+}
+
+/* Generic popup-card used by rewrite popover + changes-panel docked card. */
+.popup-card {
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-rule-default);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px -8px rgba(0,0,0,0.18), 0 4px 12px -4px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+.popup-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--color-surface-sunken);
+  border-bottom: 1px solid var(--color-rule-subtle);
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-ink-tertiary);
+  border: none;
+  width: 100%;
+  text-align: left;
+}
+.popup-card-body { padding: 12px; }
