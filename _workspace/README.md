@@ -1,39 +1,29 @@
-# `_workspace/` — tracked workspace for plans + runbooks + setup
+# `_workspace/` — tracked planning + setup + procedures
 
-The repo's tracked planning + procedures zone. Everything in here is meta — plan documents, response conventions, bootstrap runbooks, archived material. No runtime code, no book content. Runtime code lives under [`scripts/`](../scripts/); book content lives under [`content/`](../content/).
+The repo's meta zone. Plan documents, response conventions, bootstrap runbooks, operational procedures. **No runtime code, no book content.** Runtime code lives under [`scripts/`](../scripts/); book content lives under [`content/`](../content/).
 
 ## Layout
 
 | Path | Purpose |
 |---|---|
-| [`plan/`](plan/) | Canonical pipeline plan (YAML + acceptance criteria + research notes) and the canonical [response-template.md](plan/response-template.md) + [response-conventions.md](plan/response-conventions.md) governing every Claude session in this repo. |
+| [`plan/`](plan/) | Canonical planning surface. See [plan/README.md](plan/README.md) for the nested structure: `architecture.md` (timeless design + 13 ADRs), `refactor/` (the active 22-step roadmap), `conventions/` (response template + authoring rules), `debt/` (live F-item backlog), `operations/` (per-book ship checklist), `reader/`, `research/`, `view/`. |
+| [`runbooks/`](runbooks/) | Procedures used at intervals — [publish.md](runbooks/publish.md), [watchdog.md](runbooks/watchdog.md), [e2e-book.md](runbooks/e2e-book.md), [claude-code-bootstrap-prompt.md](runbooks/claude-code-bootstrap-prompt.md), [podcast-factory.code-workspace](runbooks/podcast-factory.code-workspace). |
 | [`setup/`](setup/) | One-time setup: [bootstrap.md](setup/bootstrap.md) for new Macs; [azure-stack.md](setup/azure-stack.md) for the full Azure resource reference. |
-| [`runbooks/`](runbooks/) | Procedures used at intervals — e.g. [claude-code-bootstrap-prompt.md](runbooks/claude-code-bootstrap-prompt.md) to audit a fresh session's capabilities. |
-| [`chats/`](chats/) | Persistent prompts and chat artifacts (cowork briefs, repro instructions). |
-| `_archive/` | Historical material kept for context. Read-only. |
+| [`proposals/`](proposals/) | One-off design proposals awaiting decision. Currently: `operator-review-ai-features.html` (AI features for the operator-review surface). |
+| `audit/`, `logs/` | **Gitignored.** On-disk only — auditor outputs (`audit/`) and orchestrator runtime logs (`logs/`). Never committed; safe to delete locally. |
 
-## What was here pre-2026-05-23 and is now gone
+## Standing doctrine
 
-The earlier multi-machine coordination model lived under `_workspace/plan/operators/`:
+- **No file versions** anywhere in this repo. The git history IS the version log. See [DR-009 in plan/architecture.md](plan/architecture.md#decision-records-adrs).
+- **No root-level sprawl in `_workspace/`** — only `README.md` and a small set of typed subdirectories.
+- **Single-machine model** (since 2026-05-23). The earlier multi-machine coordination model (operator files, machine-id detection, book-queue mutex) is retired. The session-starter is [`scripts/start-session.sh`](../scripts/start-session.sh).
+- **Branch propagation** — `_workspace/` propagates via the standard merge flow (`<prefix>/<slug>` → `develop` → `main`). Per [DR-003](plan/architecture.md#decision-records-adrs), each piece of content runs on its own typed branch off `develop`.
 
-- Operator files (`<machine-slug>.md` per Mac)
-- A coordination protocol document
-- A book-queue mutex with claim/completion protocols
-- A `start-session.sh` rooted in `_workspace/plan/operators/`
+## What used to be here (deleted 2026-05-26)
 
-All retired on 2026-05-23 when the repo became single-machine and machine-agnostic. The session-starter moved to [`scripts/start-session.sh`](../scripts/start-session.sh); there is no operator file to author, no machine identity to set, no queue to claim from. If you see references to any of those in older docs, treat them as historical and follow [CLAUDE.md](../CLAUDE.md) and [framework.md](../framework.md) instead.
+Folder consolidation removed 9 sprawl entries (see commit [4c92b2b](https://github.com/asifhussain60/podcast-factory/commit/4c92b2b)):
 
-## Branch propagation
+- **Tracked deletes** — `_archive/` (28 files), `audit-reports/` (3 dated reports), `chats/` (3 prompts; retired studio-* multi-machine artifacts), `kashkole-ksessions/` (2,648 files / 98M rollout extracts), `lectures/` (8 files; canonical copy at `content/drafts/LECTURES/`), `tmp/` (2 one-shot files).
+- **On-disk deletes** — `raw/` (743M source PDFs; originals on Drive), `scratch/` (challenger work-in-progress), `orchestrator-logs/` (empty).
 
-This directory propagates across branches via the standard merge flow (`book/<slug>` → `develop` → `main`). All `_workspace/` content is editable on any branch; merges back to develop via the normal `--no-ff` flow.
-
-- [`plan/podcast-plan.yaml`](plan/podcast-plan.yaml) — canonical on whichever branch most recently edited it; check the file's most-recent commit before editing.
-- [`plan/response-conventions.md`](plan/response-conventions.md) + [`plan/response-template.md`](plan/response-template.md) — Asif edits the canonical version; every machine pulls from `develop`.
-- [`runbooks/`](runbooks/) — propagates everywhere; rarely changes.
-- `_archive/` — propagates everywhere; never changes.
-- [`chats/`](chats/) — propagates everywhere; archived prompts.
-
-## What "no root-level sprawl" means here
-
-- `_workspace/` itself contains only `README.md` and a small set of subdirectories — no loose files at this level.
-- Each subdirectory has its own `README.md` orienting its contents.
+Git history preserves every byte. Recover any file with `git show 4c92b2b~1:_workspace/<path>`.
