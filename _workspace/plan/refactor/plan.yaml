@@ -533,6 +533,32 @@ waves:
             max_lines: 300
           authoring_module:
             path: "scripts/podcast/_authoring/augmentation.py"
+          citation_verify_module:
+            path: "scripts/podcast/intelligence/_citation_verify.py"
+            max_lines: 200
+            api: ["verify_url(u)", "verify_doi(d)", "verify_citation(c)"]
+            returns: "Verified | Rejected(reason) | Indeterminate(reason)"
+            url_check:
+              method: HEAD
+              timeout_seconds: 3
+              max_redirects: 3
+              accept_status: [2xx, 3xx]
+              reject_status: [4xx, 5xx, timeout]
+            doi_check:
+              endpoint: "https://api.crossref.org/works/{doi}"
+              timeout_seconds: 5
+              ua_header: "podcast-factory/1.0 (mailto:asifhussain60@gmail.com)"
+              polite_pool: true
+              retry_on_429:
+                strategy: exponential_backoff
+                max_retries: 3
+              reject_status: [404]
+            cache:
+              path: "content/knowledge-base/citation_cache.sqlite"
+              schema: "(citation TEXT PRIMARY KEY, status TEXT, reason TEXT, fetched_at TIMESTAMP)"
+              ttl_days: 30
+            indeterminate_policy: "emit citation with data-verification='indeterminate'; queue in manual_review_queue; do NOT fail phase"
+            offline_flag: "--offline bypasses live checks; canonical-form prefilter only"
           enabled_for:
             default_on: [encyclopedic-epistolary]
             opt_in: [scholarly-deep-dive, lecture-series]
@@ -542,16 +568,22 @@ waves:
             - "5-15 augmentation points per unit"
             - "each tagged: confirms | extends | contests | contextualizes (never equates)"
             - "real locatable works (URL/DOI/ISBN)"
-            - "every citation passes through canonical-form pre-filter (C4) before [MANUAL-REVIEW] tagging"
+            - "every citation passes canonical-form pre-filter (C4) AND live verification (HEAD/Crossref) before emit"
+            - "rejected citations dropped from output; indeterminate citations emit with data-verification attribute + manual_review_queue entry"
           shared_contract: "writes citations via _context_injection.format_provenance (same as Augmenter — DRY)"
-          feeds_extractor: "08b output also scanned by 08c-knowledge-extract — citations enter cross-book library"
+          feeds_extractor: "08b output also scanned by 08c-knowledge-extract — only Verified citations enter cross-book library"
           quality_gates:
             - {id: augmentation-real-sources, severity: P1}
             - {id: augmentation-no-buzzword, severity: P0, note: "blocks 'quantum spirituality'-style hijacking"}
+            - {id: augmentation-citation-verified, severity: P1, note: "all emitted citations must be Verified or Indeterminate; Rejected must be dropped"}
           cost_estimate_per_unit_usd: "0.50 - 1"
+          network_cost_estimate: "near-zero (HEAD + Crossref are free; cache cuts re-runs)"
         acceptance:
           - "Phase handler emits 3 augmentation .md files on 3-unit test"
-          - "Citations route through canonical-form pre-filter"
+          - "Citations route through canonical-form pre-filter AND live verification"
+          - "Synthetic test: known-dead URL is Rejected; known-fake DOI is Rejected; live URL is Verified; rate-limited DOI lookup retries 3x then marks Indeterminate"
+          - "Cache hit on re-run skips network call"
+          - "--offline flag bypasses live checks deterministically"
           - "08c picks up Quran/hadith from 08b output in integration test"
         cost_estimate_usd: 5
         authorization: *tier_two
@@ -983,9 +1015,8 @@ open_questions:
 manual_review_index:
   - {step: A1, item: "three large legacy files need scan", severity: MEDIUM}
   - {step: A5, item: "CONTENT/ vs content/ case mismatch", severity: MEDIUM}
-  - {step: C1, item: "Rasāʾil PDF identity (sandbox-blocked)", severity: HIGH}
-  - {step: C3, item: "augmentation citations — URL/DOI verification deferred", severity: HIGH}
-  - {step: C4, item: "NotebookLM rich-diagram capability untested", severity: HIGH}
+  - {step: C3, item: "indeterminate citations queued from live HEAD/Crossref verify (network-flake bucket)", severity: LOW}
+  - {step: C4, item: "NotebookLM rich-diagram capability — DEFERRED until after Waves A+B+C-core ship (Rasāʾil-specific)", severity: DEFERRED}
   - {step: E1, item: "default capstone_mode mapping awaits confirmation", severity: LOW}
 
 # ===========================================================================
@@ -1000,6 +1031,7 @@ confidence_summary:
     - "C1 ENCYCLOPEDIC structural facts (well-sourced)"
     - "C2 multi-tier capstone recursion invariant (DR-002 locked)"
     - "C4 MANUAL-REVIEW marker syntax + canonical-form pre-filter"
+    - "C3 live citation verification (HEAD + Crossref + 30-day SQLite cache + --offline flag)"
     - "C5 phased rollout"
     - "E1 unified meta.yml schema (no version field)"
     - "E3 retroactive M&D (anchored to postprod-vacuum-tasks ledger)"
@@ -1008,12 +1040,10 @@ confidence_summary:
     - "Modularization protocol (SOLID + DRY + 600-line cap + acyclic)"
   medium:
     - "C1 LECTURE-SERIES best-practice citations (URLs unverified)"
-    - "C3 augmentation citation accuracy (real works named; URL/DOI verification deferred)"
     - "C4 rich-diagram classifier (depends on engine choice + NotebookLM empirical verification)"
     - "D1-D4 SPA stack choice (Astro recommended; awaiting confirmation)"
     - "E2 KaR retroactive (tier-1 capstone source bundle location needs verification at execution)"
   low:
-    - "oq2 Rasāʾil PDF identity (sandbox-blocked)"
     - "oq4 large legacy plan file fold-or-delete decisions"
     - "oq10 dashboard data source (v2 deferral acceptable)"
 
