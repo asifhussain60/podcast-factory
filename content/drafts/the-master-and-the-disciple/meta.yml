@@ -11,6 +11,7 @@ pipeline:
   chapters_drafted: 8
   chapters_with_contracts: 0
   episodes_shipped: 0
+  episodes_with_audio: 6
 
 publication:
   status: in_progress
