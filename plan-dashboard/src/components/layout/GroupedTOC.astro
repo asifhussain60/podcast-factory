@@ -1,0 +1,103 @@
+---
+/**
+ * Sidebar TOC — one card per topic, chapter row + episode rows.
+ *
+ * Source/derived axis: chapter (source · amber), episode (derived · sky).
+ * No Tailwind utility classes; semantic classes in chapter-viewer.css.
+ */
+import type { BookIndex } from '../../lib/reader/chapters';
+import Icon from '../ui/Icon.astro';
+
+interface Props {
+  bookSlug: string;
+  index: BookIndex;
+  currentChapter?: string | null;
+  currentEpisode?: string | null;
+}
+
+const { bookSlug, index, currentChapter = null, currentEpisode = null } = Astro.props;
+
+type Row = {
+  chapter: typeof index.chapters[number];
+  episodes: typeof index.episodes;
+};
+
+const rows: Row[] = [];
+const matchedEpSlugs = new Set<string>();
+for (const ch of index.chapters) {
+  const matched = index.episodes.filter(
+    (e) => e.sourceChapterRef === ch.slug || String(e.sourceChapterRef) === String(ch.numericId)
+  );
+  matched.forEach((e) => matchedEpSlugs.add(e.slug));
+  rows.push({ chapter: ch, episodes: matched });
+}
+const orphans = index.episodes.filter((e) => !matchedEpSlugs.has(e.slug));
+---
+
+<div class="toc-stack">
+  {rows.map(({ chapter, episodes }, i) => {
+    const chActive = currentChapter === chapter.slug;
+    const epActive = episodes.some((e) => e.slug === currentEpisode);
+    const cardActive = chActive || epActive;
+    const oddRow = i % 2 === 0;
+    return (
+      <div class:list={['toc-card', cardActive && 'is-active', oddRow ? 'is-odd' : 'is-even']}>
+        <a
+          href={`/library/${bookSlug}/chapter/${chapter.slug}`}
+          class:list={['toc-row', 'toc-row-chapter', chActive && 'is-active']}
+        >
+          <Icon name="file-text" size={13} class="toc-row-icon" />
+          <span class="toc-row-num">
+            {chapter.numericId !== null ? `Ch${String(chapter.numericId).padStart(2, '0')}` : 'Ch—'}
+          </span>
+          <span class="toc-row-title">{chapter.title}</span>
+        </a>
+
+        {episodes.length === 0 ? (
+          <div class="toc-row toc-row-episode is-empty">
+            <span class="toc-row-num is-muted">E—</span>
+            <span class="toc-row-empty-label">no episode adapts this chapter</span>
+          </div>
+        ) : (
+          episodes.map((ep) => {
+            const isActive = ep.slug === currentEpisode;
+            return (
+              <a
+                href={`/library/${bookSlug}/episode/${ep.slug}`}
+                class:list={['toc-row', 'toc-row-episode', isActive && 'is-active']}
+              >
+                <Icon name="headphones" size={13} class="toc-row-icon" />
+                <span class="toc-row-num">
+                  {ep.episodeNumber !== null ? `E${String(ep.episodeNumber).padStart(2, '0')}` : 'E—'}
+                </span>
+                <span class="toc-row-title">{ep.title}</span>
+              </a>
+            );
+          })
+        )}
+      </div>
+    );
+  })}
+
+  {orphans.length > 0 && (
+    <div class="toc-orphans">
+      <div class="toc-section-label">Orphan episodes</div>
+      <div class="toc-stack">
+        {orphans.map((ep) => {
+          const isActive = ep.slug === currentEpisode;
+          return (
+            <a
+              href={`/library/${bookSlug}/episode/${ep.slug}`}
+              class:list={['toc-card', 'toc-row', 'toc-row-episode', 'is-orphan', isActive && 'is-active']}
+            >
+              <span class="toc-row-num">
+                {ep.episodeNumber !== null ? `E${String(ep.episodeNumber).padStart(2, '0')}` : 'E—'}
+              </span>
+              <span class="toc-row-title">{ep.title}</span>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  )}
+</div>
