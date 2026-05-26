@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-26T23:28:16.106Z",
-  "source_commit": "1b4c829",
+  "generated_at": "2026-05-26T23:41:35.888Z",
+  "source_commit": "8ff6d61",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -25,7 +25,7 @@
       "depends_on": [
         "A1"
       ],
-      "plain": "Creates the 16-table SOLID-compliant SQLite database that every later script reads from and writes to. Tables fall into four groups: core pipeline (books, chapters, episodes, phonetics, pipeline_runs, cost_ledger), knowledge intelligence (knowledge_atoms, atom_sources, atom_topic_tags, external_corpora, topic_type_taxonomy, corpus_chapters), quality (challenger_findings), and etymology (arabic_roots, word_etymologies, letter_profiles). Also establishes the central path registry (so nothing hard-codes where files live), seven database repositories (so no script ever calls sqlite3 directly), the archetype lookup, and the anti-clich\u00e9 phrase lists. The corpus layer in particular is designed for independent per-chapter refinement — see B0.",
+      "plain": "Creates the 16-table SOLID-compliant SQLite database that every later script reads from and writes to. Tables fall into four groups: core pipeline (books, chapters, episodes, phonetics, pipeline_runs, cost_ledger), knowledge intelligence (knowledge_atoms, atom_sources, atom_topic_tags, external_corpora, topic_type_taxonomy, corpus_chapters), quality (challenger_findings), and etymology (arabic_roots, word_etymologies, letter_profiles). Also establishes the central path registry (so nothing hard-codes where files live), seven database repositories (so no script ever calls sqlite3 directly), the archetype lookup, and the anti-cliché phrase lists. The corpus layer in particular is designed for independent per-chapter refinement — see B0.",
       "tools": [
         "Python",
         "SQLite"
@@ -84,7 +84,7 @@
       "depends_on": [
         "A2"
       ],
-      "plain": "Seeds the intelligence library from the 75 PASS+WARN Kashkole chapters without going through the main pipeline. The key design: every chapter can be corrected and re-ingested independently. When Asif marks a chapter as needing correction, its atoms stay in the database (flagged for review) while he edits the source file. Re-running the driver on that chapter deletes only its old atoms and creates fresh ones from the corrected content \u2014 no other chapters are touched, no full pipeline re-run needed. A five-state progress tracker (pending \u2192 ingested \u2192 needs-correction \u2192 correction-draft \u2192 re-ingested) makes the editorial state visible. Ships before B1 so the knowledge database has live Kashkole doctrine atoms from day one.",
+      "plain": "Seeds the intelligence library from the 75 PASS+WARN Kashkole chapters without going through the main pipeline. The key design: every chapter can be corrected and re-ingested independently. When Asif marks a chapter as needing correction, its atoms stay in the database (flagged for review) while he edits the source file. Re-running the driver on that chapter deletes only its old atoms and creates fresh ones from the corrected content — no other chapters are touched, no full pipeline re-run needed. A five-state progress tracker (pending → ingested → needs-correction → correction-draft → re-ingested) makes the editorial state visible. Ships before B1 so the knowledge database has live Kashkole doctrine atoms from day one.",
       "tools": [
         "Python",
         "SQLite"
@@ -432,6 +432,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "8ff6d61",
+      "subject": "feat(wave-1): Kashkole independent refinement — B0 step + corpus_chapters state machine",
+      "date": "2026-05-26"
+    },
+    {
       "sha": "1b4c829",
       "subject": "feat(plan-dashboard): SOLID/DRY wave-1 schema — 16 tables, atom_sources, corpus layer",
       "date": "2026-05-26"
@@ -474,11 +479,6 @@
     {
       "sha": "d42d903",
       "subject": "dashboard: commit auto-modified data snapshots",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "260fe47",
-      "subject": "dashboard: left rail — no internal scroll, fits all 11 steps sticky",
       "date": "2026-05-26"
     }
   ],

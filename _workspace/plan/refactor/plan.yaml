@@ -405,10 +405,10 @@ waves:
             pure_python: true
             api: ["merge_into_library(bd, scratch_path) -> MergeReport"]
             outcomes:
-              - {kind: new, action: "insert atom"}
-              - {kind: duplicate, action: "merge sources[] list"}
-              - {kind: variant, action: "append to variants[]"}
-              - {kind: conflict, action: "write to manual_review_queue + halt phase"}
+              - {kind: new,       action: "INSERT into knowledge_atoms + atom_sources (source_type='pipeline')"}
+              - {kind: duplicate, action: "INSERT atom_sources row (pipeline provenance); knowledge_atoms row unchanged"}
+              - {kind: variant,   action: "INSERT new knowledge_atoms row (variant marker in body_json) + atom_sources row"}
+              - {kind: conflict,  action: "write to manual_review_queue + halt phase"}
           conflict_resolver:
             path: "scripts/podcast/intelligence/resolve_conflicts.py"
             api: "python resolve_conflicts.py <slug> [--accept-incoming | --keep-existing | --both-as-variants]"
@@ -434,12 +434,22 @@ waves:
             path: "scripts/podcast/intelligence/augmenter.py"
             max_lines: 250
             api:
-              - "augment_for_chapter(book_slug, chapter_id, chapter_text, *, types=('quran','hadith'), max_atoms=5, max_tokens=800) -> str"
-            implementation_wave_1: "regex citation scan + exact-ID lookup; no semantic ranking"
+              - "augment_for_chapter(book_slug, chapter_id, chapter_text, *, max_atoms=5, max_tokens=800, doctrine_topic_ids=None) -> str"
+            lookup_paths:
+              quran_hadith: "regex citation scan (Q\\d+:\\d+, hadith chains) + exact-ID lookup; knowledge_atoms WHERE type IN ('quran','hadith') AND needs_review=0"
+              doctrine:     "when doctrine_topic_ids set: atom_topic_tags JOIN knowledge_atoms WHERE type='doctrine' AND needs_review=0 AND topic_type_id IN (doctrine_topic_ids); silently skip when None"
+            needs_review_gate: "needs_review=0 required for ALL atom types — WARN-verdict Kashkole atoms blocked from augmentation output until re-ingested clean"
+            meta_yml_field:
+              name: doctrine_topic_ids
+              type: "list[int] optional"
+              description: "integers matching topic_type_taxonomy.type_id (see B0 for 18-row seed); absent = doctrine injection silently skipped"
+              example: "[1, 3, 7]  # e.g. Ismailism, Hadith Sciences, Quranic Exegesis"
             guards:
               - "default_disabled — series.enable_knowledge_augmenter must be true; else empty string"
               - "always strip_arabic_script via _context_injection (DR-012)"
               - "always neutral phrasing via _context_injection.format_provenance"
+              - "needs_review=0 for all atom types — WARN-verdict atoms blocked until re-ingested clean"
+              - "doctrine injection requires doctrine_topic_ids in meta.yml; silently skipped when absent"
           call_sites:
             - {phase: "08-enrichment",    token_budget: 200, purpose: "hint-level"}
             - {phase: "11-per-chapter",   token_budget: 500, purpose: "full prior treatment"}
