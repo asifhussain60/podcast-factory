@@ -164,42 +164,45 @@ const TABLES: TableNode[] = [
     label: 'knowledge_atoms',
     category: 'knowledge',
     purpose:
-      'Cross-book intelligence store — one row per Quran verse or hadith extracted across all processed books. Later books query this to enrich their own chapters. Supersedes the JSONL files in content/knowledge-base/ for queryable access.',
+      'Central intelligence library — one row per Quran verse, hadith, or doctrinal atom sourced from pipeline books or external corpora (Kashkole and future sources). Later books query this via the augmenter to enrich their own chapters. Supersedes the JSONL files in content/knowledge-base/ for queryable access. Doctrine atoms from Kashkole (75 PASS/WARN chapters) seed the library at Wave 1.',
     wave: 1,
-    writtenBy: ['0h-knowledge-extract'],
+    writtenBy: ['0h-knowledge-extract', 'kashkole-ingest'],
     readBy: ['0e-enrich', 'per-chapter', '0g-audit', 'augmenter'],
     x: 260, y: 127,
     fields: [
-      { name: 'id',             type: 'TEXT',    pk: true,               description: "Canonical identifier: 'quran:2:255' | 'hadith:bukhari:1234'." },
-      { name: 'type',           type: 'TEXT',                             description: "'quran' | 'hadith' | 'quote' | 'definition' | 'etymology' — Wave 1 ships quran + hadith only." },
+      { name: 'id',             type: 'TEXT',    pk: true,               description: "Canonical identifier: 'quran:2:255' | 'hadith:bukhari:1234' | 'doctrine:kashkole:24:650:0'." },
+      { name: 'type',           type: 'TEXT',                             description: "'quran' | 'hadith' | 'doctrine' (Wave 1). 'quote' | 'definition' | 'etymology' arrive in Waves 2-3. Atom type determines the expected shape of body_json — the schema is documented in _atom_schemas.py." },
       { name: 'wave',           type: 'INTEGER',                          description: 'Intelligence wave that introduced this atom type: 1 (now), 2 (planned), or 3 (future).' },
-      { name: 'first_seen_book',    type: 'TEXT', fk: 'books.slug',      description: 'First book to surface this atom.' },
-      { name: 'first_seen_chapter', type: 'TEXT', fk: 'chapters.id',    description: 'First chapter to surface it.' },
+      { name: 'first_seen_book',    type: 'TEXT', fk: 'books.slug', nullable: true, description: 'First pipeline book to surface this atom. Null for corpus-only atoms (sourced exclusively from Kashkole or other external corpora).' },
+      { name: 'first_seen_chapter', type: 'TEXT', fk: 'chapters.id', nullable: true, description: 'First pipeline chapter to surface it. Null for corpus-only atoms.' },
       { name: 'first_seen_date',    type: 'TEXT',                         description: 'ISO-8601.' },
-      { name: 'citation_count', type: 'INTEGER',                          description: 'Running count of unique book+chapter pairs that cite this atom. Incremented by the Librarian on every merge.' },
-      { name: 'body_json',      type: 'TEXT',                             description: 'JSON blob with type-specific fields: surah/ayah/text_ar/text_en for Quran; collection/number/grade/narrator for hadith.' },
-      { name: 'variants_json',  type: 'TEXT',    nullable: true,          description: 'JSON array of captured wording variations found across different books.' },
+      { name: 'citation_count', type: 'INTEGER',                          description: 'Running count of unique sources (book+chapter pairs OR corpus chapters) that cite this atom. Incremented by the Librarian on every merge.' },
+      { name: 'body_json',      type: 'TEXT',                             description: 'JSON blob with type-specific fields. Quran: surah/ayah/text_ar/text_en. Hadith: collection/number/grade/narrator. Doctrine: tradition/genre/binder_id/binder_slug/chapter_id/chunk_index/topic_tags/text_en/quran_refs.' },
+      { name: 'variants_json',  type: 'TEXT',    nullable: true,          description: 'JSON array of captured wording variations found across different books or corpus passages.' },
+      { name: 'needs_review',   type: 'INTEGER',                          description: 'Boolean (0 | 1). Set to 1 when the atom was sourced from a WARN-verdict corpus chapter or a pipeline chapter with unresolved P1/P2 findings. The augmenter can weight or filter these.' },
       { name: 'updated_at',     type: 'TEXT',                             description: 'ISO-8601 — last Librarian merge.' },
       { name: 'root_id',        type: 'INTEGER', fk: 'arabic_roots.root_id', nullable: true, description: 'When this atom contains a key term, links to its Arabic root entry for etymological depth. Null for atoms not yet enriched.' },
     ],
   },
   {
-    id: 'atom_citations',
-    label: 'atom_citations',
+    id: 'atom_sources',
+    label: 'atom_sources',
     category: 'knowledge',
     purpose:
-      'Provenance join table — records exactly which book and chapter cited each atom. The many-to-many bridge that makes the knowledge store\'s cross-book memory auditable.',
+      'Unified provenance table — one row per (atom, source) pair. Covers both pipeline books (source_type=pipeline, chapter_id set) and external corpora like Kashkole (source_type=corpus, corpus_chapter_id set). A CHECK constraint enforces exactly one of the two FK columns is non-null, preventing ghost rows. Single responsibility: all atom provenance, regardless of source.',
     wave: 1,
-    writtenBy: ['0h-knowledge-extract'],
+    writtenBy: ['0h-knowledge-extract', 'kashkole-ingest'],
     readBy: ['augmenter', '0g-audit', 'podcast-librarian'],
     x: 260, y: 231,
     fields: [
-      { name: 'id',         type: 'INTEGER', pk: true,                      description: 'Auto-increment.' },
-      { name: 'atom_id',    type: 'TEXT',    fk: 'knowledge_atoms.id',      description: 'The referenced atom.' },
-      { name: 'book_slug',  type: 'TEXT',    fk: 'books.slug',              description: 'Book that cites this atom.' },
-      { name: 'chapter_id', type: 'TEXT',    fk: 'chapters.id',             description: 'Specific chapter where the citation appears.' },
-      { name: 'locator',    type: 'TEXT',                                    description: 'Heading text or paragraph number — the exact spot in the chapter.' },
-      { name: 'cited_at',   type: 'TEXT',                                    description: 'ISO-8601 — extraction timestamp.' },
+      { name: 'id',                type: 'INTEGER', pk: true,                            description: 'Auto-increment.' },
+      { name: 'atom_id',           type: 'TEXT',    fk: 'knowledge_atoms.id',            description: 'The atom being sourced.' },
+      { name: 'source_type',       type: 'TEXT',                                         description: "'pipeline' — atom extracted from an orchestrated book chapter | 'corpus' — atom extracted from an external corpus (Kashkole or future corpora). Discriminates which FK below is set." },
+      { name: 'book_slug',         type: 'TEXT',    fk: 'books.slug', nullable: true,    description: 'Set when source_type = pipeline. Null for corpus sources.' },
+      { name: 'chapter_id',        type: 'TEXT',    fk: 'chapters.id', nullable: true,   description: 'Set when source_type = pipeline. Null for corpus sources. CHECK: (chapter_id IS NULL) != (corpus_chapter_id IS NULL).' },
+      { name: 'corpus_chapter_id', type: 'INTEGER', fk: 'corpus_chapters.id', nullable: true, description: 'Set when source_type = corpus. Null for pipeline sources. The CHECK constraint makes exactly one of this and chapter_id non-null.' },
+      { name: 'locator',           type: 'TEXT',                                         description: 'Heading text or paragraph number — exact location within the source.' },
+      { name: 'cited_at',          type: 'TEXT',                                         description: 'ISO-8601 — extraction timestamp.' },
     ],
   },
   {
@@ -347,6 +350,90 @@ const TABLES: TableNode[] = [
       { name: 'esoteric_notes',      type: 'TEXT',    nullable: true,          description: 'Symbolic profile: colour correspondences (Ibn Arabi tradition), elemental association (fire/water/air/earth), spiritual station, and links to divine names (e.g. ا opens Allāh).' },
     ],
   },
+  {
+    id: 'atom_topic_tags',
+    label: 'atom_topic_tags',
+    category: 'knowledge',
+    purpose:
+      'Universal tag-to-atom join table — the DB-native replacement for a file-based tag index. One row per (atom, tag) pair. A covering index on tag enables O(1) augmenter scoring. Scope-agnostic: Wave 1 populates doctrine atoms; Waves 2-3 extend to quran and hadith without schema change.',
+    wave: 1,
+    writtenBy: ['0h-knowledge-extract', 'kashkole-ingest'],
+    readBy: ['augmenter', '0g-audit', 'dashboard'],
+    x: 260, y: 430,
+    fields: [
+      { name: 'id',            type: 'INTEGER', pk: true,                                  description: 'Auto-increment.' },
+      { name: 'atom_id',       type: 'TEXT',    fk: 'knowledge_atoms.id',                  description: 'The tagged atom.' },
+      { name: 'tag',           type: 'TEXT',                                               description: "Topic tag string, e.g. 'tawil', 'wilaya', 'jurisprudence'. A covering index on this column is mandatory at 150k+ eventual rows." },
+      { name: 'topic_type_id', type: 'INTEGER', fk: 'topic_type_taxonomy.type_id', nullable: true, description: 'FK back to the taxonomy row that sourced this tag. Null for tags added outside the Kashkole taxonomy (e.g. manual pipeline tags).' },
+      { name: 'created_at',    type: 'TEXT',                                               description: 'ISO-8601.' },
+    ],
+  },
+  {
+    id: 'external_corpora',
+    label: 'external_corpora',
+    category: 'knowledge',
+    purpose:
+      'Registry of external knowledge corpora — scholarly sources that feed the intelligence library without going through orchestrate_book.py. Kashkole is the first row (corpus_key = kashkole). Designed to accept future corpora (Rasail Ikhwan al-Safa, Nahjul Balagha) without schema changes. One row per corpus; corpus_chapters holds the per-chapter detail.',
+    wave: 1,
+    writtenBy: ['kashkole-ingest (seed, one-time per corpus)'],
+    readBy: ['corpus_chapters', 'augmenter', 'dashboard'],
+    x: 20, y: 510,
+    fields: [
+      { name: 'id',               type: 'INTEGER', pk: true,               description: 'Auto-increment.' },
+      { name: 'corpus_key',       type: 'TEXT',                             description: "Short stable identifier, e.g. 'kashkole'. Used across scripts and logs." },
+      { name: 'title_en',         type: 'TEXT',                             description: 'Full English title, e.g. Kashkole of Sheikh Bahai.' },
+      { name: 'title_ar',         type: 'TEXT',    nullable: true,          description: 'Arabic script title if available.' },
+      { name: 'source_language',  type: 'TEXT',                             description: "'ar' | 'fa' | 'ar+fa' — primary language of the source material." },
+      { name: 'description',      type: 'TEXT',    nullable: true,          description: 'Brief plain-English description of the corpus scope and provenance.' },
+      { name: 'binder_tags_json', type: 'TEXT',                             description: 'JSON object mapping binder IDs to fallback topic tags — used when a chapter has no specific topic_type assignment.' },
+      { name: 'chapter_count',    type: 'INTEGER', nullable: true,          description: 'Total chapters in this corpus (populated after full ingestion scan).' },
+      { name: 'ingested_at',      type: 'TEXT',    nullable: true,          description: 'ISO-8601 — when the first chapter was ingested into knowledge_atoms.' },
+      { name: 'created_at',       type: 'TEXT',                             description: 'ISO-8601 — when this row was registered.' },
+    ],
+  },
+  {
+    id: 'topic_type_taxonomy',
+    label: 'topic_type_taxonomy',
+    category: 'knowledge',
+    purpose:
+      'The 18-row canonical topic-type reference table — seed data from Lookup_TopicTypes in the Kashkole DB. Replaces the hard-coded TOPIC_TYPE_TAGS dict in the ingestion driver with a DB join (DRY). Static by nature; the driver expands type_id → tags at ingestion time and writes rows to atom_topic_tags. Open for extension: adding a tradition category is one INSERT.',
+    wave: 1,
+    writtenBy: ['seed data (one-time, from topic-type-map.json)'],
+    readBy: ['atom_topic_tags', 'kashkole-ingest', 'augmenter'],
+    x: 260, y: 510,
+    fields: [
+      { name: 'type_id',             type: 'INTEGER', pk: true,             description: 'Matches the TopicTypeID from the Kashkole DB (15, 17, 18 … 34).' },
+      { name: 'name_en',             type: 'TEXT',                          description: "English label, e.g. 'Kalam & Argumentation', 'Hadith & Sunnah'." },
+      { name: 'name_ur',             type: 'TEXT',                          description: 'Urdu transliteration of the category name.' },
+      { name: 'doctrinal_tags_json', type: 'TEXT',                          description: "JSON array of canonical topic tags for this type, e.g. ['kalam','argumentation','theology']. Written to atom_topic_tags at ingestion." },
+      { name: 'ordering',            type: 'INTEGER',                       description: 'Sort order for dashboard display — scholarly importance, not numeric type_id order.' },
+    ],
+  },
+  {
+    id: 'corpus_chapters',
+    label: 'corpus_chapters',
+    category: 'knowledge',
+    purpose:
+      'One row per external corpus chapter — the ingestion gate and provenance anchor for corpus atoms. challenger_verdict is the quality filter: PASS and WARN are ingested (WARN sets needs_review=1 on all produced atoms); FAIL chapters are skipped. topic_ids_json stores raw source IDs; the driver expands them via topic_type_taxonomy into atom_topic_tags rows.',
+    wave: 1,
+    writtenBy: ['kashkole-ingest'],
+    readBy: ['atom_sources', 'atom_topic_tags', 'augmenter', 'dashboard'],
+    x: 500, y: 510,
+    fields: [
+      { name: 'id',                  type: 'INTEGER', pk: true,                    description: 'Auto-increment.' },
+      { name: 'corpus_id',           type: 'INTEGER', fk: 'external_corpora.id',   description: 'Parent corpus (e.g. Kashkole).' },
+      { name: 'chapter_slug',        type: 'TEXT',                                 description: "Stable slug matching the directory under kashkole-ksessions/extracted/, e.g. '01-spiritual-wisdom/03-hadiths'." },
+      { name: 'chapter_title',       type: 'TEXT',    nullable: true,              description: 'English chapter title from the adapted extract, if available.' },
+      { name: 'binder_id',           type: 'INTEGER',                              description: 'Binder number within the corpus. Used to look up binder-level fallback tags in external_corpora.binder_tags_json.' },
+      { name: 'chapter_id_external', type: 'INTEGER',                              description: 'Original ChapterID from the source DB. Preserved for re-ingestion reconciliation.' },
+      { name: 'challenger_verdict',  type: 'TEXT',                                 description: "'PASS' | 'WARN' | 'FAIL' | 'UNCHALLENGED'. PASS+WARN are ingested; FAIL skipped; UNCHALLENGED queued." },
+      { name: 'topic_ids_json',      type: 'TEXT',                                 description: 'JSON array of source DB TopicIDs for this chapter. Expanded to tags via topic_type_taxonomy at ingestion.' },
+      { name: 'atom_count',          type: 'INTEGER',                              description: 'Number of knowledge_atoms rows produced from this chapter. 0 until ingested.' },
+      { name: 'adapted_path',        type: 'TEXT',    nullable: true,              description: 'Relative path to adapted-extract.en.md under kashkole-ksessions/. Null if not yet extracted.' },
+      { name: 'ingested_at',         type: 'TEXT',    nullable: true,              description: 'ISO-8601 — when this chapter was ingested.' },
+      { name: 'created_at',          type: 'TEXT',                                 description: 'ISO-8601.' },
+    ],
+  },
 ];
 
 // ─── Edge definitions ─────────────────────────────────────────────────────────
@@ -357,11 +444,15 @@ const EDGES: Edge[] = [
   { from: 'books', to: 'pipeline_runs',     type: '1:N', path: 'M330,48 C330,80 570,80 570,112' },
   { from: 'chapters', to: 'episodes',       type: '1:1', path: 'M90,148 V216' },
   { from: 'pipeline_runs', to: 'cost_ledger', type: '1:N', path: 'M570,148 V216' },
-  { from: 'knowledge_atoms', to: 'atom_citations', type: '1:N', path: 'M330,163 V231' },
+  { from: 'knowledge_atoms', to: 'atom_sources',    type: '1:N', path: 'M330,163 V231' },
+  { from: 'knowledge_atoms', to: 'atom_topic_tags', type: '1:N', path: 'M295,163 C240,200 240,400 262,430' },
   { from: 'books', to: 'challenger_findings', type: '1:N', dashed: true, path: 'M358,48 C408,48 408,333 358,333' },
   { from: 'books',        to: 'arabic_roots',     type: '1:N', path: 'M330,48 C330,200 570,200 570,320' },
   { from: 'arabic_roots', to: 'word_etymologies', type: '1:N', path: 'M570,356 C570,395 90,395 90,430' },
   { from: 'arabic_roots', to: 'letter_profiles',  type: 'N:M', path: 'M570,356 V430' },
+  { from: 'topic_type_taxonomy', to: 'atom_topic_tags', type: '1:N', dashed: true, path: 'M330,510 V466' },
+  { from: 'external_corpora',    to: 'corpus_chapters', type: '1:N', path: 'M160,528 C240,580 420,580 500,528' },
+  { from: 'corpus_chapters',     to: 'atom_sources',    type: '1:N', path: 'M570,510 C640,450 640,249 398,249' },
 ];
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -442,7 +533,7 @@ export default function DbArchitecture() {
         <div className="dba-diagram-wrap">
           <svg
             className="dba-svg"
-            viewBox="0 0 660 510"
+            viewBox="0 0 660 590"
             xmlns="http://www.w3.org/2000/svg"
             aria-label="Database architecture diagram — click any table to explore"
           >

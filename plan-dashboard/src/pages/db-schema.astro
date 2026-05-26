@@ -3,16 +3,16 @@ import Base from '../layouts/Base.astro';
 import DbArchitecture from '../components/DbArchitecture';
 ---
 
-<Base title="Database Design" active="db-schema" description="Interactive schema for the podcast-factory SQLite database — 9 tables, their fields, and how they connect.">
+<Base title="Database Design" active="db-schema" description="Interactive schema for the podcast-factory SQLite database — 16 SOLID-compliant tables spanning the pipeline, knowledge library, and Kashkole corpus layer.">
   <header class="page-hero">
     <div class="page-hero-inner">
       <span class="eyebrow">Database design</span>
       <h1 class="page-hero-title">What the database manages and why.</h1>
       <p class="page-hero-lede">
-        Twelve tables replacing the scattered JSONL and JSON files that currently live in per-book folders.
-        One SQLite database consolidates the knowledge store, etymology layer, cost tracking, episode registry,
-        pipeline history, and quality audit trail — making everything queryable and cross-book for the first time.
-        The Arabic root and letter tables add an esoteric teaching dimension unique to this corpus.
+        Sixteen SOLID-compliant tables replacing scattered JSONL and JSON files across pipeline books and external corpora.
+        One SQLite database consolidates the knowledge store, etymology layer, corpus provenance, topic taxonomy,
+        cost tracking, episode registry, and quality audit trail — everything queryable and cross-book for the first time.
+        The Kashkole corpus tables make the intelligence library the central hub that enriches every future book production.
       </p>
     </div>
   </header>
@@ -46,14 +46,16 @@ import DbArchitecture from '../components/DbArchitecture';
         </p>
       </div>
       <div class="card stack">
-        <span class="eyebrow">Wave 1 + extensible beyond</span>
+        <span class="eyebrow">SOLID/DRY foundation from day one</span>
         <p>
-          All 12 tables are Wave 1–3 scoped. The <strong>knowledge_atoms</strong> table
-          already carries a nullable <code>root_id</code> FK so any Quran verse or hadith
-          can be linked to its etymological root the moment extraction runs.
-          The <code>abjad_method</code> column on <strong>word_etymologies</strong>
-          supports eastern, reduced, and Maghribi calculation traditions without
-          a schema change — add new methods by inserting new rows.
+          Four design rules are baked in. <strong>atom_sources</strong> unifies all provenance
+          (pipeline books and Kashkole chapters) in one table with a <code>source_type</code>
+          discriminator and a CHECK constraint — no polymorphic NULL ambiguity.
+          <strong>topic_type_taxonomy</strong> replaces a hard-coded driver dict with 18 seed rows
+          that the ingestion driver JOINs instead of duplicating.
+          <strong>atom_topic_tags</strong> is a proper covering-indexed join table replacing
+          a file-based tag index. And <code>needs_review</code> on every atom surfaces
+          WARN-verdict quality signals without a separate table.
         </p>
       </div>
     </div>
