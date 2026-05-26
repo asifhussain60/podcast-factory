@@ -125,6 +125,7 @@ The default discipline is "ask before each shared-state action." Below is the st
 - Importing pipeline scripts under `/usr/bin/python3` to verify they load
 - Dry-run inspection (`--dry-run` flags, `jq` over `orchestrator-state.json`)
 - Spawning research agents (Explore, Plan, general-purpose) for read-only investigation
+- Running `/steward <scope>` — the four-pass strategic coordinator that composes existing agents and emits prioritized findings cited to `reference/steward-source-corpus.md`. Read-only protocol. Spec at [project-steward.agent.md](.github/agents/project-steward.agent.md). Executing a specific steward recommendation inherits that recommendation's own tier; **editing the source corpus itself is Tier 2.**
 - `git restore` of auto-generated artifacts under `content/drafts/<slug>/_system/` when the artifact is reproducible by re-running its generator script
 - `security find-generic-password -s <name>` for existence checks (no `-w`)
 - **Re-arming the `/loop` heartbeat monitor** after any orchestrator resume or retry-phase action — this is MANDATORY and automatic, never requires user instruction. Use `ScheduleWakeup` at 270s with the standard monitoring prompt (see [Heartbeat card format](~/.claude/projects/-Users-asifhussain-PROJECTS-podcast-factory/memory/feedback_heartbeat_format.md)). Do NOT wait for Asif to ask. If a session resumes and a book is in-flight (orchestrator alive OR `phase_status=running/failed`), re-arm immediately.

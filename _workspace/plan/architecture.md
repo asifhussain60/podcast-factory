@@ -369,11 +369,12 @@ The registry is **content-as-config**: a new archetype is three markdown/yaml fi
 
 ## Agent Ecosystem
 
-Eight agents collaborate on different surface areas. Each has a read/write contract.
+Nine agents collaborate on different surface areas, organized into two strata: **tactical agents** (single-purpose, fire-and-finish — orchestrator, challenger, auditor, trainer, blueprint, extract, publisher, vacuum, postprod-review, slide-deck-challenger) and a **strategic coordinator** (`project-steward`) that composes the tactical agents under a fixed four-pass protocol and a cited source corpus. The steward never reimplements a tactical check; it invokes the right tactical agent for the scope and interprets findings against the corpus.
 
 ```mermaid
 flowchart TB
     USER[Asif]
+    USER -->|/steward scope| STEW[project-steward<br/>strategic coordinator<br/>composes + cites]
     USER -->|/podcast| ORCH[podcast-orchestrator<br/>drives the backbone]
     USER -->|/extract| EXT[podcast-extract<br/>single-chapter NotebookLM bundle]
     USER -->|/publish| PUB[podcast-publisher<br/>drafts/ → published/]
@@ -389,6 +390,11 @@ flowchart TB
     POST -->|surfaces vacuum plan| VAC[vacuum<br/>file-naming + folder mutation]
 
     ORCH -->|deck convergence| SCHA[slide-deck-challenger<br/>visual integrity loop]
+
+    STEW -.->|composes| AUDIT
+    STEW -.->|composes| RS[repo-surgeon<br/>skill]
+    STEW -.->|composes| REC[reconcile<br/>skill]
+    STEW -.->|reads| CORPUS[reference/steward-source-corpus.md<br/>cited bibliography]
 ```
 
 **Read/write contracts:**
@@ -398,6 +404,7 @@ flowchart TB
 - `podcast-trainer` — reads findings.jsonl across books; proposes spec edits + commits them only if regression suite passes.
 - `vacuum` — reads file tree; mutates filenames + folder structure (Tier 1).
 - `postprod-review` — identify-only audit after audio + transcripts arrive.
+- `project-steward` — reads git state + active plan + composed-agent reports; writes structured prioritized findings (P0–P3 + low-hanging fruit + pushback) cited to entries in `reference/steward-source-corpus.md`. Never edits source files; the corpus itself is the only writable surface and only as Tier 2.
 
 ---
 
@@ -539,6 +546,7 @@ Compact list of architectural decisions and why. Future Claude sessions and revi
 | DR-011 | **Cross-tradition guard via `tradition_adjacency.yml`** | Brethren-of-Purity vs orthodox-Ismaili requires structural prevention, not authoring judgment. | 2026-05-26 |
 | DR-012 | **Augmenter strips `text_ar` before injection** | Prevents Arabic script leak into phonetic-only chapter files (violates R-PHONETICS-OUT). | 2026-05-26 |
 | DR-013 | **Retroactive enhancements for shipped books = addendum-only** | Never re-run the pipeline against KaR, M&D, Ayyuhal Walad, etc. New episodes ship as addenda. | 2026-05-26 |
+| DR-014 | **Strategic-tactical agent split: steward composes, doesn't reimplement** | `project-steward` sits above the tactical agents (orchestrator, auditor, challenger, vacuum, etc.). It composes them by scope rather than duplicating their checks. Every recommendation is bound to a `reference/steward-source-corpus.md` entry; unsourced claims are flagged `[unsourced]`. Prevents agent-sprawl and keeps strategic prioritization out of pipeline scripts. | 2026-05-26 |
 
 ---
 
