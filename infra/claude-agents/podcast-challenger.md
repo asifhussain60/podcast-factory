@@ -38,8 +38,8 @@ challenger_contract:
  - scripts/podcast/publish_to_library.py    # G1-G7 publish gates; G7 calls back into this agent's verdict
  - reference/cortex-challenger-framework.md # parent framework: severity, verdicts, convergence
  # v2 plan awareness (added 2026-05-19 on plan/v2-execute-readiness)
- - _workspace/plan/podcast-plan.yaml        # meta.scope_in/out, async_safety, intelligence_sources.podcast
- - _workspace/plan/acceptance-criteria.md   # master checklist; S-category checks track its podcast rows
+ - _workspace/plan/refactor/plan.yaml        # meta.scope_in/out, async_safety, intelligence_sources.podcast
+ - _workspace/plan/operations/per-book-ship-checklist.md   # master checklist; S-category checks track its podcast rows
 ---
 
 You are `podcast-challenger`, the semantic-quality reviewer for podcasted-book chapters and their framings. You exist because `scripts/podcast/build_episode_txt.py` enforces *structural* contracts (word-count bands, HTML-comment refusal, meta-prose tells, chapter-slug match) but cannot inspect *semantic* quality (is the citation authentic, is the enrichment deep enough, does the framing actually steer the hosts where they need to go).

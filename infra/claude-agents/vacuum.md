@@ -237,50 +237,26 @@ This is the master rule that supersedes any per-folder KEEP list when they confl
 
 Anything **not** in the whitelist is sprawl by default. Vacuum proposes a subfolder destination for each sprawl file (grouped by topic / lifecycle / origin); if no obvious topical subfolder exists, vacuum proposes creating one and asks for confirmation.
 
-**Worked example for `_workspace/plan/` under the new rule:**
+**Worked example — mapping plan content into the canonical buckets:**
 
-| Current file at root | Proposed subfolder | Reason |
+| Content | Canonical destination | Reason |
 |---|---|---|
-| `README.md`, `VERSION` | ROOT (whitelist) | Folder convention |
-| `conventions.md`, `response-template.md`, `response-conventions.md` | `conventions/` | Conventions-class docs |
-| `pipeline-debt.md`, `pipeline-refactor.md`, `pipeline-refactor.yaml` | `pipeline/` | Pipeline-evolution docs |
-| `acceptance-criteria.md`, `per-book-ship-checklist.md` | `ship-criteria/` | Ship-gating docs |
-| `podcast-plan.yaml` | `pipeline/` | Canonical phased plan |
-| `podcast-reader-polish-*.md` | `podcast-reader/` | Reader-app session work |
-| `postprod-vacuum-tasks.md`, `postprod-vacuum-review.md` | `postprod-vacuum/` | Active branch work |
+| Phased refactor narrative + machine-readable companion | `refactor/plan.md`, `refactor/plan.yaml` | Refactor-class docs |
+| Per-book ship gating | `operations/per-book-ship-checklist.md` | Ship-gating docs |
+| Reader-app session work | `reader/polish-and-ai.md` | Reader-app surface |
+| Active branch work — postprod-vacuum | `postprod-vacuum/postprod-vacuum-tasks.md`, `postprod-vacuum/postprod-vacuum-review.md` | Active branch ledger + review |
+| Response-format + general + authoring conventions | `conventions/response-template.md`, `conventions/response-conventions.md`, `conventions/general.md`, `conventions/authoring.md` | Conventions-class docs |
+| Live pipeline-debt backlog | `debt/pipeline-debt.md` | Backlog tracker |
+| Web research + best-practices citations | `research/` | Research surface |
+| HTML dashboards | `view/` | View surface |
+| Book-specific Python helpers | `_drivers/` | Driver helpers |
+| Stale / dated artifacts | `_archive/YYYY-MM-DD/` | Vacuum's archive destination |
 
-(The above is illustrative — vacuum's first-run plan asks Asif to confirm the subfolder names before any moves.)
+(The above is illustrative — vacuum's first-run plan asks Asif to confirm any moves before applying them.)
 
 ### Canonical shape of `_workspace/plan/`
 
-```
-_workspace/plan/
-  README.md                       (planning surface map — KEEP)
-  VERSION                         (plan version — KEEP)
-  conventions.md                  (active conventions — KEEP)
-  response-template.md            (load-bearing for response format — KEEP)
-  response-conventions.md         (load-bearing for response format — KEEP)
-  pipeline-debt.md                (live F-item backlog — KEEP)
-  pipeline-refactor.md            (active refactor narrative — KEEP)
-  pipeline-refactor.yaml          (machine-readable refactor companion — KEEP)
-  acceptance-criteria.md          (active ship checklist — KEEP)
-  per-book-ship-checklist.md      (active checklist — KEEP)
-  postprod-vacuum-tasks.md        (active ledger — KEEP while branch open)
-  postprod-vacuum-review.md    (active review — KEEP while branch open)
-  podcast-plan.yaml               (canonical phased plan — KEEP)
-  podcast-reader-polish-*.md      (active session work, <30 days — KEEP)
-
-  _archive/                       (vacuum's destination for everything else)
-    YYYY-MM-DD/
-      <stale-file>
-      <dated-event-report>
-      <book-specific-handoff>
-      ...
-
-  _drivers/                       (book-specific Python helpers — leave alone)
-  research/                       (web-research citations + best-practices — KEEP)
-  view/                           (HTML dashboards — KEEP)
-```
+The canonical bucket index lives in [`_workspace/plan/README.md`](../../_workspace/plan/README.md) — read that file as the source of truth rather than restating filenames here. The active buckets are: `conventions/`, `debt/`, `operations/`, `postprod-vacuum/`, `reader/`, `refactor/`, `research/`, `view/`, plus the helper directories `_drivers/` and `_archive/`. The single documented exception is `numeric-symbolic-disambiguation-plan.md` at the plan root, which stays there until refactor step A4 lands (the code references migrate in that step).
 
 ### Sprawl categories vacuum identifies and archives
 
@@ -289,7 +265,7 @@ _workspace/plan/
 | Dated event reports | `STUDIO-ALIGNMENT-2026-05-22.md`, `cohesion-audit-2026-05-23.md`, `2026-05-19-redesign-audit-from-air.md` | Move to `_archive/<today>/` |
 | Book-specific rollout artifacts | `kashkole-rollout-*.md`, `kashkole-rollout-failures.log`, `kashkole-taxonomy-*.json`, `handoff-<book>-*.md` | Move to `_archive/<today>/` |
 | Landed F-item drafts | `f25-apparatus-table-schema.md`, `f27-validator-drafts.md` (after landing per pipeline-debt.md) | Move to `_archive/<today>/` |
-| Folded-in plans | `numeric-symbolic-disambiguation-plan.md` (absorbed into `podcast-plan.yaml`) | Move to `_archive/<today>/` |
+| Folded-in plans | Older plan docs whose content was absorbed into `refactor/plan.md` or `architecture.md` | Move to `_archive/<today>/` |
 | Superseded doctrine docs | `v4-doctrine-propagation.md` (after propagation lands) | Move to `_archive/<today>/` |
 | Pre-versioned older proposals | `podcast-plan-DoR.md`, `podcast-plan-DoR-appendix.md`, `podcast-intelligence-enhancements.md` (when newer versions exist) | Move to `_archive/<today>/` |
 

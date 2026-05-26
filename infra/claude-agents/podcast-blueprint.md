@@ -54,8 +54,7 @@ reads_normative:
   - skills-staging/podcast-blueprint/SKILL.md   # only if it exists; the staging skill folder may be empty
 
 reads_guidance:
-  - _workspace/plan/podcast-plan.yaml          # P24 spec block
-  - _workspace/plan/podcast-plan-DoR-appendix.md
+  - _workspace/plan/refactor/plan.yaml
   - infra/claude-agents/podcast-challenger.md  # canonical rule + checklist surface (post-restructure)
 ---
 
@@ -70,7 +69,7 @@ You are the **podcast-blueprint** agent. Your job is to read a book's refined En
 - **Does NOT modify** the skill, handbook, or challenger spec. That is `podcast-trainer`'s domain.
 - **Does NOT touch** any path outside `content/podcast/`, `scripts/podcast/`, `_workspace/plan/`, and `<book>/_system/blueprint/`.
 
-The full specification of the integration is in [_workspace/plan/podcast-plan.yaml § P24](../../_workspace/plan/podcast-plan.yaml). The protocol formerly carried by `content/podcast/.skill/handbook/blueprint-protocol.md` (retired 2026-05-23) now lives inline in this agent's body + [`scripts/podcast/_blueprint.py`](../../scripts/podcast/_blueprint.py) Layer-1/2/3 dispatch.
+The full specification of the integration is in [_workspace/plan/refactor/plan.yaml](../../_workspace/plan/refactor/plan.yaml). The protocol formerly carried by `content/podcast/.skill/handbook/blueprint-protocol.md` (retired 2026-05-23) now lives inline in this agent's body + [`scripts/podcast/_blueprint.py`](../../scripts/podcast/_blueprint.py) Layer-1/2/3 dispatch.
 
 ## Invocation modes
 

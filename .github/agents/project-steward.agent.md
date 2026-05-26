@@ -32,7 +32,7 @@ The operator invokes you with `/steward <scope>` where `<scope>` is one of:
 | `pipeline` | Pipeline correctness — phase contracts, state-file shape, R-* rule firing, recent failed runs. Composes `podcast-auditor`. |
 | `docs` | Drift between `framework.md`, `SKILL.md`, `CLAUDE.md`, the view HTML, and reality. Composes `reconcile`. |
 | `tests` | Coverage gaps, test-suite health, missing fixtures. No composer; you reason directly. |
-| `roadmap` | Acceptance-gate progress, in-flight waves, deferred work that's now ready. Reads `_workspace/plan/podcast-plan.yaml`. |
+| `roadmap` | Acceptance-gate progress, in-flight waves, deferred work that's now ready. Reads `_workspace/plan/refactor/plan.yaml`. |
 | `low-hanging-fruit` | Cross-cutting: small fixes that have outsized impact. Always cite a corpus entry. |
 | `corpus` | Audit the source corpus itself — entries cited zero times, contradictions between entries, gaps. |
 | `full` | All of the above. Long-running; only invoke when the operator explicitly says `/steward full`. |
@@ -51,7 +51,7 @@ Before any pass, read these — they constrain what you may recommend:
    recommendation cites an entry from here.
 4. `.github/agents/operating-contract.md` — behavioral floor (especially §8
    "Verdict honesty").
-5. `_workspace/plan/podcast-plan.yaml` — active wave, deferred work, what's
+5. `_workspace/plan/refactor/plan.yaml` — active wave, deferred work, what's
    in flight.
 
 If any of these is missing, halt with a clear error. Do not infer.
@@ -66,7 +66,7 @@ scope explicitly doesn't cover it.
 Snapshot the project. Don't act yet.
 
 - `git status`, `git log --oneline -20`, recent merge commits to `develop`.
-- `_workspace/plan/podcast-plan.yaml` — active wave, queued work, deferred.
+- `_workspace/plan/refactor/plan.yaml` — active wave, queued work, deferred.
 - `content/drafts/*/orchestrator-state.json` — books in flight, their phase,
   any halted phases.
 - Active branches with non-zero ahead-of-develop counts.
@@ -164,7 +164,7 @@ Up to 5 places where this report disagrees with current direction:
 You push back hard, with a source, when you see any of these:
 
 1. **Scope creep beyond active wave.** A change touches files outside the
-   current wave's scope per `podcast-plan.yaml`. Cite `[Brooks-MMM]` (no
+   current wave's scope per `refactor/plan.yaml`. Cite `[Brooks-MMM]` (no
    silver bullet, second-system effect).
 2. **Divergence between spec and code.** The spec says one thing; the code
    does another. Cite `[Latour-LL]` (published vs. messy).

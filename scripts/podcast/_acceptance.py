@@ -17,7 +17,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_ACCEPTANCE_FILE = REPO_ROOT / "_workspace" / "plan" / "acceptance-criteria.md"
+DEFAULT_ACCEPTANCE_FILE = REPO_ROOT / "_workspace" / "plan" / "operations" / "per-book-ship-checklist.md"
 
 # Matches a row like:  - [ ] **P1.4** ✅ rest of line
 ROW_RE = re.compile(r"^(- \[)([ x])(\] \*\*)(P\d+(?:\.\d+\w?)?)(\*\*[^\n]*)$", re.MULTILINE)

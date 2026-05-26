@@ -1,6 +1,5 @@
 # Podcast Factory Ecosystem Framework
 
-**Version:** 4.1 (2026-05-25 cleanup wave — F30 dual-auditor + scholarly-rubric v2.2 + ~28 pipeline-debt items closed)
 **Last updated:** 2026-05-25
 
 This document governs the **`podcast-factory`** repo: the multi-phase podcast pipeline that converts scholarly Arabic books into NotebookLM-driven podcast series, the Azure stack that powers OCR / translation / speech, and the agents/skills that support podcast authoring. Memoir + site work moved to the sibling **[journal](https://github.com/asifhussain60/journal)** repo as of the 2026-05-22 split. The Anthropic API proxy (`server/`) and the Cloudflare deploy scaffold were retired the same day — see §"Retired" below. The previous cross-machine coordination model (operator files, machine-id detection, per-machine book branches) was retired 2026-05-23 — see §"Single-machine model" below.

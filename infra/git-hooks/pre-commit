@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+# Pre-commit hook for podcast-factory.
+#
+# Enforces DR-009 (no version markers in tracked files):
+#   1. Reject any staged file containing a `Version: <digit>` stamp at start of
+#      a line (tolerating leading `**` or `#`).
+#   2. Reject any staged filename matching `*v[0-9]*.md` or `*v[0-9]*.yaml`,
+#      except files under `_archive/`.
+#
+# Install via `bash infra/git-hooks/install.sh`.
+
+set -e
+
+fail=0
+
+# Collect staged files (added, copied, modified, renamed) — handle no-staged-files cleanly.
+staged_files=$(git diff --cached --name-only --diff-filter=ACMR || true)
+
+if [ -z "$staged_files" ]; then
+    exit 0
+fi
+
+# Check 1 — version stamp inside tracked files.
+# Match: optional leading whitespace, optional `**` or `#` prefix, then
+# `Version:` followed by whitespace and a digit. Case-sensitive.
+version_regex='^[[:space:]]*(\*\*|#)?[[:space:]]*Version:[[:space:]]*[0-9]'
+
+while IFS= read -r f; do
+    [ -z "$f" ] && continue
+    # Only check files that still exist in the working tree.
+    [ -f "$f" ] || continue
+    # Skip this hook script itself + the rule sources to avoid self-trip.
+    case "$f" in
+        infra/git-hooks/*) continue ;;
+        _archive/*) continue ;;
+    esac
+    if grep -nE "$version_regex" "$f" >/dev/null 2>&1; then
+        echo "pre-commit: version stamp found in $f (DR-009 violation):" >&2
+        grep -nE "$version_regex" "$f" >&2
+        fail=1
+    fi
+done <<< "$staged_files"
+
+# Check 2 — versioned filenames.
+# Match: filename basename containing a literal `v` followed by a digit,
+# in .md or .yaml extension. Skip _archive/.
+while IFS= read -r f; do
+    [ -z "$f" ] && continue
+    case "$f" in
+        _archive/*) continue ;;
+    esac
+    base=$(basename "$f")
+    case "$base" in
+        *v[0-9]*.md|*v[0-9]*.yaml)
+            echo "pre-commit: versioned filename rejected (DR-009): $f" >&2
+            fail=1
+            ;;
+    esac
+done <<< "$staged_files"
+
+if [ "$fail" -ne 0 ]; then
+    echo "" >&2
+    echo "pre-commit: blocked. Strip the version stamp or rename the file." >&2
+    echo "pre-commit: bypass requires explicit operator authorization (--no-verify)." >&2
+    exit 1
+fi
+
+exit 0

@@ -8,7 +8,8 @@ Not a phase. Called as a function from inside other phases:
 - `per-chapter` authoring   (medium: 500 tokens)
 - `0g` audit (challenger)   (heavy: 800 tokens)
 
-Spec: `_workspace/plan/intelligence-pipeline-wave1-spec.md` §2.3, §6
+Spec: `_workspace/plan/architecture.md` (Intelligence Layer section) and
+      `_workspace/plan/refactor/plan.md` (Wave B).
 Agent: `.github/agents/podcast-librarian.agent.md`
 
 Status (2026-05-25): scaffold only. Wave 1 implementation pending.
@@ -61,7 +62,7 @@ def augment_for_chapter(
         7. Truncate at atom boundary if total tokens > max_tokens.
     """
     raise NotImplementedError(
-        "Wave 1 implementation pending. See _workspace/plan/intelligence-pipeline-wave1-spec.md"
+        "Wave 1 implementation pending. See _workspace/plan/architecture.md (Intelligence Layer) + _workspace/plan/refactor/plan.md (Wave B)"
     )
 
 

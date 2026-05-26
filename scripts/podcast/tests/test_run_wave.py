@@ -2,7 +2,7 @@
 """Tests for scripts/podcast/run_wave.py (P1.4 wave kickoff harness).
 
 Uses stdlib unittest only — pytest is not yet a project dependency (P8.1).
-Covers the P1.4 acceptance rows listed in _workspace/plan/acceptance-criteria.md.
+Covers the P1.4 acceptance rows listed in _workspace/plan/operations/per-book-ship-checklist.md.
 """
 from __future__ import annotations
 
@@ -23,7 +23,7 @@ sys.path.insert(0, str(SCRIPTS_PODCAST))
 import run_wave  # noqa: E402
 
 
-# Minimal acceptance-criteria.md fixture covering W1..W5.
+# Minimal per-book-ship-checklist.md fixture covering W1..W5.
 SAMPLE_ACC = """\
 # Acceptance Criteria — Master Checklist
 
@@ -193,7 +193,7 @@ class MainArgvTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
         self.tmp_path = Path(self.tmp.name)
-        self.acc_file = self.tmp_path / "acceptance-criteria.md"
+        self.acc_file = self.tmp_path / "per-book-ship-checklist.md"
         self.books_dir = self.tmp_path / "books"
         self.books_dir.mkdir()
         self._patches = [

@@ -2,11 +2,11 @@
 """Wave kickoff harness for the podcast pipeline.
 
 Single entry point invoked at the start of each wave (W1..W5). Reads the
-canonical acceptance checklist (_workspace/plan/acceptance-criteria.md) to
+canonical acceptance checklist (_workspace/plan/operations/per-book-ship-checklist.md) to
 determine done-status, then dispatches to per-wave runners — or just reports
 status with --check.
 
-Per `_workspace/plan/podcast-plan.yaml` P1.4 spec. The dispatchers in this
+Per `_workspace/plan/refactor/plan.yaml` P1.4 spec. The dispatchers in this
 file are minimal stubs that get filled in as the underlying phases ship.
 
 USAGE
@@ -34,7 +34,7 @@ from pathlib import Path
 # Repo root is two levels up from this file (scripts/podcast/run_wave.py).
 REPO_ROOT = Path(__file__).resolve().parents[2]
 PLAN_DIR = REPO_ROOT / "_workspace" / "plan"
-ACCEPTANCE_FILE = PLAN_DIR / "acceptance-criteria.md"
+ACCEPTANCE_FILE = PLAN_DIR / "operations" / "per-book-ship-checklist.md"
 BOOKS_DIR = REPO_ROOT / "content" / "drafts"
 CHALLENGER_TEST = REPO_ROOT / "scripts" / "podcast" / "test_challenger.py"
 
@@ -354,7 +354,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--check",
         action="store_true",
-        help="Report wave done-status from acceptance-criteria.md without executing.",
+        help="Report wave done-status from per-book-ship-checklist.md without executing.",
     )
     parser.add_argument(
         "--book",

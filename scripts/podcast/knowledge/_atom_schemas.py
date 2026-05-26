@@ -2,7 +2,8 @@
 
 Wave 1: Quran + hadith only. Waves 2/3 add quotes, etymology, definitions.
 
-Authority: `_workspace/plan/intelligence-pipeline-wave1-spec.md` §4.
+Authority: `_workspace/plan/architecture.md` (Intelligence Layer section)
+           and `_workspace/plan/refactor/plan.md` (Wave B).
 
 Status (2026-05-25): scaffold only. Wave 1 implementation pending.
 """

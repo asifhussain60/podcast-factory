@@ -4,7 +4,8 @@ Reads audit-vetted chapter bundles from a book's `_system/episode-drafts/` and p
 out atoms (Wave 1: Quran + hadith only). Writes a per-book scratch JSONL file with no
 dedup. The Librarian handles dedup downstream.
 
-Spec: `_workspace/plan/intelligence-pipeline-wave1-spec.md` §2.1, §4
+Spec: `_workspace/plan/architecture.md` (Intelligence Layer section) and
+      `_workspace/plan/refactor/plan.md` (Wave B).
 Agent: `.github/agents/podcast-librarian.agent.md`
 
 Status (2026-05-25): scaffold only. Wave 1 implementation pending.
@@ -51,14 +52,14 @@ def extract_atoms_for_book(book_dir: Path) -> ExtractorResult:
         5. Halt with CostCapExceeded if cost > R_KNOWLEDGE_EXTRACTOR_COST_CAP_USD.
     """
     raise NotImplementedError(
-        "Wave 1 implementation pending. See _workspace/plan/intelligence-pipeline-wave1-spec.md"
+        "Wave 1 implementation pending. See _workspace/plan/architecture.md (Intelligence Layer section) + _workspace/plan/refactor/plan.md (Wave B)"
     )
 
 
 def main() -> int:
     """CLI entry point: `python3 scripts/podcast/knowledge/extractor.py <slug>`."""
     raise NotImplementedError(
-        "Wave 1 implementation pending. See _workspace/plan/intelligence-pipeline-wave1-spec.md"
+        "Wave 1 implementation pending. See _workspace/plan/architecture.md (Intelligence Layer section) + _workspace/plan/refactor/plan.md (Wave B)"
     )
 
 

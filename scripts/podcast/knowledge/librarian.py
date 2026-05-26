@@ -6,7 +6,8 @@ conflicts to `content/knowledge-base/_conflicts/pending-review.jsonl`.
 
 Pure Python — no LLM calls. Wave 1: exact-match dedup on canonical ID.
 
-Spec: `_workspace/plan/intelligence-pipeline-wave1-spec.md` §2.2, §5
+Spec: `_workspace/plan/architecture.md` (Intelligence Layer section) and
+      `_workspace/plan/refactor/plan.md` (Wave B).
 Agent: `.github/agents/podcast-librarian.agent.md`
 
 Status (2026-05-25): scaffold only. Wave 1 implementation pending.
@@ -58,14 +59,14 @@ def merge_into_library(book_dir: Path, scratch_path: Path) -> MergeReport:
     canonical library beyond adding sources/variants.
     """
     raise NotImplementedError(
-        "Wave 1 implementation pending. See _workspace/plan/intelligence-pipeline-wave1-spec.md"
+        "Wave 1 implementation pending. See _workspace/plan/architecture.md (Intelligence Layer) + _workspace/plan/refactor/plan.md (Wave B)"
     )
 
 
 def main() -> int:
     """CLI entry point: `python3 scripts/podcast/knowledge/librarian.py <slug>`."""
     raise NotImplementedError(
-        "Wave 1 implementation pending. See _workspace/plan/intelligence-pipeline-wave1-spec.md"
+        "Wave 1 implementation pending. See _workspace/plan/architecture.md (Intelligence Layer) + _workspace/plan/refactor/plan.md (Wave B)"
     )
 
 

@@ -9,10 +9,10 @@ Adding a new phase:
      is_done(), execute() per `phases/_base.py`.
   2. Append it to REGISTRY in this file under its owning wave.
   3. Land its scripts/podcast/<deliverable> + tests in the same commit.
-  4. Add acceptance-criteria.md rows if not already present.
+  4. Add per-book-ship-checklist.md rows if not already present.
 
 The wave dispatcher's autonomous loop is fully deterministic given the
-state of (a) the filesystem, (b) acceptance-criteria.md row checkboxes.
+state of (a) the filesystem, (b) per-book-ship-checklist.md row checkboxes.
 """
 from __future__ import annotations
 
