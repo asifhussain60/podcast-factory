@@ -162,6 +162,12 @@ waves:
             - {path: "scripts/podcast/_db.py", max_lines: 400, api: ["get_connection (WAL mode singleton)", "run_migrations (idempotent, 16 SQL files)", "atoms_repository", "atom_sources_repository", "atom_topic_tags_repository", "corpus_chapters_repository", "external_corpora_repository", "manual_review_queue", "run_telemetry"]}
             - {path: "scripts/podcast/_archetypes.py", max_lines: 250, api: ["load_archetype", "resolve_archetype_for_book", "list_archetypes"]}
             - {path: "scripts/podcast/intelligence/_anti_cliche.py", max_lines: 200, exports: ["CAPSTONE_DENY", "SELF_HELP_DENY", "TIER_2_DENY", "AUGMENTER_PRIOR_TREATMENT_DENY"]}
+          - path: "scripts/podcast/knowledge/_atom_schemas.py (extend existing Wave 1 scaffold)"
+            additions:
+              - "DoctrineGenre: Literal[tawil, theology, jurisprudence, ethics, cosmology, narrative, scholarly]"
+              - "DoctrineBody: TypedDict (tradition, genre, binder_id, binder_slug, chapter_id, chapter_slug, section_ids, chunk_index, topic_tags, text_en, quran_refs)"
+              - "AtomType updated: Literal['quran', 'hadith', 'doctrine']"
+              - "doctrine_canonical_id(binder_id, chapter_id, chunk_index) -> str  # 'doctrine:kashkole:<b>:<c>:<i>'"
           archetype_registry_seed:
             location: "content/_shared/archetypes/<slug>/"
             files_per_archetype: ["exemplar.md", "spec.yml", "anti-patterns.md"]
@@ -356,6 +362,13 @@ waves:
           new_R_constants:
             - {name: R_CORPUS_INGEST_MAX_ATOMS_PER_CHAPTER, value: 50}
             - {name: R_CORPUS_INGEST_WARN_VERDICT_SETS_NEEDS_REVIEW, value: true}
+          canonical_id_format: "doctrine:kashkole:<binder_id>:<chapter_id>:<chunk_index>  (chunk_index 0-based within chapter)"
+          chunk_algorithm: "split adapted-extract.en.md on <!-- section N --> markers; group consecutive sections into <=600-word chunks; never split mid-section"
+          source_files:
+            topic_tag_map: "_workspace/kashkole-ksessions/topic-type-map.json (18-row taxonomy + 223 per-topic assignments; no DB access needed)"
+            quran_atoms: "\u27eaquran S:A\u27eb markers in adapted-extract.en.md -> surrounding paragraph (~150 words) as tafsir_note"
+            hadith_atoms: "adaptation-citations.jsonl entries matching hadith collection names"
+          implementation_brief: "_workspace/plan/refactor/KASHKOLE-INTELLIGENCE-PIPELINE-RECOMMENDATION.md"
           tests:
             - "tests/test_kashkole_ingest_idempotent.py"
             - "tests/test_kashkole_refinement_state_machine.py"
@@ -418,6 +431,10 @@ waves:
             path: "infra/git-hooks/post-merge-knowledge.sh"
             installed_to: ".git/hooks/post-merge"
             purpose: "Re-invoke Librarian on content/knowledge-base/knowledge.db if both merged branches touched it"
+          doctrine_tag_index:
+            path: "content/knowledge-base/_index/doctrine-by-tag.json"
+            format: "{tag: [atom_id, ...]} — rebuilt incrementally on each Librarian run"
+            purpose: "O(1) Augmenter lookup without a DB query"
         acceptance:
           - "tests/test_librarian_dedup_quran.py — same canonical ID merges sources"
           - "tests/test_librarian_dedup_hadith.py — different grade triggers conflict + halt"
@@ -444,6 +461,11 @@ waves:
               type: "list[int] optional"
               description: "integers matching topic_type_taxonomy.type_id (see B0 for 18-row seed); absent = doctrine injection silently skipped"
               example: "[1, 3, 7]  # e.g. Ismailism, Hadith Sciences, Quranic Exegesis"
+            scoring_algorithm:
+              doctrine: "score = len(intersection(chapter_topic_signals, atom.topic_tags)); sort desc; cap at 3 atoms (~300 tokens each)"
+              topic_signal_extraction: "\u27eaar:\u2026\u27eb markers + key terms: tawhid, wilaya, tawil, mabda, maad, aql, nafs, hudud, dawat"
+            exclusion_rule: "atoms whose binder_slug == book_slug excluded (book is not its own prior doctrinal source)"
+            prompt_block_format: "[PRIOR DOCTRINAL CONTEXT \u2014 Kashkole corpus] / Topic: {comma-joined topic_tags} / Source: Kashkole \u2014 {binder_slug}, ch. {chapter_slug} / --- / {text_en truncated at sentence boundary}"
             guards:
               - "default_disabled — series.enable_knowledge_augmenter must be true; else empty string"
               - "always strip_arabic_script via _context_injection (DR-012)"

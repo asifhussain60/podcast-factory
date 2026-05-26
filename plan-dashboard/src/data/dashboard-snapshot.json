@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-26T23:41:35.888Z",
-  "source_commit": "8ff6d61",
+  "generated_at": "2026-05-26T23:50:48.473Z",
+  "source_commit": "ab8d0f9",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -432,6 +432,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "ab8d0f9",
+      "subject": "fix(plan): close Kashkole→pipeline flow gap in B2+B3 specs",
+      "date": "2026-05-26"
+    },
+    {
       "sha": "8ff6d61",
       "subject": "feat(wave-1): Kashkole independent refinement — B0 step + corpus_chapters state machine",
       "date": "2026-05-26"
@@ -474,11 +479,6 @@
     {
       "sha": "4ba138c",
       "subject": "dashboard: enrich Wave B step descriptions with database + intelligence detail",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "d42d903",
-      "subject": "dashboard: commit auto-modified data snapshots",
       "date": "2026-05-26"
     }
   ],
