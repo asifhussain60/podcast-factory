@@ -1,0 +1,381 @@
+/* ────────────────────────────────────────────────────────────────
+   chapter-viewer.css
+   Prose styling for the library chapter viewer. Editorial-modern —
+   serif body for long-form reading, Lato everywhere else.
+   No inline styles, no Tailwind utility soup — every visual rule
+   lives here.
+   Imported from theme.css.
+   ──────────────────────────────────────────────────────────────── */
+
+:root {
+  --font-serif: 'Crimson Pro', 'Iowan Old Style', 'Charter', Georgia, 'Times New Roman', serif;
+  --font-arabic: 'Amiri', 'Scheherazade New', 'Noto Naskh Arabic', serif;
+  --reading-size: 18px;
+  --reading-line-height: 1.65;
+  --reading-measure: 68ch;
+}
+
+/* ── Chapter page shell ───────────────────────────────────────── */
+
+.chapter-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.chapter-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  padding: var(--sp-3) 0;
+  border-top: 1px solid var(--c-rule-soft);
+  border-bottom: 1px solid var(--c-rule-soft);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.chapter-toolbar-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  align-items: center;
+}
+
+.chapter-toolbar-label {
+  font-size: var(--fs-sm);
+  color: var(--c-ink-muted);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.chapter-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  padding: var(--sp-1) var(--sp-3);
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-sm);
+  background: var(--c-bg-card);
+  color: var(--c-ink-dim);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.chapter-toggle:hover { box-shadow: var(--shadow-card); }
+
+.chapter-toggle.is-active {
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+  color: white;
+}
+
+/* ── Chapter header ───────────────────────────────────────────── */
+
+.chapter-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding-bottom: var(--sp-4);
+  border-bottom: 1px solid var(--c-rule-soft);
+}
+
+.chapter-eyebrow {
+  font-size: var(--fs-sm);
+  color: var(--c-accent);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.chapter-eyebrow-meta {
+  color: var(--c-ink-muted);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: normal;
+  margin-left: var(--sp-2);
+}
+
+.chapter-title {
+  font-family: var(--font-serif);
+  font-size: 38px;
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0;
+  color: var(--c-ink);
+  text-wrap: balance;
+  letter-spacing: -0.012em;
+}
+
+.gold-hairline-thin {
+  border: none;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--c-gold), transparent);
+  margin: var(--sp-4) 0 0;
+}
+
+/* ── Reading column ───────────────────────────────────────────── */
+
+.reading-column {
+  max-width: var(--reading-measure);
+  margin: 0 auto;
+  font-family: var(--font-serif);
+  font-size: var(--reading-size);
+  line-height: var(--reading-line-height);
+  color: var(--c-ink);
+}
+
+.reading-column--wide { max-width: none; }
+.reading-column--narrow { max-width: 65ch; }
+.reading-column--medium { max-width: 76ch; }
+.reading-column--full { max-width: 100%; }
+
+/* Suppress duplicate H1 inside the prose-body if it matches the chapter title. */
+.reading-column .prose-body > h1:first-child { display: none; }
+
+/* ── Prose body — content rendering ───────────────────────────── */
+
+.prose-body { font-family: var(--font-serif); color: var(--c-ink); }
+.prose-body p { margin: 0 0 1.1em; }
+.prose-body p:last-child { margin-bottom: 0; }
+.prose-body > p:first-child { margin-top: 0.4em; }
+
+.prose-body h1,
+.prose-body h2,
+.prose-body h3,
+.prose-body h4 {
+  font-family: var(--font-serif);
+  color: var(--c-ink);
+  text-wrap: balance;
+  scroll-margin-top: 6rem;
+}
+.prose-body h1 { font-size: 2.0em; font-weight: 600; line-height: 1.2; margin: 1.4em 0 0.5em; letter-spacing: -0.01em; }
+.prose-body h2 { font-size: 1.45em; font-weight: 600; line-height: 1.3; margin: 2em 0 0.6em; letter-spacing: -0.005em; }
+.prose-body h3 { font-size: 1.2em; font-weight: 600; line-height: 1.35; margin: 1.6em 0 0.4em; }
+.prose-body h4 { font-size: 1.05em; font-weight: 600; line-height: 1.4; margin: 1.4em 0 0.3em; }
+
+.prose-body blockquote {
+  border-left: 3px solid var(--c-accent);
+  padding: 0.3em 0 0.3em 1.1em;
+  margin: 1.3em 0;
+  font-style: italic;
+  color: var(--c-ink-dim);
+}
+.prose-body blockquote p { margin: 0.3em 0; }
+.prose-body em { font-style: italic; color: var(--c-ink); }
+.prose-body strong { font-weight: 600; }
+.prose-body hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--c-rule), transparent);
+  margin: 2em 0;
+}
+.prose-body a {
+  color: var(--c-accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(139, 69, 19, 0.4);
+}
+.prose-body a:hover { text-decoration-color: var(--c-accent); }
+.prose-body ul, .prose-body ol { margin: 0.8em 0 0.8em 1.7em; }
+.prose-body li { margin: 0.35em 0; }
+.prose-body code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.88em;
+  background: var(--c-bg-sunken);
+  padding: 0.1em 0.3em;
+  border-radius: var(--r-sm);
+}
+
+/* Markdown comment passthroughs (e.g. "<!-- page 1 -->") render dimly. */
+.md-comment {
+  display: block;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  color: var(--c-ink-muted);
+  background: var(--c-bg-sunken);
+  border-radius: var(--r-sm);
+  padding: 2px var(--sp-2);
+  margin: 1em 0;
+  opacity: 0.7;
+}
+
+/* ── Focus mode ───────────────────────────────────────────────── */
+
+html[data-focus-mode="on"] .prose-body p,
+html[data-focus-mode="on"] .prose-body li {
+  transition: opacity 220ms ease, filter 220ms ease;
+  opacity: 0.32;
+  filter: blur(0.3px);
+}
+html[data-focus-mode="on"] .prose-body p:hover,
+html[data-focus-mode="on"] .prose-body li:hover,
+html[data-focus-mode="on"] .prose-body p:focus-within {
+  opacity: 1;
+  filter: none;
+}
+
+/* ── References (highlight-renderer output) ───────────────────── */
+
+.prose-body .ref {
+  border-bottom: 1px dotted rgba(139, 69, 19, 0.4);
+  transition: background 120ms, border-color 120ms;
+}
+
+.prose-body .ref-quran {
+  cursor: pointer;
+  border-bottom: 1px dotted rgba(184, 134, 11, 0.6);
+}
+.prose-body .ref-quran:hover {
+  background: rgba(184, 134, 11, 0.12);
+  border-bottom-color: var(--c-gold);
+  border-radius: 3px;
+}
+
+.prose-body .ref-hadith {
+  font-variant: small-caps;
+  letter-spacing: 0.02em;
+  color: var(--c-ink-dim);
+  border-bottom: 1px dotted var(--c-accent-soft);
+}
+
+.prose-body .ref-arabic-translit {
+  font-style: italic;
+  color: var(--c-ink-dim);
+}
+
+/* ── Arabic-script overlay ────────────────────────────────────── */
+
+.ar-overlay { display: inline; }
+.ar-overlay .ar-en { display: inline; }
+.ar-overlay .ar-script {
+  display: none;
+  font-family: var(--font-arabic);
+  font-style: normal;
+  font-size: 1.05em;
+  color: var(--c-ink);
+  margin-left: 0.15em;
+}
+
+html[data-arabic="on"] .ar-overlay .ar-en {
+  font-size: 0;
+  letter-spacing: 0;
+}
+html[data-arabic="on"] .ar-overlay .ar-script {
+  display: inline;
+}
+
+/* ── Reading progress sliver ──────────────────────────────────── */
+
+.reading-progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: var(--c-accent);
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  z-index: 60;
+  animation: reading-progress linear;
+  animation-timeline: scroll(root);
+}
+
+@keyframes reading-progress {
+  to { transform: scaleX(1); }
+}
+
+/* ── Prev / next navigation ───────────────────────────────────── */
+
+.chapter-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-4);
+  margin-top: var(--sp-7);
+  padding-top: var(--sp-5);
+  border-top: 1px solid var(--c-rule-soft);
+}
+
+@media (max-width: 720px) {
+  .chapter-nav { grid-template-columns: 1fr; }
+}
+
+.chapter-nav-link {
+  display: block;
+  padding: var(--sp-4);
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-md);
+  background: var(--c-bg-card);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.chapter-nav-link:hover {
+  border-color: var(--c-accent);
+  box-shadow: var(--shadow-card);
+}
+
+.chapter-nav-link.is-next { text-align: right; }
+.chapter-nav-link.is-disabled { visibility: hidden; }
+
+.chapter-nav-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted);
+}
+
+.chapter-nav-title {
+  display: block;
+  margin-top: var(--sp-1);
+  font-family: var(--font-serif);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--c-ink);
+}
+
+.chapter-nav-link:hover .chapter-nav-title { color: var(--c-accent); }
+
+/* ── Copy-to-clipboard floating action ────────────────────────── */
+
+.floating-actions {
+  position: fixed;
+  right: var(--sp-5);
+  bottom: var(--sp-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  z-index: 40;
+}
+
+.floating-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--c-bg-card);
+  color: var(--c-ink-dim);
+  border: 1px solid var(--c-rule);
+  cursor: pointer;
+  box-shadow: var(--shadow-card);
+  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+  font-family: inherit;
+  font-size: 16px;
+}
+
+.floating-action-btn:hover {
+  background: var(--c-accent);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.floating-action-btn.is-flash {
+  background: var(--c-green);
+  color: white;
+}

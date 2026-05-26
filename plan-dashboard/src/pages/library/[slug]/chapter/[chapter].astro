@@ -1,0 +1,207 @@
+---
+import Base from '../../../../layouts/Base.astro';
+import { loadBookIndex, loadChapterSource } from '../../../../lib/reader/chapters';
+import { renderProseWithRefs } from '../../../../lib/reader/render-prose';
+import { loadGlossary, wrapPhoneticTokens } from '../../../../lib/reader/glossary';
+import { formatChapterForCopy } from '../../../../lib/reader/format-for-copy';
+import { findContent, slugToTitle, categoryLabel } from '../../../../lib/content-paths';
+
+const slug = Astro.params.slug;
+const chapterSlug = Astro.params.chapter;
+if (!slug || !chapterSlug) {
+  return new Response('Bad request', { status: 400 });
+}
+
+const ref = await findContent(slug);
+if (!ref) return new Response(`Content "${slug}" not found`, { status: 404 });
+
+const index = await loadBookIndex(slug);
+if (!index) return new Response(`Content "${slug}" has no chapters`, { status: 404 });
+
+const ch = index.chapters.find((c) => c.slug === chapterSlug);
+if (!ch) return new Response(`Chapter "${chapterSlug}" not found`, { status: 404 });
+
+const sourceText = await loadChapterSource(ch.filePath);
+const rendered = renderProseWithRefs(sourceText);
+const glossary = await loadGlossary(slug);
+const withGlossary = wrapPhoneticTokens(rendered.html, glossary);
+const copyText = formatChapterForCopy(sourceText, ch.title);
+
+const ordered = [...index.chapters].sort((a, b) => (a.numericId ?? 999) - (b.numericId ?? 999));
+const idx = ordered.findIndex((c) => c.slug === ch.slug);
+const prev = idx > 0 ? ordered[idx - 1] : null;
+const next = idx >= 0 && idx < ordered.length - 1 ? ordered[idx + 1] : null;
+
+const wordCount = sourceText.split(/\s+/).filter(Boolean).length;
+const readMinutes = Math.max(1, Math.round(wordCount / 220));
+
+const refCounts = rendered.counts;
+const refTotal = rendered.totalRefs;
+
+const contentTitle = slugToTitle(slug);
+const pageTitle = `${ch.title} — ${contentTitle}`;
+---
+<Base title={pageTitle} active="library" description={`Chapter from ${contentTitle}`}>
+  <div class="reading-progress" aria-hidden="true"></div>
+
+  <nav class="lib-breadcrumb">
+    <a href="/library">Library</a>
+    <span class="lib-sep">›</span>
+    <a href={`/library/${slug}`}>{contentTitle}</a>
+    <span class="lib-sep">›</span>
+    <span>Ch{String(ch.numericId ?? '?').padStart(2, '0')} · {ch.title}</span>
+  </nav>
+
+  <section class="chapter-page">
+    <header class="chapter-header">
+      <p class="chapter-eyebrow">
+        {categoryLabel(ref.category)} chapter
+        {ch.numericId !== null && (
+          <span class="chapter-eyebrow-meta">· #{ch.numericId}</span>
+        )}
+        <span class="chapter-eyebrow-meta">· {wordCount.toLocaleString()} words · ~{readMinutes} min read</span>
+        {refTotal > 0 && (
+          <span class="chapter-eyebrow-meta">· {refTotal} reference{refTotal === 1 ? '' : 's'}</span>
+        )}
+      </p>
+      <h1 class="chapter-title">{ch.title}</h1>
+      <hr class="gold-hairline-thin" />
+    </header>
+
+    <div class="chapter-toolbar">
+      <div class="chapter-toolbar-group">
+        <span class="chapter-toolbar-label">Toggles</span>
+        <button class="chapter-toggle" data-toggle="arabic" aria-pressed="false" type="button">Arabic script</button>
+        <button class="chapter-toggle" data-toggle="focus" aria-pressed="false" type="button">Focus mode</button>
+      </div>
+      <div class="chapter-toolbar-group">
+        {refCounts.quran ? <span class="chapter-toolbar-label">Quran · {refCounts.quran}</span> : null}
+        {refCounts.hadith ? <span class="chapter-toolbar-label">Hadith · {refCounts.hadith}</span> : null}
+        {refCounts['arabic-translit'] ? <span class="chapter-toolbar-label">Arabic · {refCounts['arabic-translit']}</span> : null}
+      </div>
+    </div>
+
+    <article class="reading-column reading-column--medium">
+      <div class="prose-body" set:html={withGlossary}></div>
+    </article>
+
+    <nav class="chapter-nav">
+      {prev ? (
+        <a href={`/library/${slug}/chapter/${prev.slug}`} class="chapter-nav-link is-prev">
+          <span class="chapter-nav-label">← Previous · Ch{String(prev.numericId ?? '?').padStart(2, '0')}</span>
+          <span class="chapter-nav-title">{prev.title}</span>
+        </a>
+      ) : (<span class="chapter-nav-link is-disabled" />)}
+      {next ? (
+        <a href={`/library/${slug}/chapter/${next.slug}`} class="chapter-nav-link is-next">
+          <span class="chapter-nav-label">Next · Ch{String(next.numericId ?? '?').padStart(2, '0')} →</span>
+          <span class="chapter-nav-title">{next.title}</span>
+        </a>
+      ) : (<span class="chapter-nav-link is-disabled" />)}
+    </nav>
+  </section>
+
+  <div class="floating-actions">
+    <button class="floating-action-btn" id="copy-chapter" title="Copy chapter to clipboard" type="button" aria-label="Copy chapter text">
+      <i class="fa-solid fa-copy" aria-hidden="true"></i>
+    </button>
+    <button class="floating-action-btn" id="scroll-top" title="Back to top" type="button" aria-label="Scroll to top">
+      <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+    </button>
+  </div>
+
+  <script id="chapter-copy-text" type="text/plain" set:html={copyText}></script>
+
+  <script>
+    (() => {
+      const root = document.documentElement;
+
+      // ── Toggle buttons ──
+      const setToggle = (key: string, on: boolean) => {
+        root.setAttribute(`data-${key}`, on ? 'on' : 'off');
+        document.querySelectorAll(`[data-toggle="${key}"]`).forEach((btn) => {
+          btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+          btn.classList.toggle('is-active', on);
+        });
+        try { localStorage.setItem(`pf-toggle-${key}`, on ? '1' : '0'); } catch {}
+      };
+      document.querySelectorAll('[data-toggle]').forEach((btn) => {
+        const key = btn.getAttribute('data-toggle');
+        if (!key) return;
+        try {
+          const stored = localStorage.getItem(`pf-toggle-${key}`);
+          if (stored === '1') setToggle(key, true);
+        } catch {}
+        btn.addEventListener('click', () => {
+          const isOn = root.getAttribute(`data-${key}`) === 'on';
+          setToggle(key, !isOn);
+        });
+      });
+
+      // ── Copy chapter ──
+      const copyBtn = document.getElementById('copy-chapter');
+      const copySrc = document.getElementById('chapter-copy-text');
+      if (copyBtn && copySrc) {
+        copyBtn.addEventListener('click', async () => {
+          try {
+            await navigator.clipboard.writeText(copySrc.textContent || '');
+            copyBtn.classList.add('is-flash');
+            setTimeout(() => copyBtn.classList.remove('is-flash'), 900);
+          } catch (e) {
+            console.error('copy failed', e);
+          }
+        });
+      }
+
+      // ── Scroll-to-top ──
+      const top = document.getElementById('scroll-top');
+      if (top) {
+        top.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+      }
+
+      // ── Keyboard shortcuts ──
+      // j/k = paragraph nav · g g = top · G = bottom · f = focus · a = arabic
+      let lastG = 0;
+      document.addEventListener('keydown', (e) => {
+        const tag = (e.target as HTMLElement)?.tagName?.toLowerCase();
+        if (tag === 'input' || tag === 'textarea' || (e.target as HTMLElement)?.isContentEditable) return;
+        if (e.metaKey || e.ctrlKey || e.altKey) return;
+        const paras = Array.from(document.querySelectorAll('.prose-body > p, .prose-body > h2, .prose-body > h3')) as HTMLElement[];
+        const viewportMid = window.innerHeight * 0.3;
+        const currentIdx = paras.findIndex((p) => {
+          const r = p.getBoundingClientRect();
+          return r.top >= viewportMid - 50;
+        });
+        if (e.key === 'j') {
+          e.preventDefault();
+          const target = paras[Math.max(0, currentIdx)] ?? paras[0];
+          if (target) {
+            const nx = paras[paras.indexOf(target) + 1] ?? target;
+            nx.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        } else if (e.key === 'k') {
+          e.preventDefault();
+          const target = paras[Math.max(0, currentIdx)] ?? paras[0];
+          if (target) {
+            const px = paras[paras.indexOf(target) - 1] ?? target;
+            px.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        } else if (e.key === 'g') {
+          const now = Date.now();
+          if (now - lastG < 500) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            lastG = 0;
+          } else { lastG = now; }
+        } else if (e.key === 'G') {
+          window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
+        } else if (e.key === 'f') {
+          const next = root.getAttribute('data-focus-mode') === 'on' ? 'off' : 'on';
+          setToggle('focus', next === 'on');
+        } else if (e.key === 'a') {
+          const next = root.getAttribute('data-arabic') === 'on' ? 'off' : 'on';
+          setToggle('arabic', next === 'on');
+        }
+      });
+    })();
+  </script>
+</Base>
