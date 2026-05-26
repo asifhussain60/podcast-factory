@@ -44,7 +44,7 @@
       "depends_on": [
         "A3"
       ],
-      "plain": "The pipeline's main script has grown to over 2 000 lines — too large to read or change safely. This step splits it into smaller specialist files, one per production station, each under the 600-line limit. Changes to one station no longer risk breaking another."
+      "plain": "The pipeline's main script has grown to over 2 000 lines — too large to read or change safely. This step splits it into smaller specialist files, one per production station, each under the 600-line limit. Changes to one station no longer risk breaking another. Acceptance signal: any book currently in progress can resume from exactly where it stopped, with no manual fix required."
     },
     {
       "id": "A5",
