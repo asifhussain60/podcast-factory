@@ -41,28 +41,13 @@ export function getPilotBook(): string {
 }
 
 export async function discoverWorktrees(): Promise<Worktree[]> {
+  // Lazy import to break the cycle (content-paths imports from this file).
+  const { listContent } = await import('./content-paths');
   const repoRoot = getRepoRoot();
-  const draftsRoot = join(repoRoot, 'content', 'drafts');
-
-  let books: string[] = [];
-  try {
-    const entries = await readdir(draftsRoot);
-    for (const b of entries) {
-      if (b.startsWith('.') || b.startsWith('_')) continue;
-      try {
-        const bs = await stat(join(draftsRoot, b));
-        if (bs.isDirectory()) books.push(b);
-      } catch {
-        // ignore
-      }
-    }
-  } catch {
-    return [];  // no content/drafts/ found
-  }
-
+  const refs = await listContent({ stage: 'drafts', category: 'books' });
   return [{
     name: SYNTHETIC_WORKTREE_NAME,
     path: repoRoot,
-    books: books.sort(),
+    books: refs.map((r) => r.slug).sort(),
   }];
 }

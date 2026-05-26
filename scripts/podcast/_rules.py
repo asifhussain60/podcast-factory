@@ -109,7 +109,7 @@ SLIDE_DECK_CHALLENGER_VERSION = "1.0"
 # scaffold_book.py, ingest_source.py, audit_page_markers.py per AU-X1-001 in
 # audit report 2026-05-23-204940. Consumers now `from _rules import ALLOWED_CATEGORIES`.
 # Tuple chosen for immutability + argparse `choices=` compatibility.
-ALLOWED_CATEGORIES = ("books", "articles", "documents", "lectures", "interviews", "letters")
+ALLOWED_CATEGORIES = ("books", "articles", "documents", "lectures", "interviews", "letters", "asbaaq")
 
 # ─── Learning substrate root (relative to repo root). Used by all four
 # learning scripts (aggregate, propose, test, health writer) and by the

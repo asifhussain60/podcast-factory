@@ -3,7 +3,7 @@ import '../styles/theme.css';
 
 interface Props {
   title: string;
-  active: 'home' | 'architecture' | 'infrastructure' | 'dashboard';
+  active: 'home' | 'architecture' | 'infrastructure' | 'dashboard' | 'library';
   description?: string;
 }
 const { title, active, description } = Astro.props;
@@ -25,6 +25,7 @@ const { title, active, description } = Astro.props;
           <a href="/architecture" class={`topnav-link ${active === 'architecture' ? 'is-active' : ''}`}>How it works</a>
           <a href="/infrastructure" class={`topnav-link ${active === 'infrastructure' ? 'is-active' : ''}`}>What it runs on</a>
           <a href="/dashboard" class={`topnav-link ${active === 'dashboard' ? 'is-active' : ''}`}>Live progress</a>
+          <a href="/library" class={`topnav-link ${active === 'library' ? 'is-active' : ''}`}>Library</a>
         </div>
         <div class="topnav-status" id="liveness">
           <span class="dot" id="liveness-dot"></span>

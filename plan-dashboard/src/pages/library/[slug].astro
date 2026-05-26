@@ -1,0 +1,348 @@
+---
+import Base from '../../layouts/Base.astro';
+import { loadDetail, formatBytes, formatModified, categoryLabel } from '../../lib/library';
+
+const slug = Astro.params.slug;
+if (!slug) return Astro.redirect('/library');
+const detail = await loadDetail(slug);
+if (!detail) return Astro.redirect('/library');
+const slugStr: string = slug;
+
+const { summary, meta, chapters, episodes, slideDecks, audio, audits, sourceFiles, glossary, state } = detail;
+
+function fileViewHref(relPath: string): string {
+  return `/api/library/file?slug=${encodeURIComponent(slugStr)}&path=${encodeURIComponent(relPath)}`;
+}
+---
+<Base title={summary.title} active="library" description={`${categoryLabel(summary.category)} — ${summary.title}`}>
+  <header class="stack lib-detail-head">
+    <div class="lib-breadcrumb">
+      <a href="/library">Library</a>
+      <span class="lib-sep">›</span>
+      <span>{categoryLabel(summary.category)}</span>
+    </div>
+    <div class="lib-title-row">
+      <h1>{summary.title}</h1>
+      <span class={`lib-badge lib-badge-${summary.stage}`}>{summary.stage === 'drafts' ? 'Draft' : 'Published'}</span>
+    </div>
+    <p class="card-sub lib-slug">{summary.ref.slug} · {categoryLabel(summary.category)}</p>
+
+    <div class="lib-toolbar">
+      <a href={`#chapters`} class="lib-tab-link">Chapters · {summary.chapterCount}</a>
+      <a href={`#episodes`} class="lib-tab-link">Episodes · {summary.episodeCount}</a>
+      <a href={`#slide-decks`} class="lib-tab-link">Slide decks · {slideDecks.length}</a>
+      <a href={`#audio`} class="lib-tab-link">Audio · {summary.audioCount}</a>
+      <a href={`#audits`} class="lib-tab-link">Audits · {audits.length}</a>
+      <a href={`#source`} class="lib-tab-link">Source · {sourceFiles.length}</a>
+      <a href={`#meta`} class="lib-tab-link">Meta</a>
+    </div>
+  </header>
+
+  <section id="meta" class="stack lib-section">
+    <header class="lib-section-head">
+      <h2>Metadata</h2>
+      <p class="card-sub">From <code>meta.yml</code> — edit inline below.</p>
+    </header>
+    {summary.hasMeta ? (
+      <form class="card stack lib-meta-form" data-slug={slug}>
+        {Object.entries(meta).slice(0, 16).map(([k, v]) => (
+          <label class="lib-field">
+            <span class="lib-field-label">{k}</span>
+            <input class="lib-field-input" type="text" name={k} value={v} readonly />
+          </label>
+        ))}
+        <p class="card-sub">Read-only in v1 — editable in the next iteration.</p>
+      </form>
+    ) : (
+      <p class="card-sub">No <code>meta.yml</code> on disk.</p>
+    )}
+    {state.exists && (
+      <div class="card card-tight">
+        <p class="card-sub"><strong>Pipeline state:</strong> phase = <code>{state.phase ?? '—'}</code> · status = <code>{state.phaseStatus ?? '—'}</code> · last completed = <code>{state.lastCompleted ?? '—'}</code></p>
+      </div>
+    )}
+  </section>
+
+  <section id="chapters" class="stack lib-section">
+    <header class="lib-section-head">
+      <h2>Chapters · {chapters.length}</h2>
+      <p class="card-sub">Authored chapters in <code>chapters/</code>.</p>
+    </header>
+    {chapters.length === 0 ? (
+      <p class="card-sub">No chapters yet.</p>
+    ) : (
+      <div class="lib-file-list">
+        {chapters.map((f) => (
+          <a class="lib-file-row" href={fileViewHref(f.relPath)} target="_blank">
+            <span class="lib-file-name">{f.name}</span>
+            <span class="lib-file-meta">{formatBytes(f.bytes)} · {formatModified(f.modified)}</span>
+          </a>
+        ))}
+      </div>
+    )}
+  </section>
+
+  <section id="episodes" class="stack lib-section">
+    <header class="lib-section-head">
+      <h2>Episodes · {episodes.length}</h2>
+      <p class="card-sub">NotebookLM framings in <code>episodes/</code>.</p>
+    </header>
+    {episodes.length === 0 ? (
+      <p class="card-sub">No episodes yet.</p>
+    ) : (
+      <div class="lib-file-list">
+        {episodes.map((f) => (
+          <a class="lib-file-row" href={fileViewHref(f.relPath)} target="_blank">
+            <span class="lib-file-name">{f.name}</span>
+            <span class="lib-file-meta">{formatBytes(f.bytes)} · {formatModified(f.modified)}</span>
+          </a>
+        ))}
+      </div>
+    )}
+  </section>
+
+  <section id="slide-decks" class="stack lib-section">
+    <header class="lib-section-head">
+      <h2>Slide decks · {slideDecks.length}</h2>
+      <p class="card-sub">One folder per chapter under <code>_system/slide-decks/</code>.</p>
+    </header>
+    {slideDecks.length === 0 ? (
+      <p class="card-sub">No slide decks yet.</p>
+    ) : (
+      <div class="lib-deck-grid">
+        {slideDecks.map((deck) => (
+          <div class="card card-tight stack">
+            <h4 class="card-title lib-deck-title">{deck.slug}</h4>
+            <div class="lib-deck-files">
+              {deck.files.map((f) => (
+                <a class="lib-mini-link" href={fileViewHref(f.relPath)} target="_blank">{f.name}</a>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+  </section>
+
+  <section id="audio" class="stack lib-section">
+    <header class="lib-section-head">
+      <h2>Audio · {summary.audioCount}</h2>
+      <p class="card-sub">NotebookLM Audio Overview downloads in <code>m4a/</code>. Audio is gitignored.</p>
+    </header>
+    {audio.length === 0 ? (
+      <p class="card-sub">No audio files yet.</p>
+    ) : (
+      <div class="lib-file-list">
+        {audio.map((f) => (
+          <a class="lib-file-row" href={fileViewHref(f.relPath)} target="_blank">
+            <span class="lib-file-name">{f.name}</span>
+            <span class="lib-file-meta">{formatBytes(f.bytes)} · {formatModified(f.modified)}</span>
+          </a>
+        ))}
+      </div>
+    )}
+  </section>
+
+  <section id="audits" class="stack lib-section">
+    <header class="lib-section-head">
+      <h2>Audits · {audits.length}</h2>
+      <p class="card-sub">Challenger reports + postprod-review findings.</p>
+    </header>
+    {audits.length === 0 ? (
+      <p class="card-sub">No audits yet.</p>
+    ) : (
+      <div class="lib-file-list">
+        {audits.map((f) => (
+          <a class="lib-file-row" href={fileViewHref(f.relPath)} target="_blank">
+            <span class="lib-file-name">{f.name}</span>
+            <span class="lib-file-meta">{formatBytes(f.bytes)} · {formatModified(f.modified)}</span>
+          </a>
+        ))}
+      </div>
+    )}
+  </section>
+
+  <section id="source" class="stack lib-section">
+    <header class="lib-section-head">
+      <h2>Source · {sourceFiles.length}</h2>
+      <p class="card-sub">Refined English, phonetics, raw extract, source-toc — under <code>_system/source/text/</code>.</p>
+    </header>
+    {sourceFiles.length === 0 ? (
+      <p class="card-sub">No source files yet.</p>
+    ) : (
+      <div class="lib-file-list">
+        {sourceFiles.map((f) => (
+          <a class="lib-file-row" href={fileViewHref(f.relPath)} target="_blank">
+            <span class="lib-file-name">{f.name}</span>
+            <span class="lib-file-meta">{formatBytes(f.bytes)} · {formatModified(f.modified)}</span>
+          </a>
+        ))}
+      </div>
+    )}
+  </section>
+
+  <section class="stack lib-section">
+    <header class="lib-section-head">
+      <h2>Danger zone</h2>
+      <p class="card-sub">Soft-deletes this piece of content to <code>content/_archive/&lt;date&gt;/{summary.ref.slug}/</code>. Reversible.</p>
+    </header>
+    <form method="POST" action={`/api/library/${summary.ref.slug}/archive`}>
+      <button type="submit" class="lib-btn lib-btn-danger" onclick="return confirm('Archive this piece of content?')">Archive</button>
+    </form>
+  </section>
+</Base>
+
+<style>
+  .lib-detail-head { gap: var(--sp-2); }
+  .lib-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    font-size: var(--fs-sm);
+    color: var(--c-ink-muted);
+  }
+  .lib-breadcrumb a { color: var(--c-ink-dim); text-decoration: none; }
+  .lib-breadcrumb a:hover { color: var(--c-accent); }
+  .lib-sep { color: var(--c-ink-muted); }
+  .lib-title-row {
+    display: flex;
+    align-items: baseline;
+    gap: var(--sp-4);
+    flex-wrap: wrap;
+  }
+  .lib-title-row h1 { margin: 0; }
+  .lib-slug {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12px;
+  }
+  .lib-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-3);
+    margin-top: var(--sp-3);
+    padding: var(--sp-3) 0;
+    border-top: 1px solid var(--c-rule-soft);
+    border-bottom: 1px solid var(--c-rule-soft);
+  }
+  .lib-tab-link {
+    color: var(--c-ink-dim);
+    text-decoration: none;
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    padding: var(--sp-1) var(--sp-2);
+    border-radius: var(--r-sm);
+  }
+  .lib-tab-link:hover { background: var(--c-bg-sunken); color: var(--c-accent); }
+  .lib-section { margin-top: var(--sp-6); scroll-margin-top: var(--sp-5); }
+  .lib-section-head h2 { margin: 0 0 var(--sp-1) 0; }
+  .lib-file-list {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--c-rule-soft);
+    border-radius: var(--r-md);
+    background: var(--c-bg-card);
+    overflow: hidden;
+  }
+  .lib-file-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--sp-3) var(--sp-4);
+    text-decoration: none;
+    color: inherit;
+    border-bottom: 1px solid var(--c-rule-soft);
+    transition: background 0.12s ease;
+  }
+  .lib-file-row:last-child { border-bottom: none; }
+  .lib-file-row:hover { background: var(--c-bg-sunken); }
+  .lib-file-name {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12.5px;
+  }
+  .lib-file-meta {
+    font-size: var(--fs-sm);
+    color: var(--c-ink-muted);
+  }
+  .lib-deck-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: var(--sp-3);
+  }
+  .lib-deck-title {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 13px;
+    word-break: break-all;
+  }
+  .lib-deck-files {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-1);
+  }
+  .lib-mini-link {
+    font-size: 11.5px;
+    color: var(--c-ink-dim);
+    text-decoration: none;
+    padding: 2px 0;
+    word-break: break-all;
+  }
+  .lib-mini-link:hover { color: var(--c-accent); }
+  .lib-meta-form { padding: var(--sp-4); }
+  .lib-field {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    align-items: center;
+    gap: var(--sp-3);
+  }
+  .lib-field-label {
+    font-size: var(--fs-sm);
+    color: var(--c-ink-muted);
+    font-weight: 600;
+  }
+  .lib-field-input {
+    padding: var(--sp-1) var(--sp-2);
+    border: 1px solid var(--c-rule);
+    border-radius: var(--r-sm);
+    background: var(--c-bg);
+    color: var(--c-ink);
+    font: inherit;
+  }
+  .lib-badge {
+    display: inline-block;
+    padding: 2px var(--sp-2);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: var(--r-sm);
+  }
+  .lib-badge-drafts {
+    background: rgba(192, 128, 32, 0.14);
+    color: var(--c-amber);
+    border: 1px solid rgba(192, 128, 32, 0.3);
+  }
+  .lib-badge-published {
+    background: rgba(74, 124, 74, 0.12);
+    color: var(--c-green);
+    border: 1px solid rgba(74, 124, 74, 0.3);
+  }
+  .lib-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-2);
+    padding: var(--sp-2) var(--sp-4);
+    border-radius: var(--r-md);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: var(--fs-sm);
+    border: 1px solid var(--c-rule);
+    color: var(--c-ink);
+    background: var(--c-bg-card);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .lib-btn:hover { box-shadow: var(--shadow-hover); }
+  .lib-btn-danger {
+    color: var(--c-red);
+    border-color: rgba(168, 50, 50, 0.4);
+  }
+</style>

@@ -1,0 +1,119 @@
+---
+import Base from '../../layouts/Base.astro';
+import { ACTIVE_CATEGORIES, categoryLabel } from '../../lib/content-paths';
+---
+<Base title="New content" active="library" description="Create a new draft — book, lecture, or sabaq.">
+  <header class="stack">
+    <div class="lib-breadcrumb">
+      <a href="/library">Library</a>
+      <span class="lib-sep">›</span>
+      <span>New</span>
+    </div>
+    <h1>Create a new draft.</h1>
+    <p class="lede">
+      Pick a category and a kebab-case slug. The portal scaffolds the canonical directory under
+      <code>content/drafts/&lt;category&gt;/&lt;slug&gt;/</code> and writes a starter <code>meta.yml</code>.
+      You can upload source files from the detail page after creation.
+    </p>
+  </header>
+
+  <section class="stack">
+    <form method="POST" action="/api/library/new" class="card stack lib-new-form">
+      <label class="lib-field">
+        <span class="lib-field-label">Category</span>
+        <select name="category" class="lib-field-input" required>
+          {ACTIVE_CATEGORIES.map((c) => (
+            <option value={c}>{categoryLabel(c)} ({c})</option>
+          ))}
+        </select>
+      </label>
+
+      <label class="lib-field">
+        <span class="lib-field-label">Slug</span>
+        <input
+          name="slug"
+          class="lib-field-input"
+          type="text"
+          placeholder="e.g. kitab-al-iman"
+          pattern="^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          required
+        />
+      </label>
+
+      <label class="lib-field">
+        <span class="lib-field-label">Title</span>
+        <input
+          name="title"
+          class="lib-field-input"
+          type="text"
+          placeholder="(optional — defaults to slug)"
+        />
+      </label>
+
+      <p class="card-sub">
+        <strong>What this does:</strong> creates the directory tree on disk and writes <code>meta.yml</code>.
+        It does NOT start the pipeline. To begin pipeline processing, use the orchestrator separately —
+        that's a multi-hour LLM-spend operation and stays explicit.
+      </p>
+
+      <div class="lib-form-actions">
+        <button type="submit" class="lib-btn lib-btn-primary">Create</button>
+        <a href="/library" class="lib-btn">Cancel</a>
+      </div>
+    </form>
+  </section>
+</Base>
+
+<style>
+  .lib-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    font-size: var(--fs-sm);
+    color: var(--c-ink-muted);
+  }
+  .lib-breadcrumb a { color: var(--c-ink-dim); text-decoration: none; }
+  .lib-breadcrumb a:hover { color: var(--c-accent); }
+  .lib-sep { color: var(--c-ink-muted); }
+  .lib-new-form { padding: var(--sp-5); max-width: 640px; gap: var(--sp-4); }
+  .lib-field {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    align-items: center;
+    gap: var(--sp-3);
+  }
+  .lib-field-label {
+    font-size: var(--fs-sm);
+    color: var(--c-ink-muted);
+    font-weight: 600;
+  }
+  .lib-field-input {
+    padding: var(--sp-2) var(--sp-3);
+    border: 1px solid var(--c-rule);
+    border-radius: var(--r-sm);
+    background: var(--c-bg);
+    color: var(--c-ink);
+    font: inherit;
+  }
+  .lib-form-actions { display: flex; gap: var(--sp-3); justify-content: flex-end; }
+  .lib-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--sp-2) var(--sp-4);
+    border-radius: var(--r-md);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: var(--fs-sm);
+    border: 1px solid var(--c-rule);
+    color: var(--c-ink);
+    background: var(--c-bg-card);
+    cursor: pointer;
+  }
+  .lib-btn:hover { box-shadow: var(--shadow-hover); }
+  .lib-btn-primary {
+    background: var(--c-accent);
+    color: white;
+    border-color: var(--c-accent);
+  }
+  .lib-btn-primary:hover { background: #6d3510; }
+</style>

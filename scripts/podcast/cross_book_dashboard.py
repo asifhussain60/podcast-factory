@@ -43,6 +43,9 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 DRAFTS = REPO_ROOT / "content" / "drafts"
 PUBLISHED = REPO_ROOT / "content" / "published" / "books"
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from _paths import iter_content  # noqa: E402  canonical content iterator
+
 
 def _parse_since(spec: str | None) -> datetime | None:
     """Convert '7d', '30d', '24h' etc. to a UTC cutoff timestamp; None for all-time."""
@@ -136,6 +139,15 @@ def _chapter_timing_stats(book_dir: Path) -> str:
     return f"{mean / 60:.1f}m × {len(durations)}"
 
 
+def _stage_label_from_path(book_dir: Path) -> str:
+    """Return 'draft' or 'published' from the book directory path."""
+    if str(book_dir).startswith(str(DRAFTS)):
+        return "draft"
+    if str(book_dir).startswith(str(PUBLISHED)):
+        return "published"
+    return "unknown"
+
+
 def _category_label(book_dir: Path) -> str:
     """Best-effort: 'in-flight' for drafts/, 'shipped' for published/books/."""
     if str(book_dir).startswith(str(DRAFTS)):
@@ -146,35 +158,30 @@ def _category_label(book_dir: Path) -> str:
 
 
 def collect_fleet(since: datetime | None) -> list[dict]:
-    """Walk both content trees; return one dict per book."""
+    """Walk both content trees via _paths.iter_content; return one dict per book."""
     fleet: list[dict] = []
     seen: set[str] = set()
-    for root in (DRAFTS, PUBLISHED):
-        if not root.is_dir():
+    for stage, _category, entry in iter_content():
+        if entry.name in seen:
             continue
-        for entry in sorted(root.iterdir()):
-            if not entry.is_dir() or entry.name.startswith("_") or entry.name.startswith("."):
-                continue
-            if entry.name in seen:
-                continue
-            seen.add(entry.name)
-            state = _read_state(entry)
-            phase = state.get("phase", "—")
-            status = state.get("phase_status", "—")
-            last_phase = state.get("last_completed_phase", "—")
-            total, rows, last_ts = _read_cost_ledger(entry, since)
-            fleet.append({
-                "book": entry.name,
-                "category": _category_label(entry),
-                "phase": phase,
-                "status": status,
-                "last_completed": last_phase,
-                "chapters": _chapter_progress(entry),
-                "ch_mean_time": _chapter_timing_stats(entry),
-                "cost_usd": round(total, 2),
-                "ledger_rows": rows,
-                "last_cost_ts": last_ts,
-            })
+        seen.add(entry.name)
+        state = _read_state(entry)
+        phase = state.get("phase", "—")
+        status = state.get("phase_status", "—")
+        last_phase = state.get("last_completed_phase", "—")
+        total, rows, last_ts = _read_cost_ledger(entry, since)
+        fleet.append({
+            "book": entry.name,
+            "category": "draft" if stage == "drafts" else "published",
+            "phase": phase,
+            "status": status,
+            "last_completed": last_phase,
+            "chapters": _chapter_progress(entry),
+            "ch_mean_time": _chapter_timing_stats(entry),
+            "cost_usd": round(total, 2),
+            "ledger_rows": rows,
+            "last_cost_ts": last_ts,
+        })
     return fleet
 
 

@@ -24,7 +24,6 @@ import { readdir, readFile, stat } from 'node:fs/promises';
 import { basename, join } from 'node:path';
 import { load as yamlLoad } from 'js-yaml';
 
-import { getWorktreesRoot } from './worktree-glob';
 
 export interface BookChapter {
   slug: string;              // 'ch01-the-perfect-and-the-perfection-of-the-soul'
@@ -51,17 +50,18 @@ export interface BookIndex {
   episodes: BookEpisode[];
 }
 
-function bookRoot(worktree: string, book: string): string {
-  // After 2026-05-23 restructure: books live at <repo-root>/content/drafts/<book>/.
-  // The `worktree` argument is kept for callsite API compatibility but no
-  // longer affects the path (there is only one canonical location now —
-  // worktrees collapsed into a flat repo).
-  void worktree;
-  return join(getWorktreesRoot(), 'content', 'drafts', book);
+async function bookRoot(book: string): Promise<string | null> {
+  // After 2026-05-26 restructure: content lives at
+  // <repo-root>/content/<stage>/<category>/<slug>/. Use findContent so the
+  // reader handles legacy flat layout too during partial migrations.
+  const { findContent } = await import('./content-paths');
+  const ref = await findContent(book);
+  return ref ? ref.dir : null;
 }
 
 export async function loadBookIndex(worktree: string, book: string): Promise<BookIndex | null> {
-  const root = bookRoot(worktree, book);
+  const root = await bookRoot(book);
+  if (!root) return null;
   try {
     const s = await stat(root);
     if (!s.isDirectory()) return null;

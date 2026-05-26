@@ -94,11 +94,11 @@ from _convergence import (  # noqa: E402
 )
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-# 2026-05-23 restructure: per-book workshop moved from _workspace/<category>/<slug>/
-# to content/drafts/<slug>/ (flat — no category subdir, since all current content
-# is books). For non-book categories that may be added in the future, fallback
-# to category-prefixed paths (content/drafts/<cat>/<slug>/) is preserved in
-# the _book_dir lookup logic below.
+# 2026-05-26 restructure: canonical layout is content/<stage>/<category>/<slug>/
+# (e.g. content/drafts/books/the-master-and-the-disciple). The _paths resolver
+# is the single source of truth — see scripts/podcast/_paths.py. LIBRARY_ROOT
+# below points at the drafts root for legacy callers that still iterate it
+# directly; new code should go through _paths.content_dir() / find_content().
 LIBRARY_ROOT = REPO_ROOT / "content" / "drafts"
 SCAFFOLD_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "scaffold_book.py"
 INGEST_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "ingest_source.py"
@@ -111,6 +111,7 @@ AUDIT_BUNDLE_GEMINI_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "audit_bundle_g
 LOCKS_DIR = Path.home() / ".podcast-locks"
 
 from _rules import ALLOWED_CATEGORIES  # noqa: E402  centralized 2026-05-23 per AU-X1-001
+from _paths import content_dir as _paths_content_dir, find_content as _paths_find_content, relative_to_repo as _paths_rel  # noqa: E402  canonical resolver
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 
 
@@ -136,41 +137,19 @@ def _info(msg: str) -> None:
 
 
 def _resolve_book_path(category: str, slug: str) -> Path:
-    """Return the canonical content/drafts path for a piece of content.
+    """Return the canonical drafts path for a piece of content.
 
-    Post-2026-05-23 restructure: 'books' category is flat at
-    content/drafts/<slug>/. Other categories use the nested layout
-    content/drafts/<cat>/<slug>/ (for future articles, lectures, etc.).
-
-    Prior version called itself recursively on the non-book branch, blowing
-    the stack on any category other than 'books'. Fixed 2026-05-24.
+    Thin wrapper around _paths.content_dir() — kept for backward compat
+    with existing call sites. Use _paths.content_dir() directly in new code.
     """
-    if category == "books":
-        return LIBRARY_ROOT / slug
-    return LIBRARY_ROOT / category / slug
+    return _paths_content_dir(slug, stage="drafts", category=category)
 
 
 def _book_dir(book_slug: str) -> Path | None:
-    """Resolve <slug> to content/drafts/<slug>/ (flat books layout, 2026-05-23
-    restructure), with fallback to content/drafts/<category>/<slug>/ for any
-    future non-book categories.
-
-    Post-restructure: books live flat under content/drafts/ with no category
-    subdir (since all current content is books). For non-book categories
-    that might be added later, the per-category subdir layout is still
-    recognized.
-    """
-    # Primary lookup: flat books layout
-    flat_path = LIBRARY_ROOT / book_slug
-    if flat_path.is_dir():
-        return flat_path
-    # Fallback: per-category layout (for future articles/lectures/etc.)
-    matches = [
-        LIBRARY_ROOT / cat / book_slug
-        for cat in ALLOWED_CATEGORIES
-        if (LIBRARY_ROOT / cat / book_slug).is_dir()
-    ]
-    return matches[0] if len(matches) == 1 else None
+    """Locate <slug> across all stage/category combos (canonical layout
+    first, then legacy fallbacks). Returns the directory or None."""
+    found = _paths_find_content(book_slug)
+    return found[2] if found else None
 
 
 # ─── slug derivation ─────────────────────────────────────────────────────────
@@ -328,7 +307,13 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
     if rc != 0:
         fails.append("git status failed; cannot determine working-tree state")
     else:
-        book_runtime_prefix = f"content/drafts/{book_slug}/"
+        # Stamp the actual on-disk path prefix for this book (post-2026-05-26
+        # restructure: content/drafts/books/<slug>/; legacy layouts also accepted).
+        _bd_for_prefix = _book_dir(book_slug)
+        if _bd_for_prefix is not None:
+            book_runtime_prefix = f"{_paths_rel(_bd_for_prefix)}/"
+        else:
+            book_runtime_prefix = f"content/drafts/books/{book_slug}/"
         runtime_artifact_suffixes = (
             "/_system/cost-ledger.jsonl",
             "/_system/orchestrator-state.json",

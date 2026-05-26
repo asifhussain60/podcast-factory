@@ -1,0 +1,182 @@
+---
+import Base from '../../layouts/Base.astro';
+import {
+  ACTIVE_CATEGORIES,
+  groupByCategory,
+  listAllSummaries,
+  type Category,
+} from '../../lib/library';
+
+const summaries = await listAllSummaries();
+const grouped = groupByCategory(summaries);
+
+function categoryHeading(cat: Category): string {
+  switch (cat) {
+    case 'books': return 'Books';
+    case 'lectures': return 'Lectures';
+    case 'asbaaq': return 'Asbaaq';
+    default: return cat;
+  }
+}
+
+function categoryBlurb(cat: Category): string {
+  switch (cat) {
+    case 'books': return 'Scholarly works in the pipeline. PDFs, DOCX, TXT — Arabic, English, Urdu.';
+    case 'lectures': return 'Recorded English lectures awaiting transcription and structuring.';
+    case 'asbaaq': return 'Urdu lessons. Multi-file audio with gap-filling under design.';
+    default: return '';
+  }
+}
+
+const totalDrafts = summaries.filter((s) => s.stage === 'drafts').length;
+const totalPublished = summaries.filter((s) => s.stage === 'published').length;
+---
+<Base title="Library" active="library" description="Every piece of content in the factory — drafts and published — in one place.">
+  <header class="stack">
+    <span class="eyebrow">Library</span>
+    <h1>Every piece of content in one place.</h1>
+    <p class="lede">
+      Books, lectures, and asbaaq — both still-in-flight drafts and published releases. Click any card to open
+      its workshop view: chapters, episodes, slide-decks, source files, audio, and audits.
+    </p>
+  </header>
+
+  <section class="grid-3">
+    <div class="card metric">
+      <span class="metric-label">In drafts</span>
+      <span class="metric-value">{totalDrafts}</span>
+      <span class="card-sub">Pieces of content still being worked on</span>
+    </div>
+    <div class="card metric">
+      <span class="metric-label">Published</span>
+      <span class="metric-value">{totalPublished}</span>
+      <span class="card-sub">Pieces released to the audience-facing catalog</span>
+    </div>
+    <div class="card metric">
+      <span class="metric-label">Active categories</span>
+      <span class="metric-value">{ACTIVE_CATEGORIES.length}</span>
+      <span class="card-sub">Books, lectures, asbaaq — others reserved for later</span>
+    </div>
+  </section>
+
+  <section class="stack">
+    <div class="library-actions">
+      <a href="/library/new" class="lib-btn lib-btn-primary">+ New content</a>
+    </div>
+  </section>
+
+  {ACTIVE_CATEGORIES.map((cat) => {
+    const items = grouped.get(cat) ?? [];
+    return (
+      <section class="stack lib-category-section">
+        <header class="lib-section-head">
+          <h2>{categoryHeading(cat)}</h2>
+          <p class="card-sub">{categoryBlurb(cat)}</p>
+        </header>
+        {items.length === 0 ? (
+          <div class="card card-tight lib-empty">
+            <p class="card-sub">No {categoryHeading(cat).toLowerCase()} yet. Use <a href="/library/new">+ New content</a> to create the first one.</p>
+          </div>
+        ) : (
+          <div class="grid-3">
+            {items.map((s) => (
+              <a href={`/library/${s.ref.slug}`} class="card card-hover stack lib-card">
+                <div class="lib-card-head">
+                  <span class={`lib-badge lib-badge-${s.stage}`}>{s.stage === 'drafts' ? 'Draft' : 'Published'}</span>
+                </div>
+                <h3 class="card-title">{s.title}</h3>
+                <p class="card-sub lib-slug">{s.ref.slug}</p>
+                <div class="lib-stats">
+                  {s.hasChapters && <span class="lib-chip">{s.chapterCount} chapter{s.chapterCount === 1 ? '' : 's'}</span>}
+                  {s.hasEpisodes && <span class="lib-chip">{s.episodeCount} episode{s.episodeCount === 1 ? '' : 's'}</span>}
+                  {s.hasAudio && <span class="lib-chip">{s.audioCount} audio</span>}
+                  {s.hasSlideDecks && <span class="lib-chip">slide decks</span>}
+                </div>
+              </a>
+            ))}
+          </div>
+        )}
+      </section>
+    );
+  })}
+</Base>
+
+<style>
+  .lib-category-section { margin-top: var(--sp-6); }
+  .lib-section-head h2 { margin: 0 0 var(--sp-1) 0; }
+  .lib-card {
+    align-items: stretch;
+    text-decoration: none;
+    color: inherit;
+  }
+  .lib-card-head {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .lib-badge {
+    display: inline-block;
+    padding: 2px var(--sp-2);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: var(--r-sm);
+  }
+  .lib-badge-drafts {
+    background: rgba(192, 128, 32, 0.14);
+    color: var(--c-amber);
+    border: 1px solid rgba(192, 128, 32, 0.3);
+  }
+  .lib-badge-published {
+    background: rgba(74, 124, 74, 0.12);
+    color: var(--c-green);
+    border: 1px solid rgba(74, 124, 74, 0.3);
+  }
+  .lib-slug {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 11.5px;
+  }
+  .lib-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-1);
+    margin-top: auto;
+    padding-top: var(--sp-2);
+  }
+  .lib-chip {
+    font-size: 11px;
+    padding: 2px var(--sp-2);
+    background: var(--c-bg-sunken);
+    color: var(--c-ink-dim);
+    border-radius: var(--r-sm);
+    border: 1px solid var(--c-rule-soft);
+  }
+  .lib-actions { display: flex; gap: var(--sp-3); }
+  .library-actions { display: flex; gap: var(--sp-3); align-items: center; }
+  .lib-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-2);
+    padding: var(--sp-2) var(--sp-4);
+    border-radius: var(--r-md);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: var(--fs-sm);
+    border: 1px solid var(--c-rule);
+    color: var(--c-ink);
+    background: var(--c-bg-card);
+    transition: all 0.15s ease;
+  }
+  .lib-btn:hover { box-shadow: var(--shadow-hover); }
+  .lib-btn-primary {
+    background: var(--c-accent);
+    color: white;
+    border-color: var(--c-accent);
+  }
+  .lib-btn-primary:hover { background: #6d3510; }
+  .lib-btn-danger {
+    color: var(--c-red);
+    border-color: rgba(168, 50, 50, 0.4);
+  }
+  .lib-empty { border-style: dashed; }
+</style>

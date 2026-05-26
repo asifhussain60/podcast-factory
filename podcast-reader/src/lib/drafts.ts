@@ -5,28 +5,19 @@
  * For the reader's "Podcast Drafts" navigation path, we expose a flat list
  * of drafts with metadata extracted from `_system/source/text/`.
  */
-import { readdir, readFile, stat } from 'node:fs/promises';
+import { readFile, stat } from 'node:fs/promises';
 import { join } from 'node:path';
-import { getRepoRoot } from './worktree-glob';
-
-const DRAFTS_RELPATH = 'content/drafts';
+import { listContent, type Category, type Stage } from './content-paths';
 
 export interface DraftRecord {
   slug: string;
   draftDir: string;
+  category: Category;
+  stage: Stage;
   displayTitle: string;
   hasRefinedEnglish: boolean;
   hasRawExtract: boolean;
   hasPhonetics: boolean;
-}
-
-async function isDir(p: string): Promise<boolean> {
-  try {
-    const s = await stat(p);
-    return s.isDirectory();
-  } catch {
-    return false;
-  }
 }
 
 async function fileExists(p: string): Promise<boolean> {
@@ -51,26 +42,21 @@ function slugToTitle(slug: string): string {
 }
 
 export async function discoverDrafts(): Promise<DraftRecord[]> {
-  const root = join(getRepoRoot(), DRAFTS_RELPATH);
-  if (!(await isDir(root))) return [];
-
-  const slugs = (await readdir(root)).filter(
-    (d) => !d.startsWith('.') && !d.startsWith('_'),
-  );
+  const refs = await listContent({ stage: 'drafts' });
   const out: DraftRecord[] = [];
-  for (const slug of slugs.sort()) {
-    const draftDir = join(root, slug);
-    if (!(await isDir(draftDir))) continue;
-    const textDir = join(draftDir, '_system', 'source', 'text');
+  for (const ref of refs) {
+    const textDir = join(ref.dir, '_system', 'source', 'text');
     const hasRefinedEnglish = await fileExists(join(textDir, 'refined-english.md'));
     const hasRawExtract = await fileExists(join(textDir, 'raw-extract.md'));
     const hasPhonetics = await fileExists(join(textDir, '_phonetics.md'));
     // Only surface drafts that have at least one text artifact
     if (!hasRefinedEnglish && !hasRawExtract) continue;
     out.push({
-      slug,
-      draftDir,
-      displayTitle: slugToTitle(slug),
+      slug: ref.slug,
+      draftDir: ref.dir,
+      category: ref.category,
+      stage: ref.stage,
+      displayTitle: slugToTitle(ref.slug),
       hasRefinedEnglish,
       hasRawExtract,
       hasPhonetics,

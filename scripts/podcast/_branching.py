@@ -17,6 +17,7 @@ POLICY (locked 2026-05-24, reversing the 2026-05-23 single-branch model):
       article/<full-slug>     — for articles
       letter/<full-slug>      — for letters
       interview/<full-slug>   — for interviews
+      sabaq/<full-slug>       — for an Urdu lesson (one of the asbaaq)
       draft/<full-slug>       — fallback when category is unknown/unset
 
   Slugs are ALWAYS the full kebab-cased name. Never abbreviate.
@@ -40,6 +41,7 @@ _CATEGORY_TO_PREFIX = {
     "articles":   "article",
     "letters":    "letter",
     "interviews": "interview",
+    "asbaaq":     "sabaq",
 }
 
 # Fallback prefix when category is unknown, unset, or doesn't match the map.
