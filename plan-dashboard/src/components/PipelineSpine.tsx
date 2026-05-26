@@ -347,24 +347,34 @@ export default function PipelineSpine({ phases, modules, agents }: Props) {
 
               {phaseModules.length > 0 && (
                 <div className="station-section-modules">
-                  <span className="eyebrow section-sub-eyebrow">What plugs in here</span>
+                  <span className="eyebrow section-sub-eyebrow">Azure services used</span>
                   <div className="section-module-grid">
-                    {phaseModules.map((m) => (
-                      <div key={m.id} className="section-module">
-                        <div className="section-module-head">
-                          <i className="fa-solid fa-puzzle-piece" aria-hidden="true"></i>
-                          <strong>{m.name}</strong>
+                    {phaseModules.map((m) => {
+                      const azChip = AZURE_MODULE_CHIPS[m.id];
+                      return (
+                        <div key={m.id} className="section-module">
+                          <div className="section-module-head">
+                            <i className="fa-solid fa-puzzle-piece" aria-hidden="true"></i>
+                            <strong>{m.name}</strong>
+                            {azChip?.resource && (
+                              <code style={{ fontSize: 'var(--fs-2xs)', opacity: 0.65, fontFamily: "ui-monospace,'SF Mono',monospace", marginLeft: '4px' }}>
+                                azure.{azChip.resource}
+                              </code>
+                            )}
+                          </div>
+                          <p className="small muted">{m.plain}</p>
                         </div>
-                        <p className="small muted">{m.plain}</p>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
               )}
 
               {agent && (
                 <div className="station-section-agent">
-                  <span className="eyebrow section-sub-eyebrow">Who does the work</span>
+                  <span className="eyebrow section-sub-eyebrow">
+                    {p.kind === 'hybrid' ? 'Claude + Azure runs this step' : 'Claude runs this step'}
+                  </span>
                   <AgentCard agent={agent} />
                 </div>
               )}
@@ -373,7 +383,7 @@ export default function PipelineSpine({ phases, modules, agents }: Props) {
                 <div className="focus-empty">
                   <i className="fa-solid fa-gear focus-empty-icon" aria-hidden="true"></i>
                   <div>
-                    <strong>No agent here — this station is mechanical.</strong>
+                    <strong>Python runs this step.</strong>
                     <p className="small muted">A deterministic script does this work the same way for every book. Nothing to reason about, nothing to drift.</p>
                   </div>
                 </div>
