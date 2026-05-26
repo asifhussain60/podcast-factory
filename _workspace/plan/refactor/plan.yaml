@@ -1,0 +1,1022 @@
+# Pipeline Refactor — Machine-Readable Roadmap
+# Companion to refactor/plan.md (human-readable). Architecture-first companion: every
+# step here traces to a layer in ../architecture.md. Single source of truth.
+
+meta:
+  plan_id: pipeline-refactor
+  status: AWAITING_APPROVAL
+  generated_at: 2026-05-26
+  branch_target: develop
+  approved_by: null
+  approved_at: null
+  authored_by: Claude Opus 4.7
+  companion_files:
+    architecture: ../architecture.md
+    human_readable: plan.md
+  doctrine:
+    no_file_versions: |
+      No file in this repo carries a version suffix or version header (DR-009).
+      Pre-commit hook rejects 'Version: \d' in tracked files and new files matching
+      '*v[0-9]*.md'. Git history IS the version log.
+    retroactive_for_shipped: |
+      Shipped books (KaR, M&D, Ayyuhal Walad, ISLR Mas-I, Asaas al-Taveel) receive
+      enhancements as addendum episodes + metadata stamps + extraction-only passes.
+      They are NEVER re-run through the pipeline (DR-013). Every enhancement still
+      becomes default for the next forward book.
+    modularization: |
+      No file in scripts/podcast/ exceeds 600 lines (DR-005). Six-layer dependency
+      chain (Core → Domain → Intelligence + Authoring → Phases → Driver) with no
+      cycles. SOLID + DRY enforced by line caps + acyclic dependency analysis.
+    database: |
+      SQLite + JSON1 for v1 (DR-001). Single file at content/knowledge-base/knowledge.db.
+      WAL mode. SQLAlchemy ORM keeps the Wave-2 Postgres+pgvector migration path open.
+      Zero infrastructure on any Mac.
+
+# ---------------------------------------------------------------------------
+# Anchors — reusable structures (DRY)
+# ---------------------------------------------------------------------------
+anchors:
+  tier_zero: &tier_zero { authorization: 0, description: "Just do it; no per-action acknowledgement." }
+  tier_one:  &tier_one  { authorization: 1, description: "Do, then surface in the At-a-glance." }
+  tier_two:  &tier_two  { authorization: 2, description: "Always ask. One-line ask + single-sentence Next." }
+
+# ---------------------------------------------------------------------------
+# Inherited / Locked decisions (cross-reference architecture.md ADRs)
+# ---------------------------------------------------------------------------
+locked_decisions:
+  - {ref: DR-001, decision: "SQLite + JSON1 v1; Postgres + pgvector at Wave 2"}
+  - {ref: DR-002, decision: "Tier-2 capstone NEVER reads chapter-scope material"}
+  - {ref: DR-003, decision: "Per-content-type typed branch policy"}
+  - {ref: DR-004, decision: "Letter-suffix phase IDs (08a/08b/08c)"}
+  - {ref: DR-005, decision: "Every scripts/podcast/ file ≤ 600 lines"}
+  - {ref: DR-006, decision: "architecture.md independent of docs/architecture/index.html"}
+  - {ref: DR-007, decision: "Augmenter default-disabled until G12 fires green"}
+  - {ref: DR-008, decision: "Per-book scratch stays JSONL, not SQLite"}
+  - {ref: DR-009, decision: "No version stamps in tracked files; pre-commit hook enforces"}
+  - {ref: DR-010, decision: "Astro for plan SPA + design tokens shared with podcast-reader"}
+  - {ref: DR-011, decision: "Cross-tradition guard via tradition_adjacency.yml"}
+  - {ref: DR-012, decision: "Augmenter strips text_ar before injection"}
+  - {ref: DR-013, decision: "Retroactive enhancements for shipped books = addendum-only"}
+
+# ===========================================================================
+# WAVE A — Foundation
+# ===========================================================================
+
+waves:
+
+  - id: A
+    name: Foundation
+    parallel_with: []
+    steps:
+
+      - id: A1
+        title: "Clean the legacy plan folder and stand up the nested structure"
+        depends_on: []
+        runs_before: "every other step"
+        rationale: "User doctrine: fold pending work, delete legacy, no v2/v3 versions"
+        deliverables:
+          new_nested_structure:
+            "_workspace/plan/":
+              - "README.md (rewritten — concise index)"
+              - "index.html (SPA launcher — built in Wave D)"
+              - "architecture.md (timeless design — already written)"
+              - "refactor/"
+              - "conventions/"
+              - "debt/"
+              - "operations/"
+              - "reader/"
+              - "spa/"
+              - "research/ (existing — KEEP)"
+              - "_drivers/ (existing — KEEP)"
+              - "view/ (existing — eventually superseded by SPA)"
+              - "_archive/ (NOT created — git history preserves deleted files)"
+            "_workspace/plan/refactor/":
+              - "plan.md (this plan)"
+              - "plan.yaml (this file)"
+              - "progress.json (Wave D dashboard reads)"
+            "_workspace/plan/conventions/":
+              - "response-template.md (moved from root)"
+              - "response-conventions.md (moved from root)"
+              - "general.md (renamed from conventions.md)"
+              - "authoring.md (NEW — extracted items 3-6 of podcast-intelligence-enhancements.md)"
+            "_workspace/plan/debt/":
+              - "pipeline-debt.md (moved from root)"
+            "_workspace/plan/operations/":
+              - "per-book-ship-checklist.md (moved from root)"
+            "_workspace/plan/reader/":
+              - "polish-and-ai.md (renamed from podcast-reader-polish-and-ai-2026-05-25.md — date stripped)"
+            "_workspace/plan/spa/":
+              - "design-system/tokens.css"
+              - "design-system/typography.css"
+              - "components/{Card,MetricTile,DiagramFrame,Table}.astro"
+              - "routing.md (recipe for adding a sub-app)"
+          fold_and_delete:
+            - {from: "intelligence-pipeline-wave1-spec.md", folded_into: ["architecture.md §Intelligence Layer", "refactor/plan.md Wave B"], then: DELETE}
+            - {from: "podcast-intelligence-enhancements.md", folded_into: "conventions/authoring.md (items 3-6 only)", then: DELETE, note: "items 3-6 = host gender lock, Essential Teachings, Imam doctrine substitution, reflective-reverent emotion register"}
+            - {from: "v4-doctrine-propagation.md", folded_into: "git history (LANDED 2026-05-22 commit 23009eb per pipeline-debt.md)", then: DELETE}
+            - {from: "f25-apparatus-table-schema.md", folded_into: "debt/pipeline-debt.md F25 entry", then: DELETE}
+            - {from: "f27-validator-drafts.md", folded_into: "debt/pipeline-debt.md F27 entry (7/8 landed; #8 covered by F25)", then: DELETE}
+            - {from: "podcast-plan-DoR.md", folded_into: "operations/per-book-ship-checklist.md (superseded)", then: DELETE}
+            - {from: "podcast-plan-DoR-appendix.md", folded_into: "operations/per-book-ship-checklist.md (superseded)", then: DELETE}
+            - {from: "acceptance-criteria.md (84K)", folded_into: "debt/pipeline-debt.md (scan for live P-items first)", then: DELETE, note: "NEEDS SCAN — most P-items appear superseded per pipeline-debt cross-references"}
+            - {from: "podcast-plan.yaml (263K)", folded_into: "debt/pipeline-debt.md (scan for live items first)", then: DELETE, note: "NEEDS SCAN"}
+            - {from: "numeric-symbolic-disambiguation-plan.md", folded_into: "debt/pipeline-debt.md (if live)", then: DELETE, note: "NEEDS SCAN"}
+            - {from: "pipeline-refactor.md (root-level stale)", folded_into: "refactor/plan.md (this plan)", then: DELETE}
+            - {from: "pipeline-refactor.yaml (root-level stale)", folded_into: "refactor/plan.yaml (this file)", then: DELETE}
+          delete_outright:
+            - {file: "VERSION", reason: "4-byte version stamp; doctrine forbids"}
+            - {file: "STUDIO-ALIGNMENT-2026-05-22.md", reason: "dated event report; git history sufficient"}
+            - {file: "cohesion-audit-2026-05-23.md", reason: "dated audit report"}
+            - {file: "handoff-kar-archetype-pivot.md", reason: "KaR shipped"}
+            - {pattern: "kashkole-*.{md,log,json}", count: 11, reason: "rollout artifacts, KaR not affected, kashkole content shipped per cost-ledger.jsonl"}
+            - {file: "pipeline-refactor/ (empty subdir)", reason: "user pre-created but unused"}
+          version_stamp_strips:
+            - {file: "framework.md", action: "remove 'Version: 4.1' line"}
+            - {file: "_workspace/plan/view/agents/view-generation-agent.md", action: "remove 'Version:' line"}
+            - {file: ".github/agents/operating-contract.md", action: "remove 'Version:' line"}
+            - {file: "reference/cortex-challenger-framework.md", action: "remove 'Version:' line"}
+          rename_files:
+            - {from: "v4-doctrine-propagation.md", action: "delete (per fold_and_delete)"}
+            - {from: "CONTENT/drafts/BOOKS/the-master-and-the-disciple/audits/v2.2-vs-v2.1-diff.md", to: "delete", reason: "one-shot diff with filename version"}
+          version_comments_in_code_to_strip:
+            - {file: "scripts/podcast/_authoring.py", lines: [1759, 1789], action: "'v2.2 rubric' → 'scholarly-rubric'"}
+            - {file: "scripts/podcast/_rules.py", lines: [189, 210, 226, 239, 250], action: "'(P0 2026-05-25, v2.2 scholarly-rubric §X)' → '(P0, scholarly-rubric §X)'"}
+            - {file: "scripts/podcast/build_slide_deck.py", line: 4, action: "'ARCHITECTURE (v1.0)' → 'ARCHITECTURE'"}
+            - {file: "scripts/podcast/audit_transcript.py", line: 64, action: "drop 'v1.2 (2026-05-18)' prefix"}
+          investigate:
+            - {target: "CONTENT/ vs content/", question: "Mac case-insensitive FS may hide duplicate-tree bug; confirm only one canonical tree"}
+        acceptance:
+          - "find _workspace/plan/ -maxdepth 1 -type f | wc -l returns ≤ 4 (README.md, architecture.md, index.html, postprod-vacuum-tasks.md)"
+          - "find _workspace/plan/ -type d -maxdepth 1 returns 8 expected dirs"
+          - "git grep -lE '^Version:\\s*[0-9]' returns zero hits in tracked files"
+          - "git ls-files | grep -E '/v[0-9]+(\\.[0-9])?\\.[a-z]' returns zero hits"
+        cost_estimate_usd: 0
+        authorization: *tier_one
+
+      - id: A2
+        title: "Build the Core layer — _paths, _db, _archetypes, _anti_cliche"
+        depends_on: [A1]
+        deliverables:
+          modules:
+            - {path: "scripts/podcast/_paths.py", max_lines: 200, api: ["book_dir", "category_dir", "knowledge_base_dir", "knowledge_atoms_scratch", "all_books"]}
+            - {path: "scripts/podcast/_db.py", max_lines: 250, api: ["get_connection (WAL mode singleton)", "run_migrations (idempotent)", "atoms_repository", "manual_review_queue", "run_telemetry"]}
+            - {path: "scripts/podcast/_archetypes.py", max_lines: 250, api: ["load_archetype", "resolve_archetype_for_book", "list_archetypes"]}
+            - {path: "scripts/podcast/intelligence/_anti_cliche.py", max_lines: 200, exports: ["CAPSTONE_DENY", "SELF_HELP_DENY", "TIER_2_DENY", "AUGMENTER_PRIOR_TREATMENT_DENY"]}
+          archetype_registry_seed:
+            location: "content/_shared/archetypes/<slug>/"
+            files_per_archetype: ["exemplar.md", "spec.yml", "anti-patterns.md"]
+            archetypes:
+              - scholarly-deep-dive
+              - play-novel
+              - lecture-series
+              - aphorism-collection
+              - narrative-prose
+              - encyclopedic-epistolary
+              - socratic-dialogue   # alias of play-novel
+          database_init:
+            path: "content/knowledge-base/knowledge.db"
+            wal_mode: true
+            schema_dir: "scripts/podcast/schema/"
+            schema_files:
+              - "001_atoms.sql"
+              - "002_atom_relations.sql"
+              - "003_book_metadata.sql"
+              - "004_archetype_registry.sql"
+              - "005_run_telemetry.sql"
+              - "006_manual_review_queue.sql"
+          tests:
+            - "tests/test_paths_module.py"
+            - "tests/test_db_migrations_idempotent.py"
+            - "tests/test_archetype_resolution.py"
+        acceptance:
+          - "Every existing book resolves to a known archetype via resolve_archetype_for_book"
+          - "run_migrations() applied twice on fresh DB == once (idempotent)"
+          - "sqlite3 knowledge.db .schema lists all 6 tables + indexes"
+        cost_estimate_usd: 0
+        authorization: *tier_one
+
+      - id: A3
+        title: "Build the Domain layer — _doctrinal + tradition_adjacency.yml, _context_injection"
+        depends_on: [A2]
+        deliverables:
+          modules:
+            - path: "scripts/podcast/_doctrinal.py (extends existing)"
+              additions:
+                - "load tradition_adjacency.yml"
+                - "assert_no_cross_tradition_collision(text, window=150) -> list[Finding]"
+                - "inherits existing R-IMAM-NUMBERING check"
+            - path: "scripts/podcast/_context_injection.py"
+              max_lines: 200
+              api:
+                - "format_provenance(source) -> str  # neutral-phrasing template per DR-012"
+                - "build_injection(atoms, max_tokens, types) -> str"
+                - "strip_arabic_script(text) -> str  # U+0600-06FF, U+0750-077F"
+          new_data_file:
+            path: "infra/claude-agents/tradition_adjacency.yml"
+            content:
+              - tradition: ismaili-orthodox
+                authors: [al-Qādī al-Nuʿmān, Abū Yaʿqūb al-Sijistānī, Ḥamīd al-Dīn al-Kirmānī, Jaʿfar ibn Manṣūr al-Yaman, Nāṣir-i Khusraw, al-Muʾayyad al-Shīrāzī, Idrīs ʿImād al-Dīn]
+              - tradition: ismaili-adjacent
+                authors: ["Ikhwān al-Ṣafāʾ (Brethren of Purity)"]
+                note: "Connection to formal Ismailism debated; balance of evidence per Wikipedia + Stanford Encyclopedia suggests later development"
+          tests:
+            - "tests/test_doctrinal_cross_tradition.py"
+            - "tests/test_context_injection_strip_arabic.py"
+        acceptance:
+          - "tradition_adjacency.yml loaded; challenger fires on test fixture with both Brethren + al-Kirmānī within 150 words sans acknowledgment"
+          - "_context_injection.strip_arabic_script returns text with zero U+0600-06FF chars"
+        cost_estimate_usd: 0
+        authorization: *tier_one
+
+      - id: A4
+        title: "Modularize orchestrate_book.py and _authoring.py"
+        depends_on: [A2]
+        rationale: "DR-005 — every file ≤ 600 lines. Current: orchestrate_book.py = 2280, _authoring.py = 2025"
+        deliverables:
+          orchestrate_book_split:
+            source: "scripts/podcast/orchestrate_book.py"
+            current_lines: 2280
+            target_thin_driver_lines: 400
+            extract_to: "scripts/podcast/phases/"
+            protocol: "PhaseHandler.run(bd: Path, ctx: PhaseContext) -> PhaseReport"
+            new_handlers:
+              - phases/preflight.py
+              - phases/scaffold.py
+              - phases/ocr_translate.py
+              - phases/refine_english.py
+              - phases/phonetics.py
+              - phases/chapter_design.py
+              - phases/enrichment.py
+              - phases/archetype_resolve.py   # NEW — 08a
+              - phases/augmentation.py        # NEW — 08b (impl in C3)
+              - phases/knowledge_extract.py   # NEW — 08c (impl in B4)
+              - phases/series_plan.py
+              - phases/register_series.py
+              - phases/per_chapter.py
+              - phases/slide_decks.py
+              - phases/trainer.py
+              - phases/merge.py
+            max_lines_per_handler: 300
+          authoring_split:
+            source: "scripts/podcast/_authoring.py"
+            current_lines: 2025
+            extract_to: "scripts/podcast/_authoring/"
+            new_package_files:
+              - "__init__.py (re-exports public API for backward compat)"
+              - "framing.py"
+              - "source_bundle.py"
+              - "capstone.py (impl in C2)"
+              - "preface.py (impl in C1)"
+              - "augmentation.py (impl in C3)"
+          tests:
+            - "tests/test_phase_handler_protocol.py (every Phase enum has a matching handler module)"
+            - "tests/test_smoke_ayyuhal_walad.py (existing book pipeline runs clean post-refactor)"
+        acceptance:
+          - "find scripts/podcast/ -name '*.py' -exec wc -l {} \\; | awk '$1 > 600' returns zero rows"
+          - "Every Phase enum entry has a phases/<phase_id>.py file"
+          - "Smoke test passes on Ayyuhal Walad (1-chapter book)"
+        cost_estimate_usd: 0
+        authorization: *tier_one
+
+      - id: A5
+        title: "Strip version stamps + add the pre-commit guard"
+        depends_on: [A1]
+        deliverables:
+          executes: "All actions under A1.version_stamp_strips + A1.version_comments_in_code_to_strip + A1.rename_files"
+          new_git_hook:
+            path: "infra/git-hooks/pre-commit"
+            installed_to: ".git/hooks/pre-commit (symlink)"
+            rules:
+              - "Reject commit if any staged file contains '^Version:\\s*[0-9]' (case-sensitive)"
+              - "Reject commit if any staged file matches '*v[0-9]+*.md' (excluding node_modules, vendor)"
+          investigate:
+            - "CONTENT/ vs content/ case sensitivity on Mac — confirm only one canonical content tree"
+        acceptance:
+          - "Pre-commit hook installed and tested with synthetic violating commit"
+          - "git grep -lE '^Version:\\s*[0-9]' returns zero hits"
+          - "Library-import version strings preserved (e.g. 'Azure Translator v3.0 API') — these are external API names, not internal versions"
+        cost_estimate_usd: 0
+        authorization: *tier_one
+
+# ===========================================================================
+# WAVE B — Intelligence Layer
+# ===========================================================================
+
+  - id: B
+    name: Intelligence Layer
+    parallel_with: [C]
+    depends_on: [A]
+    steps:
+
+      - id: B1
+        title: "Build the Extractor"
+        depends_on: [A5]
+        deliverables:
+          module:
+            path: "scripts/podcast/intelligence/extractor.py"
+            max_lines: 300
+            api:
+              - "extract_atoms_for_book(bd: Path) -> Path"
+              - "extract_atoms_for_chapter(text, slug, ch) -> list[Atom]"
+            llm: "claude-sonnet (default); fallback claude-haiku via R_KNOWLEDGE_EXTRACTOR_FALLBACK_MODEL"
+            reads: "BOOK_DIR/chapters/<ch-slug>.txt + BOOK_DIR/_system/augmentations/*.md (after C3)"
+            writes: "BOOK_DIR/_system/knowledge-atoms-scratch.jsonl"
+          new_R_constants:
+            - {name: R_KNOWLEDGE_EXTRACTOR_COST_CAP_USD_PER_CHAPTER, value: 0.10}
+            - {name: R_KNOWLEDGE_EXTRACTOR_COST_CAP_USD_PER_BOOK, value: 10.00}
+            - {name: R_KNOWLEDGE_EXTRACTOR_CONFIDENCE_REVIEW_THRESHOLD, value: 0.7}
+            - {name: R_KNOWLEDGE_EXTRACTOR_FALLBACK_MODEL, value: "claude-haiku"}
+          atom_schemas: "see ../architecture.md §Data Architecture"
+        acceptance:
+          - "Extractor runs against 3-chapter test book in < 90s"
+          - "Atoms validate against schema (tests/test_extractor_schema.py)"
+          - "Cost cap enforced (tests/test_extractor_budget.py)"
+          - "Confidence < 0.7 atoms auto-appended to manual_review_queue"
+        cost_estimate_usd: 0
+        authorization: *tier_one
+
+      - id: B2
+        title: "Build the Librarian"
+        depends_on: [B1]
+        deliverables:
+          module:
+            path: "scripts/podcast/intelligence/librarian.py"
+            max_lines: 250
+            pure_python: true
+            api: ["merge_into_library(bd, scratch_path) -> MergeReport"]
+            outcomes:
+              - {kind: new, action: "insert atom"}
+              - {kind: duplicate, action: "merge sources[] list"}
+              - {kind: variant, action: "append to variants[]"}
+              - {kind: conflict, action: "write to manual_review_queue + halt phase"}
+          conflict_resolver:
+            path: "scripts/podcast/intelligence/resolve_conflicts.py"
+            api: "python resolve_conflicts.py <slug> [--accept-incoming | --keep-existing | --both-as-variants]"
+          new_R_constants:
+            - {name: R_KNOWLEDGE_LIBRARIAN_CONFLICT_HALT, value: true}
+          git_hook:
+            path: "infra/git-hooks/post-merge-knowledge.sh"
+            installed_to: ".git/hooks/post-merge"
+            purpose: "Re-invoke Librarian on content/knowledge-base/knowledge.db if both merged branches touched it"
+        acceptance:
+          - "tests/test_librarian_dedup_quran.py — same canonical ID merges sources"
+          - "tests/test_librarian_dedup_hadith.py — different grade triggers conflict + halt"
+          - "tests/test_librarian_variants.py — different text_en appends to variants[]"
+          - "Per-book merge report emitted at BOOK_DIR/_system/knowledge-merge-report.md"
+        cost_estimate_usd: 0
+        authorization: *tier_one
+
+      - id: B3
+        title: "Build the Augmenter"
+        depends_on: [B2, A3]
+        deliverables:
+          module:
+            path: "scripts/podcast/intelligence/augmenter.py"
+            max_lines: 250
+            api:
+              - "augment_for_chapter(book_slug, chapter_id, chapter_text, *, types=('quran','hadith'), max_atoms=5, max_tokens=800) -> str"
+            implementation_wave_1: "regex citation scan + exact-ID lookup; no semantic ranking"
+            guards:
+              - "default_disabled — series.enable_knowledge_augmenter must be true; else empty string"
+              - "always strip_arabic_script via _context_injection (DR-012)"
+              - "always neutral phrasing via _context_injection.format_provenance"
+          call_sites:
+            - {phase: "08-enrichment",    token_budget: 200, purpose: "hint-level"}
+            - {phase: "11-per-chapter",   token_budget: 500, purpose: "full prior treatment"}
+            - {phase: "0g-audit (podcast-challenger)", token_budget: 800, purpose: "complete cross-book context"}
+          new_R_constants:
+            - {name: R_KNOWLEDGE_AUGMENTER_DEFAULT_ENABLED, value: false}
+            - {name: R_KNOWLEDGE_AUGMENT_MAX_ATOMS, value: 5}
+            - {name: R_KNOWLEDGE_AUGMENT_MAX_TOKENS, value: 800}
+        acceptance:
+          - "tests/test_augmenter_token_budget.py — never exceeds max_tokens"
+          - "tests/test_augmenter_no_matches.py — returns empty cleanly"
+          - "tests/test_augmenter_strips_arabic.py — output contains zero U+0600-06FF chars"
+          - "tests/test_augmenter_default_disabled.py — returns empty when flag false"
+        cost_estimate_usd: 0
+        authorization: *tier_one
+
+      - id: B4
+        title: "Wire 08a/08b/08c into PHASE_ORDER + state.json schema"
+        depends_on: [B3, A4]
+        deliverables:
+          phase_enum_additions:
+            file: "scripts/podcast/_phases.py"
+            additions:
+              - "ARCHETYPE_RESOLVE = '08a-archetype-resolve'"
+              - "AUGMENTATION     = '08b-augmentation'"
+              - "KNOWLEDGE_EXTRACT = '08c-knowledge-extract'"
+            order: "after ENRICHMENT, before SERIES_PLAN: 08 → 08a → 08b → 08c → 09"
+          handler_files:
+            - {path: "phases/archetype_resolve.py", impl: "decision-only — reads meta.yml.archetype, configures downstream"}
+            - {path: "phases/augmentation.py", impl: "stub for now; full implementation in C3"}
+            - {path: "phases/knowledge_extract.py", impl: "Extractor + Librarian dispatch"}
+          state_json_schema_additions:
+            phases:
+              "08a": {phase_status: "string", started_at, finished_at, archetype_resolved}
+              "08b": {phase_status, started_at, finished_at, units_augmented, cost_usd, manual_review_added}
+              "08c": {phase_status, started_at, finished_at, cost_usd, atoms_extracted: {quran, hadith}, atoms_new, atoms_merged, atoms_conflict, conflict_file}
+          conflict_halt_phased_rollout_interaction:
+            rule: "When phased_rollout: true (C5), 08c runs per-phase-boundary; conflicts halt only that phase"
+          docs_sweep:
+            - "framework.md phase table additions"
+            - "skills-staging/podcast/SKILL.md phase narrative"
+            - "infra/claude-agents/podcast-challenger.md Category catalog: Knowledge-Augmentation category"
+            - "infra/claude-agents/podcast-auditor.md probes: archetype field present, knowledge-merge-report clean"
+        acceptance:
+          - "Orchestrator resume picks up at 08a/08b/08c correctly"
+          - "Heartbeat card shows new 08a/08b/08c lines with cost + atom counts"
+        cost_estimate_usd: 0
+        authorization: *tier_one
+
+# ===========================================================================
+# WAVE C — Archetype Expansion
+# ===========================================================================
+
+  - id: C
+    name: Archetype Expansion
+    parallel_with: [B]
+    depends_on: [A]
+    steps:
+
+      - id: C1
+        title: "Land archetype specs for PLAY-NOVEL, LECTURE-SERIES, ENCYCLOPEDIC-EPISTOLARY"
+        depends_on: [A2]
+        deliverables:
+          play_novel:
+            spec_location: "content/_shared/archetypes/play-novel/"
+            files: [exemplar.md, spec.yml, anti-patterns.md]
+            mandatory_preface:
+              episode_id: EP00
+              hard_cap_minutes: 20
+              source_bundle: [character_roster (prose NOT bulleted list), setting, stakes, structural_map, vocabulary_primer, tone_directive]
+            meta_yml_fields: [archetype, requires_preface, preface_episode_id, character_roster_path]
+            new_rule: "R_PREFACE_ROSTER_PROSE_NOT_LIST — bulleted-list rosters fail challenger"
+          lecture_series:
+            spec_location: "content/_shared/archetypes/lecture-series/"
+            pre_synthesis_phase:
+              phase_id: "08-pre-synthesis"
+              position: "before 08-enrichment"
+              output: "_system/source/synthesis-map.md"
+              produces: [thematic_clusters, chronological_doctrine_arc, identified_gaps, proposed_chapter_segmentation (NOT mirror of lecture-file order)]
+            azure_speech_script:
+              path: "scripts/podcast/azure_speech_fill_gaps.py"
+              max_lines: 250
+              service: "Azure Speech (journal-speech, S0, ur-PK)"
+              cost_estimate_usd: 3
+            ismaili_canonical_reference_set:
+              location: "content/_shared/canonical-references/ismaili.yml"
+              authors: "see ../architecture.md §Branch + Content Lifecycle (reference set)"
+          encyclopedic_epistolary:
+            spec_location: "content/_shared/archetypes/encyclopedic-epistolary/"
+            rasail_structural_facts:
+              epistle_count_main: 52
+              supplements: 2
+              parts:
+                - {id: part-1-mathematical, epistles: 14, diagram_density: high}
+                - {id: part-2-natural, epistles: 17, diagram_density: high}
+                - {id: part-3-psychological, epistles: 10, diagram_density: medium}
+                - {id: part-4-theological, epistles: 11, diagram_density: high}
+            meta_yml_fields: [archetype, epistle_count, part_map, augmentation_enabled (default ON), diagram_density (default HIGH), phased_rollout (default true), capstone_mode (default full_brethren)]
+            rasail_source_intake:
+              edition: "Arabic original, 4-volume scan from archive.org (Turath upload 2008-10-04). Most likely Beirut 1957 Dar Sader; colophon confirms at intake."
+              source_urls:
+                - https://archive.org/details/RasailIkhwanAs-safa
+                - https://ia902206.us.archive.org/7/items/copy-of-./%D8%B1%D8%B3%D8%A7%D8%A6%D9%84%20%D8%A5%D8%AE%D9%88%D8%A7%D9%86%20%D8%A7%D9%84%D8%B5%D9%81%D8%A7.pdf
+              new_script:
+                path: "scripts/podcast/azure_arabic_translate_bundle.py"
+                max_lines: 300
+                pipeline: "Azure DocIntel layout-aware extraction → Azure Translator (ar→en) per-segment confidence → manual-review markers on low-confidence epistemic claims"
+                parallels: "scripts/podcast/azure_speech_fill_gaps.py (Urdu workflow from LECTURE-SERIES)"
+              confirm_edition_substep: "Read PDF first ~10 pages to extract publisher/year/editor before processing begins"
+        acceptance:
+          - "All three archetype directories present with exemplar/spec/anti-patterns files"
+          - "Rasāʾil intake template includes all 7 new meta.yml fields"
+        cost_estimate_usd: 3
+        authorization: *tier_two
+
+      - id: C2
+        title: "Build the multi-tier capstone authoring module"
+        depends_on: [A4]
+        deliverables:
+          module:
+            path: "scripts/podcast/_authoring/capstone.py"
+            max_lines: 400
+            recursion_invariant: "DR-002 — tier-2 reads ONLY tier-1 + chapter abstracts; raises CrossTierRead on chapter-source access"
+            doctrinal_gate_inheritance: "capstone output routes through build_episode_txt.assert_doctrinal_clean() before write"
+          capstone_modes:
+            none: {used_by: [play-novel, aphorism-collection]}
+            single: {used_by: [scholarly-deep-dive medium, lecture-series], cap_minutes: 25}
+            single_plus_distillation: {used_by: [scholarly-deep-dive deep >=12 ch], cap_t1: 25, cap_t2: 12, constraint: "t2 <= 0.5 * t1"}
+            per_part_and_single: {used_by: [encyclopedic-epistolary medium], cap_per_part: 20, cap_t1: 30}
+            full_brethren: {used_by: [encyclopedic-epistolary deep — Rasāʾil], cap_per_part: 20, cap_t1: 30, cap_t2: 12}
+          new_quality_gates:
+            - {id: distillation-shorter-than-capstone, severity: P0, rule: "t2_minutes <= 0.5 * t1_minutes"}
+            - {id: distillation-fewer-revisions, severity: P0, rule: "kernel_count in [1,2,3]"}
+            - {id: distillation-not-recap, severity: P0, rule: "uses _anti_cliche.TIER_2_DENY"}
+            - {id: distillation-kernel-test, severity: P1, rule: "framing answers kernel test prompt"}
+            - {id: per-part-bounded-to-part, severity: P0, rule: "per-part capstone must not synthesize across other parts"}
+            - {id: capstone-no-cliche-self-help, severity: P0, rule: "uses _anti_cliche.SELF_HELP_DENY"}
+        acceptance:
+          - "tests/test_capstone_cross_tier_raises.py — raises on tier-2 reading chapter source"
+          - "tests/test_capstone_doctrinal_gate.py — capstone with 'Imam Ali' is blocked"
+          - "tests/test_capstone_quality_gates.py — all six gates fire on fixtures"
+        cost_estimate_usd: 0
+        authorization: *tier_one
+
+      - id: C3
+        title: "Build the 08b modern-research augmentation phase"
+        depends_on: [A4, B4]
+        deliverables:
+          phase_handler:
+            path: "scripts/podcast/phases/augmentation.py"
+            max_lines: 300
+          authoring_module:
+            path: "scripts/podcast/_authoring/augmentation.py"
+          enabled_for:
+            default_on: [encyclopedic-epistolary]
+            opt_in: [scholarly-deep-dive, lecture-series]
+            never: [play-novel, aphorism-collection]
+          output_file: "BOOK_DIR/_system/augmentations/<unit-slug>.md"
+          content_requirements:
+            - "5-15 augmentation points per unit"
+            - "each tagged: confirms | extends | contests | contextualizes (never equates)"
+            - "real locatable works (URL/DOI/ISBN)"
+            - "every citation passes through canonical-form pre-filter (C4) before [MANUAL-REVIEW] tagging"
+          shared_contract: "writes citations via _context_injection.format_provenance (same as Augmenter — DRY)"
+          feeds_extractor: "08b output also scanned by 08c-knowledge-extract — citations enter cross-book library"
+          quality_gates:
+            - {id: augmentation-real-sources, severity: P1}
+            - {id: augmentation-no-buzzword, severity: P0, note: "blocks 'quantum spirituality'-style hijacking"}
+          cost_estimate_per_unit_usd: "0.50 - 1"
+        acceptance:
+          - "Phase handler emits 3 augmentation .md files on 3-unit test"
+          - "Citations route through canonical-form pre-filter"
+          - "08c picks up Quran/hadith from 08b output in integration test"
+        cost_estimate_usd: 5
+        authorization: *tier_two
+
+      - id: C4.0
+        title: "NotebookLM diagram-capability pilot (PRE-C4 gate; per oq7 resolution)"
+        depends_on: [C1]
+        gates: "C4 implementation"
+        purpose: "Empirically verify which diagram types NotebookLM produces before locking the classifier-gate severity"
+        deliverables:
+          pilot_run:
+            scope: "2-3 Rasāʾil epistles selected for diagram-density coverage"
+            cost_estimate_usd: 30
+            prompt_includes:
+              - "explicit request for structural diagrams: emanation_hierarchy, taxonomic_tree, geometric_proof, musical_ratio, astronomical_model, matter_form_diagram, prophetic_cycle, magic_taxonomy, court_scene_illustration"
+              - "evaluation rubric per diagram type: rendered? fidelity grade? prose-bullet fallback?"
+          findings_doc:
+            path: "_workspace/plan/research/notebooklm-diagram-pilot-findings.md"
+            sections: [per-diagram-type-rendering, fidelity-grading, prose-bullet-fallback-frequency, classifier-gate-recommendation]
+        decision_branches:
+          if_ge_4_types_reliable:
+            c4_gate_severity: P1
+            c4_classifier: hard gate at < 60% coverage
+          if_lt_4_types_reliable:
+            c4_gate_severity: P2
+            c4_classifier: advisory only
+            c4_fallback_path: "externally-authored diagrams (Mermaid + Excalidraw fed as images via slide-deck upload UI)"
+        acceptance:
+          - "Pilot run complete; findings doc written"
+          - "C4 gate severity locked based on findings"
+        cost_estimate_usd: 30
+        authorization: *tier_two
+
+      - id: C4
+        title: "MANUAL-REVIEW markers + canonical-form pre-filter + rich-diagram classifier"
+        depends_on: [A2, C4.0]
+        deliverables:
+          marker_syntax: "<div class='alert manual-review' data-reason='{reason}' data-confidence='{low|medium}'>{content}</div>"
+          reason_enum: [azure-gap-fill, low-confidence-translation, ismaili-claim-unverified, doctrinal-cross-check-needed, transcript-reconstruction, augmentation-citation-unverified]
+          canonical_regex_module:
+            path: "scripts/podcast/intelligence/_canonical_regex.py"
+            patterns:
+              quran: "\\bQ(uran)?\\.?\\s*\\d{1,3}[:.]\\d{1,3}\\b"
+              hadith: "\\b(Bukhari|Muslim|Tirmidhi|Abu\\s*Dawud|Nasai|Ibn\\s*Majah)\\s*[:,]?\\s*(book\\s*\\d+\\s*,\\s*)?(hadith\\s*)?\\d+\\b"
+              doi: "\\b10\\.\\d{4,}\\/\\S+\\b"
+              isbn: "\\b97[89]-?\\d{1,5}-?\\d{1,7}-?\\d{1,7}-?\\d\\b"
+            sample_audit_rate: 0.20
+          publish_gate:
+            location: "scripts/podcast/pipeline_lint.py"
+            function: "check_manual_review_resolved()"
+            fails_if: "any unresolved <div class='alert manual-review'...> in finalize-phase book"
+          rich_diagram_classifier:
+            path: "scripts/podcast/slides/classify_slides.py"
+            max_lines: 200
+            engine: "claude-vision (default), gemini-vision (fallback)"
+            labels: ["diagram", "prose", "title", "quote"]
+            invocation: "called by slide-deck-challenger after deck generation"
+            gate: "rich-diagram-coverage >= 60% per high-density unit (P1)"
+            fallback: "if classifier unavailable, gate demotes to P2 advisory"
+          podcast_reader_component:
+            path: "podcast-reader/src/components/ManualReviewAlert.astro"
+        acceptance:
+          - "pipeline_lint fails on test fixture with unresolved marker"
+          - "podcast-reader renders marker with red border + tooltip"
+          - "Canonical-form pre-filter clears >70% of synthetic citation set"
+          - "Classifier labels test deck with >=80% accuracy on hand-labeled fixture"
+        cost_estimate_usd: 5
+        authorization: *tier_two
+
+      - id: C5
+        title: "Phased rollout + Tier-2 cost gates for large-scale books"
+        depends_on: [C1]
+        deliverables:
+          trigger: "archetype.estimated_episodes > 20 OR meta.yml.phased_rollout == true"
+          phase_boundary_gates: "Tier-2 always-ask between each phase"
+          rasail_phasing:
+            phase_A: "Part 1 Mathematical (14 epistles) — pilot most-structured"
+            phase_B: "Part 2 Natural (17 epistles) — rich-diagram at scale"
+            phase_C: "Part 3 Psychological (10 epistles)"
+            phase_D: "Part 4 Theological (11 epistles)"
+            phase_E: "4 per-part capstones + tier-1 Jāmiʿa + tier-2 distillation"
+          cost_estimate_rasail_full_run_usd: "350 - 700"
+          knowledge_extract_per_phase: true
+          heartbeat_addition: "cost ceiling status surfaced per phase"
+        acceptance:
+          - "Phased-rollout flag triggers Tier-2 halt between phases"
+          - "08c per-phase invocation tested on synthetic 30-chapter book"
+        cost_estimate_usd: 0
+        authorization: *tier_one
+
+# ===========================================================================
+# WAVE D — SPA + Dashboard
+# ===========================================================================
+
+  - id: D
+    name: SPA + Dashboard
+    depends_on: [A1]
+    parallel_with: [B, C]
+    steps:
+
+      - id: D1
+        title: "Land design system tokens + Astro shell scaffolding"
+        depends_on: [A1]
+        deliverables:
+          design_tokens:
+            path: "_workspace/plan/spa/design-system/tokens.css"
+            properties:
+              color: ["--c-bg", "--c-text", "--c-accent", "--c-warn", "--c-success", "--c-muted"]
+              type: ["--type-serif", "--type-sans", "--type-mono", "modular scale sizes"]
+              spacing: ["--space-xs", "--space-sm", "--space-md", "--space-lg", "--space-xl"]
+              radius: ["--radius-sm", "--radius-md", "--radius-lg"]
+              shadow: ["--shadow-1", "--shadow-2", "--shadow-3"]
+            shared_with: [podcast-reader, future_sub_apps]
+          components:
+            location: "_workspace/plan/spa/components/"
+            files: [Card.astro, MetricTile.astro, DiagramFrame.astro, Table.astro, NavBar.astro, StatusBadge.astro]
+          routing_recipe:
+            path: "_workspace/plan/spa/routing.md"
+            describes: "how to add a new sub-app"
+          tech_stack:
+            framework: astro
+            rationale: "matches podcast-reader/ stack; shared design-token reuse; static output works from disk"
+            confirmation_needed: open_questions.oq9
+        acceptance:
+          - "tokens.css imported by podcast-reader and renders identically"
+          - "Component primitives storyboard-tested in isolation"
+        cost_estimate_usd: 0
+        authorization: *tier_one
+
+      - id: D2
+        title: "Build the SPA shell at _workspace/plan/index.html"
+        depends_on: [D1]
+        deliverables:
+          astro_project_root: "_workspace/plan/"
+          entry: "_workspace/plan/src/pages/index.astro"
+          shell_features:
+            - "Top nav: Plan · Architecture · Dashboard · Backbone · Debt · Books"
+            - "Theme provider reads spa/design-system/tokens.css"
+            - "Astro file-based router"
+          launcher: "_workspace/plan/index.html as thin redirect/launcher to dist/index.html"
+          build_output: "_workspace/plan/dist/ (gitignored)"
+          default_route: "/dashboard (D4)"
+        acceptance:
+          - "open _workspace/plan/index.html launches the SPA in any browser"
+          - "Renders without a running server"
+        cost_estimate_usd: 0
+        authorization: *tier_one
+
+      - id: D3
+        title: "Build the backbone visualization sub-app"
+        depends_on: [D2]
+        deliverables:
+          route: "/backbone"
+          source_data: ["refactor/plan.yaml", "architecture.md Mermaid sources"]
+          interactivity:
+            - "click phase station → see handler module + invariants + R-* checks"
+            - "click archetype → see which phases behave differently"
+            - "hover animations show data flowing through backbone"
+          rendering: "client-side; YAML+MD read at build time"
+        acceptance:
+          - "All 16 phase stations clickable"
+          - "All 7 archetypes selectable from sidebar"
+        cost_estimate_usd: 0
+        authorization: *tier_one
+
+      - id: D4
+        title: "Build the live dashboard sub-app"
+        depends_on: [D2]
+        deliverables:
+          route: "/dashboard (default landing)"
+          data_sources:
+            - {path: "refactor/progress.json", regenerator: "scripts/plan/regenerate_progress.py (runs on every push)"}
+            - {path: "content/knowledge-base/run_telemetry_snapshot.json", regenerator: "scripts/plan/snapshot_telemetry.py (reads knowledge.db.run_telemetry)"}
+          metric_tiles:
+            - "in-flight books + current phase + cost-to-date"
+            - "atoms-in-library count by type (quran, hadith)"
+            - "last-7-days commits to develop"
+            - "open manual-review queue count"
+            - "phase-failure-rate this week"
+          plan_progress:
+            - "per-wave progress bar (A/B/C/D/E)"
+            - "per-step status icons (⬜🔄✅🛑)"
+            - "recent commits per step"
+          live_strategy: "v1 = static snapshot on push; v2 (if needed) = read-only Astro server endpoint"
+          decision_needed: open_questions.oq10
+        acceptance:
+          - "Dashboard renders all 5 metric tiles + per-wave progress on page load"
+          - "progress.json regenerator script tested"
+        cost_estimate_usd: 0
+        authorization: *tier_one
+
+# ===========================================================================
+# WAVE E — Retroactive Enhancements + Extended Publish Gate
+# ===========================================================================
+
+  - id: E
+    name: Retroactive + Gates
+    depends_on: [B, C]
+    steps:
+
+      - id: E1
+        title: "Migrate every meta.yml to the unified schema"
+        depends_on: [C1, C2]
+        deliverables:
+          migration_script:
+            path: "scripts/podcast/migrate_meta_yml.py"
+            constraint: "No version suffix in script name. No 'schema_version' field in any meta.yml."
+            idempotent: true
+          default_mapping:
+            kitab-al-riyad:               {archetype: scholarly-deep-dive,  philosophical_depth: deep,    capstone_mode: single_plus_distillation}
+            asaas-al-taveel:              {archetype: scholarly-deep-dive,  philosophical_depth: deep,    capstone_mode: single_plus_distillation}
+            ayyuhal-walad:                {archetype: aphorism-collection,  philosophical_depth: shallow, capstone_mode: none}
+            islr-mas-i:                   {archetype: scholarly-deep-dive,  philosophical_depth: medium,  capstone_mode: single}
+            the-master-and-the-disciple:  {archetype: play-novel,           capstone_mode: none,          requires_preface: true}
+            kunooz-al-hikmah:             {archetype: lecture-series,       capstone_mode: single}
+            rasail-ikhwan-al-safa:        {archetype: encyclopedic-epistolary, capstone_mode: full_brethren, augmentation_enabled: true, diagram_density: high, phased_rollout: true}
+          sync_to_db: "scripts/podcast/sync_metadata_to_db.py — populates book_metadata table"
+        acceptance:
+          - "migrate_meta_yml.py applied to every existing book; meta.yml lints clean"
+          - "No 'schema_version' or 'v2' field anywhere in content/drafts/ or content/published/"
+          - "knowledge.db.book_metadata has one row per book matching meta.yml"
+        cost_estimate_usd: 0
+        authorization: *tier_one
+
+      - id: E2
+        title: "KaR — tier-2 distillation addendum (no re-run)"
+        depends_on: [E1, C2]
+        branch: "book/kar-distillation-addendum"
+        branch_off: develop
+        procedure:
+          - "(a) Stamp KaR meta.yml with unified schema"
+          - "(b) Read existing tier-1 capstone source bundle from chapter-contracts/"
+          - "(c) Generate tier-2 distillation source bundle following C2 spec"
+          - "(d) Author framing.txt"
+          - "(e) Upload to NotebookLM as NEW episode alongside existing source set"
+          - "(f) Challenger + postprod-review on the new episode only"
+          - "(g) Ship via publish_to_library.py"
+          - "(h) Imam doctrine sweep on all 13 KaR chapter sources + framings"
+          - "(i) Extraction-only pass (B1+B2 against finalized KaR chapters → atoms → knowledge.db)"
+        explicit_negative_constraints:
+          - "DO NOT regenerate chapter sources"
+          - "DO NOT re-author existing episodes"
+          - "DO NOT enable Augmenter for KaR"
+        cost_estimate_usd: "15 - 25"
+        authorization: *tier_two
+
+      - id: E3
+        title: "M&D — EP00 preface addendum + vacuum + postprod-review (no re-run)"
+        depends_on: [E1, C1]
+        branch: "book/the-master-and-the-disciple (current)"
+        procedure:
+          - "(a) Stamp M&D meta.yml with unified schema"
+          - "(b) Author EP00 preface from C1 PLAY-NOVEL spec — single NEW episode"
+          - "(c) Vacuum agent — rename NotebookLM-titled audio to ch##-<slug>.m4a (postprod-vacuum-tasks T4-T6)"
+          - "(d) Postprod-review on all 6 chapters with PLAY-NOVEL archetype invariants"
+          - "(e) Imam doctrine sweep on 6 chapter sources + framings"
+          - "(f) Extraction-only pass — finalized chapters → atoms → knowledge.db"
+        explicit_negative_constraints:
+          - "DO NOT re-author any of the 6 shipped chapters"
+          - "DO NOT enable Augmenter for M&D"
+        delegation: "Operational task tracking in _workspace/plan/postprod-vacuum-tasks.md (T3-T8, T11). This step references that 12-task ledger; doesn't duplicate."
+        cost_estimate_usd: "20 - 30"
+        authorization: *tier_two
+
+      - id: E4
+        title: "Extend publish gate with G8-G12 + activate G12 acceptance"
+        depends_on: [B3, C2, C4, E1]
+        deliverables:
+          script: "scripts/podcast/validate_ship_ready.py (extends G1-G7)"
+          new_gates:
+            G8:  {name: capstone-mode-honored, rule: "if capstone_mode != none, required tier-1 and (where applicable) tier-2 episodes exist and pass anti-cliché"}
+            G9:  {name: rich-diagram-coverage, rule: "if diagram_density == high, classifier reports >= 60% diagrams per high-density unit"}
+            G10: {name: manual-review-resolved, rule: "no unresolved <div class='alert manual-review'> markers"}
+            G11: {name: knowledge-base-merge-clean, rule: "Librarian merge-report.md reports zero conflicts"}
+            G12: {name: augmenter-ab-acceptance, rule: "For books with enable_knowledge_augmenter: true, podcast-challenger surfaced at least one finding referencing an augmented atom"}
+          g12_enforcement: "Until G12 fires green on at least one book pair, R_KNOWLEDGE_AUGMENTER_DEFAULT_ENABLED stays false (DR-007)"
+          recommended_g12_pair: "Kunooz (augmenter disabled) + first-forward-book-after-Kunooz (augmenter enabled)"
+        acceptance:
+          - "validate_ship_ready.py reports G1-G12 status for every book"
+          - "M&D + KaR pass G1-G11 after E2 + E3 (G12 not applicable — augmenter disabled)"
+        cost_estimate_usd: 0
+        authorization: *tier_one
+
+# ===========================================================================
+# CROSS-CUTTING REGISTRIES
+# ===========================================================================
+
+archetypes:
+  reference: "see ../architecture.md §Content Archetypes"
+  registry_location: "content/_shared/archetypes/<slug>/"
+  registry_module: "scripts/podcast/_archetypes.py"
+  list:
+    - {slug: scholarly-deep-dive, capstone_default: single_plus_distillation, books: [kitab-al-riyad, asaas-al-taveel, islr-mas-i]}
+    - {slug: play-novel, capstone_default: none, requires_preface: true, books: [the-master-and-the-disciple]}
+    - {slug: lecture-series, capstone_default: single, pre_synthesis_required: true, books: [kunooz-al-hikmah]}
+    - {slug: aphorism-collection, capstone_default: none, books: [ayyuhal-walad]}
+    - {slug: encyclopedic-epistolary, capstone_default: full_brethren, augmentation_default: on, diagram_density: high, phased_rollout: true, books: [rasail-ikhwan-al-safa]}
+    - {slug: narrative-prose, capstone_default: tbd, books: [], note: "placeholder for future novels"}
+    - {slug: socratic-dialogue, alias_of: play-novel}
+
+database:
+  reference: "see ../architecture.md §Data Architecture"
+  engine: sqlite
+  filename: knowledge.db
+  location: content/knowledge-base/knowledge.db
+  wal_mode: true
+  json1_required: true
+  per_book_scratch: {format: jsonl, location: "content/drafts/<CATEGORY>/<slug>/_system/knowledge-atoms-scratch.jsonl"}
+  export: {format: jsonl, location: "content/knowledge-base/{quran,hadith}.jsonl", cadence: "per release"}
+  api_module: scripts/podcast/_db.py
+  migration_path: {when: "Wave 2 semantic embeddings", target: "postgres + pgvector", mechanism: "SQLAlchemy ORM swap"}
+
+intelligence_layer:
+  reference: "see ../architecture.md §Intelligence Layer"
+  three_pieces:
+    extractor: {phase: 08c, when: "after enrichment + 08a + 08b", reads: "enriched chapter + augmentation .md"}
+    librarian: {when: "immediately after extractor", pure_python: true, conflict_halt: true}
+    augmenter: {when: "future books' phases 08, 11, 0g", default_disabled: true, ab_gate: G12}
+  build_timing: "after A5 + B1-B4; never before A1 cleanup"
+  run_timing:
+    first_validation: "Ayyuhal Walad (1 chapter — fast feedback)"
+    retroactive: ["kitab-al-riyad (extraction-only)", "the-master-and-the-disciple (extraction-only)"]
+    forward: ["kunooz-al-hikmah (augmenter disabled)", "next-book-after-kunooz (augmenter enabled — G12 gate)", "rasail-ikhwan-al-safa (per-phase boundary, augmenter on)"]
+
+modularization:
+  reference: "see ../architecture.md §The Six Module Layers"
+  doctrine: "DR-005 — every scripts/podcast/ file ≤ 600 lines; six-layer acyclic dependency"
+  current_violations:
+    - {file: scripts/podcast/orchestrate_book.py, lines: 2280, target: 400, addressed_in: A4}
+    - {file: scripts/podcast/_authoring.py, lines: 2025, target: split, addressed_in: A4}
+  six_layers: [core, domain, intelligence, authoring, phases, driver]
+
+spa:
+  reference: "see ../architecture.md §The SPA & Design System"
+  tech: astro
+  shared_with: podcast-reader
+  v1_sub_apps: [plan, architecture, dashboard, backbone]
+  future_sub_apps: [debt, books, knowledge-explorer, transcript-editor]
+
+retroactive_treatment:
+  rule: "DR-013 — no completed book is re-run; enhancements via addendum + metadata + extraction-only"
+  applies_to: [kitab-al-riyad, the-master-and-the-disciple, ayyuhal-walad, islr-mas-i, asaas-al-taveel]
+  per_book:
+    kitab-al-riyad: [E1, E2]
+    the-master-and-the-disciple: [E1, E3]
+    ayyuhal-walad: [E1]
+    islr-mas-i: [E1]
+    asaas-al-taveel: [E1, "E2-pattern addendum on separate branch when scheduled"]
+
+# ===========================================================================
+# WHAT THIS PLAN DOESN'T COVER
+# ===========================================================================
+
+excluded_by_design:
+  - artifact: "F-item operational backlog (F4, F7, F11-F13, F22, F23, F25/F26, F29 still open)"
+    location: "../debt/pipeline-debt.md (after A1)"
+    reason: "Operational backlog is a separate concern from architectural reshape"
+  - artifact: "podcast-reader polish + Gemini AI integration"
+    location: "../reader/polish-and-ai.md (after A1)"
+    reason: "Reader sub-app evolution is parallel concern"
+  - artifact: "12-task postprod-vacuum sub-plan in flight"
+    location: "../postprod-vacuum-tasks.md"
+    reason: "Folds into step E3"
+  - artifact: "Live system metrics + per-book progress"
+    location: "_workspace/plan/index.html dashboard once D4 lands"
+
+# ===========================================================================
+# OPEN QUESTIONS — Asif must resolve before execution
+# ===========================================================================
+
+open_questions:
+  # ─── Resolved 2026-05-26 (Asif locked) ───
+  - id: oq1
+    status: RESOLVED
+    resolved_2026_05_26: "Option A confirmed — strict no-skip-levels"
+    decision_locked_into: "DR-002 + step C2 _authoring/capstone.py raises CrossTierRead on violation"
+    impact: HIGH
+  - id: oq2
+    status: RESOLVED
+    resolved_2026_05_26: "Arabic original, 4-volume scan from archive.org (uploader: Turath, 2008-10-04). Most likely Beirut 1957 Dar Sader edition (most widely circulated 4-volume Arabic Rasāʾil); colophon to confirm at intake."
+    source_urls:
+      - https://archive.org/details/RasailIkhwanAs-safa
+      - https://ia902206.us.archive.org/7/items/copy-of-./%D8%B1%D8%B3%D8%A7%D8%A6%D9%84%20%D8%A5%D8%AE%D9%88%D8%A7%D9%86%20%D8%A7%D9%84%D8%B5%D9%81%D8%A7.pdf
+    workflow_implication: "Translation pipeline required regardless of specific edition. C1 ENCYCLOPEDIC spec gains a confirm-edition-at-intake sub-step + Azure-Arabic translation workflow (parallels LECTURE-SERIES Azure-Urdu workflow)."
+    impact: HIGH
+  - id: oq7
+    status: RESOLVED
+    resolved_2026_05_26: "Run pilot first — new sub-step C4.0 NotebookLM diagram-capability pilot (2-3 Rasāʾil epistles, ~$30) lands BEFORE C4 classifier implementation"
+    impact: HIGH
+  - id: oq9
+    status: RESOLVED
+    resolved_2026_05_26: "Astro confirmed — design tokens shared with podcast-reader/"
+    impact: MEDIUM
+
+  # ─── Still open; defaults recommended ───
+  - id: oq3
+    question: "Branch strategy for execution — land directly on develop (user preference), or spawn refactor/pipeline-architecture branch off develop?"
+    recommendation: "Direct on develop per user instruction"
+    impact: MEDIUM
+  - id: oq4
+    question: "Three large legacy files (numeric-symbolic-disambiguation-plan.md, acceptance-criteria.md 84K, podcast-plan.yaml 263K) — full scan + fold-or-delete in A1?"
+    recommendation: "Scan in A1; fold live items to pipeline-debt.md; delete the rest"
+    impact: MEDIUM
+  - id: oq5
+    question: "Rich-diagram classifier engine — Claude vision (default) or Gemini vision (cost-optimized)?"
+    recommendation: "Decide after C4.0 pilot reports back; Claude vision is the default if no pilot signal favors otherwise"
+    impact: MEDIUM
+  - id: oq6
+    question: "Augmenter A/B pair for G12 gate — Kunooz + next-book?"
+    recommendation: "Yes — Kunooz augmenter disabled, next-book augmenter enabled; confirm at the time Kunooz reaches the gate"
+    impact: MEDIUM
+  - id: oq8
+    question: "Rasāʾil intake layout — single book + part_map, 4 sub-books per part, or 52 epistle-books?"
+    recommendation: "Single book + part_map (preserves Brethren's 4-part architecture; phased_rollout handles scale)"
+    impact: MEDIUM
+  - id: oq10
+    question: "Live dashboard data source — static snapshot per push (recommended, zero infra) or Astro server-mode read-only API (Wave 2)?"
+    recommendation: "Static snapshot in v1; reserve server-mode for v2"
+    impact: LOW
+  - id: oq11
+    question: "Default capstone_mode per existing book — confirm E1 mapping (KaR/Asaas → single_plus_distillation, ISLR → single, Ayyuhal → none, M&D → none, Kunooz → single, Rasāʾil → full_brethren)?"
+    recommendation: "Accept defaults; flag any book where distillation would be unwelcome"
+    impact: LOW
+
+# ===========================================================================
+# MANUAL REVIEW INDEX
+# ===========================================================================
+
+manual_review_index:
+  - {step: A1, item: "three large legacy files need scan", severity: MEDIUM}
+  - {step: A5, item: "CONTENT/ vs content/ case mismatch", severity: MEDIUM}
+  - {step: C1, item: "Rasāʾil PDF identity (sandbox-blocked)", severity: HIGH}
+  - {step: C3, item: "augmentation citations — URL/DOI verification deferred", severity: HIGH}
+  - {step: C4, item: "NotebookLM rich-diagram capability untested", severity: HIGH}
+  - {step: E1, item: "default capstone_mode mapping awaits confirmation", severity: LOW}
+
+# ===========================================================================
+# CONFIDENCE SUMMARY
+# ===========================================================================
+
+confidence_summary:
+  high:
+    - "Wave A foundation (paths, db, archetypes, anti-cliché — well-grounded patterns)"
+    - "Wave B intelligence (extractor + librarian + augmenter — based on develop's existing spec + cherry-pickable code)"
+    - "C1 PLAY-NOVEL spec (M&D is the prototype)"
+    - "C1 ENCYCLOPEDIC structural facts (well-sourced)"
+    - "C2 multi-tier capstone recursion invariant (DR-002 locked)"
+    - "C4 MANUAL-REVIEW marker syntax + canonical-form pre-filter"
+    - "C5 phased rollout"
+    - "E1 unified meta.yml schema (no version field)"
+    - "E3 retroactive M&D (anchored to postprod-vacuum-tasks ledger)"
+    - "E4 publish gate G8-G12 (extends existing G1-G7)"
+    - "Database SQLite-first choice (max Mac portability)"
+    - "Modularization protocol (SOLID + DRY + 600-line cap + acyclic)"
+  medium:
+    - "C1 LECTURE-SERIES best-practice citations (URLs unverified)"
+    - "C3 augmentation citation accuracy (real works named; URL/DOI verification deferred)"
+    - "C4 rich-diagram classifier (depends on engine choice + NotebookLM empirical verification)"
+    - "D1-D4 SPA stack choice (Astro recommended; awaiting confirmation)"
+    - "E2 KaR retroactive (tier-1 capstone source bundle location needs verification at execution)"
+  low:
+    - "oq2 Rasāʾil PDF identity (sandbox-blocked)"
+    - "oq4 large legacy plan file fold-or-delete decisions"
+    - "oq10 dashboard data source (v2 deferral acceptable)"
+
+# ===========================================================================
+# EOF — no version stamp by design (DR-009)
+# ===========================================================================
