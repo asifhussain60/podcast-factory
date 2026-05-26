@@ -104,6 +104,15 @@ def _split_by_sections(source: str) -> list[tuple[str, str]]:
     return parts
 
 
+def _is_english_content(text: str) -> bool:
+    """Return True if >80% of non-whitespace chars are ASCII — already English."""
+    non_ws = [c for c in text if not c.isspace()]
+    if not non_ws:
+        return False
+    ascii_count = sum(1 for c in non_ws if ord(c) < 128)
+    return ascii_count / len(non_ws) > 0.80
+
+
 def translate_bundle(
     bundle_root: Path,
     creds: Optional[_azure.TranslatorCreds] = None,
@@ -138,10 +147,31 @@ def translate_bundle(
             "Re-run review/seal first."
         )
 
+    source_text = raw_extract.read_text(encoding="utf-8")
+
+    # English passthrough: if content is >80% ASCII, it's already English — no Azure call.
+    # Write the source as-is to raw-extract.en.md and stamp stage.
+    if _is_english_content(source_text):
+        completed_at = datetime.now(timezone.utc).isoformat()
+        if not dry_run:
+            raw_extract_en.write_text(source_text, encoding="utf-8")
+            _append_translation_block(bundle_yml, 0, 0, 0.0, completed_at,
+                                      engine="passthrough-english")
+            _update_stage(bundle_yml, "translated")
+            _append_cost_ledger(binder_id, chapter_id, "passthrough", 0.0, completed_at)
+        return {
+            "skipped": False,
+            "passthrough": True,
+            "sections_translated": 0,
+            "char_count": 0,
+            "cost_usd": 0.0,
+            "completed_at": completed_at,
+            "output_path": str(raw_extract_en),
+        }
+
     if creds is None:
         creds = _azure.load_translator_creds()
 
-    source_text = raw_extract.read_text(encoding="utf-8")
     parts = _split_by_sections(source_text)
 
     translated_parts: list[tuple[str, str]] = []
@@ -240,11 +270,12 @@ def _append_translation_block(
     chars: int,
     cost: float,
     completed_at: str,
+    engine: str = "azure-translator-v3",
 ) -> None:
     text = _strip_existing_block(bundle_yml.read_text(encoding="utf-8"), "translation")
     block = (
         f"\ntranslation:\n"
-        f"  engine: azure-translator-v3\n"
+        f"  engine: {engine}\n"
         f"  completed_at: {completed_at}\n"
         f"  sections_translated: {sections}\n"
         f"  char_count: {chars}\n"

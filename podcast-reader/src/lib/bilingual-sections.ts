@@ -30,6 +30,10 @@ export interface BilingualSection {
   englishConfidence?: 'high' | 'medium' | 'low';
   bodyMarkdown: string;
   bodyHtml: string;
+  /** Rendered HTML from the English translation file (null = translation pending). */
+  englishBodyHtml: string | null;
+  /** True if the English body came from adapted-extract.en.md (polished Phase 2). */
+  englishIsAdapted: boolean;
 }
 
 export interface BilingualChapter {
@@ -39,10 +43,34 @@ export interface BilingualChapter {
   sections: BilingualSection[];
 }
 
+/** Parse section markers out of any markdown string, returning a map of topicId → body text. */
+function extractSectionBodies(markdown: string): Map<number, string> {
+  const map = new Map<number, string>();
+  const matches: Array<{ idx: number; topicId: number; matchLen: number }> = [];
+  let m: RegExpExecArray | null;
+  const re = new RegExp(SECTION_RE.source, 'gm');
+  while ((m = re.exec(markdown)) !== null) {
+    matches.push({
+      idx: m.index,
+      topicId: parseInt(m[2], 10),
+      matchLen: m[0].length,
+    });
+  }
+  for (let i = 0; i < matches.length; i++) {
+    const start = matches[i].idx + matches[i].matchLen;
+    const end = i + 1 < matches.length ? matches[i + 1].idx : markdown.length;
+    const body = markdown.slice(start, end).trim();
+    map.set(matches[i].topicId, body);
+  }
+  return map;
+}
+
 export async function parseBilingual(
   binderId: number,
   chapterId: number,
   rawMarkdown: string,
+  englishMarkdown?: string | null,
+  englishIsAdapted?: boolean,
 ): Promise<BilingualChapter> {
   const matches: Array<{ idx: number; position: number; topicId: number; rawSort: number; label: string; matchLen: number }> = [];
   let m: RegExpExecArray | null;
@@ -70,6 +98,9 @@ export async function parseBilingual(
 
   const preludeHtml = renderSourceMarkdown(preludeMarkdown);
 
+  // Pre-parse English bodies by topicId for fast lookup
+  const enBodies = englishMarkdown ? extractSectionBodies(englishMarkdown) : new Map<number, string>();
+
   const sections: BilingualSection[] = [];
   for (let i = 0; i < matches.length; i++) {
     const start = matches[i].idx + matches[i].matchLen;
@@ -77,6 +108,9 @@ export async function parseBilingual(
     const body = rawMarkdown.slice(start, end).trim();
 
     const enRetitle = await getTopicEnglish(binderId, chapterId, matches[i].topicId);
+
+    const enBodyText = enBodies.get(matches[i].topicId) ?? null;
+    const englishBodyHtml = enBodyText !== null ? renderSourceMarkdown(enBodyText) : null;
 
     sections.push({
       position: matches[i].position,
@@ -87,6 +121,8 @@ export async function parseBilingual(
       englishConfidence: enRetitle?.confidence,
       bodyMarkdown: body,
       bodyHtml: renderSourceMarkdown(body),
+      englishBodyHtml,
+      englishIsAdapted: englishIsAdapted ?? false,
     });
   }
 

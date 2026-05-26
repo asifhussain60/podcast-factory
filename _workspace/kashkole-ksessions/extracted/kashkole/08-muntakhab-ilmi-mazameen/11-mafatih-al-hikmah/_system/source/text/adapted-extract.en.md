@@ -1,0 +1,31 @@
+# Mafatih al-Hikmah
+
+<!-- section 1 (id=4629, raw_sort=1): سرکس کے جانور -->
+
+## Beasts of the Circus
+
+Consider the spectacle of the circus: bloodthirsty beasts and savage creatures are compelled to perform elaborate tricks through the ingenuity of trainers. The animal learns what man has taught it. Through such spectacles, the circus master amasses thousands of rupees. Yet within this pageant of blood and base desire, Maulana Muqaddas discerned a profound spiritual lesson. He spoke thus:
+
+The circus becomes, in his estimation, a mirror of the Prophet Muhammad Mustafa (peace be upon him). How many arrogant, rebellious, and willful human beings did he not encounter? He instructed them, and they yielded their labor to his guidance. He set forth an example to others. Yet their innate rebelliousness, disobedience, and suppressed lust for dominion did not depart from their nature.[^cite-1] When the Prophet's vigilance was withdrawn, the true beastly character of these men emerged into light. They struck others, inflicted wounds, and even took lives, sowing chaos and rage throughout the established order. Just as lions and leopards, when released from the trainer's hand, kill the very children and keepers of he who raised them—forgetting entirely the care lavished upon their instruction and taming—so too can no amount of discipline transform savagery into genuine humanity.
+
+Whose nature is that of a wolf shall display brutality. Though he may feign contrary words while among men, such pretense is fleeting and shallow. The same occurred with the Umayyads. Though Abu Sufyan embraced Islam after the conquest of Mecca, his descendants were born as beasts: Mu'awiya and Yazid among them. In the discipline of prophets, saints, and other guides (dāʿī, the Summoners), should a savage and bestial attribute—fierce as a lion or leopard—appear and seduce human hearts through outwardly human deeds, such a creature does not thereby become human, nor can it be numbered among humanity. Yet the outward benefit that accrues to its master, and the wealth earned through its performance, receive their reward in such fashion that even the oppressor and the disobedient become renowned, and those who praise them endure until the Day of Resurrection. In every age, vast multitudes of followers and admirers attend upon such figures.
+
+<!-- section 2 (id=4630, raw_sort=2): وحشی جانوروں کی لڑائی -->
+
+## The Combat of Wild Beasts
+
+Where contests of fowl and quail take place, the spectacle is termed *pali*. The display of fighting wild animals was known as *Saath Mari*. In Baroda, such spectacles were mounted in the princely states. An immense field was enclosed by walls, with spectators seated in galleries above. Pavilions were erected for kings, nobles, and distinguished guests. Within the arena, elephants were pitted against elephants; there were competitions likewise between elephants and bulls, and between bull and bull.[^cite-2]
+
+All these combatants were released without constraint. Provocateurs incited them, stirring suppressed rivalry to erupt into violence. They hurled themselves upon one another in bloody struggle. All their strength was exerted to overcome their opponent—until the king of the time commanded that all such combat cease. Then each creature returned quietly to its dwelling place.
+
+The wise man perceived in this an allegory of the divine arrangement (daʿwa, the invitation). When God grants different peoples a measure of freedom, when the hour arrives, they commence fighting over the merest trifle. And when the reckoning of grievances and transactions is completed, no reconciliation follows; instead, each pursues its own course. The whole world stands amazed, questioning how the matter reached such a pass, how it has become so distorted.
+
+<!-- section 3 (id=4631, raw_sort=3): طوطے کا تماشا -->
+
+## The Spectacle of the Parrot
+
+In Baroda, sundry entertainments were produced at weddings for the delight of guests. The parrot trainers of that place were renowned, and the community frequently invited them to ceremonial occasions. A parrot spectacle was presented at one such wedding. The parrots delighted the assembled audience through displays of various wonders, and all were amused. When the performance concluded, Maulana delivered an address of profound insight and instruction. What follows is a summary of his teaching as transmitted:
+
+When a parrot imitates the deeds of man—such as plucking pearls, testing counterfeit coins, drawing water from a well, discerning playing cards, performing acrobatics, firing a gun, or displaying aerial feats—crowds of humans gather to witness these movements.[^cite-3] Our Messenger (peace and blessings of God be upon him) has taught us the deeds of the angels. Among them is the excellence of prayer. His actions are the very actions of the angels: standing, bowing, prostrating, and rising again. Should we perform these acts, the angels shall surely assemble to observe this spectacle. It has been said that when the worshiper prays, he is surrounded by angels.
+
+Observe: the time of spectacle is fixed. Were the parrot to perform outside that appointed hour, who would witness and applaud it? Likewise, if prayer is offered at its prescribed time and in its prescribed manner, it is accepted; otherwise it is cast back upon the face. The parrot does not comprehend that the actions and words it mimics possess meaning. It merely knows how to replicate. Yet humans are delighted by parrots and birds that speak and converse like themselves, for they are charmed when such creatures employ human speech—as with the mina and the cockatoo.[^cite-4] In the same manner, when those adorned with outward knowledge, dwelling in the atmosphere of monotheism (tawḥīd) and learning, deliver discourse and speak of the truth, the people of truth—the genuine seekers—rejoice that they hear the language of truth spoken. ⟪ar:الحمد للہ⟫ They learn to speak certain dialects of wisdom. Hazrat Qibla used to give the parable of apparent scholars in precisely this manner, likening them to parrots and cockatoos.
