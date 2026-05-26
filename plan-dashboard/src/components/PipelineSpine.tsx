@@ -126,6 +126,27 @@ function buildChips(p: Phase, agent: Agent | null): SvcChip[] {
   return chips;
 }
 
+// ── Vendor tag (compact, non-interactive, eyebrow row) ────────────────────
+
+const VENDOR_ICONS: Record<VendorKey, string> = {
+  anthropic: 'robot',
+  azure:     'cloud',
+  google:    'google',
+  internal:  'code',
+};
+
+function vendorTagsForChips(chips: SvcChip[]): Array<{ vendor: VendorKey; wordmark: string }> {
+  const seen = new Set<VendorKey>();
+  const out: Array<{ vendor: VendorKey; wordmark: string }> = [];
+  for (const c of chips) {
+    if (!seen.has(c.vendor)) {
+      seen.add(c.vendor);
+      out.push({ vendor: c.vendor, wordmark: VENDOR_META[c.vendor].wordmark });
+    }
+  }
+  return out;
+}
+
 // ── ServiceChip component ───────────────────────────────────────────────────
 
 function ServiceChip({ chip, open, onToggle }: {
@@ -289,11 +310,22 @@ export default function PipelineSpine({ phases, modules, agents }: Props) {
                 </div>
                 <div className="station-section-headtext">
                   <div className="row station-section-eyebrow-row">
-                    <span className="eyebrow">Station {p.id} · {p.duration_minutes} minutes</span>
-                    <span className={`kind-badge kind-${p.kind}`}>
-                      <i className={`fa-solid fa-${meta.icon}`} aria-hidden="true"></i>
-                      {meta.label}
-                    </span>
+                    <span className="eyebrow">Station {p.id} · {p.duration_minutes} min</span>
+                    <div className="vendor-tags">
+                      {vendorTagsForChips(chips).map(({ vendor, wordmark }) => (
+                        <span key={vendor} className={`vendor-tag vendor-tag-${vendor}`}>
+                          <span className="vendor-tag-dot" style={{ background: VENDOR_META[vendor].color }} aria-hidden="true" />
+                          <i className={`fa-brands fa-${vendor === 'anthropic' ? 'aws' : vendor === 'azure' ? 'microsoft' : 'google'} vendor-tag-icon`} aria-hidden="true" />
+                          {wordmark}
+                        </span>
+                      ))}
+                      {chips.length === 0 && (
+                        <span className="vendor-tag vendor-tag-internal">
+                          <span className="vendor-tag-dot" style={{ background: 'var(--c-ink-muted)' }} aria-hidden="true" />
+                          Python script
+                        </span>
+                      )}
+                    </div>
                   </div>
                   <h2 className="station-section-title">{p.name}</h2>
                   {chips.length > 0 && (
