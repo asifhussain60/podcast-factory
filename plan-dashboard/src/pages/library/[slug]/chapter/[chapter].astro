@@ -62,6 +62,30 @@ const contentTitle = slugToTitle(slug);
 const pageTitle = `${ch.title} — ${contentTitle}`;
 ---
 <Base title={pageTitle} active="library" description={`Chapter from ${contentTitle}`}>
+  <script is:inline>
+    /* Mark the document as reader-page so chapter-viewer.css tokens take
+       over the body background + font for this route only. Apply saved
+       reader-settings BEFORE paint so the chosen theme/font/size/width
+       don't flash. */
+    (function () {
+      var h = document.documentElement;
+      h.setAttribute('data-reader-page', '1');
+      try {
+        var raw = localStorage.getItem('podcast-reader:settings');
+        var s = raw ? JSON.parse(raw) : null;
+        if (!s || s.schemaVersion !== 1) return;
+        if (s.theme) h.setAttribute('data-theme', s.theme);
+        if (s.font)  h.setAttribute('data-reader-font', s.font);
+        if (s.width) h.setAttribute('data-reader-width', s.width);
+        h.setAttribute('data-dropcap', s.dropCap ? 'on' : 'off');
+        h.setAttribute('data-focus-mode', s.focusMode ? 'on' : 'off');
+        if (s.editHighlight) h.setAttribute('data-edit-highlight', s.editHighlight);
+        if (typeof s.size === 'number') h.style.setProperty('--reading-size', s.size + 'px');
+        if (typeof s.lineHeight === 'number') h.style.setProperty('--reading-line-height', String(s.lineHeight));
+        document.body && document.body.setAttribute('data-arabic', s.arabicOverlay ? 'on' : 'off');
+      } catch (_) {}
+    })();
+  </script>
   <div class="reading-progress" aria-hidden="true"></div>
 
   <ThreePane
