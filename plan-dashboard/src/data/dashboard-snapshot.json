@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-26T14:52:27.990Z",
-  "source_commit": "bab31e8",
+  "generated_at": "2026-05-26T18:56:13.489Z",
+  "source_commit": "968636f",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -273,32 +273,7 @@
       "plain": "If the factory crashes mid-step, the state file still says 'running' and the next resume refuses to start. Workaround is to retry the phase explicitly. Real fix needs a heartbeat check."
     }
   ],
-  "books_in_flight": [
-    {
-      "slug": "asaas-al-taveel",
-      "title": "Asaas al-Taveel",
-      "phase": "Learn the names",
-      "phase_status": "queued",
-      "cost_to_date_usd": 12.4,
-      "kind": "play-novel"
-    },
-    {
-      "slug": "ayyuhal-walad",
-      "title": "Ayyuhal Walad",
-      "phase": "Per-chapter convergence",
-      "phase_status": "ship with caution",
-      "cost_to_date_usd": 8.2,
-      "kind": "letter"
-    },
-    {
-      "slug": "the-master-and-the-disciple",
-      "title": "the-master-and-the-disciple",
-      "phase": "publish",
-      "phase_status": "completed",
-      "cost_to_date_usd": 0,
-      "kind": "unknown"
-    }
-  ],
+  "books_in_flight": [],
   "books_shipped": [
     {
       "slug": "kitab-al-riyad",
@@ -324,53 +299,53 @@
   ],
   "recent_commits": [
     {
-      "sha": "bab31e8",
-      "subject": "docs(workspace): track audit report + session chat artifact from today's work",
+      "sha": "968636f",
+      "subject": "plan(refactor): resolve C1 (Rasāʾil PDF) + harden C3 (live citation verify); defer C4",
       "date": "2026-05-26"
     },
     {
-      "sha": "c077c5d",
-      "subject": "docs(ledger): close T11 + T19 — slide-deck convergence resolved end-to-end on M&D",
+      "sha": "23a5b8d",
+      "subject": "Merge remote-tracking branch 'origin/develop' into develop",
       "date": "2026-05-26"
     },
     {
-      "sha": "9643571",
-      "subject": "feat(slide-decks): ch.5 authored + verified SHIP-READY — book carries corpus-level slide-deck coverage",
+      "sha": "05c7e27",
+      "subject": "chore(prompts): add Luum onboarding source-bundle bootstrap prompt",
       "date": "2026-05-26"
     },
     {
-      "sha": "81080b7",
-      "subject": "state(slide-decks): ch.2 SKIPPED via Probe-7 re-verification; ch.5 warrants deck-authoring, not skip",
+      "sha": "f2729f5",
+      "subject": "fix(reader): chevron direction, tighter margins/padding, glossary HTML bleed",
       "date": "2026-05-26"
     },
     {
-      "sha": "671b43b",
-      "subject": "state(slide-decks): re-record ch02 + ch05 BLOCKED via Fix 2 clean-return path",
+      "sha": "266e19a",
+      "subject": "fix(reader): modernize palette, fix collapse, remove left-rail toggle",
       "date": "2026-05-26"
     },
     {
-      "sha": "78dc7f9",
-      "subject": "fix(slide-convergence): two bug patches surfaced by the post-audit slide-deck investigation",
+      "sha": "dafed44",
+      "subject": "fix(reader): vertical pull-bar handles + clear Speechify + reduce rules",
       "date": "2026-05-26"
     },
     {
-      "sha": "ef8ab3d",
-      "subject": "docs(ledger): track T18 — BOOKS subtree reconciliation, deferred for isolated discussion",
+      "sha": "e68d43e",
+      "subject": "fix(reader): show right rail above 1024px (was 1280px)",
       "date": "2026-05-26"
     },
     {
-      "sha": "7ab6e87",
-      "subject": "fix(architecture): apply 7 P0 audit fixes — spec/code drift + version-marker rule + hygiene",
+      "sha": "8af68f0",
+      "subject": "fix(reader): full-width three-pane + right-rail collapse + inline editor",
       "date": "2026-05-26"
     },
     {
-      "sha": "ae29650",
-      "subject": "fix(architecture): clear 7 P0 audit findings — spec/code drift + hygiene + version-marker rule enforcement",
+      "sha": "e4dd478",
+      "subject": "docs(kashkole): add comprehensive Copilot brief for KASHKOLE project",
       "date": "2026-05-26"
     },
     {
-      "sha": "f0b0628",
-      "subject": "chore(architecture): factor project-steward into Agent Ecosystem + DR-014 + Tier 0",
+      "sha": "0e37a12",
+      "subject": "fix(reader): port reader CSS verbatim — white page, working settings",
       "date": "2026-05-26"
     }
   ],
