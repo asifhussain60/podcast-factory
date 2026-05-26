@@ -109,10 +109,10 @@ Three storage tiers, each with one job. None can substitute for another.
 ```mermaid
 flowchart LR
     subgraph TIER1["Tier 1 — Per-Book Scratch (JSONL, git-tracked)"]
-        S1[content/drafts/BOOKS/&lt;slug&gt;/<br/>_system/<br/>knowledge-atoms-scratch.jsonl]
-        S2[content/drafts/BOOKS/&lt;slug&gt;/<br/>_system/<br/>orchestrator-state.json]
-        S3[content/drafts/BOOKS/&lt;slug&gt;/<br/>chapters/*.txt]
-        S4[content/drafts/BOOKS/&lt;slug&gt;/<br/>meta.yml]
+        S1[content/drafts/books/&lt;slug&gt;/<br/>_system/<br/>knowledge-atoms-scratch.jsonl]
+        S2[content/drafts/books/&lt;slug&gt;/<br/>_system/<br/>orchestrator-state.json]
+        S3[content/drafts/books/&lt;slug&gt;/<br/>chapters/*.txt]
+        S4[content/drafts/books/&lt;slug&gt;/<br/>meta.yml]
     end
 
     subgraph TIER2["Tier 2 — Shared Knowledge Brain (SQLite)"]

@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-26T18:56:13.489Z",
-  "source_commit": "968636f",
+  "generated_at": "2026-05-26T19:45:53.792Z",
+  "source_commit": "db6bed0",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -299,6 +299,21 @@
   ],
   "recent_commits": [
     {
+      "sha": "db6bed0",
+      "subject": "refactor(A2): add SQL schema migration files for knowledge.db",
+      "date": "2026-05-26"
+    },
+    {
+      "sha": "4d1bb19",
+      "subject": "copilot-handoff: bootstrap Copilot to drive the pipeline refactor while Asif is out of Claude tokens",
+      "date": "2026-05-26"
+    },
+    {
+      "sha": "ff5f1ab",
+      "subject": "plan-dashboard: keep snapshots live on every plan-file edit (standing rule + catch-up regen)",
+      "date": "2026-05-26"
+    },
+    {
       "sha": "968636f",
       "subject": "plan(refactor): resolve C1 (Rasāʾil PDF) + harden C3 (live citation verify); defer C4",
       "date": "2026-05-26"
@@ -331,21 +346,6 @@
     {
       "sha": "e68d43e",
       "subject": "fix(reader): show right rail above 1024px (was 1280px)",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "8af68f0",
-      "subject": "fix(reader): full-width three-pane + right-rail collapse + inline editor",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "e4dd478",
-      "subject": "docs(kashkole): add comprehensive Copilot brief for KASHKOLE project",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "0e37a12",
-      "subject": "fix(reader): port reader CSS verbatim — white page, working settings",
       "date": "2026-05-26"
     }
   ],

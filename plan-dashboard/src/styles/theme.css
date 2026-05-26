@@ -13,15 +13,15 @@
 /* ── Design tokens ─────────────────────────────────────────────── */
 
 :root {
-  /* Type scale — locked at 13–14px base per protocol */
+  /* Type scale — 16px minimum base */
   --font-body: 'Lato', system-ui, sans-serif;
-  --fs-base: 13.5px;
-  --fs-sm: 12px;
-  --fs-lg: 16px;
-  --fs-xl: 20px;
-  --fs-h3: 18px;
-  --fs-h2: 24px;
-  --fs-h1: 32px;
+  --fs-base: 16px;
+  --fs-sm: 14px;
+  --fs-lg: 19px;
+  --fs-xl: 24px;
+  --fs-h3: 21px;
+  --fs-h2: 28px;
+  --fs-h1: 38px;
   --lh-base: 1.55;
   --lh-tight: 1.25;
 

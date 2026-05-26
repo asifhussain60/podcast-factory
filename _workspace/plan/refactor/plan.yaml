@@ -675,103 +675,93 @@ waves:
         authorization: *tier_one
 
 # ===========================================================================
-# WAVE D — SPA + Dashboard
+# WAVE D — Extend the existing planning dashboard (plan-dashboard/ at port 4322)
+# The dashboard already exists and is running. Wave D extends it — it does NOT
+# create a new Astro project. All work goes into plan-dashboard/ (the live site
+# at localhost:4322). It must always reflect the real state of the plan.
 # ===========================================================================
 
   - id: D
-    name: SPA + Dashboard
+    name: Dashboard extension
+    design_decision: "Reframed 2026-05-26: extend plan-dashboard/ (already running at port 4322). Do NOT create _workspace/plan/spa/ or a second Astro project."
     depends_on: [A1]
     parallel_with: [B, C]
     steps:
 
       - id: D1
-        title: "Land design system tokens + Astro shell scaffolding"
+        title: "Standardise the existing dashboard design tokens so the podcast reader shares the same visual style"
         depends_on: [A1]
+        design_decision: "Work targets plan-dashboard/src/styles/theme.css (already exists). Export canonical CSS custom properties from it and import them into podcast-reader/. No new files or directories are created."
         deliverables:
-          design_tokens:
-            path: "_workspace/plan/spa/design-system/tokens.css"
-            properties:
-              color: ["--c-bg", "--c-text", "--c-accent", "--c-warn", "--c-success", "--c-muted"]
-              type: ["--type-serif", "--type-sans", "--type-mono", "modular scale sizes"]
-              spacing: ["--space-xs", "--space-sm", "--space-md", "--space-lg", "--space-xl"]
-              radius: ["--radius-sm", "--radius-md", "--radius-lg"]
-              shadow: ["--shadow-1", "--shadow-2", "--shadow-3"]
-            shared_with: [podcast-reader, future_sub_apps]
-          components:
-            location: "_workspace/plan/spa/components/"
-            files: [Card.astro, MetricTile.astro, DiagramFrame.astro, Table.astro, NavBar.astro, StatusBadge.astro]
-          routing_recipe:
-            path: "_workspace/plan/spa/routing.md"
-            describes: "how to add a new sub-app"
-          tech_stack:
-            framework: astro
-            rationale: "matches podcast-reader/ stack; shared design-token reuse; static output works from disk"
-            confirmation_needed: open_questions.oq9
+          existing_file_to_update: "plan-dashboard/src/styles/theme.css"
+          properties_to_export:
+            color: ["--c-bg", "--c-text", "--c-accent", "--c-warn", "--c-success", "--c-muted"]
+            type: ["--type-serif", "--type-sans", "--type-mono", "modular scale sizes"]
+            spacing: ["--space-xs", "--space-sm", "--space-md", "--space-lg", "--space-xl"]
+            radius: ["--radius-sm", "--radius-md", "--radius-lg"]
+            shadow: ["--shadow-1", "--shadow-2", "--shadow-3"]
+          shared_with: [podcast-reader]
         acceptance:
-          - "tokens.css imported by podcast-reader and renders identically"
-          - "Component primitives storyboard-tested in isolation"
+          - "podcast-reader and plan-dashboard render with matching colours and type scale from the same token source"
         cost_estimate_usd: 0
         authorization: *tier_one
 
       - id: D2
-        title: "Build the SPA shell at _workspace/plan/index.html"
+        title: "Verify and patch the navigation so every planned section is reachable"
         depends_on: [D1]
+        design_decision: "The nav shell already exists in plan-dashboard/. This step audits the current routes against the spec and fills any gaps — it does NOT rebuild the shell."
         deliverables:
-          astro_project_root: "_workspace/plan/"
-          entry: "_workspace/plan/src/pages/index.astro"
-          shell_features:
-            - "Top nav: Plan · Architecture · Dashboard · Backbone · Debt · Books"
-            - "Theme provider reads spa/design-system/tokens.css"
-            - "Astro file-based router"
-          launcher: "_workspace/plan/index.html as thin redirect/launcher to dist/index.html"
-          build_output: "_workspace/plan/dist/ (gitignored)"
-          default_route: "/dashboard (D4)"
+          existing_app: "plan-dashboard/ (Astro, port 4322)"
+          nav_spec:
+            - "Overview (landing)"
+            - "How it works (pipeline architecture)"
+            - "What it runs on (infrastructure)"
+            - "Live progress (dashboard)"
+            - "Library (shipped books)"
+            - "Backbone (new — added in D3)"
+          default_route: "/dashboard"
         acceptance:
-          - "open _workspace/plan/index.html launches the SPA in any browser"
-          - "Renders without a running server"
+          - "All nav items render and route correctly"
+          - "No broken links"
         cost_estimate_usd: 0
         authorization: *tier_one
 
       - id: D3
-        title: "Build the backbone visualization sub-app"
+        title: "Add an interactive factory-floor view showing each processing stage and book type"
         depends_on: [D2]
+        design_decision: "New route added to the existing plan-dashboard. Shows the 16 pipeline stages as clickable stations. Click a stage to see what it does; click a book type to see which stages behave differently for that type."
         deliverables:
-          route: "/backbone"
-          source_data: ["refactor/plan.yaml", "architecture.md Mermaid sources"]
+          target_app: "plan-dashboard/"
+          new_route: "/backbone"
+          source_data: ["plan.yaml (pipeline stages)", "architecture.md (book types / archetypes)"]
           interactivity:
-            - "click phase station → see handler module + invariants + R-* checks"
-            - "click archetype → see which phases behave differently"
-            - "hover animations show data flowing through backbone"
-          rendering: "client-side; YAML+MD read at build time"
+            - "click stage → see what it does and what rules it enforces"
+            - "click book type → see which stages differ for that type"
+            - "hover animations show a book moving through the pipeline"
+          rendering: "client-side; data read from plan files at build time"
         acceptance:
-          - "All 16 phase stations clickable"
-          - "All 7 archetypes selectable from sidebar"
+          - "All 16 stages are clickable and show descriptions"
+          - "All 7 book types are selectable from a sidebar"
         cost_estimate_usd: 0
         authorization: *tier_one
 
       - id: D4
-        title: "Build the live dashboard sub-app"
+        title: "Complete the live progress section so it shows books in flight, costs, and roadmap status"
         depends_on: [D2]
+        design_decision: "The live progress route already exists in plan-dashboard/. This step fills the gaps: wire in the remaining metric tiles and confirm the per-wave progress bars update automatically on every push."
         deliverables:
-          route: "/dashboard (default landing)"
-          data_sources:
-            - {path: "refactor/progress.json", regenerator: "scripts/plan/regenerate_progress.py (runs on every push)"}
-            - {path: "content/knowledge-base/run_telemetry_snapshot.json", regenerator: "scripts/plan/snapshot_telemetry.py (reads knowledge.db.run_telemetry)"}
-          metric_tiles:
-            - "in-flight books + current phase + cost-to-date"
-            - "atoms-in-library count by type (quran, hadith)"
-            - "last-7-days commits to develop"
-            - "open manual-review queue count"
-            - "phase-failure-rate this week"
-          plan_progress:
-            - "per-wave progress bar (A/B/C/D/E)"
-            - "per-step status icons (⬜🔄✅🛑)"
-            - "recent commits per step"
-          live_strategy: "v1 = static snapshot on push; v2 (if needed) = read-only Astro server endpoint"
-          decision_needed: open_questions.oq10
+          target_app: "plan-dashboard/"
+          existing_route: "/dashboard (already live)"
+          gaps_to_fill:
+            - "books currently in flight + which stage they are on + cost so far"
+            - "count of knowledge items extracted (Quran verses, hadiths)"
+            - "commits to the main working branch in the last 7 days"
+            - "items waiting for manual human review"
+            - "per-wave progress bars (five waves, A through E) with per-step status icons"
+          update_strategy: "static snapshot regenerated on every push (already working for roadmap tiles); extend same mechanism for remaining tiles"
         acceptance:
-          - "Dashboard renders all 5 metric tiles + per-wave progress on page load"
-          - "progress.json regenerator script tested"
+          - "All metric tiles render correctly on page load"
+          - "Per-wave progress bars reflect the real state of the plan without manual refresh"
         cost_estimate_usd: 0
         authorization: *tier_one
 
