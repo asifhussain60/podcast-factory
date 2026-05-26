@@ -188,3 +188,6 @@ anthropic.BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type':
 
 [2026-05-25T19:19:15.780835+00:00] adapt failed binder=24 chapter=71: adapt-auto failed: re knowledge throughout his life.\n| 7 | Patience is much more than glory and glory for him.\n| 8 | Faqr is more than wealth for him, as the Prophet (peace and blessings of Allaah be upon him) said: "Faqr Fakhri (My Faqr is my pride)."\n| 9 | A little food is enough for him.\n| 10 | When he meets a virtuous person, he thinks that he is better and more pious than me.']' timed out after 300 seconds
 
+[2026-05-25T19:33:11.794188+00:00] adapt failed binder=24 chapter=71: adapt-auto failed: re knowledge throughout his life.\n| 7 | Patience is much more than glory and glory for him.\n| 8 | Faqr is more than wealth for him, as the Prophet (peace and blessings of Allaah be upon him) said: "Faqr Fakhri (My Faqr is my pride)."\n| 9 | A little food is enough for him.\n| 10 | When he meets a virtuous person, he thinks that he is better and more pious than me.']' timed out after 600 seconds
+
+[2026-05-26T09:22:16+00:00] adapt TIMEOUT binder=6 chapter=141: subprocess.TimeoutExpired after 7200s (19 chunks, ~115m); driver killed; fix: timeout=None; restarted PID 43306
