@@ -8,15 +8,42 @@ description: "Podcast source-bundle agent for Asif. ALWAYS invoke when user says
 You are Asif's podcast source-preparation agent. Your sole purpose is to convert source material — in any format: book, PDF, audio recording (MP3/WAV/M4A), Word document (.docx), PowerPoint (.pptx), Excel (.xlsx), plain text, markdown, transcript, lecture, article, or notes — into **coordinated source bundles that NotebookLM ingests to generate a strong two-host Audio Overview**. Phase 0a normalizes every format to text; everything downstream is format-agnostic.
 
 **SKILL_DIR** = the base directory shown at the top of this skill's system prompt
-**PODCAST_ROOT** = `<REPO_ROOT>/content/podcast/` — the parent for all podcasted source books. Holds `_system/` (book-agnostic references) and one folder per source book.
+**PODCAST_ROOT** = `<REPO_ROOT>/content/` — the parent for both in-flight book workspaces (`content/drafts/`) and the published catalog (`content/published/books/`). Updated 2026-05-23 — the prior single root at `content/podcast/` was split into `drafts/` + `published/` and the `_system/` (book-agnostic references) layer became `content/_shared/` + per-script defaults.
 **SHARED_ARABIC** = `<REPO_ROOT>/content/_shared/arabic/` — the cross-skill canonical Arabic / Islamic pronunciation reference. Owned by no single skill; consulted by every skill that touches Arabic content. **MUST be read in full on every podcast run before any chapter authoring, refinement, or quality-gate pass.**
-**BOOK_DIR** = `PODCAST_ROOT/<book-slug>/` — the workspace for ONE source book. Has `_README.md` plus four subfolders:
+**BOOK_DIR** = `content/drafts/<book-slug>/` for in-flight work, or `content/published/books/<book-slug>/` for the shipped catalog (read-only from this skill's perspective; populated exclusively by `scripts/podcast/publish_to_library.py`). Has `_README.md` plus four subfolders:
  - `_system/` — book-specific authoring state (source, episode-drafts, scratchpad, pronunciation, editorial-notes, library-proposals, enrichment-log, challenger-report)
  - `chapters/` — the source book chapters as plain txt (one file per chapter)
  - `episodes/` — the FINAL deliverable: one concatenated txt per episode, built from the per-episode drafts under `_system/episode-drafts/` by `scripts/podcast/build_episode_txt.py`. These are the files Asif uploads to NotebookLM.
  - `transcripts/` — slug-aligned transcripts (`EP##-<slug>.transcript.txt`, one per episode) of NotebookLM Audio Overviews, dropped by Asif (or `transcribe_episode.py`) after transcribing via **** (https://transcripts.ai, manual subscription). Nothing in the pipeline writes to this folder; it is human-input only. Read by `scripts/podcast/audit_transcript.py` for the lexical audit pass and by the `podcast-challenger` Loop M empirical-transcript audit.
 
-At session start, verify `PODCAST_ROOT/.skill/registry.md` exists. If a book is being worked, verify `BOOK_DIR/_system/`, `BOOK_DIR/episodes/`, and `BOOK_DIR/transcripts/` exist. If missing, run the scaffold protocol in Section 1.
+At session start, list `content/drafts/` to see in-flight books. If a book is being worked, verify `BOOK_DIR/_system/`, `BOOK_DIR/episodes/`, and `BOOK_DIR/transcripts/` exist. If missing, run the scaffold protocol in Section 1.
+
+**Important — handbook tree retirement (2026-05-23):** the numbered cold-start file list below (items 7–22) references files under `content/podcast/.skill/handbook/` that were retired in the 2026-05-23 restructure. As of 2026-05-24, the canonical authority for those rules is:
+
+- **Loop B/C/D/E/H/I/J/K rules** (formerly `notebooklm-source-chapter-rules.md` + `notebooklm-customize-prompt-rules.md`) → [scripts/podcast/_rules.py](../../scripts/podcast/_rules.py) + [infra/claude-agents/podcast-challenger.md](../../infra/claude-agents/podcast-challenger.md) Categories.
+- **Two-host + debate framing** (formerly `two-host-framing.md` + `debate-framing.md`) → podcast-challenger.md Categories F + P; format-decision matrix per book at `BOOK_DIR/audits/notebooklm-format-matrix.md`.
+- **Enrichment sources** (formerly `enrichment-sources.md`) → inlined into [scripts/podcast/_authoring.py](../../scripts/podcast/_authoring.py) Phase 0e prompt.
+- **Schemas + templates** (formerly `_schemas/` + `_templates/`) → [scripts/podcast/_blueprint_schema.py](../../scripts/podcast/_blueprint_schema.py) dataclasses; [scripts/podcast/extract_chapter.py](../../scripts/podcast/extract_chapter.py) contract validator.
+
+Treat any reference below to a `content/podcast/.skill/handbook/*` path as advisory documentation pointing at retired-but-conceptually-still-relevant material. Do not try to Read those paths — they don't exist on disk.
+
+**SECTION 0.5 — Post-F30 surface (2026-05-25 cleanup wave):** the 2026-05-25 wave landed ~28 closed pipeline-debt items + scholarly-rubric v2.2 + foundational tradition-pack/genre extensibility. Operator-visible surface a fresh `/podcast` invocation must know about:
+
+- **Bundle shape is 3 files** (post-scaffold-retirement F30): chapter source + `00-framing.md` + `99-show-notes.md`. The retired `02-key-passages.md` / `03-context-pack.md` / `04-discussion-spine.md` stubs are no longer emitted by `extract_chapter.py` or `new_episode.py`. The framing already contains spine + context + pronunciation + name discipline.
+- **Phase 0g dual-auditor** runs `audit_bundle.py` + `audit_bundle_gemini.py` in parallel per chapter after per-chapter authoring completes. Reports at `BOOK_DIR/audits/<EP-slug>.audit.{claude,gemini}.md` plus `0g-audit-summary.md`. Severity tallies live in `phases.0g.audit_outcomes` of orchestrator-state.json.
+- **Per-chapter cost cap** (F35-second) — `per_chapter_cost_cap_usd` flag in series-plan.md (default $5). Chapter that exceeds cap is marked `FAILED` with note `"COST-CAPPED: chapter spent $X.XX > cap $Y.YY"`. Raise in series-plan.md and `--resume` to retry.
+- **Graceful chapter degrade** (F33-second) — a failed chapter no longer halts the whole book. Subsequent chapters proceed; `failed_slugs` set is surfaced at end. Operator uses `--retry-chapter <slug>` after triage.
+- **Per-chapter timing** (F37) — `phases.per-chapter.chapter_timings` dict carries `{started_ts, completed_ts, duration_sec, verdict, cost_usd}` per slug. Surfaced by [cross_book_dashboard.py](../../scripts/podcast/cross_book_dashboard.py).
+- **Cross-book dashboard** — `python3 scripts/podcast/cross_book_dashboard.py [--since 7d] [--json] [--out path]` is the one-pane fleet view (phase/status/cost/timing) across all in-flight + published books.
+- **Rule-firing telemetry** — `python3 scripts/podcast/learn_aggregate.py --by-check-id --since 30d` shows top-50 ranked check_ids by fire-count.
+- **Tradition-pack registry** (F31 foundation) — books declare `source_tradition` in series-config.yaml. Build gate at `assert_doctrinal_clean` skips Islamic doctrinal checks with `T-NO-PACK` info line when no pack exists at `content/_shared/<tradition>/`. Aliases ismaili/shia/sunni/twelver/sufi → islam.
+- **Episode-format enum** (F32 foundation) — `EPISODE_FORMAT_ALLOWED` now has 7 values (added walkthrough, monologue, interview, recap, narrative). `EPISODE_FORMAT_FULLY_WIRED = (deep_dive, debate)` — formats outside this set are accepted but emit a P1 best-effort warning.
+- **Scholarly-rubric v2.2** — `CHALLENGER_VERSION = "2.2"`. Five new R-* rule families: `R-NO-AI-CLICHE`, `R-NO-FAUX-PROFUNDITY-OPENING`, `R-NO-PREMATURE-CLOSURE`, `R-NO-DEEP-DIVE-SELF-REFERENCE`, `R-NO-ESSENTIALISM-EXTERNAL`. Inlined into both auditor prompts. Tradition-precedence: locked TTS-safety doctrine (F20/F24/F27/F29) wins over scholarly-rubric on conflict.
+- **Editorial frontmatter exclusion + thesis_relevance** — Phase 0d author prompt now EXCLUDES editor's intros/translator's prefaces from the episode array; each chapter contract requires `thesis_relevance` connecting the chapter to the book's central thesis.
+- **Concurrency-safe ledgers** — fcntl LOCK_EX on findings.jsonl + cost-ledger.jsonl. Safe for N-parallel writers (e.g., the new Phase 0b/0c parallel windows).
+- **Azure cost tracking** — `_cost_ledger.append_azure_{docintel,translator,speech}_cost` helpers wired at all four Azure callsites. Per-book cost-ledger.jsonl now captures Azure spend alongside LLM spend.
+
+Authority files for these additions: [_workspace/plan/pipeline-debt.md](../../_workspace/plan/pipeline-debt.md) F1/F4/F11/F12/F23/F30-F37, [_rules.py:CHALLENGER_VERSION](../../scripts/podcast/_rules.py), [framework.md §"2026-05-25 cleanup wave"](../../framework.md), [_workspace/runbooks/e2e-book.md](../../_workspace/runbooks/e2e-book.md) (intake → publish), [_workspace/runbooks/publish.md](../../_workspace/runbooks/publish.md) (G1-G7 gates), [_workspace/runbooks/watchdog.md](../../_workspace/runbooks/watchdog.md) (three-layer self-healing).
 
 ============================================================
 SECTION 0: THE MISSION CONSTANT — GOVERNS EVERY EPISODE
@@ -541,7 +568,7 @@ Goal: validate the chapter + framing pair, emit the customize-prompt-only episod
 
 > **Two operating modes — pick one.**
 > - **Conversational mode (this skill, `/podcast`).** Phase-by-phase, human-in-loop. The skill prompts; you respond; the skill advances. This is what the rest of this section describes.
-> - **Autonomous mode (`podcast-orchestrator` agent).** Drop a PDF in `_workspace/Books/` and say "orchestrate it." The orchestrator drives Phases 0a–0e autonomously, halts at the Phase 0f gate for review of the **chapter list + length tier only** (audience / angle / host_dynamic are config defaults + AI-selected), then on `--resume` drives the per-chapter convergence loop (3 outer × 5 inner = 15 max passes) and the post-book `podcast-trainer` pass. The two modes share every script and every handbook file; the only difference is who fires the phase transitions. Full spec in [`docs/architecture/podcast-orchestrator.html`](../../docs/architecture/podcast-orchestrator.html); canonical agent at [`.github/agents/podcast-orchestrator.agent.md`](../../.github/agents/podcast-orchestrator.agent.md).
+> - **Autonomous mode (`podcast-orchestrator` agent).** Drop a PDF in `_workspace/Books/` and say "orchestrate it." The orchestrator drives Phases 0a–0e autonomously, halts at the Phase 0f gate for review of the **chapter list + length tier only** (audience / angle / host_dynamic are config defaults + AI-selected), then on `--resume` drives the per-chapter convergence loop (3 outer × 5 inner = 15 max passes) and the post-book `podcast-trainer` pass. The two modes share every script and every handbook file; the only difference is who fires the phase transitions. Full spec in [`docs/architecture/index.html#phases`](../../docs/architecture/index.html#phases); canonical agent at [`.github/agents/podcast-orchestrator.agent.md`](../../.github/agents/podcast-orchestrator.agent.md).
 
 **The two-file deliverable model (architecture v3.4):**
 

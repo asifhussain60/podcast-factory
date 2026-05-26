@@ -5,7 +5,7 @@ PURPOSE
 
   Deterministic Python driver for the `podcast-orchestrator` agent. v2 plan
   shipped Phases A + B + C in a single coherent landing (see
-  docs/architecture/podcast-orchestrator.html §10):
+  docs/architecture/index.html#phases):
 
     Phase A · Driver pre-flight → Phase 0a (Azure ingest)
     Phase B · Per-chapter convergence loop (3 outer × 5 inner = 15 max)
@@ -106,6 +106,8 @@ EXTRACT_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "extract_chapter.py"
 BUILD_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "build_episode_txt.py"
 AZURE_PROBE = REPO_ROOT / "scripts" / "podcast" / "test_azure_connectivity.py"
 CHAPTER_SET_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "check_chapter_set.py"
+AUDIT_BUNDLE_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "audit_bundle.py"
+AUDIT_BUNDLE_GEMINI_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "audit_bundle_gemini.py"
 LOCKS_DIR = Path.home() / ".podcast-locks"
 
 from _rules import ALLOWED_CATEGORIES  # noqa: E402  centralized 2026-05-23 per AU-X1-001
@@ -134,15 +136,18 @@ def _info(msg: str) -> None:
 
 
 def _resolve_book_path(category: str, slug: str) -> Path:
-    """Return the canonical content/drafts path for a book.
+    """Return the canonical content/drafts path for a piece of content.
 
     Post-2026-05-23 restructure: 'books' category is flat at
     content/drafts/<slug>/. Other categories use the nested layout
     content/drafts/<cat>/<slug>/ (for future articles, lectures, etc.).
+
+    Prior version called itself recursively on the non-book branch, blowing
+    the stack on any category other than 'books'. Fixed 2026-05-24.
     """
     if category == "books":
         return LIBRARY_ROOT / slug
-    return _resolve_book_path(category, slug)
+    return LIBRARY_ROOT / category / slug
 
 
 def _book_dir(book_slug: str) -> Path | None:
@@ -225,13 +230,15 @@ def preflight_initial(pdf_path: Path, slug: str, category: str) -> list[str]:
     #      (operator pre-cut the per-book branch).
     rc, branch, _ = _git("rev-parse", "--abbrev-ref", "HEAD")
     branch = branch.strip() if rc == 0 else ""
+    from _branching import branch_name as _branch_name
+    expected_content_branch = _branch_name(category, slug)
     valid_branches = {"develop"}
     if preflight_mode:
-        valid_branches |= {"feat/podcast-w1-foundation", f"book/{slug}"}
+        valid_branches |= {"feat/podcast-w1-foundation", expected_content_branch}
     if branch not in valid_branches:
         fails.append(
             f"current branch is '{branch}'; expected one of {sorted(valid_branches)}. "
-            "Run: git checkout " + (sorted(valid_branches)[0] if not preflight_mode else f"book/{slug}")
+            "Run: git checkout " + (sorted(valid_branches)[0] if not preflight_mode else expected_content_branch)
         )
 
     # 4. PDF exists + readable
@@ -259,14 +266,14 @@ def preflight_initial(pdf_path: Path, slug: str, category: str) -> list[str]:
     #    - Preflight-artifacts mode: accept remote book/<slug> only if it points
     #      at the same commit as the local branch (operator pre-pushed).
     if SLUG_RE.match(slug):
-        rc, out, _ = _git("ls-remote", "--heads", "origin", f"book/{slug}")
+        rc, out, _ = _git("ls-remote", "--heads", "origin", expected_content_branch)
         if rc == 0 and out.strip():
             remote_sha = out.split()[0] if out else ""
-            rc2, local_sha, _ = _git("rev-parse", f"book/{slug}")
+            rc2, local_sha, _ = _git("rev-parse", expected_content_branch)
             local_sha = local_sha.strip() if rc2 == 0 else ""
             if not (preflight_mode and remote_sha and local_sha and remote_sha == local_sha):
                 fails.append(
-                    f"remote branch 'book/{slug}' already exists. "
+                    f"remote branch {expected_content_branch!r} already exists. "
                     "Either pick a different slug or use --resume."
                 )
 
@@ -310,18 +317,85 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
     except Exception as _e:  # noqa: BLE001 — sweep failure must not poison pre-flight
         _info(f"pre-flight sweep: skipped ({_e!r})")
 
-    # 3. Working tree clean
+    # 3. Working tree clean — but tolerate the orchestrator's own runtime
+    #    artifacts (cost-ledger.jsonl, orchestrator-state.json, episode-drafts/,
+    #    chapter-contracts/ on this book). Those files are written by the
+    #    orchestrator itself during a run; failing pre-flight on them creates a
+    #    commit-relaunch-commit-relaunch loop with zero value. Anything OUTSIDE
+    #    this book's _system + episode artifacts still blocks (genuine
+    #    untracked / modified files the user may not want overwritten).
     rc, out, _ = _git("status", "--porcelain")
-    if rc != 0 or out.strip():
-        fails.append("working tree not clean. Commit or stash first, then --resume.")
+    if rc != 0:
+        fails.append("git status failed; cannot determine working-tree state")
+    else:
+        book_runtime_prefix = f"content/drafts/{book_slug}/"
+        runtime_artifact_suffixes = (
+            "/_system/cost-ledger.jsonl",
+            "/_system/orchestrator-state.json",
+            "/_system/challenger-report.md",
+            "/_system/enrichment-log.md",
+            "/_system/chapter-set-report.md",
+            "/_system/health-trend.md",
+            "/_system/watchdog.json",   # watch_orchestrator.sh sentinel; written at launch
+            "scripts/podcast/tighten_source.py",  # actively-developed utility; edits never affect per-chapter authoring
+            ".code-workspace",          # VS Code workspace files; user-local, never pipeline-relevant
+        )
+        runtime_artifact_dirs = (
+            f"{book_runtime_prefix}_system/episode-drafts/",
+            f"{book_runtime_prefix}_system/per-chapter-reports/",
+            f"{book_runtime_prefix}_system/slide-challenger-reports/",
+            f"{book_runtime_prefix}_system/source/text/_chunks/",
+            f"{book_runtime_prefix}chapter-contracts/",
+            f"{book_runtime_prefix}chapters/",
+            f"{book_runtime_prefix}episodes/",
+            f"{book_runtime_prefix}slide-decks/",
+            # Cross-book orchestrator outputs (challenger + trainer learning substrate;
+            # scratch workspace + watchdog logs).
+            "content/podcast/.skill/_learning/",
+            "_workspace/tmp/",
+            "_workspace/logs/",
+            # Audio output directory — M4A files generated from NotebookLM; large
+            # binaries that are never committed.
+            "content/m4a/",
+        )
+        # macOS filesystem is case-insensitive; git status --porcelain sometimes
+        # reports paths as `CONTENT/...` (the on-disk case at the time the file
+        # was created) while the index canonicalizes to lowercase `content/...`.
+        # Compare case-insensitively to keep the whitelist robust either way.
+        runtime_artifact_suffixes_lc = tuple(s.lower() for s in runtime_artifact_suffixes)
+        runtime_artifact_dirs_lc = tuple(d.lower() for d in runtime_artifact_dirs)
+        non_runtime: list[str] = []
+        for line in out.splitlines():
+            # status --porcelain: " M path/to/file", "?? path/to/dir/", "A  path"
+            path = line[3:] if len(line) > 3 else ""
+            if not path:
+                continue
+            path_lc = path.lower()
+            if any(path_lc.endswith(suf) for suf in runtime_artifact_suffixes_lc):
+                continue
+            if any(path_lc.startswith(d) for d in runtime_artifact_dirs_lc):
+                continue
+            non_runtime.append(line)
+        if non_runtime:
+            fails.append(
+                "working tree not clean (non-runtime files modified or untracked). "
+                "Commit or stash first, then --resume. Files:\n  "
+                + "\n  ".join(non_runtime[:10])
+                + ("\n  …" if len(non_runtime) > 10 else "")
+            )
 
-    # 3. On matching branch
+    # 3. On matching branch — derive from state.json's category (new branch
+    #    policy 2026-05-24; see scripts/podcast/_branching.py).
+    from _branching import branch_name as _branch_name
+    expected_branch = (state or {}).get("branch") or _branch_name(
+        (state or {}).get("category"), book_slug
+    )
     rc, branch, _ = _git("rev-parse", "--abbrev-ref", "HEAD")
     branch = branch.strip() if rc == 0 else ""
-    if branch != f"book/{book_slug}":
+    if branch != expected_branch:
         fails.append(
-            f"current branch is {branch!r}; expected 'book/{book_slug}'. "
-            f"Run: git checkout book/{book_slug}"
+            f"current branch is {branch!r}; expected {expected_branch!r}. "
+            f"Run: git checkout {expected_branch}"
         )
 
     return book_dir, fails
@@ -330,11 +404,17 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
 # ─── phase runners ───────────────────────────────────────────────────────────
 
 
-def phase_branch(book_slug: str) -> None:
-    """Create + push the book branch. Idempotent on already-on-branch."""
+def phase_branch(book_slug: str, category: str) -> None:
+    """Create + push the content branch. Idempotent on already-on-branch.
+
+    Branch name follows the category-typed convention from
+    scripts/podcast/_branching.py (e.g., book/<slug>, doc/<slug>,
+    lecture/<slug>, with draft/<slug> as fallback).
+    """
+    from _branching import branch_name as _branch_name
     rc, branch, _ = _git("rev-parse", "--abbrev-ref", "HEAD")
     branch = branch.strip() if rc == 0 else ""
-    target = f"book/{book_slug}"
+    target = _branch_name(category, book_slug)
     if branch == target:
         _info(f"  already on {target}, skipping branch creation")
         return
@@ -343,7 +423,7 @@ def phase_branch(book_slug: str) -> None:
         raise RuntimeError(f"`git checkout -b {target}` failed: {err}")
     rc, _, err = _git("push", "-u", "origin", target)
     if rc != 0:
-        # Non-fatal — remote push can be retried; book branch is local-valid.
+        # Non-fatal — remote push can be retried; content branch is local-valid.
         _err(f"`git push -u origin {target}` failed: {err}\n  (continuing with local-only branch)")
 
 
@@ -503,6 +583,96 @@ If you want to change unit mode (chapter ↔ section ↔ auto), reset Phase 0d:
   `python3 scripts/podcast/orchestrate_book.py --resume {book_slug} --retry-phase 0d`
 (then edit `_system/orchestrator-state.json` `config.unit_mode` before resuming)
 """
+
+
+def _resolve_episode_id(book_dir: Path, chapter_file: Path, chapter_slug: str) -> str:
+    """F12 (2026-05-25): resolve episode ID preferring contract.episode_number.
+
+    Phase 0d may re-sequence episodes (chronological/dialectical pairings) so
+    a chapter at file `ch07-soul-and-spirit.txt` could be EP04 in the series.
+    Read the chapter contract YAML and use its `episode_number` field when
+    present; fall back to filename digits when the contract is missing or
+    lacks the field (legacy and brand-new chapters).
+
+    Returns: `EP{NN}-{chapter_slug}` (two-digit NN if int, raw str otherwise).
+    """
+    contract_path = book_dir / "chapter-contracts" / f"{chapter_slug}.yml"
+    ep_num: int | str | None = None
+    if contract_path.exists():
+        try:
+            import yaml as _yaml
+            with contract_path.open("r", encoding="utf-8") as f:
+                data = _yaml.safe_load(f) or {}
+            ep_num = data.get("episode_number")
+        except (OSError, ImportError):
+            ep_num = None
+        except Exception:
+            # YAML parse error or anything else — fall back to filename digits.
+            ep_num = None
+    if ep_num is None:
+        # Fall back to chapter filename digits (legacy path).
+        # Bug X3 (2026-05-21): strip letter suffix (ch14b → 14) for build gate.
+        chap_prefix = chapter_file.stem.split("-", 1)[0]
+        m = re.match(r"ch(\d+)", chap_prefix)
+        ep_num = m.group(1) if m else chap_prefix[2:]
+    if isinstance(ep_num, int):
+        return f"EP{ep_num:02d}-{chapter_slug}"
+    # String fallback path; ensure 2-digit zero-padding if numeric-string.
+    s = str(ep_num)
+    if s.isdigit():
+        return f"EP{int(s):02d}-{chapter_slug}"
+    return f"EP{s}-{chapter_slug}"
+
+
+def _series_numeric(book_dir: Path, flag_name: str, *, default: float) -> float:
+    """F35-second (2026-05-25): read a numeric flag from series-plan.md.
+
+    Mirrors _series_flag but parses the value as float instead of bool. Used by
+    F35-second per-chapter cost ceiling: looks for `**Per Chapter Cost Cap Usd:** 5.0`
+    in series-plan.md. Returns `default` if missing or unparseable.
+    """
+    plan_path = book_dir / "_system" / "series-plan.md"
+    if not plan_path.exists():
+        return default
+    label = flag_name.replace("_", " ").title()
+    needle_lower = f"**{label.lower()}:**"
+    try:
+        for raw in plan_path.read_text(encoding="utf-8").splitlines():
+            line = raw.strip()
+            if line.lower().startswith(needle_lower):
+                value = line[len(needle_lower):].strip().strip("`").strip("*").strip("$")
+                return float(value)
+    except (OSError, ValueError):
+        return default
+    return default
+
+
+def _chapter_cost_so_far(book_dir: Path, chapter_slug: str) -> float:
+    """F35-second (2026-05-25): sum cost-ledger.jsonl rows tagged with this chapter.
+
+    Reads <book_dir>/_system/cost-ledger.jsonl and sums cost_usd across rows
+    whose `step` field contains the chapter slug (the per-chapter authoring
+    convention emits step like 'framing/<slug>', 'build/<slug>',
+    'convergence/<slug>'). Returns 0.0 if ledger missing or unreadable.
+    """
+    ledger = book_dir / "_system" / "cost-ledger.jsonl"
+    if not ledger.exists():
+        return 0.0
+    total = 0.0
+    try:
+        for raw in ledger.read_text(encoding="utf-8").splitlines():
+            if not raw.strip() or chapter_slug not in raw:
+                continue
+            try:
+                rec = json.loads(raw)
+            except json.JSONDecodeError:
+                continue
+            step = str(rec.get("step", ""))
+            if chapter_slug in step:
+                total += float(rec.get("cost_usd", 0) or 0)
+    except OSError:
+        return 0.0
+    return round(total, 4)
 
 
 def _series_flag(book_dir: Path, flag_name: str, *, default: bool = False) -> bool:
@@ -672,10 +842,11 @@ def phase_0f_write_series_plan(book_dir: Path, title: str) -> Path:
     else:
         source_map_section = ""
 
+    from _branching import branch_name as _branch_name
     body = SERIES_PLAN_TEMPLATE.format(
         title=title,
         book_slug=book_slug,
-        branch=state.get("branch", f"book/{book_slug}"),
+        branch=state.get("branch") or _branch_name(state.get("category"), book_slug),
         ts=datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ"),
         orch_version=ORCHESTRATOR_VERSION,
         unit_mode=unit_mode,
@@ -736,6 +907,165 @@ def phase_0g_register(book_dir: Path) -> None:
             f.write("\n".join(new_lines) + "\n")
 
 
+# ─── Phase 0g — dual-auditor bundle sweep (F30) ─────────────────────────────
+
+
+def _gemini_key_available() -> bool:
+    """Check whether Gemini API key exists in macOS keychain."""
+    try:
+        proc = subprocess.run(
+            ["security", "find-generic-password", "-s", "gemini_api_key"],
+            capture_output=True, text=True, check=False,
+        )
+        return proc.returncode == 0
+    except FileNotFoundError:
+        return False
+
+
+def phase_0g_audit_bundles(book_dir: Path, chapter_slugs: list[str]) -> dict:
+    """Run the dual auditor (Claude + Gemini) against every per-chapter bundle.
+
+    For each completed chapter EP##-<slug>, locates the bundle at
+    BOOK_DIR/_system/episode-drafts/EP##-<slug>/, packs it via the shared
+    Gemini-friendly consolidator, then shells out to both audit_bundle.py
+    and audit_bundle_gemini.py in parallel. Audit reports land in
+    BOOK_DIR/audits/<EP-slug>.audit.{claude,gemini}.md alongside a
+    machine-readable findings JSON.
+
+    Idempotent: skip a chapter if both audit reports already exist and are
+    newer than the bundle's framing.md.
+
+    Returns a per-chapter outcome dict for the summary write.
+    """
+    drafts_dir = book_dir / "_system" / "episode-drafts"
+    audits_dir = book_dir / "audits"
+    audits_dir.mkdir(parents=True, exist_ok=True)
+    gemini_ok = _gemini_key_available()
+    if not gemini_ok:
+        _info(
+            "  gemini key not found in keychain (service=gemini_api_key); "
+            "skipping Gemini auditor (Claude auditor still runs)."
+        )
+
+    outcomes: dict[str, dict] = {}
+    # Resolve each chapter's bundle dir by EP-prefix match.
+    for slug in chapter_slugs:
+        bundle_dir = next(
+            (d for d in sorted(drafts_dir.glob("EP*")) if d.name.endswith(f"-{slug}")),
+            None,
+        )
+        if bundle_dir is None or not bundle_dir.is_dir():
+            outcomes[slug] = {"status": "missing-bundle", "p0": 0, "p1": 0, "p2": 0}
+            _info(f"  [{slug}] no bundle dir under {drafts_dir.relative_to(book_dir)} — skipped")
+            continue
+
+        ep_label = bundle_dir.name  # e.g. EP01-the-call-and-the-covenant
+        claude_audit = audits_dir / f"{ep_label}.audit.claude.md"
+        gemini_audit = audits_dir / f"{ep_label}.audit.gemini.md"
+
+        # Idempotency — if both reports exist and are newer than framing.md, skip.
+        framing = bundle_dir / "00-framing.md"
+        framing_mtime = framing.stat().st_mtime if framing.exists() else 0.0
+        both_fresh = (
+            claude_audit.exists() and claude_audit.stat().st_mtime > framing_mtime
+            and (not gemini_ok or (gemini_audit.exists() and gemini_audit.stat().st_mtime > framing_mtime))
+        )
+        if both_fresh:
+            _info(f"  [{slug}] audits up-to-date, skipping")
+            outcomes[slug] = {"status": "skipped-fresh"}
+            continue
+
+        _info(f"  [{slug}] auditing bundle {bundle_dir.name}/ (Claude{' + Gemini' if gemini_ok else ''})")
+
+        # Launch both auditors in parallel — each writes its own report.
+        # Both scripts accept <bundle_dir> --out <path> and pack inline.
+        procs: list[tuple[str, subprocess.Popen]] = []
+        procs.append((
+            "claude",
+            subprocess.Popen(
+                [sys.executable, str(AUDIT_BUNDLE_SCRIPT), str(bundle_dir),
+                 "--out", str(claude_audit)],
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+            ),
+        ))
+        if gemini_ok:
+            procs.append((
+                "gemini",
+                subprocess.Popen(
+                    [sys.executable, str(AUDIT_BUNDLE_GEMINI_SCRIPT), str(bundle_dir),
+                     "--out", str(gemini_audit)],
+                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+                ),
+            ))
+
+        per_auditor: dict[str, dict] = {}
+        for name, p in procs:
+            try:
+                out, err = p.communicate(timeout=900)
+            except subprocess.TimeoutExpired:
+                p.kill()
+                per_auditor[name] = {"rc": -1, "error": "timeout-900s"}
+                continue
+            per_auditor[name] = {"rc": p.returncode, "stderr": err.strip()[-400:] if err else ""}
+
+        # Tally severities by parsing the claude-code-fixes JSON out of each report.
+        sev_total = {"p0": 0, "p1": 0, "p2": 0}
+        for name, report_path in (("claude", claude_audit), ("gemini", gemini_audit)):
+            if name not in per_auditor or per_auditor[name].get("rc") != 0 or not report_path.exists():
+                continue
+            try:
+                text = report_path.read_text(encoding="utf-8")
+                m = re.search(r"```claude-code-fixes\s*\n(.*?)\n```", text, re.DOTALL)
+                if not m:
+                    continue
+                fixes = json.loads(m.group(1).strip())
+                for f in fixes:
+                    sev = str(f.get("severity", "")).lower()
+                    if sev in ("p0", "critical"):
+                        sev_total["p0"] += 1
+                    elif sev in ("p1", "high"):
+                        sev_total["p1"] += 1
+                    elif sev in ("p2", "medium", "low"):
+                        sev_total["p2"] += 1
+            except (json.JSONDecodeError, OSError):
+                continue
+
+        outcomes[slug] = {
+            "status": "audited",
+            "ep_label": ep_label,
+            "claude_rc": per_auditor.get("claude", {}).get("rc"),
+            "gemini_rc": per_auditor.get("gemini", {}).get("rc"),
+            **sev_total,
+        }
+        _info(
+            f"  [{slug}] done · P0={sev_total['p0']} P1={sev_total['p1']} P2={sev_total['p2']}"
+        )
+
+    # Write a human-readable summary at audits/0g-audit-summary.md.
+    summary = audits_dir / "0g-audit-summary.md"
+    lines = [
+        f"# Phase 0g bundle-audit summary — {book_dir.name}",
+        "",
+        "Dual-auditor sweep (Claude + Gemini) over every per-chapter NotebookLM bundle.",
+        "Findings are informational at this phase — review at the finalize halt before publish.",
+        "",
+        "| Episode | Status | Claude rc | Gemini rc | P0 | P1 | P2 |",
+        "|---|---|---|---|---|---|---|",
+    ]
+    for slug, o in outcomes.items():
+        if o.get("status") != "audited":
+            lines.append(f"| `{slug}` | {o.get('status')} | — | — | — | — | — |")
+            continue
+        lines.append(
+            f"| `{o['ep_label']}` | audited | {o.get('claude_rc')} | "
+            f"{o.get('gemini_rc') if o.get('gemini_rc') is not None else '—'} | "
+            f"{o.get('p0', 0)} | {o.get('p1', 0)} | {o.get('p2', 0)} |"
+        )
+    summary.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    _info(f"  wrote audit summary: {summary.relative_to(book_dir)}")
+    return outcomes
+
+
 # ─── Phase Per-chapter — extract + frame + build + converge ──────────────────
 
 
@@ -767,7 +1097,14 @@ def per_chapter_pass(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
 
     # 1. Extract — scaffolds the episode-draft folder + bundle from the contract.
     rc, out, err = _run(
-        [sys.executable, str(EXTRACT_SCRIPT), chapter_ref]
+        # --force on re-extract: per-chapter loop re-runs from extract on every
+        # iteration (resume after fix, challenger-driven re-author cycle, etc.).
+        # Without --force, a stale LLM-authored framing from a prior iter
+        # blocks the deterministic re-render. author_framing follows and
+        # repopulates the Pronunciation imperatives anyway, so the cost of
+        # discarding the prior render is one LLM call we'd have paid for the
+        # re-author regardless.
+        [sys.executable, str(EXTRACT_SCRIPT), chapter_ref, "--force"]
     )
     if rc != 0:
         return ChapterOutcome(
@@ -792,6 +1129,36 @@ def per_chapter_pass(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
             notes=[f"framing authoring failed: {e}"],
         )
 
+    # 2.5. Pre-flight lint (2026-05-24 architecture win): run pipeline_lint
+    # against the freshly-authored framing + chapter pair. This catches
+    # structural mismatches the LLM author may have produced (missing canonical
+    # sections, format violations) BEFORE the build script's hard gates do.
+    # Lint is deterministic and $0; surfaces same P0 punch list build does,
+    # but in JSON form the orchestrator can record without rc=1 noise.
+    # F12 (2026-05-25): prefer chapter contract's episode_number over chapter
+    # filename digits. Phase 0d may re-sequence episodes (ep_num != chap_num)
+    # for chronological/dialectical pairings. Fall back to filename only when
+    # the contract is missing or lacks the field.
+    _episode_id = _resolve_episode_id(book_dir, chapter_file, chapter_slug)
+    _lint_path = Path(__file__).resolve().parent / "pipeline_lint.py"
+    _lint_rc, _lint_out, _lint_err = _run(
+        [sys.executable, str(_lint_path),
+         "--book-dir", str(book_dir),
+         "--episode", _episode_id]
+    )
+    if _lint_rc == 1:
+        # P0 in lint = build will refuse anyway. Surface as authoring failure
+        # so the orchestrator's fixer pass can attempt the fix without burning
+        # the build script's hard-exit on the same finding.
+        return ChapterOutcome(
+            chapter_slug=chapter_slug,
+            final_verdict="FAILED",
+            outer_iterations=0,
+            fixer_attempts=0,
+            p0_remaining=1, p1_remaining=0, p2_remaining=0,
+            notes=[f"pipeline_lint P0: framing structural mismatch:\n{_lint_out.strip()[:600]}"],
+        )
+
     # 3. Build the episode .txt — deterministic gate. We already resolved
     #    chapter_file above; derive the EP##-<slug> id from its name.
     #    Bug X3 (2026-05-21): some chapter filenames carry a letter suffix
@@ -799,11 +1166,9 @@ def per_chapter_pass(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
     #    episodes). The suffix belongs to chapter-set bookkeeping but NOT
     #    to the episode id — build_episode_txt.py validates strict `EP##-<slug>`
     #    (digits only). Strip the trailing letter(s) before forming the id.
-    import re as _re
-    chap_prefix = chapter_file.stem.split("-", 1)[0]            # e.g. "ch14b" or "ch10"
-    m = _re.match(r"ch(\d+)", chap_prefix)
-    chap_num = m.group(1) if m else chap_prefix[2:]              # "14" or "10"
-    episode_id = f"EP{chap_num}-{chapter_slug}"
+    # F12 (2026-05-25): _resolve_episode_id() prefers chapter contract's
+    # episode_number when present (Phase 0d may re-sequence ep_num != chap_num).
+    episode_id = _resolve_episode_id(book_dir, chapter_file, chapter_slug)
     rc, out, err = _run([sys.executable, str(BUILD_SCRIPT), str(book_dir), episode_id])
     if rc != 0:
         return ChapterOutcome(
@@ -822,9 +1187,19 @@ def per_chapter_pass(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
 # ─── Phase Merge — book/<slug> → develop ─────────────────────────────────────
 
 
-def phase_merge_to_develop(book_slug: str) -> None:
-    """Fast-forward develop + merge book branch with --no-ff. Never touches main."""
-    branch = f"book/{book_slug}"
+def phase_merge_to_develop(book_slug: str, category: str | None = None) -> None:
+    """Fast-forward develop + merge content branch with --no-ff. Never touches main.
+
+    Branch name is derived from category via scripts/podcast/_branching.py.
+    If category is omitted (legacy callers), reads it from state.json.
+    """
+    from _branching import branch_name as _branch_name
+    if category is None:
+        bd = _book_dir(book_slug)
+        if bd is not None:
+            st = read_state(bd) or {}
+            category = st.get("category")
+    branch = _branch_name(category, book_slug)
     rc, _, err = _git("checkout", "develop")
     if rc != 0:
         raise RuntimeError(f"`git checkout develop` failed: {err}")
@@ -866,9 +1241,11 @@ def run_initial(args: argparse.Namespace) -> int:
 
     # Create the BOOK_DIR (scaffold), then write initial state into it.
     _info("pre-flight: OK")
-    _info(f"phase: branch · creating book/{slug}")
+    from _branching import branch_name as _branch_name
+    _expected = _branch_name(category, slug)
+    _info(f"phase: branch · creating {_expected}")
     try:
-        phase_branch(slug)
+        phase_branch(slug, category)
     except RuntimeError as e:
         _err(str(e))
         return 2
@@ -999,14 +1376,6 @@ def _drive_authoring_through_0f(book_dir: Path, title: str) -> int:
     return 0
 
 
-def _read_machine_id() -> str:
-    """Return the machine_id from ~/.machine-id, or 'unknown' if not present."""
-    p = Path.home() / ".machine-id"
-    if p.exists():
-        return p.read_text(encoding="utf-8").strip()
-    return "unknown"
-
-
 def _is_pid_alive(pid: int) -> bool:
     """Probe whether `pid` is a live process via signal-0. Returns False on any error."""
     try:
@@ -1041,7 +1410,6 @@ def _acquire_book_lock(book_slug: str) -> tuple[int, Path] | None:
         os.ftruncate(fd, 0)
         body = (
             f"pid: {os.getpid()}\n"
-            f"machine_id: {_read_machine_id()}\n"
             f"started_at: {datetime.now(timezone.utc).isoformat(timespec='seconds')}\n"
             f"book_slug: {book_slug}\n"
         )
@@ -1256,27 +1624,86 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
 
     update_phase(book_dir, phase="per-chapter", status="running")
     outcomes: list[ChapterOutcome] = []
+    # F37 (2026-05-25): per-chapter timing dict, persisted into state.extras so
+    # cross_book_dashboard.py and the heartbeat card can surface throughput.
+    # Keyed by slug → {started_ts, completed_ts, duration_sec, verdict}.
+    chapter_timings: dict[str, dict] = {}
+    prior_state = read_state(book_dir) or {}
+    chapter_timings.update(
+        prior_state.get("phases", {}).get("per-chapter", {}).get("chapter_timings", {})
+    )
+    # F33-second (2026-05-25): track failed chapters separately. Independent
+    # chapters should not block each other — graceful-degrade past FAILED
+    # verdicts and let the operator triage the failed set at end.
+    failed_chapter_slugs: set[str] = set(
+        prior_state.get("phases", {}).get("per-chapter", {}).get("failed_slugs", [])
+    )
+    # F35-second (2026-05-25): per-chapter LLM cost ceiling from series-plan.md.
+    # Default $5/chapter; CHAPTER-COST-CAPPED chapters are flagged FAILED and
+    # surfaced at end. Cost is computed from cost-ledger.jsonl rows tagged with
+    # the chapter slug in their step field.
+    per_chapter_cost_cap_usd = _series_numeric(
+        book_dir, "per_chapter_cost_cap_usd", default=5.0,
+    )
+    if per_chapter_cost_cap_usd > 0:
+        _info(f"per-chapter cost cap: ${per_chapter_cost_cap_usd:.2f} (per series-plan)")
     for slug in chapter_slugs:
         if slug in completed_chapter_slugs:
             _info(f"phase: per-chapter[{slug}] · already shipped, skipping")
             continue
+        if slug in failed_chapter_slugs:
+            _info(f"phase: per-chapter[{slug}] · prior FAILED, skipping (use --retry-chapter to re-attempt)")
+            continue
         _info(f"phase: per-chapter[{slug}] · extract → frame → build → converge")
+        _t_start = datetime.now(timezone.utc)
+        _cost_at_start = _chapter_cost_so_far(book_dir, slug)
+        chapter_timings[slug] = {
+            "started_ts": _t_start.strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "completed_ts": None,
+            "duration_sec": None,
+            "verdict": None,
+            "cost_usd": None,
+        }
         outcome = per_chapter_pass(book_dir, slug)
+        _t_end = datetime.now(timezone.utc)
+        _cost_end = _chapter_cost_so_far(book_dir, slug)
+        _chapter_cost = round(_cost_end - _cost_at_start, 4)
+        chapter_timings[slug]["completed_ts"] = _t_end.strftime("%Y-%m-%dT%H:%M:%SZ")
+        chapter_timings[slug]["duration_sec"] = round((_t_end - _t_start).total_seconds(), 1)
+        chapter_timings[slug]["verdict"] = outcome.final_verdict
+        chapter_timings[slug]["cost_usd"] = _chapter_cost
+        # F35-second: check cost cap. If exceeded, override verdict to FAILED
+        # with a clear COST-CAPPED note so the operator can decide to raise
+        # the cap and resume, or accept the partial-quality chapter.
+        if per_chapter_cost_cap_usd > 0 and _chapter_cost > per_chapter_cost_cap_usd:
+            cost_msg = (
+                f"COST-CAPPED: chapter spent ${_chapter_cost:.2f} > cap "
+                f"${per_chapter_cost_cap_usd:.2f}"
+            )
+            _err(f"  [{slug}] {cost_msg}")
+            outcome.notes.append(cost_msg)
+            outcome.final_verdict = "FAILED"
+            chapter_timings[slug]["verdict"] = "FAILED-COST-CAPPED"
         outcomes.append(outcome)
         _info(render_outcome(outcome))
         if outcome.final_verdict == "FAILED":
+            # F33-second graceful-degrade: record the failure but CONTINUE to
+            # the next chapter. Prior behavior (halt on first FAILED) blocked
+            # independent later chapters and forced manual --retry-chapter
+            # sequencing. New behavior: collect all failures, surface at end.
+            failed_chapter_slugs.add(slug)
             update_phase(
                 book_dir,
                 phase="per-chapter",
-                status="failed",
-                error=f"chapter {slug} failed: {'; '.join(outcome.notes[-3:])}",
+                status="running",
                 extras={
                     "completed_slugs": sorted(completed_chapter_slugs),
-                    "failed_slug": slug,
+                    "failed_slugs": sorted(failed_chapter_slugs),
+                    "chapter_timings": chapter_timings,
                 },
             )
-            _err(f"chapter {slug} failed; halting per-chapter loop.")
-            return 2
+            _err(f"chapter {slug} failed; continuing to next chapter (F33-second graceful-degrade).")
+            continue
 
         completed_chapter_slugs.add(slug)
         # Commit the chapter's chunk of work on the book branch.
@@ -1290,36 +1717,107 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
             book_dir,
             phase="per-chapter",
             status="running",
-            extras={"completed_slugs": sorted(completed_chapter_slugs)},
+            extras={
+                "completed_slugs": sorted(completed_chapter_slugs),
+                "chapter_timings": chapter_timings,
+            },
         )
+
+    # F33-second (2026-05-25): if any chapter FAILED during the graceful-
+    # degrade loop, surface the partial-completion state and halt for
+    # operator triage. The completed chapters are durable; the failed
+    # ones can be re-attempted via --retry-chapter or by raising the
+    # F35-second cost cap.
+    if failed_chapter_slugs:
+        update_phase(
+            book_dir,
+            phase="per-chapter",
+            status="failed",
+            error=(
+                f"{len(failed_chapter_slugs)} chapter(s) failed: "
+                f"{', '.join(sorted(failed_chapter_slugs))}. "
+                f"{len(completed_chapter_slugs)} chapter(s) completed. "
+                f"Triage failures or raise per_chapter_cost_cap_usd and --resume."
+            ),
+            extras={
+                "completed_slugs": sorted(completed_chapter_slugs),
+                "failed_slugs": sorted(failed_chapter_slugs),
+                "chapter_timings": chapter_timings,
+            },
+        )
+        _err(
+            f"per-chapter loop: {len(failed_chapter_slugs)} failed, "
+            f"{len(completed_chapter_slugs)} completed. Halting for triage."
+        )
+        return 2
 
     update_phase(
         book_dir,
         phase="per-chapter",
         status="completed",
-        extras={"completed_slugs": sorted(completed_chapter_slugs)},
+        extras={
+            "completed_slugs": sorted(completed_chapter_slugs),
+            "failed_slugs": [],
+            "chapter_timings": chapter_timings,
+        },
     )
 
-    # Phase 0g — register the series in the cross-book registry.
-    _info("phase: 0g · register series in registry.md")
-    update_phase(book_dir, phase="0g", status="running")
-    try:
-        phase_0g_register(book_dir)
-    except RuntimeError as e:
-        update_phase(book_dir, phase="0g", status="failed", error=str(e))
-        _err(str(e))
-        return 2
-    update_phase(book_dir, phase="0g", status="completed")
-    phase_git_commit(book_dir, f"podcast({book_slug}): phase 0g register series")
+    # Phase 0g — register the series + dual-auditor bundle sweep (F30).
+    # Two sub-steps run sequentially under one phase: (1) append episode rows
+    # to the cross-book registry.md (deterministic; fast), (2) sweep every
+    # per-chapter bundle through audit_bundle.py + audit_bundle_gemini.py in
+    # parallel and persist reports under BOOK_DIR/audits/. Findings are
+    # informational; finalize halt is the human-review gate.
+    # Guard: skip if already completed from a prior run (idempotency for re-entry).
+    _0g_done = (
+        (read_state(book_dir) or {})
+        .get("phases", {})
+        .get("0g", {})
+        .get("status") == "completed"
+    )
+    if _0g_done:
+        _info("phase: 0g · already completed, skipping")
+    else:
+        _info("phase: 0g · register series + dual-auditor bundle sweep")
+        update_phase(book_dir, phase="0g", status="running")
+        try:
+            phase_0g_register(book_dir)
+            _info("phase: 0g · register done; starting per-chapter audit sweep")
+            audit_outcomes = phase_0g_audit_bundles(book_dir, sorted(completed_chapter_slugs))
+        except RuntimeError as e:
+            update_phase(book_dir, phase="0g", status="failed", error=str(e))
+            _err(str(e))
+            return 2
+        update_phase(
+            book_dir, phase="0g", status="completed",
+            extras={"audit_outcomes": audit_outcomes},
+        )
+        phase_git_commit(
+            book_dir,
+            f"podcast({book_slug}): phase 0g register series + dual-auditor bundle sweep",
+        )
 
     # Phase 11b — Slide-deck cohort authoring + Slide Deck Challenger convergence.
-    # OPTIONAL, gated by series-plan.md `enable_slide_decks` (default false).
+    # Default TRUE — slide decks are required output alongside chapters and episodes.
+    # Override to false only via series-plan.md `enable_slide_decks: false`.
     # When false: phase is marked skipped, no slide-deck work happens, audio-side
     # behavior is byte-identical to pre-slide-deck-enhancement orchestrator runs.
     # When true: walks every chapter, authors slide-decks/chNN-deck-<slug>.txt +
     # chNN-framing-<slug>.md, runs Slide Deck Challenger (max 5 iter per chapter).
-    enable_slide_decks = _series_flag(book_dir, "enable_slide_decks", default=False)
-    if enable_slide_decks:
+    enable_slide_decks = _series_flag(book_dir, "enable_slide_decks", default=True)
+    # Guard: skip slides block entirely if a prior run already completed it.
+    # This handles the case where the orchestrator exits cleanly after the
+    # phase_git_commit and the watchdog re-enters _drive_per_chapter_and_after
+    # via the `per-chapter-slides/completed` dispatcher path.
+    _slides_already_done = (
+        (read_state(book_dir) or {})
+        .get("phases", {})
+        .get("per-chapter-slides", {})
+        .get("status") in ("completed", "skipped")
+    )
+    if _slides_already_done:
+        _info("phase: per-chapter-slides · already completed/skipped, advancing to finalize")
+    elif enable_slide_decks:
         _info("phase: per-chapter-slides · slide-deck cohort authoring + slide-deck-challenger")
         update_phase(book_dir, phase="per-chapter-slides", status="running")
         try:
@@ -1347,7 +1845,71 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
         update_phase(book_dir, phase="per-chapter-slides", status="skipped",
                      extras={"reason": "enable_slide_decks=false"})
 
-    # Trainer pass — substrate-driven rule promotion (regression-gated).
+    # Finalize phase (added 2026-05-24 per Asif's split-publish refactor):
+    # run G1-G7 quality gates read-only. If all pass, HALT for human review.
+    # If any fail, halt-and-surface for remediation. The actual publish
+    # (file copy to content/published/books/<slug>/) is a separate
+    # human-authorized phase that fires on the next `--resume` after review.
+    _info("phase: finalize · run G1-G7 gates via validate_ship_ready.py")
+    update_phase(book_dir, phase="finalize", status="running")
+    validate_script = Path(__file__).resolve().parent / "validate_ship_ready.py"
+    rc, vout, verr = _run([sys.executable, str(validate_script), book_slug])
+    print(vout)
+    if rc != 0:
+        update_phase(book_dir, phase="finalize", status="failed",
+                     error="G1-G7 gates failed; see stdout for the failing gate",
+                     extras={"validator_stdout": vout[-2000:], "validator_stderr": verr[-1000:]})
+        _err("finalize halt — at least one G1-G7 gate failed. "
+             "Fix the cause, then re-invoke `orchestrate_book.py --resume`.")
+        return 2
+    update_phase(book_dir, phase="finalize", status="halted",
+                 extras={"verdict": "SHIP-READY"})
+    _info("")
+    _info("─" * 72)
+    _info("Phase finalize complete · halted for human review (SHIP-READY).")
+    _info("")
+    _info("Review the clean version in the podcast-reader app:")
+    _info("  cd podcast-reader && npm run dev")
+    _info("  open http://localhost:4321/develop/" + book_slug + "/")
+    _info("")
+    _info("Optional: run A/B transcription analysis against reference MP3s if any:")
+    _info("  python3 scripts/podcast/ab_compare_episode.py --book-dir "
+          + str(book_dir) + " --episode EP##-<slug> --reference-transcript ...")
+    _info("")
+    _info("When satisfied, authorize publish + trainer + merge:")
+    _info(f"  python3 scripts/podcast/orchestrate_book.py --resume {book_slug}")
+    _info("─" * 72)
+    return 0
+
+
+def _drive_publish_through_done(book_dir: Path) -> int:
+    """Phases that fire after the finalize halt: publish → trainer → merge → done.
+
+    Split out 2026-05-24 so the finalize halt is a clean review checkpoint;
+    --resume after the halt enters this function and runs each phase in
+    sequence. Failure at any phase halts the orchestrator with state
+    pointing at the failing phase.
+    """
+    book_slug = book_dir.name
+
+    # Publish — file copy to content/published/books/<slug>/.
+    _info("phase: publish · copy clean chapters + episodes to published/")
+    update_phase(book_dir, phase="publish", status="running")
+    publish_script = Path(__file__).resolve().parent / "publish_to_library.py"
+    rc, pout, perr = _run([sys.executable, str(publish_script), book_slug])
+    print(pout)
+    if rc != 0:
+        update_phase(book_dir, phase="publish", status="failed",
+                     error="publish_to_library.py rc != 0; gates re-ran defensively",
+                     extras={"publisher_stdout": pout[-2000:], "publisher_stderr": perr[-1000:]})
+        _err("publish failed — defensive gate re-run blocked the copy. "
+             "Investigate and re-invoke `orchestrate_book.py --resume`.")
+        return 2
+    update_phase(book_dir, phase="publish", status="completed")
+    phase_git_commit(book_dir, f"podcast({book_slug}): published to library")
+
+    # Trainer pass — runs on the POST-publish substrate so its spec edits
+    # are validated against the version that actually shipped.
     _info("phase: trainer · invoke podcast-trainer on the book branch")
     update_phase(book_dir, phase="trainer", status="running")
     try:
@@ -1378,9 +1940,6 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
     _info("")
     _info("─" * 72)
     _info(f"Book {book_slug}: SHIPPED.")
-    _info("Per-chapter outcomes:")
-    for o in outcomes:
-        _info(render_outcome(o))
     _info("─" * 72)
     return 0
 
@@ -1427,7 +1986,8 @@ def run_resume(args: argparse.Namespace) -> int:
                     lb.pop("ts_completed", None)
         # last_completed_phase walks back to the predecessor.
         canonical = ("pre-flight", "branch", "scaffold", "0a", "0b", "0c", "0d", "0e",
-                     "0f", "0g", "per-chapter", "trainer", "merge", "done")
+                     "0f", "0g", "per-chapter", "per-chapter-slides", "finalize",
+                     "publish", "trainer", "merge", "done")
         if retry_phase in canonical:
             i = canonical.index(retry_phase)
             state["last_completed_phase"] = canonical[i - 1] if i > 0 else None
@@ -1493,8 +2053,60 @@ def run_resume(args: argparse.Namespace) -> int:
         return _drive_authoring_through_0f(book_dir, title)
 
     # If we halted mid-per-chapter, resume the loop (it tracks completed_slugs).
-    if current_phase == "per-chapter" and current_status in ("failed", "halted", "running"):
+    # `pending` is included to cover the `--retry-phase per-chapter` reset path
+    # (the retry-phase logic sets status to pending; without `pending` here, the
+    # dispatcher falls through to "No automated action" instead of resuming).
+    if current_phase == "per-chapter" and current_status in (
+        "failed", "halted", "running", "pending"
+    ):
         return _drive_per_chapter_and_after(book_dir)
+
+    # If we're mid-slide-deck cohort (crashed or stale-running), re-enter the
+    # per-chapter driver. It skips already-completed chapters and per-chapter-slides
+    # resumes from the slide cohort. `pending` covers the `--retry-phase` reset path.
+    if current_phase == "per-chapter-slides" and current_status in (
+        "failed", "running", "pending"
+    ):
+        return _drive_per_chapter_and_after(book_dir)
+
+    # per-chapter-slides completed normally but orchestrator exited before advancing
+    # to finalize (e.g. clean exit after a git commit, watchdog re-launched and saw
+    # completed status which was not in the handled set above). Advance directly
+    # to finalize without re-running slides.
+    if current_phase == "per-chapter-slides" and current_status == "completed":
+        _info("Phase per-chapter-slides already completed — advancing to finalize.")
+        return _drive_per_chapter_and_after(book_dir)
+
+    # 0g completed but orchestrator exited before advancing to finalize.
+    # Same pattern as per-chapter-slides/completed above.
+    if current_phase == "0g" and current_status == "completed":
+        _info("Phase 0g already completed — advancing to finalize.")
+        return _drive_per_chapter_and_after(book_dir)
+
+    # 0g failed / running / pending — re-enter _drive_per_chapter_and_after,
+    # which re-evaluates the 0g guard internally and resumes from the audit
+    # sweep (idempotent: skips bundles whose audit reports are newer than
+    # the bundle's 00-framing.md). Added 2026-05-25 to close the resume-
+    # dispatcher gap surfaced by the post-merge holistic audit.
+    if current_phase == "0g" and current_status in ("failed", "running", "pending"):
+        _info(f"Phase 0g status={current_status!r} — re-entering per-chapter-and-after driver.")
+        return _drive_per_chapter_and_after(book_dir)
+
+    # Finalize halt (added 2026-05-24): G1-G7 gates passed; human reviews in
+    # podcast-reader then re-invokes --resume to authorize publish.
+    if current_phase == "finalize" and current_status == "halted":
+        _info("Phase finalize gate cleared (human approved by re-invoking --resume).")
+        return _drive_publish_through_done(book_dir)
+    if current_phase == "finalize" and current_status in ("failed", "pending"):
+        # Re-run finalize (re-validate gates after a fix).
+        return _drive_per_chapter_and_after(book_dir)
+
+    # Publish / trainer / merge halt-and-resume: re-enter the publish-through-done
+    # driver. Each step is idempotent enough to resume from the last failure.
+    if current_phase in ("publish", "trainer", "merge") and current_status in (
+        "failed", "running", "pending"
+    ):
+        return _drive_publish_through_done(book_dir)
 
     # If we already merged, nothing to do.
     if current_phase == "done":
@@ -1593,6 +2205,43 @@ def build_parser() -> argparse.ArgumentParser:
     return p
 
 
+def _maybe_relaunch_under_watchdog(slug: str) -> None:
+    """Auto-spawn watch_orchestrator.sh when --resume is called without it.
+
+    The watchdog sets PODCAST_WATCHDOG=1 in the child environment so we
+    don't recurse. When NOT under the watchdog, we spawn it in the
+    background, print the log path, and exit — the watchdog owns the run
+    from here. This fires automatically so the caller (Claude or a human)
+    never has to remember to use the watchdog explicitly.
+    """
+    if os.environ.get("PODCAST_WATCHDOG"):
+        return  # already under watchdog — proceed normally
+
+    watchdog = Path(__file__).resolve().parent / "watch_orchestrator.sh"
+    if not watchdog.exists():
+        _err("watch_orchestrator.sh not found — running WITHOUT self-healing watchdog")
+        return  # fall through; better to run unguarded than not at all
+
+    log_dir = Path(__file__).resolve().parents[2] / "_workspace" / "logs"
+    log_dir.mkdir(parents=True, exist_ok=True)
+    log_path = log_dir / f"orchestrator-{slug}.log"
+
+    print(f"  [watchdog] auto-spawning watch_orchestrator.sh for {slug}")
+    print(f"  [watchdog] log: {log_path}")
+    print(f"  [watchdog] this process exits; watchdog owns the run from here.")
+
+    import subprocess
+    with open(log_path, "a") as log_fh:
+        subprocess.Popen(
+            ["/bin/bash", str(watchdog), slug],
+            stdout=log_fh,
+            stderr=subprocess.STDOUT,
+            # Detach from our process group so it survives our exit.
+            start_new_session=True,
+        )
+    sys.exit(0)
+
+
 def main() -> int:
     args = build_parser().parse_args()
 
@@ -1608,6 +2257,12 @@ def main() -> int:
     else:
         _err("either <pdf-path> (initial) or --resume <slug> or --status <slug> is required")
         return 1
+
+    # Auto-watchdog: every --resume goes through watch_orchestrator.sh unless
+    # already running under it. Protects multi-hour runs from silent process
+    # death without the caller having to remember to use the watchdog.
+    if args.resume:
+        _maybe_relaunch_under_watchdog(slug_for_lock)
 
     lock_result = _acquire_book_lock(slug_for_lock)
     if lock_result is None:

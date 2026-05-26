@@ -3,7 +3,7 @@
 
 The state file at `<BOOK_DIR>/_system/orchestrator-state.json` is the
 **single source of truth** for the autonomous orchestrator. Per the v2
-spec (docs/architecture/podcast-orchestrator.html), there is no committed
+spec (docs/architecture/index.html#phases), there is no committed
 `PROGRESS.md` artifact — this file is read by `orchestrate-book --status`
 to render a human view on demand.
 
@@ -67,6 +67,7 @@ PHASES = (
     "0g",       # Register series (deterministic)
     "per-chapter",  # iterated across the chapter list on --resume
     "per-chapter-slides",  # optional; gated by series.enable_slide_decks. Per-chapter slide-deck authoring + slide-deck-challenger convergence. Skipped (status="skipped") when flag is false.
+    "finalize",     # G1-G7 quality gates + human review halt before publish
     "trainer",
     "merge",
     "done",
@@ -103,11 +104,15 @@ def initial_state(book_slug: str, category: str) -> dict[str, Any]:
     except Exception:
         challenger_version = "unknown"
 
+    # Branch naming is category-typed (book/, doc/, lecture/, article/, etc.;
+    # `draft/` for unclassified). See scripts/podcast/_branching.py for policy.
+    from _branching import branch_name as _branch_name   # noqa: E402
+
     return {
         "schema_version": SCHEMA_VERSION,
         "book_slug": book_slug,
         "category": category,
-        "branch": f"book/{book_slug}",
+        "branch": _branch_name(category, book_slug),
         "phase": "pre-flight",
         "phase_status": "running",
         "last_completed_phase": None,

@@ -100,9 +100,17 @@ from pathlib import Path
 # Longer, too thin to sustain Extended) — flagged with a soft warning but
 # not refused.
 CHAPTER_WORD_MIN_HARD = 500
-CHAPTER_WORD_MAX_HARD = 10500
+CHAPTER_WORD_MAX_HARD = 12000   # bumped 2026-05-24 from 10500 to fit the
+                                # `extended` tier (5,500-9,500 band) PLUS the
+                                # ~20-30% enrichment uplift Phase 0e adds.
+                                # Master-disciple's 6 chapters land 9,645-11,142
+                                # words post-enrichment; ceiling now has ~1k
+                                # headroom over the densest case.
 CHAPTER_WORD_MIN_SOFT = 1000
-CHAPTER_WORD_MAX_SOFT = 9500
+CHAPTER_WORD_MAX_SOFT = 11000   # bumped 2026-05-24 from 9500 in lockstep with
+                                # CHAPTER_WORD_MAX_HARD; soft warning still fires
+                                # at +1k below the hard refuse so authors get
+                                # advance notice before a true ceiling crash.
 CHAPTER_DEAD_ZONE_MIN = 4500
 CHAPTER_DEAD_ZONE_MAX = 5500
 
@@ -139,7 +147,7 @@ META_PROSE_TELLS = [
     "phase 0a", "phase 0b", "phase 0c", "phase 0d", "phase 0e", "phase 0f", "phase 0g",
     "enrichment status",
     "enrichment ratio",
-    "per content/podcast/.skill/handbook",
+    "per the meta-prose rule (B1) in infra/claude-agents/podcast-challenger.md",
     "nothing has been added that is not in the source",
     "anything the author only implies",
     "preserved in blockquotes with the original transliteration",
@@ -207,7 +215,55 @@ INLINE_PHONETIC_PATTERNS = [
 import sys as _sys
 from pathlib import Path as _Path
 _sys.path.insert(0, str(_Path(__file__).parent))
-from _rules import abbreviations_for_build, HONORIFICS as _HONORIFICS_RAW
+from _rules import (
+    abbreviations_for_build,
+    HONORIFICS as _HONORIFICS_RAW,
+    HOST_A_ROLES_SCHOLAR,
+    HOST_B_ROLES_SEEKER,
+)
+
+
+def validate_host_role_parity(contract: dict) -> list[str]:
+    """R-HOST-ROLE-PARITY (Q4) — deterministic host-pairing gate.
+
+    Per `_rules.py` canonical pairing: Host A (male voice) is always in the
+    scholar pool; Host B (female voice) is always in the seeker pool. This
+    rule does NOT rotate across episodes within a single book.
+
+    Returns a list of findings (empty = clean). Reads `contract.debate.host_a.role`
+    and `contract.debate.host_b.role` (debate mode only — deep_dive uses
+    host_dynamic instead). For deep_dive episodes this validator is a no-op
+    because the role assignment is conveyed via host_dynamic prose, not
+    structured fields; the LLM challenger's Q1/Q2 catches the deep_dive case
+    semantically. The hard gate here is for debate mode where the contract
+    HAS structured roles that can be machine-checked.
+
+    Auditor 2026-05-24: the HOST_A_ROLES_SCHOLAR / HOST_B_ROLES_SEEKER
+    constants were defined in _rules.py without a Python consumer. This
+    function is the consumer. Wired into validate_chapter() so any debate
+    chapter with reversed host pairing fails the build.
+    """
+    findings: list[str] = []
+    debate = (contract or {}).get("debate") or {}
+    if not isinstance(debate, dict) or not debate:
+        # deep_dive (or contract without debate block) — semantic check only
+        return findings
+    host_a = (debate.get("host_a") or {}).get("role", "")
+    host_b = (debate.get("host_b") or {}).get("role", "")
+    if host_a and host_a.lower() not in {r.lower() for r in HOST_A_ROLES_SCHOLAR}:
+        findings.append(
+            f"R-HOST-ROLE-PARITY (Q4): contract.debate.host_a.role={host_a!r} not in "
+            f"scholar pool {HOST_A_ROLES_SCHOLAR}. Host A (male voice) must be in the "
+            f"scholar/teacher pool. If contract assigns the scholar role to Host B, "
+            f"swap the assignments so the male voice carries the scholar role."
+        )
+    if host_b and host_b.lower() not in {r.lower() for r in HOST_B_ROLES_SEEKER}:
+        findings.append(
+            f"R-HOST-ROLE-PARITY (Q4): contract.debate.host_b.role={host_b!r} not in "
+            f"seeker pool {HOST_B_ROLES_SEEKER}. Host B (female voice) must be in the "
+            f"seeker/student/debater pool."
+        )
+    return findings
 
 FORBIDDEN_ABBREVIATIONS = abbreviations_for_build()
 
@@ -326,6 +382,48 @@ def load_book_meta_prose_tells(book_dir: Path) -> list[str]:
     return tells
 
 
+def _is_rule_example_line(line: str, tell: str) -> bool:
+    """True if `tell` appears in `line` ONLY as a quoted example within a
+    rule-statement bullet — i.e., the line is a rule that BANS the tell,
+    not a real meta-prose leak.
+
+    Heuristic (added 2026-05-24): the bullet is a rule statement when it
+    starts with `- ` or `- **`; the tell is an example when it appears
+    inside double-quotes on that line. Both must hold; otherwise the tell
+    is a real leak that escaped a non-rule context.
+    """
+    stripped = line.strip()
+    if not (stripped.startswith("- ") or stripped.startswith("* ")):
+        return False
+    # Look for the tell inside double-quoted strings on this line. If every
+    # occurrence of the tell is inside `"..."`, treat as a rule example.
+    # Conservative — even one occurrence outside quotes = real leak.
+    tell_lower = tell.lower()
+    line_lower = stripped.lower()
+    in_quote = False
+    quoted_spans: list[tuple[int, int]] = []
+    span_start = -1
+    for i, ch in enumerate(stripped):
+        if ch == '"':
+            if not in_quote:
+                span_start = i + 1
+                in_quote = True
+            else:
+                quoted_spans.append((span_start, i))
+                in_quote = False
+    # Find every occurrence of the tell; check if each is inside a quoted span.
+    pos = 0
+    while True:
+        idx = line_lower.find(tell_lower, pos)
+        if idx < 0:
+            break
+        in_quoted = any(s <= idx and idx + len(tell_lower) <= e for s, e in quoted_spans)
+        if not in_quoted:
+            return False
+        pos = idx + 1
+    return True
+
+
 def assert_no_meta_prose(content: str, file_path: Path, role: str,
                          extra_tells: list[str] | None = None) -> None:
     """Refuse to build if content contains meta-prose tells.
@@ -333,10 +431,32 @@ def assert_no_meta_prose(content: str, file_path: Path, role: str,
     `role` is 'chapter (SOURCE)' or 'framing (CUSTOMIZE PROMPT)' for the error message.
     `extra_tells` are book-specific substring tells loaded via
     `load_book_meta_prose_tells`. They are checked in addition to the global list.
+
+    F31 fix (2026-05-24): a rule like `- **Cross-episode language.** No
+    "previous episode," "earlier episode," "next episode."` legitimately
+    contains the forbidden tells as quoted examples. Skip tells whose
+    every occurrence on a line is inside `"..."` within a rule-statement
+    bullet (`_is_rule_example_line`). Same pattern as the f7068bf fix
+    for "the rule that bans X contains X literally" — surfaced on EP05
+    framing's anti-noise section.
     """
     lower = content.lower()
     all_tells = META_PROSE_TELLS + list(extra_tells or [])
-    substring_hits = [tell for tell in all_tells if tell in lower]
+    lines = content.splitlines()
+
+    substring_hits: list[str] = []
+    for tell in all_tells:
+        if tell not in lower:
+            continue
+        # Check every line that contains the tell. If ALL occurrences are
+        # inside quoted examples within rule bullets, skip this tell.
+        any_real_leak = False
+        for line in lines:
+            if tell in line.lower() and not _is_rule_example_line(line, tell):
+                any_real_leak = True
+                break
+        if any_real_leak:
+            substring_hits.append(tell)
     regex_hits = []
     for pat in META_PROSE_REGEX_TELLS:
         for m in re.finditer(pat, content, flags=re.IGNORECASE):
@@ -344,11 +464,10 @@ def assert_no_meta_prose(content: str, file_path: Path, role: str,
     if not (substring_hits or regex_hits):
         return
 
-    lines = content.splitlines()
     offending = []
     for tell in substring_hits:
         for ln, line in enumerate(lines, 1):
-            if tell in line.lower():
+            if tell in line.lower() and not _is_rule_example_line(line, tell):
                 offending.append(f"  {file_path.name}:{ln}: {line.strip()[:120]}")
                 break
     for pat, matched in regex_hits[:5]:
@@ -419,7 +538,7 @@ def assert_no_inline_phonetics(content: str, file_path: Path) -> None:
         f"  'tassel wolf' for *Tasawwuf*. Move every phonetic into the matching\n"
         f"  framing's `## Pronunciation` block as an imperative line:\n"
         f"      Pronounce \"Tasawwuf\" as \"ta-SAW-wuf\". Say it as one fluent word.\n"
-        f"  See content/podcast/.skill/handbook/notebooklm-source-chapter-rules.md\n"
+        f"  See scripts/podcast/_rules.py (rules R-PHONETICS-OUT, R-NO-ABBREVIATION, etc.)\n"
         f"  R-PHONETICS-OUT and notebooklm-customize-prompt-rules.md\n"
         f"  R-PRONUNCIATION-IMPERATIVE."
     )
@@ -441,7 +560,7 @@ def assert_no_abbreviations(content: str, file_path: Path) -> None:
         f"  Hits:\n{joined}\n\n"
         f"  R-NO-ABBREVIATION: listeners cannot resolve unfamiliar contractions.\n"
         f"  Use the full canonical title every time. See\n"
-        f"  content/podcast/.skill/handbook/notebooklm-source-chapter-rules.md R-NO-ABBREVIATION."
+        f"  scripts/podcast/_rules.py (rules R-PHONETICS-OUT, R-NO-ABBREVIATION, etc.) R-NO-ABBREVIATION."
     )
 
 
@@ -464,7 +583,7 @@ def assert_honorifics_once_only(content: str, file_path: Path) -> None:
         f"  ('the Prophet', 'Imam Ali'). NotebookLM reads every expansion aloud\n"
         f"  — empirically: 9 expansions of '(peace and blessings be upon him)'\n"
         f"  in a single audited episode. See\n"
-        f"  content/podcast/.skill/handbook/notebooklm-source-chapter-rules.md\n"
+        f"  scripts/podcast/_rules.py (rules R-PHONETICS-OUT, R-NO-ABBREVIATION, etc.)\n"
         f"  R-HONORIFIC-ONCE."
     )
 
@@ -478,7 +597,7 @@ def assert_framing_pronunciation_imperative(content: str, file_path: Path) -> No
             f"  File: {file_path}\n"
             f"  R-PRONUNCIATION-IMPERATIVE: every framing must carry a Pronunciation\n"
             f"  block of imperative directives (`Pronounce \"Term\" as \"phonetic\". ...`).\n"
-            f"  See content/podcast/.skill/handbook/notebooklm-customize-prompt-rules.md\n"
+            f"  See scripts/podcast/_rules.py (rules R-PRONUNCIATION-IMPERATIVE, R-NOMODERNIZE, etc.)\n"
             f"  R-PRONUNCIATION-IMPERATIVE."
         )
     block = m.group(1)
@@ -493,10 +612,16 @@ def assert_framing_pronunciation_imperative(content: str, file_path: Path) -> No
             f"  The passive list does not change NotebookLM voice-model behavior — empirically\n"
             f"  hosts said 'tassel wolf' for *Tasawwuf* across three episodes."
         )
-    # Require at least one Pronounce line
-    if "Pronounce \"" not in block and 'Pronounce "' not in block:
+    # Require at least one Pronounce line. Accept BOTH `Pronounce "Term"` and
+    # `Pronounce *Term*` (italic-term form). The LLM author tends to emit
+    # the asterisks form for term-emphasis even though the canonical example
+    # uses quotes; both are functionally identical for NotebookLM TTS, which
+    # strips markdown markers before voicing.
+    pronounce_re = re.compile(r'^\s*Pronounce\s+(?:"[^"]+"|\*[^*]+\*)\s+as\s+["\']', re.MULTILINE)
+    if not pronounce_re.search(block):
         sys.exit(
-            f"ERROR: framing's `## Pronunciation` block has no imperative `Pronounce \"...\"` lines.\n"
+            f"ERROR: framing's `## Pronunciation` block has no imperative\n"
+            f"  `Pronounce \"Term\" as \"phonetic\".` (or italic-form `Pronounce *Term* as \"phonetic\".`) lines.\n"
             f"  File: {file_path}\n"
             f"  See R-PRONUNCIATION-IMPERATIVE."
         )
@@ -750,7 +875,15 @@ def assert_framing_analogy_cap_strict(content: str, file_path: Path) -> None:
 
 
 def assert_framing_no_modern_artifacts(content: str, file_path: Path) -> None:
-    """F27 #4: detect modern-vocabulary contamination in framing.md."""
+    """F27 #4: detect modern-vocabulary contamination in framing.md.
+
+    F31 fix (2026-05-24): the canonical `## Do not (forbidden vocabulary
+    and framings)` section lists the forbidden terms EXPLICITLY as a
+    reference for the LLM (and is required by assert_framing_deny_block).
+    Without scrubbing that section, this scan flags its own canonical
+    examples — same pattern f7068bf was trying to break. Strip both the
+    R-NOMODERNIZE section AND the `## Do not` section before scanning.
+    """
     scan_text = content.lower()
 
     # Strip the framing's own ban-list section (false-positive guard)
@@ -758,6 +891,15 @@ def assert_framing_no_modern_artifacts(content: str, file_path: Path) -> None:
         r"##\s+\d*\.?\s*R-NOMODERNIZE.*?(?=\n##\s|\Z)",
         "",
         scan_text,
+        flags=re.DOTALL,
+    )
+    # Strip the canonical `## Do not (forbidden vocabulary and framings)` section
+    # — assert_framing_deny_block REQUIRES this section to list specific phrases
+    # as examples; without scrubbing it, this scan flags those very examples.
+    scan_text_scrubbed = re.sub(
+        r"##\s+do not\s*\(forbidden vocabulary.*?(?=\n##\s|\Z)",
+        "",
+        scan_text_scrubbed,
         flags=re.DOTALL,
     )
 
@@ -1143,7 +1285,7 @@ def assert_framing_deny_block(content: str, file_path: Path) -> None:
             f"  surprise-noise phrases ('wow', 'right?', 'it's chilling', ...). The block\n"
             f"  is the structural fix for empirically-observed host drift away from\n"
             f"  faithful exposition into modern analogies and surprise loops.\n"
-            f"  See content/podcast/.skill/handbook/notebooklm-customize-prompt-rules.md."
+            f"  See scripts/podcast/_rules.py (rules R-PRONUNCIATION-IMPERATIVE, R-NOMODERNIZE, etc.)."
         )
     missing = [p for p in REQUIRED_FRAMING_DO_NOT_PHRASES if p not in content]
     if missing:
@@ -1152,6 +1294,105 @@ def assert_framing_deny_block(content: str, file_path: Path) -> None:
             f"  File: {file_path}\n"
             f"  See R-NOMODERNIZE / R-NOSURPRISE / R-NO-READ-PROMPT for the canonical list."
         )
+
+
+def _resolve_book_tradition(file_path: Path) -> str:
+    """F34 (2026-05-25): walk up from `file_path` to find series-config.yaml
+    and read `source_tradition`. Returns lowercase tradition slug, or 'islam'
+    if not declared (legacy default — the only books shipped pre-F34 are
+    Islamic, so this preserves their behavior).
+
+    Edge case (audit A4 follow-up): if `file_path` happens to be a directory
+    that contains series-config.yaml directly, the original walk would skip
+    the config by calling .parent first. Fixed by checking file_path's own
+    containing directory BEFORE walking up.
+    """
+    resolved = file_path.resolve()
+    # If file_path is a file, start search at its parent directory.
+    # If it's already a directory, start search at file_path itself.
+    cursor = resolved if resolved.is_dir() else resolved.parent
+    for _ in range(8):  # walk up at most 8 levels
+        cfg = cursor / "series-config.yaml"
+        if cfg.exists():
+            try:
+                text = cfg.read_text(encoding="utf-8")
+                for line in text.splitlines():
+                    line = line.strip()
+                    if line.startswith("source_tradition:"):
+                        return line.split(":", 1)[1].strip().strip("'\"").lower() or "islam"
+            except OSError:
+                pass
+            break  # found a config but no tradition field
+        if cursor == cursor.parent:
+            break
+        cursor = cursor.parent
+    return "islam"  # legacy default
+
+
+def assert_doctrinal_clean(text: str, file_path: Path) -> None:
+    """Category T hard gate. Runs T3 forbidden-phrase checks (Imam Ali,
+    Imam Fatima, etc.) plus T1/T2/T5 advisory checks. P0 findings exit the
+    build; P1 findings emit as FLAG (P1) lines for the challenger's
+    convergence loop to surface.
+
+    F34 (2026-05-25): now tradition-gated. If the book's series-config.yaml
+    declares source_tradition != 'islam' (and aliases ismaili/shia/sunni/
+    twelver/sufi), the Islamic doctrinal pack does NOT run — instead emits
+    a single T-NO-PACK info line so the silence is visible. When a Buddhist
+    /Christian/Hindu pack is added under content/_shared/<tradition>/, this
+    function will dispatch to it via load_doctrinal_pack(); for now those
+    books pass the gate trivially with a visible info note.
+
+    Lives next to validate_chapter() so the rule wiring is visible from one
+    place. See scripts/podcast/_doctrinal.py for the rule implementations.
+    """
+    # Local import: _doctrinal isn't needed at module-import time, and keeping
+    # it lazy avoids forcing the YAML files to exist for every callsite that
+    # only uses build_episode_txt's other gates.
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from _doctrinal import run_doctrinal_checks, tradition_pack_dir   # noqa: E402
+
+    # F34: tradition-gate. Skip Islamic doctrinal checks for non-Islamic books.
+    tradition = _resolve_book_tradition(file_path)
+    pack_dir = tradition_pack_dir(tradition)
+    if not pack_dir.is_dir():
+        print(
+            f"INFO: T-NO-PACK — book's source_tradition={tradition!r} has no doctrinal "
+            f"data pack at {pack_dir}. "
+            f"Skipping Category T checks. Add a tradition pack under "
+            f"content/_shared/<tradition>/ to enable doctrinal gating for this book.",
+            file=sys.stderr,
+        )
+        return
+
+    findings = run_doctrinal_checks(text)
+    p0_findings = [f for f in findings if f.severity == "P0"]
+    p1_findings = [f for f in findings if f.severity == "P1"]
+
+    for f in p1_findings:
+        _flag_p1(
+            f.check_id,
+            file_path,
+            f"{f.signature} — {f.reason[:140]} "
+            f"(context: …{f.context_excerpt[:80]}…)"
+            + (f" — use: {f.replacement}" if f.replacement else ""),
+        )
+
+    if p0_findings:
+        lines = ["ERROR: doctrinal-accuracy P0 violations in chapter:"]
+        for f in p0_findings:
+            lines.append(
+                f"  [{f.check_id}] {f.signature}"
+                + (f" → use '{f.replacement}'" if f.replacement else "")
+            )
+            lines.append(f"    context: …{f.context_excerpt[:200]}…")
+            if f.reason:
+                lines.append(f"    reason: {f.reason[:200]}")
+        lines.append(
+            f"  See content/_shared/islam/ for the canonical data and "
+            f"scripts/podcast/_doctrinal.py for the rule logic."
+        )
+        sys.exit("\n".join(lines))
 
 
 def validate_chapter(chapter_path: Path, extra_tells: list[str] | None = None) -> int:
@@ -1165,6 +1406,11 @@ def validate_chapter(chapter_path: Path, extra_tells: list[str] | None = None) -
     assert_no_abbreviations(text, chapter_path)
     # R-HONORIFIC-ONCE (2026-05-17)
     assert_honorifics_once_only(text, chapter_path)
+    # Category T — doctrinal accuracy (T3 forbidden phrases). Hard gate;
+    # blocks ship on any P0 violation (e.g. "Imam Ali" when source-correct
+    # is "Father of Imams"). See scripts/podcast/_doctrinal.py and
+    # content/_shared/islam/*.yml for the canonical data.
+    assert_doctrinal_clean(text, chapter_path)
     # R-NO-MANUSCRIPT-META (2026-05-21, X14) — P1 FLAG (warning, not hard fail).
     assert_chapter_no_manuscript_meta(text, chapter_path)
     # F27 Tier 2.5 (2026-05-22) — TTS-safe enforcement. All P1 flags
@@ -1178,7 +1424,7 @@ def validate_chapter(chapter_path: Path, extra_tells: list[str] | None = None) -
         sys.exit(
             f"ERROR: chapter {chapter_path.name} is {n} words. "
             f"Hard band is {CHAPTER_WORD_MIN_HARD}-{CHAPTER_WORD_MAX_HARD}. "
-            f"See content/podcast/.skill/handbook/notebooklm-best-practices.md §3."
+            f"See infra/claude-agents/podcast-challenger.md (Categories C, D, E for word-count + structure) §3."
         )
     return n
 
@@ -1220,7 +1466,7 @@ def build_framing_episode_txt(framing_path: Path, out_path: Path,
         sys.exit(
             f"ERROR: framing {framing_path.name} produces a customize prompt of {n} "
             f"words. Target band is {FRAMING_WORD_MIN}-{FRAMING_WORD_MAX}. "
-            f"See content/podcast/.skill/handbook/notebooklm-best-practices.md §5."
+            f"See infra/claude-agents/podcast-challenger.md (Categories C, D, E for word-count + structure) §5."
         )
 
     out_path.parent.mkdir(parents=True, exist_ok=True)

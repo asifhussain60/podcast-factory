@@ -1,0 +1,79 @@
+# Imam lineage — Nizari/Mustaali Ismaili tradition
+#
+# Canonical source of truth for Category T2 (Imam-lineage check) in the
+# podcast-challenger. Editors: when adding a future Imam, append to `imams`
+# in canonical order. Each entry's `ordinal` MUST equal its 1-based position
+# in the list.
+#
+# Naming policy (used by T3):
+#   - Ali ibn Abi Talib is the FATHER of the Imams; he is NOT counted in the
+#     lineage. The first Imam is Hassan. The phrase "Imam Ali" is FORBIDDEN.
+#     Refer to him as "Ali ibn Abi Talib", "Father of Imams", or by his
+#     traditional titles (Asadullah, Amir al-Mu'minin, etc.).
+#   - Fatima (daughter of the Prophet, mother of the Imams) is similarly not
+#     counted in the lineage; "Imam Fatima" is FORBIDDEN.
+#
+# Tradition: Ismaili (Nizari + Mustaali share Imams 1–6; the lineage splits
+# after Ja'far al-Sadiq with the Ismaili recognition of Ismail ibn Ja'far
+# instead of Musa al-Kadhim).
+#
+# Source: Asif's standing brief 2026-05-24. Future Imams beyond Muhammad
+# ibn Isma'il TO BE ADDED.
+
+tradition: ismaili
+imams:
+  - ordinal: 1
+    canonical_name: Hassan ibn Ali
+    titles: [al-Mujtaba, al-Sibt]
+    aliases: [Imam Hassan, al-Hasan]
+    forbidden_aliases: []
+  - ordinal: 2
+    canonical_name: Hussain ibn Ali
+    titles: [Sayyid al-Shuhada, al-Sibt]
+    aliases: [Imam Hussain, Husayn, al-Husayn, Imam Husayn]
+    forbidden_aliases: []
+  - ordinal: 3
+    canonical_name: Ali Zayn al-Abidin
+    titles: [Zayn al-Abidin, al-Sajjad]
+    aliases: [Imam Zayn al-Abidin, Ali ibn al-Husayn]
+    forbidden_aliases: []
+  - ordinal: 4
+    canonical_name: Muhammad al-Baqir
+    titles: [al-Baqir]
+    aliases: [Imam Muhammad al-Baqir, Muhammad ibn Ali]
+    forbidden_aliases: []
+  - ordinal: 5
+    canonical_name: Ja'far al-Sadiq
+    titles: [al-Sadiq]
+    aliases: [Imam Ja'far al-Sadiq, Ja'far ibn Muhammad, Jaffer al-Saadiq, Jaffer al-Sadiq]
+    forbidden_aliases: []
+  - ordinal: 6
+    canonical_name: Isma'il ibn Ja'far
+    titles: []
+    aliases: [Ismail, Ismaeel, Imam Ismail, Ismail bin Jaffer]
+    forbidden_aliases: []
+  - ordinal: 7
+    canonical_name: Muhammad ibn Isma'il
+    titles: [al-Maktum]
+    aliases: [Imam Muhammad ibn Ismail, Muhammad bin Ismael]
+    forbidden_aliases: []
+
+# Figures who are sometimes mis-titled as "Imam" and MUST NOT be referred to
+# as such anywhere in chapter, framing, or episode prose.
+forbidden_imam_titles:
+  - figure: Ali ibn Abi Talib
+    canonical_titles: [Father of Imams, Amir al-Mu'minin, Asadullah, Ali ibn Abi Talib]
+    aliases_that_signal_violation: [Imam Ali, Imam 'Ali, Imam Aali, "1st Imam Ali"]
+    severity: P0
+    reason: |
+      In this lineage Ali is the FATHER of the Imams, not the 1st Imam. The
+      common Shia honorific "Imam Ali" reflects the Twelver convention, which
+      is not the framing used in Asif's books. Replace with "Father of Imams"
+      or his traditional titles.
+  - figure: Fatima al-Zahra
+    canonical_titles: [Fatima al-Zahra, daughter of the Prophet, Mother of Imams, Sayyida Fatima]
+    aliases_that_signal_violation: [Imam Fatima]
+    severity: P0
+    reason: |
+      Fatima is the Mother of the Imams; "Imam Fatima" is doctrinally
+      incorrect across all traditions Asif works in.

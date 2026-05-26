@@ -1,0 +1,39 @@
+{
+  "schema": "podcast.ingest-source/v1",
+  "generated_at": "2026-05-24T19:57:08.335190+00:00",
+  "source": {
+    "kind": "sql",
+    "name": "kashkole",
+    "db": "KASHKOLE",
+    "container": "kashkole-mssql"
+  },
+  "book_slug": "x4915-x1260-x3341-x1405",
+  "book_dir": "/Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksessions/extracted/kashkole/18-ali-ibn-abi-talib-alayhi-as-salam/04-x4915-x1260-x3341-x1405",
+  "source_language": "ur",
+  "extraction": {
+    "tool": "tools.source_extractor",
+    "shelf": {
+      "kind": "binder",
+      "id": 6,
+      "name": "علی ابن ابی طالب علیہ السلام"
+    },
+    "book": {
+      "kind": "chapter",
+      "id": 144,
+      "name": "نہج البلاغۃ فی العربیۃ"
+    },
+    "section_query_count": 1,
+    "stage": "finalized"
+  },
+  "outputs": {
+    "raw_extract": "_system/source/text/raw-extract.md",
+    "extraction_notes": "_system/source/text/_extraction-notes.md",
+    "audit_anchor_html": "_system/source/x4915-x1260-x3341-x1405.html",
+    "images_dir": "_system/source/images"
+  },
+  "finalize": {
+    "finalized_at": "2026-05-24T20:33:11.579776+00:00",
+    "images_classified": {},
+    "inline_citations_resolved": 0
+  }
+}

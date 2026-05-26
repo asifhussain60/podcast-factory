@@ -1,0 +1,39 @@
+{
+  "schema": "podcast.ingest-source/v1",
+  "generated_at": "2026-05-24T19:37:38.790639+00:00",
+  "source": {
+    "kind": "sql",
+    "name": "kashkole",
+    "db": "KASHKOLE",
+    "container": "kashkole-mssql"
+  },
+  "book_slug": "x4784-x7920-x8219-mazameen",
+  "book_dir": "/Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/10-x4784-x7920-x8219-mazameen",
+  "source_language": "ur",
+  "extraction": {
+    "tool": "tools.source_extractor",
+    "shelf": {
+      "kind": "binder",
+      "id": 28,
+      "name": "مسودے"
+    },
+    "book": {
+      "kind": "chapter",
+      "id": 161,
+      "name": "ملا اسحاق ضیائی مضامین"
+    },
+    "section_query_count": 5,
+    "stage": "finalized"
+  },
+  "outputs": {
+    "raw_extract": "_system/source/text/raw-extract.md",
+    "extraction_notes": "_system/source/text/_extraction-notes.md",
+    "audit_anchor_html": "_system/source/x4784-x7920-x8219-mazameen.html",
+    "images_dir": "_system/source/images"
+  },
+  "finalize": {
+    "finalized_at": "2026-05-24T19:44:36.903939+00:00",
+    "images_classified": {},
+    "inline_citations_resolved": 0
+  }
+}

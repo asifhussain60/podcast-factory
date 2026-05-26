@@ -1,17 +1,16 @@
-# From-scratch operator setup — blank Mac → working operator
+# From-scratch operator setup — blank Mac → working session
 
 Use this procedure when:
-- Adding a new physical Mac to the operator pool
+- Setting up a new Mac (or a fresh user account) to run `podcast-factory`
 - Rebuilding after a wipe / reinstall
-- Onboarding a new operator user account on an existing Mac
 
-Walks from blank macOS to a Claude Code session that can run `start-session.sh` and pick up work.
+Walks from blank macOS to a Claude Code session that runs `scripts/start-session.sh` cleanly. The repo is single-machine (machine-agnostic since 2026-05-23); there is no operator file to author, no `~/.machine-id` to set, no `book-queue.md` to claim from. Just clone, install dependencies, wire Azure, and start work.
 
 ## Prerequisites
 
 - macOS (any recent version; tested on Darwin 24+)
-- A GitHub account with read/push access to `asifhussain60/Journal`
-- (Only if this Mac will drive Azure pipeline phases) An Azure account with permissions in the `Journal AI — primary` subscription
+- A GitHub account with read/push access to [asifhussain60/podcast-factory](https://github.com/asifhussain60/podcast-factory)
+- (If this Mac will drive Azure pipeline phases) An Azure account with read access to the `Journal AI — primary` subscription
 
 ## Step 1 — Install command-line tools
 
@@ -46,208 +45,86 @@ brew install --cask claude-code
 
 # Authenticate:
 claude login
-# Follow the OAuth flow in browser. Auth is local to this Mac (not shared across Macs).
-
-# Verify:
-claude -p "Reply with exactly the word PONG."
-# Expect: PONG
+# Follow the OAuth flow in browser. Auth is local to this Mac.
 ```
 
-## Step 4 — Set up GitHub auth
+## Step 4 — Clone the repo
 
 ```bash
-# Option A — SSH (recommended for development machines):
-ssh-keygen -t ed25519 -C "<your-email>"
-# Hit Enter for default path, set a passphrase if desired
-eval "$(ssh-agent -s)"
-ssh-add --apple-use-keychain ~/.ssh/id_ed25519  # macOS-specific; stores passphrase in Keychain
-
-gh auth login --git-protocol ssh --hostname github.com --web
-
-# Verify:
-gh auth status
-ssh -T git@github.com   # Expect: "Hi <user>! You've successfully authenticated..."
-
-# Option B — HTTPS via gh CLI token (if SSH is blocked):
-gh auth login --git-protocol https --hostname github.com --web
+mkdir -p ~/PROJECTS && cd ~/PROJECTS
+gh repo clone asifhussain60/podcast-factory
+cd podcast-factory
+git status              # Should be clean, on `develop`
+git log --oneline -5    # Sanity-check recent history
 ```
 
-## Step 5 — Clone the repo and set up worktrees
+The repo is flat (no worktrees container). Books in flight live under [`content/drafts/<slug>/`](../../content/drafts/); shipped books live under [`content/published/books/<slug>/`](../../content/published/books/).
 
-Pick a primary working directory. Convention so far:
-- Studio: `~/Code/podcast-factory/book-asaas`
-- Air: `~/PROJECTS/journal`
-- New Mac: whatever's natural for that Mac's user
+## Step 5 — Wire Azure (ONLY if this Mac drives Azure pipeline phases)
 
-```bash
-# Pick a base directory:
-mkdir -p ~/PROJECTS    # or ~/Code, your call
-cd ~/PROJECTS
-
-git clone git@github.com:asifhussain60/Journal.git journal
-cd journal
-
-# You start on main; switch to develop:
-git checkout develop
-git pull --ff-only origin develop
-```
-
-### Install the post-commit auto-push hook
-
-The repo has a post-commit hook that auto-pushes commits touching `_workspace/plan/operators/*`. It lives in `.git/hooks/` which is NOT tracked, so install it once per fresh clone:
+The pipeline uses three Azure services: Document Intelligence (OCR), Translator (ar→en + others), and Speech (audio transcription). Credentials live in the macOS Keychain so the scripts can find them without env vars or dotfiles.
 
 ```bash
-# The canonical hook content (lives in coordination-protocol.md §2):
-cat > .git/hooks/post-commit <<'EOF'
-#!/usr/bin/env bash
-# Auto-push commits touching operator files
-if git diff-tree --no-commit-id --name-only -r HEAD | grep -qE '^_workspace/plan/operators/'; then
-  branch=$(git rev-parse --abbrev-ref HEAD)
-  echo "[post-commit] operator-file change detected on ${branch} — auto-pushing"
-  git push origin "${branch}" && echo "[post-commit] push OK" || echo "[post-commit] push FAILED"
-fi
-EOF
-chmod +x .git/hooks/post-commit
-```
-
-Verify by editing your (eventual) operator file: a commit there should trigger an auto-push line in the output.
-
-## Step 6 — Assign machine identity
-
-Pick a machine slug. Convention: `<role>-<location>` (`mac-studio-primary`, `macbook-air-secondary`, `macbook-pro-asif-home`).
-
-```bash
-echo "<your-slug>" > ~/.machine-id
-cat ~/.machine-id    # Verify
-```
-
-## Step 7 — Create your operator file
-
-```bash
-cd <repo>
-git checkout develop
-
-# Copy an existing operator file as a template:
-cp _workspace/plan/operators/macbook-air-secondary.md \
-   _workspace/plan/operators/<your-slug>.md
-
-# Edit the new file's frontmatter:
-#   - machine_id: <your-slug>
-#   - hostname_hint: <your hostname; check with `hostname`>
-#   - operator: <your name + email>
-#   - worktree_layout: list of paths + branches on this Mac
-#   - current_branch / current_book: leave as IDLE for now
-#   - status_tag: IDLE
-#   - current_phase: ""
-#   - last_verified_at: <current UTC ISO>
-#
-# Edit the body sections to match your context. The §0 (session-start)
-# and §1 (identity) sections need the most attention.
-
-git add _workspace/plan/operators/<your-slug>.md
-git commit -m "coord(<your-slug>): create operator file"
-git push origin develop
-```
-
-Also update [../index.md](../index.md) to add your machine as a new column in the Machine Status table.
-
-## Step 8 — Azure setup (ONLY if this Mac will drive Azure phases)
-
-See [azure-stack.md](azure-stack.md) for the full reference. Briefly:
-
-```bash
-cd <repo>/infra/azure
+cd ~/PROJECTS/podcast-factory/infra/azure
 az login
 az account set --subscription "Journal AI — primary"
-bash store-keychain-keys.sh    # Pulls keys from Azure → macOS Keychain
-bash verify-azure.sh           # Live probe of all enabled resources
+
+# One-time provisioning if the Azure resources don't exist yet:
+bash provision-azure.sh         # Idempotent; safe to re-run
+# Always:
+bash store-keychain-keys.sh     # Pulls keys/endpoints/regions into Keychain
 ```
 
-If `verify-azure.sh` is all green, Azure is wired for this Mac.
-
-## Step 9 — Run session-starter and claim a book
+Verify with the connectivity probe:
 
 ```bash
-cd <repo>
-bash _workspace/plan/operators/start-session.sh
-
-# Exit code 0 → ready (sitting on your assigned book branch)
-# Exit code 1 → pre-flight failed (dirty tree / missing machine-id) — fix and retry
-# Exit code 2 → IDLE (no book assigned) — claim one from book-queue.md
+cd ~/PROJECTS/podcast-factory
+python3 scripts/podcast/test_azure_connectivity.py
 ```
 
-If IDLE, follow the claim protocol in [../book-queue.md](../book-queue.md):
+Expect 5 PASS lines (Translator creds + Doc Intel creds + Translator live + Doc Intel reachable + Speech creds). Speech is optional and prints `PASS (skipped)` if the credentials aren't yet provisioned — that's fine if you don't plan to transcribe audio yet.
+
+## Step 5.5 — Wire LLM APIs (Claude + Gemini)
+
+Anthropic Claude runs off the Max subscription (no API key on this Mac). Google Gemini needs an API key stored in keychain. Full reference: [infra/llm-apis/README.md](../../infra/llm-apis/README.md).
 
 ```bash
-# 1. Pull develop, read book-queue.md
-git checkout develop
-git pull --ff-only origin develop
-cat _workspace/plan/book-queue.md
-
-# 2. Pick the top of the Queue section, edit book-queue.md:
-#    - REMOVE the chosen row from Queue
-#    - ADD a row to In-flight with your machine_id, branch=book/<slug>, phase=pending,
-#      started=<today UTC>, your notes
-git add _workspace/plan/book-queue.md
-git commit -m "book-queue: claim <slug> for <your-slug>"
-git push origin develop   # If rejected, another machine claimed first — pull, pick new top, retry
-
-# 3. Create the book branch:
-git checkout -b book/<slug>
-git push -u origin book/<slug>
+cd ~/PROJECTS/podcast-factory
+bash infra/llm-apis/bootstrap-llm-apis.sh   # Prompts you to paste the Gemini key (silent)
+bash infra/llm-apis/verify-llm-apis.sh      # Confirms both providers reachable
 ```
 
-## Step 10 — End-to-end verification
+To get the Gemini key value: open [aistudio.google.com/apikey](https://aistudio.google.com/apikey), find the `podcast-factory` row, click the copy icon.
+
+## Step 6 — Run the session-starter
 
 ```bash
-cd <your-primary-worktree>
-git rev-parse --abbrev-ref HEAD      # Should be book/<slug> or develop
-python3 --version                     # ≥ 3.11
-claude -p "Reply with exactly the word PONG."   # Anthropic auth working
-security find-generic-password -s azure-journal-language-endpoint -w   # If Azure set up
+cd ~/PROJECTS/podcast-factory
+bash scripts/start-session.sh
 ```
 
-If all four checks pass, you're operational. Hand off to a Claude Code session to drive the work.
+Exit codes:
+- `0` — ready (on `develop`, fetched, fast-forwarded, no dirty tree)
+- `1` — pre-flight failed (dirty tree, or not in a git repo)
 
-## Step 11 — Install the `podcast-operator` convenience aliases (optional but recommended)
+Output lists current books in flight and the most common next-action commands. You're now set up.
 
-The `podcast-operator` agent is Asif's unified entry-point — auto-detects machine, picks up where work was left off, surfaces drift + recap in the 4-part At-a-glance template. Three ways to invoke; pick whichever fits your workflow (or install all three):
+## What this Mac does NOT need anymore
 
-```bash
-# CLI flag — works from any terminal (no setup needed; already shipped via the agent file)
-claude --agent podcast-operator
+The pre-2026-05-23 setup required all of the following — none of which apply now:
 
-# Slash command in Claude Code chat (auto-registered after scripts/install-claude-skills.sh runs)
-/podcast-operator
+- ❌ `~/.machine-id` (single-machine; no machine identity needed)
+- ❌ `_workspace/plan/operators/<slug>.md` (operator files retired)
+- ❌ `.git/hooks/post-commit` for operator-file auto-push (no operator files)
+- ❌ `book-queue.md` mutex (single-machine; no queue contention)
+- ❌ A `coordination-protocol.md` file (retired with the multi-machine model)
 
-# Bash alias — shortest, requires adding to ~/.zshrc (or ~/.bashrc)
-echo 'alias po="claude --agent podcast-operator"' >> ~/.zshrc
-echo 'alias op="claude --agent podcast-operator"' >> ~/.zshrc   # alternative shorter alias
-source ~/.zshrc
-po --report-only    # quick drift table
-po                  # full recap
-po --execute-safe   # discovery + auto-execute safe ops
-```
+If you see references to any of these in older docs, treat them as historical and follow [CLAUDE.md](../../CLAUDE.md) instead.
 
-Full contract + safety rules at [../../../.github/agents/podcast-operator.agent.md](../../../.github/agents/podcast-operator.agent.md). Distinct from `podcast-orchestrator` (autonomous pipeline driver) — see the agent's intro paragraph for the workflow split.
+## Where to look next
 
-## Common pitfalls
-
-| Symptom | Fix |
-|---|---|
-| `claude: command not found` after install | Restart shell or `export PATH="$HOME/.local/bin:$PATH"` (path depends on installer) |
-| `claude -p` hangs forever | Auth expired; `claude login` again |
-| `security: command not found` | You're not on macOS — this whole flow assumes macOS. Linux/Windows operators are not supported (see [runtime-compatibility.md](runtime-compatibility.md)) |
-| Azure `Unauthorized` on probe | Key rotated in portal; re-run [../../../../infra/azure/store-keychain-keys.sh](../../../../infra/azure/store-keychain-keys.sh) |
-| Git push rejected on operator file | Peer machine pushed first; `git pull --rebase` and retry |
-| Multiple worktree folders confuse you | They're the same git repo with one `.git/`; delete unused ones via `git worktree remove <path>` (the branch survives) |
-| `start-session.sh` says IDLE forever | You haven't claimed a book; see Step 9 |
-| Post-commit hook doesn't fire | `ls -la .git/hooks/post-commit` should show executable; recreate per Step 5 if missing |
-| `~/.machine-id` not detected by start-session.sh | File must contain only the slug (no trailing newlines, no quotes); `cat ~/.machine-id` to verify |
-
-## Where to go after setup
-
-- [../coordination-protocol.md](../coordination-protocol.md) — the cross-machine rules
-- [../book-queue.md](../book-queue.md) — what's queued for work
-- [runtime-compatibility.md](runtime-compatibility.md) — which UIs work and which don't
-- [machines.md](machines.md) — the current per-machine inventory (update it to add yourself)
+- [CLAUDE.md](../../CLAUDE.md) — the project's standing brief; auto-loaded into every Claude Code session in this repo
+- [framework.md](../../framework.md) — the pipeline framework spec
+- [_workspace/setup/azure-stack.md](azure-stack.md) — full Azure resource reference + recreate-from-scratch
+- [infra/llm-apis/README.md](../../infra/llm-apis/README.md) — Anthropic + Google API accounts, keys, budgets
+- [scripts/start-session.sh](../../scripts/start-session.sh) — what runs every session start

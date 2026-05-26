@@ -1,0 +1,44 @@
+{
+  "schema": "podcast.ingest-source/v1",
+  "generated_at": "2026-05-24T19:48:38.952542+00:00",
+  "source": {
+    "kind": "sql",
+    "name": "kashkole",
+    "db": "KASHKOLE",
+    "container": "kashkole-mssql"
+  },
+  "book_slug": "adab-ke-x7982-x7964",
+  "book_dir": "/Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksessions/extracted/kashkole/05-adab-wa-akhlaq-hasana/02-adab-ke-x7982-x7964",
+  "source_language": "ur",
+  "extraction": {
+    "tool": "tools.source_extractor",
+    "shelf": {
+      "kind": "binder",
+      "id": 27,
+      "name": "آداب و اخلاق حسنۃ"
+    },
+    "book": {
+      "kind": "chapter",
+      "id": 14,
+      "name": "آداب کے متعلق اقوال"
+    },
+    "section_query_count": 13,
+    "stage": "finalized"
+  },
+  "outputs": {
+    "raw_extract": "_system/source/text/raw-extract.md",
+    "extraction_notes": "_system/source/text/_extraction-notes.md",
+    "audit_anchor_html": "_system/source/adab-ke-x7982-x7964.html",
+    "images_dir": "_system/source/images"
+  },
+  "finalize": {
+    "finalized_at": "2026-05-24T20:21:38.676631+00:00",
+    "images_classified": {
+      "001": "other",
+      "002": "other",
+      "003": "other",
+      "004": "other"
+    },
+    "inline_citations_resolved": 0
+  }
+}

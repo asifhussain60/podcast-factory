@@ -23,9 +23,9 @@ The memoir, the static journal site, and the Anthropic API proxy moved to (or we
 
 The repo runs on any machine with `python3`, `git`, and the Azure credentials installed. Most work is done by Anthropic + Azure remotely — no host-machine specialness. The earlier two-machine model (operator files, `~/.machine-id` routing, per-machine book branches, book-queue mutex) was retired 2026-05-23.
 
-- **ONE working branch: `develop`.** New books land in `content/drafts/<slug>/` directly on `develop`.
+- **Per-content branches off `develop` (locked 2026-05-24).** Every new piece of content runs on its own typed branch (`book/<slug>`, `doc/<slug>`, `lecture/<slug>`, `article/<slug>`, `letter/<slug>`, `interview/<slug>`, or `draft/<slug>` fallback). Source of truth for the prefix is [scripts/podcast/_branching.py](scripts/podcast/_branching.py). Branches merge to `develop` only after the `podcast-publisher` agent completes the move to `content/published/`. Slugs are full kebab-case, never abbreviated.
 - Production releases: `develop` → `main` (requires Asif's explicit approval; never auto-promoted).
-- Feature branches are optional throwaways for risky changes.
+- Feature branches off `develop` are optional throwaways for risky changes that aren't content-pipeline work.
 
 ## When Asif asks you for help
 

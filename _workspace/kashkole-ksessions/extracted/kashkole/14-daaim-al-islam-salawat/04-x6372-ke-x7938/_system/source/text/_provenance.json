@@ -1,0 +1,43 @@
+{
+  "schema": "podcast.ingest-source/v1",
+  "generated_at": "2026-05-24T19:55:41.050111+00:00",
+  "source": {
+    "kind": "sql",
+    "name": "kashkole",
+    "db": "KASHKOLE",
+    "container": "kashkole-mssql"
+  },
+  "book_slug": "x6372-ke-x7938",
+  "book_dir": "/Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksessions/extracted/kashkole/14-daaim-al-islam-salawat/04-x6372-ke-x7938",
+  "source_language": "ur",
+  "extraction": {
+    "tool": "tools.source_extractor",
+    "shelf": {
+      "kind": "binder",
+      "id": 26,
+      "name": "دعائم الاسلام : صلواۃ"
+    },
+    "book": {
+      "kind": "chapter",
+      "id": 96,
+      "name": "نماز کے اوقات"
+    },
+    "section_query_count": 3,
+    "stage": "finalized"
+  },
+  "outputs": {
+    "raw_extract": "_system/source/text/raw-extract.md",
+    "extraction_notes": "_system/source/text/_extraction-notes.md",
+    "audit_anchor_html": "_system/source/x6372-ke-x7938.html",
+    "images_dir": "_system/source/images"
+  },
+  "finalize": {
+    "finalized_at": "2026-05-24T20:31:12.072209+00:00",
+    "images_classified": {
+      "001": "other",
+      "002": "other",
+      "003": "other"
+    },
+    "inline_citations_resolved": 0
+  }
+}

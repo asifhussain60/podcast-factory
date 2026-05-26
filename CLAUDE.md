@@ -8,15 +8,40 @@ every session in this directory; treat it as your standing brief.
 ## What this repo contains
 
 - **Podcast pipeline** (`scripts/podcast/`, `content/drafts/<slug>/` for per-book in-progress state, `content/published/books/<slug>/` for shipped catalog, `skills-staging/podcast/`) — multi-phase Claude+Azure pipeline that converts scholarly Arabic books into NotebookLM-driven podcast series. Phases 0a (ingest) → 0b (refine) → 0c (phonetic) → 0d (chapter design) → 0e (enrich) → 0f (review halt) → per-chapter authoring → trainer → ship.
-- **Content container** (`content/`) — single tree holding both `content/drafts/` (workshop, where the pipeline reads + writes) and `content/published/` (audience-facing catalog, populated exclusively by `scripts/podcast/ship_to_library.py`). The 2026-05-23 restructure flattened the prior multi-worktree container, consolidated all in-flight books into `content/drafts/`, and renamed the old `library/` to `content/published/`. The `podcast-reader/` Astro app reads from `content/drafts/`; the future `podcast-viewer/` will read from `content/published/`.
+- **Content container** (`content/`) — single tree holding both `content/drafts/` (workshop, where the pipeline reads + writes) and `content/published/` (audience-facing catalog, populated exclusively by `scripts/podcast/publish_to_library.py` invoked via the `podcast-publisher` agent). The 2026-05-23 restructure flattened the prior multi-worktree container, consolidated all in-flight books into `content/drafts/`, and renamed the old `library/` to `content/published/`. The `podcast-reader/` Astro app reads from `content/drafts/`; the future `podcast-viewer/` will read from `content/published/`.
 
 The memoir engine (Asif IS Babu), the static `journal` site, the Anthropic API proxy (`server/`), and the Cloudflare deploy scaffold all moved to (or were retired from) the sibling **[journal](https://github.com/asifhussain60/journal)** repo as of 2026-05-22. See §"Disconnected from journal" below.
 
 ## Machine-agnostic — single-machine model
 
-Post-2026-05-23: this app is **machine-agnostic**. Most work is done by Anthropic + Azure remotely, so there's no cost difference between hosts. The repo has **one working branch (`develop`)**; new books are ingested directly into `content/drafts/<slug>/` on `develop`. Production releases go `develop` → `main` (requires Asif's explicit approval; never auto-promoted).
+Post-2026-05-23: this app is **machine-agnostic**. Most work is done by Anthropic + Azure remotely, so there's no cost difference between hosts. Production releases go `develop` → `main` (requires Asif's explicit approval; never auto-promoted).
 
-The earlier cross-machine coordination model (operator files at `_workspace/plan/operators/`, `~/.machine-id` detection, per-machine book branch assignments, `book-queue.md` mutex, coordination-protocol §15) was retired 2026-05-23. If you encounter references to operator files, book branches as work assignments, or "the peer machine" anywhere, treat them as stale documentation pending cleanup.
+The earlier cross-machine coordination model (operator files at `_workspace/plan/operators/`, `~/.machine-id` detection, `book-queue.md` mutex, coordination-protocol §15) was retired 2026-05-23. If you encounter references to operator files or "the peer machine" anywhere, treat them as stale documentation pending cleanup.
+
+## Branch policy — content branches per piece of content (locked 2026-05-24)
+
+Every new piece of content is processed on its own typed branch off `develop`. The branch is created at intake time and merged back to `develop` ONLY after the publish step completes. This isolates in-flight work from `develop`, preserves a clean per-content ledger, and lets multiple books be in flight without cross-contamination.
+
+**Branch naming** is category-typed, with the **full kebab-cased slug** always (never abbreviated):
+
+| Category | Prefix | Example |
+|---|---|---|
+| `books` | `book/` | `book/kitab-al-riyad` |
+| `documents` | `doc/` | `doc/fatimid-decree-922` |
+| `lectures` | `lecture/` | `lecture/kunooz-al-hikmah-01` |
+| `articles` | `article/` | `article/cross-tradition-method` |
+| `letters` | `letter/` | `letter/ayyuhal-walad` |
+| `interviews` | `interview/` | `interview/asif-with-amir` |
+| (unknown / unset) | `draft/` | `draft/some-unclassified-thing` |
+
+Source of truth for the prefix map: [scripts/podcast/_branching.py](scripts/podcast/_branching.py) — every script that computes a branch name imports `branch_name(category, slug)` from there. Never hardcode `book/<slug>` anywhere.
+
+**Lifecycle**:
+1. `intake_book.py` creates `<prefix>/<slug>` from `develop` and copies the PDF/source.
+2. Pipeline phases (0a → 0f → per-chapter → authoring → publish) all run on that branch.
+3. `publish_to_library.py` (via the `podcast-publisher` agent) moves `content/drafts/<slug>/` → `content/published/books/<slug>/` after gates G1–G7 pass.
+4. The orchestrator merges `<prefix>/<slug>` → `develop` with `--no-ff` after publish completes.
+5. `develop` → `main` for production releases requires Asif's explicit approval (unchanged).
 
 ## Run this on session start
 
@@ -41,9 +66,34 @@ The script does: `git fetch --all --prune`, switches to `develop` if needed, fas
 The orchestrator's state file is the source of truth for any book's pipeline state:
 
 ```bash
+# Pre-F33-second / pre-F37 minimal probe:
 jq '{phase, phase_status, last_completed_phase, last_error}' \
     content/drafts/<book>/_system/orchestrator-state.json
+
+# Post-2026-05-25 wave full probe (recommended — surfaces graceful-degrade + timing + cost):
+jq '{
+    phase, phase_status, last_completed_phase, last_error,
+    completed_slugs: .phases."per-chapter".completed_slugs,
+    failed_slugs:    .phases."per-chapter".failed_slugs,
+    chapter_timings: .phases."per-chapter".chapter_timings,
+    audit_outcomes:  .phases."0g".audit_outcomes
+}' content/drafts/<book>/_system/orchestrator-state.json
 ```
+
+`phase=finalize, phase_status=halted` means "ready for publish review" — run [scripts/podcast/cross_book_dashboard.py](scripts/podcast/cross_book_dashboard.py) for the fleet view, then `python3 scripts/podcast/publish_to_library.py <slug>` (Tier 2 — always ask) when satisfied.
+
+## Standing operator rules (mirror of AI memory)
+
+These are recoverable on disk so a fresh Claude session without memory state can pick them up. The AI memory at `~/.claude/projects/-Users-asifhussain-PROJECTS-podcast-factory/memory/feedback_*.md` is the authoritative copy; this section is the durable backup.
+
+- **Heartbeat re-arm is MANDATORY (Tier 0).** After any orchestrator `--resume`, `--retry-phase`, or restart — and on session start if any book is in-flight — re-arm a 270s ScheduleWakeup heartbeat. Never wait for user instruction. Per `feedback_loop_rearm_mandatory.md`.
+- **Watchdog active liveness.** Every heartbeat tick MUST verify parent PID alive + subprocesses progressing (mtime/size growth + per-PID elapsed); kill early on hang/stall to avoid wasting LLM spend. Per `feedback_watchdog_active_liveness.md`.
+- **Heartbeat card format.** Structured card per tick: book title, metrics table (progress/cost/phase/last-ledger-entry/systemic-loop/watchdog-fixes), Orchestrator + Watchdog status lines with PIDs, chapter list with ✅/🔄/⏳ icons, EST timestamps, top + bottom dividers. Per `feedback_heartbeat_format.md`.
+- **Post-merge holistic audit.** Every merge into `develop` triggers a `podcast-auditor` agent regression sweep before the next merge/push. For multi-merge chains in one session, audit ONCE at end of chain. Per `feedback_post_merge_audit.md`. **Docs-sweep sub-rule (2026-05-25):** any merge touching `_rules.py` (new R-* constants) OR `orchestrate_book.py` (new state fields) MUST also touch `SKILL.md` + `framework.md` + `podcast-challenger.md` Category catalog as part of the same merge.
+- **Autonomous recommendation execution.** When Asif accepts a recommended option, chain through follow-up recommendations to completion without re-asking AskUserQuestion. Stop only for genuine blockers, Tier-2 destructive actions, or end-of-chain final-state report. Per `feedback_autonomous_recommendation_execution.md`.
+- **AskUserQuestion format.** Every AskUserQuestion lead with `(Recommended)` option A + brief reasoning in the question text; remaining options descend by value/scope so Asif can authorize the biggest high-value chunk first. Never enumerate as equals. Per `feedback_ask_user_question_format.md`.
+- **Systemic-fixes-from-chapter-archetype.** When the first per-chapter challenger run surfaces P0s from templates/regex/data (not chapter content), HALT and fix at root before letting the loop burn cost on remaining chapters with the same findings. Detection signal: ≥3 challenger + ≥2 fixer passes on the same P0 IDs. Per `feedback_systemic_fixes_from_chapter_archetype.md`.
+- **NotebookLM upload table format.** Whenever giving Asif instructions to begin NotebookLM generation, ALWAYS include a per-episode table with EP / Title / Format / NotebookLM Format setting / Length setting columns. Per `feedback_notebooklm_instructions_format.md`.
 
 ## Disconnected from `journal` (2026-05-22 split)
 
@@ -77,6 +127,7 @@ The default discipline is "ask before each shared-state action." Below is the st
 - Spawning research agents (Explore, Plan, general-purpose) for read-only investigation
 - `git restore` of auto-generated artifacts under `content/drafts/<slug>/_system/` when the artifact is reproducible by re-running its generator script
 - `security find-generic-password -s <name>` for existence checks (no `-w`)
+- **Re-arming the `/loop` heartbeat monitor** after any orchestrator resume or retry-phase action — this is MANDATORY and automatic, never requires user instruction. Use `ScheduleWakeup` at 270s with the standard monitoring prompt (see [Heartbeat card format](~/.claude/projects/-Users-asifhussain-PROJECTS-podcast-factory/memory/feedback_heartbeat_format.md)). Do NOT wait for Asif to ask. If a session resumes and a book is in-flight (orchestrator alive OR `phase_status=running/failed`), re-arm immediately.
 
 **Tier 1 — Do, then surface in the At-a-glance.**
 - Commit to `develop`
@@ -85,10 +136,14 @@ The default discipline is "ask before each shared-state action." Below is the st
 - Phase advancement via `--resume <slug>` on an in-progress book
 - Regenerating auto-generated state files (`chapter-set-report.md`, `challenger-report.md`, mangle-map, etc.)
 - Opening a DRAFT PR from a feature branch to `develop`
+- Orchestrator's automatic `book/<slug>` → `develop` merge after the `publish` phase completes successfully — this is in-pipeline and not a separate gate
+- Running `validate_ship_ready.py <slug>` (read-only G1-G7 gate runner — never writes files)
+- The `/loop` heartbeat re-arms automatically (Tier 0 above) — no separate Tier 1 action needed
 
 **Tier 2 — Always ask. One-line ask + single-sentence Next.**
-- First-time orchestrator launch on a new book: `python3 scripts/podcast/orchestrate_book.py <pdf>` (multi-hour LLM-spend gate)
-- Marking a draft PR ready, or merging any PR into `develop` or `main`
+- First-time orchestrator launch on a new book: `python3 scripts/podcast/orchestrate_book.py <pdf>` (multi-hour LLM-spend gate). The orchestrator auto-spawns the watchdog on every subsequent `--resume`; no manual watchdog launch needed. The `/loop` heartbeat re-arms automatically (Tier 0) — no separate step required.
+- `publish_to_library.py <slug>` — copying the finalized book from `content/drafts/` to `content/published/books/` (the audience-facing catalog). The orchestrator's new `finalize` phase halts BEFORE publish so Asif can review the clean version in podcast-reader and run post-pipeline analyses (A/B transcription, etc.); resuming the orchestrator after that human review is what authorizes publish.
+- Opening a `develop` → `main` PR, marking it ready, or merging it (production release gate — never auto-promoted)
 - Force-push (any branch)
 - Deleting branches
 - `--no-verify`, `--amend`, `git reset --hard`, `git clean -f`, `rm` of tracked files

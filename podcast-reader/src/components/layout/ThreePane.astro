@@ -1,9 +1,9 @@
 ---
 import '~/styles/global.css';
-import Legend from '~/components/reader/Legend';
+import ArabicToggle from '~/components/reader/ArabicToggle';
+import ReaderSettings from '~/components/reader/ReaderSettings';
 import Icon from '~/components/ui/Icon.astro';
 import ThemeScript from '~/components/layout/ThemeScript.astro';
-import ThemeToggle from '~/components/layout/ThemeToggle.astro';
 
 interface Props {
   title: string;
@@ -24,72 +24,104 @@ const { title, worktree, book, breadcrumb = [], showRail = true } = Astro.props;
     <title>{title}</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <ThemeScript />
+    <script is:inline>
+      // Restore sidebar collapsed state before paint to avoid flicker.
+      try {
+        if (localStorage.getItem('podcast-reader:sidebar-collapsed') === '1') {
+          document.documentElement.setAttribute('data-sidebar', 'collapsed');
+        }
+      } catch (_) {}
+    </script>
   </head>
-  <body class="min-h-screen bg-stone-50 text-stone-900 antialiased">
-    <!-- Legend button is fixed top-right of viewport so it can't be missed -->
-    <Legend client:load />
+  <body class="min-h-screen antialiased" style="background: var(--color-surface-page); color: var(--color-ink);">
 
-    <div class="flex min-h-screen">
-      <!-- Left TOC sidebar (sticky so it stays in view while scrolling content) -->
-      <aside class="sticky top-0 hidden h-screen w-80 shrink-0 self-start overflow-hidden border-r border-stone-300 bg-stone-50 lg:flex lg:flex-col">
-        <div class="border-b border-stone-300 bg-white px-4 py-3">
-          <a href="/" class="font-ui inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-stone-500 hover:text-stone-900">
-            <Icon name="arrow-left" size={12} />
-            Podcast Reader
-          </a>
-          <div class="mt-2 flex items-center gap-2">
-            <Icon name="book-marked" size={18} class="shrink-0 text-amber-700" />
-            <span class="text-base font-semibold text-stone-900" style="font-family: 'EB Garamond', Georgia, serif;">{book}</span>
+    <div class="three-pane">
+      <!-- Left sidebar (collapsible) -->
+      <aside class="left-rail">
+        <div class="left-rail-head">
+          <div class="left-rail-head-row">
+            <a href="/podcast-drafts/" class="left-rail-back">
+              <Icon name="arrow-left" size={12} />
+              <span class="left-rail-back-label">Back to bookshelf</span>
+            </a>
+            <button id="sidebar-toggle" class="left-rail-collapse" type="button" aria-label="Collapse sidebar" title="Collapse sidebar (s)">
+              <span class="left-rail-collapse-icon">‹</span>
+            </button>
           </div>
-          <div class="mt-0.5 flex items-center justify-between gap-2">
-            <div class="flex items-center gap-1.5 font-ui text-[11px] text-stone-500">
-              <Icon name="folder" size={11} />
-              <span>worktree · {worktree}</span>
-            </div>
-            <ThemeToggle />
+          <div class="left-rail-book">
+            <Icon name="book-marked" size={18} class="left-rail-book-icon" />
+            <span class="left-rail-book-title">{book}</span>
+          </div>
+          <div class="left-rail-meta">
+            <Icon name="folder" size={11} />
+            <span>worktree · {worktree}</span>
           </div>
         </div>
-        <nav class="flex-1 overflow-y-auto p-3">
+        <nav class="left-rail-nav">
           <slot name="toc">
-            <div class="text-xs uppercase tracking-wider text-stone-400">Navigation</div>
-            <p class="mt-2 text-sm text-stone-500">TOC loads in Phase 1.</p>
+            <div class="left-rail-nav-fallback">Navigation</div>
+            <p class="left-rail-nav-empty">TOC loads in Phase 1.</p>
           </slot>
         </nav>
       </aside>
 
       <!-- Center reading column -->
-      <div class="relative flex flex-1 flex-col">
-        <header class="sticky top-0 z-10 border-b border-stone-200 bg-white/85 backdrop-blur">
-          <div class="mx-auto flex max-w-4xl items-center justify-between px-6 py-3 text-sm text-stone-600">
-            <nav class="flex items-center gap-2">
+      <div class="center-col">
+        <header class="center-header">
+          <div class="center-header-inner">
+            <nav class="center-breadcrumb">
               {breadcrumb.map((b, i) => (
                 <>
-                  {i > 0 && <span class="text-stone-300"><Icon name="chevron-right" size={12} /></span>}
+                  {i > 0 && <span class="center-breadcrumb-sep"><Icon name="chevron-right" size={12} /></span>}
                   {b.href ? (
-                    <a href={b.href} class="hover:text-stone-900">{b.label}</a>
+                    <a href={b.href}>{b.label}</a>
                   ) : (
-                    <span class="font-medium text-stone-900">{b.label}</span>
+                    <span class="here">{b.label}</span>
                   )}
                 </>
               ))}
             </nav>
+            <div class="center-header-actions">
+              <ArabicToggle client:load />
+              <ReaderSettings client:load />
+            </div>
           </div>
         </header>
-        <main class="mx-auto w-full max-w-4xl flex-1 px-6 py-8 lg:px-10">
+        <main class="center-main">
           <slot />
         </main>
       </div>
 
-      <!-- Right rail (density / comments — placeholder in Phase 1) -->
+      <!-- Right rail -->
       {showRail && (
-        <aside class="sticky top-0 hidden h-screen w-12 shrink-0 self-start border-l border-stone-200 bg-white xl:block">
-          <div class="p-2 text-center text-[10px] uppercase tracking-wider text-stone-400">
-            <slot name="rail">
-              <div class="rotate-90 origin-left translate-y-12 whitespace-nowrap">density rail · Phase 2</div>
-            </slot>
-          </div>
+        <aside class="right-rail">
+          <slot name="rail" />
         </aside>
       )}
     </div>
+
+    <script is:inline>
+      (function () {
+        var btn = document.getElementById('sidebar-toggle');
+        if (!btn) return;
+        function setState(collapsed) {
+          if (collapsed) document.documentElement.setAttribute('data-sidebar', 'collapsed');
+          else document.documentElement.removeAttribute('data-sidebar');
+          try { localStorage.setItem('podcast-reader:sidebar-collapsed', collapsed ? '1' : '0'); } catch (_) {}
+        }
+        btn.addEventListener('click', function () {
+          var collapsed = document.documentElement.getAttribute('data-sidebar') === 'collapsed';
+          setState(!collapsed);
+        });
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 's' && !e.metaKey && !e.ctrlKey && !e.altKey) {
+            var t = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : '';
+            if (t === 'input' || t === 'textarea' || (e.target && e.target.isContentEditable)) return;
+            var collapsed = document.documentElement.getAttribute('data-sidebar') === 'collapsed';
+            setState(!collapsed);
+          }
+        });
+      })();
+    </script>
   </body>
 </html>

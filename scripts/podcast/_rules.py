@@ -4,10 +4,13 @@ from pathlib import Path
 
 """Canonical rule data shared across the podcast scripts.
 
-These lists are mirrored from `content/podcast/.skill/handbook/notebooklm-customize-prompt-rules.md`
-(the NORMATIVE contract). When a rule changes, edit BOTH this file and the handbook
-normative copy together. The handbook is the source of truth for humans; this file
-is the source of truth for code.
+This file IS the source of truth for the rule lists. An earlier version of
+this docstring named `content/podcast/.skill/handbook/notebooklm-customize-
+prompt-rules.md` as the normative human-readable counterpart; that handbook
+tree was removed in the 2026-05-23 restructure and has not been restored.
+Until it is, this file (plus content/_shared/islam/*.yml for doctrinal data)
+holds the contract for both humans and code. See infra/claude-agents/
+podcast-challenger.md Section 0 for the current authority list.
 
 Consumers:
   - scripts/podcast/build_episode_txt.py — uses ABBREVIATIONS_MAP + HONORIFICS to
@@ -28,7 +31,73 @@ vs. substring list); the canonical data itself is plain Python literals.
 # findings.jsonl record). Single source of truth — agent reads from here so
 # the spec frontmatter version, the report header version, and the ledger
 # `source_version` field never drift.
-CHALLENGER_VERSION = "2.0"
+#
+# 2.1 (2026-05-24): added R-HOST-ROLE-PARITY as a P0 — Host A (male voice) is
+# always scholar/teacher; Host B (female voice) is always seeker/student/
+# debater. Roles never rotate across episodes within a single book. Also
+# added R-EPISODE-FORMAT-RECOMMENDED P1 — every chapter-contract must declare
+# `episode_format: deep_dive | debate` with a one-paragraph rationale.
+#
+# 2.2 (2026-05-25): scholarly-conversation rubric landed — adds four new
+# deterministic rules (R-NO-AI-CLICHE, R-NO-FAUX-PROFUNDITY-OPENING,
+# R-NO-PREMATURE-CLOSURE, R-NO-DEEP-DIVE-SELF-REFERENCE) plus the
+# tradition-conditional R-NO-ESSENTIALISM-EXTERNAL (active only when
+# series-config.yaml.source_tradition != the episode's subject tradition).
+# The LLM-grade rubric extension (§3 religious literacy, §4 philosophical
+# rigor, §6 interfaith) lives in prompts/gemini-bundle-auditor.md so both
+# auditors see it. See F30 / scholarly-rubric integration trail on develop.
+CHALLENGER_VERSION = "2.2"
+
+# ─── R-HOST-ROLE-PARITY (P0 2026-05-24) — host roles are locked book-wide.
+# Host A is always the scholar/teacher. Host B is always the seeker/student/
+# debater. The role assignments do not rotate, swap, or blur across episodes.
+# Detection: scan framing.host_a.role and framing.host_b.role against the
+# canonical role pools below. Any framing where the assignments disagree with
+# the pools — or where roles swap between episodes of the same book — is a
+# P0 finding (code: HOST-ROLE-PARITY).
+HOST_A_ROLES_SCHOLAR = (
+    "scholar", "teacher", "master", "alim", "aalim", "shaykh", "sheikh",
+    "guide", "expert", "mentor", "professor",
+)
+HOST_B_ROLES_SEEKER = (
+    "seeker", "student", "debater", "questioner", "novice", "disciple",
+    "ghulam", "ghulaam", "apprentice", "interlocutor", "challenger",
+)
+# Voice → gender pairing (single source of truth; cross-references the
+# NotebookLM Audio Overview default English voices). When the
+# `notebooklm_voices` audit reads which voice spoke which line, this map
+# gates the alignment check.
+HOST_VOICE_GENDER = {"host_a": "male", "host_b": "female"}
+
+# ─── R-EPISODE-FORMAT-RECOMMENDED (P1 2026-05-24) — every chapter-contract
+# declares `episode_format` plus a one-paragraph rationale. For debate-mode
+# contracts, the `debate` block is fully populated (proposition + host_a/
+# host_b positions + source_moves + resolution). The challenger refuses (P1)
+# any contract where the format is missing or `debate` blocks are partial.
+#
+# F32 (2026-05-25): extended from the original two-valued enum (deep_dive,
+# debate) to seven values. The new values (walkthrough, monologue, interview,
+# recap, narrative) are needed for non-book categories per _branching.py
+# (letters, articles, lectures, interviews). Phase 0d author picks per
+# chapter from this list; downstream framing-author + R-HOST-ROLE-PARITY
+# rules need parallel extensions (deferred — current rules assume
+# deep_dive/debate). When a chapter declares a not-yet-wired format,
+# build_episode_txt.py emits a P1 warning "format X not yet fully wired
+# downstream; expect best-effort author behavior" rather than blocking.
+EPISODE_FORMAT_ALLOWED = (
+    "deep_dive",      # one position unfolded layer-by-layer (most book chapters)
+    "debate",         # two named voices in extended back-and-forth (concession arcs OK)
+    "walkthrough",    # step-by-step exposition (articles, technical chapters)
+    "monologue",      # single-host explanatory; secondary host as ambient interlocutor
+    "interview",      # Q&A structured (rare in primary sources; common in lecture-of-X)
+    "recap",          # mid-book summary episode (every Nth chapter for long books)
+    "narrative",      # pure historical/biographical exposition, no doctrinal dispute
+)
+
+# F32 (2026-05-25): map of which formats are currently fully wired downstream.
+# Formats outside this set still validate at contract-write time but emit a
+# P1 warning at build time noting they may exhibit best-effort author behavior.
+EPISODE_FORMAT_FULLY_WIRED = ("deep_dive", "debate")
 
 # ─── Slide Deck Challenger self-version (stamped into every slide-challenger-report.md
 # and every findings.jsonl record with source="slide-deck-challenger"). Independent
@@ -117,6 +186,88 @@ HONORIFICS = [
     "ﷺ",
 ]
 
+# ─── R-NO-AI-CLICHE (P0 2026-05-25, v2.2 scholarly-rubric §1)
+# Banned phrases that fingerprint unsupervised LLM "podcast voice." These
+# are substrings to scan in chapter prose AND framing.md. Severity P0 in
+# 99-show-notes.md and framing.md; downgraded to P1 if found only in
+# operator-facing scaffolding files (00-source-index.md, etc.) where the
+# audience is human and the term is being discussed, not voiced.
+AI_CLICHE_DENY = [
+    "deep dive", "deep-dive",
+    "let's dive in", "let's dive into",
+    "today's episode", "today we'll explore", "today, we'll explore",
+    "today we'll discuss", "today, we'll discuss",
+    "in this episode", "in this conversation",
+    "join us as we", "buckle up",
+    "without further ado", "let's get started",
+    "fasten your seatbelts",
+    "journey through", "journey into",
+    "fascinating world of", "fascinating world",
+    "mind blown", "mind-blown", "blew my mind",
+    "what a journey", "what a ride",
+]
+
+# ─── R-NO-FAUX-PROFUNDITY-OPENING (P0 2026-05-25, v2.2 scholarly-rubric §1)
+# Banned opening shapes — rhetorical questions that gesture at meaning without
+# committing to a thesis. Applied to the FIRST 200 characters of framing.md
+# `## Opening` section and to the first paragraph of any chapter file.
+FAUX_PROFUNDITY_OPENING_PATTERNS = [
+    r"can we find meaning",
+    r"what does it (truly )?mean to be human",
+    r"what does this (truly )?say about",
+    r"is there meaning (in|to)",
+    r"in a world where",
+    r"in an (?:age|era) (?:of|where)",
+    r"have you ever (?:wondered|stopped to)",
+    r"imagine (?:a world|for a moment)",
+    r"picture this[:.]",
+]
+
+# ─── R-NO-PREMATURE-CLOSURE (P1 2026-05-25, v2.2 scholarly-rubric §5)
+# Banned closing shapes that pretend hard questions got resolved. Scanned in
+# the LAST 600 characters of framing.md `## Closing` section and in beat
+# landings of 04-discussion-spine.md. Permitted closing: "we didn't settle
+# this — here's where the live disagreement sits".
+PREMATURE_CLOSURE_PATTERNS = [
+    r"and that(?:'s| is)(?:,| )?\s*ultimately(?:,)?\s*what",
+    r"what (?:the soul|the self|truth|reality|god|allah|the divine) (?:really|truly) is",
+    r"the (?:answer|key) (?:turns out to be|is|lies in)",
+    r"so (?:in the end|ultimately|at last),?\s*we (?:see|find|understand)",
+    r"and that(?:'s| is) (?:the|how) (?:the )?(?:whole )?(?:story|point|truth)",
+]
+
+# ─── R-NO-DEEP-DIVE-SELF-REFERENCE (P0 2026-05-25, v2.2 scholarly-rubric §1)
+# Forbid the conversation describing itself as a "deep dive", "journey", or
+# "exploration" — get into the material instead. Stricter sibling of
+# R-NO-AI-CLICHE that targets only self-referential framings.
+DEEP_DIVE_SELF_REFERENCE_PATTERNS = [
+    r"(?:our|this|today's) (?:deep dive|journey|exploration|conversation)",
+    r"we(?:'re| are) (?:going to|gonna) (?:dive|explore|unpack|dig)",
+    r"let(?:'s| us) (?:dive|explore|unpack|dig) into",
+    r"we(?:'ll| will) (?:dive|explore|unpack|dig) into",
+]
+
+# ─── R-NO-ESSENTIALISM-EXTERNAL (P0 2026-05-25, v2.2 scholarly-rubric §3)
+# Blanket-tradition claims ("Muslims believe X", "Hindus think Y", "Buddhists
+# hold Z") are FORBIDDEN when the episode discusses a tradition that is NOT
+# the book's own source_tradition. They are PERMITTED (with internal
+# qualification) when the episode is internal to one tradition.
+# Detection: scan chapter prose + framing.md for these stem patterns. The
+# series-config.yaml.source_tradition gates whether to flag — internal episodes
+# get a P2 nudge to qualify ("classical Twelver Shia tradition emphasizes..."),
+# external episodes get P0.
+ESSENTIALISM_STEM_PATTERNS = [
+    r"\bMuslims (?:believe|think|hold|teach|say)\b",
+    r"\bHindus (?:believe|think|hold|teach|say)\b",
+    r"\bBuddhists (?:believe|think|hold|teach|say)\b",
+    r"\bChristians (?:believe|think|hold|teach|say)\b",
+    r"\bJews (?:believe|think|hold|teach|say)\b",
+    r"\bSikhs (?:believe|think|hold|teach|say)\b",
+    r"\b(?:In|For) (?:Islam|Hinduism|Buddhism|Christianity|Judaism|Sikhism),\s+",
+    r"\bthe (?:Islamic|Hindu|Buddhist|Christian|Jewish|Sikh) (?:view|position|teaching|tradition) (?:is|holds|states)\b",
+    r"\b(?:real|true) (?:Muslims|Hindus|Buddhists|Christians|Jews|Sikhs) (?:would|don't|do not|never)\b",  # No-True-Scotsman
+]
+
 # ─── Filler-interjection scrub (host TTS prosody artifacts)
 FILLER_INTERJECTIONS = [
     " yeah ", " Yeah ", " yeah, ", " Yeah,",
@@ -162,14 +313,24 @@ def emit_finding(
     line: int | None = None,
     context_excerpt: str = "",
     resolution: str = "flagged",
+    bypassed_gate: str = "",
 ) -> None:
     """Append one JSONL record to the learning-substrate findings ledger.
 
-    Atomic single-line append (writes are < PIPE_BUF so concurrent emitters
-    interleave safely on POSIX). The ledger lives at
-    `<repo_root>/content/podcast/.skill/_learning/findings.jsonl` and is
-    append-only. Callers MUST NOT emit duplicates within a single run.
+    Multi-book concurrency safety (added 2026-05-25 per F31 forward-looking
+    audit): wraps the append in an fcntl LOCK_EX critical section. On macOS
+    + Linux, single-line writes under PIPE_BUF (4 KiB) are atomic at the
+    syscall level, BUT our line_out can exceed PIPE_BUF when context_excerpt
+    is near its 300-char cap with multi-byte UTF-8. Without the lock,
+    concurrent N-book orchestrators emitting findings at the same instant
+    could interleave bytes within a single record. The lock costs ~1 ms per
+    emit, negligible vs the LLM-call latencies that produced the finding.
+
+    The ledger lives at `<repo_root>/content/podcast/.skill/_learning/
+    findings.jsonl` and is append-only. Callers MUST NOT emit duplicates
+    within a single run.
     """
+    import fcntl as _fcntl
     import json as _json
     from datetime import datetime, timezone
 
@@ -190,10 +351,21 @@ def emit_finding(
         "line": line,
         "context_excerpt": context_excerpt[:300],
         "resolution": resolution,
+        # F33 (2026-05-25): post-publish findings that should have been caught
+        # earlier in the pipeline carry the gate name they bypassed (e.g.
+        # "G3-sequential-numbering", "Tier-2.5-build-validator"). Empty for
+        # in-pipeline findings. The trainer computes per-gate false-negative
+        # rate by grouping findings on this field.
+        "bypassed_gate": bypassed_gate,
     }
     line_out = _json.dumps(record, ensure_ascii=False, sort_keys=True) + "\n"
     with ledger.open("a", encoding="utf-8") as f:
-        f.write(line_out)
+        _fcntl.flock(f.fileno(), _fcntl.LOCK_EX)
+        try:
+            f.write(line_out)
+            f.flush()
+        finally:
+            _fcntl.flock(f.fileno(), _fcntl.LOCK_UN)
 
 
 def abbreviations_for_build() -> dict[str, str]:

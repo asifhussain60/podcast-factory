@@ -74,6 +74,22 @@ def transcribe(
         )
 
     out_path.write_text(text + "\n", encoding="utf-8")
+
+    # F36 (2026-05-25): record Azure Speech spend in cost-ledger.jsonl.
+    # Azure Speech Fast Transcription is priced per-character of TRANSCRIPT
+    # (close approximation; actual API pricing is per-second but we don't
+    # know audio duration without re-probing). Transcript char count is a
+    # stable proxy that under-counts long silences.
+    try:
+        from _cost_ledger import append_azure_speech_cost
+        cost_row = append_azure_speech_cost(
+            book_dir=book_dir, phase="post-publish",
+            step=f"transcribe/{episode_id}",
+            char_count=len(text),
+        )
+        print(f"  Azure cost (speech): ${cost_row.cost_usd:.4f} for {len(text):,} transcript chars")
+    except Exception as _e:
+        print(f"  WARN: cost-ledger append failed: {_e}", file=sys.stderr)
     return out_path
 
 

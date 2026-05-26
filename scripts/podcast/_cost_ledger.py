@@ -107,6 +107,118 @@ def _now_iso() -> str:
     return _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
+# F36 (2026-05-25): Azure service pricing — USD per unit. Used by
+# append_azure_docintel_cost / append_azure_translator_cost / append_azure_speech_cost
+# below. Update these constants when Azure changes pricing (Azure quietly
+# trims prices; check https://azure.microsoft.com/en-us/pricing/details/).
+AZURE_PRICING_USD: dict[str, float] = {
+    "docintel_prebuilt_read_per_page": 0.0015,   # Doc Intelligence prebuilt-read
+    "translator_text_per_char": 0.00001,         # Translator Text (S1 tier)
+    "speech_neural_tts_per_char": 0.000016,      # Neural TTS standard voices
+}
+
+
+def append_azure_docintel_cost(
+    book_dir: Path,
+    *,
+    phase: str,
+    step: str,
+    pages: int,
+    ts: str | None = None,
+) -> CostRow:
+    """F36: append a cost row for an Azure Document Intelligence call.
+
+    Computes cost = pages * AZURE_PRICING_USD['docintel_prebuilt_read_per_page'].
+    Uses model='azure-docintel-prebuilt-read' so cost_ledger_summary.py and
+    cross_book_dashboard.py surface Azure spend separately from LLM spend.
+
+    Stores `pages` in the `input_tokens` field (it's the natural counter for
+    this service); `output_tokens=0`. The CostRow.model field disambiguates.
+    """
+    cost = round(pages * AZURE_PRICING_USD["docintel_prebuilt_read_per_page"], 6)
+    row = CostRow(
+        ts=ts or _now_iso(),
+        phase=phase,
+        step=step,
+        model="azure-docintel-prebuilt-read",
+        input_tokens=int(pages),
+        output_tokens=0,
+        cache_read=0,
+        cache_create=0,
+        cost_usd=cost,
+    )
+    ledger = book_dir / "_system" / "cost-ledger.jsonl"
+    ledger.parent.mkdir(parents=True, exist_ok=True)
+    with ledger.open("a", encoding="utf-8") as f:
+        f.write(json.dumps(asdict(row)) + "\n")
+    return row
+
+
+def append_azure_translator_cost(
+    book_dir: Path,
+    *,
+    phase: str,
+    step: str,
+    char_count: int,
+    ts: str | None = None,
+) -> CostRow:
+    """F36: append a cost row for an Azure Translator Text call.
+
+    Computes cost = char_count * AZURE_PRICING_USD['translator_text_per_char'].
+    Uses model='azure-translator-text'. Stores char_count in input_tokens.
+    """
+    cost = round(char_count * AZURE_PRICING_USD["translator_text_per_char"], 6)
+    row = CostRow(
+        ts=ts or _now_iso(),
+        phase=phase,
+        step=step,
+        model="azure-translator-text",
+        input_tokens=int(char_count),
+        output_tokens=0,
+        cache_read=0,
+        cache_create=0,
+        cost_usd=cost,
+    )
+    ledger = book_dir / "_system" / "cost-ledger.jsonl"
+    ledger.parent.mkdir(parents=True, exist_ok=True)
+    with ledger.open("a", encoding="utf-8") as f:
+        f.write(json.dumps(asdict(row)) + "\n")
+    return row
+
+
+def append_azure_speech_cost(
+    book_dir: Path,
+    *,
+    phase: str,
+    step: str,
+    char_count: int,
+    ts: str | None = None,
+) -> CostRow:
+    """F36: append a cost row for an Azure Speech (Neural TTS) call.
+
+    Computes cost = char_count * AZURE_PRICING_USD['speech_neural_tts_per_char'].
+    Speech is currently unused by the pipeline (NotebookLM handles TTS) but the
+    helper exists for forward-compat with future direct-synthesis paths.
+    """
+    cost = round(char_count * AZURE_PRICING_USD["speech_neural_tts_per_char"], 6)
+    row = CostRow(
+        ts=ts or _now_iso(),
+        phase=phase,
+        step=step,
+        model="azure-speech-neural-tts",
+        input_tokens=int(char_count),
+        output_tokens=0,
+        cache_read=0,
+        cache_create=0,
+        cost_usd=cost,
+    )
+    ledger = book_dir / "_system" / "cost-ledger.jsonl"
+    ledger.parent.mkdir(parents=True, exist_ok=True)
+    with ledger.open("a", encoding="utf-8") as f:
+        f.write(json.dumps(asdict(row)) + "\n")
+    return row
+
+
 def append_cost_row(
     book_dir: Path,
     *,
@@ -144,10 +256,22 @@ def append_cost_row(
         cache_create=int(cache_create),
         cost_usd=cost,
     )
+    # F34-second (2026-05-25): fcntl LOCK_EX critical section around append.
+    # When run_windowed runs with max_workers > 1, parallel threads append
+    # cost rows to the SAME cost-ledger.jsonl file. Single-line writes under
+    # PIPE_BUF (4 KiB) are atomic on POSIX, but JSON serialization can exceed
+    # PIPE_BUF when token counts are large. The lock costs ~1 ms per emit
+    # (negligible vs the LLM call that produced it).
+    import fcntl as _fcntl
     ledger = book_dir / "_system" / "cost-ledger.jsonl"
     ledger.parent.mkdir(parents=True, exist_ok=True)
     with ledger.open("a", encoding="utf-8") as f:
-        f.write(json.dumps(asdict(row)) + "\n")
+        _fcntl.flock(f.fileno(), _fcntl.LOCK_EX)
+        try:
+            f.write(json.dumps(asdict(row)) + "\n")
+            f.flush()
+        finally:
+            _fcntl.flock(f.fileno(), _fcntl.LOCK_UN)
     return row
 
 
@@ -170,12 +294,41 @@ _USAGE_PATTERNS: tuple[tuple[str, re.Pattern], ...] = (
 def parse_usage_from_stdout(stdout: str) -> dict[str, int]:
     """Best-effort extraction of token counts from `claude -p` stdout.
 
-    Returns a dict with keys `input`, `output`, `cache_read`, `cache_create`.
-    Missing or unparseable fields default to 0. Never raises.
+    Returns a dict with keys `input`, `output`, `cache_read`, `cache_create`,
+    plus an optional `cost_usd` from Claude's own ledger when JSON-format
+    output is detected (more authoritative than our PRICING_USD_PER_MILLION
+    table). Missing or unparseable fields default to 0. Never raises.
+
+    Two input shapes supported:
+      1. Legacy text-format stdout (pre-2026-05 `claude -p` output): uses
+         the regex patterns in _USAGE_PATTERNS.
+      2. JSON-format stdout (`claude -p --output-format json`, 2026-05+):
+         parses the single JSON line and reads `usage.input_tokens`,
+         `usage.output_tokens`, `usage.cache_read_input_tokens`,
+         `usage.cache_creation_input_tokens`, plus `total_cost_usd`.
+
+    The JSON path is preferred when both could parse (it's authoritative);
+    text-path stays in for legacy stdout that callers may still feed in.
     """
-    out = {"input": 0, "output": 0, "cache_read": 0, "cache_create": 0}
+    out = {"input": 0, "output": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0}
     if not stdout:
         return out
+    # Try JSON-format first. The CLI emits ONE JSON object per call when
+    # --output-format=json is set; stream-json emits multiple lines.
+    stripped = stdout.strip()
+    if stripped.startswith("{") and stripped.endswith("}"):
+        try:
+            data = json.loads(stripped)
+            usage = data.get("usage") or {}
+            out["input"] = int(usage.get("input_tokens", 0))
+            out["output"] = int(usage.get("output_tokens", 0))
+            out["cache_read"] = int(usage.get("cache_read_input_tokens", 0))
+            out["cache_create"] = int(usage.get("cache_creation_input_tokens", 0))
+            out["cost_usd"] = float(data.get("total_cost_usd", 0.0))
+            return out
+        except (ValueError, TypeError, KeyError):
+            pass  # Fall through to text-format regex
+    # Legacy text-format regex
     for key, pat in _USAGE_PATTERNS:
         m = pat.search(stdout)
         if m:
@@ -184,6 +337,22 @@ def parse_usage_from_stdout(stdout: str) -> dict[str, int]:
             except (ValueError, IndexError):
                 pass
     return out
+
+
+def parse_text_from_json_stdout(stdout: str) -> str:
+    """Extract the LLM's text response from `claude -p --output-format json` stdout.
+
+    Returns the `result` field. If stdout isn't valid JSON, returns it
+    unchanged (legacy text-format path).
+    """
+    stripped = stdout.strip()
+    if not (stripped.startswith("{") and stripped.endswith("}")):
+        return stdout
+    try:
+        data = json.loads(stripped)
+        return str(data.get("result", "") or stdout)
+    except (ValueError, TypeError):
+        return stdout
 
 
 def append_from_claude_p_stdout(
@@ -201,6 +370,27 @@ def append_from_claude_p_stdout(
     `_chunking.py` and `_authoring.py` once P6.1 integrates with those.
     """
     usage = parse_usage_from_stdout(stdout)
+    # If the JSON path produced an authoritative cost_usd, prefer it over
+    # our PRICING_USD_PER_MILLION calculation (Claude's own ledger is
+    # authoritative for any model + tier combination).
+    if usage.get("cost_usd", 0.0) > 0:
+        row = CostRow(
+            ts=ts or _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            phase=phase,
+            step=step,
+            model=model,
+            input_tokens=int(usage["input"]),
+            output_tokens=int(usage["output"]),
+            cache_read=int(usage["cache_read"]),
+            cache_create=int(usage["cache_create"]),
+            cost_usd=float(usage["cost_usd"]),
+        )
+        ledger_path = book_dir / "_system" / "cost-ledger.jsonl"
+        ledger_path.parent.mkdir(parents=True, exist_ok=True)
+        with ledger_path.open("a", encoding="utf-8") as f:
+            f.write(json.dumps(asdict(row)) + "\n")
+        return row
+    # Fall through to the legacy path that computes from PRICING_USD_PER_MILLION
     return append_cost_row(
         book_dir,
         phase=phase,

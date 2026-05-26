@@ -1,0 +1,15 @@
+{
+  "check_id": "R-NO-PREMATURE-CLOSURE",
+  "detector": "premature_closure",
+  "severity": "P1",
+  "rubric_version": "2.2",
+  "applies_to": ["last_600_chars_of_closing_section", "beat_landings_in_discussion_spine"],
+  "permitted_alternative": "we didn't settle this — here's where the live disagreement sits",
+  "hits": [
+    "and that's the whole story",
+    "and that, ultimately, is what the soul really is",
+    "so in the end, we see",
+    "the answer turns out to be",
+    "the key lies in"
+  ]
+}

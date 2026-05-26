@@ -52,7 +52,7 @@ On success, return **only** these three lines (no preamble, no postamble):
 ```
 Bundle emitted: content/drafts/<bucket>/_system/episode-drafts/EP##-<slug>/
 Chapter source: content/drafts/<bucket>/chapters/ch##-<slug>.txt
-Next: edit 02-key-passages.md (LLM-SELECT), 03-context-pack.md (LLM-FILL), 04-discussion-spine.md (LLM-FILL); then run scripts/podcast/build_episode_txt.py content/drafts/<bucket> EP##-<slug>
+Next: review 00-framing.md (the only steering file NotebookLM reads via Customize); ensure the chapter source is uploaded as the Source; then run scripts/podcast/build_episode_txt.py content/drafts/<bucket> EP##-<slug>. The 02/03/04 scaffolds were retired 2026-05-25 (F30 scholarly-rubric triage) — framing already contains spine, context, pronunciation, and name discipline.
 ```
 
 Substitute the actual `<bucket>`, `##`, and `<slug>` from the run.

@@ -1,0 +1,66 @@
+{
+  "script": "transcribe_reference_mp3s.py",
+  "started_at": "2026-05-24T14:41:32Z",
+  "ended_at": "2026-05-24T14:48:40Z",
+  "total_elapsed_s": 428.5,
+  "locale": "en-US",
+  "speech_api_version": "2024-11-15",
+  "items": [
+    {
+      "audio": "00 - The Master And The Disciple.mp3",
+      "transcript": "00_-_The_Master_And_The_Disciple.txt",
+      "audio_bytes": 3320442,
+      "transcript_chars": 1665,
+      "elapsed_s": 4.4
+    },
+    {
+      "audio": "Chapter 1 \u2014 Scholar and Seeker.mp3",
+      "transcript": "Chapter_1_Scholar_and_Seeker.txt",
+      "audio_bytes": 71877451,
+      "transcript_chars": 38877,
+      "elapsed_s": 62.3
+    },
+    {
+      "audio": "Chapter 2 - Oath and Cosmic Origins.mp3",
+      "transcript": "Chapter_2_-_Oath_and_Cosmic_Origins.txt",
+      "audio_bytes": 82316400,
+      "transcript_chars": 44259,
+      "elapsed_s": 81.5
+    },
+    {
+      "audio": "Chapter 3 - The Inner Dimensions.mp3",
+      "transcript": "Chapter_3_-_The_Inner_Dimensions.txt",
+      "audio_bytes": 87912038,
+      "transcript_chars": 48177,
+      "elapsed_s": 69.4
+    },
+    {
+      "audio": "Chapter 4 - Meeting the Hujjah.mp3",
+      "transcript": "Chapter_4_-_Meeting_the_Hujjah.txt",
+      "audio_bytes": 80921252,
+      "transcript_chars": 44625,
+      "elapsed_s": 67.4
+    },
+    {
+      "audio": "Chapter 5 - Father and Community.mp3",
+      "transcript": "Chapter_5_-_Father_and_Community.txt",
+      "audio_bytes": 36650180,
+      "transcript_chars": 18574,
+      "elapsed_s": 29.5
+    },
+    {
+      "audio": "Chapter 6 - The Deep Truths.mp3",
+      "transcript": "Chapter_6_-_The_Deep_Truths.txt",
+      "audio_bytes": 40152678,
+      "transcript_chars": 20355,
+      "elapsed_s": 31.4
+    },
+    {
+      "audio": "Chapter 7 - The Living Rope Of Allah.mp3",
+      "transcript": "Chapter_7_-_The_Living_Rope_Of_Allah.txt",
+      "audio_bytes": 79980844,
+      "transcript_chars": 44172,
+      "elapsed_s": 82.7
+    }
+  ]
+}

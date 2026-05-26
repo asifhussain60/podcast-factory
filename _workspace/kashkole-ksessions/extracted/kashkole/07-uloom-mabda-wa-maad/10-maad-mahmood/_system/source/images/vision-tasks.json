@@ -1,0 +1,62 @@
+{
+  "book": {
+    "binder_id": 1,
+    "binder_name": "علوم مبدا و معاد",
+    "chapter_id": 82,
+    "chapter_name": "معاد محمود"
+  },
+  "images": [
+    {
+      "placeholder": "IMG:001",
+      "file": "_system/source/images/001.png",
+      "section_id": 1157,
+      "section_label": "باب ظاھر باب باطن",
+      "bytes": 170449,
+      "sha256_12": "ff0c65dbf05c",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:002",
+      "file": "_system/source/images/002.png",
+      "section_id": 1159,
+      "section_label": "لاہوت اور ناسوت کا اجتماع",
+      "bytes": 380902,
+      "sha256_12": "e819f09f7123",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:003",
+      "file": "_system/source/images/003.png",
+      "section_id": 1160,
+      "section_label": "فضلات کی پلٹ",
+      "bytes": 115547,
+      "sha256_12": "7e0b21899cea",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:004",
+      "file": "_system/source/images/004.png",
+      "section_id": 1166,
+      "section_label": "درجات کے متعلق بیان",
+      "bytes": 82574,
+      "sha256_12": "21afcb604f08",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:005",
+      "file": "_system/source/images/005.png",
+      "section_id": 1167,
+      "section_label": "ناسوت امام کا بٹوارا",
+      "bytes": 17465,
+      "sha256_12": "e62c334c9567",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    }
+  ],
+  "generated_at": "2026-05-24T17:59:02.743987+00:00",
+  "instructions": "For each image in `images`, read the file via the Read tool (paths are relative to the bundle root) and write a sibling JSON file next to the PNG (same basename, .json extension) with the schema: {classification, arabic_text, urdu_text, english_text, suggested_citation: {surah, ayat} | null, alt_text, confidence, notes}. classification ∈ {quran-verse, hadith, poem-or-saying, teaching-diagram, mixed, other}. For quran-verse, propose surah+ayat from your reading; finalize validates against the adapter's Quran corpus. For teaching-diagram, give a 1-2 sentence alt_text describing what it shows."
+}

@@ -1,0 +1,10 @@
+{
+  "classification": "teaching-diagram",
+  "arabic_text": "",
+  "urdu_text": "",
+  "english_text": "A B C D ↔ D C B A",
+  "suggested_citation": null,
+  "alt_text": "A red circle containing eight colored dots arranged so that points labeled A, B, C, D on one side are mirror-paired by green arrows with points labeled A, B, C, D on the other side, illustrating a symmetric/chiastic pairing within a closed structure.",
+  "confidence": 0.9,
+  "notes": "Pedagogical diagram for chiastic (ring) structure in a Quranic surah — pairing elements symmetrically across a central pivot."
+}

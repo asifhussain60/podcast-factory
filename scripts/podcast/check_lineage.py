@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """check_lineage.py — staleness check for split-derivative chapter contracts.
 
-Some chapters are SPLIT derivatives of a larger source chapter (see Splitting
-Policy in content/podcast/.skill/handbook/extract-capability.md). Each
-derivative's contract carries a `derived_from:` field with a repo-relative path
-to the original source file. If that source is later edited, the derivative
-becomes stale — its content reflects an older version of the source.
+Some chapters are SPLIT derivatives of a larger source chapter (Splitting
+Policy is documented inline in `scripts/podcast/extract_chapter.py` —
+formerly `content/podcast/.skill/handbook/extract-capability.md`, retired
+2026-05-23). Each derivative's contract carries a `derived_from:` field
+with a repo-relative path to the original source file. If that source is
+later edited, the derivative becomes stale — its content reflects an
+older version of the source.
 
 This script compares the modification time of each `derived_from:` source
 against the corresponding derivative chapter and flags any pair where the

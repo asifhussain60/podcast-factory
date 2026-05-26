@@ -1,0 +1,32 @@
+{
+  "book": {
+    "binder_id": 28,
+    "binder_name": "مسودے",
+    "chapter_id": 115,
+    "chapter_name": "[مسودۃ] مسودے"
+  },
+  "images": [
+    {
+      "placeholder": "IMG:001",
+      "file": "_system/source/images/001.png",
+      "section_id": 3539,
+      "section_label": "مولانا معد",
+      "bytes": 31393,
+      "sha256_12": "1600b867ea9f",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:002",
+      "file": "_system/source/images/002.png",
+      "section_id": 1441,
+      "section_label": "علم کی حقیقت",
+      "bytes": 30919,
+      "sha256_12": "2bbbbb32c2ea",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    }
+  ],
+  "generated_at": "2026-05-24T19:36:45.937939+00:00",
+  "instructions": "For each image in `images`, read the file via the Read tool (paths are relative to the bundle root) and write a sibling JSON file next to the PNG (same basename, .json extension) with the schema: {classification, arabic_text, urdu_text, english_text, suggested_citation: {surah, ayat} | null, alt_text, confidence, notes}. classification ∈ {quran-verse, hadith, poem-or-saying, teaching-diagram, mixed, other}. For quran-verse, propose surah+ayat from your reading; finalize validates against the adapter's Quran corpus. For teaching-diagram, give a 1-2 sentence alt_text describing what it shows."
+}

@@ -183,15 +183,98 @@ def aggregate(records: list[dict[str, Any]]) -> str:
     return "\n".join(lines) + "\n"
 
 
+def _parse_since(spec: str | None) -> "datetime | None":
+    """F33 (2026-05-25): convert '7d', '30d', '24h', '4w', '2m' to cutoff dt."""
+    if not spec:
+        return None
+    import re as _re
+    from datetime import datetime, timedelta, timezone
+    m = _re.match(r"^(\d+)([dhwm])$", spec.strip().lower())
+    if not m:
+        return None
+    n, unit = int(m.group(1)), m.group(2)
+    deltas = {"d": timedelta(days=n), "h": timedelta(hours=n),
+              "w": timedelta(weeks=n), "m": timedelta(days=30 * n)}
+    return datetime.now(timezone.utc) - deltas[unit]
+
+
+def _filter_since(records: list[dict[str, Any]], since: "datetime | None") -> list[dict[str, Any]]:
+    """F33: keep only records with ts >= cutoff. ts is ISO-8601 UTC."""
+    if not since:
+        return records
+    from datetime import datetime
+    out: list[dict[str, Any]] = []
+    for r in records:
+        ts = r.get("ts", "")
+        try:
+            rec_dt = datetime.fromisoformat(ts.replace("Z", "+00:00"))
+        except ValueError:
+            continue
+        if rec_dt >= since:
+            out.append(r)
+    return out
+
+
+def by_check_id_report(records: list[dict[str, Any]], since_label: str) -> str:
+    """F33 (2026-05-25): rule-firing telemetry — count records per check_id,
+    severity, and book; rank by frequency. Lets the operator see which rules
+    fire most in the last N days — a signal for which rule deserves
+    deterministic codification, deprecation, or rubric refinement."""
+    from collections import Counter
+    by_check: Counter = Counter()
+    by_check_sev: dict[str, Counter] = {}
+    by_check_book: dict[str, Counter] = {}
+    for r in records:
+        cid = r.get("check_id", "")
+        sev = r.get("severity", "?")
+        book = r.get("book", "?")
+        if not cid:
+            continue
+        by_check[cid] += 1
+        by_check_sev.setdefault(cid, Counter())[sev] += 1
+        by_check_book.setdefault(cid, Counter())[book] += 1
+
+    lines = [
+        f"# Rule-firing telemetry — window: {since_label}",
+        "",
+        f"Records analyzed: **{len(records)}**.",
+        f"Distinct check_ids firing: **{len(by_check)}**.",
+        "",
+        "| Rank | check_id | Total fires | P0 | P1 | P2 | Books affected | Top book |",
+        "|---|---|---|---|---|---|---|---|",
+    ]
+    for rank, (cid, total) in enumerate(by_check.most_common(50), 1):
+        sevs = by_check_sev.get(cid, Counter())
+        books = by_check_book.get(cid, Counter())
+        top_book, top_count = (books.most_common(1) or [("—", 0)])[0]
+        lines.append(
+            f"| {rank} | `{cid}` | {total} | {sevs.get('P0', 0)} | "
+            f"{sevs.get('P1', 0)} | {sevs.get('P2', 0)} | "
+            f"{len(books)} | `{top_book}` ({top_count}) |"
+        )
+    if not by_check:
+        lines.append("| — | _(no records in window)_ | — | — | — | — | — | — |")
+    return "\n".join(lines) + "\n"
+
+
 def main() -> int:
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     p.add_argument("--ledger", type=Path, default=DEFAULT_LEDGER,
                    help=f"Path to findings.jsonl (default: {DEFAULT_LEDGER})")
     p.add_argument("--output", type=Path, default=OUTPUT_PATH,
                    help=f"Path to patterns.md (default: {OUTPUT_PATH})")
+    p.add_argument("--since", type=str, default=None,
+                   help="F33: time window for --by-check-id (e.g. 7d, 30d, 4w, 2m). Default: all-time.")
+    p.add_argument("--by-check-id", action="store_true",
+                   help="F33: emit rule-firing telemetry report (stdout) instead of patterns.md.")
     args = p.parse_args()
 
     records = load_ledger(args.ledger)
+    if args.by_check_id:
+        since = _parse_since(args.since)
+        records = _filter_since(records, since)
+        sys.stdout.write(by_check_id_report(records, args.since or "all-time"))
+        return 0
     content = aggregate(records)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(content, encoding="utf-8")

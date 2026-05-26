@@ -1,0 +1,782 @@
+{
+  "book": {
+    "binder_id": 8,
+    "binder_name": "کلمات ربانی کی تاویلات",
+    "chapter_id": 25,
+    "chapter_name": "اعراب اور مقطعات کی تاویل و حقائق"
+  },
+  "images": [
+    {
+      "placeholder": "IMG:001",
+      "file": "_system/source/images/001.png",
+      "section_id": 1331,
+      "section_label": "حکمت الاعراب",
+      "bytes": 6706,
+      "sha256_12": "86ce97881323",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:002",
+      "file": "_system/source/images/002.png",
+      "section_id": 1333,
+      "section_label": "نورانی و ظلمانی حروف",
+      "bytes": 20254,
+      "sha256_12": "29a96bc69680",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:003",
+      "file": "_system/source/images/003.png",
+      "section_id": 1334,
+      "section_label": "حروف معجم اور کلمۃ اخلاص",
+      "bytes": 18179,
+      "sha256_12": "cefd8b47184d",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:004",
+      "file": "_system/source/images/004.png",
+      "section_id": 1334,
+      "section_label": "حروف معجم اور کلمۃ اخلاص",
+      "bytes": 12224,
+      "sha256_12": "e52523265f4c",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:005",
+      "file": "_system/source/images/005.png",
+      "section_id": 1338,
+      "section_label": "نماز اور اعراب",
+      "bytes": 41373,
+      "sha256_12": "952f1e6e5cdf",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:006",
+      "file": "_system/source/images/006.png",
+      "section_id": 1222,
+      "section_label": "اعراب : ثلاثۃ سفرا",
+      "bytes": 11147,
+      "sha256_12": "643fc1a3ff09",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:007",
+      "file": "_system/source/images/007.png",
+      "section_id": 609,
+      "section_label": "نورانی اور ظلمانی حروف",
+      "bytes": 19253,
+      "sha256_12": "4d37059b9749",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:008",
+      "file": "_system/source/images/008.png",
+      "section_id": 609,
+      "section_label": "نورانی اور ظلمانی حروف",
+      "bytes": 10939,
+      "sha256_12": "193911348cfd",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:009",
+      "file": "_system/source/images/009.png",
+      "section_id": 610,
+      "section_label": "حرف الف",
+      "bytes": 5794,
+      "sha256_12": "a3de2e816d3d",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:010",
+      "file": "_system/source/images/010.png",
+      "section_id": 610,
+      "section_label": "حرف الف",
+      "bytes": 3160,
+      "sha256_12": "5d4d76277dbe",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:011",
+      "file": "_system/source/images/011.png",
+      "section_id": 611,
+      "section_label": "مقطعات",
+      "bytes": 3177,
+      "sha256_12": "30b52657a4ac",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:012",
+      "file": "_system/source/images/012.png",
+      "section_id": 611,
+      "section_label": "مقطعات",
+      "bytes": 6864,
+      "sha256_12": "4abbb5bdc320",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:013",
+      "file": "_system/source/images/013.png",
+      "section_id": 611,
+      "section_label": "مقطعات",
+      "bytes": 6637,
+      "sha256_12": "e46fd77e1eb1",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:014",
+      "file": "_system/source/images/014.png",
+      "section_id": 611,
+      "section_label": "مقطعات",
+      "bytes": 7965,
+      "sha256_12": "488baec8fddf",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:015",
+      "file": "_system/source/images/015.png",
+      "section_id": 611,
+      "section_label": "مقطعات",
+      "bytes": 2616,
+      "sha256_12": "c64330d00909",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:016",
+      "file": "_system/source/images/016.png",
+      "section_id": 611,
+      "section_label": "مقطعات",
+      "bytes": 5898,
+      "sha256_12": "cb80a4d13816",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:017",
+      "file": "_system/source/images/017.png",
+      "section_id": 611,
+      "section_label": "مقطعات",
+      "bytes": 8164,
+      "sha256_12": "9da6f6c945d6",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:018",
+      "file": "_system/source/images/018.png",
+      "section_id": 611,
+      "section_label": "مقطعات",
+      "bytes": 3486,
+      "sha256_12": "a9d656617445",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:019",
+      "file": "_system/source/images/019.png",
+      "section_id": 611,
+      "section_label": "مقطعات",
+      "bytes": 5472,
+      "sha256_12": "8ab6bd91cf41",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:020",
+      "file": "_system/source/images/020.png",
+      "section_id": 611,
+      "section_label": "مقطعات",
+      "bytes": 6495,
+      "sha256_12": "f0e14622b83c",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:021",
+      "file": "_system/source/images/021.png",
+      "section_id": 612,
+      "section_label": "نصف اول کے ۹ مقطعات",
+      "bytes": 8315,
+      "sha256_12": "31c32275bdba",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:022",
+      "file": "_system/source/images/022.png",
+      "section_id": 612,
+      "section_label": "نصف اول کے ۹ مقطعات",
+      "bytes": 8401,
+      "sha256_12": "3f74ca94263f",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:023",
+      "file": "_system/source/images/023.png",
+      "section_id": 612,
+      "section_label": "نصف اول کے ۹ مقطعات",
+      "bytes": 6365,
+      "sha256_12": "eb59ed531cb6",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:024",
+      "file": "_system/source/images/024.png",
+      "section_id": 612,
+      "section_label": "نصف اول کے ۹ مقطعات",
+      "bytes": 6393,
+      "sha256_12": "ecba3ed90ecf",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:025",
+      "file": "_system/source/images/025.png",
+      "section_id": 612,
+      "section_label": "نصف اول کے ۹ مقطعات",
+      "bytes": 5770,
+      "sha256_12": "964083397cad",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:026",
+      "file": "_system/source/images/026.png",
+      "section_id": 612,
+      "section_label": "نصف اول کے ۹ مقطعات",
+      "bytes": 4140,
+      "sha256_12": "c7b4ad25a4fb",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:027",
+      "file": "_system/source/images/027.png",
+      "section_id": 613,
+      "section_label": "نصف ثانی کے ۲۰ مقطعات",
+      "bytes": 6844,
+      "sha256_12": "95870646eda0",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:028",
+      "file": "_system/source/images/028.png",
+      "section_id": 613,
+      "section_label": "نصف ثانی کے ۲۰ مقطعات",
+      "bytes": 6637,
+      "sha256_12": "e46fd77e1eb1",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:029",
+      "file": "_system/source/images/029.png",
+      "section_id": 613,
+      "section_label": "نصف ثانی کے ۲۰ مقطعات",
+      "bytes": 2837,
+      "sha256_12": "5e0805346013",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:030",
+      "file": "_system/source/images/030.png",
+      "section_id": 614,
+      "section_label": "نصف اول اور نصف ثانی کی آیات کلیۃ",
+      "bytes": 13140,
+      "sha256_12": "6e8108b15c1b",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:031",
+      "file": "_system/source/images/031.png",
+      "section_id": 614,
+      "section_label": "نصف اول اور نصف ثانی کی آیات کلیۃ",
+      "bytes": 11633,
+      "sha256_12": "e41b7f1866b2",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:032",
+      "file": "_system/source/images/032.png",
+      "section_id": 615,
+      "section_label": "قرآن میں مقطعات کی گنتی",
+      "bytes": 7177,
+      "sha256_12": "6ce228990c4b",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:033",
+      "file": "_system/source/images/033.png",
+      "section_id": 615,
+      "section_label": "قرآن میں مقطعات کی گنتی",
+      "bytes": 5660,
+      "sha256_12": "30d9bd8e1fa1",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:034",
+      "file": "_system/source/images/034.png",
+      "section_id": 615,
+      "section_label": "قرآن میں مقطعات کی گنتی",
+      "bytes": 3967,
+      "sha256_12": "9015ba5bb818",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:035",
+      "file": "_system/source/images/035.png",
+      "section_id": 615,
+      "section_label": "قرآن میں مقطعات کی گنتی",
+      "bytes": 4002,
+      "sha256_12": "b20ca300ea0f",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:036",
+      "file": "_system/source/images/036.png",
+      "section_id": 615,
+      "section_label": "قرآن میں مقطعات کی گنتی",
+      "bytes": 11837,
+      "sha256_12": "56966800dcd5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:037",
+      "file": "_system/source/images/037.png",
+      "section_id": 615,
+      "section_label": "قرآن میں مقطعات کی گنتی",
+      "bytes": 3767,
+      "sha256_12": "a28c06a0f02c",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:038",
+      "file": "_system/source/images/038.png",
+      "section_id": 615,
+      "section_label": "قرآن میں مقطعات کی گنتی",
+      "bytes": 9219,
+      "sha256_12": "73f5e6ad2a3c",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:039",
+      "file": "_system/source/images/039.png",
+      "section_id": 615,
+      "section_label": "قرآن میں مقطعات کی گنتی",
+      "bytes": 8793,
+      "sha256_12": "a925fb50a797",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:040",
+      "file": "_system/source/images/040.png",
+      "section_id": 615,
+      "section_label": "قرآن میں مقطعات کی گنتی",
+      "bytes": 3231,
+      "sha256_12": "a44999770c95",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:041",
+      "file": "_system/source/images/041.png",
+      "section_id": 615,
+      "section_label": "قرآن میں مقطعات کی گنتی",
+      "bytes": 3029,
+      "sha256_12": "6aaf0d11f240",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:042",
+      "file": "_system/source/images/042.png",
+      "section_id": 615,
+      "section_label": "قرآن میں مقطعات کی گنتی",
+      "bytes": 3382,
+      "sha256_12": "86d9f6594282",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:043",
+      "file": "_system/source/images/043.png",
+      "section_id": 615,
+      "section_label": "قرآن میں مقطعات کی گنتی",
+      "bytes": 3030,
+      "sha256_12": "6a67b49c8d29",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:044",
+      "file": "_system/source/images/044.png",
+      "section_id": 615,
+      "section_label": "قرآن میں مقطعات کی گنتی",
+      "bytes": 4349,
+      "sha256_12": "961f53433a63",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:045",
+      "file": "_system/source/images/045.png",
+      "section_id": 615,
+      "section_label": "قرآن میں مقطعات کی گنتی",
+      "bytes": 4158,
+      "sha256_12": "d945c4f1e077",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:046",
+      "file": "_system/source/images/046.png",
+      "section_id": 616,
+      "section_label": "انوار خمسہ کا مجمع",
+      "bytes": 5638,
+      "sha256_12": "0f5cd61a3248",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:047",
+      "file": "_system/source/images/047.png",
+      "section_id": 616,
+      "section_label": "انوار خمسہ کا مجمع",
+      "bytes": 6204,
+      "sha256_12": "40544a31c39b",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:048",
+      "file": "_system/source/images/048.png",
+      "section_id": 618,
+      "section_label": "نطقا کے ناموں میں حروف نورانی و ظلمانی",
+      "bytes": 2785,
+      "sha256_12": "97f212922779",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:049",
+      "file": "_system/source/images/049.png",
+      "section_id": 618,
+      "section_label": "نطقا کے ناموں میں حروف نورانی و ظلمانی",
+      "bytes": 2882,
+      "sha256_12": "8a9f11eaa4eb",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:050",
+      "file": "_system/source/images/050.png",
+      "section_id": 618,
+      "section_label": "نطقا کے ناموں میں حروف نورانی و ظلمانی",
+      "bytes": 4567,
+      "sha256_12": "16d53b835801",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:051",
+      "file": "_system/source/images/051.png",
+      "section_id": 618,
+      "section_label": "نطقا کے ناموں میں حروف نورانی و ظلمانی",
+      "bytes": 3304,
+      "sha256_12": "a3ff7fb59009",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:052",
+      "file": "_system/source/images/052.png",
+      "section_id": 618,
+      "section_label": "نطقا کے ناموں میں حروف نورانی و ظلمانی",
+      "bytes": 3366,
+      "sha256_12": "2d09896e5c7b",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:053",
+      "file": "_system/source/images/053.png",
+      "section_id": 618,
+      "section_label": "نطقا کے ناموں میں حروف نورانی و ظلمانی",
+      "bytes": 3225,
+      "sha256_12": "7dbd2c2bb703",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:054",
+      "file": "_system/source/images/054.png",
+      "section_id": 618,
+      "section_label": "نطقا کے ناموں میں حروف نورانی و ظلمانی",
+      "bytes": 2158,
+      "sha256_12": "4d08e90e80c5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:055",
+      "file": "_system/source/images/055.png",
+      "section_id": 618,
+      "section_label": "نطقا کے ناموں میں حروف نورانی و ظلمانی",
+      "bytes": 2633,
+      "sha256_12": "2410a42f93a4",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:056",
+      "file": "_system/source/images/056.png",
+      "section_id": 618,
+      "section_label": "نطقا کے ناموں میں حروف نورانی و ظلمانی",
+      "bytes": 10108,
+      "sha256_12": "555302b35bfd",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:057",
+      "file": "_system/source/images/057.png",
+      "section_id": 618,
+      "section_label": "نطقا کے ناموں میں حروف نورانی و ظلمانی",
+      "bytes": 21423,
+      "sha256_12": "ab3948e958f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:058",
+      "file": "_system/source/images/058.png",
+      "section_id": 619,
+      "section_label": "مقطعات میں ۱۹ کی حکمت",
+      "bytes": 22623,
+      "sha256_12": "740ac28196d7",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:059",
+      "file": "_system/source/images/059.png",
+      "section_id": 619,
+      "section_label": "مقطعات میں ۱۹ کی حکمت",
+      "bytes": 57467,
+      "sha256_12": "c8a203e8ef38",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:060",
+      "file": "_system/source/images/060.png",
+      "section_id": 619,
+      "section_label": "مقطعات میں ۱۹ کی حکمت",
+      "bytes": 3951,
+      "sha256_12": "f176838d2034",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:061",
+      "file": "_system/source/images/061.png",
+      "section_id": 619,
+      "section_label": "مقطعات میں ۱۹ کی حکمت",
+      "bytes": 4705,
+      "sha256_12": "3a3e807f0c65",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:062",
+      "file": "_system/source/images/062.png",
+      "section_id": 619,
+      "section_label": "مقطعات میں ۱۹ کی حکمت",
+      "bytes": 3044,
+      "sha256_12": "a59cbcb329e0",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:063",
+      "file": "_system/source/images/063.png",
+      "section_id": 619,
+      "section_label": "مقطعات میں ۱۹ کی حکمت",
+      "bytes": 4078,
+      "sha256_12": "dfd139cfd749",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:064",
+      "file": "_system/source/images/064.png",
+      "section_id": 619,
+      "section_label": "مقطعات میں ۱۹ کی حکمت",
+      "bytes": 5439,
+      "sha256_12": "e7338bb0567e",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:065",
+      "file": "_system/source/images/065.png",
+      "section_id": 619,
+      "section_label": "مقطعات میں ۱۹ کی حکمت",
+      "bytes": 16268,
+      "sha256_12": "ac55bb419f6b",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:066",
+      "file": "_system/source/images/066.png",
+      "section_id": 619,
+      "section_label": "مقطعات میں ۱۹ کی حکمت",
+      "bytes": 14273,
+      "sha256_12": "b7057d2fe37a",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:067",
+      "file": "_system/source/images/067.png",
+      "section_id": 619,
+      "section_label": "مقطعات میں ۱۹ کی حکمت",
+      "bytes": 4666,
+      "sha256_12": "d774669d87c2",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:068",
+      "file": "_system/source/images/068.png",
+      "section_id": 619,
+      "section_label": "مقطعات میں ۱۹ کی حکمت",
+      "bytes": 15066,
+      "sha256_12": "ae8d8f0daa0f",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:069",
+      "file": "_system/source/images/069.png",
+      "section_id": 619,
+      "section_label": "مقطعات میں ۱۹ کی حکمت",
+      "bytes": 4745,
+      "sha256_12": "1b0cdd9d8285",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:070",
+      "file": "_system/source/images/070.png",
+      "section_id": 619,
+      "section_label": "مقطعات میں ۱۹ کی حکمت",
+      "bytes": 5142,
+      "sha256_12": "dc18d32e8f2f",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:071",
+      "file": "_system/source/images/071.png",
+      "section_id": 619,
+      "section_label": "مقطعات میں ۱۹ کی حکمت",
+      "bytes": 5189,
+      "sha256_12": "3e0b66d9b1d4",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:072",
+      "file": "_system/source/images/072.png",
+      "section_id": 619,
+      "section_label": "مقطعات میں ۱۹ کی حکمت",
+      "bytes": 12511,
+      "sha256_12": "1253c7280f4b",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:073",
+      "file": "_system/source/images/073.png",
+      "section_id": 619,
+      "section_label": "مقطعات میں ۱۹ کی حکمت",
+      "bytes": 3734,
+      "sha256_12": "5a18d94187a4",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:074",
+      "file": "_system/source/images/074.png",
+      "section_id": 619,
+      "section_label": "مقطعات میں ۱۹ کی حکمت",
+      "bytes": 7323,
+      "sha256_12": "a304271d846c",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:075",
+      "file": "_system/source/images/075.png",
+      "section_id": 619,
+      "section_label": "مقطعات میں ۱۹ کی حکمت",
+      "bytes": 4723,
+      "sha256_12": "46d8ae48bbf1",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:076",
+      "file": "_system/source/images/076.png",
+      "section_id": 619,
+      "section_label": "مقطعات میں ۱۹ کی حکمت",
+      "bytes": 4723,
+      "sha256_12": "46d8ae48bbf1",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:077",
+      "file": "_system/source/images/077.png",
+      "section_id": 619,
+      "section_label": "مقطعات میں ۱۹ کی حکمت",
+      "bytes": 4253,
+      "sha256_12": "549b642d06ea",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    }
+  ],
+  "generated_at": "2026-05-24T19:52:53.126507+00:00",
+  "instructions": "For each image in `images`, read the file via the Read tool (paths are relative to the bundle root) and write a sibling JSON file next to the PNG (same basename, .json extension) with the schema: {classification, arabic_text, urdu_text, english_text, suggested_citation: {surah, ayat} | null, alt_text, confidence, notes}. classification ∈ {quran-verse, hadith, poem-or-saying, teaching-diagram, mixed, other}. For quran-verse, propose surah+ayat from your reading; finalize validates against the adapter's Quran corpus. For teaching-diagram, give a 1-2 sentence alt_text describing what it shows."
+}

@@ -1,0 +1,10 @@
+{
+  "classification": "teaching-diagram",
+  "arabic_text": "",
+  "urdu_text": "",
+  "english_text": "Safety is Inversely proportional to Freedom\nSafety is directly proportional to Restraint\nSafety\nFreedom\nRestraint",
+  "suggested_citation": null,
+  "alt_text": "Mathematical-style graph: a red curve labelled 'Safety' (high on the y-axis, dropping toward the x-axis labelled 'Freedom') intersected by a blue diagonal line labelled 'Restraint'. Captions: 'Safety is Inversely proportional to Freedom' (top) and 'Safety is directly proportional to Restraint' (bottom).",
+  "confidence": 0.97,
+  "notes": "Pedagogical diagram contrasting safety/freedom/restraint — typically used in ethical/sharia discussion of why limits enable safety."
+}

@@ -1,0 +1,152 @@
+{
+  "book": {
+    "binder_id": 26,
+    "binder_name": "دعائم الاسلام : صلواۃ",
+    "chapter_id": 94,
+    "chapter_name": "نماز کا بیان"
+  },
+  "images": [
+    {
+      "placeholder": "IMG:001",
+      "file": "_system/source/images/001.png",
+      "section_id": 1273,
+      "section_label": "عبادت کیا ہوتی ہے؟",
+      "bytes": 7937,
+      "sha256_12": "b8f36cdc4c14",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:002",
+      "file": "_system/source/images/002.png",
+      "section_id": 1274,
+      "section_label": "نماز دین کا چہرہ ہے",
+      "bytes": 16025,
+      "sha256_12": "d9ac1bfff907",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:003",
+      "file": "_system/source/images/003.png",
+      "section_id": 1274,
+      "section_label": "نماز دین کا چہرہ ہے",
+      "bytes": 8678,
+      "sha256_12": "d0bffffafcd5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:004",
+      "file": "_system/source/images/004.png",
+      "section_id": 1274,
+      "section_label": "نماز دین کا چہرہ ہے",
+      "bytes": 18913,
+      "sha256_12": "a364dde0ca72",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:005",
+      "file": "_system/source/images/005.png",
+      "section_id": 1274,
+      "section_label": "نماز دین کا چہرہ ہے",
+      "bytes": 17887,
+      "sha256_12": "e7bf5b9af8cc",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:006",
+      "file": "_system/source/images/006.png",
+      "section_id": 1274,
+      "section_label": "نماز دین کا چہرہ ہے",
+      "bytes": 9103,
+      "sha256_12": "2f67db5dde21",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:007",
+      "file": "_system/source/images/007.png",
+      "section_id": 1275,
+      "section_label": "تمام اعمال تکلیفیۃ کا کیا مقصد ہے",
+      "bytes": 10426,
+      "sha256_12": "5e1dfb699adb",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:008",
+      "file": "_system/source/images/008.png",
+      "section_id": 1276,
+      "section_label": "عبادت کے لئے وسیلے",
+      "bytes": 19341,
+      "sha256_12": "16a85df6d0d3",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:009",
+      "file": "_system/source/images/009.png",
+      "section_id": 1276,
+      "section_label": "عبادت کے لئے وسیلے",
+      "bytes": 26770,
+      "sha256_12": "7dd341506922",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:010",
+      "file": "_system/source/images/010.png",
+      "section_id": 1276,
+      "section_label": "عبادت کے لئے وسیلے",
+      "bytes": 13865,
+      "sha256_12": "a16a114fb2fe",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:011",
+      "file": "_system/source/images/011.png",
+      "section_id": 1277,
+      "section_label": "نماز : مستودع اور مستقر کا ملاپ",
+      "bytes": 15725,
+      "sha256_12": "4b951a8aa94a",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:012",
+      "file": "_system/source/images/012.png",
+      "section_id": 1278,
+      "section_label": "نماز اور کلمات کا وسیلہ",
+      "bytes": 11502,
+      "sha256_12": "07dc4967641c",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:013",
+      "file": "_system/source/images/013.png",
+      "section_id": 1278,
+      "section_label": "نماز اور کلمات کا وسیلہ",
+      "bytes": 18150,
+      "sha256_12": "7b14f8870d76",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:014",
+      "file": "_system/source/images/014.png",
+      "section_id": 1281,
+      "section_label": "الذین ھم عن صلاتھم ساھون",
+      "bytes": 6120,
+      "sha256_12": "a1851dfb10d6",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    }
+  ],
+  "generated_at": "2026-05-24T19:55:31.899924+00:00",
+  "instructions": "For each image in `images`, read the file via the Read tool (paths are relative to the bundle root) and write a sibling JSON file next to the PNG (same basename, .json extension) with the schema: {classification, arabic_text, urdu_text, english_text, suggested_citation: {surah, ayat} | null, alt_text, confidence, notes}. classification ∈ {quran-verse, hadith, poem-or-saying, teaching-diagram, mixed, other}. For quran-verse, propose surah+ayat from your reading; finalize validates against the adapter's Quran corpus. For teaching-diagram, give a 1-2 sentence alt_text describing what it shows."
+}

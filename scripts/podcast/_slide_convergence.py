@@ -114,8 +114,17 @@ class ConvergenceResult:
 # The Slide Deck Challenger emits a report whose Overall section names the
 # bundle status. Map "ship" → SHIP-READY, "iterate" → BLOCKED, plus an
 # explicit SHIP-WITH-CAUTION line is honored when present.
+#
+# Tolerant of every shape we've seen the LLM emit in real reports:
+#   `**Verdict**: SHIP-READY`        ← classic Markdown bold + colon-outside
+#   `**Verdict:** SHIP-READY`        ← colon-inside-bold
+#   `**Verdict: SHIP-READY**`        ← keyword inside the bold span
+#   `**Bundle status**: ship`        ← legacy alias still emitted by some passes
+# Falling back to BLOCKED on unparseable verdicts is safe (refuses ship) but
+# wastes LLM budget on chapters that already passed; this tolerant form avoids
+# that silent waste.
 _VERDICT_LINE_RE = re.compile(
-    r"^\*\*(?:Verdict|Bundle status)\*\*:\s*"
+    r"\*\*(?:Verdict|Bundle status):?\s*\*?\*?\s*:?\s*"
     r"(SHIP-READY|SHIP-WITH-CAUTION|BLOCKED|ship|iterate)\b",
     re.IGNORECASE | re.MULTILINE,
 )

@@ -1,0 +1,11 @@
+{
+  "book": {
+    "binder_id": 18,
+    "binder_name": "قرآنی قصص الانبیا کے حقائق",
+    "chapter_id": 147,
+    "chapter_name": "ظاہری واقعات"
+  },
+  "images": [],
+  "generated_at": "2026-05-24T19:53:29.241260+00:00",
+  "instructions": "For each image in `images`, read the file via the Read tool (paths are relative to the bundle root) and write a sibling JSON file next to the PNG (same basename, .json extension) with the schema: {classification, arabic_text, urdu_text, english_text, suggested_citation: {surah, ayat} | null, alt_text, confidence, notes}. classification ∈ {quran-verse, hadith, poem-or-saying, teaching-diagram, mixed, other}. For quran-verse, propose surah+ayat from your reading; finalize validates against the adapter's Quran corpus. For teaching-diagram, give a 1-2 sentence alt_text describing what it shows."
+}

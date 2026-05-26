@@ -1,0 +1,48 @@
+# tighten-source config for Kitāb al-Riyāḍ (Hamid al-Din al-Kirmani)
+#
+# Read by scripts/podcast/tighten_source.py. Overrides the bake-in defaults
+# in tighten_source.py. Per-book; this file is what makes the tool know
+# what NEVER to touch in this specific text.
+#
+# Goal of the tighten pass: TIGHTEN density, not SHORTEN length.
+# Any chapter proposing more than drastic_reduction_threshold of its words
+# is RED-FLAGGED in the report; treat that as a smell, not a win.
+
+categories:
+  editorial-bridge: true
+  cross-tradition-import: true
+  restatement: true
+  meta-narration: true
+  citation-overhead: false      # aggressive; leave off unless explicitly invited
+
+min_confidence: 0.70
+drastic_reduction_threshold: 0.15   # red-flag at >15% of words proposed for cut
+budget_usd: 3.00
+
+# Belt-and-braces. Any candidate whose anchor_text matches one of these
+# regexes is dropped even if the LLM proposed it. The LLM is also told these
+# in the prompt, but defence-in-depth.
+#
+# For al-Riyāḍ specifically: the whole text is a refereeing of three other
+# books by name, with Imam-line invocations as authorial signature. None of
+# that is fluff in this book.
+protect:
+  - "\\bImam\\b"
+  - "\\bAllah\\b"
+  - "\\bGod\\b"
+  - "\\bProphet\\b"
+  - "\\bQuran?\\b"
+  - "\\bSurat?\\b"
+  - "\\bayat?\\b"
+  - "\\bhadith\\b"
+  - "the author"
+  - "Jonathan|Samuel|Ahmad"            # al-Riyad's source-author aliases in the translation
+  - "al-Mahsul|al-Nusra|al-Islah"      # the three books al-Kirmani arbitrates
+  - "al-Kirmani|al-Razi|al-Sijistani|al-Nasafi"
+  - "the book \\*The Correction\\*"    # frequent literal references
+  - "the book \\*The Defense\\*"
+  - "the book \\*The Harvest\\*"
+  - "Jadd|Fath|Khayal"                 # technical Ismaili hierarchy terms
+  - "qada|qadar"                       # central terms in ch11
+  - "the speaker|the foundation|the imam|the hujja"
+  - "^#"                               # all headings (line starts with #)

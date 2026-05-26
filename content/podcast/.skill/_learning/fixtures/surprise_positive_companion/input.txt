@@ -1,0 +1,7 @@
+## Do not
+
+Do not modernize. Do not use phrases like 'social media' or 'algorithm'.
+Do not perform shock or awe — the hosts should stay grounded.
+
+This framing is intentionally missing its positive companion paragraph so
+the detector returns a single MISSING hit.

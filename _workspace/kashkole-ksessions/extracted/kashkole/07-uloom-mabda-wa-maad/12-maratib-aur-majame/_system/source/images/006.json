@@ -1,0 +1,10 @@
+{
+  "classification": "teaching-diagram",
+  "arabic_text": "اگلے انپاس (49) کا مقیم (ب)\nپچھلے انپاس (الف) کا کلی خلیفہ\nاگلے انپاس (49) کا مقیم (ت)\nپچھلے انپاس (ب) کا کلی خلیفہ\nپہلا ہفتہ\nدوسرا ہفتہ\nتیسرا ہفتہ\nچوتھا ہفتہ\nپانچواں ہفتہ\nچھٹا ہفتہ\nدوسرے ہفتہ کا مقیم (A)\nتیسرے ہفتہ کا مقیم (B)\nچوتھے ہفتہ کا مقیم (C)\nپانچویں ہفتہ کا مقیم (D)\nچھٹے ہفتہ کا مقیم (E)\nساتویں ہفتہ کا مقیم (F)",
+  "urdu_text": "",
+  "english_text": "Stationer of Next 49-period (B)\nFull Vicegerent of Previous 49-period (A)\nStationer of Next 49-period (T)\nFull Vicegerent of Previous 49-period (B)\n1st week, 2nd week, 3rd week, 4th week, 5th week, 6th week\nStationer of 2nd week (A) through Stationer of 7th week (F)",
+  "suggested_citation": null,
+  "alt_text": "A weekly-cycle grid. Six rows (1st through 6th week, each labeled with an ordinal in Urdu — پہلا ہفتہ through چھٹا ہفتہ) crossed with six columns labeled A, B, C, D, E, F. Each cell holds Urdu numerals 1-6 forming a stationing pattern. Yellow column highlights mark each diagonal weekly stationer (Stationer of 2nd week (A), of 3rd week (B), …, of 7th week (F)). Top and bottom rows annotate the relation to the 49-period cycle: 'Stationer of next 49' and 'Full Vicegerent of previous 49' both for the 'Alef' and 'Ba' cycles.",
+  "confidence": 0.85,
+  "notes": "A schedule diagram of how stationers (مقیم) and full vicegerents (کلی خلیفہ) rotate through six-week cycles within a larger 49-period (انپاس) frame. Highly technical — refinement during Phase 0b should consult the chapter text for the exact cyclic mechanics."
+}

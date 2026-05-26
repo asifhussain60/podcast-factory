@@ -1,0 +1,43 @@
+{
+  "schema": "podcast.ingest-source/v1",
+  "generated_at": "2026-05-24T19:55:02.482789+00:00",
+  "source": {
+    "kind": "sql",
+    "name": "kashkole",
+    "db": "KASHKOLE",
+    "container": "kashkole-mssql"
+  },
+  "book_slug": "x7926-se-taharat",
+  "book_dir": "/Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksessions/extracted/kashkole/13-daaim-al-islam-taharat/03-x7926-se-taharat",
+  "source_language": "ur",
+  "extraction": {
+    "tool": "tools.source_extractor",
+    "shelf": {
+      "kind": "binder",
+      "id": 25,
+      "name": "دعائم الاسلام : طہارت"
+    },
+    "book": {
+      "kind": "chapter",
+      "id": 90,
+      "name": "نجاست سے طہارت"
+    },
+    "section_query_count": 7,
+    "stage": "finalized"
+  },
+  "outputs": {
+    "raw_extract": "_system/source/text/raw-extract.md",
+    "extraction_notes": "_system/source/text/_extraction-notes.md",
+    "audit_anchor_html": "_system/source/x7926-se-taharat.html",
+    "images_dir": "_system/source/images"
+  },
+  "finalize": {
+    "finalized_at": "2026-05-24T20:30:19.463251+00:00",
+    "images_classified": {
+      "001": "other",
+      "002": "other",
+      "003": "other"
+    },
+    "inline_citations_resolved": 0
+  }
+}

@@ -1,0 +1,1155 @@
+/* ─────────────────────────────────────────────────────────────────────
+   landing.css — editorial design system for landing surfaces.
+
+   Defines the shared vocabulary for /, /podcast-drafts/, and the
+   per-book cover. Every class here is theme-aware (driven by the
+   --color-* variables in global.css), no inline styles allowed in
+   the consuming Astro pages.
+
+   Type stack
+     Display    : "EB Garamond"      — book covers and editorial heroes
+     Body       : "Source Serif 4"   — long-form reading + descriptions
+     UI         : "Inter"             — eyebrows, badges, labels, stats labels
+     Arabic     : "Markazi Text"     — title-line Arabic (modern, calligraphic)
+     Arabic UI  : "Cairo"             — small Arabic chrome (subtitles, tags)
+   ───────────────────────────────────────────────────────────────────── */
+
+/* ─────────────────────────────────────────────────────────────────────
+   Three-pane reader layout — left sidebar, center column, right rail.
+   Sidebar is collapsible via [data-sidebar="collapsed"] on <html>.
+   ───────────────────────────────────────────────────────────────────── */
+.three-pane {
+  display: flex;
+  min-height: 100vh;
+}
+.left-rail {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 320px;
+  flex-shrink: 0;
+  align-self: flex-start;
+  border-right: 1px solid var(--color-rule-default);
+  background: var(--color-surface-sunken);
+  display: none;
+  flex-direction: column;
+  transition: width 200ms ease;
+  overflow: hidden;
+}
+@media (min-width: 1024px) { .left-rail { display: flex; } }
+html[data-sidebar="collapsed"] .left-rail {
+  width: 44px;
+}
+html[data-sidebar="collapsed"] .left-rail .left-rail-back-label,
+html[data-sidebar="collapsed"] .left-rail .left-rail-book,
+html[data-sidebar="collapsed"] .left-rail .left-rail-meta,
+html[data-sidebar="collapsed"] .left-rail .left-rail-nav {
+  display: none;
+}
+html[data-sidebar="collapsed"] .left-rail .left-rail-collapse-icon {
+  transform: rotate(180deg);
+}
+html[data-sidebar="collapsed"] .left-rail .left-rail-head {
+  padding: 10px 0;
+  align-items: center;
+}
+html[data-sidebar="collapsed"] .left-rail .left-rail-head-row {
+  justify-content: center;
+}
+html[data-sidebar="collapsed"] .left-rail .left-rail-back {
+  padding: 0;
+}
+
+.left-rail-head {
+  padding: 14px 18px 12px;
+  border-bottom: 1px solid var(--color-rule-default);
+  background: var(--color-surface-raised);
+}
+.left-rail-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.left-rail-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-ink-tertiary);
+  text-decoration: none;
+  transition: color 120ms;
+}
+.left-rail-back:hover { color: var(--color-gold-deep); }
+.left-rail-collapse {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--color-rule-default);
+  border-radius: 6px;
+  background: var(--color-surface-raised);
+  color: var(--color-ink-tertiary);
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: background 120ms, color 120ms, border-color 120ms;
+}
+.left-rail-collapse:hover {
+  border-color: var(--color-gold-deep);
+  color: var(--color-gold-deep);
+}
+.left-rail-collapse-icon {
+  display: inline-block;
+  transition: transform 200ms;
+}
+.left-rail-book {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.left-rail-book-icon { color: var(--color-gold-deep); flex-shrink: 0; }
+.left-rail-book-title {
+  font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--color-ink);
+  line-height: 1.2;
+  word-break: break-word;
+}
+.left-rail-meta {
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  color: var(--color-ink-tertiary);
+}
+.left-rail-nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+}
+.left-rail-nav-fallback {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-ink-tertiary);
+}
+.left-rail-nav-empty {
+  margin-top: 8px;
+  font-family: 'Source Serif 4', serif;
+  font-size: 13px;
+  color: var(--color-ink-tertiary);
+}
+
+.center-col {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+.center-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid var(--color-rule-subtle);
+  background: color-mix(in oklab, var(--color-surface-raised) 85%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.center-header-inner {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.center-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--color-ink-secondary);
+  flex-wrap: wrap;
+}
+.center-breadcrumb a {
+  color: var(--color-ink-secondary);
+  text-decoration: none;
+  transition: color 120ms;
+}
+.center-breadcrumb a:hover { color: var(--color-gold-deep); }
+.center-breadcrumb .here {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+.center-breadcrumb-sep {
+  color: var(--color-rule-strong);
+  display: inline-flex;
+  align-items: center;
+}
+.center-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.center-main {
+  max-width: 64rem;
+  margin: 0 auto;
+  width: 100%;
+  flex: 1;
+  padding: 32px 24px 64px;
+}
+@media (min-width: 1024px) { .center-main { padding-left: 40px; padding-right: 40px; } }
+
+.right-rail {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 320px;
+  flex-shrink: 0;
+  align-self: flex-start;
+  border-left: 1px solid var(--color-rule-default);
+  background: var(--color-surface-raised);
+  padding: 20px 18px;
+  display: none;
+  overflow-y: auto;
+}
+@media (min-width: 1280px) { .right-rail { display: block; } }
+
+/* Chapter page — white "printed page" card behind the content. */
+.chapter-page {
+  position: relative;
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-rule-subtle);
+  border-radius: 10px;
+  padding: 48px 56px 56px;
+  box-shadow:
+    0 1px 0 0 color-mix(in oklab, white 70%, transparent) inset,
+    0 4px 12px -4px rgba(0,0,0,0.05),
+    0 18px 36px -18px rgba(0,0,0,0.18);
+}
+.chapter-page::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 24px; right: 24px;
+  height: 2px;
+  background: linear-gradient(to right, transparent 10%, var(--color-gold-deep) 35%, var(--color-gold) 50%, var(--color-gold-deep) 65%, transparent 90%);
+  border-radius: 2px;
+}
+@media (max-width: 768px) {
+  .chapter-page { padding: 32px 24px; }
+}
+
+/* ── Page chrome ───────────────────────────────────────────────────── */
+.editorial-page {
+  min-height: 100vh;
+  background-color: var(--color-surface-page);
+  background-image:
+    /* very soft paper grain — barely-there dot pattern */
+    radial-gradient(circle at 1px 1px, color-mix(in oklab, var(--color-ink) 5%, transparent) 1px, transparent 0),
+    radial-gradient(circle at 13px 7px, color-mix(in oklab, var(--color-ink) 3%, transparent) 1px, transparent 0);
+  background-size: 24px 24px, 32px 32px;
+  background-attachment: fixed;
+  color: var(--color-ink);
+}
+.editorial-shell {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+.editorial-shell--narrow { max-width: 900px; }
+
+/* ── Top utility bar (theme toggle, breadcrumb pill) ─────────────── */
+.editorial-topbar {
+  position: absolute;
+  top: 18px;
+  right: 24px;
+  z-index: 30;
+}
+
+/* ── Hero ───────────────────────────────────────────────────────────── */
+.editorial-hero {
+  position: relative;
+  padding: 88px 0 56px;
+  border-bottom: 1px solid var(--color-rule-default);
+}
+.editorial-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: linear-gradient(to right, transparent 8%, var(--color-gold-deep) 30%, var(--color-gold) 50%, var(--color-gold-deep) 70%, transparent 92%);
+}
+
+.editorial-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--font-ui);
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  color: var(--color-gold-deep);
+  margin-bottom: 28px;
+}
+.editorial-eyebrow .rule {
+  display: inline-block;
+  height: 1px;
+  width: 36px;
+  background: var(--color-gold-deep);
+  opacity: 0.65;
+}
+
+.editorial-breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--color-ink-tertiary);
+  margin-bottom: 24px;
+}
+.editorial-breadcrumb a {
+  color: var(--color-ink-tertiary);
+  text-decoration: none;
+  transition: color 120ms;
+}
+.editorial-breadcrumb a:hover { color: var(--color-gold-deep); }
+.editorial-breadcrumb .sep { opacity: 0.45; }
+.editorial-breadcrumb .here { color: var(--color-ink); }
+
+.editorial-title {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: clamp(56px, 7.5vw, 96px);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.018em;
+  color: var(--color-ink);
+  margin: 0 0 24px;
+  text-wrap: balance;
+}
+.editorial-title em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--color-gold-deep);
+}
+
+.editorial-deck {
+  font-family: 'Source Serif 4', Charter, Georgia, serif;
+  font-size: 20px;
+  line-height: 1.6;
+  color: var(--color-ink-secondary);
+  max-width: 720px;
+  margin: 0;
+}
+.editorial-deck code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--color-surface-sunken);
+  border: 1px solid var(--color-rule-subtle);
+  padding: 1px 7px;
+  border-radius: 4px;
+}
+
+/* ── Section header (used between hero and card grid) ────────────── */
+.editorial-section-head {
+  padding: 56px 0 24px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.editorial-section-head h2 {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 28px;
+  font-weight: 500;
+  font-style: italic;
+  color: var(--color-ink);
+  margin: 0;
+}
+.editorial-section-head .meta {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--color-ink-tertiary);
+}
+
+/* ── Card grids ────────────────────────────────────────────────────── */
+.editorial-grid {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  padding-bottom: 64px;
+}
+.editorial-grid--two { grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 760px) {
+  .editorial-grid--two { grid-template-columns: 1fr; }
+}
+
+/* ── Editorial card (the reusable tile) ──────────────────────────── */
+.editorial-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 32px 28px 28px;
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-rule-default);
+  border-radius: 6px;
+  text-decoration: none;
+  color: var(--color-ink);
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+  overflow: hidden;
+}
+.editorial-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 3px;
+  background: var(--color-gold-deep);
+  opacity: 0;
+  transition: opacity 200ms;
+}
+.editorial-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--color-gold-deep);
+  box-shadow: 0 20px 40px -22px color-mix(in oklab, var(--color-ink) 30%, transparent),
+              0 6px 14px -8px color-mix(in oklab, var(--color-ink) 18%, transparent);
+}
+.editorial-card:hover::before { opacity: 0.65; }
+
+.editorial-card-num {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--color-gold-deep);
+  margin-bottom: 14px;
+  display: inline-block;
+}
+
+.editorial-card-title {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.05;
+  color: var(--color-ink);
+  margin: 0 0 4px;
+  letter-spacing: -0.005em;
+}
+.editorial-card-title-arabic {
+  font-family: 'Markazi Text', 'Cairo', 'Amiri', serif;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--color-ink-secondary);
+  margin: 4px 0 0;
+  direction: rtl;
+  unicode-bidi: isolate;
+}
+
+.editorial-card-sub {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--color-ink-tertiary);
+  letter-spacing: 0.01em;
+  margin: 8px 0 20px;
+}
+
+.editorial-card-body {
+  font-family: 'Source Serif 4', Charter, Georgia, serif;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--color-ink-secondary);
+  margin: 0 0 24px;
+  flex: 1;
+}
+
+.editorial-card-stats {
+  display: flex;
+  gap: 32px;
+  padding-top: 20px;
+  margin-top: auto;
+  border-top: 1px solid var(--color-rule-subtle);
+}
+.editorial-card-stat .v {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--color-ink);
+}
+.editorial-card-stat .v.accent { color: var(--color-gold-deep); }
+.editorial-card-stat .l {
+  font-family: var(--font-ui);
+  font-size: 9.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--color-ink-tertiary);
+  margin-top: 6px;
+}
+
+.editorial-card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 20px;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--color-gold-deep);
+  transition: gap 180ms;
+}
+.editorial-card:hover .editorial-card-cta { gap: 10px; }
+
+/* Compact card variant (used for the book tiles in podcast-drafts) */
+.editorial-card--compact {
+  padding: 24px 22px 20px;
+}
+.editorial-card--compact .editorial-card-title { font-size: 22px; line-height: 1.15; margin-bottom: 2px; }
+.editorial-card--compact .editorial-card-num { font-size: 9.5px; margin-bottom: 10px; }
+.editorial-card--compact .editorial-card-body { font-size: 13.5px; margin-bottom: 16px; }
+.editorial-card--compact .editorial-card-stats { gap: 18px; padding-top: 14px; }
+.editorial-card--compact .editorial-card-stat .v { font-size: 22px; }
+
+/* Status pill (Reader-ready / Pre-translation / Live / etc.) */
+.editorial-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  background: var(--color-surface-sunken);
+  border: 1px solid var(--color-rule-default);
+  border-radius: 9999px;
+  font-family: var(--font-ui);
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--color-ink-tertiary);
+  white-space: nowrap;
+}
+.editorial-pill .dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-ink-tertiary);
+}
+.editorial-pill--gold {
+  background: var(--color-gold-soft);
+  border-color: color-mix(in oklab, var(--color-gold-deep) 40%, transparent);
+  color: var(--color-gold-deep);
+}
+.editorial-pill--gold .dot { background: var(--color-gold-deep); }
+.editorial-pill--live {
+  background: color-mix(in oklab, var(--color-accent-soft) 80%, transparent);
+  border-color: color-mix(in oklab, var(--color-accent) 40%, transparent);
+  color: var(--color-accent);
+}
+.editorial-pill--live .dot {
+  background: var(--color-accent);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-accent) 20%, transparent);
+}
+
+.editorial-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+.editorial-card-tag-stack { display: inline-flex; gap: 4px; flex-shrink: 0; }
+
+/* Small monogram tag (EN / RAW / PHON style) */
+.editorial-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 7px;
+  border: 1px solid var(--color-rule-default);
+  border-radius: 3px;
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--color-ink-tertiary);
+  text-transform: uppercase;
+  background: var(--color-surface-page);
+}
+.editorial-tag--gold {
+  border-color: color-mix(in oklab, var(--color-gold-deep) 40%, transparent);
+  color: var(--color-gold-deep);
+  background: var(--color-gold-soft);
+}
+
+.editorial-card-slug {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-ink-tertiary);
+  margin: 2px 0 0;
+}
+
+/* ── Wordmark / brand ──────────────────────────────────────────────── */
+.editorial-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+.editorial-brand-mark {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+.editorial-brand-mark .stroke { stroke: var(--color-gold-deep); }
+.editorial-brand-mark .fill { fill: var(--color-gold-deep); }
+.editorial-brand-words {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 19px;
+  font-style: italic;
+  font-weight: 500;
+  color: var(--color-ink);
+  letter-spacing: -0.005em;
+}
+.editorial-brand-words .em { color: var(--color-gold-deep); font-weight: 600; }
+
+/* ── Footer ────────────────────────────────────────────────────────── */
+.editorial-footer {
+  border-top: 1px solid var(--color-rule-default);
+  margin-top: 64px;
+  padding: 32px 0 56px;
+}
+.editorial-footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  color: var(--color-ink-tertiary);
+}
+.editorial-footer code {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  background: var(--color-surface-sunken);
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+/* ── BookCover (per-book hero) — refactored from inline styles ───── */
+.book-cover {
+  position: relative;
+  isolation: isolate;
+  margin: 0 auto 48px;
+  max-width: 880px;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid var(--color-rule-default);
+  background: var(--color-surface-raised);
+  box-shadow: 0 18px 40px -28px color-mix(in oklab, var(--color-ink) 35%, transparent);
+}
+.book-cover::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: linear-gradient(to right, transparent 8%, var(--color-gold-deep) 30%, var(--color-gold) 50%, var(--color-gold-deep) 70%, transparent 92%);
+  z-index: 1;
+}
+.book-cover-inner {
+  position: relative;
+  padding: 64px 56px;
+  text-align: center;
+}
+.book-cover-series {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  color: var(--color-gold-deep);
+}
+.book-cover-title {
+  font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+  font-size: clamp(48px, 6vw, 68px);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.014em;
+  color: var(--color-ink);
+  margin: 22px 0 0;
+  text-wrap: balance;
+}
+.book-cover-title-ar {
+  font-family: 'Amiri', 'Markazi Text', 'Cairo', serif;
+  font-size: clamp(40px, 5vw, 54px);
+  font-weight: 700;
+  line-height: 1.45;
+  color: var(--color-ink);
+  margin: 26px 0 0;
+  direction: rtl;
+  unicode-bidi: isolate;
+  letter-spacing: 0.005em;
+}
+.book-cover-subtitle {
+  font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 19px;
+  line-height: 1.5;
+  color: var(--color-ink-secondary);
+  margin: 26px auto 0;
+  max-width: 600px;
+}
+.book-cover-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 36px auto;
+}
+.book-cover-divider .seg {
+  display: inline-block;
+  height: 1px;
+  width: 44px;
+  background: color-mix(in oklab, var(--color-gold-deep) 40%, transparent);
+}
+.book-cover-divider .gem {
+  color: var(--color-gold-deep);
+  font-size: 10px;
+}
+.book-cover-author {
+  font-family: var(--font-ui);   /* Lato — deliberate sans contrast against Cormorant title */
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  color: var(--color-ink);
+}
+.book-cover-author-titles {
+  margin-top: 10px;
+  font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--color-ink-tertiary);
+}
+.book-cover-author-era {
+  margin-top: 8px;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--color-ink-tertiary);
+}
+.book-cover-description {
+  margin: 40px auto 0;
+  max-width: 600px;
+  font-family: 'Source Serif 4', Charter, Georgia, serif;
+  font-size: 17px;
+  line-height: 1.72;
+  color: var(--color-ink-secondary);
+  text-align: left;
+}
+.book-cover-imprint {
+  margin: 40px auto 0;
+  max-width: 500px;
+  font-family: var(--font-ui);
+  font-size: 12.5px;
+  color: var(--color-ink-tertiary);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+}
+.book-cover-imprint .tradition {
+  margin-top: 10px;
+  padding: 3px 10px;
+  border: 1px solid var(--color-rule-default);
+  border-radius: 3px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 10px;
+  color: var(--color-ink-secondary);
+}
+.book-cover-actions {
+  margin: 44px auto 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  max-width: 480px;
+}
+.book-cover-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 22px;
+  font-family: var(--font-ui);
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: transform 120ms, box-shadow 120ms, background 120ms, color 120ms;
+}
+.book-cover-cta--primary {
+  background: var(--color-gold-deep);
+  color: white;
+  border: 1px solid var(--color-gold-deep);
+}
+.book-cover-cta--primary:hover {
+  background: color-mix(in oklab, var(--color-gold-deep) 85%, black);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px -10px color-mix(in oklab, var(--color-gold-deep) 60%, transparent);
+}
+.book-cover-cta--ghost {
+  background: var(--color-surface-raised);
+  color: var(--color-ink);
+  border: 1px solid var(--color-rule-default);
+}
+.book-cover-cta--ghost:hover {
+  border-color: var(--color-gold-deep);
+  color: var(--color-gold-deep);
+  transform: translateY(-1px);
+}
+.book-cover-hint {
+  margin-top: 14px;
+  width: 100%;
+  text-align: center;
+  font-family: var(--font-ui);
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--color-ink-tertiary);
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   Bookshelf — face-up hardcover books on a display.
+   Each .book-tile renders as a real book: spine on the left, page-
+   stack on the right, ornamental gold-foil cover frame, varied
+   palette + thickness per book. Hover lifts and tilts.
+   data-cover="1..7" + data-thickness="thin|medium|thick" assigned
+   deterministically per slug in podcast-drafts/index.astro.
+   ───────────────────────────────────────────────────────────────────── */
+/* Bookshelf — wood-strip ground painted via a repeating-linear-gradient
+   aligned to a fixed card height. All books are the same height so the
+   shelf rule lands cleanly under every row. Spine thickness still varies
+   per book to keep visual variety.
+
+   Card height: 340px (~25% smaller than v1)
+   Row gap:     56px (gap holds the wood strip)
+   Wood strip:  10px tall, sits just under the books
+*/
+.bookshelf {
+  --book-h: 340px;
+  --row-gap: 56px;
+  --wood-h: 10px;
+  display: grid;
+  column-gap: 28px;
+  row-gap: var(--row-gap);
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  padding: 16px 0 96px;
+  perspective: 1800px;
+  background-image:
+    /* horizontal wood plank — repeats once per row */
+    linear-gradient(to bottom,
+      oklch(48% 0.07 60) 0%,
+      oklch(42% 0.06 60) 25%,
+      oklch(38% 0.05 55) 50%,
+      oklch(34% 0.05 55) 75%,
+      oklch(30% 0.04 55) 100%),
+    /* wood grain stripes */
+    repeating-linear-gradient(90deg,
+      transparent 0 60px,
+      color-mix(in oklab, oklch(30% 0.04 55) 70%, black) 60px 61px,
+      transparent 61px 180px,
+      color-mix(in oklab, oklch(30% 0.04 55) 80%, black) 180px 181px,
+      transparent 181px 240px);
+  background-repeat: repeat-y, repeat-y;
+  background-position: 0 calc(16px + var(--book-h)), 0 calc(16px + var(--book-h));
+  background-size:
+    100% calc(var(--book-h) + var(--row-gap)),
+    100% calc(var(--book-h) + var(--row-gap));
+  /* clip wood paint to the strip (10px tall after each book row) */
+  background-clip: padding-box;
+}
+/* mask trick: only paint wood in the 10px slice just below each row */
+.bookshelf {
+  mask-image: none;
+}
+/* Layered approach — paint wood + grain only in the gap band via two
+   pseudo-element layers on each book (.book-tile-shelf) so we don't
+   depend on absolute pixel positioning of the grid. Override the
+   gradient-from-bg approach: clear it. */
+.bookshelf { background-image: none; }
+
+.book-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: var(--book-h, 340px);
+  border-radius: 3px 5px 5px 3px;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transform-origin: left center;
+  transition: transform 320ms cubic-bezier(0.2, 0.85, 0.3, 1.05),
+              box-shadow 320ms ease;
+  box-shadow:
+    -1px 0 0 0 rgba(0,0,0,0.18) inset,
+     0  6px 10px -6px rgba(0,0,0,0.3),
+     0 18px 24px -14px rgba(0,0,0,0.24);
+}
+.book-tile:hover {
+  transform: translateY(-12px) rotateY(-9deg) translateZ(16px);
+  box-shadow:
+    -1px 0 0 0 rgba(0,0,0,0.18) inset,
+     0 14px 22px -8px rgba(0,0,0,0.38),
+     0 36px 50px -20px rgba(0,0,0,0.32);
+}
+.book-tile::before {
+  content: ''; position: absolute;
+  top: 5px; bottom: 5px; left: -8px; width: 10px;
+  background: linear-gradient(to right,
+    color-mix(in oklab, var(--cover-base, #f1e8d6) 55%, black),
+    var(--cover-base, #f1e8d6));
+  border-radius: 2px 0 0 2px;
+  box-shadow: -2px 0 4px rgba(0,0,0,0.22);
+  transform: translateZ(-2px);
+}
+.book-tile::after {
+  content: ''; position: absolute;
+  top: 7px; bottom: 7px; right: -3px; width: 4px;
+  background: repeating-linear-gradient(to bottom,
+    oklch(88% 0.005 60) 0, oklch(88% 0.005 60) 1.5px,
+    oklch(75% 0.008 60) 1.5px, oklch(75% 0.008 60) 3px);
+  border-radius: 0 2px 2px 0;
+  opacity: 0.85;
+}
+.book-tile[data-thickness="thin"]::before   { width: 7px;  left: -6px; }
+.book-tile[data-thickness="medium"]::before { width: 11px; left: -9px; }
+.book-tile[data-thickness="thick"]::before  { width: 16px; left: -13px; }
+.book-tile[data-thickness="thick"]::after   { width: 6px; right: -5px; }
+
+/* Wood shelf segment — child element under each book. When books in
+   the same grid row sit at the same baseline, their shelf segments
+   visually connect to look like one continuous shelf. The column-gap
+   between books carries a slim wood-grain extension via a sibling
+   pseudo-element on .bookshelf. */
+.book-tile-shelf {
+  position: absolute;
+  left: -14px; right: -8px;
+  bottom: -18px;
+  height: 10px;
+  background:
+    /* wood grain stripes */
+    repeating-linear-gradient(90deg,
+      transparent 0 32px,
+      rgba(0,0,0,0.08) 32px 33px,
+      transparent 33px 80px,
+      rgba(0,0,0,0.12) 80px 81px,
+      transparent 81px 140px),
+    /* base wood color */
+    linear-gradient(to bottom,
+      oklch(48% 0.08 55),
+      oklch(38% 0.06 55) 60%,
+      oklch(32% 0.05 55));
+  border-radius: 1px;
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.22),
+    inset 0 1px 0 rgba(255,255,255,0.15);
+  z-index: -1;
+}
+
+.book-tile-cover {
+  flex: 1;
+  position: relative;
+  display: flex; flex-direction: column;
+  padding: 22px 18px 16px;
+  background:
+    repeating-linear-gradient(45deg, rgba(0,0,0,0.012) 0 1px, transparent 1px 3px),
+    var(--cover-base, #f1e8d6);
+  color: var(--cover-ink, #2a2218);
+  border-radius: 3px 5px 5px 3px;
+  border-left: 1px solid rgba(0,0,0,0.10);
+  overflow: hidden;
+}
+.book-tile-frame {
+  position: absolute; inset: 11px;
+  border: 1px solid color-mix(in oklab, var(--cover-foil, #8a6b2c) 70%, transparent);
+  border-radius: 2px; pointer-events: none;
+}
+.book-tile-frame::before {
+  content: ''; position: absolute; inset: 3px;
+  border: 1px solid color-mix(in oklab, var(--cover-foil, #8a6b2c) 35%, transparent);
+  border-radius: 1px;
+}
+.book-tile-frame::after {
+  content: var(--cover-ornament, '✦'); position: absolute;
+  top: -10px; left: 50%; transform: translateX(-50%);
+  color: var(--cover-foil, #8a6b2c);
+  background: var(--cover-base, #f1e8d6);
+  font-size: 13px; padding: 0 7px; line-height: 1;
+}
+.book-tile-publisher {
+  position: relative; z-index: 1;
+  margin: 4px 0 18px;
+  font-family: var(--font-ui);
+  font-size: 8.5px; font-weight: 700;
+  letter-spacing: 0.24em; text-transform: uppercase;
+  text-align: center;
+  color: var(--cover-foil, #8a6b2c); opacity: 0.78;
+}
+.book-tile-title {
+  position: relative; z-index: 1;
+  margin: 12px 0 6px;
+  font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+  font-size: 24px; font-weight: 600;
+  line-height: 1.05; letter-spacing: -0.005em;
+  text-align: center;
+  color: var(--cover-ink, #2a2218);
+  text-wrap: balance;
+}
+.book-tile-title-ar {
+  position: relative; z-index: 1;
+  margin: 10px 0 0;
+  font-family: 'Amiri', 'Markazi Text', 'Cairo', serif;
+  font-size: 26px; font-weight: 700;
+  line-height: 1.35; text-align: center;
+  color: var(--cover-ink, #2a2218); opacity: 0.78;
+  direction: rtl; unicode-bidi: isolate;
+}
+.book-tile-divider {
+  position: relative; z-index: 1;
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px; margin: 14px auto;
+}
+.book-tile-divider .seg { display: inline-block; width: 22px; height: 1px;
+  background: var(--cover-foil, #8a6b2c); opacity: 0.42; }
+.book-tile-divider .gem { color: var(--cover-foil, #8a6b2c); font-size: 8px; opacity: 0.7; }
+.book-tile-author {
+  position: relative; z-index: 1;
+  font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+  font-size: 12.5px; font-style: italic; font-weight: 500;
+  text-align: center; line-height: 1.35;
+  color: var(--cover-ink, #2a2218); opacity: 0.8;
+  margin: 0 6px;
+}
+.book-tile-era {
+  position: relative; z-index: 1;
+  margin-top: 5px;
+  font-family: var(--font-ui);
+  font-size: 8px; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  text-align: center;
+  color: var(--cover-ink, #2a2218); opacity: 0.5;
+}
+.book-tile-spacer { flex: 1; }
+.book-tile-foot {
+  position: relative; z-index: 1;
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 16px; padding-top: 12px;
+  border-top: 1px solid color-mix(in oklab, var(--cover-ink, #2a2218) 14%, transparent);
+}
+.book-tile-icons {
+  display: inline-flex; align-items: center; gap: 10px;
+  color: var(--cover-ink, #2a2218);
+  font-size: 13px; opacity: 0.58;
+}
+.book-tile-icons i { line-height: 1; }
+.book-tile-open {
+  font-family: var(--font-ui);
+  font-size: 9.5px; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--cover-foil, #8a6b2c);
+  display: inline-flex; align-items: center; gap: 5px;
+  transition: gap 200ms;
+}
+.book-tile:hover .book-tile-open { gap: 10px; }
+.book-tile-open i { transition: transform 200ms; }
+.book-tile:hover .book-tile-open i { transform: translateX(3px); }
+.book-tile-ribbon {
+  position: absolute;
+  top: 14px; right: 14px; z-index: 2;
+  padding: 2px 8px;
+  background: color-mix(in oklab, var(--cover-ink, #2a2218) 10%, transparent);
+  color: var(--cover-ink, #2a2218);
+  font-family: var(--font-ui);
+  font-size: 7.5px; font-weight: 700;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  border-radius: 9999px;
+  opacity: 0.78;
+}
+/* Softened paper-leaning palettes — title-page restraint, not leather-bound saturation.
+   Each carries a paper-toned base, a dark ink for type, and a muted gold/foil accent
+   for the publisher banner + Open chip. */
+/* Per-cover palette + ornament glyph. Each book gets a different
+   --cover-ornament so the top-of-frame flourish varies across the
+   shelf while the overall design stays unified. */
+.book-tile[data-cover="1"] { /* aged ivory */
+  --cover-base: oklch(95% 0.025 75);
+  --cover-ink:  oklch(22% 0.012 60);
+  --cover-foil: oklch(48% 0.13 60);
+  --cover-ornament: '✦';
+}
+.book-tile[data-cover="2"] { /* dusty blue */
+  --cover-base: oklch(89% 0.025 240);
+  --cover-ink:  oklch(24% 0.06 250);
+  --cover-foil: oklch(38% 0.10 250);
+  --cover-ornament: '❖';
+}
+.book-tile[data-cover="3"] { /* soft sage */
+  --cover-base: oklch(91% 0.025 155);
+  --cover-ink:  oklch(24% 0.05 150);
+  --cover-foil: oklch(38% 0.10 145);
+  --cover-ornament: '❀';
+}
+.book-tile[data-cover="4"] { /* pale ochre */
+  --cover-base: oklch(92% 0.035 80);
+  --cover-ink:  oklch(26% 0.06 60);
+  --cover-foil: oklch(48% 0.13 65);
+  --cover-ornament: '✻';
+}
+.book-tile[data-cover="5"] { /* dusty rose */
+  --cover-base: oklch(90% 0.025 25);
+  --cover-ink:  oklch(28% 0.07 20);
+  --cover-foil: oklch(42% 0.11 20);
+  --cover-ornament: '❦';
+}
+.book-tile[data-cover="6"] { /* warm fog (taupe-grey) */
+  --cover-base: oklch(89% 0.012 60);
+  --cover-ink:  oklch(24% 0.012 60);
+  --cover-foil: oklch(45% 0.10 70);
+  --cover-ornament: '✥';
+}
+.book-tile[data-cover="7"] { /* soft slate */
+  --cover-base: oklch(89% 0.012 240);
+  --cover-ink:  oklch(22% 0.012 240);
+  --cover-foil: oklch(40% 0.06 240);
+  --cover-ornament: '✺';
+}

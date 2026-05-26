@@ -29,7 +29,7 @@ You are the **podcast-trainer** agent. Your job is to make the podcast quality s
 - Hard build gates in `scripts/podcast/build_episode_txt.py`
 - Anything outside `content/podcast/`, `content/_shared/arabic/`, `.github/agents/podcast-challenger.agent.md`, and `scripts/podcast/_rules.py`
 
-The full specification is in [docs/architecture/podcast-orchestrator.html](../../docs/architecture/podcast-orchestrator.html) §6 (trainer · semantic layer on the substrate) and [docs/architecture/podcast-quality-system.html](../../docs/architecture/podcast-quality-system.html) §"How podcast-trainer works".
+The full specification is in [docs/architecture/index.html#phases](../../docs/architecture/index.html#phases) §6 (trainer · semantic layer on the substrate) and [docs/architecture/index.html#convergence](../../docs/architecture/index.html#convergence) §"How podcast-trainer works".
 
 ## Distinct from other agents
 

@@ -1,0 +1,10 @@
+{
+  "classification": "teaching-diagram",
+  "arabic_text": "1 مور (سلطان)\nکور\nدور",
+  "urdu_text": "",
+  "english_text": "1 Mor (Sultan)\nKor — 100,000\nDor — 100,000",
+  "suggested_citation": null,
+  "alt_text": "A hierarchical box diagram. The outermost yellow frame is labeled '1 مور (سلطان)' (1 Mor / Sultan). Inside it are four orange 'کور' (Kor) boxes, each labeled 100,000. Inside each Kor box are four red 'دور' (Dor) boxes, each labeled 100,000. The nested structure depicts how 1 Mor contains multiple Kors which in turn contain multiple Dors.",
+  "confidence": 0.96,
+  "notes": "Pairs with image 012 to formalize the Mor / Kor / Dor cosmic-time hierarchy. The 100,000 unit appears at each level, suggesting a multiplicative cycle structure (1 Mor encompasses multiple 100,000-Kor cycles, each containing multiple 100,000-Dor sub-cycles). The Sultan epithet on Mor confirms its position as the supreme cycle."
+}

@@ -1,0 +1,9 @@
+{
+  "check_id": "abbreviation",
+  "detector": "abbreviation",
+  "hits": [
+    "\\bSahihayn\\b",
+    "\\bthe Ihya\\b(?! Ulum)",
+    "\\bthe Nahj\\b(?! al-Balagha)"
+  ]
+}

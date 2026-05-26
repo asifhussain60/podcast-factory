@@ -16,9 +16,19 @@ Thumbs.db
 *.swp
 *.swo
 *~
+*.code-workspace
+
+# Stray scratch dirs (large binary outputs — m4a is audio rendering)
+/m4a/
+/content/m4a/
 
 # Python virtual environment
 .venv/
+
+# Python bytecode caches
+__pycache__/
+*.pyc
+*.pyo
 
 # Node / server proxy
 server/node_modules/
@@ -59,6 +69,16 @@ _workspace/**/*.wav
 _workspace/**/*.m4a
 _workspace/**/*.mp4
 _workspace/**/*.mov
+
+# Post-2026-05-23 restructure: per-book audio dumps live under
+# content/drafts/<slug>/mp3/ (NotebookLM downloads that we Azure-transcribe).
+# Same policy as _workspace audio above — keep the repo small.
+content/drafts/**/mp3/
+content/drafts/**/*.mp3
+content/drafts/**/*.wav
+content/drafts/**/*.m4a
+content/drafts/**/*.mp4
+content/drafts/**/*.mov
 _workspace/**/*.zip
 _workspace/**/*.llc
 _workspace/**/*.pdf
@@ -86,6 +106,11 @@ _workspace/Books/*/source*
 _workspace/Books/*/*.pdf
 _workspace/Books/*/raw/
 
+# KAHSKOLE / KSESSIONS extraction work zone (added 2026-05-24).
+# Scripts + extracted output are tracked; exclude the ~750MB source SQL
+# dumps (backed up in Google Drive — re-importable as needed).
+_workspace/kashkole-ksessions/*.sql
+
 # Python bytecode
 **/__pycache__/
 *.pyc
@@ -106,6 +131,7 @@ trips/*/snapshots/
 # Wrangler local cache (regenerated per invocation)
 .wrangler/
 _workspace/orchestrator-logs/
+_workspace/scratch/
 
 # Per-session chat scratch notes — now tracked for cross-Mac handoff
 # (was local-only until 2026-05-19; tracked thereafter per user directive).

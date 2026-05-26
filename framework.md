@@ -1,9 +1,30 @@
 # Podcast Factory Ecosystem Framework
 
-**Version:** 4.0 (repo-split — renamed from `Journal` on 2026-05-22)
-**Last updated:** 2026-05-22
+**Version:** 4.1 (2026-05-25 cleanup wave — F30 dual-auditor + scholarly-rubric v2.2 + ~28 pipeline-debt items closed)
+**Last updated:** 2026-05-25
 
 This document governs the **`podcast-factory`** repo: the multi-phase podcast pipeline that converts scholarly Arabic books into NotebookLM-driven podcast series, the Azure stack that powers OCR / translation / speech, and the agents/skills that support podcast authoring. Memoir + site work moved to the sibling **[journal](https://github.com/asifhussain60/journal)** repo as of the 2026-05-22 split. The Anthropic API proxy (`server/`) and the Cloudflare deploy scaffold were retired the same day — see §"Retired" below. The previous cross-machine coordination model (operator files, machine-id detection, per-machine book branches) was retired 2026-05-23 — see §"Single-machine model" below.
+
+## 2026-05-25 cleanup wave — what changed
+
+A single-day cleanup arc closed ~28 pipeline-debt F-items, shipped the scholarly-conversation rubric v2.2, retired unused scaffolds (02/03/04), consolidated branches to one-per-active-book, and landed foundational layers for the multi-day F31/F32/F34 refactors. Operator-visible additions:
+
+- **Phase 0g dual-auditor** ([orchestrate_book.py:phase_0g_audit_bundles](scripts/podcast/orchestrate_book.py)) runs `audit_bundle.py` + `audit_bundle_gemini.py` in parallel against every per-chapter NotebookLM bundle. Reports at `BOOK_DIR/audits/<EP-slug>.audit.{claude,gemini}.md`.
+- **Scholarly-rubric v2.2** — [_rules.py:CHALLENGER_VERSION](scripts/podcast/_rules.py) bumped 2.1 → 2.2. Five new R-* rule families inlined into [prompts/gemini-bundle-auditor.md §4](prompts/gemini-bundle-auditor.md). Six matched fixtures at [_learning/fixtures/](content/podcast/.skill/_learning/fixtures/).
+- **Per-chapter loop hardening** in [orchestrate_book.py:_drive_per_chapter_and_after](scripts/podcast/orchestrate_book.py): F33-second graceful-degrade (`failed_slugs` set; continue on failed chapter); F35-second `per_chapter_cost_cap_usd` series-plan flag (default $5); F37 `chapter_timings` per slug; F12 `_resolve_episode_id()` reads `contract.episode_number`.
+- **Convergence robustness** — F11 preserves prior SHIP verdicts when later-iteration challenger times out ([_convergence.py](scripts/podcast/_convergence.py)).
+- **Framing word-cap guard** — F1 compression re-author before build gate ([_authoring.py:author_framing](scripts/podcast/_authoring.py)).
+- **Parallel windows** — F34-second [_chunking.py:run_windowed](scripts/podcast/_chunking.py) `max_workers` param; Phase 0b/0c default 3 (`PHASE_0B_MAX_WORKERS` / `PHASE_0C_MAX_WORKERS` env). ~3× wall-clock, cost-neutral.
+- **Concurrency-safe ledgers** — fcntl LOCK_EX on findings.jsonl ([_rules.py:emit_finding](scripts/podcast/_rules.py)) + cost-ledger.jsonl ([_cost_ledger.py:append_cost_row](scripts/podcast/_cost_ledger.py)).
+- **Azure cost tracking** — F36 `append_azure_{docintel,translator,speech}_cost` wired at ingest_source.py, translate_bundle.py, ocr_image_pages.py, transcribe_episode.py.
+- **Cross-book dashboard** — [scripts/podcast/cross_book_dashboard.py](scripts/podcast/cross_book_dashboard.py) fleet-level phase/status/cost/timing table. `--since 7d --json --out` supported.
+- **Rule-firing telemetry** — `learn_aggregate.py --by-check-id --since <window>` top-50 ranked histogram. Forward-looking `bypassed_gate` field on emit_finding.
+- **Scaffold retirement** — F30 bundle shape now: chapter source + `00-framing.md` + `99-show-notes.md`. 02/03/04 stubs no longer emitted.
+- **Tradition-pack registry** — F31 `_doctrinal.py:tradition_pack_dir / load_doctrinal_pack`; build gate skips with `T-NO-PACK` info when no pack exists for the book's `source_tradition`.
+- **Episode-format enum** — F32 2 → 7 values; `EPISODE_FORMAT_FULLY_WIRED = (deep_dive, debate)` distinguishes tested from new entries.
+- **Editorial-frontmatter exclusion + thesis_relevance** — F4 + F23 Phase 0d author prompt EXCLUDES editor's intros / translator's prefaces from the episode array; each contract requires `thesis_relevance` field.
+
+For the line-by-line F-item map see [_workspace/plan/pipeline-debt.md](_workspace/plan/pipeline-debt.md).
 
 ---
 
@@ -54,24 +75,28 @@ podcast-factory/
             └── _learning/                ← cross-book pattern learning substrate
 ```
 
-Promotion from workspace → library is one-way and explicit via `scripts/podcast/ship_to_library.py`; manual edits to `content/published/` are CI-checked.
+Promotion from workspace → library is one-way and explicit via `scripts/podcast/publish_to_library.py`; manual edits to `content/published/` are CI-checked.
 
 ---
 
 ## Agents
 
-| Agent | Location | Role |
+The canonical source-of-truth for every agent is [infra/claude-agents/](infra/claude-agents/). The `.github/agents/*.agent.md` mirrors are auto-generated by [scripts/podcast/sync-agent-wrappers.sh](scripts/podcast/sync-agent-wrappers.sh) (canonical direction flipped 2026-05-23 per AU-X2-002).
+
+| Agent | Canonical spec | Role |
 |---|---|---|
-| `podcast-operator` | `.github/agents/podcast-operator.agent.md` | Unified "where am I, what's next?" entry-point across machines |
-| `podcast-orchestrator` | `.github/agents/podcast-orchestrator.agent.md` | Autonomous book-to-NotebookLM pipeline driver |
-| `podcast-challenger` | `.github/agents/podcast-challenger.agent.md` | Semantic-quality review (convergence loop ≤3 iterations before any bundle ships) |
-| `podcast-extract` | `.github/agents/podcast-extract.agent.md` | Single-chapter → NotebookLM bundle fast path |
-| `podcast-trainer` | `.github/agents/podcast-trainer.agent.md` | Cross-book pattern learner; refines podcast-challenger + handbook with regression gates |
-| `repo-surgeon` | `.github/agents/repo-surgeon.agent.md` | Holistic architecture audit, orphan cleanup, root hygiene |
-| `refine-prompt` | `.github/agents/refine-prompt.agent.md` | Refines a raw request into one compact instruction-paragraph for Claude Opus 4.7 / Claude Code |
-| `reconcile` | `.github/agents/reconcile.agent.md` | Reconciliation utility |
-| `CORTEX` | `.github/agents/CORTEX.agent.md` | Skill BASELINE framework |
-| `operating-contract` | `.github/agents/operating-contract.md` | Externalized operating contract |
+| `podcast-orchestrator` | [infra/claude-agents/podcast-orchestrator.md](infra/claude-agents/podcast-orchestrator.md) | Autonomous book-to-NotebookLM pipeline driver |
+| `podcast-auditor` | [infra/claude-agents/podcast-auditor.md](infra/claude-agents/podcast-auditor.md) | Repo-level health audit — drift, regressions, gaps |
+| `podcast-blueprint` | [infra/claude-agents/podcast-blueprint.md](infra/claude-agents/podcast-blueprint.md) | Content-aware episode-structure planner (slot 05.5-blueprint) |
+| `podcast-challenger` | [infra/claude-agents/podcast-challenger.md](infra/claude-agents/podcast-challenger.md) | Semantic-quality review (convergence loop ≤5 iterations before any bundle ships) |
+| `slide-deck-challenger` | [infra/claude-agents/slide-deck-challenger.md](infra/claude-agents/slide-deck-challenger.md) | Visual-quality challenger for slide-deck bundles |
+| `podcast-extract` | [infra/claude-agents/podcast-extract.md](infra/claude-agents/podcast-extract.md) | Single-chapter → NotebookLM bundle fast path |
+| `podcast-publisher` | [infra/claude-agents/podcast-publisher.md](infra/claude-agents/podcast-publisher.md) | Move shipped content from drafts/ to published/books/ (gates G1–G7) |
+| `podcast-trainer` | [infra/claude-agents/podcast-trainer.md](infra/claude-agents/podcast-trainer.md) | Cross-book pattern learner; refines podcast-challenger + handbook with regression gates |
+| `docs-updater` | [infra/claude-agents/docs-updater.md](infra/claude-agents/docs-updater.md) | Regenerate `docs/architecture/index.html` from repo truth |
+| `refine-prompt` | [infra/claude-agents/refine-prompt.md](infra/claude-agents/refine-prompt.md) | Refines a raw request into one compact instruction-paragraph |
+
+Retired 2026-05-23: `podcast-operator` (multi-machine "where am I, what's next?" entry — no longer needed in single-machine model). Lingering wrappers under `.github/agents/` for `CORTEX`, `reconcile`, `repo-surgeon`, and `operating-contract` predate the 2026-05-23 canonical-direction flip and are mirrored without an `infra/` counterpart; they survive for backwards-compatibility with older session prompts.
 
 ---
 
@@ -79,13 +104,13 @@ Promotion from workspace → library is one-way and explicit via `scripts/podcas
 
 **Purpose:** Convert scholarly Arabic books into NotebookLM Audio Overview podcast series.
 
-**Owns:** `content/drafts/<slug>/` (orchestrator state + chapter contracts + chapters + episode drafts + transcripts), with promotion to `content/published/books/<slug>/` (shipped) via `ship_to_library.py`.
+**Owns:** `content/drafts/<slug>/` (orchestrator state + chapter contracts + chapters + episode drafts + transcripts), with promotion to `content/published/books/<slug>/` (shipped) via `publish_to_library.py`.
 
-**Reads:** sources Asif provides + `content/podcast/.skill/handbook/` references + `content/_shared/arabic/` (read-only).
+**Reads:** sources Asif provides + [scripts/podcast/_rules.py](scripts/podcast/_rules.py) (Python rule modules — canonical authority) + [infra/claude-agents/podcast-challenger.md](infra/claude-agents/podcast-challenger.md) (per-Category check definitions) + `content/_shared/arabic/` + `content/_shared/islam/` (read-only). The prior `content/podcast/.skill/handbook/` tree was retired 2026-05-23; its conceptual content lives in the code authority above.
 
-**Triggers:** `/podcast`, `/extract-chapter <ref>`, `claude --agent podcast-orchestrator`, `claude --agent podcast-operator`.
+**Triggers:** `/podcast`, `/extract-chapter <ref>`, `claude --agent podcast-orchestrator`.
 
-**Phases:** 0a (ingest) → 0b (refine) → 0c (phonetic) → 0d (chapter design) → 0e (enrich) → 0f (review halt) → per-chapter authoring (extract + framing + build → challenger convergence) → ship via `ship_to_library.py` → trainer.
+**Phases:** 0a (ingest) → 0b (refine) → 0c (phonetic) → 0d (chapter design) → 0e (enrich) → 0f (review halt) → per-chapter authoring (extract + framing + build → challenger convergence) → ship via `publish_to_library.py` → trainer.
 
 ---
 
@@ -93,9 +118,9 @@ Promotion from workspace → library is one-way and explicit via `scripts/podcas
 
 The pipeline is **machine-agnostic**. Most work is done by Anthropic + Azure remotely (LLM calls, OCR, translation, speech), so the host machine carries no special-snowflake configuration. The repo runs the same way on any Mac with `python3`, `git`, and the Azure stack credentials (per [_workspace/setup/azure-stack.md](_workspace/setup/azure-stack.md)).
 
-- **ONE working branch: `develop`.** New books land in `content/drafts/<slug>/` directly on `develop`. Feature branches are optional throwaways for risky changes.
-- **No per-machine coordination.** The earlier two-machine model (book/* branches as work assignments, operator files, `~/.machine-id` detection, book-queue mutex, coordination-protocol §15) was retired 2026-05-23.
-- **`scripts/start-session.sh`** is the simplified session bootstrap — fetches origin, fast-forwards develop, surfaces in-flight books + next-action commands.
+- **Per-content branches (locked 2026-05-24).** Every new piece of content (book, document, lecture, article, letter, interview, or generic draft) is processed on its own typed branch off `develop`. The branch name is `<prefix>/<full-slug>` where `<prefix>` derives from the content's `category` field via [scripts/podcast/_branching.py](scripts/podcast/_branching.py): `book/`, `doc/`, `lecture/`, `article/`, `letter/`, `interview/`, or `draft/` (fallback). Slugs are always full kebab-case (never abbreviated). Branches merge back to `develop` only after `podcast-publisher` ships the artifacts to `content/published/`.
+- **No per-machine coordination.** The earlier two-machine model (operator files, `~/.machine-id` detection, book-queue mutex, coordination-protocol §15) was retired 2026-05-23. The cross-machine assignment layer is gone; content branches now serve only as isolation, not as work assignment.
+- **`scripts/start-session.sh`** is the simplified session bootstrap — fetches origin, fast-forwards develop, surfaces in-flight content branches + next-action commands.
 
 ---
 

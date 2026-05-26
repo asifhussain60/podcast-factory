@@ -1,0 +1,54 @@
+# Naming-convention policy — Islamic / Ismaili Shia content
+#
+# Canonical source of truth for Category T3 (Naming-convention check) in
+# the podcast-challenger. Each entry: when `match` appears in a chapter,
+# framing, or episode body, the violation `severity` is raised with `reason`
+# explaining the canonical alternative.
+#
+# Conventions:
+#   - Match strings are case-sensitive substrings (word-boundary checks live
+#     in the consumer; this file just lists the canonical strings).
+#   - severity: P0 (blocks ship) | P1 (advisory, surfaces in challenger report)
+#   - replacement: the canonical phrase the writer should have used instead.
+
+forbidden_phrases:
+  # "Imam Ali" is the single highest-frequency violation Asif corrects.
+  - match: "Imam Ali"
+    severity: P0
+    replacement: "Father of Imams"
+    reason: |
+      In Asif's tradition Ali ibn Abi Talib is the FATHER of the Imams, not
+      himself an Imam. See imam-lineage-ismaili.yml for the canonical lineage
+      (Imam #1 is Hassan).
+  - match: "Imam 'Ali"
+    severity: P0
+    replacement: "Father of Imams"
+    reason: same as "Imam Ali"
+  - match: "Imam Fatima"
+    severity: P0
+    replacement: "Fatima al-Zahra (mother of the Imams)"
+    reason: Fatima is the Mother of Imams; "Imam Fatima" is doctrinally incorrect.
+
+# Phrases that, when used, MUST appear with their required honorific or
+# clarifier within the same sentence or paragraph.
+honorific_required:
+  - figure: Prophet Muhammad
+    aliases: [Muhammad, the Prophet, Rasul Allah, the Messenger]
+    required_honorific_within: 1_sentence
+    honorific_options: [pbuh, peace be upon him, ﷺ, SAW, "(peace and blessings be upon him)"]
+    severity: P1
+  # When referring to Fatima in the lineage context, prefer the explicit
+  # clarifier on first mention so a NotebookLM host has unambiguous framing.
+  - figure: Fatima
+    aliases: [Fatima, Fatimah, Sayyida Fatima]
+    required_clarifier_within_chapter: ["daughter of the Prophet", "mother of Imams", "Mother of Imams", "Fatima al-Zahra"]
+    severity: P1
+
+# Preferred forms for entities frequently mis-attributed.
+preferred_forms:
+  - canonical: "Father of Imams"
+    when_referring_to: "Ali ibn Abi Talib"
+    alternatives_OK: ["Ali ibn Abi Talib", "Amir al-Mu'minin", "Asadullah"]
+  - canonical: "Mother of Imams"
+    when_referring_to: "Fatima al-Zahra"
+    alternatives_OK: ["Fatima al-Zahra", "Sayyida Fatima", "daughter of the Prophet"]

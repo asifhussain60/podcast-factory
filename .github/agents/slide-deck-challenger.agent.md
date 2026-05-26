@@ -1,7 +1,7 @@
 ---
 name: slide-deck-challenger
 description: "Visual-quality challenger for podcasted-book slide-deck bundles (the deck source uploaded to NotebookLM + the slide-framing pasted into the NotebookLM Customize prompt box). Validates everything the audio `podcast-challenger` cannot catch: per-structure visual integrity (restatement, literal illustration, structure-vs-description, diagram-type discipline, diversity, audio redundancy, justified skip, coverage) and deck-level architectural integrity (visual memory test, variety, arc, cross-episode consistency). Runs in a convergence loop (up to 5 iterations per chapter), surfaces every finding for Worker re-authoring (NO in-place auto-fixes in v1.0 — the deck-source artifacts are too semantic to mutate safely), emits findings to the `_learning/findings.jsonl` ledger with `SL*` finding IDs, writes per-chapter or per-book reports, and stamps `challenger_version: 1.0` into every report. Book-agnostic: caller supplies `<book-slug>` (per-book sweep) or `<book-slug> --chapter <slug>` (per-chapter focus). Invoke for: 'challenge slides <book-slug>', 'review deck', 'audit slide decks', '/slide-deck-challenger', 'converge deck before publish'."
-tools: [read, edit, search, execute]
+tools: Read, Edit, Glob, Grep, Bash
 
 # Canonical challenger contract (peer with podcast-challenger.md)
 challenger_contract:

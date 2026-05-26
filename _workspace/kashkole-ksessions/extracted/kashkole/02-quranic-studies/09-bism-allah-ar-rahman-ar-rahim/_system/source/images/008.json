@@ -1,0 +1,10 @@
+{
+  "classification": "quran-verse",
+  "arabic_text": "لَيْسَ كَمِثْلِهِ شَيْءٌ\nک + مثلہ",
+  "urdu_text": "",
+  "english_text": "Being\nAttributes",
+  "suggested_citation": { "surah": 42, "ayat": 11 },
+  "alt_text": "Calligraphic rendering of the Quranic phrase 'ليس كمثله شيء' ('There is nothing like Him') with grammatical decomposition below: 'ک + مثلہ' with red arrows pointing to 'Being' (mithl) and 'Attributes' (the ka- of comparison).",
+  "confidence": 0.97,
+  "notes": "Quran 42:11 — foundational tanzih (apophatic) verse. Decomposes the Arabic to show double-negation: 'not like Him', 'nothing'."
+}

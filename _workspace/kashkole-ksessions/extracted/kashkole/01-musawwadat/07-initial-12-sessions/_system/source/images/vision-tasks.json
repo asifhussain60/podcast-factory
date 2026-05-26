@@ -1,0 +1,502 @@
+{
+  "book": {
+    "binder_id": 28,
+    "binder_name": "مسودے",
+    "chapter_id": 145,
+    "chapter_name": "Initial 12 Sessions"
+  },
+  "images": [
+    {
+      "placeholder": "IMG:001",
+      "file": "_system/source/images/001.png",
+      "section_id": 4623,
+      "section_label": "اللہ  کی معرفت مزید",
+      "bytes": 198049,
+      "sha256_12": "469f5acb0cc7",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:002",
+      "file": "_system/source/images/002.png",
+      "section_id": 4625,
+      "section_label": "اللہ کی فطرت عدل ہے",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:003",
+      "file": "_system/source/images/003.png",
+      "section_id": 4625,
+      "section_label": "اللہ کی فطرت عدل ہے",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:004",
+      "file": "_system/source/images/004.png",
+      "section_id": 4625,
+      "section_label": "اللہ کی فطرت عدل ہے",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:005",
+      "file": "_system/source/images/005.png",
+      "section_id": 4625,
+      "section_label": "اللہ کی فطرت عدل ہے",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:006",
+      "file": "_system/source/images/006.png",
+      "section_id": 4625,
+      "section_label": "اللہ کی فطرت عدل ہے",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:007",
+      "file": "_system/source/images/007.png",
+      "section_id": 4625,
+      "section_label": "اللہ کی فطرت عدل ہے",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:008",
+      "file": "_system/source/images/008.png",
+      "section_id": 4625,
+      "section_label": "اللہ کی فطرت عدل ہے",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:009",
+      "file": "_system/source/images/009.png",
+      "section_id": 4627,
+      "section_label": "اللہ کا عدل",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:010",
+      "file": "_system/source/images/010.png",
+      "section_id": 4627,
+      "section_label": "اللہ کا عدل",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:011",
+      "file": "_system/source/images/011.png",
+      "section_id": 4627,
+      "section_label": "اللہ کا عدل",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:012",
+      "file": "_system/source/images/012.png",
+      "section_id": 4627,
+      "section_label": "اللہ کا عدل",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:013",
+      "file": "_system/source/images/013.png",
+      "section_id": 4627,
+      "section_label": "اللہ کا عدل",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:014",
+      "file": "_system/source/images/014.png",
+      "section_id": 4627,
+      "section_label": "اللہ کا عدل",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:015",
+      "file": "_system/source/images/015.png",
+      "section_id": 4627,
+      "section_label": "اللہ کا عدل",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:016",
+      "file": "_system/source/images/016.png",
+      "section_id": 4627,
+      "section_label": "اللہ کا عدل",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:017",
+      "file": "_system/source/images/017.png",
+      "section_id": 4627,
+      "section_label": "اللہ کا عدل",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:018",
+      "file": "_system/source/images/018.png",
+      "section_id": 4627,
+      "section_label": "اللہ کا عدل",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:019",
+      "file": "_system/source/images/019.png",
+      "section_id": 4627,
+      "section_label": "اللہ کا عدل",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:020",
+      "file": "_system/source/images/020.png",
+      "section_id": 4627,
+      "section_label": "اللہ کا عدل",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:021",
+      "file": "_system/source/images/021.png",
+      "section_id": 4627,
+      "section_label": "اللہ کا عدل",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:022",
+      "file": "_system/source/images/022.png",
+      "section_id": 4627,
+      "section_label": "اللہ کا عدل",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:023",
+      "file": "_system/source/images/023.png",
+      "section_id": 4627,
+      "section_label": "اللہ کا عدل",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:024",
+      "file": "_system/source/images/024.png",
+      "section_id": 4627,
+      "section_label": "اللہ کا عدل",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:025",
+      "file": "_system/source/images/025.png",
+      "section_id": 4627,
+      "section_label": "اللہ کا عدل",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:026",
+      "file": "_system/source/images/026.png",
+      "section_id": 4627,
+      "section_label": "اللہ کا عدل",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:027",
+      "file": "_system/source/images/027.png",
+      "section_id": 4627,
+      "section_label": "اللہ کا عدل",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:028",
+      "file": "_system/source/images/028.png",
+      "section_id": 4627,
+      "section_label": "اللہ کا عدل",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:029",
+      "file": "_system/source/images/029.png",
+      "section_id": 4627,
+      "section_label": "اللہ کا عدل",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:030",
+      "file": "_system/source/images/030.png",
+      "section_id": 4627,
+      "section_label": "اللہ کا عدل",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:031",
+      "file": "_system/source/images/031.png",
+      "section_id": 4627,
+      "section_label": "اللہ کا عدل",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:032",
+      "file": "_system/source/images/032.png",
+      "section_id": 4627,
+      "section_label": "اللہ کا عدل",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:033",
+      "file": "_system/source/images/033.png",
+      "section_id": 4627,
+      "section_label": "اللہ کا عدل",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:034",
+      "file": "_system/source/images/034.png",
+      "section_id": 4627,
+      "section_label": "اللہ کا عدل",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:035",
+      "file": "_system/source/images/035.png",
+      "section_id": 4627,
+      "section_label": "اللہ کا عدل",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:036",
+      "file": "_system/source/images/036.png",
+      "section_id": 4627,
+      "section_label": "اللہ کا عدل",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:037",
+      "file": "_system/source/images/037.png",
+      "section_id": 4627,
+      "section_label": "اللہ کا عدل",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:038",
+      "file": "_system/source/images/038.png",
+      "section_id": 4627,
+      "section_label": "اللہ کا عدل",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:039",
+      "file": "_system/source/images/039.png",
+      "section_id": 4627,
+      "section_label": "اللہ کا عدل",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:040",
+      "file": "_system/source/images/040.png",
+      "section_id": 4627,
+      "section_label": "اللہ کا عدل",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:041",
+      "file": "_system/source/images/041.png",
+      "section_id": 4627,
+      "section_label": "اللہ کا عدل",
+      "bytes": 1466,
+      "sha256_12": "9013fc6039f5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:042",
+      "file": "_system/source/images/042.png",
+      "section_id": 4632,
+      "section_label": "اللہ کس بات سے خوش ہوتا ہے",
+      "bytes": 57035,
+      "sha256_12": "c3a3d14cc50e",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:043",
+      "file": "_system/source/images/043.png",
+      "section_id": 4632,
+      "section_label": "اللہ کس بات سے خوش ہوتا ہے",
+      "bytes": 41232,
+      "sha256_12": "6e895989698b",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:044",
+      "file": "_system/source/images/044.png",
+      "section_id": 4632,
+      "section_label": "اللہ کس بات سے خوش ہوتا ہے",
+      "bytes": 11510,
+      "sha256_12": "5096bf3b36de",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:045",
+      "file": "_system/source/images/045.png",
+      "section_id": 4632,
+      "section_label": "اللہ کس بات سے خوش ہوتا ہے",
+      "bytes": 93984,
+      "sha256_12": "c076d9a42e1e",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:046",
+      "file": "_system/source/images/046.png",
+      "section_id": 4632,
+      "section_label": "اللہ کس بات سے خوش ہوتا ہے",
+      "bytes": 11400,
+      "sha256_12": "e83aca72339e",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:047",
+      "file": "_system/source/images/047.png",
+      "section_id": 4632,
+      "section_label": "اللہ کس بات سے خوش ہوتا ہے",
+      "bytes": 17406,
+      "sha256_12": "02b5e9643990",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:048",
+      "file": "_system/source/images/048.png",
+      "section_id": 4632,
+      "section_label": "اللہ کس بات سے خوش ہوتا ہے",
+      "bytes": 18459,
+      "sha256_12": "c01c20a4c8b5",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:049",
+      "file": "_system/source/images/049.png",
+      "section_id": 4618,
+      "section_label": "کربلا کا پیغام",
+      "bytes": 16543,
+      "sha256_12": "ed83287d3b92",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    }
+  ],
+  "generated_at": "2026-05-24T19:37:17.980139+00:00",
+  "instructions": "For each image in `images`, read the file via the Read tool (paths are relative to the bundle root) and write a sibling JSON file next to the PNG (same basename, .json extension) with the schema: {classification, arabic_text, urdu_text, english_text, suggested_citation: {surah, ayat} | null, alt_text, confidence, notes}. classification ∈ {quran-verse, hadith, poem-or-saying, teaching-diagram, mixed, other}. For quran-verse, propose surah+ayat from your reading; finalize validates against the adapter's Quran corpus. For teaching-diagram, give a 1-2 sentence alt_text describing what it shows."
+}

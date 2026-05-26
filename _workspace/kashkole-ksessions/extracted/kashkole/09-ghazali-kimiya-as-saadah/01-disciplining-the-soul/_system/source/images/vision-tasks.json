@@ -1,0 +1,42 @@
+{
+  "book": {
+    "binder_id": 32,
+    "binder_name": "غزالی - کیمیائی السعادۃ",
+    "chapter_id": 139,
+    "chapter_name": "Disciplining The Soul"
+  },
+  "images": [
+    {
+      "placeholder": "IMG:001",
+      "file": "_system/source/images/001.png",
+      "section_id": 3560,
+      "section_label": "What Is Good And Bad Character",
+      "bytes": 8653,
+      "sha256_12": "8e316d337483",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:002",
+      "file": "_system/source/images/002.png",
+      "section_id": 3560,
+      "section_label": "What Is Good And Bad Character",
+      "bytes": 12985,
+      "sha256_12": "d0bf82db58ac",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    },
+    {
+      "placeholder": "IMG:003",
+      "file": "_system/source/images/003.png",
+      "section_id": 3560,
+      "section_label": "What Is Good And Bad Character",
+      "bytes": 13465,
+      "sha256_12": "b9fad66bbf20",
+      "source": "section html (inline base64)",
+      "status": "awaiting-vision"
+    }
+  ],
+  "generated_at": "2026-05-24T19:51:57.546364+00:00",
+  "instructions": "For each image in `images`, read the file via the Read tool (paths are relative to the bundle root) and write a sibling JSON file next to the PNG (same basename, .json extension) with the schema: {classification, arabic_text, urdu_text, english_text, suggested_citation: {surah, ayat} | null, alt_text, confidence, notes}. classification ∈ {quran-verse, hadith, poem-or-saying, teaching-diagram, mixed, other}. For quran-verse, propose surah+ayat from your reading; finalize validates against the adapter's Quran corpus. For teaching-diagram, give a 1-2 sentence alt_text describing what it shows."
+}
