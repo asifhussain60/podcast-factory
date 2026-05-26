@@ -88,7 +88,7 @@ prompt: read infra/claude-agents/podcast-auditor.md and execute the full
 
 ---
 
-## The 12 probes (4 axes × 3 probes each)
+## The 13 probes (4 axes × 3 probes + 1 hygiene probe)
 
 The probes are organized by axis. Each finding cites file:line and proposes a fix sketch. Severity is the auditor's judgment: P0 = breaks or will break something soon; P1 = real drift but not blocking; P2 = stylistic / nice-to-have.
 
@@ -159,6 +159,16 @@ The probes are organized by axis. Each finding cites file:line and proposes a fi
 - Detect: naming, file-layout, or invocation patterns that the newest additions don't match the older established patterns
 - Method: identify recent additions via `git log --since` or by file mtime; check naming conventions (snake_case vs kebab-case, `chNN-` vs `EP##-` prefix, `.md` vs `.txt`), file locations, invocation contracts; report inconsistencies
 - Citation required: the new file + the established convention it diverges from + recommendation
+
+### Axis E: Hygiene
+
+**AU-H1: Workspace-root sprawl** (P1) — *locked 2026-05-26; addendum locked same day*
+- Detect: files at ANY folder root (under `_workspace/` and elsewhere) that are NOT in vacuum's root-legit whitelist defined in `infra/claude-agents/vacuum.md` §9
+- Universal rule: every file lives in a subfolder. Root is reserved for whitelisted categories (folder `README.md`, `VERSION`, tool-required configs at fixed paths, index entry files, project-instruction files like `CLAUDE.md` at repo root)
+- Sprawl categories include but aren't limited to: dated event reports (`YYYY-MM-DD-*.md`, `STUDIO-ALIGNMENT-*.md`), book-specific rollout artifacts (`<book-slug>-rollout-*.*`, `<book-slug>-taxonomy-*.json`, `handoff-<book>-*.md`), landed F-item drafts (e.g. `f25-*.md`, `f27-*.md` after the corresponding F-item is closed in `pipeline-debt.md`), folded-in plans (whose content was absorbed into `podcast-plan.yaml`), superseded doctrine docs, **and any otherwise-active file that has not been assigned a topical subfolder home**
+- Method: list `_workspace/**/*` non-directory entries grouped by depth; for every file at depth-1 (folder root), cross-reference against the root-legit whitelist in vacuum.md §9; flag any not on whitelist; also verify `_archive/` exists and is the only archive destination per folder (no scattered `_archive_*` siblings)
+- Citation required: file path + sprawl category matched (or "not in root-legit whitelist") + recommendation (`delegate_to: vacuum` with `--workspace-root --apply`)
+- Why P1 not P0: sprawl doesn't break anything but compounds attention cost on every session resume; vacuum is the authorized fixer, not the auditor
 
 ---
 
