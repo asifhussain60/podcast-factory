@@ -59,6 +59,17 @@ Every atom shares a common envelope. The body differs per type.
 Each wave is a focused build, not a parallel scramble. Wave 1 proves the architecture
 on easy types; later waves add ML-driven dedup once the bones are validated.
 
+## Defaults (post 2026-05-25 self-review)
+
+- **Extractor cost cap**: $2.00/book (raised from initial $0.50 estimate; tafsir-heavy
+  books can have 200+ citations).
+- **Augmenter default state**: DISABLED. Every call site checks
+  `series.enable_knowledge_augmenter` (default `false`) and short-circuits. Operator
+  flips per-book during A/B rollout; default flips on only after the Gate I A/B
+  acceptance check passes on at least one book pair.
+- **Hadith fallback**: matn-only citations (no collection/number) accepted as
+  `hadith:uncited:<sha256>` with text-hash dedup. Semantic dedup arrives in Wave 2.
+
 ## Operational rules
 
 - This folder is read by the Augmenter, written by the Librarian (phase

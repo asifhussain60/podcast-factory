@@ -145,8 +145,12 @@ Action required: review conflicts, run scripts/podcast/knowledge/resolve_conflic
 - This agent does not auto-resolve conflicts. Conflicts always require human
   adjudication via `resolve_conflicts.py`.
 - This agent does not skip the cost cap. If Extractor exceeds
-  `R_KNOWLEDGE_EXTRACTOR_COST_CAP_USD`, the Extractor itself halts and this agent
-  surfaces the halt without retrying.
+  `R_KNOWLEDGE_EXTRACTOR_COST_CAP_USD` (default $2.00/book, raised from initial
+  $0.50 estimate after Risk 2 review), the Extractor itself halts and this agent
+  surfaces the halt without retrying. The Augmenter is default-disabled per spec
+  §2.3 — every call site checks `series.enable_knowledge_augmenter` (default false)
+  and short-circuits to empty string if not set. Default flips only after Gate I
+  A/B acceptance (spec §11.I).
 
 ## Failure modes + recovery
 

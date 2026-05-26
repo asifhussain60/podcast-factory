@@ -37,7 +37,7 @@ prompts) the Quran verses and hadith the first book cited, with sources attached
 - **How**: structured-output LLM call (Claude Sonnet) per chapter with a strict JSON
   schema. Returns atoms with confidence scores. Low-confidence atoms (< 0.7) flagged
   for review.
-- **Cost cap**: $0.50/book at typical chapter count. Halt if exceeded.
+- **Cost cap**: $2.00/book default (raised from initial $0.50 estimate after Risk 2 review — tafsir-heavy books can have 200+ citations). Halt if exceeded. Lower the cap after we have real per-book telemetry from the first 3 books.
 
 ### 2.2 Librarian
 - **When**: immediately after Extractor.
@@ -72,6 +72,11 @@ prompts) the Quran verses and hadith the first book cited, with sources attached
 - **Selection**: exact canonical-ID match first; if a chapter pre-cites `quran:2:255`
   the Augmenter returns the existing atom. No semantic ranking in Wave 1.
 - **Caps**: max 5 atoms per injection, max 800 tokens of injected text per prompt.
+- **Default state: DISABLED** (per Risk 1 review). The Augmenter ships off — every
+  call site checks `series.enable_knowledge_augmenter` (default `false`) and
+  short-circuits to empty string if not set. Operator flips the flag per-book during
+  A/B rollout. Default flips to enabled only after the A/B acceptance gate (§11.I)
+  fires green on at least one book pair.
 
 ---
 
@@ -115,7 +120,8 @@ def _run_0h(bd: Path) -> None:
 ```
 
 ### 3.3 New R-* constants in `_rules.py`
-- `R_KNOWLEDGE_EXTRACTOR_COST_CAP_USD = 0.50` — per-book extractor cost ceiling
+- `R_KNOWLEDGE_EXTRACTOR_COST_CAP_USD = 2.00` — per-book extractor cost ceiling (raised from 0.50 per Risk 2 review)
+- `R_KNOWLEDGE_AUGMENTER_DEFAULT_ENABLED = False` — Augmenter starts disabled; series-config flag flips on per-book during A/B rollout (per Risk 1 review)
 - `R_KNOWLEDGE_AUGMENT_MAX_ATOMS = 5` — Augmenter top-K cap
 - `R_KNOWLEDGE_AUGMENT_MAX_TOKENS = 800` — injected token budget per prompt
 - `R_KNOWLEDGE_LIBRARIAN_CONFLICT_HALT = True` — conflicts halt the phase
@@ -256,6 +262,10 @@ def augment_for_chapter(
     (e.g. "Quran 2:255", "Bukhari 1234") and looks them up directly. No
     semantic ranking.
 
+    Default-disabled: returns empty string immediately if
+    series.enable_knowledge_augmenter is not True. Operator flips per-book
+    during A/B rollout. Default flips only after §11.I gate passes.
+
     Returns empty string if no matches. Always returns within max_tokens budget.
     """
 ```
@@ -280,11 +290,15 @@ Use this context if directly relevant; otherwise ignore.
 ```
 
 ### 6.3 Call sites in Wave 1
-| Caller (future books only) | Purpose | Token budget |
+| Caller (future books only, **gated by `series.enable_knowledge_augmenter`**) | Purpose | Token budget |
 |---|---|---|
 | `0e` enrichment per-chapter prompt | Light: hint that prior books touched these | 200 |
 | `per-chapter` authoring | Medium: full prior treatment for citations | 500 |
 | `0g` audit (`podcast-challenger` agent) | Heavy: complete cross-book context | 800 |
+
+Each call site reads the flag at runtime; default `false`. Operator enables per-book
+in `series-config.yaml` during A/B rollout. No code change required to flip a book in
+or out.
 
 ---
 
@@ -387,8 +401,14 @@ G. Conflict halt verified by intentionally seeding a conflicting hadith and conf
    the orchestrator halts cleanly.
 H. Docs-sweep complete: `framework.md`, `SKILL.md`, `podcast-challenger.agent.md`
    updated in same PR as the code.
+I. **A/B flywheel-health gate** — run Book N with `enable_knowledge_augmenter: false`
+   and Book N+1 with the flag set `true`. The `podcast-challenger` audit on Book N+1
+   must include at least one finding that references an Augmenter-injected atom
+   (e.g., "this hadith was framed differently in Book X — author may want to address").
+   Without that signal we have no evidence augmentation is actually changing outputs.
+   Until Gate I fires green, the Augmenter default stays `false`.
 
-When all eight pass on a real book run, Wave 1 ships and Wave 2 planning begins.
+When all nine pass on a real book run, Wave 1 ships and Wave 2 planning begins.
 
 ---
 

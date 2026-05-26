@@ -33,6 +33,11 @@ def augment_for_chapter(
     (e.g. "Quran 2:255", "Bukhari 1234"), looks them up in the library, returns
     formatted context. No semantic ranking.
 
+    Default-disabled per spec §2.3: returns empty string immediately if the
+    book's series-config has `enable_knowledge_augmenter` unset or false.
+    Operator flips per-book during A/B rollout. Default flips only after the
+    Gate I A/B acceptance check (spec §11.I) passes on at least one book pair.
+
     Args:
         book_slug: slug of the CURRENT book (excluded from "prior" treatments).
         chapter_id: chapter identifier (e.g. "ch01-prologue").
