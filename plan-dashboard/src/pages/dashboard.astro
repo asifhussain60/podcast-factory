@@ -1,0 +1,55 @@
+---
+import Base from '../layouts/Base.astro';
+import DashboardTabs from '../components/DashboardTabs.tsx';
+import dash from '../data/dashboard-snapshot.json';
+
+const stepsDone = dash.roadmap.filter((s: any) => s.status === 'complete').length;
+const stepsTotal = dash.roadmap.length;
+const inFlight = dash.books_in_flight.length;
+const burnMonth = dash.metrics.burn_30d_usd.reduce((a: number, b: number) => a + b, 0);
+---
+<Base title="Live progress" active="dashboard">
+  <header class="stack">
+    <span class="eyebrow">Live progress</span>
+    <h1>What's happening in the factory right now.</h1>
+    <p class="lede">
+      The roadmap, the books being worked on, and the health metrics — all updated as the factory works. The little
+      green dot in the top right corner means the dashboard is connected to the live feed; if it goes amber, the
+      feed dropped briefly and is reconnecting.
+    </p>
+  </header>
+
+  <section class="grid-3">
+    <div class="card metric">
+      <span class="metric-label">Improvements landed</span>
+      <span class="metric-value">{stepsDone} / {stepsTotal}</span>
+      <span class="card-sub">Steps of the current refactor that are done</span>
+    </div>
+    <div class="card metric">
+      <span class="metric-label">Books in flight</span>
+      <span class="metric-value">{inFlight}</span>
+      <span class="card-sub">Active runs the factory is currently working on</span>
+    </div>
+    <div class="card metric">
+      <span class="metric-label">Spent in the last 30 days</span>
+      <span class="metric-value">${burnMonth.toFixed(0)}</span>
+      <span class="card-sub">Combined across every outside service</span>
+    </div>
+  </section>
+
+  <hr />
+
+  <DashboardTabs
+    roadmap={dash.roadmap}
+    waves={dash.waves}
+    debt={dash.debt}
+    booksInFlight={dash.books_in_flight}
+    booksShipped={dash.books_shipped}
+    recentCommits={dash.recent_commits}
+    burn30d={dash.metrics.burn_30d_usd}
+    phaseTime={dash.metrics.phase_time_avg_minutes}
+    convergeAvg={dash.metrics.convergence_passes_avg}
+    shipFirstTry={dash.metrics.ship_first_try_pct}
+    client:load
+  />
+</Base>

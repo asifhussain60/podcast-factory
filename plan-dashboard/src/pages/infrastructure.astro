@@ -1,0 +1,68 @@
+---
+import Base from '../layouts/Base.astro';
+import InfraColumns from '../components/InfraColumns.tsx';
+import infra from '../data/infrastructure-snapshot.json';
+
+const monthTotal = infra.vendors.reduce((sum: number, v: any) =>
+  sum + v.services.reduce((s: number, x: any) => s + (x.month_cost_usd ?? 0), 0), 0);
+const alltimeTotal = infra.vendors.reduce((sum: number, v: any) =>
+  sum + v.services.reduce((s: number, x: any) => s + (x.alltime_cost_usd ?? 0), 0), 0);
+const callsTotal = infra.vendors.reduce((sum: number, v: any) =>
+  sum + v.services.reduce((s: number, x: any) => s + (x.calls_30d ?? 0), 0), 0);
+---
+<Base title="What it runs on" active="infrastructure">
+  <header class="stack">
+    <span class="eyebrow">What it runs on</span>
+    <h1>The toolbox behind the factory.</h1>
+    <p class="lede">
+      The factory itself is a few hundred Python files running on a laptop. The heavy lifting is done by three
+      outside services. Below is the full set, what each one is used for, and what the running bill looks like. Hover
+      any service for the per-month spend, the total since we started, and a chart of daily usage.
+    </p>
+  </header>
+
+  <section class="grid-3">
+    <div class="card metric">
+      <span class="metric-label">This month, all services</span>
+      <span class="metric-value">${monthTotal.toFixed(2)}</span>
+      <span class="card-sub">Combined spend across every outside service</span>
+    </div>
+    <div class="card metric">
+      <span class="metric-label">All time</span>
+      <span class="metric-value">${alltimeTotal.toFixed(2)}</span>
+      <span class="card-sub">Total spent since the first book entered the factory</span>
+    </div>
+    <div class="card metric">
+      <span class="metric-label">API calls — last 30 days</span>
+      <span class="metric-value">{callsTotal.toLocaleString()}</span>
+      <span class="card-sub">Every reasoning, translation, and audio call combined</span>
+    </div>
+  </section>
+
+  <section class="stack">
+    <h2>The three vendors and what each one does</h2>
+    <p>
+      Hover any row to see the detail. Each vendor has a handful of distinct services — they're rolled up here so
+      the cost picture per vendor is one number you can read at a glance.
+    </p>
+    <InfraColumns vendors={infra.vendors} client:load />
+  </section>
+
+  <hr />
+
+  <section class="stack">
+    <h2>How the bill flows through the factory</h2>
+    <p>
+      The shape of the bill is mostly: one big reasoning model bill (Anthropic), a small audio-generation bill
+      (NotebookLM is a flat monthly subscription, not metered), and a small set of per-page-of-PDF and per-character
+      bills (Azure). The most expensive thing the factory does is have Claude Opus plan the episode structure for a
+      long book — that's a multi-step reasoning job that runs to thousands of tokens. Everything else rounds to
+      cents.
+    </p>
+    <p class="muted small">
+      Live spend is read from the factory's own cost ledger plus an Azure billing pull. If a number above looks stale,
+      it's because the planner agent hasn't regenerated the infrastructure snapshot since the last billing cycle —
+      not because the dashboard is broken.
+    </p>
+  </section>
+</Base>

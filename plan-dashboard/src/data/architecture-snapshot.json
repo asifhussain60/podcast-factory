@@ -1,0 +1,232 @@
+{
+  "generated_at": "2026-05-26T14:52:28.031Z",
+  "source_commit": "bab31e8",
+  "generator": "podcast-planner agent",
+  "phases": [
+    {
+      "id": "P0",
+      "name": "Read the book",
+      "plain": "Take the original PDF, recognize every page, translate any non-English text. The system reads it cover to cover so everything that follows works from a clean text version.",
+      "duration_minutes": 10,
+      "modules": [
+        "azure-document-intelligence",
+        "azure-translator"
+      ]
+    },
+    {
+      "id": "P1",
+      "name": "Polish the text",
+      "plain": "Clean up the recognized text, fix obvious errors, normalize formatting. This is the gentle pass that turns scanned-PDF noise into a readable manuscript.",
+      "duration_minutes": 6,
+      "modules": [
+        "doctrinal-rules"
+      ]
+    },
+    {
+      "id": "P2",
+      "name": "Learn the names",
+      "plain": "Identify every person, place, and technical term in the book, then build a pronunciation guide so the narrator says everything correctly. The pronunciation guide is saved as a separate sidecar so a reader can see the original Arabic alongside the English at any time.",
+      "duration_minutes": 12,
+      "modules": [
+        "phonetic-glossary",
+        "doctrinal-rules"
+      ]
+    },
+    {
+      "id": "P3",
+      "name": "Plan the episodes",
+      "plain": "Look at the book's shape and decide what becomes a single episode versus what should be merged or split. A book's chapters are rarely the right size for a podcast — this step re-draws the boundaries.",
+      "duration_minutes": 20,
+      "modules": [
+        "archetype-registry",
+        "doctrinal-rules"
+      ]
+    },
+    {
+      "id": "P4",
+      "name": "Enrich with context",
+      "plain": "For each episode, gather the supporting context the narrator will need: who the speakers are, what makes this passage special, what comes before and after. Notes are added without altering the source.",
+      "duration_minutes": 18,
+      "modules": [
+        "context-injection",
+        "anti-cliche-registry"
+      ]
+    },
+    {
+      "id": "P5",
+      "name": "Bring in outside knowledge",
+      "plain": "Add carefully-sourced material from outside the book itself — historical context, modern research, cross-references — only where it strengthens an episode without distorting the original voice.",
+      "duration_minutes": 15,
+      "modules": [
+        "augmenter",
+        "doctrinal-rules"
+      ]
+    },
+    {
+      "id": "P6",
+      "name": "Cut the chapter pieces",
+      "plain": "Slice the polished book text into the pieces NotebookLM will read, one bundle per episode. Each bundle is self-contained and ready to upload.",
+      "duration_minutes": 4,
+      "modules": []
+    },
+    {
+      "id": "P7",
+      "name": "Write the narrator framing",
+      "plain": "Write the short briefing that goes in NotebookLM's Customize box for each episode — telling the two AI hosts what to talk about, what to emphasize, what to avoid.",
+      "duration_minutes": 22,
+      "modules": [
+        "archetype-registry",
+        "anti-cliche-registry",
+        "doctrinal-rules"
+      ]
+    },
+    {
+      "id": "P8",
+      "name": "Design the slides",
+      "plain": "Author the visual deck for each episode — restating an idea, illustrating a passage literally, surfacing the structure with a diagram. Slides complement the audio without duplicating it.",
+      "duration_minutes": 25,
+      "modules": [
+        "slide-deck-challenger"
+      ]
+    },
+    {
+      "id": "P9",
+      "name": "Audit and converge",
+      "plain": "An automated reviewer reads every bundle and every framing, flags problems, sends them back to be fixed, then re-reads. Loops until the book either passes or needs a human call.",
+      "duration_minutes": 30,
+      "modules": [
+        "challenger"
+      ]
+    },
+    {
+      "id": "P10",
+      "name": "Ship to the catalog",
+      "plain": "Once everything passes, move the finished book from the workshop into the public catalog and merge the working branch back to the main line.",
+      "duration_minutes": 3,
+      "modules": []
+    }
+  ],
+  "modules": [
+    {
+      "id": "archetype-registry",
+      "name": "Book-kind recognizer",
+      "plain": "A small registry that knows the rules for each kind of book — a play-novel reads differently than a scholarly treatise. Adding support for a new kind of book means adding one entry here, never rewriting the pipeline."
+    },
+    {
+      "id": "doctrinal-rules",
+      "name": "House style guard",
+      "plain": "A collection of constraints that apply across every book — how the Imam is referred to, what tone the narrators adopt, what topics are out of bounds. Enforced at every station."
+    },
+    {
+      "id": "anti-cliche-registry",
+      "name": "Cliché blocker",
+      "plain": "A growing list of phrases and openings the system has learned to avoid — banal welcomes, overused metaphors, podcast clichés that flatten the source's voice."
+    },
+    {
+      "id": "context-injection",
+      "name": "Shared context",
+      "plain": "The single contract through which all background context flows into the narrator framings. One place to change what context the system passes around."
+    },
+    {
+      "id": "phonetic-glossary",
+      "name": "Pronunciation guide",
+      "plain": "A per-book mapping of every name and term in the book to its phonetic spelling — so the narrator says \"Ibn al-Walid\" the way the source intends, not the way English spelling suggests."
+    },
+    {
+      "id": "augmenter",
+      "name": "Outside-knowledge gatherer",
+      "plain": "Pulls modern research and cross-references that strengthen an episode without distorting the source — used carefully, off by default for sensitive books."
+    },
+    {
+      "id": "challenger",
+      "name": "Quality reviewer",
+      "plain": "Reads every episode bundle and every framing the way a careful editor would, flags problems by severity, and pushes them back for correction. Loops until convergence."
+    },
+    {
+      "id": "slide-deck-challenger",
+      "name": "Slide deck reviewer",
+      "plain": "The visual counterpart of the quality reviewer — checks every slide for restatement, literal illustration, structural value, and audio-deck divergence."
+    }
+  ],
+  "layers": [
+    {
+      "id": 1,
+      "name": "Foundation",
+      "plain": "Files everything else depends on: paths, the database, the rule registry, branch naming."
+    },
+    {
+      "id": 2,
+      "name": "House style",
+      "plain": "Doctrinal rules, the archetype registry, the cost ledger, the shared context contract."
+    },
+    {
+      "id": 3,
+      "name": "Intelligence",
+      "plain": "The extractor, the librarian, the augmenter — the parts that read, remember, and enrich."
+    },
+    {
+      "id": 4,
+      "name": "Authoring",
+      "plain": "The pieces that actually write framings, capstones, prefaces, augmentations."
+    },
+    {
+      "id": 5,
+      "name": "Stations",
+      "plain": "One file per pipeline station. Thin orchestration that calls the layers below."
+    },
+    {
+      "id": 6,
+      "name": "Driver",
+      "plain": "A single thin driver that walks the station order. Hands off to each station in turn."
+    }
+  ],
+  "adrs": [
+    {
+      "id": "DR-001",
+      "title": "SQLite first, Postgres later",
+      "plain": "Use a single-file database for now; defer the heavier setup until we actually need it."
+    },
+    {
+      "id": "DR-005",
+      "title": "No file over six hundred lines",
+      "plain": "Hard line cap to keep modules small and readable. Triggers refactor when crossed."
+    },
+    {
+      "id": "DR-009",
+      "title": "No file version stamps",
+      "plain": "Every file IS the current version. Git history is the version log. Pre-commit hook enforces."
+    },
+    {
+      "id": "DR-013",
+      "title": "Shipped books are frozen",
+      "plain": "Five books are already shipped. New improvements ship as addendum episodes, not as re-runs of the original."
+    }
+  ],
+  "archetypes": [
+    {
+      "id": "play-novel",
+      "books": [
+        "asaas-al-taveel"
+      ]
+    },
+    {
+      "id": "scholarly-treatise",
+      "books": [
+        "kitab-al-riyad",
+        "the-master-and-the-disciple"
+      ]
+    },
+    {
+      "id": "letter",
+      "books": [
+        "ayyuhal-walad"
+      ]
+    },
+    {
+      "id": "encyclopedic",
+      "books": [
+        "islr-mas-i"
+      ]
+    }
+  ]
+}

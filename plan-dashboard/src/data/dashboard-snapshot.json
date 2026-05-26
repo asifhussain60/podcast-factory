@@ -1,0 +1,426 @@
+{
+  "generated_at": "2026-05-26T14:52:27.990Z",
+  "source_commit": "bab31e8",
+  "generator": "regenerate-snapshots.mjs",
+  "roadmap": [
+    {
+      "id": "A1",
+      "wave": "A",
+      "title": "Tidy the planning folder and lay down the new structure",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [],
+      "last_touched": "2026-05-26"
+    },
+    {
+      "id": "A2",
+      "wave": "A",
+      "title": "Build the foundation layer the rest of the system sits on",
+      "status": "ready",
+      "tier": "T1",
+      "depends_on": [
+        "A1"
+      ]
+    },
+    {
+      "id": "A3",
+      "wave": "A",
+      "title": "Build the house-style layer above the foundation",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "A2"
+      ]
+    },
+    {
+      "id": "A4",
+      "wave": "A",
+      "title": "Break the driver and authoring files into smaller pieces",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "A3"
+      ]
+    },
+    {
+      "id": "A5",
+      "wave": "A",
+      "title": "Remove any leftover version stamps and stop new ones at commit time",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "A4"
+      ]
+    },
+    {
+      "id": "B1",
+      "wave": "B",
+      "title": "Build the part that reads books and extracts the structured material",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "A5"
+      ]
+    },
+    {
+      "id": "B2",
+      "wave": "B",
+      "title": "Build the part that remembers things across books",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "B1"
+      ]
+    },
+    {
+      "id": "B3",
+      "wave": "B",
+      "title": "Build the part that brings in carefully-sourced outside knowledge",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "B2"
+      ]
+    },
+    {
+      "id": "B4",
+      "wave": "B",
+      "title": "Wire the three new pieces into the pipeline in the right order",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "B3"
+      ]
+    },
+    {
+      "id": "C1",
+      "wave": "C",
+      "title": "Add three more book-kinds the factory knows how to handle",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "B4"
+      ]
+    },
+    {
+      "id": "C2",
+      "wave": "C",
+      "title": "Build the multi-layer capstone — the closing chapter writer",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "C1"
+      ]
+    },
+    {
+      "id": "C3",
+      "wave": "C",
+      "title": "Switch on the outside-knowledge gatherer for forward books",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "C2"
+      ]
+    },
+    {
+      "id": "C4.0",
+      "wave": "C",
+      "title": "Pilot the visual-deck capability before the wider rollout",
+      "status": "pending",
+      "tier": "T2",
+      "depends_on": [
+        "C3"
+      ]
+    },
+    {
+      "id": "C4",
+      "wave": "C",
+      "title": "Add the visual-deck classifier and the human-review markers",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "C4.0"
+      ]
+    },
+    {
+      "id": "C5",
+      "wave": "C",
+      "title": "Plan the rollout to the larger books with cost guardrails",
+      "status": "pending",
+      "tier": "T2",
+      "depends_on": [
+        "C4"
+      ]
+    },
+    {
+      "id": "D1",
+      "wave": "D",
+      "title": "Set up the design tokens and the dashboard app shell",
+      "status": "in_progress",
+      "tier": "T1",
+      "depends_on": []
+    },
+    {
+      "id": "D2",
+      "wave": "D",
+      "title": "Build the front page that ties the three views together",
+      "status": "in_progress",
+      "tier": "T1",
+      "depends_on": [
+        "D1"
+      ]
+    },
+    {
+      "id": "D3",
+      "wave": "D",
+      "title": "Build the architecture and infrastructure visualizations",
+      "status": "in_progress",
+      "tier": "T1",
+      "depends_on": [
+        "D2"
+      ]
+    },
+    {
+      "id": "D4",
+      "wave": "D",
+      "title": "Build the live execution dashboard with streaming updates",
+      "status": "ready",
+      "tier": "T1",
+      "depends_on": [
+        "D3"
+      ]
+    },
+    {
+      "id": "E1",
+      "wave": "E",
+      "title": "Bring every shipped book onto the unified metadata schema",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "B4"
+      ]
+    },
+    {
+      "id": "E2",
+      "wave": "E",
+      "title": "Ship the Kitab al-Riyad addendum episode",
+      "status": "pending",
+      "tier": "T2",
+      "depends_on": [
+        "E1"
+      ]
+    },
+    {
+      "id": "E3",
+      "wave": "E",
+      "title": "Ship the Master and the Disciple preface and addendum",
+      "status": "pending",
+      "tier": "T2",
+      "depends_on": [
+        "E1"
+      ]
+    },
+    {
+      "id": "E4",
+      "wave": "E",
+      "title": "Extend the ship checklist with the new readiness gates",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "E2",
+        "E3"
+      ]
+    }
+  ],
+  "waves": [
+    {
+      "id": "A",
+      "name": "Foundation",
+      "plain": "Tidy up, then build the layers everything sits on. Smaller files, cleaner imports, version stamps gone."
+    },
+    {
+      "id": "B",
+      "name": "Intelligence",
+      "plain": "Three new pieces that read, remember, and enrich — the brain that makes the factory smarter over time."
+    },
+    {
+      "id": "C",
+      "name": "More book kinds",
+      "plain": "Teach the factory to handle three additional kinds of books and the multi-layer closing-chapter style."
+    },
+    {
+      "id": "D",
+      "name": "Dashboard",
+      "plain": "Replace the static plan files with this living dashboard. You're looking at it."
+    },
+    {
+      "id": "E",
+      "name": "Backfill",
+      "plain": "Bring the already-shipped books onto the new schema and add the extra ship-readiness checks."
+    }
+  ],
+  "debt": [
+    {
+      "id": "F37",
+      "title": "The publish dry-run accidentally modifies source files",
+      "severity": "P1",
+      "plain": "When you ask the publish step to do a dry run, it claims to write nothing but actually changes a few episode files. Workaround is to undo with git after each dry-run. Real fix not yet done."
+    },
+    {
+      "id": "F38",
+      "title": "Resume after a crashed run is stuck thinking it's still running",
+      "severity": "P1",
+      "plain": "If the factory crashes mid-step, the state file still says 'running' and the next resume refuses to start. Workaround is to retry the phase explicitly. Real fix needs a heartbeat check."
+    }
+  ],
+  "books_in_flight": [
+    {
+      "slug": "asaas-al-taveel",
+      "title": "Asaas al-Taveel",
+      "phase": "Learn the names",
+      "phase_status": "queued",
+      "cost_to_date_usd": 12.4,
+      "kind": "play-novel"
+    },
+    {
+      "slug": "ayyuhal-walad",
+      "title": "Ayyuhal Walad",
+      "phase": "Per-chapter convergence",
+      "phase_status": "ship with caution",
+      "cost_to_date_usd": 8.2,
+      "kind": "letter"
+    },
+    {
+      "slug": "the-master-and-the-disciple",
+      "title": "the-master-and-the-disciple",
+      "phase": "publish",
+      "phase_status": "completed",
+      "cost_to_date_usd": 0,
+      "kind": "unknown"
+    }
+  ],
+  "books_shipped": [
+    {
+      "slug": "kitab-al-riyad",
+      "title": "Kitab al-Riyad",
+      "shipped": "2026-05-04",
+      "episodes": 14,
+      "cost_total_usd": 42.1
+    },
+    {
+      "slug": "the-master-and-the-disciple",
+      "title": "The Master and the Disciple",
+      "shipped": "2026-05-22",
+      "episodes": 12,
+      "cost_total_usd": 38.4
+    },
+    {
+      "slug": "islr-mas-i",
+      "title": "Islamic Realism Volume I",
+      "shipped": "2026-04-18",
+      "episodes": 11,
+      "cost_total_usd": 31.8
+    }
+  ],
+  "recent_commits": [
+    {
+      "sha": "bab31e8",
+      "subject": "docs(workspace): track audit report + session chat artifact from today's work",
+      "date": "2026-05-26"
+    },
+    {
+      "sha": "c077c5d",
+      "subject": "docs(ledger): close T11 + T19 — slide-deck convergence resolved end-to-end on M&D",
+      "date": "2026-05-26"
+    },
+    {
+      "sha": "9643571",
+      "subject": "feat(slide-decks): ch.5 authored + verified SHIP-READY — book carries corpus-level slide-deck coverage",
+      "date": "2026-05-26"
+    },
+    {
+      "sha": "81080b7",
+      "subject": "state(slide-decks): ch.2 SKIPPED via Probe-7 re-verification; ch.5 warrants deck-authoring, not skip",
+      "date": "2026-05-26"
+    },
+    {
+      "sha": "671b43b",
+      "subject": "state(slide-decks): re-record ch02 + ch05 BLOCKED via Fix 2 clean-return path",
+      "date": "2026-05-26"
+    },
+    {
+      "sha": "78dc7f9",
+      "subject": "fix(slide-convergence): two bug patches surfaced by the post-audit slide-deck investigation",
+      "date": "2026-05-26"
+    },
+    {
+      "sha": "ef8ab3d",
+      "subject": "docs(ledger): track T18 — BOOKS subtree reconciliation, deferred for isolated discussion",
+      "date": "2026-05-26"
+    },
+    {
+      "sha": "7ab6e87",
+      "subject": "fix(architecture): apply 7 P0 audit fixes — spec/code drift + version-marker rule + hygiene",
+      "date": "2026-05-26"
+    },
+    {
+      "sha": "ae29650",
+      "subject": "fix(architecture): clear 7 P0 audit findings — spec/code drift + hygiene + version-marker rule enforcement",
+      "date": "2026-05-26"
+    },
+    {
+      "sha": "f0b0628",
+      "subject": "chore(architecture): factor project-steward into Agent Ecosystem + DR-014 + Tier 0",
+      "date": "2026-05-26"
+    }
+  ],
+  "metrics": {
+    "burn_30d_usd": [
+      4.2,
+      3.8,
+      2.1,
+      0,
+      8.4,
+      11.2,
+      7.8,
+      5.6,
+      4.1,
+      5.2,
+      7.4,
+      9.8,
+      4.5,
+      1.5,
+      0,
+      14.8,
+      18.6,
+      11.4,
+      7.2,
+      3.8,
+      5.4,
+      7.8,
+      11.2,
+      9.4,
+      6.6,
+      4.6,
+      2.4,
+      0,
+      12.8,
+      8.4
+    ],
+    "phase_time_avg_minutes": {
+      "Read the book": 10,
+      "Polish the text": 6,
+      "Learn the names": 12,
+      "Plan the episodes": 20,
+      "Enrich with context": 18,
+      "Bring in outside knowledge": 15,
+      "Cut the chapter pieces": 4,
+      "Write the narrator framing": 22,
+      "Design the slides": 25,
+      "Audit and converge": 30,
+      "Ship to the catalog": 3
+    },
+    "convergence_passes_avg": 2.3,
+    "ship_first_try_pct": 67
+  }
+}
