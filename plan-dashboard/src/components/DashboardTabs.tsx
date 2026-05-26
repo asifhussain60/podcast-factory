@@ -2,7 +2,7 @@ import { useState } from 'react';
 import SpendChart from './SpendChart';
 
 interface RoadmapStep {
-  id: string; wave: string; title: string; status: string; tier: string; depends_on: string[]; last_touched?: string; plain?: string;
+  id: string; wave: string; title: string; status: string; tier: string; depends_on: string[]; last_touched?: string; plain?: string; tools?: string[];
 }
 interface Wave { id: string; name: string; plain: string; }
 interface Debt { id: string; title: string; severity: string; plain: string; }
@@ -61,6 +61,8 @@ function RoadmapTab({ waves, roadmap }: { waves: Wave[]; roadmap: RoadmapStep[] 
   const [expanded, setExpanded] = useState<string | null>(null);
   const byWave = (id: string) => roadmap.filter((s) => s.wave === id);
   const toggle = (id: string) => setExpanded((prev) => (prev === id ? null : id));
+  const blocksOf = (id: string) => roadmap.filter((s) => s.depends_on.includes(id));
+
   return (
     <div className="stack">
       <p>
@@ -79,26 +81,94 @@ function RoadmapTab({ waves, roadmap }: { waves: Wave[]; roadmap: RoadmapStep[] 
             </div>
             <p className="small muted">{w.plain}</p>
             <div className="stack-tight wave-steps">
-              {steps.map((s) => (
-                <div key={s.id} className={`step-row ${expanded === s.id ? 'is-expanded' : ''}`}>
-                  <button
-                    className="step-row-header"
-                    aria-expanded={expanded === s.id}
-                    onClick={() => toggle(s.id)}
-                  >
-                    <span className="step-id">Step {s.id}</span>
-                    <span className="step-title">{s.title}</span>
-                    <span className={`pill ${STATUS_PILL[s.status] ?? 'is-future'}`}>{STATUS_LABEL[s.status] ?? s.status}</span>
-                    <span className="small muted step-touched">{s.last_touched ?? '—'}</span>
-                    <span className="step-chevron" aria-hidden="true">{expanded === s.id ? '▲' : '▼'}</span>
-                  </button>
-                  {expanded === s.id && s.plain && (
-                    <div className="step-detail">
-                      {s.plain}
-                    </div>
-                  )}
-                </div>
-              ))}
+              {steps.map((s) => {
+                const needs = s.depends_on.map(dep => roadmap.find(r => r.id === dep)).filter(Boolean) as RoadmapStep[];
+                const unlocks = blocksOf(s.id);
+                const isExpanded = expanded === s.id;
+                return (
+                  <div key={s.id} className={`step-row ${isExpanded ? 'is-expanded' : ''}`}>
+
+                    {/* Layer 2 — hover card (CSS-driven, 400ms delay) */}
+                    {!isExpanded && (
+                      <div className="step-hover-card" role="tooltip" aria-hidden="true">
+                        {needs.length > 0 && (
+                          <div className="hover-section">
+                            <span className="hover-label">Needs</span>
+                            <div className="hover-chips">
+                              {needs.map(dep => <span key={dep.id} className="hover-chip">{dep.title}</span>)}
+                            </div>
+                          </div>
+                        )}
+                        {unlocks.length > 0 && (
+                          <div className="hover-section">
+                            <span className="hover-label">Unlocks</span>
+                            <div className="hover-chips">
+                              {unlocks.map(u => <span key={u.id} className="hover-chip">{u.title}</span>)}
+                            </div>
+                          </div>
+                        )}
+                        {s.tools && s.tools.length > 0 && (
+                          <div className="hover-section">
+                            <span className="hover-label">Built with</span>
+                            <div className="hover-chips">
+                              {s.tools.map(t => <span key={t} className={`hover-chip tool-chip tool-${t.toLowerCase()}`}>{t}</span>)}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Layer 1 — always-visible header */}
+                    <button
+                      className="step-row-header"
+                      aria-expanded={isExpanded}
+                      onClick={() => toggle(s.id)}
+                    >
+                      <span className="step-id-cell">
+                        <span className="step-id">Step {s.id}</span>
+                        <span className={`tier-badge tier-${s.tier.toLowerCase()}`}>{s.tier}</span>
+                      </span>
+                      <span className="step-title">{s.title}</span>
+                      <span className={`pill ${STATUS_PILL[s.status] ?? 'is-future'}`}>{STATUS_LABEL[s.status] ?? s.status}</span>
+                      <span className="small muted step-touched">{s.last_touched ?? '—'}</span>
+                      <span className="step-chevron" aria-hidden="true">{isExpanded ? '▲' : '▼'}</span>
+                    </button>
+
+                    {/* Layer 3 — click-expanded structured detail */}
+                    {isExpanded && s.plain && (
+                      <div className="step-detail">
+                        <p className="step-detail-what">{s.plain}</p>
+                        <div className="step-detail-meta">
+                          {needs.length > 0 && (
+                            <div className="detail-row">
+                              <span className="detail-label">Needs</span>
+                              <div className="detail-chips">
+                                {needs.map(dep => <span key={dep.id} className="detail-chip">{dep.title}</span>)}
+                              </div>
+                            </div>
+                          )}
+                          {unlocks.length > 0 && (
+                            <div className="detail-row">
+                              <span className="detail-label">Unlocks</span>
+                              <div className="detail-chips">
+                                {unlocks.map(u => <span key={u.id} className="detail-chip">{u.title}</span>)}
+                              </div>
+                            </div>
+                          )}
+                          {s.tools && s.tools.length > 0 && (
+                            <div className="detail-row">
+                              <span className="detail-label">Built with</span>
+                              <div className="detail-chips">
+                                {s.tools.map(t => <span key={t} className={`detail-chip tool-chip tool-${t.toLowerCase()}`}>{t}</span>)}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
         );

@@ -1274,6 +1274,7 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
   margin-bottom: 6px;
   box-shadow: 0 1px 1px rgba(31, 29, 24, 0.03);
   transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
+  position: relative; /* anchor for hover card */
 }
 .step-row.is-expanded {
   border-color: color-mix(in oklab, var(--c-accent) 30%, var(--c-rule));
@@ -1281,7 +1282,7 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
   box-shadow: 0 2px 4px rgba(31, 29, 24, 0.04), 0 8px 16px -6px rgba(31, 29, 24, 0.10);
 }
 .step-row-header {
-  display: grid; grid-template-columns: 80px 1fr 130px 100px 24px;
+  display: grid; grid-template-columns: 90px 1fr 130px 100px 24px;
   align-items: center; gap: var(--sp-3);
   padding: var(--sp-3) var(--sp-4);
   width: 100%;
@@ -1292,21 +1293,103 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 }
 .step-row-header:hover { background: color-mix(in oklab, var(--c-accent) 4%, transparent); }
 .step-chevron { color: var(--c-ink-muted); font-size: var(--fs-label); justify-self: center; }
+
+/* ── step ID + tier badge cell ── */
+.step-id-cell { display: flex; flex-direction: column; gap: 3px; }
+.step-row .step-id { font-weight: 900; color: var(--c-ink-muted); font-size: var(--fs-sm); font-variant-numeric: tabular-nums; }
+
+/* ── tier badges ── */
+.tier-badge {
+  display: inline-block;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 1px 5px; border-radius: 3px; width: fit-content;
+}
+.tier-t1 { background: var(--c-bg-card); color: var(--c-ink-muted); border: 1px solid var(--c-rule); }
+.tier-t2 { background: color-mix(in oklab, #f59e0b 15%, var(--c-bg-elev)); color: #92400e; border: 1px solid color-mix(in oklab, #f59e0b 40%, transparent); }
+@media (prefers-color-scheme: dark) {
+  .tier-t2 { background: color-mix(in oklab, #f59e0b 18%, #1a1400); color: #fbbf24; border-color: color-mix(in oklab, #f59e0b 30%, transparent); }
+}
+
+/* ── Layer 2: hover card ── */
+.step-hover-card {
+  position: absolute;
+  top: calc(100% + 2px); left: 90px; right: 0;
+  z-index: 100;
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-md);
+  padding: var(--sp-3) var(--sp-4);
+  box-shadow: 0 4px 12px rgba(31, 29, 24, 0.12), 0 1px 3px rgba(31, 29, 24, 0.08);
+  pointer-events: none;
+  opacity: 0; visibility: hidden;
+  /* show after 400ms hover delay, hide immediately */
+  transition: opacity 0.15s ease 0s, visibility 0s linear 0.15s;
+}
+.step-row:hover .step-hover-card {
+  opacity: 1; visibility: visible;
+  transition: opacity 0.15s ease 0.4s, visibility 0s linear 0.4s;
+}
+
+.hover-section { display: flex; flex-direction: column; gap: 4px; margin-bottom: var(--sp-2); }
+.hover-section:last-child { margin-bottom: 0; }
+.hover-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--c-ink-muted); }
+.hover-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.hover-chip {
+  font-size: 12px; color: var(--c-ink-dim);
+  background: var(--c-bg-elev); border: 1px solid var(--c-rule-soft);
+  border-radius: 3px; padding: 1px 7px;
+}
+
+/* ── Layer 3: structured expand panel ── */
 .step-detail {
   padding: var(--sp-3) var(--sp-4);
-  padding-top: 0;
+  padding-top: var(--sp-3);
   font-size: var(--fs-sm);
   color: var(--c-ink-dim);
   line-height: var(--lh-base);
   border-top: 1px solid var(--c-rule-soft);
+  display: flex; flex-direction: column; gap: var(--sp-3);
 }
+.step-detail-what { margin: 0; }
+.step-detail-meta { display: flex; flex-direction: column; gap: var(--sp-2); padding-top: var(--sp-2); border-top: 1px solid var(--c-rule-soft); }
+.detail-row { display: flex; align-items: flex-start; gap: var(--sp-3); }
+.detail-label { flex: 0 0 70px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--c-ink-muted); padding-top: 3px; }
+.detail-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.detail-chip {
+  font-size: 12px; color: var(--c-ink-dim);
+  background: var(--c-bg-elev); border: 1px solid var(--c-rule-soft);
+  border-radius: 3px; padding: 2px 8px;
+}
+
+/* ── tool chip colour coding ── */
+.tool-chip { font-weight: 600; }
+.tool-python    { background: color-mix(in oklab, #3572A5 15%, var(--c-bg-elev)); color: #1a4a7a; border-color: color-mix(in oklab, #3572A5 30%, transparent); }
+.tool-claude    { background: color-mix(in oklab, #cc785c 15%, var(--c-bg-elev)); color: #8a3a1e; border-color: color-mix(in oklab, #cc785c 30%, transparent); }
+.tool-sqlite    { background: color-mix(in oklab, #003B57 15%, var(--c-bg-elev)); color: #003B57; border-color: color-mix(in oklab, #003B57 30%, transparent); }
+.tool-azure     { background: color-mix(in oklab, #0078D4 15%, var(--c-bg-elev)); color: #005a9e; border-color: color-mix(in oklab, #0078D4 30%, transparent); }
+.tool-git       { background: color-mix(in oklab, #F05033 15%, var(--c-bg-elev)); color: #b82d12; border-color: color-mix(in oklab, #F05033 30%, transparent); }
+.tool-notebooklm{ background: color-mix(in oklab, #4285F4 15%, var(--c-bg-elev)); color: #1a52c2; border-color: color-mix(in oklab, #4285F4 30%, transparent); }
+.tool-astro     { background: color-mix(in oklab, #FF5D01 15%, var(--c-bg-elev)); color: #c74200; border-color: color-mix(in oklab, #FF5D01 30%, transparent); }
+.tool-react     { background: color-mix(in oklab, #61DAFB 15%, var(--c-bg-elev)); color: #0a7fa0; border-color: color-mix(in oklab, #61DAFB 30%, transparent); }
+.tool-css       { background: color-mix(in oklab, #1572B6 15%, var(--c-bg-elev)); color: #0d5494; border-color: color-mix(in oklab, #1572B6 30%, transparent); }
+@media (prefers-color-scheme: dark) {
+  .tool-python    { color: #7bb3d9; }
+  .tool-claude    { color: #e8a88c; }
+  .tool-sqlite    { color: #6ab4d4; }
+  .tool-azure     { color: #6ab4f5; }
+  .tool-git       { color: #f5907a; }
+  .tool-notebooklm{ color: #8ab4f8; }
+  .tool-astro     { color: #ff8c40; }
+  .tool-react     { color: #61DAFB; }
+  .tool-css       { color: #60a5d4; }
+}
+
 .step-row:hover:not(.is-expanded) {
   border-color: color-mix(in oklab, var(--c-accent) 30%, var(--c-rule));
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(31, 29, 24, 0.04), 0 8px 16px -6px rgba(31, 29, 24, 0.10);
   background: var(--c-bg-card);
 }
-.step-row .step-id { font-weight: 900; color: var(--c-ink-muted); font-size: var(--fs-sm); font-variant-numeric: tabular-nums; }
 .step-row .step-title { font-weight: 500; }
 .step-touched { text-align: right; }
 .wave-steps { gap: var(--sp-1); }

@@ -11,7 +11,10 @@
       "tier": "T1",
       "depends_on": [],
       "last_touched": "2026-05-26",
-      "plain": "Reorganises the planning folder — removes old duplicate files and sets up the neat structure every other part of the plan points to. Think of it as clearing the desk before starting a big project."
+      "plain": "Reorganises the planning folder — removes old duplicate files and sets up the neat structure every other part of the plan points to. Think of it as clearing the desk before starting a big project.",
+      "tools": [
+        "Git"
+      ]
     },
     {
       "id": "A2",
@@ -22,7 +25,11 @@
       "depends_on": [
         "A1"
       ],
-      "plain": "Creates three shared building blocks every script relies on: a central file-path registry (so nothing hard-codes where things live), a database connection module, and a content-type lookup that tells every script whether it's working on a book, lecture, or letter."
+      "plain": "Creates three shared building blocks every script relies on: a central file-path registry (so nothing hard-codes where things live), a database connection module, and a content-type lookup that tells every script whether it's working on a book, lecture, or letter.",
+      "tools": [
+        "Python",
+        "SQLite"
+      ]
     },
     {
       "id": "A3",
@@ -33,7 +40,11 @@
       "depends_on": [
         "A2"
       ],
-      "plain": "Adds the house-style guardrails. Tradition guard: books are primarily Ismaili (Fatimid Imams, progeny of Ali and Fatima). Sunni and Sufi citations are adjacent and acceptable, but a fast structural filter runs first — it rejects citations from clearly non-adjacent traditions using a config file. The deeper check (whether a citation quietly contradicts what the Ismaili author actually wrote) is handled by Claude during the enrichment step, not here. The author's voice always leads. Also adds: Imam name-style validator, shared citation formatter, and an authenticated Islamic source whitelist (al-islam.org, sunnah.com, islamweb.net and others confirmed at delivery)."
+      "plain": "Adds the house-style guardrails. Tradition guard: books are primarily Ismaili (Fatimid Imams, progeny of Ali and Fatima). Sunni and Sufi citations are adjacent and acceptable, but a fast structural filter runs first — it rejects citations from clearly non-adjacent traditions using a config file. The deeper check (whether a citation quietly contradicts what the Ismaili author actually wrote) is handled by Claude during the enrichment step, not here. The author's voice always leads. Also adds: Imam name-style validator, shared citation formatter, and an authenticated Islamic source whitelist (al-islam.org, sunnah.com, islamweb.net and others confirmed at delivery).",
+      "tools": [
+        "Python",
+        "Claude"
+      ]
     },
     {
       "id": "A4",
@@ -44,7 +55,10 @@
       "depends_on": [
         "A3"
       ],
-      "plain": "The pipeline's main script has grown to over 2 000 lines — too large to read or change safely. This step splits it into smaller specialist files, one per production station, each under the 600-line limit. Changes to one station no longer risk breaking another. Acceptance signal: any book currently in progress can resume from exactly where it stopped, with no manual fix required."
+      "plain": "The pipeline's main script has grown to over 2 000 lines — too large to read or change safely. This step splits it into smaller specialist files, one per production station, each under the 600-line limit. Changes to one station no longer risk breaking another. Acceptance signal: any book currently in progress can resume from exactly where it stopped, with no manual fix required.",
+      "tools": [
+        "Python"
+      ]
     },
     {
       "id": "A5",
@@ -55,7 +69,11 @@
       "depends_on": [
         "A4"
       ],
-      "plain": "Removes old 'Version: 2.3' style headers from source files and installs a guard that permanently rejects any future commit trying to add them. The guard catches both patterns: version labels inside file headers and version numbers embedded in filenames (e.g. spec-v3.md). An exclusion list handles any third-party files that legitimately carry version fields. The git log is the version record — we don't need numbers inside files or filenames."
+      "plain": "Removes old 'Version: 2.3' style headers from source files and installs a guard that permanently rejects any future commit trying to add them. The guard catches both patterns: version labels inside file headers and version numbers embedded in filenames (e.g. spec-v3.md). An exclusion list handles any third-party files that legitimately carry version fields. The git log is the version record — we don't need numbers inside files or filenames.",
+      "tools": [
+        "Git",
+        "Python"
+      ]
     },
     {
       "id": "B1",
@@ -66,7 +84,12 @@
       "depends_on": [
         "A5"
       ],
-      "plain": "Reads each processed chapter and pulls out knowledge atoms — the smallest verifiable facts: Quran verse references (surah, ayah, translation), hadith citations (narrator chain, text, grade), and key scholarly concepts. Wave 1 captures Quran + hadith only. Atoms are saved to a SQLite database in WAL mode so other scripts can read concurrently while a write is in progress."
+      "plain": "Reads each processed chapter and pulls out knowledge atoms — the smallest verifiable facts: Quran verse references (surah, ayah, translation), hadith citations (narrator chain, text, grade), and key scholarly concepts. Wave 1 captures Quran + hadith only. Atoms are saved to a SQLite database in WAL mode so other scripts can read concurrently while a write is in progress.",
+      "tools": [
+        "Python",
+        "Claude",
+        "SQLite"
+      ]
     },
     {
       "id": "B2",
@@ -77,7 +100,11 @@
       "depends_on": [
         "B1"
       ],
-      "plain": "The librarian: merges newly extracted atoms into the shared knowledge database after each book's enrichment run. On a conflict — same hadith reference, different wording from two books — it quarantines the conflict for Asif to resolve rather than silently overwriting. Accepted atoms are immutable. Wave 2 will extend this with embedding-based de-duplication so near-identical concepts from different wordings are recognised as the same."
+      "plain": "The librarian: merges newly extracted atoms into the shared knowledge database after each book's enrichment run. On a conflict — same hadith reference, different wording from two books — it quarantines the conflict for Asif to resolve rather than silently overwriting. Accepted atoms are immutable. Wave 2 will extend this with embedding-based de-duplication so near-identical concepts from different wordings are recognised as the same.",
+      "tools": [
+        "Python",
+        "SQLite"
+      ]
     },
     {
       "id": "B3",
@@ -88,7 +115,11 @@
       "depends_on": [
         "B2"
       ],
-      "plain": "The augmenter: queries the knowledge library during enrichment of a new chapter and injects verified citations — so every book inherits how previous books cited the same Quran verse or hadith, keeping style consistent across the catalog. Two safety rails: it stays disabled until a quality gate confirms the library is clean enough to trust, and it strips Arabic script from all injected atoms before they reach NotebookLM (which can't process Arabic text)."
+      "plain": "The augmenter: queries the knowledge library during enrichment of a new chapter and injects verified citations — so every book inherits how previous books cited the same Quran verse or hadith, keeping style consistent across the catalog. Two safety rails: it stays disabled until a quality gate confirms the library is clean enough to trust, and it strips Arabic script from all injected atoms before they reach NotebookLM (which can't process Arabic text).",
+      "tools": [
+        "Python",
+        "Claude"
+      ]
     },
     {
       "id": "B4",
@@ -99,7 +130,11 @@
       "depends_on": [
         "B3"
       ],
-      "plain": "Wires extract → library → augment into the pipeline's enrichment phase so all three run in the correct sequence for every new book. Also connects the quality gate that controls when the augmenter is permitted to fire — it stays off until the library holds atoms from at least one complete book and the librarian reports zero unresolved conflicts."
+      "plain": "Wires extract → library → augment into the pipeline's enrichment phase so all three run in the correct sequence for every new book. Also connects the quality gate that controls when the augmenter is permitted to fire — it stays off until the library holds atoms from at least one complete book and the librarian reports zero unresolved conflicts.",
+      "tools": [
+        "Python",
+        "Claude"
+      ]
     },
     {
       "id": "C1",
@@ -110,7 +145,11 @@
       "depends_on": [
         "B4"
       ],
-      "plain": "Teaches the factory three new book types it currently can't process: play-style dialogues (like The Master and the Disciple), lecture series, and large encyclopedic works. Each type gets its own voice, structure rules, and episode format."
+      "plain": "Teaches the factory three new book types it currently can't process: play-style dialogues (like The Master and the Disciple), lecture series, and large encyclopedic works. Each type gets its own voice, structure rules, and episode format.",
+      "tools": [
+        "Python",
+        "Claude"
+      ]
     },
     {
       "id": "C2",
@@ -121,7 +160,11 @@
       "depends_on": [
         "C1"
       ],
-      "plain": "Builds a closing-chapter writer that produces a summary episode for any book, and for large encyclopedic works, a second deeper-distillation episode that draws only on the highest-insight moments — keeping chapter-level details out of the synthesis."
+      "plain": "Builds a closing-chapter writer that produces a summary episode for any book, and for large encyclopedic works, a second deeper-distillation episode that draws only on the highest-insight moments — keeping chapter-level details out of the synthesis.",
+      "tools": [
+        "Python",
+        "Claude"
+      ]
     },
     {
       "id": "C3",
@@ -132,7 +175,12 @@
       "depends_on": [
         "C2"
       ],
-      "plain": "For books that benefit from it, adds an optional step that surfaces contemporary research, recent scientific findings, and modern scholarly debates that connect to the book's ideas — and verifies every external link is real before it's used."
+      "plain": "For books that benefit from it, adds an optional step that surfaces contemporary research, recent scientific findings, and modern scholarly debates that connect to the book's ideas — and verifies every external link is real before it's used.",
+      "tools": [
+        "Python",
+        "Claude",
+        "Azure"
+      ]
     },
     {
       "id": "C4.0",
@@ -143,7 +191,11 @@
       "depends_on": [
         "C3"
       ],
-      "plain": "Runs a small 2–3 chapter pilot through NotebookLM's slide-generation feature on one real book to see whether the output is consistent enough to enforce as a quality requirement. Costs roughly $30 and answers the question before committing to the full rollout."
+      "plain": "Runs a small 2–3 chapter pilot through NotebookLM's slide-generation feature on one real book to see whether the output is consistent enough to enforce as a quality requirement. Costs roughly $30 and answers the question before committing to the full rollout.",
+      "tools": [
+        "NotebookLM",
+        "Azure"
+      ]
     },
     {
       "id": "C4",
@@ -154,7 +206,11 @@
       "depends_on": [
         "C4.0"
       ],
-      "plain": "Adds slide-deck quality checks to the publish gate: classifies every diagram as a real diagram or a disguised bullet-list, and flags any content that a human must verify before it can ship. Nothing marked for review slips through automatically."
+      "plain": "Adds slide-deck quality checks to the publish gate: classifies every diagram as a real diagram or a disguised bullet-list, and flags any content that a human must verify before it can ship. Nothing marked for review slips through automatically.",
+      "tools": [
+        "Python",
+        "Azure"
+      ]
     },
     {
       "id": "C5",
@@ -165,7 +221,11 @@
       "depends_on": [
         "C4"
       ],
-      "plain": "For books with fifty or more planned episodes, introduces a staged-approval model — you review and sign off on one section before the next section starts processing. Prevents a compounding cost mistake from running silently across the entire work."
+      "plain": "For books with fifty or more planned episodes, introduces a staged-approval model — you review and sign off on one section before the next section starts processing. Prevents a compounding cost mistake from running silently across the entire work.",
+      "tools": [
+        "Python",
+        "Claude"
+      ]
     },
     {
       "id": "D1",
@@ -174,7 +234,12 @@
       "status": "in_progress",
       "tier": "T1",
       "depends_on": [],
-      "plain": "Sets up the shared design tokens — colours, font sizes, spacing — and the dashboard app shell that all four views (overview, architecture, infrastructure, live progress) hang off. One place to change a colour and it updates everywhere."
+      "plain": "Sets up the shared design tokens — colours, font sizes, spacing — and the dashboard app shell that all four views (overview, architecture, infrastructure, live progress) hang off. One place to change a colour and it updates everywhere.",
+      "tools": [
+        "Astro",
+        "React",
+        "CSS"
+      ]
     },
     {
       "id": "D2",
@@ -185,7 +250,11 @@
       "depends_on": [
         "D1"
       ],
-      "plain": "Builds the dashboard landing page: the project summary, the three top-level navigation paths, and the consistent header and footer that wraps every view. The entry point you see when you open the dashboard."
+      "plain": "Builds the dashboard landing page: the project summary, the three top-level navigation paths, and the consistent header and footer that wraps every view. The entry point you see when you open the dashboard.",
+      "tools": [
+        "Astro",
+        "React"
+      ]
     },
     {
       "id": "D3",
@@ -196,7 +265,11 @@
       "depends_on": [
         "D2"
       ],
-      "plain": "Builds the architecture and infrastructure views: the pipeline backbone diagram showing each production station, the service-provider breakdown, and the agent registry showing what each AI agent does and which model it runs on."
+      "plain": "Builds the architecture and infrastructure views: the pipeline backbone diagram showing each production station, the service-provider breakdown, and the agent registry showing what each AI agent does and which model it runs on.",
+      "tools": [
+        "Astro",
+        "React"
+      ]
     },
     {
       "id": "D4",
@@ -207,7 +280,12 @@
       "depends_on": [
         "D3"
       ],
-      "plain": "Connects the dashboard to live data: real book-processing progress, cost tracking, refactor step status, and health metrics. The roadmap tab you're reading right now is part of this step."
+      "plain": "Connects the dashboard to live data: real book-processing progress, cost tracking, refactor step status, and health metrics. The roadmap tab you're reading right now is part of this step.",
+      "tools": [
+        "Astro",
+        "React",
+        "Python"
+      ]
     },
     {
       "id": "E1",
@@ -218,7 +296,11 @@
       "depends_on": [
         "B4"
       ],
-      "plain": "Updates every previously-shipped book's configuration file to match the new unified format so they all behave consistently and can use the new quality-gate features — without re-processing any existing episodes."
+      "plain": "Updates every previously-shipped book's configuration file to match the new unified format so they all behave consistently and can use the new quality-gate features — without re-processing any existing episodes.",
+      "tools": [
+        "Python",
+        "SQLite"
+      ]
     },
     {
       "id": "E2",
@@ -229,7 +311,12 @@
       "depends_on": [
         "E1"
       ],
-      "plain": "Creates a new closing episode for Kitab al-Riyad — a distillation of the deepest insights across all fourteen chapters — without re-running or altering any of the fourteen existing episodes already in the catalog."
+      "plain": "Creates a new closing episode for Kitab al-Riyad — a distillation of the deepest insights across all fourteen chapters — without re-running or altering any of the fourteen existing episodes already in the catalog.",
+      "tools": [
+        "Python",
+        "Claude",
+        "NotebookLM"
+      ]
     },
     {
       "id": "E3",
@@ -240,7 +327,12 @@
       "depends_on": [
         "E1"
       ],
-      "plain": "Creates a missing EP00 introduction episode for The Master and the Disciple and runs the new play-novel quality checks across its six existing episodes to confirm they still meet current standards."
+      "plain": "Creates a missing EP00 introduction episode for The Master and the Disciple and runs the new play-novel quality checks across its six existing episodes to confirm they still meet current standards.",
+      "tools": [
+        "Python",
+        "Claude",
+        "NotebookLM"
+      ]
     },
     {
       "id": "E4",
@@ -252,7 +344,10 @@
         "E2",
         "E3"
       ],
-      "plain": "Adds five new automatic checks to the publish gate: confirms the closing-chapter style matches the book type, verifies all diagrams meet quality standards, and ensures every human-review flag has been cleared before a book can ship."
+      "plain": "Adds five new automatic checks to the publish gate: confirms the closing-chapter style matches the book type, verifies all diagrams meet quality standards, and ensures every human-review flag has been cleared before a book can ship.",
+      "tools": [
+        "Python"
+      ]
     }
   ],
   "waves": [
