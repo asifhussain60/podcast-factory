@@ -2,116 +2,127 @@
 
 **Book:** the-master-and-the-disciple
 **Chapter:** ch05-father-revealed-and-the-faces-of-seeking
-**Run:** 2026-05-26 (challenger v1.0, deck-need determination)
-**Scope:** per-chapter, finding-only
+**Run:** 2026-05-26 (challenger v1.0, full deck-authoring path)
+**Scope:** per-chapter (deck source + framing both reviewed)
 **Iterations:** 1
 
-**Bundle status:** iterate
-**Verdict:** BLOCKED — requires full deck-authoring path; skip not authored
+**Bundle status:** ship
+**Verdict:** SHIP-READY
 
 ---
 
-## Summary
+## Inputs reviewed
 
-This is a **finding-only** report. No `justified-skip.md` was authored for ch05 because the chapter does **not** clear the audio-native bar. Per the standing rule (slide decks are mandatory at the book level; per-chapter skips are valid only when the chapter content explicitly resists illustration), ch05 must be routed to the full deck-authoring path, not skipped.
-
-The chapter is dense with explicit, source-surfaced taxonomies and parallel structures whose strong-fit diagram types are predicted by the affinity matrix and instantiated by the source prose itself (not gestured at, not deferred to later chapters, not collapsed by hermeneutic). Authoring a skip note for this chapter would be inflation of the audio-native case.
-
----
-
-## Determination
-
-### Inputs reviewed
-
-- Chapter prose: `chapters/ch05-father-revealed-and-the-faces-of-seeking.txt` (~258 lines)
+- Deck source: `slide-decks/ch05-deck-father-revealed-and-the-faces-of-seeking.txt` (6,056 words, 19 H2 slides)
+- Slide-framing: `slide-decks/ch05-framing-father-revealed-and-the-faces-of-seeking.md` (1,465 words)
+- Audio chapter: `chapters/ch05-father-revealed-and-the-faces-of-seeking.txt`
 - Episode framing: `_system/episode-drafts/EP05-father-revealed-and-the-faces-of-seeking/00-framing.md`
-- Spine: absent per F30 retirement (commit `5fe5d58`, 2026-05-25) — candidates derived from chapter prose + framing, not from `[VISUAL CANDIDATE]` tags
+- Prior Probe-7 finding: `_system/slide-challenger-reports/ch05-report.md` (overwritten by this report)
 
-### Source type (affinity matrix)
+## Hard-rule verification (slide-deck-format.md, slide-deck-patterns.md)
 
-The chapter is a **theological argument staged as Master–disciple debate with concession**, with a strong **comparative** thread (three faces of money-seeking parallel to three faces of knowledge-seeking; three states of the new community; three possibilities of judgment Abu Malik rules out). Per `slide-deck-patterns.md` §"Source-Type → Diagram-Type Affinity Matrix":
+| Hard rule | Status | Evidence |
+|---|---|---|
+| Zero em-dashes (U+2014) | ✓ | `grep` count = 0 |
+| Zero en-dashes (U+2013) | ✓ | `grep` count = 0 |
+| Zero Arabic-script tokens | ✓ | regex sweep over U+0600–U+06FF + Arabic Supplement = 0 hits |
+| No inline phonetic parens | ✓ | regex sweep for `(ABC-DEF)` patterns = 0 hits |
+| Italicized phonetic Arabic terms only | ✓ | spot-checked *taqiyya*, *zahir*, *batin*, *al-ʿabd al-ṣāliḥ* — all italic, no phonetic guides |
+| No surah names in Arabic | ✓ | references read as "chapter on the Cow," "chapter on the Family of Imran," "chapter on Light" |
+| Every slide cites chapter prose lines | ✓ | 19 `Anchor: chapter prose, lines N through M` lines, one per slide |
+| All cells filled with commitments not hedges | ✓ | cells inspected on each matrix/pair; no "TBD," "various," empty cells |
+| Diagram type named on every slide | ✓ | comparison matrix ×6, contrast pair ×6, hierarchy tree ×2, annotated structure ×4, process flow ×1, plus the carry-forward two-row matrix on slide 1 (type-named in framing) |
 
-- **Theological argument** → strong fits: contrast pair, hierarchy tree, annotated structure
-- **Comparative study** → strong fits: comparison matrix, 2x2, contrast pair
-- **Polemic / critique** → strong fits: contrast pair, 2x2, annotated structure
+## Slide-by-slide diagram-type ledger
 
-This is the canonical row-intersection for which slide decks are *strongly indicated* by the matrix.
+| # | Slide title (H2) | Diagram type | Source anchor |
+|---|---|---|---|
+| 1 | Where this chapter picks up | two-row carry-forward matrix | lines 5–7 |
+| 2 | The two strands of gratitude | contrast pair | lines 15–21 |
+| 3 | The boy's counter-bind on the father | contrast pair (binary trap) | lines 23–35 |
+| 4 | The community's three reasons for hesitation | contrast pair | lines 49–53 |
+| 5 | The figure of the breach | comparison matrix | lines 57–61 |
+| 6 | Abu Malik's three states of the new community | hierarchy tree | lines 63–67 |
+| 7 | The tyrants of the previous nations | annotated structure | lines 75–76 |
+| 8 | The door of seeking and the sound heart | comparison matrix | lines 79–91 |
+| 9 | Reverence before the statement | contrast pair | lines 97–103 |
+| 10 | Only this day | process flow | lines 107–111 |
+| 11 | The three faces of seeking | comparison matrix | lines 145–157 |
+| 12 | Money-seeking and knowledge-seeking | comparison matrix | lines 151–155 |
+| 13 | Knowledge by report; knowledge by direct sight | contrast pair | lines 159–167 |
+| 14 | The transpositions at the gate | annotated structure | lines 113–123 |
+| 15 | Essence-traders and the jewel-or-glass | contrast pair | lines 181–191 |
+| 16 | The Maqrub case | comparison matrix | lines 209–217 |
+| 17 | What is religion? Salih's collapse argument | hierarchy tree | lines 221–231 |
+| 18 | Religion as the unbroken cause | annotated structure | lines 233–249 |
+| 19 | The chapter's closing seam | single hanging question (annotated structure) | lines 251–257 |
 
-### Candidate structures surfaced by the source prose
-
-The following structural moments appear in the chapter prose itself (not in a discarded spine, not as authorial gesture, but as enumerated commitments the source delivers in full):
-
-1. **The three faces of seeking (lines 145–155)** — a textbook 3-way taxonomy: *seeker-who-knows* (the divine scholar going out to revive the dead-in-ignorance), *seeker-who-does-not-know* (lacks knowledge and awareness of lack), *seeker-who-knows-that-he-does-not-know* (lacks knowledge but aware of lack). Each face is differentiated explicitly with named role and named action. **Strong fit: comparison matrix** (3 rows × {knowledge state, awareness state, action, who they pursue} columns). The framing's `## Three-part focus` Beat 5 names this as the "three faces of seeking" landing moment.
-
-2. **The money-seeking ↔ knowledge-seeking parallel (lines 151–153)** — the source explicitly delivers a 2×3 parallel: *money-seeking* {by-right, on-terms, alms} aligned with *knowledge-seeking* {divine scholar, learned man seeking the limit, ignorant who knows his need}. The parallel is the source's own pedagogical move. **Strong fit: comparison matrix** (this is the cleanest matrix candidate in the chapter — two domains, three rows, named cells).
-
-3. **Abu Malik's three states of the new community (lines 63–67)** — *state one* (same religion + new literature), *state two* (addition that is good), *state three* (prophecy of a prophet brought to them, "not denied by the command of God"). Each state has a named warrant and a named consequence. **Strong fit: hierarchy tree or annotated structure** (three branches from a root decision, each with its own theological warrant).
-
-4. **The two-strands-of-gratitude bind (lines 15–21)** — *outward courtesy* (taqiyya, obedient son) versus *open debate* (truth-bearer). The source delivers this as a binary the boy explicitly offers the father to choose between, then the father chooses candor and the boy lays the counter-bind. **Strong fit: contrast pair** (two columns, the boy's two offers, attribute-by-attribute).
-
-5. **The boy's counter-bind on the father (lines 23–27)** — *either-scholar-who-withheld* OR *ignorant-who-needed-the-stranger*; both cases vindicate the boy's crossing. **Strong fit: 2x2 or contrast pair** (the bind has a structural symmetry the chapter's own commentary highlights: "in both cases the boy's having gone to the stranger is defensible").
-
-6. **The three credentials of Abu Malik + the "heel of the inks" title (lines 45–47)** — pride, abundance of judgments, learning in their religion, plus one title. **Strong fit: annotated structure** (a single figure dissected into named credentials with annotations).
-
-7. **The transpositions Abu Malik names at the gate (line 121)** — *child becomes father*; *Lord is in the earth*; *Lord has a servant come to Him from him*; *one who created annihilation has become eternal*. The chapter calls this "three qualities whose meanings have been transposed" (count of three in the source, four enumerated). **Strong fit: contrast pair or annotated structure** (each transposition has a zahir-batin axis the source explicitly names).
-
-8. **The breach figure (line 61, expanded in framing Beat 2)** — breach in food (repairable, near cure) vs. breach in religion (gravely damaging, irreparable) vs. breach in medicine (does not dismiss owner). Three-domain contrast with explicit attribute axes. **Strong fit: comparison matrix or contrast pair**.
-
-9. **Salih's positive doctrine — the stacked figures for religion (lines 235–249)** — *cause connecting heaven to earth* / *firm handhold* / *rope of those who hold fast* / *ark of tranquility* / *ship of life* / *light of life*, each named with a Quranic anchor surfaced explicitly in the chapter's commentary. **Strong fit: annotated structure** (one whole — religion-as-unbroken-cause — with named figures and their textual anchors as annotations).
-
-### Why these are NOT collapsed by the chapter's discipline
-
-The closest precedent for a skip in this book is ch02, whose skip rests on (i) a measurement-vs-signifier hermeneutic that *forbids* spatial rendering of the central referents, and (ii) explicit authorial withholding of enumerations (the seven, the chiefs, the yolk). Neither condition applies to ch05:
-
-- The chapter does **not** contain a measurement/signifier prohibition over its central referents. The three-faces taxonomy is delivered as a teaching the Master *requires* Abu Malik to grasp; the three states are delivered as a typology Abu Malik *himself* uses to reason; the money/knowledge parallel is delivered as a pedagogical structure with cells filled.
-- The chapter does **not** withhold the enumeration. Each taxonomy comes through in full — the source names every face, every state, every column, every credential. The framing's name-discipline is about *Arabic proper names* (the boy's Arabic name, the father's Arabic name, surah names, the leadership-title pairing) — not about the structural taxonomies.
-
-The framing's `## Landing` directive (Host A speaks the recurring thesis for the third time; Host B poses the unresolved seam-question; both go silent) is the chapter's *closing* discipline — it does not foreclose slides for the chapter's *body*. The recurring thesis itself (lines 235–249) is the strongest annotated-structure candidate in the chapter; closing on it in audio does not require skipping the slide that would otherwise hold its named figures and their Quranic anchors.
-
-### Anti-pattern audit (negative — no anti-pattern justifies a skip)
-
-Per `slide-deck-patterns.md` §"Anti-Patterns the Challenger Catches", I tested each candidate against the six anti-patterns:
-
-| Candidate | #1 Description-not-structure | #2 Bullet-list-as-diagram | #3 Monoculture | #4 Forced 2x2 | #5 Generic placement | #6 Wrong type for source |
-|---|---|---|---|---|---|---|
-| 1. Three faces of seeking | ✓ (cells filled) | ✓ (matrix not list) | ✓ | ✓ (not 2x2) | ✓ (placements reasoned) | ✓ (matches matrix) |
-| 2. Money ↔ knowledge parallel | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| 3. Three states | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| 4. Two strands | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| 5. Counter-bind | ✓ | ✓ | ✓ | check (binary, not 2x2) | ✓ | ✓ |
-| 6. Abu Malik credentials | ✓ | check (must be annotated) | ✓ | ✓ | ✓ | ✓ |
-| 7. Transpositions | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| 8. Breach figure | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| 9. Religion-as-cause (stacked figures) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-
-No candidate is killed by an anti-pattern across the board. The two "check" markers are deck-authoring concerns the Worker would manage in source authoring — not skip warrants.
-
-### Diversity check
-
-The candidates span at least four distinct diagram types (comparison matrix, hierarchy tree, contrast pair, annotated structure), satisfying the matrix's "at least 3 distinct diagram types" criterion well before the deck is even authored.
+**Type distribution:** comparison matrix 6 (32%), contrast pair 6 (32%), annotated structure 4 (21%), hierarchy tree 2 (10%), process flow 1 (5%), carry-forward matrix 1 (5%). Five distinct primary types over 19 slides.
 
 ---
 
-## Verdict
+## Pass 1 — Per-structure probes
 
-**Bundle status:** iterate
-**Verdict:** BLOCKED
+| Probe | Result | Slides flagged | Notes |
+|---|---|---|---|
+| SL-P1 Restatement | pass | — | The two slides flagged as residual risk by the author (slide 1 "where this chapter picks up" and slide 19 "closing seam") both do structural work prose cannot. Slide 1 is a two-row carry-forward matrix that spatializes the seam between chapter four's close and chapter five's opening — a single sentence in audio could state the seam exists, but only a slide can show the dual-axis transformation (chain-naming vs. world-naming) as parallel rows. Slide 19 is the verbatim source question posed as a single hanging frame; the framing explicitly forbids summary and the slide carries the question as visual punctuation, doing what a closing audio line cannot (the reader holds the question on the page after audio ends). |
+| SL-P2 Literal Illustration | pass | — | No "image of," "photo of," "depiction of" anywhere. Every slide commits to structure. The transpositions slide (14) explicitly refuses to render divine names as a hierarchy, honoring the chapter's "whiff of perfume" discipline by structuring on the zahir/batin axes only — that is structural restraint, not literal illustration. |
+| SL-P3 Structure-vs-Description | pass | — | Each slide names its axes/columns/rows and fills cells with concrete commitments. Slide 5 (breach): 3 domains × {repairability, stake to bearer, cost of haste in judgment}. Slide 11 (three faces): 3 faces × {knowledge state, awareness of lack, action, object pursued}. Slide 12 (money↔knowledge parallel): 3 modes × {money-seeking, knowledge-seeking}. Slide 17 (collapse argument): root → enumeration → conclusion → premises → silence. No slide describes what a diagram would look like; all commit. |
+| SL-P4 Diagram-Type Discipline | pass | — | 19/19 slides name a type from the taxonomy. Zero TBDs, zero "various," zero blanks. |
+| SL-P5 Diversity | pass | — | Top types tied at 6/19 (32%) — comparison matrix and contrast pair. Both contrast pair and comparison matrix present; a clean 2x2 is absent but the framing explicitly forbids one ("No 2x2 on the boy's counter-bind. The bind is binary; rendering it as four quadrants would invent two cells the chapter does not deliver."). The chapter's affinity-matrix prediction (theological argument + comparative + polemic) calls for contrast pair, comparison matrix, hierarchy tree, annotated structure — all four present and well-distributed. |
+| SL-P6 Audio Redundancy | pass | — | Audio chapter is ~6,500 words of dialogue and theological commentary; deck restructures the chapter's *explicit* taxonomies and contrast structures into visual form. Cells contain concrete attribute-by-attribute commitments (e.g., the breach matrix's "repairable; harm easy to remedy and cure near at hand" cell is the chapter's claim *spatialized*, not its prose *bulletified*). The author's flagged residual risk on slides 1 and 19 does not materialize — slide 1 carries dual-axis content the audio enumerates only in prose, and slide 19 carries the question as a held visual object that the audio's ending-in-silence cannot. |
+| SL-P7 Justified Skip | n/a | — | Full deck-authoring path; skip not applicable. |
+| SL-P8 Coverage | pass | — | No `04-discussion-spine.md` exists for EP05 (verified absent; F30 retirement per prior report). Coverage is checked against the prior finding-only report's 9 candidate structures: candidates 1, 2, 3, 4, 5, 7, 8, 9 all present (slides 11, 12, 6, 2, 3, 14, 5, 18 respectively). Candidate 6 (Abu Malik's three credentials + "heel of the inks") explicitly dropped by the author as decorative — that judgment is acceptable; the credentials annotation would have been a thin annotated-structure with limited deck value next to the heavier structural moments. The framing's `## Visual Priorities` enumerates 19 slides; the deck delivers 19 slides; 1:1 alignment. |
 
-The chapter does NOT warrant a justified-skip. It warrants the full deck-authoring path. Re-routing to:
+## Pass 2 — Architectural pass
 
-1. Worker authors `chapters/ch05-deck-father-revealed-and-the-faces-of-seeking.txt` (deck source) targeting at minimum: three-faces-of-seeking comparison matrix, money↔knowledge parallel comparison matrix, three-states hierarchy/annotated, two-strands contrast pair, religion-as-cause annotated structure.
-2. Worker authors `_system/slide-decks/ch05-father-revealed-and-the-faces-of-seeking/00-slide-framing.md` (NotebookLM customize prompt).
-3. Re-run the Slide Deck Challenger against the authored deck (full Pass 1 probes 1–6 and Pass 2 architectural checks; Probe 7 becomes n/a once the deck exists).
+| Check | Result | Notes |
+|---|---|---|
+| SL-A1 Visual Memory Test | pass | Distinctive shapes throughout: the boy's binary-trap contrast (slide 3) with both columns vindicating the boy; the breach 3×4 matrix (slide 5) with religion as the irreparable apex; the three-faces taxonomy (slide 11) with the first face naming students (not knowledge) as the object pursued; the money↔knowledge parallel (slide 12) as a 2-domain × 3-mode register-shift; the transpositions (slide 14) on the explicit zahir/batin axes; the religion-as-cause (slide 18) as a single whole with named figures anchored to revelation; the Only-this-day process flow (slide 10) as a 3→2→1 collapse. Zero slides are "summary slide" or "definition shown as text." Memory test: well below the 30% forgettable threshold. |
+| SL-A2 Variety | pass | Top type 32% (under the 60% cap for 10+ decks). Five distinct types meaningfully represented. No near-monoculture. |
+| SL-A3 Arc | pass | Opening (slide 1) establishes the seam from chapter four — continuity anchor. Build phase (slides 2–10) develops the father-resolution → community-arrival → breach-doctrine → three-states → tyrants → seeking-discipline → reverence → urgency. Central pivot (slides 11–13) is the three-faces taxonomy plus its money↔knowledge mirror plus its report-vs-sight sub-pair — the deck's deepest structural moment. Post-pivot phase (slides 14–17) carries the gate-transpositions → essence-test → Maqrub case → what-is-religion collapse (the zero-point). Resolution (slide 18) holds religion-as-cause as the positive doctrine; closing (slide 19) holds the question open. The arc has shape: opening seam → build → taxonomic pivot → indictment → zero point → positive doctrine → unresolved question. The chapter's narrative discipline is honored. |
+| SL-A4 Cross-Episode Visual Consistency | n/a | This is the book's sole authored deck (the other four chapters are correctly skipped via verified justified-skips per the prior reports). `slide-decks/_visual-registry.md` does not exist for this book. Per the spec, SL-A4 returns n/a when no registry entries exist. Not penalized — internal arc and variety hold up independently. |
 
 ---
 
-## Verified vs Inferred summary
+## Failures requiring Worker iteration
 
-- **VERIFIED:** the absence of a discussion spine for EP05 (no `04-discussion-spine.md` in `_system/episode-drafts/EP05-*/`); the line citations into `chapters/ch05-father-revealed-and-the-faces-of-seeking.txt` for each candidate structure; the framing directives at `00-framing.md`; the affinity-matrix rows in `slide-deck-patterns.md`.
-- **INFERRED:** the deck-authoring path's specific minimum set of slides (the Worker may justify alternative compositions); the diversity prediction across diagram types (final composition decided by the Worker).
+None.
+
+### P0 (blocks ship)
+
+None.
+
+### P1 (ship-with-caution)
+
+None.
+
+### P2 (advisory)
+
+None.
+
+---
+
+## Author's claims, verified
+
+| Claim | Verified? | Evidence |
+|---|---|---|
+| Zero em-dashes | ✓ | grep |
+| No inline phonetic parens | ✓ | regex sweep |
+| All slides have chapter-prose line citations | ✓ | 19/19 `Anchor:` lines |
+| All cells filled with commitments not hedges | ✓ | manual inspection across all matrices/pairs |
+| Closing seam is a single hanging question, NOT a summary | ✓ | slide 19 frames the verbatim source question (`how is it described?`) and ends; no takeaways, no thanks; framing's prohibited patterns honored |
+| Probe-5 residual risk on slides 1 and 19 cleared | ✓ | slide 1 is a dual-axis carry-forward matrix doing work prose cannot; slide 19 is visual punctuation holding the question after audio ends |
+
+---
+
+## Verified vs Inferred
+
+- **VERIFIED:** the 19 H2 slide count; the 19 anchor citations; the zero em-dashes / en-dashes / Arabic-script tokens / inline phonetic parens; the diagram-type distribution; the audio chapter's structural taxonomies and the deck's 1:1 coverage of them; the framing's enumeration of 19 priorities and the deck's 19 slides; the absence of a discussion spine (so Coverage is checked against the prior finding's 9 candidates and the framing's priorities, both satisfied); the absence of `_visual-registry.md` (so SL-A4 is n/a).
+- **INFERRED:** the "visual memory test" judgment that each slide will survive recall — based on structural distinctiveness, not on actual recall testing; the arc judgment that the deck builds coherent narrative pressure from open to close — based on slide titles and content shape, not on an external reader's experience.
 
 ---
 
 ## Surface to operator
 
-Ch05 does not match the ch02 skip pattern. Multiple explicit taxonomies — three-faces-of-seeking, money↔knowledge parallel, three-states, two-strands bind, religion-as-cause annotated structure — are surfaced by the source prose in full (cells filled, axes named, anchors cited) and the chapter contains no measurement/signifier prohibition or authorial withholding that would collapse them. Route ch05 to the full deck-authoring path.
+The deck clears all 8 Pass-1 probes and all 4 Pass-2 architectural checks. The author's flagged residual concern on slides 1 and 19 does not materialize: slide 1 spatializes the seam in a way prose cannot (dual-axis carry-forward), and slide 19 holds the verbatim source question as visual punctuation after audio ends — explicitly NOT a summary or takeaway slide, which the framing's prohibited-patterns section forbids. The book's single-deck status is structurally fine; cross-episode consistency is n/a in the absence of a registry, and the chapter's internal arc and variety carry the corpus-level slide-deck mandate cleanly. SHIP-READY.

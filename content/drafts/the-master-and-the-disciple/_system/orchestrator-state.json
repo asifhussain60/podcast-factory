@@ -99,7 +99,7 @@
         "justice-monotheism-and-the-guardians": "SKIPPED",
         "will-command-and-the-seven": "SKIPPED",
         "world-hereafter-and-the-right-of-wealth": "SKIPPED",
-        "father-revealed-and-the-faces-of-seeking": "BLOCKED"
+        "father-revealed-and-the-faces-of-seeking": "SHIP-READY"
       }
     },
     "finalize": {
@@ -171,10 +171,10 @@
       "slide_challenger_verdict": "SKIPPED"
     },
     "father-revealed-and-the-faces-of-seeking": {
-      "slide_deck_phase": "stalled",
-      "slide_challenger_iter": 0,
-      "slide_challenger_verdict": "BLOCKED",
-      "note": "Probe-7 finding 2026-05-26: chapter is NOT audio-native. Surfaces 9 explicit structural candidates (three-faces taxonomy, money\u2194knowledge 2\u00d73 parallel, Abu Malik's three states, etc.). Warrants the full deck-authoring path, not a skip. Awaiting operator authorization to dispatch deck authoring."
+      "slide_deck_phase": "done",
+      "slide_challenger_iter": 1,
+      "slide_challenger_verdict": "SHIP-READY",
+      "note": "Full deck-authoring path 2026-05-26: 19 slides across 5 diagram types (comparison matrix, contrast pair, hierarchy tree, annotated structure, process flow). Probe-7 finding 2026-05-26 routed to authoring; Slide Deck Challenger verified SHIP-READY on first pass with all 11 applicable probes passing. Chapter satisfies the book's corpus-level slide-deck mandate."
     }
   }
 }
