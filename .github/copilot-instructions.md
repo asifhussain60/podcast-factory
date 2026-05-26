@@ -1,56 +1,140 @@
 # Copilot instructions for the `podcast-factory` repo
 
-GitHub Copilot auto-loads this file as project-wide guidance. When Asif asks
-you (in Copilot Chat in VSCode) about this repo, follow this orientation.
+GitHub Copilot auto-loads this file as project-wide guidance. Read it at the start of every Copilot Chat session. The companion deep brief is at [_workspace/plan/copilot-handoff.md](../_workspace/plan/copilot-handoff.md) — open and read it before touching anything; it carries the live execution state and the session log Copilot must append to before ending each session.
+
+---
 
 ## What this repo is
 
-- A **podcast-authoring pipeline** driving scholarly Arabic books through Claude + Azure → NotebookLM Audio Overview episodes (under `scripts/podcast/`, `content/drafts/<slug>/` for in-progress state, `content/published/books/<slug>/` for shipped catalog post-Phase-9.5)
-- The **Azure stack** that powers OCR / translation / speech (under `infra/azure/`, `infra/launchd/`)
-- **Cross-machine operator coordination** between Mac Studio + Mac Air (under `_workspace/plan/operators/`)
-- A handful of general-utility skills + agents (duplicated from the sibling `journal` repo as of the 2026-05-22 split)
+- A **podcast-authoring pipeline** driving scholarly Arabic books through Claude + Azure → NotebookLM Audio Overview episodes. Live state lives under `scripts/podcast/`, in-progress books under `content/drafts/<slug>/`, shipped books under `content/published/books/<slug>/`.
+- The **Azure stack** (OCR / translation / speech) under `infra/azure/`, `infra/launchd/`, `infra/llm-apis/`.
+- A handful of general-utility skills + agents (duplicated from the sibling `journal` repo as of the 2026-05-22 split).
 
-The memoir, the static journal site, and the Anthropic API proxy moved to (or were retired from) the sibling **[journal](https://github.com/asifhussain60/journal)** repo on 2026-05-22 — don't reach into those paths from here.
+The memoir, the static journal site, and the Anthropic API proxy moved to (or were retired from) the sibling **[journal](https://github.com/asifhussain60/journal)** repo on 2026-05-22 — never reach into those paths from here.
 
 ## What this repo is NOT
 
-- **Memoir engine** — moved to journal. `content/babu-memoir/`, `scripts/memoir/`, `scripts/site/`, `skills-staging/journal/`, `.github/agents/journal-*` are NOT here.
-- **Journal site** — moved to journal. `site/`, `skills-staging/css-theme-sync/`, `skills-staging/ui-modernizer/` are NOT here.
-- **Anthropic API proxy** — `server/` retired 2026-05-22. Not here, not in journal.
-- **Cloudflare deploy** — `wrangler.toml`, `site-worker.js`, `infra/cloudflare/`, `docs/cloudflare/` retired 2026-05-22.
+- Memoir engine — moved to journal. `content/babu-memoir/`, `scripts/memoir/`, `scripts/site/`, `skills-staging/journal/`, `.github/agents/journal-*` are NOT here.
+- Journal site — moved to journal.
+- Anthropic API proxy — `server/` retired 2026-05-22.
+- Cloudflare deploy — `wrangler.toml`, `site-worker.js`, `infra/cloudflare/`, `docs/cloudflare/` retired 2026-05-22.
 
-## Machine-agnostic — single-machine model (2026-05-23)
+## Machine model
 
-The repo runs on any machine with `python3`, `git`, and the Azure credentials installed. Most work is done by Anthropic + Azure remotely — no host-machine specialness. The earlier two-machine model (operator files, `~/.machine-id` routing, per-machine book branches, book-queue mutex) was retired 2026-05-23.
+Single-machine, machine-agnostic (since 2026-05-23). `develop` is the working branch. `develop` → `main` requires Asif's explicit approval via PR (GitHub ruleset enforces this). Content runs on typed branches (`book/<slug>`, `doc/<slug>`, etc. — see `scripts/podcast/_branching.py`).
 
-- **Per-content branches off `develop` (locked 2026-05-24).** Every new piece of content runs on its own typed branch (`book/<slug>`, `doc/<slug>`, `lecture/<slug>`, `article/<slug>`, `letter/<slug>`, `interview/<slug>`, or `draft/<slug>` fallback). Source of truth for the prefix is [scripts/podcast/_branching.py](scripts/podcast/_branching.py). Branches merge to `develop` only after the `podcast-publisher` agent completes the move to `content/published/`. Slugs are full kebab-case, never abbreviated.
-- Production releases: `develop` → `main` (requires Asif's explicit approval; never auto-promoted).
-- Feature branches off `develop` are optional throwaways for risky changes that aren't content-pipeline work.
+---
 
-## When Asif asks you for help
+## Canonical sources of truth
 
-**For pipeline / orchestration questions:** point him at running the session-starter, OR if he's already running it, work from its output:
+| File | Role |
+|---|---|
+| [_workspace/plan/architecture.md](../_workspace/plan/architecture.md) | Timeless design doc: 6-layer module structure, 3 storage tiers, archetype registry, agent ecosystem. 13 ADRs. |
+| [_workspace/plan/refactor/plan.md](../_workspace/plan/refactor/plan.md) | Human-readable 22-step roadmap (Waves A–E). |
+| [_workspace/plan/refactor/plan.yaml](../_workspace/plan/refactor/plan.yaml) | Machine-readable companion to plan.md. |
+| [_workspace/plan/debt/pipeline-debt.md](../_workspace/plan/debt/pipeline-debt.md) | Live F-item operational backlog. |
+| [_workspace/plan/copilot-handoff.md](../_workspace/plan/copilot-handoff.md) | Deep brief + session log. **Read first, append before ending.** |
 
-```bash
-bash scripts/start-session.sh
+**These four files are load-bearing.** Any edit to any one of them MUST be followed in the same response, before commit, by `cd plan-dashboard && npm run snapshot` (regenerates the three JSONs the SPA reads). Then `git add plan-dashboard/src/data/*.json` alongside the plan-file change. Stale snapshots are a contract violation.
+
+---
+
+## Response format (Asif's canonical 2026-05-26 template)
+
+Every substantive reply uses this shape:
+
+```
+## {Topical title — plain English, no jargon}
+
+> **{Verdict in one line.}** {1–2 sentences supporting.}
+
+### {Subheading that itself tells the story}
+
+{Prose, OR a table for tabular data, OR another blockquote.}
+
+---
+
+### Next: 👤 Asif
+
+A. **(Recommended)** {action sentence}. {brief reason + expected outcome}
+
+B. {alternative}. {brief}
 ```
 
-That script syncs origin/develop and lists in-flight books + the most common next-action commands.
+Hard rules:
 
-**For code suggestions in `scripts/podcast/**`:** this is the pipeline framework. Test changes against `pytest scripts/podcast/tests/` before committing. Atomic commits to `develop` directly; force-push prohibited.
+- **Plain English only.** No `_authoring.py`, no `PHASE_0D`, no `R-PHONETICS`, no `T2`, no `--retry-phase` in the chat body. Task IDs, file paths, and acronyms stay in YAML/MD ledgers.
+- **Headings: H2 main, H3 sections.** Subheadings must carry the gist.
+- **Blockquotes (`>`) for callouts**, bold lead-in sentence.
+- NO GitHub `[!TIP]` / `[!NOTE]` alerts — they don't render in Copilot Chat either. Use plain `>`.
+- NO fenced code blocks for prose. Tables for tabular data; alphabetized options for Next.
+- One horizontal rule, between the topical section and Next.
+- Recommended is always A. When B/C/D are complementary follow-ups that compose without regression risk, A is **"Do all of the below in sequence — B then C then D"** with one why-batching line.
+- Holistic selection: score every option against (1) project health, (2) architectural fit, (3) extensibility, (4) regression risk. REMOVE (don't demote) any option that destabilizes what's working.
 
-**For book content** (`content/drafts/<slug>/` for in-progress; `content/published/books/<slug>/` for shipped): publishing flows one-way via `scripts/podcast/publish_to_library.py <slug>`. Never edit `content/published/` by hand — it's the publishing-agent's output.
+Severity emojis when they add signal: 🟢 / 🟡 / 🔴 / ⚠. Optional, not mandatory.
 
-## Response format
+---
 
-Asif uses a **4-part At-a-glance-first template** across both tools (Copilot + Claude Code). Canonical reference: `_workspace/plan/response-template.md`. Multi-path Next blocks default to `A. (Recommended) Do all of the below in order (B → C → D)` with sub-paths.
+## Authorization tiers
 
-Severity emojis: 🟢 ship-ready / 🟡 needs decision / 🔴 blocked / ⚠ caution.
+Default discipline: "ask before each shared-state action." Three tiers govern relaxations:
 
-## Conventions
+**Tier 0 — Just do it.**
+- File reads anywhere in this repo or the sibling `journal` repo
+- `git status`, `git diff`, `git log`, `gh pr view/list`
+- Dry-run inspection (`--dry-run`, `jq` over state files)
+- Spawning research-only investigation
+- Re-arming the heartbeat monitor after orchestrator resume/retry
 
-- **No emojis in code or commits** unless invited; **DO use status emojis** in chat responses.
-- **Markdown links for files + commits** — `[name](path)` and `[abc1234](https://github.com/asifhussain60/podcast-factory/commit/abc1234)`.
-- **No force-push to `main` or `develop`.**
-- **Honor `git status` cleanliness before merges.**
-- **Don't re-create retired surfaces** (`server/`, `wrangler.toml`, `infra/cloudflare/`, etc.) without explicit user authorization.
+**Tier 1 — Do, then surface.**
+- Commit to `develop`
+- Push `develop` to `origin`
+- `--retry-phase <phase>` on a book
+- Regenerating auto-generated state files
+- Plan-dashboard snapshot regen (mandatory side-effect of any canonical-plan-file edit)
+
+**Tier 2 — Always ask. One-line ask + single-sentence Next.**
+- First-time orchestrator launch on a new book (multi-hour LLM spend)
+- `publish_to_library.py <slug>` — copying from drafts to published
+- Opening / merging a `develop` → `main` PR
+- Force-push (any branch)
+- Deleting branches or tracked files
+- `--no-verify`, `--amend`, `git reset --hard`, `git clean -f`
+- Recreating retired surfaces (`server/`, `wrangler.toml`, `infra/cloudflare/`)
+- Reaching into the sibling `journal` repo
+
+If Asif says "just do it" for a Tier 2 action, that one-shot authorizes that one action. It does NOT promote the action to Tier 1 for future sessions.
+
+---
+
+## Hard prohibitions
+
+- Never force-push to `main` or `develop`.
+- Never bypass `git status` cleanliness before merges.
+- Never re-create `server/`, `wrangler.toml`, `site-worker.js`, `infra/cloudflare/` without explicit authorization.
+- Never reach into the sibling `journal` repo's paths or scripts.
+- Never run the orchestrator on a new PDF without explicit user authorization (multi-hour LLM-spend gate).
+- Never write a `Version: X.Y` header or `*v[0-9]*.md` filename — DR-009 in architecture.md forbids version stamps; the git history is the version log.
+- Never create a file in `scripts/podcast/` longer than 600 lines — DR-005.
+
+---
+
+## Reusable prompts (Copilot's slash-command equivalent)
+
+Available under [.github/prompts/](prompts/) — invoke from Copilot Chat with `/<name>`:
+
+- `/plan-status` — show where the refactor stands today; cite the four canonical files.
+- `/plan-next-step` — propose the next concrete step + scope it as a plan-block for Asif's approval.
+- `/regen-snapshots` — regenerate the three dashboard JSONs against current commit.
+- `/session-handoff` — append a session-log entry to `_workspace/plan/copilot-handoff.md` before ending the session.
+
+---
+
+## Session protocol
+
+1. **At the start**: read [_workspace/plan/copilot-handoff.md](../_workspace/plan/copilot-handoff.md) end-to-end. The session log at the bottom is your memory.
+2. **During**: every edit to the four canonical plan files → `npm run snapshot` → stage the JSONs alongside the edit.
+3. **At the end** (or when Asif says "wrap up"): run `/session-handoff` — append a dated entry to the session log with what changed, what's next, what's blocked.
+
+Copilot has no persistent memory across sessions. The handoff doc IS the memory. Treat appending to it as non-optional.
