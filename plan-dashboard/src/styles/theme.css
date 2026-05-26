@@ -258,14 +258,46 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 /* Agent card (right pane in architecture, popover host) */
 
 .agent-card {
-  background: var(--c-bg-card);
-  border: 1px solid var(--c-rule);
-  border-left: 4px solid var(--c-accent);
-  border-radius: var(--r-md);
+  background: linear-gradient(180deg, var(--c-bg-elev), color-mix(in oklab, var(--c-accent) 4%, var(--c-bg-elev)));
+  border: 1px solid color-mix(in oklab, var(--c-accent) 25%, var(--c-rule));
+  border-radius: 14px;
   padding: var(--sp-4);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    0 1px 2px rgba(31, 29, 24, 0.04),
+    0 10px 28px -12px rgba(139, 69, 19, 0.18);
 }
-.agent-card.tone-gold { border-left-color: var(--c-gold); }
-.agent-card.tone-mechanical { border-left-color: var(--c-ink-muted); }
+.agent-card::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle at center, color-mix(in oklab, var(--c-accent) 18%, transparent), transparent 65%);
+  pointer-events: none;
+  z-index: -1;
+}
+.agent-card.tone-gold {
+  background: linear-gradient(180deg, var(--c-bg-elev), color-mix(in oklab, var(--c-gold) 5%, var(--c-bg-elev)));
+  border-color: color-mix(in oklab, var(--c-gold) 28%, var(--c-rule));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    0 1px 2px rgba(31, 29, 24, 0.04),
+    0 10px 28px -12px rgba(184, 134, 11, 0.20);
+}
+.agent-card.tone-gold::before {
+  background: radial-gradient(circle at center, color-mix(in oklab, var(--c-gold) 22%, transparent), transparent 65%);
+}
+.agent-card.tone-mechanical {
+  background: linear-gradient(180deg, var(--c-bg-elev), color-mix(in oklab, var(--c-ink) 3%, var(--c-bg-elev)));
+  border-color: var(--c-rule);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    0 1px 2px rgba(31, 29, 24, 0.04),
+    0 10px 28px -12px rgba(31, 29, 24, 0.16);
+}
 
 .agent-card .agent-head { display: flex; align-items: flex-start; gap: var(--sp-3); margin-bottom: var(--sp-3); }
 .agent-card .agent-icon {
@@ -315,87 +347,117 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 
 /* ── Pipeline shell: sticky rail (LEFT) + station sections (RIGHT) ── */
 
+/* NOTE: NO align-items: start. The rail grid cell must STRETCH to the full
+   height of the row so position: sticky inside it works across the entire
+   scroll of the right column. That was the bug in the prior layout. */
+
 .pipeline-shell {
   display: grid;
-  grid-template-columns: 260px minmax(0, 1fr);
+  grid-template-columns: 280px minmax(0, 1fr);
   gap: var(--sp-6);
-  align-items: start;
 }
 @media (max-width: 980px) {
   .pipeline-shell { grid-template-columns: 1fr; }
   .pipeline-rail { display: none; }
 }
 
-.pipeline-rail { position: relative; }
+.pipeline-rail { position: relative; height: 100%; }
 .pipeline-rail-sticky {
   position: sticky; top: 88px;
   display: flex; flex-direction: column; gap: var(--sp-3);
   max-height: calc(100vh - 110px);
   overflow-y: auto;
-  padding-right: var(--sp-2);
+  padding: var(--sp-3);
+  background: linear-gradient(180deg, var(--c-bg-card), var(--c-bg-elev));
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-lg);
+  box-shadow:
+    0 1px 2px rgba(31, 29, 24, 0.04),
+    0 12px 32px -16px rgba(31, 29, 24, 0.18);
 }
 .pipeline-rail-sticky::-webkit-scrollbar { width: 6px; }
 .pipeline-rail-sticky::-webkit-scrollbar-thumb { background: var(--c-rule); border-radius: 999px; }
 
-.rail-eyebrow { padding-left: var(--sp-2); }
+.rail-eyebrow { padding: 0 var(--sp-2) var(--sp-1); }
 
 .rail-list {
   list-style: none; padding: 0; margin: 0;
   display: flex; flex-direction: column;
-  position: relative;
-}
-.rail-list::before {
-  content: '';
-  position: absolute;
-  top: 14px; bottom: 14px; left: 23px;
-  width: 2px;
-  background: var(--c-rule);
-  border-radius: 2px;
+  gap: 6px;
 }
 .rail-item { position: relative; }
+
 .rail-link {
   display: flex; align-items: center; gap: var(--sp-3);
   width: 100%;
-  padding: var(--sp-2);
-  border-radius: var(--r-md);
-  background: transparent;
-  border: 1px solid transparent;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule-soft);
   cursor: pointer;
   text-align: left;
   font-family: inherit;
   color: var(--c-ink-dim);
-  transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.12s;
+  box-shadow: 0 1px 1px rgba(31, 29, 24, 0.03);
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.12s ease, box-shadow 0.18s ease;
 }
-.rail-link:hover { background: var(--c-bg-card); color: var(--c-ink); }
+.rail-link:hover {
+  border-color: var(--c-rule);
+  color: var(--c-ink);
+  transform: translateY(-1px);
+  box-shadow:
+    0 2px 4px rgba(31, 29, 24, 0.04),
+    0 6px 16px -6px rgba(31, 29, 24, 0.12);
+}
 .rail-link:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
 
 .rail-dot {
   flex: 0 0 28px; width: 28px; height: 28px;
   border-radius: 50%;
-  background: var(--c-bg-card);
-  border: 2px solid var(--c-rule);
+  background: var(--c-bg-elev);
+  border: 1.5px solid var(--c-rule);
   display: flex; align-items: center; justify-content: center;
   font-size: 11px;
   color: var(--c-ink-muted);
-  transition: background 0.15s, border-color 0.15s, color 0.15s;
-  position: relative; z-index: 1;
+  transition: background 0.18s, border-color 0.18s, color 0.18s, box-shadow 0.18s;
 }
-.rail-item.kind-agentic .rail-dot { color: var(--c-accent); border-color: color-mix(in oklab, var(--c-accent) 35%, var(--c-rule)); }
-.rail-item.kind-hybrid .rail-dot { color: var(--c-gold); border-color: color-mix(in oklab, var(--c-gold) 35%, var(--c-rule)); }
-.rail-item.kind-mechanical .rail-dot { color: var(--c-ink-muted); }
+.rail-item.kind-agentic .rail-dot { color: var(--c-accent); border-color: color-mix(in oklab, var(--c-accent) 30%, var(--c-rule)); }
+.rail-item.kind-hybrid .rail-dot { color: var(--c-gold); border-color: color-mix(in oklab, var(--c-gold) 30%, var(--c-rule)); }
 
 .rail-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
 .rail-meta { font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--c-ink-muted); font-weight: 700; }
 .rail-name { font-size: var(--fs-base); font-weight: 600; color: var(--c-ink-dim); line-height: 1.2; }
 
 .rail-item.is-active .rail-link {
-  background: color-mix(in oklab, var(--c-accent) 8%, var(--c-bg-card));
-  border-color: color-mix(in oklab, var(--c-accent) 30%, transparent);
+  background: linear-gradient(180deg, var(--c-bg-elev), color-mix(in oklab, var(--c-accent) 6%, var(--c-bg-elev)));
+  border-color: color-mix(in oklab, var(--c-accent) 45%, var(--c-rule));
   color: var(--c-ink);
+  box-shadow:
+    0 0 0 3px color-mix(in oklab, var(--c-accent) 10%, transparent),
+    0 8px 20px -8px rgba(139, 69, 19, 0.30);
+  transform: translateY(-1px);
 }
-.rail-item.is-active .rail-dot { background: var(--c-accent); border-color: var(--c-accent); color: white; }
-.rail-item.kind-hybrid.is-active .rail-dot { background: var(--c-gold); border-color: var(--c-gold); }
-.rail-item.kind-mechanical.is-active .rail-dot { background: var(--c-ink); border-color: var(--c-ink); color: var(--c-bg); }
+.rail-item.kind-hybrid.is-active .rail-link {
+  background: linear-gradient(180deg, var(--c-bg-elev), color-mix(in oklab, var(--c-gold) 6%, var(--c-bg-elev)));
+  border-color: color-mix(in oklab, var(--c-gold) 45%, var(--c-rule));
+  box-shadow:
+    0 0 0 3px color-mix(in oklab, var(--c-gold) 10%, transparent),
+    0 8px 20px -8px rgba(184, 134, 11, 0.30);
+}
+.rail-item.is-active .rail-dot {
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+  color: white;
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--c-accent) 18%, transparent);
+}
+.rail-item.kind-hybrid.is-active .rail-dot {
+  background: var(--c-gold); border-color: var(--c-gold);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--c-gold) 18%, transparent);
+}
+.rail-item.kind-mechanical.is-active .rail-dot {
+  background: var(--c-ink); border-color: var(--c-ink); color: var(--c-bg);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--c-ink) 14%, transparent);
+}
 .rail-item.is-active .rail-name { color: var(--c-ink); font-weight: 700; }
 
 .rail-foot {
@@ -412,20 +474,68 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
   gap: var(--sp-6);
 }
 
+/* Modern depth card: gradient bg, full border, multi-layer shadow, radial
+   kind-tone glow in the top-right corner. NO accent left border. */
 .station-section {
-  background: var(--c-bg-card);
+  background: linear-gradient(180deg, var(--c-bg-card), var(--c-bg-elev));
   border: 1px solid var(--c-rule);
-  border-radius: var(--r-lg);
-  padding: var(--sp-5) var(--sp-5) var(--sp-5);
-  box-shadow: var(--shadow-card);
+  border-radius: 16px;
+  padding: var(--sp-5) var(--sp-5);
   scroll-margin-top: 88px;
   position: relative;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  overflow: hidden;
+  isolation: isolate;
+  box-shadow:
+    0 1px 2px rgba(31, 29, 24, 0.04),
+    0 12px 32px -16px rgba(31, 29, 24, 0.14);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.18s ease;
 }
-.station-section.kind-tone-agentic { border-left: 4px solid var(--c-accent); }
-.station-section.kind-tone-hybrid { border-left: 4px solid var(--c-gold); }
-.station-section.kind-tone-mechanical { border-left: 4px solid var(--c-ink-muted); }
-.station-section.is-active { box-shadow: 0 0 0 3px color-mix(in oklab, var(--c-accent) 12%, transparent), var(--shadow-hover); }
+.station-section::before {
+  content: '';
+  position: absolute;
+  top: -80px; right: -80px;
+  width: 280px; height: 280px;
+  background: radial-gradient(circle at center, color-mix(in oklab, var(--c-accent) 14%, transparent), transparent 65%);
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.85;
+  transition: opacity 0.3s ease;
+}
+.station-section.kind-tone-hybrid::before {
+  background: radial-gradient(circle at center, color-mix(in oklab, var(--c-gold) 18%, transparent), transparent 65%);
+}
+.station-section.kind-tone-mechanical::before {
+  background: radial-gradient(circle at center, color-mix(in oklab, var(--c-ink-muted) 12%, transparent), transparent 65%);
+}
+
+.station-section:hover {
+  border-color: color-mix(in oklab, var(--c-ink) 12%, var(--c-rule));
+  box-shadow:
+    0 2px 4px rgba(31, 29, 24, 0.06),
+    0 20px 48px -16px rgba(31, 29, 24, 0.20);
+}
+.station-section.is-active {
+  border-color: color-mix(in oklab, var(--c-accent) 50%, var(--c-rule));
+  box-shadow:
+    0 0 0 4px color-mix(in oklab, var(--c-accent) 12%, transparent),
+    0 2px 4px rgba(31, 29, 24, 0.05),
+    0 24px 56px -16px rgba(31, 29, 24, 0.22);
+}
+.station-section.kind-tone-hybrid.is-active {
+  border-color: color-mix(in oklab, var(--c-gold) 50%, var(--c-rule));
+  box-shadow:
+    0 0 0 4px color-mix(in oklab, var(--c-gold) 12%, transparent),
+    0 2px 4px rgba(31, 29, 24, 0.05),
+    0 24px 56px -16px rgba(31, 29, 24, 0.22);
+}
+.station-section.kind-tone-mechanical.is-active {
+  border-color: color-mix(in oklab, var(--c-ink) 30%, var(--c-rule));
+  box-shadow:
+    0 0 0 4px color-mix(in oklab, var(--c-ink) 8%, transparent),
+    0 2px 4px rgba(31, 29, 24, 0.05),
+    0 24px 56px -16px rgba(31, 29, 24, 0.22);
+}
+.station-section.is-active::before { opacity: 1; }
 
 .station-section-head {
   display: flex; align-items: flex-start; gap: var(--sp-4);
@@ -434,15 +544,26 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 .station-section-numwrap { flex: 0 0 auto; }
 .station-section-number {
   display: flex; align-items: center; justify-content: center;
-  width: 48px; height: 48px;
-  border-radius: 50%;
-  background: var(--c-bg-sunken);
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  background: var(--c-bg-elev);
   color: var(--c-ink);
   font-size: 20px; font-weight: 900; font-variant-numeric: tabular-nums;
-  border: 2px solid var(--c-rule);
+  border: 1px solid var(--c-rule);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 2px 4px rgba(31, 29, 24, 0.06);
 }
-.kind-tone-agentic .station-section-number { background: color-mix(in oklab, var(--c-accent) 10%, var(--c-bg-card)); color: var(--c-accent); border-color: color-mix(in oklab, var(--c-accent) 30%, var(--c-rule)); }
-.kind-tone-hybrid .station-section-number { background: color-mix(in oklab, var(--c-gold) 10%, var(--c-bg-card)); color: var(--c-gold); border-color: color-mix(in oklab, var(--c-gold) 30%, var(--c-rule)); }
+.kind-tone-agentic .station-section-number {
+  background: linear-gradient(180deg, color-mix(in oklab, var(--c-accent) 14%, var(--c-bg-elev)), color-mix(in oklab, var(--c-accent) 6%, var(--c-bg-elev)));
+  color: var(--c-accent);
+  border-color: color-mix(in oklab, var(--c-accent) 35%, var(--c-rule));
+}
+.kind-tone-hybrid .station-section-number {
+  background: linear-gradient(180deg, color-mix(in oklab, var(--c-gold) 14%, var(--c-bg-elev)), color-mix(in oklab, var(--c-gold) 6%, var(--c-bg-elev)));
+  color: var(--c-gold);
+  border-color: color-mix(in oklab, var(--c-gold) 35%, var(--c-rule));
+}
 
 .station-section-headtext { flex: 1; min-width: 0; }
 .station-section-eyebrow-row { justify-content: space-between; gap: var(--sp-3); flex-wrap: wrap; }
@@ -456,9 +577,17 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 
 .section-module-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--sp-3); }
 .section-module {
-  background: var(--c-bg-sunken);
-  border-radius: var(--r-md);
+  background: var(--c-bg-elev);
+  border: 1px solid var(--c-rule-soft);
+  border-radius: 10px;
   padding: var(--sp-3);
+  box-shadow: 0 1px 2px rgba(31, 29, 24, 0.03);
+  transition: border-color 0.18s, transform 0.12s, box-shadow 0.18s;
+}
+.section-module:hover {
+  border-color: color-mix(in oklab, var(--c-accent) 30%, var(--c-rule));
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(31, 29, 24, 0.04), 0 8px 16px -6px rgba(31, 29, 24, 0.10);
 }
 .section-module-head { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
 .section-module-head .fa-solid { color: var(--c-accent); font-size: 11px; }
