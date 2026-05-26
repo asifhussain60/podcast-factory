@@ -159,7 +159,7 @@ waves:
         deliverables:
           modules:
             - {path: "scripts/podcast/_paths.py", max_lines: 200, api: ["book_dir", "category_dir", "knowledge_base_dir", "knowledge_atoms_scratch", "all_books"]}
-            - {path: "scripts/podcast/_db.py", max_lines: 250, api: ["get_connection (WAL mode singleton)", "run_migrations (idempotent)", "atoms_repository", "manual_review_queue", "run_telemetry"]}
+            - {path: "scripts/podcast/_db.py", max_lines: 400, api: ["get_connection (WAL mode singleton)", "run_migrations (idempotent, 16 SQL files)", "atoms_repository", "atom_sources_repository", "atom_topic_tags_repository", "corpus_chapters_repository", "external_corpora_repository", "manual_review_queue", "run_telemetry"]}
             - {path: "scripts/podcast/_archetypes.py", max_lines: 250, api: ["load_archetype", "resolve_archetype_for_book", "list_archetypes"]}
             - {path: "scripts/podcast/intelligence/_anti_cliche.py", max_lines: 200, exports: ["CAPSTONE_DENY", "SELF_HELP_DENY", "TIER_2_DENY", "AUGMENTER_PRIOR_TREATMENT_DENY"]}
           archetype_registry_seed:
@@ -178,12 +178,22 @@ waves:
             wal_mode: true
             schema_dir: "scripts/podcast/schema/"
             schema_files:
-              - "001_atoms.sql"
-              - "002_atom_relations.sql"
-              - "003_book_metadata.sql"
-              - "004_archetype_registry.sql"
-              - "005_run_telemetry.sql"
-              - "006_manual_review_queue.sql"
+              - "001_books.sql"
+              - "002_chapters.sql"
+              - "003_episodes.sql"
+              - "004_phonetics.sql"
+              - "005_pipeline_runs.sql"
+              - "006_cost_ledger.sql"
+              - "007_challenger_findings.sql"
+              - "008_knowledge_atoms.sql"
+              - "009_atom_sources.sql"
+              - "010_atom_topic_tags.sql"
+              - "011_external_corpora.sql"
+              - "012_topic_type_taxonomy.sql"
+              - "013_corpus_chapters.sql"
+              - "014_arabic_roots.sql"
+              - "015_word_etymologies.sql"
+              - "016_letter_profiles.sql"
           tests:
             - "tests/test_paths_module.py"
             - "tests/test_db_migrations_idempotent.py"
@@ -191,7 +201,8 @@ waves:
         acceptance:
           - "Every existing book resolves to a known archetype via resolve_archetype_for_book"
           - "run_migrations() applied twice on fresh DB == once (idempotent)"
-          - "sqlite3 knowledge.db .schema lists all 6 tables + indexes"
+          - "sqlite3 knowledge.db .schema lists all 16 tables + covering indexes (atom_topic_tags.tag, word_etymologies.root_id)"
+          - "All 7 _db.py repositories return valid empty results on a fresh DB"
         cost_estimate_usd: 0
         authorization: *tier_one
 
@@ -307,6 +318,55 @@ waves:
     parallel_with: [C]
     depends_on: [A]
     steps:
+
+      - id: B0
+        title: "Build the Kashkole corpus ingestion driver — independent chapter refinement"
+        depends_on: [A2]
+        rationale: "75 PASS+WARN Kashkole chapters are ready to seed the intelligence library before any pipeline book runs B1. Independent refinement state machine lets Asif correct chapters one by one without LLM re-runs."
+        deliverables:
+          module:
+            path: "scripts/podcast/intelligence/kashkole_ingest_knowledge.py"
+            max_lines: 400
+            api:
+              - "ingest_chapter(slug, *, re_ingest=False, dry_run=False) -> IngestResult"
+              - "ingest_all(verdicts=['PASS','WARN'], *, dry_run=False) -> IngestSummary"
+              - "print_status() -> None"
+              - "seed_lookup_tables(db) -> None  # idempotent: external_corpora + topic_type_taxonomy"
+            cli_flags:
+              - "--chapter <slug>   target a specific chapter slug"
+              - "--re-ingest        delete old atoms for this chapter and re-create from corrected adapted-extract.en.md"
+              - "--dry-run          print what would change without writing"
+              - "--status           print table: slug | verdict | ingestion_status | atom_count"
+              - "--force            override FAIL verdict for manually-cleared chapters"
+          refinement_state_machine:
+            field: "corpus_chapters.ingestion_status"
+            states: ["pending", "ingested", "needs_correction", "correction_draft", "re_ingested"]
+            transitions:
+              - {from: pending,           to: ingested,           trigger: "ingest_chapter() succeeds"}
+              - {from: ingested,           to: needs_correction,   trigger: "human sets correction_notes + marks chapter"}
+              - {from: needs_correction,   to: correction_draft,   trigger: "adapted-extract.en.md edited + committed"}
+              - {from: correction_draft,   to: re_ingested,        trigger: "ingest_chapter(re_ingest=True) succeeds; correction_count += 1"}
+              - {from: re_ingested,        to: needs_correction,   trigger: "further corrections needed"}
+          idempotent_re_ingest_behavior:
+            - "DELETE FROM atom_sources WHERE corpus_chapter_id = C.id"
+            - "DELETE FROM atom_topic_tags WHERE atom_id IN (atoms with no remaining sources)"
+            - "DELETE FROM knowledge_atoms WHERE id IN (atoms now source-less)"
+            - "Re-extract from corrected adapted-extract.en.md; expand topic tags via topic_type_taxonomy"
+            - "SET corpus_chapters.correction_count += 1, last_ingested_at = now(), ingestion_status = 're_ingested'"
+          new_R_constants:
+            - {name: R_CORPUS_INGEST_MAX_ATOMS_PER_CHAPTER, value: 50}
+            - {name: R_CORPUS_INGEST_WARN_VERDICT_SETS_NEEDS_REVIEW, value: true}
+          tests:
+            - "tests/test_kashkole_ingest_idempotent.py"
+            - "tests/test_kashkole_refinement_state_machine.py"
+        acceptance:
+          - "ingest_all(dry_run=True) runs against all 122 chapters without errors"
+          - "PASS chapters ingest with needs_review=0; WARN chapters ingest with needs_review=1"
+          - "Re-ingesting a chapter after atom deletion produces identical atom count (no duplicates)"
+          - "--status prints one row for all 122 chapters with correct verdict + ingestion_status"
+          - "Marking a chapter needs_correction does not delete its atoms (atoms stay, flagged needs_review=1)"
+        cost_estimate_usd: 0
+        authorization: *tier_one
 
       - id: B1
         title: "Build the Extractor"

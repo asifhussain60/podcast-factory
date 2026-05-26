@@ -110,7 +110,34 @@ async function mergeDashboard() {
         ids.add(step.id);
       }
     }
+    // Remove steps that no longer exist in the YAML
     roadmap = roadmap.filter((r) => ids.has(r.id));
+    // Add new steps from YAML that aren't yet in the snapshot
+    const existingIds = new Set(roadmap.map((r) => r.id));
+    const waveOrder = planYaml.waves.map((w) => w.id);
+    for (const wave of planYaml.waves) {
+      for (const step of (wave.steps ?? [])) {
+        if (!existingIds.has(step.id)) {
+          roadmap.push({
+            id: step.id,
+            wave: wave.id,
+            title: step.title ?? step.id,
+            status: step.status ?? 'pending',
+            tier: 'T1',
+            depends_on: step.depends_on ?? [],
+            plain: '',
+            tools: [],
+          });
+        }
+      }
+    }
+    // Keep roadmap sorted by wave order then step id
+    roadmap.sort((a, b) => {
+      const wa = waveOrder.indexOf(a.wave);
+      const wb = waveOrder.indexOf(b.wave);
+      if (wa !== wb) return wa - wb;
+      return String(a.id).localeCompare(String(b.id), undefined, { numeric: true });
+    });
   }
 
   const merged = {
