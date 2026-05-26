@@ -18,8 +18,9 @@ import arch from '../data/architecture-snapshot.json';
   <section class="stack">
     <h2>The pipeline as a timeline</h2>
     <p>
-      Click any station on the spine to focus on what it does and which modules feed it. The little dots on the
-      connector lines show how many modules currently plug in at that station.
+      Scroll the right column to walk through the eleven stations a book passes through. The mini-rail on the left
+      keeps track of where you are and lets you jump anywhere. Each station has its full detail right where it sits
+      — what plugs in, which agent does the work, what that agent knows and doesn't do.
     </p>
     <PipelineSpine phases={arch.phases} modules={arch.modules} agents={arch.agents} client:load />
   </section>
