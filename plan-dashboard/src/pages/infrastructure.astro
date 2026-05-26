@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import InfraColumns from '../components/InfraColumns.tsx';
+import StackFlow from '../components/StackFlow.tsx';
 import infra from '../data/infrastructure-snapshot.json';
 
 const monthTotal = infra.vendors.reduce((sum: number, v: any) =>
@@ -37,6 +38,17 @@ const callsTotal = infra.vendors.reduce((sum: number, v: any) =>
       <span class="metric-value">{callsTotal.toLocaleString()}</span>
       <span class="card-sub">Every reasoning, translation, and audio call combined</span>
     </div>
+  </section>
+
+  <section class="stack">
+    <h2>How everything comes together</h2>
+    <p>
+      A book enters as a PDF on the left. Five stages later, an episode of audio comes out on the right. Each stage
+      hands off to the next — Azure reads the pages, Anthropic does every piece of reasoning, NotebookLM voices the
+      finished framing, GitHub holds the catalog. The labels between the lanes name what's actually moving across the
+      handoff.
+    </p>
+    <StackFlow />
   </section>
 
   <section class="stack">

@@ -1,70 +1,67 @@
 {
-  "generated_at": "2026-05-26T14:52:28.031Z",
+  "generated_at": "2026-05-26T00:00:00Z",
   "source_commit": "bab31e8",
   "generator": "podcast-planner agent",
   "phases": [
     {
       "id": "P0",
       "name": "Read the book",
+      "kind": "mechanical",
+      "agent": null,
       "plain": "Take the original PDF, recognize every page, translate any non-English text. The system reads it cover to cover so everything that follows works from a clean text version.",
       "duration_minutes": 10,
-      "modules": [
-        "azure-document-intelligence",
-        "azure-translator"
-      ]
+      "modules": ["azure-document-intelligence", "azure-translator"]
     },
     {
       "id": "P1",
       "name": "Polish the text",
+      "kind": "agentic",
+      "agent": "polish-author",
       "plain": "Clean up the recognized text, fix obvious errors, normalize formatting. This is the gentle pass that turns scanned-PDF noise into a readable manuscript.",
       "duration_minutes": 6,
-      "modules": [
-        "doctrinal-rules"
-      ]
+      "modules": ["doctrinal-rules"]
     },
     {
       "id": "P2",
       "name": "Learn the names",
+      "kind": "hybrid",
+      "agent": "phonetic-author",
       "plain": "Identify every person, place, and technical term in the book, then build a pronunciation guide so the narrator says everything correctly. The pronunciation guide is saved as a separate sidecar so a reader can see the original Arabic alongside the English at any time.",
       "duration_minutes": 12,
-      "modules": [
-        "phonetic-glossary",
-        "doctrinal-rules"
-      ]
+      "modules": ["phonetic-glossary", "doctrinal-rules"]
     },
     {
       "id": "P3",
       "name": "Plan the episodes",
+      "kind": "agentic",
+      "agent": "podcast-blueprint",
       "plain": "Look at the book's shape and decide what becomes a single episode versus what should be merged or split. A book's chapters are rarely the right size for a podcast — this step re-draws the boundaries.",
       "duration_minutes": 20,
-      "modules": [
-        "archetype-registry",
-        "doctrinal-rules"
-      ]
+      "modules": ["archetype-registry", "doctrinal-rules"]
     },
     {
       "id": "P4",
       "name": "Enrich with context",
+      "kind": "agentic",
+      "agent": "podcast-orchestrator",
       "plain": "For each episode, gather the supporting context the narrator will need: who the speakers are, what makes this passage special, what comes before and after. Notes are added without altering the source.",
       "duration_minutes": 18,
-      "modules": [
-        "context-injection",
-        "anti-cliche-registry"
-      ]
+      "modules": ["context-injection", "anti-cliche-registry"]
     },
     {
       "id": "P5",
       "name": "Bring in outside knowledge",
+      "kind": "agentic",
+      "agent": "podcast-orchestrator",
       "plain": "Add carefully-sourced material from outside the book itself — historical context, modern research, cross-references — only where it strengthens an episode without distorting the original voice.",
       "duration_minutes": 15,
-      "modules": [
-        "augmenter",
-        "doctrinal-rules"
-      ]
+      "modules": ["augmenter", "doctrinal-rules"]
     },
     {
       "id": "P6",
       "name": "Cut the chapter pieces",
+      "kind": "mechanical",
+      "agent": null,
       "plain": "Slice the polished book text into the pieces NotebookLM will read, one bundle per episode. Each bundle is self-contained and ready to upload.",
       "duration_minutes": 4,
       "modules": []
@@ -72,38 +69,152 @@
     {
       "id": "P7",
       "name": "Write the narrator framing",
+      "kind": "agentic",
+      "agent": "podcast-orchestrator",
       "plain": "Write the short briefing that goes in NotebookLM's Customize box for each episode — telling the two AI hosts what to talk about, what to emphasize, what to avoid.",
       "duration_minutes": 22,
-      "modules": [
-        "archetype-registry",
-        "anti-cliche-registry",
-        "doctrinal-rules"
-      ]
+      "modules": ["archetype-registry", "anti-cliche-registry", "doctrinal-rules"]
     },
     {
       "id": "P8",
       "name": "Design the slides",
+      "kind": "agentic",
+      "agent": "slide-deck-challenger",
       "plain": "Author the visual deck for each episode — restating an idea, illustrating a passage literally, surfacing the structure with a diagram. Slides complement the audio without duplicating it.",
       "duration_minutes": 25,
-      "modules": [
-        "slide-deck-challenger"
-      ]
+      "modules": ["slide-deck-challenger"]
     },
     {
       "id": "P9",
       "name": "Audit and converge",
+      "kind": "agentic",
+      "agent": "podcast-challenger",
       "plain": "An automated reviewer reads every bundle and every framing, flags problems, sends them back to be fixed, then re-reads. Loops until the book either passes or needs a human call.",
       "duration_minutes": 30,
-      "modules": [
-        "challenger"
-      ]
+      "modules": ["challenger"]
     },
     {
       "id": "P10",
       "name": "Ship to the catalog",
+      "kind": "hybrid",
+      "agent": "podcast-publisher",
       "plain": "Once everything passes, move the finished book from the workshop into the public catalog and merge the working branch back to the main line.",
       "duration_minutes": 3,
       "modules": []
+    }
+  ],
+  "agents": [
+    {
+      "id": "podcast-orchestrator",
+      "name": "The Pipeline Driver",
+      "role": "Autonomous book runner",
+      "icon": "robot",
+      "tone": "accent",
+      "plain": "The conductor. Walks a book from PDF intake all the way through to the published catalog, handing off to each station in turn and recovering from anything that breaks along the way. Hands-off for hours at a time — there is exactly one human checkpoint in its entire run, at the episode-plan review halt.",
+      "what_it_knows": "The full pipeline order, the cost ledger, the watchdog protocol, the orchestrator state file format, every other agent's invocation contract.",
+      "boundary_in": "A PDF in the inbox plus a one-line approval after the episode plan halts.",
+      "boundary_out": "A merged develop branch with the book in the published catalog and a per-book cost report.",
+      "does_not": "Validate quality (the challenger does that). Edit the design rules (the trainer does that). Skip the human checkpoint at episode-plan review.",
+      "cost_profile": "$25–$50 per book end to end, depending on length tier.",
+      "failure_mode": "Halts and surfaces the exact phase that failed. The watchdog separately detects hangs and force-restarts."
+    },
+    {
+      "id": "podcast-blueprint",
+      "name": "The Episode Planner",
+      "role": "Episode-structure designer",
+      "icon": "diagram-project",
+      "tone": "accent",
+      "plain": "Reads the polished book, classifies what kind of book it is, and decides how the chapters should map to episodes — which to merge, which to split, which to drop. The output is the episode list you approve at the one human checkpoint.",
+      "what_it_knows": "Five planning modes — tribunal arc, chronological, problem-solution, vignette grid, dialectical pairs. The archetype registry. The narrative-density signal that decides which mode to use.",
+      "boundary_in": "A polished book and the genre/audience defaults from the book config.",
+      "boundary_out": "A classification report and an episode-plan draft (titles, word-count targets, in series order).",
+      "does_not": "Cross book boundaries (one book at a time). Override the human's edits to the plan during the approval halt.",
+      "cost_profile": "$2–$6 per book.",
+      "failure_mode": "If classification confidence is low, falls back to chronological mode and flags the classification for human review."
+    },
+    {
+      "id": "podcast-challenger",
+      "name": "The Quality Reviewer",
+      "role": "Per-chapter quality auditor",
+      "icon": "magnifying-glass-chart",
+      "tone": "accent",
+      "plain": "Reads every episode bundle and every narrator framing the way a careful editor would. Catches citation errors, broken phonetics, accidental clichés, framing that contradicts the source, and anything else the static checks miss. Loops until the work converges — up to five passes per chapter, fifteen across the full convergence cycle.",
+      "what_it_knows": "The full doctrinal rule registry, the anti-cliché registry, the source bundle for the chapter under review, every prior finding on this book.",
+      "boundary_in": "A draft chapter bundle plus its framing.",
+      "boundary_out": "A ship-ready, ship-with-caution, or needs-rewrite verdict with severity-ranked findings.",
+      "does_not": "Edit the spec or the doctrine (the trainer does that). Block on issues the framing author already justified.",
+      "cost_profile": "$1.50–$4 per chapter per pass.",
+      "failure_mode": "After three convergence failures on the same finding, escalates to human review rather than spinning further."
+    },
+    {
+      "id": "slide-deck-challenger",
+      "name": "The Slide Reviewer",
+      "role": "Visual-deck auditor",
+      "icon": "chalkboard-user",
+      "tone": "gold",
+      "plain": "The visual counterpart of the quality reviewer. Verifies that each slide either restates an idea cleanly, illustrates a passage literally, or surfaces structure with a useful diagram — and that the deck as a whole does not just echo the audio.",
+      "what_it_knows": "The deck-structure ladder, the visual-density threshold, the diagram-type discipline rules, the just-skip protocol.",
+      "boundary_in": "A draft slide bundle plus the corresponding chapter framing.",
+      "boundary_out": "A per-chapter verdict plus per-slide notes the worker re-authors against.",
+      "does_not": "Author the slides itself (a separate worker does the authoring). Force a deck when visual density is genuinely low.",
+      "cost_profile": "$0.80–$2 per chapter per pass.",
+      "failure_mode": "Surfaces a justified-skip verdict on low-density chapters instead of forcing slide creation."
+    },
+    {
+      "id": "podcast-publisher",
+      "name": "The Publisher",
+      "role": "Catalog promotion gate",
+      "icon": "rocket",
+      "tone": "accent",
+      "plain": "The thin agent that moves a finished book from the workshop into the public catalog. Refuses to publish unless seven readiness gates all pass — structure, episode pairing, sequential numbering, build cleanliness, state shippability, target wipe-safety, convergence verdict.",
+      "what_it_knows": "The seven gate checks. The catalog file layout. The destination wipe-safety rules.",
+      "boundary_in": "A book whose convergence loop has reported ship-ready or ship-with-caution on every chapter.",
+      "boundary_out": "A book moved from the drafts tree to the published tree, with a merge-ready branch.",
+      "does_not": "Publish anything in non-orchestrated mode without an explicit override flag. Re-publish a book that's already in the catalog.",
+      "cost_profile": "Effectively free — file moves and gate checks only.",
+      "failure_mode": "Halts on the first failing gate and surfaces the specific gate."
+    },
+    {
+      "id": "podcast-planner",
+      "name": "The Planner",
+      "role": "Plan auditor and builder",
+      "icon": "compass-drafting",
+      "tone": "accent",
+      "plain": "Two modes. Guardian mode reviews every proposed change to the plan files for regression risk — against architectural invariants, frozen shipped-book state, in-flight book interference, and brittleness anti-patterns — and pushes back in plain English before anything is written. Builder mode picks up an approved roadmap step and executes it end to end, running its own guardian self-check before touching a line.",
+      "what_it_knows": "The full architecture spec, the 23-step roadmap, the debt ledger, the cost ledger, the design protocol that governs every visible string on this dashboard.",
+      "boundary_in": "Either a proposed plan-file edit or an approved roadmap step ID.",
+      "boundary_out": "A verdict (Guardian) or a completed step plus a regenerated dashboard (Builder). Always regenerates the three snapshot files as a mandatory side-effect.",
+      "does_not": "Edit shipped-book content. Skip its own guardian self-check in Builder mode. Touch the sibling journal repo.",
+      "cost_profile": "$0.50–$2 per audit. $5–$25 per implementation step depending on scope.",
+      "failure_mode": "Blocks the change with a per-check breakdown and a concrete suggested rewrite."
+    },
+    {
+      "id": "polish-author",
+      "name": "The Polish Author",
+      "role": "Manuscript cleaner",
+      "icon": "broom",
+      "tone": "accent",
+      "plain": "Reads the OCR output and produces a clean readable manuscript. Conservative — fixes scan artifacts and obvious recognition errors but never alters voice, never paraphrases, never adds material.",
+      "what_it_knows": "The doctrinal rules that govern tone preservation. The conservatism contract — when in doubt, leave it alone.",
+      "boundary_in": "A raw OCR text file.",
+      "boundary_out": "A polished readable version, line-for-line traceable to the source.",
+      "does_not": "Translate. Re-paragraph. Restructure. Add commentary.",
+      "cost_profile": "$1–$3 per book.",
+      "failure_mode": "On ambiguous passages, preserves the original and flags the line for human review."
+    },
+    {
+      "id": "phonetic-author",
+      "name": "The Pronunciation Author",
+      "role": "Reasoning plus speech verification",
+      "icon": "language",
+      "tone": "gold",
+      "plain": "Walks every name, place, and technical term in the book. Proposes a phonetic spelling, then sends each one to Azure's speech engine to verify the audio actually matches the intended pronunciation. The resulting guide is what keeps the narrator from butchering names.",
+      "what_it_knows": "The phonetic-glossary registry, the round-trip verification contract, the doctrinal naming rules.",
+      "boundary_in": "A polished manuscript.",
+      "boundary_out": "A glossary sidecar mapping every spotted term to a verified phonetic spelling.",
+      "does_not": "Mutate the manuscript itself. Override human-supplied phonetics from prior books.",
+      "cost_profile": "$1–$4 per book.",
+      "failure_mode": "Terms that fail verification are flagged for human review rather than silently shipping a bad pronunciation."
     }
   ],
   "modules": [
@@ -149,84 +260,23 @@
     }
   ],
   "layers": [
-    {
-      "id": 1,
-      "name": "Foundation",
-      "plain": "Files everything else depends on: paths, the database, the rule registry, branch naming."
-    },
-    {
-      "id": 2,
-      "name": "House style",
-      "plain": "Doctrinal rules, the archetype registry, the cost ledger, the shared context contract."
-    },
-    {
-      "id": 3,
-      "name": "Intelligence",
-      "plain": "The extractor, the librarian, the augmenter — the parts that read, remember, and enrich."
-    },
-    {
-      "id": 4,
-      "name": "Authoring",
-      "plain": "The pieces that actually write framings, capstones, prefaces, augmentations."
-    },
-    {
-      "id": 5,
-      "name": "Stations",
-      "plain": "One file per pipeline station. Thin orchestration that calls the layers below."
-    },
-    {
-      "id": 6,
-      "name": "Driver",
-      "plain": "A single thin driver that walks the station order. Hands off to each station in turn."
-    }
+    { "id": 1, "name": "Foundation", "plain": "Files everything else depends on: paths, the database, the rule registry, branch naming." },
+    { "id": 2, "name": "House style", "plain": "Doctrinal rules, the archetype registry, the cost ledger, the shared context contract." },
+    { "id": 3, "name": "Intelligence", "plain": "The extractor, the librarian, the augmenter — the parts that read, remember, and enrich." },
+    { "id": 4, "name": "Authoring", "plain": "The pieces that actually write framings, capstones, prefaces, augmentations." },
+    { "id": 5, "name": "Stations", "plain": "One file per pipeline station. Thin orchestration that calls the layers below." },
+    { "id": 6, "name": "Driver", "plain": "A single thin driver that walks the station order. Hands off to each station in turn." }
   ],
   "adrs": [
-    {
-      "id": "DR-001",
-      "title": "SQLite first, Postgres later",
-      "plain": "Use a single-file database for now; defer the heavier setup until we actually need it."
-    },
-    {
-      "id": "DR-005",
-      "title": "No file over six hundred lines",
-      "plain": "Hard line cap to keep modules small and readable. Triggers refactor when crossed."
-    },
-    {
-      "id": "DR-009",
-      "title": "No file version stamps",
-      "plain": "Every file IS the current version. Git history is the version log. Pre-commit hook enforces."
-    },
-    {
-      "id": "DR-013",
-      "title": "Shipped books are frozen",
-      "plain": "Five books are already shipped. New improvements ship as addendum episodes, not as re-runs of the original."
-    }
+    { "id": "DR-001", "title": "SQLite first, Postgres later", "plain": "Use a single-file database for now; defer the heavier setup until we actually need it." },
+    { "id": "DR-005", "title": "No file over six hundred lines", "plain": "Hard line cap to keep modules small and readable. Triggers refactor when crossed." },
+    { "id": "DR-009", "title": "No file version stamps", "plain": "Every file IS the current version. Git history is the version log. Pre-commit hook enforces." },
+    { "id": "DR-013", "title": "Shipped books are frozen", "plain": "Five books are already shipped. New improvements ship as addendum episodes, not as re-runs of the original." }
   ],
   "archetypes": [
-    {
-      "id": "play-novel",
-      "books": [
-        "asaas-al-taveel"
-      ]
-    },
-    {
-      "id": "scholarly-treatise",
-      "books": [
-        "kitab-al-riyad",
-        "the-master-and-the-disciple"
-      ]
-    },
-    {
-      "id": "letter",
-      "books": [
-        "ayyuhal-walad"
-      ]
-    },
-    {
-      "id": "encyclopedic",
-      "books": [
-        "islr-mas-i"
-      ]
-    }
+    { "id": "play-novel", "books": ["asaas-al-taveel"] },
+    { "id": "scholarly-treatise", "books": ["kitab-al-riyad", "the-master-and-the-disciple"] },
+    { "id": "letter", "books": ["ayyuhal-walad"] },
+    { "id": "encyclopedic", "books": ["islr-mas-i"] }
   ]
 }

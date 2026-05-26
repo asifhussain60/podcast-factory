@@ -21,7 +21,7 @@ import arch from '../data/architecture-snapshot.json';
       Click any station on the spine to focus on what it does and which modules feed it. The little dots on the
       connector lines show how many modules currently plug in at that station.
     </p>
-    <PipelineSpine phases={arch.phases} modules={arch.modules} client:load />
+    <PipelineSpine phases={arch.phases} modules={arch.modules} agents={arch.agents} client:load />
   </section>
 
   <hr />

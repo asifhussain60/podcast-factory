@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Sparkline from './Sparkline';
+import VendorLogo from './VendorLogo';
 
 interface Service {
   id: string;
@@ -25,6 +26,10 @@ const VENDOR_KEYS: Record<string, 'anthropic' | 'google' | 'azure' | 'github'> =
   anthropic: 'anthropic', google: 'google', azure: 'azure', github: 'github',
 };
 
+const LOGO_FOR_VENDOR: Record<string, 'anthropic' | 'google' | 'azure' | 'github' | 'notebooklm'> = {
+  anthropic: 'anthropic', google: 'google', azure: 'azure', github: 'github',
+};
+
 export default function InfraColumns({ vendors }: Props) {
   const [openKey, setOpenKey] = useState<string | null>(null);
 
@@ -35,8 +40,13 @@ export default function InfraColumns({ vendors }: Props) {
         return (
           <div key={v.id} className={`card stack vendor-col vendor-${v.id}`}>
             <header className="stack-tight">
-              <span className="eyebrow">{v.name}</span>
-              <h3 className="card-title">{v.name}</h3>
+              <div className="vendor-head-row">
+                <VendorLogo vendor={LOGO_FOR_VENDOR[v.id] ?? 'anthropic'} size={40} />
+                <div className="vendor-head-text">
+                  <span className="eyebrow">Vendor</span>
+                  <h3 className="card-title">{v.name}</h3>
+                </div>
+              </div>
               <p className="small muted">{v.plain}</p>
               <div className="row-between vendor-summary">
                 <span className="metric-label">This month</span>
