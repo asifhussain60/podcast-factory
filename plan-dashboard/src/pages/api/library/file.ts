@@ -65,7 +65,7 @@ export const GET: APIRoute = async ({ url }) => {
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
-      const body = `<!doctype html><html><head><meta charset="utf-8"><title>${target.split('/').pop()}</title><style>body{font-family:ui-monospace,Menlo,monospace;font-size:13px;line-height:1.55;background:#f7f4ee;color:#1f1d18;padding:24px;max-width:920px;margin:0 auto;white-space:pre-wrap;}</style></head><body>${escaped}</body></html>`;
+      const body = `<!doctype html><html><head><meta charset="utf-8"><title>${target.split('/').pop()}</title><style>body{font-family:ui-monospace,Menlo,monospace;font-size:16px;line-height:1.55;background:#f7f4ee;color:#1f1d18;padding:24px;max-width:920px;margin:0 auto;white-space:pre-wrap;}</style></head><body>${escaped}</body></html>`;
       return new Response(body, { status: 200, headers: { 'content-type': 'text/html; charset=utf-8' } });
     }
     return new Response(text, { status: 200, headers: { 'content-type': mime } });

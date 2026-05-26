@@ -15,6 +15,7 @@
 :root {
   /* Type scale — 16px minimum base */
   --font-body: 'Lato', system-ui, sans-serif;
+  --fs-2xs: 13px;
   --fs-base: 16px;
   --fs-sm: 14px;
   --fs-lg: 19px;
@@ -22,6 +23,7 @@
   --fs-h3: 21px;
   --fs-h2: 28px;
   --fs-h1: 38px;
+  --fs-hero: 36px;
   --lh-base: 1.55;
   --lh-tight: 1.25;
 
@@ -169,7 +171,7 @@ hr { border: 0; height: 1px; background: var(--c-rule); margin: var(--sp-6) 0; }
   display: inline-flex; align-items: center; gap: var(--sp-1);
   padding: 2px var(--sp-2);
   border-radius: 999px;
-  font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+  font-size: var(--fs-2xs); font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
   background: var(--c-bg-sunken); color: var(--c-ink-dim);
 }
 .pill.is-ok { background: color-mix(in oklab, var(--c-green) 18%, transparent); color: var(--c-green); }
@@ -190,7 +192,7 @@ hr { border: 0; height: 1px; background: var(--c-rule); margin: var(--sp-6) 0; }
   pointer-events: none;
   z-index: -1;
 }
-.metric-value { font-size: 32px; font-weight: 900; color: var(--c-ink); line-height: 1.1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.metric-value { font-size: var(--fs-hero); font-weight: 900; color: var(--c-ink); line-height: 1.1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
 .metric-label { font-size: var(--fs-sm); color: var(--c-ink-muted); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700; }
 .metric-delta { font-size: var(--fs-sm); color: var(--c-green); }
 .metric-delta.is-down { color: var(--c-red); }
@@ -213,7 +215,7 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 .svg-host { width: 100%; display: block; }
 .svg-host text { font-family: var(--font-body); font-size: var(--fs-base); fill: var(--c-ink); }
 .svg-host .label-sm { font-size: var(--fs-sm); fill: var(--c-ink-muted); }
-.svg-host .label-eyebrow { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; fill: var(--c-ink-muted); font-weight: 700; }
+.svg-host .label-eyebrow { font-size: var(--fs-2xs); text-transform: uppercase; letter-spacing: 0.08em; fill: var(--c-ink-muted); font-weight: 700; }
 .svg-host .node-card { fill: var(--c-bg-card); stroke: var(--c-rule); stroke-width: 1; }
 .svg-host .node-card.is-active { stroke: var(--c-accent); stroke-width: 2; }
 .svg-host .edge { stroke: var(--c-rule); stroke-width: 1.5; fill: none; }
@@ -232,12 +234,12 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 .svg-host .vendor-notebooklm .node-card { stroke: var(--c-vendor-notebooklm); }
 
 /* Typographic helpers used inside <svg> instead of presentation attributes */
-.svg-host .t-title { font-size: 14px; font-weight: 700; fill: var(--c-ink); }
-.svg-host .t-sub { font-size: 12px; fill: var(--c-ink-dim); }
-.svg-host .t-station-num { font-size: 11px; font-weight: 700; fill: var(--c-ink); text-anchor: middle; }
-.svg-host .t-vendor-head { font-size: 13px; font-weight: 900; fill: var(--c-ink); text-anchor: middle; }
-.svg-host .t-money { font-size: 14px; font-weight: 700; fill: var(--c-ink); text-anchor: end; }
-.svg-host .t-money-lbl { font-size: 11px; fill: var(--c-ink-muted); }
+.svg-host .t-title { font-size: var(--fs-sm); font-weight: 700; fill: var(--c-ink); }
+.svg-host .t-sub { font-size: var(--fs-2xs); fill: var(--c-ink-dim); }
+.svg-host .t-station-num { font-size: var(--fs-2xs); font-weight: 700; fill: var(--c-ink); text-anchor: middle; }
+.svg-host .t-vendor-head { font-size: var(--fs-2xs); font-weight: 900; fill: var(--c-ink); text-anchor: middle; }
+.svg-host .t-money { font-size: var(--fs-sm); font-weight: 700; fill: var(--c-ink); text-anchor: end; }
+.svg-host .t-money-lbl { font-size: var(--fs-2xs); fill: var(--c-ink-muted); }
 
 /* Marker fills (CSS instead of presentation attrs) */
 .svg-host .arrow-soft polygon { fill: var(--c-rule); }
@@ -256,10 +258,10 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
   display: inline-flex; align-items: center; gap: var(--sp-1);
   padding: 2px 8px;
   border-radius: 999px;
-  font-size: 10px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
+  font-size: var(--fs-2xs); font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
   border: 1px solid transparent;
 }
-.kind-badge .fa-solid, .kind-badge .fa-regular { font-size: 9px; }
+.kind-badge .fa-solid, .kind-badge .fa-regular { font-size: var(--fs-2xs); }
 
 .kind-agentic { background: color-mix(in oklab, var(--c-accent) 12%, transparent); color: var(--c-accent); border-color: color-mix(in oklab, var(--c-accent) 30%, transparent); }
 .kind-mechanical { background: var(--c-bg-sunken); color: var(--c-ink-muted); border-color: var(--c-rule); }
@@ -269,9 +271,9 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 .svg-host .kind-pill-bg-agentic { fill: color-mix(in oklab, var(--c-accent) 12%, transparent); stroke: color-mix(in oklab, var(--c-accent) 30%, transparent); }
 .svg-host .kind-pill-bg-mechanical { fill: var(--c-bg-sunken); stroke: var(--c-rule); }
 .svg-host .kind-pill-bg-hybrid { fill: color-mix(in oklab, var(--c-gold) 14%, transparent); stroke: color-mix(in oklab, var(--c-gold) 35%, transparent); }
-.svg-host .kind-pill-tx-agentic { fill: var(--c-accent); font-size: 9px; font-weight: 800; letter-spacing: 0.08em; }
-.svg-host .kind-pill-tx-mechanical { fill: var(--c-ink-muted); font-size: 9px; font-weight: 800; letter-spacing: 0.08em; }
-.svg-host .kind-pill-tx-hybrid { fill: var(--c-gold); font-size: 9px; font-weight: 800; letter-spacing: 0.08em; }
+.svg-host .kind-pill-tx-agentic { fill: var(--c-accent); font-size: var(--fs-2xs); font-weight: 800; letter-spacing: 0.08em; }
+.svg-host .kind-pill-tx-mechanical { fill: var(--c-ink-muted); font-size: var(--fs-2xs); font-weight: 800; letter-spacing: 0.08em; }
+.svg-host .kind-pill-tx-hybrid { fill: var(--c-gold); font-size: var(--fs-2xs); font-weight: 800; letter-spacing: 0.08em; }
 
 .svg-host .node-card.kind-agentic-card { stroke: color-mix(in oklab, var(--c-accent) 60%, var(--c-rule)); }
 .svg-host .node-card.kind-hybrid-card { stroke: color-mix(in oklab, var(--c-gold) 55%, var(--c-rule)); }
@@ -327,13 +329,13 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
   background: color-mix(in oklab, var(--c-accent) 12%, transparent);
   color: var(--c-accent);
   display: flex; align-items: center; justify-content: center;
-  font-size: 18px;
+  font-size: var(--fs-lg);
 }
 .agent-card.tone-gold .agent-icon { background: color-mix(in oklab, var(--c-gold) 14%, transparent); color: var(--c-gold); }
 .agent-card.tone-mechanical .agent-icon { background: var(--c-bg-sunken); color: var(--c-ink-muted); }
 .agent-card .agent-title { display: flex; flex-direction: column; gap: 2px; }
 .agent-card .agent-name { font-size: var(--fs-h3); font-weight: 800; color: var(--c-ink); line-height: 1.2; }
-.agent-card .agent-role { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-ink-muted); font-weight: 700; }
+.agent-card .agent-role { font-size: var(--fs-2xs); text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-ink-muted); font-weight: 700; }
 
 .agent-card .agent-lede { font-size: var(--fs-base); color: var(--c-ink); margin: 0 0 var(--sp-3) 0; }
 
@@ -348,13 +350,13 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
   background: color-mix(in oklab, var(--c-green) 14%, transparent);
   color: var(--c-green);
   padding: 4px 10px; border-radius: 999px;
-  font-size: 11px; font-weight: 800; letter-spacing: 0.04em;
+  font-size: var(--fs-2xs); font-weight: 800; letter-spacing: 0.04em;
 }
 .agent-cost-row .pill-fail {
   background: color-mix(in oklab, var(--c-amber) 14%, transparent);
   color: var(--c-amber);
   padding: 4px 10px; border-radius: 999px;
-  font-size: 11px; font-weight: 800; letter-spacing: 0.04em;
+  font-size: var(--fs-2xs); font-weight: 800; letter-spacing: 0.04em;
 }
 
 /* SVG agent badge under a station card */
@@ -362,7 +364,7 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 .svg-host .agent-badge.tone-gold { stroke: var(--c-gold); }
 .svg-host .agent-badge-icon { fill: var(--c-accent); }
 .svg-host .agent-badge-icon.tone-gold { fill: var(--c-gold); }
-.svg-host .agent-badge-text { font-size: 9px; font-weight: 700; fill: var(--c-ink-dim); }
+.svg-host .agent-badge-text { font-size: var(--fs-2xs); font-weight: 700; fill: var(--c-ink-dim); }
 
 .spine-legend { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-bottom: var(--sp-3); }
 
@@ -438,7 +440,7 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
   background: var(--c-bg-elev);
   border: 1.5px solid var(--c-rule);
   display: flex; align-items: center; justify-content: center;
-  font-size: 11px;
+  font-size: var(--fs-2xs);
   color: var(--c-ink-muted);
   transition: background 0.18s, border-color 0.18s, color 0.18s, box-shadow 0.18s;
 }
@@ -446,7 +448,7 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 .rail-item.kind-hybrid .rail-dot { color: var(--c-gold); border-color: color-mix(in oklab, var(--c-gold) 30%, var(--c-rule)); }
 
 .rail-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
-.rail-meta { font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--c-ink-muted); font-weight: 700; }
+.rail-meta { font-size: var(--fs-2xs); text-transform: uppercase; letter-spacing: 0.06em; color: var(--c-ink-muted); font-weight: 700; }
 .rail-name { font-size: var(--fs-base); font-weight: 600; color: var(--c-ink-dim); line-height: 1.2; }
 
 .rail-item.is-active .rail-link {
@@ -569,7 +571,7 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
   border-radius: 14px;
   background: var(--c-bg-elev);
   color: var(--c-ink);
-  font-size: 20px; font-weight: 900; font-variant-numeric: tabular-nums;
+  font-size: var(--fs-xl); font-weight: 900; font-variant-numeric: tabular-nums;
   border: 1px solid var(--c-rule);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.6),
@@ -588,9 +590,9 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 
 .station-section-headtext { flex: 1; min-width: 0; }
 .station-section-eyebrow-row { justify-content: space-between; gap: var(--sp-3); flex-wrap: wrap; }
-.station-section-title { font-size: 24px; font-weight: 900; color: var(--c-ink); margin: var(--sp-1) 0 0 0; letter-spacing: -0.01em; line-height: 1.2; }
+.station-section-title { font-size: var(--fs-h2); font-weight: 900; color: var(--c-ink); margin: var(--sp-1) 0 0 0; letter-spacing: -0.01em; line-height: 1.2; }
 
-.station-section-lede { font-size: 14px; color: var(--c-ink-dim); line-height: 1.6; margin: 0 0 var(--sp-4) 0; max-width: 64ch; }
+.station-section-lede { font-size: var(--fs-base); color: var(--c-ink-dim); line-height: 1.6; margin: 0 0 var(--sp-4) 0; max-width: 64ch; }
 
 .station-section-modules { margin-top: var(--sp-4); padding-top: var(--sp-4); border-top: 1px solid var(--c-rule-soft); }
 .station-section-agent { margin-top: var(--sp-4); padding-top: var(--sp-4); border-top: 1px solid var(--c-rule-soft); }
@@ -650,7 +652,7 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
   background: var(--c-bg-card);
   border: 2.5px solid var(--c-ink);
   display: flex; align-items: center; justify-content: center;
-  font-weight: 800; font-size: 13px; color: var(--c-ink);
+  font-weight: 800; font-size: var(--fs-2xs); color: var(--c-ink);
   transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
 }
 .spine-marker.is-active {
@@ -694,8 +696,8 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 .station-card.kind-mechanical { border-top: 3px solid var(--c-ink-muted); }
 
 .station-card-head { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2); }
-.station-meta { font-size: 11px; color: var(--c-ink-muted); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700; font-variant-numeric: tabular-nums; }
-.station-name { font-size: 15px; font-weight: 800; color: var(--c-ink); margin: 0; line-height: 1.3; }
+.station-meta { font-size: var(--fs-2xs); color: var(--c-ink-muted); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700; font-variant-numeric: tabular-nums; }
+.station-name { font-size: var(--fs-base); font-weight: 800; color: var(--c-ink); margin: 0; line-height: 1.3; }
 
 .station-chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: var(--sp-1); }
 .chip {
@@ -704,10 +706,10 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
   border-radius: 999px;
   background: var(--c-bg-sunken);
   color: var(--c-ink-dim);
-  font-size: 11px; font-weight: 600;
+  font-size: var(--fs-2xs); font-weight: 600;
   border: 1px solid var(--c-rule-soft);
 }
-.chip .fa-solid { font-size: 9px; color: var(--c-accent-soft); }
+.chip .fa-solid { font-size: var(--fs-2xs); color: var(--c-accent-soft); }
 
 /* ── Agent pin (button under each agentic/hybrid station card) ── */
 
@@ -720,7 +722,7 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
   border-radius: 999px;
   color: var(--c-accent);
   font-family: inherit;
-  font-size: 11.5px; font-weight: 700; letter-spacing: 0.02em;
+  font-size: var(--fs-2xs); font-weight: 700; letter-spacing: 0.02em;
   cursor: pointer;
   box-shadow: 0 1px 2px rgba(31,29,24,0.06);
   transition: background 0.12s, transform 0.12s, box-shadow 0.12s;
@@ -728,9 +730,9 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 .agent-pin:hover { background: color-mix(in oklab, var(--c-accent) 10%, var(--c-bg-card)); transform: translateY(-1px); box-shadow: var(--shadow-hover); }
 .agent-pin.tone-gold { color: var(--c-gold); border-color: color-mix(in oklab, var(--c-gold) 40%, var(--c-rule)); }
 .agent-pin.tone-gold:hover { background: color-mix(in oklab, var(--c-gold) 10%, var(--c-bg-card)); }
-.agent-pin .fa-solid { font-size: 10px; }
+.agent-pin .fa-solid { font-size: var(--fs-2xs); }
 .agent-pin-name { font-weight: 700; }
-.agent-pin-hint { opacity: 0.55; font-size: 9px; }
+.agent-pin-hint { opacity: 0.55; font-size: var(--fs-2xs); }
 
 /* Radix HoverCard popover container */
 .agent-popover {
@@ -795,8 +797,8 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 .focus-empty-icon { font-size: 22px; color: var(--c-ink-muted); }
 
 /* Larger kind badge variant for focus pane */
-.kind-badge.is-lg { font-size: 11px; padding: 4px 10px; }
-.kind-badge.is-lg .fa-solid, .kind-badge.is-lg .fa-regular { font-size: 10px; }
+.kind-badge.is-lg { font-size: var(--fs-sm); padding: 4px 10px; }
+.kind-badge.is-lg .fa-solid, .kind-badge.is-lg .fa-regular { font-size: var(--fs-2xs); }
 
 /* ── Infrastructure view ───────────────────────────────────────── */
 
