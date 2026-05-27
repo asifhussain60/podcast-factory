@@ -413,13 +413,16 @@ def main(argv: list[str] | None = None) -> int:
             )
             return EXIT_ERROR
 
-    # W5 pre-flight: --phase required (W5 phases are individually trigger-gated).
+    # W5 pre-flight: if no registry phases exist yet, require --phase to avoid
+    # a confusing empty-loop run.  Once phases are wired, the loop drives them all.
     if args.wave == 5 and not args.phase:
-        print(
-            "error: Wave 5 requires --phase <phase-id> (W5 phases promote individually).",
-            file=sys.stderr,
-        )
-        return EXIT_ERROR
+        from scripts.podcast import phases as _phases_pkg  # type: ignore
+        if not _phases_pkg.wave_phases(5):
+            print(
+                "error: Wave 5 registry is empty — add pw5_*.py runners first.",
+                file=sys.stderr,
+            )
+            return EXIT_ERROR
 
     # Idempotency: if the wave is already DONE, exit 0 without dispatching.
     if is_wave_done(text, args.wave):
