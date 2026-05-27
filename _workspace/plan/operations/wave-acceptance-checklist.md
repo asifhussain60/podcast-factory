@@ -38,6 +38,6 @@ A wave is DONE only when every row in that wave is checked.
 - [x] **P5.3** Self-learning promotion lane complete and validated
 
 ## Wave 6
-- [ ] **P6.1** Anti-patterns catalog complete for all three archetype directories
-- [ ] **P6.2** Exemplar episode complete for all three archetype directories
-- [ ] **P6.3** Encyclopedic-epistolary spec updated with 7 Rasāʾil-specific meta fields
+- [x] **P6.1** Anti-patterns catalog complete for all three archetype directories
+- [x] **P6.2** Exemplar episode complete for all three archetype directories
+- [x] **P6.3** Encyclopedic-epistolary spec updated with 7 Rasāʾil-specific meta fields

@@ -552,12 +552,18 @@ def run_wave_5(args: argparse.Namespace) -> int:
     return _run_phase_registry(args, 5)
 
 
+def run_wave_6(args: argparse.Namespace) -> int:
+    """W6 — Archetype Completion. Iterates the W6 phase registry."""
+    return _run_phase_registry(args, 6)
+
+
 DISPATCHERS = {
     1: run_wave_1,
     2: run_wave_2,
     3: run_wave_3,
     4: run_wave_4,
     5: run_wave_5,
+    6: run_wave_6,
 }
 
 # ───────────────────────────────────────────────────────────────────────────────
