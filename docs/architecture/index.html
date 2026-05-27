@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<!-- generated from 68cb2c261da49d9b9e5d3ef3fa65515b8ccdca95 at 2026-05-24 by infra/claude-agents/docs-updater.md -->
-<!-- Fourth regeneration (2026-05-24, evening): plain-English voice rewrite.
-     - Body prose now reads for a senior non-engineer (the "VP coffee test").
-     - File paths, script names, function names removed from narrative text.
-     - Roles replace implementation names: "the orchestrator", "the editor",
-       "the publisher", "the working copy", "the public library".
-     - Phase tags (0a, 0b, ...) and verdict strings (SHIP-READY,
-       SHIP-WITH-CAUTION, BLOCKED) STAY verbatim — those are labels the
-       reader will see in actual reports.
-     - CSS, layout, SVG diagram topology unchanged. Only prose changed. -->
+<!-- generated from 9a48e898b54f15ef6beb6a83e77fa98746c1e226 at 2026-05-27 by infra/claude-agents/docs-updater.md -->
+<!-- Fifth regeneration (2026-05-27): Wave F completion update.
+     - All six refactor waves now marked DONE (Wave F: archetype completion).
+     - Two new sections added: §10 six-wave rebuild timeline, §11 archetype registry.
+     - Archetype registry shows all 7 archetypes; PLAY-NOVEL, LECTURE-SERIES,
+       and ENCYCLOPEDIC-EPISTOLARY flagged as Wave F completions.
+     - Footer commit list updated to current develop HEAD.
+     - Hero eyebrow date updated to 2026-05-27.
+     - All other CSS, layout, SVG diagram topology unchanged. -->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -604,10 +603,12 @@
       <a href="#doctrinal" data-section="doctrinal"><span class="num">07</span>Theology checks</a>
       <a href="#agents" data-section="agents"><span class="num">08</span>The team of helpers</a>
       <a href="#azure" data-section="azure"><span class="num">09</span>Outside services</a>
+      <a href="#waves" data-section="waves"><span class="num">10</span>Six-wave rebuild</a>
+      <a href="#archetypes" data-section="archetypes"><span class="num">11</span>Content archetypes</a>
     </nav>
 
     <section class="hero">
-      <span class="eyebrow">architecture · 2026-05-24</span>
+      <span class="eyebrow">architecture · 2026-05-27</span>
       <h1>The <em>podcast-factory</em> pipeline</h1>
       <p class="lede">
         A walk-through of how a scholarly Arabic book becomes a two-host
@@ -649,6 +650,12 @@
             only.) Everything described here is machine-agnostic since
             2026-05-23: one project, one main working line, and a one-step
             human-approved promotion before anything goes live.
+          </p>
+          <p>
+            The factory's own code has gone through a six-wave rebuilding
+            programme that finished on 2026-05-27 — all 32 steps complete.
+            Sections 10 and 11 describe that rebuild and the seven content
+            archetypes it produced.
           </p>
         </div>
       </section>
@@ -1660,6 +1667,339 @@
       </section>
 
       <!-- ════════════════════════════════════════════════════════════════
+           SECTION 10 — Six-wave rebuild (HTML card timeline, all DONE)
+           ════════════════════════════════════════════════════════════════ -->
+      <section id="waves" class="architecture-section">
+        <div class="section-head">
+          <div class="label">10 — THE SIX-WAVE REBUILD</div>
+          <h2>Six rounds of rebuilding — all complete as of 2026-05-27</h2>
+          <p class="sub">Each wave tightened one layer of the factory; every acceptance check is now green.</p>
+        </div>
+        <div class="prose">
+          <p>
+            Between the first working version of the factory and the current
+            state, six structured waves of improvements landed in order.
+            Each wave had a clear acceptance checklist — green on every row
+            before the wave could close. All 32 steps across all six waves
+            are now complete. Wave A set the foundation; Waves B and C ran
+            in parallel; Waves D and E layered intelligence and safety nets;
+            Wave F completed the three newest content archetypes with their
+            full quality specs. The factory's code is now the architecture,
+            not an approximation of it.
+          </p>
+        </div>
+
+        <style>
+          .wave-timeline {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1rem;
+            margin: 1.75rem 0 1rem;
+          }
+          .wave-card {
+            background: var(--panel-flat);
+            border: 2px solid var(--success);
+            border-radius: 12px;
+            padding: 1.5rem 1.35rem 1.25rem;
+            box-shadow: var(--shadow-card);
+            position: relative;
+          }
+          .wave-card .wave-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 0.75rem;
+          }
+          .wave-card .wave-letter {
+            font-family: var(--font-mono);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--success);
+            line-height: 1;
+          }
+          .wave-card .wave-done {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--success);
+            background: rgba(74, 222, 128, 0.1);
+            padding: 0.25rem 0.55rem;
+            border-radius: var(--radius-pill);
+            border: 1px solid rgba(74, 222, 128, 0.35);
+          }
+          .wave-card h4 {
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text);
+            margin: 0 0 0.45rem;
+          }
+          .wave-card .wave-desc {
+            font-size: 0.97rem;
+            line-height: 1.55;
+            color: var(--text-secondary);
+            margin: 0 0 0.75rem;
+          }
+          .wave-card .wave-steps {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+          }
+        </style>
+
+        <div class="wave-timeline">
+          <div class="wave-card">
+            <div class="wave-badge">
+              <span class="wave-letter">A</span>
+              <span class="wave-done">✓ done</span>
+            </div>
+            <h4>Foundation</h4>
+            <p class="wave-desc">Cleaned up the plan folder, stood up a layered module structure, enforced the 600-line budget, consolidated agent specs, and decoupled the Anthropic API layer.</p>
+            <span class="wave-steps">7 steps · P1.1 → P1.7</span>
+          </div>
+
+          <div class="wave-card">
+            <div class="wave-badge">
+              <span class="wave-letter">B</span>
+              <span class="wave-done">✓ done</span>
+            </div>
+            <h4>Intelligence</h4>
+            <p class="wave-desc">Built the content extractor, the knowledge librarian, and the augmenter — the three modules that turn raw chapter text into structured knowledge atoms. Wired all three into the pipeline.</p>
+            <span class="wave-steps">5 steps · P2.0 → P2.4</span>
+          </div>
+
+          <div class="wave-card">
+            <div class="wave-badge">
+              <span class="wave-letter">C</span>
+              <span class="wave-done">✓ done</span>
+            </div>
+            <h4>Archetype Expansion</h4>
+            <p class="wave-desc">Added PLAY-NOVEL, LECTURE-SERIES, and ENCYCLOPEDIC-EPISTOLARY as named content types. Built the multi-tier capstone for deep books, plugged the augmentation gate into the archetype, and launched the phased rollout for the classifier.</p>
+            <span class="wave-steps">5 steps · P3.1 → P3.5</span>
+          </div>
+
+          <div class="wave-card">
+            <div class="wave-badge">
+              <span class="wave-letter">D</span>
+              <span class="wave-done">✓ done</span>
+            </div>
+            <h4>Dashboard + Annotation</h4>
+            <p class="wave-desc">Built the plan dashboard (design tokens, backbone visualization, live progress view) and the annotation intelligence lane so chapter review notes persist and drive the editor's next pass. Locked the single-machine model.</p>
+            <span class="wave-steps">4 steps · P4.1 → P4.3 + P11.1</span>
+          </div>
+
+          <div class="wave-card">
+            <div class="wave-badge">
+              <span class="wave-letter">E</span>
+              <span class="wave-done">✓ done</span>
+            </div>
+            <h4>Retroactive + Gates</h4>
+            <p class="wave-desc">Applied archetype stamping and addendum episodes to two already-shipped books. Extended the publish checklist from seven to twelve checks. Added a self-learning promotion lane where the trainer can propose rule changes that survive regression tests.</p>
+            <span class="wave-steps">5 steps · P5.1 → P5.3</span>
+          </div>
+
+          <div class="wave-card">
+            <div class="wave-badge">
+              <span class="wave-letter">F</span>
+              <span class="wave-done">✓ done</span>
+            </div>
+            <h4>Archetype Completion</h4>
+            <p class="wave-desc">Wrote the anti-patterns catalog and the exemplar episode for each of the three new content types. Added seven Rasāʾil-specific metadata fields to the encyclopedic-epistolary spec. The archetype registry is now fully populated with quality guidance for all seven types.</p>
+            <span class="wave-steps">3 steps · P6.1 → P6.3</span>
+          </div>
+        </div>
+
+        <p style="text-align:center;color:var(--text-muted);font-size:0.95rem;margin-top:1.25rem;">
+          27 acceptance rows checked across all six waves. All green.
+          No wave closed until its checklist was complete.
+        </p>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════════════════
+           SECTION 11 — Archetype registry (HTML card grid)
+           ════════════════════════════════════════════════════════════════ -->
+      <section id="archetypes" class="architecture-section">
+        <div class="section-head">
+          <div class="label">11 — CONTENT ARCHETYPES</div>
+          <h2>Seven named content types, each with its own quality playbook</h2>
+          <p class="sub">Adding a new content type means writing three files — no code changes required.</p>
+        </div>
+        <div class="prose">
+          <p>
+            When the factory decides how to handle a book, the first question
+            is: what kind of thing is this? A dense philosophical treatise needs
+            a different framing strategy than a stage-play dialogue. A series
+            of transcribed lectures needs different audience signals than an
+            aphorism collection. The answer lives in a registry of seven named
+            content types — what the factory calls <strong>archetypes</strong>.
+            Each archetype has three files: a specification (the rules and
+            required metadata fields), an exemplar (a model episode that shows
+            what good looks like for this type), and an anti-patterns catalog
+            (the specific mistakes the editor watches for). The factory reads
+            these at runtime — no code changes needed to add a new type.
+          </p>
+          <p>
+            The three archetypes marked <em>New in Wave F</em> had their
+            specifications and exemplars in place since Wave C, but their
+            anti-patterns catalogs and exemplar episodes were completed in
+            Wave F (2026-05-27).
+          </p>
+        </div>
+
+        <style>
+          .archetype-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 1.75rem 0 1rem;
+          }
+          .archetype-card {
+            background: var(--panel-flat);
+            border: 2px solid var(--line-strong);
+            border-radius: 12px;
+            padding: 1.5rem 1.35rem 1.25rem;
+            box-shadow: var(--shadow-card);
+          }
+          .archetype-card.wave-f {
+            border-color: var(--accent);
+          }
+          .archetype-card .arch-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 0.5rem;
+            margin-bottom: 0.65rem;
+          }
+          .archetype-card h4 {
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text);
+            margin: 0;
+            line-height: 1.3;
+          }
+          .archetype-card .arch-badge {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            padding: 0.2rem 0.5rem;
+            border-radius: var(--radius-pill);
+            white-space: nowrap;
+            flex-shrink: 0;
+          }
+          .arch-badge.established {
+            color: var(--text-muted);
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--line);
+          }
+          .arch-badge.wave-f-badge {
+            color: var(--accent);
+            background: var(--accent-soft);
+            border: 1px solid var(--accent);
+          }
+          .archetype-card .arch-slug {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.7rem;
+          }
+          .archetype-card .arch-desc {
+            font-size: 0.97rem;
+            line-height: 1.55;
+            color: var(--text-secondary);
+            margin: 0 0 0.75rem;
+          }
+          .archetype-card .arch-books {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+          }
+          .archetype-card .arch-books em { font-style: italic; color: var(--text-secondary); }
+        </style>
+
+        <div class="archetype-grid">
+
+          <div class="archetype-card">
+            <div class="arch-header">
+              <h4>Scholarly Deep-Dive</h4>
+              <span class="arch-badge established">Established</span>
+            </div>
+            <div class="arch-slug">scholarly-deep-dive</div>
+            <p class="arch-desc">Dense philosophical or theological prose that builds its argument across many chapters. Needs a multi-tier capstone, deep citation support, and careful honorific handling throughout. The default type for most Ismaili scholarly texts.</p>
+            <span class="arch-books">Known titles: <em>Kitab al-Riyad · Asaas al-Ta'weel · Rahat al-Aql (planned)</em></span>
+          </div>
+
+          <div class="archetype-card">
+            <div class="arch-header">
+              <h4>Aphorism Collection</h4>
+              <span class="arch-badge established">Established</span>
+            </div>
+            <div class="arch-slug">aphorism-collection</div>
+            <p class="arch-desc">Short, self-contained sayings or letters — each one complete on its own. No preface needed. No multi-tier capstone. The host conversation in each episode leans into the resonance of a handful of sayings rather than building a long argument.</p>
+            <span class="arch-books">Known titles: <em>Ayyuhal Walad (O Son)</em></span>
+          </div>
+
+          <div class="archetype-card">
+            <div class="arch-header">
+              <h4>Narrative Prose</h4>
+              <span class="arch-badge established">Established</span>
+            </div>
+            <div class="arch-slug">narrative-prose</div>
+            <p class="arch-desc">Continuous fictional or literary narrative — the kind that unfolds as a story arc, not as an argument. Reserved for future Arabic literary novels entering the catalog. Augmentation is opt-in; pre-synthesis is required before the capstone.</p>
+            <span class="arch-books">Known titles: <em>Future additions</em></span>
+          </div>
+
+          <div class="archetype-card">
+            <div class="arch-header">
+              <h4>Socratic Dialogue</h4>
+              <span class="arch-badge established">Established</span>
+            </div>
+            <div class="arch-slug">socratic-dialogue</div>
+            <p class="arch-desc">A dialogue-structured text where the philosophical argument unfolds through question and answer between a teacher and student — distinct from stage-play drama in that both speakers are always "in the room." Configured as an alias of Play-Novel with dialogue-density overrides.</p>
+            <span class="arch-books">Known titles: <em>Future additions</em></span>
+          </div>
+
+          <div class="archetype-card wave-f">
+            <div class="arch-header">
+              <h4>Play-Novel</h4>
+              <span class="arch-badge wave-f-badge">New in Wave F</span>
+            </div>
+            <div class="arch-slug">play-novel</div>
+            <p class="arch-desc">Dramatic dialogue or theatrical fiction — named speakers with explicit turns, scene headings, a cast of characters. The two NotebookLM hosts mirror the in-text voice dynamic. Augmentation is never on for this type; the dramatic arc is the value. Anti-patterns catalog and exemplar episode completed in Wave F.</p>
+            <span class="arch-books">Known titles: <em>The Master and the Disciple</em></span>
+          </div>
+
+          <div class="archetype-card wave-f">
+            <div class="arch-header">
+              <h4>Lecture-Series</h4>
+              <span class="arch-badge wave-f-badge">New in Wave F</span>
+            </div>
+            <div class="arch-slug">lecture-series</div>
+            <p class="arch-desc">Transcribed or composed oral teaching — numbered sessions, second-person address to an implied audience, pedagogical recap patterns. Each episode covers one session. Augmentation is opt-in. Anti-patterns catalog and exemplar episode completed in Wave F.</p>
+            <span class="arch-books">Known titles: <em>Kunooz Al-Hikmah</em></span>
+          </div>
+
+          <div class="archetype-card wave-f">
+            <div class="arch-header">
+              <h4>Encyclopedic-Epistolary</h4>
+              <span class="arch-badge wave-f-badge">New in Wave F</span>
+            </div>
+            <div class="arch-slug">encyclopedic-epistolary</div>
+            <p class="arch-desc">Letter-form texts that combine encyclopedic depth with an epistolary frame — exhaustive enumeration addressed to a named recipient. The canonical example is the Rasāʾil Ikhwān al-Ṣafāʾ. Seven Rasāʾil-specific metadata fields, phased rollout support, and a diagram-density setting. Anti-patterns catalog, exemplar episode, and seven metadata fields all completed in Wave F.</p>
+            <span class="arch-books">Known titles: <em>Rasāʾil Ikhwān al-Ṣafāʾ (planned)</em></span>
+          </div>
+
+        </div>
+
+        <p style="text-align:center;color:var(--text-muted);font-size:0.95rem;margin-top:1.25rem;">
+          Each archetype is three files in a shared folder — a spec, an exemplar, and an anti-patterns catalog.
+          Adding an eighth archetype means writing three new files. No code changes required.
+        </p>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════════════════
            FOOTER — what's new (last 30 commits)
            ════════════════════════════════════════════════════════════════ -->
       <section class="architecture-section">
@@ -1670,36 +2010,36 @@
         </div>
         <div class="commits">
           <ul>
-            <li><span class="sha">68cb2c2</span><span>docs(architecture): bump SVG-node typography to clear the 13px floor</span></li>
-            <li><span class="sha">9a597de</span><span>docs(architecture): redesign for readability — HTML cards + foreignObject SVG</span></li>
-            <li><span class="sha">6202c85</span><span>docs(architecture): regenerate with horizontal nav + solid-fill diagrams</span></li>
-            <li><span class="sha">08717ee</span><span>docs(architecture): consolidate to single D3-rendered view + docs-updater agent</span></li>
-            <li><span class="sha">94e1e06</span><span>cleanup(repo): start-clean + restore content-branch policy + publisher agent</span></li>
-            <li><span class="sha">15cfb38</span><span>chore(gitignore): exclude per-book audio dumps under content/drafts/</span></li>
-            <li><span class="sha">b2d9e9d</span><span>feat(kashkole-ksessions): SQL→Markdown extraction pipeline (Phase 1 proof)</span></li>
-            <li><span class="sha">7640e5a</span><span>polish(pipeline): five pre-M&amp;D cleanup items</span></li>
-            <li><span class="sha">eb69e43</span><span>fix(challenger): land five ship-blocking rigor fixes</span></li>
-            <li><span class="sha">feb4a49</span><span>restructure(islr-mas-i): conform to KaR canonical draft template</span></li>
-            <li><span class="sha">b12f7dd</span><span>refactor: drop cross-machine coordination, single-machine model</span></li>
-            <li><span class="sha">2c4d1f5</span><span>fix(restructure): close 8 remaining gaps surfaced by full system check</span></li>
-            <li><span class="sha">06d536a</span><span>restructure(reshape): apply consistent template to the-master-and-the-disciple</span></li>
-            <li><span class="sha">c9b5b1e</span><span>fix(restructure): update Path() constants in 12 more scripts</span></li>
-            <li><span class="sha">cf3b4e9</span><span>fix(restructure): update path constants in 3 critical pipeline scripts</span></li>
-            <li><span class="sha">cd10f69</span><span>cleanup: remove non-podcast legacy files</span></li>
-            <li><span class="sha">b199cfd</span><span>restructure(refactor): update path strings to content/drafts/ + content/published/</span></li>
-            <li><span class="sha">6ef90d7</span><span>restructure: introduce content/ container with drafts/ + published/</span></li>
-            <li><span class="sha">144581b</span><span>restructure(cleanup): remove stale library symlink</span></li>
-            <li><span class="sha">903c109</span><span>restructure: hoist code to meta-root, consolidate all books under books/</span></li>
-            <li><span class="sha">62b488b</span><span>restructure: add books/ and library/ symlinks at repo root for navigation</span></li>
-            <li><span class="sha">679053d</span><span>merge(develop): pull origin runbook + bootstrap-prompt before restructure</span></li>
-            <li><span class="sha">92d93ad</span><span>plan(restructure): dry-run + live reshape script for the-master-and-the-disciple</span></li>
-            <li><span class="sha">83f5edc</span><span>runbook: claude-code-bootstrap-prompt + companion code-workspace</span></li>
-            <li><span class="sha">a19e208</span><span>podcast(housekeeping): commit findings.jsonl + 3 orphan TTS scripts</span></li>
-            <li><span class="sha">e64eb47</span><span>coord(mac-studio-primary): ISLR series complete — EP02-07 shipped</span></li>
-            <li><span class="sha">bacfb97</span><span>podcast(auditor-fixes): third audit report</span></li>
-            <li><span class="sha">ab867a9</span><span>podcast(auditor-fixes): sync challenger wrapper after AU-A1-003 edit</span></li>
-            <li><span class="sha">76403a9</span><span>podcast(auditor-fixes): all remaining P0s (items 4-5 + AU-A1-003/004)</span></li>
-            <li><span class="sha">5bc7c9a</span><span>podcast(auditor-fixes): items 1-3 from inaugural audit</span></li>
+            <li><span class="sha">9a48e89</span><span>merge: wave 6 completion</span></li>
+            <li><span class="sha">a3136ee</span><span>chore(wave-6): wave completion cleanup checkpoint</span></li>
+            <li><span class="sha">96f2a00</span><span>merge: bring wave-5 + wave-6 content baseline into wave-6 branch</span></li>
+            <li><span class="sha">82d52c3</span><span>chore: regenerate plan-dashboard snapshots after wave-6 commit</span></li>
+            <li><span class="sha">23742cf</span><span>feat(wave-6): define Wave 6 Archetype Completion — P6.1/P6.2/P6.3</span></li>
+            <li><span class="sha">de8d421</span><span>fix(p-9): implement 5 missing challenger detectors; all 15 fixtures green</span></li>
+            <li><span class="sha">6b59b7f</span><span>merge wave-4 deliverables into wave-5 branch</span></li>
+            <li><span class="sha">3dd287b</span><span>wave-5: fix pre-flight import path</span></li>
+            <li><span class="sha">3529c43</span><span>wave-5: fix W5 pre-flight guard — allow full-loop run when phases are wired</span></li>
+            <li><span class="sha">a58b328</span><span>wave-5: G8-G12 gates, migration script, promotion lane, phase runners</span></li>
+            <li><span class="sha">892b6c7</span><span>wave-4: DONE (4/4 green) — design tokens, backbone viz, annotation lane, multi-mac decision</span></li>
+            <li><span class="sha">b74b77f</span><span>merge: bring wave-3 infrastructure forward (convergence loop, W3 runners, W4 scaffolding)</span></li>
+            <li><span class="sha">c54ba4d</span><span>wave-4: add SPA+dashboard phase runners (pw4_1/2/3), multi-mac decision doc, P11.1 acceptance row</span></li>
+            <li><span class="sha">4841e66</span><span>feat(wave-3): implement P3.1-P3.5 deliverables; W3 DONE (5/5 green)</span></li>
+            <li><span class="sha">50b67f8</span><span>fix(run_wave): replace break-on-halt with convergence loop; waves run end-to-end</span></li>
+            <li><span class="sha">413b027</span><span>chore: switch to chat-only wave execution and clean planner prompts</span></li>
+            <li><span class="sha">e15626b</span><span>feat(planner): add loop protocol status panel and sync iteration ledger</span></li>
+            <li><span class="sha">5491d9e</span><span>Resolve Wave 2 alignment blockers and enforce clean-tree policy</span></li>
+            <li><span class="sha">40cd6a7</span><span>Enforce wave alignment gating with live planner event timeline</span></li>
+            <li><span class="sha">bbee796</span><span>Merge branch 'refactor/wave-a' into develop</span></li>
+            <li><span class="sha">75e1261</span><span>chore: commit remaining workspace changes</span></li>
+            <li><span class="sha">dcdfef8</span><span>feat: improve annotation action access and saved paragraph states</span></li>
+            <li><span class="sha">c7555ba</span><span>feat: redesign annotation workflow with persistent queue and finalize reset</span></li>
+            <li><span class="sha">45c9cea</span><span>chore: sync plan.astro step count to 27 (podcast-site-sync pass)</span></li>
+            <li><span class="sha">3e76ae3</span><span>feat(D5): paragraph annotation bar — hover toolbar, tag CRUD, Gemini research</span></li>
+            <li><span class="sha">129af21</span><span>chore(A6): consolidate agents — canonical specs in infra/, stubs in .github/agents/</span></li>
+            <li><span class="sha">8cf48d9</span><span>docs(kashkole): pipeline efficiency plan — decouple batch LLM from Max plan</span></li>
+            <li><span class="sha">777ac83</span><span>chore: remove legacy podcast-reader app and empty root src/</span></li>
+            <li><span class="sha">e08cffd</span><span>chore: regenerate plan-dashboard snapshot JSONs</span></li>
+            <li><span class="sha">c9ed9de</span><span>feat(plan-dashboard): port podcast-reader capabilities — episode viewer, ContractView, kashkole pages</span></li>
           </ul>
         </div>
       </section>
@@ -1708,7 +2048,7 @@
 
     <footer class="footer">
       Generated by <a href="../../infra/claude-agents/docs-updater.md">docs-updater</a>
-      from <code>68cb2c2</code> on 2026-05-24.
+      from <code>9a48e89</code> on 2026-05-27.
       <div class="footer-secondary">
         Idempotent — running the agent again on the same project state produces the same file.
         Engineers looking for file paths and script names: the source-of-truth files
