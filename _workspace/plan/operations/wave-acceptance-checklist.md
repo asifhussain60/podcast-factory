@@ -20,11 +20,11 @@ A wave is DONE only when every row in that wave is checked.
 - [x] **P2.4** Wave-B phase wiring complete and validated
 
 ## Wave 3
-- [ ] **P3.1** Archetype expansion specs landed and validated
-- [ ] **P3.2** Multi-tier capstone module complete
-- [ ] **P3.3** Augmentation phase complete with verification and cache
-- [ ] **P3.4** Diagram pilot and classifier gate aligned
-- [ ] **P3.5** Phased rollout and tier-2 cost gate complete
+- [x] **P3.1** Archetype expansion specs landed and validated
+- [x] **P3.2** Multi-tier capstone module complete
+- [x] **P3.3** Augmentation phase complete with verification and cache
+- [x] **P3.4** Diagram pilot and classifier gate aligned
+- [x] **P3.5** Phased rollout and tier-2 cost gate complete
 
 ## Wave 4
 - [ ] **P4.1** Planner design system and shell complete

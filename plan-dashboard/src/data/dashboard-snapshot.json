@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-27T19:52:07.617Z",
-  "source_commit": "413b027",
+  "generated_at": "2026-05-27T20:05:43.052Z",
+  "source_commit": "50b67f8",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -181,7 +181,7 @@
       "id": "C1",
       "wave": "C",
       "title": "Land archetype specs for PLAY-NOVEL, LECTURE-SERIES, ENCYCLOPEDIC-EPISTOLARY",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "A2"
@@ -196,7 +196,7 @@
       "id": "C2",
       "wave": "C",
       "title": "Build the multi-tier capstone authoring module",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "A4"
@@ -211,7 +211,7 @@
       "id": "C3",
       "wave": "C",
       "title": "Build the 08b modern-research augmentation phase",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "A4",
@@ -228,7 +228,7 @@
       "id": "C4",
       "wave": "C",
       "title": "MANUAL-REVIEW markers + canonical-form pre-filter + rich-diagram classifier",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "A2",
@@ -244,7 +244,7 @@
       "id": "C4.0",
       "wave": "C",
       "title": "NotebookLM diagram-capability pilot (PRE-C4 gate; per oq7 resolution)",
-      "status": "pending",
+      "status": "complete",
       "tier": "T2",
       "depends_on": [
         "C1"
@@ -259,7 +259,7 @@
       "id": "C5",
       "wave": "C",
       "title": "Phased rollout + Tier-2 cost gates for large-scale books",
-      "status": "pending",
+      "status": "complete",
       "tier": "T2",
       "depends_on": [
         "C1"
@@ -505,6 +505,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "50b67f8",
+      "subject": "fix(run_wave): replace break-on-halt with convergence loop; waves run end-to-end",
+      "date": "2026-05-27"
+    },
+    {
       "sha": "413b027",
       "subject": "chore: switch to chat-only wave execution and clean planner prompts",
       "date": "2026-05-27"
@@ -547,11 +552,6 @@
     {
       "sha": "45c9cea",
       "subject": "chore: sync plan.astro step count to 27 (podcast-site-sync pass)",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "3e76ae3",
-      "subject": "feat(D5): paragraph annotation bar — hover toolbar, tag CRUD, Gemini research",
       "date": "2026-05-27"
     }
   ],
