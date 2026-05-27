@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-26T23:50:48.473Z",
-  "source_commit": "ab8d0f9",
+  "generated_at": "2026-05-27T00:01:00.008Z",
+  "source_commit": "b369e35",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -432,6 +432,16 @@
   ],
   "recent_commits": [
     {
+      "sha": "b369e35",
+      "subject": "docs: add ChatGPT review prompt for Wave 1 architecture",
+      "date": "2026-05-26"
+    },
+    {
+      "sha": "694ad33",
+      "subject": "feat(plan): absorb Kashkole implementation brief into Wave B specs",
+      "date": "2026-05-26"
+    },
+    {
       "sha": "ab8d0f9",
       "subject": "fix(plan): close Kashkole→pipeline flow gap in B2+B3 specs",
       "date": "2026-05-26"
@@ -469,16 +479,6 @@
     {
       "sha": "5292bc2",
       "subject": "plan: lock house-style tradition check — fast structural filter here, Claude-powered contradiction check in enrichment step",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "a3f9604",
-      "subject": "plan: capture A3 tradition guard decisions — Ismaili primary, Sunni/Sufi adjacent, two-pass check",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "4ba138c",
-      "subject": "dashboard: enrich Wave B step descriptions with database + intelligence detail",
       "date": "2026-05-26"
     }
   ],

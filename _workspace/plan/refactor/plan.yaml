@@ -323,6 +323,22 @@ waves:
     name: Intelligence Layer
     parallel_with: [C]
     depends_on: [A]
+    pre_execution_blockers:
+      - id: BLOCKER-B-PRE
+        status: OPEN
+        discussion_required_with: asif
+        description: |
+          Before any Wave B step executes, discuss whether to enrich the Kashkole adapted
+          chapter text using ChatGPT or Gemini (Asif holds paid subscriptions for both)
+          before B0 ingests it into the intelligence library.
+          Decision paths:
+          (a) ingest as-is from existing adapted extracts — current plan baseline;
+          (b) run a ChatGPT/Gemini enrichment pass on all PASS+WARN chapters first;
+          (c) run enrichment as a post-hoc annotation layer on B0-ingested atoms.
+          Enrichment could improve doctrinal atom depth, topic-tagging precision, and
+          Quran cross-reference coverage — all of which affect Augmenter output quality.
+        impacts: [B0, B1, B2, B3]
+        resolution: null
     steps:
 
       - id: B0
