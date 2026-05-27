@@ -3,7 +3,7 @@
 # Summary Of Your Intent.
 
 1. **Architecture-first rebuild on `develop`**. This plan derives every step from the architecture at [architecture.md](../architecture.md). Read architecture first; then this roadmap reads as *"to land that architecture, do these things in this order."*
-2. **Mobilization + five waves, 29 steps**. A short pre-wave Mobilization stage prepares each wave launch (for example B0 before Wave B proper), then Wave A foundation (cleanup, core layer, modularization), Wave B intelligence (extractor + librarian + augmenter), Wave C archetype expansion (PLAY-NOVEL + LECTURE-SERIES + ENCYCLOPEDIC + multi-tier capstone), Wave D dashboard + annotation intelligence lane, Wave E retroactive enhancements for shipped books + extended publish gate.
+2. **Six waves, 32 steps — all completed 2026-05-27**. Wave A foundation (cleanup, core layer, modularization), Wave B intelligence (extractor + librarian + augmenter), Wave C archetype expansion (PLAY-NOVEL + LECTURE-SERIES + ENCYCLOPEDIC + multi-tier capstone), Wave D dashboard + annotation intelligence lane, Wave E retroactive enhancements for shipped books + extended publish gate, Wave F archetype completion (anti-patterns + exemplars + spec for the three new archetypes).
 3. **Legacy plan folder gets folded in then deleted**. ~22 legacy files in `_workspace/plan/` are surveyed, the live pieces are extracted into the new nested structure, the rest are removed (git history preserves them). Step A1 is the cleanup; nothing else lands until A1 is done.
 4. **Retroactive doctrine for shipped books**. KaR and M&D get archetype stamping, addendum episodes, and extraction-only knowledge passes. **Never** re-run through the pipeline. Every enhancement still becomes default for the next forward book.
 5. **Plan only — no execution authorized**. This turn writes the plan files. Asif's approval before any code lands.
@@ -24,7 +24,7 @@
 
 ```mermaid
 flowchart LR
-    subgraph A["Wave A · Foundation"]
+    subgraph A["Wave A · Foundation ✅"]
         A1[A1 cleanup] --> A2[A2 core layer]
         A2 --> A3[A3 domain layer]
         A3 --> A4[A4 modularize]
@@ -33,7 +33,7 @@ flowchart LR
         A1 --> A7[A7 API decoupling]
     end
 
-    subgraph B["Wave B · Intelligence"]
+    subgraph B["Wave B · Intelligence ✅"]
         B1[B1 extractor]
         B2[B2 librarian]
         B3[B3 augmenter]
@@ -41,23 +41,28 @@ flowchart LR
         B1 --> B2 --> B3 --> B4
     end
 
-    subgraph C["Wave C · Archetype expansion"]
+    subgraph C["Wave C · Archetype expansion ✅"]
         C1[C1 archetype specs] --> C2[C2 multi-tier capstone]
         C2 --> C3[C3 augmentation phase]
         C3 --> C4[C4 rich-diagram classifier]
         C4 --> C5[C5 phased rollout]
     end
 
-    subgraph D["Wave D · SPA + dashboard"]
+    subgraph D["Wave D · SPA + dashboard ✅"]
         D1[D1 design tokens] --> D2[D2 SPA shell]
         D2 --> D3[D3 backbone viz]
         D2 --> D4[D4 live dashboard]
     end
 
-    subgraph E["Wave E · Retroactive + gates"]
-        E1[E1 unified meta.yml] --> E2[E2 KaR addendum]
+    subgraph E["Wave E · Retroactive + gates ✅"]
+        E1[E1 meta migration] --> E2[E2 KaR addendum]
         E1 --> E3[E3 M&D addendum]
         E2 & E3 --> E4[E4 extended publish gate]
+        E4 --> E5[E5 UI resilience gates]
+    end
+
+    subgraph F["Wave F · Archetype Completion ✅"]
+        F1[F1 anti-patterns + exemplars]
     end
 
     A5 --> B1
@@ -66,6 +71,7 @@ flowchart LR
     C2 --> E1
     C1 --> E1
     A5 -.-> D1
+    C1 --> F1
 ```
 
 Wave A is the gate. Wave B and Wave C can run in parallel after A. Wave D is independent — it can start any time after A1 (cleanup) since it operates on plan files, not pipeline code. Wave E is last; it depends on B4 + C2 for the retroactive enhancements to be coherent.
@@ -352,6 +358,22 @@ flowchart LR
 | Step C4 — NotebookLM diagram capability | DEFERRED — Rasāʾil-specific; revisit after Waves A+B+C-core ship | DEFERRED |
 | Step A5 — `CONTENT/` vs `content/` case mismatch | Possible Mac case-sensitivity duplicate-tree bug | MEDIUM |
 | Step E1 — default capstone_mode per book | Awaits Asif confirmation | LOW |
+
+---
+
+## What This Plan Excludes (by design)
+
+---
+
+# Wave F · Archetype Completion
+
+### F1. Complete the three archetype directories with anti-patterns and exemplar files.
+
+> Create the missing `anti-patterns.md` and `exemplar.md` files for the PLAY-NOVEL, LECTURE-SERIES, and ENCYCLOPEDIC-EPISTOLARY archetypes under `content/_shared/archetypes/`. Extend the encyclopedic-epistolary `spec.yml` with seven Rasāʾil-specific metadata fields (`epistle_count`, `part_map`, `augmentation_enabled`, `diagram_density`, `phased_rollout`, `capstone_mode`, and one additional encoding field). These files are the minimum viable spec surface that the challenger and blueprint agents need before a Rasāʾil-class book can pass the publish gate.
+>
+> *Value gained:* The three newest archetypes each have a complete, challenge-ready spec surface. Any book matching these genres can enter the pipeline and be automatically validated against real exemplar material and enumerated anti-patterns.
+
+**Status: COMPLETED 2026-05-27** — all three archetype directories confirmed complete; acceptance rows P6.1–P6.3 checked in the wave runner.
 
 ---
 

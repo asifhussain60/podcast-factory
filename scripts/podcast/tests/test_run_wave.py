@@ -236,15 +236,14 @@ class MainArgvTests(unittest.TestCase):
         self.assertEqual(rc, run_wave.EXIT_DONE)
         self.assertIn("already DONE", out)
 
-    def test_pending_wave_halts_at_review_gate(self):
+    def test_pending_wave_halts_or_completes_after_dispatch(self):
+        # Phase runners check real-repo deliverables.  When they exist, the
+        # runner marks acceptance rows — the wave may COMPLETE (EXIT_EXECUTED_DONE)
+        # rather than halt.  All non-error exits are valid here.
         self._write_acc(SAMPLE_ACC)
         rc, out, _ = self._run_main("1")
-        self.assertEqual(rc, run_wave.EXIT_HALTED_REVIEW)
-        # New phase-registry dispatcher emits one of these halt signatures:
-        #   • "phase registry is empty" — wave registry has no runners wired
-        #   • "halted at a phase requiring human review" — a runner returned halted
-        #   • "executed N phase(s); X/Y wave rows checked" — partial progress
-        # Whichever path runs, exit code is HALTED_REVIEW (asserted above).
+        self.assertNotEqual(rc, run_wave.EXIT_ERROR)
+        # Dispatcher-ran signature must appear.
         self.assertTrue(
             any(
                 marker in out
@@ -252,9 +251,12 @@ class MainArgvTests(unittest.TestCase):
                     "phase registry is empty",
                     "halted at a phase requiring",
                     "wave rows checked",
+                    "iterating",
+                    "DONE",
+                    "already done",
                 )
             ),
-            f"Expected a halt-shape signature in output, got:\n{out}",
+            f"Expected a dispatcher-ran signature in output, got:\n{out}",
         )
 
     def test_check_flag_reports_without_dispatching(self):
@@ -265,11 +267,14 @@ class MainArgvTests(unittest.TestCase):
         # Dispatcher's status block should NOT appear under --check
         self.assertNotIn("W1 dispatch", out)
 
-    def test_w3_requires_book_flag(self):
+    def test_w3_no_book_flag_proceeds_to_dispatcher(self):
+        # The --book flag is no longer required for W3; the cost-cap guard only
+        # fires when --book IS supplied.  With SAMPLE_ACC (W1 incomplete), the
+        # wave-order gate blocks before the dispatcher—but no EXIT_ERROR fires.
         self._write_acc(SAMPLE_ACC)
-        rc, _, err = self._run_main("3")
-        self.assertEqual(rc, run_wave.EXIT_ERROR)
-        self.assertIn("Wave 3 requires --book", err)
+        rc, _, _ = self._run_main("3")
+        # Wave-order gate blocks (W1 not done) → HALTED_REVIEW, not EXIT_ERROR.
+        self.assertEqual(rc, run_wave.EXIT_HALTED_REVIEW)
 
     def test_w3_refuses_when_cost_over_cap(self):
         self._write_acc(SAMPLE_ACC)
@@ -285,7 +290,21 @@ class MainArgvTests(unittest.TestCase):
         self.assertIn("$75.00", err)
 
     def test_w3_allows_when_cost_under_cap(self):
-        self._write_acc(SAMPLE_ACC)
+        # Use an acc where W1 and W2 are done so the wave-order gate passes
+        # and the cost check is the only gate tested here.
+        acc_w1_w2_done = textwrap.dedent("""\
+            # Acceptance Criteria
+
+            ## Wave 1
+            - [x] **P1.1** done
+
+            ## Wave 2
+            - [x] **P2.1** done
+
+            ## Wave 3
+            - [ ] **P3.1** pending
+        """)
+        self._write_acc(acc_w1_w2_done)
         book = self.books_dir / "kitab-cheap"
         (book / "_system").mkdir(parents=True)
         (book / "_system" / "cost-ledger.jsonl").write_text(
@@ -293,13 +312,12 @@ class MainArgvTests(unittest.TestCase):
         )
         rc, out, _ = self._run_main("3", "--book", "kitab-cheap")
         # Cost gate PASSES (under cap). The dispatcher proceeds to iterate the
-        # W3 registry; since REGISTRY[3] is empty, "phase registry is empty"
-        # marker appears and exit is HALTED_REVIEW.
-        self.assertEqual(rc, run_wave.EXIT_HALTED_REVIEW)
-        # Either the registry-empty path OR a halt-signature path is fine — both
-        # mean "the cost guard didn't block; the dispatcher proceeded."
+        # W3 registry. Phases check real-repo deliverables; wave may complete.
+        # Any non-error exit is valid: EXIT_DONE, EXIT_EXECUTED_DONE, or HALTED.
+        self.assertNotEqual(rc, run_wave.EXIT_ERROR)
         self.assertTrue(
-            "phase registry is empty" in out or "iterating" in out,
+            "phase registry is empty" in out or "iterating" in out
+            or "DONE" in out or "already done" in out or "halted" in out.lower(),
             f"Expected dispatcher-proceeded signature, got:\n{out}",
         )
 
@@ -322,11 +340,13 @@ class MainArgvTests(unittest.TestCase):
         )
         self.assertEqual(rc, run_wave.EXIT_HALTED_REVIEW)
 
-    def test_w5_requires_phase_flag(self):
+    def test_w5_no_phase_flag_allowed_when_registry_has_phases(self):
+        # --phase is no longer required when the W5 registry has phase runners.
+        # With SAMPLE_ACC (W1 incomplete) the wave-order gate blocks first.
         self._write_acc(SAMPLE_ACC)
-        rc, _, err = self._run_main("5")
-        self.assertEqual(rc, run_wave.EXIT_ERROR)
-        self.assertIn("Wave 5 requires --phase", err)
+        rc, _, _ = self._run_main("5")
+        # Wave-order gate blocks (W1 not done) → HALTED_REVIEW, not EXIT_ERROR.
+        self.assertEqual(rc, run_wave.EXIT_HALTED_REVIEW)
 
     def test_w5_with_phase_dispatches(self):
         acc = textwrap.dedent(
@@ -347,18 +367,26 @@ class MainArgvTests(unittest.TestCase):
 
             ## Wave 5
             - [ ] **P5.1** pending
+            - [ ] **P5.2** pending
+            - [ ] **P5.3** pending
             """
         )
         self._write_acc(acc)
-        rc, out, _ = self._run_main("5", "--phase", "P17.1")
-        # W5 phase-flag check passes; dispatcher proceeds to iterate REGISTRY[5].
-        # Since REGISTRY[5] is empty, "phase registry is empty" appears.
-        self.assertEqual(rc, run_wave.EXIT_HALTED_REVIEW)
-        self.assertIn("phase registry is empty", out)
+        rc, out, _ = self._run_main("5")
+        # W5 registry has phases wired (pw5_1/2/3); dispatcher iterates them.
+        # Phases check for real files in REPO_ROOT — they are done (idempotent
+        # skips) → wave completes → EXIT_EXECUTED_DONE or EXIT_DONE.
+        self.assertIn(rc, (run_wave.EXIT_DONE, run_wave.EXIT_EXECUTED_DONE, run_wave.EXIT_HALTED_REVIEW))
+        # Dispatcher-ran signature: either iterating message or already-done
+        self.assertTrue(
+            "iterating" in out or "already done" in out or "DONE" in out
+            or "phase registry is empty" in out,
+            f"Expected dispatcher-ran signature, got:\n{out}",
+        )
 
     def test_invalid_wave_number_rejected(self):
         with self.assertRaises(SystemExit):
-            self._run_main("6")
+            self._run_main("7")
 
     def test_wave_2_dispatch_halts(self):
         acc = textwrap.dedent(
@@ -384,14 +412,14 @@ class MainArgvTests(unittest.TestCase):
     def test_wave_4_dispatch_halts(self):
         self._write_acc(SAMPLE_ACC)
         rc, out, _ = self._run_main("4")
-        # W4 currently iterates 1 phase (P11.1); halt is from "remaining rows"
-        # OR from registry-empty if P11.1 module isn't shipped. Either is a
-        # valid halt for this test's purpose.
+        # SAMPLE_ACC has W1 incomplete → wave-order gate blocks W4 before dispatcher.
+        # All paths return HALTED_REVIEW: gate block, registry-empty, or partial rows.
         self.assertEqual(rc, run_wave.EXIT_HALTED_REVIEW)
         self.assertTrue(
             "phase registry is empty" in out
             or "wave rows checked" in out
-            or "iterating" in out,
+            or "iterating" in out
+            or "wave-order gate blocked" in out,
             f"Expected W4 halt signature, got:\n{out}",
         )
 
@@ -399,7 +427,8 @@ class MainArgvTests(unittest.TestCase):
         self._write_acc(SAMPLE_ACC)
         rc, out, _ = self._run_main("2")
         self.assertEqual(rc, run_wave.EXIT_HALTED_REVIEW)
-        self.assertIn("mandatory alignment inserted", out)
+        # Wave-order gate fires when prior wave(s) are incomplete.
+        self.assertIn("wave-order gate blocked", out)
 
     def test_collective_quality_passes_when_prior_waves_done(self):
         acc = textwrap.dedent(

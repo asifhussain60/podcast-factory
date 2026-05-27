@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-27T20:57:38.111Z",
-  "source_commit": "23742cf",
+  "generated_at": "2026-05-27T21:18:28.841Z",
+  "source_commit": "01286fb",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -505,6 +505,31 @@
   ],
   "recent_commits": [
     {
+      "sha": "01286fb",
+      "subject": "fix(tests): align test_run_wave + p4_8 with current implementation reality",
+      "date": "2026-05-27"
+    },
+    {
+      "sha": "bd8bb3f",
+      "subject": "merge: wave 6 completion",
+      "date": "2026-05-27"
+    },
+    {
+      "sha": "a3136ee",
+      "subject": "chore(wave-6): wave completion cleanup checkpoint",
+      "date": "2026-05-27"
+    },
+    {
+      "sha": "96f2a00",
+      "subject": "merge: bring wave-5 + wave-6 content baseline into wave-6 branch",
+      "date": "2026-05-27"
+    },
+    {
+      "sha": "82d52c3",
+      "subject": "chore: regenerate plan-dashboard snapshots after wave-6 commit",
+      "date": "2026-05-27"
+    },
+    {
       "sha": "23742cf",
       "subject": "feat(wave-6): define Wave 6 Archetype Completion — P6.1/P6.2/P6.3",
       "date": "2026-05-27"
@@ -527,31 +552,6 @@
     {
       "sha": "3529c43",
       "subject": "wave-5: fix W5 pre-flight guard — allow full-loop run when phases are wired",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "a58b328",
-      "subject": "wave-5: G8-G12 gates, migration script, promotion lane, phase runners",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "892b6c7",
-      "subject": "wave-4: DONE (4/4 green) — design tokens, backbone viz, annotation lane, multi-mac decision",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "b74b77f",
-      "subject": "merge: bring wave-3 infrastructure forward (convergence loop, W3 runners, W4 scaffolding)",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "c54ba4d",
-      "subject": "wave-4: add SPA+dashboard phase runners (pw4_1/2/3), multi-mac decision doc, P11.1 acceptance row",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "4841e66",
-      "subject": "feat(wave-3): implement P3.1-P3.5 deliverables; W3 DONE (5/5 green)",
       "date": "2026-05-27"
     }
   ],
