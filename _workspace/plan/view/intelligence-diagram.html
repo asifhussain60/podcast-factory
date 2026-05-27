@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Intelligence Pipeline — Interactive Diagram</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Exploded interactive diagram of the intelligence pipeline: Kashkole corpus + pipeline books → Extractor → Librarian → knowledge.db → Augmenter → episode authoring." />
+<link rel="stylesheet" href="assets/css/theme.css" />
+<style>
+/* =========================================================
+   PAGE-LOCAL STYLES
+   ========================================================= */
+
+/* Hero */
+.hero-compact {
+  padding: var(--space-6) 0 var(--space-4);
+  display: flex; align-items: flex-start;
+  justify-content: space-between; gap: var(--space-4); flex-wrap: wrap;
+}
+.hero-compact h1 { font-size: 26px; margin: 0 0 6px; }
+.hero-compact .lead-sm { color: var(--text-dim); margin: 0; max-width: 540px; font-size: 14px; line-height: 1.6; }
+.hero-compact .eyebrow { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); display: block; margin-bottom: 6px; }
+.hero-actions { display: flex; gap: var(--space-2); flex-wrap: wrap; margin-top: var(--space-3); }
+
+/* ---- Filter bar ---- */
+.filter-bar {
+  display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-3); flex-wrap: wrap;
+}
+.filter-label { font-size: 12px; color: var(--text-muted); margin-right: 2px; }
+.filter-btn {
+  padding: 5px 14px; border-radius: 999px; border: 1px solid var(--border);
+  background: var(--bg-card); color: var(--text-dim); font-size: 12px; cursor: pointer;
+  transition: all 0.15s ease; font-family: inherit;
+}
+.filter-btn:hover  { border-color: var(--accent); color: var(--accent); }
+.filter-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.filter-btn.f-quran.active    { background: var(--green); border-color: var(--green); }
+.filter-btn.f-hadith.active   { background: #c9930a; border-color: #c9930a; }
+.filter-btn.f-doctrine.active { background: var(--purple); border-color: var(--purple); }
+
+/* ---- Diagram wrap ---- */
+.diagram-section { margin-bottom: var(--space-8); }
+.diagram-wrap {
+  position: relative; overflow-x: auto; overflow-y: visible;
+  border: 1px solid var(--border); border-radius: var(--radius-lg);
+  background: var(--bg-elevated); padding: 30px 16px 24px;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+}
+/* subtle grid background */
+.diagram-wrap::before {
+  content: ''; position: absolute; inset: 0; border-radius: var(--radius-lg);
+  background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 28px 28px; pointer-events: none;
+}
+
+/* ---- Canvas ---- */
+.diagram-canvas {
+  position: relative; width: 1440px; height: 510px;
+  margin: 0 auto;
+}
+
+/* ---- Zone bands ---- */
+.zone-band {
+  position: absolute; top: 0; bottom: 0; border-radius: var(--radius-sm);
+  pointer-events: none;
+}
+.zone-band-label {
+  position: absolute; top: -22px;
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.09em; white-space: nowrap;
+  color: var(--text-muted);
+}
+
+/* ---- Nodes ---- */
+.dnode {
+  position: absolute; border-radius: var(--radius-md);
+  border: 1.5px solid var(--border); background: var(--bg-card);
+  cursor: pointer; transition: box-shadow 0.2s, transform 0.15s, border-color 0.2s, opacity 0.25s;
+  overflow: hidden; user-select: none;
+}
+.dnode:hover, .dnode:focus-visible {
+  box-shadow: 0 0 0 2px var(--node-accent, var(--accent)), 0 10px 28px rgba(0,0,0,0.4);
+  transform: translateY(-3px); z-index: 20; outline: none;
+}
+.dnode .node-header {
+  padding: 9px 13px 7px;
+  border-bottom: 1px solid var(--border);
+}
+.dnode .node-icon  { font-size: 18px; margin-bottom: 3px; line-height: 1; }
+.dnode .node-label { font-size: 13px; font-weight: 700; color: var(--text-bright); line-height: 1.3; }
+.dnode .node-sublabel { font-size: 10.5px; color: var(--text-muted); margin-top: 2px; }
+.dnode .node-body  { padding: 7px 13px 9px; }
+.dnode .node-status { font-size: 10.5px; color: var(--text-dim); margin-top: 5px; }
+
+/* Zone accent borders */
+.dnode.zone-source  { --node-accent: var(--green); }
+.dnode.zone-ingest  { --node-accent: #5b8dd9; }
+.dnode.zone-merge   { --node-accent: var(--purple); }
+.dnode.zone-store   { --node-accent: var(--purple); }
+.dnode.zone-augment { --node-accent: var(--orange); }
+.dnode.zone-consume { --node-accent: #888; }
+
+.dnode.zone-source  .node-header { background: rgba(56,139,58,0.07);  border-left: 3px solid var(--green); }
+.dnode.zone-ingest  .node-header { background: rgba(91,141,217,0.07); border-left: 3px solid #5b8dd9; }
+.dnode.zone-merge   .node-header { background: rgba(139,91,196,0.07); border-left: 3px solid var(--purple); }
+.dnode.zone-store   .node-header { background: rgba(139,91,196,0.10); border-left: 3px solid var(--purple); }
+.dnode.zone-augment .node-header { background: rgba(219,109,40,0.07); border-left: 3px solid var(--orange); }
+.dnode.zone-consume .node-header { background: rgba(120,120,120,0.05); border-left: 3px solid #555; }
+
+/* Future nodes */
+.dnode.zone-future  { opacity: 0.4; border-style: dashed; --node-accent: #555; }
+.dnode.zone-future:hover { opacity: 0.75; }
+
+/* Atom type indicator dots */
+.atom-dots { display: flex; gap: 4px; margin-top: 5px; }
+.atom-dot  { width: 7px; height: 7px; border-radius: 50%; }
+.atom-dot.quran    { background: var(--green); }
+.atom-dot.hadith   { background: #c9930a; }
+.atom-dot.doctrine { background: var(--purple); }
+
+/* Status chips on nodes */
+.node-chip {
+  display: inline-flex; align-items: center; gap: 3px;
+  padding: 2px 7px; border-radius: 999px; font-size: 9.5px; font-weight: 700;
+  margin-top: 5px;
+}
+.node-chip.blocker  { background: rgba(219,109,40,0.15); color: var(--orange); }
+.node-chip.disabled { background: rgba(100,100,100,0.15); color: var(--text-muted); }
+.node-chip.tier1    { background: rgba(91,141,217,0.15);  color: #5b8dd9; }
+
+/* Dimming for filter */
+.dnode.dimmed       { opacity: 0.2; transform: none; }
+
+/* ---- SVG overlay ---- */
+.diagram-svg {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; overflow: visible;
+}
+.edge-path {
+  fill: none; stroke-width: 2; opacity: 0.75;
+  transition: opacity 0.25s, stroke-width 0.2s;
+}
+.edge-path.t-quran    { stroke: var(--green); }
+.edge-path.t-hadith   { stroke: #c9930a; }
+.edge-path.t-doctrine { stroke: var(--purple); }
+.edge-path.t-mixed    { stroke: #5b8dd9; opacity: 0.5; }
+.edge-path.t-blocker  { stroke: var(--orange); stroke-dasharray: 6 5; opacity: 0.85; }
+.edge-path.t-disabled { stroke: #555; stroke-dasharray: 4 8; opacity: 0.3; }
+
+/* Flow animation — animated edges get a moving dash */
+.edge-path.flowing {
+  animation: flowMove 2.4s linear infinite;
+}
+.edge-path.t-blocker.flowing {
+  animation: flowMove 3.5s linear infinite;
+}
+@keyframes flowMove {
+  to { stroke-dashoffset: -60; }
+}
+.edge-path.t-mixed.flowing    { stroke-dasharray: 6 10; }
+.edge-path.t-quran.flowing    { stroke-dasharray: 6 12; }
+.edge-path.t-hadith.flowing   { stroke-dasharray: 6 12; }
+.edge-path.t-doctrine.flowing { stroke-dasharray: 6 12; }
+
+.edge-path.dimmed { opacity: 0.06; animation: none; }
+.edge-label { font-size: 10px; fill: var(--text-muted); font-family: var(--font-mono); pointer-events: none; }
+
+/* ---- Legend ---- */
+.legend-bar {
+  display: flex; gap: var(--space-5); flex-wrap: wrap;
+  margin-top: var(--space-3); font-size: 12px; color: var(--text-dim);
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+.legend-item { display: flex; align-items: center; gap: 8px; }
+.legend-line { width: 22px; height: 3px; border-radius: 2px; }
+.legend-line.quran    { background: var(--green); }
+.legend-line.hadith   { background: #c9930a; }
+.legend-line.doctrine { background: var(--purple); }
+.legend-line.mixed    { background: #5b8dd9; }
+.legend-line.blocker  { background: transparent; border-top: 2px dashed var(--orange); }
+.legend-line.disabled { background: transparent; border-top: 2px dashed #555; }
+
+/* ---- Detail panel ---- */
+.detail-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.55);
+  z-index: 200; display: flex; align-items: stretch; justify-content: flex-end;
+  backdrop-filter: blur(3px);
+}
+.detail-overlay[hidden] { display: none; }
+.detail-panel {
+  width: min(500px, 100vw); background: var(--bg-card);
+  border-left: 1px solid var(--border); overflow-y: auto; padding: var(--space-6);
+  position: relative; animation: slideIn 0.22s ease;
+}
+@keyframes slideIn {
+  from { transform: translateX(24px); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+.detail-close {
+  position: absolute; top: var(--space-4); right: var(--space-4);
+  background: none; border: 1px solid var(--border); border-radius: var(--radius-sm);
+  color: var(--text-dim); cursor: pointer; font-size: 18px; padding: 2px 10px;
+  line-height: 1.5; transition: background 0.15s; font-family: inherit;
+}
+.detail-close:hover { background: var(--bg-elevated); }
+.detail-panel h2    { font-size: 20px; margin: 0 0 4px; padding-right: 44px; }
+.detail-zone-label  { font-size: 11px; text-transform: uppercase; letter-spacing: 0.09em; color: var(--text-muted); margin-bottom: var(--space-4); }
+.detail-desc        { font-size: 13.5px; color: var(--text-dim); line-height: 1.7; margin-bottom: var(--space-5); }
+.detail-atom-badges { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: var(--space-4); }
+.atom-badge         { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; padding: 3px 10px; border-radius: 999px; font-weight: 700; }
+.atom-badge.quran    { background: rgba(56,139,58,0.15); color: var(--green); }
+.atom-badge.hadith   { background: rgba(201,147,10,0.15); color: #c9930a; }
+.atom-badge.doctrine { background: rgba(139,91,196,0.15); color: var(--purple); }
+
+.detail-kv { display: grid; grid-template-columns: 1fr 1fr; gap: 7px var(--space-4); margin-bottom: var(--space-5); }
+.kv-row .k { font-size: 11px; color: var(--text-muted); margin-bottom: 2px; }
+.kv-row .v { font-size: 13px; color: var(--text-bright); font-weight: 600; }
+
+.detail-section       { margin-bottom: var(--space-5); }
+.detail-section h3    { font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted); margin: 0 0 var(--space-2); }
+.detail-section .body { font-size: 13px; color: var(--text-dim); line-height: 1.7; }
+
+.detail-code {
+  font-family: var(--font-mono); font-size: 11.5px; color: var(--text-dim);
+  background: var(--bg-elevated); border-radius: var(--radius-sm);
+  padding: var(--space-3); overflow-x: auto; white-space: pre; margin: 0;
+}
+.status-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700;
+}
+.status-chip.blocker  { background: rgba(219,109,40,0.15); color: var(--orange); }
+.status-chip.disabled { background: rgba(100,100,100,0.12); color: var(--text-muted); }
+.status-chip.tier1    { background: rgba(91,141,217,0.15);  color: #5b8dd9; }
+.status-chip.tier2    { background: rgba(219,109,40,0.15);  color: var(--orange); }
+
+/* Outcome table */
+.outcome-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.outcome-table th { text-align: left; padding: 5px 10px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); background: var(--bg-elevated); }
+.outcome-table td { padding: 7px 10px; border-top: 1px solid var(--border); color: var(--text-dim); vertical-align: top; }
+.outcome-table td:first-child { color: var(--text-bright); font-weight: 700; font-family: var(--font-mono); font-size: 11.5px; }
+
+/* Pulse dot for live status */
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+.live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); display: inline-block; animation: pulse 2s ease infinite; }
+
+@media (max-width: 820px) {
+  .hero-compact { flex-direction: column; }
+  .detail-panel { width: 100vw; }
+  .detail-kv    { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="index.html">
+      <span class="brand-mark" aria-hidden="true">P</span>
+      <span>Podcast Workspace</span>
+    </a>
+    <nav class="nav-primary" aria-label="Primary">
+      <a href="index.html">Overview</a>
+      <a href="podcast-capabilities.html">Capabilities</a>
+      <a href="acceptance-criteria.html">Acceptance</a>
+      <a href="phased-plan.html">Phased Plan</a>
+      <a href="intelligence-pipeline.html" aria-current="section">Intelligence</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<div class="container">
+
+<div class="hero-compact">
+  <div>
+    <span class="eyebrow">Intelligence Pipeline · exploded diagram</span>
+    <h1>How the Knowledge Brain Works</h1>
+    <p class="lead-sm">
+      An interactive map of the full intelligence pipeline — from source corpora through extraction,
+      deduplication, and storage, to augmentation of every chapter the factory writes.
+      <strong>Click any node</strong> for the full spec. Use the filters to trace each atom type.
+    </p>
+    <div class="hero-actions">
+      <a class="btn" href="intelligence-pipeline.html">← Full spec</a>
+    </div>
+  </div>
+</div>
+
+<!-- ===================================================== DIAGRAM -->
+<section class="diagram-section" aria-labelledby="diagram-title">
+  <h2 id="diagram-title" class="sr-only">Interactive pipeline diagram</h2>
+
+  <div class="filter-bar" id="filterBar" role="toolbar" aria-label="Atom type filter">
+    <span class="filter-label">Highlight flow:</span>
+    <button class="filter-btn active" data-filter="all"     aria-pressed="true">All flows</button>
+    <button class="filter-btn f-quran"   data-filter="quran"   aria-pressed="false">● Quran atoms</button>
+    <button class="filter-btn f-hadith"  data-filter="hadith"  aria-pressed="false">● Hadith atoms</button>
+    <button class="filter-btn f-doctrine" data-filter="doctrine" aria-pressed="false">● Doctrine atoms</button>
+  </div>
+
+  <div class="diagram-wrap">
+    <div class="diagram-canvas" id="canvas" aria-label="Intelligence pipeline diagram"></div>
+  </div>
+
+  <div class="legend-bar" aria-label="Diagram legend">
+    <div class="legend-item"><span class="legend-line quran"></span> Quran atom flow</div>
+    <div class="legend-item"><span class="legend-line hadith"></span> Hadith atom flow</div>
+    <div class="legend-item"><span class="legend-line doctrine"></span> Doctrine atom flow</div>
+    <div class="legend-item"><span class="legend-line mixed"></span> All types combined</div>
+    <div class="legend-item"><span class="legend-line blocker"></span> Blocked — pending discussion</div>
+    <div class="legend-item"><span class="legend-line disabled"></span> Default-disabled (DR-007)</div>
+    <div class="legend-item"><span class="live-dot" aria-hidden="true"></span> Click any node for details</div>
+  </div>
+</section>
+
+</div><!-- /container -->
+</main>
+
+<!-- ===================================================== DETAIL PANEL -->
+<div class="detail-overlay" id="detailOverlay" hidden aria-hidden="true">
+  <div class="detail-panel" id="detailPanel" role="dialog" aria-modal="true"
+       aria-labelledby="detailHeading" tabindex="-1">
+    <button class="detail-close" id="detailClose" aria-label="Close detail panel">×</button>
+    <div id="detailContent"></div>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   DATA — nodes and edges
+   ========================================================= */
+
+const NODES = {
+  kashkole: {
+    label: 'Kashkole Corpus', sublabel: '122 chapters · 17 binders',
+    zone: 'source', icon: '📚',
+    x: 15, y: 50, w: 200, h: 130,
+    atoms: ['doctrine','quran','hadith'],
+    chips: [],
+    tooltip: 'Ismaili scholarly corpus — the doctrine substrate. Not produced as a podcast; seeds the knowledge library.',
+    detail: {
+      title: 'Kashkole Corpus', zone: 'Source corpus · doctrine substrate',
+      desc: '122 chapters of adapted Ismaili scholarly text across 17 thematic binders (theology, taʾwīl, jurisprudence, ethics, cosmology, and more). Not produced as a podcast — instead it seeds the intelligence library with doctrinal knowledge atoms that enrich every future pipeline book.',
+      kv: [
+        { k: 'Total chapters', v: '122' }, { k: 'Binders', v: '17' },
+        { k: 'Verdict: PASS',  v: '9'   }, { k: 'Verdict: WARN',  v: '66' },
+        { k: 'Verdict: FAIL',  v: '18'  }, { k: 'Unchallenged',   v: '29' },
+        { k: 'Ready to ingest', v: '75 (PASS + WARN)' },
+        { k: 'Topic types', v: '18 (from topic-type-map.json)' },
+      ],
+      atoms: ['doctrine','quran','hadith'],
+      blocker: true,
+      sections: [
+        { title: 'Refinement state machine',
+          body: 'Each chapter tracks five states:<br><code>pending → ingested → needs_correction → correction_draft → re_ingested</code>.<br>Correcting one chapter never touches any other chapter\'s atoms.' },
+        { title: 'Topic taxonomy (18 types)',
+          body: 'Taʾwīl, Kalam, Ethics, Jurisprudence, Hadith commentary, Quranic exegesis, Wilāya, Bāṭin knowledge, Ḥudūd/Daʿwa hierarchy, Aphorisms, Poetry/Manqabat, Virtues, Terminology, History, and 4 more. Each chapter receives 1–4 topic type tags that drive Augmenter scoring.' },
+      ]
+    }
+  },
+
+  books: {
+    label: 'Pipeline Books', sublabel: '6 shipped + queue',
+    zone: 'source', icon: '🎙',
+    x: 15, y: 350, w: 200, h: 110,
+    atoms: ['quran','hadith','doctrine'],
+    chips: [],
+    tooltip: 'Every production book contributes atoms. The Extractor reads enriched chapter text — never audio scripts.',
+    detail: {
+      title: 'Pipeline Books', zone: 'Source · production output',
+      desc: 'Every book the pipeline processes is also a source of knowledge atoms. The Extractor (B1) reads the enriched chapter text after Phase 08-enrichment and pulls out quran, hadith, and doctrine atom candidates.',
+      kv: [
+        { k: 'Shipped', v: 'KaR, M&D, Ayyuhā al-Walad, ISLR Mas-I, Asāsāt al-Taʾwīl' },
+        { k: 'Next in queue', v: 'Kunooz al-Ḥikma, Rasāʾil (52 epistles)' },
+        { k: 'Source path', v: 'BOOK_DIR/chapters/<ch-slug>.txt' },
+        { k: 'NOT source', v: 'Audio scripts (framing.txt, episode.txt)' },
+        { k: 'Cost cap', v: '$0.10/chapter · $10/book' },
+        { k: 'Confidence gate', v: 'confidence < 0.7 → manual review queue' },
+      ],
+      atoms: ['quran','hadith','doctrine'],
+      sections: [
+        { title: 'Why not audio scripts?',
+          body: 'Audio scripts carry NotebookLM-specific phrasing drift — they\'ve been shaped for oral delivery, not scholarly precision. Using them as atom sources would contaminate the library with that drift. Enriched chapter text is the authoritative scholarly layer.' },
+      ]
+    }
+  },
+
+  b0: {
+    label: 'B0 — Kashkole Driver', sublabel: 'Standalone batch ingest',
+    zone: 'ingest', icon: '⚙',
+    x: 260, y: 50, w: 185, h: 140,
+    atoms: ['doctrine','quran','hadith'],
+    chips: [{ text: '⛔ BLOCKED', cls: 'blocker' }, { text: 'Tier 1', cls: 'tier1' }],
+    tooltip: 'Batch driver for seeding the library from 75 Kashkole chapters. Not a pipeline phase — runs standalone.',
+    detail: {
+      title: 'B0 — Kashkole Ingest Driver', zone: 'Ingestion · standalone batch driver',
+      desc: 'A standalone batch tool (not a pipeline phase) that ingests all PASS+WARN Kashkole chapters into the knowledge library. Idempotent per chapter — re-running on a corrected chapter deletes its old atoms and re-ingests clean. Never goes through orchestrate_book.py.',
+      kv: [
+        { k: 'File', v: '_drivers/kashkole_ingest_knowledge.py' },
+        { k: 'Max lines', v: '400' },
+        { k: 'LLM calls', v: 'None' },
+        { k: 'Authorization', v: 'Tier 1' },
+        { k: 'Idempotent', v: 'Yes — per chapter' },
+        { k: 'Seeds', v: 'external_corpora + topic_type_taxonomy (18 rows)' },
+        { k: 'Chunks size', v: '≤ 600 words per doctrine chunk' },
+        { k: 'Chunk boundary', v: '<!-- section N --> markers' },
+      ],
+      atoms: ['doctrine','quran','hadith'],
+      blocker: true,
+      cli: [
+        'python kashkole_ingest.py                  # all PASS+WARN chapters',
+        'python kashkole_ingest.py --chapter <slug> # single chapter',
+        'python kashkole_ingest.py --re-ingest       # correction cycle',
+        'python kashkole_ingest.py --dry-run         # preview, no writes',
+        'python kashkole_ingest.py --status          # 122-row state table',
+        'python kashkole_ingest.py --force <slug>    # override FAIL verdict',
+      ],
+      sections: [
+        { title: '⛔ BLOCKER — must discuss before this runs',
+          body: 'Before B0 ingests, evaluate whether to use <strong>ChatGPT or Gemini</strong> (Asif holds paid subscriptions for both) to further enrich the adapted Kashkole chapter text first.<br><br>Three paths: <strong>(a)</strong> ingest as-is (current baseline); <strong>(b)</strong> enrich PASS+WARN chapters first then ingest; <strong>(c)</strong> post-hoc annotation on already-ingested atoms.<br><br>Impacts doctrinal atom depth, topic-tagging precision, and Augmenter output quality. <strong>No code lands until resolved.</strong>' },
+        { title: 'WARN handling',
+          body: 'WARN-verdict chapters ingest with <code>needs_review=1</code>. Their atoms enter the library but the Augmenter silently skips them. After Asif corrects and re-ingests the chapter clean, the flag drops to 0 and the atoms become eligible for augmentation.' },
+      ]
+    }
+  },
+
+  b1: {
+    label: 'B1 — Extractor', sublabel: 'Claude Sonnet · structured output',
+    zone: 'ingest', icon: '🔍',
+    x: 260, y: 345, w: 185, h: 120,
+    atoms: ['quran','hadith','doctrine'],
+    chips: [{ text: 'Tier 1', cls: 'tier1' }],
+    tooltip: 'One Claude Sonnet structured-output call per chapter. Confidence < 0.7 atoms go to manual review queue.',
+    detail: {
+      title: 'B1 — Extractor', zone: 'Ingestion · LLM extraction',
+      desc: 'One Claude Sonnet structured-output call per chapter with a strict JSON schema. Reads enriched chapter source text (never audio scripts). Writes atom candidates to a per-book scratch JSONL file. The Librarian (B2) then merges these candidates into the shared database.',
+      kv: [
+        { k: 'File', v: 'intelligence/extractor.py' },
+        { k: 'Max lines', v: '300' },
+        { k: 'Model', v: 'Claude Sonnet (structured output)' },
+        { k: 'Cost cap', v: '$0.10/chapter · $10.00/book' },
+        { k: 'Confidence gate', v: '0.7 (below → manual review queue)' },
+        { k: 'Output', v: '_system/knowledge-atoms-scratch.jsonl' },
+        { k: 'Authorization', v: 'Tier 1' },
+        { k: 'Phase', v: '08c-knowledge-extract' },
+      ],
+      atoms: ['quran','hadith','doctrine'],
+      sections: [
+        { title: 'Scratch JSONL — not SQLite',
+          body: 'Per-book scratch output stays in a JSONL file (DR-008). Only the Librarian writes to the DB. This separation means a botched extraction can be discarded without touching the shared library.' },
+      ]
+    }
+  },
+
+  b2: {
+    label: 'B2 — Librarian', sublabel: 'Merge · dedup · index',
+    zone: 'merge', icon: '🗄',
+    x: 495, y: 193, w: 185, h: 125,
+    atoms: ['quran','hadith','doctrine'],
+    chips: [{ text: 'Tier 1', cls: 'tier1' }],
+    tooltip: 'Pure Python, no LLM. Merges atoms by canonical ID. Four outcomes: new, duplicate, variant, conflict. Emits the doctrine-by-tag.json index.',
+    detail: {
+      title: 'B2 — Librarian', zone: 'Merge · dedup · O(1) indexing',
+      desc: 'Pure Python merge engine — no LLM calls, no cost. Deduplicates incoming atoms by canonical ID and merges them into the shared SQLite library. Also rebuilds the doctrine-by-tag.json index on every run, enabling O(1) Augmenter lookup without a DB table scan.',
+      kv: [
+        { k: 'File', v: 'intelligence/librarian.py' },
+        { k: 'Max lines', v: '250' },
+        { k: 'LLM calls', v: 'None' },
+        { k: 'Index output', v: '_index/doctrine-by-tag.json' },
+        { k: 'Conflict route', v: 'manual_review_queue → halt phase' },
+        { k: 'Authorization', v: 'Tier 1' },
+      ],
+      atoms: ['quran','hadith','doctrine'],
+      mergeOutcomes: true,
+      sections: [
+        { title: 'doctrine-by-tag.json index',
+          body: 'Flat JSON map: each topic tag → sorted list of atom IDs. Rebuilt incrementally every Librarian run. Used by the Augmenter for O(1) doctrine atom lookup — no table scan needed.' },
+        { title: 'Conflict resolution CLI',
+          body: '<code>resolve_conflicts.py &lt;slug&gt; --accept-incoming</code><br><code>resolve_conflicts.py &lt;slug&gt; --keep-existing</code><br><code>resolve_conflicts.py &lt;slug&gt; --both-as-variants</code>' },
+      ]
+    }
+  },
+
+  db: {
+    label: 'knowledge.db', sublabel: 'SQLite WAL · 16 tables · 4 groups',
+    zone: 'store', icon: '🧠',
+    x: 730, y: 140, w: 205, h: 160,
+    atoms: ['quran','hadith','doctrine'],
+    chips: [],
+    tooltip: 'The long-term, cross-book atom store. SQLite WAL, 16 tables. Postgres+pgvector migration path kept open (DR-001).',
+    detail: {
+      title: 'knowledge.db', zone: 'Store · SQLite WAL · 16 tables',
+      desc: 'The central long-term knowledge store shared across all books. SQLite + JSON1 for Wave 1 — the connection factory in _db.py is a clean abstraction for a drop-in Wave 2 migration to Postgres + pgvector when semantic embedding queries are needed.',
+      kv: [
+        { k: 'Path', v: 'content/knowledge-base/knowledge.db' },
+        { k: 'Mode', v: 'SQLite WAL (write-ahead log)' },
+        { k: 'Tables', v: '16 across 4 groups' },
+        { k: 'Wave 2 path', v: 'Postgres + pgvector (SQLAlchemy swap in _db.py)' },
+        { k: 'JSON extension', v: 'SQLite JSON1 for body_json queries' },
+        { k: 'Access pattern', v: '7 repository functions in _db.py only' },
+      ],
+      atoms: ['quran','hadith','doctrine'],
+      tableGroups: true,
+      sections: [
+        { title: 'needs_review gate',
+          body: 'Atoms from WARN-verdict Kashkole chapters enter the DB with <code>needs_review=1</code>. The Augmenter applies a hard <code>WHERE needs_review=0</code> on both lookup paths. Only after Asif corrects and re-ingests the source chapter clean does the flag clear and the atoms become eligible.' },
+        { title: 'Wave 3 tables (Etymology)',
+          body: '3 of the 16 tables are reserved for Wave 3: <code>arabic_roots</code> (root → meaning + derivation tree), <code>word_etymologies</code> (per-word records), <code>letter_profiles</code> (per-Arabic-letter symbolic profiles). Migrations create them now; they stay empty until Wave 3.' },
+      ]
+    }
+  },
+
+  b3: {
+    label: 'B3 — Augmenter', sublabel: 'Default disabled · DR-007',
+    zone: 'augment', icon: '✦',
+    x: 990, y: 183, w: 185, h: 130,
+    atoms: ['quran','hadith','doctrine'],
+    chips: [{ text: 'Default OFF', cls: 'disabled' }],
+    tooltip: 'Queries the library and injects relevant atoms into prompts. Default disabled until Gate G12 fires green on at least one A/B pair.',
+    detail: {
+      title: 'B3 — Augmenter', zone: 'Output · prompt injection',
+      desc: 'The consumer interface to the knowledge library. Queries for relevant atoms and formats them as injection blocks for Claude prompts. Default disabled (DR-007) — flips on globally only after Gate G12 confirms the first A/B acceptance pair.',
+      kv: [
+        { k: 'File', v: 'intelligence/augmenter.py' },
+        { k: 'Max lines', v: '250' },
+        { k: 'Default state', v: 'Disabled (R_KNOWLEDGE_AUGMENTER_DEFAULT_ENABLED = False)' },
+        { k: 'Max atoms', v: '5 per call' },
+        { k: 'Max tokens', v: '800 (challenger budget)' },
+        { k: 'needs_review gate', v: '= 0 required on all paths' },
+        { k: 'Doctrine opt-in', v: 'doctrine_topic_ids list in meta.yml' },
+        { k: 'Enable gate', v: 'G12 — first A/B pair accepted' },
+        { k: 'Self-exclusion', v: 'A book cannot cite itself as prior doctrine' },
+      ],
+      atoms: ['quran','hadith','doctrine'],
+      sections: [
+        { title: 'Two independent lookup paths',
+          body: '<strong>Path 1 — Quran + Hadith:</strong> Regex-scan chapter text for citation patterns (Q&lt;S&gt;:&lt;A&gt;, hadith collection names) → exact canonical-ID lookup. Always executes.<br><br><strong>Path 2 — Doctrine:</strong> Only executes when <code>doctrine_topic_ids</code> is non-empty in meta.yml. Extracts topic signals from chapter text → intersection-score ranking → cap at 3 doctrine atoms. Prevents Kashkole doctrine leaking into non-Ismaili books.' },
+        { title: 'Injected prompt block format',
+          body: '<pre class="detail-code">[PRIOR DOCTRINAL CONTEXT — Kashkole corpus]\nTopic: {comma-joined topic_tags}\nSource: Kashkole — {binder_slug}, ch. {chapter_slug}\n---\n{text_en, truncated at sentence boundary}</pre>' },
+        { title: 'Three consumer token budgets',
+          body: '<strong>08-enrichment:</strong> 200 tokens — hint level, always present.<br><strong>11-authoring:</strong> 500 tokens — full prior treatment for framing/episode writing.<br><strong>Challenger/0g-audit:</strong> 800 tokens — complete cross-book context for quality checking.' },
+      ]
+    }
+  },
+
+  enrich: {
+    label: '08-Enrichment', sublabel: '200 tokens · hint level',
+    zone: 'consume', icon: '📝',
+    x: 1240, y: 70, w: 175, h: 85,
+    atoms: ['quran','hadith','doctrine'],
+    chips: [],
+    tooltip: 'Enrichment phase. 200-token hint-level atom injection guides Claude\'s chapter enrichment.',
+    detail: {
+      title: '08-Enrichment Phase', zone: 'Consumer · hint level · Phase 08',
+      desc: 'The earliest pipeline point where knowledge atoms influence output. At 200 tokens, the injection is hint-level — providing cross-book scholarly context without overwhelming the enrichment prompt.',
+      kv: [
+        { k: 'Token budget', v: '200' }, { k: 'Injection depth', v: 'Hint level' },
+        { k: 'Phase', v: '08-enrichment' }, { k: 'Active when', v: 'Augmenter enabled (post G12)' },
+      ],
+      atoms: ['quran','hadith','doctrine'],
+    }
+  },
+
+  author: {
+    label: '11-Per-Chapter', sublabel: '500 tokens · full context',
+    zone: 'consume', icon: '✍',
+    x: 1240, y: 220, w: 175, h: 85,
+    atoms: ['quran','hadith','doctrine'],
+    chips: [],
+    tooltip: 'Per-chapter authoring. 500-token full prior treatment for framing.txt and episode.txt.',
+    detail: {
+      title: '11-Per-Chapter Authoring', zone: 'Consumer · full context · Phase 11',
+      desc: 'The main chapter authoring phase. At 500 tokens, atom injection provides full prior doctrinal treatment, grounding the episode writing in cross-book scholarly context. Output: framing.txt and episode.txt for NotebookLM.',
+      kv: [
+        { k: 'Token budget', v: '500' }, { k: 'Injection depth', v: 'Full prior treatment' },
+        { k: 'Phase', v: '11-per-chapter' }, { k: 'Output', v: 'framing.txt + episode.txt' },
+        { k: 'Active when', v: 'Augmenter enabled (post G12)' },
+      ],
+      atoms: ['quran','hadith','doctrine'],
+    }
+  },
+
+  challenger: {
+    label: 'Challenger', sublabel: '800 tokens · cross-book',
+    zone: 'consume', icon: '⚖',
+    x: 1240, y: 375, w: 175, h: 85,
+    atoms: ['quran','hadith','doctrine'],
+    chips: [],
+    tooltip: 'AI quality checker. 800-token complete cross-book context for doctrinal consistency checking. G12 reads this path.',
+    detail: {
+      title: 'Challenger / 0g-Audit', zone: 'Consumer · quality gate · G12 path',
+      desc: 'The AI challenger and audit phase use the largest token budget (800) because cross-book consistency checking benefits from the fullest available doctrinal context. Gate G12 uses this path: once the challenger confirms at least one augmented atom improved output quality in an A/B pair, the Augmenter switches on globally.',
+      kv: [
+        { k: 'Token budget', v: '800' }, { k: 'Injection depth', v: 'Complete cross-book context' },
+        { k: 'Phases', v: '0g-audit + podcast-challenger agent' },
+        { k: 'G12 role', v: 'First confirmed A/B acceptance → enables Augmenter globally' },
+        { k: 'Active when', v: 'Augmenter enabled (post G12)' },
+      ],
+      atoms: ['quran','hadith','doctrine'],
+    }
+  },
+};
+
+const EDGES = [
+  // Sources → Ingestion
+  { from:'kashkole', to:'b0', fp:'right', tp:'left', types:['doctrine','quran','hadith'], style:'blocker', label:'adapted chapters' },
+  { from:'books',    to:'b1', fp:'right', tp:'left', types:['quran','hadith','doctrine'], style:'mixed',   label:'enriched text' },
+  // Ingestion → Merge
+  { from:'b0', to:'b2', fp:'right', tp:'left', types:['doctrine','quran','hadith'], style:'blocker' },
+  { from:'b1', to:'b2', fp:'right', tp:'left', types:['quran','hadith','doctrine'], style:'mixed' },
+  // Merge → Store
+  { from:'b2', to:'db', fp:'right', tp:'left', types:['quran','hadith','doctrine'], style:'mixed' },
+  // Store → Augment
+  { from:'db', to:'b3', fp:'right', tp:'left', types:['quran','hadith','doctrine'], style:'mixed', label:'needs_review=0' },
+  // Augment → Consumers (disabled until G12)
+  { from:'b3', to:'enrich',     fp:'right', tp:'left', types:['quran','hadith','doctrine'], style:'disabled', label:'200 tok' },
+  { from:'b3', to:'author',     fp:'right', tp:'left', types:['quran','hadith','doctrine'], style:'disabled', label:'500 tok' },
+  { from:'b3', to:'challenger', fp:'right', tp:'left', types:['quran','hadith','doctrine'], style:'disabled', label:'800 tok' },
+];
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+const NS = 'http://www.w3.org/2000/svg';
+
+function portCoord(n, port) {
+  const cx = n.x + n.w / 2, cy = n.y + n.h / 2;
+  if (port === 'right')  return { x: n.x + n.w, y: cy };
+  if (port === 'left')   return { x: n.x,        y: cy };
+  if (port === 'bottom') return { x: cx,          y: n.y + n.h };
+  if (port === 'top')    return { x: cx,          y: n.y };
+}
+
+/* =========================================================
+   ZONE BANDS
+   ========================================================= */
+function renderZones() {
+  const zones = [
+    { label:'Sources',      x:0,    w:240,  color:'rgba(56,139,58,0.04)' },
+    { label:'Ingestion',    x:240,  w:235,  color:'rgba(91,141,217,0.04)' },
+    { label:'Merge',        x:475,  w:240,  color:'rgba(139,91,196,0.04)' },
+    { label:'Store',        x:715,  w:260,  color:'rgba(139,91,196,0.06)' },
+    { label:'Augmentation', x:975,  w:250,  color:'rgba(219,109,40,0.04)' },
+    { label:'Consumers',    x:1225, w:215,  color:'rgba(100,100,100,0.03)' },
+  ];
+  zones.forEach(z => {
+    const band = document.createElement('div');
+    band.className = 'zone-band';
+    band.style.cssText = `left:${z.x}px;width:${z.w}px;background:${z.color};`;
+    const lbl = document.createElement('div');
+    lbl.className = 'zone-band-label';
+    lbl.style.cssText = `left:${z.x + 6}px;`;
+    lbl.textContent = z.label;
+    canvas.appendChild(band);
+    canvas.appendChild(lbl);
+  });
+}
+
+/* =========================================================
+   NODES
+   ========================================================= */
+function renderNodes() {
+  Object.entries(NODES).forEach(([id, n]) => {
+    const el = document.createElement('div');
+    el.className = `dnode zone-${n.zone}`;
+    el.id = `node-${id}`;
+    el.style.cssText = `left:${n.x}px;top:${n.y}px;width:${n.w}px;`;
+    el.setAttribute('tabindex', '0');
+    el.setAttribute('role', 'button');
+    el.setAttribute('aria-label', `${n.label} — click for details`);
+    el.dataset.atoms = (n.atoms || []).join(',');
+
+    const dots  = (n.atoms||[]).map(a => `<span class="atom-dot ${a}" aria-hidden="true"></span>`).join('');
+    const chips = (n.chips||[]).map(c => `<span class="node-chip ${c.cls}">${c.text}</span>`).join('');
+
+    el.innerHTML = `
+      <div class="node-header">
+        <div class="node-icon" aria-hidden="true">${n.icon}</div>
+        <div class="node-label">${n.label}</div>
+        <div class="node-sublabel">${n.sublabel}</div>
+      </div>
+      <div class="node-body">
+        <div class="atom-dots" aria-label="Atom types">${dots}</div>
+        <div>${chips}</div>
+      </div>`;
+
+    el.addEventListener('click',   () => openDetail(id));
+    el.addEventListener('keydown', e => { if (e.key==='Enter'||e.key===' ') { e.preventDefault(); openDetail(id); } });
+    canvas.appendChild(el);
+  });
+}
+
+/* =========================================================
+   SVG EDGES
+   ========================================================= */
+function renderEdges() {
+  const svg = document.createElementNS(NS, 'svg');
+  svg.classList.add('diagram-svg');
+  svg.setAttribute('aria-hidden', 'true');
+
+  // Arrowhead markers
+  const defs = document.createElementNS(NS, 'defs');
+  const markerDefs = [
+    { id:'arr-quran',    fill:'var(--green)' },
+    { id:'arr-hadith',   fill:'#c9930a' },
+    { id:'arr-doctrine', fill:'var(--purple)' },
+    { id:'arr-mixed',    fill:'#5b8dd9' },
+    { id:'arr-blocker',  fill:'var(--orange)' },
+    { id:'arr-disabled', fill:'#555' },
+  ];
+  markerDefs.forEach(({ id, fill }) => {
+    const m = document.createElementNS(NS, 'marker');
+    m.setAttribute('id', id);
+    m.setAttribute('viewBox', '0 0 10 10');
+    m.setAttribute('refX', '9'); m.setAttribute('refY', '5');
+    m.setAttribute('markerWidth', '6'); m.setAttribute('markerHeight', '6');
+    m.setAttribute('orient', 'auto-start-reverse');
+    const p = document.createElementNS(NS, 'path');
+    p.setAttribute('d', 'M 0 0 L 10 5 L 0 10 z');
+    p.setAttribute('fill', fill);
+    m.appendChild(p); defs.appendChild(m);
+  });
+  svg.appendChild(defs);
+
+  EDGES.forEach((edge, i) => {
+    const fn = NODES[edge.from], tn = NODES[edge.to];
+    if (!fn || !tn) return;
+
+    const from = portCoord(fn, edge.fp || 'right');
+    const to   = portCoord(tn, edge.tp || 'left');
+    const dx   = to.x - from.x;
+    const cp1x = from.x + dx * 0.48;
+    const cp2x = to.x   - dx * 0.48;
+    const d    = `M ${from.x} ${from.y} C ${cp1x} ${from.y} ${cp2x} ${to.y} ${to.x} ${to.y}`;
+
+    const style = edge.style || 'mixed';
+    const markerId = `arr-${style}`;
+
+    // Invisible wider hit area
+    const bg = document.createElementNS(NS, 'path');
+    bg.setAttribute('d', d);
+    bg.setAttribute('fill', 'none');
+    bg.setAttribute('stroke', 'transparent');
+    bg.setAttribute('stroke-width', '14');
+    bg.dataset.idx = i;
+    bg.dataset.types = (edge.types||[]).join(',');
+    bg.dataset.style = style;
+    svg.appendChild(bg);
+
+    // Visible path
+    const path = document.createElementNS(NS, 'path');
+    path.setAttribute('d', d);
+    path.setAttribute('class', `edge-path t-${style} flowing`);
+    path.setAttribute('marker-end', `url(#${markerId})`);
+    path.dataset.idx   = i;
+    path.dataset.types = (edge.types||[]).join(',');
+    path.dataset.style = style;
+    svg.appendChild(path);
+
+    // Edge label
+    if (edge.label) {
+      const mx = from.x + (to.x - from.x) * 0.47;
+      const my = from.y + (to.y - from.y) * 0.47 - 9;
+      const t  = document.createElementNS(NS, 'text');
+      t.setAttribute('x', mx); t.setAttribute('y', my);
+      t.setAttribute('text-anchor', 'middle');
+      t.setAttribute('class', 'edge-label');
+      t.dataset.idx = i;
+      t.textContent = edge.label;
+      svg.appendChild(t);
+    }
+  });
+
+  canvas.appendChild(svg);
+}
+
+/* =========================================================
+   DETAIL PANEL
+   ========================================================= */
+const overlay    = document.getElementById('detailOverlay');
+const panel      = document.getElementById('detailPanel');
+const closeBtn   = document.getElementById('detailClose');
+const detailEl   = document.getElementById('detailContent');
+
+function openDetail(id) {
+  const n = NODES[id]; if (!n || !n.detail) return;
+  const d = n.detail;
+
+  const atomBadges = (n.atoms||[]).map(a => `<span class="atom-badge ${a}">● ${a}</span>`).join('');
+  const chipHTML   = (n.chips||[]).filter(c=>c.cls).map(c =>
+    `<span class="status-chip ${c.cls}" style="margin-right:6px">${c.text}</span>`
+  ).join('');
+
+  const kvHTML = d.kv ? `
+    <div class="detail-section">
+      <h3>Key facts</h3>
+      <div class="detail-kv">
+        ${d.kv.map(r => `<div class="kv-row"><div class="k">${r.k}</div><div class="v">${r.v}</div></div>`).join('')}
+      </div>
+    </div>` : '';
+
+  const cliHTML = d.cli ? `
+    <div class="detail-section">
+      <h3>CLI</h3>
+      <pre class="detail-code">${d.cli.join('\n')}</pre>
+    </div>` : '';
+
+  const sectHTML = (d.sections||[]).map(s => `
+    <div class="detail-section">
+      <h3>${s.title}</h3>
+      <div class="body">${s.body}</div>
+    </div>`).join('');
+
+  const mergeHTML = d.mergeOutcomes ? `
+    <div class="detail-section">
+      <h3>Four merge outcomes</h3>
+      <table class="outcome-table">
+        <thead><tr><th>Outcome</th><th>What happens</th></tr></thead>
+        <tbody>
+          <tr><td>new</td><td>INSERT into knowledge_atoms + new atom_sources row</td></tr>
+          <tr><td>duplicate</td><td>Existing row unchanged; INSERT new atom_sources provenance row</td></tr>
+          <tr><td>variant</td><td>Same canonical ID, different text_en — INSERT new knowledge_atoms row with variant marker</td></tr>
+          <tr><td>conflict</td><td>Differing text_ar or hadith grade — write to manual_review_queue and halt phase</td></tr>
+        </tbody>
+      </table>
+    </div>` : '';
+
+  const tableGroupHTML = d.tableGroups ? `
+    <div class="detail-section">
+      <h3>Table groups</h3>
+      <table class="outcome-table">
+        <thead><tr><th>Group</th><th>Tables (count)</th></tr></thead>
+        <tbody>
+          <tr><td>Core (6)</td><td>books, chapters, episodes, phonetics, pipeline_runs, cost_ledger</td></tr>
+          <tr><td>Knowledge (6)</td><td>knowledge_atoms, atom_sources, atom_topic_tags, external_corpora, topic_type_taxonomy, corpus_chapters</td></tr>
+          <tr><td>Quality (1)</td><td>challenger_findings</td></tr>
+          <tr><td>Etymology (3)</td><td>arabic_roots, word_etymologies, letter_profiles</td></tr>
+        </tbody>
+      </table>
+    </div>` : '';
+
+  const blockerHTML = d.blocker ? `
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:var(--space-4)">
+      <span class="status-chip blocker">⛔ BLOCKER — OPEN</span>
+      <a href="intelligence-pipeline.html#waves" style="font-size:12px;color:var(--accent)">See full blocker →</a>
+    </div>` : '';
+
+  detailEl.innerHTML = `
+    <h2 id="detailHeading">${d.title}</h2>
+    <div class="detail-zone-label">${d.zone}</div>
+    ${blockerHTML}
+    ${chipHTML ? `<div style="margin-bottom:var(--space-3)">${chipHTML}</div>` : ''}
+    <div class="detail-atom-badges">${atomBadges}</div>
+    <p class="detail-desc">${d.desc}</p>
+    ${kvHTML}${mergeHTML}${tableGroupHTML}${cliHTML}${sectHTML}
+  `;
+
+  overlay.removeAttribute('hidden');
+  overlay.setAttribute('aria-hidden', 'false');
+  panel.focus();
+}
+
+function closeDetail() {
+  overlay.setAttribute('hidden', '');
+  overlay.setAttribute('aria-hidden', 'true');
+}
+
+closeBtn.addEventListener('click', closeDetail);
+overlay.addEventListener('click', e => { if (e.target === overlay) closeDetail(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDetail(); });
+
+/* =========================================================
+   FILTER LOGIC
+   ========================================================= */
+document.getElementById('filterBar').addEventListener('click', e => {
+  const btn = e.target.closest('.filter-btn');
+  if (!btn) return;
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.classList.remove('active');
+    b.setAttribute('aria-pressed', 'false');
+  });
+  btn.classList.add('active');
+  btn.setAttribute('aria-pressed', 'true');
+  applyFilter(btn.dataset.filter);
+});
+
+function applyFilter(filter) {
+  const allEdges = document.querySelectorAll('.edge-path');
+  const allNodes = document.querySelectorAll('.dnode');
+  const allLabels = document.querySelectorAll('.edge-label');
+
+  if (filter === 'all') {
+    allEdges.forEach(p => { p.classList.remove('dimmed'); });
+    allNodes.forEach(n => { n.classList.remove('dimmed'); });
+    allLabels.forEach(l => { l.style.opacity = ''; });
+    return;
+  }
+
+  allEdges.forEach(p => {
+    const types = (p.dataset.types || '').split(',');
+    const style = p.dataset.style || '';
+    // always show blocker edges when filtering
+    const keep  = types.includes(filter) || style === 'blocker';
+    p.classList.toggle('dimmed', !keep);
+  });
+
+  allNodes.forEach(n => {
+    const atoms = (n.dataset.atoms || '').split(',');
+    n.classList.toggle('dimmed', !atoms.includes(filter));
+  });
+
+  allLabels.forEach(l => {
+    const idx   = parseInt(l.dataset.idx, 10);
+    const edge  = EDGES[idx];
+    const keep  = edge && (edge.types||[]).includes(filter);
+    l.style.opacity = keep ? '' : '0.1';
+  });
+}
+
+/* =========================================================
+   INIT
+   ========================================================= */
+const canvas = document.getElementById('canvas');
+renderZones();
+renderNodes();
+renderEdges();
+</script>
+
+</body>
+</html>
