@@ -28,6 +28,7 @@ from . import (
     p5_4, p6_1, p6_2,
     p11_1,
     pw4_1, pw4_2, pw4_3,
+    pw5_1, pw5_2, pw5_3,
     dor_halts,
 )
 
@@ -84,7 +85,11 @@ REGISTRY: dict[int, list] = {
         pw4_3,   # annotation intelligence lane
         p11_1,   # multi-mac decision doc (primary-only + SSH-tunneled)
     ],
-    5: [],
+    5: [
+        pw5_1,   # migrate_meta_yml — retroactive enhancement flow
+        pw5_2,   # validate_ship_ready G8-G12 — extended publish gates
+        pw5_3,   # promotion_lane — self-learning spec promotion
+    ],
 }
 
 
