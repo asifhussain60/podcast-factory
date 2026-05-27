@@ -1443,6 +1443,10 @@ body[data-arabic="on"] .ref-quran .ar-overlay .ar-script { display: none; }
   margin-left: -0.6em;
 }
 
+.prose-body [data-editor-id].edit-block-saved:not([contenteditable="true"]) {
+  opacity: 0.9;
+}
+
 .prose-body [data-editor-id] .edit-diff-add {
   background: color-mix(in oklab, #16a34a 18%, transparent);
   color: #065f46;
@@ -2040,8 +2044,16 @@ body[data-arabic="on"] .ref-quran .ar-overlay .ar-script { display: none; }
    ====================================================================== */
 
 .anno-workbench-active {
-  background: color-mix(in oklab, var(--color-plan, #6366f1) 8%, transparent);
+  background: color-mix(in oklab, var(--color-plan, #6366f1) 10%, transparent);
   border-radius: 4px;
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--color-plan, #6366f1) 40%, transparent),
+    0 10px 20px -15px color-mix(in oklab, var(--color-plan, #6366f1) 55%, transparent);
+  filter: none;
+}
+
+.anno-workbench-saved {
+  filter: saturate(0.9) brightness(0.97);
 }
 
 .anno-has-tags {
@@ -2078,6 +2090,12 @@ body[data-arabic="on"] .ref-quran .ar-overlay .ar-script { display: none; }
   display: flex;
   flex-direction: column;
   gap: 10px;
+  position: sticky;
+  top: 8px;
+  z-index: 6;
+  background: var(--color-surface-raised);
+  border-radius: 10px;
+  padding-top: 6px;
 }
 
 .anno-workbench-scope {

@@ -109,8 +109,8 @@ const pageTitle = `${ch.title} — ${contentTitle}`;
     </Fragment>
 
     <Fragment slot="rail">
-      <ChapterMiniTOC client:idle />
       <AnnotationWorkbench client:idle book={slug} chapterSlug={ch.slug} bookTitle={contentTitle} />
+      <ChapterMiniTOC client:idle />
       <ChapterInstructionPanel client:idle />
       <AskChapter client:idle book={slug} chapterTitle={ch.title} chapterText={sourceText} />
     </Fragment>

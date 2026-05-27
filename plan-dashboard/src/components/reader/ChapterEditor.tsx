@@ -137,15 +137,15 @@ function renderDiffHtml(original: string, current: string): string {
 
 function paintBlockDiff(block: HTMLElement, snap: BlockSnapshot): void {
   if (snap.deleted) {
-    block.classList.add('edit-block-deleted', 'edit-block-changed');
+    block.classList.add('edit-block-deleted', 'edit-block-changed', 'edit-block-saved');
     block.textContent = snap.current || snap.original;
     return;
   }
   if (snap.current !== snap.original) {
-    block.classList.add('edit-block-changed');
+    block.classList.add('edit-block-changed', 'edit-block-saved');
     block.innerHTML = renderDiffHtml(snap.original, snap.current);
   } else {
-    block.classList.remove('edit-block-changed', 'edit-block-deleted');
+    block.classList.remove('edit-block-changed', 'edit-block-deleted', 'edit-block-saved');
     block.textContent = snap.current;
   }
 }
@@ -268,7 +268,7 @@ export default function ChapterEditor({ book, chapterSlug, chapterTitle, sourceT
       const snap = snapshotsRef.current.get(id);
       if (snap) {
         block.textContent = snap.current;
-        block.classList.remove('edit-block-deleted');
+        block.classList.remove('edit-block-deleted', 'edit-block-saved');
       }
       block.setAttribute('contenteditable', 'true');
       block.setAttribute('spellcheck', 'true');

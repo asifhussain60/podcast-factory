@@ -135,6 +135,7 @@ export default function AnnotationWorkbench({ book, chapterSlug, bookTitle }: Pr
 
   const lastNoteRef = useRef('');
   const lastParaRef = useRef<number | null>(null);
+  const workbenchRef = useRef<HTMLElement | null>(null);
 
   const saveCurrentNote = useCallback(async () => {
     if (lastParaRef.current === null) return;
@@ -215,8 +216,24 @@ export default function AnnotationWorkbench({ book, chapterSlug, bookTitle }: Pr
       setActiveParagraphText(textPreview(target.textContent ?? '', 260));
     };
 
+    const onClick = (e: Event) => {
+      const target = (e.target as HTMLElement).closest<HTMLElement>('[data-para-idx]');
+      if (!target) return;
+      const idx = Number(target.getAttribute('data-para-idx'));
+      if (Number.isNaN(idx)) return;
+      setActiveParaIdx(idx);
+      setActiveParagraphText(textPreview(target.textContent ?? '', 260));
+      workbenchRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      const actionInput = workbenchRef.current?.querySelector<HTMLTextAreaElement>('.anno-instruction-input');
+      actionInput?.focus();
+    };
+
     prose.addEventListener('mouseover', onOver);
-    return () => prose.removeEventListener('mouseover', onOver);
+    prose.addEventListener('click', onClick);
+    return () => {
+      prose.removeEventListener('mouseover', onOver);
+      prose.removeEventListener('click', onClick);
+    };
   }, []);
 
   useEffect(() => {
@@ -225,6 +242,7 @@ export default function AnnotationWorkbench({ book, chapterSlug, bookTitle }: Pr
 
     prose.querySelectorAll<HTMLElement>('[data-para-idx]').forEach((el) => {
       el.classList.remove('anno-workbench-active');
+      el.classList.remove('anno-workbench-saved');
       el.style.borderLeft = '';
       el.style.paddingLeft = '';
       el.style.marginLeft = '';
@@ -240,6 +258,7 @@ export default function AnnotationWorkbench({ book, chapterSlug, bookTitle }: Pr
       const el = prose.querySelector<HTMLElement>(`[data-para-idx="${idx}"]`);
       if (!el) return;
       el.classList.add('anno-has-tags');
+      el.classList.add('anno-workbench-saved');
       el.style.borderLeft = `3px solid ${items[0].tag_color}`;
       el.style.paddingLeft = '0.6em';
       el.style.marginLeft = '-0.75em';
@@ -260,6 +279,13 @@ export default function AnnotationWorkbench({ book, chapterSlug, bookTitle }: Pr
         .join('');
     });
 
+    Object.keys(notesByPara).forEach((key) => {
+      const idx = Number(key);
+      if (Number.isNaN(idx)) return;
+      const el = prose.querySelector<HTMLElement>(`[data-para-idx="${idx}"]`);
+      if (el) el.classList.add('anno-workbench-saved');
+    });
+
     prose.querySelectorAll<HTMLElement>('.anno-corner-badges').forEach((host) => {
       const parent = host.parentElement as HTMLElement | null;
       if (!parent) return;
@@ -274,7 +300,7 @@ export default function AnnotationWorkbench({ book, chapterSlug, bookTitle }: Pr
       const el = prose.querySelector<HTMLElement>(`[data-para-idx="${activeParaIdx}"]`);
       if (el) el.classList.add('anno-workbench-active');
     }
-  }, [annotations, activeParaIdx]);
+  }, [annotations, activeParaIdx, notesByPara]);
 
   useEffect(() => {
     if (lastParaRef.current !== null && lastParaRef.current !== activeParaIdx) {
@@ -477,7 +503,7 @@ export default function AnnotationWorkbench({ book, chapterSlug, bookTitle }: Pr
   };
 
   return (
-    <section className="rail-panel anno-workbench">
+    <section className="rail-panel anno-workbench" ref={workbenchRef}>
       <div className="rail-panel-head">
         <span className="rail-panel-icon" aria-hidden>✦</span>
         <span className="rail-panel-label">Annotation workspace</span>
@@ -565,7 +591,7 @@ export default function AnnotationWorkbench({ book, chapterSlug, bookTitle }: Pr
 
       <label className="anno-field-label">Instruction</label>
       <textarea
-        className="rail-textarea"
+        className="rail-textarea anno-instruction-input"
         rows={3}
         value={instruction}
         onChange={(e) => setInstruction(e.target.value)}
