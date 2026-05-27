@@ -1,0 +1,669 @@
+/* ────────────────────────────────────────────────────────────────
+   narrative.css — Cinematic scroll homepage styles.
+   Full-viewport Apple-style pinned scroll chapters.
+   Zero inline styles in components — all classes here.
+   ──────────────────────────────────────────────────────────────── */
+
+/* ── Root overrides for narrative pages ───────────────────────── */
+
+.narrative-root {
+  background: #080c14;
+  color: #f0ece3;
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+/* Narrative-specific topnav overrides (applied via NarrativeBase.astro) */
+.narrative-topnav,
+.narrative-root .topnav {
+  background: rgba(8, 12, 20, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(200, 150, 60, 0.12);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+}
+
+.narrative-topnav .topnav-brand,
+.narrative-root .topnav-brand {
+  color: #c9973a;
+}
+
+.narrative-topnav .topnav-section,
+.narrative-root .topnav-section {
+  color: rgba(240, 236, 227, 0.6);
+}
+
+.narrative-topnav .topnav-section:hover,
+.narrative-topnav .topnav-section.is-active,
+.narrative-root .topnav-section:hover,
+.narrative-root .topnav-section.is-active {
+  color: #f0ece3;
+}
+
+/* ── Scroll progress bar ───────────────────────────────────────── */
+
+.narrative-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(90deg, #c9973a, #f0b857);
+  z-index: 300;
+  transform-origin: left;
+  transition: width 0.05s linear;
+}
+
+/* ── Chapter counter pill ──────────────────────────────────────── */
+
+.narrative-chapter-pill {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: rgba(8, 12, 20, 0.8);
+  border: 1px solid rgba(201, 151, 58, 0.3);
+  color: #c9973a;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 6px 12px;
+  border-radius: 20px;
+  z-index: 200;
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.narrative-chapter-pill.visible {
+  opacity: 1;
+}
+
+/* ── Hero section ──────────────────────────────────────────────── */
+
+.narrative-hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 50% 60%, #141a2e 0%, #080c14 70%);
+}
+
+/* Particle field background */
+.narrative-hero-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.n-particle {
+  position: absolute;
+  font-family: 'Amiri', serif;
+  color: rgba(201, 151, 58, 0.08);
+  font-size: clamp(16px, 2vw, 28px);
+  user-select: none;
+  animation: particleDrift linear infinite;
+}
+
+@keyframes particleDrift {
+  0%   { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+  5%   { opacity: 1; }
+  95%  { opacity: 1; }
+  100% { transform: translateY(-10vh) rotate(20deg); opacity: 0; }
+}
+
+/* Hero logo mark area */
+.narrative-hero-logo {
+  width: clamp(140px, 18vw, 220px);
+  height: clamp(140px, 18vw, 220px);
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  transform: scale(0.85);
+  will-change: opacity, transform;
+}
+
+.narrative-hero-logo svg,
+.narrative-hero-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Logo placeholder ring — visible until real logo drops in */
+.logo-placeholder-ring {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 1.5px solid rgba(201, 151, 58, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at center, rgba(201, 151, 58, 0.04) 0%, transparent 70%);
+  position: relative;
+}
+
+.logo-placeholder-ring::before {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border-radius: 50%;
+  border: 1px dashed rgba(201, 151, 58, 0.15);
+}
+
+.logo-placeholder-inner-svg {
+  width: 55%;
+  height: 55%;
+  opacity: 0.55;
+}
+
+/* Hero text */
+.narrative-hero-eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #c9973a;
+  margin-bottom: 1rem;
+  opacity: 0;
+  transform: translateY(12px);
+  will-change: opacity, transform;
+}
+
+.narrative-hero-title {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: clamp(2.4rem, 5.5vw, 4.8rem);
+  font-weight: 600;
+  line-height: 1.1;
+  text-align: center;
+  color: #f0ece3;
+  max-width: 780px;
+  margin: 0 0 1.5rem;
+  opacity: 0;
+  transform: translateY(16px);
+  will-change: opacity, transform;
+}
+
+.narrative-hero-title em {
+  font-style: italic;
+  color: #c9973a;
+}
+
+.narrative-hero-lede {
+  font-size: clamp(1rem, 1.8vw, 1.25rem);
+  line-height: 1.7;
+  color: rgba(240, 236, 227, 0.65);
+  text-align: center;
+  max-width: 560px;
+  margin: 0 0 3rem;
+  opacity: 0;
+  transform: translateY(12px);
+  will-change: opacity, transform;
+}
+
+.narrative-hero-cta {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(10px);
+  will-change: opacity, transform;
+}
+
+.narrative-cta-primary {
+  padding: 14px 32px;
+  background: #c9973a;
+  color: #080c14;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.narrative-cta-primary:hover {
+  background: #e0ab47;
+  transform: translateY(-1px);
+}
+
+.narrative-cta-secondary {
+  padding: 14px 24px;
+  background: transparent;
+  color: rgba(240, 236, 227, 0.7);
+  font-size: 15px;
+  font-weight: 500;
+  border: 1px solid rgba(240, 236, 227, 0.2);
+  border-radius: 3px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.2s, border-color 0.2s, transform 0.15s ease;
+}
+
+.narrative-cta-secondary:hover {
+  color: #f0ece3;
+  border-color: rgba(240, 236, 227, 0.5);
+  transform: translateY(-1px);
+}
+
+/* Scroll invitation */
+.narrative-scroll-invite {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  will-change: opacity;
+}
+
+.narrative-scroll-invite span {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(240, 236, 227, 0.4);
+}
+
+.scroll-chevron {
+  width: 20px;
+  height: 20px;
+  border-right: 1.5px solid rgba(201, 151, 58, 0.5);
+  border-bottom: 1.5px solid rgba(201, 151, 58, 0.5);
+  transform: rotate(45deg);
+  animation: chevronBounce 1.8s ease-in-out infinite;
+}
+
+@keyframes chevronBounce {
+  0%, 100% { transform: rotate(45deg) translateY(0); opacity: 0.5; }
+  50%       { transform: rotate(45deg) translateY(5px); opacity: 1; }
+}
+
+/* Stats row */
+.narrative-hero-stats {
+  display: flex;
+  gap: 3rem;
+  margin-top: 3.5rem;
+  margin-bottom: 0;
+  opacity: 0;
+  transform: translateY(10px);
+  will-change: opacity, transform;
+}
+
+.n-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.n-stat-value {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #c9973a;
+  line-height: 1;
+}
+
+.n-stat-label {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: rgba(240, 236, 227, 0.45);
+  text-transform: uppercase;
+}
+
+/* ── Chapter scroll sections ───────────────────────────────────── */
+
+.narrative-chapters-wrapper {
+  position: relative;
+}
+
+/* Each chapter is a pinned scroll unit */
+.narrative-chapter {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Alternating background tones */
+.narrative-chapter:nth-child(odd) {
+  background: #080c14;
+}
+
+.narrative-chapter:nth-child(even) {
+  background: #0c1120;
+}
+
+/* Horizontal rule divider top */
+.narrative-chapter::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 151, 58, 0.12), transparent);
+}
+
+.narrative-chapter-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5vw;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 5vw;
+}
+
+/* Odd chapters: text left, visual right */
+.narrative-chapter:nth-child(odd) .narrative-chapter-inner {
+  direction: ltr;
+}
+
+/* Even chapters: text right, visual left */
+.narrative-chapter:nth-child(even) .narrative-chapter-inner {
+  direction: rtl;
+}
+
+.narrative-chapter:nth-child(even) .narrative-chapter-inner > * {
+  direction: ltr;
+}
+
+/* Chapter text block */
+.narrative-chapter-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.narrative-chapter-station {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  opacity: 0;
+  transform: translateY(10px);
+  will-change: opacity, transform;
+}
+
+.n-station-number {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(201, 151, 58, 0.4);
+  background: rgba(201, 151, 58, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #c9973a;
+  flex-shrink: 0;
+}
+
+.n-station-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.n-station-id {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #c9973a;
+}
+
+.n-station-duration {
+  font-size: 11px;
+  color: rgba(240, 236, 227, 0.4);
+  letter-spacing: 0.06em;
+}
+
+.narrative-chapter-title {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: clamp(1.8rem, 3.5vw, 3rem);
+  font-weight: 600;
+  line-height: 1.15;
+  color: #f0ece3;
+  margin: 0;
+  opacity: 0;
+  transform: translateY(14px);
+  will-change: opacity, transform;
+}
+
+.narrative-chapter-body {
+  font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+  line-height: 1.75;
+  color: rgba(240, 236, 227, 0.65);
+  margin: 0;
+  max-width: 480px;
+  opacity: 0;
+  transform: translateY(10px);
+  will-change: opacity, transform;
+}
+
+/* Kind badge */
+.n-kind-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  width: fit-content;
+  opacity: 0;
+  transform: translateY(8px);
+  will-change: opacity, transform;
+}
+
+.n-kind-agentic {
+  background: rgba(74, 124, 74, 0.15);
+  border: 1px solid rgba(74, 124, 74, 0.35);
+  color: #7ecf7e;
+}
+
+.n-kind-hybrid {
+  background: rgba(26, 92, 138, 0.15);
+  border: 1px solid rgba(26, 92, 138, 0.35);
+  color: #6ab4f0;
+}
+
+.n-kind-mechanical {
+  background: rgba(139, 69, 19, 0.15);
+  border: 1px solid rgba(139, 69, 19, 0.35);
+  color: #c9973a;
+}
+
+/* Chapter visual area */
+.narrative-chapter-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: clamp(280px, 40vh, 480px);
+  opacity: 0;
+  transform: translateX(30px) scale(0.96);
+  will-change: opacity, transform;
+}
+
+.narrative-chapter:nth-child(even) .narrative-chapter-visual {
+  transform: translateX(-30px) scale(0.96);
+}
+
+/* Visual SVG container */
+.n-visual-frame {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: rgba(201, 151, 58, 0.03);
+  border: 1px solid rgba(201, 151, 58, 0.08);
+  overflow: hidden;
+  position: relative;
+}
+
+.n-visual-frame svg {
+  max-width: 90%;
+  max-height: 90%;
+}
+
+/* ── Outro / transition to catalog ────────────────────────────── */
+
+.narrative-outro {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at 50% 40%, #141a2e 0%, #080c14 80%);
+  overflow: hidden;
+  padding: 6rem 2rem;
+}
+
+.narrative-outro-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #c9973a;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.narrative-outro-title {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: clamp(2rem, 4.5vw, 3.8rem);
+  font-weight: 600;
+  line-height: 1.15;
+  color: #f0ece3;
+  text-align: center;
+  max-width: 700px;
+  margin: 0 0 1.5rem;
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+.narrative-outro-sub {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: rgba(240, 236, 227, 0.55);
+  text-align: center;
+  max-width: 520px;
+  margin: 0 0 3rem;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.narrative-outro-actions {
+  display: flex;
+  gap: 1.25rem;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+/* Quality checks counter */
+.narrative-quality-row {
+  display: flex;
+  gap: 4rem;
+  margin-top: 5rem;
+  padding-top: 3rem;
+  border-top: 1px solid rgba(201, 151, 58, 0.1);
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.n-quality-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.n-quality-value {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: #c9973a;
+  line-height: 1;
+}
+
+.n-quality-label {
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: rgba(240, 236, 227, 0.45);
+  text-align: center;
+  max-width: 160px;
+  line-height: 1.4;
+}
+
+/* ── Responsive — mobile collapses pins to stacked fade ────────── */
+
+@media (max-width: 768px) {
+  .narrative-chapter-inner {
+    grid-template-columns: 1fr;
+    direction: ltr !important;
+    gap: 2.5rem;
+    padding: 4rem 6vw;
+  }
+
+  .narrative-chapter {
+    height: auto;
+    min-height: auto;
+    padding: 5rem 0;
+  }
+
+  .narrative-chapter-visual {
+    height: 220px;
+    transform: none !important;
+  }
+
+  .narrative-hero-stats {
+    gap: 2rem;
+  }
+
+  .narrative-outro-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .narrative-quality-row {
+    gap: 2.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* On mobile: remove GSAP animations — rely purely on CSS transitions */
+  .narrative-chapter-station,
+  .narrative-chapter-title,
+  .narrative-chapter-body,
+  .n-kind-badge,
+  .narrative-chapter-visual {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

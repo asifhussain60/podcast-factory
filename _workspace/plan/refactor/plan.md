@@ -377,6 +377,18 @@ flowchart LR
 
 ---
 
+# Wave G · Narrative Homepage
+
+### G1. Build a cinematic narrative scroll homepage synchronized with the existing Architecture pipeline view.
+
+> Replace the current homepage with a full-viewport Apple-style cinematic scroll experience using GSAP ScrollTrigger. The page tells the story of the factory in eleven pinned chapters — one per pipeline station — using the same data that drives the Architecture > Pipeline view, so the two surfaces never drift. Each chapter locks the viewport, animates its content in (title, body, visual), then releases to the next. The existing Architecture page is left completely untouched. A logo placeholder slot in the hero accepts the final logo asset when it arrives. The pipeline framing is universal: any source material (PDFs, audio, transcripts, data, research) in; beautifully produced podcast series out — not tied to any specific tradition or content type.
+>
+> *Value gained:* The site gains a compelling public-facing narrative that communicates the factory's purpose to any visitor in under two minutes of scrolling. The architecture detail view remains for operators who need the full technical picture. Both are synchronized from the same data source.
+
+**Status: IN PROGRESS 2026-05-27** — branch `feat/narrative-homepage` created; building.
+
+---
+
 ## What This Plan Excludes (by design)
 
 - **F-item operational backlog** (F4, F7, F11–F13, F22, F23, F25/F26, F29 still open) — tracked in [pipeline-debt.md](../debt/pipeline-debt.md) after A1 moves it. Pipeline-debt is the live operational backlog; this refactor plan is the architectural reshape. Don't merge the two.
