@@ -310,7 +310,7 @@ const NODES = {
     label: 'Kashkole Corpus', sublabel: '122 chapters · 17 binders',
     zone: 'source', icon: '📚',
     x: 80, y: 35, w: 230, h: 145,
-    atoms: ['doctrine','quran','hadith'],
+    atoms: ['doctrine'],
     chips: [],
     tooltip: 'Ismaili scholarly corpus — the doctrine substrate. Not produced as a podcast; seeds the knowledge library.',
     detail: {
@@ -338,7 +338,7 @@ const NODES = {
     label: 'Pipeline Books', sublabel: '6 shipped + queue',
     zone: 'source', icon: '🎙',
     x: 590, y: 40, w: 230, h: 120,
-    atoms: ['quran','hadith','doctrine'],
+    atoms: ['quran','hadith'],
     chips: [],
     tooltip: 'Every production book contributes atoms. The Extractor reads enriched chapter text — never audio scripts.',
     detail: {
@@ -360,7 +360,7 @@ const NODES = {
     label: 'B0 — Kashkole Driver', sublabel: 'Standalone batch ingest',
     zone: 'ingest', icon: '⚙',
     x: 80, y: 245, w: 230, h: 145,
-    atoms: ['doctrine','quran','hadith'],
+    atoms: ['doctrine'],
     chips: [{ text: '⛔ BLOCKED', cls: 'blocker' }, { text: 'Tier 1', cls: 'tier1' }],
     tooltip: 'Batch driver for seeding the library from 75 Kashkole chapters. Not a pipeline phase — runs standalone.',
     detail: {
@@ -399,7 +399,7 @@ const NODES = {
     label: 'B1 — Extractor', sublabel: 'Claude Sonnet · structured output',
     zone: 'ingest', icon: '🔍',
     x: 590, y: 250, w: 230, h: 130,
-    atoms: ['quran','hadith','doctrine'],
+    atoms: ['quran','hadith'],
     chips: [{ text: 'Tier 1', cls: 'tier1' }],
     tooltip: 'One Claude Sonnet structured-output call per chapter. Confidence < 0.7 atoms go to manual review queue.',
     detail: {
@@ -561,10 +561,10 @@ const NODES = {
    DATA — EDGES
    ========================================================= */
 const EDGES = [
-  { from:'kashkole', to:'b0', fp:'bottom', tp:'top', types:['doctrine','quran','hadith'], style:'blocker', label:'adapted chapters' },
-  { from:'books',    to:'b1', fp:'bottom', tp:'top', types:['quran','hadith','doctrine'], style:'mixed',   label:'enriched text' },
-  { from:'b0', to:'b2', fp:'bottom', tp:'top', types:['doctrine','quran','hadith'], style:'blocker' },
-  { from:'b1', to:'b2', fp:'bottom', tp:'top', types:['quran','hadith','doctrine'], style:'mixed' },
+  { from:'kashkole', to:'b0', fp:'bottom', tp:'top', types:['doctrine'], style:'blocker', label:'adapted chapters' },
+  { from:'books',    to:'b1', fp:'bottom', tp:'top', types:['quran','hadith'], style:'mixed',   label:'enriched text' },
+  { from:'b0', to:'b2', fp:'bottom', tp:'top', types:['doctrine'], style:'blocker' },
+  { from:'b1', to:'b2', fp:'bottom', tp:'top', types:['quran','hadith'], style:'mixed' },
   { from:'b2', to:'db', fp:'bottom', tp:'top', types:['quran','hadith','doctrine'], style:'mixed' },
   { from:'db', to:'b3', fp:'bottom', tp:'top', types:['quran','hadith','doctrine'], style:'mixed', label:'needs_review=0' },
   { from:'b3', to:'enrich',     fp:'bottom', tp:'top', types:['quran','hadith','doctrine'], style:'disabled', label:'200 tok' },
