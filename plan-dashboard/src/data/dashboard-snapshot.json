@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-27T08:55:09.583Z",
-  "source_commit": "3cd344b",
+  "generated_at": "2026-05-27T09:24:10.010Z",
+  "source_commit": "e8993bb",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -432,6 +432,21 @@
   ],
   "recent_commits": [
     {
+      "sha": "e8993bb",
+      "subject": "refactor(diagrams): convert all diagrams to vertical top-to-bottom flow",
+      "date": "2026-05-27"
+    },
+    {
+      "sha": "ed07aac",
+      "subject": "fix(intelligence): use is:global style so JS-rendered nodes get CSS",
+      "date": "2026-05-27"
+    },
+    {
+      "sha": "95d91f4",
+      "subject": "refactor(plan-dashboard): 3-section nav + sidebar + intelligence diagram + delete legacy view/",
+      "date": "2026-05-27"
+    },
+    {
       "sha": "3cd344b",
       "subject": "feat(view): add interactive intelligence pipeline diagram",
       "date": "2026-05-26"
@@ -464,21 +479,6 @@
     {
       "sha": "8ff6d61",
       "subject": "feat(wave-1): Kashkole independent refinement — B0 step + corpus_chapters state machine",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "1b4c829",
-      "subject": "feat(plan-dashboard): SOLID/DRY wave-1 schema — 16 tables, atom_sources, corpus layer",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "b7d4bfb",
-      "subject": "feat(plan-dashboard): add system map, DB schema, and etymology architecture pages",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "7f984bb",
-      "subject": "dash: three-layer progressive disclosure — tier badges, hover cards, structured expand panels",
       "date": "2026-05-26"
     }
   ],

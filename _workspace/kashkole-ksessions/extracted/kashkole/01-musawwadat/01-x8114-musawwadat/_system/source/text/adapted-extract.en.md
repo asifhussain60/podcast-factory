@@ -3,9 +3,9 @@
 
 The proper Arabic definition of ⟪ar-quote:لزمہ ولم یفارقہ⟫ in the term ⟪ar:'عبد'⟫ is "one who cleaves at all times and never departs." It is in this sense that Maulana ʿAlī rendered complete servitude to Muḥammad al-Muṣṭafā, and Ḥaḍrat ʿAbbās rendered complete servitude to Imām Ḥusayn.
 
-The soul departs the human body on the day of ʿĀshūrāʾ, if it be prepared and pure. The emergence of the Qāʾim shall be from Maʿārif; the appearance of the Mahdī, from Cairo.
+The soul departs the human body on the day of ʿĀshūrāʾ, if it be prepared and pure. The emergence of the Qāʾim shall be from Qahira; the appearance of the Mahdī, from Cairo.
 
-The commands of the Prophet are received in two registers. The first is verbal — to affirm in the heart that what he says is true; this is ⟪ar:'طاعت'⟫ (ṭāʿa, obedience). The second is practical — to act upon what he commands; this is ⟪ar:'اتباع'⟫ (ittibāʿ, following). The "standing one" (qāʾim) signifies one who stands upon two legs: the first Pīr is Sayyidnā Sulaymān, the second is the Qāʾim himself.
+The commands of the Prophet are received in two registers. The first is verbal — to affirm in the heart that what he says is true; this is ⟪ar:'طاعت'⟫ (ṭāʿa, obedience). The second is practical — to act upon what he commands; this is ⟪ar:'اتباع'⟫ (ittibāʿ, following). The "standing one" (qāʾim) signifies one who stands upon two legs: the first leg is Sayyidnā Sulaymān, the second is the Qāʾim himself.
 
 Three fasts mark three saints: the first Thursday for Maryam, the middle Wednesday for ⟪ar:حضرت یحیا⟫, and the last Thursday for ʿĪsā. To taste salt at the beginning and end of a meal is to invoke ʿAlī at the beginning and the end. Murder is the separation of two things, as soul from body; combat is to dispute. The "elephant," in the symbolic register, is Abū Bakr.
 
