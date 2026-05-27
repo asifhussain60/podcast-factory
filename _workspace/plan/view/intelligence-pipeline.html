@@ -144,11 +144,10 @@
   .wave-plan-row .wave-meta strong { color: var(--text-bright); display: block; font-size: 14px; }
   /* Blocker notice */
   .wave-blocker {
-    grid-column: 1 / -1;
     display: flex;
     align-items: flex-start;
     gap: var(--space-3);
-    margin-top: var(--space-3);
+    margin-bottom: var(--space-3);
     padding: 10px 14px;
     background: rgba(255, 160, 0, 0.08);
     border: 1px solid rgba(255, 160, 0, 0.35);
@@ -1075,16 +1074,16 @@
       <strong>~1–1.5 wks</strong>
       <span>2 atom types · no ML</span>
     </div>
-    <div class="wave-blocker">
-      <span class="blocker-icon">⛔</span>
-      <div>
-        <strong>BLOCKER — discuss before Wave 1 executes.</strong>
-        Asif wants to evaluate using <strong>ChatGPT or Gemini</strong> (paid subscriptions)
-        to enrich the adapted Kashkole chapter text before it becomes knowledge atoms.
-        Three paths: (a) ingest as-is; (b) enrich PASS+WARN chapters first;
-        (c) annotate already-ingested atoms post-hoc. Decision affects doctrinal atom
-        depth, topic-tagging, and Augmenter output quality. No code lands until resolved.
-      </div>
+  </div>
+  <div class="wave-blocker">
+    <span class="blocker-icon">⛔</span>
+    <div>
+      <strong>BLOCKER — discuss before Wave 1 executes.</strong>
+      Asif wants to evaluate using <strong>ChatGPT or Gemini</strong> (paid subscriptions)
+      to enrich the adapted Kashkole chapter text before it becomes knowledge atoms.
+      Three paths: (a) ingest as-is; (b) enrich PASS+WARN chapters first;
+      (c) annotate already-ingested atoms post-hoc. Decision affects doctrinal atom
+      depth, topic-tagging, and Augmenter output quality. No code lands until resolved.
     </div>
   </div>
 
