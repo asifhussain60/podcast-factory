@@ -22,6 +22,11 @@ export default function AgentCard({ agent }: Props) {
   const iconClass = `fa-solid fa-${agent.icon}`;
   return (
     <div className={`agent-card ${toneClass}`}>
+      <div className="agent-executor">
+        <i className="fa-solid fa-robot" aria-hidden="true" />
+        <span>Claude agent</span>
+        <span className="agent-executor-model">· claude-3-5-sonnet</span>
+      </div>
       <header className="agent-head">
         <div className="agent-icon"><i className={iconClass} aria-hidden="true"></i></div>
         <div className="agent-title">

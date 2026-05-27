@@ -94,12 +94,15 @@ function fileViewHref(relPath: string): string {
       <p class="card-sub">No episodes yet.</p>
     ) : (
       <div class="lib-file-list">
-        {episodes.map((f) => (
-          <a class="lib-file-row" href={fileViewHref(f.relPath)} target="_blank">
-            <span class="lib-file-name">{f.name}</span>
-            <span class="lib-file-meta">{formatBytes(f.bytes)} · {formatModified(f.modified)}</span>
-          </a>
-        ))}
+        {episodes.map((f) => {
+          const epSlug = f.name.replace(/\.(txt|md)$/i, '');
+          return (
+            <a class="lib-file-row" href={`/library/${slugStr}/episode/${epSlug}`}>
+              <span class="lib-file-name">{f.name}</span>
+              <span class="lib-file-meta">{formatBytes(f.bytes)} · {formatModified(f.modified)}</span>
+            </a>
+          );
+        })}
       </div>
     )}
   </section>
@@ -216,7 +219,7 @@ function fileViewHref(relPath: string): string {
   .lib-title-row h1 { margin: 0; }
   .lib-slug {
     font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    font-size: 12px;
+    font-size: var(--fs-2xs);
   }
   .lib-toolbar {
     display: flex;
@@ -260,7 +263,7 @@ function fileViewHref(relPath: string): string {
   .lib-file-row:hover { background: var(--c-bg-sunken); }
   .lib-file-name {
     font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    font-size: 12.5px;
+    font-size: var(--fs-2xs);
   }
   .lib-file-meta {
     font-size: var(--fs-sm);
@@ -273,7 +276,7 @@ function fileViewHref(relPath: string): string {
   }
   .lib-deck-title {
     font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    font-size: 13px;
+    font-size: var(--fs-2xs);
     word-break: break-all;
   }
   .lib-deck-files {
@@ -282,7 +285,7 @@ function fileViewHref(relPath: string): string {
     gap: var(--sp-1);
   }
   .lib-mini-link {
-    font-size: 11.5px;
+    font-size: var(--fs-2xs);
     color: var(--c-ink-dim);
     text-decoration: none;
     padding: 2px 0;
@@ -312,7 +315,7 @@ function fileViewHref(relPath: string): string {
   .lib-badge {
     display: inline-block;
     padding: 2px var(--sp-2);
-    font-size: 11px;
+    font-size: var(--fs-2xs);
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;

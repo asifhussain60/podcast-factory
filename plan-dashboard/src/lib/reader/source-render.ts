@@ -144,7 +144,7 @@ export function renderSourceMarkdown(input: string): string {
         `<div class="se-section-marker" dir="ltr">` +
           `<span>§ ${pos} · id ${id}</span>` +
           (label
-            ? `  <span dir="rtl" style="font-family: var(--font-urdu);">— ${escapeHtml(label)}</span>`
+            ? `  <span dir="rtl" class="se-urdu-label">— ${escapeHtml(label)}</span>`
             : '') +
           `</div>`,
       );

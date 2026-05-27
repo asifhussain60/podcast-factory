@@ -1,5 +1,5 @@
 # KASHKOLE — Complete Project Brief for GitHub Copilot
-*Self-contained context for independent work. Last updated: 2026-05-26.*
+*Self-contained context for independent work. Last updated: 2026-05-26. §18 added: intelligence pipeline integration design.*
 
 ---
 
@@ -9,7 +9,7 @@
 
 The content is organised into **19 binders** (subject collections), each containing multiple **chapters** (Urdu: *faṣl* / *bāb*), each chapter broken into **sections/topics** (Urdu: *mawḍūʿ*). The primary language is **Urdu** written right-to-left, with heavy embedded **Arabic** for Quranic quotations, hadith, and theological terminology.
 
-The goal: transform this private Arabic/Urdu corpus into scholarship-quality English content suitable for podcast production on the existing `podcast-factory` pipeline.
+The primary goal (revised 2026-05-26): feed this corpus into the podcast-factory's **intelligence pipeline** as a doctrinal knowledge base that augments future book podcast productions. Kashkole is not being produced as a podcast series itself — it is the doctrinal substrate that makes every future book smarter. A secondary goal (future phase) is podcast production from select Kashkole binders.
 
 ---
 
@@ -17,7 +17,7 @@ The goal: transform this private Arabic/Urdu corpus into scholarship-quality Eng
 
 Everything lives under:
 ```
-/Users/ahmac/Code/podcast-factory/     ← repo root (git)
+/Users/asifhussain/PROJECTS/podcast-factory/     ← repo root (git)
 ```
 
 Key sub-paths:
@@ -325,7 +325,7 @@ The `raw-extract.md` is right-to-left Urdu with embedded Arabic phrases. Headers
 ### Prerequisites
 All commands must use the kashkole venv Python:
 ```bash
-VENV=/Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksessions/.venv/bin/python
+VENV=/Users/asifhussain/PROJECTS/podcast-factory/_workspace/kashkole-ksessions/.venv/bin/python
 ```
 
 ### Phase 1 — Translate
@@ -481,16 +481,16 @@ Three chapters are stuck at `translated` — Phase 2 was interrupted:
 
 **To resume:** 
 ```bash
-nohup /Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksessions/.venv/bin/python \
-  /Users/ahmac/Code/podcast-factory/_workspace/plan/_drivers/kashkole_adapt_all.py \
+nohup /Users/asifhussain/PROJECTS/podcast-factory/_workspace/kashkole-ksessions/.venv/bin/python \
+  /Users/asifhussain/PROJECTS/podcast-factory/_workspace/plan/_drivers/kashkole_adapt_all.py \
   >> /tmp/kashkole-adapt-full.log 2>&1 &
 ```
 The driver is idempotent — it skips all 119 already-adapted chapters and resumes from the 3 remaining.
 
 ### Phase 3 — Challenge all 122 chapters
 ```bash
-nohup /Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksessions/.venv/bin/python \
-  /Users/ahmac/Code/podcast-factory/_workspace/plan/_drivers/kashkole_challenge_all.py \
+nohup /Users/asifhussain/PROJECTS/podcast-factory/_workspace/kashkole-ksessions/.venv/bin/python \
+  /Users/asifhussain/PROJECTS/podcast-factory/_workspace/plan/_drivers/kashkole_challenge_all.py \
   >> /tmp/kashkole-challenge.log 2>&1 &
 ```
 
@@ -502,13 +502,9 @@ python _workspace/plan/_drivers/kashkole_gate_report.py \
 ```
 Then open `kashkole-gate-report.md` and review. P0 failures block intake; P1 warnings are advisory.
 
-### Phase 4 — Podcast intake (80 chapters, 13 binders)
-For each in-scope binder, run:
-```bash
-python scripts/podcast/intake_book.py --from-bundle \
-  _workspace/kashkole-ksessions/extracted/kashkole/{shelf}/{chapter}/bundle.yml
-```
-This creates a new `book/<slug>` branch and copies the adapted content into `content/drafts/<slug>/`.
+### Phase 4 — Podcast intake (SUPERSEDED — see §18)
+
+> **NOTE (2026-05-26):** The original plan to ingest 80 chapters into the podcast pipeline as standalone podcast series has been superseded. The new Phase 4 goal is to feed the entire corpus (all challenged chapters, regardless of binder exclusions) into the **intelligence pipeline** as a doctrinal knowledge corpus. See §18 for the full design. Podcast production from Kashkole content may still happen in a future phase, but it is not Phase 4.
 
 ---
 
@@ -578,7 +574,7 @@ claude --version
 | Check failures | `cat _workspace/plan/kashkole-adapt-failures.log` |
 | Commit adapted work | `git add _workspace/kashkole-ksessions/extracted/kashkole/ _workspace/plan/kashkole-adapt-cost-ledger.jsonl && git commit -m "feat(kashkole-adapt): ..."` |
 
-Where `{VENV}` = `/Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksessions/.venv/bin/python`
+Where `{VENV}` = `/Users/asifhussain/PROJECTS/podcast-factory/_workspace/kashkole-ksessions/.venv/bin/python`
 
 **Files to read for deeper understanding:**
 - `tools/content_translator/stages/adapt_auto.py` — full adaptation logic
@@ -587,3 +583,245 @@ Where `{VENV}` = `/Users/ahmac/Code/podcast-factory/_workspace/kashkole-ksession
 - `tools/source_extractor/adapters/kashkole.py` — DB extraction logic
 - `_workspace/plan/_drivers/kashkole_adapt_all.py` — batch driver with binder order
 - `_workspace/plan/kashkole-podcast-scope.yaml` — in/out binder decisions
+
+---
+
+## 18. Intelligence Pipeline Integration (Phase 4 — NEW DESIGN, 2026-05-26)
+
+### 18.1 Purpose and Goal
+
+Kashkole is not being produced as a podcast series. Instead it serves as a **doctrinal knowledge corpus** that feeds the podcast-factory's intelligence pipeline — an Extractor → Librarian → Augmenter architecture that builds a growing cross-book knowledge base at `content/knowledge-base/`. Every future book the pipeline processes can query this base to receive contextually relevant prior treatments, Quranic commentary, and doctrinal depth — making each new book smarter.
+
+Kashkole is uniquely suited to this role: 122 chapters of Ismaili scholarship covering Tawhīd, taʾwīl, Quranic exegesis, jurisprudence, ethics, cosmology, and biographical narrative — all now in polished scholarly English. No other source in the pipeline has this breadth of Ismaili doctrinal coverage.
+
+### 18.2 Architecture of the Intelligence Pipeline
+
+The pipeline lives in `scripts/podcast/knowledge/` and has three pieces (all scaffold-only as of 2026-05-26 — Wave 1 implementation is pending):
+
+```
+Extractor  (scripts/podcast/knowledge/extractor.py)
+    Reads audit-vetted chapter text.
+    Pulls atoms (Quran citations, hadith references, etc.).
+    Writes per-book scratch JSONL: _system/knowledge-atoms-scratch.jsonl
+
+Librarian  (scripts/podcast/knowledge/librarian.py)
+    Reads the scratch file.
+    Deduplicates: exact-match for Quran/hadith, fuzzy for quotes/definitions.
+    Merges into canonical JSONL shards: content/knowledge-base/{type}.jsonl
+
+Augmenter  (scripts/podcast/knowledge/augmenter.py)
+    Stateless query helper called from inside other phases.
+    Regex-scans a chapter's text for citations.
+    Returns top-K prior atoms as prompt-ready context strings.
+    Default-disabled until A/B Gate passes on at least one book pair.
+```
+
+Atom schemas are in `scripts/podcast/knowledge/_atom_schemas.py`. Wave 1 defines two types (`quran`, `hadith`). Waves 2/3 add `quotes`, `etymology`, `definitions`. Kashkole requires a **6th type: `doctrine`** (see §18.4).
+
+Current library contents (2026-05-26):
+```
+content/knowledge-base/
+  quran.jsonl        ← populated by prior books (size unknown, may be near-empty)
+  hadith.jsonl       ← populated by prior books
+  _conflicts/        ← pending-review atoms
+  _index/            ← search indexes
+  README.md
+```
+
+### 18.3 Dual-Layer Ingestion Strategy
+
+Kashkole feeds the knowledge base in two parallel layers:
+
+**Layer 1 — Atom extraction (fits Wave 1 schema)**
+
+The `adapted-extract.en.md` files contain Quran references as `⟪quran S:A⟫` markers and hadith references embedded in `adaptation-citations.jsonl`. These map directly onto the existing `quran` and `hadith` atom types.
+
+For each challenged Kashkole chapter:
+- Parse all `⟪quran S:A⟫` markers → emit `quran` atoms tagged `source: "kashkole/<binder>/<chapter>"`
+- Parse `adaptation-citations.jsonl` for entries where `source_work` matches a hadith collection → emit `hadith` atoms
+- Write to scratch JSONL, then run Librarian to merge
+
+Crucially: Kashkole's Quran atoms carry *taʾwīl context* — the surrounding adapted text explains the esoteric Ismaili interpretation of each verse. This is far richer than a bare citation. Store the surrounding paragraph (up to ~200 words) as `tafsir_note` in the `QuranBody`.
+
+**Layer 2 — Doctrine context chunks (new `doctrine` atom type)**
+
+The adapted English prose itself is the primary value. Each chapter is chunked into semantic units of ~500 words (at section boundaries, never mid-paragraph) and stored as `doctrine` atoms. These are retrieved by the Augmenter when a future book's chapter touches the same topic.
+
+This is what "intelligently augment other content" means in concrete terms: when the pipeline authors a chapter on Tawhīd in a new book, the Augmenter queries for `doctrine` atoms tagged `topic: tawhid` and injects the top-2 Kashkole passages as background context into the authoring prompt. The author model then weaves in the doctrinal depth without having to rediscover it from scratch.
+
+### 18.4 Doctrine Atom Schema
+
+Add the following to `scripts/podcast/knowledge/_atom_schemas.py`:
+
+```python
+DoctrineGenre = Literal[
+    "tawil",            # esoteric Quranic interpretation
+    "theology",         # systematic doctrinal exposition
+    "jurisprudence",    # Islamic law (Daaim al-Islam basis)
+    "ethics",           # moral philosophy, adab
+    "cosmology",        # mabda wa maad, origin/return
+    "narrative",        # prophetic stories, biographical
+    "scholarly",        # treatises, academic essays
+]
+
+class DoctrineBody(TypedDict, total=False):
+    tradition: Literal["ismaili"]    # always ismaili for Kashkole
+    genre: DoctrineGenre
+    binder_id: int                   # numeric binder ID from KASHKOLE DB
+    binder_slug: str                 # e.g. "tawheed-mubdi-taala"
+    chapter_id: int                  # numeric chapter ID from KASHKOLE DB
+    chapter_slug: str                # e.g. "01-tawheed-x3341-x7946-x1260"
+    section_ids: list[int]           # which section IDs this chunk spans
+    chunk_index: int                 # 0-based index within the chapter
+    topic_tags: list[str]            # derived from section headings + binder classification
+    text_en: str                     # ~500-word adapted English chunk (scholarly register)
+    quran_refs: list[str]            # any ⟪quran S:A⟫ references in this chunk
+
+# Canonical ID format:
+#   doctrine:kashkole:<binder_id>:<chapter_id>:<chunk_index>
+# Example:
+#   doctrine:kashkole:24:650:0
+
+# Add to AtomType:
+AtomType = Literal["quran", "hadith", "doctrine"]   # Wave 1 + Kashkole extension
+```
+
+Dedup strategy for `doctrine` atoms: **exact-match on canonical ID** (no fuzzy needed — each chunk is uniquely addressed by binder/chapter/chunk index).
+
+### 18.5 Ingestion Path
+
+Kashkole does NOT go through `orchestrate_book.py`. Its content is already in `adapted-extract.en.md` — translation and adaptation are done. The ingestion is a standalone batch:
+
+```
+kashkole_ingest_knowledge.py  (to be built at: _workspace/plan/_drivers/kashkole_ingest_knowledge.py)
+
+Input:   _workspace/kashkole-ksessions/extracted/kashkole/**/{chapter}/
+         ├── bundle.yml                          (stage, binder_id, chapter_id)
+         ├── _system/source/text/adapted-extract.en.md   (Layer 2 source)
+         ├── _system/source/text/adaptation-citations.jsonl  (Layer 1 hadith source)
+         └── _system/source/text/kashkole-challenger-report.md  (verdict filter)
+
+Filter:  Only ingest chapters whose challenger-report verdict is PASS or WARN.
+         Skip FAILs entirely until they are re-adapted and re-challenged (see §18.6).
+
+Output:  Per-chapter scratch:
+           _workspace/kashkole-ksessions/extracted/kashkole/**/{chapter}/
+             _system/knowledge-atoms-scratch.jsonl
+         Then Librarian merges into:
+           content/knowledge-base/quran.jsonl
+           content/knowledge-base/hadith.jsonl
+           content/knowledge-base/doctrine.jsonl  ← new shard
+```
+
+**Chunking algorithm:**
+
+1. Parse `adapted-extract.en.md`, split on `<!-- section N -->` markers.
+2. Group consecutive sections into chunks of ≤ 600 words. Never split mid-section.
+3. Each chunk → one `doctrine` atom.
+4. Derive `topic_tags` from: (a) binder classification (§18.7), (b) `## Section Title` headings in the chunk, (c) prominent Arabic terms after first-gloss markers.
+
+### 18.6 Pre-requisite: Fix the 18 FAIL Chapters
+
+From the gate report (`_workspace/plan/kashkole-gate-report.md`), 18 chapters failed Phase 3 validation. These must be re-adapted and re-challenged before they can be ingested. They are listed in §13 of the gate report.
+
+Re-adaptation command (one chapter at a time):
+```bash
+{VENV} -m tools.content_translator adapt-auto kashkole --binder {N} --chapter {M}
+{VENV} -m tools.content_translator challenge kashkole --binder {N} --chapter {M}
+```
+
+Or run the driver with `--fail-only` flag (needs to be added to `kashkole_adapt_all.py` if not present):
+```bash
+{VENV} _workspace/plan/_drivers/kashkole_adapt_all.py --fail-only
+{VENV} _workspace/plan/_drivers/kashkole_challenge_all.py --fail-only
+```
+
+After all 18 re-challenge, re-run the gate report and confirm verdicts are now PASS or WARN.
+
+### 18.7 Binder-to-Topic-Tag Mapping
+
+Use this mapping when tagging doctrine atoms. These tags are what the Augmenter uses to match Kashkole context to future book chapters:
+
+| Binder ID | Binder Slug | Primary Topic Tags |
+|---|---|---|
+| 35 | the-wise-reminder | `wisdom, spiritual-guidance, ismaili-ethics` |
+| 32 | ghazali-kimiya-as-saadah | `ghazali, ethics, spiritual-discipline, nafs` |
+| 36 | islam-iman-ihsan | `five-pillars, iman, ihsan, ismaili-practice` |
+| 18 | qurani-qisas-al-anbiya | `prophets, quran-narrative, nubuwwa` |
+| 25 | daaim-al-islam-taharat | `tahara, ritual-purity, jurisprudence, daaim` |
+| 27 | adab-wa-akhlaq-hasana | `ethics, adab, moral-conduct, community` |
+| 29 | daaim-al-islam-as-sawm | `sawm, fasting, jurisprudence, daaim` |
+| 1 | uloom-mabda-wa-maad | `cosmology, mabda, maad, aql, nafs, origin-return` |
+| 24 | tawheed-mubdi-taala | `tawhid, divine-oneness, tanzih, theology` |
+| 26 | daaim-al-islam-salawat | `salat, prayer, jurisprudence, daaim` |
+| 19 | daaim-al-islam-wilayat | `wilaya, imamate, authority, daaim` |
+| 8 | kalimat-rabbani-ki-taweelat | `tawil, quran-exegesis, divine-words, esoteric` |
+| 23 | muntakhab-ilmi-mazameen | `scholarship, treatise, theology, philosophy` |
+| 34 | quranic-studies | `quran, tafsir, basmala, fatiha, arabic-grammar` |
+| 6 | ali-ibn-abi-talib | `ali, imamate, khutba, nahjul-balagha` |
+| 12 | daat-aur-seerah | `dawat, duat, history, biography` |
+| 5 | muntakhab-ashaar | `poetry, devotional, marsiya` |
+
+Note: Binders 34, 6, 5, 12, and 16 were excluded from podcast production but ARE included in knowledge base ingestion. Their doctrinal content is valuable for augmentation even if they are not suitable as standalone podcast series.
+
+### 18.8 Augmenter Extension (Wave 2 work)
+
+The Wave 1 Augmenter uses citation regex matching (e.g. "Quran 2:255" → look up `quran:2:255`). For `doctrine` atoms, which are semantic chunks rather than discrete citations, the Wave 2 Augmenter needs topic-tag matching:
+
+```python
+def augment_for_chapter(
+    ...,
+    types: tuple[str, ...] = ("quran", "hadith", "doctrine"),  # add doctrine
+    ...
+) -> str:
+    # Wave 1: regex citation scan for quran + hadith (unchanged)
+    # Wave 2 addition for doctrine:
+    #   1. Extract topic signals from chapter_text:
+    #      - Detect Arabic terms (⟪ar:…⟫ markers or first-gloss patterns)
+    #      - Detect binder-level topic keywords (e.g. "tawhid", "wilaya", "tawil")
+    #   2. Load doctrine.jsonl shards.
+    #   3. Score each doctrine atom: intersection of chapter topic signals with atom topic_tags.
+    #   4. Filter: exclude atoms from the current book_slug source.
+    #   5. Return top-K (default 3 for doctrine, to stay within token budget).
+```
+
+The doctrine atom block injected into prompts should follow this format (spec §6.2 extended):
+```
+[PRIOR DOCTRINAL CONTEXT — Kashkole corpus]
+Topic: tawhid, divine-oneness
+Source: Kashkole binder "Tawhīd Mubdiʿ Taʿālā", chapter "Kalimāt al-Tawḥīd"
+---
+{chunk text, ~300 words, truncated at sentence boundary to fit token budget}
+---
+```
+
+### 18.9 Files to Read for This Work
+
+| File | Purpose |
+|---|---|
+| `scripts/podcast/knowledge/_atom_schemas.py` | Schema to extend with `doctrine` type |
+| `scripts/podcast/knowledge/extractor.py` | Implement atom extraction for Kashkole |
+| `scripts/podcast/knowledge/librarian.py` | Implement dedup + merge for doctrine shard |
+| `scripts/podcast/knowledge/augmenter.py` | Extend with topic-tag matching for doctrine |
+| `_workspace/plan/view/intelligence-pipeline.html` | Visual spec of the Extractor → Librarian → Augmenter design |
+| `_workspace/plan/architecture.md` | Layer 3 (Intelligence) spec — read the Intelligence Layer section |
+| `_workspace/plan/kashkole-gate-report.md` | Gate report: which chapters are PASS/WARN/FAIL |
+| `content/knowledge-base/` | Current library shards |
+
+### 18.10 Sequenced Action Plan
+
+Execute in this order:
+
+1. **Fix 18 FAILs** — re-adapt + re-challenge each failed chapter (§18.6). Verify all reach PASS or WARN.
+2. **Extend `_atom_schemas.py`** — add `DoctrineBody`, `DoctrineGenre`, update `AtomType` (§18.4).
+3. **Build `kashkole_ingest_knowledge.py`** — standalone driver that:
+   - Walks all challenged chapters filtered to PASS + WARN verdict
+   - Extracts Layer 1 atoms (quran, hadith) from markers + citations
+   - Extracts Layer 2 doctrine chunks per §18.5 chunking algorithm
+   - Writes scratch JSONL per chapter
+   - Calls Librarian to merge into `content/knowledge-base/`
+4. **Implement Librarian** (`librarian.py`) for the `doctrine` shard — exact-match dedup on canonical ID.
+5. **Run ingestion** on all PASS + WARN chapters. Verify `content/knowledge-base/doctrine.jsonl` grows.
+6. **Implement Augmenter Wave 2** — add topic-tag matching for doctrine atoms (§18.8). Keep default-disabled until A/B gate passes.
+
+Steps 2–4 can be parallelised. Step 5 requires Step 3 complete. Step 6 requires Step 5 complete.

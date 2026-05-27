@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+import LiveExecution from '../components/LiveExecution.tsx';
+import dash from '../data/dashboard-snapshot.json';
+
+const inFlight  = dash.books_in_flight.length;
+const burnMonth = dash.metrics.burn_30d_usd.reduce((a: number, b: number) => a + b, 0);
+---
+<Base title="Live Execution" active="live" section="planner">
+  <header class="stack">
+    <span class="eyebrow">Live Execution</span>
+    <h1>What's happening in the factory right now.</h1>
+    <p class="lede">
+      Books in flight, spend metrics, known issues, and recent changes — all updated from the live feed.
+      The dot in the top right shows whether you're connected.
+    </p>
+  </header>
+
+  <LiveExecution
+    booksInFlight={dash.books_in_flight as any}
+    booksShipped={dash.books_shipped as any}
+    recentCommits={dash.recent_commits as any}
+    debt={dash.debt as any}
+    burn30d={dash.metrics.burn_30d_usd}
+    phaseTime={dash.metrics.phase_time_avg_minutes as any}
+    convergeAvg={dash.metrics.convergence_passes_avg}
+    shipFirstTry={dash.metrics.ship_first_try_pct}
+    client:load
+  />
+</Base>

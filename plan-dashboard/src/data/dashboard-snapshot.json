@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-26T18:56:13.489Z",
-  "source_commit": "968636f",
+  "generated_at": "2026-05-27T15:00:39.738Z",
+  "source_commit": "dcdfef8",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -10,7 +10,11 @@
       "status": "complete",
       "tier": "T1",
       "depends_on": [],
-      "last_touched": "2026-05-26"
+      "last_touched": "2026-05-26",
+      "plain": "Reorganises the planning folder — removes old duplicate files and sets up the neat structure every other part of the plan points to. Think of it as clearing the desk before starting a big project.",
+      "tools": [
+        "Git"
+      ]
     },
     {
       "id": "A2",
@@ -20,6 +24,11 @@
       "tier": "T1",
       "depends_on": [
         "A1"
+      ],
+      "plain": "Creates the 16-table SOLID-compliant SQLite database that every later script reads from and writes to. Tables fall into four groups: core pipeline (books, chapters, episodes, phonetics, pipeline_runs, cost_ledger), knowledge intelligence (knowledge_atoms, atom_sources, atom_topic_tags, external_corpora, topic_type_taxonomy, corpus_chapters), quality (challenger_findings), and etymology (arabic_roots, word_etymologies, letter_profiles). Also establishes the central path registry (so nothing hard-codes where files live), seven database repositories (so no script ever calls sqlite3 directly), the archetype lookup, and the anti-cliché phrase lists. The corpus layer in particular is designed for independent per-chapter refinement — see B0.",
+      "tools": [
+        "Python",
+        "SQLite"
       ]
     },
     {
@@ -30,6 +39,11 @@
       "tier": "T1",
       "depends_on": [
         "A2"
+      ],
+      "plain": "Adds the house-style guardrails. Tradition guard: books are primarily Ismaili (Fatimid Imams, progeny of Ali and Fatima). Sunni and Sufi citations are adjacent and acceptable, but a fast structural filter runs first — it rejects citations from clearly non-adjacent traditions using a config file. The deeper check (whether a citation quietly contradicts what the Ismaili author actually wrote) is handled by Claude during the enrichment step, not here. The author's voice always leads. Also adds: Imam name-style validator, shared citation formatter, and an authenticated Islamic source whitelist (al-islam.org, sunnah.com, islamweb.net and others confirmed at delivery).",
+      "tools": [
+        "Python",
+        "Claude"
       ]
     },
     {
@@ -40,6 +54,10 @@
       "tier": "T1",
       "depends_on": [
         "A3"
+      ],
+      "plain": "The pipeline's main script has grown to over 2 000 lines — too large to read or change safely. This step splits it into smaller specialist files, one per production station, each under the 600-line limit. Changes to one station no longer risk breaking another. Acceptance signal: any book currently in progress can resume from exactly where it stopped, with no manual fix required.",
+      "tools": [
+        "Python"
       ]
     },
     {
@@ -50,6 +68,50 @@
       "tier": "T1",
       "depends_on": [
         "A4"
+      ],
+      "plain": "Removes old 'Version: 2.3' style headers from source files and installs a guard that permanently rejects any future commit trying to add them. The guard catches both patterns: version labels inside file headers and version numbers embedded in filenames (e.g. spec-v3.md). An exclusion list handles any third-party files that legitimately carry version fields. The git log is the version record — we don't need numbers inside files or filenames.",
+      "tools": [
+        "Git",
+        "Python"
+      ]
+    },
+    {
+      "id": "A6",
+      "wave": "A",
+      "title": "Consolidate the agent sprawl — one canonical spec per agent, one installation path",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "A1"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "A7",
+      "wave": "A",
+      "title": "Decouple all batch pipeline processing from the interactive Claude plan — dedicated API key with spend cap",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "A1"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "B0",
+      "wave": "B",
+      "title": "Build the Kashkole corpus ingestion driver — independent chapter refinement",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "A2"
+      ],
+      "plain": "Seeds the intelligence library from the 75 PASS+WARN Kashkole chapters without going through the main pipeline. The key design: every chapter can be corrected and re-ingested independently. When Asif marks a chapter as needing correction, its atoms stay in the database (flagged for review) while he edits the source file. Re-running the driver on that chapter deletes only its old atoms and creates fresh ones from the corrected content — no other chapters are touched, no full pipeline re-run needed. A five-state progress tracker (pending → ingested → needs-correction → correction-draft → re-ingested) makes the editorial state visible. Ships before B1 so the knowledge database has live Kashkole doctrine atoms from day one.",
+      "tools": [
+        "Python",
+        "SQLite"
       ]
     },
     {
@@ -60,6 +122,12 @@
       "tier": "T1",
       "depends_on": [
         "A5"
+      ],
+      "plain": "Reads each processed chapter and pulls out knowledge atoms — the smallest verifiable facts: Quran verse references (surah, ayah, translation), hadith citations (narrator chain, text, grade), and key scholarly concepts. Wave 1 captures Quran + hadith only. Atoms are saved to a SQLite database in WAL mode so other scripts can read concurrently while a write is in progress.",
+      "tools": [
+        "Python",
+        "Claude",
+        "SQLite"
       ]
     },
     {
@@ -70,6 +138,11 @@
       "tier": "T1",
       "depends_on": [
         "B1"
+      ],
+      "plain": "The librarian: merges newly extracted atoms into the shared knowledge database after each book's enrichment run. On a conflict — same hadith reference, different wording from two books — it quarantines the conflict for Asif to resolve rather than silently overwriting. Accepted atoms are immutable. Wave 2 will extend this with embedding-based de-duplication so near-identical concepts from different wordings are recognised as the same.",
+      "tools": [
+        "Python",
+        "SQLite"
       ]
     },
     {
@@ -80,6 +153,11 @@
       "tier": "T1",
       "depends_on": [
         "B2"
+      ],
+      "plain": "The augmenter: queries the knowledge library during enrichment of a new chapter and injects verified citations — so every book inherits how previous books cited the same Quran verse or hadith, keeping style consistent across the catalog. Two safety rails: it stays disabled until a quality gate confirms the library is clean enough to trust, and it strips Arabic script from all injected atoms before they reach NotebookLM (which can't process Arabic text).",
+      "tools": [
+        "Python",
+        "Claude"
       ]
     },
     {
@@ -90,6 +168,11 @@
       "tier": "T1",
       "depends_on": [
         "B3"
+      ],
+      "plain": "Wires extract → library → augment into the pipeline's enrichment phase so all three run in the correct sequence for every new book. Also connects the quality gate that controls when the augmenter is permitted to fire — it stays off until the library holds atoms from at least one complete book and the librarian reports zero unresolved conflicts.",
+      "tools": [
+        "Python",
+        "Claude"
       ]
     },
     {
@@ -100,6 +183,11 @@
       "tier": "T1",
       "depends_on": [
         "B4"
+      ],
+      "plain": "Teaches the factory three new book types it currently can't process: play-style dialogues (like The Master and the Disciple), lecture series, and large encyclopedic works. Each type gets its own voice, structure rules, and episode format.",
+      "tools": [
+        "Python",
+        "Claude"
       ]
     },
     {
@@ -110,6 +198,11 @@
       "tier": "T1",
       "depends_on": [
         "C1"
+      ],
+      "plain": "Builds a closing-chapter writer that produces a summary episode for any book, and for large encyclopedic works, a second deeper-distillation episode that draws only on the highest-insight moments — keeping chapter-level details out of the synthesis.",
+      "tools": [
+        "Python",
+        "Claude"
       ]
     },
     {
@@ -120,16 +213,12 @@
       "tier": "T1",
       "depends_on": [
         "C2"
-      ]
-    },
-    {
-      "id": "C4.0",
-      "wave": "C",
-      "title": "Pilot the visual-deck capability before the wider rollout",
-      "status": "pending",
-      "tier": "T2",
-      "depends_on": [
-        "C3"
+      ],
+      "plain": "For books that benefit from it, adds an optional step that surfaces contemporary research, recent scientific findings, and modern scholarly debates that connect to the book's ideas — and verifies every external link is real before it's used.",
+      "tools": [
+        "Python",
+        "Claude",
+        "Azure"
       ]
     },
     {
@@ -140,6 +229,26 @@
       "tier": "T1",
       "depends_on": [
         "C4.0"
+      ],
+      "plain": "Adds slide-deck quality checks to the publish gate: classifies every diagram as a real diagram or a disguised bullet-list, and flags any content that a human must verify before it can ship. Nothing marked for review slips through automatically.",
+      "tools": [
+        "Python",
+        "Azure"
+      ]
+    },
+    {
+      "id": "C4.0",
+      "wave": "C",
+      "title": "Pilot the visual-deck capability before the wider rollout",
+      "status": "pending",
+      "tier": "T2",
+      "depends_on": [
+        "C3"
+      ],
+      "plain": "Runs a small 2–3 chapter pilot through NotebookLM's slide-generation feature on one real book to see whether the output is consistent enough to enforce as a quality requirement. Costs roughly $30 and answers the question before committing to the full rollout.",
+      "tools": [
+        "NotebookLM",
+        "Azure"
       ]
     },
     {
@@ -150,6 +259,11 @@
       "tier": "T2",
       "depends_on": [
         "C4"
+      ],
+      "plain": "For books with fifty or more planned episodes, introduces a staged-approval model — you review and sign off on one section before the next section starts processing. Prevents a compounding cost mistake from running silently across the entire work.",
+      "tools": [
+        "Python",
+        "Claude"
       ]
     },
     {
@@ -158,7 +272,13 @@
       "title": "Set up the design tokens and the dashboard app shell",
       "status": "in_progress",
       "tier": "T1",
-      "depends_on": []
+      "depends_on": [],
+      "plain": "Sets up the shared design tokens — colours, font sizes, spacing — and the dashboard app shell that all four views (overview, architecture, infrastructure, live progress) hang off. One place to change a colour and it updates everywhere.",
+      "tools": [
+        "Astro",
+        "React",
+        "CSS"
+      ]
     },
     {
       "id": "D2",
@@ -168,6 +288,11 @@
       "tier": "T1",
       "depends_on": [
         "D1"
+      ],
+      "plain": "Builds the dashboard landing page: the project summary, the three top-level navigation paths, and the consistent header and footer that wraps every view. The entry point you see when you open the dashboard.",
+      "tools": [
+        "Astro",
+        "React"
       ]
     },
     {
@@ -178,6 +303,11 @@
       "tier": "T1",
       "depends_on": [
         "D2"
+      ],
+      "plain": "Builds the architecture and infrastructure views: the pipeline backbone diagram showing each production station, the service-provider breakdown, and the agent registry showing what each AI agent does and which model it runs on.",
+      "tools": [
+        "Astro",
+        "React"
       ]
     },
     {
@@ -188,7 +318,37 @@
       "tier": "T1",
       "depends_on": [
         "D3"
+      ],
+      "plain": "Connects the dashboard to live data: real book-processing progress, cost tracking, refactor step status, and health metrics. The roadmap tab you're reading right now is part of this step.",
+      "tools": [
+        "Astro",
+        "React",
+        "Python"
       ]
+    },
+    {
+      "id": "D5",
+      "wave": "D",
+      "title": "Add paragraph-level annotation and research toolbar to the Bookshelf reader",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "D2"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "D6",
+      "wave": "D",
+      "title": "Teach planner + site-sync to auto-detect annotation architecture gaps and generate missing views",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "D5"
+      ],
+      "plain": "",
+      "tools": []
     },
     {
       "id": "E1",
@@ -198,6 +358,11 @@
       "tier": "T1",
       "depends_on": [
         "B4"
+      ],
+      "plain": "Updates every previously-shipped book's configuration file to match the new unified format so they all behave consistently and can use the new quality-gate features — without re-processing any existing episodes.",
+      "tools": [
+        "Python",
+        "SQLite"
       ]
     },
     {
@@ -208,6 +373,12 @@
       "tier": "T2",
       "depends_on": [
         "E1"
+      ],
+      "plain": "Creates a new closing episode for Kitab al-Riyad — a distillation of the deepest insights across all fourteen chapters — without re-running or altering any of the fourteen existing episodes already in the catalog.",
+      "tools": [
+        "Python",
+        "Claude",
+        "NotebookLM"
       ]
     },
     {
@@ -218,6 +389,12 @@
       "tier": "T2",
       "depends_on": [
         "E1"
+      ],
+      "plain": "Creates a missing EP00 introduction episode for The Master and the Disciple and runs the new play-novel quality checks across its six existing episodes to confirm they still meet current standards.",
+      "tools": [
+        "Python",
+        "Claude",
+        "NotebookLM"
       ]
     },
     {
@@ -229,6 +406,10 @@
       "depends_on": [
         "E2",
         "E3"
+      ],
+      "plain": "Adds five new automatic checks to the publish gate: confirms the closing-chapter style matches the book type, verifies all diagrams meet quality standards, and ensures every human-review flag has been cleared before a book can ship.",
+      "tools": [
+        "Python"
       ]
     }
   ],
@@ -241,7 +422,7 @@
     {
       "id": "B",
       "name": "Intelligence",
-      "plain": "Three new pieces that read, remember, and enrich — the brain that makes the factory smarter over time."
+      "plain": "Builds the factory's long-term memory: a knowledge database that accumulates verified Quran citations, hadith, and key concepts across every processed book — so each new book benefits from everything that came before."
     },
     {
       "id": "C",
@@ -299,54 +480,54 @@
   ],
   "recent_commits": [
     {
-      "sha": "968636f",
-      "subject": "plan(refactor): resolve C1 (Rasāʾil PDF) + harden C3 (live citation verify); defer C4",
-      "date": "2026-05-26"
+      "sha": "dcdfef8",
+      "subject": "feat: improve annotation action access and saved paragraph states",
+      "date": "2026-05-27"
     },
     {
-      "sha": "23a5b8d",
-      "subject": "Merge remote-tracking branch 'origin/develop' into develop",
-      "date": "2026-05-26"
+      "sha": "c7555ba",
+      "subject": "feat: redesign annotation workflow with persistent queue and finalize reset",
+      "date": "2026-05-27"
     },
     {
-      "sha": "05c7e27",
-      "subject": "chore(prompts): add Luum onboarding source-bundle bootstrap prompt",
-      "date": "2026-05-26"
+      "sha": "45c9cea",
+      "subject": "chore: sync plan.astro step count to 27 (podcast-site-sync pass)",
+      "date": "2026-05-27"
     },
     {
-      "sha": "f2729f5",
-      "subject": "fix(reader): chevron direction, tighter margins/padding, glossary HTML bleed",
-      "date": "2026-05-26"
+      "sha": "3e76ae3",
+      "subject": "feat(D5): paragraph annotation bar — hover toolbar, tag CRUD, Gemini research",
+      "date": "2026-05-27"
     },
     {
-      "sha": "266e19a",
-      "subject": "fix(reader): modernize palette, fix collapse, remove left-rail toggle",
-      "date": "2026-05-26"
+      "sha": "129af21",
+      "subject": "chore(A6): consolidate agents — canonical specs in infra/, stubs in .github/agents/",
+      "date": "2026-05-27"
     },
     {
-      "sha": "dafed44",
-      "subject": "fix(reader): vertical pull-bar handles + clear Speechify + reduce rules",
-      "date": "2026-05-26"
+      "sha": "777ac83",
+      "subject": "chore: remove legacy podcast-reader app and empty root src/",
+      "date": "2026-05-27"
     },
     {
-      "sha": "e68d43e",
-      "subject": "fix(reader): show right rail above 1024px (was 1280px)",
-      "date": "2026-05-26"
+      "sha": "e08cffd",
+      "subject": "chore: regenerate plan-dashboard snapshot JSONs",
+      "date": "2026-05-27"
     },
     {
-      "sha": "8af68f0",
-      "subject": "fix(reader): full-width three-pane + right-rail collapse + inline editor",
-      "date": "2026-05-26"
+      "sha": "c9ed9de",
+      "subject": "feat(plan-dashboard): port podcast-reader capabilities — episode viewer, ContractView, kashkole pages",
+      "date": "2026-05-27"
     },
     {
-      "sha": "e4dd478",
-      "subject": "docs(kashkole): add comprehensive Copilot brief for KASHKOLE project",
-      "date": "2026-05-26"
+      "sha": "a305554",
+      "subject": "feat(dashboard): Ace theme — SVG font fix, soften stat strip, landing redesign, eliminate inline styles",
+      "date": "2026-05-27"
     },
     {
-      "sha": "0e37a12",
-      "subject": "fix(reader): port reader CSS verbatim — white page, working settings",
-      "date": "2026-05-26"
+      "sha": "446bbde",
+      "subject": "refactor(dashboard): red-green convergence pass — remove dead CSS + inline styles",
+      "date": "2026-05-27"
     }
   ],
   "metrics": {

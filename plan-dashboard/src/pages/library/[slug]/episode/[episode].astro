@@ -1,0 +1,180 @@
+---
+import Base from '../../../../layouts/Base.astro';
+import ThreePane from '../../../../components/layout/ThreePane.astro';
+import GroupedTOC from '../../../../components/layout/GroupedTOC.astro';
+import ReaderControls from '../../../../components/reader/ReaderControls';
+import ReaderSettings from '../../../../components/reader/ReaderSettings';
+import ContractView from '../../../../components/reader/ContractView.astro';
+import FloatingActions from '../../../../components/reader/FloatingActions';
+import TermPopover from '../../../../components/reader/TermPopover';
+import QuranPopover from '../../../../components/reader/QuranPopover';
+import { loadBookIndex } from '../../../../lib/reader/chapters';
+import { loadChapterContract } from '../../../../lib/reader/contract-parser';
+import { renderContract, buildCategoryDescriptors } from '../../../../lib/reader/contract-render';
+import { formatContractForCopy } from '../../../../lib/reader/format-for-copy';
+import { renderProseWithRefs } from '../../../../lib/reader/render-prose';
+import { findContent, slugToTitle } from '../../../../lib/content-paths';
+import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
+
+const slug = Astro.params.slug;
+const episodeSlug = Astro.params.episode;
+if (!slug || !episodeSlug) {
+  return new Response('Bad request', { status: 400 });
+}
+
+const ref = await findContent(slug);
+if (!ref) return new Response(`Content "${slug}" not found`, { status: 404 });
+
+const index = await loadBookIndex(slug);
+const contentTitle = slugToTitle(slug);
+
+// ── YAML contract episode (from chapter-contracts/) ──────────────
+const ep = index?.episodes.find((e) => e.slug === episodeSlug) ?? null;
+
+let mode: 'contract' | 'txt' = 'contract';
+let contract: Awaited<ReturnType<typeof loadChapterContract>> | null = null;
+let rendered: ReturnType<typeof renderContract> | null = null;
+let categoryDescriptors: ReturnType<typeof buildCategoryDescriptors> = [];
+let contractCopyText = '';
+
+let txtContent = '';
+let txtRendered: { html: string; totalRefs: number } | null = null;
+let txtTitle = episodeSlug.replace(/^EP?\d+-?/i, '').replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+let txtLabel = episodeSlug.replace(/^(EP?)(\d+)/i, 'Episode $2');
+
+if (ep) {
+  // YAML contract path
+  contract = await loadChapterContract(ep.filePath);
+  rendered = renderContract(contract);
+  categoryDescriptors = buildCategoryDescriptors(rendered.counts);
+  contractCopyText = formatContractForCopy(contract);
+} else {
+  // TXT episode path — look in episodes/ directory
+  mode = 'txt';
+  const episodesDir = join(ref.dir, 'episodes');
+  let filePath = join(episodesDir, `${episodeSlug}.txt`);
+  try {
+    txtContent = await readFile(filePath, 'utf-8');
+  } catch {
+    filePath = join(episodesDir, `${episodeSlug}.md`);
+    try {
+      txtContent = await readFile(filePath, 'utf-8');
+    } catch {
+      return new Response(`Episode "${episodeSlug}" not found in "${slug}"`, { status: 404 });
+    }
+  }
+  // Extract title from first heading if present
+  const headingMatch = txtContent.match(/^#\s+(.+)$/m);
+  if (headingMatch) txtTitle = headingMatch[1].trim();
+  // Strip the title from rendered content if it duplicates
+  const txtRenderedResult = renderProseWithRefs(txtContent);
+  txtRendered = { html: txtRenderedResult.html, totalRefs: txtRenderedResult.totalRefs };
+  categoryDescriptors = buildCategoryDescriptors(txtRenderedResult.counts);
+}
+
+// Prev / next navigation
+const orderedEps = index ? [...index.episodes].sort((a, b) => (a.episodeNumber ?? 999) - (b.episodeNumber ?? 999)) : [];
+const epIdx = ep ? orderedEps.findIndex((e) => e.slug === ep.slug) : -1;
+const prevEp = epIdx > 0 ? orderedEps[epIdx - 1] : null;
+const nextEp = epIdx >= 0 && epIdx < orderedEps.length - 1 ? orderedEps[epIdx + 1] : null;
+
+const pageTitle = mode === 'contract'
+  ? `${contract!.title} — ${contentTitle}`
+  : `${txtTitle} — ${contentTitle}`;
+---
+<Base title={pageTitle} active="library" description={`Episode from ${contentTitle}`}>
+  <script is:inline>
+    (function () {
+      var h = document.documentElement;
+      h.setAttribute('data-reader-page', '1');
+      try {
+        var raw = localStorage.getItem('podcast-reader:settings');
+        var s = raw ? JSON.parse(raw) : null;
+        if (!s || s.schemaVersion !== 1) return;
+        if (s.theme) h.setAttribute('data-theme', s.theme);
+        if (s.font)  h.setAttribute('data-reader-font', s.font);
+        if (s.width) h.setAttribute('data-reader-width', s.width);
+        h.setAttribute('data-dropcap', s.dropCap ? 'on' : 'off');
+        h.setAttribute('data-focus-mode', s.focusMode ? 'on' : 'off');
+        if (s.editHighlight) h.setAttribute('data-edit-highlight', s.editHighlight);
+        if (typeof s.size === 'number') h.style.setProperty('--reading-size', s.size + 'px');
+        if (typeof s.lineHeight === 'number') h.style.setProperty('--reading-line-height', String(s.lineHeight));
+      } catch (_) {}
+    })();
+  </script>
+
+  <ThreePane
+    bookSlug={slug}
+    breadcrumb={[
+      { label: 'Library', href: '/library' },
+      { label: contentTitle, href: `/library/${slug}` },
+      { label: mode === 'contract'
+          ? `E${String(ep!.episodeNumber ?? '?').padStart(2, '0')} · ${contract!.title}`
+          : txtLabel },
+    ]}
+    showRail={true}
+  >
+    <Fragment slot="toc">
+      {index && (
+        <GroupedTOC bookSlug={slug} index={index} currentEpisode={ep?.slug ?? null} />
+      )}
+    </Fragment>
+
+    <Fragment slot="header-actions">
+      <ReaderSettings client:load />
+    </Fragment>
+
+    <Fragment slot="rail">
+      <!-- right rail intentionally minimal for episode view -->
+    </Fragment>
+
+    <section class="chapter-page">
+      {mode === 'contract' && contract && rendered ? (
+        <>
+          <div class="chapter-toolbar">
+            <ReaderControls client:load categories={categoryDescriptors} />
+          </div>
+          <ContractView contract={contract} rendered={rendered} />
+        </>
+      ) : (
+        <>
+          <header class="episode-txt-header">
+            <p class="episode-txt-eyebrow">{txtLabel}</p>
+            <h1 class="episode-txt-title">{txtTitle}</h1>
+            <hr class="gold-hairline-thin" style="margin-top: 20px;" />
+          </header>
+
+          {categoryDescriptors.some((c) => c.count > 0) && (
+            <div class="chapter-toolbar">
+              <ReaderControls client:load categories={categoryDescriptors} />
+            </div>
+          )}
+
+          <article class="reading-column reading-column--medium">
+            <div class="prose-body" set:html={txtRendered?.html ?? ''} />
+          </article>
+        </>
+      )}
+
+      <nav class="chapter-nav">
+        {prevEp ? (
+          <a href={`/library/${slug}/episode/${prevEp.slug}`} class="chapter-nav-link is-prev">
+            <span class="chapter-nav-label">← Previous · E{String(prevEp.episodeNumber ?? '?').padStart(2, '0')}</span>
+            <span class="chapter-nav-title">{prevEp.title}</span>
+          </a>
+        ) : (<span class="chapter-nav-link is-disabled" />)}
+        {nextEp ? (
+          <a href={`/library/${slug}/episode/${nextEp.slug}`} class="chapter-nav-link is-next">
+            <span class="chapter-nav-label">Next · E{String(nextEp.episodeNumber ?? '?').padStart(2, '0')} →</span>
+            <span class="chapter-nav-title">{nextEp.title}</span>
+          </a>
+        ) : (<span class="chapter-nav-link is-disabled" />)}
+      </nav>
+    </section>
+
+    <FloatingActions client:idle copyText={mode === 'contract' ? contractCopyText : txtContent} />
+    <TermPopover client:idle book={slug} />
+    <QuranPopover client:idle />
+  </ThreePane>
+</Base>

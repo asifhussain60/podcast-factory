@@ -1,0 +1,364 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="System Map" active="system-map" section="architecture" description="Every actor in the podcast factory and how they connect — from raw PDF to published episode.">
+  <header class="page-hero">
+    <div class="page-hero-inner">
+      <span class="eyebrow">System Map</span>
+      <h1 class="page-hero-title">Every actor, every connection.</h1>
+      <p class="page-hero-lede">
+        A scholarly book enters at the top. A published podcast exits at the bottom.
+        Between them: four pipeline stages on your machine, three cloud services doing the heavy lifting,
+        and a growing knowledge store that makes each new book smarter than the last.
+      </p>
+    </div>
+  </header>
+
+  <section class="stack">
+    <div class="map-wrap">
+      <svg
+        class="actor-map"
+        viewBox="0 0 820 614"
+        xmlns="http://www.w3.org/2000/svg"
+        role="img"
+        aria-label="System actor map: inputs at the top feed into four pipeline stages on your machine (left), which call Azure, Anthropic Claude, Google Gemini, and NotebookLM (right) to produce published podcast episodes at the bottom"
+      >
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0,1 L9,5 L0,9 Z" fill="#87827a"/>
+          </marker>
+          <marker id="ah-stage" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+            <path d="M0,1 L9,5 L0,9 Z" fill="#d9d3c4"/>
+          </marker>
+          <marker id="ah-azure" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0,1 L9,5 L0,9 Z" fill="#0078d4"/>
+          </marker>
+          <marker id="ah-claude" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0,1 L9,5 L0,9 Z" fill="#cc785c"/>
+          </marker>
+          <marker id="ah-google" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0,1 L9,5 L0,9 Z" fill="#4285f4"/>
+          </marker>
+          <marker id="ah-nlm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0,1 L9,5 L0,9 Z" fill="#1a73e8"/>
+          </marker>
+          <marker id="ah-gold" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+            <path d="M0,1 L9,5 L0,9 Z" fill="#b8860b"/>
+          </marker>
+          <marker id="ah-rev-azure" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M0,1 L9,5 L0,9 Z" fill="#0078d4"/>
+          </marker>
+          <marker id="ah-rev-claude" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M0,1 L9,5 L0,9 Z" fill="#cc785c"/>
+          </marker>
+          <filter id="card-sh" x="-5%" y="-10%" width="110%" height="130%">
+            <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#1f1d18" flood-opacity="0.06"/>
+          </filter>
+        </defs>
+
+        <!-- SECTION HEADERS -->
+        <text class="col-lbl" x="249" y="16" text-anchor="middle">Your machine</text>
+        <text class="col-lbl" x="659" y="16" text-anchor="middle">External services</text>
+
+        <!-- ZONE BORDERS -->
+        <rect class="zone zone-machine"  x="8"   y="24" width="482" height="530" rx="8"/>
+        <rect class="zone zone-services" x="506" y="24" width="306" height="530" rx="8"/>
+
+        <!-- INPUTS (top row, inside machine zone) -->
+        <rect class="box-input" x="20"  y="36" width="150" height="52" rx="6" filter="url(#card-sh)"/>
+        <text class="input-title" x="95"  y="58" text-anchor="middle">Book PDF</text>
+        <text class="input-sub"   x="95"  y="76" text-anchor="middle">Scholarly Arabic text</text>
+        <rect class="box-input" x="180" y="36" width="150" height="52" rx="6" filter="url(#card-sh)"/>
+        <text class="input-title" x="255" y="58" text-anchor="middle">Audio / Lecture</text>
+        <text class="input-sub"   x="255" y="76" text-anchor="middle">Recordings, transcripts</text>
+
+        <!-- Input arrows converge to Stage 1 -->
+        <path class="arr arr-input" d="M95,88  C95,96  244,96  244,102" marker-end="url(#ah)"/>
+        <path class="arr arr-input" d="M255,88 C255,96 244,96  244,102" marker-end="url(#ah)"/>
+
+        <!-- STAGE 1 -->
+        <rect class="box-stage" x="20" y="102" width="452" height="66" rx="5" filter="url(#card-sh)"/>
+        <circle class="stage-dot" cx="44" cy="135" r="12"/>
+        <text class="stage-n"     x="44"  y="140" text-anchor="middle">1</text>
+        <text class="stage-title" x="70"  y="124">Read &amp; Translate</text>
+        <text class="stage-desc"  x="70"  y="142">Azure scans every page and translates Arabic to English.</text>
+        <text class="stage-time"  x="463" y="124">~10 min</text>
+        <path class="arr-stage" d="M244,168 V182" marker-end="url(#ah-stage)"/>
+
+        <!-- STAGE 2 -->
+        <rect class="box-stage" x="20" y="182" width="452" height="66" rx="5" filter="url(#card-sh)"/>
+        <circle class="stage-dot" cx="44" cy="215" r="12"/>
+        <text class="stage-n"     x="44"  y="220" text-anchor="middle">2</text>
+        <text class="stage-title" x="70"  y="204">Plan the Episodes</text>
+        <text class="stage-desc"  x="70"  y="222">Claude reads the full book and maps chapters to episodes.</text>
+        <text class="stage-time"  x="463" y="204">~20 min</text>
+        <path class="arr-stage" d="M244,248 V262" marker-end="url(#ah-stage)"/>
+
+        <!-- STAGE 3 -->
+        <rect class="box-stage" x="20" y="262" width="452" height="66" rx="5" filter="url(#card-sh)"/>
+        <circle class="stage-dot" cx="44" cy="295" r="12"/>
+        <text class="stage-n"     x="44"  y="300" text-anchor="middle">3</text>
+        <text class="stage-title" x="70"  y="284">Write &amp; Challenge</text>
+        <text class="stage-desc"  x="70"  y="302">Claude writes each chapter; a critic pass rejects weak output.</text>
+        <text class="stage-time"  x="463" y="284">~2 hrs</text>
+        <path class="arr-stage" d="M244,328 V342" marker-end="url(#ah-stage)"/>
+
+        <!-- STAGE 4 -->
+        <rect class="box-stage" x="20" y="342" width="452" height="66" rx="5" filter="url(#card-sh)"/>
+        <circle class="stage-dot" cx="44" cy="375" r="12"/>
+        <text class="stage-n"     x="44"  y="380" text-anchor="middle">4</text>
+        <text class="stage-title" x="70"  y="364">Audit &amp; Ship</text>
+        <text class="stage-desc"  x="70"  y="382">Gemini checks quality; the finished bundle ships to NotebookLM.</text>
+        <text class="stage-time"  x="463" y="364">~30 min</text>
+        <path class="arr-knowledge" d="M244,408 V422" marker-end="url(#ah-gold)"/>
+
+        <!-- KNOWLEDGE STORE -->
+        <rect class="box-knowledge" x="20" y="422" width="452" height="118" rx="5" filter="url(#card-sh)"/>
+        <text class="know-title" x="246" y="450" text-anchor="middle">Knowledge Store</text>
+        <text class="know-desc"  x="246" y="470" text-anchor="middle">Quran verses and hadith extracted from every processed book.</text>
+        <text class="know-desc"  x="246" y="488" text-anchor="middle">Later books draw on this memory to enrich their own chapters.</text>
+        <text class="know-note"  x="246" y="508" text-anchor="middle">SQLite database, shared across all books.</text>
+        <text class="know-note"  x="246" y="524" text-anchor="middle">Grows richer with every book the factory processes.</text>
+
+        <!-- AZURE CLUSTER -->
+        <rect class="cluster cluster-azure" x="518" y="102" width="286" height="148" rx="6"/>
+        <text class="cluster-lbl lbl-azure" x="530" y="120">Azure</text>
+        <rect class="svc svc-azure" x="530" y="126" width="122" height="50" rx="4"/>
+        <text class="svc-title" x="591" y="149" text-anchor="middle">Doc Intelligence</text>
+        <text class="svc-sub"   x="591" y="167" text-anchor="middle">Reads Arabic PDFs</text>
+        <rect class="svc svc-azure" x="660" y="126" width="132" height="50" rx="4"/>
+        <text class="svc-title" x="726" y="149" text-anchor="middle">Translator</text>
+        <text class="svc-sub"   x="726" y="167" text-anchor="middle">Arabic → English</text>
+        <rect class="svc svc-azure" x="594" y="186" width="122" height="50" rx="4"/>
+        <text class="svc-title" x="655" y="209" text-anchor="middle">Speech</text>
+        <text class="svc-sub"   x="655" y="227" text-anchor="middle">Islamic name phonetics</text>
+
+        <!-- ANTHROPIC CLUSTER -->
+        <rect class="cluster cluster-claude" x="518" y="262" width="286" height="78" rx="6"/>
+        <text class="cluster-lbl lbl-claude" x="530" y="280">Anthropic</text>
+        <rect class="svc svc-claude" x="598" y="282" width="194" height="50" rx="4"/>
+        <text class="svc-title" x="695" y="305" text-anchor="middle">Claude</text>
+        <text class="svc-sub"   x="695" y="323" text-anchor="middle">Plans, writes, challenges quality</text>
+
+        <!-- GOOGLE CLUSTER -->
+        <rect class="cluster cluster-google" x="518" y="352" width="286" height="78" rx="6"/>
+        <text class="cluster-lbl lbl-google" x="530" y="370">Google</text>
+        <rect class="svc svc-google" x="598" y="372" width="194" height="50" rx="4"/>
+        <text class="svc-title" x="695" y="395" text-anchor="middle">Gemini</text>
+        <text class="svc-sub"   x="695" y="413" text-anchor="middle">Independent quality audit</text>
+
+        <!-- NOTEBOOKLM CLUSTER -->
+        <rect class="cluster cluster-nlm" x="518" y="442" width="286" height="78" rx="6"/>
+        <text class="cluster-lbl lbl-nlm" x="530" y="460">NotebookLM</text>
+        <rect class="svc svc-nlm" x="598" y="462" width="194" height="50" rx="4"/>
+        <text class="svc-title" x="695" y="485" text-anchor="middle">Audio Overview</text>
+        <text class="svc-sub"   x="695" y="503" text-anchor="middle">Turns the bundle into a podcast</text>
+
+        <!-- PUBLISHED CATALOG -->
+        <rect class="box-output" x="8" y="566" width="804" height="36" rx="5"/>
+        <text class="output-title" x="410" y="589" text-anchor="middle">Published Catalog — episodes are live</text>
+
+        <!-- ARROWS: stage → external service (horizontal connectors) -->
+        <!-- Stage 1 ↔ Azure (bidirectional) -->
+        <path class="arr arr-azure"
+          d="M472,135 C490,135 490,176 518,176"
+          marker-end="url(#ah-azure)"
+          marker-start="url(#ah-rev-azure)"/>
+        <!-- Stage 2 ↔ Claude (bidirectional) -->
+        <path class="arr arr-claude"
+          d="M472,215 C490,215 490,301 518,301"
+          marker-end="url(#ah-claude)"
+          marker-start="url(#ah-rev-claude)"/>
+        <!-- Stage 3 → Gemini -->
+        <path class="arr arr-google"
+          d="M472,295 C490,295 490,391 518,391"
+          marker-end="url(#ah-google)"/>
+        <!-- Stage 4 → NotebookLM -->
+        <path class="arr arr-nlm"
+          d="M472,375 C490,375 490,481 518,481"
+          marker-end="url(#ah-nlm)"/>
+        <!-- NotebookLM → Published Catalog -->
+        <path class="arr arr-nlm"
+          d="M695,520 C695,545 410,545 410,566"
+          marker-end="url(#ah-nlm)"/>
+
+      </svg>
+    </div>
+  </section>
+
+  <section class="stack">
+    <h2>Reading the map</h2>
+    <div class="legend-grid">
+      <div class="legend-item">
+        <span class="legend-dot ld-azure"></span>
+        <div>
+          <strong>Azure</strong> handles everything about the source text: scanning the PDF page by page,
+          translating Arabic to English, and pronouncing Islamic names correctly in audio.
+          The pipeline sends raw pages and receives clean, translated text back.
+        </div>
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot ld-claude"></span>
+        <div>
+          <strong>Anthropic (Claude)</strong> does all the thinking: reads the whole book,
+          decides which chapters become which episodes, writes the episode text, then
+          challenges its own output in a separate critic pass. Arrows go both ways because
+          it's a genuine back-and-forth exchange.
+        </div>
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot ld-google"></span>
+        <div>
+          <strong>Google (Gemini)</strong> runs a completely independent audit after Claude finishes.
+          Having two AI systems check the same work — one writing it, one reviewing it — catches
+          more than either would alone.
+        </div>
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot ld-nlm"></span>
+        <div>
+          <strong>NotebookLM</strong> receives the finished bundle — cleaned source text plus
+          a set of hosting instructions — and generates the actual audio podcast episode.
+          The pipeline cannot control the audio directly; it hands off and NotebookLM takes over.
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ── Container ── */
+  .map-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--c-rule);
+    border-radius: var(--r-lg);
+    background: var(--c-bg-card);
+    padding: var(--sp-3);
+  }
+  .actor-map {
+    width: 100%;
+    min-width: 820px;
+    display: block;
+  }
+
+  /* ── Column headings ── */
+  .actor-map .col-lbl {
+    font: 700 11px 'Lato', sans-serif;
+    fill: var(--c-ink-muted);
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+
+  /* ── Zone borders ── */
+  .actor-map .zone {
+    stroke-width: 1.5;
+    stroke-dasharray: 6 3;
+  }
+  .actor-map .zone-machine  { fill: rgba(139,69,19,0.025); stroke: #8b4513; }
+  .actor-map .zone-services { fill: rgba(0,120,212,0.025);  stroke: #0078d4; }
+
+  /* ── Input boxes ── */
+  .actor-map .box-input {
+    fill: var(--c-bg-card);
+    stroke: var(--c-rule);
+    stroke-width: 1.5;
+  }
+  .actor-map .input-title { font: 700 14px 'Lato', sans-serif; fill: var(--c-ink); }
+  .actor-map .input-sub   { font: 11px 'Lato', sans-serif; fill: var(--c-ink-muted); }
+
+  /* ── Stage boxes ── */
+  .actor-map .box-stage {
+    fill: var(--c-bg-elev);
+    stroke: var(--c-accent);
+    stroke-width: 1.5;
+  }
+  .actor-map .stage-dot   { fill: var(--c-accent); }
+  .actor-map .stage-n     { font: 700 14px 'Lato', sans-serif; fill: white; }
+  .actor-map .stage-title { font: 700 14px 'Lato', sans-serif; fill: var(--c-ink); }
+  .actor-map .stage-desc  { font: 11px 'Lato', sans-serif; fill: var(--c-ink-dim); }
+  .actor-map .stage-time  { font: 11px 'Lato', sans-serif; fill: var(--c-ink-muted); text-anchor: end; }
+
+  /* ── Knowledge store ── */
+  .actor-map .box-knowledge {
+    fill: #fdfaf2;
+    stroke: var(--c-gold);
+    stroke-width: 1.5;
+    stroke-dasharray: 5 3;
+  }
+  .actor-map .know-title { font: 700 14px 'Lato', sans-serif; fill: var(--c-gold); }
+  .actor-map .know-desc  { font: 11px 'Lato', sans-serif; fill: var(--c-ink-dim); }
+  .actor-map .know-note  { font: 11px 'Lato', sans-serif; fill: var(--c-ink-muted); }
+
+  /* ── Service clusters ── */
+  .actor-map .cluster {
+    stroke-width: 1.2;
+    stroke-dasharray: 4 2;
+  }
+  .actor-map .cluster-azure  { fill: rgba(0,120,212,0.04);   stroke: #0078d4; }
+  .actor-map .cluster-claude { fill: rgba(204,120,92,0.04);  stroke: #cc785c; }
+  .actor-map .cluster-google { fill: rgba(66,133,244,0.04);  stroke: #4285f4; }
+  .actor-map .cluster-nlm    { fill: rgba(26,115,232,0.05);  stroke: #1a73e8; stroke-dasharray: none; }
+
+  .actor-map .cluster-lbl { font: 700 11px 'Lato', sans-serif; }
+  .actor-map .lbl-azure   { fill: #0078d4; }
+  .actor-map .lbl-claude  { fill: #cc785c; }
+  .actor-map .lbl-google  { fill: #4285f4; }
+  .actor-map .lbl-nlm     { fill: #1a73e8; }
+
+  /* ── Service boxes ── */
+  .actor-map .svc       { fill: white; stroke-width: 1; }
+  .actor-map .svc-azure  { stroke: #0078d4; }
+  .actor-map .svc-claude { stroke: #cc785c; }
+  .actor-map .svc-google { stroke: #4285f4; }
+  .actor-map .svc-nlm    { stroke: #1a73e8; }
+  .actor-map .svc-title  { font: 700 14px 'Lato', sans-serif; fill: var(--c-ink); }
+  .actor-map .svc-sub    { font: 11px 'Lato', sans-serif; fill: var(--c-ink-dim); }
+
+  /* ── Output box ── */
+  .actor-map .box-output {
+    fill: rgba(74,124,74,0.08);
+    stroke: var(--c-green);
+    stroke-width: 1.5;
+  }
+  .actor-map .output-title { font: 700 14px 'Lato', sans-serif; fill: var(--c-green); }
+
+  /* ── Arrows ── */
+  .actor-map .arr       { fill: none; stroke-width: 1.5; }
+  .actor-map .arr-stage { fill: none; stroke: var(--c-rule); stroke-width: 1.5; }
+  .actor-map .arr-knowledge { fill: none; stroke: var(--c-gold); stroke-width: 1.5; stroke-dasharray: 4 2; }
+  .actor-map .arr-input  { stroke: var(--c-ink-muted); }
+  .actor-map .arr-azure  { stroke: #0078d4; }
+  .actor-map .arr-claude { stroke: #cc785c; }
+  .actor-map .arr-google { stroke: #4285f4; }
+  .actor-map .arr-nlm    { stroke: #1a73e8; }
+
+  /* ── Legend ── */
+  .legend-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-5) var(--sp-7);
+  }
+  .legend-item {
+    display: flex;
+    gap: var(--sp-3);
+    align-items: flex-start;
+    font-size: var(--fs-sm);
+    line-height: 1.55;
+  }
+  .legend-dot {
+    flex-shrink: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-top: 5px;
+  }
+  .ld-azure  { background: #0078d4; }
+  .ld-claude { background: #cc785c; }
+  .ld-google { background: #4285f4; }
+  .ld-nlm    { background: #1a73e8; }
+
+  @media (max-width: 680px) {
+    .legend-grid { grid-template-columns: 1fr; }
+  }
+</style>

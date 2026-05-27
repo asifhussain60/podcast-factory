@@ -143,7 +143,48 @@ export async function* generateStream(opts: GenerateOptions): AsyncGenerator<str
   }
 }
 
+// ---------------------------------------------------------------------------
+// Grounded generation — Gemini 2.0 Flash + Google Search tool
+// ---------------------------------------------------------------------------
+
+export interface GroundedResult {
+  text: string;
+  /** Source URLs returned by the grounding metadata (may be empty). */
+  sources: string[];
+}
+
+export async function generateWithGrounding(prompt: string): Promise<GroundedResult> {
+  const key = await getGeminiKey();
+  const model = modelId('flash');
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(key)}`;
+  const body = {
+    contents: [{ role: 'user', parts: [{ text: prompt }] }],
+    tools: [{ google_search: {} }],
+    generationConfig: { temperature: 0.4, maxOutputTokens: 1200 },
+  };
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    const errText = await res.text().catch(() => '');
+    throw new Error(`Gemini grounding ${res.status}: ${errText.slice(0, 300)}`);
+  }
+  const data = await res.json() as {
+    candidates?: { content: { parts: { text?: string }[] }; groundingMetadata?: { groundingChunks?: { web?: { uri: string } }[] } }[];
+  };
+  const candidate = data.candidates?.[0];
+  const text = candidate?.content.parts.map((p) => p.text ?? '').join('') ?? '';
+  const sources = (candidate?.groundingMetadata?.groundingChunks ?? [])
+    .map((c) => c.web?.uri)
+    .filter(Boolean) as string[];
+  return { text, sources };
+}
+
+// ---------------------------------------------------------------------------
 // Soft rate-limit: cap requests per minute to prevent runaway costs.
+// ---------------------------------------------------------------------------
 const RATE_WINDOW_MS = 60_000;
 const RATE_MAX = 60;
 const rateHits: number[] = [];

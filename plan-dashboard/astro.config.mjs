@@ -16,6 +16,10 @@ export default defineConfig({
         allow: ['..', '../..'],
       },
     },
+    ssr: {
+      // Native Node addons must not be bundled — Vite passes them through as-is
+      external: ['better-sqlite3'],
+    },
   },
   server: {
     port: 4322,

@@ -11,7 +11,7 @@ const alltimeTotal = infra.vendors.reduce((sum: number, v: any) =>
 const callsTotal = infra.vendors.reduce((sum: number, v: any) =>
   sum + v.services.reduce((s: number, x: any) => s + (x.calls_30d ?? 0), 0), 0);
 ---
-<Base title="What it runs on" active="infrastructure">
+<Base title="What it runs on" active="infrastructure" section="architecture">
   <header class="stack">
     <span class="eyebrow">What it runs on</span>
     <h1>The toolbox behind the factory.</h1>
@@ -60,6 +60,25 @@ const callsTotal = infra.vendors.reduce((sum: number, v: any) =>
       the cost picture per vendor is one number you can read at a glance.
     </p>
     <InfraColumns vendors={infra.vendors} client:load />
+  </section>
+
+  <section class="stack">
+    <h2>The annotation handoff infrastructure</h2>
+    <p>
+      Reader annotations now flow through a two-layer handoff: a local queue for instant interaction and a durable
+      chapter JSON export for assistant execution and pipeline pickup. This keeps annotation UX fast while preserving
+      machine-readable context across sessions.
+    </p>
+    <div class="grid-2">
+      <div class="card card-tight">
+        <strong>Fast lane</strong>
+        <p class="small">Browser-side queue accumulates marker and action intent with one-click batch copy.</p>
+      </div>
+      <div class="card card-tight">
+        <strong>Durable lane</strong>
+        <p class="small">Chapter-level JSON snapshots persist markers, notes, and combined instructions for AI tools.</p>
+      </div>
+    </div>
   </section>
 
   <hr />

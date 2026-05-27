@@ -59,6 +59,97 @@ interface RewriteState {
   error?: string;
 }
 
+interface PersistedEditorState {
+  blocks: Array<{ id: string; current: string; deleted: boolean; source: 'user' | 'ai' }>;
+  annotations: Annotation[];
+}
+
+function editorStateKey(book: string, chapterSlug: string): string {
+  return `pf-reader:chapter-editor:${book}:${chapterSlug}`;
+}
+
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function tokenizeWords(text: string): string[] {
+  return text.trim().split(/\s+/).filter(Boolean);
+}
+
+function wordDiff(original: string, current: string): { op: 'same' | 'add' | 'del'; text: string }[] {
+  const a = tokenizeWords(original);
+  const b = tokenizeWords(current);
+  const n = a.length;
+  const m = b.length;
+  const dp: number[][] = Array.from({ length: n + 1 }, () => Array(m + 1).fill(0));
+
+  for (let i = n - 1; i >= 0; i -= 1) {
+    for (let j = m - 1; j >= 0; j -= 1) {
+      if (a[i] === b[j]) dp[i][j] = dp[i + 1][j + 1] + 1;
+      else dp[i][j] = Math.max(dp[i + 1][j], dp[i][j + 1]);
+    }
+  }
+
+  const ops: { op: 'same' | 'add' | 'del'; text: string }[] = [];
+  let i = 0;
+  let j = 0;
+  while (i < n && j < m) {
+    if (a[i] === b[j]) {
+      ops.push({ op: 'same', text: a[i] });
+      i += 1;
+      j += 1;
+    } else if (dp[i + 1][j] >= dp[i][j + 1]) {
+      ops.push({ op: 'del', text: a[i] });
+      i += 1;
+    } else {
+      ops.push({ op: 'add', text: b[j] });
+      j += 1;
+    }
+  }
+  while (i < n) {
+    ops.push({ op: 'del', text: a[i] });
+    i += 1;
+  }
+  while (j < m) {
+    ops.push({ op: 'add', text: b[j] });
+    j += 1;
+  }
+
+  return ops;
+}
+
+function renderDiffHtml(original: string, current: string): string {
+  const ops = wordDiff(original, current);
+  return ops
+    .map((x) => {
+      const txt = escapeHtml(x.text);
+      if (x.op === 'same') return `<span>${txt}</span>`;
+      if (x.op === 'add') return `<mark class="edit-diff-add">${txt}</mark>`;
+      return `<del class="edit-diff-del">${txt}</del>`;
+    })
+    .join(' ');
+}
+
+function paintBlockDiff(block: HTMLElement, snap: BlockSnapshot): void {
+  if (snap.deleted) {
+    block.classList.add('edit-block-deleted', 'edit-block-changed', 'edit-block-saved');
+    block.textContent = snap.current || snap.original;
+    return;
+  }
+  if (snap.current !== snap.original) {
+    block.classList.add('edit-block-changed', 'edit-block-saved');
+    block.innerHTML = renderDiffHtml(snap.original, snap.current);
+  } else {
+    block.classList.remove('edit-block-changed', 'edit-block-deleted', 'edit-block-saved');
+    block.textContent = snap.current;
+  }
+}
+
 async function sha1Hex(s: string): Promise<string> {
   const buf = new TextEncoder().encode(s);
   const hash = await crypto.subtle.digest('SHA-1', buf);
@@ -95,6 +186,7 @@ function collectBlocksForAI(): { id: string; tag: string; text: string }[] {
 }
 
 export default function ChapterEditor({ book, chapterSlug, chapterTitle, sourceText }: Props) {
+  const storageKey = editorStateKey(book, chapterSlug);
   const [snapshots, setSnapshots] = useState<Map<string, BlockSnapshot>>(new Map());
   const [annotations, setAnnotations] = useState<Annotation[]>([]);
   const [panelOpen, setPanelOpen] = useState(false);
@@ -106,6 +198,11 @@ export default function ChapterEditor({ book, chapterSlug, chapterTitle, sourceT
   const [rewrite, setRewrite] = useState<RewriteState | null>(null);
   const [rewriteMode, setRewriteMode] = useState<'clarify' | 'tighten' | 'simplify' | 'formal'>('clarify');
   const hintShownRef = useRef(false);
+  const snapshotsRef = useRef<Map<string, BlockSnapshot>>(new Map());
+
+  useEffect(() => {
+    snapshotsRef.current = snapshots;
+  }, [snapshots]);
 
   // base sha
   useEffect(() => { sha1Hex(sourceText).then((h) => setBaseSha(h.slice(0, 12))); }, [sourceText]);
@@ -119,8 +216,40 @@ export default function ChapterEditor({ book, chapterSlug, chapterTitle, sourceT
       const t = plainText(b);
       map.set(id, { id, tag: b.tagName.toLowerCase(), original: t, current: t, deleted: false, source: 'user' });
     });
+    try {
+      const raw = localStorage.getItem(storageKey);
+      if (raw) {
+        const persisted = JSON.parse(raw) as PersistedEditorState;
+        persisted.blocks?.forEach((p) => {
+          const existing = map.get(p.id);
+          if (!existing) return;
+          const merged: BlockSnapshot = { ...existing, current: p.current, deleted: p.deleted, source: p.source };
+          map.set(p.id, merged);
+          const block = document.querySelector<HTMLElement>(`[data-editor-id="${cssEscape(p.id)}"]`);
+          if (block) paintBlockDiff(block, merged);
+        });
+        if (Array.isArray(persisted.annotations)) setAnnotations(persisted.annotations);
+      }
+    } catch {
+      // no-op
+    }
     setSnapshots(map);
-  }, []);
+  }, [storageKey]);
+
+  useEffect(() => {
+    const persist: PersistedEditorState = {
+      blocks: Array.from(snapshots.values())
+        .filter((s) => s.deleted || s.current !== s.original)
+        .map((s) => ({ id: s.id, current: s.current, deleted: s.deleted, source: s.source })),
+      annotations,
+    };
+
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(persist));
+    } catch {
+      // no-op
+    }
+  }, [snapshots, annotations, storageKey]);
 
   // Ambient click-to-edit: install once on the article.
   useEffect(() => {
@@ -135,6 +264,12 @@ export default function ChapterEditor({ book, chapterSlug, chapterTitle, sourceT
       if (target.closest('.ar-overlay')) return;
       // Don't intercept clicks on hover-chips
       if (target.closest('.edit-block-actions') || target.closest('.edit-block-chip')) return;
+      const id = block.dataset.editorId!;
+      const snap = snapshotsRef.current.get(id);
+      if (snap) {
+        block.textContent = snap.current;
+        block.classList.remove('edit-block-deleted', 'edit-block-saved');
+      }
       block.setAttribute('contenteditable', 'true');
       block.setAttribute('spellcheck', 'true');
       // Place caret where user clicked, if possible
@@ -157,9 +292,9 @@ export default function ChapterEditor({ book, chapterSlug, chapterTitle, sourceT
         const snap = next.get(id);
         if (!snap) return prev;
         const txt = plainText(block);
-        const changed = txt !== snap.original;
-        block.classList.toggle('edit-block-changed', changed && !snap.deleted);
-        next.set(id, { ...snap, current: txt });
+        const merged = { ...snap, current: txt, deleted: false };
+        paintBlockDiff(block, merged);
+        next.set(id, merged);
         return next;
       });
     };
@@ -244,6 +379,41 @@ export default function ChapterEditor({ book, chapterSlug, chapterTitle, sourceT
     return () => window.removeEventListener('chapter-editor:apply-edits', onApply);
   }, []);
 
+  useEffect(() => {
+    const onFinalize = () => {
+      setSnapshots((prev) => {
+        const next = new Map<string, BlockSnapshot>();
+        prev.forEach((snap, id) => {
+          const normalized: BlockSnapshot = {
+            ...snap,
+            original: snap.current,
+            current: snap.current,
+            deleted: false,
+            source: 'user',
+          };
+          next.set(id, normalized);
+
+          const block = document.querySelector<HTMLElement>(`[data-editor-id="${cssEscape(id)}"]`);
+          if (block) {
+            block.classList.remove('edit-block-changed', 'edit-block-deleted', 'edit-block-ai-flash');
+            block.textContent = normalized.current;
+          }
+        });
+        return next;
+      });
+
+      setAnnotations([]);
+      try {
+        localStorage.removeItem(storageKey);
+      } catch {
+        // no-op
+      }
+    };
+
+    window.addEventListener('chapter-editor:finalize', onFinalize);
+    return () => window.removeEventListener('chapter-editor:finalize', onFinalize);
+  }, [storageKey]);
+
   const applyEdits = (edits: { block_id: string; action: string; new_text?: string }[], source: 'user' | 'ai') => {
     setSnapshots((prev) => {
       const next = new Map(prev);
@@ -255,12 +425,13 @@ export default function ChapterEditor({ book, chapterSlug, chapterTitle, sourceT
 
         if (ed.action === 'replace' && typeof ed.new_text === 'string') {
           block.textContent = ed.new_text;
-          block.classList.add('edit-block-changed');
+          const merged: BlockSnapshot = { ...snap, current: plainText(block), deleted: false, source };
+          paintBlockDiff(block, merged);
           if (source === 'ai') {
             block.classList.add('edit-block-ai-flash');
             setTimeout(() => block.classList.remove('edit-block-ai-flash'), 700);
           }
-          next.set(ed.block_id, { ...snap, current: plainText(block), deleted: false, source });
+          next.set(ed.block_id, merged);
         } else if (ed.action === 'delete') {
           block.classList.add('edit-block-deleted', 'edit-block-changed');
           if (source === 'ai') {
@@ -275,13 +446,14 @@ export default function ChapterEditor({ book, chapterSlug, chapterTitle, sourceT
           const counter = Date.now().toString(36).slice(-4);
           const newId = `${snap.tag}:${ed.block_id.split('#')[0].split(':')[1] ?? 'ins'}#new-${counter}`;
           newEl.dataset.editorId = newId;
-          newEl.classList.add('edit-block-changed');
           if (source === 'ai') {
             newEl.classList.add('edit-block-ai-flash');
             setTimeout(() => newEl.classList.remove('edit-block-ai-flash'), 700);
           }
           block.insertAdjacentElement('afterend', newEl);
-          next.set(newId, { id: newId, tag: snap.tag, original: '', current: ed.new_text, deleted: false, source });
+          const inserted: BlockSnapshot = { id: newId, tag: snap.tag, original: '', current: ed.new_text, deleted: false, source };
+          paintBlockDiff(newEl, inserted);
+          next.set(newId, inserted);
         }
       });
       return next;
@@ -320,9 +492,11 @@ export default function ChapterEditor({ book, chapterSlug, chapterTitle, sourceT
         const next = new Map(prev);
         const snap = next.get(id);
         if (!snap) return prev;
-        block.classList.add('edit-block-changed', 'edit-block-ai-flash');
+        const merged: BlockSnapshot = { ...snap, current: txt, deleted: false, source: 'ai' };
+        paintBlockDiff(block, merged);
+        block.classList.add('edit-block-ai-flash');
         setTimeout(() => block.classList.remove('edit-block-ai-flash'), 700);
-        next.set(id, { ...snap, current: txt, source: 'ai' });
+        next.set(id, merged);
         return next;
       });
     }

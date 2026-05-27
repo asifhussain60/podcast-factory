@@ -4,15 +4,50 @@ import PipelineSpine from '../components/PipelineSpine.tsx';
 import LayerStack from '../components/LayerStack.tsx';
 import arch from '../data/architecture-snapshot.json';
 ---
-<Base title="How it works" active="architecture">
-  <header class="stack">
-    <span class="eyebrow">How it works</span>
-    <h1>The factory floor, top to bottom.</h1>
-    <p class="lede">
-      A book enters at station one. A finished podcast series leaves at the bottom. Between them sit eleven
-      stations, each doing one well-scoped job. The stations are fixed — every book passes through every station in
-      the same order. What changes between books is which <em>modules</em> plug into each station.
-    </p>
+<Base title="Architecture" active="architecture" section="architecture">
+
+  <!-- KPI stat strip -->
+  <div class="stat-strip">
+    <div class="stat-card s-green">
+      <div class="stat-card-icon"><i class="fa-solid fa-route" aria-hidden="true"></i></div>
+      <div class="stat-card-body">
+        <div class="stat-card-value">{arch.phases.length}</div>
+        <div class="stat-card-label">Pipeline Stations</div>
+      </div>
+    </div>
+    <div class="stat-card s-blue">
+      <div class="stat-card-icon"><i class="fa-solid fa-robot" aria-hidden="true"></i></div>
+      <div class="stat-card-body">
+        <div class="stat-card-value">{arch.agents.length}</div>
+        <div class="stat-card-label">Agents</div>
+      </div>
+    </div>
+    <div class="stat-card s-amber">
+      <div class="stat-card-icon"><i class="fa-solid fa-layer-group" aria-hidden="true"></i></div>
+      <div class="stat-card-body">
+        <div class="stat-card-value">{arch.layers.length}</div>
+        <div class="stat-card-label">Layers</div>
+      </div>
+    </div>
+    <div class="stat-card s-brown">
+      <div class="stat-card-icon"><i class="fa-solid fa-gavel" aria-hidden="true"></i></div>
+      <div class="stat-card-body">
+        <div class="stat-card-value">{arch.adrs.length}</div>
+        <div class="stat-card-label">ADRs</div>
+      </div>
+    </div>
+  </div>
+
+  <header class="page-hero">
+    <div class="page-hero-inner">
+      <span class="eyebrow">Architecture</span>
+      <h1 class="page-hero-title">The factory floor, top to bottom.</h1>
+      <p class="page-hero-lede">
+        A book enters at station one. A finished podcast series leaves at the bottom. Between them sit eleven
+        stations, each doing one well-scoped job. The stations are fixed — every book passes through every station in
+        the same order. What changes between books is which <em>modules</em> plug into each station.
+      </p>
+    </div>
   </header>
 
   <section class="stack">
@@ -52,6 +87,24 @@ import arch from '../data/architecture-snapshot.json';
           <p class="small muted">Books using this kind: {a.books.join(', ')}</p>
         </div>
       ))}
+    </div>
+  </section>
+
+  <hr />
+
+  <section class="stack">
+    <h2>The annotation-to-intelligence lane</h2>
+    <p>
+      The chapter reader now includes a right-hand annotation workspace built for one-handed review flow. It captures
+      paragraph markers, autosaved notes, and queued AI instructions, then writes a durable chapter JSON handoff that
+      assistant sessions and pipeline automation can consume directly.
+    </p>
+    <div class="card card-tight">
+      <strong>See the full operational design</strong>
+      <p class="small muted">
+        Open <a href="/annotation-ops">Annotation Ops</a> for the visual flow, scope model (paragraph/book/global),
+        and automation path into classification, retrieval, and cost-efficient production.
+      </p>
     </div>
   </section>
 

@@ -159,9 +159,15 @@ waves:
         deliverables:
           modules:
             - {path: "scripts/podcast/_paths.py", max_lines: 200, api: ["book_dir", "category_dir", "knowledge_base_dir", "knowledge_atoms_scratch", "all_books"]}
-            - {path: "scripts/podcast/_db.py", max_lines: 250, api: ["get_connection (WAL mode singleton)", "run_migrations (idempotent)", "atoms_repository", "manual_review_queue", "run_telemetry"]}
+            - {path: "scripts/podcast/_db.py", max_lines: 400, api: ["get_connection (WAL mode singleton)", "run_migrations (idempotent, 16 SQL files)", "atoms_repository", "atom_sources_repository", "atom_topic_tags_repository", "corpus_chapters_repository", "external_corpora_repository", "manual_review_queue", "run_telemetry"]}
             - {path: "scripts/podcast/_archetypes.py", max_lines: 250, api: ["load_archetype", "resolve_archetype_for_book", "list_archetypes"]}
             - {path: "scripts/podcast/intelligence/_anti_cliche.py", max_lines: 200, exports: ["CAPSTONE_DENY", "SELF_HELP_DENY", "TIER_2_DENY", "AUGMENTER_PRIOR_TREATMENT_DENY"]}
+            - path: "scripts/podcast/knowledge/_atom_schemas.py (extend existing Wave 1 scaffold)"
+              additions:
+              - "DoctrineGenre: Literal[tawil, theology, jurisprudence, ethics, cosmology, narrative, scholarly]"
+              - "DoctrineBody: TypedDict (tradition, genre, binder_id, binder_slug, chapter_id, chapter_slug, section_ids, chunk_index, topic_tags, text_en, quran_refs)"
+              - "AtomType updated: Literal['quran', 'hadith', 'doctrine']"
+              - "doctrine_canonical_id(binder_id, chapter_id, chunk_index) -> str  # 'doctrine:kashkole:<b>:<c>:<i>'"
           archetype_registry_seed:
             location: "content/_shared/archetypes/<slug>/"
             files_per_archetype: ["exemplar.md", "spec.yml", "anti-patterns.md"]
@@ -178,12 +184,22 @@ waves:
             wal_mode: true
             schema_dir: "scripts/podcast/schema/"
             schema_files:
-              - "001_atoms.sql"
-              - "002_atom_relations.sql"
-              - "003_book_metadata.sql"
-              - "004_archetype_registry.sql"
-              - "005_run_telemetry.sql"
-              - "006_manual_review_queue.sql"
+              - "001_books.sql"
+              - "002_chapters.sql"
+              - "003_episodes.sql"
+              - "004_phonetics.sql"
+              - "005_pipeline_runs.sql"
+              - "006_cost_ledger.sql"
+              - "007_challenger_findings.sql"
+              - "008_knowledge_atoms.sql"
+              - "009_atom_sources.sql"
+              - "010_atom_topic_tags.sql"
+              - "011_external_corpora.sql"
+              - "012_topic_type_taxonomy.sql"
+              - "013_corpus_chapters.sql"
+              - "014_arabic_roots.sql"
+              - "015_word_etymologies.sql"
+              - "016_letter_profiles.sql"
           tests:
             - "tests/test_paths_module.py"
             - "tests/test_db_migrations_idempotent.py"
@@ -191,7 +207,8 @@ waves:
         acceptance:
           - "Every existing book resolves to a known archetype via resolve_archetype_for_book"
           - "run_migrations() applied twice on fresh DB == once (idempotent)"
-          - "sqlite3 knowledge.db .schema lists all 6 tables + indexes"
+          - "sqlite3 knowledge.db .schema lists all 16 tables + covering indexes (atom_topic_tags.tag, word_etymologies.root_id)"
+          - "All 7 _db.py repositories return valid empty results on a fresh DB"
         cost_estimate_usd: 0
         authorization: *tier_one
 
@@ -298,6 +315,173 @@ waves:
         cost_estimate_usd: 0
         authorization: *tier_one
 
+      - id: A6
+        title: "Consolidate the agent sprawl — one canonical spec per agent, one installation path"
+        depends_on: [A1]
+        rationale: |
+          Root cause: two agent-spec surfaces (infra/claude-agents/ for Claude Code, .github/agents/ for
+          Copilot) evolved independently after the journal-repo split with no sync policy and no ownership
+          rule for where new agents land. Nine agents now carry identical full specs in both locations;
+          three agents are Copilot-only (reconcile, project-steward, podcast-librarian) and are invisible
+          to Claude Code; two agents are infra-only (postprod-review, vacuum) with no Copilot stub;
+          one deprecated agent (CORTEX, deprecated 2026-05-17) and one misplaced reference doc
+          (operating-contract.md) clutter .github/agents/; the install-script README still references
+          journal-challenger and ui-reviewer (both retired with the journal split on 2026-05-22).
+        deliverables:
+          new_canonical_rule:
+            dr_id: DR-014
+            text: |
+              Agent canonical spec lives in infra/claude-agents/. .github/agents/ contains thin stubs
+              only (frontmatter name + description + one pointer line). The install script is the source
+              of truth for what Claude Code can invoke. Editing an agent spec means editing one file.
+          migrate_to_infra:
+            agents:
+              - name: reconcile
+                from: .github/agents/reconcile.agent.md
+                action: copy full spec to infra/claude-agents/reconcile.md, replace .github file with stub
+              - name: project-steward
+                from: .github/agents/project-steward.agent.md
+                action: copy full spec to infra/claude-agents/project-steward.md, replace .github file with stub
+              - name: podcast-librarian
+                from: .github/agents/podcast-librarian.agent.md
+                action: copy full spec to infra/claude-agents/podcast-librarian.md, replace .github file with stub
+          convert_to_stubs:
+            agents:
+              - podcast-challenger
+              - slide-deck-challenger
+              - podcast-auditor
+              - docs-updater
+              - podcast-trainer
+              - podcast-blueprint
+              - podcast-orchestrator
+              - podcast-extract
+              - podcast-publisher
+              - refine-prompt
+              - podcast-planner  # already a stub — verify pointer is correct
+              - repo-surgeon     # 27-line stub pointing to skills-staging — update to point to infra
+            stub_format:
+              frontmatter: [name, description]
+              body: "Full specification at [infra/claude-agents/<name>.md](../../infra/claude-agents/<name>.md)"
+          delete_from_github_agents:
+            - file: CORTEX.agent.md
+              reason: deprecated 2026-05-17; spec vestigial
+          relocate:
+            - file: .github/agents/operating-contract.md
+              to: reference/operating-contract.md
+              reason: reference document, not an agent spec
+          update_install_script:
+            path: scripts/install-claude-skills.sh
+            change: install all *.md in infra/claude-agents/ except _README.md (currently hardcoded to 7 agents)
+            expected_agent_count: 16  # after CORTEX deletion and 3 migrations
+          rewrite_readme:
+            path: infra/claude-agents/_README.md
+            changes:
+              - correct agent count from 7 to 16
+              - remove journal-challenger and ui-reviewer (retired 2026-05-22)
+              - document stub pattern with example
+              - reference DR-014
+        acceptance:
+          - "ls infra/claude-agents/*.md | grep -v _README | wc -l returns 16"
+          - "Every .github/agents/*.agent.md file is ≤ 15 lines (stub only; no full spec)"
+          - "scripts/install-claude-skills.sh --dry-run lists 16 agents"
+          - "grep -r 'journal-challenger\\|ui-reviewer' infra/claude-agents/ returns zero hits"
+          - "ls .github/agents/CORTEX.agent.md returns no such file"
+          - "cat reference/operating-contract.md exists; ls .github/agents/operating-contract.md returns no such file"
+        cost_estimate_usd: 0
+        authorization: *tier_one
+
+      - id: A7
+        title: "Decouple all batch pipeline processing from the interactive Claude plan — dedicated API key with spend cap"
+        depends_on: [A1]
+        rationale: |
+          Root cause: KASHKOLE Phase 2 (adapt) used `claude -p` subprocess calls, which draw from the
+          Max plan's weekly token limit. Running 215 sequential calls overnight exhausted the weekly
+          "All models" limit, then continued billing $466.27 in usage credits because Auto-reload was
+          enabled. The Max plan is for interactive sessions (Claude Code, chat). Any pipeline stage
+          firing >10 unattended LLM calls is infrastructure and must be budgeted separately via a
+          dedicated API key with a monthly spend cap. This rule applies to: KASHKOLE preprocessing
+          tools (adapt, challenge), their batch drivers, and any similar patterns in the podcast
+          orchestrator or future book preprocessing pipelines.
+        deliverables:
+          new_canonical_rule:
+            dr_id: DR-015
+            text: |
+              Any pipeline stage that fires more than 10 LLM calls unattended must use the direct
+              Anthropic API (key: anthropic-pipeline-key in macOS keychain) with a monthly spend cap
+              set at console.anthropic.com. The Max plan / claude -p subprocess pattern is reserved for
+              interactive human operator use only. Violations are a P0 finding in the auditor.
+          keychain_setup:
+            key_name: anthropic-pipeline-key
+            account: pipeline
+            setup_command: "security add-generic-password -s anthropic-pipeline-key -a pipeline -w sk-ant-..."
+            spend_cap_location: "console.anthropic.com/settings/limits"
+            recommended_cap_usd: 50
+          files_to_change:
+            - path: tools/content_translator/stages/adapt_auto.py
+              change: Replace _call_claude_p() subprocess with direct anthropic.Anthropic() client call; add cache_control ephemeral on system prompt
+            - path: tools/content_challenger/kashkole/challenge_auto.py
+              change: Same — replace claude -p subprocess with direct API call + prompt cache
+            - path: _workspace/plan/_drivers/kashkole_adapt_all.py
+              change: Add --max-chapters cap (default 50); refactor to submit Anthropic Batches API for 50% cost reduction
+            - path: _workspace/plan/_drivers/kashkole_challenge_all.py
+              change: Same --max-chapters cap + batch submission
+          orchestrator_audit:
+            target: scripts/podcast/orchestrate_book.py
+            action: |
+              Audit every LLM call site in the orchestrator and all scripts it invokes. For each site:
+              confirm it uses the direct API (not claude -p subprocess), confirm a spend cap is in place,
+              and add prompt caching where the same system prompt repeats across chapters. Document the
+              clean-bill-of-health or fix any violations found. This audit runs regardless of whether
+              violations are expected — outcome is a verified, documented state.
+          optimizations_to_apply:
+            - name: Prompt caching
+              description: |
+                Add cache_control: {type: ephemeral} to the system prompt in adapt_auto.py and
+                challenge_auto.py. The system prompt is identical across all chapter calls (~1500-2000
+                tokens). With caching, repeat calls bill the system prompt at 10% of normal input cost.
+              saving_estimate: 30-40% off input token costs per run
+            - name: Batches API
+              description: |
+                Refactor kashkole_adapt_all.py and kashkole_challenge_all.py to submit all chapters
+                as a single Anthropic Batches API request rather than 215 sequential synchronous calls.
+                Results are polled the next day. 50% cheaper than synchronous calls. Designed for
+                non-real-time phases like adapt and challenge.
+              saving_estimate: 50% off Phase 2 + Phase 3 costs
+            - name: Chapter cap safety net
+              description: |
+                Add --max-chapters N (default 50) to all batch drivers. A runaway overnight job stops
+                at N chapters and requires manual restart. The SESSION_COST_CAP check doesn't work with
+                Max plan calls ($0.00 reported); this cap fills that gap across all call modes.
+              saving_estimate: Prevents unbounded runaway spend
+          cost_comparison:
+            current_per_122_chapters:
+              phase2_adapt: "$0 billed + $466 overflow risk"
+              phase3_challenge: "~$0.43"
+              total: "$466+"
+            direct_api_no_optimizations:
+              phase2_adapt: "~$140"
+              phase3_challenge: "~$7"
+              total: "~$147"
+            direct_api_plus_caching:
+              phase2_adapt: "~$85"
+              phase3_challenge: "~$4"
+              total: "~$89"
+            direct_api_plus_caching_plus_batches:
+              phase2_adapt: "~$42"
+              phase3_challenge: "~$2"
+              total: "~$44"
+            azure_translate_unchanged: "~$38"
+            full_pipeline_with_all_optimizations: "~$80-85 per 122-chapter book"
+        acceptance:
+          - "grep -r 'claude.*-p\\|subprocess.*claude' tools/content_translator/ tools/content_challenger/ returns zero hits"
+          - "adapt_auto.py and challenge_auto.py import anthropic and retrieve key via security find-generic-password"
+          - "Both batch drivers accept --max-chapters argument and enforce it"
+          - "Orchestrator audit complete — all LLM call sites verified, any claude -p patterns fixed, findings documented"
+          - "security find-generic-password -s anthropic-pipeline-key returns 0 (key exists in keychain)"
+          - "Monthly spend cap set at console.anthropic.com (manual step — Asif configures)"
+        cost_estimate_usd: 0
+        authorization: *tier_two  # first-time API key setup touches external billing; Asif approves before any production run
+
 # ===========================================================================
 # WAVE B — Intelligence Layer
 # ===========================================================================
@@ -306,7 +490,79 @@ waves:
     name: Intelligence Layer
     parallel_with: [C]
     depends_on: [A]
+    pre_execution_blockers:
+      - id: BLOCKER-B-PRE
+        status: OPEN
+        discussion_required_with: asif
+        description: |
+          Before any Wave B step executes, discuss whether to enrich the Kashkole adapted
+          chapter text using ChatGPT or Gemini (Asif holds paid subscriptions for both)
+          before B0 ingests it into the intelligence library.
+          Decision paths:
+          (a) ingest as-is from existing adapted extracts — current plan baseline;
+          (b) run a ChatGPT/Gemini enrichment pass on all PASS+WARN chapters first;
+          (c) run enrichment as a post-hoc annotation layer on B0-ingested atoms.
+          Enrichment could improve doctrinal atom depth, topic-tagging precision, and
+          Quran cross-reference coverage — all of which affect Augmenter output quality.
+        impacts: [B0, B1, B2, B3]
+        resolution: null
     steps:
+
+      - id: B0
+        title: "Build the Kashkole corpus ingestion driver — independent chapter refinement"
+        depends_on: [A2]
+        rationale: "75 PASS+WARN Kashkole chapters are ready to seed the intelligence library before any pipeline book runs B1. Independent refinement state machine lets Asif correct chapters one by one without LLM re-runs."
+        deliverables:
+          module:
+            path: "scripts/podcast/intelligence/kashkole_ingest_knowledge.py"
+            max_lines: 400
+            api:
+              - "ingest_chapter(slug, *, re_ingest=False, dry_run=False) -> IngestResult"
+              - "ingest_all(verdicts=['PASS','WARN'], *, dry_run=False) -> IngestSummary"
+              - "print_status() -> None"
+              - "seed_lookup_tables(db) -> None  # idempotent: external_corpora + topic_type_taxonomy"
+            cli_flags:
+              - "--chapter <slug>   target a specific chapter slug"
+              - "--re-ingest        delete old atoms for this chapter and re-create from corrected adapted-extract.en.md"
+              - "--dry-run          print what would change without writing"
+              - "--status           print table: slug | verdict | ingestion_status | atom_count"
+              - "--force            override FAIL verdict for manually-cleared chapters"
+          refinement_state_machine:
+            field: "corpus_chapters.ingestion_status"
+            states: ["pending", "ingested", "needs_correction", "correction_draft", "re_ingested"]
+            transitions:
+              - {from: pending,           to: ingested,           trigger: "ingest_chapter() succeeds"}
+              - {from: ingested,           to: needs_correction,   trigger: "human sets correction_notes + marks chapter"}
+              - {from: needs_correction,   to: correction_draft,   trigger: "adapted-extract.en.md edited + committed"}
+              - {from: correction_draft,   to: re_ingested,        trigger: "ingest_chapter(re_ingest=True) succeeds; correction_count += 1"}
+              - {from: re_ingested,        to: needs_correction,   trigger: "further corrections needed"}
+          idempotent_re_ingest_behavior:
+            - "DELETE FROM atom_sources WHERE corpus_chapter_id = C.id"
+            - "DELETE FROM atom_topic_tags WHERE atom_id IN (atoms with no remaining sources)"
+            - "DELETE FROM knowledge_atoms WHERE id IN (atoms now source-less)"
+            - "Re-extract from corrected adapted-extract.en.md; expand topic tags via topic_type_taxonomy"
+            - "SET corpus_chapters.correction_count += 1, last_ingested_at = now(), ingestion_status = 're_ingested'"
+          new_R_constants:
+            - {name: R_CORPUS_INGEST_MAX_ATOMS_PER_CHAPTER, value: 50}
+            - {name: R_CORPUS_INGEST_WARN_VERDICT_SETS_NEEDS_REVIEW, value: true}
+          canonical_id_format: "doctrine:kashkole:<binder_id>:<chapter_id>:<chunk_index>  (chunk_index 0-based within chapter)"
+          chunk_algorithm: "split adapted-extract.en.md on <!-- section N --> markers; group consecutive sections into <=600-word chunks; never split mid-section"
+          source_files:
+            topic_tag_map: "_workspace/kashkole-ksessions/topic-type-map.json (18-row taxonomy + 223 per-topic assignments; no DB access needed)"
+            quran_atoms: "\u27eaquran S:A\u27eb markers in adapted-extract.en.md -> surrounding paragraph (~150 words) as tafsir_note"
+            hadith_atoms: "adaptation-citations.jsonl entries matching hadith collection names"
+          implementation_brief: "_workspace/plan/refactor/KASHKOLE-INTELLIGENCE-PIPELINE-RECOMMENDATION.md"
+          tests:
+            - "tests/test_kashkole_ingest_idempotent.py"
+            - "tests/test_kashkole_refinement_state_machine.py"
+        acceptance:
+          - "ingest_all(dry_run=True) runs against all 122 chapters without errors"
+          - "PASS chapters ingest with needs_review=0; WARN chapters ingest with needs_review=1"
+          - "Re-ingesting a chapter after atom deletion produces identical atom count (no duplicates)"
+          - "--status prints one row for all 122 chapters with correct verdict + ingestion_status"
+          - "Marking a chapter needs_correction does not delete its atoms (atoms stay, flagged needs_review=1)"
+        cost_estimate_usd: 0
+        authorization: *tier_one
 
       - id: B1
         title: "Build the Extractor"
@@ -345,10 +601,10 @@ waves:
             pure_python: true
             api: ["merge_into_library(bd, scratch_path) -> MergeReport"]
             outcomes:
-              - {kind: new, action: "insert atom"}
-              - {kind: duplicate, action: "merge sources[] list"}
-              - {kind: variant, action: "append to variants[]"}
-              - {kind: conflict, action: "write to manual_review_queue + halt phase"}
+              - {kind: new,       action: "INSERT into knowledge_atoms + atom_sources (source_type='pipeline')"}
+              - {kind: duplicate, action: "INSERT atom_sources row (pipeline provenance); knowledge_atoms row unchanged"}
+              - {kind: variant,   action: "INSERT new knowledge_atoms row (variant marker in body_json) + atom_sources row"}
+              - {kind: conflict,  action: "write to manual_review_queue + halt phase"}
           conflict_resolver:
             path: "scripts/podcast/intelligence/resolve_conflicts.py"
             api: "python resolve_conflicts.py <slug> [--accept-incoming | --keep-existing | --both-as-variants]"
@@ -358,6 +614,10 @@ waves:
             path: "infra/git-hooks/post-merge-knowledge.sh"
             installed_to: ".git/hooks/post-merge"
             purpose: "Re-invoke Librarian on content/knowledge-base/knowledge.db if both merged branches touched it"
+          doctrine_tag_index:
+            path: "content/knowledge-base/_index/doctrine-by-tag.json"
+            format: "{tag: [atom_id, ...]} — rebuilt incrementally on each Librarian run"
+            purpose: "O(1) Augmenter lookup without a DB query"
         acceptance:
           - "tests/test_librarian_dedup_quran.py — same canonical ID merges sources"
           - "tests/test_librarian_dedup_hadith.py — different grade triggers conflict + halt"
@@ -374,12 +634,27 @@ waves:
             path: "scripts/podcast/intelligence/augmenter.py"
             max_lines: 250
             api:
-              - "augment_for_chapter(book_slug, chapter_id, chapter_text, *, types=('quran','hadith'), max_atoms=5, max_tokens=800) -> str"
-            implementation_wave_1: "regex citation scan + exact-ID lookup; no semantic ranking"
+              - "augment_for_chapter(book_slug, chapter_id, chapter_text, *, max_atoms=5, max_tokens=800, doctrine_topic_ids=None) -> str"
+            lookup_paths:
+              quran_hadith: "regex citation scan (Q\\d+:\\d+, hadith chains) + exact-ID lookup; knowledge_atoms WHERE type IN ('quran','hadith') AND needs_review=0"
+              doctrine:     "when doctrine_topic_ids set: atom_topic_tags JOIN knowledge_atoms WHERE type='doctrine' AND needs_review=0 AND topic_type_id IN (doctrine_topic_ids); silently skip when None"
+            needs_review_gate: "needs_review=0 required for ALL atom types — WARN-verdict Kashkole atoms blocked from augmentation output until re-ingested clean"
+            meta_yml_field:
+              name: doctrine_topic_ids
+              type: "list[int] optional"
+              description: "integers matching topic_type_taxonomy.type_id (see B0 for 18-row seed); absent = doctrine injection silently skipped"
+              example: "[1, 3, 7]  # e.g. Ismailism, Hadith Sciences, Quranic Exegesis"
+            scoring_algorithm:
+              doctrine: "score = len(intersection(chapter_topic_signals, atom.topic_tags)); sort desc; cap at 3 atoms (~300 tokens each)"
+              topic_signal_extraction: "\u27eaar:\u2026\u27eb markers + key terms: tawhid, wilaya, tawil, mabda, maad, aql, nafs, hudud, dawat"
+            exclusion_rule: "atoms whose binder_slug == book_slug excluded (book is not its own prior doctrinal source)"
+            prompt_block_format: "[PRIOR DOCTRINAL CONTEXT \u2014 Kashkole corpus] / Topic: {comma-joined topic_tags} / Source: Kashkole \u2014 {binder_slug}, ch. {chapter_slug} / --- / {text_en truncated at sentence boundary}"
             guards:
               - "default_disabled — series.enable_knowledge_augmenter must be true; else empty string"
               - "always strip_arabic_script via _context_injection (DR-012)"
               - "always neutral phrasing via _context_injection.format_provenance"
+              - "needs_review=0 for all atom types — WARN-verdict atoms blocked until re-ingested clean"
+              - "doctrine injection requires doctrine_topic_ids in meta.yml; silently skipped when absent"
           call_sites:
             - {phase: "08-enrichment",    token_budget: 200, purpose: "hint-level"}
             - {phase: "11-per-chapter",   token_budget: 500, purpose: "full prior treatment"}
@@ -675,103 +950,179 @@ waves:
         authorization: *tier_one
 
 # ===========================================================================
-# WAVE D — SPA + Dashboard
+# WAVE D — Extend the existing planning dashboard (plan-dashboard/ at port 4322)
+# The dashboard already exists and is running. Wave D extends it — it does NOT
+# create a new Astro project. All work goes into plan-dashboard/ (the live site
+# at localhost:4322). It must always reflect the real state of the plan.
 # ===========================================================================
 
   - id: D
-    name: SPA + Dashboard
+    name: Dashboard extension
+    design_decision: "Reframed 2026-05-26: extend plan-dashboard/ (already running at port 4322). Do NOT create _workspace/plan/spa/ or a second Astro project."
     depends_on: [A1]
     parallel_with: [B, C]
     steps:
 
       - id: D1
-        title: "Land design system tokens + Astro shell scaffolding"
+        title: "Standardise the existing dashboard design tokens so the podcast reader shares the same visual style"
         depends_on: [A1]
+        design_decision: "Work targets plan-dashboard/src/styles/theme.css (already exists). Export canonical CSS custom properties from it and import them into podcast-reader/. No new files or directories are created."
         deliverables:
-          design_tokens:
-            path: "_workspace/plan/spa/design-system/tokens.css"
-            properties:
-              color: ["--c-bg", "--c-text", "--c-accent", "--c-warn", "--c-success", "--c-muted"]
-              type: ["--type-serif", "--type-sans", "--type-mono", "modular scale sizes"]
-              spacing: ["--space-xs", "--space-sm", "--space-md", "--space-lg", "--space-xl"]
-              radius: ["--radius-sm", "--radius-md", "--radius-lg"]
-              shadow: ["--shadow-1", "--shadow-2", "--shadow-3"]
-            shared_with: [podcast-reader, future_sub_apps]
-          components:
-            location: "_workspace/plan/spa/components/"
-            files: [Card.astro, MetricTile.astro, DiagramFrame.astro, Table.astro, NavBar.astro, StatusBadge.astro]
-          routing_recipe:
-            path: "_workspace/plan/spa/routing.md"
-            describes: "how to add a new sub-app"
-          tech_stack:
-            framework: astro
-            rationale: "matches podcast-reader/ stack; shared design-token reuse; static output works from disk"
-            confirmation_needed: open_questions.oq9
+          existing_file_to_update: "plan-dashboard/src/styles/theme.css"
+          properties_to_export:
+            color: ["--c-bg", "--c-text", "--c-accent", "--c-warn", "--c-success", "--c-muted"]
+            type: ["--type-serif", "--type-sans", "--type-mono", "modular scale sizes"]
+            spacing: ["--space-xs", "--space-sm", "--space-md", "--space-lg", "--space-xl"]
+            radius: ["--radius-sm", "--radius-md", "--radius-lg"]
+            shadow: ["--shadow-1", "--shadow-2", "--shadow-3"]
+          shared_with: [podcast-reader]
         acceptance:
-          - "tokens.css imported by podcast-reader and renders identically"
-          - "Component primitives storyboard-tested in isolation"
+          - "podcast-reader and plan-dashboard render with matching colours and type scale from the same token source"
         cost_estimate_usd: 0
         authorization: *tier_one
 
       - id: D2
-        title: "Build the SPA shell at _workspace/plan/index.html"
+        title: "Verify and patch the navigation so every planned section is reachable"
         depends_on: [D1]
+        design_decision: "The nav shell already exists in plan-dashboard/. This step audits the current routes against the spec and fills any gaps — it does NOT rebuild the shell."
         deliverables:
-          astro_project_root: "_workspace/plan/"
-          entry: "_workspace/plan/src/pages/index.astro"
-          shell_features:
-            - "Top nav: Plan · Architecture · Dashboard · Backbone · Debt · Books"
-            - "Theme provider reads spa/design-system/tokens.css"
-            - "Astro file-based router"
-          launcher: "_workspace/plan/index.html as thin redirect/launcher to dist/index.html"
-          build_output: "_workspace/plan/dist/ (gitignored)"
-          default_route: "/dashboard (D4)"
+          existing_app: "plan-dashboard/ (Astro, port 4322)"
+          nav_spec:
+            - "Overview (landing)"
+            - "How it works (pipeline architecture)"
+            - "What it runs on (infrastructure)"
+            - "Annotation Ops (annotation-to-intelligence lane)"
+            - "Live progress (dashboard)"
+            - "Library (shipped books)"
+            - "Backbone (new — added in D3)"
+          default_route: "/dashboard"
         acceptance:
-          - "open _workspace/plan/index.html launches the SPA in any browser"
-          - "Renders without a running server"
+          - "All nav items render and route correctly"
+          - "No broken links"
         cost_estimate_usd: 0
         authorization: *tier_one
 
       - id: D3
-        title: "Build the backbone visualization sub-app"
+        title: "Add an interactive factory-floor view showing each processing stage and book type"
         depends_on: [D2]
+        design_decision: "New route added to the existing plan-dashboard. Shows the 16 pipeline stages as clickable stations. Click a stage to see what it does; click a book type to see which stages behave differently for that type."
         deliverables:
-          route: "/backbone"
-          source_data: ["refactor/plan.yaml", "architecture.md Mermaid sources"]
+          target_app: "plan-dashboard/"
+          new_route: "/backbone"
+          source_data: ["plan.yaml (pipeline stages)", "architecture.md (book types / archetypes)"]
           interactivity:
-            - "click phase station → see handler module + invariants + R-* checks"
-            - "click archetype → see which phases behave differently"
-            - "hover animations show data flowing through backbone"
-          rendering: "client-side; YAML+MD read at build time"
+            - "click stage → see what it does and what rules it enforces"
+            - "click book type → see which stages differ for that type"
+            - "hover animations show a book moving through the pipeline"
+          rendering: "client-side; data read from plan files at build time"
         acceptance:
-          - "All 16 phase stations clickable"
-          - "All 7 archetypes selectable from sidebar"
+          - "All 16 stages are clickable and show descriptions"
+          - "All 7 book types are selectable from a sidebar"
         cost_estimate_usd: 0
         authorization: *tier_one
 
       - id: D4
-        title: "Build the live dashboard sub-app"
+        title: "Complete the live progress section so it shows books in flight, costs, and roadmap status"
         depends_on: [D2]
+        design_decision: "The live progress route already exists in plan-dashboard/. This step fills the gaps: wire in the remaining metric tiles and confirm the per-wave progress bars update automatically on every push."
         deliverables:
-          route: "/dashboard (default landing)"
-          data_sources:
-            - {path: "refactor/progress.json", regenerator: "scripts/plan/regenerate_progress.py (runs on every push)"}
-            - {path: "content/knowledge-base/run_telemetry_snapshot.json", regenerator: "scripts/plan/snapshot_telemetry.py (reads knowledge.db.run_telemetry)"}
-          metric_tiles:
-            - "in-flight books + current phase + cost-to-date"
-            - "atoms-in-library count by type (quran, hadith)"
-            - "last-7-days commits to develop"
-            - "open manual-review queue count"
-            - "phase-failure-rate this week"
-          plan_progress:
-            - "per-wave progress bar (A/B/C/D/E)"
-            - "per-step status icons (⬜🔄✅🛑)"
-            - "recent commits per step"
-          live_strategy: "v1 = static snapshot on push; v2 (if needed) = read-only Astro server endpoint"
-          decision_needed: open_questions.oq10
+          target_app: "plan-dashboard/"
+          existing_route: "/dashboard (already live)"
+          gaps_to_fill:
+            - "books currently in flight + which stage they are on + cost so far"
+            - "count of knowledge items extracted (Quran verses, hadiths)"
+            - "commits to the main working branch in the last 7 days"
+            - "items waiting for manual human review"
+            - "per-wave progress bars (five waves, A through E) with per-step status icons"
+          update_strategy: "static snapshot regenerated on every push (already working for roadmap tiles); extend same mechanism for remaining tiles"
         acceptance:
-          - "Dashboard renders all 5 metric tiles + per-wave progress on page load"
-          - "progress.json regenerator script tested"
+          - "All metric tiles render correctly on page load"
+          - "Per-wave progress bars reflect the real state of the plan without manual refresh"
+        cost_estimate_usd: 0
+        authorization: *tier_one
+
+      - id: D5
+        title: "Replace floating annotation UI with a right-hand annotation workspace and durable AI handoff"
+        depends_on: [D2]
+        design_decision: |
+          The floating left-side bar is retired. Annotation now lives in the right rail
+          so one-handed use stays stable while reading. Paragraph hover sets the active
+          target; markers, notes, and AI actions are managed in a single workspace.
+          Notes autosave when cursor focus moves to another paragraph. Action outputs
+          are queued in localStorage and can be copied as one accumulated execution set.
+          A server export endpoint writes a chapter-scoped JSON handoff so Copilot,
+          Claude Code, and future pipeline stages share the same machine-readable source.
+        deliverables:
+          db_additions:
+            - "knowledge.db — table: paragraph_annotations(id, book_slug, chapter_id, para_idx, tag_id, note, created_at)"
+            - "knowledge.db — table: annotation_tags(id, tag_label, tag_color, tag_icon, is_default, sort_order, created_at)"
+            - "knowledge.db — new table: paragraph_notes(id, book_slug, chapter_id, para_idx, note, updated_at)"
+          default_tags:
+            - {label: "esoteric",            color: "#7c3aed"}
+            - {label: "reality",             color: "#0369a1"}
+            - {label: "sharia",              color: "#065f46"}
+            - {label: "mark for deletion",   color: "#b91c1c"}
+            - {label: "mark for improvement",color: "#92400e"}
+          new_files:
+            - "plan-dashboard/src/components/reader/AnnotationWorkbench.tsx — right-rail control surface for paragraph/book/global annotation scope"
+            - "plan-dashboard/src/pages/api/annotations/export.ts — writes chapter-level annotation-intelligence JSON handoff"
+            - "plan-dashboard/src/lib/reader/annotation-export.ts — durable export builder + accumulated instruction text"
+          updated_files:
+            - "plan-dashboard/src/pages/library/[slug]/chapter/[chapter].astro — mount AnnotationWorkbench in the right rail"
+            - "plan-dashboard/src/pages/api/annotations.ts — add PATCH autosave for paragraph notes"
+            - "plan-dashboard/src/lib/db/annotations.ts — paragraph_notes table + chapter snapshot helpers"
+            - "plan-dashboard/src/layouts/Base.astro — add Annotation Ops architecture subnav"
+          gemini_integration:
+            api: "Gemini 2.0 Flash with Google Search grounding (tools: google_search)"
+            trigger: "workspace action run → POST /api/ai/research"
+            output: "single result copy + queue copy + JSON sync copy"
+          queue_model:
+            fast_lane: "localStorage queue for instant capture and batch clipboard copy"
+            durable_lane: "content/drafts/<category>/<slug>/_system/annotation-intelligence/<chapter>.json"
+            schema_fields:
+              - "scope: paragraph | book | global"
+              - "kind: marker | action"
+              - "paraIdx + paragraphPreview"
+              - "instruction + tags + createdAt"
+          libraries_used:
+            db: "better-sqlite3 ^12 — synchronous SQLite from Astro API routes (server-only)"
+            icons: "lucide-react (already installed) — marker/action icons in right-rail workbench"
+            gemini_sdk: "@google/generative-ai ^0.24 — grounding tool support"
+          architecture_note: |
+            Paragraph content is rendered from raw HTML (set:html), so annotation uses
+            event delegation over .prose-body and data-para-idx stamping at mount.
+            Hover only selects context; editing happens in the right rail. This keeps
+            reading stable and avoids floating controls occluding text.
+        acceptance:
+          - "Hovering chapter text updates active paragraph context in the right rail within 200ms"
+          - "Moving to a new paragraph autosaves note text for the previous paragraph"
+          - "Marker changes persist in knowledge.db and render paragraph highlights after reload"
+          - "Queue button beside copy copies accumulated instruction set for assistant execution"
+          - "JSON sync endpoint writes a chapter handoff file containing queue + markers + notes"
+        cost_estimate_usd: 0
+        authorization: *tier_one
+
+      - id: D6
+        title: "Teach planner + site-sync to auto-detect annotation architecture gaps and generate missing views"
+        depends_on: [D5]
+        design_decision: |
+          The planner and site-sync loop should not require manual reminders when a new
+          architecture lane appears in plan.yaml. They must detect missing navigation and
+          missing architecture/infrastructure coverage, then generate or patch views.
+        deliverables:
+          planner_updates:
+            - "podcast planner guidance explicitly treats annotation-intelligence as a first-class architecture lane"
+            - "snapshot regeneration remains automatic after any canonical-plan change"
+          site_sync_updates:
+            - "podcast-site-sync prompt allows targeted new view creation when plan has a lane with no view"
+            - "sync report must include coverage check for annotation operations"
+          ui_surface:
+            - "new architecture subview route for annotation operations"
+            - "architecture and infrastructure pages include annotation lane summary cards"
+        acceptance:
+          - "Site-sync run reports annotation lane coverage status"
+          - "If plan adds a new architecture lane, sync can propose/create the missing view"
+          - "Planner snapshots include D6 status in roadmap tiles"
         cost_estimate_usd: 0
         authorization: *tier_one
 

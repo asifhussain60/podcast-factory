@@ -109,10 +109,10 @@ Three storage tiers, each with one job. None can substitute for another.
 ```mermaid
 flowchart LR
     subgraph TIER1["Tier 1 — Per-Book Scratch (JSONL, git-tracked)"]
-        S1[content/drafts/BOOKS/&lt;slug&gt;/<br/>_system/<br/>knowledge-atoms-scratch.jsonl]
-        S2[content/drafts/BOOKS/&lt;slug&gt;/<br/>_system/<br/>orchestrator-state.json]
-        S3[content/drafts/BOOKS/&lt;slug&gt;/<br/>chapters/*.txt]
-        S4[content/drafts/BOOKS/&lt;slug&gt;/<br/>meta.yml]
+        S1[content/drafts/books/&lt;slug&gt;/<br/>_system/<br/>knowledge-atoms-scratch.jsonl]
+        S2[content/drafts/books/&lt;slug&gt;/<br/>_system/<br/>orchestrator-state.json]
+        S3[content/drafts/books/&lt;slug&gt;/<br/>chapters/*.txt]
+        S4[content/drafts/books/&lt;slug&gt;/<br/>meta.yml]
     end
 
     subgraph TIER2["Tier 2 — Shared Knowledge Brain (SQLite)"]
@@ -527,6 +527,19 @@ flowchart TB
 
 ---
 
+## Annotation Intelligence Handoff
+
+The chapter reader now includes a right-rail annotation workspace as a first-class operational lane. Paragraph hover selects context; all edits happen in the rail. This avoids floating overlays on text while preserving rapid classification flow.
+
+The lane has two persistence levels:
+
+- **Fast lane (session speed):** local queue in browser storage, capturing marker and action intent in order.
+- **Durable lane (cross-session + automation):** chapter-scoped JSON handoff at `content/drafts/<category>/<slug>/_system/annotation-intelligence/<chapter>.json` containing markers, notes, queue items, and one combined instruction block ready for assistant execution.
+
+This contract makes annotation output reusable by Copilot, Claude Code, Cowork sessions, and future pipeline automation without needing UI state reconstruction.
+
+---
+
 ## Decision Records (ADRs)
 
 Compact list of architectural decisions and why. Future Claude sessions and reviewers consult this list first when something feels arbitrary.
@@ -547,6 +560,7 @@ Compact list of architectural decisions and why. Future Claude sessions and revi
 | DR-012 | **Augmenter strips `text_ar` before injection** | Prevents Arabic script leak into phonetic-only chapter files (violates R-PHONETICS-OUT). | 2026-05-26 |
 | DR-013 | **Retroactive enhancements for shipped books = addendum-only** | Never re-run the pipeline against KaR, M&D, Ayyuhal Walad, etc. New episodes ship as addenda. | 2026-05-26 |
 | DR-014 | **Strategic-tactical agent split: steward composes, doesn't reimplement** | `project-steward` sits above the tactical agents (orchestrator, auditor, challenger, vacuum, etc.). It composes them by scope rather than duplicating their checks. Every recommendation is bound to a `reference/steward-source-corpus.md` entry; unsourced claims are flagged `[unsourced]`. Prevents agent-sprawl and keeps strategic prioritization out of pipeline scripts. | 2026-05-26 |
+| DR-016 | **Annotation output must persist as both queue and chapter handoff file** | Local queue keeps interaction fast; chapter JSON makes intent durable and machine-readable for assistant sessions and automation. | 2026-05-27 |
 
 ---
 

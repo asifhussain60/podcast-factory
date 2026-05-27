@@ -1,0 +1,378 @@
+---
+import Base from '../layouts/Base.astro';
+import DbArchitecture from '../components/DbArchitecture';
+---
+
+<Base title="Database Design" active="db-schema" section="architecture" description="Interactive schema for the podcast-factory SQLite database — 16 SOLID-compliant tables spanning the pipeline, knowledge library, and Kashkole corpus layer.">
+  <header class="page-hero">
+    <div class="page-hero-inner">
+      <span class="eyebrow">Database design</span>
+      <h1 class="page-hero-title">What the database manages and why.</h1>
+      <p class="page-hero-lede">
+        Sixteen SOLID-compliant tables replacing scattered JSONL and JSON files across pipeline books and external corpora.
+        One SQLite database consolidates the knowledge store, etymology layer, corpus provenance, topic taxonomy,
+        cost tracking, episode registry, and quality audit trail — everything queryable and cross-book for the first time.
+        The Kashkole corpus tables make the intelligence library the central hub that enriches every future book production.
+      </p>
+    </div>
+  </header>
+
+  <section class="stack">
+    <DbArchitecture client:load />
+  </section>
+
+  <section class="stack design-notes">
+    <h2>Design decisions</h2>
+    <div class="grid-3">
+      <div class="card stack">
+        <span class="eyebrow">Why SQLite, not a server?</span>
+        <p>
+          The factory runs on a single machine. SQLite has no daemon, no config,
+          no connection pooling — just a file. It handles the pipeline's write pattern
+          (one book at a time, one phase at a time) without any overhead.
+          The knowledge base, cost ledger, and episode registry can all be queried
+          with plain <code>SELECT</code> statements from any script.
+        </p>
+      </div>
+      <div class="card stack">
+        <span class="eyebrow">Etymology at every scale</span>
+        <p>
+          Three tables form the etymology spine: <strong>arabic_roots</strong> holds
+          every Semitic root with its pre-computed abjad sum; <strong>word_etymologies</strong>
+          maps each root to its morphological derivations with semantic nuances and
+          esoteric notes per word; <strong>letter_profiles</strong> is a static 28-row
+          table that drives teaching depth at the letter level — makhraj, sifāt, solar/lunar,
+          Quranic frequency, and Sufi colour correspondences. Join all three in one query.
+        </p>
+      </div>
+      <div class="card stack">
+        <span class="eyebrow">SOLID/DRY foundation from day one</span>
+        <p>
+          Four design rules are baked in. <strong>atom_sources</strong> unifies all provenance
+          (pipeline books and Kashkole chapters) in one table with a <code>source_type</code>
+          discriminator and a CHECK constraint — no polymorphic NULL ambiguity.
+          <strong>topic_type_taxonomy</strong> replaces a hard-coded driver dict with 18 seed rows
+          that the ingestion driver JOINs instead of duplicating.
+          <strong>atom_topic_tags</strong> is a proper covering-indexed join table replacing
+          a file-based tag index. And <code>needs_review</code> on every atom surfaces
+          WARN-verdict quality signals without a separate table.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ── Component root ─────────────────────────────────────────── */
+  :global(.dba-root) {
+    font-family: 'Lato', sans-serif;
+  }
+
+  /* ── Filter bar ─────────────────────────────────────────────── */
+  :global(.dba-filters) {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+    margin-bottom: var(--sp-5);
+  }
+  :global(.dba-filter-label) {
+    font-size: var(--fs-sm);
+    color: var(--c-ink-muted);
+    margin-right: var(--sp-1);
+  }
+  :global(.dba-pill) {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    border: 1.5px solid var(--c-rule);
+    background: transparent;
+    font: 600 12px 'Lato', sans-serif;
+    color: var(--c-ink-dim);
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+  }
+  :global(.dba-pill:hover) {
+    border-color: var(--c-ink-muted);
+    color: var(--c-ink);
+  }
+  :global(.dba-pill--active) {
+    border-color: var(--pill-color, var(--c-accent));
+    background: color-mix(in oklab, var(--pill-color, var(--c-accent)) 8%, white);
+    color: var(--pill-color, var(--c-accent));
+  }
+  :global(.dba-pill--clear) {
+    border-color: var(--c-ink-muted);
+    color: var(--c-ink-dim);
+  }
+  :global(.dba-pill-dot) {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: var(--cat-color, #87827a);
+  }
+
+  /* ── Main layout ─────────────────────────────────────────────── */
+  :global(.dba-layout) {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-6);
+    align-items: start;
+  }
+  :global(.dba-layout--split) {
+    grid-template-columns: 1fr 1fr;
+  }
+  @media (max-width: 900px) {
+    :global(.dba-layout--split) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ── SVG diagram ─────────────────────────────────────────────── */
+  :global(.dba-diagram-wrap) {
+    border: 1px solid var(--c-rule);
+    border-radius: var(--r-lg);
+    background: var(--c-bg-card);
+    padding: var(--sp-3) var(--sp-3) var(--sp-2);
+    overflow: hidden;
+    max-width: 440px;  /* constrain SVG to near-natural size so font-size CSS px don't over-scale */
+  }
+  :global(.dba-svg) {
+    width: 100%;
+    display: block;
+  }
+  /* SVG text classes — CSS px values, do NOT scale with SVG viewBox transform */
+  :global(.dba-tbl-name) {
+    font: 700 14px 'Lato', sans-serif;
+    fill: var(--c-ink);
+    transition: fill 0.18s;
+  }
+  :global(.dba-tbl-count) {
+    font: 12px 'Lato', sans-serif;
+    fill: var(--c-ink-muted);
+    transition: fill 0.18s;
+  }
+  :global(.dba-edge-lbl) {
+    font: 700 11px 'Lato', sans-serif;
+    fill: var(--c-ink-muted);
+  }
+  /* SVG transition helpers — CSS classes so transitions live in CSS, not inline */
+  :global(.dba-edge)   { transition: stroke 0.2s, stroke-width 0.2s; }
+  :global(.dba-node-g) { cursor: pointer; }
+  :global(.dba-box)    { transition: all 0.18s; }
+  :global(.dba-fill)   { transition: fill 0.18s; }
+  :global(.dba-legend-svg) { vertical-align: middle; }
+  :global(.dba-diagram-legend) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-3) var(--sp-5);
+    padding: var(--sp-2) var(--sp-2) 0;
+    border-top: 1px solid var(--c-rule);
+    margin-top: var(--sp-2);
+  }
+  :global(.dba-legend-item) {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--c-ink-muted);
+  }
+  :global(.dba-legend-dot) {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--cat-color, var(--c-rule));
+  }
+  :global(.dba-hint) {
+    margin-left: auto;
+    font-style: italic;
+  }
+
+  /* ── Detail panel ────────────────────────────────────────────── */
+  :global(.dba-panel) {
+    border: 1px solid var(--c-rule);
+    border-radius: var(--r-lg);
+    background: var(--c-bg-card);
+    padding: var(--sp-5);
+    overflow-y: auto;
+    max-height: 580px;
+    animation: panel-in 0.18s ease;
+  }
+  @keyframes panel-in {
+    from { opacity: 0; transform: translateX(8px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  :global(.dba-panel--empty) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--sp-3);
+    text-align: center;
+    color: var(--c-ink-dim);
+    font-size: var(--fs-sm);
+    min-height: 300px;
+  }
+  :global(.dba-empty-icon) {
+    font-size: 2.5rem;
+    opacity: 0.2;
+  }
+  :global(.dba-empty-hint) {
+    color: var(--c-ink-muted);
+    font-size: 12px;
+  }
+
+  /* Panel header */
+  :global(.dba-panel-header) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+    margin-bottom: var(--sp-4);
+  }
+  :global(.dba-panel-name) {
+    font: 700 22px 'Source Serif 4', Georgia, serif;
+    color: var(--c-ink);
+    border-left: 4px solid var(--cat-color, var(--c-accent));
+    padding-left: var(--sp-3);
+    line-height: 1.2;
+  }
+  :global(.dba-panel-badges) {
+    display: flex;
+    gap: var(--sp-2);
+    flex-wrap: wrap;
+  }
+  :global(.dba-badge) {
+    font: 600 11px 'Lato', sans-serif;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: var(--cat-bg, var(--c-bg-sunken));
+    color: var(--cat-color, var(--c-ink));
+  }
+  :global(.dba-badge--wave) { background: var(--c-bg); color: var(--c-ink-muted); border: 1px solid var(--c-rule); }
+  :global(.dba-badge--wave1) { color: var(--c-green); border-color: var(--c-green); background: rgba(74,124,74,0.06); }
+  :global(.dba-badge--wave2) { color: #0078d4; border-color: #0078d4; background: rgba(0,120,212,0.06); }
+  :global(.dba-badge--wave3) { color: var(--c-ink-muted); }
+
+  /* Purpose text */
+  :global(.dba-panel-purpose) {
+    font-size: var(--fs-sm);
+    line-height: 1.6;
+    color: var(--c-ink-dim);
+    margin-bottom: var(--sp-4);
+    padding: var(--sp-3);
+    background: var(--c-bg);
+    border-radius: var(--r-md);
+    border-left: 3px solid var(--c-rule);
+  }
+
+  /* Phase chips */
+  :global(.dba-phase-grid) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-4);
+    margin-bottom: var(--sp-4);
+  }
+  :global(.dba-phase-label) {
+    font: 700 10px 'Lato', sans-serif;
+    color: var(--c-ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: var(--sp-2);
+  }
+  :global(.dba-phase-chips) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-1);
+  }
+  :global(.dba-chip) {
+    font: 600 10.5px 'Lato', sans-serif;
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: none;
+  }
+  :global(.dba-chip--write) { background: rgba(139,69,19,0.08); color: #8b4513; }
+  :global(.dba-chip--read)  { background: rgba(0,120,212,0.08); color: #0078d4; }
+  :global(.dba-chip--related) {
+    background: transparent;
+    border: 1.5px solid var(--cat-color, var(--c-rule));
+    color: var(--cat-color, var(--c-ink));
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: background 0.15s;
+  }
+  :global(.dba-chip--related:hover) { opacity: 0.75; }
+  :global(.dba-chip-type) { opacity: 0.6; font-weight: 400; }
+
+  /* Related tables */
+  :global(.dba-related) { margin-bottom: var(--sp-4); }
+  :global(.dba-related-chips) { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-top: var(--sp-2); }
+
+  /* Section label */
+  :global(.dba-section-label) {
+    font: 700 10px 'Lato', sans-serif;
+    color: var(--c-ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: var(--sp-2);
+  }
+  :global(.dba-section-label--mt) { margin-top: 1rem; }
+
+  /* Fields */
+  :global(.dba-fields) {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  :global(.dba-field) {
+    padding: var(--sp-2) var(--sp-3);
+    border-radius: var(--r-md);
+    border: 1px solid transparent;
+    transition: background 0.1s;
+  }
+  :global(.dba-field:hover) { background: var(--c-bg); border-color: var(--c-rule); }
+  :global(.dba-field--pk) { border-color: rgba(184,134,11,0.25); background: rgba(184,134,11,0.04); }
+  :global(.dba-field-top) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-2);
+    margin-bottom: 3px;
+  }
+  :global(.dba-field-name) {
+    font: 700 12px 'Lato', monospace;
+    color: var(--c-ink);
+    font-family: 'Courier New', monospace;
+  }
+  :global(.dba-field-tags) { display: flex; gap: 4px; flex-shrink: 0; }
+  :global(.dba-tag) {
+    font: 600 9.5px 'Lato', sans-serif;
+    padding: 1px 6px;
+    border-radius: 3px;
+  }
+  :global(.dba-tag--type) { background: var(--c-bg); color: var(--c-ink-dim); border: 1px solid var(--c-rule); }
+  :global(.dba-tag--pk)   { background: rgba(184,134,11,0.12); color: #b8860b; }
+  :global(.dba-tag--fk)   { background: rgba(0,120,212,0.10); color: #0078d4; }
+  :global(.dba-tag--null) { background: var(--c-bg); color: var(--c-ink-muted); border: 1px dashed var(--c-rule); }
+  :global(.dba-field-desc) {
+    font-size: 11.5px;
+    color: var(--c-ink-dim);
+    line-height: 1.45;
+    margin: 0;
+  }
+  :global(.dba-field-fk-label) {
+    font: 10px 'Lato', monospace;
+    color: #0078d4;
+    margin: 2px 0 0;
+    font-family: 'Courier New', monospace;
+  }
+
+  /* Design notes */
+  .design-notes h2 { margin-bottom: var(--sp-4); }
+  .design-notes p  { font-size: var(--fs-sm); line-height: 1.6; color: var(--c-ink-dim); margin: 0; }
+  .design-notes code { font-size: 11px; background: var(--c-bg); padding: 1px 4px; border-radius: 3px; }
+</style>

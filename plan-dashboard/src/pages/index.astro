@@ -9,75 +9,61 @@ const monthSpend = (infra.vendors ?? []).reduce((sum: number, v: any) =>
   sum + (v.services ?? []).reduce((s: number, svc: any) => s + (svc.month_cost_usd ?? 0), 0), 0);
 ---
 <Base title="Overview" active="home" description="A living plan for the podcast factory — what it is, what it runs on, and what's happening right now.">
-  <header class="stack">
+  <header class="home-header stack">
     <span class="eyebrow">Living plan</span>
-    <h1>One place to see the whole podcast factory.</h1>
-    <p class="lede">
-      The podcast factory turns scholarly books into NotebookLM-driven podcast series. This page is the front door.
-      Three views below explain what the factory does, what it runs on, and what's happening right now — all
-      regenerated from real repo state every time the planning agent finishes a piece of work.
+    <h1 class="home-hero-h1">The podcast factory — one place to see everything.</h1>
+    <p class="lede home-lede">
+      This factory turns scholarly Arabic books into NotebookLM-driven podcast series.
+      Choose a path below, or scan the at-a-glance numbers to jump straight to what matters.
     </p>
   </header>
 
-  <section class="grid-3" id="card-grid">
-    <a href="/architecture" class="card card-hover stack">
-      <span class="eyebrow">How it works</span>
-      <h3 class="card-title">The factory floor</h3>
-      <p>A book enters at the top and a published podcast series leaves at the bottom. Between them sit a series of stations — each one a single, well-scoped job — and a set of pluggable modules that change what those stations do based on the kind of book in front of them.</p>
-      <p class="card-sub">Vertical timeline · pluggable modules · shipped catalog</p>
-    </a>
+  <div class="home-body">
+    <div class="hub-grid">
+      <a href="/architecture" class="hub-card path-architecture">
+        <div class="hub-icon-wrap">
+          <i class="fa-solid fa-sitemap" aria-hidden="true"></i>
+        </div>
+        <h2>Architecture</h2>
+        <p>Understand the pipeline — how a book becomes a podcast, what each station does, and how the intelligence layer fits in.</p>
+        <span class="hub-enter">Explore pipeline, intelligence, infrastructure →</span>
+      </a>
 
-    <a href="/infrastructure" class="card card-hover stack">
-      <span class="eyebrow">What it runs on</span>
-      <h3 class="card-title">The toolbox behind the scenes</h3>
-      <p>Three outside services do the heavy lifting: Anthropic for thinking, Google for the audio overview, Microsoft Azure for reading the original PDF and pronouncing names correctly. Hover any service for the running monthly bill and the parts of the factory that use it.</p>
-      <p class="card-sub">Three vendors · hover for cost · one-page view</p>
-    </a>
+      <a href="/library" class="hub-card path-bookshelf">
+        <div class="hub-icon-wrap">
+          <i class="fa-solid fa-book-open" aria-hidden="true"></i>
+        </div>
+        <h2>Bookshelf</h2>
+        <p>Browse every book and lecture in the catalog — drafts in progress and titles already published. Read chapters directly in the reader.</p>
+        <span class="hub-enter">Open library →</span>
+      </a>
 
-    <a href="/dashboard" class="card card-hover stack">
-      <span class="eyebrow">Live progress</span>
-      <h3 class="card-title">What's happening right now</h3>
-      <p>The plan to land the next wave of improvements, the books currently in flight, and the metrics that tell us things are healthy. Updates stream in as the factory works — no manual refresh needed.</p>
-      <p class="card-sub">Roadmap · current run · charts that move</p>
-    </a>
-  </section>
-
-  <section class="stack">
-    <h2>At a glance</h2>
-  </section>
-
-  <section class="grid-3">
-    <div class="card metric">
-      <span class="metric-label">Books in flight</span>
-      <span class="metric-value">{inFlight}</span>
-      <span class="card-sub">Active runs the factory is currently working on</span>
+      <a href="/dashboard" class="hub-card path-planner">
+        <div class="hub-icon-wrap">
+          <i class="fa-solid fa-chart-gantt" aria-hidden="true"></i>
+        </div>
+        <h2>Planner</h2>
+        <p>See what's happening right now — books in flight, the refactor roadmap, and metrics that stream live from the repo.</p>
+        <span class="hub-enter">View live progress →</span>
+      </a>
     </div>
-    <div class="card metric">
-      <span class="metric-label">Improvements queued</span>
-      <span class="metric-value">{openSteps}</span>
-      <span class="card-sub">Roadmap steps ready or already in progress</span>
-    </div>
-    <div class="card metric">
-      <span class="metric-label">This month — outside services</span>
-      <span class="metric-value">${monthSpend.toFixed(0)}</span>
-      <span class="card-sub">Combined spend across Anthropic, Google, and Azure</span>
-    </div>
-  </section>
 
-  <hr />
-
-  <section class="stack">
-    <h2>How this page stays honest</h2>
-    <p>
-      A planning agent watches every change someone proposes to the plan. Before anything lands it checks four things:
-      whether the change breaks a settled design decision, whether it would disturb a book that's already shipped,
-      whether it touches a book currently being processed, and whether it introduces fragility. If any check trips,
-      the agent pushes back in plain English. If all four pass, the change goes in and these three views are
-      regenerated from the new reality.
-    </p>
-    <p>
-      Nothing here is hand-edited. Everything you see was derived from the actual files in the repository at the
-      moment you opened the page.
-    </p>
-  </section>
+    <section class="grid-3 home-metrics">
+      <div class="card metric">
+        <span class="metric-label">Books in flight</span>
+        <span class="metric-value">{inFlight}</span>
+        <span class="card-sub">Active runs the factory is currently working on</span>
+      </div>
+      <div class="card metric">
+        <span class="metric-label">Improvements queued</span>
+        <span class="metric-value">{openSteps}</span>
+        <span class="card-sub">Roadmap steps ready or already in progress</span>
+      </div>
+      <div class="card metric">
+        <span class="metric-label">This month — outside services</span>
+        <span class="metric-value">${monthSpend.toFixed(0)}</span>
+        <span class="card-sub">Combined spend across Anthropic, Google, and Azure</span>
+      </div>
+    </section>
+  </div>
 </Base>

@@ -1,0 +1,6 @@
+---
+name: vacuum
+description: "Pipeline-aware folder hygiene and filename normalizer for podcast-factory books. Executes targeted mutations against `content/drafts/<slug>/` and `content/published/books/<slug>/` — renames audio/transcript files to canonical `ch<NN>-<slug>` form, moves misplaced files into the canonical layout, removes duplicates and known junk (`.DS_Store`, `m4a/v1/` legacy mp3s, empty/orphaned dirs), and reconciles folder-name drift (`m4a/` vs `audio/`). Always dry-run-first: emits a proposed-diff plan, halts for user approval, then executes. Designed as the delegation target for `postprod-review` findings tagged `delegate_to: vacuum`, but also invokable directly. Distinct from `clean-commit` (generic folder hygiene, no pipeline knowledge) and `repo-surgeon` (repo-wide architectural audit, no per-book ops). Book-agnostic: caller supplies `<book-slug>`. Invoke for: 'vacuum <book-slug>', 'tidy book <slug>', 'normalize filenames', 'standardize folder layout', '/vacuum', 'rename audio files to match chapters', or whenever postprod-review emits `delegate_to: vacuum` findings."
+---
+
+This file is a discovery stub. Full specification at [infra/claude-agents/vacuum.md](../../infra/claude-agents/vacuum.md).
