@@ -34,10 +34,76 @@ const REPO = path.resolve(APP, '..');
 const DATA = path.join(APP, 'src', 'data');
 const DRAFTS = path.join(REPO, 'content', 'drafts');
 const PLAN_YAML = path.join(REPO, '_workspace', 'plan', 'refactor', 'plan.yaml');
+const WAVE_ACCEPTANCE = path.join(REPO, '_workspace', 'plan', 'operations', 'wave-acceptance-checklist.md');
+const WAVE_EVENTS = path.join(REPO, '_workspace', 'plan', 'refactor', 'wave-execution-events.jsonl');
 const SENTINEL = path.join(APP, '.snapshot-version');
+const TRACE_STEPS = process.argv.includes('--trace-steps') || process.env.SNAPSHOT_TRACE === '1';
+
+const WAVE_NUM_BY_LETTER = { A: 1, B: 2, C: 3, D: 4, E: 5 };
+
+function parseChecklistDoneWaves(markdown) {
+  const out = new Set();
+  if (!markdown || typeof markdown !== 'string') return out;
+
+  const lines = markdown.split('\n');
+  let currentWave = null;
+  let waveRows = 0;
+  let waveChecked = 0;
+
+  const flush = () => {
+    if (currentWave !== null && waveRows > 0 && waveRows === waveChecked) {
+      out.add(currentWave);
+    }
+  };
+
+  for (const raw of lines) {
+    const line = raw.trim();
+    const waveMatch = line.match(/^##\s+Wave\s+(\d+)\b/i);
+    if (waveMatch) {
+      flush();
+      currentWave = Number(waveMatch[1]);
+      waveRows = 0;
+      waveChecked = 0;
+      continue;
+    }
+
+    const rowMatch = line.match(/^- \[([ xX])\]\s+\*\*P\d+(?:\.\d+\w?)?\*\*/);
+    if (currentWave !== null && rowMatch) {
+      waveRows += 1;
+      if (String(rowMatch[1]).toLowerCase() === 'x') waveChecked += 1;
+    }
+  }
+
+  flush();
+  return out;
+}
+
+function deriveStepStatus(step, wave) {
+  if (typeof step.status === 'string' && step.status.trim()) return step.status.trim();
+  const waveStatus = String(wave?.execution_status ?? '').toLowerCase();
+  if (waveStatus.startsWith('completed')) return 'complete';
+  return 'pending';
+}
 
 async function readJsonIfExists(p) {
   try { return JSON.parse(await readFile(p, 'utf-8')); } catch { return null; }
+}
+
+async function recentWaveEvents(limit = 15) {
+  try {
+    const raw = await readFile(WAVE_EVENTS, 'utf-8');
+    const rows = raw
+      .split('\n')
+      .map((l) => l.trim())
+      .filter(Boolean)
+      .map((l) => {
+        try { return JSON.parse(l); } catch { return null; }
+      })
+      .filter(Boolean);
+    return rows.slice(-limit).reverse();
+  } catch {
+    return [];
+  }
 }
 
 async function listBooks() {
@@ -85,6 +151,14 @@ async function readPlanYaml() {
 async function mergeDashboard() {
   const existing = (await readJsonIfExists(path.join(DATA, 'dashboard-snapshot.json'))) ?? { roadmap: [], waves: [], debt: [], metrics: {} };
 
+  let doneWaves = new Set();
+  try {
+    const checklistRaw = await readFile(WAVE_ACCEPTANCE, 'utf-8');
+    doneWaves = parseChecklistDoneWaves(checklistRaw);
+  } catch {
+    doneWaves = new Set();
+  }
+
   const slugs = await listBooks();
   const states = (await Promise.all(slugs.map(bookState))).filter(Boolean);
   const inFlight = states
@@ -112,25 +186,44 @@ async function mergeDashboard() {
     }
     // Remove steps that no longer exist in the YAML
     roadmap = roadmap.filter((r) => ids.has(r.id));
-    // Add new steps from YAML that aren't yet in the snapshot
+    // Add or refresh steps from YAML.
     const existingIds = new Set(roadmap.map((r) => r.id));
+    const existingById = new Map(roadmap.map((r) => [r.id, r]));
     const waveOrder = planYaml.waves.map((w) => w.id);
     for (const wave of planYaml.waves) {
       for (const step of (wave.steps ?? [])) {
-        if (!existingIds.has(step.id)) {
-          roadmap.push({
-            id: step.id,
-            wave: wave.id,
-            title: step.title ?? step.id,
-            status: step.status ?? 'pending',
-            tier: 'T1',
-            depends_on: step.depends_on ?? [],
-            plain: '',
-            tools: [],
-          });
+        const prev = existingById.get(step.id);
+        const next = {
+          ...(prev ?? {}),
+          id: step.id,
+          wave: wave.id,
+          title: step.title ?? prev?.title ?? step.id,
+          status: deriveStepStatus(step, wave),
+          tier: step.tier ?? prev?.tier ?? 'T1',
+          depends_on: step.depends_on ?? prev?.depends_on ?? [],
+          plain: step.plain ?? prev?.plain ?? '',
+          tools: step.tools ?? prev?.tools ?? [],
+          last_touched: step.last_touched ?? prev?.last_touched,
+        };
+
+        const waveNum = WAVE_NUM_BY_LETTER[wave.id];
+        if (waveNum && doneWaves.has(waveNum)) {
+          next.status = 'complete';
+        }
+
+        existingById.set(step.id, next);
+        if (!existingIds.has(step.id)) roadmap.push(next);
+
+        if (TRACE_STEPS) {
+          const source = typeof step.status === 'string' ? step.status : '(none)';
+          const waveExec = wave.execution_status ?? '(none)';
+          const prevStatus = prev?.status ?? '(none)';
+          console.log(`[roadmap-trace] ${step.id} | source=${source} | wave=${waveExec} | prev=${prevStatus} | final=${next.status}`);
         }
       }
     }
+
+    roadmap = roadmap.map((entry) => existingById.get(entry.id) ?? entry);
     // Keep roadmap sorted by wave order then step id
     roadmap.sort((a, b) => {
       const wa = waveOrder.indexOf(a.wave);
@@ -148,6 +241,7 @@ async function mergeDashboard() {
     roadmap,
     books_in_flight: inFlight,
     recent_commits: recentCommits(),
+    wave_execution_events: await recentWaveEvents(),
   };
 
   await writeFile(path.join(DATA, 'dashboard-snapshot.json'), JSON.stringify(merged, null, 2) + '\n', 'utf-8');

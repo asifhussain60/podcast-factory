@@ -125,9 +125,6 @@ If Asif says "just do it" for a Tier 2 action, that one-shot authorizes that one
 
 Available under [.github/prompts/](prompts/) — invoke from Copilot Chat with `/<name>`:
 
-- `/plan-status` — show where the refactor stands today; cite the four canonical files.
-- `/plan-next-step` — propose the next concrete step + scope it as a plan-block for Asif's approval.
-- `/regen-snapshots` — regenerate the three dashboard JSONs against current commit.
 - `/session-handoff` — append a session-log entry to `_workspace/plan/copilot-handoff.md` before ending the session.
 
 ---
