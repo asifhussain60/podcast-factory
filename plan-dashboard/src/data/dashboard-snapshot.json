@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-27T13:49:28.743Z",
-  "source_commit": "129af21",
+  "generated_at": "2026-05-27T13:57:37.843Z",
+  "source_commit": "3e76ae3",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -468,6 +468,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "3e76ae3",
+      "subject": "feat(D5): paragraph annotation bar — hover toolbar, tag CRUD, Gemini research",
+      "date": "2026-05-27"
+    },
+    {
       "sha": "129af21",
       "subject": "chore(A6): consolidate agents — canonical specs in infra/, stubs in .github/agents/",
       "date": "2026-05-27"
@@ -510,11 +515,6 @@
     {
       "sha": "d4f43e0",
       "subject": "fix(pipeline-rail): make step list scrollable and auto-scroll to active step",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "b35c66e",
-      "subject": "chore(vacuum): clean plan folder + refresh snapshots",
       "date": "2026-05-27"
     }
   ],
