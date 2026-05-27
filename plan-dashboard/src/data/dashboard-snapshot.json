@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-27T20:53:28.961Z",
-  "source_commit": "de8d421",
+  "generated_at": "2026-05-27T20:57:38.111Z",
+  "source_commit": "23742cf",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -505,6 +505,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "23742cf",
+      "subject": "feat(wave-6): define Wave 6 Archetype Completion — P6.1/P6.2/P6.3",
+      "date": "2026-05-27"
+    },
+    {
       "sha": "de8d421",
       "subject": "fix(p-9): implement 5 missing challenger detectors; all 15 fixtures green",
       "date": "2026-05-27"
@@ -547,11 +552,6 @@
     {
       "sha": "4841e66",
       "subject": "feat(wave-3): implement P3.1-P3.5 deliverables; W3 DONE (5/5 green)",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "50b67f8",
-      "subject": "fix(run_wave): replace break-on-halt with convergence loop; waves run end-to-end",
       "date": "2026-05-27"
     }
   ],
