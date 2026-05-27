@@ -16,10 +16,24 @@ interface WaveEvent {
   message: string;
 }
 
+interface LoopExecutionState {
+  current_wave: string;
+  current_status: string;
+  intent_check_result: 'pass' | 'corrected' | 'blocked';
+  alignment_steps_taken: string[];
+  iteration_count: number;
+  pattern_tally: {
+    applied_this_run: number;
+    discovered_this_run: number;
+    promoted_this_run: number;
+  };
+}
+
 interface Props {
   roadmap: RoadmapStep[];
   waves: Wave[];
   waveEvents?: WaveEvent[];
+  loopState?: LoopExecutionState;
 }
 
 const STATUS_BADGE: Record<string, string> = {
@@ -56,7 +70,7 @@ const STATUS_DOT: Record<string, string> = {
   pending:     'is-idle',
 };
 
-export default function PlanDesign({ roadmap, waves, waveEvents = [] }: Props) {
+export default function PlanDesign({ roadmap, waves, waveEvents = [], loopState }: Props) {
   const [expanded, setExpanded] = useState<string | null>(null);
   const [animated, setAnimated] = useState(false);
 
@@ -180,6 +194,34 @@ export default function PlanDesign({ roadmap, waves, waveEvents = [] }: Props) {
 
   return (
     <div className="stack">
+      {loopState && (
+        <div className="wave-events-card">
+          <div className="row-between">
+            <h3>Loop Protocol Status</h3>
+            <span className="small muted">Iteration {loopState.iteration_count}</span>
+          </div>
+          <div className="stack-tight">
+            <div className="wave-event-row">
+              <span className={`wave-event-pill s-${loopState.current_status}`}>{loopState.current_status}</span>
+              <span className="wave-event-wave">{loopState.current_wave}</span>
+              <span className="wave-event-msg">Intent check: {loopState.intent_check_result}</span>
+            </div>
+            {loopState.alignment_steps_taken.map((step, idx) => (
+              <div key={`align-${idx}`} className="wave-event-row">
+                <span className="wave-event-pill s-resolved">alignment</span>
+                <span className="wave-event-msg">{step}</span>
+              </div>
+            ))}
+            <div className="wave-event-row">
+              <span className="wave-event-pill s-started">patterns</span>
+              <span className="wave-event-msg">
+                Applied: {loopState.pattern_tally.applied_this_run} · Discovered: {loopState.pattern_tally.discovered_this_run} · Promoted: {loopState.pattern_tally.promoted_this_run}
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
+
       {waveEvents.length > 0 && (
         <div className="wave-events-card">
           <div className="row-between">
