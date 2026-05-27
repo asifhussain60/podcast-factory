@@ -36,7 +36,6 @@ const navSection =
 
 const hasPlannerSidebar = section === 'planner';
 const hasArchSubnav     = section === 'architecture';
-const hasSidebar        = hasPlannerSidebar; // only planner uses sidebar now
 
 // Resolve activePage for PlannerSidenav
 const plannerActivePage: 'plan' | 'live' = active === 'live' ? 'live' : 'plan';
@@ -90,7 +89,7 @@ const plannerActivePage: 'plan' | 'live' = active === 'live' ? 'live' : 'plan';
       </nav>
     )}
 
-    <div class={`page-shell${hasSidebar ? ' has-sidebar' : ''}${hasArchSubnav ? ' has-arch-subnav' : ''}`}>
+    <div class={`page-shell${hasPlannerSidebar ? ' has-sidebar' : ''}${hasArchSubnav ? ' has-arch-subnav' : ''}`}>
       {hasPlannerSidebar && (
         <PlannerSidenav
           activePage={plannerActivePage}
@@ -99,7 +98,7 @@ const plannerActivePage: 'plan' | 'live' = active === 'live' ? 'live' : 'plan';
           books_in_flight={dash.books_in_flight as any}
           debt={dash.debt as any}
           metrics={dash.metrics as any}
-          source_commit={(dash as any).source_commit ?? ''}
+          source_commit=''
           client:load
         />
       )}

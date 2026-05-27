@@ -242,34 +242,7 @@ hr { border: 0; height: 1px; background: var(--c-rule); margin: var(--sp-6) 0; }
   min-height: calc(100vh - 52px - 56px);
 }
 
-/* Sidebar — only rendered when section=architecture */
-.sidenav {
-  width: 188px;
-  flex-shrink: 0;
-  border-right: 1px solid var(--c-rule);
-  padding: var(--sp-6) 0 var(--sp-8);
-  background: var(--c-bg);
-  position: sticky;
-  top: 52px;
-  height: calc(100vh - 52px);
-  overflow-y: auto;
-  overscroll-behavior: contain;
-}
-.sidenav-group { padding: 0 var(--sp-3); }
-.sidenav-group + .sidenav-group { margin-top: var(--sp-5); }
-
-.sidenav-label {
-  display: block;
-  font-size: var(--fs-label);
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.09em;
-  color: var(--c-accent);
-  margin-bottom: var(--sp-3);
-  padding: 0 var(--sp-2);
-}
-.sidenav-label.s-planner  { color: var(--c-planner); }
-.sidenav-label.s-bookshelf { color: var(--c-green); }
+/* ── Sidebar link styles (used by planner nav + bookshelf nav) ─── */
 
 .sidenav-link {
   display: block;
@@ -1739,6 +1712,7 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 }
 .planner-prog-bar-fill[data-animated="true"] { transform: scaleX(var(--fill-pct, 0)); }
 .planner-prog-fraction { font-size: var(--fs-xl); font-weight: 900; color: var(--c-ink); line-height: 1.1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.planner-prog-denom { font-size: var(--fs-base); font-weight: 400; color: var(--c-ink-muted); }
 .planner-prog-sub { font-size: var(--fs-2xs); color: var(--c-ink-muted); margin-top: var(--sp-1); }
 
 /* Wave rows */
@@ -1806,6 +1780,7 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 }
 .planner-debt-line:hover { text-decoration: underline; }
 .planner-debt-line.has-p0 { color: var(--c-red); }
+.planner-debt-count { font-size: var(--fs-2xs); margin-left: var(--sp-1); }
 
 /* Nav links at bottom of sidebar */
 .planner-nav-links {
@@ -1815,6 +1790,7 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
   border-top: 1px solid var(--c-rule-soft);
   flex-shrink: 0;
 }
+.planner-nav-icon { margin-right: 6px; }
 .planner-nav-links .sidenav-link { color: var(--c-ink-dim); }
 .planner-nav-links .sidenav-link.is-active {
   color: var(--c-planner);

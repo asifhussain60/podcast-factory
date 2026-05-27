@@ -3,11 +3,14 @@ import Base from '../layouts/Base.astro';
 import PlanDesign from '../components/PlanDesign.tsx';
 import dash from '../data/dashboard-snapshot.json';
 
-const stepsDone  = dash.roadmap.filter((s: any) => s.status === 'complete').length;
-const stepsTotal = dash.roadmap.length;
+type RoadmapStep = { id: string; status: string; [k: string]: unknown };
+const roadmap = dash.roadmap as unknown as RoadmapStep[];
+
+const stepsDone  = roadmap.filter(s => s.status === 'complete').length;
+const stepsTotal = roadmap.length;
 const inFlight   = dash.books_in_flight.length;
 const burnMonth  = dash.metrics.burn_30d_usd.reduce((a: number, b: number) => a + b, 0);
-const nextReady  = (dash.roadmap as any[]).find((s: any) => s.status === 'ready');
+const nextReady  = roadmap.find(s => s.status === 'ready');
 ---
 <Base title="Plan Design" active="plan" section="planner">
   <!-- KPI stat strip -->

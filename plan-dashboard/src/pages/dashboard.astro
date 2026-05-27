@@ -1,17 +1,7 @@
 ---
 // /dashboard → /plan (permanent redirect)
 return Astro.redirect('/plan', 308);
-
-import Base from '../layouts/Base.astro';
-import DashboardTabs from '../components/DashboardTabs.tsx';
-import dash from '../data/dashboard-snapshot.json';
-
-const stepsDone = dash.roadmap.filter((s: any) => s.status === 'complete').length;
-const stepsTotal = dash.roadmap.length;
-const inFlight = dash.books_in_flight.length;
-const burnMonth = dash.metrics.burn_30d_usd.reduce((a: number, b: number) => a + b, 0);
 ---
-<Base title="Live progress" active="dashboard">
   <header class="stack">
     <span class="eyebrow">Live progress</span>
     <h1>What's happening in the factory right now.</h1>

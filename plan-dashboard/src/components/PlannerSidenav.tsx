@@ -110,9 +110,7 @@ export default function PlannerSidenav({ activePage, ...initialSnap }: Props) {
         <span className="planner-sb-label">Overall Progress</span>
         <div className="planner-prog-fraction">
           {done}{' '}
-          <span style={{ fontSize: 'var(--fs-base)', fontWeight: 400, color: 'var(--c-ink-muted)' }}>
-            / {total}
-          </span>
+          <span className="planner-prog-denom">/ {total}</span>
         </div>
         <div className="planner-prog-bar-wrap">
           <div
@@ -143,7 +141,7 @@ export default function PlannerSidenav({ activePage, ...initialSnap }: Props) {
                 w.wStatus === 'complete' ? 'is-complete' : '',
                 w.wStatus === 'active'   ? 'is-active'   : '',
                 w.wStatus === 'future'   ? 'is-future'   : '',
-              ].join(' ').trim()}
+              ].filter(Boolean).join(' ')}
             >
               <div className="planner-wave-row-top">
                 <span className={`planner-wave-badge s-${w.wStatus}`}>{w.id}</span>
@@ -156,7 +154,7 @@ export default function PlannerSidenav({ activePage, ...initialSnap }: Props) {
                     'planner-wave-bar-fill',
                     w.wStatus === 'complete' ? 's-complete' : '',
                     w.wStatus === 'future'   ? 's-future'   : '',
-                  ].join(' ').trim()}
+                  ].filter(Boolean).join(' ')}
                   data-animated={animated ? 'true' : 'false'}
                   style={{
                     '--fill-pct': Math.max(w.pct, 0.02),
@@ -186,8 +184,8 @@ export default function PlannerSidenav({ activePage, ...initialSnap }: Props) {
           <a href="/live" className={`planner-debt-line${p0 > 0 ? ' has-p0' : ''}`}>
             <i className="fa-solid fa-triangle-exclamation" aria-hidden="true" />
             {p0 + p1} issue{p0 + p1 !== 1 ? 's' : ''}
-            {p0 > 0 && <span style={{ fontSize: 'var(--fs-2xs)', marginLeft: 4 }}>P0: {p0}</span>}
-            {p1 > 0 && <span style={{ fontSize: 'var(--fs-2xs)', marginLeft: 4 }}>P1: {p1}</span>}
+            {p0 > 0 && <span className="planner-debt-count">P0: {p0}</span>}
+            {p1 > 0 && <span className="planner-debt-count">P1: {p1}</span>}
           </a>
         </div>
       )}
@@ -195,11 +193,11 @@ export default function PlannerSidenav({ activePage, ...initialSnap }: Props) {
       {/* 6 — Nav links */}
       <div className="planner-nav-links">
         <a href="/plan" className={`sidenav-link${activePage === 'plan' ? ' is-active' : ''}`}>
-          <i className="fa-solid fa-map fa-fw" aria-hidden="true" style={{ marginRight: 6 }} />
+          <i className="fa-solid fa-map fa-fw planner-nav-icon" aria-hidden="true" />
           Plan Design
         </a>
         <a href="/live" className={`sidenav-link${activePage === 'live' ? ' is-active' : ''}`}>
-          <i className="fa-solid fa-bolt fa-fw" aria-hidden="true" style={{ marginRight: 6 }} />
+          <i className="fa-solid fa-bolt fa-fw planner-nav-icon" aria-hidden="true" />
           Live Execution
         </a>
       </div>
