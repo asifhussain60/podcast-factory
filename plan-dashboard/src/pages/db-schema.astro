@@ -112,6 +112,7 @@ import DbArchitecture from '../components/DbArchitecture';
     height: 8px;
     border-radius: 50%;
     flex-shrink: 0;
+    background: var(--cat-color, #87827a);
   }
 
   /* ── Main layout ─────────────────────────────────────────────── */
@@ -137,11 +138,33 @@ import DbArchitecture from '../components/DbArchitecture';
     background: var(--c-bg-card);
     padding: var(--sp-3) var(--sp-3) var(--sp-2);
     overflow: hidden;
+    max-width: 440px;  /* constrain SVG to near-natural size so font-size CSS px don't over-scale */
   }
   :global(.dba-svg) {
     width: 100%;
     display: block;
   }
+  /* SVG text classes — CSS px values, do NOT scale with SVG viewBox transform */
+  :global(.dba-tbl-name) {
+    font: 700 14px 'Lato', sans-serif;
+    fill: var(--c-ink);
+    transition: fill 0.18s;
+  }
+  :global(.dba-tbl-count) {
+    font: 12px 'Lato', sans-serif;
+    fill: var(--c-ink-muted);
+    transition: fill 0.18s;
+  }
+  :global(.dba-edge-lbl) {
+    font: 700 11px 'Lato', sans-serif;
+    fill: var(--c-ink-muted);
+  }
+  /* SVG transition helpers — CSS classes so transitions live in CSS, not inline */
+  :global(.dba-edge)   { transition: stroke 0.2s, stroke-width 0.2s; }
+  :global(.dba-node-g) { cursor: pointer; }
+  :global(.dba-box)    { transition: all 0.18s; }
+  :global(.dba-fill)   { transition: fill 0.18s; }
+  :global(.dba-legend-svg) { vertical-align: middle; }
   :global(.dba-diagram-legend) {
     display: flex;
     flex-wrap: wrap;
@@ -161,6 +184,7 @@ import DbArchitecture from '../components/DbArchitecture';
     width: 10px;
     height: 10px;
     border-radius: 50%;
+    background: var(--cat-color, var(--c-rule));
   }
   :global(.dba-hint) {
     margin-left: auto;
@@ -211,7 +235,7 @@ import DbArchitecture from '../components/DbArchitecture';
   :global(.dba-panel-name) {
     font: 700 22px 'Source Serif 4', Georgia, serif;
     color: var(--c-ink);
-    border-left: 4px solid;
+    border-left: 4px solid var(--cat-color, var(--c-accent));
     padding-left: var(--sp-3);
     line-height: 1.2;
   }
@@ -224,6 +248,8 @@ import DbArchitecture from '../components/DbArchitecture';
     font: 600 11px 'Lato', sans-serif;
     padding: 3px 9px;
     border-radius: 999px;
+    background: var(--cat-bg, var(--c-bg-sunken));
+    color: var(--cat-color, var(--c-ink));
   }
   :global(.dba-badge--wave) { background: var(--c-bg); color: var(--c-ink-muted); border: 1px solid var(--c-rule); }
   :global(.dba-badge--wave1) { color: var(--c-green); border-color: var(--c-green); background: rgba(74,124,74,0.06); }
@@ -271,7 +297,8 @@ import DbArchitecture from '../components/DbArchitecture';
   :global(.dba-chip--read)  { background: rgba(0,120,212,0.08); color: #0078d4; }
   :global(.dba-chip--related) {
     background: transparent;
-    border: 1.5px solid;
+    border: 1.5px solid var(--cat-color, var(--c-rule));
+    color: var(--cat-color, var(--c-ink));
     cursor: pointer;
     display: inline-flex;
     align-items: center;
@@ -293,6 +320,7 @@ import DbArchitecture from '../components/DbArchitecture';
     letter-spacing: 0.07em;
     margin-bottom: var(--sp-2);
   }
+  :global(.dba-section-label--mt) { margin-top: 1rem; }
 
   /* Fields */
   :global(.dba-fields) {

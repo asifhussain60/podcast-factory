@@ -23,6 +23,7 @@
      h1        → page headings                                  = 44px
      hero      → hero metric display                            = 40px  */
   --font-body: 'Lato', system-ui, sans-serif;
+  --font-urdu: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', serif;
   --fs-label: 13px;  /* UI chrome only — pills, chips, status badges */
   --fs-2xs: 16px;
   --fs-sm:  16px;
@@ -111,6 +112,23 @@ p { margin: 0 0 var(--sp-3) 0; }
 .muted { color: var(--c-ink-muted); }
 .small { font-size: var(--fs-sm); }
 .eyebrow { font-size: var(--fs-2xs); text-transform: uppercase; letter-spacing: 0.07em; color: var(--c-ink-muted); font-weight: 700; }
+.text-right { text-align: right; }
+/* Inline resource/module reference in code — monospace, de-emphasized */
+.pipeline-code-ref {
+  font-size: var(--fs-2xs); opacity: 0.65;
+  font-family: ui-monospace, 'SF Mono', monospace;
+  margin-left: 4px;
+}
+/* Intelligence page header */
+.intel-header { padding: var(--sp-7) var(--sp-5) var(--sp-4); }
+.intel-hero-h1 { font-size: var(--fs-h2); margin: var(--sp-2) 0 var(--sp-3); }
+.intel-hero-lede { max-width: 600px; color: var(--c-ink-dim); font-size: var(--fs-sm); line-height: 1.65; margin: 0; }
+.intel-body { padding: 0 var(--sp-5) var(--sp-8); }
+/* Intelligence overlay dynamic content helpers */
+.intel-blocker-row { display: flex; align-items: center; gap: 8px; margin-bottom: var(--sp-3); }
+.intel-chips-row   { margin-bottom: var(--sp-3); }
+/* Urdu-script inline label (rtl, used in source-render section markers) */
+.se-urdu-label { font-family: var(--font-urdu); }
 
 hr { border: 0; height: 1px; background: var(--c-rule); margin: var(--sp-6) 0; }
 
@@ -265,6 +283,14 @@ hr { border: 0; height: 1px; background: var(--c-rule); margin: var(--sp-6) 0; }
 /* Main content shrinks to fill remaining width when sidebar is present */
 .page-shell > .page { flex: 1; min-width: 0; }
 
+/* ── Home page layout ───────────────────────────────────────────── */
+
+.home-header { padding: var(--sp-8) var(--sp-5) var(--sp-5); }
+.home-hero-h1 { max-width: var(--maxw-prose); }
+.home-lede { max-width: var(--maxw-prose); }
+.home-body { padding: 0 var(--sp-5) var(--sp-8); }
+.home-metrics { margin-top: var(--sp-7); }
+
 /* ── Path hub cards (home page) ────────────────────────────────── */
 
 .hub-grid {
@@ -293,7 +319,17 @@ hr { border: 0; height: 1px; background: var(--c-rule); margin: var(--sp-6) 0; }
 .hub-card.path-bookshelf:hover    { border-top-color: var(--c-green); }
 .hub-card.path-planner      { border-top-color: var(--c-planner); }
 .hub-card.path-planner:hover      { border-top-color: var(--c-planner); }
-.hub-card .hub-icon { font-size: 28px; line-height: 1; margin-bottom: var(--sp-1); }
+/* Ace-style icon container — colored background circle, FontAwesome icon inside */
+.hub-icon-wrap {
+  width: 48px; height: 48px;
+  border-radius: var(--r-lg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+  margin-bottom: var(--sp-2);
+}
+.path-architecture .hub-icon-wrap { background: color-mix(in oklab, var(--c-accent)  15%, transparent); color: var(--c-accent); }
+.path-bookshelf    .hub-icon-wrap { background: color-mix(in oklab, var(--c-green)   15%, transparent); color: var(--c-green); }
+.path-planner      .hub-icon-wrap { background: color-mix(in oklab, var(--c-planner) 15%, transparent); color: var(--c-planner); }
 .hub-card h2 { margin: 0; font-size: var(--fs-h3); }
 .hub-card p  { margin: 0; color: var(--c-ink-dim); font-size: var(--fs-base); flex: 1; }
 .hub-enter { margin-top: var(--sp-2); font-size: var(--fs-sm); font-weight: 700; }
@@ -450,7 +486,9 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
   width: 7px; height: 7px;
   border-radius: 50%;
   flex-shrink: 0;
+  background: var(--dot-color, currentColor);  /* CSS custom property from PipelineSpine */
 }
+.vendor-tag-dot--muted { background: var(--c-ink-muted); }
 .vendor-tag-icon { font-size: 12px; opacity: 0.7; }
 
 .vendor-tag-anthropic {
@@ -887,7 +925,9 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
   width: 8px; height: 8px;
   border-radius: 50%;
   flex-shrink: 0;
+  background: var(--dot-color, var(--c-ink-muted));  /* CSS custom property from inline style */
 }
+.svc-chip-pill i[style] { color: var(--dot-color, currentColor); }  /* icon color via CSS custom property */
 .svc-chip-label {
   font-size: var(--fs-sm);
   font-weight: 600;
@@ -1611,13 +1651,14 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 .stat-card {
   display: flex; align-items: center; gap: var(--sp-4);
   padding: var(--sp-4) var(--sp-5); color: white;
-  border-right: 1px solid rgba(255,255,255,0.15);
+  border-right: 1px solid rgba(255,255,255,0.2);
 }
 .stat-card:last-child { border-right: 0; }
-.stat-card.s-green  { background: linear-gradient(135deg, #2d5a2d, var(--c-green)); }
-.stat-card.s-blue   { background: linear-gradient(135deg, #0e3a5a, var(--c-planner)); }
-.stat-card.s-amber  { background: linear-gradient(135deg, #6b4200, var(--c-amber)); }
-.stat-card.s-brown  { background: linear-gradient(135deg, #4a1a06, var(--c-accent)); }
+/* Softened gradients — lighter start color, same accent end color */
+.stat-card.s-green  { background: linear-gradient(135deg, #4e8f4e, var(--c-green)); }
+.stat-card.s-blue   { background: linear-gradient(135deg, #2a6ea0, var(--c-planner)); }
+.stat-card.s-amber  { background: linear-gradient(135deg, #b87a1a, var(--c-amber)); }
+.stat-card.s-brown  { background: linear-gradient(135deg, #a05228, var(--c-accent)); }
 .stat-card-icon {
   flex: 0 0 44px; width: 44px; height: 44px; border-radius: 50%;
   background: rgba(255,255,255,0.18);
@@ -1648,7 +1689,7 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 .step-badge.is-future  { border-left-color: var(--c-rule);    background: var(--c-rule-soft); color: var(--c-ink-muted); }
 
 /* wave progress bar (used in wave-band header + planner sidebar) */
-.wave-prog-wrap { height: 4px; border-radius: 2px; background: var(--c-rule); overflow: hidden; margin-top: var(--sp-2); }
+.wave-prog-wrap { height: 4px; border-radius: 2px; background: var(--c-rule); overflow: hidden; margin-top: var(--sp-2); margin-bottom: var(--sp-3); }
 .wave-prog-fill {
   height: 100%; border-radius: 2px; background: var(--c-planner);
   transform-origin: left; transform: scaleX(0);

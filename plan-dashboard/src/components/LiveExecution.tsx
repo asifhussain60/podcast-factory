@@ -150,7 +150,7 @@ export default function LiveExecution({
             ))}
           </tbody>
         </table>
-        <p className="small muted" style={{ textAlign: 'right' }}>
+        <p className="small muted text-right">
           Total pipeline cost: ${totalCost.toFixed(2)}
         </p>
       </section>

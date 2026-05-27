@@ -164,14 +164,14 @@ function ServiceChip({ chip, open, onToggle }: {
         onClick={onToggle}
         title={`${chip.label} — click for details`}
       >
-        <span className="svc-chip-dot" style={{ background: meta.color }} aria-hidden="true" />
+        <span className="svc-chip-dot" style={{ '--dot-color': meta.color } as React.CSSProperties} aria-hidden="true" />
         <span className="svc-chip-label">{chip.label}</span>
         <i className={`fa-solid fa-chevron-${open ? 'up' : 'down'} svc-chip-caret`} aria-hidden="true" />
       </button>
       {open && (
         <div className="svc-chip-popover" role="tooltip">
           <div className="svc-chip-pop-head">
-            <i className={`fa-solid fa-${chip.icon}`} aria-hidden="true" style={{ color: meta.color }} />
+            <i className={`fa-solid fa-${chip.icon}`} aria-hidden="true" style={{ '--dot-color': meta.color } as React.CSSProperties} />
             <div>
               <strong className="svc-chip-pop-title">{chip.label}</strong>
               <span className="svc-chip-pop-wordmark">{meta.wordmark}</span>
@@ -321,14 +321,14 @@ export default function PipelineSpine({ phases, modules, agents }: Props) {
                     <div className="vendor-tags">
                       {vendorTagsForChips(chips).map(({ vendor, wordmark }) => (
                         <span key={vendor} className={`vendor-tag vendor-tag-${vendor}`}>
-                          <span className="vendor-tag-dot" style={{ background: VENDOR_META[vendor].color }} aria-hidden="true" />
+                          <span className="vendor-tag-dot" style={{ '--dot-color': VENDOR_META[vendor].color } as React.CSSProperties} aria-hidden="true" />
                           <i className={`fa-brands fa-${vendor === 'anthropic' ? 'aws' : vendor === 'azure' ? 'microsoft' : 'google'} vendor-tag-icon`} aria-hidden="true" />
                           {wordmark}
                         </span>
                       ))}
                       {chips.length === 0 && (
                         <span className="vendor-tag vendor-tag-internal">
-                          <span className="vendor-tag-dot" style={{ background: 'var(--c-ink-muted)' }} aria-hidden="true" />
+                          <span className="vendor-tag-dot vendor-tag-dot--muted" aria-hidden="true" />
                           Python script
                         </span>
                       )}
@@ -364,7 +364,7 @@ export default function PipelineSpine({ phases, modules, agents }: Props) {
                             <i className="fa-solid fa-puzzle-piece" aria-hidden="true"></i>
                             <strong>{m.name}</strong>
                             {azChip?.resource && (
-                              <code style={{ fontSize: 'var(--fs-2xs)', opacity: 0.65, fontFamily: "ui-monospace,'SF Mono',monospace", marginLeft: '4px' }}>
+                              <code className="pipeline-code-ref">
                                 azure.{azChip.resource}
                               </code>
                             )}

@@ -58,7 +58,7 @@ export default function PlanDesign({ roadmap, waves }: Props) {
             <p className="small muted">{w.plain}</p>
 
             {/* Wave progress bar */}
-            <div className="wave-prog-wrap" style={{ marginBottom: 'var(--sp-3)' }}>
+            <div className="wave-prog-wrap">
               <div
                 className={`wave-prog-fill${allComplete ? ' s-complete' : ''}`}
                 data-animated={animated ? 'true' : 'false'}

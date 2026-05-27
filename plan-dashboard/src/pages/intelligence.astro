@@ -6,17 +6,17 @@ import Base from '../layouts/Base.astro';
 
 <div class="intel-page">
 
-<header style="padding: var(--sp-7) var(--sp-5) var(--sp-4);">
+<header class="intel-header">
   <span class="eyebrow">Architecture · Intelligence Pipeline</span>
-  <h1 style="font-size: var(--fs-h2); margin: var(--sp-2) 0 var(--sp-3);">How the Knowledge Brain Works</h1>
-  <p style="max-width: 600px; color: var(--c-ink-dim); font-size: var(--fs-sm); line-height: 1.65; margin: 0;">
+  <h1 class="intel-hero-h1">How the Knowledge Brain Works</h1>
+  <p class="intel-hero-lede">
     An interactive map of the full intelligence pipeline — from source corpora through extraction,
     deduplication, and storage, to augmentation of every chapter the factory writes.
     <strong>Click any node</strong> for the full spec. Use the filters to trace each atom type.
   </p>
 </header>
 
-<div style="padding: 0 var(--sp-5) var(--sp-8);">
+<div class="intel-body">
   <section aria-labelledby="diagram-title">
     <h2 id="diagram-title" class="sr-only">Interactive pipeline diagram</h2>
 
@@ -776,7 +776,7 @@ function openDetail(id) {
     </div>` : '';
 
   const blockerHTML = d.blocker ? `
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:var(--space-4)">
+    <div class="intel-blocker-row">
       <span class="status-chip blocker">⛔ BLOCKER — OPEN</span>
     </div>` : '';
 
@@ -788,7 +788,7 @@ function openDetail(id) {
     <h2 id="detailHeading">${d.title}</h2>
     <div class="detail-zone-label">${d.zone}</div>
     ${blockerHTML}
-    ${chipHTML ? `<div style="margin-bottom:var(--space-3)">${chipHTML}</div>` : ''}
+    ${chipHTML ? `<div class="intel-chips-row">${chipHTML}</div>` : ''}
     <div class="detail-atom-badges">${atomBadges}</div>
     <p class="detail-desc">${d.desc}</p>
     ${kvHTML}${mergeHTML}${tableGroupHTML}${cliHTML}${sectHTML}

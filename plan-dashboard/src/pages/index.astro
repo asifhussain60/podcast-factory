@@ -9,40 +9,46 @@ const monthSpend = (infra.vendors ?? []).reduce((sum: number, v: any) =>
   sum + (v.services ?? []).reduce((s: number, svc: any) => s + (svc.month_cost_usd ?? 0), 0), 0);
 ---
 <Base title="Overview" active="home" description="A living plan for the podcast factory — what it is, what it runs on, and what's happening right now.">
-  <header class="stack" style="padding: var(--sp-8) var(--sp-5) var(--sp-5);">
+  <header class="home-header stack">
     <span class="eyebrow">Living plan</span>
-    <h1 style="max-width: var(--maxw-prose)">The podcast factory — one place to see everything.</h1>
-    <p class="lede" style="max-width: var(--maxw-prose)">
+    <h1 class="home-hero-h1">The podcast factory — one place to see everything.</h1>
+    <p class="lede home-lede">
       This factory turns scholarly Arabic books into NotebookLM-driven podcast series.
       Choose a path below, or scan the at-a-glance numbers to jump straight to what matters.
     </p>
   </header>
 
-  <div style="padding: 0 var(--sp-5) var(--sp-8);">
+  <div class="home-body">
     <div class="hub-grid">
       <a href="/architecture" class="hub-card path-architecture">
-        <div class="hub-icon">🏗</div>
+        <div class="hub-icon-wrap">
+          <i class="fa-solid fa-sitemap" aria-hidden="true"></i>
+        </div>
         <h2>Architecture</h2>
         <p>Understand the pipeline — how a book becomes a podcast, what each station does, and how the intelligence layer fits in.</p>
         <span class="hub-enter">Explore pipeline, intelligence, infrastructure →</span>
       </a>
 
       <a href="/library" class="hub-card path-bookshelf">
-        <div class="hub-icon">📚</div>
+        <div class="hub-icon-wrap">
+          <i class="fa-solid fa-book-open" aria-hidden="true"></i>
+        </div>
         <h2>Bookshelf</h2>
         <p>Browse every book and lecture in the catalog — drafts in progress and titles already published. Read chapters directly in the reader.</p>
         <span class="hub-enter">Open library →</span>
       </a>
 
       <a href="/dashboard" class="hub-card path-planner">
-        <div class="hub-icon">📋</div>
+        <div class="hub-icon-wrap">
+          <i class="fa-solid fa-chart-gantt" aria-hidden="true"></i>
+        </div>
         <h2>Planner</h2>
         <p>See what's happening right now — books in flight, the refactor roadmap, and metrics that stream live from the repo.</p>
         <span class="hub-enter">View live progress →</span>
       </a>
     </div>
 
-    <section class="grid-3" style="margin-top: var(--sp-7);">
+    <section class="grid-3 home-metrics">
       <div class="card metric">
         <span class="metric-label">Books in flight</span>
         <span class="metric-value">{inFlight}</span>

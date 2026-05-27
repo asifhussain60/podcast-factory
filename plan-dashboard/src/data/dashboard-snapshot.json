@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-27T09:53:13.480Z",
-  "source_commit": "b35c66e",
+  "generated_at": "2026-05-27T10:42:03.714Z",
+  "source_commit": "446bbde",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -432,6 +432,26 @@
   ],
   "recent_commits": [
     {
+      "sha": "446bbde",
+      "subject": "refactor(dashboard): red-green convergence pass — remove dead CSS + inline styles",
+      "date": "2026-05-27"
+    },
+    {
+      "sha": "caad2f5",
+      "subject": "feat(dashboard): horiz arch subnav, stat strips, step badges, planner sidebar, split plan/live pages",
+      "date": "2026-05-27"
+    },
+    {
+      "sha": "436ada9",
+      "subject": "save",
+      "date": "2026-05-27"
+    },
+    {
+      "sha": "d4f43e0",
+      "subject": "fix(pipeline-rail): make step list scrollable and auto-scroll to active step",
+      "date": "2026-05-27"
+    },
+    {
       "sha": "b35c66e",
       "subject": "chore(vacuum): clean plan folder + refresh snapshots",
       "date": "2026-05-27"
@@ -460,26 +480,6 @@
       "sha": "95d91f4",
       "subject": "refactor(plan-dashboard): 3-section nav + sidebar + intelligence diagram + delete legacy view/",
       "date": "2026-05-27"
-    },
-    {
-      "sha": "3cd344b",
-      "subject": "feat(view): add interactive intelligence pipeline diagram",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "e64b0a1",
-      "subject": "fix(view): move Wave 1 blocker outside grid row so it renders visibly",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "4c026f7",
-      "subject": "plan: add pre-Wave B blocker — discuss Kashkole enrichment via ChatGPT/Gemini",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "b369e35",
-      "subject": "docs: add ChatGPT review prompt for Wave 1 architecture",
-      "date": "2026-05-26"
     }
   ],
   "metrics": {

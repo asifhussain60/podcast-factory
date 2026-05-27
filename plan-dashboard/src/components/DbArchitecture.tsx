@@ -519,7 +519,7 @@ export default function DbArchitecture() {
             style={filter === cat ? { '--pill-color': CAT_COLOR[cat] } as React.CSSProperties : {}}
             onClick={() => { setFilter(filter === cat ? null : cat); setSelected(null); }}
           >
-            <span className="dba-pill-dot" style={{ background: CAT_COLOR[cat] }} />
+            <span className="dba-pill-dot" style={{ '--cat-color': CAT_COLOR[cat] } as React.CSSProperties} />
             {CAT_LABEL[cat]}
           </button>
         ))}
@@ -574,7 +574,7 @@ export default function DbArchitecture() {
                     strokeWidth={active ? 1.5 : 1}
                     strokeDasharray={edge.dashed ? '5 3' : undefined}
                     markerEnd={`url(#${markerId})`}
-                    style={{ transition: 'stroke 0.2s, stroke-width 0.2s' }}
+                    className="dba-edge"
                   />
                   {/* Cardinality label at midpoint */}
                   {active && (() => {
@@ -590,7 +590,7 @@ export default function DbArchitecture() {
                     return (
                       <g>
                         <rect x={mx - 14} y={my - 9} width={28} height={14} rx="3" fill="white" stroke={catColor} strokeWidth="0.8" opacity="0.9"/>
-                        <text x={mx} y={my + 4} textAnchor="middle" fontSize="9" fill={catColor} fontFamily="'Lato', sans-serif" fontWeight="700">
+                        <text x={mx} y={my + 4} textAnchor="middle" className="dba-edge-lbl">
                           {edge.type}
                         </text>
                       </g>
@@ -611,7 +611,7 @@ export default function DbArchitecture() {
                 <g
                   key={table.id}
                   onClick={() => setSelected(selected === table.id ? null : table.id)}
-                  style={{ cursor: 'pointer' }}
+                  className="dba-node-g"
                   role="button"
                   aria-label={`Table: ${table.label}`}
                   aria-pressed={isSel}
@@ -635,7 +635,7 @@ export default function DbArchitecture() {
                     fill={active ? bg : '#f7f4ee'}
                     stroke={active ? color : '#e0dbd3'}
                     strokeWidth={isSel ? 2.5 : 1.5}
-                    style={{ transition: 'all 0.18s' }}
+                    className="dba-box"
                   />
                   {/* Category accent line */}
                   <rect
@@ -643,27 +643,25 @@ export default function DbArchitecture() {
                     width={6} height={H}
                     rx="5"
                     fill={active ? color : '#e0dbd3'}
-                    style={{ transition: 'fill 0.18s' }}
+                    className="dba-fill"
                   />
                   {/* Table name */}
                   <text
                     x={table.x + 16} y={table.y + H / 2 + 5}
-                    fontSize="11.5"
-                    fontFamily="'Lato', sans-serif"
-                    fontWeight="700"
+                    className="dba-tbl-name"
+                    data-active={active}
+                    data-selected={isSel}
+                    data-color={color}
                     fill={active ? (isSel ? color : '#1f1d18') : '#b0a898'}
-                    style={{ transition: 'fill 0.18s' }}
                   >
                     {table.label}
                   </text>
                   {/* Field count badge */}
                   <text
                     x={table.x + W - 8} y={table.y + H / 2 + 5}
-                    fontSize="9.5"
-                    fontFamily="'Lato', sans-serif"
+                    className="dba-tbl-count"
                     fill={active ? '#87827a' : '#c8c0b4'}
                     textAnchor="end"
-                    style={{ transition: 'fill 0.18s' }}
                   >
                     {table.fields.length}f
                   </text>
@@ -676,12 +674,12 @@ export default function DbArchitecture() {
           <div className="dba-diagram-legend">
             {categories.map(cat => (
               <span key={cat} className="dba-legend-item">
-                <span className="dba-legend-dot" style={{ background: CAT_COLOR[cat] }} />
+                <span className="dba-legend-dot" style={{ '--cat-color': CAT_COLOR[cat] } as React.CSSProperties} />
                 {CAT_LABEL[cat]}
               </span>
             ))}
             <span className="dba-legend-item">
-              <svg width="22" height="10" style={{ verticalAlign: 'middle' }}>
+              <svg width="22" height="10" className="dba-legend-svg">
                 <line x1="0" y1="5" x2="14" y2="5" stroke="#87827a" strokeWidth="1.5" strokeDasharray="4 2"/>
                 <polygon points="12,2 20,5 12,8" fill="#87827a"/>
               </svg>
@@ -697,11 +695,11 @@ export default function DbArchitecture() {
         {selectedTable ? (
           <div className="dba-panel" key={selectedTable.id}>
             <div className="dba-panel-header">
-              <div className="dba-panel-name" style={{ borderLeftColor: CAT_COLOR[selectedTable.category] }}>
+              <div className="dba-panel-name" style={{ '--cat-color': CAT_COLOR[selectedTable.category] } as React.CSSProperties}>
                 {selectedTable.label}
               </div>
               <div className="dba-panel-badges">
-                <span className="dba-badge" style={{ background: CAT_BG[selectedTable.category], color: CAT_COLOR[selectedTable.category] }}>
+                <span className="dba-badge" style={{ '--cat-color': CAT_COLOR[selectedTable.category], '--cat-bg': CAT_BG[selectedTable.category] } as React.CSSProperties}>
                   {CAT_LABEL[selectedTable.category]}
                 </span>
                 <span className={`dba-badge dba-badge--wave dba-badge--wave${selectedTable.wave}`}>
@@ -743,7 +741,7 @@ export default function DbArchitecture() {
                       <button
                         key={r.id}
                         className="dba-chip dba-chip--related"
-                        style={{ borderColor: CAT_COLOR[rt.category], color: CAT_COLOR[rt.category] }}
+                        style={{ '--cat-color': CAT_COLOR[rt.category] } as React.CSSProperties}
                         onClick={() => setSelected(r.id)}
                       >
                         {r.dir} {r.id} <span className="dba-chip-type">{r.type}</span>
@@ -755,7 +753,7 @@ export default function DbArchitecture() {
             )}
 
             {/* Fields table */}
-            <div className="dba-section-label" style={{ marginTop: '1rem' }}>
+            <div className="dba-section-label dba-section-label--mt">
               Fields ({selectedTable.fields.length})
             </div>
             <div className="dba-fields">
