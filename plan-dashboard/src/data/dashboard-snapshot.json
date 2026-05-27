@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-27T14:49:37.323Z",
-  "source_commit": "45c9cea",
+  "generated_at": "2026-05-27T15:00:39.738Z",
+  "source_commit": "dcdfef8",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -480,6 +480,16 @@
   ],
   "recent_commits": [
     {
+      "sha": "dcdfef8",
+      "subject": "feat: improve annotation action access and saved paragraph states",
+      "date": "2026-05-27"
+    },
+    {
+      "sha": "c7555ba",
+      "subject": "feat: redesign annotation workflow with persistent queue and finalize reset",
+      "date": "2026-05-27"
+    },
+    {
       "sha": "45c9cea",
       "subject": "chore: sync plan.astro step count to 27 (podcast-site-sync pass)",
       "date": "2026-05-27"
@@ -517,16 +527,6 @@
     {
       "sha": "446bbde",
       "subject": "refactor(dashboard): red-green convergence pass — remove dead CSS + inline styles",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "caad2f5",
-      "subject": "feat(dashboard): horiz arch subnav, stat strips, step badges, planner sidebar, split plan/live pages",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "436ada9",
-      "subject": "save",
       "date": "2026-05-27"
     }
   ],
