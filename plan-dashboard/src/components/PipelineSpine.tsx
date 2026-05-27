@@ -208,6 +208,7 @@ export default function PipelineSpine({ phases, modules, agents }: Props) {
   const [active, setActive] = useState<string>(phases[0]?.id ?? '');
   const [openChip, setOpenChip] = useState<string | null>(null);
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
+  const railItemRefs = useRef<Record<string, HTMLLIElement | null>>({});
 
   const moduleMap = useMemo(() => {
     const m = new Map<string, Module>();
@@ -252,6 +253,12 @@ export default function PipelineSpine({ phases, modules, agents }: Props) {
     return () => document.removeEventListener('mousedown', handler);
   }, [openChip]);
 
+  // Auto-scroll the active rail item into view within the sticky panel
+  useEffect(() => {
+    const el = railItemRefs.current[active];
+    if (el) el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }, [active]);
+
   const jumpTo = (id: string) => {
     const el = sectionRefs.current[id];
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -268,7 +275,7 @@ export default function PipelineSpine({ phases, modules, agents }: Props) {
               const meta = KIND_META[p.kind] ?? KIND_META.mechanical;
               const isActive = p.id === active;
               return (
-                <li key={p.id} className={`rail-item kind-${p.kind} ${isActive ? 'is-active' : ''}`}>
+                <li key={p.id} ref={(el) => { railItemRefs.current[p.id] = el; }} className={`rail-item kind-${p.kind} ${isActive ? 'is-active' : ''}`}>
                   <button type="button" onClick={() => jumpTo(p.id)} className="rail-link">
                     <span className="rail-dot" aria-hidden="true">
                       <i className={`fa-solid fa-${meta.icon}`}></i>

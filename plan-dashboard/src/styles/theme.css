@@ -661,6 +661,7 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 .pipeline-rail-sticky {
   position: sticky; top: 88px;
   display: flex; flex-direction: column; gap: var(--sp-2);
+  max-height: calc(100vh - 104px);
   padding: var(--sp-3);
   background: linear-gradient(180deg, var(--c-bg-card), var(--c-bg-elev));
   border: 1px solid var(--c-rule);
@@ -676,6 +677,7 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
   list-style: none; padding: 0; margin: 0;
   display: flex; flex-direction: column;
   gap: 4px;
+  overflow-y: auto; flex: 1; min-height: 0;
 }
 .rail-item { position: relative; }
 
