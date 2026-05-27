@@ -78,6 +78,7 @@ Every wave now follows one non-negotiable closeout protocol:
 2. **Wave completion merges directly to `develop`.** No PR path for wave closure.
 3. **Branch discipline is orchestrated.** The runner auto-targets the correct wave branch (`refactor/wave-<n>`), merges completed work into `develop`, then switches back to the wave branch so subsequent commands remain in the right lane.
 4. **Quality is iterative, not one-shot.** Red-green cleanup runs in narrowing passes until checks are green and no regressions are detected.
+5. **Working-tree cleanliness is mandatory at the end of each execution pass.** The operator may commit implementation changes and may discard or reset unrelated local deltas as needed so the branch is left clean, without pausing to ask for confirmation each time.
 
 ---
 
@@ -145,6 +146,7 @@ Every wave now follows one non-negotiable closeout protocol:
 - Planner visibility now includes autonomous governance timeline events (start, quality-pass, alignment-started, alignment-resolved/blocked, wave-complete) from a shared event log consumed by the snapshot generator.
 - A mandatory alignment correction has been completed on the governance contract itself: wave execution now reads from a dedicated wave-acceptance checklist (instead of the per-book ship checklist), so prior-wave quality evaluation reflects real wave progress rather than a zero-row false pending state.
 - A follow-up runner stability fix has also been completed: checklist resolution now happens in the active branch context after wave-branch checkout, which prevents launch-time failures when a newly-created wave branch does not yet carry the dedicated checklist file.
+- The Wave 2 alignment blocker has now been fixed directly: missing autonomous runners for the two open Wave 2 items were implemented, augmenter behavior is now executable with dedicated tests, and checklist row-marking was corrected to update the active wave checklist so mandatory alignment can actually close gaps in place.
 
 ---
 

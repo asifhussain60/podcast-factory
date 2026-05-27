@@ -463,7 +463,7 @@ def _run_phase_registry(args: argparse.Namespace, wave_n: int) -> int:
         if mod.is_done(REPO_ROOT):
             _print_phase_status(f"{pid}", "✓ already done (idempotent skip)")
             # Mark acceptance rows if not already checked.
-            n = _acceptance.mark_task_rows_in_file(pid)
+            n = _acceptance.mark_task_rows_in_file(pid, acceptance_file=ACCEPTANCE_FILE)
             if n > 0:
                 _print_phase_status(f"  └─ marked", f"{n} acceptance row(s) → [x]")
             continue
@@ -477,7 +477,7 @@ def _run_phase_registry(args: argparse.Namespace, wave_n: int) -> int:
         if result.status == "done":
             _print_phase_status(f"{pid}", f"✓ done — {result.message}")
             for rid in result.rows_marked:
-                n = _acceptance.mark_task_rows_in_file(rid)
+                n = _acceptance.mark_task_rows_in_file(rid, acceptance_file=ACCEPTANCE_FILE)
                 if n > 0:
                     _print_phase_status(f"  └─ marked", f"{n} row(s) for {rid} → [x]")
         elif result.status == "halted":

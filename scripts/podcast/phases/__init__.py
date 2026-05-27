@@ -21,6 +21,7 @@ from typing import Callable
 from ._base import PhaseResult
 from . import (
     p1_1, p1_2,
+    p2_3, p2_4_wave2,
     p2_2, p2_4,
     p4_1, p4_2, p4_3, p4_4, p4_7, p4_8,
     p5_4, p6_1, p6_2,
@@ -64,7 +65,10 @@ REGISTRY: dict[int, list] = {
         dor_halts.p6_3,   # soft/hard cost caps (waits on P7 heartbeat)
         dor_halts.p6_4,   # trainer cost-ledger hook (agent-file edit)
     ],
-    2: [],
+    2: [
+        p2_3,
+        p2_4_wave2,
+    ],
     3: [],
     4: [
         p11_1,   # multi-mac decision doc (already shipped; auto-marks)

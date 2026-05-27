@@ -15,6 +15,10 @@ meta:
     merge_mode: no_pr_direct_merge
     return_to_wave_branch_after_merge: true
     wave_branch_pattern: "refactor/wave-{wave}"
+    clean_tree_enforcement:
+      required: true
+      strategy: "commit_or_discard_without_reprompt"
+      note: "Always leave the branch with a clean working tree at end of execution pass."
   approved_by: null
   approved_at: null
   authored_by: Claude Opus 4.7
@@ -522,6 +526,7 @@ waves:
       - "Planner snapshot pipeline now consumes wave execution event logs so alignment start/resolved/blocked states are visible in dashboard timeline during autonomous runs."
       - "Mandatory alignment executed on governance data source: runner acceptance source moved from per-book ship checklist to dedicated wave-acceptance checklist, restoring real collective wave quality evaluation semantics."
       - "Runner branch-context fix landed: acceptance checklist is now resolved and read after wave-branch checkout, preventing false missing-file failures when launching a new wave from a branch that has not yet merged the checklist file."
+      - "Mandatory alignment blocker addressed: Wave-B now has autonomous runners for P2.3 (augmenter implementation + tests) and P2.4 (Wave-B phase wiring validation), and run_wave acceptance-row marking now targets the active wave checklist file."
     pre_execution_blockers:
       - id: BLOCKER-B-PRE
         status: RESOLVED

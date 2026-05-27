@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-27T18:36:14.313Z",
-  "source_commit": "bbee796",
+  "generated_at": "2026-05-27T18:48:45.349Z",
+  "source_commit": "40cd6a7",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -505,6 +505,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "40cd6a7",
+      "subject": "Enforce wave alignment gating with live planner event timeline",
+      "date": "2026-05-27"
+    },
+    {
       "sha": "bbee796",
       "subject": "Merge branch 'refactor/wave-a' into develop",
       "date": "2026-05-27"
@@ -547,11 +552,6 @@
     {
       "sha": "777ac83",
       "subject": "chore: remove legacy podcast-reader app and empty root src/",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "e08cffd",
-      "subject": "chore: regenerate plan-dashboard snapshot JSONs",
       "date": "2026-05-27"
     }
   ],
@@ -606,6 +606,104 @@
   },
   "wave_execution_events": [
     {
+      "ts": "2026-05-27T18:46:06Z",
+      "wave": 3,
+      "wave_letter": "C",
+      "event_type": "wave_progress",
+      "status": "halted",
+      "message": "Wave halted at review gate.",
+      "details": {}
+    },
+    {
+      "ts": "2026-05-27T18:46:06Z",
+      "wave": 3,
+      "wave_letter": "C",
+      "event_type": "mandatory_alignment",
+      "status": "resolved",
+      "message": "All detected prior-wave gaps resolved; proceeding.",
+      "details": {}
+    },
+    {
+      "ts": "2026-05-27T18:46:05Z",
+      "wave": 2,
+      "wave_letter": "B",
+      "event_type": "mandatory_alignment",
+      "status": "resolved",
+      "message": "Prior-wave alignment resolved for W2.",
+      "details": {}
+    },
+    {
+      "ts": "2026-05-27T18:46:05Z",
+      "wave": 2,
+      "wave_letter": "B",
+      "event_type": "mandatory_alignment",
+      "status": "in_progress",
+      "message": "Resolving prior-wave gaps for W2.",
+      "details": {
+        "missing_task_ids": [
+          "P2.4"
+        ]
+      }
+    },
+    {
+      "ts": "2026-05-27T18:46:04Z",
+      "wave": 3,
+      "wave_letter": "C",
+      "event_type": "mandatory_alignment",
+      "status": "started",
+      "message": "Prior-wave gaps detected. Mandatory alignment started.",
+      "details": {
+        "gap_waves": [
+          2
+        ]
+      }
+    },
+    {
+      "ts": "2026-05-27T18:46:04Z",
+      "wave": 3,
+      "wave_letter": "C",
+      "event_type": "wave_start",
+      "status": "started",
+      "message": "Wave 3 started in autonomous mode.",
+      "details": {}
+    },
+    {
+      "ts": "2026-05-27T18:44:08Z",
+      "wave": 2,
+      "wave_letter": "B",
+      "event_type": "mandatory_alignment",
+      "status": "in_progress",
+      "message": "Resolving prior-wave gaps for W2.",
+      "details": {
+        "missing_task_ids": [
+          "P2.3",
+          "P2.4"
+        ]
+      }
+    },
+    {
+      "ts": "2026-05-27T18:44:07Z",
+      "wave": 3,
+      "wave_letter": "C",
+      "event_type": "mandatory_alignment",
+      "status": "started",
+      "message": "Prior-wave gaps detected. Mandatory alignment started.",
+      "details": {
+        "gap_waves": [
+          2
+        ]
+      }
+    },
+    {
+      "ts": "2026-05-27T18:44:07Z",
+      "wave": 3,
+      "wave_letter": "C",
+      "event_type": "wave_start",
+      "status": "started",
+      "message": "Wave 3 started in autonomous mode.",
+      "details": {}
+    },
+    {
       "ts": "2026-05-27T18:36:14Z",
       "wave": 2,
       "wave_letter": "B",
@@ -684,37 +782,6 @@
           "P2.4"
         ]
       }
-    },
-    {
-      "ts": "2026-05-27T18:33:33Z",
-      "wave": 3,
-      "wave_letter": "C",
-      "event_type": "mandatory_alignment",
-      "status": "started",
-      "message": "Prior-wave gaps detected. Mandatory alignment started.",
-      "details": {
-        "gap_waves": [
-          2
-        ]
-      }
-    },
-    {
-      "ts": "2026-05-27T18:33:33Z",
-      "wave": 3,
-      "wave_letter": "C",
-      "event_type": "wave_start",
-      "status": "started",
-      "message": "Wave 3 started in autonomous mode.",
-      "details": {}
-    },
-    {
-      "ts": "2026-05-27T18:30:21Z",
-      "wave": 3,
-      "wave_letter": "C",
-      "event_type": "wave_start",
-      "status": "started",
-      "message": "Wave 3 started in autonomous mode.",
-      "details": {}
     }
   ]
 }

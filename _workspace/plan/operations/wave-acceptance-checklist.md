@@ -16,8 +16,8 @@ A wave is DONE only when every row in that wave is checked.
 - [x] **P2.0** Pre-wave mobilization completed and validated
 - [x] **P2.1** Extractor baseline and alignment hardening complete
 - [x] **P2.2** Librarian baseline complete with merge outcomes and tests
-- [ ] **P2.3** Augmenter implementation and tests complete
-- [ ] **P2.4** Wave-B phase wiring complete and validated
+- [x] **P2.3** Augmenter implementation and tests complete
+- [x] **P2.4** Wave-B phase wiring complete and validated
 
 ## Wave 3
 - [ ] **P3.1** Archetype expansion specs landed and validated
