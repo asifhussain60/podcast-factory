@@ -5,7 +5,13 @@
  */
 
 import type { APIRoute } from 'astro';
-import { getAnnotations, toggleAnnotation, deleteAnnotation } from '../../lib/db/annotations';
+import {
+  clearChapterAnnotations,
+  getChapterAnnotationSnapshot,
+  toggleAnnotation,
+  deleteAnnotation,
+  upsertParagraphNote,
+} from '../../lib/db/annotations';
 
 export const prerender = false;
 
@@ -19,8 +25,35 @@ export const GET: APIRoute = ({ request }) => {
     });
   }
   try {
-    const rows = getAnnotations(book, chapter);
-    return new Response(JSON.stringify(rows), { headers: { 'content-type': 'application/json' } });
+    const snapshot = getChapterAnnotationSnapshot(book, chapter);
+    return new Response(JSON.stringify(snapshot), { headers: { 'content-type': 'application/json' } });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: String(e) }), {
+      status: 500, headers: { 'content-type': 'application/json' },
+    });
+  }
+};
+
+export const PATCH: APIRoute = async ({ request }) => {
+  let body: { book: string; chapter: string; paraIdx: number; note: string };
+  try {
+    body = await request.json();
+  } catch {
+    return new Response(JSON.stringify({ error: 'Invalid JSON' }), {
+      status: 400, headers: { 'content-type': 'application/json' },
+    });
+  }
+
+  const { book, chapter, paraIdx, note } = body;
+  if (!book || !chapter || paraIdx == null || typeof note !== 'string') {
+    return new Response(JSON.stringify({ error: 'Missing required fields' }), {
+      status: 400, headers: { 'content-type': 'application/json' },
+    });
+  }
+
+  try {
+    upsertParagraphNote(book, chapter, paraIdx, note);
+    return new Response(JSON.stringify({ ok: true }), { headers: { 'content-type': 'application/json' } });
   } catch (e) {
     return new Response(JSON.stringify({ error: String(e) }), {
       status: 500, headers: { 'content-type': 'application/json' },
@@ -55,13 +88,22 @@ export const POST: APIRoute = async ({ request }) => {
 
 export const DELETE: APIRoute = ({ request }) => {
   const url = new URL(request.url);
+  const book = url.searchParams.get('book');
+  const chapter = url.searchParams.get('chapter');
   const id = Number(url.searchParams.get('id'));
-  if (!id) {
-    return new Response(JSON.stringify({ error: 'Missing id param' }), {
-      status: 400, headers: { 'content-type': 'application/json' },
-    });
-  }
+
   try {
+    if (book && chapter) {
+      clearChapterAnnotations(book, chapter);
+      return new Response(JSON.stringify({ ok: true, cleared: true }), { headers: { 'content-type': 'application/json' } });
+    }
+
+    if (!id) {
+      return new Response(JSON.stringify({ error: 'Missing id param' }), {
+        status: 400, headers: { 'content-type': 'application/json' },
+      });
+    }
+
     deleteAnnotation(id);
     return new Response(JSON.stringify({ ok: true }), { headers: { 'content-type': 'application/json' } });
   } catch (e) {

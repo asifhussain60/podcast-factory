@@ -49,6 +49,7 @@ Every navigatable link in the app must be covered. The nav has three sections �
 - `#file:../../plan-dashboard/src/pages/infrastructure.astro`
 - `#file:../../plan-dashboard/src/pages/system-map.astro`
 - `#file:../../plan-dashboard/src/pages/db-schema.astro`
+- `#file:../../plan-dashboard/src/pages/annotation-ops.astro`
 
 **Planner section** (sidebar nav)
 - `#file:../../plan-dashboard/src/pages/dashboard.astro`
@@ -208,6 +209,7 @@ After completing Passes 1–3.5, execute fixes in this priority order. Do not as
 6. For any `plan.yaml` step that defines a `dr_id` not yet present in the `locked_decisions` list, add it.
 7. If `intelligence.astro` is fully hardcoded and its content contradicts Wave B plan steps, update the hardcoded diagram labels/nodes to match B0–B4 as defined in `plan.yaml`. Do not redesign the UI — only update labels, descriptions, and connection labels to match the plan.
 8. In `Base.astro`: if any navigatable link points to a route that has no corresponding `*.astro` file, or if an existing page is missing from the nav, fix the nav wiring.
+9. If the canonical plan introduces a new architecture lane and no corresponding view exists, create a minimal route and wire it into the architecture sub-nav. Keep the view content architecture-focused and grounded in canonical source files.
 
 **P2 — Surface and ask before changing:**
 9. Any deletion of existing tracked files.
@@ -277,5 +279,5 @@ After all four passes, produce a single structured report:
 - Never push to `main` or open a `develop` → `main` PR.
 - Never delete tracked files without explicit approval.
 - The `kashkole/` and `library/` pages display content from the repo's content directory — they are NOT plan-driven. Audit them for structural health (broken imports, missing snapshot fields, dead nav links) but do NOT inject plan data into them or change how they retrieve content.
-- Do not add new UI features or pages. Only bring existing pages into sync with existing plan data.
+- Do not add speculative UI features. You may create a focused architecture/infrastructure view only when Pass 0 + canonical-plan comparison proves a missing lane with no existing route.
 - Maximum 3 convergence cycles. If a gap persists after 3 cycles, surface it — do not loop indefinitely.

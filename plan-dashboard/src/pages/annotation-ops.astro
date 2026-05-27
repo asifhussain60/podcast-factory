@@ -1,0 +1,126 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Annotation Operations" active="annotation-ops" section="architecture">
+  <header class="page-hero">
+    <div class="page-hero-inner">
+      <span class="eyebrow">Annotation Operations</span>
+      <h1 class="page-hero-title">From paragraph intent to pipeline action.</h1>
+      <p class="page-hero-lede">
+        This lane turns reading decisions into reusable intelligence. Every marker and instruction moves through a
+        durable queue, lands in a structured chapter file, and becomes available to AI assistants, search, and future
+        automation.
+      </p>
+    </div>
+  </header>
+
+  <section class="stack">
+    <h2>The operating path</h2>
+    <div class="ops-flow">
+      <div class="ops-node">
+        <h3>1) Reader workbench</h3>
+        <p>Paragraph hover activates the right-hand workspace. Markers and notes are captured immediately.</p>
+      </div>
+      <div class="ops-arrow">→</div>
+      <div class="ops-node">
+        <h3>2) Queue ledger</h3>
+        <p>Action instructions accumulate in a local queue and can be copied as one execution set.</p>
+      </div>
+      <div class="ops-arrow">→</div>
+      <div class="ops-node">
+        <h3>3) Durable chapter file</h3>
+        <p>One click sync writes a chapter-level JSON handoff with markers, notes, and the full queue text.</p>
+      </div>
+      <div class="ops-arrow">→</div>
+      <div class="ops-node">
+        <h3>4) Pipeline intelligence</h3>
+        <p>Classification and queued actions feed extraction, verification, augmentation, and future auto-marking.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr />
+
+  <section class="stack">
+    <h2>Three scopes, one queue</h2>
+    <div class="grid-3">
+      <article class="card card-tight">
+        <strong>Paragraph</strong>
+        <p class="small">Fine-grained edits, doctrinal tags, and contextual research tied to one location.</p>
+      </article>
+      <article class="card card-tight">
+        <strong>Book</strong>
+        <p class="small">Structural instructions that apply across chapters in the same title.</p>
+      </article>
+      <article class="card card-tight">
+        <strong>Global</strong>
+        <p class="small">Reusable production rules for style, quality checks, and guardrails across titles.</p>
+      </article>
+    </div>
+  </section>
+
+  <hr />
+
+  <section class="stack">
+    <h2>What this unlocks next</h2>
+    <div class="grid-2">
+      <article class="card card-tight">
+        <strong>Auto-marking from learned patterns</strong>
+        <p class="small">As pattern density grows, the pipeline can pre-label likely esoteric or reality sections before author review.</p>
+      </article>
+      <article class="card card-tight">
+        <strong>Cross-book retrieval</strong>
+        <p class="small">Any queued insight can be reused in later books, audits, and interactive assistant sessions.</p>
+      </article>
+      <article class="card card-tight">
+        <strong>Cost-efficient execution packs</strong>
+        <p class="small">Batch copy of accumulated instructions reduces repeated prompting and keeps work sessions focused.</p>
+      </article>
+      <article class="card card-tight">
+        <strong>Planner-aware auto views</strong>
+        <p class="small">When annotation lanes expand in the plan, the dashboard sync flow can detect and create missing architecture views.</p>
+      </article>
+    </div>
+  </section>
+
+  <style>
+    .ops-flow {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+      gap: 10px;
+      align-items: stretch;
+    }
+    .ops-node {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--card);
+      padding: 14px;
+    }
+    .ops-node h3 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+      color: var(--ink);
+    }
+    .ops-node p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .ops-arrow {
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+    @media (max-width: 1100px) {
+      .ops-flow {
+        grid-template-columns: 1fr;
+      }
+      .ops-arrow {
+        transform: rotate(90deg);
+        margin: -4px 0;
+      }
+    }
+  </style>
+</Base>

@@ -991,6 +991,7 @@ waves:
             - "Overview (landing)"
             - "How it works (pipeline architecture)"
             - "What it runs on (infrastructure)"
+            - "Annotation Ops (annotation-to-intelligence lane)"
             - "Live progress (dashboard)"
             - "Library (shipped books)"
             - "Backbone (new — added in D3)"
@@ -1041,19 +1042,21 @@ waves:
         authorization: *tier_one
 
       - id: D5
-        title: "Add paragraph-level annotation and research toolbar to the Bookshelf reader"
+        title: "Replace floating annotation UI with a right-hand annotation workspace and durable AI handoff"
         depends_on: [D2]
         design_decision: |
-          Phase 1 (this step): hover toolbar persists tags to SQLite + generates
-          clipboard-ready VS Code prompts via Gemini with Google Search grounding.
-          Phase 2 (future step): direct API wiring replaces clipboard prompt; SSE
-          push updates the UI when the pipeline acts on an annotation.
-          Tag list is user-extensible via an annotation_tags DB table (not hardcoded).
-          Radix UI HoverCard (already installed) provides the hover overlay.
+          The floating left-side bar is retired. Annotation now lives in the right rail
+          so one-handed use stays stable while reading. Paragraph hover sets the active
+          target; markers, notes, and AI actions are managed in a single workspace.
+          Notes autosave when cursor focus moves to another paragraph. Action outputs
+          are queued in localStorage and can be copied as one accumulated execution set.
+          A server export endpoint writes a chapter-scoped JSON handoff so Copilot,
+          Claude Code, and future pipeline stages share the same machine-readable source.
         deliverables:
           db_additions:
-            - "knowledge.db — new table: paragraph_annotations(id, book_slug, chapter_id, paragraph_index, tag, note, created_at)"
-            - "knowledge.db — new table: annotation_tags(id, tag_label, tag_color, is_default, created_at)"
+            - "knowledge.db — table: paragraph_annotations(id, book_slug, chapter_id, para_idx, tag_id, note, created_at)"
+            - "knowledge.db — table: annotation_tags(id, tag_label, tag_color, tag_icon, is_default, sort_order, created_at)"
+            - "knowledge.db — new table: paragraph_notes(id, book_slug, chapter_id, para_idx, note, updated_at)"
           default_tags:
             - {label: "esoteric",            color: "#7c3aed"}
             - {label: "reality",             color: "#0369a1"}
@@ -1061,36 +1064,65 @@ waves:
             - {label: "mark for deletion",   color: "#b91c1c"}
             - {label: "mark for improvement",color: "#92400e"}
           new_files:
-            - "plan-dashboard/src/pages/api/annotations.ts — REST endpoints: GET/POST/DELETE paragraph_annotations + CRUD annotation_tags"
-            - "plan-dashboard/src/components/ParagraphAnnotationBar.tsx — hover overlay (Radix HoverCard + horizontal tag row + vertical action buttons)"
+            - "plan-dashboard/src/components/reader/AnnotationWorkbench.tsx — right-rail control surface for paragraph/book/global annotation scope"
+            - "plan-dashboard/src/pages/api/annotations/export.ts — writes chapter-level annotation-intelligence JSON handoff"
+            - "plan-dashboard/src/lib/reader/annotation-export.ts — durable export builder + accumulated instruction text"
           updated_files:
-            - "plan-dashboard/src/pages/library/[slug].astro — wrap each paragraph block with ParagraphAnnotationBar"
+            - "plan-dashboard/src/pages/library/[slug]/chapter/[chapter].astro — mount AnnotationWorkbench in the right rail"
+            - "plan-dashboard/src/pages/api/annotations.ts — add PATCH autosave for paragraph notes"
+            - "plan-dashboard/src/lib/db/annotations.ts — paragraph_notes table + chapter snapshot helpers"
+            - "plan-dashboard/src/layouts/Base.astro — add Annotation Ops architecture subnav"
           gemini_integration:
             api: "Gemini 2.0 Flash with Google Search grounding (tools: google_search)"
-            client: "existing plan-dashboard/src/lib/reader/gemini-server.ts — new generateWithGrounding() added"
-            trigger: "action button click → instruction window modal → confirm → POST /api/ai/research"
-            output: "formatted prompt text copied to clipboard (Phase 1); direct API wiring deferred to Phase 2"
-          real_time: "SSE push deferred to Phase 2 — not in this step"
+            trigger: "workspace action run → POST /api/ai/research"
+            output: "single result copy + queue copy + JSON sync copy"
+          queue_model:
+            fast_lane: "localStorage queue for instant capture and batch clipboard copy"
+            durable_lane: "content/drafts/<category>/<slug>/_system/annotation-intelligence/<chapter>.json"
+            schema_fields:
+              - "scope: paragraph | book | global"
+              - "kind: marker | action"
+              - "paraIdx + paragraphPreview"
+              - "instruction + tags + createdAt"
           libraries_used:
-            positioning: "@floating-ui/react ^0.27 — positions floating toolbar relative to hovered paragraph"
-            tooltip: "@radix-ui/react-tooltip ^1.2 — icon-label tooltips on all buttons"
-            dialog: "@radix-ui/react-dialog ^1.1 — instruction window modal"
             db: "better-sqlite3 ^12 — synchronous SQLite from Astro API routes (server-only)"
-            icons: "lucide-react (already installed) — Eye, Globe, Scale, Trash2, Lightbulb, Search, PenLine, GitBranch, MessageSquarePlus, Flag"
+            icons: "lucide-react (already installed) — marker/action icons in right-rail workbench"
             gemini_sdk: "@google/generative-ai ^0.24 — grounding tool support"
           architecture_note: |
-            Paragraphs in the chapter reader are injected as raw HTML (set:html).
-            The toolbar is ONE floating React component (not per-paragraph wrapper).
-            On mount it stamps data-para-idx on every .prose-body > p/h2/h3 element
-            and uses event delegation on .prose-body to detect hover. @floating-ui/react
-            positions the panel left of the hovered element. This is the same pattern
-            as Medium's paragraph toolbar and Notion's block handle.
+            Paragraph content is rendered from raw HTML (set:html), so annotation uses
+            event delegation over .prose-body and data-para-idx stamping at mount.
+            Hover only selects context; editing happens in the right rail. This keeps
+            reading stable and avoids floating controls occluding text.
         acceptance:
-          - "Hovering any paragraph in /library/[slug]/chapter/[chapter] reveals the annotation bar within 200ms"
-          - "Clicking a tag persists it to knowledge.db and visually marks the paragraph (survives page reload)"
-          - "Tag list is editable from the UI — add or remove tags without a code change"
-          - "Action button opens instruction modal; confirm calls Gemini with grounding and copies result to clipboard"
-          - "All five default tags seed automatically on first run"
+          - "Hovering chapter text updates active paragraph context in the right rail within 200ms"
+          - "Moving to a new paragraph autosaves note text for the previous paragraph"
+          - "Marker changes persist in knowledge.db and render paragraph highlights after reload"
+          - "Queue button beside copy copies accumulated instruction set for assistant execution"
+          - "JSON sync endpoint writes a chapter handoff file containing queue + markers + notes"
+        cost_estimate_usd: 0
+        authorization: *tier_one
+
+      - id: D6
+        title: "Teach planner + site-sync to auto-detect annotation architecture gaps and generate missing views"
+        depends_on: [D5]
+        design_decision: |
+          The planner and site-sync loop should not require manual reminders when a new
+          architecture lane appears in plan.yaml. They must detect missing navigation and
+          missing architecture/infrastructure coverage, then generate or patch views.
+        deliverables:
+          planner_updates:
+            - "podcast planner guidance explicitly treats annotation-intelligence as a first-class architecture lane"
+            - "snapshot regeneration remains automatic after any canonical-plan change"
+          site_sync_updates:
+            - "podcast-site-sync prompt allows targeted new view creation when plan has a lane with no view"
+            - "sync report must include coverage check for annotation operations"
+          ui_surface:
+            - "new architecture subview route for annotation operations"
+            - "architecture and infrastructure pages include annotation lane summary cards"
+        acceptance:
+          - "Site-sync run reports annotation lane coverage status"
+          - "If plan adds a new architecture lane, sync can propose/create the missing view"
+          - "Planner snapshots include D6 status in roadmap tiles"
         cost_estimate_usd: 0
         authorization: *tier_one
 

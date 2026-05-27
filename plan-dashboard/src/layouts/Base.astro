@@ -10,6 +10,7 @@ type ActivePage =
   | 'infrastructure'
   | 'system-map'
   | 'db-schema'
+  | 'annotation-ops'
   | 'dashboard'
   | 'plan'
   | 'live'
@@ -27,7 +28,7 @@ interface Props {
 
 const { title, active, section, description } = Astro.props;
 
-const archPages: ActivePage[] = ['architecture', 'intelligence', 'infrastructure', 'system-map', 'db-schema'];
+const archPages: ActivePage[] = ['architecture', 'intelligence', 'infrastructure', 'system-map', 'db-schema', 'annotation-ops'];
 
 const navSection =
   active === 'library'                                    ? 'bookshelf'    :
@@ -92,6 +93,7 @@ const plannerActivePage: 'plan' | 'live' = active === 'live' ? 'live' : 'plan';
           <a href="/infrastructure" class={`subnav-h-link${active === 'infrastructure' ? ' is-active' : ''}`}>Infrastructure</a>
           <a href="/system-map"     class={`subnav-h-link${active === 'system-map'     ? ' is-active' : ''}`}>System Map</a>
           <a href="/db-schema"      class={`subnav-h-link${active === 'db-schema'      ? ' is-active' : ''}`}>Database</a>
+          <a href="/annotation-ops" class={`subnav-h-link${active === 'annotation-ops' ? ' is-active' : ''}`}>Annotation Ops</a>
         </div>
       </nav>
     )}

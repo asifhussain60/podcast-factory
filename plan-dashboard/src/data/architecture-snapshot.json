@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-27T13:57:37.871Z",
-  "source_commit": "3e76ae3",
+  "generated_at": "2026-05-27T14:49:37.358Z",
+  "source_commit": "45c9cea",
   "generator": "podcast-planner agent",
   "phases": [
     {
@@ -512,6 +512,11 @@
       "id": "DR-014",
       "title": "Strategic-tactical agent split: steward composes, doesn't reimplement",
       "plain": "Strategic-tactical agent split: steward composes, doesn't reimplement"
+    },
+    {
+      "id": "DR-016",
+      "title": "Annotation output must persist as both queue and chapter handoff file",
+      "plain": "Annotation output must persist as both queue and chapter handoff file"
     }
   ],
   "archetypes": [

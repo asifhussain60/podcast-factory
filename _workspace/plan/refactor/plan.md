@@ -3,7 +3,7 @@
 # Summary Of Your Intent.
 
 1. **Architecture-first rebuild on `develop`**. This plan derives every step from the architecture at [architecture.md](../architecture.md). Read architecture first; then this roadmap reads as *"to land that architecture, do these things in this order."*
-2. **Five waves, 22 steps**. Wave A foundation (cleanup, core layer, modularization), Wave B intelligence (extractor + librarian + augmenter), Wave C archetype expansion (PLAY-NOVEL + LECTURE-SERIES + ENCYCLOPEDIC + multi-tier capstone), Wave D SPA + dashboard, Wave E retroactive enhancements for shipped books + extended publish gate.
+2. **Five waves, 28 steps**. Wave A foundation (cleanup, core layer, modularization), Wave B intelligence (extractor + librarian + augmenter), Wave C archetype expansion (PLAY-NOVEL + LECTURE-SERIES + ENCYCLOPEDIC + multi-tier capstone), Wave D dashboard + annotation intelligence lane, Wave E retroactive enhancements for shipped books + extended publish gate.
 3. **Legacy plan folder gets folded in then deleted**. ~22 legacy files in `_workspace/plan/` are surveyed, the live pieces are extracted into the new nested structure, the rest are removed (git history preserves them). Step A1 is the cleanup; nothing else lands until A1 is done.
 4. **Retroactive doctrine for shipped books**. KaR and M&D get archetype stamping, addendum episodes, and extraction-only knowledge passes. **Never** re-run through the pipeline. Every enhancement still becomes default for the next forward book.
 5. **Plan only — no execution authorized**. This turn writes the plan files. Asif's approval before any code lands.
@@ -222,11 +222,17 @@ Wave A is the gate. Wave B and Wave C can run in parallel after A. Wave D is ind
 
 ---
 
-### D5. Add paragraph-level annotation and research toolbar to the Bookshelf reader.
+### D5. Replace the floating annotation toolbar with a right-hand annotation workspace + durable AI handoff.
 
-> When reading any chapter in the Bookshelf, hovering a paragraph reveals a horizontal row of tag buttons (esoteric, reality, sharia, mark for deletion, mark for improvement — all extensible from the UI) and a vertical column of action buttons. Clicking a tag stores it immediately in the local SQLite database alongside the book, chapter, and paragraph position. Clicking an action button opens an instruction window; confirming sends the paragraph text + instruction to Gemini with Google Search grounding, which researches the topic and returns a ready-to-paste prompt for VS Code GitHub Copilot or Claude Code (Phase 1). The tag list is maintained in a database table so Asif can add new tags without any code change. Real-time pipeline push (Phase 2) and direct API wiring are noted but not built in this step.
+> The floating left-side toolbar is retired. Paragraph hover now sets context while all editing happens in the right rail: markers, notes, and AI actions in one stable surface designed for right-handed use. Notes autosave when the cursor moves to a different paragraph. Marker updates persist in SQLite and remain visible on reload. Action outputs can be copied individually or copied as one accumulated queue. The queue is stored locally for instant flow and can be synced into a chapter JSON handoff file under the draft content tree so VS Code Copilot, Claude Code, and Cowork sessions can consume the same instruction set.
 >
-> *Value gained:* Reading becomes a two-way channel — every paragraph is a research and annotation entry point. Annotations accumulate into a structured dataset that feeds the intelligence pipeline. The "copy paragraph → switch to Copilot → type prompt from scratch" loop is replaced by two clicks.
+> *Value gained:* Reading and editing no longer fight each other. Annotation intent becomes a reusable data product (not just temporary UI state), which directly supports classification, retrieval, and lower-cost production loops.
+
+### D6. Teach planner and site-sync to auto-detect missing architecture coverage and generate the needed view.
+
+> The planning loop now treats annotation operations as a first-class architecture lane. Site-sync is extended to detect when a lane exists in the plan but has no corresponding architecture/infrastructure coverage in the dashboard. In that case it must patch navigation and generate or update the missing view instead of reporting passive drift only. A dedicated architecture subview documents the annotation lane visually and operationally so this pattern can scale from chapter to episode to slide deck and future surfaces.
+>
+> *Value gained:* New operational lanes stop depending on manual memory. The dashboard and plan stay structurally aligned by default, even as the system grows.
 
 # Wave E · Retroactive Enhancements + Extended Publish Gate
 

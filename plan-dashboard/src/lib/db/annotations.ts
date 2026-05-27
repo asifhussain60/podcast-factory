@@ -62,8 +62,21 @@ function ensureTables(db: Database.Database): void {
       UNIQUE (book_slug, chapter_id, para_idx, tag_id)
     );
 
+    CREATE TABLE IF NOT EXISTS paragraph_notes (
+      id         INTEGER PRIMARY KEY AUTOINCREMENT,
+      book_slug  TEXT    NOT NULL,
+      chapter_id TEXT    NOT NULL,
+      para_idx   INTEGER NOT NULL,
+      note       TEXT    NOT NULL,
+      updated_at TEXT    DEFAULT (datetime('now')),
+      UNIQUE (book_slug, chapter_id, para_idx)
+    );
+
     CREATE INDEX IF NOT EXISTS idx_pa_book_chapter
       ON paragraph_annotations (book_slug, chapter_id);
+
+    CREATE INDEX IF NOT EXISTS idx_pn_book_chapter
+      ON paragraph_notes (book_slug, chapter_id);
   `);
 
   // Seed defaults (idempotent — INSERT OR IGNORE)
@@ -125,6 +138,15 @@ export interface Annotation {
   created_at: string;
 }
 
+export interface ParagraphNote {
+  id: number;
+  book_slug: string;
+  chapter_id: string;
+  para_idx: number;
+  note: string;
+  updated_at: string;
+}
+
 export function getAnnotations(bookSlug: string, chapterId: string): Annotation[] {
   return getDb()
     .prepare(
@@ -163,4 +185,55 @@ export function toggleAnnotation(
 
 export function deleteAnnotation(id: number): void {
   getDb().prepare(`DELETE FROM paragraph_annotations WHERE id = ?`).run(id);
+}
+
+export function clearChapterAnnotations(bookSlug: string, chapterId: string): void {
+  const db = getDb();
+  db.prepare(`DELETE FROM paragraph_annotations WHERE book_slug = ? AND chapter_id = ?`).run(bookSlug, chapterId);
+  db.prepare(`DELETE FROM paragraph_notes WHERE book_slug = ? AND chapter_id = ?`).run(bookSlug, chapterId);
+}
+
+export function getParagraphNotes(bookSlug: string, chapterId: string): ParagraphNote[] {
+  return getDb()
+    .prepare(
+      `SELECT *
+       FROM paragraph_notes
+       WHERE book_slug = ? AND chapter_id = ?
+       ORDER BY para_idx ASC`
+    )
+    .all(bookSlug, chapterId) as ParagraphNote[];
+}
+
+export function upsertParagraphNote(
+  bookSlug: string,
+  chapterId: string,
+  paraIdx: number,
+  note: string
+): void {
+  const text = note.trim();
+  const db = getDb();
+
+  if (!text) {
+    db.prepare(
+      `DELETE FROM paragraph_notes WHERE book_slug=? AND chapter_id=? AND para_idx=?`
+    ).run(bookSlug, chapterId, paraIdx);
+    return;
+  }
+
+  db.prepare(
+    `INSERT INTO paragraph_notes (book_slug, chapter_id, para_idx, note, updated_at)
+     VALUES (?, ?, ?, ?, datetime('now'))
+     ON CONFLICT(book_slug, chapter_id, para_idx)
+     DO UPDATE SET note = excluded.note, updated_at = datetime('now')`
+  ).run(bookSlug, chapterId, paraIdx, text);
+}
+
+export function getChapterAnnotationSnapshot(bookSlug: string, chapterId: string): {
+  annotations: Annotation[];
+  notes: ParagraphNote[];
+} {
+  return {
+    annotations: getAnnotations(bookSlug, chapterId),
+    notes: getParagraphNotes(bookSlug, chapterId),
+  };
 }
