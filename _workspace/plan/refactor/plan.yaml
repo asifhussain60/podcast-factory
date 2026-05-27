@@ -1040,6 +1040,60 @@ waves:
         cost_estimate_usd: 0
         authorization: *tier_one
 
+      - id: D5
+        title: "Add paragraph-level annotation and research toolbar to the Bookshelf reader"
+        depends_on: [D2]
+        design_decision: |
+          Phase 1 (this step): hover toolbar persists tags to SQLite + generates
+          clipboard-ready VS Code prompts via Gemini with Google Search grounding.
+          Phase 2 (future step): direct API wiring replaces clipboard prompt; SSE
+          push updates the UI when the pipeline acts on an annotation.
+          Tag list is user-extensible via an annotation_tags DB table (not hardcoded).
+          Radix UI HoverCard (already installed) provides the hover overlay.
+        deliverables:
+          db_additions:
+            - "knowledge.db — new table: paragraph_annotations(id, book_slug, chapter_id, paragraph_index, tag, note, created_at)"
+            - "knowledge.db — new table: annotation_tags(id, tag_label, tag_color, is_default, created_at)"
+          default_tags:
+            - {label: "esoteric",            color: "#7c3aed"}
+            - {label: "reality",             color: "#0369a1"}
+            - {label: "sharia",              color: "#065f46"}
+            - {label: "mark for deletion",   color: "#b91c1c"}
+            - {label: "mark for improvement",color: "#92400e"}
+          new_files:
+            - "plan-dashboard/src/pages/api/annotations.ts — REST endpoints: GET/POST/DELETE paragraph_annotations + CRUD annotation_tags"
+            - "plan-dashboard/src/components/ParagraphAnnotationBar.tsx — hover overlay (Radix HoverCard + horizontal tag row + vertical action buttons)"
+          updated_files:
+            - "plan-dashboard/src/pages/library/[slug].astro — wrap each paragraph block with ParagraphAnnotationBar"
+          gemini_integration:
+            api: "Gemini 2.0 Flash with Google Search grounding (tools: google_search)"
+            client: "existing plan-dashboard/src/lib/reader/gemini-server.ts — new generateWithGrounding() added"
+            trigger: "action button click → instruction window modal → confirm → POST /api/ai/research"
+            output: "formatted prompt text copied to clipboard (Phase 1); direct API wiring deferred to Phase 2"
+          real_time: "SSE push deferred to Phase 2 — not in this step"
+          libraries_used:
+            positioning: "@floating-ui/react ^0.27 — positions floating toolbar relative to hovered paragraph"
+            tooltip: "@radix-ui/react-tooltip ^1.2 — icon-label tooltips on all buttons"
+            dialog: "@radix-ui/react-dialog ^1.1 — instruction window modal"
+            db: "better-sqlite3 ^12 — synchronous SQLite from Astro API routes (server-only)"
+            icons: "lucide-react (already installed) — Eye, Globe, Scale, Trash2, Lightbulb, Search, PenLine, GitBranch, MessageSquarePlus, Flag"
+            gemini_sdk: "@google/generative-ai ^0.24 — grounding tool support"
+          architecture_note: |
+            Paragraphs in the chapter reader are injected as raw HTML (set:html).
+            The toolbar is ONE floating React component (not per-paragraph wrapper).
+            On mount it stamps data-para-idx on every .prose-body > p/h2/h3 element
+            and uses event delegation on .prose-body to detect hover. @floating-ui/react
+            positions the panel left of the hovered element. This is the same pattern
+            as Medium's paragraph toolbar and Notion's block handle.
+        acceptance:
+          - "Hovering any paragraph in /library/[slug]/chapter/[chapter] reveals the annotation bar within 200ms"
+          - "Clicking a tag persists it to knowledge.db and visually marks the paragraph (survives page reload)"
+          - "Tag list is editable from the UI — add or remove tags without a code change"
+          - "Action button opens instruction modal; confirm calls Gemini with grounding and copies result to clipboard"
+          - "All five default tags seed automatically on first run"
+        cost_estimate_usd: 0
+        authorization: *tier_one
+
 # ===========================================================================
 # WAVE E — Retroactive Enhancements + Extended Publish Gate
 # ===========================================================================

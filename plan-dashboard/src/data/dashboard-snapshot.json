@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-27T13:06:38.898Z",
-  "source_commit": "777ac83",
+  "generated_at": "2026-05-27T13:49:28.743Z",
+  "source_commit": "129af21",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -327,6 +327,18 @@
       ]
     },
     {
+      "id": "D5",
+      "wave": "D",
+      "title": "Add paragraph-level annotation and research toolbar to the Bookshelf reader",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "D2"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
       "id": "E1",
       "wave": "E",
       "title": "Bring every shipped book onto the unified metadata schema",
@@ -456,6 +468,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "129af21",
+      "subject": "chore(A6): consolidate agents — canonical specs in infra/, stubs in .github/agents/",
+      "date": "2026-05-27"
+    },
+    {
       "sha": "777ac83",
       "subject": "chore: remove legacy podcast-reader app and empty root src/",
       "date": "2026-05-27"
@@ -498,11 +515,6 @@
     {
       "sha": "b35c66e",
       "subject": "chore(vacuum): clean plan folder + refresh snapshots",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "356be26",
-      "subject": "fix(intelligence): restore filter button functionality",
       "date": "2026-05-27"
     }
   ],

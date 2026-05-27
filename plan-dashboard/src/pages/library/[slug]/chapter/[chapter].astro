@@ -13,6 +13,7 @@ import QuranPopover from '../../../../components/reader/QuranPopover';
 import SectionSummaries from '../../../../components/reader/SectionSummaries';
 import FloatingActions from '../../../../components/reader/FloatingActions';
 import ChapterEditor from '../../../../components/reader/ChapterEditor';
+import ParagraphAnnotationBar from '../../../../components/reader/ParagraphAnnotationBar';
 import { loadBookIndex, loadChapterSource } from '../../../../lib/reader/chapters';
 import { renderProseWithRefs } from '../../../../lib/reader/render-prose';
 import { loadGlossary, wrapPhoneticTokens } from '../../../../lib/reader/glossary';
@@ -158,6 +159,7 @@ const pageTitle = `${ch.title} — ${contentTitle}`;
     <QuranPopover client:idle />
     <SectionSummaries client:idle book={slug} />
     <ChapterEditor client:idle book={slug} chapterSlug={ch.slug} chapterTitle={ch.title} sourceText={sourceText} />
+    <ParagraphAnnotationBar client:idle book={slug} chapterSlug={ch.slug} bookTitle={contentTitle} />
   </ThreePane>
 
   <script>

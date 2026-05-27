@@ -222,6 +222,12 @@ Wave A is the gate. Wave B and Wave C can run in parallel after A. Wave D is ind
 
 ---
 
+### D5. Add paragraph-level annotation and research toolbar to the Bookshelf reader.
+
+> When reading any chapter in the Bookshelf, hovering a paragraph reveals a horizontal row of tag buttons (esoteric, reality, sharia, mark for deletion, mark for improvement — all extensible from the UI) and a vertical column of action buttons. Clicking a tag stores it immediately in the local SQLite database alongside the book, chapter, and paragraph position. Clicking an action button opens an instruction window; confirming sends the paragraph text + instruction to Gemini with Google Search grounding, which researches the topic and returns a ready-to-paste prompt for VS Code GitHub Copilot or Claude Code (Phase 1). The tag list is maintained in a database table so Asif can add new tags without any code change. Real-time pipeline push (Phase 2) and direct API wiring are noted but not built in this step.
+>
+> *Value gained:* Reading becomes a two-way channel — every paragraph is a research and annotation entry point. Annotations accumulate into a structured dataset that feeds the intelligence pipeline. The "copy paragraph → switch to Copilot → type prompt from scratch" loop is replaced by two clicks.
+
 # Wave E · Retroactive Enhancements + Extended Publish Gate
 
 ### E1. Migrate every `meta.yml` to the unified schema.
