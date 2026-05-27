@@ -163,9 +163,74 @@ async function touchExisting(name) {
   await writeFile(p, JSON.stringify(existing, null, 2) + '\n', 'utf-8');
 }
 
+/**
+ * Regenerate architecture-snapshot.json from live canonical sources:
+ *  - agents:  counted and populated from infra/claude-agents/*.md
+ *  - adrs:    parsed from _workspace/plan/architecture.md DR-* table rows
+ *  - phases/layers/modules/archetypes: preserved from existing snapshot
+ *    (authored by the podcast-planner agent; this script never overwrites them)
+ */
+async function mergeArchitecture() {
+  const p = path.join(DATA, 'architecture-snapshot.json');
+  const snap = (await readJsonIfExists(p)) ?? { phases: [], agents: [], layers: [], adrs: [], modules: [], archetypes: [] };
+
+  // ── Agents: built from infra/claude-agents/*.md ────────────────────────
+  const agentsDir = path.join(REPO, 'infra', 'claude-agents');
+  let agentFiles = [];
+  try {
+    const entries = await readdir(agentsDir);
+    agentFiles = entries.filter(f => f.endsWith('.md') && f !== '_README.md');
+  } catch {}
+
+  const existingAgentById = new Map((snap.agents ?? []).map(a => [a.id, a]));
+  const agents = await Promise.all(agentFiles.map(async (f) => {
+    const id = f.replace('.md', '');
+    if (existingAgentById.has(id)) return existingAgentById.get(id);
+    const content = await readFile(path.join(agentsDir, f), 'utf-8');
+    const fmMatch = content.match(/^---\n([\s\S]*?)\n---/);
+    let fm = {};
+    if (fmMatch) { try { fm = yaml.load(fmMatch[1]) ?? {}; } catch {} }
+    const desc = String(fm.description ?? '');
+    const titleCase = id.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' ');
+    return {
+      id,
+      name: titleCase,
+      role: desc.split('.')[0].slice(0, 80),
+      icon: 'robot',
+      tone: 'neutral',
+      plain: desc.length > 240 ? desc.slice(0, 237) + '\u2026' : desc,
+      what_it_knows: `See infra/claude-agents/${f}`,
+      boundary_in: '',
+      boundary_out: '',
+      does_not: '',
+      cost_profile: 'varies',
+      failure_mode: 'surfaces error and halts',
+    };
+  }));
+
+  // ── ADRs: parsed from architecture.md ──────────────────────────────────
+  const archPath = path.join(REPO, '_workspace', 'plan', 'architecture.md');
+  let adrs = snap.adrs ?? [];
+  if (existsSync(archPath)) {
+    const md = await readFile(archPath, 'utf-8');
+    const existingAdrById = new Map(adrs.map(a => [a.id, a]));
+    const matches = [...md.matchAll(/\|\s*(DR-\d+)\s*\|\s*\*\*([^*]+)\*\*/g)];
+    if (matches.length > 0) {
+      adrs = matches.map(m => {
+        const id = m[1].trim();
+        const title = m[2].trim();
+        return existingAdrById.get(id) ?? { id, title, plain: title };
+      });
+    }
+  }
+
+  const merged = { ...snap, generated_at: new Date().toISOString(), source_commit: currentCommit(), agents, adrs };
+  await writeFile(p, JSON.stringify(merged, null, 2) + '\n', 'utf-8');
+}
+
 async function main() {
   const dash = await mergeDashboard();
-  await touchExisting('architecture-snapshot.json');
+  await mergeArchitecture();
   await touchExisting('infrastructure-snapshot.json');
 
   try { writeFileSync(SENTINEL, new Date().toISOString() + '\n', 'utf-8'); } catch {}

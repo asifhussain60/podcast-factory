@@ -28,6 +28,8 @@ flowchart LR
         A2 --> A3[A3 domain layer]
         A3 --> A4[A4 modularize]
         A4 --> A5[A5 version hook]
+        A1 --> A6[A6 agent consolidation]
+        A1 --> A7[A7 API decoupling]
     end
 
     subgraph B["Wave B · Intelligence"]
@@ -100,6 +102,18 @@ Wave A is the gate. Wave B and Wave C can run in parallel after A. Wave D is ind
 > Remove `Version: X.Y` headers from `framework.md`, `_workspace/plan/view/agents/view-generation-agent.md`, `.github/agents/operating-contract.md`, `reference/cortex-challenger-framework.md`. Rename `v4-doctrine-propagation.md` (if not deleted in A1) and `CONTENT/drafts/BOOKS/the-master-and-the-disciple/audits/v2.2-vs-v2.1-diff.md`. Remove version comments in `scripts/podcast/{_authoring.py:1759, _authoring.py:1789, _rules.py:189..250, build_slide_deck.py:4, audit_transcript.py:64}`. Install a pre-commit hook (`infra/git-hooks/pre-commit`) that rejects any commit containing `^Version:\s*\d` in tracked files OR any new file matching `*v[0-9]*.md`. Investigate the `CONTENT/` vs `content/` case mismatch on the Mac filesystem (possible duplicate tree under the case-insensitive filesystem).
 >
 > *Value gained:* No file or comment in the repo says "v2" or "v3.2" or "Version: 4.1". The current file IS the version. The doctrine is mechanically enforced going forward, not just documented as a wish.
+
+### A6. Consolidate the agent sprawl — one canonical spec per agent, one installation path.
+
+> The repo maintains agent behaviour specs in two places simultaneously: one directory that Claude Code reads at runtime, and a second directory used by GitHub Copilot for agent browsing. After the journal-repo split, these two surfaces drifted apart. Nine agents now carry identical full specs in both locations; three agents exist only in the Copilot surface and are therefore invisible to Claude Code; two agents exist only in the Claude Code surface with no Copilot stub; one deprecated agent (`CORTEX`) and one misplaced reference document (`operating-contract.md`) clutter the Copilot surface; and the install-script's README still names two agents that left with the journal split (`journal-challenger`, `ui-reviewer`). The fix: designate `infra/claude-agents/` as the single canonical location for every full spec. Migrate the three Copilot-only agents (`reconcile`, `project-steward`, `podcast-librarian`) into `infra/claude-agents/` so the install script covers them. Rewrite every `.github/agents/` file as a thin stub — exactly as `podcast-planner.agent.md` already does — containing only the frontmatter `name` + `description` and a single pointer line to the `infra/claude-agents/` canonical. Delete `CORTEX.agent.md` (deprecated 2026-05-17; spec is vestigial) and move `operating-contract.md` to `reference/` where it belongs. Rewrite `infra/claude-agents/_README.md` to reflect the correct agent count, remove stale journal references, and document the stub pattern. Update `scripts/install-claude-skills.sh` to install all agents (the current script installs 7; the correct count after this step is 16 active agents). New DR: `DR-014 — agent canonical spec lives in infra/claude-agents/; .github/agents/ contains stubs only; the install script is the source of truth for what Claude Code can invoke`.
+>
+> *Value gained:* Every agent Claude Code can invoke also has a Copilot stub. Every agent Copilot surfaces also has a Claude Code spec. The install script is authoritative — running it on any machine produces the identical agent surface. Editing an agent spec means editing one file in one place. The CORTEX ghost and the misplaced reference doc are gone.
+
+### A7. Decouple all batch processing from the interactive AI plan — prevent unbounded overnight spend.
+
+> The KASHKOLE pipeline (Phase 2 adapt, 122 chapters) was wired to run through the interactive Claude CLI, which draws from the same weekly token pool used for operator conversations. Running 215 sequential overnight calls exhausted that weekly limit and triggered $466 in auto-reload charges — because the two pools, interactive operator use and automated batch pipeline, were never separated. The fix: every pipeline stage that fires more than 10 unattended AI calls must use a dedicated API key with its own monthly spend cap set at console.anthropic.com, never the interactive plan. Apply this to the KASHKOLE adapt and challenge scripts and their batch drivers, and audit the podcast orchestrator for the same pattern across all its LLM call sites. Stack three compounding efficiency improvements on top: (1) prompt caching — the system prompt is identical across all chapter calls, so billing it once at 10% of normal cost saves 30-40% on inputs; (2) Batches API — submitting the entire corpus as one async job cuts cost by 50% vs sequential synchronous calls; (3) a per-session chapter cap so no runaway overnight job exceeds a configurable limit without requiring a manual restart. New DR: `DR-015 — any pipeline stage firing >10 unattended LLM calls uses the direct API with a dedicated spend-capped key; the interactive plan is for human operators only`.
+>
+> *Value gained:* The $466 overflow cannot happen again. Future 122-chapter books cost $80–85 all-in instead of an open-ended liability. The interactive AI plan stays clean for actual operator conversations. Cost is predictable, auditable, and bounded at the architectural level rather than relying on discipline.
 
 ---
 

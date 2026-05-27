@@ -162,8 +162,8 @@ waves:
             - {path: "scripts/podcast/_db.py", max_lines: 400, api: ["get_connection (WAL mode singleton)", "run_migrations (idempotent, 16 SQL files)", "atoms_repository", "atom_sources_repository", "atom_topic_tags_repository", "corpus_chapters_repository", "external_corpora_repository", "manual_review_queue", "run_telemetry"]}
             - {path: "scripts/podcast/_archetypes.py", max_lines: 250, api: ["load_archetype", "resolve_archetype_for_book", "list_archetypes"]}
             - {path: "scripts/podcast/intelligence/_anti_cliche.py", max_lines: 200, exports: ["CAPSTONE_DENY", "SELF_HELP_DENY", "TIER_2_DENY", "AUGMENTER_PRIOR_TREATMENT_DENY"]}
-          - path: "scripts/podcast/knowledge/_atom_schemas.py (extend existing Wave 1 scaffold)"
-            additions:
+            - path: "scripts/podcast/knowledge/_atom_schemas.py (extend existing Wave 1 scaffold)"
+              additions:
               - "DoctrineGenre: Literal[tawil, theology, jurisprudence, ethics, cosmology, narrative, scholarly]"
               - "DoctrineBody: TypedDict (tradition, genre, binder_id, binder_slug, chapter_id, chapter_slug, section_ids, chunk_index, topic_tags, text_en, quran_refs)"
               - "AtomType updated: Literal['quran', 'hadith', 'doctrine']"
@@ -314,6 +314,173 @@ waves:
           - "Library-import version strings preserved (e.g. 'Azure Translator v3.0 API') — these are external API names, not internal versions"
         cost_estimate_usd: 0
         authorization: *tier_one
+
+      - id: A6
+        title: "Consolidate the agent sprawl — one canonical spec per agent, one installation path"
+        depends_on: [A1]
+        rationale: |
+          Root cause: two agent-spec surfaces (infra/claude-agents/ for Claude Code, .github/agents/ for
+          Copilot) evolved independently after the journal-repo split with no sync policy and no ownership
+          rule for where new agents land. Nine agents now carry identical full specs in both locations;
+          three agents are Copilot-only (reconcile, project-steward, podcast-librarian) and are invisible
+          to Claude Code; two agents are infra-only (postprod-review, vacuum) with no Copilot stub;
+          one deprecated agent (CORTEX, deprecated 2026-05-17) and one misplaced reference doc
+          (operating-contract.md) clutter .github/agents/; the install-script README still references
+          journal-challenger and ui-reviewer (both retired with the journal split on 2026-05-22).
+        deliverables:
+          new_canonical_rule:
+            dr_id: DR-014
+            text: |
+              Agent canonical spec lives in infra/claude-agents/. .github/agents/ contains thin stubs
+              only (frontmatter name + description + one pointer line). The install script is the source
+              of truth for what Claude Code can invoke. Editing an agent spec means editing one file.
+          migrate_to_infra:
+            agents:
+              - name: reconcile
+                from: .github/agents/reconcile.agent.md
+                action: copy full spec to infra/claude-agents/reconcile.md, replace .github file with stub
+              - name: project-steward
+                from: .github/agents/project-steward.agent.md
+                action: copy full spec to infra/claude-agents/project-steward.md, replace .github file with stub
+              - name: podcast-librarian
+                from: .github/agents/podcast-librarian.agent.md
+                action: copy full spec to infra/claude-agents/podcast-librarian.md, replace .github file with stub
+          convert_to_stubs:
+            agents:
+              - podcast-challenger
+              - slide-deck-challenger
+              - podcast-auditor
+              - docs-updater
+              - podcast-trainer
+              - podcast-blueprint
+              - podcast-orchestrator
+              - podcast-extract
+              - podcast-publisher
+              - refine-prompt
+              - podcast-planner  # already a stub — verify pointer is correct
+              - repo-surgeon     # 27-line stub pointing to skills-staging — update to point to infra
+            stub_format:
+              frontmatter: [name, description]
+              body: "Full specification at [infra/claude-agents/<name>.md](../../infra/claude-agents/<name>.md)"
+          delete_from_github_agents:
+            - file: CORTEX.agent.md
+              reason: deprecated 2026-05-17; spec vestigial
+          relocate:
+            - file: .github/agents/operating-contract.md
+              to: reference/operating-contract.md
+              reason: reference document, not an agent spec
+          update_install_script:
+            path: scripts/install-claude-skills.sh
+            change: install all *.md in infra/claude-agents/ except _README.md (currently hardcoded to 7 agents)
+            expected_agent_count: 16  # after CORTEX deletion and 3 migrations
+          rewrite_readme:
+            path: infra/claude-agents/_README.md
+            changes:
+              - correct agent count from 7 to 16
+              - remove journal-challenger and ui-reviewer (retired 2026-05-22)
+              - document stub pattern with example
+              - reference DR-014
+        acceptance:
+          - "ls infra/claude-agents/*.md | grep -v _README | wc -l returns 16"
+          - "Every .github/agents/*.agent.md file is ≤ 15 lines (stub only; no full spec)"
+          - "scripts/install-claude-skills.sh --dry-run lists 16 agents"
+          - "grep -r 'journal-challenger\\|ui-reviewer' infra/claude-agents/ returns zero hits"
+          - "ls .github/agents/CORTEX.agent.md returns no such file"
+          - "cat reference/operating-contract.md exists; ls .github/agents/operating-contract.md returns no such file"
+        cost_estimate_usd: 0
+        authorization: *tier_one
+
+      - id: A7
+        title: "Decouple all batch pipeline processing from the interactive Claude plan — dedicated API key with spend cap"
+        depends_on: [A1]
+        rationale: |
+          Root cause: KASHKOLE Phase 2 (adapt) used `claude -p` subprocess calls, which draw from the
+          Max plan's weekly token limit. Running 215 sequential calls overnight exhausted the weekly
+          "All models" limit, then continued billing $466.27 in usage credits because Auto-reload was
+          enabled. The Max plan is for interactive sessions (Claude Code, chat). Any pipeline stage
+          firing >10 unattended LLM calls is infrastructure and must be budgeted separately via a
+          dedicated API key with a monthly spend cap. This rule applies to: KASHKOLE preprocessing
+          tools (adapt, challenge), their batch drivers, and any similar patterns in the podcast
+          orchestrator or future book preprocessing pipelines.
+        deliverables:
+          new_canonical_rule:
+            dr_id: DR-015
+            text: |
+              Any pipeline stage that fires more than 10 LLM calls unattended must use the direct
+              Anthropic API (key: anthropic-pipeline-key in macOS keychain) with a monthly spend cap
+              set at console.anthropic.com. The Max plan / claude -p subprocess pattern is reserved for
+              interactive human operator use only. Violations are a P0 finding in the auditor.
+          keychain_setup:
+            key_name: anthropic-pipeline-key
+            account: pipeline
+            setup_command: "security add-generic-password -s anthropic-pipeline-key -a pipeline -w sk-ant-..."
+            spend_cap_location: "console.anthropic.com/settings/limits"
+            recommended_cap_usd: 50
+          files_to_change:
+            - path: tools/content_translator/stages/adapt_auto.py
+              change: Replace _call_claude_p() subprocess with direct anthropic.Anthropic() client call; add cache_control ephemeral on system prompt
+            - path: tools/content_challenger/kashkole/challenge_auto.py
+              change: Same — replace claude -p subprocess with direct API call + prompt cache
+            - path: _workspace/plan/_drivers/kashkole_adapt_all.py
+              change: Add --max-chapters cap (default 50); refactor to submit Anthropic Batches API for 50% cost reduction
+            - path: _workspace/plan/_drivers/kashkole_challenge_all.py
+              change: Same --max-chapters cap + batch submission
+          orchestrator_audit:
+            target: scripts/podcast/orchestrate_book.py
+            action: |
+              Audit every LLM call site in the orchestrator and all scripts it invokes. For each site:
+              confirm it uses the direct API (not claude -p subprocess), confirm a spend cap is in place,
+              and add prompt caching where the same system prompt repeats across chapters. Document the
+              clean-bill-of-health or fix any violations found. This audit runs regardless of whether
+              violations are expected — outcome is a verified, documented state.
+          optimizations_to_apply:
+            - name: Prompt caching
+              description: |
+                Add cache_control: {type: ephemeral} to the system prompt in adapt_auto.py and
+                challenge_auto.py. The system prompt is identical across all chapter calls (~1500-2000
+                tokens). With caching, repeat calls bill the system prompt at 10% of normal input cost.
+              saving_estimate: 30-40% off input token costs per run
+            - name: Batches API
+              description: |
+                Refactor kashkole_adapt_all.py and kashkole_challenge_all.py to submit all chapters
+                as a single Anthropic Batches API request rather than 215 sequential synchronous calls.
+                Results are polled the next day. 50% cheaper than synchronous calls. Designed for
+                non-real-time phases like adapt and challenge.
+              saving_estimate: 50% off Phase 2 + Phase 3 costs
+            - name: Chapter cap safety net
+              description: |
+                Add --max-chapters N (default 50) to all batch drivers. A runaway overnight job stops
+                at N chapters and requires manual restart. The SESSION_COST_CAP check doesn't work with
+                Max plan calls ($0.00 reported); this cap fills that gap across all call modes.
+              saving_estimate: Prevents unbounded runaway spend
+          cost_comparison:
+            current_per_122_chapters:
+              phase2_adapt: "$0 billed + $466 overflow risk"
+              phase3_challenge: "~$0.43"
+              total: "$466+"
+            direct_api_no_optimizations:
+              phase2_adapt: "~$140"
+              phase3_challenge: "~$7"
+              total: "~$147"
+            direct_api_plus_caching:
+              phase2_adapt: "~$85"
+              phase3_challenge: "~$4"
+              total: "~$89"
+            direct_api_plus_caching_plus_batches:
+              phase2_adapt: "~$42"
+              phase3_challenge: "~$2"
+              total: "~$44"
+            azure_translate_unchanged: "~$38"
+            full_pipeline_with_all_optimizations: "~$80-85 per 122-chapter book"
+        acceptance:
+          - "grep -r 'claude.*-p\\|subprocess.*claude' tools/content_translator/ tools/content_challenger/ returns zero hits"
+          - "adapt_auto.py and challenge_auto.py import anthropic and retrieve key via security find-generic-password"
+          - "Both batch drivers accept --max-chapters argument and enforce it"
+          - "Orchestrator audit complete — all LLM call sites verified, any claude -p patterns fixed, findings documented"
+          - "security find-generic-password -s anthropic-pipeline-key returns 0 (key exists in keychain)"
+          - "Monthly spend cap set at console.anthropic.com (manual step — Asif configures)"
+        cost_estimate_usd: 0
+        authorization: *tier_two  # first-time API key setup touches external billing; Asif approves before any production run
 
 # ===========================================================================
 # WAVE B — Intelligence Layer

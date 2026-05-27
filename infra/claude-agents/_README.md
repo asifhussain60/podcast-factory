@@ -1,36 +1,76 @@
-# infra/claude-agents — tracked Claude Code agent wrappers
+# infra/claude-agents/
 
-This directory is the **tracked source-of-truth for the subagent registration wrappers** that Claude Code reads from `.claude/agents/<name>.md` at runtime.
+Canonical agent specifications for the podcast-factory repo.
 
-`.claude/` is gitignored (`.gitignore` line 10) because it carries per-machine state. The wrappers themselves are *not* per-machine — they are deterministic content (frontmatter + a pointer to the canonical spec at `.github/agents/<name>.agent.md`). Tracking them here lets every Mac materialize the same wrappers via `scripts/install-claude-skills.sh`.
+**One canonical spec per agent. This directory is the single source of truth.**
+
+The `.github/agents/` directory contains thin discovery stubs (≤15 lines each) that
+point here. Claude Code and Copilot load these stubs for agent discovery; all
+substantive procedure, authority files, and tier authorization live in this directory.
+
+---
+
+## Agent registry (17 agents)
+
+| Agent | Purpose |
+|---|---|
+| `docs-updater` | Regenerates the architecture view at `docs/architecture/index.html` from current repo truth |
+| `podcast-auditor` | Repo-level health audit — surfaces drift, regressions, and gaps |
+| `podcast-blueprint` | Content-aware episode-structure planner (genre classification → episode plan) |
+| `podcast-challenger` | Semantic quality validator for chapters and framings; convergence loop |
+| `podcast-extract` | Single-chapter → NotebookLM bundle path orchestrator |
+| `podcast-librarian` | Knowledge-extraction agent (Quran + hadith atoms → canonical library) |
+| `podcast-orchestrator` | Autonomous book-to-NotebookLM pipeline driver |
+| `podcast-planner` | Guardian + Builder for plan audits and roadmap step execution |
+| `podcast-publisher` | Publish-gate enforcer — moves drafts to published after G1–G7 pass |
+| `podcast-trainer` | Cross-book pattern learner; proposes regression-gated spec refinements |
+| `postprod-review` | Post-production audio audit from Turboscribe transcripts |
+| `project-steward` | Strategic health advisor; composes other agents; corpus-cited recommendations |
+| `reconcile` | Code-first architecture doc reconciler — fixes code then updates HTML views |
+| `refine-prompt` | Refines raw requests into compact instruction paragraphs for Claude |
+| `repo-surgeon` | Holistic repo auditor — 5-pass sweep (structure, code, architecture, brittleness, plan conformance) |
+| `slide-deck-challenger` | Visual quality validator for slide-deck bundles |
+| `vacuum` | Post-production filesystem cleanup and file normalization |
+
+---
+
+## DR-014 — Stub pattern
+
+**Decision**: Agent canonical spec lives in `infra/claude-agents/`. `.github/agents/`
+stubs register the agent for GitHub Actions and Copilot routing and point here.
+
+**Stub format** (≤15 lines):
+
+```markdown
+---
+name: <agent-name>
+description: "<description matching the infra spec>"
+---
+
+This file is a discovery stub. Full specification at [infra/claude-agents/<name>.md](../../infra/claude-agents/<name>.md).
+```
+
+**Rationale**: Eliminates spec drift from duplicate full specs, reduces maintenance
+surface, and makes the install script (`scripts/install-claude-skills.sh`) the single
+installation path.
+
+---
+
+## Operating contract
+
+The behavioral floor every agent enforces lives at
+[reference/operating-contract.md](../../reference/operating-contract.md).
+Agents read this file at invocation time; they never inline its full text.
+
+---
 
 ## Installation
 
-```sh
-scripts/install-claude-skills.sh
+```bash
+bash scripts/install-claude-skills.sh
 ```
 
-The install script:
-- Copies every `infra/claude-agents/*.md` into `.claude/agents/<name>.md`
-- Skips this `_README.md`
-- Reports `--dry-run` mode when called with that flag
-
-## Wrappers shipped here
-
-| Wrapper | Canonical spec | Skill that drives it |
-|---|---|---|
-| `journal-challenger.md` | `.github/agents/journal-challenger.agent.md` | `/journal` Phase 4 step 2 (HARD GATE) |
-| `podcast-challenger.md` | `.github/agents/podcast-challenger.agent.md` | `/podcast` Phase 4 step 3 (HARD GATE) |
-| `podcast-extract.md` | `.github/agents/podcast-extract.agent.md` | `/podcast` Phase 0d extraction |
-| `podcast-orchestrator.md` | `.github/agents/podcast-orchestrator.agent.md` | Autonomous book pipeline driver (see [`docs/architecture/index.html#phases`](../../docs/architecture/index.html#phases)) |
-| `podcast-trainer.md` | `.github/agents/podcast-trainer.agent.md` | Cross-book pattern learner with regression gate |
-| `refine-prompt.md` | `.github/agents/refine-prompt.agent.md` | `/refine-prompt` |
-| `ui-reviewer.md` | (no canonical spec; self-contained) | Post-`site/` edits (via `.claude/hooks/ui-reviewer-stop.sh`) |
-
-## Adding or editing a wrapper
-
-1. Edit (or add) the file under `infra/claude-agents/`.
-2. Re-run `scripts/install-claude-skills.sh`.
-3. Commit the change.
-
-Editing `.claude/agents/<name>.md` directly is **not durable** — the next install will overwrite it. Always edit here.
+The script reads from this directory and installs/updates the agent definitions into
+`.claude/agents/<name>.md` at runtime. `.claude/` is gitignored (per-machine state);
+this directory is the durable tracked source. Never edit `.claude/agents/` directly —
+the next install will overwrite it.

@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-27T11:50:04.948Z",
-  "source_commit": "c9ed9de",
+  "generated_at": "2026-05-27T13:06:38.898Z",
+  "source_commit": "777ac83",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -74,6 +74,30 @@
         "Git",
         "Python"
       ]
+    },
+    {
+      "id": "A6",
+      "wave": "A",
+      "title": "Consolidate the agent sprawl — one canonical spec per agent, one installation path",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "A1"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "A7",
+      "wave": "A",
+      "title": "Decouple all batch pipeline processing from the interactive Claude plan — dedicated API key with spend cap",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "A1"
+      ],
+      "plain": "",
+      "tools": []
     },
     {
       "id": "B0",
@@ -432,6 +456,16 @@
   ],
   "recent_commits": [
     {
+      "sha": "777ac83",
+      "subject": "chore: remove legacy podcast-reader app and empty root src/",
+      "date": "2026-05-27"
+    },
+    {
+      "sha": "e08cffd",
+      "subject": "chore: regenerate plan-dashboard snapshot JSONs",
+      "date": "2026-05-27"
+    },
+    {
       "sha": "c9ed9de",
       "subject": "feat(plan-dashboard): port podcast-reader capabilities — episode viewer, ContractView, kashkole pages",
       "date": "2026-05-27"
@@ -469,16 +503,6 @@
     {
       "sha": "356be26",
       "subject": "fix(intelligence): restore filter button functionality",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "4aa4e2d",
-      "subject": "chore: update kashkole session files and plan-dashboard snapshots",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "e8993bb",
-      "subject": "refactor(diagrams): convert all diagrams to vertical top-to-bottom flow",
       "date": "2026-05-27"
     }
   ],

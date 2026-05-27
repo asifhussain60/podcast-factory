@@ -45,11 +45,13 @@ Append a dated entry to the bottom of `_workspace/plan/copilot-handoff.md`'s `##
 
 Use Asif's response format (H2 main / H3 sections / blockquote callouts / table for tabular content / one rule before Next). Cite commits by short SHA. Plain English in the visible body — no step IDs like "A2", no file paths like `scripts/podcast/_db.py` in chat (those go in the commit and handoff doc).
 
-Then Next block: A. (Recommended) the next step in roadmap order; B. alternative if there's a fork; C. pause for review.
+Then Next block: A. (Recommended) the next step in roadmap order, scoped to its full documented depth — never reduced; B. alternative if there's a fork; C. pause for review.
 
 ## Hard rules
 
 - Tier 2 actions (publish, first orchestrator run on a new book, force-push, branch delete, develop→main PR) require Asif's explicit "yes" — never silent.
+- **Execution gate:** No code change or pipeline work executes without (1) the step already recorded in plan.md + plan.yaml, (2) `npm run snapshot` run to update dashboard views, and (3) Asif's approval. Never start implementation before these three conditions are met.
+- **Thorough first:** Always propose the full documented scope of the plan step. Never silently narrow scope, skip a deliverable, or defer an acceptance criterion unless Asif explicitly asks for a smaller slice.
 - Never overwrite `_workspace/plan/copilot-handoff.md` — only append to the session log section.
 - Never modify `.claude/settings.json` (that's Claude's harness; the classifier blocks it from inside Claude too).
 - Never edit files in `content/published/` by hand — that surface is publisher-agent-only.

@@ -70,7 +70,8 @@ Hard rules:
 - NO fenced code blocks for prose. Tables for tabular data; alphabetized options for Next.
 - One horizontal rule, between the topical section and Next.
 - Recommended is always A. When B/C/D are complementary follow-ups that compose without regression risk, A is **"Do all of the below in sequence — B then C then D"** with one why-batching line.
-- Holistic selection: score every option against (1) project health, (2) architectural fit, (3) extensibility, (4) regression risk. REMOVE (don't demote) any option that destabilizes what's working.
+- Holistic selection: score every option against (1) project health, (2) architectural fit, (3) extensibility, (4) regression risk. **Always recommend the most thorough and architecturally complete approach as option A — never recommend a scoped-down or superficial alternative as the default unless the user explicitly requests a smaller scope.** Reduced regression risk justifies removing an option that would destabilize working code; it never justifies downgrading a thorough root fix to a partial symptom patch. REMOVE (don't demote) any option that destabilizes what's working.
+- Execution gate: no pipeline work, code change, or new feature executes without (1) a corresponding entry added to plan.md + plan.yaml, (2) `npm run snapshot` run to regenerate plan-dashboard views, and (3) Asif's explicit approval. This gate is non-negotiable regardless of authorization tier.
 
 Severity emojis when they add signal: 🟢 / 🟡 / 🔴 / ⚠. Optional, not mandatory.
 
