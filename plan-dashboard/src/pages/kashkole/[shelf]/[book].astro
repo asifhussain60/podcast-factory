@@ -1,0 +1,331 @@
+---
+/**
+ * Kashkole bilingual chapter view — dual panel (English | Urdu).
+ */
+import Base from '../../../layouts/Base.astro';
+import Icon from '../../../components/ui/Icon.astro';
+import { findChapter, loadChapterMarkdown, loadChapterMarkdownEnglish, discoverBundles } from '../../../lib/reader/source-extractor';
+import { parseBilingual } from '../../../lib/reader/bilingual-sections';
+import { getBinderEnglish, getChapterEnglish } from '../../../lib/reader/decisions';
+
+const { shelf, book } = Astro.params;
+if (!shelf || !book) return new Response('Missing params', { status: 400 });
+
+const chapter = await findChapter('kashkole', shelf, book);
+if (!chapter) return new Response(`Chapter not found: kashkole/${shelf}/${book}`, { status: 404 });
+
+const m = chapter.manifest;
+const binderId = m.shelf.id;
+const chapterId = m.book.id;
+
+const rawMd = await loadChapterMarkdown(chapter);
+
+const [bilingualParsed, binderEn, chapterEn] = await Promise.all([
+  parseBilingual(binderId, chapterId, rawMd),
+  getBinderEnglish(m.shelf.name),
+  getChapterEnglish(binderId, chapterId),
+]);
+
+const all = await discoverBundles();
+const shelfGroup = all
+  .find((s) => s.source === 'kashkole')
+  ?.shelves.find((sh) => sh.shelfSlug === shelf);
+const siblings = shelfGroup?.chapters ?? [];
+const idx = siblings.findIndex((c) => c.bookSlug === book);
+const prev = idx > 0 ? siblings[idx - 1] : null;
+const next = idx >= 0 && idx < siblings.length - 1 ? siblings[idx + 1] : null;
+const prevEn = prev ? await getChapterEnglish(prev.manifest.shelf.id, prev.manifest.book.id) : null;
+const nextEn = next ? await getChapterEnglish(next.manifest.shelf.id, next.manifest.book.id) : null;
+
+const pageTitle = `${chapterEn?.en_title ?? m.book.name} · ${binderEn ?? m.shelf.name} · Kashkole`;
+---
+<Base title={pageTitle} active="kashkole" description={`Kashkole chapter: ${m.book.name}`}>
+  <header class="kb-header">
+    <div class="kb-header-inner">
+      <nav class="kb-breadcrumb">
+        <a href="/library">Library</a>
+        <Icon name="chevron-right" size={11} />
+        <a href="/kashkole">Kashkole</a>
+        <Icon name="chevron-right" size={11} />
+        <span class="kb-breadcrumb-shelf">{binderEn ?? m.shelf.name}</span>
+      </nav>
+
+      <div class="kb-title-row">
+        <div>
+          {chapterEn?.en_title && (
+            <h1 class="kb-title-en">{chapterEn.en_title}</h1>
+          )}
+          <div class="kb-title-ur" lang="ur">{m.book.name}</div>
+          <div class="kb-meta-row">
+            <span class="kb-meta-badge">{m.shelf.prefix} · Chapter {m.book.id}</span>
+            <span class="kb-meta-badge">{m.manifest?.counts?.sections ?? bilingualParsed.sections.length} topics</span>
+            <span class="kb-meta-badge kb-meta-stage">{m.stage}</span>
+          </div>
+        </div>
+
+        <div class="kb-view-toggle">
+          <button id="btn-both" class="kb-toggle-btn is-active" data-mode="both">Both</button>
+          <button id="btn-en" class="kb-toggle-btn" data-mode="english-only">English</button>
+          <button id="btn-ur" class="kb-toggle-btn" data-mode="urdu-only">Urdu</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="bilingual-grid" id="bilingual-grid" data-mode="both">
+    <!-- Column headers -->
+    <div class="panel-col-head en-col-head">English</div>
+    <div class="panel-col-head ur-col-head">اردو</div>
+
+    {bilingualParsed.sections.map((sec) => (
+      <div class="topic-row" data-topic-id={sec.topicId}>
+        <!-- English panel -->
+        <div class="topic-en">
+          <div class="topic-label-en">
+            {sec.englishTitle ? (
+              <>
+                <span class="topic-label-text">{sec.englishTitle}</span>
+                {sec.englishConfidence && (
+                  <span class="topic-conf">
+                    {sec.englishConfidence === 'high' ? '★★★' : sec.englishConfidence === 'medium' ? '★★' : '★'}
+                  </span>
+                )}
+              </>
+            ) : (
+              <span class="topic-label-pending">English title pending</span>
+            )}
+          </div>
+          <div class="se-prose" set:html={sec.bodyHtml} />
+        </div>
+
+        <!-- Urdu panel -->
+        <div class="topic-ur">
+          <div class="topic-label-ur" lang="ur">{sec.urduLabel}</div>
+          <div class="se-prose ur-prose" set:html={sec.bodyHtml} />
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <!-- Prev / next navigation -->
+  <nav class="chapter-nav" style="max-width: 900px; margin: 0 auto; padding: 0 32px 40px;">
+    {prev ? (
+      <a href={`/kashkole/${shelf}/${prev.bookSlug}`} class="chapter-nav-link is-prev">
+        <span class="chapter-nav-label">← Previous</span>
+        <span class="chapter-nav-title">{prevEn?.en_title ?? prev.manifest.book.name}</span>
+      </a>
+    ) : (<span class="chapter-nav-link is-disabled" />)}
+    {next ? (
+      <a href={`/kashkole/${shelf}/${next.bookSlug}`} class="chapter-nav-link is-next">
+        <span class="chapter-nav-label">Next →</span>
+        <span class="chapter-nav-title">{nextEn?.en_title ?? next.manifest.book.name}</span>
+      </a>
+    ) : (<span class="chapter-nav-link is-disabled" />)}
+  </nav>
+</Base>
+
+<script>
+  const grid = document.getElementById('bilingual-grid')!;
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.kb-toggle-btn');
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const mode = btn.dataset.mode ?? 'both';
+      grid.setAttribute('data-mode', mode);
+      buttons.forEach((b) => b.classList.toggle('is-active', b === btn));
+    });
+  });
+</script>
+
+<style>
+  .kb-header {
+    border-bottom: 1px solid var(--c-rule);
+    background: var(--c-bg-card);
+  }
+  .kb-header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 32px;
+  }
+  .kb-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-ui);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--c-ink-muted);
+  }
+  .kb-breadcrumb a { color: inherit; text-decoration: none; }
+  .kb-breadcrumb a:hover { text-decoration: underline; }
+  .kb-breadcrumb-shelf { color: var(--c-gold); }
+
+  .kb-title-row {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .kb-title-en {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 2.2rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--c-ink);
+    margin: 0;
+  }
+  .kb-title-ur {
+    margin-top: 6px;
+    font-family: var(--font-urdu, serif);
+    font-size: 1.5rem;
+    direction: rtl;
+    color: var(--c-ink-dim);
+  }
+  .kb-meta-row {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .kb-meta-badge {
+    font-family: var(--font-ui);
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    border: 1px solid var(--c-rule);
+    border-radius: 4px;
+    padding: 2px 8px;
+    color: var(--c-ink-dim);
+    background: var(--c-bg);
+  }
+  .kb-meta-stage { color: var(--c-ink-muted); }
+
+  .kb-view-toggle {
+    display: flex;
+    border: 1px solid var(--c-rule);
+    border-radius: 6px;
+    overflow: hidden;
+    flex-shrink: 0;
+    align-self: flex-start;
+  }
+  .kb-toggle-btn {
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 6px 14px;
+    border: none;
+    background: transparent;
+    color: var(--c-ink-muted);
+    cursor: pointer;
+    border-right: 1px solid var(--c-rule);
+    transition: background 0.1s;
+  }
+  .kb-toggle-btn:last-child { border-right: none; }
+  .kb-toggle-btn:hover { background: var(--c-bg-sunken); }
+  .kb-toggle-btn.is-active { background: var(--c-bg-sunken); color: var(--c-ink); }
+
+  /* ── Bilingual grid ──────────────────────────────────────────── */
+  .bilingual-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .bilingual-grid[data-mode="english-only"] { grid-template-columns: 1fr 0fr; }
+  .bilingual-grid[data-mode="english-only"] .ur-col-head,
+  .bilingual-grid[data-mode="english-only"] .topic-ur { display: none; }
+  .bilingual-grid[data-mode="urdu-only"] { grid-template-columns: 0fr 1fr; }
+  .bilingual-grid[data-mode="urdu-only"] .en-col-head,
+  .bilingual-grid[data-mode="urdu-only"] .topic-en { display: none; }
+
+  .panel-col-head {
+    font-family: var(--font-ui);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--c-ink-muted);
+    padding: 10px 32px;
+    border-bottom: 1px solid var(--c-rule);
+    background: var(--c-bg-sunken);
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+  .en-col-head { border-right: 1px solid var(--c-rule); }
+  .ur-col-head { text-align: right; direction: rtl; }
+
+  .topic-row { display: contents; }
+
+  .topic-en {
+    padding: 24px 32px;
+    border-top: 1px solid var(--c-rule);
+    border-right: 1px solid var(--c-rule);
+  }
+  .topic-ur {
+    padding: 24px 32px;
+    border-top: 1px solid var(--c-rule);
+    background: var(--c-bg-sunken);
+    direction: rtl;
+  }
+
+  .topic-label-en {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 14px;
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--c-ink);
+  }
+  .topic-label-text { }
+  .topic-label-pending {
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-style: italic;
+    color: var(--c-ink-muted);
+  }
+  .topic-conf {
+    font-size: 11px;
+    color: var(--c-gold);
+  }
+  .topic-label-ur {
+    margin-bottom: 14px;
+    font-family: var(--font-urdu, serif);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--c-ink);
+  }
+
+  .se-prose {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.75;
+    color: var(--c-ink-dim);
+  }
+  .ur-prose {
+    font-family: var(--font-urdu, serif);
+    font-size: 1.25rem;
+    line-height: 2;
+  }
+  .se-prose :global(.ar) {
+    font-family: var(--font-arabic-naskh, serif);
+    direction: rtl;
+    unicode-bidi: embed;
+    font-size: 1.05em;
+    font-weight: 500;
+  }
+  .se-prose :global(.ar-quote) {
+    font-family: var(--font-arabic-naskh, serif);
+    direction: rtl;
+    display: block;
+    padding: 0.5em 0;
+    font-size: 1.15em;
+    font-weight: 500;
+  }
+</style>

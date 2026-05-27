@@ -94,12 +94,15 @@ function fileViewHref(relPath: string): string {
       <p class="card-sub">No episodes yet.</p>
     ) : (
       <div class="lib-file-list">
-        {episodes.map((f) => (
-          <a class="lib-file-row" href={fileViewHref(f.relPath)} target="_blank">
-            <span class="lib-file-name">{f.name}</span>
-            <span class="lib-file-meta">{formatBytes(f.bytes)} · {formatModified(f.modified)}</span>
-          </a>
-        ))}
+        {episodes.map((f) => {
+          const epSlug = f.name.replace(/\.(txt|md)$/i, '');
+          return (
+            <a class="lib-file-row" href={`/library/${slugStr}/episode/${epSlug}`}>
+              <span class="lib-file-name">{f.name}</span>
+              <span class="lib-file-meta">{formatBytes(f.bytes)} · {formatModified(f.modified)}</span>
+            </a>
+          );
+        })}
       </div>
     )}
   </section>

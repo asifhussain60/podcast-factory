@@ -1,0 +1,124 @@
+---
+import type { ChapterContract } from '../../lib/reader/contract-parser';
+import type { RenderedContract } from '../../lib/reader/contract-render';
+
+interface Props {
+  contract: ChapterContract;
+  rendered: RenderedContract;
+}
+
+const { contract, rendered } = Astro.props;
+
+const metaChips = [
+  contract.angle && { label: 'Angle', value: contract.angle },
+  contract.episodeFormat && { label: 'Format', value: contract.episodeFormat },
+  contract.hostDynamic && { label: 'Hosts', value: contract.hostDynamic },
+  contract.lengthTarget && { label: 'Length', value: contract.lengthTarget },
+  contract.adaptationMode && { label: 'Adaptation', value: contract.adaptationMode },
+  contract.sourceChapterRef && { label: 'Source ch.', value: String(contract.sourceChapterRef) },
+].filter(Boolean) as Array<{ label: string; value: string }>;
+---
+
+<article class="reading-column reading-column--medium">
+  <header class="episode-header">
+    {contract.episodeNumber !== null && (
+      <div class="episode-eyebrow">
+        Episode {String(contract.episodeNumber).padStart(2, '0')}
+      </div>
+    )}
+    <h1 class="episode-title">
+      {contract.title}
+    </h1>
+    {metaChips.length > 0 && (
+      <div class="episode-meta-chips">
+        {metaChips.map((m) => (
+          <span class="episode-meta-chip">
+            <span class="episode-meta-chip-label">{m.label}</span>
+            <span class="episode-meta-chip-value">{m.value}</span>
+          </span>
+        ))}
+      </div>
+    )}
+  </header>
+
+  {rendered.audience && (
+    <section class="contract-section">
+      <h2 class="contract-section-heading">
+        <span class="contract-section-rule"></span>
+        Audience &amp; framing
+      </h2>
+      <div class="prose-body" set:html={rendered.audience.html} />
+    </section>
+  )}
+
+  {rendered.keyTensions.length > 0 && (
+    <section class="contract-section">
+      <h2 class="contract-section-heading">
+        <span class="contract-section-rule"></span>
+        Key tensions ({rendered.keyTensions.length})
+      </h2>
+      <ol class="contract-numbered-list">
+        {rendered.keyTensions.map((t, i) => (
+          <li class="contract-numbered-item">
+            <span class="contract-item-num">{i + 1}</span>
+            <div class="prose-body" set:html={t.html} />
+          </li>
+        ))}
+      </ol>
+    </section>
+  )}
+
+  {rendered.toneConstraints.length > 0 && (
+    <section class="contract-section">
+      <h2 class="contract-section-heading">
+        <span class="contract-section-rule"></span>
+        Tone constraints
+      </h2>
+      <ul class="contract-bullet-list">
+        {rendered.toneConstraints.map((t) => (
+          <li class="contract-bullet-item">
+            <div class="prose-body" set:html={t.html} />
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {rendered.anchorPassages.length > 0 && (
+    <section class="contract-section">
+      <h2 class="contract-section-heading">
+        <span class="contract-section-rule"></span>
+        Anchor passages ({rendered.anchorPassages.length})
+      </h2>
+      <ul class="contract-quote-list">
+        {rendered.anchorPassages.map((p) => (
+          <li class="contract-quote">
+            <div class="prose-body" style="font-style: italic;" set:html={p.rendered.html} />
+            {p.cite && (
+              <div class="contract-quote-cite">— {p.cite}</div>
+            )}
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {(rendered.showNotesBlurb || rendered.showNotesBullets.length > 0) && (
+    <section class="contract-section">
+      <h2 class="contract-section-heading">
+        <span class="contract-section-rule"></span>
+        Show notes
+      </h2>
+      {rendered.showNotesBlurb && (
+        <div class="prose-body" set:html={rendered.showNotesBlurb.html} />
+      )}
+      {rendered.showNotesBullets.length > 0 && (
+        <ul class="contract-show-notes-bullets">
+          {rendered.showNotesBullets.map((b) => (
+            <li><div class="prose-body" style="display: inline;" set:html={b.html} /></li>
+          ))}
+        </ul>
+      )}
+    </section>
+  )}
+</article>

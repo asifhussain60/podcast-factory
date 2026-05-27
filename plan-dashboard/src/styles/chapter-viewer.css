@@ -1495,3 +1495,167 @@ body[data-arabic="on"] .ref-quran .ar-overlay .ar-script { display: none; }
   text-align: left;
 }
 .popup-card-body { padding: 12px; }
+
+/* ── Episode / Contract viewer ──────────────────────────────────── */
+.episode-header {
+  margin-bottom: 40px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--color-rule-default);
+}
+.episode-eyebrow {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--color-plan);
+}
+.episode-title {
+  margin: 8px 0 0;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 2.4em;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--color-ink-primary);
+}
+.episode-meta-chips {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.episode-meta-chip {
+  font-family: var(--font-ui);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--color-rule-default);
+  background: var(--color-surface-raised);
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-size: 11px;
+  color: var(--color-ink-secondary);
+}
+.episode-meta-chip-label { color: var(--color-ink-tertiary); }
+.episode-meta-chip-value { font-weight: 600; }
+
+.contract-section { margin-bottom: 48px; }
+.contract-section-heading {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--color-ink-tertiary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.contract-section-rule {
+  display: inline-block;
+  height: 1px;
+  width: 24px;
+  background: var(--color-rule-default);
+  flex-shrink: 0;
+}
+
+.contract-numbered-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.contract-numbered-item {
+  position: relative;
+  padding-left: 44px;
+}
+.contract-item-num {
+  position: absolute;
+  left: 0;
+  top: 2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--color-ink-primary);
+  color: var(--color-surface-base);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.contract-bullet-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.contract-bullet-item {
+  border-left: 2px solid var(--color-rule-default);
+  padding-left: 20px;
+  color: var(--color-ink-secondary);
+}
+
+.contract-quote-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.contract-quote {
+  border-left: 3px solid var(--color-ink-tertiary);
+  background: var(--color-surface-sunken);
+  padding: 16px 12px 16px 20px;
+  border-radius: 0 6px 6px 0;
+}
+.contract-quote-cite {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-ink-tertiary);
+  margin-top: 12px;
+}
+
+.contract-show-notes-bullets {
+  list-style: disc;
+  padding-left: 24px;
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Episode-viewer TXT mode (renders plain framing text like a chapter) */
+.episode-txt-header {
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--color-rule-default);
+}
+.episode-txt-eyebrow {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--color-plan);
+}
+.episode-txt-title {
+  margin: 8px 0 0;
+  font-size: var(--fs-h2, 32px);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--color-ink-primary);
+}
+
