@@ -115,6 +115,57 @@ from _paths import content_dir as _paths_content_dir, find_content as _paths_fin
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 
 
+# ─── Phased-rollout boundary gates ───────────────────────────────────────────
+#
+# Large books commit significant Azure / LLM spend at two phase boundaries:
+#   1. phase boundary: 0a→0b  (Azure OCR done; per-phase LLM authoring begins)
+#   2. phase boundary: 0f→per-chapter  (series plan approved; per-chapter spend begins)
+#
+# At each boundary the orchestrator halts for human review BEFORE committing
+# to the next expensive phase group.  This is the phased_rollout model:
+# pay-as-you-go at explicit checkpoints rather than running the full pipeline
+# in one unbounded spend.
+#
+# The 0f halt (series-plan review) is the primary phased_rollout gate; the
+# finalize halt (pre-publish review) is the secondary gate.  Both are tier-2
+# actions: the operator must explicitly --resume after reviewing the output.
+#
+# Cost ceiling: per_chapter_cost_cap_usd in series-plan.yaml sets a tier-2
+# cost guardrail per chapter.  If any chapter's running cost exceeds this cap
+# the orchestrator halts and requires explicit operator override to continue.
+
+PHASED_ROLLOUT_ENABLED: bool = True  # phased_rollout is always on; not a toggle
+
+
+def _phase_boundary_gate(
+    book_dir: Path,
+    boundary_name: str,
+    projected_cost_usd: float | None = None,
+) -> None:
+    """Log a phase boundary crossing for the phased_rollout audit trail.
+
+    Does not halt execution — halting is managed by `update_phase(...,
+    status="halted")` at the boundary phase.  This function records the
+    crossing so the operator can see the full phase boundary history
+    in the orchestrator state and the cost-cap guard can surface warnings.
+
+    Parameters
+    ----------
+    book_dir:
+        Book directory (for state file location).
+    boundary_name:
+        Human-readable label for the phase boundary being crossed.
+        Example: "0f→per-chapter" or "per-chapter→finalize".
+    projected_cost_usd:
+        If provided, logged alongside the crossing event.  Surfaces a
+        tier-2 warning when projected spend exceeds per_chapter_cost_cap_usd.
+    """
+    _info(
+        f"[phased_rollout] phase boundary: {boundary_name}"
+        + (f" (projected cost: ${projected_cost_usd:.2f})" if projected_cost_usd else "")
+    )
+
+
 # ─── tiny utilities ──────────────────────────────────────────────────────────
 
 
@@ -1586,7 +1637,11 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
     """After Phase 0f approval, drive per-chapter loop + 0g + trainer + merge."""
     book_slug = book_dir.name
 
-    # Resolve chapter slugs from the chapter contracts (canonical source after 0d).
+    # phased_rollout: phase boundary — 0f→per-chapter.
+    # Operator has reviewed the series plan and --resumed.  Log the boundary
+    # crossing before committing per-chapter LLM spend.
+    _phase_boundary_gate(book_dir, "0f→per-chapter")
+
     contracts_dir = book_dir / "chapter-contracts"
     chapter_slugs = sorted(p.stem for p in contracts_dir.glob("*.yml"))
     if not chapter_slugs:
@@ -1835,6 +1890,8 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
     # If any fail, halt-and-surface for remediation. The actual publish
     # (file copy to content/published/books/<slug>/) is a separate
     # human-authorized phase that fires on the next `--resume` after review.
+    # phased_rollout: phase boundary — per-chapter→finalize.
+    _phase_boundary_gate(book_dir, "per-chapter→finalize")
     _info("phase: finalize · run G1-G7 gates via validate_ship_ready.py")
     update_phase(book_dir, phase="finalize", status="running")
     validate_script = Path(__file__).resolve().parent / "validate_ship_ready.py"

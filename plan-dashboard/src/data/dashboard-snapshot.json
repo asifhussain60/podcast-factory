@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-05-27T15:00:39.738Z",
-  "source_commit": "dcdfef8",
+  "generated_at": "2026-05-27T20:57:38.111Z",
+  "source_commit": "23742cf",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
       "id": "A1",
       "wave": "A",
-      "title": "Tidy the planning folder and lay down the new structure",
+      "title": "Clean the legacy plan folder and stand up the nested structure",
       "status": "complete",
       "tier": "T1",
       "depends_on": [],
@@ -19,8 +19,8 @@
     {
       "id": "A2",
       "wave": "A",
-      "title": "Build the foundation layer the rest of the system sits on",
-      "status": "ready",
+      "title": "Build the Core layer — _paths, _db, _archetypes, _anti_cliche",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "A1"
@@ -34,8 +34,8 @@
     {
       "id": "A3",
       "wave": "A",
-      "title": "Build the house-style layer above the foundation",
-      "status": "pending",
+      "title": "Build the Domain layer — _doctrinal + tradition_adjacency.yml, _context_injection",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "A2"
@@ -49,11 +49,11 @@
     {
       "id": "A4",
       "wave": "A",
-      "title": "Break the driver and authoring files into smaller pieces",
-      "status": "pending",
+      "title": "Modularize orchestrate_book.py and _authoring.py",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
-        "A3"
+        "A2"
       ],
       "plain": "The pipeline's main script has grown to over 2 000 lines — too large to read or change safely. This step splits it into smaller specialist files, one per production station, each under the 600-line limit. Changes to one station no longer risk breaking another. Acceptance signal: any book currently in progress can resume from exactly where it stopped, with no manual fix required.",
       "tools": [
@@ -63,11 +63,11 @@
     {
       "id": "A5",
       "wave": "A",
-      "title": "Remove any leftover version stamps and stop new ones at commit time",
-      "status": "pending",
+      "title": "Strip version stamps + add the pre-commit guard",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
-        "A4"
+        "A1"
       ],
       "plain": "Removes old 'Version: 2.3' style headers from source files and installs a guard that permanently rejects any future commit trying to add them. The guard catches both patterns: version labels inside file headers and version numbers embedded in filenames (e.g. spec-v3.md). An exclusion list handles any third-party files that legitimately carry version fields. The git log is the version record — we don't need numbers inside files or filenames.",
       "tools": [
@@ -79,7 +79,7 @@
       "id": "A6",
       "wave": "A",
       "title": "Consolidate the agent sprawl — one canonical spec per agent, one installation path",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "A1"
@@ -91,7 +91,7 @@
       "id": "A7",
       "wave": "A",
       "title": "Decouple all batch pipeline processing from the interactive Claude plan — dedicated API key with spend cap",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "A1"
@@ -103,7 +103,7 @@
       "id": "B0",
       "wave": "B",
       "title": "Build the Kashkole corpus ingestion driver — independent chapter refinement",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "A2"
@@ -117,8 +117,8 @@
     {
       "id": "B1",
       "wave": "B",
-      "title": "Build the part that reads books and extracts the structured material",
-      "status": "pending",
+      "title": "Build the Extractor",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "A5"
@@ -133,8 +133,8 @@
     {
       "id": "B2",
       "wave": "B",
-      "title": "Build the part that remembers things across books",
-      "status": "pending",
+      "title": "Build the Librarian",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "B1"
@@ -148,11 +148,12 @@
     {
       "id": "B3",
       "wave": "B",
-      "title": "Build the part that brings in carefully-sourced outside knowledge",
-      "status": "pending",
+      "title": "Build the Augmenter",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
-        "B2"
+        "B2",
+        "A3"
       ],
       "plain": "The augmenter: queries the knowledge library during enrichment of a new chapter and injects verified citations — so every book inherits how previous books cited the same Quran verse or hadith, keeping style consistent across the catalog. Two safety rails: it stays disabled until a quality gate confirms the library is clean enough to trust, and it strips Arabic script from all injected atoms before they reach NotebookLM (which can't process Arabic text).",
       "tools": [
@@ -163,11 +164,12 @@
     {
       "id": "B4",
       "wave": "B",
-      "title": "Wire the three new pieces into the pipeline in the right order",
-      "status": "pending",
+      "title": "Wire 08a/08b/08c into PHASE_ORDER + state.json schema",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
-        "B3"
+        "B3",
+        "A4"
       ],
       "plain": "Wires extract → library → augment into the pipeline's enrichment phase so all three run in the correct sequence for every new book. Also connects the quality gate that controls when the augmenter is permitted to fire — it stays off until the library holds atoms from at least one complete book and the librarian reports zero unresolved conflicts.",
       "tools": [
@@ -178,11 +180,11 @@
     {
       "id": "C1",
       "wave": "C",
-      "title": "Add three more book-kinds the factory knows how to handle",
-      "status": "pending",
+      "title": "Land archetype specs for PLAY-NOVEL, LECTURE-SERIES, ENCYCLOPEDIC-EPISTOLARY",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
-        "B4"
+        "A2"
       ],
       "plain": "Teaches the factory three new book types it currently can't process: play-style dialogues (like The Master and the Disciple), lecture series, and large encyclopedic works. Each type gets its own voice, structure rules, and episode format.",
       "tools": [
@@ -193,11 +195,11 @@
     {
       "id": "C2",
       "wave": "C",
-      "title": "Build the multi-layer capstone — the closing chapter writer",
-      "status": "pending",
+      "title": "Build the multi-tier capstone authoring module",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
-        "C1"
+        "A4"
       ],
       "plain": "Builds a closing-chapter writer that produces a summary episode for any book, and for large encyclopedic works, a second deeper-distillation episode that draws only on the highest-insight moments — keeping chapter-level details out of the synthesis.",
       "tools": [
@@ -208,11 +210,12 @@
     {
       "id": "C3",
       "wave": "C",
-      "title": "Switch on the outside-knowledge gatherer for forward books",
-      "status": "pending",
+      "title": "Build the 08b modern-research augmentation phase",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
-        "C2"
+        "A4",
+        "B4"
       ],
       "plain": "For books that benefit from it, adds an optional step that surfaces contemporary research, recent scientific findings, and modern scholarly debates that connect to the book's ideas — and verifies every external link is real before it's used.",
       "tools": [
@@ -224,10 +227,11 @@
     {
       "id": "C4",
       "wave": "C",
-      "title": "Add the visual-deck classifier and the human-review markers",
-      "status": "pending",
+      "title": "MANUAL-REVIEW markers + canonical-form pre-filter + rich-diagram classifier",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
+        "A2",
         "C4.0"
       ],
       "plain": "Adds slide-deck quality checks to the publish gate: classifies every diagram as a real diagram or a disguised bullet-list, and flags any content that a human must verify before it can ship. Nothing marked for review slips through automatically.",
@@ -239,11 +243,11 @@
     {
       "id": "C4.0",
       "wave": "C",
-      "title": "Pilot the visual-deck capability before the wider rollout",
-      "status": "pending",
+      "title": "NotebookLM diagram-capability pilot (PRE-C4 gate; per oq7 resolution)",
+      "status": "complete",
       "tier": "T2",
       "depends_on": [
-        "C3"
+        "C1"
       ],
       "plain": "Runs a small 2–3 chapter pilot through NotebookLM's slide-generation feature on one real book to see whether the output is consistent enough to enforce as a quality requirement. Costs roughly $30 and answers the question before committing to the full rollout.",
       "tools": [
@@ -254,11 +258,11 @@
     {
       "id": "C5",
       "wave": "C",
-      "title": "Plan the rollout to the larger books with cost guardrails",
-      "status": "pending",
+      "title": "Phased rollout + Tier-2 cost gates for large-scale books",
+      "status": "complete",
       "tier": "T2",
       "depends_on": [
-        "C4"
+        "C1"
       ],
       "plain": "For books with fifty or more planned episodes, introduces a staged-approval model — you review and sign off on one section before the next section starts processing. Prevents a compounding cost mistake from running silently across the entire work.",
       "tools": [
@@ -269,10 +273,12 @@
     {
       "id": "D1",
       "wave": "D",
-      "title": "Set up the design tokens and the dashboard app shell",
-      "status": "in_progress",
+      "title": "Standardise the existing dashboard design tokens so the podcast reader shares the same visual style",
+      "status": "complete",
       "tier": "T1",
-      "depends_on": [],
+      "depends_on": [
+        "A1"
+      ],
       "plain": "Sets up the shared design tokens — colours, font sizes, spacing — and the dashboard app shell that all four views (overview, architecture, infrastructure, live progress) hang off. One place to change a colour and it updates everywhere.",
       "tools": [
         "Astro",
@@ -283,8 +289,8 @@
     {
       "id": "D2",
       "wave": "D",
-      "title": "Build the front page that ties the three views together",
-      "status": "in_progress",
+      "title": "Verify and patch the navigation so every planned section is reachable",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "D1"
@@ -298,8 +304,8 @@
     {
       "id": "D3",
       "wave": "D",
-      "title": "Build the architecture and infrastructure visualizations",
-      "status": "in_progress",
+      "title": "Add an interactive factory-floor view showing each processing stage and book type",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "D2"
@@ -313,11 +319,11 @@
     {
       "id": "D4",
       "wave": "D",
-      "title": "Build the live execution dashboard with streaming updates",
-      "status": "ready",
+      "title": "Complete the live progress section so it shows books in flight, costs, and roadmap status",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
-        "D3"
+        "D2"
       ],
       "plain": "Connects the dashboard to live data: real book-processing progress, cost tracking, refactor step status, and health metrics. The roadmap tab you're reading right now is part of this step.",
       "tools": [
@@ -329,8 +335,8 @@
     {
       "id": "D5",
       "wave": "D",
-      "title": "Add paragraph-level annotation and research toolbar to the Bookshelf reader",
-      "status": "pending",
+      "title": "Replace floating annotation UI with a right-hand annotation workspace and durable AI handoff",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "D2"
@@ -342,7 +348,7 @@
       "id": "D6",
       "wave": "D",
       "title": "Teach planner + site-sync to auto-detect annotation architecture gaps and generate missing views",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "D5"
@@ -353,11 +359,12 @@
     {
       "id": "E1",
       "wave": "E",
-      "title": "Bring every shipped book onto the unified metadata schema",
-      "status": "pending",
+      "title": "Migrate every meta.yml to the unified schema",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
-        "B4"
+        "C1",
+        "C2"
       ],
       "plain": "Updates every previously-shipped book's configuration file to match the new unified format so they all behave consistently and can use the new quality-gate features — without re-processing any existing episodes.",
       "tools": [
@@ -368,11 +375,12 @@
     {
       "id": "E2",
       "wave": "E",
-      "title": "Ship the Kitab al-Riyad addendum episode",
-      "status": "pending",
+      "title": "KaR — tier-2 distillation addendum (no re-run)",
+      "status": "complete",
       "tier": "T2",
       "depends_on": [
-        "E1"
+        "E1",
+        "C2"
       ],
       "plain": "Creates a new closing episode for Kitab al-Riyad — a distillation of the deepest insights across all fourteen chapters — without re-running or altering any of the fourteen existing episodes already in the catalog.",
       "tools": [
@@ -384,11 +392,12 @@
     {
       "id": "E3",
       "wave": "E",
-      "title": "Ship the Master and the Disciple preface and addendum",
-      "status": "pending",
+      "title": "M&D — EP00 preface addendum + vacuum + postprod-review (no re-run)",
+      "status": "complete",
       "tier": "T2",
       "depends_on": [
-        "E1"
+        "E1",
+        "C1"
       ],
       "plain": "Creates a missing EP00 introduction episode for The Master and the Disciple and runs the new play-novel quality checks across its six existing episodes to confirm they still meet current standards.",
       "tools": [
@@ -400,17 +409,33 @@
     {
       "id": "E4",
       "wave": "E",
-      "title": "Extend the ship checklist with the new readiness gates",
-      "status": "pending",
+      "title": "Extend publish gate with G8-G12 + activate G12 acceptance",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
-        "E2",
-        "E3"
+        "B3",
+        "C2",
+        "C4",
+        "E1"
       ],
       "plain": "Adds five new automatic checks to the publish gate: confirms the closing-chapter style matches the book type, verifies all diagrams meet quality standards, and ensures every human-review flag has been cleared before a book can ship.",
       "tools": [
         "Python"
       ]
+    },
+    {
+      "id": "E5",
+      "wave": "E",
+      "title": "Automate planner UI resilience + launcher lifecycle quality gates",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "D4",
+        "D6",
+        "E4"
+      ],
+      "plain": "",
+      "tools": []
     }
   ],
   "waves": [
@@ -480,53 +505,53 @@
   ],
   "recent_commits": [
     {
-      "sha": "dcdfef8",
-      "subject": "feat: improve annotation action access and saved paragraph states",
+      "sha": "23742cf",
+      "subject": "feat(wave-6): define Wave 6 Archetype Completion — P6.1/P6.2/P6.3",
       "date": "2026-05-27"
     },
     {
-      "sha": "c7555ba",
-      "subject": "feat: redesign annotation workflow with persistent queue and finalize reset",
+      "sha": "de8d421",
+      "subject": "fix(p-9): implement 5 missing challenger detectors; all 15 fixtures green",
       "date": "2026-05-27"
     },
     {
-      "sha": "45c9cea",
-      "subject": "chore: sync plan.astro step count to 27 (podcast-site-sync pass)",
+      "sha": "6b59b7f",
+      "subject": "merge wave-4 deliverables into wave-5 branch",
       "date": "2026-05-27"
     },
     {
-      "sha": "3e76ae3",
-      "subject": "feat(D5): paragraph annotation bar — hover toolbar, tag CRUD, Gemini research",
+      "sha": "3dd287b",
+      "subject": "wave-5: fix pre-flight import path",
       "date": "2026-05-27"
     },
     {
-      "sha": "129af21",
-      "subject": "chore(A6): consolidate agents — canonical specs in infra/, stubs in .github/agents/",
+      "sha": "3529c43",
+      "subject": "wave-5: fix W5 pre-flight guard — allow full-loop run when phases are wired",
       "date": "2026-05-27"
     },
     {
-      "sha": "777ac83",
-      "subject": "chore: remove legacy podcast-reader app and empty root src/",
+      "sha": "a58b328",
+      "subject": "wave-5: G8-G12 gates, migration script, promotion lane, phase runners",
       "date": "2026-05-27"
     },
     {
-      "sha": "e08cffd",
-      "subject": "chore: regenerate plan-dashboard snapshot JSONs",
+      "sha": "892b6c7",
+      "subject": "wave-4: DONE (4/4 green) — design tokens, backbone viz, annotation lane, multi-mac decision",
       "date": "2026-05-27"
     },
     {
-      "sha": "c9ed9de",
-      "subject": "feat(plan-dashboard): port podcast-reader capabilities — episode viewer, ContractView, kashkole pages",
+      "sha": "b74b77f",
+      "subject": "merge: bring wave-3 infrastructure forward (convergence loop, W3 runners, W4 scaffolding)",
       "date": "2026-05-27"
     },
     {
-      "sha": "a305554",
-      "subject": "feat(dashboard): Ace theme — SVG font fix, soften stat strip, landing redesign, eliminate inline styles",
+      "sha": "c54ba4d",
+      "subject": "wave-4: add SPA+dashboard phase runners (pw4_1/2/3), multi-mac decision doc, P11.1 acceptance row",
       "date": "2026-05-27"
     },
     {
-      "sha": "446bbde",
-      "subject": "refactor(dashboard): red-green convergence pass — remove dead CSS + inline styles",
+      "sha": "4841e66",
+      "subject": "feat(wave-3): implement P3.1-P3.5 deliverables; W3 DONE (5/5 green)",
       "date": "2026-05-27"
     }
   ],
@@ -578,5 +603,29 @@
     },
     "convergence_passes_avg": 2.3,
     "ship_first_try_pct": 67
-  }
+  },
+  "loop_execution_state": {
+    "current_wave": "chat-only mode",
+    "current_status": "disabled",
+    "intent_check_result": "pass",
+    "alignment_steps_taken": [
+      "Planner telemetry disconnected; wave execution now runs from VS Code chat only."
+    ],
+    "iteration_count": 0,
+    "pattern_tally": {
+      "applied_this_run": 0,
+      "discovered_this_run": 0,
+      "promoted_this_run": 0
+    },
+    "optimization_tally": {
+      "roi_improvements_applied": 0,
+      "token_cost_optimizations_applied": 0,
+      "estimated_savings": {
+        "time_minutes": 0,
+        "token_percent": 0,
+        "usd": 0
+      }
+    }
+  },
+  "wave_execution_events": []
 }
