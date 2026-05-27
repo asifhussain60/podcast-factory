@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-27T09:24:10.010Z",
-  "source_commit": "e8993bb",
+  "generated_at": "2026-05-27T09:39:50.960Z",
+  "source_commit": "356be26",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -432,6 +432,16 @@
   ],
   "recent_commits": [
     {
+      "sha": "356be26",
+      "subject": "fix(intelligence): restore filter button functionality",
+      "date": "2026-05-27"
+    },
+    {
+      "sha": "4aa4e2d",
+      "subject": "chore: update kashkole session files and plan-dashboard snapshots",
+      "date": "2026-05-27"
+    },
+    {
       "sha": "e8993bb",
       "subject": "refactor(diagrams): convert all diagrams to vertical top-to-bottom flow",
       "date": "2026-05-27"
@@ -469,16 +479,6 @@
     {
       "sha": "694ad33",
       "subject": "feat(plan): absorb Kashkole implementation brief into Wave B specs",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "ab8d0f9",
-      "subject": "fix(plan): close Kashkole→pipeline flow gap in B2+B3 specs",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "8ff6d61",
-      "subject": "feat(wave-1): Kashkole independent refinement — B0 step + corpus_chapters state machine",
       "date": "2026-05-26"
     }
   ],
