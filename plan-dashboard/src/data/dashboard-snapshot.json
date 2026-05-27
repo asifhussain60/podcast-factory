@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-27T19:02:55.361Z",
-  "source_commit": "5491d9e",
+  "generated_at": "2026-05-27T19:47:53.395Z",
+  "source_commit": "e15626b",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -103,7 +103,7 @@
       "id": "B0",
       "wave": "B",
       "title": "Build the Kashkole corpus ingestion driver — independent chapter refinement",
-      "status": "in_progress",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "A2"
@@ -118,7 +118,7 @@
       "id": "B1",
       "wave": "B",
       "title": "Build the Extractor",
-      "status": "in_progress",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "A5"
@@ -134,7 +134,7 @@
       "id": "B2",
       "wave": "B",
       "title": "Build the Librarian",
-      "status": "in_progress",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "B1"
@@ -149,7 +149,7 @@
       "id": "B3",
       "wave": "B",
       "title": "Build the Augmenter",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "B2",
@@ -165,7 +165,7 @@
       "id": "B4",
       "wave": "B",
       "title": "Wire 08a/08b/08c into PHASE_ORDER + state.json schema",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "B3",
@@ -505,6 +505,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "e15626b",
+      "subject": "feat(planner): add loop protocol status panel and sync iteration ledger",
+      "date": "2026-05-27"
+    },
+    {
       "sha": "5491d9e",
       "subject": "Resolve Wave 2 alignment blockers and enforce clean-tree policy",
       "date": "2026-05-27"
@@ -547,11 +552,6 @@
     {
       "sha": "129af21",
       "subject": "chore(A6): consolidate agents — canonical specs in infra/, stubs in .github/agents/",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "8cf48d9",
-      "subject": "docs(kashkole): pipeline efficiency plan — decouple batch LLM from Max plan",
       "date": "2026-05-27"
     }
   ],
@@ -605,212 +605,27 @@
     "ship_first_try_pct": 67
   },
   "loop_execution_state": {
-    "current_wave": "Loop Execution Protocol Iteration 3",
-    "current_status": "completed",
+    "current_wave": "chat-only mode",
+    "current_status": "disabled",
     "intent_check_result": "pass",
     "alignment_steps_taken": [
-      "Prior-wave acceptance criteria verified as complete before execution; no mandatory remediation was required."
+      "Planner telemetry disconnected; wave execution now runs from VS Code chat only."
     ],
-    "iteration_count": 3,
+    "iteration_count": 0,
     "pattern_tally": {
-      "applied_this_run": 10,
-      "discovered_this_run": 1,
-      "promoted_this_run": 1
+      "applied_this_run": 0,
+      "discovered_this_run": 0,
+      "promoted_this_run": 0
+    },
+    "optimization_tally": {
+      "roi_improvements_applied": 0,
+      "token_cost_optimizations_applied": 0,
+      "estimated_savings": {
+        "time_minutes": 0,
+        "token_percent": 0,
+        "usd": 0
+      }
     }
   },
-  "wave_execution_events": [
-    {
-      "ts": "2026-05-27T19:40:00Z",
-      "wave": 0,
-      "wave_letter": "L",
-      "event_type": "wave_progress",
-      "status": "completed",
-      "message": "Loop protocol iteration 3 completed; recurring success pattern promoted to default behavior.",
-      "details": {
-        "iteration": 3,
-        "intent_check_result": "pass",
-        "promotions": [
-          "SP-001"
-        ]
-      }
-    },
-    {
-      "ts": "2026-05-27T18:46:06Z",
-      "wave": 3,
-      "wave_letter": "C",
-      "event_type": "wave_progress",
-      "status": "halted",
-      "message": "Wave halted at review gate.",
-      "details": {}
-    },
-    {
-      "ts": "2026-05-27T18:46:06Z",
-      "wave": 3,
-      "wave_letter": "C",
-      "event_type": "mandatory_alignment",
-      "status": "resolved",
-      "message": "All detected prior-wave gaps resolved; proceeding.",
-      "details": {}
-    },
-    {
-      "ts": "2026-05-27T18:46:05Z",
-      "wave": 2,
-      "wave_letter": "B",
-      "event_type": "mandatory_alignment",
-      "status": "resolved",
-      "message": "Prior-wave alignment resolved for W2.",
-      "details": {}
-    },
-    {
-      "ts": "2026-05-27T18:46:05Z",
-      "wave": 2,
-      "wave_letter": "B",
-      "event_type": "mandatory_alignment",
-      "status": "in_progress",
-      "message": "Resolving prior-wave gaps for W2.",
-      "details": {
-        "missing_task_ids": [
-          "P2.4"
-        ]
-      }
-    },
-    {
-      "ts": "2026-05-27T18:46:04Z",
-      "wave": 3,
-      "wave_letter": "C",
-      "event_type": "mandatory_alignment",
-      "status": "started",
-      "message": "Prior-wave gaps detected. Mandatory alignment started.",
-      "details": {
-        "gap_waves": [
-          2
-        ]
-      }
-    },
-    {
-      "ts": "2026-05-27T18:46:04Z",
-      "wave": 3,
-      "wave_letter": "C",
-      "event_type": "wave_start",
-      "status": "started",
-      "message": "Wave 3 started in autonomous mode.",
-      "details": {}
-    },
-    {
-      "ts": "2026-05-27T18:44:08Z",
-      "wave": 2,
-      "wave_letter": "B",
-      "event_type": "mandatory_alignment",
-      "status": "in_progress",
-      "message": "Resolving prior-wave gaps for W2.",
-      "details": {
-        "missing_task_ids": [
-          "P2.3",
-          "P2.4"
-        ]
-      }
-    },
-    {
-      "ts": "2026-05-27T18:44:07Z",
-      "wave": 3,
-      "wave_letter": "C",
-      "event_type": "mandatory_alignment",
-      "status": "started",
-      "message": "Prior-wave gaps detected. Mandatory alignment started.",
-      "details": {
-        "gap_waves": [
-          2
-        ]
-      }
-    },
-    {
-      "ts": "2026-05-27T18:44:07Z",
-      "wave": 3,
-      "wave_letter": "C",
-      "event_type": "wave_start",
-      "status": "started",
-      "message": "Wave 3 started in autonomous mode.",
-      "details": {}
-    },
-    {
-      "ts": "2026-05-27T18:36:14Z",
-      "wave": 2,
-      "wave_letter": "B",
-      "event_type": "mandatory_alignment",
-      "status": "blocked",
-      "message": "Prior-wave alignment blocked for W2; cannot proceed.",
-      "details": {
-        "remaining_task_ids": [
-          "P2.3",
-          "P2.4"
-        ],
-        "dispatcher_rc": 3
-      }
-    },
-    {
-      "ts": "2026-05-27T18:36:14Z",
-      "wave": 2,
-      "wave_letter": "B",
-      "event_type": "mandatory_alignment",
-      "status": "in_progress",
-      "message": "Resolving prior-wave gaps for W2.",
-      "details": {
-        "missing_task_ids": [
-          "P2.3",
-          "P2.4"
-        ]
-      }
-    },
-    {
-      "ts": "2026-05-27T18:36:13Z",
-      "wave": 3,
-      "wave_letter": "C",
-      "event_type": "mandatory_alignment",
-      "status": "started",
-      "message": "Prior-wave gaps detected. Mandatory alignment started.",
-      "details": {
-        "gap_waves": [
-          2
-        ]
-      }
-    },
-    {
-      "ts": "2026-05-27T18:36:13Z",
-      "wave": 3,
-      "wave_letter": "C",
-      "event_type": "wave_start",
-      "status": "started",
-      "message": "Wave 3 started in autonomous mode.",
-      "details": {}
-    },
-    {
-      "ts": "2026-05-27T18:33:33Z",
-      "wave": 2,
-      "wave_letter": "B",
-      "event_type": "mandatory_alignment",
-      "status": "blocked",
-      "message": "Prior-wave alignment blocked for W2; cannot proceed.",
-      "details": {
-        "remaining_task_ids": [
-          "P2.3",
-          "P2.4"
-        ],
-        "dispatcher_rc": 3
-      }
-    },
-    {
-      "ts": "2026-05-27T18:33:33Z",
-      "wave": 2,
-      "wave_letter": "B",
-      "event_type": "mandatory_alignment",
-      "status": "in_progress",
-      "message": "Resolving prior-wave gaps for W2.",
-      "details": {
-        "missing_task_ids": [
-          "P2.3",
-          "P2.4"
-        ]
-      }
-    }
-  ]
+  "wave_execution_events": []
 }

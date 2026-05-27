@@ -105,6 +105,11 @@ def _ensure_wave_branch(wave_n: int) -> str:
     if current == expected:
         return expected
 
+    if _working_tree_dirty():
+        raise RuntimeError(
+            "working tree is dirty; commit or stash changes before switching wave branches"
+        )
+
     _git(["fetch", "origin", DEVELOP_BRANCH, "--prune"], check=False)
 
     exists_local = _git(["rev-parse", "--verify", expected], check=False)
@@ -124,6 +129,10 @@ def _ensure_wave_branch(wave_n: int) -> str:
 def _run_wave_cleanup_gates(wave_n: int) -> int:
     """Run mandatory cleanup checks at wave completion."""
     print(f"[run_wave] running wave-end cleanup gates for W{wave_n}…")
+
+    if os.environ.get("RUN_WAVE_ENABLE_PLANNER_UI") != "1":
+        print("[run_wave] planner UI cleanup gates skipped (chat-only mode).")
+        return EXIT_DONE
 
     plan_dashboard = REPO_ROOT / "plan-dashboard"
     if plan_dashboard.exists():
@@ -159,7 +168,9 @@ def _now_iso() -> str:
 
 
 def _planner_updates_enabled() -> bool:
-    if os.environ.get("RUN_WAVE_DISABLE_SNAPSHOT") == "1":
+    # Chat-first mode: planner telemetry is OFF by default.
+    # Set RUN_WAVE_ENABLE_PLANNER_UI=1 to opt back in.
+    if os.environ.get("RUN_WAVE_ENABLE_PLANNER_UI") != "1":
         return False
     if ACCEPTANCE_FILE != DEFAULT_ACCEPTANCE_FILE:
         return False
@@ -229,63 +240,23 @@ def _align_prior_waves(args: argparse.Namespace) -> int:
         event_type="mandatory_alignment",
         wave_n=args.wave,
         status="started",
-        message="Prior-wave gaps detected. Mandatory alignment started.",
+        message="Prior-wave gaps detected. Strict wave-order gate enforced.",
         details={"gap_waves": gaps},
     )
-    print(f"[run_wave] collective quality check found prior-wave gaps: {gaps}")
-    print("[run_wave] mandatory alignment inserted before proceeding…")
+    print(f"[run_wave] strict wave-order gate blocked W{args.wave}; incomplete prior waves: {gaps}")
 
-    for gap_wave in gaps:
-        before = _missing_task_ids(ACCEPTANCE_FILE.read_text(), gap_wave)
-        _append_wave_event(
-            event_type="mandatory_alignment",
-            wave_n=gap_wave,
-            status="in_progress",
-            message=f"Resolving prior-wave gaps for W{gap_wave}.",
-            details={"missing_task_ids": before},
-        )
-        print(f"[run_wave] align W{gap_wave} missing tasks: {', '.join(before) if before else '(none)'}")
-
-        align_args = argparse.Namespace(**vars(args))
-        align_args.wave = gap_wave
-        if gap_wave == 3 and not getattr(align_args, "book", None):
-            align_args.book = "alignment-probe"
-        if gap_wave == 5 and not getattr(align_args, "phase", None):
-            align_args.phase = "alignment-probe"
-
-        rc = DISPATCHERS[gap_wave](align_args)
-        done = is_wave_done(ACCEPTANCE_FILE.read_text(), gap_wave)
-        if done:
-            _append_wave_event(
-                event_type="mandatory_alignment",
-                wave_n=gap_wave,
-                status="resolved",
-                message=f"Prior-wave alignment resolved for W{gap_wave}.",
-            )
-            print(f"[run_wave] align W{gap_wave} resolved")
-            continue
-
-        remaining = _missing_task_ids(ACCEPTANCE_FILE.read_text(), gap_wave)
-        _append_wave_event(
-            event_type="mandatory_alignment",
-            wave_n=gap_wave,
-            status="blocked",
-            message=f"Prior-wave alignment blocked for W{gap_wave}; cannot proceed.",
-            details={"remaining_task_ids": remaining, "dispatcher_rc": rc},
-        )
-        print(
-            f"[run_wave] align W{gap_wave} blocked; remaining: "
-            f"{', '.join(remaining) if remaining else '(unknown)'}"
-        )
-        return EXIT_HALTED_REVIEW
-
+    gap_details = {
+        str(gap_wave): _missing_task_ids(ACCEPTANCE_FILE.read_text(), gap_wave)
+        for gap_wave in gaps
+    }
     _append_wave_event(
         event_type="mandatory_alignment",
         wave_n=args.wave,
-        status="resolved",
-        message="All detected prior-wave gaps resolved; proceeding.",
+        status="blocked",
+        message="Earlier wave(s) must complete before this wave can start.",
+        details={"gap_waves": gaps, "missing_task_ids_by_wave": gap_details},
     )
-    return EXIT_DONE
+    return EXIT_HALTED_REVIEW
 
 
 def _merge_wave_to_develop_and_return(wave_n: int) -> int:
@@ -663,7 +634,14 @@ def main(argv: list[str] | None = None) -> int:
         return cmd_check(text, args.wave)
 
     # Always operate from the canonical wave branch for this invocation.
-    _ensure_wave_branch(args.wave)
+    try:
+        _ensure_wave_branch(args.wave)
+    except RuntimeError as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return EXIT_ERROR
+    except subprocess.CalledProcessError as exc:
+        print(f"error: failed to switch to wave branch: {exc}", file=sys.stderr)
+        return EXIT_ERROR
 
     # Resolve acceptance path after checkout, because the active branch may use
     # a different checklist surface.
@@ -708,16 +686,16 @@ def main(argv: list[str] | None = None) -> int:
         )
         return EXIT_DONE
 
+    align_rc = _align_prior_waves(args)
+    if align_rc != EXIT_DONE:
+        return align_rc
+
     _append_wave_event(
         event_type="wave_start",
         wave_n=args.wave,
         status="started",
         message=f"Wave {args.wave} started in autonomous mode.",
     )
-
-    align_rc = _align_prior_waves(args)
-    if align_rc != EXIT_DONE:
-        return align_rc
 
     # Dispatch.
     rc = DISPATCHERS[args.wave](args)

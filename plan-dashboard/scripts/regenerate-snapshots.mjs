@@ -34,9 +34,49 @@ const REPO = path.resolve(APP, '..');
 const DATA = path.join(APP, 'src', 'data');
 const DRAFTS = path.join(REPO, 'content', 'drafts');
 const PLAN_YAML = path.join(REPO, '_workspace', 'plan', 'refactor', 'plan.yaml');
+const WAVE_ACCEPTANCE = path.join(REPO, '_workspace', 'plan', 'operations', 'wave-acceptance-checklist.md');
 const WAVE_EVENTS = path.join(REPO, '_workspace', 'plan', 'refactor', 'wave-execution-events.jsonl');
 const SENTINEL = path.join(APP, '.snapshot-version');
 const TRACE_STEPS = process.argv.includes('--trace-steps') || process.env.SNAPSHOT_TRACE === '1';
+
+const WAVE_NUM_BY_LETTER = { A: 1, B: 2, C: 3, D: 4, E: 5 };
+
+function parseChecklistDoneWaves(markdown) {
+  const out = new Set();
+  if (!markdown || typeof markdown !== 'string') return out;
+
+  const lines = markdown.split('\n');
+  let currentWave = null;
+  let waveRows = 0;
+  let waveChecked = 0;
+
+  const flush = () => {
+    if (currentWave !== null && waveRows > 0 && waveRows === waveChecked) {
+      out.add(currentWave);
+    }
+  };
+
+  for (const raw of lines) {
+    const line = raw.trim();
+    const waveMatch = line.match(/^##\s+Wave\s+(\d+)\b/i);
+    if (waveMatch) {
+      flush();
+      currentWave = Number(waveMatch[1]);
+      waveRows = 0;
+      waveChecked = 0;
+      continue;
+    }
+
+    const rowMatch = line.match(/^- \[([ xX])\]\s+\*\*P\d+(?:\.\d+\w?)?\*\*/);
+    if (currentWave !== null && rowMatch) {
+      waveRows += 1;
+      if (String(rowMatch[1]).toLowerCase() === 'x') waveChecked += 1;
+    }
+  }
+
+  flush();
+  return out;
+}
 
 function deriveStepStatus(step, wave) {
   if (typeof step.status === 'string' && step.status.trim()) return step.status.trim();
@@ -111,6 +151,14 @@ async function readPlanYaml() {
 async function mergeDashboard() {
   const existing = (await readJsonIfExists(path.join(DATA, 'dashboard-snapshot.json'))) ?? { roadmap: [], waves: [], debt: [], metrics: {} };
 
+  let doneWaves = new Set();
+  try {
+    const checklistRaw = await readFile(WAVE_ACCEPTANCE, 'utf-8');
+    doneWaves = parseChecklistDoneWaves(checklistRaw);
+  } catch {
+    doneWaves = new Set();
+  }
+
   const slugs = await listBooks();
   const states = (await Promise.all(slugs.map(bookState))).filter(Boolean);
   const inFlight = states
@@ -157,6 +205,12 @@ async function mergeDashboard() {
           tools: step.tools ?? prev?.tools ?? [],
           last_touched: step.last_touched ?? prev?.last_touched,
         };
+
+        const waveNum = WAVE_NUM_BY_LETTER[wave.id];
+        if (waveNum && doneWaves.has(waveNum)) {
+          next.status = 'complete';
+        }
+
         existingById.set(step.id, next);
         if (!existingIds.has(step.id)) roadmap.push(next);
 
