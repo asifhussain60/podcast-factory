@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-27T09:39:50.960Z",
-  "source_commit": "356be26",
+  "generated_at": "2026-05-27T09:53:13.480Z",
+  "source_commit": "b35c66e",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -432,6 +432,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "b35c66e",
+      "subject": "chore(vacuum): clean plan folder + refresh snapshots",
+      "date": "2026-05-27"
+    },
+    {
       "sha": "356be26",
       "subject": "fix(intelligence): restore filter button functionality",
       "date": "2026-05-27"
@@ -474,11 +479,6 @@
     {
       "sha": "b369e35",
       "subject": "docs: add ChatGPT review prompt for Wave 1 architecture",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "694ad33",
-      "subject": "feat(plan): absorb Kashkole implementation brief into Wave B specs",
       "date": "2026-05-26"
     }
   ],
