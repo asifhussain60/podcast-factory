@@ -453,6 +453,22 @@ function VisualShip() {
   );
 }
 
+// Real images override SVG placeholders as they arrive.
+// Add entries here as each station image is generated.
+const PHASE_IMAGES: Record<string, string> = {
+  P0: '/stations/p0.jpg',
+  P1: '/stations/p1.jpg',
+  P2: '/stations/p2.jpg',
+  P3: '/stations/p3.jpg',
+  P4: '/stations/p4.jpg',
+  P5: '/stations/p5.jpg',
+  P6: '/stations/p6.jpg',
+  P7: '/stations/p7.jpg',
+  P8: '/stations/p8.jpg',
+  P9: '/stations/p9.jpg',
+  P10: '/stations/p10.jpg',
+};
+
 // Map phase IDs to visual components
 const PHASE_VISUALS: Record<string, () => React.JSX.Element> = {
   P0:  VisualReadBook,
@@ -779,7 +795,10 @@ export default function NarrativeScroll({ phases, shippedCount, episodeCount }: 
 
                 <div className="narrative-chapter-visual">
                   <div className="n-visual-frame">
-                    {VisualComponent ? <VisualComponent /> : null}
+                    {PHASE_IMAGES[phase.id]
+                      ? <img src={PHASE_IMAGES[phase.id]} alt="" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}} />
+                      : VisualComponent ? <VisualComponent /> : null
+                    }
                   </div>
                 </div>
 
