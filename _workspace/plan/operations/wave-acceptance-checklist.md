@@ -30,6 +30,7 @@ A wave is DONE only when every row in that wave is checked.
 - [ ] **P4.1** Planner design system and shell complete
 - [ ] **P4.2** Backbone visualization and live dashboard complete
 - [ ] **P4.3** Annotation intelligence lane complete
+- [ ] **P11.1** Multi-machine execution model decision documented and locked
 
 ## Wave 5
 - [ ] **P5.1** Retroactive enhancement flow complete for shipped books
