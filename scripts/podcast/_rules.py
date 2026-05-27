@@ -213,11 +213,11 @@ AI_CLICHE_DENY = [
 # `## Opening` section and to the first paragraph of any chapter file.
 FAUX_PROFUNDITY_OPENING_PATTERNS = [
     r"can we find meaning",
-    r"what does it (truly )?mean to be human",
+    r"what (?:does it (?:truly )?mean|it truly means) to be human",
     r"what does this (truly )?say about",
     r"is there meaning (in|to)",
     r"in a world where",
-    r"in an (?:age|era) (?:of|where)",
+    r"in an (?:age|era)\b",
     r"have you ever (?:wondered|stopped to)",
     r"imagine (?:a world|for a moment)",
     r"picture this[:.]",
@@ -229,7 +229,7 @@ FAUX_PROFUNDITY_OPENING_PATTERNS = [
 # landings of 04-discussion-spine.md. Permitted closing: "we didn't settle
 # this — here's where the live disagreement sits".
 PREMATURE_CLOSURE_PATTERNS = [
-    r"and that(?:'s| is)(?:,| )?\s*ultimately(?:,)?\s*what",
+    r"and that(?:,\s*ultimately,\s*is\s+|(?:'s| is)(?:,| )?\s*ultimately(?:,)?\s*)what",
     r"what (?:the soul|the self|truth|reality|god|allah|the divine) (?:really|truly) is",
     r"the (?:answer|key) (?:turns out to be|is|lies in)",
     r"so (?:in the end|ultimately|at last),?\s*we (?:see|find|understand)",

@@ -61,6 +61,11 @@ from _rules import (
     MODERNIZE_DENY,
     SURPRISE_DENY,
     HONORIFICS as HONORIFICS_RAW,
+    AI_CLICHE_DENY,
+    DEEP_DIVE_SELF_REFERENCE_PATTERNS,
+    ESSENTIALISM_STEM_PATTERNS,
+    FAUX_PROFUNDITY_OPENING_PATTERNS,
+    PREMATURE_CLOSURE_PATTERNS,
 )
 
 # Pull canonical regex sets from build_episode_txt without triggering its CLI
@@ -189,6 +194,86 @@ def detect_surprise_positive_companion(text: str) -> list[str]:
     return ["MISSING:surprise-positive-companion"]
 
 
+def _norm(text: str) -> str:
+    """Normalize text for phrase/pattern matching: lowercase, straight apostrophes."""
+    return (
+        text.lower()
+        .replace("\u2019", "'")  # right single quotation mark → straight
+        .replace("\u2018", "'")  # left single quotation mark → straight
+        .replace("\n", " ")
+    )
+
+
+def detect_ai_cliche(text: str) -> list[str]:
+    """R-NO-AI-CLICHE — banned podcast/AI stock phrases."""
+    tl = _norm(text)
+    matched: list[str] = []
+    for phrase in AI_CLICHE_DENY:
+        p = phrase.lower().replace("\u2019", "'").replace("\u2018", "'")
+        if p in tl:
+            matched.append(p)
+    # Dedup: if phrase A is a strict prefix of phrase B and both matched, keep A only.
+    deduped: list[str] = []
+    for phrase in matched:
+        dominated = any(
+            other != phrase and phrase.startswith(other)
+            for other in matched
+        )
+        if not dominated:
+            deduped.append(phrase)
+    return sorted(set(deduped))
+
+
+def detect_deep_dive_self_reference(text: str) -> list[str]:
+    """R-NO-DEEP-DIVE-SELF-REFERENCE — self-referential episode framing."""
+    tl = _norm(text)
+    hits: list[str] = []
+    for pat in DEEP_DIVE_SELF_REFERENCE_PATTERNS:
+        for m in re.finditer(pat, tl, re.IGNORECASE):
+            hits.append(m.group(0).strip())
+    return sorted(set(hits))
+
+
+def detect_essentialism(text: str) -> list[str]:
+    """R-NO-ESSENTIALISM-EXTERNAL — blanket tradition claims."""
+    hits: list[str] = []
+    for pat in ESSENTIALISM_STEM_PATTERNS:
+        for m in re.finditer(pat, text, re.IGNORECASE):
+            hit = m.group(0).strip()
+            # Pattern 8 matches "the [tradition] view …"; strip the leading article.
+            if re.match(r"^the\s+", hit, re.IGNORECASE):
+                hit = re.sub(r"^the\s+", "", hit, count=1, flags=re.IGNORECASE)
+            # No-True-Scotsman pattern ends at "would/don't/…"; extend to include
+            # "never" when it is the very next word in the source text.
+            if re.search(r"\bwould$", hit, re.IGNORECASE):
+                tail = text[m.end():]
+                extra = re.match(r"[ \t]+never\b", tail, re.IGNORECASE)
+                if extra:
+                    hit = hit + " never"
+            hits.append(hit.strip())
+    return sorted(set(hits))
+
+
+def detect_faux_profundity(text: str) -> list[str]:
+    """R-NO-FAUX-PROFUNDITY-OPENING — rhetorical opening gestures."""
+    tl = _norm(text)
+    hits: list[str] = []
+    for pat in FAUX_PROFUNDITY_OPENING_PATTERNS:
+        for m in re.finditer(pat, tl, re.IGNORECASE):
+            hits.append(m.group(0).strip())
+    return sorted(set(hits))
+
+
+def detect_premature_closure(text: str) -> list[str]:
+    """R-NO-PREMATURE-CLOSURE — closing sections that falsely resolve hard questions."""
+    tl = _norm(text)
+    hits: list[str] = []
+    for pat in PREMATURE_CLOSURE_PATTERNS:
+        for m in re.finditer(pat, tl, re.IGNORECASE):
+            hits.append(m.group(0).strip())
+    return sorted(set(hits))
+
+
 DETECTORS = {
     "em_dash": detect_em_dash,
     "honorific_repeat": detect_honorific_repeat,
@@ -199,6 +284,11 @@ DETECTORS = {
     "surprise": detect_surprise,
     "j2_bold_header": detect_j2_bold_header,
     "surprise_positive_companion": detect_surprise_positive_companion,
+    "ai_cliche": detect_ai_cliche,
+    "deep_dive_self_reference": detect_deep_dive_self_reference,
+    "essentialism": detect_essentialism,
+    "faux_profundity": detect_faux_profundity,
+    "premature_closure": detect_premature_closure,
 }
 
 
