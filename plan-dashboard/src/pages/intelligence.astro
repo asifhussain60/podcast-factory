@@ -128,15 +128,15 @@ import Base from '../layouts/Base.astro';
 
 /* ---- Canvas ---- */
 .diagram-canvas {
-  position: relative; width: 1440px; height: 510px; margin: 0 auto;
+  position: relative; width: 900px; height: 1260px; margin: 0 auto;
 }
 
 /* ---- Zone bands ---- */
 .zone-band {
-  position: absolute; top: 0; bottom: 0; border-radius: var(--radius-sm); pointer-events: none;
+  position: absolute; left: 0; right: 0; border-radius: var(--radius-sm); pointer-events: none;
 }
 .zone-band-label {
-  position: absolute; top: -22px;
+  position: absolute; top: 8px; left: 8px;
   font-size: 10px; font-weight: 700; text-transform: uppercase;
   letter-spacing: 0.09em; white-space: nowrap; color: var(--text-muted);
 }
@@ -309,7 +309,7 @@ const NODES = {
   kashkole: {
     label: 'Kashkole Corpus', sublabel: '122 chapters · 17 binders',
     zone: 'source', icon: '📚',
-    x: 15, y: 50, w: 200, h: 130,
+    x: 80, y: 35, w: 230, h: 145,
     atoms: ['doctrine','quran','hadith'],
     chips: [],
     tooltip: 'Ismaili scholarly corpus — the doctrine substrate. Not produced as a podcast; seeds the knowledge library.',
@@ -337,7 +337,7 @@ const NODES = {
   books: {
     label: 'Pipeline Books', sublabel: '6 shipped + queue',
     zone: 'source', icon: '🎙',
-    x: 15, y: 350, w: 200, h: 110,
+    x: 590, y: 40, w: 230, h: 120,
     atoms: ['quran','hadith','doctrine'],
     chips: [],
     tooltip: 'Every production book contributes atoms. The Extractor reads enriched chapter text — never audio scripts.',
@@ -359,7 +359,7 @@ const NODES = {
   b0: {
     label: 'B0 — Kashkole Driver', sublabel: 'Standalone batch ingest',
     zone: 'ingest', icon: '⚙',
-    x: 260, y: 50, w: 185, h: 140,
+    x: 80, y: 245, w: 230, h: 145,
     atoms: ['doctrine','quran','hadith'],
     chips: [{ text: '⛔ BLOCKED', cls: 'blocker' }, { text: 'Tier 1', cls: 'tier1' }],
     tooltip: 'Batch driver for seeding the library from 75 Kashkole chapters. Not a pipeline phase — runs standalone.',
@@ -398,7 +398,7 @@ const NODES = {
   b1: {
     label: 'B1 — Extractor', sublabel: 'Claude Sonnet · structured output',
     zone: 'ingest', icon: '🔍',
-    x: 260, y: 345, w: 185, h: 120,
+    x: 590, y: 250, w: 230, h: 130,
     atoms: ['quran','hadith','doctrine'],
     chips: [{ text: 'Tier 1', cls: 'tier1' }],
     tooltip: 'One Claude Sonnet structured-output call per chapter. Confidence < 0.7 atoms go to manual review queue.',
@@ -422,7 +422,7 @@ const NODES = {
   b2: {
     label: 'B2 — Librarian', sublabel: 'Dedup · merge · provenance',
     zone: 'merge', icon: '📖',
-    x: 495, y: 183, w: 185, h: 140,
+    x: 335, y: 440, w: 230, h: 120,
     atoms: ['quran','hadith','doctrine'],
     chips: [],
     tooltip: 'Deduplicates and merges atoms from both sources. Four outcomes: new, duplicate, variant, or conflict.',
@@ -445,7 +445,7 @@ const NODES = {
   db: {
     label: 'knowledge.db', sublabel: 'SQLite · 16 tables · WAL mode',
     zone: 'store', icon: '🗄',
-    x: 730, y: 150, w: 210, h: 185,
+    x: 195, y: 620, w: 510, h: 180,
     atoms: ['quran','hadith','doctrine'],
     chips: [],
     tooltip: 'The canonical knowledge library — 16 SOLID-compliant tables, WAL mode, JSON1 for body_json queries.',
@@ -474,7 +474,7 @@ const NODES = {
   b3: {
     label: 'B3 — Augmenter', sublabel: 'Default disabled · DR-007',
     zone: 'augment', icon: '✦',
-    x: 990, y: 183, w: 185, h: 130,
+    x: 280, y: 840, w: 340, h: 155,
     atoms: ['quran','hadith','doctrine'],
     chips: [{ text: 'Default OFF', cls: 'disabled' }],
     tooltip: 'Queries the library and injects relevant atoms into prompts. Default disabled until Gate G12 fires green.',
@@ -505,7 +505,7 @@ const NODES = {
   enrich: {
     label: '08-Enrichment', sublabel: '200 tokens · hint level',
     zone: 'consume', icon: '📝',
-    x: 1240, y: 70, w: 175, h: 85,
+    x: 50, y: 1040, w: 220, h: 85,
     atoms: ['quran','hadith','doctrine'],
     chips: [],
     detail: {
@@ -522,7 +522,7 @@ const NODES = {
   author: {
     label: '11-Per-Chapter', sublabel: '500 tokens · full context',
     zone: 'consume', icon: '✍',
-    x: 1240, y: 220, w: 175, h: 85,
+    x: 340, y: 1040, w: 220, h: 85,
     atoms: ['quran','hadith','doctrine'],
     chips: [],
     detail: {
@@ -540,7 +540,7 @@ const NODES = {
   challenger: {
     label: 'Challenger', sublabel: '800 tokens · cross-book',
     zone: 'consume', icon: '⚖',
-    x: 1240, y: 375, w: 175, h: 85,
+    x: 630, y: 1040, w: 220, h: 85,
     atoms: ['quran','hadith','doctrine'],
     chips: [],
     detail: {
@@ -561,15 +561,15 @@ const NODES = {
    DATA — EDGES
    ========================================================= */
 const EDGES = [
-  { from:'kashkole', to:'b0', fp:'right', tp:'left', types:['doctrine','quran','hadith'], style:'blocker', label:'adapted chapters' },
-  { from:'books',    to:'b1', fp:'right', tp:'left', types:['quran','hadith','doctrine'], style:'mixed',   label:'enriched text' },
-  { from:'b0', to:'b2', fp:'right', tp:'left', types:['doctrine','quran','hadith'], style:'blocker' },
-  { from:'b1', to:'b2', fp:'right', tp:'left', types:['quran','hadith','doctrine'], style:'mixed' },
-  { from:'b2', to:'db', fp:'right', tp:'left', types:['quran','hadith','doctrine'], style:'mixed' },
-  { from:'db', to:'b3', fp:'right', tp:'left', types:['quran','hadith','doctrine'], style:'mixed', label:'needs_review=0' },
-  { from:'b3', to:'enrich',     fp:'right', tp:'left', types:['quran','hadith','doctrine'], style:'disabled', label:'200 tok' },
-  { from:'b3', to:'author',     fp:'right', tp:'left', types:['quran','hadith','doctrine'], style:'disabled', label:'500 tok' },
-  { from:'b3', to:'challenger', fp:'right', tp:'left', types:['quran','hadith','doctrine'], style:'disabled', label:'800 tok' },
+  { from:'kashkole', to:'b0', fp:'bottom', tp:'top', types:['doctrine','quran','hadith'], style:'blocker', label:'adapted chapters' },
+  { from:'books',    to:'b1', fp:'bottom', tp:'top', types:['quran','hadith','doctrine'], style:'mixed',   label:'enriched text' },
+  { from:'b0', to:'b2', fp:'bottom', tp:'top', types:['doctrine','quran','hadith'], style:'blocker' },
+  { from:'b1', to:'b2', fp:'bottom', tp:'top', types:['quran','hadith','doctrine'], style:'mixed' },
+  { from:'b2', to:'db', fp:'bottom', tp:'top', types:['quran','hadith','doctrine'], style:'mixed' },
+  { from:'db', to:'b3', fp:'bottom', tp:'top', types:['quran','hadith','doctrine'], style:'mixed', label:'needs_review=0' },
+  { from:'b3', to:'enrich',     fp:'bottom', tp:'top', types:['quran','hadith','doctrine'], style:'disabled', label:'200 tok' },
+  { from:'b3', to:'author',     fp:'bottom', tp:'top', types:['quran','hadith','doctrine'], style:'disabled', label:'500 tok' },
+  { from:'b3', to:'challenger', fp:'bottom', tp:'top', types:['quran','hadith','doctrine'], style:'disabled', label:'800 tok' },
 ];
 
 /* =========================================================
@@ -590,23 +590,22 @@ function portCoord(n, port) {
    ========================================================= */
 function renderZones(canvas) {
   const zones = [
-    { label:'Sources',      x:0,    w:240,  color:'rgba(56,139,58,0.04)' },
-    { label:'Ingestion',    x:240,  w:235,  color:'rgba(91,141,217,0.04)' },
-    { label:'Merge',        x:475,  w:240,  color:'rgba(139,91,196,0.04)' },
-    { label:'Store',        x:715,  w:260,  color:'rgba(139,91,196,0.06)' },
-    { label:'Augmentation', x:975,  w:250,  color:'rgba(219,109,40,0.04)' },
-    { label:'Consumers',    x:1225, w:215,  color:'rgba(100,100,100,0.03)' },
+    { label:'Sources',      y:0,    h:210,  color:'rgba(56,139,58,0.04)' },
+    { label:'Ingestion',    y:210,  h:210,  color:'rgba(91,141,217,0.04)' },
+    { label:'Merge',        y:420,  h:180,  color:'rgba(139,91,196,0.04)' },
+    { label:'Store',        y:600,  h:220,  color:'rgba(139,91,196,0.06)' },
+    { label:'Augmentation', y:820,  h:200,  color:'rgba(219,109,40,0.04)' },
+    { label:'Consumers',    y:1020, h:240,  color:'rgba(100,100,100,0.03)' },
   ];
   zones.forEach(z => {
     const band = document.createElement('div');
     band.className = 'zone-band';
-    band.style.cssText = `left:${z.x}px;width:${z.w}px;background:${z.color};`;
+    band.style.cssText = `top:${z.y}px;height:${z.h}px;background:${z.color};`;
     const lbl = document.createElement('div');
     lbl.className = 'zone-band-label';
-    lbl.style.cssText = `left:${z.x + 6}px;`;
     lbl.textContent = z.label;
+    band.appendChild(lbl);
     canvas.appendChild(band);
-    canvas.appendChild(lbl);
   });
 }
 
@@ -681,10 +680,10 @@ function renderEdges(canvas) {
 
     const from = portCoord(fn, edge.fp || 'right');
     const to   = portCoord(tn, edge.tp || 'left');
-    const dx   = to.x - from.x;
-    const cp1x = from.x + dx * 0.48;
-    const cp2x = to.x   - dx * 0.48;
-    const d    = `M ${from.x} ${from.y} C ${cp1x} ${from.y} ${cp2x} ${to.y} ${to.x} ${to.y}`;
+    const dy   = to.y - from.y;
+    const cp1y = from.y + dy * 0.5;
+    const cp2y = to.y   - dy * 0.5;
+    const d    = `M ${from.x} ${from.y} C ${from.x} ${cp1y} ${to.x} ${cp2y} ${to.x} ${to.y}`;
     const style = edge.style || 'mixed';
 
     const bg = document.createElementNS(NS, 'path');
@@ -703,8 +702,8 @@ function renderEdges(canvas) {
     svg.appendChild(path);
 
     if (edge.label) {
-      const mx = from.x + (to.x - from.x) * 0.47;
-      const my = from.y + (to.y - from.y) * 0.47 - 9;
+      const mx = from.x + (to.x - from.x) * 0.5 + 12;
+      const my = from.y + (to.y - from.y) * 0.5;
       const t  = document.createElementNS(NS, 'text');
       t.setAttribute('x', mx); t.setAttribute('y', my);
       t.setAttribute('text-anchor', 'middle'); t.setAttribute('class', 'edge-label');

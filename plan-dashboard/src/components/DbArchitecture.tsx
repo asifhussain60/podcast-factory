@@ -78,7 +78,7 @@ const TABLES: TableNode[] = [
     wave: 1,
     writtenBy: ['0a-ingest', 'finalize'],
     readBy: ['every phase', 'dashboard', 'publish'],
-    x: 260, y: 12,
+    x: 20, y: 12,
     fields: [
       { name: 'slug',            type: 'TEXT',    pk: true,                  description: 'Kebab-case book identifier — matches the git branch suffix and content/drafts/ folder name.' },
       { name: 'title_en',        type: 'TEXT',                               description: 'English title.' },
@@ -103,7 +103,7 @@ const TABLES: TableNode[] = [
     wave: 1,
     writtenBy: ['per-chapter'],
     readBy: ['0g-audit', '0h-knowledge-extract', 'finalize'],
-    x: 20, y: 112,
+    x: 20, y: 68,
     fields: [
       { name: 'id',                type: 'TEXT',    pk: true,                  description: "Composite key: '<book_slug>:ch<n>'." },
       { name: 'book_slug',         type: 'TEXT',    fk: 'books.slug',          description: 'Parent book.' },
@@ -126,7 +126,7 @@ const TABLES: TableNode[] = [
     wave: 1,
     writtenBy: ['finalize'],
     readBy: ['publish', 'dashboard'],
-    x: 20, y: 216,
+    x: 20, y: 124,
     fields: [
       { name: 'id',                  type: 'TEXT',    pk: true,               description: "Composite key: '<book_slug>:EP<n>'." },
       { name: 'book_slug',           type: 'TEXT',    fk: 'books.slug',       description: 'Parent book.' },
@@ -147,7 +147,7 @@ const TABLES: TableNode[] = [
     wave: 1,
     writtenBy: ['0c-phonetic'],
     readBy: ['per-chapter', '0g-audit', 'build_episode_txt'],
-    x: 20, y: 320,
+    x: 20, y: 180,
     fields: [
       { name: 'id',               type: 'INTEGER', pk: true,               description: 'Auto-increment primary key.' },
       { name: 'term',             type: 'TEXT',                             description: "The term as it appears in English prose, e.g. 'Allah'." },
@@ -168,7 +168,7 @@ const TABLES: TableNode[] = [
     wave: 1,
     writtenBy: ['0h-knowledge-extract', 'kashkole-ingest'],
     readBy: ['0e-enrich', 'per-chapter', '0g-audit', 'augmenter'],
-    x: 260, y: 127,
+    x: 240, y: 12,
     fields: [
       { name: 'id',             type: 'TEXT',    pk: true,               description: "Canonical identifier: 'quran:2:255' | 'hadith:bukhari:1234' | 'doctrine:kashkole:24:650:0'." },
       { name: 'type',           type: 'TEXT',                             description: "'quran' | 'hadith' | 'doctrine' (Wave 1). 'quote' | 'definition' | 'etymology' arrive in Waves 2-3. Atom type determines the expected shape of body_json — the schema is documented in _atom_schemas.py." },
@@ -193,7 +193,7 @@ const TABLES: TableNode[] = [
     wave: 1,
     writtenBy: ['0h-knowledge-extract', 'kashkole-ingest'],
     readBy: ['augmenter', '0g-audit', 'podcast-librarian'],
-    x: 260, y: 231,
+    x: 240, y: 68,
     fields: [
       { name: 'id',                type: 'INTEGER', pk: true,                            description: 'Auto-increment.' },
       { name: 'atom_id',           type: 'TEXT',    fk: 'knowledge_atoms.id',            description: 'The atom being sourced.' },
@@ -214,7 +214,7 @@ const TABLES: TableNode[] = [
     wave: 1,
     writtenBy: ['0g-audit', 'podcast-challenger'],
     readBy: ['finalize', 'publish', 'dashboard'],
-    x: 260, y: 333,
+    x: 240, y: 372,
     fields: [
       { name: 'id',           type: 'INTEGER', pk: true,                    description: 'Auto-increment.' },
       { name: 'book_slug',    type: 'TEXT',    fk: 'books.slug',            description: 'Book where the finding appeared.' },
@@ -237,7 +237,7 @@ const TABLES: TableNode[] = [
     wave: 1,
     writtenBy: ['orchestrator'],
     readBy: ['dashboard', 'finalize', 'watchdog'],
-    x: 500, y: 112,
+    x: 20, y: 248,
     fields: [
       { name: 'id',          type: 'INTEGER', pk: true,               description: 'Auto-increment run ID.' },
       { name: 'book_slug',   type: 'TEXT',    fk: 'books.slug',       description: 'Book being processed.' },
@@ -258,7 +258,7 @@ const TABLES: TableNode[] = [
     wave: 1,
     writtenBy: ['every LLM-calling phase'],
     readBy: ['dashboard', 'cost-cap checks', 'finalize'],
-    x: 500, y: 216,
+    x: 20, y: 304,
     fields: [
       { name: 'id',            type: 'INTEGER', pk: true,               description: 'Auto-increment.' },
       { name: 'book_slug',     type: 'TEXT',    fk: 'books.slug',       description: 'Book being processed when the call was made.' },
@@ -284,7 +284,7 @@ const TABLES: TableNode[] = [
     wave: 2,
     writtenBy: ['0h-knowledge-extract', 'seed import'],
     readBy: ['word_etymologies', 'letter_profiles', '0e-enrich', 'per-chapter'],
-    x: 500, y: 320,
+    x: 20, y: 372,
     fields: [
       { name: 'root_id',            type: 'INTEGER', pk: true,                    description: 'Auto-increment primary key.' },
       { name: 'root_ar',            type: 'TEXT',                                 description: 'Root consonants in Arabic script separated by dashes, e.g. ع-ل-م. Unique constraint.' },
@@ -307,7 +307,7 @@ const TABLES: TableNode[] = [
     wave: 2,
     writtenBy: ['0e-enrich', '0h-knowledge-extract'],
     readBy: ['per-chapter', '0g-audit', 'dashboard'],
-    x: 20, y: 430,
+    x: 20, y: 428,
     fields: [
       { name: 'id',               type: 'INTEGER', pk: true,                          description: 'Auto-increment.' },
       { name: 'root_id',          type: 'INTEGER', fk: 'arabic_roots.root_id',        description: 'Parent root this word form is derived from.' },
@@ -334,7 +334,7 @@ const TABLES: TableNode[] = [
     wave: 3,
     writtenBy: ['seed data (one-time)'],
     readBy: ['word_etymologies', 'arabic_roots', '0e-enrich', 'per-chapter'],
-    x: 500, y: 430,
+    x: 20, y: 484,
     fields: [
       { name: 'letter_ar',           type: 'TEXT',    pk: true,               description: "The Arabic letter in Unicode NFD form, e.g. 'ع'. Primary key — exactly 28 rows total." },
       { name: 'name_ar',             type: 'TEXT',                             description: "Letter name in Arabic script, e.g. 'عَيْن'." },
@@ -359,7 +359,7 @@ const TABLES: TableNode[] = [
     wave: 1,
     writtenBy: ['0h-knowledge-extract', 'kashkole-ingest'],
     readBy: ['augmenter', '0g-audit', 'dashboard'],
-    x: 260, y: 430,
+    x: 240, y: 124,
     fields: [
       { name: 'id',            type: 'INTEGER', pk: true,                                  description: 'Auto-increment.' },
       { name: 'atom_id',       type: 'TEXT',    fk: 'knowledge_atoms.id',                  description: 'The tagged atom.' },
@@ -377,7 +377,7 @@ const TABLES: TableNode[] = [
     wave: 1,
     writtenBy: ['kashkole-ingest (seed, one-time per corpus)'],
     readBy: ['corpus_chapters', 'augmenter', 'dashboard'],
-    x: 20, y: 510,
+    x: 240, y: 248,
     fields: [
       { name: 'id',               type: 'INTEGER', pk: true,               description: 'Auto-increment.' },
       { name: 'corpus_key',       type: 'TEXT',                             description: "Short stable identifier, e.g. 'kashkole'. Used across scripts and logs." },
@@ -400,7 +400,7 @@ const TABLES: TableNode[] = [
     wave: 1,
     writtenBy: ['seed data (one-time, from topic-type-map.json)'],
     readBy: ['atom_topic_tags', 'kashkole-ingest', 'augmenter'],
-    x: 260, y: 510,
+    x: 240, y: 180,
     fields: [
       { name: 'type_id',             type: 'INTEGER', pk: true,             description: 'Matches the TopicTypeID from the Kashkole DB (15, 17, 18 … 34).' },
       { name: 'name_en',             type: 'TEXT',                          description: "English label, e.g. 'Kalam & Argumentation', 'Hadith & Sunnah'." },
@@ -418,7 +418,7 @@ const TABLES: TableNode[] = [
     wave: 1,
     writtenBy: ['kashkole-ingest'],
     readBy: ['atom_sources', 'atom_topic_tags', 'augmenter', 'dashboard'],
-    x: 500, y: 510,
+    x: 240, y: 304,
     fields: [
       { name: 'id',                  type: 'INTEGER', pk: true,                    description: 'Auto-increment.' },
       { name: 'corpus_id',           type: 'INTEGER', fk: 'external_corpora.id',   description: 'Parent corpus (e.g. Kashkole).' },
@@ -443,20 +443,20 @@ const TABLES: TableNode[] = [
 // ─── Edge definitions ─────────────────────────────────────────────────────────
 
 const EDGES: Edge[] = [
-  { from: 'books', to: 'chapters',          type: '1:N', path: 'M330,48 C330,80 90,80 90,112' },
-  { from: 'books', to: 'knowledge_atoms',   type: '1:N', path: 'M330,48 V127' },
-  { from: 'books', to: 'pipeline_runs',     type: '1:N', path: 'M330,48 C330,80 570,80 570,112' },
-  { from: 'chapters', to: 'episodes',       type: '1:1', path: 'M90,148 V216' },
-  { from: 'pipeline_runs', to: 'cost_ledger', type: '1:N', path: 'M570,148 V216' },
-  { from: 'knowledge_atoms', to: 'atom_sources',    type: '1:N', path: 'M330,163 V231' },
-  { from: 'knowledge_atoms', to: 'atom_topic_tags', type: '1:N', path: 'M295,163 C240,200 240,400 262,430' },
-  { from: 'books', to: 'challenger_findings', type: '1:N', dashed: true, path: 'M358,48 C408,48 408,333 358,333' },
-  { from: 'books',        to: 'arabic_roots',     type: '1:N', path: 'M330,48 C330,200 570,200 570,320' },
-  { from: 'arabic_roots', to: 'word_etymologies', type: '1:N', path: 'M570,356 C570,395 90,395 90,430' },
-  { from: 'arabic_roots', to: 'letter_profiles',  type: 'N:M', path: 'M570,356 V430' },
-  { from: 'topic_type_taxonomy', to: 'atom_topic_tags', type: '1:N', dashed: true, path: 'M330,510 V466' },
-  { from: 'external_corpora',    to: 'corpus_chapters', type: '1:N', path: 'M160,528 C240,580 420,580 500,528' },
-  { from: 'corpus_chapters',     to: 'atom_sources',    type: '1:N', path: 'M570,510 C640,450 640,249 398,249' },
+  { from: 'books', to: 'chapters',          type: '1:N', path: 'M90,48 V68' },
+  { from: 'books', to: 'knowledge_atoms',   type: '1:N', path: 'M160,30 H240' },
+  { from: 'books', to: 'pipeline_runs',     type: '1:N', path: 'M20,30 C6,30 6,266 20,266' },
+  { from: 'chapters', to: 'episodes',       type: '1:1', path: 'M90,104 V124' },
+  { from: 'pipeline_runs', to: 'cost_ledger', type: '1:N', path: 'M90,284 V304' },
+  { from: 'knowledge_atoms', to: 'atom_sources',    type: '1:N', path: 'M310,48 V68' },
+  { from: 'knowledge_atoms', to: 'atom_topic_tags', type: '1:N', path: 'M380,30 C394,30 394,142 380,142' },
+  { from: 'books', to: 'challenger_findings', type: '1:N', dashed: true, path: 'M160,30 C216,30 216,390 240,390' },
+  { from: 'books',        to: 'arabic_roots',     type: '1:N', path: 'M160,30 C176,30 176,390 160,390' },
+  { from: 'arabic_roots', to: 'word_etymologies', type: '1:N', path: 'M90,408 V428' },
+  { from: 'arabic_roots', to: 'letter_profiles',  type: 'N:M', path: 'M160,390 C174,390 174,502 160,502' },
+  { from: 'topic_type_taxonomy', to: 'atom_topic_tags', type: '1:N', dashed: true, path: 'M310,198 C226,198 226,142 240,142' },
+  { from: 'external_corpora',    to: 'corpus_chapters', type: '1:N', path: 'M310,284 V304' },
+  { from: 'corpus_chapters',     to: 'atom_sources',    type: '1:N', path: 'M240,322 C226,322 226,86 240,86' },
 ];
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -537,7 +537,7 @@ export default function DbArchitecture() {
         <div className="dba-diagram-wrap">
           <svg
             className="dba-svg"
-            viewBox="0 0 660 590"
+            viewBox="0 0 400 530"
             xmlns="http://www.w3.org/2000/svg"
             aria-label="Database architecture diagram — click any table to explore"
           >
