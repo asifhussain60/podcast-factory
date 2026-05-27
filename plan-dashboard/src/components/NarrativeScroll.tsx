@@ -710,14 +710,14 @@ export default function NarrativeScroll({ phases, shippedCount, episodeCount }: 
         <span className="narrative-hero-eyebrow">Podcast Factory</span>
 
         <h1 className="narrative-hero-title">
-          Any source.<br />
-          <em>Every voice.</em>
+          From Content<br />
+          <em>To Conversation.</em>
         </h1>
 
         <p className="narrative-hero-lede">
-          Feed the factory any kind of content — books, research, transcripts,
-          data, recordings. It returns a beautifully produced, verified,
-          professionally narrated podcast series.
+          Any source material — books, research papers, audio, transcripts,
+          data, recordings — goes in. A beautifully produced, verified
+          podcast series comes out.
         </p>
 
         <div className="narrative-hero-stats">
@@ -737,7 +737,7 @@ export default function NarrativeScroll({ phases, shippedCount, episodeCount }: 
 
         <div className="narrative-hero-cta">
           <a href="/library" className="narrative-cta-primary">Browse the catalog →</a>
-          <a href="#station-1" className="narrative-cta-secondary">See how it works ↓</a>
+          <a href="#station-1" className="narrative-cta-secondary">Tour the factory ↓</a>
         </div>
 
         <div className="narrative-scroll-invite">

@@ -8,7 +8,7 @@ const shipped = (dashboard.books_shipped ?? []) as Array<{episodes: number}>;
 const episodeCount = shipped.reduce((s: number, b) => s + (b.episodes ?? 0), 0);
 const shippedCount = shipped.length;
 ---
-<NarrativeBase title="Podcast Factory" description="Any source material. Every voice.">
+<NarrativeBase title="Podcast Factory" description="From Content To Conversation — any source material, beautifully produced as a podcast series.">
   <NarrativeScroll
     phases={arch.phases as any}
     shippedCount={shippedCount}
