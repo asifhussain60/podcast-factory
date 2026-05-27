@@ -59,6 +59,7 @@ WAVE_NAMES: dict[int, str] = {
     3: "Corpus Validation",
     4: "Control Plane",
     5: "Deferred + Self-Learning",
+    6: "Archetype Completion",
 }
 
 WAVE_LETTERS: dict[int, str] = {
@@ -67,6 +68,7 @@ WAVE_LETTERS: dict[int, str] = {
     3: "C",
     4: "D",
     5: "E",
+    6: "F",
 }
 
 COST_CAP_HARD_DEFAULT = 50.0  # P6.3 default; override via --cost-cap-hard
@@ -629,7 +631,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "wave",
         type=int,
-        choices=[1, 2, 3, 4, 5],
+        choices=[1, 2, 3, 4, 5, 6],
         help="Wave number to invoke (W1..W5).",
     )
     parser.add_argument(

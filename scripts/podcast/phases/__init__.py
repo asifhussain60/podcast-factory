@@ -29,6 +29,7 @@ from . import (
     p11_1,
     pw4_1, pw4_2, pw4_3,
     pw5_1, pw5_2, pw5_3,
+    pw6_1, pw6_2, pw6_3,
     dor_halts,
 )
 
@@ -89,6 +90,11 @@ REGISTRY: dict[int, list] = {
         pw5_1,   # migrate_meta_yml — retroactive enhancement flow
         pw5_2,   # validate_ship_ready G8-G12 — extended publish gates
         pw5_3,   # promotion_lane — self-learning spec promotion
+    ],
+    6: [
+        pw6_1,   # anti-patterns.md for all 3 archetype directories
+        pw6_2,   # exemplar.md for all 3 archetype directories
+        pw6_3,   # encyclopedic-epistolary spec — 7 Rasāʾil meta fields
     ],
 }
 

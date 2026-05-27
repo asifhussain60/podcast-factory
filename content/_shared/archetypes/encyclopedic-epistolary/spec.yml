@@ -52,3 +52,17 @@ anti_patterns_summary:
   - enumerated lists read aloud verbatim (>5 items kills listener engagement)
   - recipient frame dropped entirely (loses the epistolary character)
   - hosts failing to surface the unifying insight that ties domains together
+
+# ── Rasāʾil-specific meta.yml fields (required for Ikhwan al-Safa intake) ────
+rasail_meta_fields:
+  archetype_id: encyclopedic-epistolary
+  epistle_count: 52                      # total epistles in main corpus (+ 2 supplements)
+  part_map:
+    part-1-mathematical: {epistles: 14, diagram_density: high}
+    part-2-natural:       {epistles: 17, diagram_density: high}
+    part-3-psychological: {epistles: 10, diagram_density: medium}
+    part-4-theological:   {epistles: 11, diagram_density: high}
+  augmentation_enabled: true             # default ON for this archetype
+  diagram_density: high                  # default HIGH for Rasāʾil
+  phased_rollout: true                   # mandatory for series of this size
+  capstone_mode: full_brethren           # final episode synthesizes all four parts

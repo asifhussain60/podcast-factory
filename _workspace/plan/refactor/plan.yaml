@@ -1384,6 +1384,35 @@ excluded_by_design:
   - artifact: "Live system metrics + per-book progress"
     location: "_workspace/plan/index.html dashboard once D4 lands"
 
+  - id: F
+    name: Archetype Completion
+    parallel_with: []
+    depends_on: [C]
+    execution_status: not_started
+    steps:
+
+      - id: F1
+        title: "Complete the three archetype directories with anti-patterns and exemplar files"
+        depends_on: [C1]
+        deliverables:
+          anti_patterns_per_archetype:
+            play_novel: "content/_shared/archetypes/play-novel/anti-patterns.md"
+            lecture_series: "content/_shared/archetypes/lecture-series/anti-patterns.md"
+            encyclopedic_epistolary: "content/_shared/archetypes/encyclopedic-epistolary/anti-patterns.md"
+          exemplars_per_archetype:
+            play_novel: "content/_shared/archetypes/play-novel/exemplar.md"
+            lecture_series: "content/_shared/archetypes/lecture-series/exemplar.md"
+            encyclopedic_epistolary: "content/_shared/archetypes/encyclopedic-epistolary/exemplar.md"
+          spec_field_additions:
+            target: "content/_shared/archetypes/encyclopedic-epistolary/spec.yml"
+            required_new_fields: [epistle_count, part_map, augmentation_enabled, diagram_density, phased_rollout, capstone_mode]
+        acceptance:
+          - "All three archetype directories have exemplar.md, spec.yml, and anti-patterns.md"
+          - "encyclopedic-epistolary spec.yml includes all 7 Rasāʾil-specific meta fields"
+        wave_runner_phases: [P6.1, P6.2, P6.3]
+        cost_estimate_usd: 0
+        authorization: tier_one
+
 # ===========================================================================
 # OPEN QUESTIONS — Asif must resolve before execution
 # ===========================================================================

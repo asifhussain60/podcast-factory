@@ -33,6 +33,11 @@ A wave is DONE only when every row in that wave is checked.
 - [x] **P11.1** Multi-machine execution model decision documented and locked
 
 ## Wave 5
-- [ ] **P5.1** Retroactive enhancement flow complete for shipped books
-- [ ] **P5.2** Extended publish gate complete and validated
-- [ ] **P5.3** Self-learning promotion lane complete and validated
+- [x] **P5.1** Retroactive enhancement flow complete for shipped books
+- [x] **P5.2** Extended publish gate complete and validated
+- [x] **P5.3** Self-learning promotion lane complete and validated
+
+## Wave 6
+- [ ] **P6.1** Anti-patterns catalog complete for all three archetype directories
+- [ ] **P6.2** Exemplar episode complete for all three archetype directories
+- [ ] **P6.3** Encyclopedic-epistolary spec updated with 7 Rasāʾil-specific meta fields

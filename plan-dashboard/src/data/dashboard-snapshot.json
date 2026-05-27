@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-27T20:05:43.052Z",
-  "source_commit": "50b67f8",
+  "generated_at": "2026-05-27T20:53:28.961Z",
+  "source_commit": "de8d421",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -274,7 +274,7 @@
       "id": "D1",
       "wave": "D",
       "title": "Standardise the existing dashboard design tokens so the podcast reader shares the same visual style",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "A1"
@@ -290,7 +290,7 @@
       "id": "D2",
       "wave": "D",
       "title": "Verify and patch the navigation so every planned section is reachable",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "D1"
@@ -305,7 +305,7 @@
       "id": "D3",
       "wave": "D",
       "title": "Add an interactive factory-floor view showing each processing stage and book type",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "D2"
@@ -320,7 +320,7 @@
       "id": "D4",
       "wave": "D",
       "title": "Complete the live progress section so it shows books in flight, costs, and roadmap status",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "D2"
@@ -336,7 +336,7 @@
       "id": "D5",
       "wave": "D",
       "title": "Replace floating annotation UI with a right-hand annotation workspace and durable AI handoff",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "D2"
@@ -348,7 +348,7 @@
       "id": "D6",
       "wave": "D",
       "title": "Teach planner + site-sync to auto-detect annotation architecture gaps and generate missing views",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "D5"
@@ -360,7 +360,7 @@
       "id": "E1",
       "wave": "E",
       "title": "Migrate every meta.yml to the unified schema",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "C1",
@@ -376,7 +376,7 @@
       "id": "E2",
       "wave": "E",
       "title": "KaR — tier-2 distillation addendum (no re-run)",
-      "status": "pending",
+      "status": "complete",
       "tier": "T2",
       "depends_on": [
         "E1",
@@ -393,7 +393,7 @@
       "id": "E3",
       "wave": "E",
       "title": "M&D — EP00 preface addendum + vacuum + postprod-review (no re-run)",
-      "status": "pending",
+      "status": "complete",
       "tier": "T2",
       "depends_on": [
         "E1",
@@ -410,7 +410,7 @@
       "id": "E4",
       "wave": "E",
       "title": "Extend publish gate with G8-G12 + activate G12 acceptance",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "B3",
@@ -427,7 +427,7 @@
       "id": "E5",
       "wave": "E",
       "title": "Automate planner UI resilience + launcher lifecycle quality gates",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "D4",
@@ -505,53 +505,53 @@
   ],
   "recent_commits": [
     {
+      "sha": "de8d421",
+      "subject": "fix(p-9): implement 5 missing challenger detectors; all 15 fixtures green",
+      "date": "2026-05-27"
+    },
+    {
+      "sha": "6b59b7f",
+      "subject": "merge wave-4 deliverables into wave-5 branch",
+      "date": "2026-05-27"
+    },
+    {
+      "sha": "3dd287b",
+      "subject": "wave-5: fix pre-flight import path",
+      "date": "2026-05-27"
+    },
+    {
+      "sha": "3529c43",
+      "subject": "wave-5: fix W5 pre-flight guard — allow full-loop run when phases are wired",
+      "date": "2026-05-27"
+    },
+    {
+      "sha": "a58b328",
+      "subject": "wave-5: G8-G12 gates, migration script, promotion lane, phase runners",
+      "date": "2026-05-27"
+    },
+    {
+      "sha": "892b6c7",
+      "subject": "wave-4: DONE (4/4 green) — design tokens, backbone viz, annotation lane, multi-mac decision",
+      "date": "2026-05-27"
+    },
+    {
+      "sha": "b74b77f",
+      "subject": "merge: bring wave-3 infrastructure forward (convergence loop, W3 runners, W4 scaffolding)",
+      "date": "2026-05-27"
+    },
+    {
+      "sha": "c54ba4d",
+      "subject": "wave-4: add SPA+dashboard phase runners (pw4_1/2/3), multi-mac decision doc, P11.1 acceptance row",
+      "date": "2026-05-27"
+    },
+    {
+      "sha": "4841e66",
+      "subject": "feat(wave-3): implement P3.1-P3.5 deliverables; W3 DONE (5/5 green)",
+      "date": "2026-05-27"
+    },
+    {
       "sha": "50b67f8",
       "subject": "fix(run_wave): replace break-on-halt with convergence loop; waves run end-to-end",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "413b027",
-      "subject": "chore: switch to chat-only wave execution and clean planner prompts",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "e15626b",
-      "subject": "feat(planner): add loop protocol status panel and sync iteration ledger",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "5491d9e",
-      "subject": "Resolve Wave 2 alignment blockers and enforce clean-tree policy",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "40cd6a7",
-      "subject": "Enforce wave alignment gating with live planner event timeline",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "bbee796",
-      "subject": "Merge branch 'refactor/wave-a' into develop",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "75e1261",
-      "subject": "chore: commit remaining workspace changes",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "dcdfef8",
-      "subject": "feat: improve annotation action access and saved paragraph states",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "c7555ba",
-      "subject": "feat: redesign annotation workflow with persistent queue and finalize reset",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "45c9cea",
-      "subject": "chore: sync plan.astro step count to 27 (podcast-site-sync pass)",
       "date": "2026-05-27"
     }
   ],
