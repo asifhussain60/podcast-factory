@@ -5,6 +5,39 @@ import LayerStack from '../components/LayerStack.tsx';
 import arch from '../data/architecture-snapshot.json';
 ---
 <Base title="Architecture" active="architecture" section="architecture">
+
+  <!-- KPI stat strip -->
+  <div class="stat-strip">
+    <div class="stat-card s-green">
+      <div class="stat-card-icon"><i class="fa-solid fa-route" aria-hidden="true"></i></div>
+      <div class="stat-card-body">
+        <div class="stat-card-value">{arch.phases.length}</div>
+        <div class="stat-card-label">Pipeline Stations</div>
+      </div>
+    </div>
+    <div class="stat-card s-blue">
+      <div class="stat-card-icon"><i class="fa-solid fa-robot" aria-hidden="true"></i></div>
+      <div class="stat-card-body">
+        <div class="stat-card-value">{arch.agents.length}</div>
+        <div class="stat-card-label">Agents</div>
+      </div>
+    </div>
+    <div class="stat-card s-amber">
+      <div class="stat-card-icon"><i class="fa-solid fa-layer-group" aria-hidden="true"></i></div>
+      <div class="stat-card-body">
+        <div class="stat-card-value">{arch.layers.length}</div>
+        <div class="stat-card-label">Layers</div>
+      </div>
+    </div>
+    <div class="stat-card s-brown">
+      <div class="stat-card-icon"><i class="fa-solid fa-gavel" aria-hidden="true"></i></div>
+      <div class="stat-card-body">
+        <div class="stat-card-value">{arch.adrs.length}</div>
+        <div class="stat-card-label">ADRs</div>
+      </div>
+    </div>
+  </div>
+
   <header class="page-hero">
     <div class="page-hero-inner">
       <span class="eyebrow">Architecture</span>

@@ -1,5 +1,7 @@
 ---
 import '../styles/theme.css';
+import PlannerSidenav from '../components/PlannerSidenav.tsx';
+import dash from '../data/dashboard-snapshot.json';
 
 type ActivePage =
   | 'home'
@@ -9,14 +11,16 @@ type ActivePage =
   | 'system-map'
   | 'db-schema'
   | 'dashboard'
+  | 'plan'
+  | 'live'
   | 'library';
 
 interface Props {
   title: string;
   active: ActivePage;
-  /** Pass 'architecture' to render the Architecture sidebar.
-   *  Bookshelf and Planner have no sidebar (reader has its own nav; Planner is one page). */
-  section?: 'architecture';
+  /** 'architecture' — horizontal sub-nav strip replaces old sidebar.
+   *  'planner'      — animated PlannerSidenav on the left. */
+  section?: 'architecture' | 'planner';
   description?: string;
 }
 
@@ -25,12 +29,17 @@ const { title, active, section, description } = Astro.props;
 const archPages: ActivePage[] = ['architecture', 'intelligence', 'infrastructure', 'system-map', 'db-schema'];
 
 const navSection =
-  active === 'library'                ? 'bookshelf'    :
-  active === 'dashboard'              ? 'planner'      :
-  archPages.includes(active)          ? 'architecture' :
+  active === 'library'                                    ? 'bookshelf'    :
+  active === 'dashboard' || active === 'plan' || active === 'live' ? 'planner' :
+  archPages.includes(active)                              ? 'architecture' :
   null;
 
-const hasSidebar = section === 'architecture';
+const hasPlannerSidebar = section === 'planner';
+const hasArchSubnav     = section === 'architecture';
+const hasSidebar        = hasPlannerSidebar; // only planner uses sidebar now
+
+// Resolve activePage for PlannerSidenav
+const plannerActivePage: 'plan' | 'live' = active === 'live' ? 'live' : 'plan';
 ---
 <!doctype html>
 <html lang="en">
@@ -55,7 +64,7 @@ const hasSidebar = section === 'architecture';
              class={`topnav-section${navSection === 'bookshelf' ? ' is-active' : ''}`}>
             Bookshelf
           </a>
-          <a href="/dashboard"
+          <a href="/plan"
              data-section="planner"
              class={`topnav-section${navSection === 'planner' ? ' is-active' : ''}`}>
             Planner
@@ -69,18 +78,30 @@ const hasSidebar = section === 'architecture';
       </div>
     </nav>
 
-    <div class={`page-shell${hasSidebar ? ' has-sidebar' : ''}`}>
-      {hasSidebar && (
-        <nav class="sidenav" aria-label="Architecture section">
-          <div class="sidenav-group">
-            <span class="sidenav-label">Architecture</span>
-            <a href="/architecture"   class={`sidenav-link${active === 'architecture'   ? ' is-active' : ''}`}>Pipeline</a>
-            <a href="/intelligence"   class={`sidenav-link${active === 'intelligence'   ? ' is-active' : ''}`}>Intelligence</a>
-            <a href="/infrastructure" class={`sidenav-link${active === 'infrastructure' ? ' is-active' : ''}`}>Infrastructure</a>
-            <a href="/system-map"     class={`sidenav-link${active === 'system-map'     ? ' is-active' : ''}`}>System Map</a>
-            <a href="/db-schema"      class={`sidenav-link${active === 'db-schema'      ? ' is-active' : ''}`}>Database</a>
-          </div>
-        </nav>
+    {hasArchSubnav && (
+      <nav class="subnav-h" aria-label="Architecture section">
+        <div class="subnav-h-inner">
+          <a href="/architecture"   class={`subnav-h-link${active === 'architecture'   ? ' is-active' : ''}`}>Pipeline</a>
+          <a href="/intelligence"   class={`subnav-h-link${active === 'intelligence'   ? ' is-active' : ''}`}>Intelligence</a>
+          <a href="/infrastructure" class={`subnav-h-link${active === 'infrastructure' ? ' is-active' : ''}`}>Infrastructure</a>
+          <a href="/system-map"     class={`subnav-h-link${active === 'system-map'     ? ' is-active' : ''}`}>System Map</a>
+          <a href="/db-schema"      class={`subnav-h-link${active === 'db-schema'      ? ' is-active' : ''}`}>Database</a>
+        </div>
+      </nav>
+    )}
+
+    <div class={`page-shell${hasSidebar ? ' has-sidebar' : ''}${hasArchSubnav ? ' has-arch-subnav' : ''}`}>
+      {hasPlannerSidebar && (
+        <PlannerSidenav
+          activePage={plannerActivePage}
+          roadmap={dash.roadmap as any}
+          waves={dash.waves as any}
+          books_in_flight={dash.books_in_flight as any}
+          debt={dash.debt as any}
+          metrics={dash.metrics as any}
+          source_commit={(dash as any).source_commit ?? ''}
+          client:load
+        />
       )}
 
       <main class="page">
@@ -106,6 +127,9 @@ const hasSidebar = section === 'architecture';
           es.addEventListener('snapshot', (e) => {
             const data = JSON.parse((e as MessageEvent).data);
             if (stamp) stamp.textContent = `Snapshot ${data.generated_at}`;
+            // Dispatch to all subscribers (PlannerSidenav, etc.)
+            window.dispatchEvent(new CustomEvent('podcastSnapshot', { detail: data }));
+            // Legacy support
             const cb = (window as any).__onSnapshot;
             if (typeof cb === 'function') cb(data);
           });

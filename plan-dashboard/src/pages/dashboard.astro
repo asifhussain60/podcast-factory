@@ -1,4 +1,7 @@
 ---
+// /dashboard → /plan (permanent redirect)
+return Astro.redirect('/plan', 308);
+
 import Base from '../layouts/Base.astro';
 import DashboardTabs from '../components/DashboardTabs.tsx';
 import dash from '../data/dashboard-snapshot.json';

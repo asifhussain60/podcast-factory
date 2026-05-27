@@ -1,0 +1,59 @@
+---
+import Base from '../layouts/Base.astro';
+import PlanDesign from '../components/PlanDesign.tsx';
+import dash from '../data/dashboard-snapshot.json';
+
+const stepsDone  = dash.roadmap.filter((s: any) => s.status === 'complete').length;
+const stepsTotal = dash.roadmap.length;
+const inFlight   = dash.books_in_flight.length;
+const burnMonth  = dash.metrics.burn_30d_usd.reduce((a: number, b: number) => a + b, 0);
+const nextReady  = (dash.roadmap as any[]).find((s: any) => s.status === 'ready');
+---
+<Base title="Plan Design" active="plan" section="planner">
+  <!-- KPI stat strip -->
+  <div class="stat-strip">
+    <div class="stat-card s-green">
+      <div class="stat-card-icon"><i class="fa-solid fa-check" aria-hidden="true"></i></div>
+      <div class="stat-card-body">
+        <div class="stat-card-value">{stepsDone} / {stepsTotal}</div>
+        <div class="stat-card-label">Steps Done</div>
+      </div>
+    </div>
+    <div class="stat-card s-blue">
+      <div class="stat-card-icon"><i class="fa-solid fa-spinner" aria-hidden="true"></i></div>
+      <div class="stat-card-body">
+        <div class="stat-card-value">{inFlight}</div>
+        <div class="stat-card-label">Books in Flight</div>
+      </div>
+    </div>
+    <div class="stat-card s-amber">
+      <div class="stat-card-icon"><i class="fa-solid fa-coins" aria-hidden="true"></i></div>
+      <div class="stat-card-body">
+        <div class="stat-card-value">${burnMonth.toFixed(0)}</div>
+        <div class="stat-card-label">Spend / 30 Days</div>
+      </div>
+    </div>
+    <div class="stat-card s-brown">
+      <div class="stat-card-icon"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></div>
+      <div class="stat-card-body">
+        <div class="stat-card-value">{nextReady?.id ?? '—'}</div>
+        <div class="stat-card-label">Next Step</div>
+      </div>
+    </div>
+  </div>
+
+  <header class="stack">
+    <span class="eyebrow">Plan Design</span>
+    <h1>The five-wave roadmap.</h1>
+    <p class="lede">
+      Twenty-four improvements across five waves. Each wave delivers something independently useful.
+      Click any step for the full detail. Use the sidebar to track overall progress.
+    </p>
+  </header>
+
+  <PlanDesign
+    roadmap={dash.roadmap as any}
+    waves={dash.waves as any}
+    client:load
+  />
+</Base>

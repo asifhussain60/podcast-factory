@@ -1594,3 +1594,236 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
   .grid-2 { grid-template-columns: 1fr; }
 }
 
+/* ── Horizontal section sub-nav (Architecture) ──────────────────── */
+
+.subnav-h {
+  position: sticky; top: 52px; z-index: 40;
+  height: 40px;
+  background: var(--c-bg-card);
+  border-bottom: 1px solid var(--c-rule);
+  box-shadow: 0 1px 0 rgba(31,29,24,0.04);
+}
+.subnav-h-inner {
+  max-width: var(--maxw-page); margin: 0 auto;
+  padding: 0 var(--sp-5); height: 40px;
+  display: flex; align-items: stretch; gap: 0;
+  overflow-x: auto; scrollbar-width: none;
+}
+.subnav-h-inner::-webkit-scrollbar { display: none; }
+.subnav-h-link {
+  display: flex; align-items: center;
+  padding: 0 var(--sp-4);
+  color: var(--c-ink-dim); font-weight: 500; font-size: var(--fs-sm);
+  text-decoration: none; white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+.subnav-h-link:hover { color: var(--c-ink); text-decoration: none; }
+.subnav-h-link.is-active {
+  color: var(--c-accent); border-bottom-color: var(--c-accent); font-weight: 700;
+}
+
+/* Adjust pipeline sticky + scroll targets when subnav is present */
+.has-arch-subnav .pipeline-rail-sticky { top: 96px; }
+.has-arch-subnav .station-section { scroll-margin-top: 96px; }
+
+/* ── KPI stat strip ────────────────────────────────────────────── */
+
+.stat-strip {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  border-radius: var(--r-lg); overflow: hidden;
+  border: 1px solid var(--c-rule); box-shadow: var(--shadow-card);
+  margin-bottom: var(--sp-6);
+}
+.stat-card {
+  display: flex; align-items: center; gap: var(--sp-4);
+  padding: var(--sp-4) var(--sp-5); color: white;
+  border-right: 1px solid rgba(255,255,255,0.15);
+}
+.stat-card:last-child { border-right: 0; }
+.stat-card.s-green  { background: linear-gradient(135deg, #2d5a2d, var(--c-green)); }
+.stat-card.s-blue   { background: linear-gradient(135deg, #0e3a5a, var(--c-planner)); }
+.stat-card.s-amber  { background: linear-gradient(135deg, #6b4200, var(--c-amber)); }
+.stat-card.s-brown  { background: linear-gradient(135deg, #4a1a06, var(--c-accent)); }
+.stat-card-icon {
+  flex: 0 0 44px; width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(255,255,255,0.18);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.stat-card-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.stat-card-value { font-size: var(--fs-xl); font-weight: 900; color: white; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.stat-card-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 700; color: rgba(255,255,255,0.76); }
+@media (max-width: 680px) { .stat-strip { grid-template-columns: repeat(2, 1fr); } }
+
+/* ── Left-border step badges ────────────────────────────────────── */
+
+.step-badge {
+  display: inline-flex; align-items: center;
+  padding: 2px 8px 2px 9px;
+  font-size: var(--fs-label); font-weight: 700;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  border-radius: 3px;
+  border-left: 3px solid var(--c-rule);
+  background: var(--c-bg-sunken); color: var(--c-ink-dim);
+  white-space: nowrap;
+}
+.step-badge.is-ok      { border-left-color: var(--c-green);   background: color-mix(in oklab, var(--c-green)   9%, transparent); color: var(--c-green); }
+.step-badge.is-flight  { border-left-color: var(--c-planner); background: color-mix(in oklab, var(--c-planner) 9%, transparent); color: var(--c-planner); }
+.step-badge.is-ready   { border-left-color: var(--c-gold);    background: color-mix(in oklab, var(--c-gold)    9%, transparent); color: var(--c-gold); }
+.step-badge.is-blocked { border-left-color: var(--c-red);     background: color-mix(in oklab, var(--c-red)     9%, transparent); color: var(--c-red); }
+.step-badge.is-future  { border-left-color: var(--c-rule);    background: var(--c-rule-soft); color: var(--c-ink-muted); }
+
+/* wave progress bar (used in wave-band header + planner sidebar) */
+.wave-prog-wrap { height: 4px; border-radius: 2px; background: var(--c-rule); overflow: hidden; margin-top: var(--sp-2); }
+.wave-prog-fill {
+  height: 100%; border-radius: 2px; background: var(--c-planner);
+  transform-origin: left; transform: scaleX(0);
+  transition: transform 500ms ease-out;
+}
+.wave-prog-fill[data-animated="true"] { transform: scaleX(var(--fill-pct, 0.02)); }
+.wave-prog-fill.s-complete { background: var(--c-green); }
+.wave-prog-fill.s-future   { background: var(--c-rule-soft); }
+
+/* ── Planner sidebar ────────────────────────────────────────────── */
+
+.planner-sidebar {
+  width: 264px; flex-shrink: 0;
+  border-right: 1px solid var(--c-rule);
+  background: var(--c-bg);
+  position: sticky; top: 52px;
+  height: calc(100vh - 52px);
+  overflow-y: auto; overscroll-behavior: contain;
+  display: flex; flex-direction: column;
+}
+.planner-sidebar::-webkit-scrollbar { width: 4px; }
+.planner-sidebar::-webkit-scrollbar-thumb { background: var(--c-rule); border-radius: 2px; }
+
+.planner-sb-section {
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--c-rule-soft);
+  flex-shrink: 0;
+}
+.planner-sb-label {
+  display: block; font-size: 10px; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.09em;
+  color: var(--c-planner); margin-bottom: var(--sp-2);
+}
+
+/* Factory status badge */
+.planner-status-badge {
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  padding: 5px 12px; border-radius: var(--r-md);
+  font-size: var(--fs-sm); font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.planner-status-badge.s-idle    { background: var(--c-bg-sunken); color: var(--c-ink-muted); }
+.planner-status-badge.s-running { background: color-mix(in oklab, var(--c-planner) 12%, transparent); color: var(--c-planner); }
+.planner-status-badge.s-blocked { background: color-mix(in oklab, var(--c-red) 12%, transparent); color: var(--c-red); }
+.planner-status-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: currentColor; flex-shrink: 0;
+}
+.planner-status-badge.s-running .planner-status-dot {
+  animation: psb-pulse 1.8s ease-in-out infinite;
+}
+@keyframes psb-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.32; } }
+.planner-sub-line { font-size: var(--fs-2xs); color: var(--c-ink-muted); margin-top: var(--sp-1); }
+
+/* Master progress bar */
+.planner-prog-bar-wrap { height: 8px; border-radius: 4px; background: var(--c-rule); overflow: hidden; margin: var(--sp-2) 0; }
+.planner-prog-bar-fill {
+  height: 100%; border-radius: 4px; background: var(--c-green);
+  transform-origin: left; transform: scaleX(0);
+  transition: transform 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.planner-prog-bar-fill[data-animated="true"] { transform: scaleX(var(--fill-pct, 0)); }
+.planner-prog-fraction { font-size: var(--fs-xl); font-weight: 900; color: var(--c-ink); line-height: 1.1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.planner-prog-sub { font-size: var(--fs-2xs); color: var(--c-ink-muted); margin-top: var(--sp-1); }
+
+/* Wave rows */
+.planner-wave-row {
+  display: flex; flex-direction: column; gap: 4px;
+  padding: var(--sp-2) var(--sp-3); border-radius: var(--r-md);
+  transition: background 0.12s; cursor: pointer;
+  text-decoration: none; color: inherit;
+}
+.planner-wave-row:hover { background: var(--c-bg-sunken); text-decoration: none; color: inherit; }
+.planner-wave-row.is-active {
+  background: color-mix(in oklab, var(--c-planner) 7%, transparent);
+  border-left: 3px solid var(--c-planner); padding-left: calc(var(--sp-3) - 3px);
+}
+.planner-wave-row.is-complete {
+  border-left: 3px solid var(--c-green); padding-left: calc(var(--sp-3) - 3px);
+}
+.planner-wave-row-top { display: flex; align-items: center; gap: var(--sp-2); }
+.planner-wave-badge {
+  flex: 0 0 22px; width: 22px; height: 22px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: var(--fs-2xs); font-weight: 900; flex-shrink: 0;
+}
+.planner-wave-badge.s-complete { background: var(--c-green); color: white; }
+.planner-wave-badge.s-active   { background: var(--c-planner); color: white; }
+.planner-wave-badge.s-future   { background: var(--c-rule); color: var(--c-ink-muted); }
+.planner-wave-name {
+  font-size: var(--fs-sm); font-weight: 600; color: var(--c-ink-dim);
+  flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.planner-wave-row.is-future .planner-wave-name { color: var(--c-ink-muted); }
+.planner-wave-count { font-size: var(--fs-2xs); font-weight: 700; color: var(--c-ink-muted); flex-shrink: 0; font-variant-numeric: tabular-nums; }
+.planner-wave-bar-wrap { height: 4px; border-radius: 2px; background: var(--c-rule); overflow: hidden; }
+.planner-wave-bar-fill {
+  height: 100%; border-radius: 2px; background: var(--c-planner);
+  transform-origin: left; transform: scaleX(0);
+  transition: transform 500ms ease-out;
+}
+.planner-wave-bar-fill[data-animated="true"] { transform: scaleX(var(--fill-pct, 0.02)); }
+.planner-wave-bar-fill.s-complete { background: var(--c-green); }
+.planner-wave-bar-fill.s-future   { background: var(--c-rule-soft); }
+
+/* What's next card */
+.planner-next-card {
+  background: color-mix(in oklab, var(--c-planner) 5%, var(--c-bg-card));
+  border: 1px solid color-mix(in oklab, var(--c-planner) 20%, var(--c-rule));
+  border-radius: var(--r-md); padding: var(--sp-3);
+}
+.planner-next-id {
+  display: inline-flex; align-items: center;
+  padding: 1px 7px; border-radius: 3px;
+  background: var(--c-planner); color: white;
+  font-size: var(--fs-label); font-weight: 800; letter-spacing: 0.04em;
+  margin-bottom: var(--sp-1);
+}
+.planner-next-title {
+  font-size: var(--fs-sm); font-weight: 600; color: var(--c-ink); line-height: 1.35; margin: 0;
+}
+
+/* Debt pulse */
+.planner-debt-line {
+  display: flex; align-items: center; gap: var(--sp-2);
+  font-size: var(--fs-sm); font-weight: 600; color: var(--c-amber);
+  text-decoration: none;
+}
+.planner-debt-line:hover { text-decoration: underline; }
+.planner-debt-line.has-p0 { color: var(--c-red); }
+
+/* Nav links at bottom of sidebar */
+.planner-nav-links {
+  display: flex; flex-direction: column; gap: 2px;
+  padding: var(--sp-3) var(--sp-2);
+  margin-top: auto;
+  border-top: 1px solid var(--c-rule-soft);
+  flex-shrink: 0;
+}
+.planner-nav-links .sidenav-link { color: var(--c-ink-dim); }
+.planner-nav-links .sidenav-link.is-active {
+  color: var(--c-planner);
+  background: color-mix(in oklab, var(--c-planner) 8%, transparent);
+}
+.planner-sb-footer {
+  padding: var(--sp-3) var(--sp-4);
+  font-size: var(--fs-2xs); color: var(--c-ink-muted);
+  text-align: right; flex-shrink: 0;
+  border-top: 1px solid var(--c-rule-soft);
+}
+
