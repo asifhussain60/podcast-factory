@@ -149,3 +149,26 @@ Append a new entry at the bottom of this section at the end of every Copilot ses
 **Files updated:** `_workspace/prompts/loop-intelligence.md` (iteration 4 + SP-003 + log append), `_workspace/plan/refactor/wave-execution-events.jsonl` (new loop completion event), `plan-dashboard/src/data/dashboard-snapshot.json` (loop state + optimization tally), plus regenerated snapshot metadata via `npm run snapshot`.
 **Next:** Continue with the active roadmap wave execution using the synchronized loop state as the current baseline.
 **Blocked / open:** None discovered in this run; no Tier-2 action requested.
+
+### 2026-05-27 21:20 EST — Copilot session (holistic verification + cleanup)
+
+**Goal:** Verify all 6 waves reflect reality; update all architecture/infrastructure views; collapse wave branches into develop; full system check.
+
+**Closed:**
+- Verified 27/27 acceptance rows checked across 6 waves (all DONE per `run_wave --check`).
+- Fixed `p4_8.py` crash (FileNotFoundError on deleted podcast-plan.yaml — graceful is_done guard added).
+- Fixed 9 drifted unit tests in test_run_wave.py (wave-6 validity, flag requirements, real-repo phase-runner completion behavior). All 35 tests pass.
+- Updated plan.yaml: all 6 waves (A–F) marked execution_status: completed_2026_05_27.
+- Updated plan.md: Wave F section added; Mermaid diagram updated with Wave F and done badges; summary updated to six waves, 32 steps.
+- Regenerated plan-dashboard snapshot JSONs.
+- Regenerated docs/architecture/index.html (docs-updater): added Section 10 (wave rebuild cards) and Section 11 (archetype registry — 4 established + 3 Wave F completions). Source commit 9a48e89.
+- Merged refactor/wave-6 into develop (fast-forward via --no-ff). Pushed to origin.
+- Deleted all 5 stale wave branches locally and remotely (wave-1/3/4/5/6).
+
+**System check results (all green):** Wave runner --check: 6/6 DONE (27/27 rows) | P-9 invariant: 15/15 | Unit tests: 35/35 | Git status: clean | Branches: develop + main only.
+
+**Commits this session:** 01286fb (test + p4_8 fix) · 9a48e89 (plan docs + dashboard) · bbe38bd (architecture HTML) · f4d238c (merge into develop)
+
+**Next:** No immediate refactor work pending. All 6 waves complete. Pipeline ready for next book intake. Wave F archetypes fully spec'd. Open questions (C3 citation flakes, E1 capstone_mode, C4 diagram pilot) remain deferred until a forward book triggers them.
+
+**Blocked / open:** None.
