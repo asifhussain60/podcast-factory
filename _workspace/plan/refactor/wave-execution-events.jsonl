@@ -1,0 +1,9 @@
+{"ts": "2026-05-27T18:30:21Z", "wave": 3, "wave_letter": "C", "event_type": "wave_start", "status": "started", "message": "Wave 3 started in autonomous mode.", "details": {}}
+{"ts": "2026-05-27T18:33:33Z", "wave": 3, "wave_letter": "C", "event_type": "wave_start", "status": "started", "message": "Wave 3 started in autonomous mode.", "details": {}}
+{"ts": "2026-05-27T18:33:33Z", "wave": 3, "wave_letter": "C", "event_type": "mandatory_alignment", "status": "started", "message": "Prior-wave gaps detected. Mandatory alignment started.", "details": {"gap_waves": [2]}}
+{"ts": "2026-05-27T18:33:33Z", "wave": 2, "wave_letter": "B", "event_type": "mandatory_alignment", "status": "in_progress", "message": "Resolving prior-wave gaps for W2.", "details": {"missing_task_ids": ["P2.3", "P2.4"]}}
+{"ts": "2026-05-27T18:33:33Z", "wave": 2, "wave_letter": "B", "event_type": "mandatory_alignment", "status": "blocked", "message": "Prior-wave alignment blocked for W2; cannot proceed.", "details": {"remaining_task_ids": ["P2.3", "P2.4"], "dispatcher_rc": 3}}
+{"ts": "2026-05-27T18:36:13Z", "wave": 3, "wave_letter": "C", "event_type": "wave_start", "status": "started", "message": "Wave 3 started in autonomous mode.", "details": {}}
+{"ts": "2026-05-27T18:36:13Z", "wave": 3, "wave_letter": "C", "event_type": "mandatory_alignment", "status": "started", "message": "Prior-wave gaps detected. Mandatory alignment started.", "details": {"gap_waves": [2]}}
+{"ts": "2026-05-27T18:36:14Z", "wave": 2, "wave_letter": "B", "event_type": "mandatory_alignment", "status": "in_progress", "message": "Resolving prior-wave gaps for W2.", "details": {"missing_task_ids": ["P2.3", "P2.4"]}}
+{"ts": "2026-05-27T18:36:14Z", "wave": 2, "wave_letter": "B", "event_type": "mandatory_alignment", "status": "blocked", "message": "Prior-wave alignment blocked for W2; cannot proceed.", "details": {"remaining_task_ids": ["P2.3", "P2.4"], "dispatcher_rc": 3}}

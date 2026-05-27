@@ -3,7 +3,7 @@
 # Summary Of Your Intent.
 
 1. **Architecture-first rebuild on `develop`**. This plan derives every step from the architecture at [architecture.md](../architecture.md). Read architecture first; then this roadmap reads as *"to land that architecture, do these things in this order."*
-2. **Five waves, 28 steps**. Wave A foundation (cleanup, core layer, modularization), Wave B intelligence (extractor + librarian + augmenter), Wave C archetype expansion (PLAY-NOVEL + LECTURE-SERIES + ENCYCLOPEDIC + multi-tier capstone), Wave D dashboard + annotation intelligence lane, Wave E retroactive enhancements for shipped books + extended publish gate.
+2. **Mobilization + five waves, 29 steps**. A short pre-wave Mobilization stage prepares each wave launch (for example B0 before Wave B proper), then Wave A foundation (cleanup, core layer, modularization), Wave B intelligence (extractor + librarian + augmenter), Wave C archetype expansion (PLAY-NOVEL + LECTURE-SERIES + ENCYCLOPEDIC + multi-tier capstone), Wave D dashboard + annotation intelligence lane, Wave E retroactive enhancements for shipped books + extended publish gate.
 3. **Legacy plan folder gets folded in then deleted**. ~22 legacy files in `_workspace/plan/` are surveyed, the live pieces are extracted into the new nested structure, the rest are removed (git history preserves them). Step A1 is the cleanup; nothing else lands until A1 is done.
 4. **Retroactive doctrine for shipped books**. KaR and M&D get archetype stamping, addendum episodes, and extraction-only knowledge passes. **Never** re-run through the pipeline. Every enhancement still becomes default for the next forward book.
 5. **Plan only — no execution authorized**. This turn writes the plan files. Asif's approval before any code lands.
@@ -15,6 +15,7 @@
 | Symbol | Meaning |
 |---|---|
 | **Step ID** | `<Wave>.<Step>` e.g. `A1`, `B3`, `C2` |
+| **Mobilization step** | `<Wave>0` e.g. `B0` = the pre-wave setup step that must run before the rest of that wave |
 | **Plan-block format** | `### N. {statement}` + blockquote description + `*Value gained:*` closer |
 | **Dependency arrow** | Listed as `depends_on:` in [plan.yaml](plan.yaml) |
 | **Authorization tier** | T0 (silent), T1 (do + surface), T2 (always ask) per [CLAUDE.md](../../../CLAUDE.md) |
@@ -69,6 +70,15 @@ flowchart LR
 
 Wave A is the gate. Wave B and Wave C can run in parallel after A. Wave D is independent — it can start any time after A1 (cleanup) since it operates on plan files, not pipeline code. Wave E is last; it depends on B4 + C2 for the retroactive enhancements to be coherent.
 
+## Wave Governance
+
+Every wave now follows one non-negotiable closeout protocol:
+
+1. **Wave-end cleanup is mandatory.** Each wave must run a quality pass (code health check, dead-code sweep, and stack-idiomatic simplification where applicable) before the wave is allowed to close.
+2. **Wave completion merges directly to `develop`.** No PR path for wave closure.
+3. **Branch discipline is orchestrated.** The runner auto-targets the correct wave branch (`refactor/wave-<n>`), merges completed work into `develop`, then switches back to the wave branch so subsequent commands remain in the right lane.
+4. **Quality is iterative, not one-shot.** Red-green cleanup runs in narrowing passes until checks are green and no regressions are detected.
+
 ---
 
 # Wave A · Foundation
@@ -105,7 +115,7 @@ Wave A is the gate. Wave B and Wave C can run in parallel after A. Wave D is ind
 
 ### A6. Consolidate the agent sprawl — one canonical spec per agent, one installation path.
 
-> The repo maintains agent behaviour specs in two places simultaneously: one directory that Claude Code reads at runtime, and a second directory used by GitHub Copilot for agent browsing. After the journal-repo split, these two surfaces drifted apart. Nine agents now carry identical full specs in both locations; three agents exist only in the Copilot surface and are therefore invisible to Claude Code; two agents exist only in the Claude Code surface with no Copilot stub; one deprecated agent (`CORTEX`) and one misplaced reference document (`operating-contract.md`) clutter the Copilot surface; and the install-script's README still names two agents that left with the journal split (`journal-challenger`, `ui-reviewer`). The fix: designate `infra/claude-agents/` as the single canonical location for every full spec. Migrate the three Copilot-only agents (`reconcile`, `project-steward`, `podcast-librarian`) into `infra/claude-agents/` so the install script covers them. Rewrite every `.github/agents/` file as a thin stub — exactly as `podcast-planner.agent.md` already does — containing only the frontmatter `name` + `description` and a single pointer line to the `infra/claude-agents/` canonical. Delete `CORTEX.agent.md` (deprecated 2026-05-17; spec is vestigial) and move `operating-contract.md` to `reference/` where it belongs. Rewrite `infra/claude-agents/_README.md` to reflect the correct agent count, remove stale journal references, and document the stub pattern. Update `scripts/install-claude-skills.sh` to install all agents (the current script installs 7; the correct count after this step is 16 active agents). New DR: `DR-014 — agent canonical spec lives in infra/claude-agents/; .github/agents/ contains stubs only; the install script is the source of truth for what Claude Code can invoke`.
+> The repo maintains agent behaviour specs in two places simultaneously: one directory that Claude Code reads at runtime, and a second directory used by GitHub Copilot for agent browsing. After the journal-repo split, these two surfaces drifted apart. Nine agents now carry identical full specs in both locations; three agents exist only in the Copilot surface and are therefore invisible to Claude Code; two agents exist only in the Claude Code surface with no Copilot stub; one deprecated agent (`CORTEX`) and one misplaced reference document (`operating-contract.md`) clutter the Copilot surface; and the install-script's README still names two agents that left with the journal split (`journal-challenger`, `ui-reviewer`). The fix: designate `infra/claude-agents/` as the single canonical location for every full spec. Migrate the three Copilot-only agents (`reconcile`, `project-steward`, `podcast-librarian`) into `infra/claude-agents/` so the install script covers them. Rewrite every `.github/agents/` file as a thin stub — exactly as `podcast-planner.agent.md` already does — containing only the frontmatter `name` + `description` and a single pointer line to the `infra/claude-agents/` canonical. Delete `CORTEX.agent.md` (deprecated 2026-05-17; spec is vestigial) and move `operating-contract.md` to `reference/` where it belongs. Rewrite `infra/claude-agents/_README.md` to reflect the correct agent count, remove stale journal references, and document the stub pattern. Update `scripts/install-claude-skills.sh` to install all agents (the current script installs 7; the correct count after this step is 17 active agents). New DR: `DR-014 — agent canonical spec lives in infra/claude-agents/; .github/agents/ contains stubs only; the install script is the source of truth for what Claude Code can invoke`.
 >
 > *Value gained:* Every agent Claude Code can invoke also has a Copilot stub. Every agent Copilot surfaces also has a Claude Code spec. The install script is authoritative — running it on any machine produces the identical agent surface. Editing an agent spec means editing one file in one place. The CORTEX ghost and the misplaced reference doc are gone.
 
@@ -115,9 +125,34 @@ Wave A is the gate. Wave B and Wave C can run in parallel after A. Wave D is ind
 >
 > *Value gained:* The $466 overflow cannot happen again. Future 122-chapter books cost $80–85 all-in instead of an open-ended liability. The interactive AI plan stays clean for actual operator conversations. Cost is predictable, auditable, and bounded at the architectural level rather than relying on discipline.
 
+**Execution update (2026-05-27):**
+- Wave A foundational modules and doctrinal aggregation are landed and validated.
+- Oversized pipeline entry files were split into thin compatibility entrypoints with moved implementation modules, bringing `scripts/podcast/` under the ≤600-line guardrail.
+- KAHSKOLE adapt/challenge batch pipelines were migrated off interactive CLI shellouts to direct Anthropic API calls with dedicated-key lookup and prompt caching.
+- Batch drivers now enforce a per-run chapter cap (`--max-chapters`, default 50) as a runaway-spend safety brake.
+- Top-level plan-root legacy clutter was reduced to canonical files only (`README`, `architecture`, `copilot-handoff`), with stale root files removed.
+- Agent stubs and installer behavior remain consolidated and dry-run verified against the canonical infra-agent directory.
+- Pre-Wave-B quality gate run across prior waves found one mandatory alignment item: A6 acceptance criteria expected 16 agents while canonical repo truth is 17; criteria aligned and re-verified before Wave B kickoff.
+- Wave B kickoff initiated with Mobilization step B0 in progress.
+- A second mandatory alignment item surfaced during B0 implementation trace: schema migrations were still at 6 files while Wave A contract required 16; migrations were expanded to the full 16-file set and re-verified.
+- Wave B B0 now has a live first slice in code: ingestion-driver scaffold, lookup-table seeding, refinement-state transitions, and idempotency/state-machine tests.
+- Wave B next slice has started in executable form: the extractor is now functional (quran/hadith citation parsing + validated atom schema + scratch JSONL output path), with new tests covering canonical IDs, validation mismatches, dedupe-by-id source accumulation, and CLI pathing.
+- Before advancing further, a collective acceptance audit across prior completed work found one B1 gap cluster (budget gate, low-confidence review queue behavior, contract-test surface, and module size target). A mandatory alignment step was inserted and completed.
+- Alignment outcome: extractor now enforces budget caps, appends low-confidence findings to manual review, has explicit schema/budget acceptance tests, and was refactored into helper modules to satisfy the line-budget target while preserving behavior.
+- Post-alignment acceptance rerun passed, and execution has now advanced immediately into B2.
+- B2 is now active in code: librarian merge logic is implemented for new, duplicate, variant, and conflict outcomes, including manual-review conflict queueing and per-book merge reports, with dedicated B2 regression tests now green.
+- Autonomous wave governance is now being enforced in the runner path: each wave invocation performs a collective prior-wave quality check, inserts mandatory alignment automatically on detected gaps, and only proceeds when gaps are resolved.
+- Planner visibility now includes autonomous governance timeline events (start, quality-pass, alignment-started, alignment-resolved/blocked, wave-complete) from a shared event log consumed by the snapshot generator.
+- A mandatory alignment correction has been completed on the governance contract itself: wave execution now reads from a dedicated wave-acceptance checklist (instead of the per-book ship checklist), so prior-wave quality evaluation reflects real wave progress rather than a zero-row false pending state.
+- A follow-up runner stability fix has also been completed: checklist resolution now happens in the active branch context after wave-branch checkout, which prevents launch-time failures when a newly-created wave branch does not yet carry the dedicated checklist file.
+
 ---
 
 # Wave B · Intelligence Layer
+
+### Mobilization (pre-wave before Wave B)
+
+> The Mobilization stage is the practical setup work that comes before wave execution. In Wave B, this is step `B0`.
 
 > ⛔ **BLOCKER — discuss with Asif before any Wave B step executes.**
 > Before B0 ingests the Kashkole corpus into the intelligence library, Asif wants to evaluate one open option: use ChatGPT or Gemini (paid accounts for both) to **further enrich the adapted Kashkole chapter text** before it becomes knowledge atoms. Enriched text could improve doctrinal atom depth, topic-tagging precision, and Quran cross-reference coverage — all of which affect what the Wave B Augmenter injects into future book productions. Three decision paths: **(a)** ingest as-is from existing adapted extracts (current plan baseline); **(b)** run a ChatGPT/Gemini enrichment pass on all PASS+WARN chapters before B0 ingests; **(c)** run enrichment as a post-hoc annotation layer on already-ingested B0 atoms. **No Wave B code lands until this discussion resolves and one path is selected.**
@@ -259,6 +294,12 @@ Wave A is the gate. Wave B and Wave C can run in parallel after A. Wave D is ind
 > Extend `scripts/podcast/validate_ship_ready.py` (existing G1-G7 runner) with five archetype-aware gates: **G8** capstone-mode-honored (if `capstone_mode != none`, required tier-1 and tier-2 episodes exist and pass anti-cliché). **G9** rich-diagram-coverage (if `diagram_density == high`, classifier reports ≥ 60%). **G10** manual-review-resolved (no unresolved `<div class='alert manual-review'>` markers). **G11** knowledge-base-merge-clean (Librarian merge-report.md reports zero conflicts). **G12** augmenter-A/B-acceptance — for books with `enable_knowledge_augmenter: true`, podcast-challenger surfaced at least one finding referencing an augmented atom. Until G12 fires green on at least one book pair (recommended: Kunooz + next-book-after), `R_KNOWLEDGE_AUGMENTER_DEFAULT_ENABLED` stays `false` even though the code is shipped (DR-007).
 >
 > *Value gained:* No book ships with a hidden archetype invariant violation. The A/B flywheel-health gate becomes a real automated check, not a manual review item.
+
+### E5. Add automated UI resilience gates for planner surfaces and launcher lifecycle.
+
+> Add a final quality lane that protects the planning UI from regressions discovered during Wave 1 implementation. Scope: (a) route-level visual sanity checks for Plan, Live, Architecture, and Database pages (viewport matrix at desktop + tablet breakpoints), (b) side-rail integrity checks (no overlap, no clipped cards, no accidental horizontal overflow), (c) launcher lifecycle checks (reuse healthy server, self-heal stale occupant, no forced Terminal termination prompts), and (d) dead-code sweep enforcement for plan-dashboard shared config modules. Wire this lane into CI as a fast gate that runs on dashboard-affecting changes and blocks merges on failures.
+>
+> *Value gained:* Dashboard quality stops depending on manual eyeballing. The exact failure modes uncovered in Wave 1 become permanently guarded against in the next wave, reducing regression risk and support churn.
 
 ---
 

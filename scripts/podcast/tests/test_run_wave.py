@@ -11,6 +11,7 @@ import json
 import os
 import sys
 import tempfile
+import textwrap
 import unittest
 from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
@@ -200,6 +201,12 @@ class MainArgvTests(unittest.TestCase):
             mock.patch.object(run_wave, "ACCEPTANCE_FILE", self.acc_file),
             mock.patch.object(run_wave, "BOOKS_DIR", self.books_dir),
             mock.patch.object(run_wave, "p9_invariant_green", lambda: True),
+            mock.patch.object(run_wave, "_ensure_wave_branch", lambda wave_n: None),
+            mock.patch.object(
+                run_wave,
+                "_merge_wave_to_develop_and_return",
+                lambda wave_n: run_wave.EXIT_DONE,
+            ),
         ]
         for p in self._patches:
             p.start()
@@ -322,7 +329,27 @@ class MainArgvTests(unittest.TestCase):
         self.assertIn("Wave 5 requires --phase", err)
 
     def test_w5_with_phase_dispatches(self):
-        self._write_acc(SAMPLE_ACC)
+        acc = textwrap.dedent(
+            """\
+            # Acceptance Criteria
+
+            ## Wave 1
+            - [x] **P1.1** done
+
+            ## Wave 2
+            - [x] **P2.1** done
+
+            ## Wave 3
+            - [x] **P3.1** done
+
+            ## Wave 4
+            - [x] **P4.1** done
+
+            ## Wave 5
+            - [ ] **P5.1** pending
+            """
+        )
+        self._write_acc(acc)
         rc, out, _ = self._run_main("5", "--phase", "P17.1")
         # W5 phase-flag check passes; dispatcher proceeds to iterate REGISTRY[5].
         # Since REGISTRY[5] is empty, "phase registry is empty" appears.
@@ -334,7 +361,18 @@ class MainArgvTests(unittest.TestCase):
             self._run_main("6")
 
     def test_wave_2_dispatch_halts(self):
-        self._write_acc(SAMPLE_ACC)
+        acc = textwrap.dedent(
+            """\
+            # Acceptance Criteria
+
+            ## Wave 1
+            - [x] **P1.1** done
+
+            ## Wave 2
+            - [ ] **P2.1** pending
+            """
+        )
+        self._write_acc(acc)
         rc, out, _ = self._run_main("2")
         # W2 registry currently empty → "phase registry is empty" + halt.
         self.assertEqual(rc, run_wave.EXIT_HALTED_REVIEW)
@@ -356,6 +394,31 @@ class MainArgvTests(unittest.TestCase):
             or "iterating" in out,
             f"Expected W4 halt signature, got:\n{out}",
         )
+
+    def test_collective_quality_gate_triggers_mandatory_alignment(self):
+        self._write_acc(SAMPLE_ACC)
+        rc, out, _ = self._run_main("2")
+        self.assertEqual(rc, run_wave.EXIT_HALTED_REVIEW)
+        self.assertIn("mandatory alignment inserted", out)
+
+    def test_collective_quality_passes_when_prior_waves_done(self):
+        acc = textwrap.dedent(
+            """\
+            # Acceptance Criteria
+
+            ## Wave 1
+            - [x] **P1.1** done
+
+            ## Wave 2
+            - [ ] **P2.1** pending
+            """
+        )
+        self._write_acc(acc)
+        rc, out, _ = self._run_main("2")
+        # W2 still halts because it's not complete, but no mandatory alignment line
+        # should appear since W1 is already complete.
+        self.assertEqual(rc, run_wave.EXIT_HALTED_REVIEW)
+        self.assertNotIn("mandatory alignment inserted", out)
 
 
 class P9InvariantTests(unittest.TestCase):
