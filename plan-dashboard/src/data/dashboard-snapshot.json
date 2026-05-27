@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-27T10:42:03.714Z",
-  "source_commit": "446bbde",
+  "generated_at": "2026-05-27T11:50:04.948Z",
+  "source_commit": "c9ed9de",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -432,6 +432,16 @@
   ],
   "recent_commits": [
     {
+      "sha": "c9ed9de",
+      "subject": "feat(plan-dashboard): port podcast-reader capabilities — episode viewer, ContractView, kashkole pages",
+      "date": "2026-05-27"
+    },
+    {
+      "sha": "a305554",
+      "subject": "feat(dashboard): Ace theme — SVG font fix, soften stat strip, landing redesign, eliminate inline styles",
+      "date": "2026-05-27"
+    },
+    {
       "sha": "446bbde",
       "subject": "refactor(dashboard): red-green convergence pass — remove dead CSS + inline styles",
       "date": "2026-05-27"
@@ -469,16 +479,6 @@
     {
       "sha": "e8993bb",
       "subject": "refactor(diagrams): convert all diagrams to vertical top-to-bottom flow",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "ed07aac",
-      "subject": "fix(intelligence): use is:global style so JS-rendered nodes get CSS",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "95d91f4",
-      "subject": "refactor(plan-dashboard): 3-section nav + sidebar + intelligence diagram + delete legacy view/",
       "date": "2026-05-27"
     }
   ],
