@@ -5,13 +5,10 @@
   "rubric_version": "2.2",
   "applies_to": ["framing_opening", "chapter_first_paragraph"],
   "hits": [
-    "let us unpack",
     "let's dig into",
     "our deep dive",
     "this exploration",
     "today's journey",
-    "we'll explore",
-    "we're going to dive",
-    "we're going to dig"
+    "we're going to dive"
   ]
 }

@@ -26,15 +26,22 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import subprocess
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
+from typing import Sequence
 
 # Repo root is two levels up from this file (scripts/podcast/run_wave.py).
 REPO_ROOT = Path(__file__).resolve().parents[2]
 PLAN_DIR = REPO_ROOT / "_workspace" / "plan"
-ACCEPTANCE_FILE = PLAN_DIR / "operations" / "per-book-ship-checklist.md"
+ACCEPTANCE_FILE = PLAN_DIR / "operations" / "wave-acceptance-checklist.md"
+DEFAULT_ACCEPTANCE_FILE = ACCEPTANCE_FILE
+LEGACY_ACCEPTANCE_FILE = PLAN_DIR / "operations" / "per-book-ship-checklist.md"
+REFACTOR_DIR = PLAN_DIR / "refactor"
+WAVE_EVENTS_FILE = REFACTOR_DIR / "wave-execution-events.jsonl"
 BOOKS_DIR = REPO_ROOT / "content" / "drafts"
 CHALLENGER_TEST = REPO_ROOT / "scripts" / "podcast" / "test_challenger.py"
 
@@ -52,9 +59,230 @@ WAVE_NAMES: dict[int, str] = {
     3: "Corpus Validation",
     4: "Control Plane",
     5: "Deferred + Self-Learning",
+    6: "Archetype Completion",
+}
+
+WAVE_LETTERS: dict[int, str] = {
+    1: "A",
+    2: "B",
+    3: "C",
+    4: "D",
+    5: "E",
+    6: "F",
 }
 
 COST_CAP_HARD_DEFAULT = 50.0  # P6.3 default; override via --cost-cap-hard
+WAVE_BRANCH_PREFIX = "refactor/wave-"
+DEVELOP_BRANCH = "develop"
+
+
+def _git(args: Sequence[str], *, check: bool = True, capture: bool = True) -> subprocess.CompletedProcess[str]:
+    """Run a git command at repo root with optional output capture."""
+    return subprocess.run(
+        ["git", "-C", str(REPO_ROOT), *args],
+        check=check,
+        text=True,
+        capture_output=capture,
+    )
+
+
+def _wave_branch_name(wave_n: int) -> str:
+    return f"{WAVE_BRANCH_PREFIX}{wave_n}"
+
+
+def _current_branch() -> str:
+    proc = _git(["branch", "--show-current"])
+    return proc.stdout.strip()
+
+
+def _working_tree_dirty() -> bool:
+    proc = _git(["status", "--porcelain"])
+    return bool(proc.stdout.strip())
+
+
+def _ensure_wave_branch(wave_n: int) -> str:
+    """Ensure execution happens on refactor/wave-<n>, creating from develop if needed."""
+    expected = _wave_branch_name(wave_n)
+    current = _current_branch()
+    if current == expected:
+        return expected
+
+    if _working_tree_dirty():
+        raise RuntimeError(
+            "working tree is dirty; commit or stash changes before switching wave branches"
+        )
+
+    _git(["fetch", "origin", DEVELOP_BRANCH, "--prune"], check=False)
+
+    exists_local = _git(["rev-parse", "--verify", expected], check=False)
+    if exists_local.returncode == 0:
+        _git(["checkout", expected])
+        print(f"[run_wave] switched to existing wave branch: {expected}")
+        return expected
+
+    _git(["checkout", DEVELOP_BRANCH])
+    _git(["pull", "--ff-only", "origin", DEVELOP_BRANCH], check=False)
+    _git(["checkout", "-b", expected])
+    _git(["push", "-u", "origin", expected], check=False)
+    print(f"[run_wave] created and switched to wave branch: {expected}")
+    return expected
+
+
+def _run_wave_cleanup_gates(wave_n: int) -> int:
+    """Run mandatory cleanup checks at wave completion."""
+    print(f"[run_wave] running wave-end cleanup gates for W{wave_n}…")
+
+    if os.environ.get("RUN_WAVE_ENABLE_PLANNER_UI") != "1":
+        print("[run_wave] planner UI cleanup gates skipped (chat-only mode).")
+        return EXIT_DONE
+
+    plan_dashboard = REPO_ROOT / "plan-dashboard"
+    if plan_dashboard.exists():
+        proc = subprocess.run(
+            ["npm", "run", "check"],
+            cwd=plan_dashboard,
+            text=True,
+            capture_output=True,
+        )
+        if proc.returncode != 0:
+            print(proc.stdout)
+            print(proc.stderr, file=sys.stderr)
+            print("[run_wave] cleanup gate failed: plan-dashboard check is red.", file=sys.stderr)
+            return EXIT_ERROR
+
+        snap = subprocess.run(
+            ["npm", "run", "snapshot"],
+            cwd=plan_dashboard,
+            text=True,
+            capture_output=True,
+        )
+        if snap.returncode != 0:
+            print(snap.stdout)
+            print(snap.stderr, file=sys.stderr)
+            print("[run_wave] cleanup gate failed: snapshot refresh failed.", file=sys.stderr)
+            return EXIT_ERROR
+
+    return EXIT_DONE
+
+
+def _now_iso() -> str:
+    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def _planner_updates_enabled() -> bool:
+    # Chat-first mode: planner telemetry is OFF by default.
+    # Set RUN_WAVE_ENABLE_PLANNER_UI=1 to opt back in.
+    if os.environ.get("RUN_WAVE_ENABLE_PLANNER_UI") != "1":
+        return False
+    if ACCEPTANCE_FILE != DEFAULT_ACCEPTANCE_FILE:
+        return False
+    return True
+
+
+def _refresh_planner_snapshot() -> None:
+    if not _planner_updates_enabled():
+        return
+    plan_dashboard = REPO_ROOT / "plan-dashboard"
+    if not plan_dashboard.exists():
+        return
+    subprocess.run(
+        ["npm", "run", "snapshot", "--", "--trace-steps"],
+        cwd=plan_dashboard,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+
+
+def _append_wave_event(*, event_type: str, wave_n: int, status: str, message: str, details: dict | None = None) -> None:
+    if not _planner_updates_enabled():
+        return
+    WAVE_EVENTS_FILE.parent.mkdir(parents=True, exist_ok=True)
+    row = {
+        "ts": _now_iso(),
+        "wave": wave_n,
+        "wave_letter": WAVE_LETTERS.get(wave_n, str(wave_n)),
+        "event_type": event_type,
+        "status": status,
+        "message": message,
+        "details": details or {},
+    }
+    with WAVE_EVENTS_FILE.open("a", encoding="utf-8") as fh:
+        fh.write(json.dumps(row, ensure_ascii=False) + "\n")
+    _refresh_planner_snapshot()
+
+
+def _missing_task_ids(text: str, wave_n: int) -> list[str]:
+    rows = parse_wave_rows(text).get(wave_n, [])
+    ids = [task_id for status, task_id in rows if status != "x"]
+    out: list[str] = []
+    seen: set[str] = set()
+    for tid in ids:
+        if tid in seen:
+            continue
+        seen.add(tid)
+        out.append(tid)
+    return out
+
+
+def _align_prior_waves(args: argparse.Namespace) -> int:
+    text = ACCEPTANCE_FILE.read_text()
+    gaps = [w for w in range(1, args.wave) if not is_wave_done(text, w)]
+
+    if not gaps:
+        _append_wave_event(
+            event_type="collective_quality",
+            wave_n=args.wave,
+            status="passed",
+            message="Collective quality check passed for all prior waves.",
+        )
+        return EXIT_DONE
+
+    _append_wave_event(
+        event_type="mandatory_alignment",
+        wave_n=args.wave,
+        status="started",
+        message="Prior-wave gaps detected. Strict wave-order gate enforced.",
+        details={"gap_waves": gaps},
+    )
+    print(f"[run_wave] strict wave-order gate blocked W{args.wave}; incomplete prior waves: {gaps}")
+
+    gap_details = {
+        str(gap_wave): _missing_task_ids(ACCEPTANCE_FILE.read_text(), gap_wave)
+        for gap_wave in gaps
+    }
+    _append_wave_event(
+        event_type="mandatory_alignment",
+        wave_n=args.wave,
+        status="blocked",
+        message="Earlier wave(s) must complete before this wave can start.",
+        details={"gap_waves": gaps, "missing_task_ids_by_wave": gap_details},
+    )
+    return EXIT_HALTED_REVIEW
+
+
+def _merge_wave_to_develop_and_return(wave_n: int) -> int:
+    """Merge completed wave branch to develop, then return to wave branch."""
+    wave_branch = _wave_branch_name(wave_n)
+    current = _current_branch()
+    if current != wave_branch:
+        _git(["checkout", wave_branch])
+
+    if _working_tree_dirty():
+        _git(["add", "-A"])
+        _git(["commit", "-m", f"chore(wave-{wave_n}): wave completion cleanup checkpoint"], check=False)
+
+    _git(["fetch", "origin", DEVELOP_BRANCH, "--prune"], check=False)
+    _git(["checkout", DEVELOP_BRANCH])
+    _git(["pull", "--ff-only", "origin", DEVELOP_BRANCH], check=False)
+    _git(["merge", "--no-ff", wave_branch, "-m", f"merge: wave {wave_n} completion"])
+    _git(["push", "origin", DEVELOP_BRANCH], check=False)
+
+    _git(["checkout", wave_branch])
+    _git(["merge", "--ff-only", DEVELOP_BRANCH], check=False)
+    _git(["push", "origin", wave_branch], check=False)
+    print(f"[run_wave] wave completion merged to {DEVELOP_BRANCH} and returned to {wave_branch}")
+    return EXIT_DONE
 
 # ───────────────────────────────────────────────────────────────────────────────
 # Acceptance-file parsing
@@ -173,18 +401,25 @@ def _print_phase_status(label: str, status: str) -> None:
 
 
 def _run_phase_registry(args: argparse.Namespace, wave_n: int) -> int:
-    """Iterate the wave's phase registry and execute each phase autonomously.
+    """Iterate the wave's phase registry autonomously until convergence.
 
-    Each phase module exports `is_done(repo) -> bool` and
-    `execute(repo) -> PhaseResult`. Idempotent: phases already done are
-    skipped. Phases that halt at a human-review gate stop the loop and
-    bubble that up to the dispatcher.
+    Runs a red-green convergence loop: each pass visits every phase in
+    registry order. Phases already done are skipped. Phases that complete
+    mark their acceptance rows. Halted/blocked phases are noted but the
+    loop CONTINUES to the next phase — a single blocked phase never aborts
+    the wave.
+
+    The loop terminates when a full pass produces no new completions
+    (convergence). At that point all remaining halted phases are reported
+    together as a consolidated blocker summary.
+
+    Phases that raise an error (not just halt) abort immediately — an error
+    indicates a code defect, not a missing deliverable.
     """
     try:
         from scripts.podcast import phases as _phases_pkg  # type: ignore
         from scripts.podcast import _acceptance  # type: ignore
     except ImportError:
-        # Allow running as a script when not installed as a package
         sys.path.insert(0, str(REPO_ROOT))
         from scripts.podcast import phases as _phases_pkg  # type: ignore
         from scripts.podcast import _acceptance  # type: ignore
@@ -196,61 +431,99 @@ def _run_phase_registry(args: argparse.Namespace, wave_n: int) -> int:
         print(f"[run_wave]   them to phases/__init__.py REGISTRY[{wave_n}].")
         return EXIT_HALTED_REVIEW
 
-    print(f"[run_wave] W{wave_n} ({WAVE_NAMES[wave_n]}) — iterating {len(phase_list)} phase(s)")
+    print(f"[run_wave] W{wave_n} ({WAVE_NAMES[wave_n]}) — {len(phase_list)} phase(s) registered")
+    print(f"[run_wave] Starting red-green convergence loop…")
     print()
 
-    overall_halted = False
-    for mod in phase_list:
-        pid = getattr(mod, "PHASE_ID", "?")
-        desc = getattr(mod, "DESCRIPTION", "")
-        _print_phase_status(f"{pid} {desc[:60]}", "checking…")
+    pass_number = 0
+    completed_ever: set[str] = set()
 
-        if mod.is_done(REPO_ROOT):
-            _print_phase_status(f"{pid}", "✓ already done (idempotent skip)")
-            # Mark acceptance rows if not already checked.
-            n = _acceptance.mark_task_rows_in_file(pid)
-            if n > 0:
-                _print_phase_status(f"  └─ marked", f"{n} acceptance row(s) → [x]")
-            continue
+    while True:
+        pass_number += 1
+        new_completions = 0
+        halted_this_pass: list[tuple[str, object]] = []  # (pid, result)
 
-        try:
-            result = mod.execute(REPO_ROOT)
-        except Exception as e:  # noqa: BLE001 — surface as runner failure
-            _print_phase_status(f"{pid}", f"✗ ERROR: {e!r}")
-            return EXIT_ERROR
+        print(f"[run_wave] ── Pass {pass_number} ──────────────────────────────────────────")
 
-        if result.status == "done":
-            _print_phase_status(f"{pid}", f"✓ done — {result.message}")
-            for rid in result.rows_marked:
-                n = _acceptance.mark_task_rows_in_file(rid)
+        for mod in phase_list:
+            pid = getattr(mod, "PHASE_ID", "?")
+            desc = getattr(mod, "DESCRIPTION", "")
+
+            if pid in completed_ever:
+                _print_phase_status(f"{pid}", "✓ done (skip)")
+                continue
+
+            _print_phase_status(f"{pid} {desc[:50]}", "checking…")
+
+            if mod.is_done(REPO_ROOT):
+                _print_phase_status(f"{pid}", "✓ already done (idempotent skip)")
+                n = _acceptance.mark_task_rows_in_file(pid, acceptance_file=ACCEPTANCE_FILE)
                 if n > 0:
-                    _print_phase_status(f"  └─ marked", f"{n} row(s) for {rid} → [x]")
-        elif result.status == "halted":
-            _print_phase_status(f"{pid}", f"⏸ HALTED — {result.message}")
-            for p in result.evidence_paths:
-                _print_phase_status(f"  └─ evidence", p)
-            overall_halted = True
+                    _print_phase_status(f"  └─ marked", f"{n} acceptance row(s) → [x]")
+                completed_ever.add(pid)
+                new_completions += 1
+                continue
+
+            try:
+                result = mod.execute(REPO_ROOT)
+            except Exception as e:  # noqa: BLE001
+                _print_phase_status(f"{pid}", f"✗ ERROR: {e!r}")
+                return EXIT_ERROR
+
+            if result.status == "done":
+                _print_phase_status(f"{pid}", f"✓ done — {result.message}")
+                for rid in result.rows_marked:
+                    n = _acceptance.mark_task_rows_in_file(rid, acceptance_file=ACCEPTANCE_FILE)
+                    if n > 0:
+                        _print_phase_status(f"  └─ marked", f"{n} row(s) for {rid} → [x]")
+                completed_ever.add(pid)
+                new_completions += 1
+            elif result.status == "halted":
+                _print_phase_status(f"{pid}", f"⏸ blocked — continuing to next phase")
+                halted_this_pass.append((pid, result))
+                # ← CONTINUE — do NOT break; evaluate every remaining phase
+            else:
+                _print_phase_status(f"{pid}", f"✗ ERROR — {result.message}")
+                return EXIT_ERROR
+
+        print()
+        print(
+            f"[run_wave] Pass {pass_number} complete — "
+            f"{new_completions} new completion(s), "
+            f"{len(halted_this_pass)} blocked phase(s)."
+        )
+        print()
+
+        # Convergence: no new completions in this pass → loop cannot make further progress.
+        if new_completions == 0:
             break
-        else:
-            _print_phase_status(f"{pid}", f"✗ ERROR — {result.message}")
-            return EXIT_ERROR
 
-    print()
-    if overall_halted:
-        print(f"[run_wave] W{wave_n} halted at a phase requiring human review. See above.")
-        return EXIT_HALTED_REVIEW
+        # If no blockers remain, also stop — everything done.
+        if not halted_this_pass:
+            break
 
-    # All phases executed. Re-check wave done-status.
+    # ── Convergence reached ──────────────────────────────────────────────────
     text = ACCEPTANCE_FILE.read_text()
     if is_wave_done(text, wave_n):
-        print(f"[run_wave] W{wave_n} DONE — every acceptance row in this wave is checked.")
+        print(f"[run_wave] ✅ W{wave_n} DONE — every acceptance row is checked.")
         return EXIT_EXECUTED_DONE
+
+    # Report all remaining blockers together.
     checked, total = wave_status(text, wave_n)
-    print(
-        f"[run_wave] W{wave_n} executed {len(phase_list)} phase(s); "
-        f"{checked}/{total} wave rows checked. Remaining rows belong to phases "
-        f"not yet in phases/__init__.py REGISTRY[{wave_n}]. Land them in subsequent commits."
-    )
+    still_blocked = [pid for pid, _ in halted_this_pass]
+
+    print(f"[run_wave] W{wave_n} converged at {checked}/{total} acceptance rows checked.")
+    print(f"[run_wave] {len(still_blocked)} phase(s) still blocked (operator action required):")
+    print()
+    for pid, result in halted_this_pass:
+        print(f"  ┌── {pid} ─────────────────────────────────────────────")
+        for line in str(result.message).splitlines():
+            print(f"  │  {line}")
+        for ep in getattr(result, "evidence_paths", []):
+            print(f"  │  → {ep}")
+        print(f"  └────────────────────────────────────────────────────")
+        print()
+
     return EXIT_HALTED_REVIEW
 
 
@@ -323,6 +596,16 @@ def cmd_check(text: str, wave_n: int) -> int:
     return EXIT_DONE
 
 
+def _resolve_acceptance_file() -> None:
+    global ACCEPTANCE_FILE
+    if (
+        ACCEPTANCE_FILE == DEFAULT_ACCEPTANCE_FILE
+        and not ACCEPTANCE_FILE.exists()
+        and LEGACY_ACCEPTANCE_FILE.exists()
+    ):
+        ACCEPTANCE_FILE = LEGACY_ACCEPTANCE_FILE
+
+
 # ───────────────────────────────────────────────────────────────────────────────
 # Argument parser + main
 # ───────────────────────────────────────────────────────────────────────────────
@@ -348,7 +631,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "wave",
         type=int,
-        choices=[1, 2, 3, 4, 5],
+        choices=[1, 2, 3, 4, 5, 6],
         help="Wave number to invoke (W1..W5).",
     )
     parser.add_argument(
@@ -385,7 +668,31 @@ def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
 
-    # Always-required: acceptance file must exist.
+    # --check is report-only and must remain read-only; avoid branch switching.
+    if args.check:
+        _resolve_acceptance_file()
+        if not ACCEPTANCE_FILE.exists():
+            print(
+                f"error: acceptance file missing at {ACCEPTANCE_FILE}",
+                file=sys.stderr,
+            )
+            return EXIT_ERROR
+        text = ACCEPTANCE_FILE.read_text()
+        return cmd_check(text, args.wave)
+
+    # Always operate from the canonical wave branch for this invocation.
+    try:
+        _ensure_wave_branch(args.wave)
+    except RuntimeError as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return EXIT_ERROR
+    except subprocess.CalledProcessError as exc:
+        print(f"error: failed to switch to wave branch: {exc}", file=sys.stderr)
+        return EXIT_ERROR
+
+    # Resolve acceptance path after checkout, because the active branch may use
+    # a different checklist surface.
+    _resolve_acceptance_file()
     if not ACCEPTANCE_FILE.exists():
         print(
             f"error: acceptance file missing at {ACCEPTANCE_FILE}",
@@ -395,15 +702,8 @@ def main(argv: list[str] | None = None) -> int:
 
     text = ACCEPTANCE_FILE.read_text()
 
-    # --check is report-only.
-    if args.check:
-        return cmd_check(text, args.wave)
-
-    # W3 pre-flight: --book required + cost-cap guard.
-    if args.wave == 3:
-        if not args.book:
-            print("error: Wave 3 requires --book <slug>", file=sys.stderr)
-            return EXIT_ERROR
+    # W3 pre-flight: cost-cap guard only when --book is explicitly supplied.
+    if args.wave == 3 and args.book:
         cost = book_cost_usd(args.book)
         if cost > args.cost_cap_hard:
             print(
@@ -413,13 +713,20 @@ def main(argv: list[str] | None = None) -> int:
             )
             return EXIT_ERROR
 
-    # W5 pre-flight: --phase required (W5 phases are individually trigger-gated).
+    # W5 pre-flight: if no registry phases exist yet, require --phase to avoid
+    # a confusing empty-loop run.  Once phases are wired, the loop drives them all.
     if args.wave == 5 and not args.phase:
-        print(
-            "error: Wave 5 requires --phase <phase-id> (W5 phases promote individually).",
-            file=sys.stderr,
-        )
-        return EXIT_ERROR
+        try:
+            from scripts.podcast import phases as _phases_pre  # type: ignore
+        except ImportError:
+            sys.path.insert(0, str(REPO_ROOT))
+            from scripts.podcast import phases as _phases_pre  # type: ignore
+        if not _phases_pre.wave_phases(5):
+            print(
+                "error: Wave 5 registry is empty — add pw5_*.py runners first.",
+                file=sys.stderr,
+            )
+            return EXIT_ERROR
 
     # Idempotency: if the wave is already DONE, exit 0 without dispatching.
     if is_wave_done(text, args.wave):
@@ -430,11 +737,28 @@ def main(argv: list[str] | None = None) -> int:
         )
         return EXIT_DONE
 
+    align_rc = _align_prior_waves(args)
+    if align_rc != EXIT_DONE:
+        return align_rc
+
+    _append_wave_event(
+        event_type="wave_start",
+        wave_n=args.wave,
+        status="started",
+        message=f"Wave {args.wave} started in autonomous mode.",
+    )
+
     # Dispatch.
     rc = DISPATCHERS[args.wave](args)
 
     # Halted at review gate → return that code directly.
     if rc == EXIT_HALTED_REVIEW:
+        _append_wave_event(
+            event_type="wave_progress",
+            wave_n=args.wave,
+            status="halted",
+            message="Wave halted at review gate.",
+        )
         return rc
 
     # Did the dispatcher leave the wave fully DONE?
@@ -468,6 +792,22 @@ def main(argv: list[str] | None = None) -> int:
                 file=sys.stderr,
             )
             return EXIT_P9_VIOLATED
+
+        cleanup_rc = _run_wave_cleanup_gates(args.wave)
+        if cleanup_rc != EXIT_DONE:
+            return cleanup_rc
+
+        merge_rc = _merge_wave_to_develop_and_return(args.wave)
+        if merge_rc != EXIT_DONE:
+            return merge_rc
+
+        _append_wave_event(
+            event_type="wave_complete",
+            wave_n=args.wave,
+            status="completed",
+            message=f"Wave {args.wave} completed and merged.",
+        )
+
         return EXIT_EXECUTED_DONE
 
     # Dispatcher returned a non-halt code but the wave isn't DONE — treat as halt.

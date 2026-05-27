@@ -13,50 +13,60 @@ const burnMonth  = dash.metrics.burn_30d_usd.reduce((a: number, b: number) => a 
 const nextReady  = roadmap.find(s => s.status === 'ready');
 ---
 <Base title="Plan Design" active="plan" section="planner">
-  <!-- KPI stat strip -->
-  <div class="stat-strip">
-    <div class="stat-card s-green">
-      <div class="stat-card-icon"><i class="fa-solid fa-check" aria-hidden="true"></i></div>
-      <div class="stat-card-body">
-        <div class="stat-card-value">{stepsDone} / {stepsTotal}</div>
-        <div class="stat-card-label">Steps Done</div>
-      </div>
+  <section class="planner-live-shell">
+    <div class="planner-ambient" aria-hidden="true">
+      <span class="orb orb-a"></span>
+      <span class="orb orb-b"></span>
+      <span class="orb orb-c"></span>
     </div>
-    <div class="stat-card s-blue">
-      <div class="stat-card-icon"><i class="fa-solid fa-spinner" aria-hidden="true"></i></div>
-      <div class="stat-card-body">
-        <div class="stat-card-value">{inFlight}</div>
-        <div class="stat-card-label">Books in Flight</div>
-      </div>
-    </div>
-    <div class="stat-card s-amber">
-      <div class="stat-card-icon"><i class="fa-solid fa-coins" aria-hidden="true"></i></div>
-      <div class="stat-card-body">
-        <div class="stat-card-value">${burnMonth.toFixed(0)}</div>
-        <div class="stat-card-label">Spend / 30 Days</div>
-      </div>
-    </div>
-    <div class="stat-card s-brown">
-      <div class="stat-card-icon"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></div>
-      <div class="stat-card-body">
-        <div class="stat-card-value">{nextReady?.id ?? '—'}</div>
-        <div class="stat-card-label">Next Step</div>
-      </div>
-    </div>
-  </div>
 
-  <header class="stack">
-    <span class="eyebrow">Plan Design</span>
-    <h1>The five-wave roadmap.</h1>
-    <p class="lede">
-      Twenty-eight improvements across five waves. Each wave delivers something independently useful.
-      Click any step for the full detail. Use the sidebar to track overall progress.
-    </p>
-  </header>
+    <!-- KPI stat strip -->
+    <div class="stat-strip">
+      <div class="stat-card s-green">
+        <div class="stat-card-icon"><i class="fa-solid fa-check" aria-hidden="true"></i></div>
+        <div class="stat-card-body">
+          <div class="stat-card-value">{stepsDone} / {stepsTotal}</div>
+          <div class="stat-card-label">Steps Done</div>
+        </div>
+      </div>
+      <div class="stat-card s-blue">
+        <div class="stat-card-icon"><i class="fa-solid fa-spinner" aria-hidden="true"></i></div>
+        <div class="stat-card-body">
+          <div class="stat-card-value">{inFlight}</div>
+          <div class="stat-card-label">Books in Flight</div>
+        </div>
+      </div>
+      <div class="stat-card s-amber">
+        <div class="stat-card-icon"><i class="fa-solid fa-coins" aria-hidden="true"></i></div>
+        <div class="stat-card-body">
+          <div class="stat-card-value">${burnMonth.toFixed(0)}</div>
+          <div class="stat-card-label">Spend / 30 Days</div>
+        </div>
+      </div>
+      <div class="stat-card s-brown">
+        <div class="stat-card-icon"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></div>
+        <div class="stat-card-body">
+          <div class="stat-card-value">{nextReady?.id ?? '—'}</div>
+          <div class="stat-card-label">Next Step</div>
+        </div>
+      </div>
+    </div>
+
+    <header class="stack">
+      <span class="eyebrow">Plan Design</span>
+      <h1>Mobilization plus the five-wave roadmap.</h1>
+      <p class="lede">
+        Twenty-eight improvements across one Mobilization stage and five waves. Each wave delivers something independently useful.
+        Click any step for the full detail. Use the sidebar to track overall progress.
+      </p>
+    </header>
+  </section>
 
   <PlanDesign
     roadmap={dash.roadmap as any}
     waves={dash.waves as any}
+    waveEvents={dash.wave_execution_events as any}
+    loopState={dash.loop_execution_state as any}
     client:load
   />
 </Base>

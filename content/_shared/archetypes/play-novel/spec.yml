@@ -1,0 +1,52 @@
+# Archetype spec — Play-Novel
+# A text structured as dramatic dialogue, theatrical scenes, or a hybrid
+# of narrative fiction and dramatised encounter (Socratic, epistolary-fiction,
+# or stage-play forms drawn from Arabic / Islamic literary tradition).
+
+archetype_id: play-novel
+display_name: Play-Novel (Dramatic Dialogue)
+genre_tags: [dramatic, dialogue-driven, theatrical, fictional-encounter]
+
+# ── Detection heuristics ─────────────────────────────────────────────────────
+genre_signals:
+  - named speakers with explicit turns (no narrator omniscience)
+  - scene headings or act / scene markers
+  - high ratio of direct speech to prose exposition
+  - dramatis-personae section or implicit cast list
+
+# ── required_fields — these keys MUST be present in every book meta.yml ─────
+required_fields:
+  - archetype_id           # confirms archetype was applied
+  - cast_roles             # list of named speaker identifiers
+  - scene_count_approx     # rough number of dramatic units
+  - dialogue_ratio_pct     # estimated proportion of direct speech (0-100)
+  - source_tradition       # e.g. "ismaili_philosophical", "sufi_maqama"
+
+# ── TTS engineering rules ────────────────────────────────────────────────────
+tts_rules:
+  speaker_cues: replace_with_stable_english_label
+  stage_directions: omit_or_paraphrase_as_narrator
+  arabic_character_names: substitute_english_label_first_occurrence_only
+  scene_headers: read_as_narrator_transition
+
+# ── Podcast-authoring doctrine ───────────────────────────────────────────────
+authoring_doctrine:
+  framing_mode: scene_by_scene
+  host_dynamic: interviewer_and_respondent
+  episode_structure: act_arc   # opening scene → rising argument → resolution
+  capstone_mode: synthesis_debate  # hosts re-enact core disagreement from text
+  cross_tier_citations: discouraged  # dramatic texts rarely need tier-4 hadith
+
+# ── Challenger categories active for this archetype ─────────────────────────
+challenger_categories_active:
+  - J  # name aliasing — critical for dramatic characters
+  - C  # pronunciation of Arabic role titles
+  - R  # conversation choreography — hosts must not break dramatic register
+  - M  # modernization — characters must not use anachronistic idiom
+
+# ── Anti-patterns (see anti-patterns.md for full catalog) ───────────────────
+anti_patterns_summary:
+  - hosts re-narrating dramatic scenes that should be heard as dialogue
+  - Arabic character names dropped raw into TTS without substitution
+  - episode ending before dramatic resolution is reached
+  - treating a scene-break as an episode boundary (episodes follow arcs)

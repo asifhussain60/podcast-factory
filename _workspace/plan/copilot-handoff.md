@@ -142,3 +142,10 @@ Append a new entry at the bottom of this section at the end of every Copilot ses
 **Commits:** `968636f` (C1+C3+C4 plan edits) · `ff5f1ab` (standing rule + catch-up snapshots) · *handoff infra commit pending — Copilot or Claude on next pass*
 **Next:** A2 — Build the Core layer (`_paths.py`, `_db.py`, `_archetypes.py`, `_anti_cliche.py` + archetype seed files + `knowledge.db` migration). Specified in detail in plan.md + plan.yaml step A2.
 **Blocked / open:** `.claude/settings.json` PostToolUse hook registration is owned by Asif (manual paste — classifier blocks both Claude and likely Copilot from this file). Three legacy files (`acceptance-criteria.md`, `numeric-symbolic-disambiguation-plan.md`, `podcast-plan.yaml`) cannot be deleted until A4 migrates their live code refs — recorded as deferred-to-A4 in the Manual Review Index.
+
+### 2026-05-27 15:38 EST — Copilot session (loop protocol run)
+
+**Closed:** Executed loop-protocol iteration N+1 gates end-to-end: loaded intelligence + roadmap + architecture, verified prior-wave acceptance with deterministic checks (Wave 1: 7/7, Wave 2: 5/5), synced iteration accounting, and updated planner loop telemetry.
+**Files updated:** `_workspace/prompts/loop-intelligence.md` (iteration 4 + SP-003 + log append), `_workspace/plan/refactor/wave-execution-events.jsonl` (new loop completion event), `plan-dashboard/src/data/dashboard-snapshot.json` (loop state + optimization tally), plus regenerated snapshot metadata via `npm run snapshot`.
+**Next:** Continue with the active roadmap wave execution using the synchronized loop state as the current baseline.
+**Blocked / open:** None discovered in this run; no Tier-2 action requested.

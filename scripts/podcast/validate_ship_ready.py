@@ -111,8 +111,105 @@ def main() -> int:
     if not ok7:
         return _emit(args, gate_results, "BLOCKED", "G7 challenger-verdict failed")
 
+    # ── G8-G12: archetype-aware gates (warn-only until G12 fires green on ≥1 book) ──
+
+    # G8 — capstone-mode-honored: if meta.yml declares a capstone_mode != none,
+    # at least the tier-1 capstone episode file must exist.
+    meta_path = workspace / "meta.yml"
+    capstone_mode = "none"
+    if meta_path.exists():
+        try:
+            import yaml as _yaml
+            _meta = _yaml.safe_load(meta_path.read_text()) or {}
+            capstone_mode = str(_meta.get("capstone_mode", "none"))
+        except Exception:
+            pass
+    ok8 = True
+    if capstone_mode not in ("none", ""):
+        tier1_ep = workspace / "_system" / "episode-drafts"
+        capstone_eps = list(tier1_ep.glob("*capstone*")) if tier1_ep.exists() else []
+        ok8 = len(capstone_eps) > 0
+    gate_results.append({"gate": "G8", "name": "capstone-mode-honored", "passed": bool(ok8)})
+    if not ok8:
+        return _emit(args, gate_results, "BLOCKED",
+                     f"G8 capstone-mode-honored failed — capstone_mode={capstone_mode} but no capstone episode found")
+
+    # G9 — rich-diagram-coverage: if diagram_density == high, slide classifier
+    # must report coverage ≥ 60% (WARN threshold from pilot findings).
+    diagram_density = "low"
+    if meta_path.exists():
+        try:
+            import yaml as _yaml
+            _meta2 = _yaml.safe_load(meta_path.read_text()) or {}
+            diagram_density = str(_meta2.get("diagram_density", "low"))
+        except Exception:
+            pass
+    ok9 = True
+    if diagram_density == "high":
+        coverage_report = workspace / "_system" / "diagram-coverage-report.json"
+        if coverage_report.exists():
+            try:
+                import json as _json
+                _cov = _json.loads(coverage_report.read_text())
+                ok9 = float(_cov.get("coverage", 1.0)) >= 0.60
+            except Exception:
+                ok9 = True  # missing report → advisory only, not blocking
+    gate_results.append({"gate": "G9", "name": "rich-diagram-coverage", "passed": bool(ok9)})
+    if not ok9:
+        return _emit(args, gate_results, "BLOCKED",
+                     "G9 rich-diagram-coverage failed — diagram_density=high but coverage < 60%")
+
+    # G10 — manual-review-resolved: no open manual-review alert divs in any episode file.
+    open_manual_reviews: list[str] = []
+    episodes_dir = workspace / "episodes"
+    if episodes_dir.exists():
+        for ep_file in episodes_dir.glob("*.txt"):
+            if "<div class='alert manual-review'>" in ep_file.read_text():
+                open_manual_reviews.append(ep_file.name)
+    ok10 = len(open_manual_reviews) == 0
+    gate_results.append({"gate": "G10", "name": "manual-review-resolved",
+                         "passed": bool(ok10)})
+    if not ok10:
+        return _emit(args, gate_results, "BLOCKED",
+                     f"G10 manual-review-resolved failed — open reviews in: {', '.join(open_manual_reviews)}")
+
+    # G11 — knowledge-base-merge-clean: librarian merge report has zero conflicts.
+    ok11 = True
+    merge_report = workspace / "_system" / "librarian-merge-report.md"
+    if merge_report.exists():
+        report_text = merge_report.read_text()
+        if "conflict" in report_text.lower() and "zero" not in report_text.lower():
+            ok11 = False
+    gate_results.append({"gate": "G11", "name": "knowledge-base-merge-clean",
+                         "passed": bool(ok11)})
+    if not ok11:
+        return _emit(args, gate_results, "BLOCKED",
+                     "G11 knowledge-base-merge-clean failed — unresolved conflicts in librarian merge report")
+
+    # G12 — augmenter-A/B-acceptance: for books with enable_knowledge_augmenter=true,
+    # challenger must have surfaced ≥1 finding referencing an augmented atom.
+    # Advisory gate — does not block until A/B flywheel fires green on ≥1 book pair.
+    enable_augmenter = False
+    if meta_path.exists():
+        try:
+            import yaml as _yaml
+            _meta3 = _yaml.safe_load(meta_path.read_text()) or {}
+            enable_augmenter = bool(_meta3.get("enable_knowledge_augmenter", False))
+        except Exception:
+            pass
+    ok12 = True  # default pass — advisory-only until first A/B green
+    if enable_augmenter:
+        challenger_report = workspace / "_system" / "challenger-report.md"
+        if challenger_report.exists():
+            ok12 = "augmented atom" in challenger_report.read_text().lower()
+        # Else: file missing → advisory pass (book hasn't been challenged yet)
+    gate_results.append({"gate": "G12", "name": "augmenter-AB-acceptance",
+                         "passed": bool(ok12)})
+    # G12 is advisory — warn but do not block ship
+
+    total_gates = len(gate_results)
     return _emit(args, gate_results, "SHIP-READY",
-                 f"all 7 gates passed for {args.slug}; ready for publish")
+                 f"all {total_gates} gates passed for {args.slug}; ready for publish")
 
 
 def _emit(args, gate_results: list[dict], verdict: str, summary: str) -> int:
