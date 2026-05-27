@@ -416,8 +416,12 @@ def main(argv: list[str] | None = None) -> int:
     # W5 pre-flight: if no registry phases exist yet, require --phase to avoid
     # a confusing empty-loop run.  Once phases are wired, the loop drives them all.
     if args.wave == 5 and not args.phase:
-        from scripts.podcast import phases as _phases_pkg  # type: ignore
-        if not _phases_pkg.wave_phases(5):
+        try:
+            from scripts.podcast import phases as _phases_pre  # type: ignore
+        except ImportError:
+            sys.path.insert(0, str(REPO_ROOT))
+            from scripts.podcast import phases as _phases_pre  # type: ignore
+        if not _phases_pre.wave_phases(5):
             print(
                 "error: Wave 5 registry is empty — add pw5_*.py runners first.",
                 file=sys.stderr,
