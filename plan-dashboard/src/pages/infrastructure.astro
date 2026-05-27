@@ -11,7 +11,7 @@ const alltimeTotal = infra.vendors.reduce((sum: number, v: any) =>
 const callsTotal = infra.vendors.reduce((sum: number, v: any) =>
   sum + v.services.reduce((s: number, x: any) => s + (x.calls_30d ?? 0), 0), 0);
 ---
-<Base title="What it runs on" active="infrastructure">
+<Base title="What it runs on" active="infrastructure" section="architecture">
   <header class="stack">
     <span class="eyebrow">What it runs on</span>
     <h1>The toolbox behind the factory.</h1>

@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-27T00:01:00.008Z",
-  "source_commit": "b369e35",
+  "generated_at": "2026-05-27T08:55:09.583Z",
+  "source_commit": "3cd344b",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -432,6 +432,21 @@
   ],
   "recent_commits": [
     {
+      "sha": "3cd344b",
+      "subject": "feat(view): add interactive intelligence pipeline diagram",
+      "date": "2026-05-26"
+    },
+    {
+      "sha": "e64b0a1",
+      "subject": "fix(view): move Wave 1 blocker outside grid row so it renders visibly",
+      "date": "2026-05-26"
+    },
+    {
+      "sha": "4c026f7",
+      "subject": "plan: add pre-Wave B blocker — discuss Kashkole enrichment via ChatGPT/Gemini",
+      "date": "2026-05-26"
+    },
+    {
       "sha": "b369e35",
       "subject": "docs: add ChatGPT review prompt for Wave 1 architecture",
       "date": "2026-05-26"
@@ -464,21 +479,6 @@
     {
       "sha": "7f984bb",
       "subject": "dash: three-layer progressive disclosure — tier badges, hover cards, structured expand panels",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "a33323d",
-      "subject": "plan: A5 version-stamp guard — catch both header labels and versioned filenames, with exclusion list",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "f24a734",
-      "subject": "plan: A4 acceptance signal — in-progress books resume cleanly, no manual fix required",
-      "date": "2026-05-26"
-    },
-    {
-      "sha": "5292bc2",
-      "subject": "plan: lock house-style tradition check — fast structural filter here, Claude-powered contradiction check in enrichment step",
       "date": "2026-05-26"
     }
   ],

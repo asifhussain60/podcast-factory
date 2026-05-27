@@ -61,6 +61,9 @@
   --c-vendor-notebooklm: #1a73e8;
   --c-vendor-github: #1f2328;
 
+  /* Section accent — Planner path (slate blue, not used elsewhere) */
+  --c-planner: #1a5c8a;
+
   /* Spacing & shape */
   --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
   --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px;
@@ -177,34 +180,153 @@ hr { border: 0; height: 1px; background: var(--c-rule); margin: var(--sp-6) 0; }
   margin: 0;
 }
 
-/* ── Top nav ───────────────────────────────────────────────────── */
+/* ── Top nav (3-section design) ───────────────────────────────── */
 
 .topnav {
   position: sticky; top: 0; z-index: 50;
-  background: rgba(247, 244, 238, 0.92);
-  backdrop-filter: blur(8px);
+  height: 52px;
+  background: rgba(247, 244, 238, 0.95);
+  backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--c-rule);
+  box-shadow: 0 1px 0 rgba(31,29,24,0.04);
 }
 .topnav-inner {
   max-width: var(--maxw-page); margin: 0 auto;
-  padding: var(--sp-3) var(--sp-5);
-  display: flex; align-items: center; gap: var(--sp-5);
+  padding: 0 var(--sp-5);
+  height: 52px;
+  display: flex; align-items: stretch; gap: 0;
 }
-.topnav-brand { font-weight: 900; font-size: var(--fs-lg); color: var(--c-ink); }
-.topnav-brand small { font-weight: 400; color: var(--c-ink-muted); margin-left: var(--sp-2); }
-.topnav-links { display: flex; gap: var(--sp-2); margin-left: auto; }
-.topnav-link {
-  padding: var(--sp-2) var(--sp-3);
-  border-radius: var(--r-sm);
+.topnav-brand {
+  font-weight: 900; font-size: var(--fs-base); color: var(--c-ink);
+  text-decoration: none; display: flex; align-items: center;
+  padding-right: var(--sp-6); flex-shrink: 0;
+  letter-spacing: -0.01em;
+}
+.topnav-brand:hover { text-decoration: none; }
+.topnav-brand small { font-weight: 400; color: var(--c-ink-muted); margin-left: var(--sp-2); font-size: var(--fs-sm); }
+
+.topnav-sections { display: flex; align-items: stretch; gap: 0; flex: 1; }
+
+.topnav-section {
+  display: flex; align-items: center;
+  padding: 0 var(--sp-4);
   color: var(--c-ink-dim);
-  font-weight: 500;
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+  white-space: nowrap;
 }
-.topnav-link:hover { background: var(--c-bg-sunken); text-decoration: none; }
-.topnav-link.is-active { background: var(--c-ink); color: var(--c-bg); }
-.topnav-status { font-size: var(--fs-sm); color: var(--c-ink-muted); display: flex; align-items: center; gap: var(--sp-2); }
+.topnav-section:hover { color: var(--c-ink); text-decoration: none; }
+.topnav-section[data-section="architecture"].is-active { color: var(--c-accent);  border-bottom-color: var(--c-accent); }
+.topnav-section[data-section="bookshelf"].is-active    { color: var(--c-green);   border-bottom-color: var(--c-green); }
+.topnav-section[data-section="planner"].is-active      { color: var(--c-planner); border-bottom-color: var(--c-planner); }
+
+.topnav-spacer { flex: 1; }
+
+.topnav-status {
+  font-size: var(--fs-sm); color: var(--c-ink-muted);
+  display: flex; align-items: center; gap: var(--sp-2);
+  padding-left: var(--sp-4); flex-shrink: 0;
+}
 .topnav-status .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--c-green); }
 .topnav-status .dot.is-stale { background: var(--c-amber); }
 .topnav-status .dot.is-error { background: var(--c-red); }
+
+/* ── Page shell + sidebar ──────────────────────────────────────── */
+
+.page-shell {
+  display: flex;
+  align-items: flex-start;
+  min-height: calc(100vh - 52px - 56px);
+}
+
+/* Sidebar — only rendered when section=architecture */
+.sidenav {
+  width: 188px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--c-rule);
+  padding: var(--sp-6) 0 var(--sp-8);
+  background: var(--c-bg);
+  position: sticky;
+  top: 52px;
+  height: calc(100vh - 52px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.sidenav-group { padding: 0 var(--sp-3); }
+.sidenav-group + .sidenav-group { margin-top: var(--sp-5); }
+
+.sidenav-label {
+  display: block;
+  font-size: var(--fs-label);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--c-accent);
+  margin-bottom: var(--sp-3);
+  padding: 0 var(--sp-2);
+}
+.sidenav-label.s-planner  { color: var(--c-planner); }
+.sidenav-label.s-bookshelf { color: var(--c-green); }
+
+.sidenav-link {
+  display: block;
+  padding: 7px var(--sp-3);
+  border-radius: var(--r-md);
+  color: var(--c-ink-dim);
+  font-weight: 500;
+  font-size: var(--fs-sm);
+  text-decoration: none;
+  transition: background 0.12s, color 0.12s;
+  margin-bottom: 1px;
+}
+.sidenav-link:hover { background: var(--c-bg-sunken); color: var(--c-ink); text-decoration: none; }
+.sidenav-link.is-active {
+  background: color-mix(in oklab, var(--c-accent) 11%, transparent);
+  color: var(--c-accent);
+  font-weight: 700;
+}
+
+/* Main content shrinks to fill remaining width when sidebar is present */
+.page-shell > .page { flex: 1; min-width: 0; }
+
+/* ── Path hub cards (home page) ────────────────────────────────── */
+
+.hub-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-5);
+  margin-top: var(--sp-7);
+}
+.hub-card {
+  display: flex; flex-direction: column;
+  background: linear-gradient(180deg, var(--c-bg-card), var(--c-bg-elev));
+  border: 1px solid var(--c-rule);
+  border-top: 4px solid var(--c-rule);
+  border-radius: var(--r-lg);
+  padding: var(--sp-6) var(--sp-5);
+  text-decoration: none;
+  color: inherit;
+  gap: var(--sp-3);
+  box-shadow: var(--shadow-card);
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.16s;
+}
+.hub-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); text-decoration: none; }
+.hub-card.path-architecture { border-top-color: var(--c-accent); }
+.hub-card.path-architecture:hover { border-top-color: var(--c-accent); }
+.hub-card.path-bookshelf    { border-top-color: var(--c-green); }
+.hub-card.path-bookshelf:hover    { border-top-color: var(--c-green); }
+.hub-card.path-planner      { border-top-color: var(--c-planner); }
+.hub-card.path-planner:hover      { border-top-color: var(--c-planner); }
+.hub-card .hub-icon { font-size: 28px; line-height: 1; margin-bottom: var(--sp-1); }
+.hub-card h2 { margin: 0; font-size: var(--fs-h3); }
+.hub-card p  { margin: 0; color: var(--c-ink-dim); font-size: var(--fs-base); flex: 1; }
+.hub-enter { margin-top: var(--sp-2); font-size: var(--fs-sm); font-weight: 700; }
+.path-architecture .hub-enter { color: var(--c-accent); }
+.path-bookshelf    .hub-enter { color: var(--c-green); }
+.path-planner      .hub-enter { color: var(--c-planner); }
 
 /* ── Cards ─────────────────────────────────────────────────────── */
 
