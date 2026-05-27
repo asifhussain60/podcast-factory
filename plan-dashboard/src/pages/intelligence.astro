@@ -55,11 +55,12 @@ import Base from '../layouts/Base.astro';
   </div>
 </div>
 
-<style>
+<style is:global>
 /* =========================================================
-   LIGHT-THEME VAR MAP — remap dark-scheme CSS vars used
-   throughout the diagram CSS to Astro theme tokens.
-   Scoped to .intel-page so it never leaks.
+   INTELLIGENCE DIAGRAM — all rules prefixed with .intel-page
+   so they never leak to other pages. is:global is required
+   because nodes/zones/edges are created by JavaScript and
+   won't carry Astro's scoped data-attribute.
    ========================================================= */
 .intel-page {
   --bg:          var(--c-bg);
