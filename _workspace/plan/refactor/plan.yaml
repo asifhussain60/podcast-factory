@@ -521,9 +521,9 @@ waves:
 
   - id: B
     name: Intelligence Layer
+    execution_status: completed_2026_05_27
     parallel_with: [C]
     depends_on: [A]
-    execution_status: in_progress_2026_05_27
     execution_notes:
       - "Pre-wave quality audit across prior waves completed; Wave A acceptance gates validated."
       - "Mandatory alignment inserted and resolved before Wave B: A6 agent-count acceptance updated from 16 to 17 to match canonical repository truth and installer output."
@@ -764,6 +764,7 @@ waves:
 
   - id: C
     name: Archetype Expansion
+    execution_status: completed_2026_05_27
     parallel_with: [B]
     depends_on: [A]
     steps:
@@ -1012,6 +1013,7 @@ waves:
 
   - id: D
     name: Dashboard extension
+    execution_status: completed_2026_05_27
     design_decision: "Reframed 2026-05-26: extend plan-dashboard/ (already running at port 4322). Do NOT create _workspace/plan/spa/ or a second Astro project."
     depends_on: [A1]
     parallel_with: [B, C]
@@ -1186,6 +1188,7 @@ waves:
 
   - id: E
     name: Retroactive + Gates
+    execution_status: completed_2026_05_27
     depends_on: [B, C]
     steps:
 
@@ -1388,7 +1391,7 @@ excluded_by_design:
     name: Archetype Completion
     parallel_with: []
     depends_on: [C]
-    execution_status: not_started
+    execution_status: completed_2026_05_27
     steps:
 
       - id: F1
