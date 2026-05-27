@@ -15,6 +15,19 @@ meta:
     merge_mode: no_pr_direct_merge
     return_to_wave_branch_after_merge: true
     wave_branch_pattern: "refactor/wave-{wave}"
+    pre_wave_holistic_review_required: true
+    pre_wave_holistic_review_scope:
+      - "acceptance checklist status for all prior waves"
+      - "phase-runner done-state for all prior waves"
+      - "plan-harmony and no-regression validation"
+    inline_chat_card_reporting_required: true
+    inline_chat_card_fields:
+      - goal
+      - prior_wave_verdict
+      - current_wave_status
+      - blockers
+      - next_action
+    planner_ui_dependency: false
     clean_tree_enforcement:
       required: true
       strategy: "commit_or_discard_without_reprompt"

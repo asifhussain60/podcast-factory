@@ -399,18 +399,25 @@ def _print_phase_status(label: str, status: str) -> None:
 
 
 def _run_phase_registry(args: argparse.Namespace, wave_n: int) -> int:
-    """Iterate the wave's phase registry and execute each phase autonomously.
+    """Iterate the wave's phase registry autonomously until convergence.
 
-    Each phase module exports `is_done(repo) -> bool` and
-    `execute(repo) -> PhaseResult`. Idempotent: phases already done are
-    skipped. Phases that halt at a human-review gate stop the loop and
-    bubble that up to the dispatcher.
+    Runs a red-green convergence loop: each pass visits every phase in
+    registry order. Phases already done are skipped. Phases that complete
+    mark their acceptance rows. Halted/blocked phases are noted but the
+    loop CONTINUES to the next phase — a single blocked phase never aborts
+    the wave.
+
+    The loop terminates when a full pass produces no new completions
+    (convergence). At that point all remaining halted phases are reported
+    together as a consolidated blocker summary.
+
+    Phases that raise an error (not just halt) abort immediately — an error
+    indicates a code defect, not a missing deliverable.
     """
     try:
         from scripts.podcast import phases as _phases_pkg  # type: ignore
         from scripts.podcast import _acceptance  # type: ignore
     except ImportError:
-        # Allow running as a script when not installed as a package
         sys.path.insert(0, str(REPO_ROOT))
         from scripts.podcast import phases as _phases_pkg  # type: ignore
         from scripts.podcast import _acceptance  # type: ignore
@@ -422,61 +429,99 @@ def _run_phase_registry(args: argparse.Namespace, wave_n: int) -> int:
         print(f"[run_wave]   them to phases/__init__.py REGISTRY[{wave_n}].")
         return EXIT_HALTED_REVIEW
 
-    print(f"[run_wave] W{wave_n} ({WAVE_NAMES[wave_n]}) — iterating {len(phase_list)} phase(s)")
+    print(f"[run_wave] W{wave_n} ({WAVE_NAMES[wave_n]}) — {len(phase_list)} phase(s) registered")
+    print(f"[run_wave] Starting red-green convergence loop…")
     print()
 
-    overall_halted = False
-    for mod in phase_list:
-        pid = getattr(mod, "PHASE_ID", "?")
-        desc = getattr(mod, "DESCRIPTION", "")
-        _print_phase_status(f"{pid} {desc[:60]}", "checking…")
+    pass_number = 0
+    completed_ever: set[str] = set()
 
-        if mod.is_done(REPO_ROOT):
-            _print_phase_status(f"{pid}", "✓ already done (idempotent skip)")
-            # Mark acceptance rows if not already checked.
-            n = _acceptance.mark_task_rows_in_file(pid, acceptance_file=ACCEPTANCE_FILE)
-            if n > 0:
-                _print_phase_status(f"  └─ marked", f"{n} acceptance row(s) → [x]")
-            continue
+    while True:
+        pass_number += 1
+        new_completions = 0
+        halted_this_pass: list[tuple[str, object]] = []  # (pid, result)
 
-        try:
-            result = mod.execute(REPO_ROOT)
-        except Exception as e:  # noqa: BLE001 — surface as runner failure
-            _print_phase_status(f"{pid}", f"✗ ERROR: {e!r}")
-            return EXIT_ERROR
+        print(f"[run_wave] ── Pass {pass_number} ──────────────────────────────────────────")
 
-        if result.status == "done":
-            _print_phase_status(f"{pid}", f"✓ done — {result.message}")
-            for rid in result.rows_marked:
-                n = _acceptance.mark_task_rows_in_file(rid, acceptance_file=ACCEPTANCE_FILE)
+        for mod in phase_list:
+            pid = getattr(mod, "PHASE_ID", "?")
+            desc = getattr(mod, "DESCRIPTION", "")
+
+            if pid in completed_ever:
+                _print_phase_status(f"{pid}", "✓ done (skip)")
+                continue
+
+            _print_phase_status(f"{pid} {desc[:50]}", "checking…")
+
+            if mod.is_done(REPO_ROOT):
+                _print_phase_status(f"{pid}", "✓ already done (idempotent skip)")
+                n = _acceptance.mark_task_rows_in_file(pid, acceptance_file=ACCEPTANCE_FILE)
                 if n > 0:
-                    _print_phase_status(f"  └─ marked", f"{n} row(s) for {rid} → [x]")
-        elif result.status == "halted":
-            _print_phase_status(f"{pid}", f"⏸ HALTED — {result.message}")
-            for p in result.evidence_paths:
-                _print_phase_status(f"  └─ evidence", p)
-            overall_halted = True
+                    _print_phase_status(f"  └─ marked", f"{n} acceptance row(s) → [x]")
+                completed_ever.add(pid)
+                new_completions += 1
+                continue
+
+            try:
+                result = mod.execute(REPO_ROOT)
+            except Exception as e:  # noqa: BLE001
+                _print_phase_status(f"{pid}", f"✗ ERROR: {e!r}")
+                return EXIT_ERROR
+
+            if result.status == "done":
+                _print_phase_status(f"{pid}", f"✓ done — {result.message}")
+                for rid in result.rows_marked:
+                    n = _acceptance.mark_task_rows_in_file(rid, acceptance_file=ACCEPTANCE_FILE)
+                    if n > 0:
+                        _print_phase_status(f"  └─ marked", f"{n} row(s) for {rid} → [x]")
+                completed_ever.add(pid)
+                new_completions += 1
+            elif result.status == "halted":
+                _print_phase_status(f"{pid}", f"⏸ blocked — continuing to next phase")
+                halted_this_pass.append((pid, result))
+                # ← CONTINUE — do NOT break; evaluate every remaining phase
+            else:
+                _print_phase_status(f"{pid}", f"✗ ERROR — {result.message}")
+                return EXIT_ERROR
+
+        print()
+        print(
+            f"[run_wave] Pass {pass_number} complete — "
+            f"{new_completions} new completion(s), "
+            f"{len(halted_this_pass)} blocked phase(s)."
+        )
+        print()
+
+        # Convergence: no new completions in this pass → loop cannot make further progress.
+        if new_completions == 0:
             break
-        else:
-            _print_phase_status(f"{pid}", f"✗ ERROR — {result.message}")
-            return EXIT_ERROR
 
-    print()
-    if overall_halted:
-        print(f"[run_wave] W{wave_n} halted at a phase requiring human review. See above.")
-        return EXIT_HALTED_REVIEW
+        # If no blockers remain, also stop — everything done.
+        if not halted_this_pass:
+            break
 
-    # All phases executed. Re-check wave done-status.
+    # ── Convergence reached ──────────────────────────────────────────────────
     text = ACCEPTANCE_FILE.read_text()
     if is_wave_done(text, wave_n):
-        print(f"[run_wave] W{wave_n} DONE — every acceptance row in this wave is checked.")
+        print(f"[run_wave] ✅ W{wave_n} DONE — every acceptance row is checked.")
         return EXIT_EXECUTED_DONE
+
+    # Report all remaining blockers together.
     checked, total = wave_status(text, wave_n)
-    print(
-        f"[run_wave] W{wave_n} executed {len(phase_list)} phase(s); "
-        f"{checked}/{total} wave rows checked. Remaining rows belong to phases "
-        f"not yet in phases/__init__.py REGISTRY[{wave_n}]. Land them in subsequent commits."
-    )
+    still_blocked = [pid for pid, _ in halted_this_pass]
+
+    print(f"[run_wave] W{wave_n} converged at {checked}/{total} acceptance rows checked.")
+    print(f"[run_wave] {len(still_blocked)} phase(s) still blocked (operator action required):")
+    print()
+    for pid, result in halted_this_pass:
+        print(f"  ┌── {pid} ─────────────────────────────────────────────")
+        for line in str(result.message).splitlines():
+            print(f"  │  {line}")
+        for ep in getattr(result, "evidence_paths", []):
+            print(f"  │  → {ep}")
+        print(f"  └────────────────────────────────────────────────────")
+        print()
+
     return EXIT_HALTED_REVIEW
 
 
@@ -655,11 +700,8 @@ def main(argv: list[str] | None = None) -> int:
 
     text = ACCEPTANCE_FILE.read_text()
 
-    # W3 pre-flight: --book required + cost-cap guard.
-    if args.wave == 3:
-        if not args.book:
-            print("error: Wave 3 requires --book <slug>", file=sys.stderr)
-            return EXIT_ERROR
+    # W3 pre-flight: cost-cap guard only when --book is explicitly supplied.
+    if args.wave == 3 and args.book:
         cost = book_cost_usd(args.book)
         if cost > args.cost_cap_hard:
             print(

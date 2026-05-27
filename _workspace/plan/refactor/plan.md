@@ -79,6 +79,8 @@ Every wave now follows one non-negotiable closeout protocol:
 3. **Branch discipline is orchestrated.** The runner auto-targets the correct wave branch (`refactor/wave-<n>`), merges completed work into `develop`, then switches back to the wave branch so subsequent commands remain in the right lane.
 4. **Quality is iterative, not one-shot.** Red-green cleanup runs in narrowing passes until checks are green and no regressions are detected.
 5. **Working-tree cleanliness is mandatory at the end of each execution pass.** The operator may commit implementation changes and may discard or reset unrelated local deltas as needed so the branch is left clean, without pausing to ask for confirmation each time.
+6. **Holistic pre-wave review is mandatory.** Before starting wave N, rerun acceptance checks for every prior wave, validate phase-runner state for those waves, and block execution if any prior wave is not fully green.
+7. **Inline card reporting is mandatory.** With UI telemetry disconnected, every wave update must be reported in chat using a clear status card (goal, prior-wave verdicts, current-wave progress, blockers, next action) so operators can track execution without the planner UI.
 
 ---
 

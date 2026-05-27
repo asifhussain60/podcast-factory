@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-27T19:47:53.395Z",
-  "source_commit": "e15626b",
+  "generated_at": "2026-05-27T19:52:07.617Z",
+  "source_commit": "413b027",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -505,6 +505,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "413b027",
+      "subject": "chore: switch to chat-only wave execution and clean planner prompts",
+      "date": "2026-05-27"
+    },
+    {
       "sha": "e15626b",
       "subject": "feat(planner): add loop protocol status panel and sync iteration ledger",
       "date": "2026-05-27"
@@ -547,11 +552,6 @@
     {
       "sha": "3e76ae3",
       "subject": "feat(D5): paragraph annotation bar — hover toolbar, tag CRUD, Gemini research",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "129af21",
-      "subject": "chore(A6): consolidate agents — canonical specs in infra/, stubs in .github/agents/",
       "date": "2026-05-27"
     }
   ],
