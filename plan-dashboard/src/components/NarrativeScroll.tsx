@@ -633,6 +633,24 @@ export default function NarrativeScroll({ phases, shippedCount, episodeCount }: 
           duration: 0.75,
           ease: 'power3.out',
         }, '-=0.6');
+
+        // Parallax zoom — image scales from 1.12 → 1.0 while chapter is pinned
+        const img = chapter.querySelector<HTMLElement>('.n-visual-img');
+        if (img) {
+          gsap.fromTo(img,
+            { scale: 1.12 },
+            {
+              scale: 1,
+              ease: 'none',
+              scrollTrigger: {
+                trigger: chapter,
+                start: 'top top',
+                end: `+=${window.innerHeight * 1.2}`,
+                scrub: 2,
+              },
+            }
+          );
+        }
       });
     }
 
@@ -768,7 +786,7 @@ export default function NarrativeScroll({ phases, shippedCount, episodeCount }: 
           const VisualComponent = PHASE_VISUALS[phase.id];
           const narrative = PHASE_NARRATIVE[phase.id];
           return (
-            <section key={phase.id} className="narrative-chapter">
+            <section key={phase.id} className={`narrative-chapter${index % 2 === 1 ? ' narrative-chapter--reversed' : ''}`}>
               <div className="narrative-chapter-inner">
 
                 <div className="narrative-chapter-text">
@@ -795,8 +813,12 @@ export default function NarrativeScroll({ phases, shippedCount, episodeCount }: 
 
                 <div className="narrative-chapter-visual">
                   <div className="n-visual-frame">
+                    <span className="n-frame-corner n-frame-tl" />
+                    <span className="n-frame-corner n-frame-tr" />
+                    <span className="n-frame-corner n-frame-bl" />
+                    <span className="n-frame-corner n-frame-br" />
                     {PHASE_IMAGES[phase.id]
-                      ? <img src={PHASE_IMAGES[phase.id]} alt="" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}} />
+                      ? <img src={PHASE_IMAGES[phase.id]} alt="" className="n-visual-img" />
                       : VisualComponent ? <VisualComponent /> : null
                     }
                   </div>

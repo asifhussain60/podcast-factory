@@ -373,18 +373,14 @@
   padding: 0 5vw;
 }
 
-/* Odd chapters: text left, visual right */
-.narrative-chapter:nth-child(odd) .narrative-chapter-inner {
-  direction: ltr;
-}
+/* Odd chapters: text left, visual right (default order) */
 
-/* Even chapters: text right, visual left */
-.narrative-chapter:nth-child(even) .narrative-chapter-inner {
-  direction: rtl;
+/* Even chapters: flip — visual left, text right */
+.narrative-chapter--reversed .narrative-chapter-text {
+  order: 2;
 }
-
-.narrative-chapter:nth-child(even) .narrative-chapter-inner > * {
-  direction: ltr;
+.narrative-chapter--reversed .narrative-chapter-visual {
+  order: 1;
 }
 
 /* Chapter text block */
@@ -507,25 +503,62 @@
   will-change: opacity, transform;
 }
 
-.narrative-chapter:nth-child(even) .narrative-chapter-visual {
+.narrative-chapter--reversed .narrative-chapter-visual {
   transform: translateX(-30px) scale(0.96);
 }
 
-/* Visual frame — dark inset panel so SVG stubs remain visible;
-   replaced wholesale when real Gemini images arrive */
+/* Visual frame */
 .n-visual-frame {
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
+  border-radius: 10px;
   background: #0f1522;
-  border: 1px solid rgba(201, 151, 58, 0.18);
-  box-shadow: 0 4px 24px rgba(26, 24, 20, 0.12),
-              0 1px 4px rgba(26, 24, 20, 0.08);
+  border: 1px solid rgba(201, 151, 58, 0.25);
+  box-shadow: 0 8px 40px rgba(26, 24, 20, 0.18),
+              0 2px 8px rgba(26, 24, 20, 0.1),
+              inset 0 0 40px rgba(201, 151, 58, 0.04);
   overflow: hidden;
   position: relative;
+}
+
+/* Inner glow overlay */
+.n-visual-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 30px rgba(201, 151, 58, 0.07),
+              inset 0 0 2px rgba(201, 151, 58, 0.3);
+  border-radius: 10px;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Gold corner marks */
+.n-frame-corner {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: rgba(201, 151, 58, 0.75);
+  border-style: solid;
+  z-index: 4;
+  pointer-events: none;
+}
+.n-frame-tl { top: 10px;    left: 10px;  border-width: 2px 0 0 2px; }
+.n-frame-tr { top: 10px;    right: 10px; border-width: 2px 2px 0 0; }
+.n-frame-bl { bottom: 10px; left: 10px;  border-width: 0 0 2px 2px; }
+.n-frame-br { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; }
+
+/* Image fills frame; GSAP drives scale for parallax */
+.n-visual-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform-origin: center center;
+  will-change: transform;
 }
 
 .n-visual-frame svg {
