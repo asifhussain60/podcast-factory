@@ -112,7 +112,7 @@ open -a OrbStack        # complete setup, pick Docker
 #   CONTENT/_shared/source-library/Kashkole.sql   (~724 MB)
 
 cd ~/PROJECTS/podcast-factory
-bash scripts/setup-wisdom-db.sh   # ~3-5 min on first run; idempotent on re-runs
+bash infra/setup-wisdom-db.sh   # ~3-5 min on first run; idempotent on re-runs
 ```
 
 After the script completes, register the MCP server so Claude Code can call it:
