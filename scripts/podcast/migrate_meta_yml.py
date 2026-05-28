@@ -17,6 +17,7 @@ from __future__ import annotations
 import argparse
 import sys
 from pathlib import Path
+from _paths import REPO_ROOT
 from typing import Any
 
 try:
@@ -24,7 +25,6 @@ try:
 except ImportError:
     yaml = None  # type: ignore[assignment]
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
 DRAFTS_DIR = REPO_ROOT / "content" / "drafts"
 
 # Canonical archetype mapping per architecture.md §Content Archetypes.

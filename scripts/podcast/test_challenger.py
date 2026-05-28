@@ -51,9 +51,9 @@ import json
 import re
 import sys
 from pathlib import Path
+from _paths import REPO_ROOT
 from typing import Any
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_FIXTURES_DIR = REPO_ROOT / "content/podcast/.skill/_learning/fixtures"
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))

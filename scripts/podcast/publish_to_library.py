@@ -69,8 +69,8 @@ import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
+from _paths import REPO_ROOT
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
 # 2026-05-23 restructure: workshop moved from _workspace/books/ to content/drafts/,
 # published catalog moved from out-of-repo library/ to in-repo content/published/.
 WORKSPACE = REPO_ROOT / "content" / "drafts"

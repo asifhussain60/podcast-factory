@@ -25,8 +25,8 @@ import json
 import sys
 from collections import Counter
 from pathlib import Path
+from _paths import REPO_ROOT
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
 DRAFTS_DIR = REPO_ROOT / "content" / "drafts"
 FINDINGS_LEDGER = REPO_ROOT / "_learning" / "findings.jsonl"
 PROPOSALS_DIR = REPO_ROOT / "_learning" / "promotion-proposals"

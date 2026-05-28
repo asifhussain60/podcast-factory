@@ -42,8 +42,8 @@ import json
 import re
 import sys
 from pathlib import Path
+from _paths import REPO_ROOT
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
 LIBRARY_DIR = REPO_ROOT / "content" / "drafts"
 
 # Length-target → (min, max) inclusive bands. Per SKILL.md INVARIANT 6.

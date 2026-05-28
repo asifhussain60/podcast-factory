@@ -33,9 +33,9 @@ import json
 import sys
 from collections import defaultdict
 from pathlib import Path
+from _paths import REPO_ROOT
 from typing import Any
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_LEDGER = REPO_ROOT / "content/podcast/.skill/_learning/findings.jsonl"
 OUTPUT_PATH = REPO_ROOT / "content/podcast/.skill/_learning/patterns.md"
 

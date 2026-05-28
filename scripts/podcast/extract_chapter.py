@@ -65,13 +65,13 @@ import re
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
+from _paths import REPO_ROOT
 from typing import Any
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Repo layout
 # ─────────────────────────────────────────────────────────────────────────────
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
 CONTENT_DIR = REPO_ROOT / "content"
 PODCAST_DIR = CONTENT_DIR / "podcast"
 LIBRARY_DIR = PODCAST_DIR / "library"  # legacy (retired 2026-05-23); kept for any
