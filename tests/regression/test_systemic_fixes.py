@@ -46,6 +46,14 @@ INFRA_AGENTS = REPO_ROOT / "infra" / "claude-agents"
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
 
+def _read_authoring_src() -> str:
+    """Concatenate all .py files in the _authoring package.
+    The module was refactored from _authoring.py (flat) → _authoring/ (package).
+    """
+    pkg = SCRIPTS_PODCAST / "_authoring"
+    return "\n".join(p.read_text() for p in sorted(pkg.glob("*.py")))
+
+
 # ─── Shared helpers ─────────────────────────────────────────────────────────
 
 def _stub_contract() -> dict:
@@ -285,7 +293,7 @@ class TestAuthoringPromptsCarryCanonicalRules(unittest.TestCase):
     in commit f7068bf so the LLM doesn't reintroduce the systemic findings."""
 
     def setUp(self):
-        self.authoring_src = (SCRIPTS_PODCAST / "_authoring.py").read_text()
+        self.authoring_src = _read_authoring_src()
 
     def test_authoring_prompts_have_no_literal_forbidden_phrase_rule(self):
         self.assertIn(
@@ -460,7 +468,7 @@ class TestAuthoringPromptHasCanonicalSections(unittest.TestCase):
     ]
 
     def test_authoring_prompt_names_canonical_sections(self):
-        src = (SCRIPTS_PODCAST / "_authoring.py").read_text()
+        src = _read_authoring_src()
         for header in self.REQUIRED_CANONICAL_HEADERS:
             self.assertIn(
                 header, src,
@@ -468,7 +476,7 @@ class TestAuthoringPromptHasCanonicalSections(unittest.TestCase):
             )
 
     def test_authoring_prompt_names_required_deny_phrases(self):
-        src = (SCRIPTS_PODCAST / "_authoring.py").read_text()
+        src = _read_authoring_src()
         for phrase in self.REQUIRED_LITERAL_PHRASES_IN_PROMPT:
             self.assertIn(
                 phrase, src,
