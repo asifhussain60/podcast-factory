@@ -21,7 +21,7 @@ book:
 # pipeline-side intake will use these as suggestions; final slug/branch
 # is intake's call (it must check for collisions in content/drafts/).
 pipeline_hints:
-  suggested_slug: kashkole-ali-ibn-abi-talib-alayhi-as-salam-x3212-x4894-x7939-x3180-x7926-x8263
+  suggested_slug: wisdom-ali-ibn-abi-talib-alayhi-as-salam-x3212-x4894-x7939-x3180-x7926-x8263
   suggested_category: lectures
 counts:
   sections: 19

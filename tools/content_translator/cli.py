@@ -110,7 +110,7 @@ def _status_summary(args: argparse.Namespace) -> None:
                 entries.append(json.loads(line))
 
     total_cost = sum(e.get("cost_usd", 0) for e in entries)
-    print(f"\nKASHKOLE Translation Cost Ledger — {len(entries)} entries, total ${total_cost:.4f}\n")
+    print(f"\nWisdom Translation Cost Ledger — {len(entries)} entries, total ${total_cost:.4f}\n")
     print(f"  {'binder':>6}  {'chapter':>7}  {'phase':>12}  {'cost_usd':>10}  completed_at")
     print(f"  {'-'*6}  {'-'*7}  {'-'*12}  {'-'*10}  {'-'*24}")
     for e in entries:

@@ -43,7 +43,7 @@ Thresholds: ≥ 85 = PASS · 70–84 = WARN · < 70 = FAIL (seal stage blocks on
 """
 
 SYSTEM_PROMPT_BASE = """\
-You are adapting a chapter from KASHKOLE, an Ismaili scholarly compendium, into \
+You are adapting a chapter from Wisdom, an Ismaili scholarly compendium, into \
 polished scholarly English in the style of IIS publications (Daftary, Walker, Hunzai): \
 calm, precise, and reverent.
 

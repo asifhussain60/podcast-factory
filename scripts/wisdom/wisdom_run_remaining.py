@@ -101,7 +101,7 @@ def main() -> None:
 def _check_peq_after_challenge(binder_id: int, binder_name: str) -> None:
     """Scan challenger reports for PEQ totals; surface chapters below 70."""
     import re as _re
-    binder_dir = REPO / "CONTENT" / "drafts" / "books" / f"kashkole-binder-{binder_id:02d}"
+    binder_dir = REPO / "CONTENT" / "drafts" / "books" / f"wisdom-binder-{binder_id:02d}"
     if not binder_dir.exists():
         return
 

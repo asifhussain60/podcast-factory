@@ -42,7 +42,7 @@ _QURAN_WIDGET_RE = re.compile(
 _INLINE_QURAN_MARKER_RE = re.compile(r"⟪quran (\d+):(\d+)(?:-(\d+))?⟫")
 
 
-class KashkoleQuranCorpus:
+class WisdomQuranCorpus:
     """Cache HQAyats lookups; one row per ayat.
 
     HQAyats contains <I>, <P> tags in some translation fields; we strip them.
@@ -123,7 +123,7 @@ def _render_quran_block(
     return "\n".join(out)
 
 
-class KashkoleAdapter(SourceAdapter):
+class WisdomAdapter(SourceAdapter):
     source_name = "wisdom"
     source_language = "ur"
     labels = AdapterLabels(
@@ -133,7 +133,7 @@ class KashkoleAdapter(SourceAdapter):
     )
 
     def __init__(self):
-        self._quran_corpus: Optional[KashkoleQuranCorpus] = None
+        self._quran_corpus: Optional[WisdomQuranCorpus] = None
 
     # ---- Required: book resolution + sections ------------------------------
 
@@ -207,9 +207,9 @@ class KashkoleAdapter(SourceAdapter):
 
     # ---- Optional: Quran corpus + inline citation cleanup ------------------
 
-    def get_quran_corpus(self) -> KashkoleQuranCorpus:
+    def get_quran_corpus(self) -> WisdomQuranCorpus:
         if self._quran_corpus is None:
-            self._quran_corpus = KashkoleQuranCorpus()
+            self._quran_corpus = WisdomQuranCorpus()
         return self._quran_corpus
 
     def cleanup_inline_citations(
