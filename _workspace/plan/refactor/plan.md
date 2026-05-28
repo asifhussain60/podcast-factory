@@ -156,6 +156,10 @@ Every wave now follows one non-negotiable closeout protocol:
 - A follow-up runner stability fix has also been completed: checklist resolution now happens in the active branch context after wave-branch checkout, which prevents launch-time failures when a newly-created wave branch does not yet carry the dedicated checklist file.
 - The Wave 2 alignment blocker has now been fixed directly: missing autonomous runners for the two open Wave 2 items were implemented, augmenter behavior is now executable with dedicated tests, and checklist row-marking was corrected to update the active wave checklist so mandatory alignment can actually close gaps in place.
 - **CORRECTION (2026-05-28):** Wave B was incorrectly recorded as completed. All Wave B intelligence files (`knowledge/extractor.py`, `knowledge/librarian.py`, `knowledge/augmenter.py`, `intelligence/kashkole_ingest_knowledge.py`) are scaffold stubs only. Wave B is `in_progress`. Real B0 implementation starting now with schema migrations 017+018 and the Kashkole ingestion driver.
+- **2026-05-28 — B0 complete:** `intelligence/kashkole_ingest_knowledge.py` (326 lines) live with 16 passing tests. Schema migrations 017 (doctrine atom type) and 018 (corpus_chapter ingest tracking) applied. 84 tests total.
+- **2026-05-28 — B1 complete:** `intelligence/extractor.py` (290 lines). Reads chapter `.txt` files, calls `claude -p` per chapter, validates atoms against `_atom_schemas.py`, writes scratch JSONL, flushes low-confidence atoms to `manual_review_queue`. 20 new tests. `_atom_schemas.py` stubs implemented + `DoctrineBody` added.
+- **2026-05-28 — B2 complete:** `intelligence/librarian.py` (239 lines). Pure Python. Classifies scratch atoms as NEW/MERGED/VARIANT/CONFLICT against the DB. Writes `knowledge-merge-report.md`. 11 new tests.
+- **2026-05-28 — B3 complete:** `intelligence/augmenter.py` (194 lines). DB-backed doctrine lookup via `atoms JOIN atom_topic_tags`. Guards: disabled by default, `needs_review=0` gate, Arabic stripped (DR-012). 17 new tests. 132 tests total, all passing.
 
 ---
 

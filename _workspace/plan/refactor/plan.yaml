@@ -562,7 +562,7 @@ waves:
 
       - id: B0
         phase_type: pre_wave_mobilization
-        status: in_progress
+        status: completed_2026_05_28
         title: "Build the Kashkole corpus ingestion driver — independent chapter refinement"
         depends_on: [A2]
         rationale: "75 PASS+WARN Kashkole chapters are ready to seed the intelligence library before any pipeline book runs B1. Independent refinement state machine lets Asif correct chapters one by one without LLM re-runs."
@@ -619,7 +619,7 @@ waves:
         authorization: *tier_one
 
       - id: B1
-        status: in_progress
+        status: completed_2026_05_28
         title: "Build the Extractor"
         depends_on: [A5]
         deliverables:
@@ -647,7 +647,7 @@ waves:
         authorization: *tier_one
 
       - id: B2
-        status: in_progress
+        status: completed_2026_05_28
         title: "Build the Librarian"
         depends_on: [B1]
         deliverables:
@@ -683,6 +683,7 @@ waves:
         authorization: *tier_one
 
       - id: B3
+        status: completed_2026_05_28
         title: "Build the Augmenter"
         depends_on: [B2, A3]
         deliverables:

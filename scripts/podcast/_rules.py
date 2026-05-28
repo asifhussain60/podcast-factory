@@ -386,3 +386,15 @@ def abbreviations_for_build() -> dict[str, str]:
                 pat = rf"\b{a}\b"
             out[pat] = f"{a} (use full title '{full}')"
     return out
+
+
+# ─── Wave B — Intelligence layer budget constants ─────────────────────────
+# These are read by intelligence/extractor.py and intelligence/augmenter.py.
+# Max per-chapter cost for the atom extractor (Claude Sonnet structured call).
+R_KNOWLEDGE_EXTRACTOR_COST_CAP_USD_PER_CHAPTER: float = 0.10
+# Max per-book total cost for the atom extractor.
+R_KNOWLEDGE_EXTRACTOR_COST_CAP_USD_PER_BOOK: float = 10.00
+# Confidence threshold below which an extracted atom goes to manual review.
+R_KNOWLEDGE_EXTRACTOR_CONFIDENCE_THRESHOLD: float = 0.70
+# Whether augmentation is enabled by default (must be explicitly turned on per book).
+R_KNOWLEDGE_AUGMENTER_DEFAULT_ENABLED: bool = False
