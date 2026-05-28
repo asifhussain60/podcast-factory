@@ -213,15 +213,15 @@ const callsTotal   = sumAllVendorField(infra.vendors, 'calls_30d');
       <text class="topo-svc-title" x="822" y="261" text-anchor="middle">origin/develop + origin/main</text>
       <text class="topo-svc-sub2"  x="822" y="277" text-anchor="middle">Content catalog · SSH push</text>
 
-      <!-- ARROWS: engine to Azure (bidirectional) -->
-      <path class="topo-arr" stroke="#0078d4" d="M224,104 C360,104 400,120 478,120"
+      <!-- ARROWS: engine to Azure (bidirectional) — arc above boxes through top corridor -->
+      <path class="topo-arr" stroke="#0078d4" d="M224,58 C310,30 446,30 478,60"
             marker-end="url(#topo-ah-azure)" marker-start="url(#topo-ah-rev-azure)"/>
-      <text class="topo-proto" x="354" y="112">HTTPS REST</text>
+      <text class="topo-proto" x="352" y="26">HTTPS REST</text>
 
-      <!-- engine to Anthropic (bidirectional) -->
-      <path class="topo-arr" stroke="#cc785c" d="M224,120 C350,120 600,110 710,110"
+      <!-- engine to Anthropic (bidirectional) — arc high above boxes -->
+      <path class="topo-arr" stroke="#cc785c" d="M224,52 C340,16 590,16 710,80"
             marker-end="url(#topo-ah-anthropic)" marker-start="url(#topo-ah-rev-anthropic)"/>
-      <text class="topo-proto" x="490" y="100">HTTPS REST</text>
+      <text class="topo-proto" x="492" y="13">HTTPS REST</text>
 
       <!-- content to NotebookLM (manual, dashed) -->
       <path class="topo-arr" stroke="#4285f4" stroke-dasharray="7 5"
@@ -229,15 +229,15 @@ const callsTotal   = sumAllVendorField(infra.vendors, 'calls_30d');
             marker-end="url(#topo-ah-nlm)"/>
       <text class="topo-proto" x="445" y="242">Manual upload</text>
 
-      <!-- git to GitHub -->
-      <path class="topo-arr" stroke="#1f2328" d="M436,392 C600,392 670,270 710,264"
+      <!-- git to GitHub — arc below NotebookLM (y>294), then right to GitHub -->
+      <path class="topo-arr" stroke="#1f2328" d="M436,392 C560,392 560,310 710,264"
             marker-end="url(#topo-ah-github)"/>
-      <text class="topo-proto" x="567" y="314">Git / SSH</text>
+      <text class="topo-proto" x="556" y="320">Git / SSH</text>
 
-      <!-- DB local read -->
+      <!-- DB local read — dashed line in the 16px gap between boxes -->
       <path fill="none" stroke="var(--c-rule)" stroke-width="1" stroke-dasharray="4 3"
-            d="M240,96 L224,104" marker-end="url(#topo-ah)"/>
-      <text class="topo-proto" x="228" y="91">file://</text>
+            d="M240,100 L224,100" marker-end="url(#topo-ah)"/>
+      <text class="topo-proto" x="215" y="95" text-anchor="end">file://</text>
     </svg>
   </div>
 </section>
