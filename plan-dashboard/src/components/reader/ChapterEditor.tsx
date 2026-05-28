@@ -25,6 +25,7 @@
  */
 
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { STORAGE_KEYS } from '../../lib/reader/storage-keys';
 
 interface Props {
   book: string;
@@ -64,9 +65,7 @@ interface PersistedEditorState {
   annotations: Annotation[];
 }
 
-function editorStateKey(book: string, chapterSlug: string): string {
-  return `pf-reader:chapter-editor:${book}:${chapterSlug}`;
-}
+const editorStateKey = (book: string, chapterSlug: string) => STORAGE_KEYS.chapterEditor(book, chapterSlug);
 
 function escapeHtml(s: string): string {
   return s

@@ -4,10 +4,12 @@
  */
 
 export const VENDOR_IDS = {
-  ANTHROPIC: 'anthropic',
-  AZURE:     'azure',
-  GOOGLE:    'google',
-  GITHUB:    'github',
+  ANTHROPIC:   'anthropic',
+  AZURE:       'azure',
+  GOOGLE:      'google',
+  GITHUB:      'github',
+  NOTEBOOKLM:  'notebooklm',
+  INTERNAL:    'internal',
 } as const;
 
 export type VendorId = typeof VENDOR_IDS[keyof typeof VENDOR_IDS];

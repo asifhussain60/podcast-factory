@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ComponentType } from 'react';
+import { STORAGE_KEYS } from '../../lib/reader/storage-keys';
 import {
   Eye,
   Globe,
@@ -83,9 +84,7 @@ interface Props {
   bookTitle?: string;
 }
 
-function queueKey(book: string, chapter: string): string {
-  return `pf-reader:annotation-queue:${book}:${chapter}`;
-}
+const queueKey = (book: string, chapter: string) => STORAGE_KEYS.annotationQueue(book, chapter);
 
 function textPreview(text: string, max = 180): string {
   const clean = text.replace(/\s+/g, ' ').trim();

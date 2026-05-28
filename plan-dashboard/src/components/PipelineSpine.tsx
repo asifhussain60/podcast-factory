@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import AgentCard from './AgentCard';
+import { VENDOR_IDS } from '../lib/vendors';
 
 interface Phase {
   id: string;

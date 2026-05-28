@@ -1,5 +1,9 @@
+import { type VendorId } from '../lib/vendors';
+
+type VendorLogoId = VendorId | 'source' | 'output';
+
 interface Props {
-  vendor: 'anthropic' | 'google' | 'azure' | 'notebooklm' | 'github' | 'source' | 'output';
+  vendor: VendorLogoId;
   size?: number;
 }
 

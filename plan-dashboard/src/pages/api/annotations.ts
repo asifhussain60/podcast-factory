@@ -12,6 +12,7 @@ import {
   deleteAnnotation,
   upsertParagraphNote,
 } from '../../lib/db/annotations';
+import { apiError, apiOk, apiServerError } from '../../lib/api-responses';
 
 export const prerender = false;
 
@@ -20,17 +21,13 @@ export const GET: APIRoute = ({ request }) => {
   const book = url.searchParams.get('book');
   const chapter = url.searchParams.get('chapter');
   if (!book || !chapter) {
-    return new Response(JSON.stringify({ error: 'Missing book or chapter param' }), {
-      status: 400, headers: { 'content-type': 'application/json' },
-    });
+    return apiError('Missing book or chapter param');
   }
   try {
     const snapshot = getChapterAnnotationSnapshot(book, chapter);
-    return new Response(JSON.stringify(snapshot), { headers: { 'content-type': 'application/json' } });
+    return apiOk(snapshot);
   } catch (e) {
-    return new Response(JSON.stringify({ error: String(e) }), {
-      status: 500, headers: { 'content-type': 'application/json' },
-    });
+    return apiServerError(String(e));
   }
 };
 
@@ -39,25 +36,19 @@ export const PATCH: APIRoute = async ({ request }) => {
   try {
     body = await request.json();
   } catch {
-    return new Response(JSON.stringify({ error: 'Invalid JSON' }), {
-      status: 400, headers: { 'content-type': 'application/json' },
-    });
+    return apiError('Invalid JSON');
   }
 
   const { book, chapter, paraIdx, note } = body;
   if (!book || !chapter || paraIdx == null || typeof note !== 'string') {
-    return new Response(JSON.stringify({ error: 'Missing required fields' }), {
-      status: 400, headers: { 'content-type': 'application/json' },
-    });
+    return apiError('Missing required fields');
   }
 
   try {
     upsertParagraphNote(book, chapter, paraIdx, note);
-    return new Response(JSON.stringify({ ok: true }), { headers: { 'content-type': 'application/json' } });
+    return apiOk({ ok: true });
   } catch (e) {
-    return new Response(JSON.stringify({ error: String(e) }), {
-      status: 500, headers: { 'content-type': 'application/json' },
-    });
+    return apiServerError(String(e));
   }
 };
 
@@ -66,23 +57,17 @@ export const POST: APIRoute = async ({ request }) => {
   try {
     body = await request.json();
   } catch {
-    return new Response(JSON.stringify({ error: 'Invalid JSON' }), {
-      status: 400, headers: { 'content-type': 'application/json' },
-    });
+    return apiError('Invalid JSON');
   }
   const { book, chapter, paraIdx, tagId, note } = body;
   if (!book || !chapter || paraIdx == null || !tagId) {
-    return new Response(JSON.stringify({ error: 'Missing required fields' }), {
-      status: 400, headers: { 'content-type': 'application/json' },
-    });
+    return apiError('Missing required fields');
   }
   try {
     const result = toggleAnnotation(book, chapter, paraIdx, tagId, note);
-    return new Response(JSON.stringify(result), { headers: { 'content-type': 'application/json' } });
+    return apiOk(result);
   } catch (e) {
-    return new Response(JSON.stringify({ error: String(e) }), {
-      status: 500, headers: { 'content-type': 'application/json' },
-    });
+    return apiServerError(String(e));
   }
 };
 
@@ -95,20 +80,16 @@ export const DELETE: APIRoute = ({ request }) => {
   try {
     if (book && chapter) {
       clearChapterAnnotations(book, chapter);
-      return new Response(JSON.stringify({ ok: true, cleared: true }), { headers: { 'content-type': 'application/json' } });
+      return apiOk({ cleared: true });
     }
 
     if (!id) {
-      return new Response(JSON.stringify({ error: 'Missing id param' }), {
-        status: 400, headers: { 'content-type': 'application/json' },
-      });
+      return apiError('Missing id param');
     }
 
     deleteAnnotation(id);
-    return new Response(JSON.stringify({ ok: true }), { headers: { 'content-type': 'application/json' } });
+    return apiOk({ ok: true });
   } catch (e) {
-    return new Response(JSON.stringify({ error: String(e) }), {
-      status: 500, headers: { 'content-type': 'application/json' },
-    });
+    return apiServerError(String(e));
   }
 };
