@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-28T22:35:56.598Z",
-  "source_commit": "2c51494",
+  "generated_at": "2026-05-28T22:54:14.428Z",
+  "source_commit": "12b3ad3",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -783,6 +783,26 @@
   ],
   "recent_commits": [
     {
+      "sha": "12b3ad3",
+      "subject": "test(regression): fix authoring tests — read _authoring package not flat file",
+      "date": "2026-05-28"
+    },
+    {
+      "sha": "48ed390",
+      "subject": "docs(handoff): session log 2026-05-28 — Wave I complete + Phase 06a/per-chapter-optimize wired",
+      "date": "2026-05-28"
+    },
+    {
+      "sha": "c873238",
+      "subject": "feat(wave-i): wire Phase 06a and per-chapter-optimize into orchestrator execution paths",
+      "date": "2026-05-28"
+    },
+    {
+      "sha": "b5999e4",
+      "subject": "feat(wave-i): implement all 8 steps — audio intake, noise routing, tradition-aware KB, source review gate, book review UI, phase optimizer",
+      "date": "2026-05-28"
+    },
+    {
       "sha": "2c51494",
       "subject": "docs(handoff): session log 2026-05-28 — Wave K gate, rename completion, full site audit",
       "date": "2026-05-28"
@@ -810,26 +830,6 @@
     {
       "sha": "522794c",
       "subject": "feat(wave-k): implement PEQ quality scoring across both pipelines",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "472de6f",
-      "subject": "fix(dashboard): rename all remaining Kashkole display strings to Wisdom",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "ecc1446",
-      "subject": "refactor: rename kashkole → wisdom across all surfaces; add Wave K quality-scoring plan",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "9e6e72f",
-      "subject": "docs(handoff): session log 2026-05-28 — Wave J dashboard visual build complete",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "56f9aa8",
-      "subject": "feat(dashboard): add Source Library Server (Wave J) to all architecture diagrams",
       "date": "2026-05-28"
     }
   ],

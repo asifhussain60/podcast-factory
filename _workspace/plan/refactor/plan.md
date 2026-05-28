@@ -523,7 +523,7 @@ A companion **Book Review unified view** in the astro site (I5) surfaces both ga
 
 ---
 
-# Wave J · Source Library
+# Wave J · Source Library — IN PROGRESS (J0 completed 2026-05-28)
 
 Wave J transforms the three SQL Server source databases into a live intelligence layer serving two consumers simultaneously: the authoring pipeline (via MCP stdio tools that Claude Code and Copilot call during authoring) and the Astro live editor (via HTTP endpoints that the existing `QuranPopover` and `TermPopover` components already call — but currently aimed at quran.com and Gemini Flash respectively). The six steps build the dual-interface server (J0), build the search-optimised offline mirror with FTS5 and a unified term index (J1), wire the Astro editor's existing popover endpoints to the local server (J2), connect the pipeline enrichment phase (J3), connect the style rewrite phase (J4), and add a new topic cross-reference popover for Wisdom content (J5).
 
@@ -537,7 +537,7 @@ Wave J transforms the three SQL Server source databases into a live intelligence
 >
 > *Value gained:* One process, one data layer, two consumers. No duplication. Pipeline and editor always see the same canonical data.
 
-**Status: NOT STARTED**
+**Status: COMPLETED 2026-05-28.** `scripts/podcast/source_library_server.py` (320 lines, MCP + HTTP) and `scripts/podcast/source_library_queries.py` (265 lines, 6 query functions) delivered. Registered in `.mcp.json`. 291 tests passing.
 
 ---
 
