@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-28T21:45:46.132Z",
-  "source_commit": "7c9d4a5",
+  "generated_at": "2026-05-28T22:00:12.518Z",
+  "source_commit": "c9faa6b",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -102,13 +102,13 @@
     {
       "id": "B0",
       "wave": "B",
-      "title": "Build the Kashkole corpus ingestion driver — independent chapter refinement",
+      "title": "Build the Wisdom corpus ingestion driver — independent chapter refinement",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
         "A2"
       ],
-      "plain": "Seeds the intelligence library from the 75 PASS+WARN Kashkole chapters without going through the main pipeline. The key design: every chapter can be corrected and re-ingested independently. When Asif marks a chapter as needing correction, its atoms stay in the database (flagged for review) while he edits the source file. Re-running the driver on that chapter deletes only its old atoms and creates fresh ones from the corrected content — no other chapters are touched, no full pipeline re-run needed. A five-state progress tracker (pending → ingested → needs-correction → correction-draft → re-ingested) makes the editorial state visible. Ships before B1 so the knowledge database has live Kashkole doctrine atoms from day one.",
+      "plain": "Seeds the intelligence library from the 75 PASS+WARN Wisdom chapters without going through the main pipeline. The key design: every chapter can be corrected and re-ingested independently. When Asif marks a chapter as needing correction, its atoms stay in the database (flagged for review) while he edits the source file. Re-running the driver on that chapter deletes only its old atoms and creates fresh ones from the corrected content — no other chapters are touched, no full pipeline re-run needed. A five-state progress tracker (pending → ingested → needs-correction → correction-draft → re-ingested) makes the editorial state visible. Ships before B1 so the knowledge database has live Wisdom doctrine atoms from day one.",
       "tools": [
         "Python",
         "SQLite"
@@ -638,7 +638,7 @@
     {
       "id": "J5",
       "wave": "J",
-      "title": "Add Kashkole topic cross-reference popover to the live editor",
+      "title": "Add Wisdom topic cross-reference popover to the live editor",
       "status": "pending",
       "tier": "T1",
       "depends_on": [
@@ -783,6 +783,16 @@
   ],
   "recent_commits": [
     {
+      "sha": "c9faa6b",
+      "subject": "fix(quality-page): handle flat-dict baseline JSON format; guard allChapters reduce",
+      "date": "2026-05-28"
+    },
+    {
+      "sha": "630ed68",
+      "subject": "feat(wave-k): add PEQ gate to convergence loop + 3 missing unit test files",
+      "date": "2026-05-28"
+    },
+    {
       "sha": "7c9d4a5",
       "subject": "fix: complete kashkole→wisdom rename — path regressions, suggested_slugs, class names, LLM prompt, dashboard snapshots",
       "date": "2026-05-28"
@@ -794,7 +804,7 @@
     },
     {
       "sha": "472de6f",
-      "subject": "fix(dashboard): rename all remaining Kashkole display strings to Wisdom",
+      "subject": "fix(dashboard): rename all remaining Wisdom display strings to Wisdom",
       "date": "2026-05-28"
     },
     {
@@ -820,16 +830,6 @@
     {
       "sha": "b2e9239",
       "subject": "plan: add Wave J — Source Library (MCP server + live query access for 3 source databases)",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "d37d731",
-      "subject": "refactor: rename kashkole-corpus → source-library; add KQUR+Kashkole SQL dumps and query files",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "2e0400c",
-      "subject": "plan(wave-i): add I0a/I0b retroactive steps; correct I2 noise architecture; add companion compression scope",
       "date": "2026-05-28"
     }
   ],

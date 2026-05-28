@@ -557,7 +557,7 @@ waves:
         status: RESOLVED
         discussion_required_with: asif
         description: |
-          Before any Wave B step executes, discuss whether to enrich the Kashkole adapted
+          Before any Wave B step executes, discuss whether to enrich the Wisdom adapted
           chapter text using ChatGPT or Gemini (Asif holds paid subscriptions for both)
           before B0 ingests it into the intelligence library.
           Decision paths:
@@ -573,9 +573,9 @@ waves:
       - id: B0
         phase_type: pre_wave_mobilization
         status: completed_2026_05_28
-        title: "Build the Kashkole corpus ingestion driver — independent chapter refinement"
+        title: "Build the Wisdom corpus ingestion driver — independent chapter refinement"
         depends_on: [A2]
-        rationale: "75 PASS+WARN Kashkole chapters are ready to seed the intelligence library before any pipeline book runs B1. Independent refinement state machine lets Asif correct chapters one by one without LLM re-runs."
+        rationale: "75 PASS+WARN Wisdom chapters are ready to seed the intelligence library before any pipeline book runs B1. Independent refinement state machine lets Asif correct chapters one by one without LLM re-runs."
         deliverables:
           module:
             path: "scripts/podcast/intelligence/wisdom_ingest_knowledge.py"
@@ -705,7 +705,7 @@ waves:
             lookup_paths:
               quran_hadith: "regex citation scan (Q\\d+:\\d+, hadith chains) + exact-ID lookup; knowledge_atoms WHERE type IN ('quran','hadith') AND needs_review=0"
               doctrine:     "when doctrine_topic_ids set: atom_topic_tags JOIN knowledge_atoms WHERE type='doctrine' AND needs_review=0 AND topic_type_id IN (doctrine_topic_ids); silently skip when None"
-            needs_review_gate: "needs_review=0 required for ALL atom types — WARN-verdict Kashkole atoms blocked from augmentation output until re-ingested clean"
+            needs_review_gate: "needs_review=0 required for ALL atom types — WARN-verdict Wisdom atoms blocked from augmentation output until re-ingested clean"
             meta_yml_field:
               name: doctrine_topic_ids
               type: "list[int] optional"
@@ -715,7 +715,7 @@ waves:
               doctrine: "score = len(intersection(chapter_topic_signals, atom.topic_tags)); sort desc; cap at 3 atoms (~300 tokens each)"
               topic_signal_extraction: "\u27eaar:\u2026\u27eb markers + key terms: tawhid, wilaya, tawil, mabda, maad, aql, nafs, hudud, dawat"
             exclusion_rule: "atoms whose binder_slug == book_slug excluded (book is not its own prior doctrinal source)"
-            prompt_block_format: "[PRIOR DOCTRINAL CONTEXT \u2014 Kashkole corpus] / Topic: {comma-joined topic_tags} / Source: Kashkole \u2014 {binder_slug}, ch. {chapter_slug} / --- / {text_en truncated at sentence boundary}"
+            prompt_block_format: "[PRIOR DOCTRINAL CONTEXT \u2014 Wisdom corpus] / Topic: {comma-joined topic_tags} / Source: Wisdom \u2014 {binder_slug}, ch. {chapter_slug} / --- / {text_en truncated at sentence boundary}"
             guards:
               - "default_disabled — series.enable_knowledge_augmenter must be true; else empty string"
               - "always strip_arabic_script via _context_injection (DR-012)"
@@ -1954,7 +1954,7 @@ waves_ghj:
       KQUR Roots+Derivatives with KASHKOLE Glossary); J2 rewires the Astro
       editor's existing popover API routes to the local server;
       J3 wires the enrichment phase live fallback; J4 wires the style
-      rewrite phase; J5 adds a Kashkole topic cross-reference popover.
+      rewrite phase; J5 adds a Wisdom topic cross-reference popover.
       Connection: server 192.168.1.158; databases KQUR, KASHKOLE,
       KSESSIONS_DEV; VS Code MSSQL profile AHHOME. Source dumps at
       CONTENT/_shared/source-library/ (gitignored). Query files at
@@ -2210,11 +2210,11 @@ waves_ghj:
         execution_status: not_started
 
       - id: J5
-        title: "Add Kashkole topic cross-reference popover to the live editor"
+        title: "Add Wisdom topic cross-reference popover to the live editor"
         depends_on: [J0, J1, J2]
         rationale: |
           Chapter text will contain topic markers emitted during enrichment
-          when a passage maps to a Kashkole topic. This step makes those
+          when a passage maps to a Wisdom topic. This step makes those
           markers interactive.
           Pipeline side:
             Enrichment emits <span class="ref-topic" data-topic-id="N">...</span>
