@@ -96,6 +96,31 @@ bash infra/llm-apis/verify-llm-apis.sh      # Confirms both providers reachable
 
 To get the Gemini key value: open [aistudio.google.com/apikey](https://aistudio.google.com/apikey), find the `podcast-factory` row, click the copy icon.
 
+## Step 5.7 — Set up the source library database (local knowledge corpus)
+
+The source library server needs a local SQL Server container with three databases (Quran, topics, sessions). Run once per machine:
+
+```bash
+# Prerequisite: Docker runtime running (OrbStack recommended)
+brew install orbstack   # if not already installed
+open -a OrbStack        # complete setup, pick Docker
+
+# SQL dump files must be present (they are gitignored — copy from another machine
+# or re-export from the home server at 192.168.1.158 if needed):
+#   CONTENT/_shared/source-library/KQur.sql       (~15 MB)
+#   CONTENT/_shared/source-library/KSessions.sql  (~29 MB)
+#   CONTENT/_shared/source-library/Kashkole.sql   (~724 MB)
+
+cd ~/PROJECTS/podcast-factory
+bash scripts/setup-wisdom-db.sh   # ~3-5 min on first run; idempotent on re-runs
+```
+
+After the script completes, register the MCP server so Claude Code can call it:
+
+```bash
+python3 scripts/podcast/source_library_server.py --register
+```
+
 ## Step 6 — Run the session-starter
 
 ```bash
