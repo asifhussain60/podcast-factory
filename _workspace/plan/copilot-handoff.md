@@ -172,3 +172,37 @@ Append a new entry at the bottom of this section at the end of every Copilot ses
 **Next:** No immediate refactor work pending. All 6 waves complete. Pipeline ready for next book intake. Wave F archetypes fully spec'd. Open questions (C3 citation flakes, E1 capstone_mode, C4 diagram pilot) remain deferred until a forward book triggers them.
 
 **Blocked / open:** None.
+
+---
+
+## Session 2026-05-28
+
+**Goal:** Full system health check → WS1+WS2 completion → deep dual audit of Astro site and pipeline code → execute Astro SOLID/DRY refactor → log pipeline quality as gated plan.
+
+**Closed:**
+
+- **Repo health scan** — working tree clean, tests passing, branches only develop + main, snapshot JSONs in sync. No blockers found.
+- **WS1 + WS2 completion** — deleted `live.astro`, `LiveExecution.tsx`, `PlannerSidenav.tsx`, `stream.ts`; stripped liveness wiring from layouts; deleted stale `docs/architecture/` folder; retired docs-updater + reconcile agent stubs. Committed `a12ade2`.
+- **Base.astro frontmatter fix** — stale `hasPlannerSidebar`, `| 'live'`, `PlannerSidenav` import stripped via Python patch (multi_replace_string_in_file had a line-wrap mismatch against actual file bytes). Build verified clean.
+- **Astro site audit** — 32 findings (3 P0, ~20 P1, ~10 P2). Full report via Explore subagent.
+- **Pipeline audit** — 8 DR-005 violations, 5 DRY classes, 8 SOLID violations, 7 test-coverage gaps. Full report via Explore subagent.
+- **Astro SOLID/DRY refactor** — committed `1b9ffed`:
+  - `src/lib/plan/types.ts` — shared plan data interfaces
+  - `src/lib/plan/status-badges.ts` — unified STATUS_PILL / LABEL / HEADER / DOT (4 duplicate maps → 1)
+  - `src/lib/billing.ts` — sumAllVendorCosts + sumAllVendorField (removes inline `reduce` from 2 pages)
+  - `src/lib/api-responses.ts` — apiOk / apiError / apiNotFound / apiServerError
+  - `src/lib/reader/storage-keys.ts` — centralised localStorage key builders
+  - `src/lib/vendors.ts` — VENDOR_IDS + VendorId type
+  - DashboardTabs.tsx + PlanDesign.tsx now import from shared lib (no local duplicates)
+  - file.ts P0 security fix: realpath() before startsWith boundary check (symlink traversal)
+  - Build: ✓ built in 763ms — zero errors
+- **Plan entries added** — Wave H added to plan.yaml + plan.md: H1 (Astro refactor, complete), H2 (pipeline quality, pending Asif approval). Dashboard snapshot regenerated (29 steps).
+- **Pushed develop** — `a12ade2..1b9ffed`.
+
+**Commits this session:** `a12ade2` (WS1+WS2 + Base.astro fix) · `1b9ffed` (Astro refactor + plan H1+H2)
+
+**Next:**
+- H2 (pipeline code quality) is ready to execute on explicit approval: split orchestrate_book.py, unify REPO_ROOT, add test suite. Approve by saying "execute H2".
+- Remaining P1/P2 Astro findings not yet addressed: YAML parser consolidation (js-yaml vs hand-rolled), storage-keys adoption in ChapterEditor/AnnotationWorkbench/ThreePane, VENDOR_IDS adoption in PipelineSpine/VendorLogo/infrastructure.astro, annotation-ops API routes using apiError helper.
+
+**Blocked / open:** H2 gated on Asif approval (Tier 2 — multi-file pipeline risk).

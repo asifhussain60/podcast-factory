@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-28T10:22:40.155Z",
-  "source_commit": "a12ade2",
+  "generated_at": "2026-05-28T10:26:20.362Z",
+  "source_commit": "1b9ffed",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -505,6 +505,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "1b9ffed",
+      "subject": "refactor(astro): extract shared types, constants, and utilities; fix symlink P0",
+      "date": "2026-05-28"
+    },
+    {
       "sha": "a12ade2",
       "subject": "refactor(docs+ui): retire docs/architecture, docs-updater+reconcile agents, live-execution UI",
       "date": "2026-05-28"
@@ -547,11 +552,6 @@
     {
       "sha": "e1515f2",
       "subject": "feat(homepage): alternating layout, parallax zoom, gold frame corners",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "f6d8135",
-      "subject": "feat(homepage): add all 11 real station images (Ayyuhal Walad pipeline illustrations)",
       "date": "2026-05-27"
     }
   ],
