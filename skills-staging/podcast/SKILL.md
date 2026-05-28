@@ -43,7 +43,7 @@ Treat any reference below to a `content/podcast/.skill/handbook/*` path as advis
 - **Concurrency-safe ledgers** — fcntl LOCK_EX on findings.jsonl + cost-ledger.jsonl. Safe for N-parallel writers (e.g., the new Phase 0b/0c parallel windows).
 - **Azure cost tracking** — `_cost_ledger.append_azure_{docintel,translator,speech}_cost` helpers wired at all four Azure callsites. Per-book cost-ledger.jsonl now captures Azure spend alongside LLM spend.
 
-Authority files for these additions: [_workspace/plan/pipeline-debt.md](../../_workspace/plan/pipeline-debt.md) F1/F4/F11/F12/F23/F30-F37, [_rules.py:CHALLENGER_VERSION](../../scripts/podcast/_rules.py), [framework.md §"2026-05-25 cleanup wave"](../../framework.md), [_workspace/runbooks/e2e-book.md](../../_workspace/runbooks/e2e-book.md) (intake → publish), [_workspace/runbooks/publish.md](../../_workspace/runbooks/publish.md) (G1-G7 gates), [_workspace/runbooks/watchdog.md](../../_workspace/runbooks/watchdog.md) (three-layer self-healing).
+Authority files for these additions: [_workspace/plan/pipeline-debt.md](../../_workspace/plan/pipeline-debt.md) F1/F4/F11/F12/F23/F30-F37, [_rules.py:CHALLENGER_VERSION](../../scripts/podcast/_rules.py), [framework.md §"2026-05-25 cleanup wave"](../../framework.md), [docs/runbooks/e2e-book.md](../../docs/runbooks/e2e-book.md) (intake → publish), [docs/runbooks/publish.md](../../docs/runbooks/publish.md) (G1-G7 gates), [docs/runbooks/watchdog.md](../../docs/runbooks/watchdog.md) (three-layer self-healing).
 
 ============================================================
 SECTION 0: THE MISSION CONSTANT — GOVERNS EVERY EPISODE

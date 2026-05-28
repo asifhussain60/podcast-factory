@@ -5,11 +5,11 @@ Runs Phase 2 (adapt) then Phase 3 (challenge) in sequence.
 Both drivers are idempotent — safe to re-run at any point.
 
 Usage:
-    python _workspace/plan/_drivers/kashkole_pipeline_all.py
-    python _workspace/plan/_drivers/kashkole_pipeline_all.py --phase adapt
-    python _workspace/plan/_drivers/kashkole_pipeline_all.py --phase challenge
-    python _workspace/plan/_drivers/kashkole_pipeline_all.py --binder 35
-    python _workspace/plan/_drivers/kashkole_pipeline_all.py --status
+    python scripts/kashkole/kashkole_pipeline_all.py
+    python scripts/kashkole/kashkole_pipeline_all.py --phase adapt
+    python scripts/kashkole/kashkole_pipeline_all.py --phase challenge
+    python scripts/kashkole/kashkole_pipeline_all.py --binder 35
+    python scripts/kashkole/kashkole_pipeline_all.py --status
 """
 from __future__ import annotations
 import argparse
@@ -56,8 +56,8 @@ def _print_status() -> None:
 
 def _run_phase(phase: str, binder: int | None, dry_run: bool) -> int:
     driver = {
-        "adapt": REPO / "_workspace/plan/_drivers/kashkole_adapt_all.py",
-        "challenge": REPO / "_workspace/plan/_drivers/kashkole_challenge_all.py",
+        "adapt": REPO / "scripts/kashkole/kashkole_adapt_all.py",
+        "challenge": REPO / "scripts/kashkole/kashkole_challenge_all.py",
     }[phase]
     cmd = [str(VENV), str(driver)]
     if dry_run:

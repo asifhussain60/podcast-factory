@@ -9,7 +9,7 @@ the chapter is still finalized — the human reviewer revisits in a later
 pass.
 
 Usage:
-  python _workspace/plan/_drivers/stub_sidecars.py [--binder N]
+  python scripts/kashkole/stub_sidecars.py [--binder N]
 
 Without --binder, processes every pending PNG under the kashkole extract root.
 With --binder, restricts to bundles for that binder's shelf prefix.

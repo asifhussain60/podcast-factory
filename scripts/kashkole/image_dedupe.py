@@ -5,9 +5,9 @@ hashes that don't yet have a 'canonical' sidecar. Lets us classify one
 representative per hash and copy that sidecar to all byte-identical siblings.
 
 Usage:
-  python _workspace/plan/_drivers/image_dedupe.py scan         # show all unique hashes
-  python _workspace/plan/_drivers/image_dedupe.py pending      # unique hashes lacking a canonical
-  python _workspace/plan/_drivers/image_dedupe.py propagate    # for each hash with one or more sidecars, copy sidecar to all PNGs that share the hash
+  python scripts/kashkole/image_dedupe.py scan         # show all unique hashes
+  python scripts/kashkole/image_dedupe.py pending      # unique hashes lacking a canonical
+  python scripts/kashkole/image_dedupe.py propagate    # for each hash with one or more sidecars, copy sidecar to all PNGs that share the hash
 """
 from __future__ import annotations
 import hashlib

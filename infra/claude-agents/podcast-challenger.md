@@ -381,7 +381,7 @@ Category T fixtures live under `content/podcast/.skill/_learning/fixtures/doctri
 
 ### Category U: Scholarly-conversation rubric v2.2 (P0/P1) — added 2026-05-25
 
-The v2.2 scholarly-conversation rubric supplements the existing Categories B (no-meta-prose), F (host-role), Q (host-role-parity), and R (conversation choreography) with five new deterministic R-* rule families covering AI-cliché smells, religious-literacy errors, philosophical-rigor lapses, and conversation-craft anti-patterns. Pattern lists are inlined into [prompts/gemini-bundle-auditor.md §4](prompts/gemini-bundle-auditor.md) so both Claude and Gemini auditors pattern-match against them; the Python literals are in [_rules.py](scripts/podcast/_rules.py).
+The v2.2 scholarly-conversation rubric supplements the existing Categories B (no-meta-prose), F (host-role), Q (host-role-parity), and R (conversation choreography) with five new deterministic R-* rule families covering AI-cliché smells, religious-literacy errors, philosophical-rigor lapses, and conversation-craft anti-patterns. Pattern lists are inlined into [_workspace/prompts/gemini-bundle-auditor.md §4](_workspace/prompts/gemini-bundle-auditor.md) so both Claude and Gemini auditors pattern-match against them; the Python literals are in [_rules.py](scripts/podcast/_rules.py).
 
 | ID | Check | Detection | Remediation |
 |---|---|---|---|

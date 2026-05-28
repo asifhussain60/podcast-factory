@@ -53,9 +53,6 @@ Companion to: foo.
 
 ## Wave 4 — Control Plane
 
-### P11 — Multi-Mac decision (doc-only)
-- [ ] **P11.1** ✅ docs/podcast/multi-mac-decision.md exists
-
 ## Wave 5 — Deferred + Self-Learning
 
 - [ ] **P17** 🟡 PDF pre-splitting

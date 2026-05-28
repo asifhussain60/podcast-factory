@@ -1,8 +1,7 @@
 # podcast-factory repo — session orientation
 
 You're in the **`podcast-factory`** repo (renamed from `Journal` on
-2026-05-22 as part of the repo split — see [_workspace/runbooks/repo-split.md](_workspace/runbooks/repo-split.md)
-for full migration history). This file is auto-loaded by Claude Code on
+2026-05-22 as part of the repo split (see `docs/runbooks/` for migration history). This file is auto-loaded by Claude Code on
 every session in this directory; treat it as your standing brief.
 
 ## What this repo contains
@@ -57,8 +56,8 @@ The script does: `git fetch --all --prune`, switches to `develop` if needed, fas
 
 - **[_workspace/plan/response-template.md](_workspace/plan/response-template.md)** — canonical 4-part response template (At a glance → body PROSE sections → Next with `A. (Recommended) Do all in sequence` default). **No custom section labels** like "Deviation from plan", "Verification", "Coord doc", "What changed". No `**TL;DR:**` opener, no `## Project Status` block.
 - **[_workspace/plan/response-conventions.md](_workspace/plan/response-conventions.md)** — full conventions doc with migration notes, deprecations, rationale.
-- **[_workspace/setup/azure-stack.md](_workspace/setup/azure-stack.md)** — Azure resources, keychain layout, recreate-from-scratch guide.
-- **[_workspace/setup/bootstrap.md](_workspace/setup/bootstrap.md)** — blank-machine bootstrap for this repo.
+- **[docs/setup/azure-stack.md](docs/setup/azure-stack.md)** — Azure resources, keychain layout, recreate-from-scratch guide.
+- **[docs/setup/bootstrap.md](docs/setup/bootstrap.md)** — blank-machine bootstrap for this repo.
 - **[framework.md](framework.md)** — pipeline framework spec.
 
 ## Authoritative truth
@@ -104,7 +103,7 @@ These are recoverable on disk so a fresh Claude session without memory state can
 - **Memoir + site moved to the sibling [journal](https://github.com/asifhussain60/journal) repo**: `content/babu-memoir/`, `site/`, `scripts/memoir/`, `scripts/site/`, `skills-staging/journal/`, `.github/agents/journal-*`, `skills-staging/css-theme-sync/`, `skills-staging/ui-modernizer/` — all moved, none remain here.
 - **Anthropic API proxy `server/` RETIRED**: the journal app no longer needs it; not migrated to journal either.
 - **Cloudflare deploy scaffold RETIRED**: `wrangler.toml`, `site-worker.js`, `infra/cloudflare/`, `docs/cloudflare/`, `docs/anthropic-api-setup.md`, `docs/proxy-setup.md` — all deleted; not migrated.
-- **Duplicated general-utility items** (`clean-commit`, `cowork-brief`, `repo-surgeon`, `tell-me`, `usage-auditor` skills + CORTEX/refine-prompt/reconcile/operating-contract agents + `content/_shared/arabic/` + `reference/`): these stay here as INDEPENDENT copies; the journal repo has its own independent copies that evolve separately.
+- **Duplicated general-utility items** (`clean-commit`, `cowork-brief`, `repo-surgeon`, `tell-me`, `usage-auditor` skills + CORTEX/refine-prompt/reconcile/operating-contract agents + `content/_shared/arabic/` + `docs/reference/`): these stay here as INDEPENDENT copies; the journal repo has its own independent copies that evolve separately.
 
 ## What to do for a typical user request
 
@@ -129,7 +128,7 @@ The default discipline is "ask before each shared-state action." Below is the st
 - Importing pipeline scripts under `/usr/bin/python3` to verify they load
 - Dry-run inspection (`--dry-run` flags, `jq` over `orchestrator-state.json`)
 - Spawning research agents (Explore, Plan, general-purpose) for read-only investigation
-- Running `/steward <scope>` — the four-pass strategic coordinator that composes existing agents and emits prioritized findings cited to `reference/steward-source-corpus.md`. Read-only protocol. Spec at [project-steward.agent.md](.github/agents/project-steward.agent.md). Executing a specific steward recommendation inherits that recommendation's own tier; **editing the source corpus itself is Tier 2.**
+- Running `/steward <scope>` — the four-pass strategic coordinator that composes existing agents and emits prioritized findings cited to `docs/reference/steward-source-corpus.md`. Read-only protocol. Spec at [project-steward.agent.md](.github/agents/project-steward.agent.md). Executing a specific steward recommendation inherits that recommendation's own tier; **editing the source corpus itself is Tier 2.**
 - `git restore` of auto-generated artifacts under `content/drafts/<slug>/_system/` when the artifact is reproducible by re-running its generator script
 - `security find-generic-password -s <name>` for existence checks (no `-w`)
 - **Re-arming the `/loop` heartbeat monitor** after any orchestrator resume or retry-phase action — this is MANDATORY and automatic, never requires user instruction. Use `ScheduleWakeup` at 270s with the standard monitoring prompt (see [Heartbeat card format](~/.claude/projects/-Users-asifhussain-PROJECTS-podcast-factory/memory/feedback_heartbeat_format.md)). Do NOT wait for Asif to ask. If a session resumes and a book is in-flight (orchestrator alive OR `phase_status=running/failed`), re-arm immediately.

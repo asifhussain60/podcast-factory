@@ -44,7 +44,7 @@ vs. substring list); the canonical data itself is plain Python literals.
 # tradition-conditional R-NO-ESSENTIALISM-EXTERNAL (active only when
 # series-config.yaml.source_tradition != the episode's subject tradition).
 # The LLM-grade rubric extension (§3 religious literacy, §4 philosophical
-# rigor, §6 interfaith) lives in prompts/gemini-bundle-auditor.md so both
+# rigor, §6 interfaith) lives in _workspace/prompts/gemini-bundle-auditor.md so both
 # auditors see it. See F30 / scholarly-rubric integration trail on develop.
 CHALLENGER_VERSION = "2.2"
 

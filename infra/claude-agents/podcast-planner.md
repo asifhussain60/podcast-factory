@@ -14,7 +14,7 @@ Before returning control to the caller, regenerate the three snapshot JSON files
 | Snapshot file | Source of truth |
 |---|---|
 | `/plan-dashboard/src/data/architecture-snapshot.json` | `_workspace/plan/architecture.md` (sections, ADRs, layers, modules, phases, contracts) |
-| `/plan-dashboard/src/data/infrastructure-snapshot.json` | `_workspace/setup/azure-stack.md` + `scripts/podcast/_cost_ledger.py` data + `infra/llm-apis/` config + grep of which vendor SDK each phase imports |
+| `/plan-dashboard/src/data/infrastructure-snapshot.json` | `docs/setup/azure-stack.md` + `scripts/podcast/_cost_ledger.py` data + `infra/llm-apis/` config + grep of which vendor SDK each phase imports |
 | `/plan-dashboard/src/data/dashboard-snapshot.json` | `_workspace/plan/refactor/plan.yaml` (step status, deps, tier), `_workspace/plan/debt/pipeline-debt.md` (open F-items), `content/drafts/*/_system/orchestrator-state.json` (live book state), recent git log on `develop` |
 
 The snapshots are idempotent. Running the agent twice on the same repo state produces byte-identical JSON. Stale snapshots are a contract violation — never skip the regeneration step, even on a "no-op" run.

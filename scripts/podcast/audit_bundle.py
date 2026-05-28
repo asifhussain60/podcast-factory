@@ -2,7 +2,7 @@
 """audit_bundle.py — Claude-native podcast-bundle auditor mirror of the Gemini Gem.
 
 Same rubric, same JSON output schema as the Gemini 'Podcast Bundle Auditor'
-Gem (see [prompts/gemini-bundle-auditor.md](../../prompts/gemini-bundle-auditor.md)),
+Gem (see [_workspace/prompts/gemini-bundle-auditor.md](../../_workspace/prompts/gemini-bundle-auditor.md)),
 but runs against a bundle directory locally via `claude -p` (Claude Code
 headless mode) — the same LLM-shellout pattern already used by the rest of the
 podcast pipeline (see [_authoring.py](_authoring.py)).
@@ -39,7 +39,7 @@ EXIT CODES
 DESIGN NOTES
 
   - The prompt sent to `claude -p` is the exact Gem prompt from
-    [prompts/gemini-bundle-auditor.md](../../prompts/gemini-bundle-auditor.md),
+    [_workspace/prompts/gemini-bundle-auditor.md](../../_workspace/prompts/gemini-bundle-auditor.md),
     so any audit-rubric change happens in one place. This script reads that
     file at runtime; if the prompt file is missing the script bails with a
     clear error.
@@ -82,7 +82,7 @@ def _load_gem_prompt() -> str:
     if not GEM_PROMPT_PATH.exists():
         raise AuditError(
             f"Gem prompt file not found at {GEM_PROMPT_PATH}. "
-            f"Restore prompts/gemini-bundle-auditor.md before running this audit."
+            f"Restore _workspace/prompts/gemini-bundle-auditor.md before running this audit."
         )
     raw = GEM_PROMPT_PATH.read_text(encoding="utf-8")
     match = re.search(

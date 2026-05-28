@@ -6,9 +6,9 @@ Idempotent: skips already-adapted/challenged chapters.
 
 Usage:
     # Stop the existing adapt batch first, then:
-    python _workspace/plan/_drivers/kashkole_run_remaining.py
-    python _workspace/plan/_drivers/kashkole_run_remaining.py --start-binder 12
-    python _workspace/plan/_drivers/kashkole_run_remaining.py --dry-run
+    python scripts/kashkole/kashkole_run_remaining.py
+    python scripts/kashkole/kashkole_run_remaining.py --start-binder 12
+    python scripts/kashkole/kashkole_run_remaining.py --dry-run
 """
 from __future__ import annotations
 import argparse
@@ -59,8 +59,8 @@ def main() -> None:
     ap.add_argument("--challenge-only", action="store_true")
     args = ap.parse_args()
 
-    adapt_driver = REPO / "_workspace/plan/_drivers/kashkole_adapt_all.py"
-    challenge_driver = REPO / "_workspace/plan/_drivers/kashkole_challenge_all.py"
+    adapt_driver = REPO / "scripts/kashkole/kashkole_adapt_all.py"
+    challenge_driver = REPO / "scripts/kashkole/kashkole_challenge_all.py"
 
     start_idx = 0
     if args.start_binder:

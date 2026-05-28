@@ -5,8 +5,8 @@ Reads all bundle.ymls and challenge reports to produce a concise Markdown
 summary for Asif's review.
 
 Usage:
-    python _workspace/plan/_drivers/kashkole_gate_report.py
-    python _workspace/plan/_drivers/kashkole_gate_report.py --out _workspace/plan/kashkole-gate-report.md
+    python scripts/kashkole/kashkole_gate_report.py
+    python scripts/kashkole/kashkole_gate_report.py --out _workspace/plan/kashkole-gate-report.md
 """
 from __future__ import annotations
 import argparse

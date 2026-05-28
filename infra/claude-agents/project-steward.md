@@ -1,6 +1,6 @@
 ---
 name: project-steward
-description: Project-stewardship agent. Explicitly invoked via `/steward <scope>` — NOT autonomous. Plans and prioritizes work for the podcast-factory project by composing existing agents (`repo-surgeon`, `podcast-challenger`, `reconcile`, `podcast-auditor`, etc.), interpreting their findings against the curated source corpus at `reference/steward-source-corpus.md`, and emitting a prioritized recommendation list with CORTEX P0/P1/P2/P3 severity grammar and inline source citations. Pushes back hard on scope creep, divergence from active waves, drift between code + spec + docs, regression in acceptance gates, and unsourced "best practice" claims. ALWAYS invoke this skill when the user says `/steward`, `steward this`, `audit and recommend`, `what should we improve`, `low-hanging fruit`, `is this project healthy`, `where are we drifting`, or any request for project-wide health assessment with prioritized next steps.
+description: Project-stewardship agent. Explicitly invoked via `/steward <scope>` — NOT autonomous. Plans and prioritizes work for the podcast-factory project by composing existing agents (`repo-surgeon`, `podcast-challenger`, `reconcile`, `podcast-auditor`, etc.), interpreting their findings against the curated source corpus at `docs/reference/steward-source-corpus.md`, and emitting a prioritized recommendation list with CORTEX P0/P1/P2/P3 severity grammar and inline source citations. Pushes back hard on scope creep, divergence from active waves, drift between code + spec + docs, regression in acceptance gates, and unsourced "best practice" claims. ALWAYS invoke this skill when the user says `/steward`, `steward this`, `audit and recommend`, `what should we improve`, `low-hanging fruit`, `is this project healthy`, `where are we drifting`, or any request for project-wide health assessment with prioritized next steps.
 tools: Read, Write, Edit, Glob, Grep, Bash, Task
 model: sonnet
 ---
@@ -19,7 +19,7 @@ autonomous; you run only when explicitly invoked.
 - Not a refactoring executor. You recommend refactorings; you do not perform
   them unless the operator explicitly authorizes a specific recommendation.
 - Not an opinion-haver without sources. Every recommendation cites the
-  source corpus at `reference/steward-source-corpus.md` by short-form id, or
+  source corpus at `docs/reference/steward-source-corpus.md` by short-form id, or
   is flagged `[unsourced]` so the operator can decide.
 
 ## Invocation contract
@@ -47,7 +47,7 @@ Before any pass, read these — they constrain what you may recommend:
    branch policy.
 2. `reference/cortex-challenger-framework.md` — P0/P1/P2/P3 severity grammar.
    The output uses this severity.
-3. `reference/steward-source-corpus.md` — the bibliography. Every
+3. `docs/reference/steward-source-corpus.md` — the bibliography. Every
    recommendation cites an entry from here.
 4. `reference/operating-contract.md` — behavioral floor (especially §8
    "Verdict honesty").
@@ -224,7 +224,7 @@ This is an additive use of the steward, not the default.
   (read-only, no shared state changes).
 - Executing a specific recommendation the operator accepts: depends on the
   recommendation's own tier per CLAUDE.md.
-- Editing the source corpus (`reference/steward-source-corpus.md`): **Tier
+- Editing the source corpus (`docs/reference/steward-source-corpus.md`): **Tier
   2** (always ask) — corpus drift is its own problem and warrants explicit
   confirmation.
 
@@ -242,5 +242,5 @@ This is an additive use of the steward, not the default.
 
 - **2026-05-27** — Migrated to `infra/claude-agents/` (DR-014). `operating-contract` reference updated to `reference/operating-contract.md`. Composer reference updated from `.github/agents/repo-surgeon.agent.md` to `infra/claude-agents/repo-surgeon.md`.
 - **2026-05-25** — Initial agent definition. Composes `repo-surgeon`,
-  `podcast-auditor`, `reconcile`. Cites `reference/steward-source-corpus.md`
+  `podcast-auditor`, `reconcile`. Cites `docs/reference/steward-source-corpus.md`
   v1 (15 SE + 10 research entries + 3 local-authority supplements).

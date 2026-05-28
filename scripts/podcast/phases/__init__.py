@@ -26,7 +26,6 @@ from . import (
     p3_1, p3_2, p3_3, p3_4, p3_5,
     p4_1, p4_2, p4_3, p4_4, p4_7, p4_8,
     p5_4, p6_1, p6_2,
-    p11_1,
     pw4_1, pw4_2, pw4_3,
     pw5_1, pw5_2, pw5_3,
     pw6_1, pw6_2, pw6_3,
@@ -84,7 +83,6 @@ REGISTRY: dict[int, list] = {
         pw4_1,   # design-system tokens + SPA shell
         pw4_2,   # backbone visualization + live dashboard
         pw4_3,   # annotation intelligence lane
-        p11_1,   # multi-mac decision doc (primary-only + SSH-tunneled)
     ],
     5: [
         pw5_1,   # migrate_meta_yml — retroactive enhancement flow

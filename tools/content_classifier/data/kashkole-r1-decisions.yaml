@@ -17,7 +17,7 @@ generated_from: "_workspace/plan/kashkole-taxonomy-r1-proposal.md"
 # ---------------------------------------------------------------------------
 image_dedup_policy:
   exact_byte:
-    handler: "_workspace/plan/_drivers/image_dedupe.py"
+    handler: "scripts/kashkole/image_dedupe.py"
     action: "propagate"  # one canonical sidecar per SHA; covered already
     clusters_approved: 35
   perceptual_near:

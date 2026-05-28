@@ -6,10 +6,10 @@ Idempotent: skips chapters already 'challenged'.
 Commits per binder. Logs P0/P1 findings.
 
 Usage:
-    python _workspace/plan/_drivers/kashkole_challenge_all.py
-    python _workspace/plan/_drivers/kashkole_challenge_all.py --dry-run
-    python _workspace/plan/_drivers/kashkole_challenge_all.py --binder 35
-    python _workspace/plan/_drivers/kashkole_challenge_all.py --warn-only
+    python scripts/kashkole/kashkole_challenge_all.py
+    python scripts/kashkole/kashkole_challenge_all.py --dry-run
+    python scripts/kashkole/kashkole_challenge_all.py --binder 35
+    python scripts/kashkole/kashkole_challenge_all.py --warn-only
 """
 from __future__ import annotations
 import argparse

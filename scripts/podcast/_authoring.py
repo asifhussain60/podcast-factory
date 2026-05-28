@@ -1759,7 +1759,7 @@ def author_framing(book_dir: Path, chapter_slug: str,
         f"- Apply scholarly-conversation positive practices (v2.2 rubric §4g, "
         f"2026-05-25). The framing's Discussion-spine block MUST seed every one "
         f"of the following moves at least once; deterministic absence is a P1 "
-        f"finding by the dual-auditor (see prompts/gemini-bundle-auditor.md §4g):\n"
+        f"finding by the dual-auditor (see _workspace/prompts/gemini-bundle-auditor.md §4g):\n"
         f"    1. NAME POSITIONALITY where it matters — when a doctrinal claim is "
         f"made, qualify by school or jurist (e.g. 'the classical Ismaili reading'; "
         f"'mainstream Sunni jurists hold X; Twelver Shia tradition emphasizes Y'). "

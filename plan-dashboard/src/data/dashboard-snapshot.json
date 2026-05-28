@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-28T10:26:20.362Z",
-  "source_commit": "1b9ffed",
+  "generated_at": "2026-05-28T10:35:57.598Z",
+  "source_commit": "ab69c46",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -505,6 +505,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "ab69c46",
+      "subject": "chore: session log, snapshot refresh, and stray proposal file",
+      "date": "2026-05-28"
+    },
+    {
       "sha": "1b9ffed",
       "subject": "refactor(astro): extract shared types, constants, and utilities; fix symlink P0",
       "date": "2026-05-28"
@@ -547,11 +552,6 @@
     {
       "sha": "ca9c724",
       "subject": "feat(homepage): replace station images with rich animated SVGs",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "e1515f2",
-      "subject": "feat(homepage): alternating layout, parallax zoom, gold frame corners",
       "date": "2026-05-27"
     }
   ],

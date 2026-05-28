@@ -1,8 +1,7 @@
-# CORTEX Challenger Framework v1
+# CORTEX Challenger Framework
 
 **Canonical reference for skill enforcement consistency across the journal/Cowork ecosystem.**
 
-Version: 1.0
 Date: 2026-05-16
 Status: ACTIVE — all skills shall converge on this framework
 Authority: This document defines the *minimum enforcement contract* every skill must satisfy. It does not replace CORTEX. It applies CORTEX governance primitives uniformly across heterogeneous skills.

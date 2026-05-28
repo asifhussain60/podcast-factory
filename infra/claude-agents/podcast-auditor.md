@@ -76,7 +76,7 @@ prompt: read infra/claude-agents/podcast-auditor.md and execute the full
 - `skills-staging/podcast/SKILL.md`
 - `infra/claude-agents/**.md` (all agent specs)
 - `_workspace/plan/**.md` (planning + response-template docs)
-- `_workspace/runbooks/**.md` (runbook docs if present)
+- `docs/runbooks/**.md` (runbook docs if present)
 - Root: `CLAUDE.md`, `README.md` (if present)
 - Active content branches: compare `develop` with any `book/*` branches that are ahead of it via `git log --oneline develop..<branch>` + `git diff --stat develop..<branch>`
 

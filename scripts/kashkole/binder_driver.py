@@ -1,10 +1,10 @@
 """Per-binder driver for the autonomous KAHSKOLE rollout.
 
 Usage:
-  python _workspace/plan/_drivers/binder_driver.py survey BINDER_ID
-  python _workspace/plan/_drivers/binder_driver.py prepare BINDER_ID
-  python _workspace/plan/_drivers/binder_driver.py vision-list BINDER_ID
-  python _workspace/plan/_drivers/binder_driver.py finalize-review-seal BINDER_ID
+  python scripts/kashkole/binder_driver.py survey BINDER_ID
+  python scripts/kashkole/binder_driver.py prepare BINDER_ID
+  python scripts/kashkole/binder_driver.py vision-list BINDER_ID
+  python scripts/kashkole/binder_driver.py finalize-review-seal BINDER_ID
 
 Phases:
   survey  — print list of chapter IDs + names for the binder.

@@ -171,7 +171,7 @@ def _format_header(bundle_root: Path, files: list[Path], dropped: list[Path]) ->
         f"the start and end of each file, with the original relative path embedded in\n"
         f"the marker. The auditor MUST use that path as the `file` field in any JSON\n"
         f"finding it emits, so the downstream Claude Code fix list can map back to\n"
-        f"real files. See `prompts/gemini-bundle-auditor.md` for the exact marker\n"
+        f"real files. See `_workspace/prompts/gemini-bundle-auditor.md` for the exact marker\n"
         f"syntax (the marker text is intentionally not shown here so downstream\n"
         f"parsers cannot mistake the description for a real entry).\n\n"
         f"## Manifest\n\n{manifest}\n"

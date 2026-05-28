@@ -182,6 +182,6 @@ The following are explicitly NOT documented, NOT scripted, and NOT in keychain �
 ## See also
 
 - [`infra/azure/`](../azure/) — Azure Cognitive Services (Document Intelligence, Translator, Speech) provisioning + keychain wiring. Independent stack; same pattern.
-- [`_workspace/setup/bootstrap.md`](../../_workspace/setup/bootstrap.md) — full from-scratch Mac bootstrap; links to this file from Step 5.5.
+- [`docs/setup/bootstrap.md`](../../docs/setup/bootstrap.md) — full from-scratch Mac bootstrap; links to this file from Step 5.5.
 - [`scripts/podcast/audit_bundle.py`](../../scripts/podcast/audit_bundle.py) — Claude-side auditor (uses `claude -p` / Max subscription).
 - [`scripts/podcast/audit_bundle_gemini.py`](../../scripts/podcast/audit_bundle_gemini.py) — Gemini-side auditor (uses the keychain entry documented above).
