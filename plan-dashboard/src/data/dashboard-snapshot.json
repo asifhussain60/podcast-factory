@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-28T13:25:33.788Z",
-  "source_commit": "9ba2c8d",
+  "generated_at": "2026-05-28T13:46:47.287Z",
+  "source_commit": "221f1c0",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -505,6 +505,26 @@
   ],
   "recent_commits": [
     {
+      "sha": "221f1c0",
+      "subject": "chore(workspace): add inbox dump folder",
+      "date": "2026-05-28"
+    },
+    {
+      "sha": "c3372fa",
+      "subject": "chore(workspace): add test-strategy folder for live test-case discussion",
+      "date": "2026-05-28"
+    },
+    {
+      "sha": "d2bbfd6",
+      "subject": "chore(handoff): session log entry — A4 complete, _authoring/ package shipped",
+      "date": "2026-05-28"
+    },
+    {
+      "sha": "123970a",
+      "subject": "refactor(A4): complete _authoring/ package split + remove _authoring.py",
+      "date": "2026-05-28"
+    },
+    {
       "sha": "9ba2c8d",
       "subject": "refactor(A4-wip): split orchestrate_book.py into phases/ handlers; begin _authoring/ package split",
       "date": "2026-05-28"
@@ -532,26 +552,6 @@
     {
       "sha": "9554afe",
       "subject": "refactor(layout): consolidate repo folders — remove 4 empty dirs, relocate kashkole corpus",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "a8c1638",
-      "subject": "chore: session log 2026-05-29",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "cbed5d8",
-      "subject": "chore(plan): update H2 status to partial after REPO_ROOT + state-machine tests",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "90bab5c",
-      "subject": "merge(refactor/pipeline-quality): H2 partial — REPO_ROOT unification + state-machine tests",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "ca37aaf",
-      "subject": "refactor(pipeline): H2 partial — unify REPO_ROOT + state-machine test suite",
       "date": "2026-05-28"
     }
   ],
