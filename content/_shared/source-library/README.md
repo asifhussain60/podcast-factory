@@ -3,7 +3,7 @@
 All three SQL Server databases live on the home server at `192.168.1.158`.
 The SQL dump files are stored here locally for reference but are gitignored
 (they are 15 MB, 29 MB, and 724 MB respectively).
-**What is committed:** this README, the query files at `scripts/kashkole/queries/`,
+**What is committed:** this README, the query files at `scripts/wisdom/queries/`,
 the extracted samples at `extracted/`, and the `topic-type-map.json` schema index.
 
 ---
@@ -84,9 +84,9 @@ Urdu + English mixed), linked Quran ayat cross-references, glossary terms, and f
 - Glossary: canonical definitions of Deeni terms for inline glossary injection
 
 **Query files:**
-- `kashkole-01-inventory.sql` — counts + binder list
-- `kashkole-02-topic-search.sql` — keyword search by English topic name
-- `kashkole-03-get-topic.sql` — full content + cross-refs for a specific topic ID
+- `wisdom-01-inventory.sql` — counts + binder list
+- `wisdom-02-topic-search.sql` — keyword search by English topic name
+- `wisdom-03-get-topic.sql` — full content + cross-refs for a specific topic ID
 
 ---
 
@@ -160,7 +160,7 @@ formal plan entries. Summary:
 
 **MCP server plan (proposed — NOT STARTED):**
 A "Source Library" MCP server wrapping all three databases is planned to give
-Claude live query access during authoring: `quran_lookup`, `kashkole_topic_search`,
+Claude live query access during authoring: `quran_lookup`, `wisdom_topic_search`,
 `ksessions_style_fetch`. The server targets the home MSSQL instance initially,
 with a SQLite-mirror offline extension path once the text content is extracted.
 See the plan entry (to be added to Wave I or as a new Wave J) for the formal spec.

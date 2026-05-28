@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-28T20:35:54.782Z",
-  "source_commit": "a9e5e48",
+  "generated_at": "2026-05-28T20:58:20.536Z",
+  "source_commit": "9e6e72f",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -648,6 +648,72 @@
       ],
       "plain": "",
       "tools": []
+    },
+    {
+      "id": "K0",
+      "title": "Define and publish the PEQ quality-scoring contract",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "K1",
+      "title": "Snapshot regression baselines for kitab-al-riyad and the-master-and-the-disciple",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "K0"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "K2",
+      "title": "Replace challenger free-form verdict with PEQ-driven scoring in both pipelines",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "K0",
+        "K1"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "K3",
+      "title": "Wire PEQ scores into agent prompts and skill instructions for consistent quality framing",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "K2"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "K4",
+      "title": "Surface PEQ scores on the plan dashboard with per-chapter and per-book breakdowns",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "K2"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "K5",
+      "title": "Apply PEQ-gated quality checks to the wisdom pipeline retranslation and reingestion cycle",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "K2",
+        "K3"
+      ],
+      "plain": "",
+      "tools": []
     }
   ],
   "waves": [
@@ -717,6 +783,16 @@
   ],
   "recent_commits": [
     {
+      "sha": "9e6e72f",
+      "subject": "docs(handoff): session log 2026-05-28 — Wave J dashboard visual build complete",
+      "date": "2026-05-28"
+    },
+    {
+      "sha": "56f9aa8",
+      "subject": "feat(dashboard): add Source Library Server (Wave J) to all architecture diagrams",
+      "date": "2026-05-28"
+    },
+    {
       "sha": "a9e5e48",
       "subject": "plan: revise Wave J — dual-interface server, FTS5 mirror, Astro editor integration (J0-J5)",
       "date": "2026-05-28"
@@ -754,16 +830,6 @@
     {
       "sha": "1af2109",
       "subject": "feat(dashboard): redesign intelligence+infrastructure+pipeline views; remove annotation-ops+system-map nav",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "6757499",
-      "subject": "feat(site): replace db-schema SVG flowchart with full-width SQL table card grid",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "da12586",
-      "subject": "docs(prompts): add podcast-factory visual build brief",
       "date": "2026-05-28"
     }
   ],

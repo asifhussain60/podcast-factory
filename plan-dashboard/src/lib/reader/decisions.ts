@@ -3,8 +3,8 @@
  * lookups for English titles at binder / chapter / topic granularity.
  *
  * Source of truth lives at tools/content_classifier/data/:
- *   kashkole-r1-decisions.yaml — binder + chapter retitles + dedup clusters
- *   kashkole-r2-decisions.yaml — topic retitles (currently partial: 9 of 19 binders)
+ *   wisdom-r1-decisions.yaml — binder + chapter retitles + dedup clusters
+ *   wisdom-r2-decisions.yaml — topic retitles (currently partial: 9 of 19 binders)
  *
  * Each lookup returns the proposed English title or `undefined` if not
  * yet retitled (Round 2 is still partial for ~1,102 topics).
@@ -78,8 +78,8 @@ let _cache: {
 export async function loadDecisions() {
   if (_cache) return _cache;
   const root = getRepoRoot();
-  const r1Path = join(root, 'tools/content_classifier/data/kashkole-r1-decisions.yaml');
-  const r2Path = join(root, 'tools/content_classifier/data/kashkole-r2-decisions.yaml');
+  const r1Path = join(root, 'tools/content_classifier/data/wisdom-r1-decisions.yaml');
+  const r2Path = join(root, 'tools/content_classifier/data/wisdom-r2-decisions.yaml');
 
   const [r1Text, r2Text] = await Promise.all([
     readFile(r1Path, 'utf-8').catch(() => null),

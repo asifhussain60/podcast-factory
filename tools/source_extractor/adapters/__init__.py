@@ -10,18 +10,18 @@ Stages (stages/) call adapter methods generically — they never branch on
 adapter identity.
 """
 from .base import SourceAdapter, BookIds, BookMeta, Section, AdapterLabels
-from .kashkole import KashkoleAdapter
+from .wisdom import WisdomAdapter
 from .ksessions import KsessionsAdapter
 
 
 def get_adapter(name: str) -> SourceAdapter:
     """Factory: name → adapter instance."""
     name = name.lower()
-    if name in ("kashkole", "kahskole"):
-        return KashkoleAdapter()
+    if name in ("wisdom", "kashkole", "kahskole"):
+        return WisdomAdapter()
     if name == "ksessions":
         return KsessionsAdapter()
-    raise ValueError(f"Unknown adapter: {name!r}. Known: kashkole, ksessions.")
+    raise ValueError(f"Unknown adapter: {name!r}. Known: wisdom, ksessions.")
 
 
 __all__ = [
@@ -30,7 +30,7 @@ __all__ = [
     "BookMeta",
     "Section",
     "AdapterLabels",
-    "KashkoleAdapter",
+    "WisdomAdapter",
     "KsessionsAdapter",
     "get_adapter",
 ]

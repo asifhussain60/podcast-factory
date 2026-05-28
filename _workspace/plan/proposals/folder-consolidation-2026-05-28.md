@@ -93,13 +93,13 @@ docs/
 
 ### 6. `_workspace/plan/_drivers/` — Python scripts in a plan dir (low-risk)
 
-`_workspace/plan/_drivers/` contains 7 .py files that drive kashkole adaptation, challenger, gate reporting, image dedup, etc. These are operational scripts, not plan documents.
+`_workspace/plan/_drivers/` contains 7 .py files that drive wisdom adaptation, challenger, gate reporting, image dedup, etc. These are operational scripts, not plan documents.
 
-**Fix:** Move `_workspace/plan/_drivers/` → `scripts/kashkole/` (or `tools/kashkole/` if we want it package-style). Update `tools/content_classifier/data/kashkole-r1-decisions.yaml:20` which references `_workspace/plan/_drivers/image_dedupe.py` as a handler.
+**Fix:** Move `_workspace/plan/_drivers/` → `scripts/wisdom/` (or `tools/wisdom/` if we want it package-style). Update `tools/content_classifier/data/wisdom-r1-decisions.yaml:20` which references `_workspace/plan/_drivers/image_dedupe.py` as a handler.
 
 ### 7. `_workspace/audit/` — historical log dumps with zero code refs (low-risk)
 
-`_workspace/audit/kitab-al-riyad/` is ~30 orchestrator log files from a past book run. `_workspace/audit/kashkole/` similarly. No hardcoded references anywhere.
+`_workspace/audit/kitab-al-riyad/` is ~30 orchestrator log files from a past book run. `_workspace/audit/wisdom/` similarly. No hardcoded references anywhere.
 
 **Fix:** Either:
 - (a) Archive to `_workspace/audit/_archive/` per-book and gitignore future logs, or
@@ -109,9 +109,9 @@ Recommendation: (a) for these historical ones (the books are done); (b) as a for
 
 ### 8. `_workspace/source-library/` (23 MB) — book-specific data in the workspace (medium-risk)
 
-Kashkole-specific corpus data lives at `_workspace/source-library/extracted/` and is hardcoded in `plan-dashboard/src/lib/reader/source-extractor.ts:21`. This is book-specific content; structurally it belongs under `content/_shared/kashkole/` or `content/drafts/books/kashkole/_system/source/`.
+Kashkole-specific corpus data lives at `_workspace/source-library/extracted/` and is hardcoded in `plan-dashboard/src/lib/reader/source-extractor.ts:21`. This is book-specific content; structurally it belongs under `content/_shared/wisdom/` or `content/drafts/books/wisdom/_system/source/`.
 
-**Fix:** Move to `content/_shared/source-library/` and update the one TS reference. **Note:** kashkole is itself a multi-book series (per `content/drafts/asbaaq/` which contains `kashkole-asbaaq-r1/`, etc.), so the corpus might genuinely be shared — `content/_shared/` is the right home.
+**Fix:** Move to `content/_shared/source-library/` and update the one TS reference. **Note:** wisdom is itself a multi-book series (per `content/drafts/asbaaq/` which contains `wisdom-asbaaq-r1/`, etc.), so the corpus might genuinely be shared — `content/_shared/` is the right home.
 
 ### 9. Test sprawl: 24 tests in pipeline + 1 in top-level `tests/` (out of scope here)
 
@@ -137,7 +137,7 @@ podcast-factory/
 ├── infra/                      # locked — azure, claude-agents, git-hooks, launchd, llm-apis
 ├── scripts/
 │   ├── podcast/                # locked
-│   ├── kashkole/               # ← _workspace/plan/_drivers/
+│   ├── wisdom/               # ← _workspace/plan/_drivers/
 │   └── *.sh                    # start-session, install-*, plan-dashboard-launchd
 ├── tools/                      # locked — content_*, source_extractor
 ├── plan-dashboard/             # locked — Astro SPA
@@ -154,7 +154,7 @@ podcast-factory/
     ├── plan/                   # locked (architecture, refactor, debt, operations, conventions...)
     │   └── proposals/          # ← _workspace/proposals/ + _workspace/chats/
     ├── audit/
-    │   └── _archive/           # ← historical kitab-al-riyad + kashkole logs
+    │   └── _archive/           # ← historical kitab-al-riyad + wisdom logs
     ├── source-library/        # OR move to content/_shared/ (see #8)
     ├── prompts/                # ← absorbs prompts/gemini-bundle-auditor.md
     └── logs/                   # stays
@@ -187,8 +187,8 @@ Estimated time: 30 minutes including verification.
 2. Move `docs/podcast/multi-mac-decision.md` → `_workspace/audit/_archive/multi-mac-decision-2026-05.md` (stale per CLAUDE.md).
    - Edit: `scripts/podcast/phases/p11_1.py:9` — either remove the DESCRIPTION reference (file is being retired) or point to a non-stale source.
    - Delete empty `docs/podcast/`.
-3. Move `_workspace/plan/_drivers/` → `scripts/kashkole/`.
-   - Edit: `tools/content_classifier/data/kashkole-r1-decisions.yaml:20` — update `handler:` path.
+3. Move `_workspace/plan/_drivers/` → `scripts/wisdom/`.
+   - Edit: `tools/content_classifier/data/wisdom-r1-decisions.yaml:20` — update `handler:` path.
 
 **Result:** −1 visible top-level dir (`prompts/`), cleaner script vs. plan separation.
 
@@ -204,7 +204,7 @@ Estimated time: 1–2 hours including link verification.
 
 **Result:** −2 visible top-level dirs (`reference/`, eventually `_workspace/runbooks/` + `_workspace/setup/` collapse inside `_workspace`). `docs/` becomes the single documentation home.
 
-### Phase 4 — optional (kashkole corpus relocation)
+### Phase 4 — optional (wisdom corpus relocation)
 1. Move `_workspace/source-library/extracted/` → `content/_shared/source-library/extracted/`.
 2. Edit `plan-dashboard/src/lib/reader/source-extractor.ts:21` — update the relpath constant.
 3. Verify plan-dashboard rebuild reads correctly.
@@ -241,7 +241,7 @@ Estimated time: 1–2 hours including link verification.
 | 4 | Archive `_workspace/audit/kitab-al-riyad/` | 0 | None | 1 |
 | 5 | Move `prompts/gemini-bundle-auditor.md` | 1 (.py) | Low | 2 |
 | 6 | Retire `docs/podcast/multi-mac-decision.md` | 1 (.py) | Low | 2 |
-| 7 | Move `_workspace/plan/_drivers/` → `scripts/kashkole/` | 1 (.yaml) | Low | 2 |
+| 7 | Move `_workspace/plan/_drivers/` → `scripts/wisdom/` | 1 (.yaml) | Low | 2 |
 | 8 | Move `reference/` → `docs/reference/` | ~4 (CLAUDE.md + agent .md) | Medium | 3 |
 | 9 | Move `_workspace/runbooks/` → `docs/runbooks/` | ~3 (CLAUDE.md + runbook self-refs) | Medium | 3 |
 | 10 | Move `_workspace/setup/` → `docs/setup/` | ~2 (CLAUDE.md) | Medium | 3 |
@@ -277,6 +277,6 @@ If any of the above fail, the move is reverted before continuing.
 ## Open questions for Asif
 
 1. **`framework.md` at repo root** — leave it (heavy cross-linking) or move to `docs/framework.md` as part of Phase 3?
-2. **`_workspace/source-library/`** — is the corpus genuinely multi-book-shared, or specific to one book? Answer determines whether Phase 4 belongs in `content/_shared/` or `content/drafts/asbaaq/kashkole-*/_system/source/`.
-3. **`tools/content_challenger/kashkole/`** — book-specific code inside a "generic" tool package. Hoist to top-level `tools/kashkole/`, or accept the nesting?
+2. **`_workspace/source-library/`** — is the corpus genuinely multi-book-shared, or specific to one book? Answer determines whether Phase 4 belongs in `content/_shared/` or `content/drafts/asbaaq/wisdom-*/_system/source/`.
+3. **`tools/content_challenger/wisdom/`** — book-specific code inside a "generic" tool package. Hoist to top-level `tools/wisdom/`, or accept the nesting?
 4. **`reference/skill-overlays/` content** — overlays for `cowork-brief`, `tell-me`, `clean-commit`, `journal`. The `journal-cortex-overlay.md` references the sibling journal repo. Keep it here as documentation, or move to the sibling repo (where the journal code lives)?

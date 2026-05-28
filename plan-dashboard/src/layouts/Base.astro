@@ -12,7 +12,7 @@ type ActivePage =
   | 'dashboard'
   | 'plan'
   | 'library'
-  | 'kashkole';
+  | 'wisdom';
 
 interface Props {
   title: string;
@@ -28,7 +28,7 @@ const archPages: ActivePage[] = ['architecture', 'intelligence', 'infrastructure
 
 const navSection =
   active === 'library'       ? 'bookshelf'    :
-  active === 'kashkole'      ? 'kashkole'     :
+  active === 'wisdom'      ? 'wisdom'     :
 
   archPages.includes(active) ? 'architecture' :
   null;
@@ -59,9 +59,9 @@ const hasArchSubnav = section === 'architecture';
              class={`topnav-section${navSection === 'bookshelf' ? ' is-active' : ''}`}>
             Bookshelf
           </a>
-          <a href="/kashkole"
-             data-section="kashkole"
-             class={`topnav-section${navSection === 'kashkole' ? ' is-active' : ''}`}>
+          <a href="/wisdom"
+             data-section="wisdom"
+             class={`topnav-section${navSection === 'wisdom' ? ' is-active' : ''}`}>
             Kashkole
           </a>
 

@@ -30,7 +30,7 @@ def _read_stage(bundle_yml: Path) -> str:
 
 
 def _find_r1_entry(binder_id: int, chapter_id: int) -> dict | None:
-    r1_file = CLASSIFIER_DATA / "kashkole-r1-decisions.yaml"
+    r1_file = CLASSIFIER_DATA / "wisdom-r1-decisions.yaml"
     if not r1_file.exists():
         return None
     pattern = re.compile(
@@ -48,7 +48,7 @@ def _find_r1_entry(binder_id: int, chapter_id: int) -> dict | None:
 
 
 def _find_r2_entries(binder_id: int, chapter_id: int) -> list[dict]:
-    r2_file = CLASSIFIER_DATA / "kashkole-r2-decisions.yaml"
+    r2_file = CLASSIFIER_DATA / "wisdom-r2-decisions.yaml"
     if not r2_file.exists():
         return []
     entries = []

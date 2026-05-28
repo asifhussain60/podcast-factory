@@ -187,7 +187,7 @@ def prepare_book(
     # _provenance.json
     write_provenance(
         paths, meta, labels,
-        db_name="KASHKOLE" if meta.source_name == "kashkole" else meta.source_name.upper(),
+        db_name="KASHKOLE" if meta.source_name in ("wisdom", "kashkole") else meta.source_name.upper(),
         section_query_count=len(sections),
         stage="prepared",
     )

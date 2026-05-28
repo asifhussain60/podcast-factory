@@ -263,7 +263,7 @@ The canonical bucket index lives in [`_workspace/plan/README.md`](../../_workspa
 | Category | Examples | Action |
 |---|---|---|
 | Dated event reports | `STUDIO-ALIGNMENT-2026-05-22.md`, `cohesion-audit-2026-05-23.md`, `2026-05-19-redesign-audit-from-air.md` | Move to `_archive/<today>/` |
-| Book-specific rollout artifacts | `kashkole-rollout-*.md`, `kashkole-rollout-failures.log`, `kashkole-taxonomy-*.json`, `handoff-<book>-*.md` | Move to `_archive/<today>/` |
+| Book-specific rollout artifacts | `wisdom-rollout-*.md`, `wisdom-rollout-failures.log`, `wisdom-taxonomy-*.json`, `handoff-<book>-*.md` | Move to `_archive/<today>/` |
 | Landed F-item drafts | `f25-apparatus-table-schema.md`, `f27-validator-drafts.md` (after landing per pipeline-debt.md) | Move to `_archive/<today>/` |
 | Folded-in plans | Older plan docs whose content was absorbed into `refactor/plan.md` or `architecture.md` | Move to `_archive/<today>/` |
 | Superseded doctrine docs | `v4-doctrine-propagation.md` (after propagation lands) | Move to `_archive/<today>/` |

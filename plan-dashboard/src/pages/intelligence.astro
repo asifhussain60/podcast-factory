@@ -391,7 +391,7 @@ import Base from '../layouts/Base.astro';
    DATA — NODES
    ========================================================= */
 const NODES = {
-  kashkole: {
+  wisdom: {
     label: 'Kashkole Corpus', sublabel: '122 chapters · 17 binders',
     zone: 'source', icon: '📚',
     x: 80, y: 35, w: 230, h: 145,
@@ -452,7 +452,7 @@ const NODES = {
       title: 'B0 — Kashkole Ingest Driver', zone: 'Ingestion · standalone batch driver',
       desc: 'A standalone batch tool (not a pipeline phase) that ingests all PASS+WARN Kashkole chapters into the knowledge library. Idempotent per chapter — re-running on a corrected chapter deletes its old atoms and re-ingests clean.',
       kv: [
-        { k: 'File', v: '_drivers/kashkole_ingest_knowledge.py' },
+        { k: 'File', v: '_drivers/wisdom_ingest_knowledge.py' },
         { k: 'Max lines', v: '400' },
         { k: 'LLM calls', v: 'None' },
         { k: 'Authorization', v: 'Tier 1' },
@@ -464,12 +464,12 @@ const NODES = {
       atoms: ['doctrine','quran','hadith'],
       blocker: true,
       cli: [
-        'python kashkole_ingest.py                  # all PASS+WARN chapters',
-        'python kashkole_ingest.py --chapter <slug> # single chapter',
-        'python kashkole_ingest.py --re-ingest       # correction cycle',
-        'python kashkole_ingest.py --dry-run         # preview, no writes',
-        'python kashkole_ingest.py --status          # 122-row state table',
-        'python kashkole_ingest.py --force <slug>    # override FAIL verdict',
+        'python wisdom_ingest.py                  # all PASS+WARN chapters',
+        'python wisdom_ingest.py --chapter <slug> # single chapter',
+        'python wisdom_ingest.py --re-ingest       # correction cycle',
+        'python wisdom_ingest.py --dry-run         # preview, no writes',
+        'python wisdom_ingest.py --status          # 122-row state table',
+        'python wisdom_ingest.py --force <slug>    # override FAIL verdict',
       ],
       sections: [
         { title: '⛔ BLOCKER — must discuss before this runs',
@@ -670,10 +670,10 @@ const NODES = {
     chips: ['Wave J'],
     detail: {
       title: 'Term Index table · Wave J', zone: 'Source Library · mirror.db',
-      desc: 'A single lookup table in mirror.db that unifies Arabic roots (from the KQUR Quran database) with glossary terms (from KASHKOLE). A reader hover on any Arabic term checks here first; only on a miss does it fall back to Gemini. Columns: phonetic, arabic, root, grammar_tag, definition, etymology, tradition, source, related.',
+      desc: 'A single lookup table in mirror.db that unifies Arabic roots (from the KQUR Quran database) with glossary terms (from WISDOM). A reader hover on any Arabic term checks here first; only on a miss does it fall back to Gemini. Columns: phonetic, arabic, root, grammar_tag, definition, etymology, tradition, source, related.',
       kv: [
         { k: 'Rows', v: '~15,000 (roots + glossary + derived terms)' },
-        { k: 'Sources', v: 'KQUR roots + KASHKOLE DeeniTermGroup + Glossary' },
+        { k: 'Sources', v: 'KQUR roots + WISDOM DeeniTermGroup + Glossary' },
         { k: 'FTS5 coverage', v: 'fts_quran · fts_topics · fts_sessions' },
         { k: 'Fallback triggers', v: 'Cache miss OR missing etymology field' },
       ],
@@ -686,7 +686,7 @@ const NODES = {
    DATA — EDGES
    ========================================================= */
 const EDGES = [
-  { from:'kashkole', to:'b0', fp:'bottom', tp:'top', types:['doctrine'], style:'blocker', label:'adapted chapters' },
+  { from:'wisdom', to:'b0', fp:'bottom', tp:'top', types:['doctrine'], style:'blocker', label:'adapted chapters' },
   { from:'books',    to:'b1', fp:'bottom', tp:'top', types:['quran','hadith'], style:'mixed',   label:'enriched text' },
   { from:'b0', to:'b2', fp:'bottom', tp:'top', types:['doctrine'], style:'blocker' },
   { from:'b1', to:'b2', fp:'bottom', tp:'top', types:['quran','hadith'], style:'mixed' },
@@ -717,7 +717,7 @@ function portCoord(n, port) {
    ========================================================= */
 function renderZones(canvas) {
   const zones = [
-    { label:'Sources',        cls:'zone-sources',    y:0,    h:210,  nodes:['kashkole','books'] },
+    { label:'Sources',        cls:'zone-sources',    y:0,    h:210,  nodes:['wisdom','books'] },
     { label:'Ingestion',      cls:'zone-ingest',     y:210,  h:210,  nodes:['b0','b1'] },
     { label:'Merge',          cls:'zone-merge',      y:420,  h:180,  nodes:['b2'] },
     { label:'Store',          cls:'zone-store',      y:600,  h:220,  nodes:['db'] },

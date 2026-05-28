@@ -23,7 +23,7 @@ Asif reviewed the chapter view at `localhost:4321/develop/the-master-and-the-dis
 
 🟢 `HEAD` on `book/the-master-and-the-disciple` matches `origin/develop` for `podcast-reader/` (zero diff). No newer reader work elsewhere:
 - `origin/main` is behind by ~3,400 lines (expected — production lags).
-- `origin/feature/kashkole-translation` is identical to HEAD for `podcast-reader/`.
+- `origin/feature/wisdom-translation` is identical to HEAD for `podcast-reader/`.
 - `origin/develop` is identical to HEAD for `podcast-reader/`.
 
 This is the latest code.

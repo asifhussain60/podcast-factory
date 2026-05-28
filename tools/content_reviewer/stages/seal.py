@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-FAILURE_LOG = REPO_ROOT / "_workspace" / "plan" / "kashkole-rollout-failures.log"
+FAILURE_LOG = REPO_ROOT / "_workspace" / "plan" / "wisdom-rollout-failures.log"
 
 
 def _update_stage(bundle_yml: Path, new_stage: str) -> None:

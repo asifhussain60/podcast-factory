@@ -20,7 +20,7 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(REPO_ROOT / "scripts" / "podcast"))
 import _azure  # noqa: E402
 
-COST_LEDGER = REPO_ROOT / "_workspace" / "plan" / "kashkole-translation-cost-ledger.jsonl"
+COST_LEDGER = REPO_ROOT / "_workspace" / "plan" / "wisdom-translation-cost-ledger.jsonl"
 
 # Azure Translator S1: $10 / 1M characters
 COST_PER_CHAR_USD = 10.0 / 1_000_000

@@ -49,7 +49,7 @@ class Section:
 @dataclass
 class BookMeta:
     """Resolved book metadata + filesystem placement."""
-    source_name: str        # "kashkole" | "ksessions"
+    source_name: str        # "wisdom" | "ksessions"
     source_language: str    # "ur" | "en"
     shelf_id: int
     shelf_name: str
@@ -77,7 +77,7 @@ class SourceAdapter(ABC):
     @property
     @abstractmethod
     def source_name(self) -> str:
-        """Stable lowercase id used in filesystem paths and meta.yml. e.g. 'kashkole'."""
+        """Stable lowercase id used in filesystem paths and meta.yml. e.g. 'wisdom'."""
 
     @property
     @abstractmethod

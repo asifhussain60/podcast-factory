@@ -3,7 +3,7 @@
 Calls the Anthropic API (claude-haiku-4-5-20251001) to transform
 raw-extract.en.md into adapted-extract.en.md + adaptation-citations.jsonl.
 
-Must be run with the kashkole venv Python (has anthropic>=0.104 installed):
+Must be run with the wisdom venv Python (has anthropic>=0.104 installed):
   _workspace/source-library/.venv/bin/python -m tools.content_translator adapt-auto ...
 
 Stage transition: translated → adapted.
@@ -22,7 +22,7 @@ from typing import Optional
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 CLASSIFIER_DATA = REPO_ROOT / "tools" / "content_classifier" / "data"
-ADAPT_COST_LEDGER = REPO_ROOT / "_workspace" / "plan" / "kashkole-adapt-cost-ledger.jsonl"
+ADAPT_COST_LEDGER = REPO_ROOT / "_workspace" / "plan" / "wisdom-adapt-cost-ledger.jsonl"
 
 MODEL = "claude-haiku-4-5-20251001"
 MAX_CHUNK_BYTES = 25_000   # chunk threshold — reduced from 55K; claude -p needs <30min/chunk
@@ -119,7 +119,7 @@ def _call_claude_p(user_content: str, timeout: int = 1800) -> tuple[str, int, in
 
 
 def _find_r2_entries(binder_id: int, chapter_id: int) -> list[dict]:
-    r2_file = CLASSIFIER_DATA / "kashkole-r2-decisions.yaml"
+    r2_file = CLASSIFIER_DATA / "wisdom-r2-decisions.yaml"
     if not r2_file.exists():
         return []
     entries = []

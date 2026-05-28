@@ -104,8 +104,8 @@ def hadith_canonical_id(collection: HadithCollection, number: int) -> str:
 
 
 def doctrine_canonical_id(binder_id: str, chapter_id: str, chunk_index: int) -> str:
-    """Return `doctrine:kashkole:<binder_id>:<chapter_id>:<chunk_index>`."""
-    return f"doctrine:kashkole:{binder_id}:{chapter_id}:{chunk_index}"
+    """Return `doctrine:wisdom:<binder_id>:<chapter_id>:<chunk_index>`."""
+    return f"doctrine:wisdom:{binder_id}:{chapter_id}:{chunk_index}"
 
 
 # ─── Validation ───────────────────────────────────────────────────────────

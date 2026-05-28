@@ -1,6 +1,6 @@
 /**
  * Discover and load tools/source_extractor/ bundles from the repo's
- * CONTENT/_shared/kashkole-corpus/extracted/ tree.
+ * CONTENT/_shared/wisdom-corpus/extracted/ tree.
  *
  * Bundle layout (per tools/source_extractor/bundle.py):
  *   <extract-root>/<source>/<NN-shelf-slug>/<MM-book-slug>/
@@ -18,7 +18,7 @@ import { join } from 'node:path';
 import yaml from 'js-yaml';
 import { getRepoRoot } from '../content-paths';
 
-const EXTRACT_RELPATH = 'CONTENT/_shared/kashkole-corpus/extracted';
+const EXTRACT_RELPATH = 'CONTENT/_shared/wisdom-corpus/extracted';
 
 export interface BundleManifest {
   bundle_schema_version: number;
@@ -50,7 +50,7 @@ export interface BundleManifest {
 }
 
 export interface ChapterRecord {
-  /** "kashkole" */
+  /** "wisdom" */
   source: string;
   /** "07-uloom-mabda-wa-maad" */
   shelfSlug: string;

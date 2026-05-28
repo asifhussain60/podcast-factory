@@ -162,7 +162,7 @@ waves:
             - {file: "STUDIO-ALIGNMENT-2026-05-22.md", reason: "dated event report; git history sufficient"}
             - {file: "cohesion-audit-2026-05-23.md", reason: "dated audit report"}
             - {file: "handoff-kar-archetype-pivot.md", reason: "KaR shipped"}
-            - {pattern: "kashkole-*.{md,log,json}", count: 11, reason: "rollout artifacts, KaR not affected, kashkole content shipped per cost-ledger.jsonl"}
+            - {pattern: "wisdom-*.{md,log,json}", count: 11, reason: "rollout artifacts, KaR not affected, wisdom content shipped per cost-ledger.jsonl"}
             - {file: "pipeline-refactor/ (empty subdir)", reason: "user pre-created but unused"}
           version_stamp_strips:
             - {file: "framework.md", action: "remove 'Version: 4.1' line"}
@@ -201,7 +201,7 @@ waves:
               - "DoctrineGenre: Literal[tawil, theology, jurisprudence, ethics, cosmology, narrative, scholarly]"
               - "DoctrineBody: TypedDict (tradition, genre, binder_id, binder_slug, chapter_id, chapter_slug, section_ids, chunk_index, topic_tags, text_en, quran_refs)"
               - "AtomType updated: Literal['quran', 'hadith', 'doctrine']"
-              - "doctrine_canonical_id(binder_id, chapter_id, chunk_index) -> str  # 'doctrine:kashkole:<b>:<c>:<i>'"
+              - "doctrine_canonical_id(binder_id, chapter_id, chunk_index) -> str  # 'doctrine:wisdom:<b>:<c>:<i>'"
           archetype_registry_seed:
             location: "content/_shared/archetypes/<slug>/"
             files_per_archetype: ["exemplar.md", "spec.yml", "anti-patterns.md"]
@@ -463,11 +463,11 @@ waves:
           files_to_change:
             - path: tools/content_translator/stages/adapt_auto.py
               change: Replace _call_claude_p() subprocess with direct anthropic.Anthropic() client call; add cache_control ephemeral on system prompt
-            - path: tools/content_challenger/kashkole/challenge_auto.py
+            - path: tools/content_challenger/wisdom/challenge_auto.py
               change: Same — replace claude -p subprocess with direct API call + prompt cache
-            - path: _workspace/plan/_drivers/kashkole_adapt_all.py
+            - path: _workspace/plan/_drivers/wisdom_adapt_all.py
               change: Add --max-chapters cap (default 50); refactor to submit Anthropic Batches API for 50% cost reduction
-            - path: _workspace/plan/_drivers/kashkole_challenge_all.py
+            - path: _workspace/plan/_drivers/wisdom_challenge_all.py
               change: Same --max-chapters cap + batch submission
           orchestrator_audit:
             target: scripts/podcast/orchestrate_book.py
@@ -486,7 +486,7 @@ waves:
               saving_estimate: 30-40% off input token costs per run
             - name: Batches API
               description: |
-                Refactor kashkole_adapt_all.py and kashkole_challenge_all.py to submit all chapters
+                Refactor wisdom_adapt_all.py and wisdom_challenge_all.py to submit all chapters
                 as a single Anthropic Batches API request rather than 215 sequential synchronous calls.
                 Results are polled the next day. 50% cheaper than synchronous calls. Designed for
                 non-real-time phases like adapt and challenge.
@@ -551,7 +551,7 @@ waves:
       - "Mandatory alignment executed on governance data source: runner acceptance source moved from per-book ship checklist to dedicated wave-acceptance checklist, restoring real collective wave quality evaluation semantics."
       - "Runner branch-context fix landed: acceptance checklist is now resolved and read after wave-branch checkout, preventing false missing-file failures when launching a new wave from a branch that has not yet merged the checklist file."
       - "Mandatory alignment blocker addressed: Wave-B now has autonomous runners for P2.3 (augmenter implementation + tests) and P2.4 (Wave-B phase wiring validation), and run_wave acceptance-row marking now targets the active wave checklist file."
-      - "CORRECTION (2026-05-28): Wave B execution_status was incorrectly stamped completed. All Wave B intelligence files are scaffold stubs. Real B0 implementation starting now: schema migrations 017+018, kashkole ingestion driver, and acceptance tests."
+      - "CORRECTION (2026-05-28): Wave B execution_status was incorrectly stamped completed. All Wave B intelligence files are scaffold stubs. Real B0 implementation starting now: schema migrations 017+018, wisdom ingestion driver, and acceptance tests."
     pre_execution_blockers:
       - id: BLOCKER-B-PRE
         status: RESOLVED
@@ -578,7 +578,7 @@ waves:
         rationale: "75 PASS+WARN Kashkole chapters are ready to seed the intelligence library before any pipeline book runs B1. Independent refinement state machine lets Asif correct chapters one by one without LLM re-runs."
         deliverables:
           module:
-            path: "scripts/podcast/intelligence/kashkole_ingest_knowledge.py"
+            path: "scripts/podcast/intelligence/wisdom_ingest_knowledge.py"
             max_lines: 400
             api:
               - "ingest_chapter(slug, *, re_ingest=False, dry_run=False) -> IngestResult"
@@ -609,16 +609,16 @@ waves:
           new_R_constants:
             - {name: R_CORPUS_INGEST_MAX_ATOMS_PER_CHAPTER, value: 50}
             - {name: R_CORPUS_INGEST_WARN_VERDICT_SETS_NEEDS_REVIEW, value: true}
-          canonical_id_format: "doctrine:kashkole:<binder_id>:<chapter_id>:<chunk_index>  (chunk_index 0-based within chapter)"
+          canonical_id_format: "doctrine:wisdom:<binder_id>:<chapter_id>:<chunk_index>  (chunk_index 0-based within chapter)"
           chunk_algorithm: "split adapted-extract.en.md on <!-- section N --> markers; group consecutive sections into <=600-word chunks; never split mid-section"
           source_files:
             topic_tag_map: "_workspace/source-library/topic-type-map.json (18-row taxonomy + 223 per-topic assignments; no DB access needed)"
             quran_atoms: "\u27eaquran S:A\u27eb markers in adapted-extract.en.md -> surrounding paragraph (~150 words) as tafsir_note"
             hadith_atoms: "adaptation-citations.jsonl entries matching hadith collection names"
-          implementation_brief: "_workspace/plan/intelligence/kashkole-intelligence-spec.md"
+          implementation_brief: "_workspace/plan/intelligence/wisdom-intelligence-spec.md"
           tests:
-            - "tests/test_kashkole_ingest_idempotent.py"
-            - "tests/test_kashkole_refinement_state_machine.py"
+            - "tests/test_wisdom_ingest_idempotent.py"
+            - "tests/test_wisdom_refinement_state_machine.py"
         acceptance:
           - "ingest_all(dry_run=True) runs against all 122 chapters without errors"
           - "PASS chapters ingest with needs_review=0; WARN chapters ingest with needs_review=1"
@@ -1681,8 +1681,8 @@ waves_ghj:
           Reader UI components already built: ParagraphAnnotationBar.tsx +
           AnnotationWorkbench.tsx support all required tag types.
         deliverables:
-          - "scripts/kashkole/annotate_chapters.py: Haiku annotation pass producing structured JSON per paragraph (<=300 lines)"
-          - "scripts/kashkole/import_annotations.py: load JSON into reader annotation SQLite DB"
+          - "scripts/wisdom/annotate_chapters.py: Haiku annotation pass producing structured JSON per paragraph (<=300 lines)"
+          - "scripts/wisdom/import_annotations.py: load JSON into reader annotation SQLite DB"
           - "Annotation tags: mark-for-deletion, mark-for-improvement, esoteric, reality, sharia, quran, hadith"
           - "Protected-category demotion rule enforced in annotate_chapters.py (never deletion)"
           - "Dry-run target: one chapter from the-master-and-the-disciple + one from kitab-al-riyad"
@@ -1724,18 +1724,18 @@ waves_ghj:
           G17 Ikhwan As-Safa Cat 51 arithmetic only (14 sessions), G18 Asaas
           Al-Taveel (32 sessions). Session 2346 ('Necessity Of Imam') is the
           Isbat al-Imamah style source. Style corpus accessible via VS Code
-          MSSQL extension (scripts/kashkole/queries/; AHHOME profile,
+          MSSQL extension (scripts/wisdom/queries/; AHHOME profile,
           server 192.168.1.158, DB KSESSIONS_DEV). Sonnet required for this
           pass -- style fidelity demands it. Rewrites applied in-place; git is
           the recovery mechanism.
         deliverables:
-          - "scripts/kashkole/build_style_corpus.py: extract plain-text samples from KSessions (MSSQL or SQL dump fallback)"
+          - "scripts/wisdom/build_style_corpus.py: extract plain-text samples from KSessions (MSSQL or SQL dump fallback)"
           - "content/_shared/source-library/style-imprint.md: distilled style guide (<=800 words) for LLM system prompt"
-          - "scripts/kashkole/rewrite_chapters.py: Sonnet rewrite pass chapter-by-chapter using style-imprint.md"
+          - "scripts/wisdom/rewrite_chapters.py: Sonnet rewrite pass chapter-by-chapter using style-imprint.md"
           - "Protected categories (esoteric, quran, hadith, poetry) survive verbatim -- rewrite wraps, never replaces them"
           - "In-place chapter edits applied after Asif approves git diff"
           - "Target books phase 1: the-master-and-the-disciple, kitab-al-riyad"
-          - "KSessions SQL queries: scripts/kashkole/queries/ (committed ea476ba)"
+          - "KSessions SQL queries: scripts/wisdom/queries/ (committed ea476ba)"
         acceptance:
           - "style-imprint.md present and <= 800 words"
           - "Rewritten chapters include recap opening, Arabic gloss, and teaching structure on spot-check"
@@ -1958,7 +1958,7 @@ waves_ghj:
       Connection: server 192.168.1.158; databases KQUR, KASHKOLE,
       KSESSIONS_DEV; VS Code MSSQL profile AHHOME. Source dumps at
       CONTENT/_shared/source-library/ (gitignored). Query files at
-      scripts/kashkole/queries/ (7 files, committed d37d731).
+      scripts/wisdom/queries/ (7 files, committed d37d731).
       Cost model: zero tokens and zero external API calls for all verse
       popups, term definitions, and topic lookups once J1+J2 are in place.
       Gemini Flash remains as a silent fallback only for terms absent from
@@ -2113,8 +2113,8 @@ waves_ghj:
             plan-dashboard/src/pages/api/quran/etymology.ts
               GET /api/quran/etymology?root=<str>
               -> localhost:4390/etymology?term=<str>
-            plan-dashboard/src/pages/api/kashkole/topic.ts
-              GET /api/kashkole/topic?id=<n>
+            plan-dashboard/src/pages/api/wisdom/topic.ts
+              GET /api/wisdom/topic?id=<n>
               -> localhost:4390/topic/get?id=<n> (consumed by J5 TopicPopover)
           Shared utility: plan-dashboard/src/lib/localServerClient.ts
             Probe with 300 ms timeout, module-level availability flag,
@@ -2126,7 +2126,7 @@ waves_ghj:
           - "plan-dashboard/src/pages/api/quran/verse.ts: local-first rewrite"
           - "plan-dashboard/src/pages/api/ai/define-term.ts: local-first with Gemini fallback"
           - "plan-dashboard/src/pages/api/quran/etymology.ts: new route"
-          - "plan-dashboard/src/pages/api/kashkole/topic.ts: new route"
+          - "plan-dashboard/src/pages/api/wisdom/topic.ts: new route"
           - "plan-dashboard/src/lib/localServerClient.ts: shared probe + typed response helpers"
           - "VerseData interface updated: asad_translation, urdu_translation, phonetic fields added"
           - "TermPopover.tsx: etymology expandable section when etymology field non-empty"
@@ -2136,7 +2136,7 @@ waves_ghj:
           - "GET /api/quran/verse?key=2:255 with local server stopped falls back to quran.com"
           - "GET /api/ai/define-term for a term in term_index returns local definition (no Gemini call)"
           - "GET /api/ai/define-term for a term absent from term_index falls back to Gemini"
-          - "GET /api/kashkole/topic?id=1 returns topic name + content + linked ayats"
+          - "GET /api/wisdom/topic?id=1 returns topic name + content + linked ayats"
           - "QuranPopover shows asad_translation section when populated"
           - "TermPopover shows etymology section when populated"
           - "test_astro_api_rewiring.ts: >=10 tests green (local paths, fallback paths, new routes)"
@@ -2193,7 +2193,7 @@ waves_ghj:
           call per theme; results deduplicated by session_id.
           Gate: series.enable_live_style_fetch: true in meta.yml (default false).
         deliverables:
-          - "scripts/kashkole/rewrite_chapters.py: live session fetch path added"
+          - "scripts/wisdom/rewrite_chapters.py: live session fetch path added"
           - "Theme extractor: extract_chapter_themes(text) -> list[str] (top 3 phrases)"
           - "_system/mcp-calls.jsonl: style fetch calls alongside enrichment calls"
           - "meta.yml flag: series.enable_live_style_fetch (bool, default false)"
@@ -2222,15 +2222,15 @@ waves_ghj:
           Editor side:
             New TopicPopover.tsx using event delegation on .ref-topic spans.
             Panel: topic name, binder/chapter provenance, first 400 chars,
-            linked Quran ayats. Data from GET /api/kashkole/topic?id=N (J2).
+            linked Quran ayats. Data from GET /api/wisdom/topic?id=N (J2).
             Identical pattern to QuranPopover.tsx: 320 ms hover delay,
             localStorage cache (key pf-reader:topic:{id}), dismiss on outside
             click. No new frontend libraries.
           Search bar:
-            New GET /api/kashkole/search?q=keyword -> localhost:4390/topic/search.
+            New GET /api/wisdom/search?q=keyword -> localhost:4390/topic/search.
         deliverables:
           - "plan-dashboard/src/components/reader/TopicPopover.tsx: new component (<=300 lines)"
-          - "plan-dashboard/src/pages/api/kashkole/search.ts: keyword search route"
+          - "plan-dashboard/src/pages/api/wisdom/search.ts: keyword search route"
           - "scripts/podcast/intelligence/augmenter.py: topic marker emission added"
           - "meta.yml flag: series.enable_topic_markers (bool, default false)"
           - "ChapterEditor.tsx: TopicPopover mounted alongside QuranPopover and TermPopover"
@@ -2240,11 +2240,221 @@ waves_ghj:
           - "Panel dismisses on outside click and on Escape key"
           - "Cache hit on second hover for same topic_id"
           - "enable_topic_markers: false -> no .ref-topic spans emitted"
-          - "GET /api/kashkole/search?q=tawhid returns >=1 result"
+          - "GET /api/wisdom/search?q=tawhid returns >=1 result"
           - "test_topic_popover.ts: >=6 tests green (render, hover delay, cache, dismiss, search)"
           - "TopicPopover.tsx <=300 lines"
         authorization: tier_one
         branch: "feature/wave-j-topic-popover"
+        cost_estimate_usd: 0
+        execution_status: not_started
+
+  - wave: K
+    title: "Quality Scoring + Pipeline Hardening"
+    status: not_started
+    authorization: awaiting_approval
+    depends_on: [B, I, J]
+    description: |
+      Wave K introduces a principled, multi-dimensional quality score (PEQ —
+      Podcast Episode Quality) that replaces free-form PASS/WARN/FAIL verdicts
+      across both the podcast pipeline and the wisdom pipeline. The same
+      four-axis weighted rubric (Fidelity, Voice, Structure, Enrichment)
+      is applied consistently in the challenger, the convergence loop, the
+      wisdom chapter validator, and the plan-dashboard. Two canonical books
+      (kitab-al-riyad and the-master-and-the-disciple) are used as
+      before/after regression fixtures; snapshot baselines are captured
+      before any K-step runs and compared after each step completes.
+    steps:
+
+      - id: K0
+        title: "Define and publish the PEQ quality-scoring contract"
+        depends_on: []
+        rationale: |
+          All quality measurement in this system currently reduces to a
+          three-state string (PASS/WARN/FAIL). This creates three problems:
+          (1) two episodes that both pass may differ wildly in actual quality;
+          (2) the convergence loop cannot prioritise which dimension to fix;
+          (3) before/after regressions cannot be measured numerically.
+          K0 defines the canonical PEQ schema and locks it before any other
+          K-step builds against it.
+          PEQ score = weighted sum of four axes (each 0-25 raw, normalised to 0-100):
+            - Fidelity (0-25): citation accuracy + source faithfulness.
+              Algorithm: Levenshtein-distance-free overlap of verse references
+              between adapted-extract and source TopicAyats; weighted by
+              number of citations in source chapter.
+            - Voice (0-25): register match to KSessions exemplars.
+              Algorithm: cosine similarity of TF-IDF bigram vectors between
+              the episode text and the three nearest KSessions style exemplars
+              (pre-computed at K1 build time; no live API calls).
+            - Structure (0-25): archetype arc compliance.
+              Algorithm: rule-based arc checker per archetype spec —
+              required section types present, forbidden section types absent,
+              word-count within tier envelope.
+            - Enrichment (0-25): terminology coverage + Quran hook density.
+              Algorithm: ratio of domain terms (from term_index) correctly
+              glossed on first occurrence; ratio of Quran references present
+              in episode vs source.
+          Weights default: Fidelity=0.35, Voice=0.25, Structure=0.20,
+          Enrichment=0.20. Per-series overrides via series-config.yaml.
+          Thresholds: PEQ >= 85 = PASS, 70-84 = WARN, < 70 = FAIL.
+        deliverables:
+          - "scripts/podcast/_quality.py: PEQ dataclass, score() function, compute_all_axes()"
+          - "scripts/podcast/knowledge/schema/019_quality_scores.sql: quality_scores table"
+          - "content/_shared/archetypes/*/spec.yml: arc_rules section added to all 7 archetypes"
+          - "docs/reference/peq-scoring-contract.md: public spec for PEQ axes, weights, thresholds"
+        acceptance:
+          - "_quality.py <= 300 lines (DR-005)"
+          - "score() returns PEQ dataclass with axes (fidelity, voice, structure, enrichment, total)"
+          - "total rounds to int in [0,100]"
+          - "test_quality.py: >= 10 unit tests covering edge cases (empty text, all-zero axes, etc.)"
+          - "019_quality_scores.sql applied by run_migrations() without error"
+          - "All 7 archetype spec.yml files have arc_rules section"
+        authorization: tier_one
+        branch: "feature/wave-k-quality-contract"
+        cost_estimate_usd: 0
+        execution_status: not_started
+
+      - id: K1
+        title: "Snapshot regression baselines for kitab-al-riyad and the-master-and-the-disciple"
+        depends_on: [K0]
+        rationale: |
+          Before any K-step changes pipeline behaviour, capture PEQ baseline
+          scores for every shipped chapter of both canonical books. These
+          snapshots become the regression floor: any K-step that drops a
+          chapter's PEQ score by more than 5 points fails its acceptance check.
+          The snapshot runner also exports per-axis breakdowns so the team can
+          see which dimension is weakest across the corpus before optimisation.
+        deliverables:
+          - "scripts/wisdom/wisdom_quality_snapshot.py: runs PEQ on all PASS+WARN chapters of a book"
+          - "_workspace/test-strategy/baselines/kitab-al-riyad-peq-baseline.json: per-chapter scores"
+          - "_workspace/test-strategy/baselines/the-master-and-the-disciple-peq-baseline.json: per-chapter scores"
+          - "tests/regression/test_peq_regression.py: fails if any chapter drops >5 PEQ points vs baseline"
+        acceptance:
+          - "Baseline JSON files committed with >= 10 chapters each"
+          - "test_peq_regression.py passes green on the committed baselines (no regressions at capture time)"
+          - "Per-axis breakdown present in baseline JSON (fidelity, voice, structure, enrichment per chapter)"
+          - "script exits 0 on both books, <= 120 s wall time"
+        authorization: tier_one
+        branch: "feature/wave-k-baselines"
+        cost_estimate_usd: 0
+        execution_status: not_started
+
+      - id: K2
+        title: "Replace challenger free-form verdict with PEQ-driven scoring in both pipelines"
+        depends_on: [K0, K1]
+        rationale: |
+          The podcast challenger (podcast-challenger agent) and the wisdom
+          chapter challenger (tools/content_challenger/wisdom/) both produce
+          free-form text verdicts. This step replaces the text verdict with a
+          structured PEQ score appended to each report, while keeping the
+          prose commentary. The convergence loop in orchestrate_book.py is
+          updated to advance to the next chapter only when PEQ >= 70 (WARN
+          threshold); FAIL chapters are flagged for retry up to the existing
+          3-outer x 5-inner cap. The wisdom challenger similarly gates the
+          seal stage on PEQ >= 70 unless --force is passed.
+        deliverables:
+          - "scripts/podcast/intelligence/challenger_scoring.py: PEQ integration wrapper for podcast challenger"
+          - "tools/content_challenger/wisdom/challenge_auto.py: PEQ section appended to wisdom-challenger-report.md"
+          - "scripts/podcast/orchestrate_book.py: convergence advancement gated on peq_total >= 70"
+          - "tools/content_translator/stages/seal.py: wisdom seal blocked on peq_total < 70 unless --force"
+          - "_system/challenger-report.md format: ## PEQ Score section with axis breakdown table"
+        acceptance:
+          - "test_peq_regression.py still green after this step (no baseline regressions)"
+          - "wisdom-challenger-report.md contains ## PEQ Score section with all four axis scores"
+          - "orchestrate_book.py convergence loop reads peq_total from report, not verdict string"
+          - "FAIL chapter halts loop; WARN chapter advances; PASS advances"
+          - "test_challenger_scoring.py: >= 8 tests green"
+        authorization: tier_one
+        branch: "feature/wave-k-challenger-scoring"
+        cost_estimate_usd: 0
+        execution_status: not_started
+
+      - id: K3
+        title: "Wire PEQ scores into agent prompts and skill instructions for consistent quality framing"
+        depends_on: [K2]
+        rationale: |
+          Agents and skills currently receive text rubrics with no numeric anchor.
+          The framing agent (episode framing phase) and the wisdom adaptation
+          prompt both describe quality goals in prose — which means the LLM has
+          no way to self-monitor against a score. This step adds a quality
+          contract block to the three key prompts: the framing system prompt,
+          the wisdom adaptation system prompt, and the podcast-challenger skill
+          spec. Each block states the four PEQ axes and their weights in a
+          compact table, instructs the model to self-assess before submitting,
+          and asks it to report which axis it believes is weakest in its output.
+          This self-assessment is not trusted numerically — the deterministic
+          PEQ scorer (K0) has the final word — but it steers the model toward
+          higher-quality outputs on the first pass, reducing costly retries.
+        deliverables:
+          - "scripts/podcast/_authoring.py: framing system prompt gains PEQ quality contract block"
+          - "tools/content_translator/stages/adapt_auto.py: adaptation system prompt gains PEQ contract block"
+          - "skills-staging/podcast/SKILL.md: PEQ axes listed in quality criteria section"
+          - "infra/claude-agents/podcast-challenger.md: PEQ axes + thresholds listed in evaluation rubric"
+          - "infra/claude-agents/podcast-orchestrator.md: convergence halt condition updated to PEQ >= 70"
+        acceptance:
+          - "test_peq_regression.py still green (no regressions vs baseline)"
+          - "Framing prompt includes PEQ contract block (verified by string search in test)"
+          - "Wisdom adaptation prompt includes PEQ contract block"
+          - "SKILL.md and podcast-challenger.md reference PEQ thresholds (85/70)"
+          - "No prompt exceeds 4000 tokens after additions (test_prompt_length.py)"
+        authorization: tier_one
+        branch: "feature/wave-k-prompt-quality-framing"
+        cost_estimate_usd: 0
+        execution_status: not_started
+
+      - id: K4
+        title: "Surface PEQ scores on the plan dashboard with per-chapter and per-book breakdowns"
+        depends_on: [K2]
+        rationale: |
+          After K2, every challenger report has structured PEQ data. This step
+          makes that data visible in the plan dashboard: a new /quality page
+          shows per-book, per-chapter score tables with colour-coded axis
+          breakdowns (green >= 85, amber 70-84, red < 70), a trend chart
+          comparing baseline vs current for both canonical books, and a
+          cross-book summary banner showing fleet-wide average PEQ. The page
+          reads directly from the quality_scores table (schema/019) — no
+          new data fetch needed.
+        deliverables:
+          - "plan-dashboard/src/pages/quality.astro: new page with per-chapter PEQ table + trend chart"
+          - "plan-dashboard/src/pages/architecture.astro: Wave K section added"
+          - "plan-dashboard/src/lib/quality-data.ts: reads quality_scores via SQLite (same pattern as db-schema page)"
+          - "plan-dashboard/src/components/PeqScoreCard.tsx: reusable score card (axis bars + total badge)"
+        acceptance:
+          - "/quality page renders without errors"
+          - "PeqScoreCard shows all four axis bars + total badge"
+          - "Trend chart shows at least one data point for each baseline book"
+          - "Cross-book summary banner present and shows fleet average"
+          - "quality.astro <= 400 lines"
+        authorization: tier_one
+        branch: "feature/wave-k-quality-dashboard"
+        cost_estimate_usd: 0
+        execution_status: not_started
+
+      - id: K5
+        title: "Apply PEQ-gated quality checks to the wisdom pipeline retranslation and reingestion cycle"
+        depends_on: [K2, K3]
+        rationale: |
+          The wisdom pipeline retranslation loop (wisdom_run_remaining.py + seal.py)
+          currently advances on any non-FAIL verdict. With PEQ in place, this
+          step tightens the loop: chapters that score < 70 on Fidelity are
+          automatically queued for re-translation (not just re-adaptation);
+          chapters that score < 70 on Enrichment are queued for re-enrichment
+          before re-ingestion into the knowledge base. This closes the gap
+          between the wisdom extraction pipeline and the knowledge library's
+          quality floor, ensuring only chapters above the WARN threshold enter
+          the intelligence layer consumed by the podcast pipeline.
+        deliverables:
+          - "scripts/wisdom/wisdom_run_remaining.py: PEQ-gated advancement (fidelity < 70 -> re-translate)"
+          - "scripts/wisdom/wisdom_pipeline_all.py: PEQ summary report emitted per binder"
+          - "scripts/podcast/intelligence/wisdom_ingest_knowledge.py: ingest blocked on peq_total < 70 unless --force"
+          - "_workspace/test-strategy/baselines/: baseline JSONs regenerated after K5 (new floor)"
+        acceptance:
+          - "test_peq_regression.py still green vs K1 baselines"
+          - "wisdom_run_remaining.py --dry-run shows PEQ-gated queue for at least 1 chapter"
+          - "Ingest of a chapter with peq_total=65 raises QualityGateError unless --force passed"
+          - "test_wisdom_quality_gate.py: >= 6 tests green"
+          - "wisdom_pipeline_all.py --summary emits per-binder PEQ table"
+        authorization: tier_one
+        branch: "feature/wave-k-wisdom-quality-gate"
         cost_estimate_usd: 0
         execution_status: not_started
 

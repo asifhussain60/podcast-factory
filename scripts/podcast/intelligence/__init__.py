@@ -3,7 +3,7 @@
 B1: extractor — claude -p per chapter → scratch JSONL
 B2: librarian — scratch JSONL → knowledge DB (dedup / conflict)
 B3: augmenter — DB-backed doctrine injection into episode text
-B0: kashkole_ingest_knowledge — Kashkole corpus → doctrine atoms
+B0: wisdom_ingest_knowledge — Kashkole corpus → doctrine atoms
 """
 from .extractor import extract_chapter, extract_atoms_for_book, ExtractionSummary
 from .librarian import merge_into_library, MergeReport

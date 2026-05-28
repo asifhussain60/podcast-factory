@@ -36,7 +36,7 @@ For "where does X belong?", start with architecture.md. For "what's next?", read
 
 ## What used to be here (deleted 2026-05-26)
 
-The legacy planning surface (~22 files including `acceptance-criteria.md` 84K, `podcast-plan.yaml` 263K, `STUDIO-ALIGNMENT-*`, `cohesion-audit-*`, `handoff-kar-*`, `v4-doctrine-propagation.md`, `f25-/f27-*-drafts.md`, `podcast-plan-DoR*.md`, 11 `kashkole-*` rollout artifacts, `podcast-intelligence-enhancements.md`, `intelligence-pipeline-wave1-spec.md`) was folded into this nested structure and deleted. Git history preserves every byte.
+The legacy planning surface (~22 files including `acceptance-criteria.md` 84K, `podcast-plan.yaml` 263K, `STUDIO-ALIGNMENT-*`, `cohesion-audit-*`, `handoff-kar-*`, `v4-doctrine-propagation.md`, `f25-/f27-*-drafts.md`, `podcast-plan-DoR*.md`, 11 `wisdom-*` rollout artifacts, `podcast-intelligence-enhancements.md`, `intelligence-pipeline-wave1-spec.md`) was folded into this nested structure and deleted. Git history preserves every byte.
 
 Notable folds:
 - `intelligence-pipeline-wave1-spec.md` → [architecture.md §Intelligence Layer](architecture.md#the-intelligence-layer--three-piece-architecture) + [refactor/plan.md Wave B](refactor/plan.md#wave-b--intelligence-layer)

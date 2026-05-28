@@ -18,7 +18,7 @@ It also appends a `review:` block to `bundle.yml` with counts by type +
 confidence, and `seal` switches `bundle.yml.stage` from `finalized` →
 `reviewed`. If any annotation type is `needs-human-review`, the bundle gets a
 top-level `needs_human_review: true` flag and a line is appended to
-`_workspace/plan/kashkole-rollout-failures.log`.
+`_workspace/plan/wisdom-rollout-failures.log`.
 
 ## Annotation types
 
@@ -37,10 +37,10 @@ Hard rule: if a completion is plausible but not high-confidence, emit
 
 ```bash
 # Review a finalized bundle. Adds editorial-* files and review: block.
-python -m tools.content_reviewer review kashkole --binder 1 --chapter 73
+python -m tools.content_reviewer review wisdom --binder 1 --chapter 73
 
 # Seal: validate outputs, flip stage to "reviewed", flag needs_human_review.
-python -m tools.content_reviewer seal kashkole --binder 1 --chapter 73
+python -m tools.content_reviewer seal wisdom --binder 1 --chapter 73
 ```
 
 Both commands are idempotent. `review` is a no-op when stage is already
@@ -63,6 +63,6 @@ python tools/content_reviewer/scripts/extract_candidates.py
 
 - No imports from `scripts/podcast/`.
 - No external network or LLM calls.
-- Reuses `tools.source_extractor.adapters.kashkole.KashkoleQuranCorpus` for
+- Reuses `tools.source_extractor.adapters.wisdom.KashkoleQuranCorpus` for
   HQAyats lookups (read-only).
 - `bundle.yml.stage` transitions: `finalized` → `reviewed` (one direction).

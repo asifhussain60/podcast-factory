@@ -1,9 +1,9 @@
 """CLI entry point.
 
 Usage:
-  python -m tools.content_reviewer review kashkole --binder N --chapter M
+  python -m tools.content_reviewer review wisdom --binder N --chapter M
   python -m tools.content_reviewer review ksessions --binder N --chapter M
-  python -m tools.content_reviewer seal kashkole --binder N --chapter M
+  python -m tools.content_reviewer seal wisdom --binder N --chapter M
 
 Resolves the bundle directory by reusing tools.source_extractor's adapter
 (adapter.resolve_book gives us the slugs and prefixes needed to compute the
@@ -30,7 +30,7 @@ DEFAULT_EXTRACT_ROOT = REPO_ROOT / "CONTENT" / "_shared" / "source-library" / "e
 def _add_ids_args(parser: argparse.ArgumentParser, adapter_name: str) -> None:
     parser.add_argument("--shelf-id", type=int)
     parser.add_argument("--book-id", type=int)
-    if adapter_name in ("kashkole", "kahskole"):
+    if adapter_name in ("wisdom", "kashkole", "kahskole"):
         parser.add_argument("--binder", type=int, dest="shelf_id_alias")
         parser.add_argument("--chapter", type=int, dest="book_id_alias")
     elif adapter_name == "ksessions":
@@ -44,7 +44,7 @@ def _resolve_ids(args: argparse.Namespace) -> BookIds:
     if shelf_id is None or book_id is None:
         raise SystemExit(
             "Missing required ids. Pass --shelf-id/--book-id or "
-            "--binder/--chapter (kashkole) or --group/--category (ksessions)."
+            "--binder/--chapter (wisdom) or --group/--category (ksessions)."
         )
     return BookIds(shelf_id=shelf_id, book_id=book_id)
 
@@ -68,7 +68,7 @@ def main() -> None:
     for cmd_name in ("review", "seal"):
         c = cmd.add_parser(cmd_name)
         c_sub = c.add_subparsers(dest="adapter", required=True)
-        for name in ("kashkole", "ksessions"):
+        for name in ("wisdom", "ksessions"):
             sp = c_sub.add_parser(name)
             _add_ids_args(sp, name)
 

@@ -3,7 +3,7 @@
 Valid transitions:
   --stage translated  : reviewed  → translated   (set by translate.py already, but can be forced)
   --stage adapted     : translated → adapted      (operator calls after writing adapted-extract.en.md)
-  --stage challenged  : adapted   → challenged    (set by kashkole-challenger after convergence)
+  --stage challenged  : adapted   → challenged    (set by wisdom-challenger after convergence)
 
 Also validates that the required output files exist for each stage before stamping.
 """
@@ -16,7 +16,7 @@ _STAGE_ORDER = ["reviewed", "translated", "adapted", "challenged"]
 _REQUIRED_FILES: dict[str, list[str]] = {
     "translated": ["raw-extract.en.md"],
     "adapted": ["raw-extract.en.md", "adapted-extract.en.md", "adaptation-citations.jsonl"],
-    "challenged": ["adapted-extract.en.md", "adaptation-citations.jsonl", "kashkole-challenger-report.md"],
+    "challenged": ["adapted-extract.en.md", "adaptation-citations.jsonl", "wisdom-challenger-report.md"],
 }
 
 

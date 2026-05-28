@@ -5,7 +5,7 @@
  *
  * Source layout in raw-extract.md:
  *   # <chapter name in Urdu>
- *   *Source: KASHKOLE, …*
+ *   *Source: WISDOM, …*
  *
  *   <!-- section 1 (id=42, raw_sort=1): الاہیت اور خلقت کا فرق -->
  *   ...content...

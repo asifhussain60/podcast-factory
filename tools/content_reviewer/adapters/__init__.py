@@ -9,7 +9,7 @@ from .urdu import UrduReviewAdapter
 from .english import EnglishReviewAdapter
 
 _REGISTRY = {
-    "kashkole": UrduReviewAdapter,
+    "wisdom": UrduReviewAdapter,
     "ksessions": EnglishReviewAdapter,
 }
 

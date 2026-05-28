@@ -28,7 +28,7 @@ Wave A is the gate — nothing in B/C/D/E lands until A is done. Within Wave A: 
 
 - `ff5f1ab` — Standing rule: plan-dashboard snapshots stay live on every plan-file edit. Three snapshots caught up to current commit. Hook script written at `.claude/hooks/plan-snapshot-regen.sh` (executable, gitignored — per-machine local state). Claude's classifier blocks editing `.claude/settings.json` so the hook is not yet registered.
 - `968636f` — Plan edits: C1 stale entry removed (Rasāʾil PDF identity resolved earlier same day), C3 hardened with live HTTP HEAD + Crossref DOI verification + 30-day SQLite cache + `--offline` flag, C4 (NotebookLM diagram capability) marked DEFERRED until after Waves A+B+C-core ship.
-- `33ebda4` — Merge of feature/kashkole-translation into develop.
+- `33ebda4` — Merge of feature/wisdom-translation into develop.
 - Earlier: see `git log --oneline -30` for full recent history.
 
 ### Manual Review Index (open blockers from the roadmap)
@@ -258,7 +258,7 @@ Append a new entry at the bottom of this section at the end of every Copilot ses
 
 - **plan.yaml / plan.md** — Wave J added (6 steps J0–J5): dual-interface server, enrichment integration, Astro API rewiring, SQLite FTS5 mirror, TopicPopover component, style guide. Roadmap snapshot: 45 → 47 steps. Commits `b2e9239` + `a9e5e48`.
 
-- **source-library rename** — `content/_shared/kashkole-corpus/` renamed to `content/_shared/source-library/`. Commit `d37d731`.
+- **source-library rename** — `content/_shared/wisdom-corpus/` renamed to `content/_shared/source-library/`. Commit `d37d731`.
 
 - **system-map.astro** — SVG viewBox extended to 820×760; Source Library Server box added (dashed blue, y=544); SQL Server LAN cluster added on right side; legend updated with SQL Server entry; hero lede updated to mention the intelligence server; stale duplicate Published Catalog bar removed.
 

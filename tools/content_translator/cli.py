@@ -1,9 +1,9 @@
 """CLI entry point.
 
 Usage:
-  python -m tools.content_translator translate kashkole --binder N --chapter M
-  python -m tools.content_translator adapt     kashkole --binder N --chapter M
-  python -m tools.content_translator seal      kashkole --binder N --chapter M --stage adapted
+  python -m tools.content_translator translate wisdom --binder N --chapter M
+  python -m tools.content_translator adapt     wisdom --binder N --chapter M
+  python -m tools.content_translator seal      wisdom --binder N --chapter M --stage adapted
   python -m tools.content_translator status
   python -m tools.content_translator status    --binder N --chapter M --format stage
 """
@@ -24,13 +24,13 @@ from .stages.seal import seal_stage
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_EXTRACT_ROOT = REPO_ROOT / "CONTENT" / "_shared" / "source-library" / "extracted"
-COST_LEDGER = REPO_ROOT / "_workspace" / "plan" / "kashkole-translation-cost-ledger.jsonl"
+COST_LEDGER = REPO_ROOT / "_workspace" / "plan" / "wisdom-translation-cost-ledger.jsonl"
 
 
 def _add_ids_args(parser: argparse.ArgumentParser, adapter_name: str) -> None:
     parser.add_argument("--shelf-id", type=int)
     parser.add_argument("--book-id", type=int)
-    if adapter_name in ("kashkole", "kahskole"):
+    if adapter_name in ("wisdom", "kashkole", "kahskole"):
         parser.add_argument("--binder", type=int, dest="shelf_id_alias")
         parser.add_argument("--chapter", type=int, dest="book_id_alias")
     elif adapter_name == "ksessions":
@@ -43,7 +43,7 @@ def _resolve_ids(args: argparse.Namespace) -> BookIds:
     book_id = args.book_id if getattr(args, "book_id", None) is not None else getattr(args, "book_id_alias", None)
     if shelf_id is None or book_id is None:
         raise SystemExit(
-            "Missing IDs. Pass --binder/--chapter (kashkole) or --shelf-id/--book-id."
+            "Missing IDs. Pass --binder/--chapter (wisdom) or --shelf-id/--book-id."
         )
     return BookIds(shelf_id=shelf_id, book_id=book_id)
 
@@ -65,7 +65,7 @@ def _status_summary(args: argparse.Namespace) -> None:
 
     if has_chapter and fmt in ("stage", "nhr"):
         ids = _resolve_ids(args)
-        bundle_root = _resolve_bundle_root("kashkole", ids, args.extract_root)
+        bundle_root = _resolve_bundle_root("wisdom", ids, args.extract_root)
         bundle_yml = bundle_root / "bundle.yml"
         if not bundle_yml.exists():
             print("unknown")
@@ -127,7 +127,7 @@ def _status_summary(args: argparse.Namespace) -> None:
 def main() -> None:
     ap = argparse.ArgumentParser(
         prog="python -m tools.content_translator",
-        description="Urdu→English translation + adaptation pipeline for kashkole bundles.",
+        description="Urdu→English translation + adaptation pipeline for wisdom bundles.",
     )
     ap.add_argument("--extract-root", type=Path, default=DEFAULT_EXTRACT_ROOT)
 
@@ -138,7 +138,7 @@ def main() -> None:
         c = cmd.add_parser(cmd_name)
         c.add_argument("--dry-run", action="store_true", default=False)
         c_sub = c.add_subparsers(dest="adapter", required=True)
-        for name in ("kashkole", "ksessions"):
+        for name in ("wisdom", "ksessions"):
             sp = c_sub.add_parser(name)
             _add_ids_args(sp, name)
 
@@ -147,7 +147,7 @@ def main() -> None:
         c = cmd.add_parser(cmd_name)
         c.add_argument("--dry-run", action="store_true", default=False)
         c_sub = c.add_subparsers(dest="adapter", required=True)
-        for name in ("kashkole", "ksessions"):
+        for name in ("wisdom", "ksessions"):
             sp = c_sub.add_parser(name)
             _add_ids_args(sp, name)
 
@@ -160,7 +160,7 @@ def main() -> None:
         help="Target stage to seal to.",
     )
     seal_sub = seal_cmd.add_subparsers(dest="adapter", required=True)
-    for name in ("kashkole", "ksessions"):
+    for name in ("wisdom", "ksessions"):
         sp = seal_sub.add_parser(name)
         _add_ids_args(sp, name)
 
@@ -234,7 +234,7 @@ def main() -> None:
             print(f"  output:     {result['output_path']}")
 
     elif args.cmd == "challenge":
-        from tools.content_challenger.kashkole.challenge_auto import challenge_bundle
+        from tools.content_challenger.wisdom.challenge_auto import challenge_bundle
         result = challenge_bundle(
             bundle_root,
             binder_id=ids.shelf_id,

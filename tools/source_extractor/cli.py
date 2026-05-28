@@ -1,8 +1,8 @@
 """CLI entry point.
 
 Usage:
-  python -m tools.source_extractor prepare kashkole --binder 1 --chapter 125
-  python -m tools.source_extractor finalize kashkole --binder 1 --chapter 125
+  python -m tools.source_extractor prepare wisdom --binder 1 --chapter 125
+  python -m tools.source_extractor finalize wisdom --binder 1 --chapter 125
 
   (KSESSIONS adapter not yet implemented — raises NotImplementedError.)
 
@@ -36,7 +36,7 @@ def _add_ids_args(parser: argparse.ArgumentParser, adapter_name: str) -> None:
         "--book-id", type=int,
         help="Generic book id (adapter-specific aliases also accepted).",
     )
-    if adapter_name in ("kashkole", "kahskole"):
+    if adapter_name in ("wisdom", "kashkole", "kahskole"):
         parser.add_argument("--binder", type=int, dest="shelf_id_alias",
                             help="Alias for --shelf-id (KAHSKOLE.BinderID).")
         parser.add_argument("--chapter", type=int, dest="book_id_alias",
@@ -74,14 +74,14 @@ def main() -> None:
     # prepare <adapter>
     p_prepare = cmd.add_parser("prepare", help="Stage A: DB → draft MD + images + vision-tasks.")
     p_prepare_sub = p_prepare.add_subparsers(dest="adapter", required=True)
-    for name in ("kashkole", "ksessions"):
+    for name in ("wisdom", "ksessions"):
         sp = p_prepare_sub.add_parser(name, help=f"{name.upper()} adapter")
         _add_ids_args(sp, name)
 
     # finalize <adapter>
     p_finalize = cmd.add_parser("finalize", help="Stage C: substitute + cleanup + emit final .md.")
     p_finalize_sub = p_finalize.add_subparsers(dest="adapter", required=True)
-    for name in ("kashkole", "ksessions"):
+    for name in ("wisdom", "ksessions"):
         sp = p_finalize_sub.add_parser(name, help=f"{name.upper()} adapter")
         _add_ids_args(sp, name)
 

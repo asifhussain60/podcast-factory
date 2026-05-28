@@ -89,21 +89,21 @@ def test_strip_arabic_clean_text_unchanged():
 
 
 def test_build_context_block_contains_header():
-    atoms = [{"id": "doctrine:kashkole:b1:ch01:0", "body": {"text_en": "Doctrine text.", "binder_slug": "b1", "chapter_slug": "ch01"}}]
+    atoms = [{"id": "doctrine:wisdom:b1:ch01:0", "body": {"text_en": "Doctrine text.", "binder_slug": "b1", "chapter_slug": "ch01"}}]
     block = _build_context_block(atoms)
     assert "[PRIOR DOCTRINAL CONTEXT" in block
     assert "Doctrine text." in block
 
 
 def test_build_context_block_contains_source():
-    atoms = [{"id": "doctrine:kashkole:b1:ch01:0", "body": {"text_en": "test", "binder_slug": "binder1", "chapter_slug": "ch01"}}]
+    atoms = [{"id": "doctrine:wisdom:b1:ch01:0", "body": {"text_en": "test", "binder_slug": "binder1", "chapter_slug": "ch01"}}]
     block = _build_context_block(atoms)
     assert "Kashkole" in block
     assert "binder1" in block
 
 
 def test_build_context_block_skips_empty_text():
-    atoms = [{"id": "doctrine:kashkole:b1:ch01:0", "body": {"text_en": "", "binder_slug": "b1"}}]
+    atoms = [{"id": "doctrine:wisdom:b1:ch01:0", "body": {"text_en": "", "binder_slug": "b1"}}]
     block = _build_context_block(atoms)
     # Block is just the header with nothing meaningful
     assert "Source:" not in block
@@ -144,16 +144,16 @@ def test_fetch_atoms_no_match(isolated_db):
 
 def test_fetch_atoms_matches_doctrine_atom(isolated_db):
     conn = get_connection()
-    _insert_doctrine_atom(conn, "doctrine:kashkole:b1:ch01:0", "Allah is One.", "tawhid")
+    _insert_doctrine_atom(conn, "doctrine:wisdom:b1:ch01:0", "Allah is One.", "tawhid")
     atoms = fetch_atoms_for_tags(["tawhid"])
     assert len(atoms) == 1
-    assert atoms[0]["id"] == "doctrine:kashkole:b1:ch01:0"
+    assert atoms[0]["id"] == "doctrine:wisdom:b1:ch01:0"
 
 
 def test_fetch_atoms_max_limit_respected(isolated_db):
     conn = get_connection()
     for i in range(5):
-        _insert_doctrine_atom(conn, f"doctrine:kashkole:b1:ch0{i}:0", f"Text {i}", "ethics")
+        _insert_doctrine_atom(conn, f"doctrine:wisdom:b1:ch0{i}:0", f"Text {i}", "ethics")
     atoms = fetch_atoms_for_tags(["ethics"], max_atoms=3)
     assert len(atoms) == 3
 
@@ -166,12 +166,12 @@ def test_fetch_atoms_only_doctrine_type(isolated_db):
         ("quran:2:255", json.dumps({"surah": 2, "ayah": 255, "text_en": "Ayat al-Kursi"})),
     )
     conn.execute("INSERT OR IGNORE INTO atom_topic_tags (atom_id, tag) VALUES (?, ?)", ("quran:2:255", "tawhid"))
-    _insert_doctrine_atom(conn, "doctrine:kashkole:b1:ch01:0", "Doctrine of Oneness", "tawhid")
+    _insert_doctrine_atom(conn, "doctrine:wisdom:b1:ch01:0", "Doctrine of Oneness", "tawhid")
     conn.commit()
     atoms = fetch_atoms_for_tags(["tawhid"])
     ids = [a["id"] for a in atoms]
     assert "quran:2:255" not in ids
-    assert "doctrine:kashkole:b1:ch01:0" in ids
+    assert "doctrine:wisdom:b1:ch01:0" in ids
 
 
 # ─── augment_episode_text integration tests ───────────────────────────────────
@@ -196,7 +196,7 @@ def test_augment_text_with_atoms_prepends_block(tmp_path, isolated_db):
     book_dir = tmp_path / "my-book"
     _meta_yml(book_dir, enabled=True)
     conn = get_connection()
-    _insert_doctrine_atom(conn, "doctrine:kashkole:b1:ch01:0", "The soul is eternal.", "eschatology")
+    _insert_doctrine_atom(conn, "doctrine:wisdom:b1:ch01:0", "The soul is eternal.", "eschatology")
     result = augment_episode_text("Episode.", book_dir, ["eschatology"])
     assert "[PRIOR DOCTRINAL CONTEXT" in result
     assert "The soul is eternal." in result
@@ -207,7 +207,7 @@ def test_augment_text_arabic_stripped(tmp_path, isolated_db):
     book_dir = tmp_path / "my-book"
     _meta_yml(book_dir, enabled=True)
     conn = get_connection()
-    _insert_doctrine_atom(conn, "doctrine:kashkole:b1:ch01:0", "\u0627\u0644\u0644\u0647 is One.", "tawhid")
+    _insert_doctrine_atom(conn, "doctrine:wisdom:b1:ch01:0", "\u0627\u0644\u0644\u0647 is One.", "tawhid")
     result = augment_episode_text("Episode.", book_dir, ["tawhid"])
     assert "\u0627\u0644\u0644\u0647" not in result
     assert "is One." in result

@@ -23,13 +23,13 @@ Three-stage pipeline per book (chapter for KAHSKOLE):
 
 ```bash
 # Stage A — DB → draft markdown + extracted PNG images + vision-tasks.json
-python3 -m tools.source_extractor prepare kashkole --binder 1 --chapter 125
+python3 -m tools.source_extractor prepare wisdom --binder 1 --chapter 125
 
 # Stage B — in-conversation Claude vision (no command; ask Claude to process
 # the vision-tasks.json file under the images/ directory)
 
 # Stage C — substitute placeholders + adapter-specific cleanup + final .md
-python3 -m tools.source_extractor finalize kashkole --binder 1 --chapter 125
+python3 -m tools.source_extractor finalize wisdom --binder 1 --chapter 125
 ```
 
 ## Layout
@@ -44,7 +44,7 @@ tools/source_extractor/
   yaml_lite.py           ← minimal YAML emit helpers
   adapters/
     base.py              ← SourceAdapter abstract interface
-    kashkole.py          ← KAHSKOLE schema + Quran cleanup + curated citations
+    wisdom.py          ← KAHSKOLE schema + Quran cleanup + curated citations
     ksessions.py         ← KSESSIONS stub
   stages/
     prepare.py           ← Stage A (adapter-generic)
@@ -82,4 +82,4 @@ step (Phase E, deferred).
 - No imports from `scripts/podcast/`.
 - No external API calls (vision is in-conversation with Claude).
 - Sole runtime dependency on `_workspace/source-library/` is the running
-  Docker container `kashkole-mssql` that the SQL dumps were restored into.
+  Docker container `wisdom-mssql` that the SQL dumps were restored into.
