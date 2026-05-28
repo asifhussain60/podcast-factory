@@ -102,7 +102,21 @@ def _default_claude_caller(prompt: str) -> tuple[int, str, str]:
 
 # ─── atom builder helpers ─────────────────────────────────────────────────────
 
-def _build_atom(raw: dict, book_slug: str, chapter_slug: str) -> dict | None:
+def _book_tradition(book_dir: Path) -> str:
+    """Read tradition_affinity from meta.yml, default 'universal'."""
+    meta_path = book_dir / "meta.yml"
+    if not meta_path.exists():
+        return "universal"
+    try:
+        import yaml  # type: ignore[import]
+        meta = yaml.safe_load(meta_path.read_text(encoding="utf-8")) or {}
+        return str(meta.get("tradition_affinity", "universal"))
+    except Exception:  # noqa: BLE001
+        return "universal"
+
+
+def _build_atom(raw: dict, book_slug: str, chapter_slug: str,
+                tradition: str = "universal") -> dict | None:
     """Convert raw LLM output to a validated Atom dict. Returns None on failure."""
     atom_type = raw.get("type")
     try:
@@ -132,6 +146,7 @@ def _build_atom(raw: dict, book_slug: str, chapter_slug: str) -> dict | None:
             "id": atom_id,
             "type": atom_type,
             "body": body,
+            "tradition": tradition,
             "confidence": float(raw.get("confidence", 1.0)),
             "needs_review": float(raw.get("confidence", 1.0)) < R_KNOWLEDGE_EXTRACTOR_CONFIDENCE_THRESHOLD,
             "first_seen": {"book": book_slug, "chapter": chapter_slug},
@@ -208,6 +223,7 @@ def extract_atoms_for_book(
     system_dir = book_dir / "_system"
     system_dir.mkdir(parents=True, exist_ok=True)
     scratch_path = system_dir / SCRATCH_FILENAME
+    tradition = _book_tradition(book_dir)
 
     chapter_files = sorted(chapters_dir.glob("*.txt")) if chapters_dir.exists() else []
     summary = ExtractionSummary(book_slug=book_slug, scratch_path=scratch_path)
@@ -229,6 +245,9 @@ def extract_atoms_for_book(
                 summary.errors.append(f"{chapter_slug}: {ch_result.error}")
 
             for atom in ch_result.atoms:
+                # Stamp tradition from book meta if atom doesn't already have it
+                if "tradition" not in atom:
+                    atom["tradition"] = tradition
                 fh.write(json.dumps(atom, ensure_ascii=False) + "\n")
                 atom_type = atom.get("type", "unknown")
                 summary.atoms_extracted[atom_type] = (

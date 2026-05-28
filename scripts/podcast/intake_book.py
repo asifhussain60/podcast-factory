@@ -130,6 +130,7 @@ def _intake_from_pdf(
         "book_slug": slug,
         "source_path": str(dst_pdf.relative_to(REPO_ROOT)),
         "source_kind": "pdf",
+        "input_type": "pdf",
         "phase": "preflight",
         "phase_status": "pending",
         "last_completed_phase": None,
@@ -326,11 +327,95 @@ def _intake_from_bundle(
         _info(f"    1. python3 scripts/podcast/orchestrate_book.py --resume {slug}")
         _info(f"    2. Pipeline picks up at Phase 0b (refine).")
     else:
-        _info(
-            f"    Phase 0a-translate is not yet implemented "
-            f"(Phase E of the source-extractor work)."
-        )
+        _info(f"    Phase 0a-translate is not yet implemented "
+             f"(Phase E of the source-extractor work).")
         _info(f"    State is recorded; orchestrator will halt on translate until ready.")
+    return 0
+
+
+# ---- Audio-transcript intake (Wave I, I1) -----------------------------------
+
+def _intake_from_audio_transcript(
+    transcript_path: str, slug: str, force: bool, no_branch: bool,
+    category: str = "books",
+    companion_source_path: str | None = None,
+    source_fidelity: str = "verbatim",
+) -> int:
+    """Intake a clean English transcript from an audio source (lecture, talk, etc.).
+
+    Skips Phase 0a (OCR) — the transcript IS the extracted text.
+    Starts pipeline at Phase 0b (refine).
+
+    source_fidelity: "verbatim" | "edited" | "summary"
+    """
+    _validate_slug(slug)
+
+    src = Path(transcript_path).expanduser()
+    if not src.is_absolute():
+        for candidate in [RAW_DIR / src, Path.cwd() / src, REPO_ROOT / src]:
+            if candidate.exists():
+                src = candidate
+                break
+    if not src.exists():
+        _die(f"transcript not found: {transcript_path}")
+
+    book_dir = WORKSPACE_BOOKS / slug
+    _info(f"==> Creating workspace at {book_dir.relative_to(REPO_ROOT)}")
+    _create_skeleton(book_dir, force)
+    _info(f"    Skeleton dirs: {', '.join(SKELETON_DIRS)}")
+
+    dst_transcript = book_dir / "_system" / "source" / "text" / src.name
+    dst_transcript.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(src, dst_transcript)
+    _info(f"    Copied transcript → {dst_transcript.relative_to(REPO_ROOT)}")
+
+    # Also copy companion source if provided
+    companion_dst = None
+    if companion_source_path:
+        companion_src = Path(companion_source_path).expanduser()
+        if companion_src.exists():
+            companion_dst = book_dir / "_system" / "source" / "text" / companion_src.name
+            shutil.copy2(companion_src, companion_dst)
+            _info(f"    Copied companion → {companion_dst.relative_to(REPO_ROOT)}")
+
+    state = {
+        "schema_version": 1,
+        "book_slug": slug,
+        "source_path": str(dst_transcript.relative_to(REPO_ROOT)),
+        "source_kind": "audio-transcript",
+        "input_type": "audio-transcript",
+        "source_language": "en",
+        "source_fidelity": source_fidelity,
+        "companion_source_path": (
+            str(companion_dst.relative_to(REPO_ROOT)) if companion_dst else None
+        ),
+        "phase": "0b",
+        "phase_status": "pending",
+        "last_completed_phase": "0a",
+        "last_error": None,
+        "category": category,
+        "started": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "updated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "phases": {
+            "0a": {
+                "completed_via": "audio-transcript-intake",
+                "completed_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+                "note": "Phase 0a skipped — source is a pre-extracted transcript",
+            }
+        },
+        "intake_via": "scripts/podcast/intake_book.py --from-transcript",
+    }
+    state_path = book_dir / "_system" / "orchestrator-state.json"
+    state_path.write_text(json.dumps(state, indent=2) + "\n")
+    _info(f"    state.json: phase=0b, last_completed_phase=0a (0a skipped — transcript)")
+
+    if not no_branch:
+        _create_branch(category, slug)
+
+    _info("")
+    _info(f"==> DONE. Next steps:")
+    _info(f"    1. python3 scripts/podcast/orchestrate_book.py --resume {slug}")
+    _info(f"    2. Pipeline starts at Phase 0b (refine). Phase 0a (OCR) was skipped.")
     return 0
 
 
@@ -350,6 +435,23 @@ def main() -> int:
     parser.add_argument(
         "--from-bundle", dest="from_bundle", metavar="PATH",
         help="Intake a source-extractor bundle directory instead of a PDF.",
+    )
+    parser.add_argument(
+        "--from-transcript", dest="from_transcript", metavar="PATH",
+        help=(
+            "Wave I (I1): Intake a pre-extracted English transcript from an audio source. "
+            "Skips Phase 0a (OCR) and starts at Phase 0b (refine). "
+            "Use --slug to set the book slug."
+        ),
+    )
+    parser.add_argument(
+        "--companion", dest="companion_source", metavar="PATH", default=None,
+        help="Optional companion source file for audio-transcript intake (e.g. a PDF companion).",
+    )
+    parser.add_argument(
+        "--source-fidelity", dest="source_fidelity",
+        choices=["verbatim", "edited", "summary"], default="verbatim",
+        help="For --from-transcript: how closely the transcript matches the original audio.",
     )
     parser.add_argument(
         "--slug", dest="slug_flag",
@@ -372,8 +474,6 @@ def main() -> int:
 
     if args.from_bundle:
         if args.pdf_path is not None and args.slug is None:
-            # The user passed a single positional with --from-bundle — treat
-            # it as a slug override (the more common intent).
             args.slug_flag = args.slug_flag or args.pdf_path
         return _intake_from_bundle(
             bundle_path=args.from_bundle,
@@ -381,6 +481,20 @@ def main() -> int:
             category_override=args.category_flag,
             force=args.force,
             no_branch=args.no_branch,
+        )
+
+    if args.from_transcript:
+        if not args.slug_flag and not args.slug:
+            _die("--from-transcript requires --slug <book-slug>.")
+        slug = args.slug_flag or args.slug
+        return _intake_from_audio_transcript(
+            transcript_path=args.from_transcript,
+            slug=slug,
+            force=args.force,
+            no_branch=args.no_branch,
+            category=args.category_flag or "books",
+            companion_source_path=args.companion_source,
+            source_fidelity=args.source_fidelity,
         )
 
     # PDF intake — require both positionals

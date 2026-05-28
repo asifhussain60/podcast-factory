@@ -428,7 +428,7 @@ flowchart LR
 
 # Wave I · Intelligence Pipeline — Audio Intake, Noise Routing, Tradition-Aware KB, Source Review Gate, Phase 11g
 
-> **Status: NOT STARTED.** Locked decisions at [`_workspace/plan/intelligence/locked-decisions.md`](../intelligence/locked-decisions.md). Depends on Wave B (KB schema). Parallel with any Wave that does not touch Phase 04–06 or the PHASE_ORDER constant.
+> **Status: COMPLETED 2026-05-28.** Locked decisions at [`_workspace/plan/intelligence/locked-decisions.md`](../intelligence/locked-decisions.md). All 8 steps (I0a–I6) delivered and 51 tests passing.
 
 Wave I extends the pipeline in five coordinated areas, preceded by two retroactive repair steps on existing shipped books:
 

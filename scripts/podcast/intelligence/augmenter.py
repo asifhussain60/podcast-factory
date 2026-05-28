@@ -42,6 +42,7 @@ def augment_episode_text(
     topic_tags: Sequence[str] | None = None,
     *,
     max_atoms: int = _MAX_ATOMS_DEFAULT,
+    tradition: str | None = None,
 ) -> str:
     """Prepend a doctrine-context block to episode text.
 
@@ -68,7 +69,8 @@ def augment_episode_text(
     if not tags:
         return episode_text
 
-    atoms = _fetch_doctrine_atoms(tags, max_atoms=max_atoms)
+    book_tradition = tradition or _book_tradition(book_dir)
+    atoms = _fetch_doctrine_atoms(tags, max_atoms=max_atoms, tradition=book_tradition)
     if not atoms:
         return episode_text
 
@@ -79,12 +81,15 @@ def augment_episode_text(
 def fetch_atoms_for_tags(
     tags: Sequence[str],
     max_atoms: int = _MAX_ATOMS_DEFAULT,
+    tradition: str | None = None,
 ) -> list[dict]:
     """Return a list of doctrine atom dicts matching any of the given tags.
 
     Only returns atoms where needs_review = 0 (high-confidence, approved).
+    Filters by tradition: only atoms whose tradition matches ``tradition`` or
+    is 'universal' are returned.
     """
-    return _fetch_doctrine_atoms(list(tags), max_atoms=max_atoms)
+    return _fetch_doctrine_atoms(list(tags), max_atoms=max_atoms, tradition=tradition or "universal")
 
 
 # ─── internal helpers ─────────────────────────────────────────────────────────
@@ -103,6 +108,19 @@ def _augmentation_enabled(book_dir: Path) -> bool:
         return R_KNOWLEDGE_AUGMENTER_DEFAULT_ENABLED
 
 
+def _book_tradition(book_dir: Path) -> str:
+    """Read tradition_affinity from meta.yml. Default: 'universal'."""
+    meta_path = book_dir / "meta.yml"
+    if not meta_path.exists():
+        return "universal"
+    try:
+        import yaml  # type: ignore[import]
+        meta = yaml.safe_load(meta_path.read_text(encoding="utf-8")) or {}
+        return str(meta.get("tradition_affinity", "universal"))
+    except Exception:  # noqa: BLE001
+        return "universal"
+
+
 def _book_tags(book_dir: Path) -> list[str]:
     """Read `knowledge_tags` from meta.yml as fallback topic list."""
     meta_path = book_dir / "meta.yml"
@@ -116,10 +134,11 @@ def _book_tags(book_dir: Path) -> list[str]:
         return []
 
 
-def _fetch_doctrine_atoms(tags: list[str], *, max_atoms: int) -> list[dict]:
+def _fetch_doctrine_atoms(tags: list[str], *, max_atoms: int, tradition: str = "universal") -> list[dict]:
     """Query DB for doctrine atoms tagged with any of the given tags.
 
-    Only atoms with needs_review = 0 are returned.
+    Filters by tradition: returns atoms where tradition = <tradition> OR
+    tradition = 'universal'.  This prevents cross-tradition injection.
     """
     if not tags:
         return []
@@ -131,11 +150,12 @@ def _fetch_doctrine_atoms(tags: list[str], *, max_atoms: int) -> list[dict]:
         FROM atoms a
         JOIN atom_topic_tags t ON t.atom_id = a.id
         WHERE a.type = 'doctrine'
+          AND (a.tradition = ? OR a.tradition = 'universal')
           AND t.tag IN ({placeholders})
         ORDER BY a.id
         LIMIT ?
         """,
-        (*tags, max_atoms),
+        (tradition, *tags, max_atoms),
     ).fetchall()
     result = []
     for atom_id, body_json in rows:

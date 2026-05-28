@@ -104,15 +104,17 @@ def _classify_and_write(conn, atom: dict, book_slug: str) -> str:
 
     if row is None:
         # NEW
+        tradition = str(atom.get("tradition", "universal"))
         conn.execute(
             """INSERT INTO atoms
-                   (id, type, body, first_seen_book, first_seen_chapter,
+                   (id, type, body, tradition, first_seen_book, first_seen_chapter,
                     first_seen_date, confidence)
-               VALUES (?, ?, ?, ?, ?, ?, ?)""",
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
             (
                 atom_id,
                 atom_type,
                 json.dumps(incoming_body, ensure_ascii=False),
+                tradition,
                 book_slug,
                 chapter_id,
                 datetime.now(timezone.utc).strftime("%Y-%m-%d"),

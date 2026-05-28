@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-28T22:00:12.518Z",
-  "source_commit": "c9faa6b",
+  "generated_at": "2026-05-28T22:35:56.598Z",
+  "source_commit": "2c51494",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -485,7 +485,7 @@
       "id": "I0a",
       "wave": "I",
       "title": "Retroactive noise annotation — AI pre-marks existing chapters; human reviews in reader UI",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [],
       "plain": "",
@@ -495,7 +495,7 @@
       "id": "I0b",
       "wave": "I",
       "title": "Style rewrite pass -- AI rewrites surviving content in Asif's teaching voice",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "I0a"
@@ -507,7 +507,7 @@
       "id": "I1",
       "wave": "I",
       "title": "Audio intake — input_type branch in Phase 04 (pdf / audio-transcript / mixed)",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [],
       "plain": "",
@@ -517,7 +517,7 @@
       "id": "I2",
       "wave": "I",
       "title": "Noise routing — two-pass: zero-cost rule pre-pass then Sonnet for ambiguous survivors only",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "I1"
@@ -529,7 +529,7 @@
       "id": "I3",
       "wave": "I",
       "title": "Tradition-aware knowledge base — tradition field on all atom types; B2.1 schema patch",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "I1"
@@ -541,7 +541,7 @@
       "id": "I4",
       "wave": "I",
       "title": "Source Review Gate — Phase 06a (Haiku) before per-chapter authoring",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "I2",
@@ -554,7 +554,7 @@
       "id": "I5",
       "wave": "I",
       "title": "Book Review unified astro view — Source Review Gate (06a) + Publish Review Gate (finalize)",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "I4"
@@ -566,7 +566,7 @@
       "id": "I6",
       "wave": "I",
       "title": "Phase 11g per-chapter optimiser — Claude Sonnet after authoring, before 0g dual-auditor",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "I4"
@@ -783,6 +783,16 @@
   ],
   "recent_commits": [
     {
+      "sha": "2c51494",
+      "subject": "docs(handoff): session log 2026-05-28 — Wave K gate, rename completion, full site audit",
+      "date": "2026-05-28"
+    },
+    {
+      "sha": "3a6755f",
+      "subject": "fix(plan-labels): rename Kashkole → Wisdom in all display-facing plan text",
+      "date": "2026-05-28"
+    },
+    {
       "sha": "c9faa6b",
       "subject": "fix(quality-page): handle flat-dict baseline JSON format; guard allChapters reduce",
       "date": "2026-05-28"
@@ -804,7 +814,7 @@
     },
     {
       "sha": "472de6f",
-      "subject": "fix(dashboard): rename all remaining Wisdom display strings to Wisdom",
+      "subject": "fix(dashboard): rename all remaining Kashkole display strings to Wisdom",
       "date": "2026-05-28"
     },
     {
@@ -820,16 +830,6 @@
     {
       "sha": "56f9aa8",
       "subject": "feat(dashboard): add Source Library Server (Wave J) to all architecture diagrams",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "a9e5e48",
-      "subject": "plan: revise Wave J — dual-interface server, FTS5 mirror, Astro editor integration (J0-J5)",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "b2e9239",
-      "subject": "plan: add Wave J — Source Library (MCP server + live query access for 3 source databases)",
       "date": "2026-05-28"
     }
   ],

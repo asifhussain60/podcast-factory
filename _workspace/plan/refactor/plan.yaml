@@ -1638,7 +1638,7 @@ waves_ghj:
 
   - id: I
     name: Intelligence Pipeline — Audio Intake, Noise Routing, Tradition-Aware KB, Source Review Gate, Phase 11g
-    execution_status: not_started
+    execution_status: completed
     parallel_with: []
     depends_on: [B]
     summary: |
@@ -1697,7 +1697,7 @@ waves_ghj:
         authorization: tier_one
         branch: "feature/wave-i-retroactive-annotation"
         cost_estimate_usd: 3
-        execution_status: not_started
+        execution_status: completed
         execution_notes:
           - "2026-05-28 discussion: reader UI (ParagraphAnnotationBar.tsx + AnnotationWorkbench.tsx) already supports all required tag types."
           - "Noise type characterised per book: M&D = additive (pipeline added editorial); KaR = condensed (content dropped + framing added)."
@@ -1745,7 +1745,7 @@ waves_ghj:
         authorization: tier_two
         branch: "feature/wave-i-style-rewrite"
         cost_estimate_usd: 5
-        execution_status: not_started
+        execution_status: completed
         execution_notes:
           - "2026-05-28 discussion: KSessions.sql on disk at CONTENT/_shared/source-library/KSessions.sql (gitignored, 29MB, SQL Server UTF-16 LE format)."
           - "VS Code MSSQL extension installed (ms-mssql.mssql); AHHOME profile saved (192.168.1.158, KSESSIONS_DEV)."
@@ -1777,7 +1777,7 @@ waves_ghj:
         authorization: tier_one
         branch: "feature/wave-i-audio-intake"
         cost_estimate_usd: 2
-        execution_status: not_started
+        execution_status: completed
 
       - id: I2
         title: "Noise routing — two-pass: zero-cost rule pre-pass then Sonnet for ambiguous survivors only"
@@ -1817,7 +1817,7 @@ waves_ghj:
         authorization: tier_one
         branch: "feature/wave-i-noise-routing"
         cost_estimate_usd: 0
-        execution_status: not_started
+        execution_status: completed
 
       - id: I3
         title: "Tradition-aware knowledge base — tradition field on all atom types; B2.1 schema patch"
@@ -1846,7 +1846,7 @@ waves_ghj:
         authorization: tier_one
         branch: "feature/wave-i-tradition-kb"
         cost_estimate_usd: 0
-        execution_status: not_started
+        execution_status: completed
 
       - id: I4
         title: "Source Review Gate — Phase 06a (Haiku) before per-chapter authoring"
@@ -1876,7 +1876,7 @@ waves_ghj:
         authorization: tier_two
         branch: "feature/wave-i-source-review-gate"
         cost_estimate_usd: 1
-        execution_status: not_started
+        execution_status: completed
 
       - id: I5
         title: "Book Review unified astro view — Source Review Gate (06a) + Publish Review Gate (finalize)"
@@ -1903,7 +1903,7 @@ waves_ghj:
         authorization: tier_one
         branch: "feature/wave-i-book-review-view"
         cost_estimate_usd: 0
-        execution_status: not_started
+        execution_status: completed
 
       - id: I6
         title: "Phase 11g per-chapter optimiser — Claude Sonnet after authoring, before 0g dual-auditor"
@@ -1931,7 +1931,7 @@ waves_ghj:
         authorization: tier_two
         branch: "feature/wave-i-phase-11g"
         cost_estimate_usd: 1
-        execution_status: not_started
+        execution_status: completed
 
 # ===========================================================================
 # WAVE J — Source Library (Dual-Interface Server + Live Editor Integration)

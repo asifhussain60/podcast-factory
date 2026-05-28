@@ -388,6 +388,27 @@ def abbreviations_for_build() -> dict[str, str]:
     return out
 
 
+# ─── Wave I — Noise routing constants ────────────────────────────────────
+# Protected categories: paragraphs matching these are NEVER offered to either
+# noise-routing pass. They are exempt from deletion candidates entirely.
+R_NOISE_PROTECTED_CATEGORIES: frozenset[str] = frozenset({
+    "esoteric", "reality", "quran", "hadith", "poetry", "sharia",
+    "ta_wil", "haqaiq", "daqaiq",
+})
+
+# Structural noise patterns for Pass 1 (zero-cost rule pre-pass).
+# Each tuple: (compiled pattern, reason label).
+import re as _re
+R_NOISE_RULE_PATTERNS: list[tuple] = [
+    (_re.compile(r"^(In the name of|Bismillah|As-salamu|Assalamu)", _re.I),     "greeting-opener"),
+    (_re.compile(r"where (this|the) (chapter|session|lecture) (picks up|continues)", _re.I), "editorial-pickup"),
+    (_re.compile(r"^(Dear (brothers|sisters)|Dear (brothers and sisters))", _re.I), "lecture-greeting"),
+    (_re.compile(r"^(Thank you|Thanks be to (God|Allah)|We thank)", _re.I),     "boilerplate-thanks"),
+    (_re.compile(r"(as we (discussed|mentioned|covered) (in the )?(previous|last))", _re.I), "recap-reference"),
+    (_re.compile(r"^(To (recap|summarise|summarize)|To put it another way)", _re.I), "redundant-recap"),
+    (_re.compile(r"\[Narrator.*?preamble\]|\[Editorial.*?note\]", _re.I),       "editorial-preamble"),
+]
+
 # ─── Wave B — Intelligence layer budget constants ─────────────────────────
 # These are read by intelligence/extractor.py and intelligence/augmenter.py.
 # Max per-chapter cost for the atom extractor (Claude Sonnet structured call).

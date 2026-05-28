@@ -63,9 +63,11 @@ PHASES = (
     "0c",       # Arabic phonetic pass (LLM)
     "0d",       # Chapter design (LLM)
     "0e",       # Enrichment (LLM)
+    "06a",      # Wave I — source review gate (human approval before series plan)
     "0f",       # Series plan halt (deterministic write + human gate)
     "0g",       # Register series (deterministic)
     "per-chapter",  # iterated across the chapter list on --resume
+    "per-chapter-optimize",  # Wave I — Sonnet arc/format check per chapter
     "per-chapter-slides",  # optional; gated by series.enable_slide_decks. Per-chapter slide-deck authoring + slide-deck-challenger convergence. Skipped (status="skipped") when flag is false.
     "finalize",     # G1-G7 quality gates + human review halt before publish
     "trainer",

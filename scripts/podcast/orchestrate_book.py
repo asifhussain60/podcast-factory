@@ -151,8 +151,12 @@ from phases.initial_driver import run_initial, _drive_authoring_through_0f  # no
 # Canonical phase order — used by run_resume and pinned by regression test.
 CANONICAL_PHASES: tuple[str, ...] = (
     "pre-flight", "branch", "scaffold",
-    "0a", "0b", "0c", "0d", "0e", "0f", "0g",
-    "per-chapter", "per-chapter-slides",
+    "0a", "0b", "0c", "0d", "0e",
+    "06a",          # Wave I — source review gate (human approval before series plan)
+    "0f", "0g",
+    "per-chapter",
+    "per-chapter-optimize",  # Wave I — Sonnet arc/format check after authoring
+    "per-chapter-slides",
     "finalize", "publish", "trainer", "merge", "done",
 )
 
