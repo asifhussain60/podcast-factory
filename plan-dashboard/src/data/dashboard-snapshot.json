@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-28T17:11:26.566Z",
-  "source_commit": "0b8dc364",
+  "generated_at": "2026-05-28T17:32:02.952Z",
+  "source_commit": "670abff8",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -620,6 +620,16 @@
   ],
   "recent_commits": [
     {
+      "sha": "670abff8",
+      "subject": "chore: add architecture diagram brief, intelligence pipeline discussion, update knowledge-base stats",
+      "date": "2026-05-28"
+    },
+    {
+      "sha": "7539fd81",
+      "subject": "feat(H3): cross-wave autonomous execution chain driver",
+      "date": "2026-05-28"
+    },
+    {
       "sha": "0b8dc364",
       "subject": "docs: session handoff 2026-05-28 — Wave I + R4-R6 fixes",
       "date": "2026-05-28"
@@ -657,16 +667,6 @@
     {
       "sha": "221f1c04",
       "subject": "chore(workspace): add inbox dump folder",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "c3372fa5",
-      "subject": "chore(workspace): add test-strategy folder for live test-case discussion",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "d2bbfd65",
-      "subject": "chore(handoff): session log entry — A4 complete, _authoring/ package shipped",
       "date": "2026-05-28"
     }
   ],

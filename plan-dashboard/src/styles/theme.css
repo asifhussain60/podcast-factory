@@ -64,6 +64,35 @@
   /* Section accent — Planner path (slate blue, not used elsewhere) */
   --c-planner: #1a5c8a;
 
+  /* Diagram colour layer — architecture/security/trust-boundary diagrams */
+  --c-diag-local:     #4a7c4a;   /* teal-green: local / pipeline-controlled flow */
+  --c-diag-managed:   #c08020;   /* amber: managed external credential / service */
+  --c-diag-external:  #a83232;   /* red: outside pipeline control, risk surface */
+  --c-diag-verified:  #2d6a2d;   /* deep green: mitigated / passed gate */
+  --c-diag-gate:      #7c4d14;   /* dark amber-brown: human halt gate */
+  --c-diag-bg:        #f2ede3;   /* diagram card background */
+  --c-diag-zone:      rgba(31, 29, 24, 0.05);  /* trust-zone fill */
+  --c-diag-zone-stroke: rgba(31, 29, 24, 0.18);
+
+  /* Pipeline phase kind colours (swimlane) */
+  --c-kind-mechanical: #5a7fa0;  /* steel blue: deterministic, zero LLM cost */
+  --c-kind-agentic:    #7a4fa0;  /* purple: LLM-driven */
+  --c-kind-hybrid:     #3d7a5a;  /* teal-green: mix of model + rules */
+  --c-kind-gate:       #a0602d;  /* terracotta: human halt */
+
+  /* Model tier colours (swimlane annotations) */
+  --c-model-opus:    #5b2fa0;    /* deep purple: Opus (highest cost) */
+  --c-model-sonnet:  #2952a0;    /* navy: Sonnet (mid-cost) */
+  --c-model-haiku:   #1a7a5a;    /* teal: Haiku (low-cost) */
+  --c-model-gemini:  #1a62d4;    /* Google blue: Gemini */
+  --c-model-azure:   #0068b8;    /* Azure blue */
+  --c-model-none:    #87827a;    /* muted: no model / mechanical */
+
+  /* Token volume gradient (swimlane) */
+  --c-tokens-low:  rgba(74, 124, 74, 0.15);
+  --c-tokens-mid:  rgba(192, 128, 32, 0.18);
+  --c-tokens-high: rgba(168, 50, 50, 0.18);
+
   /* Spacing & shape */
   --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
   --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px;
@@ -2479,4 +2508,97 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
   .catalog-grid   { grid-template-columns: 1fr; }
   .intel-cards    { grid-template-columns: 1fr; }
 }
+
+/* ── L1 → L2 boundary divider (shared by architecture + security pages) ── */
+
+.l1-l2-boundary {
+  margin: var(--sp-7) 0 var(--sp-6);
+  border-top: 2px solid var(--c-rule);
+  position: relative;
+}
+.l1-l2-boundary-inner {
+  background: var(--c-bg-sunken);
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-lg);
+  padding: var(--sp-4) var(--sp-5);
+  margin-top: var(--sp-5);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-4);
+}
+.l1-l2-label {
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--c-ink-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding-top: 2px;
+  flex-shrink: 0;
+}
+.l1-l2-sub {
+  font-size: var(--fs-sm);
+  color: var(--c-ink-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ── Security hotspots table (used on security.astro) ─────────── */
+
+.security-hotspots { overflow-x: auto; }
+.hotspots-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+}
+.hotspots-table th {
+  text-align: left;
+  padding: var(--sp-2) var(--sp-3);
+  background: var(--c-bg-sunken);
+  border-bottom: 2px solid var(--c-rule);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted);
+}
+.hotspots-table td {
+  padding: var(--sp-2) var(--sp-3);
+  border-bottom: 1px solid var(--c-rule-soft);
+  vertical-align: top;
+  line-height: 1.5;
+}
+.hotspots-table tr.hs-attention td { background: rgba(168,50,50,0.04); }
+.hotspots-table tr.hs-warn td      { background: rgba(192,128,32,0.04); }
+.hotspots-table tr.hs-ok td        { background: rgba(74,124,74,0.04); }
+.hs-badge {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.hs-sec  { background: rgba(168,50,50,0.15);  color: var(--c-red); }
+.hs-cost { background: rgba(192,128,32,0.15); color: var(--c-amber); }
+.hs-arch { background: rgba(26,92,138,0.12);  color: var(--c-planner); }
+.hs-ok   { background: rgba(74,124,74,0.12);  color: var(--c-green); }
+
+/* ── Infrastructure trust callout card ────────────────────────── */
+.trust-callout {
+  border-left: 3px solid var(--c-green);
+  margin-bottom: var(--sp-5);
+}
+.trust-callout-inner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-3);
+}
+.trust-callout-inner > i {
+  color: var(--c-green);
+  font-size: 20px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
 

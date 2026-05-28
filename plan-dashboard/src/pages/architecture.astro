@@ -2,9 +2,15 @@
 import Base from '../layouts/Base.astro';
 import PipelineSpine from '../components/PipelineSpine.tsx';
 import LayerStack from '../components/LayerStack.tsx';
+import PhaseSwimlaneDiagram from '../components/PhaseSwimlaneDiagram.tsx';
 import arch from '../data/architecture-snapshot.json';
 ---
 <Base title="Architecture" active="architecture" section="architecture">
+
+  <!-- ══════════════════════════════════════════════════════════════
+       L1 — EXECUTIVE LAYER
+       Any reader should understand the value and scope within 90 seconds.
+  ═══════════════════════════════════════════════════════════════════ -->
 
   <!-- KPI stat strip -->
   <div class="stat-strip">
@@ -41,23 +47,81 @@ import arch from '../data/architecture-snapshot.json';
   <header class="page-hero">
     <div class="page-hero-inner">
       <span class="eyebrow">Architecture</span>
-      <h1 class="page-hero-title">The factory floor, top to bottom.</h1>
+      <h1 class="page-hero-title">From a book to a podcast — step by step.</h1>
       <p class="page-hero-lede">
-        A book enters at station one. A finished podcast series leaves at the bottom. Between them sit eleven
-        stations, each doing one well-scoped job. The stations are fixed — every book passes through every station in
-        the same order. What changes between books is which <em>modules</em> plug into each station.
+        Drop in a book. The factory reads it, teaches itself the vocabulary, plans the episodes,
+        enriches them with verified knowledge, writes the narrator framing, reviews everything for quality,
+        and waits for your approval twice before anything ships.
+        Two human checkpoints are built in. Nothing publishes without your sign-off.
       </p>
     </div>
   </header>
 
+  <!-- L1: Three plain-language callouts -->
+  <section class="grid-3">
+    <div class="card card-tight">
+      <i class="fa-solid fa-route" aria-hidden="true" style="color: var(--c-green); font-size: 20px; margin-bottom: 8px;"></i>
+      <strong>Fixed stations, swappable rules</strong>
+      <p class="small muted">
+        Every book passes through the same {arch.phases.filter((p: any) => p.kind !== 'gate').length} production stations in the same order.
+        What differs between a scholarly text and a lecture series is the set of rules each station activates — not the pipeline itself.
+      </p>
+    </div>
+    <div class="card card-tight">
+      <i class="fa-solid fa-hand" aria-hidden="true" style="color: var(--c-amber); font-size: 20px; margin-bottom: 8px;"></i>
+      <strong>Two built-in review gates</strong>
+      <p class="small muted">
+        After vocabulary and source analysis (before expensive AI runs) and before anything is published,
+        the pipeline stops and waits for you. No content moves forward without your explicit approval.
+      </p>
+    </div>
+    <div class="card card-tight">
+      <i class="fa-solid fa-layer-group" aria-hidden="true" style="color: var(--c-accent); font-size: 20px; margin-bottom: 8px;"></i>
+      <strong>Six-layer codebase</strong>
+      <p class="small muted">
+        Foundation, style, intelligence, authoring, stations, driver.
+        A layer can only call down, never sideways. Adding a new vendor or rule set never touches the foundation.
+      </p>
+    </div>
+  </section>
+
   <section class="stack">
     <h2>The pipeline as a timeline</h2>
     <p>
-      Scroll the right column to walk through the eleven stations a book passes through. The mini-rail on the left
-      keeps track of where you are and lets you jump anywhere. Each station has its full detail right where it sits
-      — what plugs in, which agent does the work, what that agent knows and doesn't do.
+      Walk through every station a book passes through. The mini-rail keeps track of where you are.
+      Each station shows what plugs in, which agent does the work, and what the agent knows and won't do.
     </p>
     <PipelineSpine phases={arch.phases} modules={arch.modules} agents={arch.agents} client:load />
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       L1 → L2 BOUNDARY
+       A reader who stops here has a complete executive picture.
+  ═══════════════════════════════════════════════════════════════════ -->
+  <div class="l1-l2-boundary">
+    <div class="l1-l2-boundary-inner">
+      <span class="l1-l2-label">Architect detail below</span>
+      <p class="l1-l2-sub">
+        The pipeline view above shows today's stations. The sections below go deeper:
+        the future-state phase sequence with model and cost annotations, the six code layers,
+        book kind registry, and the design decisions that govern all of it.
+      </p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       L2 — ARCHITECT LAYER
+  ═══════════════════════════════════════════════════════════════════ -->
+
+  <section class="stack" aria-label="L2 architect detail">
+    <h2>Future-state phase sequence — model &amp; cost annotation</h2>
+    <p>
+      The swimlane below maps every planned station with the AI model it uses, the service it calls,
+      and its token cost tier. Stations marked <strong>FUTURE</strong> are designed and tracked in the
+      roadmap but not yet deployed. The two <strong>✋ HUMAN HALT</strong> gates are the hard
+      checkpoints where the pipeline waits for your approval.
+    </p>
+    <PhaseSwimlaneDiagram client:visible />
   </section>
 
   <hr />

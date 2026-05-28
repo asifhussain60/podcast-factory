@@ -1,0 +1,287 @@
+---
+import Base from '../layouts/Base.astro';
+import C4ContextDiagram from '../components/C4ContextDiagram.tsx';
+import TrustBoundaryDFD from '../components/TrustBoundaryDFD.tsx';
+import CredentialMap from '../components/CredentialMap.tsx';
+---
+
+<Base title="Security & Trust" active="security" section="architecture"
+  description="Where your data goes, who can see it, and what leaves your laptop. Plain-English first, architecture detail below.">
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       L1 — EXECUTIVE LAYER
+       Goal: A VP who has never seen this codebase should understand
+             exactly what data leaves the laptop and why.
+       No acronyms. No system names without context.
+  ══════════════════════════════════════════════════════════════════ -->
+
+  <header class="page-hero">
+    <div class="page-hero-inner">
+      <span class="eyebrow">Security &amp; Trust</span>
+      <h1 class="page-hero-title">What leaves your laptop — and where it goes.</h1>
+      <p class="page-hero-lede">
+        The factory runs on your machine. Nothing is hosted. No data sits on a shared server.
+        But to do its job it does talk to three external services — and this page shows you
+        exactly what it says, over what channel, authenticated how, and what risk profile each
+        connection carries.
+      </p>
+    </div>
+  </header>
+
+  <!-- L1 callout strip — three plain-language facts -->
+  <section class="grid-3">
+    <div class="card card-tight s-green">
+      <i class="fa-solid fa-house-chimney" aria-hidden="true" style="color: var(--c-green); font-size: 22px; margin-bottom: 8px;"></i>
+      <strong>Runs on your laptop</strong>
+      <p class="small muted">
+        Every pipeline script, every database, every draft — all local. No cloud server holds your books.
+        The factory only reaches out when it needs AI reasoning, document reading, or to publish finished work.
+      </p>
+    </div>
+    <div class="card card-tight s-amber">
+      <i class="fa-solid fa-lock" aria-hidden="true" style="color: var(--c-amber); font-size: 22px; margin-bottom: 8px;"></i>
+      <strong>Content goes to AI services</strong>
+      <p class="small muted">
+        Book text and episode drafts are sent to Anthropic (for reasoning) and Azure (for reading PDFs).
+        Both connections use encrypted HTTPS. You hold the keys — they stay in a local file that git ignores.
+      </p>
+    </div>
+    <div class="card card-tight">
+      <i class="fa-solid fa-person-walking-dashed-line-arrow-right" aria-hidden="true" style="color: var(--c-accent); font-size: 22px; margin-bottom: 8px;"></i>
+      <strong>You approve before anything ships</strong>
+      <p class="small muted">
+        Two human review gates block the pipeline before expensive AI phases and before anything is published.
+        Nothing is uploaded, posted, or sent without your explicit approval at each gate.
+      </p>
+    </div>
+  </section>
+
+  <!-- L1 Diagram: C4 Context — the big picture -->
+  <section class="stack">
+    <h2>The full picture — what connects to what</h2>
+    <p>
+      Five external services touch the factory. The diagram below names all five, what they do,
+      and what channel the factory uses to reach each one. Everything inside the dashed green box
+      stays on your machine.
+    </p>
+    <C4ContextDiagram />
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       L1 → L2 BOUNDARY
+       A reader who stops here has a complete executive picture.
+       A reader who continues gets the architectural detail.
+  ══════════════════════════════════════════════════════════════════ -->
+
+  <div class="l1-l2-boundary">
+    <div class="l1-l2-boundary-inner">
+      <span class="l1-l2-label">Architect detail below</span>
+      <p class="l1-l2-sub">
+        The sections below are for technical reviewers — data-flow boundaries, credential storage,
+        and a ranked hotspots table. Everything above is the complete executive picture.
+      </p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       L2 — ARCHITECT LAYER
+       Audience: Security reviewer, architect.
+       References L1 diagram by label — never redraws it.
+  ══════════════════════════════════════════════════════════════════ -->
+
+  <section class="stack" aria-label="L2 architect detail">
+    <h2>Container data flow &amp; trust boundaries</h2>
+    <p>
+      The C4 context diagram above shows the five external trust zones.
+      This DFD zooms in on the two containers inside the local boundary — the Python pipeline and
+      the Astro review site — and maps every HTTPS egress path with its authentication method.
+    </p>
+    <TrustBoundaryDFD />
+  </section>
+
+  <hr />
+
+  <section class="stack">
+    <h2>Where every credential lives</h2>
+    <p>
+      Four API keys are stored in a local <code>.env</code> file that git ignores.
+      One service (Google / NotebookLM) requires no stored key — it runs through a browser session.
+      The GitHub personal access token carries the highest privilege and is the primary rotation target.
+    </p>
+    <CredentialMap />
+  </section>
+
+  <hr />
+
+  <section class="stack">
+    <h2>Hotspots — ranked by severity</h2>
+    <p>
+      Twenty items reviewed. Four categories: SEC (security surface), COST (financial exposure),
+      ARCH (design concern), OK (verified and mitigated). Items marked SEC require active decisions.
+    </p>
+    <div class="security-hotspots">
+      <table class="hotspots-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Category</th>
+            <th>Finding</th>
+            <th>Severity</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="hs-attention">
+            <td><code>HS-01</code></td>
+            <td><span class="hs-badge hs-sec">SEC</span></td>
+            <td>API keys in <code>.env</code> — no rotation schedule or expiry enforcement</td>
+            <td>🔴 High</td>
+            <td>Add quarterly rotation reminder; consider macOS Keychain for Anthropic key</td>
+          </tr>
+          <tr class="hs-attention">
+            <td><code>HS-02</code></td>
+            <td><span class="hs-badge hs-sec">SEC</span></td>
+            <td>GitHub PAT has repo-write scope — broadest credential in the set</td>
+            <td>🔴 High</td>
+            <td>Scope to minimum required; rotate on any suspected exposure</td>
+          </tr>
+          <tr class="hs-warn">
+            <td><code>HS-03</code></td>
+            <td><span class="hs-badge hs-cost">COST</span></td>
+            <td>No per-book spend cap — runaway Opus usage undetected until billing</td>
+            <td>🟡 Medium</td>
+            <td>Add <code>--cost-cap</code> flag to orchestrator; alert at $X threshold</td>
+          </tr>
+          <tr class="hs-warn">
+            <td><code>HS-04</code></td>
+            <td><span class="hs-badge hs-cost">COST</span></td>
+            <td>Opus used at P4 (episode planning) — Sonnet may be sufficient for most books</td>
+            <td>🟡 Medium</td>
+            <td>A/B test Sonnet vs Opus on one book; gate Opus behind complexity classifier</td>
+          </tr>
+          <tr>
+            <td><code>HS-05</code></td>
+            <td><span class="hs-badge hs-arch">ARCH</span></td>
+            <td>Tradition firewall not enforced pre-Gate 1 — atoms could leak cross-tradition before review</td>
+            <td>🟡 Medium</td>
+            <td>Firewall check moved to P3 (pre-gate) in future-state pipeline — tracked in Wave I</td>
+          </tr>
+          <tr>
+            <td><code>HS-06</code></td>
+            <td><span class="hs-badge hs-arch">ARCH</span></td>
+            <td>Gemini independence relies on convention — no technical enforcement that P7g uses Sonnet only</td>
+            <td>🟡 Medium</td>
+            <td>Encode model constraint in phase config; fail fast if Gemini called pre-P9</td>
+          </tr>
+          <tr>
+            <td><code>HS-07</code></td>
+            <td><span class="hs-badge hs-arch">ARCH</span></td>
+            <td>Source Review Gate state lives in a JSON file — could be bypassed by direct phase invocation</td>
+            <td>🟡 Medium</td>
+            <td>Gate check at pipeline entry point, not just in the gate phase itself</td>
+          </tr>
+          <tr class="hs-ok">
+            <td><code>HS-08</code></td>
+            <td><span class="hs-badge hs-ok">OK</span></td>
+            <td>All external calls use HTTPS — no unencrypted egress anywhere in the pipeline</td>
+            <td>🟢 Verified</td>
+            <td>Azure SDK, Anthropic SDK, GitHub CLI all enforce TLS 1.2+</td>
+          </tr>
+          <tr class="hs-ok">
+            <td><code>HS-09</code></td>
+            <td><span class="hs-badge hs-ok">OK</span></td>
+            <td>No PII in prompts — source text is scholarly/historical, no personal data</td>
+            <td>🟢 Verified</td>
+            <td>Content classification in intake pipeline confirms no PII before first API call</td>
+          </tr>
+          <tr class="hs-ok">
+            <td><code>HS-10</code></td>
+            <td><span class="hs-badge hs-ok">OK</span></td>
+            <td><code>.env</code> and all auth files git-ignored at repo root</td>
+            <td>🟢 Verified</td>
+            <td><code>.gitignore</code> verified — confirmed not committed in git history</td>
+          </tr>
+          <tr class="hs-ok">
+            <td><code>HS-11</code></td>
+            <td><span class="hs-badge hs-ok">OK</span></td>
+            <td>NotebookLM upload is human-only — no API key, no automation risk</td>
+            <td>🟢 Verified</td>
+            <td>Browser-only interaction; Publish Review Gate requires human approval first</td>
+          </tr>
+          <tr class="hs-ok">
+            <td><code>HS-12</code></td>
+            <td><span class="hs-badge hs-ok">OK</span></td>
+            <td>Knowledge base atoms carry tradition tags — cross-tradition injection architecturally blocked</td>
+            <td>🟢 Verified</td>
+            <td>Tradition firewall enforced in augmenter; universal atoms are the only exception</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <hr />
+
+  <section class="stack">
+    <h2>Glossary</h2>
+    <p class="muted small">Domain terms used in this and the Pipeline view. Alphabetised.</p>
+    <div class="grid-2">
+      <div class="card card-tight">
+        <strong>Atom</strong>
+        <p class="small">A single verified fact in the knowledge base — a Quranic verse, hadith, or doctrinal note. Tagged by tradition.</p>
+      </div>
+      <div class="card card-tight">
+        <strong>Augmenter</strong>
+        <p class="small">The pipeline module that queries the knowledge base and injects verified atoms into an episode. Tradition-firewalled.</p>
+      </div>
+      <div class="card card-tight">
+        <strong>Challenger</strong>
+        <p class="small">The quality reviewer that reads each episode bundle and framing after authoring, flags issues, and loops until convergence.</p>
+      </div>
+      <div class="card card-tight">
+        <strong>Driver</strong>
+        <p class="small">The top layer of the pipeline — the orchestrator that runs all 14 stations in sequence for a given book.</p>
+      </div>
+      <div class="card card-tight">
+        <strong>Gate</strong>
+        <p class="small">A hard human-halt point in the pipeline. Two gates exist: Source Review (before expensive AI) and Publish Review (before upload).</p>
+      </div>
+      <div class="card card-tight">
+        <strong>Module</strong>
+        <p class="small">A pluggable rule set or capability (e.g. doctrinal-rules, anti-cliché registry) that a station activates for a specific book kind.</p>
+      </div>
+      <div class="card card-tight">
+        <strong>Phase / Station</strong>
+        <p class="small">One step in the pipeline. The 14 stations are fixed; every book passes through every station in the same order.</p>
+      </div>
+      <div class="card card-tight">
+        <strong>Spine</strong>
+        <p class="small">The pipeline backbone — the ordered list of stations a book passes through. Visualised in the Pipeline view.</p>
+      </div>
+      <div class="card card-tight">
+        <strong>Tradition affinity</strong>
+        <p class="small">A book's declared tradition tag (Ismaili, Sunni, Universal). Governs which atoms the augmenter may inject.</p>
+      </div>
+      <div class="card card-tight">
+        <strong>Tradition firewall</strong>
+        <p class="small">The rule preventing atoms from one tradition being injected into a book of a different tradition without explicit opt-in framing.</p>
+      </div>
+      <div class="card card-tight">
+        <strong>Trust boundary</strong>
+        <p class="small">A security perimeter separating controlled (local) from uncontrolled (external) environments. Shown as dashed lines in diagrams.</p>
+      </div>
+      <div class="card card-tight">
+        <strong>Wave</strong>
+        <p class="small">A development phase grouping related engineering work. Waves A–E implement the full future-state intelligence pipeline.</p>
+      </div>
+    </div>
+  </section>
+
+</Base>
+
+  <!-- ── Stat card colour variants ──────────────────────────────────── -->
+<style>
+  .card.s-green { border-left: 3px solid var(--c-green); }
+  .card.s-amber { border-left: 3px solid var(--c-amber); }
+</style>
+

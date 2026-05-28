@@ -10,15 +10,36 @@ const alltimeTotal = sumAllVendorField(infra.vendors, 'alltime_cost_usd');
 const callsTotal   = sumAllVendorField(infra.vendors, 'calls_30d');
 ---
 <Base title="What it runs on" active="infrastructure" section="architecture">
+
+  <!-- ══════════════════════════════════════════════════════════════
+       L1 — EXECUTIVE LAYER
+  ═══════════════════════════════════════════════════════════════════ -->
+
   <header class="stack">
     <span class="eyebrow">What it runs on</span>
     <h1>The toolbox behind the factory.</h1>
     <p class="lede">
-      The factory itself is a few hundred Python files running on a laptop. The heavy lifting is done by three
-      outside services. Below is the full set, what each one is used for, and what the running bill looks like. Hover
-      any service for the per-month spend, the total since we started, and a chart of daily usage.
+      The factory itself runs entirely on your laptop — no hosted server, no shared environment.
+      Three outside services do the heavy lifting: Azure reads PDFs, Anthropic does all the reasoning,
+      and NotebookLM voices the finished episodes. Below is the full set, what each one is used for,
+      and what the running bill looks like.
     </p>
   </header>
+
+  <!-- Trust boundary callout — plain-language, links to security detail -->
+  <div class="card card-tight trust-callout">
+    <div class="trust-callout-inner">
+      <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+      <div>
+        <strong>Data stays on your machine — except what you explicitly send.</strong>
+        <p class="small muted">
+          Book content goes to Anthropic (for reasoning) and Azure (for PDF reading), both over encrypted HTTPS.
+          Google / NotebookLM is browser-only — nothing is sent automatically.
+          No cloud server holds your drafts. <a href="/security">See the full security &amp; trust breakdown →</a>
+        </p>
+      </div>
+    </div>
+  </div>
 
   <section class="grid-3">
     <div class="card metric">
@@ -60,7 +81,25 @@ const callsTotal   = sumAllVendorField(infra.vendors, 'calls_30d');
     <InfraColumns vendors={infra.vendors} client:load />
   </section>
 
-  <section class="stack">
+  <!-- ══════════════════════════════════════════════════════════════
+       L1 → L2 BOUNDARY
+  ═══════════════════════════════════════════════════════════════════ -->
+  <div class="l1-l2-boundary">
+    <div class="l1-l2-boundary-inner">
+      <span class="l1-l2-label">Technical detail below</span>
+      <p class="l1-l2-sub">
+        The spend numbers and service descriptions above are the complete executive picture.
+        Below: the annotation handoff infrastructure and a breakdown of how the bill flows
+        through the factory's four cost layers.
+      </p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       L2 — ARCHITECT LAYER
+  ═══════════════════════════════════════════════════════════════════ -->
+
+  <section class="stack" aria-label="L2 technical detail">
     <h2>The annotation handoff infrastructure</h2>
     <p>
       Reader annotations now flow through a two-layer handoff: a local queue for instant interaction and a durable

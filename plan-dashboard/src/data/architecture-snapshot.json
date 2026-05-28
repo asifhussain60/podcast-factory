@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-28T17:11:26.593Z",
-  "source_commit": "0b8dc364",
+  "generated_at": "2026-05-28T17:32:02.979Z",
+  "source_commit": "670abff8",
   "generator": "podcast-planner agent",
   "phases": [
     {
@@ -8,42 +8,95 @@
       "name": "Read the book",
       "kind": "mechanical",
       "agent": null,
-      "plain": "Take the original PDF, recognize every page, translate any non-English text. The system reads it cover to cover so everything that follows works from a clean text version.",
+      "plain": "Read the source — whatever form it arrives in. PDFs go through Azure Document Intelligence: every page recognised, Arabic script preserved, footnotes separated. Audio lectures go through Turboscribe in native-language mode, then Azure Translator with a tradition-specific glossary so technical terms like ta'wil and haqaiq reach the pipeline intact. Mixed sources run both paths and merge before the next station.",
       "duration_minutes": 10,
       "modules": [
         "azure-document-intelligence",
-        "azure-translator"
+        "azure-translator",
+        "ismaili-glossary"
+      ],
+      "input_types": [
+        "pdf",
+        "audio-transcript",
+        "mixed"
+      ],
+      "services": [
+        {
+          "vendor": "azure",
+          "name": "Document Intelligence",
+          "path": "pdf"
+        },
+        {
+          "vendor": "azure",
+          "name": "Translator + Glossary",
+          "path": "audio-transcript"
+        }
       ]
     },
     {
       "id": "P1",
+      "name": "Strip the noise",
+      "kind": "hybrid",
+      "agent": null,
+      "plain": "Every source carries baggage — historical background, chains of narration, scholarly apparatus, lecture filler. A model-driven routing layer strips it intelligently: Haiku handles obvious structural patterns, Sonnet reviews ambiguous passages, Gemini handles tradition-specific idioms it knows well. Nothing is fixed-pattern. What survives is pure teaching content. A noise log is written so you can audit what was removed.",
+      "duration_minutes": 6,
+      "modules": [
+        "noise-router",
+        "doctrinal-rules"
+      ],
+      "model_routing": "Haiku → obvious | Sonnet → ambiguous | Gemini → tradition-specific"
+    },
+    {
+      "id": "P2",
       "name": "Polish the text",
       "kind": "agentic",
       "agent": "polish-author",
-      "plain": "Clean up the recognized text, fix obvious errors, normalize formatting. This is the gentle pass that turns scanned-PDF noise into a readable manuscript.",
+      "plain": "Clean and normalize the stripped text — fix OCR artefacts, align sentence breaks, standardize transliterations. Arabic-origin technical terms are preserved verbatim; the pipeline never attempts to translate ta'wil or haqaiq into paraphrases.",
       "duration_minutes": 6,
       "modules": [
         "doctrinal-rules"
       ]
     },
     {
-      "id": "P2",
+      "id": "P3",
       "name": "Learn the names",
       "kind": "hybrid",
       "agent": "phonetic-author",
-      "plain": "Identify every person, place, and technical term in the book, then build a pronunciation guide so the narrator says everything correctly. The pronunciation guide is saved as a separate sidecar so a reader can see the original Arabic alongside the English at any time.",
+      "plain": "Every preserved Arabic and Urdu term gets a pronunciation guide — mandatory for any book with Ismaili or Sufi vocabulary. The phonetics sidecar travels with every episode bundle so the narrator never guesses. Pre-gate analysis runs here too, checking that each chapter has a teachable core before the review gate opens.",
       "duration_minutes": 12,
       "modules": [
         "phonetic-glossary",
-        "doctrinal-rules"
+        "doctrinal-rules",
+        "pre-gate-analyzer"
       ]
     },
     {
-      "id": "P3",
+      "id": "P3g",
+      "name": "Source Review Gate",
+      "kind": "gate",
+      "agent": null,
+      "plain": "The pipeline halts. The astro site shows you every chapter, the noise-stripped log, vocabulary coverage warnings, and any structural gaps flagged by the pre-gate analysis. You read, edit source files directly in podcast-reader, come back and approve. Only when all warnings clear — or you override them with a reason — does the pipeline continue. No expensive phases run on content you haven't vetted.",
+      "duration_minutes": 0,
+      "modules": [],
+      "gate_type": "source_review",
+      "gate_file": "_system/review-gate.json",
+      "protects": [
+        "P4",
+        "P5",
+        "P6",
+        "P7",
+        "P7g",
+        "P8",
+        "P9",
+        "P10"
+      ]
+    },
+    {
+      "id": "P4",
       "name": "Plan the episodes",
       "kind": "agentic",
       "agent": "podcast-blueprint",
-      "plain": "Look at the book's shape and decide what becomes a single episode versus what should be merged or split. A book's chapters are rarely the right size for a podcast — this step re-draws the boundaries.",
+      "plain": "Source chapters are pooled into a single de-structured corpus — chapter and section boundaries from the original are discarded. The blueprint agent classifies the book and re-slices the content into ~30-minute episodes governed by learning arc, not source organisation. Each episode must close a teaching loop: hook → core teaching → worked example → application → bridge to next episode.",
       "duration_minutes": 20,
       "modules": [
         "archetype-registry",
@@ -51,50 +104,64 @@
       ]
     },
     {
-      "id": "P4",
+      "id": "P5",
       "name": "Enrich with context",
       "kind": "agentic",
       "agent": "podcast-orchestrator",
-      "plain": "For each episode, gather the supporting context the narrator will need: who the speakers are, what makes this passage special, what comes before and after. Notes are added without altering the source.",
+      "plain": "For each episode, gather supporting context the narrator will need. A tradition firewall governs what enters: Ismaili books only receive Ismaili-tradition atoms; Sunni books receive Sunni atoms; universal atoms (shared across traditions) are always available. The augmenter never injects content from a conflicting tradition without an explicit opt-in framing note.",
       "duration_minutes": 18,
       "modules": [
         "context-injection",
-        "anti-cliche-registry"
-      ]
-    },
-    {
-      "id": "P5",
-      "name": "Bring in outside knowledge",
-      "kind": "agentic",
-      "agent": "podcast-orchestrator",
-      "plain": "Add carefully-sourced material from outside the book itself — historical context, modern research, cross-references — only where it strengthens an episode without distorting the original voice.",
-      "duration_minutes": 15,
-      "modules": [
-        "augmenter",
-        "doctrinal-rules"
+        "anti-cliche-registry",
+        "tradition-firewall"
       ]
     },
     {
       "id": "P6",
+      "name": "Bring in outside knowledge",
+      "kind": "agentic",
+      "agent": "podcast-orchestrator",
+      "plain": "The knowledge base — Quranic verses, hadith, and doctrinal atoms, all tagged by tradition — is queried for each episode. Missing citations are flagged and added to the knowledge base when verified, compounding accuracy across every future book. Incomplete books are processed from what exists; the intelligence layer supplements depth, never invents missing content.",
+      "duration_minutes": 15,
+      "modules": [
+        "augmenter",
+        "doctrinal-rules",
+        "knowledge-base"
+      ]
+    },
+    {
+      "id": "P7",
       "name": "Cut the chapter pieces",
       "kind": "mechanical",
       "agent": null,
-      "plain": "Slice the polished book text into the pieces NotebookLM will read, one bundle per episode. Each bundle is self-contained and ready to upload.",
+      "plain": "Slice the approved, enriched content into self-contained bundles — one per episode — ready for NotebookLM upload. Each bundle carries the source text, pronunciation sidecar, and enrichment notes as a single package.",
       "duration_minutes": 4,
       "modules": []
     },
     {
-      "id": "P7",
+      "id": "P7f",
       "name": "Write the narrator framing",
       "kind": "agentic",
       "agent": "podcast-orchestrator",
-      "plain": "Write the short briefing that goes in NotebookLM's Customize box for each episode — telling the two AI hosts what to talk about, what to emphasize, what to avoid.",
+      "plain": "Write the Customize-box briefing for each episode — the short instruction that tells the two AI hosts what to discuss, what to emphasise, what to avoid, and which host leads. Host roles are assigned consistently across the series; they never flip between episodes.",
       "duration_minutes": 22,
       "modules": [
         "archetype-registry",
         "anti-cliche-registry",
         "doctrinal-rules"
       ]
+    },
+    {
+      "id": "P7g",
+      "name": "Optimize for teaching",
+      "kind": "agentic",
+      "agent": null,
+      "plain": "Claude Sonnet reviews each authored chapter before the auditor sees it. Three checks: host-role consistency (roles never flip mid-series), teaching arc validation (hook → teaching → example → application → bridge), and NotebookLM format hygiene (no markdown artefacts, no over-long monologue paragraphs, no heading-driven narration). Sonnet is used — not Gemini — so Gemini remains a genuinely independent auditor in the next phase.",
+      "duration_minutes": 8,
+      "modules": [
+        "consistency-optimizer"
+      ],
+      "model": "claude-sonnet"
     },
     {
       "id": "P8",
@@ -112,7 +179,7 @@
       "name": "Audit and converge",
       "kind": "agentic",
       "agent": "podcast-challenger",
-      "plain": "An automated reviewer reads every bundle and every framing, flags problems, sends them back to be fixed, then re-reads. Loops until the book either passes or needs a human call.",
+      "plain": "Two independent reviewers — Claude Challenger and Gemini second-opinion — read every bundle and framing. Gemini's independence is preserved because it did not touch the content in P7g. Loops until the book passes or a finding needs a human call. Up to five passes per chapter, fifteen across the full cycle.",
       "duration_minutes": 30,
       "modules": [
         "challenger"
@@ -120,12 +187,14 @@
     },
     {
       "id": "P10",
-      "name": "Ship to the catalog",
-      "kind": "hybrid",
+      "name": "Publish Review Gate",
+      "kind": "gate",
       "agent": "podcast-publisher",
-      "plain": "Once everything passes, move the finished book from the workshop into the public catalog and merge the working branch back to the main line.",
+      "plain": "The pipeline halts a second time. The same astro site view now shows the fully authored product: episode list, challenger findings, optimization summary, and the NotebookLM upload checklist. You cannot edit source here — changes go back to source files and re-run from the affected phase. When you approve, the book moves to the published catalog and the working branch merges back.",
       "duration_minutes": 3,
-      "modules": []
+      "modules": [],
+      "gate_type": "publish_review",
+      "gate_file": "_system/review-gate.json"
     }
   ],
   "agents": [
