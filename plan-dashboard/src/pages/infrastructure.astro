@@ -86,7 +86,7 @@ const callsTotal   = sumAllVendorField(infra.vendors, 'calls_30d');
   <p>UML-style deployment diagram showing what runs locally, what calls out over HTTPS, and how each external service connects. Dashed lines denote trust-zone boundaries.</p>
 
   <div class="topo-wrap">
-    <svg class="topo-svg" viewBox="0 0 960 520" xmlns="http://www.w3.org/2000/svg" role="img"
+    <svg class="topo-svg" viewBox="0 0 960 620" xmlns="http://www.w3.org/2000/svg" role="img"
          aria-label="Deployment topology: your machine on the left, external services on the right">
       <defs>
         <marker id="topo-ah"            viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,1 L9,5 L0,9 Z" fill="#87827a"/></marker>
@@ -106,7 +106,7 @@ const callsTotal   = sumAllVendorField(infra.vendors, 'calls_30d');
       </defs>
 
       <!-- YOUR MACHINE ZONE -->
-      <rect class="topo-zone topo-zone-machine" x="12" y="12" width="440" height="496" rx="10"
+      <rect class="topo-zone topo-zone-machine" x="12" y="12" width="440" height="596" rx="10"
             fill="url(#lg-machine)" stroke="#4a7c4a" stroke-dasharray="8 5" stroke-width="1.5"/>
       <text class="topo-zone-label" x="232" y="34">YOUR MACHINE</text>
 
@@ -169,8 +169,17 @@ const callsTotal   = sumAllVendorField(infra.vendors, 'calls_30d');
       <text style="font: 16px serif; fill: var(--c-ink)" x="232" y="480" text-anchor="middle">You</text>
       <text class="topo-box-sub" x="232" y="500" text-anchor="middle">Operator — 2 human gates</text>
 
+      <!-- Source Library Server -->
+      <rect class="topo-box" x="28" y="514" width="408" height="78" rx="7" filter="url(#topo-sh)"/>
+      <rect x="28" y="514" width="408" height="28" rx="7" fill="rgba(91,141,217,0.12)"/>
+      <rect x="28" y="530" width="408" height="12" fill="rgba(91,141,217,0.12)"/>
+      <text class="topo-box-title" x="232" y="531" text-anchor="middle">Source Library Server</text>
+      <text class="topo-box-sub"   x="232" y="546" text-anchor="middle">:4390 · MCP stdio (pipeline) + HTTP REST (reader)</text>
+      <text class="topo-svc" x="232" y="570" text-anchor="middle">scripts/mcp/source_library_server.py · FastAPI + MCP · SQLite mirror FTS5</text>
+      <text class="topo-svc" x="232" y="584" text-anchor="middle">quran_lookup · word_etymology · topic_search · session_style_fetch</text>
+
       <!-- EXTERNAL SERVICES ZONE -->
-      <rect class="topo-zone" x="464" y="12" width="484" height="496" rx="10"
+      <rect class="topo-zone" x="464" y="12" width="484" height="596" rx="10"
             stroke="#87827a" stroke-dasharray="6 4" stroke-width="1.5" fill="rgba(135,130,122,0.025)"/>
       <text class="topo-zone-label" x="706" y="34">EXTERNAL SERVICES</text>
 
@@ -213,6 +222,22 @@ const callsTotal   = sumAllVendorField(infra.vendors, 'calls_30d');
       <text class="topo-svc-title" x="822" y="261" text-anchor="middle">origin/develop + origin/main</text>
       <text class="topo-svc-sub2"  x="822" y="277" text-anchor="middle">Content catalog · SSH push</text>
 
+      <!-- SQL Server LAN cluster -->
+      <rect x="478" y="314" width="456" height="100" rx="8" fill="rgba(91,141,217,0.05)" stroke="#5b8dd9" stroke-width="1.2" stroke-dasharray="5 3"/>
+      <text class="topo-cluster-lbl" x="490" y="334" fill="#5b8dd9">SQL Server · 192.168.1.158 · home network (LAN only)</text>
+      <rect class="topo-svc-box" x="490" y="340" width="130" height="64" rx="4"/>
+      <text class="topo-svc-title" x="555" y="363" text-anchor="middle">KQUR</text>
+      <text class="topo-svc-sub2"  x="555" y="377" text-anchor="middle">6,236 verses</text>
+      <text class="topo-svc-sub2"  x="555" y="391" text-anchor="middle">roots + etymology</text>
+      <rect class="topo-svc-box" x="630" y="340" width="140" height="64" rx="4"/>
+      <text class="topo-svc-title" x="700" y="363" text-anchor="middle">KASHKOLE</text>
+      <text class="topo-svc-sub2"  x="700" y="377" text-anchor="middle">corpus + glossary</text>
+      <text class="topo-svc-sub2"  x="700" y="391" text-anchor="middle">term index</text>
+      <rect class="topo-svc-box" x="780" y="340" width="142" height="64" rx="4"/>
+      <text class="topo-svc-title" x="851" y="363" text-anchor="middle">KSESSIONS</text>
+      <text class="topo-svc-sub2"  x="851" y="377" text-anchor="middle">343 transcripts</text>
+      <text class="topo-svc-sub2"  x="851" y="391" text-anchor="middle">FTS5 search</text>
+
       <!-- ARROWS: engine to Azure (bidirectional) — arc above boxes through top corridor -->
       <path class="topo-arr" stroke="#0078d4" d="M224,58 C310,30 446,30 478,60"
             marker-end="url(#topo-ah-azure)" marker-start="url(#topo-ah-rev-azure)"/>
@@ -238,6 +263,12 @@ const callsTotal   = sumAllVendorField(infra.vendors, 'calls_30d');
       <path fill="none" stroke="var(--c-rule)" stroke-width="1" stroke-dasharray="4 3"
             d="M240,100 L224,100" marker-end="url(#topo-ah)"/>
       <text class="topo-proto" x="215" y="95" text-anchor="end">file://</text>
+
+      <!-- Source Library Server → SQL Server LAN (bidirectional) -->
+      <path fill="none" stroke="#5b8dd9" stroke-width="1.5" stroke-dasharray="6 4"
+            d="M436,553 C450,553 464,364 478,364"
+            marker-end="url(#topo-ah-azure)" marker-start="url(#topo-ah-rev-azure)"/>
+      <text class="topo-proto" x="458" y="465">SQL / LAN</text>
     </svg>
   </div>
 </section>
@@ -414,6 +445,16 @@ const callsTotal   = sumAllVendorField(infra.vendors, 'calls_30d');
         <li><code>challenger_findings</code> — P0/P1/P2 findings per chapter, fix status, and iteration count</li>
       </ul>
       <div class="db-grp-note">Challenger findings feed the convergence loop and the cross-book health scores in the Bookshelf.</div>
+    </div>
+    <div class="db-overview-group" style="--grp-color: #5b8dd9">
+      <div class="db-grp-header"><span class="db-grp-icon">⚡</span><strong>Source Library Mirror</strong><span class="db-grp-count">4 tables</span><span class="db-grp-wave">Wave J</span></div>
+      <ul class="db-grp-tables">
+        <li><code>fts_quran</code> — FTS5: Arabic + Pickthall + Asad + Urdu full-text</li>
+        <li><code>fts_topics</code> — FTS5: Kashkole topic data full-text search</li>
+        <li><code>fts_sessions</code> — FTS5: 343 lecture transcripts</li>
+        <li><code>term_index</code> — unified term lookup with etymology, tradition, source</li>
+      </ul>
+      <div class="db-grp-note">mirror.db — separate from knowledge.db. Gitignored, &lt;50 MB. Auto-populated from SQL Server on first sync. Zero token cost per lookup.</div>
     </div>
     <div class="db-overview-group db-grp-future" style="--grp-color: #5b8dd9">
       <div class="db-grp-header"><span class="db-grp-icon">🌿</span><strong>Etymology</strong><span class="db-grp-count">3 tables</span><span class="db-grp-wave">Wave 3</span></div>

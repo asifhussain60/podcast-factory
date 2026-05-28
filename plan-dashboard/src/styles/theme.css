@@ -2436,7 +2436,7 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 /* Intelligence cards */
 .intel-cards {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: var(--sp-5);
   margin-top: var(--sp-5);
 }
@@ -2452,6 +2452,7 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 .intel-card-quran  { --intel-color: var(--c-accent); }
 .intel-card-hadith { --intel-color: var(--c-gold); }
 .intel-card-corpus { --intel-color: var(--c-planner); }
+.intel-card-reader { --intel-color: var(--c-green); }
 .intel-card-icon {
   width: 44px; height: 44px;
   border-radius: var(--r-lg);
@@ -2502,6 +2503,7 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
   .home-hero-visual { display: none; }
   .pipeline-steps { grid-template-columns: repeat(2, 1fr); }
   .catalog-grid   { grid-template-columns: repeat(2, 1fr); }
+  .intel-cards    { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 680px) {
   .pipeline-steps { grid-template-columns: 1fr; }

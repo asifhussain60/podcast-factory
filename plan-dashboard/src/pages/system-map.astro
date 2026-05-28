@@ -8,9 +8,10 @@ import Base from '../layouts/Base.astro';
       <span class="eyebrow">System Map</span>
       <h1 class="page-hero-title">Every actor, every connection.</h1>
       <p class="page-hero-lede">
-        A scholarly book enters at the top. A published podcast exits at the bottom.
+              A scholarly book enters at the top. A published podcast exits at the bottom.
         Between them: four pipeline stages on your machine, three cloud services doing the heavy lifting,
-        and a growing knowledge store that makes each new book smarter than the last.
+        a shared knowledge store that makes each new book smarter than the last,
+        and a local intelligence server that puts 6,000+ Quran verses and a scholarly corpus at your fingertips — instantly, at zero token cost.
       </p>
     </div>
   </header>
@@ -19,7 +20,7 @@ import Base from '../layouts/Base.astro';
     <div class="map-wrap">
       <svg
         class="actor-map"
-        viewBox="0 0 820 614"
+        viewBox="0 0 820 760"
         xmlns="http://www.w3.org/2000/svg"
         role="img"
         aria-label="System actor map: inputs at the top feed into four pipeline stages on your machine (left), which call Azure, Anthropic Claude, Google Gemini, and NotebookLM (right) to produce published podcast episodes at the bottom"
@@ -46,6 +47,12 @@ import Base from '../layouts/Base.astro';
           <marker id="ah-gold" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
             <path d="M0,1 L9,5 L0,9 Z" fill="#b8860b"/>
           </marker>
+          <marker id="ah-sqlsrv" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0,1 L9,5 L0,9 Z" fill="#5b8dd9"/>
+          </marker>
+          <marker id="ah-rev-sqlsrv" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M0,1 L9,5 L0,9 Z" fill="#5b8dd9"/>
+          </marker>
           <marker id="ah-rev-azure" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
             <path d="M0,1 L9,5 L0,9 Z" fill="#0078d4"/>
           </marker>
@@ -62,8 +69,8 @@ import Base from '../layouts/Base.astro';
         <text class="col-lbl" x="659" y="16" text-anchor="middle">External services</text>
 
         <!-- ZONE BORDERS -->
-        <rect class="zone zone-machine"  x="8"   y="24" width="482" height="530" rx="8"/>
-        <rect class="zone zone-services" x="506" y="24" width="306" height="530" rx="8"/>
+        <rect class="zone zone-machine"  x="8"   y="24" width="482" height="672" rx="8"/>
+        <rect class="zone zone-services" x="506" y="24" width="306" height="672" rx="8"/>
 
         <!-- INPUTS (top row, inside machine zone) -->
         <rect class="box-input" x="20"  y="36" width="150" height="52" rx="6" filter="url(#card-sh)"/>
@@ -114,12 +121,32 @@ import Base from '../layouts/Base.astro';
         <path class="arr-knowledge" d="M244,408 V422" marker-end="url(#ah-gold)"/>
 
         <!-- KNOWLEDGE STORE -->
-        <rect class="box-knowledge" x="20" y="422" width="452" height="118" rx="5" filter="url(#card-sh)"/>
-        <text class="know-title" x="246" y="450" text-anchor="middle">Knowledge Store</text>
-        <text class="know-desc"  x="246" y="470" text-anchor="middle">Quran verses and hadith extracted from every processed book.</text>
-        <text class="know-desc"  x="246" y="488" text-anchor="middle">Later books draw on this memory to enrich their own chapters.</text>
-        <text class="know-note"  x="246" y="508" text-anchor="middle">SQLite database, shared across all books.</text>
-        <text class="know-note"  x="246" y="524" text-anchor="middle">Grows richer with every book the factory processes.</text>
+        <rect class="box-knowledge" x="20" y="422" width="452" height="108" rx="5" filter="url(#card-sh)"/>
+        <text class="know-title" x="246" y="448" text-anchor="middle">Knowledge Store</text>
+        <text class="know-desc"  x="246" y="468" text-anchor="middle">Quran verses and hadith extracted from every processed book.</text>
+        <text class="know-desc"  x="246" y="486" text-anchor="middle">Later books draw on this memory to enrich their own chapters.</text>
+        <text class="know-note"  x="246" y="503" text-anchor="middle">SQLite database, shared across all books. Grows richer with every book processed.</text>
+
+        <!-- Arrow from Knowledge Store to Source Library Server -->
+        <path class="arr-knowledge" d="M244,530 V544" marker-end="url(#ah-gold)"/>
+
+        <!-- SOURCE LIBRARY SERVER -->
+        <rect class="box-source-lib" x="20" y="544" width="452" height="130" rx="5" filter="url(#card-sh)"/>
+        <text class="src-lib-title" x="246" y="568" text-anchor="middle">Source Library Server · port 4390</text>
+        <text class="src-lib-sub"   x="246" y="586" text-anchor="middle">MCP stdio (pipeline agents) + HTTP REST (Astro reader) · same query layer</text>
+        <text class="know-desc"     x="246" y="606" text-anchor="middle">KQUR: 6,236 verses, Arabic + 4 translations, roots, derivatives, etymology</text>
+        <text class="know-desc"     x="246" y="622" text-anchor="middle">KASHKOLE: scholarly anthology, glossary, 18-type topic taxonomy, term index</text>
+        <text class="know-note"     x="246" y="640" text-anchor="middle">KSESSIONS: 343 lecture transcripts · FTS5 search · zero token cost · sub-ms lookup</text>
+
+        <!-- Dashed arrow: Stage 3 → Source Library Server (live fallback path) -->
+        <path class="arr arr-src-lib-fallback"
+          d="M20,295 C8,295 6,611 20,611"
+          marker-end="url(#ah-gold)"/>
+        <text class="src-lib-edge-lbl" x="7" y="455" text-anchor="middle" transform="rotate(-90 7 455)">live fallback</text>
+
+        <!-- PUBLISHED CATALOG -->
+        <rect class="box-output" x="8" y="692" width="804" height="36" rx="5"/>
+        <text class="output-title" x="410" y="715" text-anchor="middle">Published Catalog — episodes are live</text>
 
         <!-- AZURE CLUSTER -->
         <rect class="cluster cluster-azure" x="518" y="102" width="286" height="148" rx="6"/>
@@ -146,7 +173,7 @@ import Base from '../layouts/Base.astro';
         <text class="cluster-lbl lbl-google" x="530" y="370">Google</text>
         <rect class="svc svc-google" x="598" y="372" width="194" height="50" rx="4"/>
         <text class="svc-title" x="695" y="395" text-anchor="middle">Gemini</text>
-        <text class="svc-sub"   x="695" y="413" text-anchor="middle">Independent quality audit</text>
+        <text class="svc-sub"   x="695" y="413" text-anchor="middle">Audit + term fallback (~10%)</text>
 
         <!-- NOTEBOOKLM CLUSTER -->
         <rect class="cluster cluster-nlm" x="518" y="442" width="286" height="78" rx="6"/>
@@ -155,9 +182,19 @@ import Base from '../layouts/Base.astro';
         <text class="svc-title" x="695" y="485" text-anchor="middle">Audio Overview</text>
         <text class="svc-sub"   x="695" y="503" text-anchor="middle">Turns the bundle into a podcast</text>
 
-        <!-- PUBLISHED CATALOG -->
-        <rect class="box-output" x="8" y="566" width="804" height="36" rx="5"/>
-        <text class="output-title" x="410" y="589" text-anchor="middle">Published Catalog — episodes are live</text>
+        <!-- SQL SERVER CLUSTER (home server) -->
+        <rect class="cluster cluster-sqlsrv" x="518" y="540" width="286" height="118" rx="6"/>
+        <text class="cluster-lbl lbl-sqlsrv" x="530" y="558">SQL Server · 192.168.1.158</text>
+        <rect class="svc svc-sqlsrv" x="530" y="564" width="80" height="44" rx="4"/>
+        <text class="svc-title" x="570" y="585" text-anchor="middle">KQUR</text>
+        <text class="svc-sub"   x="570" y="599" text-anchor="middle">Quran + roots</text>
+        <rect class="svc svc-sqlsrv" x="618" y="564" width="88" height="44" rx="4"/>
+        <text class="svc-title" x="662" y="585" text-anchor="middle">KASHKOLE</text>
+        <text class="svc-sub"   x="662" y="599" text-anchor="middle">Corpus + terms</text>
+        <rect class="svc svc-sqlsrv" x="714" y="564" width="80" height="44" rx="4"/>
+        <text class="svc-title" x="754" y="585" text-anchor="middle">KSESSIONS</text>
+        <text class="svc-sub"   x="754" y="599" text-anchor="middle">Transcripts</text>
+        <text class="svc-sub"   x="661" y="638" text-anchor="middle">Home network · LAN only</text>
 
         <!-- ARROWS: stage → external service (horizontal connectors) -->
         <!-- Stage 1 ↔ Azure (bidirectional) -->
@@ -178,9 +215,14 @@ import Base from '../layouts/Base.astro';
         <path class="arr arr-nlm"
           d="M472,375 C490,375 490,481 518,481"
           marker-end="url(#ah-nlm)"/>
+        <!-- Source Library Server ↔ SQL Server (LAN, bidirectional) -->
+        <path class="arr arr-sqlsrv"
+          d="M472,609 C490,609 490,599 518,599"
+          marker-end="url(#ah-sqlsrv)"
+          marker-start="url(#ah-rev-sqlsrv)"/>
         <!-- NotebookLM → Published Catalog -->
         <path class="arr arr-nlm"
-          d="M695,520 C695,545 410,545 410,566"
+          d="M695,520 C695,670 410,670 410,692"
           marker-end="url(#ah-nlm)"/>
 
       </svg>
@@ -210,17 +252,24 @@ import Base from '../layouts/Base.astro';
       <div class="legend-item">
         <span class="legend-dot ld-google"></span>
         <div>
-          <strong>Google (Gemini)</strong> runs a completely independent audit after Claude finishes.
-          Having two AI systems check the same work — one writing it, one reviewing it — catches
-          more than either would alone.
+          <strong>Google (Gemini)</strong> runs a completely independent audit after Claude finishes,
+          and acts as a silent fallback for the roughly 10% of term hover requests the local
+          source library doesn't already know.
         </div>
       </div>
       <div class="legend-item">
         <span class="legend-dot ld-nlm"></span>
         <div>
-          <strong>NotebookLM</strong> receives the finished bundle — cleaned source text plus
-          a set of hosting instructions — and generates the actual audio podcast episode.
+          <strong>NotebookLM</strong> receives the finished bundle and generates the actual audio podcast episode.
           The pipeline cannot control the audio directly; it hands off and NotebookLM takes over.
+        </div>
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot ld-sqlsrv"></span>
+        <div>
+          <strong>SQL Server (home network)</strong> holds three databases — the full Quran with etymology,
+          a 20-year Islamic knowledge anthology, and 343 lecture transcripts. The Source Library Server
+          mirrors these locally with FTS5 search so lookups are instant and free.
         </div>
       </div>
     </div>
@@ -332,8 +381,23 @@ import Base from '../layouts/Base.astro';
   .actor-map .arr-claude { stroke: #cc785c; }
   .actor-map .arr-google { stroke: #4285f4; }
   .actor-map .arr-nlm    { stroke: #1a73e8; }
+  /* ── Source Library Server box ── */
+  .actor-map .box-source-lib {
+    fill: #f2f7ff;
+    stroke: #5b8dd9;
+    stroke-width: 1.5;
+    stroke-dasharray: 5 3;
+  }
+  .actor-map .src-lib-title { font: 700 14px 'Lato', sans-serif; fill: #5b8dd9; }
+  .actor-map .src-lib-sub   { font: 11px 'Lato', sans-serif; fill: var(--c-ink-dim); }
+  .actor-map .src-lib-edge-lbl { font: 600 10px 'Lato', sans-serif; fill: #b8860b; }
 
-  /* ── Legend ── */
+  /* ── SQL Server cluster ── */
+  .actor-map .cluster-sqlsrv { fill: rgba(91,141,217,0.04); stroke: #5b8dd9; }
+  .actor-map .lbl-sqlsrv     { fill: #5b8dd9; }
+  .actor-map .svc-sqlsrv     { fill: white; stroke: #5b8dd9; }
+  .actor-map .arr-sqlsrv     { stroke: #5b8dd9; }
+  .actor-map .arr-src-lib-fallback { fill: none; stroke: #b8860b; stroke-width: 1.2; stroke-dasharray: 5 3; }
   .legend-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -357,6 +421,7 @@ import Base from '../layouts/Base.astro';
   .ld-claude { background: #cc785c; }
   .ld-google { background: #4285f4; }
   .ld-nlm    { background: #1a73e8; }
+  .ld-sqlsrv { background: #5b8dd9; }
 
   @media (max-width: 680px) {
     .legend-grid { grid-template-columns: 1fr; }

@@ -43,6 +43,13 @@ import arch from '../data/architecture-snapshot.json';
         <div class="stat-card-label">ADRs</div>
       </div>
     </div>
+    <div class="stat-card s-green">
+      <div class="stat-card-icon"><i class="fa-solid fa-book-open" aria-hidden="true"></i></div>
+      <div class="stat-card-body">
+        <div class="stat-card-value">6,236+</div>
+        <div class="stat-card-label">Source Library Verses</div>
+      </div>
+    </div>
   </div>
 
   <header class="page-hero">
@@ -173,6 +180,52 @@ import arch from '../data/architecture-snapshot.json';
       <p class="small muted">
         Open <a href="/annotation-ops">Annotation Ops</a> for the visual flow, scope model (paragraph/book/global),
         and automation path into classification, retrieval, and cost-efficient production.
+      </p>
+    </div>
+  </section>
+
+  <hr />
+
+  <section class="stack">
+    <h2>The Source Library layer — zero-cost live intelligence</h2>
+    <p>
+      A local server (Python + FastAPI, port 4390) exposes three SQL Server databases as a unified query layer.
+      The same server speaks two protocols: MCP stdio for pipeline agents and plain HTTP for the reader.
+      Once the mirror is populated, verse lookups, root etymology, and term definitions cost zero tokens and respond in under a millisecond.
+    </p>
+    <div class="grid-3">
+      <div class="card card-tight">
+        <i class="fa-solid fa-star-and-crescent" aria-hidden="true" style="color: var(--c-green); font-size: 20px; margin-bottom: 8px;"></i>
+        <strong>Full Quran database</strong>
+        <p class="small muted">
+          6,236 verses with Arabic, Pickthall, Muhammad Asad, Urdu, and phonetic transliteration.
+          Root and derivative tables with grammar tags, definitions, and Arabic etymology.
+          All served locally — replaces the quran.com API dependency entirely.
+        </p>
+      </div>
+      <div class="card card-tight">
+        <i class="fa-solid fa-database" aria-hidden="true" style="color: var(--c-planner); font-size: 20px; margin-bottom: 8px;"></i>
+        <strong>Kashkole knowledge corpus</strong>
+        <p class="small muted">
+          Twenty years of Islamic scholarship in a structured anthology: binders, chapters, topics, glossary, and doctrinal terms.
+          The reader's term hover panel draws from this directly — no Gemini call needed for terms the corpus already defines (~85–90% of hovers).
+        </p>
+      </div>
+      <div class="card card-tight">
+        <i class="fa-solid fa-microphone" aria-hidden="true" style="color: var(--c-amber); font-size: 20px; margin-bottom: 8px;"></i>
+        <strong>343 session transcripts</strong>
+        <p class="small muted">
+          Lecture transcripts (HTML) searchable by FTS5. Key groups include Wise Reminder (44 sessions),
+          Ikhwan Arithmetic (14), and Asaas Al-Taveel (32). The pipeline's style-rewrite phase
+          can pull matching session phrases as style references.
+        </p>
+      </div>
+    </div>
+    <div class="card card-tight" style="margin-top: var(--sp-4);">
+      <strong>Dual-protocol design (Wave J)</strong>
+      <p class="small muted">
+        One Python process, two interfaces. Pipeline agents call it over MCP stdio — the standard protocol that Claude and other agents speak natively. The Astro reader calls it over HTTP (port 4390) because browser apps can't speak stdio.
+        A 300ms availability probe gates every HTTP call, with silent Gemini fallback for terms not in the local corpus.
       </p>
     </div>
   </section>

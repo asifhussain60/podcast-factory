@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-28T20:19:35.524Z",
-  "source_commit": "b2e9239",
+  "generated_at": "2026-05-28T20:35:54.782Z",
+  "source_commit": "a9e5e48",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -717,6 +717,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "a9e5e48",
+      "subject": "plan: revise Wave J — dual-interface server, FTS5 mirror, Astro editor integration (J0-J5)",
+      "date": "2026-05-28"
+    },
+    {
       "sha": "b2e9239",
       "subject": "plan: add Wave J — Source Library (MCP server + live query access for 3 source databases)",
       "date": "2026-05-28"
@@ -759,11 +764,6 @@
     {
       "sha": "da12586",
       "subject": "docs(prompts): add podcast-factory visual build brief",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "7adc245",
-      "subject": "feat(site): L1-L4 security lenses, future-state pipeline swimlane, audience-layered architecture",
       "date": "2026-05-28"
     }
   ],

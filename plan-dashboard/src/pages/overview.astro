@@ -150,12 +150,12 @@ const spineColors   = ['var(--c-accent)', 'var(--c-gold)', 'var(--c-planner)', '
         <div class="pipeline-step">
           <span class="pipeline-step-num">05</span>
           <h3>Enrich with context</h3>
-          <p>Historical background, scholarly biography, and theological context are woven in — the detail a curious listener would look up themselves.</p>
+          <p>Historical background, scholarly biography, and theological context are woven in. Quran verses are served from a local source library — no external call needed, sub-millisecond lookup, exact Arabic with two English translations.</p>
         </div>
         <div class="pipeline-step">
           <span class="pipeline-step-num">06</span>
           <h3>Verify every citation</h3>
-          <p>Every Quran verse is confirmed by chapter and verse. Every hadith is traced to its canonical collection. Nothing is left to guesswork.</p>
+          <p>Every Quran verse is confirmed chapter and verse from the canonical source. Every term is defined from the Kashkole knowledge corpus. Readers can hover any verse or term in the reader and see the source directly.</p>
         </div>
         <div class="pipeline-step">
           <span class="pipeline-step-num">07</span>
@@ -193,12 +193,12 @@ const spineColors   = ['var(--c-accent)', 'var(--c-gold)', 'var(--c-planner)', '
     <section class="home-section">
       <p class="eyebrow home-section-eyebrow">Intelligence</p>
       <h2 class="home-section-h2">How the factory learns over time</h2>
-      <p class="home-section-lede">Every book processed teaches the factory something. Citations, names, and concepts accumulate in a shared knowledge library that every future book draws from automatically.</p>
+      <p class="home-section-lede">Every book processed teaches the factory something. Citations, names, and concepts accumulate in a shared knowledge library that every future book draws from automatically. And now — for the first time — that same knowledge is queryable live by both the authoring pipeline and the reader.</p>
       <div class="intel-cards">
         <div class="intel-card intel-card-quran">
           <div class="intel-card-icon"><i class="fa-solid fa-star-and-crescent"></i></div>
           <h3>Quran citations</h3>
-          <p>When an author quotes a Quranic verse, the pipeline traces it to its exact chapter and verse number, verifies the Arabic, and stores it. Every future book draws on this without re-checking.</p>
+          <p>When an author quotes a Quranic verse, the pipeline traces it to its exact chapter and verse number, verifies the Arabic, and stores it with two English translations (Pickthall and Muhammad Asad). Every future book draws on this without re-checking.</p>
         </div>
         <div class="intel-card intel-card-hadith">
           <div class="intel-card-icon"><i class="fa-solid fa-scroll"></i></div>
@@ -207,8 +207,13 @@ const spineColors   = ['var(--c-accent)', 'var(--c-gold)', 'var(--c-planner)', '
         </div>
         <div class="intel-card intel-card-corpus">
           <div class="intel-card-icon"><i class="fa-solid fa-database"></i></div>
-          <h3>External corpora</h3>
-          <p>Reference anthologies — like the Kashkole — are independently processed and fed into the knowledge base, giving the factory access to the same cross-referencing a scholar would use.</p>
+          <h3>Source library</h3>
+          <p>Three SQL Server databases — the full Quran with Arabic etymology, a 20-year Islamic knowledge anthology, and 343 lecture transcripts — are now queryable live by the pipeline and the reader's hover panels, with no external API calls.</p>
+        </div>
+        <div class="intel-card intel-card-reader">
+          <div class="intel-card-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+          <h3>Reader intelligence</h3>
+          <p>Hover any Quran verse in the reader to see the full Arabic with two English translations. Hover any Islamic term to see its canonical definition from the Kashkole corpus. All served from a local server — zero token cost, instant response.</p>
         </div>
       </div>
     </section>

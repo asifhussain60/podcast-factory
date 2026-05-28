@@ -215,6 +215,27 @@ import CredentialMap from '../components/CredentialMap.tsx';
             <td>🟢 Verified</td>
             <td>Tradition firewall enforced in augmenter; universal atoms are the only exception</td>
           </tr>
+          <tr class="hs-ok">
+            <td><code>HS-13</code></td>
+            <td><span class="hs-badge hs-ok">OK</span></td>
+            <td>Source Library Server (port 4390) binds only to loopback — not exposed on the network</td>
+            <td>🟢 Verified</td>
+            <td>FastAPI bound to 127.0.0.1; no external reachability; no authentication required for local-only access</td>
+          </tr>
+          <tr class="hs-warn">
+            <td><code>HS-14</code></td>
+            <td><span class="hs-badge hs-sec">SEC</span></td>
+            <td>MCP server inputs from AI agents — prompt injection via crafted search queries (OWASP A03)</td>
+            <td>🟡 Medium</td>
+            <td>Parameterised SQLite queries throughout (no string interpolation); 200-char input cap; JSON schema validation at every endpoint</td>
+          </tr>
+          <tr class="hs-warn">
+            <td><code>HS-15</code></td>
+            <td><span class="hs-badge hs-arch">ARCH</span></td>
+            <td>No rate limiting on the local HTTP server — a misbehaving Astro component could exhaust SQLite connections</td>
+            <td>🟡 Medium</td>
+            <td>Add 60 req/min rate limit per endpoint; FastAPI middleware; track in Wave J work items</td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -265,6 +286,18 @@ import CredentialMap from '../components/CredentialMap.tsx';
       <div class="card card-tight">
         <strong>Tradition firewall</strong>
         <p class="small">The rule preventing atoms from one tradition being injected into a book of a different tradition without explicit opt-in framing.</p>
+      </div>
+      <div class="card card-tight">
+        <strong>MCP (Model Context Protocol)</strong>
+        <p class="small">A standard protocol that AI agents use to call tools and query data sources. The Source Library Server speaks both MCP stdio (for pipeline agents) and plain HTTP (for the reader). Same query logic, two transport layers.</p>
+      </div>
+      <div class="card card-tight">
+        <strong>Source Library Server</strong>
+        <p class="small">A local Python server (FastAPI + MCP, port 4390) that exposes Quran verse lookup, root etymology, and Kashkole topic search. Binds to loopback only. Used by both the authoring pipeline and the reader's hover panels.</p>
+      </div>
+      <div class="card card-tight">
+        <strong>term_index</strong>
+        <p class="small">A unified SQLite table that combines Arabic root data from the Quran database with glossary terms from the Kashkole corpus. Powers the reader's term hover panel without any external API call.</p>
       </div>
       <div class="card card-tight">
         <strong>Trust boundary</strong>

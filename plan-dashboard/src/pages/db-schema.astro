@@ -9,10 +9,12 @@ import DbArchitecture from '../components/DbArchitecture';
       <span class="eyebrow">Database design</span>
       <h1 class="page-hero-title">What the database manages and why.</h1>
       <p class="page-hero-lede">
-        Sixteen SOLID-compliant tables replacing scattered JSONL and JSON files across pipeline books and external corpora.
+        Sixteen SOLID-compliant tables in <strong>knowledge.db</strong> replacing scattered JSONL and JSON files across pipeline books and external corpora.
         One SQLite database consolidates the knowledge store, etymology layer, corpus provenance, topic taxonomy,
         cost tracking, episode registry, and quality audit trail — everything queryable and cross-book for the first time.
-        The Kashkole corpus tables make the intelligence library the central hub that enriches every future book production.
+        A second SQLite database, <strong>mirror.db</strong>, auto-populates from three SQL Server databases on the home network
+        and powers the Source Library Server — giving the pipeline and the reader instant, zero-cost access to 6,000+ Quran verses
+        and 20 years of Islamic scholarly material.
       </p>
     </div>
   </header>
@@ -56,6 +58,19 @@ import DbArchitecture from '../components/DbArchitecture';
           <strong>atom_topic_tags</strong> is a proper covering-indexed join table replacing
           a file-based tag index. And <code>needs_review</code> on every atom surfaces
           WARN-verdict quality signals without a separate table.
+        </p>
+      </div>
+      <div class="card stack">
+        <span class="eyebrow">Source library mirror — a second database (Wave J)</span>
+        <p>
+          <strong>mirror.db</strong> is a separate SQLite database, gitignored and under 50 MB.
+          It is populated from three SQL Server databases over the local network:
+          KQUR (6,236 Quran verses, Arabic roots, etymology), KASHKOLE (scholarly anthology,
+          glossary, 18-type topic taxonomy), and KSESSIONS (343 lecture transcripts).
+          Four FTS5 virtual tables (<code>fts_quran</code>, <code>fts_topics</code>, <code>fts_sessions</code>)
+          and a unified <code>term_index</code> enable sub-millisecond lookups.
+          The Source Library Server reads only mirror.db — never the SQL Server directly —
+          so the pipeline stays independent of network availability after the first sync.
         </p>
       </div>
     </div>
