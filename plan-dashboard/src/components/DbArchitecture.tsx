@@ -476,22 +476,6 @@ export default function DbArchitecture() {
       )
     : new Set<string>();
 
-  const isActive = (id: string) => {
-    if (selected) return id === selected || connectedIds.has(id);
-    if (filter) return TABLES.find(t => t.id === id)?.category === filter;
-    return true;
-  };
-
-  const isEdgeActive = (edge: Edge) => {
-    if (selected) return edge.from === selected || edge.to === selected;
-    if (filter) {
-      const f = TABLES.find(t => t.id === edge.from);
-      const t = TABLES.find(t => t.id === edge.to);
-      return f?.category === filter || t?.category === filter;
-    }
-    return true;
-  };
-
   const relatedTables = selected
     ? EDGES
         .filter(e => e.from === selected || e.to === selected)
@@ -499,6 +483,9 @@ export default function DbArchitecture() {
     : [];
 
   const categories: Category[] = ['core', 'knowledge', 'operations', 'quality'];
+  const visibleTables = filter ? TABLES.filter(t => t.category === filter) : TABLES;
+
+  const toggle = (id: string) => setSelected(prev => prev === id ? null : id);
 
   return (
     <div className="dba-root">
@@ -507,7 +494,7 @@ export default function DbArchitecture() {
       <div className="dba-filters">
         <span className="dba-filter-label">View by</span>
         <button
-          className={`dba-pill ${!filter ? 'dba-pill--active' : ''}`}
+          className={`dba-pill${!filter ? ' dba-pill--active' : ''}`}
           onClick={() => { setFilter(null); setSelected(null); }}
         >
           All tables
@@ -515,7 +502,7 @@ export default function DbArchitecture() {
         {categories.map(cat => (
           <button
             key={cat}
-            className={`dba-pill ${filter === cat ? 'dba-pill--active' : ''}`}
+            className={`dba-pill${filter === cat ? ' dba-pill--active' : ''}`}
             style={filter === cat ? { '--pill-color': CAT_COLOR[cat] } as React.CSSProperties : {}}
             onClick={() => { setFilter(filter === cat ? null : cat); setSelected(null); }}
           >
@@ -528,266 +515,199 @@ export default function DbArchitecture() {
             ✕ Clear selection
           </button>
         )}
+        <span className="dba-filter-count">
+          {visibleTables.length} table{visibleTables.length !== 1 ? 's' : ''}
+        </span>
       </div>
 
-      {/* ── Main layout ────────────────────────────────────────── */}
-      <div className={`dba-layout ${selected ? 'dba-layout--split' : ''}`}>
+      {/* ── SQL table card grid ─────────────────────────────────── */}
+      <div className="dba-grid">
+        {visibleTables.map(table => {
+          const isSel = selected === table.id;
+          const isRelated = !isSel && selected !== null && connectedIds.has(table.id);
+          const isDimmed = selected !== null && !isSel && !isRelated;
+          const color = CAT_COLOR[table.category];
 
-        {/* SVG diagram */}
-        <div className="dba-diagram-wrap">
-          <svg
-            className="dba-svg"
-            viewBox="0 0 400 530"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-label="Database architecture diagram — click any table to explore"
-          >
-            <defs>
-              <marker id="ah-core" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-                <path d="M0,1 L9,5 L0,9 Z" fill="#8b4513"/>
-              </marker>
-              <marker id="ah-knowledge" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-                <path d="M0,1 L9,5 L0,9 Z" fill="#b8860b"/>
-              </marker>
-              <marker id="ah-operations" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-                <path d="M0,1 L9,5 L0,9 Z" fill="#0078d4"/>
-              </marker>
-              <marker id="ah-quality" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-                <path d="M0,1 L9,5 L0,9 Z" fill="#4a7c4a"/>
-              </marker>
-              <marker id="ah-dim" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
-                <path d="M0,1 L9,5 L0,9 Z" fill="#d9d3c4"/>
-              </marker>
-            </defs>
-
-            {/* ── Edges (drawn before nodes) ── */}
-            {EDGES.map((edge, i) => {
-              const active = isEdgeActive(edge);
-              const fromTable = TABLES.find(t => t.id === edge.from)!;
-              const catColor = CAT_COLOR[fromTable.category];
-              const markerId = active ? `ah-${fromTable.category}` : 'ah-dim';
-              return (
-                <g key={i}>
-                  <path
-                    d={edge.path}
-                    fill="none"
-                    stroke={active ? catColor : '#e8e2d8'}
-                    strokeWidth={active ? 1.5 : 1}
-                    strokeDasharray={edge.dashed ? '5 3' : undefined}
-                    markerEnd={`url(#${markerId})`}
-                    className="dba-edge"
-                  />
-                  {/* Cardinality label at midpoint */}
-                  {active && (() => {
-                    // Compute approximate midpoint from path
-                    const parts = edge.path.split(' ');
-                    const lastCoord = parts[parts.length - 1];
-                    const [ex, ey] = lastCoord.split(',').map(Number);
-                    const firstCoord = edge.path.match(/M([0-9.]+),([0-9.]+)/);
-                    const sx = firstCoord ? parseFloat(firstCoord[1]) : 0;
-                    const sy = firstCoord ? parseFloat(firstCoord[2]) : 0;
-                    const mx = (sx + ex) / 2;
-                    const my = (sy + ey) / 2;
-                    return (
-                      <g>
-                        <rect x={mx - 14} y={my - 9} width={28} height={14} rx="3" fill="white" stroke={catColor} strokeWidth="0.8" opacity="0.9"/>
-                        <text x={mx} y={my + 4} textAnchor="middle" className="dba-edge-lbl">
-                          {edge.type}
-                        </text>
-                      </g>
-                    );
-                  })()}
-                </g>
-              );
-            })}
-
-            {/* ── Table nodes ── */}
-            {TABLES.map(table => {
-              const active = isActive(table.id);
-              const isSel = selected === table.id;
-              const color = CAT_COLOR[table.category];
-              const bg = CAT_BG[table.category];
-
-              return (
-                <g
-                  key={table.id}
-                  onClick={() => setSelected(selected === table.id ? null : table.id)}
-                  className="dba-node-g"
-                  role="button"
-                  aria-label={`Table: ${table.label}`}
-                  aria-pressed={isSel}
-                >
-                  {/* Selection ring */}
-                  {isSel && (
-                    <rect
-                      x={table.x - 4} y={table.y - 4}
-                      width={W + 8} height={H + 8}
-                      rx="8" fill="none"
-                      stroke={color} strokeWidth="2"
-                      strokeDasharray="4 2"
-                      opacity="0.5"
-                    />
+          return (
+            <div
+              key={table.id}
+              className={[
+                'dba-sql-card',
+                isSel      ? 'is-selected' : '',
+                isRelated  ? 'is-related'  : '',
+                isDimmed   ? 'is-dimmed'   : '',
+              ].filter(Boolean).join(' ')}
+              style={{ '--cat-color': color } as React.CSSProperties}
+              onClick={() => toggle(table.id)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={e => e.key === 'Enter' && toggle(table.id)}
+              aria-pressed={isSel}
+              aria-label={`Table ${table.label} — ${table.fields.length} columns`}
+            >
+              {/* ── Card header ── */}
+              <div className="dba-sql-header">
+                <div className="dba-sql-header-left">
+                  <span className="dba-sql-table-icon">⬜</span>
+                  <span className="dba-sql-table-name">{table.label}</span>
+                </div>
+                <div className="dba-sql-header-right">
+                  {table.wave > 1 && (
+                    <span className={`dba-wave-tag dba-wave-tag--${table.wave}`}>
+                      W{table.wave}
+                    </span>
                   )}
-                  {/* Main box */}
-                  <rect
-                    x={table.x} y={table.y}
-                    width={W} height={H}
-                    rx="5"
-                    fill={active ? bg : '#f7f4ee'}
-                    stroke={active ? color : '#e0dbd3'}
-                    strokeWidth={isSel ? 2.5 : 1.5}
-                    className="dba-box"
-                  />
-                  {/* Category accent line */}
-                  <rect
-                    x={table.x} y={table.y}
-                    width={6} height={H}
-                    rx="5"
-                    fill={active ? color : '#e0dbd3'}
-                    className="dba-fill"
-                  />
-                  {/* Table name */}
-                  <text
-                    x={table.x + 16} y={table.y + H / 2 + 5}
-                    className="dba-tbl-name"
-                    data-active={active}
-                    data-selected={isSel}
-                    data-color={color}
-                    fill={active ? (isSel ? color : '#1f1d18') : '#b0a898'}
-                  >
-                    {table.label}
-                  </text>
-                  {/* Field count badge */}
-                  <text
-                    x={table.x + W - 8} y={table.y + H / 2 + 5}
-                    className="dba-tbl-count"
-                    fill={active ? '#87827a' : '#c8c0b4'}
-                    textAnchor="end"
-                  >
-                    {table.fields.length}f
-                  </text>
-                </g>
-              );
-            })}
-          </svg>
+                  <span className="dba-sql-col-count">{table.fields.length}</span>
+                </div>
+              </div>
 
-          {/* Diagram legend */}
-          <div className="dba-diagram-legend">
-            {categories.map(cat => (
-              <span key={cat} className="dba-legend-item">
-                <span className="dba-legend-dot" style={{ '--cat-color': CAT_COLOR[cat] } as React.CSSProperties} />
-                {CAT_LABEL[cat]}
+              {/* ── Column list ── */}
+              <div className="dba-sql-body">
+                <table className="dba-sql-table" aria-label={`Columns of ${table.label}`}>
+                  <tbody>
+                    {table.fields.map(field => (
+                      <tr
+                        key={field.name}
+                        className={[
+                          'dba-sql-row',
+                          field.pk ? 'is-pk' : '',
+                          field.fk ? 'is-fk' : '',
+                        ].filter(Boolean).join(' ')}
+                      >
+                        <td className="dba-sql-icon-cell">
+                          {field.pk
+                            ? <span className="dba-icon-pk" title="Primary key">🔑</span>
+                            : field.fk
+                              ? <span className="dba-icon-fk" title={`FK → ${field.fk}`}>🔗</span>
+                              : <span className="dba-icon-col" />}
+                        </td>
+                        <td className="dba-sql-col-name">{field.name}</td>
+                        <td className="dba-sql-type-cell">
+                          <span className="dba-sql-type">{field.type}</span>
+                        </td>
+                        <td className="dba-sql-constraints">
+                          {field.pk && <span className="dba-con dba-con--pk">PK</span>}
+                          {field.fk && <span className="dba-con dba-con--fk" title={field.fk}>FK</span>}
+                          {field.nullable && <span className="dba-con dba-con--null">NULL</span>}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* ── Card footer ── */}
+              <div className="dba-sql-footer">
+                <span className="dba-sql-cat-pill">{CAT_LABEL[table.category]}</span>
+                {isSel
+                  ? <span className="dba-sql-expand-hint">▲ collapse</span>
+                  : <span className="dba-sql-expand-hint">▼ details</span>}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* ── Expanded detail drawer ──────────────────────────────── */}
+      {selectedTable && (
+        <div
+          className="dba-drawer"
+          style={{ '--cat-color': CAT_COLOR[selectedTable.category] } as React.CSSProperties}
+          aria-label={`Detail for ${selectedTable.label}`}
+        >
+          <div className="dba-drawer-header">
+            <div className="dba-drawer-title">
+              <span className="dba-drawer-table-name">{selectedTable.label}</span>
+              <span className={`dba-badge dba-badge--wave${selectedTable.wave}`}>
+                {WAVE_LABEL[selectedTable.wave]}
               </span>
-            ))}
-            <span className="dba-legend-item">
-              <svg width="22" height="10" className="dba-legend-svg">
-                <line x1="0" y1="5" x2="14" y2="5" stroke="#87827a" strokeWidth="1.5" strokeDasharray="4 2"/>
-                <polygon points="12,2 20,5 12,8" fill="#87827a"/>
-              </svg>
-              secondary link
-            </span>
-            <span className="dba-legend-item dba-hint">
-              Click any table ↑
-            </span>
+              <span className="dba-badge" style={{ background: CAT_BG[selectedTable.category], color: CAT_COLOR[selectedTable.category] } as React.CSSProperties}>
+                {CAT_LABEL[selectedTable.category]}
+              </span>
+            </div>
+            <button className="dba-drawer-close" onClick={() => setSelected(null)} aria-label="Close detail">✕</button>
+          </div>
+
+          <p className="dba-drawer-purpose">{selectedTable.purpose}</p>
+
+          <div className="dba-drawer-meta">
+            <div>
+              <div className="dba-drawer-meta-label">Written by</div>
+              <div className="dba-drawer-chips">
+                {selectedTable.writtenBy.map(p => (
+                  <span key={p} className="dba-chip dba-chip--write">{p}</span>
+                ))}
+              </div>
+            </div>
+            <div>
+              <div className="dba-drawer-meta-label">Read by</div>
+              <div className="dba-drawer-chips">
+                {selectedTable.readBy.map(p => (
+                  <span key={p} className="dba-chip dba-chip--read">{p}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {relatedTables.length > 0 && (
+            <div className="dba-drawer-relations">
+              <div className="dba-drawer-meta-label">FK relationships</div>
+              <div className="dba-drawer-chips">
+                {relatedTables.map(r => {
+                  const rt = TABLES.find(t => t.id === r.id)!;
+                  return (
+                    <button
+                      key={r.id}
+                      className="dba-chip dba-chip--related"
+                      style={{ '--cat-color': CAT_COLOR[rt.category] } as React.CSSProperties}
+                      onClick={() => setSelected(r.id)}
+                    >
+                      {r.dir} <strong>{r.id}</strong>
+                      <span className="dba-chip-type">{r.type}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Full column detail table */}
+          <div className="dba-drawer-fields-wrap">
+            <div className="dba-drawer-meta-label">
+              Columns ({selectedTable.fields.length})
+            </div>
+            <table className="dba-field-detail-table">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Column</th>
+                  <th>Type</th>
+                  <th>Constraints</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                {selectedTable.fields.map(field => (
+                  <tr key={field.name} className={field.pk ? 'is-pk' : ''}>
+                    <td className="dba-fd-icon">
+                      {field.pk ? '🔑' : field.fk ? '🔗' : ''}
+                    </td>
+                    <td className="dba-fd-name">{field.name}</td>
+                    <td className="dba-fd-type">{field.type}</td>
+                    <td className="dba-fd-constraints">
+                      {field.pk && <span className="dba-con dba-con--pk">PK</span>}
+                      {field.fk && <span className="dba-con dba-con--fk" title={field.fk}>→ {field.fk}</span>}
+                      {field.nullable && <span className="dba-con dba-con--null">NULL</span>}
+                    </td>
+                    <td className="dba-fd-desc">{field.description}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
-
-        {/* ── Detail panel ── */}
-        {selectedTable ? (
-          <div className="dba-panel" key={selectedTable.id}>
-            <div className="dba-panel-header">
-              <div className="dba-panel-name" style={{ '--cat-color': CAT_COLOR[selectedTable.category] } as React.CSSProperties}>
-                {selectedTable.label}
-              </div>
-              <div className="dba-panel-badges">
-                <span className="dba-badge" style={{ '--cat-color': CAT_COLOR[selectedTable.category], '--cat-bg': CAT_BG[selectedTable.category] } as React.CSSProperties}>
-                  {CAT_LABEL[selectedTable.category]}
-                </span>
-                <span className={`dba-badge dba-badge--wave dba-badge--wave${selectedTable.wave}`}>
-                  {WAVE_LABEL[selectedTable.wave]}
-                </span>
-              </div>
-            </div>
-
-            <p className="dba-panel-purpose">{selectedTable.purpose}</p>
-
-            {/* Phase info */}
-            <div className="dba-phase-grid">
-              <div>
-                <div className="dba-phase-label">Written by</div>
-                <div className="dba-phase-chips">
-                  {selectedTable.writtenBy.map(p => (
-                    <span key={p} className="dba-chip dba-chip--write">{p}</span>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <div className="dba-phase-label">Read by</div>
-                <div className="dba-phase-chips">
-                  {selectedTable.readBy.map(p => (
-                    <span key={p} className="dba-chip dba-chip--read">{p}</span>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Related tables */}
-            {relatedTables.length > 0 && (
-              <div className="dba-related">
-                <div className="dba-section-label">Connected tables</div>
-                <div className="dba-related-chips">
-                  {relatedTables.map(r => {
-                    const rt = TABLES.find(t => t.id === r.id)!;
-                    return (
-                      <button
-                        key={r.id}
-                        className="dba-chip dba-chip--related"
-                        style={{ '--cat-color': CAT_COLOR[rt.category] } as React.CSSProperties}
-                        onClick={() => setSelected(r.id)}
-                      >
-                        {r.dir} {r.id} <span className="dba-chip-type">{r.type}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
-            {/* Fields table */}
-            <div className="dba-section-label dba-section-label--mt">
-              Fields ({selectedTable.fields.length})
-            </div>
-            <div className="dba-fields">
-              {selectedTable.fields.map(field => (
-                <div key={field.name} className={`dba-field ${field.pk ? 'dba-field--pk' : ''}`}>
-                  <div className="dba-field-top">
-                    <span className="dba-field-name">{field.name}</span>
-                    <div className="dba-field-tags">
-                      <span className="dba-tag dba-tag--type">{field.type}</span>
-                      {field.pk && <span className="dba-tag dba-tag--pk">PK</span>}
-                      {field.fk && <span className="dba-tag dba-tag--fk" title={field.fk}>FK</span>}
-                      {field.nullable && <span className="dba-tag dba-tag--null">nullable</span>}
-                    </div>
-                  </div>
-                  <p className="dba-field-desc">{field.description}</p>
-                  {field.fk && (
-                    <p className="dba-field-fk-label">→ {field.fk}</p>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        ) : (
-          <div className="dba-panel dba-panel--empty">
-            <div className="dba-empty-icon">⬡</div>
-            <p>Select a table in the diagram to explore its fields, purpose, and connections.</p>
-            <p className="dba-empty-hint">
-              {filter
-                ? `Showing ${CAT_LABEL[filter]} tables. ${TABLES.filter(t => t.category === filter).length} tables in this group.`
-                : `${TABLES.length} tables total across ${categories.length} groups.`}
-            </p>
-          </div>
-        )}
-      </div>
+      )}
     </div>
   );
 }
+
