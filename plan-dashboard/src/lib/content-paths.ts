@@ -80,11 +80,9 @@ async function isDir(p: string): Promise<boolean> {
 }
 
 export async function findContent(slug: string): Promise<ContentRef | null> {
-  for (const stage of ['drafts', 'published'] as Stage[]) {
-    for (const cat of ALLOWED_CATEGORIES) {
-      const p = join(stageRoot(stage), cat, slug);
-      if (await isDir(p)) return { stage, category: cat, slug, dir: p };
-    }
+  for (const cat of ALLOWED_CATEGORIES) {
+    const p = join(stageRoot('drafts'), cat, slug);
+    if (await isDir(p)) return { stage: 'drafts', category: cat, slug, dir: p };
   }
   // Legacy flat fallback (drafts/<slug>/ from pre-2026-05-26 layout)
   const flat = join(stageRoot('drafts'), slug);
@@ -99,7 +97,7 @@ export async function findContent(slug: string): Promise<ContentRef | null> {
 }
 
 export async function listContent(opts: { stage?: Stage; category?: Category } = {}): Promise<ContentRef[]> {
-  const stages: Stage[] = opts.stage ? [opts.stage] : ['drafts', 'published'];
+  const stages: Stage[] = ['drafts']; // single source of truth — all content lives in drafts/
   const cats: readonly Category[] = opts.category ? [opts.category] : ALLOWED_CATEGORIES;
   const seen = new Set<string>();
   const out: ContentRef[] = [];

@@ -32,7 +32,7 @@ completed_episodes:
   - EP15-book-summary
 
 publication:
-  status: shipped
+  status: draft
   shipped_via: scripts/podcast/publish_to_library.py
   publication_target: ../../published/books/kitab-al-riyad/
 

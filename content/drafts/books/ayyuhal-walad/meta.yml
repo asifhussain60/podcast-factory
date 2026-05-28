@@ -13,7 +13,7 @@ pipeline:
   audits: 1  # audit-EP02-hatim-eight-benefits.md
 
 publication:
-  status: in_progress
+  status: draft
   shipped_via: scripts/podcast/publish_to_library.py
   publication_target: ../../published/books/ayyuhal-walad/
 

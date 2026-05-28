@@ -28,8 +28,8 @@ function categoryBlurb(cat: Category): string {
   }
 }
 
-const totalDrafts = summaries.filter((s) => s.stage === 'drafts').length;
-const totalPublished = summaries.filter((s) => s.stage === 'published').length;
+const totalDrafts = summaries.filter((s) => s.publicationStatus !== 'published').length;
+const totalPublished = summaries.filter((s) => s.publicationStatus === 'published').length;
 ---
 <Base title="Library" active="library" description="Every piece of content in the factory — drafts and published — in one place.">
   <header class="stack">
@@ -82,7 +82,7 @@ const totalPublished = summaries.filter((s) => s.stage === 'published').length;
             {items.map((s) => (
               <a href={`/library/${s.ref.slug}`} class="card card-hover stack lib-card" data-cat={cat}>
                 <div class="lib-card-head">
-                  <span class={`lib-badge lib-badge-${s.stage}`}>{s.stage === 'drafts' ? 'Draft' : 'Published'}</span>
+                  <span class={`lib-badge lib-badge-${s.publicationStatus === 'published' ? 'published' : 'drafts'}`}>{s.publicationStatus === 'published' ? 'Published' : 'Draft'}</span>
                 </div>
                 <h3 class="card-title">{s.title}</h3>
                 <p class="card-sub lib-slug">{s.ref.slug}</p>

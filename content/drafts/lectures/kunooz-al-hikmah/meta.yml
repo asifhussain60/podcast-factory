@@ -1,0 +1,16 @@
+slug: kunooz-al-hikmah
+title: Kunooz al Hikmah
+short_name: kah
+category: lectures
+
+pipeline:
+  current_phase: transcription
+  phase_status: partial
+  transcripts: 4
+
+publication:
+  status: draft
+
+provenance:
+  reshape_date: 2026-05-28
+  reshape_method: moved from content/published/lectures/ to content/drafts/lectures/ as part of single-source-of-truth restructure; status reset to draft

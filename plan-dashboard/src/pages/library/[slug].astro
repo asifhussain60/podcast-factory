@@ -23,7 +23,7 @@ function fileViewHref(relPath: string): string {
     </div>
     <div class="lib-title-row">
       <h1>{summary.title}</h1>
-      <span class={`lib-badge lib-badge-${summary.stage}`}>{summary.stage === 'drafts' ? 'Draft' : 'Published'}</span>
+      <span class={`lib-badge lib-badge-${summary.publicationStatus === 'published' ? 'published' : 'drafts'}`}>{summary.publicationStatus === 'published' ? 'Published' : 'Draft'}</span>
     </div>
     <p class="card-sub lib-slug">{summary.ref.slug} · {categoryLabel(summary.category)}</p>
 

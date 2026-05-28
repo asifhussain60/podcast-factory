@@ -28,6 +28,7 @@ export interface ContentSummary {
   title: string;
   category: Category;
   stage: Stage;
+  publicationStatus: 'draft' | 'published' | 'in_progress' | 'unknown';
   hasMeta: boolean;
   hasChapters: boolean;
   hasEpisodes: boolean;
@@ -100,12 +101,14 @@ export async function summarize(ref: ContentRef): Promise<ContentSummary> {
   const m4aDir = join(ref.dir, 'm4a');
 
   const title = await readTitleFromMeta(metaPath) ?? slugToTitle(ref.slug);
+  const publicationStatus = await readPublicationStatusFromMeta(metaPath);
 
   return {
     ref,
     title,
     category: ref.category,
     stage: ref.stage,
+    publicationStatus,
     hasMeta: await fileExists(metaPath),
     hasChapters: await dirExists(chaptersDir),
     hasEpisodes: await dirExists(episodesDir),
@@ -116,6 +119,23 @@ export async function summarize(ref: ContentRef): Promise<ContentSummary> {
     episodeCount: await countByExt(episodesDir, ['.txt']),
     audioCount: await countByExt(m4aDir, ['.m4a', '.mp3', '.wav']),
   };
+}
+
+async function readPublicationStatusFromMeta(metaPath: string): Promise<'draft' | 'published' | 'in_progress' | 'unknown'> {
+  if (!(await fileExists(metaPath))) return 'unknown';
+  try {
+    const text = await readFile(metaPath, 'utf-8');
+    // Match `status:` under `publication:` block
+    const m = text.match(/^publication:[\s\S]*?^\s+status:\s*(\S+)/m);
+    if (!m) return 'unknown';
+    const raw = m[1].trim();
+    if (raw === 'published') return 'published';
+    if (raw === 'in_progress') return 'in_progress';
+    if (raw === 'draft') return 'draft';
+    return 'draft'; // treat any unknown value as draft
+  } catch {
+    return 'unknown';
+  }
 }
 
 async function readTitleFromMeta(metaPath: string): Promise<string | null> {

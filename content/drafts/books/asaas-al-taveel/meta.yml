@@ -12,7 +12,7 @@ pipeline:
   transcripts: 1
 
 publication:
-  status: in_progress
+  status: draft
   shipped_via: scripts/podcast/publish_to_library.py
   publication_target: ../../published/books/asaas-al-taveel/
 

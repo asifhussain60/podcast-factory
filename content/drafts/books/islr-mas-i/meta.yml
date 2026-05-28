@@ -24,7 +24,7 @@ completed_episodes:
   - EP07-nonlinear
 
 publication:
-  status: shipped_then_lost_in_restructure
+  status: draft
   shipped_via: scripts/podcast/publish_to_library.py
   publication_target: ../../published/books/islr-mas-i/
   publication_note: |
