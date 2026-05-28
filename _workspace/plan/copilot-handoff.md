@@ -259,3 +259,34 @@ Append a new entry at the bottom of this section at the end of every Copilot ses
 **Next:** Wave A is now fully done (A1–A7 all complete). All six waves complete. No immediate refactor work pending. H2 (pipeline quality) partial work from prior session was committed but deferred steps remain (orchestrate_book.py split already done as part of A4; 5 remaining test modules; Azure retry decorator; push develop).
 
 **Blocked / open:** None from this session. Confirm with Asif whether to proceed with H2 deferred steps or move to a new book intake.
+
+---
+
+### 2026-05-28 16:55 EST — Copilot session (Intelligence pipeline foundations)
+
+**Closed:**
+
+- **locked-decisions.md** (`_workspace/plan/intelligence/locked-decisions.md`): Created — distills the full intelligence pipeline discussion (1,667 lines) into 43 locked decisions across 7 sections (audio intake, noise routing, Source Review Gate, Phase 11g, Book Review view, tradition-aware KB, audit findings table). Authoritative reference for Wave I execution.
+
+- **R4 fix** — `scripts/podcast/phases/resume_dispatcher.py`: Added `awaiting_human_review` guard at top of state machine. If `phase_status == "awaiting_human_review"`, reads `_system/review-gate.json`; if `approved=false`, returns exit code 3 (halted); if `approved=true`, clears status to `pending` and falls through. Pre-existing bug: launchd hourly tick was silently re-entering halted books.
+
+- **R5 fix** — `content/published/README.md`: Updated to accurately describe the draft-only model (no `content/published/books/` copies; `publication.status` in meta.yml is source of truth).
+
+- **R6 fix** — `scripts/podcast/publish_to_library.py`: Added `_update_meta_publication_status()` — called after `update_catalog()`, writes `publication.status: published` to the book's draft `meta.yml`. Without this, astro site showed books as Draft even after publishing.
+
+- **R1/R2 fix** — `_workspace/plan/refactor/plan.md`: Wave B CORRECTION note clarified; H2 status updated from `PENDING APPROVAL` to `PARTIAL (2026-05-28)` with completed/deferred step lists.
+
+- **Wave I** — `plan.md` + `plan.yaml`: Six steps I1–I6 with full deliverables, acceptance, authorization, and cost. Covers: I1 audio intake (`input_type` branch), I2 noise routing, I3 tradition-aware KB (migration 019 + B2.1), I4 Source Review Gate (Phase 06a), I5 Book Review astro view, I6 Phase 11g per-chapter optimiser. Depends on Wave B.
+
+- **plan-dashboard snapshot** regenerated — 38 steps (was 29 stale). Fixed pre-existing duplicate `waves:` key in plan.yaml (caused js-yaml to throw silently). Renamed second block to `waves_ghj:`, updated `regenerate-snapshots.mjs` to merge both. Build clean.
+
+**Commit:** `317ad881` — all changes. 5 commits ahead of origin (not pushed).
+
+**Next session — Wave I execution order:**
+1. I3 (tradition-aware KB, migration 019 + B2.1) — must land before any new book extraction.
+2. I4 (Source Review Gate, Phase 06a) — R4 guard already in place.
+3. I1 (audio intake) — enables islr-mas-i.
+4. I2, I5, I6 — follow-on; I5 is astro work.
+5. Push develop to origin.
+
+**Blocked:** Wave I depends on Wave B (scaffold stubs, not yet executable). Confirm with Asif: execute B0 first, or parallel-track I3 alongside B0.
