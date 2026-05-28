@@ -39,9 +39,9 @@ import sys
 import time
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
+from _paths import REPO_ROOT
 from typing import Any
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
 
 # Add scripts/podcast to sys.path for sibling imports when run as module
 if str(Path(__file__).parent) not in sys.path:

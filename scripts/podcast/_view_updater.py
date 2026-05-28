@@ -24,8 +24,8 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 from pathlib import Path
+from _paths import REPO_ROOT
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
 PLAN_YAML = REPO_ROOT / "_workspace" / "plan" / "podcast-plan.yaml"
 DEFAULT_TARGET = REPO_ROOT / "_workspace" / "plan" / "view" / "index.html"
 

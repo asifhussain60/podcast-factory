@@ -24,8 +24,8 @@ import re
 import sys
 from dataclasses import dataclass
 from pathlib import Path
+from _paths import REPO_ROOT
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
 SCRIPTS_PODCAST = REPO_ROOT / "scripts" / "podcast"
 
 FORBIDDEN_PATH_PATTERNS: tuple[str, ...] = (

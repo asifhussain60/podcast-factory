@@ -35,8 +35,8 @@ from __future__ import annotations
 import argparse
 import sys
 from pathlib import Path
+from _paths import REPO_ROOT
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
 LIBRARY_DIR = REPO_ROOT / "content" / "drafts"
 BOOKS_INDEX = REPO_ROOT / "content" / "podcast" / ".skill" / "books.md"
 

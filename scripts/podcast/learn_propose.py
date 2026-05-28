@@ -38,9 +38,9 @@ import sys
 from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
+from _paths import REPO_ROOT
 from typing import Any
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_LEDGER = REPO_ROOT / "content/podcast/.skill/_learning/findings.jsonl"
 DEFAULT_PROPOSALS_DIR = REPO_ROOT / "content/podcast/.skill/_learning/proposals"
 DEFAULT_PROMOTED_DIR = REPO_ROOT / "content/podcast/.skill/_learning/promoted"

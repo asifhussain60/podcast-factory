@@ -31,9 +31,9 @@ import subprocess
 import sys
 import tempfile
 from pathlib import Path
+from _paths import REPO_ROOT
 
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
 GEM_PROMPT_PATH = REPO_ROOT / "prompts" / "gemini-bundle-auditor.md"
 DEFAULT_MODEL = "gemini-2.5-pro"
 KEYCHAIN_SERVICE = "gemini_api_key"

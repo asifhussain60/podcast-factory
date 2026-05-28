@@ -32,10 +32,10 @@ import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
+from _paths import REPO_ROOT
 from typing import Sequence
 
 # Repo root is two levels up from this file (scripts/podcast/run_wave.py).
-REPO_ROOT = Path(__file__).resolve().parents[2]
 PLAN_DIR = REPO_ROOT / "_workspace" / "plan"
 ACCEPTANCE_FILE = PLAN_DIR / "operations" / "wave-acceptance-checklist.md"
 DEFAULT_ACCEPTANCE_FILE = ACCEPTANCE_FILE
