@@ -392,14 +392,14 @@ import Base from '../layouts/Base.astro';
    ========================================================= */
 const NODES = {
   wisdom: {
-    label: 'Kashkole Corpus', sublabel: '122 chapters · 17 binders',
+    label: 'Wisdom Corpus', sublabel: '122 chapters · 17 binders',
     zone: 'source', icon: '📚',
     x: 80, y: 35, w: 230, h: 145,
     atoms: ['doctrine'],
     chips: [],
     tooltip: 'Ismaili scholarly corpus — the doctrine substrate. Not produced as a podcast; seeds the knowledge library.',
     detail: {
-      title: 'Kashkole Corpus', zone: 'Source corpus · doctrine substrate',
+      title: 'Wisdom Corpus', zone: 'Source corpus · doctrine substrate',
       desc: '122 chapters of adapted Ismaili scholarly text across 17 thematic binders. Not produced as a podcast — it seeds the intelligence library with doctrinal knowledge atoms that enrich every future pipeline book.',
       kv: [
         { k: 'Total chapters', v: '122' }, { k: 'Binders', v: '17' },
@@ -442,15 +442,15 @@ const NODES = {
   },
 
   b0: {
-    label: 'B0 — Kashkole Driver', sublabel: 'Standalone batch ingest',
+    label: 'B0 — Wisdom Driver', sublabel: 'Standalone batch ingest',
     zone: 'ingest', icon: '⚙',
     x: 80, y: 245, w: 230, h: 145,
     atoms: ['doctrine'],
     chips: [{ text: '⛔ BLOCKED', cls: 'blocker' }, { text: 'Tier 1', cls: 'tier1' }],
-    tooltip: 'Batch driver for seeding the library from 75 Kashkole chapters. Not a pipeline phase — runs standalone.',
+    tooltip: 'Batch driver for seeding the library from 75 Wisdom chapters. Not a pipeline phase — runs standalone.',
     detail: {
-      title: 'B0 — Kashkole Ingest Driver', zone: 'Ingestion · standalone batch driver',
-      desc: 'A standalone batch tool (not a pipeline phase) that ingests all PASS+WARN Kashkole chapters into the knowledge library. Idempotent per chapter — re-running on a corrected chapter deletes its old atoms and re-ingests clean.',
+      title: 'B0 — Wisdom Ingest Driver', zone: 'Ingestion · standalone batch driver',
+      desc: 'A standalone batch tool (not a pipeline phase) that ingests all PASS+WARN Wisdom chapters into the knowledge library. Idempotent per chapter — re-running on a corrected chapter deletes its old atoms and re-ingests clean.',
       kv: [
         { k: 'File', v: '_drivers/wisdom_ingest_knowledge.py' },
         { k: 'Max lines', v: '400' },
@@ -473,7 +473,7 @@ const NODES = {
       ],
       sections: [
         { title: '⛔ BLOCKER — must discuss before this runs',
-          body: 'Before B0 ingests, evaluate whether to use ChatGPT or Gemini to further enrich the adapted Kashkole chapter text first.<br><br>Three paths: <strong>(a)</strong> ingest as-is; <strong>(b)</strong> enrich PASS+WARN chapters first then ingest; <strong>(c)</strong> post-hoc annotation on already-ingested atoms. Impacts doctrinal atom depth and Augmenter output quality.' },
+          body: 'Before B0 ingests, evaluate whether to use ChatGPT or Gemini to further enrich the adapted Wisdom chapter text first.<br><br>Three paths: <strong>(a)</strong> ingest as-is; <strong>(b)</strong> enrich PASS+WARN chapters first then ingest; <strong>(c)</strong> post-hoc annotation on already-ingested atoms. Impacts doctrinal atom depth and Augmenter output quality.' },
         { title: 'WARN handling',
           body: 'WARN-verdict chapters ingest with <code>needs_review=1</code>. Their atoms enter the library but the Augmenter silently skips them. After Asif corrects and re-ingests the chapter clean, the flag drops to 0.' },
       ]
@@ -549,7 +549,7 @@ const NODES = {
       tableGroups: true,
       sections: [
         { title: 'needs_review gate',
-          body: 'Atoms from WARN-verdict Kashkole chapters enter the DB with <code>needs_review=1</code>. The Augmenter applies a hard <code>WHERE needs_review=0</code> on both lookup paths. Only after Asif corrects and re-ingests the source chapter clean does the flag clear.' },
+          body: 'Atoms from WARN-verdict Wisdom chapters enter the DB with <code>needs_review=1</code>. The Augmenter applies a hard <code>WHERE needs_review=0</code> on both lookup paths. Only after Asif corrects and re-ingests the source chapter clean does the flag clear.' },
         { title: 'Wave 3 tables (Etymology)',
           body: '3 of the 16 tables are reserved for Wave 3: <code>arabic_roots</code>, <code>word_etymologies</code>, <code>letter_profiles</code>. Migrations create them now; they stay empty until Wave 3.' },
       ]
@@ -580,7 +580,7 @@ const NODES = {
       atoms: ['quran','hadith','doctrine'],
       sections: [
         { title: 'Two independent lookup paths',
-          body: '<strong>Path 1 — Quran + Hadith:</strong> Regex-scan chapter text for citation patterns → exact canonical-ID lookup. Always executes.<br><br><strong>Path 2 — Doctrine:</strong> Only executes when <code>doctrine_topic_ids</code> is non-empty in meta.yml. Prevents Kashkole doctrine leaking into non-Ismaili books.' },
+          body: '<strong>Path 1 — Quran + Hadith:</strong> Regex-scan chapter text for citation patterns → exact canonical-ID lookup. Always executes.<br><br><strong>Path 2 — Doctrine:</strong> Only executes when <code>doctrine_topic_ids</code> is non-empty in meta.yml. Prevents Wisdom doctrine leaking into non-Ismaili books.' },
         { title: 'Three consumer token budgets',
           body: '<strong>08-enrichment:</strong> 200 tokens — hint level.<br><strong>11-authoring:</strong> 500 tokens — full prior treatment.<br><strong>Challenger/0g-audit:</strong> 800 tokens — complete cross-book context.' },
       ]

@@ -1,6 +1,6 @@
 ---
 /**
- * Kashkole bilingual chapter view — dual panel (English | Urdu).
+ * Wisdom bilingual chapter view — dual panel (English | Urdu).
  */
 import Base from '../../../layouts/Base.astro';
 import Icon from '../../../components/ui/Icon.astro';
@@ -37,15 +37,15 @@ const next = idx >= 0 && idx < siblings.length - 1 ? siblings[idx + 1] : null;
 const prevEn = prev ? await getChapterEnglish(prev.manifest.shelf.id, prev.manifest.book.id) : null;
 const nextEn = next ? await getChapterEnglish(next.manifest.shelf.id, next.manifest.book.id) : null;
 
-const pageTitle = `${chapterEn?.en_title ?? m.book.name} · ${binderEn ?? m.shelf.name} · Kashkole`;
+const pageTitle = `${chapterEn?.en_title ?? m.book.name} · ${binderEn ?? m.shelf.name} · Wisdom`;
 ---
-<Base title={pageTitle} active="wisdom" description={`Kashkole chapter: ${m.book.name}`}>
+<Base title={pageTitle} active="wisdom" description={`Wisdom chapter: ${m.book.name}`}>
   <header class="kb-header">
     <div class="kb-header-inner">
       <nav class="kb-breadcrumb">
         <a href="/library">Library</a>
         <Icon name="chevron-right" size={11} />
-        <a href="/wisdom">Kashkole</a>
+        <a href="/wisdom">Wisdom</a>
         <Icon name="chevron-right" size={11} />
         <span class="kb-breadcrumb-shelf">{binderEn ?? m.shelf.name}</span>
       </nav>

@@ -1,6 +1,6 @@
 ---
 /**
- * Kashkole binder + chapter index.
+ * Wisdom binder + chapter index.
  *
  * Lists all binders → chapters with English (R1/R2) and Urdu names.
  * Includes a live search across English titles, Urdu names, and topic counts.
@@ -82,18 +82,18 @@ const totalChapters = shelves.reduce((n, s) => n + s.chapterCount, 0);
 const totalSections = shelves.reduce((n, s) => n + s.totalSections, 0);
 const retitledBinders = shelves.filter((s) => s.topicsRetitled).length;
 ---
-<Base title="Kashkole" active="wisdom" description="Kashkole binder and chapter index">
+<Base title="Wisdom" active="wisdom" description="Wisdom binder and chapter index">
   <header class="kash-header">
     <div class="kash-header-inner">
       <nav class="kash-breadcrumb">
         <a href="/library">Library</a>
         <Icon name="chevron-right" size={11} />
-        <span class="kash-breadcrumb-active">Kashkole</span>
+        <span class="kash-breadcrumb-active">Wisdom</span>
       </nav>
 
       <div class="kash-title-row">
         <div>
-          <h1 class="kash-title">Kashkole</h1>
+          <h1 class="kash-title">Wisdom</h1>
           <div class="kash-title-urdu" lang="ur">کشکول</div>
           <p class="kash-tagline">
             19 binders. 122 chapters. 1,337 topics. Tayyibi Ismaili philosophical, theological, jurisprudential, and devotional materials in Urdu — paired side-by-side with proposed English titles and (when translated) English text.
@@ -149,7 +149,7 @@ const retitledBinders = shelves.filter((s) => s.topicsRetitled).length;
     {shelves.length === 0 ? (
       <div class="kash-empty">
         <Icon name="folder" size={36} />
-        <p>No Kashkole bundles found.</p>
+        <p>No Wisdom bundles found.</p>
       </div>
     ) : (
       <div id="binder-list">
@@ -263,7 +263,7 @@ const retitledBinders = shelves.filter((s) => s.topicsRetitled).length;
 </script>
 
 <style>
-  /* ── Kashkole page layout ───────────────────────────────────────── */
+  /* ── Wisdom page layout ───────────────────────────────────────── */
   .kash-header {
     border-bottom: 1px solid var(--c-rule);
     background: var(--c-bg-card);

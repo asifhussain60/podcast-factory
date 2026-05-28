@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import DbArchitecture from '../components/DbArchitecture';
 ---
 
-<Base title="Database Design" active="db-schema" section="architecture" description="Interactive schema for the podcast-factory SQLite database — 16 SOLID-compliant tables spanning the pipeline, knowledge library, and Kashkole corpus layer.">
+<Base title="Database Design" active="db-schema" section="architecture" description="Interactive schema for the podcast-factory SQLite database — 16 SOLID-compliant tables spanning the pipeline, knowledge library, and Wisdom corpus layer.">
   <header class="page-hero">
     <div class="page-hero-inner">
       <span class="eyebrow">Database design</span>
@@ -51,7 +51,7 @@ import DbArchitecture from '../components/DbArchitecture';
         <span class="eyebrow">SOLID/DRY foundation from day one</span>
         <p>
           Four design rules are baked in. <strong>atom_sources</strong> unifies all provenance
-          (pipeline books and Kashkole chapters) in one table with a <code>source_type</code>
+          (pipeline books and Wisdom corpus chapters) in one table with a <code>source_type</code>
           discriminator and a CHECK constraint — no polymorphic NULL ambiguity.
           <strong>topic_type_taxonomy</strong> replaces a hard-coded driver dict with 18 seed rows
           that the ingestion driver JOINs instead of duplicating.
