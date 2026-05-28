@@ -206,3 +206,44 @@ Append a new entry at the bottom of this section at the end of every Copilot ses
 - Remaining P1/P2 Astro findings not yet addressed: YAML parser consolidation (js-yaml vs hand-rolled), storage-keys adoption in ChapterEditor/AnnotationWorkbench/ThreePane, VENDOR_IDS adoption in PipelineSpine/VendorLogo/infrastructure.astro, annotation-ops API routes using apiError helper.
 
 **Blocked / open:** H2 gated on Asif approval (Tier 2 — multi-file pipeline risk).
+
+---
+
+### Session log — 2026-05-29 (continuation)
+
+**Context:** Resumed from conversation compaction mid-session. Consolidation phases 1–3 were partially done; 4–5 stale path refs remained unfixed and the work was uncommitted.
+
+**What changed:**
+
+- **Stale ref cleanup** — fixed final 5 orphan path refs: `infra/claude-agents/project-steward.md` frontmatter, `podcast-challenger.md`, `infra/azure/azure-config.env`, `infra/llm-apis/README.md`, `framework.md`. All resolved to `docs/reference/steward-source-corpus.md`, `_workspace/prompts/gemini-bundle-auditor.md`, `docs/runbooks/`, `docs/setup/bootstrap.md` as appropriate.
+
+- **DR-009 fix** — `docs/reference/cortex-challenger-framework.md` had `Version: 1.0` on line 5 (moved from `reference/`). Stripped the stamp and removed `v1` from the heading per DR-009. Pre-commit hook caught this before the commit landed.
+
+- **Consolidation commit** `16bef5f` — phases 1–3 fully committed: 54 files changed; 21 → 17 top-level dirs; zero orphan path references; `_paths, _rules, _phases` imports verified clean.
+
+- **Astro B P1/P2 cleanup** `cfafcfb` — adopted shared lib constants across 6 files:
+  - `ChapterEditor.tsx`, `AnnotationWorkbench.tsx`: replaced inline key builder functions with `STORAGE_KEYS.chapterEditor()` / `STORAGE_KEYS.annotationQueue()` from `src/lib/reader/storage-keys.ts`
+  - `vendors.ts`: added `NOTEBOOKLM` + `INTERNAL` to `VENDOR_IDS` so `VendorId` is complete
+  - `PipelineSpine.tsx`: import `VENDOR_IDS` from vendors.ts (moved to top of file); kept narrow local `VendorKey` type (VENDOR_META only covers 4 vendors — wider type would cause Record<> TS error)
+  - `VendorLogo.tsx`: prop type is `VendorId | 'source' | 'output'` (source/output are pipeline stage markers, not external vendors)
+  - `annotations.ts`: all raw `new Response()` calls replaced with `apiError()`, `apiOk()`, `apiServerError()` from `api-responses.ts`
+  - Build: ✓ 804ms, zero errors.
+
+- **H2 partial** — branch `refactor/pipeline-quality`, merged to develop:
+  - **REPO_ROOT unification** (step 1): removed 27 redundant local `REPO_ROOT = Path(__file__).resolve().parents[2]` definitions; all scripts now import from `_paths.py`
+  - **State machine test suite** (step 2): `test_state_machine.py` — 20 tests covering `state_path`, `initial_state`, `write_state` (atomic tmpfile+rename), `read_state` (roundtrip, missing, invalid JSON), `update_phase` (running/completed/failed/extras/guard clauses), `render_status` — 20/20 pass
+
+- **Plan update** `cbed5d8` — H2 status set to `partial`; completed steps logged; deferred steps documented; dashboard snapshot regenerated.
+
+**Commits this session:** `ab69c46` · `16bef5f` (consolidation) · `cfafcfb` (Astro B) · `90bab5c` / `ca37aaf` (H2 partial) · `cbed5d8` (plan update)
+
+**State of develop HEAD:** `cbed5d8`. Build clean. 21 test files, 20+ tests in test_state_machine. Not yet pushed to origin (3 commits ahead of origin/develop from prior session).
+
+**Deferred (next session — H2 completion):**
+- `orchestrate_book.py` split (2,322 lines) into `orchestrate_core` / `orchestrate_phases` / `orchestrate_state` / `orchestrate_git` — complex internal dependencies require dedicated planning pass to map the dependency graph before moving any functions
+- 5 remaining test modules: phonetics, publish gates G1–G6 (only G7 covered), enrichment depth, branch naming (partially covered)
+- Azure transient-error retry decorator + subprocess timeout wrapper
+- DR-005 sweep: `_authoring.py` (2,025L), `build_episode_txt.py` (1,563L), `extract_chapter.py` (1,301L), `tighten_source.py` (1,051L), `run_wave.py` (824L)
+- Push develop to origin
+
+**Blocked / open:** orchestrate_book.py split is the highest-value remaining H2 step; needs 2–3 hours of careful extraction work.
