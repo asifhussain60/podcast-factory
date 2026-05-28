@@ -28,8 +28,17 @@ import Base from '../layouts/Base.astro';
       <button class="filter-btn f-doctrine" data-filter="doctrine" aria-pressed="false">● Doctrine atoms</button>
     </div>
 
+    <div class="zoom-controls" role="group" aria-label="Diagram zoom controls">
+      <button class="zoom-btn" id="zoomIn"    aria-label="Zoom in">+</button>
+      <span   class="zoom-level" id="zoomLevel">100%</span>
+      <button class="zoom-btn" id="zoomOut"   aria-label="Zoom out">−</button>
+      <span   class="zoom-sep" aria-hidden="true"></span>
+      <button class="zoom-btn" id="zoomReset" aria-label="Reset zoom" title="Reset zoom">⌂</button>
+    </div>
+
     <div class="diagram-wrap">
       <div class="diagram-canvas" id="canvas" aria-label="Intelligence pipeline diagram"></div>
+      <div class="node-tooltip" id="nodeTooltip" aria-hidden="true"></div>
     </div>
 
     <div class="legend-bar" aria-label="Diagram legend">
@@ -133,25 +142,54 @@ import Base from '../layouts/Base.astro';
 
 /* ---- Zone bands ---- */
 .zone-band {
-  position: absolute; left: 0; right: 0; border-radius: var(--radius-sm); pointer-events: none;
+  position: absolute; left: 0; right: 0; border-radius: 6px; pointer-events: none;
+  border-left: 3px solid currentColor;
+  transition: background 0.3s;
 }
+.zone-sources  { color: var(--green);   background: linear-gradient(135deg, rgba(56,139,58,0.09)   0%, rgba(56,139,58,0.02)   100%); }
+.zone-ingest   { color: #5b8dd9;        background: linear-gradient(135deg, rgba(91,141,217,0.09)  0%, rgba(91,141,217,0.02)  100%); }
+.zone-merge    { color: var(--purple);  background: linear-gradient(135deg, rgba(139,91,196,0.09)  0%, rgba(139,91,196,0.02)  100%); }
+.zone-store    { color: var(--purple);  background: linear-gradient(135deg, rgba(139,91,196,0.12)  0%, rgba(139,91,196,0.04)  100%); }
+.zone-augment  { color: var(--orange);  background: linear-gradient(135deg, rgba(219,109,40,0.09)  0%, rgba(219,109,40,0.02)  100%); }
+.zone-consumers{ color: #888;           background: linear-gradient(135deg, rgba(120,120,120,0.06) 0%, rgba(120,120,120,0.01) 100%); }
 .zone-band-label {
-  position: absolute; top: 8px; left: 8px;
+  position: absolute; top: 8px; left: 14px;
   font-size: 10px; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.09em; white-space: nowrap; color: var(--text-muted);
+  letter-spacing: 0.1em; white-space: nowrap;
+  color: currentColor; opacity: 0.7;
+}
+.zone-band-label::before {
+  content: attr(data-count);
+  display: inline-block; margin-right: 6px;
+  opacity: 0.55; font-variant-numeric: tabular-nums;
 }
 
 /* ---- Nodes ---- */
 .dnode {
   position: absolute; border-radius: var(--radius-md);
   border: 1.5px solid var(--border); background: var(--bg-card);
-  cursor: pointer; transition: box-shadow 0.2s, transform 0.15s, border-color 0.2s, opacity 0.25s;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.15s, border-color 0.2s, opacity 0.3s;
   overflow: hidden; user-select: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+  animation: nodeEnter 0.35s ease backwards;
+}
+@keyframes nodeEnter {
+  from { opacity: 0; transform: translateY(8px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 .dnode:hover, .dnode:focus-visible {
-  box-shadow: 0 0 0 2px var(--node-accent, var(--accent)), 0 10px 28px rgba(0,0,0,0.18);
-  transform: translateY(-3px); z-index: 20; outline: none;
+  box-shadow: 0 0 0 2.5px var(--node-accent, var(--accent)),
+              0 8px 28px rgba(0,0,0,0.18),
+              0 0 20px rgba(var(--node-accent-rgb, 192,128,32), 0.12);
+  transform: translateY(-3px) scale(1.005); z-index: 20; outline: none;
+  border-color: var(--node-accent, var(--accent));
 }
+.dnode.highlighted {
+  border-color: var(--node-accent, var(--accent));
+  box-shadow: 0 0 0 2.5px var(--node-accent, var(--accent)), 0 6px 20px rgba(0,0,0,0.15);
+}
+.dnode.graph-dimmed { opacity: 0.15; transform: none !important; }
 .dnode .node-header { padding: 9px 13px 7px; border-bottom: 1px solid var(--border); }
 .dnode .node-icon    { font-size: 18px; margin-bottom: 3px; line-height: 1; }
 .dnode .node-label   { font-size: 13px; font-weight: 700; color: var(--text-bright); line-height: 1.3; }
@@ -294,6 +332,48 @@ import Base from '../layouts/Base.astro';
 .outcome-table td:first-child { color: var(--text-bright); font-weight: 700; font-family: var(--font-mono); font-size: 11.5px; }
 @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
 .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); display: inline-block; animation: pulse 2s ease infinite; }
+
+/* ---- Animated particles along edges ---- */
+.edge-particle {
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+.edge-particle.particle-disabled { display: none; }
+
+/* ---- Zoom controls ---- */
+.zoom-controls {
+  display: flex; align-items: center; gap: 4px;
+  margin-bottom: var(--space-3);
+  padding: 5px 8px; background: var(--bg-card);
+  border: 1px solid var(--border); border-radius: var(--radius-md);
+  width: fit-content; user-select: none;
+}
+.zoom-btn {
+  width: 26px; height: 26px; border: 1px solid var(--border);
+  background: var(--bg-elevated); border-radius: var(--radius-sm);
+  color: var(--text-dim); cursor: pointer; font-size: 14px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.12s, color 0.12s; line-height: 1; font-family: inherit;
+}
+.zoom-btn:hover { background: var(--accent); color: white; border-color: var(--accent); }
+.zoom-level {
+  font-size: 11px; color: var(--text-muted); min-width: 36px;
+  text-align: center; font-variant-numeric: tabular-nums;
+}
+.zoom-sep { width: 1px; height: 18px; background: var(--border); margin: 0 2px; }
+
+/* ---- Hover tooltip ---- */
+.node-tooltip {
+  position: absolute; z-index: 60; pointer-events: none;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-md); padding: 8px 11px;
+  font-size: 12px; color: var(--text-dim); max-width: 210px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.14);
+  opacity: 0; transition: opacity 0.12s;
+  line-height: 1.5;
+}
+.node-tooltip.visible { opacity: 1; }
+.node-tooltip strong { color: var(--text-bright); font-size: 12.5px; display: block; margin-bottom: 3px; }
 
 @media (max-width: 820px) {
   .detail-panel { width: 100vw; }
@@ -590,17 +670,17 @@ function portCoord(n, port) {
    ========================================================= */
 function renderZones(canvas) {
   const zones = [
-    { label:'Sources',      y:0,    h:210,  color:'rgba(56,139,58,0.04)' },
-    { label:'Ingestion',    y:210,  h:210,  color:'rgba(91,141,217,0.04)' },
-    { label:'Merge',        y:420,  h:180,  color:'rgba(139,91,196,0.04)' },
-    { label:'Store',        y:600,  h:220,  color:'rgba(139,91,196,0.06)' },
-    { label:'Augmentation', y:820,  h:200,  color:'rgba(219,109,40,0.04)' },
-    { label:'Consumers',    y:1020, h:240,  color:'rgba(100,100,100,0.03)' },
+    { label:'Sources',      cls:'zone-sources',   y:0,    h:210,  nodes:['kashkole','books'] },
+    { label:'Ingestion',    cls:'zone-ingest',    y:210,  h:210,  nodes:['b0','b1'] },
+    { label:'Merge',        cls:'zone-merge',     y:420,  h:180,  nodes:['b2'] },
+    { label:'Store',        cls:'zone-store',     y:600,  h:220,  nodes:['db'] },
+    { label:'Augmentation', cls:'zone-augment',   y:820,  h:200,  nodes:['b3'] },
+    { label:'Consumers',    cls:'zone-consumers', y:1020, h:240,  nodes:['enrich','author','challenger'] },
   ];
   zones.forEach(z => {
     const band = document.createElement('div');
-    band.className = 'zone-band';
-    band.style.cssText = `top:${z.y}px;height:${z.h}px;background:${z.color};`;
+    band.className = `zone-band ${z.cls}`;
+    band.style.cssText = `top:${z.y}px;height:${z.h}px;`;
     const lbl = document.createElement('div');
     lbl.className = 'zone-band-label';
     lbl.textContent = z.label;
@@ -613,15 +693,20 @@ function renderZones(canvas) {
    NODES
    ========================================================= */
 function renderNodes(canvas) {
-  Object.entries(NODES).forEach(([id, n]) => {
+  const zoneAccentColors = {
+    source:'#4a7c4a', ingest:'#5b8dd9', merge:'#7c3aed',
+    store:'#7c3aed', augment:'#c08020', consume:'#888',
+  };
+  Object.entries(NODES).forEach(([id, n], idx) => {
     const el = document.createElement('div');
     el.className = `dnode zone-${n.zone}`;
     el.id = `node-${id}`;
-    el.style.cssText = `left:${n.x}px;top:${n.y}px;width:${n.w}px;`;
+    el.style.cssText = `left:${n.x}px;top:${n.y}px;width:${n.w}px;animation-delay:${idx*0.06}s`;
     el.setAttribute('tabindex', '0');
     el.setAttribute('role', 'button');
     el.setAttribute('aria-label', `${n.label} — click for details`);
     el.dataset.atoms = (n.atoms || []).join(',');
+    el.dataset.id = id;
 
     const dots  = (n.atoms||[]).map(a => `<span class="atom-dot ${a}" aria-hidden="true"></span>`).join('');
     const chips = (n.chips||[]).map(c => `<span class="node-chip ${c.cls}">${c.text}</span>`).join('');
@@ -637,8 +722,10 @@ function renderNodes(canvas) {
         <div>${chips}</div>
       </div>`;
 
-    el.addEventListener('click',   () => openDetail(id));
+    el.addEventListener('click',      () => openDetail(id));
     el.addEventListener('keydown', e => { if (e.key==='Enter'||e.key===' ') { e.preventDefault(); openDetail(id); } });
+    el.addEventListener('mouseenter', e => showTooltip(id, el));
+    el.addEventListener('mouseleave',   () => hideTooltip());
     canvas.appendChild(el);
   });
 }
@@ -649,9 +736,12 @@ function renderNodes(canvas) {
 function renderEdges(canvas) {
   const svg = document.createElementNS(NS, 'svg');
   svg.classList.add('diagram-svg');
+  svg.setAttribute('id', 'edgeSvg');
   svg.setAttribute('aria-hidden', 'true');
 
   const defs = document.createElementNS(NS, 'defs');
+
+  // Arrow markers
   const markerDefs = [
     { id:'arr-quran',    fill:'var(--green)' },
     { id:'arr-hadith',   fill:'#c9930a' },
@@ -672,7 +762,50 @@ function renderEdges(canvas) {
     p.setAttribute('fill', fill);
     m.appendChild(p); defs.appendChild(m);
   });
+
+  // Glow filter for particles
+  const glow = document.createElementNS(NS, 'filter');
+  glow.setAttribute('id', 'particle-glow');
+  glow.setAttribute('x', '-30%'); glow.setAttribute('y', '-30%');
+  glow.setAttribute('width', '160%'); glow.setAttribute('height', '160%');
+  const fe = document.createElementNS(NS, 'feGaussianBlur');
+  fe.setAttribute('stdDeviation', '2.5'); fe.setAttribute('result', 'blur');
+  const feMerge = document.createElementNS(NS, 'feMerge');
+  const m1 = document.createElementNS(NS, 'feMergeNode'); m1.setAttribute('in', 'blur');
+  const m2 = document.createElementNS(NS, 'feMergeNode'); m2.setAttribute('in', 'SourceGraphic');
+  feMerge.appendChild(m1); feMerge.appendChild(m2);
+  glow.appendChild(fe); glow.appendChild(feMerge);
+  defs.appendChild(glow);
+
+  // Per-edge linearGradients
+  const zoneColors = {
+    source:'#4a7c4a', ingest:'#5b8dd9', merge:'#7c3aed',
+    store:'#7c3aed', augment:'#c08020', consume:'#888',
+  };
+  EDGES.forEach((edge, i) => {
+    const fn = NODES[edge.from], tn = NODES[edge.to];
+    if (!fn || !tn) return;
+    const from = portCoord(fn, edge.fp || 'right');
+    const to   = portCoord(tn, edge.tp || 'left');
+    const grad = document.createElementNS(NS, 'linearGradient');
+    grad.setAttribute('id', `eg${i}`);
+    grad.setAttribute('gradientUnits', 'userSpaceOnUse');
+    grad.setAttribute('x1', from.x); grad.setAttribute('y1', from.y);
+    grad.setAttribute('x2', to.x);   grad.setAttribute('y2', to.y);
+    const s1 = document.createElementNS(NS, 'stop');
+    s1.setAttribute('offset', '0%');
+    s1.setAttribute('stop-color', zoneColors[fn.zone] || '#888');
+    const s2 = document.createElementNS(NS, 'stop');
+    s2.setAttribute('offset', '100%');
+    s2.setAttribute('stop-color', zoneColors[tn.zone] || '#888');
+    grad.appendChild(s1); grad.appendChild(s2);
+    defs.appendChild(grad);
+  });
   svg.appendChild(defs);
+
+  const particleColors = {
+    quran:'#4a7c4a', hadith:'#c9930a', doctrine:'#7c3aed', mixed:'#5b8dd9', blocker:'#c08020',
+  };
 
   EDGES.forEach((edge, i) => {
     const fn = NODES[edge.from], tn = NODES[edge.to];
@@ -686,21 +819,29 @@ function renderEdges(canvas) {
     const d    = `M ${from.x} ${from.y} C ${from.x} ${cp1y} ${to.x} ${cp2y} ${to.x} ${to.y}`;
     const style = edge.style || 'mixed';
 
+    // Wide invisible hit-area
     const bg = document.createElementNS(NS, 'path');
     bg.setAttribute('d', d); bg.setAttribute('fill', 'none');
     bg.setAttribute('stroke', 'transparent'); bg.setAttribute('stroke-width', '14');
     bg.dataset.idx = i; bg.dataset.types = (edge.types||[]).join(','); bg.dataset.style = style;
     svg.appendChild(bg);
 
+    // The main edge path — with gradient stroke
     const path = document.createElementNS(NS, 'path');
+    path.setAttribute('id', `edge-path-${i}`);
     path.setAttribute('d', d);
     path.setAttribute('class', `edge-path t-${style} flowing`);
     path.setAttribute('marker-end', `url(#arr-${style})`);
+    if (style !== 'blocker' && style !== 'disabled') {
+      path.setAttribute('stroke', `url(#eg${i})`);
+      path.style.stroke = `url(#eg${i})`;
+    }
     path.dataset.idx   = i;
     path.dataset.types = (edge.types||[]).join(',');
     path.dataset.style = style;
     svg.appendChild(path);
 
+    // Edge label
     if (edge.label) {
       const mx = from.x + (to.x - from.x) * 0.5 + 12;
       const my = from.y + (to.y - from.y) * 0.5;
@@ -709,6 +850,43 @@ function renderEdges(canvas) {
       t.setAttribute('text-anchor', 'middle'); t.setAttribute('class', 'edge-label');
       t.dataset.idx = i; t.textContent = edge.label;
       svg.appendChild(t);
+    }
+
+    // Animated particles (skip disabled)
+    if (style !== 'disabled') {
+      const pColor = particleColors[style] || particleColors[(edge.types||[])[0]] || '#888';
+      const dur    = style === 'blocker' ? '4s' : '2.8s';
+      for (let p = 0; p < 2; p++) {
+        const circle = document.createElementNS(NS, 'circle');
+        circle.setAttribute('r', style === 'blocker' ? '4.5' : '3.5');
+        circle.setAttribute('fill', pColor);
+        circle.setAttribute('class', 'edge-particle');
+        circle.setAttribute('filter', 'url(#particle-glow)');
+
+        const motion = document.createElementNS(NS, 'animateMotion');
+        motion.setAttribute('dur', dur);
+        motion.setAttribute('begin', `${i * 0.3 + p * (parseFloat(dur) * 0.5)}s`);
+        motion.setAttribute('repeatCount', 'indefinite');
+        motion.setAttribute('rotate', 'auto');
+        motion.setAttribute('calcMode', 'spline');
+        motion.setAttribute('keyTimes', '0;1');
+        motion.setAttribute('keySplines', '0.4 0 0.6 1');
+        const mpath = document.createElementNS(NS, 'mpath');
+        mpath.setAttribute('href', `#edge-path-${i}`);
+        motion.appendChild(mpath);
+
+        const fadeIn = document.createElementNS(NS, 'animate');
+        fadeIn.setAttribute('attributeName', 'opacity');
+        fadeIn.setAttribute('values', '0;0;1;1;0;0');
+        fadeIn.setAttribute('keyTimes', '0;0.05;0.15;0.85;0.95;1');
+        fadeIn.setAttribute('dur', dur);
+        fadeIn.setAttribute('begin', `${i * 0.3 + p * (parseFloat(dur) * 0.5)}s`);
+        fadeIn.setAttribute('repeatCount', 'indefinite');
+
+        circle.appendChild(motion);
+        circle.appendChild(fadeIn);
+        svg.appendChild(circle);
+      }
     }
   });
 
@@ -860,6 +1038,57 @@ document.getElementById('detailOverlay').addEventListener('click', e => {
   if (e.target === document.getElementById('detailOverlay')) closeDetail();
 });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDetail(); });
+
+/* =========================================================
+   TOOLTIP
+   ========================================================= */
+const tooltip = document.getElementById('nodeTooltip');
+function showTooltip(id, el) {
+  const n = NODES[id]; if (!n) return;
+  tooltip.innerHTML = `<strong>${n.label}</strong>${n.tooltip ? n.tooltip : ''}`;
+  const rect = el.getBoundingClientRect();
+  const wrapRect = document.querySelector('.diagram-wrap').getBoundingClientRect();
+  const tx = rect.left - wrapRect.left;
+  const ty = rect.top  - wrapRect.top - 10;
+  tooltip.style.left = `${tx}px`;
+  tooltip.style.top  = `${ty - tooltip.offsetHeight || ty - 60}px`;
+  tooltip.classList.add('visible');
+  tooltip.removeAttribute('aria-hidden');
+}
+function hideTooltip() {
+  tooltip.classList.remove('visible');
+  tooltip.setAttribute('aria-hidden', 'true');
+}
+
+/* =========================================================
+   ZOOM / PAN
+   ========================================================= */
+let zoom = 1; const ZOOM_MIN = 0.35, ZOOM_MAX = 2.0, ZOOM_STEP = 0.15;
+const canvasEl = document.getElementById('canvas');
+const svgEl    = document.getElementById('edgeSvg');
+
+function applyZoom() {
+  canvasEl.style.transformOrigin = 'top center';
+  canvasEl.style.transform = `scale(${zoom})`;
+  if (svgEl) { svgEl.style.transformOrigin = 'top center'; svgEl.style.transform = `scale(${zoom})`; }
+  document.getElementById('zoomLevel').textContent = `${Math.round(zoom * 100)}%`;
+}
+document.getElementById('zoomIn')?.addEventListener('click', () => {
+  zoom = Math.min(ZOOM_MAX, zoom + ZOOM_STEP); applyZoom();
+});
+document.getElementById('zoomOut')?.addEventListener('click', () => {
+  zoom = Math.max(ZOOM_MIN, zoom - ZOOM_STEP); applyZoom();
+});
+document.getElementById('zoomReset')?.addEventListener('click', () => {
+  zoom = 1; applyZoom();
+});
+// Ctrl+wheel to zoom
+document.querySelector('.diagram-wrap')?.addEventListener('wheel', e => {
+  if (!e.ctrlKey && !e.metaKey) return;
+  e.preventDefault();
+  zoom = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, zoom - e.deltaY * 0.001));
+  applyZoom();
+}, { passive: false });
 
 /* =========================================================
    INIT

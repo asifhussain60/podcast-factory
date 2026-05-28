@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import PipelineSpine from '../components/PipelineSpine.tsx';
 import LayerStack from '../components/LayerStack.tsx';
 import PhaseSwimlaneDiagram from '../components/PhaseSwimlaneDiagram.tsx';
+import PipelineOverviewRail from '../components/PipelineOverviewRail.tsx';
 import arch from '../data/architecture-snapshot.json';
 ---
 <Base title="Architecture" active="architecture" section="architecture">
@@ -91,6 +92,10 @@ import arch from '../data/architecture-snapshot.json';
       Walk through every station a book passes through. The mini-rail keeps track of where you are.
       Each station shows what plugs in, which agent does the work, and what the agent knows and won't do.
     </p>
+
+    <!-- Rich animated pipeline overview rail (click a node to jump + expand) -->
+    <PipelineOverviewRail phases={arch.phases} client:load />
+
     <PipelineSpine phases={arch.phases} modules={arch.modules} agents={arch.agents} client:load />
   </section>
 
