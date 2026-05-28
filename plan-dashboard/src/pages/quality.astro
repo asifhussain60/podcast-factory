@@ -36,7 +36,15 @@ function loadBaseline(slug: string): BookBaseline | null {
   const base = resolve(process.cwd(), `../_workspace/test-strategy/baselines/${slug}-peq-baseline.json`);
   try {
     const data = JSON.parse(readFileSync(base, 'utf-8'));
-    return data as BookBaseline;
+    // Support both array format {book, chapters:[...]} and dict format {chSlug: {scores}}
+    if (Array.isArray(data.chapters)) {
+      return data as BookBaseline;
+    }
+    // Convert flat dict → array
+    const chapters: ChapterScore[] = Object.entries(data)
+      .filter(([, v]) => v !== null && typeof v === 'object')
+      .map(([chapter, score]: [string, any]) => ({ chapter, ...score } as ChapterScore));
+    return { book: slug, chapters };
   } catch {
     return null;
   }
@@ -45,8 +53,10 @@ function loadBaseline(slug: string): BookBaseline | null {
 const CANONICAL_BOOKS = ['kitab-al-riyad', 'the-master-and-the-disciple'];
 const baselines = CANONICAL_BOOKS.map(loadBaseline).filter(Boolean) as BookBaseline[];
 
-// Fleet-average calculation
-const allChapters = baselines.flatMap(b => b.chapters);
+// Fleet-average calculation — guard against any malformed entries
+const allChapters = baselines.flatMap(b => b.chapters).filter(
+  (c): c is ChapterScore => c != null && typeof c.total === 'number'
+);
 const fleetAvg = allChapters.length
   ? (allChapters.reduce((s, c) => s + c.total, 0) / allChapters.length).toFixed(1)
   : '—';

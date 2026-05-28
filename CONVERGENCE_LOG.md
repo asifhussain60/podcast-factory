@@ -31,3 +31,16 @@ Convergence threshold: **16/24**. Hard floor: no ship with −6 (duplicate diagr
 All pages above the 16/24 threshold. No duplicate diagram penalty triggered.
 
 ---
+
+## Iteration 2 — 2026-05-28 (full site audit)
+
+| iter | page | score | status | delta | notes |
+|---|---|---|---|---|---|
+| 1 | /quality | ERROR | refactor | `loadBaseline` parsed flat dict JSON as `BookBaseline` → `chapters` undefined → TypeError on `c.total` | Baseline JSON is `{chSlug: {scores}}` not `{chapters:[]}` |
+| 2 | /quality | 17/24 | ✅ CONVERGED | Fixed `loadBaseline` to detect and convert dict format; added defensive `filter` on `allChapters` | Fleet avg 73.0, 21 chapters, 0 PASS / 17 WARN / 4 FAIL rendered correctly |
+| 1 | /security | blank | investigate | Playwright screenshot taken before web fonts loaded — false negative | No code defect; 3s wait confirms full render at 20/24 |
+| 1 | / (home) | blank | investigate | Same font-load timing issue | NarrativeScroll + GSAP renders correctly at 18/24 with wait |
+
+**Summary:** One real defect fixed (quality page TypeError). Two false negatives resolved (font load timing). All 12 pages confirmed ≥ 16/24. No duplicate-diagram penalty anywhere. Playwright screenshots must use `--wait-for-timeout=3000` for this site.
+
+---
