@@ -20,47 +20,68 @@ gsap.registerPlugin(ScrollTrigger);
 
 // ── Visual SVG definitions — one per phase ───────────────────────
 
+
+// ── Visual SVG definitions — one per phase ───────────────────────
+// Bold illustration style: solid panel fills, thick borders, large white labels.
+
 function VisualReadBook() {
   return (
     <svg viewBox="0 0 340 240" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <style>{`
-          @keyframes rb-scan{0%,100%{transform:translateY(0)}50%{transform:translateY(128px)}}
-          @keyframes rb-fade{0%{opacity:0;transform:translateX(-5px)}100%{opacity:1;transform:translateX(0)}}
-          .rb-beam{animation:rb-scan 3.2s ease-in-out infinite}
-          .rb-l1{animation:rb-fade .4s .4s both}.rb-l2{animation:rb-fade .4s .8s both}
-          .rb-l3{animation:rb-fade .4s 1.2s both}.rb-l4{animation:rb-fade .4s 1.6s both}
-          .rb-l5{animation:rb-fade .4s 2.0s both}.rb-l6{animation:rb-fade .4s 2.4s both}
-          .rb-l7{animation:rb-fade .4s 2.8s both}
-        `}</style>
-      </defs>
-      {/* Book spine + pages */}
-      <rect x="18" y="28" width="10" height="168" rx="2" fill="rgba(201,151,58,0.2)" stroke="rgba(201,151,58,0.4)" strokeWidth="1"/>
-      <rect x="28" y="28" width="118" height="168" rx="2" fill="rgba(240,236,227,0.04)" stroke="rgba(240,236,227,0.2)" strokeWidth="1.5"/>
-      {/* Arabic-style right-aligned text lines */}
-      {[52,68,84,100,116,132,148,164,180].map((y,i)=>(
-        <line key={i} x1={132-i*2} y1={y} x2="136" y2={y} stroke="rgba(240,236,227,0.16)" strokeWidth="1.6" strokeLinecap="round"/>
+      <defs><style>{`
+        @keyframes rb-sweep{0%,100%{transform:translateY(0)}50%{transform:translateY(140px)}}
+        @keyframes rb-in{from{opacity:0}to{opacity:1}}
+        .rb-beam{animation:rb-sweep 3s ease-in-out infinite}
+        .rb-l1{animation:rb-in .3s .3s both}.rb-l2{animation:rb-in .3s .6s both}
+        .rb-l3{animation:rb-in .3s .9s both}.rb-l4{animation:rb-in .3s 1.2s both}
+        .rb-l5{animation:rb-in .3s 1.5s both}
+      `}</style></defs>
+
+      {/* Source document — gold */}
+      <rect x="12" y="20" width="134" height="190" rx="7" fill="#1c1400" stroke="#c9973a" strokeWidth="2.5"/>
+      <rect x="12" y="20" width="134" height="32" rx="7" fill="#c9973a" opacity="0.3"/>
+      <text x="79" y="41" textAnchor="middle" fill="white" fontSize="13" fontWeight="700" fontFamily="Inter,sans-serif">PDF / DOCX</text>
+      {[62,76,90,104,118,132,146,160,174,188].map((y,i)=>(
+        <rect key={i} x="24" y={y} width={96-i*3} height="8" rx="3" fill="white" opacity="0.2"/>
       ))}
-      <text x="82" y="213" textAnchor="middle" fill="rgba(240,236,227,0.2)" fontSize="8" fontFamily="Inter,sans-serif" letterSpacing="2">SOURCE</text>
-      {/* Scanner beam sweeping down */}
+
+      {/* Scanner beam */}
       <g className="rb-beam">
-        <rect x="28" y="28" width="118" height="7" rx="1" fill="rgba(201,151,58,0.08)"/>
-        <rect x="28" y="33" width="118" height="2" fill="rgba(201,151,58,0.85)" style={{filter:'blur(1px)'}}/>
-        <rect x="28" y="33" width="118" height="1" fill="rgba(255,220,140,0.9)"/>
+        <rect x="12" y="20" width="134" height="16" rx="4" fill="#ffd700" opacity="0.07"/>
+        <rect x="12" y="32" width="134" height="4.5" rx="2" fill="#ffd700" opacity="0.95"/>
       </g>
+
       {/* Arrow */}
-      <path d="M 158 112 L 192 112" stroke="rgba(201,151,58,0.55)" strokeWidth="2" strokeLinecap="round"/>
-      <polygon points="190,107 200,112 190,117" fill="rgba(201,151,58,0.55)"/>
-      {/* Digital output — right panel */}
-      <rect x="202" y="28" width="120" height="168" rx="3" fill="rgba(26,92,138,0.07)" stroke="rgba(106,180,240,0.22)" strokeWidth="1.5"/>
-      <text x="216" y="46" fill="rgba(106,180,240,0.5)" fontSize="8" fontFamily="Inter,sans-serif" letterSpacing="2">DIGITAL TEXT</text>
-      {[{y:60,w:90,c:'rb-l1'},{y:76,w:74,c:'rb-l2'},{y:92,w:98,c:'rb-l3'},{y:108,w:66,c:'rb-l4'},{y:124,w:85,c:'rb-l5'},{y:140,w:72,c:'rb-l6'},{y:156,w:56,c:'rb-l7'}].map((r,i)=>(
-        <line key={i} x1="216" y1={r.y} x2={216+r.w} y2={r.y} className={r.c} stroke="rgba(106,180,240,0.55)" strokeWidth="1.8" strokeLinecap="round"/>
-      ))}
-      {/* Cursor blink */}
-      <rect x="216" y="170" width="8" height="10" rx="1" fill="rgba(106,180,240,0.6)">
-        <animate attributeName="opacity" values="1;0;1" dur="1.1s" repeatCount="indefinite"/>
-      </rect>
+      <path d="M 158 115 L 174 115" stroke="#c9973a" strokeWidth="3.5" strokeLinecap="round"/>
+      <polygon points="172,107 188,115 172,123" fill="#c9973a"/>
+
+      {/* Structured text output — blue */}
+      <rect x="190" y="20" width="138" height="190" rx="7" fill="#061422" stroke="#5aabf0" strokeWidth="2.5"/>
+      <rect x="190" y="20" width="138" height="32" rx="7" fill="#5aabf0" opacity="0.3"/>
+      <text x="259" y="41" textAnchor="middle" fill="white" fontSize="11" fontWeight="700" fontFamily="Inter,sans-serif">STRUCTURED TEXT</text>
+      <g className="rb-l1">
+        <rect x="200" y="62" width="32" height="14" rx="4" fill="#5aabf0"/>
+        <text x="216" y="73" textAnchor="middle" fill="white" fontSize="9" fontWeight="700" fontFamily="Inter,sans-serif">H1</text>
+        <rect x="238" y="65" width="80" height="8" rx="3" fill="white" opacity="0.55"/>
+      </g>
+      <g className="rb-l2">
+        <rect x="200" y="84" width="32" height="14" rx="4" fill="#5aabf0" opacity="0.55"/>
+        <text x="216" y="95" textAnchor="middle" fill="white" fontSize="9" fontWeight="700" fontFamily="Inter,sans-serif">H2</text>
+        <rect x="238" y="87" width="66" height="8" rx="3" fill="white" opacity="0.38"/>
+      </g>
+      <g className="rb-l3">
+        <rect x="200" y="105" width="116" height="8" rx="3" fill="white" opacity="0.3"/>
+        <rect x="200" y="118" width="96" height="8" rx="3" fill="white" opacity="0.24"/>
+      </g>
+      <g className="rb-l4">
+        <rect x="200" y="134" width="32" height="14" rx="4" fill="#5aabf0" opacity="0.55"/>
+        <text x="216" y="145" textAnchor="middle" fill="white" fontSize="9" fontWeight="700" fontFamily="Inter,sans-serif">H2</text>
+        <rect x="238" y="137" width="72" height="8" rx="3" fill="white" opacity="0.38"/>
+      </g>
+      <g className="rb-l5">
+        <rect x="200" y="155" width="110" height="8" rx="3" fill="white" opacity="0.24"/>
+        <rect x="200" y="168" width="88" height="8" rx="3" fill="white" opacity="0.2"/>
+        <rect x="200" y="181" width="100" height="8" rx="3" fill="white" opacity="0.18"/>
+      </g>
     </svg>
   );
 }
@@ -68,46 +89,46 @@ function VisualReadBook() {
 function VisualPolishText() {
   return (
     <svg viewBox="0 0 340 240" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <style>{`
-          @keyframes pt-strike{0%{stroke-dashoffset:60}100%{stroke-dashoffset:0}}
-          @keyframes pt-appear{0%{opacity:0;transform:translateY(6px)}100%{opacity:1;transform:translateY(0)}}
-          @keyframes pt-pulse{0%,100%{opacity:0.5}50%{opacity:1}}
-          .pt-err1{animation:pt-strike 0.5s 0.3s both;stroke-dasharray:60;stroke-dashoffset:60}
-          .pt-err2{animation:pt-strike 0.5s 0.7s both;stroke-dasharray:50;stroke-dashoffset:50}
-          .pt-err3{animation:pt-strike 0.5s 1.1s both;stroke-dasharray:45;stroke-dashoffset:45}
-          .pt-clean{animation:pt-appear 0.5s 1.5s both}
-          .pt-badge{animation:pt-pulse 2s 1.5s infinite}
-        `}</style>
-      </defs>
-      {/* BEFORE panel — garbled text */}
-      <rect x="14" y="22" width="136" height="186" rx="4" fill="rgba(168,50,50,0.07)" stroke="rgba(168,50,50,0.28)" strokeWidth="1.5"/>
-      <text x="82" y="40" textAnchor="middle" fill="rgba(220,80,80,0.6)" fontSize="8" fontFamily="Inter,sans-serif" letterSpacing="2">BEFORE</text>
-      {/* Garbled lines — uneven lengths mimicking OCR noise */}
-      {[56,73,90,107,124,141,158,175].map((y,i)=>(
-        <line key={i} x1={136-i*4} y1={y} x2="130" y2={y} stroke="rgba(240,236,227,0.2)" strokeWidth="1.8" strokeLinecap="round"/>
+      <defs><style>{`
+        @keyframes pt-in{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes pt-badge{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+        .pt-after{animation:pt-in .5s .8s both}
+        .pt-badge{animation:pt-badge .4s 1.5s both}
+      `}</style></defs>
+
+      {/* BEFORE panel — red */}
+      <rect x="10" y="20" width="146" height="196" rx="7" fill="#200808" stroke="#f05555" strokeWidth="2.5"/>
+      <rect x="10" y="20" width="146" height="32" rx="7" fill="#f05555" opacity="0.32"/>
+      <text x="83" y="41" textAnchor="middle" fill="white" fontSize="14" fontWeight="700" fontFamily="Inter,sans-serif">BEFORE</text>
+      {[62,78,94,110,126,142,158,174,190].map((y,i)=>(
+        <rect key={i} x="22" y={y} width={110-i*4} height="8" rx="3" fill="white" opacity="0.17"/>
       ))}
-      {/* Red strike-through error marks on 3 lines */}
-      <line x1="26" y1="90" x2="86" y2="90" className="pt-err1" stroke="rgba(220,80,80,0.7)" strokeWidth="1.5" strokeLinecap="round"/>
-      <line x1="26" y1="124" x2="72" y2="124" className="pt-err2" stroke="rgba(220,80,80,0.7)" strokeWidth="1.5" strokeLinecap="round"/>
-      <line x1="26" y1="158" x2="80" y2="158" className="pt-err3" stroke="rgba(220,80,80,0.7)" strokeWidth="1.5" strokeLinecap="round"/>
-      {/* Red dots on error positions */}
-      {[[55,88],[88,88],[60,122],[55,156],[72,156]].map(([x,y],i)=>(
-        <circle key={i} cx={x} cy={y} r="2.5" fill="rgba(220,80,80,0.55)"/>
+      {/* Error marks */}
+      {[78,118,158].map((y,i)=>(
+        <g key={i}>
+          <rect x="22" y={y} width={80-i*8} height="8" rx="3" fill="#f05555" opacity="0.28"/>
+          <line x1="22" y1={y+4} x2={96-i*8} y2={y+4} stroke="#f05555" strokeWidth="2.5" strokeLinecap="round"/>
+          <circle cx={104-i*8} cy={y+4} r="8" fill="#f05555" opacity="0.9"/>
+          <text x={104-i*8} y={y+8} textAnchor="middle" fill="white" fontSize="10" fontWeight="700" fontFamily="Inter,sans-serif">✕</text>
+        </g>
       ))}
-      {/* Center arrow */}
-      <path d="M 162 112 L 180 112" stroke="rgba(201,151,58,0.6)" strokeWidth="2" strokeLinecap="round"/>
-      <polygon points="178,107 188,112 178,117" fill="rgba(201,151,58,0.6)"/>
-      {/* AFTER panel — clean text */}
-      <g className="pt-clean">
-        <rect x="192" y="22" width="136" height="186" rx="4" fill="rgba(74,124,74,0.07)" stroke="rgba(74,124,74,0.3)" strokeWidth="1.5"/>
-        <text x="260" y="40" textAnchor="middle" fill="rgba(126,207,126,0.6)" fontSize="8" fontFamily="Inter,sans-serif" letterSpacing="2">AFTER</text>
-        {[56,73,90,107,124,141,158,175].map((y,i)=>(
-          <line key={i} x1={314-i*3} y1={y} x2="308" y2={y} stroke="rgba(240,236,227,0.35)" strokeWidth="1.8" strokeLinecap="round"/>
+
+      {/* Arrow */}
+      <path d="M 164 118 L 180 118" stroke="#c9973a" strokeWidth="3.5" strokeLinecap="round"/>
+      <polygon points="178,110 194,118 178,126" fill="#c9973a"/>
+
+      {/* AFTER panel — green */}
+      <g className="pt-after">
+        <rect x="184" y="20" width="146" height="196" rx="7" fill="#061a0c" stroke="#5ac87a" strokeWidth="2.5"/>
+        <rect x="184" y="20" width="146" height="32" rx="7" fill="#5ac87a" opacity="0.3"/>
+        <text x="257" y="41" textAnchor="middle" fill="white" fontSize="14" fontWeight="700" fontFamily="Inter,sans-serif">AFTER</text>
+        {[62,78,94,110,126,142,158,174,190].map((y,i)=>(
+          <rect key={i} x="196" y={y} width={120-i*4} height="8" rx="3" fill="white" opacity="0.32"/>
         ))}
-        {/* Clean badge */}
-        <rect x="206" y="192" width="108" height="14" rx="7" className="pt-badge" fill="rgba(74,124,74,0.15)" stroke="rgba(74,124,74,0.4)" strokeWidth="1"/>
-        <text x="260" y="202" textAnchor="middle" fill="rgba(126,207,126,0.75)" fontSize="7.5" fontFamily="Inter,sans-serif" letterSpacing="1">CORRECTED ✓</text>
+        <g className="pt-badge">
+          <rect x="200" y="198" width="114" height="22" rx="11" fill="#5ac87a"/>
+          <text x="257" y="213" textAnchor="middle" fill="white" fontSize="12" fontWeight="700" fontFamily="Inter,sans-serif">✓ CORRECTED</text>
+        </g>
       </g>
     </svg>
   );
@@ -116,49 +137,53 @@ function VisualPolishText() {
 function VisualLearnNames() {
   return (
     <svg viewBox="0 0 340 240" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <style>{`
-          @keyframes ln-rise{0%{opacity:0;transform:translateY(14px)}100%{opacity:1;transform:translateY(0)}}
-          @keyframes ln-draw{0%{stroke-dashoffset:60}100%{stroke-dashoffset:0}}
-          @keyframes ln-glow{0%,100%{opacity:0.5}50%{opacity:1}}
-          .ln-card1{animation:ln-rise .5s .3s both}.ln-card2{animation:ln-rise .5s .9s both}.ln-card3{animation:ln-rise .5s 1.5s both}
-          .ln-line1{animation:ln-draw .4s .5s both;stroke-dasharray:60;stroke-dashoffset:60}
-          .ln-line2{animation:ln-draw .4s 1.1s both;stroke-dasharray:60;stroke-dashoffset:60}
-          .ln-line3{animation:ln-draw .4s 1.7s both;stroke-dasharray:60;stroke-dashoffset:60}
-          .ln-hl{animation:ln-glow 2s 0.2s infinite}
-        `}</style>
-      </defs>
-      {/* Source text passage */}
-      <rect x="14" y="28" width="162" height="180" rx="4" fill="rgba(240,236,227,0.04)" stroke="rgba(240,236,227,0.18)" strokeWidth="1.5"/>
-      <text x="95" y="46" textAnchor="middle" fill="rgba(240,236,227,0.25)" fontSize="8" fontFamily="Inter,sans-serif" letterSpacing="2">TEXT PASSAGE</text>
-      {/* Body lines */}
-      {[60,74,88,102,116,130,144,158,172,186].map((y,i)=>(
-        <line key={i} x1={162-i*2} y1={y} x2="158" y2={y} stroke="rgba(240,236,227,0.14)" strokeWidth="1.5" strokeLinecap="round"/>
+      <defs><style>{`
+        @keyframes ln-glow{0%,100%{opacity:.7}50%{opacity:1}}
+        @keyframes ln-card{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+        .ln-hl{animation:ln-glow 2.2s infinite}
+        .ln-c1{animation:ln-card .4s .3s both}
+        .ln-c2{animation:ln-card .4s .8s both}
+        .ln-c3{animation:ln-card .4s 1.3s both}
+      `}</style></defs>
+
+      {/* Text passage */}
+      <rect x="10" y="18" width="148" height="202" rx="7" fill="#1c1400" stroke="#c9973a" strokeWidth="2"/>
+      <rect x="10" y="18" width="148" height="30" rx="7" fill="#c9973a" opacity="0.27"/>
+      <text x="84" y="37" textAnchor="middle" fill="white" fontSize="12" fontWeight="700" fontFamily="Inter,sans-serif">TEXT PASSAGE</text>
+      {[56,70,84,98,112,126,140,154,168,182,196].map((y,i)=>(
+        <rect key={i} x="20" y={y} width={116-i*2} height="7" rx="3" fill="white" opacity="0.18"/>
       ))}
-      {/* Highlighted names — gold glow */}
-      <rect x="22" y="84" width="64" height="10" rx="2" className="ln-hl" fill="rgba(201,151,58,0.22)" stroke="rgba(201,151,58,0.5)" strokeWidth="1"/>
-      <rect x="22" y="128" width="52" height="10" rx="2" className="ln-hl" fill="rgba(201,151,58,0.22)" stroke="rgba(201,151,58,0.5)" strokeWidth="1" style={{animationDelay:'0.6s'}}/>
-      <rect x="22" y="172" width="72" height="10" rx="2" className="ln-hl" fill="rgba(201,151,58,0.22)" stroke="rgba(201,151,58,0.5)" strokeWidth="1" style={{animationDelay:'1.2s'}}/>
-      {/* Connector lines to phonetic cards */}
-      <line x1="86" y1="84" x2="188" y2="70" className="ln-line1" stroke="rgba(201,151,58,0.3)" strokeWidth="1" strokeDasharray="3 2"/>
-      <line x1="74" y1="128" x2="188" y2="120" className="ln-line2" stroke="rgba(201,151,58,0.3)" strokeWidth="1" strokeDasharray="3 2"/>
-      <line x1="94" y1="172" x2="188" y2="170" className="ln-line3" stroke="rgba(201,151,58,0.3)" strokeWidth="1" strokeDasharray="3 2"/>
-      {/* Phonetic annotation cards — right side */}
-      <g className="ln-card1">
-        <rect x="188" y="52" width="138" height="36" rx="4" fill="rgba(201,151,58,0.1)" stroke="rgba(201,151,58,0.4)" strokeWidth="1.2"/>
-        <text x="202" y="66" fill="rgba(201,151,58,0.9)" fontSize="11" fontFamily="Inter,sans-serif">الغزالي</text>
-        <text x="202" y="80" fill="rgba(201,151,58,0.55)" fontSize="8" fontFamily="Inter,sans-serif" letterSpacing="0.5">al-GHA-za-lee</text>
-      </g>
-      <g className="ln-card2">
-        <rect x="188" y="102" width="138" height="36" rx="4" fill="rgba(201,151,58,0.1)" stroke="rgba(201,151,58,0.4)" strokeWidth="1.2"/>
-        <text x="202" y="116" fill="rgba(201,151,58,0.9)" fontSize="11" fontFamily="Inter,sans-serif">بغداد</text>
-        <text x="202" y="130" fill="rgba(201,151,58,0.55)" fontSize="8" fontFamily="Inter,sans-serif" letterSpacing="0.5">bag-DAAD</text>
-      </g>
-      <g className="ln-card3">
-        <rect x="188" y="152" width="138" height="36" rx="4" fill="rgba(201,151,58,0.1)" stroke="rgba(201,151,58,0.4)" strokeWidth="1.2"/>
-        <text x="202" y="166" fill="rgba(201,151,58,0.9)" fontSize="11" fontFamily="Inter,sans-serif">إحياء العلوم</text>
-        <text x="202" y="180" fill="rgba(201,151,58,0.55)" fontSize="8" fontFamily="Inter,sans-serif" letterSpacing="0.5">ih-YAA al-u-LOOM</text>
-      </g>
+
+      {/* Name highlights */}
+      {[
+        {y:82,  w:68, text:'الغزالي'},
+        {y:124, w:52, text:'بغداد'},
+        {y:166, w:76, text:'إحياء العلوم'},
+      ].map((n,i)=>(
+        <g key={i} className="ln-hl">
+          <rect x="20" y={n.y-1} width={n.w} height="15" rx="4" fill="#c9973a" opacity="0.42"/>
+          <text x={20+n.w/2} y={n.y+11} textAnchor="middle" fill="#ffd700" fontSize="12" fontWeight="700" fontFamily="Inter,sans-serif">{n.text}</text>
+        </g>
+      ))}
+
+      {/* Connector lines */}
+      {[89,131,173].map((y,i)=>(
+        <line key={i} x1="158" y1={y} x2="172" y2={y} stroke="#c9973a" strokeWidth="1.8" strokeDasharray="4 3" opacity="0.75"/>
+      ))}
+
+      {/* Phonetic cards */}
+      {[
+        {y:46,  ar:'الغزالي',      lat:'al-GHA-za-lee',      cls:'ln-c1'},
+        {y:104, ar:'بغداد',        lat:'bag-DAAD',           cls:'ln-c2'},
+        {y:160, ar:'إحياء العلوم', lat:'ih-YAA al-u-LOOM', cls:'ln-c3'},
+      ].map((c,i)=>(
+        <g key={i} className={c.cls}>
+          <rect x="172" y={c.y} width="156" height="54" rx="7" fill="#1c1400" stroke="#c9973a" strokeWidth="2"/>
+          <rect x="172" y={c.y} width="156" height="24" rx="7" fill="#c9973a" opacity="0.25"/>
+          <text x="188" y={c.y+17} fill="#ffd700" fontSize="14" fontWeight="700" fontFamily="Inter,sans-serif">{c.ar}</text>
+          <text x="188" y={c.y+42} fill="#c9973a" fontSize="10.5" fontFamily="Inter,sans-serif" letterSpacing="0.5">{c.lat}</text>
+        </g>
+      ))}
     </svg>
   );
 }
@@ -166,53 +191,48 @@ function VisualLearnNames() {
 function VisualPlanEpisodes() {
   return (
     <svg viewBox="0 0 340 240" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <style>{`
-          @keyframes pe-draw{0%{stroke-dashoffset:80}100%{stroke-dashoffset:0}}
-          @keyframes pe-pop{0%{opacity:0;transform:scale(0.85)}100%{opacity:1;transform:scale(1)}}
-          .pe-ep1{animation:pe-pop .4s .6s both}.pe-ep2{animation:pe-pop .4s 1.0s both}
-          .pe-ep3{animation:pe-pop .4s 1.4s both}.pe-ep4{animation:pe-pop .4s 1.8s both}
-          .pe-ln1{animation:pe-draw .5s .6s both;stroke-dasharray:80;stroke-dashoffset:80}
-          .pe-ln2{animation:pe-draw .5s 1.0s both;stroke-dasharray:80;stroke-dashoffset:80}
-          .pe-ln3{animation:pe-draw .5s 1.4s both;stroke-dasharray:80;stroke-dashoffset:80}
-          .pe-ln4{animation:pe-draw .5s 1.8s both;stroke-dasharray:80;stroke-dashoffset:80}
-        `}</style>
-      </defs>
-      {/* Chapter list — left */}
-      <text x="22" y="32" fill="rgba(240,236,227,0.3)" fontSize="8" fontFamily="Inter,sans-serif" letterSpacing="2">CHAPTERS</text>
+      <defs><style>{`
+        @keyframes pe-pop{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+        .pe-e1{animation:pe-pop .35s .5s both}.pe-e2{animation:pe-pop .35s .85s both}
+        .pe-e3{animation:pe-pop .35s 1.2s both}.pe-e4{animation:pe-pop .35s 1.55s both}
+      `}</style></defs>
+
+      {/* Chapters — left */}
+      <text x="14" y="16" fill="#5aabf0" fontSize="10" fontWeight="700" fontFamily="Inter,sans-serif" letterSpacing="2">CHAPTERS</text>
       {[
-        {y:44,h:36,label:'الفصل الأول',sub:'Ch 1'},
-        {y:88,h:28,label:'الفصل الثاني',sub:'Ch 2'},
-        {y:124,h:48,label:'الفصل الثالث',sub:'Ch 3'},
-        {y:180,h:24,label:'الفصل الرابع',sub:'Ch 4'},
+        {y:24,  h:40, ar:'الفصل الأول',  en:'Chapter 1'},
+        {y:72,  h:40, ar:'الفصل الثاني', en:'Chapter 2'},
+        {y:120, h:48, ar:'الفصل الثالث', en:'Chapter 3'},
+        {y:176, h:34, ar:'الفصل الرابع', en:'Chapter 4'},
       ].map((ch,i)=>(
         <g key={i}>
-          <rect x="14" y={ch.y} width="132" height={ch.h} rx="3" fill="rgba(240,236,227,0.05)" stroke="rgba(240,236,227,0.18)" strokeWidth="1.2"/>
-          <text x="26" y={ch.y+14} fill="rgba(240,236,227,0.55)" fontSize="9" fontFamily="Inter,sans-serif">{ch.label}</text>
-          <text x="26" y={ch.y+26} fill="rgba(240,236,227,0.25)" fontSize="7" fontFamily="Inter,sans-serif" letterSpacing="1">{ch.sub}</text>
+          <rect x="8" y={ch.y} width="144" height={ch.h} rx="6" fill="#061422" stroke="#5aabf0" strokeWidth="2"/>
+          <text x="20" y={ch.y+20} fill="white" fontSize="13" fontWeight="700" fontFamily="Inter,sans-serif">{ch.ar}</text>
+          <text x="20" y={ch.y+33} fill="#5aabf0" fontSize="9.5" fontFamily="Inter,sans-serif">{ch.en}</text>
         </g>
       ))}
-      {/* Bracket */}
-      <line x1="150" y1="44" x2="160" y2="44" stroke="rgba(201,151,58,0.35)" strokeWidth="1"/>
-      <line x1="160" y1="44" x2="160" y2="203" stroke="rgba(201,151,58,0.35)" strokeWidth="1"/>
-      <line x1="150" y1="203" x2="160" y2="203" stroke="rgba(201,151,58,0.35)" strokeWidth="1"/>
-      {/* Connector lines to episodes */}
-      <line x1="160" y1="62" x2="178" y2="62" className="pe-ln1" stroke="rgba(201,151,58,0.4)" strokeWidth="1" strokeDasharray="4 2"/>
-      <line x1="160" y1="102" x2="178" y2="102" className="pe-ln2" stroke="rgba(201,151,58,0.4)" strokeWidth="1" strokeDasharray="4 2"/>
-      <line x1="160" y1="148" x2="178" y2="148" className="pe-ln3" stroke="rgba(201,151,58,0.4)" strokeWidth="1" strokeDasharray="4 2"/>
-      <line x1="160" y1="192" x2="178" y2="192" className="pe-ln4" stroke="rgba(201,151,58,0.4)" strokeWidth="1" strokeDasharray="4 2"/>
-      {/* Episode cards — right */}
-      <text x="188" y="32" fill="rgba(201,151,58,0.4)" fontSize="8" fontFamily="Inter,sans-serif" letterSpacing="2">EPISODES</text>
+
+      {/* Arrows */}
+      {[44,92,144,193].map((y,i)=>(
+        <g key={i}>
+          <line x1="152" y1={y} x2="162" y2={y} stroke="#c9973a" strokeWidth="2.5" strokeLinecap="round"/>
+          <polygon points={`161,${y-6} 172,${y} 161,${y+6}`} fill="#c9973a"/>
+        </g>
+      ))}
+
+      {/* Episodes — right */}
+      <text x="176" y="16" fill="#c9973a" fontSize="10" fontWeight="700" fontFamily="Inter,sans-serif" letterSpacing="2">EPISODES</text>
       {[
-        {y:44,label:'Ep 1',sub:'The Opening Letter',cls:'pe-ep1'},
-        {y:84,label:'Ep 2',sub:'Knowledge & Action',cls:'pe-ep2'},
-        {y:124,label:'Ep 3',sub:'The Inner Journey',cls:'pe-ep3'},
-        {y:164,label:'Ep 4',sub:'The Final Counsel',cls:'pe-ep4'},
+        {y:24,  title:'The Opening Letter',  cls:'pe-e1'},
+        {y:80,  title:'Knowledge & Action',  cls:'pe-e2'},
+        {y:136, title:'The Inner Journey',   cls:'pe-e3'},
+        {y:190, title:'The Final Counsel',   cls:'pe-e4'},
       ].map((ep,i)=>(
         <g key={i} className={ep.cls}>
-          <rect x="178" y={ep.y} width="148" height="32" rx="4" fill="rgba(201,151,58,0.09)" stroke="rgba(201,151,58,0.38)" strokeWidth="1.3"/>
-          <text x="192" y={ep.y+14} fill="rgba(201,151,58,0.75)" fontSize="9" fontFamily="Inter,sans-serif" fontWeight="600">{ep.label}</text>
-          <text x="192" y={ep.y+26} fill="rgba(201,151,58,0.4)" fontSize="7.5" fontFamily="Inter,sans-serif">{ep.sub}</text>
+          <rect x="174" y={ep.y} width="158" height="48" rx="6" fill="#1c1400" stroke="#c9973a" strokeWidth="2"/>
+          <rect x="174" y={ep.y} width="158" height="22" rx="6" fill="#c9973a" opacity="0.25"/>
+          <text x="186" y={ep.y+16} fill="#ffd700" fontSize="11" fontWeight="700" fontFamily="Inter,sans-serif">Episode {i+1}</text>
+          <text x="186" y={ep.y+36} fill="#c9973a" fontSize="9.5" fontFamily="Inter,sans-serif">{ep.title}</text>
         </g>
       ))}
     </svg>
@@ -222,51 +242,61 @@ function VisualPlanEpisodes() {
 function VisualEnrich() {
   return (
     <svg viewBox="0 0 340 240" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <style>{`
-          @keyframes en-float{0%{opacity:0;transform:translateX(-10px)}100%{opacity:1;transform:translateX(0)}}
-          @keyframes en-floatr{0%{opacity:0;transform:translateX(10px)}100%{opacity:1;transform:translateX(0)}}
-          @keyframes en-pulse{0%,100%{opacity:0.6}50%{opacity:1}}
-          .en-c1{animation:en-float .5s .3s both}.en-c2{animation:en-floatr .5s .9s both}
-          .en-c3{animation:en-float .5s 1.5s both}.en-c4{animation:en-floatr .5s 2.1s both}
-          .en-dot{animation:en-pulse 1.8s infinite}
-        `}</style>
-      </defs>
-      {/* Central document */}
-      <rect x="114" y="22" width="112" height="192" rx="4" fill="rgba(240,236,227,0.04)" stroke="rgba(240,236,227,0.22)" strokeWidth="1.5"/>
-      {[40,56,72,88,104,120,136,152,168,184].map((y,i)=>(
-        <line key={i} x1={208-i*2} y1={y} x2="204" y2={y} stroke="rgba(240,236,227,0.13)" strokeWidth="1.5" strokeLinecap="round"/>
+      <defs><style>{`
+        @keyframes en-left{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes en-right{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes en-pulse{0%,100%{opacity:.7}50%{opacity:1}}
+        .en-c1{animation:en-left .45s .2s both}.en-c2{animation:en-right .45s .7s both}
+        .en-c3{animation:en-left .45s 1.2s both}.en-c4{animation:en-right .45s 1.7s both}
+        .en-dot{animation:en-pulse 1.8s infinite}
+      `}</style></defs>
+
+      {/* Center source document */}
+      <rect x="118" y="14" width="104" height="210" rx="7" fill="#1c1400" stroke="#c9973a" strokeWidth="2"/>
+      <rect x="118" y="14" width="104" height="28" rx="7" fill="#c9973a" opacity="0.3"/>
+      <text x="170" y="31" textAnchor="middle" fill="white" fontSize="11" fontWeight="700" fontFamily="Inter,sans-serif">SOURCE</text>
+      {[50,64,78,92,106,120,134,148,162,176,190,204].map((y,i)=>(
+        <rect key={i} x="128" y={y} width={76-i*2} height="6" rx="2" fill="white" opacity="0.2"/>
       ))}
-      <text x="170" y="222" textAnchor="middle" fill="rgba(240,236,227,0.2)" fontSize="7.5" fontFamily="Inter,sans-serif" letterSpacing="2">SOURCE</text>
-      {/* Annotation cards — left */}
+
+      {/* Historical — top left (blue) */}
       <g className="en-c1">
-        <rect x="8" y="32" width="98" height="44" rx="5" fill="rgba(26,92,138,0.1)" stroke="rgba(106,180,240,0.35)" strokeWidth="1.2"/>
-        <text x="57" y="48" textAnchor="middle" fill="rgba(106,180,240,0.55)" fontSize="7.5" fontFamily="Inter,sans-serif" letterSpacing="1">HISTORICAL</text>
-        <text x="57" y="62" textAnchor="middle" fill="rgba(106,180,240,0.55)" fontSize="7.5" fontFamily="Inter,sans-serif" letterSpacing="1">CONTEXT</text>
-        <line x1="106" y1="54" x2="114" y2="54" stroke="rgba(106,180,240,0.2)" strokeWidth="1" strokeDasharray="3 2"/>
-        <circle cx="106" cy="54" r="2" className="en-dot" fill="rgba(106,180,240,0.6)"/>
+        <rect x="4" y="14" width="106" height="54" rx="7" fill="#061422" stroke="#5aabf0" strokeWidth="2"/>
+        <rect x="4" y="14" width="106" height="26" rx="7" fill="#5aabf0" opacity="0.3"/>
+        <text x="57" y="31" textAnchor="middle" fill="white" fontSize="11" fontWeight="700" fontFamily="Inter,sans-serif">HISTORICAL</text>
+        <text x="57" y="56" textAnchor="middle" fill="#5aabf0" fontSize="9.5" fontFamily="Inter,sans-serif">Context &amp; era</text>
+        <line x1="110" y1="41" x2="118" y2="41" stroke="#5aabf0" strokeWidth="2" strokeDasharray="4 3"/>
+        <circle cx="110" cy="41" r="5" fill="#5aabf0" className="en-dot"/>
       </g>
+
+      {/* Key Term — bottom left (purple) */}
       <g className="en-c3">
-        <rect x="8" y="138" width="98" height="44" rx="5" fill="rgba(139,69,19,0.1)" stroke="rgba(201,151,58,0.35)" strokeWidth="1.2"/>
-        <text x="57" y="154" textAnchor="middle" fill="rgba(201,151,58,0.55)" fontSize="7.5" fontFamily="Inter,sans-serif" letterSpacing="1">KEY TERM</text>
-        <text x="57" y="168" textAnchor="middle" fill="rgba(201,151,58,0.45)" fontSize="8" fontFamily="Inter,sans-serif">التوكل</text>
-        <line x1="106" y1="160" x2="114" y2="128" stroke="rgba(201,151,58,0.2)" strokeWidth="1" strokeDasharray="3 2"/>
-        <circle cx="106" cy="160" r="2" className="en-dot" fill="rgba(201,151,58,0.6)" style={{animationDelay:'0.8s'}}/>
+        <rect x="4" y="152" width="106" height="54" rx="7" fill="#180620" stroke="#b87fc8" strokeWidth="2"/>
+        <rect x="4" y="152" width="106" height="26" rx="7" fill="#b87fc8" opacity="0.28"/>
+        <text x="57" y="169" textAnchor="middle" fill="white" fontSize="11" fontWeight="700" fontFamily="Inter,sans-serif">KEY TERM</text>
+        <text x="57" y="195" textAnchor="middle" fill="#ffd700" fontSize="14" fontWeight="700" fontFamily="Inter,sans-serif">التوكل</text>
+        <line x1="110" y1="179" x2="118" y2="155" stroke="#b87fc8" strokeWidth="2" strokeDasharray="4 3"/>
+        <circle cx="110" cy="179" r="5" fill="#b87fc8" className="en-dot"/>
       </g>
-      {/* Annotation cards — right */}
+
+      {/* Quran Ref — top right (green) */}
       <g className="en-c2">
-        <rect x="234" y="32" width="98" height="44" rx="5" fill="rgba(74,124,74,0.1)" stroke="rgba(74,124,74,0.35)" strokeWidth="1.2"/>
-        <text x="283" y="48" textAnchor="middle" fill="rgba(126,207,126,0.55)" fontSize="7.5" fontFamily="Inter,sans-serif" letterSpacing="1">QURAN</text>
-        <text x="283" y="62" textAnchor="middle" fill="rgba(126,207,126,0.55)" fontSize="7.5" fontFamily="Inter,sans-serif" letterSpacing="1">REFERENCE</text>
-        <line x1="234" y1="54" x2="226" y2="54" stroke="rgba(74,124,74,0.2)" strokeWidth="1" strokeDasharray="3 2"/>
-        <circle cx="234" cy="54" r="2" className="en-dot" fill="rgba(74,124,74,0.6)" style={{animationDelay:'0.4s'}}/>
+        <rect x="230" y="14" width="106" height="54" rx="7" fill="#061a0c" stroke="#5ac87a" strokeWidth="2"/>
+        <rect x="230" y="14" width="106" height="26" rx="7" fill="#5ac87a" opacity="0.28"/>
+        <text x="283" y="31" textAnchor="middle" fill="white" fontSize="11" fontWeight="700" fontFamily="Inter,sans-serif">QURAN REF</text>
+        <text x="283" y="56" textAnchor="middle" fill="#5ac87a" fontSize="9.5" fontFamily="Inter,sans-serif">Verse links</text>
+        <line x1="222" y1="41" x2="230" y2="41" stroke="#5ac87a" strokeWidth="2" strokeDasharray="4 3"/>
+        <circle cx="230" cy="41" r="5" fill="#5ac87a" className="en-dot"/>
       </g>
+
+      {/* Scholar Note — bottom right (red) */}
       <g className="en-c4">
-        <rect x="234" y="138" width="98" height="44" rx="5" fill="rgba(168,50,50,0.08)" stroke="rgba(220,80,80,0.3)" strokeWidth="1.2"/>
-        <text x="283" y="154" textAnchor="middle" fill="rgba(220,80,80,0.55)" fontSize="7.5" fontFamily="Inter,sans-serif" letterSpacing="1">SCHOLAR</text>
-        <text x="283" y="168" textAnchor="middle" fill="rgba(220,80,80,0.55)" fontSize="7.5" fontFamily="Inter,sans-serif" letterSpacing="1">NOTE</text>
-        <line x1="234" y1="160" x2="226" y2="128" stroke="rgba(220,80,80,0.2)" strokeWidth="1" strokeDasharray="3 2"/>
-        <circle cx="234" cy="160" r="2" className="en-dot" fill="rgba(220,80,80,0.6)" style={{animationDelay:'1.2s'}}/>
+        <rect x="230" y="152" width="106" height="54" rx="7" fill="#1e0808" stroke="#f05555" strokeWidth="2"/>
+        <rect x="230" y="152" width="106" height="26" rx="7" fill="#f05555" opacity="0.28"/>
+        <text x="283" y="169" textAnchor="middle" fill="white" fontSize="11" fontWeight="700" fontFamily="Inter,sans-serif">SCHOLAR</text>
+        <text x="283" y="193" textAnchor="middle" fill="#f09090" fontSize="9.5" fontFamily="Inter,sans-serif">Commentary</text>
+        <line x1="222" y1="179" x2="230" y2="155" stroke="#f05555" strokeWidth="2" strokeDasharray="4 3"/>
+        <circle cx="230" cy="179" r="5" fill="#f05555" className="en-dot"/>
       </g>
     </svg>
   );
@@ -275,49 +305,53 @@ function VisualEnrich() {
 function VisualOutsideKnowledge() {
   return (
     <svg viewBox="0 0 340 240" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <style>{`
-          @keyframes ok-check{0%{stroke-dashoffset:20}100%{stroke-dashoffset:0}}
-          @keyframes ok-slide{0%{opacity:0;transform:translateX(12px)}100%{opacity:1;transform:translateX(0)}}
-          @keyframes ok-pulse{0%,100%{opacity:0.4}50%{opacity:0.9}}
-          .ok-v1{animation:ok-slide .4s .2s both}.ok-v2{animation:ok-slide .4s .7s both}.ok-v3{animation:ok-slide .4s 1.2s both}
-          .ok-ck1{animation:ok-check .3s .6s both;stroke-dasharray:20;stroke-dashoffset:20}
-          .ok-ck2{animation:ok-check .3s 1.1s both;stroke-dasharray:20;stroke-dashoffset:20}
-          .ok-ck3{animation:ok-check .3s 1.6s both;stroke-dasharray:20;stroke-dashoffset:20}
-          .ok-hl{animation:ok-pulse 2s infinite}
-        `}</style>
-      </defs>
-      {/* Document — left panel */}
-      <rect x="14" y="22" width="152" height="194" rx="4" fill="rgba(240,236,227,0.04)" stroke="rgba(240,236,227,0.2)" strokeWidth="1.5"/>
-      <text x="90" y="40" textAnchor="middle" fill="rgba(240,236,227,0.25)" fontSize="8" fontFamily="Inter,sans-serif" letterSpacing="2">EPISODE TEXT</text>
-      {/* Text lines with 3 citation-marked spans */}
-      {[56,72,88,104,120,136,152,168,184].map((y,i)=>(
-        <line key={i} x1={152-i*3} y1={y} x2="148" y2={y} stroke="rgba(240,236,227,0.12)" strokeWidth="1.5" strokeLinecap="round"/>
+      <defs><style>{`
+        @keyframes ok-in{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes ok-ck{0%{stroke-dashoffset:26}100%{stroke-dashoffset:0}}
+        .ok-c1{animation:ok-in .4s .3s both}.ok-c2{animation:ok-in .4s .8s both}.ok-c3{animation:ok-in .4s 1.3s both}
+        .ok-k1{animation:ok-ck .35s .7s both;stroke-dasharray:26;stroke-dashoffset:26}
+        .ok-k2{animation:ok-ck .35s 1.2s both;stroke-dasharray:26;stroke-dashoffset:26}
+        .ok-k3{animation:ok-ck .35s 1.7s both;stroke-dasharray:26;stroke-dashoffset:26}
+      `}</style></defs>
+
+      {/* Episode text with citation markers */}
+      <rect x="10" y="18" width="152" height="202" rx="7" fill="#1c1400" stroke="#c9973a" strokeWidth="2"/>
+      <rect x="10" y="18" width="152" height="30" rx="7" fill="#c9973a" opacity="0.27"/>
+      <text x="86" y="37" textAnchor="middle" fill="white" fontSize="12" fontWeight="700" fontFamily="Inter,sans-serif">EPISODE TEXT</text>
+      {[58,72,86,100,114,128,142,156,170,184,198].map((y,i)=>(
+        <rect key={i} x="20" y={y} width={118-i*3} height="7" rx="3" fill="white" opacity="0.18"/>
       ))}
-      {/* Gold citation highlights */}
-      <rect x="22" y="82" width="72" height="10" rx="2" className="ok-hl" fill="rgba(201,151,58,0.18)" stroke="rgba(201,151,58,0.45)" strokeWidth="1"/>
-      <text x="26" y="91" fill="rgba(201,151,58,0.65)" fontSize="7" fontFamily="Inter,sans-serif">[1] Quran 39:9</text>
-      <rect x="22" y="130" width="78" height="10" rx="2" className="ok-hl" fill="rgba(201,151,58,0.18)" stroke="rgba(201,151,58,0.45)" strokeWidth="1" style={{animationDelay:'0.5s'}}/>
-      <text x="26" y="139" fill="rgba(201,151,58,0.65)" fontSize="7" fontFamily="Inter,sans-serif">[2] Bukhari 79</text>
-      <rect x="22" y="176" width="84" height="10" rx="2" className="ok-hl" fill="rgba(201,151,58,0.18)" stroke="rgba(201,151,58,0.45)" strokeWidth="1" style={{animationDelay:'1.0s'}}/>
-      <text x="26" y="185" fill="rgba(201,151,58,0.65)" fontSize="7" fontFamily="Inter,sans-serif">[3] al-Nawawi</text>
-      {/* Arrow */}
-      <path d="M 172 112 L 188 112" stroke="rgba(201,151,58,0.55)" strokeWidth="2" strokeLinecap="round"/>
-      <polygon points="186,107 196,112 186,117" fill="rgba(201,151,58,0.55)"/>
-      {/* Verified source cards — right */}
+
+      {/* Citation highlights */}
       {[
-        {y:46,label:'Quran 39:9',sub:'وَقُل رَّبِّ زِدْنِي عِلْمًا',color:'rgba(74,124,74,',tc:'rgba(126,207,126,',cls:'ok-v1',cck:'ok-ck1'},
-        {y:106,label:'Bukhari No. 79',sub:'Hadith on knowledge',color:'rgba(26,92,138,',tc:'rgba(106,180,240,',cls:'ok-v2',cck:'ok-ck2'},
-        {y:166,label:'al-Nawawi',sub:'Riyad al-Salihin',color:'rgba(201,151,58,',tc:'rgba(201,151,58,',cls:'ok-v3',cck:'ok-ck3'},
+        {y:82,  label:'[1] Quran 39:9'},
+        {y:128, label:'[2] Bukhari 79'},
+        {y:174, label:'[3] al-Nawawi'},
+      ].map((c,i)=>(
+        <g key={i}>
+          <rect x="20" y={c.y} width="130" height="16" rx="4" fill="#c9973a" opacity="0.3"/>
+          <text x="26" y={c.y+12} fill="#ffd700" fontSize="10.5" fontWeight="700" fontFamily="Inter,sans-serif">{c.label}</text>
+        </g>
+      ))}
+
+      {/* Arrow */}
+      <path d="M 170 120 L 186 120" stroke="#c9973a" strokeWidth="3.5" strokeLinecap="round"/>
+      <polygon points="184,112 200,120 184,128" fill="#c9973a"/>
+
+      {/* Verified source cards */}
+      {[
+        {y:18,  label:'Quran 39:9',    sub:'وَقُل رَّبِّ زِدْنِي', color:'#5ac87a', bg:'#061a0c', cls:'ok-c1', kls:'ok-k1'},
+        {y:98,  label:'Bukhari No. 79', sub:'Hadith on knowledge', color:'#5aabf0', bg:'#061422', cls:'ok-c2', kls:'ok-k2'},
+        {y:176, label:'al-Nawawi',      sub:'Riyad al-Salihin',    color:'#c9973a', bg:'#1c1400', cls:'ok-c3', kls:'ok-k3'},
       ].map((c,i)=>(
         <g key={i} className={c.cls}>
-          <rect x="200" y={c.y} width="126" height="50" rx="5" fill={`${c.color}0.09)`} stroke={`${c.color}0.35)`} strokeWidth="1.2"/>
-          <text x="214" y={c.y+16} fill={`${c.tc}0.75)`} fontSize="8.5" fontFamily="Inter,sans-serif" fontWeight="600">{c.label}</text>
-          <text x="214" y={c.y+30} fill={`${c.tc}0.45)`} fontSize="8" fontFamily="Inter,sans-serif">{c.sub}</text>
-          {/* Check badge */}
-          <circle cx="310" cy={c.y+40} r="10" fill={`${c.color}0.15)`} stroke={`${c.color}0.5)`} strokeWidth="1.2"/>
-          <polyline points={`304,${c.y+40} 308,${c.y+44} 316,${c.y+36}`} className={c.cck}
-            fill="none" stroke={`${c.tc}0.9)`} strokeWidth="1.8" strokeLinecap="round"/>
+          <rect x="202" y={c.y} width="128" height="66" rx="7" fill={c.bg} stroke={c.color} strokeWidth="2"/>
+          <rect x="202" y={c.y} width="128" height="26" rx="7" fill={c.color} opacity="0.28"/>
+          <text x="214" y={c.y+18} fill="white" fontSize="12" fontWeight="700" fontFamily="Inter,sans-serif">{c.label}</text>
+          <text x="214" y={c.y+44} fill="white" fontSize="10.5" fontFamily="Inter,sans-serif" opacity="0.8">{c.sub}</text>
+          <circle cx="318" cy={c.y+52} r="12" fill={c.color} opacity="0.25" stroke={c.color} strokeWidth="2"/>
+          <polyline points={`312,${c.y+52} 316,${c.y+57} 324,${c.y+47}`}
+            className={c.kls} fill="none" stroke={c.color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
         </g>
       ))}
     </svg>
@@ -327,56 +361,55 @@ function VisualOutsideKnowledge() {
 function VisualCutPieces() {
   return (
     <svg viewBox="0 0 340 240" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <style>{`
-          @keyframes cp-cut{0%{transform:translateY(-20px);opacity:0}60%{transform:translateY(0);opacity:1}100%{transform:translateY(0);opacity:1}}
-          @keyframes cp-drop{0%{opacity:0;transform:translateY(-8px)}100%{opacity:1;transform:translateY(0)}}
-          @keyframes cp-dash{0%{stroke-dashoffset:200}100%{stroke-dashoffset:0}}
-          .cp-blade1{animation:cp-cut .4s .3s both}.cp-blade2{animation:cp-cut .4s .8s both}.cp-blade3{animation:cp-cut .4s 1.3s both}
-          .cp-pk1{animation:cp-drop .4s .7s both}.cp-pk2{animation:cp-drop .4s 1.2s both}.cp-pk3{animation:cp-drop .4s 1.7s both}.cp-pk4{animation:cp-drop .4s 2.2s both}
-          .cp-cut1{animation:cp-dash .5s .3s both;stroke-dasharray:200;stroke-dashoffset:200}
-          .cp-cut2{animation:cp-dash .5s .8s both;stroke-dasharray:200;stroke-dashoffset:200}
-          .cp-cut3{animation:cp-dash .5s 1.3s both;stroke-dasharray:200;stroke-dashoffset:200}
-        `}</style>
-      </defs>
-      {/* Full scroll — the complete book text */}
-      <rect x="14" y="28" width="312" height="58" rx="4" fill="rgba(240,236,227,0.04)" stroke="rgba(240,236,227,0.2)" strokeWidth="1.5"/>
-      <text x="170" y="44" textAnchor="middle" fill="rgba(240,236,227,0.25)" fontSize="8" fontFamily="Inter,sans-serif" letterSpacing="2">أيها الولد — FULL TEXT</text>
-      {[52,64,76].map((y,i)=>(
-        <line key={i} x1="28" y1={y} x2="302" y2={y} stroke="rgba(240,236,227,0.1)" strokeWidth="1.2" strokeLinecap="round"/>
+      <defs><style>{`
+        @keyframes cp-cut{from{opacity:0;transform:translateY(-18px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes cp-drop{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes cp-line{0%{stroke-dashoffset:230}100%{stroke-dashoffset:0}}
+        .cp-b1{animation:cp-cut .4s .4s both}.cp-b2{animation:cp-cut .4s .9s both}.cp-b3{animation:cp-cut .4s 1.4s both}
+        .cp-p1{animation:cp-drop .4s .8s both}.cp-p2{animation:cp-drop .4s 1.3s both}
+        .cp-p3{animation:cp-drop .4s 1.8s both}.cp-p4{animation:cp-drop .4s 2.3s both}
+        .cp-l1{animation:cp-line .5s .4s both;stroke-dasharray:230;stroke-dashoffset:230}
+        .cp-l2{animation:cp-line .5s .9s both;stroke-dasharray:230;stroke-dashoffset:230}
+        .cp-l3{animation:cp-line .5s 1.4s both;stroke-dasharray:230;stroke-dashoffset:230}
+      `}</style></defs>
+
+      {/* Full text bar */}
+      <rect x="10" y="26" width="320" height="58" rx="7" fill="#1c1400" stroke="#c9973a" strokeWidth="2"/>
+      <rect x="10" y="26" width="320" height="28" rx="7" fill="#c9973a" opacity="0.27"/>
+      <text x="170" y="44" textAnchor="middle" fill="white" fontSize="12" fontWeight="700" fontFamily="Inter,sans-serif">أيها الولد — FULL BOOK TEXT</text>
+      {[62,72].map((y,i)=>(
+        <rect key={i} x="20" y={y} width={288-i*24} height="7" rx="3" fill="white" opacity="0.2"/>
       ))}
-      {/* Cut lines — vertical dashed */}
-      <line x1="100" y1="20" x2="100" y2="98" className="cp-cut1" stroke="rgba(201,151,58,0.6)" strokeWidth="1.5" strokeDasharray="4 3"/>
-      <line x1="190" y1="20" x2="190" y2="98" className="cp-cut2" stroke="rgba(201,151,58,0.6)" strokeWidth="1.5" strokeDasharray="4 3"/>
-      <line x1="265" y1="20" x2="265" y2="98" className="cp-cut3" stroke="rgba(201,151,58,0.6)" strokeWidth="1.5" strokeDasharray="4 3"/>
-      {/* Blade icons */}
-      <g className="cp-blade1">
-        <polygon points="96,16 100,24 104,16" fill="rgba(201,151,58,0.7)"/>
-        <rect x="98" y="12" width="4" height="6" rx="1" fill="rgba(201,151,58,0.4)"/>
-      </g>
-      <g className="cp-blade2">
-        <polygon points="186,16 190,24 194,16" fill="rgba(201,151,58,0.7)"/>
-        <rect x="188" y="12" width="4" height="6" rx="1" fill="rgba(201,151,58,0.4)"/>
-      </g>
-      <g className="cp-blade3">
-        <polygon points="261,16 265,24 269,16" fill="rgba(201,151,58,0.7)"/>
-        <rect x="263" y="12" width="4" height="6" rx="1" fill="rgba(201,151,58,0.4)"/>
-      </g>
-      {/* Result — 4 episode packets below */}
+
+      {/* Cut lines */}
+      {[98,192,268].map((x,i)=>(
+        <line key={i} x1={x} y1="14" x2={x} y2="98" className={`cp-l${i+1}`} stroke="#ffd700" strokeWidth="2.5" strokeDasharray="6 4"/>
+      ))}
+
+      {/* Scissor icons */}
+      {[{x:98,cls:'cp-b1'},{x:192,cls:'cp-b2'},{x:268,cls:'cp-b3'}].map((b,i)=>(
+        <g key={i} className={b.cls}>
+          <ellipse cx={b.x} cy="13" rx="13" ry="9" fill="#ffd700" opacity="0.9"/>
+          <text x={b.x} y="17" textAnchor="middle" fill="#1a1000" fontSize="12" fontWeight="700" fontFamily="Inter,sans-serif">✂</text>
+        </g>
+      ))}
+
+      {/* Episode packets */}
       {[
-        {x:14,w:80,label:'Ep 1',sub:'Opening',cls:'cp-pk1'},
-        {x:102,w:82,label:'Ep 2',sub:'Knowledge',cls:'cp-pk2'},
-        {x:192,w:68,label:'Ep 3',sub:'Practice',cls:'cp-pk3'},
-        {x:268,w:58,label:'Ep 4',sub:'Close',cls:'cp-pk4'},
+        {x:10,  w:80,  ep:'Ep 1', title:'Opening',   cls:'cp-p1'},
+        {x:100, w:84,  ep:'Ep 2', title:'Knowledge', cls:'cp-p2'},
+        {x:194, w:66,  ep:'Ep 3', title:'Practice',  cls:'cp-p3'},
+        {x:270, w:60,  ep:'Ep 4', title:'Close',     cls:'cp-p4'},
       ].map((p,i)=>(
         <g key={i} className={p.cls}>
-          <line x1={p.x+p.w/2} y1="98" x2={p.x+p.w/2} y2="112" stroke="rgba(201,151,58,0.25)" strokeWidth="1"/>
-          <rect x={p.x+2} y="112" width={p.w-4} height="64" rx="4" fill="rgba(201,151,58,0.09)" stroke="rgba(201,151,58,0.38)" strokeWidth="1.3"/>
-          <text x={p.x+p.w/2} y="138" textAnchor="middle" fill="rgba(201,151,58,0.8)" fontSize="10" fontFamily="Inter,sans-serif" fontWeight="600">{p.label}</text>
-          <text x={p.x+p.w/2} y="154" textAnchor="middle" fill="rgba(201,151,58,0.4)" fontSize="7.5" fontFamily="Inter,sans-serif">{p.sub}</text>
-          {/* Stack lines */}
-          <line x1={p.x+8} y1="168" x2={p.x+p.w-12} y2="168" stroke="rgba(240,236,227,0.1)" strokeWidth="1" strokeLinecap="round"/>
-          <line x1={p.x+8} y1="174" x2={p.x+p.w-16} y2="174" stroke="rgba(240,236,227,0.08)" strokeWidth="1" strokeLinecap="round"/>
+          <line x1={p.x+p.w/2} y1="98" x2={p.x+p.w/2} y2="112" stroke="#c9973a" strokeWidth="2" opacity="0.6"/>
+          <rect x={p.x+2} y="112" width={p.w-4} height="74" rx="6" fill="#1c1400" stroke="#c9973a" strokeWidth="2"/>
+          <rect x={p.x+2} y="112" width={p.w-4} height="26" rx="6" fill="#c9973a" opacity="0.25"/>
+          <text x={p.x+p.w/2} y="129" textAnchor="middle" fill="#ffd700" fontSize="13" fontWeight="700" fontFamily="Inter,sans-serif">{p.ep}</text>
+          <text x={p.x+p.w/2} y="155" textAnchor="middle" fill="#c9973a" fontSize="9.5" fontFamily="Inter,sans-serif">{p.title}</text>
+          {[167,176].map((y,j)=>(
+            <rect key={j} x={p.x+8} y={y} width={p.w-18-j*6} height="5" rx="2" fill="white" opacity="0.15"/>
+          ))}
         </g>
       ))}
     </svg>
@@ -386,57 +419,65 @@ function VisualCutPieces() {
 function VisualNarratorFraming() {
   return (
     <svg viewBox="0 0 340 240" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <style>{`
-          @keyframes nf-appear{0%{opacity:0;transform:translateY(5px)}100%{opacity:1;transform:translateY(0)}}
-          @keyframes nf-pulse{0%,100%{r:18;opacity:0.5}50%{r:24;opacity:0.15}}
-          @keyframes nf-talk{0%,100%{opacity:0;transform:scale(0.8)}20%,80%{opacity:1;transform:scale(1)}}
-          .nf-line1{animation:nf-appear .35s .4s both}.nf-line2{animation:nf-appear .35s .7s both}
-          .nf-line3{animation:nf-appear .35s 1.0s both}.nf-line4{animation:nf-appear .35s 1.3s both}
-          .nf-bubble1{animation:nf-talk 2.4s 1.8s infinite}.nf-bubble2{animation:nf-talk 2.4s 2.6s infinite}
-        `}</style>
-      </defs>
-      {/* Episode content card — left */}
-      <rect x="14" y="22" width="110" height="152" rx="4" fill="rgba(240,236,227,0.04)" stroke="rgba(240,236,227,0.18)" strokeWidth="1.5"/>
-      <text x="69" y="40" textAnchor="middle" fill="rgba(240,236,227,0.25)" fontSize="7.5" fontFamily="Inter,sans-serif" letterSpacing="2">EPISODE</text>
-      {[54,68,82,96,110,124,138,154].map((y,i)=>(
-        <line key={i} x1={106-i*2} y1={y} x2="102" y2={y} stroke="rgba(240,236,227,0.12)" strokeWidth="1.4" strokeLinecap="round"/>
+      <defs><style>{`
+        @keyframes nf-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes nf-talk{0%,100%{opacity:0;transform:scale(.8)}25%,75%{opacity:1;transform:scale(1)}}
+        .nf-l1{animation:nf-in .3s .5s both}.nf-l2{animation:nf-in .3s .8s both}
+        .nf-l3{animation:nf-in .3s 1.1s both}.nf-l4{animation:nf-in .3s 1.4s both}
+        .nf-ba{animation:nf-talk 2.4s 1.8s infinite}
+        .nf-bb{animation:nf-talk 2.4s 2.8s infinite}
+      `}</style></defs>
+
+      {/* Episode card */}
+      <rect x="8" y="16" width="106" height="148" rx="7" fill="#1c1400" stroke="#c9973a" strokeWidth="2"/>
+      <rect x="8" y="16" width="106" height="28" rx="7" fill="#c9973a" opacity="0.27"/>
+      <text x="61" y="34" textAnchor="middle" fill="white" fontSize="12" fontWeight="700" fontFamily="Inter,sans-serif">EPISODE</text>
+      {[54,66,78,90,102,114,126,140,152].map((y,i)=>(
+        <rect key={i} x="18" y={y} width={76-i*3} height="7" rx="3" fill="white" opacity="0.2"/>
       ))}
+
       {/* Arrow → */}
-      <path d="M 130 98 L 150 98" stroke="rgba(201,151,58,0.5)" strokeWidth="2" strokeLinecap="round"/>
-      <polygon points="148,93 158,98 148,103" fill="rgba(201,151,58,0.5)"/>
-      {/* Briefing card — center */}
-      <rect x="162" y="22" width="120" height="152" rx="4" fill="rgba(26,92,138,0.08)" stroke="rgba(106,180,240,0.28)" strokeWidth="1.5"/>
-      <text x="222" y="40" textAnchor="middle" fill="rgba(106,180,240,0.5)" fontSize="7.5" fontFamily="Inter,sans-serif" letterSpacing="2">HOST BRIEFING</text>
-      <g className="nf-line1"><line x1="176" y1="56" x2="266" y2="56" stroke="rgba(106,180,240,0.4)" strokeWidth="1.5" strokeLinecap="round"/></g>
-      <g className="nf-line2"><line x1="176" y1="70" x2="252" y2="70" stroke="rgba(106,180,240,0.3)" strokeWidth="1.3" strokeLinecap="round"/></g>
-      <g className="nf-line3"><line x1="176" y1="84" x2="260" y2="84" stroke="rgba(106,180,240,0.3)" strokeWidth="1.3" strokeLinecap="round"/></g>
-      <g className="nf-line4"><line x1="176" y1="98" x2="244" y2="98" stroke="rgba(106,180,240,0.25)" strokeWidth="1.2" strokeLinecap="round"/></g>
-      {[112,126,140].map((y,i)=>(
-        <line key={i} x1="176" y1={y} x2={248-i*8} y2={y} stroke="rgba(106,180,240,0.15)" strokeWidth="1.1" strokeLinecap="round"/>
+      <path d="M 122 90 L 138 90" stroke="#c9973a" strokeWidth="3.5" strokeLinecap="round"/>
+      <polygon points="136,82 152,90 136,98" fill="#c9973a"/>
+
+      {/* Host briefing card */}
+      <rect x="152" y="16" width="116" height="148" rx="7" fill="#061422" stroke="#5aabf0" strokeWidth="2"/>
+      <rect x="152" y="16" width="116" height="28" rx="7" fill="#5aabf0" opacity="0.32"/>
+      <text x="210" y="34" textAnchor="middle" fill="white" fontSize="12" fontWeight="700" fontFamily="Inter,sans-serif">HOST BRIEF</text>
+      <g className="nf-l1"><rect x="162" y="54" width="96" height="9" rx="3" fill="white" opacity="0.5"/></g>
+      <g className="nf-l2"><rect x="162" y="69" width="80" height="9" rx="3" fill="white" opacity="0.38"/></g>
+      <g className="nf-l3"><rect x="162" y="84" width="92" height="9" rx="3" fill="white" opacity="0.32"/></g>
+      <g className="nf-l4"><rect x="162" y="99" width="70" height="9" rx="3" fill="white" opacity="0.26"/></g>
+      {[116,128,140,152].map((y,i)=>(
+        <rect key={i} x="162" y={y} width={82-i*12} height="7" rx="2" fill="white" opacity="0.2"/>
       ))}
-      {/* Arrow ↓ to hosts */}
-      <line x1="222" y1="176" x2="222" y2="192" stroke="rgba(106,180,240,0.35)" strokeWidth="1.5" strokeDasharray="3 2"/>
-      <polygon points="218,190 222,197 226,190" fill="rgba(106,180,240,0.35)"/>
-      {/* Host A — gold mic */}
-      <circle cx="100" cy="218" r="14" fill="rgba(201,151,58,0.1)" stroke="rgba(201,151,58,0.45)" strokeWidth="1.5"/>
-      <rect x="95" y="209" width="10" height="14" rx="5" fill="rgba(201,151,58,0.3)"/>
-      <path d="M 90 221 Q 90 232 100 232 Q 110 232 110 221" fill="none" stroke="rgba(201,151,58,0.4)" strokeWidth="1.2"/>
-      <text x="100" y="240" textAnchor="middle" fill="rgba(201,151,58,0.5)" fontSize="7" fontFamily="Inter,sans-serif">Host A</text>
-      {/* Speech bubble A */}
-      <g className="nf-bubble1">
-        <rect x="116" y="205" width="42" height="16" rx="8" fill="rgba(201,151,58,0.15)" stroke="rgba(201,151,58,0.4)" strokeWidth="1"/>
-        <text x="137" y="216" textAnchor="middle" fill="rgba(201,151,58,0.7)" fontSize="7" fontFamily="Inter,sans-serif">...</text>
+
+      {/* Arrow ↓ */}
+      <line x1="210" y1="166" x2="210" y2="182" stroke="#5aabf0" strokeWidth="2.5" strokeDasharray="5 3"/>
+      <polygon points="206,180 210,188 214,180" fill="#5aabf0"/>
+
+      {/* Host A */}
+      <circle cx="84" cy="218" r="22" fill="#1c1400" stroke="#c9973a" strokeWidth="2.5"/>
+      <rect x="79" y="204" width="10" height="15" rx="5" fill="#c9973a" opacity="0.9"/>
+      <path d="M 73 218 Q 73 232 84 232 Q 95 232 95 218" fill="none" stroke="#c9973a" strokeWidth="2.5" strokeLinecap="round"/>
+      <text x="84" y="244" textAnchor="middle" fill="#c9973a" fontSize="10" fontWeight="700" fontFamily="Inter,sans-serif">HOST A</text>
+
+      {/* Host B */}
+      <circle cx="278" cy="218" r="22" fill="#061422" stroke="#5aabf0" strokeWidth="2.5"/>
+      <rect x="273" y="204" width="10" height="15" rx="5" fill="#5aabf0" opacity="0.9"/>
+      <path d="M 267 218 Q 267 232 278 232 Q 289 232 289 218" fill="none" stroke="#5aabf0" strokeWidth="2.5" strokeLinecap="round"/>
+      <text x="278" y="244" textAnchor="middle" fill="#5aabf0" fontSize="10" fontWeight="700" fontFamily="Inter,sans-serif">HOST B</text>
+
+      {/* Speech bubbles */}
+      <g className="nf-ba">
+        <rect x="110" y="200" width="58" height="22" rx="11" fill="#c9973a"/>
+        <polygon points="110,214 102,220 110,220" fill="#c9973a"/>
+        <text x="139" y="214" textAnchor="middle" fill="#1a1000" fontSize="9.5" fontWeight="700" fontFamily="Inter,sans-serif">On air...</text>
       </g>
-      {/* Host B — blue mic */}
-      <circle cx="286" cy="218" r="14" fill="rgba(106,180,240,0.1)" stroke="rgba(106,180,240,0.45)" strokeWidth="1.5"/>
-      <rect x="281" y="209" width="10" height="14" rx="5" fill="rgba(106,180,240,0.3)"/>
-      <path d="M 276 221 Q 276 232 286 232 Q 296 232 296 221" fill="none" stroke="rgba(106,180,240,0.4)" strokeWidth="1.2"/>
-      <text x="286" y="240" textAnchor="middle" fill="rgba(106,180,240,0.5)" fontSize="7" fontFamily="Inter,sans-serif">Host B</text>
-      {/* Speech bubble B */}
-      <g className="nf-bubble2">
-        <rect x="182" y="205" width="42" height="16" rx="8" fill="rgba(106,180,240,0.15)" stroke="rgba(106,180,240,0.4)" strokeWidth="1"/>
-        <text x="203" y="216" textAnchor="middle" fill="rgba(106,180,240,0.7)" fontSize="7" fontFamily="Inter,sans-serif">...</text>
+      <g className="nf-bb">
+        <rect x="194" y="200" width="58" height="22" rx="11" fill="#5aabf0"/>
+        <polygon points="252,214 260,220 252,220" fill="#5aabf0"/>
+        <text x="223" y="214" textAnchor="middle" fill="white" fontSize="9.5" fontWeight="700" fontFamily="Inter,sans-serif">Agreed!</text>
       </g>
     </svg>
   );
@@ -445,72 +486,74 @@ function VisualNarratorFraming() {
 function VisualSlides() {
   return (
     <svg viewBox="0 0 340 240" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <style>{`
-          @keyframes sl-pop{0%{opacity:0;transform:scale(0.9)}100%{opacity:1;transform:scale(1)}}
-          .sl-s1{animation:sl-pop .4s .1s both}.sl-s2{animation:sl-pop .4s .5s both}
-          .sl-s3{animation:sl-pop .4s .9s both}.sl-s4{animation:sl-pop .4s 1.3s both}
-        `}</style>
-      </defs>
-      {/* 2×2 slide grid */}
-      {/* Slide 1 — Hierarchy diagram (top-left) */}
+      <defs><style>{`
+        @keyframes sl-pop{from{opacity:0;transform:scale(.88)}to{opacity:1;transform:scale(1)}}
+        .sl-s1{animation:sl-pop .4s .1s both}.sl-s2{animation:sl-pop .4s .5s both}
+        .sl-s3{animation:sl-pop .4s .9s both}.sl-s4{animation:sl-pop .4s 1.3s both}
+      `}</style></defs>
+
+      {/* Slide 1 — Hierarchy (blue, top-left) */}
       <g className="sl-s1">
-        <rect x="14" y="18" width="152" height="96" rx="4" fill="rgba(26,92,138,0.08)" stroke="rgba(106,180,240,0.28)" strokeWidth="1.3"/>
-        <text x="90" y="34" textAnchor="middle" fill="rgba(106,180,240,0.5)" fontSize="7.5" fontFamily="Inter,sans-serif" letterSpacing="1">HIERARCHY</text>
-        {/* Tree diagram */}
-        <rect x="74" y="42" width="32" height="14" rx="3" fill="rgba(106,180,240,0.15)" stroke="rgba(106,180,240,0.3)" strokeWidth="1"/>
-        <text x="90" y="52" textAnchor="middle" fill="rgba(106,180,240,0.7)" fontSize="7" fontFamily="Inter,sans-serif">Root</text>
-        <line x1="90" y1="56" x2="56" y2="68" stroke="rgba(106,180,240,0.25)" strokeWidth="1"/>
-        <line x1="90" y1="56" x2="90" y2="68" stroke="rgba(106,180,240,0.25)" strokeWidth="1"/>
-        <line x1="90" y1="56" x2="124" y2="68" stroke="rgba(106,180,240,0.25)" strokeWidth="1"/>
-        {[[40,68,22],[74,68,22],[108,68,22]].map(([x,y,w],i)=>(
-          <rect key={i} x={x} y={y} width={w} height="10" rx="2" fill="rgba(106,180,240,0.1)" stroke="rgba(106,180,240,0.2)" strokeWidth="0.8"/>
+        <rect x="8" y="10" width="158" height="108" rx="7" fill="#061422" stroke="#5aabf0" strokeWidth="2.5"/>
+        <rect x="8" y="10" width="158" height="28" rx="7" fill="#5aabf0" opacity="0.35"/>
+        <text x="87" y="27" textAnchor="middle" fill="white" fontSize="12" fontWeight="700" fontFamily="Inter,sans-serif">HIERARCHY</text>
+        <rect x="68" y="46" width="38" height="16" rx="5" fill="#5aabf0"/>
+        <text x="87" y="58" textAnchor="middle" fill="white" fontSize="9.5" fontWeight="700" fontFamily="Inter,sans-serif">ROOT</text>
+        <line x1="87" y1="62" x2="44" y2="76" stroke="#5aabf0" strokeWidth="1.8" opacity="0.7"/>
+        <line x1="87" y1="62" x2="87" y2="76" stroke="#5aabf0" strokeWidth="1.8" opacity="0.7"/>
+        <line x1="87" y1="62" x2="130" y2="76" stroke="#5aabf0" strokeWidth="1.8" opacity="0.7"/>
+        {[[30,76],[72,76],[115,76]].map(([x,y],i)=>(
+          <rect key={i} x={x} y={y} width={30} height="14" rx="4" fill="#5aabf0" opacity="0.45"/>
         ))}
-        <text x="90" y="96" textAnchor="middle" fill="rgba(106,180,240,0.3)" fontSize="7" fontFamily="Inter,sans-serif" letterSpacing="1">SLIDE 1</text>
+        <text x="87" y="107" textAnchor="middle" fill="#5aabf0" fontSize="9" fontFamily="Inter,sans-serif" opacity="0.85">SLIDE TYPE 1</text>
       </g>
-      {/* Slide 2 — Quote card (top-right) */}
+
+      {/* Slide 2 — Quote (gold, top-right) */}
       <g className="sl-s2">
-        <rect x="174" y="18" width="152" height="96" rx="4" fill="rgba(201,151,58,0.07)" stroke="rgba(201,151,58,0.28)" strokeWidth="1.3"/>
-        <text x="250" y="34" textAnchor="middle" fill="rgba(201,151,58,0.5)" fontSize="7.5" fontFamily="Inter,sans-serif" letterSpacing="1">QUOTE</text>
-        <text x="187" y="56" fill="rgba(201,151,58,0.7)" fontSize="22" fontFamily="Georgia,serif">"</text>
-        <line x1="210" y1="54" x2="304" y2="54" stroke="rgba(201,151,58,0.25)" strokeWidth="1.2" strokeLinecap="round"/>
-        <line x1="210" y1="64" x2="292" y2="64" stroke="rgba(201,151,58,0.2)" strokeWidth="1.1" strokeLinecap="round"/>
-        <line x1="210" y1="74" x2="298" y2="74" stroke="rgba(201,151,58,0.2)" strokeWidth="1.1" strokeLinecap="round"/>
-        <line x1="240" y1="84" x2="310" y2="84" stroke="rgba(201,151,58,0.15)" strokeWidth="1" strokeLinecap="round"/>
-        <text x="250" y="96" textAnchor="middle" fill="rgba(201,151,58,0.3)" fontSize="7" fontFamily="Inter,sans-serif" letterSpacing="1">SLIDE 2</text>
+        <rect x="174" y="10" width="158" height="108" rx="7" fill="#1c1400" stroke="#c9973a" strokeWidth="2.5"/>
+        <rect x="174" y="10" width="158" height="28" rx="7" fill="#c9973a" opacity="0.35"/>
+        <text x="253" y="27" textAnchor="middle" fill="white" fontSize="12" fontWeight="700" fontFamily="Inter,sans-serif">QUOTE</text>
+        <text x="184" y="76" fill="#ffd700" fontSize="44" fontFamily="Georgia,serif" opacity="0.85">"</text>
+        <rect x="212" y="54" width="108" height="9" rx="3" fill="white" opacity="0.5"/>
+        <rect x="212" y="68" width="94" height="9" rx="3" fill="white" opacity="0.38"/>
+        <rect x="212" y="82" width="104" height="9" rx="3" fill="white" opacity="0.32"/>
+        <text x="253" y="107" textAnchor="middle" fill="#c9973a" fontSize="9" fontFamily="Inter,sans-serif" opacity="0.85">SLIDE TYPE 2</text>
       </g>
-      {/* Slide 3 — Timeline (bottom-left) */}
+
+      {/* Slide 3 — Timeline (green, bottom-left) */}
       <g className="sl-s3">
-        <rect x="14" y="126" width="152" height="96" rx="4" fill="rgba(74,124,74,0.07)" stroke="rgba(74,124,74,0.28)" strokeWidth="1.3"/>
-        <text x="90" y="142" textAnchor="middle" fill="rgba(126,207,126,0.5)" fontSize="7.5" fontFamily="Inter,sans-serif" letterSpacing="1">TIMELINE</text>
-        <line x1="28" y1="176" x2="148" y2="176" stroke="rgba(126,207,126,0.3)" strokeWidth="1.5" strokeLinecap="round"/>
-        {[28,62,96,130].map((x,i)=>(
+        <rect x="8" y="128" width="158" height="108" rx="7" fill="#061a0c" stroke="#5ac87a" strokeWidth="2.5"/>
+        <rect x="8" y="128" width="158" height="28" rx="7" fill="#5ac87a" opacity="0.3"/>
+        <text x="87" y="145" textAnchor="middle" fill="white" fontSize="12" fontWeight="700" fontFamily="Inter,sans-serif">TIMELINE</text>
+        <line x1="22" y1="192" x2="154" y2="192" stroke="#5ac87a" strokeWidth="2.5" strokeLinecap="round" opacity="0.75"/>
+        {[22,66,110,154].map((x,i)=>(
           <g key={i}>
-            <circle cx={x} cy="176" r="4" fill="rgba(74,124,74,0.2)" stroke="rgba(126,207,126,0.5)" strokeWidth="1"/>
-            <line x1={x} y1="165" x2={x} y2="172" stroke="rgba(126,207,126,0.25)" strokeWidth="1"/>
-            <rect x={x-14} y="152" width="28" height="12" rx="2" fill="rgba(74,124,74,0.15)" stroke="rgba(74,124,74,0.25)" strokeWidth="0.8"/>
+            <circle cx={x} cy="192" r="8" fill="#5ac87a"/>
+            <line x1={x} y1="174" x2={x} y2="184" stroke="#5ac87a" strokeWidth="1.8" opacity="0.6"/>
+            <rect x={x-18} y="161" width="36" height="13" rx="4" fill="#5ac87a" opacity="0.32"/>
           </g>
         ))}
-        <text x="90" y="212" textAnchor="middle" fill="rgba(74,124,74,0.3)" fontSize="7" fontFamily="Inter,sans-serif" letterSpacing="1">SLIDE 3</text>
+        <text x="87" y="226" textAnchor="middle" fill="#5ac87a" fontSize="9" fontFamily="Inter,sans-serif" opacity="0.85">SLIDE TYPE 3</text>
       </g>
-      {/* Slide 4 — Comparison table (bottom-right) */}
+
+      {/* Slide 4 — Comparison (teal, bottom-right) */}
       <g className="sl-s4">
-        <rect x="174" y="126" width="152" height="96" rx="4" fill="rgba(139,69,19,0.07)" stroke="rgba(201,151,58,0.22)" strokeWidth="1.3"/>
-        <text x="250" y="142" textAnchor="middle" fill="rgba(201,151,58,0.4)" fontSize="7.5" fontFamily="Inter,sans-serif" letterSpacing="1">COMPARISON</text>
-        {/* Table grid */}
-        {[154,170,186,202].map((y,i)=>(
-          <line key={i} x1="188" y1={y} x2="314" y2={y} stroke="rgba(201,151,58,0.15)" strokeWidth="0.8"/>
+        <rect x="174" y="128" width="158" height="108" rx="7" fill="#061818" stroke="#38c9bf" strokeWidth="2.5"/>
+        <rect x="174" y="128" width="158" height="28" rx="7" fill="#38c9bf" opacity="0.3"/>
+        <text x="253" y="145" textAnchor="middle" fill="white" fontSize="12" fontWeight="700" fontFamily="Inter,sans-serif">COMPARISON</text>
+        <line x1="253" y1="162" x2="253" y2="226" stroke="#38c9bf" strokeWidth="1.8" opacity="0.5"/>
+        {[162,180,198,216].map((y,i)=>(
+          <line key={i} x1="186" y1={y} x2="322" y2={y} stroke="#38c9bf" strokeWidth="1.2" opacity="0.3"/>
         ))}
-        <line x1="250" y1="152" x2="250" y2="206" stroke="rgba(201,151,58,0.15)" strokeWidth="0.8"/>
-        <text x="220" y="164" textAnchor="middle" fill="rgba(201,151,58,0.45)" fontSize="7" fontFamily="Inter,sans-serif">Before</text>
-        <text x="282" y="164" textAnchor="middle" fill="rgba(201,151,58,0.45)" fontSize="7" fontFamily="Inter,sans-serif">After</text>
-        {[176,192].map((y,i)=>(
+        <text x="220" y="174" textAnchor="middle" fill="#38c9bf" fontSize="10" fontWeight="700" fontFamily="Inter,sans-serif">BEFORE</text>
+        <text x="287" y="174" textAnchor="middle" fill="#38c9bf" fontSize="10" fontWeight="700" fontFamily="Inter,sans-serif">AFTER</text>
+        {[182,200].map((y,i)=>(
           <g key={i}>
-            <line x1="192" y1={y} x2="244" y2={y} stroke="rgba(240,236,227,0.1)" strokeWidth="1"/>
-            <line x1="256" y1={y} x2="308" y2={y} stroke="rgba(240,236,227,0.1)" strokeWidth="1"/>
+            <rect x="190" y={y} width="56" height="12" rx="3" fill="white" opacity="0.12"/>
+            <rect x="258" y={y} width="56" height="12" rx="3" fill="#38c9bf" opacity="0.3"/>
           </g>
         ))}
-        <text x="250" y="212" textAnchor="middle" fill="rgba(201,151,58,0.3)" fontSize="7" fontFamily="Inter,sans-serif" letterSpacing="1">SLIDE 4</text>
+        <text x="253" y="226" textAnchor="middle" fill="#38c9bf" fontSize="9" fontFamily="Inter,sans-serif" opacity="0.85">SLIDE TYPE 4</text>
       </g>
     </svg>
   );
@@ -519,73 +562,65 @@ function VisualSlides() {
 function VisualAudit() {
   return (
     <svg viewBox="0 0 340 240" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <style>{`
-          @keyframes au-check{0%{stroke-dashoffset:22}100%{stroke-dashoffset:0}}
-          @keyframes au-amber{0%,60%{fill:rgba(220,160,30,0.25);stroke:rgba(220,160,30,0.55)}100%{fill:rgba(74,124,74,0.2);stroke:rgba(74,124,74,0.55)}}
-          @keyframes au-amberx{0%,60%{opacity:1}100%{opacity:0}}
-          @keyframes au-ambertick{0%,60%{opacity:0;stroke-dashoffset:22}100%{opacity:1;stroke-dashoffset:0}}
-          @keyframes au-loop{0%{stroke-dashoffset:480}100%{stroke-dashoffset:0}}
-          @keyframes au-count{0%{opacity:0}100%{opacity:1}}
-          .au-ck{animation:au-check .3s both;stroke-dasharray:22;stroke-dashoffset:22}
-          .au-ck1{animation-delay:.2s}.au-ck2{animation-delay:.55s}.au-ck3{animation-delay:.9s}
-          .au-warn{animation:au-amber 1.2s 1.8s both}
-          .au-warnx{animation:au-amberx 1.2s 1.8s both}
-          .au-warntick{animation:au-ambertick 0.35s 2.8s both;stroke-dasharray:22;stroke-dashoffset:22}
-          .au-loop{animation:au-loop 2s 0.1s both;stroke-dasharray:480;stroke-dashoffset:480}
-          .au-pass{animation:au-count .4s 3.2s both;opacity:0}
-        `}</style>
-      </defs>
-      {/* Checklist — left */}
-      <text x="22" y="32" fill="rgba(240,236,227,0.3)" fontSize="8" fontFamily="Inter,sans-serif" letterSpacing="2">QUALITY CHECKS</text>
+      <defs><style>{`
+        @keyframes au-ck{0%{stroke-dashoffset:28}100%{stroke-dashoffset:0}}
+        @keyframes au-rect{0%,55%{fill:#1e0f00;stroke:#e8b430}100%{fill:#061a0c;stroke:#5ac87a}}
+        @keyframes au-bang{0%,55%{opacity:1}100%{opacity:0}}
+        @keyframes au-tick{0%,55%{opacity:0;stroke-dashoffset:28}100%{opacity:1;stroke-dashoffset:0}}
+        @keyframes au-loop{0%{stroke-dashoffset:340}100%{stroke-dashoffset:0}}
+        @keyframes au-pass{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+        .au-c1{animation:au-ck .35s .3s both;stroke-dasharray:28;stroke-dashoffset:28}
+        .au-c2{animation:au-ck .35s .7s both;stroke-dasharray:28;stroke-dashoffset:28}
+        .au-c3{animation:au-ck .35s 1.1s both;stroke-dasharray:28;stroke-dashoffset:28}
+        .au-r4{animation:au-rect 1s 2s both}.au-r5{animation:au-rect 1s 2.4s both}
+        .au-b4{animation:au-bang 1s 2s both}.au-b5{animation:au-bang 1s 2.4s both}
+        .au-c4{animation:au-tick .35s 2.8s both;stroke-dasharray:28;stroke-dashoffset:28}
+        .au-c5{animation:au-tick .35s 3.1s both;stroke-dasharray:28;stroke-dashoffset:28}
+        .au-loop{animation:au-loop 2s .5s both;stroke-dasharray:340;stroke-dashoffset:340}
+        .au-pass{animation:au-pass .5s 3.5s both;opacity:0}
+      `}</style></defs>
+
+      <text x="14" y="18" fill="white" fontSize="13" fontWeight="700" fontFamily="Inter,sans-serif">QUALITY CHECKS</text>
+
+      {/* Items 1–3: green from start */}
       {[
-        {y:48,label:'Citation accuracy',cls:'au-ck au-ck1',green:true},
-        {y:82,label:'Narrative integrity',cls:'au-ck au-ck2',green:true},
-        {y:116,label:'Coverage complete',cls:'au-ck au-ck3',green:true},
-        {y:150,label:'Enrichment depth',amber:true},
-        {y:184,label:'Audio alignment',amber:true},
+        {y:26,  label:'Citation accuracy',  ck:'au-c1'},
+        {y:66,  label:'Narrative integrity', ck:'au-c2'},
+        {y:106, label:'Coverage complete',   ck:'au-c3'},
       ].map((item,i)=>(
         <g key={i}>
-          <rect x="14" y={item.y} width="170" height="26" rx="4"
-            className={item.amber ? 'au-warn' : ''}
-            fill={item.green ? 'rgba(74,124,74,0.1)' : 'rgba(220,160,30,0.1)'}
-            stroke={item.green ? 'rgba(74,124,74,0.3)' : 'rgba(220,160,30,0.35)'}
-            strokeWidth="1.2"/>
-          <text x="36" y={item.y+17} fill="rgba(240,236,227,0.55)" fontSize="8.5" fontFamily="Inter,sans-serif">{item.label}</text>
-          {/* Check circle */}
-          <circle cx={item.amber ? 190 : 190} cy={item.y+13} r="9"
-            className={item.amber ? 'au-warn' : ''}
-            fill={item.green ? 'rgba(74,124,74,0.2)' : 'rgba(220,160,30,0.2)'}
-            stroke={item.green ? 'rgba(74,124,74,0.55)' : 'rgba(220,160,30,0.55)'}
-            strokeWidth="1.2"/>
-          {item.green && (
-            <polyline points={`184,${item.y+13} 188,${item.y+17} 196,${item.y+9}`}
-              className={`au-ck ${item.y===48 ? 'au-ck1' : item.y===82 ? 'au-ck2' : 'au-ck3'}`}
-              fill="none" stroke="rgba(126,207,126,0.9)" strokeWidth="1.8" strokeLinecap="round"/>
-          )}
-          {item.amber && (
-            <>
-              <text x="190" y={item.y+17} textAnchor="middle" className="au-warnx"
-                fill="rgba(220,160,30,0.85)" fontSize="10" fontFamily="Inter,sans-serif">!</text>
-              <polyline points={`184,${item.y+13} 188,${item.y+17} 196,${item.y+9}`}
-                className="au-warntick"
-                fill="none" stroke="rgba(126,207,126,0.9)" strokeWidth="1.8" strokeLinecap="round"
-                style={{opacity:0}}/>
-            </>
-          )}
+          <rect x="8" y={item.y} width="198" height="34" rx="6" fill="#061a0c" stroke="#5ac87a" strokeWidth="2"/>
+          <text x="22" y={item.y+21} fill="white" fontSize="11" fontFamily="Inter,sans-serif">{item.label}</text>
+          <circle cx="190" cy={item.y+17} r="12" fill="#5ac87a" opacity="0.28" stroke="#5ac87a" strokeWidth="2"/>
+          <polyline points={`183,${item.y+17} 188,${item.y+22} 197,${item.y+11}`}
+            className={item.ck} fill="none" stroke="#5ac87a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
         </g>
       ))}
-      {/* Loop arrow — right side */}
-      <text x="248" y="32" textAnchor="middle" fill="rgba(240,236,227,0.2)" fontSize="8" fontFamily="Inter,sans-serif" letterSpacing="2">LOOP</text>
-      <circle cx="260" cy="130" r="52" fill="none" stroke="rgba(201,151,58,0.08)" strokeWidth="1" strokeDasharray="3 4"/>
-      <path d="M 260 78 A 52 52 0 1 0 259 85" className="au-loop"
-        fill="none" stroke="rgba(201,151,58,0.4)" strokeWidth="2"/>
-      <polygon points="255,82 261,75 267,83" fill="rgba(201,151,58,0.55)"/>
-      <text x="260" y="122" textAnchor="middle" fill="rgba(201,151,58,0.6)" fontSize="10" fontFamily="Inter,sans-serif">up to</text>
-      <text x="260" y="138" textAnchor="middle" fill="rgba(201,151,58,0.9)" fontSize="22" fontFamily="Inter,sans-serif" fontWeight="700">15×</text>
+
+      {/* Items 4–5: amber → green */}
+      {[
+        {y:146, label:'Enrichment depth',  rCls:'au-r4', bCls:'au-b4', kCls:'au-c4'},
+        {y:184, label:'Audio alignment',   rCls:'au-r5', bCls:'au-b5', kCls:'au-c5'},
+      ].map((item,i)=>(
+        <g key={i}>
+          <rect x="8" y={item.y} width="198" height="34" rx="6" fill="#1e0f00" stroke="#e8b430" strokeWidth="2" className={item.rCls}/>
+          <text x="22" y={item.y+21} fill="white" fontSize="11" fontFamily="Inter,sans-serif">{item.label}</text>
+          <circle cx="190" cy={item.y+17} r="12" fill="#e8b430" opacity="0.22" stroke="#e8b430" strokeWidth="2" className={item.rCls}/>
+          <text x="190" y={item.y+22} textAnchor="middle" fill="#e8b430" fontSize="15" fontWeight="700" fontFamily="Inter,sans-serif" className={item.bCls}>!</text>
+          <polyline points={`183,${item.y+17} 188,${item.y+22} 197,${item.y+11}`}
+            className={item.kCls} fill="none" stroke="#5ac87a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{opacity:0}}/>
+        </g>
+      ))}
+
+      {/* Revision loop — right */}
+      <text x="272" y="18" textAnchor="middle" fill="white" fontSize="11" fontWeight="700" fontFamily="Inter,sans-serif">LOOP</text>
+      <path d="M 272 34 A 56 56 0 1 0 271 42" className="au-loop" fill="none" stroke="#c9973a" strokeWidth="3"/>
+      <polygon points="266,38 272,32 278,39" fill="#c9973a"/>
+      <text x="272" y="112" textAnchor="middle" fill="white" fontSize="11" fontFamily="Inter,sans-serif" opacity="0.65">up to</text>
+      <text x="272" y="140" textAnchor="middle" fill="#ffd700" fontSize="32" fontWeight="700" fontFamily="Inter,sans-serif">15×</text>
       <g className="au-pass">
-        <rect x="222" y="186" width="76" height="20" rx="10" fill="rgba(74,124,74,0.15)" stroke="rgba(74,124,74,0.5)" strokeWidth="1.2"/>
-        <text x="260" y="199" textAnchor="middle" fill="rgba(126,207,126,0.85)" fontSize="8" fontFamily="Inter,sans-serif" letterSpacing="1">PASSED ✓</text>
+        <rect x="228" y="180" width="88" height="28" rx="14" fill="#5ac87a"/>
+        <text x="272" y="198" textAnchor="middle" fill="white" fontSize="12" fontWeight="700" fontFamily="Inter,sans-serif">✓ PASSED</text>
       </g>
     </svg>
   );
@@ -594,63 +629,61 @@ function VisualAudit() {
 function VisualShip() {
   return (
     <svg viewBox="0 0 340 240" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <style>{`
-          @keyframes sh-fade{0%{opacity:1}100%{opacity:0.25}}
-          @keyframes sh-slide{0%{opacity:0;transform:translateX(16px)}100%{opacity:1;transform:translateX(0)}}
-          @keyframes sh-seal{0%{opacity:0;transform:scale(0) rotate(-30deg)}100%{opacity:1;transform:scale(1) rotate(0)}}
-          @keyframes sh-ep{0%{opacity:0;transform:translateY(-4px)}100%{opacity:1;transform:translateY(0)}}
-          .sh-draft{animation:sh-fade .8s .5s both}
-          .sh-card{animation:sh-slide .5s .8s both}
-          .sh-seal{animation:sh-seal .55s 1.4s both;transform-origin:279px 78px}
-          .sh-ep1{animation:sh-ep .3s 1.5s both}.sh-ep2{animation:sh-ep .3s 1.8s both}
-          .sh-ep3{animation:sh-ep .3s 2.1s both}.sh-ep4{animation:sh-ep .3s 2.4s both}
-        `}</style>
-      </defs>
-      {/* DRAFT stack — left, fading */}
+      <defs><style>{`
+        @keyframes sh-fade{0%{opacity:1}100%{opacity:.2;transform:scale(.95)}}
+        @keyframes sh-slide{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes sh-seal{from{opacity:0;transform:scale(0) rotate(-20deg)}to{opacity:1;transform:scale(1) rotate(0)}}
+        @keyframes sh-ep{from{opacity:0;transform:translateY(-7px)}to{opacity:1;transform:translateY(0)}}
+        .sh-draft{animation:sh-fade 1s .4s both}
+        .sh-card{animation:sh-slide .5s .8s both}
+        .sh-seal{animation:sh-seal .6s 1.5s both;transform-origin:285px 82px}
+        .sh-e1{animation:sh-ep .3s 1.6s both}.sh-e2{animation:sh-ep .3s 1.95s both}
+        .sh-e3{animation:sh-ep .3s 2.3s both}.sh-e4{animation:sh-ep .3s 2.65s both}
+      `}</style></defs>
+
+      {/* DRAFT stack */}
       <g className="sh-draft">
-        {[6,3,0].map((offset,i)=>(
-          <rect key={i} x={18+offset} y={22-offset} width="120" height="168" rx="4"
-            fill="rgba(240,236,227,0.03)" stroke="rgba(240,236,227,0.12)" strokeWidth="1.2"/>
+        {[6,3,0].map((o,i)=>(
+          <rect key={i} x={16+o} y={16-o} width="132" height="198" rx="7" fill="#1e0808" stroke="#f05555" strokeWidth={2.2-i*0.4}/>
         ))}
-        {/* DRAFT watermark diagonal */}
-        <text x="78" y="120" textAnchor="middle" fill="rgba(220,80,80,0.2)" fontSize="28"
-          fontFamily="Inter,sans-serif" fontWeight="700"
-          transform="rotate(-30, 78, 120)">DRAFT</text>
-        <text x="78" y="218" textAnchor="middle" fill="rgba(240,236,227,0.2)" fontSize="8" fontFamily="Inter,sans-serif" letterSpacing="2">IN WORKSHOP</text>
+        <text x="82" y="124" textAnchor="middle" fill="#f05555" fontSize="34" fontWeight="700" fontFamily="Inter,sans-serif"
+          transform="rotate(-18 82 124)" opacity="0.55">DRAFT</text>
+        <text x="82" y="226" textAnchor="middle" fill="#f05555" fontSize="10" fontFamily="Inter,sans-serif" opacity="0.55">IN WORKSHOP</text>
       </g>
+
       {/* Arrow */}
-      <path d="M 152 112 L 172 112" stroke="rgba(201,151,58,0.55)" strokeWidth="2" strokeLinecap="round"/>
-      <polygon points="170,107 180,112 170,117" fill="rgba(201,151,58,0.55)"/>
-      {/* Published catalog card — right */}
+      <path d="M 160 120 L 178 120" stroke="#c9973a" strokeWidth="3.5" strokeLinecap="round"/>
+      <polygon points="176,112 192,120 176,128" fill="#c9973a"/>
+
+      {/* Published card */}
       <g className="sh-card">
-        <rect x="186" y="22" width="140" height="196" rx="5" fill="rgba(201,151,58,0.08)" stroke="rgba(201,151,58,0.4)" strokeWidth="1.5"/>
-        {/* Book title */}
-        <text x="256" y="46" textAnchor="middle" fill="rgba(201,151,58,0.85)" fontSize="10.5" fontFamily="Inter,sans-serif" fontWeight="600">Ayyuhal Walad</text>
-        <text x="256" y="60" textAnchor="middle" fill="rgba(201,151,58,0.6)" fontSize="10" fontFamily="Inter,sans-serif">أيها الولد</text>
-        <line x1="200" y1="68" x2="312" y2="68" stroke="rgba(201,151,58,0.25)" strokeWidth="1"/>
-        {/* 4 episode rows */}
+        <rect x="194" y="16" width="140" height="208" rx="7" fill="#1c1400" stroke="#c9973a" strokeWidth="2.5"/>
+        <rect x="194" y="16" width="140" height="38" rx="7" fill="#c9973a" opacity="0.28"/>
+        <text x="264" y="36" textAnchor="middle" fill="#ffd700" fontSize="13" fontWeight="700" fontFamily="Inter,sans-serif">Ayyuhal Walad</text>
+        <text x="264" y="52" textAnchor="middle" fill="#c9973a" fontSize="11" fontFamily="Inter,sans-serif">أيها الولد</text>
+        <line x1="204" y1="60" x2="324" y2="60" stroke="#c9973a" strokeWidth="1" opacity="0.4"/>
         {[
-          {label:'Ep 1 — The Opening Letter',cls:'sh-ep1'},
-          {label:'Ep 2 — Knowledge & Action',cls:'sh-ep2'},
-          {label:'Ep 3 — The Inner Journey',cls:'sh-ep3'},
-          {label:'Ep 4 — The Final Counsel',cls:'sh-ep4'},
+          {label:'Ep 1 — The Opening Letter', cls:'sh-e1'},
+          {label:'Ep 2 — Knowledge & Action',  cls:'sh-e2'},
+          {label:'Ep 3 — The Inner Journey',   cls:'sh-e3'},
+          {label:'Ep 4 — The Final Counsel',   cls:'sh-e4'},
         ].map((ep,i)=>(
           <g key={i} className={ep.cls}>
-            <line x1="200" y1={88+i*28} x2="312" y2={88+i*28} stroke="rgba(240,236,227,0.06)" strokeWidth="0.8"/>
-            <circle cx="208" cy={100+i*28} r="3.5" fill="rgba(201,151,58,0.3)"/>
-            <text x="218" y={104+i*28} fill="rgba(240,236,227,0.6)" fontSize="7.5" fontFamily="Inter,sans-serif">{ep.label}</text>
+            <circle cx="208" cy={82+i*36} r="5.5" fill="#c9973a" opacity="0.75"/>
+            <text x="220" y={87+i*36} fill="white" fontSize="9.5" fontFamily="Inter,sans-serif" opacity="0.88">{ep.label}</text>
+            <line x1="204" y1={100+i*36} x2="324" y2={100+i*36} stroke="#c9973a" strokeWidth="0.8" opacity="0.22"/>
           </g>
         ))}
-        <text x="256" y="210" textAnchor="middle" fill="rgba(201,151,58,0.3)" fontSize="7.5" fontFamily="Inter,sans-serif" letterSpacing="2">PUBLISHED</text>
+        <text x="264" y="218" textAnchor="middle" fill="#c9973a" fontSize="9.5" fontFamily="Inter,sans-serif" letterSpacing="1.5" opacity="0.6">PUBLISHED</text>
       </g>
-      {/* Gold VERIFIED seal */}
+
+      {/* VERIFIED seal */}
       <g className="sh-seal">
-        <circle cx="279" cy="78" r="22" fill="rgba(201,151,58,0.15)" stroke="rgba(201,151,58,0.7)" strokeWidth="1.8"/>
-        <circle cx="279" cy="78" r="16" fill="none" stroke="rgba(201,151,58,0.35)" strokeWidth="1" strokeDasharray="3 2"/>
-        <text x="279" y="74" textAnchor="middle" fill="rgba(201,151,58,0.9)" fontSize="6.5" fontFamily="Inter,sans-serif" fontWeight="700" letterSpacing="0.5">VERI</text>
-        <text x="279" y="84" textAnchor="middle" fill="rgba(201,151,58,0.9)" fontSize="6.5" fontFamily="Inter,sans-serif" fontWeight="700" letterSpacing="0.5">FIED</text>
-        <text x="279" y="68" textAnchor="middle" fill="rgba(201,151,58,0.7)" fontSize="9">✦</text>
+        <circle cx="285" cy="82" r="28" fill="#1c1400" stroke="#c9973a" strokeWidth="2.5"/>
+        <circle cx="285" cy="82" r="21" fill="none" stroke="#c9973a" strokeWidth="1" strokeDasharray="4 3" opacity="0.65"/>
+        <text x="285" y="77" textAnchor="middle" fill="#ffd700" fontSize="8" fontWeight="700" fontFamily="Inter,sans-serif" letterSpacing="1.5">VERI</text>
+        <text x="285" y="89" textAnchor="middle" fill="#ffd700" fontSize="8" fontWeight="700" fontFamily="Inter,sans-serif" letterSpacing="1.5">FIED</text>
+        <text x="285" y="68" textAnchor="middle" fill="#ffd700" fontSize="13">✦</text>
       </g>
     </svg>
   );
