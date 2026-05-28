@@ -40,19 +40,67 @@ def _quran_refs(text: str) -> int:
 
 
 def _domain_terms(text: str) -> tuple[int, int]:
+    # Count terms marked with asterisks (primary signal for Arabic/Islamic terms).
     italics = re.findall(r'\*([^*]+)\*', text)
-    total = len(set(italics))
-    glossed = len(re.findall(r'\*[^*]+\*\s*\([^)]+\)', text))
+    italic_set = set(italics)
+
+    # Count inline bare glosses: Word (meaning) — transliterations & proper nouns
+    # e.g. "Bandhaqlis (Empedocles)", "genera (metal, plant, animal)"
+    # Require the word before the paren to be ≥4 chars and not a common stop-word.
+    _STOP = {'that', 'this', 'with', 'from', 'into', 'also', 'such', 'when',
+             'then', 'than', 'what', 'which', 'some', 'have', 'been', 'were',
+             'they', 'their', 'there', 'here', 'each', 'both'}
+    bare_glosses = [
+        m.group(1).strip()
+        for m in re.finditer(r'\b([A-Za-zāīūḍṭẓḥṣʿʾ]{4,})\s*\([^)]{5,80}\)', text)
+        if m.group(1).lower() not in _STOP
+    ]
+    bare_gloss_set = set(bare_glosses)
+
+    total = len(italic_set) + len(bare_gloss_set - italic_set)
+
+    # Glossed = asterisk terms followed by a parenthetical + bare glosses
+    glossed_italic = len(re.findall(r'\*[^*]+\*\s*\([^)]+\)', text))
+    glossed = glossed_italic + len(bare_gloss_set)
     return total, min(glossed, total)
 
 
 def _arc_labels(text: str) -> list[str]:
     labels: list[str] = []
-    if re.search(r'(let us begin|opening|before we dive)', text, re.I):
+    # Opening hook — any of: explicit opener phrases, chapter-framing headings,
+    # "where this chapter picks up", argument-setting sentences, lead-in summaries.
+    if re.search(
+        r'(let us begin|opening|before we dive'
+        r'|where this chapter picks up'
+        r'|this chapter covers|the argument of this chapter'
+        r'|picks up|chapter picks up|where we left|where the chapter'
+        r'|##\s*(where|opening|introduction|context|background)'
+        r'|established the doctrine|settled the architecture)',
+        text, re.I
+    ):
         labels.append("open_hook")
-    if re.search(r'\b(first|second|third|point one|point two)\b', text, re.I):
+    # Three structured points — ordinal markers, movement/section headings,
+    # numbered elements, or explicit sequence language.
+    if re.search(
+        r'(\bfirst\b|\bsecond\b|\bthird\b|point one|point two'
+        r'|##\s*movement\s+\d|##\s*section\s+\d|##\s*part\s+\d'
+        r'|\bmovement \d|\bphase \d|\bstep \d'
+        r'|\bone[,:]|\btwo[,:]|\bthree[,:]'
+        r'|the first|the second|the third)',
+        text, re.I
+    ):
         labels.append("three_points")
-    if re.search(r'(in closing|to close|so as we end|let that sit)', text, re.I):
+    # Closing — explicit closers, "what comes next" signposts, dua/prayer endings,
+    # summary markers, end-of-chapter wrap language.
+    if re.search(
+        r'(in closing|to close|so as we end|let that sit'
+        r'|what comes next|where this chapter ends|this is where.*ends'
+        r'|the next (chapter|sub-chapter|section)'
+        r'|we ask god|ask god to|may god|allāh|inshallah'
+        r'|##\s*(what comes next|closing|conclusion|summary|end)'
+        r'|leaves the reader|has earned)',
+        text, re.I
+    ):
         labels.append("close")
     return labels
 
