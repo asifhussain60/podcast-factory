@@ -247,3 +247,15 @@ Append a new entry at the bottom of this section at the end of every Copilot ses
 - Push develop to origin
 
 **Blocked / open:** orchestrate_book.py split is the highest-value remaining H2 step; needs 2–3 hours of careful extraction work.
+
+---
+
+### 2026-05-28 13:30 EST — Copilot session (A4 completion)
+
+**Closed:** Plan item A4 fully complete. `_authoring.py` (2,025 lines) split into a 6-submodule package (`_core`, `_refine`, `_chapter_design`, `_enrichment`, `_framing`, `_convergence`) plus `__init__.py` re-exporting the full public API for backward compatibility. Old flat `_authoring.py` removed. `orchestrate_book.py` was already thinned to 461 lines (phases/ handlers) from the prior WIP commit. 278 tests passing, 4 pre-existing failures unchanged. DR-005 met across all new/modified files. `plan.yaml` + `plan.md` updated (A4 → completed 2026-05-28), plan-dashboard snapshots regenerated.
+
+**Commits:** `9ba2c8d` (orchestrate_book.py + phases/ — prior WIP) · `123970a` (A4 complete: _authoring/ package + plan files + snapshots)
+
+**Next:** Wave A is now fully done (A1–A7 all complete). All six waves complete. No immediate refactor work pending. H2 (pipeline quality) partial work from prior session was committed but deferred steps remain (orchestrate_book.py split already done as part of A4; 5 remaining test modules; Azure retry decorator; push develop).
+
+**Blocked / open:** None from this session. Confirm with Asif whether to proceed with H2 deferred steps or move to a new book intake.
