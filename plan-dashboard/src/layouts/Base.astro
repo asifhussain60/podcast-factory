@@ -30,7 +30,7 @@ const archPages: ActivePage[] = ['architecture', 'intelligence', 'infrastructure
 const navSection =
   active === 'library'       ? 'bookshelf'    :
   active === 'kashkole'      ? 'kashkole'     :
-  active === 'plan' || active === 'dashboard' ? 'planner' :
+
   archPages.includes(active) ? 'architecture' :
   null;
 
@@ -65,11 +65,7 @@ const hasArchSubnav = section === 'architecture';
              class={`topnav-section${navSection === 'kashkole' ? ' is-active' : ''}`}>
             Kashkole
           </a>
-          <a href="/plan"
-             data-section="planner"
-             class={`topnav-section${navSection === 'planner' ? ' is-active' : ''}`}>
-            Planner
-          </a>
+
         </div>
         <div class="topnav-spacer"></div>
       </div>

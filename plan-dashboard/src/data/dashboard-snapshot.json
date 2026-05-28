@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-28T10:48:50.863Z",
-  "source_commit": "90bab5c",
+  "generated_at": "2026-05-28T11:41:23.817Z",
+  "source_commit": "9554afe",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -505,6 +505,21 @@
   ],
   "recent_commits": [
     {
+      "sha": "9554afe",
+      "subject": "refactor(layout): consolidate repo folders — remove 4 empty dirs, relocate kashkole corpus",
+      "date": "2026-05-28"
+    },
+    {
+      "sha": "a8c1638",
+      "subject": "chore: session log 2026-05-29",
+      "date": "2026-05-28"
+    },
+    {
+      "sha": "cbed5d8",
+      "subject": "chore(plan): update H2 status to partial after REPO_ROOT + state-machine tests",
+      "date": "2026-05-28"
+    },
+    {
       "sha": "90bab5c",
       "subject": "merge(refactor/pipeline-quality): H2 partial — REPO_ROOT unification + state-machine tests",
       "date": "2026-05-28"
@@ -537,21 +552,6 @@
     {
       "sha": "a12ade2",
       "subject": "refactor(docs+ui): retire docs/architecture, docs-updater+reconcile agents, live-execution UI",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "ad5e3f3",
-      "subject": "chore: delete operator-review-ai-features.html proposal (no refs, superseded)",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "006f7d9",
-      "subject": "refactor(naming): rename screaming-case files, corpus dir, and intelligence spec",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "771574c",
-      "subject": "fix: remove erroneous /CONTENT/podcast gitignore rule — learning ledger is canonical",
       "date": "2026-05-28"
     }
   ],

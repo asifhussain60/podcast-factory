@@ -92,11 +92,12 @@ waves:
   - id: A
     name: Foundation
     parallel_with: []
-    execution_status: completed_2026_05_27
+    execution_status: in_progress
     execution_notes:
       - "A1 root cleanup completed: only README.md, architecture.md, and copilot-handoff.md remain at _workspace/plan root."
-      - "A2/A3 core and domain module foundations landed with passing unit tests."
-      - "A4 large-file guardrail applied by splitting oversized scripts/podcast entrypoints into thin compatibility modules with moved implementations."
+      - "A2 partial: _paths.py and 6-file schema landed; _db.py, _archetypes.py, intelligence/_anti_cliche.py, full 16-file schema, and 4 archetype seeds (scholarly-deep-dive, narrative-prose, aphorism-collection, socratic-dialogue) still needed."
+      - "A3 _doctrinal.py landed with passing tests."
+      - "A4 NOT started: orchestrate_book.py is 2321 lines; _authoring.py is 2025 lines; phases/ split not done."
       - "A5 no version stamps detected in tracked files; pre-commit version guard present."
       - "A6 agent stubs and installer dry-run verified against canonical infra/claude-agents surface."
       - "A7 targeted KAHSKOLE batch call paths moved from interactive CLI shellout to direct Anthropic API with prompt caching and per-run chapter cap."

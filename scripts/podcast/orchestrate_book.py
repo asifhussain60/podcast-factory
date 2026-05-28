@@ -92,6 +92,8 @@ from _convergence import (  # noqa: E402
     converge_chapter,
     render_outcome,
 )
+from _paths import REPO_ROOT, content_dir as _paths_content_dir, find_content as _paths_find_content, relative_to_repo as _paths_rel  # noqa: E402  canonical resolver
+from _rules import ALLOWED_CATEGORIES  # noqa: E402  centralized 2026-05-23 per AU-X1-001
 
 # 2026-05-26 restructure: canonical layout is content/<stage>/<category>/<slug>/
 # (e.g. content/drafts/books/the-master-and-the-disciple). The _paths resolver
@@ -108,9 +110,6 @@ CHAPTER_SET_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "check_chapter_set.py"
 AUDIT_BUNDLE_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "audit_bundle.py"
 AUDIT_BUNDLE_GEMINI_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "audit_bundle_gemini.py"
 LOCKS_DIR = Path.home() / ".podcast-locks"
-
-from _rules import ALLOWED_CATEGORIES  # noqa: E402  centralized 2026-05-23 per AU-X1-001
-from _paths import content_dir as _paths_content_dir, find_content as _paths_find_content, relative_to_repo as _paths_rel  # noqa: E402  canonical resolver, REPO_ROOT
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 
 
