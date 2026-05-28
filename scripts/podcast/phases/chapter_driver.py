@@ -186,6 +186,42 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
         },
     )
 
+    # Phase per-chapter-optimize (Wave I) — Sonnet arc/format/host-role check.
+    # Guarded by optimize_enabled flag in meta.yml (default False — backward compat).
+    _opt_done = (
+        (read_state(book_dir) or {})
+        .get("phases", {})
+        .get("per-chapter-optimize", {})
+        .get("status") in ("completed", "skipped")
+    )
+    if _opt_done:
+        _info("phase: per-chapter-optimize · already completed/skipped, skipping")
+    else:
+        from phases.per_chapter_optimize import run_book_optimize  # noqa: E402
+        _info("phase: per-chapter-optimize · Sonnet arc/format/host-role check")
+        update_phase(book_dir, phase="per-chapter-optimize", status="running")
+        try:
+            opt_results = run_book_optimize(book_dir)
+        except Exception as e:  # noqa: BLE001
+            update_phase(book_dir, phase="per-chapter-optimize", status="failed", error=str(e))
+            _err(f"phase per-chapter-optimize failed: {e}")
+            return 2
+        if opt_results.get("skipped"):
+            update_phase(book_dir, phase="per-chapter-optimize", status="skipped",
+                         extras={"reason": opt_results.get("reason", "optimize_enabled=false")})
+            _info(f"  per-chapter-optimize: skipped ({opt_results.get('reason', '')})")
+        elif opt_results.get("blocked", 0):
+            update_phase(book_dir, phase="per-chapter-optimize", status="failed",
+                         error=f"{opt_results['blocked']} chapter(s) blocked by P0 findings")
+            _err(f"per-chapter-optimize: {opt_results['blocked']} chapter(s) blocked. Fix P0s and --resume.")
+            return 2
+        else:
+            update_phase(book_dir, phase="per-chapter-optimize", status="completed",
+                         extras={"chapters": opt_results.get("chapters", 0),
+                                  "warn": opt_results.get("warn", 0)})
+            phase_git_commit(book_dir, f"podcast({book_slug}): phase per-chapter-optimize ({opt_results.get('chapters', 0)} chapters, {opt_results.get('warn', 0)} warnings)")
+            _info(f"  per-chapter-optimize: {opt_results.get('chapters', 0)} chapters checked, {opt_results.get('warn', 0)} warnings.")
+
     # Phase 0g — register + dual-auditor bundle sweep.
     _0g_done = (
         (read_state(book_dir) or {})

@@ -559,8 +559,12 @@ class PhaseChainPinTest(unittest.TestCase):
 
     EXPECTED_PHASES = (
         "pre-flight", "branch", "scaffold",
-        "0a", "0b", "0c", "0d", "0e", "0f", "0g",
-        "per-chapter", "per-chapter-slides",
+        "0a", "0b", "0c", "0d", "0e",
+        "06a",  # Wave I: source review gate
+        "0f", "0g",
+        "per-chapter",
+        "per-chapter-optimize",  # Wave I: Sonnet arc/format check
+        "per-chapter-slides",
         "finalize", "publish", "trainer", "merge", "done",
     )
 

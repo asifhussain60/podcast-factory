@@ -81,7 +81,8 @@ def run_resume(args: argparse.Namespace) -> int:
                     lb["status"] = "pending"
                     lb.pop("ts_completed", None)
         canonical = ("pre-flight", "branch", "scaffold", "0a", "0b", "0c", "0d", "0e",
-                     "0f", "0g", "per-chapter", "per-chapter-slides", "finalize",
+                     "06a", "0f", "0g", "per-chapter", "per-chapter-optimize",
+                     "per-chapter-slides", "finalize",
                      "publish", "trainer", "merge", "done")
         if retry_phase in canonical:
             i = canonical.index(retry_phase)
@@ -123,6 +124,12 @@ def run_resume(args: argparse.Namespace) -> int:
         write_state(book_dir, state)
         _info(f"Phase {current_phase!r} human review approved — resuming.")
         current_status = "pending"
+
+    # Phase 06a approved — drive into 0f.
+    if current_phase == "06a" and current_status in ("pending", "failed"):
+        title = _read_book_title_local(book_dir) or slug.replace("-", " ").title()
+        _info("Phase 06a cleared — resuming to 0f series plan.")
+        return _drive_authoring_through_0f(book_dir, title)
 
     if current_phase == "0f" and current_status == "halted":
         plan = book_dir / "_system" / "series-plan.md"

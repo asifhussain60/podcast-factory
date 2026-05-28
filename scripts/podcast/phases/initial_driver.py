@@ -17,6 +17,7 @@ from phases.preflight import preflight_initial  # noqa: E402
 from phases.scaffold import phase_branch, phase_scaffold, phase_0a_ingest, phase_git_commit  # noqa: E402
 from phases.series_plan import phase_0f_write_series_plan  # noqa: E402
 from phases.preflight import _run_chapter_set_check  # noqa: E402
+from phases.source_review_gate import run_source_review_gate  # noqa: E402
 
 
 def _info(msg: str) -> None:
@@ -88,6 +89,48 @@ def _drive_authoring_through_0f(book_dir: Path, title: str) -> int:
 
         if phase_id == "0d":
             _run_chapter_set_check(book_dir, log=_info)
+
+    # Phase 06a — source review gate (Wave I). Runs after 0e, before 0f.
+    _06a_done = "06a" in completed
+    if _06a_done:
+        _info("phase: 06a · already completed, skipping")
+    else:
+        _info("phase: 06a · source review gate (Haiku companion-source review)")
+        update_phase(book_dir, phase="06a", status="running")
+        try:
+            gate = run_source_review_gate(book_dir)
+        except Exception as e:  # noqa: BLE001
+            update_phase(book_dir, phase="06a", status="failed", error=str(e))
+            _err(f"phase 06a failed: {e}")
+            return 2
+        if gate.approved:
+            # Gate file already carried approved=True — mark done and fall through
+            update_phase(book_dir, phase="06a", status="completed")
+            _info("phase: 06a · already approved, advancing to series plan")
+        else:
+            # Halt for human review. update_phase stores the block with status=halted;
+            # we then patch the top-level phase_status to the R4-guard sentinel value.
+            update_phase(
+                book_dir,
+                phase="06a",
+                status="halted",
+                extras={"gate_warnings": len(gate.warnings)},
+            )
+            raw_state = read_state(book_dir) or {}
+            raw_state["phase_status"] = "awaiting_human_review"
+            write_state(book_dir, raw_state)
+            phase_git_commit(book_dir, f"podcast({book_slug}): phase 06a source review gate — awaiting human review")
+            _info("")
+            _info("─" * 72)
+            _info("Phase 06a complete · halted for human review.")
+            _info(f"  {len(gate.warnings)} warning(s) in review-gate.json")
+            _info("  Review and approve via:")
+            _info(f"    http://localhost:4322/book-review/{book_slug}")
+            _info(f"    python3 scripts/podcast/approve_book.py {book_slug}")
+            _info("  Then resume:")
+            _info(f"    python3 scripts/podcast/orchestrate_book.py --resume {book_slug}")
+            _info("─" * 72)
+            return 3
 
     _info("phase: 0f · assembling series-plan.md for human review")
     update_phase(book_dir, phase="0f", status="running")
