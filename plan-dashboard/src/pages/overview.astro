@@ -2,11 +2,11 @@
 import Base from '../layouts/Base.astro';
 import dashboard from '../data/dashboard-snapshot.json';
 import infra from '../data/infrastructure-snapshot.json';
+import { sumAllVendorCosts } from '../lib/billing';
 
 const inFlight   = dashboard.books_in_flight?.length ?? 0;
 const openSteps  = dashboard.roadmap?.filter((s: any) => s.status === 'in_progress' || s.status === 'ready').length ?? 0;
-const monthSpend = (infra.vendors ?? []).reduce((sum: number, v: any) =>
-  sum + (v.services ?? []).reduce((s: number, svc: any) => s + (svc.month_cost_usd ?? 0), 0), 0);
+const monthSpend = sumAllVendorCosts(infra.vendors ?? []);
 
 const shipped       = (dashboard.books_shipped ?? []) as Array<{slug: string, title: string, shipped: string, episodes: number}>;
 const waves         = (dashboard.waves ?? []) as Array<{id: string, name: string, plain: string}>;

@@ -389,6 +389,28 @@ flowchart LR
 
 ---
 
+# Wave H · Code-Quality Refactor
+
+### H1. Extract all duplicated types, constants, and utility logic from the Astro plan-dashboard site into a shared library.
+
+> The plan-dashboard site had identical interface definitions and status-badge constants scattered across two components, and identical cost roll-up logic inlined in two page files. This step moves everything into a proper shared library (`src/lib/`): plan data types, status badge maps, billing utilities, uniform API response helpers, reader localStorage key builders, and vendor ID constants. The symlink path-traversal security issue in the file-serving API route is also closed here.
+>
+> *Value gained:* A single authoritative source for every shared data shape and constant — any future component picks up the type or badge map with one import, and there is no risk of the two status-badge definitions drifting out of sync.
+
+**Status: COMPLETE 2026-05-28** — build verified clean, committed on `develop`.
+
+---
+
+### H2. Split the main pipeline orchestrator script and eliminate all code duplication across pipeline files.
+
+> The orchestrator script has grown to over 1 400 lines — more than twice the project's 600-line limit. This step splits it into four focused sub-modules (book resolution, phase execution, state management, and Git operations), then eliminates the three separate copies of REPO_ROOT computation and the two separate orchestrator state readers scattered across scripts. A test suite covering the seven most critical modules is added at the same time so future changes have a regression net.
+>
+> *Value gained:* Every pipeline script stays within the 600-line cap, every script reads orchestrator state through one accessor (no drift), and the test suite catches regressions before they reach a live book run.
+
+**Status: PENDING APPROVAL** — awaiting Asif's explicit go-ahead (Tier 2 — multi-file pipeline risk).
+
+---
+
 ## What This Plan Excludes (by design)
 
 - **F-item operational backlog** (F4, F7, F11–F13, F22, F23, F25/F26, F29 still open) — tracked in [pipeline-debt.md](../debt/pipeline-debt.md) after A1 moves it. Pipeline-debt is the live operational backlog; this refactor plan is the architectural reshape. Don't merge the two.

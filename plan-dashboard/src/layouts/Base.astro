@@ -1,6 +1,5 @@
 ---
 import '../styles/theme.css';
-import PlannerSidenav from '../components/PlannerSidenav.tsx';
 import dash from '../data/dashboard-snapshot.json';
 
 type ActivePage =
@@ -13,16 +12,14 @@ type ActivePage =
   | 'annotation-ops'
   | 'dashboard'
   | 'plan'
-  | 'live'
   | 'library'
   | 'kashkole';
 
 interface Props {
   title: string;
   active: ActivePage;
-  /** 'architecture' — horizontal sub-nav strip replaces old sidebar.
-   *  'planner'      — animated PlannerSidenav on the left. */
-  section?: 'architecture' | 'planner';
+  /** 'architecture' — enables the horizontal Architecture sub-nav strip. */
+  section?: 'architecture';
   description?: string;
 }
 
@@ -31,17 +28,13 @@ const { title, active, section, description } = Astro.props;
 const archPages: ActivePage[] = ['architecture', 'intelligence', 'infrastructure', 'system-map', 'db-schema', 'annotation-ops'];
 
 const navSection =
-  active === 'library'                                    ? 'bookshelf'    :
-  active === 'kashkole'                                   ? 'kashkole'     :
-  active === 'dashboard' || active === 'plan' || active === 'live' ? 'planner' :
-  archPages.includes(active)                              ? 'architecture' :
+  active === 'library'       ? 'bookshelf'    :
+  active === 'kashkole'      ? 'kashkole'     :
+  active === 'plan' || active === 'dashboard' ? 'planner' :
+  archPages.includes(active) ? 'architecture' :
   null;
 
-const hasPlannerSidebar = section === 'planner';
-const hasArchSubnav     = section === 'architecture';
-
-// Resolve activePage for PlannerSidenav
-const plannerActivePage: 'plan' | 'live' = active === 'live' ? 'live' : 'plan';
+const hasArchSubnav = section === 'architecture';
 ---
 <!doctype html>
 <html lang="en">

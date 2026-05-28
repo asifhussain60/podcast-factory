@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { readFile, stat } from 'node:fs/promises';
+import { readFile, realpath, stat } from 'node:fs/promises';
 import { extname, join, normalize, resolve } from 'node:path';
 import { findContent } from '../../../lib/content-paths';
 
@@ -41,8 +41,15 @@ export const GET: APIRoute = async ({ url }) => {
   if (!ref) return new Response('content not found', { status: 404 });
 
   // Resolve target and verify it stays inside the content directory.
-  const target = resolve(ref.dir, normalize(relPath));
-  const dir = resolve(ref.dir);
+  // realpath() follows symlinks — prevents symlink traversal attacks.
+  let target: string;
+  let dir: string;
+  try {
+    target = await realpath(resolve(ref.dir, normalize(relPath)));
+    dir    = await realpath(resolve(ref.dir));
+  } catch {
+    return new Response('not found', { status: 404 });
+  }
   if (!target.startsWith(dir + '/') && target !== dir) {
     return new Response('path escapes content dir', { status: 400 });
   }

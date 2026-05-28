@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-28T09:46:02.497Z",
-  "source_commit": "ad5e3f3",
+  "generated_at": "2026-05-28T10:22:40.155Z",
+  "source_commit": "a12ade2",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -505,6 +505,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "a12ade2",
+      "subject": "refactor(docs+ui): retire docs/architecture, docs-updater+reconcile agents, live-execution UI",
+      "date": "2026-05-28"
+    },
+    {
       "sha": "ad5e3f3",
       "subject": "chore: delete operator-review-ai-features.html proposal (no refs, superseded)",
       "date": "2026-05-28"
@@ -547,11 +552,6 @@
     {
       "sha": "f6d8135",
       "subject": "feat(homepage): add all 11 real station images (Ayyuhal Walad pipeline illustrations)",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "29e57db",
-      "subject": "feat(homepage): light parchment theme + From Content To Conversation tagline",
       "date": "2026-05-27"
     }
   ],

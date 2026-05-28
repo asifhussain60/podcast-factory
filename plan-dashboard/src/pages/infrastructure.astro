@@ -3,13 +3,11 @@ import Base from '../layouts/Base.astro';
 import InfraColumns from '../components/InfraColumns.tsx';
 import StackFlow from '../components/StackFlow.tsx';
 import infra from '../data/infrastructure-snapshot.json';
+import { sumAllVendorCosts, sumAllVendorField } from '../lib/billing';
 
-const monthTotal = infra.vendors.reduce((sum: number, v: any) =>
-  sum + v.services.reduce((s: number, x: any) => s + (x.month_cost_usd ?? 0), 0), 0);
-const alltimeTotal = infra.vendors.reduce((sum: number, v: any) =>
-  sum + v.services.reduce((s: number, x: any) => s + (x.alltime_cost_usd ?? 0), 0), 0);
-const callsTotal = infra.vendors.reduce((sum: number, v: any) =>
-  sum + v.services.reduce((s: number, x: any) => s + (x.calls_30d ?? 0), 0), 0);
+const monthTotal   = sumAllVendorCosts(infra.vendors);
+const alltimeTotal = sumAllVendorField(infra.vendors, 'alltime_cost_usd');
+const callsTotal   = sumAllVendorField(infra.vendors, 'calls_30d');
 ---
 <Base title="What it runs on" active="infrastructure" section="architecture">
   <header class="stack">

@@ -1544,6 +1544,56 @@ waves:
         branch: feat/narrative-homepage
         cost_estimate_usd: 0
 
+  - id: H
+    name: Code-Quality Refactor
+    depends_on: []
+    parallel_with: []
+    execution_status: in_progress
+    steps:
+      - id: H1
+        title: "Astro site SOLID/DRY refactor — extract shared types, constants, and utilities"
+        depends_on: []
+        deliverables:
+          - "plan-dashboard/src/lib/plan/types.ts — shared plan data interfaces (RoadmapStep, Wave, Debt, BookInFlight, BookShipped, RecentCommit, WaveEvent, LoopExecutionState)"
+          - "plan-dashboard/src/lib/plan/status-badges.ts — unified STATUS_PILL, STATUS_LABEL, STATUS_HEADER, STATUS_DOT constants"
+          - "plan-dashboard/src/lib/billing.ts — sumAllVendorCosts + sumAllVendorField utilities"
+          - "plan-dashboard/src/lib/api-responses.ts — apiOk / apiError / apiNotFound / apiServerError helpers"
+          - "plan-dashboard/src/lib/reader/storage-keys.ts — centralised localStorage key builders"
+          - "plan-dashboard/src/lib/vendors.ts — VENDOR_IDS + VendorId type"
+          - "DashboardTabs.tsx + PlanDesign.tsx updated to import from shared lib"
+          - "overview.astro + infrastructure.astro updated to use billing utility"
+          - "file.ts symlink traversal P0 security fix (realpath)"
+        acceptance:
+          - "npm run build in plan-dashboard completes with zero errors"
+          - "No local interface/constant duplicates remain in DashboardTabs.tsx or PlanDesign.tsx"
+          - "Cost roll-up inline reduces are removed from all page files"
+          - "file.ts uses realpath() before the startsWith boundary check"
+        authorization: tier_one
+        branch: develop
+        cost_estimate_usd: 0
+        completed_at: "2026-05-28"
+        execution_status: complete
+
+      - id: H2
+        title: "Pipeline code quality — split oversized scripts and eliminate duplication"
+        depends_on: [H1]
+        deliverables:
+          - "Split orchestrate_book.py (1 400+ lines) into four sub-modules under scripts/podcast/"
+          - "Unify _resolve_book_dir / REPO_ROOT across all pipeline scripts"
+          - "Unify orchestrator state read/write via a single accessor class"
+          - "Add test suite covering 7 critical modules (phase runner, state machine, branch naming, billing, phonetics, enrichment, publish gates)"
+          - "Add Azure transient-error retry decorator; subprocess timeout wrapper"
+        acceptance:
+          - "All scripts/podcast/ files ≤ 600 lines (DR-005)"
+          - "No duplicated REPO_ROOT computation across scripts"
+          - "pytest -q passes for all 7 test modules"
+          - "No regression on existing orchestrate/publish/challenger flows"
+        authorization: tier_two
+        branch: refactor/pipeline-quality
+        cost_estimate_usd: 0
+        execution_status: pending
+        note: "Requires explicit Asif approval before any code execution — multi-file pipeline risk"
+
 # ===========================================================================
 # EOF — no version stamp by design (DR-009)
 # ===========================================================================

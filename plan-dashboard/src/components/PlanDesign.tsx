@@ -1,33 +1,8 @@
 import { useState, useEffect } from 'react';
 import { planVisualManifest } from '../lib/plan/visualManifest';
 import StepDiagram from './StepDiagram';
-
-interface RoadmapStep {
-  id: string; wave: string; title: string; status: string; tier: string;
-  depends_on: string[]; last_touched?: string; plain?: string; tools?: string[];
-}
-interface Wave { id: string; name: string; plain: string; }
-interface WaveEvent {
-  ts: string;
-  wave: number;
-  wave_letter?: string;
-  event_type: string;
-  status: string;
-  message: string;
-}
-
-interface LoopExecutionState {
-  current_wave: string;
-  current_status: string;
-  intent_check_result: 'pass' | 'corrected' | 'blocked';
-  alignment_steps_taken: string[];
-  iteration_count: number;
-  pattern_tally: {
-    applied_this_run: number;
-    discovered_this_run: number;
-    promoted_this_run: number;
-  };
-}
+import type { RoadmapStep, Wave, WaveEvent, LoopExecutionState } from '../lib/plan/types';
+import { STATUS_PILL as STATUS_BADGE, STATUS_LABEL, STATUS_HEADER, STATUS_DOT } from '../lib/plan/status-badges';
 
 interface Props {
   roadmap: RoadmapStep[];
@@ -35,40 +10,6 @@ interface Props {
   waveEvents?: WaveEvent[];
   loopState?: LoopExecutionState;
 }
-
-const STATUS_BADGE: Record<string, string> = {
-  complete:    'is-ok',
-  in_progress: 'is-flight',
-  ready:       'is-ready',
-  blocked:     'is-blocked',
-  failed:      'is-blocked',
-  pending:     'is-future',
-};
-
-const STATUS_LABEL: Record<string, string> = {
-  complete:    'Done',
-  in_progress: 'In progress',
-  ready:       'Ready',
-  blocked:     'Blocked',
-  failed:      'Failed',
-  pending:     'Up next',
-};
-
-const STATUS_HEADER: Record<string, string> = {
-  complete:    'is-complete',
-  in_progress: 'is-processing',
-  blocked:     'is-failed',
-  failed:      'is-failed',
-};
-
-const STATUS_DOT: Record<string, string> = {
-  complete:    'is-ok',
-  in_progress: 'is-flight',
-  blocked:     'is-fail',
-  failed:      'is-fail',
-  ready:       'is-ready',
-  pending:     'is-idle',
-};
 
 export default function PlanDesign({ roadmap, waves, waveEvents = [], loopState }: Props) {
   const [expanded, setExpanded] = useState<string | null>(null);

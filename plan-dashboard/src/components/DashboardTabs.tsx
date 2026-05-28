@@ -1,43 +1,20 @@
 import { useState } from 'react';
 import SpendChart from './SpendChart';
-
-interface RoadmapStep {
-  id: string; wave: string; title: string; status: string; tier: string; depends_on: string[]; last_touched?: string; plain?: string; tools?: string[];
-}
-interface Wave { id: string; name: string; plain: string; }
-interface Debt { id: string; title: string; severity: string; plain: string; }
-interface BookFlight { slug: string; title: string; phase: string; phase_status: string; cost_to_date_usd: number; kind: string; }
-interface BookShipped { slug: string; title: string; shipped: string; episodes: number; cost_total_usd: number; }
-interface Commit { sha: string; subject: string; date: string; }
+import type { RoadmapStep, Wave, Debt, BookInFlight, BookShipped, RecentCommit } from '../lib/plan/types';
+import { STATUS_PILL, STATUS_LABEL } from '../lib/plan/status-badges';
 
 interface Props {
   roadmap: RoadmapStep[];
   waves: Wave[];
   debt: Debt[];
-  booksInFlight: BookFlight[];
+  booksInFlight: BookInFlight[];
   booksShipped: BookShipped[];
-  recentCommits: Commit[];
+  recentCommits: RecentRecentCommit[];
   burn30d: number[];
   phaseTime: Record<string, number>;
   convergeAvg: number;
   shipFirstTry: number;
 }
-
-const STATUS_PILL: Record<string, string> = {
-  complete: 'is-ok',
-  in_progress: 'is-flight',
-  ready: 'is-ready',
-  blocked: 'is-blocked',
-  pending: 'is-future',
-};
-
-const STATUS_LABEL: Record<string, string> = {
-  complete: 'Done',
-  in_progress: 'In progress',
-  ready: 'Ready to start',
-  blocked: 'Blocked',
-  pending: 'Up next',
-};
 
 export default function DashboardTabs(props: Props) {
   const [tab, setTab] = useState<'roadmap' | 'current' | 'metrics'>('roadmap');
@@ -177,7 +154,7 @@ function RoadmapTab({ waves, roadmap }: { waves: Wave[]; roadmap: RoadmapStep[] 
   );
 }
 
-function CurrentTab({ booksInFlight, booksShipped, recentCommits, debt }: { booksInFlight: BookFlight[]; booksShipped: BookShipped[]; recentCommits: Commit[]; debt: Debt[]; }) {
+function CurrentTab({ booksInFlight, booksShipped, recentCommits, debt }: { booksInFlight: BookInFlight[]; booksShipped: BookShipped[]; recentCommits: RecentCommit[]; debt: Debt[]; }) {
   return (
     <div className="stack">
       <section className="stack">
