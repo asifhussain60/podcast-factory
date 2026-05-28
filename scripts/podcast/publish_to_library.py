@@ -532,11 +532,64 @@ def publish(slug: str, args: argparse.Namespace) -> int:
 
     update_catalog(slug, len(episodes), sha)
 
+    # 2026-05-28: write publication.status: published to the draft meta.yml.
+    # The astro site reads publication.status from meta.yml in the drafts tree;
+    # it no longer scans the published/ directory. Without this write, the UI
+    # shows the book as "Draft" even after a successful publish.
+    _update_meta_publication_status(workspace)
+
     _info("")
     _info(f"==> DONE. Published {len(episodes)} episode(s) for {slug} "
           f"to {target}.")
     _info(f"    Inspect: open '{target}/README.md'")
     return 0
+
+
+def _update_meta_publication_status(workspace: Path) -> None:
+    """Write publication.status: published into workspace/meta.yml.
+
+    Uses a simple regex replace to avoid a PyYAML dependency.  Handles three
+    forms that may appear in existing meta.yml files:
+
+      publication:
+        status: draft          ← replace value
+        status: in_progress    ← replace value
+
+      # publication block entirely absent ← append it
+
+    Logs the outcome so callers can see it in publish output.
+    """
+    meta_path = workspace / "meta.yml"
+    if not meta_path.exists():
+        _warn(f"meta.yml not found at {meta_path}; publication.status not written")
+        return
+
+    text = meta_path.read_text()
+
+    # Pattern: existing 'status:' line inside a 'publication:' block
+    status_pattern = re.compile(
+        r"(^publication:\s*\n(?:[ \t]+\S[^\n]*\n)*?[ \t]+status:\s*)\S+",
+        re.MULTILINE,
+    )
+    if status_pattern.search(text):
+        updated = status_pattern.sub(r"\g<1>published", text)
+    elif "publication:" in text:
+        # publication block present but no status line — inject it
+        updated = re.sub(
+            r"(^publication:[ \t]*\n)",
+            r"\1  status: published\n",
+            text,
+            flags=re.MULTILINE,
+        )
+    else:
+        # No publication block at all — append one
+        updated = text.rstrip("\n") + "\npublication:\n  status: published\n"
+
+    if updated != text:
+        meta_path.write_text(updated)
+        _info(f"    meta.yml: publication.status → published")
+    else:
+        _warn(f"    meta.yml: publication.status already published or pattern unmatched")
 
 
 def main() -> int:

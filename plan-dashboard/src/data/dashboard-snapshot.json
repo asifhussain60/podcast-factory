@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-28T16:07:55.299Z",
-  "source_commit": "d439b863",
+  "generated_at": "2026-05-28T16:54:47.179Z",
+  "source_commit": "8b16dad3",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -436,6 +436,109 @@
       ],
       "plain": "",
       "tools": []
+    },
+    {
+      "id": "G1",
+      "wave": "G",
+      "title": "Cinematic narrative scroll homepage with GSAP ScrollTrigger",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "H1",
+      "wave": "H",
+      "title": "Astro site SOLID/DRY refactor — extract shared types, constants, and utilities",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "H2",
+      "wave": "H",
+      "title": "Pipeline code quality — split oversized scripts and eliminate duplication",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "H1"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "I1",
+      "wave": "I",
+      "title": "Audio intake — input_type branch in Phase 04 (pdf / audio-transcript / mixed)",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "I2",
+      "wave": "I",
+      "title": "Model-driven noise routing — replaces fixed pattern strip in Phase 05",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "I1"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "I3",
+      "wave": "I",
+      "title": "Tradition-aware knowledge base — tradition field on all atom types; B2.1 schema patch",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "I1"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "I4",
+      "wave": "I",
+      "title": "Source Review Gate — Phase 06a (Haiku) before per-chapter authoring",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "I2",
+        "I3"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "I5",
+      "wave": "I",
+      "title": "Book Review unified astro view — Source Review Gate (06a) + Publish Review Gate (finalize)",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "I4"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "I6",
+      "wave": "I",
+      "title": "Phase 11g per-chapter optimiser — Claude Sonnet after authoring, before 0g dual-auditor",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "I4"
+      ],
+      "plain": "",
+      "tools": []
     }
   ],
   "waves": [
@@ -505,6 +608,21 @@
   ],
   "recent_commits": [
     {
+      "sha": "8b16dad3",
+      "subject": "refactor: single content source of truth — status in meta.yml, no published/ copies",
+      "date": "2026-05-28"
+    },
+    {
+      "sha": "d7fd39ab",
+      "subject": "Cloudflare site",
+      "date": "2026-05-28"
+    },
+    {
+      "sha": "44c59fab",
+      "subject": "fix: machine-agnostic repo root in content-paths + launcher path fix",
+      "date": "2026-05-28"
+    },
+    {
       "sha": "d439b863",
       "subject": "chore: add asif-studio-landing; ignore podcast-reader build artefacts",
       "date": "2026-05-28"
@@ -537,21 +655,6 @@
     {
       "sha": "9ba2c8d4",
       "subject": "refactor(A4-wip): split orchestrate_book.py into phases/ handlers; begin _authoring/ package split",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "3c507d2d",
-      "subject": "Wave B B1+B2+B3: atom extractor, librarian, DB-backed augmenter",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "aef7194b",
-      "subject": "Wave B foundation: schema migrations 017+018, Kashkole ingestion driver (B0), 16 tests",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "cb6ee335",
-      "subject": "feat(wave-a2): core layer complete — _db, _archetypes, _anti_cliche, 16 schemas, 7 archetype seeds, 68 tests",
       "date": "2026-05-28"
     }
   ],

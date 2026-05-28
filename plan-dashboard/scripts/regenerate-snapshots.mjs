@@ -177,9 +177,14 @@ async function mergeDashboard() {
 
   const planYaml = await readPlanYaml();
   let roadmap = existing.roadmap ?? [];
-  if (planYaml?.waves) {
+  // plan.yaml uses two wave-list keys due to the pre-existing structural split:
+  //   `waves`     — waves A-E (and F, embedded in excluded_by_design)
+  //   `waves_ghj` — waves G, H, I (added 2026-05-28)
+  // Merge both arrays so the snapshot captures all planned steps.
+  const allPlanWaves = [...(planYaml?.waves ?? []), ...(planYaml?.waves_ghj ?? [])];
+  if (allPlanWaves.length > 0) {
     const ids = new Set();
-    for (const wave of planYaml.waves) {
+    for (const wave of allPlanWaves) {
       for (const step of (wave.steps ?? [])) {
         ids.add(step.id);
       }
@@ -189,8 +194,8 @@ async function mergeDashboard() {
     // Add or refresh steps from YAML.
     const existingIds = new Set(roadmap.map((r) => r.id));
     const existingById = new Map(roadmap.map((r) => [r.id, r]));
-    const waveOrder = planYaml.waves.map((w) => w.id);
-    for (const wave of planYaml.waves) {
+    const waveOrder = allPlanWaves.map((w) => w.id);
+    for (const wave of allPlanWaves) {
       for (const step of (wave.steps ?? [])) {
         const prev = existingById.get(step.id);
         const next = {

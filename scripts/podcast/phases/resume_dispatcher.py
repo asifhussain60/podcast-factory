@@ -96,6 +96,34 @@ def run_resume(args: argparse.Namespace) -> int:
     _info(f"  last completed:  {last or '(none)'}")
     _info(f"  current phase:   {current_phase}  [{current_status}]")
 
+    # 2026-05-28 R4 guard: any phase halted at a human-review gate must not be
+    # re-entered by the hourly launchd tick.  The Source Review Gate (Phase 06a,
+    # Wave I) sets phase_status="awaiting_human_review".  Return exit-code 3
+    # (same as the 0f manual-resume convention) so the caller knows to wait.
+    if current_status == "awaiting_human_review":
+        gate_file = book_dir / "_system" / "review-gate.json"
+        approved = False
+        if gate_file.exists():
+            try:
+                import json as _json
+                gate = _json.loads(gate_file.read_text())
+                approved = bool(gate.get("approved"))
+            except Exception:
+                pass
+        if not approved:
+            _info(
+                f"Phase {current_phase!r} is awaiting human review. "
+                f"Approve via the astro site Book Review view or "
+                f"CLI: python3 scripts/podcast/approve_book.py <slug>"
+            )
+            return 3
+        # Approval flag is set — clear the status and fall through to normal
+        # resume logic so the phase's completion handler picks up.
+        state["phase_status"] = "pending"
+        write_state(book_dir, state)
+        _info(f"Phase {current_phase!r} human review approved — resuming.")
+        current_status = "pending"
+
     if current_phase == "0f" and current_status == "halted":
         plan = book_dir / "_system" / "series-plan.md"
         if not plan.exists() or plan.stat().st_size == 0:

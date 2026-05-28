@@ -412,7 +412,83 @@ flowchart LR
 >
 > *Value gained:* Every pipeline script stays within the 600-line cap, every script reads orchestrator state through one accessor (no drift), and the test suite catches regressions before they reach a live book run.
 
-**Status: PENDING APPROVAL** — awaiting Asif's explicit go-ahead (Tier 2 — multi-file pipeline risk).
+**Status: PARTIAL (2026-05-28)** — Steps completed: REPO_ROOT unification (27 scripts now import from `_paths.py`) and state-machine test suite (20 tests, all green). Deferred: `orchestrate_book.py` split into 4 sub-modules (complex internal dependency graph, needs dedicated planning session), 5 remaining test modules (phonetics, enrichment, publish gates G1–G6), Azure retry decorator, DR-005 sweep on 4 large scripts.
+
+---
+
+# Wave I · Intelligence Pipeline — Audio Intake, Noise Routing, Tradition-Aware KB, Source Review Gate, Phase 11g
+
+> **Status: NOT STARTED.** Locked decisions at [`_workspace/plan/intelligence/locked-decisions.md`](../intelligence/locked-decisions.md). Depends on Wave B (KB schema). Parallel with any Wave that does not touch Phase 04–06 or the PHASE_ORDER constant.
+
+Wave I extends the pipeline in five coordinated areas:
+
+1. **Audio-first intake** — books that arrive as lecture recordings (Urdu audio) get a dedicated `input_type=audio-transcript` branch through Phase 04 using Turboscribe Urdu → Azure Translator instead of PDF OCR. All downstream phases key off `input_type` so no rewrites are needed downstream.
+2. **Model-driven noise routing** — replaces fixed regex strip patterns with a lightweight routing layer that selects Haiku or Sonnet per paragraph based on complexity score + tradition + input_type. Strip log written to `_system/noise-stripped.jsonl`.
+3. **Tradition-aware KB** — schema migration 019 adds a `tradition` column to atoms. The Augmenter filters by `tradition_affinity` declared in `meta.yml`. Atoms with `tradition=universal` contain raw source text only (no interpretive notes) and are injectable into any book.
+4. **Source Review Gate (Phase 06a)** — a Haiku pass (~$0.50–1.00/book) reviews companion sources before per-chapter LLM spend. Findings written to `_system/review-gate.json`. Orchestrator halts with `phase_status=awaiting_human_review`; approved via astro site (I5) or CLI `approve_book.py`. The R4 guard in `resume_dispatcher.py` reads the approval flag and clears the status automatically on the next tick.
+5. **Phase 11g optimiser** — Claude Sonnet pass after per-chapter authoring, before the 0g dual-auditor. Checks NotebookLM format hygiene, host-role consistency, and teaching arc completeness (hook → core → example → application → bridge). Named `per-chapter-optimize` in PHASE_ORDER. Skippable per-book via `optimize_enabled: false` in `meta.yml`.
+
+A companion **Book Review unified view** in the astro site (I5) surfaces both gates (06a + finalize) in context with an Approve button.
+
+---
+
+### I1. Audio intake — `input_type` branch in Phase 04.
+
+> Phase 04 currently assumes PDF OCR input for all books. islr-mas-i is a Urdu lecture recording — it must go through Turboscribe Urdu → Azure Translator, not the PDF path. A companion source document is auto-searched at intake and tagged as `source_fidelity` metadata.
+>
+> *Value gained:* islr-mas-i and any future audio-first book can be processed without hacky workarounds; all downstream phases key off `input_type` transparently.
+
+**Status: NOT STARTED**
+
+---
+
+### I2. Model-driven noise routing — replaces fixed pattern strip in Phase 05.
+
+> Fixed regex noise stripping misses context-dependent boilerplate and over-strips in Arabic scholarly prose. A new `noise_router.py` routes each paragraph to Haiku (complexity < 0.4) or Sonnet (≥ 0.4). Cost regression on existing pdf books is near-zero (all route to Haiku).
+>
+> *Value gained:* Noise stripping adapts to content density without manual pattern maintenance; strip decisions are auditable via `noise-stripped.jsonl`.
+
+**Status: NOT STARTED**
+
+---
+
+### I3. Tradition-aware knowledge base — schema migration 019 + B2.1 Librarian/Extractor patch.
+
+> Knowledge atoms currently have no tradition tag. Without it the Augmenter injects Sunni hadith into an Ismaili text or vice versa. Migration 019 adds a `tradition` column defaulting to `universal`. A B2.1 patch makes the Extractor read `tradition_affinity` from `meta.yml` and stamp it on emitted atoms. The governance rule is strict: `tradition=universal` atoms carry raw source text only — no interpretive notes.
+>
+> *Value gained:* Cross-tradition contamination eliminated; augmenter can be safely run on any tradition book.
+
+**Status: NOT STARTED**
+
+---
+
+### I4. Source Review Gate — Phase 06a (Haiku) before per-chapter authoring.
+
+> The pipeline currently commits per-chapter LLM budget without any companion-source authenticity check. Phase 06a is a lightweight ($0.50–1.00) Haiku gate that surfaces suspicious gaps, attribution issues, and cross-reference mismatches in `review-gate.json` before the expensive per-chapter phase begins. The orchestrator halts; a human approves; the launchd tick resumes automatically.
+>
+> *Value gained:* Authoring quality improves; expensive per-chapter reruns caused by source defects are avoided.
+
+**Status: NOT STARTED**
+
+---
+
+### I5. Book Review unified astro view — Source Review Gate (06a) + Publish Review Gate (finalize).
+
+> Two gates now require human attention but the astro site has no dedicated review view. This step adds a `book-review/[slug]` page that adapts its context based on which gate is active: chapter list + warnings for 06a; episode list + challenger summary for finalize. An Approve button posts to `/api/approve/[slug]`.
+>
+> *Value gained:* Human approval takes seconds from the browser instead of requiring a CLI command; both gates have the same UX.
+
+**Status: NOT STARTED**
+
+---
+
+### I6. Phase 11g per-chapter optimiser — Claude Sonnet after authoring, before 0g dual-auditor.
+
+> Per-chapter episodes sometimes exit authoring with subtle format hygiene failures (wrong JSON key casing, missing arc sections) that the 0g dual-auditor surfaces too late. Phase `per-chapter-optimize` is a Sonnet pass that catches these early. Only P0-class failures block; P1+ are logged as warnings. Skippable per book via `optimize_enabled: false`.
+>
+> *Value gained:* 0g pass rate improves; less per-chapter retry burn; teaching arc consistency enforced systematically.
+
+**Status: NOT STARTED**
 
 ---
 

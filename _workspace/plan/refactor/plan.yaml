@@ -1527,10 +1527,10 @@ confidence_summary:
     - "oq10 dashboard data source (v2 deferral acceptable)"
 
 # ===========================================================================
-# Wave G — Narrative Homepage
+# Wave G — Narrative Homepage (and beyond)
 # ===========================================================================
 
-waves:
+waves_ghj:
   - id: G
     name: Narrative Homepage
     depends_on: []
@@ -1615,6 +1615,186 @@ waves:
           - "Azure transient-error retry decorator; subprocess timeout wrapper"
           - "DR-005 sweep: _authoring.py (2025L), build_episode_txt.py (1563L), extract_chapter.py (1301L), tighten_source.py (1051L), run_wave.py (824L)"
         note: "Steps 1-2 done 2026-05-29. orchestrate_book split requires dedicated session — complex internal dependency graph."
+
+  - id: I
+    name: Intelligence Pipeline — Audio Intake, Noise Routing, Tradition-Aware KB, Source Review Gate, Phase 11g
+    execution_status: not_started
+    parallel_with: []
+    depends_on: [B]
+    summary: |
+      Extend the pipeline to handle audio-first books (Urdu + Arabic lectures),
+      replace fixed noise-strip patterns with model-driven routing, add tradition
+      awareness to the knowledge base, introduce a Source Review Gate before
+      per-chapter authoring begins, add a Phase 11g per-chapter optimiser, and
+      surface a unified Book Review UI in the astro site. All decisions locked in
+      _workspace/plan/intelligence/locked-decisions.md.
+    locked_decisions_ref: "_workspace/plan/intelligence/locked-decisions.md"
+    execution_notes: []
+    steps:
+      - id: I1
+        title: "Audio intake — input_type branch in Phase 04 (pdf / audio-transcript / mixed)"
+        depends_on: []
+        rationale: |
+          Books that arrive as lecture recordings (Urdu audio) need an alternate
+          intake path: Turboscribe Urdu mode → Azure Translator (not the PDF OCR
+          / translation pipeline). A companion source document is auto-searched at
+          intake time and attached as source_fidelity metadata. All downstream
+          phases key off input_type so noise routing, enrichment, and authoring
+          can adapt without phase rewrites.
+        deliverables:
+          - "intake_book.py: prompt for input_type (pdf | audio-transcript | mixed); write to meta.yml"
+          - "Phase 04 sub-branch: if input_type=audio-transcript → run Turboscribe Urdu → azure_translate(); skip PDF OCR path"
+          - "content/_shared/islam/ismaili-glossary.yml: seed file with common technical terms + phonetic hints"
+          - "Companion source auto-search at intake: write companion_source_path to meta.yml if found"
+          - "source_fidelity field on meta.yml: verbatim | reconstructed | mixed"
+        acceptance:
+          - "islr-mas-i processes via audio-transcript path without regression on existing pdf books"
+          - "meta.yml for audio-transcript books contains input_type + source_fidelity"
+          - "ismaili-glossary.yml present and loadable by Phase 06-phonetics"
+          - "test_intake_audio.py: ≥5 tests green"
+        authorization: tier_one
+        branch: "feature/wave-i-audio-intake"
+        cost_estimate_usd: 2
+        execution_status: not_started
+
+      - id: I2
+        title: "Model-driven noise routing — replaces fixed pattern strip in Phase 05"
+        depends_on: [I1]
+        rationale: |
+          Fixed regex noise stripping misses context-dependent boilerplate and
+          over-strips in Arabic scholarly prose. A lightweight routing layer
+          selects the cheapest capable model (Haiku for simple, Sonnet for dense)
+          based on input_type + tradition + paragraph complexity score. Output
+          written to _system/noise-stripped.jsonl so Phase 06 picks it up
+          transparently.
+        deliverables:
+          - "scripts/podcast/phases/noise_router.py: routing layer (≤300 lines)"
+          - "Phase 05 wired to noise_router; old fixed-strip patterns become fallback"
+          - "_system/noise-stripped.jsonl: strip log with per-paragraph action + model used"
+          - "Routing model: Haiku (complexity <0.4), Sonnet (complexity ≥0.4); thresholds in _rules.py"
+        acceptance:
+          - "Phase 05 completes on both pdf and audio-transcript books"
+          - "noise-stripped.jsonl present and valid JSON-lines after phase completes"
+          - "test_noise_router.py: ≥6 tests green (routing logic + model selection + fallback)"
+          - "Cost regression: no measurable increase on existing pdf books (all route to Haiku)"
+        authorization: tier_one
+        branch: "feature/wave-i-noise-routing"
+        cost_estimate_usd: 0
+        execution_status: not_started
+
+      - id: I3
+        title: "Tradition-aware knowledge base — tradition field on all atom types; B2.1 schema patch"
+        depends_on: [I1]
+        rationale: |
+          Knowledge atoms must carry a tradition tag (ismaili | sunni | shia |
+          sufi | universal) so the Augmenter can filter by tradition_affinity
+          declared in the book's meta.yml. Atoms with tradition=universal contain
+          ONLY raw source text — no interpretive notes — so they are safely
+          injectable into any book without cross-tradition contamination. This
+          requires schema migration 019 to add the tradition column and a B2.1
+          patch to the Librarian before any new books run extraction.
+        deliverables:
+          - "schema migration 019: ADD COLUMN tradition TEXT NOT NULL DEFAULT 'universal' on atoms table"
+          - "B2.1 patch: Librarian + Extractor read tradition_affinity from meta.yml; set tradition on all emitted atoms"
+          - "tradition: universal atoms: raw source text only — no interpretive notes (governance doc: locked-decisions.md §P7)"
+          - "Augmenter: filter atoms by tradition before injection (exact match OR 'universal')"
+          - "meta.yml: tradition_affinity field (ismaili | sunni | shia | sufi | universal); required for Wave B books"
+        acceptance:
+          - "Migration 019 applies cleanly on top of existing schema (018 passes)"
+          - "All existing atoms default to tradition=universal post-migration"
+          - "Extractor sets tradition on emitted atoms for test books"
+          - "Augmenter skips atoms whose tradition ≠ book_tradition AND ≠ universal"
+          - "test_tradition_aware_kb.py: ≥8 tests green"
+          - "No regression on existing Wave B extraction (all default to universal)"
+        authorization: tier_one
+        branch: "feature/wave-i-tradition-kb"
+        cost_estimate_usd: 0
+        execution_status: not_started
+
+      - id: I4
+        title: "Source Review Gate — Phase 06a (Haiku) before per-chapter authoring"
+        depends_on: [I2, I3]
+        rationale: |
+          Before the pipeline burns per-chapter LLM budget, a lightweight Haiku
+          pass reviews companion sources for authenticity, cross-references, and
+          suspicious gaps. Findings are written to _system/review-gate.json with
+          a warnings[] list. The orchestrator halts with phase_status=
+          awaiting_human_review; the launchd tick skips the book until the human
+          approves (via the astro site I5 or CLI approve_book.py). The R4 guard
+          added to resume_dispatcher.py reads review-gate.json and clears the
+          phase_status when approved=true is found.
+        deliverables:
+          - "scripts/podcast/phases/source_review_gate.py: Phase 06a (≤400 lines)"
+          - "_system/review-gate.json: {phase, approved: false, warnings: [], reviewed_at: null, approved_at: null}"
+          - "Orchestrator: phase_order includes '06a' between '06-phonetics' and 'per-chapter'"
+          - "approve_book.py <slug>: CLI fallback — writes approved=true + approved_at timestamp to review-gate.json"
+          - "Phase 06a cost estimate: ~$0.50–1.00 per book (Haiku)"
+        acceptance:
+          - "Phase 06a runs after 06-phonetics and before per-chapter on a test book"
+          - "review-gate.json written with correct schema"
+          - "Orchestrator halts with phase_status=awaiting_human_review after 06a"
+          - "Launchd tick does NOT re-enter the book while approved=false (R4 guard)"
+          - "approve_book.py clears the gate; next tick resumes per-chapter"
+          - "test_source_review_gate.py: ≥6 tests green"
+        authorization: tier_two
+        branch: "feature/wave-i-source-review-gate"
+        cost_estimate_usd: 1
+        execution_status: not_started
+
+      - id: I5
+        title: "Book Review unified astro view — Source Review Gate (06a) + Publish Review Gate (finalize)"
+        depends_on: [I4]
+        rationale: |
+          The astro site currently shows one implicit review state. Wave I adds a
+          second gate (06a), so a dedicated Book Review view surfaces both gates
+          in context: chapter list + warnings for the 06a gate; episode list +
+          challenger findings for the finalize gate. An Approve button writes
+          approved=true to review-gate.json via the podcast-reader API. The CLI
+          fallback (approve_book.py) is required for non-UI workflows.
+        deliverables:
+          - "podcast-reader/src/pages/book-review/[slug].astro: unified review view"
+          - "Active gate context: if phase=06a → chapter list + warnings[]; if phase=finalize → episode list + challenger summary"
+          - "Approve button: POST /api/approve/<slug> → writes approved=true to review-gate.json"
+          - "API route: podcast-reader/src/pages/api/approve/[slug].ts"
+          - "approve_book.py already delivered as I4 CLI fallback"
+        acceptance:
+          - "Book Review view loads for both 06a-halted and finalize-halted books"
+          - "Approve button writes review-gate.json and redirects to book dashboard"
+          - "CLI fallback approve_book.py functional (delivered in I4)"
+          - "No regression on existing astro pages"
+          - "Astro build clean (0 errors)"
+        authorization: tier_one
+        branch: "feature/wave-i-book-review-view"
+        cost_estimate_usd: 0
+        execution_status: not_started
+
+      - id: I6
+        title: "Phase 11g per-chapter optimiser — Claude Sonnet after authoring, before 0g dual-auditor"
+        depends_on: [I4]
+        rationale: |
+          After per-chapter authoring (Phase 11) and before the 0g dual-auditor,
+          a Sonnet pass reviews each chapter's episode bundle for: NotebookLM
+          format hygiene, host-role consistency, and teaching arc completeness
+          (hook → core → example → application → bridge). Phase is named
+          per-chapter-optimize in PHASE_ORDER (NOT Gemini — preserves 0g
+          independence). Per-chapter cost: ~$0.10–0.20 (Sonnet, per episode).
+        deliverables:
+          - "scripts/podcast/phases/per_chapter_optimize.py: Phase 11g (≤350 lines)"
+          - "PHASE_ORDER updated: per-chapter-optimize inserted between per-chapter and 0g"
+          - "Checks: NotebookLM format hygiene (JSON keys, array shapes), host-role consistency (no host switching mid-episode), teaching arc (hook→core→example→application→bridge present)"
+          - "Output: _system/optimize-report.json per chapter with findings[] and pass_count"
+          - "Only blocks on P0-class findings (malformed JSON, missing arc sections); P1+ are warnings"
+        acceptance:
+          - "Phase per-chapter-optimize runs between per-chapter and 0g in PHASE_ORDER regression test"
+          - "optimize-report.json written for each chapter"
+          - "P0-class finding halts chapter with phase_status=failed (retryable)"
+          - "P1+ findings logged as warnings, do not block"
+          - "test_per_chapter_optimize.py: ≥6 tests green"
+          - "No cost regression on non-audio books (phase skips if optimize_enabled=false in meta.yml)"
+        authorization: tier_two
+        branch: "feature/wave-i-phase-11g"
+        cost_estimate_usd: 1
+        execution_status: not_started
 
 # ===========================================================================
 # EOF — no version stamp by design (DR-009)
