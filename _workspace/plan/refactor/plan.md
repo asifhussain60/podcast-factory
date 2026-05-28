@@ -3,7 +3,7 @@
 # Summary Of Your Intent.
 
 1. **Architecture-first rebuild on `develop`**. This plan derives every step from the architecture at [architecture.md](../architecture.md). Read architecture first; then this roadmap reads as *"to land that architecture, do these things in this order."*
-2. **Six waves, 32 steps.** Wave A foundation (cleanup, core layer, modularization) — **in progress**: A1/A2/A3/A5/A6/A7 done; A4 not started (orchestrator still at 2321 lines, `_authoring.py` at 2025 lines — split into `phases/` handlers pending). Waves B–F not started.
+2. **Six waves, 32 steps.** Wave A foundation (cleanup, core layer, modularization) — **in progress**: A1/A2/A3/A4/A5/A6/A7 done. A4 completed 2026-05-28: `orchestrate_book.py` → 461 lines; 11 `phases/` handlers; `_authoring/` package (6 submodules). Waves B–F not started.
 3. **Legacy plan folder gets folded in then deleted**. ~22 legacy files in `_workspace/plan/` are surveyed, the live pieces are extracted into the new nested structure, the rest are removed (git history preserves them). Step A1 is the cleanup; nothing else lands until A1 is done.
 4. **Retroactive doctrine for shipped books**. KaR and M&D get archetype stamping, addendum episodes, and extraction-only knowledge passes. **Never** re-run through the pipeline. Every enhancement still becomes default for the next forward book.
 5. **Plan only — no execution authorized**. This turn writes the plan files. Asif's approval before any code lands.
@@ -110,11 +110,11 @@ Every wave now follows one non-negotiable closeout protocol:
 >
 > *Value gained:* Cross-tradition doctrinal drift is structurally prevented, not left to authoring judgment. The single shared injection contract means augmentation and the Augmenter never diverge on provenance phrasing or token budgeting. The cost ledger gains queryable surface area for the live dashboard.
 
-### A4. Modularize `orchestrate_book.py` and `_authoring.py`.
+### A4. ✅ Modularize `orchestrate_book.py` and `_authoring.py`. *(completed 2026-05-28)*
 
-> Extract per-phase handlers from `orchestrate_book.py` (2,280 lines) into the existing `scripts/podcast/phases/` package — one file per Phase enum entry, each ≤ 300 lines, each implementing `PhaseHandler.run(bd, ctx) -> PhaseReport`. New handler files: `phases/{preflight, scaffold, ocr_translate, refine_english, phonetics, chapter_design, enrichment, archetype_resolve, augmentation, knowledge_extract, series_plan, register_series, per_chapter, slide_decks, trainer, merge}.py`. Drop `orchestrate_book.py` to ≤ 400 lines as a thin driver that walks `PHASE_ORDER` and dispatches. Split `_authoring.py` (2,025 lines) into the `_authoring/` package: `framing.py`, `source_bundle.py`, `capstone.py`, `preface.py`, `augmentation.py`. The `__init__.py` re-exports the public API so existing call sites keep working. Acceptance: no file in `scripts/podcast/` exceeds 600 lines. Pre-commit hook enforces.
+> `orchestrate_book.py` thinned to 461 lines. Eleven phase handler modules extracted into `scripts/podcast/phases/` (initial_driver, resume_dispatcher, preflight, scaffold, series_plan, bundle_audit, per_chapter, chapter_driver, publish_driver, merge, register_series). `_authoring.py` split into `scripts/podcast/_authoring/` package with six submodules (`_core`, `_refine`, `_chapter_design`, `_enrichment`, `_framing`, `_convergence`) and an `__init__.py` that re-exports the full public API for backward compatibility. Old `_authoring.py` flat file removed. 278 tests passing, 4 pre-existing failures unchanged.
 >
-> *Value gained:* Every module has one job, testable in isolation, reviewable in one sitting. Subsequent waves can change one phase without merge-conflicting against a giant file.
+> *Value gained:* Every module has one job, testable in isolation. All new/modified files are DR-005 compliant (≤ 600 lines). Subsequent waves can change one phase without merge-conflicting against a giant file.
 
 ### A5. Strip every version stamp + add the pre-commit guard.
 

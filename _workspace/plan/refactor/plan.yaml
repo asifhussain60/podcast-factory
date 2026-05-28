@@ -97,7 +97,7 @@ waves:
       - "A1 root cleanup completed: only README.md, architecture.md, and copilot-handoff.md remain at _workspace/plan root."
       - "A2 COMPLETE (2026-05-28): _db.py (415 lines, WAL-mode singleton + 7 repositories), _archetypes.py (190 lines, load/list/resolve), intelligence/_anti_cliche.py (4 denial frozensets), 16 schema files (001–016) applied to live knowledge.db, 7 archetype seeds on disk (scholarly-deep-dive, narrative-prose, aphorism-collection, socratic-dialogue, play-novel, lecture-series, encyclopedic-epistolary), 37 new tests passing (68 total)."
       - "A3 _doctrinal.py landed with passing tests."
-      - "A4 NOT started: orchestrate_book.py is 2321 lines; _authoring.py is 2025 lines; phases/ split not done."
+      - "A4 DONE (2026-05-28): orchestrate_book.py = 461 lines; _authoring/ package = 6 submodules; phases/ = 11 handlers; 278 tests green."
       - "A5 no version stamps detected in tracked files; pre-commit version guard present."
       - "A6 agent stubs and installer dry-run verified against canonical infra/claude-agents surface."
       - "A7 targeted KAHSKOLE batch call paths moved from interactive CLI shellout to direct Anthropic API with prompt caching and per-run chapter cap."
@@ -281,8 +281,18 @@ waves:
 
       - id: A4
         title: "Modularize orchestrate_book.py and _authoring.py"
+        status: completed
+        completed_at: "2026-05-28"
         depends_on: [A2]
         rationale: "DR-005 — every file ≤ 600 lines. Current: orchestrate_book.py = 2280, _authoring.py = 2025"
+        outcome: >
+          orchestrate_book.py thinned to 461 lines. phases/ package created with 11 handler
+          modules (initial_driver, resume_dispatcher, preflight, scaffold, series_plan,
+          bundle_audit, per_chapter, chapter_driver, publish_driver, merge, register_series).
+          _authoring/ package created with 6 submodules (_core, _refine, _chapter_design,
+          _enrichment, _framing, _convergence) + __init__.py re-exporting the full public API.
+          Old _authoring.py flat file removed. 278 tests passing, 4 pre-existing failures
+          unchanged. DR-005 met for all new/modified files.
         deliverables:
           orchestrate_book_split:
             source: "scripts/podcast/orchestrate_book.py"
