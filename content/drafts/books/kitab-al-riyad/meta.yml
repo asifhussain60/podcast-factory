@@ -1,6 +1,7 @@
 slug: kitab-al-riyad
 title: Kitāb al-Riyāḍ
 short_name: kar
+archetype: scholarly-deep-dive
 source_pdf: ../../../raw/Kitab al-Riyad.pdf
 
 pipeline:

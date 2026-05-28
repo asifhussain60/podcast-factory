@@ -165,6 +165,47 @@ _KNOWN_ARCHETYPE_IDS: dict[str, str] = {
 }
 
 
+def build_exemplar_vector(archetype_slug: str) -> list[float]:
+    """Compute a bigram-frequency vector from an archetype's exemplar text.
+
+    Reads ``content/_shared/archetypes/<slug>/exemplar.md``, tokenises into
+    bigrams, and returns a list of frequencies sorted descending.  The result
+    is saved alongside the exemplar as ``exemplar_vector.json`` for fast
+    reloads.  Calling this again overwrites the cached file.
+    """
+    import json
+    archetype_dir = _ARCHETYPES_ROOT / archetype_slug
+    exemplar_path = archetype_dir / "exemplar.md"
+    if not exemplar_path.exists():
+        raise FileNotFoundError(f"exemplar.md not found for archetype {archetype_slug!r}")
+
+    text = exemplar_path.read_text(encoding="utf-8").lower()
+    tokens = text.split()
+    counts: dict[str, int] = {}
+    for i in range(len(tokens) - 1):
+        bg = tokens[i] + "_" + tokens[i + 1]
+        counts[bg] = counts.get(bg, 0) + 1
+
+    vector = sorted(counts.values(), reverse=True)
+    out_path = archetype_dir / "exemplar_vector.json"
+    out_path.write_text(json.dumps(vector), encoding="utf-8")
+    return vector
+
+
+def load_exemplar_vector(archetype_slug: str) -> list[float] | None:
+    """Load a pre-built exemplar vector from disk, or return None if absent.
+
+    Callers should pass the result to ``_quality.score()`` as
+    ``voice_exemplar_vector``.  Returns ``None`` (rather than raising) when
+    the vector has not yet been built so the scorer can fall back gracefully.
+    """
+    import json
+    vec_path = _ARCHETYPES_ROOT / archetype_slug / "exemplar_vector.json"
+    if not vec_path.exists():
+        return None
+    return json.loads(vec_path.read_text(encoding="utf-8"))
+
+
 def resolve_archetype_for_book(meta: dict[str, Any]) -> Archetype | None:
     """Resolve and return the archetype for a book given its meta dict.
 

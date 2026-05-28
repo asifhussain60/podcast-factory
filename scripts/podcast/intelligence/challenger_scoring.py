@@ -28,6 +28,7 @@ _REPO = _HERE.parents[2]
 sys.path.insert(0, str(_REPO / "scripts" / "podcast"))
 
 from _quality import score as peq_score, PEQScore  # noqa: E402
+from _archetypes import load_exemplar_vector  # noqa: E402
 
 
 # ---------------------------------------------------------------------------
@@ -81,6 +82,7 @@ def score_report(
     report_path: Path,
     chapter_txt_path: Path,
     contract_path: Optional[Path] = None,
+    archetype_slug: Optional[str] = None,
 ) -> PEQScore:
     """Compute PEQ for a chapter and append the score section to its report.
 
@@ -89,6 +91,9 @@ def score_report(
     report_path      : Path to the challenger-report.md to update in-place.
     chapter_txt_path : Path to the chapter .txt (adapted content).
     contract_path    : Path to the chapter-contract .yml (for citation IDs).
+    archetype_slug   : Archetype slug for this book (e.g. 'scholarly-deep-dive').
+                       When provided, the pre-built voice exemplar vector is
+                       loaded and used to score the Voice axis.
 
     Returns
     -------
@@ -105,6 +110,8 @@ def score_report(
     citations_source = _extract_citations(contract_path)
     citations_found = re.findall(r'(?:quran|hadith|doctrine):\S+', chapter_text)
 
+    voice_vector = load_exemplar_vector(archetype_slug) if archetype_slug else None
+
     result = peq_score(
         adapted_text=chapter_text,
         citation_ids_source=citations_source,
@@ -115,7 +122,7 @@ def score_report(
         glossed_count=terms_glossed,
         quran_ref_count=qrefs,
         word_count=words,
-        voice_exemplar_vector=None,
+        voice_exemplar_vector=voice_vector,
     )
 
     # Update the report in place.
