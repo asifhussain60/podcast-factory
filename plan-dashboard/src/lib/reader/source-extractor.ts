@@ -1,6 +1,6 @@
 /**
  * Discover and load tools/source_extractor/ bundles from the repo's
- * _workspace/kashkole-ksessions/extracted/ tree.
+ * _workspace/kashkole-corpus/extracted/ tree.
  *
  * Bundle layout (per tools/source_extractor/bundle.py):
  *   <extract-root>/<source>/<NN-shelf-slug>/<MM-book-slug>/
@@ -18,7 +18,7 @@ import { join } from 'node:path';
 import yaml from 'js-yaml';
 import { getRepoRoot } from '../content-paths';
 
-const EXTRACT_RELPATH = '_workspace/kashkole-ksessions/extracted';
+const EXTRACT_RELPATH = '_workspace/kashkole-corpus/extracted';
 
 export interface BundleManifest {
   bundle_schema_version: number;

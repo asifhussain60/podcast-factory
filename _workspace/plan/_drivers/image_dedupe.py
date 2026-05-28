@@ -18,7 +18,7 @@ from collections import defaultdict
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-EXTRACT_ROOT = REPO_ROOT / "_workspace" / "kashkole-ksessions" / "extracted" / "kashkole"
+EXTRACT_ROOT = REPO_ROOT / "_workspace" / "kashkole-corpus" / "extracted" / "kashkole"
 
 
 def all_pngs() -> list[Path]:

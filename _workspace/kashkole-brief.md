@@ -22,7 +22,7 @@ Everything lives under:
 
 Key sub-paths:
 ```
-_workspace/kashkole-ksessions/          ← all kashkole-specific work
+_workspace/kashkole-corpus/          ← all kashkole-specific work
   KAHSKOLE.sql                          ← full SQL Server schema + data export
   KSESSIONS.sql                         ← ksessions schema
   extracted/kashkole/                   ← per-chapter output tree (see §5)
@@ -180,7 +180,7 @@ After Phase 3 completes, 80 chapters from 13 binders are ingested into the main 
 
 Every chapter lives at:
 ```
-_workspace/kashkole-ksessions/extracted/kashkole/
+_workspace/kashkole-corpus/extracted/kashkole/
   {NN}-{binder-slug}/
     {NN}-{chapter-slug}/
       bundle.yml                          ← pipeline manifest (schema v1)
@@ -325,7 +325,7 @@ The `raw-extract.md` is right-to-left Urdu with embedded Arabic phrases. Headers
 ### Prerequisites
 All commands must use the kashkole venv Python:
 ```bash
-VENV=/Users/asifhussain/PROJECTS/podcast-factory/_workspace/kashkole-ksessions/.venv/bin/python
+VENV=/Users/asifhussain/PROJECTS/podcast-factory/_workspace/kashkole-corpus/.venv/bin/python
 ```
 
 ### Phase 1 — Translate
@@ -376,7 +376,7 @@ $VENV _workspace/plan/_drivers/kashkole_pipeline_all.py --status
 $VENV _workspace/plan/_drivers/kashkole_gate_report.py --out _workspace/plan/kashkole-gate-report.md
 
 # Quick stage count from filesystem
-find _workspace/kashkole-ksessions/extracted/kashkole -name "bundle.yml" | \
+find _workspace/kashkole-corpus/extracted/kashkole -name "bundle.yml" | \
   xargs grep "^stage:" | awk -F': ' '{print $2}' | sort | uniq -c
 ```
 
@@ -389,7 +389,7 @@ find _workspace/kashkole-ksessions/extracted/kashkole -name "bundle.yml" | \
 from pathlib import Path
 import yaml
 
-bundle_path = Path("_workspace/kashkole-ksessions/extracted/kashkole/01-musawwadat/01-x8114-musawwadat/bundle.yml")
+bundle_path = Path("_workspace/kashkole-corpus/extracted/kashkole/01-musawwadat/01-x8114-musawwadat/bundle.yml")
 bundle = yaml.safe_load(bundle_path.read_text())
 stage = bundle["stage"]          # "adapted", "challenged", etc.
 binder_id = bundle["shelf"]["id"]
@@ -481,7 +481,7 @@ Three chapters are stuck at `translated` — Phase 2 was interrupted:
 
 **To resume:** 
 ```bash
-nohup /Users/asifhussain/PROJECTS/podcast-factory/_workspace/kashkole-ksessions/.venv/bin/python \
+nohup /Users/asifhussain/PROJECTS/podcast-factory/_workspace/kashkole-corpus/.venv/bin/python \
   /Users/asifhussain/PROJECTS/podcast-factory/_workspace/plan/_drivers/kashkole_adapt_all.py \
   >> /tmp/kashkole-adapt-full.log 2>&1 &
 ```
@@ -489,7 +489,7 @@ The driver is idempotent — it skips all 119 already-adapted chapters and resum
 
 ### Phase 3 — Challenge all 122 chapters
 ```bash
-nohup /Users/asifhussain/PROJECTS/podcast-factory/_workspace/kashkole-ksessions/.venv/bin/python \
+nohup /Users/asifhussain/PROJECTS/podcast-factory/_workspace/kashkole-corpus/.venv/bin/python \
   /Users/asifhussain/PROJECTS/podcast-factory/_workspace/plan/_drivers/kashkole_challenge_all.py \
   >> /tmp/kashkole-challenge.log 2>&1 &
 ```
@@ -534,7 +534,7 @@ This track uses the same pipeline tools and bundle.yml schema. It is a lower pri
 
 ```bash
 # Python venv (must use for all tool invocations)
-_workspace/kashkole-ksessions/.venv/bin/python   # Python 3.14.5
+_workspace/kashkole-corpus/.venv/bin/python   # Python 3.14.5
 
 # Key packages in venv:
 #   anthropic>=0.104    (for claude -p calls in adapt_auto.py)
@@ -565,16 +565,16 @@ claude --version
 
 | Task | Command |
 |---|---|
-| Check progress | `find _workspace/kashkole-ksessions/extracted/kashkole -name "bundle.yml" \| xargs grep "^stage:" \| awk -F': ' '{print $2}' \| sort \| uniq -c` |
+| Check progress | `find _workspace/kashkole-corpus/extracted/kashkole -name "bundle.yml" \| xargs grep "^stage:" \| awk -F': ' '{print $2}' \| sort \| uniq -c` |
 | Resume adapt | `nohup {VENV} _workspace/plan/_drivers/kashkole_adapt_all.py >> /tmp/kashkole-adapt-full.log 2>&1 &` |
 | Run challenge | `nohup {VENV} _workspace/plan/_drivers/kashkole_challenge_all.py >> /tmp/kashkole-challenge.log 2>&1 &` |
 | Single chapter adapt | `{VENV} -m tools.content_translator adapt-auto kashkole --binder N --chapter N` |
 | Single chapter challenge | `{VENV} -m tools.content_translator challenge kashkole --binder N --chapter N` |
 | Gate report | `{VENV} _workspace/plan/_drivers/kashkole_gate_report.py` |
 | Check failures | `cat _workspace/plan/kashkole-adapt-failures.log` |
-| Commit adapted work | `git add _workspace/kashkole-ksessions/extracted/kashkole/ _workspace/plan/kashkole-adapt-cost-ledger.jsonl && git commit -m "feat(kashkole-adapt): ..."` |
+| Commit adapted work | `git add _workspace/kashkole-corpus/extracted/kashkole/ _workspace/plan/kashkole-adapt-cost-ledger.jsonl && git commit -m "feat(kashkole-adapt): ..."` |
 
-Where `{VENV}` = `/Users/asifhussain/PROJECTS/podcast-factory/_workspace/kashkole-ksessions/.venv/bin/python`
+Where `{VENV}` = `/Users/asifhussain/PROJECTS/podcast-factory/_workspace/kashkole-corpus/.venv/bin/python`
 
 **Files to read for deeper understanding:**
 - `tools/content_translator/stages/adapt_auto.py` — full adaptation logic
@@ -695,7 +695,7 @@ Kashkole does NOT go through `orchestrate_book.py`. Its content is already in `a
 ```
 kashkole_ingest_knowledge.py  (to be built at: _workspace/plan/_drivers/kashkole_ingest_knowledge.py)
 
-Input:   _workspace/kashkole-ksessions/extracted/kashkole/**/{chapter}/
+Input:   _workspace/kashkole-corpus/extracted/kashkole/**/{chapter}/
          ├── bundle.yml                          (stage, binder_id, chapter_id)
          ├── _system/source/text/adapted-extract.en.md   (Layer 2 source)
          ├── _system/source/text/adaptation-citations.jsonl  (Layer 1 hadith source)
@@ -705,7 +705,7 @@ Filter:  Only ingest chapters whose challenger-report verdict is PASS or WARN.
          Skip FAILs entirely until they are re-adapted and re-challenged (see §18.6).
 
 Output:  Per-chapter scratch:
-           _workspace/kashkole-ksessions/extracted/kashkole/**/{chapter}/
+           _workspace/kashkole-corpus/extracted/kashkole/**/{chapter}/
              _system/knowledge-atoms-scratch.jsonl
          Then Librarian merges into:
            content/knowledge-base/quran.jsonl

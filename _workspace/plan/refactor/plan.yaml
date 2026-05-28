@@ -600,10 +600,10 @@ waves:
           canonical_id_format: "doctrine:kashkole:<binder_id>:<chapter_id>:<chunk_index>  (chunk_index 0-based within chapter)"
           chunk_algorithm: "split adapted-extract.en.md on <!-- section N --> markers; group consecutive sections into <=600-word chunks; never split mid-section"
           source_files:
-            topic_tag_map: "_workspace/kashkole-ksessions/topic-type-map.json (18-row taxonomy + 223 per-topic assignments; no DB access needed)"
+            topic_tag_map: "_workspace/kashkole-corpus/topic-type-map.json (18-row taxonomy + 223 per-topic assignments; no DB access needed)"
             quran_atoms: "\u27eaquran S:A\u27eb markers in adapted-extract.en.md -> surrounding paragraph (~150 words) as tafsir_note"
             hadith_atoms: "adaptation-citations.jsonl entries matching hadith collection names"
-          implementation_brief: "_workspace/plan/refactor/KASHKOLE-INTELLIGENCE-PIPELINE-RECOMMENDATION.md"
+          implementation_brief: "_workspace/plan/intelligence/kashkole-intelligence-spec.md"
           tests:
             - "tests/test_kashkole_ingest_idempotent.py"
             - "tests/test_kashkole_refinement_state_machine.py"

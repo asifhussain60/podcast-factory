@@ -23,7 +23,7 @@ from .stages.adapt import surface_adapt_brief
 from .stages.seal import seal_stage
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_EXTRACT_ROOT = REPO_ROOT / "_workspace" / "kashkole-ksessions" / "extracted"
+DEFAULT_EXTRACT_ROOT = REPO_ROOT / "_workspace" / "kashkole-corpus" / "extracted"
 COST_LEDGER = REPO_ROOT / "_workspace" / "plan" / "kashkole-translation-cost-ledger.jsonl"
 
 

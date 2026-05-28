@@ -2,7 +2,7 @@
 #
 # Machine-readable companion to _workspace/plan/kashkole-taxonomy-r1-proposal.md.
 # Consumed by the translation + adaptation pipeline at intake time. Bundles
-# under _workspace/kashkole-ksessions/extracted/kashkole/ remain byte-faithful;
+# under _workspace/kashkole-corpus/extracted/kashkole/ remain byte-faithful;
 # this file overlays an editorial layer.
 #
 # Versioning: bump version + add new ApprovedAt when revising.

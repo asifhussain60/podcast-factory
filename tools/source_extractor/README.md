@@ -81,5 +81,5 @@ step (Phase E, deferred).
 
 - No imports from `scripts/podcast/`.
 - No external API calls (vision is in-conversation with Claude).
-- Sole runtime dependency on `_workspace/kashkole-ksessions/` is the running
+- Sole runtime dependency on `_workspace/kashkole-corpus/` is the running
   Docker container `kashkole-mssql` that the SQL dumps were restored into.

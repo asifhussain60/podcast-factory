@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-27T22:41:14.212Z",
-  "source_commit": "a319f48",
+  "generated_at": "2026-05-28T09:29:22.289Z",
+  "source_commit": "771574c",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -505,53 +505,53 @@
   ],
   "recent_commits": [
     {
+      "sha": "771574c",
+      "subject": "fix: remove erroneous /CONTENT/podcast gitignore rule — learning ledger is canonical",
+      "date": "2026-05-28"
+    },
+    {
+      "sha": "7035f8d",
+      "subject": "chore: tighten gitignore — pytest_cache, benchmarks, CONTENT/m4a, CONTENT/podcast",
+      "date": "2026-05-28"
+    },
+    {
+      "sha": "b353a6c",
+      "subject": "Merge feat/narrative-homepage into develop",
+      "date": "2026-05-28"
+    },
+    {
+      "sha": "fc1ff0b",
+      "subject": "feat: replace all 11 pipeline SVGs with bold PowerPoint-style illustrations",
+      "date": "2026-05-27"
+    },
+    {
+      "sha": "ca9c724",
+      "subject": "feat(homepage): replace station images with rich animated SVGs",
+      "date": "2026-05-27"
+    },
+    {
+      "sha": "e1515f2",
+      "subject": "feat(homepage): alternating layout, parallax zoom, gold frame corners",
+      "date": "2026-05-27"
+    },
+    {
+      "sha": "f6d8135",
+      "subject": "feat(homepage): add all 11 real station images (Ayyuhal Walad pipeline illustrations)",
+      "date": "2026-05-27"
+    },
+    {
+      "sha": "29e57db",
+      "subject": "feat(homepage): light parchment theme + From Content To Conversation tagline",
+      "date": "2026-05-27"
+    },
+    {
+      "sha": "8729547",
+      "subject": "feat(homepage): cinematic narrative scroll homepage (Wave G / G1)",
+      "date": "2026-05-27"
+    },
+    {
       "sha": "a319f48",
       "subject": "fix(dashboard): stat tiles – move FA to link tag, enlarge icons+padding, fix breakpoints",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "dd56227",
-      "subject": "feat(home): story-led hero with SVG logo + full pipeline writeup",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "78e5fa8",
-      "subject": "chore: remove docs/index.html (wrong surface — home page is the Astro app)",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "f32b545",
-      "subject": "docs(home): create non-technical landing page at docs/index.html",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "1a5006a",
-      "subject": "docs(handoff): append 2026-05-27 session log — holistic verification + cleanup complete",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "f4d238c",
-      "subject": "merge: wave-6 fixes + docs update into develop",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "bbe38bd",
-      "subject": "docs(architecture): regenerate index.html from commit 9a48e89",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "9a48e89",
-      "subject": "docs(plan): mark all 6 waves completed; add Wave F to plan.md; refresh dashboard snapshots",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "01286fb",
-      "subject": "fix(tests): align test_run_wave + p4_8 with current implementation reality",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "bd8bb3f",
-      "subject": "merge: wave 6 completion",
       "date": "2026-05-27"
     }
   ],

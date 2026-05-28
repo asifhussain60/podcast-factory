@@ -12,7 +12,7 @@ from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-BINDER1_DIR = REPO_ROOT / "_workspace" / "kashkole-ksessions" / "extracted" / "kashkole" / "07-uloom-mabda-wa-maad"
+BINDER1_DIR = REPO_ROOT / "_workspace" / "kashkole-corpus" / "extracted" / "kashkole" / "07-uloom-mabda-wa-maad"
 OUT_FILE = REPO_ROOT / "tools" / "content_reviewer" / "data" / "glossary-candidates.txt"
 
 AR_MARKER_RE = re.compile(r"⟪ar:([^⟫]+)⟫")

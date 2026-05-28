@@ -21,7 +21,7 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-EXTRACT_ROOT = REPO_ROOT / "_workspace" / "kashkole-ksessions" / "extracted" / "kashkole"
+EXTRACT_ROOT = REPO_ROOT / "_workspace" / "kashkole-corpus" / "extracted" / "kashkole"
 FAILURE_LOG = REPO_ROOT / "_workspace" / "plan" / "kashkole-rollout-failures.log"
 
 
