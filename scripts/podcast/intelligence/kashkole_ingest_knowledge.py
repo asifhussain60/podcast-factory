@@ -42,10 +42,10 @@ from _paths import REPO_ROOT
 # ---------------------------------------------------------------------------
 
 CORPUS_ROOT = (
-    REPO_ROOT / "CONTENT" / "_shared" / "kashkole-corpus" / "extracted" / "kashkole"
+    REPO_ROOT / "CONTENT" / "_shared" / "source-library" / "extracted" / "kashkole"
 )
 TOPIC_MAP_PATH = (
-    REPO_ROOT / "CONTENT" / "_shared" / "kashkole-corpus" / "topic-type-map.json"
+    REPO_ROOT / "CONTENT" / "_shared" / "source-library" / "topic-type-map.json"
 )
 MAX_CHUNK_WORDS = 600
 PASS_WARN = frozenset({"PASS", "WARN"})

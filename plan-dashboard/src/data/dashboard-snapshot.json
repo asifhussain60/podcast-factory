@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-28T19:48:12.273Z",
-  "source_commit": "ea476ba",
+  "generated_at": "2026-05-28T19:59:51.819Z",
+  "source_commit": "2e0400c",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -642,6 +642,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "2e0400c",
+      "subject": "plan(wave-i): add I0a/I0b retroactive steps; correct I2 noise architecture; add companion compression scope",
+      "date": "2026-05-28"
+    },
+    {
       "sha": "ea476ba",
       "subject": "feat(kashkole): add MSSQL query files for KSessions style corpus",
       "date": "2026-05-28"
@@ -684,11 +689,6 @@
     {
       "sha": "7539fd8",
       "subject": "feat(H3): cross-wave autonomous execution chain driver",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "0b8dc36",
-      "subject": "docs: session handoff 2026-05-28 — Wave I + R4-R6 fixes",
       "date": "2026-05-28"
     }
   ],

@@ -21,7 +21,7 @@ With a documentation reorg (touches CLAUDE.md and ~6 script docstrings): **21 �
 | Entry | Type | What's in it | Code refs? |
 |---|---|---|---|
 | `content/` (`CONTENT/`) | Dir | drafts, published, _shared, knowledge-base, podcast | **LOCKED** — `scripts/podcast/_paths.py` is the canonical resolver; plan-dashboard reads from it. Case-only difference between `CONTENT` and `content` is the macOS case-insensitive filesystem — same inode. |
-| `_workspace/` | Dir | plan, audit, runbooks, setup, prompts, chats, proposals, logs, kashkole-corpus | **PARTIALLY LOCKED** — `_workspace/plan/refactor/{plan.md,plan.yaml}`, `_workspace/plan/debt/pipeline-debt.md`, `_workspace/plan/operations/wave-acceptance-checklist.md`, `_workspace/kashkole-corpus/extracted` all hardcoded in plan-dashboard. Other subdirs are loose. |
+| `_workspace/` | Dir | plan, audit, runbooks, setup, prompts, chats, proposals, logs, source-library | **PARTIALLY LOCKED** — `_workspace/plan/refactor/{plan.md,plan.yaml}`, `_workspace/plan/debt/pipeline-debt.md`, `_workspace/plan/operations/wave-acceptance-checklist.md`, `_workspace/source-library/extracted` all hardcoded in plan-dashboard. Other subdirs are loose. |
 | `scripts/` | Dir | podcast/ (pipeline), git-hooks/ (only README), 4 .sh files | **LOCKED** — Makefile references; many self-references; hundreds of internal imports. |
 | `tools/` | Dir | 5 generic Python packages (content_*, source_extractor) | Imported as Python packages; `tools/content_classifier/data/*.yaml` hardcoded in plan-dashboard. |
 | `infra/` | Dir | azure, claude-agents, git-hooks, launchd, llm-apis | **LOCKED** — Makefile + `scripts/install-claude-skills.sh` + multiple Python phases reference `infra/claude-agents/*.md` and `infra/azure/*`. |
@@ -107,11 +107,11 @@ docs/
 
 Recommendation: (a) for these historical ones (the books are done); (b) as a forward-going convention.
 
-### 8. `_workspace/kashkole-corpus/` (23 MB) — book-specific data in the workspace (medium-risk)
+### 8. `_workspace/source-library/` (23 MB) — book-specific data in the workspace (medium-risk)
 
-Kashkole-specific corpus data lives at `_workspace/kashkole-corpus/extracted/` and is hardcoded in `plan-dashboard/src/lib/reader/source-extractor.ts:21`. This is book-specific content; structurally it belongs under `content/_shared/kashkole/` or `content/drafts/books/kashkole/_system/source/`.
+Kashkole-specific corpus data lives at `_workspace/source-library/extracted/` and is hardcoded in `plan-dashboard/src/lib/reader/source-extractor.ts:21`. This is book-specific content; structurally it belongs under `content/_shared/kashkole/` or `content/drafts/books/kashkole/_system/source/`.
 
-**Fix:** Move to `content/_shared/kashkole-corpus/` and update the one TS reference. **Note:** kashkole is itself a multi-book series (per `content/drafts/asbaaq/` which contains `kashkole-asbaaq-r1/`, etc.), so the corpus might genuinely be shared — `content/_shared/` is the right home.
+**Fix:** Move to `content/_shared/source-library/` and update the one TS reference. **Note:** kashkole is itself a multi-book series (per `content/drafts/asbaaq/` which contains `kashkole-asbaaq-r1/`, etc.), so the corpus might genuinely be shared — `content/_shared/` is the right home.
 
 ### 9. Test sprawl: 24 tests in pipeline + 1 in top-level `tests/` (out of scope here)
 
@@ -155,13 +155,13 @@ podcast-factory/
     │   └── proposals/          # ← _workspace/proposals/ + _workspace/chats/
     ├── audit/
     │   └── _archive/           # ← historical kitab-al-riyad + kashkole logs
-    ├── kashkole-corpus/        # OR move to content/_shared/ (see #8)
+    ├── source-library/        # OR move to content/_shared/ (see #8)
     ├── prompts/                # ← absorbs prompts/gemini-bundle-auditor.md
     └── logs/                   # stays
 ```
 
 **Removed top-level entries:** `prompts/`, `reference/`.
-**Net visible top-level count:** 21 → 17 (or 16 with the kashkole-corpus move).
+**Net visible top-level count:** 21 → 17 (or 16 with the source-library move).
 
 ---
 
@@ -205,7 +205,7 @@ Estimated time: 1–2 hours including link verification.
 **Result:** −2 visible top-level dirs (`reference/`, eventually `_workspace/runbooks/` + `_workspace/setup/` collapse inside `_workspace`). `docs/` becomes the single documentation home.
 
 ### Phase 4 — optional (kashkole corpus relocation)
-1. Move `_workspace/kashkole-corpus/extracted/` → `content/_shared/kashkole-corpus/extracted/`.
+1. Move `_workspace/source-library/extracted/` → `content/_shared/source-library/extracted/`.
 2. Edit `plan-dashboard/src/lib/reader/source-extractor.ts:21` — update the relpath constant.
 3. Verify plan-dashboard rebuild reads correctly.
 
@@ -245,7 +245,7 @@ Estimated time: 1–2 hours including link verification.
 | 8 | Move `reference/` → `docs/reference/` | ~4 (CLAUDE.md + agent .md) | Medium | 3 |
 | 9 | Move `_workspace/runbooks/` → `docs/runbooks/` | ~3 (CLAUDE.md + runbook self-refs) | Medium | 3 |
 | 10 | Move `_workspace/setup/` → `docs/setup/` | ~2 (CLAUDE.md) | Medium | 3 |
-| 11 | Move `_workspace/kashkole-corpus/` → `content/_shared/` | 1 (.ts) | Medium | 4 |
+| 11 | Move `_workspace/source-library/` → `content/_shared/` | 1 (.ts) | Medium | 4 |
 
 **Total code edits across all phases:** ~13 line changes across 8 files. None require Python refactoring; all are path-string updates.
 
@@ -277,6 +277,6 @@ If any of the above fail, the move is reverted before continuing.
 ## Open questions for Asif
 
 1. **`framework.md` at repo root** — leave it (heavy cross-linking) or move to `docs/framework.md` as part of Phase 3?
-2. **`_workspace/kashkole-corpus/`** — is the corpus genuinely multi-book-shared, or specific to one book? Answer determines whether Phase 4 belongs in `content/_shared/` or `content/drafts/asbaaq/kashkole-*/_system/source/`.
+2. **`_workspace/source-library/`** — is the corpus genuinely multi-book-shared, or specific to one book? Answer determines whether Phase 4 belongs in `content/_shared/` or `content/drafts/asbaaq/kashkole-*/_system/source/`.
 3. **`tools/content_challenger/kashkole/`** — book-specific code inside a "generic" tool package. Hoist to top-level `tools/kashkole/`, or accept the nesting?
 4. **`reference/skill-overlays/` content** — overlays for `cowork-brief`, `tell-me`, `clean-commit`, `journal`. The `journal-cortex-overlay.md` references the sibling journal repo. Keep it here as documentation, or move to the sibling repo (where the journal code lives)?

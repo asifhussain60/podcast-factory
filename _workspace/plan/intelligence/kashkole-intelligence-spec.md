@@ -36,7 +36,7 @@ Current library: `content/knowledge-base/quran.jsonl`, `hadith.jsonl` (may be ne
 Gate report at `_workspace/plan/kashkole-gate-report.md` lists 18 chapters with FAIL verdict. Re-adapt + re-challenge each:
 
 ```bash
-VENV=/Users/asifhussain/PROJECTS/podcast-factory/_workspace/kashkole-corpus/.venv/bin/python
+VENV=/Users/asifhussain/PROJECTS/podcast-factory/_workspace/source-library/.venv/bin/python
 $VENV -m tools.content_translator adapt-auto kashkole --binder {N} --chapter {M}
 $VENV -m tools.content_translator challenge kashkole --binder {N} --chapter {M}
 ```
@@ -94,7 +94,7 @@ Create at: `_workspace/plan/_drivers/kashkole_ingest_knowledge.py`
 This is a standalone batch driver — it does NOT go through `orchestrate_book.py`. Logic:
 
 ```
-For each chapter directory under _workspace/kashkole-corpus/extracted/kashkole/**/{chapter}/:
+For each chapter directory under _workspace/source-library/extracted/kashkole/**/{chapter}/:
 
   1. Read bundle.yml → get binder_id, chapter_id, binder_slug, chapter_slug
   2. Read kashkole-challenger-report.md → check verdict. Skip if FAIL.
@@ -175,7 +175,7 @@ Keep default-disabled (`enable_knowledge_augmenter: false` in series-config) unt
 
 ## Database Topic Type Classification (Primary Tagging Signal)
 
-> **This is the canonical topic classification.** Every topic in the KASHKOLE database was manually tagged by the compiler with a `TopicTypeID` from the `Lookup_TopicTypes` table. This is more precise than binder-level inference — use it as the **primary** `topic_tags` source during ingestion. The full mapping is saved at `_workspace/kashkole-corpus/topic-type-map.json`.
+> **This is the canonical topic classification.** Every topic in the KASHKOLE database was manually tagged by the compiler with a `TopicTypeID` from the `Lookup_TopicTypes` table. This is more precise than binder-level inference — use it as the **primary** `topic_tags` source during ingestion. The full mapping is saved at `_workspace/source-library/topic-type-map.json`.
 
 ### Lookup_TopicTypes — Full Taxonomy
 
@@ -242,7 +242,7 @@ TOPIC_TYPE_TAGS = {
 
 # Load the pre-extracted mapping (no DB access needed):
 import json
-with open("_workspace/kashkole-corpus/topic-type-map.json") as f:
+with open("_workspace/source-library/topic-type-map.json") as f:
     TYPE_MAP = json.load(f)
 
 def get_topic_tags(topic_id: int, binder_tags: list[str]) -> list[str]:
@@ -252,7 +252,7 @@ def get_topic_tags(topic_id: int, binder_tags: list[str]) -> list[str]:
     return (type_tags + binder_tags) if type_tags else binder_tags
 ```
 
-The JSON file at `_workspace/kashkole-corpus/topic-type-map.json` contains both the taxonomy and all 223 per-topic assignments — **no database access needed** during ingestion.
+The JSON file at `_workspace/source-library/topic-type-map.json` contains both the taxonomy and all 223 per-topic assignments — **no database access needed** during ingestion.
 
 ---
 
@@ -388,7 +388,7 @@ content/knowledge-base/
   _index/
     doctrine-by-tag.json    ← new index (Step 4 output)
 
-_workspace/kashkole-corpus/extracted/kashkole/
+_workspace/source-library/extracted/kashkole/
   {NN}-{binder-slug}/
     {NN}-{chapter-slug}/
       bundle.yml

@@ -4,7 +4,7 @@ Source: mostly English teaching content. Hierarchy: Group → Category → Sessi
 → SessionTranscript. Different schema from KAHSKOLE; not yet implemented.
 
 When implementing, the SQL queries below (lifted from the Phase 1
-_workspace/kashkole-corpus/scripts/extract.py KSESSIONS sketch) are a
+_workspace/source-library/scripts/extract.py KSESSIONS sketch) are a
 starting point — verify against the live KSESSIONS schema before trusting them.
 """
 from __future__ import annotations

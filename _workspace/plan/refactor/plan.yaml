@@ -612,7 +612,7 @@ waves:
           canonical_id_format: "doctrine:kashkole:<binder_id>:<chapter_id>:<chunk_index>  (chunk_index 0-based within chapter)"
           chunk_algorithm: "split adapted-extract.en.md on <!-- section N --> markers; group consecutive sections into <=600-word chunks; never split mid-section"
           source_files:
-            topic_tag_map: "_workspace/kashkole-corpus/topic-type-map.json (18-row taxonomy + 223 per-topic assignments; no DB access needed)"
+            topic_tag_map: "_workspace/source-library/topic-type-map.json (18-row taxonomy + 223 per-topic assignments; no DB access needed)"
             quran_atoms: "\u27eaquran S:A\u27eb markers in adapted-extract.en.md -> surrounding paragraph (~150 words) as tafsir_note"
             hadith_atoms: "adaptation-citations.jsonl entries matching hadith collection names"
           implementation_brief: "_workspace/plan/intelligence/kashkole-intelligence-spec.md"
@@ -1730,7 +1730,7 @@ waves_ghj:
           the recovery mechanism.
         deliverables:
           - "scripts/kashkole/build_style_corpus.py: extract plain-text samples from KSessions (MSSQL or SQL dump fallback)"
-          - "content/_shared/kashkole-corpus/style-imprint.md: distilled style guide (<=800 words) for LLM system prompt"
+          - "content/_shared/source-library/style-imprint.md: distilled style guide (<=800 words) for LLM system prompt"
           - "scripts/kashkole/rewrite_chapters.py: Sonnet rewrite pass chapter-by-chapter using style-imprint.md"
           - "Protected categories (esoteric, quran, hadith, poetry) survive verbatim -- rewrite wraps, never replaces them"
           - "In-place chapter edits applied after Asif approves git diff"
@@ -1747,7 +1747,7 @@ waves_ghj:
         cost_estimate_usd: 5
         execution_status: not_started
         execution_notes:
-          - "2026-05-28 discussion: KSessions.sql on disk at CONTENT/_shared/kashkole-corpus/KSessions.sql (gitignored, 29MB, SQL Server UTF-16 LE format)."
+          - "2026-05-28 discussion: KSessions.sql on disk at CONTENT/_shared/source-library/KSessions.sql (gitignored, 29MB, SQL Server UTF-16 LE format)."
           - "VS Code MSSQL extension installed (ms-mssql.mssql); AHHOME profile saved (192.168.1.158, KSESSIONS_DEV)."
           - "Groups confirmed: G3=Wise Reminder (44 sessions), G17=Ikhwan (14 arithmetic sessions, Cat 51 only), G18=Asaas Al-Taveel (32 sessions)."
           - "Isbat al-Imamah: SessionID 2346, name 'Necessity Of Imam', Group 18 (Asaas Al-Taveel)."

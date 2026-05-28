@@ -20,10 +20,10 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[3]
-VENV = REPO / "CONTENT/_shared/kashkole-corpus/.venv/bin/python"
+VENV = REPO / "CONTENT/_shared/source-library/.venv/bin/python"
 LEDGER = REPO / "_workspace/plan/kashkole-adapt-cost-ledger.jsonl"
 FAILURE_LOG = REPO / "_workspace/plan/kashkole-adapt-failures.log"
-EXTRACT_ROOT = REPO / "CONTENT/_shared/kashkole-corpus/extracted/kashkole"
+EXTRACT_ROOT = REPO / "CONTENT/_shared/source-library/extracted/kashkole"
 
 SESSION_COST_CAP = 30.0   # USD — adaptation is cheaper than translation
 
@@ -151,7 +151,7 @@ def _commit_binder(binder_id: int, name: str, chapters: int, cost: float, dry_ru
     )
     subprocess.run(
         ["git", "add",
-         "CONTENT/_shared/kashkole-corpus/extracted/kashkole/",
+         "CONTENT/_shared/source-library/extracted/kashkole/",
          "_workspace/plan/kashkole-adapt-cost-ledger.jsonl"],
         cwd=REPO, check=False,
     )

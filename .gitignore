@@ -132,7 +132,7 @@ _workspace/plan/operations/wave-chain-auth.json
 # Scripts + extracted output are tracked; exclude the ~750MB source SQL
 # dumps (backed up in Google Drive — re-importable as needed).
 _workspace/kashkole-ksessions/*.sql
-CONTENT/_shared/kashkole-corpus/*.sql
+CONTENT/_shared/source-library/*.sql
 content/knowledge-base/*.db-shm
 content/knowledge-base/*.db-wal
 

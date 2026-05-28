@@ -23,7 +23,7 @@ The repo's meta zone. Plan documents, response conventions, bootstrap runbooks, 
 
 Folder consolidation removed 9 sprawl entries (see commit [4c92b2b](https://github.com/asifhussain60/podcast-factory/commit/4c92b2b)):
 
-- **Tracked deletes** — `_archive/` (28 files), `audit-reports/` (3 dated reports), `chats/` (3 prompts; retired studio-* multi-machine artifacts), `kashkole-corpus/` (2,648 files / 98M rollout extracts), `lectures/` (8 files; canonical copy at `content/drafts/LECTURES/`), `tmp/` (2 one-shot files).
+- **Tracked deletes** — `_archive/` (28 files), `audit-reports/` (3 dated reports), `chats/` (3 prompts; retired studio-* multi-machine artifacts), `source-library/` (2,648 files / 98M rollout extracts), `lectures/` (8 files; canonical copy at `content/drafts/LECTURES/`), `tmp/` (2 one-shot files).
 - **On-disk deletes** — `raw/` (743M source PDFs; originals on Drive), `scratch/` (challenger work-in-progress), `orchestrator-logs/` (empty).
 
 Git history preserves every byte. Recover any file with `git show 4c92b2b~1:_workspace/<path>`.

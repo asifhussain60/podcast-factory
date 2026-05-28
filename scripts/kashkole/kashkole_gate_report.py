@@ -17,7 +17,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[3]
-EXTRACT_ROOT = REPO / "CONTENT/_shared/kashkole-corpus/extracted/kashkole"
+EXTRACT_ROOT = REPO / "CONTENT/_shared/source-library/extracted/kashkole"
 TRANSLATE_LEDGER = REPO / "_workspace/plan/kashkole-translation-cost-ledger.jsonl"
 ADAPT_LEDGER = REPO / "_workspace/plan/kashkole-adapt-cost-ledger.jsonl"
 CHALLENGE_LEDGER = REPO / "_workspace/plan/kashkole-challenge-cost-ledger.jsonl"

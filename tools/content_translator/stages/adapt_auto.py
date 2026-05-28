@@ -4,7 +4,7 @@ Calls the Anthropic API (claude-haiku-4-5-20251001) to transform
 raw-extract.en.md into adapted-extract.en.md + adaptation-citations.jsonl.
 
 Must be run with the kashkole venv Python (has anthropic>=0.104 installed):
-  _workspace/kashkole-corpus/.venv/bin/python -m tools.content_translator adapt-auto ...
+  _workspace/source-library/.venv/bin/python -m tools.content_translator adapt-auto ...
 
 Stage transition: translated → adapted.
 Idempotent: skips if already adapted.
