@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-28T17:32:02.952Z",
-  "source_commit": "670abff8",
+  "generated_at": "2026-05-28T18:41:54.892Z",
+  "source_commit": "7c566cb",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -620,53 +620,53 @@
   ],
   "recent_commits": [
     {
-      "sha": "670abff8",
+      "sha": "7c566cb",
+      "subject": "docs(handoff): session log 2026-05-28 — plan-dashboard visual build + visual bug fixes",
+      "date": "2026-05-28"
+    },
+    {
+      "sha": "aa2645e",
+      "subject": "fix(dashboard): fix intelligence node visibility + infrastructure arrow routing",
+      "date": "2026-05-28"
+    },
+    {
+      "sha": "1af2109",
+      "subject": "feat(dashboard): redesign intelligence+infrastructure+pipeline views; remove annotation-ops+system-map nav",
+      "date": "2026-05-28"
+    },
+    {
+      "sha": "6757499",
+      "subject": "feat(site): replace db-schema SVG flowchart with full-width SQL table card grid",
+      "date": "2026-05-28"
+    },
+    {
+      "sha": "da12586",
+      "subject": "docs(prompts): add podcast-factory visual build brief",
+      "date": "2026-05-28"
+    },
+    {
+      "sha": "7adc245",
+      "subject": "feat(site): L1-L4 security lenses, future-state pipeline swimlane, audience-layered architecture",
+      "date": "2026-05-28"
+    },
+    {
+      "sha": "670abff",
       "subject": "chore: add architecture diagram brief, intelligence pipeline discussion, update knowledge-base stats",
       "date": "2026-05-28"
     },
     {
-      "sha": "7539fd81",
+      "sha": "7539fd8",
       "subject": "feat(H3): cross-wave autonomous execution chain driver",
       "date": "2026-05-28"
     },
     {
-      "sha": "0b8dc364",
+      "sha": "0b8dc36",
       "subject": "docs: session handoff 2026-05-28 — Wave I + R4-R6 fixes",
       "date": "2026-05-28"
     },
     {
-      "sha": "317ad881",
+      "sha": "317ad88",
       "subject": "fix: R4-R6 + Wave I plan — intelligence pipeline foundations",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "8b16dad3",
-      "subject": "refactor: single content source of truth — status in meta.yml, no published/ copies",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "d7fd39ab",
-      "subject": "Cloudflare site",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "44c59fab",
-      "subject": "fix: machine-agnostic repo root in content-paths + launcher path fix",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "d439b863",
-      "subject": "chore: add asif-studio-landing; ignore podcast-reader build artefacts",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "ba9ab89a",
-      "subject": "chore: update plan-dashboard snapshots",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "221f1c04",
-      "subject": "chore(workspace): add inbox dump folder",
       "date": "2026-05-28"
     }
   ],
