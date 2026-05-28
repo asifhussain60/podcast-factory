@@ -12,10 +12,12 @@
  *     slug     — kebab-case
  */
 import { readdir, stat } from 'node:fs/promises';
-import { homedir } from 'node:os';
-import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { join, resolve } from 'node:path';
 
-const DEFAULT_REPO_ROOT = join(homedir(), 'PROJECTS', 'podcast-factory');
+// Derive repo root from this file's location: src/lib/ → ../../ → repo root.
+// Works regardless of machine or clone path, with no env var required.
+const DEFAULT_REPO_ROOT = resolve(fileURLToPath(import.meta.url), '..', '..', '..', '..');
 
 export function getRepoRoot(): string {
   return process.env.PODCAST_FACTORY_ROOT ?? DEFAULT_REPO_ROOT;

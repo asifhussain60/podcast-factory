@@ -4,7 +4,7 @@ set -euo pipefail
 LABEL="com.asif.podcast-factory.plan-dashboard"
 UID_NUM="$(id -u)"
 DOMAIN="gui/${UID_NUM}"
-APP_DIR="/Users/asifhussain/PROJECTS/podcast-factory/plan-dashboard"
+APP_DIR="/Users/ahmac/Code/podcast-factory/plan-dashboard"
 PORT="${PLAN_DASHBOARD_PORT:-4322}"
 URL="http://127.0.0.1:${PORT}"
 HEALTH_URL="${URL}/plan"
