@@ -523,6 +523,50 @@ A companion **Book Review unified view** in the astro site (I5) surfaces both ga
 
 ---
 
+# Wave J · Source Library
+
+Wave J gives the authoring pipeline live, on-demand query access to the three SQL Server source databases filed in May 2026 — the Quran reference database, the Kashkole knowledge corpus, and the KSessions delivered lecture archive. The four steps build an MCP server (J0), wire it into the two pipeline phases that benefit most (J1 enrichment, J2 style rewrite), and add a portable offline mirror for non-home-network use (J3).
+
+### J0. Stand up a local MCP server that gives any authoring context direct query access to all three source databases.
+
+> The three databases — a structured Quran with dual English translations and full Arabic etymology, a 20-year knowledge system of Kashkole topics with built-in Quran cross-references, and 343 delivered lecture session transcripts — are currently only accessible through pre-extracted files or manual SQL queries run in VS Code. This step builds a Python server following the Model Context Protocol standard that connects to the home SQL Server instance (192.168.1.158) and exposes three named tools: `quran_lookup(surah, ayat)` returning Arabic text, Pickthall translation, Muhammad Asad translation, Urdu, and phonetic; `topic_search(keyword, limit)` returning Kashkole topic names and content previews; and `session_style_fetch(theme, group)` returning the most stylistically relevant lecture passages for a given theme. The server is registered in `.vscode/mcp.json` (for Copilot) and in the user-level Claude Desktop config (for Claude Code) so it is available in every authoring context automatically. A `--dry-run` flag lists all three tools and confirms database connectivity without returning data. Input validation follows OWASP A03 injection requirements: all query parameters are parameterised; no raw SQL string interpolation.
+>
+> *Value gained:* Any pipeline phase, any authoring agent, and any manual chat session can pull authoritative Quran verses, Kashkole doctrine, or voice-matched session passages on demand — without pre-loading or batch-extracting the entire corpus upfront.
+
+**Status: NOT STARTED**
+
+---
+
+### J1. Wire the enrichment phase to use live Quran verse lookups as a complete-coverage fallback.
+
+> The enrichment phase currently annotates chapters using only the atoms pre-extracted into the local SQLite knowledge database. That coverage is bounded: any citation not yet extracted — from a new book, an unusual reference form, or a cross-tradition verse — passes through unannotated. This step adds a live fallback path wired into the Augmenter: when a citation marker is encountered and no matching atom exists in the local database, the Augmenter calls the MCP server's `quran_lookup` tool. The result is formatted with the same provenance template and injected at the same position in the authoring prompt. The step also exposes `quran_theme_search(keyword)` to the enrichment prompt, allowing the authoring agent to actively request thematically related verses rather than relying only on pre-tagged atoms. Fallback calls are logged to `_system/mcp-calls.jsonl` per chapter. The live path is gated by `series.enable_live_quran_lookup: true` in `meta.yml` (default false, consistent with the Augmenter's default-disabled pattern).
+>
+> *Value gained:* Enrichment coverage for Quran citations becomes complete regardless of knowledge-base gaps; thematic verse discovery becomes an active authoring capability rather than a static pre-tagged one.
+
+**Status: NOT STARTED**
+
+---
+
+### J2. Wire the style rewrite phase to pull live session samples matched to each chapter's themes.
+
+> The style rewrite pass (Wave I, step I0b) establishes Asif's authorial voice by reading a fixed set of pre-selected session HTML files. That sample cannot adapt: the same passages are used regardless of whether the chapter discusses tawhid, ta'wil, imamah, or arithmetic cosmology. This step replaces the static file read with a live MCP query: for each chapter, the style prompt receives the three or four lecture passages most thematically relevant to that chapter's content, fetched at authoring time via `session_style_fetch(theme, group)`. Theme matching uses the session database's existing group and category structure — no embeddings required. The distilled `style-imprint.md` (I0b deliverable) continues to supply the style rules; the live query adds per-chapter concrete examples grounded in the same topic domain. Calls are logged to `_system/mcp-calls.jsonl`. Gated by `series.enable_live_style_fetch: true` in `meta.yml` (default false).
+>
+> *Value gained:* Every chapter's style examples come from sessions that actually discuss the same topics — voice matching is thematically precise rather than drawn from a generic cross-topic sample.
+
+**Status: NOT STARTED**
+
+---
+
+### J3. Build the offline text-only mirror of all three source databases as a portable SQLite file.
+
+> The MCP server requires a live connection to the home SQL Server instance, making it unavailable on any machine where that server is unreachable. The three SQL Server dumps total 768 MB, but 724 MB of that is binary image data in the Kashkole legacy `TopicData` column — the actual text content lives in `TopicDataUnicode`. Stripping binary columns from all three databases produces a text-only extract estimated well under 50 MB. This step produces a `bcp` export script that runs against the home SQL Server and writes a compact SQLite file at `CONTENT/_shared/source-library/mirror.db` (gitignored) containing: Quran ayahs, Roots, Derivatives, Ahadees, Kashkole Binders/Chapters/Topics/TopicDataUnicode/TopicAyats/Glossary, and KSessions Groups/Categories/Sessions/SessionTranscripts. The MCP server gains a `--offline` flag that reads from this file when the SQL Server is unreachable, using the same three tool definitions and the same input validation. The mirror is regenerated by re-running the export script against a live connection and is portable to any machine or cloud environment.
+>
+> *Value gained:* The full query capability is available anywhere — any machine, offline, or in a cloud-hosted pipeline — without the 768 MB binary payload or a home-server dependency.
+
+**Status: NOT STARTED**
+
+---
+
 ## What This Plan Excludes (by design)
 
 - **F-item operational backlog** (F4, F7, F11–F13, F22, F23, F25/F26, F29 still open) — tracked in [pipeline-debt.md](../debt/pipeline-debt.md) after A1 moves it. Pipeline-debt is the live operational backlog; this refactor plan is the architectural reshape. Don't merge the two.

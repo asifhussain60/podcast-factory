@@ -1934,5 +1934,241 @@ waves_ghj:
         execution_status: not_started
 
 # ===========================================================================
+# WAVE J — Source Library (MCP Server + Live Query Access)
+# ===========================================================================
+
+  - id: J
+    name: Source Library — MCP Server and Live Query Access
+    execution_status: not_started
+    parallel_with: []
+    depends_on: [I]
+    summary: |
+      Wave J gives the authoring pipeline live, on-demand query access to the
+      three SQL Server source databases filed 2026-05-28: KQUR (Quran with
+      dual translations and full Arabic etymology), KASHKOLE (20-year Urdu
+      knowledge corpus with built-in Quran cross-references), and KSESSIONS_DEV
+      (343 delivered lecture session transcripts in Asif's teaching voice).
+      J0 builds the MCP server exposing three named tools.
+      J1 wires the enrichment phase to use live Quran lookups as a fallback
+      when local knowledge-base atoms are absent.
+      J2 wires the style rewrite phase to pull dynamically matched session
+      samples instead of a fixed pre-selected file set.
+      J3 builds the offline SQLite text-only mirror (no binary image blobs)
+      for use on any machine or cloud environment.
+      Connection details: server 192.168.1.158; databases KQUR, KASHKOLE,
+      KSESSIONS_DEV; VS Code MSSQL profile AHHOME; query files at
+      scripts/kashkole/queries/ (7 files, committed d37d731).
+      Source dumps at CONTENT/_shared/source-library/ (gitignored).
+    execution_notes: []
+    steps:
+
+      - id: J0
+        title: "Stand up a local MCP server exposing all three source databases as named query tools"
+        depends_on: []
+        rationale: |
+          The three databases are only accessible today through pre-extracted
+          files or manual VS Code SQL queries. An MCP server registered in
+          .vscode/mcp.json and the Claude Desktop config makes them available
+          to any pipeline phase or authoring session without batch pre-loading.
+          Three tools cover the three databases:
+          (1) quran_lookup(surah: int, ayat: int): returns QuranAyats row —
+              Arabic unicode, PickthallTranslation, AsadTranslation, Urdu,
+              Phonetic. Also accepts surah_name (string) — resolves via Surahs
+              table. SQL: parameterised SELECT from QuranAyats JOIN Surahs.
+          (2) quran_theme_search(keyword: str, limit: int = 10): full-text
+              search across PickthallTranslation + AsadTranslation; returns
+              surah_name, ayat_number, both translations, Arabic. SQL:
+              parameterised LIKE search (Wave J.3 adds FTS upgrade path).
+          (3) word_etymology(term: str): Root lookup by EnglishMeaning or
+              EnglishTransliteration + all derivative forms with grammar tags
+              and definitions. SQL: Roots JOIN Derivatives.
+          (4) topic_search(keyword: str, limit: int = 10): Kashkole topic
+              keyword search against TopicDataUnicode; returns binder name,
+              chapter name, topic name, first 400 chars of content. SQL:
+              parameterised LIKE search.
+          (5) topic_get(topic_id: int): full topic content from
+              TopicDataUnicode + linked Quran ayats via TopicAyats + glossary
+              terms via TopicGlossaries JOIN Glossary.
+          (6) session_style_fetch(theme: str, group_id: int = null,
+              limit: int = 4): retrieves the most relevant session passages
+              from SessionTranscripts for style matching. Relevance: keyword
+              match against session Name + Category. Returns SessionID,
+              session name, group name, plain-text excerpt (HTML stripped).
+          Security: all parameters parameterised (OWASP A03 compliant); no
+          raw SQL string interpolation anywhere. Input length limits enforced
+          on all string parameters (max 200 chars). Server validates all
+          inputs per MCP security spec §7. Rate limiting: max 30 tool calls
+          per minute (pyodbc connection pool size 3). Output sanitised: no
+          raw binary blobs ever returned.
+          MCP SDK: Python mcp package (pip install mcp). Transport: stdio
+          (default for local MCP servers). JSON-RPC 2.0 compliance per
+          modelcontextprotocol.io spec 2025-06-18.
+          Registration:
+            .vscode/mcp.json — VS Code / Copilot
+            ~/.claude/claude_desktop_config.json — Claude Desktop / Claude Code
+          A --dry-run flag lists tools and confirms DB connectivity (no data).
+          A --offline flag switches to the SQLite mirror built in J3.
+        deliverables:
+          - "scripts/mcp/source_library_server.py: MCP server (≤ 600 lines, DR-005)"
+          - "scripts/mcp/__init__.py"
+          - "scripts/mcp/README.md: startup, registration, and tool reference"
+          - "Six MCP tools: quran_lookup, quran_theme_search, word_etymology, topic_search, topic_get, session_style_fetch"
+          - ".vscode/mcp.json: server registration for VS Code + Copilot"
+          - "~/.claude/claude_desktop_config.json: server registration entry (documented in README, not committed)"
+          - "Connection: pyodbc to 192.168.1.158; pool size 3; 30-second query timeout"
+          - "Input validation: parameterised queries, length limits (200 chars), type checks on all parameters"
+          - "Rate limiter: max 30 tool calls/min (simple token bucket in-process)"
+          - "--dry-run: tools/list + connectivity check, no data"
+          - "--offline: reads from CONTENT/_shared/source-library/mirror.db (J3 deliverable)"
+          - "requirements entry: mcp, pyodbc added to scripts/mcp/requirements.txt"
+        acceptance:
+          - "Server starts with python3 scripts/mcp/source_library_server.py and responds to tools/list"
+          - "quran_lookup(2, 255) returns Ayat al-Kursi with Arabic, Pickthall, Asad, phonetic"
+          - "topic_search('tawhid') returns ≥1 result with binder name and content preview"
+          - "session_style_fetch('imamah') returns ≥1 result with session name and HTML-stripped excerpt"
+          - "word_etymology('creation') or word_etymology('khalq') returns root + derivatives"
+          - "SQL injection attempt (e.g. quran_lookup(1, '1 OR 1=1')) returns isError: true without executing"
+          - ".vscode/mcp.json present and parseable; VS Code MCP panel shows source-library server"
+          - "--dry-run exits 0 with no rows returned"
+          - "test_mcp_server.py: ≥10 tests green (tool registration, each tool happy path, injection guard, rate limit)"
+          - "scripts/mcp/source_library_server.py ≤ 600 lines"
+        authorization: tier_one
+        branch: "feature/wave-j-mcp-server"
+        cost_estimate_usd: 0
+        execution_status: not_started
+
+      - id: J1
+        title: "Wire enrichment phase to use live Quran lookups as a complete-coverage fallback"
+        depends_on: [J0, B3]
+        rationale: |
+          The Wave B Augmenter enriches chapters from pre-extracted SQLite atoms.
+          Coverage is bounded: verses not yet extracted, unusual reference forms,
+          or cross-tradition citations pass through unannotated. A live fallback
+          calls the MCP server when no matching atom is found in the local DB,
+          ensuring 100% Quran citation coverage regardless of extraction history.
+          The thematic search tool adds active discovery: the authoring agent can
+          ask for verses on a theme rather than only injecting pre-tagged atoms.
+          Fallback path:
+            1. Augmenter finds citation pattern (Q\d+:\d+ or ⟪quran S:A⟫)
+            2. Looks up in knowledge_atoms WHERE type='quran' AND needs_review=0
+            3. If no atom found: calls MCP quran_lookup(surah, ayat)
+            4. Formats result with _context_injection.format_provenance
+            5. Logs call to _system/mcp-calls.jsonl (tool, args, latency_ms, source='live')
+          Thematic path:
+            Available as a new augmenter mode when doctrine_topic_ids includes
+            a special tag 'quran_thematic'; calls quran_theme_search(keyword)
+            per chapter using the chapter's top 3 extracted themes.
+          Gate: series.enable_live_quran_lookup: true in meta.yml (default false).
+          Consistent with DR-007 (Augmenter default-disabled until G12 fires green).
+          mcp-calls.jsonl per-chapter ledger: {timestamp, tool, args,
+          latency_ms, result_count, source: live|cache, chapter_slug}.
+        deliverables:
+          - "scripts/podcast/intelligence/augmenter.py: live fallback path added (≤ 600 lines, DR-005)"
+          - "Live fallback: when local atom lookup returns 0 results, call MCP quran_lookup"
+          - "Thematic path: quran_theme_search called when doctrine_topic_ids contains 'quran_thematic' tag"
+          - "_system/mcp-calls.jsonl: per-call ledger (tool, args, latency_ms, result_count, source)"
+          - "meta.yml flag: series.enable_live_quran_lookup (bool, default false)"
+          - "MCP client helper: scripts/podcast/intelligence/_mcp_client.py (thin wrapper, ≤ 150 lines)"
+        acceptance:
+          - "Augmenter injects correct verse text for Q2:255 even when knowledge_atoms has no row for it"
+          - "mcp-calls.jsonl written after enrichment phase with source='live' entries"
+          - "enable_live_quran_lookup: false (default) produces zero MCP calls on any book"
+          - "MCP server offline → augmenter logs warning and continues without crashing"
+          - "test_augmenter_live_fallback.py: ≥6 tests green (fallback path, thematic path, offline graceful, gate)"
+          - "augmenter.py ≤ 600 lines after additions"
+        authorization: tier_one
+        branch: "feature/wave-j-enrichment-wiring"
+        cost_estimate_usd: 0
+        execution_status: not_started
+
+      - id: J2
+        title: "Wire style rewrite phase to pull live session samples matched to each chapter's themes"
+        depends_on: [J0, I0b]
+        rationale: |
+          The I0b style rewrite pass uses a fixed pre-selected set of session
+          HTML files as its style corpus. That sample is genre-generic: the same
+          passages are used whether the chapter discusses imamah, ta'wil,
+          arithmetic cosmology, or ethical conduct. A live query replaces the
+          fixed file read with a per-chapter MCP call that returns the three or
+          four session passages most thematically relevant to the chapter being
+          authored. Theme matching uses the session database's existing group and
+          category structure — no embeddings required.
+          How the match works:
+            1. Chapter's top 3 noun phrases / Quranic themes extracted (regex +
+               existing topic_tags from the Augmenter run)
+            2. session_style_fetch(theme=top_phrase, group_id=null, limit=4)
+               called per theme; results deduplicated by session_id
+            3. Top 4 unique sessions by match score injected into style prompt
+               as concrete examples alongside the static style-imprint.md
+            4. Call logged to _system/mcp-calls.jsonl
+          The distilled style-imprint.md (I0b) continues to supply structural
+          rules; the live query adds per-chapter topically grounded examples.
+          Gate: series.enable_live_style_fetch: true in meta.yml (default false).
+        deliverables:
+          - "scripts/kashkole/rewrite_chapters.py: live session fetch path added (I0b deliverable extended)"
+          - "Theme extractor: extract_chapter_themes(chapter_text) → list[str] (top 3 phrases)"
+          - "Live session fetch: session_style_fetch called per theme; results merged by session_id"
+          - "_system/mcp-calls.jsonl: style fetch calls logged alongside enrichment calls"
+          - "meta.yml flag: series.enable_live_style_fetch (bool, default false)"
+          - "Fallback: if MCP server offline → rewrite_chapters.py falls back to static style-imprint.md only"
+        acceptance:
+          - "Rewritten chapter style prompt includes session excerpts from sessions discussing the same topic"
+          - "mcp-calls.jsonl contains session_style_fetch entries with matched session IDs"
+          - "enable_live_style_fetch: false produces zero MCP calls (static style-imprint.md only)"
+          - "MCP server offline → rewrite falls back gracefully to static imprint without crash"
+          - "test_style_rewrite_live.py: ≥5 tests green (live path, theme extraction, offline fallback, gate)"
+        authorization: tier_one
+        branch: "feature/wave-j-style-wiring"
+        cost_estimate_usd: 0
+        execution_status: not_started
+
+      - id: J3
+        title: "Build the offline text-only mirror — portable SQLite file, no binary blobs"
+        depends_on: [J0]
+        rationale: |
+          J0's MCP server requires a live connection to 192.168.1.158. The three
+          SQL dumps together are 768 MB, but 724 MB is binary image data in
+          KASHKOLE's legacy TopicData ([image] type column). The text-only
+          content across all three databases is estimated < 50 MB.
+          The mirror extracts only text columns:
+            KQUR: QuranAyats (all text cols), Surahs, Roots, Derivatives,
+                  Ahadees, Narrators, AhadessCategories, SubCategories
+            KASHKOLE: Binders, BinderChapters, Chapters, ChapterTopics, Topics,
+                      TopicDataUnicode (text only, skip TopicData binary),
+                      TopicAyats, Flashcards, Glossary, TopicGlossaries,
+                      DeeniTermGroup
+            KSESSIONS_DEV: Groups, Categories, Sessions, SessionTranscripts
+                           (HTML text stripped to plain text on export)
+          Export approach: bcp queryout per table → CSV → sqlite3 import.
+          SQLite file at CONTENT/_shared/source-library/mirror.db (gitignored).
+          The MCP server's --offline flag reads from mirror.db using identical
+          parameterised queries (different driver: sqlite3 not pyodbc; same
+          tool definitions, same input validation, same rate limiting).
+          Mirror is regenerated by re-running the export script against a live
+          home-server connection. The export script itself is checked in and
+          portable; only the resulting .db file is gitignored.
+        deliverables:
+          - "scripts/mcp/build_mirror.py: bcp export + SQLite import script (≤ 400 lines)"
+          - "Exports: 19 tables across 3 databases (text columns only; TopicData binary skipped)"
+          - "CONTENT/_shared/source-library/mirror.db: SQLite file (gitignored, < 50 MB est.)"
+          - "scripts/mcp/source_library_server.py: --offline flag reads from mirror.db"
+          - "Offline mode uses sqlite3 driver with same parameterised queries and tool definitions"
+          - "scripts/mcp/README.md: updated with mirror build instructions and estimated size"
+          - "build_mirror.py: --dry-run counts rows per table without writing the SQLite file"
+          - "build_mirror.py: --verify checks row counts in mirror.db match source after build"
+        acceptance:
+          - "python3 scripts/mcp/build_mirror.py --dry-run exits 0 and prints row counts for all 19 tables"
+          - "python3 scripts/mcp/build_mirror.py produces mirror.db under 100 MB"
+          - "python3 scripts/mcp/source_library_server.py --offline responds to quran_lookup(2, 255) correctly"
+          - "python3 scripts/mcp/source_library_server.py --offline responds to topic_search('tawhid') correctly"
+          - "SQL injection guard applies in offline mode (parameterised queries enforced)"
+          - "test_mcp_offline.py: ≥6 tests green (mirror build, offline tool calls, injection guard, row counts)"
+          - "build_mirror.py ≤ 400 lines"
+        authorization: tier_one
+        branch: "feature/wave-j-offline-mirror"
+        cost_estimate_usd: 0
+        execution_status: not_started
+
+# ===========================================================================
 # EOF — no version stamp by design (DR-009)
 # ===========================================================================

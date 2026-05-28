@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-28T19:59:51.819Z",
-  "source_commit": "2e0400c",
+  "generated_at": "2026-05-28T20:08:04.357Z",
+  "source_commit": "d37d731",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -573,6 +573,54 @@
       ],
       "plain": "",
       "tools": []
+    },
+    {
+      "id": "J0",
+      "wave": "J",
+      "title": "Stand up a local MCP server exposing all three source databases as named query tools",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "J1",
+      "wave": "J",
+      "title": "Wire enrichment phase to use live Quran lookups as a complete-coverage fallback",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "J0",
+        "B3"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "J2",
+      "wave": "J",
+      "title": "Wire style rewrite phase to pull live session samples matched to each chapter's themes",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "J0",
+        "I0b"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "J3",
+      "wave": "J",
+      "title": "Build the offline text-only mirror — portable SQLite file, no binary blobs",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "J0"
+      ],
+      "plain": "",
+      "tools": []
     }
   ],
   "waves": [
@@ -642,6 +690,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "d37d731",
+      "subject": "refactor: rename kashkole-corpus → source-library; add KQUR+Kashkole SQL dumps and query files",
+      "date": "2026-05-28"
+    },
+    {
       "sha": "2e0400c",
       "subject": "plan(wave-i): add I0a/I0b retroactive steps; correct I2 noise architecture; add companion compression scope",
       "date": "2026-05-28"
@@ -684,11 +737,6 @@
     {
       "sha": "670abff",
       "subject": "chore: add architecture diagram brief, intelligence pipeline discussion, update knowledge-base stats",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "7539fd8",
-      "subject": "feat(H3): cross-wave autonomous execution chain driver",
       "date": "2026-05-28"
     }
   ],
