@@ -111,6 +111,7 @@ For each chapter listed in `series-plan.md`, in order:
      - **SHIP-WITH-CAUTION** with iter ≥ 2 → ship + flag (no P0 findings); the open P1 items are already enumerated in `challenger-report.md` — no separate `needs-human-review.md` needed
      - **SHIP-WITH-CAUTION** with iter < 2 → invoke fixer agent on P1s, increment iter, retry
      - **BLOCKED** (any P0) → invoke fixer agent on P0 findings (max 3 fixer attempts), re-author affected sections, increment iter, retry
+   - **PEQ gate (Wave K):** After each challenger pass, `_convergence.py` reads the `## PEQ Score` table appended to `challenger-report.md` and records `peq_total`. A chapter with `peq_total < 70` is treated as BLOCKED and will not advance regardless of the CORTEX verdict. The score is logged into the `quality_scores` table (schema `scripts/podcast/schema/019_quality_scores.sql`) for fleet-level monitoring on `/quality` in the plan dashboard.
    - **Cap reached (iter == 3 still BLOCKED):** force-ship SHIP-CAUTION; the P0 findings are listed in `challenger-report.md` (which the challenger always writes); continue to next chapter. **Never spin past 3 outer iterations.**
 5. The challenger emits every finding into `_learning/findings.jsonl` and runs `write_health.py` at the end of each pass automatically — no orchestrator action needed.
 6. Commit `podcast(<slug>)[chNN]: <verdict> — <key metric>` and push.

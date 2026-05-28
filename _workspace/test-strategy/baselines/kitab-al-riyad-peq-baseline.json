@@ -1,0 +1,167 @@
+{
+  "ch01-the-perfect-and-the-perfection-of-the-soul": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "structure": 66.7,
+    "enrichment": 12.4,
+    "total": 75.8,
+    "verdict": "WARN",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch02-soul-intellect-and-the-power-of-emanation": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "structure": 33.3,
+    "enrichment": 3.2,
+    "total": 67.3,
+    "verdict": "FAIL",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch03-the-soul-in-time-and-the-rejoinder-to-al-nusra": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "structure": 66.7,
+    "enrichment": 2.2,
+    "total": 73.8,
+    "verdict": "WARN",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch04-summary-perfection-of-the-soul": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "structure": 33.3,
+    "enrichment": 0.0,
+    "total": 66.7,
+    "verdict": "FAIL",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch05-the-intellect-as-the-first-creation": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "structure": 66.7,
+    "enrichment": 4.1,
+    "total": 74.1,
+    "verdict": "WARN",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch06-soul-and-spirit-one-substance-or-two": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "structure": 66.7,
+    "enrichment": 1.8,
+    "total": 73.7,
+    "verdict": "WARN",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch07-souls-as-parts-or-traces": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "structure": 66.7,
+    "enrichment": 3.1,
+    "total": 74.0,
+    "verdict": "WARN",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch08-the-human-as-fruit-of-the-worlds": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "structure": 66.7,
+    "enrichment": 3.3,
+    "total": 74.0,
+    "verdict": "WARN",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch09-motion-stillness-hyle-and-form": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "structure": 66.7,
+    "enrichment": 4.8,
+    "total": 74.3,
+    "verdict": "WARN",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch10-the-sections-of-the-world": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "structure": 33.3,
+    "enrichment": 6.2,
+    "total": 67.9,
+    "verdict": "FAIL",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch11-qada-and-qadar-fate-and-destiny": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "structure": 66.7,
+    "enrichment": 9.7,
+    "total": 75.3,
+    "verdict": "WARN",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch12-the-shariah-of-adam-and-the-first-speaker": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "structure": 66.7,
+    "enrichment": 14.6,
+    "total": 76.3,
+    "verdict": "WARN",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch13-prophets-as-teachers-monotheism-and-the-ranks": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "structure": 66.7,
+    "enrichment": 10.8,
+    "total": 75.5,
+    "verdict": "WARN",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch14-tawhid-and-the-critique-of-al-mahsul": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "structure": 66.7,
+    "enrichment": 5.5,
+    "total": 74.4,
+    "verdict": "WARN",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch15-book-summary": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "structure": 66.7,
+    "enrichment": 0.0,
+    "total": 73.3,
+    "verdict": "WARN",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  }
+}

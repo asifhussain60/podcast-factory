@@ -55,11 +55,15 @@ def _append_seal_block(bundle_yml: Path, stage: str, completed_at: str) -> None:
     bundle_yml.write_text("\n".join(out).rstrip() + block, encoding="utf-8")
 
 
-def seal_stage(bundle_root: Path, target_stage: str) -> dict:
+def seal_stage(bundle_root: Path, target_stage: str, *, force: bool = False) -> dict:
     """Validate outputs and stamp bundle.yml to target_stage.
 
+    When target_stage is 'challenged', reads the PEQ total from
+    wisdom-challenger-report.md and blocks the seal if peq_total < 70
+    unless force=True is passed.
+
     Returns {"sealed": True, "stage": target_stage} on success.
-    Raises on missing files or invalid transition.
+    Raises on missing files, invalid transition, or PEQ gate failure.
     """
     bundle_yml = bundle_root / "bundle.yml"
     text_dir = bundle_root / "_system" / "source" / "text"
@@ -90,6 +94,22 @@ def seal_stage(bundle_root: Path, target_stage: str) -> dict:
             f"Missing required files for stage '{target_stage}': {missing}\n"
             f"  Expected under: {text_dir}"
         )
+
+    # PEQ gate: block 'challenged' seal if total < 70 (unless --force)
+    if target_stage == "challenged":
+        report = text_dir / "wisdom-challenger-report.md"
+        if report.exists():
+            import re as _re
+            report_text = report.read_text(encoding="utf-8")
+            m = _re.search(r'\|\s*\*\*Total\*\*\s*\|\s*100%\s*\|\s*—\s*\|\s*\*\*(\d+(?:\.\d+)?)\*\*', report_text)
+            if m:
+                peq_total = float(m.group(1))
+                if peq_total < 70.0 and not force:
+                    raise RuntimeError(
+                        f"PEQ gate FAIL — total {peq_total:.1f} < 70. "
+                        f"Re-adapt this chapter or pass force=True to override.\n"
+                        f"  Report: {report}"
+                    )
 
     completed_at = datetime.now(timezone.utc).isoformat()
     _update_stage(bundle_yml, target_stage)

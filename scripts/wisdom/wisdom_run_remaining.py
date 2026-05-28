@@ -89,7 +89,39 @@ def main() -> None:
             rc = _run(challenge_driver, binder_id, args.dry_run)
             print(f"[CHALLENGE] binder {binder_id} done in {time.time()-t0:.0f}s (rc={rc})")
 
+            # K5: PEQ gate — flag chapters that fall below the WARN threshold
+            # (fidelity < 70) so operators know they need re-adaptation.
+            _check_peq_after_challenge(binder_id, binder_name)
+
     print("\n✅ All binders processed.")
+
+
+# ─── K5: Post-challenge PEQ scan ─────────────────────────────────────────────
+
+def _check_peq_after_challenge(binder_id: int, binder_name: str) -> None:
+    """Scan challenger reports for PEQ totals; surface chapters below 70."""
+    import re as _re
+    binder_dir = REPO / "CONTENT" / "drafts" / "books" / f"kashkole-binder-{binder_id:02d}"
+    if not binder_dir.exists():
+        return
+
+    low: list[str] = []
+    for report in sorted(binder_dir.glob("**/wisdom-challenger-report.md")):
+        text = report.read_text(encoding="utf-8", errors="replace")
+        m = _re.search(
+            r'\|\s*\*\*Total\*\*\s*\|\s*100%\s*\|\s*—\s*\|\s*\*\*(\d+(?:\.\d+)?)\*\*',
+            text,
+        )
+        if m and float(m.group(1)) < 70.0:
+            low.append(f"  ⚠  {report.parent.parent.name} — PEQ {m.group(1)} (below 70 WARN threshold; re-adapt recommended)")
+
+    if low:
+        print(f"\n[PEQ GATE] Binder {binder_id} ({binder_name}) — {len(low)} chapter(s) below WARN threshold:")
+        for line in low:
+            print(line)
+        print("  → Run wisdom_adapt_all.py --binder-id <N> --chapter <slug> to re-adapt and re-challenge.")
+    else:
+        print(f"[PEQ GATE] Binder {binder_id}: all challenged chapters ≥ 70 PEQ. ✓")
 
 
 if __name__ == "__main__":

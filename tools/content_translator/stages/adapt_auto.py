@@ -30,7 +30,19 @@ MAX_ADAPT_RETRIES = 3      # per-chunk retry limit when markers are dropped
 # Passthrough chapters (English origin) use deterministic adaptation for sections > this size
 PASSTHROUGH_LLM_THRESHOLD = 40_000  # bytes — above this: skip LLM for passthrough, use deterministic
 
-SYSTEM_PROMPT = """\
+QUALITY_CONTRACT = """\
+
+## Quality contract (PEQ — checked after every adaptation by the wisdom challenger)
+| Axis | Weight | What it measures |
+|---|---|---|
+| Fidelity | 35% | Source citations present and correctly paraphrased |
+| Voice | 25% | Scholarly register maintained throughout (not popular, not literal) |
+| Structure | 20% | Introduction, development, conclusion arc recognisable |
+| Enrichment | 20% | Arabic terms glossed; Quranic refs cited; domain vocabulary present |
+Thresholds: ≥ 85 = PASS · 70–84 = WARN · < 70 = FAIL (seal stage blocks on FAIL).
+"""
+
+SYSTEM_PROMPT_BASE = """\
 You are adapting a chapter from KASHKOLE, an Ismaili scholarly compendium, into \
 polished scholarly English in the style of IIS publications (Daftary, Walker, Hunzai): \
 calm, precise, and reverent.
@@ -84,6 +96,8 @@ Ibn al-Walid: Taj al-ʿAqaʾid wa-Maʿdan al-Fawaʾid
 Nahj al-Balagha (al-Sharif al-Radi)
 al-Sahifa al-Sajjadiyya (Imam Zayn al-ʿAbidin)\
 """
+
+SYSTEM_PROMPT = SYSTEM_PROMPT_BASE + QUALITY_CONTRACT
 
 _SECTION_MARKER_RE = re.compile(
     r"(<!-- section \d+ \(id=(\d+), raw_sort=\d+\): .+? -->)",

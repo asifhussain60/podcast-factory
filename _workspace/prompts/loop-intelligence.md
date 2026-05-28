@@ -38,3 +38,10 @@
 - 2026-05-27 | Loop Execution Protocol Iteration 3 | Completed | SP-001 | SP-001 -> Default Behaviors
 - 2026-05-27 | Loop Execution Protocol Iteration 4 | Corrected-completed | SP-003 | None
 - 2026-05-28 | H3 cross-wave chain driver | Completed | SP-004 | None
+- 2026-05-28 | Chain W1–W2 | Completed | SP-004 (chain driver) | None
+- 2026-05-28 | Chain W1–W2 | Completed | SP-004 (chain driver) | None
+- 2026-05-28 | Chain W1–W2 | Halted | SP-004 (chain driver) | None
+- 2026-05-28 | Chain W1–W3 | SpendCapHalt | SP-004 (chain driver) | None
+- 2026-05-28 | W1 | P9Violated | SP-004 (chain driver) | None
+- 2026-05-28 | W1 | Error | SP-004 (chain driver) | None
+- 2026-05-28 | W1 | Completed | SP-004 (chain driver) | None

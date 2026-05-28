@@ -1,0 +1,345 @@
+---
+/**
+ * /quality — per-chapter PEQ score dashboard (Wave K)
+ *
+ * Reads baseline JSON files from _workspace/test-strategy/baselines/ at build
+ * time and renders:
+ *   • Fleet-average banner
+ *   • Per-book accordion with per-chapter PEQ table
+ *
+ * Live DB reads from quality_scores are a Phase K+ enhancement; for now the
+ * page is seeded from the regression-baseline snapshots which are the most
+ * authoritative record of current quality.
+ */
+import Base from '../layouts/Base.astro';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+
+// ─── Load baseline data ────────────────────────────────────────────────────
+
+interface ChapterScore {
+  chapter: string;
+  fidelity: number;
+  voice: number;
+  structure: number;
+  enrichment: number;
+  total: number;
+  verdict: 'PASS' | 'WARN' | 'FAIL';
+}
+
+interface BookBaseline {
+  book: string;
+  chapters: ChapterScore[];
+}
+
+function loadBaseline(slug: string): BookBaseline | null {
+  const base = resolve(process.cwd(), `../_workspace/test-strategy/baselines/${slug}-peq-baseline.json`);
+  try {
+    const data = JSON.parse(readFileSync(base, 'utf-8'));
+    return data as BookBaseline;
+  } catch {
+    return null;
+  }
+}
+
+const CANONICAL_BOOKS = ['kitab-al-riyad', 'the-master-and-the-disciple'];
+const baselines = CANONICAL_BOOKS.map(loadBaseline).filter(Boolean) as BookBaseline[];
+
+// Fleet-average calculation
+const allChapters = baselines.flatMap(b => b.chapters);
+const fleetAvg = allChapters.length
+  ? (allChapters.reduce((s, c) => s + c.total, 0) / allChapters.length).toFixed(1)
+  : '—';
+
+const passCount = allChapters.filter(c => c.verdict === 'PASS').length;
+const warnCount = allChapters.filter(c => c.verdict === 'WARN').length;
+const failCount = allChapters.filter(c => c.verdict === 'FAIL').length;
+
+function verdictClass(v: string) {
+  if (v === 'PASS') return 'pq-pass';
+  if (v === 'WARN') return 'pq-warn';
+  return 'pq-fail';
+}
+
+function bar(value: number, max = 100) {
+  const pct = Math.min(100, Math.max(0, (value / max) * 100));
+  return pct.toFixed(0);
+}
+---
+<Base title="Quality" active="quality" description="Per-chapter PEQ quality scores across all canonical books.">
+
+  <!-- ═══ Hero ══════════════════════════════════════════════════════════════ -->
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <span class="eyebrow">Quality Scores</span>
+      <h1 class="page-hero-title">Pipeline Episode Quality (PEQ)</h1>
+      <p class="page-hero-lede">
+        Every chapter is scored on four axes — source faithfulness, voice clarity,
+        structural arc, and domain enrichment — with a combined PEQ total out of 100.
+        Chapters below 70 are blocked from shipping.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══ Fleet banner ══════════════════════════════════════════════════════ -->
+  <section class="pq-fleet-banner">
+    <div class="pq-fleet-inner">
+      <div class="pq-fleet-stat">
+        <span class="pq-fleet-number">{fleetAvg}</span>
+        <span class="pq-fleet-label">Fleet average PEQ</span>
+      </div>
+      <div class="pq-fleet-stat">
+        <span class="pq-fleet-number pq-pass">{passCount}</span>
+        <span class="pq-fleet-label">PASS (≥ 85)</span>
+      </div>
+      <div class="pq-fleet-stat">
+        <span class="pq-fleet-number pq-warn">{warnCount}</span>
+        <span class="pq-fleet-label">WARN (70–84)</span>
+      </div>
+      <div class="pq-fleet-stat">
+        <span class="pq-fleet-number pq-fail">{failCount}</span>
+        <span class="pq-fleet-label">FAIL (&lt; 70)</span>
+      </div>
+      <div class="pq-fleet-stat">
+        <span class="pq-fleet-number">{allChapters.length}</span>
+        <span class="pq-fleet-label">chapters scored</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Axis legend ════════════════════════════════════════════════════════ -->
+  <section class="pq-legend-section content-section">
+    <div class="pq-legend-grid">
+      <div class="pq-axis-card">
+        <span class="pq-axis-label">Fidelity</span>
+        <span class="pq-axis-weight">35%</span>
+        <p>Source citations present and correctly paraphrased</p>
+      </div>
+      <div class="pq-axis-card">
+        <span class="pq-axis-label">Voice</span>
+        <span class="pq-axis-weight">25%</span>
+        <p>Scholar / seeker register maintained; both voices distinct</p>
+      </div>
+      <div class="pq-axis-card">
+        <span class="pq-axis-label">Structure</span>
+        <span class="pq-axis-weight">20%</span>
+        <p>Open hook · three beats · close arc all present and ordered</p>
+      </div>
+      <div class="pq-axis-card">
+        <span class="pq-axis-label">Enrichment</span>
+        <span class="pq-axis-weight">20%</span>
+        <p>Arabic terms glossed; Quranic refs cited; domain vocabulary present</p>
+      </div>
+    </div>
+    <p class="pq-threshold-note">
+      Thresholds: <strong class="pq-pass">≥ 85 PASS</strong> ·
+      <strong class="pq-warn">70–84 WARN</strong> ·
+      <strong class="pq-fail">&lt; 70 FAIL</strong>
+    </p>
+  </section>
+
+  <!-- ═══ Per-book tables ════════════════════════════════════════════════════ -->
+  {baselines.map(book => (
+    <section class="pq-book-section content-section">
+      <h2 class="pq-book-title">{book.book.replace(/-/g, ' ')}</h2>
+      <div class="pq-table-wrap">
+        <table class="pq-table">
+          <thead>
+            <tr>
+              <th>Chapter</th>
+              <th>Fidelity</th>
+              <th>Voice</th>
+              <th>Structure</th>
+              <th>Enrichment</th>
+              <th>Total</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody>
+            {book.chapters.map((ch: ChapterScore) => (
+              <tr class={verdictClass(ch.verdict)}>
+                <td class="pq-chapter-name">{ch.chapter.replace(/-/g, ' ')}</td>
+                <td>
+                  <div class="pq-bar-wrap">
+                    <div class="pq-bar" style={`width:${bar(ch.fidelity)}%`}></div>
+                    <span>{ch.fidelity.toFixed(1)}</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="pq-bar-wrap">
+                    <div class="pq-bar" style={`width:${bar(ch.voice)}%`}></div>
+                    <span>{ch.voice.toFixed(1)}</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="pq-bar-wrap">
+                    <div class="pq-bar" style={`width:${bar(ch.structure)}%`}></div>
+                    <span>{ch.structure.toFixed(1)}</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="pq-bar-wrap">
+                    <div class="pq-bar" style={`width:${bar(ch.enrichment)}%`}></div>
+                    <span>{ch.enrichment.toFixed(1)}</span>
+                  </div>
+                </td>
+                <td class="pq-total"><strong>{ch.total.toFixed(1)}</strong></td>
+                <td><span class={`pq-verdict-badge ${verdictClass(ch.verdict)}`}>{ch.verdict}</span></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  ))}
+
+</Base>
+
+<style>
+/* ── Fleet banner ──────────────────────────────────────────────────────────── */
+.pq-fleet-banner {
+  background: var(--c-surface, #faf9f7);
+  border-bottom: 1px solid var(--c-border, #e8e4dc);
+  padding: 1.5rem 0;
+}
+.pq-fleet-inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  align-items: center;
+}
+.pq-fleet-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.pq-fleet-number {
+  font-size: 2.4rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--c-text, #2c2416);
+}
+.pq-fleet-label {
+  font-size: 0.78rem;
+  color: var(--c-muted, #7a6e5e);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.25rem;
+}
+
+/* ── Verdict colours ───────────────────────────────────────────────────────── */
+.pq-pass { color: #2e7d32; }
+.pq-warn { color: #b45309; }
+.pq-fail { color: #b91c1c; }
+
+/* ── Axis legend ───────────────────────────────────────────────────────────── */
+.pq-legend-section { padding: 2rem 0; }
+.pq-legend-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  max-width: 1200px;
+  margin: 0 auto 1.25rem;
+  padding: 0 2rem;
+}
+.pq-axis-card {
+  background: var(--c-surface, #faf9f7);
+  border: 1px solid var(--c-border, #e8e4dc);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+}
+.pq-axis-label {
+  font-weight: 700;
+  font-size: 1rem;
+  display: block;
+  color: var(--c-text, #2c2416);
+}
+.pq-axis-weight {
+  font-size: 0.8rem;
+  color: var(--c-muted, #7a6e5e);
+  display: block;
+  margin-bottom: 0.35rem;
+}
+.pq-axis-card p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--c-text-soft, #5a5040);
+}
+.pq-threshold-note {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  font-size: 0.9rem;
+  color: var(--c-muted, #7a6e5e);
+}
+
+/* ── Per-book tables ───────────────────────────────────────────────────────── */
+.pq-book-section {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+}
+.pq-book-title {
+  font-size: 1.3rem;
+  text-transform: capitalize;
+  color: var(--c-text, #2c2416);
+  margin-bottom: 0.75rem;
+}
+.pq-table-wrap { overflow-x: auto; }
+.pq-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+.pq-table th {
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  background: var(--c-surface, #faf9f7);
+  border-bottom: 2px solid var(--c-border, #e8e4dc);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--c-muted, #7a6e5e);
+}
+.pq-table td {
+  padding: 0.45rem 0.75rem;
+  border-bottom: 1px solid var(--c-border, #e8e4dc);
+  vertical-align: middle;
+}
+.pq-table tr.pq-fail td { background: #fff5f5; }
+.pq-table tr.pq-warn td { background: #fffbf0; }
+.pq-table tr.pq-pass td { background: #f0fff4; }
+
+.pq-chapter-name { max-width: 220px; font-style: italic; }
+.pq-total { font-weight: 700; font-size: 1rem; }
+
+/* ── Mini bar chart ────────────────────────────────────────────────────────── */
+.pq-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.pq-bar {
+  height: 6px;
+  background: var(--c-accent, #7b4f2e);
+  border-radius: 3px;
+  min-width: 2px;
+}
+.pq-bar-wrap span { font-size: 0.8rem; white-space: nowrap; }
+
+/* ── Verdict badge ─────────────────────────────────────────────────────────── */
+.pq-verdict-badge {
+  display: inline-block;
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.pq-verdict-badge.pq-pass { background: #dcfce7; color: #166534; }
+.pq-verdict-badge.pq-warn { background: #fef3c7; color: #92400e; }
+.pq-verdict-badge.pq-fail { background: #fee2e2; color: #991b1b; }
+</style>

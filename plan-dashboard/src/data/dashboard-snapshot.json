@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-28T21:01:48.643Z",
-  "source_commit": "ecc1446",
+  "generated_at": "2026-05-28T21:18:01.960Z",
+  "source_commit": "472de6f",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -783,6 +783,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "472de6f",
+      "subject": "fix(dashboard): rename all remaining Kashkole display strings to Wisdom",
+      "date": "2026-05-28"
+    },
+    {
       "sha": "ecc1446",
       "subject": "refactor: rename kashkole → wisdom across all surfaces; add Wave K quality-scoring plan",
       "date": "2026-05-28"
@@ -825,11 +830,6 @@
     {
       "sha": "7c566cb",
       "subject": "docs(handoff): session log 2026-05-28 — plan-dashboard visual build + visual bug fixes",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "aa2645e",
-      "subject": "fix(dashboard): fix intelligence node visibility + infrastructure arrow routing",
       "date": "2026-05-28"
     }
   ],

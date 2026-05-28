@@ -94,6 +94,68 @@ def main() -> None:
     print("\n✅ Pipeline complete.")
     _print_status()
 
+    # K5: emit PEQ summary report after challenge phase completes.
+    if "challenge" in phases:
+        _emit_peq_summary(args.binder)
+
+
+# ─── K5: PEQ summary report ────────────────────────────────────────────────────
+
+def _emit_peq_summary(binder_filter: int | None = None) -> None:
+    """Scan all challenged reports; emit a per-binder PEQ summary to stdout."""
+    import re as _re
+    from datetime import datetime
+
+    print(f"\n{'='*60}")
+    print("PEQ Quality Summary (Wave K)")
+    print(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+    print(f"{'='*60}")
+
+    binder_dirs = sorted(EXTRACT_ROOT.glob("**/bundle.yml"))
+    binder_reports: dict[str, list[tuple[str, float]]] = {}
+
+    for yml in binder_dirs:
+        binder_name = yml.parents[1].name  # shelf directory
+        text_dir = yml.parent / "_system" / "source" / "text"
+        report = text_dir / "wisdom-challenger-report.md"
+        if not report.exists():
+            continue
+        if binder_filter and str(binder_filter) not in binder_name:
+            continue
+        rtext = report.read_text(encoding="utf-8", errors="replace")
+        m = _re.search(
+            r'\|\s*\*\*Total\*\*\s*\|\s*100%\s*\|\s*—\s*\|\s*\*\*(\d+(?:\.\d+)?)\*\*',
+            rtext,
+        )
+        if m:
+            chapter = yml.parent.name
+            total = float(m.group(1))
+            binder_reports.setdefault(binder_name, []).append((chapter, total))
+
+    if not binder_reports:
+        print("  No challenger reports found yet.")
+        return
+
+    all_scores: list[float] = []
+    for binder, chapters in sorted(binder_reports.items()):
+        scores = [s for _, s in chapters]
+        all_scores.extend(scores)
+        avg = sum(scores) / len(scores)
+        fail_n = sum(1 for s in scores if s < 70)
+        warn_n = sum(1 for s in scores if 70 <= s < 85)
+        pass_n = sum(1 for s in scores if s >= 85)
+        flag = " ⚠" if fail_n > 0 else ""
+        print(f"\n  Binder: {binder}{flag}")
+        print(f"    Chapters: {len(scores)}  |  Avg PEQ: {avg:.1f}  |  PASS={pass_n} WARN={warn_n} FAIL={fail_n}")
+        for ch, score in sorted(chapters, key=lambda x: x[1]):
+            tag = "PASS" if score >= 85 else "WARN" if score >= 70 else "FAIL ⚠"
+            print(f"      {tag}  {score:>5.1f}  {ch}")
+
+    if all_scores:
+        grand = sum(all_scores) / len(all_scores)
+        print(f"\n  Grand total: {len(all_scores)} chapters  |  Grand avg PEQ: {grand:.1f}")
+    print(f"{'='*60}\n")
+
 
 if __name__ == "__main__":
     main()

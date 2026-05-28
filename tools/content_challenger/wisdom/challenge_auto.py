@@ -218,13 +218,58 @@ def challenge_bundle(
     cost_usd = (in_tok * _INPUT_COST_PER_M + out_tok * _OUTPUT_COST_PER_M) / 1_000_000
     completed_at = datetime.now(timezone.utc).isoformat()
 
+    # Compute PEQ score for this chapter
+    try:
+        import sys as _sys
+        _sys.path.insert(0, str(REPO_ROOT / "scripts" / "podcast"))
+        from _quality import score as _peq_score
+        _wc = len(adapted_text.split())
+        _qrefs = len(__import__("re").findall(r"\bQ?\d+:\d+\b", adapted_text))
+        _italics = __import__("re").findall(r"\*([^*]+)\*", adapted_text)
+        _terms_total = len(set(_italics))
+        _terms_glossed = len(__import__("re").findall(r"\*[^*]+\*\s*\([^)]+\)", adapted_text))
+        _arc = []
+        if __import__("re").search(r"(let us begin|opening|before we dive)", adapted_text, __import__("re").I):
+            _arc.append("open_hook")
+        if __import__("re").search(r"\b(first|second|third|point one|point two)\b", adapted_text, __import__("re").I):
+            _arc.append("three_points")
+        if __import__("re").search(r"(in closing|to close|so as we end|let that sit)", adapted_text, __import__("re").I):
+            _arc.append("close")
+        _cit_found = __import__("re").findall(r"(?:quran|hadith|doctrine):\S+", adapted_text)
+        _peq = _peq_score(
+            adapted_text=adapted_text,
+            citation_ids_source=[],
+            citation_ids_found=_cit_found,
+            arc_rules=["open_hook", "three_points", "close"],
+            arc_labels_found=_arc,
+            term_count=_terms_total,
+            glossed_count=_terms_glossed,
+            quran_ref_count=_qrefs,
+            word_count=_wc,
+            voice_exemplar_vector=None,
+        )
+        peq_section = (
+            f"\n\n## PEQ Score\n\n"
+            f"{_peq.markdown_table()}\n\n"
+            f"**Verdict: {_peq.verdict}** — total {_peq.total:.1f}"
+        )
+        if _peq.notes:
+            peq_section += "\n\n> " + "; ".join(_peq.notes)
+        peq_verdict = _peq.verdict
+        peq_total = _peq.total
+    except Exception as _e:  # noqa: BLE001
+        peq_section = f"\n\n## PEQ Score\n\n*Not available: {_e}*"
+        peq_verdict = verdict
+        peq_total = None
+
     # Write report
     full_report = (
-        f"# KAHSKOLE Challenger Report\n"
+        f"# Wisdom Challenger Report\n"
         f"*Generated: {completed_at} | Model: {MODEL}*\n\n"
         f"## Deterministic Validator\n"
         + "\n".join(val_result.summary_lines()) + "\n\n"
         + report_text
+        + peq_section
     )
     report_file.write_text(full_report, encoding="utf-8")
 
@@ -236,6 +281,8 @@ def challenge_bundle(
     return {
         "skipped": False,
         "verdict": verdict,
+        "peq_verdict": peq_verdict,
+        "peq_total": peq_total,
         "validator_p0": val_result.p0_count,
         "validator_p1": val_result.p1_count,
         "cost_usd": cost_usd,

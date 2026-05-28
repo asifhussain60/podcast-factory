@@ -2311,7 +2311,7 @@ waves_ghj:
         authorization: tier_one
         branch: "feature/wave-k-quality-contract"
         cost_estimate_usd: 0
-        execution_status: not_started
+        execution_status: completed
 
       - id: K1
         title: "Snapshot regression baselines for kitab-al-riyad and the-master-and-the-disciple"
@@ -2336,7 +2336,7 @@ waves_ghj:
         authorization: tier_one
         branch: "feature/wave-k-baselines"
         cost_estimate_usd: 0
-        execution_status: not_started
+        execution_status: completed
 
       - id: K2
         title: "Replace challenger free-form verdict with PEQ-driven scoring in both pipelines"
@@ -2366,7 +2366,7 @@ waves_ghj:
         authorization: tier_one
         branch: "feature/wave-k-challenger-scoring"
         cost_estimate_usd: 0
-        execution_status: not_started
+        execution_status: completed
 
       - id: K3
         title: "Wire PEQ scores into agent prompts and skill instructions for consistent quality framing"
@@ -2399,7 +2399,7 @@ waves_ghj:
         authorization: tier_one
         branch: "feature/wave-k-prompt-quality-framing"
         cost_estimate_usd: 0
-        execution_status: not_started
+        execution_status: completed
 
       - id: K4
         title: "Surface PEQ scores on the plan dashboard with per-chapter and per-book breakdowns"
@@ -2427,7 +2427,7 @@ waves_ghj:
         authorization: tier_one
         branch: "feature/wave-k-quality-dashboard"
         cost_estimate_usd: 0
-        execution_status: not_started
+        execution_status: completed
 
       - id: K5
         title: "Apply PEQ-gated quality checks to the wisdom pipeline retranslation and reingestion cycle"
@@ -2456,7 +2456,7 @@ waves_ghj:
         authorization: tier_one
         branch: "feature/wave-k-wisdom-quality-gate"
         cost_estimate_usd: 0
-        execution_status: not_started
+        execution_status: completed
 
 # ===========================================================================
 # EOF — no version stamp by design (DR-009)

@@ -605,7 +605,7 @@ Wave K introduces a principled, multi-dimensional quality score — the **PEQ (P
 >
 > *Value gained:* Quality becomes a number that can be tracked, regressed against, and optimised — not a subjective label.
 
-**Status: NOT STARTED**
+**Status: COMPLETED**
 
 ---
 
@@ -615,7 +615,7 @@ Wave K introduces a principled, multi-dimensional quality score — the **PEQ (P
 >
 > *Value gained:* Every future change is automatically validated against real output from the two most mature books in the corpus.
 
-**Status: NOT STARTED**
+**Status: COMPLETED**
 
 ---
 
@@ -625,7 +625,7 @@ Wave K introduces a principled, multi-dimensional quality score — the **PEQ (P
 >
 > *Value gained:* The convergence loop now advances on a measured score, not a model's self-assessment string. Chapters that barely pass are visible as amber rather than indistinguishable from high-quality passes.
 
-**Status: NOT STARTED**
+**Status: COMPLETED**
 
 ---
 
@@ -635,7 +635,7 @@ Wave K introduces a principled, multi-dimensional quality score — the **PEQ (P
 >
 > *Value gained:* LLM outputs improve on the first attempt because the model has explicit numeric quality targets, not just prose rubric descriptions.
 
-**Status: NOT STARTED**
+**Status: COMPLETED**
 
 ---
 
@@ -645,7 +645,7 @@ Wave K introduces a principled, multi-dimensional quality score — the **PEQ (P
 >
 > *Value gained:* Quality trends are visible to Asif at a glance without running the pipeline. The dashboard becomes the quality monitor, not just a progress tracker.
 
-**Status: NOT STARTED**
+**Status: COMPLETED**
 
 ---
 
@@ -655,7 +655,7 @@ Wave K introduces a principled, multi-dimensional quality score — the **PEQ (P
 >
 > *Value gained:* The knowledge library used to enrich podcast episodes is protected by the same quality floor as the episodes themselves. Low-fidelity wisdom chapters cannot silently corrupt the intelligence layer.
 
-**Status: NOT STARTED**
+**Status: COMPLETED**
 
 ---
 

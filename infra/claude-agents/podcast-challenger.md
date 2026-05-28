@@ -461,6 +461,17 @@ After loop:
  - Else → SHIP-READY verdict.
 ```
 
+**PEQ Scoring (Wave K, 2026-05-28):** After every inner loop pass, `scripts/podcast/intelligence/challenger_scoring.py` appends a `## PEQ Score` section to the sidecar report. The PEQ axes and weights are:
+
+| Axis | Weight | Threshold |
+|---|---|---|
+| Fidelity | 35% | Primary quality signal |
+| Voice | 25% | Scholar/seeker register |
+| Structure | 20% | Arc completeness |
+| Enrichment | 20% | Term glossing + citation density |
+
+Thresholds: **≥ 85 = PASS · 70–84 = WARN · < 70 = FAIL**. The outer convergence loop (`_convergence.py`) records `peq_total` per iteration; the orchestrator gates advancement on `peq_total ≥ 70`. PEQ scores are stored in the `quality_scores` table (schema: `scripts/podcast/schema/019_quality_scores.sql`).
+
 **Category CS runs once per invocation at book scope** — invoke `python3 scripts/podcast/check_chapter_set.py <BOOK_DIR>` once (not per-iteration), parse the JSON output, and fold the findings into the report alongside the per-chapter findings. CS-findings are never auto-fixed, so re-running them per iteration adds no value.
 
 The per-invocation cap is a circuit-breaker — it bounds runtime in a single shot. The **outer re-invocation loop is the caller's responsibility** (the `/podcast` skill's Phase 4 step 3 drives it: read this report's `Verdict:` line, address P0 findings if not SHIP-READY, re-invoke). Two consecutive outer invocations with identical (verdict, p0_count, p1_count) → outer stall surfaced to human. This agent is not responsible for that outer accounting — it just writes the report.

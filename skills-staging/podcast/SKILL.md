@@ -612,6 +612,17 @@ The chapter file IS the source. The build script does NOT transform it; it only 
 
  3. **HARD GATE — Run the podcast-challenger to SHIP-READY in an outer convergence loop.** The build script is a structural gate. The challenger is the semantic-quality gate — citation authenticity, phonetic coverage drift, enrichment depth, framing 4-part integrity, NotebookLM literalness. Until this gate yields `SHIP-READY` (or an explicit stall surface), Steps 4–8 below MUST NOT execute and the producing agent MUST NOT emit any human-facing "work complete" signal.
 
+ **PEQ quality axes (Wave K — appended to every challenger report):**
+
+ | Axis | Weight | What it measures |
+ |---|---|---|
+ | Fidelity | 35% | Source citations present and correctly paraphrased |
+ | Voice | 25% | Scholar/seeker register (both hosts distinct) |
+ | Structure | 20% | Open hook · three beats · close arc present |
+ | Enrichment | 20% | Arabic terms glossed; Quranic refs cited |
+
+ Thresholds: **≥ 85 = PASS · 70–84 = WARN · < 70 = FAIL**. A chapter with PEQ < 70 is treated as BLOCKED even if the CORTEX verdict is SHIP-WITH-CAUTION. PEQ scores are stored in the `quality_scores` table; fleet trends are visible at `/quality` in the plan dashboard.
+
  **Invocation (one of these, in priority order):**
  - **Preferred** (when invokable as a subagent in the current Claude Code session): `Agent` tool with `subagent_type=podcast-challenger`, prompt `<book-slug>`.
  - **Fallback** (when `podcast-challenger` is not registered as a subagent_type): spawn a `general-purpose` Agent and pass the canonical spec `.github/agents/podcast-challenger.agent.md` as its briefing along with the book-slug. The spawned agent must read the spec in full on every invocation, not paraphrase from memory.
