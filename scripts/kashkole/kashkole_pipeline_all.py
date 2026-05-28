@@ -19,8 +19,8 @@ import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[3]
-VENV = REPO / "_workspace/kashkole-corpus/.venv/bin/python"
-EXTRACT_ROOT = REPO / "_workspace/kashkole-corpus/extracted/kashkole"
+VENV = REPO / "CONTENT/_shared/kashkole-corpus/.venv/bin/python"
+EXTRACT_ROOT = REPO / "CONTENT/_shared/kashkole-corpus/extracted/kashkole"
 
 
 def _count_stages() -> dict[str, int]:

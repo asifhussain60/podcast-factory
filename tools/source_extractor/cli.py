@@ -23,7 +23,7 @@ from .stages.finalize import finalize_book
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_EXTRACT_ROOT = REPO_ROOT / "_workspace" / "kashkole-corpus" / "extracted"
+DEFAULT_EXTRACT_ROOT = REPO_ROOT / "CONTENT" / "_shared" / "kashkole-corpus" / "extracted"
 
 
 def _add_ids_args(parser: argparse.ArgumentParser, adapter_name: str) -> None:

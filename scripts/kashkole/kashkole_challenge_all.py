@@ -21,11 +21,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[3]
-VENV = REPO / "_workspace/kashkole-corpus/.venv/bin/python"
+VENV = REPO / "CONTENT/_shared/kashkole-corpus/.venv/bin/python"
 LEDGER = REPO / "_workspace/plan/kashkole-challenge-cost-ledger.jsonl"
 FAILURE_LOG = REPO / "_workspace/plan/kashkole-challenge-failures.log"
 FAIL_REPORT = REPO / "_workspace/plan/kashkole-challenge-fail-report.md"
-EXTRACT_ROOT = REPO / "_workspace/kashkole-corpus/extracted/kashkole"
+EXTRACT_ROOT = REPO / "CONTENT/_shared/kashkole-corpus/extracted/kashkole"
 
 SESSION_COST_CAP = 10.0  # USD — challenger calls are short, cheap
 
@@ -158,7 +158,7 @@ def _commit_binder(binder_id: int, name: str, chapters: int, cost: float, dry_ru
     )
     subprocess.run(
         ["git", "add",
-         "_workspace/kashkole-corpus/extracted/kashkole/",
+         "CONTENT/_shared/kashkole-corpus/extracted/kashkole/",
          "_workspace/plan/kashkole-challenge-cost-ledger.jsonl"],
         cwd=REPO, check=False,
     )

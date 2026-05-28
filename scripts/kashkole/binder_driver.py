@@ -23,9 +23,9 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-VENV = REPO_ROOT / "_workspace" / "kashkole-corpus" / ".venv" / "bin" / "python"
+VENV = REPO_ROOT / "CONTENT" / "_shared" / "kashkole-corpus" / ".venv" / "bin" / "python"
 FAILURE_LOG = REPO_ROOT / "_workspace" / "plan" / "kashkole-rollout-failures.log"
-EXTRACT_ROOT = REPO_ROOT / "_workspace" / "kashkole-corpus" / "extracted" / "kashkole"
+EXTRACT_ROOT = REPO_ROOT / "CONTENT" / "_shared" / "kashkole-corpus" / "extracted" / "kashkole"
 
 
 def survey(binder_id: int) -> list[tuple[int, int, str]]:

@@ -20,10 +20,10 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[3]
-VENV = REPO / "_workspace/kashkole-corpus/.venv/bin/python"
+VENV = REPO / "CONTENT/_shared/kashkole-corpus/.venv/bin/python"
 LEDGER = REPO / "_workspace/plan/kashkole-translation-cost-ledger.jsonl"
 FAILURE_LOG = REPO / "_workspace/plan/kashkole-translation-failures.log"
-EXTRACT_ROOT = REPO / "_workspace/kashkole-corpus/extracted/kashkole"
+EXTRACT_ROOT = REPO / "CONTENT/_shared/kashkole-corpus/extracted/kashkole"
 
 SESSION_COST_CAP = 50.0   # USD
 CHAPTER_COST_CAP = 5.0    # USD
@@ -154,7 +154,7 @@ def _commit_binder(binder_id: int, name: str, chapters: int, cost: float, dry_ru
     )
     subprocess.run(
         ["git", "add",
-         "_workspace/kashkole-corpus/extracted/kashkole/",
+         "CONTENT/_shared/kashkole-corpus/extracted/kashkole/",
          "_workspace/plan/kashkole-translation-cost-ledger.jsonl"],
         cwd=REPO, check=False,
     )
