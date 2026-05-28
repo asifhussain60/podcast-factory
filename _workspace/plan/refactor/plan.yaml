@@ -1591,8 +1591,17 @@ waves:
         authorization: tier_two
         branch: refactor/pipeline-quality
         cost_estimate_usd: 0
-        execution_status: pending
-        note: "Requires explicit Asif approval before any code execution — multi-file pipeline risk"
+        execution_status: partial
+        completed_steps:
+          - "REPO_ROOT unification: 27 pipeline scripts now import from _paths.py (2026-05-29)"
+          - "State machine test suite: 20 tests in test_state_machine.py, all pass (2026-05-29)"
+          - "Astro B P1/P2: STORAGE_KEYS, VENDOR_IDS, apiError adopted in ChapterEditor, AnnotationWorkbench, PipelineSpine, VendorLogo, annotations.ts (2026-05-29)"
+        deferred_steps:
+          - "orchestrate_book.py split into 4 sub-modules (2,322 lines; needs dedicated planning session)"
+          - "5 remaining test modules (phonetics, enrichment, publish gates G1-G6, state-machine extras)"
+          - "Azure transient-error retry decorator; subprocess timeout wrapper"
+          - "DR-005 sweep: _authoring.py (2025L), build_episode_txt.py (1563L), extract_chapter.py (1301L), tighten_source.py (1051L), run_wave.py (824L)"
+        note: "Steps 1-2 done 2026-05-29. orchestrate_book split requires dedicated session — complex internal dependency graph."
 
 # ===========================================================================
 # EOF — no version stamp by design (DR-009)
