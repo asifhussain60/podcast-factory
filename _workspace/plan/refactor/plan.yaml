@@ -1514,5 +1514,36 @@ confidence_summary:
     - "oq10 dashboard data source (v2 deferral acceptable)"
 
 # ===========================================================================
+# Wave G — Narrative Homepage
+# ===========================================================================
+
+waves:
+  - id: G
+    name: Narrative Homepage
+    depends_on: []
+    parallel_with: [F]
+    execution_status: in_progress_2026_05_27
+    steps:
+      - id: G1
+        title: "Cinematic narrative scroll homepage with GSAP ScrollTrigger"
+        depends_on: []
+        deliverables:
+          - "plan-dashboard/src/pages/narrative.astro — new standalone full-viewport scroll page"
+          - "plan-dashboard/src/components/NarrativeHero.tsx — hero with logo placeholder"
+          - "plan-dashboard/src/components/NarrativeChapter.tsx — pinned scroll chapter shell"
+          - "plan-dashboard/src/styles/narrative.css — cinematic scroll styles"
+          - "gsap added to plan-dashboard/package.json dependencies"
+        acceptance:
+          - "Homepage loads at / and displays the cinematic scroll narrative"
+          - "All 11 pipeline chapters render with correct titles and descriptions from architecture-snapshot.json"
+          - "Existing Architecture page at /architecture is visually unchanged"
+          - "Logo placeholder slot present in hero; accepts image asset drop-in"
+          - "Mobile degrades gracefully (pinning collapses to stacked fade-in)"
+          - "Pipeline framing is universal — no specific tradition, book, or content type named"
+        authorization: tier_one
+        branch: feat/narrative-homepage
+        cost_estimate_usd: 0
+
+# ===========================================================================
 # EOF — no version stamp by design (DR-009)
 # ===========================================================================

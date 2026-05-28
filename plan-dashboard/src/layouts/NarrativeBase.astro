@@ -1,0 +1,74 @@
+---
+/**
+ * NarrativeBase.astro
+ *
+ * Minimal layout for the cinematic narrative scroll homepage.
+ * No page-shell wrapper, no padding container — the narrative
+ * component owns the full viewport directly.
+ *
+ * The topnav renders over the dark content via CSS in narrative.css
+ * (fixed position, dark background, gold brand color).
+ */
+import '../styles/theme.css';
+import '../styles/narrative.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} — Podcast Factory</title>
+    {description && <meta name="description" content={description} />}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+      /* Override body background for narrative pages */
+      html, body { background: #080c14; margin: 0; padding: 0; overflow-x: hidden; }
+    </style>
+  </head>
+  <body class="narrative-body">
+
+    <nav class="topnav narrative-topnav">
+      <div class="topnav-inner">
+        <a href="/" class="topnav-brand">Podcast Factory</a>
+        <div class="topnav-sections">
+          <a href="/architecture" class="topnav-section">Architecture</a>
+          <a href="/library"      class="topnav-section">Bookshelf</a>
+          <a href="/kashkole"     class="topnav-section">Kashkole</a>
+          <a href="/plan"         class="topnav-section">Planner</a>
+        </div>
+        <div class="topnav-spacer"></div>
+        <div class="topnav-status" id="liveness">
+          <span class="dot" id="liveness-dot"></span>
+          <span id="liveness-label">Live</span>
+        </div>
+      </div>
+    </nav>
+
+    <slot />
+
+    <script>
+      // Liveness dot
+      async function checkLiveness() {
+        try {
+          const r = await fetch('/api/stream', { method: 'HEAD' });
+          const dot = document.getElementById('liveness-dot');
+          const label = document.getElementById('liveness-label');
+          if (dot)   dot.style.background   = r.ok ? '#4a7c4a' : '#a83232';
+          if (label) label.textContent       = r.ok ? 'Live'    : 'Offline';
+        } catch {
+          const dot = document.getElementById('liveness-dot');
+          if (dot) dot.style.background = '#a83232';
+        }
+      }
+      checkLiveness();
+    </script>
+  </body>
+</html>
