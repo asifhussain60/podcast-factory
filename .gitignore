@@ -35,6 +35,10 @@ __pycache__/
 .pytest_cache/
 .benchmarks/
 
+# podcast-reader app (Astro app — source lives in its own dev context; only
+# build artefacts currently on disk)
+podcast-reader/
+
 # Node / server proxy
 server/node_modules/
 server/.logs/
