@@ -250,6 +250,42 @@ Append a new entry at the bottom of this section at the end of every Copilot ses
 
 ---
 
+### Session log — 2026-05-28 (visual build — Wave J dashboard)
+
+**Context:** Autonomous visual build session driven by `_workspace/prompts/podcast-factory-visual-build.md`. Goal: add the Source Library Server (Wave J — dual-interface MCP stdio + HTTP REST on port 4390, backed by a SQLite FTS5 mirror of 3 SQL Server databases) to every dashboard page.
+
+**What changed:**
+
+- **plan.yaml / plan.md** — Wave J added (6 steps J0–J5): dual-interface server, enrichment integration, Astro API rewiring, SQLite FTS5 mirror, TopicPopover component, style guide. Roadmap snapshot: 45 → 47 steps. Commits `b2e9239` + `a9e5e48`.
+
+- **source-library rename** — `content/_shared/kashkole-corpus/` renamed to `content/_shared/source-library/`. Commit `d37d731`.
+
+- **system-map.astro** — SVG viewBox extended to 820×760; Source Library Server box added (dashed blue, y=544); SQL Server LAN cluster added on right side; legend updated with SQL Server entry; hero lede updated to mention the intelligence server; stale duplicate Published Catalog bar removed.
+
+- **infrastructure.astro** — Zone heights extended to 596px; Source Library Server node added in YOUR MACHINE zone; SQL Server LAN cluster added in EXTERNAL SERVICES zone; bidirectional LAN arrow added; Source Library Mirror group added to DB overview (4 FTS5 tables, Wave J tag).
+
+- **intelligence.astro** — Source Library filter button added as 5th button; canvas height extended 1260→1460px; new zone band (Source Library, y=1260, h=200); `source_lib_server` and `term_index` nodes added; 2 edges added (`enrich→source_lib_server`, `source_lib_server→term_index`); CSS zone/node styles added.
+
+- **db-schema.astro** — Hero lede updated to mention `knowledge.db` + `mirror.db`; new design note card added explaining the mirror.db separation, FTS5 tables, and auto-populate from SQL Server.
+
+- **overview.astro** — Source Library intel card added as 5th card.
+
+- **security.astro** — Source Library Server added to threat surface.
+
+- **architecture.astro** — Wave J section added.
+
+- **theme.css** — `intel-card-reader` + `intel-card-source-lib` colour tokens added.
+
+**Screenshots taken:** system-map, infrastructure, intelligence, db-schema — all confirmed rendering correctly (viewport screenshots to stay under 8000px limit).
+
+**Commits this session:** `d37d731` · `2e0400c` · `ea476ba` · `b2e9239` · `a9e5e48` · `56f9aa8`
+
+**HEAD after session:** `56f9aa8`. Build clean. Pushed to origin/develop.
+
+**Next steps:** No immediate dashboard follow-up needed. Outstanding refactor work: H2 completion (orchestrate_book.py split, remaining test modules, Azure retry decorator, DR-005 file-length sweep).
+
+---
+
 ### 2026-05-28 13:30 EST — Copilot session (A4 completion)
 
 **Closed:** Plan item A4 fully complete. `_authoring.py` (2,025 lines) split into a 6-submodule package (`_core`, `_refine`, `_chapter_design`, `_enrichment`, `_framing`, `_convergence`) plus `__init__.py` re-exporting the full public API for backward compatibility. Old flat `_authoring.py` removed. `orchestrate_book.py` was already thinned to 461 lines (phases/ handlers) from the prior WIP commit. 278 tests passing, 4 pre-existing failures unchanged. DR-005 met across all new/modified files. `plan.yaml` + `plan.md` updated (A4 → completed 2026-05-28), plan-dashboard snapshots regenerated.
