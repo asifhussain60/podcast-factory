@@ -209,6 +209,38 @@ Append a new entry at the bottom of this section at the end of every Copilot ses
 
 ---
 
+### Session log — 2026-05-28 (test fixes + Wave J J0)
+
+**Context:** Asif said "I approve your recommendations for autonomous execution" — blanket authorization for the session. Resumed immediately after Wave I commit.
+
+**What changed:**
+
+- **Authoring test fix** `12b3ad3` — 7 pre-existing `TestAuthoringPromptsCarryCanonicalRules` + `TestAuthoringPromptHasCanonicalSections` failures fixed. Root cause: `_authoring.py` was refactored to `_authoring/` package in a prior session; tests still read the non-existent flat file. Added `_read_authoring_src()` helper that globs `*.py` in the package dir. 291 tests passing, 0 failures.
+
+- **Wave J J0** `041cfed` — source library dual-interface server built and committed:
+  - `scripts/podcast/source_library_queries.py` (265 lines) — 6 canonical query functions using the Docker SQL Server via `tools.source_extractor.db.query_json`
+  - `scripts/podcast/source_library_server.py` (320 lines) — MCP stdio (manual JSON-RPC 2.0 + Content-Length framing, no SDK; SDK requires Python 3.10+) + FastAPI HTTP on port 4390
+  - Both registered: `.mcp.json` updated for Claude Code / Copilot; 7 HTTP routes documented
+  - 11 new tests in `tests/test_source_library_server.py` — 302 total passing
+  - `plan.yaml` Wave J `execution_status: in_progress`; `plan.md` J0 status = COMPLETED 2026-05-28
+  - Dashboard snapshots regenerated (53 steps, source_commit: 12b3ad3)
+
+**Current state:** `develop` at `041cfed`. 302 tests passing. `.mcp.json` is gitignored (existing project rule); server is still registered at runtime via `python3 scripts/podcast/source_library_server.py --register`.
+
+**Next (priority order):**
+1. Run annotation pass on both books (needs `ANTHROPIC_API_KEY` + Docker running):
+   ```bash
+   python3 scripts/wisdom/annotate_chapters.py --book kitab-al-riyad
+   python3 scripts/wisdom/import_annotations.py --book kitab-al-riyad
+   python3 scripts/wisdom/annotate_chapters.py --book the-master-and-the-disciple
+   python3 scripts/wisdom/import_annotations.py --book the-master-and-the-disciple
+   ```
+   Then review at localhost:4322 before proceeding to style rewrite.
+2. Wave J J1 — SQLite FTS5 mirror (J0 server already has LIKE fallback; J1 makes it fast + offline-capable).
+3. Wave J J2 — rewire Astro popover API routes to call localhost:4390 first.
+
+---
+
 ### Session log — 2026-05-29 (continuation)
 
 **Context:** Resumed from conversation compaction mid-session. Consolidation phases 1–3 were partially done; 4–5 stale path refs remained unfixed and the work was uncommitted.
