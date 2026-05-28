@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-28T20:08:04.357Z",
-  "source_commit": "d37d731",
+  "generated_at": "2026-05-28T20:19:35.524Z",
+  "source_commit": "b2e9239",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -577,7 +577,7 @@
     {
       "id": "J0",
       "wave": "J",
-      "title": "Stand up a local MCP server exposing all three source databases as named query tools",
+      "title": "Build the dual-interface source library server — MCP stdio for the pipeline, HTTP for the Astro editor",
       "status": "pending",
       "tier": "T1",
       "depends_on": [],
@@ -587,7 +587,32 @@
     {
       "id": "J1",
       "wave": "J",
-      "title": "Wire enrichment phase to use live Quran lookups as a complete-coverage fallback",
+      "title": "Build the search-optimised SQLite mirror with FTS5 tables and a unified term index",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "J0"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "J2",
+      "wave": "J",
+      "title": "Rewire the Astro editor's existing popover API routes to call the local server first",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "J0",
+        "J1"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "J3",
+      "wave": "J",
+      "title": "Wire enrichment phase to use live verse lookups as a complete-coverage fallback",
       "status": "pending",
       "tier": "T1",
       "depends_on": [
@@ -598,7 +623,7 @@
       "tools": []
     },
     {
-      "id": "J2",
+      "id": "J4",
       "wave": "J",
       "title": "Wire style rewrite phase to pull live session samples matched to each chapter's themes",
       "status": "pending",
@@ -611,13 +636,15 @@
       "tools": []
     },
     {
-      "id": "J3",
+      "id": "J5",
       "wave": "J",
-      "title": "Build the offline text-only mirror — portable SQLite file, no binary blobs",
+      "title": "Add Kashkole topic cross-reference popover to the live editor",
       "status": "pending",
       "tier": "T1",
       "depends_on": [
-        "J0"
+        "J0",
+        "J1",
+        "J2"
       ],
       "plain": "",
       "tools": []
@@ -690,6 +717,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "b2e9239",
+      "subject": "plan: add Wave J — Source Library (MCP server + live query access for 3 source databases)",
+      "date": "2026-05-28"
+    },
+    {
       "sha": "d37d731",
       "subject": "refactor: rename kashkole-corpus → source-library; add KQUR+Kashkole SQL dumps and query files",
       "date": "2026-05-28"
@@ -732,11 +764,6 @@
     {
       "sha": "7adc245",
       "subject": "feat(site): L1-L4 security lenses, future-state pipeline swimlane, audience-layered architecture",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "670abff",
-      "subject": "chore: add architecture diagram brief, intelligence pipeline discussion, update knowledge-base stats",
       "date": "2026-05-28"
     }
   ],

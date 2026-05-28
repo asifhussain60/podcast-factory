@@ -525,43 +525,67 @@ A companion **Book Review unified view** in the astro site (I5) surfaces both ga
 
 # Wave J · Source Library
 
-Wave J gives the authoring pipeline live, on-demand query access to the three SQL Server source databases filed in May 2026 — the Quran reference database, the Kashkole knowledge corpus, and the KSessions delivered lecture archive. The four steps build an MCP server (J0), wire it into the two pipeline phases that benefit most (J1 enrichment, J2 style rewrite), and add a portable offline mirror for non-home-network use (J3).
+Wave J transforms the three SQL Server source databases into a live intelligence layer serving two consumers simultaneously: the authoring pipeline (via MCP stdio tools that Claude Code and Copilot call during authoring) and the Astro live editor (via HTTP endpoints that the existing `QuranPopover` and `TermPopover` components already call — but currently aimed at quran.com and Gemini Flash respectively). The six steps build the dual-interface server (J0), build the search-optimised offline mirror with FTS5 and a unified term index (J1), wire the Astro editor's existing popover endpoints to the local server (J2), connect the pipeline enrichment phase (J3), connect the style rewrite phase (J4), and add a new topic cross-reference popover for Kashkole content (J5).
 
-### J0. Stand up a local MCP server that gives any authoring context direct query access to all three source databases.
+**Architecture principle:** one Python server, two interfaces. The HTTP face serves the browser. The stdio MCP face serves Claude. The same query functions and the same SQLite mirror power both — no duplication.
 
-> The three databases — a structured Quran with dual English translations and full Arabic etymology, a 20-year knowledge system of Kashkole topics with built-in Quran cross-references, and 343 delivered lecture session transcripts — are currently only accessible through pre-extracted files or manual SQL queries run in VS Code. This step builds a Python server following the Model Context Protocol standard that connects to the home SQL Server instance (192.168.1.158) and exposes three named tools: `quran_lookup(surah, ayat)` returning Arabic text, Pickthall translation, Muhammad Asad translation, Urdu, and phonetic; `topic_search(keyword, limit)` returning Kashkole topic names and content previews; and `session_style_fetch(theme, group)` returning the most stylistically relevant lecture passages for a given theme. The server is registered in `.vscode/mcp.json` (for Copilot) and in the user-level Claude Desktop config (for Claude Code) so it is available in every authoring context automatically. A `--dry-run` flag lists all three tools and confirms database connectivity without returning data. Input validation follows OWASP A03 injection requirements: all query parameters are parameterised; no raw SQL string interpolation.
+**Cost model:** Every verse popup, every term definition, every topic card costs zero tokens and zero external API calls once J1 is in place. Gemini Flash remains as a silent fallback only for terms genuinely absent from all three databases (~10% of hovers in practice).
+
+### J0. Build the dual-interface source library server — MCP stdio tools for the pipeline, HTTP endpoints for the Astro editor.
+
+> One Python process runs two transports simultaneously: an MCP stdio server (for Claude Code and Copilot) and an HTTP server (for the Astro app's existing API routes). The same six query functions back both interfaces — no duplicate logic. The six functions cover all integration points: `quran_lookup(surah, ayat)`, `quran_theme_search(keyword, limit)`, `word_etymology(term)`, `topic_search(keyword, limit)`, `topic_get(topic_id)`, and `session_style_fetch(theme, group, limit)`. Primary data source is the SQLite mirror (J1 deliverable); live SQL Server is used only as a coverage-gap fallback when the mirror lacks a row. HTTP port: 4390 (not conflicting with 4321–4323 currently used by the Astro apps). All inputs parameterised (OWASP A03). String parameter length capped at 200 chars. Rate limit: 60 calls per minute per interface. JSON schema validation on every request and response. The server is registered in the existing `.mcp.json` (for Copilot/Claude Code) and documented in `scripts/mcp/README.md` for Claude Desktop. A `--dry-run` flag enumerates tools, confirms SQLite mirror accessible, and exits 0.
 >
-> *Value gained:* Any pipeline phase, any authoring agent, and any manual chat session can pull authoritative Quran verses, Kashkole doctrine, or voice-matched session passages on demand — without pre-loading or batch-extracting the entire corpus upfront.
+> *Value gained:* One process, one data layer, two consumers. No duplication. Pipeline and editor always see the same canonical data.
 
 **Status: NOT STARTED**
 
 ---
 
-### J1. Wire the enrichment phase to use live Quran verse lookups as a complete-coverage fallback.
+### J1. Build the search-optimised SQLite mirror with FTS5 tables and a unified term index.
 
-> The enrichment phase currently annotates chapters using only the atoms pre-extracted into the local SQLite knowledge database. That coverage is bounded: any citation not yet extracted — from a new book, an unusual reference form, or a cross-tradition verse — passes through unannotated. This step adds a live fallback path wired into the Augmenter: when a citation marker is encountered and no matching atom exists in the local database, the Augmenter calls the MCP server's `quran_lookup` tool. The result is formatted with the same provenance template and injected at the same position in the authoring prompt. The step also exposes `quran_theme_search(keyword)` to the enrichment prompt, allowing the authoring agent to actively request thematically related verses rather than relying only on pre-tagged atoms. Fallback calls are logged to `_system/mcp-calls.jsonl` per chapter. The live path is gated by `series.enable_live_quran_lookup: true` in `meta.yml` (default false, consistent with the Augmenter's default-disabled pattern).
+> The prior plan treated the SQLite mirror as a naive row-copy. This step makes it a first-class search engine. Three FTS5 virtual tables enable sub-millisecond indexed search across all three databases: `fts_quran` (Arabic + Pickthall + Asad + Urdu), `fts_topics` (Kashkole TopicDataUnicode), `fts_sessions` (KSessions SessionTranscripts plain text — HTML stripped at export time). A fourth table `term_index` is the key innovation: a single cross-database lookup table materialised at build time combining KQUR Roots and Derivatives with KASHKOLE Glossary and DeeniTermGroup into one queryable term definition surface. Schema: `(term TEXT, arabic TEXT, root TEXT, grammar_tag TEXT, definition TEXT, etymology TEXT, tradition TEXT, source TEXT, related TEXT)`. The `word_etymology` and `define-term` API endpoints query this table first — one fast local lookup replaces the Gemini Flash call for 85–90% of hovers. For terms absent from `term_index`, the server responds with `found: false` and the Astro endpoint falls back to Gemini. Row-level indexes: composite `(surah_id, ayat_id)` on QuranAyats, `topic_id` on Topics, `session_id` on SessionTranscripts. A `--verify` flag checks row counts in the mirror against SQL Server. A `--dry-run` flag prints per-table counts without writing. Estimated mirror size: under 50 MB (KASHKOLE binary TopicData column excluded entirely).
 >
-> *Value gained:* Enrichment coverage for Quran citations becomes complete regardless of knowledge-base gaps; thematic verse discovery becomes an active authoring capability rather than a static pre-tagged one.
+> *Value gained:* All Quran verse lookups, term definitions, and topic searches complete locally in under 5 ms. Quran.com dependency eliminated for verse data. Gemini cost reduced by ~85–90% for term definitions. Mirror is portable to any machine.
 
 **Status: NOT STARTED**
 
 ---
 
-### J2. Wire the style rewrite phase to pull live session samples matched to each chapter's themes.
+### J2. Rewire the Astro editor's existing popover API routes to call the local server first.
 
-> The style rewrite pass (Wave I, step I0b) establishes Asif's authorial voice by reading a fixed set of pre-selected session HTML files. That sample cannot adapt: the same passages are used regardless of whether the chapter discusses tawhid, ta'wil, imamah, or arithmetic cosmology. This step replaces the static file read with a live MCP query: for each chapter, the style prompt receives the three or four lecture passages most thematically relevant to that chapter's content, fetched at authoring time via `session_style_fetch(theme, group)`. Theme matching uses the session database's existing group and category structure — no embeddings required. The distilled `style-imprint.md` (I0b deliverable) continues to supply the style rules; the live query adds per-chapter concrete examples grounded in the same topic domain. Calls are logged to `_system/mcp-calls.jsonl`. Gated by `series.enable_live_style_fetch: true` in `meta.yml` (default false).
+> `QuranPopover.tsx` already exists in the Astro editor and is beautiful — it just calls quran.com. `TermPopover.tsx` already exists — it just calls Gemini Flash per hover. This step rewires both without changing any frontend component code. The changes are confined to two API route files and the addition of two new ones. `verse.ts` gains a local-first path: try `localhost:4390/quran/verse` first (returns Pickthall + Asad + Urdu + phonetic + Arabic — richer than quran.com's single translation); fall back to quran.com only if the local server is unreachable. `define-term.ts` gains a local-first path: try `localhost:4390/term/define` first (queries `term_index`); if `found: false` is returned, fall back to the existing Gemini call. Two new routes added: `GET /api/quran/etymology?root=<str>` (calls `word_etymology`; consumed by an expanded TermPopover) and `GET /api/kashkole/topic?id=<n>` (consumed by the new TopicPopover in J5). A shared `localServerClient.ts` utility in `plan-dashboard/src/lib/` handles the local probe with a 300 ms timeout and a module-level `isAvailable` boolean to avoid re-probing on every request within a server session. Astro dev restart required after starting `source_library_server.py` for the first time.
 >
-> *Value gained:* Every chapter's style examples come from sessions that actually discuss the same topics — voice matching is thematically precise rather than drawn from a generic cross-topic sample.
+> *Value gained:* Every Quran popover now shows Arabic, Pickthall translation, Muhammad Asad translation, Urdu, and phonetic — all from your own data. Every term popover's definition comes from your canonical scholarship corpus first. Both are instant (local SQLite) rather than network-dependent.
 
 **Status: NOT STARTED**
 
 ---
 
-### J3. Build the offline text-only mirror of all three source databases as a portable SQLite file.
+### J3. Wire the enrichment phase to use live verse lookups as a complete-coverage fallback.
 
-> The MCP server requires a live connection to the home SQL Server instance, making it unavailable on any machine where that server is unreachable. The three SQL Server dumps total 768 MB, but 724 MB of that is binary image data in the Kashkole legacy `TopicData` column — the actual text content lives in `TopicDataUnicode`. Stripping binary columns from all three databases produces a text-only extract estimated well under 50 MB. This step produces a `bcp` export script that runs against the home SQL Server and writes a compact SQLite file at `CONTENT/_shared/source-library/mirror.db` (gitignored) containing: Quran ayahs, Roots, Derivatives, Ahadees, Kashkole Binders/Chapters/Topics/TopicDataUnicode/TopicAyats/Glossary, and KSessions Groups/Categories/Sessions/SessionTranscripts. The MCP server gains a `--offline` flag that reads from this file when the SQL Server is unreachable, using the same three tool definitions and the same input validation. The mirror is regenerated by re-running the export script against a live connection and is portable to any machine or cloud environment.
+> The Wave B Augmenter annotates chapters from pre-extracted SQLite atoms. When a citation marker is present but no matching atom is in the knowledge database — a new book, an unusual reference, a cross-tradition verse — the annotation is silently skipped. This step adds a fallback: when `knowledge_atoms` returns zero rows for a citation, the Augmenter calls `localhost:4390/quran/verse` instead. The result is formatted with the existing `_context_injection.format_provenance` template and injected at the same position. A secondary path exposes `quran_theme_search` to the enrichment prompt so the authoring agent can request thematically related verses rather than only injecting pre-tagged atoms. All calls logged to `_system/mcp-calls.jsonl` per chapter with tool, args, latency, and source (`local|live`). Gated by `series.enable_live_quran_lookup: true` in `meta.yml` (default false, per DR-007 pattern).
 >
-> *Value gained:* The full query capability is available anywhere — any machine, offline, or in a cloud-hosted pipeline — without the 768 MB binary payload or a home-server dependency.
+> *Value gained:* Enrichment coverage for Quran citations is complete regardless of extraction history. Thematic verse discovery becomes an active authoring tool.
+
+**Status: NOT STARTED**
+
+---
+
+### J4. Wire the style rewrite phase to pull live session samples matched to each chapter's themes.
+
+> The I0b style rewrite pass uses a fixed pre-selected set of session HTML files. The same passages are used regardless of whether the chapter discusses imamah, ta'wil, arithmetic cosmology, or ethical conduct. This step replaces the static file read with a call to `localhost:4390/sessions/fetch` per chapter: the three or four lecture passages most thematically relevant to that chapter's content are returned. Theme matching uses the session database's existing group and category structure — no embeddings, no AI cost. The `style-imprint.md` distilled guide (I0b) still provides structural style rules; the live query adds per-chapter concrete examples grounded in the same topic domain. Calls logged to `_system/mcp-calls.jsonl`. Gated by `series.enable_live_style_fetch: true` in `meta.yml` (default false).
+>
+> *Value gained:* Every chapter's style examples are drawn from sessions that discuss the same topics. Voice matching is thematically precise, not generic.
+
+**Status: NOT STARTED**
+
+---
+
+### J5. Add Kashkole topic cross-reference popover to the live editor.
+
+> Chapter text produced by the pipeline will contain inline topic markers — `{{topic:ID}}` spans emitted during enrichment when a passage maps to a Kashkole topic. This step adds the full-stack layer to make those markers interactive. Pipeline side: the enrichment phase is extended to emit `<span class="ref-topic" data-topic-id="N">...</span>` around relevant passages when `series.enable_topic_markers: true` is set. Editor side: a new `TopicPopover.tsx` component uses event delegation on `.ref-topic` spans to show a panel with the topic name, the Kashkole binder and chapter it comes from, the first 400 characters of content, and linked Quran ayats (TopicAyats cross-reference). The panel's data comes from a new `GET /api/kashkole/topic?id=N` Astro route which calls `localhost:4390/topic/get`. No new frontend libraries — the component follows the identical pattern of the existing `QuranPopover.tsx` (hover delay, localStorage cache, dismiss on outside click). A `GET /api/kashkole/search?q=<keyword>` route provides the search surface for the reader's search bar.
+>
+> *Value gained:* The reader can hover any enrichment-tagged passage and instantly see its canonical Kashkole source — the same knowledge that trained the authoring agent, now surfaced in the reading experience.
 
 **Status: NOT STARTED**
 
