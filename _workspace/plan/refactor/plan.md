@@ -3,7 +3,7 @@
 # Summary Of Your Intent.
 
 1. **Architecture-first rebuild on `develop`**. This plan derives every step from the architecture at [architecture.md](../architecture.md). Read architecture first; then this roadmap reads as *"to land that architecture, do these things in this order."*
-2. **Six waves, 32 steps.** Wave A foundation (cleanup, core layer, modularization) — **in progress**: A1/A3/A5/A6/A7 done; A2 partial (`_paths.py` and 6-file schema landed; `_db.py`, `_archetypes.py`, `_anti_cliche.py`, full 16-file schema, and 4 archetype seeds still needed); A4 not started (orchestrator still at 2321 lines). Waves B–F not started.
+2. **Six waves, 32 steps.** Wave A foundation (cleanup, core layer, modularization) — **in progress**: A1/A2/A3/A5/A6/A7 done; A4 not started (orchestrator still at 2321 lines, `_authoring.py` at 2025 lines — split into `phases/` handlers pending). Waves B–F not started.
 3. **Legacy plan folder gets folded in then deleted**. ~22 legacy files in `_workspace/plan/` are surveyed, the live pieces are extracted into the new nested structure, the rest are removed (git history preserves them). Step A1 is the cleanup; nothing else lands until A1 is done.
 4. **Retroactive doctrine for shipped books**. KaR and M&D get archetype stamping, addendum episodes, and extraction-only knowledge passes. **Never** re-run through the pipeline. Every enhancement still becomes default for the next forward book.
 5. **Plan only — no execution authorized**. This turn writes the plan files. Asif's approval before any code lands.

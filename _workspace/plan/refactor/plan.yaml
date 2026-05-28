@@ -95,7 +95,7 @@ waves:
     execution_status: in_progress
     execution_notes:
       - "A1 root cleanup completed: only README.md, architecture.md, and copilot-handoff.md remain at _workspace/plan root."
-      - "A2 partial: _paths.py and 6-file schema landed; _db.py, _archetypes.py, intelligence/_anti_cliche.py, full 16-file schema, and 4 archetype seeds (scholarly-deep-dive, narrative-prose, aphorism-collection, socratic-dialogue) still needed."
+      - "A2 COMPLETE (2026-05-28): _db.py (415 lines, WAL-mode singleton + 7 repositories), _archetypes.py (190 lines, load/list/resolve), intelligence/_anti_cliche.py (4 denial frozensets), 16 schema files (001–016) applied to live knowledge.db, 7 archetype seeds on disk (scholarly-deep-dive, narrative-prose, aphorism-collection, socratic-dialogue, play-novel, lecture-series, encyclopedic-epistolary), 37 new tests passing (68 total)."
       - "A3 _doctrinal.py landed with passing tests."
       - "A4 NOT started: orchestrate_book.py is 2321 lines; _authoring.py is 2025 lines; phases/ split not done."
       - "A5 no version stamps detected in tracked files; pre-commit version guard present."

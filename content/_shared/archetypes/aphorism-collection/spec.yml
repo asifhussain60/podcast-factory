@@ -1,0 +1,52 @@
+# Archetype spec — Aphorism Collection
+# A text structured as a collection of discrete aphorisms, maxims, wisdom
+# sayings, or short moral teachings — Arabic: amthal, hikam, or wasaya
+# (counsel). Individual units are brief and self-contained; the collection
+# derives coherence from a shared tradition, author, or thematic spine.
+
+archetype_id: aphorism-collection
+display_name: Aphorism Collection (Wisdom Sayings)
+genre_tags: [aphoristic, maxims, hikam, wasaya, discrete-units]
+
+# ── Detection heuristics ─────────────────────────────────────────────────────
+genre_signals:
+  - individually numbered or titled short units
+  - each unit conveys a complete moral or philosophical claim in ≤3 sentences
+  - minimal transitional prose between units
+  - repeated imperative or conditional grammatical form
+
+# ── required_fields — these keys MUST be present in every book meta.yml ─────
+required_fields:
+  - archetype_id           # confirms archetype was applied
+  - unit_count_approx      # total number of aphorisms / maxims
+  - thematic_spine         # what unifies the collection (e.g. "Imam's counsel to disciples")
+  - register               # "devotional" | "philosophical" | "ethical" | "jurisprudential"
+
+# ── TTS engineering rules ────────────────────────────────────────────────────
+tts_rules:
+  unit_numbering: do_not_read_numbers_aloud
+  arabic_imperative_forms: preserve_tone_do_not_soften
+  repeated_structural_phrases: vary_framing_across_episodes
+  very_short_units: group_thematically_not_sequentially
+
+# ── Podcast-authoring doctrine ───────────────────────────────────────────────
+authoring_doctrine:
+  framing_mode: wisdom_explorer
+  host_dynamic: teacher_and_reflective_student
+  episode_structure: cluster_arc  # thematic cluster → explication → resonance question
+  capstone_mode: tradition_placement  # final episode places the collection in its broader wisdom tradition
+  cross_tier_citations: encouraged  # aphorisms often echo Quran or hadith
+
+# ── Challenger categories active for this archetype ─────────────────────────
+challenger_categories_active:
+  - A  # citations — aphorisms may echo canonical sources; must be traced
+  - C  # pronunciation of Arabic terms of art
+  - B  # enrichment — each unit needs doctrinal context, not paraphrase
+  - O  # honorifics — Imam / Prophet names appear frequently in this genre
+
+# ── Anti-patterns (see anti-patterns.md for full catalog) ───────────────────
+anti_patterns_summary:
+  - reading aphorism numbers aloud (destroys the oral register)
+  - paraphrasing the aphorism instead of explaning its doctrinal resonance
+  - grouping aphorisms by episode number rather than thematic cluster
+  - flattening the aphorism into a self-help lesson

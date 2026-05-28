@@ -1,0 +1,51 @@
+# Archetype spec — Narrative Prose
+# A text written as sustained literary prose — biographical narrative,
+# travel writing, historical chronicle, or devotional story — where
+# the primary mode is narrative immersion rather than argument or dialogue.
+
+archetype_id: narrative-prose
+display_name: Narrative Prose (Literary Immersion)
+genre_tags: [narrative, literary, biographical, chronicle, devotional-story]
+
+# ── Detection heuristics ─────────────────────────────────────────────────────
+genre_signals:
+  - continuous third-person or first-person prose narration
+  - chronological or episodic scene structure
+  - character development or biographical arc as organising principle
+  - descriptive language dominating over argument or instruction
+
+# ── required_fields — these keys MUST be present in every book meta.yml ─────
+required_fields:
+  - archetype_id           # confirms archetype was applied
+  - narrative_mode         # "biographical" | "chronicle" | "travel" | "devotional"
+  - protagonist_count      # how many central figures the narrative follows
+  - source_tradition       # e.g. "ismaili_orthodox", "sufi_devotional"
+
+# ── TTS engineering rules ────────────────────────────────────────────────────
+tts_rules:
+  arabic_names: substitute_english_label_first_occurrence_only
+  descriptive_passages: preserve_pace_do_not_summarise
+  chronological_markers: read_as_natural_transitions
+  direct_speech_in_narrative: preserve_without_stage_direction_prefix
+
+# ── Podcast-authoring doctrine ───────────────────────────────────────────────
+authoring_doctrine:
+  framing_mode: story_guide
+  host_dynamic: narrator_and_analyst
+  episode_structure: scene_arc  # scene immersion → analytical reflection → forward hook
+  capstone_mode: legacy_assessment  # final episode evaluates the narrative's historical significance
+  cross_tier_citations: optional  # narrative prose rarely requires dense citation
+
+# ── Challenger categories active for this archetype ─────────────────────────
+challenger_categories_active:
+  - J  # name aliasing — critical for narrative characters
+  - C  # pronunciation of Arabic proper names
+  - R  # register — must not flatten immersive narration into summary
+  - M  # modernization — characters must not speak in anachronistic idiom
+
+# ── Anti-patterns (see anti-patterns.md for full catalog) ───────────────────
+anti_patterns_summary:
+  - hosts summarising scenes in third-person instead of inhabiting them
+  - episode ending before a narrative arc closes
+  - biographical detail (birth / death dates) substituting for the story itself
+  - descriptive passages condensed to bullet-point recap

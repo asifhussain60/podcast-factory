@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-28T11:41:23.817Z",
-  "source_commit": "9554afe",
+  "generated_at": "2026-05-28T11:51:48.774Z",
+  "source_commit": "4fb05b7",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -505,6 +505,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "4fb05b7",
+      "subject": "fix: restore REPO_ROOT import in orchestrator; correct Wave A plan status to in_progress; remove Planner nav from site",
+      "date": "2026-05-28"
+    },
+    {
       "sha": "9554afe",
       "subject": "refactor(layout): consolidate repo folders — remove 4 empty dirs, relocate kashkole corpus",
       "date": "2026-05-28"
@@ -547,11 +552,6 @@
     {
       "sha": "1b9ffed",
       "subject": "refactor(astro): extract shared types, constants, and utilities; fix symlink P0",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "a12ade2",
-      "subject": "refactor(docs+ui): retire docs/architecture, docs-updater+reconcile agents, live-execution UI",
       "date": "2026-05-28"
     }
   ],
