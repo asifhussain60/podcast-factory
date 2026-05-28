@@ -21,6 +21,9 @@ Thumbs.db
 # Stray scratch dirs (large binary outputs — m4a is audio rendering)
 /m4a/
 /content/m4a/
+/CONTENT/m4a/
+# Stray skill execution artifacts (local-only runtime output)
+/CONTENT/podcast/
 
 # Python virtual environment
 .venv/
@@ -29,6 +32,10 @@ Thumbs.db
 __pycache__/
 *.pyc
 *.pyo
+
+# Test runner caches (regenerated on each run)
+.pytest_cache/
+.benchmarks/
 
 # Node / server proxy
 server/node_modules/
