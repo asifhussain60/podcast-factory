@@ -522,7 +522,7 @@ waves:
 
   - id: B
     name: Intelligence Layer
-    execution_status: completed_2026_05_27
+    execution_status: in_progress
     parallel_with: [C]
     depends_on: [A]
     execution_notes:
@@ -541,6 +541,7 @@ waves:
       - "Mandatory alignment executed on governance data source: runner acceptance source moved from per-book ship checklist to dedicated wave-acceptance checklist, restoring real collective wave quality evaluation semantics."
       - "Runner branch-context fix landed: acceptance checklist is now resolved and read after wave-branch checkout, preventing false missing-file failures when launching a new wave from a branch that has not yet merged the checklist file."
       - "Mandatory alignment blocker addressed: Wave-B now has autonomous runners for P2.3 (augmenter implementation + tests) and P2.4 (Wave-B phase wiring validation), and run_wave acceptance-row marking now targets the active wave checklist file."
+      - "CORRECTION (2026-05-28): Wave B execution_status was incorrectly stamped completed. All Wave B intelligence files are scaffold stubs. Real B0 implementation starting now: schema migrations 017+018, kashkole ingestion driver, and acceptance tests."
     pre_execution_blockers:
       - id: BLOCKER-B-PRE
         status: RESOLVED

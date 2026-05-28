@@ -155,6 +155,7 @@ Every wave now follows one non-negotiable closeout protocol:
 - A mandatory alignment correction has been completed on the governance contract itself: wave execution now reads from a dedicated wave-acceptance checklist (instead of the per-book ship checklist), so prior-wave quality evaluation reflects real wave progress rather than a zero-row false pending state.
 - A follow-up runner stability fix has also been completed: checklist resolution now happens in the active branch context after wave-branch checkout, which prevents launch-time failures when a newly-created wave branch does not yet carry the dedicated checklist file.
 - The Wave 2 alignment blocker has now been fixed directly: missing autonomous runners for the two open Wave 2 items were implemented, augmenter behavior is now executable with dedicated tests, and checklist row-marking was corrected to update the active wave checklist so mandatory alignment can actually close gaps in place.
+- **CORRECTION (2026-05-28):** Wave B was incorrectly recorded as completed. All Wave B intelligence files (`knowledge/extractor.py`, `knowledge/librarian.py`, `knowledge/augmenter.py`, `intelligence/kashkole_ingest_knowledge.py`) are scaffold stubs only. Wave B is `in_progress`. Real B0 implementation starting now with schema migrations 017+018 and the Kashkole ingestion driver.
 
 ---
 

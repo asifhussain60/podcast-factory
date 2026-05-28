@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-28T11:51:48.774Z",
-  "source_commit": "4fb05b7",
+  "generated_at": "2026-05-28T12:09:19.128Z",
+  "source_commit": "cb6ee33",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -505,6 +505,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "cb6ee33",
+      "subject": "feat(wave-a2): core layer complete — _db, _archetypes, _anti_cliche, 16 schemas, 7 archetype seeds, 68 tests",
+      "date": "2026-05-28"
+    },
+    {
       "sha": "4fb05b7",
       "subject": "fix: restore REPO_ROOT import in orchestrator; correct Wave A plan status to in_progress; remove Planner nav from site",
       "date": "2026-05-28"
@@ -547,11 +552,6 @@
     {
       "sha": "ab69c46",
       "subject": "chore: session log, snapshot refresh, and stray proposal file",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "1b9ffed",
-      "subject": "refactor(astro): extract shared types, constants, and utilities; fix symlink P0",
       "date": "2026-05-28"
     }
   ],
