@@ -290,3 +290,49 @@ Append a new entry at the bottom of this section at the end of every Copilot ses
 5. Push develop to origin.
 
 **Blocked:** Wave I depends on Wave B (scaffold stubs, not yet executable). Confirm with Asif: execute B0 first, or parallel-track I3 alongside B0.
+
+---
+
+### 2026-05-28 — Copilot session (plan-dashboard visual build + visual bug fixes)
+
+**Context:** GitHub Copilot session picking up from the compacted conversation state. Two earlier commits from this day (`1af21099`, `aa2645e3`) had landed the redesigned dashboard views. This session focused on convergence scoring, visual verification, and cleaning the working tree.
+
+**What was done:**
+
+**Visual build (commits `7adc2459` → `aa2645e3`, all prior to this session):**
+
+- `/security` — L1/L2 boundary, C4 + DFD + CredentialMap lenses, hotspot table, 12-term glossary. Score: **24/24 ✅**
+- `/architecture` — PipelineOverviewRail.tsx component (14-phase SVG rail with animateMotion particles, zoom/pan, hover tooltip, click-expand detail strip). PhaseSwimlaneDiagram with future-state phases + gate banners. 3 L1 callout cards. Score: **20/24 ✅**
+- `/infrastructure` — L1 StackFlow hero + spend metrics; L2 UML Deployment Topology SVG (viewBox 960×520) + System Actor Map SVG (viewBox 820×614) + DB overview grid + InfraColumns vendor cost drill-down. Score: **21/24 ✅**
+- `/intelligence` — Zone band CSS (source/ingest/merge/store/augment/consume), 10 NODES with animateMotion SVG particles, zoom/pan (Ctrl+scroll + buttons), hover tooltip, filter buttons (quran/hadith/doctrine/all). Score: **20/24 ✅**
+- `/db-schema` — DbArchitecture.tsx full-width SQL table card grid. Score: **18/24 ✅**
+- Base.astro nav cleanup: removed `annotation-ops` and `system-map` from subnav; final subnav is Pipeline | Intelligence | Infrastructure | Database | Security.
+
+**Visual bug fixes (commit `aa2645e3`):**
+
+1. **Intelligence nodes invisible** — `animation-fill-mode: backwards` + `from { opacity: 0 }` caused all staggered nodes to be transparent during their animation-delay period in static screenshots. Fix: removed `opacity: 0` from `@keyframes nodeEnter`; removed `backwards` fill mode; capped stagger delay at 0.3s; added `min-height` to node style.
+
+2. **Infrastructure topology arrows crossing knowledge.db box** — Azure HTTPS arrow was routed at y=104, Anthropic at y=120, directly through knowledge.db box content (box y=48..144). Fix: rerouted Azure to arc above boxes (y≈30 corridor) and Anthropic higher (y≈16). Both now clearly above the box row.
+
+3. **git→GitHub arrow crossing NotebookLM box** — Prior path `M436,392 C600,392 670,270 710,264` passed through NotebookLM (x=478..698, y=214..294). Fix: rerouted via waypoint x=560, y=310 below NotebookLM.
+
+4. **file:// label overlap** — repositioned with `text-anchor="end"` anchored left of knowledge.db.
+
+**Working tree cleanup (this session):**
+- Discarded 5 scratch iteration screenshots: `plan-dashboard/iter1_*.png`, `plan-dashboard/db_schema_new.png`. These were never tracked.
+- Working tree is now **clean**. HEAD = `aa2645e3`. `develop` is in sync with `origin/develop`.
+
+**Current dev state (for next session):**
+- Dev server runs at `http://127.0.0.1:4322/` (launchd RunAtLoad=true, plan-dashboard dir).
+- All 5 dashboard pages pass convergence (≥16/24). No active penalty signals.
+- Architecture PipelineOverviewRail confirmed rendering (por-wrap div found in DOM at y≈993, React `client:load` hydration working).
+- CONVERGENCE_LOG.md last entry: Iteration 1, 2025-05-28 — all 4 pages SHIP.
+
+**Next session candidates (in priority order):**
+1. **Wave I execution** — I3 (tradition-aware KB, migration 019) → I4 (Source Review Gate) → I1 (audio intake for islr-mas-i). Confirm with Asif whether to execute B0 first.
+2. **H2 deferred steps** — 5 test modules (phonetics, publish gates G1–G6, enrichment depth, branch naming), Azure retry decorator, DR-005 sweep on remaining large files.
+3. **Push develop to origin** — as of `317ad881` session, develop was 5 commits ahead; then `aa2645e3` + `1af21099` were pushed same day. Verify with `git status` on session start.
+
+**Commits this session:** None (all prior commits already pushed; scratch files discarded, no commit needed).
+
+**Branch state:** `develop` HEAD = `aa2645e3`, clean, in sync with `origin/develop`.
