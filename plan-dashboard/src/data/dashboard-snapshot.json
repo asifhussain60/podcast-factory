@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-28T18:41:54.892Z",
-  "source_commit": "7c566cb",
+  "generated_at": "2026-05-28T19:48:12.273Z",
+  "source_commit": "ea476ba",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -482,6 +482,28 @@
       "tools": []
     },
     {
+      "id": "I0a",
+      "wave": "I",
+      "title": "Retroactive noise annotation — AI pre-marks existing chapters; human reviews in reader UI",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "I0b",
+      "wave": "I",
+      "title": "Style rewrite pass -- AI rewrites surviving content in Asif's teaching voice",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "I0a"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
       "id": "I1",
       "wave": "I",
       "title": "Audio intake — input_type branch in Phase 04 (pdf / audio-transcript / mixed)",
@@ -494,7 +516,7 @@
     {
       "id": "I2",
       "wave": "I",
-      "title": "Model-driven noise routing — replaces fixed pattern strip in Phase 05",
+      "title": "Noise routing — two-pass: zero-cost rule pre-pass then Sonnet for ambiguous survivors only",
       "status": "pending",
       "tier": "T1",
       "depends_on": [
@@ -620,6 +642,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "ea476ba",
+      "subject": "feat(kashkole): add MSSQL query files for KSessions style corpus",
+      "date": "2026-05-28"
+    },
+    {
       "sha": "7c566cb",
       "subject": "docs(handoff): session log 2026-05-28 — plan-dashboard visual build + visual bug fixes",
       "date": "2026-05-28"
@@ -662,11 +689,6 @@
     {
       "sha": "0b8dc36",
       "subject": "docs: session handoff 2026-05-28 — Wave I + R4-R6 fixes",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "317ad88",
-      "subject": "fix: R4-R6 + Wave I plan — intelligence pipeline foundations",
       "date": "2026-05-28"
     }
   ],

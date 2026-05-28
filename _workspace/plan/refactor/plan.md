@@ -430,15 +430,36 @@ flowchart LR
 
 > **Status: NOT STARTED.** Locked decisions at [`_workspace/plan/intelligence/locked-decisions.md`](../intelligence/locked-decisions.md). Depends on Wave B (KB schema). Parallel with any Wave that does not touch Phase 04–06 or the PHASE_ORDER constant.
 
-Wave I extends the pipeline in five coordinated areas:
+Wave I extends the pipeline in five coordinated areas, preceded by two retroactive repair steps on existing shipped books:
 
+0. **Retroactive annotation + style rewrite (I0a + I0b)** — the two draft books (*The Master and the Disciple* and *Kitab al-Riyad*) carry pipeline noise that was never cleaned. I0a: Haiku pre-marks each paragraph; Asif reviews and approves in the reader UI. I0b: Sonnet rewrites the cleaned text in Asif's teaching voice, extracted from his delivered KSessions lectures. Both steps use existing reader UI components; git is the recovery mechanism throughout.
 1. **Audio-first intake** — books that arrive as lecture recordings (Urdu audio) get a dedicated `input_type=audio-transcript` branch through Phase 04 using Turboscribe Urdu → Azure Translator instead of PDF OCR. All downstream phases key off `input_type` so no rewrites are needed downstream.
-2. **Model-driven noise routing** — replaces fixed regex strip patterns with a lightweight routing layer that selects Haiku or Sonnet per paragraph based on complexity score + tradition + input_type. Strip log written to `_system/noise-stripped.jsonl`.
+2. **Two-pass noise routing** — replaces fixed regex strip patterns with a zero-cost rule pre-pass (strips obvious noise: isnads, biographical preambles, lecture openers) followed by Sonnet only for ambiguous survivors. Protected content categories (esoteric, quran, hadith, poetry, reality/sharia) are structurally excluded from both passes. Companion source compression also runs here. Strip log written to `_system/noise-stripped.jsonl`.
 3. **Tradition-aware KB** — schema migration 019 adds a `tradition` column to atoms. The Augmenter filters by `tradition_affinity` declared in `meta.yml`. Atoms with `tradition=universal` contain raw source text only (no interpretive notes) and are injectable into any book.
 4. **Source Review Gate (Phase 06a)** — a Haiku pass (~$0.50–1.00/book) reviews companion sources before per-chapter LLM spend. Findings written to `_system/review-gate.json`. Orchestrator halts with `phase_status=awaiting_human_review`; approved via astro site (I5) or CLI `approve_book.py`. The R4 guard in `resume_dispatcher.py` reads the approval flag and clears the status automatically on the next tick.
 5. **Phase 11g optimiser** — Claude Sonnet pass after per-chapter authoring, before the 0g dual-auditor. Checks NotebookLM format hygiene, host-role consistency, and teaching arc completeness (hook → core → example → application → bridge). Named `per-chapter-optimize` in PHASE_ORDER. Skippable per-book via `optimize_enabled: false` in `meta.yml`.
 
 A companion **Book Review unified view** in the astro site (I5) surfaces both gates (06a + finalize) in context with an Approve button.
+
+---
+
+### I0a. Retroactive noise annotation — AI pre-marks all existing chapters for human review in the reader UI.
+
+> The two shipped books that are the pipeline's primary test subjects carry noise of two different kinds: *The Master and the Disciple* has **additive** noise (the pipeline added large italicised editorial preambles and "Where this chapter picks up" sections on top of good source content); *Kitab al-Riyad* has **condensed** noise (the pipeline dropped substantive content AND added framing, so the source is larger than the chapter output). Before building the automated noise router, ground-truth annotation must be established. A Haiku pass pre-marks each paragraph with a proposed tag — mark-for-deletion, mark-for-improvement, esoteric, reality, sharia, quran, hadith — and imports the results into the reader's annotation SQLite database. Asif reviews all proposed deletions in the reader at localhost:4322 and approves or overrides each marker. Approved deletions are applied in-place to the chapter text files; git is the recovery mechanism. The reader already supports all required tag types via `ParagraphAnnotationBar.tsx` and `AnnotationWorkbench.tsx`. **Hard rule: paragraphs tagged esoteric, reality, quran, hadith, poetry, or sharia are never deletion candidates — any such model annotation is automatically demoted to mark-for-improvement.**
+>
+> *Value gained:* Ground-truth noise/content labels for 21 chapters across two books become the training signal and acceptance fixture for the I2 noise router. Human judgment replaces model guesswork for the first pass; all future automation is validated against this baseline.
+
+**Status: NOT STARTED**
+
+---
+
+### I0b. Style rewrite pass — AI rewrites approved surviving content in Asif's teaching voice.
+
+> After I0a annotation review and approval, the cleaned chapter text is rewritten to match Asif's actual teaching register, extracted from his delivered KSessions lectures — Wise Reminder (Group 3, 44 sessions), Ikhwan As-Safa Arithmetic only (Group 17, Category 51, 14 sessions), and Asaas Al-Taveel (Group 18, 32 sessions). Three signature style patterns are consistent across the corpus: (1) **recap + bridge opening** — every session opens with a one-paragraph recap of the previous session then a bridge sentence framing the day's question; (2) **Arabic term + immediate English gloss** — the Arabic is never left hanging (`روح — our natural disposition`); (3) **teaching by contrast or explicit enumerated pattern** — structure is made visible, each element is given a why. Session 2346 ("Necessity Of Imam") in Asaas Al-Taveel is the primary Isbat al-Imamah style source. The style corpus is accessible via the MSSQL extension using the query files at `scripts/kashkole/queries/` (committed `ea476ba`; AHHOME profile, server `192.168.1.158`). A Sonnet pass is required — style fidelity is the objective. Rewrites are applied in-place; git is the recovery mechanism.
+>
+> *Value gained:* Existing chapters read as though Asif wrote them, not as pipeline output. The style imprint built from this pass becomes the authoring prompt target for all future books.
+
+**Status: NOT STARTED**
 
 ---
 
@@ -452,11 +473,11 @@ A companion **Book Review unified view** in the astro site (I5) surfaces both ga
 
 ---
 
-### I2. Model-driven noise routing — replaces fixed pattern strip in Phase 05.
+### I2. Noise routing — two-pass architecture: zero-cost rule pre-pass → Sonnet for ambiguous survivors only.
 
-> Fixed regex noise stripping misses context-dependent boilerplate and over-strips in Arabic scholarly prose. A new `noise_router.py` routes each paragraph to Haiku (complexity < 0.4) or Sonnet (≥ 0.4). Cost regression on existing pdf books is near-zero (all route to Haiku).
+> Fixed regex noise stripping misses context-dependent boilerplate while also over-stripping in Arabic scholarly prose. The replacement is a **two-pass architecture, not a model-per-paragraph router**: (1) a rule-based pre-pass at zero cost strips the structurally obvious cases — isnads, biographical preambles, repetitive lecture openers, greetings — without spending a single token; (2) only the paragraphs that survive the rule pass and remain ambiguous are sent to Sonnet for a context-sensitive noise decision. This keeps per-chapter LLM cost near zero for well-structured books. **Hard constraint: paragraphs containing esoteric content, Quranic verses, hadith, ta'wil, haqaiq, daqaiq, poetry, or reality/sharia classifications are excluded from the noise candidate pool entirely — never offered to either pass.** Companion source compression is handled in the same step: bulk deduplication first (large chunks restating the primary are dropped at zero LLM cost), then an enrichment test ("does this passage teach something the primary does not?"), with historical/biographical reasoning treated as automatic fail; if a companion compresses to less than 15% of its original volume, it is flagged for human review before any LLM spend. The model-per-paragraph routing approach (Haiku/Sonnet/Gemini per complexity score) was **explicitly considered and rejected** — it spends tokens on every paragraph including the obvious cases; the two-pass design spends tokens only on genuine ambiguity.
 >
-> *Value gained:* Noise stripping adapts to content density without manual pattern maintenance; strip decisions are auditable via `noise-stripped.jsonl`.
+> *Value gained:* Noise stripping adapts to content density without per-paragraph model cost on obvious cases; protected content categories are structurally prevented from being stripped; companion source cost is gated behind a deduplication check.
 
 **Status: NOT STARTED**
 

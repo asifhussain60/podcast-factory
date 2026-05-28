@@ -1642,15 +1642,117 @@ waves_ghj:
     parallel_with: []
     depends_on: [B]
     summary: |
-      Extend the pipeline to handle audio-first books (Urdu + Arabic lectures),
-      replace fixed noise-strip patterns with model-driven routing, add tradition
-      awareness to the knowledge base, introduce a Source Review Gate before
-      per-chapter authoring begins, add a Phase 11g per-chapter optimiser, and
-      surface a unified Book Review UI in the astro site. All decisions locked in
-      _workspace/plan/intelligence/locked-decisions.md.
+      Extends the pipeline in five coordinated areas, preceded by two
+      retroactive repair steps (I0a + I0b) on existing shipped books.
+      I0a: Haiku annotation pass pre-marks noise and content types on
+      existing chapters; Asif reviews and approves in the reader UI.
+      I0b: Sonnet rewrites cleaned text in Asif's teaching voice using
+      style extracted from his KSessions lectures (Wise Reminder, Ikhwan
+      Arithmetic, Asaas Al-Taveel, Session 2346 Isbat al-Imamah).
+      Then: audio-first intake (I1); two-pass noise routing with
+      zero-cost rule pre-pass + Sonnet for ambiguous survivors only (I2);
+      tradition-aware KB schema migration (I3); Source Review Gate
+      Phase 06a (I4); Book Review unified astro view (I5);
+      Phase 11g per-chapter Sonnet optimiser (I6).
+      All decisions locked in _workspace/plan/intelligence/locked-decisions.md.
     locked_decisions_ref: "_workspace/plan/intelligence/locked-decisions.md"
     execution_notes: []
     steps:
+      - id: I0a
+        title: "Retroactive noise annotation — AI pre-marks existing chapters; human reviews in reader UI"
+        depends_on: []
+        rationale: |
+          The two primary test books carry noise of different types.
+          the-master-and-the-disciple has additive noise (the pipeline added
+          large italicised editorial preambles + 'Where this chapter picks up'
+          sections on top of good source content).
+          kitab-al-riyad has condensed noise (pipeline dropped content AND added
+          framing; the source file is larger than the chapter output, meaning
+          substantive content may be missing). Before building the automated
+          noise router, ground-truth annotation must be established manually.
+          A Haiku pass pre-marks each paragraph with a proposed tag
+          (mark-for-deletion, mark-for-improvement, esoteric, reality, sharia,
+          quran, hadith) and imports results into the reader annotation SQLite DB.
+          Asif reviews in the reader at localhost:4322 and approves or overrides.
+          Approved deletions applied in-place; git is the recovery mechanism.
+          Hard rule: esoteric / reality / quran / hadith / poetry / sharia
+          paragraphs are NEVER deletion candidates -- model annotations for these
+          categories are auto-demoted to mark-for-improvement.
+          Reader UI components already built: ParagraphAnnotationBar.tsx +
+          AnnotationWorkbench.tsx support all required tag types.
+        deliverables:
+          - "scripts/kashkole/annotate_chapters.py: Haiku annotation pass producing structured JSON per paragraph (<=300 lines)"
+          - "scripts/kashkole/import_annotations.py: load JSON into reader annotation SQLite DB"
+          - "Annotation tags: mark-for-deletion, mark-for-improvement, esoteric, reality, sharia, quran, hadith"
+          - "Protected-category demotion rule enforced in annotate_chapters.py (never deletion)"
+          - "Dry-run target: one chapter from the-master-and-the-disciple + one from kitab-al-riyad"
+          - "Full pass: all 21 chapters (6 M&D + 15 KaR)"
+          - "In-place chapter edits applied after Asif approves; committed as test-fixture baseline"
+        acceptance:
+          - "Annotations visible in reader UI at localhost:4322 for both test books after import"
+          - "No esoteric/quran/hadith/poetry/sharia paragraphs carry mark-for-deletion tag"
+          - "annotate_chapters.py: >= 5 tests green (tag assignment, demotion rule, confidence threshold)"
+          - "Chapter text files updated to match approved annotations after finalize step"
+          - "git diff shows only deletion of confirmed noise paragraphs (no content added)"
+        authorization: tier_one
+        branch: "feature/wave-i-retroactive-annotation"
+        cost_estimate_usd: 3
+        execution_status: not_started
+        execution_notes:
+          - "2026-05-28 discussion: reader UI (ParagraphAnnotationBar.tsx + AnnotationWorkbench.tsx) already supports all required tag types."
+          - "Noise type characterised per book: M&D = additive (pipeline added editorial); KaR = condensed (content dropped + framing added)."
+          - "Annotation DB is SQLite inside the reader. Import script writes directly to DB -- no API endpoint needed."
+          - "Test book sizes: M&D 6 chapters 1409 lines; KaR 15 chapters 2776 lines."
+          - "Source files confirmed available: both books have _system/source/text/raw-extract.md and refined-english.md."
+
+      - id: I0b
+        title: "Style rewrite pass -- AI rewrites surviving content in Asif's teaching voice"
+        depends_on: [I0a]
+        rationale: |
+          After I0a annotation review and deletion, the cleaned chapter text is
+          rewritten to match Asif's actual teaching register, extracted from his
+          delivered KSessions lectures. Three signature style patterns extracted
+          from the corpus:
+          (1) Recap + bridge opening: every session opens with a one-paragraph
+              recap of the previous session then a bridge sentence framing the
+              day's question. Never starts cold.
+          (2) Arabic term + immediate English gloss: the Arabic is never left
+              hanging ('rwh -- our natural disposition').
+          (3) Teaching by contrast or explicit enumerated pattern: structure is
+              made visible, each element is given a why.
+          Style corpus groups in KSessions: G3 Wise Reminder (44 sessions),
+          G17 Ikhwan As-Safa Cat 51 arithmetic only (14 sessions), G18 Asaas
+          Al-Taveel (32 sessions). Session 2346 ('Necessity Of Imam') is the
+          Isbat al-Imamah style source. Style corpus accessible via VS Code
+          MSSQL extension (scripts/kashkole/queries/; AHHOME profile,
+          server 192.168.1.158, DB KSESSIONS_DEV). Sonnet required for this
+          pass -- style fidelity demands it. Rewrites applied in-place; git is
+          the recovery mechanism.
+        deliverables:
+          - "scripts/kashkole/build_style_corpus.py: extract plain-text samples from KSessions (MSSQL or SQL dump fallback)"
+          - "content/_shared/kashkole-corpus/style-imprint.md: distilled style guide (<=800 words) for LLM system prompt"
+          - "scripts/kashkole/rewrite_chapters.py: Sonnet rewrite pass chapter-by-chapter using style-imprint.md"
+          - "Protected categories (esoteric, quran, hadith, poetry) survive verbatim -- rewrite wraps, never replaces them"
+          - "In-place chapter edits applied after Asif approves git diff"
+          - "Target books phase 1: the-master-and-the-disciple, kitab-al-riyad"
+          - "KSessions SQL queries: scripts/kashkole/queries/ (committed ea476ba)"
+        acceptance:
+          - "style-imprint.md present and <= 800 words"
+          - "Rewritten chapters include recap opening, Arabic gloss, and teaching structure on spot-check"
+          - "No content added that was not in the source -- rewrites rephrase, never expand"
+          - "Protected categories survive verbatim in rewritten chapters"
+          - "rewrite_chapters.py: >= 4 tests green"
+        authorization: tier_two
+        branch: "feature/wave-i-style-rewrite"
+        cost_estimate_usd: 5
+        execution_status: not_started
+        execution_notes:
+          - "2026-05-28 discussion: KSessions.sql on disk at CONTENT/_shared/kashkole-corpus/KSessions.sql (gitignored, 29MB, SQL Server UTF-16 LE format)."
+          - "VS Code MSSQL extension installed (ms-mssql.mssql); AHHOME profile saved (192.168.1.158, KSESSIONS_DEV)."
+          - "Groups confirmed: G3=Wise Reminder (44 sessions), G17=Ikhwan (14 arithmetic sessions, Cat 51 only), G18=Asaas Al-Taveel (32 sessions)."
+          - "Isbat al-Imamah: SessionID 2346, name 'Necessity Of Imam', Group 18 (Asaas Al-Taveel)."
+          - "CSS class taxonomy for protected content documented: esotericBlock/esotericData, quranWidget/quran-ayats, hadees-widget/ks-ahadees-container, poetry-section/poetry-wrapper, previligedBlock/previligedData."
+
       - id: I1
         title: "Audio intake — input_type branch in Phase 04 (pdf / audio-transcript / mixed)"
         depends_on: []
@@ -1678,20 +1780,35 @@ waves_ghj:
         execution_status: not_started
 
       - id: I2
-        title: "Model-driven noise routing — replaces fixed pattern strip in Phase 05"
+        title: "Noise routing — two-pass: zero-cost rule pre-pass then Sonnet for ambiguous survivors only"
         depends_on: [I1]
         rationale: |
-          Fixed regex noise stripping misses context-dependent boilerplate and
-          over-strips in Arabic scholarly prose. A lightweight routing layer
-          selects the cheapest capable model (Haiku for simple, Sonnet for dense)
-          based on input_type + tradition + paragraph complexity score. Output
-          written to _system/noise-stripped.jsonl so Phase 06 picks it up
-          transparently.
+          Two-pass architecture, NOT a model-per-paragraph router.
+          Pass 1 (zero cost): rule-based pre-pass strips structurally obvious
+          noise -- isnads, biographical preambles, repetitive lecture openers,
+          greetings -- without a single LLM token.
+          Pass 2 (Sonnet only): ambiguous survivors from Pass 1 go to Sonnet
+          for context-sensitive noise decision.
+          Hard constraint: esoteric, quran, hadith, ta'wil, haqaiq, daqaiq,
+          poetry, reality, sharia paragraphs are excluded from the noise
+          candidate pool entirely -- never offered to either pass.
+          Companion source compression also in this step: bulk dedup first
+          (restating-primary chunks dropped at zero cost) then enrichment test
+          ('teaches something the primary does not?') then historical/biographical
+          = automatic fail then compression ratio logged; companion < 15% of
+          original volume triggers flag for human review before any LLM spend.
+          Model-per-paragraph routing (Haiku/Sonnet/Gemini per complexity score)
+          was explicitly considered and rejected in the intelligence pipeline
+          discussion -- it spends tokens on every paragraph including obvious
+          cases. Locked decisions: D13, D14, D4c (discussion).
         deliverables:
-          - "scripts/podcast/phases/noise_router.py: routing layer (≤300 lines)"
-          - "Phase 05 wired to noise_router; old fixed-strip patterns become fallback"
-          - "_system/noise-stripped.jsonl: strip log with per-paragraph action + model used"
-          - "Routing model: Haiku (complexity <0.4), Sonnet (complexity ≥0.4); thresholds in _rules.py"
+          - "scripts/podcast/phases/noise_router.py: two-pass router (<=350 lines)"
+          - "Pass 1: strip_obvious_noise(paragraphs) producing [(paragraph, action, reason)] at zero LLM cost"
+          - "Pass 2: Sonnet review of ambiguous survivors only"
+          - "Protected-category exclusion: esoteric/quran/hadith/poetry/reality/sharia never enter either pass"
+          - "Companion source compressor: dedup then enrichment test then compression ratio log"
+          - "_system/noise-stripped.jsonl: per-paragraph action + pass (rule|sonnet) + model used"
+          - "Protected category list and rule patterns in _rules.py"
         acceptance:
           - "Phase 05 completes on both pdf and audio-transcript books"
           - "noise-stripped.jsonl present and valid JSON-lines after phase completes"
