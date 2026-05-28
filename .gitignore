@@ -22,8 +22,6 @@ Thumbs.db
 /m4a/
 /content/m4a/
 /CONTENT/m4a/
-# Stray skill execution artifacts (local-only runtime output)
-/CONTENT/podcast/
 
 # Python virtual environment
 .venv/
