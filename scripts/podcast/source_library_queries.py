@@ -62,7 +62,7 @@ SELECT TOP 1
     Phonetic           AS phonetic
 FROM QuranAyats
 WHERE SurahNumber = {int(surah)} AND AyatNumber = {int(ayat)}
-FOR JSON PATH, WITHOUT_ARRAY_WRAPPER;
+FOR JSON PATH;
 """
     rows = query_json("KQUR", sql)
     if not rows:
@@ -113,7 +113,7 @@ SELECT TOP 1
 FROM Roots
 WHERE RootTransliteration LIKE '%{t}%'
    OR MeaningEnglish      LIKE '%{t}%'
-FOR JSON PATH, WITHOUT_ARRAY_WRAPPER;
+FOR JSON PATH;
 """
     roots = query_json("KQUR", root_sql)
     if not roots:
@@ -153,15 +153,13 @@ SELECT TOP {n}
     t.TopicName                        AS name,
     t.TopicNameEnglish                 AS name_en,
     t.TopicDescription                 AS description,
-    bc.BinderID                        AS binder_id,
-    b.BinderName                       AS binder,
-    bc.ChapterName                     AS chapter,
+    bct.BinderID                       AS binder_id,
+    bct.BinderName                     AS binder,
+    bct.ChapterName                    AS chapter,
     LEFT(td.TopicUnicodeStripped, 400) AS snippet
 FROM Topics t
 LEFT JOIN TopicDataUnicode td ON td.TopicID = t.TopicID
 LEFT JOIN BinderChapterTopics bct ON bct.TopicID = t.TopicID
-LEFT JOIN BinderChapters bc ON bc.BinderChapterID = bct.BinderChapterID
-LEFT JOIN Binders b ON b.BinderID = bc.BinderID
 WHERE t.TopicName        LIKE '%{kw}%'
    OR t.TopicNameEnglish LIKE '%{kw}%'
 ORDER BY t.ViewCount DESC
@@ -188,7 +186,7 @@ SELECT
 FROM Topics t
 LEFT JOIN TopicDataUnicode td ON td.TopicID = t.TopicID
 WHERE t.TopicID = {tid}
-FOR JSON PATH, WITHOUT_ARRAY_WRAPPER;
+FOR JSON PATH;
 """
     topics = query_json("KASHKOLE", topic_sql)
     if not topics:
