@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-28T09:29:22.318Z",
-  "source_commit": "771574c",
+  "generated_at": "2026-05-28T09:46:02.522Z",
+  "source_commit": "ad5e3f3",
   "generator": "podcast-planner agent",
   "phases": [
     {
@@ -129,20 +129,6 @@
     }
   ],
   "agents": [
-    {
-      "id": "docs-updater",
-      "name": "Docs Updater",
-      "role": "",
-      "icon": "robot",
-      "tone": "neutral",
-      "plain": "",
-      "what_it_knows": "See infra/claude-agents/docs-updater.md",
-      "boundary_in": "",
-      "boundary_out": "",
-      "does_not": "",
-      "cost_profile": "varies",
-      "failure_mode": "surfaces error and halts"
-    },
     {
       "id": "podcast-auditor",
       "name": "Podcast Auditor",
@@ -291,20 +277,6 @@
       "tone": "neutral",
       "plain": "Project-stewardship agent. Explicitly invoked via `/steward <scope>` — NOT autonomous. Plans and prioritizes work for the podcast-factory project by composing existing agents (`repo-surgeon`, `podcast-challenger`, `reconcile`, `podcast-a…",
       "what_it_knows": "See infra/claude-agents/project-steward.md",
-      "boundary_in": "",
-      "boundary_out": "",
-      "does_not": "",
-      "cost_profile": "varies",
-      "failure_mode": "surfaces error and halts"
-    },
-    {
-      "id": "reconcile",
-      "name": "Reconcile",
-      "role": "Reconciliation agent for architecture docs",
-      "icon": "robot",
-      "tone": "neutral",
-      "plain": "Reconciliation agent for architecture docs. Given (a) a file:// or https:// link to one of Asif's architecture HTML views and (b) a free-text change request, the agent first verifies whether the underlying skill/agent/script ALREADY impl…",
-      "what_it_knows": "See infra/claude-agents/reconcile.md",
       "boundary_in": "",
       "boundary_out": "",
       "does_not": "",

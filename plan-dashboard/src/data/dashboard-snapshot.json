@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-28T09:29:22.289Z",
-  "source_commit": "771574c",
+  "generated_at": "2026-05-28T09:46:02.497Z",
+  "source_commit": "ad5e3f3",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -505,6 +505,16 @@
   ],
   "recent_commits": [
     {
+      "sha": "ad5e3f3",
+      "subject": "chore: delete operator-review-ai-features.html proposal (no refs, superseded)",
+      "date": "2026-05-28"
+    },
+    {
+      "sha": "006f7d9",
+      "subject": "refactor(naming): rename screaming-case files, corpus dir, and intelligence spec",
+      "date": "2026-05-28"
+    },
+    {
       "sha": "771574c",
       "subject": "fix: remove erroneous /CONTENT/podcast gitignore rule — learning ledger is canonical",
       "date": "2026-05-28"
@@ -542,16 +552,6 @@
     {
       "sha": "29e57db",
       "subject": "feat(homepage): light parchment theme + From Content To Conversation tagline",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "8729547",
-      "subject": "feat(homepage): cinematic narrative scroll homepage (Wave G / G1)",
-      "date": "2026-05-27"
-    },
-    {
-      "sha": "a319f48",
-      "subject": "fix(dashboard): stat tiles – move FA to link tag, enlarge icons+padding, fix breakpoints",
       "date": "2026-05-27"
     }
   ],

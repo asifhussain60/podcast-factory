@@ -14,7 +14,6 @@ substantive procedure, authority files, and tier authorization live in this dire
 
 | Agent | Purpose |
 |---|---|
-| `docs-updater` | Regenerates the architecture view at `docs/architecture/index.html` from current repo truth |
 | `podcast-auditor` | Repo-level health audit — surfaces drift, regressions, and gaps |
 | `podcast-blueprint` | Content-aware episode-structure planner (genre classification → episode plan) |
 | `podcast-challenger` | Semantic quality validator for chapters and framings; convergence loop |
@@ -26,7 +25,7 @@ substantive procedure, authority files, and tier authorization live in this dire
 | `podcast-trainer` | Cross-book pattern learner; proposes regression-gated spec refinements |
 | `postprod-review` | Post-production audio audit from Turboscribe transcripts |
 | `project-steward` | Strategic health advisor; composes other agents; corpus-cited recommendations |
-| `reconcile` | Code-first architecture doc reconciler — fixes code then updates HTML views |
+
 | `refine-prompt` | Refines raw requests into compact instruction paragraphs for Claude |
 | `repo-surgeon` | Holistic repo auditor — 5-pass sweep (structure, code, architecture, brittleness, plan conformance) |
 | `slide-deck-challenger` | Visual quality validator for slide-deck bundles |

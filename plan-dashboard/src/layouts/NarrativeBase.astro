@@ -45,30 +45,10 @@ const { title, description } = Astro.props;
           <a href="/plan"         class="topnav-section">Planner</a>
         </div>
         <div class="topnav-spacer"></div>
-        <div class="topnav-status" id="liveness">
-          <span class="dot" id="liveness-dot"></span>
-          <span id="liveness-label">Live</span>
-        </div>
       </div>
     </nav>
 
     <slot />
 
-    <script>
-      // Liveness dot
-      async function checkLiveness() {
-        try {
-          const r = await fetch('/api/stream', { method: 'HEAD' });
-          const dot = document.getElementById('liveness-dot');
-          const label = document.getElementById('liveness-label');
-          if (dot)   dot.style.background   = r.ok ? '#4a7c4a' : '#a83232';
-          if (label) label.textContent       = r.ok ? 'Live'    : 'Offline';
-        } catch {
-          const dot = document.getElementById('liveness-dot');
-          if (dot) dot.style.background = '#a83232';
-        }
-      }
-      checkLiveness();
-    </script>
   </body>
 </html>

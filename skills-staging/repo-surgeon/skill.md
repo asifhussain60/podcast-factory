@@ -415,7 +415,7 @@ end
 ### When to invoke Pass 5
 
 - Before every commit on `plan/*` branches.
-- After every merge into `develop` that touches `_workspace/plan/**`, `scripts/podcast/**`, or `docs/architecture/podcast-*.html`.
+- After every merge into `develop` that touches `_workspace/plan/**` or `scripts/podcast/**`.
 - After any legacy-file cleanup commit (verifies broken refs are annotated).
 - Before invoking the orchestrator (verifies async-safety + boundary).
 

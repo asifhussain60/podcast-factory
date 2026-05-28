@@ -92,10 +92,9 @@ The canonical source-of-truth for every agent is [infra/claude-agents/](infra/cl
 | `podcast-extract` | [infra/claude-agents/podcast-extract.md](infra/claude-agents/podcast-extract.md) | Single-chapter → NotebookLM bundle fast path |
 | `podcast-publisher` | [infra/claude-agents/podcast-publisher.md](infra/claude-agents/podcast-publisher.md) | Move shipped content from drafts/ to published/books/ (gates G1–G7) |
 | `podcast-trainer` | [infra/claude-agents/podcast-trainer.md](infra/claude-agents/podcast-trainer.md) | Cross-book pattern learner; refines podcast-challenger + handbook with regression gates |
-| `docs-updater` | [infra/claude-agents/docs-updater.md](infra/claude-agents/docs-updater.md) | Regenerate `docs/architecture/index.html` from repo truth |
 | `refine-prompt` | [infra/claude-agents/refine-prompt.md](infra/claude-agents/refine-prompt.md) | Refines a raw request into one compact instruction-paragraph |
 
-Retired 2026-05-23: `podcast-operator` (multi-machine "where am I, what's next?" entry — no longer needed in single-machine model). Lingering wrappers under `.github/agents/` for `CORTEX`, `reconcile`, `repo-surgeon`, and `operating-contract` predate the 2026-05-23 canonical-direction flip and are mirrored without an `infra/` counterpart; they survive for backwards-compatibility with older session prompts.
+Retired 2026-05-23: `podcast-operator` (multi-machine "where am I, what's next?" entry — no longer needed in single-machine model). Retired 2026-05-28: `docs-updater` + `reconcile` (both targeted `docs/architecture/index.html` which has been deleted — architecture documentation now lives in `_workspace/plan/architecture.md` and the Astro site). Lingering wrappers under `.github/agents/` for `CORTEX`, `repo-surgeon`, and `operating-contract` predate the 2026-05-23 canonical-direction flip and are mirrored without an `infra/` counterpart; they survive for backwards-compatibility with older session prompts.
 
 ---
 
