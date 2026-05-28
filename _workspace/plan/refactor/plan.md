@@ -416,6 +416,16 @@ flowchart LR
 
 ---
 
+### H3. Cross-wave autonomous execution chain driver.
+
+> `run_wave.py` executes one wave at a time. Walking away from a multi-wave execution requires someone to manually restart it after each wave completes. This step adds `run_waves_chain.py` — a two-command driver: `authorize` writes a pre-authorization envelope (which waves, global spend cap, per-wave cap), and `run` chains through the waves end-to-end. Each wave is invoked as a `run_wave.py` subprocess; acceptance gates are validated between waves; a halted wave suspends the chain cleanly; a spend cap breach exits before the next wave begins. A `status` command shows the current authorization and recent log entries.
+>
+> *Value gained:* A single `authorize` → `run` sequence lets you walk away from a full multi-wave execution and return to either a complete system or a structured halt report. The pre-authorization envelope means spend is bounded and explicit before any LLM dollars leave the account.
+
+**Status: IN PROGRESS (2026-05-28)**
+
+---
+
 # Wave I · Intelligence Pipeline — Audio Intake, Noise Routing, Tradition-Aware KB, Source Review Gate, Phase 11g
 
 > **Status: NOT STARTED.** Locked decisions at [`_workspace/plan/intelligence/locked-decisions.md`](../intelligence/locked-decisions.md). Depends on Wave B (KB schema). Parallel with any Wave that does not touch Phase 04–06 or the PHASE_ORDER constant.

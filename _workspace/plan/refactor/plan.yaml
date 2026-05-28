@@ -1616,6 +1616,26 @@ waves_ghj:
           - "DR-005 sweep: _authoring.py (2025L), build_episode_txt.py (1563L), extract_chapter.py (1301L), tighten_source.py (1051L), run_wave.py (824L)"
         note: "Steps 1-2 done 2026-05-29. orchestrate_book split requires dedicated session — complex internal dependency graph."
 
+      - id: H3
+        title: "Cross-wave autonomous execution chain driver"
+        depends_on: [H2]
+        deliverables:
+          - "scripts/podcast/run_waves_chain.py — authorize / run / status subcommands"
+          - "_workspace/plan/operations/wave-chain-auth.json — pre-authorization envelope (gitignored)"
+          - "_workspace/plan/refactor/wave-chain-log.jsonl — per-run event ledger"
+        acceptance:
+          - "python3 scripts/podcast/run_waves_chain.py authorize --waves 1 2 3 --spend-cap-total 50 exits 0 and writes wave-chain-auth.json"
+          - "python3 scripts/podcast/run_waves_chain.py status shows authorization and empty log"
+          - "python3 scripts/podcast/run_waves_chain.py run with a pre-authorized chain invokes run_wave.py per wave in sequence"
+          - "run returns exit 3 when a wave halts at human-review gate"
+          - "run returns exit 3 when global spend cap is exceeded"
+          - "tests/test_waves_chain.py passes (authorize, status, spend-cap enforcement, halt propagation)"
+          - "scripts/podcast/run_waves_chain.py is ≤ 600 lines (DR-005)"
+        authorization: tier_one
+        branch: develop
+        cost_estimate_usd: 0
+        execution_status: in_progress
+
   - id: I
     name: Intelligence Pipeline — Audio Intake, Noise Routing, Tradition-Aware KB, Source Review Gate, Phase 11g
     execution_status: not_started

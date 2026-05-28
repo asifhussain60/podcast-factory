@@ -124,6 +124,10 @@ _workspace/Books/*/raw/
 _workspace/inbox/*
 !_workspace/inbox/.gitkeep
 
+# wave-chain-auth.json — operator pre-authorization envelope written at runtime.
+# Contains spend caps + authorized wave list; not source code; not committed.
+_workspace/plan/operations/wave-chain-auth.json
+
 # KAHSKOLE / KSESSIONS extraction work zone (added 2026-05-24).
 # Scripts + extracted output are tracked; exclude the ~750MB source SQL
 # dumps (backed up in Google Drive — re-importable as needed).

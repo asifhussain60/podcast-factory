@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-28T16:54:47.179Z",
-  "source_commit": "8b16dad3",
+  "generated_at": "2026-05-28T17:11:26.566Z",
+  "source_commit": "0b8dc364",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -470,6 +470,18 @@
       "tools": []
     },
     {
+      "id": "H3",
+      "wave": "H",
+      "title": "Cross-wave autonomous execution chain driver",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "H2"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
       "id": "I1",
       "wave": "I",
       "title": "Audio intake — input_type branch in Phase 04 (pdf / audio-transcript / mixed)",
@@ -608,6 +620,16 @@
   ],
   "recent_commits": [
     {
+      "sha": "0b8dc364",
+      "subject": "docs: session handoff 2026-05-28 — Wave I + R4-R6 fixes",
+      "date": "2026-05-28"
+    },
+    {
+      "sha": "317ad881",
+      "subject": "fix: R4-R6 + Wave I plan — intelligence pipeline foundations",
+      "date": "2026-05-28"
+    },
+    {
       "sha": "8b16dad3",
       "subject": "refactor: single content source of truth — status in meta.yml, no published/ copies",
       "date": "2026-05-28"
@@ -645,16 +667,6 @@
     {
       "sha": "d2bbfd65",
       "subject": "chore(handoff): session log entry — A4 complete, _authoring/ package shipped",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "123970a5",
-      "subject": "refactor(A4): complete _authoring/ package split + remove _authoring.py",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "9ba2c8d4",
-      "subject": "refactor(A4-wip): split orchestrate_book.py into phases/ handlers; begin _authoring/ package split",
       "date": "2026-05-28"
     }
   ],
