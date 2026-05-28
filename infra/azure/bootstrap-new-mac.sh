@@ -119,16 +119,10 @@ echo "                       .claude/agents/ wrappers installed."
 echo
 echo "    Cowork side (one-time per Mac):"
 echo "      · Restart Cowork so it picks up the new skill registrations"
-echo "      · Confirm /journal and /podcast appear in the slash menu"
+echo "      · Confirm /podcast appears in the slash menu"
 echo
-echo "    Optional — only if THIS Mac will host the journal web app:"
-echo "      · Set Anthropic key in Keychain:"
-echo "          security add-generic-password -U -a \"\$USER\" -s anthropic-api-key -w 'sk-ant-...'"
-echo "      · Start the Express proxy under launchd (see server/README.md)"
-echo "      · Cloudflare tunnel — only on the Mac you designate as the host"
-echo "          (see docs/cloudflare/setup.md)"
+echo "    Test the skills with a small action before starting any large workflow."
 echo
-echo "    Test the skills with a small action (e.g. translate one page) before"
-echo "    starting any large workflow."
-echo
-echo "    Full runbook: docs/multi-mac-runbook.md"
+echo "    Optional — static-site hosting via Cloudflare Pages:"
+echo "      · Install asif-deploy: clone github.com/asifhussain60/asif-deploy"
+echo "        and run ./infra/setup.sh — fire-and-forget."

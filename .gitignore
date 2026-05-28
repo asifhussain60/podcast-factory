@@ -119,6 +119,11 @@ _workspace/Books/*/source*
 _workspace/Books/*/*.pdf
 _workspace/Books/*/raw/
 
+# inbox — large-file drop zone for raw inputs pending triage/filing.
+# Nothing inside should ever be committed.
+_workspace/inbox/*
+!_workspace/inbox/.gitkeep
+
 # KAHSKOLE / KSESSIONS extraction work zone (added 2026-05-24).
 # Scripts + extracted output are tracked; exclude the ~750MB source SQL
 # dumps (backed up in Google Drive — re-importable as needed).
