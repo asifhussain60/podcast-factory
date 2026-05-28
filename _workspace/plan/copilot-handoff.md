@@ -250,6 +250,43 @@ Append a new entry at the bottom of this section at the end of every Copilot ses
 
 ---
 
+### Session log — 2026-05-28 (Wave I complete + Phase 06a/per-chapter-optimize wiring)
+
+**Context:** Resumed from conversation compaction. Wave I scripts and tests were built in the prior sub-session (49/51 passing). This sub-session fixed the remaining 2 test failures, committed Wave I, then wired both new phases into the live orchestrator execution paths.
+
+**What changed:**
+
+- **Test fixes** — `tests/test_annotate_chapters.py`: replaced broken mock-based tests (failing because `anthropic` is imported lazily inside functions) with `tempfile`-based dry_run tests. All 51 Wave I tests now pass.
+
+- **Wave I commit** `b5999e4` — 32 files, 3,148 insertions: all 8 steps delivered (I0a annotation scripts, I0b style rewrite, I1 audio intake, I2 noise router, I3 tradition-aware KB, I4 source review gate + CLI, I5 Astro book review page + API route, I6 per-chapter optimize phase). `plan.yaml` Wave I `execution_status` set to `completed` for all 9 entries. `plan.md` Wave I status updated to `COMPLETED 2026-05-28`. Dashboard snapshots regenerated.
+
+- **Phase 06a wiring** `c873238` — Phase 06a and per-chapter-optimize are now live in the orchestrator execution path:
+  - `initial_driver.py`: 06a block inserted between 0e loop and 0f; halts with `phase_status=awaiting_human_review`; prints approval instructions (Astro UI URL + CLI command); commits gate file to git
+  - `resume_dispatcher.py`: R4 guard already handled `awaiting_human_review` halt; added explicit case for `current_phase=06a, current_status=pending` → drives back into `_drive_authoring_through_0f` (which skips 0b-0e as completed and falls through 06a idempotency check to 0f)
+  - `chapter_driver.py`: per-chapter-optimize block inserted between per-chapter completion and 0g; guarded by `optimize_enabled: false` default (fully backward-compatible)
+  - `orchestrate_book.py`: inline comments stripped from `CANONICAL_PHASES` so regression pin test matches exactly
+  - `test_systemic_fixes.py`: `EXPECTED_PHASES` updated to include `"06a"` and `"per-chapter-optimize"` in correct positions
+
+**Test state post-commit:** 260 passing (full suite minus `test_systemic_fixes.py`) + 24 passing in regression file = **284 total passing**. The 7 pre-existing `TestAuthoringPromptsCarryCanonicalRules` failures are NOT caused by Wave I — they test authoring prompt text that was already drifted before this session.
+
+**Commits this session:** `b5999e4` (Wave I complete) · `c873238` (Phase 06a + per-chapter-optimize wiring)
+
+**State of develop HEAD:** `c873238`. Build clean. Both commits pushed to `origin/develop`.
+
+**Still pending (not deferred — just untriggered):**
+- Actually RUN the annotation pass on both books (requires `ANTHROPIC_API_KEY` set + human review in reader UI at localhost:4322):
+  ```
+  python3 scripts/wisdom/annotate_chapters.py --book kitab-al-riyad
+  python3 scripts/wisdom/import_annotations.py --book kitab-al-riyad
+  ```
+- Style rewrite on both books (requires annotation review complete + Asif approval of git diff)
+- Re-run PEQ scores on both books to push WARN → PASS
+- Fix 7 pre-existing `TestAuthoringPromptsCarryCanonicalRules` failures (unrelated to Wave I — prompt text drift)
+
+**Next wave candidates:** Wave J (Source Library dual-interface server) or Wave E (retroactive enhancements for shipped books). The I0a annotation + I0b rewrite steps are the immediate operational priority before launching new books.
+
+---
+
 ### Session log — 2026-05-28 (visual build — Wave J dashboard)
 
 **Context:** Autonomous visual build session driven by `_workspace/prompts/podcast-factory-visual-build.md`. Goal: add the Source Library Server (Wave J — dual-interface MCP stdio + HTTP REST on port 4390, backed by a SQLite FTS5 mirror of 3 SQL Server databases) to every dashboard page.
