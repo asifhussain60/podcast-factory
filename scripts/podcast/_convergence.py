@@ -251,6 +251,18 @@ def converge_chapter(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
         if peq_m:
             outcome.peq_total = float(peq_m.group(1))
 
+        # K2: PEQ gate — enforce FAIL floor before any ship decision.
+        # A chapter with peq_total < 70 is treated as BLOCKED regardless of
+        # what the challenger verdict string says, so the fixer can act on
+        # the enrichment / fidelity / structure gaps that drove the low score.
+        if outcome.peq_total is not None and outcome.peq_total < 70.0:
+            outcome.notes.append(
+                f"iter {outer}: PEQ gate FAIL — total {outcome.peq_total:.1f} < 70; "
+                f"overriding verdict {verdict!r} → BLOCKED"
+            )
+            verdict = "BLOCKED"
+            p0 = p0 or 1  # ensure the fixer loop below is entered
+
         outcome.notes.append(
             f"iter {outer}: verdict={verdict} P0={p0} P1={p1} P2={p2}"
             + (f" PEQ={outcome.peq_total:.1f}" if outcome.peq_total is not None else "")

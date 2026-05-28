@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-28T21:37:12.868Z",
-  "source_commit": "522794c",
+  "generated_at": "2026-05-28T21:45:46.132Z",
+  "source_commit": "7c9d4a5",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -783,6 +783,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "7c9d4a5",
+      "subject": "fix: complete kashkole→wisdom rename — path regressions, suggested_slugs, class names, LLM prompt, dashboard snapshots",
+      "date": "2026-05-28"
+    },
+    {
       "sha": "522794c",
       "subject": "feat(wave-k): implement PEQ quality scoring across both pipelines",
       "date": "2026-05-28"
@@ -825,11 +830,6 @@
     {
       "sha": "2e0400c",
       "subject": "plan(wave-i): add I0a/I0b retroactive steps; correct I2 noise architecture; add companion compression scope",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "ea476ba",
-      "subject": "feat(kashkole): add MSSQL query files for KSessions style corpus",
       "date": "2026-05-28"
     }
   ],
