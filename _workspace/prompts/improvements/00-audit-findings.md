@@ -104,7 +104,7 @@ The reader's Quran popover calls **quran.com** (`plan-dashboard/src/pages/api/qu
 | 1 | Gate position | After Phase 06 phonetics, before Phase 07 |
 | 2 | Gate scope | Per-book; other books unaffected |
 | 3 | Approval mechanism | `review-gate.json`; astro site button; CLI fallback |
-| 4 | Astro site | Always-on at port 4322; read/edit in podcast-reader, approve in astro site |
+| 4 | Astro site | Always-on at port 4322; read/edit in the reader section of the Podcast Factory Astro Site, approve in astro site |
 | 5 | Phase 11g model | Claude Sonnet (preserves Gemini independence in 0g) |
 | 6 | Pre-gate analysis | Phase 06a, Claude Haiku, ~$0.50–1.00/book, `warnings[]` in `review-gate.json` |
 | 7 | Noise detection | Model-driven routing layer; intelligent service selection by input_type + tradition + complexity; no fixed regex patterns |

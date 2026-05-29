@@ -12,7 +12,7 @@ Single source of truth for planning, design, and operational standards in the po
 | **[conventions/](conventions/)** | Standing rules across every podcast. `response-template.md` + `response-conventions.md` (how Claude reports back), `general.md` (cross-cutting), `authoring.md` (host gender lock, Essential Teachings, Imam doctrine, reflective-reverent emotion). |
 | **[debt/pipeline-debt.md](debt/pipeline-debt.md)** | Live F-item operational backlog (framework gaps observed in flight). Updated continuously by every operator run. |
 | **[operations/per-book-ship-checklist.md](operations/per-book-ship-checklist.md)** | Per-book ship checklist + DoR gates. The G1-G7 reference; G8-G12 extensions land via refactor step E4. |
-| **[reader/polish-and-ai.md](reader/polish-and-ai.md)** | `podcast-reader/` Astro app polish + Gemini AI integration plan. Parallel concern to the pipeline refactor. |
+| **[reader/polish-and-ai.md](reader/polish-and-ai.md)** | Reader-section polish + Gemini AI integration plan for the Podcast Factory Astro Site. Parallel concern to the pipeline refactor. |
 | **[research/](research/)** | Reference + research: master-disciple recommendations, podcast best practices, redesign audits, findings ledger. |
 | **[view/](view/)** | Existing HTML dashboard views (acceptance-criteria.html, intelligence-pipeline.html, kar-status.html, phased-plan.html, pipeline-explained.html). Eventually superseded by the Wave D SPA at `index.html`. |
 | **[_drivers/](_drivers/)** | Helper scripts (binder_driver.py, commit_binders.sh, image_dedupe.py, stub_sidecars.py). |

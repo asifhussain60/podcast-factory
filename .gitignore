@@ -35,8 +35,9 @@ __pycache__/
 .pytest_cache/
 .benchmarks/
 
-# podcast-reader app (Astro app — source lives in its own dev context; only
-# build artefacts currently on disk)
+# STALE/RETIRED: there is no separate podcast-reader app — the reader is a
+# section inside the Podcast Factory Astro Site (plan-dashboard/). This ignore
+# entry is retired and harmless (no such directory); kept only for safety.
 podcast-reader/
 
 # Node / server proxy

@@ -1,6 +1,6 @@
 # plan-dashboard
 
-A living surface for the podcast-factory plan. Three pages, one local app:
+The Podcast Factory Astro Site (`plan-dashboard/`) — a living surface for the podcast-factory plan and the reader. Three pages, one local app:
 
 - **Overview** (`/`) — the front door.
 - **How it works** (`/architecture`) — vertical timeline of the pipeline stations with the modules that plug into each.

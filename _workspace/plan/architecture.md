@@ -490,7 +490,7 @@ flowchart LR
 
 ## The SPA & Design System
 
-The plan folder gains a Single Page Application at `_workspace/plan/index.html`. One shell; multiple sub-apps; shared CSS theme tokens. Built in **Astro** to match the existing `podcast-reader/` stack — shared design tokens, shared component primitives, single source of truth for typography and color.
+The plan folder gains a Single Page Application at `_workspace/plan/index.html`. One shell; multiple sub-apps; shared CSS theme tokens. Built in **Astro** to match the existing Podcast Factory Astro Site (`plan-dashboard/`) stack — shared design tokens, shared component primitives, single source of truth for typography and color.
 
 ```mermaid
 flowchart TB
@@ -517,7 +517,7 @@ flowchart TB
     BACKBONE -.->|reads| YAML[refactor/plan.yaml]
 ```
 
-**Design system tokens** (CSS custom properties): `--c-bg`, `--c-text`, `--c-accent`, `--c-warn`, `--c-success`; `--type-serif`, `--type-sans`, `--type-mono`; `--space-xs..xl`; `--radius-sm..lg`. Shared across the plan SPA AND the podcast-reader AND any future sub-app (catalog browser, transcript editor, knowledge-base explorer, etc.).
+**Design system tokens** (CSS custom properties): `--c-bg`, `--c-text`, `--c-accent`, `--c-warn`, `--c-success`; `--type-serif`, `--type-sans`, `--type-mono`; `--space-xs..xl`; `--radius-sm..lg`. Shared across the plan SPA AND the reader section AND any future sub-app of the Podcast Factory Astro Site (catalog browser, transcript editor, knowledge-base explorer, etc.).
 
 **Adding a new sub-app** (extensibility recipe): drop a route under `_workspace/plan/src/pages/<sub-app>/index.astro`, import design tokens, register in `routing.md`. Theme inherits automatically.
 
@@ -555,7 +555,7 @@ Compact list of architectural decisions and why. Future Claude sessions and revi
 | DR-007 | **Augmenter default-disabled until G12 fires green** | A/B acceptance gate prevents shipping a flywheel that doesn't actually change outputs. | 2026-05-26 |
 | DR-008 | **Per-book scratch stays JSONL, not SQLite** | Git-diffability for human PR review. SQLite holds merged canonical state. | 2026-05-26 |
 | DR-009 | **No version stamps in tracked files** | The git history IS the version log. Pre-commit hook rejects `Version: \d` and `*v[0-9]*.md`. | 2026-05-26 |
-| DR-010 | **Astro for the plan SPA + design tokens shared with podcast-reader** | One stack, one theme, no duplicate UI primitives. | 2026-05-26 |
+| DR-010 | **Astro for the plan SPA + design tokens shared across the Podcast Factory Astro Site** | One stack, one theme, no duplicate UI primitives. | 2026-05-26 |
 | DR-011 | **Cross-tradition guard via `tradition_adjacency.yml`** | Brethren-of-Purity vs orthodox-Ismaili requires structural prevention, not authoring judgment. | 2026-05-26 |
 | DR-012 | **Augmenter strips `text_ar` before injection** | Prevents Arabic script leak into phonetic-only chapter files (violates R-PHONETICS-OUT). | 2026-05-26 |
 | DR-013 | **Retroactive enhancements for shipped books = addendum-only** | Never re-run the pipeline against KaR, M&D, Ayyuhal Walad, etc. New episodes ship as addenda. | 2026-05-26 |

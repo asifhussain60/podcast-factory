@@ -57,7 +57,7 @@ jq '{phase, phase_status, completed_slugs: .phases."per-chapter".completed_slugs
    content/drafts/my-book-slug/_system/orchestrator-state.json
 ```
 
-Review audit reports in `BOOK_DIR/audits/`. Spot-check episode txt files in `BOOK_DIR/episodes/`. Listen to a sample render in podcast-reader if desired.
+Review audit reports in `BOOK_DIR/audits/`. Spot-check episode txt files in `BOOK_DIR/episodes/`. Listen to a sample render in the reader section of the Podcast Factory Astro Site if desired.
 
 ## 6. Publish (Tier 2 — REQUIRES Asif authorization)
 

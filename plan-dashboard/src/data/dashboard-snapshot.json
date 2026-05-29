@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-29T11:54:18.229Z",
-  "source_commit": "83a286c",
+  "generated_at": "2026-05-29T14:01:34.948Z",
+  "source_commit": "f34a812",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -783,6 +783,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "f34a812",
+      "subject": "prompts: reduce sprawl + add site-overhaul continuation prompt",
+      "date": "2026-05-29"
+    },
+    {
       "sha": "83a286c",
       "subject": "plan: add Astro site-redesign spec (WC6) + per-view diagram catalog",
       "date": "2026-05-29"
@@ -825,11 +830,6 @@
     {
       "sha": "9fd4a42",
       "subject": "feat(dashboard): show PEQ quality scores on book cards, chapter list, and reader",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "3277b89",
-      "subject": "fix(wave-k): calibrate Structure + Enrichment detectors to real chapter language",
       "date": "2026-05-28"
     }
   ],

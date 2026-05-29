@@ -505,7 +505,7 @@ def publish(slug: str, args: argparse.Namespace) -> int:
 
     # 2026-05-25 enhancement: ship the per-chapter show-notes apparatus too.
     # 99-show-notes.md lives in drafts/<slug>/_system/episode-drafts/EP##-<slug>/
-    # and IS what listener-facing library readers (podcast-reader) display
+    # and IS what listener-facing library readers (the Podcast Factory Astro Site) display
     # alongside the episode. Previously these stayed in drafts only, which made
     # the polish work invisible to the audience. Now each EP## ships its
     # show-notes file as published/books/<slug>/show-notes/EP##-<slug>.md.

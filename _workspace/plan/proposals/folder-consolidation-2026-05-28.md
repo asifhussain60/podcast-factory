@@ -2,7 +2,7 @@
 
 **Date:** 2026-05-28
 **Status:** Proposal only — no changes made.
-**Constraint:** Zero functional regression. Orchestrator, podcast-reader, plan-dashboard, and all `scripts/podcast/*` invocations must continue to work.
+**Constraint:** Zero functional regression. Orchestrator, the Podcast Factory Astro Site (`plan-dashboard/`), and all `scripts/podcast/*` invocations must continue to work.
 
 ---
 

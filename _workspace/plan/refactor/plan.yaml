@@ -2581,7 +2581,7 @@ wisdom_corpus_program:
       authorization: tier_two
       cost_estimate_usd: low
       spec: "_workspace/prompts/improvements/07-site-redesign-spec.md"
-      decisions: [D19, D20, D21]
+      decisions: [D19, D20, D21, D22, D23, D24, D25]
       key_steps:
         - "D19 hybrid diagrams: Mermaid (build->inline SVG, vertical TB, uncapped) for flowcharts/UML/sequence/state/ER; keep bespoke React/SVG for system/swimlane/trust-boundary/credential."
         - "Global rules baked into shared styling: vertical-only flow, NO height cap on SVG containers, variety by type-rotation, audience badges (For you / For technical teams)."
@@ -2597,6 +2597,60 @@ wisdom_corpus_program:
         - "Overview narrative explains the full system top-to-bottom; each view labeled by audience."
         - "No two adjacent views lead with the same diagram type (variety)."
         - "Zero inline styling repo-wide; all styling/scripts external; existing CSS + theme unchanged (DoD)."
+      cortex_substrate:
+        rationale: >
+          The HTML View Quality Standard v2.0.0 ("Cortex") supplies the craft + governance
+          contract WC6's "global styling rules" referenced abstractly. Adopted as a SKILL
+          (generative craft) + a challenger agent (enforcement) so the D22 styling DoD becomes
+          mechanically gated, not asserted. Conflict rule (D23): blend both; content + SVG lean
+          Cortex; delivery mechanics follow D22. Build this substrate FIRST within WC6, before
+          authoring views. Ground-truth app = plan-dashboard/ (D25); audit 2026-05-29.
+        source_standard: "_workspace/prompts/improvements/html-view-quality.instructions.md"
+        shipped_2026_05_29:
+          - "WC6a skill built: skills-staging/html-view-quality/SKILL.md."
+          - "WC6b agent built: infra/claude-agents/html-view-challenger.md + .github/agents/html-view-challenger.agent.md."
+          - "Enforcement lock: UserPromptSubmit hook .claude/hooks/cortex-view-guard.sh wired in .claude/settings.json (auto-injects rules on view/html/diagram/astro prompts); CLAUDE.md standing rules + memory (cortex-html-view-standard, astro-site-naming)."
+          - "Canonical app name standardized to 'Podcast Factory Astro Site' across prose references (directory plan-dashboard/ unchanged); stale podcast-reader app references retired; broken start-session.sh dev command fixed."
+          - "WC6c (inline-styling remediation) + per-view rebuilds DEFERRED: each view discussed with Asif one page at a time first."
+        sub_waves:
+          - id: WC6a
+            name: "Cortex craft skill (Astro-adapted)"
+            decisions: [D23, D25]
+            authorization: tier_one
+            cost_estimate_usd: zero
+            execution_status: built_2026_05_29
+            key_steps:
+              - "Create skills-staging/html-view-quality/SKILL.md from the source standard; preserve all REQ-NNN IDs verbatim."
+              - "Rewrite delivery mechanics for Astro: external CSS/JS only (no inline — D22); page-shell mapped to a shared Astro layout; Mermaid build-time -> inline SVG (D19)."
+              - "Theme-Adapter Pattern B: map Cortex's 18 base tokens onto existing --c-* tokens; add 4 missing aliases (--font-display/--font-mono/--glass-bg/--glass-border) WITHOUT changing any existing value (D25)."
+            acceptance:
+              - "SKILL.md present with frontmatter (name: html-view-quality); every REQ-NNN preserved."
+              - "Token-adapter section maps all 18 Cortex base tokens to existing theme.css tokens; zero existing values changed."
+          - id: WC6b
+            name: "html-view-challenger conformance agent"
+            decisions: [D24]
+            authorization: tier_one
+            cost_estimate_usd: zero
+            execution_status: built_2026_05_29
+            key_steps:
+              - "Canonical infra/claude-agents/html-view-challenger.md + discovery stub .github/agents/html-view-challenger.agent.md (mirror podcast-challenger shape)."
+              - "Embed Cortex §10 checklist + §11 automated greps adapted for Astro build output; emit REQ-NNN-cited MUST/SHOULD findings; converge fix->re-audit; stamp conformance Level 1/2/3."
+            acceptance:
+              - "Agent runs against a built view and produces a REQ-NNN-cited report with a declared conformance level."
+              - "MUST violations block; SHOULD violations warn; report format documented."
+          - id: WC6c
+            name: "Token-adapter + inline-styling remediation (DoD compliance)"
+            decisions: [D22, D25]
+            authorization: tier_two
+            cost_estimate_usd: low
+            key_steps:
+              - "Add the 4 missing Cortex token aliases to theme.css (no value/theme change)."
+              - "Extract ~90 inline style= instances + 6 inline <style> blocks + 2 inline <script> blocks to external CSS/JS (audit 2026-05-29)."
+              - "Special-case NarrativeScroll GSAP @keyframes: move to external stylesheet; verify animation parity."
+            acceptance:
+              - "html-view-challenger reports zero inline-styling MUST violations across plan-dashboard views + components."
+              - "Existing colour theme + reader aesthetic visually unchanged (spot-check render)."
+        build_order: [WC6a, WC6b, WC6c, "then existing WC6 view-build steps gated by html-view-challenger"]
   open_items_best_assumption:
     - "Table-level extraction mapping inferred from dumps (KASHKOLE TopicData*/SessionDoctrines/canvas.* excluded as plumbing)."
     - "Audit live regressions R5 (README) + R6 (publish script vs UI model) -> pipeline-debt; fixed during execution."

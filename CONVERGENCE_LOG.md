@@ -1,6 +1,6 @@
 # Convergence Log
 
-Tracks screenshot-based scoring iterations for the Astro plan-dashboard site.
+Tracks screenshot-based scoring iterations for the Podcast Factory Astro Site (`plan-dashboard/`).
 Scoring model: max +24 reward signals, penalties applied per rubric.
 Convergence threshold: **16/24**. Hard floor: no ship with −6 (duplicate diagram) active.
 

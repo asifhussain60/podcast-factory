@@ -9,7 +9,7 @@ to `content/published/books/<slug>/`. This script imports the gate
 functions from `publish_to_library.py` and runs them read-only.
 
 If all gates pass, the orchestrator halts at finalize so Asif can review
-the clean version in the podcast-reader app + optionally run A/B
+the clean version in the Podcast Factory Astro Site + optionally run A/B
 transcription analysis. The actual publish (the file copy) is a
 separate human-authorized action.
 

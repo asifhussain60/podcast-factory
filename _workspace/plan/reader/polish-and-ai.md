@@ -1,4 +1,4 @@
-# Podcast-reader polish + AI reading layer — 2026-05-25
+# Podcast Factory Astro Site — reader-section polish + AI reading layer — 2026-05-25
 
 **Status:** PROPOSED v2 — second-pass audit added 2026-05-25 after Asif provided a clearer screenshot.
 **Branch:** `book/the-master-and-the-disciple` (per CLAUDE.md branch policy; merges to `develop` as part of the book's publish wave).
@@ -465,7 +465,7 @@ To absorb the rest of the second-pass-audit chrome findings:
 
 ### 3.5 Implementation
 
-**Server-side routing via Astro endpoints.** The reader app is Astro with the Node adapter, so it already has server-side endpoints. We add four:
+**Server-side routing via Astro endpoints.** The reader section of the Podcast Factory Astro Site is Astro with the Node adapter, so it already has server-side endpoints. We add four:
 
 - `src/pages/api/ai/define-term.ts` — Gemini Flash, POST `{phonetic, context}` → `{definition}`. Reads `gemini_api_key` from keychain via `security find-generic-password -s gemini_api_key -a $USER -w`. Cached in localStorage on the browser side.
 - `src/pages/api/ai/summarize-section.ts` — Claude Haiku via `claude -p`, POST `{sectionText}` → `{summary}`. Spawns `claude -p` as a child process; no API key needed (Max subscription OAuth).

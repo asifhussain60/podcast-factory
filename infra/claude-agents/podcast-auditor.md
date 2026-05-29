@@ -44,7 +44,7 @@ The auditor NEVER:
 - Modifies any source file
 - Promotes findings to the learning substrate's `_learning/promoted/` automatically
 - Reaches into the sibling journal repo
-- Audits the reader SPA (`podcast-reader/`) or `infra/azure/` (these are out of scope; future agents may cover them)
+- Audits the reader section of the Podcast Factory Astro Site (`podcast-reader/`) or `infra/azure/` (these are out of scope; future agents may cover them)
 
 The auditor ALWAYS:
 - Runs the full 12-probe catalog

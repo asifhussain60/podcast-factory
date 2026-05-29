@@ -1,9 +1,9 @@
 /**
  * content-paths.ts — TypeScript mirror of scripts/podcast/_paths.py.
  *
- * Identical contract to podcast-reader/src/lib/content-paths.ts. Update all
- * three (Python + reader + dashboard) together when the on-disk layout
- * changes. Single source of truth for mapping (stage, category, slug) → dir.
+ * Single source of truth for content paths in the Podcast Factory Astro Site.
+ * Mirrors scripts/podcast/_paths.py — update both (Python + this file)
+ * together when the on-disk layout changes. Maps (stage, category, slug) → dir.
  *
  * LAYOUT (locked 2026-05-26):
  *   content/<stage>/<category>/<slug>/

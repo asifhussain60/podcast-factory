@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-29T11:54:18.256Z",
-  "source_commit": "83a286c",
+  "generated_at": "2026-05-29T14:01:34.972Z",
+  "source_commit": "f34a812",
   "generator": "podcast-planner agent",
   "phases": [
     {
@@ -198,6 +198,20 @@
     }
   ],
   "agents": [
+    {
+      "id": "html-view-challenger",
+      "name": "Html View Challenger",
+      "role": "Conformance challenger for HTML views, Astro pages, components, and diagrams on ",
+      "icon": "robot",
+      "tone": "neutral",
+      "plain": "Conformance challenger for HTML views, Astro pages, components, and diagrams on the Podcast Factory Astro Site (directory plan-dashboard/). Validates a built view against the Cortex HTML View Quality Standard (the 74 REQ-NNN rules in _wo…",
+      "what_it_knows": "See infra/claude-agents/html-view-challenger.md",
+      "boundary_in": "",
+      "boundary_out": "",
+      "does_not": "",
+      "cost_profile": "varies",
+      "failure_mode": "surfaces error and halts"
+    },
     {
       "id": "podcast-auditor",
       "name": "Podcast Auditor",
