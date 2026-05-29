@@ -107,6 +107,16 @@ interface Stage {
   html: string;
 }
 
+interface StageMetric {
+  id: string;
+  available: boolean;
+  words: number;
+  chars: number;
+  sentences: number;
+  deltaPct: number | null;
+  comparedTo: string | null;
+}
+
 interface Props {
   slug: string;
   chapter: string;
@@ -114,9 +124,10 @@ interface Props {
   chapterTitle: string;
   glossary?: GlossaryEntry[];
   reviewed?: Record<string, { approved: boolean; approved_at?: string | null }>;
+  metrics?: StageMetric[];
 }
 
-export default function StudioPoc({ slug, chapter, stages, chapterTitle, glossary = [], reviewed = {} }: Props) {
+export default function StudioPoc({ slug, chapter, stages, chapterTitle, glossary = [], reviewed = {}, metrics = [] }: Props) {
   // Stage tabs (SN-5): the last AVAILABLE stage is the one under review (editable); upstream
   // stages are read-only comparison views. Tabs for not-yet-produced stages render disabled.
   const editableStageId = [...stages].reverse().find((s) => s.available)?.id ?? stages[0]?.id;
@@ -435,6 +446,23 @@ export default function StudioPoc({ slug, chapter, stages, chapterTitle, glossar
             </button>
           ))}
         </div>
+        {(() => {
+          const m = metrics.find((x) => x.id === stageId);
+          if (!m || !m.available) return null;
+          const priorLabel = stages.find((s) => s.id === m.comparedTo)?.label;
+          const delta = m.deltaPct;
+          return (
+            <div className="sp-metrics">
+              <span>{m.words.toLocaleString()} words · {m.sentences.toLocaleString()} sentences</span>
+              {delta !== null && priorLabel && (
+                <span className={`sp-metric-delta ${delta < 0 ? 'is-down' : delta > 0 ? 'is-up' : ''}`}>
+                  {delta > 0 ? '+' : ''}{delta}% vs {priorLabel}
+                  {stageId === 'denoised' && delta < 0 && ` (${Math.abs(delta)}% noise removed)`}
+                </span>
+              )}
+            </div>
+          );
+        })()}
         {isReadOnlyStage && (
           <div className="sp-stage-note">Read-only — viewing the {stage?.label} stage for comparison.</div>
         )}

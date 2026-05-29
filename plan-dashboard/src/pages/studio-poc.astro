@@ -10,6 +10,7 @@ import StudioVersePopover from '../components/reader/poc/StudioVersePopover.tsx'
 import { renderMarkdown } from '../lib/reader/markdown';
 import { loadGlossary } from '../lib/reader/glossary';
 import { readReview } from '../lib/reader/stage-review';
+import { buildStageMetrics, writeMetricsLedger } from '../lib/reader/stage-metrics';
 
 const SLUG = 'ayyuhal-walad';
 const CHAPTER = 'ch01-frame-and-first-counsel';
@@ -39,10 +40,17 @@ function loadStageMd(id: string): string | null {
   if (id === 'augmented') return readIfExists(new URL(`chapters/${CHAPTER}.txt`, base));
   return null;
 }
-const stages = STAGE_DEFS.map((d) => {
+const stageTexts = STAGE_DEFS.map((d) => {
   const md = loadStageMd(d.id);
-  return { id: d.id, label: d.label, slice: d.slice, available: !!md, html: md ? renderMarkdown(md) : '' };
+  return { ...d, available: !!md, text: md ?? '' };
 });
+// Track per-stage metrics (incl. "% noise removed" = Denoised vs Source) + persist the ledger.
+const metrics = buildStageMetrics(stageTexts.map((s) => ({ id: s.id, available: s.available, text: s.text })));
+writeMetricsLedger(SLUG, CHAPTER, metrics);
+const stages = stageTexts.map((s) => ({
+  id: s.id, label: s.label, slice: s.slice, available: s.available,
+  html: s.available ? renderMarkdown(s.text) : '',
+}));
 const loadError = stages.some((s) => s.available) ? '' : `No stage artifacts found for ${SLUG}/${CHAPTER}.`;
 // FC-4: Arabic-script overlay glossary (seed for the feel-check; Phase 0c bakes the real one).
 const glossary = await loadGlossary(SLUG);
@@ -63,7 +71,7 @@ const review = readReview(SLUG, CHAPTER);
     ? <p class="sp-error">Could not load the chapter: {loadError}</p>
     : (
       <div class="prose-body">
-        <StudioPoc client:only="react" slug={SLUG} chapter={CHAPTER} stages={stages} chapterTitle={chapterTitle} glossary={glossary} reviewed={review.stages} />
+        <StudioPoc client:only="react" slug={SLUG} chapter={CHAPTER} stages={stages} chapterTitle={chapterTitle} glossary={glossary} reviewed={review.stages} metrics={metrics} />
         <StudioVersePopover client:only="react" />
       </div>
     )}

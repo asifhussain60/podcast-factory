@@ -429,3 +429,13 @@
 .sp-approve:hover:not(:disabled) { filter: brightness(1.06); }
 .sp-approve:disabled { cursor: default; }
 .sp-approve.is-done { color: var(--c-green, #15803d); background: color-mix(in srgb, var(--c-green, #16a34a) 14%, var(--c-bg-card)); border-color: color-mix(in srgb, var(--c-green, #16a34a) 45%, transparent); }
+
+/* Stage metrics strip (under the tabs) — words/sentences + delta vs the prior stage. */
+.studio-poc__editor .sp-metrics {
+  display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline;
+  font-family: var(--font-ui, system-ui, sans-serif); font-size: 0.78rem;
+  color: var(--c-ink-muted); margin: -10px 0 16px;
+}
+.studio-poc__editor .sp-metric-delta { font-weight: 700; }
+.studio-poc__editor .sp-metric-delta.is-down { color: var(--c-green, #15803d); }
+.studio-poc__editor .sp-metric-delta.is-up { color: var(--c-accent); }
