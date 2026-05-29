@@ -95,11 +95,27 @@ spend authorization + the NO-`claude -p` rule are in memory.
 two Arabic editions + one English academic translation, all DIFFERENT structures, and a different
 scheme from the prior run's 5 chapters.
 
-**NEXT — intake assembly (agent-inline reasoning, no spend):** align the heterogeneous-structure
-sources into the common-denominator CORE + map to the chapter scheme; write `_stages/<chapter>/
-source.md` + `core.md` so the Source/Core tabs light up. ch01 (framing letter + first counsel) is
-located in the English OCR around lines 1640–2400. This is content-aware boundary reasoning, not a
-mechanical split — the real Slice-1 work.
+**FULL 5-STAGE CHAIN DONE for ch01 (2026-05-29, one unified lineage, $0.37 total Azure).**
+All agent-inline (no `claude -p`, no Claude tokens). Stage tabs all live at /studio-poc:
+- source 6,412w → core 6,398w (−0.2%, page furniture) → **denoised 2,606w (−59.3% = "% noise removed")**
+  → normalized 1,777w (−31.8%, re-voiced to house style) → augmented 2,037w (+14.6%, knowledge refs).
+- ch01 = treatise opening (invocation + framing letter + first counsel), English academic edition
+  lines 1598–2163 (before the Hatim story = ch02). `_stages/ch01-frame-and-first-counsel/{source,
+  core,denoised,normalized,augmented}.md` + `knowledge-report.json`. Augmented now DERIVES from
+  Normalized (legacy prior-run chapter replaced in the new lineage).
+- KNOWLEDGE STAGE honest result: 9 references catalogued, **0 verified** — pending the Quran + hadith
+  reference DBs (Asif's deliverable). Tradition filter correctly BLOCKED injection (corpus=fatimid-
+  ismaili, chapter=Ghazali Sunni-Sufi) — the safe intended behavior.
+
+**HONEST PENDING (not blockers, scoped work):**
+- Reconcile slice (Slice 3) DEFERRED: Core is single-source (English academic) + page-furniture-
+  stripped only; the real tri-source intersection (fold in the 2 Arabic editions, separate each
+  edition's commentary as attributed additions) is unbuilt. Denoise residue: inline footnote digits
+  ("Allah¹") remain in denoised (cleaned during normalize).
+- Reference verification needs the Quran + hadith DBs ingested (Asif providing).
+- Only ch01 processed; ch02–ch05 pending. Slide decks (mandatory output) not yet addressed.
+- intake_stage.py only OCRs (committed). Denoise/normalize/augment were inline agent transforms,
+  NOT yet productionized as scripts — fine for the walking skeleton; productionize when stable.
 
 **Parked (resume anytime):**
 - *Site redesign* — 5 of 13 views built, 5 text-only and pending. Full audit + resume
