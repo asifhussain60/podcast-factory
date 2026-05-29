@@ -2574,6 +2574,23 @@ wisdom_corpus_program:
         - "Incomplete books: slice from what exists; never block on completeness."
       acceptance:
         - "An Urdu audio lecture flows to episodes through the gates without re-translating done content."
+    - id: WC6
+      name: Astro site redesign (visual comprehension)
+      depends_on: []
+      execution_status: design_on_paper
+      authorization: tier_two
+      cost_estimate_usd: low
+      spec: "_workspace/prompts/improvements/07-site-redesign-spec.md"
+      decisions: [D19, D20, D21]
+      key_steps:
+        - "D19 hybrid diagrams: Mermaid (build->inline SVG, vertical TB, uncapped) for flowcharts/UML/sequence/state/ER; keep bespoke React/SVG for system/swimlane/trust-boundary/credential."
+        - "Global rules baked into shared styling: vertical-only flow, NO height cap on SVG containers, variety by type-rotation, audience badges (For you / For technical teams)."
+        - "D20 guided Overview front door (reuse NarrativeScroll) + 12 audience-labeled drill-down views; add missing infra-architecture content for technical teams."
+        - "D21 design-all-views-on-paper FIRST (spec doc) -> approval -> build per spec build-sequence."
+      acceptance:
+        - "Every view in the spec has its specified diagram set; all diagrams flow vertically with no height cap."
+        - "Overview narrative explains the full system top-to-bottom; each view labeled by audience."
+        - "No two adjacent views lead with the same diagram type (variety)."
   open_items_best_assumption:
     - "Table-level extraction mapping inferred from dumps (KASHKOLE TopicData*/SessionDoctrines/canvas.* excluded as plumbing)."
     - "Audit live regressions R5 (README) + R6 (publish script vs UI model) -> pipeline-debt; fixed during execution."

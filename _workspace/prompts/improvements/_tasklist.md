@@ -69,7 +69,12 @@ Asif (2026-05-29): overwhelmed reading dense text in the editor; wants the desig
 - **No max-height limit on the SVG diagram containers** (let them grow).
 - Asif wants a full REDESIGN discussion FIRST (work-with-me: Claude states how it can help + what it will update per view) BEFORE any implementation.
 - Plan-first gate still applies: redesign → plan entry → snapshot → approval → build.
-- Decisions to log here: T4.1 diagram tech (Mermaid build-time→SVG? D3? hand-authored SVG?), T4.2 per-view content map, T4.3 audience split (Asif-facing conceptual vs technical-team infra), T4.4 information architecture / navigation.
+- Decisions to log here: T4.1 diagram tech ✓, T4.2 per-view content map, T4.3 audience split (Asif-facing conceptual vs technical-team infra), T4.4 information architecture / navigation.
+- **D19 (T4.1 diagram tech)** — HYBRID: Mermaid (build-time → inline SVG, default top-down/vertical, uncapped height) for new flowcharts/UML/sequence diagrams; keep existing bespoke React/SVG components (C4ContextDiagram, PhaseSwimlaneDiagram, DbArchitecture, TrustBoundaryDFD, etc.) for high-level system + trust-boundary. d3 already a dep; Mermaid is the one new dependency. Vertical-flow + no-height-cap baked into shared diagram styling, not per-page.
+- **Site inventory (verified 2026-05-29):** 12 top-level views — index, overview, dashboard, architecture, system-map, infrastructure, db-schema, intelligence, quality, security, plan, annotation-ops — plus library/ (reader+editor) and wisdom/ (corpus area already routed: wisdom/index + wisdom/[shelf]/[book]). Existing diagram components: C4ContextDiagram, PhaseSwimlaneDiagram, StackFlow, StepDiagram, SpendChart, DbArchitecture, InfraColumns, LayerStack, NarrativeScroll, TrustBoundaryDFD, CredentialMap, PipelineSpine, PipelineOverviewRail.
+- **D20 (T4.4 information architecture)** — Single guided "Overview" front door: a top-to-bottom narrative (reuse `NarrativeScroll`) that explains the whole system in plain language with vertical diagrams; the 12 detailed views become drill-downs, each labeled by audience ("For you" conceptual vs "For technical teams" infra) and linked from the narrative. Fixes the "too much to read" problem: understand in one pass, drill down on demand.
+- **D21 (T4 rollout)** — DESIGN ALL VIEWS ON PAPER FIRST, then build everything (Asif overrode the pilot-first rec). → Author a complete per-view diagram spec (every view, every diagram: type/audience/content/flow) BEFORE any build. Spec = doc `07-site-redesign-spec.md`; then plan entry → snapshot → approval → build. No incremental pilot.
+- **Per-view update map (T4.2) → full spec authored in `07-site-redesign-spec.md`.**
 
 ## Straightforward items (await go-ahead, not blocking topics)
 

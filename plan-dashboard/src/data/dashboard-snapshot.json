@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-29T11:37:19.578Z",
-  "source_commit": "b463cb4",
+  "generated_at": "2026-05-29T11:44:09.051Z",
+  "source_commit": "37ee067",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -783,6 +783,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "37ee067",
+      "subject": "plan: add Wisdom Corpus Program (D1-D18) to refactor plan + ledger",
+      "date": "2026-05-29"
+    },
+    {
       "sha": "b463cb4",
       "subject": "docs: architecture-redesign convergence ledger + remove YNAB MCP",
       "date": "2026-05-29"
@@ -825,11 +830,6 @@
     {
       "sha": "187aa5d",
       "subject": "feat(wave-k): K1 — voice exemplar vectors built for both books",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "7a5b4a7",
-      "subject": "docs(setup): fix infra/ path in bootstrap.md",
       "date": "2026-05-28"
     }
   ],

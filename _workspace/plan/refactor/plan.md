@@ -703,3 +703,9 @@ Wave K introduces a principled, multi-dimensional quality score — the **PEQ (P
 > *Value gained:* A decided body of work stops being invisible to the plan, so no future session rebuilds or contradicts it.
 
 **Status: AWAITING APPROVAL.** Build order: corpus first, then the annotation engine and the Wisdom Corpus view in parallel, then the knowledge step; the audio-intake work runs as a parallel track. Visual surfacing of all of the above into the Astro site is the pending site-redesign discussion (T4).
+
+### 6. Redesign the Astro site for visual comprehension
+
+> Turn the dense written design into varied, vertical, uncapped diagrams across the site so it can be understood at a glance. A new guided Overview front door explains the whole system top-to-bottom in one scroll; the twelve detailed views become audience-labeled drill-downs ("For you" conceptual vs "For technical teams" infrastructure), with missing infrastructure-architecture content added for engineering teams. New flowcharts, UML, sequence and state diagrams are authored in Mermaid (vertical, no height cap); the richer system and trust-boundary visuals stay as the existing bespoke components, deliberately rotated so no two views look alike. The complete per-view diagram spec is written on paper first and approved before any building.
+>
+> *Value gained:* Asif understands the entire architecture by scrolling one page instead of reading dense text; technical teams get the infrastructure depth they need — both from the same site. Full spec: [07-site-redesign-spec.md](../../prompts/improvements/07-site-redesign-spec.md).
