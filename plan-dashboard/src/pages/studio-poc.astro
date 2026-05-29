@@ -10,23 +10,41 @@ import StudioVersePopover from '../components/reader/poc/StudioVersePopover.tsx'
 import { renderMarkdown } from '../lib/reader/markdown';
 import { loadGlossary } from '../lib/reader/glossary';
 
-const chapterUrl = new URL(
-  '../../../content/drafts/books/ayyuhal-walad/chapters/ch01-frame-and-first-counsel.txt',
-  import.meta.url,
-);
-
-let md = '';
-let loadError = '';
-try {
-  md = readFileSync(chapterUrl, 'utf8');
-} catch (e) {
-  loadError = e instanceof Error ? e.message : String(e);
-}
-
-const html = md ? renderMarkdown(md) : '';
+const SLUG = 'ayyuhal-walad';
+const CHAPTER = 'ch01-frame-and-first-counsel';
 const chapterTitle = 'The Frame and the First Counsel';
+
+// Stage-aware loader (SN-5): Source -> Denoised -> Core -> Normalized -> Augmented. Each stage's
+// text lives at content/drafts/books/<slug>/_stages/<chapter>/<id>.(md|txt); 'augmented' falls
+// back to the existing finished chapter. Stages that the slices haven't produced yet are 'pending'
+// — the tabs render them disabled and fill in as the pipeline runs. No LLM in Slice 0.
+const STAGE_DEFS = [
+  { id: 'source', label: 'Source', slice: 'Slice 1 (intake)' },
+  { id: 'denoised', label: 'Denoised', slice: 'Slice 2 (noise-strip)' },
+  { id: 'core', label: 'Core', slice: 'Slice 3 (reconcile)' },
+  { id: 'normalized', label: 'Normalized', slice: 'WC8.8 (house voice)' },
+  { id: 'augmented', label: 'Augmented', slice: 'Slice 4 (knowledge)' },
+];
+const base = new URL(`../../../content/drafts/books/${SLUG}/`, import.meta.url);
+function readIfExists(url: URL): string | null {
+  try { return readFileSync(url, 'utf8'); } catch { return null; }
+}
+function loadStageMd(id: string): string | null {
+  for (const ext of ['md', 'txt']) {
+    const md = readIfExists(new URL(`_stages/${CHAPTER}/${id}.${ext}`, base));
+    if (md) return md;
+  }
+  // Back-compat: the prior full run's finished chapter IS the augmented stage.
+  if (id === 'augmented') return readIfExists(new URL(`chapters/${CHAPTER}.txt`, base));
+  return null;
+}
+const stages = STAGE_DEFS.map((d) => {
+  const md = loadStageMd(d.id);
+  return { id: d.id, label: d.label, slice: d.slice, available: !!md, html: md ? renderMarkdown(md) : '' };
+});
+const loadError = stages.some((s) => s.available) ? '' : `No stage artifacts found for ${SLUG}/${CHAPTER}.`;
 // FC-4: Arabic-script overlay glossary (seed for the feel-check; Phase 0c bakes the real one).
-const glossary = await loadGlossary('ayyuhal-walad');
+const glossary = await loadGlossary(SLUG);
 ---
 
 <PocLayout title="Studio PoC — Ayyuhal Walad">
@@ -42,7 +60,7 @@ const glossary = await loadGlossary('ayyuhal-walad');
     ? <p class="sp-error">Could not load the chapter: {loadError}</p>
     : (
       <div class="prose-body">
-        <StudioPoc client:only="react" html={html} chapterTitle={chapterTitle} glossary={glossary} />
+        <StudioPoc client:only="react" stages={stages} chapterTitle={chapterTitle} glossary={glossary} />
         <StudioVersePopover client:only="react" />
       </div>
     )}

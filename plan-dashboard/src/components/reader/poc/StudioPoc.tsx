@@ -16,7 +16,7 @@
  * Manual actions (edits, tags) are the learning-loop training signal. External CSS only.
  * Library policy frozen: @tiptap/* + @floating-ui/react + diff(jsdiff) — no new libs.
  */
-import { useState, useRef, useMemo, useCallback } from 'react';
+import { useState, useRef, useMemo, useCallback, useEffect } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { Extension } from '@tiptap/core';
@@ -99,13 +99,29 @@ const SURAH_MAP: Record<string, number> = {
 // phrase is built inside StudioDecos (so it can coordinate with the Arabic overlay).
 const SURAH_VERSE_RE = /Surah ([A-Z][\w'’-]+),?\s+verses?\s+(\d+)(?:\s*(?:to|–|-)\s*(\d+))?/g;
 
-interface Props {
+interface Stage {
+  id: string;
+  label: string;
+  slice: string;
+  available: boolean;
   html: string;
+}
+
+interface Props {
+  stages: Stage[];
   chapterTitle: string;
   glossary?: GlossaryEntry[];
 }
 
-export default function StudioPoc({ html, chapterTitle, glossary = [] }: Props) {
+export default function StudioPoc({ stages, chapterTitle, glossary = [] }: Props) {
+  // Stage tabs (SN-5): the last AVAILABLE stage is the one under review (editable); upstream
+  // stages are read-only comparison views. Tabs for not-yet-produced stages render disabled.
+  const editableStageId = [...stages].reverse().find((s) => s.available)?.id ?? stages[0]?.id;
+  const [stageId, setStageId] = useState<string>(editableStageId);
+  const stage = stages.find((s) => s.id === stageId) ?? stages[0];
+  const html = stage?.html ?? '';
+  const isReadOnlyStage = stageId !== editableStageId;
+
   const [selection, setSelection] = useState('');
   const [arabicOn, setArabicOn] = useState(false);
   const [, setTick] = useState(0);
@@ -300,6 +316,20 @@ export default function StudioPoc({ html, chapterTitle, glossary = [] }: Props) 
     },
   });
 
+  // Switch the editor to the selected stage: load its text, re-snapshot redline originals,
+  // clear stage-specific tags, and make only the under-review stage editable (upstream = read-only).
+  useEffect(() => {
+    if (!editor || !stage) return;
+    editor.commands.setContent(stage.html);
+    const texts: string[] = [];
+    editor.state.doc.forEach((n) => texts.push(n.textContent));
+    originalRef.current = texts;
+    paraTagsRef.current = new Map();
+    editor.setEditable(!isReadOnlyStage);
+    refresh();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stageId, editor]);
+
   // Force a decoration recompute when Arabic mode flips. Set the ref BEFORE dispatching
   // (React state is async — the plugin reads arabicRef synchronously during the recompute).
   const toggleArabic = useCallback(() => {
@@ -365,6 +395,26 @@ export default function StudioPoc({ html, chapterTitle, glossary = [] }: Props) 
   return (
     <div className="studio-poc">
       <main className="studio-poc__editor">
+        {/* Stage tabs (SN-5): Source -> Denoised -> Core -> Normalized -> Augmented. */}
+        <div className="sp-tabs" role="tablist" aria-label="Pipeline stages">
+          {stages.map((s) => (
+            <button
+              key={s.id}
+              type="button"
+              role="tab"
+              aria-selected={s.id === stageId}
+              disabled={!s.available}
+              className={`sp-tab${s.id === stageId ? ' is-active' : ''}${s.available ? '' : ' is-pending'}`}
+              title={s.available ? `${s.label} stage` : `Pending — produced by ${s.slice}`}
+              onClick={() => s.available && setStageId(s.id)}
+            >
+              {s.label}
+            </button>
+          ))}
+        </div>
+        {isReadOnlyStage && (
+          <div className="sp-stage-note">Read-only — viewing the {stage?.label} stage for comparison.</div>
+        )}
         <EditorContent editor={editor} />
       </main>
 

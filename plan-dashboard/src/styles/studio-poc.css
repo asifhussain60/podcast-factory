@@ -384,3 +384,30 @@
   .studio-poc { grid-template-columns: 1fr; }
   .studio-poc__inspector { position: static; max-height: none; }
 }
+
+/* Stage tabs (SN-5) — Source/Denoised/Core/Normalized/Augmented above the editor. */
+.studio-poc__editor .sp-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  margin: 0 0 20px;
+  border-bottom: 1px solid var(--c-rule, rgba(0, 0, 0, 0.12));
+}
+.studio-poc__editor .sp-tab {
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 7px 14px;
+  cursor: pointer;
+  color: var(--c-ink-muted);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+.studio-poc__editor .sp-tab:hover:not(:disabled) { color: var(--c-ink); }
+.studio-poc__editor .sp-tab.is-active { color: var(--c-accent); border-bottom-color: var(--c-accent); }
+.studio-poc__editor .sp-tab.is-pending { cursor: not-allowed; font-style: italic; opacity: 0.45; }
+.studio-poc__editor .sp-stage-note {
+  font-size: 0.78rem; color: var(--c-ink-muted); font-style: italic; margin: -8px 0 14px;
+}
