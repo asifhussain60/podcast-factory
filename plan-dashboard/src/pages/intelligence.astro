@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import AudienceBadge from '../components/AudienceBadge.astro';
 ---
 <Base title="Intelligence Pipeline" active="intelligence" section="architecture"
      description="Exploded interactive diagram of the intelligence pipeline — from source corpora through extraction, deduplication, and storage, to augmentation of every chapter the factory writes.">
@@ -8,6 +9,7 @@ import Base from '../layouts/Base.astro';
 
 <header class="intel-header">
   <span class="eyebrow">Architecture · Intelligence Pipeline</span>
+  <p class="home-hero-audience"><AudienceBadge tier="both" /></p>
   <h1 class="intel-hero-h1">How the Knowledge Brain Works</h1>
   <p class="intel-hero-lede">
     An interactive map of the full intelligence pipeline — from source corpora through extraction,
@@ -950,7 +952,7 @@ function openDetail(id) {
 
   const atomBadges = (n.atoms||[]).map(a => `<span class="atom-badge ${a}">● ${a}</span>`).join('');
   const chipHTML   = (n.chips||[]).filter(c=>c.cls).map(c =>
-    `<span class="status-chip ${c.cls}" style="margin-right:6px">${c.text}</span>`
+    `<span class="status-chip status-chip-sp ${c.cls}">${c.text}</span>`
   ).join('');
 
   const kvHTML = d.kv ? `

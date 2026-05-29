@@ -1,11 +1,13 @@
 ---
 import Base from '../layouts/Base.astro';
+import AudienceBadge from '../components/AudienceBadge.astro';
 ---
 
 <Base title="System Map" active="system-map" section="architecture" description="Every actor in the podcast factory and how they connect — from raw PDF to published episode.">
   <header class="page-hero">
     <div class="page-hero-inner">
       <span class="eyebrow">System Map</span>
+      <p class="home-hero-audience"><AudienceBadge tier="both" /></p>
       <h1 class="page-hero-title">Every actor, every connection.</h1>
       <p class="page-hero-lede">
               A scholarly book enters at the top. A published podcast exits at the bottom.

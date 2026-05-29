@@ -12,6 +12,7 @@
  * authoritative record of current quality.
  */
 import Base from '../layouts/Base.astro';
+import AudienceBadge from '../components/AudienceBadge.astro';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
@@ -73,7 +74,7 @@ function verdictClass(v: string) {
 
 function bar(value: number, max = 100) {
   const pct = Math.min(100, Math.max(0, (value / max) * 100));
-  return pct.toFixed(0);
+  return Math.round(pct / 5) * 5; // bucket to nearest 5 -> .pqw-N class (no inline style)
 }
 ---
 <Base title="Quality" active="quality" description="Per-chapter PEQ quality scores across all canonical books.">
@@ -88,6 +89,7 @@ function bar(value: number, max = 100) {
         structural arc, and domain enrichment — with a combined PEQ total out of 100.
         Chapters below 70 are blocked from shipping.
       </p>
+      <p class="home-hero-audience"><AudienceBadge tier="both" /></p>
     </div>
   </section>
 
@@ -171,25 +173,25 @@ function bar(value: number, max = 100) {
                 <td class="pq-chapter-name">{ch.chapter.replace(/-/g, ' ')}</td>
                 <td>
                   <div class="pq-bar-wrap">
-                    <div class="pq-bar" style={`width:${bar(ch.fidelity)}%`}></div>
+                    <div class={`pq-bar pqw-${bar(ch.fidelity)}`}></div>
                     <span>{ch.fidelity.toFixed(1)}</span>
                   </div>
                 </td>
                 <td>
                   <div class="pq-bar-wrap">
-                    <div class="pq-bar" style={`width:${bar(ch.voice)}%`}></div>
+                    <div class={`pq-bar pqw-${bar(ch.voice)}`}></div>
                     <span>{ch.voice.toFixed(1)}</span>
                   </div>
                 </td>
                 <td>
                   <div class="pq-bar-wrap">
-                    <div class="pq-bar" style={`width:${bar(ch.structure)}%`}></div>
+                    <div class={`pq-bar pqw-${bar(ch.structure)}`}></div>
                     <span>{ch.structure.toFixed(1)}</span>
                   </div>
                 </td>
                 <td>
                   <div class="pq-bar-wrap">
-                    <div class="pq-bar" style={`width:${bar(ch.enrichment)}%`}></div>
+                    <div class={`pq-bar pqw-${bar(ch.enrichment)}`}></div>
                     <span>{ch.enrichment.toFixed(1)}</span>
                   </div>
                 </td>

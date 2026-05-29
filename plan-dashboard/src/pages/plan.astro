@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import AudienceBadge from '../components/AudienceBadge.astro';
 import PlanDesign from '../components/PlanDesign.tsx';
 import dash from '../data/dashboard-snapshot.json';
 
@@ -54,6 +55,7 @@ const nextReady  = roadmap.find(s => s.status === 'ready');
 
     <header class="stack">
       <span class="eyebrow">Plan Design</span>
+      <p class="home-hero-audience"><AudienceBadge tier="you" /></p>
       <h1>Mobilization plus the five-wave roadmap.</h1>
       <p class="lede">
         Twenty-eight improvements across one Mobilization stage and five waves. Each wave delivers something independently useful.

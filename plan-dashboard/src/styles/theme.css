@@ -2838,6 +2838,18 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 .grp-qual { --grp-color: var(--c-green); }
 .grp-mirror, .grp-etym { --grp-color: var(--c-planner); }
 
+/* ── Shared callout-icon colours + small utilities, WC6f ─────────────────
+   Replaces per-element inline style= on FontAwesome callout icons. */
+.callout-ico { font-size: 20px; margin-bottom: var(--sp-2); display: inline-block; }
+.callout-ico.is-green   { color: var(--c-green); }
+.callout-ico.is-amber   { color: var(--c-amber); }
+.callout-ico.is-accent  { color: var(--c-accent); }
+.callout-ico.is-planner { color: var(--c-planner); }
+.callout-ico.is-lg { font-size: 22px; }
+.u-mt-4 { margin-top: var(--sp-4); }
+/* Data-driven quality bar: width passed as the --pqw value (data, not style). */
+.pq-bar { width: var(--pqw, 0%); }
+
 /* ── OverviewIndexRail (diagram 0.4) — audience-labelled link grid, WC6e ── */
 .idx-grid {
   display: grid;
@@ -2922,3 +2934,26 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 .audience-badge.is-teams    { color: var(--c-planner); border-color: color-mix(in oklab, var(--c-planner) 35%, transparent); }
 .audience-badge.is-both     { color: var(--c-green); border-color: color-mix(in oklab, var(--c-green) 35%, transparent); }
 
+/* Quality PEQ bar width buckets (data via class, not inline style) — WC6f */
+.pqw-0 { width: 0%; }
+.pqw-5 { width: 5%; }
+.pqw-10 { width: 10%; }
+.pqw-15 { width: 15%; }
+.pqw-20 { width: 20%; }
+.pqw-25 { width: 25%; }
+.pqw-30 { width: 30%; }
+.pqw-35 { width: 35%; }
+.pqw-40 { width: 40%; }
+.pqw-45 { width: 45%; }
+.pqw-50 { width: 50%; }
+.pqw-55 { width: 55%; }
+.pqw-60 { width: 60%; }
+.pqw-65 { width: 65%; }
+.pqw-70 { width: 70%; }
+.pqw-75 { width: 75%; }
+.pqw-80 { width: 80%; }
+.pqw-85 { width: 85%; }
+.pqw-90 { width: 90%; }
+.pqw-95 { width: 95%; }
+.pqw-100 { width: 100%; }
+.status-chip-sp { margin-right: 6px; }

@@ -5,6 +5,7 @@ import LayerStack from '../components/LayerStack.tsx';
 import PhaseSwimlaneDiagram from '../components/PhaseSwimlaneDiagram.tsx';
 import PipelineOverviewRail from '../components/PipelineOverviewRail.tsx';
 import arch from '../data/architecture-snapshot.json';
+import AudienceBadge from '../components/AudienceBadge.astro';
 ---
 <Base title="Architecture" active="architecture" section="architecture">
 
@@ -62,13 +63,14 @@ import arch from '../data/architecture-snapshot.json';
         and waits for your approval twice before anything ships.
         Two human checkpoints are built in. Nothing publishes without your sign-off.
       </p>
+      <p class="home-hero-audience"><AudienceBadge tier="both" /></p>
     </div>
   </header>
 
   <!-- L1: Three plain-language callouts -->
   <section class="grid-3">
     <div class="card card-tight">
-      <i class="fa-solid fa-route" aria-hidden="true" style="color: var(--c-green); font-size: 20px; margin-bottom: 8px;"></i>
+      <i class="fa-solid fa-route callout-ico is-green" aria-hidden="true"></i>
       <strong>Fixed stations, swappable rules</strong>
       <p class="small muted">
         Every book passes through the same {arch.phases.filter((p: any) => p.kind !== 'gate').length} production stations in the same order.
@@ -76,7 +78,7 @@ import arch from '../data/architecture-snapshot.json';
       </p>
     </div>
     <div class="card card-tight">
-      <i class="fa-solid fa-hand" aria-hidden="true" style="color: var(--c-amber); font-size: 20px; margin-bottom: 8px;"></i>
+      <i class="fa-solid fa-hand callout-ico is-amber" aria-hidden="true"></i>
       <strong>Two built-in review gates</strong>
       <p class="small muted">
         After vocabulary and source analysis (before expensive AI runs) and before anything is published,
@@ -84,7 +86,7 @@ import arch from '../data/architecture-snapshot.json';
       </p>
     </div>
     <div class="card card-tight">
-      <i class="fa-solid fa-layer-group" aria-hidden="true" style="color: var(--c-accent); font-size: 20px; margin-bottom: 8px;"></i>
+      <i class="fa-solid fa-layer-group callout-ico is-accent" aria-hidden="true"></i>
       <strong>Six-layer codebase</strong>
       <p class="small muted">
         Foundation, style, intelligence, authoring, stations, driver.
@@ -195,7 +197,7 @@ import arch from '../data/architecture-snapshot.json';
     </p>
     <div class="grid-3">
       <div class="card card-tight">
-        <i class="fa-solid fa-star-and-crescent" aria-hidden="true" style="color: var(--c-green); font-size: 20px; margin-bottom: 8px;"></i>
+        <i class="fa-solid fa-star-and-crescent callout-ico is-green" aria-hidden="true"></i>
         <strong>Full Quran database</strong>
         <p class="small muted">
           6,236 verses with Arabic, Pickthall, Muhammad Asad, Urdu, and phonetic transliteration.
@@ -204,7 +206,7 @@ import arch from '../data/architecture-snapshot.json';
         </p>
       </div>
       <div class="card card-tight">
-        <i class="fa-solid fa-database" aria-hidden="true" style="color: var(--c-planner); font-size: 20px; margin-bottom: 8px;"></i>
+        <i class="fa-solid fa-database callout-ico is-planner" aria-hidden="true"></i>
         <strong>Wisdom knowledge corpus</strong>
         <p class="small muted">
           Twenty years of Islamic scholarship in a structured anthology: binders, chapters, topics, glossary, and doctrinal terms.
@@ -212,7 +214,7 @@ import arch from '../data/architecture-snapshot.json';
         </p>
       </div>
       <div class="card card-tight">
-        <i class="fa-solid fa-microphone" aria-hidden="true" style="color: var(--c-amber); font-size: 20px; margin-bottom: 8px;"></i>
+        <i class="fa-solid fa-microphone callout-ico is-amber" aria-hidden="true"></i>
         <strong>343 session transcripts</strong>
         <p class="small muted">
           Lecture transcripts (HTML) searchable by FTS5. Key groups include Wise Reminder (44 sessions),
@@ -221,7 +223,7 @@ import arch from '../data/architecture-snapshot.json';
         </p>
       </div>
     </div>
-    <div class="card card-tight" style="margin-top: var(--sp-4);">
+    <div class="card card-tight u-mt-4">
       <strong>Dual-protocol design (Wave J)</strong>
       <p class="small muted">
         One Python process, two interfaces. Pipeline agents call it over MCP stdio — the standard protocol that Claude and other agents speak natively. The Astro reader calls it over HTTP (port 4390) because browser apps can't speak stdio.

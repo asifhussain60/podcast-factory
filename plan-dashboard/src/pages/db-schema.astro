@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import AudienceBadge from '../components/AudienceBadge.astro';
 import DbArchitecture from '../components/DbArchitecture';
 ---
 
@@ -7,6 +8,7 @@ import DbArchitecture from '../components/DbArchitecture';
   <header class="page-hero">
     <div class="page-hero-inner">
       <span class="eyebrow">Database design</span>
+      <p class="home-hero-audience"><AudienceBadge tier="teams" /></p>
       <h1 class="page-hero-title">What the database manages and why.</h1>
       <p class="page-hero-lede">
         Sixteen SOLID-compliant tables in <strong>knowledge.db</strong> replacing scattered JSONL and JSON files across pipeline books and external corpora.

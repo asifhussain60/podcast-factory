@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import C4ContextDiagram from '../components/C4ContextDiagram.tsx';
 import TrustBoundaryDFD from '../components/TrustBoundaryDFD.tsx';
 import CredentialMap from '../components/CredentialMap.tsx';
+import AudienceBadge from '../components/AudienceBadge.astro';
 ---
 
 <Base title="Security & Trust" active="security" section="architecture"
@@ -25,13 +26,14 @@ import CredentialMap from '../components/CredentialMap.tsx';
         exactly what it says, over what channel, authenticated how, and what risk profile each
         connection carries.
       </p>
+      <p class="home-hero-audience"><AudienceBadge tier="teams" /></p>
     </div>
   </header>
 
   <!-- L1 callout strip — three plain-language facts -->
   <section class="grid-3">
     <div class="card card-tight s-green">
-      <i class="fa-solid fa-house-chimney" aria-hidden="true" style="color: var(--c-green); font-size: 22px; margin-bottom: 8px;"></i>
+      <i class="fa-solid fa-house-chimney callout-ico is-lg is-green" aria-hidden="true"></i>
       <strong>Runs on your laptop</strong>
       <p class="small muted">
         Every pipeline script, every database, every draft — all local. No cloud server holds your books.
@@ -39,7 +41,7 @@ import CredentialMap from '../components/CredentialMap.tsx';
       </p>
     </div>
     <div class="card card-tight s-amber">
-      <i class="fa-solid fa-lock" aria-hidden="true" style="color: var(--c-amber); font-size: 22px; margin-bottom: 8px;"></i>
+      <i class="fa-solid fa-lock callout-ico is-lg is-amber" aria-hidden="true"></i>
       <strong>Content goes to AI services</strong>
       <p class="small muted">
         Book text and episode drafts are sent to Anthropic (for reasoning) and Azure (for reading PDFs).
@@ -47,7 +49,7 @@ import CredentialMap from '../components/CredentialMap.tsx';
       </p>
     </div>
     <div class="card card-tight">
-      <i class="fa-solid fa-person-walking-dashed-line-arrow-right" aria-hidden="true" style="color: var(--c-accent); font-size: 22px; margin-bottom: 8px;"></i>
+      <i class="fa-solid fa-person-walking-dashed-line-arrow-right callout-ico is-lg is-accent" aria-hidden="true"></i>
       <strong>You approve before anything ships</strong>
       <p class="small muted">
         Two human review gates block the pipeline before expensive AI phases and before anything is published.
