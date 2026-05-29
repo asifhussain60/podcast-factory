@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-29T16:12:48.630Z",
-  "source_commit": "b419620",
+  "generated_at": "2026-05-29T16:29:12.094Z",
+  "source_commit": "4593e62",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -783,6 +783,26 @@
   ],
   "recent_commits": [
     {
+      "sha": "4593e62",
+      "subject": "site: Architecture — externalize PhaseSwimlaneDiagram static inline styles",
+      "date": "2026-05-29"
+    },
+    {
+      "sha": "8aaedb4",
+      "subject": "site: DB-Schema — externalize DbArchitecture inline styles to category classes",
+      "date": "2026-05-29"
+    },
+    {
+      "sha": "577b5ad",
+      "subject": "site: Security view — vertical diagrams + credentials table (3 components retired)",
+      "date": "2026-05-29"
+    },
+    {
+      "sha": "e805cdf",
+      "subject": "plan(WC6): record site-wide pass (WC6f) + quantify component-layer follow-on",
+      "date": "2026-05-29"
+    },
+    {
       "sha": "b419620",
       "subject": "site(WC6f): DoD attribute cleanup + audience badges across remaining views",
       "date": "2026-05-29"
@@ -810,26 +830,6 @@
     {
       "sha": "2832236",
       "subject": "cortex: adopt HTML View Quality Standard as skill + challenger; lock app naming",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "f34a812",
-      "subject": "prompts: reduce sprawl + add site-overhaul continuation prompt",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "83a286c",
-      "subject": "plan: add Astro site-redesign spec (WC6) + per-view diagram catalog",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "37ee067",
-      "subject": "plan: add Wisdom Corpus Program (D1-D18) to refactor plan + ledger",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "b463cb4",
-      "subject": "docs: architecture-redesign convergence ledger + remove YNAB MCP",
       "date": "2026-05-29"
     }
   ],

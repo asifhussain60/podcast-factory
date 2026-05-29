@@ -2700,14 +2700,18 @@ wisdom_corpus_program:
             - "DoD attribute cleanup across architecture/security/quality/intelligence: all inline style= attributes -> shared classes (.callout-ico, .u-mt-4, .pqw-N buckets, .status-chip-sp)."
             - "Audience badges on ALL 11 view pages (overview, infrastructure, system-map, architecture, intelligence, db-schema, security, quality, annotation-ops, plan, dashboard)."
           challenger_sweep_verdict: "challenger_version 1.0: 11/11 view PAGE LAYERS have ZERO hard inline-style= MUSTs; all global MUSTs (1.2rem floor, gradient H1, skip link, back-to-top, print, lang, focus-visible, reduced-motion) present + inherited; every view badged."
+        component_rebuilds_2026_05_29:
+          status: "6 of 7 done"
+          done:
+            - "StackFlow.tsx — deleted (dead code after Infrastructure rebuild)."
+            - "C4ContextDiagram + TrustBoundaryDFD — retired; Security now uses vertical Mermaid (security-context, security-trust-boundaries)."
+            - "CredentialMap — retired; Security + Infrastructure use HTML credentials tables (right-form-first)."
+            - "DbArchitecture — 6 inline styles -> :global(.dba-cat-*) category classes; interactive explorer preserved; zero style=."
+            - "PhaseSwimlaneDiagram — 15 static inline styles -> external .swimlane-*/.swim-* classes; zero style=."
+          remaining:
+            PipelineOverviewRail: "Interactive zoom/hover SVG; inline styles are dynamic interaction state (dimmed opacity, data fill, zoom transform) — legitimate SVG behavior per conflict rule. Converting to state-classes is a careful interactive refactor; optional."
         remaining_followon:
-          note: "Bounded, additive component-layer hardening; does NOT destabilize shipped views. Page layer is done."
-          component_inline_style_externalization:
-            occurrences: 50
-            components: [PhaseSwimlaneDiagram, PipelineOverviewRail, DbArchitecture, TrustBoundaryDFD, CredentialMap, PipelineSpine, NarrativeScroll, C4ContextDiagram, PlanDesign]
-          horizontal_diagram_vertical_rebuild_D19:
-            components: [PhaseSwimlaneDiagram, PipelineOverviewRail, DbArchitecture, TrustBoundaryDFD, CredentialMap, C4ContextDiagram, StackFlow]
-            note: "SpendChart excused (time-series chart, not a flow diagram)."
+          note: "Bounded, additive; does NOT destabilize shipped views. All 11 view PAGE LAYERS clean; 6/7 diagram components done."
           non_view_page_cleanup:
             occurrences: 15
             pages: ["book-review/[slug]", "library episode", "wisdom"]
