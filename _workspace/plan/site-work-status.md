@@ -21,10 +21,20 @@ on disk and the teaching-sessions app needs a dump — you said you'll provide t
 Their per-source importers are deferred until they arrive; the engine already has the
 slots (see `SOURCES` in populate_corpus.py).
 
-**Next steps (pipeline):** (a) add the three importers once sources land — the main
-cross-source dedup payoff (~40% overlap collapse) proves out then; OR (b) move to the
-next program part — the blackbox annotation engine + corpus-verified reader popovers; OR
-(c) the in-pipeline knowledge phase (one chapter read → podcast framing + reader markers).
+**Active discussion (RD):** multi-source intake & reconciliation — Asif's two questions
+(unify multiple sources of one work early without losing concepts; compare the two Anwaar
+transcripts + engine routing). FOUR decisions converged + recorded in
+`_workspace/prompts/improvements/09-source-intake-decisions.md` (SI-1 spine+layered align;
+SI-2 hybrid engine-by-strength; SI-3 cheap-signal triage at the gate; SI-4 authority-ranked
++ preserved + marked in the astro viewer). Full discussion restored at `08-source-intake-discussion.md`.
+THREE open items remain before RD is complete: phase-placement of unify+triage vs the existing
+halts; where the "source budget" renders in the astro viewer; spine-selection rule when >1
+source could claim authority. Resume by closing those, then write the plan entry.
+
+**Next steps (pipeline):** (a) close the 3 open RD items, then write the plan entry for the
+intake/reconciliation work; OR (b) add the three corpus importers once sources land; OR
+(c) the blackbox annotation engine + corpus-verified reader popovers; OR (d) the in-pipeline
+knowledge phase (one chapter read → podcast framing + reader markers).
 
 **Parked (resume anytime):**
 - *Site redesign* — 5 of 13 views built, 5 text-only and pending. Full audit + resume
