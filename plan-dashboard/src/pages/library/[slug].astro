@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { loadDetail, formatBytes, formatModified, categoryLabel } from '../../lib/library';
+import { scoreBook, verdictLabel } from '../../lib/peq-scores';
 
 const slug = Astro.params.slug;
 if (!slug) return Astro.redirect('/library');
@@ -9,6 +10,10 @@ if (!detail) return Astro.redirect('/library');
 const slugStr: string = slug;
 
 const { summary, meta, chapters, episodes, slideDecks, audio, audits, sourceFiles, glossary, state } = detail;
+
+const archetype = meta['archetype'] ?? null;
+const bookScore = await scoreBook(summary.ref.dir, archetype);
+const chapterScoreMap = new Map(bookScore?.chapters.map((c) => [c.slug, c.scores]) ?? []);
 
 function fileViewHref(relPath: string): string {
   return `/api/library/file?slug=${encodeURIComponent(slugStr)}&path=${encodeURIComponent(relPath)}`;
@@ -36,6 +41,20 @@ function fileViewHref(relPath: string): string {
       <a href={`#source`} class="lib-tab-link">Source · {sourceFiles.length}</a>
       <a href={`#meta`} class="lib-tab-link">Meta</a>
     </div>
+
+    {bookScore && (
+      <div class="lib-peq-summary">
+        <span class="lib-peq-label">Quality score</span>
+        <span class={`lib-score-pill lib-score-${bookScore.avg >= 85 ? 'pass' : bookScore.avg >= 70 ? 'warn' : 'fail'}`}>
+          {bookScore.avg.toFixed(1)} avg — {verdictLabel(bookScore.avg >= 85 ? 'PASS' : bookScore.avg >= 70 ? 'WARN' : 'FAIL')}
+        </span>
+        <span class="lib-peq-breakdown">
+          {bookScore.passCount > 0 && <span class="lib-peq-stat lib-peq-pass">{bookScore.passCount} excellent</span>}
+          {bookScore.warnCount > 0 && <span class="lib-peq-stat lib-peq-warn">{bookScore.warnCount} good</span>}
+          {bookScore.failCount > 0 && <span class="lib-peq-stat lib-peq-fail">{bookScore.failCount} needs work</span>}
+        </span>
+      </div>
+    )}
   </header>
 
   <section id="meta" class="stack lib-section">
@@ -74,10 +93,18 @@ function fileViewHref(relPath: string): string {
       <div class="lib-file-list">
         {chapters.map((f) => {
           const chapterSlug = f.name.replace(/\.(txt|md)$/i, '');
+          const cs = chapterScoreMap.get(chapterSlug);
           return (
             <a class="lib-file-row" href={`/library/${slugStr}/chapter/${chapterSlug}`}>
               <span class="lib-file-name">{f.name}</span>
-              <span class="lib-file-meta">{formatBytes(f.bytes)} · {formatModified(f.modified)}</span>
+              <span class="lib-file-meta-row">
+                {cs && (
+                  <span class={`lib-score-pill lib-score-${cs.verdict.toLowerCase()}`} title={`Source accuracy: ${cs.fidelity.toFixed(0)}  Style: ${cs.voice.toFixed(0)}  Structure: ${cs.structure.toFixed(0)}  Depth: ${cs.enrichment.toFixed(0)}`}>
+                    {cs.total.toFixed(0)}
+                  </span>
+                )}
+                <span class="lib-file-meta">{formatBytes(f.bytes)} · {formatModified(f.modified)}</span>
+              </span>
             </a>
           );
         })}
@@ -350,5 +377,52 @@ function fileViewHref(relPath: string): string {
   .lib-btn-danger {
     color: var(--c-red);
     border-color: rgba(168, 50, 50, 0.4);
+  }
+  /* PEQ score display */
+  .lib-peq-summary {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    margin-top: var(--sp-2);
+    flex-wrap: wrap;
+  }
+  .lib-peq-label {
+    font-size: var(--fs-sm);
+    color: var(--c-ink-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: var(--fs-2xs);
+  }
+  .lib-peq-breakdown {
+    display: flex;
+    gap: var(--sp-2);
+  }
+  .lib-peq-stat {
+    font-size: var(--fs-2xs);
+    font-weight: 600;
+    padding: 1px var(--sp-2);
+    border-radius: var(--r-sm);
+  }
+  .lib-peq-pass { color: #22c55e; background: rgba(34,197,94,0.10); }
+  .lib-peq-warn { color: #f59e0b; background: rgba(245,158,11,0.10); }
+  .lib-peq-fail { color: #ef4444; background: rgba(239,68,68,0.10); }
+  .lib-score-pill {
+    display: inline-block;
+    font-size: var(--fs-2xs);
+    font-weight: 700;
+    padding: 2px var(--sp-2);
+    border-radius: var(--r-sm);
+    border: 1px solid currentColor;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .lib-score-pass { color: #22c55e; background: rgba(34,197,94,0.10); border-color: rgba(34,197,94,0.3); }
+  .lib-score-warn { color: #f59e0b; background: rgba(245,158,11,0.10); border-color: rgba(245,158,11,0.3); }
+  .lib-score-fail { color: #ef4444; background: rgba(239,68,68,0.10); border-color: rgba(239,68,68,0.3); }
+  .lib-file-meta-row {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
   }
 </style>

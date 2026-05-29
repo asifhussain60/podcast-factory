@@ -7,6 +7,7 @@
  */
 import { readdir, readFile, stat } from 'node:fs/promises';
 import { basename, extname, join } from 'node:path';
+import { scoreBook, verdictLabel } from './peq-scores';
 import {
   ACTIVE_CATEGORIES,
   ALLOWED_CATEGORIES,
@@ -38,6 +39,9 @@ export interface ContentSummary {
   chapterCount: number;
   episodeCount: number;
   audioCount: number;
+  peqAvg: number | null;
+  peqVerdict: 'PASS' | 'WARN' | 'FAIL' | null;
+  peqVerdictLabel: string | null;
 }
 
 export interface FileEntry {
@@ -102,6 +106,8 @@ export async function summarize(ref: ContentRef): Promise<ContentSummary> {
 
   const title = await readTitleFromMeta(metaPath) ?? slugToTitle(ref.slug);
   const publicationStatus = await readPublicationStatusFromMeta(metaPath);
+  const archetype = await readArchetypeFromMeta(metaPath);
+  const bookScore = await scoreBook(ref.dir, archetype);
 
   return {
     ref,
@@ -118,6 +124,9 @@ export async function summarize(ref: ContentRef): Promise<ContentSummary> {
     chapterCount: await countByExt(chaptersDir, ['.txt', '.md']),
     episodeCount: await countByExt(episodesDir, ['.txt']),
     audioCount: await countByExt(m4aDir, ['.m4a', '.mp3', '.wav']),
+    peqAvg: bookScore?.avg ?? null,
+    peqVerdict: bookScore ? (bookScore.avg >= 85 ? 'PASS' : bookScore.avg >= 70 ? 'WARN' : 'FAIL') : null,
+    peqVerdictLabel: bookScore ? verdictLabel(bookScore.avg >= 85 ? 'PASS' : bookScore.avg >= 70 ? 'WARN' : 'FAIL') : null,
   };
 }
 
@@ -135,6 +144,17 @@ async function readPublicationStatusFromMeta(metaPath: string): Promise<'draft' 
     return 'draft'; // treat any unknown value as draft
   } catch {
     return 'unknown';
+  }
+}
+
+async function readArchetypeFromMeta(metaPath: string): Promise<string | null> {
+  if (!(await fileExists(metaPath))) return null;
+  try {
+    const text = await readFile(metaPath, 'utf-8');
+    const m = text.match(/^archetype\s*:\s*(\S+)/m);
+    return m ? m[1].trim() : null;
+  } catch {
+    return null;
   }
 }
 
