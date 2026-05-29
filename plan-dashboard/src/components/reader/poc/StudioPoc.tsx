@@ -369,28 +369,7 @@ export default function StudioPoc({ html, chapterTitle, glossary = [] }: Props) 
       </main>
 
       <aside className="studio-poc__inspector" aria-label="Contextual inspector">
-        {/* Inspector — fixed height, scrolls internally so the panel never grows. */}
-        <section className="sp-inspector">
-          <h2 className="sp-insp-title">Inspector</h2>
-          {selection ? (
-            <blockquote className="sp-insp-sel">{selection}</blockquote>
-          ) : (
-            <dl className="sp-insp-meta">
-              <dt>Chapter</dt>
-              <dd>{chapterTitle}</dd>
-              <dt>Changes</dt>
-              <dd>{changedCount} edited · {taggedCount} tagged</dd>
-            </dl>
-          )}
-          <div className="sp-insp-markers">
-            <h3 className="sp-insp-sub">References</h3>
-            {renderGroup('Quran', group('Quran'), 'quran')}
-            {renderGroup('Hadith', group('Hadith'), 'hadith')}
-            {renderGroup('Works', group('Work'), 'work')}
-          </div>
-        </section>
-
-        {/* Controls — fixed, styled. Arabic as a switch + the edit toolbar. */}
+        {/* Controls — at the top, its own bordered card. Arabic as a switch + the edit toolbar. */}
         <section className="sp-controls">
           <div className="sp-control-row">
             <span className="sp-control-label"><span lang="ar" dir="rtl">ع</span> Arabic script</span>
@@ -414,6 +393,27 @@ export default function StudioPoc({ html, chapterTitle, glossary = [] }: Props) 
               <button type="button" onClick={() => editor?.chain().focus().undo().run()} title="Undo">↺</button>
               <button type="button" onClick={() => editor?.chain().focus().redo().run()} title="Redo">↻</button>
             </div>
+          </div>
+        </section>
+
+        {/* Inspector — its own bordered card; bounded height, scrolls internally. */}
+        <section className="sp-inspector">
+          <h2 className="sp-insp-title">Inspector</h2>
+          {selection ? (
+            <blockquote className="sp-insp-sel">{selection}</blockquote>
+          ) : (
+            <dl className="sp-insp-meta">
+              <dt>Chapter</dt>
+              <dd>{chapterTitle}</dd>
+              <dt>Changes</dt>
+              <dd>{changedCount} edited · {taggedCount} tagged</dd>
+            </dl>
+          )}
+          <div className="sp-insp-markers">
+            <h3 className="sp-insp-sub">References</h3>
+            {renderGroup('Quran', group('Quran'), 'quran')}
+            {renderGroup('Hadith', group('Hadith'), 'hadith')}
+            {renderGroup('Works', group('Work'), 'work')}
           </div>
         </section>
       </aside>
