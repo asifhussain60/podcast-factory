@@ -87,3 +87,26 @@ chapter 4, verse 44". That is a **PODCAST/PIPELINE framing-text phrasing require
 UI concern: the episode framing `.txt` (and/or the chapter prose the pipeline emits) should
 render Quran references as "chapter N, verse M" (numeric) so NotebookLM speaks them that way.
 Routes to the authoring/framing step (PIPELINE + PODCAST). Recorded as a standing preference.
+
+### Feel-check round 2 — icon-first affordances (Asif, 2026-05-29)
+- **THROWAWAY confirmed.** `/studio-poc` is a functionality/feel spike only — NOT the final
+  editor. The real Studio is built fresh in WC8.5 (Read + Studio modes, editorial-modern
+  design, full capability package). The PoC exists solely to lock behaviour before that build.
+- **FC-6 active-paragraph ring.** The full-editor focus outline (wrapped the whole panel) is
+  removed; the active paragraph alone gets a glowing ring that persists while the caret is in it.
+- **FC-7 icon-first tagging (Asif is a visual worker).** Token tags are ICONS, not colour-only:
+  a floating icon palette anchored to the active block's top-left (tap to tag, tooltips name
+  each), and persistent icon marks on tagged-but-inactive blocks so marked paragraphs are
+  scannable. Inspector shows a tag key + the Arabic toggle moved to the top.
+- **FC-8 visual-enhancement MENU (Asif asked "what other icon-based enhancements?").** Candidate
+  affordances to layer into the real Studio (WC8.5 / R-9), to be picked per-page:
+  1. Document minimap / heatmap strip — coloured ticks for tags / edits / references /
+     unreviewed, click-to-jump (the R-9 scan tool).
+  2. Per-paragraph status gutter — reviewed ✓, has-edits ✎, has-reference 📖, has-divergence ⇄.
+  3. Reference source-type icons — Quran 📖 / hadith 🕌 / work 📚 on each marker instead of text.
+  4. Confidence stars on verified references (★★★ corpus-verified vs ⚠ unverified) — ties the
+     learning loop's auto/suggest tiers to a glance.
+  5. Always-visible colour+icon legend.
+  6. Divergence margin glyph (⇄ "N sources differ") opening the side-by-side inspector (R-4).
+  7. Per-paragraph reviewed-state toggle (one click marks a block reviewed; chapter progress bar).
+  These route to WC8.5 (UI) + the knowledge/learning slices (data behind icons 3/4/6).
