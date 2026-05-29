@@ -470,4 +470,11 @@ import DbArchitecture from '../components/DbArchitecture';
   .design-notes h2 { margin-bottom: var(--sp-4); }
   .design-notes p  { font-size: var(--fs-sm); line-height: 1.6; color: var(--c-ink-dim); margin: 0; }
   .design-notes code { font-size: 11px; background: var(--c-bg); padding: 1px 4px; border-radius: 3px; }
+
+  /* Category colour classes — replace per-element inline --cat-color styles. */
+  :global(.dba-cat-core)       { --cat-color: var(--c-accent);       --pill-color: var(--c-accent);       --cat-bg: color-mix(in oklab, var(--c-accent) 12%, var(--c-bg-card)); }
+  :global(.dba-cat-knowledge)  { --cat-color: var(--c-gold);         --pill-color: var(--c-gold);         --cat-bg: color-mix(in oklab, var(--c-gold) 12%, var(--c-bg-card)); }
+  :global(.dba-cat-operations) { --cat-color: var(--c-vendor-azure); --pill-color: var(--c-vendor-azure); --cat-bg: color-mix(in oklab, var(--c-vendor-azure) 12%, var(--c-bg-card)); }
+  :global(.dba-cat-quality)    { --cat-color: var(--c-green);        --pill-color: var(--c-green);        --cat-bg: color-mix(in oklab, var(--c-green) 12%, var(--c-bg-card)); }
+  :global(.dba-badge--cat)     { background: var(--cat-bg); color: var(--cat-color); }
 </style>

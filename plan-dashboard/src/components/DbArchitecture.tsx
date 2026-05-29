@@ -502,11 +502,10 @@ export default function DbArchitecture() {
         {categories.map(cat => (
           <button
             key={cat}
-            className={`dba-pill${filter === cat ? ' dba-pill--active' : ''}`}
-            style={filter === cat ? { '--pill-color': CAT_COLOR[cat] } as React.CSSProperties : {}}
+            className={`dba-pill dba-cat-${cat}${filter === cat ? ' dba-pill--active' : ''}`}
             onClick={() => { setFilter(filter === cat ? null : cat); setSelected(null); }}
           >
-            <span className="dba-pill-dot" style={{ '--cat-color': CAT_COLOR[cat] } as React.CSSProperties} />
+            <span className={`dba-pill-dot dba-cat-${cat}`} />
             {CAT_LABEL[cat]}
           </button>
         ))}
@@ -533,11 +532,11 @@ export default function DbArchitecture() {
               key={table.id}
               className={[
                 'dba-sql-card',
+                `dba-cat-${table.category}`,
                 isSel      ? 'is-selected' : '',
                 isRelated  ? 'is-related'  : '',
                 isDimmed   ? 'is-dimmed'   : '',
               ].filter(Boolean).join(' ')}
-              style={{ '--cat-color': color } as React.CSSProperties}
               onClick={() => toggle(table.id)}
               role="button"
               tabIndex={0}
@@ -611,8 +610,7 @@ export default function DbArchitecture() {
       {/* ── Expanded detail drawer ──────────────────────────────── */}
       {selectedTable && (
         <div
-          className="dba-drawer"
-          style={{ '--cat-color': CAT_COLOR[selectedTable.category] } as React.CSSProperties}
+          className={`dba-drawer dba-cat-${selectedTable.category}`}
           aria-label={`Detail for ${selectedTable.label}`}
         >
           <div className="dba-drawer-header">
@@ -621,7 +619,7 @@ export default function DbArchitecture() {
               <span className={`dba-badge dba-badge--wave${selectedTable.wave}`}>
                 {WAVE_LABEL[selectedTable.wave]}
               </span>
-              <span className="dba-badge" style={{ background: CAT_BG[selectedTable.category], color: CAT_COLOR[selectedTable.category] } as React.CSSProperties}>
+              <span className={`dba-badge dba-badge--cat dba-cat-${selectedTable.category}`}>
                 {CAT_LABEL[selectedTable.category]}
               </span>
             </div>
@@ -658,8 +656,7 @@ export default function DbArchitecture() {
                   return (
                     <button
                       key={r.id}
-                      className="dba-chip dba-chip--related"
-                      style={{ '--cat-color': CAT_COLOR[rt.category] } as React.CSSProperties}
+                      className={`dba-chip dba-chip--related dba-cat-${rt.category}`}
                       onClick={() => setSelected(r.id)}
                     >
                       {r.dir} <strong>{r.id}</strong>
