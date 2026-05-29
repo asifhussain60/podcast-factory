@@ -95,12 +95,36 @@
 .sp-tagbtn.tag-delete   { color: #e11d48; border-color: #e11d48; }
 .sp-tagbtn.tag-improve  { color: #d97706; border-color: #d97706; }
 
-/* CHANGE-TRACKING redline: edited paragraphs stay highlighted green. */
-.studio-poc__editor .edit-changed {
-  background: color-mix(in srgb, var(--c-green, #16a34a) 10%, transparent);
+/* FC-3 MICROSOFT-WORD TRACK CHANGES (word-level, via jsdiff). */
+.studio-poc__editor .tc-ins {
+  color: var(--c-green, #15803d);
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  background: color-mix(in srgb, var(--c-green, #16a34a) 12%, transparent);
+  border-radius: 2px;
+}
+.studio-poc__editor .tc-del {
+  color: var(--c-red, #b91c1c);
+  text-decoration: line-through;
+  text-decoration-thickness: 1.5px;
+  opacity: 0.75;
+  margin: 0 1px;
+}
+/* FC-3 per-paragraph affordance: hover any paragraph; click highlights only the active one. */
+.studio-poc__editor .ProseMirror > p:hover,
+.studio-poc__editor .ProseMirror > h2:hover,
+.studio-poc__editor .ProseMirror > h3:hover,
+.studio-poc__editor .ProseMirror > blockquote:hover {
+  background: color-mix(in srgb, var(--c-accent) 5%, transparent);
   border-radius: 3px;
 }
-/* PER-PARAGRAPH TOKEN TAGS: coloured left border (composes with the green change tint). */
+.studio-poc__editor .para-active {
+  background: color-mix(in srgb, var(--c-accent) 9%, transparent);
+  box-shadow: inset 2px 0 0 var(--c-accent);
+  border-radius: 3px;
+}
+
+/* PER-PARAGRAPH TOKEN TAGS: coloured left border. */
 .studio-poc__editor .para-tagged { padding-left: 10px; margin-left: -13px; }
 .studio-poc__editor .tag-esoteric { box-shadow: inset 3px 0 0 #7c3aed; }
 .studio-poc__editor .tag-reality  { box-shadow: inset 3px 0 0 #0284c7; }
@@ -134,9 +158,41 @@
 
 /* Non-destructive markers (ProseMirror decorations). */
 .mk { border-radius: 3px; padding: 0 1px; }
-.mk-quran { background: color-mix(in srgb, var(--c-accent) 16%, transparent); box-shadow: inset 0 -2px 0 var(--c-accent); }
 .mk-hadith { background: color-mix(in srgb, var(--c-gold, var(--c-amber)) 16%, transparent); box-shadow: inset 0 -2px 0 var(--c-gold, var(--c-amber)); }
 .mk-term { background: color-mix(in srgb, var(--c-accent-soft) 20%, transparent); }
+
+/* FC-1 compact chapter:verse chip (prose untouched; this is the hover target). */
+.studio-poc__editor .sp-vchip {
+  display: inline-block;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.62rem;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  vertical-align: super;
+  margin-left: 3px;
+  padding: 0 5px;
+  border-radius: 7px;
+  color: var(--c-bg, #fff);
+  background: var(--c-accent);
+  cursor: pointer;
+  user-select: none;
+}
+.studio-poc__editor .sp-vchip:hover { filter: brightness(1.08); }
+
+/* FC-4 Arabic-script overlay (decoration-based; non-destructive). */
+.studio-poc__editor .ar-hidden { display: none; }
+.studio-poc__editor .ar-script-chip {
+  font-family: 'Amiri', 'Geeza Pro', 'Noto Naskh Arabic', serif;
+  color: var(--c-accent);
+  font-size: 1.18em;
+  line-height: 1;
+}
+.sp-arabic-btn.is-on { color: var(--c-bg); background: var(--c-accent); border-color: var(--c-accent); }
+
+/* FC-1 fix: in the PoC layout the reused QuranPopover must float above the editor and
+   track the viewport anchor (the shared card is position:absolute + z-index:50). */
+.poc-body .popover-card { position: fixed; z-index: 9999; }
 
 @media (max-width: 900px) {
   .studio-poc { grid-template-columns: 1fr; }

@@ -8,6 +8,7 @@ import PocLayout from '../layouts/PocLayout.astro';
 import StudioPoc from '../components/reader/poc/StudioPoc.tsx';
 import QuranPopover from '../components/reader/QuranPopover.tsx';
 import { renderMarkdown } from '../lib/reader/markdown';
+import { loadGlossary } from '../lib/reader/glossary';
 
 const chapterUrl = new URL(
   '../../../content/drafts/books/ayyuhal-walad/chapters/ch01-frame-and-first-counsel.txt',
@@ -24,6 +25,8 @@ try {
 
 const html = md ? renderMarkdown(md) : '';
 const chapterTitle = 'The Frame and the First Counsel';
+// FC-4: Arabic-script overlay glossary (seed for the feel-check; Phase 0c bakes the real one).
+const glossary = await loadGlossary('ayyuhal-walad');
 ---
 
 <PocLayout title="Studio PoC — Ayyuhal Walad">
@@ -39,7 +42,7 @@ const chapterTitle = 'The Frame and the First Counsel';
     ? <p class="sp-error">Could not load the chapter: {loadError}</p>
     : (
       <div class="prose-body">
-        <StudioPoc client:only="react" html={html} chapterTitle={chapterTitle} />
+        <StudioPoc client:only="react" html={html} chapterTitle={chapterTitle} glossary={glossary} />
         <QuranPopover client:only="react" />
       </div>
     )}
