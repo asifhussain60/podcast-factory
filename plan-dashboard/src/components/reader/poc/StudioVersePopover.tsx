@@ -11,7 +11,7 @@
  * /api/quran/verse?key=S:V (cached in localStorage). Stays open while hovering chip or card.
  */
 import { useEffect, useRef, useState } from 'react';
-import { useFloating, offset, flip, shift, autoUpdate } from '@floating-ui/react';
+import { useFloating, offset, flip, shift, size, autoUpdate } from '@floating-ui/react';
 
 interface VerseData {
   surah_number: number;
@@ -44,8 +44,19 @@ export default function StudioVersePopover() {
 
   const { refs, floatingStyles } = useFloating({
     open,
-    placement: 'bottom',
-    middleware: [offset(10), flip({ padding: 12 }), shift({ padding: 12 })],
+    placement: 'bottom-start',
+    middleware: [
+      offset(10),
+      flip({ padding: 12 }),
+      shift({ padding: 12 }),
+      // Never overflow the viewport — cap height to the space available and let the body scroll.
+      size({
+        padding: 12,
+        apply({ availableHeight, elements }) {
+          elements.floating.style.maxHeight = `${Math.max(200, availableHeight)}px`;
+        },
+      }),
+    ],
     whileElementsMounted: autoUpdate,
   });
 
