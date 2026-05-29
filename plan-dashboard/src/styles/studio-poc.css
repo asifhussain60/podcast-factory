@@ -87,6 +87,27 @@
 }
 .sp-toolbar button:hover { border-color: var(--c-accent); color: var(--c-accent); }
 
+/* Token-tag buttons — coloured to their tag. */
+.sp-tagbtn { font-size: 0.74rem; }
+.sp-tagbtn.tag-esoteric { color: #7c3aed; border-color: #7c3aed; }
+.sp-tagbtn.tag-reality  { color: #0284c7; border-color: #0284c7; }
+.sp-tagbtn.tag-sharia   { color: #0f766e; border-color: #0f766e; }
+.sp-tagbtn.tag-delete   { color: #e11d48; border-color: #e11d48; }
+.sp-tagbtn.tag-improve  { color: #d97706; border-color: #d97706; }
+
+/* CHANGE-TRACKING redline: edited paragraphs stay highlighted green. */
+.studio-poc__editor .edit-changed {
+  background: color-mix(in srgb, var(--c-green, #16a34a) 10%, transparent);
+  border-radius: 3px;
+}
+/* PER-PARAGRAPH TOKEN TAGS: coloured left border (composes with the green change tint). */
+.studio-poc__editor .para-tagged { padding-left: 10px; margin-left: -13px; }
+.studio-poc__editor .tag-esoteric { box-shadow: inset 3px 0 0 #7c3aed; }
+.studio-poc__editor .tag-reality  { box-shadow: inset 3px 0 0 #0284c7; }
+.studio-poc__editor .tag-sharia   { box-shadow: inset 3px 0 0 #0f766e; }
+.studio-poc__editor .tag-delete   { box-shadow: inset 3px 0 0 #e11d48; }
+.studio-poc__editor .tag-improve  { box-shadow: inset 3px 0 0 #d97706; }
+
 /* Editor surface — editorial-modern, comfortable measure, font ~2px smaller. */
 .studio-poc__editor {
   background: var(--c-bg-card);

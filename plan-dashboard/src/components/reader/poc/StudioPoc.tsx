@@ -1,29 +1,39 @@
 /**
- * StudioPoc.tsx — WC8 Slice 0 proof-of-concept (THROWAWAY, feel-check only).
+ * StudioPoc.tsx — WC8 Studio (spike → real build). TipTap/ProseMirror foundation.
  *
- * Proves the Studio editor engine on a real Ayyuhal Walad chapter:
- *   - TipTap (ProseMirror): real editable prose, real undo/redo, transactions.
- *   - Non-destructive MARKERS as ProseMirror decorations (reference-like spans),
- *     NOT edits to the text — the mechanism divergence/annotation markers will use.
- *   - A contextual INSPECTOR that follows the selection (the R-2 pattern).
- *   - A minimal marking toolbar (one-click actions) to prove commands.
+ * Step 1 capabilities (this iteration):
+ *   - Non-destructive reference MARKERS as decorations (Quran/hadith/works), grouped.
+ *   - CHANGE-TRACKING REDLINE: edited paragraphs stay highlighted green (preserve from
+ *     the existing ChapterEditor); live changed-count.
+ *   - PER-PARAGRAPH TOKEN TAGS: tag the current paragraph (esoteric/reality/sharia/
+ *     delete/improve); the paragraph gets a coloured left-border + the tag is captured.
+ *   - Contextual INSPECTOR that follows selection; viewer left, panel right.
  *
- * This is a disposable spike to let Asif feel the engine before the full build.
- * Styling is external (studio-poc.css) per the repo DoD — no inline styles.
+ * These manual actions (edits, tags) are the training signal for the learning loop:
+ * the pipeline will pre-apply learned patterns before review (tiered: deterministic
+ * auto-applied, judgment pre-marked). External CSS only (repo DoD).
  */
-import { useState } from 'react';
+import { useState, useRef, useMemo, useCallback } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { Extension } from '@tiptap/core';
 import { Plugin, PluginKey } from '@tiptap/pm/state';
 import { Decoration, DecorationSet } from '@tiptap/pm/view';
 
-// Demo marker patterns — illustrate corpus-verified-style reference markers.
 const MARKER_PATTERNS: { re: RegExp; cls: string; kind: string }[] = [
   { re: /Surah [A-Z][\w'-]+/g, cls: 'mk-quran', kind: 'Quran' },
   { re: /verses? \d+(?:\s*(?:to|–|-)\s*\d+)?/gi, cls: 'mk-quran', kind: 'Quran' },
   { re: /Prophet Muhammad|peace and blessings of Allah/gi, cls: 'mk-hadith', kind: 'Hadith' },
   { re: /Ihya Ulum al-Din|Kimiya al-Sa'ada|Jawahir al-Quran|Minhaj al-Abidin/g, cls: 'mk-term', kind: 'Work' },
+];
+
+// The five token tags (mirror the existing annotation_tags defaults).
+const TAGS = [
+  { id: 'esoteric', label: 'Esoteric' },
+  { id: 'reality', label: 'Reality' },
+  { id: 'sharia', label: 'Sharia' },
+  { id: 'delete', label: 'Delete' },
+  { id: 'improve', label: 'Improve' },
 ];
 
 function scanMarkers(text: string): { kind: string; text: string }[] {
@@ -51,9 +61,7 @@ const MarkerHighlight = Extension.create({
                 re.lastIndex = 0;
                 let m: RegExpExecArray | null;
                 while ((m = re.exec(node.text))) {
-                  decos.push(
-                    Decoration.inline(pos + m.index, pos + m.index + m[0].length, { class: `mk ${cls}` }),
-                  );
+                  decos.push(Decoration.inline(pos + m.index, pos + m.index + m[0].length, { class: `mk ${cls}` }));
                 }
               }
             });
@@ -72,8 +80,101 @@ interface Props {
 
 export default function StudioPoc({ html, chapterTitle }: Props) {
   const [selection, setSelection] = useState('');
+  const [, setTick] = useState(0);
+  const refresh = () => setTick((t) => t + 1);
+
+  const originalRef = useRef<string[]>([]);          // original text per top-level node
+  const paraTagsRef = useRef<Map<number, string[]>>(new Map()); // node index -> tag ids
+
+  // Redline + tag decorations (recomputed each state change; refs hold the truth).
+  const ChangeTracker = useMemo(
+    () =>
+      Extension.create({
+        name: 'changeTracker',
+        addProseMirrorPlugins() {
+          return [
+            new Plugin({
+              key: new PluginKey('changeTracker'),
+              props: {
+                decorations(state) {
+                  const orig = originalRef.current;
+                  const tags = paraTagsRef.current;
+                  const decos: Decoration[] = [];
+                  let i = 0;
+                  state.doc.forEach((node, offset) => {
+                    const idx = i++;
+                    if (orig[idx] !== undefined && node.textContent !== orig[idx]) {
+                      decos.push(Decoration.node(offset, offset + node.nodeSize, { class: 'edit-changed' }));
+                    }
+                    const t = tags.get(idx);
+                    if (t && t.length) {
+                      decos.push(
+                        Decoration.node(offset, offset + node.nodeSize, { class: `para-tagged tag-${t[0]}` }),
+                      );
+                    }
+                  });
+                  return DecorationSet.create(state.doc, decos);
+                },
+              },
+            }),
+          ];
+        },
+      }),
+    [],
+  );
+
+  const editor = useEditor({
+    extensions: [StarterKit, MarkerHighlight, ChangeTracker],
+    content: html,
+    onCreate({ editor }) {
+      const texts: string[] = [];
+      editor.state.doc.forEach((n) => texts.push(n.textContent));
+      originalRef.current = texts;
+    },
+    onUpdate() {
+      refresh();
+    },
+    onSelectionUpdate({ editor }) {
+      const { from, to } = editor.state.selection;
+      setSelection(editor.state.doc.textBetween(from, to, ' ').trim());
+    },
+  });
+
+  // Live changed-paragraph count for the inspector.
+  let changedCount = 0;
+  if (editor) {
+    let i = 0;
+    editor.state.doc.forEach((n) => {
+      if (originalRef.current[i] !== undefined && n.textContent !== originalRef.current[i]) changedCount++;
+      i++;
+    });
+  }
+  const tagged = paraTagsRef.current;
+  let taggedCount = 0;
+  tagged.forEach((t) => { if (t.length) taggedCount++; });
+
+  // Tag the paragraph at the cursor (toggle).
+  const tagCurrentParagraph = useCallback(
+    (tagId: string) => {
+      if (!editor) return;
+      const { from } = editor.state.selection;
+      let i = 0;
+      let idx = -1;
+      editor.state.doc.forEach((node, offset) => {
+        if (from >= offset && from <= offset + node.nodeSize) idx = i;
+        i++;
+      });
+      if (idx < 0) return;
+      const map = paraTagsRef.current;
+      const cur = map.get(idx) || [];
+      map.set(idx, cur.includes(tagId) ? cur.filter((x) => x !== tagId) : [...cur, tagId]);
+      editor.view.dispatch(editor.state.tr.setMeta('refreshTags', true)); // recompute decorations
+      refresh();
+    },
+    [editor],
+  );
+
   const rawMarkers = scanMarkers(html.replace(/<[^>]+>/g, ' '));
-  // Dedupe repeats (the same surah/phrase recurs) so the list scales to 50+ cleanly.
   const seen = new Map<string, { kind: string; text: string; count: number }>();
   for (const m of rawMarkers) {
     const key = `${m.kind}|${m.text}`;
@@ -82,19 +183,7 @@ export default function StudioPoc({ html, chapterTitle }: Props) {
     else seen.set(key, { ...m, count: 1 });
   }
   const markers = [...seen.values()];
-
-  const editor = useEditor({
-    extensions: [StarterKit, MarkerHighlight],
-    content: html,
-    onSelectionUpdate({ editor }) {
-      const { from, to } = editor.state.selection;
-      setSelection(editor.state.doc.textBetween(from, to, ' ').trim());
-    },
-  });
-
-  const quran = markers.filter((m) => m.kind === 'Quran');
-  const hadith = markers.filter((m) => m.kind === 'Hadith');
-  const works = markers.filter((m) => m.kind === 'Work');
+  const group = (kind: string) => markers.filter((m) => m.kind === kind);
 
   const renderGroup = (label: string, items: typeof markers, cls: string) =>
     items.length > 0 && (
@@ -116,7 +205,6 @@ export default function StudioPoc({ html, chapterTitle }: Props) {
 
   return (
     <div className="studio-poc">
-      {/* Viewer LEFT (right-handed: panel on the right). */}
       <main className="studio-poc__editor">
         <EditorContent editor={editor} />
       </main>
@@ -124,27 +212,34 @@ export default function StudioPoc({ html, chapterTitle }: Props) {
       <aside className="studio-poc__inspector" aria-label="Contextual inspector">
         <div className="sp-insp-block">
           <h2 className="sp-insp-title">Inspector</h2>
-          <p className="sp-insp-hint">
-            {selection
-              ? 'Selection (paragraph-level context):'
-              : 'Nothing selected — chapter-level context:'}
-          </p>
           {selection ? (
             <blockquote className="sp-insp-sel">{selection}</blockquote>
           ) : (
             <dl className="sp-insp-meta">
               <dt>Chapter</dt>
               <dd>{chapterTitle}</dd>
-              <dt>Markers</dt>
-              <dd>{rawMarkers.length} ({markers.length} unique)</dd>
+              <dt>Changes</dt>
+              <dd>{changedCount} edited · {taggedCount} tagged</dd>
             </dl>
           )}
         </div>
 
-        {/* Actions ABOVE markers; flex-wrap supports 10-15 buttons. */}
+        {/* Tag the current paragraph (token tags — training signal). */}
         <div className="sp-insp-block">
-          <h3 className="sp-insp-sub">Actions</h3>
-          <div className="sp-toolbar" role="toolbar" aria-label="Marking actions">
+          <h3 className="sp-insp-sub">Tag paragraph</h3>
+          <div className="sp-toolbar">
+            {TAGS.map((t) => (
+              <button key={t.id} type="button" className={`sp-tagbtn tag-${t.id}`} onClick={() => tagCurrentParagraph(t.id)}>
+                {t.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Edit actions (flex-wraps for 10-15). */}
+        <div className="sp-insp-block">
+          <h3 className="sp-insp-sub">Edit</h3>
+          <div className="sp-toolbar" role="toolbar" aria-label="Edit actions">
             <button type="button" onClick={() => editor?.chain().focus().toggleBold().run()}>Bold</button>
             <button type="button" onClick={() => editor?.chain().focus().toggleItalic().run()}>Italic</button>
             <button type="button" onClick={() => editor?.chain().focus().toggleBlockquote().run()}>Quote</button>
@@ -155,9 +250,9 @@ export default function StudioPoc({ html, chapterTitle }: Props) {
 
         <div className="sp-insp-block sp-insp-block--markers">
           <h3 className="sp-insp-sub">Markers</h3>
-          {renderGroup('Quran', quran, 'quran')}
-          {renderGroup('Hadith', hadith, 'hadith')}
-          {renderGroup('Works', works, 'work')}
+          {renderGroup('Quran', group('Quran'), 'quran')}
+          {renderGroup('Hadith', group('Hadith'), 'hadith')}
+          {renderGroup('Works', group('Work'), 'work')}
         </div>
       </aside>
     </div>
