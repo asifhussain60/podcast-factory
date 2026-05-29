@@ -1,9 +1,18 @@
 ---
 import Base from '../layouts/Base.astro';
-import C4ContextDiagram from '../components/C4ContextDiagram.tsx';
-import TrustBoundaryDFD from '../components/TrustBoundaryDFD.tsx';
-import CredentialMap from '../components/CredentialMap.tsx';
+import Mermaid from '../components/Mermaid.astro';
 import AudienceBadge from '../components/AudienceBadge.astro';
+
+const creds = [
+  { key: 'ANTHROPIC_API_KEY',    storage: '.env file (git-ignored)',          service: 'Anthropic API',              risk: 'managed',   note: 'Manual rotation, on suspicion.' },
+  { key: 'AZURE_SPEECH_KEY',     storage: '.env file (git-ignored)',          service: 'Azure Speech',               risk: 'managed',   note: '90-day rotation recommended.' },
+  { key: 'AZURE_DOCINTEL_KEY',   storage: '.env file (git-ignored)',          service: 'Azure Document Intelligence', risk: 'managed',  note: 'Same rotation as Speech.' },
+  { key: 'AZURE_TRANSLATOR_KEY', storage: '.env file (git-ignored)',          service: 'Azure Translator',           risk: 'managed',   note: 'Shared or dedicated resource key.' },
+  { key: 'GITHUB_TOKEN',         storage: '.env file (git-ignored)',          service: 'GitHub',                     risk: 'attention', note: 'PAT with repo-write scope — highest privilege; primary rotation target.' },
+  { key: '(browser session)',    storage: 'Browser session (no key on disk)', service: 'Google / NotebookLM',        risk: 'low',       note: 'Human-only surface; nothing stored.' },
+];
+const riskClass = (r: string) => r === 'low' ? 'risk-low' : r === 'attention' ? 'risk-attention' : 'risk-managed';
+const riskLabel = (r: string) => r === 'low' ? 'Low' : r === 'attention' ? 'Attention' : 'Managed';
 ---
 
 <Base title="Security & Trust" active="security" section="architecture"
@@ -63,10 +72,14 @@ import AudienceBadge from '../components/AudienceBadge.astro';
     <h2>The full picture — what connects to what</h2>
     <p>
       Five external services touch the factory. The diagram below names all five, what they do,
-      and what channel the factory uses to reach each one. Everything inside the dashed green box
-      stays on your machine.
+      and what channel the factory uses to reach each one. Everything inside the local zone
+      stays on your machine; the corpus is the authority and there is no public-web fallback.
     </p>
-    <C4ContextDiagram />
+    <Mermaid
+      id="security-context"
+      title="Security context: you approve two gates; the pipeline reads a local, authoritative Wisdom Corpus with no public-web fallback, and reaches external services (Azure, Anthropic, Google, GitHub, NotebookLM) only over authorised HTTPS or SSH egress."
+      caption="Local-authoritative corpus on your machine; a single authorised egress to external services."
+    />
   </section>
 
   <!-- ═══════════════════════════════════════════════════════════════
@@ -95,10 +108,15 @@ import AudienceBadge from '../components/AudienceBadge.astro';
     <h2>Container data flow &amp; trust boundaries</h2>
     <p>
       The C4 context diagram above shows the five external trust zones.
-      This DFD zooms in on the two containers inside the local boundary — the Python pipeline and
-      the Astro review site — and maps every HTTPS egress path with its authentication method.
+      This zooms in on the two containers inside the local boundary — the Python pipeline and
+      the Astro review site. Both read only the local corpus; the single egress path leaves the
+      boundary over authenticated HTTPS.
     </p>
-    <TrustBoundaryDFD />
+    <Mermaid
+      id="security-trust-boundaries"
+      title="Trust-boundary data flow: inside the boundary, the Python pipeline and the Astro review site both read the local Wisdom Corpus, the only source of truth; the only path leaving the boundary is the pipeline's authenticated HTTPS egress to external AI and GitHub."
+      caption="Two local containers read one local corpus; the only boundary crossing is authenticated HTTPS egress."
+    />
   </section>
 
   <hr />
@@ -110,7 +128,25 @@ import AudienceBadge from '../components/AudienceBadge.astro';
       One service (Google / NotebookLM) requires no stored key — it runs through a browser session.
       The GitHub personal access token carries the highest privilege and is the primary rotation target.
     </p>
-    <CredentialMap />
+    <div class="infra-table-wrap">
+      <table class="infra-table">
+        <caption>Each row: the secret, where it lives, what it authorises, and its risk tier.</caption>
+        <thead>
+          <tr><th scope="col">Secret</th><th scope="col">Where it lives</th><th scope="col">Authorises</th><th scope="col">Risk</th><th scope="col">Note</th></tr>
+        </thead>
+        <tbody>
+          {creds.map((c) => (
+            <tr>
+              <td><code>{c.key}</code></td>
+              <td>{c.storage}</td>
+              <td>{c.service}</td>
+              <td><span class={`risk-pill ${riskClass(c.risk)}`}>{riskLabel(c.risk)}</span></td>
+              <td>{c.note}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   </section>
 
   <hr />

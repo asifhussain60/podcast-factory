@@ -2686,7 +2686,7 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 /* Mermaid-rendered SVG: tall vertical diagrams shouldn't stretch to full
    container width; cap and centre. viewBox drives the aspect ratio. */
 .mermaid-svg > svg {
-  max-width: min(100%, 560px);
+  max-width: min(100%, 700px);
   margin: 0 auto;
 }
 .diagram-missing {
