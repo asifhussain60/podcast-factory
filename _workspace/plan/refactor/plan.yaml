@@ -2825,7 +2825,22 @@ wisdom_corpus_program:
         surface every intake/reconciliation halt flows into, so pipeline + reader are one wave.
         Real re-platforming of Studio onto TipTap (Asif authorized installing libraries; prefers
         richer UI). Cortex HTML View standard applies to all view work. NO CODE until approved.
-      build_order: [WC8.0, "WC8.1+WC8.2+WC8.3+WC8.4 (intake/pipeline)", "WC8.5 (reader core, after WC8.0)", WC8.6, WC8.7]
+      co_development_model:
+        approach: "WALKING SKELETON / vertical slices, NOT build-all-then-test (Asif 2026-05-29). Build each pipeline step together with the editor review-halt that reviews it, run it on the live fixture immediately, capture Asif's feedback in the editor, then deepen the next slice. Pipeline and Studio editor mature in lockstep."
+        live_fixture: "ayyuhal-walad"
+        fixture_facts:
+          - "Run NON-DESTRUCTIVELY on a dedicated branch; new artifacts only (unified source, reconciliation markers, reader markers); NEVER regenerate or re-ship its episodes (honours DR-013; it is mid-pipeline ship-with-caution, not in published/)."
+          - "SINGLE-SOURCE FIRST: repo has only one Ayyuhal-Walad.pdf; the mp3+Arabic+English multi-format set is NOT in the repo and NEVER was (gitignore excludes inbox + raw media — confirmed via history 2026-05-29). Asif will drop the formats into _workspace/inbox/; the multi-source unification slice activates when they arrive."
+          - "Ayyuhal exercises SI-1/SI-3/SI-4/SI-7 (multi-source unify, once formats land) + the reader; it does NOT exercise SI-2 (the Anwaar two-transcript case) — that is a later fixture."
+        slices:
+          - "Slice 0 (readiness/foundation): reconcile the dual phase-naming (0a-0e vs 04/05) to one scheme; install TipTap+jsdiff; create the non-destructive ayyuhal test branch; build the minimal review-halt <-> editor write-back loop (editor loads a halted artifact, captures feedback, sets the approval flag, resumes). Shared skeleton for every later slice."
+          - "Slice 1 (intake + halt): WC8.1 spine (single-source: the PDF's canonical text; multi-source layering when inbox has formats) + WC8.2 early source-budget/intake-review halt in the editor. Run on Ayyuhal -> Asif reviews in editor."
+          - "Slice 2 (refine/noise + halt): noise-strip + refine reviewed in the editor (mark/edit); grow the Studio marking + tracked-edit capability here."
+          - "Slice 3 (reconciliation + halt): WC8.4 divergence markers reviewed side-by-side in the inspector (rich once multi-source formats land)."
+          - "Slice 4 (knowledge/corpus-read + halt): corpus-verified annotation markers reviewed in the editor."
+          - "Slice 5+ (deepen): WC8.3 Anwaar engine routing (later fixture); WC8.5 full Studio capability package + WC8.6 audio/episode mapping layered in as each slice's review needs them; WC8.7 consistency + desktop-only."
+        note: "WC8.0..WC8.7 below are the component WORK ITEMS; the slices above are the SEQUENCING that interleaves each with an editor halt on the live fixture. Each slice ends at a manual-review halt Asif resolves in the Studio editor before the next slice runs."
+      build_order: ["Slice 0 (readiness)", "Slice 1 (intake+halt)", "Slice 2 (refine+halt)", "Slice 3 (reconcile+halt)", "Slice 4 (knowledge+halt)", "Slice 5+ (deepen: Anwaar engine, full Studio, audio)"]
       sub_steps:
         - id: WC8.0
           name: "TipTap Studio proof-of-concept (de-risk FIRST; halt for feel-check)"

@@ -768,6 +768,8 @@ Wave K introduces a principled, multi-dimensional quality score — the **PEQ (P
 
 > *Value gained:* every book, however messy its sources, becomes one faithful, fully-traceable text — with you in control of cost and never losing a concept.
 
+> **How it gets built — both halves together, on a live book.** Rather than building the whole pipeline and the whole editor and then testing, we use *Ayyuhal Walad* as a live fixture and build in vertical slices: each pipeline step is built together with the editor halt that reviews it, run on the book immediately, and you give feedback in the editor before the next slice. The book stops at each manual-review point in the Studio editor, you correct and steer there, and both the pipeline and the editor mature in lockstep. Ayyuhal runs non-destructively on its own branch (new artifacts only — its published episodes are never touched), single-source first (it has one PDF today; you'll drop the mp3 + Arabic + English set into the inbox, and the multi-source step lights up when they arrive).
+
 #### 8a. Prove the new editor engine on one real chapter before committing
 
 > The review experience will be rebuilt on a proper document-editor engine (the same kind that powers professional editorial tools), which is a real change of foundation. Before building the whole thing, we stand up a throwaway prototype on a single real chapter so you can feel how it handles — marking, highlighting, the side panel — and only proceed once you're happy with it.
