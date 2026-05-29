@@ -101,6 +101,23 @@ Not a diagram view — but the marker-render target. Spec: reference markers vis
 5. Wisdom Corpus view + Plan roadmap refresh.
 6. Reader/editor marker rendering (joins with WC2).
 
+## Diagram styling standard (absorbed from architecture-diagram-brief.md, 2026-05-29)
+Applies to the technical-team diagrams (Architecture, Infrastructure, Security, DB-Schema, Intelligence phase swimlane):
+- **Flow:** top-to-bottom on every diagram (already global).
+- **Min font:** 14px throughout.
+- **Connector labels required** on every arrow — include protocol + auth method (e.g. `HTTPS / API key`, `stdio / none`).
+- **Trust boundaries:** dashed coloured rectangles enclosing related nodes.
+- **Colour semantics (consistent across all diagrams):** teal = local/safe flows; amber = managed external credential flows; red = flows outside pipeline control (risk); green = verified/mitigated.
+- **Technical lenses to cover** (map onto views above): L1 System Context (→ System-Map 1.1), L2 Containers & Data Flow w/ trust boundaries (→ Infrastructure 5.1/5.2 + Security 6.1), L3 Pipeline Phase Sequence w/ model+service+token-class+halt-gates (→ Intelligence 4.1), L4 Credentials & Auth Boundary Map (→ Infrastructure 5.4).
+- **Two non-diagram artifacts to include:** a Hotspots Index table (SEC/COST/ARCH/OK-verified audit punchlist, cross-referenced to the lens that surfaces each) on the Security or Infrastructure view; a Glossary (domain terms) linked from the Overview.
+
+## Build methodology (absorbed from podcast-factory-visual-build.md, 2026-05-29)
+For the build phase (after approval), each view is built with a self-scoring convergence loop:
+- **Two-audience linear flow per page:** conceptual (For you) content resolves COMPLETELY before technical (For teams) content begins; a reader who stops at the boundary is satisfied; a reader who continues sees nothing repeated.
+- **Build → screenshot → score → converge:** implement, capture a full-page screenshot (Playwright), inspect the IMAGE (not just source), score against a rubric (visual hierarchy, self-contained conceptual layer, non-redundant technical layer, consistent typography, uniform spacing, purposeful diagrams, felt progressive disclosure), refactor highest-penalty item first; max 5 iterations/section then flag for human review.
+- **Hard floors:** never ship a duplicate diagram; WCAG AA contrast is the floor; never declare done without a screenshot.
+- **STYLING DoD (Asif, 2026-05-29 — overrides the old 'Tailwind utilities' note):** ZERO inline styling on any view; ALL styling and scripts referenced via external file links; DO NOT modify the existing CSS or colour theme.
+
 ## Open items for Asif (this spec)
 - Confirm the per-view diagram set above (add/remove any).
 - Confirm audience labels per view.

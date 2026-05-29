@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-29T11:44:09.051Z",
-  "source_commit": "37ee067",
+  "generated_at": "2026-05-29T11:54:18.229Z",
+  "source_commit": "83a286c",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -783,6 +783,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "83a286c",
+      "subject": "plan: add Astro site-redesign spec (WC6) + per-view diagram catalog",
+      "date": "2026-05-29"
+    },
+    {
       "sha": "37ee067",
       "subject": "plan: add Wisdom Corpus Program (D1-D18) to refactor plan + ledger",
       "date": "2026-05-29"
@@ -825,11 +830,6 @@
     {
       "sha": "3277b89",
       "subject": "fix(wave-k): calibrate Structure + Enrichment detectors to real chapter language",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "187aa5d",
-      "subject": "feat(wave-k): K1 — voice exemplar vectors built for both books",
       "date": "2026-05-28"
     }
   ],
