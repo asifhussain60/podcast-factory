@@ -55,3 +55,24 @@ tiered. See plan.yaml WC8.co_development_model.learning_loop + memory `learning-
 Lower-priority audit items still unscheduled: citation/export, persistent margin notes, server-side edit history, selectable Quran translation. (In-chapter search is folded into R-9 find.)
 
 > **Next: consolidate [09](09-source-intake-decisions.md) + this doc into a single plan.yaml entry + snapshot for approval (plan-first gate) before any code.** This is a real re-platforming of Studio onto TipTap + the intake/reconciliation pipeline work — scope it as a wave with sub-steps.
+
+---
+
+## Feel-check feedback — Slice-0 TipTap PoC (Asif, 2026-05-29)
+
+First live feel-check of the throwaway PoC (`/studio-poc`, one Ayyuhal chapter). Feedback
+captured verbatim-in-intent and routed to PIPELINE / PODCAST / INTELLIGENCE / UI. These
+refine the R-decisions; nothing here is built until the consolidated plan is approved.
+
+| # | Asif's feedback | Resolution + where it lands |
+|---|---|---|
+| **FC-1 — Verse hover: works, but CSS not applied + z-index wrong; and DON'T reuse the heavy gold Quran panel inline.** | Replace the inline treatment: instead of highlighting the whole "Surah Az-Zalzalah, verses 7 to 8" prose run, render a **compact `chapter:verse` label** (e.g. `99:7–8`) in small script, clear enough to read, **styled like a label/chip**. Keep a hover detail panel but FIX it (external CSS, correct stacking context, raised z-index). Revises R-3 + the step-2 "reuse QuranPopover" decision. **UI (WC8.5 cleanup).** The label text comes from the surah-name→number map (PIPELINE/INTELLIGENCE supply the full 114 + verified verse data via the corpus per D13). |
+| **FC-2 — Inspector marker list (item 4): value unclear; only "QURAN 11" visible, no Hadith/Works.** | Two parts. (a) **Explain the value or remove** — the marker list is the chapter's *reference inventory / verification queue*: every scripture & source reference the chapter cites, deduped, at a glance, so coverage is verifiable and each ref is jump-to-able; in the learning loop it becomes the **review queue of corpus-verified vs unverified citations**. Asif to decide keep/remove once value is clear. (b) Hadith/Works groups were empty because the regex matched none in THIS chapter (not a bug) — but the regex detector is a stopgap; **real detection = corpus lookup (INTELLIGENCE), not patterns.** Ties R-9 (inline verified markers) + the knowledge slice. |
+| **FC-3 — Redline: green works but change not visible after leaving the paragraph; paragraph hover/select wrong; want Microsoft-Word track-changes visuals.** | Three fixes. (a) **Word-level track changes** — render insertions/deletions inline Word-style (strikethrough deletions + underlined/coloured insertions) via **jsdiff (already installed)**, not whole-paragraph green; this completes the MUST-PRESERVE "word-level diff" that the PoC only stubbed at block level. (b) **Per-paragraph affordance** — hovering ANY paragraph shows a hover state; clicking selects/highlights ONLY that paragraph. (c) Persisted change visibility regardless of cursor position. **UI (WC8.5), with EDITOR emitting each edit as learning signal.** |
+| **FC-4 — Arabic toggle (as in the podcast viewer): ON swaps Arabic-derived English words to Arabic script — modern clean Arabic font, distinct colour to stand out.** | Reuse the existing `ArabicToggle.tsx` + the per-book **glossary overlay** (`_system/glossary.yml`, phonetic↔Arabic-script, baked in Phase 0c). Render swapped tokens in a clean modern Arabic webfont (font asset only — e.g. Amiri / Noto Naskh) with a distinct colour. **UI (WC8.5) + INTELLIGENCE (glossary must cover the chapter's terms) + PIPELINE (glossary bake already exists; ensure Ayyuhal has it).** Available in BOTH Read and Studio. |
+| **FC-5 — Reevaluate libraries; don't create sprawl.** | Current footprint is already lean: `@tiptap/*` (one engine), `@floating-ui/react`, `diff` (jsdiff). **Decision: add NO new JS libraries for this set.** Verse hover/label → `@floating-ui/react` (drop the previously-noted Radix HoverCard). Word-style redline → `jsdiff` (drop any track-changes lib; TipTap Pro is paid). ⌘K palette (cmdk) → **deferred**, not added now. Only possible new dependency = a self-hosted Arabic **font** (asset, not logic). Supersedes the "Radix HoverCard + cmdk" note in the next-iteration build set. |
+
+> **Net effect on the build set:** the WC8.5 capability work now leads with these five
+> corrections; library policy is frozen to tiptap + floating-ui + jsdiff (+ one optional
+> font). The PoC's regex marker detector and block-level green are explicitly interim,
+> superseded by corpus-verified markers (INTELLIGENCE) and jsdiff word-level redline (UI).

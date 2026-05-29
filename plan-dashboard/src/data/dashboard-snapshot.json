@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-29T20:03:37.194Z",
-  "source_commit": "e858979",
+  "generated_at": "2026-05-29T21:06:10.157Z",
+  "source_commit": "1db2fe2",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -783,6 +783,21 @@
   ],
   "recent_commits": [
     {
+      "sha": "1db2fe2",
+      "subject": "WC8 Studio step 2: verse hover by reusing QuranPopover (no new lib)",
+      "date": "2026-05-29"
+    },
+    {
+      "sha": "f58cfa5",
+      "subject": "WC8 Studio step 1: port change-tracking redline + per-paragraph token tags onto TipTap",
+      "date": "2026-05-29"
+    },
+    {
+      "sha": "68114ef",
+      "subject": "plan(WC8): record the learning loop as core principle (tiered auto/suggest)",
+      "date": "2026-05-29"
+    },
+    {
       "sha": "e858979",
       "subject": "decision(reader): MUST-PRESERVE change-tracking redline + per-paragraph token tags from existing ChapterEditor",
       "date": "2026-05-29"
@@ -815,21 +830,6 @@
     {
       "sha": "0720d8c",
       "subject": "fixture(ayyuhal-walad): media policy — audio+video local/transient/deletable, only produced text committed",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "ff0160a",
-      "subject": "fixture(ayyuhal-walad): commit multi-format PDF sources + SOURCES manifest",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "1fee3c0",
-      "subject": "plan(WC8): unification = common-denominator core + attributed additions; holistic-review-per-wave cadence",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "0b57dc9",
-      "subject": "plan(WC8): restructure into a co-development walking-skeleton on Ayyuhal (vertical slices)",
       "date": "2026-05-29"
     }
   ],
