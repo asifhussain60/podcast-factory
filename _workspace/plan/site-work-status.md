@@ -116,9 +116,22 @@ IV–XVII); the 2nd Arabic edition = attributed ADDITIONS (commentary). The Arab
 went from 0 → **7 Quran-verified references**. Artifacts: `_stages/ch01.../reconcile-report.json`,
 updated `knowledge-report.json` + `augmented.md`. ch01 divergences: none material (clean alignment).
 
-**NUMBERED SLICES 0–4 NOW DONE for the ch01 vertical.** Remaining of the numbered set: **Slice 5+
-(Deepen)** — Anwaar engine routing, full Studio capability package, audio + episode↔chapter mapping,
-consistency pass. Plus the small Slice-0 phase-naming cleanup.
+**NUMBERED SLICES 0–4 DONE for the ch01 vertical.**
+
+**SLICE 5+ (Deepen) — PARTIAL (cannot be fully completed; multi-feature bucket).** Status per sub-item:
+- ✅ Episode↔chapter mapping (WC8.6 part): `_system/episode-chapter-map.json` (EP01–05 ↔ ch01–05, 1:1).
+- ✅ Audio intake PATH (WC8.6): ffmpeg installed (brew) + `scripts/podcast/transcribe_audio.py` (Azure
+  Speech fast-transcription, cost-tracked, NO claude -p). Proven on the ch01 lecture (180s → 2,461 chars
+  → `_stages/ch01.../additions-narrator.md`, $0.015). FULL 12-video transcription = authorized background
+  job (~hours, ~$3–12) when ready.
+- ⬜ Anwaar engine routing (WC8.3): BLOCKED — needs the Anwaar book (two transcripts), a different
+  fixture we don't have. Impossible on Ayyuhal.
+- ⬜ Full Studio re-platform (WC8.5): MAJOR build (real Read + Studio modes; the throwaway PoC de-risked
+  the mechanics). Not a one-shot.
+- ⬜ Consistency pass (WC8.7): a sweep to run once the real views exist.
+
+So Slice 5+ is genuinely NOT fully completable now: 2 sub-items advanced, 1 blocked (Anwaar), 2 are
+substantial builds (Studio re-platform, full audio job). Total Azure cost to date: **$0.381**.
 
 **HONEST PENDING (not blockers, scoped work):**
 - Hadith verification needs a hadith reference DB ingested (Asif providing). Quran now verifiable.
