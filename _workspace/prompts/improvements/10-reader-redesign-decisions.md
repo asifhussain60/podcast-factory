@@ -76,3 +76,14 @@ refine the R-decisions; nothing here is built until the consolidated plan is app
 > corrections; library policy is frozen to tiptap + floating-ui + jsdiff (+ one optional
 > font). The PoC's regex marker detector and block-level green are explicitly interim,
 > superseded by corpus-verified markers (INTELLIGENCE) and jsdiff word-level redline (UI).
+
+### FC-1 clarification — NotebookLM audio is unaffected; spoken verse form is a framing choice (Asif, 2026-05-29)
+The compact `chapter:verse` chip is a **Studio editor decoration only**. It is appended
+AFTER the natural-language reference and the chapter prose is NEVER mutated, so the source
+NotebookLM ingests still reads "The Quran, in Surah Az-Zalzalah, verses 7 to 8". NotebookLM
+never sees the chip. Confirmed: the chip cannot break or alter audio generation.
+SEPARATELY — Asif wants the hosts to SAY the numeric form, e.g. "As Allah says in the Quran,
+chapter 4, verse 44". That is a **PODCAST/PIPELINE framing-text phrasing requirement**, not a
+UI concern: the episode framing `.txt` (and/or the chapter prose the pipeline emits) should
+render Quran references as "chapter N, verse M" (numeric) so NotebookLM speaks them that way.
+Routes to the authoring/framing step (PIPELINE + PODCAST). Recorded as a standing preference.
