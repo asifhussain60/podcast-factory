@@ -46,9 +46,11 @@ pipeline↔UI realignment between every slice** (mandatory gate). Slices: 0 read
 dual phase-naming, install TipTap+jsdiff, ayyuhal branch, editor↔halt write-back) → 1 intake+halt
 → 2 refine+halt → 3 reconcile+halt → 4 knowledge+halt → 5+ deepen.
 
-**BLOCKED ON:** Asif dropping Ayyuhal's multi-format sources (mp3 + Arabic PDF + English translation)
-into `_workspace/inbox/` (confirmed NOT in repo/history — gitignored by design; single PDF only today).
-Single-source slices can start meanwhile.
+**SOURCES LANDED (2026-05-29).** Multi-format Ayyuhal set received: 3 PDFs committed (Arabic original,
+English superior, scholarly) at `content/drafts/books/ayyuhal-walad/_system/source/multi/` + SOURCES.md;
+12 lecture videos (~13GB) + any extracted audio stay LOCAL (transient, deletable after build, restorable
+from YouTube) — only pipeline-produced TEXT gets committed. Fixture now exercises the full common-denominator
++ attributed-additions design (Arabic core; English/scholarly/spoken = addition layers). Ready for Slice 0.
 
 **First move when go:** Slice 0, starting with the TipTap proof-of-concept on one Ayyuhal chapter →
 HALT for Asif's feel-check → finish the foundation. No LLM spend in Slice 0.
